@@ -2,86 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969234DB63A
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 17:32:01 +0100 (CET)
-Received: from localhost ([::1]:44670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D99714DB63B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 17:32:13 +0100 (CET)
+Received: from localhost ([::1]:45426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUWZ5-0005Ln-QH
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 12:31:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33864)
+	id 1nUWZI-0005sN-LX
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 12:32:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vladislav.yaroshchuk@jetbrains.com>)
- id 1nUWWT-0003hy-Iw
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:29:17 -0400
-Received: from [2607:f8b0:4864:20::112b] (port=38405
- helo=mail-yw1-x112b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vladislav.yaroshchuk@jetbrains.com>)
- id 1nUWWQ-00039f-P5
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:29:17 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2e592e700acso29548267b3.5
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 09:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jetbrains.com; s=googleapps;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6SL/n9GxbkAIGQUx/1ry31Y9Y2Y2Yho54qZ5pQoHo/c=;
- b=YPGy56w6gNXMKL6f0T35W+m2bVAFwN7tC8SDnJvHoSHPS0C+NJghxjn9PU6MAYeGHv
- HJjGt/ex8pfvUi1XgtMljH5NNtD5kB7M2J7Q9iqyX9MXW/f0ClY321m2YD5J00igzeor
- VS60gYe6O5EjQ/hNfMIqeF9ivdUn8mX9eRiKk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6SL/n9GxbkAIGQUx/1ry31Y9Y2Y2Yho54qZ5pQoHo/c=;
- b=yQGuhygD74fmzoMvBKClbfz98WEGMdqg3KE5E+sC1cmazxZ+tMjqptrm9tPiWqanyq
- vxDxCUwgRwrlr7bGO1gnjG+SDaskw3+Vnvspo4yC49vvvFoYRvprJ/ATbrFTUPmqVHXC
- r0PDIVcl9Yj+azKcEpmBocf40osmwG4cTX1FG2gu0doWr0zNItkq0Z4zkizL71/Tfn+i
- YM3wd+xp6/Rty2/VmfY8oe9mNdeNdd9xXQWN2usino2RNWGUUgyiiG1l29jJK1vnXX0q
- Qx2jurR3/6HX0Weh3TeBoobd5lZO/cm2LOKLQgqQwy5l/EHLEgslZP6u9T1gONAoKtqx
- QfxA==
-X-Gm-Message-State: AOAM532tvnlKvcUN88GJwK5NwFt+a6sgXFtsXko8odh+5kbksxZvg5MQ
- C4jt9LQ4523Gi92jw3VWApEbuCS0aWYjSvai5WOAxA==
-X-Google-Smtp-Source: ABdhPJzQupxBIyC/bK6W4OrK1C4MFv+mWrxvappZLRZxAjCBXTEy7WEj+ycchDweTZBl+bu7C5QTE6Xvn/FuqSCZegg=
-X-Received: by 2002:a81:78c4:0:b0:2e5:95f7:613e with SMTP id
- t187-20020a8178c4000000b002e595f7613emr954336ywc.89.1647448152657; Wed, 16
- Mar 2022 09:29:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nUWWo-0003q6-Kg
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:29:38 -0400
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:36459)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nUWWm-0003B8-M6
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:29:38 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.164])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 86358EAD30AD;
+ Wed, 16 Mar 2022 17:29:25 +0100 (CET)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 16 Mar
+ 2022 17:29:24 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G00596e67736-6d10-4757-b61e-cf0752425297,
+ C2F6808E47F1CA0F000971F70C7D0E7BD6BD5175) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 129.41.46.1
+Message-ID: <9638ec8f-2edf-97df-0c14-95ae2344dc70@kaod.org>
+Date: Wed, 16 Mar 2022 17:29:23 +0100
 MIME-Version: 1.0
-References: <20220315230741.21578-1-Vladislav.Yaroshchuk@jetbrains.com>
- <20220315230741.21578-3-Vladislav.Yaroshchuk@jetbrains.com>
- <87v8weuhi6.fsf@pond.sub.org>
-In-Reply-To: <87v8weuhi6.fsf@pond.sub.org>
-From: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
-Date: Wed, 16 Mar 2022 19:29:01 +0300
-Message-ID: <CAGmdLqQveMzYzsiWT4gBYoAAL1k2aZ1_KgoXNDCHLnWwLLO2dQ@mail.gmail.com>
-Subject: Re: [PATCH v20 2/7] net/vmnet: add vmnet backends to qapi/net
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu Developers <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>, 
- Roman Bolshakov <r.bolshakov@yadro.com>, Eric Blake <eblake@redhat.com>,
- phillip.ennen@gmail.com, 
- Phillip Tennen <phillip@axleos.com>, Akihiko Odaki <akihiko.odaki@gmail.com>, 
- Howard Spoelstra <hsp.cat7@gmail.com>, Alessio Dionisi <hello@adns.io>,
- Roman Bolshakov <roman@roolebo.dev>, 
- Peter Maydell <peter.maydell@linaro.org>, Cameron Esfahani <dirty@apple.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: multipart/alternative; boundary="000000000000ecfbf205da586904"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=vladislav.yaroshchuk@jetbrains.com;
- helo=mail-yw1-x112b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: XIVE VFIO kernel resample failure in INTx mode under heavy load
+Content-Language: en-US
+To: Alex Williamson <alex.williamson@redhat.com>, Timothy Pearson
+ <tpearson@raptorengineering.com>
+References: <1891893257.448156.1647023745384.JavaMail.zimbra@raptorengineeringinc.com>
+ <20220314160952.46d5313a.alex.williamson@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220314160952.46d5313a.alex.williamson@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: c852a1f0-d15c-4bae-881d-7011d1ab465e
+X-Ovh-Tracer-Id: 1181350478007143331
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudefvddgkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,78 +72,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ecfbf205da586904
-Content-Type: text/plain; charset="UTF-8"
+Hello,
 
-On Wed, Mar 16, 2022 at 4:58 PM Markus Armbruster <armbru@redhat.com> wrote:
 
-> Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com> writes:
->
-> > Create separate netdevs for each vmnet operating mode:
-> > - vmnet-host
-> > - vmnet-shared
-> > - vmnet-bridged
-> >
-> > Signed-off-by: Vladislav Yaroshchuk <Vladislav.Yaroshchuk@jetbrains.com>
->
-> Any QAPI schema changes since v15?  I'm asking because I acked v8, v13,
-> and v15, but each time you neglected to carry my Acked-by lines in later
-> revisions.
->
->
-QAPI is not changed, but the "Since" statement was updated
-for new netdevs (7.0 -> 7.1). That's the reason why I dropped
-your Acked-by. I've also mentioned this in cover letter:
+> I've been struggling for some time with what is looking like a
+> potential bug in QEMU/KVM on the POWER9 platform.  It appears that
+> in XIVE mode, when the in-kernel IRQ chip is enabled, an external
+> device that rapidly asserts IRQs via the legacy INTx level mechanism
+> will only receive one interrupt in the KVM guest.
 
-v15 -> v16
-[...]
- - QAPI: change version to 7.1 (cause 7.0 feature freeze
-   happened). This is the only change in QAPI, Markus Armbruster,
-   please confirm if you can (decided to drop your Acked-by due
-   to this change)
-[...]
+Indeed. I could reproduce with a pass-through PCI adapter using
+'pci=nomsi'. The virtio devices operate correctly but the network
+adapter only receives one event (*):
 
-Best Regards,
-Vladislav Yaroshchuk
 
---000000000000ecfbf205da586904
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+$ cat /proc/interrupts
+            CPU0       CPU1       CPU2       CPU3       CPU4       CPU5       CPU6       CPU7
+  16:       2198       1378       1519       1216          0          0          0          0  XIVE-IPI   0 Edge      IPI-0
+  17:          0          0          0          0       2003       1936       1335       1507  XIVE-IPI   1 Edge      IPI-1
+  18:          0       6401          0          0          0          0          0          0  XIVE-IRQ 4609 Level     virtio3, virtio0, virtio2
+  19:          0          0          0          0          0        204          0          0  XIVE-IRQ 4610 Level     virtio1
+  20:          0          0          0          0          0          0          0          0  XIVE-IRQ 4608 Level     xhci-hcd:usb1
+  21:          0          1          0          0          0          0          0          0  XIVE-IRQ 4612 Level     eth1 (*)
+  23:          0          0          0          0          0          0          0          0  XIVE-IRQ 4096 Edge      RAS_EPOW
+  24:          0          0          0          0          0          0          0          0  XIVE-IRQ 4592 Edge      hvc_console
+  26:          0          0          0          0          0          0          0          0  XIVE-IRQ 4097 Edge      RAS_HOTPLUG
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 16, 2022 at 4:58 PM Marku=
-s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Vlad=
-islav Yaroshchuk &lt;<a href=3D"mailto:vladislav.yaroshchuk@jetbrains.com" =
-target=3D"_blank">vladislav.yaroshchuk@jetbrains.com</a>&gt; writes:<br>
-<br>
-&gt; Create separate netdevs for each vmnet operating mode:<br>
-&gt; - vmnet-host<br>
-&gt; - vmnet-shared<br>
-&gt; - vmnet-bridged<br>
-&gt;<br>
-&gt; Signed-off-by: Vladislav Yaroshchuk &lt;<a href=3D"mailto:Vladislav.Ya=
-roshchuk@jetbrains.com" target=3D"_blank">Vladislav.Yaroshchuk@jetbrains.co=
-m</a>&gt;<br>
-<br>
-Any QAPI schema changes since v15?=C2=A0 I&#39;m asking because I acked v8,=
- v13,<br>
-and v15, but each time you neglected to carry my Acked-by lines in later<br=
->
-revisions.<br>
-<br></blockquote><div><br>QAPI is not changed, but the &quot;Since&quot; st=
-atement was updated<br>for new netdevs (7.0 -&gt; 7.1). That&#39;s the reas=
-on why I dropped <br>your Acked-by. I&#39;ve also mentioned this in cover l=
-etter:<br><br>v15 -&gt; v16<br>[...]<br>=C2=A0- QAPI: change version to 7.1=
- (cause 7.0 feature freeze<br>=C2=A0 =C2=A0happened). This is the only chan=
-ge in QAPI, Markus Armbruster,<br>=C2=A0 =C2=A0please confirm if you can (d=
-ecided to drop your Acked-by due<br>=C2=A0 =C2=A0to this change)<br>[...]<b=
-r><br>Best Regards,</div><div>Vladislav Yaroshchuk<br><br><br></div></div><=
-/div>
+> Changing any one of those items appears to avoid the glitch, e.g. XICS
 
---000000000000ecfbf205da586904--
+XICS is very different from XIVE. The driver implements the previous
+interrupt controller architecture (P5-P8) and the hypervisor mediates
+the delivery to the guest. With XIVE, vCPUs are directly signaled by
+the IC. When under KVM, we use different KVM devices for each mode :
+
+* KVM XIVE is a XICS-on-XIVE implementation (P9/P10 hosts) for guests
+   not using the XIVE native interface. RHEL7 for instance.
+* KVM XIVE native is a XIVE implementation (P9/P10 hosts) for guests
+   using the XIVE native interface. Linux > 4.14.
+* KVM XICS is for P8 hosts (no XIVE HW)
+
+VFIO adds some complexity with the source events. I think the problem
+comes from the assertion state. I will talk about it later.
+
+> mode with the in-kernel IRQ chip works (all interrupts are passed
+> through),
+
+All interrupts are passed through using XIVE also. Run 'info pic' in
+the monitor. On the host, check the IRQ mapping in the debugfs file :
+
+   /sys/kernel/debug/powerpc/kvm-xive-*
+
+> and XIVE mode with the in-kernel IRQ chip disabled also works. 
+
+In that case, no KVM device backs the QEMU device and all state
+is in one place.
+
+> We
+> are also not seeing any problems in XIVE mode with the in-kernel
+> chip from MSI/MSI-X devices.
+
+Yes. pass-through devices are expected to operate correctly :)
+  
+> The device in question is a real time card that needs to raise an
+> interrupt every 1ms.  It works perfectly on the host, but fails in
+> the guest -- with the in-kernel IRQ chip and XIVE enabled, it
+> receives exactly one interrupt, at which point the host continues to
+> see INTx+ but the guest sees INTX-, and the IRQ handler in the guest
+> kernel is never reentered.
+
+ok. Same symptom as the scenario above.
+
+> We have also seen some very rare glitches where, over a long period
+> of time, we can enter a similar deadlock in XICS mode.
+
+with the in-kernel XICS IRQ chip ?
+
+> Disabling
+> the in-kernel IRQ chip in XIVE mode will also lead to the lockup
+> with this device, since the userspace IRQ emulation cannot keep up
+> with the rapid interrupt firing (measurements show around 100ms
+> required for processing each interrupt in the user mode).
+
+MSI emulation in QEMU is slower indeed (35%). LSI is very slow because
+it is handled as a special case in the device/driver. To maintain the
+assertion state, all LSI handling is done with a special HCALL :
+H_INT_ESB which is implemented in QEMU. This generates a lot of back
+and forth in the KVM stack.
+  
+> My understanding is the resample mechanism does some clever tricks
+> with level IRQs, but that QEMU needs to check if the IRQ is still
+> asserted by the device on guest EOI.
+
+Yes. the problem is in that area.
+
+> Since a failure here would
+> explain these symptoms I'm wondering if there is a bug in either
+> QEMU or KVM for POWER / pSeries (SPAPr) where the IRQ is not
+> resampled and therefore not re-fired in the guest?
+
+KVM I would say. The assertion state is maintained in KVM for the KVM
+XICS-on-XIVE implementation and in QEMU for the KVM XIVE native
+device. These are good candidates. I will take a look.
+
+(We might have never tested that path of the code with a passthrough
+device using only INTx)
+  
+Thanks,
+
+C.
+
 
