@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0FC4DB2FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:22:39 +0100 (CET)
-Received: from localhost ([::1]:38396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33BC74DB348
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:29:33 +0100 (CET)
+Received: from localhost ([::1]:47504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUUXu-0003py-Uy
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:22:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53594)
+	id 1nUUeZ-0001vq-HY
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:29:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUUSG-00076z-AH
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:16:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39811)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nUUSJ-00079S-O6
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:16:51 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:40738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUUSD-000593-F8
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:16:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647440204;
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nUUSH-0005AQ-Kn
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:16:51 -0400
+Received: from [192.168.1.13] (lfbn-lyo-1-488-129.w2-7.abo.wanadoo.fr
+ [2.7.77.129])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id A1CDC2077C;
+ Wed, 16 Mar 2022 14:16:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1647440206;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lzpIgvaDhXTl9Z8/ABXw3fAyCjFmOJhPMPHLxe+5cJo=;
- b=Dt5SBdjiBTqEHt0r/f13xK+7oZ4tspPJLmLC5AbkHp9Z1prV2Akkp/AOr1brCdr9SKv6Ms
- 2r4QKQDRPd1wepHdh7SiYMThNZcWECn+fDnoZOCy+Zhxye9O+8mqd4vbCOTA7itzI7NvGm
- 4mxBGR7zU5x1NeGvHRdQEaG7qnHxQkM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-mDlmBIP0P8Sm80sUZoTF8A-1; Wed, 16 Mar 2022 10:16:39 -0400
-X-MC-Unique: mDlmBIP0P8Sm80sUZoTF8A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7A876106655C;
- Wed, 16 Mar 2022 14:16:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 39263C4C7A4;
- Wed, 16 Mar 2022 14:16:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1921A21E66CE; Wed, 16 Mar 2022 15:16:38 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 2/3] hw/display: Allow vga_common_init() to return errors
-References: <20220316132402.1190346-1-thuth@redhat.com>
- <20220316132402.1190346-3-thuth@redhat.com>
- <64353530-4488-8820-c58c-a5e104e93b4b@gmail.com>
- <e5e03938-d602-c928-07ef-da6486fb99b0@redhat.com>
-Date: Wed, 16 Mar 2022 15:16:38 +0100
-In-Reply-To: <e5e03938-d602-c928-07ef-da6486fb99b0@redhat.com> (Thomas Huth's
- message of "Wed, 16 Mar 2022 14:39:54 +0100")
-Message-ID: <87bky6ugmx.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=9d39wB7zQGO9j7AFtwAuCcI+MiBseXSu7XuTcKbhnZM=;
+ b=UjVQd6NuCdIdpNhrbtw1BXjbSjpVl7+hQxwIAZ8TG7kZmrQhtfdOu2us0p2KtoPF/VwlCg
+ aNNnkWGk1qifbTVeomN/YPT6XLpa+pZfhTUVr4uFOiuWxBuUyW6lhXpTY2cY0apQnLxFBf
+ z1s2vPIspqw52ljDLFksiWKc+kW84PM=
+Message-ID: <7c7e369b-d5f5-46a3-abc9-27aa420b9e7d@greensocs.com>
+Date: Wed, 16 Mar 2022 15:16:46 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH] python: add qmp-send program to send raw qmp commands
+ to qemu
+Content-Language: en-US-large
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220316095455.6473-1-damien.hedde@greensocs.com>
+ <YjG68xzV/qrMnhEW@redhat.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <YjG68xzV/qrMnhEW@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,128 +69,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Huth <thuth@redhat.com> writes:
 
-> On 16/03/2022 14.32, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 16/3/22 14:24, Thomas Huth wrote:
->>> The vga_common_init() function currently cannot report errors to its
->>> caller. But in the following patch, we'd need this possibility, so
->>> let's change it to take an "Error **" as parameter for this.
->>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>> =C2=A0 hw/display/ati.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 7 ++++++-
->>> =C2=A0 hw/display/cirrus_vga.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 ++++++=
--
->>> =C2=A0 hw/display/cirrus_vga_isa.c |=C2=A0 7 ++++++-
->>> =C2=A0 hw/display/qxl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++++-
->>> =C2=A0 hw/display/vga-isa.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 9 ++++++++-
->>> =C2=A0 hw/display/vga-mmio.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 8 +++++++-
->>> =C2=A0 hw/display/vga-pci.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 15 +++++++++++++--
->>> =C2=A0 hw/display/vga.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 9 +++++++--
->>> =C2=A0 hw/display/vga_int.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 2 +-
->>> =C2=A0 hw/display/virtio-vga.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 ++++++=
--
->>> =C2=A0 hw/display/vmware_vga.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
->>> =C2=A0 11 files changed, 66 insertions(+), 13 deletions(-)
+
+On 3/16/22 11:24, Daniel P. Berrangé wrote:
+> On Wed, Mar 16, 2022 at 10:54:55AM +0100, Damien Hedde wrote:
+>> It takes an input file containing raw qmp commands (concatenated json
+>> dicts) and send all commands one by one to a qmp server. When one
+>> command fails, it exits.
 >>
->> Please setup scripts/git.orderfile :)
->>=20
->>> diff --git a/hw/display/vga_int.h b/hw/display/vga_int.h
->>> index 847e784ca6..3e8892df28 100644
->>> --- a/hw/display/vga_int.h
->>> +++ b/hw/display/vga_int.h
->>> @@ -156,7 +156,7 @@ static inline int c6_to_8(int v)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return (v << 2) | (b << 1) | b;
->>> =C2=A0 }
->>> -void vga_common_init(VGACommonState *s, Object *obj);
->>> +void vga_common_init(VGACommonState *s, Object *obj, Error **errp);
->>=20
->> Can we also return a boolean value? IIUC Markus recommended to check
->> a boolean return value rather than Error* handle.
->
-> Really? A very quick grep shows something different:
->
-> $ grep -r ^void.*Error include/ | wc -l
-> 94
-> $ grep -r ^bool.*Error include/ | wc -l
-> 46
+>> As a convenience, it can also wrap the qemu process to avoid having
+>> to start qemu in background. When wrapping qemu, the program returns
+>> only when the qemu process terminates.
+>>
+>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+>> ---
+>>
+>> Hi all,
+>>
+>> Following our discussion, I've started this. What do you think ?
+>>
+>> I tried to follow Daniel's qmp-shell-wrap. I think it is
+>> better to have similar options (eg: logging). There is also room
+>> for factorizing code if we want to keep them aligned and ease
+>> maintenance.
+> 
+> Having CLI similarity to the existing scripts is a good idea.
+> 
+> As a proof of usefulness, it might be worth trying to illustrate
+> this qmp-send command by converting an I/O test.
+> 
+> Quite a few I/O tests have code that look like:
+> 
+> do_run_qemu()
+> {
+>      echo Testing: "$@" | _filter_imgfmt
+>      $QEMU -nographic -qmp stdio -serial none "$@"
+>      echo
+> }
+> 
+> 
+> run_qemu()
+> {
+>      do_run_qemu "$@" 2>&1 | _filter_testdir | _filter_qemu | _filter_qmp | _filter_qemu_io
+> }
+> 
+> run_qemu <<EOF
+> { "execute": "qmp_capabilities" }
+> { "execute": "blockdev-add",
+>     ....
+> }
+> { "execute": "quit" }
+> EOF
+> 
+> (eg iotests 71)
+> 
+> I would hope this qmp-send command to be able to satisfy that
+> use case by modifying do_run_qemu like this:
+> 
+> do_run_qemu()
+> {
+>      echo Testing: "$@" | _filter_imgfmt
+>      qmp-send --wrap $QEMU -nographic -serial none "$@"
+>      echo
+> }
 
-Historical reasons.  We deviated from GLib here only to find out that
-the deviation leads to awkward code.  I flipped the guidance in commit
-e3fe3988d7 "error: Document Error API usage rules" (2020-07-10).  A lot
-of old code remains.
+I need to add stdin handling, but it should be straightforward.
 
-> I also can't see that recommendation in docs/devel/style.rst. I think you=
-=20
-> either got that wrong, or the coding style needs an update first.
+I'm more worried by what should happen if there is a failure that makes 
+qemu hang, because then run_qemu won't exit. I'll take a look at the iotest.
+I expect the test will be killed at some point, I need to ensure that 
+part is handled properly by qmp-send.
 
-It's in include/qapi/error.h:
-
-/*
- * Error reporting system loosely patterned after Glib's GError.
- *
- * =3D Rules =3D
-
-[...]
-
- * - Whenever practical, also return a value that indicates success /
- *   failure.  This can make the error checking more concise, and can
- *   avoid useless error object creation and destruction.  Note that
- *   we still have many functions returning void.  We recommend
- *   =E2=80=A2 bool-valued functions return true on success / false on fail=
-ure,
- *   =E2=80=A2 pointer-valued functions return non-null / null pointer, and
- *   =E2=80=A2 integer-valued functions return non-negative / negative.
-
-[...]
-
- * Call a function, receive an error from it, and pass it to the caller
- * - when the function returns a value that indicates failure, say
- *   false:
- *     if (!foo(arg, errp)) {
- *         handle the error...
- *     }
- * - when it does not, say because it is a void function:
- *     ERRP_GUARD();
- *     foo(arg, errp);
- *     if (*errp) {
- *         handle the error...
- *     }
- * More on ERRP_GUARD() below.
-
-[...]
-
- * Receive an error, and handle it locally
- * - when the function returns a value that indicates failure, say
- *   false:
- *     Error *err =3D NULL;
- *     if (!foo(arg, &err)) {
- *         handle the error...
- *     }
- * - when it does not, say because it is a void function:
- *     Error *err =3D NULL;
- *     foo(arg, &err);
- *     if (err) {
- *         handle the error...
- *     }
-
-Note that error.h's big comment I abbreviated here has some 200
-non-blank lines.  It's too long and detailed for style.rst (which has
-some 500 non-blank lines).  Instead style.rst points to error.h under
-QEMU Specific Idioms / Error handling and reporting / Propagating
-errors.
-
+Thanks,
+Damien
 
