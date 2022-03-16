@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D69B4DB22A
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:08:41 +0100 (CET)
-Received: from localhost ([::1]:37422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E124DB230
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:09:54 +0100 (CET)
+Received: from localhost ([::1]:41986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUUKN-0000yj-Cc
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:08:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45538)
+	id 1nUULY-0003zS-UK
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:09:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nUTxK-0005ki-2u
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:44:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39765)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nUTxG-0007KA-MF
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:44:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647438285;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pQRQ5bxTLYdVpgAbADT6AMfydBXfBZafPhoAy4/uMj0=;
- b=C0TvUU+CFHzjLbyjRBpakAy91+iBLMJcWYFcgAAy7vBlf9FqVY9fY11Rd49qoRLTw/5xk4
- JtVLrc5uyHfG65yAWroluFlcMBrL48S9peBe224mNl8pbUCklGPMFPlXlCCGbhonwaV1/y
- jNqQtkBahEpPBbw4lCOqs2dgxjJDofA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-121-zv3AKYA5MvqcPP-K8Z2FwQ-1; Wed, 16 Mar 2022 09:44:42 -0400
-X-MC-Unique: zv3AKYA5MvqcPP-K8Z2FwQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BDCB229DD9A4;
- Wed, 16 Mar 2022 13:44:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6908540885A1;
- Wed, 16 Mar 2022 13:44:40 +0000 (UTC)
-Date: Wed, 16 Mar 2022 13:44:37 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 05/12] compiler.h: drop __printf__ macro MinGW/glib
- workaround
-Message-ID: <YjHpxc6WxB3GrzZi@redhat.com>
-References: <20220224183701.608720-1-marcandre.lureau@redhat.com>
- <20220224183701.608720-6-marcandre.lureau@redhat.com>
- <CAFEAcA9FDt0Y6W4zBLG3ciGe8M7TERimzD_4gX-y7pAv2G+=ag@mail.gmail.com>
- <CAJ+F1CJiQRn+5VXtfZgmVAKuA2wUdCXv=5hToiwfRQPX4qXUKg@mail.gmail.com>
- <CAFEAcA-NN=L2iL=17jgg03iixisdVxL=HOZv1JbUsQh0VsgGHg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nUU1u-00056U-QB
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:49:35 -0400
+Received: from [2a00:1450:4864:20::62d] (port=35523
+ helo=mail-ej1-x62d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nUU1o-00085X-Dp
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:49:30 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id yy13so4345132ejb.2
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 06:49:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G7uH8bJxhcEID+lfx2mSTgcCmCVHYoXzerhjNUOX344=;
+ b=VuLMCtCAkmvJuGs08g6GmeHNEaLSojOBLoL98/SSJLpFnyCaieEO0kXV8m/q2q6QnF
+ P7u4+sqxpaJrhhQpkWpAUL/2gjwx6sAk5D9nMNzFNt/jKBsJC/jDBmmYO+jZaIMTuPBl
+ gbkVUwaS8ZDU+uRGFy59/upLS0mdZEBLOX7xOxeCBrmQXWj6K+FuGCsDYgPZPm/kHsnN
+ aQ2VYqEaLlEPM6zQMob4Ks1Newb3w4eQpivb/KM46UnAKYL/DH55weB/kNGBwdSc4tpv
+ NheWuVpIPXm39R/mm3L46Alo4u50q9rwBfafVws6Q9Knh01GswMV7b0Ce+JIMC0IQn/w
+ rehA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G7uH8bJxhcEID+lfx2mSTgcCmCVHYoXzerhjNUOX344=;
+ b=OTG22yOMmeKVuDRiz5q8sJ15bnAz+Wgb7AlWc61yG/sl0cC6VwwpvPveFfHN/q4H9o
+ FtXZIE8UOMJTFeioSEZDajyzdCVeYMOLnOCHB/os5giJCb31KROHfq2fCIYBJKDoOSjB
+ eL8xM+ujTeGzaLsgAMZ+ocW+bE+4V+Shz7BqEVkgs83FxwV/0kzc6sFyFaymiGaL11Zn
+ 2DWmug8lwlq/Ns45brLwd5dA1+llb208fVaYQjn4y9n9dvTddqqX08/HnsIQFBpkuaf1
+ faxm6XZzkSlq3VifbkzGeM1Tqvl3R9uEz0crmNt3egHJRY6kjzAzrkymoPHE82eQkj4T
+ Nr8Q==
+X-Gm-Message-State: AOAM531BgVM9F5SdEn6YfyxjJtcQlZ/f9cMjlhkVEObrUZLySpjcbenk
+ AQ+HSZajr0TSJ9s0rxvO60vMv3bE+SW7vvYVRlCW
+X-Google-Smtp-Source: ABdhPJzI0erDVwv5jLcmCvx92MKVXdtWnwA9vXEL4FhgqAozNavNIeXpJxPmOS/8L/59cdoJOK8JEbZ9bpIFya8As7Y=
+X-Received: by 2002:a17:907:c05:b0:6db:f118:8834 with SMTP id
+ ga5-20020a1709070c0500b006dbf1188834mr77854ejc.536.1647438566253; Wed, 16 Mar
+ 2022 06:49:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-NN=L2iL=17jgg03iixisdVxL=HOZv1JbUsQh0VsgGHg@mail.gmail.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220215105943.90-1-xieyongji@bytedance.com>
+ <20220215105943.90-4-xieyongji@bytedance.com>
+ <YjBg3QnSnpY2cAdL@stefanha-x1.localdomain>
+ <CACycT3s7cgHBAqmpy=RZPwPZz4uptr0REzJ9fhM1qv+G_miS1Q@mail.gmail.com>
+ <YjHl66pJYw45oKL9@stefanha-x1.localdomain>
+In-Reply-To: <YjHl66pJYw45oKL9@stefanha-x1.localdomain>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Wed, 16 Mar 2022 21:49:19 +0800
+Message-ID: <CACycT3vpQsLG7oxeTHMs3w1qdO7fGJnjGiORfm=t1U2ehgD+bw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] libvduse: Add VDUSE (vDPA Device in Userspace)
+ library
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,59 +86,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 24, 2022 at 08:14:47PM +0000, Peter Maydell wrote:
-> On Thu, 24 Feb 2022 at 19:50, Marc-André Lureau
-> <marcandre.lureau@gmail.com> wrote:
-> > On Thu, Feb 24, 2022 at 11:23 PM Peter Maydell <peter.maydell@linaro.org> wrote:
-> >> You're probably building with a newer glib, and possibly also
-> >> a newer mingw.
-> >>
-> >> I've cc'd Stefan Weil who might know whether we can drop this
-> >> workaround as far as the mingw part is concerned.
+On Wed, Mar 16, 2022 at 9:28 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> On Tue, Mar 15, 2022 at 07:38:12PM +0800, Yongji Xie wrote:
+> > On Tue, Mar 15, 2022 at 5:48 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > >
+> > > On Tue, Feb 15, 2022 at 06:59:40PM +0800, Xie Yongji wrote:
+> > > > VDUSE [1] is a linux framework that makes it possible to implement
+> > > > software-emulated vDPA devices in userspace. This adds a library
+> > > > as a subproject to help implementing VDUSE backends in QEMU.
+> > > >
+> > > > [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
+> > > >
+> > > > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+> > > > ---
+> > > >  meson.build                                 |   15 +
+> > > >  meson_options.txt                           |    2 +
+> > > >  scripts/meson-buildoptions.sh               |    3 +
+> > > >  subprojects/libvduse/include/atomic.h       |    1 +
+> > > >  subprojects/libvduse/libvduse.c             | 1152 +++++++++++++++++++
+> > > >  subprojects/libvduse/libvduse.h             |  225 ++++
+> > > >  subprojects/libvduse/linux-headers/linux    |    1 +
+> > > >  subprojects/libvduse/meson.build            |   10 +
+> > > >  subprojects/libvduse/standard-headers/linux |    1 +
+> > > >  9 files changed, 1410 insertions(+)
+> > > >  create mode 120000 subprojects/libvduse/include/atomic.h
+> > > >  create mode 100644 subprojects/libvduse/libvduse.c
+> > > >  create mode 100644 subprojects/libvduse/libvduse.h
+> > > >  create mode 120000 subprojects/libvduse/linux-headers/linux
+> > > >  create mode 100644 subprojects/libvduse/meson.build
+> > > >  create mode 120000 subprojects/libvduse/standard-headers/linux
+> > >
+> > > Please update the ./MAINTAINERS file when adding new source files.
 > >
-> >
-> > Probably safer to keep it until we bump glib dependency to >=2.58.
-> >
-> > I would move it to glib-compat.h though, and leave a note there, as it is (or should be ) an old glib specific workaround.
-> 
-> We can only move it to glib-compat if we confirm that only the
-> glib-related part of the workaround is still relevant and the
-> mingw side is now no longer needed, though.
+> > OK, sure. And would you mind being one of the maintainers since I'm
+> > not sure if I can do this job well.
+>
+> You're welcome to become the maintainer. It means that you will be CCed
+> on patches affecting this code and sometimes people might send you
+> questions about VDUSE exports.
+>
 
-We know glib uses the GNU printf semantics for all its APIs.
+I see. I will try my best.
 
-We know QEMU code will use the GNU printf annotation for all its
-APIs where it knows it has GNU printf, due to delegating to
-GLib.
+> Is the issue lack of time?
+>
 
-For 3rd party libraries, we can have no confidence about whether
-they expect GNU or native printf format, unless we're doing
-something to override the printf family of functions at link
-time. IIRC, we're not doing that, so we can't assume 3rd party
-stuff expects GNU format, and so the sooner we get rid of
-the #define __printf__ __gnu_printf__ the better IMHO. The
-proof of course would be to see a CI test run with the define
-removed proving that no code we call relies on it.
+I think the time is enough. But since I have no experience, I'm not
+sure if I can do this well.
 
-We could even set our min GLib version to something newer
-just for Win32, on the basis that mingw in Fedora and msys2
-both ship new enough versions, and cygwin is already outdated
-and so already needs to have its glib upgraded to remain
-compatible with QEMU.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Thanks,
+Yongji
 
