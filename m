@@ -2,85 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03E54DB167
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:27:15 +0100 (CET)
-Received: from localhost ([::1]:51658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D190B4DB188
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:32:50 +0100 (CET)
+Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUTgE-0008Lx-2O
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:27:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38136)
+	id 1nUTlh-0001EU-U8
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:32:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUTQ1-0008Kp-E3
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:10:25 -0400
-Received: from [2a00:1450:4864:20::333] (port=54127
- helo=mail-wm1-x333.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUTPz-0001yB-Ox
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:10:25 -0400
-Received: by mail-wm1-x333.google.com with SMTP id p26so135071wma.3
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 06:10:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=RWmMscgXtbg+wDAkEkZP1oOOijQA8Y2PHlictnLQD/4=;
- b=Z1r3CIz2YxVoe7TjgxBiUV5gb7VdZq0g/yYn5OcdZEUdUnKDoAc0Kt0bF/xDVxh2lp
- 7OIzXp9ZmWQujZqq7Dj8uxzlH1JnbY+irjgcbXj7qVN+w3ymyhcOy0xn2B+Ds2/ED92I
- nqNMDLK6JNJ0lw3UfawZWsGG0hca5RUwwt8y61a/RmyV9oLI2bUM91jB2c06DrQnWK/q
- RP50nQish/0sJjJDLPMLV6hHy6owiF015pIKpNQ3MYF6BopZJe6IXw4EdYDkKY1U2o0t
- CncPJvpHEg7iDBlg2MBuh04t5ggOW/E6aD16wiohi2CGw218czm2stlYW733zkyFGs7b
- tm/A==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nUTR8-00022i-Pe
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:11:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52306)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nUTR7-0002Au-1w
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:11:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647436292;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UoGDlpDToAbFEpaP06NjgKS3QjlBu7YQ5AglUS9KfP8=;
+ b=CG/uNTEW1lHOTKogBf2xy0oJ4Jfs+3s+qygazC6Z18mzm2wG8O1n9fp6HEE6dgf8IEm4U1
+ OI//+vp67VOar9aKWjXxI8AtFddbWcwhFuFpvfILg+BMr7t1lc7A4mdf92acP4W4h4e5wK
+ vEufksGKHdmD5wdjqIEmRUFGYhcJokw=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-675-79o3wfbeP0aWu4dji5jdDQ-1; Wed, 16 Mar 2022 09:11:29 -0400
+X-MC-Unique: 79o3wfbeP0aWu4dji5jdDQ-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ b12-20020a056902030c00b0061d720e274aso1883545ybs.20
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 06:11:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=RWmMscgXtbg+wDAkEkZP1oOOijQA8Y2PHlictnLQD/4=;
- b=ZgPsgr/mmC6xMTJ8Os0a0vNDckuG8kXYagW2WCZkO+1WGlWGyO8DjEqbJWJxI2WAiA
- CFfkWVXn1Cwkot661JN32kTUUNsBOFpb3TzkyqS3Kh3V/jOexQuAbaq9ogULlsyBU6lm
- CZJ+VE4dFNG0VyuN57z7maqcZVBdX7ArPyDSjQrNLgSlkBiRaenEkAMZqsVkIaW5jFgm
- IZsyfLLCoCxgKGXQLsstxwOTdc69i9pgeM7KLHh5OSwCbYZMX2frFp1ZkPfHyIBQMSmO
- 4cs49KFh6vwNYMoojrsaA3aCeZFpcu9OUKePS0b+GIJOtsckBnYGlW/YVcYhQlHl9aKG
- tigA==
-X-Gm-Message-State: AOAM533xupV3n477WdExJN3FerfCjYcOzlkZR9LXdR05EZKWj9calzcY
- LfoSEMJvOFGK8h5VLuuoEBc=
-X-Google-Smtp-Source: ABdhPJzsjg0UyjffZHFbLiLdDsjJa4ZLUDUNR8/xT5aJa2DnCesfgOqD//kLEJYOfArSFV+7aoBCBA==
-X-Received: by 2002:a05:600c:35ce:b0:389:eb43:95dd with SMTP id
- r14-20020a05600c35ce00b00389eb4395ddmr7645259wmq.112.1647436222473; 
- Wed, 16 Mar 2022 06:10:22 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- j15-20020a05600c410f00b00389d35f7624sm5590437wmi.0.2022.03.16.06.10.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 06:10:22 -0700 (PDT)
-Message-ID: <350d40d7-33fc-5eca-b6ed-7480f8091ee8@gmail.com>
-Date: Wed, 16 Mar 2022 14:10:20 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=UoGDlpDToAbFEpaP06NjgKS3QjlBu7YQ5AglUS9KfP8=;
+ b=Bh50J37NLZpQDkL2uEl4Yv9zZHY0kwOOW4ZT2s0kLZvyBzAsF5+p3m6nDzOQkiYhLH
+ rEKLEQnxewez1MDAwFmrBUNqlU/ZV6wS5iZRoj21wziXKa6TG3KMR540DeeMZPoZYcYk
+ TAE+U4rnH6JIEic+5olwOlZ5oAZcqef9Sdiom6RbZ9O5vw3N5b46rnbdU7vXhOMlVelU
+ K5CJM2S4W7onTmpp25T5d5qnF2+KOnCnQ/wkHdvDvnvE5nXW0SDP+21om3IgWDmkaLuc
+ BvZ5ZlYQW+xD8hwr5beHQLrz7MtxiLXKkcBBTuaJoKaGvZgyUUDCB+OGMuLsl19TLByl
+ IaYA==
+X-Gm-Message-State: AOAM530/gpp/tWVCfbRjhize5T/3xIoLGPxqwk1kCI++XxCkKS8EOIGh
+ EGcdqnVKHTLMgmw7MDbJr+k0dGZNeeB0IAXQGgXAsBEVDuKR6IPe+it9wjMmHd1Oag2dCuuEgD2
+ aZMWIZeCxTOQ64IOrl8PIrGYQR+28qlw=
+X-Received: by 2002:a5b:152:0:b0:629:2b85:4495 with SMTP id
+ c18-20020a5b0152000000b006292b854495mr28715534ybp.559.1647436289145; 
+ Wed, 16 Mar 2022 06:11:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzIoFpUqBwAubq2hiA39xkE//TZ82xqmTDneQsVk1LTHiD70NtAEPnv8c1kzrWjGyXazSDl6bDh/K8BJDOcRJE=
+X-Received: by 2002:a5b:152:0:b0:629:2b85:4495 with SMTP id
+ c18-20020a5b0152000000b006292b854495mr28715508ybp.559.1647436288899; Wed, 16
+ Mar 2022 06:11:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 11/27] osdep: poison HOST_WORDS_BIGENDIAN
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220316095315.2613667-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220316095315.2613667-1-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220316095459.2613885-1-marcandre.lureau@redhat.com>
+ <877d8u5b7o.fsf@pond.sub.org>
+ <CAMxuvazfG9y4wODW3rHL_Xj9+H1SwDy8aESZKW89hwU=k7LLjg@mail.gmail.com>
+ <87bky6xdav.fsf@pond.sub.org>
+In-Reply-To: <87bky6xdav.fsf@pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 16 Mar 2022 17:11:17 +0400
+Message-ID: <CAMxuvax13xYm0=A31VJsuWUhvuj7VLW+4Pg79d0UqAh=VBpxAw@mail.gmail.com>
+Subject: Re: [PATCH 26/27] tests: replace free_all() usage with g_auto
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,36 +97,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/3/22 10:53, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   include/qemu/osdep.h | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index 322103aadbdc..7175ee53a217 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -34,6 +34,12 @@
->   #include "exec/poison.h"
->   #endif
->   
-> +/*
-> + * HOST_WORDS_BIGENDIAN was replaced with HOST_BIG_ENDIAN. Prevent it from
-> + * creeping back in.
-> + */
-> +#pragma GCC poison HOST_WORDS_BIGENDIAN
-> +
->   #include "qemu/compiler.h"
->   
->   /* Older versions of C++ don't get definitions of various macros from
+Hi
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Wed, Mar 16, 2022 at 5:00 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+>
+> Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
+>
+> > Hi
+> >
+> > On Wed, Mar 16, 2022 at 4:33 PM Markus Armbruster <armbru@redhat.com> w=
+rote:
+> >>
+> >> marcandre.lureau@redhat.com writes:
+> >>
+> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >> >
+> >> > Use more idiomatic glib/auto-style code.
+> >> >
+> >> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >>
+> >> This is a bit of an improvement, but by its own, it's a rather weak
+> >> justification for the previous patch.  Do you have more uses of
+> >> g_autoptr in the pipe?
+> >
+> >
+> > There are a lot of similar g_auto cleanups to be done in qemu code
+> > base for QObject types. But I started with those tests, because they
+> > use a pretty unorthodox free_all pattern and that shouldn't be
+> > repeated.
+>
+> Would it make sense to add this the list of bite-sized tasks?
+>
+
+Yes, g_auto cleanup is already covered:
+https://wiki.qemu.org/Contribute/BiteSizedTasks#Code_Modernization
 
 
