@@ -2,90 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5733E4DAE7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 11:49:19 +0100 (CET)
-Received: from localhost ([::1]:39364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94EAF4DAE9E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 12:03:57 +0100 (CET)
+Received: from localhost ([::1]:54036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nURDS-0007xA-8A
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 06:49:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54692)
+	id 1nURRc-00081D-5K
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 07:03:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nURCC-0006zv-JF
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 06:48:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40128)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nUR4m-00024R-Pe
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 06:40:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nURCA-0007e3-D0
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 06:47:59 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nUR4j-0006Z3-V6
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 06:40:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647427677;
+ s=mimecast20190719; t=1647427216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m59J7MgkhleMflQJKSz3faA86CMLj//PPhoxuvxryfM=;
- b=L7qDbrzpsLPMuqv+Sy5+eq4ddKOrnhkoehmS9WzvVmKAeNoKQO4XQxyj2AA9J/Rnsd4BXR
- /NNIC4ybCQ/FZdW5vMZPMgZzhrrsGUPRWAbX7zzV8WavUG3/BSlUdKf1kD8xdB/KQBOos/
- psGrA8i7o0GI9c5nlE2VUHIGcRaF6SQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jRLkhQfQToxA5+hkWqJgW9X5nBe2S5atJt3u9xZIFUY=;
+ b=iS5eaJqtLSKcnvJw/MxhSXAlWDpRrAKchv6NJT8Ql0lvy5S97EHfNmerENuuOPmX/Wtxpt
+ m7ox8oYZIw7UplEEUTsjPLda6pski2IbHazpDdSOHLMcPGaTvtBXVFh8jZBste3R+eQI5x
+ ZMxBtMzazmHEEFS/XyrmYDubuaUgWqU=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-pH7IoYLWNouGFP3VcxeLcA-1; Wed, 16 Mar 2022 06:47:55 -0400
-X-MC-Unique: pH7IoYLWNouGFP3VcxeLcA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v184-20020a1cacc1000000b0038a12dbc23bso2591177wme.5
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 03:47:55 -0700 (PDT)
+ us-mta-526-ZChQRkA5MqawzXrMKx7qXw-1; Wed, 16 Mar 2022 06:40:15 -0400
+X-MC-Unique: ZChQRkA5MqawzXrMKx7qXw-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ x205-20020a627cd6000000b004f6e1b97b45so1598838pfc.18
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 03:40:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=m59J7MgkhleMflQJKSz3faA86CMLj//PPhoxuvxryfM=;
- b=O3kOXhMhjLJScuz+9fzBZuA+Nrp86/MpBFUoXhO20HUBBBXb9GXQrI0zEZ/JHrHpZy
- Ia1o8WX9+Vvwojytx0/ghADuCzuu44Sx4TI4WNjvmW+Cr2iMOx/FOX7LOjUx9NHLmTfi
- ukBd82HYIjL+3Vz0MDMLJ5Dw4EqRhoFDsm2AC4mobRqgX/GBsy6l06dCieacvqYNSYp6
- aa9mLOvfMhH2NpM7NoWRLLZ9fneJw8uDKqgkW2AB16CHfJOi24Gjav5DecKBOSnDCP/8
- 8TdzONlWBKT5d/FIIoBn5QtlaQ31o5n76S/m9hSb98xaYNgCZDZqTQyQPs92om8hrTU2
- EsUg==
-X-Gm-Message-State: AOAM532Bi1Ku3v5yd9Orpm9IwnkOFrRy5UZjHUNy+ppPRAl8tWK06lSK
- PjDBOlZl3qo0Uuc6o67nwWxDvWYcl324PML3MvYqTmZLVHT6Wnk0qIbEG1Ri4hjIvaTwXLDLLa2
- 824xpIMVn2/Xqq/g=
-X-Received: by 2002:a7b:c7d8:0:b0:389:c3ca:9ede with SMTP id
- z24-20020a7bc7d8000000b00389c3ca9edemr6788353wmk.150.1647427674425; 
- Wed, 16 Mar 2022 03:47:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyC6vn1CJxqhoPZm0/tWmoU5sy/ZcVyL6zqJSEZxDHf82DoHidC7KckFf1AcdwPz4NgLeFAXg==
-X-Received: by 2002:a7b:c7d8:0:b0:389:c3ca:9ede with SMTP id
- z24-20020a7bc7d8000000b00389c3ca9edemr6788329wmk.150.1647427674119; 
- Wed, 16 Mar 2022 03:47:54 -0700 (PDT)
-Received: from redhat.com ([2.53.2.35]) by smtp.gmail.com with ESMTPSA id
- p125-20020a1c2983000000b00389cc36a3bfsm4795053wmp.6.2022.03.16.03.47.50
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=jRLkhQfQToxA5+hkWqJgW9X5nBe2S5atJt3u9xZIFUY=;
+ b=RLiUWjhjTC3o3aSNqu6kJrLrqHMfaoU9gj+MolhQKX8+64hLP6Bisp9mj6HHhYn0yf
+ CTiYgWpJXZUOBkdKtkkeXdf1jx+hzeE7z1LxOtozah3Fk0p9jJKU+JQdWp1Ein3Zaow2
+ cxi4VD4OWOuyKUmNIieD7DSgZvMIMBMHMP/lttSCQJOo4M/nIoUeOTNsGPi28CiRRryV
+ 9alTuedPu+zXcvR+8XB6uWRUeV4EL2KVYcjntPAv5cyTebnQ20m2+iuDgDtfwUiuqqKt
+ L+27oxiyroeYygqthG6OQbQAroD1HiGo/alpkDzbl6YyS21AZIxB93a9gBQ63vcvRfM/
+ qZsQ==
+X-Gm-Message-State: AOAM533y+1E+qT4g2FYyUboHq+rPqsY8rM4ErTtxVAr3xouKdk818gCW
+ Zdzkllu6WPtFryIzgCGRZXkLDU+sK24OQ0ZE8Ny5Wz+ac92tX/NXv4lMEf5dawoOT+cWUluNxtw
+ tkhzBcXKSfq4XNZI=
+X-Received: by 2002:a05:6a00:168a:b0:4f7:e161:83cd with SMTP id
+ k10-20020a056a00168a00b004f7e16183cdmr12580598pfc.56.1647427214504; 
+ Wed, 16 Mar 2022 03:40:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZS4CPqHOKs+sAtWudcqlt8q7t22k99QgygfPbEHrPpiZYPDZzIeBw68tpm91UAky2fXtwiQ==
+X-Received: by 2002:a05:6a00:168a:b0:4f7:e161:83cd with SMTP id
+ k10-20020a056a00168a00b004f7e16183cdmr12580577pfc.56.1647427214193; 
+ Wed, 16 Mar 2022 03:40:14 -0700 (PDT)
+Received: from xz-m1.local ([191.101.132.128])
+ by smtp.gmail.com with ESMTPSA id
+ k1-20020a056a00134100b004f78df32666sm2685484pfu.198.2022.03.16.03.40.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 03:47:53 -0700 (PDT)
-Date: Wed, 16 Mar 2022 06:47:48 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Subject: Re: [PATCH 1/4] target/i386: Fix sanity check on max APIC ID /
- X2APIC enablement
-Message-ID: <20220316064631-mutt-send-email-mst@kernel.org>
-References: <20220314142544.150555-1-dwmw2@infradead.org>
- <20220316100425.2758afc3@redhat.com>
- <d374107ebd48432b6c2b13c13c407a48fdb2d755.camel@infradead.org>
- <20220316055333-mutt-send-email-mst@kernel.org>
- <c359ac8572d0193dd65bb384f68873d24d0c72d3.camel@infradead.org>
+ Wed, 16 Mar 2022 03:40:13 -0700 (PDT)
+Date: Wed, 16 Mar 2022 18:40:08 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: Time to introduce a migration protocol negotiation (Re: [PATCH
+ v2 00/25] migration: Postcopy Preemption)
+Message-ID: <YjG+iHCmCXRPIV1m@xz-m1.local>
+References: <Yh3mo5VFQ3gT1Gd7@redhat.com> <Yh3yzbmOqAVV9iM9@xz-m1.local>
+ <Yh30/nPtWyvqp8xo@redhat.com> <Yh37hLn5Dlffm13P@xz-m1.local>
+ <Yh5O/eq4If4MYpTq@work-vm> <Yi+ONfiZlQD2LoHX@redhat.com>
+ <YjAul3GIWmB3+v0P@xz-m1.local> <YjB1XXzIsJWtSR4E@redhat.com>
+ <YjFZ84Wdz6jpSekr@xz-m1.local> <YjG1AGhai1QvDdrd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c359ac8572d0193dd65bb384f68873d24d0c72d3.camel@infradead.org>
+In-Reply-To: <YjG1AGhai1QvDdrd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,62 +104,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- kvm@vger.kernel.org, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 16, 2022 at 10:37:49AM +0000, David Woodhouse wrote:
-> On Wed, 2022-03-16 at 05:56 -0400, Michael S. Tsirkin wrote:
-> > On Wed, Mar 16, 2022 at 09:37:07AM +0000, David Woodhouse wrote:
-> > > Yep, that's the guest operating system's choice. Not a qemu problem.
+On Wed, Mar 16, 2022 at 09:59:28AM +0000, Daniel P. Berrangé wrote:
+> On Wed, Mar 16, 2022 at 11:30:59AM +0800, Peter Xu wrote:
+> > On Tue, Mar 15, 2022 at 11:15:41AM +0000, Daniel P. Berrangé wrote:
+> > > > I still remember you mentioned the upper layer softwares can have
+> > > > assumption on using only 1 pair of socket for migration, I think that makes
+> > > > postcopy-preempt by default impossible.
+> > > > 
+> > > > Why multifd is different here?
 > > > 
-> > > Even if you have the split IRQ chip, if you boot a guest without kvm-
-> > > msi-ext-dest-id support, it'll refuse to use higher CPUs.
-> > > 
-> > > Or if you boot a guest without X2APIC support, it'll refuse to use
-> > > higher CPUs. 
-> > > 
-> > > That doesn't mean a user should be *forbidden* from launching qemu in
-> > > that configuration.
+> > > It isn't different. We went through the pain to extending libvirt
+> > > to know how to open many channels for multifd. We'll have todo
+> > > the same with this postcopy-pre-empt. To this day though, management
+> > > apps above libvirt largely don't enable multifd, which is a real
+> > > shame. This is the key reason I think we need to handle this at
+> > > the QEMU level automatically.
 > > 
-> > Well the issue with all these configs which kind of work but not
-> > the way they were specified is that down the road someone
-> > creates a VM with this config and then expects us to maintain it
-> > indefinitely.
+> > But I still don't undertand how QEMU could know about those tunnels, which
+> > should be beyond QEMU's awareness?
 > > 
-> > So yes, if we are not sure we can support something properly it is
-> > better to validate and exit than create a VM guests don't know how
-> > to treat.
+> > The tunneling program can be some admin initiated socat tcp forwarding
+> > programs, which by default may not allow >1 socket pairs.
+> > 
+> > Or maybe I have mis-understood on what's the tunneling we're discussing?
 > 
-> Not entirely sure how to reconcile that with what Daniel said in
-> https://lore.kernel.org/qemu-devel/Yi9BTkZIM3iZsvdK@redhat.com/ which
-> was:
-> 
-> > We've generally said QEMU should not reject / block startup of valid
-> > hardware configurations, based on existance of bugs in certain guest
-> > OS, if the config would be valid for other guest.
+> I dont think I was talking about tunneling at all, just QEMU
+> migration protocol options !
 
-For sure, but is this a valid hardware configuration? That's
-really the question.
+Ah. :)
 
-> That said, I cannot point at a *specific* example of a guest which can
-> use the higher CPUs even when it can't direct external interrupts at
-> them. I worked on making Linux capable of it, as I said, but didn't
-> pursue that in the end.
 > 
-> I *suspect* Windows might be able to do it, based on the way the
-> hyperv-iommu works (by cheating and returning -EINVAL when external
-> interrupts are directed at higher CPUs).
-> 
-> 
+> If an app is tunnelling QEMU's migration protocol over some
+> channel, that isn't important to QEMU - regardless whether a
+> passed in 'fd:' protocol FD is a direct TCP socket, or a
+> UNIX socket for a tunnel, QEMU works the same way. In one
+> of my other replies I mention a way to make 'fd:' work with
+> an arbitrary number of channels, by using an event from QEMU
+> to request the app provide additional FDs.
+
+I very much agree on the whole concept of what you proposed, either on the
+new negotiation phase itself, or the idea that with the negotiation phase
+we can try to auto-enable some features we not used to.
+
+What I wanted to express is we can't enable either preempt mode or multifd
+automatically from qemu even with them, because these two are quite special
+IMHO in that qemu doesn't know whether the mgmt app can handle the multiple
+socket pairs.  Yes we could teach qemu to dynamically accept new "fd"s, but
+again IMHO that still needs to be intervened by the mgmt app.
+
+Thanks,
 
 -- 
-MST
+Peter Xu
 
 
