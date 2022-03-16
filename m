@@ -2,59 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44EA4DAAE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 07:53:27 +0100 (CET)
-Received: from localhost ([::1]:49762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3D54DABE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 08:37:02 +0100 (CET)
+Received: from localhost ([::1]:54326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUNXC-00011d-IA
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 02:53:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38326)
+	id 1nUODN-0006Xv-65
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 03:37:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nUNUy-0000CV-Fl; Wed, 16 Mar 2022 02:51:08 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3798)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUOC1-0005dm-Ba
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 03:35:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nUNUr-0005bX-BQ; Wed, 16 Mar 2022 02:51:07 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KJLVF4HrszfYkq;
- Wed, 16 Mar 2022 14:49:25 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.21; Wed, 16 Mar 2022 14:50:52 +0800
-Subject: Re: [PATCH v6 08/11] s390x: topology: Adding drawers to CPU topology
-To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
- <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
- <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <philmd@redhat.com>, <eblake@redhat.com>, <armbru@redhat.com>,
- <seiden@linux.ibm.com>, <nrb@linux.ibm.com>
-References: <20220217134125.132150-1-pmorel@linux.ibm.com>
- <20220217134125.132150-9-pmorel@linux.ibm.com>
-Message-ID: <ff248e79-82f5-a699-75e7-3b647fcfc90f@huawei.com>
-Date: Wed, 16 Mar 2022 14:50:52 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUOBy-0003bs-1G
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 03:35:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647416132;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ngwlVdd+Zs1zurbVFycxeSpU/6N3MhF/6t24yStKa6U=;
+ b=htJ83bjgV1iuVE04kcWoY63Rtef6RoOed9qlUdI0rMTzZDN3CxRgei94VSnjrkE61CMTs6
+ AZpFdTKxfwbVtuCzWdui4eGMwZkuqSheP8c9rgvIljmdatoN9fyd/dS/7zqGu8n6VzWCKk
+ xV0mC7RcH8X2mK1vzdKLwv61mMR6EZE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-116-oUf1jfnyOa2WjcWJPgg9mQ-1; Wed, 16 Mar 2022 03:35:29 -0400
+X-MC-Unique: oUf1jfnyOa2WjcWJPgg9mQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l1-20020a1c2501000000b00389c7b9254cso1760448wml.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 00:35:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ngwlVdd+Zs1zurbVFycxeSpU/6N3MhF/6t24yStKa6U=;
+ b=SF3pH6Y253/e5hbkrDkCI2y6+cyT2rrePSXhaz4sAUJaQQGsByxVyXXC8Z3rugymzl
+ VcETzW/HMKJuW0vMdO7iGlwNAwxeRJWdOiNOoBgBK6O+C5/UIxFarZZRveN1aOt4U4Jv
+ Hzm2Zxodcv0iyPkPw+ZUmJaIz9+vnciyD56KfYFS1SkB2zeYz7G/paaA1IfxrZgGYC9f
+ 6WVaxpCOnrccjXI2OS8baFSRn4RCzbzxBr+f2bFjw4CVhX+uzddpeASKGUdQNh8mMAPk
+ 5MDir6VJxGDQmVNjFzoPkjikFkYQu66fr7kqkdCbyQ9w/9PUBSa+S+9XvaPE7FlMpZyD
+ igPw==
+X-Gm-Message-State: AOAM532E08SK+8qOpF+YsQhIvYM/mUzrvHwEDCp35N7jpPKapf7EXqSK
+ Uapv7KR9qOIjyRPxRWeb9zHa6LCMSAJjL35WamW/TYHN7aotYyCLn//El7CuMFAtA9OWgJo7qSj
+ nF4u8w92qtSPs/Tc=
+X-Received: by 2002:a1c:2bc3:0:b0:381:3dd5:5707 with SMTP id
+ r186-20020a1c2bc3000000b003813dd55707mr6280161wmr.31.1647416128531; 
+ Wed, 16 Mar 2022 00:35:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1zDp03u6aT+tNpWsR1Q5xLKZtzvgeAlYwoAhcWnzStS2dB6pn7yw+5ZVEM7Ab4CpCvpgjOA==
+X-Received: by 2002:a1c:2bc3:0:b0:381:3dd5:5707 with SMTP id
+ r186-20020a1c2bc3000000b003813dd55707mr6280147wmr.31.1647416128285; 
+ Wed, 16 Mar 2022 00:35:28 -0700 (PDT)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ 11-20020a05600c22cb00b00382a960b17csm4201938wmg.7.2022.03.16.00.35.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Mar 2022 00:35:27 -0700 (PDT)
+Message-ID: <54ff73e7-d3c1-775f-a2e8-b2671333f1ac@redhat.com>
+Date: Wed, 16 Mar 2022 08:35:26 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220217134125.132150-9-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PULL 0/8] s390x and misc fixes
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20220315112052.515467-1-thuth@redhat.com>
+ <CAFEAcA8u8G3=V=OVM6v_BaOwfeDu1RJmnwrW+4PXqbnPrAAr_w@mail.gmail.com>
+ <CAFEAcA-C9Y1RKMfDWr132xCvXkoGovU8aK6Z6fjQ9LEZyeUtyg@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAFEAcA-C9Y1RKMfDWr132xCvXkoGovU8aK6Z6fjQ9LEZyeUtyg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,273 +105,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-Hi Pierre,
+On 15/03/2022 20.30, Peter Maydell wrote:
+> On Tue, 15 Mar 2022 at 18:58, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> On Tue, 15 Mar 2022 at 11:20, Thomas Huth <thuth@redhat.com> wrote:
+>>>
+>>>   Hi Peter!
+>>>
+>>> The following changes since commit 352998df1c53b366413690d95b35f76d0721ebed:
+>>>
+>>>    Merge tag 'i2c-20220314' of https://github.com/philmd/qemu into staging (2022-03-14 14:39:33 +0000)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>    https://gitlab.com/thuth/qemu.git tags/pull-request-2022-03-15
+>>>
+>>> for you to fetch changes up to 36149534792dcf07a3c59867f967eaee23ab906c:
+>>>
+>>>    meson: Update to version 0.61.3 (2022-03-15 10:32:36 +0100)
+>>>
+>>> ----------------------------------------------------------------
+>>> * Fixes for s390x branch instruction emulation
+>>> * Fixes for the tests/avocado/boot_linux.py:BootLinuxS390X test
+>>> * Fix for "-cpu help" output
+>>> * Bump meson to 0.61.3 to fix stderr log of the iotests
+>>>
+>>> ----------------------------------------------------------------
+>>
+>> This results in every "Linking" step on my macos box producing the
+>> warning:
+>>
+>> ld: warning: directory not found for option
+>> '-Lns/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0'
+>>
+>> Obvious suspect here is the new meson version.
+> 
+> Also, after rolling this merge attempt back, older meson barfs
+> on whatever the new one left behind:
+> 
+> 
+> [0/1] Regenerating build files.
+> Traceback (most recent call last):
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/mesonmain.py",
+> line 228, in run
+>      return options.run_func(options)
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
+> line 281, in run
+>      app.generate()
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
+> line 177, in generate
+>      env = environment.Environment(self.source_dir, self.build_dir, self.options)
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/environment.py",
+> line 462, in __init__
+>      self.coredata = coredata.load(self.get_build_dir())  # type:
+> coredata.CoreData
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/coredata.py",
+> line 1003, in load
+>      obj = pickle.load(f)
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/mesonlib/universal.py",
+> line 2076, in __setstate__
+>      self.__init__(**state)  # type: ignore
+> TypeError: __init__() got an unexpected keyword argument 'module'
+> FAILED: build.ninja
+> /usr/local/opt/python@3.9/bin/python3.9
+> /Users/pm215/src/qemu-for-merges/meson/meson.py --internal regenerate
+> /Users/pm215/src/qemu-for-merges
+> /Users/pm215/src/qemu-for-merges/build/all --backend ninja
+> ninja: error: rebuilding 'build.ninja': subcommand failed
+> /usr/local/bin/ninja  build.ninja && touch build.ninja.stamp
+>    GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3
+> tests/fp/berkeley-softfloat-3 dtc capstone slirp
+> [0/1] Regenerating build files.
+> Traceback (most recent call last):
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/mesonmain.py",
+> line 228, in run
+>      return options.run_func(options)
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
+> line 281, in run
+>      app.generate()
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
+> line 177, in generate
+>      env = environment.Environment(self.source_dir, self.build_dir, self.options)
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/environment.py",
+> line 462, in __init__
+>      self.coredata = coredata.load(self.get_build_dir())  # type:
+> coredata.CoreData
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/coredata.py",
+> line 1003, in load
+>      obj = pickle.load(f)
+>    File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/mesonlib/universal.py",
+> line 2076, in __setstate__
+>      self.__init__(**state)  # type: ignore
+> TypeError: __init__() got an unexpected keyword argument 'module'
+> FAILED: build.ninja
+> 
+> 
+> meson ought to be smart enough to spot that it's got data from an
+> incompatible version and just discard its cache rather than
+> choking on it.
 
-On 2022/2/17 21:41, Pierre Morel wrote:
-> S390 CPU topology may have up to 5 topology containers.
-> The first container above the cores is level 2, the sockets,
-> and the level 3, containing sockets are the books.
->
-> We introduce here the drawers, drawers is the level containing books.
->
-> Let's add drawers, level4, containers to the CPU topology.
->
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   hw/core/machine-smp.c      | 33 ++++++++++++++++++++++++++-------
->   hw/core/machine.c          |  2 ++
->   hw/s390x/s390-virtio-ccw.c |  1 +
->   include/hw/boards.h        |  4 ++++
->   qapi/machine.json          |  7 ++++++-
->   softmmu/vl.c               |  3 +++
->   6 files changed, 42 insertions(+), 8 deletions(-)
->
-> diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
-> index d7aa39d540..26150c748f 100644
-> --- a/hw/core/machine-smp.c
-> +++ b/hw/core/machine-smp.c
-> @@ -31,6 +31,10 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
->       MachineClass *mc = MACHINE_GET_CLASS(ms);
->       GString *s = g_string_new(NULL);
->   
-> +    if (mc->smp_props.drawers_supported) {
-> +        g_string_append_printf(s, " * drawers (%u)", ms->smp.drawers);
-> +    }
-> +
-As mentioned in patch#6, we need to take care of the head of the
-composite topology string.
->       if (mc->smp_props.books_supported) {
->           g_string_append_printf(s, " * books (%u)", ms->smp.books);
->       }
-> @@ -77,6 +81,7 @@ void machine_parse_smp_config(MachineState *ms,
->   {
->       MachineClass *mc = MACHINE_GET_CLASS(ms);
->       unsigned cpus    = config->has_cpus ? config->cpus : 0;
-> +    unsigned drawers = config->has_drawers ? config->drawers : 0;
->       unsigned books   = config->has_books ? config->books : 0;
->       unsigned sockets = config->has_sockets ? config->sockets : 0;
->       unsigned dies    = config->has_dies ? config->dies : 0;
-> @@ -90,6 +95,7 @@ void machine_parse_smp_config(MachineState *ms,
->        * explicit configuration like "cpus=0" is not allowed.
->        */
->       if ((config->has_cpus && config->cpus == 0) ||
-> +        (config->has_drawers && config->drawers == 0) ||
->           (config->has_books && config->books == 0) ||
->           (config->has_sockets && config->sockets == 0) ||
->           (config->has_dies && config->dies == 0) ||
-> @@ -124,6 +130,13 @@ void machine_parse_smp_config(MachineState *ms,
->   
->       books = books > 0 ? books : 1;
->   
-> +    if (!mc->smp_props.drawers_supported && drawers > 1) {
-> +        error_setg(errp, "drawers not supported by this machine's CPU topology");
-> +        return;
-> +    }
-nit: maybe move above part to the similar sanity checks of "dies and 
-clusters"?...
-> +
-> +    drawers = drawers > 0 ? drawers : 1;
-...and put this line together with the similar operation of "dies and 
-clusters".
-> +
->       /* compute missing values based on the provided ones */
->       if (cpus == 0 && maxcpus == 0) {
->           sockets = sockets > 0 ? sockets : 1;
-> @@ -137,34 +150,40 @@ void machine_parse_smp_config(MachineState *ms,
->               if (sockets == 0) {
->                   cores = cores > 0 ? cores : 1;
->                   threads = threads > 0 ? threads : 1;
-> -                sockets = maxcpus / (books * dies * clusters * cores * threads);
-> +                sockets = maxcpus /
-> +                          (drawers * books * dies * clusters * cores * threads);
->               } else if (cores == 0) {
->                   threads = threads > 0 ? threads : 1;
-> -                cores = maxcpus / (books * sockets * dies * clusters * threads);
-> +                cores = maxcpus /
-> +                        (drawers * books * sockets * dies * clusters * threads);
->               }
->           } else {
->               /* prefer cores over sockets since 6.2 */
->               if (cores == 0) {
->                   sockets = sockets > 0 ? sockets : 1;
->                   threads = threads > 0 ? threads : 1;
-> -                cores = maxcpus / (books * sockets * dies * clusters * threads);
-> +                cores = maxcpus /
-> +                        (drawers * books * sockets * dies * clusters * threads);
->               } else if (sockets == 0) {
->                   threads = threads > 0 ? threads : 1;
-> -                sockets = maxcpus / (books * dies * clusters * cores * threads);
-> +                sockets = maxcpus /
-> +                         (drawers * books * dies * clusters * cores * threads);
->               }
->           }
->   
->           /* try to calculate omitted threads at last */
->           if (threads == 0) {
-> -            threads = maxcpus / (books * sockets * dies * clusters * cores);
-> +            threads = maxcpus /
-> +                      (drawers * books * sockets * dies * clusters * cores);
->           }
->       }
->   
-> -    maxcpus = maxcpus > 0 ? maxcpus : books * sockets * dies *
-> +    maxcpus = maxcpus > 0 ? maxcpus : drawers * books * sockets * dies *
->                                         clusters * cores * threads;
->       cpus = cpus > 0 ? cpus : maxcpus;
->   
->       ms->smp.cpus = cpus;
-> +    ms->smp.drawers = drawers;
->       ms->smp.books = books;
->       ms->smp.sockets = sockets;
->       ms->smp.dies = dies;
-> @@ -174,7 +193,7 @@ void machine_parse_smp_config(MachineState *ms,
->       ms->smp.max_cpus = maxcpus;
->   
->       /* sanity-check of the computed topology */
-> -    if (books * sockets * dies * clusters * cores * threads != maxcpus) {
-> +    if (drawers * books * sockets * dies * clusters * cores * threads != maxcpus) {
->           g_autofree char *topo_msg = cpu_hierarchy_to_string(ms);
->           error_setg(errp, "Invalid CPU topology: "
->                      "product of the hierarchy must match maxcpus: "
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index b8c624d2bf..1db55e36c8 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -743,6 +743,7 @@ static void machine_get_smp(Object *obj, Visitor *v, const char *name,
->       MachineState *ms = MACHINE(obj);
->       SMPConfiguration *config = &(SMPConfiguration){
->           .has_cpus = true, .cpus = ms->smp.cpus,
-> +        .has_drawers = true, .drawers = ms->smp.drawers,
->           .has_books = true, .books = ms->smp.books,
->           .has_sockets = true, .sockets = ms->smp.sockets,
->           .has_dies = true, .dies = ms->smp.dies,
-> @@ -936,6 +937,7 @@ static void machine_initfn(Object *obj)
->       /* default to mc->default_cpus */
->       ms->smp.cpus = mc->default_cpus;
->       ms->smp.max_cpus = mc->default_cpus;
-> +    ms->smp.drawers = 1;
->       ms->smp.books = 1;
->       ms->smp.sockets = 1;
->       ms->smp.dies = 1;
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 193883fba3..03829e90b3 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -667,6 +667,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
->       nc->nmi_monitor_handler = s390_nmi;
->       mc->default_ram_id = "s390.ram";
->       mc->smp_props.books_supported = true;
-> +    mc->smp_props.drawers_supported = true;
->   }
->   
->   static inline bool machine_get_aes_key_wrap(Object *obj, Error **errp)
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index bc0f7f22dc..abc5556c50 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -131,12 +131,14 @@ typedef struct {
->    * @dies_supported - whether dies are supported by the machine
->    * @clusters_supported - whether clusters are supported by the machine
->    * @books_supported - whether books are supported by the machine
-> + * @drawers_supported - whether drawers are supported by the machine
->    */
->   typedef struct {
->       bool prefer_sockets;
->       bool dies_supported;
->       bool clusters_supported;
->       bool books_supported;
-> +    bool drawers_supported;
->   } SMPCompatProps;
->   
->   /**
-> @@ -301,6 +303,7 @@ typedef struct DeviceMemoryState {
->   /**
->    * CpuTopology:
->    * @cpus: the number of present logical processors on the machine
-> + * @drawers: the number of drawers on the machine
->    * @books: the number of books on the machine
-@books: the number of books in one drawer
->    * @sockets: the number of sockets on the machine
-@sockets:  the number of sockets in one book
->    * @dies: the number of dies in one socket
-> @@ -311,6 +314,7 @@ typedef struct DeviceMemoryState {
->    */
->   typedef struct CpuTopology {
->       unsigned int cpus;
-> +    unsigned int drawers;
->       unsigned int books;
->       unsigned int sockets;
->       unsigned int dies;
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 73206f811a..fa6bde5617 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -866,13 +866,14 @@
->   # a CPU is being hotplugged.
->   #
->   # @node-id: NUMA node ID the CPU belongs to
-> +# @drawer-id: drawer number within node/board the CPU belongs to
->   # @book-id: book number within node/board the CPU belongs to
-Since new drawer-id and book-id are introduced, you may need to
-check whether to update function machine_set_cpu_numa_node()
-and function hmp_hotpluggable_cpus(). We can also add some
-testcases for books/drawers in test-smp-parse.c if necessary.
->   # @socket-id: socket number within node/board the CPU belongs to
->   # @die-id: die number within socket the CPU belongs to (since 4.1)
->   # @core-id: core number within die the CPU belongs to
->   # @thread-id: thread number within core the CPU belongs to
->   #
-> -# Note: currently there are 6 properties that could be present
-> +# Note: currently there are 7 properties that could be present
->   #       but management should be prepared to pass through other
->   #       properties with device_add command to allow for future
->   #       interface extension. This also requires the filed names to be kept in
-> @@ -882,6 +883,7 @@
->   ##
->   { 'struct': 'CpuInstanceProperties',
->     'data': { '*node-id': 'int',
-> +            '*drawer-id': 'int',
->               '*book-id': 'int',
->               '*socket-id': 'int',
->               '*die-id': 'int',
-> @@ -1402,6 +1404,8 @@
->   #
->   # @cpus: number of virtual CPUs in the virtual machine
->   #
-> +# @drawers: number of drawers in the CPU topology
-> +#
->   # @books: number of books in the CPU topology
-@books: number of books per drawer in the CPU topology
->   #
->   # @sockets: number of sockets in the CPU topology
-@sockets: number of sockets per book in the CPU topology
-> @@ -1420,6 +1424,7 @@
->   ##
->   { 'struct': 'SMPConfiguration', 'data': {
->        '*cpus': 'int',
-> +     '*drawers': 'int',
->        '*books': 'int',
->        '*sockets': 'int',
->        '*dies': 'int',
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index a680fb12d4..f4c9f3a536 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -720,6 +720,9 @@ static QemuOptsList qemu_smp_opts = {
->           {
->               .name = "cpus",
->               .type = QEMU_OPT_NUMBER,
-> +        }, {
-> +            .name = "drawers",
-> +            .type = QEMU_OPT_NUMBER,
->           }, {
->               .name = "books",
->               .type = QEMU_OPT_NUMBER,
-Thanks,
-Yanan
+Ok, I'll respin without the meson update.
+
+Question is: Do we now want to revert the TAPification of the iotests for 
+7.0? I guess so, otherwise most people won't see the output of failed tests 
+when doing "make check-block" ...
+
+  Thomas
+
 
