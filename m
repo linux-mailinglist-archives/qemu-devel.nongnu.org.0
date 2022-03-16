@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD9C4DAFE2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 13:40:15 +0100 (CET)
-Received: from localhost ([::1]:40130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B734DAFF9
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 13:43:25 +0100 (CET)
+Received: from localhost ([::1]:46992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUSwn-0006oo-Sz
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 08:40:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51004)
+	id 1nUSzr-0003XI-2F
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 08:43:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUScj-0004oD-Qq
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:19:30 -0400
-Received: from [2607:f8b0:4864:20::b2e] (port=41951
- helo=mail-yb1-xb2e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUScg-0008IZ-5T
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:19:27 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id l2so4035347ybe.8
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 05:19:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fB/wCIIlPhELd5fSOlCt3F/awcKxWp+VguF4uxywYBE=;
- b=hxmYo9IjOeZAtdhjvf/ebr6g8ZOVIh8fnxgdS2o13v6682v2p6meSei/AstR8W6Zwd
- uL/d71qLV8+suentfpCkDX1lYjoQubp8D2ieHjY4XBt9IMd3UjMZ6HFiLHA2mfZjApUg
- 6LUrwO6+QZRAd/QJroKtOyRFRNloWIfJ5NxSg169cteFu9R7I/W7Z2j9Gd1DLqSVakL2
- abrTYETQA3FZp1xsRWGJV4PXyyLql6iuUThIKHtarSZwDww3BZJv2OjnhApBPuV+2Saa
- c+dVIE6nE/XwEIGxQsXyCV33iShjF3YrfWqtDL28R02YF4Unc4LP5Uje8ySez9bNTJ7I
- RZxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fB/wCIIlPhELd5fSOlCt3F/awcKxWp+VguF4uxywYBE=;
- b=iHlhPKOMNNP3mG9tQ9YI0lmMWwjPFn8ZFL2B3hlGhex67YrSyY/0Dun1XLmGtST6kg
- kY/uWiXU1/NPeQnhtCIU+usWZvSjx8JUKWl0bi/qTyO564H0Vc9CB+k11/EWi0WHIlxY
- eNfi6urDxjCGhC4qiT81BAuqYxUH1XH9Vti5Q8szi8b2FQWQkEMd+SpR5vEYOHEnH57b
- D3hC1X5NGF+nFQyAbZ6Fhaj/aPQyjqX3e37QEUj4LpJtJ71ZCGyuswJweZ4YT0Ihuqj2
- VQClZJyE+oQexd7z/bc87qNE+HsYEQotcuqUdQzi3IVm8pcGNPnRQylvJUGmR3+Zlgdx
- /MfQ==
-X-Gm-Message-State: AOAM533vSvn9g/oT8fqoBC0XExBQYzuUb2bUdNgDiRsqvqGORuNWBHee
- ZPMiTQe9EBF0mm9l0bWUl2iuEG9VfinW2epjbRCYYw==
-X-Google-Smtp-Source: ABdhPJwRFYZZjLR29cEoMpkm3yC5gDtlpOYI1QRuNRQaP64wibcckGBIpH4InNVvTvnHFey1zKdbQBD4uBrVJVkn+uI=
-X-Received: by 2002:a25:bf8b:0:b0:633:8a66:c4cd with SMTP id
- l11-20020a25bf8b000000b006338a66c4cdmr3525605ybk.85.1647433162222; Wed, 16
- Mar 2022 05:19:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUSdM-0005bP-9g
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:20:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42050)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUSdK-00007p-1Q
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:20:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647433205;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZYNJ6lc2dxqaJ3JE+Qlbb/oAp7y8fgHC0e1y5V03kW8=;
+ b=Ysnez7/limvK/J0P8EuoSYpqndPiU7MnVa1ZijbZL2xpn23dUwMPEJVmt5y7f1H+grV8xH
+ LFANBwuKTpMDBVuIX1BWA47QT3UziJB6L65hD/WgwlIuOwM7FFDga/4RXo29EE1N1mfNnZ
+ YNce809+NmC9tF3d14BbsH+MmpEaO2U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-43-atg0REJ4POaZunCgh6HvIQ-1; Wed, 16 Mar 2022 08:20:02 -0400
+X-MC-Unique: atg0REJ4POaZunCgh6HvIQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6136802A6A;
+ Wed, 16 Mar 2022 12:20:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B6121400AFC;
+ Wed, 16 Mar 2022 12:20:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 424EE21E66CE; Wed, 16 Mar 2022 13:20:00 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH 27/27] qapi: remove needless include
+References: <20220316095523.2613907-1-marcandre.lureau@redhat.com>
+Date: Wed, 16 Mar 2022 13:20:00 +0100
+In-Reply-To: <20220316095523.2613907-1-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Wed, 16 Mar 2022 13:55:23 +0400")
+Message-ID: <87ilse5btb.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220316081418.1090247-1-thuth@redhat.com>
-In-Reply-To: <20220316081418.1090247-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 16 Mar 2022 12:19:10 +0000
-Message-ID: <CAFEAcA8yOf99mBOCjbbRRyES9vjice=jM=XddzyRyuZkaG_Vfg@mail.gmail.com>
-Subject: Re: [PULL v2 0/7] s390x and misc fixes
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,42 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Mar 2022 at 08:14, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter!
->
-> The following changes since commit d6f229f9a0592c4d5beb0a5c4e024231c27680d3:
->
->   Update version for v7.0.0-rc0 release (2022-03-15 23:07:40 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/thuth/qemu.git tags/pull-request-2022-03-15v2
->
-> for you to fetch changes up to 377bf6f37da11d14641a0e973c4ed272259cca9c:
->
->   softmmu: List CPU types again (2022-03-16 08:43:10 +0100)
->
-> ----------------------------------------------------------------
-> * Fixes for s390x branch instruction emulation
-> * Fixes for the tests/avocado/boot_linux.py:BootLinuxS390X test
-> * Re-enable the "-cpu help" output
->
-> v2: Dropped the update to meson 0.61.3
->
-> Note: The "Test BRASL ..." patch triggers a warning from checkpatch,
->       but this can be ignored (I think the "extern"s are fine in this case)
->
+marcandre.lureau@redhat.com writes:
 
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  qapi/qapi-forward-visitor.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/qapi/qapi-forward-visitor.c b/qapi/qapi-forward-visitor.c
+> index 4ea7e0bec3f5..e36d9bc9ba7e 100644
+> --- a/qapi/qapi-forward-visitor.c
+> +++ b/qapi/qapi-forward-visitor.c
+> @@ -23,7 +23,6 @@
+>  #include "qapi/qmp/qnum.h"
+>  #include "qapi/qmp/qstring.h"
+>  #include "qemu/cutils.h"
+> -#include "qemu/option.h"
+> =20
+>  struct ForwardFieldVisitor {
+>      Visitor visitor;
 
-Applied, thanks.
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
-
--- PMM
 
