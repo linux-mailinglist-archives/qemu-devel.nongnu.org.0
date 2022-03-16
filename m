@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082BA4DB08B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:11:10 +0100 (CET)
-Received: from localhost ([::1]:41860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7159B4DB05A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:06:21 +0100 (CET)
+Received: from localhost ([::1]:57874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUTQj-0007GX-2s
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:11:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35634)
+	id 1nUTM4-00074x-7e
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:06:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUTGQ-0000qI-6H
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:00:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33893)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUTGO-0008BH-NN
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:00:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647435628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3fJ4mDFw3xzZsB1z1DLCj97gII0KwHS8bl4SjBAtNVk=;
- b=bYPwvxsa6ms1NXojV7URmTEmNGAUKmUrI78XTCr6Xv0xvUurLqSTSslAexVqZBNM6LyABy
- cI5WWmRvCvu1afOvSSPcpdp3C25FdB+ko9QSgiaBwG8/5cRQCUn/e1hntz8ULmp9BPf9uS
- gH26CGGhiZ7V66nWobAho3IyKg2rnrk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-274-lHQ6hXP6MhmzRh-nf4kc5w-1; Wed, 16 Mar 2022 09:00:26 -0400
-X-MC-Unique: lHQ6hXP6MhmzRh-nf4kc5w-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90033811E84
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 13:00:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5ECA4401E39;
- Wed, 16 Mar 2022 13:00:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F0CC921E6821; Wed, 16 Mar 2022 14:00:24 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 26/27] tests: replace free_all() usage with g_auto
-References: <20220316095459.2613885-1-marcandre.lureau@redhat.com>
- <877d8u5b7o.fsf@pond.sub.org>
- <CAMxuvazfG9y4wODW3rHL_Xj9+H1SwDy8aESZKW89hwU=k7LLjg@mail.gmail.com>
-Date: Wed, 16 Mar 2022 14:00:24 +0100
-In-Reply-To: <CAMxuvazfG9y4wODW3rHL_Xj9+H1SwDy8aESZKW89hwU=k7LLjg@mail.gmail.com>
- (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Wed, 16 Mar 2022
- 16:53:05 +0400")
-Message-ID: <87bky6xdav.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nUTGa-0000vD-5T; Wed, 16 Mar 2022 09:00:47 -0400
+Received: from [2607:f8b0:4864:20::436] (port=40760
+ helo=mail-pf1-x436.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nUTGY-0008DH-Cg; Wed, 16 Mar 2022 09:00:39 -0400
+Received: by mail-pf1-x436.google.com with SMTP id d19so3837153pfv.7;
+ Wed, 16 Mar 2022 06:00:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=znjBptJrmO7bEzGPS76/uzyJDSmS7oaMs4zJb8AKM/4=;
+ b=la2L6tZkgC8EmpYi+Wtax0/5Lz6JYh2pRvIjWcGpuLqYBDQQBsJCRl0nxfYEO1lUxu
+ wdgLYuZpf4ann9Cw+6O09A99KQuRkxfeWFOGkXBoxGg11yFharVVOsya8710JBEPFB/H
+ yxyE+piUVa0r8wdKrmRBQElu/BsVsg+G929nJllmiR0yRqrycDyWemDTOUblJoJNrNcu
+ a8SucrCnCbQwCoi+/WV2+1fwPZmH2JrOYDGinAmcPy0Z1XfAuWomGZIhJ1gXRdQ6lsQH
+ b23gQ8KH3gB1kUdhc6ZQ6jQyvio57MskbbeI0Ghpg7mOAl0xxwZc8f8UdQexXWAH2pHD
+ Gmlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=znjBptJrmO7bEzGPS76/uzyJDSmS7oaMs4zJb8AKM/4=;
+ b=IYAxOQ+TkzhPpLf4S9lf3lfmgw7lptI1H3H+uYdW0jiPUz233aX0dL0MQ1+gpP9wpy
+ 5lwTIFYlxb/IdBGoyP2XP77xZBPur4KR6+H7Y8Tt7fddbtiNT58C7MaR+Ha+AXOPevYG
+ 5iFkjt5vwqO0fxJ7AiSKDfyJnCTPwNMkNd9NtB1VivPcRVZP7bO9Y9bAZJa20i6d1ESt
+ 6S3Pm/LygEoQi3YaIYSpBrnzjEJEWYHBdosJDvJhghRQMKcoWptCOtw4aU/QWLITF34m
+ +BTNb8+R2Qx5kv9/Gf+Wybj1oKmLiWyiY17jPogLBkYlTGFm0BfGAraIjxwLbKvD7yYt
+ brug==
+X-Gm-Message-State: AOAM533hi/5VWZzJfTM6oCxExqjeMK1hT1AuE/KMM/+ZUWiEb8yi268g
+ Mmw7fYhuqb7YrrD2JyhIpeA43OjTpI0=
+X-Google-Smtp-Source: ABdhPJyXLIK3YIeVRCrd8n73rLbU4U47c/VwnOplQT9f3JsqtMMTyqLxxbuWf25TJPefpq7Cj09oyg==
+X-Received: by 2002:a65:4348:0:b0:375:9840:b064 with SMTP id
+ k8-20020a654348000000b003759840b064mr28807936pgq.270.1647435636400; 
+ Wed, 16 Mar 2022 06:00:36 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ d11-20020aa7868b000000b004f768dfe93asm3005578pfo.176.2022.03.16.06.00.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Mar 2022 06:00:35 -0700 (PDT)
+Message-ID: <f4b7fdd1-a659-03ed-bfd7-a514b8e47588@gmail.com>
+Date: Wed, 16 Mar 2022 14:00:32 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH 0/2] target/arm: Improve M-profile exception logging
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220315204306.2797684-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220315204306.2797684-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,35 +92,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
+On 15/3/22 21:43, Peter Maydell wrote:
+> Our current logging for M-profile exceptions has a couple of holes
+> which are particularly confusing for the case of an exception taken
+> immediately out of reset:
+>   * we don't log the initial PC/SP loaded from the vector table
+>   * we don't log the PC we load from the vector table when
+>     we take an exception
+>   * we don't log the address for i-side aborts
+> 
+> This case is quite common where the user has failed to provide a
+> vector table in their ELF file and QEMU thus loads garbage for the
+> initial PC. At the moment the logging looks like:
+> 
+> $ qemu-system-arm [...] -d in_asm,cpu,exec,int
+> Taking exception 3 [Prefetch Abort] on CPU 0
+> ...with CFSR.IACCVIOL
+> ...BusFault with BFSR.STKERR
+> ...taking pending nonsecure exception 3
+> ----------------
+> IN:
+> 0x20000558:  08000079  stmdaeq  r0, {r0, r3, r4, r5, r6}
+> 
+> 
+> After this patchset it looks like:
+> 
+> $ qemu-system-arm [...] -d in_asm,cpu,exec,int
+> Loaded reset SP 0x0 PC 0x0 from vector table
+> Loaded reset SP 0xd008f8df PC 0xf000bf00 from vector table
+> Taking exception 3 [Prefetch Abort] on CPU 0
+> ...at fault address 0xf000bf00
+> ...with CFSR.IACCVIOL
+> ...BusFault with BFSR.STKERR
+> ...taking pending nonsecure exception 3
+> ...loading from element 3 of non-secure vector table at 0xc
+> ...loaded new PC 0x20000558
+> ----------------
+> IN:
+> 0x20000558:  08000079  stmdaeq  r0, {r0, r3, r4, r5, r6}
+> 
+> and I think it is somewhat clearer that we loaded a bogus
+> PC from the vector table at reset, faulted at that address,
+> loaded the HardFault entry point which was bogus but at
+> least readable, and started executing code from there.
+> 
+> The double-logging of the reset loads is the result of
+> the way we currently reset the CPU twice on QEMU startup.
+> If we ever manage to fix that silliness it'll go away.
+> 
+> 
+> (Patchset inspired by a stackexchange question:
+> https://stackoverflow.com/questions/71486314/loading-an-elf-file-into-qemu
+> )
+> 
+> thanks
+> -- PMM
+> 
+> Peter Maydell (2):
+>    target/arm: Log M-profile vector table accesses
+>    target/arm: Log fault address for M-profile faults
 
-> Hi
->
-> On Wed, Mar 16, 2022 at 4:33 PM Markus Armbruster <armbru@redhat.com> wro=
-te:
->>
->> marcandre.lureau@redhat.com writes:
->>
->> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >
->> > Use more idiomatic glib/auto-style code.
->> >
->> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>
->> This is a bit of an improvement, but by its own, it's a rather weak
->> justification for the previous patch.  Do you have more uses of
->> g_autoptr in the pipe?
->
->
-> There are a lot of similar g_auto cleanups to be done in qemu code
-> base for QObject types. But I started with those tests, because they
-> use a pretty unorthodox free_all pattern and that shouldn't be
-> repeated.
-
-Would it make sense to add this the list of bite-sized tasks?
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
