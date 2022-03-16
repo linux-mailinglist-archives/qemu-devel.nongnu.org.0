@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4374B4DB7EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 19:29:18 +0100 (CET)
-Received: from localhost ([::1]:36536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8234DB871
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 20:17:58 +0100 (CET)
+Received: from localhost ([::1]:53016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUYOa-0007Xq-Ro
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 14:29:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34616)
+	id 1nUZ9h-0005Qs-6m
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 15:17:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nUYLs-0006SJ-AC
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 14:26:29 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2406)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nUZ8Y-0004bE-QW
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 15:16:46 -0400
+Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:57439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nUYLo-0005FY-Q6
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 14:26:28 -0400
-Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KJdwc4n3Tz681p5;
- Thu, 17 Mar 2022 02:24:48 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 16 Mar 2022 19:26:21 +0100
-Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Wed, 16 Mar
- 2022 18:26:20 +0000
-Date: Wed, 16 Mar 2022 18:26:18 +0000
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-CC: Peter Xu <peterx@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Samarth Saxena <samarths@cadence.com>, 
- Chris Browy <cbrowy@avery-design.com>, <qemu-devel@nongnu.org>,
- <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Shreyas Shah
- <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>, "Igor
- Mammedov" <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
- David Hildenbrand <david@redhat.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, Shameerali Kolothum Thodi
- <shameerali.kolothum.thodi@huawei.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v7 00/46] CXl 2.0 emulation Support
-Message-ID: <20220316182618.00003ce5@Huawei.com>
-In-Reply-To: <20220316175846.00007463@Huawei.com>
-References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
- <20220306163119-mutt-send-email-mst@kernel.org>
- <20220307093918.00002f20@Huawei.com> <YihiHNxVjDFI0Z8r@xz-m1.local>
- <20220309112827.00002c73@Huawei.com> <Yimwjtd8SsVLOU5e@xz-m1.local>
- <20220316165034.000037e7@Huawei.com>
- <1efbfeeb-2598-57c5-2e2d-4f5fa2538aa7@ilande.co.uk>
- <20220316175846.00007463@Huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nUZ8W-00047N-BW
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 15:16:46 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.235])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 6E4CE2979B;
+ Wed, 16 Mar 2022 19:16:40 +0000 (UTC)
+Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 16 Mar
+ 2022 20:16:39 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S001b7b8b53b-d952-4edd-b2e8-aa4a08cd81ce,
+ C2F6808E47F1CA0F000971F70C7D0E7BD6BD5175) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <6f0a92ca-9f53-b8b8-e85d-43f4da36200d@kaod.org>
+Date: Wed, 16 Mar 2022 20:16:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.41]
-X-ClientProxiedBy: lhreml744-chm.china.huawei.com (10.201.108.194) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: XIVE VFIO kernel resample failure in INTx mode under heavy load
+Content-Language: en-US
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+To: Alex Williamson <alex.williamson@redhat.com>, Timothy Pearson
+ <tpearson@raptorengineering.com>
+References: <1891893257.448156.1647023745384.JavaMail.zimbra@raptorengineeringinc.com>
+ <20220314160952.46d5313a.alex.williamson@redhat.com>
+ <9638ec8f-2edf-97df-0c14-95ae2344dc70@kaod.org>
+In-Reply-To: <9638ec8f-2edf-97df-0c14-95ae2344dc70@kaod.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.107]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: d5c72a47-c6a1-4cab-bed0-823bfa1a1ec5
+X-Ovh-Tracer-Id: 4005951869258337187
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudefvddguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuhffvfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeihfefffffgedtkeegtdekffevudeggfegffethfffhefhhfevhfdtudejhfdvieenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,266 +73,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, 16 Mar 2022 17:58:46 +0000
-Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+Timothy,
 
-> On Wed, 16 Mar 2022 17:16:55 +0000
-> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> wrote:
+On 3/16/22 17:29, Cédric Le Goater wrote:
+> Hello,
 > 
-> > On 16/03/2022 16:50, Jonathan Cameron via wrote:
-> >   
-> > > On Thu, 10 Mar 2022 16:02:22 +0800
-> > > Peter Xu <peterx@redhat.com> wrote:
-> > >     
-> > >> On Wed, Mar 09, 2022 at 11:28:27AM +0000, Jonathan Cameron wrote:    
-> > >>> Hi Peter,    
-> > >>
-> > >> Hi, Jonathan,
-> > >>    
-> > >>>        
-> > >>>>
-> > >>>> https://lore.kernel.org/qemu-devel/20220306174137.5707-35-Jonathan.Cameron@huawei.com/
-> > >>>>
-> > >>>> Having mr->ops set but with memory_access_is_direct() returning true sounds
-> > >>>> weird to me.
-> > >>>>
-> > >>>> Sorry to have no understanding of the whole picture, but.. could you share
-> > >>>> more on what's the interleaving requirement on the proxying, and why it
-> > >>>> can't be done with adding some IO memory regions as sub-regions upon the
-> > >>>> file one?    
-> > >>>
-> > >>> The proxying requirement is simply a means to read/write to a computed address
-> > >>> within a memory region. There may well be a better way to do that.
-> > >>>
-> > >>> If I understand your suggestion correctly you would need a very high
-> > >>> number of IO memory regions to be created dynamically when particular sets of
-> > >>> registers across multiple devices in the topology are all programmed.
-> > >>>
-> > >>> The interleave can be 256 bytes across up to 16x, many terabyte, devices.
-> > >>> So assuming a simple set of 16 1TB devices I think you'd need about 4x10^9
-> > >>> IO regions.  Even for a minimal useful test case of largest interleave
-> > >>> set of 16x 256MB devices (256MB is minimum size the specification allows per
-> > >>> decoded region at the device) and 16 way interleave we'd need 10^6 IO regions.
-> > >>> Any idea if that approach would scale sensibly to this number of regions?
-> > >>>
-> > >>> There are also complexities to getting all the information in one place to
-> > >>> work out which IO memory regions maps where in PA space. Current solution is
-> > >>> to do that mapping in the same way the hardware does which is hierarchical,
-> > >>> so we walk the path to the device, picking directions based on each interleave
-> > >>> decoder that we meet.
-> > >>> Obviously this is a bit slow but I only really care about correctness at the
-> > >>> moment.  I can think of various approaches to speeding it up but I'm not sure
-> > >>> if we will ever care about performance.
-> > >>>
-> > >>> https://gitlab.com/jic23/qemu/-/blob/cxl-v7-draft-2-for-test/hw/cxl/cxl-host.c#L131
-> > >>> has the logic for that and as you can see it's fairly simple because we are always
-> > >>> going down the topology following the decoders.
-> > >>>
-> > >>> Below I have mapped out an algorithm I think would work for doing it with
-> > >>> IO memory regions as subregions.
-> > >>>
-> > >>> We could fake the whole thing by limiting ourselves to small host
-> > >>> memory windows which are always directly backed, but then I wouldn't
-> > >>> achieve the main aim of this which is to provide a test base for the OS code.
-> > >>> To do that I need real interleave so I can seed the files with test patterns
-> > >>> and verify the accesses hit the correct locations. Emulating what the hardware
-> > >>> is actually doing on a device by device basis is the easiest way I have
-> > >>> come up with to do that.
-> > >>>
-> > >>> Let me try to provide some more background so you hopefully don't have
-> > >>> to have read the specs to follow what is going on!
-> > >>> There are an example for directly connected (no switches) topology in the
-> > >>> docs
-> > >>>
-> > >>> https://gitlab.com/jic23/qemu/-/blob/cxl-v7-draft-2-for-test/docs/system/devices/cxl.rst
-> > >>>
-> > >>> The overall picture is we have a large number of CXL Type 3 memory devices,
-> > >>> which at runtime (by OS at boot/on hotplug) are configured into various
-> > >>> interleaving sets with hierarchical decoding at the host + host bridge
-> > >>> + switch levels. For test setups I probably need to go to around 32 devices
-> > >>> so I can hit various configurations simultaneously.
-> > >>> No individual device has visibility of the full interleave setup - hence
-> > >>> the walk in the existing code through the various decoders to find the
-> > >>> final Device Physical address.
-> > >>>
-> > >>> At the host level the host provides a set of Physical Address windows with
-> > >>> a fixed interleave decoding across the different host bridges in the system
-> > >>> (CXL Fixed Memory windows, CFMWs)
-> > >>> On a real system these have to be large enough to allow for any memory
-> > >>> devices that might be hotplugged and all possible configurations (so
-> > >>> with 2 host bridges you need at least 3 windows in the many TB range,
-> > >>> much worse as the number of host bridges goes up). It'll be worse than
-> > >>> this when we have QoS groups, but the current Qemu code just puts all
-> > >>> the windows in group 0.  Hence my first thought of just putting memory
-> > >>> behind those doesn't scale (a similar approach to this was in the
-> > >>> earliest versions of this patch set - though the full access path
-> > >>> wasn't wired up).
-> > >>>
-> > >>> The granularity can be in powers of 2 from 256 bytes to 16 kbytes
-> > >>>
-> > >>> Next each host bridge has programmable address decoders which take the
-> > >>> incoming (often already interleaved) memory access and direct them to
-> > >>> appropriate root ports.  The root ports can be connected to a switch
-> > >>> which has additional address decoders in the upstream port to decide
-> > >>> which downstream port to route to.  Note we currently only support 1 level
-> > >>> of switches but it's easy to make this algorithm recursive to support
-> > >>> multiple switch levels (currently the kernel proposals only support 1 level)
-> > >>>
-> > >>> Finally the End Point with the actual memory receives the interleaved request and
-> > >>> takes the full address and (for power of 2 decoding - we don't yet support
-> > >>> 3,6 and 12 way which is more complex and there is no kernel support yet)
-> > >>> it drops a few address bits and adds an offset for the decoder used to
-> > >>> calculate it's own device physical address.  Note device will support
-> > >>> multiple interleave sets for different parts of it's file once we add
-> > >>> multiple decoder support (on the todo list).
-> > >>>
-> > >>> So the current solution is straight forward (with the exception of that
-> > >>> proxying) because it follows the same decoding as used in real hardware
-> > >>> to route the memory accesses. As a result we get a read/write to a
-> > >>> device physical address and hence proxy that.  If any of the decoders
-> > >>> along the path are not configured then we error out at that stage.
-> > >>>
-> > >>> To create the equivalent as IO subregions I think we'd have to do the
-> > >>> following from (this might be mediated by some central entity that
-> > >>> doesn't currently exist, or done on demand from which ever CXL device
-> > >>> happens to have it's decoder set up last)
-> > >>>
-> > >>> 1) Wait for a decoder commit (enable) on any component. Goto 2.
-> > >>> 2) Walk the topology (up to host decoder, down to memory device)
-> > >>> If a complete interleaving path has been configured -
-> > >>>     i.e. we have committed decoders all the way to the memory
-> > >>>     device goto step 3, otherwise return to step 1 to wait for
-> > >>>     more decoders to be committed.
-> > >>> 3) For the memory region being supplied by the memory device,
-> > >>>     add subregions to map the device physical address (address
-> > >>>     in the file) for each interleave stride to the appropriate
-> > >>>     host Physical Address.
-> > >>> 4) Return to step 1 to wait for more decoders to commit.
-> > >>>
-> > >>> So summary is we can do it with IO regions, but there are a lot of them
-> > >>> and the setup is somewhat complex as we don't have one single point in
-> > >>> time where we know all the necessary information is available to compute
-> > >>> the right addresses.
-> > >>>
-> > >>> Looking forward to your suggestions if I haven't caused more confusion!    
-> > > 
-> > > Hi Peter,
-> > >     
-> > >>
-> > >> Thanks for the write up - I must confess they're a lot! :)
-> > >>
-> > >> I merely only learned what is CXL today, and I'm not very experienced on
-> > >> device modeling either, so please bare with me with stupid questions..
-> > >>
-> > >> IIUC so far CXL traps these memory accesses using CXLFixedWindow.mr.
-> > >> That's a normal IO region, which looks very reasonable.
-> > >>
-> > >> However I'm confused why patch "RFC: softmmu/memory: Add ops to
-> > >> memory_region_ram_init_from_file" helped.
-> > >>
-> > >> Per my knowledge, all the memory accesses upon this CFMW window trapped
-> > >> using this IO region already.  There can be multiple memory file objects
-> > >> underneath, and when read/write happens the object will be decoded from
-> > >> cxl_cfmws_find_device() as you referenced.    
-> > > 
-> > > Yes.
-> > >     
-> > >>
-> > >> However I see nowhere that these memory objects got mapped as sub-regions
-> > >> into parent (CXLFixedWindow.mr).  Then I don't understand why they cannot
-> > >> be trapped.    
-> > > 
-> > > AS you note they aren't mapped into the parent mr, hence we are trapping.
-> > > The parent mem_ops are responsible for decoding the 'which device' +
-> > > 'what address in device memory space'. Once we've gotten that info
-> > > the question is how do I actually do the access?
-> > > 
-> > > Mapping as subregions seems unwise due to the huge number required.
-> > >     
-> > >>
-> > >> To ask in another way: what will happen if you simply revert this RFC
-> > >> patch?  What will go wrong?    
-> > > 
-> > > The call to memory_region_dispatch_read()
-> > > https://gitlab.com/jic23/qemu/-/blob/cxl-v7-draft-2-for-test/hw/mem/cxl_type3.c#L556
-> > > 
-> > > would call memory_region_access_valid() that calls
-> > > mr->ops->valid.accepts() which is set to
-> > > unassigned_mem_accepts() and hence...
-> > > you get back a MEMTX_DECODE_ERROR back and an exception in the
-> > > guest.
-> > > 
-> > > That wouldn't happen with a non proxied access to the ram as
-> > > those paths never uses the ops as memory_access_is_direct() is called
-> > > and simply memcpy used without any involvement of the ops.
-> > > 
-> > > Is a better way to proxy those writes to the backing files?
-> > > 
-> > > I was fishing a bit in the dark here and saw the existing ops defined
-> > > for a different purpose for VFIO
-> > > 
-> > > 4a2e242bbb ("memory Don't use memcpy for ram_device regions")
-> > > 
-> > > and those allowed the use of memory_region_dispatch_write() to work.
-> > > 
-> > > Hence the RFC marking on that patch :)    
-> > 
-> > FWIW I had a similar issue implementing manual aliasing in one of my q800 patches 
-> > where I found that dispatching a read to a non-IO memory region didn't work with 
-> > memory_region_dispatch_read(). The solution in my case was to switch to using the 
-> > address space API instead, which whilst requiring an absolute address for the target 
-> > address space, handles the dispatch correctly across all different memory region types.
-> > 
-> > Have a look at 
-> > https://gitlab.com/mcayland/qemu/-/commit/318e12579c7570196187652da13542db86b8c722 to 
-> > see how I did this in macio_alias_read().
-> > 
-> > IIRC from my experiments in this area, my conclusion was that 
-> > memory_region_dispatch_read() can only work correctly if mapping directly between 2 
-> > IO memory regions, and for anything else you need to use the address space API.  
 > 
-> Hi Mark,
+>> I've been struggling for some time with what is looking like a
+>> potential bug in QEMU/KVM on the POWER9 platform.  It appears that
+>> in XIVE mode, when the in-kernel IRQ chip is enabled, an external
+>> device that rapidly asserts IRQs via the legacy INTx level mechanism
+>> will only receive one interrupt in the KVM guest.
 > 
-> I'd wondered about the address space API as an alternative approach.
+> Indeed. I could reproduce with a pass-through PCI adapter using
+> 'pci=nomsi'. The virtio devices operate correctly but the network
+> adapter only receives one event (*):
 > 
-> From that reference looks like you have the memory mapped into the system address
-> space and are providing an alias to that.  That's something I'd ideally like to
-> avoid doing as there is no meaningful way to do it so I'd just be hiding the memory
-> somewhere up high.  The memory should only be accessible through the one
-> route.
 > 
-> I think I could spin a separate address space for this purpose (one per CXL type 3
-> device probably) but that seems like another nasty hack to make. I'll try a quick
-> prototype of this tomorrow.
+> $ cat /proc/interrupts
+>             CPU0       CPU1       CPU2       CPU3       CPU4       CPU5       CPU6       CPU7
+>   16:       2198       1378       1519       1216          0          0          0          0  XIVE-IPI   0 Edge      IPI-0
+>   17:          0          0          0          0       2003       1936       1335       1507  XIVE-IPI   1 Edge      IPI-1
+>   18:          0       6401          0          0          0          0          0          0  XIVE-IRQ 4609 Level     virtio3, virtio0, virtio2
+>   19:          0          0          0          0          0        204          0          0  XIVE-IRQ 4610 Level     virtio1
+>   20:          0          0          0          0          0          0          0          0  XIVE-IRQ 4608 Level     xhci-hcd:usb1
+>   21:          0          1          0          0          0          0          0          0  XIVE-IRQ 4612 Level     eth1 (*)
+>   23:          0          0          0          0          0          0          0          0  XIVE-IRQ 4096 Edge      RAS_EPOW
+>   24:          0          0          0          0          0          0          0          0  XIVE-IRQ 4592 Edge      hvc_console
+>   26:          0          0          0          0          0          0          0          0  XIVE-IRQ 4097 Edge      RAS_HOTPLUG
+> 
+>> Changing any one of those items appears to avoid the glitch, e.g. XICS
+> 
+> XICS is very different from XIVE. The driver implements the previous
+> interrupt controller architecture (P5-P8) and the hypervisor mediates
+> the delivery to the guest. With XIVE, vCPUs are directly signaled by
+> the IC. When under KVM, we use different KVM devices for each mode :
+> 
+> * KVM XIVE is a XICS-on-XIVE implementation (P9/P10 hosts) for guests
+>    not using the XIVE native interface. RHEL7 for instance.
+> * KVM XIVE native is a XIVE implementation (P9/P10 hosts) for guests
+>    using the XIVE native interface. Linux > 4.14.
+> * KVM XICS is for P8 hosts (no XIVE HW)
+> 
+> VFIO adds some complexity with the source events. I think the problem
+> comes from the assertion state. I will talk about it later.
+> 
+>> mode with the in-kernel IRQ chip works (all interrupts are passed
+>> through),
+> 
+> All interrupts are passed through using XIVE also. Run 'info pic' in
+> the monitor. On the host, check the IRQ mapping in the debugfs file :
+> 
+>    /sys/kernel/debug/powerpc/kvm-xive-*
+> 
+>> and XIVE mode with the in-kernel IRQ chip disabled also works. 
+> 
+> In that case, no KVM device backs the QEMU device and all state
+> is in one place.
+> 
+>> We
+>> are also not seeing any problems in XIVE mode with the in-kernel
+>> chip from MSI/MSI-X devices.
+> 
+> Yes. pass-through devices are expected to operate correctly :)
+> 
+>> The device in question is a real time card that needs to raise an
+>> interrupt every 1ms.  It works perfectly on the host, but fails in
+>> the guest -- with the in-kernel IRQ chip and XIVE enabled, it
+>> receives exactly one interrupt, at which point the host continues to
+>> see INTx+ but the guest sees INTX-, and the IRQ handler in the guest
+>> kernel is never reentered.
+> 
+> ok. Same symptom as the scenario above.
+> 
+>> We have also seen some very rare glitches where, over a long period
+>> of time, we can enter a similar deadlock in XICS mode.
+> 
+> with the in-kernel XICS IRQ chip ?
+> 
+>> Disabling
+>> the in-kernel IRQ chip in XIVE mode will also lead to the lockup
+>> with this device, since the userspace IRQ emulation cannot keep up
+>> with the rapid interrupt firing (measurements show around 100ms
+>> required for processing each interrupt in the user mode).
+> 
+> MSI emulation in QEMU is slower indeed (35%). LSI is very slow because
+> it is handled as a special case in the device/driver. To maintain the
+> assertion state, all LSI handling is done with a special HCALL :
+> H_INT_ESB which is implemented in QEMU. This generates a lot of back
+> and forth in the KVM stack.
+> 
+>> My understanding is the resample mechanism does some clever tricks
+>> with level IRQs, but that QEMU needs to check if the IRQ is still
+>> asserted by the device on guest EOI.
+> 
+> Yes. the problem is in that area.
+> 
+>> Since a failure here would
+>> explain these symptoms I'm wondering if there is a bug in either
+>> QEMU or KVM for POWER / pSeries (SPAPr) where the IRQ is not
+>> resampled and therefore not re-fired in the guest?
+> 
+> KVM I would say. The assertion state is maintained in KVM for the KVM
+> XICS-on-XIVE implementation and in QEMU for the KVM XIVE native
+> device. These are good candidates. I will take a look.
 
-Turned out to be trivial so already done.  Will send out as v8 unless anyone
-feeds back that there is a major disadvantage to just spinning up one address space
-per CXL type3 device.  That will mean dropping the RFC patch as well as no longer
-used :)
+All works fine with KVM_CAP_IRQFD_RESAMPLE=false in QEMU. Can you please
+try this workaround for now ? I could reach 934 Mbits/sec on the passthru
+device.
 
-Thanks for the hint Mark.
+I clearly overlooked that part and it has been 3 years.
 
-Jonathan
+Thanks,
 
-> 
-> What do people think is the least horrible way to do this?
-> 
-> Thanks for the suggestion and I'm glad I'm not the only one trying to get this
-> sort of thing to work ;)
-> 
-> Jonathan
-> 
-> > 
-> > 
-> > ATB,
-> > 
-> > Mark.
-> >   
-> 
+C.
 
 
