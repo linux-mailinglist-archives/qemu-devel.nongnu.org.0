@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538744DAA83
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 07:15:36 +0100 (CET)
-Received: from localhost ([::1]:59086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD034DAA84
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 07:15:41 +0100 (CET)
+Received: from localhost ([::1]:59272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUMwZ-0003EF-4j
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 02:15:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58970)
+	id 1nUMwe-0003Lh-Nn
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 02:15:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUMgW-0002qp-2q
+ id 1nUMgW-0002tu-Po
  for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:59:00 -0400
-Received: from [2607:f8b0:4864:20::42f] (port=34528
- helo=mail-pf1-x42f.google.com)
+Received: from [2607:f8b0:4864:20::435] (port=42558
+ helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUMgU-0006UW-L7
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:59 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id l8so2578182pfu.1
+ id 1nUMgV-0006Uk-BT
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:59:00 -0400
+Received: by mail-pf1-x435.google.com with SMTP id g19so2513963pfc.9
  for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 22:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=z9CNoFSrWjAjukly+g7lYy0zjZhRUxJXZZvZuVjkY44=;
- b=QavHItxKnGLg7l3wI+xP9mWbiHSOlXiCS4g0093ctY0djcbS+rQ010qN+Hc5qWYh4P
- OtYMmO44pEo9NSpBg6JaPNOmWh2wuXNMi2ucGgnI5aYQWCj1GcnJo2kL9F1V/VT5CXOb
- qe6tx7JJZynPMfiPc6OrhTp0bGSg0+fMvwJ2rWqBZTAIY/JLJUBhMP/Hp6ljq3uOuN6Y
- qntWAuZJNvVdcRNzkjdj0lFq7xuUEBiM5Mj3RAzUe0dZr9cHhiDAj0AHSLHYTRu2Yu9J
- f457fgEjlmYpll0LBlOtXTPVrs/yimr6zvb4L3a640R4oPXyS4GfN4X/sUCImLS4BawB
- Ygqg==
+ bh=xHtUxL7CUQJX7r2KCi36AJwWM+Hpww6frztwUIExIEM=;
+ b=c4Bj3hUtBd0LzD1TMQRURdvn22Veadd8xzhGj0lmzIdvneY7Cei2YWNm1JiB2ELe3n
+ bPgRcLyV8F9RLj6woy+As4AtTb5VZIn9YcEBKuqrUTVKiciWAGkYf96utrAq3noTohF8
+ TY2OA/bvJHavFTtuy7bt8Hc9UR9qwhiz3EJByjU3SrndMc/PEyTbb06ddAvkgyFoysg1
+ 9Tm//7JSMvOuSDxcgBenPEMGia5NGY4rlexlQ9WL+pZ6Q7eG0vYFdkFcgr74px63igpd
+ fkMq9HTSjR4UEchJkSaEG38LhuajlECnKBKlRzNLpmlZVqh6bdEPdXRG2aOKRN+vqIyC
+ I5CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z9CNoFSrWjAjukly+g7lYy0zjZhRUxJXZZvZuVjkY44=;
- b=qfZs9wVjn/guBRY6pOrP/1yvBdwIYn34hPjRtd/b+RAv5g7tByyYuORnIa/bGoE6X0
- oOOxwbmicWZsOwcD8xrbVrK3IZHJ+AS13wlv4GNeNiaAOiOL3TdhXSy0gNw12KUWfG8r
- iPwxHrB51NWhIbpxNqQr3oN/7tSuqTzN9yTRsgdE9u4QkauUGiNy0cwP7N7g99DweMXP
- bnL0z2Tg6M9OSoTtDxKYkrfc0bsAsD7a3k2eVhBjE2xPImDuXCVgDoGKdHX3Xf6GKzqT
- wQFsZkA88tN6HvmhTL+ihseMD/Bjg9K1hnc5O8XuZ/I3aNis79TDfg4NrCavSF/zv1o7
- AUBA==
-X-Gm-Message-State: AOAM532pHp0MlgTNrlooDWySyJWYmPtk7TODGzmyJyxmZqZ2xeonF5bA
- xD+gDfbpcud4TGMQABnq46Yjnegz2cyDLg==
-X-Google-Smtp-Source: ABdhPJzGNYF8mfqNWmEcDZJBCoNnI4yv3iebPDIOQUMISwLIwRM51NR9V8kGYRP5d3NgmZgPnfiycg==
-X-Received: by 2002:a05:6a02:182:b0:374:5a57:cbf9 with SMTP id
- bj2-20020a056a02018200b003745a57cbf9mr26613861pgb.616.1647410337302; 
- Tue, 15 Mar 2022 22:58:57 -0700 (PDT)
+ bh=xHtUxL7CUQJX7r2KCi36AJwWM+Hpww6frztwUIExIEM=;
+ b=BWpr3ccT0EC5h/9ck+30ZOXHIiPw6FRwqrot3twhJN3/vRLolGfVp8x7WB3c8d0dlq
+ 3pix7x9Dn7RlRm3KHzuh67ircBBLFGotFpe7PvabhMnWka4vOKU4BWsn9OHf3Ikhp5vv
+ q7yYfw6rAAxdvCuAYodCfPVCvmWo8RpiaUDb58Tb543eUJ0M9A2l62SoPvPv9s9IH/R5
+ 9UY1lWyCP1qi28Z6D3OOj+j3SC2SuBZAM/hneHedpP5poQsMA3FSaFuTc3iQj7LiK2wb
+ hzhjFDY14zUTaOllnVuOoSzZMXCm/OiSaEcqkaI1TWkGrxfde27FlYLhhjOBF8gMf59r
+ VB4Q==
+X-Gm-Message-State: AOAM530+R2i7P9C1qPc3qNoxZc3pTYuoyyc56MdVskIV6/TrDs5Norfg
+ SOq9sD/TAFYvQg8JkgAximon4STORWVXqQ==
+X-Google-Smtp-Source: ABdhPJwpAPRHi8nKa8EyKTYiiUmliGHurlEY9Y7iTml9M8vjI+iUTW0WQYYgVdX/87vp6RpY3b3/Tg==
+X-Received: by 2002:a63:5051:0:b0:374:5fd0:f131 with SMTP id
+ q17-20020a635051000000b003745fd0f131mr27485079pgl.431.1647410338246; 
+ Tue, 15 Mar 2022 22:58:58 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- i24-20020a056a00225800b004f6edabc9f4sm1236290pfu.72.2022.03.15.22.58.56
+ i24-20020a056a00225800b004f6edabc9f4sm1236290pfu.72.2022.03.15.22.58.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 22:58:56 -0700 (PDT)
+ Tue, 15 Mar 2022 22:58:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 16/17] linux-user/strace: Adjust get_thread_area for m68k
-Date: Tue, 15 Mar 2022 22:58:39 -0700
-Message-Id: <20220316055840.727571-17-richard.henderson@linaro.org>
+Subject: [PATCH v3 17/17] target/m68k: Mark helper_raise_exception as noreturn
+Date: Tue, 15 Mar 2022 22:58:40 -0700
+Message-Id: <20220316055840.727571-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220316055840.727571-1-richard.henderson@linaro.org>
 References: <20220316055840.727571-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,31 +92,51 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unlike i386, m68k get_thread_area has no arguments.
+Also mark raise_exception_ra and raise_exception, lest we
+generate a warning about helper_raise_exception returning.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/strace.list | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/m68k/helper.h    | 2 +-
+ target/m68k/op_helper.c | 5 +++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 278596acd1..72e17b1acf 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -384,8 +384,13 @@
- { TARGET_NR_getsockopt, "getsockopt" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_get_thread_area
-+#if defined(TARGET_I386) && defined(TARGET_ABI32)
- { TARGET_NR_get_thread_area, "get_thread_area", "%s(0x"TARGET_ABI_FMT_lx")",
-   NULL, NULL },
-+#elif defined(TARGET_M68K)
-+{ TARGET_NR_get_thread_area, "get_thread_area" , "%s()",
-+  NULL, print_syscall_ret_addr },
-+#endif
- #endif
- #ifdef TARGET_NR_gettid
- { TARGET_NR_gettid, "gettid" , "%s()", NULL, NULL },
+diff --git a/target/m68k/helper.h b/target/m68k/helper.h
+index f016c4c1c2..c9bed2b884 100644
+--- a/target/m68k/helper.h
++++ b/target/m68k/helper.h
+@@ -109,7 +109,7 @@ DEF_HELPER_3(set_mac_extu, void, env, i32, i32)
+ DEF_HELPER_2(flush_flags, void, env, i32)
+ DEF_HELPER_2(set_ccr, void, env, i32)
+ DEF_HELPER_FLAGS_1(get_ccr, TCG_CALL_NO_WG_SE, i32, env)
+-DEF_HELPER_2(raise_exception, void, env, i32)
++DEF_HELPER_2(raise_exception, noreturn, env, i32)
+ 
+ DEF_HELPER_FLAGS_3(bfffo_reg, TCG_CALL_NO_RWG_SE, i32, i32, i32, i32)
+ 
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index 0de4743d01..374fdcad87 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -532,7 +532,8 @@ bool m68k_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ 
+ #endif /* !CONFIG_USER_ONLY */
+ 
+-static void raise_exception_ra(CPUM68KState *env, int tt, uintptr_t raddr)
++static void QEMU_NORETURN
++raise_exception_ra(CPUM68KState *env, int tt, uintptr_t raddr)
+ {
+     CPUState *cs = env_cpu(env);
+ 
+@@ -540,7 +541,7 @@ static void raise_exception_ra(CPUM68KState *env, int tt, uintptr_t raddr)
+     cpu_loop_exit_restore(cs, raddr);
+ }
+ 
+-static void raise_exception(CPUM68KState *env, int tt)
++static void QEMU_NORETURN raise_exception(CPUM68KState *env, int tt)
+ {
+     raise_exception_ra(env, tt, 0);
+ }
 -- 
 2.25.1
 
