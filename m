@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74DAE4DB580
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 16:59:29 +0100 (CET)
-Received: from localhost ([::1]:59684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9949A4DB5AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 17:11:07 +0100 (CET)
+Received: from localhost ([::1]:44070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUW3c-0001Qy-BD
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 11:59:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52672)
+	id 1nUWEs-0001ys-7q
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 12:11:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1nUW26-0000Tg-4n
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:57:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43598)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nUW6W-0004No-Nm
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:02:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1nUW24-0006C7-3j
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:57:53 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nUW6T-0006x9-Ez
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:02:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647446270;
+ s=mimecast20190719; t=1647446544;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GoECCSZ2Jg6FE5aB4qSOGx81D5EaUYCe2wX6fVd8hqQ=;
- b=f3bRSmlM8s0cax+El18GHR7kyInwr17YowNktCwvZzms27+zUm2LpYkghHVLaTW5jxsn+n
- ommp/bOAnpbuvvm+BuFv4kkoN9IdjbhyAsoj6jNbaALcBYN8Ew7gaLcn/0YKm2SAl8mIt8
- 9ckfmjFZpVjurABhWGC6nVsQ6PE/M4g=
+ bh=QCoLFs60Vb6bJ3RyXyP35rCR6eFbRULZPEhWCbC+WNs=;
+ b=f38OuOK4sRKr1UDDSHWtJdZrcRT9WeqiOwivtYYnc2EpRUf3XeNAJ5Qjsb/u0krRXpuMwy
+ aM3XVt8j04+br8sa6OXYqWRMxYys9TKq1KnLwa+G1WVFDkU5jXWRF1JIDbJxB7FI89sB4B
+ vVNeXyTLAlsO+NjnJPAM/+1ioX094O4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-Lx-_x8GOOk2h1pvIjBLPGQ-1; Wed, 16 Mar 2022 11:57:47 -0400
-X-MC-Unique: Lx-_x8GOOk2h1pvIjBLPGQ-1
+ us-mta-125-YZSb2x8ROLODTn9q7K2ZyQ-1; Wed, 16 Mar 2022 12:02:22 -0400
+X-MC-Unique: YZSb2x8ROLODTn9q7K2ZyQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D73785A5BE;
- Wed, 16 Mar 2022 15:57:47 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 85910401053;
- Wed, 16 Mar 2022 15:57:44 +0000 (UTC)
-Date: Wed, 16 Mar 2022 16:57:39 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL 15/22] x86: Grant AMX permission for guest
-Message-ID: <YjII86LKWTe0mVED@angien.pipo.sk>
-References: <20220308113445.859669-1-pbonzini@redhat.com>
- <20220308113445.859669-16-pbonzini@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50BF1802A5A;
+ Wed, 16 Mar 2022 16:02:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 50EF5401E7C;
+ Wed, 16 Mar 2022 16:02:21 +0000 (UTC)
+Date: Wed, 16 Mar 2022 17:02:20 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?=
+ <philippe.mathieu.daude@gmail.com>
+Subject: Re: [PULL 21/50] block/block-backend.c: assertions for block-backend
+Message-ID: <YjIKDFSTUJmTq8Tz@redhat.com>
+References: <20220304164711.474713-1-kwolf@redhat.com>
+ <20220304164711.474713-22-kwolf@redhat.com>
+ <c005130e-10f0-b575-4493-2080ba08494b@gmail.com>
+ <cecef6bd-951a-aab6-e603-96e3551e3e9e@gmail.com>
+ <d600ff25-d854-7239-9001-7315b24b9054@redhat.com>
+ <b8bc1a54-1eb8-b3b5-c40f-d1cbaa9e69d8@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220308113445.859669-16-pbonzini@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
+In-Reply-To: <b8bc1a54-1eb8-b3b5-c40f-d1cbaa9e69d8@gmail.com>
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pkrempa@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -81,58 +85,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org,
- Jing Liu <jing2.liu@intel.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, peter.maydell@linaro.org,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 08, 2022 at 12:34:38 +0100, Paolo Bonzini wrote:
-> From: Yang Zhong <yang.zhong@intel.com>
+Am 16.03.2022 um 16:25 hat Philippe Mathieu-Daudé geschrieben:
+> On 16/3/22 15:46, Emanuele Giuseppe Esposito wrote:
+> > Am 16/03/2022 um 13:53 schrieb Philippe Mathieu-Daudé:
+> > > On 16/3/22 13:44, Philippe Mathieu-Daudé wrote:
+> > > > Hi,
+> > > > 
+> > > > On 4/3/22 17:46, Kevin Wolf wrote:
+> > > > > From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> > > > > 
+> > > > > All the global state (GS) API functions will check that
+> > > > > qemu_in_main_thread() returns true. If not, it means
+> > > > > that the safety of BQL cannot be guaranteed, and
+> > > > > they need to be moved to I/O.
+> > > > 
+> > > > I'm getting this crash:
+> > > > 
+> > > > $ qemu-system-i386
+> > > > Assertion failed: (qemu_in_main_thread()), function blk_all_next, file
+> > > > block-backend.c, line 552.
+> > > > Abort trap: 6
+> > > > 
+> > > > Assertion failed: (qemu_in_main_thread()), function blk_all_next, file
+> > > > block-backend.c, line 552.
+> > > > qemu-system-i386 was compiled with optimization - stepping may behave
+> > > > oddly; variables may not be available.
+> > > > Process 76914 stopped
+> > > > * thread #1, queue = 'com.apple.main-thread', stop reason = hit
+> > > > program assert
+> > > >       frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1
+> > > > at block-backend.c:552:5 [opt]
+> > > >      549    */
+> > > >      550   BlockBackend *blk_all_next(BlockBackend *blk)
+> > > >      551   {
+> > > > -> 552       GLOBAL_STATE_CODE();
+> > > >      553       return blk ? QTAILQ_NEXT(blk, link)
+> > > >      554                  : QTAILQ_FIRST(&block_backends);
+> > > >      555   }
+> > > > Target 1: (qemu-system-i386) stopped.
+> > > 
+> > > Forgot to paste the backtrace:
+> > > 
+> > > (lldb) bt
+> > > * thread #1, queue = 'com.apple.main-thread', stop reason = hit program
+> > > assert
+> > >      frame #0: 0x00000001908c99b8 libsystem_kernel.dylib`__pthread_kill + 8
+> > >      frame #1: 0x00000001908fceb0 libsystem_pthread.dylib`pthread_kill + 288
+> > >      frame #2: 0x000000019083a314 libsystem_c.dylib`abort + 164
+> > >      frame #3: 0x000000019083972c libsystem_c.dylib`__assert_rtn + 300
+> > >    * frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1 at
+> > > block-backend.c:552:5 [opt]
+> > >      frame #5: 0x00000001003c00b4
+> > > qemu-system-i386`blk_all_next(blk=<unavailable>) at
+> > > block-backend.c:552:5 [opt]
+> > >      frame #6: 0x00000001003d8f04
+> > > qemu-system-i386`qmp_query_block(errp=0x0000000000000000) at
+> > > qapi.c:591:16 [opt]
+> > >      frame #7: 0x000000010003ab0c qemu-system-i386`main [inlined]
+> > > addRemovableDevicesMenuItems at cocoa.m:1756:21 [opt]
+> > >      frame #8: 0x000000010003ab04
+> > > qemu-system-i386`main(argc=<unavailable>, argv=<unavailable>) at
+> > > cocoa.m:1980:5 [opt]
+> > >      frame #9: 0x00000001012690f4 dyld`start + 520
+> > 
+> > I think Paolo and Peter talked about this a couple of days ago on #qemu,
+> > and have already found a solution if I remember correctly.
+> > 
+> > Maybe it's worth to check with them first.
 > 
-> Kernel allocates 4K xstate buffer by default. For XSAVE features
-> which require large state component (e.g. AMX), Linux kernel
-> dynamically expands the xstate buffer only after the process has
-> acquired the necessary permissions. Those are called dynamically-
-> enabled XSAVE features (or dynamic xfeatures).
+> Maybe this discussion?
 > 
-> There are separate permissions for native tasks and guests.
-> 
-> Qemu should request the guest permissions for dynamic xfeatures
-> which will be exposed to the guest. This only needs to be done
-> once before the first vcpu is created.
-> 
-> KVM implemented one new ARCH_GET_XCOMP_SUPP system attribute API to
-> get host side supported_xcr0 and Qemu can decide if it can request
-> dynamically enabled XSAVE features permission.
-> https://lore.kernel.org/all/20220126152210.3044876-1-pbonzini@redhat.com/
-> 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> Signed-off-by: Jing Liu <jing2.liu@intel.com>
-> Message-Id: <20220217060434.52460-4-yang.zhong@intel.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  target/i386/cpu.c          |  7 +++++
->  target/i386/cpu.h          |  4 +++
->  target/i386/kvm/kvm-cpu.c  | 12 ++++----
->  target/i386/kvm/kvm.c      | 57 ++++++++++++++++++++++++++++++++++++++
->  target/i386/kvm/kvm_i386.h |  1 +
->  5 files changed, 75 insertions(+), 6 deletions(-)
+> https://lore.kernel.org/qemu-devel/20220307151004.578069-1-pbonzini@redhat.com/
 
-With this commit qemu crashes for me when invoking the following
-QMP command:
+Yes, this looks like the right one. Can you give Paolo's patch a try?
 
-$ ~pipo/git/qemu.git/build/qemu-system-x86_64 -S -no-user-config -nodefaults -nographic -machine none,accel=kvm -qmp stdio
-{"QMP": {"version": {"qemu": {"micro": 90, "minor": 2, "major": 6}, "package": "v7.0.0-rc0-8-g1d60bb4b14"}, "capabilities": ["oob"]}}
-{'execute':'qmp_capabilities'}
-{"return": {}}
-{"execute":"qom-list-properties","arguments":{"typename":"max-x86_64-cpu"},"id":"libvirt-41"}
-qemu-system-x86_64: ../target/i386/kvm/kvm-cpu.c:105: kvm_cpu_xsave_init: Assertion `esa->size == eax' failed.
-Aborted (core dumped)
+The problem is that the main thread didn't hold the BQL while calling
+code that requires holding the BQL and that now asserts that the BQL is
+held by the thread it's called from.
 
-Note that the above is on a box with an 'AMD Ryzen 9 3900X'.
-
-Curiously on a laptop with an Intel chip (Intel(R) Core(TM) i7-10610U)
-it seems to work.
+Kevin
 
 
