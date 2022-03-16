@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D7154DB1D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:48:36 +0100 (CET)
-Received: from localhost ([::1]:45022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28A54DB1E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:53:28 +0100 (CET)
+Received: from localhost ([::1]:58434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUU0x-0000d0-II
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:48:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40322)
+	id 1nUU5f-0001MT-OW
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:53:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUTah-0000zd-95
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:21:27 -0400
-Received: from [2a00:1450:4864:20::435] (port=46957
- helo=mail-wr1-x435.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUTaf-0003h8-AR
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:21:26 -0400
-Received: by mail-wr1-x435.google.com with SMTP id x15so2914971wru.13
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 06:21:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=jgFHt2cAr7TsiJSo9AGdNUGQ5eRJGR6s65Mk/Ij18ps=;
- b=CU6MxjezWU3IvNAWKKL5X1nZwDG8wfvnDRECQwoWa4B1naywoKcNwPglrGypnYUDHd
- hvFrLE3bXTXA6Pt0236qC+nrBhz+5/3xfSc+ON9UKLxiNKUgzQLa5Mzqt0aRMIlyrrgB
- RFBeP0TQGB1lCc3xldkVeBT5GHYnm2P+4ZCIUQyYcNaNAuWyLMyHSl8iONhmMtKuOETp
- jg3WjEfBg35hVFDw0e2paM1D3qnUXSgA08DqZwHbjSAI3SFnxPaLmC6XziZkkyvnEcgW
- M6GjpyoG7t+9AVALM27pfj1t8MDXBSSJlWL46tpzXItNJy4vjEU0uzJB8uRi4FgRTV6a
- wDJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jgFHt2cAr7TsiJSo9AGdNUGQ5eRJGR6s65Mk/Ij18ps=;
- b=TuIv/6vKlOhAelV+vW02LJ+k/2jBkElTxoEshwQAEJdXZzNgR0Cg+/MQygJhGhOXor
- rFq7kr4ToH9lBEraXt7gAkfQ2tXcxcmFzYUh8f3lt0OCtId+Yuc0YxAKKkYfqHtLFDgH
- RPci9Cad7HmAuKAVi+FcGZ363JHrtPpzexhNOQ0qe4BFg0UV3E3xlJdEVECDLuR1ZWP+
- YKexkp1hZBvITtYS22UgB3f60ZtscK3e7aml/A8o4/LoBN9FlzQkXufwnU2lrYXCKsf2
- V8e/4t1K3Ig+2tBWlSFxfS4TK2yjQTLFv0SeyEGekxDYvbxJBIDcCaZGTxEFezUpnVeh
- PrlA==
-X-Gm-Message-State: AOAM533qzmHdnIYLDWQdPJG1Y46Okebp4zgqpU8i8A7NokhBs2TOaq2l
- xLbCTcR2x99Y03YxNMSiiF2WU+1wkdc=
-X-Google-Smtp-Source: ABdhPJwrtmCXs+SAxiWdmo4SxFAA36gGj979pf7MGLhe+9y0Sj2uIRfsqH8kxi+iiktjZXCp5YKepA==
-X-Received: by 2002:a5d:4c4a:0:b0:1f1:e43d:c9ba with SMTP id
- n10-20020a5d4c4a000000b001f1e43dc9bamr23114986wrt.677.1647436883804; 
- Wed, 16 Mar 2022 06:21:23 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- f12-20020a5d64cc000000b00203d01e1075sm1840350wri.50.2022.03.16.06.21.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 06:21:23 -0700 (PDT)
-Message-ID: <661bc3ca-25f6-428a-3e3b-8e8babb7a51d@gmail.com>
-Date: Wed, 16 Mar 2022 14:21:22 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUTdP-0004PG-6g
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:24:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41193)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUTdJ-00045a-Vc
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:24:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647437048;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=goMKNwPlVhQrmQohDsIDFCdCkBnO5w7GRQVASqL8D/8=;
+ b=XZMjR8rLs3QQGY8Adz4I02GACvS9xdIUowAgTkmch+zm2bf7aKmmD7wHBhTyBnTBtSqnV3
+ AT2ELUXOHBxcrvtjwFccL+q60IMs32S/Vrt27BRQRomaOdIGq/o+dNBwX1sF+ZIYplsxIq
+ dHgp0jTQ596gnCmNO23qJ+MD2UZEl2Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-527-p_W7WwoLOSGLVF9TnuILUg-1; Wed, 16 Mar 2022 09:24:05 -0400
+X-MC-Unique: p_W7WwoLOSGLVF9TnuILUg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5AE8899ED2;
+ Wed, 16 Mar 2022 13:24:04 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 179C14B8D46;
+ Wed, 16 Mar 2022 13:24:03 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] Fix crash when adding a second ISA VGA device
+Date: Wed, 16 Mar 2022 14:23:59 +0100
+Message-Id: <20220316132402.1190346-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 00/27] Misc fixes and cleanups for 7.0?
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220316095156.2613419-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220316095156.2613419-1-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,48 +75,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/3/22 10:51, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Hi,
-> 
-> Various clean-up and fixes patches that might be worth it for 7.0.
-> Some of the patches have been posted and reviewed before.
-> 
-> Marc-André Lureau (27):
->    m68k/nios2-semi: fix gettimeofday() result check
->    meson: remove bsd_oses
->    meson: use chardev_ss dependencies
->    meson: add util dependency for oslib-posix on freebsd
->    char: move qemu_openpty_raw from util/ to char/
->    Drop qemu_foo() socket API wrapper
->    Replace GCC_FMT_ATTR with G_GNUC_PRINTF
->    compiler.h: replace QEMU_WARN_UNUSED_RESULT with
->      G_GNUC_WARN_UNUSED_RESULT
->    compiler.h: replace QEMU_SENTINEL with G_GNUC_NULL_TERMINATED
->    Replace config-time define HOST_WORDS_BIGENDIAN
->    osdep: poison HOST_WORDS_BIGENDIAN
->    Simplify HOST_LONG_BITS
->    Move HOST_LONG_BITS to compiler.h
->    scripts/modinfo-collect: remove unused/dead code
->    util: remove needless includes
->    util: remove the net/net.h dependency
->    qapi: remove needless include
->    meson: move int128 checks from configure
->    meson: fix CONFIG_ATOMIC128 check
->    qapi: remove needless include
->    qga: remove bswap.h include
->    error-report: replace error progname with glib functions
->    tests: remove needless include
->    Remove trailing ; after G_DEFINE_AUTO macro
->    include/qapi: add g_autoptr support for qobject types
->    tests: replace free_all() usage with g_auto
->    qapi: remove needless include
+QEMU currently abort()s if the user tries to add a second ISA VGA
+device, for example:
 
-FYI git-publish eases sending patches to mailing list:
+$ ./qemu-system-x86_64 -device isa-vga -device isa-vga
+RAMBlock "vga.vram" already registered, abort!
+Aborted (core dumped)
+$ ./qemu-system-x86_64 -device isa-cirrus-vga -device isa-cirrus-vga
+RAMBlock "vga.vram" already registered, abort!
+Aborted (core dumped)
 
-   https://github.com/stefanha/git-publish
+Such a crash should never happen just because of giving bad parameters
+at the command line, we should give a proper error message instead
+and exit gracefully.
+
+Note: There have been previous attempts to fix this problem, but the
+first committed solution had bad side effects and got reverted
+(https://gitlab.com/qemu-project/qemu/-/issues/733). There was another
+idea to fix it by QOM'ifying the related devices (see the commits around
+23f6e3b11be74abae), but after having another close look at the problem,
+I think this doesn't work either: For getting unique names in the
+vmstate_register_ram() function, the devices need to return unique names
+from the qdev_get_dev_path() function, and those ISA VGA devices don't
+support that there (unlike PCI, ISA devices don't have a slot id ...
+they could be distinguished by their I/O port base address, but all the
+ISA VGA cards currently use the same address there, so that doesn't
+work either). ==> So the very original idea of checking for the availability
+of the "vga.vram" memory region still seems the only usable approach to
+me right now. While the original patch by Jose R. Ziviani only fixed the
+issue for the isa-vga device, I'm taking a more general approach now by
+adding the fix in the vga_common_init() function, so that it works for
+the isa-cirrus-vga device, too.
+
+Thomas Huth (3):
+  hw/display/cirrus_vga: Clean up indentation in
+    pci_cirrus_vga_realize()
+  hw/display: Allow vga_common_init() to return errors
+  hw/display/vga: Report a proper error when adding a 2nd ISA VGA
+
+ hw/display/ati.c            |  7 ++++-
+ hw/display/cirrus_vga.c     | 62 ++++++++++++++++++++-----------------
+ hw/display/cirrus_vga_isa.c |  7 ++++-
+ hw/display/qxl.c            |  6 +++-
+ hw/display/vga-isa.c        |  9 +++++-
+ hw/display/vga-mmio.c       |  8 ++++-
+ hw/display/vga-pci.c        | 15 +++++++--
+ hw/display/vga.c            | 15 +++++++--
+ hw/display/vga_int.h        |  2 +-
+ hw/display/virtio-vga.c     |  7 ++++-
+ hw/display/vmware_vga.c     |  2 +-
+ 11 files changed, 100 insertions(+), 40 deletions(-)
+
+-- 
+2.27.0
+
 
