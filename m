@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFBF4DA92C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 05:11:37 +0100 (CET)
-Received: from localhost ([::1]:33504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50ABB4DA93B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 05:16:20 +0100 (CET)
+Received: from localhost ([::1]:35782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUL0Z-0002BE-UX
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 00:11:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44144)
+	id 1nUL59-000407-Dx
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 00:16:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nUKyN-0008DZ-Cm
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 00:09:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38151)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nUL3i-0003GB-0V
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 00:14:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nUKyK-0007i7-8Y
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 00:09:18 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nUL3e-0008Pu-LN
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 00:14:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647403754;
+ s=mimecast20190719; t=1647404085;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=welwMKFQaATs8ZnBflqnX+zuDEZLeSf0mAZXvA+7xAU=;
- b=A8v6a6TdRd3N/Rf2m3hEJoewM4ZLGABPPbkDXHvXaC620292FLBfhUAetTuR//omaO0W0E
- afRaE1Rc5jOMtQ8xnLeuCg5LQLl/Pf06SKo0nC6Ll34KrAoZY0AM7cY4wqVbgtZYe5Kwg0
- zWOJ587OWGtr4lD9Io0mmNcdRdRp9SI=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pRfu7YRWK/ygvHPZuAYlpbw71KkKmLoWB3tcV8ztDgg=;
+ b=UgWet7Z0kZGww+cTuHSu1PjRz0dn5lU/kqXOC4OJ012C6UOVhit6Aqu+J8IkybSuTfytB1
+ 68tcIgYwDxgfkDlDrxl8rs6y5uMYWQtjqcpqxJA/b+OS7xFFbm51l6ZZrmBDUxxyTUF5yn
+ 70vKAzJm0fRblitVi/H0Kakvokt1OhU=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-qDUe8DvKPXSNK8cVLM_0sg-1; Wed, 16 Mar 2022 00:09:13 -0400
-X-MC-Unique: qDUe8DvKPXSNK8cVLM_0sg-1
-Received: by mail-pf1-f197.google.com with SMTP id
- g189-20020a6252c6000000b004f6f5bbaf7cso946618pfb.16
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 21:09:12 -0700 (PDT)
+ us-mta-633-MvTWmDjBMzSz7SG0kFb1gg-1; Wed, 16 Mar 2022 00:14:43 -0400
+X-MC-Unique: MvTWmDjBMzSz7SG0kFb1gg-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ n11-20020a170902d2cb00b0015331a5d02fso625378plc.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 21:14:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=welwMKFQaATs8ZnBflqnX+zuDEZLeSf0mAZXvA+7xAU=;
- b=jFbGnULFnMn/J9wqFkW2trlK5gvGfy0CsrA2Xh0oAsw9U/+SYPuWzjmixewZ6VaXAX
- vXlf8/jKC+XlByt5/CZw1rvYWi8sB375JA5cPiSaJ9XL8rBKRgn0vKOWigouy7A+3uza
- FLcKEB/qLSsK0rK+TuCo65JPvaAzew5PW69YyqG4mjHiVqY8FeYUluvMVO6ZIqgFiBSt
- qcTi0GeH2oPWJAQ3x0+elpsDRoamasqTkFurngVuunRenfmM7favVfGJjGU3FN1WJHpr
- Oncuo68frdmELHcZp0UjmcOmN2Le7MAjgIDtchXVkCgVLQg4YAGewmhODxgeuBajGT9C
- kujg==
-X-Gm-Message-State: AOAM532UfdoL1MkREq4sVwkGnU6IenH1bYOzscy8XSGI6AOSoSLDCDAr
- hPUMzsQc1xzrOyFOHF6Xk80J38UVA2w2PSXntdoS1BwXEqimNWCoZqpSBz+YRxovuxUDWt3XMR/
- V8wTCBp93jwsoBvM=
-X-Received: by 2002:a17:902:ec87:b0:151:c3f3:ddd5 with SMTP id
- x7-20020a170902ec8700b00151c3f3ddd5mr31250031plg.154.1647403752072; 
- Tue, 15 Mar 2022 21:09:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwqgRlYTiMlV5V0zua1H9jV6dHC6fDjN2C96sQuFDrClp8P1nnKbaj7PVYYPfGIDo2obxDbfQ==
-X-Received: by 2002:a17:902:ec87:b0:151:c3f3:ddd5 with SMTP id
- x7-20020a170902ec8700b00151c3f3ddd5mr31250007plg.154.1647403751787; 
- Tue, 15 Mar 2022 21:09:11 -0700 (PDT)
+ bh=pRfu7YRWK/ygvHPZuAYlpbw71KkKmLoWB3tcV8ztDgg=;
+ b=ZQ6YfHCAfwmr97lHlRTMpWVtE6AUfht52yGaOIIdXZP8x0z/mPFZ74LS62suxafLyC
+ gfV9pM9zDofMQiy+UCkqIpnjSEhPTxMriyaRn9vk60TGoTS2NP5wM1htphzATiuqmLkX
+ XZBgbjPKOH4GmWFNNm493hl08+CkqViM24clgRJ/stolKSm3ijNKWl01vnu+iAQ2qOaR
+ baeZn6/7iON4Vcp8xAu3pvN10MFGfhyYKOehZIvEg1nOzcH4yvsGAgePhS0a7Wm9OuTg
+ urZ/IWWtz+0FkMZ2UUDt3BBFl1lW6aYayF3M5yKoIAyjxAf5/UTni/7qG0X04CQRLMvX
+ kD3Q==
+X-Gm-Message-State: AOAM530JW01W4gFLPN05klwKdL1ViKKWfX61CuyvoK5U8QZ+mKtrH2wJ
+ SjEM1dqKXZ2vPCdZgAP3zF1cSpEMPzRv5dxUIsCyRbzg+13Kydtlpy5oTHy3hQwBZYzSMCLvmku
+ 9ImzsHgGj/VF2yNo=
+X-Received: by 2002:a63:fc0e:0:b0:365:39dd:2cd0 with SMTP id
+ j14-20020a63fc0e000000b0036539dd2cd0mr27225651pgi.173.1647404082736; 
+ Tue, 15 Mar 2022 21:14:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzw1XUvrO2aCl2R+1LjU7vCf+Ssh+2KGZR6P30Ffa06ncbleTlayqLuw/VWH1Q0+yAMIxUz0Q==
+X-Received: by 2002:a63:fc0e:0:b0:365:39dd:2cd0 with SMTP id
+ j14-20020a63fc0e000000b0036539dd2cd0mr27225632pgi.173.1647404082479; 
+ Tue, 15 Mar 2022 21:14:42 -0700 (PDT)
 Received: from xz-m1.local ([191.101.132.129])
  by smtp.gmail.com with ESMTPSA id
- 3-20020a17090a1a0300b001c5d05622fbsm727688pjk.33.2022.03.15.21.09.07
+ lb4-20020a17090b4a4400b001b9b20eabc4sm800404pjb.5.2022.03.15.21.14.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 21:09:11 -0700 (PDT)
-Date: Wed, 16 Mar 2022 12:09:05 +0800
+ Tue, 15 Mar 2022 21:14:42 -0700 (PDT)
+Date: Wed, 16 Mar 2022 12:14:37 +0800
 From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v20 8/9] migration-test: Export migration-test util
- funtions
-Message-ID: <YjFi4UbB3Rh9iDBV@xz-m1.local>
-References: <cover.1647396907.git.huangy81@chinatelecom.cn>
- <5be89638a128ce19c38c2cee8e055ad900b52a9c.1647396907.git.huangy81@chinatelecom.cn>
+To: Andrew Deason <adeason@sinenomine.net>
+Subject: Re: [PATCH] softmmu/physmem: Use qemu_madvise
+Message-ID: <YjFkLfnP/TPEe5sC@xz-m1.local>
+References: <20220316040405.4131-1-adeason@sinenomine.net>
 MIME-Version: 1.0
-In-Reply-To: <5be89638a128ce19c38c2cee8e055ad900b52a9c.1647396907.git.huangy81@chinatelecom.cn>
+In-Reply-To: <20220316040405.4131-1-adeason@sinenomine.net>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -98,47 +96,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 16, 2022 at 10:21:38AM +0800, huangy81@chinatelecom.cn wrote:
-> +void cleanup(const char *filename)
-> +{
-> +    g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
-> +
-> +    unlink(path);
-> +}
+On Tue, Mar 15, 2022 at 11:04:05PM -0500, Andrew Deason wrote:
+> We have a thin wrapper around madvise, called qemu_madvise, which
+> provides consistent behavior for the !CONFIG_MADVISE case, and works
+> around some platform-specific quirks (some platforms only provide
+> posix_madvise, and some don't offer all 'advise' types). This specific
+> caller of madvise has never used it, tracing back to its original
+> introduction in commit e0b266f01dd2 ("migration_completion: Take
+> current state").
+> 
+> Call qemu_madvise here, to follow the same logic as all of our other
+> madvise callers. This slightly changes the behavior for
+> !CONFIG_MADVISE (EINVAL instead of ENOSYS, and a slightly different
+> error message), but this is now more consistent with other callers
+> that use qemu_madvise.
+> 
+> Signed-off-by: Andrew Deason <adeason@sinenomine.net>
 
-If to move most of these tmpfs helpers out anyway, shouldn't we also move
-all tmpfs ops into this helper file?  E.g. initializations of tmpfs var is
-still separately done.  That's a bit odd.
-
-Ideally IIUC tmpfs doesn't need to be exported in migration-helpers.h at
-all below, but hidden.
-
-> diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
-> index d63bba9..d08551f 100644
-> --- a/tests/qtest/migration-helpers.h
-> +++ b/tests/qtest/migration-helpers.h
-> @@ -14,7 +14,14 @@
->  
->  #include "libqos/libqtest.h"
->  
-> +/* For dirty ring test; so far only x86_64 is supported */
-> +#if defined(__linux__) && defined(HOST_X86_64)
-> +#include "linux/kvm.h"
-> +#endif
-> +#include <sys/ioctl.h>
-> +
->  extern bool got_stop;
-> +extern const char *tmpfs;
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
 -- 
 Peter Xu
