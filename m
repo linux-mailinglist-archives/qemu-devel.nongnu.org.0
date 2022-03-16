@@ -2,100 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1274DB3B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:50:52 +0100 (CET)
-Received: from localhost ([::1]:58996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4140D4DB3BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:54:36 +0100 (CET)
+Received: from localhost ([::1]:35276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUUzB-0001kr-Uj
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:50:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60252)
+	id 1nUV2p-0004JW-6c
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:54:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nUUva-0006mW-Fd
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:47:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43067)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUV0m-0003UQ-Oq
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:52:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nUUvX-0001yT-CS
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:47:04 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUV0k-00035t-32
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:52:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647442022;
+ s=mimecast20190719; t=1647442345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d1dqBnQik5aV1QoXWFxduujT7KvfAkxZHKgVvp9Hin8=;
- b=M7ZXY3FbpnEmpayQ4jAx2UQayJJL9sHtRSwQ/5rK6BqzqLWLWPbPFCuVDzMhQmqueZ4GdI
- RmjCdCR7FyjkLkVpW0lfcY/pvg7PTcu8CMVO8U8mJH84ePoci6OprIMVXoUFaVOHrbjwwo
- FU3Pd0B6ugubKEhybTmuvLlG4zSOBtY=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vevYgX3Q7orXAn/OG+0pU0G0y6XrfWnpZ6jeLE7KFgM=;
+ b=byYCQqwTceBxZpPxxofDeej7xj3HQPItntv+wTpeSlOhkH8pqj6smkp+Xf0eTMmOA0wth9
+ zbJJAO9nIeWP7hG5qkGT7sf7kuMLVE9MAeXMwVS2dVaIfYVf+JDLj77SeReaeT7XzVNCcX
+ caQxbDvTsLfyd/8wmLv+4N2e2be2IXQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-362-zS9RT5IWPveUCxCp-ZFaHA-1; Wed, 16 Mar 2022 10:47:01 -0400
-X-MC-Unique: zS9RT5IWPveUCxCp-ZFaHA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- z2-20020a056214060200b00440d1bc7815so1664437qvw.1
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 07:47:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=d1dqBnQik5aV1QoXWFxduujT7KvfAkxZHKgVvp9Hin8=;
- b=UDcXiFccahaYiHDrdOEXkpnMSiaQiRIHd0s+ZebGZmzUKKeA0aZIEwi63oqWgwjjb5
- 4StxPCaxFAiq6U8/+dmrqXT8ykfSwizL+Kt4cSAbtZ1sJKLT1b3dvcskd16QHEFyIS7b
- Q2RzWCJ8UZHego+J12RqZ7EzMVMXu3g19orLMjZWNYqoYYwEjMHdNK55UV+K44NV+JZi
- 2EpaEekFZFqXurPSvtzLNhsV6RBxPu5tkSr2tiC15rgKXEiIOmG+TYkqqLSO9nkO7ZGf
- e6ZEnPz/30u0yIRy95yzBDAU5nSBl2Cdw86WnClnuoqknzoVXC0gjuwuSHdqsbSXpu31
- GpOQ==
-X-Gm-Message-State: AOAM532wGuqO8llMnUSMnrR2Bvgf1NttzzWze4yBuSTRjh2rD/bMU28l
- 0dOOePq2/BUajN27qe4jURqB6zfVV62HLcUE7LqtHe3c0bPMKNqJH7bRw8SxwS/IAZ/Yf3XdmXq
- UxUwubCAy4Dh+oF0=
-X-Received: by 2002:a05:622a:43:b0:2e1:4e:a784 with SMTP id
- y3-20020a05622a004300b002e1004ea784mr321684qtw.240.1647442020707; 
- Wed, 16 Mar 2022 07:47:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxwZfrWEY5Tvd21/SBmIgpNHqD2VQLgBROTHEMQ5n4v5mAbEnAM2Vtl4mr0AV5F+L6m62Ldww==
-X-Received: by 2002:a05:622a:43:b0:2e1:4e:a784 with SMTP id
- y3-20020a05622a004300b002e1004ea784mr321665qtw.240.1647442020471; 
- Wed, 16 Mar 2022 07:47:00 -0700 (PDT)
-Received: from [192.168.149.119]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- b20-20020a376714000000b0067b21e5d18asm940418qkc.105.2022.03.16.07.46.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 07:46:59 -0700 (PDT)
-Message-ID: <d600ff25-d854-7239-9001-7315b24b9054@redhat.com>
-Date: Wed, 16 Mar 2022 15:46:55 +0100
+ us-mta-209-g4bLp7UPNA2N8z78jehWFQ-1; Wed, 16 Mar 2022 10:52:21 -0400
+X-MC-Unique: g4bLp7UPNA2N8z78jehWFQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75E491C05EBA;
+ Wed, 16 Mar 2022 14:52:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 52063400F752;
+ Wed, 16 Mar 2022 14:52:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3024821E6821; Wed, 16 Mar 2022 15:52:20 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Murilo Opsfelder =?utf-8?Q?Ara=C3=BAjo?= <muriloo@linux.ibm.com>
+Subject: Re: [PATCH v2] block-qdict: Fix -Werror=maybe-uninitialized build
+ failure
+References: <20220311221634.58288-1-muriloo@linux.ibm.com>
+ <a7ce477a-ebed-dbb0-3257-8bc82fe27ce4@gmail.com>
+ <11970663.O9o76ZdvQC@localhost.localdomain>
+Date: Wed, 16 Mar 2022 15:52:20 +0100
+In-Reply-To: <11970663.O9o76ZdvQC@localhost.localdomain> ("Murilo Opsfelder
+ =?utf-8?Q?Ara=C3=BAjo=22's?= message of "Tue, 15 Mar 2022 14:43:47 -0300")
+Message-ID: <87tubyt0ez.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PULL 21/50] block/block-backend.c: assertions for block-backend
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org
-References: <20220304164711.474713-1-kwolf@redhat.com>
- <20220304164711.474713-22-kwolf@redhat.com>
- <c005130e-10f0-b575-4493-2080ba08494b@gmail.com>
- <cecef6bd-951a-aab6-e603-96e3551e3e9e@gmail.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <cecef6bd-951a-aab6-e603-96e3551e3e9e@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,92 +85,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-?= =?utf-8?Q?Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Murilo Opsfelder Ara=C3=BAjo <muriloo@linux.ibm.com> writes:
 
+> Hi, Philippe.
+>
+> On Monday, March 14, 2022 10:47:11 AM -03 Philippe Mathieu-Daud=C3=A9 wro=
+te:
+>> On 11/3/22 23:16, Murilo Opsfelder Araujo wrote:
+>> > Building QEMU on Fedora 37 (Rawhide Prerelease) ppc64le failed with th=
+e
+>> > following error:
+>> >
+>> >      $ ../configure --prefix=3D/usr/local/qemu-disabletcg --target-lis=
+t=3Dppc-softmmu,ppc64-softmmu --disable-tcg --disable-linux-user
+>> >      ...
+>> >      $ make -j$(nproc)
+>> >      ...
+>> >      FAILED: libqemuutil.a.p/qobject_block-qdict.c.o
+>>
+>> This part >>>
+>>
+>> >      cc -m64 -mlittle-endian -Ilibqemuutil.a.p -I. -I.. -Isubprojects/=
+libvhost-user -I../subprojects/libvhost-user -Iqapi -Itrace -Iui -Iui/shade=
+r -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysp=
+rof-4 -I/usr/include/lib
+>> >      mount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -I/usr/inc=
+lude/p11-kit-1 -I/usr/include/pixman-1 -fdiagnostics-color=3Dauto -Wall -Wi=
+nvalid-pch -Werror -std=3Dgnu11 -O2 -g -isystem /root/qemu/linux-headers -i=
+system linux-headers -iquote
+>> >       . -iquote /root/qemu -iquote /root/qemu/include -iquote /root/qe=
+mu/disas/libvixl -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -D_GNU_SO=
+URCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wred=
+undant-decls -Wundef -Wwrite
+>> >      -strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -f=
+wrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat=
+-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnest=
+ed-externs -Wendif-label
+>> >      s -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno-missing-=
+include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong =
+-fPIE -MD -MQ libqemuutil.a.p/qobject_block-qdict.c.o -MF libqemuutil.a.p/q=
+object_block-qdict.c.o.d -
+>> >      o libqemuutil.a.p/qobject_block-qdict.c.o -c ../qobject/block-qdi=
+ct.c
+>>
+>> <<< is noise (doesn't provide any value) and could be stripped.
+>
+> Is this something the committer/maintainer could edit when applying the c=
+ommit
+> or do you need I resend the v3?
+>
+> Cheers!
 
-Am 16/03/2022 um 13:53 schrieb Philippe Mathieu-Daudé:
-> On 16/3/22 13:44, Philippe Mathieu-Daudé wrote:
->> Hi,
->>
->> On 4/3/22 17:46, Kevin Wolf wrote:
->>> From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>>
->>> All the global state (GS) API functions will check that
->>> qemu_in_main_thread() returns true. If not, it means
->>> that the safety of BQL cannot be guaranteed, and
->>> they need to be moved to I/O.
->>
->> I'm getting this crash:
->>
->> $ qemu-system-i386
->> Assertion failed: (qemu_in_main_thread()), function blk_all_next, file
->> block-backend.c, line 552.
->> Abort trap: 6
->>
->> Assertion failed: (qemu_in_main_thread()), function blk_all_next, file
->> block-backend.c, line 552.
->> qemu-system-i386 was compiled with optimization - stepping may behave
->> oddly; variables may not be available.
->> Process 76914 stopped
->> * thread #1, queue = 'com.apple.main-thread', stop reason = hit
->> program assert
->>      frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1
->> at block-backend.c:552:5 [opt]
->>     549    */
->>     550   BlockBackend *blk_all_next(BlockBackend *blk)
->>     551   {
->> -> 552       GLOBAL_STATE_CODE();
->>     553       return blk ? QTAILQ_NEXT(blk, link)
->>     554                  : QTAILQ_FIRST(&block_backends);
->>     555   }
->> Target 1: (qemu-system-i386) stopped.
-> 
-> Forgot to paste the backtrace:
-> 
-> (lldb) bt
-> * thread #1, queue = 'com.apple.main-thread', stop reason = hit program
-> assert
->     frame #0: 0x00000001908c99b8 libsystem_kernel.dylib`__pthread_kill + 8
->     frame #1: 0x00000001908fceb0 libsystem_pthread.dylib`pthread_kill + 288
->     frame #2: 0x000000019083a314 libsystem_c.dylib`abort + 164
->     frame #3: 0x000000019083972c libsystem_c.dylib`__assert_rtn + 300
->   * frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1 at
-> block-backend.c:552:5 [opt]
->     frame #5: 0x00000001003c00b4
-> qemu-system-i386`blk_all_next(blk=<unavailable>) at
-> block-backend.c:552:5 [opt]
->     frame #6: 0x00000001003d8f04
-> qemu-system-i386`qmp_query_block(errp=0x0000000000000000) at
-> qapi.c:591:16 [opt]
->     frame #7: 0x000000010003ab0c qemu-system-i386`main [inlined]
-> addRemovableDevicesMenuItems at cocoa.m:1756:21 [opt]
->     frame #8: 0x000000010003ab04
-> qemu-system-i386`main(argc=<unavailable>, argv=<unavailable>) at
-> cocoa.m:1980:5 [opt]
->     frame #9: 0x00000001012690f4 dyld`start + 520
-
-I think Paolo and Peter talked about this a couple of days ago on #qemu,
-and have already found a solution if I remember correctly.
-
-Maybe it's worth to check with them first.
-
-Emanuele
-> 
->> Bisected to this patch:
->>
->> 0439c5a4623d674efa0c72abd62ca6e98bb7cf87 is the first bad commit
->>
->>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>> Message-Id: <20220303151616.325444-9-eesposit@redhat.com>
->>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>> ---
->>>   block/block-backend.c  | 78 ++++++++++++++++++++++++++++++++++++++++++
->>>   softmmu/qdev-monitor.c |  2 ++
->>>   2 files changed, 80 insertions(+)
-> 
+I'll take care of it unless Kevin or Hanna beat me to the punch.
 
 
