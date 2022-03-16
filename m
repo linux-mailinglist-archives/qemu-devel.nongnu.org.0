@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27EE34DAA78
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 07:10:31 +0100 (CET)
-Received: from localhost ([::1]:50124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 538744DAA83
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 07:15:36 +0100 (CET)
+Received: from localhost ([::1]:59086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUMre-00061L-8v
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 02:10:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58952)
+	id 1nUMwZ-0003EF-4j
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 02:15:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUMgV-0002mo-7o
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:59 -0400
-Received: from [2607:f8b0:4864:20::430] (port=37786
- helo=mail-pf1-x430.google.com)
+ id 1nUMgW-0002qp-2q
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:59:00 -0400
+Received: from [2607:f8b0:4864:20::42f] (port=34528
+ helo=mail-pf1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUMgT-0006UH-Ln
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:58 -0400
-Received: by mail-pf1-x430.google.com with SMTP id t5so2555715pfg.4
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 22:58:57 -0700 (PDT)
+ id 1nUMgU-0006UW-L7
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:59 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id l8so2578182pfu.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 22:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LMgZ+9vBXxkL3ObSKn51zXKkedsdNPSwBIC1O+HtQSg=;
- b=y3VL7dxbawsuNElVlAzqQiOuvcWEl44aiEPZ+5+mbX56dByS/YXXF7QudSbKs5055a
- jc4Jutqt5jyRMykrQkk8pxE/hZXxXrysXHAjlFkXtSCfUvP52BKhU1wifrFh81DUlYHu
- 9v7eSWPjt3YeZhb9NZu+BHFCkCZlyQIh0J7W5M90RdpYrw7RjRk8ignBYT9MFZOzsENQ
- igALtrnFP2Y/8eGOZIcRHrxkYxJt4rIjzZCFhMXWPpTgvluVs+PWIxm3gJ92O0n08z3Q
- yi1kqOQElvkVnbtqzzFYbkRrdv1QPCBzyLRoDHXa0Dak7NtB9yoP3QVWlHGerrm9Rixc
- LdqA==
+ bh=z9CNoFSrWjAjukly+g7lYy0zjZhRUxJXZZvZuVjkY44=;
+ b=QavHItxKnGLg7l3wI+xP9mWbiHSOlXiCS4g0093ctY0djcbS+rQ010qN+Hc5qWYh4P
+ OtYMmO44pEo9NSpBg6JaPNOmWh2wuXNMi2ucGgnI5aYQWCj1GcnJo2kL9F1V/VT5CXOb
+ qe6tx7JJZynPMfiPc6OrhTp0bGSg0+fMvwJ2rWqBZTAIY/JLJUBhMP/Hp6ljq3uOuN6Y
+ qntWAuZJNvVdcRNzkjdj0lFq7xuUEBiM5Mj3RAzUe0dZr9cHhiDAj0AHSLHYTRu2Yu9J
+ f457fgEjlmYpll0LBlOtXTPVrs/yimr6zvb4L3a640R4oPXyS4GfN4X/sUCImLS4BawB
+ Ygqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LMgZ+9vBXxkL3ObSKn51zXKkedsdNPSwBIC1O+HtQSg=;
- b=NXFko/Vm8EJWBT1UhJ7VPQo27/zGc7NR1EtzsxX9eYmoHG62XgxmmaBddH7nY9duyT
- KVmayfpmbPafmr3Mc2x1ywarj6hsC3nGsW/66WzvXssuggIbppzj4GumkwO650SBnDJh
- HIL3tGKGlJHW1zVwh7twD6AqaNRoiyFdoMZSgIBHwjfVNwVkYNY5fbCJPj2J6ifcRBVY
- 7M/zvrMVfehsRd97qGZRvejydapUuv5503N+Ritxf9d2mxRqsvkHNEbMhHMBN1Bzt13F
- rNB5kMZBS3obdhoxVnWoLOrLjBmLikb4mKkQuYz0QZfA3V6BUUbLb/eK5gUfX39nNF+M
- LsTw==
-X-Gm-Message-State: AOAM5334KSIJDLxtNaL4/4owClCh6S6w+Us3r5UEIxc4WkHSJ+lmSNiV
- 0VBgZEgHsAiOdZQ+QV3+ljwO20hhP7qqMg==
-X-Google-Smtp-Source: ABdhPJzbkw6Du4l4SMkFmpj0vXjEyNH4oAjjpNAgNAUHxZNIWqxLfRcJjnPshCwL5GlZQtYjCFEamQ==
-X-Received: by 2002:a63:4e:0:b0:37f:f3f0:2d24 with SMTP id
- 75-20020a63004e000000b0037ff3f02d24mr26897821pga.526.1647410336437; 
- Tue, 15 Mar 2022 22:58:56 -0700 (PDT)
+ bh=z9CNoFSrWjAjukly+g7lYy0zjZhRUxJXZZvZuVjkY44=;
+ b=qfZs9wVjn/guBRY6pOrP/1yvBdwIYn34hPjRtd/b+RAv5g7tByyYuORnIa/bGoE6X0
+ oOOxwbmicWZsOwcD8xrbVrK3IZHJ+AS13wlv4GNeNiaAOiOL3TdhXSy0gNw12KUWfG8r
+ iPwxHrB51NWhIbpxNqQr3oN/7tSuqTzN9yTRsgdE9u4QkauUGiNy0cwP7N7g99DweMXP
+ bnL0z2Tg6M9OSoTtDxKYkrfc0bsAsD7a3k2eVhBjE2xPImDuXCVgDoGKdHX3Xf6GKzqT
+ wQFsZkA88tN6HvmhTL+ihseMD/Bjg9K1hnc5O8XuZ/I3aNis79TDfg4NrCavSF/zv1o7
+ AUBA==
+X-Gm-Message-State: AOAM532pHp0MlgTNrlooDWySyJWYmPtk7TODGzmyJyxmZqZ2xeonF5bA
+ xD+gDfbpcud4TGMQABnq46Yjnegz2cyDLg==
+X-Google-Smtp-Source: ABdhPJzGNYF8mfqNWmEcDZJBCoNnI4yv3iebPDIOQUMISwLIwRM51NR9V8kGYRP5d3NgmZgPnfiycg==
+X-Received: by 2002:a05:6a02:182:b0:374:5a57:cbf9 with SMTP id
+ bj2-20020a056a02018200b003745a57cbf9mr26613861pgb.616.1647410337302; 
+ Tue, 15 Mar 2022 22:58:57 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- i24-20020a056a00225800b004f6edabc9f4sm1236290pfu.72.2022.03.15.22.58.55
+ i24-20020a056a00225800b004f6edabc9f4sm1236290pfu.72.2022.03.15.22.58.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 15 Mar 2022 22:58:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/17] linux-user/strace: Fix print_syscall_err
-Date: Tue, 15 Mar 2022 22:58:38 -0700
-Message-Id: <20220316055840.727571-16-richard.henderson@linaro.org>
+Subject: [PATCH v3 16/17] linux-user/strace: Adjust get_thread_area for m68k
+Date: Tue, 15 Mar 2022 22:58:39 -0700
+Message-Id: <20220316055840.727571-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220316055840.727571-1-richard.henderson@linaro.org>
 References: <20220316055840.727571-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,38 +88,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Errors are not all negative numbers, but only the top 4k.
+Unlike i386, m68k get_thread_area has no arguments.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/strace.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ linux-user/strace.list | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 2cdbf030ba..f235118fb6 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -684,12 +684,12 @@ print_ipc(void *cpu_env, const struct syscallname *name,
-  */
- 
- static bool
--print_syscall_err(abi_long ret)
-+print_syscall_err(abi_ulong ret)
- {
-     const char *errstr;
- 
-     qemu_log(" = ");
--    if (ret < 0) {
-+    if (ret > -4096) {
-         errstr = target_strerror(-ret);
-         if (errstr) {
-             qemu_log("-1 errno=%d (%s)", (int)-ret, errstr);
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 278596acd1..72e17b1acf 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -384,8 +384,13 @@
+ { TARGET_NR_getsockopt, "getsockopt" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_get_thread_area
++#if defined(TARGET_I386) && defined(TARGET_ABI32)
+ { TARGET_NR_get_thread_area, "get_thread_area", "%s(0x"TARGET_ABI_FMT_lx")",
+   NULL, NULL },
++#elif defined(TARGET_M68K)
++{ TARGET_NR_get_thread_area, "get_thread_area" , "%s()",
++  NULL, print_syscall_ret_addr },
++#endif
+ #endif
+ #ifdef TARGET_NR_gettid
+ { TARGET_NR_gettid, "gettid" , "%s()", NULL, NULL },
 -- 
 2.25.1
 
