@@ -2,96 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31AD04DB1F8
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:57:39 +0100 (CET)
-Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2706B4DB21F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:03:57 +0100 (CET)
+Received: from localhost ([::1]:56428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUU9h-0008No-UQ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:57:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44740)
+	id 1nUUFo-0002xw-8M
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:03:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUTsh-0004C7-M4
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:40:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUTse-0006Yw-Q3
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:40:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647437999;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fqmyphtfT9IMBPqWCDHRx4sBKeedmhVqPZsbFgnH/sI=;
- b=Pq7PNmgqGoH/7yT0/uaST2ZLWkxxqmxkCkN026Lz/2skBtGBVIiNLa4hQCJQ4tQUcMEfBJ
- N2fv7iWE78htxaD+UPCOd8wyJOxwf9PvXZbamWWafbPzJgk8xObYwiVsFeWH6YFQmNKZ9+
- Van3qhvf9tdAURNvIpqf4bBXSsTeW3w=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-457-BFxaZl_gNlWRzYp3lOqxVg-1; Wed, 16 Mar 2022 09:39:58 -0400
-X-MC-Unique: BFxaZl_gNlWRzYp3lOqxVg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- x15-20020a5d6b4f000000b001ee6c0aa287so579271wrw.9
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 06:39:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1nUTw4-0001h5-6G
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:43:32 -0400
+Received: from [2607:f8b0:4864:20::12b] (port=34365
+ helo=mail-il1-x12b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1nUTw1-0007DR-Im
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:43:31 -0400
+Received: by mail-il1-x12b.google.com with SMTP id r11so1541363ila.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 06:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yGv0eKtlDvEkez3htkEXC9fuh3p1JLdFl+1IhFMBKes=;
+ b=clhXAETfOec1OqxuRJ6dR5sLp2A+xBAVCJuVx/U0bPRpO93i1kzmmOwgpjhVtEQ5xo
+ H5t6QaTxy6zJ5o8UYjZeTvF7jgx+3tjiKwvKZ3Yh/wyx5IU3/IM1J2FULIGyEKSOv9BJ
+ RI1q0RyGYZF87Wi5ZHxT628Nnd1BW+hbsV4BB8bdGeVaig3rS+gN/3a5p1EBgXl3mSd6
+ j3kOYcBdfbsI+qabfhPF/G5LnTjHBqfCpXfStYLfsjU5QLFVVP0R51H6bOl+9/i+fZyG
+ AJ6ePPmQ7YOaX+eN+QgI+j0yDIhhgoCSswwjPI7JjKWYJqGKmk7U+1mRfEL4eti9iQjN
+ tDsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fqmyphtfT9IMBPqWCDHRx4sBKeedmhVqPZsbFgnH/sI=;
- b=JuJI6hI9HB4lmQCjBW3C72y0x8F6SDbIDpJpb/Jw6IJQxVenhe0o8t7+dg84DfR0X5
- JvllIWTOp6K0XAnmxRqc4VSZuDlI/gxd7qc7LEoPjFDSFeShHOAi8nckn6KWfP/fByxE
- GGPATUg43/WSp2y1JAZTQjPFR7oK41Hw16reTvAa5vSsdEsFDhk9EBppOpQRYH7BN1l9
- fjKic0tA4hFgMYOcyASfx1zwF29EZi9KlyO0EF0TaFHvooMvz/a3GHzC2R+9DTfFPqh5
- 02e3Sc6SD/nzbtainDFma9jh+1xpDPF5T02cEDCsfsxbw8TJ6Snm0rmNMLbvojRmMyLm
- MLFA==
-X-Gm-Message-State: AOAM531dImEisDP/81QCyLilHezOZ+OStHvYkgIRx/l6A9+uwc7mqOjG
- /ZkR6qV5qBPJ9iOYA5TddKf2oETcFarS5vIaRvP6EJYPxfbSpskBLz3+7HJZW4bp9OjNL0I72Le
- +m8Va7gCn9JdPvBI=
-X-Received: by 2002:a05:600c:3482:b0:38c:40:9b30 with SMTP id
- a2-20020a05600c348200b0038c00409b30mr5631159wmq.68.1647437996981; 
- Wed, 16 Mar 2022 06:39:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4k4lMyjwfMkfGhk5AMk7oz34JL/O212bqJZgmwbRA0Yw7Tjkq3QKXyR5mWx9qEcCDE2Hj1Q==
-X-Received: by 2002:a05:600c:3482:b0:38c:40:9b30 with SMTP id
- a2-20020a05600c348200b0038c00409b30mr5631134wmq.68.1647437996687; 
- Wed, 16 Mar 2022 06:39:56 -0700 (PDT)
-Received: from [192.168.42.76] (tmo-065-170.customers.d1-online.com.
- [80.187.65.170]) by smtp.gmail.com with ESMTPSA id
- 11-20020a05600c22cb00b00382a960b17csm5041631wmg.7.2022.03.16.06.39.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 06:39:56 -0700 (PDT)
-Message-ID: <e5e03938-d602-c928-07ef-da6486fb99b0@redhat.com>
-Date: Wed, 16 Mar 2022 14:39:54 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yGv0eKtlDvEkez3htkEXC9fuh3p1JLdFl+1IhFMBKes=;
+ b=J8pVEiD8i8piGdBoAh17/mRDy48GrzC+M3bSOuiqAHHJSA9nMdcqLY+VK7JpFVClAb
+ vonBPR+p+cLTXV6gTOgTPwGIUAY00MIrbezKMrPCMqEFjGbJyv/JSIf0EDm6KawRz/Dz
+ 7h4C7gjaBcJshkrVouzTBJU/NxTeBfrxp91JIR8t+pX0dQ75krClqLy7I0UTDZQ5w01V
+ J3C+ptDytxUXSXUo5jvUeW58Bue8FhCyU/YezbCwmErzO5et8GPYy6mLuVzhwME7KH0R
+ pXcBaPmjGn28mPmc4kcQNF21LnI84oUuLMfF1IN7XBPoQKdHvfZB7Vug1OVx6X5rUa61
+ OIjg==
+X-Gm-Message-State: AOAM533ckx4RuqSL0poACKFAo7pSOaTXseSN9bZA7uLWaA09gmcHY8eN
+ aabhiVYh+cW3i3C/jpN9w4G+K7nY/l7248dFkEc=
+X-Google-Smtp-Source: ABdhPJyN/6UsbUe+6EvsyW54j9dwswidWTIVvNhj6GY0mbAdpCKkoRaUVBKS2+MlHTYHcl+qffDSNBYIaW9szT0YK7s=
+X-Received: by 2002:a05:6e02:1b07:b0:2c7:9a58:7c4e with SMTP id
+ i7-20020a056e021b0700b002c79a587c4emr11151524ilv.173.1647438207864; Wed, 16
+ Mar 2022 06:43:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 2/3] hw/display: Allow vga_common_init() to return errors
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-References: <20220316132402.1190346-1-thuth@redhat.com>
- <20220316132402.1190346-3-thuth@redhat.com>
- <64353530-4488-8820-c58c-a5e104e93b4b@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <64353530-4488-8820-c58c-a5e104e93b4b@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220316124012.1413954-1-cmuellner@linux.com>
+In-Reply-To: <20220316124012.1413954-1-cmuellner@linux.com>
+From: Mahmoud Abumandour <ma.mandourr@gmail.com>
+Date: Wed, 16 Mar 2022 15:43:17 +0200
+Message-ID: <CAD-LL6jHd6WhiFujvOjajvuKrKWVFVD79Qro9HqmYrQOfN9cGg@mail.gmail.com>
+Subject: Re: [PATCH] docs/tcg-plugins: document QEMU_PLUGIN behaviour
+To: Christoph Muellner <cmuellner@linux.com>
+Content-Type: multipart/alternative; boundary="0000000000002b557505da561918"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-il1-x12b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,56 +81,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/03/2022 14.32, Philippe Mathieu-Daudé wrote:
-> On 16/3/22 14:24, Thomas Huth wrote:
->> The vga_common_init() function currently cannot report errors to its
->> caller. But in the following patch, we'd need this possibility, so
->> let's change it to take an "Error **" as parameter for this.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   hw/display/ati.c            |  7 ++++++-
->>   hw/display/cirrus_vga.c     |  7 ++++++-
->>   hw/display/cirrus_vga_isa.c |  7 ++++++-
->>   hw/display/qxl.c            |  6 +++++-
->>   hw/display/vga-isa.c        |  9 ++++++++-
->>   hw/display/vga-mmio.c       |  8 +++++++-
->>   hw/display/vga-pci.c        | 15 +++++++++++++--
->>   hw/display/vga.c            |  9 +++++++--
->>   hw/display/vga_int.h        |  2 +-
->>   hw/display/virtio-vga.c     |  7 ++++++-
->>   hw/display/vmware_vga.c     |  2 +-
->>   11 files changed, 66 insertions(+), 13 deletions(-)
-> 
-> Please setup scripts/git.orderfile :)
-> 
->> diff --git a/hw/display/vga_int.h b/hw/display/vga_int.h
->> index 847e784ca6..3e8892df28 100644
->> --- a/hw/display/vga_int.h
->> +++ b/hw/display/vga_int.h
->> @@ -156,7 +156,7 @@ static inline int c6_to_8(int v)
->>       return (v << 2) | (b << 1) | b;
->>   }
->> -void vga_common_init(VGACommonState *s, Object *obj);
->> +void vga_common_init(VGACommonState *s, Object *obj, Error **errp);
-> 
-> Can we also return a boolean value? IIUC Markus recommended to check
-> a boolean return value rather than Error* handle.
+--0000000000002b557505da561918
+Content-Type: text/plain; charset="UTF-8"
 
-Really? A very quick grep shows something different:
+On Wed, Mar 16, 2022 at 2:40 PM Christoph Muellner <cmuellner@linux.com>
+wrote:
 
-$ grep -r ^void.*Error include/ | wc -l
-94
-$ grep -r ^bool.*Error include/ | wc -l
-46
+> QEMU plugins can be loaded via command line arguments or via
+> the QEMU_PLUGIN environment variable. Currently, only the first method
+> is documented. Let's document QEMU_PLUGIN.
+>
+> Signed-off-by: Christoph Muellner <cmuellner@linux.com>
+> ---
+>  docs/devel/tcg-plugins.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+> index f93ef4fe52..ba48be18d0 100644
+> --- a/docs/devel/tcg-plugins.rst
+> +++ b/docs/devel/tcg-plugins.rst
+> @@ -34,6 +34,10 @@ Arguments are plugin specific and can be used to modify
+> their
+>  behaviour. In this case the howvec plugin is being asked to use inline
+>  ops to count and break down the hint instructions by type.
+>
+> +QEMU also evaluates the environment variable ``QEMU_PLUGIN``::
+> +
+> +  QEMU_PLUGIN="file=tests/plugin/libhowec.so,inline=on,count=hint" $QEMU
+>
 
-I also can't see that recommendation in docs/devel/style.rst. I think you 
-either got that wrong, or the coding style needs an update first.
+The plugin howvec is in contrib/plugins, so I think giving the correct path
+would be
+better. Note also that there's a typo in "libhowec.so".
 
-  Thomas
+If you want, you could also fix the next example that has the same path or
+leave it
+for another patch.
 
++
+>  Writing plugins
+>  ---------------
+>
+> --
+> 2.35.1
+>
+>
+Other than that,
+Reviewed-By: Mahmoud Mandour <ma.mandourr@gmail.com>
+
+Thanks,
+Mahmoud
+
+--0000000000002b557505da561918
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 16, 2022 at 2:40 PM Chris=
+toph Muellner &lt;<a href=3D"mailto:cmuellner@linux.com">cmuellner@linux.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>QEMU plugins can be loaded via command line arguments or via<br>
+the QEMU_PLUGIN environment variable. Currently, only the first method<br>
+is documented. Let&#39;s document QEMU_PLUGIN.<br>
+<br>
+Signed-off-by: Christoph Muellner &lt;<a href=3D"mailto:cmuellner@linux.com=
+" target=3D"_blank">cmuellner@linux.com</a>&gt;<br>
+---<br>
+=C2=A0docs/devel/tcg-plugins.rst | 4 ++++<br>
+=C2=A01 file changed, 4 insertions(+)<br>
+<br>
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst<br>
+index f93ef4fe52..ba48be18d0 100644<br>
+--- a/docs/devel/tcg-plugins.rst<br>
++++ b/docs/devel/tcg-plugins.rst<br>
+@@ -34,6 +34,10 @@ Arguments are plugin specific and can be used to modify =
+their<br>
+=C2=A0behaviour. In this case the howvec plugin is being asked to use inlin=
+e<br>
+=C2=A0ops to count and break down the hint instructions by type.<br>
+<br>
++QEMU also evaluates the environment variable ``QEMU_PLUGIN``::<br>
++<br>
++=C2=A0 QEMU_PLUGIN=3D&quot;file=3Dtests/plugin/libhowec.so,inline=3Don,cou=
+nt=3Dhint&quot; $QEMU<br></blockquote><div><br></div><div>The plugin howvec=
+ is in contrib/plugins, so I think giving the correct path would be</div><d=
+iv>better. Note also that there&#39;s a typo in &quot;libhowec.so&quot;.</d=
+iv><div><br></div><div>If you want, you could also fix the next example tha=
+t has the same path or leave it</div><div>for another patch.</div><div><br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
++<br>
+=C2=A0Writing plugins<br>
+=C2=A0---------------<br>
+<br>
+-- <br>
+2.35.1<br>
+<br></blockquote><div><br></div><div>Other than that,</div><div>Reviewed-By=
+: Mahmoud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail.com">ma.mandourr@=
+gmail.com</a>&gt;</div><div><br></div><div>Thanks,</div><div>Mahmoud</div><=
+/div></div>
+
+--0000000000002b557505da561918--
 
