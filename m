@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0834DAD8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 10:31:20 +0100 (CET)
-Received: from localhost ([::1]:43314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E284DADEB
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 10:54:56 +0100 (CET)
+Received: from localhost ([::1]:55460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUPzy-0000Hb-M9
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 05:31:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39052)
+	id 1nUQMl-0007Fm-17
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 05:54:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nUPwC-0006pD-Ba; Wed, 16 Mar 2022 05:27:24 -0400
-Received: from smtp44.i.mail.ru ([94.100.177.104]:52190)
+ (Exim 4.90_1) (envelope-from
+ <BATV+ec7d76d335b5b4f3a4a1+6779+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1nUQ2y-0001fF-Ju
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:34:24 -0400
+Received: from [2001:8b0:10b:1236::1] (port=42726 helo=casper.infradead.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nUPw9-0003xw-S2; Wed, 16 Mar 2022 05:27:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
- s=mail4; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=Resr0a6SZ+++kbEbcAphhweJbQVaV5pTwyIcYjDXcHI=; 
- t=1647422841;x=1648028241; 
- b=jZHU/VFlf56OwvTgE8g+s9Wed+woquWQ5PI2rDP8mOTgx9osXODMqeGpIaTYndlbscL/cUFbPbdgogB0LXbEHTjaNVlBFjNe9Md+d4q+V3W0+H5g4jATd2JwhtbhS2cctARfDQO15mu0U4VvbGrH4tx09/X6hz2YaO50rbu2s28SfOKpfKkysViadwikGSSl4A2kk5JHK3cvLU4fiToNx+F4rh/7GO2PL4oIau++YjMGG8FQQOOniDZPpRLT6bHySTPAmGY2OYu8jeL6r4w79FwL78IClBymnwDw+eXzLnQXNRSx/64cCBnVowF/KuV4O+EOEF2sUR1FjQ+yByjrnA==;
-Received: by smtp44.i.mail.ru with esmtpa (envelope-from
- <v.sementsov-og@mail.ru>)
- id 1nUPw4-0003L7-13; Wed, 16 Mar 2022 12:27:16 +0300
-From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org,
-	eblake@redhat.com,
-	v.sementsov-og@mail.ru
-Subject: [PATCH v2] MAINTAINERS: change Vladimir's email address
-Date: Wed, 16 Mar 2022 12:27:02 +0300
-Message-Id: <20220316092702.426629-1-v.sementsov-og@mail.ru>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from
+ <BATV+ec7d76d335b5b4f3a4a1+6779+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1nUQ2v-0004r3-Rh
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:34:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=xEEFGml7awM3XxmEWTe1XCExGeL5XjES2qGGNswn+uU=; b=onFgeB7qNuG4FU9uLkz8wBCW6v
+ VD+ViFSnvMQLin0R6VWgw21SWgMIIrzNZWHls9GwIxXh0+O9oLdKCdp3TKcQgcHT2/3RG8qu5/9tV
+ UZgWoE6+2p+7puXCOBFprR3tPOo57gRIyy7BU6ftgC0RoZZcydTOiGPZcC+cxMaotmdo1sLNvUY43
+ TaaTMtTDAN44KrQThnj3whX1ZFa81LqYtrXklUvJcRDL+brgdolxUJT623n38GISahYV45q/urZJL
+ RKt1VqOPd7SjoTkmWfpW9v+SHstfS24gg/wN8qV7jQ1qxImSjXZFqIYvnHKyXt3lv071CPyH3vRgy
+ 91VTSxnQ==;
+Received: from [2001:8b0:10b:1::3ae] (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nUQ2n-005r7t-Gp; Wed, 16 Mar 2022 09:34:13 +0000
+Message-ID: <11f6725c8b60b6da8b6db04339d7e39a3321ce47.camel@infradead.org>
+Subject: Re: [PATCH 2/4] intel_iommu: Support IR-only mode without DMA
+ translation
+From: David Woodhouse <dwmw2@infradead.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Date: Wed, 16 Mar 2022 09:34:11 +0000
+In-Reply-To: <20220314182454-mutt-send-email-mst@kernel.org>
+References: <20220314142544.150555-1-dwmw2@infradead.org>
+ <20220314142544.150555-2-dwmw2@infradead.org>
+ <20220314112001-mutt-send-email-mst@kernel.org>
+ <9db2fb68447b27203e6e006f29e2b960565c37bb.camel@infradead.org>
+ <20220314182454-mutt-send-email-mst@kernel.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-gCoPbDLWIDj5UmvIQmUN"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp44.i.mail.ru;
- auth=pass smtp.auth=v.sementsov-og@mail.ru
- smtp.mailfrom=v.sementsov-og@mail.ru
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD95983D7D89D92196DC6E89A8CCEF2E51DF9B70E0E78BE6910182A05F538085040C180F7CD96A386D71FAB7E061B81F1EA520A04FE9F292442DA84B3C702C9E7BE
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7A8325FA649D0A450EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637E16D8B060A9A23898638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D83B65766707D75771DD8D7226AE44810C6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE7A6779F98BF527B7A9FA2833FD35BB23D9E625A9149C048EECCD848CCB6FE560CCB629EEF1311BF91D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BE96A3A8AAADC8934A471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC1D24C945E8ED59B63AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F7900637FB8DFA2B4C1950FED81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89FBC98423A6B99EAC042539A7722CA490CB5C8C57E37DE458BEDA766A37F9254B7
-X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8183A4AFAF3EA6BDC44C234C8B12C006B7AE7BCF8822911FFAB2FB32862571613143AD8EB30CF7A9EDBB1881A6453793CE9C32612AADDFBE0612021BB8FAF1186319510FB958DCE06DB6ED91DBE5ABE359ADBCB5631A0A9D21F5E4DBAB5AF249FA793EDB24507CE13387DFF0A840B692CF8
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34697E0FA301E2821512B99A519D150F76F7B1A73AD8D3517A038B7B884B7B701B04D098B425297B241D7E09C32AA3244CD0EE1E62063B3105DB9B6554D1A788C26C24832127668422927AC6DF5659F194
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojsh/F1VvpH8fzO5CmjyADig==
-X-Mailru-Sender: 6C3E74F07C41AE94DFF23C58890DE8D59F5475698DDFD438EAEA4CB4B52CC787B5B3668FD548DDDEE6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-Received-SPF: pass client-ip=94.100.177.104;
- envelope-from=v.sementsov-og@mail.ru; helo=smtp44.i.mail.ru
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:8b0:10b:1236::1
+ (failed)
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+ec7d76d335b5b4f3a4a1+6779+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,80 +77,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>, "Daniel P
+ . =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>, kvm@vger.kernel.org,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Old vsementsov@virtuozzo.com is not accessible anymore.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
----
+--=-gCoPbDLWIDj5UmvIQmUN
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-v2: @ya.ru mailbox works bad with mailing lists and git send-email
-command, @mail.ru works normally.
+On Mon, 2022-03-14 at 18:27 -0400, Michael S. Tsirkin wrote:
+> On Mon, Mar 14, 2022 at 03:45:47PM +0000, David Woodhouse wrote:
+> > It's the opposite of a feature =E2=80=94 it's turning the feature *off*=
+ ;)
+>=20
+> Right. Still - do you believe it's appropriate in soft freeze
+> and if yes why?
+>=20
 
-Probably, I'll have to change the email again in the near future. May be
-not. But I think it worth to change it now to something that works.
+Not sure I care very much. I've reposted it a couple of times, with the
+bug fixes that go along with it, since it was first posted in October
+2020. I confess I don't keep track very much of the freeze status; I'm
+only posting the series again this time because Igor posted a related
+patch.
 
- MAINTAINERS | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+But all it's doing is giving us a way to *disable* functionality; it's
+not adding new functionality. I suppose someone who cares might make an
+argument that that's not so egregious a 'feature' to slip in the middle
+of a set of bug fixes that have been outstanding for so long.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f2e9ce1da2..c34b7562b5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2500,7 +2500,7 @@ F: scsi/*
- 
- Block Jobs
- M: John Snow <jsnow@redhat.com>
--M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
- L: qemu-block@nongnu.org
- S: Supported
- F: blockjob.c
-@@ -2539,7 +2539,7 @@ T: git https://repo.or.cz/qemu/armbru.git block-next
- 
- Dirty Bitmaps
- M: Eric Blake <eblake@redhat.com>
--M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
- R: John Snow <jsnow@redhat.com>
- L: qemu-block@nongnu.org
- S: Supported
-@@ -2762,13 +2762,13 @@ F: scripts/*.py
- F: tests/*.py
- 
- Benchmark util
--M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
- S: Maintained
- F: scripts/simplebench/
- T: git https://src.openvz.org/scm/~vsementsov/qemu.git simplebench
- 
- Transactions helper
--M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
- S: Maintained
- F: include/qemu/transactions.h
- F: util/transactions.c
-@@ -3352,7 +3352,7 @@ F: block/iscsi-opts.c
- 
- Network Block Device (NBD)
- M: Eric Blake <eblake@redhat.com>
--M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
- L: qemu-block@nongnu.org
- S: Maintained
- F: block/nbd*
-@@ -3448,7 +3448,7 @@ F: block/dmg.c
- parallels
- M: Stefan Hajnoczi <stefanha@redhat.com>
- M: Denis V. Lunev <den@openvz.org>
--M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
- L: qemu-block@nongnu.org
- S: Supported
- F: block/parallels.c
--- 
-2.35.1
+--=-gCoPbDLWIDj5UmvIQmUN
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIwMzE2MDkzNDExWjAvBgkqhkiG9w0BCQQxIgQgEk8xJaSs
+GEd8liy0L5P3+QfpjkB76XkSPUacIxD3kaowgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgASHt3QphCrNqsSC0xHsjeNgDChx8w/OmKI
+WqydxjXzG/ezvA/nr4XVAdEvTWNrLxb3tX442RBpg2oCQNalbTurEJ8qkl/ZGJsHDNQK1Y9AhKuL
+kaA/zrta80GZUy5DuLRy1bIz1Zd4/7P5xd9shEhvWkc5Vls72rDNGdP56YDfBuBiro0rEC6OlGPw
+xA8ashO8srWISnPImVRWI1JyQEYAF/5jbnhfCJk1Hx1zNypISJ0IwNhxwW7b4SjasgSM0WHOGT9V
+LeuBsnEs62G+D8+HXg1KGzh6C8hbTYN6QcYttcptkYEopSp+P7pYqAV+ZLJJ6u8Y3sHbwDSeUQcu
+MyB1HKSH/j5m2CPP3gqzGbetzNg6sq1hNFCbb15Ic6EiX6uvOBYB3wC1EBYJY39z1ZOcDL3mgnQA
+duxiyQ8X7VELqLdYIZicpE/Kwc2+FEq50oqv5+H4XkmSYJle5/Y5WmXUeYXbyNiF4WM6Brndb20f
+KZ7sgibA23TBWnV/NvVWVOy9VWPJPv1zk0liLJaT5E9yR2kuqOZbNsqI/Q5hUKb6u7u4TTpFvNNJ
+r3uz2iw58cZw+9uTDVBRVLexoaGgPx2pChZtRmc449bPb5mIRBdkVjIhWLaoTgoheE1E2B6vrfXJ
+K8pWcYWJ26AAGUaODhT6awuLRHZPAMWaKJTNIgC/NQAAAAAAAA==
+
+
+--=-gCoPbDLWIDj5UmvIQmUN--
 
 
