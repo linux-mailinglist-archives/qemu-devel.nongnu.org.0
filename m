@@ -2,70 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7015D4DB36B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:38:20 +0100 (CET)
-Received: from localhost ([::1]:41710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5F54DB35E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:36:47 +0100 (CET)
+Received: from localhost ([::1]:38536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUUn5-000842-2U
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:38:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56190)
+	id 1nUUla-00061K-3n
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:36:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUUeW-00060M-7z
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:29:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20058)
+ (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
+ id 1nUUe9-00054d-5c
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:29:05 -0400
+Received: from smtp66.ord1c.emailsrvr.com ([108.166.43.66]:59505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUUeT-00079s-JE
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:29:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647440964;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WY3NWJWWoIvuwPx9Z9Ikpt53QpRe+U9kXa6keeILGiM=;
- b=O6ljUvIfaRSgQ5Hb5EFKVU1F9rBIy7Umzao+mj6z4Y2uqUTQ3g7FfW7sWYaIyOiks4SKys
- 84o16sZ/ItMOp9IJJZe2//H638q2MltO811PsYD9yW1N5hf/CZveZgFOKuNb7LkU+XnSsn
- XcX+r+bQacAj57eoDFL2OIR7qGLJWo4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-600-dC35KmsqNHi1YxnvKq4VoA-1; Wed, 16 Mar 2022 10:29:23 -0400
-X-MC-Unique: dC35KmsqNHi1YxnvKq4VoA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CD7418037A4;
- Wed, 16 Mar 2022 14:29:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3E43112C087;
- Wed, 16 Mar 2022 14:28:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8249621E66D2; Wed, 16 Mar 2022 15:28:57 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Subject: Re: [PATCH v3 2/3] util/main-loop: Introduce the main loop into QOM
-References: <20220316135321.142850-1-nsaenzju@redhat.com>
- <20220316135321.142850-3-nsaenzju@redhat.com>
-Date: Wed, 16 Mar 2022 15:28:57 +0100
-In-Reply-To: <20220316135321.142850-3-nsaenzju@redhat.com> (Nicolas Saenz
- Julienne's message of "Wed, 16 Mar 2022 14:53:22 +0100")
-Message-ID: <877d8uug2e.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
+ id 1nUUe6-00077f-M2
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:29:04 -0400
+X-Auth-ID: adeason@sinenomine.net
+Received: by smtp1.relay.ord1c.emailsrvr.com (Authenticated sender:
+ adeason-AT-sinenomine.net) with ESMTPSA id CE2B62009E; 
+ Wed, 16 Mar 2022 10:29:00 -0400 (EDT)
+Date: Wed, 16 Mar 2022 09:29:00 -0500
+From: Andrew Deason <adeason@sinenomine.net>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH] softmmu/physmem: Use qemu_madvise
+Message-Id: <20220316092900.5c16426663a8b07b22c1172d@sinenomine.net>
+In-Reply-To: <a9f31184-f157-e973-5c75-0af327fc2921@redhat.com>
+References: <20220316040405.4131-1-adeason@sinenomine.net>
+ <9c36fe6b-39e1-0bfc-d2bb-97b106828ee1@redhat.com>
+ <CAFEAcA96=yDKOknYmCKriWDJe4g-q07+b8yL3tFUf9=G-o84zA@mail.gmail.com>
+ <YjGvvRvPRV3ACbFY@work-vm>
+ <a9f31184-f157-e973-5c75-0af327fc2921@redhat.com>
+Organization: Sine Nomine Associates
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Classification-ID: 935de880-a640-45a3-a6c0-45466e19b347-1-1
+Received-SPF: pass client-ip=108.166.43.66;
+ envelope-from=adeason@sinenomine.net; helo=smtp66.ord1c.emailsrvr.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
@@ -81,83 +61,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com,
- qemu-block@nongnu.org, michael.roth@amd.com, mtosatti@redhat.com,
- qemu-devel@nongnu.org, eduardo@habkost.net, hreitz@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, eblake@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nicolas Saenz Julienne <nsaenzju@redhat.com> writes:
+On Wed, 16 Mar 2022 10:41:41 +0100
+David Hildenbrand <david@redhat.com> wrote:
 
-> 'event-loop-base' provides basic property handling for all 'AioContext'
-> based event loops. So let's define a new 'MainLoopClass' that inherits
-> from it. This will permit tweaking the main loop's properties through
-> qapi as well as through the command line using the '-object' keyword[1].
-> Only one instance of 'MainLoopClass' might be created at any time.
->
-> 'EventLoopBaseClass' learns a new callback, 'can_be_deleted()' so as to
-> mark 'MainLoop' as non-deletable.
->
-> [1] For example:
->       -object main-loop,id=main-loop,aio-max-batch=<value>
->
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> On 16.03.22 10:37, Dr. David Alan Gilbert wrote:
+> > * Peter Maydell (peter.maydell@linaro.org) wrote:
+> >> On Wed, 16 Mar 2022 at 07:53, David Hildenbrand <david@redhat.com> wrote:
+> >>>
+> >>> On 16.03.22 05:04, Andrew Deason wrote:
+> >>>> We have a thin wrapper around madvise, called qemu_madvise, which
+> >>>> provides consistent behavior for the !CONFIG_MADVISE case, and works
+> >>>> around some platform-specific quirks (some platforms only provide
+> >>>> posix_madvise, and some don't offer all 'advise' types). This specific
+> >>>> caller of madvise has never used it, tracing back to its original
+> >>>> introduction in commit e0b266f01dd2 ("migration_completion: Take
+> >>>> current state").
+> >>>>
+> >>>> Call qemu_madvise here, to follow the same logic as all of our other
+> >>>> madvise callers. This slightly changes the behavior for
+> >>>> !CONFIG_MADVISE (EINVAL instead of ENOSYS, and a slightly different
+> >>>> error message), but this is now more consistent with other callers
+> >>>> that use qemu_madvise.
+> >>>>
+> >>>> Signed-off-by: Andrew Deason <adeason@sinenomine.net>
+> >>>> ---
+> >>>> Looking at the history of commits that touch this madvise() call, it
+> >>>> doesn't _look_ like there's any reason to be directly calling madvise vs
+> >>>> qemu_advise (I don't see anything mentioned), but I'm not sure.
+> >>>>
+> >>>>  softmmu/physmem.c | 12 ++----------
+> >>>>  1 file changed, 2 insertions(+), 10 deletions(-)
+> >>>>
+> >>>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> >>>> index 43ae70fbe2..900c692b5e 100644
+> >>>> --- a/softmmu/physmem.c
+> >>>> +++ b/softmmu/physmem.c
+> >>>> @@ -3584,40 +3584,32 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
+> >>>>                           rb->idstr, start, length, ret);
+> >>>>              goto err;
+> >>>>  #endif
+> >>>>          }
+> >>>>          if (need_madvise) {
+> >>>>              /* For normal RAM this causes it to be unmapped,
+> >>>>               * for shared memory it causes the local mapping to disappear
+> >>>>               * and to fall back on the file contents (which we just
+> >>>>               * fallocate'd away).
+> >>>>               */
+> >>>> -#if defined(CONFIG_MADVISE)
+> >>>>              if (qemu_ram_is_shared(rb) && rb->fd < 0) {
+> >>>> -                ret = madvise(host_startaddr, length, QEMU_MADV_REMOVE);
+> >>>> +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_REMOVE);
+> >>>>              } else {
+> >>>> -                ret = madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
+> >>>> +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
+> >>>
+> >>> posix_madvise(QEMU_MADV_DONTNEED) has completely different semantics
+> >>> then madvise() -- it's not a discard that we need here.
+> >>>
+> >>> So ram_block_discard_range() would now succeed in environments (BSD?)
+> >>> where it's supposed to fail.
+> >>>
+> >>> So AFAIKs this isn't sane.
+> >>
+> >> But CONFIG_MADVISE just means "host has madvise()"; it doesn't imply
+> >> "this is a Linux madvise() with MADV_DONTNEED". Solaris madvise()
+> >> doesn't seem to have  MADV_DONTNEED at all; a quick look at the
+> >> FreeBSD manpage suggests its madvise MADV_DONTNEED is identical
+> >> to its posix_madvise MADV_DONTNEED.
+> >>
+> >> If we need "specifically Linux MADV_DONTNEED semantics" maybe we
+> >> should define a QEMU_MADV_LINUX_DONTNEED which either (a) does the
+> >> right thing or (b) fails, and use qemu_madvise() regardless.
+> >>
+> >> Certainly the current code is pretty fragile to being changed by
+> >> people who don't understand the undocumented subtlety behind
+> >> the use of a direct madvise() call here.
+> > 
+> > Yeh and I'm not sure I can remembe rall the subtleties; there's a big
+> > hairy set of ifdef's in include/qemu/madvise.h that makes
+> > sure we always have the definition of QEMU_MADV_REMOVE/DONTNEED
+> > even on platforms that might not define it themselves.
+> > 
+> > But I think this code is used for things with different degrees
+> > of care about the semantics; e.g. 'balloon' just cares that
+> > it frees memory up and doesn't care about the detailed semantics
+> > that much; so it's probably fine with that.
+> > Postcopy is much more touchy, but then it's only going to be
+> > calling this on Linux anyway (because of the userfault dependency).
+> 
+> MADV_DONTNEED/MADV_REMOVE only provides discard semantics on Linux IIRC
+> -- and that's what we want to achieve: ram_block_discard_range()
+> 
+> So I agree with Peter that we might want to make this more explicit.
 
-[...]
+Maybe this could use an argument like QEMU_MADV_DONTNEED_DISCARD, which
+gets #define'd to QEMU_MADV_INVALID for posix_madvise, or based on a
+configure-time test, or just all non-Linux to be safe? Regardless, it
+means "MADV_DONTNEED with discard semantics".
 
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index eeb5395ff3..10800166e8 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -528,6 +528,19 @@
->              '*poll-shrink': 'int',
->              '*aio-max-batch': 'int' } }
->  
-> +##
-> +# @MainLoopProperties:
-> +#
-> +# Properties for the main-loop object.
-> +#
-> +# @aio-max-batch: maximum number of requests in a batch for the AIO engine,
-> +#                 0 means that the engine will use its default (default:0)
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'MainLoopProperties',
-> +  'data': { '*aio-max-batch': 'int' } }
-> +
+Solaris does have MADV_DONTNEED (possibly new in Solaris 11; I haven't
+checked the history), but no MADV_REMOVE. As of 11.4.42 CBE, madvise(3C) says:
 
-IothreadProperties has the same member, with the same documentation.
+       MADV_DONTNEED
 
-Do main loop and iothreads have a common ancestor, conceptually?
+           Tell  the  kernel  that  the  specified  address range is no longer
+           needed, so the system starts to free the resources associated  with
+           the address range.
 
-If yes, it might make sense for MainLoopProperties and
-IothreadProperties to have a common base type, and put @aio-max-batch
-there.  This is not a demand.
+           MADV_DONTNEED  and  MADV_FREE  perform  related but distinct opera-
+           tions. MADV_DONTNEED tries to move  any  data  from  the  specified
+           address  range  out  of memory, but it ensures that the contents of
+           that range  will  be  recovered  when  they  are  next  referenced.
+           MADV_FREE  does not attempt to preserve the contents of the address
+           range. As a result, subsequent references to an address range  that
+           received  madvise (MADV_DONTNEED) are likely to be slower than ref-
+           erences to a range that received madvise (MADV_FREE).
 
->  ##
->  # @MemoryBackendProperties:
->  #
-> @@ -818,6 +831,7 @@
->      { 'name': 'input-linux',
->        'if': 'CONFIG_LINUX' },
->      'iothread',
-> +    'main-loop',
->      { 'name': 'memory-backend-epc',
->        'if': 'CONFIG_LINUX' },
->      'memory-backend-file',
-> @@ -883,6 +897,7 @@
->        'input-linux':                { 'type': 'InputLinuxProperties',
->                                        'if': 'CONFIG_LINUX' },
->        'iothread':                   'IothreadProperties',
-> +      'main-loop':                  'MainLoopProperties',
->        'memory-backend-epc':         { 'type': 'MemoryBackendEpcProperties',
->                                        'if': 'CONFIG_LINUX' },
->        'memory-backend-file':        'MemoryBackendFileProperties',
+Is there a small test program I could run to see if the semantics are
+what we want? Or should we just assume only Linux works here; I assume
+that's safer.
 
-QAPI schema
-Acked-by: Markus Armbruster <armbru@redhat.com>
-
+-- 
+Andrew Deason
+adeason@sinenomine.net
 
