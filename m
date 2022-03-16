@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A3E4DB55F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 16:53:20 +0100 (CET)
-Received: from localhost ([::1]:53560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74DAE4DB580
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 16:59:29 +0100 (CET)
+Received: from localhost ([::1]:59684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUVxe-0005D1-Hc
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 11:53:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50686)
+	id 1nUW3c-0001Qy-BD
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 11:59:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nUVwB-0004R2-Me
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:51:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38888)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1nUW26-0000Tg-4n
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:57:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nUVw7-0004p5-9g
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:51:45 -0400
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1nUW24-0006C7-3j
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:57:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647445901;
+ s=mimecast20190719; t=1647446270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=WDz64sdmcRN0ZJCFjzSef037uJKP2C35Pv2PO/Vzf3c=;
- b=cSXV/XL26WnBqGsvWAofeyoIYIAqaFz64sM0aJHgBZoscO6SeltCNHVbHmFIxYe/QGEinf
- TfGWT265pV1t5jndYi+urrcug+exbxaczCdjsnoqkWnI0oHMVBYQURbAbzeJjtnnOYfYij
- W/74UEUt4XKO6nZHHk0cw9812+7tiHo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GoECCSZ2Jg6FE5aB4qSOGx81D5EaUYCe2wX6fVd8hqQ=;
+ b=f3bRSmlM8s0cax+El18GHR7kyInwr17YowNktCwvZzms27+zUm2LpYkghHVLaTW5jxsn+n
+ ommp/bOAnpbuvvm+BuFv4kkoN9IdjbhyAsoj6jNbaALcBYN8Ew7gaLcn/0YKm2SAl8mIt8
+ 9ckfmjFZpVjurABhWGC6nVsQ6PE/M4g=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-608-iqAyelMZP8mm7dSWEYZbpw-1; Wed, 16 Mar 2022 11:51:39 -0400
-X-MC-Unique: iqAyelMZP8mm7dSWEYZbpw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-613-Lx-_x8GOOk2h1pvIjBLPGQ-1; Wed, 16 Mar 2022 11:57:47 -0400
+X-MC-Unique: Lx-_x8GOOk2h1pvIjBLPGQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B6021C0D100;
- Wed, 16 Mar 2022 15:51:39 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E937F40FF40B;
- Wed, 16 Mar 2022 15:51:38 +0000 (UTC)
-Date: Wed, 16 Mar 2022 15:51:32 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Yongji Xie <xieyongji@bytedance.com>
-Subject: Re: [PATCH v2 3/6] libvduse: Add VDUSE (vDPA Device in Userspace)
- library
-Message-ID: <YjIHhP7WlXyZ9gJm@stefanha-x1.localdomain>
-References: <20220215105943.90-1-xieyongji@bytedance.com>
- <20220215105943.90-4-xieyongji@bytedance.com>
- <YjBg3QnSnpY2cAdL@stefanha-x1.localdomain>
- <CACycT3s7cgHBAqmpy=RZPwPZz4uptr0REzJ9fhM1qv+G_miS1Q@mail.gmail.com>
- <YjHl66pJYw45oKL9@stefanha-x1.localdomain>
- <CACycT3vpQsLG7oxeTHMs3w1qdO7fGJnjGiORfm=t1U2ehgD+bw@mail.gmail.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D73785A5BE;
+ Wed, 16 Mar 2022 15:57:47 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 85910401053;
+ Wed, 16 Mar 2022 15:57:44 +0000 (UTC)
+Date: Wed, 16 Mar 2022 16:57:39 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 15/22] x86: Grant AMX permission for guest
+Message-ID: <YjII86LKWTe0mVED@angien.pipo.sk>
+References: <20220308113445.859669-1-pbonzini@redhat.com>
+ <20220308113445.859669-16-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="O7EhSDJNkOM9lko+"
+In-Reply-To: <20220308113445.859669-16-pbonzini@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACycT3vpQsLG7oxeTHMs3w1qdO7fGJnjGiORfm=t1U2ehgD+bw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pkrempa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,96 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org,
+ Jing Liu <jing2.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Mar 08, 2022 at 12:34:38 +0100, Paolo Bonzini wrote:
+> From: Yang Zhong <yang.zhong@intel.com>
+> 
+> Kernel allocates 4K xstate buffer by default. For XSAVE features
+> which require large state component (e.g. AMX), Linux kernel
+> dynamically expands the xstate buffer only after the process has
+> acquired the necessary permissions. Those are called dynamically-
+> enabled XSAVE features (or dynamic xfeatures).
+> 
+> There are separate permissions for native tasks and guests.
+> 
+> Qemu should request the guest permissions for dynamic xfeatures
+> which will be exposed to the guest. This only needs to be done
+> once before the first vcpu is created.
+> 
+> KVM implemented one new ARCH_GET_XCOMP_SUPP system attribute API to
+> get host side supported_xcr0 and Qemu can decide if it can request
+> dynamically enabled XSAVE features permission.
+> https://lore.kernel.org/all/20220126152210.3044876-1-pbonzini@redhat.com/
+> 
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> Signed-off-by: Jing Liu <jing2.liu@intel.com>
+> Message-Id: <20220217060434.52460-4-yang.zhong@intel.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  target/i386/cpu.c          |  7 +++++
+>  target/i386/cpu.h          |  4 +++
+>  target/i386/kvm/kvm-cpu.c  | 12 ++++----
+>  target/i386/kvm/kvm.c      | 57 ++++++++++++++++++++++++++++++++++++++
+>  target/i386/kvm/kvm_i386.h |  1 +
+>  5 files changed, 75 insertions(+), 6 deletions(-)
 
---O7EhSDJNkOM9lko+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+With this commit qemu crashes for me when invoking the following
+QMP command:
 
-On Wed, Mar 16, 2022 at 09:49:19PM +0800, Yongji Xie wrote:
-> On Wed, Mar 16, 2022 at 9:28 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
-te:
-> >
-> > On Tue, Mar 15, 2022 at 07:38:12PM +0800, Yongji Xie wrote:
-> > > On Tue, Mar 15, 2022 at 5:48 PM Stefan Hajnoczi <stefanha@redhat.com>=
- wrote:
-> > > >
-> > > > On Tue, Feb 15, 2022 at 06:59:40PM +0800, Xie Yongji wrote:
-> > > > > VDUSE [1] is a linux framework that makes it possible to implement
-> > > > > software-emulated vDPA devices in userspace. This adds a library
-> > > > > as a subproject to help implementing VDUSE backends in QEMU.
-> > > > >
-> > > > > [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.ht=
-ml
-> > > > >
-> > > > > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-> > > > > ---
-> > > > >  meson.build                                 |   15 +
-> > > > >  meson_options.txt                           |    2 +
-> > > > >  scripts/meson-buildoptions.sh               |    3 +
-> > > > >  subprojects/libvduse/include/atomic.h       |    1 +
-> > > > >  subprojects/libvduse/libvduse.c             | 1152 +++++++++++++=
-++++++
-> > > > >  subprojects/libvduse/libvduse.h             |  225 ++++
-> > > > >  subprojects/libvduse/linux-headers/linux    |    1 +
-> > > > >  subprojects/libvduse/meson.build            |   10 +
-> > > > >  subprojects/libvduse/standard-headers/linux |    1 +
-> > > > >  9 files changed, 1410 insertions(+)
-> > > > >  create mode 120000 subprojects/libvduse/include/atomic.h
-> > > > >  create mode 100644 subprojects/libvduse/libvduse.c
-> > > > >  create mode 100644 subprojects/libvduse/libvduse.h
-> > > > >  create mode 120000 subprojects/libvduse/linux-headers/linux
-> > > > >  create mode 100644 subprojects/libvduse/meson.build
-> > > > >  create mode 120000 subprojects/libvduse/standard-headers/linux
-> > > >
-> > > > Please update the ./MAINTAINERS file when adding new source files.
-> > >
-> > > OK, sure. And would you mind being one of the maintainers since I'm
-> > > not sure if I can do this job well.
-> >
-> > You're welcome to become the maintainer. It means that you will be CCed
-> > on patches affecting this code and sometimes people might send you
-> > questions about VDUSE exports.
-> >
->=20
-> I see. I will try my best.
->=20
-> > Is the issue lack of time?
-> >
->=20
-> I think the time is enough. But since I have no experience, I'm not
-> sure if I can do this well.
+$ ~pipo/git/qemu.git/build/qemu-system-x86_64 -S -no-user-config -nodefaults -nographic -machine none,accel=kvm -qmp stdio
+{"QMP": {"version": {"qemu": {"micro": 90, "minor": 2, "major": 6}, "package": "v7.0.0-rc0-8-g1d60bb4b14"}, "capabilities": ["oob"]}}
+{'execute':'qmp_capabilities'}
+{"return": {}}
+{"execute":"qom-list-properties","arguments":{"typename":"max-x86_64-cpu"},"id":"libvirt-41"}
+qemu-system-x86_64: ../target/i386/kvm/kvm-cpu.c:105: kvm_cpu_xsave_init: Assertion `esa->size == eax' failed.
+Aborted (core dumped)
 
-Great! Don't worry there will probably not be much you need to do.
+Note that the above is on a box with an 'AMD Ryzen 9 3900X'.
 
-If someone submits a patch they'll CC you and you can post your
-"Reviewed-by:". Kevin or I can pick up the patches you've reviewed and
-send them with our pull requests to the qemu.git maintainer.
-
-Stefan
-
---O7EhSDJNkOM9lko+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIyB4QACgkQnKSrs4Gr
-c8irxQgAjdC7jHgW01bu5TLqScm9OMdlwGVkTQ5YUrqgWi1bRp023VSSB9pj1Kel
-gi6ms6qBHQbPRdCtCX/59U8asWTMkf6TIlUYb4Ty6HpcUlLKHSQNv3GqgStDr9Vx
-isCrg28U9vo+orcIN3L5JgqltNfVIEFEG5f5EVXbZ0GA0TDoLF/9VMh3wXXAEYiO
-Md+Bd7MVAhsjDMVK7Z7MHGi4jySDW1IYo0wJ4lT30AqIWIZwyKesUDfNQzPrtTgD
-9aUdQx2dyBS8Qc69INWdVgvp/KCBhAVU6OfrQZz71pyPz2T1QcF8xpq27J2fmdbG
-yPPB0OuPquXvgGIiOzsGE/1x0AMQkg==
-=ucqH
------END PGP SIGNATURE-----
-
---O7EhSDJNkOM9lko+--
+Curiously on a laptop with an Intel chip (Intel(R) Core(TM) i7-10610U)
+it seems to work.
 
 
