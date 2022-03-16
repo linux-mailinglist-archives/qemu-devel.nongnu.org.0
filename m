@@ -2,68 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E284DADEB
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 10:54:56 +0100 (CET)
-Received: from localhost ([::1]:55460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1DF4DADAA
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 10:41:17 +0100 (CET)
+Received: from localhost ([::1]:51482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUQMl-0007Fm-17
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 05:54:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40396)
+	id 1nUQ9b-0005HD-SZ
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 05:41:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+ec7d76d335b5b4f3a4a1+6779+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1nUQ2y-0001fF-Ju
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:34:24 -0400
-Received: from [2001:8b0:10b:1236::1] (port=42726 helo=casper.infradead.org)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nUQ5r-0003Ea-IQ
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:37:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+ec7d76d335b5b4f3a4a1+6779+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1nUQ2v-0004r3-Rh
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:34:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=xEEFGml7awM3XxmEWTe1XCExGeL5XjES2qGGNswn+uU=; b=onFgeB7qNuG4FU9uLkz8wBCW6v
- VD+ViFSnvMQLin0R6VWgw21SWgMIIrzNZWHls9GwIxXh0+O9oLdKCdp3TKcQgcHT2/3RG8qu5/9tV
- UZgWoE6+2p+7puXCOBFprR3tPOo57gRIyy7BU6ftgC0RoZZcydTOiGPZcC+cxMaotmdo1sLNvUY43
- TaaTMtTDAN44KrQThnj3whX1ZFa81LqYtrXklUvJcRDL+brgdolxUJT623n38GISahYV45q/urZJL
- RKt1VqOPd7SjoTkmWfpW9v+SHstfS24gg/wN8qV7jQ1qxImSjXZFqIYvnHKyXt3lv071CPyH3vRgy
- 91VTSxnQ==;
-Received: from [2001:8b0:10b:1::3ae] (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nUQ2n-005r7t-Gp; Wed, 16 Mar 2022 09:34:13 +0000
-Message-ID: <11f6725c8b60b6da8b6db04339d7e39a3321ce47.camel@infradead.org>
-Subject: Re: [PATCH 2/4] intel_iommu: Support IR-only mode without DMA
- translation
-From: David Woodhouse <dwmw2@infradead.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Date: Wed, 16 Mar 2022 09:34:11 +0000
-In-Reply-To: <20220314182454-mutt-send-email-mst@kernel.org>
-References: <20220314142544.150555-1-dwmw2@infradead.org>
- <20220314142544.150555-2-dwmw2@infradead.org>
- <20220314112001-mutt-send-email-mst@kernel.org>
- <9db2fb68447b27203e6e006f29e2b960565c37bb.camel@infradead.org>
- <20220314182454-mutt-send-email-mst@kernel.org>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-gCoPbDLWIDj5UmvIQmUN"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nUQ5m-0005KI-B0
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:37:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647423427;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3oXWjeULzsgfMjb8h+gGdBHMTWZx02xohSiScpk6WOw=;
+ b=WB1m7Rw653o3Uupsodj2ebqHgalhkcWTfW5xkRMWdpPUh1ShG6WVYtgfo80qDU7cmndEaX
+ H78+6UqbFn3fdBcoXZgEfntHab91/D0hwWozZjuZDNkSisu1uYFG1+LXVqvaTF9nczg5K4
+ RbQjq3AZf7rKyHXZp8h5H+r7qsL2hAY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-47-1CXYrmM4NJWyjdc6lrU4VA-1; Wed, 16 Mar 2022 05:37:06 -0400
+X-MC-Unique: 1CXYrmM4NJWyjdc6lrU4VA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v67-20020a1cac46000000b00383e71bb26fso556027wme.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 02:37:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=3oXWjeULzsgfMjb8h+gGdBHMTWZx02xohSiScpk6WOw=;
+ b=J/3iTdtod98NJLgNSAk7YDbJ3cICll3FNb8yDSmn585zmZRbs7hRQ3J+JQAZGEkFwa
+ 1nqGvtl+ADJhLiMUos8rMi2Dy7FJqCDFBVInqPLDmizQMFfiOl0KVqZxU7vebqM5jhE7
+ Yny9iJKMHxH4k+xV/NZRem92rK3vYJnibcY3AHlV/X+s9V8umJfLYr15QiTzOgELVzKS
+ 2K3PUBw+L5Kbmv8N11WxewlEL3PxJ6UpgK/hNg4RBMYUHZ9pv/VBa/aLcPiZlBvWYFWU
+ y4jw8zqxgBhKpfXdmWjDgDLRI8B/8+rxLA6/OOACEFRAYtEI/sJU9BB3l9cWH46mZhdY
+ go0A==
+X-Gm-Message-State: AOAM532D7eyogBJ7l04rgxSJ7jBVVeCyNDhwb9+Y9XMH8y4JzWv+/ju5
+ Mga1692MDRj8vV2Fi/5BmUfUlt+oPitZ+rK0tSoMbp5UDE970Sfo62QYe0xIZpbeybK22ZCHL8M
+ r+WU2loLoSz5UEsw=
+X-Received: by 2002:a05:600c:354f:b0:38a:29e:8540 with SMTP id
+ i15-20020a05600c354f00b0038a029e8540mr6693704wmq.20.1647423424903; 
+ Wed, 16 Mar 2022 02:37:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0lN3SxCBnR75d3xXIIIOhJieeJLGjVXPvOZQJ5dK3Gzt2cCXtKvGA8eufDAPZdH8hTjqBlg==
+X-Received: by 2002:a05:600c:354f:b0:38a:29e:8540 with SMTP id
+ i15-20020a05600c354f00b0038a029e8540mr6693668wmq.20.1647423424497; 
+ Wed, 16 Mar 2022 02:37:04 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ m9-20020a05600c4f4900b00389e8184edcsm4553734wmq.35.2022.03.16.02.37.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Mar 2022 02:37:03 -0700 (PDT)
+Date: Wed, 16 Mar 2022 09:37:01 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] softmmu/physmem: Use qemu_madvise
+Message-ID: <YjGvvRvPRV3ACbFY@work-vm>
+References: <20220316040405.4131-1-adeason@sinenomine.net>
+ <9c36fe6b-39e1-0bfc-d2bb-97b106828ee1@redhat.com>
+ <CAFEAcA96=yDKOknYmCKriWDJe4g-q07+b8yL3tFUf9=G-o84zA@mail.gmail.com>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:8b0:10b:1236::1
- (failed)
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+ec7d76d335b5b4f3a4a1+6779+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+In-Reply-To: <CAFEAcA96=yDKOknYmCKriWDJe4g-q07+b8yL3tFUf9=G-o84zA@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,152 +101,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, "Daniel P
- . =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>, kvm@vger.kernel.org,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
+ Andrew Deason <adeason@sinenomine.net>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Wed, 16 Mar 2022 at 07:53, David Hildenbrand <david@redhat.com> wrote:
+> >
+> > On 16.03.22 05:04, Andrew Deason wrote:
+> > > We have a thin wrapper around madvise, called qemu_madvise, which
+> > > provides consistent behavior for the !CONFIG_MADVISE case, and works
+> > > around some platform-specific quirks (some platforms only provide
+> > > posix_madvise, and some don't offer all 'advise' types). This specific
+> > > caller of madvise has never used it, tracing back to its original
+> > > introduction in commit e0b266f01dd2 ("migration_completion: Take
+> > > current state").
+> > >
+> > > Call qemu_madvise here, to follow the same logic as all of our other
+> > > madvise callers. This slightly changes the behavior for
+> > > !CONFIG_MADVISE (EINVAL instead of ENOSYS, and a slightly different
+> > > error message), but this is now more consistent with other callers
+> > > that use qemu_madvise.
+> > >
+> > > Signed-off-by: Andrew Deason <adeason@sinenomine.net>
+> > > ---
+> > > Looking at the history of commits that touch this madvise() call, it
+> > > doesn't _look_ like there's any reason to be directly calling madvise vs
+> > > qemu_advise (I don't see anything mentioned), but I'm not sure.
+> > >
+> > >  softmmu/physmem.c | 12 ++----------
+> > >  1 file changed, 2 insertions(+), 10 deletions(-)
+> > >
+> > > diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> > > index 43ae70fbe2..900c692b5e 100644
+> > > --- a/softmmu/physmem.c
+> > > +++ b/softmmu/physmem.c
+> > > @@ -3584,40 +3584,32 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
+> > >                           rb->idstr, start, length, ret);
+> > >              goto err;
+> > >  #endif
+> > >          }
+> > >          if (need_madvise) {
+> > >              /* For normal RAM this causes it to be unmapped,
+> > >               * for shared memory it causes the local mapping to disappear
+> > >               * and to fall back on the file contents (which we just
+> > >               * fallocate'd away).
+> > >               */
+> > > -#if defined(CONFIG_MADVISE)
+> > >              if (qemu_ram_is_shared(rb) && rb->fd < 0) {
+> > > -                ret = madvise(host_startaddr, length, QEMU_MADV_REMOVE);
+> > > +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_REMOVE);
+> > >              } else {
+> > > -                ret = madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
+> > > +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
+> >
+> > posix_madvise(QEMU_MADV_DONTNEED) has completely different semantics
+> > then madvise() -- it's not a discard that we need here.
+> >
+> > So ram_block_discard_range() would now succeed in environments (BSD?)
+> > where it's supposed to fail.
+> >
+> > So AFAIKs this isn't sane.
+> 
+> But CONFIG_MADVISE just means "host has madvise()"; it doesn't imply
+> "this is a Linux madvise() with MADV_DONTNEED". Solaris madvise()
+> doesn't seem to have  MADV_DONTNEED at all; a quick look at the
+> FreeBSD manpage suggests its madvise MADV_DONTNEED is identical
+> to its posix_madvise MADV_DONTNEED.
+> 
+> If we need "specifically Linux MADV_DONTNEED semantics" maybe we
+> should define a QEMU_MADV_LINUX_DONTNEED which either (a) does the
+> right thing or (b) fails, and use qemu_madvise() regardless.
+> 
+> Certainly the current code is pretty fragile to being changed by
+> people who don't understand the undocumented subtlety behind
+> the use of a direct madvise() call here.
 
---=-gCoPbDLWIDj5UmvIQmUN
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Yeh and I'm not sure I can remembe rall the subtleties; there's a big
+hairy set of ifdef's in include/qemu/madvise.h that makes
+sure we always have the definition of QEMU_MADV_REMOVE/DONTNEED
+even on platforms that might not define it themselves.
 
-On Mon, 2022-03-14 at 18:27 -0400, Michael S. Tsirkin wrote:
-> On Mon, Mar 14, 2022 at 03:45:47PM +0000, David Woodhouse wrote:
-> > It's the opposite of a feature =E2=80=94 it's turning the feature *off*=
- ;)
->=20
-> Right. Still - do you believe it's appropriate in soft freeze
-> and if yes why?
->=20
+But I think this code is used for things with different degrees
+of care about the semantics; e.g. 'balloon' just cares that
+it frees memory up and doesn't care about the detailed semantics
+that much; so it's probably fine with that.
+Postcopy is much more touchy, but then it's only going to be
+calling this on Linux anyway (because of the userfault dependency).
 
-Not sure I care very much. I've reposted it a couple of times, with the
-bug fixes that go along with it, since it was first posted in October
-2020. I confess I don't keep track very much of the freeze status; I'm
-only posting the series again this time because Igor posted a related
-patch.
+Dave
 
-But all it's doing is giving us a way to *disable* functionality; it's
-not adding new functionality. I suppose someone who cares might make an
-argument that that's not so egregious a 'feature' to slip in the middle
-of a set of bug fixes that have been outstanding for so long.
-
---=-gCoPbDLWIDj5UmvIQmUN
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIwMzE2MDkzNDExWjAvBgkqhkiG9w0BCQQxIgQgEk8xJaSs
-GEd8liy0L5P3+QfpjkB76XkSPUacIxD3kaowgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgASHt3QphCrNqsSC0xHsjeNgDChx8w/OmKI
-WqydxjXzG/ezvA/nr4XVAdEvTWNrLxb3tX442RBpg2oCQNalbTurEJ8qkl/ZGJsHDNQK1Y9AhKuL
-kaA/zrta80GZUy5DuLRy1bIz1Zd4/7P5xd9shEhvWkc5Vls72rDNGdP56YDfBuBiro0rEC6OlGPw
-xA8ashO8srWISnPImVRWI1JyQEYAF/5jbnhfCJk1Hx1zNypISJ0IwNhxwW7b4SjasgSM0WHOGT9V
-LeuBsnEs62G+D8+HXg1KGzh6C8hbTYN6QcYttcptkYEopSp+P7pYqAV+ZLJJ6u8Y3sHbwDSeUQcu
-MyB1HKSH/j5m2CPP3gqzGbetzNg6sq1hNFCbb15Ic6EiX6uvOBYB3wC1EBYJY39z1ZOcDL3mgnQA
-duxiyQ8X7VELqLdYIZicpE/Kwc2+FEq50oqv5+H4XkmSYJle5/Y5WmXUeYXbyNiF4WM6Brndb20f
-KZ7sgibA23TBWnV/NvVWVOy9VWPJPv1zk0liLJaT5E9yR2kuqOZbNsqI/Q5hUKb6u7u4TTpFvNNJ
-r3uz2iw58cZw+9uTDVBRVLexoaGgPx2pChZtRmc449bPb5mIRBdkVjIhWLaoTgoheE1E2B6vrfXJ
-K8pWcYWJ26AAGUaODhT6awuLRHZPAMWaKJTNIgC/NQAAAAAAAA==
-
-
---=-gCoPbDLWIDj5UmvIQmUN--
+> -- PMM
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
