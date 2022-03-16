@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B944DAA4B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 07:04:06 +0100 (CET)
-Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013744DAA56
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 07:07:38 +0100 (CET)
+Received: from localhost ([::1]:41630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUMlR-0002lz-5d
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 02:04:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58914)
+	id 1nUMor-00009a-3a
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 02:07:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUMgT-0002du-5k
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:57 -0400
-Received: from [2607:f8b0:4864:20::435] (port=34533
+ id 1nUMgU-0002ik-7k
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:58 -0400
+Received: from [2607:f8b0:4864:20::435] (port=41884
  helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUMgR-0006Tp-Km
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:56 -0400
-Received: by mail-pf1-x435.google.com with SMTP id l8so2578037pfu.1
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 22:58:55 -0700 (PDT)
+ id 1nUMgS-0006U5-IQ
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:57 -0400
+Received: by mail-pf1-x435.google.com with SMTP id p8so2523499pfh.8
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 22:58:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=35HcCby7Mn+2agrxKO46W+juCyRSjYj+577YArHBs58=;
- b=u3853nR5m3h08NFrm+m8GrNNpyssPJswQilEpY7ypVFnuwdyXi2i5FmumaFNqV7mz5
- mCBVPJrCRHWN7T6ii/nxxro9s/ElVqZ4EzLnpsmDEXphsiwYYLatRTR84NouhMsmZvCW
- 18hHfJpkaWwQE7Feobco8SuH91hpfoJ/9uQTjTTzNGblhvJla6m+eWYRut/oCRwe0nNJ
- X7f43wnKPGVp1MKp78CzhfRonBF1JAGjJI7NfdgdFSVIIMV0CTFR11AQ0vJmTezwWmOP
- q7YemvdVJEV/LAPiSSWhTjfz7+eTNvVFWGe2d3E2uQ4QuNL10awy1v2v71vvDYXlfa3v
- Iazw==
+ bh=1iKqCq5gnBEuV7yETH5boxm9MvdrrB2fADfIX32vfoE=;
+ b=wO35ImkL7UGqvRCNK5zbCHxn7DFO9syy/34zn+WfJxSB0UR0vmnBhNNTEwAl9BsRKj
+ ZhmZWy6r3yxLPOWd6YNeYzYGR/rHQ7m2ffgLktSJbVbO8U6Dd6EW/Qbe0Qm5dwvnqKrq
+ COD1wYm9lYhkTkhMfqTfNggZc20v2Z/GNhaUOIbuR6hlJOMnNvg85xZTgrnw2SHqYn1l
+ OJ20rLtEtVK7siS+6RIcKLdH79Tbs+beNgH0XThiZtuaEI4hO61Ui7q5c46zf/r71MWW
+ Ac+wHsttBODRLAqPiQisvHbjwV8wyJWRr8d6j0z7zEKjWxkNDCUbszqzNoLI+7ZxxbBY
+ 5Gqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=35HcCby7Mn+2agrxKO46W+juCyRSjYj+577YArHBs58=;
- b=k6lmnmX+XJNL+0biEF+mnnl5MOo0Q25byU1SMgA0j6BFvkIF3PdcJVGY0lXRxXLGyX
- DfGNM0TxM0gU0f/YbYiuv/HdHsbhmNvu2c+Q2dUjZALzxUbpjPitdFLNRNKCxfLj6s1l
- dQw6KySU7p1oVVag4bMKhif4gDZhmflt3OdLBgqRPf7S1CBu+wtzxYp75DVDnu0Y7PAJ
- UidzTnXBAHr5gcnKx/xd4hDXsAxQQA+jlamnoV8PB2GkgLOLpCnOfYuokJG5opzwrrP7
- +LhGpd5VNFXjSlFtDhk3q0aMCD2ccnKONXwAnY+i8ZgNC36g2nASvcnYN98ZJel1Bb89
- /ZdQ==
-X-Gm-Message-State: AOAM530k0QJ6cC7CHRni3JkIGOTKoejabWrC7u0InFEUGtdL8MFsB3oX
- +ULiVcc50btbaEras72frapBRAt9KaHHqw==
-X-Google-Smtp-Source: ABdhPJy4Z+biTvhoNSW8wete4ipw0rl9aCcclMTeVwBDk7WOFKuN2zxKpVABcwq3LzPJRLv3jhRwRA==
-X-Received: by 2002:a63:df58:0:b0:381:6713:6a49 with SMTP id
- h24-20020a63df58000000b0038167136a49mr5352058pgj.198.1647410334158; 
- Tue, 15 Mar 2022 22:58:54 -0700 (PDT)
+ bh=1iKqCq5gnBEuV7yETH5boxm9MvdrrB2fADfIX32vfoE=;
+ b=uzeeMnz5EZiUBpwGspFUeS9pvj88Y/rjn1ndtvSI1tTYOu2seLqxUMC929iJDgT2Lb
+ +nkgliZgLrWvaJ8txTSO1avJfMp+Ssy8oXKsVLMs+t/LghvSbPFUntKylkYLxozkLUaY
+ 6Sg93j7UjFJiZzRpf/w4JxsUMNrrwFyTBpW7BIHC4junl4vsdH8gM4leBQ32tDgeqy93
+ AKtpyet+F9Cdxm8irMm/iHR2bdcBphwMkmO/tGTYBUmfTmMnutC4z+IR8C5ydyIYH8CH
+ JGLy/mjvyMLY6H8tZjdIkaCbJONmvsaR3N7vDw+AAs90Vv0YOJSS8sNZRzojoI3KjbbG
+ hJSg==
+X-Gm-Message-State: AOAM530/Wd5r0Ht/NVYpGzORN/w6dqXKn6+s+zTVMTtJBqlAuq+9BCiY
+ onnoK7vFOfTR4EiAFZylUt5HkNao5KR3XQ==
+X-Google-Smtp-Source: ABdhPJxf8vrnPgiAEXYiwlDoyii5fTxIQuJhRfDygVfgBpxkcCZoZCv0QpdYN+4E3Ieycq4MnV4LJg==
+X-Received: by 2002:a63:7cb:0:b0:380:f89f:c9a2 with SMTP id
+ 194-20020a6307cb000000b00380f89fc9a2mr23383684pgh.264.1647410335389; 
+ Tue, 15 Mar 2022 22:58:55 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- i24-20020a056a00225800b004f6edabc9f4sm1236290pfu.72.2022.03.15.22.58.53
+ i24-20020a056a00225800b004f6edabc9f4sm1236290pfu.72.2022.03.15.22.58.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 22:58:53 -0700 (PDT)
+ Tue, 15 Mar 2022 22:58:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/17] target/m68k: Implement FTRAPcc
-Date: Tue, 15 Mar 2022 22:58:36 -0700
-Message-Id: <20220316055840.727571-14-richard.henderson@linaro.org>
+Subject: [PATCH v3 14/17] tests/tcg/m68k: Add trap.c
+Date: Tue, 15 Mar 2022 22:58:37 -0700
+Message-Id: <20220316055840.727571-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220316055840.727571-1-richard.henderson@linaro.org>
 References: <20220316055840.727571-1-richard.henderson@linaro.org>
@@ -92,59 +92,164 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Test various trap instructions: chk, div, trap, trapv, trapcc, ftrapcc,
+and the signals and addresses that we expect from them.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/translate.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ tests/tcg/m68k/trap.c          | 129 +++++++++++++++++++++++++++++++++
+ tests/tcg/m68k/Makefile.target |   3 +
+ 2 files changed, 132 insertions(+)
+ create mode 100644 tests/tcg/m68k/trap.c
 
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 6118f9fcfb..14f8c702c1 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -5567,6 +5567,35 @@ DISAS_INSN(fscc)
-     tcg_temp_free(tmp);
- }
- 
-+DISAS_INSN(ftrapcc)
+diff --git a/tests/tcg/m68k/trap.c b/tests/tcg/m68k/trap.c
+new file mode 100644
+index 0000000000..08ab56b2ca
+--- /dev/null
++++ b/tests/tcg/m68k/trap.c
+@@ -0,0 +1,129 @@
++/*
++ * Test m68k trap addresses.
++ */
++
++#define _GNU_SOURCE 1
++#include <signal.h>
++#include <assert.h>
++#include <limits.h>
++
++static int expect_sig;
++static int expect_si_code;
++static void *expect_si_addr;
++static greg_t expect_mc_pc;
++static volatile int got_signal;
++
++static void sig_handler(int sig, siginfo_t *si, void *puc)
 +{
-+    DisasCompare c;
-+    uint16_t ext;
-+    int cond;
++    ucontext_t *uc = puc;
++    mcontext_t *mc = &uc->uc_mcontext;
 +
-+    ext = read_im16(env, s);
-+    cond = ext & 0x3f;
++    assert(sig == expect_sig);
++    assert(si->si_code == expect_si_code);
++    assert(si->si_addr == expect_si_addr);
++    assert(mc->gregs[R_PC] == expect_mc_pc);
 +
-+    /* Consume and discard the immediate operand. */
-+    switch (extract32(insn, 0, 3)) {
-+    case 2: /* ftrapcc.w */
-+        (void)read_im16(env, s);
-+        break;
-+    case 3: /* ftrapcc.l */
-+        (void)read_im32(env, s);
-+        break;
-+    case 4: /* ftrapcc (no operand) */
-+        break;
-+    default:
-+        /* Illegal insn */
-+        disas_undef(env, s, insn);
-+        return;
-+    }
-+
-+    gen_fcc_cond(&c, s, cond);
-+    do_trapcc(s, &c);
++    got_signal = 1;
 +}
 +
- #if defined(CONFIG_SOFTMMU)
- DISAS_INSN(frestore)
- {
-@@ -6190,6 +6219,7 @@ void register_m68k_insns (CPUM68KState *env)
-     INSN(fbcc,      f280, ffc0, CF_FPU);
-     INSN(fpu,       f200, ffc0, FPU);
-     INSN(fscc,      f240, ffc0, FPU);
-+    INSN(ftrapcc,   f278, fff8, FPU);
-     INSN(fbcc,      f280, ff80, FPU);
- #if defined(CONFIG_SOFTMMU)
-     INSN(frestore,  f340, ffc0, CF_FPU);
++#define FMT_INS     [ad] "a"(&expect_si_addr), [pc] "a"(&expect_mc_pc)
++#define FMT0_STR(S) \
++    "move.l #1f, (%[ad])\n\tmove.l #1f, (%[pc])\n" S "\n1:\n"
++#define FMT2_STR(S) \
++    "move.l #0f, (%[ad])\n\tmove.l #1f, (%[pc])\n" S "\n1:\n"
++
++#define CHECK_SIG   do { assert(got_signal); got_signal = 0; } while (0)
++
++int main(int argc, char **argv)
++{
++    struct sigaction act = {
++        .sa_sigaction = sig_handler,
++        .sa_flags = SA_SIGINFO
++    };
++    int t0, t1;
++
++    sigaction(SIGILL, &act, NULL);
++    sigaction(SIGTRAP, &act, NULL);
++    sigaction(SIGFPE, &act, NULL);
++
++    expect_sig = SIGFPE;
++    expect_si_code = FPE_INTOVF;
++    asm volatile(FMT2_STR("0:\tchk %0, %1") : : "d"(0), "d"(-1), FMT_INS);
++    CHECK_SIG;
++
++#if 0
++    /* FIXME: chk2 not correctly translated. */
++    int bounds[2] = { 0, 1 };
++    asm volatile(FMT2_STR("0:\tchk2.l %0, %1")
++                 : : "m"(bounds), "d"(2), FMT_INS);
++    CHECK_SIG;
++#endif
++
++    asm volatile(FMT2_STR("cmp.l %0, %1\n0:\ttrapv")
++                 : : "d"(INT_MIN), "d"(1), FMT_INS);
++    CHECK_SIG;
++
++    asm volatile(FMT2_STR("cmp.l %0, %0\n0:\ttrapeq")
++                 : : "d"(0), FMT_INS);
++    CHECK_SIG;
++
++    asm volatile(FMT2_STR("cmp.l %0, %0\n0:\ttrapeq.w #0x1234")
++                 : : "d"(0), FMT_INS);
++    CHECK_SIG;
++
++    asm volatile(FMT2_STR("cmp.l %0, %0\n0:\ttrapeq.l #0x12345678")
++                 : : "d"(0), FMT_INS);
++    CHECK_SIG;
++
++    asm volatile(FMT2_STR("fcmp.x %0, %0\n0:\tftrapeq")
++                 : : "f"(0.0L), FMT_INS);
++    CHECK_SIG;
++
++    expect_si_code = FPE_INTDIV;
++
++    asm volatile(FMT2_STR("0:\tdivs.w %1, %0")
++                 : "=d"(t0) : "d"(0), "0"(1), FMT_INS);
++    CHECK_SIG;
++
++    asm volatile(FMT2_STR("0:\tdivsl.l %2, %1:%0")
++                 : "=d"(t0), "=d"(t1) : "d"(0), "0"(1), FMT_INS);
++    CHECK_SIG;
++
++    expect_sig = SIGILL;
++    expect_si_code = ILL_ILLOPN;
++    asm volatile(FMT0_STR("trap #1") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #2") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #3") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #4") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #5") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #6") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #7") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #8") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #9") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #10") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #11") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #12") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #13") : : FMT_INS);
++    CHECK_SIG;
++    asm volatile(FMT0_STR("trap #14") : : FMT_INS);
++    CHECK_SIG;
++
++    expect_sig = SIGTRAP;
++    expect_si_code = TRAP_BRKPT;
++    asm volatile(FMT0_STR("trap #15") : : FMT_INS);
++    CHECK_SIG;
++
++    return 0;
++}
+diff --git a/tests/tcg/m68k/Makefile.target b/tests/tcg/m68k/Makefile.target
+index 62f109eef4..1163c7ef03 100644
+--- a/tests/tcg/m68k/Makefile.target
++++ b/tests/tcg/m68k/Makefile.target
+@@ -3,5 +3,8 @@
+ # m68k specific tweaks - specifically masking out broken tests
+ #
+ 
++VPATH += $(SRC_PATH)/tests/tcg/m68k
++TESTS += trap
++
+ # On m68k Linux supports 4k and 8k pages (but 8k is currently broken)
+ EXTRA_RUNS+=run-test-mmap-4096 # run-test-mmap-8192
 -- 
 2.25.1
 
