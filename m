@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3910E4DA874
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 03:30:16 +0100 (CET)
-Received: from localhost ([::1]:51858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22D14DA7EA
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 03:27:13 +0100 (CET)
+Received: from localhost ([::1]:45030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUJQV-0003vw-An
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 22:30:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60966)
+	id 1nUJNZ-0007jt-0c
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 22:27:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nUJJ1-0000e2-QL
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 22:22:32 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:33686
+ id 1nUJJ5-0000fe-T5
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 22:22:35 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:33724
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nUJIy-0001Oy-NL
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 22:22:31 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nUJJ3-0001PE-LP
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 22:22:35 -0400
 HMM_SOURCE_IP: 172.18.0.188:44508.143425817
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 4FBC328011D;
- Wed, 16 Mar 2022 10:22:21 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 5E455280106;
+ Wed, 16 Mar 2022 10:22:26 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.188])
- by app0023 with ESMTP id 835a2346460448e9ae5f2582bd71bf04 for
- qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:22:26 CST
-X-Transaction-ID: 835a2346460448e9ae5f2582bd71bf04
+ by app0023 with ESMTP id bb13f207d4444a5abd2bf193211b50fd for
+ qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:22:31 CST
+X-Transaction-ID: bb13f207d4444a5abd2bf193211b50fd
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.188
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v20 7/9] softmmu/dirtylimit: Implement dirty page rate limit
-Date: Wed, 16 Mar 2022 10:21:37 +0800
-Message-Id: <d2ad7a6e1f0f58a50dbe882f7c390d0629d1f50f.1647396907.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v20 8/9] migration-test: Export migration-test util funtions
+Date: Wed, 16 Mar 2022 10:21:38 +0800
+Message-Id: <5be89638a128ce19c38c2cee8e055ad900b52a9c.1647396907.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1647396907.git.huangy81@chinatelecom.cn>
 References: <cover.1647396907.git.huangy81@chinatelecom.cn>
@@ -76,428 +76,307 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Implement dirtyrate calculation periodically basing on
-dirty-ring and throttle virtual CPU until it reachs the quota
-dirty page rate given by user.
-
-Introduce qmp commands "set-vcpu-dirty-limit",
-"cancel-vcpu-dirty-limit", "query-vcpu-dirty-limit"
-to enable, disable, query dirty page limit for virtual CPU.
-
-Meanwhile, introduce corresponding hmp commands
-"set_vcpu_dirty_limit", "cancel_vcpu_dirty_limit",
-"info vcpu_dirty_limit" so the feature can be more usable.
-
-"query-vcpu-dirty-limit" success depends on enabling dirty
-page rate limit, so just add it to the list of skipped
-command to ensure qmp-cmd-test run successfully.
+Dirtylimit qtest can reuse the mechanisms that have been
+implemented by migration-test to start a vm, so export the
+relevant util functions.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
 ---
- hmp-commands-info.hx       |  13 +++
- hmp-commands.hx            |  32 ++++++++
- include/monitor/hmp.h      |   3 +
- qapi/migration.json        |  80 +++++++++++++++++++
- softmmu/dirtylimit.c       | 195 +++++++++++++++++++++++++++++++++++++++++++++
- tests/qtest/qmp-cmd-test.c |   2 +
- 6 files changed, 325 insertions(+)
+ tests/qtest/migration-helpers.c |  95 +++++++++++++++++++++++++++++++++++++
+ tests/qtest/migration-helpers.h |  15 ++++++
+ tests/qtest/migration-test.c    | 102 ----------------------------------------
+ 3 files changed, 110 insertions(+), 102 deletions(-)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index adfa085..016717d 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -865,6 +865,19 @@ SRST
-     Display the vcpu dirty rate information.
- ERST
+diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
+index 4ee2601..ffec54b 100644
+--- a/tests/qtest/migration-helpers.c
++++ b/tests/qtest/migration-helpers.c
+@@ -16,6 +16,7 @@
+ #include "migration-helpers.h"
  
-+    {
-+        .name       = "vcpu_dirty_limit",
-+        .args_type  = "",
-+        .params     = "",
-+        .help       = "show dirty page limit information of all vCPU",
-+        .cmd        = hmp_info_vcpu_dirty_limit,
-+    },
-+
-+SRST
-+  ``info vcpu_dirty_limit``
-+    Display the vcpu dirty page limit information.
-+ERST
-+
- #if defined(TARGET_I386)
-     {
-         .name       = "sgx",
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 8476277..82ab75f 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1746,3 +1746,35 @@ ERST
-                       "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
-         .cmd        = hmp_calc_dirty_rate,
-     },
-+
-+SRST
-+``set_vcpu_dirty_limit``
-+  Set dirty page rate limit on virtual CPU, the information about all the
-+  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
-+  command.
-+ERST
-+
-+    {
-+        .name       = "set_vcpu_dirty_limit",
-+        .args_type  = "dirty_rate:l,cpu_index:l?",
-+        .params     = "dirty_rate [cpu_index]",
-+        .help       = "set dirty page rate limit, use cpu_index to set limit"
-+                      "\n\t\t\t\t\t on a specified virtual cpu",
-+        .cmd        = hmp_set_vcpu_dirty_limit,
-+    },
-+
-+SRST
-+``cancel_vcpu_dirty_limit``
-+  Cancel dirty page rate limit on virtual CPU, the information about all the
-+  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
-+  command.
-+ERST
-+
-+    {
-+        .name       = "cancel_vcpu_dirty_limit",
-+        .args_type  = "cpu_index:l?",
-+        .params     = "[cpu_index]",
-+        .help       = "cancel dirty page rate limit, use cpu_index to cancel"
-+                      "\n\t\t\t\t\t limit on a specified virtual cpu",
-+        .cmd        = hmp_cancel_vcpu_dirty_limit,
-+    },
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 96d0148..478820e 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -131,6 +131,9 @@ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_seek(Monitor *mon, const QDict *qdict);
- void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
- void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
-+void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
-+void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
-+void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
- void hmp_human_readable_text_helper(Monitor *mon,
-                                     HumanReadableText *(*qmp_handler)(Error **));
+ bool got_stop;
++const char *tmpfs;
  
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 18e2610..910a4ff 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1861,6 +1861,86 @@
- { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
- 
- ##
-+# @DirtyLimitInfo:
-+#
-+# Dirty page rate limit information of a virtual CPU.
-+#
-+# @cpu-index: index of a virtual CPU.
-+#
-+# @limit-rate: upper limit of dirty page rate (MB/s) for a virtual
-+#              CPU, 0 means unlimited.
-+#
-+# @current-rate: current dirty page rate (MB/s) for a virtual CPU.
-+#
-+# Since: 7.0
-+#
-+##
-+{ 'struct': 'DirtyLimitInfo',
-+  'data': { 'cpu-index': 'int',
-+            'limit-rate': 'uint64',
-+            'current-rate': 'uint64' } }
-+
-+##
-+# @set-vcpu-dirty-limit:
-+#
-+# Set the upper limit of dirty page rate for virtual CPUs.
-+#
-+# Requires KVM with accelerator property "dirty-ring-size" set.
-+# A virtual CPU's dirty page rate is a measure of its memory load.
-+# To observe dirty page rates, use @calc-dirty-rate.
-+#
-+# @cpu-index: index of a virtual CPU, default is all.
-+#
-+# @dirty-rate: upper limit of dirty page rate (MB/s) for virtual CPUs.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "set-vcpu-dirty-limit"}
-+#    "arguments": { "dirty-rate": 200,
-+#                   "cpu-index": 1 } }
-+#
-+##
-+{ 'command': 'set-vcpu-dirty-limit',
-+  'data': { '*cpu-index': 'int',
-+            'dirty-rate': 'uint64' } }
-+
-+##
-+# @cancel-vcpu-dirty-limit:
-+#
-+# Cancel the upper limit of dirty page rate for virtual CPUs.
-+#
-+# Cancel the dirty page limit for the vCPU which has been set with
-+# set-vcpu-dirty-limit command. Note that this command requires
-+# support from dirty ring, same as the "set-vcpu-dirty-limit".
-+#
-+# @cpu-index: index of a virtual CPU, default is all.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "cancel-vcpu-dirty-limit"}
-+#    "arguments": { "cpu-index": 1 } }
-+#
-+##
-+{ 'command': 'cancel-vcpu-dirty-limit',
-+  'data': { '*cpu-index': 'int'} }
-+
-+##
-+# @query-vcpu-dirty-limit:
-+#
-+# Returns information about virtual CPU dirty page rate limits, if any.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "query-vcpu-dirty-limit"}
-+#
-+##
-+{ 'command': 'query-vcpu-dirty-limit',
-+  'returns': [ 'DirtyLimitInfo' ] }
-+
-+##
- # @snapshot-save:
- #
- # Save a VM snapshot
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 76d0b44..365bd43 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -14,8 +14,12 @@
- #include "qapi/error.h"
- #include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/error.h"
- #include "sysemu/dirtyrate.h"
- #include "sysemu/dirtylimit.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
- #include "exec/memory.h"
- #include "hw/boards.h"
- #include "sysemu/kvm.h"
-@@ -405,3 +409,194 @@ void dirtylimit_vcpu_execute(CPUState *cpu)
-         usleep(cpu->throttle_us_per_full);
-     }
+ static void check_stop_event(QTestState *who)
+ {
+@@ -188,3 +189,97 @@ void wait_for_migration_fail(QTestState *from, bool allow_active)
+     g_assert(qdict_get_bool(rsp_return, "running"));
+     qobject_unref(rsp_return);
  }
 +
-+static void dirtylimit_init(void)
++void init_bootfile(const char *bootpath, void *content, size_t len)
 +{
-+    dirtylimit_state_initialize();
-+    dirtylimit_change(true);
-+    vcpu_dirty_rate_stat_initialize();
-+    vcpu_dirty_rate_stat_start();
++    FILE *bootfile = fopen(bootpath, "wb");
++
++    g_assert_cmpint(fwrite(content, len, 1, bootfile), ==, 1);
++    fclose(bootfile);
 +}
 +
-+static void dirtylimit_cleanup(void)
++/*
++ * Wait for some output in the serial output file,
++ * we get an 'A' followed by an endless string of 'B's
++ * but on the destination we won't have the A.
++ */
++void wait_for_serial(const char *side)
 +{
-+    vcpu_dirty_rate_stat_stop();
-+    vcpu_dirty_rate_stat_finalize();
-+    dirtylimit_change(false);
-+    dirtylimit_state_finalize();
-+}
++    g_autofree char *serialpath = g_strdup_printf("%s/%s", tmpfs, side);
++    FILE *serialfile = fopen(serialpath, "r");
++    const char *arch = qtest_get_arch();
++    int started = (strcmp(side, "src_serial") == 0 &&
++                   strcmp(arch, "ppc64") == 0) ? 0 : 1;
 +
-+void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
-+                                 int64_t cpu_index,
-+                                 Error **errp)
-+{
-+    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-+        return;
-+    }
++    do {
++        int readvalue = fgetc(serialfile);
 +
-+    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
-+        error_setg(errp, "incorrect cpu index specified");
-+        return;
-+    }
-+
-+    if (!dirtylimit_in_service()) {
-+        return;
-+    }
-+
-+    dirtylimit_state_lock();
-+
-+    if (has_cpu_index) {
-+        dirtylimit_set_vcpu(cpu_index, 0, false);
-+    } else {
-+        dirtylimit_set_all(0, false);
-+    }
-+
-+    if (!dirtylimit_state->limited_nvcpu) {
-+        dirtylimit_cleanup();
-+    }
-+
-+    dirtylimit_state_unlock();
-+}
-+
-+void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-+    Error *err = NULL;
-+
-+    qmp_cancel_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, &err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
-+                   "dirty limit for virtual CPU]\n");
-+}
-+
-+void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
-+                              int64_t cpu_index,
-+                              uint64_t dirty_rate,
-+                              Error **errp)
-+{
-+    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty page limit feature requires KVM with"
-+                   " accelerator property 'dirty-ring-size' set'");
-+        return;
-+    }
-+
-+    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
-+        error_setg(errp, "incorrect cpu index specified");
-+        return;
-+    }
-+
-+    if (!dirty_rate) {
-+        qmp_cancel_vcpu_dirty_limit(has_cpu_index, cpu_index, errp);
-+        return;
-+    }
-+
-+    dirtylimit_state_lock();
-+
-+    if (!dirtylimit_in_service()) {
-+        dirtylimit_init();
-+    }
-+
-+    if (has_cpu_index) {
-+        dirtylimit_set_vcpu(cpu_index, dirty_rate, true);
-+    } else {
-+        dirtylimit_set_all(dirty_rate, true);
-+    }
-+
-+    dirtylimit_state_unlock();
-+}
-+
-+void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    int64_t dirty_rate = qdict_get_int(qdict, "dirty_rate");
-+    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-+    Error *err = NULL;
-+
-+    qmp_set_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, dirty_rate, &err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
-+                   "dirty limit for virtual CPU]\n");
-+}
-+
-+static struct DirtyLimitInfo *dirtylimit_query_vcpu(int cpu_index)
-+{
-+    DirtyLimitInfo *info = NULL;
-+
-+    info = g_malloc0(sizeof(*info));
-+    info->cpu_index = cpu_index;
-+    info->limit_rate = dirtylimit_vcpu_get_state(cpu_index)->quota;
-+    info->current_rate = vcpu_dirty_rate_get(cpu_index);
-+
-+    return info;
-+}
-+
-+static struct DirtyLimitInfoList *dirtylimit_query_all(void)
-+{
-+    int i, index;
-+    DirtyLimitInfo *info = NULL;
-+    DirtyLimitInfoList *head = NULL, **tail = &head;
-+
-+    dirtylimit_state_lock();
-+
-+    if (!dirtylimit_in_service()) {
-+        dirtylimit_state_unlock();
-+        return NULL;
-+    }
-+
-+    for (i = 0; i < dirtylimit_state->max_cpus; i++) {
-+        index = dirtylimit_state->states[i].cpu_index;
-+        if (dirtylimit_vcpu_get_state(index)->enabled) {
-+            info = dirtylimit_query_vcpu(index);
-+            QAPI_LIST_APPEND(tail, info);
++        if (!started) {
++            /* SLOF prints its banner before starting test,
++             * to ignore it, mark the start of the test with '_',
++             * ignore all characters until this marker
++             */
++            switch (readvalue) {
++            case '_':
++                started = 1;
++                break;
++            case EOF:
++                fseek(serialfile, 0, SEEK_SET);
++                usleep(1000);
++                break;
++            }
++            continue;
 +        }
-+    }
++        switch (readvalue) {
++        case 'A':
++            /* Fine */
++            break;
 +
-+    dirtylimit_state_unlock();
++        case 'B':
++            /* It's alive! */
++            fclose(serialfile);
++            return;
 +
-+    return head;
++        case EOF:
++            started = (strcmp(side, "src_serial") == 0 &&
++                       strcmp(arch, "ppc64") == 0) ? 0 : 1;
++            fseek(serialfile, 0, SEEK_SET);
++            usleep(1000);
++            break;
++
++        default:
++            fprintf(stderr, "Unexpected %d on %s serial\n", readvalue, side);
++            g_assert_not_reached();
++        }
++    } while (true);
 +}
 +
-+struct DirtyLimitInfoList *qmp_query_vcpu_dirty_limit(Error **errp)
++bool kvm_dirty_ring_supported(void)
 +{
-+    if (!dirtylimit_in_service()) {
-+        error_setg(errp, "dirty page limit not enabled");
-+        return NULL;
++#if defined(__linux__) && defined(HOST_X86_64)
++    int ret, kvm_fd = open("/dev/kvm", O_RDONLY);
++
++    if (kvm_fd < 0) {
++        return false;
 +    }
 +
-+    return dirtylimit_query_all();
++    ret = ioctl(kvm_fd, KVM_CHECK_EXTENSION, KVM_CAP_DIRTY_LOG_RING);
++    close(kvm_fd);
++
++    /* We test with 4096 slots */
++    if (ret < 4096) {
++        return false;
++    }
++
++    return true;
++#else
++    return false;
++#endif
 +}
 +
-+void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
++void cleanup(const char *filename)
 +{
-+    DirtyLimitInfoList *limit, *head, *info = NULL;
-+    Error *err = NULL;
++    g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
 +
-+    if (!dirtylimit_in_service()) {
-+        monitor_printf(mon, "Dirty page limit not enabled!\n");
-+        return;
-+    }
-+
-+    info = qmp_query_vcpu_dirty_limit(&err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    head = info;
-+    for (limit = head; limit != NULL; limit = limit->next) {
-+        monitor_printf(mon, "vcpu[%"PRIi64"], limit rate %"PRIi64 " (MB/s),"
-+                            " current rate %"PRIi64 " (MB/s)\n",
-+                            limit->value->cpu_index,
-+                            limit->value->limit_rate,
-+                            limit->value->current_rate);
-+    }
-+
-+    g_free(info);
++    unlink(path);
 +}
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index 7f103ea..4b216a0 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -110,6 +110,8 @@ static bool query_is_ignored(const char *cmd)
-         "query-sev-capabilities",
-         "query-sgx",
-         "query-sgx-capabilities",
-+        /* Success depends on enabling dirty page rate limit */
-+        "query-vcpu-dirty-limit",
-         NULL
-     };
-     int i;
+diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
+index d63bba9..d08551f 100644
+--- a/tests/qtest/migration-helpers.h
++++ b/tests/qtest/migration-helpers.h
+@@ -14,7 +14,14 @@
+ 
+ #include "libqos/libqtest.h"
+ 
++/* For dirty ring test; so far only x86_64 is supported */
++#if defined(__linux__) && defined(HOST_X86_64)
++#include "linux/kvm.h"
++#endif
++#include <sys/ioctl.h>
++
+ extern bool got_stop;
++extern const char *tmpfs;
+ 
+ GCC_FMT_ATTR(3, 4)
+ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...);
+@@ -34,4 +41,12 @@ void wait_for_migration_complete(QTestState *who);
+ 
+ void wait_for_migration_fail(QTestState *from, bool allow_active);
+ 
++void init_bootfile(const char *bootpath, void *content, size_t len);
++
++void wait_for_serial(const char *side);
++
++bool kvm_dirty_ring_supported(void);
++
++void cleanup(const char *filename);
++
+ #endif /* MIGRATION_HELPERS_H_ */
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 0870656..eec6dd0 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -27,11 +27,6 @@
+ #include "migration-helpers.h"
+ #include "tests/migration/migration-test.h"
+ 
+-/* For dirty ring test; so far only x86_64 is supported */
+-#if defined(__linux__) && defined(HOST_X86_64)
+-#include "linux/kvm.h"
+-#endif
+-
+ /* TODO actually test the results and get rid of this */
+ #define qtest_qmp_discard_response(...) qobject_unref(qtest_qmp(__VA_ARGS__))
+ 
+@@ -49,7 +44,6 @@ static bool uffd_feature_thread_id;
+ 
+ #if defined(__linux__) && defined(__NR_userfaultfd) && defined(CONFIG_EVENTFD)
+ #include <sys/eventfd.h>
+-#include <sys/ioctl.h>
+ #include <linux/userfaultfd.h>
+ 
+ static bool ufd_version_check(void)
+@@ -91,8 +85,6 @@ static bool ufd_version_check(void)
+ 
+ #endif
+ 
+-static const char *tmpfs;
+-
+ /* The boot file modifies memory area in [start_address, end_address)
+  * repeatedly. It outputs a 'B' at a fixed rate while it's still running.
+  */
+@@ -100,70 +92,6 @@ static const char *tmpfs;
+ #include "tests/migration/aarch64/a-b-kernel.h"
+ #include "tests/migration/s390x/a-b-bios.h"
+ 
+-static void init_bootfile(const char *bootpath, void *content, size_t len)
+-{
+-    FILE *bootfile = fopen(bootpath, "wb");
+-
+-    g_assert_cmpint(fwrite(content, len, 1, bootfile), ==, 1);
+-    fclose(bootfile);
+-}
+-
+-/*
+- * Wait for some output in the serial output file,
+- * we get an 'A' followed by an endless string of 'B's
+- * but on the destination we won't have the A.
+- */
+-static void wait_for_serial(const char *side)
+-{
+-    g_autofree char *serialpath = g_strdup_printf("%s/%s", tmpfs, side);
+-    FILE *serialfile = fopen(serialpath, "r");
+-    const char *arch = qtest_get_arch();
+-    int started = (strcmp(side, "src_serial") == 0 &&
+-                   strcmp(arch, "ppc64") == 0) ? 0 : 1;
+-
+-    do {
+-        int readvalue = fgetc(serialfile);
+-
+-        if (!started) {
+-            /* SLOF prints its banner before starting test,
+-             * to ignore it, mark the start of the test with '_',
+-             * ignore all characters until this marker
+-             */
+-            switch (readvalue) {
+-            case '_':
+-                started = 1;
+-                break;
+-            case EOF:
+-                fseek(serialfile, 0, SEEK_SET);
+-                usleep(1000);
+-                break;
+-            }
+-            continue;
+-        }
+-        switch (readvalue) {
+-        case 'A':
+-            /* Fine */
+-            break;
+-
+-        case 'B':
+-            /* It's alive! */
+-            fclose(serialfile);
+-            return;
+-
+-        case EOF:
+-            started = (strcmp(side, "src_serial") == 0 &&
+-                       strcmp(arch, "ppc64") == 0) ? 0 : 1;
+-            fseek(serialfile, 0, SEEK_SET);
+-            usleep(1000);
+-            break;
+-
+-        default:
+-            fprintf(stderr, "Unexpected %d on %s serial\n", readvalue, side);
+-            g_assert_not_reached();
+-        }
+-    } while (true);
+-}
+-
+ /*
+  * It's tricky to use qemu's migration event capability with qtest,
+  * events suddenly appearing confuse the qmp()/hmp() responses.
+@@ -276,13 +204,6 @@ static void check_guests_ram(QTestState *who)
+     g_assert(bad == 0);
+ }
+ 
+-static void cleanup(const char *filename)
+-{
+-    g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
+-
+-    unlink(path);
+-}
+-
+ static char *SocketAddress_to_str(SocketAddress *addr)
+ {
+     switch (addr->type) {
+@@ -1397,29 +1318,6 @@ static void test_multifd_tcp_cancel(void)
+     test_migrate_end(from, to2, true);
+ }
+ 
+-static bool kvm_dirty_ring_supported(void)
+-{
+-#if defined(__linux__) && defined(HOST_X86_64)
+-    int ret, kvm_fd = open("/dev/kvm", O_RDONLY);
+-
+-    if (kvm_fd < 0) {
+-        return false;
+-    }
+-
+-    ret = ioctl(kvm_fd, KVM_CHECK_EXTENSION, KVM_CAP_DIRTY_LOG_RING);
+-    close(kvm_fd);
+-
+-    /* We test with 4096 slots */
+-    if (ret < 4096) {
+-        return false;
+-    }
+-
+-    return true;
+-#else
+-    return false;
+-#endif
+-}
+-
+ int main(int argc, char **argv)
+ {
+     char template[] = "/tmp/migration-test-XXXXXX";
 -- 
 1.8.3.1
 
