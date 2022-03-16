@@ -2,102 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DACA14DAEFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 12:38:18 +0100 (CET)
-Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9006D4DAEF3
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 12:36:33 +0100 (CET)
+Received: from localhost ([::1]:60548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nURyq-0003PJ-Pj
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 07:38:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40806)
+	id 1nURxA-0001Hf-NQ
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 07:36:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nURxd-0002Gr-0C; Wed, 16 Mar 2022 07:37:01 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45030
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nURxb-0000lw-3W; Wed, 16 Mar 2022 07:37:00 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22GAeTc9019617; 
- Wed, 16 Mar 2022 11:36:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=j+oEpH3fznUB2SJdAJnvlBPI1iF3lehUJ0ybu3TAOq0=;
- b=TQ7b00+BruqMhbEq+W/74Q9QaDbJ+NaRFXr13oWs4Rc0TNLEa42GDTN5GI8vJ77o1LHh
- YL1SlDHWZOH33W+tRD3nE4dhALFY+P+F5jE4Vhfjxm1LnpVsJboKAykWq4gAr4pVZ+i8
- BDHfJoFBjk4bHFJ/WrRsFnFF0hQCGfDHCRfkqptoccCZK/PLgsSM1rWr1+5mRUvWaV5r
- H2rjlAOZX/6mpXA5FjNWAozegTrP+7t7xSrh/2WhdbSwy5QQFFp83z8tI5SsQMykvvcm
- aGPoTExhqwjW7Ud5cdm1ls4Lb2alqrHTzYCEnWy0FHi9p7A6BERg8LWW46cjWXNF+79u yg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3eubv2vdk5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Mar 2022 11:36:19 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22GBaIDw029256;
- Wed, 16 Mar 2022 11:36:18 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3eubv2vdj9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Mar 2022 11:36:18 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22GBPYNh010263;
- Wed, 16 Mar 2022 11:31:16 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04ams.nl.ibm.com with ESMTP id 3erk590vm7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Mar 2022 11:31:15 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22GBVCl250594262
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Mar 2022 11:31:12 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B57BEAE04D;
- Wed, 16 Mar 2022 11:31:12 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DB8F0AE051;
- Wed, 16 Mar 2022 11:31:10 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.15.48])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed, 16 Mar 2022 11:31:10 +0000 (GMT)
-Date: Wed, 16 Mar 2022 12:31:08 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH 10/27] Replace config-time define HOST_WORDS_BIGENDIAN
-Message-ID: <20220316123108.682cffa0.pasic@linux.ibm.com>
-In-Reply-To: <20220316095308.2613651-1-marcandre.lureau@redhat.com>
-References: <20220316095308.2613651-1-marcandre.lureau@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1nURsw-00068H-3r
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 07:32:10 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:38640
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nURst-00088x-9q
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 07:32:09 -0400
+HMM_SOURCE_IP: 172.18.0.188:53556.1008326885
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id 5FC3E2800EC;
+ Wed, 16 Mar 2022 19:31:54 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id e462f571ab6c4a00872e7c5b474801c7 for
+ peterx@redhat.com; Wed, 16 Mar 2022 19:31:57 CST
+X-Transaction-ID: e462f571ab6c4a00872e7c5b474801c7
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.188
+X-MEDUSA-Status: 0
+Message-ID: <4e0fb112-013b-7877-67e5-cf29d52f6876@chinatelecom.cn>
+Date: Wed, 16 Mar 2022 19:31:50 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v20 8/9] migration-test: Export migration-test util
+ funtions
+To: Peter Xu <peterx@redhat.com>
+References: <cover.1647396907.git.huangy81@chinatelecom.cn>
+ <5be89638a128ce19c38c2cee8e055ad900b52a9c.1647396907.git.huangy81@chinatelecom.cn>
+ <YjFi4UbB3Rh9iDBV@xz-m1.local>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <YjFi4UbB3Rh9iDBV@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 2lhrFj8YK1KMj5IEgT_DhS5MfG15b3Iv
-X-Proofpoint-GUID: iE8-4jEe_MPMJmqf1GsXaW__ElJAfvuY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-16_04,2022-03-15_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- spamscore=0 impostorscore=0 mlxlogscore=992 suspectscore=0 malwarescore=0
- priorityscore=1501 adultscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203160068
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=42.123.76.228;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,89 +67,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Vikram Garhwal <fnu.vikram@xilinx.com>,
- "open list:virtio-blk" <qemu-block@nongnu.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Halil Pasic <pasic@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
- Huacai Chen <chenhuacai@kernel.org>, Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
- "open list:ARM PrimeCell and..." <qemu-arm@nongnu.org>,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, David Hildenbrand <david@redhat.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <eduardo@habkost.net>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Coiby Xu <Coiby.Xu@gmail.com>, "open
- list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
+Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Mar 2022 13:53:07 +0400
-marcandre.lureau@redhat.com wrote:
 
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+在 2022/3/16 12:09, Peter Xu 写道:
+> On Wed, Mar 16, 2022 at 10:21:38AM +0800, huangy81@chinatelecom.cn wrote:
+>> +void cleanup(const char *filename)
+>> +{
+>> +    g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
+>> +
+>> +    unlink(path);
+>> +}
 > 
-> Replace a config-time define with a compile time condition
-> define (compatible with clang and gcc) that must be declared prior to
-> its usage. This avoids having a global configure time define, but also
-> prevents from bad usage, if the config header wasn't included before.
+> If to move most of these tmpfs helpers out anyway, shouldn't we also move
+> all tmpfs ops into this helper file?  E.g. initializations of tmpfs var is
+> still separately done.  That's a bit odd.
 > 
-> This can help to make some code independent from qemu too.
+> Ideally IIUC tmpfs doesn't need to be exported in migration-helpers.h at
+> all below, but hidden.
+Indeed，exporting tmpfs var seems weried. I would remove this next 
+version. Thanks
 > 
-> gcc supports __BYTE_ORDER__ from about 4.6 and clang from 3.2.
+>> diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
+>> index d63bba9..d08551f 100644
+>> --- a/tests/qtest/migration-helpers.h
+>> +++ b/tests/qtest/migration-helpers.h
+>> @@ -14,7 +14,14 @@
+>>   
+>>   #include "libqos/libqtest.h"
+>>   
+>> +/* For dirty ring test; so far only x86_64 is supported */
+>> +#if defined(__linux__) && defined(HOST_X86_64)
+>> +#include "linux/kvm.h"
+>> +#endif
+>> +#include <sys/ioctl.h>
+>> +
+>>   extern bool got_stop;
+>> +extern const char *tmpfs;
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-LGTM
+-- 
+Best regard
 
-For the s390x parts I'm involved in:
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
-
-[..]
-
-> --- a/include/exec/cpu-all.h
-> +++ b/include/exec/cpu-all.h
-> @@ -34,13 +34,13 @@
->  
->  /* some important defines:
->   *
-> - * HOST_WORDS_BIGENDIAN : if defined, the host cpu is big endian and
-> + * HOST_BIG_ENDIAN : whether the host cpu is big endian and
->   * otherwise little endian.
->   *
->   * TARGET_WORDS_BIGENDIAN : same for target cpu
->   */
-
-This comment does not seem spot on any more. BTW would it make sense
-to replace TARGET_WORDS_BIGENDIAN with TARGET_BIG_ENDIAN as well. I
-believe the bad usage argument applies equally to both, and IMHO we
-should keep the both consistent naming and usage wise.
-
->  
-> -#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
-> +#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
->  #define BSWAP_NEEDED
->  #endif
->  
-
-[..]
+Hyman Huang(黄勇)
 
