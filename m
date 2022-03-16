@@ -2,99 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4F04DAE4D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 11:34:34 +0100 (CET)
-Received: from localhost ([::1]:44898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D374DADF8
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 10:56:24 +0100 (CET)
+Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUQzB-0002OU-NB
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 06:34:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42138)
+	id 1nUQOF-0002BU-4n
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 05:56:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nUQA9-0006Zo-7s
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:41:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51305)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nUQKM-0008Pd-B2
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:52:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nUQA6-00068N-64
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:41:47 -0400
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nUQKJ-0007ea-Vp
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:52:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647423705;
+ s=mimecast20190719; t=1647424338;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=258d0ZbWHeRdqXE2RpGVfsbpAX/wzxCh2HHtEeQVWZ8=;
- b=BckVunDgliSS8YwzP4OXXWoQVVPv3nxBe4diD7g1Sr8slvpyT6r3I+kEQ13cWtu1nIx10f
- gmC/z0ZR/9wPtLA9OqtVAgs2kef/oyLwZ+rH0XeGzTbuWKlgHGk688+/KQ6isncGj5W/S9
- CRPlGZlZJKARBecbU+VjzsYYX7OAl2U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Jj6K6mkBAiEnVY9njg8npjTaW9/RHf56ZGoYUXw0Sgk=;
+ b=Kbg/I754MlBTsZV22HgQH3Vg+QapaUKG1Qtd7VTgerHzkkc8LkCxfPZ09K9tewixV5PlVm
+ GlOau958TuZmRDxfvG1IlTwhkZ3Nn2KwJAJMI1nTZ8VwtmeQRNY35DgZS14damVu+gKCvr
+ pS0wGOXKJsQvdEHBx7SMQkwNxQs4J0g=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-uGETCTMMPwmrlqqfXo5oMA-1; Wed, 16 Mar 2022 05:41:44 -0400
-X-MC-Unique: uGETCTMMPwmrlqqfXo5oMA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r9-20020a1c4409000000b0038c15a1ed8cso521745wma.7
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 02:41:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=258d0ZbWHeRdqXE2RpGVfsbpAX/wzxCh2HHtEeQVWZ8=;
- b=fKqi634lwYcfAy9Yjs9NuJjuUza29iLN2FoPLxu/IBQuHjgS9lZSALjfk03VA2QxvF
- XBmrc3h6CcYtX9cmTrCg2XytuA7j2WHOvS/GY++1kAZnypeXJA5UZEPLhEPX7qbCNIYD
- Sz0JPf52YJGeKC78XHJLRGcmanYZg78KLin8omoLESpPASb3n/zblDB5x9nmh+ep39uF
- 6IAO7yydcKBveCVjuUxTWwaIbKK/t2lsM5Zu6lp2CvejvJF5W5TbtuSvhxecBa2acoue
- 5dGdO/RKyymnjUrGUQYAD0LPh+Zm/in4Dbr/Dljiv3WGjUYoEX38M/z3qgTnP3nQ6K62
- WAtQ==
-X-Gm-Message-State: AOAM533XIOFq/jRp7Kcp+67aP1acObczJ0NVo1ZiInP2OgfZQiJoMgv5
- rVtmDNl6yDJu74kvdBVAfJ87sHlAUMiPu2Ql49lIPjfjecntOjNhy4+FRz1RmCnfUg++4imjFBk
- JhEH8As9Vft6QU88=
-X-Received: by 2002:a5d:6f0d:0:b0:203:dc69:2e69 with SMTP id
- ay13-20020a5d6f0d000000b00203dc692e69mr2594639wrb.533.1647423702925; 
- Wed, 16 Mar 2022 02:41:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzgjvJ6P+AaL74QPPBDpQ9yo0zP/XOCtWZS8buGtNywLfHTO5bsxRFLhTy3yY1M0Zx/lAXIZw==
-X-Received: by 2002:a5d:6f0d:0:b0:203:dc69:2e69 with SMTP id
- ay13-20020a5d6f0d000000b00203dc692e69mr2594622wrb.533.1647423702659; 
- Wed, 16 Mar 2022 02:41:42 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c706:f900:aa79:cd25:e0:32d1?
- (p200300cbc706f900aa79cd2500e032d1.dip0.t-ipconnect.de.
- [2003:cb:c706:f900:aa79:cd25:e0:32d1])
- by smtp.gmail.com with ESMTPSA id
- n15-20020a05600c4f8f00b003842f011bc5sm4770680wmq.2.2022.03.16.02.41.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 02:41:42 -0700 (PDT)
-Message-ID: <a9f31184-f157-e973-5c75-0af327fc2921@redhat.com>
-Date: Wed, 16 Mar 2022 10:41:41 +0100
+ us-mta-605-OHOg7wGzNbW1ohNiMxTGrQ-1; Wed, 16 Mar 2022 05:52:15 -0400
+X-MC-Unique: OHOg7wGzNbW1ohNiMxTGrQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F361685A5A8
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 09:52:14 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 76AA12EFA3;
+ Wed, 16 Mar 2022 09:52:00 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/27] Misc fixes and cleanups for 7.0?
+Date: Wed, 16 Mar 2022 13:51:56 +0400
+Message-Id: <20220316095156.2613419-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] softmmu/physmem: Use qemu_madvise
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20220316040405.4131-1-adeason@sinenomine.net>
- <9c36fe6b-39e1-0bfc-d2bb-97b106828ee1@redhat.com>
- <CAFEAcA96=yDKOknYmCKriWDJe4g-q07+b8yL3tFUf9=G-o84zA@mail.gmail.com>
- <YjGvvRvPRV3ACbFY@work-vm>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <YjGvvRvPRV3ACbFY@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,106 +78,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Andrew Deason <adeason@sinenomine.net>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.03.22 10:37, Dr. David Alan Gilbert wrote:
-> * Peter Maydell (peter.maydell@linaro.org) wrote:
->> On Wed, 16 Mar 2022 at 07:53, David Hildenbrand <david@redhat.com> wrote:
->>>
->>> On 16.03.22 05:04, Andrew Deason wrote:
->>>> We have a thin wrapper around madvise, called qemu_madvise, which
->>>> provides consistent behavior for the !CONFIG_MADVISE case, and works
->>>> around some platform-specific quirks (some platforms only provide
->>>> posix_madvise, and some don't offer all 'advise' types). This specific
->>>> caller of madvise has never used it, tracing back to its original
->>>> introduction in commit e0b266f01dd2 ("migration_completion: Take
->>>> current state").
->>>>
->>>> Call qemu_madvise here, to follow the same logic as all of our other
->>>> madvise callers. This slightly changes the behavior for
->>>> !CONFIG_MADVISE (EINVAL instead of ENOSYS, and a slightly different
->>>> error message), but this is now more consistent with other callers
->>>> that use qemu_madvise.
->>>>
->>>> Signed-off-by: Andrew Deason <adeason@sinenomine.net>
->>>> ---
->>>> Looking at the history of commits that touch this madvise() call, it
->>>> doesn't _look_ like there's any reason to be directly calling madvise vs
->>>> qemu_advise (I don't see anything mentioned), but I'm not sure.
->>>>
->>>>  softmmu/physmem.c | 12 ++----------
->>>>  1 file changed, 2 insertions(+), 10 deletions(-)
->>>>
->>>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
->>>> index 43ae70fbe2..900c692b5e 100644
->>>> --- a/softmmu/physmem.c
->>>> +++ b/softmmu/physmem.c
->>>> @@ -3584,40 +3584,32 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
->>>>                           rb->idstr, start, length, ret);
->>>>              goto err;
->>>>  #endif
->>>>          }
->>>>          if (need_madvise) {
->>>>              /* For normal RAM this causes it to be unmapped,
->>>>               * for shared memory it causes the local mapping to disappear
->>>>               * and to fall back on the file contents (which we just
->>>>               * fallocate'd away).
->>>>               */
->>>> -#if defined(CONFIG_MADVISE)
->>>>              if (qemu_ram_is_shared(rb) && rb->fd < 0) {
->>>> -                ret = madvise(host_startaddr, length, QEMU_MADV_REMOVE);
->>>> +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_REMOVE);
->>>>              } else {
->>>> -                ret = madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
->>>> +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
->>>
->>> posix_madvise(QEMU_MADV_DONTNEED) has completely different semantics
->>> then madvise() -- it's not a discard that we need here.
->>>
->>> So ram_block_discard_range() would now succeed in environments (BSD?)
->>> where it's supposed to fail.
->>>
->>> So AFAIKs this isn't sane.
->>
->> But CONFIG_MADVISE just means "host has madvise()"; it doesn't imply
->> "this is a Linux madvise() with MADV_DONTNEED". Solaris madvise()
->> doesn't seem to have  MADV_DONTNEED at all; a quick look at the
->> FreeBSD manpage suggests its madvise MADV_DONTNEED is identical
->> to its posix_madvise MADV_DONTNEED.
->>
->> If we need "specifically Linux MADV_DONTNEED semantics" maybe we
->> should define a QEMU_MADV_LINUX_DONTNEED which either (a) does the
->> right thing or (b) fails, and use qemu_madvise() regardless.
->>
->> Certainly the current code is pretty fragile to being changed by
->> people who don't understand the undocumented subtlety behind
->> the use of a direct madvise() call here.
-> 
-> Yeh and I'm not sure I can remembe rall the subtleties; there's a big
-> hairy set of ifdef's in include/qemu/madvise.h that makes
-> sure we always have the definition of QEMU_MADV_REMOVE/DONTNEED
-> even on platforms that might not define it themselves.
-> 
-> But I think this code is used for things with different degrees
-> of care about the semantics; e.g. 'balloon' just cares that
-> it frees memory up and doesn't care about the detailed semantics
-> that much; so it's probably fine with that.
-> Postcopy is much more touchy, but then it's only going to be
-> calling this on Linux anyway (because of the userfault dependency).
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-MADV_DONTNEED/MADV_REMOVE only provides discard semantics on Linux IIRC
--- and that's what we want to achieve: ram_block_discard_range()
+Hi,
 
-So I agree with Peter that we might want to make this more explicit.
+Various clean-up and fixes patches that might be worth it for 7.0.
+Some of the patches have been posted and reviewed before.
+
+Marc-André Lureau (27):
+  m68k/nios2-semi: fix gettimeofday() result check
+  meson: remove bsd_oses
+  meson: use chardev_ss dependencies
+  meson: add util dependency for oslib-posix on freebsd
+  char: move qemu_openpty_raw from util/ to char/
+  Drop qemu_foo() socket API wrapper
+  Replace GCC_FMT_ATTR with G_GNUC_PRINTF
+  compiler.h: replace QEMU_WARN_UNUSED_RESULT with
+    G_GNUC_WARN_UNUSED_RESULT
+  compiler.h: replace QEMU_SENTINEL with G_GNUC_NULL_TERMINATED
+  Replace config-time define HOST_WORDS_BIGENDIAN
+  osdep: poison HOST_WORDS_BIGENDIAN
+  Simplify HOST_LONG_BITS
+  Move HOST_LONG_BITS to compiler.h
+  scripts/modinfo-collect: remove unused/dead code
+  util: remove needless includes
+  util: remove the net/net.h dependency
+  qapi: remove needless include
+  meson: move int128 checks from configure
+  meson: fix CONFIG_ATOMIC128 check
+  qapi: remove needless include
+  qga: remove bswap.h include
+  error-report: replace error progname with glib functions
+  tests: remove needless include
+  Remove trailing ; after G_DEFINE_AUTO macro
+  include/qapi: add g_autoptr support for qobject types
+  tests: replace free_all() usage with g_auto
+  qapi: remove needless include
+
+ configure                               |  49 +--------
+ meson.build                             |  52 +++++++--
+ accel/tcg/atomic_template.h             |   4 +-
+ audio/audio.h                           |   6 +-
+ block/qcow2.h                           |   2 +-
+ bsd-user/qemu.h                         |   2 +-
+ hw/display/pl110_template.h             |   6 +-
+ hw/display/qxl.h                        |   2 +-
+ hw/net/can/ctucan_core.h                |   2 +-
+ hw/net/rocker/rocker.h                  |   2 +-
+ hw/net/vmxnet3.h                        |   4 +-
+ hw/xen/xen_pt.h                         |   2 +-
+ include/chardev/char-fe.h               |   2 +-
+ include/disas/dis-asm.h                 |   2 +-
+ include/exec/cpu-all.h                  |   4 +-
+ include/exec/cpu-common.h               |   2 +-
+ include/exec/memop.h                    |   2 +-
+ include/exec/memory.h                   |   2 +-
+ include/fpu/softfloat-types.h           |   2 +-
+ include/hw/acpi/aml-build.h             |  12 +-
+ include/hw/core/cpu.h                   |   4 +-
+ include/hw/hw.h                         |   2 +-
+ include/hw/i386/intel_iommu.h           |   6 +-
+ include/hw/i386/x86-iommu.h             |   4 +-
+ include/hw/virtio/virtio-access.h       |   6 +-
+ include/hw/virtio/virtio-gpu-bswap.h    |   2 +-
+ include/hw/virtio/virtio.h              |   2 +-
+ include/hw/xen/xen-bus-helper.h         |   4 +-
+ include/hw/xen/xen-bus.h                |   4 +-
+ include/hw/xen/xen_common.h             |   2 +-
+ include/hw/xen/xen_pvdev.h              |   2 +-
+ include/libdecnumber/dconfig.h          |   2 +-
+ include/monitor/monitor.h               |   4 +-
+ include/net/eth.h                       |   2 +-
+ include/qapi/error.h                    |  20 ++--
+ include/qapi/qmp/qbool.h                |   6 +
+ include/qapi/qmp/qdict.h                |   6 +
+ include/qapi/qmp/qjson.h                |   8 +-
+ include/qapi/qmp/qlist.h                |   8 +-
+ include/qapi/qmp/qnull.h                |   6 +
+ include/qapi/qmp/qnum.h                 |   6 +
+ include/qapi/qmp/qstring.h              |   6 +
+ include/qemu-common.h                   |  24 +---
+ include/qemu/bswap.h                    |   8 +-
+ include/qemu/buffer.h                   |   2 +-
+ include/qemu/compiler.h                 |  20 ++--
+ include/qemu/error-report.h             |  26 ++---
+ include/qemu/host-utils.h               |   2 +-
+ include/qemu/int128.h                   |   2 +-
+ include/qemu/log-for-trace.h            |   2 +-
+ include/qemu/log.h                      |   2 +-
+ include/qemu/osdep.h                    |  15 +--
+ include/qemu/qemu-print.h               |   8 +-
+ include/qemu/range.h                    |   4 +-
+ include/qemu/readline.h                 |   2 +-
+ include/qom/object.h                    |   6 +-
+ include/ui/qemu-pixman.h                |   2 +-
+ net/util.h                              |   2 +-
+ qga/guest-agent-core.h                  |   2 +-
+ qga/vss-win32/requester.h               |   2 +-
+ scripts/cocci-macro-file.h              |   6 +-
+ target/arm/cpu.h                        |   8 +-
+ target/arm/translate-a64.h              |   2 +-
+ target/arm/vec_internal.h               |   2 +-
+ target/i386/cpu.h                       |   2 +-
+ target/mips/cpu.h                       |   2 +-
+ target/ppc/cpu.h                        |   2 +-
+ target/s390x/tcg/vec.h                  |   2 +-
+ target/xtensa/cpu.h                     |   2 +-
+ tests/fp/platform.h                     |   4 +-
+ tests/qtest/libqos/libqtest.h           |  42 +++----
+ tests/qtest/libqtest-single.h           |   2 +-
+ tests/qtest/migration-helpers.h         |   6 +-
+ accel/kvm/kvm-all.c                     |   4 +-
+ audio/alsaaudio.c                       |   4 +-
+ audio/dbusaudio.c                       |   2 +-
+ audio/dsoundaudio.c                     |   4 +-
+ audio/ossaudio.c                        |   4 +-
+ audio/paaudio.c                         |   2 +-
+ audio/sdlaudio.c                        |   2 +-
+ block/blkverify.c                       |   2 +-
+ block/qcow2-refcount.c                  |  20 ++--
+ block/ssh.c                             |   4 +-
+ chardev/char-pty.c                      | 111 +++++++++++++++++++
+ crypto/cipher-afalg.c                   |   4 +-
+ crypto/hash-afalg.c                     |   4 +-
+ disas.c                                 |   2 +-
+ fsdev/9p-marshal.c                      |   2 +-
+ fsdev/virtfs-proxy-helper.c             |   2 +-
+ gdbstub.c                               |   2 +-
+ hw/9pfs/9p.c                            |   2 +-
+ hw/acpi/aml-build.c                     |   4 +-
+ hw/core/loader.c                        |   4 +-
+ hw/display/artist.c                     |   6 +-
+ hw/display/pxa2xx_lcd.c                 |   2 +-
+ hw/display/vga.c                        |  12 +-
+ hw/display/virtio-gpu-gl.c              |   2 +-
+ hw/mips/fuloong2e.c                     |   2 +-
+ hw/mips/malta.c                         |   2 +-
+ hw/net/rtl8139.c                        |   2 +-
+ hw/s390x/event-facility.c               |   2 +-
+ hw/virtio/vhost.c                       |   2 +-
+ hw/virtio/virtio.c                      |   2 +-
+ io/channel-socket.c                     |   6 +-
+ io/channel-websock.c                    |   2 +-
+ linux-user/arm/nwfpe/double_cpdo.c      |   4 +-
+ linux-user/arm/nwfpe/fpa11_cpdt.c       |   4 +-
+ linux-user/ppc/signal.c                 |   3 +-
+ linux-user/syscall.c                    |   6 +-
+ monitor/hmp.c                           |   4 +-
+ nbd/server.c                            |  12 +-
+ net/announce.c                          |  13 +++
+ net/net.c                               |   4 +-
+ net/socket.c                            |  24 ++--
+ qapi/qapi-forward-visitor.c             |   1 -
+ qapi/qmp-dispatch.c                     |   1 -
+ qapi/string-output-visitor.c            |   1 -
+ qemu-img.c                              |   4 +-
+ qemu-io.c                               |  12 +-
+ qga/main.c                              |   1 -
+ qobject/json-parser.c                   |   2 +-
+ softmmu/qtest.c                         |   4 +-
+ softmmu/vl.c                            |   2 +-
+ storage-daemon/qemu-storage-daemon.c    |   2 +-
+ target/alpha/translate.c                |   2 +-
+ target/arm/crypto_helper.c              |   2 +-
+ target/arm/helper.c                     |   2 +-
+ target/arm/kvm64.c                      |   4 +-
+ target/arm/neon_helper.c                |   2 +-
+ target/arm/sve_helper.c                 |   4 +-
+ target/arm/translate-sve.c              |   6 +-
+ target/arm/translate-vfp.c              |   2 +-
+ target/arm/translate.c                  |   2 +-
+ target/hppa/translate.c                 |   2 +-
+ target/i386/tcg/translate.c             |   2 +-
+ target/m68k/m68k-semi.c                 |   2 +-
+ target/mips/tcg/lmmi_helper.c           |   2 +-
+ target/mips/tcg/msa_helper.c            |  54 ++++-----
+ target/nios2/nios2-semi.c               |   2 +-
+ target/ppc/arch_dump.c                  |   2 +-
+ target/ppc/int_helper.c                 |  22 ++--
+ target/ppc/kvm.c                        |   4 +-
+ target/ppc/mem_helper.c                 |   2 +-
+ target/riscv/vector_helper.c            |   2 +-
+ target/s390x/tcg/translate.c            |   2 +-
+ target/sparc/vis_helper.c               |   4 +-
+ tcg/tcg-op.c                            |   4 +-
+ tcg/tcg.c                               |  12 +-
+ tests/qtest/e1000e-test.c               |   4 +-
+ tests/qtest/libqtest.c                  |   6 +-
+ tests/qtest/npcm7xx_emc-test.c          |   4 +-
+ tests/qtest/test-filter-mirror.c        |   4 +-
+ tests/qtest/test-filter-redirector.c    |   8 +-
+ tests/qtest/vhost-user-blk-test.c       |   2 +-
+ tests/qtest/virtio-blk-test.c           |   2 +-
+ tests/qtest/virtio-net-test.c           |  10 +-
+ tests/unit/check-qobject.c              | 128 +++++++---------------
+ tests/unit/socket-helpers.c             |   2 +-
+ tests/unit/test-qobject-input-visitor.c |   4 +-
+ trace/control.c                         |   2 +-
+ ui/vdagent.c                            |   2 +-
+ ui/vnc.c                                |   2 +-
+ util/bitmap.c                           |   2 +-
+ util/cutils.c                           |  16 ---
+ util/host-utils.c                       |   2 +-
+ util/osdep.c                            |   4 +-
+ util/qemu-error.c                       |  24 +---
+ util/qemu-openpty.c                     | 139 ------------------------
+ util/qemu-sockets.c                     |  10 +-
+ target/ppc/translate/vmx-impl.c.inc     |   4 +-
+ target/ppc/translate/vsx-impl.c.inc     |   2 +-
+ target/riscv/insn_trans/trans_rvv.c.inc |   4 +-
+ target/s390x/tcg/translate_vx.c.inc     |   2 +-
+ tcg/aarch64/tcg-target.c.inc            |   4 +-
+ tcg/arm/tcg-target.c.inc                |   4 +-
+ tcg/mips/tcg-target.c.inc               |   2 +-
+ tcg/ppc/tcg-target.c.inc                |  10 +-
+ tcg/riscv/tcg-target.c.inc              |   4 +-
+ audio/coreaudio.m                       |   4 +-
+ chardev/meson.build                     |   4 +-
+ scripts/checkpatch.pl                   |   6 +-
+ scripts/modinfo-collect.py              |   5 -
+ util/meson.build                        |   7 +-
+ 183 files changed, 646 insertions(+), 754 deletions(-)
+ delete mode 100644 util/qemu-openpty.c
 
 -- 
-Thanks,
-
-David / dhildenb
+2.35.1.273.ge6ebfd0e8cbb
 
 
