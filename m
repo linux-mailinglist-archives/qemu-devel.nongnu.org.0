@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1854DB9E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 22:09:12 +0100 (CET)
-Received: from localhost ([::1]:43296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D0D4DB9EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 22:09:55 +0100 (CET)
+Received: from localhost ([::1]:44190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUatK-00030a-O4
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 17:09:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39736)
+	id 1nUau2-0003b5-Gi
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 17:09:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUarR-0001wg-C1
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 17:07:13 -0400
-Received: from [2607:f8b0:4864:20::b32] (port=39638
- helo=mail-yb1-xb32.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUarP-0004hy-On
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 17:07:12 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id t11so6716849ybi.6
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 14:07:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TNH3nWalh8NgTXLtpze8tFDSWD0JbTwj8lRF3TDZ3aQ=;
- b=Pb/jAOkDTaO2skvtEghr+HyOvgBUl+wmDCPdQEEuOQy0Dwq4+A8q48AMizIgrTmjOx
- Pk8d3iy3Qey4eRYg5lyhJ3NtukLpC0XylZvVokHgUxk3rPInTpVIuIttunnMT7ASO1Xz
- gApb2idho2IVKGQnavbQpc0i59Ur0Tgvq1gvo1W3Bc/LTyP8rcdDyeGdO1Hy3VTOEiIi
- QKIRNN0opfUVtqYoTE7w1CyeKdAo6I3WthIRjyz4IjCT5beIXcO2TwESC0RLadt+EdNX
- NJVElaWSVMuzxgOUjBuxu7jJe/OX1CPh6f3F8jBB8ivylPJui6iMP83eThFsa6XQM5Sh
- 5otw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TNH3nWalh8NgTXLtpze8tFDSWD0JbTwj8lRF3TDZ3aQ=;
- b=l6VeReVD5RNNRZZEP46bJWpByDL2Af76wFRtMWRjWVol/kdhSdkZAYOrklJ+WADIuW
- qCHkxOZsGsNpdl+DC+r94mU//vc7NFM13Nprbn0zxaj/NKLFsfriRjEZiJKzqT1e4ZTM
- P23MFzWL1kB9S+l2tiJqNg5z7TA09TDiSm+dZi2L71wJhKlLLy2/NEu7TWjovKvhbTmG
- PBm+ro+Yv8J2AbgwQz2dB8FjGUb7hIGz/6ksAVu9cmJrSiJajkGjo7CFJ/FRIgm67Y2E
- lRJEWjil60LRPctxoFVDG5oVgQ+rROXHQbOaVYyciUub4nn4BNQmA8Gswl9vJBEiAIZM
- lX6g==
-X-Gm-Message-State: AOAM530OtvlnuOF5y5DAhKb+oNl235hIlz4aG6+J3agzQDl+fb7Leh82
- JEYEUY2SsFBU8l2ekHmC/426AkL9y+SK5DvIZoHbqw==
-X-Google-Smtp-Source: ABdhPJzL4dR6iBJTifg9nqduaaurX00K1AAndXGh1ZiocUnTtaFguH5jFDvLSvE9IXkSBQ6srnhH38Dub3tAIynMIMA=
-X-Received: by 2002:a05:6902:510:b0:630:b29f:ce2e with SMTP id
- x16-20020a056902051000b00630b29fce2emr2008906ybs.67.1647464830665; Wed, 16
- Mar 2022 14:07:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nUarm-0002Bc-CI
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 17:07:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44676)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nUarf-0004iS-OH
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 17:07:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647464846;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LJY4qfpnFysG5eYJdhNLNjmVw3AssJ7XKrbhwDs+2L4=;
+ b=GSbWGvzewD1ke/l+olhWpbIvP9oLBRSOyYTuyovs4HRFtvwd635AyAWYjQJhbgAGmBK+Oh
+ hFDPJKQt0WEPzP1aQPJF/yJGul5gKcPU2ncFKoswnvEpaqAC6c7+X6mIFklLqJGHt6nA0s
+ 94SwtvKPVZBL0eUtF3Ai+4nwWFD1lME=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-482-sFIN_LNCOO2ktURr0nFoMA-1; Wed, 16 Mar 2022 17:07:23 -0400
+X-MC-Unique: sFIN_LNCOO2ktURr0nFoMA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAA053C1EA4D;
+ Wed, 16 Mar 2022 21:07:21 +0000 (UTC)
+Received: from redhat.com (unknown [10.22.33.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C2A72156A5A;
+ Wed, 16 Mar 2022 21:07:20 +0000 (UTC)
+Date: Wed, 16 Mar 2022 16:07:18 -0500
+From: Eric Blake <eblake@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Subject: Re: [PATCH v3 3/3] nbd/server: Allow MULTI_CONN for shared writable
+ exports
+Message-ID: <20220316210718.yt3xcaqlg2sduyje@redhat.com>
+References: <20220314203818.3681277-1-eblake@redhat.com>
+ <20220314203818.3681277-4-eblake@redhat.com>
+ <20220315131441.GD1127@redhat.com>
 MIME-Version: 1.0
-References: <20220316160300.85438-1-philippe.mathieu.daude@gmail.com>
- <e1a5b41b-708d-ef3b-4c9b-8b2469cf4a92@gmail.com>
- <f7fb6c55-60ba-f510-b9cc-8a257859072e@redhat.com>
- <CAFEAcA_JHky3XJYVsq9VzG38fWQgSO4k7QWWf+hAyUXrh-BfJQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_JHky3XJYVsq9VzG38fWQgSO4k7QWWf+hAyUXrh-BfJQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 16 Mar 2022 21:06:59 +0000
-Message-ID: <CAFEAcA-bqoQR+qdFe6fkZ9Rvn4rKAxOXTwfPdFGA9uNEdHKGNg@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-7.0 v2] cocoa: run qemu_init in the main thread
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220315131441.GD1127@redhat.com>
+User-Agent: NeoMutt/20211029-454-6adf99
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,51 +82,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ nsoffer@redhat.com, Hanna Reitz <hreitz@redhat.com>, v.sementsov-og@ya.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Mar 2022 at 19:29, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Wed, 16 Mar 2022 at 17:31, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > On 3/16/22 17:22, Akihiko Odaki wrote:
-> > > I was thinking that it may be better to let softmmu/main.c do the
-> > > details if it involves the internals of qemu_main() like qemu_main_loop().
-> > >
-> > > More concretely, softmmu/main.c would provide a function to register a
-> > > function pointer to take over the main thread. main() implemented in
-> > > softmmu/main.c would call qemu_init(). If a function pointer gets
-> > > registered in qemu_init(), it would create a thread for main loop and
-> > > call the registered function pointer. Otherwise, it would directly call
-> > > qemu_main_loop().
-> > >
-> > > It would be a semantically appropriate division of ui/cocoa.m and
-> > > softmmu/main.c. It would also be beneficial for end-users as it would
-> > > also allow to isolate ui/cocoa.m into a separate module when
-> > > --enable-modules in the future. (With "In the future", I mean sometime
-> > > when we have time to hack Meson build files and some details we cannot
-> > > fill by 7.0.)
-> >
-> > I would like this for 7.1.
-> >
-> > Basically rename qemu_main_loop to qemu_default_main_loop, and
-> > cocoa_display_init would do
-> >
-> >      qemu_main_loop = qemu_cocoa_main_loop;
-> >
-> > qemu_cocoa_main_loop would include the bulk of the current main of
-> > ui/cocoa.m.  Seems like a good idea.
->
-> Speaking of 7.1, is cocoa currently completely broken, ie in need
-> of an interim fix for 7.0 ? If so, which of the various patches/approaches
-> should it be ?
+On Tue, Mar 15, 2022 at 01:14:41PM +0000, Richard W.M. Jones wrote:
+> The patches seem OK to me, but I don't really know enough about the
+> internals of qemu-nbd to give a line-by-line review.  I did however
+> build and test qemu-nbd with the patches:
+> 
+>   $ ./build/qemu-nbd /var/tmp/test.qcow2 
+>   $ nbdinfo nbd://localhost
+>   ...
+> 	can_multi_conn: false
+> 
+> 
+>   $ ./build/qemu-nbd -e 2 /var/tmp/test.qcow2 
+>   $ nbdinfo nbd://localhost
+>   ...
+> 	can_multi_conn: false
+> 
+> ^^^ Is this expected?  It also happens with -e 0.
 
-To answer the first half of my question, yes, the cocoa UI is
-currently completely broken as it asserts on startup.
+Yes, because qemu-nbd defaults to read-write connections, but to be
+conservative, this patch defaults '-m auto' to NOT advertise
+multi-conn for read-write; you need to be explicit:
 
--- PMM
+> 
+> 
+>   $ ./build/qemu-nbd -e 2 -m on /var/tmp/test.qcow2 
+>   $ nbdinfo nbd://localhost
+>   ...
+> 	can_multi_conn: true
+
+either with '-m on' as you did here, or with
+
+build/qemu-nbd -r -e 2 /var/tmp/test.qcow2
+
+where the '-m auto' default exposes multi-conn for a readonly client.
+
+> 
+> 
+>   $ ./build/qemu-nbd -e 2 -m off /var/tmp/test.qcow2 
+>   $ nbdinfo nbd://localhost
+>   ...
+> 	can_multi_conn: false
+> 
+> 
+> Rich.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
