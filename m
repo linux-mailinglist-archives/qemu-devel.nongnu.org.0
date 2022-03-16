@@ -2,81 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D04914DB3D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 16:00:55 +0100 (CET)
-Received: from localhost ([::1]:45278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1CC34DB398
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:46:59 +0100 (CET)
+Received: from localhost ([::1]:51454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUV8w-0002Mn-Sf
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 11:00:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59076)
+	id 1nUUvS-0005gb-IM
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:46:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUUqZ-0001O0-Iw
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:41:55 -0400
-Received: from [2607:f8b0:4864:20::b2d] (port=45988
- helo=mail-yb1-xb2d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUUqY-0001A8-3A
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:41:55 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id w16so4739470ybi.12
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 07:41:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=upRCTpvYdLG/S8XyJkGQo44c91klB7ReHzBNRH+zqy8=;
- b=vv4RiU4TS6VYoyfAvvIVRSuRCwvHZj31F1kdpyhjiGmaifTZSx+sjjhX4GaMWR0IN/
- EnxDoEo3zXF0/x0qhdTpLEB++/U2edRT6hn423PuDpGf/UpP8vfThq1PNtRoyxs8B5kG
- gVMeEKV9p+7fRlcqn/IDRuYIPGRAzHLEevwATyM2yAgPIVBa98EyG1/aoHlHPytOiNXo
- x+7XccEg3Fito2iFSM3U3b1O3wCzhE5e58pceU6E1RWx9mx47R8GTHwtbKiTO5bNWrp8
- 7qTB4583kbyzFIOez4FerNUj9nOwMtl85XN8OyoeUnnfvjgKhG1DsRC8kAa4nPu7blTb
- pNuQ==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nUUtY-0003kF-EA
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:45:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55898)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nUUtV-0001Qq-Pt
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:44:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647441896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L8f8EsswhKa360FvBPHHo+lmRQ++c2k/VT3utAiK6do=;
+ b=BTXdTZXObBSwnuYnAEcBs04+W6ejwoOR523Vl+RfbPJ9t+G+tIeV0yz3VBvKbkRdEg51fV
+ svuyyaHMiwGBuXZT3pXEP7oYLDd2iuSs8CETsodYrvyHeCqSZcrT9qsTCxaxp/i+RjA06k
+ BLqSs2BmHNypGNShUTsCH8fcWVsFieU=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-253-psP_ZW54OU-VldSUAjFefg-1; Wed, 16 Mar 2022 10:44:53 -0400
+X-MC-Unique: psP_ZW54OU-VldSUAjFefg-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ b11-20020a5b008b000000b00624ea481d55so2090015ybp.19
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 07:44:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=upRCTpvYdLG/S8XyJkGQo44c91klB7ReHzBNRH+zqy8=;
- b=NG6E70KxSAZ6A5Vnq6WVcVISP+Zd191OUrNUgAiN/3R5qD3Gsh4QySzp7oaKbvXRD5
- fclibVGpGiD6Pjq6WuodOAQMf1CuNLTrWdBP5ndcAG9HBc7JXjKlPX0uc5I+mPqCS7WT
- S4A+kiOOLf/zPz1kEIKQKcQWun7NDm4ozpafsmTVUVkHcjNg5ud/puBQeQWxn7cGRCdh
- 84H8GLwuK/E/kuDwe5BW6pSrHkT6mQ0JrbP9mxN9kGAZEho3CPL9d/Ap625wM92Fz/cf
- +xrj2kOccseYfrgbDlROwATK0QgY1pdt0KZ5krmjRGbbF7PR3tAO2uLkXyzvcOPWiya6
- 4tHQ==
-X-Gm-Message-State: AOAM531nIFXMrJewSyXEyDKpiVv44DRz4pc2iHjwop44KYtMQjet256r
- GGzfLyUnwc3Mw/HZBHeQ0kLe7o03Zoj0gnzkLWo87Q==
-X-Google-Smtp-Source: ABdhPJz6Bg/GEeKtRM1ajPD5k9oFDWicxU7lnMU21Deo1EPbHn5nNLv7QO/KJ/Rb+U5AB4kXAZSJPCdF1N+hyqSvH1k=
-X-Received: by 2002:a25:bf8b:0:b0:633:8a66:c4cd with SMTP id
- l11-20020a25bf8b000000b006338a66c4cdmr181333ybk.85.1647441712914; Wed, 16 Mar
- 2022 07:41:52 -0700 (PDT)
+ bh=L8f8EsswhKa360FvBPHHo+lmRQ++c2k/VT3utAiK6do=;
+ b=Q21ieNfAiT09LY7tiRtntunupNjbuUvorKxHayxNijZof+3SDBT/47hovbPebHaOER
+ jE2EVZnfX69TsTU5bQuNeGJMQ1JkHZdT6Ix99yAAdZkE1F5bLEh3DfLT2wAczIslewD4
+ LHmDIn/hRuK1Q9YOYM8Kjk4phSvae5xKeOHzJLdM6uXUSO1HWQz8sb2LjEyNBgCgVOZC
+ pncEMwj4adZ4jNHr1m+fGYlchzeTBL+aCro0vzg5zN+Ct3tYmawKJtU5QE6NrQ+bXjMq
+ xNjVLYDZ4IiEu5SN7GQjLj30m1uYGiRrkG9vbaODyDQc1Dbr+ny3C6U5ENhCAM1F/5yn
+ CGyg==
+X-Gm-Message-State: AOAM5314q2sItkhcF+kueasRMUl+UwrcMY6CpVlBwIyxcfoVs6ngs83j
+ lG/MzXXfTxIz1mScyEwOY2mPXm14g8TqtXqSoh12oKrUriYQjyVn7SdJJYhqaxPyrbSEOAUD45w
+ 9bZooXCY+NgmqmH/5rh2o+k3ICJLGcnI=
+X-Received: by 2002:a81:5dd5:0:b0:2dc:19cf:17ac with SMTP id
+ r204-20020a815dd5000000b002dc19cf17acmr427067ywb.312.1647441892787; 
+ Wed, 16 Mar 2022 07:44:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFWYn/wtSu246u8Y4CYfKSyUDvMgcKhxu5hgK+YIOdccvoRRaKZhf56K2IxHr0xWfHRxN69qDhHOSHm0DlaKI=
+X-Received: by 2002:a81:5dd5:0:b0:2dc:19cf:17ac with SMTP id
+ r204-20020a815dd5000000b002dc19cf17acmr427038ywb.312.1647441892569; Wed, 16
+ Mar 2022 07:44:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220224183701.608720-1-marcandre.lureau@redhat.com>
- <20220224183701.608720-6-marcandre.lureau@redhat.com>
- <CAFEAcA9FDt0Y6W4zBLG3ciGe8M7TERimzD_4gX-y7pAv2G+=ag@mail.gmail.com>
- <CAJ+F1CJiQRn+5VXtfZgmVAKuA2wUdCXv=5hToiwfRQPX4qXUKg@mail.gmail.com>
- <CAFEAcA-NN=L2iL=17jgg03iixisdVxL=HOZv1JbUsQh0VsgGHg@mail.gmail.com>
- <YjHpxc6WxB3GrzZi@redhat.com>
-In-Reply-To: <YjHpxc6WxB3GrzZi@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 16 Mar 2022 14:41:41 +0000
-Message-ID: <CAFEAcA8qeebt1OWenyUc1dfFjT8Q3ut8ZUxgp4uu71qH48vOUA@mail.gmail.com>
-Subject: Re: [PATCH 05/12] compiler.h: drop __printf__ macro MinGW/glib
- workaround
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+References: <20220316095221.2613526-1-marcandre.lureau@redhat.com>
+ <50cece3d-37ac-7fe4-db14-1116e9665594@redhat.com>
+In-Reply-To: <50cece3d-37ac-7fe4-db14-1116e9665594@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 16 Mar 2022 18:44:41 +0400
+Message-ID: <CAMxuvaxwSX4cnVaCFMFad6qFs4CqgKs7KiLntuSVApy4AoZiiw@mail.gmail.com>
+Subject: Re: [PATCH 02/27] meson: remove bsd_oses
+To: Paolo Bonzini <pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,60 +95,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU <qemu-devel@nongnu.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Mar 2022 at 13:44, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
+Hi
+
+On Wed, Mar 16, 2022 at 6:40 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> On Thu, Feb 24, 2022 at 08:14:47PM +0000, Peter Maydell wrote:
-> > On Thu, 24 Feb 2022 at 19:50, Marc-Andr=C3=A9 Lureau
-> > <marcandre.lureau@gmail.com> wrote:
-> > > On Thu, Feb 24, 2022 at 11:23 PM Peter Maydell <peter.maydell@linaro.=
-org> wrote:
-> > >> You're probably building with a newer glib, and possibly also
-> > >> a newer mingw.
-> > >>
-> > >> I've cc'd Stefan Weil who might know whether we can drop this
-> > >> workaround as far as the mingw part is concerned.
-> > >
-> > >
-> > > Probably safer to keep it until we bump glib dependency to >=3D2.58.
-> > >
-> > > I would move it to glib-compat.h though, and leave a note there, as i=
-t is (or should be ) an old glib specific workaround.
+> On 3/16/22 10:52, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > >
-> > We can only move it to glib-compat if we confirm that only the
-> > glib-related part of the workaround is still relevant and the
-> > mingw side is now no longer needed, though.
+> > It is unused.
 >
-> We know glib uses the GNU printf semantics for all its APIs.
->
-> We know QEMU code will use the GNU printf annotation for all its
-> APIs where it knows it has GNU printf, due to delegating to
-> GLib.
->
-> For 3rd party libraries, we can have no confidence about whether
-> they expect GNU or native printf format, unless we're doing
-> something to override the printf family of functions at link
-> time. IIRC, we're not doing that, so we can't assume 3rd party
-> stuff expects GNU format, and so the sooner we get rid of
-> the #define __printf__ __gnu_printf__ the better IMHO. The
-> proof of course would be to see a CI test run with the define
-> removed proving that no code we call relies on it.
+> It's fine to remove it now, but I'll bring it back in 7.1. :)  You decide=
+.
 
-Yes, the workaround is definitely correct for QEMU's own
-code and for glib itself. We don't care about 3rd party
-libraries because we don't use any of those which take
-format-string arguments AFAIK. The 'mingw' part AIUI is
-purely for mingw itself, ie the standard library. What
-I'm asking is "what were the versions of mingw that were
-affected by this, and are they all old enough we don't need
-to care from that point of view?".
+Whatever, but if noone ack it, let's leave it then.
+thanks
 
--- PMM
+>
+> Paolo
+>
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >   meson.build | 1 -
+> >   1 file changed, 1 deletion(-)
+> >
+> > diff --git a/meson.build b/meson.build
+> > index bae62efc9c33..784e91753630 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -44,7 +44,6 @@ config_host_data =3D configuration_data()
+> >   genh =3D []
+> >   qapi_trace_events =3D []
+> >
+> > -bsd_oses =3D ['gnu/kfreebsd', 'freebsd', 'netbsd', 'openbsd', 'dragonf=
+ly', 'darwin']
+> >   supported_oses =3D ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwi=
+n', 'sunos', 'linux']
+> >   supported_cpus =3D ['ppc', 'ppc64', 's390x', 'riscv', 'x86', 'x86_64'=
+,
+> >     'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc6=
+4']
+>
+
 
