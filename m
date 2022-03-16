@@ -2,98 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8C44DAD57
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 10:19:05 +0100 (CET)
-Received: from localhost ([::1]:38298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8F74DAD7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 10:28:33 +0100 (CET)
+Received: from localhost ([::1]:41146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUPo8-0004ov-Cy
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 05:19:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36926)
+	id 1nUPxI-0007D8-Ry
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 05:28:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nUPly-0003ON-Dg
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:16:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40802)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nUPlw-0002Fb-N8
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:16:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647422208;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7y9rIzECF2jbKgH0FT9bIDLbO2lNXlqlZFLNDGYTa1k=;
- b=X7pvxC/Cxnupx43h0pbwq8ZtxPUwPefb7fONl6onmdptq96CQDlKV3TqTL6o/vsO/AXgSQ
- cXXVHQSJuwf08JiqawwvB8Xy5LXQyZJxtgFs/kheXjmF0erNkOYMFpyBZI2TNoO/RKAeoF
- QvCFV6bPIRWORu6qaPW6rVrTtgsQiQo=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-B7BeNbmbPZqb460ktgik1A-1; Wed, 16 Mar 2022 05:16:47 -0400
-X-MC-Unique: B7BeNbmbPZqb460ktgik1A-1
-Received: by mail-qk1-f197.google.com with SMTP id
- h68-20020a376c47000000b0067e05dade89so1123365qkc.2
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 02:16:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nUPvF-0006FX-7r
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:26:25 -0400
+Received: from [2607:f8b0:4864:20::112a] (port=33681
+ helo=mail-yw1-x112a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nUPvD-0003tl-GZ
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:26:24 -0400
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-2dbd8777564so16468977b3.0
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 02:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DiMqpjCe3RrI9JjqSM6hjybRDZv5hg0w/tVESSO+83M=;
+ b=vkoqNC8GZ/mNSmV+SDwzV+hNUMivVftuvwEwBCkM78PyDXQJwcry8+EgdUWptBqcDO
+ MLhtWFbcGU76GHSwI+OpX7nx7J3vc1Hxx78HY7UtF44vD+k7h/CYw4e2Gd9Hr4/nP6Aw
+ UDKfYRTcsBof2NxseZi8CynaRqwmURmT7x/dGKuUzqMNCtONZbP6NEMHydKdcRzl43LS
+ 8RtjODRMxoBzyNLCyKx8ELQWn6l0o0JS6/+EVH6TxFXGKrimCCuzzej1o4wA78v72oSs
+ 1pAn0BDfL8bIBWUmyx9rl87tpIeJ5QeFruwSN9wOLu/WRvnDyy/Mzo72rm3FDVOwndiI
+ NXUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7y9rIzECF2jbKgH0FT9bIDLbO2lNXlqlZFLNDGYTa1k=;
- b=wsgvLZFtavCb4/eAw2wY7IcPLcLeTzQoncUMJgyOm0ctsN2QHzTCLooqjcQz/OLyoD
- 0fQ0GPS9aqw6Q3HVlx17ISRY2Ljezkk4Z4pDSyJzQWul8JvbZeG/fHY3UTs6zpkhEQMm
- v8VkTk7o0xzft2nasvy850icvozm4YPsbvdW+oEtP/DmS6ADK45vhazSxKpQ0u+1pqje
- WgSMam4W6pAwfIgvWgiBxIUS3tIyiTaSPSeUgA23jsUbpvrhuKuD0ZOPV/kIIJ+H5iQU
- pLgkmt6MmRPGR67XIdD68w4rtcqi5J6Ru2nNSdzvuHcXN8+5o8ZyOaGU/O+EUaU4aeSl
- p84g==
-X-Gm-Message-State: AOAM533kvJ8rjlGS/IbPUqw9xH45MOKkQ7Yq9SNoOH0tXaJ6wEdFAemB
- DlOjcwOghxo9MdVriWfWgICWNfJVWczohUE5IqoXx3rrkZX8q0lHhyjmhch9ws8TtY0mS2LyDtK
- NOW5I+qv8EMie+hk=
-X-Received: by 2002:a05:620a:2591:b0:67a:f1ef:cda3 with SMTP id
- x17-20020a05620a259100b0067af1efcda3mr20766069qko.656.1647422206827; 
- Wed, 16 Mar 2022 02:16:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxM+bbGVGhnRk9v0kR0iZSxb8m5gIj3EDQvUZJztes2Uu+r14wgLi47JDQJlgWar0zNRa9lKQ==
-X-Received: by 2002:a05:620a:2591:b0:67a:f1ef:cda3 with SMTP id
- x17-20020a05620a259100b0067af1efcda3mr20766055qko.656.1647422206577; 
- Wed, 16 Mar 2022 02:16:46 -0700 (PDT)
-Received: from [192.168.149.119]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- x12-20020a05620a12ac00b0067d4bfffc59sm638016qki.118.2022.03.16.02.16.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 02:16:46 -0700 (PDT)
-Message-ID: <c3fe0225-ee8d-6add-7fb9-ee6770b1288b@redhat.com>
-Date: Wed, 16 Mar 2022 10:16:43 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DiMqpjCe3RrI9JjqSM6hjybRDZv5hg0w/tVESSO+83M=;
+ b=0CVR8tTM/6Y4tsCMSxEGMHqvtTtNIM4AoqXzjsK5+2GYzNmuovkbssIVG2wPSXbfWx
+ o52ggb1MKYWw9GeViyuQcjplkOFyPdgIFk3HheNfXNfwDXeu6FGFLtB9dxY+dcTMk330
+ 6Uyb+i3PXd9VyeFUEnurY8Z0neZYFAh4wcRuCpAt+81AeyIvVD2/qzM86amEVZofau31
+ eyTi8Ik2zbLHCNgt44Vzbqfi9XSJI6wjxxzKYw4f6uTSaYmtM8rLI+En/W185oBGko29
+ pcCqSoFOB2Xk6pJ0ahhKlbj4bMUCXb7nqxKZr5fDzkGmsq7JD+I1d0SOZ3WZfz/pXGJh
+ 3gog==
+X-Gm-Message-State: AOAM532R32zns220wAD7rUuQQeaRQfGO/VYe+jHv3fe/nMz/ayIiSzE+
+ Tfa/WSzqnDBnLqRXbCxIot+RBTXECxe4C7WoQy16Tw==
+X-Google-Smtp-Source: ABdhPJxyiKf1oGuSX3XEZC9nmqVMiDQRfV7gXXpWlUs8/SxwruoEw5D9zIYhAFI0VUXM6eC1mNTxv6L1MW84BthzgUQ=
+X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
+ e69-20020a81a748000000b002d61f8b23a9mr28337592ywh.329.1647422782353; Wed, 16
+ Mar 2022 02:26:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 05/10] block.c: bdrv_replace_child_noperm: first call
- ->attach(), and then add child
-To: qemu-block@nongnu.org
-References: <20220314131854.2202651-1-eesposit@redhat.com>
- <20220314131854.2202651-6-eesposit@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20220314131854.2202651-6-eesposit@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220316040405.4131-1-adeason@sinenomine.net>
+ <9c36fe6b-39e1-0bfc-d2bb-97b106828ee1@redhat.com>
+In-Reply-To: <9c36fe6b-39e1-0bfc-d2bb-97b106828ee1@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 16 Mar 2022 09:26:10 +0000
+Message-ID: <CAFEAcA96=yDKOknYmCKriWDJe4g-q07+b8yL3tFUf9=G-o84zA@mail.gmail.com>
+Subject: Re: [PATCH] softmmu/physmem: Use qemu_madvise
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,94 +83,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Deason <adeason@sinenomine.net>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unfortunately this patch is not safe: theoretically ->attach can call
-bdrv_apply_subtree_drain, and if it polls, will can call a bh that
-for example reads the graph, finding it in an inconsistent state, since
-it is between the two writes QLIST_INSERT_HEAD(&bs->children, child,
-next); and QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
+On Wed, 16 Mar 2022 at 07:53, David Hildenbrand <david@redhat.com> wrote:
+>
+> On 16.03.22 05:04, Andrew Deason wrote:
+> > We have a thin wrapper around madvise, called qemu_madvise, which
+> > provides consistent behavior for the !CONFIG_MADVISE case, and works
+> > around some platform-specific quirks (some platforms only provide
+> > posix_madvise, and some don't offer all 'advise' types). This specific
+> > caller of madvise has never used it, tracing back to its original
+> > introduction in commit e0b266f01dd2 ("migration_completion: Take
+> > current state").
+> >
+> > Call qemu_madvise here, to follow the same logic as all of our other
+> > madvise callers. This slightly changes the behavior for
+> > !CONFIG_MADVISE (EINVAL instead of ENOSYS, and a slightly different
+> > error message), but this is now more consistent with other callers
+> > that use qemu_madvise.
+> >
+> > Signed-off-by: Andrew Deason <adeason@sinenomine.net>
+> > ---
+> > Looking at the history of commits that touch this madvise() call, it
+> > doesn't _look_ like there's any reason to be directly calling madvise vs
+> > qemu_advise (I don't see anything mentioned), but I'm not sure.
+> >
+> >  softmmu/physmem.c | 12 ++----------
+> >  1 file changed, 2 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> > index 43ae70fbe2..900c692b5e 100644
+> > --- a/softmmu/physmem.c
+> > +++ b/softmmu/physmem.c
+> > @@ -3584,40 +3584,32 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
+> >                           rb->idstr, start, length, ret);
+> >              goto err;
+> >  #endif
+> >          }
+> >          if (need_madvise) {
+> >              /* For normal RAM this causes it to be unmapped,
+> >               * for shared memory it causes the local mapping to disappear
+> >               * and to fall back on the file contents (which we just
+> >               * fallocate'd away).
+> >               */
+> > -#if defined(CONFIG_MADVISE)
+> >              if (qemu_ram_is_shared(rb) && rb->fd < 0) {
+> > -                ret = madvise(host_startaddr, length, QEMU_MADV_REMOVE);
+> > +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_REMOVE);
+> >              } else {
+> > -                ret = madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
+> > +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
+>
+> posix_madvise(QEMU_MADV_DONTNEED) has completely different semantics
+> then madvise() -- it's not a discard that we need here.
+>
+> So ram_block_discard_range() would now succeed in environments (BSD?)
+> where it's supposed to fail.
+>
+> So AFAIKs this isn't sane.
 
-Please ignore it.
-This patch could eventually go in the subtree_drain serie, if we decide
-to go in that direction.
+But CONFIG_MADVISE just means "host has madvise()"; it doesn't imply
+"this is a Linux madvise() with MADV_DONTNEED". Solaris madvise()
+doesn't seem to have  MADV_DONTNEED at all; a quick look at the
+FreeBSD manpage suggests its madvise MADV_DONTNEED is identical
+to its posix_madvise MADV_DONTNEED.
 
-Emanuele
+If we need "specifically Linux MADV_DONTNEED semantics" maybe we
+should define a QEMU_MADV_LINUX_DONTNEED which either (a) does the
+right thing or (b) fails, and use qemu_madvise() regardless.
 
+Certainly the current code is pretty fragile to being changed by
+people who don't understand the undocumented subtlety behind
+the use of a direct madvise() call here.
 
-Am 14/03/2022 um 14:18 schrieb Emanuele Giuseppe Esposito:
-> Doing the opposite can make adding the child node to a non-drained node,
-> as apply_subtree_drain is only done in ->attach() and thus make
-> assert_bdrv_graph_writable fail.
-> 
-> This can happen for example during a transaction rollback (test 245,
-> test_io_with_graph_changes):
-> 1. a node is removed from the graph, thus it is undrained
-> 2. then something happens, and we need to roll back the transactions
->    through tran_abort()
-> 3. at this point, the current code would first attach the undrained node
->    to the graph via QLIST_INSERT_HEAD, and then call ->attach() that
->    will take care of restoring the drain with apply_subtree_drain(),
->    leaving the node undrained between the two operations.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  block.c | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
-> 
-> diff --git a/block.c b/block.c
-> index d870ba5393..c6a550f9c6 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -1434,6 +1434,11 @@ static void bdrv_inherited_options(BdrvChildRole role, bool parent_is_format,
->      *child_flags = flags;
->  }
->  
-> +/*
-> + * Add the child node to child->opaque->children list,
-> + * and then apply the drain to the whole child subtree,
-> + * so that the drain count matches with the parent.
-> + */
->  static void bdrv_child_cb_attach(BdrvChild *child)
->  {
->      BlockDriverState *bs = child->opaque;
-> @@ -2889,8 +2894,6 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
->      }
->  
->      if (new_bs) {
-> -        assert_bdrv_graph_writable(new_bs);
-> -        QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
->  
->          /*
->           * Detaching the old node may have led to the new node's
-> @@ -2901,12 +2904,19 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
->          assert(new_bs->quiesce_counter <= new_bs_quiesce_counter);
->          drain_saldo += new_bs->quiesce_counter - new_bs_quiesce_counter;
->  
-> -        /* Attach only after starting new drained sections, so that recursive
-> -         * drain sections coming from @child don't get an extra .drained_begin
-> -         * callback. */
-> +        /*
-> +         * First call ->attach() cb.
-> +         * In child_of_bds case, add child to the parent
-> +         * (child->opaque) ->children list and if
-> +         * necessary add missing drains in the child subtree.
-> +         */
->          if (child->klass->attach) {
->              child->klass->attach(child);
->          }
-> +
-> +        /* Then add child to new_bs->parents list */
-> +        assert_bdrv_graph_writable(new_bs);
-> +        QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
->      }
->  
->      /*
-> 
-
+-- PMM
 
