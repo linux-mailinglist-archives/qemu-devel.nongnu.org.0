@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11EDB4DB067
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:09:31 +0100 (CET)
-Received: from localhost ([::1]:38082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE194DB0D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:16:21 +0100 (CET)
+Received: from localhost ([::1]:52608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUTP6-0004dU-1Z
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:09:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36666)
+	id 1nUTVk-0006Fc-6Q
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:16:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUTKX-0006IC-Rl; Wed, 16 Mar 2022 09:04:45 -0400
-Received: from [2a00:1450:4864:20::42c] (port=46719
- helo=mail-wr1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUTKW-0000oZ-0d; Wed, 16 Mar 2022 09:04:45 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id x15so2846407wru.13;
- Wed, 16 Mar 2022 06:04:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ofCZ8GjQOxHvqJYPmm6ycSRJ0FVFXO58q74P6MjJCJY=;
- b=QmqoDHgYDfVzGJIukelGOZrSNPAKSikGE6p/mUnrSPLfd+t00rd4bL8WoqUaFwGU7V
- H/RwU0pR3Csh+4eECtHQPzcFa4JMMfNaxdq3Z/NwKwnq4lNlugcabf+XznZ6+uOe7PGK
- cPRJLYXbZUZND1W0g6V2shEkWtkll9Ufpcph+sqjuQG78E8bgS7BqtQTm3Nn49D39VFT
- IRAoCV2mg5XVDn6kR7o/piJ4k5BIn6UjKzeKSL6MRCDoQ8G5Fn8biZ8bmuuxrWa0Bjim
- T7lMJqqgWbjKKaboCt9I8Ajb8JlcAQ6uV3Zfthr9O15DqcUpmI8/9XNxtOWB+2L59w4p
- zviA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ofCZ8GjQOxHvqJYPmm6ycSRJ0FVFXO58q74P6MjJCJY=;
- b=NVxS3zRCFv8G3emaXV3B3lAzhccvC4DeCwRtS7lsucCDLyJkbYwQ7vIqug4VTfiwbN
- UICSrTzaxv0gfTtYgRa687POFg8Xupcvdt/HJ/VUlNYuoC17YDL6IgOagSAzlN7YApNu
- 8splkMsBvlWFUcDkq/rXS1/QVJsM+qbb8tQl+z24Wf2nenoyKwooE64Dg/X/qa7J01Zh
- U1orS64AIwdpdc5HKu53Jjt/xCbwc5L03Jj6rrug9VhudD2oI2Ag2ouROVq8VG2FA+OX
- 8WLs1x1DrwJULZMbe1KycyEHZY+FNUXPDF0EeGqiXCPuC0xP0gNLFIyno8aQWJxAOuXW
- VVEw==
-X-Gm-Message-State: AOAM531Kt8glfN2gWpZqrSxF08okNixt6OciKAK/NEqScP484/hs2ifW
- zOd+FDR6JxgFsdeQv/cTPQ0=
-X-Google-Smtp-Source: ABdhPJxi4pJPwLg5gQEw9qA5AXyEFHx7f8teXsaSNm4y1Krnytqmj14VlSyWtB8Wrjpu7lmcFwDg3Q==
-X-Received: by 2002:adf:e108:0:b0:1ef:97ad:5372 with SMTP id
- t8-20020adfe108000000b001ef97ad5372mr23988130wrz.658.1647435880168; 
- Wed, 16 Mar 2022 06:04:40 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- p6-20020a5d4586000000b001f0436cb325sm1612295wrq.52.2022.03.16.06.04.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 06:04:39 -0700 (PDT)
-Message-ID: <e709547a-a0c2-d1bd-7145-d03e9fd1776a@gmail.com>
-Date: Wed, 16 Mar 2022 14:04:36 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nUTLz-0000bd-NP
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:06:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38234)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nUTLv-0001J0-Cw
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:06:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647435970;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Ws+GoVs3tI0RKwu+vn0QrLnVXD9I7gDKcHLeyStbPbs=;
+ b=Zy8CCGLd5WvrmJFWAAYv10n56tNBVxBLrnmd2mScAZ6rfmk7VQiUPONxfosqOFdZqw1XOX
+ 0gy8BCJLmXrrGOj30zrNk/OOCZAoQOY6/HEyY9zAXW82fP7Wh8yl3s5Ck7Gg+p1RdliY6v
+ 9iM9pTUpKdszSl3ymo2KCPMIPN+On6I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-618-8sO3Nz9pM-K45KKSmK4ARg-1; Wed, 16 Mar 2022 09:06:06 -0400
+X-MC-Unique: 8sO3Nz9pM-K45KKSmK4ARg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 735C7185A7BA;
+ Wed, 16 Mar 2022 13:06:06 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E1FB64029D4;
+ Wed, 16 Mar 2022 13:06:04 +0000 (UTC)
+Date: Wed, 16 Mar 2022 13:06:02 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
+Message-ID: <YjHgugc8rBKaCjur@redhat.com>
+References: <20220314093203.1420404-1-pbonzini@redhat.com>
+ <Yi9MBGoc3WtOLx82@stefanha-x1.localdomain>
+ <4528e387-8016-0774-9c8b-532a75566d9d@redhat.com>
+ <YjCdKfbQsgfsw76N@stefanha-x1.localdomain>
+ <CAFEAcA8zongmSfDAgorr=RfKK6Qsgyi1xNz5KBzdB0RGeSBSWA@mail.gmail.com>
+ <dca7d15b-2f24-cfb2-9a31-47b5ffd9c3d5@redhat.com>
+ <YjHY8GA52MzjBxLK@stefanha-x1.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 10/27] Replace config-time define HOST_WORDS_BIGENDIAN
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220316095308.2613651-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220316095308.2613651-1-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <YjHY8GA52MzjBxLK@stefanha-x1.localdomain>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,152 +86,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Eric Farman <farman@linux.ibm.com>, Peter Xu <peterx@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Yanan Wang <wangyanan55@huawei.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- "open list:virtio-blk" <qemu-block@nongnu.org>,
- David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
- Huacai Chen <chenhuacai@kernel.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
- "open list:ARM PrimeCell and..." <qemu-arm@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <eduardo@habkost.net>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Coiby Xu <Coiby.Xu@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: kwolf@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, hreitz@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/3/22 10:53, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Wed, Mar 16, 2022 at 12:32:48PM +0000, Stefan Hajnoczi wrote:
+> On Tue, Mar 15, 2022 at 06:29:50PM +0100, Paolo Bonzini wrote:
+> > On 3/15/22 15:24, Peter Maydell wrote:
+> > > On Tue, 15 Mar 2022 at 14:09, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > > > Also, once C++ is available people will
+> > > > start submitting C++ patches simply because they are more comfortable
+> > > > with C++ (especially one-time/infrequent contributors).
+> > > 
+> > > This to my mind is the major argument against using C++
+> > > for coroutines...
+> > 
+> > I agree on the need for a policy, but _what_ C++ are they going to be
+> > contributing that we should be scared of?  We're talking about:
+> > 
+> > * major features contributed by one-time/infrequent participants (which is
+> > already a once-in-a-year thing or so, at least for me)
+> > 
+> > * ... in an area where there are no examples of using C++ in the tree (or
+> > presumably the maintainer would be comfortable reviewing it)
+> > 
+> > * ... but yet C++ offer killer features (right now there's only C++
+> > coroutines and fpu/)
 > 
-> Replace a config-time define with a compile time condition
-> define (compatible with clang and gcc) that must be declared prior to
-> its usage. This avoids having a global configure time define, but also
-> prevents from bad usage, if the config header wasn't included before.
+> You are assuming people only choose C++ only when it offers features not
+> available in C. I think they might simply be more comfortable in C++.
 > 
-> This can help to make some code independent from qemu too.
+> In other words, if an existing file is compiled using a C++ compiler or
+> they are adding a new file, they don't need a reason to use C++, they
+> can just use it.
 > 
-> gcc supports __BYTE_ORDER__ from about 4.6 and clang from 3.2.
+> You can define rules and a way to enforce a subset of C++, but I think
+> over time the code will be C++. A policy that is complicated discourages
+> contributors.
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   meson.build                             |  1 -
->   accel/tcg/atomic_template.h             |  4 +-
->   audio/audio.h                           |  2 +-
->   hw/display/pl110_template.h             |  6 +--
->   hw/net/can/ctucan_core.h                |  2 +-
->   hw/net/vmxnet3.h                        |  4 +-
->   include/exec/cpu-all.h                  |  4 +-
->   include/exec/cpu-common.h               |  2 +-
->   include/exec/memop.h                    |  2 +-
->   include/exec/memory.h                   |  2 +-
->   include/fpu/softfloat-types.h           |  2 +-
->   include/hw/core/cpu.h                   |  2 +-
->   include/hw/i386/intel_iommu.h           |  6 +--
->   include/hw/i386/x86-iommu.h             |  4 +-
->   include/hw/virtio/virtio-access.h       |  6 +--
->   include/hw/virtio/virtio-gpu-bswap.h    |  2 +-
->   include/libdecnumber/dconfig.h          |  2 +-
->   include/net/eth.h                       |  2 +-
->   include/qemu/bswap.h                    |  8 ++--
->   include/qemu/compiler.h                 |  2 +
->   include/qemu/host-utils.h               |  2 +-
->   include/qemu/int128.h                   |  2 +-
->   include/ui/qemu-pixman.h                |  2 +-
->   net/util.h                              |  2 +-
->   target/arm/cpu.h                        |  8 ++--
->   target/arm/translate-a64.h              |  2 +-
->   target/arm/vec_internal.h               |  2 +-
->   target/i386/cpu.h                       |  2 +-
->   target/mips/cpu.h                       |  2 +-
->   target/ppc/cpu.h                        |  2 +-
->   target/s390x/tcg/vec.h                  |  2 +-
->   target/xtensa/cpu.h                     |  2 +-
->   tests/fp/platform.h                     |  4 +-
->   accel/kvm/kvm-all.c                     |  4 +-
->   audio/dbusaudio.c                       |  2 +-
->   disas.c                                 |  2 +-
->   hw/core/loader.c                        |  4 +-
->   hw/display/artist.c                     |  6 +--
->   hw/display/pxa2xx_lcd.c                 |  2 +-
->   hw/display/vga.c                        | 12 +++---
->   hw/display/virtio-gpu-gl.c              |  2 +-
->   hw/s390x/event-facility.c               |  2 +-
->   hw/virtio/vhost.c                       |  2 +-
->   linux-user/arm/nwfpe/double_cpdo.c      |  4 +-
->   linux-user/arm/nwfpe/fpa11_cpdt.c       |  4 +-
->   linux-user/ppc/signal.c                 |  3 +-
->   linux-user/syscall.c                    |  6 +--
->   net/net.c                               |  4 +-
->   target/alpha/translate.c                |  2 +-
->   target/arm/crypto_helper.c              |  2 +-
->   target/arm/helper.c                     |  2 +-
->   target/arm/kvm64.c                      |  4 +-
->   target/arm/neon_helper.c                |  2 +-
->   target/arm/sve_helper.c                 |  4 +-
->   target/arm/translate-sve.c              |  6 +--
->   target/arm/translate-vfp.c              |  2 +-
->   target/arm/translate.c                  |  2 +-
->   target/hppa/translate.c                 |  2 +-
->   target/i386/tcg/translate.c             |  2 +-
->   target/mips/tcg/lmmi_helper.c           |  2 +-
->   target/mips/tcg/msa_helper.c            | 54 ++++++++++++-------------
->   target/ppc/arch_dump.c                  |  2 +-
->   target/ppc/int_helper.c                 | 22 +++++-----
->   target/ppc/kvm.c                        |  4 +-
->   target/ppc/mem_helper.c                 |  2 +-
->   target/riscv/vector_helper.c            |  2 +-
->   target/s390x/tcg/translate.c            |  2 +-
->   target/sparc/vis_helper.c               |  4 +-
->   tcg/tcg-op.c                            |  4 +-
->   tcg/tcg.c                               | 12 +++---
->   tests/qtest/vhost-user-blk-test.c       |  2 +-
->   tests/qtest/virtio-blk-test.c           |  2 +-
->   ui/vdagent.c                            |  2 +-
->   ui/vnc.c                                |  2 +-
->   util/bitmap.c                           |  2 +-
->   util/host-utils.c                       |  2 +-
->   target/ppc/translate/vmx-impl.c.inc     |  4 +-
->   target/ppc/translate/vsx-impl.c.inc     |  2 +-
->   target/riscv/insn_trans/trans_rvv.c.inc |  4 +-
->   target/s390x/tcg/translate_vx.c.inc     |  2 +-
->   tcg/aarch64/tcg-target.c.inc            |  4 +-
->   tcg/arm/tcg-target.c.inc                |  4 +-
->   tcg/mips/tcg-target.c.inc               |  2 +-
->   tcg/ppc/tcg-target.c.inc                | 10 ++---
->   tcg/riscv/tcg-target.c.inc              |  4 +-
->   85 files changed, 173 insertions(+), 173 deletions(-)
+> For these reasons I think that if code runs through a C++ compiler we
+> should just allow C++. Either way, it will take time but that way no one
+> will feel betrayed when C++ creeps in.
 > 
-> diff --git a/meson.build b/meson.build
-> index f20712cb93d7..88df1bc42973 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1591,7 +1591,6 @@ config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2]
->   
->   config_host_data.set_quoted('CONFIG_HOST_DSOSUF', host_dsosuf)
->   config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
-> -config_host_data.set('HOST_WORDS_BIGENDIAN', host_machine.endian() == 'big')
+> That said, I hope we find an option that doesn't involve C++.
 
-Can we poison HOST_WORDS_BIGENDIAN definition to force cleaning old
-patches before merging them?
+The real show stopper with our current coroutine impl IIUC, is the
+undefined behaviour when we yield and restore across different threads.
+
+Is there any relastic hope that we can change QEMU's usage, such that
+each coroutine is confined to a single thread, to avoid the undefined
+behaviour ?
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
