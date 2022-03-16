@@ -2,154 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8FB4DB7CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 19:13:28 +0100 (CET)
-Received: from localhost ([::1]:45730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 886F34DB7CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 19:14:42 +0100 (CET)
+Received: from localhost ([::1]:48686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUY9H-0002jf-EC
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 14:13:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59900)
+	id 1nUYAT-0004gZ-D0
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 14:14:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
- id 1nUY7m-00021f-EB
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 14:11:54 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:1858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
- id 1nUY7j-0002tP-PE
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 14:11:53 -0400
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22GF48xv010831;
- Wed, 16 Mar 2022 11:11:47 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=v7doM8XWAfdaT5Sf8L68HSNV+uBIcczDbO5ga9IpMto=;
- b=TPRFmI0RuIoL6/6ObJ0RGohP/9r7E6yZpF84fdE8RHtSsAlUJEw/QB4/NtwEKCbpqIC+
- up9AmG+mzIdsxIri/F7B/u/jKXXSf3qgNt1HfidBj4y5+9Arce0rGaZsrvJmGt2rvms6
- /IRioh73AXDHtXaAQcVLHhYsqFM+GgolbE1fKhOFObzqCg66ra37m0jOTRsgNNtM3rqm
- AJtKVlEGOfbZMagmII6B3z3xeluUvXRlbK4U6DueKOIKoiflnBs92WASxWa9tv+Zi2rh
- TMh4mdAf3u6BhLRLuphdI0TmuceSxGdJkxKLeXxenymCHEbbbGXumfy4TflNZL06aiT2 Hg== 
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3et5vw5vq3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Mar 2022 11:11:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P2Tn8azehsgTnZDuDmeXVo7jynPDie6QSrBYuKAabUYbberiTdiQCOKMbp603WVpxNwU8k+NsBHcg96NLhB8jHsbswq1/WW/n9rI2lVH9VLAytFCeBVhdXgtSmhydL0/Rc9yXO+Rlyg5NtU8vWJFiVDGxUoAJIiNQZsEM+LGVmwhP9p3f4Z0DpdTLDdEZw+n/YwjwgEIRAUBB572BPO7zNc+SXmLdsnq2oeZN7sNTsabiWXfspJ59DZ5m6rr+tv46AptsT62045XU4JKAPxTd3+vEhpnfoPtlA6sXncdZhXL5U0KsFGB6QV3tOhROBEUf6XauTpivgB59i+jKsbnHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v7doM8XWAfdaT5Sf8L68HSNV+uBIcczDbO5ga9IpMto=;
- b=h1rAFxi6lgby0LuNyti4iuCxKe3yyGRNciInj4PvxelzR6RVs8lRuo19mPkd9eca2VfwG4g79fRw/yMftZGDBUAIXh+Iiac8VPhKdt223Czo9TYBvJNo6eVE0knMovsSLKELJH6T3RQ4s6iTZoolKWrx9KYUZl8oyzt/H3zWFzwROUtnxMd0UhGySPez/OIb0NWiMD7XEThwT4FgZMj/zOssddmqZSYUPmD6OBYXoCAV2YSZ1bJOyleup8BaQorcAH9/FWRef8ub40u5eIM+KeC7GmKWOsC6XJa2CUHjQo/hINUYPRTZeXtNY4gmOUzB9moGIPbItJwfJSovaHAUeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from BN7PR02MB4033.namprd02.prod.outlook.com (2603:10b6:406:f9::16)
- by BY5PR02MB6066.namprd02.prod.outlook.com (2603:10b6:a03:1f9::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.25; Wed, 16 Mar
- 2022 18:11:43 +0000
-Received: from BN7PR02MB4033.namprd02.prod.outlook.com
- ([fe80::5d3d:384c:d914:b12d]) by BN7PR02MB4033.namprd02.prod.outlook.com
- ([fe80::5d3d:384c:d914:b12d%6]) with mapi id 15.20.5081.016; Wed, 16 Mar 2022
- 18:11:43 +0000
-Message-ID: <b68430a7-ff87-55be-92b1-e887a58dd958@nutanix.com>
-Date: Wed, 16 Mar 2022 23:41:33 +0530
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/2] Added parameter to take screenshot with screendump
- as PNG.
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20220301064424.136234-1-kshitij.suri@nutanix.com>
- <20220301064424.136234-2-kshitij.suri@nutanix.com>
- <871qz88yu7.fsf@pond.sub.org>
- <30e38de3-3b07-b440-ad32-a189720db301@nutanix.com>
- <87r173o7h4.fsf@pond.sub.org> <YjBoS6qvjE6EHokR@redhat.com>
-From: Kshitij Suri <kshitij.suri@nutanix.com>
-In-Reply-To: <YjBoS6qvjE6EHokR@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM0PR06CA0095.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::36) To BN7PR02MB4033.namprd02.prod.outlook.com
- (2603:10b6:406:f9::16)
+ (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
+ id 1nUY9I-0003IH-5c
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 14:13:28 -0400
+Received: from mail-vs1-f49.google.com ([209.85.217.49]:34564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
+ id 1nUY9G-0002zB-HA
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 14:13:27 -0400
+Received: by mail-vs1-f49.google.com with SMTP id v62so3116414vsv.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 11:13:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8wDFW3WPEMMD/DBZmFIy6ka0pXvr30h8DchqX1+INWE=;
+ b=OBLcfPPd9fvfNSCaHhcPDeHML4N3w3cEMhJ0RScnoBKbFQFGi4ehB/ike5/Vt4RmxD
+ zGwFmhMrlzCQqbe4b0NcaqbTrmD3a38qEBLZPhdtm6s4/bKv8P0VJztDl8GptxdVizI3
+ Qizi2P9tiMRDcnWirZ+tWTNF+jnGf8hGXTq4nGX09IuaqihoCVb8TxS+0Hni0bqKSFA1
+ JwdKjUgPORWkUgF7OO//9r7dJC9lUfl2KawOpRPtbVSRjKQUC1hx5IVGABR2RjX8ZwQn
+ SJ9gB1dhkhQkjgjhBdrdARUcefmv1YQg1pc2orXkgn9pAIMJF3bJfVmXsjq0A4eMJJSD
+ AdnA==
+X-Gm-Message-State: AOAM530mepZAUAmz1VbnvHZ7c+WlnAPtDHMP2J4cmEaq0dIPMkCV24gY
+ dCmEptoto8iNgIelfLl/+K8v3LNzvrcvWQ==
+X-Google-Smtp-Source: ABdhPJwjsBJdjm1W2O7EuqTt7dExIT8ITFst0qr1McoHZmX5Q+9M86Qr1qD6pg9Bx1eea+n0rg5Ipw==
+X-Received: by 2002:a67:ef41:0:b0:320:9ac5:b5b0 with SMTP id
+ k1-20020a67ef41000000b003209ac5b5b0mr500379vsr.45.1647454405211; 
+ Wed, 16 Mar 2022 11:13:25 -0700 (PDT)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com.
+ [209.85.221.171]) by smtp.gmail.com with ESMTPSA id
+ c62-20020a1f4e41000000b0033e7de85c7esm13859vkb.49.2022.03.16.11.13.24
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Mar 2022 11:13:24 -0700 (PDT)
+Received: by mail-vk1-f171.google.com with SMTP id q64so1643327vkb.6
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 11:13:24 -0700 (PDT)
+X-Received: by 2002:a05:6122:134b:b0:337:bfb0:4ec7 with SMTP id
+ f11-20020a056122134b00b00337bfb04ec7mr333932vkp.10.1647454404512; Wed, 16 Mar
+ 2022 11:13:24 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3ae8bd5a-00da-463f-8d67-08da07786cce
-X-MS-TrafficTypeDiagnostic: BY5PR02MB6066:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR02MB6066B399D679BFF95E5DFD9399119@BY5PR02MB6066.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fTVceFsELELDzniCrB9wvm8VRvrosjEIJqLDL1nZxnXlwx1f+zgESVp3tel31qDi3eOtm+wT4hM7j1VI3YxCeVmFAuxsb50d+TWoKaW+5neBj8GWIz9WnrrT2Y0q7fC59WMe7vifS+fqW+aQ/Uh0pY57yGVo8cB0DtZpM9WJ+sy4BCHOv8T2AAEPBbIc2AjVFVTd0Nx6zypcCaf5Gq3K3ohJKzrWkekLcN32ksZhkBtkj7slqUBZ/+A9KZDpZggdL3OP9dJgvh0r53IQpW2jte1X72BrV5V20zS58lgfdge2iBxeb/d7iPzof7uCBvyX05Kp6dnpHauNCz/SN/gyjvv8TyEcfk6tHnBaEL2GLZoehUByeHCvBr3SN2LFkct5GLms+jEmm0o2va4LUwTl8AxOHEpMK4+bmHTXqbG/FJqKB8yXJppzwDqIF7G7MWo8SF/+m2/cU64Au0ydlOxl9wZyr3CvJmSeEnri9/OBQNif1epZEMMiS4/9Tav5I0FO8udSXRlX2oqH1UOWT+vRDZo0PqYaS6PND+0idjeWe3T0aoLyKdhnCACVdkK7gzyV0mwQq2XPuOfdeDFHcxgrWf9glUNa6IGBwQz9AF2BDMypaYATp9RHV2pu1wX3dYk9Jl3krH3zrsOOQYTrZA+lI/X5j+S+AgTTUnh64dIdy0WIj68WzVufThKeakrpdcoMjrZsN9prgil8M3QFJJOeCkuW715TcSfcABpR2Unn6I9oGyEMNhWN/G8hoKKVDAZHCdymc2DuDJKpXOx700FMnGBkvbr0Wo7kcgC0QUAih45YLCRjxJzYBb7nJLAVCjfV6D/4OKX+kRTnJAgYQy4/F4Aa9pw603QOiCXsNDMSpYM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN7PR02MB4033.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(8676002)(4326008)(66556008)(66476007)(66946007)(316002)(508600001)(966005)(6486002)(110136005)(38350700002)(38100700002)(31696002)(86362001)(36756003)(31686004)(52116002)(2906002)(53546011)(66574015)(186003)(26005)(2616005)(6506007)(6512007)(6666004)(5660300002)(44832011)(8936002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YmNOdUlIRWZpVHVVZ3czbGlsZFZWbDF3TnFxblc1bUU2ekRmK0tQVkpLK0pz?=
- =?utf-8?B?S2VMSE4wY2FhVzhMZWdRVzdWeUo3ZnhDcjNEaDlySEtZVXBsUjhWSzd6M3o4?=
- =?utf-8?B?LzgrK0pqNHpZaWtpa29QZDBLeWs3b3RPSGNnK29XMnRseE50UWl2Ym9neWxT?=
- =?utf-8?B?V0t3a01JWkZGNHpUVHVNRmpZbXVJUzBjR3lGQVBJdENaRmdQY0hzQmltL0NO?=
- =?utf-8?B?OVNjdy9zQy9WK0VHV0R0NjM1a2k5SkZUa0tXZ0NGdHU4Mkw3WG1kWVV1ZU1W?=
- =?utf-8?B?SzBlZEJxcVVaRkkyejc4WVl2dlhFeE40MExDdjVoSjd4NndERTZyNUJnUWlh?=
- =?utf-8?B?eldkeHRrdGVIOGxycDBFdTVmdFN4VlhFSlhGRXk2U1QzRlVrbC9KTW00RHp4?=
- =?utf-8?B?Q1ZCNHVrOVllNXBqRFltSGYwNGZUQ0ZYdFpiT0JNSnFCcUJEajE4WVN4SGxK?=
- =?utf-8?B?ZEdNL214cVA4NnUxcHlZVGp0TWNtNTRjTnVaYTZEOURuMmNGekduN0wwc0JF?=
- =?utf-8?B?Z3JOK1JTckhMVVFrWEFxT3dveFFjdDBROWh5OWNWYk1CUlBvWHdESU1PK3d4?=
- =?utf-8?B?U1hiM29Nc0VwN1k4NDU3bVNPemdLYWEvT2dRK25WK3haTUJvRGNBekVxRy9k?=
- =?utf-8?B?b2RkZmRwM0FCU2svdm9vemQ1UHAyaGxxWUt5YnFlbmovRHhGcE56U2Z4VDgr?=
- =?utf-8?B?SUdocVRyWk9yWmZsWTI2WitVTk84MFUxSE9tZVpyaGFqZXZVWExnSHRMRWZx?=
- =?utf-8?B?Y0dJMWIvZ05tSUtIcW8wSm44aDVPZCsydTZKYnJvZWo3SG1EU0xFWCtzQXJT?=
- =?utf-8?B?bUhMZUtSM0U0OWtrbE5xTkdXbHlKTHA0QlZDdGo4N1NCblhwV1cyUUlkTlNq?=
- =?utf-8?B?VkVDY2grUUZ6TFNTbEcwdU5tYllJNnIxLzZZdld3WlRmYnNWYzRuQXRtOTFI?=
- =?utf-8?B?ZjlrU0lPcmR5RHQ0NTRpKzExMXNqZm56elhXV0NybTY2SlplRlVYTkI1UTlh?=
- =?utf-8?B?eG14R3VEaitsdmFmdmVneFdYTnNONE4yMnNIYVVNNmtxMGJ4QU5aTllPN3pJ?=
- =?utf-8?B?eDFaUkVCdUI0akFCaEFmeG9UbEhuemt0SnhzNHVzdzlvYkN1YlBiODUrbjRL?=
- =?utf-8?B?L2lYSHJaZFVrK09ra2Q1OU81T2Zkb0hlbDlDODhqQ1Azek5TMWZVbEVrcFc4?=
- =?utf-8?B?SUFCSFU0V3RrT3ErRjFYTVZad3ZmOHFUb0VxbGJLZ2xRdTZuaDlDM0c0NGNE?=
- =?utf-8?B?SUVQblNFd3pSeW55NXZLamtaMGowQTJUenlraGZjamdRUnRETzlvendRNWpG?=
- =?utf-8?B?RlNRQUdDRHZlNEZ3Rm9GQlhIZW9jeUZaUXlheWY5YU9hakpPa0VVR1h3WUxu?=
- =?utf-8?B?S1VHcnM5VlFHWGpTTGVWMi9yWUVZTzVQcFkrdE9OMy9JS3d1dnA3RlJmSGd3?=
- =?utf-8?B?NThpL0lWZ0NaZ1lVMEhNQkdGandyN2F0a0VQVnpocEo2WEFJTlZnTlBSWXdi?=
- =?utf-8?B?dTlVWUdCaDloSVBNSW56cGVNQlZ0VW03aEhsNytsS00yb3djb1hMazkxWjln?=
- =?utf-8?B?MVdvL3l0QnJBS0tzWFZzTVc0MnpIb0diWjk0NDUxemMzZk1XOWtTN0NKV21Y?=
- =?utf-8?B?NC9UTFVJMW9uV1VaWmt0OXNQWlVPeXRjZlI0bXVtaVlMRlU2bThXS3RwWk1S?=
- =?utf-8?B?UzB2VmpOVld4VkZrQldKdml1MHh4Vkx1dTdvaWFsMGxuZUdlUzBwVzhpVjhB?=
- =?utf-8?B?QlhQZW03eUVSOGRDb2EzYlRSSDZUQk1TTE9JVW1hbmRCV1dGYWwzcHBGRjNv?=
- =?utf-8?B?NmtxN1psOWt0bWNsc2hZZXF3QlJKZE1RcUtpb0R1L1NOWVpRaVVzUzRsS29F?=
- =?utf-8?B?dFpUaWlRMkk5M0QwMGp3NEFPSTNhZ2pOcUVnL1FPaWF3L280M1NKbXpNK000?=
- =?utf-8?B?T0tINjNrQWo2NlNqZ3dCQWdQM2ZXRk80SUpuNDR5dk1YbkpLSnFzcnZGUXpV?=
- =?utf-8?B?SitnT1BVa1lRPT0=?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ae8bd5a-00da-463f-8d67-08da07786cce
-X-MS-Exchange-CrossTenant-AuthSource: BN7PR02MB4033.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2022 18:11:43.1167 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Px8usyn0C82c+pm16j9bGb8+K6eRUazCiHUfidxk70pqn2s0tMrVC3I4EaV0u9eZEPohSV381L3QCvpSfBTnsmgPFNtfSRmjVeP6N2V1vGE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6066
-X-Proofpoint-GUID: yeXlDka0XVcbwq2cyovTHJBAO9OF-aSQ
-X-Proofpoint-ORIG-GUID: yeXlDka0XVcbwq2cyovTHJBAO9OF-aSQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-16_07,2022-03-15_01,2022-02-23_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=kshitij.suri@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220316124012.1413954-1-cmuellner@linux.com>
+ <87sfri2b76.fsf@linaro.org>
+In-Reply-To: <87sfri2b76.fsf@linaro.org>
+From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <cmuellner@linux.com>
+Date: Wed, 16 Mar 2022 19:13:13 +0100
+X-Gmail-Original-Message-ID: <CAHB2gtTtAcL+cZfsiGKSY28LJ13V2Su=PYTjJnBAWuukitPC5A@mail.gmail.com>
+Message-ID: <CAHB2gtTtAcL+cZfsiGKSY28LJ13V2Su=PYTjJnBAWuukitPC5A@mail.gmail.com>
+Subject: Re: [PATCH] docs/tcg-plugins: document QEMU_PLUGIN behaviour
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000009091d105da59dee4"
+Received-SPF: pass client-ip=209.85.217.49;
+ envelope-from=christophm30@gmail.com; helo=mail-vs1-f49.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -162,64 +82,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: soham.ghosh@nutanix.com, prerna.saxena@nutanix.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, kraxel@redhat.com, thuth@redhat.com,
- prachatos.mitra@nutanix.com, eblake@redhat.com
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000009091d105da59dee4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 15/03/22 3:49 pm, Daniel P. Berrangé wrote:
-> On Tue, Mar 15, 2022 at 11:06:31AM +0100, Markus Armbruster wrote:
->> Kshitij Suri <kshitij.suri@nutanix.com> writes:
->>
->>> On 11/03/22 5:50 pm, Markus Armbruster wrote:
->>>> Kshitij Suri <kshitij.suri@nutanix.com> writes:
->>>>
->>>>> Currently screendump only supports PPM format, which is un-compressed and not
->>>>> standard. Added a "format" parameter to qemu monitor screendump capabilites
->>>>> to support PNG image capture using libpng. The param was added in QAPI schema
->>>>> of screendump present in ui.json along with png_save() function which converts
->>>>> pixman_image to PNG. HMP command equivalent was also modified to support the
->>>>> feature.
->>>>>
->>>>> Example usage:
->>>>> { "execute": "screendump", "arguments": { "filename": "/tmp/image",
->>>>> "format":"png" } }
->>>>>
->>>>> Resolves: https://urldefense.proofpoint.com/v2/url?u=https-3A__gitlab.com_qemu-2Dproject_qemu_-2D_issues_718&d=DwIBAg&c=s883GpUCOChKOHiocYtGcg&r=utjv19Ej9Fb0TB7_DX0o3faQ-OAm2ypPniPyqVSoj_w&m=SxmcA4FlCCy9O9eUaDUiSY37bauF6iJbDRVL--VUyTG5Vze_GFjmJuxgwAVYRjad&s=OIKnm9xXYjeat7TyIJ_-z9EvG2XYXMULNbHe0Bjzyjo&e=
->>>>>
->>>>> Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
->> [...]
->>
->>>>> diff --git a/qapi/ui.json b/qapi/ui.json
->>>>> index 9354f4c467..6aa0dd7c1b 100644
->>>>> --- a/qapi/ui.json
->>>>> +++ b/qapi/ui.json
->> [...]
->>
->>>>>    ##
->>>>>    # @screendump:
->>>>>    #
->>>>> -# Write a PPM of the VGA screen to a file.
->>>>> +# Write a screenshot of the VGA screen to a file.
->>>> Is "VGA screen" accurate?  Or does this work for other displays, too?
->>> The patch didn't modify any display changes and VGA screen was
->>> previously supported display type.
->> Let me rephrase my question: was "VGA screen" accurate before your
->> patch?
-> No, it would be better phrased as
->
->    "Capture the specified screen contents and write it to a file"
->
-> In a multi-head scenario, it can be any of the output heads, and
-> whether the head is in a VGA mode or not is irrelevant to the
-> command functionality.
->
-> Regards,
-> Daniel
-Thank you! Will modify in the upcoming patch.
+On Wed, Mar 16, 2022 at 4:01 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 
-Regards,
-Kshitij Suri
+>
+> Christoph Muellner <cmuellner@linux.com> writes:
+>
+> > QEMU plugins can be loaded via command line arguments or via
+> > the QEMU_PLUGIN environment variable. Currently, only the first method
+> > is documented. Let's document QEMU_PLUGIN.
+> >
+> > Signed-off-by: Christoph Muellner <cmuellner@linux.com>
+> > ---
+> >  docs/devel/tcg-plugins.rst | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+> > index f93ef4fe52..ba48be18d0 100644
+> > --- a/docs/devel/tcg-plugins.rst
+> > +++ b/docs/devel/tcg-plugins.rst
+> > @@ -34,6 +34,10 @@ Arguments are plugin specific and can be used to
+> modify their
+> >  behaviour. In this case the howvec plugin is being asked to use inline
+> >  ops to count and break down the hint instructions by type.
+> >
+> > +QEMU also evaluates the environment variable ``QEMU_PLUGIN``::
+>
+> You should also make it clear this only works for *-user builds of QEMU.
+> For system emulation you still need to use the CLI interface.
+
+
+Looks like this is even more restrictive as I can see support only in
+linux-user/main.c.
+I'll reword this to only be available for Linux user-mode emulation.
+
+Thanks!
+
+
+>
+>
+> > +
+> > +  QEMU_PLUGIN=3D"file=3Dtests/plugin/libhowec.so,inline=3Don,count=3Dh=
+int" $QEMU
+> > +
+> >  Writing plugins
+> >  ---------------
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
+
+--0000000000009091d105da59dee4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 16, 2022 at 4:01 PM Alex =
+Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linar=
+o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><br>
+Christoph Muellner &lt;<a href=3D"mailto:cmuellner@linux.com" target=3D"_bl=
+ank">cmuellner@linux.com</a>&gt; writes:<br>
+<br>
+&gt; QEMU plugins can be loaded via command line arguments or via<br>
+&gt; the QEMU_PLUGIN environment variable. Currently, only the first method=
+<br>
+&gt; is documented. Let&#39;s document QEMU_PLUGIN.<br>
+&gt;<br>
+&gt; Signed-off-by: Christoph Muellner &lt;<a href=3D"mailto:cmuellner@linu=
+x.com" target=3D"_blank">cmuellner@linux.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 docs/devel/tcg-plugins.rst | 4 ++++<br>
+&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst<b=
+r>
+&gt; index f93ef4fe52..ba48be18d0 100644<br>
+&gt; --- a/docs/devel/tcg-plugins.rst<br>
+&gt; +++ b/docs/devel/tcg-plugins.rst<br>
+&gt; @@ -34,6 +34,10 @@ Arguments are plugin specific and can be used to mo=
+dify their<br>
+&gt;=C2=A0 behaviour. In this case the howvec plugin is being asked to use =
+inline<br>
+&gt;=C2=A0 ops to count and break down the hint instructions by type.<br>
+&gt;=C2=A0 <br>
+&gt; +QEMU also evaluates the environment variable ``QEMU_PLUGIN``::<br>
+<br>
+You should also make it clear this only works for *-user builds of QEMU.<br=
+>
+For system emulation you still need to use the CLI interface.</blockquote><=
+div><br></div><div>Looks like this is even more restrictive as I can see su=
+pport only in linux-user/main.c.</div><div>I&#39;ll reword this to only be =
+available for Linux user-mode emulation.</div><div><br></div><div>Thanks!</=
+div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"> <br=
+>
+<br>
+&gt; +<br>
+&gt; +=C2=A0 QEMU_PLUGIN=3D&quot;file=3Dtests/plugin/libhowec.so,inline=3Do=
+n,count=3Dhint&quot; $QEMU<br>
+&gt; +<br>
+&gt;=C2=A0 Writing plugins<br>
+&gt;=C2=A0 ---------------<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div></div>
+
+--0000000000009091d105da59dee4--
 
