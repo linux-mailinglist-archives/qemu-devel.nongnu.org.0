@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBF04DB214
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:01:03 +0100 (CET)
-Received: from localhost ([::1]:47232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E604DB21E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:03:54 +0100 (CET)
+Received: from localhost ([::1]:56128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUUD0-0004rJ-G9
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:01:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47890)
+	id 1nUUFl-0002k6-4y
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:03:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1nUU6Q-0004vf-IC
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:54:16 -0400
-Received: from relay.yourmailgateway.de ([46.38.247.118]:33255)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUUA6-0003B2-JX
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:58:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1nUU6O-0000bF-9Z
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:54:14 -0400
-Received: from mors-relay-8404.netcup.net (localhost [127.0.0.1])
- by mors-relay-8404.netcup.net (Postfix) with ESMTPS id 4KJWwK3m6Sz7ypW;
- Wed, 16 Mar 2022 14:54:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zapateado.de; s=key2;
- t=1647438849; bh=QBWOPRw8uEP6jueG9An1GcpHNFMk5NLqKlLHSvOTHT8=;
- h=Date:To:Cc:From:Subject:From;
- b=d6UM31O2GKny99ouo7IR0o939KRp7wtzqUzzuVnZ1eb8XfY2nEoi9FVKt90kepYKc
- BDSB27mDqaNgbuIppywNcZ0woC5XgyNVLigtdUuVBrSXl9II56Z6BSXVLqzzFLkbqO
- 3DshqFqdL/7Jj/a/DzNWu/yTy0Wsp2tSYBWbLuBjhN/56/+T2hAsp3SPJeyNLCAhI6
- 3CQhiGV3PfJSkBYi3Q48iuIchXOAahNQqf5ggQ5ngNI8r8njxYCIHZ+DKpTqKtVW7D
- Q8bnu1kA4jbWi3rvujeTqyBz6fkhQ2CDJ++S/jDuF6RI5L80HwNHQ80dd48WrnVnI8
- at9E0tln4MU/Q==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.53])
- by mors-relay-8404.netcup.net (Postfix) with ESMTPS id 4KJWwK3Llhz4xXB;
- Wed, 16 Mar 2022 14:54:09 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at policy02-mors.netcup.net
-X-Spam-Score: -2.9
-Received: from mx2f6e.netcup.net (unknown [10.243.12.53])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUUA4-0001Vb-FH
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:58:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647439079;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RtUm5jsmIc1/c0JfO2Z807EFBPgorTeZ3hf/E8Pyofk=;
+ b=TnwlIOXg5y71tsI2Rh7Bwmwj1UscQbGhiyDBMuotRt9Qo7X0G2IM5L5IIKWE2iKi+498/s
+ YpiO0yG8gDJj8XVgWN3+xl1iXekT2j1S1TGOCT1okR1Ft92jlz+K8+ZUmrilcLlemEOoub
+ oPZbwtUWxHHt/vQQpHOtNcZ6W7EGh0A=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-256-IiB3_k-MMfuddX8a_Ps2Tw-1; Wed, 16 Mar 2022 09:57:56 -0400
+X-MC-Unique: IiB3_k-MMfuddX8a_Ps2Tw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by policy02-mors.netcup.net (Postfix) with ESMTPS id 4KJWwJ2vD7z8sjv;
- Wed, 16 Mar 2022 14:54:08 +0100 (CET)
-Received: from [192.168.54.9] (ip-095-223-071-086.um35.pools.vodafone-ip.de
- [95.223.71.86])
- by mx2f6e.netcup.net (Postfix) with ESMTPSA id 65BAC6507B;
- Wed, 16 Mar 2022 14:54:07 +0100 (CET)
-Authentication-Results: mx2f6e;
- spf=pass (sender IP is 95.223.71.86) smtp.mailfrom=hk@zapateado.de
- smtp.helo=[192.168.54.9]
-Received-SPF: pass (mx2f6e: connection is authenticated)
-Message-ID: <39400817-3dc9-516d-9096-bc1f68862531@zapateado.de>
-Date: Wed, 16 Mar 2022 14:54:07 +0100
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 980D33C1984D;
+ Wed, 16 Mar 2022 13:57:55 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 184C4441E15;
+ Wed, 16 Mar 2022 13:57:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E60E121E66D2; Wed, 16 Mar 2022 14:57:53 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
+Subject: Re: [PATCH v20 2/7] net/vmnet: add vmnet backends to qapi/net
+References: <20220315230741.21578-1-Vladislav.Yaroshchuk@jetbrains.com>
+ <20220315230741.21578-3-Vladislav.Yaroshchuk@jetbrains.com>
+Date: Wed, 16 Mar 2022 14:57:53 +0100
+In-Reply-To: <20220315230741.21578-3-Vladislav.Yaroshchuk@jetbrains.com>
+ (Vladislav Yaroshchuk's message of "Wed, 16 Mar 2022 02:07:36 +0300")
+Message-ID: <87v8weuhi6.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-From: Helge Konetzka <hk@zapateado.de>
-Subject: [PATCH-for-7.0 v2] qga/vss-win32: fix compilation with clang++
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <164743884782.5090.10142427628386342622@mx2f6e.netcup.net>
-X-PPP-Vhost: konetzka.de
-X-NC-CID: ZWHbmEijIv4fCGjsBqi/mvMNPONNeS90k95j80e9mWAq
-Received-SPF: pass client-ip=46.38.247.118; envelope-from=hk@zapateado.de;
- helo=relay.yourmailgateway.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,56 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Michael Roth <michael.roth@amd.com>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, jasowang@redhat.com,
+ phillip.ennen@gmail.com, qemu-devel@nongnu.org, dirty@apple.com,
+ f4bug@amsat.org, roman@roolebo.dev, r.bolshakov@yadro.com, agraf@csgraf.de,
+ phillip@axleos.com, akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io,
+ qemu_oss@crudebyte.com, eblake@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes:
+Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com> writes:
 
-qga/vss-win32/install.cpp:49:24: error: cannot initialize a variable of
-type 'char *' with an rvalue of type 'const char *'
-     char *msg = NULL, *nul = strchr(text, '(');
-                        ^     ~~~~~~~~~~~~~~~~~
+> Create separate netdevs for each vmnet operating mode:
+> - vmnet-host
+> - vmnet-shared
+> - vmnet-bridged
+>
+> Signed-off-by: Vladislav Yaroshchuk <Vladislav.Yaroshchuk@jetbrains.com>
 
-Signed-off-by: Helge Konetzka <hk@zapateado.de>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Compiling with clang++ of msys2 toolchain clang64 leads to
+Any QAPI schema changes since v15?  I'm asking because I acked v8, v13,
+and v15, but each time you neglected to carry my Acked-by lines in later
+revisions.
 
-[1445/1747] Compiling C++ object qga/vss-win32/qga-vss.dll.p/install.cpp.obj
-FAILED: qga/vss-win32/qga-vss.dll.p/install.cpp.obj
-...
-qga/vss-win32/install.cpp:49:24: error: cannot initialize a variable of 
-type 'char *' with an rvalue of type 'const char *'
-     char *msg = NULL, *nul = strchr(text, '(');
-                        ^     ~~~~~~~~~~~~~~~~~
-1 error generated.
-ninja: build stopped: subcommand failed.
-make: *** [Makefile:163: run-ninja] Error 1
-==> ERROR: A failure occurred in build().
-     Aborting...
----
-  qga/vss-win32/install.cpp | 3 ++-
-  1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
-index 8076efe3cb..b57508fbe0 100644
---- a/qga/vss-win32/install.cpp
-+++ b/qga/vss-win32/install.cpp
-@@ -46,7 +46,8 @@ void errmsg(DWORD err, const char *text)
-       * If text doesn't contains '(', negative precision is given, which is
-       * treated as though it were missing.
-       */
--    char *msg = NULL, *nul = strchr(text, '(');
-+    char *msg = NULL;
-+    const char *nul = strchr(text, '(');
-      int len = nul ? nul - text : -1;
-
-      FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
--- 
-2.30.2
 
