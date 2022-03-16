@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283074DAE23
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 11:17:35 +0100 (CET)
-Received: from localhost ([::1]:44978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D5F4DAE28
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 11:19:52 +0100 (CET)
+Received: from localhost ([::1]:51482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUQij-0001Bx-Ur
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 06:17:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44696)
+	id 1nUQkx-0005GM-0k
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 06:19:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nUQMR-00021s-0J
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:54:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57782)
+ id 1nUQMW-00026N-Jy
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:54:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nUQMP-0007rA-AI
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:54:30 -0400
+ id 1nUQMV-0007sw-9b
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:54:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647424468;
+ s=mimecast20190719; t=1647424474;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=AcvHOpQfLrxjZxtg9L5uip3Eh4ZwEQ9hzhPuL9/uwGo=;
- b=M32oW0d3bvp8wYLkG9SITVIgUltcW3rE4AbiaULIhcJC4/Gh44vFq5MoGN8LH8iau7hstg
- ogfHByHrL968M9Vr8KCDLz8bjk7ESPbgmbNm4mvH/ISaavNev+Lnhqi310LeMhfdOpc2Sz
- j9YUzyEQGv578lC+yT9RiKQmA8DbAa8=
+ bh=r85LZ9pP3ks4UtsYtowq/wK0Zlhomxg5m3TLBJVjALk=;
+ b=HIl4r0MipZVaP8DPcAAVGpBvnxYx/vPy3c8Roj+g0QzUZVj1hnbtU+89rw5HOafuHP5W2v
+ K2qKEriQpTfoMhqR1tF9jctosUPlyzGqhRBou81BkZlKS8RrTBHGvHxew3lpRYUOaPD2ZK
+ o5uoYjmYBs/nQzzPIhFmWQFJwh+lZds=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-359-UG-PMIhzMCe_ut7CCbuIUg-1; Wed, 16 Mar 2022 05:54:27 -0400
-X-MC-Unique: UG-PMIhzMCe_ut7CCbuIUg-1
+ us-mta-221-tTWkrWGmN8-IjNs8CzJNHA-1; Wed, 16 Mar 2022 05:54:33 -0400
+X-MC-Unique: tTWkrWGmN8-IjNs8CzJNHA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4987C85A5BC
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 09:54:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3ADA2811E83;
+ Wed, 16 Mar 2022 09:54:33 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E120404C33F;
- Wed, 16 Mar 2022 09:54:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF85E40B42BB;
+ Wed, 16 Mar 2022 09:54:31 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/27] meson: fix CONFIG_ATOMIC128 check
-Date: Wed, 16 Mar 2022 13:54:23 +0400
-Message-Id: <20220316095423.2613793-1-marcandre.lureau@redhat.com>
+Subject: [PATCH 20/27] qapi: remove needless include
+Date: Wed, 16 Mar 2022 13:54:28 +0400
+Message-Id: <20220316095428.2613806-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
@@ -78,88 +78,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The current testing code isn't correct and matching QEMU usage:
-
-testfile.c: In function 'main':
-testfile.c:5:11: error: incorrect number of arguments to function '__atomic_load'
-    5 |       y = __atomic_load(&x, 0);
-      |           ^~~~~~~~~~~~~
-testfile.c:6:7: error: argument 2 of '__atomic_store' must be a pointer type
-    6 |       __atomic_store(&x, y, 0);
-      |       ^~~~~~~~~~~~~~
-testfile.c:7:7: error: argument 3 of '__atomic_compare_exchange' must be a pointer type
-    7 |       __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
-      |       ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-Replace the test with common atomics test for u64 and u128 that matches
-better QEMU needs.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- meson.build | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+ qapi/string-output-visitor.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 3b9ff6c05401..1a7335c5fccb 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1832,21 +1832,23 @@ config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
-         return printf("%zu", SIZE_MAX);
-     }''', args: ['-Werror']))
- 
--# See if 64-bit atomic operations are supported.
--# Note that without __atomic builtins, we can only
--# assume atomic loads/stores max at pointer size.
--config_host_data.set('CONFIG_ATOMIC64', cc.links('''
-+atomic_test = '''
-   #include <stdint.h>
-   int main(void)
-   {
--    uint64_t x = 0, y = 0;
-+    @0@ x = 0, y = 0;
-     y = __atomic_load_n(&x, __ATOMIC_RELAXED);
-     __atomic_store_n(&x, y, __ATOMIC_RELAXED);
-     __atomic_compare_exchange_n(&x, &y, x, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED);
-     __atomic_exchange_n(&x, y, __ATOMIC_RELAXED);
-     __atomic_fetch_add(&x, y, __ATOMIC_RELAXED);
-     return 0;
--  }'''))
-+  }'''
-+
-+# See if 64-bit atomic operations are supported.
-+# Note that without __atomic builtins, we can only
-+# assume atomic loads/stores max at pointer size.
-+config_host_data.set('CONFIG_ATOMIC64', cc.links(atomic_test.format('uint64_t')))
- 
- has_int128 = cc.links('''
-   __int128_t a;
-@@ -1861,15 +1863,10 @@ has_int128 = cc.links('''
- config_host_data.set('CONFIG_INT128', has_int128)
- 
- if has_int128
--  has_atomic128 = cc.links('''
--    int main(void)
--    {
--      unsigned __int128 x = 0, y = 0;
--      y = __atomic_load(&x, 0);
--      __atomic_store(&x, y, 0);
--      __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
--      return 0;
--    }''')
-+  # "do we have 128-bit atomics which are handled inline and specifically not
-+  # via libatomic". The reason we can't use libatomic is documented in the
-+  # comment starting "GCC is a house divided" in include/qemu/atomic128.h.
-+  has_atomic128 = cc.links(atomic_test.format('unsigned __int128'))
- 
-   config_host_data.set('CONFIG_ATOMIC128', has_atomic128)
+diff --git a/qapi/string-output-visitor.c b/qapi/string-output-visitor.c
+index 5506c933deef..71ddc92b7b98 100644
+--- a/qapi/string-output-visitor.c
++++ b/qapi/string-output-visitor.c
+@@ -14,7 +14,6 @@
+ #include "qemu/cutils.h"
+ #include "qapi/string-output-visitor.h"
+ #include "qapi/visitor-impl.h"
+-#include "qemu/host-utils.h"
+ #include <math.h>
+ #include "qemu/range.h"
  
 -- 
 2.35.1.273.ge6ebfd0e8cbb
