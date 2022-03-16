@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C160E4DBAA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 23:24:30 +0100 (CET)
-Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169A04DBAAD
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 23:30:57 +0100 (CET)
+Received: from localhost ([::1]:60222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUc4D-0006Er-H2
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 18:24:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51192)
+	id 1nUcAR-0005n9-U9
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 18:30:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tjeznach@rivosinc.com>)
- id 1nUc1q-0003vH-4U
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 18:22:02 -0400
-Received: from [2607:f8b0:4864:20::102a] (port=36591
- helo=mail-pj1-x102a.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nUc3O-0006F6-NU
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 18:23:38 -0400
+Received: from [2607:f8b0:4864:20::132] (port=35617
+ helo=mail-il1-x132.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tjeznach@rivosinc.com>)
- id 1nUc1m-0006hD-LO
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 18:22:01 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- kx13-20020a17090b228d00b001c6715c9847so1554572pjb.1
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 15:21:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=J2Vvga2pFpfs9v+rEu3MjHqLU3KItUo2pF5RrYbXGG0=;
- b=y3Fr4OzvhPqC2Wb9aZ7+PcwODCo8DBNVcd/LWKkKO6ztZOcblMQpus+aG3bEoHgEZ2
- h+i0/OGxls/hZQkPCkcoXm+57t2hBPF48XScrxab5qhSpaKZL/fcdmvkCxiXcqVO6t1k
- wYxlO4hx4MSHK5R9XQmK+6CyJtFgK7nTU0RkA1S2ahz/5sYCAf7DNmJM4RoIjofTDSAC
- JMv8gUGbblLfK8QnPCnO2dn2wPi3UiV/wDhAXFzNwSo25LKNsfuzz3w1uG0W6pw/mdDD
- k0HHVqDay00/AbRjcVvYFTjXEknthxFBcq/fpGk27mRkhvIhexmg1AgNBL+DO3iJMo3T
- FsAA==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nUc3N-0006og-8C
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 18:23:38 -0400
+Received: by mail-il1-x132.google.com with SMTP id i2so1507654ila.2
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 15:23:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bnlMCyeG1qAFVZXCZjgt6KB/TjUZTdtn/PiWY+AK/jQ=;
+ b=C5FD7sarfsZq9EdytsQImug79G88Q/aj6P0x7SU9NP04dR1D44quH+/YmPcZc3bGyI
+ nh2hqZ0sIisAO9k6FhkgDh464l+AASc0HbLTNhicv87IPklYSnLJfFMtDO4fZ3Ph9+U7
+ ENl2J/ZbRZHqhdz6kDzxl2dx97edjtg2OXXd7woiwh4CrUR+XadI8haI1wFatYKuAoIU
+ sicotC2mjhqwKAoOP8PhLgArS0ePVx3EVxNrLcymPBkffQPDPltW4bOHiqQq5tWvtWIE
+ pqu3+3jhvK9f5MhxVuBZTlOY/FYJ2ohlhLc6uoMG12LjK3Kiv/+8wWr9L6aBY8h+/JxT
+ bSzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=J2Vvga2pFpfs9v+rEu3MjHqLU3KItUo2pF5RrYbXGG0=;
- b=PMFZh5bFeHvt4L1yuDBjdO/vyT0BGO8mTTDdVUon9JfZc0IGx8F7dbqgrdALwosdZ9
- iAMJobD/X2lSh9Xqr137qAnPTTS3pQOUwm2DXU182KxeSIqw/xndag4B+R+zASv0vrC0
- 111IhHoSWKh1pDDcYEm3odsx/TzOHfiiCTOkdBJ4EZDybLF7zhSkdgOoXmPqAUvDOFZh
- Z1xf0eHfiaAaW717PxI3US1Co2i3hq0/abKoEuO6eWT1iwsNwek+TogJ3kheO+PlRptj
- T/dWsGlU8TH9GgwB6I3oZC0f3Rwi5wQHmiqhPLuO+uXR0BcUGesewPWlVDgCpe3ktuGw
- hRVw==
-X-Gm-Message-State: AOAM533/jwjy/dLnMNeNNd02Tdt77cZqoBAOuj0L97GDSjyBgX1pNZXw
- VJxMdVEF+u2AIyERH9OjgcT5dOfr54B8IA==
-X-Google-Smtp-Source: ABdhPJxAlUeJB6GOhZKKVn6PUCNyia03n8jVl4tSkLadOen52Y357WzKr8mfWqHwyZ/tvY9iVorWbg==
-X-Received: by 2002:a17:902:9007:b0:14f:3680:66d1 with SMTP id
- a7-20020a170902900700b0014f368066d1mr2010803plp.91.1647469317130; 
- Wed, 16 Mar 2022 15:21:57 -0700 (PDT)
-Received: from tjeznach.ba.rivosinc.com ([66.220.2.162])
- by smtp.gmail.com with ESMTPSA id
- k14-20020aa7820e000000b004f7134a70cdsm3928363pfi.61.2022.03.16.15.21.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 15:21:56 -0700 (PDT)
-From: Tomasz Jeznach <tjeznach@rivosinc.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/2] hw/riscv: virt: Add rivos-iommu device to 'virt'
- machine.
-Date: Wed, 16 Mar 2022 15:21:16 -0700
-Message-Id: <20220316222116.2492777-3-tjeznach@rivosinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220316222116.2492777-1-tjeznach@rivosinc.com>
-References: <20220316222116.2492777-1-tjeznach@rivosinc.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bnlMCyeG1qAFVZXCZjgt6KB/TjUZTdtn/PiWY+AK/jQ=;
+ b=3Zla9hV3gZxSWGvuPEjU5N9K5py8KkjrMCUDFnM2mEax0WG1s2K4F10qH8n0s2d/KI
+ K3u3WG/P4VOAwhjySAfJ23T0NqbmRPQZ9pf5B/NAGEC2g7jJMKSlCfVhYjgBumJY/KEE
+ FkPd+r1IqmDfbAM6MAuf0N/7BOxbkI/STYOllBBD9RqMeprw/SwiS25Ix3GTRXlotgV2
+ NkVuPxbGq/Aw4P6gwhfy2+asfRiOjhIzKBiqWMU0FmQopMylu+0WebWUCmWG9t4vrSUc
+ 2/MNDrGqy6bH+aydJVhl1GuRSdLgEvjbcCOzPBlu+TG1UqZO057jddD/GAyHO1wtYnXg
+ IeXA==
+X-Gm-Message-State: AOAM530Gh9j9tdmzXbSK4I6r4YRQrlbI3V49sB9I7v5CaFoZXfLLlgvD
+ f3DecnXrD1zkwpqtJqYamT49TakliktzFlMVkiw=
+X-Google-Smtp-Source: ABdhPJxp7ruotHcqy3FbyaMI8I2y7nQTeX+kVGD9mRjs/xMZqlGaL9mCRJEJ70nv6OwbMyu+c5sUS3zozCv1yJ71kyM=
+X-Received: by 2002:a05:6e02:154c:b0:2c6:4ffa:57ec with SMTP id
+ j12-20020a056e02154c00b002c64ffa57ecmr670245ilu.55.1647469415769; Wed, 16 Mar
+ 2022 15:23:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+References: <57412635-6b46-823b-14a4-0ee694ace5b8@oth-regensburg.de>
+ <CAKmqyKOZN=hS73TfgHfMtxktZ9kkw4kBBA4-gjGAV8Q0Kw+KHw@mail.gmail.com>
+ <CAAhSdy23Ag=ZqUj82aZ6BNA2SJq54rbCDjeX=1cHtbq7LR8jaQ@mail.gmail.com>
+ <a840f9ac-7315-4381-4c85-719efb413b18@oth-regensburg.de>
+ <CAFEAcA98VQmM_ETpNuhq31Y7xLkS_AjVRsTeCdnqzMZG-3uxBA@mail.gmail.com>
+ <3783dce0-0c5b-824e-2097-bbc3367281a6@oth-regensburg.de>
+In-Reply-To: <3783dce0-0c5b-824e-2097-bbc3367281a6@oth-regensburg.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 17 Mar 2022 08:23:09 +1000
+Message-ID: <CAKmqyKNf3qL9k83tRD+=Frdue=+WZNAJ8RxK4UivCjz0Adjbqg@mail.gmail.com>
+Subject: Re: [EXT] Re: QEMU+KVM on RISC-V + Hypervisor Extension
+To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::132
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=tjeznach@rivosinc.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,247 +86,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Atish Patra <atishp@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Tomasz Jeznach <tjeznach@rivosinc.com>
+Cc: Anup Patel <apatel@ventanamicro.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Jiangyifei <jiangyifei@huawei.com>,
+ Stefan Huber <stefan.huber@oth-regensburg.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable rivos-iommu device support in riscv:virt machine emulation.
+On Tue, Mar 15, 2022 at 10:51 PM Ralf Ramsauer
+<ralf.ramsauer@oth-regensburg.de> wrote:
+>
+>
+>
+> On 15/03/2022 13:42, Peter Maydell wrote:
+> > On Tue, 15 Mar 2022 at 12:29, Ralf Ramsauer
+> > <ralf.ramsauer@oth-regensburg.de> wrote:
+> >> I have no kernel specified in the guest, so I'd then expect to boot into
+> >> an completely empty machine (besides the tiny startup stub in the MROM).
+> >> However, I still get the exact same error as mentioned in my initial mail.
+> >>
+> >> Again, without "-enable-kvm", everything works as expected (i.e., I
+> >> don't see any output, because there's basically no guest code to execute).
+> >
+> > Well, you'll always be trying to execute something, even if it's
+> > all-zeroes. I dunno what RISC-V does with its encodings, but you
+> > typically either end up in an infinite loop of taking exceptions
+> > (if all-0s isn't a valid instruction) or else you just execute
+> > through all of guest RAM (if it is something similar to a no-op).
+> > In the latter scenario it's quite plausible that the guest ends
+> > up doing something KVM doesn't expect, such as trying to execute
+> > from an area of the address space where there is no RAM, or a device.
+> > If so, "return failure from VCPU_RUN and QEMU aborts" is what I
+> > think I would expect to see.
+> >
+> > If I were you I would try it with some actual guest code loaded
+> > at a location where there is RAM...
+>
+> I guess you are right, and I think, together with the other mail, I now
+> understand why I experienced a failure:
+>
+> As Anup explained, there is no M-Mode, but I passed an OpenSBI BIOS. The
+> initial MROM handed over to OpenSBI (located at RAM base 0x80000000). At
+> some point, OpenSBI threw an exception (maybe it accessed an CSR it is
+> not allowed to, whatever), because it is in S-Mode. Exception vectors
+> were not (yet) installed, but initialized with 0x0.
 
-Signed-off-by: Tomasz Jeznach <tjeznach@rivosinc.com>
----
- hw/riscv/Kconfig        |   1 +
- hw/riscv/virt.c         | 115 +++++++++++++++++++++++++++++++---------
- include/hw/riscv/virt.h |   2 +
- 3 files changed, 94 insertions(+), 24 deletions(-)
+Hmm... This seems like a bug. We shouldn't allow the user to specify a
+`-bios` option if using KVM. Would you mind preparing a patch to catch
+this?
 
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index c6cbd7b42c..3b1528e560 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -51,6 +51,7 @@ config RISCV_VIRT
-     select SIFIVE_TEST
-     select VIRTIO_MMIO
-     select FW_CFG_DMA
-+    select RIVOS_IOMMU
- 
- config SIFIVE_E
-     bool
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index da50cbed43..13e6f03400 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -32,6 +32,7 @@
- #include "hw/riscv/virt.h"
- #include "hw/riscv/boot.h"
- #include "hw/riscv/numa.h"
-+#include "hw/riscv/rivos_iommu.h"
- #include "hw/intc/riscv_aclint.h"
- #include "hw/intc/riscv_aplic.h"
- #include "hw/intc/riscv_imsic.h"
-@@ -948,6 +949,33 @@ static void create_fdt_flash(RISCVVirtState *s, const MemMapEntry *memmap)
-     g_free(name);
- }
- 
-+static void create_rivos_iommu_dt_binding(RISCVVirtState *s, uint16_t bdf)
-+{
-+    const char compat[] = "rivos,pci-iommu";
-+    MachineState *mc = MACHINE(s);
-+    uint32_t iommu_phandle;
-+    char *iommu_node;
-+    char *pci_node;
-+
-+    pci_node = g_strdup_printf("/soc/pci@%lx",
-+            (long) virt_memmap[VIRT_PCIE_ECAM].base);
-+    iommu_node = g_strdup_printf("%s/iommu@%x", pci_node, bdf);
-+
-+    iommu_phandle = qemu_fdt_alloc_phandle(mc->fdt);
-+    qemu_fdt_add_subnode(mc->fdt, iommu_node);
-+    qemu_fdt_setprop(mc->fdt, iommu_node, "compatible", compat, sizeof(compat));
-+    qemu_fdt_setprop_sized_cells(mc->fdt, iommu_node, "reg",
-+            1, bdf << 8, 1, 0, 1, 0, 1, 0, 1, 0);
-+    qemu_fdt_setprop_cell(mc->fdt, iommu_node, "#iommu-cells", 1);
-+    qemu_fdt_setprop_cell(mc->fdt, iommu_node, "phandle", iommu_phandle);
-+    g_free(iommu_node);
-+
-+    qemu_fdt_setprop_cells(mc->fdt, pci_node, "iommu-map",
-+            0x0, iommu_phandle, 0x0, bdf,
-+            bdf + 1, iommu_phandle, bdf + 1, 0xffff - bdf);
-+    g_free(pci_node);
-+}
-+
- static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-                        uint64_t mem_size, const char *cmdline, bool is_32_bit)
- {
-@@ -1156,6 +1184,34 @@ static DeviceState *virt_create_aia(RISCVVirtAIAType aia_type, int aia_guests,
-     return aplic_m;
- }
- 
-+static void virt_machine_done(Notifier *notifier, void *data)
-+{
-+    const MemMapEntry *memmap = virt_memmap;
-+    uint32_t fdt_load_addr;
-+    target_ulong start_addr = memmap[VIRT_DRAM].base;
-+    RISCVVirtState *s = container_of(notifier, RISCVVirtState, machine_done);
-+    MachineState *machine = MACHINE(s);
-+
-+    /* Compute the fdt load address in dram */
-+    fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
-+                                   machine->ram_size, machine->fdt);
-+    /* load the reset vector */
-+    riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
-+                              virt_memmap[VIRT_MROM].base,
-+                              virt_memmap[VIRT_MROM].size,
-+                              s->kernel_entry,
-+                              fdt_load_addr, machine->fdt);
-+
-+    /*
-+     * Only direct boot kernel is currently supported for KVM VM,
-+     * So here setup kernel start address and fdt address.
-+     * TODO:Support firmware loading and integrate to TCG start
-+     */
-+    if (kvm_enabled()) {
-+        riscv_setup_direct_kernel(s->kernel_entry, fdt_load_addr);
-+    }
-+}
-+
- static void virt_machine_init(MachineState *machine)
- {
-     const MemMapEntry *memmap = virt_memmap;
-@@ -1165,8 +1221,6 @@ static void virt_machine_init(MachineState *machine)
-     char *soc_name;
-     target_ulong start_addr = memmap[VIRT_DRAM].base;
-     target_ulong firmware_end_addr, kernel_start_addr;
--    uint32_t fdt_load_addr;
--    uint64_t kernel_entry;
-     DeviceState *mmio_irqchip, *virtio_irqchip, *pcie_irqchip;
-     int i, base_hartid, hart_count;
- 
-@@ -1328,13 +1382,13 @@ static void virt_machine_init(MachineState *machine)
-         kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
-                                                          firmware_end_addr);
- 
--        kernel_entry = riscv_load_kernel(machine->kernel_filename,
--                                         kernel_start_addr, NULL);
-+        s->kernel_entry = riscv_load_kernel(machine->kernel_filename,
-+                                            kernel_start_addr, NULL);
- 
-         if (machine->initrd_filename) {
-             hwaddr start;
-             hwaddr end = riscv_load_initrd(machine->initrd_filename,
--                                           machine->ram_size, kernel_entry,
-+                                           machine->ram_size, s->kernel_entry,
-                                            &start);
-             qemu_fdt_setprop_cell(machine->fdt, "/chosen",
-                                   "linux,initrd-start", start);
-@@ -1346,7 +1400,7 @@ static void virt_machine_init(MachineState *machine)
-         * If dynamic firmware is used, it doesn't know where is the next mode
-         * if kernel argument is not set.
-         */
--        kernel_entry = 0;
-+        s->kernel_entry = 0;
-     }
- 
-     if (drive_get(IF_PFLASH, 0, 0)) {
-@@ -1364,24 +1418,6 @@ static void virt_machine_init(MachineState *machine)
-     s->fw_cfg = create_fw_cfg(machine);
-     rom_set_fw(s->fw_cfg);
- 
--    /* Compute the fdt load address in dram */
--    fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
--                                   machine->ram_size, machine->fdt);
--    /* load the reset vector */
--    riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
--                              virt_memmap[VIRT_MROM].base,
--                              virt_memmap[VIRT_MROM].size, kernel_entry,
--                              fdt_load_addr, machine->fdt);
--
--    /*
--     * Only direct boot kernel is currently supported for KVM VM,
--     * So here setup kernel start address and fdt address.
--     * TODO:Support firmware loading and integrate to TCG start
--     */
--    if (kvm_enabled()) {
--        riscv_setup_direct_kernel(kernel_entry, fdt_load_addr);
--    }
--
-     /* SiFive Test MMIO device */
-     sifive_test_create(memmap[VIRT_TEST].base);
- 
-@@ -1417,6 +1453,29 @@ static void virt_machine_init(MachineState *machine)
-                                   drive_get(IF_PFLASH, 0, i));
-     }
-     virt_flash_map(s, system_memory);
-+
-+    s->machine_done.notify = virt_machine_done;
-+    qemu_add_machine_init_done_notifier(&s->machine_done);
-+}
-+
-+static void virt_machine_device_plug_cb(HotplugHandler *machine,
-+                                        DeviceState *dev, Error **errp)
-+{
-+    RISCVVirtState *s = RISCV_VIRT_MACHINE(machine);
-+
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_RIVOS_IOMMU_PCI)) {
-+        PCIDevice *pdev = PCI_DEVICE(dev);
-+        create_rivos_iommu_dt_binding(s, pci_get_bdf(pdev));
-+    }
-+}
-+
-+static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
-+                                                        DeviceState *dev)
-+{
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_RIVOS_IOMMU_PCI)) {
-+        return HOTPLUG_HANDLER(machine);
-+    }
-+    return NULL;
- }
- 
- static void virt_machine_instance_init(Object *obj)
-@@ -1501,6 +1560,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
- {
-     char str[128];
-     MachineClass *mc = MACHINE_CLASS(oc);
-+    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
- 
-     mc->desc = "RISC-V VirtIO board";
-     mc->init = virt_machine_init;
-@@ -1512,6 +1572,9 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
-     mc->numa_mem_supported = true;
-     mc->default_ram_id = "riscv_virt_board.ram";
-+    assert(!mc->get_hotplug_handler);
-+    mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
-+    hc->plug = virt_machine_device_plug_cb;
- 
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
- 
-@@ -1542,6 +1605,10 @@ static const TypeInfo virt_machine_typeinfo = {
-     .class_init = virt_machine_class_init,
-     .instance_init = virt_machine_instance_init,
-     .instance_size = sizeof(RISCVVirtState),
-+    .interfaces = (InterfaceInfo[]) {
-+         { TYPE_HOTPLUG_HANDLER },
-+         { }
-+    },
- };
- 
- static void virt_machine_init_register_types(void)
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index 78b058ec86..daef7e88a5 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -49,7 +49,9 @@ struct RISCVVirtState {
-     DeviceState *irqchip[VIRT_SOCKETS_MAX];
-     PFlashCFI01 *flash[2];
-     FWCfgState *fw_cfg;
-+    Notifier machine_done;
- 
-+    uint64_t kernel_entry;
-     int fdt_size;
-     bool have_aclint;
-     RISCVVirtAIAType aia_type;
--- 
-2.25.1
+Alistair
 
+>
+> This is how I ended up with the PC at 0x0. Behind 0x0, there's no
+> physical backing, and KVM threw an Instruction Guest PF (SCAUSE=0x14).
+>
+> Didn't verify this, but this somehow sounds plausible to me.
+>
+> Thanks!
+>    Ralf
+>
+> >
+> > -- PMM
 
