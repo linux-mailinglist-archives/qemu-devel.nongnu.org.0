@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B28A54DB1E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:53:28 +0100 (CET)
-Received: from localhost ([::1]:58434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DAD4DB17D
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:29:49 +0100 (CET)
+Received: from localhost ([::1]:58256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUU5f-0001MT-OW
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:53:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40930)
+	id 1nUTim-0004Xr-3s
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:29:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUTdP-0004PG-6g
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUTdP-0004PF-59
  for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:24:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41193)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUTdJ-00045a-Vc
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUTdJ-00045W-Vb
  for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:24:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647437048;
+ s=mimecast20190719; t=1647437047;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=goMKNwPlVhQrmQohDsIDFCdCkBnO5w7GRQVASqL8D/8=;
- b=XZMjR8rLs3QQGY8Adz4I02GACvS9xdIUowAgTkmch+zm2bf7aKmmD7wHBhTyBnTBtSqnV3
- AT2ELUXOHBxcrvtjwFccL+q60IMs32S/Vrt27BRQRomaOdIGq/o+dNBwX1sF+ZIYplsxIq
- dHgp0jTQ596gnCmNO23qJ+MD2UZEl2Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mp4aRzKIzRce3Gc+gwuuIpWkO66QE9VZYvXJmiuxij4=;
+ b=Jp05Jf8Qtmr9+wK46gkNIZah1DKjH0/6jhEUUq+KFyCG71NrNBiZooVadIIw6frNzjjv3m
+ 3s85M4/Fp8/GD6yKL4M1nUct1v2uE2JhG3B7Cn8H2mvTQX9M5mdE7Eihiy3Sc2nQ2QcxQR
+ VrzXMm62z9acfW6FAyFXCvyDnHulxQA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-p_W7WwoLOSGLVF9TnuILUg-1; Wed, 16 Mar 2022 09:24:05 -0400
-X-MC-Unique: p_W7WwoLOSGLVF9TnuILUg-1
+ us-mta-380-9LhFcVUVOdaGlFnEjpqGqg-1; Wed, 16 Mar 2022 09:24:06 -0400
+X-MC-Unique: 9LhFcVUVOdaGlFnEjpqGqg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5AE8899ED2;
- Wed, 16 Mar 2022 13:24:04 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53BB73C14845;
+ Wed, 16 Mar 2022 13:24:06 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 179C14B8D46;
- Wed, 16 Mar 2022 13:24:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 304444B8D46;
+ Wed, 16 Mar 2022 13:24:05 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] Fix crash when adding a second ISA VGA device
-Date: Wed, 16 Mar 2022 14:23:59 +0100
-Message-Id: <20220316132402.1190346-1-thuth@redhat.com>
+Subject: [PATCH 1/3] hw/display/cirrus_vga: Clean up indentation in
+ pci_cirrus_vga_realize()
+Date: Wed, 16 Mar 2022 14:24:00 +0100
+Message-Id: <20220316132402.1190346-2-thuth@redhat.com>
+In-Reply-To: <20220316132402.1190346-1-thuth@redhat.com>
+References: <20220316132402.1190346-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Authentication-Results: relay.mimecast.com;
@@ -53,14 +57,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,57 +84,90 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU currently abort()s if the user tries to add a second ISA VGA
-device, for example:
+Most of the code in this function had been indented with 5 spaces instead
+of 4. Since 4 is our preferred style, remove one space in the bad lines here.
 
-$ ./qemu-system-x86_64 -device isa-vga -device isa-vga
-RAMBlock "vga.vram" already registered, abort!
-Aborted (core dumped)
-$ ./qemu-system-x86_64 -device isa-cirrus-vga -device isa-cirrus-vga
-RAMBlock "vga.vram" already registered, abort!
-Aborted (core dumped)
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ hw/display/cirrus_vga.c | 57 +++++++++++++++++++++--------------------
+ 1 file changed, 29 insertions(+), 28 deletions(-)
 
-Such a crash should never happen just because of giving bad parameters
-at the command line, we should give a proper error message instead
-and exit gracefully.
-
-Note: There have been previous attempts to fix this problem, but the
-first committed solution had bad side effects and got reverted
-(https://gitlab.com/qemu-project/qemu/-/issues/733). There was another
-idea to fix it by QOM'ifying the related devices (see the commits around
-23f6e3b11be74abae), but after having another close look at the problem,
-I think this doesn't work either: For getting unique names in the
-vmstate_register_ram() function, the devices need to return unique names
-from the qdev_get_dev_path() function, and those ISA VGA devices don't
-support that there (unlike PCI, ISA devices don't have a slot id ...
-they could be distinguished by their I/O port base address, but all the
-ISA VGA cards currently use the same address there, so that doesn't
-work either). ==> So the very original idea of checking for the availability
-of the "vga.vram" memory region still seems the only usable approach to
-me right now. While the original patch by Jose R. Ziviani only fixed the
-issue for the isa-vga device, I'm taking a more general approach now by
-adding the fix in the vga_common_init() function, so that it works for
-the isa-cirrus-vga device, too.
-
-Thomas Huth (3):
-  hw/display/cirrus_vga: Clean up indentation in
-    pci_cirrus_vga_realize()
-  hw/display: Allow vga_common_init() to return errors
-  hw/display/vga: Report a proper error when adding a 2nd ISA VGA
-
- hw/display/ati.c            |  7 ++++-
- hw/display/cirrus_vga.c     | 62 ++++++++++++++++++++-----------------
- hw/display/cirrus_vga_isa.c |  7 ++++-
- hw/display/qxl.c            |  6 +++-
- hw/display/vga-isa.c        |  9 +++++-
- hw/display/vga-mmio.c       |  8 ++++-
- hw/display/vga-pci.c        | 15 +++++++--
- hw/display/vga.c            | 15 +++++++--
- hw/display/vga_int.h        |  2 +-
- hw/display/virtio-vga.c     |  7 ++++-
- hw/display/vmware_vga.c     |  2 +-
- 11 files changed, 100 insertions(+), 40 deletions(-)
-
+diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
+index fdca6ca659..7da1be3e12 100644
+--- a/hw/display/cirrus_vga.c
++++ b/hw/display/cirrus_vga.c
+@@ -2940,27 +2940,28 @@ void cirrus_init_common(CirrusVGAState *s, Object *owner,
+ 
+ static void pci_cirrus_vga_realize(PCIDevice *dev, Error **errp)
+ {
+-     PCICirrusVGAState *d = PCI_CIRRUS_VGA(dev);
+-     CirrusVGAState *s = &d->cirrus_vga;
+-     PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
+-     int16_t device_id = pc->device_id;
+-
+-     /* follow real hardware, cirrus card emulated has 4 MB video memory.
+-       Also accept 8 MB/16 MB for backward compatibility. */
+-     if (s->vga.vram_size_mb != 4 && s->vga.vram_size_mb != 8 &&
+-         s->vga.vram_size_mb != 16) {
+-         error_setg(errp, "Invalid cirrus_vga ram size '%u'",
+-                    s->vga.vram_size_mb);
+-         return;
+-     }
+-     /* setup VGA */
+-     vga_common_init(&s->vga, OBJECT(dev));
+-     cirrus_init_common(s, OBJECT(dev), device_id, 1, pci_address_space(dev),
+-                        pci_address_space_io(dev));
+-     s->vga.con = graphic_console_init(DEVICE(dev), 0, s->vga.hw_ops, &s->vga);
+-
+-     /* setup PCI */
++    PCICirrusVGAState *d = PCI_CIRRUS_VGA(dev);
++    CirrusVGAState *s = &d->cirrus_vga;
++    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
++    int16_t device_id = pc->device_id;
++
++    /*
++     * Follow real hardware, cirrus card emulated has 4 MB video memory.
++     * Also accept 8 MB/16 MB for backward compatibility.
++     */
++    if (s->vga.vram_size_mb != 4 && s->vga.vram_size_mb != 8 &&
++        s->vga.vram_size_mb != 16) {
++        error_setg(errp, "Invalid cirrus_vga ram size '%u'",
++                   s->vga.vram_size_mb);
++        return;
++    }
++    /* setup VGA */
++    vga_common_init(&s->vga, OBJECT(dev));
++    cirrus_init_common(s, OBJECT(dev), device_id, 1, pci_address_space(dev),
++                       pci_address_space_io(dev));
++    s->vga.con = graphic_console_init(DEVICE(dev), 0, s->vga.hw_ops, &s->vga);
+ 
++    /* setup PCI */
+     memory_region_init(&s->pci_bar, OBJECT(dev), "cirrus-pci-bar0", 0x2000000);
+ 
+     /* XXX: add byte swapping apertures */
+@@ -2968,14 +2969,14 @@ static void pci_cirrus_vga_realize(PCIDevice *dev, Error **errp)
+     memory_region_add_subregion(&s->pci_bar, 0x1000000,
+                                 &s->cirrus_linear_bitblt_io);
+ 
+-     /* setup memory space */
+-     /* memory #0 LFB */
+-     /* memory #1 memory-mapped I/O */
+-     /* XXX: s->vga.vram_size must be a power of two */
+-     pci_register_bar(&d->dev, 0, PCI_BASE_ADDRESS_MEM_PREFETCH, &s->pci_bar);
+-     if (device_id == CIRRUS_ID_CLGD5446) {
+-         pci_register_bar(&d->dev, 1, 0, &s->cirrus_mmio_io);
+-     }
++    /* setup memory space */
++    /* memory #0 LFB */
++    /* memory #1 memory-mapped I/O */
++    /* XXX: s->vga.vram_size must be a power of two */
++    pci_register_bar(&d->dev, 0, PCI_BASE_ADDRESS_MEM_PREFETCH, &s->pci_bar);
++    if (device_id == CIRRUS_ID_CLGD5446) {
++        pci_register_bar(&d->dev, 1, 0, &s->cirrus_mmio_io);
++    }
+ }
+ 
+ static Property pci_vga_cirrus_properties[] = {
 -- 
 2.27.0
 
