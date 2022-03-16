@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF544DB708
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 18:21:44 +0100 (CET)
-Received: from localhost ([::1]:46270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31FCA4DB72F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 18:32:51 +0100 (CET)
+Received: from localhost ([::1]:51524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUXLD-0005wv-BZ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 13:21:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48322)
+	id 1nUXVw-0001gO-P6
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 13:32:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nUXJf-0005Fw-M5
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 13:20:07 -0400
-Received: from [2a00:1450:4864:20::533] (port=38796
+ id 1nUXUW-0000sN-31
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 13:31:20 -0400
+Received: from [2a00:1450:4864:20::533] (port=43921
  helo=mail-ed1-x533.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nUXJd-0003Fj-Ru
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 13:20:07 -0400
-Received: by mail-ed1-x533.google.com with SMTP id h13so3610191ede.5
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 10:20:05 -0700 (PDT)
+ id 1nUXUU-0005Hx-Fz
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 13:31:19 -0400
+Received: by mail-ed1-x533.google.com with SMTP id b24so3625657edu.10
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 10:31:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JkywS5GuaqnFsYT3fuDtgfghG6HZHgeWXsKwwNyihrU=;
- b=N6ePRRyXMAMaZv+3O+ooI/PmZ1uR6aGU9plyLc1ozMyrKhWhqJHMDxE1KpxqexyCOQ
- 5io57h0K91H8zMlblDdXpfX8OMMq37HrnM3S3pSHPniPW1gJA7hW9jAoVu0Y+CtkDDm7
- b4xKm2Wm2B4BmpiDWDxsMzaTBXaVbFI4CP/C5zqiz/pDhYRAgORDMkJdWm7xBaydTqHr
- pLNi1tqFr43Y02mfVGvkzxpqjcKuKTrL3J6QEHsLjIRn67j33uRGOKUyIJh9UEyCZVQJ
- C8RWg4dux0G1gTuQiflRQuVld4PyB72b5Y0kw/0oqkkSQjV8LHhMiId0Zm3TRGwJh/OZ
- 1OFQ==
+ bh=7Do4+wqZaOCqJGdy7pxnnjO43ulqBgbU8ltdZse/l8A=;
+ b=jabUbMP/PI82TPsSux4DWbh6lKYWcZw3o2Ky8jDlGDwfAYK7bAEdFwi1bjhqriR7oL
+ 1fIkArzRnhFIp/jfBQ30N/Mf3xwzQXmckhi9j5w6lmo/hb+GR1Enir8g+TqtTqKxZPSO
+ csSq8VtTuxKGRIBhbtmXJ+RJuF/pX9bTRwEPs6jNvbt6S9olIXe+eq3InR5VvnPCc3Nf
+ tIa1/JIEqhVOmU10KkB1BycpHo0mvRqv/xyXYe1dR49bfMUCDZ3EbNbm8IjR/QvkJGZJ
+ gtC8XIvRXp9Qi69kwEM++3/Tqvxhm/1r6/fg2shDuemUIdQO3QTtaIZzw+9yleWx7nZS
+ ecTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JkywS5GuaqnFsYT3fuDtgfghG6HZHgeWXsKwwNyihrU=;
- b=ypsjOSkFrsTWC3dZn9gJUFkjNiznq7dw51GPxofWdaoXpvQF2NCZ05ZpZuE7UWCJwb
- Mc2aUiXi8bO8VRBvRRFEJHXgIMCpig2uMLYKZtrRRSSsvEB3Tx0RPG3Vzp3f0IRzo8/a
- OSFzV476iafcCY2djQBdv1VZg8BKmkMb5uE6hX8w/R9QcS3BR5Mdwa9oYzNeHlTpK9cS
- qfyLDuHVnAsq0uEHKJnbSYZlqLT8CBd5cNPosgPIESxtS6PFO11wXwsFJXAkWWFXr0Gw
- xNulCDCKfCzsp0n7LRJN/9/l6q7zmlmcNk91RMJl42szWjptCFd/4damLmszueXFHM0h
- 6bfA==
-X-Gm-Message-State: AOAM532QCDkRvQF6ErVAFxICmciuu/EpQTRCTCrKeqCJ07KsN0pToKz7
- c6kfv/J5Mr7ztFNFWnaHNT8=
-X-Google-Smtp-Source: ABdhPJwaGmAXObv2pN7VBSxQoNmHiwUEvbHYAVgl1SoLhynlIYucj+rcFnF28F6YymVZykZLOv8Zaw==
-X-Received: by 2002:a05:6402:d51:b0:416:5f17:990 with SMTP id
- ec17-20020a0564020d5100b004165f170990mr488317edb.239.1647451203703; 
- Wed, 16 Mar 2022 10:20:03 -0700 (PDT)
+ bh=7Do4+wqZaOCqJGdy7pxnnjO43ulqBgbU8ltdZse/l8A=;
+ b=LtDMzzdogOIUkvjEZSf3blMYZFVOZqqhUOzdeHs59u7+ASc/rbj5+U2zph2e57MxKF
+ aYKDVr6rBJCWAWPlGNQa4Bc79s8KzkBX2MP6uGrac6mbmrKt3ydxA0yyz0Zx2biVn6OX
+ 3+j0LVrNqzozxMf85p9tZ6v/lLh3rfcHqL1gEsFDWtf7KNDIMr9eu6ADUXor6OwOuutZ
+ lBHKMv72aIRLU5zY56lKRYLdm+7ADZyQC2i4IoHDDNuVFgEA0m6rXKX1mDY1HDbUXaiS
+ zI1B/I7JtGgVejMioTGRS7eXzmtJH9sJDFxPqgPX28HpQ8htJNxwQOosDLDVtDwTMr5N
+ 34WQ==
+X-Gm-Message-State: AOAM5305ziySivdeU0GCstWFsslPr7kAB+P1QO6YtBZaKw9hbhdAqjgT
+ pUpRbTFtMmV7SApq+rP/R3Y=
+X-Google-Smtp-Source: ABdhPJx3ywy4+AZMAxVrT2cHL/RgaCONtB2Pk/qpLi3RUKJccFLrUkFymRCZeR52yiGBuRs/KKokOA==
+X-Received: by 2002:a05:6402:d5d:b0:415:e9c0:cb63 with SMTP id
+ ec29-20020a0564020d5d00b00415e9c0cb63mr589840edb.326.1647451876436; 
+ Wed, 16 Mar 2022 10:31:16 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- b13-20020aa7d48d000000b00418d53c61acsm1299643edr.85.2022.03.16.10.20.02
+ s4-20020a170906a18400b006db0a78bde8sm1174920ejy.87.2022.03.16.10.31.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 10:20:03 -0700 (PDT)
-Message-ID: <19c431c2-283b-b483-6bd1-6817e483eb3a@redhat.com>
-Date: Wed, 16 Mar 2022 18:20:02 +0100
+ Wed, 16 Mar 2022 10:31:15 -0700 (PDT)
+Message-ID: <f7fb6c55-60ba-f510-b9cc-8a257859072e@redhat.com>
+Date: Wed, 16 Mar 2022 18:31:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PULL 15/22] x86: Grant AMX permission for guest
+Subject: Re: [RFC PATCH-for-7.0 v2] cocoa: run qemu_init in the main thread
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Krempa <pkrempa@redhat.com>
-References: <20220308113445.859669-1-pbonzini@redhat.com>
- <20220308113445.859669-16-pbonzini@redhat.com>
- <YjII86LKWTe0mVED@angien.pipo.sk> <YjIKrSZGcvh3/Aq7@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ qemu-devel@nongnu.org
+References: <20220316160300.85438-1-philippe.mathieu.daude@gmail.com>
+ <e1a5b41b-708d-ef3b-4c9b-8b2469cf4a92@gmail.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YjIKrSZGcvh3/Aq7@redhat.com>
+In-Reply-To: <e1a5b41b-708d-ef3b-4c9b-8b2469cf4a92@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
  (failed)
 Received-SPF: pass client-ip=2a00:1450:4864:20::533;
@@ -98,59 +98,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org,
- Jing Liu <jing2.liu@intel.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/22 17:05, Daniel P. Berrangé wrote:
-> On Wed, Mar 16, 2022 at 04:57:39PM +0100, Peter Krempa wrote:
->> On Tue, Mar 08, 2022 at 12:34:38 +0100, Paolo Bonzini wrote:
->>> From: Yang Zhong <yang.zhong@intel.com>
->>>
->>> Kernel allocates 4K xstate buffer by default. For XSAVE features
->>> which require large state component (e.g. AMX), Linux kernel
->>> dynamically expands the xstate buffer only after the process has
->>> acquired the necessary permissions. Those are called dynamically-
->>> enabled XSAVE features (or dynamic xfeatures).
->>>
->>> There are separate permissions for native tasks and guests.
->>>
->>> Qemu should request the guest permissions for dynamic xfeatures
->>> which will be exposed to the guest. This only needs to be done
->>> once before the first vcpu is created.
->>>
->>> KVM implemented one new ARCH_GET_XCOMP_SUPP system attribute API to
->>> get host side supported_xcr0 and Qemu can decide if it can request
->>> dynamically enabled XSAVE features permission.
->>> https://lore.kernel.org/all/20220126152210.3044876-1-pbonzini@redhat.com/
->>>
->>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->>> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
->>> Signed-off-by: Jing Liu <jing2.liu@intel.com>
->>> Message-Id: <20220217060434.52460-4-yang.zhong@intel.com>
->>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->>> ---
->>>   target/i386/cpu.c          |  7 +++++
->>>   target/i386/cpu.h          |  4 +++
->>>   target/i386/kvm/kvm-cpu.c  | 12 ++++----
->>>   target/i386/kvm/kvm.c      | 57 ++++++++++++++++++++++++++++++++++++++
->>>   target/i386/kvm/kvm_i386.h |  1 +
->>>   5 files changed, 75 insertions(+), 6 deletions(-)
->>
->> With this commit qemu crashes for me when invoking the following
->> QMP command:
+On 3/16/22 17:22, Akihiko Odaki wrote:
+> I was thinking that it may be better to let softmmu/main.c do the 
+> details if it involves the internals of qemu_main() like qemu_main_loop().
 > 
-> It is way worse than that even. If you remove '-S' you get an
-> immediate kaboom on startup on AMD hosts
+> More concretely, softmmu/main.c would provide a function to register a 
+> function pointer to take over the main thread. main() implemented in 
+> softmmu/main.c would call qemu_init(). If a function pointer gets 
+> registered in qemu_init(), it would create a thread for main loop and 
+> call the registered function pointer. Otherwise, it would directly call 
+> qemu_main_loop().
 > 
-> $ ./build/qemu-system-x86_64 -accel kvm
-> Unable to init server: Could not connect: Connection refused
-> qemu-system-x86_64: ../target/i386/kvm/kvm-cpu.c:105: kvm_cpu_xsave_init: Assertion `esa->size == eax' failed.
-> Aborted (core dumped)
+> It would be a semantically appropriate division of ui/cocoa.m and 
+> softmmu/main.c. It would also be beneficial for end-users as it would 
+> also allow to isolate ui/cocoa.m into a separate module when 
+> --enable-modules in the future. (With "In the future", I mean sometime 
+> when we have time to hack Meson build files and some details we cannot 
+> fill by 7.0.)
 
-I'll check it tomorrow, thanks.
+I would like this for 7.1.
+
+Basically rename qemu_main_loop to qemu_default_main_loop, and 
+cocoa_display_init would do
+
+     qemu_main_loop = qemu_cocoa_main_loop;
+
+qemu_cocoa_main_loop would include the bulk of the current main of 
+ui/cocoa.m.  Seems like a good idea.
 
 Paolo
-
 
