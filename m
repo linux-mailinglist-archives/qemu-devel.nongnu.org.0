@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E121D4DB6C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 17:54:03 +0100 (CET)
-Received: from localhost ([::1]:45586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB074DB763
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 18:37:37 +0100 (CET)
+Received: from localhost ([::1]:57034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUWuR-0000hV-0S
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 12:54:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40680)
+	id 1nUXaZ-0005Yx-Qi
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 13:37:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nUWrN-0006RJ-Cx
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:50:54 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2404)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nUWrH-0006ww-HK
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:50:52 -0400
-Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KJbnm4bHQz6H6hp;
- Thu, 17 Mar 2022 00:48:44 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 16 Mar 2022 17:50:37 +0100
-Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Wed, 16 Mar
- 2022 16:50:36 +0000
-Date: Wed, 16 Mar 2022 16:50:34 +0000
-To: Peter Xu <peterx@redhat.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Ben Widawsky <ben.widawsky@intel.com>,
- <qemu-devel@nongnu.org>, Samarth Saxena <samarths@cadence.com>, Chris Browy
- <cbrowy@avery-design.com>, <linuxarm@huawei.com>,
- <linux-cxl@vger.kernel.org>, Markus Armbruster <armbru@redhat.com>, "Shreyas
- Shah" <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>, "Marcel
- Apfelbaum" <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>, "Dan
- Williams" <dan.j.williams@intel.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
- <f4bug@amsat.org>, Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand
- <david@redhat.com>
-Subject: Re: [PATCH v7 00/46] CXl 2.0 emulation Support
-Message-ID: <20220316165034.000037e7@Huawei.com>
-In-Reply-To: <Yimwjtd8SsVLOU5e@xz-m1.local>
-References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
- <20220306163119-mutt-send-email-mst@kernel.org>
- <20220307093918.00002f20@Huawei.com> <YihiHNxVjDFI0Z8r@xz-m1.local>
- <20220309112827.00002c73@Huawei.com> <Yimwjtd8SsVLOU5e@xz-m1.local>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nUXZM-0004Iv-Nq
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 13:36:20 -0400
+Received: from [2a00:1450:4864:20::629] (port=45821
+ helo=mail-ej1-x629.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nUXZK-0005zK-JZ
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 13:36:20 -0400
+Received: by mail-ej1-x629.google.com with SMTP id qa43so5650664ejc.12
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 10:36:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=vW6XNAt6eQnB4AP0+OpU4vOtlaWOttrO/SQ7U+YuWZE=;
+ b=W0v+zcG2vu0cf6uaBgpip3B2Yw9BzH8ZucZX0UUl5Alo1JEd0ePsyWCWA0GYOmsZah
+ Bv/pUR+Px4RvBuY4JiO3/KF1J8fPO37UTgVaNqZfOz52QBFo9qi4/Eqn4c8Z7arTxXEM
+ OPY+Cgr/PehJyHene65XZKofFik0AgPTz64qe6tDhQTlGSencXSmdnecibsXtlucAVJL
+ B7v+9N1DfW3GDNZfYcsNoSgy5KiK/8JcsOjGAgvl3gNB9HVUsut/5TAXe4geuD/Z8o6n
+ 2yBKcKyPcks0FrVsWIbJ5QxBhEPZmuBJaKsBn8davsLCdU423mRf85y7DfgAtv4EsptF
+ gbhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=vW6XNAt6eQnB4AP0+OpU4vOtlaWOttrO/SQ7U+YuWZE=;
+ b=cXMMjW3iliZkoWYMhm2KlKSVS5MXdomwTmX1zy/5a1iJLWK2i8rbgf0oWMyv9M/kLL
+ 92s4cQoQob7y6Vd/cz7KHDxgYDNBGvVXgCYKRprh7pu/NPEGlilQ9tIRfOS5C2tT3V4h
+ JnZ3rdGf+8lCdG18EcUaEcVko80QnNIGrW6hMRd2cqylsSAHSLQgwcpxXscg8uQt2nKK
+ MzgJEf43JYDL1UF9RjhLHqEf8x5EZal1XqZpf+2w9eM+ZbU0EZPD/vipDvi5tpL9b9Jx
+ XnaJUbZos1Ft51kFc/TQpN/B8Prn5/zAgxs6jiQSugJKKQ68c2NjmiQ53Ss7KCiCaJIQ
+ CGhg==
+X-Gm-Message-State: AOAM531IWamadofVH1qHIN+A03kbDTsgxQcFy6ZlUML4zVfGiWtmBp+c
+ Osbg8Qa7Ek9TJ1VWybiIM6cw5Q==
+X-Google-Smtp-Source: ABdhPJyY/ba7GDl9l57AXCPFIMxVV1HKaUhdnjWhVHEdjgfmP3wRBX0fRHCypK2MIRhVBzed4Etg9g==
+X-Received: by 2002:a17:906:c0c9:b0:6db:207:c41f with SMTP id
+ bn9-20020a170906c0c900b006db0207c41fmr963101ejb.292.1647452176751; 
+ Wed, 16 Mar 2022 10:36:16 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ b13-20020a056402350d00b00416ad3dbc54sm1367296edd.0.2022.03.16.10.36.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Mar 2022 10:36:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 18A681FFB7;
+ Wed, 16 Mar 2022 17:29:16 +0000 (GMT)
+References: <20220309164929.19395-1-alex.bennee@linaro.org>
+ <8735jrhue4.fsf@redhat.com>
+User-agent: mu4e 1.7.10; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [RFC PATCH] docs/devel: start documenting writing VirtIO devices
+Date: Wed, 16 Mar 2022 16:41:21 +0000
+In-reply-to: <8735jrhue4.fsf@redhat.com>
+Message-ID: <87a6dp3ixf.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.41]
-X-ClientProxiedBy: lhreml744-chm.china.huawei.com (10.201.108.194) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,215 +93,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>,
+ "Dr . David Alan  Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
-
-On Thu, 10 Mar 2022 16:02:22 +0800
-Peter Xu <peterx@redhat.com> wrote:
-
-> On Wed, Mar 09, 2022 at 11:28:27AM +0000, Jonathan Cameron wrote:
-> > Hi Peter,  
-> 
-> Hi, Jonathan,
-> 
-> >   
-> > > 
-> > > https://lore.kernel.org/qemu-devel/20220306174137.5707-35-Jonathan.Cameron@huawei.com/
-> > > 
-> > > Having mr->ops set but with memory_access_is_direct() returning true sounds
-> > > weird to me.
-> > > 
-> > > Sorry to have no understanding of the whole picture, but.. could you share
-> > > more on what's the interleaving requirement on the proxying, and why it
-> > > can't be done with adding some IO memory regions as sub-regions upon the
-> > > file one?  
-> > 
-> > The proxying requirement is simply a means to read/write to a computed address
-> > within a memory region. There may well be a better way to do that.
-> > 
-> > If I understand your suggestion correctly you would need a very high
-> > number of IO memory regions to be created dynamically when particular sets of
-> > registers across multiple devices in the topology are all programmed.
-> > 
-> > The interleave can be 256 bytes across up to 16x, many terabyte, devices.
-> > So assuming a simple set of 16 1TB devices I think you'd need about 4x10^9
-> > IO regions.  Even for a minimal useful test case of largest interleave
-> > set of 16x 256MB devices (256MB is minimum size the specification allows per
-> > decoded region at the device) and 16 way interleave we'd need 10^6 IO regions.
-> > Any idea if that approach would scale sensibly to this number of regions?
-> > 
-> > There are also complexities to getting all the information in one place to
-> > work out which IO memory regions maps where in PA space. Current solution is
-> > to do that mapping in the same way the hardware does which is hierarchical,
-> > so we walk the path to the device, picking directions based on each interleave
-> > decoder that we meet.
-> > Obviously this is a bit slow but I only really care about correctness at the
-> > moment.  I can think of various approaches to speeding it up but I'm not sure
-> > if we will ever care about performance.
-> > 
-> > https://gitlab.com/jic23/qemu/-/blob/cxl-v7-draft-2-for-test/hw/cxl/cxl-host.c#L131
-> > has the logic for that and as you can see it's fairly simple because we are always
-> > going down the topology following the decoders.
-> > 
-> > Below I have mapped out an algorithm I think would work for doing it with
-> > IO memory regions as subregions.
-> > 
-> > We could fake the whole thing by limiting ourselves to small host
-> > memory windows which are always directly backed, but then I wouldn't
-> > achieve the main aim of this which is to provide a test base for the OS code.
-> > To do that I need real interleave so I can seed the files with test patterns
-> > and verify the accesses hit the correct locations. Emulating what the hardware
-> > is actually doing on a device by device basis is the easiest way I have
-> > come up with to do that.
-> > 
-> > Let me try to provide some more background so you hopefully don't have
-> > to have read the specs to follow what is going on!
-> > There are an example for directly connected (no switches) topology in the
-> > docs
-> > 
-> > https://gitlab.com/jic23/qemu/-/blob/cxl-v7-draft-2-for-test/docs/system/devices/cxl.rst
-> > 
-> > The overall picture is we have a large number of CXL Type 3 memory devices,
-> > which at runtime (by OS at boot/on hotplug) are configured into various
-> > interleaving sets with hierarchical decoding at the host + host bridge
-> > + switch levels. For test setups I probably need to go to around 32 devices
-> > so I can hit various configurations simultaneously.
-> > No individual device has visibility of the full interleave setup - hence
-> > the walk in the existing code through the various decoders to find the
-> > final Device Physical address.
-> > 
-> > At the host level the host provides a set of Physical Address windows with
-> > a fixed interleave decoding across the different host bridges in the system
-> > (CXL Fixed Memory windows, CFMWs)
-> > On a real system these have to be large enough to allow for any memory
-> > devices that might be hotplugged and all possible configurations (so
-> > with 2 host bridges you need at least 3 windows in the many TB range,
-> > much worse as the number of host bridges goes up). It'll be worse than
-> > this when we have QoS groups, but the current Qemu code just puts all
-> > the windows in group 0.  Hence my first thought of just putting memory
-> > behind those doesn't scale (a similar approach to this was in the
-> > earliest versions of this patch set - though the full access path
-> > wasn't wired up).
-> > 
-> > The granularity can be in powers of 2 from 256 bytes to 16 kbytes
-> > 
-> > Next each host bridge has programmable address decoders which take the
-> > incoming (often already interleaved) memory access and direct them to
-> > appropriate root ports.  The root ports can be connected to a switch
-> > which has additional address decoders in the upstream port to decide
-> > which downstream port to route to.  Note we currently only support 1 level
-> > of switches but it's easy to make this algorithm recursive to support
-> > multiple switch levels (currently the kernel proposals only support 1 level)
-> > 
-> > Finally the End Point with the actual memory receives the interleaved request and
-> > takes the full address and (for power of 2 decoding - we don't yet support
-> > 3,6 and 12 way which is more complex and there is no kernel support yet)
-> > it drops a few address bits and adds an offset for the decoder used to
-> > calculate it's own device physical address.  Note device will support
-> > multiple interleave sets for different parts of it's file once we add
-> > multiple decoder support (on the todo list).
-> > 
-> > So the current solution is straight forward (with the exception of that
-> > proxying) because it follows the same decoding as used in real hardware
-> > to route the memory accesses. As a result we get a read/write to a
-> > device physical address and hence proxy that.  If any of the decoders
-> > along the path are not configured then we error out at that stage.
-> > 
-> > To create the equivalent as IO subregions I think we'd have to do the
-> > following from (this might be mediated by some central entity that
-> > doesn't currently exist, or done on demand from which ever CXL device
-> > happens to have it's decoder set up last)
-> > 
-> > 1) Wait for a decoder commit (enable) on any component. Goto 2.
-> > 2) Walk the topology (up to host decoder, down to memory device)
-> > If a complete interleaving path has been configured -
-> >    i.e. we have committed decoders all the way to the memory
-> >    device goto step 3, otherwise return to step 1 to wait for
-> >    more decoders to be committed.
-> > 3) For the memory region being supplied by the memory device,
-> >    add subregions to map the device physical address (address
-> >    in the file) for each interleave stride to the appropriate
-> >    host Physical Address.
-> > 4) Return to step 1 to wait for more decoders to commit.
-> > 
-> > So summary is we can do it with IO regions, but there are a lot of them
-> > and the setup is somewhat complex as we don't have one single point in
-> > time where we know all the necessary information is available to compute
-> > the right addresses.
-> > 
-> > Looking forward to your suggestions if I haven't caused more confusion!  
-
-Hi Peter,
-
-> 
-> Thanks for the write up - I must confess they're a lot! :)
-> 
-> I merely only learned what is CXL today, and I'm not very experienced on
-> device modeling either, so please bare with me with stupid questions..
-> 
-> IIUC so far CXL traps these memory accesses using CXLFixedWindow.mr.
-> That's a normal IO region, which looks very reasonable.
-> 
-> However I'm confused why patch "RFC: softmmu/memory: Add ops to
-> memory_region_ram_init_from_file" helped.
-> 
-> Per my knowledge, all the memory accesses upon this CFMW window trapped
-> using this IO region already.  There can be multiple memory file objects
-> underneath, and when read/write happens the object will be decoded from
-> cxl_cfmws_find_device() as you referenced.
-
-Yes.
-
-> 
-> However I see nowhere that these memory objects got mapped as sub-regions
-> into parent (CXLFixedWindow.mr).  Then I don't understand why they cannot
-> be trapped.
-
-AS you note they aren't mapped into the parent mr, hence we are trapping.
-The parent mem_ops are responsible for decoding the 'which device' +
-'what address in device memory space'. Once we've gotten that info
-the question is how do I actually do the access?
-
-Mapping as subregions seems unwise due to the huge number required.
-
-> 
-> To ask in another way: what will happen if you simply revert this RFC
-> patch?  What will go wrong?
-
-The call to memory_region_dispatch_read()
-https://gitlab.com/jic23/qemu/-/blob/cxl-v7-draft-2-for-test/hw/mem/cxl_type3.c#L556
-
-would call memory_region_access_valid() that calls 
-mr->ops->valid.accepts() which is set to
-unassigned_mem_accepts() and hence...
-you get back a MEMTX_DECODE_ERROR back and an exception in the
-guest.
-
-That wouldn't happen with a non proxied access to the ram as
-those paths never uses the ops as memory_access_is_direct() is called
-and simply memcpy used without any involvement of the ops.
-
-Is a better way to proxy those writes to the backing files?
-
-I was fishing a bit in the dark here and saw the existing ops defined
-for a different purpose for VFIO
-
-4a2e242bbb ("memory Don't use memcpy for ram_device regions")
-
-and those allowed the use of memory_region_dispatch_write() to work.
-
-Hence the RFC marking on that patch :)
-
-Thanks,
-
-Jonathan
 
 
+Cornelia Huck <cohuck@redhat.com> writes:
 
-> 
-> Thanks,
-> 
+> On Wed, Mar 09 2022, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
+>
+>> While writing my own VirtIO devices I've gotten confused with how
+>> things are structured and what sort of shared infrastructure there is.
+>> If we can document how everything is supposed to work we can then
+>> maybe start cleaning up inconsistencies in the code.
+>
+> I agree that we could use some documentation here; OTOH, I'm a bit
+> confused in turn by your patch :) Let me comment below.
 
+Almost by design ;-)
+
+>
+>>
+>> Based-on: 20220309135355.4149689-1-alex.bennee@linaro.org
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> Cc: Viresh Kumar <viresh.kumar@linaro.org>
+>> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+>> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> ---
+>>  docs/devel/index-internals.rst |   2 +-
+>>  docs/devel/virtio-backends.rst | 139 +++++++++++++++++++++++++++++++++
+>>  2 files changed, 140 insertions(+), 1 deletion(-)
+>>  create mode 100644 docs/devel/virtio-backends.rst
+>
+> (...)
+>
+>> diff --git a/docs/devel/virtio-backends.rst b/docs/devel/virtio-backends=
+.rst
+>> new file mode 100644
+>> index 0000000000..230538f46b
+>> --- /dev/null
+>> +++ b/docs/devel/virtio-backends.rst
+>> @@ -0,0 +1,139 @@
+>> +..
+>> +   Copyright (c) 2022, Linaro Limited
+>> +   Written by Alex Benn=C3=A9e
+>> +
+>> +Writing VirtIO backends for QEMU
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +This document attempts to outline the information a developer needs to
+>> +know to write backends for QEMU. It is specifically focused on
+>> +implementing VirtIO devices.
+>
+> I think you first need to define a bit more clearly what you consider a
+> "backend". For virtio, it is probably "everything a device needs to
+> function as a specific device type like net, block, etc., which may be
+> implemented by different methods" (as you describe further below).
+
+How about:
+
+  This document attempts to outline the information a developer needs to
+  know to write device emulations in QEMU. It is specifically focused on
+  implementing VirtIO devices. For VirtIO the frontend is the driver
+  running on the guest. The backend is the everything that QEMU needs to
+  do to handle the emulation of the VirtIO device. This can be done
+  entirely in QEMU, divided between QEMU and the kernel (vhost) or
+  handled by a separate process which is configured by QEMU
+  (vhost-user).
+
+>
+>> +
+>> +Front End Transports
+>> +--------------------
+>> +
+>> +VirtIO supports a number of different front end transports. The
+>> +details of the device remain the same but there are differences in
+>> +command line for specifying the device (e.g. -device virtio-foo
+>> +and -device virtio-foo-pci). For example:
+>> +
+>> +.. code:: c
+>> +
+>> +  static const TypeInfo vhost_user_blk_info =3D {
+>> +      .name =3D TYPE_VHOST_USER_BLK,
+>> +      .parent =3D TYPE_VIRTIO_DEVICE,
+>> +      .instance_size =3D sizeof(VHostUserBlk),
+>> +      .instance_init =3D vhost_user_blk_instance_init,
+>> +      .class_init =3D vhost_user_blk_class_init,
+>> +  };
+>> +
+>> +defines ``TYPE_VHOST_USER_BLK`` as a child of the generic
+>> +``TYPE_VIRTIO_DEVICE``.
+>
+> That's not what I'd consider a "front end", though?
+
+Yeah clumsy wording. I'm trying to get find a good example to show how
+QOM can be used to abstract the core device operation and the wrappers
+for different transports. However in the code base there seems to be
+considerable variation about how this is done. Any advice as to the
+best exemplary device to follow is greatly welcomed.
+
+>> And then for the PCI device it wraps around the
+>> +base device (although explicitly initialising via
+>> +virtio_instance_init_common):
+>> +
+>> +.. code:: c
+>> +
+>> +  struct VHostUserBlkPCI {
+>> +      VirtIOPCIProxy parent_obj;
+>> +      VHostUserBlk vdev;
+>> +  };
+>
+> The VirtIOPCIProxy seems to materialize a bit out of thin air
+> here... maybe the information simply needs to be structured in a
+> different way? Perhaps:
+>
+> - describe that virtio devices consist of a part that implements the
+>   device functionality, which ultimately derives from VirtIODevice (the
+>   "backend"), and a part that exposes a way for the operating system to
+>   discover and use the device (the "frontend", what the virtio spec
+>   calls a "transport")
+> - decribe how the "frontend" part works (maybe mention VirtIOPCIProxy,
+>   VirtIOMMIOProxy, and VirtioCcwDevice as specialized proxy devices for
+>   PCI, MMIO, and CCW devices)
+> - list the different types of "backends" (as you did below), and give
+>   two examples of how VirtIODevice is extended (a plain one, and a
+>   vhost-user one)
+> - explain how frontend and backend together create an actual device
+>   (with the two device examples, and maybe also with the plain one
+>   plugged as both PCI and CCW?); maybe also mention that MMIO is a bit
+>   different? (it always confuses me)
+
+OK I'll see how I can restructure things to make it clearer. Do we also
+have to take into account the object heirarchy for different types of
+device (i.e. block or net)? Or is that all plumbing into QEMUs
+sub-system internals done in the VirtIO device objects?
+
+>> +
+>> +Back End Implementations
+>> +------------------------
+>> +
+>> +There are a number of places where the implementation of the backend
+>> +can be done:
+>> +
+>> +* in QEMU itself
+>> +* in the host kernel (a.k.a vhost)
+>> +* in a separate process (a.k.a. vhost-user)
+>> +
+>> +where a vhost-user implementation is being done the code in QEMU is
+>> +mainly boilerplate to handle the command line definition and
+>> +connection to the separate process with a socket (using the ``chardev``
+>> +functionality).
+>> +
+>> +Implementing a vhost-user wrapper
+>> +---------------------------------
+>> +
+>> +There are some classes defined that can wrap a lot of the common
+>> +vhost-user code in a ``VhostUserBackend``. For example:
+>
+> Is VhostUserBackend something that is expected to be commonly used? I
+> think gpu and input use it, but not virtiofs (unless I misread the
+> code).
+
+Possibly - but it does seem to be trying to avoid adding lots of
+boilerplate to each individual device to setup and configure the
+vhost-user backend. A problem I ran into when trying to fix the
+squashing of VHOST_USER_PROTOCOL_F_CONFIG messages in
+vhost_user_backend_init.
+
+<snip>
+>> +  static const TypeInfo vhost_user_gpu_info =3D {
+>> +      .name =3D TYPE_VHOST_USER_GPU,
+>> +      .parent =3D TYPE_VIRTIO_GPU_BASE,
+>> +      .instance_size =3D sizeof(VhostUserGPU),
+>> +      .instance_init =3D vhost_user_gpu_instance_init,
+>> +      .class_init =3D vhost_user_gpu_class_init,
+>> +      ...
+>> +  };
+>> +
+>> +Here the ``TYPE_VHOST_USER_GPU`` is based off a shared base class
+>> +(``TYPE_VIRTIO_GPU_BASE`` which itself is based on
+>> +``TYPE_VIRTIO_DEVICE``). The chardev property is aliased to the
+>> +VhostUserBackend chardev so it can be specified on the command line
+>> +for this device.
+>> +=20
+>
+> I think using a "base" device is something that is device-specific; for
+> gpu, it makes sense as it can be implemented in different ways, but
+> e.g. virtiofs does not have a "plain" implementation, and some device
+> types have only "plain" implementations.
+
+Perhaps the GPU was a bad choice here. Do we have a good example device
+that has both mmio and pci (or ccw) transports as well as QEMU internal
+and vhost/vhost-user implementations?
+
+--=20
+Alex Benn=C3=A9e
 
