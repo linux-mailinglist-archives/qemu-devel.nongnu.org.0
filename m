@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7C24DB8E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 20:31:16 +0100 (CET)
-Received: from localhost ([::1]:57656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E804A4DB8E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 20:37:11 +0100 (CET)
+Received: from localhost ([::1]:34234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUZMY-0000uR-Vg
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 15:31:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47150)
+	id 1nUZSI-0004Jv-Hk
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 15:37:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUZKr-0008EK-Vn
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 15:29:29 -0400
-Received: from [2607:f8b0:4864:20::b2b] (port=39749
- helo=mail-yb1-xb2b.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nUZQL-0002TO-82
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 15:35:09 -0400
+Received: from [2a00:1450:4864:20::330] (port=44862
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUZKq-00067l-5V
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 15:29:29 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id t11so6282897ybi.6
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 12:29:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nUZQJ-0006y5-DT
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 15:35:08 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ bg31-20020a05600c3c9f00b00381590dbb33so2010758wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 12:35:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hz3UmrMT6h7UDeaym2J3rCQvzdFwINHI1s1ZlDxoeU8=;
- b=n4k4AiCLNJlr7ggSRLgPjEm3DZ/qQyZTMLarauk/GLcuQwnFQGLYOf8jIdl7hlyBWy
- Q7IAnWJrDI7ZTxaEI5jzwJNiI274se9QGP5dkDdrR5Zf3U9t3EbdTv/Uz97A1W7wd6gr
- GTEQWfwZyaLVNS7FjJ3ZC1urSLK6KnyfBCLQpkcUPGEGu/WzHV/GlQd1xHGXwfMt6jID
- rEBdsiECuLPqgMWCiegJf/3oFyf+Vib5y3l0zrUonYmFyJAYKJffT4QHlqcHM+5ADvjQ
- G95T10g09+i/r7BlGaghfHqJdlS774Rb5MzIPuM6TM8lMznZh4+sxYCMHzWFzC2UUeiY
- ectw==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=yEdYgz2xv5UbmFc9ycC7WzCta6DzfAJB2bwKhIfwXNY=;
+ b=dekd3rtrhtYE+q3QZKr70n+w3frmDQ46YFzGUM3XQ1aqK5jCJlqHpJ7rd8ecdfpysy
+ HQZhp2vcUk5sprHdmxrqwAdeKCEOdkTsQw7VmiTuLq3Qo4pKYV/7Rx7X7kekpeLjOtAz
+ SeBWP0X4LWicZYeQJHKoB8npdow9qG6l3c+vrkVJCfAiz4BlTUyKOLcO9MGPCCx36Ems
+ 8BjoY7zwaT+SNkLXaj6ww7zsupLiT8S26BlyuPhd1E2jOYv4YsZ+opq2Los9/l1MWJuf
+ /+KOcCWkGb2m75kvyEgjbI2pHH/xBTGXPldV4ylm81sI2z0RjvJPFfz875b3H1XXj8Ix
+ 6wfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hz3UmrMT6h7UDeaym2J3rCQvzdFwINHI1s1ZlDxoeU8=;
- b=uZKIlePt69OogsaopaSWl+m+BkelKtyM9UtQNKLlfM0zDPGAWAfL7nUrVo7oi+vvtv
- P+wz8jeYlLkneiXxdo/fC6KCJTDtSjOmrKhwN/oVStbIWZ2QLIqg29jr09wUU/bfPDxX
- kwDwIumJanCF1YxD0B1O4+LwjN24Nem+YS55XfoJvHNsob8qp4zxDJU46C8YJsLyxIuK
- XSMISZbX/ajCpOEZT7s9rdYTcyGoTFsI949CRVzmiR+MDtpeMxEHN8uhvb2xvxvjqAnf
- UOJ+2cpS47AAg74Ae6jRVQR5AhTiC+99xVV1o0cdQ14Fenf6q/sl+K4Pqp4b52W2YvGc
- jCmQ==
-X-Gm-Message-State: AOAM530A+buqak8CvKEnv7WOvhkm1JW9vK/HzJq926rO/xgKDZ0pSqaQ
- wP2ZseerYULOXYRHraFo+GxSg6Wj1TFoK3xSBj5T1A==
-X-Google-Smtp-Source: ABdhPJzcPgGrwv1w44Pxb3AoUfHPVS06ULTu/ZCBcf7INRnF/BdkVDTDHO5rhNNPpGvBXQ1UxVJZ8oSW8Sls4JsibSQ=
-X-Received: by 2002:a25:2d27:0:b0:633:7521:4794 with SMTP id
- t39-20020a252d27000000b0063375214794mr1531894ybt.193.1647458964779; Wed, 16
- Mar 2022 12:29:24 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=yEdYgz2xv5UbmFc9ycC7WzCta6DzfAJB2bwKhIfwXNY=;
+ b=gWIN8mSrCfFTj61XJNvmUC6DNsgSP/n5JnsW36cPZHLITF0GGWRYjtIql62pbwqCHT
+ smdRviutt/UIAWyo5MG6mEww1LAqXkhhesi8TSxURZt4Z1IsT6Wjj/AItj+ks6ASkBwp
+ XRpe/UH1iFlkeDhYL5enQ2Mz/a/UeI3T62Olfb8GXuQYWmEuVFw1b+f1cTa+MAV2yFuE
+ 6kqIgUks9dSQu6mZfDMJoFj0LFYY3kk4c+JqJN2gR7Yr/y86EqpHbDVewNmaM7FeMI6Z
+ IiyI1lb71n17Rch8Erqz/phL7Xx5inCVgLqReNmhefE//Wp9nDG6h8trHKBDqFx4e+1l
+ rTgQ==
+X-Gm-Message-State: AOAM530k6owA+Az4Rd7y0xE7YBK4/3lzXc18Jw1hZlodFEgxriZdM+Lq
+ R5ML4YCva1ymelS1+/Q4o2gAyw==
+X-Google-Smtp-Source: ABdhPJz3rX3sT8WeZtmU13pbOkGPIRXg7saOmQXouPBxfaXCu46IFSExzrAhDp4x0UlqXhm4lV8s7A==
+X-Received: by 2002:a1c:3587:0:b0:381:50ff:cbd with SMTP id
+ c129-20020a1c3587000000b0038150ff0cbdmr8678174wma.140.1647459304790; 
+ Wed, 16 Mar 2022 12:35:04 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ t7-20020a05600c198700b00389fb24f397sm5807726wmq.21.2022.03.16.12.35.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Mar 2022 12:35:03 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D75451FFB7;
+ Wed, 16 Mar 2022 19:35:02 +0000 (GMT)
+References: <20220316181412.1550044-1-cmuellner@linux.com>
+User-agent: mu4e 1.7.10; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Christoph Muellner <cmuellner@linux.com>
+Subject: Re: [PATCH v3] docs/tcg-plugins: document QEMU_PLUGIN behaviour
+Date: Wed, 16 Mar 2022 19:34:33 +0000
+In-reply-to: <20220316181412.1550044-1-cmuellner@linux.com>
+Message-ID: <875yod3d3t.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220316160300.85438-1-philippe.mathieu.daude@gmail.com>
- <e1a5b41b-708d-ef3b-4c9b-8b2469cf4a92@gmail.com>
- <f7fb6c55-60ba-f510-b9cc-8a257859072e@redhat.com>
-In-Reply-To: <f7fb6c55-60ba-f510-b9cc-8a257859072e@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 16 Mar 2022 19:29:13 +0000
-Message-ID: <CAFEAcA_JHky3XJYVsq9VzG38fWQgSO4k7QWWf+hAyUXrh-BfJQ@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-7.0 v2] cocoa: run qemu_init in the main thread
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -83,48 +93,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Mar 2022 at 17:31, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 3/16/22 17:22, Akihiko Odaki wrote:
-> > I was thinking that it may be better to let softmmu/main.c do the
-> > details if it involves the internals of qemu_main() like qemu_main_loop().
-> >
-> > More concretely, softmmu/main.c would provide a function to register a
-> > function pointer to take over the main thread. main() implemented in
-> > softmmu/main.c would call qemu_init(). If a function pointer gets
-> > registered in qemu_init(), it would create a thread for main loop and
-> > call the registered function pointer. Otherwise, it would directly call
-> > qemu_main_loop().
-> >
-> > It would be a semantically appropriate division of ui/cocoa.m and
-> > softmmu/main.c. It would also be beneficial for end-users as it would
-> > also allow to isolate ui/cocoa.m into a separate module when
-> > --enable-modules in the future. (With "In the future", I mean sometime
-> > when we have time to hack Meson build files and some details we cannot
-> > fill by 7.0.)
->
-> I would like this for 7.1.
->
-> Basically rename qemu_main_loop to qemu_default_main_loop, and
-> cocoa_display_init would do
->
->      qemu_main_loop = qemu_cocoa_main_loop;
->
-> qemu_cocoa_main_loop would include the bulk of the current main of
-> ui/cocoa.m.  Seems like a good idea.
 
-Speaking of 7.1, is cocoa currently completely broken, ie in need
-of an interim fix for 7.0 ? If so, which of the various patches/approaches
-should it be ?
+Christoph Muellner <cmuellner@linux.com> writes:
 
-thanks
--- PMM
+> QEMU plugins can be loaded via command line arguments or via
+> the QEMU_PLUGIN environment variable. Currently, only the first method
+> is documented. Let's document QEMU_PLUGIN.
+>
+> As drive-by cleanup, this patch fixes the path to the plugins
+> in the same section of the documentation.
+>
+> Signed-off-by: Christoph Muellner <cmuellner@linux.com>
+
+
+Queued to for-7.0/misc-bits, thanks.
+
+There where some minor typos but I've fixed them.
+
+> ---
+>  docs/devel/tcg-plugins.rst | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+> index f93ef4fe52..bf66c12885 100644
+> --- a/docs/devel/tcg-plugins.rst
+> +++ b/docs/devel/tcg-plugins.rst
+> @@ -27,13 +27,18 @@ Once built a program can be run with multiple plugins=
+ loaded each with
+>  their own arguments::
+>=20=20
+>    $QEMU $OTHER_QEMU_ARGS \
+> -      -plugin tests/plugin/libhowvec.so,inline=3Don,count=3Dhint \
+> -      -plugin tests/plugin/libhotblocks.so
+> +      -plugin contrib/plugin/libhowvec.so,inline=3Don,count=3Dhint \
+> +      -plugin contrib/plugin/libhotblocks.so
+>=20=20
+>  Arguments are plugin specific and can be used to modify their
+>  behaviour. In this case the howvec plugin is being asked to use inline
+>  ops to count and break down the hint instructions by type.
+>=20=20
+> +Linux user-mode emulation also evaluates the environment variable
+> +``QEMU_PLUGIN``::
+> +
+> +  QEMU_PLUGIN=3D"file=3Dcontrib/plugin/libhowec.so,inline=3Don,count=3Dh=
+int" $QEMU
+> +
+>  Writing plugins
+>  ---------------
+
+
+--=20
+Alex Benn=C3=A9e
 
