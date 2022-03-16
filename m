@@ -2,75 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8F74DAD7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 10:28:33 +0100 (CET)
-Received: from localhost ([::1]:41146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0834DAD8D
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 10:31:20 +0100 (CET)
+Received: from localhost ([::1]:43314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUPxI-0007D8-Ry
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 05:28:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38812)
+	id 1nUPzy-0000Hb-M9
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 05:31:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUPvF-0006FX-7r
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:26:25 -0400
-Received: from [2607:f8b0:4864:20::112a] (port=33681
- helo=mail-yw1-x112a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUPvD-0003tl-GZ
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 05:26:24 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-2dbd8777564so16468977b3.0
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 02:26:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DiMqpjCe3RrI9JjqSM6hjybRDZv5hg0w/tVESSO+83M=;
- b=vkoqNC8GZ/mNSmV+SDwzV+hNUMivVftuvwEwBCkM78PyDXQJwcry8+EgdUWptBqcDO
- MLhtWFbcGU76GHSwI+OpX7nx7J3vc1Hxx78HY7UtF44vD+k7h/CYw4e2Gd9Hr4/nP6Aw
- UDKfYRTcsBof2NxseZi8CynaRqwmURmT7x/dGKuUzqMNCtONZbP6NEMHydKdcRzl43LS
- 8RtjODRMxoBzyNLCyKx8ELQWn6l0o0JS6/+EVH6TxFXGKrimCCuzzej1o4wA78v72oSs
- 1pAn0BDfL8bIBWUmyx9rl87tpIeJ5QeFruwSN9wOLu/WRvnDyy/Mzo72rm3FDVOwndiI
- NXUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DiMqpjCe3RrI9JjqSM6hjybRDZv5hg0w/tVESSO+83M=;
- b=0CVR8tTM/6Y4tsCMSxEGMHqvtTtNIM4AoqXzjsK5+2GYzNmuovkbssIVG2wPSXbfWx
- o52ggb1MKYWw9GeViyuQcjplkOFyPdgIFk3HheNfXNfwDXeu6FGFLtB9dxY+dcTMk330
- 6Uyb+i3PXd9VyeFUEnurY8Z0neZYFAh4wcRuCpAt+81AeyIvVD2/qzM86amEVZofau31
- eyTi8Ik2zbLHCNgt44Vzbqfi9XSJI6wjxxzKYw4f6uTSaYmtM8rLI+En/W185oBGko29
- pcCqSoFOB2Xk6pJ0ahhKlbj4bMUCXb7nqxKZr5fDzkGmsq7JD+I1d0SOZ3WZfz/pXGJh
- 3gog==
-X-Gm-Message-State: AOAM532R32zns220wAD7rUuQQeaRQfGO/VYe+jHv3fe/nMz/ayIiSzE+
- Tfa/WSzqnDBnLqRXbCxIot+RBTXECxe4C7WoQy16Tw==
-X-Google-Smtp-Source: ABdhPJxyiKf1oGuSX3XEZC9nmqVMiDQRfV7gXXpWlUs8/SxwruoEw5D9zIYhAFI0VUXM6eC1mNTxv6L1MW84BthzgUQ=
-X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
- e69-20020a81a748000000b002d61f8b23a9mr28337592ywh.329.1647422782353; Wed, 16
- Mar 2022 02:26:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nUPwC-0006pD-Ba; Wed, 16 Mar 2022 05:27:24 -0400
+Received: from smtp44.i.mail.ru ([94.100.177.104]:52190)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nUPw9-0003xw-S2; Wed, 16 Mar 2022 05:27:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+ s=mail4; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=Resr0a6SZ+++kbEbcAphhweJbQVaV5pTwyIcYjDXcHI=; 
+ t=1647422841;x=1648028241; 
+ b=jZHU/VFlf56OwvTgE8g+s9Wed+woquWQ5PI2rDP8mOTgx9osXODMqeGpIaTYndlbscL/cUFbPbdgogB0LXbEHTjaNVlBFjNe9Md+d4q+V3W0+H5g4jATd2JwhtbhS2cctARfDQO15mu0U4VvbGrH4tx09/X6hz2YaO50rbu2s28SfOKpfKkysViadwikGSSl4A2kk5JHK3cvLU4fiToNx+F4rh/7GO2PL4oIau++YjMGG8FQQOOniDZPpRLT6bHySTPAmGY2OYu8jeL6r4w79FwL78IClBymnwDw+eXzLnQXNRSx/64cCBnVowF/KuV4O+EOEF2sUR1FjQ+yByjrnA==;
+Received: by smtp44.i.mail.ru with esmtpa (envelope-from
+ <v.sementsov-og@mail.ru>)
+ id 1nUPw4-0003L7-13; Wed, 16 Mar 2022 12:27:16 +0300
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org,
+	eblake@redhat.com,
+	v.sementsov-og@mail.ru
+Subject: [PATCH v2] MAINTAINERS: change Vladimir's email address
+Date: Wed, 16 Mar 2022 12:27:02 +0300
+Message-Id: <20220316092702.426629-1-v.sementsov-og@mail.ru>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220316040405.4131-1-adeason@sinenomine.net>
- <9c36fe6b-39e1-0bfc-d2bb-97b106828ee1@redhat.com>
-In-Reply-To: <9c36fe6b-39e1-0bfc-d2bb-97b106828ee1@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 16 Mar 2022 09:26:10 +0000
-Message-ID: <CAFEAcA96=yDKOknYmCKriWDJe4g-q07+b8yL3tFUf9=G-o84zA@mail.gmail.com>
-Subject: Re: [PATCH] softmmu/physmem: Use qemu_madvise
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp44.i.mail.ru;
+ auth=pass smtp.auth=v.sementsov-og@mail.ru
+ smtp.mailfrom=v.sementsov-og@mail.ru
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD95983D7D89D92196DC6E89A8CCEF2E51DF9B70E0E78BE6910182A05F538085040C180F7CD96A386D71FAB7E061B81F1EA520A04FE9F292442DA84B3C702C9E7BE
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7A8325FA649D0A450EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637E16D8B060A9A23898638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D83B65766707D75771DD8D7226AE44810C6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE7A6779F98BF527B7A9FA2833FD35BB23D9E625A9149C048EECCD848CCB6FE560CCB629EEF1311BF91D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BE96A3A8AAADC8934A471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC1D24C945E8ED59B63AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F7900637FB8DFA2B4C1950FED81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89FBC98423A6B99EAC042539A7722CA490CB5C8C57E37DE458BEDA766A37F9254B7
+X-8FC586DF: 6EFBBC1D9D64D975
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8183A4AFAF3EA6BDC44C234C8B12C006B7AE7BCF8822911FFAB2FB32862571613143AD8EB30CF7A9EDBB1881A6453793CE9C32612AADDFBE0612021BB8FAF1186319510FB958DCE06DB6ED91DBE5ABE359ADBCB5631A0A9D21F5E4DBAB5AF249FA793EDB24507CE13387DFF0A840B692CF8
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34697E0FA301E2821512B99A519D150F76F7B1A73AD8D3517A038B7B884B7B701B04D098B425297B241D7E09C32AA3244CD0EE1E62063B3105DB9B6554D1A788C26C24832127668422927AC6DF5659F194
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojsh/F1VvpH8fzO5CmjyADig==
+X-Mailru-Sender: 6C3E74F07C41AE94DFF23C58890DE8D59F5475698DDFD438EAEA4CB4B52CC787B5B3668FD548DDDEE6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+Received-SPF: pass client-ip=94.100.177.104;
+ envelope-from=v.sementsov-og@mail.ru; helo=smtp44.i.mail.ru
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,83 +70,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Andrew Deason <adeason@sinenomine.net>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Mar 2022 at 07:53, David Hildenbrand <david@redhat.com> wrote:
->
-> On 16.03.22 05:04, Andrew Deason wrote:
-> > We have a thin wrapper around madvise, called qemu_madvise, which
-> > provides consistent behavior for the !CONFIG_MADVISE case, and works
-> > around some platform-specific quirks (some platforms only provide
-> > posix_madvise, and some don't offer all 'advise' types). This specific
-> > caller of madvise has never used it, tracing back to its original
-> > introduction in commit e0b266f01dd2 ("migration_completion: Take
-> > current state").
-> >
-> > Call qemu_madvise here, to follow the same logic as all of our other
-> > madvise callers. This slightly changes the behavior for
-> > !CONFIG_MADVISE (EINVAL instead of ENOSYS, and a slightly different
-> > error message), but this is now more consistent with other callers
-> > that use qemu_madvise.
-> >
-> > Signed-off-by: Andrew Deason <adeason@sinenomine.net>
-> > ---
-> > Looking at the history of commits that touch this madvise() call, it
-> > doesn't _look_ like there's any reason to be directly calling madvise vs
-> > qemu_advise (I don't see anything mentioned), but I'm not sure.
-> >
-> >  softmmu/physmem.c | 12 ++----------
-> >  1 file changed, 2 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> > index 43ae70fbe2..900c692b5e 100644
-> > --- a/softmmu/physmem.c
-> > +++ b/softmmu/physmem.c
-> > @@ -3584,40 +3584,32 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
-> >                           rb->idstr, start, length, ret);
-> >              goto err;
-> >  #endif
-> >          }
-> >          if (need_madvise) {
-> >              /* For normal RAM this causes it to be unmapped,
-> >               * for shared memory it causes the local mapping to disappear
-> >               * and to fall back on the file contents (which we just
-> >               * fallocate'd away).
-> >               */
-> > -#if defined(CONFIG_MADVISE)
-> >              if (qemu_ram_is_shared(rb) && rb->fd < 0) {
-> > -                ret = madvise(host_startaddr, length, QEMU_MADV_REMOVE);
-> > +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_REMOVE);
-> >              } else {
-> > -                ret = madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
-> > +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
->
-> posix_madvise(QEMU_MADV_DONTNEED) has completely different semantics
-> then madvise() -- it's not a discard that we need here.
->
-> So ram_block_discard_range() would now succeed in environments (BSD?)
-> where it's supposed to fail.
->
-> So AFAIKs this isn't sane.
+Old vsementsov@virtuozzo.com is not accessible anymore.
 
-But CONFIG_MADVISE just means "host has madvise()"; it doesn't imply
-"this is a Linux madvise() with MADV_DONTNEED". Solaris madvise()
-doesn't seem to have  MADV_DONTNEED at all; a quick look at the
-FreeBSD manpage suggests its madvise MADV_DONTNEED is identical
-to its posix_madvise MADV_DONTNEED.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+---
 
-If we need "specifically Linux MADV_DONTNEED semantics" maybe we
-should define a QEMU_MADV_LINUX_DONTNEED which either (a) does the
-right thing or (b) fails, and use qemu_madvise() regardless.
+v2: @ya.ru mailbox works bad with mailing lists and git send-email
+command, @mail.ru works normally.
 
-Certainly the current code is pretty fragile to being changed by
-people who don't understand the undocumented subtlety behind
-the use of a direct madvise() call here.
+Probably, I'll have to change the email again in the near future. May be
+not. But I think it worth to change it now to something that works.
 
--- PMM
+ MAINTAINERS | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f2e9ce1da2..c34b7562b5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2500,7 +2500,7 @@ F: scsi/*
+ 
+ Block Jobs
+ M: John Snow <jsnow@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: blockjob.c
+@@ -2539,7 +2539,7 @@ T: git https://repo.or.cz/qemu/armbru.git block-next
+ 
+ Dirty Bitmaps
+ M: Eric Blake <eblake@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+ R: John Snow <jsnow@redhat.com>
+ L: qemu-block@nongnu.org
+ S: Supported
+@@ -2762,13 +2762,13 @@ F: scripts/*.py
+ F: tests/*.py
+ 
+ Benchmark util
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+ S: Maintained
+ F: scripts/simplebench/
+ T: git https://src.openvz.org/scm/~vsementsov/qemu.git simplebench
+ 
+ Transactions helper
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+ S: Maintained
+ F: include/qemu/transactions.h
+ F: util/transactions.c
+@@ -3352,7 +3352,7 @@ F: block/iscsi-opts.c
+ 
+ Network Block Device (NBD)
+ M: Eric Blake <eblake@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+ L: qemu-block@nongnu.org
+ S: Maintained
+ F: block/nbd*
+@@ -3448,7 +3448,7 @@ F: block/dmg.c
+ parallels
+ M: Stefan Hajnoczi <stefanha@redhat.com>
+ M: Denis V. Lunev <den@openvz.org>
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: block/parallels.c
+-- 
+2.35.1
+
 
