@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD6C4DB034
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 13:59:06 +0100 (CET)
-Received: from localhost ([::1]:45072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 448414DB062
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:07:54 +0100 (CET)
+Received: from localhost ([::1]:34110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUTF2-0005y7-TD
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 08:59:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33588)
+	id 1nUTNX-0001mg-W2
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:07:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUT9m-0000p9-Eg; Wed, 16 Mar 2022 08:53:38 -0400
-Received: from [2607:f8b0:4864:20::532] (port=38822
- helo=mail-pg1-x532.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUT9k-0006GA-P7; Wed, 16 Mar 2022 08:53:38 -0400
-Received: by mail-pg1-x532.google.com with SMTP id 132so194006pga.5;
- Wed, 16 Mar 2022 05:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=YcXaDk8cOWxx/Oofjx/qhmj1dof84Qelu/6vaq15B/4=;
- b=axVbZouNHk8rzCRV+ZkRGZCQ2Q0QDBxvpdxnvOhbPgf4OUopROZaXFPw2Bq1wvR3do
- eSrUG5kdmu4Fqyva+9QH32x/e7HWW8zOOxPAFyUlSuXqR0a1NoIEYHu6s93xaN9fxAMB
- sBaszOsQvifvaoP78iCeepwVzWP/jK+oULdkRPmGCFeygQy75LrhROwqN1HyoUDaCGft
- E6aBLvcXSfcfIgtj3M4gKfHIJfZSa0gx2Ctii9MLS8IKiFsH/7b/Km1FcBz9rI9Bbjr+
- 3iIJzIfcpje2rjBhf/LxKSbpIwq4+ags3G3KaIo+QHIX98bPes3/Ec9JMICJBBUGZyOV
- 3kgQ==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nUT9V-0008PV-TN
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:53:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41585)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nUT9T-0006Ea-5G
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:53:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647435197;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EWimiNJhFj0nZDlK5W4L1jowHyozhoM7FWDdlg2b4HE=;
+ b=boPVcyG0swY4U9gAAxhSrxZj8mxUsta/CfzeRCtdXrjpfFMdA0xeuWpg4Eg2INvrOR8WmR
+ gUtGjb3t0bSBa08ustcPLiNDZFXT2PM51eRDIonMGr2CDnBE2lrtJUdR3LGyeg/XxS2+T6
+ kSfdXuVj5X40fh0Jdsvg6R8NssNNs1Y=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-502-IoAYywZjMMS9WsWFttUl5g-1; Wed, 16 Mar 2022 08:53:16 -0400
+X-MC-Unique: IoAYywZjMMS9WsWFttUl5g-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ h8-20020a25e208000000b00628c0565607so1911278ybe.0
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 05:53:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=YcXaDk8cOWxx/Oofjx/qhmj1dof84Qelu/6vaq15B/4=;
- b=UH9AuJCax4+VMIiY3LfN9/LIaAJEusNeASJei9PIzlVv7tmafyT2pKjPe71oNBmFHu
- Eu6R2OWE9M9oMny0n72Pg6eIedxH5JAWGDC4CTx19WP6Njj9buTSx41sRD1EyjyKRMR8
- PAjeSMwMGYIPqnCLLq/9uKDRPZXdbu1+47W9eM4vuxscFsbguOaa9TKnQwcsTLLgiEoh
- QttQp7+LZnbvl10EUVw4mqzRVMtcTO4lru4kIpEJASqrIfryNg3KtaaFEc+bzP+yzYXz
- QelQdhHyQZfBxCMGyb38KBN0Mzw8mmyl04joTkk7J/+v21Qmnuomd5Ie0hkLB0Kj3P4r
- PwTg==
-X-Gm-Message-State: AOAM532zDEtJeuVk6IyrcKkyymmuGA+rMooYAi3jpfX8+fvWTCntRLLu
- Z/Xri7uv9Ca5Xpc14lEbzd0=
-X-Google-Smtp-Source: ABdhPJzGItKjOi0cLin+3bgOyt3prAaRFqGqSsg6A+mqUXCqrqu1CSQt+Q57IkRJuDn1k97+Yw5OYw==
-X-Received: by 2002:a05:6a00:1907:b0:4f7:945:14cf with SMTP id
- y7-20020a056a00190700b004f7094514cfmr28673079pfi.47.1647435214779; 
- Wed, 16 Mar 2022 05:53:34 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- h2-20020a056a00218200b004f6519ce666sm3170535pfi.170.2022.03.16.05.53.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 05:53:34 -0700 (PDT)
-Message-ID: <cecef6bd-951a-aab6-e603-96e3551e3e9e@gmail.com>
-Date: Wed, 16 Mar 2022 13:53:30 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=EWimiNJhFj0nZDlK5W4L1jowHyozhoM7FWDdlg2b4HE=;
+ b=PFJrulmXNX5LLh0dKEqq3fTUztV/fMpNtkzrrXdzt8T2s61q41hU3Eyu8azYlUe8Gh
+ Q5gywrdA6tkcSm8TJ4KuHeMHye82IDbiPJLFeAGRgNHaI76syjatlQni91cXHGKwfMI7
+ Y6z+/cBpU+g8KbQGtDrujwMpODoVDGh1mTA6g+NZWsAZSpFB2by3tzz9Lv7YXin1UzO4
+ /yJ7bbGNd8YTlDjwd5DfdZgkd2TF6w8VTdEm8PJgDciB+gWd/Z/2SdXEIqBje1JkBj4P
+ 0K45DyhY0nnjfUWxSl+uYDU8Df7N6+Hl6dg1D2KzIJnmKW6Qv2j3jcvBm26wQHv3bRqJ
+ ZNQA==
+X-Gm-Message-State: AOAM530VidFSObVQL6nF1Ye40IQA72Svb5FId3k0PzNM9C2HNGRbAWZ6
+ kKKrCYNlQOxkYEmaztWJeceERGhxGbFfAc+8psiKYlT3iaWgUoBNSzaQjRwcrMYkwJTZceurfSe
+ c4SAPHAgnUhxQDpIdXMSuD442EtkFpis=
+X-Received: by 2002:a5b:152:0:b0:629:2b85:4495 with SMTP id
+ c18-20020a5b0152000000b006292b854495mr28624057ybp.559.1647435195998; 
+ Wed, 16 Mar 2022 05:53:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrSCRoGglTY0Ots3DzFYOI6hPhPmyrlxUoEHAtJZveEw5TpHFGIACnzIsphiuNalA6+ZaxEovl2BN4d3LqRaw=
+X-Received: by 2002:a5b:152:0:b0:629:2b85:4495 with SMTP id
+ c18-20020a5b0152000000b006292b854495mr28624037ybp.559.1647435195836; Wed, 16
+ Mar 2022 05:53:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PULL 21/50] block/block-backend.c: assertions for block-backend
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-References: <20220304164711.474713-1-kwolf@redhat.com>
- <20220304164711.474713-22-kwolf@redhat.com>
- <c005130e-10f0-b575-4493-2080ba08494b@gmail.com>
-In-Reply-To: <c005130e-10f0-b575-4493-2080ba08494b@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::532
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220316095459.2613885-1-marcandre.lureau@redhat.com>
+ <877d8u5b7o.fsf@pond.sub.org>
+In-Reply-To: <877d8u5b7o.fsf@pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 16 Mar 2022 16:53:05 +0400
+Message-ID: <CAMxuvazfG9y4wODW3rHL_Xj9+H1SwDy8aESZKW89hwU=k7LLjg@mail.gmail.com>
+Subject: Re: [PATCH 26/27] tests: replace free_all() usage with g_auto
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,79 +95,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/3/22 13:44, Philippe Mathieu-Daudé wrote:
-> Hi,
-> 
-> On 4/3/22 17:46, Kevin Wolf wrote:
->> From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>
->> All the global state (GS) API functions will check that
->> qemu_in_main_thread() returns true. If not, it means
->> that the safety of BQL cannot be guaranteed, and
->> they need to be moved to I/O.
-> 
-> I'm getting this crash:
-> 
-> $ qemu-system-i386
-> Assertion failed: (qemu_in_main_thread()), function blk_all_next, file 
-> block-backend.c, line 552.
-> Abort trap: 6
-> 
-> Assertion failed: (qemu_in_main_thread()), function blk_all_next, file 
-> block-backend.c, line 552.
-> qemu-system-i386 was compiled with optimization - stepping may behave 
-> oddly; variables may not be available.
-> Process 76914 stopped
-> * thread #1, queue = 'com.apple.main-thread', stop reason = hit program 
-> assert
->      frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1 
-> at block-backend.c:552:5 [opt]
->     549    */
->     550   BlockBackend *blk_all_next(BlockBackend *blk)
->     551   {
-> -> 552       GLOBAL_STATE_CODE();
->     553       return blk ? QTAILQ_NEXT(blk, link)
->     554                  : QTAILQ_FIRST(&block_backends);
->     555   }
-> Target 1: (qemu-system-i386) stopped.
+Hi
 
-Forgot to paste the backtrace:
+On Wed, Mar 16, 2022 at 4:33 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+>
+> marcandre.lureau@redhat.com writes:
+>
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Use more idiomatic glib/auto-style code.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> This is a bit of an improvement, but by its own, it's a rather weak
+> justification for the previous patch.  Do you have more uses of
+> g_autoptr in the pipe?
 
-(lldb) bt
-* thread #1, queue = 'com.apple.main-thread', stop reason = hit program 
-assert
-     frame #0: 0x00000001908c99b8 libsystem_kernel.dylib`__pthread_kill + 8
-     frame #1: 0x00000001908fceb0 libsystem_pthread.dylib`pthread_kill + 288
-     frame #2: 0x000000019083a314 libsystem_c.dylib`abort + 164
-     frame #3: 0x000000019083972c libsystem_c.dylib`__assert_rtn + 300
-   * frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1 
-at block-backend.c:552:5 [opt]
-     frame #5: 0x00000001003c00b4 
-qemu-system-i386`blk_all_next(blk=<unavailable>) at 
-block-backend.c:552:5 [opt]
-     frame #6: 0x00000001003d8f04 
-qemu-system-i386`qmp_query_block(errp=0x0000000000000000) at 
-qapi.c:591:16 [opt]
-     frame #7: 0x000000010003ab0c qemu-system-i386`main [inlined] 
-addRemovableDevicesMenuItems at cocoa.m:1756:21 [opt]
-     frame #8: 0x000000010003ab04 
-qemu-system-i386`main(argc=<unavailable>, argv=<unavailable>) at 
-cocoa.m:1980:5 [opt]
-     frame #9: 0x00000001012690f4 dyld`start + 520
 
-> Bisected to this patch:
-> 
-> 0439c5a4623d674efa0c72abd62ca6e98bb7cf87 is the first bad commit
-> 
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> Message-Id: <20220303151616.325444-9-eesposit@redhat.com>
->> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->> ---
->>   block/block-backend.c  | 78 ++++++++++++++++++++++++++++++++++++++++++
->>   softmmu/qdev-monitor.c |  2 ++
->>   2 files changed, 80 insertions(+)
+There are a lot of similar g_auto cleanups to be done in qemu code
+base for QObject types. But I started with those tests, because they
+use a pretty unorthodox free_all pattern and that shouldn't be
+repeated.
+
 
