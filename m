@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD294DB6D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 17:59:44 +0100 (CET)
-Received: from localhost ([::1]:58830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E121D4DB6C7
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 17:54:03 +0100 (CET)
+Received: from localhost ([::1]:45586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUWzv-0001Ve-61
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 12:59:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39928)
+	id 1nUWuR-0000hV-0S
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 12:54:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nUWoX-0001sh-H6
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:47:57 -0400
-Received: from [2607:f8b0:4864:20::630] (port=39770
- helo=mail-pl1-x630.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nUWoV-0006Kv-C8
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:47:57 -0400
-Received: by mail-pl1-x630.google.com with SMTP id d18so2272163plr.6
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 09:47:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=HA2r3h6z1Ftzcl8py888fLQ3ZNX20zGMcrESZ/btzkg=;
- b=ps3pa2hdNrJ2IpUkDPd+wKXflm570dugSZiSYcuzzfJn5gNVdStpojdE1ocCiM+Sj+
- dPTuWMbz706C1O7HBEMhVP0tvllolG8NX5B1uVzF0TYx6p8ZMQmrVx0mheFlikkEdpNO
- kTiGUfhTNfHUhosaRZGjtwFc74jGzD4B4IqSpM2YDAXMMxD/G0SyYexeaoKDm3oilPKR
- 54shH+csiBtTq6HdNzhK9Y9imDVLuv+Ft7kK9SjqlY86EqmBMRu44fI7Q+uGZPLrDy2Q
- qQXAEGuMF9COSO6IIKx5toR1PT7sszAGdHC39ENBsitJpFQUHhfHFKgdH2IpIy7lNWPE
- mXEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HA2r3h6z1Ftzcl8py888fLQ3ZNX20zGMcrESZ/btzkg=;
- b=09jM25VHWOi5LUz13FIDELJVP3j9VGHi6ND21aaZV8nPkOOXTJOqPXSJzb87mZaHli
- oOSAnjWUJ7A4OZwOeZg5n/SgbYUsp2WyDUTvKpdRfTJXw7sHe4np87Hea2B0CTRcvbLQ
- LjKAVcVjTUC4ek0Z8UswktkxBvGfbRnINPfbfYjC4IK1IjsOZRBrgRGiI7TzELD0g1E0
- HK9pkLs8z89MW9CoSdSUyiu/BJ6EwyCiyxyHL3R8tR0AgP8pPEaveqfO2C3XKCueoHVG
- xwpXcL3r/oGe6GaBiO/91WYfzcrCLDch+eMB7+VWcL/iCUsl3mdTfFsvYsvnykHe46kO
- SQcQ==
-X-Gm-Message-State: AOAM533yAE6PBbP4vO00CTx5vGBMJ7tgSPMb3ZHy8e1DKaypj9eyOGFO
- pwW6Do8JS/KBC0SdvD/G0YE=
-X-Google-Smtp-Source: ABdhPJwUZKh9ZQSr7UtHxQ+tocm9UWXzICETiL2XbGsl14HxY09FC70zMQ5P3M71mT4R4Q+yio+7Sw==
-X-Received: by 2002:a17:902:d48a:b0:151:dd60:4177 with SMTP id
- c10-20020a170902d48a00b00151dd604177mr910553plg.2.1647449273636; 
- Wed, 16 Mar 2022 09:47:53 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- g12-20020a056a001a0c00b004e1307b249csm3863533pfv.69.2022.03.16.09.47.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 09:47:53 -0700 (PDT)
-Message-ID: <823da7da-e3fc-efcc-d16e-7e6249ac3753@gmail.com>
-Date: Thu, 17 Mar 2022 01:47:50 +0900
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nUWrN-0006RJ-Cx
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:50:54 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2404)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nUWrH-0006ww-HK
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:50:52 -0400
+Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KJbnm4bHQz6H6hp;
+ Thu, 17 Mar 2022 00:48:44 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 16 Mar 2022 17:50:37 +0100
+Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Wed, 16 Mar
+ 2022 16:50:36 +0000
+Date: Wed, 16 Mar 2022 16:50:34 +0000
+To: Peter Xu <peterx@redhat.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Ben Widawsky <ben.widawsky@intel.com>,
+ <qemu-devel@nongnu.org>, Samarth Saxena <samarths@cadence.com>, Chris Browy
+ <cbrowy@avery-design.com>, <linuxarm@huawei.com>,
+ <linux-cxl@vger.kernel.org>, Markus Armbruster <armbru@redhat.com>, "Shreyas
+ Shah" <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>, "Marcel
+ Apfelbaum" <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>, "Dan
+ Williams" <dan.j.williams@intel.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
+ <f4bug@amsat.org>, Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand
+ <david@redhat.com>
+Subject: Re: [PATCH v7 00/46] CXl 2.0 emulation Support
+Message-ID: <20220316165034.000037e7@Huawei.com>
+In-Reply-To: <Yimwjtd8SsVLOU5e@xz-m1.local>
+References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
+ <20220306163119-mutt-send-email-mst@kernel.org>
+ <20220307093918.00002f20@Huawei.com> <YihiHNxVjDFI0Z8r@xz-m1.local>
+ <20220309112827.00002c73@Huawei.com> <Yimwjtd8SsVLOU5e@xz-m1.local>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [RFC PATCH-for-7.0 v2] cocoa: run qemu_init in the main thread
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-References: <20220316160300.85438-1-philippe.mathieu.daude@gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20220316160300.85438-1-philippe.mathieu.daude@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.41]
+X-ClientProxiedBy: lhreml744-chm.china.huawei.com (10.201.108.194) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,326 +80,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On 2022/03/17 1:03, Philippe Mathieu-Daudé wrote:
-> From: Paolo Bonzini <pbonzini@redhat.com>
-> 
-> Simplify the initialization dance by running qemu_init() in the main
-> thread before the Cocoa event loop starts.  The cocoa_display_init()
-> code that is post-applicationDidFinishLaunching: moves to the
-> application delegate itself, and the secondary thread only runs
-> the rest of qemu_main(), namely qemu_main_loop() and qemu_cleanup().
-> 
-> This fixes a case where addRemovableDevicesMenuItems() calls
-> qmp_query_block() while expecting the main thread to still hold
-> the BQL.  The newly-introduced assertions in the block layer
-> complain about this.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> Message-Id: <20220307151004.578069-1-pbonzini@redhat.com>
-> [PMD: Fixed trivial build failures & rebased]
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> 
-> v1: https://lore.kernel.org/qemu-devel/20220307151004.578069-1-pbonzini@redhat.com/
-> ---
->   softmmu/main.c |  12 ++--
->   ui/cocoa.m     | 153 ++++++++++++++++++++++---------------------------
->   2 files changed, 74 insertions(+), 91 deletions(-)
-> 
-> diff --git a/softmmu/main.c b/softmmu/main.c
-> index 639c67ff48..0c4384e980 100644
-> --- a/softmmu/main.c
-> +++ b/softmmu/main.c
-> @@ -39,16 +39,18 @@ int main(int argc, char **argv)
->   #endif
->   #endif /* CONFIG_SDL */
->   
-> -#ifdef CONFIG_COCOA
-> -#undef main
-> -#define main qemu_main
-> -#endif /* CONFIG_COCOA */
-> -
-> +#ifndef CONFIG_COCOA
->   int main(int argc, char **argv, char **envp)
->   {
-> +    /*
-> +     * ui/cocoa.m relies on this being the exact content of main(),
-> +     * because it has to run everything after qemu_init in a secondary
-> +     * thread.
-> +     */
->       qemu_init(argc, argv, envp);
->       qemu_main_loop();
->       qemu_cleanup();
->   
->       return 0;
->   }
-> +#endif /* CONFIG_COCOA */
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index cb6e7c41dc..e69ce97f44 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -75,6 +75,9 @@ typedef struct {
->       int height;
->   } QEMUScreen;
->   
-> +@interface QemuCocoaPasteboardTypeOwner : NSObject<NSPasteboardTypeOwner>
-> +@end
-> +
->   static void cocoa_update(DisplayChangeListener *dcl,
->                            int x, int y, int w, int h);
->   
-> @@ -97,20 +100,23 @@ static int last_buttons;
->   static int cursor_hide = 1;
->   static int left_command_key_enabled = 1;
->   static bool swap_opt_cmd;
-> +static bool full_screen;
-> +static bool full_grab;
-> +static bool have_cocoa_ui;
->   
-> -static int gArgc;
-> -static char **gArgv;
->   static bool stretch_video;
->   static NSTextField *pauseLabel;
->   
-> -static QemuSemaphore display_init_sem;
-> -static QemuSemaphore app_started_sem;
->   static bool allow_events;
->   
->   static NSInteger cbchangecount = -1;
->   static QemuClipboardInfo *cbinfo;
->   static QemuEvent cbevent;
->   
-> +static QemuCocoaPasteboardTypeOwner *cbowner;
-> +static QemuClipboardPeer cbpeer;
-> +static QemuThread main_thread;
-> +
->   // Utility functions to run specified code block with iothread lock held
->   typedef void (^CodeBlock)(void);
->   typedef bool (^BoolCodeBlock)(void);
-> @@ -142,6 +148,33 @@ static bool bool_with_iothread_lock(BoolCodeBlock block)
->       return val;
->   }
->   
-> +/*
-> + * The startup process for the OSX/Cocoa UI is complicated, because
-> + * OSX insists that the UI runs on the initial main thread, and so we
-> + * need to start a second thread which runs qemu_main_loop():
-> + *
-> + * Initial thread:                    2nd thread:
-> + * in main():
-> + *  qemu_init()
-> + *  create application, menus, etc
-> + *  enter OSX run loop
-> + * in applicationDidFinishLaunching:
-> + *  fullscreen if needed
-> + *  create main loop thread
-> + *                                    call qemu_main_loop()
-> + */
-> +
-> +static void *call_qemu_main_loop(void *opaque)
-> +{
-> +    COCOA_DEBUG("Second thread: calling qemu_main()\n");
-> +    qemu_mutex_lock_iothread();
-> +    qemu_main_loop();
-> +    COCOA_DEBUG("Second thread: qemu_main_loop() returned, exiting\n");
-> +    qemu_cleanup();
-> +    [cbowner release];
-> +    exit(0);
-> +}
-> +
->   // Mac to QKeyCode conversion
->   static const int mac_to_qkeycode_map[] = {
->       [kVK_ANSI_A] = Q_KEY_CODE_A,
-> @@ -780,9 +813,7 @@ static CGEventRef handleTapEvent(CGEventTapProxy proxy, CGEventType type, CGEven
->           /*
->            * Just let OSX have all events that arrive before
->            * applicationDidFinishLaunching.
-> -         * This avoids a deadlock on the iothread lock, which cocoa_display_init()
-> -         * will not drop until after the app_started_sem is posted. (In theory
-> -         * there should not be any such events, but OSX Catalina now emits some.)
-> +         * This may not be needed anymore?
->            */
->           return false;
->       }
-> @@ -1280,8 +1311,22 @@ static CGEventRef handleTapEvent(CGEventTapProxy proxy, CGEventType type, CGEven
->   {
->       COCOA_DEBUG("QemuCocoaAppController: applicationDidFinishLaunching\n");
->       allow_events = true;
-> -    /* Tell cocoa_display_init to proceed */
-> -    qemu_sem_post(&app_started_sem);
-> +
-> +    // register vga output callbacks
-> +    register_displaychangelistener(&dcl);
-> +
-> +    qemu_clipboard_peer_register(&cbpeer);
-> +    qemu_mutex_unlock_iothread();
-> +    qemu_thread_create(&main_thread, "qemu_main_loop", call_qemu_main_loop,
-> +                       NULL, QEMU_THREAD_DETACHED);
-> +
-> +    if (full_screen) {
-> +        [NSApp activateIgnoringOtherApps: YES];
-> +        [self toggleFullScreen: nil];
-> +    }
-> +    if (full_grab) {
-> +        [self setFullGrab: nil];
-> +    }
->   }
->   
->   - (void)applicationWillTerminate:(NSNotification *)aNotification
-> @@ -1804,9 +1849,6 @@ static void addRemovableDevicesMenuItems(void)
->       qapi_free_BlockInfoList(pointerToFree);
->   }
->   
-> -@interface QemuCocoaPasteboardTypeOwner : NSObject<NSPasteboardTypeOwner>
-> -@end
-> -
->   @implementation QemuCocoaPasteboardTypeOwner
->   
->   - (void)pasteboard:(NSPasteboard *)sender provideDataForType:(NSPasteboardType)type
-> @@ -1841,8 +1883,6 @@ static void addRemovableDevicesMenuItems(void)
->   
->   @end
->   
-> -static QemuCocoaPasteboardTypeOwner *cbowner;
-> -
->   static void cocoa_clipboard_notify(Notifier *notifier, void *data);
->   static void cocoa_clipboard_request(QemuClipboardInfo *info,
->                                       QemuClipboardType type);
-> @@ -1903,60 +1943,18 @@ static void cocoa_clipboard_request(QemuClipboardInfo *info,
->       }
->   }
->   
-> -/*
-> - * The startup process for the OSX/Cocoa UI is complicated, because
-> - * OSX insists that the UI runs on the initial main thread, and so we
-> - * need to start a second thread which runs the vl.c qemu_main():
-> - *
-> - * Initial thread:                    2nd thread:
-> - * in main():
-> - *  create qemu-main thread
-> - *  wait on display_init semaphore
-> - *                                    call qemu_main()
-> - *                                    ...
-> - *                                    in cocoa_display_init():
-> - *                                     post the display_init semaphore
-> - *                                     wait on app_started semaphore
-> - *  create application, menus, etc
-> - *  enter OSX run loop
-> - * in applicationDidFinishLaunching:
-> - *  post app_started semaphore
-> - *                                     tell main thread to fullscreen if needed
-> - *                                    [...]
-> - *                                    run qemu main-loop
-> - *
-> - * We do this in two stages so that we don't do the creation of the
-> - * GUI application menus and so on for command line options like --help
-> - * where we want to just print text to stdout and exit immediately.
-> - */
-> -
-> -static void *call_qemu_main(void *opaque)
-> +int main(int argc, char **argv, char **envp)
->   {
-> -    int status;
-> -
-> -    COCOA_DEBUG("Second thread: calling qemu_main()\n");
-> -    status = qemu_main(gArgc, gArgv, *_NSGetEnviron());
-> -    COCOA_DEBUG("Second thread: qemu_main() returned, exiting\n");
-> -    [cbowner release];
-> -    exit(status);
-> -}
-> -
-> -int main (int argc, char **argv) {
-> -    QemuThread thread;
-> -
->       COCOA_DEBUG("Entered main()\n");
-> -    gArgc = argc;
-> -    gArgv = argv;
-> +    qemu_event_init(&cbevent, false);
->   
-> -    qemu_sem_init(&display_init_sem, 0);
-> -    qemu_sem_init(&app_started_sem, 0);
-> -
-> -    qemu_thread_create(&thread, "qemu_main", call_qemu_main,
-> -                       NULL, QEMU_THREAD_DETACHED);
-> -
-> -    COCOA_DEBUG("Main thread: waiting for display_init_sem\n");
-> -    qemu_sem_wait(&display_init_sem);
-> -    COCOA_DEBUG("Main thread: initializing app\n");
-> +    /* Takes iothread lock, released in applicationDidFinishLaunching:.  */
-> +    qemu_init(argc, argv, envp);
-> +    if (!have_cocoa_ui) {
-> +         qemu_main_loop();
-> +         qemu_cleanup();
-> +         return 0;
-> +    }
->   
->       NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
->   
-> @@ -1978,6 +1976,7 @@ int main (int argc, char **argv) {
->        */
->       add_console_menu_entries();
->       addRemovableDevicesMenuItems();
-> +    cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
->   
->       // Create an Application controller
->       QemuCocoaAppController *appController = [[QemuCocoaAppController alloc] init];
-> @@ -2071,24 +2070,13 @@ static void cocoa_refresh(DisplayChangeListener *dcl)
->   static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
->   {
->       COCOA_DEBUG("qemu_cocoa: cocoa_display_init\n");
-> +    have_cocoa_ui = 1;
->   
-> -    /* Tell main thread to go ahead and create the app and enter the run loop */
-> -    qemu_sem_post(&display_init_sem);
-> -    qemu_sem_wait(&app_started_sem);
-> -    COCOA_DEBUG("cocoa_display_init: app start completed\n");
-> -
-> -    QemuCocoaAppController *controller = (QemuCocoaAppController *)[[NSApplication sharedApplication] delegate];
-> -    /* if fullscreen mode is to be used */
->       if (opts->has_full_screen && opts->full_screen) {
-> -        dispatch_async(dispatch_get_main_queue(), ^{
-> -            [NSApp activateIgnoringOtherApps: YES];
-> -            [controller toggleFullScreen: nil];
-> -        });
-> +        full_screen = 1;
+On Thu, 10 Mar 2022 16:02:22 +0800
+Peter Xu <peterx@redhat.com> wrote:
 
-We could just save opts and use it later. sdl2 does this.
+> On Wed, Mar 09, 2022 at 11:28:27AM +0000, Jonathan Cameron wrote:
+> > Hi Peter,  
+> 
+> Hi, Jonathan,
+> 
+> >   
+> > > 
+> > > https://lore.kernel.org/qemu-devel/20220306174137.5707-35-Jonathan.Cameron@huawei.com/
+> > > 
+> > > Having mr->ops set but with memory_access_is_direct() returning true sounds
+> > > weird to me.
+> > > 
+> > > Sorry to have no understanding of the whole picture, but.. could you share
+> > > more on what's the interleaving requirement on the proxying, and why it
+> > > can't be done with adding some IO memory regions as sub-regions upon the
+> > > file one?  
+> > 
+> > The proxying requirement is simply a means to read/write to a computed address
+> > within a memory region. There may well be a better way to do that.
+> > 
+> > If I understand your suggestion correctly you would need a very high
+> > number of IO memory regions to be created dynamically when particular sets of
+> > registers across multiple devices in the topology are all programmed.
+> > 
+> > The interleave can be 256 bytes across up to 16x, many terabyte, devices.
+> > So assuming a simple set of 16 1TB devices I think you'd need about 4x10^9
+> > IO regions.  Even for a minimal useful test case of largest interleave
+> > set of 16x 256MB devices (256MB is minimum size the specification allows per
+> > decoded region at the device) and 16 way interleave we'd need 10^6 IO regions.
+> > Any idea if that approach would scale sensibly to this number of regions?
+> > 
+> > There are also complexities to getting all the information in one place to
+> > work out which IO memory regions maps where in PA space. Current solution is
+> > to do that mapping in the same way the hardware does which is hierarchical,
+> > so we walk the path to the device, picking directions based on each interleave
+> > decoder that we meet.
+> > Obviously this is a bit slow but I only really care about correctness at the
+> > moment.  I can think of various approaches to speeding it up but I'm not sure
+> > if we will ever care about performance.
+> > 
+> > https://gitlab.com/jic23/qemu/-/blob/cxl-v7-draft-2-for-test/hw/cxl/cxl-host.c#L131
+> > has the logic for that and as you can see it's fairly simple because we are always
+> > going down the topology following the decoders.
+> > 
+> > Below I have mapped out an algorithm I think would work for doing it with
+> > IO memory regions as subregions.
+> > 
+> > We could fake the whole thing by limiting ourselves to small host
+> > memory windows which are always directly backed, but then I wouldn't
+> > achieve the main aim of this which is to provide a test base for the OS code.
+> > To do that I need real interleave so I can seed the files with test patterns
+> > and verify the accesses hit the correct locations. Emulating what the hardware
+> > is actually doing on a device by device basis is the easiest way I have
+> > come up with to do that.
+> > 
+> > Let me try to provide some more background so you hopefully don't have
+> > to have read the specs to follow what is going on!
+> > There are an example for directly connected (no switches) topology in the
+> > docs
+> > 
+> > https://gitlab.com/jic23/qemu/-/blob/cxl-v7-draft-2-for-test/docs/system/devices/cxl.rst
+> > 
+> > The overall picture is we have a large number of CXL Type 3 memory devices,
+> > which at runtime (by OS at boot/on hotplug) are configured into various
+> > interleaving sets with hierarchical decoding at the host + host bridge
+> > + switch levels. For test setups I probably need to go to around 32 devices
+> > so I can hit various configurations simultaneously.
+> > No individual device has visibility of the full interleave setup - hence
+> > the walk in the existing code through the various decoders to find the
+> > final Device Physical address.
+> > 
+> > At the host level the host provides a set of Physical Address windows with
+> > a fixed interleave decoding across the different host bridges in the system
+> > (CXL Fixed Memory windows, CFMWs)
+> > On a real system these have to be large enough to allow for any memory
+> > devices that might be hotplugged and all possible configurations (so
+> > with 2 host bridges you need at least 3 windows in the many TB range,
+> > much worse as the number of host bridges goes up). It'll be worse than
+> > this when we have QoS groups, but the current Qemu code just puts all
+> > the windows in group 0.  Hence my first thought of just putting memory
+> > behind those doesn't scale (a similar approach to this was in the
+> > earliest versions of this patch set - though the full access path
+> > wasn't wired up).
+> > 
+> > The granularity can be in powers of 2 from 256 bytes to 16 kbytes
+> > 
+> > Next each host bridge has programmable address decoders which take the
+> > incoming (often already interleaved) memory access and direct them to
+> > appropriate root ports.  The root ports can be connected to a switch
+> > which has additional address decoders in the upstream port to decide
+> > which downstream port to route to.  Note we currently only support 1 level
+> > of switches but it's easy to make this algorithm recursive to support
+> > multiple switch levels (currently the kernel proposals only support 1 level)
+> > 
+> > Finally the End Point with the actual memory receives the interleaved request and
+> > takes the full address and (for power of 2 decoding - we don't yet support
+> > 3,6 and 12 way which is more complex and there is no kernel support yet)
+> > it drops a few address bits and adds an offset for the decoder used to
+> > calculate it's own device physical address.  Note device will support
+> > multiple interleave sets for different parts of it's file once we add
+> > multiple decoder support (on the todo list).
+> > 
+> > So the current solution is straight forward (with the exception of that
+> > proxying) because it follows the same decoding as used in real hardware
+> > to route the memory accesses. As a result we get a read/write to a
+> > device physical address and hence proxy that.  If any of the decoders
+> > along the path are not configured then we error out at that stage.
+> > 
+> > To create the equivalent as IO subregions I think we'd have to do the
+> > following from (this might be mediated by some central entity that
+> > doesn't currently exist, or done on demand from which ever CXL device
+> > happens to have it's decoder set up last)
+> > 
+> > 1) Wait for a decoder commit (enable) on any component. Goto 2.
+> > 2) Walk the topology (up to host decoder, down to memory device)
+> > If a complete interleaving path has been configured -
+> >    i.e. we have committed decoders all the way to the memory
+> >    device goto step 3, otherwise return to step 1 to wait for
+> >    more decoders to be committed.
+> > 3) For the memory region being supplied by the memory device,
+> >    add subregions to map the device physical address (address
+> >    in the file) for each interleave stride to the appropriate
+> >    host Physical Address.
+> > 4) Return to step 1 to wait for more decoders to commit.
+> > 
+> > So summary is we can do it with IO regions, but there are a lot of them
+> > and the setup is somewhat complex as we don't have one single point in
+> > time where we know all the necessary information is available to compute
+> > the right addresses.
+> > 
+> > Looking forward to your suggestions if I haven't caused more confusion!  
 
-Regards,
-Akihiko Odaki
+Hi Peter,
 
->       }
->       if (opts->u.cocoa.has_full_grab && opts->u.cocoa.full_grab) {
-> -        dispatch_async(dispatch_get_main_queue(), ^{
-> -            [controller setFullGrab: nil];
-> -        });
-> +        full_grab = 1;
->       }
->   
->       if (opts->has_show_cursor && opts->show_cursor) {
-> @@ -2101,13 +2089,6 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
->       if (opts->u.cocoa.has_left_command_key && !opts->u.cocoa.left_command_key) {
->           left_command_key_enabled = 0;
->       }
-> -
-> -    // register vga output callbacks
-> -    register_displaychangelistener(&dcl);
-> -
-> -    qemu_event_init(&cbevent, false);
-> -    cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
-> -    qemu_clipboard_peer_register(&cbpeer);
->   }
->   
->   static QemuDisplay qemu_display_cocoa = {
+> 
+> Thanks for the write up - I must confess they're a lot! :)
+> 
+> I merely only learned what is CXL today, and I'm not very experienced on
+> device modeling either, so please bare with me with stupid questions..
+> 
+> IIUC so far CXL traps these memory accesses using CXLFixedWindow.mr.
+> That's a normal IO region, which looks very reasonable.
+> 
+> However I'm confused why patch "RFC: softmmu/memory: Add ops to
+> memory_region_ram_init_from_file" helped.
+> 
+> Per my knowledge, all the memory accesses upon this CFMW window trapped
+> using this IO region already.  There can be multiple memory file objects
+> underneath, and when read/write happens the object will be decoded from
+> cxl_cfmws_find_device() as you referenced.
+
+Yes.
+
+> 
+> However I see nowhere that these memory objects got mapped as sub-regions
+> into parent (CXLFixedWindow.mr).  Then I don't understand why they cannot
+> be trapped.
+
+AS you note they aren't mapped into the parent mr, hence we are trapping.
+The parent mem_ops are responsible for decoding the 'which device' +
+'what address in device memory space'. Once we've gotten that info
+the question is how do I actually do the access?
+
+Mapping as subregions seems unwise due to the huge number required.
+
+> 
+> To ask in another way: what will happen if you simply revert this RFC
+> patch?  What will go wrong?
+
+The call to memory_region_dispatch_read()
+https://gitlab.com/jic23/qemu/-/blob/cxl-v7-draft-2-for-test/hw/mem/cxl_type3.c#L556
+
+would call memory_region_access_valid() that calls 
+mr->ops->valid.accepts() which is set to
+unassigned_mem_accepts() and hence...
+you get back a MEMTX_DECODE_ERROR back and an exception in the
+guest.
+
+That wouldn't happen with a non proxied access to the ram as
+those paths never uses the ops as memory_access_is_direct() is called
+and simply memcpy used without any involvement of the ops.
+
+Is a better way to proxy those writes to the backing files?
+
+I was fishing a bit in the dark here and saw the existing ops defined
+for a different purpose for VFIO
+
+4a2e242bbb ("memory Don't use memcpy for ram_device regions")
+
+and those allowed the use of memory_region_dispatch_write() to work.
+
+Hence the RFC marking on that patch :)
+
+Thanks,
+
+Jonathan
+
+
+
+> 
+> Thanks,
+> 
 
 
