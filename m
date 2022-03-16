@@ -2,72 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F074C4DB0CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:15:28 +0100 (CET)
-Received: from localhost ([::1]:50120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E314DB145
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:22:31 +0100 (CET)
+Received: from localhost ([::1]:40778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUTUt-0004XJ-Pu
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:15:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37304)
+	id 1nUTbi-0000dl-SG
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:22:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nUTN5-0003I6-4l; Wed, 16 Mar 2022 09:07:23 -0400
-Received: from [2607:f8b0:4864:20::b30] (port=38801
- helo=mail-yb1-xb30.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nUTN2-0001PD-E2; Wed, 16 Mar 2022 09:07:22 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id u3so4303026ybh.5;
- Wed, 16 Mar 2022 06:07:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0g9wgSOFHDbmHXpT3YPMuNnCb54vlOD+uJ5jW6tNKZM=;
- b=oHMbG4iufkXu3t5cuLPCPUxC3WZDedXH43uHO3zVGW8D5xdIFLNEQICYhsmVr5i7/r
- 2aYzGNSWjalLGvk9Fgp1FxjaYGdQeMgxoPMg7KhnILTYlZJVGcJb7SLfPuS3fVPEVPlw
- sT78ZQicSs/aDmxEzbfQ60OHC/rjFgaGsJAXC3Ma6qcuKG8t8LUiCeiNRvnwwj9SJ+Ej
- m6W+aceOqoSHoXNDkzO1HX/bbaNJFw5tvJJyl9QCaCGGKQ2GfDAj++P9qT9brkG14B4O
- lytIUrk0b6CBnLtUGZgduZFfVcO58soOyn/ouuXxbIJe5I8qbcVgirP+x7u58jtraiB+
- XzRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0g9wgSOFHDbmHXpT3YPMuNnCb54vlOD+uJ5jW6tNKZM=;
- b=jg6lk3ZfScVAiA63LL2VjVwWpSlSCssZap0STileZVqsrpm340ezj3SNhfDRIYOiZI
- TwLqZBT5Ua0lniRIRTl/37F+fBqBD1drJNdujlK9zmoLyAewl3fKWV7CJhnwAlgr9QF6
- Qfts5WeqyOigqEP0pf+2Nu2/SPhzXH8U7u+fTmPMnUWg5WbvCzuu233hboUAtszPIJXw
- ER3Ur5OC7dkOuC/hvD6rgJzlz0eAZD9HQGMRzMcXWXjKEFPJvJu6O0UfAtsuvN/xeO2x
- +I4VMNfaPBiKmHhnZ7UqNIEsXDtFSWdC1n6v8kH94FmBNCKZuZTD79mdenehRVk5M229
- kjGg==
-X-Gm-Message-State: AOAM533Q4qT/+sn7C4QvQjCbRcII535I4a9m1aH+EzJlEXFNKyu0SnOM
- yJeuHzasppGkfUtQVdCnZtlxplvrRWzRYMCRyAw=
-X-Google-Smtp-Source: ABdhPJyWrx9wsT5fx092ScXD+OLOraDoCG4DSl6+cy7LC4omC1nPY90f48M6l3Be/A6n3Ewiqgg+1Sit1KlJFSAxSAg=
-X-Received: by 2002:a25:8c86:0:b0:628:a042:9529 with SMTP id
- m6-20020a258c86000000b00628a0429529mr28428127ybl.231.1647436038271; Wed, 16
- Mar 2022 06:07:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1nUTNk-0004Ev-QG
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:08:09 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:45226
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nUTNg-0001Ta-Lw
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:08:04 -0400
+HMM_SOURCE_IP: 172.18.0.188:41560.1721706285
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id CE58E2800C3;
+ Wed, 16 Mar 2022 21:07:47 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id a3aa4edbea6e4ac9910f6bd6396f0f62 for
+ qemu-devel@nongnu.org; Wed, 16 Mar 2022 21:07:52 CST
+X-Transaction-ID: a3aa4edbea6e4ac9910f6bd6396f0f62
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.188
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v21 0/9] support dirty restraint on vCPU 
+Date: Wed, 16 Mar 2022 21:07:12 +0800
+Message-Id: <cover.1647435820.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20220311094601.30440-1-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220311094601.30440-1-liweiwei@iscas.ac.cn>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 16 Mar 2022 21:07:06 +0800
-Message-ID: <CAEUhbmX7wBzhvojSioQnB=T-DDuq9FX7UTPdvtR=oXHDm5Ra4A@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: write back unmodified value for
- csrrc/csrrs with rs1 is not x0 but holding zero
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b30
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb30.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.228;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,570 +60,459 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ Hyman <huangy81@chinatelecom.cn>, David Hildenbrand <david@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, lazyparser@gmail.com
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 11, 2022 at 5:46 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
-> For csrrs and csrrc, if rs1 specifies a register other than x0, holding
-> a zero value, the instruction will still attempt to write the unmodified
-> value back to the csr and will cause side effects
->
-> v2:
-> * change to explictly pass "bool write_op" argument in riscv_csrrw*, do
->   write permission check and write operation depend on it
-> * extend riscv_csr_predicate_fn to pass "write_op" argument which will
->   be checked by seed csr or other future "write-only" csr
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-The changelog should be put below ---
+v21
+- remove the tmpfs declarations in header file and
+  test case should use tmpfs as internal var respectively.
 
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
->  target/riscv/cpu.c       |   3 +-
->  target/riscv/cpu.h       |  15 +++---
->  target/riscv/csr.c       | 101 +++++++++++++++++++++------------------
->  target/riscv/gdbstub.c   |  15 +++---
->  target/riscv/op_helper.c |  12 ++---
->  5 files changed, 79 insertions(+), 67 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index ddda4906ff..76ad9bffac 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -314,7 +314,8 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
->          for (int i = 0; i < ARRAY_SIZE(dump_csrs); ++i) {
->              int csrno = dump_csrs[i];
->              target_ulong val = 0;
-> -            RISCVException res = riscv_csrrw_debug(env, csrno, &val, 0, 0);
-> +            RISCVException res = riscv_csrrw_debug(env, csrno, &val, 0, 0,
-> +                                                   false);
->
->              /*
->               * Rely on the smode, hmode, etc, predicates within csr.c
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 9ba05042ed..971d193d61 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -610,27 +610,29 @@ void riscv_cpu_update_mask(CPURISCVState *env);
->
->  RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
->                             target_ulong *ret_value,
-> -                           target_ulong new_value, target_ulong write_mask);
-> +                           target_ulong new_value, target_ulong write_mask,
-> +                           bool write_op);
->  RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
->                                   target_ulong *ret_value,
->                                   target_ulong new_value,
-> -                                 target_ulong write_mask);
-> +                                 target_ulong write_mask, bool write_op);
->
->  static inline void riscv_csr_write(CPURISCVState *env, int csrno,
->                                     target_ulong val)
->  {
-> -    riscv_csrrw(env, csrno, NULL, val, MAKE_64BIT_MASK(0, TARGET_LONG_BITS));
-> +    riscv_csrrw(env, csrno, NULL, val, MAKE_64BIT_MASK(0, TARGET_LONG_BITS),
-> +                true);
->  }
->
->  static inline target_ulong riscv_csr_read(CPURISCVState *env, int csrno)
->  {
->      target_ulong val = 0;
-> -    riscv_csrrw(env, csrno, &val, 0, 0);
-> +    riscv_csrrw(env, csrno, &val, 0, 0, false);
->      return val;
->  }
->
->  typedef RISCVException (*riscv_csr_predicate_fn)(CPURISCVState *env,
-> -                                                 int csrno);
-> +                                                 int csrno, bool write_op);
->  typedef RISCVException (*riscv_csr_read_fn)(CPURISCVState *env, int csrno,
->                                              target_ulong *ret_value);
->  typedef RISCVException (*riscv_csr_write_fn)(CPURISCVState *env, int csrno,
-> @@ -642,7 +644,8 @@ typedef RISCVException (*riscv_csr_op_fn)(CPURISCVState *env, int csrno,
->
->  RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
->                                  Int128 *ret_value,
-> -                                Int128 new_value, Int128 write_mask);
-> +                                Int128 new_value, Int128 write_mask,
-> +                                bool write_op);
->
->  typedef RISCVException (*riscv_csr_read128_fn)(CPURISCVState *env, int csrno,
->                                                 Int128 *ret_value);
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index aea82dff4a..1907481fb1 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -36,7 +36,7 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
->  }
->
->  /* Predicates */
-> -static RISCVException fs(CPURISCVState *env, int csrno)
-> +static RISCVException fs(CPURISCVState *env, int csrno, bool write_op)
->  {
->  #if !defined(CONFIG_USER_ONLY)
->      if (!env->debugger && !riscv_cpu_fp_enabled(env) &&
-> @@ -47,7 +47,7 @@ static RISCVException fs(CPURISCVState *env, int csrno)
->      return RISCV_EXCP_NONE;
->  }
->
-> -static RISCVException vs(CPURISCVState *env, int csrno)
-> +static RISCVException vs(CPURISCVState *env, int csrno, bool write_op)
->  {
->      CPUState *cs = env_cpu(env);
->      RISCVCPU *cpu = RISCV_CPU(cs);
-> @@ -64,7 +64,7 @@ static RISCVException vs(CPURISCVState *env, int csrno)
->      return RISCV_EXCP_ILLEGAL_INST;
->  }
->
-> -static RISCVException ctr(CPURISCVState *env, int csrno)
-> +static RISCVException ctr(CPURISCVState *env, int csrno, bool write_op)
->  {
->  #if !defined(CONFIG_USER_ONLY)
->      CPUState *cs = env_cpu(env);
-> @@ -135,50 +135,50 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
->      return RISCV_EXCP_NONE;
->  }
->
-> -static RISCVException ctr32(CPURISCVState *env, int csrno)
-> +static RISCVException ctr32(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (riscv_cpu_mxl(env) != MXL_RV32) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->
-> -    return ctr(env, csrno);
-> +    return ctr(env, csrno, write_op);
->  }
->
->  #if !defined(CONFIG_USER_ONLY)
-> -static RISCVException any(CPURISCVState *env, int csrno)
-> +static RISCVException any(CPURISCVState *env, int csrno, bool write_op)
->  {
->      return RISCV_EXCP_NONE;
->  }
->
-> -static RISCVException any32(CPURISCVState *env, int csrno)
-> +static RISCVException any32(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (riscv_cpu_mxl(env) != MXL_RV32) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->
-> -    return any(env, csrno);
-> +    return any(env, csrno, write_op);
->
->  }
->
-> -static int aia_any(CPURISCVState *env, int csrno)
-> +static int aia_any(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->
-> -    return any(env, csrno);
-> +    return any(env, csrno, write_op);
->  }
->
-> -static int aia_any32(CPURISCVState *env, int csrno)
-> +static int aia_any32(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->
-> -    return any32(env, csrno);
-> +    return any32(env, csrno, write_op);
->  }
->
-> -static RISCVException smode(CPURISCVState *env, int csrno)
-> +static RISCVException smode(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (riscv_has_ext(env, RVS)) {
->          return RISCV_EXCP_NONE;
-> @@ -187,34 +187,34 @@ static RISCVException smode(CPURISCVState *env, int csrno)
->      return RISCV_EXCP_ILLEGAL_INST;
->  }
->
-> -static int smode32(CPURISCVState *env, int csrno)
-> +static int smode32(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (riscv_cpu_mxl(env) != MXL_RV32) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->
-> -    return smode(env, csrno);
-> +    return smode(env, csrno, write_op);
->  }
->
-> -static int aia_smode(CPURISCVState *env, int csrno)
-> +static int aia_smode(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->
-> -    return smode(env, csrno);
-> +    return smode(env, csrno, write_op);
->  }
->
-> -static int aia_smode32(CPURISCVState *env, int csrno)
-> +static int aia_smode32(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->
-> -    return smode32(env, csrno);
-> +    return smode32(env, csrno, write_op);
->  }
->
-> -static RISCVException hmode(CPURISCVState *env, int csrno)
-> +static RISCVException hmode(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (riscv_has_ext(env, RVS) &&
->          riscv_has_ext(env, RVH)) {
-> @@ -230,7 +230,7 @@ static RISCVException hmode(CPURISCVState *env, int csrno)
->      return RISCV_EXCP_ILLEGAL_INST;
->  }
->
-> -static RISCVException hmode32(CPURISCVState *env, int csrno)
-> +static RISCVException hmode32(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (riscv_cpu_mxl(env) != MXL_RV32) {
->          if (!riscv_cpu_virt_enabled(env)) {
-> @@ -240,12 +240,13 @@ static RISCVException hmode32(CPURISCVState *env, int csrno)
->          }
->      }
->
-> -    return hmode(env, csrno);
-> +    return hmode(env, csrno, write_op);
->
->  }
->
->  /* Checks if PointerMasking registers could be accessed */
-> -static RISCVException pointer_masking(CPURISCVState *env, int csrno)
-> +static RISCVException pointer_masking(CPURISCVState *env, int csrno,
-> +                                      bool write_op)
->  {
->      /* Check if j-ext is present */
->      if (riscv_has_ext(env, RVJ)) {
-> @@ -254,25 +255,25 @@ static RISCVException pointer_masking(CPURISCVState *env, int csrno)
->      return RISCV_EXCP_ILLEGAL_INST;
->  }
->
-> -static int aia_hmode(CPURISCVState *env, int csrno)
-> +static int aia_hmode(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
->          return RISCV_EXCP_ILLEGAL_INST;
->       }
->
-> -     return hmode(env, csrno);
-> +     return hmode(env, csrno, write_op);
->  }
->
-> -static int aia_hmode32(CPURISCVState *env, int csrno)
-> +static int aia_hmode32(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->
-> -    return hmode32(env, csrno);
-> +    return hmode32(env, csrno, write_op);
->  }
->
-> -static RISCVException pmp(CPURISCVState *env, int csrno)
-> +static RISCVException pmp(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (riscv_feature(env, RISCV_FEATURE_PMP)) {
->          return RISCV_EXCP_NONE;
-> @@ -281,7 +282,7 @@ static RISCVException pmp(CPURISCVState *env, int csrno)
->      return RISCV_EXCP_ILLEGAL_INST;
->  }
->
-> -static RISCVException epmp(CPURISCVState *env, int csrno)
-> +static RISCVException epmp(CPURISCVState *env, int csrno, bool write_op)
->  {
->      if (env->priv == PRV_M && riscv_feature(env, RISCV_FEATURE_EPMP)) {
->          return RISCV_EXCP_NONE;
-> @@ -2873,7 +2874,8 @@ static RISCVException write_upmbase(CPURISCVState *env, int csrno,
->  static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->                                                 int csrno,
->                                                 bool write_mask,
-> -                                               RISCVCPU *cpu)
-> +                                               RISCVCPU *cpu,
-> +                                               bool write_op)
->  {
->      /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
->      int read_only = get_field(csrno, 0xC00) == 3;
-> @@ -2895,7 +2897,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->  #endif
-> -    if (write_mask && read_only) {
-> +    if (write_op && read_only) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->
-> @@ -2909,13 +2911,13 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->
-> -    return csr_ops[csrno].predicate(env, csrno);
-> +    return csr_ops[csrno].predicate(env, csrno, write_op);
->  }
->
->  static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
->                                         target_ulong *ret_value,
->                                         target_ulong new_value,
-> -                                       target_ulong write_mask)
-> +                                       target_ulong write_mask, bool write_op)
->  {
->      RISCVException ret;
->      target_ulong old_value;
-> @@ -2935,8 +2937,8 @@ static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
->          return ret;
->      }
->
-> -    /* write value if writable and write mask set, otherwise drop writes */
-> -    if (write_mask) {
-> +    /* write value if writable and write_op set, otherwise drop writes */
-> +    if (write_op) {
->          new_value = (old_value & ~write_mask) | (new_value & write_mask);
->          if (csr_ops[csrno].write) {
->              ret = csr_ops[csrno].write(env, csrno, new_value);
-> @@ -2956,22 +2958,25 @@ static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
->
->  RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
->                             target_ulong *ret_value,
-> -                           target_ulong new_value, target_ulong write_mask)
-> +                           target_ulong new_value, target_ulong write_mask,
-> +                           bool write_op)
->  {
->      RISCVCPU *cpu = env_archcpu(env);
->
-> -    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask, cpu);
-> +    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask, cpu,
-> +                                           write_op);
->      if (ret != RISCV_EXCP_NONE) {
->          return ret;
->      }
->
-> -    return riscv_csrrw_do64(env, csrno, ret_value, new_value, write_mask);
-> +    return riscv_csrrw_do64(env, csrno, ret_value, new_value, write_mask,
-> +                            write_op);
->  }
->
->  static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
->                                          Int128 *ret_value,
->                                          Int128 new_value,
-> -                                        Int128 write_mask)
-> +                                        Int128 write_mask, bool write_op)
->  {
->      RISCVException ret;
->      Int128 old_value;
-> @@ -2982,8 +2987,8 @@ static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
->          return ret;
->      }
->
-> -    /* write value if writable and write mask set, otherwise drop writes */
-> -    if (int128_nz(write_mask)) {
-> +    /* write value if writable and write_op set, otherwise drop writes */
-> +    if (write_op) {
->          new_value = int128_or(int128_and(old_value, int128_not(write_mask)),
->                                int128_and(new_value, write_mask));
->          if (csr_ops[csrno].write128) {
-> @@ -3010,18 +3015,20 @@ static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
->
->  RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
->                                  Int128 *ret_value,
-> -                                Int128 new_value, Int128 write_mask)
-> +                                Int128 new_value, Int128 write_mask,
-> +                                bool write_op)
->  {
->      RISCVException ret;
->      RISCVCPU *cpu = env_archcpu(env);
->
-> -    ret = riscv_csrrw_check(env, csrno, int128_nz(write_mask), cpu);
-> +    ret = riscv_csrrw_check(env, csrno, int128_nz(write_mask), cpu, write_op);
->      if (ret != RISCV_EXCP_NONE) {
->          return ret;
->      }
->
->      if (csr_ops[csrno].read128) {
-> -        return riscv_csrrw_do128(env, csrno, ret_value, new_value, write_mask);
-> +        return riscv_csrrw_do128(env, csrno, ret_value, new_value, write_mask,
-> +                                 write_op);
->      }
->
->      /*
-> @@ -3033,7 +3040,7 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
->      target_ulong old_value;
->      ret = riscv_csrrw_do64(env, csrno, &old_value,
->                             int128_getlo(new_value),
-> -                           int128_getlo(write_mask));
-> +                           int128_getlo(write_mask), write_op);
->      if (ret == RISCV_EXCP_NONE && ret_value) {
->          *ret_value = int128_make64(old_value);
->      }
-> @@ -3047,13 +3054,13 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
->  RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
->                                   target_ulong *ret_value,
->                                   target_ulong new_value,
-> -                                 target_ulong write_mask)
-> +                                 target_ulong write_mask, bool write_op)
->  {
->      RISCVException ret;
->  #if !defined(CONFIG_USER_ONLY)
->      env->debugger = true;
->  #endif
-> -    ret = riscv_csrrw(env, csrno, ret_value, new_value, write_mask);
-> +    ret = riscv_csrrw(env, csrno, ret_value, new_value, write_mask, write_op);
->  #if !defined(CONFIG_USER_ONLY)
->      env->debugger = false;
->  #endif
-> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> index 9ed049c29e..5e37ea12cb 100644
-> --- a/target/riscv/gdbstub.c
-> +++ b/target/riscv/gdbstub.c
-> @@ -124,7 +124,7 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
->           * This also works for CSR_FRM and CSR_FCSR.
->           */
->          result = riscv_csrrw_debug(env, n - 32, &val,
-> -                                   0, 0);
-> +                                   0, 0, false);
->          if (result == RISCV_EXCP_NONE) {
->              return gdb_get_regl(buf, val);
->          }
-> @@ -147,7 +147,7 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
->           * This also works for CSR_FRM and CSR_FCSR.
->           */
->          result = riscv_csrrw_debug(env, n - 32, NULL,
-> -                                   val, -1);
-> +                                   val, -1, true);
->          if (result == RISCV_EXCP_NONE) {
->              return sizeof(target_ulong);
->          }
-> @@ -209,7 +209,7 @@ static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
->      }
->
->      target_ulong val = 0;
-> -    int result = riscv_csrrw_debug(env, csrno, &val, 0, 0);
-> +    int result = riscv_csrrw_debug(env, csrno, &val, 0, 0, false);
->
->      if (result == 0) {
->          return gdb_get_regl(buf, val);
-> @@ -236,7 +236,7 @@ static int riscv_gdb_set_vector(CPURISCVState *env, uint8_t *mem_buf, int n)
->      }
->
->      target_ulong val = ldtul_p(mem_buf);
-> -    int result = riscv_csrrw_debug(env, csrno, NULL, val, -1);
-> +    int result = riscv_csrrw_debug(env, csrno, NULL, val, -1, true);
->
->      if (result == 0) {
->          return sizeof(target_ulong);
-> @@ -251,7 +251,7 @@ static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
->          target_ulong val = 0;
->          int result;
->
-> -        result = riscv_csrrw_debug(env, n, &val, 0, 0);
-> +        result = riscv_csrrw_debug(env, n, &val, 0, 0, false);
->          if (result == RISCV_EXCP_NONE) {
->              return gdb_get_regl(buf, val);
->          }
-> @@ -265,7 +265,7 @@ static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
->          target_ulong val = ldtul_p(mem_buf);
->          int result;
->
-> -        result = riscv_csrrw_debug(env, n, NULL, val, -1);
-> +        result = riscv_csrrw_debug(env, n, NULL, val, -1, true);
->          if (result == RISCV_EXCP_NONE) {
->              return sizeof(target_ulong);
->          }
-> @@ -319,7 +319,8 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
->
->      for (i = 0; i < CSR_TABLE_SIZE; i++) {
->          predicate = csr_ops[i].predicate;
-> -        if (predicate && (predicate(env, i) == RISCV_EXCP_NONE)) {
-> +        if (predicate && ((predicate(env, i, false) == RISCV_EXCP_NONE) ||
-> +                          (predicate(env, i, true) == RISCV_EXCP_NONE))) {
->              if (csr_ops[i].name) {
->                  g_string_append_printf(s, "<reg name=\"%s\"", csr_ops[i].name);
->              } else {
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index 1a75ba11e6..e0d708091e 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -40,7 +40,7 @@ void helper_raise_exception(CPURISCVState *env, uint32_t exception)
->  target_ulong helper_csrr(CPURISCVState *env, int csr)
->  {
->      target_ulong val = 0;
-> -    RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0);
-> +    RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0, false);
->
->      if (ret != RISCV_EXCP_NONE) {
->          riscv_raise_exception(env, ret, GETPC());
-> @@ -51,7 +51,7 @@ target_ulong helper_csrr(CPURISCVState *env, int csr)
->  void helper_csrw(CPURISCVState *env, int csr, target_ulong src)
->  {
->      target_ulong mask = env->xl == MXL_RV32 ? UINT32_MAX : (target_ulong)-1;
-> -    RISCVException ret = riscv_csrrw(env, csr, NULL, src, mask);
-> +    RISCVException ret = riscv_csrrw(env, csr, NULL, src, mask, true);
->
->      if (ret != RISCV_EXCP_NONE) {
->          riscv_raise_exception(env, ret, GETPC());
-> @@ -62,7 +62,7 @@ target_ulong helper_csrrw(CPURISCVState *env, int csr,
->                            target_ulong src, target_ulong write_mask)
->  {
->      target_ulong val = 0;
-> -    RISCVException ret = riscv_csrrw(env, csr, &val, src, write_mask);
-> +    RISCVException ret = riscv_csrrw(env, csr, &val, src, write_mask, true);
->
->      if (ret != RISCV_EXCP_NONE) {
->          riscv_raise_exception(env, ret, GETPC());
-> @@ -75,7 +75,7 @@ target_ulong helper_csrr_i128(CPURISCVState *env, int csr)
->      Int128 rv = int128_zero();
->      RISCVException ret = riscv_csrrw_i128(env, csr, &rv,
->                                            int128_zero(),
-> -                                          int128_zero());
-> +                                          int128_zero(), false);
->
->      if (ret != RISCV_EXCP_NONE) {
->          riscv_raise_exception(env, ret, GETPC());
-> @@ -90,7 +90,7 @@ void helper_csrw_i128(CPURISCVState *env, int csr,
->  {
->      RISCVException ret = riscv_csrrw_i128(env, csr, NULL,
->                                            int128_make128(srcl, srch),
-> -                                          UINT128_MAX);
-> +                                          UINT128_MAX, true);
->
->      if (ret != RISCV_EXCP_NONE) {
->          riscv_raise_exception(env, ret, GETPC());
-> @@ -104,7 +104,7 @@ target_ulong helper_csrrw_i128(CPURISCVState *env, int csr,
->      Int128 rv = int128_zero();
->      RISCVException ret = riscv_csrrw_i128(env, csr, &rv,
->                                            int128_make128(srcl, srch),
-> -                                          int128_make128(maskl, maskh));
-> +                                          int128_make128(maskl, maskh), true);
->
->      if (ret != RISCV_EXCP_NONE) {
->          riscv_raise_exception(env, ret, GETPC());
+v20
+- fix the style problems and let QEMU test pass
+- change the dirty limit case logic:
+  test fail if dirtyrate measurement 200ms timeout
 
-I am afraid the adding of "bool write_op" argument was done on many
-functions, some of which do not look good to me, e.g.: predicate
-funcs. v1 is much better.
+v19
+- rebase on master and fix conflicts
+- add test case for dirty page rate limit
 
-Or maybe, is that possible we do something in trans_csrrs() instead?
+Ping.
 
-Regards,
-Bin
+Adding an test case and hope it can be merged along with previous
+patchset by the way.
+
+Please review. Thanks,
+
+Regards
+Yong
+
+v18
+- squash commit "Ignore query-vcpu-dirty-limit test" into
+  "Implement dirty page rate limit" in  [PATCH v17] to make
+  the modification logic self-contained. 
+
+Please review. Thanks,
+
+Regards
+Yong 
+
+v17
+- rebase on master
+- fix qmp-cmd-test 
+
+v16
+- rebase on master
+- drop the unused typedef syntax in [PATCH v15 6/7] 
+- add the Reviewed-by and Acked-by tags by the way 
+
+v15
+- rebase on master
+- drop the 'init_time_ms' parameter in function vcpu_calculate_dirtyrate 
+- drop the 'setup' field in dirtylimit_state and call dirtylimit_process
+  directly, which makes code cleaner.
+- code clean in dirtylimit_adjust_throttle
+- fix miss dirtylimit_state_unlock() in dirtylimit_process and
+  dirtylimit_query_all
+- add some comment
+
+Please review. Thanks,
+
+Regards
+Yong 
+
+v14
+- v13 sent by accident, resend patchset. 
+
+v13
+- rebase on master
+- passing NULL to kvm_dirty_ring_reap in commit
+  "refactor per-vcpu dirty ring reaping" to keep the logic unchanged.
+  In other word, we still try the best to reap as much PFNs as possible
+  if dirtylimit not in service.
+- move the cpu list gen id changes into a separate patch.   
+- release the lock before sleep during dirty page rate calculation.
+- move the dirty ring size fetch logic into a separate patch.
+- drop the DIRTYLIMIT_LINEAR_ADJUSTMENT_WATERMARK MACRO .
+- substitute bh with function pointer when implement dirtylimit.
+- merge the dirtylimit_start/stop into dirtylimit_change.
+- fix "cpu-index" parameter type with "int" to keep consistency.
+- fix some syntax error in documents.
+
+Please review. Thanks,
+
+Yong
+
+v12
+- rebase on master
+- add a new commmit to refactor per-vcpu dirty ring reaping, which can resolve 
+  the "vcpu miss the chances to sleep" problem
+- remove the dirtylimit_thread and implemtment throttle in bottom half instead.
+- let the dirty ring reaper thread keep sleeping when dirtylimit is in service 
+- introduce cpu_list_generation_id to identify cpu_list changing. 
+- keep taking the cpu_list_lock during dirty_stat_wait to prevent vcpu plug/unplug
+  when calculating the dirty page rate
+- move the dirtylimit global initializations out of dirtylimit_set_vcpu and do
+  some code clean
+- add DIRTYLIMIT_LINEAR_ADJUSTMENT_WATERMARK in case of oscillation when throttling 
+- remove the unmatched count field in dirtylimit_state
+- add stub to fix build on non-x86
+- refactor the documents
+
+Thanks Peter and Markus for reviewing the previous versions, please review.
+
+Thanks,
+Yong
+
+v11
+- rebase on master
+- add a commit " refactor dirty page rate calculation"  so that dirty page rate limit
+  can reuse the calculation logic. 
+- handle the cpu hotplug/unplug case in the dirty page rate calculation logic.
+- modify the qmp commands according to Markus's advice.
+- introduce a standalone file dirtylimit.c to implement dirty page rate limit
+- check if dirty limit in service by dirtylimit_state pointer instead of global variable
+- introduce dirtylimit_mutex to protect dirtylimit_state
+- do some code clean and docs
+
+See the commit for more detail, thanks Markus and Peter very mush for the code
+review and give the experienced and insightful advices, most modifications are
+based on these advices.
+
+v10:
+- rebase on master
+- make the following modifications on patch [1/3]:
+  1. Make "dirtylimit-calc" thread joinable and join it after quitting.
+
+  2. Add finalize function to free dirtylimit_calc_state
+
+  3. Do some code clean work
+
+- make the following modifications on patch [2/3]:
+  1. Remove the original implementation of throttle according to
+     Peter's advice.
+     
+  2. Introduce a negative feedback system and implement the throttle
+     on all vcpu in one thread named "dirtylimit". 
+
+  3. Simplify the algo when calculation the throttle_us_per_full:
+     increase/decrease linearly when there exists a wide difference
+     between quota and current dirty page rate, increase/decrease
+     a fixed time slice when the difference is narrow. This makes
+     throttle responds faster and reach the quota smoothly.
+
+  4. Introduce a unfit_cnt in algo to make sure throttle really
+     takes effect.
+
+  5. Set the max sleep time 99 times more than "ring_full_time_us".                                                                                                                                                                          
+                                                                                                                                                                                                                                             
+  6. Make "dirtylimit" thread joinable and join it after quitting.                                                                                                                                                                           
+                                                                                                                                                                                                                                             
+- make the following modifications on patch [3/3]:                                                                                                                                                                                           
+  1. Remove the unplug cpu handling logic.                                                                                                                                                                                                   
+                                                                                                                                                                                                                                             
+  2. "query-vcpu-dirty-limit" only return dirtylimit information of                                                                                                                                                                          
+     vcpus that enable dirtylimit                                                                                                                                                                                                            
+                                                                                                                                                                                                                                             
+  3. Remove the "dirtylimit_setup" function                                                                                                                                                                                                  
+                                                                                                                                                                                                                                             
+  4. Trigger the dirtylimit and initialize the global state only                                                                                                                                                                             
+     when someone enable dirtylimit, and finalize it after the last                                                                                                                                                                          
+     dirtylimit be canceled.                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                             
+  5. Redefine the qmp command vcpu-dirty-limit/query-vcpu-dirty-limit:                                                                                                                                                                       
+     enable/disable dirtylimit use a single command "vcpu-dirty-limit",
+     to enable/disabled dirtylimit on specified vcpu only if "cpu-index"
+     is specified, otherwise, all vcpu will be affected.
+
+  6. Redefine the hmp command vcpu_dirty_limit/info vcpu_dirty_limit
+
+- other points about the code review:
+  1. "merge the code of calculation dirty page rate"
+     I think maybe it's not suitable to touch the 'calc-dirty-rate',
+     because 'calc-dirty-rate' will stop sync log after calculating 
+     the dirtyrate and the 'dirtylimit-cal' will not untill the last
+     dirtylimit be canceled, if we merge the GLOBAL_DIRTY_LIMIT into
+     GLOBAL_DIRTY_DIRTYRATE, the two are interacted with each other.
+
+  2. The new implementaion of throttle algo enlightened by Peter
+     responds faster and consume less cpu resource than the older,
+     we make a impressed progress.
+
+     And there is a viewpoint may be discussed, it is that the new 
+     throttle logic is "passive", vcpu sleeps only after dirty ring,
+     is full, unlike the "auto-converge" which will kick vcpu instead
+     in a fixed slice time. If the vcpu is memory-write intensive
+     and the ring size is large, it will produce dirty memory during
+     the dirty ring full time and the throttle works not so good, it
+     means the throttle depends on the dirty ring size. 
+
+     I actually tested the new algo in two case:
+
+     case 1: dirty-ring-size: 4096, dirtyrate: 1170MB/s 
+     result: minimum quota dirtyrate is 25MB/s or even less
+             minimum vcpu util is 6%
+
+     case 2: dirty-ring-size: 65536, dirtyrate: 1170MB/s 
+     result: minimum quota dirtyrate is 256MB/s
+             minimum vcpu util is 24%
+     
+     I post this just for discussion, i think this is not a big deal
+     beacase if we set the dirty-ring-size to the maximum value(65536),
+     we assume the server's bandwidth is capable of handling it.
+
+  3. I hard-code the acceptable deviation value to 25MB/s, see the
+     macro DIRTYLIMIT_TOLERANCE_RANGE. I'm struggling to decide 
+     whether to let it configurable
+   
+  4. Another point is the unplug cpu handle, current algo affects the
+     unplugged vcpu, if we set dirty limit on it, we should fork 2 
+     thread "dirtylimit" and "dirtylimit-calc" but do nothing, once the
+     vcpu is hot-plugged, dirty limit works, i think the logic is ok
+     but still there can be different advice.
+
+- to let developers play with it easier, i post the hmp usage example:
+  (qemu) vcpu_dirty_limit -g on -1 500
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  vcpu[0], limit rate 500 (MB/s), current rate 415 (MB/s)
+  vcpu[1], limit rate 500 (MB/s), current rate 496 (MB/s)
+  vcpu[2], limit rate 500 (MB/s), current rate 0 (MB/s)
+  vcpu[3], limit rate 500 (MB/s), current rate 0 (MB/s)
+  (qemu) vcpu_dirty_limit -g off
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  Dirty page limit not enabled!
+  
+  (qemu) vcpu_dirty_limit on 0 300
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) vcpu_dirty_limit on 1 500
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  vcpu[0], limit rate 300 (MB/s), current rate 342 (MB/s)
+  vcpu[1], limit rate 500 (MB/s), current rate 485 (MB/s)
+  
+  (qemu) vcpu_dirty_limit off 0
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  vcpu[1], limit rate 500 (MB/s), current rate 528 (MB/s)
+  
+  (qemu) vcpu_dirty_limit off 1
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  Dirty page limit not enabled!
+
+Thanks very much for the instructive algo suggestion given by Peter,
+the comment and other code reviews made by Markus.
+
+Please review, thanks!
+
+v9:
+- rebase on master
+- fix the meson directory change, keep it untouched.
+
+v8:
+- rebase on master
+- polish the error message and remove the "unlikely" compilation syntax
+  according to the advice given by Markus.
+- keep the dirty tracking enabled during "dirtylimit-calc" lifecycle
+  so that the overhead can be reduced according to the advice given by
+  Peter. 
+- merge the "set/cancel" qmp commands into one named "vcpu-dirty-limit"
+  and introduce qmp command "query-vcpu-dirty-limit" to query dirty
+  limit information about virtual CPU, according to the advice given by
+  Peter.
+- check if vcpu index is valid and handle the unplug case before
+  enabling, disabling dirty limit for virtual CPU.
+- introduce hmp commands so developers can play with them easier, use
+  "vcpu_dirty_limit" to enable dirty limit and "info vcpu_dirty_limit"
+  to query.
+
+The patch [2/3] has not been touched so far. Any corrections and
+suggetions are welcome. 
+
+Please review, thanks!
+
+v7:
+- rebase on master
+- polish the comments and error message according to the
+  advices given by Markus
+- introduce dirtylimit_enabled function to pre-check if dirty
+  page limit is enabled before canceling.
+
+v6:
+- rebase on master
+- fix dirtylimit setup crash found by Markus
+- polish the comments according to the advice given by Markus
+- adjust the qemu qmp command tag to 7.0
+
+v5:
+- rebase on master
+- adjust the throttle algorithm by removing the tuning in 
+  RESTRAINT_RATIO case so that dirty page rate could reachs the quota
+  more quickly.
+- fix percentage update in throttle iteration.
+
+v4:
+- rebase on master
+- modify the following points according to the advice given by Markus
+  1. move the defination into migration.json
+  2. polish the comments of set-dirty-limit
+  3. do the syntax check and change dirty rate to dirty page rate
+
+Thanks for the carefule reviews made by Markus.
+
+Please review, thanks!
+
+v3:
+- rebase on master
+- modify the following points according to the advice given by Markus
+  1. remove the DirtyRateQuotaVcpu and use its field as option directly
+  2. add comments to show details of what dirtylimit setup do
+  3. explain how to use dirtylimit in combination with existing qmp
+     commands "calc-dirty-rate" and "query-dirty-rate" in documentation.
+
+Thanks for the carefule reviews made by Markus.
+
+Please review, thanks!
+
+Hyman
+
+v2:
+- rebase on master
+- modify the following points according to the advices given by Juan
+  1. rename dirtyrestraint to dirtylimit
+  2. implement the full lifecyle function of dirtylimit_calc, include
+     dirtylimit_calc and dirtylimit_calc_quit
+  3. introduce 'quit' field in dirtylimit_calc_state to implement the
+     dirtylimit_calc_quit
+  4. remove the ready_cond and ready_mtx since it may not be suitable
+  5. put the 'record_dirtypage' function code at the beggining of the
+     file
+  6. remove the unnecesary return;
+- other modifications has been made after code review
+  1. introduce 'bmap' and 'nr' field in dirtylimit_state to record the
+     number of running thread forked by dirtylimit
+  2. stop the dirtyrate calculation thread if all the dirtylimit thread
+     are stopped
+  3. do some renaming works
+     dirtyrate calulation thread -> dirtylimit-calc
+     dirtylimit thread -> dirtylimit-{cpu_index}
+     function name do_dirtyrestraint -> dirtylimit_check
+     qmp command dirty-restraint -> set-drity-limit
+     qmp command dirty-restraint-cancel -> cancel-dirty-limit
+     header file dirtyrestraint.h -> dirtylimit.h
+
+Please review, thanks !
+
+thanks for the accurate and timely advices given by Juan. we really
+appreciate it if corrections and suggetions about this patchset are
+proposed.
+
+Best Regards !
+
+Hyman
+
+v1:
+this patchset introduce a mechanism to impose dirty restraint
+on vCPU, aiming to keep the vCPU running in a certain dirtyrate
+given by user. dirty restraint on vCPU maybe an alternative
+method to implement convergence logic for live migration,
+which could improve guest memory performance during migration
+compared with traditional method in theory.
+
+For the current live migration implementation, the convergence
+logic throttles all vCPUs of the VM, which has some side effects.
+-'read processes' on vCPU will be unnecessarily penalized
+- throttle increase percentage step by step, which seems
+  struggling to find the optimal throttle percentage when
+  dirtyrate is high.
+- hard to predict the remaining time of migration if the
+  throttling percentage reachs 99%
+
+to a certain extent, the dirty restraint machnism can fix these
+effects by throttling at vCPU granularity during migration.
+
+the implementation is rather straightforward, we calculate
+vCPU dirtyrate via the Dirty Ring mechanism periodically
+as the commit 0e21bf246 "implement dirty-ring dirtyrate calculation"
+does, for vCPU that be specified to impose dirty restraint,
+we throttle it periodically as the auto-converge does, once after
+throttling, we compare the quota dirtyrate with current dirtyrate,
+if current dirtyrate is not under the quota, increase the throttling
+percentage until current dirtyrate is under the quota.
+
+this patchset is the basis of implmenting a new auto-converge method
+for live migration, we introduce two qmp commands for impose/cancel
+the dirty restraint on specified vCPU, so it also can be an independent
+api to supply the upper app such as libvirt, which can use it to
+implement the convergence logic during live migration, supplemented
+with the qmp 'calc-dirty-rate' command or whatever.
+
+we post this patchset for RFC and any corrections and suggetions about
+the implementation, api, throttleing algorithm or whatever are very
+appreciated!
+
+Please review, thanks !
+
+Best Regards !
+
+Hyman Huang (9):
+  accel/kvm/kvm-all: Refactor per-vcpu dirty ring reaping
+  cpus: Introduce cpu_list_generation_id
+  migration/dirtyrate: Refactor dirty page rate calculation
+  softmmu/dirtylimit: Implement vCPU dirtyrate calculation periodically
+  accel/kvm/kvm-all: Introduce kvm_dirty_ring_size function
+  softmmu/dirtylimit: Implement virtual CPU throttle
+  softmmu/dirtylimit: Implement dirty page rate limit
+  migration-test: Export migration-test util funtions
+  tests: Add dirty page rate limit test
+
+ accel/kvm/kvm-all.c             |  46 ++-
+ accel/stubs/kvm-stub.c          |   6 +
+ cpus-common.c                   |   8 +
+ hmp-commands-info.hx            |  13 +
+ hmp-commands.hx                 |  32 +++
+ include/exec/cpu-common.h       |   1 +
+ include/exec/memory.h           |   5 +-
+ include/hw/core/cpu.h           |   6 +
+ include/monitor/hmp.h           |   3 +
+ include/sysemu/dirtylimit.h     |  37 +++
+ include/sysemu/dirtyrate.h      |  28 ++
+ include/sysemu/kvm.h            |   2 +
+ migration/dirtyrate.c           | 227 +++++++++------
+ migration/dirtyrate.h           |   7 +-
+ qapi/migration.json             |  80 ++++++
+ softmmu/dirtylimit.c            | 602 ++++++++++++++++++++++++++++++++++++++++
+ softmmu/meson.build             |   1 +
+ softmmu/trace-events            |   7 +
+ tests/qtest/dirtylimit-test.c   | 327 ++++++++++++++++++++++
+ tests/qtest/meson.build         |   2 +
+ tests/qtest/migration-helpers.c |  87 ++++++
+ tests/qtest/migration-helpers.h |  12 +
+ tests/qtest/migration-test.c    | 132 ++-------
+ tests/qtest/qmp-cmd-test.c      |   2 +
+ 24 files changed, 1461 insertions(+), 212 deletions(-)
+ create mode 100644 include/sysemu/dirtylimit.h
+ create mode 100644 include/sysemu/dirtyrate.h
+ create mode 100644 softmmu/dirtylimit.c
+ create mode 100644 tests/qtest/dirtylimit-test.c
+
+-- 
+1.8.3.1
+
 
