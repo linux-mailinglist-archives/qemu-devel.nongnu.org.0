@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2754DB1D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:46:38 +0100 (CET)
-Received: from localhost ([::1]:41088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7154DB1D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:48:36 +0100 (CET)
+Received: from localhost ([::1]:45022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUTz3-0006OH-Ah
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:46:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40028)
+	id 1nUU0x-0000d0-II
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:48:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUTZV-0006VC-Jo; Wed, 16 Mar 2022 09:20:13 -0400
-Received: from [2a00:1450:4864:20::436] (port=41879
- helo=mail-wr1-x436.google.com)
+ id 1nUTah-0000zd-95
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:21:27 -0400
+Received: from [2a00:1450:4864:20::435] (port=46957
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUTZU-0003Qb-76; Wed, 16 Mar 2022 09:20:13 -0400
-Received: by mail-wr1-x436.google.com with SMTP id h23so2340109wrb.8;
- Wed, 16 Mar 2022 06:20:11 -0700 (PDT)
+ id 1nUTaf-0003h8-AR
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:21:26 -0400
+Received: by mail-wr1-x435.google.com with SMTP id x15so2914971wru.13
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 06:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=c6YEaOEcCHU3YPD8x5SZYOLPS12Fw/csUrsgP2nu0Dw=;
- b=eoCpwqroRF0iN5N49vuE/nmlWJqHKAXov/vSbcIlGayQQdXNa1ckc875v4UhuxpYmK
- UhePVijV1KTIjnqTnnyxiIJQL4FjX4U3CbGnXb+Op4+Xo6hkqYNZxEf/WzmsAMoGdn8v
- eTNkIs/CXWaAjQevP7bzUTfgd49mclpWQTwc8neHUMf52ukE5uj+vCwBU9x4pQXGQpf1
- KwZghWXUmFiXZ1baXmIwnGe900PjGFJAsAtlg/lef6/+lS8JxC4ANSOqXUE/cfbtQQIK
- s/RpUqY+UIrFF2wACZ+CWax6bPQ/XytAbiGGy1C6zqcaB/k1g4CVNlu04zBzPXDtBZwH
- bucA==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=jgFHt2cAr7TsiJSo9AGdNUGQ5eRJGR6s65Mk/Ij18ps=;
+ b=CU6MxjezWU3IvNAWKKL5X1nZwDG8wfvnDRECQwoWa4B1naywoKcNwPglrGypnYUDHd
+ hvFrLE3bXTXA6Pt0236qC+nrBhz+5/3xfSc+ON9UKLxiNKUgzQLa5Mzqt0aRMIlyrrgB
+ RFBeP0TQGB1lCc3xldkVeBT5GHYnm2P+4ZCIUQyYcNaNAuWyLMyHSl8iONhmMtKuOETp
+ jg3WjEfBg35hVFDw0e2paM1D3qnUXSgA08DqZwHbjSAI3SFnxPaLmC6XziZkkyvnEcgW
+ M6GjpyoG7t+9AVALM27pfj1t8MDXBSSJlWL46tpzXItNJy4vjEU0uzJB8uRi4FgRTV6a
+ wDJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=c6YEaOEcCHU3YPD8x5SZYOLPS12Fw/csUrsgP2nu0Dw=;
- b=Gi9aSsBD35L/gEBrpegpDidFIgtNpQ8D90lq/4cT5zjxzxOOlewj7PzRMGzPKJC04+
- q2XavMJg/x13lgKGEeUSoJK4/jpehGvOqsZhV6wxCad74Ho8y3VmGWPUp5kyevv9OvM8
- HZ6NFrFex9OtIRPG6AyxOLGBO0TOXXeDf/t47j4joFH3xpnmsXB7hImrXOwtHnaT00Jm
- mJzLy0+7ALYKq+FmBXyo3a5owFl4HZcEviDPkcY3ZU6ic8nnG5DbE00mFgyWY8voEqKh
- DakamykwE+4FBy9rjtaHIKC4VdgScJlaxpKTKFB1o0xGeAyETtIElMSphTxCxGg0mO++
- FA0A==
-X-Gm-Message-State: AOAM533m8UcNAy4Hz+NFJR1qic0ZpYC+RD+gocVxar9AmVIWa2OZkuTV
- jhrYBeJesOgbaYDwxfB5l+fkqOrr8zI=
-X-Google-Smtp-Source: ABdhPJxzIWm8USK0w6wI5S6iKttNEZFT28+jl0x2bzaoqF0fRLwuyEjaeiADPzgqzmrJsw7iNXs5vA==
-X-Received: by 2002:a5d:58d6:0:b0:203:de3f:e648 with SMTP id
- o22-20020a5d58d6000000b00203de3fe648mr2738921wrf.292.1647436810728; 
- Wed, 16 Mar 2022 06:20:10 -0700 (PDT)
+ bh=jgFHt2cAr7TsiJSo9AGdNUGQ5eRJGR6s65Mk/Ij18ps=;
+ b=TuIv/6vKlOhAelV+vW02LJ+k/2jBkElTxoEshwQAEJdXZzNgR0Cg+/MQygJhGhOXor
+ rFq7kr4ToH9lBEraXt7gAkfQ2tXcxcmFzYUh8f3lt0OCtId+Yuc0YxAKKkYfqHtLFDgH
+ RPci9Cad7HmAuKAVi+FcGZ363JHrtPpzexhNOQ0qe4BFg0UV3E3xlJdEVECDLuR1ZWP+
+ YKexkp1hZBvITtYS22UgB3f60ZtscK3e7aml/A8o4/LoBN9FlzQkXufwnU2lrYXCKsf2
+ V8e/4t1K3Ig+2tBWlSFxfS4TK2yjQTLFv0SeyEGekxDYvbxJBIDcCaZGTxEFezUpnVeh
+ PrlA==
+X-Gm-Message-State: AOAM533qzmHdnIYLDWQdPJG1Y46Okebp4zgqpU8i8A7NokhBs2TOaq2l
+ xLbCTcR2x99Y03YxNMSiiF2WU+1wkdc=
+X-Google-Smtp-Source: ABdhPJwrtmCXs+SAxiWdmo4SxFAA36gGj979pf7MGLhe+9y0Sj2uIRfsqH8kxi+iiktjZXCp5YKepA==
+X-Received: by 2002:a5d:4c4a:0:b0:1f1:e43d:c9ba with SMTP id
+ n10-20020a5d4c4a000000b001f1e43dc9bamr23114986wrt.677.1647436883804; 
+ Wed, 16 Mar 2022 06:21:23 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n65-20020a1c2744000000b003862bfb509bsm5458394wmn.46.2022.03.16.06.20.09
+ f12-20020a5d64cc000000b00203d01e1075sm1840350wri.50.2022.03.16.06.21.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 06:20:10 -0700 (PDT)
-Message-ID: <392781a9-fcec-5c09-7c08-5533bc462c17@gmail.com>
-Date: Wed, 16 Mar 2022 14:20:09 +0100
+ Wed, 16 Mar 2022 06:21:23 -0700 (PDT)
+Message-ID: <661bc3ca-25f6-428a-3e3b-8e8babb7a51d@gmail.com>
+Date: Wed, 16 Mar 2022 14:21:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 08/27] compiler.h: replace QEMU_WARN_UNUSED_RESULT with
- G_GNUC_WARN_UNUSED_RESULT
+Subject: Re: [PATCH 00/27] Misc fixes and cleanups for 7.0?
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220316095256.2613620-1-marcandre.lureau@redhat.com>
+References: <20220316095156.2613419-1-marcandre.lureau@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220316095256.2613620-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20220316095156.2613419-1-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,28 +93,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "open list:qcow2" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/3/22 10:52, marcandre.lureau@redhat.com wrote:
+On 16/3/22 10:51, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> One less qemu-specific macro. It also helps to make some headers/units
-> only depend on glib, and thus moved in standalone projects eventually.
+> Hi,
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   include/qemu-common.h      |  2 +-
->   include/qemu/compiler.h    |  2 --
->   include/qemu/range.h       |  4 ++--
->   scripts/cocci-macro-file.h |  2 +-
->   block/qcow2-refcount.c     | 20 +++++++++++---------
->   scripts/checkpatch.pl      |  2 +-
->   6 files changed, 16 insertions(+), 16 deletions(-)
+> Various clean-up and fixes patches that might be worth it for 7.0.
+> Some of the patches have been posted and reviewed before.
+> 
+> Marc-André Lureau (27):
+>    m68k/nios2-semi: fix gettimeofday() result check
+>    meson: remove bsd_oses
+>    meson: use chardev_ss dependencies
+>    meson: add util dependency for oslib-posix on freebsd
+>    char: move qemu_openpty_raw from util/ to char/
+>    Drop qemu_foo() socket API wrapper
+>    Replace GCC_FMT_ATTR with G_GNUC_PRINTF
+>    compiler.h: replace QEMU_WARN_UNUSED_RESULT with
+>      G_GNUC_WARN_UNUSED_RESULT
+>    compiler.h: replace QEMU_SENTINEL with G_GNUC_NULL_TERMINATED
+>    Replace config-time define HOST_WORDS_BIGENDIAN
+>    osdep: poison HOST_WORDS_BIGENDIAN
+>    Simplify HOST_LONG_BITS
+>    Move HOST_LONG_BITS to compiler.h
+>    scripts/modinfo-collect: remove unused/dead code
+>    util: remove needless includes
+>    util: remove the net/net.h dependency
+>    qapi: remove needless include
+>    meson: move int128 checks from configure
+>    meson: fix CONFIG_ATOMIC128 check
+>    qapi: remove needless include
+>    qga: remove bswap.h include
+>    error-report: replace error progname with glib functions
+>    tests: remove needless include
+>    Remove trailing ; after G_DEFINE_AUTO macro
+>    include/qapi: add g_autoptr support for qobject types
+>    tests: replace free_all() usage with g_auto
+>    qapi: remove needless include
 
-Preferably poisoning QEMU_WARN_UNUSED_RESULT:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+FYI git-publish eases sending patches to mailing list:
+
+   https://github.com/stefanha/git-publish
 
