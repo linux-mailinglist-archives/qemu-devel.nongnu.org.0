@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3064DB5D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 17:18:12 +0100 (CET)
-Received: from localhost ([::1]:33888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83EAB4DB612
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 17:23:54 +0100 (CET)
+Received: from localhost ([::1]:37956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUWLj-0005vK-6T
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 12:18:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58274)
+	id 1nUWRF-0000SA-16
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 12:23:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nUWJV-0003Tk-SN
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:15:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nUWJQ-00010D-G3
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:15:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647447347;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RLytpFatneFjUtXWTn5SyxZbpKSH9KYS5+X95uwRqH4=;
- b=F1aDgxhjNlQQ6dqpVNt75x9V/J0IUX1b9RKDeUaoKyyVnUHYwa61DqW0ggk47Bv3BMq9tc
- 4T9r+TBbizy83PcQfPX6fGyJbOlh4mpdf/Y3zesZPBTIk77hhj8jR0Kr/Gqz6HxWY6i6aG
- Fodcm1AHBzvJgUXrltiVAWyagkYUqIs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-j6RIusOuPP6Rk7LQMuNz-g-1; Wed, 16 Mar 2022 12:15:43 -0400
-X-MC-Unique: j6RIusOuPP6Rk7LQMuNz-g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 020C73835B85;
- Wed, 16 Mar 2022 16:15:43 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 06A97C531E0;
- Wed, 16 Mar 2022 16:15:41 +0000 (UTC)
-Date: Wed, 16 Mar 2022 17:15:40 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
-Message-ID: <YjINLHMDP1l19ARu@redhat.com>
-References: <20220314093203.1420404-1-pbonzini@redhat.com>
- <Yi9MBGoc3WtOLx82@stefanha-x1.localdomain>
- <4528e387-8016-0774-9c8b-532a75566d9d@redhat.com>
- <YjCdKfbQsgfsw76N@stefanha-x1.localdomain>
- <YjCnss5W5MhZK1Hw@redhat.com> <YjC2+F2SkNEDOXTe@redhat.com>
- <7b634dc9-cca5-c9d0-e392-21a594851b0c@redhat.com>
- <YjHazSWJEM3lU8j6@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nUWQ7-0008C0-HY
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:22:43 -0400
+Received: from [2607:f8b0:4864:20::42b] (port=42650
+ helo=mail-pf1-x42b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nUWQ5-00027z-Cs
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 12:22:43 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id g19so4390306pfc.9
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 09:22:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=MNdWO1vAY48bRXlO6DSpSf78yjaMicNBNWwlifaES/0=;
+ b=Zle+ergKo+qcimV7/rDTcqgaaMGy7UZeaQyPOwxO5yGQetwRgAhSsa8Nmz2lPoWwAM
+ l4yew2mzI1RLH4GzfeowjC5GbHNyS7+QzywroQG2bJLe2wNPTMNqNrfKm7S5f8j2oMTP
+ dC2o/l9enD0s8XH5BaEEn2c0U1TXOpXi44k5LfQ0QQF9PJrpLBUOvM17v8W8tdHKOby4
+ IDmPsQs/WfbylnwJImFzWK1+bIZlUqVPXkS7pnCekLth96OqxVZmTuth2FDe51BNytBM
+ GlmZgmRWkpLzodAuR73uuUyLc/YPYoMitog61aF+jCsUPtfgtuu6kwP+7X8YPbSZHiLH
+ fAVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=MNdWO1vAY48bRXlO6DSpSf78yjaMicNBNWwlifaES/0=;
+ b=RKvZXuqVRV6T2vjitH9TzBiQ2/N8QBKPUNDypT05Jox8a5fNXo5TxvkU9ohJEvKqlG
+ 1pFSOBIjTByGSvUiaXbqOFUuzk/67mZWH+1SXGqkexT5DqgpcjeIcj+wXw9ZSrVDo7Ob
+ F5kmvwzHiV74fZC03mymMqV1M+HyelzTtRCLjBYLrmn+gRJgv5e1tt4tId9lYShjGnG1
+ z2ZQDENDfuKA+39aS3ihZoJOOINvhrM+LeMA4SHigNEyxUqGGw9cbdD0TjnsWMjz24FD
+ njQGvoPn8WvooF0jYZPLKpXovcfq2mglSfmSGVPFKkDzTdHdyHvIoM5pnyjKTwyDp+B7
+ F9jQ==
+X-Gm-Message-State: AOAM533h1Ul0dpj9EALG7EszimAdkf8py765BT1mCTZEmKT9Szg7NWz7
+ uhnBQ4aNKBb6h0GuIdjNKZM=
+X-Google-Smtp-Source: ABdhPJxRn5W20Wx964vqwffSBvUAW4cmDEem087U61EyM/3L9q0JiEERJGTQGbW2OpA+CgAUc8FaGg==
+X-Received: by 2002:a63:fe4c:0:b0:381:c3d5:e318 with SMTP id
+ x12-20020a63fe4c000000b00381c3d5e318mr286003pgj.343.1647447759780; 
+ Wed, 16 Mar 2022 09:22:39 -0700 (PDT)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ d19-20020a056a00199300b004f7b7bb0733sm3742714pfl.60.2022.03.16.09.22.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Mar 2022 09:22:39 -0700 (PDT)
+Message-ID: <e1a5b41b-708d-ef3b-4c9b-8b2469cf4a92@gmail.com>
+Date: Thu, 17 Mar 2022 01:22:36 +0900
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JOfSJS+i2H1eO03Y"
-Content-Disposition: inline
-In-Reply-To: <YjHazSWJEM3lU8j6@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [RFC PATCH-for-7.0 v2] cocoa: run qemu_init in the main thread
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
+References: <20220316160300.85438-1-philippe.mathieu.daude@gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <20220316160300.85438-1-philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,112 +93,341 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, hreitz@redhat.com,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2022/03/17 1:03, Philippe Mathieu-Daudé wrote:
+> From: Paolo Bonzini <pbonzini@redhat.com>
+> 
+> Simplify the initialization dance by running qemu_init() in the main
+> thread before the Cocoa event loop starts.  The cocoa_display_init()
+> code that is post-applicationDidFinishLaunching: moves to the
+> application delegate itself, and the secondary thread only runs
+> the rest of qemu_main(), namely qemu_main_loop() and qemu_cleanup().
+> 
+> This fixes a case where addRemovableDevicesMenuItems() calls
+> qmp_query_block() while expecting the main thread to still hold
+> the BQL.  The newly-introduced assertions in the block layer
+> complain about this.
 
---JOfSJS+i2H1eO03Y
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I was thinking that it may be better to let softmmu/main.c do the 
+details if it involves the internals of qemu_main() like qemu_main_loop().
 
-Am 16.03.2022 um 13:40 hat Stefan Hajnoczi geschrieben:
-> On Wed, Mar 16, 2022 at 12:08:33AM +0100, Paolo Bonzini wrote:
-> > On 3/15/22 16:55, Daniel P. Berrang=E9 wrote:
-> > > Expecting maintainers to enforce a subset during code review feels
-> > > like it would be a tedious burden, that will inevitably let stuff
-> > > through because humans are fallible, especially when presented
-> > > with uninspiring, tedious, repetitive tasks.
-> > >=20
-> > > Restricting ourselves to a subset is only viable if we have
-> > > an automated tool that can reliably enforce that subset. I'm not
-> > > sure that any such tool exists, and not convinced our time is
-> > > best served by trying to write & maintainer one either.
-> >=20
-> > We don't need to have a policy on which features are used.  We need to =
-have
-> > goals for what to use C++ for.  I won't go into further details here,
-> > because I had already posted "When and how to use C++"[1] about an hour
-> > before your reply.
-> >=20
-> > > IOW, I fear one we allow C++ in any level, it won't be practical
-> > > to constrain it as much we desire. I fear us turning QEMU into
-> > > even more of a monster like other big C++ apps I see which take
-> > > all hours to compile while using all available RAM in Fedora RPM
-> > > build hosts.
-> >=20
-> > Sorry but this is FUD.  There's plenty of C++ apps and libraries that d=
-o not
-> > "take hours to compile while using all available RAM".  You're probably
-> > thinking of the Chromium/Firefox/Libreoffice triplet but those are an o=
-rder
-> > of magnitude larger than QEMU.  And in fact, QEMU is *already* a monster
-> > that takes longer to compile than most other packages, no matter the
-> > language they're written in.
-> >=20
-> > Most of KDE and everything that uses Qt is written in C++, and so is
-> > Inkscape in GTK+ land.  LLVM and Clang are written in C++.  Hotspot and=
- V8
-> > are written in C++.  Kodi, MAME and DolphinEmu are written in C++. GCC =
-and
-> > GDB have migrated to C++ and their compile times have not exploded.
-> >=20
-> > > My other question is whether adoption of C++ would complicate any
-> > > desire to make more use of Rust in QEMU ? I know Rust came out of
-> > > work by the Mozilla Firefox crew, and Firefox was C++, but I don't
-> > > have any idea how they integrated use of Rust with Firefox, so
-> > > whether there are any gotcha's for us or not ?
-> >=20
-> > Any Rust integration would go through C APIs.  Using Rust in the block =
-layer
-> > would certainly be much harder, though perhaps not impossible, if the b=
-lock
-> > layer uses C++ coroutines.  Rust supports something similar, but
-> > two-direction interoperability would be hard.
->=20
-> I haven't looked at this in depth but there is a solution for Rust-C++
-> interop: https://cxx.rs/
+More concretely, softmmu/main.c would provide a function to register a 
+function pointer to take over the main thread. main() implemented in 
+softmmu/main.c would call qemu_init(). If a function pointer gets 
+registered in qemu_init(), it would create a thread for main loop and 
+call the registered function pointer. Otherwise, it would directly call 
+qemu_main_loop().
 
-"Direct FFI of async functions is absolutely in scope for CXX (on C++20
-and up) but is not implemented yet in the current release."
+It would be a semantically appropriate division of ui/cocoa.m and 
+softmmu/main.c. It would also be beneficial for end-users as it would 
+also allow to isolate ui/cocoa.m into a separate module when 
+--enable-modules in the future. (With "In the future", I mean sometime 
+when we have time to hack Meson build files and some details we cannot 
+fill by 7.0.)
 
-With the current QEMU coroutines, calling Rust async fns from C is
-relatively easy, and calling C coroutine_fns from a Rust async fn is
-trivial when the Rust async fn is already called from a C coroutine
-(because qemu_coroutine_yield() just works, we still have a coroutine
-stack from the original C caller).
+Regards,
+Akihiko Odaki
 
-I suppose calling Rust async fns from C++ could actually have the same
-implementation as with C when using Paolo's wrappers, but the other
-direction might be a bit harder - to be honest, I can't tell because
-I've never checked how C++ coroutines work internally. Could as well be
-that a Rust wrapper for them isn't that hard after all.
-
-Kevin
-
---JOfSJS+i2H1eO03Y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmIyDSwACgkQfwmycsiP
-L9YcrQ/+NeNbshvTsVXRzlFhxuPY66NCETut+VgACqFYvZUbQUpK5GjGsR0NU2BA
-OvvUO+ylEEJxtcIM85F9aPwkqBS1HG46EDccjjsYz/g6ejFiXljZMicPxiTnUaLy
-qu8RHCuCdzRTsHWgZwOAJV3olFtmJQYdtWeq7KNmBn2TyAhkD3vTfZ7app3C4S4x
-2JqBzVpkU7KKSw40872w3DKXsace/GzwcaacCi3h2ZLuOq7ylnqcLpTNdP+5KVE9
-slsMxcvLL7RQsGFGSt4iFPn9uU0f+74KDFAlaFzWcVrkWqicC/Lur8dQQK7o32eR
-N7MOHj3X13Vh5Gl8gWCg17lwIn3A+TAwSRRGT/ANyvWFa2Ph09iBf0/InHKbq0O1
-cBDSPg6VZTKoeOu9vwrnmlu4IVRqVJuQ2p9lzfbBk1vLDsgMkRF2MpAjN3dJx33d
-nAOYUzJ+hgYdh+fGLfJvEcOQM+WUy+0Qt9jQJxPu9zAKNce5mkST3swJyGRbVS3o
-DVes1QA5PFf8NIEKp5Xu0UN8SeJM4Rw9mI1NKvxbg+WCjxuCsYXBds4ud8W5zeUo
-3O6TQ6bG+yidFmwx02JHaP9EaDcs/WkWGQhoTDTgG2FHKtPZv5xNR9OgFCtpqddp
-fDreObbCpT97SyfZpdM/mXv24kHdwcDaE1Ri7tcBHQm32vL5J+Y=
-=oSAm
------END PGP SIGNATURE-----
-
---JOfSJS+i2H1eO03Y--
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Message-Id: <20220307151004.578069-1-pbonzini@redhat.com>
+> [PMD: Fixed trivial build failures & rebased]
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> 
+> v1: https://lore.kernel.org/qemu-devel/20220307151004.578069-1-pbonzini@redhat.com/
+> ---
+>   softmmu/main.c |  12 ++--
+>   ui/cocoa.m     | 153 ++++++++++++++++++++++---------------------------
+>   2 files changed, 74 insertions(+), 91 deletions(-)
+> 
+> diff --git a/softmmu/main.c b/softmmu/main.c
+> index 639c67ff48..0c4384e980 100644
+> --- a/softmmu/main.c
+> +++ b/softmmu/main.c
+> @@ -39,16 +39,18 @@ int main(int argc, char **argv)
+>   #endif
+>   #endif /* CONFIG_SDL */
+>   
+> -#ifdef CONFIG_COCOA
+> -#undef main
+> -#define main qemu_main
+> -#endif /* CONFIG_COCOA */
+> -
+> +#ifndef CONFIG_COCOA
+>   int main(int argc, char **argv, char **envp)
+>   {
+> +    /*
+> +     * ui/cocoa.m relies on this being the exact content of main(),
+> +     * because it has to run everything after qemu_init in a secondary
+> +     * thread.
+> +     */
+>       qemu_init(argc, argv, envp);
+>       qemu_main_loop();
+>       qemu_cleanup();
+>   
+>       return 0;
+>   }
+> +#endif /* CONFIG_COCOA */
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index cb6e7c41dc..e69ce97f44 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -75,6 +75,9 @@ typedef struct {
+>       int height;
+>   } QEMUScreen;
+>   
+> +@interface QemuCocoaPasteboardTypeOwner : NSObject<NSPasteboardTypeOwner>
+> +@end
+> +
+>   static void cocoa_update(DisplayChangeListener *dcl,
+>                            int x, int y, int w, int h);
+>   
+> @@ -97,20 +100,23 @@ static int last_buttons;
+>   static int cursor_hide = 1;
+>   static int left_command_key_enabled = 1;
+>   static bool swap_opt_cmd;
+> +static bool full_screen;
+> +static bool full_grab;
+> +static bool have_cocoa_ui;
+>   
+> -static int gArgc;
+> -static char **gArgv;
+>   static bool stretch_video;
+>   static NSTextField *pauseLabel;
+>   
+> -static QemuSemaphore display_init_sem;
+> -static QemuSemaphore app_started_sem;
+>   static bool allow_events;
+>   
+>   static NSInteger cbchangecount = -1;
+>   static QemuClipboardInfo *cbinfo;
+>   static QemuEvent cbevent;
+>   
+> +static QemuCocoaPasteboardTypeOwner *cbowner;
+> +static QemuClipboardPeer cbpeer;
+> +static QemuThread main_thread;
+> +
+>   // Utility functions to run specified code block with iothread lock held
+>   typedef void (^CodeBlock)(void);
+>   typedef bool (^BoolCodeBlock)(void);
+> @@ -142,6 +148,33 @@ static bool bool_with_iothread_lock(BoolCodeBlock block)
+>       return val;
+>   }
+>   
+> +/*
+> + * The startup process for the OSX/Cocoa UI is complicated, because
+> + * OSX insists that the UI runs on the initial main thread, and so we
+> + * need to start a second thread which runs qemu_main_loop():
+> + *
+> + * Initial thread:                    2nd thread:
+> + * in main():
+> + *  qemu_init()
+> + *  create application, menus, etc
+> + *  enter OSX run loop
+> + * in applicationDidFinishLaunching:
+> + *  fullscreen if needed
+> + *  create main loop thread
+> + *                                    call qemu_main_loop()
+> + */
+> +
+> +static void *call_qemu_main_loop(void *opaque)
+> +{
+> +    COCOA_DEBUG("Second thread: calling qemu_main()\n");
+> +    qemu_mutex_lock_iothread();
+> +    qemu_main_loop();
+> +    COCOA_DEBUG("Second thread: qemu_main_loop() returned, exiting\n");
+> +    qemu_cleanup();
+> +    [cbowner release];
+> +    exit(0);
+> +}
+> +
+>   // Mac to QKeyCode conversion
+>   static const int mac_to_qkeycode_map[] = {
+>       [kVK_ANSI_A] = Q_KEY_CODE_A,
+> @@ -780,9 +813,7 @@ static CGEventRef handleTapEvent(CGEventTapProxy proxy, CGEventType type, CGEven
+>           /*
+>            * Just let OSX have all events that arrive before
+>            * applicationDidFinishLaunching.
+> -         * This avoids a deadlock on the iothread lock, which cocoa_display_init()
+> -         * will not drop until after the app_started_sem is posted. (In theory
+> -         * there should not be any such events, but OSX Catalina now emits some.)
+> +         * This may not be needed anymore?
+>            */
+>           return false;
+>       }
+> @@ -1280,8 +1311,22 @@ static CGEventRef handleTapEvent(CGEventTapProxy proxy, CGEventType type, CGEven
+>   {
+>       COCOA_DEBUG("QemuCocoaAppController: applicationDidFinishLaunching\n");
+>       allow_events = true;
+> -    /* Tell cocoa_display_init to proceed */
+> -    qemu_sem_post(&app_started_sem);
+> +
+> +    // register vga output callbacks
+> +    register_displaychangelistener(&dcl);
+> +
+> +    qemu_clipboard_peer_register(&cbpeer);
+> +    qemu_mutex_unlock_iothread();
+> +    qemu_thread_create(&main_thread, "qemu_main_loop", call_qemu_main_loop,
+> +                       NULL, QEMU_THREAD_DETACHED);
+> +
+> +    if (full_screen) {
+> +        [NSApp activateIgnoringOtherApps: YES];
+> +        [self toggleFullScreen: nil];
+> +    }
+> +    if (full_grab) {
+> +        [self setFullGrab: nil];
+> +    }
+>   }
+>   
+>   - (void)applicationWillTerminate:(NSNotification *)aNotification
+> @@ -1804,9 +1849,6 @@ static void addRemovableDevicesMenuItems(void)
+>       qapi_free_BlockInfoList(pointerToFree);
+>   }
+>   
+> -@interface QemuCocoaPasteboardTypeOwner : NSObject<NSPasteboardTypeOwner>
+> -@end
+> -
+>   @implementation QemuCocoaPasteboardTypeOwner
+>   
+>   - (void)pasteboard:(NSPasteboard *)sender provideDataForType:(NSPasteboardType)type
+> @@ -1841,8 +1883,6 @@ static void addRemovableDevicesMenuItems(void)
+>   
+>   @end
+>   
+> -static QemuCocoaPasteboardTypeOwner *cbowner;
+> -
+>   static void cocoa_clipboard_notify(Notifier *notifier, void *data);
+>   static void cocoa_clipboard_request(QemuClipboardInfo *info,
+>                                       QemuClipboardType type);
+> @@ -1903,60 +1943,18 @@ static void cocoa_clipboard_request(QemuClipboardInfo *info,
+>       }
+>   }
+>   
+> -/*
+> - * The startup process for the OSX/Cocoa UI is complicated, because
+> - * OSX insists that the UI runs on the initial main thread, and so we
+> - * need to start a second thread which runs the vl.c qemu_main():
+> - *
+> - * Initial thread:                    2nd thread:
+> - * in main():
+> - *  create qemu-main thread
+> - *  wait on display_init semaphore
+> - *                                    call qemu_main()
+> - *                                    ...
+> - *                                    in cocoa_display_init():
+> - *                                     post the display_init semaphore
+> - *                                     wait on app_started semaphore
+> - *  create application, menus, etc
+> - *  enter OSX run loop
+> - * in applicationDidFinishLaunching:
+> - *  post app_started semaphore
+> - *                                     tell main thread to fullscreen if needed
+> - *                                    [...]
+> - *                                    run qemu main-loop
+> - *
+> - * We do this in two stages so that we don't do the creation of the
+> - * GUI application menus and so on for command line options like --help
+> - * where we want to just print text to stdout and exit immediately.
+> - */
+> -
+> -static void *call_qemu_main(void *opaque)
+> +int main(int argc, char **argv, char **envp)
+>   {
+> -    int status;
+> -
+> -    COCOA_DEBUG("Second thread: calling qemu_main()\n");
+> -    status = qemu_main(gArgc, gArgv, *_NSGetEnviron());
+> -    COCOA_DEBUG("Second thread: qemu_main() returned, exiting\n");
+> -    [cbowner release];
+> -    exit(status);
+> -}
+> -
+> -int main (int argc, char **argv) {
+> -    QemuThread thread;
+> -
+>       COCOA_DEBUG("Entered main()\n");
+> -    gArgc = argc;
+> -    gArgv = argv;
+> +    qemu_event_init(&cbevent, false);
+>   
+> -    qemu_sem_init(&display_init_sem, 0);
+> -    qemu_sem_init(&app_started_sem, 0);
+> -
+> -    qemu_thread_create(&thread, "qemu_main", call_qemu_main,
+> -                       NULL, QEMU_THREAD_DETACHED);
+> -
+> -    COCOA_DEBUG("Main thread: waiting for display_init_sem\n");
+> -    qemu_sem_wait(&display_init_sem);
+> -    COCOA_DEBUG("Main thread: initializing app\n");
+> +    /* Takes iothread lock, released in applicationDidFinishLaunching:.  */
+> +    qemu_init(argc, argv, envp);
+> +    if (!have_cocoa_ui) {
+> +         qemu_main_loop();
+> +         qemu_cleanup();
+> +         return 0;
+> +    }
+>   
+>       NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+>   
+> @@ -1978,6 +1976,7 @@ int main (int argc, char **argv) {
+>        */
+>       add_console_menu_entries();
+>       addRemovableDevicesMenuItems();
+> +    cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
+>   
+>       // Create an Application controller
+>       QemuCocoaAppController *appController = [[QemuCocoaAppController alloc] init];
+> @@ -2071,24 +2070,13 @@ static void cocoa_refresh(DisplayChangeListener *dcl)
+>   static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+>   {
+>       COCOA_DEBUG("qemu_cocoa: cocoa_display_init\n");
+> +    have_cocoa_ui = 1;
+>   
+> -    /* Tell main thread to go ahead and create the app and enter the run loop */
+> -    qemu_sem_post(&display_init_sem);
+> -    qemu_sem_wait(&app_started_sem);
+> -    COCOA_DEBUG("cocoa_display_init: app start completed\n");
+> -
+> -    QemuCocoaAppController *controller = (QemuCocoaAppController *)[[NSApplication sharedApplication] delegate];
+> -    /* if fullscreen mode is to be used */
+>       if (opts->has_full_screen && opts->full_screen) {
+> -        dispatch_async(dispatch_get_main_queue(), ^{
+> -            [NSApp activateIgnoringOtherApps: YES];
+> -            [controller toggleFullScreen: nil];
+> -        });
+> +        full_screen = 1;
+>       }
+>       if (opts->u.cocoa.has_full_grab && opts->u.cocoa.full_grab) {
+> -        dispatch_async(dispatch_get_main_queue(), ^{
+> -            [controller setFullGrab: nil];
+> -        });
+> +        full_grab = 1;
+>       }
+>   
+>       if (opts->has_show_cursor && opts->show_cursor) {
+> @@ -2101,13 +2089,6 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+>       if (opts->u.cocoa.has_left_command_key && !opts->u.cocoa.left_command_key) {
+>           left_command_key_enabled = 0;
+>       }
+> -
+> -    // register vga output callbacks
+> -    register_displaychangelistener(&dcl);
+> -
+> -    qemu_event_init(&cbevent, false);
+> -    cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
+> -    qemu_clipboard_peer_register(&cbpeer);
+>   }
+>   
+>   static QemuDisplay qemu_display_cocoa = {
 
 
