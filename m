@@ -2,62 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3FC74DB1E0
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:51:11 +0100 (CET)
-Received: from localhost ([::1]:53644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F054DB219
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:01:30 +0100 (CET)
+Received: from localhost ([::1]:47996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUU3T-0006Sx-2y
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:51:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41812)
+	id 1nUUDR-0005Oa-Ka
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:01:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nUThO-0004o1-Vo
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:28:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56650)
+ id 1nUTi4-0005iL-Sr
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:29:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nUThN-0004oY-A6
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:28:22 -0400
+ id 1nUTi3-0004uX-Eh
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:29:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647437300;
+ s=mimecast20190719; t=1647437343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=S82QGWQKtZsre+M1j070gfLUVJHfRW9rZg5K7t9S18M=;
- b=hGDSC6anCUcjiNvfsHTiHzJoYOd1WBNYIKAz7I0X8anpD/MWZauuXH0zFZtxUm0wXEHunt
- fK6esk9nlEcR8oTEchtYj1H9wu9xYszXm0R9wHkgdUC5fK6c+hPEZutbyyq9bgaGawJcOQ
- 9ugTZHDQ6ajEgArQ8NaucbDl1KUmYYU=
+ bh=e8Oh8Vfun5KJGt5N6E63MuVxyN+oqOaSPWwN0galyyo=;
+ b=fsiGXr4zoSDseLcpIOWcsPqetJei+7O6K0KT3ibsxPmnZbgvC4sqJFOqJsg13kXWljXof/
+ mAxqbvZ3hAm+XjrYKIn5F66WMZuN3/kBn8P52mvN5wWdzedrMFs466Afmsl8SfGci2Hta3
+ T0ExnjSOjHMnmTnuTpRayoZbeFQWNtU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-m-b3PbLLOLqfsJy4LXtxFQ-1; Wed, 16 Mar 2022 09:28:14 -0400
-X-MC-Unique: m-b3PbLLOLqfsJy4LXtxFQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-675-15hRo5aLPs-cSIWoiDpgWQ-1; Wed, 16 Mar 2022 09:28:59 -0400
+X-MC-Unique: 15hRo5aLPs-cSIWoiDpgWQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B5F041801387;
- Wed, 16 Mar 2022 13:28:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02F2E811E76;
+ Wed, 16 Mar 2022 13:28:59 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED41EC50941;
- Wed, 16 Mar 2022 13:28:12 +0000 (UTC)
-Date: Wed, 16 Mar 2022 13:28:11 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E496401E6F;
+ Wed, 16 Mar 2022 13:28:58 +0000 (UTC)
+Date: Wed, 16 Mar 2022 13:28:57 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Yongji Xie <xieyongji@bytedance.com>
-Subject: Re: [PATCH v2 3/6] libvduse: Add VDUSE (vDPA Device in Userspace)
- library
-Message-ID: <YjHl66pJYw45oKL9@stefanha-x1.localdomain>
-References: <20220215105943.90-1-xieyongji@bytedance.com>
- <20220215105943.90-4-xieyongji@bytedance.com>
- <YjBg3QnSnpY2cAdL@stefanha-x1.localdomain>
- <CACycT3s7cgHBAqmpy=RZPwPZz4uptr0REzJ9fhM1qv+G_miS1Q@mail.gmail.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/3] coroutine: use QEMU_DEFINE_STATIC_CO_TLS()
+Message-ID: <YjHmGQ3J4Q0bERaw@stefanha-x1.localdomain>
+References: <20220307153853.602859-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WBeA7IhMfMgoqZA6"
+ protocol="application/pgp-signature"; boundary="r/dw6KDpXZt94ISq"
 Content-Disposition: inline
-In-Reply-To: <CACycT3s7cgHBAqmpy=RZPwPZz4uptr0REzJ9fhM1qv+G_miS1Q@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+In-Reply-To: <20220307153853.602859-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -67,7 +63,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,78 +76,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: kwolf@redhat.com, Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---WBeA7IhMfMgoqZA6
+--r/dw6KDpXZt94ISq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 15, 2022 at 07:38:12PM +0800, Yongji Xie wrote:
-> On Tue, Mar 15, 2022 at 5:48 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
-te:
-> >
-> > On Tue, Feb 15, 2022 at 06:59:40PM +0800, Xie Yongji wrote:
-> > > VDUSE [1] is a linux framework that makes it possible to implement
-> > > software-emulated vDPA devices in userspace. This adds a library
-> > > as a subproject to help implementing VDUSE backends in QEMU.
-> > >
-> > > [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
-> > >
-> > > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-> > > ---
-> > >  meson.build                                 |   15 +
-> > >  meson_options.txt                           |    2 +
-> > >  scripts/meson-buildoptions.sh               |    3 +
-> > >  subprojects/libvduse/include/atomic.h       |    1 +
-> > >  subprojects/libvduse/libvduse.c             | 1152 +++++++++++++++++=
-++
-> > >  subprojects/libvduse/libvduse.h             |  225 ++++
-> > >  subprojects/libvduse/linux-headers/linux    |    1 +
-> > >  subprojects/libvduse/meson.build            |   10 +
-> > >  subprojects/libvduse/standard-headers/linux |    1 +
-> > >  9 files changed, 1410 insertions(+)
-> > >  create mode 120000 subprojects/libvduse/include/atomic.h
-> > >  create mode 100644 subprojects/libvduse/libvduse.c
-> > >  create mode 100644 subprojects/libvduse/libvduse.h
-> > >  create mode 120000 subprojects/libvduse/linux-headers/linux
-> > >  create mode 100644 subprojects/libvduse/meson.build
-> > >  create mode 120000 subprojects/libvduse/standard-headers/linux
-> >
-> > Please update the ./MAINTAINERS file when adding new source files.
+On Mon, Mar 07, 2022 at 03:38:50PM +0000, Stefan Hajnoczi wrote:
+> The coroutine implementation uses __thread variables internally. Compiler
+> optimizations may cache Thread-Local Storage values across
+> qemu_coroutine_yield(), leading to stale values being used after the coro=
+utine
+> is re-entered from another thread.
 >=20
-> OK, sure. And would you mind being one of the maintainers since I'm
-> not sure if I can do this job well.
+> Kevin pointed out that the coroutine implementation itself is vulnerable =
+to
+> this problem. As a follow-up to my coroutine TLS patch series I'm sending=
+ these
+> patches to convert __thread variables to the new "qemu/coroutine-tls.h" m=
+acros
+> so they are safe.
+>=20
+> Stefan Hajnoczi (3):
+>   coroutine-ucontext: use QEMU_DEFINE_STATIC_CO_TLS()
+>   coroutine: use QEMU_DEFINE_STATIC_CO_TLS()
+>   coroutine-win32: use QEMU_DEFINE_STATIC_CO_TLS()
+>=20
+>  util/coroutine-ucontext.c | 38 +++++++++++++++++++++++-------------
+>  util/coroutine-win32.c    | 18 ++++++++++++-----
+>  util/qemu-coroutine.c     | 41 +++++++++++++++++++++++----------------
+>  3 files changed, 61 insertions(+), 36 deletions(-)
 
-You're welcome to become the maintainer. It means that you will be CCed
-on patches affecting this code and sometimes people might send you
-questions about VDUSE exports.
+Kevin: Is this what you had in mind?
 
-Is the issue lack of time?
-
-Stefan
-
---WBeA7IhMfMgoqZA6
+--r/dw6KDpXZt94ISq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIx5esACgkQnKSrs4Gr
-c8jUAAf+JL4IHxMe2kxLxV3Nxav0Pu+k+nzbxPYBPHkV7dlXCp5HMOL2PL0fStlq
-8wN4HYwxZUFYp/ceUI2lRjp3TEGoXSrKPIy8mw/xpbexjDJirkD7GHgTTQFptyx/
-pBi7q5nuXc+Yjs3Pm3IABm4QTLMYk0QGp+AzGFoiVIjtceHnWqkVXHIHOTGg72Yl
-Ta9FwFv8U7Q6hr+eFcQ6FT2JUg5RxXpysSZ5rcrqrYKg3wlHFMLLSEmdVInvMI9v
-pRgw+w60MGNqxjAodtHV2FYTVeGpTv3nt8afRFSGLSLA8uhgYOwlVZ1RaOvT0bls
-KK9+QXcJkKixX0gfK+N2MGcnZi8kSQ==
-=fcrp
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIx5hkACgkQnKSrs4Gr
+c8jo+QgAgZVSh8JDrPgLc2fXGuUEIn05BsgUR2xjrGSrHjMMhlzGXUG5VPxvjyel
+KdPNX7IDZ0oTudiUzGdqPZwYpM5SVJc4hMvfK+UxVQ7VVrJemGvounsqApx3laGv
+FQKFpCvbRxIp28l5ItC3sfkXSw3WTqhUcZDYGi8x413pPfTLSm7SIZLCfPvTNLMp
+LYDK3A87B5/jty+S4+K5ARMaGWheC9jucszjsWgjg+ZmIHpX/RRkitSMTQSz2XS1
+5lUYz06H7KrKRCu/Qp9A/CjqEHrttN6JOEeQunfh61klCaiNvvBZXvnXb1/aAkXA
+qyXOwgYE6aVj0yUN/18DypMAYF6WbA==
+=krqa
 -----END PGP SIGNATURE-----
 
---WBeA7IhMfMgoqZA6--
+--r/dw6KDpXZt94ISq--
 
 
