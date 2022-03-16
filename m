@@ -2,96 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E50504DAC14
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 08:53:05 +0100 (CET)
-Received: from localhost ([::1]:58256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6154DAC30
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 09:02:54 +0100 (CET)
+Received: from localhost ([::1]:33348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUOSu-0001XY-Jl
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 03:53:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47306)
+	id 1nUOcP-0004F6-1A
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 04:02:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nUORd-0000l6-BZ
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 03:51:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36221)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nUORZ-0005nB-Vv
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 03:51:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647417100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ncV+Hja7xAk/EYrvItaa0H11/lcsgs/OF4861NrXUfw=;
- b=ifdHL80GFYhtiY9Ux7FLyFP0lvLW/CczIvfI6ycUJYzU8/9XFtFa6/naNMCga7BnlVlDFR
- 8zBRyiZkC29VzmBdjVaLbDxATn1/UuRLabcXv4kAtP/euk32+B9Wm72vWGmKrhqF4j/XdB
- IiFa0jUq2LhSCfvuWfdZZ/6Xnx4Ng4M=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-tmeHru0MM6KipuW5xdbiZg-1; Wed, 16 Mar 2022 03:51:39 -0400
-X-MC-Unique: tmeHru0MM6KipuW5xdbiZg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- h127-20020a1c2185000000b0038c6f7e22a4so416871wmh.9
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 00:51:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nUOaS-0003KP-VZ
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 04:00:52 -0400
+Received: from [2a00:1450:4864:20::42b] (port=41731
+ helo=mail-wr1-x42b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nUOaP-0007JL-Dl
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 04:00:52 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id h23so1122447wrb.8
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 01:00:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tE2wugyIn+HbBBanBsNm07cY2IGv4n73JQZG3bNB2XM=;
+ b=TzEicKXKp8TWfY2OtJENCUljWooGASBtlQukp1L+OluK++/HDOEyFmBeQxGVSNUIOa
+ 2qCjiwik7OOyrvbRuKF1cGCWPd+fPzi9YwEi9K2yfm8Thu86titEIR/2pf362hxqQK0T
+ C2NCLzZ5nmAKS35Xx8sxell2TyX7yB2+IPwLgMCf6o7Yon1EdFGHmw24vUCAGklJzfHZ
+ +oDbsRWNGZLYsx3wXjthQ6cBrkmi+JCYNTg1WVi+yIdV/T6rXTR4A3px1CrweB3dfCwT
+ qYHi+orjLIMgG4/DvRfxi5n50IAskiBGnBAcvNp7PBxlrZ3m6f8ulgCzOVn8zlm8FVj4
+ sSow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=ncV+Hja7xAk/EYrvItaa0H11/lcsgs/OF4861NrXUfw=;
- b=WCR6YMguTxf81EV+oFqxJFhB/cBR0Z1qyo+axHIjDv1pAxWNCM4iXooE6NuSjIp+C6
- hR8Iskvjkpj23wBzSFMhVX50pvfQWPsthb+bToHnSJ5CljzWlfA5etiM4Tn1ywVn+1Cv
- mTzDhLPh4haJZILLWIc53VjQVgZYMsEs5nVqazq9sKFmVnXa3NqlKhkFofup+FPlUPDI
- +eCEX8QJ+D8+M4o8FXx5KrNCKuOPQStKcBgvB53cnWJhCfBJ1HBmgRbguSttn27QUs/0
- w45ctGX0qo8GUnDNiMpFUshTOIg7UNW7aCqkr9q3XUNt4MsHM5YfG6LAlfbC2SX33kkA
- xm+g==
-X-Gm-Message-State: AOAM530kGOxhoDibpsrXCxlja21lWS/JLBR6fi9N3Myg3gXYXpsDjRSX
- AJoJGGAKN96YNbVUUwcDljRY4vMoIoIpncB5WoPQe418oTrvLJiy2BcOrvTqt4/rDyQ/plG435J
- MZTu2yMbQcnsTBUw=
-X-Received: by 2002:a7b:c30d:0:b0:381:4bb9:eede with SMTP id
- k13-20020a7bc30d000000b003814bb9eedemr6361441wmj.74.1647417098149; 
- Wed, 16 Mar 2022 00:51:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4nQFOX6oMtsnM1mwa5wsuB6sp/xAyZTQWSUBSpeysvkQis5aQ3xj8Vd8QUjH+c4C3uEXIJA==
-X-Received: by 2002:a7b:c30d:0:b0:381:4bb9:eede with SMTP id
- k13-20020a7bc30d000000b003814bb9eedemr6361428wmj.74.1647417097838; 
- Wed, 16 Mar 2022 00:51:37 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c706:f900:aa79:cd25:e0:32d1?
- (p200300cbc706f900aa79cd2500e032d1.dip0.t-ipconnect.de.
- [2003:cb:c706:f900:aa79:cd25:e0:32d1])
- by smtp.gmail.com with ESMTPSA id
- l10-20020a056000022a00b001f017dfb5cdsm1375386wrz.90.2022.03.16.00.51.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 00:51:37 -0700 (PDT)
-Message-ID: <9c36fe6b-39e1-0bfc-d2bb-97b106828ee1@redhat.com>
-Date: Wed, 16 Mar 2022 08:51:36 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tE2wugyIn+HbBBanBsNm07cY2IGv4n73JQZG3bNB2XM=;
+ b=Z5lXGtDwVhbhmJAlIW3tLTyfZ9Zu3ibp4/GHlLoKq3PFu0W14UtnFAnnykuBgUKjgH
+ aezHQlUP1/6m2rKVcMVnDqn07PODndmH1MD7WsBIiwgpKv7OQwwU2XHXEAImJULqSiUr
+ YzSEUCxFLnSatE8B+nKufK2T+kGz8GpJi5inTyVX0s3axVRSAHL7kTtiHIwIbHWIyA31
+ GXnPs79Fdabw2s/zAHD91ZE//nxoIvTXNV153lUlUrtsoYLyK9KFgNJtXlJ79xKm+p6e
+ tGM3JZSJBnwXvYm3aeIJruv3aHacxTo2BKWEB5Q5SMwNY2tCVVR1KIbkFfxf69KXZeDg
+ eHGg==
+X-Gm-Message-State: AOAM530725AXi1r0KjY2NeFR+k3dz6uZXNzOQHSqBhn/lyxF/kbyocnY
+ MMawEt3vpChiYr9F/dp2EOadQctcxsa1Gl1X3Aruvg==
+X-Google-Smtp-Source: ABdhPJys+LUb4PGZGZ2WdHV57gjNuOjb8D8josc20d2XtafylQ2xcowkyhvuvTx36oIAhiv6YqQGPr6gryzGoPoo/Qk=
+X-Received: by 2002:adf:bb54:0:b0:203:e244:fbe4 with SMTP id
+ x20-20020adfbb54000000b00203e244fbe4mr390650wrg.313.1647417647249; Wed, 16
+ Mar 2022 01:00:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] softmmu/physmem: Use qemu_madvise
-To: Andrew Deason <adeason@sinenomine.net>, qemu-devel@nongnu.org
-References: <20220316040405.4131-1-adeason@sinenomine.net>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220316040405.4131-1-adeason@sinenomine.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220216154839.1024927-1-cmuellner@linux.com>
+ <20220216154839.1024927-3-cmuellner@linux.com>
+In-Reply-To: <20220216154839.1024927-3-cmuellner@linux.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Wed, 16 Mar 2022 13:30:35 +0530
+Message-ID: <CAAhSdy0FD+7oDpoRgBNvDEUwEHNO2tYYVrM3x2dpQeBMBYtEzw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] target/riscv: Enable Zicbo[m,z,p] instructions
+To: Christoph Muellner <cmuellner@linux.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::42b;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,70 +82,334 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?= <frederic.petrot@univ-grenoble-alpes.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.03.22 05:04, Andrew Deason wrote:
-> We have a thin wrapper around madvise, called qemu_madvise, which
-> provides consistent behavior for the !CONFIG_MADVISE case, and works
-> around some platform-specific quirks (some platforms only provide
-> posix_madvise, and some don't offer all 'advise' types). This specific
-> caller of madvise has never used it, tracing back to its original
-> introduction in commit e0b266f01dd2 ("migration_completion: Take
-> current state").
-> 
-> Call qemu_madvise here, to follow the same logic as all of our other
-> madvise callers. This slightly changes the behavior for
-> !CONFIG_MADVISE (EINVAL instead of ENOSYS, and a slightly different
-> error message), but this is now more consistent with other callers
-> that use qemu_madvise.
-> 
-> Signed-off-by: Andrew Deason <adeason@sinenomine.net>
+On Wed, Feb 16, 2022 at 9:18 PM Christoph Muellner <cmuellner@linux.com> wrote:
+>
+> The RISC-V base cache management operation ISA extension has been
+> ratified. This patch adds support for the defined instructions.
+>
+> The cmo.prefetch instructions are nops for QEMU (no emulation of the memory
+> hierarchy, no illegal instructions, no permission faults, no traps),
+> therefore there's only a comment where they would be decoded.
+>
+> The other cbo* instructions are moved into an overlap group to
+> resolve the overlapping pattern with the LQ instruction.
+> The cbo* instructions perform permission checks and raise exceptions
+> according to the specification.
+>
+> The cache block sizes (for cbom and cboz) are configurable.
+>
+> Co-developed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> Signed-off-by: Christoph Muellner <cmuellner@linux.com>
+
+Can you rebase this series upon Atish's "target/riscv: Add isa extenstion
+strings to the device tree" patch ?
+
+Also, please add cmo extensions in the generated ISA string.
+
+Regards,
+Anup
+
 > ---
-> Looking at the history of commits that touch this madvise() call, it
-> doesn't _look_ like there's any reason to be directly calling madvise vs
-> qemu_advise (I don't see anything mentioned), but I'm not sure.
-> 
->  softmmu/physmem.c | 12 ++----------
->  1 file changed, 2 insertions(+), 10 deletions(-)
-> 
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 43ae70fbe2..900c692b5e 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -3584,40 +3584,32 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
->                           rb->idstr, start, length, ret);
->              goto err;
->  #endif
->          }
->          if (need_madvise) {
->              /* For normal RAM this causes it to be unmapped,
->               * for shared memory it causes the local mapping to disappear
->               * and to fall back on the file contents (which we just
->               * fallocate'd away).
->               */
-> -#if defined(CONFIG_MADVISE)
->              if (qemu_ram_is_shared(rb) && rb->fd < 0) {
-> -                ret = madvise(host_startaddr, length, QEMU_MADV_REMOVE);
-> +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_REMOVE);
->              } else {
-> -                ret = madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
-> +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
-
-posix_madvise(QEMU_MADV_DONTNEED) has completely different semantics
-then madvise() -- it's not a discard that we need here.
-
-So ram_block_discard_range() would now succeed in environments (BSD?)
-where it's supposed to fail.
-
-So AFAIKs this isn't sane.
-
--- 
-Thanks,
-
-David / dhildenb
-
+>  target/riscv/cpu.c                          |  4 +
+>  target/riscv/cpu.h                          |  4 +
+>  target/riscv/helper.h                       |  5 ++
+>  target/riscv/insn32.decode                  | 16 +++-
+>  target/riscv/insn_trans/trans_rvzicbo.c.inc | 57 ++++++++++++
+>  target/riscv/op_helper.c                    | 97 +++++++++++++++++++++
+>  target/riscv/translate.c                    |  1 +
+>  7 files changed, 183 insertions(+), 1 deletion(-)
+>  create mode 100644 target/riscv/insn_trans/trans_rvzicbo.c.inc
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 39ffb883fc..04500fe352 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -764,6 +764,10 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+>      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+>      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+> +    DEFINE_PROP_BOOL("zicbom", RISCVCPU, cfg.ext_icbom, true),
+> +    DEFINE_PROP_BOOL("zicboz", RISCVCPU, cfg.ext_icboz, true),
+> +    DEFINE_PROP_UINT16("cbom_blocksize", RISCVCPU, cfg.cbom_blocksize, 64),
+> +    DEFINE_PROP_UINT16("cboz_blocksize", RISCVCPU, cfg.cboz_blocksize, 64),
+>      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+>      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+>      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index fe80caeec0..5fda1fc7be 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -368,6 +368,8 @@ struct RISCVCPUConfig {
+>      bool ext_counters;
+>      bool ext_ifencei;
+>      bool ext_icsr;
+> +    bool ext_icbom;
+> +    bool ext_icboz;
+>      bool ext_zfh;
+>      bool ext_zfhmin;
+>      bool ext_zve32f;
+> @@ -382,6 +384,8 @@ struct RISCVCPUConfig {
+>      char *vext_spec;
+>      uint16_t vlen;
+>      uint16_t elen;
+> +    uint16_t cbom_blocksize;
+> +    uint16_t cboz_blocksize;
+>      bool mmu;
+>      bool pmp;
+>      bool epmp;
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 72cc2582f4..ef1944da8f 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -92,6 +92,11 @@ DEF_HELPER_FLAGS_2(fcvt_h_l, TCG_CALL_NO_RWG, i64, env, tl)
+>  DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
+>  DEF_HELPER_FLAGS_1(fclass_h, TCG_CALL_NO_RWG_SE, tl, i64)
+>
+> +/* Cache-block operations */
+> +DEF_HELPER_2(cbo_clean_flush, void, env, tl)
+> +DEF_HELPER_2(cbo_inval, void, env, tl)
+> +DEF_HELPER_2(cbo_zero, void, env, tl)
+> +
+>  /* Special functions */
+>  DEF_HELPER_2(csrr, tl, env, int)
+>  DEF_HELPER_3(csrw, void, env, int, tl)
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index 5bbedc254c..d5f8329970 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -128,6 +128,7 @@ addi     ............     ..... 000 ..... 0010011 @i
+>  slti     ............     ..... 010 ..... 0010011 @i
+>  sltiu    ............     ..... 011 ..... 0010011 @i
+>  xori     ............     ..... 100 ..... 0010011 @i
+> +# cbo.prefetch_{i,r,m} instructions are ori with rd=x0 and not decoded.
+>  ori      ............     ..... 110 ..... 0010011 @i
+>  andi     ............     ..... 111 ..... 0010011 @i
+>  slli     00000. ......    ..... 001 ..... 0010011 @sh
+> @@ -168,7 +169,20 @@ sraw     0100000 .....  ..... 101 ..... 0111011 @r
+>
+>  # *** RV128I Base Instruction Set (in addition to RV64I) ***
+>  ldu      ............   ..... 111 ..... 0000011 @i
+> -lq       ............   ..... 010 ..... 0001111 @i
+> +{
+> +  [
+> +    # *** RV32 Zicbom Standard Extension ***
+> +    cbo_clean  0000000 00001 ..... 010 00000 0001111 @sfence_vm
+> +    cbo_flush  0000000 00010 ..... 010 00000 0001111 @sfence_vm
+> +    cbo_inval  0000000 00000 ..... 010 00000 0001111 @sfence_vm
+> +
+> +    # *** RV32 Zicboz Standard Extension ***
+> +    cbo_zero   0000000 00100 ..... 010 00000 0001111 @sfence_vm
+> +  ]
+> +
+> +  # *** RVI128 lq ***
+> +  lq       ............   ..... 010 ..... 0001111 @i
+> +}
+>  sq       ............   ..... 100 ..... 0100011 @s
+>  addid    ............  .....  000 ..... 1011011 @i
+>  sllid    000000 ......  ..... 001 ..... 1011011 @sh6
+> diff --git a/target/riscv/insn_trans/trans_rvzicbo.c.inc b/target/riscv/insn_trans/trans_rvzicbo.c.inc
+> new file mode 100644
+> index 0000000000..e14754f91d
+> --- /dev/null
+> +++ b/target/riscv/insn_trans/trans_rvzicbo.c.inc
+> @@ -0,0 +1,57 @@
+> +/*
+> + * RISC-V translation routines for the RISC-V CBO Extension.
+> + *
+> + * Copyright (c) 2021 Philipp Tomsich, philipp.tomsich@vrull.eu
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#define REQUIRE_ZICBOM(ctx) do {       \
+> +    if (!ctx->cfg_ptr->ext_icbom) {    \
+> +        return false;                  \
+> +    }                                  \
+> +} while (0)
+> +
+> +#define REQUIRE_ZICBOZ(ctx) do {       \
+> +    if (!ctx->cfg_ptr->ext_icboz) {    \
+> +        return false;                  \
+> +    }                                  \
+> +} while (0)
+> +
+> +static bool trans_cbo_clean(DisasContext *ctx, arg_cbo_clean *a)
+> +{
+> +    REQUIRE_ZICBOM(ctx);
+> +    gen_helper_cbo_clean_flush(cpu_env, cpu_gpr[a->rs1]);
+> +    return true;
+> +}
+> +
+> +static bool trans_cbo_flush(DisasContext *ctx, arg_cbo_flush *a)
+> +{
+> +    REQUIRE_ZICBOM(ctx);
+> +    gen_helper_cbo_clean_flush(cpu_env, cpu_gpr[a->rs1]);
+> +    return true;
+> +}
+> +
+> +static bool trans_cbo_inval(DisasContext *ctx, arg_cbo_inval *a)
+> +{
+> +    REQUIRE_ZICBOM(ctx);
+> +    gen_helper_cbo_inval(cpu_env, cpu_gpr[a->rs1]);
+> +    return true;
+> +}
+> +
+> +static bool trans_cbo_zero(DisasContext *ctx, arg_cbo_zero *a)
+> +{
+> +    REQUIRE_ZICBOZ(ctx);
+> +    gen_helper_cbo_zero(cpu_env, cpu_gpr[a->rs1]);
+> +    return true;
+> +}
+> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> index 1a75ba11e6..c207cdf29c 100644
+> --- a/target/riscv/op_helper.c
+> +++ b/target/riscv/op_helper.c
+> @@ -3,6 +3,7 @@
+>   *
+>   * Copyright (c) 2016-2017 Sagar Karandikar, sagark@eecs.berkeley.edu
+>   * Copyright (c) 2017-2018 SiFive, Inc.
+> + * Copyright (c) 2022      VRULL GmbH
+>   *
+>   * This program is free software; you can redistribute it and/or modify it
+>   * under the terms and conditions of the GNU General Public License,
+> @@ -114,6 +115,102 @@ target_ulong helper_csrrw_i128(CPURISCVState *env, int csr,
+>      return int128_getlo(rv);
+>  }
+>
+> +
+> +/* helper_zicbo_envcfg
+> + *
+> + * Raise virtual exceptions and illegal instruction exceptions for
+> + * Zicbo[mz] instructions based on the settings of [mhs]envcfg as
+> + * specified in section 2.5.1 of the CMO specification.
+> + */
+> +static void helper_zicbo_envcfg(CPURISCVState *env, target_ulong envbits,
+> +                                uintptr_t ra)
+> +{
+> +#ifndef CONFIG_USER_ONLY
+> +    /* Check for virtual instruction exceptions first, as we don't see
+> +     * VU and VS reflected in env->priv (these are just the translated
+> +     * U and S stated with virtualisation enabled.
+> +     */
+> +    if (riscv_cpu_virt_enabled(env) &&
+> +        (((env->priv < PRV_H) && !get_field(env->henvcfg, envbits)) ||
+> +         ((env->priv < PRV_S) && !get_field(env->senvcfg, envbits)))) {
+> +        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, ra);
+> +    }
+> +
+> +    if (((env->priv < PRV_M) && !get_field(env->menvcfg, envbits)) ||
+> +        ((env->priv < PRV_S) && !get_field(env->senvcfg, envbits))) {
+> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, ra);
+> +    }
+> +#endif
+> +}
+> +
+> +/* helper_zicbom_access
+> + *
+> + * Check access permissions (LOAD, STORE or FETCH as specified in section
+> + * 2.5.2 of the CMO specification) for Zicbom, raising either store
+> + * page-fault (non-virtualised) or store guest-page fault (virtualised).
+> + */
+> +static void helper_zicbom_access(CPURISCVState *env, target_ulong address,
+> +                                 uintptr_t ra)
+> +{
+> +    int ret;
+> +    void* phost;
+> +    int mmu_idx = cpu_mmu_index(env, false);
+> +
+> +    /* Get the size of the cache block for management instructions. */
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +    uint16_t cbomlen = cpu->cfg.cbom_blocksize;
+> +
+> +    /* Mask off low-bits to align-down to the cache-block. */
+> +    address &= ~(cbomlen - 1);
+> +
+> +    /* A cache-block management instruction is permitted to access
+> +     * the specified cache block whenever a load instruction, store
+> +     * instruction, or instruction fetch is permitted to access the
+> +     * corresponding physical addresses.
+> +     */
+> +    ret = probe_access_range_flags(env, address, cbomlen, MMU_DATA_LOAD,
+> +                                   mmu_idx, true, &phost, ra);
+> +    if (ret == TLB_INVALID_MASK)
+> +        ret = probe_access_range_flags(env, address, cbomlen, MMU_INST_FETCH,
+> +                                       mmu_idx, true, &phost, ra);
+> +    if (ret == TLB_INVALID_MASK)
+> +        probe_access_range_flags(env, address, cbomlen, MMU_DATA_STORE,
+> +                                 mmu_idx, false, &phost, ra);
+> +}
+> +
+> +void helper_cbo_clean_flush(CPURISCVState *env, target_ulong address)
+> +{
+> +    uintptr_t ra = GETPC();
+> +    helper_zicbo_envcfg(env, MENVCFG_CBCFE, ra);
+> +    helper_zicbom_access(env, address, ra);
+> +}
+> +
+> +void helper_cbo_inval(CPURISCVState *env, target_ulong address)
+> +{
+> +    uintptr_t ra = GETPC();
+> +    helper_zicbo_envcfg(env, MENVCFG_CBIE, ra);
+> +    helper_zicbom_access(env, address, ra);
+> +}
+> +
+> +void helper_cbo_zero(CPURISCVState *env, target_ulong address)
+> +{
+> +    uintptr_t ra = GETPC();
+> +    helper_zicbo_envcfg(env, MENVCFG_CBZE, ra);
+> +
+> +    /* Get the size of the cache block for zero instructions. */
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +    uint16_t cbozlen = cpu->cfg.cboz_blocksize;
+> +
+> +    /* Mask off low-bits to align-down to the cache-block. */
+> +    address &= ~(cbozlen - 1);
+> +
+> +    void* mem = probe_access(env, address, cbozlen, MMU_DATA_STORE,
+> +                             cpu_mmu_index(env, false), GETPC());
+> +
+> +    /* Zero the block */
+> +    memset(mem, 0, cbozlen);
+> +}
+> +
+>  #ifndef CONFIG_USER_ONLY
+>
+>  target_ulong helper_sret(CPURISCVState *env)
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index eaf5a72c81..0ee2ce85ec 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -861,6 +861,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+>  #include "insn_trans/trans_rvv.c.inc"
+>  #include "insn_trans/trans_rvb.c.inc"
+>  #include "insn_trans/trans_rvzfh.c.inc"
+> +#include "insn_trans/trans_rvzicbo.c.inc"
+>  #include "insn_trans/trans_privileged.c.inc"
+>  #include "insn_trans/trans_xventanacondops.c.inc"
+>
+> --
+> 2.35.1
+>
 
