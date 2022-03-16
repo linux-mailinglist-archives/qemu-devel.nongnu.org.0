@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634F54DA7F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 03:27:28 +0100 (CET)
-Received: from localhost ([::1]:45734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4224D4DA829
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 03:28:52 +0100 (CET)
+Received: from localhost ([::1]:49774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUJNn-0008DJ-GE
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 22:27:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60882)
+	id 1nUJP9-0002VP-DJ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 22:28:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nUJIk-0008WA-OF
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 22:22:14 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:33601
+ id 1nUJIq-0000Rc-Lw
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 22:22:20 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:33630
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nUJIh-0001Ns-Um
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 22:22:14 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nUJIo-0001OM-Jv
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 22:22:20 -0400
 HMM_SOURCE_IP: 172.18.0.188:44508.143425817
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id A2EC72800F1;
- Wed, 16 Mar 2022 10:22:06 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 57E0B2800DC;
+ Wed, 16 Mar 2022 10:22:11 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.188])
- by app0023 with ESMTP id b22d7a3dd8fe4848996a9a2ad5514acb for
- qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:22:10 CST
-X-Transaction-ID: b22d7a3dd8fe4848996a9a2ad5514acb
+ by app0023 with ESMTP id aaddb719a2b74ea2838e9215703c91bb for
+ qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:22:17 CST
+X-Transaction-ID: aaddb719a2b74ea2838e9215703c91bb
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.188
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v20 4/9] softmmu/dirtylimit: Implement vCPU dirtyrate
- calculation periodically
-Date: Wed, 16 Mar 2022 10:21:34 +0800
-Message-Id: <789f4a79177a86ecfbb0ddeec7a967dedc1c2a55.1647396907.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v20 5/9] accel/kvm/kvm-all: Introduce kvm_dirty_ring_size
+ function
+Date: Wed, 16 Mar 2022 10:21:35 +0800
+Message-Id: <823c35ac86f0197df54e00d1a749a91519eb3096.1647396907.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1647396907.git.huangy81@chinatelecom.cn>
 References: <cover.1647396907.git.huangy81@chinatelecom.cn>
@@ -77,205 +77,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Introduce the third method GLOBAL_DIRTY_LIMIT of dirty
-tracking for calculate dirtyrate periodly for dirty page
-rate limit.
-
-Add dirtylimit.c to implement dirtyrate calculation periodly,
-which will be used for dirty page rate limit.
-
-Add dirtylimit.h to export util functions for dirty page rate
-limit implementation.
+Introduce kvm_dirty_ring_size util function to help calculate
+dirty ring ful time.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Acked-by: Peter Xu <peterx@redhat.com>
 ---
- include/exec/memory.h       |   5 +-
- include/sysemu/dirtylimit.h |  22 +++++++++
- softmmu/dirtylimit.c        | 116 ++++++++++++++++++++++++++++++++++++++++++++
- softmmu/meson.build         |   1 +
- 4 files changed, 143 insertions(+), 1 deletion(-)
- create mode 100644 include/sysemu/dirtylimit.h
- create mode 100644 softmmu/dirtylimit.c
+ accel/kvm/kvm-all.c    | 5 +++++
+ accel/stubs/kvm-stub.c | 6 ++++++
+ include/sysemu/kvm.h   | 2 ++
+ 3 files changed, 13 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 4d5997e..88ca510 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -69,7 +69,10 @@ static inline void fuzz_dma_read_cb(size_t addr,
- /* Dirty tracking enabled because measuring dirty rate */
- #define GLOBAL_DIRTY_DIRTY_RATE (1U << 1)
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 29bf6a0..0c78bc7 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2313,6 +2313,11 @@ bool kvm_dirty_ring_enabled(void)
+     return kvm_state->kvm_dirty_ring_size ? true : false;
+ }
  
--#define GLOBAL_DIRTY_MASK  (0x3)
-+/* Dirty tracking enabled because dirty limit */
-+#define GLOBAL_DIRTY_LIMIT      (1U << 2)
++uint32_t kvm_dirty_ring_size(void)
++{
++    return kvm_state->kvm_dirty_ring_size;
++}
 +
-+#define GLOBAL_DIRTY_MASK  (0x7)
- 
- extern unsigned int global_dirty_tracking;
- 
-diff --git a/include/sysemu/dirtylimit.h b/include/sysemu/dirtylimit.h
-new file mode 100644
-index 0000000..da459f0
---- /dev/null
-+++ b/include/sysemu/dirtylimit.h
-@@ -0,0 +1,22 @@
-+/*
-+ * Dirty page rate limit common functions
-+ *
-+ * Copyright (c) 2022 CHINA TELECOM CO.,LTD.
-+ *
-+ * Authors:
-+ *  Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#ifndef QEMU_DIRTYRLIMIT_H
-+#define QEMU_DIRTYRLIMIT_H
+ static int kvm_init(MachineState *ms)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
+diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
+index 3345882..c5aafaa 100644
+--- a/accel/stubs/kvm-stub.c
++++ b/accel/stubs/kvm-stub.c
+@@ -148,3 +148,9 @@ bool kvm_dirty_ring_enabled(void)
+ {
+     return false;
+ }
 +
-+#define DIRTYLIMIT_CALC_TIME_MS         1000    /* 1000ms */
-+
-+int64_t vcpu_dirty_rate_get(int cpu_index);
-+void vcpu_dirty_rate_stat_start(void);
-+void vcpu_dirty_rate_stat_stop(void);
-+void vcpu_dirty_rate_stat_initialize(void);
-+void vcpu_dirty_rate_stat_finalize(void);
++uint32_t kvm_dirty_ring_size(void)
++{
++    return 0;
++}
 +#endif
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-new file mode 100644
-index 0000000..6102e8c
---- /dev/null
-+++ b/softmmu/dirtylimit.c
-@@ -0,0 +1,116 @@
-+/*
-+ * Dirty page rate limit implementation code
-+ *
-+ * Copyright (c) 2022 CHINA TELECOM CO.,LTD.
-+ *
-+ * Authors:
-+ *  Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/main-loop.h"
-+#include "qapi/qapi-commands-migration.h"
-+#include "sysemu/dirtyrate.h"
-+#include "sysemu/dirtylimit.h"
-+#include "exec/memory.h"
-+#include "hw/boards.h"
-+
-+struct {
-+    VcpuStat stat;
-+    bool running;
-+    QemuThread thread;
-+} *vcpu_dirty_rate_stat;
-+
-+static void vcpu_dirty_rate_stat_collect(void)
-+{
-+    VcpuStat stat;
-+    int i = 0;
-+
-+    /* calculate vcpu dirtyrate */
-+    vcpu_calculate_dirtyrate(DIRTYLIMIT_CALC_TIME_MS,
-+                             &stat,
-+                             GLOBAL_DIRTY_LIMIT,
-+                             false);
-+
-+    for (i = 0; i < stat.nvcpu; i++) {
-+        vcpu_dirty_rate_stat->stat.rates[i].id = i;
-+        vcpu_dirty_rate_stat->stat.rates[i].dirty_rate =
-+            stat.rates[i].dirty_rate;
-+    }
-+
-+    free(stat.rates);
-+}
-+
-+static void *vcpu_dirty_rate_stat_thread(void *opaque)
-+{
-+    rcu_register_thread();
-+
-+    /* start log sync */
-+    global_dirty_log_change(GLOBAL_DIRTY_LIMIT, true);
-+
-+    while (qatomic_read(&vcpu_dirty_rate_stat->running)) {
-+        vcpu_dirty_rate_stat_collect();
-+    }
-+
-+    /* stop log sync */
-+    global_dirty_log_change(GLOBAL_DIRTY_LIMIT, false);
-+
-+    rcu_unregister_thread();
-+    return NULL;
-+}
-+
-+int64_t vcpu_dirty_rate_get(int cpu_index)
-+{
-+    DirtyRateVcpu *rates = vcpu_dirty_rate_stat->stat.rates;
-+    return qatomic_read(&rates[cpu_index].dirty_rate);
-+}
-+
-+void vcpu_dirty_rate_stat_start(void)
-+{
-+    if (qatomic_read(&vcpu_dirty_rate_stat->running)) {
-+        return;
-+    }
-+
-+    qatomic_set(&vcpu_dirty_rate_stat->running, 1);
-+    qemu_thread_create(&vcpu_dirty_rate_stat->thread,
-+                       "dirtyrate-stat",
-+                       vcpu_dirty_rate_stat_thread,
-+                       NULL,
-+                       QEMU_THREAD_JOINABLE);
-+}
-+
-+void vcpu_dirty_rate_stat_stop(void)
-+{
-+    qatomic_set(&vcpu_dirty_rate_stat->running, 0);
-+    qemu_mutex_unlock_iothread();
-+    qemu_thread_join(&vcpu_dirty_rate_stat->thread);
-+    qemu_mutex_lock_iothread();
-+}
-+
-+void vcpu_dirty_rate_stat_initialize(void)
-+{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    int max_cpus = ms->smp.max_cpus;
-+
-+    vcpu_dirty_rate_stat =
-+        g_malloc0(sizeof(*vcpu_dirty_rate_stat));
-+
-+    vcpu_dirty_rate_stat->stat.nvcpu = max_cpus;
-+    vcpu_dirty_rate_stat->stat.rates =
-+        g_malloc0(sizeof(DirtyRateVcpu) * max_cpus);
-+
-+    vcpu_dirty_rate_stat->running = false;
-+}
-+
-+void vcpu_dirty_rate_stat_finalize(void)
-+{
-+    free(vcpu_dirty_rate_stat->stat.rates);
-+    vcpu_dirty_rate_stat->stat.rates = NULL;
-+
-+    free(vcpu_dirty_rate_stat);
-+    vcpu_dirty_rate_stat = NULL;
-+}
-diff --git a/softmmu/meson.build b/softmmu/meson.build
-index 8138248..3272af1 100644
---- a/softmmu/meson.build
-+++ b/softmmu/meson.build
-@@ -4,6 +4,7 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
-   'memory.c',
-   'physmem.c',
-   'qtest.c',
-+  'dirtylimit.c',
- )])
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index a783c78..efd6dee 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -582,4 +582,6 @@ bool kvm_cpu_check_are_resettable(void);
+ bool kvm_arch_cpu_check_are_resettable(void);
  
- specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: [files(
+ bool kvm_dirty_ring_enabled(void);
++
++uint32_t kvm_dirty_ring_size(void);
+ #endif
 -- 
 1.8.3.1
 
