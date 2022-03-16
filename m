@@ -2,109 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CBF24DA8CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 04:14:05 +0100 (CET)
-Received: from localhost ([::1]:33868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8343E4DA8F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 04:33:01 +0100 (CET)
+Received: from localhost ([::1]:36960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUK6t-0005Bt-UH
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 23:14:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38180)
+	id 1nUKPE-0008Ly-3A
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 23:33:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1nUK5D-0004Tw-Kk
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 23:12:19 -0400
-Received: from mail-dm6nam10on2088.outbound.protection.outlook.com
- ([40.107.93.88]:26401 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nUKNX-0007cX-RS
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 23:31:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1nUK5A-0008SA-Fx
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 23:12:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PIrIkmsJQEHPYw7wmeMwdnKJcpk0UC4xKJeOPG4aQrw+mAB4ZA6dBwX49be6pqHCYAnbNBFkz3IU/4e2F0fv/Nhjz5cfiTEZyM6fW1B8WgpiakHziG2Pll5TifU7Qv0/deeSRx9fewPKcRqXbjJradGlNFr1emvI3CbHxEEHvEF69EUAP0aI7Z2tx1Wc5US0ckn7fqOS3nE6RjvbeyeotHn+SbxWdHhCAxazQDuyYp7yxGOzEIAkHuzVtOQ4TNRQ6H6iqqTJxcZgHeqEFS2BpgQaGKDM2kPd7i6X0N6cNOllB9jjbRuX+H+UmX8TAKCSWaMp1GrCAHmip5mhe3FUCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iZCSuPG25fP3tQJRsRRuxOWkudCkDzTpYXkF4jKl7rM=;
- b=LUGVct+A7V0WPOeUnJxm6Fs9HFXwsARg5au+xhMyi1r9hR+ByMTJ0sAMOm7QLAMuRZcyx2Ze67TD0Rmrp26GOj1Ie0ejfmjZoNdJotajD+/iurPT8H3hTjotsE9lOFtkubkz0S0P+nzCmlmrJDj3a4s1cJ+Q/ec4SgoHB9smzp6bWp9gT8yaIHm4D8ZDn1t3Xvf+GRPJbzhIZiyYd491DmplBqFQGNjfZSM5PZPW099GLxbB9WjxSyqtg6sjwKf8h2OrvFiYGEJW2ruqhFFUr48dPIyCtV/3js6BFhQcYGXtC80S8p0t0ImqRQSQzAZqjljeq53oXSVxJ10eSbiakA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iZCSuPG25fP3tQJRsRRuxOWkudCkDzTpYXkF4jKl7rM=;
- b=tHELM7n2aLaEOYiYRRV3sOAsVMDGyQk+Rq/NvvxeklESohg5X1hyDPHnc/+yxyRnIkUG2/6D/B/L+wSRW4cs4l+xeKC1FyNnRMw7VHqZyHTf6iRuZEkpUTiCUtM9KSGHVzPHR1mL3vExuZxJ5+iKEa5QQm9hmmLGuD8B3f3nnXM=
-Received: from MW4PR03CA0129.namprd03.prod.outlook.com (2603:10b6:303:8c::14)
- by PH7PR12MB5593.namprd12.prod.outlook.com (2603:10b6:510:133::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.24; Wed, 16 Mar
- 2022 03:07:11 +0000
-Received: from CO1NAM11FT064.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8c:cafe::c8) by MW4PR03CA0129.outlook.office365.com
- (2603:10b6:303:8c::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.28 via Frontend
- Transport; Wed, 16 Mar 2022 03:07:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT064.mail.protection.outlook.com (10.13.175.77) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5081.14 via Frontend Transport; Wed, 16 Mar 2022 03:07:10 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 15 Mar
- 2022 22:07:08 -0500
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nUKNU-0002iL-VG
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 23:31:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647401471;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dbnZpfFgwDjEjV0jRt8/hkJlM2YyX95y93fiEjRIvs0=;
+ b=NUAzPsZHI1WNs7dcsZg9sE4UufShZSdpzW93B5NflfZmj7MnFIQ+Aby1TNQZ2EGWXAzRZP
+ MCve8B0dyZrXrAKvOUHVhISSpUzDFe86JMVvb3+P/9wBAiY3mGX8rCY8StPmaJm/cmLIW+
+ GISyUarjJKoW1MaBE4jjcwl2rJP73p4=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-539-cfrPR-mlOYe0y0CpZwrKnw-1; Tue, 15 Mar 2022 23:31:06 -0400
+X-MC-Unique: cfrPR-mlOYe0y0CpZwrKnw-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ c14-20020a17090a674e00b001bf1c750f9bso3390426pjm.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 20:31:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=dbnZpfFgwDjEjV0jRt8/hkJlM2YyX95y93fiEjRIvs0=;
+ b=veosK6fRUztcbhpFgy6ZCL52HwnII04GYq2VQMGLD9naFbQtknklZEa+5WKbIGiDku
+ oRUdEdGuBj2Dcb9YKuJHxzAZyyOjMa3PS++8enPtpSSPJYrK5q5+RXipM5BQfcXMDTjg
+ 4k1cn84ngwRKgFK7aeTLURreImTPsi2oHhgdE51jlKUtAgyUegYa7DRvKNhoVgMOnL8y
+ Yeyjh+AN9GssMKIO9nWTddj+uy4CCa4qcbfnHtJ7lB+am21J44ECs9ZM5ue2pGqnUvxL
+ NrRd/lKWDD1kOC+oaEXuYIHqi9Tawk9rXSE23I63YN9BUMliuyNpKve5Z/KwDs8gB5r4
+ 3yQQ==
+X-Gm-Message-State: AOAM533Zge65Qu4vAE23cNOfysEg3z0u3ZoW94M+/2XkMTHrk4wkUE83
+ i8gdVrheJfwpyHZMjve1wFy75b0Z49phxwXTEaFB+0v21DOkvKv8xK3AOxYIn8IFwr00eTxAL9a
+ Z/D3VVjILdinBRLk=
+X-Received: by 2002:a65:6741:0:b0:380:5b69:cbc5 with SMTP id
+ c1-20020a656741000000b003805b69cbc5mr27042777pgu.89.1647401465170; 
+ Tue, 15 Mar 2022 20:31:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyf4l8+H7ZwG/+4cHCeUpm2Sq/yoaga+mbD6sB3n4D8z+mWH8nar1vIVLn8P4TPu6iF8tfmNw==
+X-Received: by 2002:a65:6741:0:b0:380:5b69:cbc5 with SMTP id
+ c1-20020a656741000000b003805b69cbc5mr27042756pgu.89.1647401464783; 
+ Tue, 15 Mar 2022 20:31:04 -0700 (PDT)
+Received: from xz-m1.local ([191.101.132.43]) by smtp.gmail.com with ESMTPSA id
+ f13-20020a056a0022cd00b004f7eaac852dsm633558pfj.151.2022.03.15.20.31.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Mar 2022 20:31:04 -0700 (PDT)
+Date: Wed, 16 Mar 2022 11:30:59 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: Time to introduce a migration protocol negotiation (Re: [PATCH
+ v2 00/25] migration: Postcopy Preemption)
+Message-ID: <YjFZ84Wdz6jpSekr@xz-m1.local>
+References: <20220301083925.33483-1-peterx@redhat.com>
+ <Yh3mo5VFQ3gT1Gd7@redhat.com> <Yh3yzbmOqAVV9iM9@xz-m1.local>
+ <Yh30/nPtWyvqp8xo@redhat.com> <Yh37hLn5Dlffm13P@xz-m1.local>
+ <Yh5O/eq4If4MYpTq@work-vm> <Yi+ONfiZlQD2LoHX@redhat.com>
+ <YjAul3GIWmB3+v0P@xz-m1.local> <YjB1XXzIsJWtSR4E@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Subject: [ANNOUNCE] QEMU 7.0.0-rc0 is now available
-From: Michael Roth <michael.roth@amd.com>
-To: <qemu-devel@nongnu.org>
-CC: <peter.maydell@linaro.org>
-Date: Tue, 15 Mar 2022 22:06:51 -0500
-Message-ID: <164740001134.10934.8549007364327416795@amd.com>
-User-Agent: alot/0.9
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c567073d-de4e-453d-c6e9-08da06fa0fcb
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5593:EE_
-X-Microsoft-Antispam-PRVS: <PH7PR12MB55939F659517E8670284522D95119@PH7PR12MB5593.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZJrdmcycfKyrHMZHwvWnuoKOk8WAjxVkKShIRPCDZKGc/MDJqk+QyffujQZPJbu7adlexLNy746nNwLZhXP8giDTiEfZzZvpU6hIFXbmU1dI9jNcUeUGLvogOZINZEFIqMmcZ0UFum4BF9AL2QZY6qdy0StDmxxRSn04glD3Xi76YtdSdHfObBpEmCbchAh8CEpoKAkxu9CMEuJcX0XusX5Qv6bAaOnLB/3FM7K9LapQUeepe5JTyz55su5rPitwNbO9YNFp4p7r28I6PRrXwLhP6enN4hc46+UWvtaKUFDRfpPspG/svmWwuQAL1Sap4WmO2wXMiO7kXv9MWCfDUigHROPFM9RS9oruqILj3f6LFdEOWcwi99y8PWm1k9rt11pfjFEYEQxRQwv7A5NAxrF59B8J9Q/lkRc4C2pr8h9jpRCdFQt0OfjBX+5Nvfx4rPeTGOy9k9KsJLC3dI04ACUSbqsPwtZQnjlBX53BWwAQ5W1zxB583iPXPsYufaCQCtcZY5ZLM/jjJjhNyI5iFeH+JXNhZr1DOOWHaKZR+KVRnb4GBJuXu6Y7grxV3jtYZ97ScjsjM5+Hoc4PAyiyVSmA6pf9TXYNF6TD53mdur5AGIRb+63oJwG8RDp/ScIEBL3Z+LAQ4rSwqyF4jFTX3/EQuUSB2xhdjA0C57kJSKuuWL3AdExsnrUks/fKZKibsfLVEg9yb53eaiwn6p8FsLw2zP6cImV3/AIYah3BcSk0rCoSLmDplL8RhYP5WXgcGOt3Qz/BoMIh+f8OLfsHWtv4rTnr890YxE5xvKtxdHs=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(44832011)(36756003)(16526019)(8676002)(8936002)(186003)(2906002)(26005)(2616005)(336012)(83380400001)(5660300002)(426003)(508600001)(6666004)(70586007)(4326008)(70206006)(47076005)(81166007)(356005)(86362001)(36860700001)(966005)(40460700003)(316002)(4744005)(6916009)(82310400004)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2022 03:07:10.1075 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c567073d-de4e-453d-c6e9-08da06fa0fcb
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT064.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5593
-Received-SPF: softfail client-ip=40.107.93.88;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <YjB1XXzIsJWtSR4E@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,31 +103,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Tue, Mar 15, 2022 at 11:15:41AM +0000, Daniel P. Berrangé wrote:
+> > I still remember you mentioned the upper layer softwares can have
+> > assumption on using only 1 pair of socket for migration, I think that makes
+> > postcopy-preempt by default impossible.
+> > 
+> > Why multifd is different here?
+> 
+> It isn't different. We went through the pain to extending libvirt
+> to know how to open many channels for multifd. We'll have todo
+> the same with this postcopy-pre-empt. To this day though, management
+> apps above libvirt largely don't enable multifd, which is a real
+> shame. This is the key reason I think we need to handle this at
+> the QEMU level automatically.
 
-On behalf of the QEMU Team, I'd like to announce the availability of the
-first release candidate for the QEMU 7.0 release. This release is meant
-for testing purposes and should not be used in a production environment.
+But I still don't undertand how QEMU could know about those tunnels, which
+should be beyond QEMU's awareness?
 
-  http://download.qemu-project.org/qemu-7.0.0-rc0.tar.xz
-  http://download.qemu-project.org/qemu-7.0.0-rc0.tar.xz.sig
+The tunneling program can be some admin initiated socat tcp forwarding
+programs, which by default may not allow >1 socket pairs.
 
-You can help improve the quality of the QEMU 7.0 release by testing this
-release and reporting bugs using our GitLab issue tracker:
+Or maybe I have mis-understood on what's the tunneling we're discussing?
 
-  https://gitlab.com/qemu-project/qemu/-/issues
+> 
+> > > This post-copy is another case.  We should start off knowing
+> > > we can switch to post-copy at any time.
+> > 
+> > This one is kind of special and it'll be harder, IMHO.
+> > 
+> > AFAIU, postcopy users will always initiate the migration with at least a
+> > full round of precopy, with the hope that all the static guest pages will
+> > be migrated.
+> 
+> I think I didn't explain myself properly here. Today there are
+> two parts to postcopy usage in libvirt
+> 
+>   - Pass the "VIR_MIGRATE_POSTCOPY" when starting the migration.
+>     The migration still runs in pre-copy mode. This merely ensures
+>     we configure a bi-directional socket, so the app has the option
+>     to swtich to postcopy later
+> 
+>   - Invoke virDomainMigrateStartPostCopy  to flip from pre-copy
+>     to post-copy phase. This requires you previously passed
+>     VIR_MIGRATE_POSTCOPY to enable its use.
+> 
+> The first point using 'VIR_MIGRATE_POSTCOPY' should not exist.
+> That should be automaticaly negotiated and handled by QEMU.
+> 
+> Libvirt and mgmt apps should only need to care about whether
+> or not they call virDomainMigrateStartPostCopy to flip to
+> post-copy mode.
 
-The release plan, as well a documented known issues for release
-candidates, are available at:
+Ah I see.  I think Dave also mentioned it'll be a bit tricky to do so, but
+it'll be at least sounds doable.
 
-  http://wiki.qemu.org/Planning/7.0
+> 
+> > > We should further be able to add pre-emption if we find it available.
+> > 
+> > Yeah here I have the same question per multifd above.  I just have no idea
+> > whether QEMU has such knowledge on making this decision.  E.g., how could
+> > QEMU know whether upper app is not tunneling the migration stream?  How
+> > could QEMU know whether the upper app could handle multiple tcp sockets
+> > well?
+> 
+> It can't do this today - that's why we need the new migration protocol
+> feature negotiation I describe below.
+> 
+> > > So rather than following our historical practice, anjd adding
+> > > yet another migration parameter for a specific feature, I'd
+> > > really encourage us to put a stop to it and future proof
+> > > ourselves.
+> > > 
+> > > 
+> > > Introduce one *final-no-more-never-again-after-this* migration
+> > > capability called "protocol-negotiation".
+> > 
+> > Let's see how Juan/Dave/others think.. anyway, that's something I always
+> > wanted.
+> > 
+> > IMHO an even simpler term can be as simple as:
+> > 
+> >   -global migration.handshake=on
+> 
+> This is just inventing a new migration capability framework. We
+> can just use existing QMP for this.
 
-Please add entries to the ChangeLog for the 7.0 release below:
+It's not a new one, it's just that a few years ago we exported the
+migration capabilities to cmdline too (2081475841fe8), even if it's mostly
+for debugging purpose.  In my daily tests it's quite handy.
 
-  http://wiki.qemu.org/ChangeLog/7.0
+> 
+> > > When that capability is set, first declare that henceforth the
+> > > migration transport is REQUIRED to support **multiple**,
+> > > **bi-directional** channels.
+> > 
+> > This new capability will simply need to depend on the return-path
+> > capability we already have.  E.g. exec-typed migration won't be able to
+> > enable return-path, so not applicable to this one too.
+> 
+> 'exec' can be made to work if desired. Currently we only create
+> a unidirectuional pipe and wire it up to stdin for outgoing
+> migration. Nothing stops us declaring 'exec' uses a socketpair
+> wired to stdin + stdout, and supprot invoking 'exec' multiple
+> times to get many sockets
 
-Thank you to everyone involved!
+Yeah sounds working, it's just that we need to have users of it first.  One
+point is that exec shouldn't be used in production but for quick hacks or
+experiments, so supporting new/perf/enhancement features for it sounds a
+bit over-engineering unless explicitly useful.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
