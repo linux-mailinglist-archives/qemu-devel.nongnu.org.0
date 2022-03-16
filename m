@@ -2,92 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40B24DA7A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 03:01:26 +0100 (CET)
-Received: from localhost ([::1]:50552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1665F4DA7A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 03:01:31 +0100 (CET)
+Received: from localhost ([::1]:50918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUIyb-0007po-Af
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 22:01:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57556)
+	id 1nUIyg-00084P-5V
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 22:01:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0672150a7=alistair.francis@opensource.wdc.com>)
- id 1nUIwa-00062N-1Z
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 21:59:20 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:36891)
+ id 1nUIwb-00064n-V4
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 21:59:21 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:36916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0672150a7=alistair.francis@opensource.wdc.com>)
- id 1nUIwW-0006NG-Va
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 21:59:19 -0400
+ id 1nUIwa-0006NR-1Z
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 21:59:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1647395956; x=1678931956;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=EK0FagbRAlcOP2ydcIVZ7cjxZBeV5IjcgmQ28uU5Irg=;
- b=lYH3Y+/8C5gdlM/S6zdmxvZUYdTKmQ1SVDH2GFcXr+cwDhKujWK+S27M
- ltWPfU0d8pEdotJxpCS89Q3fStYjFhVb5G+aro9hIeEv4Wz46HxN4kJdh
- Llka7ho5wvh8aZvCAWAS1tFQnKvJOqOTtVD6Zc+4ssfOu8jlObGa0l6nO
- irVkUK8qsreZBsWq4nRlSwd1gLZDvflQCCw+y+8fpEO+84LXGbrSIBBbi
- KJzxGvlktqTw3tBwVAuK4fUQZOx7vHkLfr9lcH7cn0cqfIYUYLcO2bwWM
- Ep15EkrTOg11HihjqFGkhyGE4s/QGA591X+F5rBU9lq1cHAJhNIFKZED6 Q==;
-X-IronPort-AV: E=Sophos;i="5.90,185,1643644800"; d="scan'208";a="307412979"
+ t=1647395960; x=1678931960;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=JULuWU7jjd4v+41kv9ixESO60ZWaWtvA4R2DIeLIsHk=;
+ b=D52tlDkMh7SS3rcA6x9OMcY0G7/Fk7z8CFEPUYY0PFMg7CRazfFe9d8w
+ Gh3UFf3Yk1sB3HHCvCSFfob4YuKftCpy8rq1Q8GZduQ8QykEwABeddR/J
+ cpp2Ym3m+dqU9pC7E5zsbBvXpaccs52gkZ7Nr9btt+bb1X0xphGb0yZJB
+ 982E6NDCNk2rG3Bpie1FExg2rVnD8UmJ2fV43U2HcT0LafMT9KD/sG/nz
+ NUwHg3ATyGvKh/2BJ8hsQUkG3mwygbN6QHz65iTS9EUXIakfWDIqnjEJV
+ qR4SyUEOjNli/Hd8U7/vnRln/X88I8w3aySzXWJueyiuarEwOBomAEEdK Q==;
+X-IronPort-AV: E=Sophos;i="5.90,185,1643644800"; d="scan'208";a="307412988"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 16 Mar 2022 09:59:11 +0800
-IronPort-SDR: yqIyjZnk4h/4AcZeaRPS/nxDvNx1mY4RtLzj6COcpult138PHFVy6PIVjGMe0ANA4boCRZC787
- h6j0AkWumFMMHVL6RR/QnQi6eI0l2lfVid7CWVFAg2LdSSktmrPPmkRS6xt5gQb1KMKLWDEd4B
- PJ++oyLm/iL8ASmQNo33ssdK6elWFoCrjZYX2Q8RddhRD3WCzLSCTxbyFRWo/Dgb7P+/bdhEeF
- VNInEuaUVtSIEl3ngADcCtIXeKcC9r1r3UEBnsM8iUYPOJWXJLzNJKp2Uc1PY1G2OSSI/wtCmM
- CJOazekW88oi2PZ6+eTLC7Hq
+ by ob1.hgst.iphmx.com with ESMTP; 16 Mar 2022 09:59:16 +0800
+IronPort-SDR: x5RGNkWObcg/V3aroXFM1mv3aO/i1uqO+biXiu8CCuAQYH1jdrj/2YFs4ARBDCJMT/OQ1od0Do
+ j9hqyj7nVxC9Rg98TL5JGoKRkhDG/2WpvSfCyVHxT70ncBygfWg9Iw4tQZCIYESWRa651hudee
+ ViXZg8GYu+B02vZ/QvvsIBwcEiyZCdvfjzlkbIKelc/NJjBVsW72jqcTpH1wpd3y0PQtKi/Pz4
+ 0ZsHIWkaoTC1kh62rUsCrWhDpySxk1e1Y8HT3NbPZUDI6bV4cg/HEurqO6uDu5WmI1aneHZXRV
+ g4q4aQk14BqTOcgv/X20SYZv
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 18:30:18 -0700
-IronPort-SDR: CI8cKK/6hRFB0G76K/A7IqcaZ46TwCdIJGhaUnzoH5iNEY0Ln55i9+sQVAzA7hoxAQguc61Zrq
- KWEhZUsrN6+S/J8ApXNhKbE5WGb882MgeCHcxkP3eWxbkwFsA8NiD4QmC31PCJqt6S40DxHn8d
- WpALK+0ZbEJQlIQFDk5wmTaBBhGHPb2nNUqCcRbe8KWbEe7k+sYyQbXncPQTO95W2TzywVJDEH
- XqEFCKCSm3wBNy/dZo1CktmL9bdE+HH7nDkShX75Rvz84ifJljEeE2uyRpx+bBsVwgK5OfWIt4
- yVE=
+ 15 Mar 2022 18:30:23 -0700
+IronPort-SDR: S6BX3cwIJ+qg0XUpUhhSEwShxyDKBWSityznt0smW42iZS+4/W6dXMw8NNA4Eyf6LZWQ5nIaSW
+ z2yf9tgnH9Bf2i3OKq/EAgExJtV0maPs85Zb7AsBKBrDEnd1uGRfDZYmh2kthTJmDFDkmyEQxz
+ AIp5gl/cAeTwX3fz/Ahwb7x7nZ2Qof28YilaSLI6Jlw5KsLwWilt/E8DrdKtnSYZuAlflKWnkF
+ CfhkLii2Bqxykrq5b69qzR6HADpXwF80wBuLbfeXGB/g+rSz9jfPWaRLo0c1R/kJFuL74aznf/
+ xvo=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 18:59:12 -0700
+ 15 Mar 2022 18:59:17 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KJD3M3KKyz1SVp0
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 18:59:11 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KJD3S1h92z1Rwrw
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 18:59:16 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
- :content-type:x-mailer:message-id:date:subject:to:from; s=dkim;
- t=1647395950; x=1649987951; bh=EK0FagbRAlcOP2ydcIVZ7cjxZBeV5Ijc
- gmQ28uU5Irg=; b=MygOLNdZWKlp8qaf6c2mY7KilPV3o1mITO+8UkEwy85TAa1r
- LPBkZR6Y03oYaeApvT4MEmkgNwP//2SLHYv39xdetNI3I4BImfSch2zGEQ+kueMk
- aqpURIebwzgV9Htk1ZtvVj+Zn7tV70YlGSHJtivIb5BovmWupyzFoq6wGuHB4m8P
- F8em8JhBPUbaSMKAPn/9Vw4CKX8v8AmdW+BLSpBQpZY3kHiHGlnxn1HSgiPOEPCu
- 9CGpoJ+5udN0e53pykcequAaxvIHuLYPwyv03cG4VS2VUI1LCu4jZhwdpdZ8APMA
- UAg5L5CKmvSdZXYzTKZVM1WKznvZGdvPN4R2/Q==
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1647395955; x=1649987956; bh=JULuWU7jjd4v+41kv9
+ ixESO60ZWaWtvA4R2DIeLIsHk=; b=aW0iOks+rwYIHtq9CDbNMroI+pEl6RQR0n
+ qb3k6IQgWTKK1G6+bhV9jXUhWoULhyFxS5f4UTWvTYw009mTlR3PT6hfN2QlajEV
+ Vl/wkWcs5lxxjkE79BDxHkKtnjdQqZS63tUPTFRt1h6QAWYzBdZGRHrHUwOIcChU
+ yaaw99ViOQ5wMw+cPhQTlAx+0SrmxXeXci7F2FFRGc2Z6sOmMG6Zm7CmFWn1YQPs
+ xTayYw+3/VM0oEUAjWk8n6LfeCZ1FapkhXxRyt0auAgHPaZIMvNXUiKLBANVRrR/
+ fZ3YfIPn5Jd1SsFEQidSNBHhM+tnYknksC+WSX/W+Fp0g5CFzpPg==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 67FJGEtRfh9L for <qemu-devel@nongnu.org>;
- Tue, 15 Mar 2022 18:59:10 -0700 (PDT)
+ port 10026) with ESMTP id a2DhloofCRCe for <qemu-devel@nongnu.org>;
+ Tue, 15 Mar 2022 18:59:15 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.107])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KJD3H6Ds4z1Rvlx;
- Tue, 15 Mar 2022 18:59:07 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KJD3M42XYz1Rvlx;
+ Tue, 15 Mar 2022 18:59:11 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
 Cc: bmeng.cn@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, palmer@dabbelt.com, alistair23@gmail.com
-Subject: [PATCH v2 0/2] target/riscv: Allow software access to MIP SEIP
-Date: Wed, 16 Mar 2022 11:58:59 +1000
-Message-Id: <20220316015901.3787779-1-alistair.francis@opensource.wdc.com>
+Subject: [PATCH v2 1/2] target/riscv: cpu: Fixup indentation
+Date: Wed, 16 Mar 2022 11:59:00 +1000
+Message-Id: <20220316015901.3787779-2-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220316015901.3787779-1-alistair.francis@opensource.wdc.com>
+References: <20220316015901.3787779-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.141.245;
@@ -115,36 +116,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>=0D
+From: Alistair Francis <alistair.francis@wdc.com>
 
-The RISC-V specification states that:=0D
-  "Supervisor-level external interrupts are made pending based on the=0D
-  logical-OR of the software-writable SEIP bit and the signal from the=0D
-  external interrupt controller."=0D
-=0D
-We currently only allow either the interrupt controller or software to=0D
-set the bit, which is incorrect.=0D
-=0D
-This patch removes the miclaim mask when writing MIP to allow M-mode=0D
-software to inject interrupts, even with an interrupt controller.=0D
-=0D
-We then also need to keep track of which source is setting MIP_SEIP. The=0D
-final value is a OR of both, so we add two bools and use that to keep=0D
-track of the current state. This way either source can change without=0D
-losing the correct value.=0D
-=0D
-This fixes: https://gitlab.com/qemu-project/qemu/-/issues/904=0D
-=0D
-Alistair Francis (2):=0D
-  target/riscv: cpu: Fixup indentation=0D
-  target/riscv: Allow software access to MIP SEIP=0D
-=0D
- target/riscv/cpu.h |  8 ++++++++=0D
- target/riscv/cpu.c | 30 +++++++++++++++++++-----------=0D
- target/riscv/csr.c |  8 ++++++--=0D
- 3 files changed, 33 insertions(+), 13 deletions(-)=0D
-=0D
--- =0D
-2.35.1=0D
-=0D
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+---
+ target/riscv/cpu.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index ddda4906ff..41b757995d 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -567,18 +567,18 @@ static void riscv_cpu_realize(DeviceState *dev, Err=
+or **errp)
+         if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
+             error_setg(errp,
+                        "I and E extensions are incompatible");
+-                       return;
+-       }
++            return;
++        }
+=20
+         if (!cpu->cfg.ext_i && !cpu->cfg.ext_e) {
+             error_setg(errp,
+                        "Either I or E extension must be set");
+-                       return;
+-       }
++            return;
++        }
+=20
+-       if (cpu->cfg.ext_g && !(cpu->cfg.ext_i & cpu->cfg.ext_m &
+-                               cpu->cfg.ext_a & cpu->cfg.ext_f &
+-                               cpu->cfg.ext_d)) {
++        if (cpu->cfg.ext_g && !(cpu->cfg.ext_i & cpu->cfg.ext_m &
++                                cpu->cfg.ext_a & cpu->cfg.ext_f &
++                                cpu->cfg.ext_d)) {
+             warn_report("Setting G will also set IMAFD");
+             cpu->cfg.ext_i =3D true;
+             cpu->cfg.ext_m =3D true;
+@@ -709,11 +709,11 @@ static void riscv_cpu_set_irq(void *opaque, int irq=
+, int level)
+         case IRQ_S_EXT:
+         case IRQ_VS_EXT:
+         case IRQ_M_EXT:
+-             if (kvm_enabled()) {
++            if (kvm_enabled()) {
+                 kvm_riscv_set_irq(cpu, irq, level);
+-             } else {
++            } else {
+                 riscv_cpu_update_mip(cpu, 1 << irq, BOOL_TO_MASK(level))=
+;
+-             }
++            }
+              break;
+         default:
+             g_assert_not_reached();
+--=20
+2.35.1
+
 
