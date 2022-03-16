@@ -2,97 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35144DAEF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 12:33:21 +0100 (CET)
-Received: from localhost ([::1]:56198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DACA14DAEFB
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 12:38:18 +0100 (CET)
+Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nURu4-0006aj-9I
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 07:33:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36918)
+	id 1nURyq-0003PJ-Pj
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 07:38:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nURph-0004k2-TT
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 07:28:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59689)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nURxd-0002Gr-0C; Wed, 16 Mar 2022 07:37:01 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45030
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nURpf-0007Ee-Rh
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 07:28:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647430127;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XDJPyenBafeObyzc12o3nx+8tkabTMk+C7BGe5YnLgU=;
- b=X46BRcRt2YlayDm3f/zWRGi+UGIi8+szs36zB+lOrETZiXLfZLmmENSsYDC80XOD3DrFQV
- hN46etozfa0sg0VnCgynIxX2y0lC/sGMVMlQJXP8IWPbXEZBn0tcphUhZCFQtln0ONktKK
- mdZAbVoHUnWdDxllsb8KmX8svcCmWhs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-ceRH1On4MJWX50XL0gs--g-1; Wed, 16 Mar 2022 07:28:45 -0400
-X-MC-Unique: ceRH1On4MJWX50XL0gs--g-1
-Received: by mail-ed1-f72.google.com with SMTP id
- x25-20020a50d619000000b00418e70d8528so1120808edi.21
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 04:28:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XDJPyenBafeObyzc12o3nx+8tkabTMk+C7BGe5YnLgU=;
- b=ypIuoNdToQhd0LV3S9p0ApLEhFg7S/Etv88ywTHN+ZjlCOJ3gKNv4XjYmNCXZQHheO
- vJzqiev8X0REPUE+GyVy7LznKlh7qJ+URR3N6F2rn/UpoC4eMH7RaSV9XeDzLROKzLyd
- okJIY/6/y/+fYVauxx/z+crRaUlwH7NVpbErHIjBDBvND009Rvl0RCvLvl8jGo89vII2
- OqJTJu/exYEdQXfYldqXF8NhFHqBf7iftFsLFhrnCZZn0kPzADCXcRmSfHy4monyL0QW
- /b7VVXtyWVnfLwRZIPzBvTFdLUVCgmjiCPyw3sTD1dwteAkCTHMp8Tj1YmyA7YaQQaK0
- grOA==
-X-Gm-Message-State: AOAM533Hi/bVlP28JtwOaeNVm7WnopVq6LbDKs2is8g3iHWA2/yj1xig
- 1BckPAjzF3lzXqU723lEZ5jRCNWR3dq7vyC5GveO5Qw7cpoExh52Ovvk4i1WnSle3D5ZroKAs18
- 6M21l6OnVxjrGnO0=
-X-Received: by 2002:a17:906:c04d:b0:6b9:252:c51c with SMTP id
- bm13-20020a170906c04d00b006b90252c51cmr26821737ejb.470.1647430124719; 
- Wed, 16 Mar 2022 04:28:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyx2mlZdBuol72NuxKc6htHh6ZFXNkWFYMuCvgxhadk9MGd/vmwKG4u7L1mAI26xYIW3ltDDg==
-X-Received: by 2002:a17:906:c04d:b0:6b9:252:c51c with SMTP id
- bm13-20020a170906c04d00b006b90252c51cmr26821705ejb.470.1647430124459; 
- Wed, 16 Mar 2022 04:28:44 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- p23-20020a17090664d700b006db59e6a243sm792934ejn.53.2022.03.16.04.28.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 04:28:43 -0700 (PDT)
-Date: Wed, 16 Mar 2022 12:28:42 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 1/4] target/i386: Fix sanity check on max APIC ID /
- X2APIC enablement
-Message-ID: <20220316122842.0bc78825@redhat.com>
-In-Reply-To: <20220316064631-mutt-send-email-mst@kernel.org>
-References: <20220314142544.150555-1-dwmw2@infradead.org>
- <20220316100425.2758afc3@redhat.com>
- <d374107ebd48432b6c2b13c13c407a48fdb2d755.camel@infradead.org>
- <20220316055333-mutt-send-email-mst@kernel.org>
- <c359ac8572d0193dd65bb384f68873d24d0c72d3.camel@infradead.org>
- <20220316064631-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nURxb-0000lw-3W; Wed, 16 Mar 2022 07:37:00 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22GAeTc9019617; 
+ Wed, 16 Mar 2022 11:36:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=j+oEpH3fznUB2SJdAJnvlBPI1iF3lehUJ0ybu3TAOq0=;
+ b=TQ7b00+BruqMhbEq+W/74Q9QaDbJ+NaRFXr13oWs4Rc0TNLEa42GDTN5GI8vJ77o1LHh
+ YL1SlDHWZOH33W+tRD3nE4dhALFY+P+F5jE4Vhfjxm1LnpVsJboKAykWq4gAr4pVZ+i8
+ BDHfJoFBjk4bHFJ/WrRsFnFF0hQCGfDHCRfkqptoccCZK/PLgsSM1rWr1+5mRUvWaV5r
+ H2rjlAOZX/6mpXA5FjNWAozegTrP+7t7xSrh/2WhdbSwy5QQFFp83z8tI5SsQMykvvcm
+ aGPoTExhqwjW7Ud5cdm1ls4Lb2alqrHTzYCEnWy0FHi9p7A6BERg8LWW46cjWXNF+79u yg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3eubv2vdk5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Mar 2022 11:36:19 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22GBaIDw029256;
+ Wed, 16 Mar 2022 11:36:18 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3eubv2vdj9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Mar 2022 11:36:18 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22GBPYNh010263;
+ Wed, 16 Mar 2022 11:31:16 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04ams.nl.ibm.com with ESMTP id 3erk590vm7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Mar 2022 11:31:15 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22GBVCl250594262
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 16 Mar 2022 11:31:12 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B57BEAE04D;
+ Wed, 16 Mar 2022 11:31:12 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DB8F0AE051;
+ Wed, 16 Mar 2022 11:31:10 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.15.48])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed, 16 Mar 2022 11:31:10 +0000 (GMT)
+Date: Wed, 16 Mar 2022 12:31:08 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH 10/27] Replace config-time define HOST_WORDS_BIGENDIAN
+Message-ID: <20220316123108.682cffa0.pasic@linux.ibm.com>
+In-Reply-To: <20220316095308.2613651-1-marcandre.lureau@redhat.com>
+References: <20220316095308.2613651-1-marcandre.lureau@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 2lhrFj8YK1KMj5IEgT_DhS5MfG15b3Iv
+X-Proofpoint-GUID: iE8-4jEe_MPMJmqf1GsXaW__ElJAfvuY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-16_04,2022-03-15_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0
+ spamscore=0 impostorscore=0 mlxlogscore=992 suspectscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203160068
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,88 +111,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, "Daniel P. =?UTF-8?B?QmVycmFu?=
- =?UTF-8?B?Z8Op?=" <berrange@redhat.com>, kvm@vger.kernel.org,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>, vkuznets@redhat.com,
- David Woodhouse <dwmw2@infradead.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Vikram Garhwal <fnu.vikram@xilinx.com>,
+ "open list:virtio-blk" <qemu-block@nongnu.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+ Huacai Chen <chenhuacai@kernel.org>, Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
+ "open list:ARM PrimeCell and..." <qemu-arm@nongnu.org>,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Coiby Xu <Coiby.Xu@gmail.com>, "open
+ list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Mar 2022 06:47:48 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Wed, 16 Mar 2022 13:53:07 +0400
+marcandre.lureau@redhat.com wrote:
 
-> On Wed, Mar 16, 2022 at 10:37:49AM +0000, David Woodhouse wrote:
-> > On Wed, 2022-03-16 at 05:56 -0400, Michael S. Tsirkin wrote:  
-> > > On Wed, Mar 16, 2022 at 09:37:07AM +0000, David Woodhouse wrote:  
-> > > > Yep, that's the guest operating system's choice. Not a qemu problem.
-> > > > 
-> > > > Even if you have the split IRQ chip, if you boot a guest without kvm-
-> > > > msi-ext-dest-id support, it'll refuse to use higher CPUs.
-> > > > 
-> > > > Or if you boot a guest without X2APIC support, it'll refuse to use
-> > > > higher CPUs. 
-> > > > 
-> > > > That doesn't mean a user should be *forbidden* from launching qemu in
-> > > > that configuration.  
-> > > 
-> > > Well the issue with all these configs which kind of work but not
-> > > the way they were specified is that down the road someone
-> > > creates a VM with this config and then expects us to maintain it
-> > > indefinitely.
-> > > 
-> > > So yes, if we are not sure we can support something properly it is
-> > > better to validate and exit than create a VM guests don't know how
-> > > to treat.  
-> > 
-> > Not entirely sure how to reconcile that with what Daniel said in
-> > https://lore.kernel.org/qemu-devel/Yi9BTkZIM3iZsvdK@redhat.com/ which
-> > was:
-
-Generally Daniel is right, as long as it's something that what real hardware
-supports. (usually it's job if upper layers which know what guest OS is used,
-and can tweak config based on that knowledge).
-
-But it's virt only extension and none (tested with
- Windows (hangs on boot),
- Linux (brings up only first 255 cpus)
-) of mainline OSes ended up up working as expected (i.e. user asked for this
-many CPUs but can't really use them as expected).
-Which would just lead to users reporting (obscure) bugs.
-
-> > > We've generally said QEMU should not reject / block startup of valid
-> > > hardware configurations, based on existance of bugs in certain guest
-> > > OS, if the config would be valid for other guest.  
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> For sure, but is this a valid hardware configuration? That's
-> really the question.
+> Replace a config-time define with a compile time condition
+> define (compatible with clang and gcc) that must be declared prior to
+> its usage. This avoids having a global configure time define, but also
+> prevents from bad usage, if the config header wasn't included before.
+> 
+> This can help to make some code independent from qemu too.
+> 
+> gcc supports __BYTE_ORDER__ from about 4.6 and clang from 3.2.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-to me it looks like not complete PV feature so far.
-if it's a configuration that is interesting for some users (some special
-build OS/appliance that can use CPUs which are able to handle only IPIs)
-or for development purposes than in should be an opt-in feature
-instead of default one.
- 
-> > That said, I cannot point at a *specific* example of a guest which can
-> > use the higher CPUs even when it can't direct external interrupts at
-> > them. I worked on making Linux capable of it, as I said, but didn't
-> > pursue that in the end.
-> > 
-> > I *suspect* Windows might be able to do it, based on the way the
-> > hyperv-iommu works (by cheating and returning -EINVAL when external
-> > interrupts are directed at higher CPUs).
-Testing shows, Windows (2019 and 2004 build) doesn't work (at least with
-just kernel-irqchip=on in current state). (CCing Vitaly, he might know
-if Windows might work and under what conditions)
+LGTM
 
-Linux(recentish) was able to bring up all CPUs with APICID above 255
-with 'split' irqchip and without iommu present (at least it boots to
-command prompt).
+For the s390x parts I'm involved in:
+Acked-by: Halil Pasic <pasic@linux.ibm.com>
 
-What worked for both OSes (full boot), was split irqchip + iommu
-(even without irq remapping, but I haven't tested with older guests
-so irq remapping might be required anyways).
+[..]
 
+> --- a/include/exec/cpu-all.h
+> +++ b/include/exec/cpu-all.h
+> @@ -34,13 +34,13 @@
+>  
+>  /* some important defines:
+>   *
+> - * HOST_WORDS_BIGENDIAN : if defined, the host cpu is big endian and
+> + * HOST_BIG_ENDIAN : whether the host cpu is big endian and
+>   * otherwise little endian.
+>   *
+>   * TARGET_WORDS_BIGENDIAN : same for target cpu
+>   */
+
+This comment does not seem spot on any more. BTW would it make sense
+to replace TARGET_WORDS_BIGENDIAN with TARGET_BIG_ENDIAN as well. I
+believe the bad usage argument applies equally to both, and IMHO we
+should keep the both consistent naming and usage wise.
+
+>  
+> -#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
+> +#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
+>  #define BSWAP_NEEDED
+>  #endif
+>  
+
+[..]
 
