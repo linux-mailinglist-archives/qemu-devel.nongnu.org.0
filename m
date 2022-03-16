@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1633D4DAA74
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 07:10:09 +0100 (CET)
-Received: from localhost ([::1]:49686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B944DAA4B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 07:04:06 +0100 (CET)
+Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUMrI-0005jk-3g
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 02:10:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58896)
+	id 1nUMlR-0002lz-5d
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 02:04:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUMgR-0002YI-QE
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:55 -0400
-Received: from [2607:f8b0:4864:20::42e] (port=36563
- helo=mail-pf1-x42e.google.com)
+ id 1nUMgT-0002du-5k
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:57 -0400
+Received: from [2607:f8b0:4864:20::435] (port=34533
+ helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUMgQ-0006TY-C1
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:55 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id z16so2568217pfh.3
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 22:58:53 -0700 (PDT)
+ id 1nUMgR-0006Tp-Km
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:56 -0400
+Received: by mail-pf1-x435.google.com with SMTP id l8so2578037pfu.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 22:58:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mnSb1dxSO3Acb9OpkT5IqwkwlD06Fhi2+q3inDP0gio=;
- b=UGpebiJbBC4qCDeXRvgaUrpna9hs+ZZlVYLRiBWDjNoNpxyJQaSanZB0nPE6xaQeEy
- pgIlHAk0N7T/BZEkJPZ9IVAzV6l6BIhvd56IVTi5k5N9gncwDvwMYaZahfR12b4GoQUD
- I8eJ8Hz7vI+/gkPvVO8oqPr9E7pJRIbd1ACnevA7hD0tXAoEsCbJrqO7jbS2RvZb93T8
- 6pciwKCktPttrlpKOaTIIhDHO2HhMMtvKrhPfVFmWXcQPr1GybcXXZehCFb3Egqxms4Q
- r2AUeYkLHPgxcf+VT09ibeY+rlIw31tv7hMPt6JEE5ygqb3OX2R8povvmhsvJlIBea5V
- crOQ==
+ bh=35HcCby7Mn+2agrxKO46W+juCyRSjYj+577YArHBs58=;
+ b=u3853nR5m3h08NFrm+m8GrNNpyssPJswQilEpY7ypVFnuwdyXi2i5FmumaFNqV7mz5
+ mCBVPJrCRHWN7T6ii/nxxro9s/ElVqZ4EzLnpsmDEXphsiwYYLatRTR84NouhMsmZvCW
+ 18hHfJpkaWwQE7Feobco8SuH91hpfoJ/9uQTjTTzNGblhvJla6m+eWYRut/oCRwe0nNJ
+ X7f43wnKPGVp1MKp78CzhfRonBF1JAGjJI7NfdgdFSVIIMV0CTFR11AQ0vJmTezwWmOP
+ q7YemvdVJEV/LAPiSSWhTjfz7+eTNvVFWGe2d3E2uQ4QuNL10awy1v2v71vvDYXlfa3v
+ Iazw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mnSb1dxSO3Acb9OpkT5IqwkwlD06Fhi2+q3inDP0gio=;
- b=FjvU0X6rtbZE8lHanCdsnUA+bxWaJdh4Ay56NP9dBaH0QnCMqJns5erMDDG9Z5oWhP
- QguYcFZtPvUmc3BmfNAE5uv7GBdF43W8aPukRGlRGtH7++2G00cFy/1qqLItomkfq6Uu
- l3MkVBkZUIOQeSSR4j8ghY454QLRzSSpD3/7xGNl4vCv1dxm9iwp8B3rIiF/qOeaoGXO
- rlRDMGL4zUSabWkmjlRAYAvb8Z759PeSCrgPC6bG50TAj9kXaVM1EQ5/KbYpdecUHi51
- q7DWtdceSJdvK1Z6pzFGO/tVZniK//bb2VekRaQz1xk50zsMWa5W0Ot47RW479H7T5DO
- ETqQ==
-X-Gm-Message-State: AOAM533Wajna4e1AMfibH/C8oubC2S7GRSy1JQKxPq84hHmJlT9u2EA9
- xvr0Z/2rXAZo1hCYFuKGagMBwVKh7cWb9A==
-X-Google-Smtp-Source: ABdhPJyvXTUghb5/g/UZbJ7W9mtlRGodRcBbVXs/VpBAw/+ofTdchBrN7cjnRAimPs+7hQIjc9hgvw==
-X-Received: by 2002:a63:f816:0:b0:37f:f252:9f12 with SMTP id
- n22-20020a63f816000000b0037ff2529f12mr27571747pgh.318.1647410333157; 
- Tue, 15 Mar 2022 22:58:53 -0700 (PDT)
+ bh=35HcCby7Mn+2agrxKO46W+juCyRSjYj+577YArHBs58=;
+ b=k6lmnmX+XJNL+0biEF+mnnl5MOo0Q25byU1SMgA0j6BFvkIF3PdcJVGY0lXRxXLGyX
+ DfGNM0TxM0gU0f/YbYiuv/HdHsbhmNvu2c+Q2dUjZALzxUbpjPitdFLNRNKCxfLj6s1l
+ dQw6KySU7p1oVVag4bMKhif4gDZhmflt3OdLBgqRPf7S1CBu+wtzxYp75DVDnu0Y7PAJ
+ UidzTnXBAHr5gcnKx/xd4hDXsAxQQA+jlamnoV8PB2GkgLOLpCnOfYuokJG5opzwrrP7
+ +LhGpd5VNFXjSlFtDhk3q0aMCD2ccnKONXwAnY+i8ZgNC36g2nASvcnYN98ZJel1Bb89
+ /ZdQ==
+X-Gm-Message-State: AOAM530k0QJ6cC7CHRni3JkIGOTKoejabWrC7u0InFEUGtdL8MFsB3oX
+ +ULiVcc50btbaEras72frapBRAt9KaHHqw==
+X-Google-Smtp-Source: ABdhPJy4Z+biTvhoNSW8wete4ipw0rl9aCcclMTeVwBDk7WOFKuN2zxKpVABcwq3LzPJRLv3jhRwRA==
+X-Received: by 2002:a63:df58:0:b0:381:6713:6a49 with SMTP id
+ h24-20020a63df58000000b0038167136a49mr5352058pgj.198.1647410334158; 
+ Tue, 15 Mar 2022 22:58:54 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- i24-20020a056a00225800b004f6edabc9f4sm1236290pfu.72.2022.03.15.22.58.52
+ i24-20020a056a00225800b004f6edabc9f4sm1236290pfu.72.2022.03.15.22.58.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 22:58:52 -0700 (PDT)
+ Tue, 15 Mar 2022 22:58:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/17] target/m68k: Implement TRAPV
-Date: Tue, 15 Mar 2022 22:58:35 -0700
-Message-Id: <20220316055840.727571-13-richard.henderson@linaro.org>
+Subject: [PATCH v3 13/17] target/m68k: Implement FTRAPcc
+Date: Tue, 15 Mar 2022 22:58:36 -0700
+Message-Id: <20220316055840.727571-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220316055840.727571-1-richard.henderson@linaro.org>
 References: <20220316055840.727571-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,36 +94,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/translate.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ target/m68k/translate.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 86e5e16f71..6118f9fcfb 100644
+index 6118f9fcfb..14f8c702c1 100644
 --- a/target/m68k/translate.c
 +++ b/target/m68k/translate.c
-@@ -4911,6 +4911,14 @@ DISAS_INSN(trapcc)
-     do_trapcc(s, &c);
+@@ -5567,6 +5567,35 @@ DISAS_INSN(fscc)
+     tcg_temp_free(tmp);
  }
  
-+DISAS_INSN(trapv)
++DISAS_INSN(ftrapcc)
 +{
 +    DisasCompare c;
++    uint16_t ext;
++    int cond;
 +
-+    gen_cc_cond(&c, s, 9); /* V set */
++    ext = read_im16(env, s);
++    cond = ext & 0x3f;
++
++    /* Consume and discard the immediate operand. */
++    switch (extract32(insn, 0, 3)) {
++    case 2: /* ftrapcc.w */
++        (void)read_im16(env, s);
++        break;
++    case 3: /* ftrapcc.l */
++        (void)read_im32(env, s);
++        break;
++    case 4: /* ftrapcc (no operand) */
++        break;
++    default:
++        /* Illegal insn */
++        disas_undef(env, s, insn);
++        return;
++    }
++
++    gen_fcc_cond(&c, s, cond);
 +    do_trapcc(s, &c);
 +}
 +
- static void gen_load_fcr(DisasContext *s, TCGv res, int reg)
+ #if defined(CONFIG_SOFTMMU)
+ DISAS_INSN(frestore)
  {
-     switch (reg) {
-@@ -6074,6 +6082,7 @@ void register_m68k_insns (CPUM68KState *env)
-     BASE(nop,       4e71, ffff);
-     INSN(rtd,       4e74, ffff, RTD);
-     BASE(rts,       4e75, ffff);
-+    INSN(trapv,     4e76, ffff, M68000);
-     INSN(rtr,       4e77, ffff, M68000);
-     BASE(jump,      4e80, ffc0);
-     BASE(jump,      4ec0, ffc0);
+@@ -6190,6 +6219,7 @@ void register_m68k_insns (CPUM68KState *env)
+     INSN(fbcc,      f280, ffc0, CF_FPU);
+     INSN(fpu,       f200, ffc0, FPU);
+     INSN(fscc,      f240, ffc0, FPU);
++    INSN(ftrapcc,   f278, fff8, FPU);
+     INSN(fbcc,      f280, ff80, FPU);
+ #if defined(CONFIG_SOFTMMU)
+     INSN(frestore,  f340, ffc0, CF_FPU);
 -- 
 2.25.1
 
