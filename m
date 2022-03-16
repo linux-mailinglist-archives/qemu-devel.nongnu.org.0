@@ -2,85 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB074DB763
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 18:37:37 +0100 (CET)
-Received: from localhost ([::1]:57034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9203C4DB6E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 18:07:07 +0100 (CET)
+Received: from localhost ([::1]:36650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUXaZ-0005Yx-Qi
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 13:37:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52310)
+	id 1nUX74-0006Ne-7C
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 13:07:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nUXZM-0004Iv-Nq
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 13:36:20 -0400
-Received: from [2a00:1450:4864:20::629] (port=45821
- helo=mail-ej1-x629.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nUXZK-0005zK-JZ
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 13:36:20 -0400
-Received: by mail-ej1-x629.google.com with SMTP id qa43so5650664ejc.12
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 10:36:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=vW6XNAt6eQnB4AP0+OpU4vOtlaWOttrO/SQ7U+YuWZE=;
- b=W0v+zcG2vu0cf6uaBgpip3B2Yw9BzH8ZucZX0UUl5Alo1JEd0ePsyWCWA0GYOmsZah
- Bv/pUR+Px4RvBuY4JiO3/KF1J8fPO37UTgVaNqZfOz52QBFo9qi4/Eqn4c8Z7arTxXEM
- OPY+Cgr/PehJyHene65XZKofFik0AgPTz64qe6tDhQTlGSencXSmdnecibsXtlucAVJL
- B7v+9N1DfW3GDNZfYcsNoSgy5KiK/8JcsOjGAgvl3gNB9HVUsut/5TAXe4geuD/Z8o6n
- 2yBKcKyPcks0FrVsWIbJ5QxBhEPZmuBJaKsBn8davsLCdU423mRf85y7DfgAtv4EsptF
- gbhg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUX5O-0005ay-FY
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 13:05:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nUX5J-0000wK-Ap
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 13:05:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647450315;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mURKp2IPm5RiT7QS745sw5CusSq/g0F9EAS4uIkixCo=;
+ b=EsBlXAATKsPRxpzyKKhdyAhZigqSMM1PNdzewWWhWYqdWS70UmckCdZLRYeTOjlr77nNTE
+ 3Bq3EvS5jvGcaqloZNH2q2Q05tY2LaPjxSzV5bjwG6Or+oBdnvh6RyBXVG/dar+Bc8AYwi
+ kHUU7mLqniiXJv/EfVDR2yTME2c49Uk=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-137-jFydJWFaOKqG5Xx4UUcnPA-1; Wed, 16 Mar 2022 13:05:14 -0400
+X-MC-Unique: jFydJWFaOKqG5Xx4UUcnPA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ s7-20020a508dc7000000b0040f29ccd65aso1694600edh.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 10:05:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=vW6XNAt6eQnB4AP0+OpU4vOtlaWOttrO/SQ7U+YuWZE=;
- b=cXMMjW3iliZkoWYMhm2KlKSVS5MXdomwTmX1zy/5a1iJLWK2i8rbgf0oWMyv9M/kLL
- 92s4cQoQob7y6Vd/cz7KHDxgYDNBGvVXgCYKRprh7pu/NPEGlilQ9tIRfOS5C2tT3V4h
- JnZ3rdGf+8lCdG18EcUaEcVko80QnNIGrW6hMRd2cqylsSAHSLQgwcpxXscg8uQt2nKK
- MzgJEf43JYDL1UF9RjhLHqEf8x5EZal1XqZpf+2w9eM+ZbU0EZPD/vipDvi5tpL9b9Jx
- XnaJUbZos1Ft51kFc/TQpN/B8Prn5/zAgxs6jiQSugJKKQ68c2NjmiQ53Ss7KCiCaJIQ
- CGhg==
-X-Gm-Message-State: AOAM531IWamadofVH1qHIN+A03kbDTsgxQcFy6ZlUML4zVfGiWtmBp+c
- Osbg8Qa7Ek9TJ1VWybiIM6cw5Q==
-X-Google-Smtp-Source: ABdhPJyY/ba7GDl9l57AXCPFIMxVV1HKaUhdnjWhVHEdjgfmP3wRBX0fRHCypK2MIRhVBzed4Etg9g==
-X-Received: by 2002:a17:906:c0c9:b0:6db:207:c41f with SMTP id
- bn9-20020a170906c0c900b006db0207c41fmr963101ejb.292.1647452176751; 
- Wed, 16 Mar 2022 10:36:16 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- b13-20020a056402350d00b00416ad3dbc54sm1367296edd.0.2022.03.16.10.36.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 10:36:16 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 18A681FFB7;
- Wed, 16 Mar 2022 17:29:16 +0000 (GMT)
-References: <20220309164929.19395-1-alex.bennee@linaro.org>
- <8735jrhue4.fsf@redhat.com>
-User-agent: mu4e 1.7.10; emacs 28.0.92
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [RFC PATCH] docs/devel: start documenting writing VirtIO devices
-Date: Wed, 16 Mar 2022 16:41:21 +0000
-In-reply-to: <8735jrhue4.fsf@redhat.com>
-Message-ID: <87a6dp3ixf.fsf@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mURKp2IPm5RiT7QS745sw5CusSq/g0F9EAS4uIkixCo=;
+ b=d7vrhAzkc5DFTflbR8RIJx9uzr3rXdPIMgI4Jy1FAJqGPrx4hlQoz6b8ERr3WTk7lq
+ wPlaRQI+8qiwnqLWs7xSl17xbhhwLySo++zFPLPQDbZHZ25m3GGS7p0hvabhU+p+Vs22
+ VwtKAI/6NuQ4LO9Hxn8ALznmFdeqn0aiPUduO+L0Kv47cOPRKkogpieY9O5Yo2YEuScK
+ XYDDgt76j2M9pTXJ7d19mspwn77Iub4f4iZa7sSZkRtZnlmyh4rpLuGbbBIKGYbq2TCp
+ ivTU52d1PYyl30Y+NgLbj7RWl60ygO9CWVojDBY8RWbJwRS7sunMIM16YXs/jHFSIw7v
+ FdyA==
+X-Gm-Message-State: AOAM532EgdHDU5HbodVM/DnRm514twjHrKQZUANDLThjLH/2wUtD8hjC
+ 8d921CKjxMPpYKdeN/1e60QlquMK3+gsEn99ybVFWTpaO2foizzUD6pgZxShm07ARv6bn2ew5yv
+ ktTftBhMS5ZwfjIQ=
+X-Received: by 2002:a50:fb19:0:b0:404:eb52:62cb with SMTP id
+ d25-20020a50fb19000000b00404eb5262cbmr386107edq.363.1647450313256; 
+ Wed, 16 Mar 2022 10:05:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyJHmnCdSbuStIX3Mv/HRISu5ql8ch5lFxXogZm1HIIokmFuSEII5cQVpf0gn4+DwOSb2Uxsw==
+X-Received: by 2002:a50:fb19:0:b0:404:eb52:62cb with SMTP id
+ d25-20020a50fb19000000b00404eb5262cbmr386092edq.363.1647450313033; 
+ Wed, 16 Mar 2022 10:05:13 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ r19-20020a17090638d300b006d6e4fc047bsm1137676ejd.11.2022.03.16.10.05.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Mar 2022 10:05:12 -0700 (PDT)
+Message-ID: <8e608283-b5d2-91d9-26b3-372c57422a30@redhat.com>
+Date: Wed, 16 Mar 2022 18:05:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 2/3] hw/display: Allow vga_common_init() to return errors
+To: Markus Armbruster <armbru@redhat.com>
+References: <20220316132402.1190346-1-thuth@redhat.com>
+ <20220316132402.1190346-3-thuth@redhat.com>
+ <64353530-4488-8820-c58c-a5e104e93b4b@gmail.com>
+ <e5e03938-d602-c928-07ef-da6486fb99b0@redhat.com>
+ <87bky6ugmx.fsf@pond.sub.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <87bky6ugmx.fsf@pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,208 +105,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mathieu Poirier <mathieu.poirier@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>,
- "Dr . David Alan  Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Cornelia Huck <cohuck@redhat.com> writes:
-
-> On Wed, Mar 09 2022, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
->
->> While writing my own VirtIO devices I've gotten confused with how
->> things are structured and what sort of shared infrastructure there is.
->> If we can document how everything is supposed to work we can then
->> maybe start cleaning up inconsistencies in the code.
->
-> I agree that we could use some documentation here; OTOH, I'm a bit
-> confused in turn by your patch :) Let me comment below.
-
-Almost by design ;-)
-
->
+On 16/03/2022 15.16, Markus Armbruster wrote:
+> Thomas Huth <thuth@redhat.com> writes:
+> 
+>> On 16/03/2022 14.32, Philippe Mathieu-Daudé wrote:
+>>> On 16/3/22 14:24, Thomas Huth wrote:
+>>>> The vga_common_init() function currently cannot report errors to its
+>>>> caller. But in the following patch, we'd need this possibility, so
+>>>> let's change it to take an "Error **" as parameter for this.
+>>>>
+>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>> ---
+>>>>    hw/display/ati.c            |  7 ++++++-
+>>>>    hw/display/cirrus_vga.c     |  7 ++++++-
+>>>>    hw/display/cirrus_vga_isa.c |  7 ++++++-
+>>>>    hw/display/qxl.c            |  6 +++++-
+>>>>    hw/display/vga-isa.c        |  9 ++++++++-
+>>>>    hw/display/vga-mmio.c       |  8 +++++++-
+>>>>    hw/display/vga-pci.c        | 15 +++++++++++++--
+>>>>    hw/display/vga.c            |  9 +++++++--
+>>>>    hw/display/vga_int.h        |  2 +-
+>>>>    hw/display/virtio-vga.c     |  7 ++++++-
+>>>>    hw/display/vmware_vga.c     |  2 +-
+>>>>    11 files changed, 66 insertions(+), 13 deletions(-)
+>>>
+>>> Please setup scripts/git.orderfile :)
+>>>
+>>>> diff --git a/hw/display/vga_int.h b/hw/display/vga_int.h
+>>>> index 847e784ca6..3e8892df28 100644
+>>>> --- a/hw/display/vga_int.h
+>>>> +++ b/hw/display/vga_int.h
+>>>> @@ -156,7 +156,7 @@ static inline int c6_to_8(int v)
+>>>>        return (v << 2) | (b << 1) | b;
+>>>>    }
+>>>> -void vga_common_init(VGACommonState *s, Object *obj);
+>>>> +void vga_common_init(VGACommonState *s, Object *obj, Error **errp);
+>>>
+>>> Can we also return a boolean value? IIUC Markus recommended to check
+>>> a boolean return value rather than Error* handle.
 >>
->> Based-on: 20220309135355.4149689-1-alex.bennee@linaro.org
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Cc: Stefan Hajnoczi <stefanha@redhat.com>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Gerd Hoffmann <kraxel@redhat.com>
->> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> Cc: Viresh Kumar <viresh.kumar@linaro.org>
->> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> ---
->>  docs/devel/index-internals.rst |   2 +-
->>  docs/devel/virtio-backends.rst | 139 +++++++++++++++++++++++++++++++++
->>  2 files changed, 140 insertions(+), 1 deletion(-)
->>  create mode 100644 docs/devel/virtio-backends.rst
->
-> (...)
->
->> diff --git a/docs/devel/virtio-backends.rst b/docs/devel/virtio-backends=
-.rst
->> new file mode 100644
->> index 0000000000..230538f46b
->> --- /dev/null
->> +++ b/docs/devel/virtio-backends.rst
->> @@ -0,0 +1,139 @@
->> +..
->> +   Copyright (c) 2022, Linaro Limited
->> +   Written by Alex Benn=C3=A9e
->> +
->> +Writing VirtIO backends for QEMU
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +
->> +This document attempts to outline the information a developer needs to
->> +know to write backends for QEMU. It is specifically focused on
->> +implementing VirtIO devices.
->
-> I think you first need to define a bit more clearly what you consider a
-> "backend". For virtio, it is probably "everything a device needs to
-> function as a specific device type like net, block, etc., which may be
-> implemented by different methods" (as you describe further below).
+>> Really? A very quick grep shows something different:
+>>
+>> $ grep -r ^void.*Error include/ | wc -l
+>> 94
+>> $ grep -r ^bool.*Error include/ | wc -l
+>> 46
+> 
+> Historical reasons.  We deviated from GLib here only to find out that
+> the deviation leads to awkward code.  I flipped the guidance in commit
+> e3fe3988d7 "error: Document Error API usage rules" (2020-07-10).  A lot
+> of old code remains.
 
-How about:
+Hmm, you should add some BiteSizeTasks to our issue tracker then to get this 
+fixed, otherwise people like me will copy-n-paste the bad code examples that 
+are all over the place!
 
-  This document attempts to outline the information a developer needs to
-  know to write device emulations in QEMU. It is specifically focused on
-  implementing VirtIO devices. For VirtIO the frontend is the driver
-  running on the guest. The backend is the everything that QEMU needs to
-  do to handle the emulation of the VirtIO device. This can be done
-  entirely in QEMU, divided between QEMU and the kernel (vhost) or
-  handled by a separate process which is configured by QEMU
-  (vhost-user).
+  Thomas
 
->
->> +
->> +Front End Transports
->> +--------------------
->> +
->> +VirtIO supports a number of different front end transports. The
->> +details of the device remain the same but there are differences in
->> +command line for specifying the device (e.g. -device virtio-foo
->> +and -device virtio-foo-pci). For example:
->> +
->> +.. code:: c
->> +
->> +  static const TypeInfo vhost_user_blk_info =3D {
->> +      .name =3D TYPE_VHOST_USER_BLK,
->> +      .parent =3D TYPE_VIRTIO_DEVICE,
->> +      .instance_size =3D sizeof(VHostUserBlk),
->> +      .instance_init =3D vhost_user_blk_instance_init,
->> +      .class_init =3D vhost_user_blk_class_init,
->> +  };
->> +
->> +defines ``TYPE_VHOST_USER_BLK`` as a child of the generic
->> +``TYPE_VIRTIO_DEVICE``.
->
-> That's not what I'd consider a "front end", though?
-
-Yeah clumsy wording. I'm trying to get find a good example to show how
-QOM can be used to abstract the core device operation and the wrappers
-for different transports. However in the code base there seems to be
-considerable variation about how this is done. Any advice as to the
-best exemplary device to follow is greatly welcomed.
-
->> And then for the PCI device it wraps around the
->> +base device (although explicitly initialising via
->> +virtio_instance_init_common):
->> +
->> +.. code:: c
->> +
->> +  struct VHostUserBlkPCI {
->> +      VirtIOPCIProxy parent_obj;
->> +      VHostUserBlk vdev;
->> +  };
->
-> The VirtIOPCIProxy seems to materialize a bit out of thin air
-> here... maybe the information simply needs to be structured in a
-> different way? Perhaps:
->
-> - describe that virtio devices consist of a part that implements the
->   device functionality, which ultimately derives from VirtIODevice (the
->   "backend"), and a part that exposes a way for the operating system to
->   discover and use the device (the "frontend", what the virtio spec
->   calls a "transport")
-> - decribe how the "frontend" part works (maybe mention VirtIOPCIProxy,
->   VirtIOMMIOProxy, and VirtioCcwDevice as specialized proxy devices for
->   PCI, MMIO, and CCW devices)
-> - list the different types of "backends" (as you did below), and give
->   two examples of how VirtIODevice is extended (a plain one, and a
->   vhost-user one)
-> - explain how frontend and backend together create an actual device
->   (with the two device examples, and maybe also with the plain one
->   plugged as both PCI and CCW?); maybe also mention that MMIO is a bit
->   different? (it always confuses me)
-
-OK I'll see how I can restructure things to make it clearer. Do we also
-have to take into account the object heirarchy for different types of
-device (i.e. block or net)? Or is that all plumbing into QEMUs
-sub-system internals done in the VirtIO device objects?
-
->> +
->> +Back End Implementations
->> +------------------------
->> +
->> +There are a number of places where the implementation of the backend
->> +can be done:
->> +
->> +* in QEMU itself
->> +* in the host kernel (a.k.a vhost)
->> +* in a separate process (a.k.a. vhost-user)
->> +
->> +where a vhost-user implementation is being done the code in QEMU is
->> +mainly boilerplate to handle the command line definition and
->> +connection to the separate process with a socket (using the ``chardev``
->> +functionality).
->> +
->> +Implementing a vhost-user wrapper
->> +---------------------------------
->> +
->> +There are some classes defined that can wrap a lot of the common
->> +vhost-user code in a ``VhostUserBackend``. For example:
->
-> Is VhostUserBackend something that is expected to be commonly used? I
-> think gpu and input use it, but not virtiofs (unless I misread the
-> code).
-
-Possibly - but it does seem to be trying to avoid adding lots of
-boilerplate to each individual device to setup and configure the
-vhost-user backend. A problem I ran into when trying to fix the
-squashing of VHOST_USER_PROTOCOL_F_CONFIG messages in
-vhost_user_backend_init.
-
-<snip>
->> +  static const TypeInfo vhost_user_gpu_info =3D {
->> +      .name =3D TYPE_VHOST_USER_GPU,
->> +      .parent =3D TYPE_VIRTIO_GPU_BASE,
->> +      .instance_size =3D sizeof(VhostUserGPU),
->> +      .instance_init =3D vhost_user_gpu_instance_init,
->> +      .class_init =3D vhost_user_gpu_class_init,
->> +      ...
->> +  };
->> +
->> +Here the ``TYPE_VHOST_USER_GPU`` is based off a shared base class
->> +(``TYPE_VIRTIO_GPU_BASE`` which itself is based on
->> +``TYPE_VIRTIO_DEVICE``). The chardev property is aliased to the
->> +VhostUserBackend chardev so it can be specified on the command line
->> +for this device.
->> +=20
->
-> I think using a "base" device is something that is device-specific; for
-> gpu, it makes sense as it can be implemented in different ways, but
-> e.g. virtiofs does not have a "plain" implementation, and some device
-> types have only "plain" implementations.
-
-Perhaps the GPU was a bad choice here. Do we have a good example device
-that has both mmio and pci (or ccw) transports as well as QEMU internal
-and vhost/vhost-user implementations?
-
---=20
-Alex Benn=C3=A9e
 
