@@ -2,59 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9006D4DAEF3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 12:36:33 +0100 (CET)
-Received: from localhost ([::1]:60548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB25E4DAF17
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 12:49:07 +0100 (CET)
+Received: from localhost ([::1]:40368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nURxA-0001Hf-NQ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 07:36:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38688)
+	id 1nUS9K-0007J8-E9
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 07:49:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nURsw-00068H-3r
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 07:32:10 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:38640
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nURst-00088x-9q
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 07:32:09 -0400
-HMM_SOURCE_IP: 172.18.0.188:53556.1008326885
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 5FC3E2800EC;
- Wed, 16 Mar 2022 19:31:54 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.188])
- by app0023 with ESMTP id e462f571ab6c4a00872e7c5b474801c7 for
- peterx@redhat.com; Wed, 16 Mar 2022 19:31:57 CST
-X-Transaction-ID: e462f571ab6c4a00872e7c5b474801c7
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.188
-X-MEDUSA-Status: 0
-Message-ID: <4e0fb112-013b-7877-67e5-cf29d52f6876@chinatelecom.cn>
-Date: Wed, 16 Mar 2022 19:31:50 +0800
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nUS1G-0004dG-5j
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 07:40:46 -0400
+Received: from [2a00:1450:4864:20::62f] (port=42988
+ helo=mail-ej1-x62f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nUS1A-0001Bz-J9
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 07:40:43 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id hw13so3496269ejc.9
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 04:40:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=E0KbkwufOvZRGGZwC5EkkEzhSPf0cyuxevhvKOUi9lc=;
+ b=GtNezQYKsqK9h7buXON4ePK8hDc3Y98WKRR6SA7dsmuglV2GJg4UKitJGptI65baXx
+ pwjLtLAQP1c1UWrFDg6VECiCp5mXx1GX5itqERoFIj9DoMvvahHUrPrDxdrbjEkWJPfi
+ yBzMtM4EwQWgrZIoQ9vIl281A5JmmhNtP53zlBtTusPuH9RXlrD0O3qcRfGEs4WKLrsg
+ 6T2whIy+XYa4lp6QafD83gvDS8j1OkRMhwdj3usJlWb70D8Yr0C5dFZ6zZpNSlSuX3o+
+ sL1mKm/6y8jsnpWBRzt7U1eqjfy97xGSjE6fUV1mU5R+qs+s8CnDDGkIlxrZQIV8vrwS
+ HXLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=E0KbkwufOvZRGGZwC5EkkEzhSPf0cyuxevhvKOUi9lc=;
+ b=v4XoRq55JePyS/THHbQUpdxO07zbDR2JfYZlu7m+YnNpXUZrl7n6bpPoBchLxroyqe
+ 4T15IMHy91uLibItlcKA1avPQ/8v0FHEnya+WWjrzho/aMatuhsLFcEIE5mH5CQcuFaW
+ tTDygpUb7SIZVrZidv75a+5xvICAX8IG1a6IcmZVcEqlUPUv3m2mJdl5L4LmEJrMq5BE
+ xb4yExf3VQEmnOzIW7aRikqkrzbPpnsQDXplc+L0B/6k/RFJ8HzmDJtRy1NrnLPYqeYR
+ he0DaHs2cwVlqEKU00Dv81txbsdTT/fE5ApCrRUTOWK/PfPQKRRKnOwNk0J8oNmdTizc
+ n1Kg==
+X-Gm-Message-State: AOAM531KC4JW6BrMxrXeC97vPZ+e7PAvBSZD149TnFUGmrovp+P5K4YA
+ Hm7vu767r0McPeNU66McX5Qq8g==
+X-Google-Smtp-Source: ABdhPJxHn5FlRttKqhBGBcql8Luc7ezmNFuHLLW443gHX+gDwL/e/G0zyutP3ZOpVLuN41mJIlMRYg==
+X-Received: by 2002:a17:906:3cf1:b0:6cf:86c6:8a12 with SMTP id
+ d17-20020a1709063cf100b006cf86c68a12mr26136680ejh.202.1647430815024; 
+ Wed, 16 Mar 2022 04:40:15 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ g13-20020a1709065d0d00b006df7dfa2a51sm579674ejt.132.2022.03.16.04.40.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Mar 2022 04:40:13 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9EC321FFB7;
+ Wed, 16 Mar 2022 11:40:12 +0000 (GMT)
+References: <20220315204306.2797684-1-peter.maydell@linaro.org>
+ <20220315204306.2797684-2-peter.maydell@linaro.org>
+User-agent: mu4e 1.7.10; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 1/2] target/arm: Log M-profile vector table accesses
+Date: Wed, 16 Mar 2022 11:40:05 +0000
+In-reply-to: <20220315204306.2797684-2-peter.maydell@linaro.org>
+Message-ID: <871qz23z37.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v20 8/9] migration-test: Export migration-test util
- funtions
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1647396907.git.huangy81@chinatelecom.cn>
- <5be89638a128ce19c38c2cee8e055ad900b52a9c.1647396907.git.huangy81@chinatelecom.cn>
- <YjFi4UbB3Rh9iDBV@xz-m1.local>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <YjFi4UbB3Rh9iDBV@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.228;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,56 +93,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-在 2022/3/16 12:09, Peter Xu 写道:
-> On Wed, Mar 16, 2022 at 10:21:38AM +0800, huangy81@chinatelecom.cn wrote:
->> +void cleanup(const char *filename)
->> +{
->> +    g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
->> +
->> +    unlink(path);
->> +}
-> 
-> If to move most of these tmpfs helpers out anyway, shouldn't we also move
-> all tmpfs ops into this helper file?  E.g. initializations of tmpfs var is
-> still separately done.  That's a bit odd.
-> 
-> Ideally IIUC tmpfs doesn't need to be exported in migration-helpers.h at
-> all below, but hidden.
-Indeed，exporting tmpfs var seems weried. I would remove this next 
-version. Thanks
-> 
->> diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
->> index d63bba9..d08551f 100644
->> --- a/tests/qtest/migration-helpers.h
->> +++ b/tests/qtest/migration-helpers.h
->> @@ -14,7 +14,14 @@
->>   
->>   #include "libqos/libqtest.h"
->>   
->> +/* For dirty ring test; so far only x86_64 is supported */
->> +#if defined(__linux__) && defined(HOST_X86_64)
->> +#include "linux/kvm.h"
->> +#endif
->> +#include <sys/ioctl.h>
->> +
->>   extern bool got_stop;
->> +extern const char *tmpfs;
-> 
+> Currently the CPU_LOG_INT logging misses some useful information
+> about loads from the vector table.  Add logging where we load vector
+> table entries.  This is particularly helpful for cases where the user
+> has accidentally not put a vector table in their image at all, which
+> can result in confusing guest crashes at startup.
+>
+> Here's an example of the new logging for a case where
+> the vector table contains garbage:
+>
+> Loaded reset SP 0x0 PC 0x0 from vector table
+> Loaded reset SP 0xd008f8df PC 0xf000bf00 from vector table
+> Taking exception 3 [Prefetch Abort] on CPU 0
+> ...with CFSR.IACCVIOL
+> ...BusFault with BFSR.STKERR
+> ...taking pending nonsecure exception 3
+> ...loading from element 3 of non-secure vector table at 0xc
+> ...loaded new PC 0x20000558
+> ----------------
+> IN:
+> 0x20000558:  08000079  stmdaeq  r0, {r0, r3, r4, r5, r6}
+>
+> (The double reset logging is the result of our long-standing
+> "CPUs all get reset twice" weirdness; it looks a bit ugly
+> but it'll go away if we ever fix that :-))
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
--- 
-Best regard
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Hyman Huang(黄勇)
+--=20
+Alex Benn=C3=A9e
 
