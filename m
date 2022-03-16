@@ -2,61 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33BC74DB348
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:29:33 +0100 (CET)
-Received: from localhost ([::1]:47504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84CAC4DB357
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:33:38 +0100 (CET)
+Received: from localhost ([::1]:59656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUUeZ-0001vq-HY
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:29:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53612)
+	id 1nUUiX-0001Kn-4r
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:33:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nUUSJ-00079S-O6
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:16:51 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:40738)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nUUSH-0005AQ-Kn
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:16:51 -0400
-Received: from [192.168.1.13] (lfbn-lyo-1-488-129.w2-7.abo.wanadoo.fr
- [2.7.77.129])
- by beetle.greensocs.com (Postfix) with ESMTPSA id A1CDC2077C;
- Wed, 16 Mar 2022 14:16:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1647440206;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9d39wB7zQGO9j7AFtwAuCcI+MiBseXSu7XuTcKbhnZM=;
- b=UjVQd6NuCdIdpNhrbtw1BXjbSjpVl7+hQxwIAZ8TG7kZmrQhtfdOu2us0p2KtoPF/VwlCg
- aNNnkWGk1qifbTVeomN/YPT6XLpa+pZfhTUVr4uFOiuWxBuUyW6lhXpTY2cY0apQnLxFBf
- z1s2vPIspqw52ljDLFksiWKc+kW84PM=
-Message-ID: <7c7e369b-d5f5-46a3-abc9-27aa420b9e7d@greensocs.com>
-Date: Wed, 16 Mar 2022 15:16:46 +0100
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nUUbm-0000mB-BC
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:26:38 -0400
+Received: from [2a00:1450:4864:20::634] (port=38487
+ helo=mail-ej1-x634.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nUUbk-0006ps-VB
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:26:38 -0400
+Received: by mail-ej1-x634.google.com with SMTP id r13so4561279ejd.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 07:26:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wsXXIm05VyKPqQf2SBm8SVuEVh7vMWbrJ31kihUNURc=;
+ b=Mw958nEfLrFZlOJQ/A7ncCP3XqYhH1VR2WX3GNgJK5LnvHWXuswFbOcKYInwKYUNWk
+ 0r2ssTGWHnRhZqwFKYiQw+wLjZcjm+DAaS0Yu9fSTO6m8NTvmrb0whuE4Nq6ddQt3z01
+ xO6VZMSW2Kye4Nu2Z1wWyEJqbZOIyeHa5JJhx4F2um/i5KP+3diCg/UAB7RT6U22W/W+
+ Osi8qZiAyU0H86h5/dihrQeJXYflqM8CwfztyhsVK+rOuFsd5xaq2xcFtbB4W5MwsgyL
+ MxrQH/lwZ6LFCAUFwbYX6EXjArTN2zPv/kL+Y56tkiTsAtebQcpSoQ7KRMrUysA6RcmF
+ faEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wsXXIm05VyKPqQf2SBm8SVuEVh7vMWbrJ31kihUNURc=;
+ b=ATHRybYbVVxL3rGPSwJ2fNAkKqxjOrawazzaqojcTQ6tY3sIYF66NTMoblhBlfSDrp
+ 02Q4SlV/7lWeiUVnKZpU3OChX+lcuBVIEUf/cZNVXRTENZE1VaR7hSOj4T65FLC045yQ
+ m8xsIRKtutbCaEk/gg7b+CBaNDkdXdnm4Qwk5QwPsdoaiHlcMxtAhFIiUTG+qQ1vqRnM
+ PXn4NgyiW7We09Fy+itINhZkRIdxX3J2PWQtXFIIzdPsfGQZVu3UfcQDus65TR6qAV+X
+ vYbYyz2cPItG5zVxtBHsrwUXOoCjzRG2roCkHVu68bauXmm99tWcN5kVsvr33aBiDg5i
+ NIrw==
+X-Gm-Message-State: AOAM530NiIl9k4+pyx+kBqHnohbrZlWVN+LhSYX+uhx4t5m45qaX+qZx
+ 8JxWktYH//HBq7CB+nbpxo4=
+X-Google-Smtp-Source: ABdhPJyGNF3kLPUkMykBZgm8cbzV9B1zcibTRgvccE+4OFIrYaml0AdDXNH/Os1T9D7FHv5dEWFTOQ==
+X-Received: by 2002:a17:906:2bd7:b0:6ce:698b:7531 with SMTP id
+ n23-20020a1709062bd700b006ce698b7531mr240115ejg.146.1647440795429; 
+ Wed, 16 Mar 2022 07:26:35 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ u5-20020aa7d985000000b004024027e7dasm1022122eds.28.2022.03.16.07.26.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Mar 2022 07:26:34 -0700 (PDT)
+Message-ID: <7e13e06b-f57e-8948-a897-5c05436846d3@redhat.com>
+Date: Wed, 16 Mar 2022 15:26:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH] python: add qmp-send program to send raw qmp commands
- to qemu
-Content-Language: en-US-large
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220316095455.6473-1-damien.hedde@greensocs.com>
- <YjG68xzV/qrMnhEW@redhat.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <YjG68xzV/qrMnhEW@redhat.com>
+ Thunderbird/91.5.0
+Subject: Re: [PULL 0/8] s390x and misc fixes
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220315112052.515467-1-thuth@redhat.com>
+ <CAFEAcA8u8G3=V=OVM6v_BaOwfeDu1RJmnwrW+4PXqbnPrAAr_w@mail.gmail.com>
+ <de2b3a0b-5c1e-1cb3-ca97-c67f7272036c@redhat.com>
+ <CAFEAcA-yACeWzRVSZYbOrxWK8g7mss4YjU=mzsX16k5VoF3=rA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAFEAcA-yACeWzRVSZYbOrxWK8g7mss4YjU=mzsX16k5VoF3=rA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,83 +98,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/16/22 14:19, Peter Maydell wrote:
+> I'm not sure why we're passing this explicitly to the linker anyway,
+> though.
 
+According to the commit message the idea is to add libc++ automatically 
+when you have C++ sources, libgfortran when you have Fortran sources 
+etc. independent of the language that you're using for the final link.
 
-On 3/16/22 11:24, Daniel P. Berrangé wrote:
-> On Wed, Mar 16, 2022 at 10:54:55AM +0100, Damien Hedde wrote:
->> It takes an input file containing raw qmp commands (concatenated json
->> dicts) and send all commands one by one to a qmp server. When one
->> command fails, it exits.
->>
->> As a convenience, it can also wrap the qemu process to avoid having
->> to start qemu in background. When wrapping qemu, the program returns
->> only when the qemu process terminates.
->>
->> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
->> ---
->>
->> Hi all,
->>
->> Following our discussion, I've started this. What do you think ?
->>
->> I tried to follow Daniel's qmp-shell-wrap. I think it is
->> better to have similar options (eg: logging). There is also room
->> for factorizing code if we want to keep them aligned and ease
->> maintenance.
-> 
-> Having CLI similarity to the existing scripts is a good idea.
-> 
-> As a proof of usefulness, it might be worth trying to illustrate
-> this qmp-send command by converting an I/O test.
-> 
-> Quite a few I/O tests have code that look like:
-> 
-> do_run_qemu()
-> {
->      echo Testing: "$@" | _filter_imgfmt
->      $QEMU -nographic -qmp stdio -serial none "$@"
->      echo
-> }
-> 
-> 
-> run_qemu()
-> {
->      do_run_qemu "$@" 2>&1 | _filter_testdir | _filter_qemu | _filter_qmp | _filter_qemu_io
-> }
-> 
-> run_qemu <<EOF
-> { "execute": "qmp_capabilities" }
-> { "execute": "blockdev-add",
->     ....
-> }
-> { "execute": "quit" }
-> EOF
-> 
-> (eg iotests 71)
-> 
-> I would hope this qmp-send command to be able to satisfy that
-> use case by modifying do_run_qemu like this:
-> 
-> do_run_qemu()
-> {
->      echo Testing: "$@" | _filter_imgfmt
->      qmp-send --wrap $QEMU -nographic -serial none "$@"
->      echo
-> }
+In other words it removes the need to specify a linker driver for 
+mixed-language programs (and allows some other combinations such as C++ 
+and Fortran together).
 
-I need to add stdin handling, but it should be straightforward.
+It would be better if it worked though...
 
-I'm more worried by what should happen if there is a failure that makes 
-qemu hang, because then run_qemu won't exit. I'll take a look at the iotest.
-I expect the test will be killed at some point, I need to ensure that 
-part is handled properly by qmp-send.
-
-Thanks,
-Damien
+Paolo
 
