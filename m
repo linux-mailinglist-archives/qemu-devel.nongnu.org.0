@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757644DB170
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:28:34 +0100 (CET)
-Received: from localhost ([::1]:56028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6784DB130
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:19:58 +0100 (CET)
+Received: from localhost ([::1]:33210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUThZ-0002zx-AP
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:28:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37708)
+	id 1nUTZF-0003sG-9M
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:19:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nUTOD-0005H5-EX
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:08:33 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:45290
+ id 1nUTOG-0005PH-BQ
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:08:36 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:45298
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nUTOA-0001Yp-DY
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:08:33 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nUTOD-0001ZJ-UX
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:08:36 -0400
 HMM_SOURCE_IP: 172.18.0.188:41560.1721706285
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 293282800EC;
- Wed, 16 Mar 2022 21:08:25 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id A0D6B2800F1;
+ Wed, 16 Mar 2022 21:08:29 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.188])
- by app0023 with ESMTP id 2e9296348a294551bae1440ab4b30c99 for
- qemu-devel@nongnu.org; Wed, 16 Mar 2022 21:08:29 CST
-X-Transaction-ID: 2e9296348a294551bae1440ab4b30c99
+ by app0023 with ESMTP id faca8d7b745148c28f3f5a665f4a226c for
+ qemu-devel@nongnu.org; Wed, 16 Mar 2022 21:08:32 CST
+X-Transaction-ID: faca8d7b745148c28f3f5a665f4a226c
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.188
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v21 8/9] migration-test: Export migration-test util funtions
-Date: Wed, 16 Mar 2022 21:07:20 +0800
-Message-Id: <dc7f8ce5fadc148dc2c2e14bc43940d58cd205bc.1647435820.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v21 9/9] tests: Add dirty page rate limit test
+Date: Wed, 16 Mar 2022 21:07:21 +0800
+Message-Id: <22a74578fb2127fc65fd98b0c04ed3a7706a7f08.1647435820.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1647435820.git.huangy81@chinatelecom.cn>
 References: <cover.1647435820.git.huangy81@chinatelecom.cn>
@@ -76,441 +76,373 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Dirtylimit qtest can reuse the mechanisms that have been
-implemented by migration-test to start a vm, so export the
-relevant util functions.
+Add dirty page rate limit test if kernel support dirty ring,
+create a standalone file to implement the test case.
+
+The following qmp commands are covered by this test case:
+"calc-dirty-rate", "query-dirty-rate", "set-vcpu-dirty-limit",
+"cancel-vcpu-dirty-limit" and "query-vcpu-dirty-limit".
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- tests/qtest/migration-helpers.c |  87 ++++++++++++++++++++++++++
- tests/qtest/migration-helpers.h |  12 ++++
- tests/qtest/migration-test.c    | 132 ++++++----------------------------------
- 3 files changed, 118 insertions(+), 113 deletions(-)
+ tests/qtest/dirtylimit-test.c | 327 ++++++++++++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build       |   2 +
+ 2 files changed, 329 insertions(+)
+ create mode 100644 tests/qtest/dirtylimit-test.c
 
-diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-index 4ee2601..4ae4bf1 100644
---- a/tests/qtest/migration-helpers.c
-+++ b/tests/qtest/migration-helpers.c
-@@ -188,3 +188,90 @@ void wait_for_migration_fail(QTestState *from, bool allow_active)
-     g_assert(qdict_get_bool(rsp_return, "running"));
-     qobject_unref(rsp_return);
- }
+diff --git a/tests/qtest/dirtylimit-test.c b/tests/qtest/dirtylimit-test.c
+new file mode 100644
+index 0000000..b8d9960
+--- /dev/null
++++ b/tests/qtest/dirtylimit-test.c
+@@ -0,0 +1,327 @@
++/*
++ * QTest testcase for Dirty Page Rate Limit
++ *
++ * Copyright (c) 2022 CHINA TELECOM CO.,LTD.
++ *
++ * Authors:
++ *  Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+void init_bootfile(const char *bootpath, void *content, size_t len)
-+{
-+    FILE *bootfile = fopen(bootpath, "wb");
++#include "qemu/osdep.h"
++#include "libqos/libqtest.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qlist.h"
++#include "qapi/qobject-input-visitor.h"
++#include "qapi/qobject-output-visitor.h"
 +
-+    g_assert_cmpint(fwrite(content, len, 1, bootfile), ==, 1);
-+    fclose(bootfile);
-+}
++#include "migration-helpers.h"
++#include "tests/migration/i386/a-b-bootblock.h"
 +
 +/*
-+ * Wait for some output in the serial output file,
-+ * we get an 'A' followed by an endless string of 'B's
-+ * but on the destination we won't have the A.
++ * Dirtylimit stop working if dirty page rate error
++ * value less than DIRTYLIMIT_TOLERANCE_RANGE
 + */
-+void wait_for_serial(const char *tmpfs, const char *side)
++#define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
++
++static const char *tmpfs;
++
++static QDict *qmp_command(QTestState *who, const char *command, ...)
 +{
-+    g_autofree char *serialpath = g_strdup_printf("%s/%s", tmpfs, side);
-+    FILE *serialfile = fopen(serialpath, "r");
++    va_list ap;
++    QDict *resp, *ret;
++
++    va_start(ap, command);
++    resp = qtest_vqmp(who, command, ap);
++    va_end(ap);
++
++    g_assert(!qdict_haskey(resp, "error"));
++    g_assert(qdict_haskey(resp, "return"));
++
++    ret = qdict_get_qdict(resp, "return");
++    qobject_ref(ret);
++    qobject_unref(resp);
++
++    return ret;
++}
++
++static void calc_dirty_rate(QTestState *who, uint64_t calc_time)
++{
++    qobject_unref(qmp_command(who,
++                  "{ 'execute': 'calc-dirty-rate',"
++                  "'arguments': { "
++                  "'calc-time': %ld,"
++                  "'mode': 'dirty-ring' }}",
++                  calc_time));
++}
++
++static QDict *query_dirty_rate(QTestState *who)
++{
++    return qmp_command(who, "{ 'execute': 'query-dirty-rate' }");
++}
++
++static void dirtylimit_set_all(QTestState *who, uint64_t dirtyrate)
++{
++    qobject_unref(qmp_command(who,
++                  "{ 'execute': 'set-vcpu-dirty-limit',"
++                  "'arguments': { "
++                  "'dirty-rate': %ld } }",
++                  dirtyrate));
++}
++
++static void cancel_vcpu_dirty_limit(QTestState *who)
++{
++    qobject_unref(qmp_command(who,
++                  "{ 'execute': 'cancel-vcpu-dirty-limit' }"));
++}
++
++static QDict *query_vcpu_dirty_limit(QTestState *who)
++{
++    QDict *rsp;
++
++    rsp = qtest_qmp(who, "{ 'execute': 'query-vcpu-dirty-limit' }");
++    g_assert(!qdict_haskey(rsp, "error"));
++    g_assert(qdict_haskey(rsp, "return"));
++
++    return rsp;
++}
++
++static bool calc_dirtyrate_ready(QTestState *who)
++{
++    QDict *rsp_return;
++    gchar *status;
++
++    rsp_return = query_dirty_rate(who);
++    g_assert(rsp_return);
++
++    status = g_strdup(qdict_get_str(rsp_return, "status"));
++    g_assert(status);
++
++    return g_strcmp0(status, "measuring");
++}
++
++static void wait_for_calc_dirtyrate_complete(QTestState *who,
++                                             int64_t calc_time)
++{
++    int max_try_count = 200;
++    usleep(calc_time);
++
++    while (!calc_dirtyrate_ready(who) && max_try_count--) {
++        usleep(1000);
++    }
++
++    /*
++     * Set the timeout with 200 ms(max_try_count * 1000us),
++     * if dirtyrate measurement not complete, test failed.
++     */
++    g_assert_cmpint(max_try_count, !=, 0);
++}
++
++static int64_t get_dirty_rate(QTestState *who)
++{
++    QDict *rsp_return;
++    gchar *status;
++    QList *rates;
++    const QListEntry *entry;
++    QDict *rate;
++    int64_t dirtyrate;
++
++    rsp_return = query_dirty_rate(who);
++    g_assert(rsp_return);
++
++    status = g_strdup(qdict_get_str(rsp_return, "status"));
++    g_assert(status);
++    g_assert_cmpstr(status, ==, "measured");
++
++    rates = qdict_get_qlist(rsp_return, "vcpu-dirty-rate");
++    g_assert(rates && !qlist_empty(rates));
++
++    entry = qlist_first(rates);
++    g_assert(entry);
++
++    rate = qobject_to(QDict, qlist_entry_obj(entry));
++    g_assert(rate);
++
++    dirtyrate = qdict_get_try_int(rate, "dirty-rate", -1);
++
++    qobject_unref(rsp_return);
++    return dirtyrate;
++}
++
++static int64_t get_limit_rate(QTestState *who)
++{
++    QDict *rsp_return;
++    QList *rates;
++    const QListEntry *entry;
++    QDict *rate;
++    int64_t dirtyrate;
++
++    rsp_return = query_vcpu_dirty_limit(who);
++    g_assert(rsp_return);
++
++    rates = qdict_get_qlist(rsp_return, "return");
++    g_assert(rates && !qlist_empty(rates));
++
++    entry = qlist_first(rates);
++    g_assert(entry);
++
++    rate = qobject_to(QDict, qlist_entry_obj(entry));
++    g_assert(rate);
++
++    dirtyrate = qdict_get_try_int(rate, "limit-rate", -1);
++
++    qobject_unref(rsp_return);
++    return dirtyrate;
++}
++
++static QTestState *start_vm(void)
++{
++    QTestState *vm = NULL;
++    g_autofree gchar *cmd = NULL;
 +    const char *arch = qtest_get_arch();
-+    int started = (strcmp(side, "src_serial") == 0 &&
-+                   strcmp(arch, "ppc64") == 0) ? 0 : 1;
++    g_autofree char *bootpath = NULL;
 +
-+    do {
-+        int readvalue = fgetc(serialfile);
++    assert((strcmp(arch, "x86_64") == 0));
++    bootpath = g_strdup_printf("%s/bootsect", tmpfs);
++    assert(sizeof(x86_bootsect) == 512);
++    init_bootfile(bootpath, x86_bootsect, sizeof(x86_bootsect));
 +
-+        if (!started) {
-+            /* SLOF prints its banner before starting test,
-+             * to ignore it, mark the start of the test with '_',
-+             * ignore all characters until this marker
-+             */
-+            switch (readvalue) {
-+            case '_':
-+                started = 1;
-+                break;
-+            case EOF:
-+                fseek(serialfile, 0, SEEK_SET);
-+                usleep(1000);
-+                break;
-+            }
-+            continue;
-+        }
-+        switch (readvalue) {
-+        case 'A':
-+            /* Fine */
-+            break;
++    cmd = g_strdup_printf("-accel kvm,dirty-ring-size=4096 "
++                          "-name dirtylimit-test,debug-threads=on "
++                          "-m 150M -smp 1 "
++                          "-serial file:%s/vm_serial "
++                          "-drive file=%s,format=raw ",
++                          tmpfs, bootpath);
 +
-+        case 'B':
-+            /* It's alive! */
-+            fclose(serialfile);
-+            return;
-+
-+        case EOF:
-+            started = (strcmp(side, "src_serial") == 0 &&
-+                       strcmp(arch, "ppc64") == 0) ? 0 : 1;
-+            fseek(serialfile, 0, SEEK_SET);
-+            usleep(1000);
-+            break;
-+
-+        default:
-+            fprintf(stderr, "Unexpected %d on %s serial\n", readvalue, side);
-+            g_assert_not_reached();
-+        }
-+    } while (true);
++    vm = qtest_init(cmd);
++    return vm;
 +}
 +
-+bool kvm_dirty_ring_supported(void)
++static void cleanup(const char *filename)
 +{
-+#if defined(__linux__) && defined(HOST_X86_64)
-+    int ret, kvm_fd = open("/dev/kvm", O_RDONLY);
-+
-+    if (kvm_fd < 0) {
-+        return false;
-+    }
-+
-+    ret = ioctl(kvm_fd, KVM_CHECK_EXTENSION, KVM_CAP_DIRTY_LOG_RING);
-+    close(kvm_fd);
-+
-+    /* We test with 4096 slots */
-+    if (ret < 4096) {
-+        return false;
-+    }
-+
-+    return true;
-+#else
-+    return false;
-+#endif
++    g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
++    unlink(path);
 +}
-diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
-index d63bba9..a34cd2f 100644
---- a/tests/qtest/migration-helpers.h
-+++ b/tests/qtest/migration-helpers.h
-@@ -14,6 +14,12 @@
- 
- #include "libqos/libqtest.h"
- 
-+/* For dirty ring test; so far only x86_64 is supported */
-+#if defined(__linux__) && defined(HOST_X86_64)
-+#include "linux/kvm.h"
-+#endif
-+#include <sys/ioctl.h>
 +
- extern bool got_stop;
- 
- GCC_FMT_ATTR(3, 4)
-@@ -34,4 +40,10 @@ void wait_for_migration_complete(QTestState *who);
- 
- void wait_for_migration_fail(QTestState *from, bool allow_active);
- 
-+void init_bootfile(const char *bootpath, void *content, size_t len);
++static void stop_vm(QTestState *vm)
++{
++    qtest_quit(vm);
++    cleanup("bootsect");
++    cleanup("vm_serial");
++}
 +
-+void wait_for_serial(const char *tmpfs, const char *side);
++static void test_vcpu_dirty_limit(void)
++{
++    QTestState *vm;
++    int64_t origin_rate;
++    int64_t quota_rate;
++    int64_t rate ;
++    int max_try_count = 5;
++    int hit = 0;
 +
-+bool kvm_dirty_ring_supported(void);
++    vm = start_vm();
++    if (!vm) {
++        return;
++    }
 +
- #endif /* MIGRATION_HELPERS_H_ */
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 0870656..fe5e0a9 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -27,11 +27,6 @@
- #include "migration-helpers.h"
- #include "tests/migration/migration-test.h"
- 
--/* For dirty ring test; so far only x86_64 is supported */
--#if defined(__linux__) && defined(HOST_X86_64)
--#include "linux/kvm.h"
--#endif
--
- /* TODO actually test the results and get rid of this */
- #define qtest_qmp_discard_response(...) qobject_unref(qtest_qmp(__VA_ARGS__))
- 
-@@ -49,7 +44,6 @@ static bool uffd_feature_thread_id;
- 
- #if defined(__linux__) && defined(__NR_userfaultfd) && defined(CONFIG_EVENTFD)
- #include <sys/eventfd.h>
--#include <sys/ioctl.h>
- #include <linux/userfaultfd.h>
- 
- static bool ufd_version_check(void)
-@@ -100,70 +94,6 @@ static const char *tmpfs;
- #include "tests/migration/aarch64/a-b-kernel.h"
- #include "tests/migration/s390x/a-b-bios.h"
- 
--static void init_bootfile(const char *bootpath, void *content, size_t len)
--{
--    FILE *bootfile = fopen(bootpath, "wb");
--
--    g_assert_cmpint(fwrite(content, len, 1, bootfile), ==, 1);
--    fclose(bootfile);
--}
--
--/*
-- * Wait for some output in the serial output file,
-- * we get an 'A' followed by an endless string of 'B's
-- * but on the destination we won't have the A.
-- */
--static void wait_for_serial(const char *side)
--{
--    g_autofree char *serialpath = g_strdup_printf("%s/%s", tmpfs, side);
--    FILE *serialfile = fopen(serialpath, "r");
--    const char *arch = qtest_get_arch();
--    int started = (strcmp(side, "src_serial") == 0 &&
--                   strcmp(arch, "ppc64") == 0) ? 0 : 1;
--
--    do {
--        int readvalue = fgetc(serialfile);
--
--        if (!started) {
--            /* SLOF prints its banner before starting test,
--             * to ignore it, mark the start of the test with '_',
--             * ignore all characters until this marker
--             */
--            switch (readvalue) {
--            case '_':
--                started = 1;
--                break;
--            case EOF:
--                fseek(serialfile, 0, SEEK_SET);
--                usleep(1000);
--                break;
--            }
--            continue;
--        }
--        switch (readvalue) {
--        case 'A':
--            /* Fine */
--            break;
--
--        case 'B':
--            /* It's alive! */
--            fclose(serialfile);
--            return;
--
--        case EOF:
--            started = (strcmp(side, "src_serial") == 0 &&
--                       strcmp(arch, "ppc64") == 0) ? 0 : 1;
--            fseek(serialfile, 0, SEEK_SET);
--            usleep(1000);
--            break;
--
--        default:
--            fprintf(stderr, "Unexpected %d on %s serial\n", readvalue, side);
--            g_assert_not_reached();
--        }
--    } while (true);
--}
--
- /*
-  * It's tricky to use qemu's migration event capability with qtest,
-  * events suddenly appearing confuse the qmp()/hmp() responses.
-@@ -279,7 +209,6 @@ static void check_guests_ram(QTestState *who)
- static void cleanup(const char *filename)
- {
-     g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
--
-     unlink(path);
++    /* Wait for the first serial output from the vm*/
++    wait_for_serial(tmpfs, "vm_serial");
++
++    /* Do dirtyrate measurement with calc time equals 1s */
++    calc_dirty_rate(vm, 1);
++
++    /* Sleep a calc time and wait for calc dirtyrate complete */
++    wait_for_calc_dirtyrate_complete(vm, 1 * 1000000);
++
++    /* Query original dirty page rate */
++    origin_rate = get_dirty_rate(vm);
++
++    /* VM booted from bootsect should dirty memory */
++    assert(origin_rate != 0);
++
++    /* Setup quota dirty page rate at one-third of origin */
++    quota_rate = origin_rate / 3;
++
++    /* Set dirtylimit and wait a bit to check if it take effect */
++    dirtylimit_set_all(vm, quota_rate);
++    usleep(2000000);
++
++    /*
++     * Check if set-vcpu-dirty-limit and query-vcpu-dirty-limit
++     * works literally
++     */
++    g_assert_cmpint(quota_rate, ==, get_limit_rate(vm));
++
++    /* Check if dirtylimit take effect realistically */
++    while (--max_try_count) {
++        calc_dirty_rate(vm, 1);
++        wait_for_calc_dirtyrate_complete(vm, 1 * 1000000);
++        rate = get_dirty_rate(vm);
++
++        /*
++         * Assume hitting if current rate is less
++         * than quota rate (within accepting error)
++         */
++        if (rate < (quota_rate + DIRTYLIMIT_TOLERANCE_RANGE)) {
++            hit = 1;
++            break;
++        }
++    }
++
++    g_assert_cmpint(hit, ==, 1);
++
++    hit = 0;
++    max_try_count = 5;
++
++    /* Check if dirtylimit cancellation take effect */
++    cancel_vcpu_dirty_limit(vm);
++    while (--max_try_count) {
++        calc_dirty_rate(vm, 1);
++        wait_for_calc_dirtyrate_complete(vm, 1 * 1000000);
++        rate = get_dirty_rate(vm);
++
++        /*
++         * Assume dirtylimit be canceled if current rate is
++         * greater than quota rate (within accepting error)
++         */
++        if (rate > (quota_rate + DIRTYLIMIT_TOLERANCE_RANGE)) {
++            hit = 1;
++            break;
++        }
++    }
++
++    g_assert_cmpint(hit, ==, 1);
++    stop_vm(vm);
++}
++
++int main(int argc, char **argv)
++{
++    char template[] = "/tmp/dirtylimit-test-XXXXXX";
++    int ret;
++
++    tmpfs = mkdtemp(template);
++    if (!tmpfs) {
++        g_test_message("mkdtemp on path (%s): %s", template, strerror(errno));
++    }
++    g_assert(tmpfs);
++
++    if (!kvm_dirty_ring_supported()) {
++        return 0;
++    }
++
++    g_test_init(&argc, &argv, NULL);
++    qtest_add_func("/dirtylimit/test", test_vcpu_dirty_limit);
++    ret = g_test_run();
++
++    g_assert_cmpint(ret, ==, 0);
++
++    ret = rmdir(tmpfs);
++    if (ret != 0) {
++        g_test_message("unable to rmdir: path (%s): %s",
++                       tmpfs, strerror(errno));
++    }
++
++    return ret;
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index d25f82b..6b041e0 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -32,6 +32,7 @@ qtests_generic = \
+   'qom-test',
+   'test-hmp',
+   'qos-test',
++  'dirtylimit-test',
+ ]
+ if config_host.has_key('CONFIG_MODULES')
+   qtests_generic += [ 'modules-test' ]
+@@ -296,6 +297,7 @@ qtests = {
+   'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+   'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+   'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
++  'dirtylimit-test': files('migration-helpers.c'),
  }
  
-@@ -684,7 +613,7 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
-     migrate_set_parameter_int(from, "downtime-limit", 1);
- 
-     /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
-+    wait_for_serial(tmpfs, "src_serial");
- 
-     migrate_qmp(from, uri, "{}");
- 
-@@ -701,7 +630,7 @@ static void migrate_postcopy_complete(QTestState *from, QTestState *to)
-     wait_for_migration_complete(from);
- 
-     /* Make sure we get at least one "B" on destination */
--    wait_for_serial("dest_serial");
-+    wait_for_serial(tmpfs, "dest_serial");
- 
-     if (uffd_feature_thread_id) {
-         read_blocktime(to);
-@@ -821,7 +750,7 @@ static void test_precopy_unix_common(bool dirty_ring)
-     migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
- 
-     /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
-+    wait_for_serial(tmpfs, "src_serial");
- 
-     migrate_qmp(from, uri, "{}");
- 
-@@ -835,7 +764,7 @@ static void test_precopy_unix_common(bool dirty_ring)
- 
-     qtest_qmp_eventwait(to, "RESUME");
- 
--    wait_for_serial("dest_serial");
-+    wait_for_serial(tmpfs, "dest_serial");
-     wait_for_migration_complete(from);
- 
-     test_migrate_end(from, to, true);
-@@ -868,7 +797,7 @@ static void test_ignore_shared(void)
-     migrate_set_capability(to, "x-ignore-shared", true);
- 
-     /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
-+    wait_for_serial(tmpfs, "src_serial");
- 
-     migrate_qmp(from, uri, "{}");
- 
-@@ -880,7 +809,7 @@ static void test_ignore_shared(void)
- 
-     qtest_qmp_eventwait(to, "RESUME");
- 
--    wait_for_serial("dest_serial");
-+    wait_for_serial(tmpfs, "dest_serial");
-     wait_for_migration_complete(from);
- 
-     /* Check whether shared RAM has been really skipped */
-@@ -914,7 +843,7 @@ static void test_xbzrle(const char *uri)
-     migrate_set_capability(from, "xbzrle", true);
-     migrate_set_capability(to, "xbzrle", true);
-     /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
-+    wait_for_serial(tmpfs, "src_serial");
- 
-     migrate_qmp(from, uri, "{}");
- 
-@@ -930,7 +859,7 @@ static void test_xbzrle(const char *uri)
-     }
-     qtest_qmp_eventwait(to, "RESUME");
- 
--    wait_for_serial("dest_serial");
-+    wait_for_serial(tmpfs, "dest_serial");
-     wait_for_migration_complete(from);
- 
-     test_migrate_end(from, to, true);
-@@ -964,7 +893,7 @@ static void test_precopy_tcp(void)
-     migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
- 
-     /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
-+    wait_for_serial(tmpfs, "src_serial");
- 
-     uri = migrate_get_socket_address(to, "socket-address");
- 
-@@ -979,7 +908,7 @@ static void test_precopy_tcp(void)
-     }
-     qtest_qmp_eventwait(to, "RESUME");
- 
--    wait_for_serial("dest_serial");
-+    wait_for_serial(tmpfs, "dest_serial");
-     wait_for_migration_complete(from);
- 
-     test_migrate_end(from, to, true);
-@@ -1009,7 +938,7 @@ static void test_migrate_fd_proto(void)
-     migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
- 
-     /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
-+    wait_for_serial(tmpfs, "src_serial");
- 
-     /* Create two connected sockets for migration */
-     ret = socketpair(PF_LOCAL, SOCK_STREAM, 0, pair);
-@@ -1064,7 +993,7 @@ static void test_migrate_fd_proto(void)
-     qobject_unref(rsp);
- 
-     /* Complete migration */
--    wait_for_serial("dest_serial");
-+    wait_for_serial(tmpfs, "dest_serial");
-     wait_for_migration_complete(from);
-     test_migrate_end(from, to, true);
- }
-@@ -1087,7 +1016,7 @@ static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
-     migrate_set_capability(from, "validate-uuid", true);
- 
-     /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
-+    wait_for_serial(tmpfs, "src_serial");
- 
-     migrate_qmp(from, uri, "{}");
- 
-@@ -1186,7 +1115,7 @@ static void test_migrate_auto_converge(void)
-     migrate_set_capability(from, "pause-before-switchover", true);
- 
-     /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
-+    wait_for_serial(tmpfs, "src_serial");
- 
-     migrate_qmp(from, uri, "{}");
- 
-@@ -1221,7 +1150,7 @@ static void test_migrate_auto_converge(void)
- 
-     qtest_qmp_eventwait(to, "RESUME");
- 
--    wait_for_serial("dest_serial");
-+    wait_for_serial(tmpfs, "dest_serial");
-     wait_for_migration_complete(from);
- 
- 
-@@ -1264,7 +1193,7 @@ static void test_multifd_tcp(const char *method)
-     qobject_unref(rsp);
- 
-     /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
-+    wait_for_serial(tmpfs, "src_serial");
- 
-     uri = migrate_get_socket_address(to, "socket-address");
- 
-@@ -1279,7 +1208,7 @@ static void test_multifd_tcp(const char *method)
-     }
-     qtest_qmp_eventwait(to, "RESUME");
- 
--    wait_for_serial("dest_serial");
-+    wait_for_serial(tmpfs, "dest_serial");
-     wait_for_migration_complete(from);
-     test_migrate_end(from, to, true);
- }
-@@ -1347,7 +1276,7 @@ static void test_multifd_tcp_cancel(void)
-     qobject_unref(rsp);
- 
-     /* Wait for the first serial output from the source */
--    wait_for_serial("src_serial");
-+    wait_for_serial(tmpfs, "src_serial");
- 
-     uri = migrate_get_socket_address(to, "socket-address");
- 
-@@ -1392,34 +1321,11 @@ static void test_multifd_tcp_cancel(void)
-     }
-     qtest_qmp_eventwait(to2, "RESUME");
- 
--    wait_for_serial("dest_serial");
-+    wait_for_serial(tmpfs, "dest_serial");
-     wait_for_migration_complete(from);
-     test_migrate_end(from, to2, true);
- }
- 
--static bool kvm_dirty_ring_supported(void)
--{
--#if defined(__linux__) && defined(HOST_X86_64)
--    int ret, kvm_fd = open("/dev/kvm", O_RDONLY);
--
--    if (kvm_fd < 0) {
--        return false;
--    }
--
--    ret = ioctl(kvm_fd, KVM_CHECK_EXTENSION, KVM_CAP_DIRTY_LOG_RING);
--    close(kvm_fd);
--
--    /* We test with 4096 slots */
--    if (ret < 4096) {
--        return false;
--    }
--
--    return true;
--#else
--    return false;
--#endif
--}
--
- int main(int argc, char **argv)
- {
-     char template[] = "/tmp/migration-test-XXXXXX";
+ if dbus_display
 -- 
 1.8.3.1
 
