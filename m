@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA37D4DB425
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 16:08:58 +0100 (CET)
-Received: from localhost ([::1]:55420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31094DB488
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 16:13:34 +0100 (CET)
+Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUVGj-0001Cu-Rg
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 11:08:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36628)
+	id 1nUVLA-0003Gp-UJ
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 11:13:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nUV9f-0004pu-Sl
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:01:39 -0400
-Received: from [2a00:1450:4864:20::62d] (port=37730
- helo=mail-ej1-x62d.google.com)
+ (Exim 4.90_1) (envelope-from <suratiamol@gmail.com>)
+ id 1nUVJQ-0002Mp-A3
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:11:44 -0400
+Received: from [2607:f8b0:4864:20::b32] (port=39859
+ helo=mail-yb1-xb32.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nUV9d-0004nM-Tr
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:01:39 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id bg10so4804218ejb.4
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 08:01:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ST4+HFxQ9kCHFFiKAAZgg03/l1v0JfrGkprvPJdwnAo=;
- b=BG1FqWCMwlNE6n1MKSHEjOKlIgPF0+RWl1qo6WTnkUTjID4csMBKNxPl2rN0g49/MW
- pJjWJICuvSpvS0FuPVzaru/4/1ybGxUTP9hMGvvTnrl9hSzvieXKTXoO72uFO1cQFp9s
- KVy7D2fimFZ4CqYefWEYvIQ8tNlMtmcxMYMNT7VeYvhyoeKHoxfull9nwRSTd5XKJQBz
- qgC6wMv8XTreLbgYXaOrALeaYcjQfaC0vO/+TFauZjRET+DwJXqCZFOKB15K7x8Ncaet
- arY0Oc0HW4OZ7mZJvZHcfGo2FS1jmmXVHuJDHcCIyjlisGljvzxkpnh211MsfC53uUdb
- pkag==
+ (Exim 4.90_1) (envelope-from <suratiamol@gmail.com>)
+ id 1nUVJO-0006TR-Ig
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:11:43 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id t11so4969693ybi.6
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 08:11:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=ijUsSEK5vnincOVt8r1Bl+SA1xykgd9yCmKJsvt+ZQQ=;
+ b=OapWeztME214ivuNZ0KVDQMjXO9BhPnKVidVqMnE3WovlHIGXlLMTBeMMyPhx4c4iB
+ VgmegljetDJJZkySdRoFrT8RHu86c6yXBOzZcCm/P6Vq6ILIcsV1aq362RFbp6U/GQcC
+ uBYivedLsSCQ9ZSR55hUcGKizmuo7S8T0Vl4y1RTbkKbwlQdTAqbK+jftXhaOStM/G3c
+ c4djUH3HX/zBHqE12it3MukZwsQWXDB9skOxkv2LDlrBAaybQwU788pvBGV6SgZIeeoU
+ s26U2VQbf/kbY+q5StDkAKEfjoiiksaBVvQvVLNOP9kc/A2DD3Ip3u1WDNg2+vEkgFMP
+ nmTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ST4+HFxQ9kCHFFiKAAZgg03/l1v0JfrGkprvPJdwnAo=;
- b=IQ4cAgv4QiLo5IqKmIXmM0P9viYDnIgqgiQ5wq4H1PQvatt8kGjbc1gbfd3at9bKec
- k0Q9zjRPX9uRfesNQg2XxTrbCQK1FVwiXUbxljooPCRhviTalylKyB0VPJfI3iNFJHDf
- xFnwiksFaB82eWterux9YfgtLJMEo6ZrHlIX+q/RfUeae08oeJ34zyOgTmik17k/GGKz
- CMma8QOr9vFEIWs8JQGL1AqRG0mTJW0m6uikf15VB6WyRtrn2AQURgFHwL8PpXVikvTw
- lByFkZOGdZs3eou40lgUevLHdAIgfLTC+8/iKjEGm6OZwcrj2oOsFhJYqObEgx2q7iTW
- UTNA==
-X-Gm-Message-State: AOAM533YpzYW6eqvGOHaGkV/7Wid9fMJFT2OnknGjfeQzgILy1TJ8TKu
- GXDix1hNkhaqxKqNal82+cIwZQ==
-X-Google-Smtp-Source: ABdhPJxu54gOS+gnjj/XHxp5dIZukP+1HrZvlGUswrIiJPa/RAvQEtE7vGfhV8jisk7WfVCvaqubaQ==
-X-Received: by 2002:a17:907:6e8d:b0:6d7:1261:d468 with SMTP id
- sh13-20020a1709076e8d00b006d71261d468mr351618ejc.390.1647442895066; 
- Wed, 16 Mar 2022 08:01:35 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- bd12-20020a056402206c00b00418c9bf71cbsm1065507edb.68.2022.03.16.08.01.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 08:01:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 61E671FFB7;
- Wed, 16 Mar 2022 15:01:33 +0000 (GMT)
-References: <20220316124012.1413954-1-cmuellner@linux.com>
-User-agent: mu4e 1.7.10; emacs 28.0.92
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Christoph Muellner <cmuellner@linux.com>
-Subject: Re: [PATCH] docs/tcg-plugins: document QEMU_PLUGIN behaviour
-Date: Wed, 16 Mar 2022 15:00:10 +0000
-In-reply-to: <20220316124012.1413954-1-cmuellner@linux.com>
-Message-ID: <87sfri2b76.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=ijUsSEK5vnincOVt8r1Bl+SA1xykgd9yCmKJsvt+ZQQ=;
+ b=YKHtV8JS8kKi5/YCl7MBRxf0sIoFTS0mhJBmUVL4lCWl6+RSFXmfr4K+685ouf0xqu
+ +yDSzwq8htMMeZisPB+uhCxOEzBnWK/IIcTDSXwEAwzRUP5GKrfkZMzJuMEFofEwlTmO
+ izTUZ3nHy2oNFORMTCrVrtJrB7L4k08+J955z41ep2AkF7ASLu2uyfLDqOKmQ1O+Z7OP
+ Q1B8fzL4vAFwJxd4zP4XfUDnzUY9YnWvc3bVUqB5LI899h4bgwrk8EfPF9C1XgZYAh8K
+ AV/70MdRii+EO0lK8e14SNgO/p/Umd4SmgNO7aFYj5Uf/y6rxY0u7GqPmruwM/NZwEnM
+ P9Tw==
+X-Gm-Message-State: AOAM533YhbVbox34/WtV83avuKrxPH/nJvh3oT7oe2UiPKgnp0v2zynv
+ HKg9RjmnpeUFL0ake4YCNOe6bu5K5IsRZJaxPwwsUP9A
+X-Google-Smtp-Source: ABdhPJwAfxGArEXHtzOYNPXT1RwdX6C6VtsybbdVNn/CDAbttC8rhQPGy3fraQCemEAmkUC9e186Gm6SYWxVeEpMS0Y=
+X-Received: by 2002:a81:b288:0:b0:2d6:39d5:31a1 with SMTP id
+ q130-20020a81b288000000b002d639d531a1mr527041ywh.506.1647443138534; Wed, 16
+ Mar 2022 08:05:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
+Received: by 2002:a05:7000:13ca:0:0:0:0 with HTTP; Wed, 16 Mar 2022 08:05:38
+ -0700 (PDT)
+From: Amol <suratiamol@gmail.com>
+Date: Wed, 16 Mar 2022 20:35:38 +0530
+Message-ID: <CA+nuEB-fNNSgZKPzWR4Ord2QmCrsnpY9Y7Erzw1RLob+eY9ksw@mail.gmail.com>
+Subject: [ppc/pnv9] clarification on QEMU's dtb
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=suratiamol@gmail.com; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -92,45 +80,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, qemu-devel@nongnu.org
+Cc: suratiamol <suratiamol@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello,
 
-Christoph Muellner <cmuellner@linux.com> writes:
+Below is a part of the dtb file as generated by
+qemu's powernv9 emulation:
 
-> QEMU plugins can be loaded via command line arguments or via
-> the QEMU_PLUGIN environment variable. Currently, only the first method
-> is documented. Let's document QEMU_PLUGIN.
->
-> Signed-off-by: Christoph Muellner <cmuellner@linux.com>
-> ---
->  docs/devel/tcg-plugins.rst | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-> index f93ef4fe52..ba48be18d0 100644
-> --- a/docs/devel/tcg-plugins.rst
-> +++ b/docs/devel/tcg-plugins.rst
-> @@ -34,6 +34,10 @@ Arguments are plugin specific and can be used to modif=
-y their
->  behaviour. In this case the howvec plugin is being asked to use inline
->  ops to count and break down the hint instructions by type.
->=20=20
-> +QEMU also evaluates the environment variable ``QEMU_PLUGIN``::
+/ {
+	....
+	compatible = "qemu,powernv9\0ibm,powernv";
+	model = "IBM PowerNV (emulated by qemu)";
+	pciex@600c3c0000000 {
+		compatible = "ibm,power9-pciex\0ibm,ioda3-phb";
+		device_type = "pciex";
+		....
+		#address-cells = <0x03>;
+		#size-cells = <0x02>;
+		#interrupt-cells = <0x01>;
+		interrupt-parent = <0x804e>;
+		ranges = <0x2000000 0x00 0x80000000 0x600c0 0x00 0x00 0x7fff0000>;
+		....
+		pci@0 {
+			interrupts = <0x01>;
+			#address-cells = <0x03>;
+			#size-cells = <0x02>;
+			#interrupt-cells = <0x01>;
+			interrupt-map-mask = <0x00 0x00 0x00 0x07>;
+			interrupt-map =
+<0x00 0x00 0x00 0x01 0x804e 0xfeff8 0x01
+ 0x00 0x00 0x00 0x02 0x804e 0xfeff9 0x01
+ 0x00 0x00 0x00 0x03 0x804e 0xfeffa 0x01
+ 0x00 0x00 0x00 0x04 0x804e 0xfeffb 0x01>;
+			ranges = <0x2000000 0x00 0x00 0x2000000 0x00 0x00 0xf0000000 0x00>;
+		};
+	};
 
-You should also make it clear this only works for *-user builds of QEMU.
-For system emulation you still need to use the CLI interface.=20
+Of interest is the "interrupts = <0x01>;" property of the pci@0 node.
+Its parent, the
+ioda3 node, has an "#interrupt-cells = <0x01>;" property which I
+believe drives the
+interrupts specification within the pci@0 node.
 
-> +
-> +  QEMU_PLUGIN=3D"file=3Dtests/plugin/libhowec.so,inline=3Don,count=3Dhin=
-t" $QEMU
-> +
->  Writing plugins
->  ---------------
+Then, shouldn't the parent also drive the mapping of pci@0's
+"interrupts = <0x01>;"
+property? That is, shouldn't the parent (ioda3) contain the
+interrupt-map and not
+pci@0?
 
+If pci@0 is the proper place to contain the interrupt-map, doesn't
+that conflict with
+the generic handling of its "interrupts" property, since I believe,
+one looks for the
+interrupt-parent to determine the format. Here, the interrupt parent,
+0x804e, has
+#interrupt-cells set to 2, so the "interrupts" specifier of a single
+cell inside pci@0
+seems to be in direct conflict with that handling.
 
---=20
-Alex Benn=C3=A9e
+Or is the spec defined such that if a node has interrupt-map property,
+that node's
+interrupt spec need not be according to the parent interrupt
+controllers requirement?
+But then the example inside "Advanced Interrupt Mapping" section of
+[1] seems to be
+wrong.
+
+I checked a dtb, linked at at [2], seemingly captured from a hardware
+machine, and
+found no such violation at least among the pci nodes. In it, there is
+a pci@0 node with
+"interrupts = <0x01>", but it does have a parent with interrupt-map
+which can translate
+that specifier into one which can be understood by the target
+interrupt controller.
+
+It seems that qemu is generating (or basing its modifications on) an
+incorrectly specified
+dtb.
+
+Thanks,
+Amol
+
+[1] https://elinux.org/Device_Tree_Usage#Advanced_Interrupt_Mapping
+[2] https://people.freebsd.org/~jhibbits/p9_vga_out_devtree.txt
 
