@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022F34DAFF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 13:42:30 +0100 (CET)
-Received: from localhost ([::1]:44114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5A14DAFE1
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 13:39:47 +0100 (CET)
+Received: from localhost ([::1]:38428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUSyz-0001S3-3V
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 08:42:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55226)
+	id 1nUSwM-0005cP-NL
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 08:39:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1nUSoP-0007re-SB
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:31:33 -0400
-Received: from relay.yourmailgateway.de ([188.68.61.106]:41419)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nUSpk-00017d-Qq
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:32:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1nUSoN-0002QS-P3
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:31:33 -0400
-Received: from mors-relay-8405.netcup.net (localhost [127.0.0.1])
- by mors-relay-8405.netcup.net (Postfix) with ESMTPS id 4KJV4v5rrmz6wRK;
- Wed, 16 Mar 2022 13:31:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zapateado.de; s=key2;
- t=1647433887; bh=hpf64MAEL03Djqz2oxTZF6QkE+XCWDY7nI9CX7mbfsA=;
- h=Date:To:Cc:From:Subject:From;
- b=BUVwwOsOF6p9mqEgrr88mtAAaLPBPnvYKe+NqretIS2LgPy+UQjp/oJCefBXen63w
- Ey7xDpc0C+6MycNhdKbhYzhmkNa4yChb84pzxa1Ov2icxlVLw+CTvfPo2PWuXb9DDo
- p4IxJUdEmGfwau35+sqJMyHgSZ3ucbNHCSgUd9IhQL9586mWJZonON97a7qxoCs34b
- a6VolTIb9XFJqv6C1jU2rMOMVfOJ0A7Bl9BcP+AbSh5Z2orEoFkOPHw3LId95gwEz3
- ENt8m5kmMJ6sDQS+HzkbJ3sBvdiKbWQHsBFtL90QeF/pWucYGhKJ7BkZgMsHLN5qAp
- jIDiu4sWk6SxA==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.53])
- by mors-relay-8405.netcup.net (Postfix) with ESMTPS id 4KJV4v5Tj2z6wRB;
- Wed, 16 Mar 2022 13:31:27 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at policy02-mors.netcup.net
-X-Spam-Score: -2.9
-Received: from mx2f6e.netcup.net (unknown [10.243.12.53])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nUSph-0002hh-SM
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:32:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647433973;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0ezLL7nJJwr2MESdr3amriUAXaiAu0DamyS9IXElRaE=;
+ b=fGtazJZ2HlvUEfidNSx7Y6bXawDGzS+YhjNLxy1bZJQUXMDRpWILOvusCojZO+eIVWe6KJ
+ vN4ZBJ5mPB+gVae8bbcAB58PPOpsPlTPmIyV4gwyK6owOPzB8GyWO0JMtaRObyoYHdugN4
+ WV+eZe6VPtOPEDt7j4X/3QWx8OUHpus=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-575-BHKNiNXyOCCUdsJrYOjzDg-1; Wed, 16 Mar 2022 08:32:49 -0400
+X-MC-Unique: BHKNiNXyOCCUdsJrYOjzDg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by policy02-mors.netcup.net (Postfix) with ESMTPS id 4KJV4t64GJz8sh6;
- Wed, 16 Mar 2022 13:31:26 +0100 (CET)
-Received: from [192.168.54.9] (ip-095-223-071-086.um35.pools.vodafone-ip.de
- [95.223.71.86])
- by mx2f6e.netcup.net (Postfix) with ESMTPSA id 20A2865138;
- Wed, 16 Mar 2022 13:31:26 +0100 (CET)
-Authentication-Results: mx2f6e;
- spf=pass (sender IP is 95.223.71.86) smtp.mailfrom=hk@zapateado.de
- smtp.helo=[192.168.54.9]
-Received-SPF: pass (mx2f6e: connection is authenticated)
-Message-ID: <240b4ac6-7f74-e959-ae81-73dbe3fa904e@zapateado.de>
-Date: Wed, 16 Mar 2022 13:31:25 +0100
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 874BB1C05EBA;
+ Wed, 16 Mar 2022 12:32:49 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 408A740D2820;
+ Wed, 16 Mar 2022 12:32:49 +0000 (UTC)
+Date: Wed, 16 Mar 2022 12:32:48 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
+Message-ID: <YjHY8GA52MzjBxLK@stefanha-x1.localdomain>
+References: <20220314093203.1420404-1-pbonzini@redhat.com>
+ <Yi9MBGoc3WtOLx82@stefanha-x1.localdomain>
+ <4528e387-8016-0774-9c8b-532a75566d9d@redhat.com>
+ <YjCdKfbQsgfsw76N@stefanha-x1.localdomain>
+ <CAFEAcA8zongmSfDAgorr=RfKK6Qsgyi1xNz5KBzdB0RGeSBSWA@mail.gmail.com>
+ <dca7d15b-2f24-cfb2-9a31-47b5ffd9c3d5@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-From: Helge Konetzka <hk@zapateado.de>
-Subject: [PATCH-for-7.0] qga/vss-win32: fix compilation with clang++
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-PPP-Message-ID: <164743388644.5006.140164006973286509@mx2f6e.netcup.net>
-X-PPP-Vhost: konetzka.de
-X-NC-CID: JBJVHFRxFcWfhKAKTyWENiFiDyT+DHbeU/TzPWeFwNtm
-Received-SPF: pass client-ip=188.68.61.106; envelope-from=hk@zapateado.de;
- helo=relay.yourmailgateway.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="luXXlw5oHqtNyDAv"
+Content-Disposition: inline
+In-Reply-To: <dca7d15b-2f24-cfb2-9a31-47b5ffd9c3d5@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,49 +81,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
- Michael Roth <michael.roth@amd.com>
+Cc: kwolf@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ hreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Compiling with clang++ of msys2 toolchain clang64 leads to an error
-on initializing 'char*' variable nul with a 'const char*' value
 
-Signed-off-by: Helge Konetzka <hk@zapateado.de>
----
-Compiling with clang++ of msys2 toolchain clang64 leads to
+--luXXlw5oHqtNyDAv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1445/1747] Compiling C++ object qga/vss-win32/qga-vss.dll.p/install.cpp.obj
-FAILED: qga/vss-win32/qga-vss.dll.p/install.cpp.obj
-...
-qga/vss-win32/install.cpp:49:24: error: cannot initialize a variable of 
-type 'char *' with an rvalue of type 'const char *'
-     char *msg = NULL, *nul = strchr(text, '(');
-                        ^     ~~~~~~~~~~~~~~~~~
-1 error generated.
-ninja: build stopped: subcommand failed.
-make: *** [Makefile:163: run-ninja] Error 1
-==> ERROR: A failure occurred in build().
-     Aborting...
----
-  qga/vss-win32/install.cpp | 3 ++-
-  1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, Mar 15, 2022 at 06:29:50PM +0100, Paolo Bonzini wrote:
+> On 3/15/22 15:24, Peter Maydell wrote:
+> > On Tue, 15 Mar 2022 at 14:09, Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+> > > Also, once C++ is available people will
+> > > start submitting C++ patches simply because they are more comfortable
+> > > with C++ (especially one-time/infrequent contributors).
+> >=20
+> > This to my mind is the major argument against using C++
+> > for coroutines...
+>=20
+> I agree on the need for a policy, but _what_ C++ are they going to be
+> contributing that we should be scared of?  We're talking about:
+>=20
+> * major features contributed by one-time/infrequent participants (which is
+> already a once-in-a-year thing or so, at least for me)
+>=20
+> * ... in an area where there are no examples of using C++ in the tree (or
+> presumably the maintainer would be comfortable reviewing it)
+>=20
+> * ... but yet C++ offer killer features (right now there's only C++
+> coroutines and fpu/)
 
-diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
-index 8076efe3cb..b57508fbe0 100644
---- a/qga/vss-win32/install.cpp
-+++ b/qga/vss-win32/install.cpp
-@@ -46,7 +46,8 @@ void errmsg(DWORD err, const char *text)
-       * If text doesn't contains '(', negative precision is given, which is
-       * treated as though it were missing.
-       */
--    char *msg = NULL, *nul = strchr(text, '(');
-+    char *msg = NULL;
-+    const char *nul = strchr(text, '(');
-      int len = nul ? nul - text : -1;
+You are assuming people only choose C++ only when it offers features not
+available in C. I think they might simply be more comfortable in C++.
 
-      FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
--- 
-2.30.2
+In other words, if an existing file is compiled using a C++ compiler or
+they are adding a new file, they don't need a reason to use C++, they
+can just use it.
+
+You can define rules and a way to enforce a subset of C++, but I think
+over time the code will be C++. A policy that is complicated discourages
+contributors.
+
+For these reasons I think that if code runs through a C++ compiler we
+should just allow C++. Either way, it will take time but that way no one
+will feel betrayed when C++ creeps in.
+
+That said, I hope we find an option that doesn't involve C++.
+
+Stefan
+
+--luXXlw5oHqtNyDAv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIx2PAACgkQnKSrs4Gr
+c8gy6Af+OCKUUTyAjCCY4lcCHRCImjGn71rx+sGlhhlw0GOS6g5oVYW/mp9utnx9
+Meugm1B1zWuK07faRSUQ4l3Sau8lARsI00+U2UjK5IJZZw/CmufsutR/nW7ocmgE
+jgBqs9AoMxpiM4Stym3YgrIVqnwAkNtHJRvLlwKZcKHnCXl4kpKjHBKf4p+e/8+p
+e+ko3eg66RZlZmKwoEwOTpY8xtgjuCHFsj/WT0CIZfhkj3WSQHaWjwlloljBsII1
+EycAJZ1ZkFsCqawI3558J/qN180O/GaMny6bfmXO6wgP6x1PTfXle/fynzt304I5
+XVCbpaosohS7Zxwdjx6y2xNpMuRDWQ==
+=ErUb
+-----END PGP SIGNATURE-----
+
+--luXXlw5oHqtNyDAv--
 
 
