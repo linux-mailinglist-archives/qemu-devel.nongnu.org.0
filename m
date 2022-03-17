@@ -2,95 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B054DC41E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 11:41:53 +0100 (CET)
-Received: from localhost ([::1]:52812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5428A4DC437
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 11:46:19 +0100 (CET)
+Received: from localhost ([::1]:60350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUnZo-0000Nt-OY
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 06:41:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48834)
+	id 1nUne6-0005n6-Ec
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 06:46:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnNW-0007Ds-P4
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:29:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26460)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnNU-0007AB-U3
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:29:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647512945;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oNy84Wa0ghft7ajaj70VKnPl0wXvbJS/FVKi32awQ5I=;
- b=VYHbVcfEFRZTW3a6lUKDw+LBnvJvv7dHdGtJ7Umn16rjgCFB51hZOKTTrI5AxjnX/viXtj
- Sg6ZtAO3tylh3oolGmkKiSZLR3BxemdDViLni32gaEdvmkxep4NHlsvQc7MoRslH3nS2kR
- ROIQybSPlw2QaVtvB4/q9lXRFkVwtnc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-1ILeNmIsPa2yrqG8me6DrQ-1; Thu, 17 Mar 2022 06:29:05 -0400
-X-MC-Unique: 1ILeNmIsPa2yrqG8me6DrQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- i14-20020a17090639ce00b006dabe6a112fso2653016eje.13
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 03:29:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=oNy84Wa0ghft7ajaj70VKnPl0wXvbJS/FVKi32awQ5I=;
- b=eI19QqlmOrZHtUPto/n1K74MTEO5z0FcS9YoGQSF6I96Jb8vegP2KrxG+DddNVTjsW
- BRiay3ZanPZ+HruDASqe7S9OZNDKVQTBxe9hi0AoxLgOxGRwKVRuh3WldUqG/MGEf+LC
- +uA8NjPVO6EJhHJLTuhRq+BGJv9W0D+jVrfoUMj936dzXPO0dr0QhVa6DwzJrl2sKrq3
- HQ6cUZ1MC5ULQJ9qNYw8TE1E1BmvuuNIfUtQ7GqgcSV7gsz+IXT3KRxLvQ1tKbhbj+Rt
- Oq1o5PRdI2gAn1ZSPDVSwxoOFGYn7uocI2KK1LeoVr0MyHtxJUg7u/haSdVxodrTaAlH
- ozUQ==
-X-Gm-Message-State: AOAM531YFSn9bBQ5K+TpfjMmgAEkl/MPQI8P8fpFP5z0Mkrk09QHCyE2
- MG05mwVU1sMJdpdpfk/XV8DNgPboTf49MtM3czbuCLUiV7mwbLY0CDDbom4OlS0eE1Ca0lDSkqk
- L7/6VGI15L24HpI8=
-X-Received: by 2002:a17:907:60d5:b0:6da:a62d:1845 with SMTP id
- hv21-20020a17090760d500b006daa62d1845mr3819964ejc.154.1647512943693; 
- Thu, 17 Mar 2022 03:29:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzBhNJdagW71W95qMvp3fJoALGeYgNzRTvY51gseFhgHt54qraTAeGqiVQT590eTPM3OI4QkQ==
-X-Received: by 2002:a17:907:60d5:b0:6da:a62d:1845 with SMTP id
- hv21-20020a17090760d500b006daa62d1845mr3819948ejc.154.1647512943513; 
- Thu, 17 Mar 2022 03:29:03 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- m28-20020a17090672dc00b006df88565a2dsm1362372ejl.121.2022.03.17.03.29.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 03:29:03 -0700 (PDT)
-Message-ID: <89bc26f7-fb8e-1391-3d79-b2c8ec843641@redhat.com>
-Date: Thu, 17 Mar 2022 11:29:02 +0100
+ (Exim 4.90_1) (envelope-from <pierre@freepascal.org>)
+ id 1nUnbD-00033v-PI
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:43:23 -0400
+Received: from mail.freepascal.org ([178.33.235.90]:42444)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pierre@freepascal.org>) id 1nUnbB-0000wV-9f
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:43:19 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.freepascal.org (Postfix) with ESMTP id 9C7021802F8
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 10:43:14 +0000 (UTC)
+Received: from mail.freepascal.org ([127.0.0.1])
+ by localhost (idefixng.freepascal.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1YHZecdwC4vR for <qemu-devel@nongnu.org>;
+ Thu, 17 Mar 2022 10:43:14 +0000 (UTC)
+Received: from [192.168.50.107] (gw-ics.u-strasbg.fr [130.79.210.225])
+ by mail.freepascal.org (Postfix) with ESMTPSA id 80BE11802F3
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 10:43:14 +0000 (UTC)
+Message-ID: <fffcbadf-aa26-6e53-19b6-e3dcee825a55@freepascal.org>
+Date: Thu, 17 Mar 2022 11:43:13 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 1/5] python/utils: add add_visual_margin() text
- decoration utility
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20220308015728.1269649-1-jsnow@redhat.com>
- <20220308015728.1269649-2-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220308015728.1269649-2-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 15/17] linux-user/strace: Fix print_syscall_err
 Content-Language: en-US
+To: qemu-devel@nongnu.org
+References: <20220316055840.727571-1-richard.henderson@linaro.org>
+ <20220316055840.727571-16-richard.henderson@linaro.org>
+From: Pierre Muller <pierre@freepascal.org>
+In-Reply-To: <20220316055840.727571-16-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=178.33.235.90; envelope-from=pierre@freepascal.org;
+ helo=mail.freepascal.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,27 +62,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-block@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>
+Reply-To: Pierre Muller <pierre@freepascal.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.03.22 02:57, John Snow wrote:
->>>> print(add_visual_margin(msg, width=72, name="Commit Message"))
-> ┏━ Commit Message ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-> ┃ add_visual_margin() takes a chunk of text and wraps it in a visual
-> ┃ container that force-wraps to a specified width. An optional title
-> ┃ label may be given, and any of the individual glyphs used to draw the
-> ┃ box may be replaced or specified as well.
-> ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+  Hello Richard,
+
+   being mainly a Pascal programmer,
+I always jump when I see such constructs:
+   You change the type of the print_syscall_err parameter to abi_ulong,
+with is an unsigned type as the name suggests,
+and after you compare it to a signed constant -4096.
+
+   This would never work in Pascal, but this is of course C code.
+
+   Nevertheless, I tried:
+
+muller@gcc140:~/pas/check$ cat ./test-unsigned-int.c
+#include <stdio.h>
+
+int test_is_error (unsigned int u)
+{
+   return (u > -4096);
+}
+
+int main ()
+{
+   unsigned int v;
+   int error_count = 0;
+   v = (unsigned int) - 3000;
+   if (test_is_error(v) != 0)
+     printf("v=-3000 accepted\n");
+   else
+     error_count++;
+   v = (unsigned int) - 5000;
+   if (test_is_error(v) == 0)
+     printf("v=-5000 rejected\n");
+   else
+     error_count++;
+   v = (unsigned int) 0xfffffff0;
+   if (test_is_error(v) != 0)
+     printf("v=%d accepted\n",v);
+   else
+     error_count++;
+   if (test_is_error(0xffffff00) != 0)
+     printf("v=%d accepted\n",0xffffff00);
+   else
+     error_count++;
+   return error_count;
+}
+
+
+muller@gcc140:~/pas/check$ gcc  -W -o test-unsigned-int test-unsigned-int.c
+test-unsigned-int.c: In function ‘test_is_error’:
+test-unsigned-int.c:5:13: warning: comparison of integer expressions of different signedness: ‘unsigned int’ and ‘int’ [-Wsign-compare]
+     5 |   return (u > -4096);
+       |             ^
+
+The results are OK (both for 32 and 64 bit executables),
+but is there a cleaner way, which does not generate a warning, to write this?
+
+Adding an explicit typecast to -4096 seems sufficient to silence that warning.
+
+
+Pierre Muller
+
+
+Le 16/03/2022 à 06:58, Richard Henderson a écrit :
+> Errors are not all negative numbers, but only the top 4k.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   python/qemu/utils/__init__.py | 78 +++++++++++++++++++++++++++++++++++
->   1 file changed, 78 insertions(+)
-
-Acked-by: Hanna Reitz <hreitz@redhat.com>
-
+>   linux-user/strace.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 2cdbf030ba..f235118fb6 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -684,12 +684,12 @@ print_ipc(void *cpu_env, const struct syscallname *name,
+>    */
+>   
+>   static bool
+> -print_syscall_err(abi_long ret)
+> +print_syscall_err(abi_ulong ret)
+>   {
+>       const char *errstr;
+>   
+>       qemu_log(" = ");
+> -    if (ret < 0) {
+> +    if (ret > -4096) {
+>           errstr = target_strerror(-ret);
+>           if (errstr) {
+>               qemu_log("-1 errno=%d (%s)", (int)-ret, errstr);
 
