@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC0E4DBDC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 05:41:18 +0100 (CET)
-Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FE14DBDC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 05:42:24 +0100 (CET)
+Received: from localhost ([::1]:36402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUhwr-00023F-3o
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 00:41:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47482)
+	id 1nUhxv-0003SW-2h
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 00:42:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nUhuY-0001MG-LE
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 00:38:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37390)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nUhuV-0007DD-OR
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 00:38:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647491930;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ltyrwNjMOqy58XbBpqiCfjfrdSYIxpLikMSQ69OFOuo=;
- b=TeNcg0Ue44Z7WnyjE5EK7W+sS5tHEeo7txPWaFs7gmUn2Vo5Z4Rh9qeCirD/c+eCgMxOnp
- PtZze+yyw9/1MJnDaH3z+CIzQSE9bqc/LNub+Q8m0AfMql0rpsxiAt9FK18EESn/quMbuk
- WhLgHfCv21vM4aSYUiDmXUWMXeLnVug=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-414-6djkW6YTNHyHfibjVXQR8A-1; Thu, 17 Mar 2022 00:38:48 -0400
-X-MC-Unique: 6djkW6YTNHyHfibjVXQR8A-1
-Received: by mail-lj1-f199.google.com with SMTP id
- 20-20020a2e0914000000b0024635d136ddso1657707ljj.22
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 21:38:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nUhvh-00021t-MU; Thu, 17 Mar 2022 00:40:05 -0400
+Received: from [2607:f8b0:4864:20::12a] (port=46931
+ helo=mail-il1-x12a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nUhvf-0007G6-Vo; Thu, 17 Mar 2022 00:40:05 -0400
+Received: by mail-il1-x12a.google.com with SMTP id l13so2965610iln.13;
+ Wed, 16 Mar 2022 21:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ELgYjz6NhM4YqxfUOFsazz8sdchnf/vKQnrjAbMl9UM=;
+ b=aTZCtoeNWfvpZ8R1ItzbE/2IHnjiC+eU3kNs+5kOlL79YFiCS3jO0iJFYOrKa8Oxn/
+ SDZTdLYBlSzyTwG1/5dDt8sdvjJqO3EhVsJF5Lx8PyNxwYvzfOATJTDJX8PfxcicFXNK
+ pKUKwkJ5m1tFi3mCxpZiAgcLSmIxafraezctXsAhKAPoXnKdI6Ydl8+fLPOMyKmNhpdS
+ MmDDKg27Cl13EopYJBShtSX6fNjpwV5vLxCbLTnS5/Lty2P4F37jMKUuvROuwCN6w3kw
+ H5C2XhzG6ee2ChdvQyMVTH0SEczUt0qvzSYz7XGsfFrwQwo8AvnUHcgA62dYbwv6oCcc
+ 5B2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ltyrwNjMOqy58XbBpqiCfjfrdSYIxpLikMSQ69OFOuo=;
- b=uksZjs1k3XhH/Ebfb27Sa+2nYXkhs4DV74+Tgfs2p1jyfdSvJm4RtQ+PYbIvSLxoPH
- dTMcDONFg+zy/psGWsGvSVo54q4DGFPD/A27ajohf/oSiDa2EO4HWq+f/9qhSkZe+T/c
- U7QoOamFRuwuXb8fiLFbxqmgMTGTeuumkf1ZSDA4j07FiJ1PsOZ6zovzr/K1x4p8w82r
- hKFmPXTgVTj7aby5y1RFXpCb+rZuDQwFZhsa0y+liFBLsdnUczSKvHx7FAeBXRux+TBU
- h+mtgBF1jkQ9le1LT/kih0AEoUmQ15MFKkTPFk9FWEG1ZXRUmcNaD3In8kDq+mlWh0LS
- kEHQ==
-X-Gm-Message-State: AOAM531zkCB1LdYRfQturWg9hS56UQ+26RoRAjbPG/Nuzze8+dbBIJsy
- bAMBaSEAVWc7Zp044pl3Io/0a4UwaT1A4mJUz0vn2xizKwK5pQLxkDkULl1ery7iRoyz2H4zjDW
- E7Akan5bT3vJ9TJlRWmdLhp38AJgttL4=
-X-Received: by 2002:a05:651c:b23:b0:247:ee17:e9ed with SMTP id
- b35-20020a05651c0b2300b00247ee17e9edmr1708061ljr.243.1647491927331; 
- Wed, 16 Mar 2022 21:38:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHHGTBibpeY/3uVf3SojEHwbwSyfF4iqAhH1MnaZIkP3vXnhMSt3jUJ1a0Q3yI9rkdSlpEOr9yfO4umUBgXx4=
-X-Received: by 2002:a05:651c:b23:b0:247:ee17:e9ed with SMTP id
- b35-20020a05651c0b2300b00247ee17e9edmr1708053ljr.243.1647491927028; Wed, 16
- Mar 2022 21:38:47 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ELgYjz6NhM4YqxfUOFsazz8sdchnf/vKQnrjAbMl9UM=;
+ b=a0LYGqOGcZ2wMSzQYb7EJpy61BO5w1Lz9ReGg7wWL7cH2nWuYaOxkMAq+q+/vzbRAw
+ xgYEn2RgBZyPiLCbHy96ZyYdVwMd23iu7SKGqW7WEm0YTxCxo7k8KblCN/7gOUSHdKV8
+ 4m9CXNj9wtXnk1HnkEC6f1cE6RuJUzNZgLjcfA6dx5tEaqQFHb73Xo7o12IqVutwsbdQ
+ UnR6kx2UXiu1bSamBV3waNM/+pIM4YkAXomJbXuEJQ4xBzABYZkwfKbewScmJonIUshH
+ 8QHkbDdNU3GxT7pAr0LC3XZoffQ/IoRCsnBWoCzllbSw8TitZaC8SAimGL1wEfCZjVEe
+ lXNw==
+X-Gm-Message-State: AOAM530S3206Y74prBgBETdBMWJ5vHkRpQAHsQ3y4kuBSlmMbrULqkFD
+ j6SWBGNMWzoDvHPNGvz6TywQBU6NmeXo8oG7+yA=
+X-Google-Smtp-Source: ABdhPJzNI9wtXSVbd7P6M4XliFcyP4bPKWAVWq8Vm/xJJ/wU11aOPExqhTDe9NyVYIaIDcxEoqy+oByQXboqLoL9xso=
+X-Received: by 2002:a92:6012:0:b0:2bd:fb5f:d627 with SMTP id
+ u18-20020a926012000000b002bdfb5fd627mr1195791ilb.86.1647492001959; Wed, 16
+ Mar 2022 21:40:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220210092815.45174-1-jasowang@redhat.com>
-In-Reply-To: <20220210092815.45174-1-jasowang@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 17 Mar 2022 12:38:35 +0800
-Message-ID: <CACGkMEtv3uZ6-K=E_=74EHLtRN0yBGO6WhL8MzSRvf+YB8+aDg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] intel-iommu: remove VTD_FR_RESERVED_ERR
-To: mst <mst@redhat.com>, Peter Xu <peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220311094601.30440-1-liweiwei@iscas.ac.cn>
+ <CAEUhbmX7wBzhvojSioQnB=T-DDuq9FX7UTPdvtR=oXHDm5Ra4A@mail.gmail.com>
+ <769fe78f-e4c0-83c1-d5fc-65fbf40bb5ff@iscas.ac.cn>
+ <CAKmqyKMpWFo5-=XSTBy_B9aTqDsw6-uxWfe3RwNnKUCKXQtjeQ@mail.gmail.com>
+ <f5a1d76b-12a9-6d84-f73f-2dc523cfa4ee@iscas.ac.cn>
+In-Reply-To: <f5a1d76b-12a9-6d84-f73f-2dc523cfa4ee@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 17 Mar 2022 14:39:35 +1000
+Message-ID: <CAKmqyKOFJBKG7t0+6bxf+rzNDgMeOkjZoBok=6SUucOp5A0dvg@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: write back unmodified value for
+ csrrc/csrrs with rs1 is not x0 but holding zero
+To: Weiwei Li <liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,69 +86,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-HI Michael:
+On Thu, Mar 17, 2022 at 12:10 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>
+>
+> =E5=9C=A8 2022/3/17 =E4=B8=8A=E5=8D=886:35, Alistair Francis =E5=86=99=E9=
+=81=93:
+> > On Thu, Mar 17, 2022 at 1:13 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+> >>
+> >>>>            riscv_raise_exception(env, ret, GETPC());
+> >>>> @@ -90,7 +90,7 @@ void helper_csrw_i128(CPURISCVState *env, int csr,
+> >>>>    {
+> >>>>        RISCVException ret =3D riscv_csrrw_i128(env, csr, NULL,
+> >>>>                                              int128_make128(srcl, sr=
+ch),
+> >>>> -                                          UINT128_MAX);
+> >>>> +                                          UINT128_MAX, true);
+> >>>>
+> >>>>        if (ret !=3D RISCV_EXCP_NONE) {
+> >>>>            riscv_raise_exception(env, ret, GETPC());
+> >>>> @@ -104,7 +104,7 @@ target_ulong helper_csrrw_i128(CPURISCVState *en=
+v, int csr,
+> >>>>        Int128 rv =3D int128_zero();
+> >>>>        RISCVException ret =3D riscv_csrrw_i128(env, csr, &rv,
+> >>>>                                              int128_make128(srcl, sr=
+ch),
+> >>>> -                                          int128_make128(maskl, mas=
+kh));
+> >>>> +                                          int128_make128(maskl, mas=
+kh), true);
+> >>>>
+> >>>>        if (ret !=3D RISCV_EXCP_NONE) {
+> >>>>            riscv_raise_exception(env, ret, GETPC());
+> >>> I am afraid the adding of "bool write_op" argument was done on many
+> >>> functions, some of which do not look good to me, e.g.: predicate
+> >>> funcs. v1 is much better.*>
+> >> Yeah, I agree adding  argument to predicate is not a good idea. Howeve=
+r
+> >> it seems that the csr(like seed)
+> >>
+> >> itself cannot  distinguish whether it's to be written or not except
+> >> these two ways(in v1 and v2).
+> >>
+> >> Or we can take seed CSR as a special case  in riscv_csrrw_check since =
+no
+> >> other csr will limit itself
+> >>
+> >> to be accessed only with read-write instruction currently.
+> >>
+> >>> Or maybe, is that possible we do something in trans_csrrs() instead?
+> > That might be a better option. Unless there are other CSRs we expect
+> > to do this I think trans_csrr*() is probably the place to have this,
+> > similar to the `rd =3D=3D 0` case.
+> >
+> > It could also go in helper_csrr() which would just be a simple if check=
+.
+> >
+> > Alistair
+> >
+> Sorry. I don't understand what can be done in trans_csrr*(). As I said
+> in last email: trans_csr*
+>
+> have made all the read operation will go to the helper_csrr. However
+> helper_csrr share the progress
+>
+> of riscv_csrrw*  with helper_csrrw/helper_csrw to implement its function.
 
-Want to take this series?
+Yep, so the problem you are trying to solve is the seed CSR access right?
 
-Thanks
+"The seed CSR must be accessed with a read-write instruction. A
+read-only instruction such as CSRRS/CSRRC with rs1=3Dx0 or CSRRSI/CSRRCI
+with uimm=3D0 will raise an illegal instruction exception. The write
+value (in rs1 or uimm) must be ignored by implementations. The purpose
+of the write is to signal polling and flushing."
 
-On Thu, Feb 10, 2022 at 5:28 PM Jason Wang <jasowang@redhat.com> wrote:
->
-> This fault reason is not used and is duplicated with SPT.2 condition
-> code. So let's remove it.
->
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> ---
->  hw/i386/intel_iommu.c          | 6 ------
->  hw/i386/intel_iommu_internal.h | 5 -----
->  2 files changed, 11 deletions(-)
->
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index 5b865ac08c..55281ee1b4 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -469,11 +469,6 @@ static void vtd_report_dmar_fault(IntelIOMMUState *s, uint16_t source_id,
->
->      assert(fault < VTD_FR_MAX);
->
-> -    if (fault == VTD_FR_RESERVED_ERR) {
-> -        /* This is not a normal fault reason case. Drop it. */
-> -        return;
-> -    }
-> -
->      trace_vtd_dmar_fault(source_id, fault, addr, is_write);
->
->      if (fsts_reg & VTD_FSTS_PFO) {
-> @@ -1629,7 +1624,6 @@ static const bool vtd_qualified_faults[] = {
->      [VTD_FR_PAGING_ENTRY_RSVD] = true,
->      [VTD_FR_CONTEXT_ENTRY_TT] = true,
->      [VTD_FR_PASID_TABLE_INV] = false,
-> -    [VTD_FR_RESERVED_ERR] = false,
->      [VTD_FR_MAX] = false,
->  };
->
-> diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-> index a6c788049b..d0bb43ae87 100644
-> --- a/hw/i386/intel_iommu_internal.h
-> +++ b/hw/i386/intel_iommu_internal.h
-> @@ -303,11 +303,6 @@ typedef enum VTDFaultReason {
->
->      VTD_FR_PASID_TABLE_INV = 0x58,  /*Invalid PASID table entry */
->
-> -    /* This is not a normal fault reason. We use this to indicate some faults
-> -     * that are not referenced by the VT-d specification.
-> -     * Fault event with such reason should not be recorded.
-> -     */
-> -    VTD_FR_RESERVED_ERR,
->      VTD_FR_MAX,                 /* Guard */
->  } VTDFaultReason;
->
-> --
-> 2.25.1
->
+So trans_csr*() probably isn't the right place, but you could do the
+check in helper_csr*()
 
+helper_csrr() is only called from do_csrr(), which should only be
+called on an invalid access for the seed CSR.
+
+>
+> The truely question is that helper_csrr will call riscv_csrrw*with
+> write_mask =3D zero, new_value=3Dzero,
+>
+> which cannot distinguished from the call from helper_csrrw of which its
+> write_mask all can be zero
+
+Agreed. But helper_csrrw() isn't called if rs1=3Dx0 or uimm=3D0. So if
+helper_csrrw() is called no matter the write mask then you should be
+fine.
+
+So a simple:
+if (csr =3D=3D CSR_SEED) {
+    riscv_raise_exception()
+}
+
+in helper_csrr() and helper_csrw() should be fine. Or am I missing somethin=
+g?
+
+Alistair
+
+>
+> (origin from trans_csrrs/trans_csrrc when rs1 is not x0 and the value of
+> rs1 reg is zero).
+>
+> Regards,
+>
+> Weiwei Li
+>
+>
+> >> The read and write operation in trans_csr*  have been truely
+> >> distinguished in original code:
+> >>
+> >> all the read operation will go to  the helper_csrr,  write to
+> >> helper_csrrw, read/write to helper_csrrw.
+> >>
+> >> However, they all go to the same progress  riscv_csrrw* in the helper
+> >> with different arguments.
+> >>
+> >> Regards,
+> >>
+> >> Weiwei Li
+> >>
+> >>> Regards,
+> >>> Bin
+> >>
+> >>
+> >>
+> >>
+>
 
