@@ -2,95 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30E74DC4D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 12:28:39 +0100 (CET)
-Received: from localhost ([::1]:51444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1B94DC50E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 12:53:20 +0100 (CET)
+Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUoJ4-0004au-NA
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 07:28:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33392)
+	id 1nUogx-00039x-Dy
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 07:53:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUoH7-0003Zk-Gi
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 07:26:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42944)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nUoLh-0006aK-70; Thu, 17 Mar 2022 07:31:21 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:52113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUoH5-0000Oh-M6
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 07:26:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647516395;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Nak+DWM3eCpC/wKDntzflu5dcYOzVZkeZluZMPFFxdM=;
- b=gcvOR54gs8Ez6kjLWphGDNX444nHG/lKbEZ+8wuBPirKKhHtpyUyF991veXgxM9PnGCg3d
- vEudF8OInD9JM1TyHQC+fMxfs6qB2pi1M6AOkO+UpK2mT6KOcSm+f6ls464dTIGRt5TkBs
- v6yN2wjO5aIH2QR6XqniMkrN9jPQSLM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-ZlQb50DrOy-KjxhTotaRuw-1; Thu, 17 Mar 2022 07:26:34 -0400
-X-MC-Unique: ZlQb50DrOy-KjxhTotaRuw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- u13-20020a50a40d000000b00419028f7f96so69791edb.21
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 04:26:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Nak+DWM3eCpC/wKDntzflu5dcYOzVZkeZluZMPFFxdM=;
- b=dh8SLzbc/nLwn5YuQCkcWQ3Tf1QZsXQ8zqllKxh0050oJ4XQrtdMjz0f6PvYqOVRGU
- sdfmhjQIAt+4bouyK6Ab8Mkc3e3yeD5d6r7Zvh+Z+nYUKqoA+AIqwFkNmrfDoB8RGKGU
- /WhF4CPEJoChCa+rzn0yIKly1mDw6F6qBnYG1VsLPkadghFuqPdWGtg7rYjFWS/82J+o
- P8bcqCSte/BiqNEOaqQt/2DtuN44+T7+lrJxNSEf+BKnrZf+b96BlGqNsEPpLiFn0oWk
- wTZa3MelhtCkpdIu7aKpsQ2bhZZSwPxP5ugXeyzeyb/rPJMYlDoLxcEbJXOVSJVfPcei
- nxwQ==
-X-Gm-Message-State: AOAM532gRhzXHDgUrm5dJLaZg9UEPzNJjRcZaAIKD44qwZyf8W7+gaM+
- +9mfTg4esXOdNsxd0Ru2bENwMtMJbPvT1N3OJxxaQVAiAjTuUIaRezQdUgEP/Rgl25IWdggDQl0
- mV4YIr5QBZKMcBsw=
-X-Received: by 2002:a05:6402:3592:b0:418:6d45:2008 with SMTP id
- y18-20020a056402359200b004186d452008mr3857458edc.131.1647516392875; 
- Thu, 17 Mar 2022 04:26:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyjK56CFBvDErLIp6yKnqXsFoYYJfEiZBsTbDaKYTQljo6LKbwFHBBo6jpTEznm71+ScqniBQ==
-X-Received: by 2002:a05:6402:3592:b0:418:6d45:2008 with SMTP id
- y18-20020a056402359200b004186d452008mr3857433edc.131.1647516392662; 
- Thu, 17 Mar 2022 04:26:32 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- gb29-20020a170907961d00b006dbcd3c3999sm2198486ejc.149.2022.03.17.04.26.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 04:26:32 -0700 (PDT)
-Message-ID: <7c4ed938-e8b6-797a-64c3-a3df92a2ddf2@redhat.com>
-Date: Thu, 17 Mar 2022 12:26:31 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nUoLb-00016f-0U; Thu, 17 Mar 2022 07:31:17 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.35])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 44086EB32323;
+ Thu, 17 Mar 2022 12:31:09 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 17 Mar
+ 2022 12:31:07 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R0040d7befd2-d587-4337-9758-2bcf085c86e9,
+ 0530BE337510AE92842F4B01C4CA167143738EB5) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <1b0f4be3-84e3-3188-63c9-8235e4dfc5ce@kaod.org>
+Date: Thu, 17 Mar 2022 12:31:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 05/14] iotests: add qemu_img_map() function
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20220309035407.1848654-1-jsnow@redhat.com>
- <20220309035407.1848654-6-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220309035407.1848654-6-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 10/27] Replace config-time define HOST_WORDS_BIGENDIAN
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: <marcandre.lureau@redhat.com>, <qemu-devel@nongnu.org>
+References: <20220316095308.2613651-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220316095308.2613651-1-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 66bfd7d2-5c46-48ea-8d2c-a21dc2d819c4
+X-Ovh-Tracer-Id: 2016768211438242587
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudefgedgvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,69 +70,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Eric Farman <farman@linux.ibm.com>, Peter Xu <peterx@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Yanan Wang <wangyanan55@huawei.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ "open list:virtio-blk" <qemu-block@nongnu.org>,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+ Huacai Chen <chenhuacai@kernel.org>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
+ "open list:ARM PrimeCell and..." <qemu-arm@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Coiby Xu <Coiby.Xu@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.03.22 04:53, John Snow wrote:
-> Add a qemu_img_map() function by analogy with qemu_img_measure(),
-> qemu_img_check(), and qemu_img_info() that all return JSON information.
->
-> Replace calls to qemu_img_pipe('map', '--output=json', ...) with this
-> new function, which provides better diagnostic information on failure.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
+On 3/16/22 10:53, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Replace a config-time define with a compile time condition
+> define (compatible with clang and gcc) that must be declared prior to
+> its usage. This avoids having a global configure time define, but also
+> prevents from bad usage, if the config header wasn't included before.
+> 
+> This can help to make some code independent from qemu too.
+> 
+> gcc supports __BYTE_ORDER__ from about 4.6 and clang from 3.2.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   tests/qemu-iotests/041                         |  5 ++---
->   tests/qemu-iotests/211                         |  6 +++---
->   tests/qemu-iotests/iotests.py                  |  3 +++
->   tests/qemu-iotests/tests/block-status-cache    | 11 ++++-------
->   tests/qemu-iotests/tests/parallels-read-bitmap |  6 ++----
->   5 files changed, 14 insertions(+), 17 deletions(-)
+>   meson.build                             |  1 -
+>   accel/tcg/atomic_template.h             |  4 +-
+>   audio/audio.h                           |  2 +-
+>   hw/display/pl110_template.h             |  6 +--
+>   hw/net/can/ctucan_core.h                |  2 +-
+>   hw/net/vmxnet3.h                        |  4 +-
+>   include/exec/cpu-all.h                  |  4 +-
+>   include/exec/cpu-common.h               |  2 +-
+>   include/exec/memop.h                    |  2 +-
+>   include/exec/memory.h                   |  2 +-
+>   include/fpu/softfloat-types.h           |  2 +-
+>   include/hw/core/cpu.h                   |  2 +-
+>   include/hw/i386/intel_iommu.h           |  6 +--
+>   include/hw/i386/x86-iommu.h             |  4 +-
+>   include/hw/virtio/virtio-access.h       |  6 +--
+>   include/hw/virtio/virtio-gpu-bswap.h    |  2 +-
+>   include/libdecnumber/dconfig.h          |  2 +-
+>   include/net/eth.h                       |  2 +-
+>   include/qemu/bswap.h                    |  8 ++--
+>   include/qemu/compiler.h                 |  2 +
+>   include/qemu/host-utils.h               |  2 +-
+>   include/qemu/int128.h                   |  2 +-
+>   include/ui/qemu-pixman.h                |  2 +-
+>   net/util.h                              |  2 +-
+>   target/arm/cpu.h                        |  8 ++--
+>   target/arm/translate-a64.h              |  2 +-
+>   target/arm/vec_internal.h               |  2 +-
+>   target/i386/cpu.h                       |  2 +-
+>   target/mips/cpu.h                       |  2 +-
+>   target/ppc/cpu.h                        |  2 +-
+>   target/s390x/tcg/vec.h                  |  2 +-
+>   target/xtensa/cpu.h                     |  2 +-
+>   tests/fp/platform.h                     |  4 +-
+>   accel/kvm/kvm-all.c                     |  4 +-
+>   audio/dbusaudio.c                       |  2 +-
+>   disas.c                                 |  2 +-
+>   hw/core/loader.c                        |  4 +-
+>   hw/display/artist.c                     |  6 +--
+>   hw/display/pxa2xx_lcd.c                 |  2 +-
+>   hw/display/vga.c                        | 12 +++---
+>   hw/display/virtio-gpu-gl.c              |  2 +-
+>   hw/s390x/event-facility.c               |  2 +-
+>   hw/virtio/vhost.c                       |  2 +-
+>   linux-user/arm/nwfpe/double_cpdo.c      |  4 +-
+>   linux-user/arm/nwfpe/fpa11_cpdt.c       |  4 +-
+>   linux-user/ppc/signal.c                 |  3 +-
+>   linux-user/syscall.c                    |  6 +--
+>   net/net.c                               |  4 +-
+>   target/alpha/translate.c                |  2 +-
+>   target/arm/crypto_helper.c              |  2 +-
+>   target/arm/helper.c                     |  2 +-
+>   target/arm/kvm64.c                      |  4 +-
+>   target/arm/neon_helper.c                |  2 +-
+>   target/arm/sve_helper.c                 |  4 +-
+>   target/arm/translate-sve.c              |  6 +--
+>   target/arm/translate-vfp.c              |  2 +-
+>   target/arm/translate.c                  |  2 +-
+>   target/hppa/translate.c                 |  2 +-
+>   target/i386/tcg/translate.c             |  2 +-
+>   target/mips/tcg/lmmi_helper.c           |  2 +-
+>   target/mips/tcg/msa_helper.c            | 54 ++++++++++++-------------
+>   target/ppc/arch_dump.c                  |  2 +-
+>   target/ppc/int_helper.c                 | 22 +++++-----
+>   target/ppc/kvm.c                        |  4 +-
+>   target/ppc/mem_helper.c                 |  2 +-
+>   target/riscv/vector_helper.c            |  2 +-
+>   target/s390x/tcg/translate.c            |  2 +-
+>   target/sparc/vis_helper.c               |  4 +-
+>   tcg/tcg-op.c                            |  4 +-
+>   tcg/tcg.c                               | 12 +++---
+>   tests/qtest/vhost-user-blk-test.c       |  2 +-
+>   tests/qtest/virtio-blk-test.c           |  2 +-
+>   ui/vdagent.c                            |  2 +-
+>   ui/vnc.c                                |  2 +-
+>   util/bitmap.c                           |  2 +-
+>   util/host-utils.c                       |  2 +-
+>   target/ppc/translate/vmx-impl.c.inc     |  4 +-
+>   target/ppc/translate/vsx-impl.c.inc     |  2 +-
+>   target/riscv/insn_trans/trans_rvv.c.inc |  4 +-
+>   target/s390x/tcg/translate_vx.c.inc     |  2 +-
+>   tcg/aarch64/tcg-target.c.inc            |  4 +-
+>   tcg/arm/tcg-target.c.inc                |  4 +-
+>   tcg/mips/tcg-target.c.inc               |  2 +-
+>   tcg/ppc/tcg-target.c.inc                | 10 ++---
+>   tcg/riscv/tcg-target.c.inc              |  4 +-
+>   85 files changed, 173 insertions(+), 173 deletions(-)
 
-[...]
+For the ppc part:
 
-> diff --git a/tests/qemu-iotests/211 b/tests/qemu-iotests/211
-> index f52cadade1..1a3b4596c8 100755
-> --- a/tests/qemu-iotests/211
-> +++ b/tests/qemu-iotests/211
-> @@ -59,7 +59,7 @@ with iotests.FilePath('t.vdi') as disk_path, \
->       vm.shutdown()
->   
->       iotests.img_info_log(disk_path)
-> -    iotests.log(iotests.qemu_img_pipe('map', '--output=json', disk_path))
-> +    iotests.log(iotests.qemu_img_map(disk_path))
->   
->       #
->       # Successful image creation (explicit defaults)
-> @@ -83,7 +83,7 @@ with iotests.FilePath('t.vdi') as disk_path, \
->       vm.shutdown()
->   
->       iotests.img_info_log(disk_path)
-> -    iotests.log(iotests.qemu_img_pipe('map', '--output=json', disk_path))
-> +    iotests.log(iotests.qemu_img_map(disk_path))
->   
->       #
->       # Successful image creation (with non-default options)
-> @@ -107,7 +107,7 @@ with iotests.FilePath('t.vdi') as disk_path, \
->       vm.shutdown()
->   
->       iotests.img_info_log(disk_path)
-> -    iotests.log(iotests.qemu_img_pipe('map', '--output=json', disk_path))
-> +    iotests.log(iotests.qemu_img_map(disk_path))
->   
->       #
->       # Invalid BlockdevRef
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-This breaks 211, because originally, the output wasn’t piped through 
-Python’s json module, i.e. the original json data was printed as it’s 
-generated by qemu.  Now it’s parsed by the json module, and the Python 
-object is logged, so the output changes.
+Thanks,
 
-Still sounds good to me, but this part will require fixing up the 
-reference output.
-
-Hanna
+C.
 
 
