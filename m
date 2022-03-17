@@ -2,54 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5428A4DC437
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 11:46:19 +0100 (CET)
-Received: from localhost ([::1]:60350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64BF14DC452
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 11:53:41 +0100 (CET)
+Received: from localhost ([::1]:45044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUne6-0005n6-Ec
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 06:46:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51810)
+	id 1nUnlE-0006Nh-AK
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 06:53:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierre@freepascal.org>)
- id 1nUnbD-00033v-PI
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:43:23 -0400
-Received: from mail.freepascal.org ([178.33.235.90]:42444)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pierre@freepascal.org>) id 1nUnbB-0000wV-9f
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:43:19 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.freepascal.org (Postfix) with ESMTP id 9C7021802F8
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 10:43:14 +0000 (UTC)
-Received: from mail.freepascal.org ([127.0.0.1])
- by localhost (idefixng.freepascal.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1YHZecdwC4vR for <qemu-devel@nongnu.org>;
- Thu, 17 Mar 2022 10:43:14 +0000 (UTC)
-Received: from [192.168.50.107] (gw-ics.u-strasbg.fr [130.79.210.225])
- by mail.freepascal.org (Postfix) with ESMTPSA id 80BE11802F3
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 10:43:14 +0000 (UTC)
-Message-ID: <fffcbadf-aa26-6e53-19b6-e3dcee825a55@freepascal.org>
-Date: Thu, 17 Mar 2022 11:43:13 +0100
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nUniH-0003Vj-1U
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:50:37 -0400
+Received: from [2607:f8b0:4864:20::102e] (port=51168
+ helo=mail-pj1-x102e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nUniE-0002FU-8N
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:50:35 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id m22so4568033pja.0
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 03:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8dsGzh7OzwqMzf0UX0mIcrVi62Va0oZfgy9O0WF9Pbc=;
+ b=mrC3A0cJxz6MP00betJXO0JsfHk2qgmDVfi7fIIvHhZcRsG2T9ku7XtqJ6SaSL4CJS
+ xGhCNN7RxohBpDEzAjviqa5AWd2FOzY/S0+yutnd7AZT6eZ9bF1ro88xpZl1RuywcHXL
+ WQSqI/smxaJQqrqmjKebm/ajibiTP0FwTIOwCdqzGHg0t2uSCdYKngNYGqbhzqOX93Jk
+ JP/YfM/CXkhF61717iQHW7eoN9E8vSUBhGyhiVf3M+IDbWNRMkL8QjGcFbrbBRuJx2Is
+ rlzzsPUKOULbPYO6Kps82+VuhHXWdCGT4i8RGJcFAE7AK3Nl5WFdqwl139nCLOjl9oxA
+ DnVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8dsGzh7OzwqMzf0UX0mIcrVi62Va0oZfgy9O0WF9Pbc=;
+ b=PbFolrG3EITJ7LsYXBKp8ns1vQx2EoP7RxmVP0p57WN66g3EtnYTHC3aOldsj2ih6P
+ yzkmhwDLiuo/WPy2qf79SlX3dTChMUvoQtuQWWX41COloWuzoJ86M0qUzKL8Vcuznbj2
+ lVL7n1h8BWX1kdXYYa7JVEpjwM+hOCm4LQvYrcSH2/E3yTSJSXuhNVEshe1WtY+UslQH
+ CTvSnAIdcULz/ANrng3b/hRQQPYsa1N2K0r6FiphOf+O3dfrMKaFDDqkiKxyb+RP/d5z
+ s7wjdivFhBoj42H07THvo8eliLHa+axfDfxkrqUiBJmO2UV4HFvxP9iguUC/QNGMbzu4
+ ABjg==
+X-Gm-Message-State: AOAM5301wSN0xk4ZamZZIM8CrXkWsy3Xa7iHw9WpphwJZcmi1O0dJ8f5
+ Vhe2OH7aBtpuuNPRYIdnAUTcZ+i7bV5JLDZd
+X-Google-Smtp-Source: ABdhPJyFYj3el022xodgh4w85koj8PXoOncKahSpEkOA8pG8kHTds641Wd3YH6VKnwqEURhACl2sJg==
+X-Received: by 2002:a17:902:d2cc:b0:152:fda8:f3ff with SMTP id
+ n12-20020a170902d2cc00b00152fda8f3ffmr4461664plc.92.1647514232456; 
+ Thu, 17 Mar 2022 03:50:32 -0700 (PDT)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com.
+ [209.85.210.174]) by smtp.gmail.com with ESMTPSA id
+ c7-20020aa78e07000000b004f6e4d8ccc8sm6264521pfr.163.2022.03.17.03.50.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Mar 2022 03:50:31 -0700 (PDT)
+Received: by mail-pf1-f174.google.com with SMTP id p5so368264pfo.5;
+ Thu, 17 Mar 2022 03:50:30 -0700 (PDT)
+X-Received: by 2002:a05:6a00:1304:b0:4e1:2338:f11e with SMTP id
+ j4-20020a056a00130400b004e12338f11emr4366547pfu.24.1647514230019; Thu, 17 Mar
+ 2022 03:50:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 15/17] linux-user/strace: Fix print_syscall_err
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-References: <20220316055840.727571-1-richard.henderson@linaro.org>
- <20220316055840.727571-16-richard.henderson@linaro.org>
-From: Pierre Muller <pierre@freepascal.org>
-In-Reply-To: <20220316055840.727571-16-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.33.235.90; envelope-from=pierre@freepascal.org;
- helo=mail.freepascal.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+References: <20220316175759.821785-1-atishp@rivosinc.com>
+In-Reply-To: <20220316175759.821785-1-atishp@rivosinc.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Thu, 17 Mar 2022 18:50:19 +0800
+X-Gmail-Original-Message-ID: <CANzO1D2sBc-VVrNWFwo48Gavnn2cS09s48dReLKaL8Swqt--aA@mail.gmail.com>
+Message-ID: <CANzO1D2sBc-VVrNWFwo48Gavnn2cS09s48dReLKaL8Swqt--aA@mail.gmail.com>
+Subject: Re: [PATCH v6] target/riscv: Add isa extenstion strings to the device
+ tree
+To: Atish Patra <atishp@rivosinc.com>
+Content-Type: multipart/alternative; boundary="000000000000715d3105da67cce9"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,98 +93,331 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Pierre Muller <pierre@freepascal.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Heiko Stubner <heiko@sntech.de>,
+ Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hello Richard,
+--000000000000715d3105da67cce9
+Content-Type: text/plain; charset="UTF-8"
 
-   being mainly a Pascal programmer,
-I always jump when I see such constructs:
-   You change the type of the print_syscall_err parameter to abi_ulong,
-with is an unsigned type as the name suggests,
-and after you compare it to a signed constant -4096.
+On Thu, Mar 17, 2022 at 1:58 AM Atish Patra <atishp@rivosinc.com> wrote:
 
-   This would never work in Pascal, but this is of course C code.
-
-   Nevertheless, I tried:
-
-muller@gcc140:~/pas/check$ cat ./test-unsigned-int.c
-#include <stdio.h>
-
-int test_is_error (unsigned int u)
-{
-   return (u > -4096);
-}
-
-int main ()
-{
-   unsigned int v;
-   int error_count = 0;
-   v = (unsigned int) - 3000;
-   if (test_is_error(v) != 0)
-     printf("v=-3000 accepted\n");
-   else
-     error_count++;
-   v = (unsigned int) - 5000;
-   if (test_is_error(v) == 0)
-     printf("v=-5000 rejected\n");
-   else
-     error_count++;
-   v = (unsigned int) 0xfffffff0;
-   if (test_is_error(v) != 0)
-     printf("v=%d accepted\n",v);
-   else
-     error_count++;
-   if (test_is_error(0xffffff00) != 0)
-     printf("v=%d accepted\n",0xffffff00);
-   else
-     error_count++;
-   return error_count;
-}
-
-
-muller@gcc140:~/pas/check$ gcc  -W -o test-unsigned-int test-unsigned-int.c
-test-unsigned-int.c: In function ‘test_is_error’:
-test-unsigned-int.c:5:13: warning: comparison of integer expressions of different signedness: ‘unsigned int’ and ‘int’ [-Wsign-compare]
-     5 |   return (u > -4096);
-       |             ^
-
-The results are OK (both for 32 and 64 bit executables),
-but is there a cleaner way, which does not generate a warning, to write this?
-
-Adding an explicit typecast to -4096 seems sufficient to silence that warning.
-
-
-Pierre Muller
-
-
-Le 16/03/2022 à 06:58, Richard Henderson a écrit :
-> Errors are not all negative numbers, but only the top 4k.
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> The Linux kernel parses the ISA extensions from "riscv,isa" DT
+> property. It used to parse only the single letter base extensions
+> until now. A generic ISA extension parsing framework was proposed[1]
+> recently that can parse multi-letter ISA extensions as well.
+>
+> Generate the extended ISA string by appending the available ISA extensions
+> to the "riscv,isa" string if it is enabled so that kernel can process it.
+>
+> [1] https://lkml.org/lkml/2022/2/15/263
+>
+> Reviewed-by: Anup Patel <anup@brainfault.org>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Suggested-by: Heiko Stubner <heiko@sntech.de>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
 > ---
->   linux-user/strace.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index 2cdbf030ba..f235118fb6 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -684,12 +684,12 @@ print_ipc(void *cpu_env, const struct syscallname *name,
->    */
->   
->   static bool
-> -print_syscall_err(abi_long ret)
-> +print_syscall_err(abi_ulong ret)
->   {
->       const char *errstr;
->   
->       qemu_log(" = ");
-> -    if (ret < 0) {
-> +    if (ret > -4096) {
->           errstr = target_strerror(-ret);
->           if (errstr) {
->               qemu_log("-1 errno=%d (%s)", (int)-ret, errstr);
+> Changes from v5->v6:
+> 1. Improved commit message.
+> 2. Fixed a typo for Zfh.
+>
+> Changes from v4->v5:
+> 1. Fixed the order of Zxx extensions.
+> 2. Added a comment clearly describing the rules of extension order.
+>
+> Changes from v3->v4:
+> 1. Fixed the order of the extension names.
+> 2. Added all the available ISA extensions in Qemu.
+>
+> Changes from v2->v3:
+> 1. Used g_strconcat to replace snprintf & a max isa string length as
+> suggested by Anup.
+> 2. I have not included the Tested-by Tag from Heiko because the
+> implementation changed from v2 to v3.
+>
+> Changes from v1->v2:
+> 1. Improved the code redability by using arrays instead of individual check
+> ---
+>  target/riscv/cpu.c | 60 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 60 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index ddda4906ffb7..937ccdda997b 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -34,6 +34,11 @@
+>
+>  /* RISC-V CPU definitions */
+>
+> +struct isa_ext_data {
+> +        const char *name;
+> +        bool enabled;
+>
+
+Nit: Should be 4 spaces indent.
+
+Regards,
+Frank Chang
+
+
+> +};
+> +
+>  static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
+>
+>  const char * const riscv_int_regnames[] = {
+> @@ -898,6 +903,60 @@ static void riscv_cpu_class_init(ObjectClass *c, void
+> *data)
+>      device_class_set_props(dc, riscv_cpu_properties);
+>  }
+>
+> +#define ISA_EDATA_ENTRY(name, prop) {#name, cpu->cfg.prop}
+> +
+> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int
+> max_str_len)
+> +{
+> +    char *old = *isa_str;
+> +    char *new = *isa_str;
+> +    int i;
+> +
+> +    /**
+> +     * Here are the ordering rules of extension naming defined by RISC-V
+> +     * specification :
+> +     * 1. All extensions should be separated from from other multi-letter
+> +     *    extensions by an underscore.
+> +     * 2. The first letter following the 'Z' conventionally indicates the
+> most
+> +     *    closely related alphabetical extension category,
+> IMAFDQLCBKJTPVH.
+> +     *    If multiple 'Z' extensions are named, they should be ordered
+> first
+> +     *    by category, then alphabetically within a category.
+> +     * 3. Standard supervisor-level extensions (starts with 'S') should be
+> +     *    listed after standard unprivileged extensions.  If multiple
+> +     *    supervisor-level extensions are listed, they should be ordered
+> +     *    alphabetically.
+> +     * 4. Non-standard extensions (starts with 'X') must be listed after
+> all
+> +     *    standard extensions. They must be separated from other
+> multi-letter
+> +     *    extensions by an underscore.
+> +     */
+> +    struct isa_ext_data isa_edata_arr[] = {
+> +        ISA_EDATA_ENTRY(zfh, ext_zfh),
+> +        ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+> +        ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+> +        ISA_EDATA_ENTRY(zdinx, ext_zdinx),
+> +        ISA_EDATA_ENTRY(zba, ext_zba),
+> +        ISA_EDATA_ENTRY(zbb, ext_zbb),
+> +        ISA_EDATA_ENTRY(zbc, ext_zbc),
+> +        ISA_EDATA_ENTRY(zbs, ext_zbs),
+> +        ISA_EDATA_ENTRY(zve32f, ext_zve32f),
+> +        ISA_EDATA_ENTRY(zve64f, ext_zve64f),
+> +        ISA_EDATA_ENTRY(zhinx, ext_zhinx),
+> +        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
+> +        ISA_EDATA_ENTRY(svinval, ext_svinval),
+> +        ISA_EDATA_ENTRY(svnapot, ext_svnapot),
+> +        ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
+> +    };
+> +
+> +    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+> +        if (isa_edata_arr[i].enabled) {
+> +            new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
+> +            g_free(old);
+> +            old = new;
+> +        }
+> +    }
+> +
+> +    *isa_str = new;
+> +}
+> +
+>  char *riscv_isa_string(RISCVCPU *cpu)
+>  {
+>      int i;
+> @@ -910,6 +969,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
+>          }
+>      }
+>      *p = '\0';
+> +    riscv_isa_string_ext(cpu, &isa_str, maxlen);
+>      return isa_str;
+>  }
+>
+> --
+> 2.25.1
+>
+>
+>
+
+--000000000000715d3105da67cce9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Mar 17, 2022 at 1:58 AM Atish Pat=
+ra &lt;<a href=3D"mailto:atishp@rivosinc.com">atishp@rivosinc.com</a>&gt; w=
+rote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">The Linux kernel parses the ISA extensions from &quot;risc=
+v,isa&quot; DT<br>
+property. It used to parse only the single letter base extensions<br>
+until now. A generic ISA extension parsing framework was proposed[1]<br>
+recently that can parse multi-letter ISA extensions as well.<br>
+<br>
+Generate the extended ISA string by appending the available ISA extensions<=
+br>
+to the &quot;riscv,isa&quot; string if it is enabled so that kernel can pro=
+cess it.<br>
+<br>
+[1] <a href=3D"https://lkml.org/lkml/2022/2/15/263" rel=3D"noreferrer" targ=
+et=3D"_blank">https://lkml.org/lkml/2022/2/15/263</a><br>
+<br>
+Reviewed-by: Anup Patel &lt;<a href=3D"mailto:anup@brainfault.org" target=
+=3D"_blank">anup@brainfault.org</a>&gt;<br>
+Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
+m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+Suggested-by: Heiko Stubner &lt;<a href=3D"mailto:heiko@sntech.de" target=
+=3D"_blank">heiko@sntech.de</a>&gt;<br>
+Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" targe=
+t=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
+---<br>
+Changes from v5-&gt;v6:<br>
+1. Improved commit message.<br>
+2. Fixed a typo for Zfh.<br>
+<br>
+Changes from v4-&gt;v5:<br>
+1. Fixed the order of Zxx extensions.<br>
+2. Added a comment clearly describing the rules of extension order.<br>
+<br>
+Changes from v3-&gt;v4:<br>
+1. Fixed the order of the extension names.<br>
+2. Added all the available ISA extensions in Qemu.<br>
+<br>
+Changes from v2-&gt;v3:<br>
+1. Used g_strconcat to replace snprintf &amp; a max isa string length as<br=
+>
+suggested by Anup.<br>
+2. I have not included the Tested-by Tag from Heiko because the<br>
+implementation changed from v2 to v3.<br>
+<br>
+Changes from v1-&gt;v2:<br>
+1. Improved the code redability by using arrays instead of individual check=
+<br>
+---<br>
+=C2=A0target/riscv/cpu.c | 60 +++++++++++++++++++++++++++++++++++++++++++++=
++<br>
+=C2=A01 file changed, 60 insertions(+)<br>
+<br>
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+index ddda4906ffb7..937ccdda997b 100644<br>
+--- a/target/riscv/cpu.c<br>
++++ b/target/riscv/cpu.c<br>
+@@ -34,6 +34,11 @@<br>
+<br>
+=C2=A0/* RISC-V CPU definitions */<br>
+<br>
++struct isa_ext_data {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *name;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool enabled;<br></blockquote><div><br></div><=
+div>Nit: Should be 4 spaces indent.</div><div><br></div><div>Regards,</div>=
+<div>Frank Chang</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">
++};<br>
++<br>
+=C2=A0static const char riscv_exts[26] =3D &quot;IEMAFDQCLBJTPVNSUHKORWXYZG=
+&quot;;<br>
+<br>
+=C2=A0const char * const riscv_int_regnames[] =3D {<br>
+@@ -898,6 +903,60 @@ static void riscv_cpu_class_init(ObjectClass *c, void =
+*data)<br>
+=C2=A0 =C2=A0 =C2=A0device_class_set_props(dc, riscv_cpu_properties);<br>
+=C2=A0}<br>
+<br>
++#define ISA_EDATA_ENTRY(name, prop) {#name, cpu-&gt;cfg.prop}<br>
++<br>
++static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_st=
+r_len)<br>
++{<br>
++=C2=A0 =C2=A0 char *old =3D *isa_str;<br>
++=C2=A0 =C2=A0 char *new =3D *isa_str;<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 /**<br>
++=C2=A0 =C2=A0 =C2=A0* Here are the ordering rules of extension naming defi=
+ned by RISC-V<br>
++=C2=A0 =C2=A0 =C2=A0* specification :<br>
++=C2=A0 =C2=A0 =C2=A0* 1. All extensions should be separated from from othe=
+r multi-letter<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 extensions by an underscore.<br>
++=C2=A0 =C2=A0 =C2=A0* 2. The first letter following the &#39;Z&#39; conven=
+tionally indicates the most<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 closely related alphabetical extension =
+category, IMAFDQLCBKJTPVH.<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 If multiple &#39;Z&#39; extensions are =
+named, they should be ordered first<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 by category, then alphabetically within=
+ a category.<br>
++=C2=A0 =C2=A0 =C2=A0* 3. Standard supervisor-level extensions (starts with=
+ &#39;S&#39;) should be<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 listed after standard unprivileged exte=
+nsions.=C2=A0 If multiple<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 supervisor-level extensions are listed,=
+ they should be ordered<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 alphabetically.<br>
++=C2=A0 =C2=A0 =C2=A0* 4. Non-standard extensions (starts with &#39;X&#39;)=
+ must be listed after all<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 standard extensions. They must be separ=
+ated from other multi-letter<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 extensions by an underscore.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 struct isa_ext_data isa_edata_arr[] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfh, ext_zfh),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfinx, ext_zfinx),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zdinx, ext_zdinx),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zba, ext_zba),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbb, ext_zbb),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbc, ext_zbc),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbs, ext_zbs),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zve32f, ext_zve32f),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zve64f, ext_zve64f),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zhinx, ext_zhinx),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svinval, ext_svinval),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svnapot, ext_svnapot),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),<br>
++=C2=A0 =C2=A0 };<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(isa_edata_arr); i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (isa_edata_arr[i].enabled) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 new =3D g_strconcat(old, &quot;_=
+&quot;, isa_edata_arr[i].name, NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(old);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 old =3D new;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 *isa_str =3D new;<br>
++}<br>
++<br>
+=C2=A0char *riscv_isa_string(RISCVCPU *cpu)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0int i;<br>
+@@ -910,6 +969,7 @@ char *riscv_isa_string(RISCVCPU *cpu)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0*p =3D &#39;\0&#39;;<br>
++=C2=A0 =C2=A0 riscv_isa_string_ext(cpu, &amp;isa_str, maxlen);<br>
+=C2=A0 =C2=A0 =C2=A0return isa_str;<br>
+=C2=A0}<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000715d3105da67cce9--
 
