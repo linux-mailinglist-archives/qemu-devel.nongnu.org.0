@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C564DCB64
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 17:27:02 +0100 (CET)
-Received: from localhost ([::1]:54362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712C84DCB68
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 17:28:27 +0100 (CET)
+Received: from localhost ([::1]:55574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUsxq-0007HV-2z
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 12:27:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33708)
+	id 1nUszB-00087K-Sv
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 12:28:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUsvj-0006HI-89
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 12:24:51 -0400
-Received: from [2607:f8b0:4864:20::112a] (port=39875
- helo=mail-yw1-x112a.google.com)
+ id 1nUswR-0006iH-84
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 12:25:35 -0400
+Received: from [2607:f8b0:4864:20::b2d] (port=36780
+ helo=mail-yb1-xb2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUsvh-0003cK-Pj
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 12:24:50 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-2e5827a76f4so64153397b3.6
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 09:24:49 -0700 (PDT)
+ id 1nUswM-0003zo-6i
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 12:25:32 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id f38so11212241ybi.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 09:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iyrgHWwh1pJz77HAxv+nB8h3N0x3txrZDRP0j50oKZc=;
- b=WKp2Z8aPcYzQiT/n5+Lt2hhs9Wh8bKnudxkQSwesbU76C5kETRcydEyYt1XevqJFCO
- 1WZ7haL+oWDp/eJOJZ5wGwPVBqpm1F/rErj6tJcN26F3Y4ZH8bfIOOX1FmI9CleLXWfY
- bA+LNY4/AA5g3ovSsck5wo49zqVKJgv+wfyDbkFXw9Fe7Hk8qnKZPt3JGijUl2JV24Wu
- 7Gz3ESXNLoBuv6C9toSoL9Y4U2b0cyJhVW1H3Mow2PMAV2qNtjjOZdyi56KOyMfv6yfr
- blNbIJ/EvIvg/seI58e8YqtXZbtlxrTtYrIdSi2KBjyMyeSZk/j4zOXrkBIzIZ9c+P57
- e5VA==
+ :cc; bh=/1oh9zs/EKABTbVT/sL1101c/OQmJq6KooNBWajgnbY=;
+ b=Fo08BvOc7nCygAXUrFFaulfi/I/QlGydZOUXnM+afRTL+8r1uLl4WDwvXyxN2JE9f6
+ qrzSG48eyJXXrb/arZ8PJOQA5IZpWjUrKuMkcb6tlcXUGuH3m6jaOe0xjBMKhFpX3lQg
+ SPr7adkmKyK4kQm3nBAwEg+71ylBsGU9kihzL8tqWhe7fIA36m8W9sn4LdolYTpi393f
+ +33HFVcixNapVR9Elgmgf07FmJjEvD3UZc2aOLQLqRUl+S2d5cXBA8KreJOP8DzW+uYR
+ 8/albY6yid2ruqwV1itsKlGAJRqN2Mmnxu3EXd9ojn0X5lzMyMPtzJqG4WAoFj/bEO2/
+ MUQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iyrgHWwh1pJz77HAxv+nB8h3N0x3txrZDRP0j50oKZc=;
- b=ttCDUkuwhXHT857Td9+NnivCQ8SnjDWTRiYT275bg3xBPDI+Zqo+gqDUiTESKkfHi1
- DL/8/fDfLAKzOb6uqMLNS5TEFwNP6Hc/bC19apDi0D2HH5+KXFN6FouCEO4XNmF4SPNx
- dhYfE+U6qoTN6BGXSBiKpVLGo7G6DzF46fx+STbtYRkNoei1QNa6PQ5wYlanDjV8tY5Z
- 7JbYj84jHeIu8vmE+50W2/gY/fENH4qzT7vxT17QzDIgCkiwCcaTfYpEFrHZ0FHtQnx9
- GszhWK1SG9iTcinlp46wO+4vldv5sk7eKO28m9xBkZaxtwHZIzz+h/uY0wg0E+V5F6nt
- RnoQ==
-X-Gm-Message-State: AOAM530eeWdeJyQfuqXrTncVFI3TVvW6ZAWrlocuzgLjWl52SolG9p4t
- dsBp4u+Sm5blhN0pr+AG4HEotUBfk8D9V85DBZUG0Q==
-X-Google-Smtp-Source: ABdhPJzmojFPyezUEvPwDFH6YAsTU5cLk26UoIlYd2dpPkNNHnakzir59XrKrqusL435YAFq6BzEeFYyTvAlsxF6KNM=
-X-Received: by 2002:a81:1151:0:b0:2e5:99ec:9933 with SMTP id
- 78-20020a811151000000b002e599ec9933mr6411155ywr.64.1647534288789; Thu, 17 Mar
- 2022 09:24:48 -0700 (PDT)
+ bh=/1oh9zs/EKABTbVT/sL1101c/OQmJq6KooNBWajgnbY=;
+ b=1c1Xo/Pyan/KJyzU/jVl0uxUKR9bsqx7pNtTuHbHtobf0AqM8olsIQel7/dU7qJ6zU
+ bCRIXQF+Q2FhBMWTRpg2jd2UBR5FVKUiirDaI1YeJm8q2zUiv70A8pWDMRAcN4DqNUIJ
+ Sbnc25+/QCpQy7VKOWk4ch0HznIzV+yeOizqE9SwVAKOISeSWaG/FN9sg/2UdS6lAjin
+ JJ6a2vr3J1qLbZ1ekCaEkdPUQp6ewt6HKFfi9SNXdH8IYyVUq7LdBRjGDZXo1KjdF/+W
+ bxFgyqyVeaeK7lXtLcFBdtbqpzbyZroVhttZg6CDnPB4jRRtzNCg7uGW0g+ugmj2lV8M
+ A9Ig==
+X-Gm-Message-State: AOAM533ag8jxJeb/bxqtGhrSQNpJ8z23Pz+mPSQih66nW0wQDwJ9RQgc
+ xzopJBPizcGoVM1RXurEjuRnJ3QN/rlXMD095E2e9Q==
+X-Google-Smtp-Source: ABdhPJxhoemH/xeQBFpWGfEdIquJOAuUT5IbgU9kOgu0/Vzqa7rx3+P5gJgUvtgbJuUIEHpnGHblT8ZHeZ0wpjOV6k0=
+X-Received: by 2002:a25:cdc8:0:b0:633:8aa6:6a3 with SMTP id
+ d191-20020a25cdc8000000b006338aa606a3mr5854961ybf.288.1647534327496; Thu, 17
+ Mar 2022 09:25:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220317050538.924111-1-richard.henderson@linaro.org>
- <20220317050538.924111-36-richard.henderson@linaro.org>
-In-Reply-To: <20220317050538.924111-36-richard.henderson@linaro.org>
+ <20220317050538.924111-37-richard.henderson@linaro.org>
+In-Reply-To: <20220317050538.924111-37-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Mar 2022 16:24:37 +0000
-Message-ID: <CAFEAcA_ZCukZDCnozFDX_J85YgEvig0xoAu=kJUMDgzX4h__DA@mail.gmail.com>
-Subject: Re: [PATCH for-7.1 v6 35/51] target/nios2: Create gen_jumpr
+Date: Thu, 17 Mar 2022 16:25:15 +0000
+Message-ID: <CAFEAcA_hck2+FEREwKWFY-WmndUUvHByJD_0CRFfCm=qmFrkyA@mail.gmail.com>
+Subject: Re: [PATCH for-7.1 v6 36/51] target/nios2: Hoist set of is_jmp into
+ gen_goto_tb
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,14 +87,16 @@ Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Mar 2022 at 05:33, Richard Henderson
+On Thu, 17 Mar 2022 at 05:40, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Split out a function to perform an indirect branch.
+> Rather than force all callers to set this, do it
+> within the subroutine.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-
+>  target/nios2/translate.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
