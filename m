@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422514DBE12
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 06:18:29 +0100 (CET)
-Received: from localhost ([::1]:44488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9724DBE2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 06:24:23 +0100 (CET)
+Received: from localhost ([::1]:33168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUiWq-0003p1-AU
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 01:18:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50562)
+	id 1nUicY-0006uH-T9
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 01:24:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiKa-0000Pr-Na
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:05:48 -0400
-Received: from [2607:f8b0:4864:20::636] (port=39430
- helo=mail-pl1-x636.google.com)
+ id 1nUiKc-0000Us-An
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:05:50 -0400
+Received: from [2607:f8b0:4864:20::62a] (port=38572
+ helo=mail-pl1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiKZ-0002Cv-4P
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:05:48 -0400
-Received: by mail-pl1-x636.google.com with SMTP id d18so3558666plr.6
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 22:05:46 -0700 (PDT)
+ id 1nUiKa-0002DA-L9
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:05:50 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id n18so3559966plg.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 22:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JwvNUZim2yApAOIks/gNVf1oLVx5CVGA+91qmxfeNYY=;
- b=k917HWq/iApWpmnPKFi67UggyNWz8Z6FLFyfAxPHGfYu+XfOlo63pPsMtPRfHjAYr+
- AMG885VFHtpOlGnzAFq1PuQd0PwMEjraLnB2DLL2Pe/3IA38K02EXNYk6JwcKCBFkwvX
- SB2qeg286BeUk48nYy3WyX2EaXXpL9MEkQ677GwjYB0viI/DT2DryXBsgTL4i9gnt7VI
- vFEvVwdvLXqW9sgiFQPQiDxiPmRpF6Wjd5lCY6cO/50/zgCu2eHySHS2BAEveOiwSa0l
- /t5oo3JZYD0zIeouRyXd1kGs7Vl/N7qIaqzZCnYTiKds8pbxo81lXLpdBFZ/R3GxRnBh
- MLZQ==
+ bh=L+hHIFlWfBTWBYr3FWgA0oFT6zz/eF9rCjwaIxiotag=;
+ b=CBkjPBEjEnkCygb/TQ0Lwvh9voa/HM7X3RdQUdZZ9PzDHMESJy6LNFS1bOwRID5Y2/
+ 1N9c+UQ9LBtmCoBPxLOdbKIerT8eIgw4rtbIReTLgViBQbh3mgjWJPN5855mS7l4l/RU
+ rjjnEFBvbnxzGcbxSY5eJK30s3Q5pVRZprq9bZfXJX+dJqsugKz82YpWn7YlgDozVLIb
+ qNgCByblyQg57GbGZsprAsMyG3J9MdmUxYJgxD3IOud2qobvbb5AjCNcBJgTTBE09lrH
+ DDlOSpB4b3orVtYc6Vk3e9Ci6Mr2GhysNBze6DgQU07xqy2THADhrCpeK/dLvJtWEha0
+ zkPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JwvNUZim2yApAOIks/gNVf1oLVx5CVGA+91qmxfeNYY=;
- b=owjuUvQtdOlEFxG0O+Y826tdnTDue7dmIhMrrOjoOjHf8HQVGIvEbmkmdhHHKYdlHv
- zSTVNgJoxxsJgnw/IBtk4ogD8Qo/R2DfkzX0OeYcHF+jrJNw5Lb+/Au5OQXK5V4OQU1T
- LMYN2GB+cGrBtPcGDTTKTLgKiZq/+K5dkwoWXRojHADbkZx0Ec28G+r4lJ5ev7/QVmWJ
- xPqY5l80jvSXp09bSGw7fLT/18YOrMJgv4a0/qlWqE+E7rCg74t1ahj2U7/Ko428mEd/
- TT9U84kCxTog2HC6MC7BEee+LIrnhtk2FjPdDATlsNdoMmrqpSSE49IA57GobB/qhFCJ
- oRKQ==
-X-Gm-Message-State: AOAM533KPwBHjQ0fzagWhUHfvhOLylFcGvzdBXyicPETykU1zr6E4dGX
- eCP+Y4U5frSrv2pz6GhA1U6S0OmqHgvfkw==
-X-Google-Smtp-Source: ABdhPJzwWFK0xxbxBrmpGP4icV3n8OSr82Ez0LuY8lPS9H+pj/ISQc02i8YVO9DaNbKUha2W+YVwog==
-X-Received: by 2002:a17:90b:4b09:b0:1c6:3223:8048 with SMTP id
- lx9-20020a17090b4b0900b001c632238048mr13404880pjb.240.1647493545764; 
- Wed, 16 Mar 2022 22:05:45 -0700 (PDT)
+ bh=L+hHIFlWfBTWBYr3FWgA0oFT6zz/eF9rCjwaIxiotag=;
+ b=xIuu5n/pIRN4Rg4PFVXh9jbjgU/SaCzljNNF/L2p13XpVZlh6xoJOoNHQcOI3cfx2N
+ bme32xhq9g0PXW0DCyzGwxkwctjiy7bMJ6PAqX5FTf5beFXcM42a1zlbCB11IjOfse/r
+ DUGMWPYccutJb7izy3ZABlh0dKbrEzbE+kI38tVdcz8SI7RojpcoVIcMH3e+hWigOMyT
+ d6ssSTiQlTqINJC7rJkLwIB+1aUOjt041wkTjtPcnj3jaW1+OoQ9VIUDw3GnKSuPrmWo
+ X8Z1e+l3q0zIaWUTV7kKULiSPDv0PWw9mbnWcH1Mjfyb1LbRNggdtMVmh9bFK94QmH6G
+ 1FoQ==
+X-Gm-Message-State: AOAM531xz1R+14srLkUaSSXYpmaJ+MIIzQiCTRYOkmWFnKuQR53qrNGJ
+ xHbq+zvySGLXYaBaPZBXKJMvWeFSkEb6CA==
+X-Google-Smtp-Source: ABdhPJzatySXpc9wuCJnrSieRJBrsurUfQo8Vuq3dlc25dol1guKpBkjLVHxWOOgBx2WdaloL0tWsA==
+X-Received: by 2002:a17:903:240c:b0:153:c8df:7207 with SMTP id
+ e12-20020a170903240c00b00153c8df7207mr2990519plo.44.1647493546831; 
+ Wed, 16 Mar 2022 22:05:46 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- h22-20020a056a001a5600b004f7c17b291asm5101357pfv.87.2022.03.16.22.05.44
+ h22-20020a056a001a5600b004f7c17b291asm5101357pfv.87.2022.03.16.22.05.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 22:05:45 -0700 (PDT)
+ Wed, 16 Mar 2022 22:05:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 v6 06/51] target/nios2: Split out helper for eret
- instruction
-Date: Wed, 16 Mar 2022 22:04:53 -0700
-Message-Id: <20220317050538.924111-7-richard.henderson@linaro.org>
+Subject: [PATCH for-7.1 v6 07/51] target/nios2: Fix BRET instruction
+Date: Wed, 16 Mar 2022 22:04:54 -0700
+Message-Id: <20220317050538.924111-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220317050538.924111-1-richard.henderson@linaro.org>
 References: <20220317050538.924111-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,73 +93,50 @@ Cc: marex@denx.de, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Amir Gonnen <amir.gonnen@neuroblade.ai>
+We had failed to copy BSTATUS back to STATUS, and diagnose
+supervisor-only.  The spec is light on the specifics of the
+implementation of bret, but it is an easy assumption that
+the restore into STATUS should work the same as eret.
 
-The implementation of eret will become much more complex
-with the introduction of shadow registers.
+Therefore, reuse the existing helper_eret.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
-Message-Id: <20220303153906.2024748-3-amir.gonnen@neuroblade.ai>
-[rth: Split out of a larger patch for shadow register sets.
-      Directly exit to the cpu loop from the helper.]
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/helper.h    |  1 +
- target/nios2/op_helper.c |  9 +++++++++
- target/nios2/translate.c | 10 ++++++----
- 3 files changed, 16 insertions(+), 4 deletions(-)
+ target/nios2/translate.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/target/nios2/helper.h b/target/nios2/helper.h
-index a44ecfdf7a..525b6b685b 100644
---- a/target/nios2/helper.h
-+++ b/target/nios2/helper.h
-@@ -21,6 +21,7 @@
- DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, i32)
- 
- #if !defined(CONFIG_USER_ONLY)
-+DEF_HELPER_3(eret, noreturn, env, i32, i32)
- DEF_HELPER_2(mmu_write_tlbacc, void, env, i32)
- DEF_HELPER_2(mmu_write_tlbmisc, void, env, i32)
- DEF_HELPER_2(mmu_write_pteaddr, void, env, i32)
-diff --git a/target/nios2/op_helper.c b/target/nios2/op_helper.c
-index caa885f7b4..ee5ad8b23f 100644
---- a/target/nios2/op_helper.c
-+++ b/target/nios2/op_helper.c
-@@ -30,3 +30,12 @@ void helper_raise_exception(CPUNios2State *env, uint32_t index)
-     cs->exception_index = index;
-     cpu_loop_exit(cs);
- }
-+
-+#ifndef CONFIG_USER_ONLY
-+void helper_eret(CPUNios2State *env, uint32_t new_status, uint32_t new_pc)
-+{
-+    env->regs[CR_STATUS] = new_status;
-+    env->pc = new_pc;
-+    cpu_loop_exit(env_cpu(env));
-+}
-+#endif /* !CONFIG_USER_ONLY */
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 154ffacbea..7c2c430e99 100644
+index 7c2c430e99..3f7bbd6d7b 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -391,10 +391,12 @@ static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
-         return;
-     }
+@@ -407,12 +407,22 @@ static void ret(DisasContext *dc, uint32_t code, uint32_t flags)
+     dc->base.is_jmp = DISAS_JUMP;
+ }
  
--    tcg_gen_mov_tl(cpu_R[CR_STATUS], cpu_R[CR_ESTATUS]);
--    tcg_gen_mov_tl(cpu_pc, cpu_R[R_EA]);
--
+-/* PC <- ba */
++/*
++ * status <- bstatus
++ * PC <- ba
++ */
+ static void bret(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+-    tcg_gen_mov_tl(cpu_pc, cpu_R[R_BA]);
++    if (!gen_check_supervisor(dc)) {
++        return;
++    }
+ 
 -    dc->base.is_jmp = DISAS_JUMP;
 +#ifdef CONFIG_USER_ONLY
 +    g_assert_not_reached();
 +#else
-+    gen_helper_eret(cpu_env, cpu_R[CR_ESTATUS], cpu_R[R_EA]);
++    gen_helper_eret(cpu_env, cpu_R[CR_BSTATUS], cpu_R[R_BA]);
 +    dc->base.is_jmp = DISAS_NORETURN;
 +#endif
  }
  
- /* PC <- ra */
+ /* PC <- rA */
 -- 
 2.25.1
 
