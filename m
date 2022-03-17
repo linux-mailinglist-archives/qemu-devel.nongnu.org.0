@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3371C4DD187
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 00:56:31 +0100 (CET)
-Received: from localhost ([::1]:58792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 705994DD18C
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 00:59:14 +0100 (CET)
+Received: from localhost ([::1]:37548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUzyo-0003ut-A9
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 19:56:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36284)
+	id 1nV01R-0000BU-Hk
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 19:59:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUzsP-0001fS-D1
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 19:49:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38978)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUzsS-0001fy-88
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 19:49:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUzsK-0005fW-Pe
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 19:49:52 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUzsL-0005fe-C2
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 19:49:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1647560988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yc3SDmQNYh6g1H1V735CmiSnb/Pu+Tpx67iv/LVu6AA=;
- b=dAVn/rImW3gtwjRYmClIIowYUOFN8rXu5qN8LwJjM2TLdB79pEQp3VHofhMxedOYH42RAP
- 34XcJhGqJz/scElh8cPaT5pp3eVmJG5MH05GIM0XbZ1pCMZ3OhMHCJL1MVQybQ7qWwcj15
- lvzUQFVHVCYcY28EwGK//2G73QIh3sQ=
+ bh=D4HQMWqsNZ/WT/Pqs68JuElMSfutYUON0apiBkX3W8Y=;
+ b=Ft/wgL6pd/CgkUXWj5wyUZ6TD1dqu/qLxxoYhBbk43Ju7NcAt/btfXtDi86OBvojucAouW
+ DDu3F/4F97uocdLcGwBurXt7FN8FBSlJ3MrOk5jQuVKxFGigINsU6QCwqbTxJZqeBE9eqG
+ oTbgm56fjgpi6cxvprwKsNU33Knf4DY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-252-gNkufSyNOhuFy-BWwWzlkw-1; Thu, 17 Mar 2022 19:49:45 -0400
-X-MC-Unique: gNkufSyNOhuFy-BWwWzlkw-1
+ us-mta-454-dUN96r3mNECH9rAjQKZZQA-1; Thu, 17 Mar 2022 19:49:45 -0400
+X-MC-Unique: dUN96r3mNECH9rAjQKZZQA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AAA1C85A5A8;
- Thu, 17 Mar 2022 23:49:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 193A6185A79C;
+ Thu, 17 Mar 2022 23:49:45 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.32.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58F541004029;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC8FE112C256;
  Thu, 17 Mar 2022 23:49:44 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/18] iotests: fortify compare_images() against crashes
-Date: Thu, 17 Mar 2022 19:49:24 -0400
-Message-Id: <20220317234937.569525-6-jsnow@redhat.com>
+Subject: [PATCH v4 06/18] iotests: add qemu_img_json()
+Date: Thu, 17 Mar 2022 19:49:25 -0400
+Message-Id: <20220317234937.569525-7-jsnow@redhat.com>
 In-Reply-To: <20220317234937.569525-1-jsnow@redhat.com>
 References: <20220317234937.569525-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,55 +85,64 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fortify compare_images() to be more discerning about the status codes it
-receives. If qemu_img() returns an exit code that implies it didn't
-actually perform the comparison, treat that as an exceptional
-circumstance and force the caller to be aware of the peril.
+qemu_img_json() is a new helper built on top of qemu_img() that tries to
+pull a valid JSON document out of the stdout stream.
 
-If a negative test is desired (perhaps to test how qemu_img compare
-behaves on malformed images, for instance), it is still possible to
-catch the exception in the test and deal with that circumstance
-manually.
+In the event that the return code is negative (the program crashed), or
+the code is greater than zero and did not produce valid JSON output, the
+VerboseProcessError raised by qemu_img() is re-raised.
+
+In the event that the return code is zero but we can't parse valid JSON,
+allow the JSON deserialization error to be raised.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/iotests.py | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index ec4568b24a..7057db0686 100644
+index 7057db0686..9d23066701 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -506,11 +506,22 @@ def qemu_nbd_popen(*args):
-             p.kill()
-             p.wait()
+@@ -276,6 +276,38 @@ def ordered_qmp(qmsg, conv_keys=True):
+ def qemu_img_create(*args: str) -> subprocess.CompletedProcess[str]:
+     return qemu_img('create', *args)
  
--def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
--    '''Return True if two image files are identical'''
--    res = qemu_img('compare', '-f', fmt1,
--                   '-F', fmt2, img1, img2, check=False)
--    return res.returncode == 0
-+def compare_images(img1: str, img2: str,
-+                   fmt1: str = imgfmt, fmt2: str = imgfmt) -> bool:
++def qemu_img_json(*args: str) -> Any:
 +    """
-+    Compare two images with QEMU_IMG; return True if they are identical.
++    Run qemu-img and return its output as deserialized JSON.
 +
 +    :raise CalledProcessError:
-+        when qemu-img crashes or returns a status code of anything other
-+        than 0 (identical) or 1 (different).
++        When qemu-img crashes, or returns a non-zero exit code without
++        producing a valid JSON document to stdout.
++    :raise JSONDecoderError:
++        When qemu-img returns 0, but failed to produce a valid JSON document.
++
++    :return: A deserialized JSON object; probably a dict[str, Any].
 +    """
 +    try:
-+        qemu_img('compare', '-f', fmt1, '-F', fmt2, img1, img2)
-+        return True
++        res = qemu_img(*args, combine_stdio=False)
 +    except subprocess.CalledProcessError as exc:
-+        if exc.returncode == 1:
-+            return False
++        # Terminated due to signal. Don't bother.
++        if exc.returncode < 0:
++            raise
++
++        # Commands like 'check' can return failure (exit codes 2 and 3)
++        # to indicate command completion, but with errors found. For
++        # multi-command flexibility, ignore the exact error codes and
++        # *try* to load JSON.
++        try:
++            return json.loads(exc.stdout)
++        except json.JSONDecodeError:
++            # Nope. This thing is toast. Raise the /process/ error.
++            pass
 +        raise
++
++    return json.loads(res.stdout)
++
+ def qemu_img_measure(*args):
+     return json.loads(qemu_img_pipe("measure", "--output", "json", *args))
  
- def create_image(name, size):
-     '''Create a fully-allocated raw image with sector markers'''
 -- 
 2.34.1
 
