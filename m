@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7734DCE3C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 19:57:04 +0100 (CET)
-Received: from localhost ([::1]:53904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765A34DCE0F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 19:53:36 +0100 (CET)
+Received: from localhost ([::1]:46436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUvJ1-0001wy-IS
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 14:57:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60946)
+	id 1nUvFf-00058E-Jd
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 14:53:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUuwh-0005EM-5p
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:33:59 -0400
-Received: from [2607:f8b0:4864:20::b2c] (port=43661
- helo=mail-yb1-xb2c.google.com)
+ id 1nUuzS-0001tS-7M
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:36:53 -0400
+Received: from [2607:f8b0:4864:20::1135] (port=36433
+ helo=mail-yw1-x1135.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUuwf-0007QV-Eu
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:33:58 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id v35so11785682ybi.10
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 11:33:56 -0700 (PDT)
+ id 1nUuzQ-0007wx-Ja
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:36:49 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-2e5a8a8c1cdso59749997b3.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 11:36:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SA9kxODt9QCSdig0Z6wc7hUw9aME+bzBRdwa5OKgTUE=;
- b=XX+Qg2MEhBCyslKkufEr7Dis/zK8xhW2oxH+1nz1n6wBYXaVsCyal4TEG+uAewpWne
- GRlu33/o0fIFNDKf4VA1tOrKS0N3OaHMitXaNb/v5CmLXQ/UDMfQ5GVYgrPU5ymHeTg5
- loNv2ExPiHGdVnQodFYUzN/o5FjcN4DKF63q9O/Oft45+7E4qNgC7j48KS+U1ty0/7kK
- eYL9rlpGFOD/oY6aRp7n4M9Q9AUEkK/6SNfdfPFlvglydpXML64cacAdkoRJyb5CY9a6
- tUH2j0Gz4w+B5sxRJzDX+HQhcbhVdcH8zD7VmxPLsqtvpQwKdz/PKJDlCt4ee4a8MK+h
- m1TA==
+ :cc; bh=3LpDDJSMNP5BCavZwSFmvd7EShKZzKjWRMg0o2kCOBg=;
+ b=v1PG99Wl2PuF71uuYw05DUSDeL+S7TDPEDPPqDn6ANIBNnKtbu0kZ0DUwPS6PFJ76Y
+ VhwWo+cNEGImCqJMmDDcgF5QKAVEitgYhl+ZcwtLZb93Sh0eWry5aeSVycI0OL7WdbaY
+ eF0Lr0K9Kt6Oy4eHrd4bczluNoQDh7MljIh54Z6RlW26VQ/iggcJGMuiwHHBx0wwIK5T
+ 6I4/UfJoFhzxlR9+JQF5dlZzw5VbSP0/8n5pKGlsqHmstP2zV38dFD0ndxg+AwGOFhSt
+ x1sg5UV1j/Trh+FMh8fhdI6xBAscOtTwOkEl4rweN72IXWnd3WXkz1yakACe8LTkYqnu
+ D6bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=SA9kxODt9QCSdig0Z6wc7hUw9aME+bzBRdwa5OKgTUE=;
- b=dy2QGgXCWCn8zT9c1MDhbMci0LcWJtgDkMVz9jKxDZc24P2i9a7KB/Z1v4WJjQxU9b
- UBSslID681bMGI7olOwWv0k6MJbPjkjTnLto3gwqDkRoo3O7a3P/alrBq3mCj8lMo7gL
- wqi06aJ6Aqm16u/+t5EE2RYFiYm79t0E8WsUeAzZFnA5XgSiFWR+nOUKwZugO7hCi2ce
- 4CT5VgAu8rfZkBDgn9P9CYfXqKZRRlLA4JoeB3ehzLpkg9hP62lCSFWpYFQqwsKcQIkO
- Dip6QohjvyXnSmE082+CsKUJwQ68G3x/NZYQ4snSTGHlvIKgUkeXs562IAfHC++5q3ZT
- KxkQ==
-X-Gm-Message-State: AOAM531IXCRSjTutHbEcnfSkTLMsID2OGA93l5urlq7R2J4vbuntbjRD
- gtTn6tt3jLw6qi68MyCO7+FRgjl/3anq3wIiKpSAhw==
-X-Google-Smtp-Source: ABdhPJwnaWE2f7JwSr/pyrF+zX8zr0PzhU5a3ZpaJBn5+63R2ZpwLpDUEtdj04KYBib/UKToJYSpmbAU8CZlgzvYHNU=
-X-Received: by 2002:a25:bf8b:0:b0:633:8a66:c4cd with SMTP id
- l11-20020a25bf8b000000b006338a66c4cdmr6455057ybk.85.1647542036229; Thu, 17
- Mar 2022 11:33:56 -0700 (PDT)
+ bh=3LpDDJSMNP5BCavZwSFmvd7EShKZzKjWRMg0o2kCOBg=;
+ b=CwqJPhIcrrS8R+2C3yO7clhxOzE7RCyTBzYzMjnDuWi1d3fPYwlaQeaSNnY8CdfSp7
+ 95khEjxcqAHlUl7SkYoNOUc7zvoD6UJoPzZN8UkWny57qthUtq8l7aBWcOkWF61Ymnp2
+ H8sdFjY+Ar4GGb77XL+u9Jxqi/uzcEhKEyhddImwTpF/kjfk+1SFJhM3vOEjjSL8trSo
+ hu3E5ZiDIZfpCKg4Zp/YN6xYCo3X9/cPUv/287z9hcWeKePcF3WgSRlBEujtmPYFL7bN
+ It//U+orgfEZbFuc+zZewca7c5+HtKJ+CC/QgGJZo0zOb2OL77A8kGB73/qpqT3mbY9c
+ GLWQ==
+X-Gm-Message-State: AOAM530V6atcJFjP/0dGM3KEmBoYLIekwAdejLagTggp7vXRFg9nssu9
+ I1zJ3xiBEuJZ3mBz5jZIS9a4gVRQ+yntA/G4XpBWDQ==
+X-Google-Smtp-Source: ABdhPJw1UlTDAPIxJUK0vbAQfZmMEPcgld8MFV6sizhq3V7lcT53npPouFKyi2y16Pb3b1sCukhpR+ABzW8ZYiXhjWQ=
+X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
+ e69-20020a81a748000000b002d61f8b23a9mr6945799ywh.329.1647542207523; Thu, 17
+ Mar 2022 11:36:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220317050538.924111-1-richard.henderson@linaro.org>
- <20220317050538.924111-42-richard.henderson@linaro.org>
-In-Reply-To: <20220317050538.924111-42-richard.henderson@linaro.org>
+References: <20220317165743.238662-1-stefanha@redhat.com>
+In-Reply-To: <20220317165743.238662-1-stefanha@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Mar 2022 18:33:44 +0000
-Message-ID: <CAFEAcA9y-hOK4TjmbjM_=foLQgeJAgBwqWLKNG1o1ogNgqu4aQ@mail.gmail.com>
-Subject: Re: [PATCH for-7.1 v6 41/51] target/nios2: Introduce shadow register
- sets
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 17 Mar 2022 18:36:36 +0000
+Message-ID: <CAFEAcA97E1F0MgYPgZgUUegzDMpL9wNa9fzkGKE8_A-fUmbzyA@mail.gmail.com>
+Subject: Re: [PULL for-7.0 0/2] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1135
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -83,94 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Mar 2022 at 05:37, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 17 Mar 2022 at 16:57, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> Do not actually enable them so far, but add all of the
-> plumbing to address them.  Do not enable them for user-only.
+> The following changes since commit 1d60bb4b14601e38ed17384277aa4c30c57925d3:
 >
-> Add an env->regs pointer that handles the indirection to
-> the current register set.  The naming of the pointer hides
-> the difference between old and new, user-only and sysemu.
+>   Merge tag 'pull-request-2022-03-15v2' of https://gitlab.com/thuth/qemu into staging (2022-03-16 10:43:58 +0000)
 >
-> From the notes on wrprs, which states that r0 must be initialized
-> before use in shadow register sets, infer that R_ZERO is *not*
-> hardwired to zero in shadow register sets.  Adjust load_gpr and
-> dest_gpr to reflect this.  At the same time we might as well
-> special case crs == 0 to avoid the indirection through env->regs
-> during translation as well.  Given that this is intended to be
-> the most common case for non-interrupt handlers.
-
->  static TCGv load_gpr(DisasContext *dc, unsigned reg)
->  {
->      assert(reg < NUM_GP_REGS);
-> -    if (unlikely(reg == R_ZERO)) {
-> -        return tcg_constant_tl(0);
-> +    if (dc->crs0) {
-> +        if (unlikely(reg == R_ZERO)) {
-> +            return tcg_constant_tl(0);
-> +        }
-> +        return cpu_R[reg];
->      }
-> -    return cpu_R[reg];
-> +#ifdef CONFIG_USER_ONLY
-> +    g_assert_not_reached();
-> +#else
-> +    return cpu_crs_R[reg];
-> +#endif
->  }
+> are available in the Git repository at:
 >
->  static TCGv dest_gpr(DisasContext *dc, unsigned reg)
->  {
->      assert(reg < NUM_GP_REGS);
-> -    if (unlikely(reg == R_ZERO)) {
-> -        if (dc->sink == NULL) {
-> -            dc->sink = tcg_temp_new();
-> +    if (dc->crs0) {
-> +        if (unlikely(reg == R_ZERO)) {
-> +            if (dc->sink == NULL) {
-> +                dc->sink = tcg_temp_new();
-> +            }
-> +            return dc->sink;
->          }
-> -        return dc->sink;
-> +        return cpu_R[reg];
->      }
-> -    return cpu_R[reg];
-> +#ifdef CONFIG_USER_ONLY
-> +    g_assert_not_reached();
-> +#else
-> +    return cpu_crs_R[reg];
-> +#endif
->  }
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to fc8796465c6cd4091efe6a2f8b353f07324f49c7:
+>
+>   aio-posix: fix spurious ->poll_ready() callbacks in main loop (2022-03-17 11:23:18 +0000)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> Bug fixes for 7.0.
 
-The behaviour of r0 in the shadow register sets is definitely
-underspecified, but I really don't believe that r0 is a normal
-writeable register for everything except the crs=0 set, which
-is what you've implemented here. My best guess is:
- * registers are implemented as a pile of RAM, including r0
- * on reset the set-0 r0 is reset to 0, but nothing else is
-   (this bit's actually in the spec)
- * writes to r0 are always discarded, except for the special
-   case of wrprs
+msys2-32bit CI job fails on test-aio:
 
-I'm tempted to suggest we should make our tbflags bit
-"we know r0 is zero" -- the guest doesn't have many ways
-to switch register set, basically I think just eret and taking
-an external interrupt, and those either happen outside the
-TB or are going to end the TB anyway. Can we make
-cpu_get_tb_cpu_state() simply set the TB flag if
- env->shadow_regs[crs][0] == 0
-or have I missed something that means that won't work?
+| 14/85 ERROR:../tests/unit/test-aio.c:501:test_timer_schedule:
+assertion failed: (aio_poll(ctx, true)) ERROR
+14/85 qemu:unit / test-aio ERROR 2.40s (exit status 2147483651 or
+signal 2147483523 SIGinvalid)
 
-(I actually wouldn't care to bet much money on wrprs being
-unable to write to register-set-0 r0. It would be interesting
-to test that on the real hardware.)
+https://gitlab.com/qemu-project/qemu/-/jobs/2217696361
 
-thanks
 -- PMM
 
