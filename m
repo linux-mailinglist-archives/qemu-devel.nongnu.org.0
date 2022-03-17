@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C704DCE0B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 19:52:29 +0100 (CET)
-Received: from localhost ([::1]:43424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA64B4DCE3A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 19:56:33 +0100 (CET)
+Received: from localhost ([::1]:51826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUvEa-00036O-Eh
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 14:52:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35886)
+	id 1nUvIW-0000Rn-PQ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 14:56:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUvAT-0005XF-Mm
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:48:14 -0400
-Received: from [2607:f8b0:4864:20::b2e] (port=43864
- helo=mail-yb1-xb2e.google.com)
+ id 1nUvFl-0006f3-Li
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:53:41 -0400
+Received: from [2607:f8b0:4864:20::112f] (port=43850
+ helo=mail-yw1-x112f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUvAS-00018n-56
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:48:13 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id v35so11850596ybi.10
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 11:48:11 -0700 (PDT)
+ id 1nUvFk-0001zs-4l
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:53:41 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2e59939b862so68551737b3.10
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 11:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CROErrb3b+TtVaX1bP5gX5ur5e2SQC8+CMctYzcz45c=;
- b=NlC0m6CKyn9WhxOhBOOjxXelTYYi4V6bKiCjIA+IqiyV+Y5JKaz5XJcCDe5rWo+zOJ
- B2Ih3lqOf63QT+Sv+dJVVCWv4gVn4bi1f4NIMUh+IM2Eu8B56el1jsuLc2wakJeim8zX
- D07Z2QFac1+uDCqk9mgOX+zu6A1BkIlr9c1hIYWgE8SarF2CY3NTpSHAqM+FdZcFgvPY
- 4RV5AGsi17WWEZCBP1VlpRAWRyNE7dcRFCJMxlweIOM608vZLTnW/A4yuvDOqlZs01wo
- YpOtFd3Pxyo/yaQO9t1zFjsXtr17cjQoBTNbI76RMOytopNC70GXe/LUMgukBb2tulSs
- 6XGQ==
+ :cc; bh=WNPkKs1GhXf0X5PWe/ZUYqK4MpS7NnoeaF5CnXN7WBw=;
+ b=y6NKoIJXUGZAyAtLB0hBv4gM2Us09yQBWttVRUdPXsfIMroWVOENM8KOY1csoeTmxg
+ fylx7ywvDEQOPxAUD5xbqznteOgwH+RoSBxOIlmAZ4BqS0YH8Is05oITJ/RTsZIXXVpM
+ YkfF264EEsH+PWsPJasvYj+HtZoqaSYvL4Are4zZPLsEN/vnsjoFMjIeu+SxFsYCqL5J
+ NVys/h0MrbUPsHCO1ilQPWlmXy1YvrZQ9TgNlhaSed5CfFXyhxT3FWau5C/jLqXlDv/8
+ 3xw0TiMzIS5Mkb+pqEBCisdao4N6dItyw9xzyHdtEU7UFkVAzK6jcYTM2xOSNjsbUpmd
+ JYLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=CROErrb3b+TtVaX1bP5gX5ur5e2SQC8+CMctYzcz45c=;
- b=AQrQq4h1hoxOro1PNtmRmKo8mfrSaJN1e9ZTiEY2pQ22y5u66m99pgTM9+FjSa8gLg
- sHB6vp1LrI1Z1b3l/1M53Y0/vpsnPM5PKzJomp52hVJLmsYs9zh1/9D3FMOanqvcEIvk
- Q2+AiAuCHcKm7UIXijYxQSmC3ncKal1nV5PCV6Eo2NtHwQZ/+tuywCrt3fshfV1fFcGZ
- VeZhAGbadf5d2NGf0xsUeEuLTDyuOXvRNmcTZInDS9rAZeObKDrhh2TakDGhaESLNYfc
- draR+UAQHSkOrDOD1P1NqrlRd15dv535g9lKCKLFl7M8qbqCwGt0AHOMq/0aq4ZispYG
- um/A==
-X-Gm-Message-State: AOAM531Q9fVcP9joz5/xiVkT+pdVwR+SVkSzSsjnY1fdQR3JRRycsCNA
- Siq2Wc3tqRj+0MCTZwjAD7OAHkaaouX0e9dZxSrUgA==
-X-Google-Smtp-Source: ABdhPJwYR5LHiXqRI4RJg18suH00lE0QgD9xxC4d2cfII9OtqNjclw/qx46awl7pvSVEdhIO4kKF5T9SwzoBvmfms5s=
-X-Received: by 2002:a5b:745:0:b0:622:1c46:3c19 with SMTP id
- s5-20020a5b0745000000b006221c463c19mr6554827ybq.479.1647542890010; Thu, 17
- Mar 2022 11:48:10 -0700 (PDT)
+ bh=WNPkKs1GhXf0X5PWe/ZUYqK4MpS7NnoeaF5CnXN7WBw=;
+ b=Na+uWOW3SXmax+Dm4iegbpLlDMaX/dj6Rvu+ZH5F+Ub63pZWr6/miwfl+G6QxYN94x
+ HRRBbfd8v6PUkMIlFXkAbMB7wfaHVh7YLr5JrTw/6L7RCY5sx6tBPUSlwpwg/uxSESTL
+ UO7hHK24N3Hury7lE2gH3AhSx2u6RWnmtmR0VOx0XgTGuZfV3cpiKVUl0Pp8/RRRi0Kw
+ GAipknqx8s6dMlFYRTQsZvnlcRvubWBc+q2Cxfz68A3rokqDIJF1dgXNsENxSyub9DQT
+ ASIIm35HCjwuOYLZAi6vwaVqDZYoHhOH2DLwcC12WZHUOZHtOxBW7SFfmcuHGkIJj71s
+ xQWw==
+X-Gm-Message-State: AOAM532kddWGqsuoWjL7Utvz4ffIqqwHl1l5/eMht5dht1j2tVrZD2mx
+ 2fR6CeOVI6Eq783vcN79ZEuPCFw9AjmDjeGC2OUWUg==
+X-Google-Smtp-Source: ABdhPJwh14H9n5i3nus04qj9nMdB+3hHfJHMCu94TCVeXDSXpW2Gp3YIvKePq7zslCa+6rPixChXZMHVT0snamIu178=
+X-Received: by 2002:a81:a4e:0:b0:2e5:9946:525a with SMTP id
+ 75-20020a810a4e000000b002e59946525amr7148911ywk.455.1647543218926; Thu, 17
+ Mar 2022 11:53:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220317050538.924111-1-richard.henderson@linaro.org>
- <20220317050538.924111-43-richard.henderson@linaro.org>
-In-Reply-To: <20220317050538.924111-43-richard.henderson@linaro.org>
+ <20220317050538.924111-44-richard.henderson@linaro.org>
+In-Reply-To: <20220317050538.924111-44-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Mar 2022 18:47:58 +0000
-Message-ID: <CAFEAcA-sTu_c_cHmwB6gEXMKyr99cEfeato0fwkqkyBV3mZs9Q@mail.gmail.com>
-Subject: Re: [PATCH for-7.1 v6 42/51] target/nios2: Implement rdprs, wrprs
+Date: Thu, 17 Mar 2022 18:53:27 +0000
+Message-ID: <CAFEAcA8y+dtGTq4Zbh2muky1OV7mFL2mO+p5CGjbqL2zJSkiYw@mail.gmail.com>
+Subject: Re: [PATCH for-7.1 v6 43/51] target/nios2: Update helper_eret for
+ shadow registers
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,29 +88,14 @@ Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Mar 2022 at 05:55, Richard Henderson
+On Thu, 17 Mar 2022 at 05:56, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Implement these out of line, so that tcg global temps
-> (aka the architectural registers) are synced back to
-> tcg storage as required.  This makes sure that we get
-> the proper results when status.PRS == status.CRS.
+> When CRS = 0, we restore from estatus; otherwise from sstatus.
+> Update for the new CRS.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-
-> +void helper_wrprs(CPUNios2State *env, uint32_t regno, uint32_t val)
-> +{
-> +    unsigned prs = FIELD_EX32(env->ctrl[CR_STATUS], CR_STATUS, PRS);
-> +    env->shadow_regs[prs][regno] = val;
-> +}
-
-If we have the TB flag for "r0 is 0", then we'd need to make
-wrprs writes to r0 in the current register set end the TB.
-(If I'd been designing the ISA, I'd have made attempts to
-use wrprs/rdprs with CRS == PRS cause an exception.)
-
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
