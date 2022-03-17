@@ -2,68 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E35B750E27F
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 15:57:38 +0200 (CEST)
-Received: from localhost ([::1]:32848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84CC650E2F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:22:13 +0200 (CEST)
+Received: from localhost ([::1]:46356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nizDe-0006Jy-32
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 09:57:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57400)
+	id 1nizbQ-0003Zb-Jo
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:22:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nizCW-0005am-Vd
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:56:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41872)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1nizY3-0007HK-Nc; Mon, 25 Apr 2022 10:18:45 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:41748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nizCU-0008Ta-4n
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:56:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650894985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tytt1LGX1MBQdciU7+N3+Gw1KQ9ZqhLCIiRaN+ltVuA=;
- b=TiGg9APSmhxKPWOnLzbCARbEF0AmCHU1+jzrfk2vGOt1niLFwp8WgPAS3h3v50V7FhmmJ4
- jSDyK4ujt1U+ZJ+otGgnJLddtP0Gu95RfojRuwctCX8BGb+qajTJ9n/ogIgbC1NYbWNq6c
- FoNdL+rZrTyEMCeE4Uh62cWYpaWmdf8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-290-rt8nGxzfNX-MlJ7-tck-7w-1; Mon, 25 Apr 2022 09:56:22 -0400
-X-MC-Unique: rt8nGxzfNX-MlJ7-tck-7w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BEE8B80B710;
- Mon, 25 Apr 2022 13:56:21 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C9FB40CF8F5;
- Mon, 25 Apr 2022 13:56:21 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A954F18003A7; Mon, 25 Apr 2022 15:56:16 +0200 (CEST)
-Date: Mon, 25 Apr 2022 15:56:16 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 0/3] i386: firmware parsing and sev setup for -bios
- loaded firmware
-Message-ID: <20220425135616.awf4in2gsmdb4diq@sirius.home.kraxel.org>
-References: <20220331083549.749566-1-kraxel@redhat.com>
- <20220331162404-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1nizY1-0003PO-VO; Mon, 25 Apr 2022 10:18:43 -0400
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id C191011EEE2;
+ Mon, 25 Apr 2022 14:18:39 +0000 (UTC)
+From: ~eopxd <eopxd@git.sr.ht>
+Date: Thu, 17 Mar 2022 00:26:23 -0700
+Subject: [PATCH qemu 1/9] target/riscv: rvv: Add mask agnostic for vv
+ instructions
+Message-ID: <165089631935.4839.7564289944057093570-1@git.sr.ht>
+X-Mailer: git.sr.ht
+In-Reply-To: <165089631935.4839.7564289944057093570-0@git.sr.ht>
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220331162404-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 36
+X-Spam_score: 3.6
+X-Spam_bar: +++
+X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,29 +52,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
+Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
+ eop Chen <eop.chen@sifive.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 31, 2022 at 04:24:28PM -0400, Michael S. Tsirkin wrote:
-> On Thu, Mar 31, 2022 at 10:35:46AM +0200, Gerd Hoffmann wrote:
-> > 
-> 
-> 
-> Looks good.
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> 
-> Who's merging this? Yourself?
+From: Yueh-Ting (eop) Chen <eop.chen@sifive.com>
 
-Just posted v2 with all the reviews, tests and acks added.
+This is the first commit regarding the mask agnostic behavior.
+Added option 'rvv_ma_all_1s' to enable the behavior, the option
+is default to false.
 
-Will probably send a pull request in a week or so.  But I don't have
-anything else pending right now, so I wouldn't mind if someone else
-picks this up ...
+Signed-off-by: eop Chen <eop.chen@sifive.com>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+---
+ target/riscv/cpu.c                      | 1 +
+ target/riscv/cpu.h                      | 2 ++
+ target/riscv/cpu_helper.c               | 2 ++
+ target/riscv/insn_trans/trans_rvv.c.inc | 3 +++
+ target/riscv/internals.h                | 5 +++--
+ target/riscv/translate.c                | 2 ++
+ target/riscv/vector_helper.c            | 8 ++++++++
+ 7 files changed, 21 insertions(+), 2 deletions(-)
 
-take care,
-  Gerd
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index cd4cf4b41e..2bf862a5e4 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -811,6 +811,7 @@ static Property riscv_cpu_properties[] =3D {
+=20
+     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
+     DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
++    DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+=20
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 8c4a79b5a0..c76ded515b 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -370,6 +370,7 @@ struct RISCVCPUConfig {
+     bool ext_zve32f;
+     bool ext_zve64f;
+     bool rvv_ta_all_1s;
++    bool rvv_ma_all_1s;
+=20
+     /* Vendor-specific custom extensions */
+     bool ext_XVentanaCondOps;
+@@ -518,6 +519,7 @@ FIELD(TB_FLAGS, XL, 20, 2)
+ FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
+ FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
+ FIELD(TB_FLAGS, VTA, 24, 1)
++FIELD(TB_FLAGS, VMA, 25, 1)
+=20
+ #ifdef TARGET_RISCV32
+ #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 2941c88c31..be94d82ff8 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -67,6 +67,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong =
+*pc,
+         flags =3D FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
+         flags =3D FIELD_DP32(flags, TB_FLAGS, VTA,
+                     FIELD_EX64(env->vtype, VTYPE, VTA));
++        flags =3D FIELD_DP32(flags, TB_FLAGS, VMA,
++                    FIELD_EX64(env->vtype, VTYPE, VMA));
+     } else {
+         flags =3D FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+     }
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_tran=
+s/trans_rvv.c.inc
+index 8d87501e03..4610107fb4 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -1251,6 +1251,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn =
+*gvec_fn,
+         data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
+         data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
++        data =3D FIELD_DP32(data, VDATA, VMA, s->vma);
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+                            vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),
+                            cpu_env, s->cfg_ptr->vlen / 8,
+@@ -1567,6 +1568,7 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
+         data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
+         data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
++        data =3D FIELD_DP32(data, VDATA, VMA, s->vma);
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+                            vreg_ofs(s, a->rs1),
+                            vreg_ofs(s, a->rs2),
+@@ -1649,6 +1651,7 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
+         data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
+         data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
++        data =3D FIELD_DP32(data, VDATA, VMA, s->vma);
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+                            vreg_ofs(s, a->rs1),
+                            vreg_ofs(s, a->rs2),
+diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+index 512c6c30cf..00b72fd767 100644
+--- a/target/riscv/internals.h
++++ b/target/riscv/internals.h
+@@ -25,8 +25,9 @@
+ FIELD(VDATA, VM, 0, 1)
+ FIELD(VDATA, LMUL, 1, 3)
+ FIELD(VDATA, VTA, 4, 1)
+-FIELD(VDATA, NF, 5, 4)
+-FIELD(VDATA, WD, 5, 1)
++FIELD(VDATA, VMA, 5, 1)
++FIELD(VDATA, NF, 6, 4)
++FIELD(VDATA, WD, 6, 1)
+=20
+ /* float point classify helpers */
+ target_ulong fclass_h(uint64_t frs1);
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 7775dade26..37893aa348 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -95,6 +95,7 @@ typedef struct DisasContext {
+     int8_t lmul;
+     uint8_t sew;
+     uint8_t vta;
++    uint8_t vma;
+     target_ulong vstart;
+     bool vl_eq_vlmax;
+     uint8_t ntemp;
+@@ -1085,6 +1086,7 @@ static void riscv_tr_init_disas_context(DisasContextBas=
+e *dcbase, CPUState *cs)
+     ctx->sew =3D FIELD_EX32(tb_flags, TB_FLAGS, SEW);
+     ctx->lmul =3D sextract32(FIELD_EX32(tb_flags, TB_FLAGS, LMUL), 0, 3);
+     ctx->vta =3D FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_=
+1s;
++    ctx->vma =3D FIELD_EX32(tb_flags, TB_FLAGS, VMA) && cpu->cfg.rvv_ma_all_=
+1s;
+     ctx->vstart =3D env->vstart;
+     ctx->vl_eq_vlmax =3D FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+     ctx->misa_mxl_max =3D env->misa_mxl_max;
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index fbde0c9248..141a06ddf0 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -127,6 +127,11 @@ static inline uint32_t vext_vta(uint32_t desc)
+     return FIELD_EX32(simd_data(desc), VDATA, VTA);
+ }
+=20
++static inline uint32_t vext_vma(uint32_t desc)
++{
++    return FIELD_EX32(simd_data(desc), VDATA, VMA);
++}
++
+ /*
+  * Get the maximum number of elements can be operated.
+  *
+@@ -797,10 +802,13 @@ static void do_vext_vv(void *vd, void *v0, void *vs1, v=
+oid *vs2,
+     uint32_t vl =3D env->vl;
+     uint32_t total_elems =3D vext_get_total_elems(desc, esz);
+     uint32_t vta =3D vext_vta(desc);
++    uint32_t vma =3D vext_vma(desc);
+     uint32_t i;
+=20
+     for (i =3D env->vstart; i < vl; i++) {
+         if (!vm && !vext_elem_mask(v0, i)) {
++            /* set masked-off elements to 1s */
++            vext_set_elems_1s_fns[ctzl(esz)](vd, vma, i, i * esz, (i + 1) * =
+esz);
+             continue;
+         }
+         fn(vd, vs1, vs2, i);
+--=20
+2.34.2
 
 
