@@ -2,87 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933824DC503
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 12:47:32 +0100 (CET)
-Received: from localhost ([::1]:39852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8D94DC4B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 12:21:48 +0100 (CET)
+Received: from localhost ([::1]:43296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUobL-0006T3-Ax
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 07:47:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60542)
+	id 1nUoCO-0008WI-OG
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 07:21:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUoAN-0007Me-Qm
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 07:19:39 -0400
-Received: from [2607:f8b0:4864:20::62a] (port=46729
- helo=mail-pl1-x62a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUoAM-0007bq-8I
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 07:19:39 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id w4so4150396ply.13
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUoAQ-0007NZ-OW
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 07:19:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21940)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUoAO-0007cK-Qz
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 07:19:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647515980;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UPc2cKY2xBxJbg/ju6vYE+mkZaXJh1fe2W9OvcdZixo=;
+ b=DH7unHvTr/a3nz57rZfQ21SNfoO8/I4vWOvsneiEeal3rp8qhiCq2vGz7dlcFClk6KScej
+ oAKLF9fbtA16jqkGyLaFW0Q9sO1ivbeVJAtZQ3ib3prs4zxgdylB7Llae2v6m//ullQttB
+ El0A8zTT2lKNE/r6knZY+PD+jcXhoxc=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-7R_eDCLvPqevZ3Ri_bSfBA-1; Thu, 17 Mar 2022 07:19:37 -0400
+X-MC-Unique: 7R_eDCLvPqevZ3Ri_bSfBA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ r18-20020a17090609d200b006a6e943d09eso2724597eje.20
  for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 04:19:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Q8OELpFAAuWZBjx75SaFlPXOfxaNl/KZyd1iQh741/k=;
- b=K/096p4J81IbTMglZbUqKv+202wrG61TKfhaek9pXta2mX/C/si64cfwF2t4qEwybY
- 5DpP0pgDjxAB/YUQzc+BX6+idqn8m/kRk4xuyyz1sJVKAK24oLqePG4sjassqSkG9Wql
- 8T5F+h6xCEWwENKTKPyG4/JaHylQxETUCJFqg24Kh2+gxJjuMyEItNJsel6U6lPsfMiq
- b4/PwSCLL5wnQ3kwaP16TYStCWhod/EDpbgO8X2+cMgkHdhivtiQjNQCWRpDowAP8bHH
- R+FhElIm1mcsvM3aj8KVD1GxOYsAhVLbJ8TOjNcEmTYFi5ua2CJqWsAg3dwHu2zEHuca
- 8ZtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Q8OELpFAAuWZBjx75SaFlPXOfxaNl/KZyd1iQh741/k=;
- b=EWY/+irQsJv099U1UYlRXSpbY27b3iekdO2q8KGE+n1wZ9wBSdqAlS8uacP1I7ZqGb
- 6SLMveYLHYJPxTggyHXQNtvJ7xbSs/elX0EOHL2I7Lv/5jULD91h0uJGX5oJe1urCJU/
- XmOwcCzMazVNPxeGxiNfpYDSg82KbchXehh2/ENS71lR5LjNjKsBJPPWdfcAW9/QmNUx
- Wpwgs/mZ6cG7sG1gOprmh8c0WN/LlQdSOtGNA3Td95KUErve52sTrrCFTqzCLsW9p8wi
- N1Y/8PzkZ1FmyHAIbWM23W7DgVlYMuZzfzRNytT3QWEVfm93EhUPPdqo15N1f2GIvd/Q
- rzbQ==
-X-Gm-Message-State: AOAM533Y5fXCHJuHUFIAeRgaOaLhK5WO2zzENjhY7m81plaGq347i0jc
- IIYpFGjBWOxFNJ/y68S7ON0=
-X-Google-Smtp-Source: ABdhPJws1hvnNdnB7UJ5j6mWv02fU6rc/rowgf8wtFyfv1J6GITJ/PdFfMOVuix+NO96YGOPmKUVLA==
-X-Received: by 2002:a17:90a:af88:b0:1bd:6b5d:4251 with SMTP id
- w8-20020a17090aaf8800b001bd6b5d4251mr4701350pjq.134.1647515976868; 
+ bh=UPc2cKY2xBxJbg/ju6vYE+mkZaXJh1fe2W9OvcdZixo=;
+ b=AFiJamNRo11q6QPnGi04U4ABQ3oABNgS4f1/GVwFAZtPvgGbUqE3RjjQWTNysm9EqZ
+ bE0FQOmGDkyfrsdFlmZ5bQz8Wdnb/ycN7IUm8O1NNlP22LOBlEYvdlZfDUD30FErySKw
+ a/LsphSZ6kwf6L93MCgtV0geapCtHNrvmWkL44iLKUxokqKXdr36aBb9tHv7nGIquWhh
+ yniCjWjfE0HOM07WYkel3lHYgw3SHup9fOj3YQtS8ckAkPfjd+xG0D71BPdyd5hELHvD
+ YKgMyhv5gR8a4mXvrxlhO17zN/emcg4DUhN2lql0K6t6IuSH9XoULoKgdvuZDrd85L8U
+ wPGw==
+X-Gm-Message-State: AOAM531+NpuJ5wFds4SuOYKaf0K2STzdJYK6Q3bx5quPC0s7GLs094QI
+ LE4/l0Yqd3e+UjKAahg8HUFe9w5Q3E6eA+8NvfJcfodteDie3jLA5Fruom0qhTjvQnMZSuGGfY6
+ XzccafEv7/dogl+0=
+X-Received: by 2002:a17:906:3042:b0:6cd:20ed:7c5c with SMTP id
+ d2-20020a170906304200b006cd20ed7c5cmr3860346ejd.241.1647515976152; 
  Thu, 17 Mar 2022 04:19:36 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+X-Google-Smtp-Source: ABdhPJw9o0Ht/ZYtOTQfl5eG5xB0TMPa2PKZcgRDk71E6wt7u8+A3GgCAcx1/9eO1akUyhqUeLqRcw==
+X-Received: by 2002:a17:906:3042:b0:6cd:20ed:7c5c with SMTP id
+ d2-20020a170906304200b006cd20ed7c5cmr3860330ejd.241.1647515975939; 
+ Thu, 17 Mar 2022 04:19:35 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
  by smtp.gmail.com with ESMTPSA id
- e11-20020a17090a280b00b001bf23a472c7sm5539274pjd.17.2022.03.17.04.19.34
+ q2-20020a170906144200b006ceb8723de9sm2200539ejc.120.2022.03.17.04.19.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 04:19:36 -0700 (PDT)
-Message-ID: <cceefe62-2836-a364-b19f-a63f750f5de9@gmail.com>
-Date: Thu, 17 Mar 2022 12:19:32 +0100
+ Thu, 17 Mar 2022 04:19:35 -0700 (PDT)
+Message-ID: <65323a8d-77b0-e2bd-1805-e2ad1361817d@redhat.com>
+Date: Thu, 17 Mar 2022 12:19:34 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/3] hw/display: Allow vga_common_init() to return
- errors
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 04/14] iotests/remove-bitmap-from-backing: use
+ qemu_img_info()
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20220309035407.1848654-1-jsnow@redhat.com>
+ <20220309035407.1848654-5-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220309035407.1848654-5-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20220317083027.16688-1-thuth@redhat.com>
- <20220317083027.16688-3-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220317083027.16688-3-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,32 +104,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, armbru@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/3/22 09:30, Thomas Huth wrote:
-> The vga_common_init() function currently cannot report errors to its
-> caller. But in the following patch, we'd need this possibility, so
-> let's change it to take an "Error **" as parameter for this.
-
-Thanks for updating to return a boolean.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On 09.03.22 04:53, John Snow wrote:
+> This removes two more usages of qemu_img_pipe() and replaces them with
+> calls to qemu_img(), which provides better diagnostic information on
+> failure.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   hw/display/vga_int.h        |  2 +-
->   hw/display/ati.c            |  4 +++-
->   hw/display/cirrus_vga.c     |  4 +++-
->   hw/display/cirrus_vga_isa.c |  4 +++-
->   hw/display/qxl.c            |  6 +++++-
->   hw/display/vga-isa.c        |  5 ++++-
->   hw/display/vga-mmio.c       |  5 ++++-
->   hw/display/vga-pci.c        |  8 ++++++--
->   hw/display/vga.c            | 11 +++++++++--
->   hw/display/virtio-vga.c     |  4 +++-
->   hw/display/vmware_vga.c     |  2 +-
->   11 files changed, 42 insertions(+), 13 deletions(-)
+>   tests/qemu-iotests/tests/remove-bitmap-from-backing | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
