@@ -2,98 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CD74DC81B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 14:59:56 +0100 (CET)
-Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32214DC86E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 15:12:12 +0100 (CET)
+Received: from localhost ([::1]:35078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUqfS-0007Ez-Gg
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 09:59:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56108)
+	id 1nUqrL-0004j1-UK
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 10:12:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nUqdH-0006Mo-9F
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:57:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35474)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nUqfJ-00083h-G6
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:59:45 -0400
+Received: from mga12.intel.com ([192.55.52.136]:24858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nUqdE-0003kf-2V
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:57:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647525454;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=It9hfSrV5l77f35NMYEmsaw+gVCKwoDd26kFiUS0O+E=;
- b=jO7bXM3YOvY6McdjEqoMh3+qD+xO3TI91QBj5CIwPJ9RyeWN2f4GmmAJXHzFSSU3Nfohqt
- b6ndfWyUuFFxtuPtRGJj2IyZGZoLxX56WQY38nz8vYHbnpugDpitw51xSe3l1os0sgo9TL
- igocWYJQRCTPVX2Ti2UUGS/GByHpB2k=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-114-sThCaCWyNceXj5-oHmT1og-1; Thu, 17 Mar 2022 09:57:33 -0400
-X-MC-Unique: sThCaCWyNceXj5-oHmT1og-1
-Received: by mail-wr1-f69.google.com with SMTP id
- k20-20020adfc714000000b001e305cd1597so1563190wrg.19
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 06:57:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=It9hfSrV5l77f35NMYEmsaw+gVCKwoDd26kFiUS0O+E=;
- b=c4Dz7TdzzzyA6mqZAsrIlkmygdS/xWDhGcFH2Z97fKx3WTXkudyDb7mqZAIqB41laQ
- 2icohypk+gUTlZwvfmEFlee7Jo7To8OaikXz+njyMPSuBKDC14fwjDsP8SzBOPg+mDKI
- b9GjkgadhxssjFXqRxyy/JyMQvvnuDA4rmJPjCV+ycTpp3MPnLC68uz8bu0cssteSjvV
- wTByWNq9PqilBFICxofObCI+ftGv7y+cDQHb4xm3OraURipznvml2JnsBmhrsgUYHLgk
- l5Av6A1c/rnoAi0cXOA8s9RO+Y5IcSAyYoQ9ZWoWGqKeHMlRIDpYxtbfbVSFoR9ia9lL
- oSZA==
-X-Gm-Message-State: AOAM532/qhqArM9u51yYKchGW+a+AxxvJaayJ7/zAUsULkAnULfn46Jt
- zamFhJeKUzvfhiNBwySFEsfevyjPgPNU8WLPYlUtA2AdBeHUFfU69RPTvq/BMSQ/1u6ziogei/7
- 7hyz8rf1JrS2Kvgo=
-X-Received: by 2002:adf:d1c2:0:b0:1f1:f897:9d1 with SMTP id
- b2-20020adfd1c2000000b001f1f89709d1mr4178071wrd.84.1647525452143; 
- Thu, 17 Mar 2022 06:57:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxTUFXwwM85ewkM6bsc6qPrk1ZCU9tcwmf60b/VzcHbwID+DuAif4a1kc47VqQwTd6jGs07NA==
-X-Received: by 2002:adf:d1c2:0:b0:1f1:f897:9d1 with SMTP id
- b2-20020adfd1c2000000b001f1f89709d1mr4178044wrd.84.1647525451814; 
- Thu, 17 Mar 2022 06:57:31 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- i6-20020adffc06000000b00203f2828075sm147716wrr.19.2022.03.17.06.57.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 06:57:31 -0700 (PDT)
-Subject: Re: [PATCH for-7.1] vfio/common: remove spurious tpm-crb-cmd
- misalignment warning
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20220316202951.294860-1-eric.auger@redhat.com>
- <20220316170818.5b4f0032.alex.williamson@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <826be3d2-8403-5d8f-9eee-f58b15bc1c32@redhat.com>
-Date: Thu, 17 Mar 2022 14:57:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nUqfH-0003wz-5D
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:59:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647525583; x=1679061583;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=YfZo0YkS6/vhGNbAb0uVlbziBrQQFQYvobwvVingPUw=;
+ b=CHTyj5OKaW6lkdgqVm27klf7RUwWfuO5jUkZz1hH4MXdkIyyCJAfxTOF
+ rVgIgzfpxstue3QTylKBtV2bk1BiG6Nf8olneFcBvW5g7N+r4jFvQ7LVg
+ dKEKXtq7jYvCfGXjB1/yEi9+samcYvrWSG8xZGgSNk6X+H+S9XfCfSi40
+ VDWdbKVegWUk4pbjb7kosHGe6IxAThtO0veuuWwd4sTrBNqBpKC4TUrAT
+ D9R5Qc66UWpYzGm1C7VW+Q8X0PiJkF8AxGlwvK0YhcAEp96iXWbL6XSIf
+ sUPAlBIpntPN3ybFBNHNGG1cL/cXr0qAERZps5RrpKuIMtQ0rUjYdf7i7 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="236816587"
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="236816587"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2022 06:59:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="541377804"
+Received: from lxy-dell.sh.intel.com ([10.239.159.55])
+ by orsmga007.jf.intel.com with ESMTP; 17 Mar 2022 06:59:14 -0700
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>
+Subject: [RFC PATCH v3 00/36] TDX QEMU support
+Date: Thu, 17 Mar 2022 21:58:37 +0800
+Message-Id: <20220317135913.2166202-1-xiaoyao.li@intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20220316170818.5b4f0032.alex.williamson@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=xiaoyao.li@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,109 +78,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: peter.maydell@linaro.org, stefanb@linux.vnet.ibm.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
+Cc: isaku.yamahata@intel.com, kvm@vger.kernel.org,
+ Connor Kuehl <ckuehl@redhat.com>, seanjc@google.com, xiaoyao.li@intel.com,
+ qemu-devel@nongnu.org, erdemaktas@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+This patch series aims to enable TDX support to allow creating and booting a
+TD (TDX VM) with QEMU. It needs to work with corresponding KVM patch
+for TDX [1]. You can find TDX related documents in [2].
 
-On 3/17/22 12:08 AM, Alex Williamson wrote:
-> On Wed, 16 Mar 2022 21:29:51 +0100
-> Eric Auger <eric.auger@redhat.com> wrote:
->
->> The CRB command buffer currently is a RAM MemoryRegion and given
->> its base address alignment, it causes an error report on
->> vfio_listener_region_add(). This region could have been a RAM device
->> region, easing the detection of such safe situation but this option
->> was not well received. So let's add a helper function that uses the
->> memory region name to recognize the region and detect the situation
->> is safe wrt assignment. Other regions can be listed here if such kind
->> of problem occurs again.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> ---
->>  hw/vfio/common.c     | 26 +++++++++++++++++++++++++-
->>  hw/vfio/trace-events |  1 +
->>  2 files changed, 26 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 080046e3f51..b58a38f5c57 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -861,6 +861,22 @@ static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
->>      g_free(vrdl);
->>  }
->>  
->> +static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
->> +{
->> +    MemoryRegion *mr = section->mr;
->> +
->> +    if (strcmp(memory_region_name(mr), "tpm-crb-cmd") != 0) {
->> +        return false;
->> +    }
-> Hi Eric,
->
-> I was thinking more along the lines that we could use
-> memory_region_owner() to get the owning Object, then on
-> that we could maybe use INTERFACE_CHECK to look for TYPE_MEMORY_DEVICE,
-> then consider anything else optional.  (a) could something like that
-> work and (b) do all required mappings currently expose that interface?
-> Thanks,
-If I understand correctly you just want to error_report() misalignement
-of MR sections belonging to
+You can also find this series in below repo in github:
 
-TYPE_MEMORY_DEVICE devices and silence the rest? Is that a correct understanding? I thought you wanted to be much more protective and ignore misalignments on a case by case basis hence the white listing of this single tpm-crb-cmd region.
+https://github.com/intel/qemu-tdx.git
 
-Thanks
+and it's based on two cleanup patches
 
-Eric
+https://lore.kernel.org/qemu-devel/20220310122811.807794-1-xiaoyao.li@intel.com/
 
->
-> Alex
->
->
->> +
->> +    /* this is a known safe misaligned region, just trace for debug purpose */
->> +    trace_vfio_known_safe_misalignment(memory_region_name(mr),
->> +                                       section->offset_within_address_space,
->> +                                       section->offset_within_region,
->> +                                       qemu_real_host_page_size);
->> +    return true;
->> +}
->> +
->>  static void vfio_listener_region_add(MemoryListener *listener,
->>                                       MemoryRegionSection *section)
->>  {
->> @@ -884,7 +900,15 @@ static void vfio_listener_region_add(MemoryListener *listener,
->>      if (unlikely((section->offset_within_address_space &
->>                    ~qemu_real_host_page_mask) !=
->>                   (section->offset_within_region & ~qemu_real_host_page_mask))) {
->> -        error_report("%s received unaligned region", __func__);
->> +        if (!vfio_known_safe_misalignment(section)) {
->> +            error_report("%s received unaligned region %s iova=0x%"PRIx64
->> +                         " offset_within_region=0x%"PRIx64
->> +                         " qemu_real_host_page_mask=0x%"PRIxPTR,
->> +                         __func__, memory_region_name(section->mr),
->> +                         section->offset_within_address_space,
->> +                         section->offset_within_region,
->> +                         qemu_real_host_page_mask);
->> +        }
->>          return;
->>      }
->>  
->> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
->> index 0ef1b5f4a65..6f38a2e6991 100644
->> --- a/hw/vfio/trace-events
->> +++ b/hw/vfio/trace-events
->> @@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add
->>  vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
->>  vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
->>  vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
->> +vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_within_region, uint64_t page_size) "Region \"%s\" iova=0x%"PRIx64" offset_within_region=0x%"PRIx64" qemu_real_host_page_mask=0x%"PRIxPTR ": cannot be mapped for DMA"
->>  vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
->>  vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
->>  vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
+
+To boot a TDX VM, it requires several changes/additional steps in the flow:
+
+ 1. specify the vm type KVM_X86_TDX_VM when creating VM with
+    IOCTL(KVM_CREATE_VM);
+ 2. initialize VM scope configuration before creating any VCPU;
+ 3. initialize VCPU scope configuration;
+ 4. initialize virtual firmware in guest private memory before vcpu running;
+
+Besides, TDX VM needs to boot with TDVF (TDX virtual firmware, and come out
+as OVMF). This series adds the support of parsing TDVF, loading TDVF into
+guest's private memory and preparing TD HOB info for TDVF.
+
+[1] KVM TDX basic feature support
+https://lore.kernel.org/all/cover.1646422845.git.isaku.yamahata@intel.com/
+
+[2] https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
+
+== Limitation and future work ==
+- Readonly memslot
+
+  TDX only support readonly (write protection) memslot for shared memory, but
+  not for private memory. For simplicity, just mark readonly memslot not
+  supported entirely for TDX. 
+
+- CPU model
+
+  We cannot create a TD with arbitrarily CPU model like what for normal VMs,
+  because only a subset of features can be configured for TD.
+  
+  - It's recommended to use '-cpu host' to create TD;
+  - '+feature/-feature' might not work as expected;
+
+  future work: To introduce specific CPU model for TDs and enhance +/-features
+               for TDs.
+
+- gdb suppport
+
+  gdb support to debug a TD of off-debug mode is future work.
+
+== Patch organization ==
+1           Manually fetch Linux UAPI changes for TDX;
+2-15,24,26  Basic TDX support that parses vm-type and invoke TDX
+            specific IOCTLs
+16-25       Load, parse and initialize TDVF for TDX VM;
+27-31       Disable unsupported functions for TDX VM;
+32-35       Avoid errors due to KVM's requirement on TDX;
+36          Add documentation of TDX;
+
+== Change history ==
+
+Changes from v2:
+- Get vm-type from confidential-guest-support object type;
+- Drop machine_init_done_late_notifiers;
+- Refactor tdx_ioctl implementation;
+- re-use existing pflash interface to load TDVF (i.e., OVMF binaries);
+- introduce new date structure to track memory type instead of changing
+  e820 table;
+- Force smm to off for TDX VM;
+- Drop the patches that suppress level-trigger/SMI/INIT/SIPI since KVM
+  will ingore them;
+- Add documentation;
+
+[v2] https://lore.kernel.org/qemu-devel/cover.1625704980.git.isaku.yamahata@intel.com/
+
+Changes from v1:
+- suppress level trigger/SMI/INIT/SIPI related to IOAPIC.
+- add VM attribute sha384 to TD measurement.
+- guest TSC Hz specification
+
+[v1] https://lore.kernel.org/qemu-devel/cover.1613188118.git.isaku.yamahata@intel.com/
+
+---
+Isaku Yamahata (4):
+  i386/tdvf: Introduce function to parse TDVF metadata
+  i386/tdx: Add TDVF memory via KVM_TDX_INIT_MEM_REGION
+  hw/i386: add option to forcibly report edge trigger in acpi tables
+  i386/tdx: Don't synchronize guest tsc for TDs
+
+Sean Christopherson (2):
+  i386/kvm: Move architectural CPUID leaf generation to separate helper
+  i386/tdx: Don't get/put guest state for TDX VMs
+
+Xiaoyao Li (30):
+  *** HACK *** linux-headers: Update headers to pull in TDX API changes
+  i386: Introduce tdx-guest object
+  target/i386: Implement mc->kvm_type() to get VM type
+  target/i386: Introduce kvm_confidential_guest_init()
+  i386/tdx: Implement tdx_kvm_init() to initialize TDX VM context
+  i386/tdx: Get tdx_capabilities via KVM_TDX_CAPABILITIES
+  i386/tdx: Introduce is_tdx_vm() helper and cache tdx_guest object
+  i386/tdx: Adjust get_supported_cpuid() for TDX VM
+  KVM: Introduce kvm_arch_pre_create_vcpu()
+  i386/tdx: Initialize TDX before creating TD vcpus
+  i386/tdx: Add property sept-ve-disable for tdx-guest object
+  i386/tdx: Wire CPU features up with attributes of TD guest
+  i386/tdx: Validate TD attributes
+  i386/tdx: Implement user specified tsc frequency
+  i386/tdx: Set kvm_readonly_mem_enabled to false for TDX VM
+  pflash_cfi01/tdx: Introduce ram_mode of pflash for TDVF
+  i386/tdx: Parse TDVF metadata for TDX VM
+  i386/tdx: Get and store the mem_ptr of TDVF firmware
+  i386/tdx: Track mem_ptr for each firmware entry of TDVF
+  i386/tdx: Track RAM entries for TDX VM
+  i386/tdx: Create the TD HOB list upon machine init done
+  i386/tdx: Call KVM_TDX_INIT_VCPU to initialize TDX vcpu
+  i386/tdx: Finalize TDX VM
+  i386/tdx: Disable SMM for TDX VMs
+  i386/tdx: Disable PIC for TDX VMs
+  i386/tdx: Don't allow system reset for TDX VMs
+  hw/i386: add eoi_intercept_unsupported member to X86MachineState
+  i386/tdx: Only configure MSR_IA32_UCODE_REV in kvm_init_msrs() for TDs
+  i386/tdx: Skip kvm_put_apicbase() for TDs
+  docs: Add TDX documentation
+
+ accel/kvm/kvm-all.c                        |  16 +-
+ configs/devices/i386-softmmu/default.mak   |   1 +
+ docs/system/confidential-guest-support.rst |   1 +
+ docs/system/i386/tdx.rst                   | 103 ++++
+ docs/system/target-i386.rst                |   1 +
+ hw/block/pflash_cfi01.c                    |  25 +-
+ hw/i386/Kconfig                            |   6 +
+ hw/i386/acpi-build.c                       |  99 ++--
+ hw/i386/acpi-common.c                      |  50 +-
+ hw/i386/meson.build                        |   1 +
+ hw/i386/pc_sysfw.c                         |  49 +-
+ hw/i386/tdvf-hob.c                         | 212 ++++++++
+ hw/i386/tdvf-hob.h                         |  25 +
+ hw/i386/tdvf.c                             | 196 ++++++++
+ hw/i386/uefi.h                             | 198 ++++++++
+ hw/i386/x86.c                              |   7 +
+ include/hw/i386/tdvf.h                     |  60 +++
+ include/hw/i386/x86.h                      |   1 +
+ include/sysemu/kvm.h                       |   1 +
+ linux-headers/asm-x86/kvm.h                |  60 +++
+ linux-headers/linux/kvm.h                  |   2 +
+ qapi/qom.json                              |  17 +
+ target/arm/kvm64.c                         |   5 +
+ target/i386/cpu.h                          |   5 +
+ target/i386/kvm/kvm.c                      | 362 ++++++++------
+ target/i386/kvm/kvm_i386.h                 |   5 +
+ target/i386/kvm/meson.build                |   2 +
+ target/i386/kvm/tdx-stub.c                 |  24 +
+ target/i386/kvm/tdx.c                      | 541 +++++++++++++++++++++
+ target/i386/kvm/tdx.h                      |  56 +++
+ target/i386/sev.c                          |   1 -
+ target/i386/sev.h                          |   2 +
+ target/mips/kvm.c                          |   5 +
+ target/ppc/kvm.c                           |   5 +
+ target/s390x/kvm/kvm.c                     |   5 +
+ 35 files changed, 1940 insertions(+), 209 deletions(-)
+ create mode 100644 docs/system/i386/tdx.rst
+ create mode 100644 hw/i386/tdvf-hob.c
+ create mode 100644 hw/i386/tdvf-hob.h
+ create mode 100644 hw/i386/tdvf.c
+ create mode 100644 hw/i386/uefi.h
+ create mode 100644 include/hw/i386/tdvf.h
+ create mode 100644 target/i386/kvm/tdx-stub.c
+ create mode 100644 target/i386/kvm/tdx.c
+ create mode 100644 target/i386/kvm/tdx.h
+
+-- 
+2.27.0
 
 
