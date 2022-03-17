@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C1C4DC9FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 16:30:19 +0100 (CET)
-Received: from localhost ([::1]:47998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599C34DC9FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 16:29:50 +0100 (CET)
+Received: from localhost ([::1]:47774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUs4w-00031I-MV
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 11:30:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49090)
+	id 1nUs4T-0002sF-9U
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 11:29:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUs0t-0007Eq-S8
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:26:08 -0400
-Received: from [2607:f8b0:4864:20::b2d] (port=35794
+ id 1nUs2H-0001Hi-I4
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:27:33 -0400
+Received: from [2607:f8b0:4864:20::b2d] (port=36857
  helo=mail-yb1-xb2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUs0p-0002Wt-CJ
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:26:05 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id o5so10896965ybe.2
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 08:25:59 -0700 (PDT)
+ id 1nUs2F-0002vW-MD
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:27:33 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id f38so10895807ybi.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 08:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Xe60UNxMF3kTsGB6cVg5bBcy6tJSZRbAD6tjZBRrAas=;
- b=SzxP9H9sbgwqm9q1rV465M/touUbhKeKwU2K7wLH3u3y+tKraZwls1+605VZMcf3Ap
- Rh1qLUjN+eduFomzdGcfEeEg3BrIR2YopSDyuY6qzEqDXijWYoUwuXaut9ObgXXiKHy3
- lSUww/yQYfn+UeeSpim2LaXbLWMrA8k+1Ueu6LAeewAD2C0MccCT0r//1Rw5GC7PTOTB
- qviWs9abocJOD3YSVbCcOXU1Su7NA8XcEFVuZojT42c+YZNFZ3c7ZjK581ze1LihMP59
- uXGfRrPPj2c7kFE1qVO6VJhqIWWt8lnzhhWkl3hewG1sYaoL9JeH0XgMu7M2zs7RqPkg
- uLGw==
+ :cc; bh=u3LwUdkf0guCYS7Dzmm3dv9UXM3ZiNxhgkiONGlHmUw=;
+ b=qsl2E524sb0ot/SVxT0KhZ+ttSyY1BwrtyhtPOfjKH6dVEshsKSqye3RsYX9lMKBmM
+ HnE9OvRuAKEw6zgQPCQeyszeELljjc+iUjtzQ4CGVybeutoU9mMm0ynw8Xfta1zKMsn6
+ 2HzUKX2tbOdD3N/5zZ4I5rEht7kdFgS+1sITMQRwFkq4XZuk/Kq4ldMrconjss3Qc7Ag
+ EMLryj0bkctrktypNN61+ZXQ4nDn1M9V9aY9ektvG6A28i+ig5481pdnu1O86s3yiVQp
+ UY2EEy12FaLhbCWENK2a63ae0/J6R/RIUMB39JJjA2P2or6+D5QO14TBrBBYwJ6Q/dVs
+ kMZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Xe60UNxMF3kTsGB6cVg5bBcy6tJSZRbAD6tjZBRrAas=;
- b=byWINVYTj02TVdNKJn2VTxq2LN2Lg7DiUFhvOs75VDqffGz2tfaXsLaDq13OTNigAr
- dgLQdcfhV3Uf7yNKOtRqNPc1BdlwFtIS1T9w/kc+2kYHcJjINYt1inY6DCH0woPP+rh8
- nbpPfPCsrvoD2KDSbldryCcz0iTMHtw5WnRMnGagUwbFW/PRwHOaleiWvCmtrFsWL2qY
- 2geW3bHF5iW8LhtgqTkzK514dYl3XSOUjV3VMK89U8BB1D2Ov7MrktvA1wDiGxOy1uUf
- YmV+qT9ZRM7i94Zpndcin5QqIDg9n3Rp0Dz9sU9LWZ+kPt2+V9Lk81m3NqWXvRnxctQ8
- IfUw==
-X-Gm-Message-State: AOAM531QgzeDvyr5ehvxKZO+YNquWZHW8mocA08d9XsXJqpjRTkhxr1e
- j2cRWdx3wxbK15AA3gqB8mmV/2arHYbxbHdg5LqSgA==
-X-Google-Smtp-Source: ABdhPJzKOgWJ/osDDrATbL5tvDKBk8BG7gbvhGjsdHSKf4GIWTUQFjJCjuy10ZcgverzeRBsYhYz+VorjaGNF9bAPVA=
-X-Received: by 2002:a5b:745:0:b0:622:1c46:3c19 with SMTP id
- s5-20020a5b0745000000b006221c463c19mr5540790ybq.479.1647530759115; Thu, 17
- Mar 2022 08:25:59 -0700 (PDT)
+ bh=u3LwUdkf0guCYS7Dzmm3dv9UXM3ZiNxhgkiONGlHmUw=;
+ b=Fz6mzuPk0tV3mCD/22wYaE32AUbBjlSjZhtmeGFJojJvx7Nq5+JKtPNRDQHF9NSqtF
+ vkakDJoVb3gAz+KX15jSmaLKxbeV9zJu5IlXzWCSvR8H9+x1bLpKkRFmX7f4/oAgD6T7
+ 5ULfiYdqFE6wnbj3yJSAOupchVgrZJwtZRYcPP4la/+KgNKUlptcxnN11s9xHeYq4Nkn
+ RtTkHFJgSB9/m+L569UIYIU7zAPROzDoSu95eb+5qv9Jb1uFhyiPItQQLhPOg5X53Bbw
+ im8q8du9ESoW0CqYzg0jYvp2iXWq8IdLySSQJxel69CkOyqDKiJmeAeOIiJhHHICN6ly
+ WRjg==
+X-Gm-Message-State: AOAM530HW92Bo9wogFJagmivYk1TGcS6Gknkvg6YJv7wsWK7lDxrCqdb
+ WMzsSq8mNuzxzRJVeTsM7n1KkdrIAQzA4izLIIgfdG/onfA5e3hP
+X-Google-Smtp-Source: ABdhPJzSmWvqXe9fwIDypCLEJrzMNhUEK+YMT9WOulTkWHX8Yc2d15bkAYlt2z7WL9N2mlpC/shHmN3GIcUOENQW3ww=
+X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
+ r1-20020a5b06c1000000b00633b5c7b9b7mr682093ybq.67.1647530850599; Thu, 17 Mar
+ 2022 08:27:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220317050538.924111-1-richard.henderson@linaro.org>
- <20220317050538.924111-23-richard.henderson@linaro.org>
-In-Reply-To: <20220317050538.924111-23-richard.henderson@linaro.org>
+ <20220317050538.924111-24-richard.henderson@linaro.org>
+In-Reply-To: <20220317050538.924111-24-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Mar 2022 15:25:47 +0000
-Message-ID: <CAFEAcA8=gvB+O1_Sv+MmXLHFw67axTqqQfD6GzL=ACHxzP_ipw@mail.gmail.com>
-Subject: Re: [PATCH for-7.1 v6 22/51] target/nios2: Hoist CPU_LOG_INT logging
+Date: Thu, 17 Mar 2022 15:27:19 +0000
+Message-ID: <CAFEAcA-dwaHuLaBSqKX3fj2+-e_=mgsKYT1E97EF-H3yxBufuA@mail.gmail.com>
+Subject: Re: [PATCH for-7.1 v6 23/51] target/nios2: Handle EXCP_UNALIGN and
+ EXCP_UALIGND
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
@@ -86,14 +87,15 @@ Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Mar 2022 at 05:24, Richard Henderson
+On Thu, 17 Mar 2022 at 05:16, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Performing this early means that we can merge more cases
-> within the non-logging switch statement.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+> These misaligned data and misaligned destination exceptions
+> are defined, but not currently raised.
+
+nios2_cpu_do_unaligned_access() seems to already raise EXCP_UNALIGN.
+
+otherwise
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
