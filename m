@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C614DCD9B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 19:32:59 +0100 (CET)
-Received: from localhost ([::1]:59812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BA14DCD8C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 19:28:12 +0100 (CET)
+Received: from localhost ([::1]:51482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUuvi-0000nk-7t
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 14:32:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58960)
+	id 1nUur5-0003ON-UW
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 14:28:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nUunR-0000Rv-VY
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:24:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38830)
+ id 1nUunU-0000SD-5f
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:24:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nUunP-00065N-Ip
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:24:25 -0400
+ id 1nUunR-00065n-UN
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:24:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647541463;
+ s=mimecast20190719; t=1647541465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9IDz/9W93pVKAcRcZydDC03uu8yVY/Dr0TINJi9riQA=;
- b=UgNGEA40u0xw+KQux/pHf2OQg83fRodeQ6m+coVaZFP+5qeFPQqIhw/JzdlXzEI1Jq8qYs
- en0tMphwiCg1KvsFckwLcPrnJ8rS/7odPFtW+Z871Pmci27ZLbanukwP9lpsy3jYHh6J3J
- W7Nbr+rmGNPqPD/gFcCLkJreMSK/bgc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dgOIRI5Tiw0OhmH2AdmH4lDnO0RtCagUTNbPR7hNsyM=;
+ b=EAWZoo30qmItZh2NFFdSt8hsBdcOvg1RL2tbDFUEq7jpF194H3x2xQcRbGSwJsHdhsz+9i
+ 9LVrWXD+bhEqDX6ncITZ/0M03RlBkhzWNgQ1ExDZcyZjfDcdqDo4/L9C/xoeJEemWE0mdR
+ QoJhcu2gC4YZzBBfs75ooXaY4zvhK5k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-124-HFJ_3U8lNrmmX-njl336jQ-1; Thu, 17 Mar 2022 14:24:19 -0400
-X-MC-Unique: HFJ_3U8lNrmmX-njl336jQ-1
+ us-mta-568-xx5uR6vbMRu13IGfd6QRpA-1; Thu, 17 Mar 2022 14:24:22 -0400
+X-MC-Unique: xx5uR6vbMRu13IGfd6QRpA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5919B38041C6;
- Thu, 17 Mar 2022 18:24:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C86F010115FA;
+ Thu, 17 Mar 2022 18:24:21 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA9971400E73;
- Thu, 17 Mar 2022 18:24:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB91E1454539;
+ Thu, 17 Mar 2022 18:24:19 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 03/18] vdpa: Fix index calculus at vhost_vdpa_svqs_start
-Date: Thu, 17 Mar 2022 19:23:44 +0100
-Message-Id: <20220317182400.651508-4-eperezma@redhat.com>
+Subject: [RFC PATCH v2 04/18] virtio-net: use g_memdup2() instead of unsafe
+ g_memdup()
+Date: Thu, 17 Mar 2022 19:23:45 +0100
+Message-Id: <20220317182400.651508-5-eperezma@redhat.com>
 In-Reply-To: <20220317182400.651508-1-eperezma@redhat.com>
 References: <20220317182400.651508-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -88,24 +89,26 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fixing that literal checkpatch.pl because it will complain when we modify the file
+
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 2 +-
+ hw/net/virtio-net.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index c5ed7a3779..9eeac8fa8e 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -1016,7 +1016,7 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev *dev)
-         VirtQueue *vq = virtio_get_queue(dev->vdev, dev->vq_index + i);
-         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
-         struct vhost_vring_addr addr = {
--            .index = i,
-+            .index = dev->vq_index + i,
-         };
-         int r;
-         bool ok = vhost_vdpa_svq_setup(dev, svq, i, &err);
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 2087516253..cb505939b2 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -1443,7 +1443,7 @@ static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+         }
+ 
+         iov_cnt = elem->out_num;
+-        iov2 = iov = g_memdup(elem->out_sg, sizeof(struct iovec) * elem->out_num);
++        iov2 = iov = g_memdup2(elem->out_sg, sizeof(struct iovec) * elem->out_num);
+         s = iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
+         iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
+         if (s != sizeof(ctrl)) {
 -- 
 2.27.0
 
