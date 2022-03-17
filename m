@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E009D4DBE62
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 06:32:03 +0100 (CET)
-Received: from localhost ([::1]:49886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5404DBE7C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 06:35:33 +0100 (CET)
+Received: from localhost ([::1]:58024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUijz-0001cf-0a
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 01:32:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51118)
+	id 1nUinL-0007NQ-Ri
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 01:35:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiL0-0001Tb-N2
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:16 -0400
-Received: from [2607:f8b0:4864:20::1031] (port=53186
- helo=mail-pj1-x1031.google.com)
+ id 1nUiL4-0001Uo-HN
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:19 -0400
+Received: from [2607:f8b0:4864:20::42d] (port=41896
+ helo=mail-pf1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiKz-0002If-AZ
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:14 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id v4so3952607pjh.2
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 22:06:12 -0700 (PDT)
+ id 1nUiL0-0002Iy-BC
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:15 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id p8so5885120pfh.8
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 22:06:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lGnYRwLa1Sdp2FVEXMpjEqak7lSPIuu/eJVT8HDcZLI=;
- b=ioBk7+ufL/oQZT/M7W3ZiNyOKznruuv2du4Kcqs7wJ2G7FMi6u8nnsjhkWyaJXJGA/
- tDnam/bOZOD936wClukI92TE0Ot3MfFkZlQ5sSilTkEwcr38vXGQBQYM2kw1bnJpoZqP
- 0U0B/dRDuu4J9CvxH9A/lafsPH7/19JP6SpX+gGuoKRyjXVXYUzYzmrGuo6KLrer6mqx
- rhSXVfdX4HXz/8eF4VGE670ap2iBpIyQRjcWkH4mNWW3EkuK1gTC8gylc7W6XPtSeBQM
- lDcOoN/XS5WecZ9FHibmxoCcjYqUZnb+5J7pqPYO/2ZwBdoRt/0PX8exIUcSpnE2xTV+
- Jvog==
+ bh=5de5JN0djpoCpESfODi2INQYJ/S5KNFn/Rt19ewlkfA=;
+ b=SGOpv71IaKANlR+ST5w88ZsiGxfarPuTYBpEO79CszyARAtHQ+aznHE/icIoGGE3VL
+ Iro4hZrMjQDOFTRCoTempDhujfBmUVWKXcPfNOE8JkP/TXxXEt3Z0g4rQwBGxW3uBkQF
+ +E11P64cY78YRFZGKjR2F3HS1MwAgKwvrsIJhvAnkuRCCr5HYquZKpaLasDL11Ov/aIr
+ oEeo2IbV+g7v1+qPtj/Dw3DxKxYSzWZaGLiAJ/D66zfXiMFdEkjuSu0M9ptOZXH/z+Ad
+ fSISgtntkQBbIoVtEKILkzm99tegdiSp7LsaWNkPXqHzLo7+BdlRgb+h2tcfg9PNRqzk
+ K7UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lGnYRwLa1Sdp2FVEXMpjEqak7lSPIuu/eJVT8HDcZLI=;
- b=gs7gD2FWD+UGH2FaJFeAwwqqlxGCNauMqXbZsdmTyw0v4SwKmeWQdCn/2Z4Q8euU8K
- /v80dc2ZlntgA/gDXStb2dZNlKzQZgypgdV7h6jPdgaCkPULEGBfzqm4COShST0AppBa
- PSduw0I73JTOozXI+D57INYJsfv+LOKI8jDBo/JlWcR26qU0oyE+Uu9xes5AUSYk23js
- QXL+M7/ljhXo+2jUplVbqIu/MCWV6aBHhhna6rV3P2XmVVh3CJOsDqSTPrkt6bxBNYgY
- D5+OCKIl0jVN0LRRUXqEQlCRC9tXLsXWimF0lKo3VK+a4RWlkNMN+zzWC5ytcVj6j2Ro
- Eibw==
-X-Gm-Message-State: AOAM531WXsC3s1w1pof5eFDnm0675vJ0QLSONo/aK9EQcXbfNvdMSmIz
- 2zl01nYDEgbPDHyG4BnCoJGb1d+YXo/4hw==
-X-Google-Smtp-Source: ABdhPJwb3z4IVqM6odtJue089VAkha1R6mAWqJAc4wzKnjaC2RpKX/pWWK3hhEhpgGGegVJrCEhJQg==
-X-Received: by 2002:a17:902:d643:b0:153:97c3:c8e5 with SMTP id
- y3-20020a170902d64300b0015397c3c8e5mr3301637plh.76.1647493572128; 
- Wed, 16 Mar 2022 22:06:12 -0700 (PDT)
+ bh=5de5JN0djpoCpESfODi2INQYJ/S5KNFn/Rt19ewlkfA=;
+ b=YUZT0yLCPXPj27WQM/2ybLDR9Fa35LWogNIgvigIryKaw69zKpUWrFcl9kiJcYWZii
+ N63njljDsVuUiHPqJNX3a8riHzDY1Vtz1sUrpwmT5fGT6SqOXHdzaLSIQiIIu+QkTxxB
+ VuwT6Urp0QZE30fxs7rHjI7Bv5nk/HFD6vHlh3xv8VNKUkH1Qfk7z53mcv0pwP5+Dmeq
+ ljgw7yx/mEPee2jRI4rW72cOxrimkNeldcySPmzOwZi2HxtdLPrVCK4pC1RyM6X9uhxf
+ 7+6CF3HaaSsI5bYMLG5rKQXL0/WAhniANH0nPN8nZZ3aL0RsWlTaiPlyKJxjr0DMYUg8
+ WOjQ==
+X-Gm-Message-State: AOAM531oIXvsYrfjo3U9hKCHdWvpqhehm62dkwycJimKy+XC7rRkwb7/
+ DwVn7H2dcNQeNVDvTEHd/W4yIMY15FKDUg==
+X-Google-Smtp-Source: ABdhPJyPyTXXVGyF7AjoogIOHUe4ip97V++EYNT8eZ82aV+hX2X3v4MxiQLKA4EIZRdMu5I0s2ATrg==
+X-Received: by 2002:a63:388:0:b0:37c:8577:c8f3 with SMTP id
+ 130-20020a630388000000b0037c8577c8f3mr2369102pgd.148.1647493573102; 
+ Wed, 16 Mar 2022 22:06:13 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- h22-20020a056a001a5600b004f7c17b291asm5101357pfv.87.2022.03.16.22.06.11
+ h22-20020a056a001a5600b004f7c17b291asm5101357pfv.87.2022.03.16.22.06.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 22:06:11 -0700 (PDT)
+ Wed, 16 Mar 2022 22:06:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 v6 33/51] target/nios2: Drop CR_STATUS_EH from
- tb->flags
-Date: Wed, 16 Mar 2022 22:05:20 -0700
-Message-Id: <20220317050538.924111-34-richard.henderson@linaro.org>
+Subject: [PATCH for-7.1 v6 34/51] target/nios2: Enable unaligned traps for
+ system mode
+Date: Wed, 16 Mar 2022 22:05:21 -0700
+Message-Id: <20220317050538.924111-35-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220317050538.924111-1-richard.henderson@linaro.org>
 References: <20220317050538.924111-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,33 +89,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, Peter Maydell <peter.maydell@linaro.org>,
- amir.gonnen@neuroblade.ai
+Cc: marex@denx.de, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's nothing about EH that affects translation,
-so there's no need to include it in tb->flags.
+Unaligned traps are optional, but required with an mmu.
+Turn them on always, because the fallback behaviour is not
+documented (though presumably it discards low bits).
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Enable alignment checks in the config file.
+Unwind the guest pc properly from do_unaligned_access.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/nios2/helper.c             | 4 ++--
+ configs/targets/nios2-softmmu.mak | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 95079c186c..d5255e9e76 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -276,7 +276,7 @@ static inline void cpu_get_tb_cpu_state(CPUNios2State *env, target_ulong *pc,
- {
-     *pc = env->pc;
-     *cs_base = 0;
--    *flags = env->ctrl[CR_STATUS] & (CR_STATUS_EH | CR_STATUS_U);
-+    *flags = env->ctrl[CR_STATUS] & CR_STATUS_U;
+diff --git a/target/nios2/helper.c b/target/nios2/helper.c
+index 460032adc0..bf40cff779 100644
+--- a/target/nios2/helper.c
++++ b/target/nios2/helper.c
+@@ -264,8 +264,8 @@ void nios2_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+     CPUNios2State *env = &cpu->env;
+ 
+     env->ctrl[CR_BADADDR] = addr;
+-    env->ctrl[CR_EXCEPTION] = FIELD_DP32(0, CR_EXCEPTION, CAUSE, EXCP_UNALIGN);
+-    helper_raise_exception(env, EXCP_UNALIGN);
++    cs->exception_index = EXCP_UNALIGN;
++    cpu_loop_exit_restore(cs, retaddr);
  }
  
- #endif /* NIOS2_CPU_H */
+ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+diff --git a/configs/targets/nios2-softmmu.mak b/configs/targets/nios2-softmmu.mak
+index 9a372f0717..1e93b54cd1 100644
+--- a/configs/targets/nios2-softmmu.mak
++++ b/configs/targets/nios2-softmmu.mak
+@@ -1 +1,2 @@
+ TARGET_ARCH=nios2
++TARGET_ALIGNED_ONLY=y
 -- 
 2.25.1
 
