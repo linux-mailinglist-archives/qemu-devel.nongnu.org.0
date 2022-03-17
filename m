@@ -2,80 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C884DC3FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 11:31:05 +0100 (CET)
-Received: from localhost ([::1]:38236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63614DC3FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 11:32:04 +0100 (CET)
+Received: from localhost ([::1]:38632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUnPM-0006ml-0k
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 06:31:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48246)
+	id 1nUnQJ-0007B6-L0
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 06:32:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nUnKJ-0004oh-Dg
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnKG-0004oT-92
  for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:25:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40769)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nUnK1-0006gD-7T
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:25:46 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnJz-0006gi-DZ
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:25:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647512728;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1647512729;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DD7yUTLMQi2Ohl1aDjbYerPp5+1ppu9gQGxD00aw1RY=;
- b=LdI85X6rJ61TZEi1UHa6NqYD2XAvWXzZGqYP6ZbvXmiPttfyu0QrG9nwcFqme+P4+SKkbg
- o90luMajysyCq4/IuCZLKVjDK79np5HYctVVcEI4OxyPzjgXYX8ax7bSqrIvvBkGNyyst4
- JVeislNR/vpgC+ikegUz4gYsfYyU5js=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XGG8rvCrV+8/PCXSnG6WpmWatMvBbqv6cpcqUX6jBVs=;
+ b=X5zSvyZJit+buDpioEyxCuRR+lblLTp5V3XSkTU1tFuREzKDKyGfh3FWzXAGCIiwx1L3Im
+ 7j7DiN4GOplrQJGaCeUNunSzX8PUtWGcPAY74AZ8DYCk+s2KM7Pv9O+yfK0Z8UZ03gdrA1
+ 87r6T6b3y6L2fqNbDxDOxSyjqkYCXEo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-187-CHdl0XC6N4q8s3rJHliXlg-1; Thu, 17 Mar 2022 06:25:17 -0400
-X-MC-Unique: CHdl0XC6N4q8s3rJHliXlg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0B445185A7BA;
- Thu, 17 Mar 2022 10:25:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13E04112C08B;
- Thu, 17 Mar 2022 10:25:04 +0000 (UTC)
-Date: Thu, 17 Mar 2022 10:25:02 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
- performance
-Message-ID: <YjMMfnEjXsz3Vi8h@redhat.com>
-References: <20220312163001.3811-1-cfontana@suse.de>
- <Yi94mQUfrxMVbiLM@redhat.com>
- <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de>
- <Yi+ACeaZ+oXTVYjc@redhat.com>
- <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
- <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de>
+ us-mta-327-bGtMVwpeMSmSH5PBIn3eCw-1; Thu, 17 Mar 2022 06:25:27 -0400
+X-MC-Unique: bGtMVwpeMSmSH5PBIn3eCw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ w15-20020a50c44f000000b00418f00014f8so1731722edf.18
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 03:25:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XGG8rvCrV+8/PCXSnG6WpmWatMvBbqv6cpcqUX6jBVs=;
+ b=CDE1xjz+YknC8K5ogzg+Yj04K9OHkWP9BGLXgrOxaOr+QW0h9x3hqIBmq2PxMJCis/
+ v8aFYB9xMl4JYe9Szdgr1VuAngo7ogmsWtmkeh+ly13es+oHqjo8QBE2I3EFpSBPpT+I
+ rNNklmFHijLIVc9OrI6QGW14+iBtIV5cHKHnF7L6H8KxBj9YYZBO+NNz/WbAXRqwtAiX
+ k1IAa3GLpfsVyEeIYsLtjEDni+ZVlNCAnnKL5/e99tIIJf9M3DrBgtkMgYssDpIwN2Ci
+ Bw/WTEYSRlQdi8MyX+i5bswvBSAWTvHXM3WJ27NOuikPvJQriCQQcsZEosLisC9ZB8gU
+ gQrw==
+X-Gm-Message-State: AOAM533ph65vlWTplSXP4i/gajLCa86zcayD7bB5AWCn7GMK/bxtGxyv
+ mFJcLME1tJ81c345XISr3gDM9HqFiUnLVIKyjOFHfQ8sQtbtR76aRpI9PEULfBTQteXCv3rRK4Y
+ Sn/fWY2WR10M0o2E=
+X-Received: by 2002:a05:6402:5247:b0:416:cc5e:fc33 with SMTP id
+ t7-20020a056402524700b00416cc5efc33mr3592368edd.398.1647512725795; 
+ Thu, 17 Mar 2022 03:25:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQaZoBz+D87M/IHn9l2vkCu5Yqt9wi7llkvmYnDrO2wjyCIoIrGAT0XYVBI7NuKHhP/V2j+Q==
+X-Received: by 2002:a05:6402:5247:b0:416:cc5e:fc33 with SMTP id
+ t7-20020a056402524700b00416cc5efc33mr3592331edd.398.1647512725451; 
+ Thu, 17 Mar 2022 03:25:25 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ f4-20020a170906738400b006df8b6787afsm1202702ejl.13.2022.03.17.03.25.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Mar 2022 03:25:25 -0700 (PDT)
+Message-ID: <e9b98326-1d20-b9fa-0756-42d0ab7f8466@redhat.com>
+Date: Thu, 17 Mar 2022 11:25:24 +0100
 MIME-Version: 1.0
-In-Reply-To: <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 4/5] iotests: make qemu_img raise on non-zero rc by
+ default
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20220308015728.1269649-1-jsnow@redhat.com>
+ <20220308015728.1269649-5-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220308015728.1269649-5-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,101 +104,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: libvir-list@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-block@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
-> On 3/16/22 1:17 PM, Claudio Fontana wrote:
-> > On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
-> >> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
-> >>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
-> >>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
-> >>>>> the first user is the qemu driver,
-> >>>>>
-> >>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
-> >>>>>
-> >>>>> This improves the situation by 400%.
-> >>>>>
-> >>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
-> >>>>> compared with direct qemu migration to a nc socket to a file.
-> >>>>>
-> >>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> >>>>> ---
-> >>>>>  src/qemu/qemu_driver.c    |  6 +++---
-> >>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
-> >>>>>  src/util/virfile.c        | 12 ++++++++++++
-> >>>>>  src/util/virfile.h        |  1 +
-> >>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
-> >>>>>
-> >>>>> Hello, I initially thought this to be a qemu performance issue,
-> >>>>> so you can find the discussion about this in qemu-devel:
-> >>>>>
-> >>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
-> >>>>>
-> >>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
+On 08.03.22 02:57, John Snow wrote:
+> re-write qemu_img() as a function that will by default raise a
+> VerboseProcessException (extended from CalledProcessException) on
+> non-zero return codes. This will produce a stack trace that will show
+> the command line arguments and return code from the failed process run.
 
+Why not qemu_img_pipe_and_status() as the central function where all 
+qemu-img calls go through?
 
-> Current results show these experimental averages maximum throughput
-> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
-> "query-migrate", tests repeated 5 times for each).
-> VM Size is 60G, most of the memory effectively touched before migration,
-> through user application allocating and touching all memory with
-> pseudorandom data.
-> 
-> 64K:     5200 Mbps (current situation)
-> 128K:    5800 Mbps
-> 256K:   20900 Mbps
-> 512K:   21600 Mbps
-> 1M:     22800 Mbps
-> 2M:     22800 Mbps
-> 4M:     22400 Mbps
-> 8M:     22500 Mbps
-> 16M:    22800 Mbps
-> 32M:    22900 Mbps
-> 64M:    22900 Mbps
-> 128M:   22800 Mbps
-> 
-> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
+It seems like this makes qemu_img() a second version of 
+qemu_img_pipe_and_status(), which is a bit weird.
 
-Ok, its bouncing around with noise after 1 MB. So I'd suggest that
-libvirt attempt to raise the pipe limit to 1 MB by default, but
-not try to go higher.
+(Or perhaps it should actually be qemu_tool_pipe_and_status() that 
+receives this treatment, with qemu-io functions just passing check=False 
+by default.)
 
-> As for the theoretical limit for the libvirt architecture,
-> I ran a qemu migration directly issuing the appropriate QMP
-> commands, setting the same migration parameters as per libvirt,
-> and then migrating to a socket netcatted to /dev/null via
-> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
-> 
-> QMP:    37000 Mbps
+> Users that want something more flexible (there appears to be only one)
+> can use check=False and manage the return themselves. However, when the
+> return code is negative, the Exception will be raised no matter what.
+> This is done under the belief that there's no legitimate reason, even in
+> negative tests, to see a crash from qemu-img.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> ---
+>   tests/qemu-iotests/257        |  8 +++--
+>   tests/qemu-iotests/iotests.py | 56 ++++++++++++++++++++++++++++++-----
+>   2 files changed, 54 insertions(+), 10 deletions(-)
+>
+> diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
+> index fb5359c581..e7e7a2317e 100755
+> --- a/tests/qemu-iotests/257
+> +++ b/tests/qemu-iotests/257
+> @@ -241,11 +241,13 @@ def compare_images(image, reference, baseimg=None, expected_match=True):
+>       expected_ret = 0 if expected_match else 1
+>       if baseimg:
+>           qemu_img("rebase", "-u", "-b", baseimg, '-F', iotests.imgfmt, image)
+> -    ret = qemu_img("compare", image, reference)
+> +
+> +    sub = qemu_img("compare", image, reference, check=False)
+> +
+>       log('qemu_img compare "{:s}" "{:s}" ==> {:s}, {:s}'.format(
+>           image, reference,
+> -        "Identical" if ret == 0 else "Mismatch",
+> -        "OK!" if ret == expected_ret else "ERROR!"),
+> +        "Identical" if sub.returncode == 0 else "Mismatch",
+> +        "OK!" if sub.returncode == expected_ret else "ERROR!"),
+>           filters=[iotests.filter_testfiles])
+>   
+>   def test_bitmap_sync(bsync_mode, msync_mode='bitmap', failure=None):
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 508adade9e..ec4568b24a 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -37,9 +37,10 @@
+>   
+>   from contextlib import contextmanager
+>   
+> +from qemu.aqmp.legacy import QEMUMonitorProtocol
+>   from qemu.machine import qtest
+>   from qemu.qmp import QMPMessage
+> -from qemu.aqmp.legacy import QEMUMonitorProtocol
+> +from qemu.utils import VerboseProcessError
+>   
+>   # Use this logger for logging messages directly from the iotests module
+>   logger = logging.getLogger('qemu.iotests')
+> @@ -215,9 +216,49 @@ def qemu_img_pipe_and_status(*args: str) -> Tuple[str, int]:
+>       return qemu_tool_pipe_and_status('qemu-img', full_args,
+>                                        drop_successful_output=is_create)
+>   
+> -def qemu_img(*args: str) -> int:
+> -    '''Run qemu-img and return the exit code'''
+> -    return qemu_img_pipe_and_status(*args)[1]
+> +def qemu_img(*args: str, check: bool = True, combine_stdio: bool = True
+> +             ) -> subprocess.CompletedProcess[str]:
+> +    """
+> +    Run qemu_img and return the status code and console output.
+> +
+> +    This function always prepends QEMU_IMG_OPTIONS and may further alter
+> +    the args for 'create' commands.
+> +
+> +    :param args: command-line arguments to qemu-img.
+> +    :param check: Enforce a return code of zero.
+> +    :param combine_stdio: set to False to keep stdout/stderr separated.
+> +
+> +    :raise VerboseProcessError:
+> +        When the return code is negative, or on any non-zero exit code
+> +        when 'check=True' was provided (the default). This exception has
+> +        'stdout', 'stderr', and 'returncode' properties that may be
+> +        inspected to show greater detail. If this exception is not
+> +        handled, the command-line, return code, and all console output
+> +        will be included at the bottom of the stack trace.
+> +
+> +    :return: a CompletedProcess. This object has args, returncode, and
+> +        stdout properties. If streams are not combined, it will also
+> +        have a stderr property.
+> +    """
+> +    full_args = qemu_img_args + qemu_img_create_prepare_args(list(args))
+> +
+> +    subp = subprocess.run(
+> +        full_args,
+> +        stdout=subprocess.PIPE,
+> +        stderr=subprocess.STDOUT if combine_stdio else subprocess.PIPE,
+> +        universal_newlines=True,
+> +        check=False
+> +    )
+> +
+> +    if check and subp.returncode or (subp.returncode < 0):
 
-> So although the Pipe size improves things (in particular the
-> large jump is for the 256K size, although 1M seems a very good value),
-> there is still a second bottleneck in there somewhere that
-> accounts for a loss of ~14200 Mbps in throughput.
+I wouldn’t expect these parentheses here in any other language, are they 
+required in Python?
 
-In the above tests with libvirt, were you using the
---bypass-cache flag or not ?
+> +        raise VerboseProcessError(
+> +            subp.returncode, full_args,
+> +            output=subp.stdout,
+> +            stderr=subp.stderr,
+> +        )
 
-Hopefully use of O_DIRECT doesn't make a difference for
-/dev/null, since the I/O is being immediately thrown
-away and so ought to never go into I/O cache. 
+I trust these parameters are correct, because it really sometimes seems 
+like Python doc doesn’t want to tell me about the arguments that 
+constructors take.  (The only thing I found out is that `stdout` works 
+as an alias for `output`, so passing `output` here and reading 
+`self.stdout` in `VerboseProcesError` should(tm) be fine.)
 
-In terms of the comparison, we still have libvirt iohelper
-giving QEMU a pipe, while your test above gives QEMU a
-UNIX socket.
+Hanna
 
-So I still wonder if the delta is caused by the pipe vs socket
-difference, as opposed to netcat vs libvirt iohelper code.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> +
+> +    return subp
+> +
+>   
+>   def ordered_qmp(qmsg, conv_keys=True):
+>       # Dictionaries are not ordered prior to 3.6, therefore:
+> @@ -232,7 +273,7 @@ def ordered_qmp(qmsg, conv_keys=True):
+>           return od
+>       return qmsg
+>   
+> -def qemu_img_create(*args):
+> +def qemu_img_create(*args: str) -> subprocess.CompletedProcess[str]:
+>       return qemu_img('create', *args)
+>   
+>   def qemu_img_measure(*args):
+> @@ -467,8 +508,9 @@ def qemu_nbd_popen(*args):
+>   
+>   def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
+>       '''Return True if two image files are identical'''
+> -    return qemu_img('compare', '-f', fmt1,
+> -                    '-F', fmt2, img1, img2) == 0
+> +    res = qemu_img('compare', '-f', fmt1,
+> +                   '-F', fmt2, img1, img2, check=False)
+> +    return res.returncode == 0
+>   
+>   def create_image(name, size):
+>       '''Create a fully-allocated raw image with sector markers'''
 
 
