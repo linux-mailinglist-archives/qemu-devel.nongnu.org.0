@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C1D4DC087
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 08:56:57 +0100 (CET)
-Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B78744DC0A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 09:08:52 +0100 (CET)
+Received: from localhost ([::1]:46488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUl0C-0000no-1S
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 03:56:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48208)
+	id 1nUlBj-0005CP-Hr
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 04:08:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nUkz4-0008ST-3g
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 03:55:46 -0400
-Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:33939)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nUl8f-0002lm-Ct
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 04:05:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nUkz1-0001AF-Ra
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 03:55:45 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id B8C6C26C4C;
- Thu, 17 Mar 2022 07:55:40 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 17 Mar
- 2022 08:55:40 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004e6aef6f0-26e7-47a8-93a0-904e10f93149,
- 0530BE337510AE92842F4B01C4CA167143738EB5) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <33f9b376-4236-cee1-c7ea-7604ad272937@kaod.org>
-Date: Thu, 17 Mar 2022 08:55:39 +0100
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nUl8c-0002fD-72
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 04:05:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647504335;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZzccmnBqtyI1ThoiqZK+SAEEFF1jiy5R1OzKwqEmy1Q=;
+ b=Lyf71O81yTK4k0nU1T1fE06W7Cvhu6F0z9RQJi6MS8+KNcsp394RHckl/IDgGt8VHij3Sn
+ npbniRCp9r4lsyON3+qieYnS21wflSqQH01o9HRSCHvg6iSef2VevB66M4HSLe5cvTsguV
+ bfFkUipysln7PeZ9WlQgtdFKUeS49j8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-382-xg2XzHGjNwiKnq01eF0t_g-1; Thu, 17 Mar 2022 04:05:33 -0400
+X-MC-Unique: xg2XzHGjNwiKnq01eF0t_g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C5F6802C16
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 08:05:33 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-14-11.pek2.redhat.com [10.72.14.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 91E0FC23DC3;
+ Thu, 17 Mar 2022 08:05:31 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: mst@redhat.com,
+	peterx@redhat.com
+Subject: [PATCH 1/2] intel-iommu: update root_scalable before switching as
+ during post_load
+Date: Thu, 17 Mar 2022 16:05:21 +0800
+Message-Id: <20220317080522.14621-1-jasowang@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v4] ppc64: Avoid pt_regs struct definition
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>
-References: <20220315015740.847370-1-raj.khem@gmail.com>
- <71be7777-9888-18fd-bdd0-3cef3ada8728@linaro.org>
- <CAFEAcA9+ppnpHxjzScesj4ZzNDVJ8bNzb2nkcd8cN5+zMJwJfg@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CAFEAcA9+ppnpHxjzScesj4ZzNDVJ8bNzb2nkcd8cN5+zMJwJfg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 63966c53-8c89-49d2-bd10-ee2e95baf50a
-X-Ovh-Tracer-Id: 16824322309625580393
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudeffedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlvhhivhhivghrsehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,51 +79,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- qemu-ppc@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Khem Raj <raj.khem@gmail.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent,
+We need check whether passthrough is enabled during
+vtd_switch_address_space() by checking the context entries. This
+requires the root_scalable to be set correctly otherwise we may try to
+check legacy rsvd bits instead of scalable ones.
 
-On 3/15/22 11:31, Peter Maydell wrote:
-> On Tue, 15 Mar 2022 at 02:14, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 3/14/22 18:57, Khem Raj wrote:
->>> Remove pt_regs indirection and instead reference gp_regs directly, this
->>> makes it portable across musl/glibc
->>>
->>> Use PT_* constants defined in asm/ptrace.h
->>>
->>> Move the file to ppc64 subdir and leave ppc empty
->>>
->>> Fixes
->>> ../qemu-6.2.0/linux-user/host/ppc64/../ppc/host-signal.h:16:32: error: incomplete definition of type 'struct pt_regs'
->>>       return uc->uc_mcontext.regs->nip;
->>>              ~~~~~~~~~~~~~~~~~~~~^
->>>
->>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
->>> Cc: Peter Maydell<peter.maydell@linaro.org>
->>> Cc: Philippe Mathieu-Daudé<f4bug@amsat.org>
->>> Cc: Richard Henderson<richard.henderson@linaro.org>
->>> ---
->>> v2: Drop ifdef __powerpc__
->>> v3: Access go_regs directly and move the file to ppc64 dir
->>> v4: Use PT_* constants defined in asm/ptrace.h
->>>
->>>    linux-user/include/host/ppc/host-signal.h   | 38 -------------------
->>>    linux-user/include/host/ppc64/host-signal.h | 42 ++++++++++++++++++++-
->>>    2 files changed, 41 insertions(+), 39 deletions(-)
->>>    delete mode 100644 linux-user/include/host/ppc/host-signal.h
->>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> I did a compile-check and confirmed that this builds OK
-> on glibc headers too.
+Fixing this by updating root_scalable before switching the address
+spaces during post_load.
 
-I can queue this patch for 7.0. I have a few already.
+Fixes: fb43cf739e ("intel_iommu: scalable mode emulation")
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/i386/intel_iommu.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-C.
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 32471a44cb..a13cfecfce 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3052,13 +3052,6 @@ static int vtd_post_load(void *opaque, int version_id)
+ {
+     IntelIOMMUState *iommu = opaque;
+ 
+-    /*
+-     * Memory regions are dynamically turned on/off depending on
+-     * context entry configurations from the guest. After migration,
+-     * we need to make sure the memory regions are still correct.
+-     */
+-    vtd_switch_address_space_all(iommu);
+-
+     /*
+      * We don't need to migrate the root_scalable because we can
+      * simply do the calculation after the loading is complete.  We
+@@ -3068,6 +3061,13 @@ static int vtd_post_load(void *opaque, int version_id)
+      */
+     vtd_update_scalable_state(iommu);
+ 
++    /*
++     * Memory regions are dynamically turned on/off depending on
++     * context entry configurations from the guest. After migration,
++     * we need to make sure the memory regions are still correct.
++     */
++    vtd_switch_address_space_all(iommu);
++
+     return 0;
+ }
+ 
+-- 
+2.25.1
+
 
