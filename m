@@ -2,76 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622874DCC2C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 18:16:23 +0100 (CET)
-Received: from localhost ([::1]:50824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3254DCC31
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 18:18:47 +0100 (CET)
+Received: from localhost ([::1]:53430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUtja-0003bf-Gl
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 13:16:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43652)
+	id 1nUtlu-0005Qm-Bj
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 13:18:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nUthw-0002fU-IZ
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:14:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nUthu-0003HY-PA
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:14:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647537278;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pdZHsv8NMNgKIwAWVsi5KOuNDBnQDEl9a2TRcsrbyS4=;
- b=JrfCvpkEodfJdFdjc3iIYs2fMF74JAUoi3ZX0sBPap3aOA6Cs5NY6eC2JPj5kB3eMTyRQa
- 1pussQ6PacR8TL0KoEznoSSgGzvBXpohBh/0dsHwgmZ9U1MWxzu8eVPuEs3VkWXs5Dm0ar
- Runu50tUhJMjtToD4UILoGJ6U6jWvvI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-O_u_jzBoMp2X2XyqFzeKKg-1; Thu, 17 Mar 2022 13:14:25 -0400
-X-MC-Unique: O_u_jzBoMp2X2XyqFzeKKg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 277181C068CB;
- Thu, 17 Mar 2022 17:14:25 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D29441136F5;
- Thu, 17 Mar 2022 17:14:23 +0000 (UTC)
-Date: Thu, 17 Mar 2022 17:14:20 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PULL for-7.0 1/2] aio-posix: fix build failure io_uring 2.2
-Message-ID: <YjNsbJcTkoxdPE4P@redhat.com>
-References: <20220317165743.238662-1-stefanha@redhat.com>
- <20220317165743.238662-2-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nUtjp-0004Nc-MG
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:16:37 -0400
+Received: from [2607:f8b0:4864:20::633] (port=40775
+ helo=mail-pl1-x633.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nUtjo-0003z8-3n
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:16:37 -0400
+Received: by mail-pl1-x633.google.com with SMTP id h5so4992265plf.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 10:16:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Hs+ySeu0SIbOOweoKlUlZ/k9ugxU9M2Fb0ZffyMxX4s=;
+ b=fDzsgtGwJUcgNwGen5VEk8JRUkkbbmtU/6AFw+1Xl9jAk8ioedzKGFPpq7UGdL6qql
+ hUVTVLeXRkLq73lJm44kdxMZNVjPZg2Bmf2GDvQmdqrgOpfkuXU9ZdQzj5sfZHzDLQV1
+ MlzNf9xHIbJd1JRblSrCrZSSKdlcJg8B+CMsEyiGq9RYM/56cwih58CNfzfS/ou/LM5W
+ mrD7VwnOSeewJn+rm3EJo/J1aIYY9IrChWhQZnyG3CN/BaouyOG+GAY45Ni6wzxWbSkR
+ iku2ckyDht/XEcvumW+EsNP9LNDVHWo/QqFiPFXZch+KhhJVmy94+V+aDuPp0x/ZoA16
+ RszA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Hs+ySeu0SIbOOweoKlUlZ/k9ugxU9M2Fb0ZffyMxX4s=;
+ b=kzGN6gCPOKowcJxjLopOCD663tpip+8FStZaEznrEi4nz5V7szjf6iY9UpvQCZWvDV
+ F0eVVzs5S/1/CYxJEabvNrQGnKL53Nw4SXT7HvNkEJ8NmHccEdC7xuUurtD92qGEBTls
+ Ruqov8MUhcH5+jj1WEZVmGhWheMEfyZqqPMniw6n+p1ID6CiczRiZuKjkHDBxilNJIln
+ XCFwu+epFY2KbwT7CrjALvVnlTeauWxJ+np22IPySuJFyteUIGWuc7N8Y788S0k2yJyD
+ Y/79hLD25r1yw5sxnasZE/pe9q9CoHIr1LrlSOQdU3a9hGUk/r0cWAUBp+Qpi9oNTX94
+ u4Ng==
+X-Gm-Message-State: AOAM530RyuF5z+nskUYBHYRZfoDKXQNVcgt03OrFzgHx+E8jzOCBeE//
+ Vtk9ckCEFaAhZIAX66yLny4WTg==
+X-Google-Smtp-Source: ABdhPJwSoGtAaOFHizAdmL5De4g8ecO4ZSY6oXCjlLQmB/U/SoWm4PNp8I7wMtAhJebcJS6Vvp3xRg==
+X-Received: by 2002:a17:90a:9408:b0:1b5:3908:d3d1 with SMTP id
+ r8-20020a17090a940800b001b53908d3d1mr6553625pjo.188.1647537394646; 
+ Thu, 17 Mar 2022 10:16:34 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ nn15-20020a17090b38cf00b001bfceefd8cfsm10388563pjb.48.2022.03.17.10.16.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Mar 2022 10:16:34 -0700 (PDT)
+Message-ID: <cc93227f-a1a1-d153-7307-fc679cada605@linaro.org>
+Date: Thu, 17 Mar 2022 10:16:32 -0700
 MIME-Version: 1.0
-In-Reply-To: <20220317165743.238662-2-stefanha@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH for-7.1 v6 26/51] target/nios2: Prevent writes to
+ read-only or reserved control fields
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220317050538.924111-1-richard.henderson@linaro.org>
+ <20220317050538.924111-27-richard.henderson@linaro.org>
+ <CAFEAcA_HLwHWKb44U4Dp_jsCyam8kEuAgKjszWPt2vnaEApoYw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_HLwHWKb44U4Dp_jsCyam8kEuAgKjszWPt2vnaEApoYw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,96 +95,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Haiyue Wang <haiyue.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 17, 2022 at 04:57:42PM +0000, Stefan Hajnoczi wrote:
-> From: Haiyue Wang <haiyue.wang@intel.com>
+On 3/17/22 08:49, Peter Maydell wrote:
+> On Thu, 17 Mar 2022 at 05:53, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Create an array of masks which detail the writable and readonly
+>> bits for each control register.  Apply them when writing to
+>> control registers, including the write to status during eret.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > 
-> The io_uring fixed "Don't truncate addr fields to 32-bit on 32-bit":
-> https://git.kernel.dk/cgit/liburing/commit/?id=d84c29b19ed0b130000619cff40141bb1fc3615b
-
-Ewww, that changes the public ABI of the library on 32-bit
-platforms, but failed to bump the soname version, except....
-
-...investigating this I noticed a further change that happend
-a few weeks earlier in liburing that actually dropped the
-version from the soname entirely making it an unversioned
-library.
-
-This is the current shipping 2.1 version:
-
-$ eu-readelf -a liburing.so.2.0.0  | grep SONAME
-  SONAME            Library soname: [liburing.so.2]
-
-and in git master:
-
-$ eu-readelf -a src/liburing.so.2.2 | grep SONA
-  SONAME            Library soname: [liburing.so]
-
-Surely that's a mistake.
-
-After the ABI incompatibility above, I would have expected
-it to bump to liburing.so.3 
-
-
+>> @@ -34,6 +34,15 @@ void helper_raise_exception(CPUNios2State *env, uint32_t index)
+>>   #ifndef CONFIG_USER_ONLY
+>>   void helper_eret(CPUNios2State *env, uint32_t new_status, uint32_t new_pc)
+>>   {
+>> +    Nios2CPU *cpu = env_archcpu(env);
+>> +
+>> +    /*
+>> +     * Both estatus and bstatus have no constraints on write;
+>> +     * do not allow reserved fields in status to be set.
+>> +     */
+>> +    new_status &= (cpu->cr_state[CR_STATUS].writable |
+>> +                   cpu->cr_state[CR_STATUS].readonly);
+>> +
+>>       env->ctrl[CR_STATUS] = new_status;
 > 
-> This leads to build failure:
-> ../util/fdmon-io_uring.c: In function ‘add_poll_remove_sqe’:
-> ../util/fdmon-io_uring.c:182:36: error: passing argument 2 of ‘io_uring_prep_poll_remove’ makes integer from pointer without a cast [-Werror=int-conversion]
->   182 |     io_uring_prep_poll_remove(sqe, node);
->       |                                    ^~~~
->       |                                    |
->       |                                    AioHandler *
-> In file included from /root/io/qemu/include/block/aio.h:18,
->                  from ../util/aio-posix.h:20,
->                  from ../util/fdmon-io_uring.c:49:
-> /usr/include/liburing.h:415:17: note: expected ‘__u64’ {aka ‘long long unsigned int’} but argument is of type ‘AioHandler *’
->   415 |           __u64 user_data)
->       |           ~~~~~~^~~~~~~~~
-> cc1: all warnings being treated as errors
-> 
-> Use LIBURING_HAVE_DATA64 to check whether the io_uring supports 64-bit
-> variants of the get/set userdata, to convert the paramter to the right
-> data type.
-> 
-> Signed-off-by: Haiyue Wang <haiyue.wang@intel.com>
-> Message-Id: <20220221162401.45415-1-haiyue.wang@intel.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  util/fdmon-io_uring.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/util/fdmon-io_uring.c b/util/fdmon-io_uring.c
-> index 1461dfa407..ab43052dd7 100644
-> --- a/util/fdmon-io_uring.c
-> +++ b/util/fdmon-io_uring.c
-> @@ -179,7 +179,11 @@ static void add_poll_remove_sqe(AioContext *ctx, AioHandler *node)
->  {
->      struct io_uring_sqe *sqe = get_sqe(ctx);
->  
-> +#ifdef LIBURING_HAVE_DATA64
-> +    io_uring_prep_poll_remove(sqe, (__u64)(uintptr_t)node);
-> +#else
->      io_uring_prep_poll_remove(sqe, node);
-> +#endif
->  }
->  
->  /* Add a timeout that self-cancels when another cqe becomes ready */
-> -- 
-> 2.35.1
-> 
-> 
+> Isn't this allowing the guest to write to readonly bits ?
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Well, CPS is certainly required to be set by eret -- that's a difference between eret and 
+wrctl.  However, I've just noticed a comment on page 3-58:
 
+> Do not set status.PIE in a nonmaskable ISR. If status.PIE is set, a maskable interrupt can pre-
+> empt an NMI, and the processor exits NMI mode. It cannot be returned to NMI mode until the
+> next nonmaskable interrupt.
+
+which suggests that eret does not restore NMI from estatus, as saved by normal interrupt.
+
+So I guess this should be just writable | CPS_MASK.
+
+
+r~
 
