@@ -2,105 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D4E4DBF83
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 07:27:39 +0100 (CET)
-Received: from localhost ([::1]:36642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB324DBF82
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 07:26:27 +0100 (CET)
+Received: from localhost ([::1]:34478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUjbm-0000JO-VG
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 02:27:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34576)
+	id 1nUjac-0007D1-Nx
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 02:26:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=068022f98=alistair.francis@opensource.wdc.com>)
- id 1nUjTT-0001v0-Od
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 02:19:05 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:14060)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUjVH-0003mA-Rg
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 02:20:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=068022f98=alistair.francis@opensource.wdc.com>)
- id 1nUjTQ-0004O8-Ef
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 02:19:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1647497941; x=1679033941;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=C5wN6WlN5i9pO/tHVRZgvTh0eiaKx6kGq+rPWLq5OMs=;
- b=cGzL76NO4Yzt3Pz8WVlV9ZKESYAadb6nFQ1/9mZMpJHx4jpKGBIf0oGH
- OWWFvGZ3UC488z3cM5qA29tM6MPxsMTlVlyOaUmQuW8BepDR2S+1pSKQd
- VZU1eEU/OG/6Czgg5Z0b2OWTM+NvFgRSqjG+usY8/aEPKjQUJ1DrQ5xsa
- nLbproqcye1a8eYI+J+Vi/V53cLV8yWIw4NMvDiaKZ3lbrZSLWpwJotR3
- o11ZNh3E3P41CX/BOJCRXMcmid8B5MfkhPvdvi5CBxjg2sLTzIjFYd/TL
- UW4Xxyk96ZhGoPTWWZjEaOBl+9oVR2XcrQlJmAh6fbmIu1Rvd9IYc/mBN g==;
-X-IronPort-AV: E=Sophos;i="5.90,188,1643644800"; d="scan'208";a="196509682"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 17 Mar 2022 14:18:37 +0800
-IronPort-SDR: gr7eZUEh/D8ScaRUwV9/mCyNmvNWVBqDZo/h/6YNVtubxdfoP1bltK0PfXlxiBI96+eNd7K7K+
- Uxc9v08hI5UL3U/GZXQn99rYZP+sJyBB1ze2WlwkPxKWY9vZyl3mlCa7z8nluqC+rwZ5qggTCy
- +RzoKsLD6mYUysUywOmWbSr1iqJGEyu3iQZfYt9XwFrfr5MuRwdQJmPlLTgUXlqOLNy11+8oAB
- 4iSzSnxzPmefe6PoVUOuSdsEUJkOE5dBU8pDAhRVo9ssfGzlMTnJHQmeB2oawfGIvxcrn5Uutv
- CzlF3JZz92ZjiA2PxvbHXs0f
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2022 22:49:41 -0700
-IronPort-SDR: /s52VTthSxtDuEzXDo6ON99eQwBhyer9rVCcRzFkmToKcW4TYqH/gYxl/Hdl3kh09mX76rt98q
- DwsxYoj7L2kYY24tbeBfjun9+O6jRj1acgpjnsBtmQeOOZebWL/FbDfwF1w/UCwxh771kWsjUl
- xgqIeSFpmOHPvYIKgMy/BqwBHRZoAIy4FFlUpC37q6Afuqea5UxEL5OvH/vujkAwwM9mv9clH1
- flkeKiUn7xkrtFczm7fxkQgW791HMVs2yH6ct0/CHxjIGKa0hNMAFoCkfOKW/N03FiJ2SV/diR
- 07c=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2022 23:18:36 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KJxmD2lXVz1Rwrw
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 23:18:36 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1647497915; x=1650089916; bh=C5wN6WlN5i9pO/tHVR
- ZgvTh0eiaKx6kGq+rPWLq5OMs=; b=hylb7qYs2IJJOqVCCLqrkvg3m8fc27OJc5
- p7+QlYKifPNOX04s0xyPnpTDVt4aIovjOAztxfQ1qxnIaSl3s+9NArFMcNTkS+kk
- kPc+5BAeKnNHnF03sKFvurFmfnAJ0U1V6u2Rh8/YAYRR7gN2IYPpBxs5OXYkrycL
- Vf6pclyweqrMHZGJy1jT+JuomcUKF+hICmQFz7xDZpEbXUkOP1Ojynce9LOOM60o
- xo3t0SjoW1IxsXzC0vn+8xmiJ0I2nhrgHLeK9UqQ0Z85f7DT+4wRsZB9CbD4NFwH
- OUezfinx6LP/EpCx7SOk9BfGdJcfPSOeEK9dIUXEoWwdVNs9ojIw==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id ckR3xsf6pxOJ for <qemu-devel@nongnu.org>;
- Wed, 16 Mar 2022 23:18:35 -0700 (PDT)
-Received: from toolbox.wdc.com (unknown [10.225.165.107])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KJxm66fjmz1Rvlx;
- Wed, 16 Mar 2022 23:18:30 -0700 (PDT)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: bmeng.cn@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, palmer@dabbelt.com,
- alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v3 2/2] target/riscv: Allow software access to MIP SEIP
-Date: Thu, 17 Mar 2022 16:18:17 +1000
-Message-Id: <20220317061817.3856850-3-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220317061817.3856850-1-alistair.francis@opensource.wdc.com>
-References: <20220317061817.3856850-1-alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUjVB-00051L-VN
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 02:20:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647498048;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xZhzloJ35tvCP4U0AaPZwVntBLCHkROeUDQhJNk1mTg=;
+ b=hm/lek9wTM9xlOobetxQMlmYDpq2dsJrtxoYT0+2GiPYQn16xAfG8he3HTY+3tDmPR72n4
+ CNapNrZt/+5qU7EZvam1apbKyPjMmLfI0KEXfatK4UdwU/JNFdTAjpRV15WTzv9JsbOmH6
+ aTuFzu/HqBwtY3lDcNbhLC7ME9sMz9s=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-490-ny0qitLMPVu1cIM3wPSvmg-1; Thu, 17 Mar 2022 02:20:45 -0400
+X-MC-Unique: ny0qitLMPVu1cIM3wPSvmg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C0549805A30;
+ Thu, 17 Mar 2022 06:20:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E03D2D476;
+ Thu, 17 Mar 2022 06:20:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EFAB221E66C8; Thu, 17 Mar 2022 07:20:38 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kshitij Suri <kshitij.suri@nutanix.com>
+Subject: Re: [PATCH v2 2/2] Added parameter to take screenshot with
+ screendump as
+References: <20220315044740.155268-1-kshitij.suri@nutanix.com>
+ <20220315044740.155268-2-kshitij.suri@nutanix.com>
+ <87sfrivxk3.fsf@pond.sub.org>
+ <98a777da-4ff5-784f-78ca-790dd3064a7b@nutanix.com>
+Date: Thu, 17 Mar 2022 07:20:38 +0100
+In-Reply-To: <98a777da-4ff5-784f-78ca-790dd3064a7b@nutanix.com> (Kshitij
+ Suri's message of "Wed, 16 Mar 2022 23:45:03 +0530")
+Message-ID: <87v8wdqevd.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=068022f98=alistair.francis@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,113 +84,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: soham.ghosh@nutanix.com, thuth@redhat.com, berrange@redhat.com,
+ prerna.saxena@nutanix.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ philippe.mathieu.daude@gmail.com, kraxel@redhat.com,
+ prachatos.mitra@nutanix.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+Kshitij Suri <kshitij.suri@nutanix.com> writes:
 
-The RISC-V specification states that:
-  "Supervisor-level external interrupts are made pending based on the
-  logical-OR of the software-writable SEIP bit and the signal from the
-  external interrupt controller."
+> On 16/03/22 6:55 pm, Markus Armbruster wrote:
+>> Kshitij Suri <kshitij.suri@nutanix.com> writes:
+>>
+>>> From: "kshitij.suri" <kshitij.suri@nutanix.com>
+>>>
+>>> Currently screendump only supports PPM format, which is un-compressed and not
+>>> standard. Added a "format" parameter to qemu monitor screendump capabilites
+>>> to support PNG image capture using libpng. The param was added in QAPI schema
+>>> of screendump present in ui.json along with png_save() function which converts
+>>> pixman_image to PNG. HMP command equivalent was also modified to support the
+>>> feature.
+>>>
+>>> Example usage:
+>>> { "execute": "screendump", "arguments": { "filename": "/tmp/image",
+>>> "format":"png" } }
+>>>
+>>> Resolves: https://urldefense.proofpoint.com/v2/url?u=https-3A__gitlab.com_qemu-2Dproject_qemu_-2D_issues_718&d=DwIBAg&c=s883GpUCOChKOHiocYtGcg&r=utjv19Ej9Fb0TB7_DX0o3faQ-OAm2ypPniPyqVSoj_w&m=UZZDywEeidD1LndEhKddMf_0v-jePIgMYErGImjYyvjYRJFdnv6LAHgRmZ0IpvIL&s=jc09kdvD1ULKCC9RgwWcsK6eweue3ZkyD8F9kCx5yUs&e=
+>>>
+>>> Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
+>>> ---
+>>> diff to v1:
+>>>    - Removed repeated alpha conversion operation.
+>>>    - Modified logic to mirror png conversion in vnc-enc-tight.c file.
+>>>    - Added a new CONFIG_PNG parameter for libpng support.
+>>>    - Changed input format to enum instead of string.
+>>>    - Improved error handling.
+>>>   hmp-commands.hx    |  11 ++---
+>>>   monitor/hmp-cmds.c |  19 ++++++++-
+>>>   qapi/ui.json       |  24 +++++++++--
+>>>   ui/console.c       | 102 +++++++++++++++++++++++++++++++++++++++++++--
+>>>   4 files changed, 144 insertions(+), 12 deletions(-)
+>>>
+>>> diff --git a/hmp-commands.hx b/hmp-commands.hx
+>>> index 70a9136ac2..5eda4eeb24 100644
+>>> --- a/hmp-commands.hx
+>>> +++ b/hmp-commands.hx
+>>> @@ -244,17 +244,18 @@ ERST
+>>>   
+>>>       {
+>>>           .name       = "screendump",
+>>> -        .args_type  = "filename:F,device:s?,head:i?",
+>>> -        .params     = "filename [device [head]]",
+>>> -        .help       = "save screen from head 'head' of display device 'device' "
+>>> -                      "into PPM image 'filename'",
+>>> +        .args_type  = "filename:F,device:s?,head:i?,format:f?",
+>>> +        .params     = "filename [device [head]] [format]",
+>>> +        .help       = "save screen from head 'head' of display device 'device'"
+>>> +                      "in specified format 'format' as image 'filename'."
+>>> +                      "Currently only 'png' and 'ppm' formats are supported.",
+>>>           .cmd        = hmp_screendump,
+>>>           .coroutine  = true,
+>>>       },
+>>>   
+>>>   SRST
+>>>   ``screendump`` *filename*
+>>> -  Save screen into PPM image *filename*.
+>>> +  Save screen as an image *filename*, with default format of PPM.
+>>>   ERST
+>>>   
+>>>       {
+>>> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+>>> index 8c384dc1b2..9a640146eb 100644
+>>> --- a/monitor/hmp-cmds.c
+>>> +++ b/monitor/hmp-cmds.c
+>>> @@ -1677,9 +1677,26 @@ hmp_screendump(Monitor *mon, const QDict *qdict)
+>>>       const char *filename = qdict_get_str(qdict, "filename");
+>>>       const char *id = qdict_get_try_str(qdict, "device");
+>>>       int64_t head = qdict_get_try_int(qdict, "head", 0);
+>>> +    const char *input_format  = qdict_get_str(qdict, "format");
+>>>       Error *err = NULL;
+>>> +    ImageFormat format;
+>>>   
+>>> -    qmp_screendump(filename, id != NULL, id, id != NULL, head, &err);
+>>
+>> The second id != NULL looks wrong.  Shouldn't it be head != NULL?
 
-We currently only allow either the interrupt controller or software to
-set the bit, which is incorrect.
+Can't: @head is not a pointer.
 
-This patch removes the miclaim mask when writing MIP to allow M-mode
-software to inject interrupts, even with an interrupt controller.
+>> Not your patch's fault, of course.
+>
+> As per hmp-commands.hx input is of format [device [head]] so maybe
+> works as a pair.
 
-We then also need to keep track of which source is setting MIP_SEIP. The
-final value is a OR of both, so we add two bools and use that to keep
-track of the current state. This way either source can change without
-losing the correct value.
+I looked: no, it works because it duplicates qmp_screendump()'s default.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/904
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu.h |  8 ++++++++
- target/riscv/cpu.c | 10 +++++++++-
- target/riscv/csr.c |  8 ++++++--
- 3 files changed, 23 insertions(+), 3 deletions(-)
+qmp_screendump()'s behavior:
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index c069fe85fa..05d40f8dbd 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -173,6 +173,14 @@ struct CPUArchState {
-     uint64_t mstatus;
-=20
-     uint64_t mip;
-+    /*
-+     * MIP contains the software writable version of SEIP ORed with the
-+     * external interrupt value. The MIP register is always up-to-date.
-+     * To keep track of the current source, we also save booleans of the=
- values
-+     * here.
-+     */
-+    bool external_seip;
-+    bool software_seip;
-=20
-     uint64_t miclaim;
-=20
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 41b757995d..68373b769c 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -706,7 +706,6 @@ static void riscv_cpu_set_irq(void *opaque, int irq, =
-int level)
-         case IRQ_VS_TIMER:
-         case IRQ_M_TIMER:
-         case IRQ_U_EXT:
--        case IRQ_S_EXT:
-         case IRQ_VS_EXT:
-         case IRQ_M_EXT:
-             if (kvm_enabled()) {
-@@ -715,6 +714,15 @@ static void riscv_cpu_set_irq(void *opaque, int irq,=
- int level)
-                 riscv_cpu_update_mip(cpu, 1 << irq, BOOL_TO_MASK(level))=
-;
-             }
-              break;
-+        case IRQ_S_EXT:
-+            if (kvm_enabled()) {
-+                kvm_riscv_set_irq(cpu, irq, level);
-+            } else {
-+                env->external_seip =3D level;
-+                riscv_cpu_update_mip(cpu, 1 << irq,
-+                                     BOOL_TO_MASK(level | env->software_=
-seip));
-+            }
-+            break;
-         default:
-             g_assert_not_reached();
-         }
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 0606cd0ea8..77726ccefb 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1403,10 +1403,14 @@ static RISCVException rmw_mip64(CPURISCVState *en=
-v, int csrno,
-                                 uint64_t new_val, uint64_t wr_mask)
- {
-     RISCVCPU *cpu =3D env_archcpu(env);
--    /* Allow software control of delegable interrupts not claimed by har=
-dware */
--    uint64_t old_mip, mask =3D wr_mask & delegable_ints & ~env->miclaim;
-+    uint64_t old_mip, mask =3D wr_mask & delegable_ints;
-     uint32_t gin;
-=20
-+    if (mask & MIP_SEIP) {
-+        env->software_seip =3D new_val & MIP_SEIP;
-+        new_val |=3D env->external_seip * MIP_SEIP;
-+    }
-+
-     if (mask) {
-         old_mip =3D riscv_cpu_update_mip(cpu, mask, (new_val & mask));
-     } else {
---=20
-2.35.1
+* If neither @device nor @head are present, default to console #0.
+
+* If only @device is present, default to head 0 of the specified device.
+
+* If both are present, default to the specified head of the specified
+  device.
+
+* If only @head is present, error out.
+
+Ideally, we'd have hmp_screendump() pass its arguments unadulterated to
+qmp_screendump(), so logic isn't duplicated.
+
+Unfortunately, this turns out to be a bit troublesome.
+qdict_get_try_int() *forces* us to supply a default value, and doesn't
+tell us whether argument is present.  We'd have to use qdict_haskey()
+for that:
+
+    qmp_screendump(filename, id != NULL, id, qdict_haskey("head"), head,
+                   &err);
+
+The current code instead replaces case "only @device is present" by
+"both are present".  Works, because the default it uses matches the one
+in qmp_screendump().
+
+I find this less obvious, but I'm not sure it's worth patching.
+
+Note that case "only @head is present" isn't possible because the
+arguments are positional.
+
+>                  Is it alright if I investigate and send in another patch
+> after this?
+
+Let's not bother.
 
 
