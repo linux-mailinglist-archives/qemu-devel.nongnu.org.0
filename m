@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016E04DBE64
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 06:32:29 +0100 (CET)
-Received: from localhost ([::1]:50134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D515C4DBE8C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 06:38:50 +0100 (CET)
+Received: from localhost ([::1]:38202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUikO-0001nG-3B
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 01:32:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51190)
+	id 1nUiqX-0004ec-Bb
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 01:38:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiL5-0001WG-Sf
+ id 1nUiL6-0001WI-1a
  for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:22 -0400
-Received: from [2607:f8b0:4864:20::42f] (port=40715
- helo=mail-pf1-x42f.google.com)
+Received: from [2607:f8b0:4864:20::52f] (port=33679
+ helo=mail-pg1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiL2-0002J7-W9
+ id 1nUiL4-0002JN-83
  for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:19 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id d19so5888399pfv.7
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 22:06:14 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id 6so1808572pgg.0
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 22:06:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=a0Y1+UOzMYE465JAg/1XZp8FHRvlzNh9RDhixInPs2c=;
- b=PliBKBi9/uCwVgvvd/+5zgjHzaB/qt7qKsymgp52Dgkz4IVESNJxTI+2f6JeA5Tkaf
- osOHn2eRILf6qL1LmQH77UJMKbZpdD/33HLByZdvmzxmfbzqU4YT8RsEOfjfHCTja7o8
- +U8myTUBAlyiQziEY6p6swThFNp8K/OgiFSbiGbDATelUeGPyRlbBpKgDPf24f+Ji79L
- OgHUcuJZEKFRtXIl4BUjP2TgI/didMbFDFMcDzo4re5m3WWdEm2yWfdz0ULoOdwsa6tw
- 0/5OpjAgbS9VscqyjN0oAM8YDoCDa55CaldsNwppn+9KuU6KCdRdYqE8+CC+kaCw9922
- lWXQ==
+ bh=PHMXz9q73HVjYaAorTgnEhJkrDs42cYUdRyVosZEm/k=;
+ b=yjy7i+vQ8GsJrWz2poT5tUCmVCvrCQGgO/wBKjVJAObrT8qik4qGaoRHYHXiO3U1Wm
+ rp4XtjxX+uAP3An+qV/uuUK8k9rWBy7oCwEIFZdhn9iz+p79otZvwrwsBx/TjiY3vEzh
+ qWnQZOlP+CMCPegFky7gYKMxBXVTfZo1Nqokg9LZumtC1+19a0I6FVdjM8OfO1BjMpFl
+ pv+VL7/6xKnmQjWRacIDTs4HPPcJWdCZeFADIcVAk8aIPdpCsLaXK0wK7mzpiYDj69tq
+ k+1FaGAb9WkjmJuvPbpj7xaSekLh8ciokRZ+EWBTdC4xDJwrWOj6fKTGbvrll0rLUOZ6
+ 80cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=a0Y1+UOzMYE465JAg/1XZp8FHRvlzNh9RDhixInPs2c=;
- b=yOTIgGOIXMV1OjmJ7o7I4xRwsVgHyv/RvG3SK6bSvo05T95xpWWaHqOhskwkevE80b
- vVZGJpj4p607nUOTuWy1/YfvN1Kjm+g6jiUw6o4sXsOxmFW/K/aZevdoFNf3Jzb1cSUf
- 1V36hlFzjH5UD9kIsRxkeFK+8ly88x/dn1mfr1jTnnnsijdtiCBUuwb2sDf5VEDtm8n2
- T1aCfGLBlMqJdoLxB6f/gJ2z6Ja25pptJ0pOIEVQeepVbgFQNZAUgVS3AEkxO4ejPtgE
- LeEZzSTm2AeTSA3Gpm1L8oH7NzhNH3h9J3naYEYENP39rDE4kgUwsdKAeKYyrpUgLHXz
- hZ3Q==
-X-Gm-Message-State: AOAM532aOuTNjXNZU/oGR2Rh/DMyhXkd4WjBaianVqDQGsPZEx3b1+XM
- dFGtJKceHh6zoD04AheSGhlzpRP+79zUTQ==
-X-Google-Smtp-Source: ABdhPJyNawzKqURLGzo50Uw/QgeIp+fQPRuCbmztsDlAc0B0tq4c0nRjLhAwCEmK4uYEcV/lygz10w==
-X-Received: by 2002:a63:ea05:0:b0:381:1497:63ab with SMTP id
- c5-20020a63ea05000000b00381149763abmr2224150pgi.463.1647493573926; 
- Wed, 16 Mar 2022 22:06:13 -0700 (PDT)
+ bh=PHMXz9q73HVjYaAorTgnEhJkrDs42cYUdRyVosZEm/k=;
+ b=CqvSj78auT6stqlOLcAA8xde3rsgCRummsdj9P0QSg1nFbmHVASSaOdqIbn7Q2pi+D
+ fUpd58o8pvzxG5PM08DFvcbrZi4FLglyHIWxEmU3RD/vpS1IUp9xCVejQ5TYmdRs+2vz
+ 0p1BGlWBxnZ2QSf/LQcA0s0XxBkjp920sxxILeWveGqz4cP/cTIBDVI0/XJGRyg9lJR2
+ hMKZDmftcGNexhOa2z+VyZQJLUAxY4CtjhW/npaLbOhjJru1QG0o53vYTyuWWlh34v1g
+ F2AsJ4S/uUcZk4F0+L3ydl3jdG0xasWrqP1bGYjIslNABceED5JoBsQhChLUMO/EfoNz
+ iRLg==
+X-Gm-Message-State: AOAM530zwu3cs7HCowJvWoTWE0w1fh+y6jsSErzddQAnWjtzwoL8Dg9K
+ g53QfmpL7w+GXjVFzRf7YD8nWarNSFHkuQ==
+X-Google-Smtp-Source: ABdhPJwlndTK4lk+vbaCeIIiRyvelQTJcUphcw4/lqu1XCaKImkdNVwqiURzpmMSTt/Xr1Si9KVyBw==
+X-Received: by 2002:a63:185c:0:b0:381:10:2843 with SMTP id
+ 28-20020a63185c000000b0038100102843mr2227144pgy.433.1647493574811; 
+ Wed, 16 Mar 2022 22:06:14 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- h22-20020a056a001a5600b004f7c17b291asm5101357pfv.87.2022.03.16.22.06.13
+ h22-20020a056a001a5600b004f7c17b291asm5101357pfv.87.2022.03.16.22.06.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 22:06:13 -0700 (PDT)
+ Wed, 16 Mar 2022 22:06:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 v6 35/51] target/nios2: Create gen_jumpr
-Date: Wed, 16 Mar 2022 22:05:22 -0700
-Message-Id: <20220317050538.924111-36-richard.henderson@linaro.org>
+Subject: [PATCH for-7.1 v6 36/51] target/nios2: Hoist set of is_jmp into
+ gen_goto_tb
+Date: Wed, 16 Mar 2022 22:05:23 -0700
+Message-Id: <20220317050538.924111-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220317050538.924111-1-richard.henderson@linaro.org>
 References: <20220317050538.924111-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,86 +93,50 @@ Cc: marex@denx.de, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out a function to perform an indirect branch.
+Rather than force all callers to set this, do it
+within the subroutine.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/translate.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ target/nios2/translate.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index d5f2e98de9..f61ba92052 100644
+index f61ba92052..51907586ab 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -36,7 +36,6 @@
- #include "semihosting/semihost.h"
- 
- /* is_jmp field values */
--#define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
- #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
- 
- #define INSTRUCTION_FLG(func, flags) { (func), (flags) }
-@@ -168,6 +167,16 @@ static void gen_goto_tb(DisasContext *dc, int n, uint32_t dest)
-     }
- }
- 
-+static void gen_jumpr(DisasContext *dc, int regno, bool is_call)
-+{
-+    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, regno));
-+    if (is_call) {
-+        tcg_gen_movi_tl(dest_gpr(dc, R_RA), dc->base.pc_next);
-+    }
-+    tcg_gen_exit_tb(NULL, 0);
-+    dc->base.is_jmp = DISAS_NORETURN;
-+}
-+
- static void gen_excp(DisasContext *dc, uint32_t code, uint32_t flags)
- {
-     t_gen_helper_raise_exception(dc, flags);
-@@ -387,8 +396,7 @@ static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
- /* PC <- ra */
- static void ret(DisasContext *dc, uint32_t code, uint32_t flags)
- {
--    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, R_RA));
--    dc->base.is_jmp = DISAS_JUMP;
-+    gen_jumpr(dc, R_RA, false);
- }
- 
- /*
-@@ -418,8 +426,7 @@ static void jmp(DisasContext *dc, uint32_t code, uint32_t flags)
- {
-     R_TYPE(instr, code);
- 
--    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, instr.a));
--    dc->base.is_jmp = DISAS_JUMP;
-+    gen_jumpr(dc, instr.a, false);
- }
- 
- /* rC <- PC + 4 */
-@@ -438,10 +445,7 @@ static void callr(DisasContext *dc, uint32_t code, uint32_t flags)
- {
-     R_TYPE(instr, code);
- 
--    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, instr.a));
--    tcg_gen_movi_tl(dest_gpr(dc, R_RA), dc->base.pc_next);
--
--    dc->base.is_jmp = DISAS_JUMP;
-+    gen_jumpr(dc, instr.a, true);
- }
- 
- /* rC <- ctlN */
-@@ -838,11 +842,6 @@ static void nios2_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+@@ -165,6 +165,7 @@ static void gen_goto_tb(DisasContext *dc, int n, uint32_t dest)
+         tcg_gen_movi_tl(cpu_pc, dest);
          tcg_gen_exit_tb(NULL, 0);
-         break;
+     }
++    dc->base.is_jmp = DISAS_NORETURN;
+ }
  
--    case DISAS_JUMP:
--        /* The jump will already have updated the PC register */
--        tcg_gen_exit_tb(NULL, 0);
--        break;
--
-     case DISAS_NORETURN:
-         /* nothing more to generate */
-         break;
+ static void gen_jumpr(DisasContext *dc, int regno, bool is_call)
+@@ -208,7 +209,6 @@ static void jmpi(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+     J_TYPE(instr, code);
+     gen_goto_tb(dc, 0, (dc->pc & 0xF0000000) | (instr.imm26 << 2));
+-    dc->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+ static void call(DisasContext *dc, uint32_t code, uint32_t flags)
+@@ -251,7 +251,6 @@ static void br(DisasContext *dc, uint32_t code, uint32_t flags)
+     I_TYPE(instr, code);
+ 
+     gen_goto_tb(dc, 0, dc->base.pc_next + (instr.imm16.s & -4));
+-    dc->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+ static void gen_bxx(DisasContext *dc, uint32_t code, uint32_t flags)
+@@ -263,7 +262,6 @@ static void gen_bxx(DisasContext *dc, uint32_t code, uint32_t flags)
+     gen_goto_tb(dc, 0, dc->base.pc_next);
+     gen_set_label(l1);
+     gen_goto_tb(dc, 1, dc->base.pc_next + (instr.imm16.s & -4));
+-    dc->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+ /* Comparison instructions */
 -- 
 2.25.1
 
