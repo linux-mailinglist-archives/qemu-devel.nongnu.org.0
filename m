@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6A64DC416
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 11:37:51 +0100 (CET)
-Received: from localhost ([::1]:46544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08574DC423
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 11:42:51 +0100 (CET)
+Received: from localhost ([::1]:53526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUnVu-0004SQ-H0
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 06:37:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48682)
+	id 1nUnak-0000ru-BB
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 06:42:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnMd-0006Fo-20
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:28:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58921)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnMq-0006M4-Sx
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:28:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnMb-00075N-Bl
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:28:14 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnMp-00075v-AU
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:28:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647512892;
+ s=mimecast20190719; t=1647512906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+fFDP+4thfRwxVNCGalOhBSo58U2R1MrvBaCKf9ziO4=;
- b=BzLcUXCKLrcSg4vqHIY/PrfTsQfaNPlVo/DhXPsed0Y7p5agfZ7L4UJTdP+obLnRyTgdR5
- U9gtIZfbT7HBLono8MHQZkSvgOhxvcYOyTrkHoKL60sfVIw3qVD2PDDriZiaUpTzbquspH
- 97iv8z6SwmLLD2Utl0j1msURzYOl62U=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=e6cM1Jjnm8K1EERMlJOVtZ0qNUNEPArYcbmhZmEhyHo=;
+ b=NJa92xzGh97qyuWeww07Pj5x0MFjKkBtYWQYww1RXAzXPYWKPUxnRIbTbiTcgZ7g12PHH8
+ 4SvCGLFDLqEDvz2whK1svkN1n82361f9djSWcPr1JhW1uaHDq/TIh4CVAV2ujFzl0tfBj5
+ +audXyLwrPHjc5vPwvAzKYF5veC0L1M=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634-dZfvXLKOOWyh_z4Uh1SCIQ-1; Thu, 17 Mar 2022 06:28:11 -0400
-X-MC-Unique: dZfvXLKOOWyh_z4Uh1SCIQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- 11-20020a50874b000000b004186b7c1252so2853756edv.3
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 03:28:11 -0700 (PDT)
+ us-mta-202-Vkz5skdjONCj_jegXngGTA-1; Thu, 17 Mar 2022 06:28:25 -0400
+X-MC-Unique: Vkz5skdjONCj_jegXngGTA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ gx12-20020a1709068a4c00b006df7e8181ceso2393032ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 03:28:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+fFDP+4thfRwxVNCGalOhBSo58U2R1MrvBaCKf9ziO4=;
- b=KmutQOQnRfLT2mtHlYCzmM5m1vE1Is+43RXDsRq4q7DFtkrJCqmGYWOwMOmUiN74VN
- hf+YjA1H5MCcGjUf6vJluPmK3Z07Oh4Ih+kAzJyjFu8RT8R1rC2DRc0ppj5gQ+Af2WlO
- 2WqDgpYMNwU6QZfu7SkboVzjBKbGIFD2ehpbWXiLdVKbhqNbXVfBe6bUj6FhPIhsb4S9
- Yr166Ieje2rt4f78mT0AmSPyS21mrtP+T9GmK8SYpIlllBJ9WeVrynqxpOOtN8xn+dnO
- red5VpBUaU24tWIUmVFCLljuRfWBt1Yjzsg0IxlMjL3d+2cIKjmnDSOSC9QMVFy3Mnem
- 4iYw==
-X-Gm-Message-State: AOAM533N/rjLeDYvwCCoAppTpKpEY452CRNbZ81YrRdGU9dJWwUTJpRa
- R369joIBOam1MXWnoX1XVOV1BRnC7vo2g0P9H31AcIpSYormSnWvT6iT3lvynK7WO7RA3eoosV5
- I+uOGTtUiLZF+miE=
-X-Received: by 2002:a17:906:2811:b0:6ce:eacf:5210 with SMTP id
- r17-20020a170906281100b006ceeacf5210mr3892674ejc.618.1647512890377; 
- Thu, 17 Mar 2022 03:28:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwkHK9EhGHa5LgjARWjLmFXR14wYuVxrotGdoQnT45aEHoXtTi0iBC+1vLLrWsXXWvOVGkfNg==
-X-Received: by 2002:a17:906:2811:b0:6ce:eacf:5210 with SMTP id
- r17-20020a170906281100b006ceeacf5210mr3892653ejc.618.1647512890176; 
- Thu, 17 Mar 2022 03:28:10 -0700 (PDT)
+ bh=e6cM1Jjnm8K1EERMlJOVtZ0qNUNEPArYcbmhZmEhyHo=;
+ b=o8XSSH4HrsXEE/o9YwXltLmxRt4GxVMREmmXpXsh1LymfyF8CAYbE22unaeUqGvdxt
+ JQ6KXHZ2JnRT/jjXth5ripJ/Mjcw6kipfGawyiHeCbDbE5//N41zG9DbWpaXOn8v2F+M
+ fgzWjmkKo3/7v1upSBIesrpIe4dJKYePRbb40CT/a7IPZet/L93oK2oECdOqH7JCFBnm
+ AvBGmWF4vfBuG/KOfos2orUEG1cBFm0BhwIMs0wy+/9P3KBcszfqjlMH5dy+gFnTH5UR
+ WdOPHXmEIChrsXqqdFChOxNd1mU5m3dcH6+PA9cDghRmSnHSI+uux4hHXaElhY02n1xI
+ xwJg==
+X-Gm-Message-State: AOAM530OHv+fn+DasYQ1HKxq0mGaVh1+McQMJ83s5dwr7ZnEMADTzZw1
+ QBCFvyNBplqgQyHuycU8luPgm9OLZ8KapYsmZ4ZRSblgilFqdbtfywTnRNR6sLYRlNumkO0EIkY
+ wkeKbb+foZKQDJag=
+X-Received: by 2002:a50:d9c2:0:b0:413:97b5:d9e6 with SMTP id
+ x2-20020a50d9c2000000b0041397b5d9e6mr3635321edj.334.1647512904319; 
+ Thu, 17 Mar 2022 03:28:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhfyxM+czMg1aEw9sajU+HwdTDS2YduDwR59PhH3gNllmQ+1gOWrG9P6kWgNV0JLUFfLMYKA==
+X-Received: by 2002:a50:d9c2:0:b0:413:97b5:d9e6 with SMTP id
+ x2-20020a50d9c2000000b0041397b5d9e6mr3635305edj.334.1647512904115; 
+ Thu, 17 Mar 2022 03:28:24 -0700 (PDT)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
  by smtp.gmail.com with ESMTPSA id
- qf2-20020a1709077f0200b006df742a3521sm2105531ejc.54.2022.03.17.03.28.09
+ s7-20020a170906778700b006df7e0e140bsm1986760ejm.140.2022.03.17.03.28.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 03:28:09 -0700 (PDT)
-Message-ID: <c1622285-d8f8-4a1c-3439-f00c6c646825@redhat.com>
-Date: Thu, 17 Mar 2022 11:28:08 +0100
+ Thu, 17 Mar 2022 03:28:23 -0700 (PDT)
+Message-ID: <b6cb2aaa-c868-b237-6618-2ded5ed733a1@redhat.com>
+Date: Thu, 17 Mar 2022 11:28:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 3/5] iotests: Remove explicit checks for qemu_img() == 0
+Subject: Re: [PATCH v3 5/5] iotests: fortify compare_images() against crashes
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20220308015728.1269649-1-jsnow@redhat.com>
- <20220308015728.1269649-4-jsnow@redhat.com>
+ <20220308015728.1269649-6-jsnow@redhat.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220308015728.1269649-4-jsnow@redhat.com>
+In-Reply-To: <20220308015728.1269649-6-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -110,28 +110,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 08.03.22 02:57, John Snow wrote:
-> qemu_img() returning zero ought to be the rule, not the
-> exception. Remove all explicit checks against the condition in
-> preparation for making non-zero returns an Exception.
+> Fortify compare_images() to be more discerning about the status codes it
+> receives. If qemu_img() returns an exit code that implies it didn't
+> actually perform the comparison, treat that as an exceptional
+> circumstance and force the caller to be aware of the peril.
+>
+> If a negative test is desired (perhaps to test how qemu_img compare
+> behaves on malformed images, for instance), it is still possible to
+> catch the exception in the test and deal with that circumstance
+> manually.
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 > ---
->   tests/qemu-iotests/163                              |  9 +++------
->   tests/qemu-iotests/216                              |  6 +++---
->   tests/qemu-iotests/218                              |  2 +-
->   tests/qemu-iotests/224                              | 11 +++++------
->   tests/qemu-iotests/228                              | 12 ++++++------
->   tests/qemu-iotests/257                              |  3 +--
->   tests/qemu-iotests/258                              |  4 ++--
->   tests/qemu-iotests/310                              | 13 ++++++-------
->   tests/qemu-iotests/tests/block-status-cache         |  3 +--
->   tests/qemu-iotests/tests/graph-changes-while-io     |  7 +++----
->   tests/qemu-iotests/tests/image-fleecing             | 10 +++++-----
->   tests/qemu-iotests/tests/mirror-ready-cancel-error  |  6 ++----
->   tests/qemu-iotests/tests/mirror-top-perms           |  3 +--
->   tests/qemu-iotests/tests/remove-bitmap-from-backing |  8 ++++----
->   tests/qemu-iotests/tests/stream-error-on-reset      |  4 ++--
->   15 files changed, 45 insertions(+), 56 deletions(-)
+>   tests/qemu-iotests/iotests.py | 21 ++++++++++++++++-----
+>   1 file changed, 16 insertions(+), 5 deletions(-)
 
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
