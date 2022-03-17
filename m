@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B29E4DC79F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 14:32:40 +0100 (CET)
-Received: from localhost ([::1]:34040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C5A4DC7BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 14:39:36 +0100 (CET)
+Received: from localhost ([::1]:36528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUqF2-0007XG-Bh
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 09:32:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49848)
+	id 1nUqLn-0001XG-1k
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 09:39:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUqBm-0006rJ-9Y
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:29:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43901)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUqBj-0007UP-CI
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:29:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647523750;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+6ZMYoQ633sEwp2UzX0uZ83vrjJi6jZOzmLBoE8/ozI=;
- b=Yl5LVoCfiXsBIqZN0m88rVBRCF7SWGEl6w65yDHQQHJ2jVsboCbDf8Ck672jK4SPeOt/uI
- uR2YqAVAUYhGLeq8Fa3gutYOEuLjx8+3tIcZ/kjPe3tSEuhxqbR3LqNKknFYNlbf/aROc+
- Q07f/jcxhg4PtCq/dTNkZW3OKowsbJo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-345-vOM0FPnwNk-RxWv_dkhX9g-1; Thu, 17 Mar 2022 09:29:07 -0400
-X-MC-Unique: vOM0FPnwNk-RxWv_dkhX9g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E7F1299E756;
- Thu, 17 Mar 2022 13:29:07 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE6ED46518B;
- Thu, 17 Mar 2022 13:29:06 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A4A4221E66D2; Thu, 17 Mar 2022 14:29:05 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 2/3] hw/display: Allow vga_common_init() to return errors
-References: <20220316132402.1190346-1-thuth@redhat.com>
- <20220316132402.1190346-3-thuth@redhat.com>
- <64353530-4488-8820-c58c-a5e104e93b4b@gmail.com>
- <e5e03938-d602-c928-07ef-da6486fb99b0@redhat.com>
- <87bky6ugmx.fsf@pond.sub.org>
- <8e608283-b5d2-91d9-26b3-372c57422a30@redhat.com>
- <87o825qb6y.fsf@pond.sub.org>
- <79b983e8-40aa-35b6-cdf4-6cb0571c37e5@redhat.com>
-Date: Thu, 17 Mar 2022 14:29:05 +0100
-In-Reply-To: <79b983e8-40aa-35b6-cdf4-6cb0571c37e5@redhat.com> (Thomas Huth's
- message of "Thu, 17 Mar 2022 13:32:39 +0100")
-Message-ID: <87lex8g126.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nUqKs-0000r5-20
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:38:38 -0400
+Received: from [2607:f8b0:4864:20::112c] (port=42842
+ helo=mail-yw1-x112c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nUqKq-0000mQ-DD
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:38:37 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-2dbd97f9bfcso58173447b3.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 06:38:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QzyGkWHBsC8iwqqYrL53qax56ZVFreNZRL50avlkUeQ=;
+ b=lIZlxhzufJyYeq8RqX2xFHC2QBD7XrWF3yJ6k87liE8JXTO8KoEwooLRXdPysixozd
+ xh6y8/UOhpgbscYDXPp23nuwR17nyRBdkbY52ttAIe7RGBvthBiaHw1m6M44HabZ3aCZ
+ Jydcu7kV+QthJrq2F1tNGxjDL4CFvd44LHibircCo3nt6StybSkK6jrwVc7Mey5wuA2I
+ 0pKCvI6Pcg+JCaqlCQjAEi4MwpWrWy0iBZVSCUhsmzDLF0VJny7NIfQHKpbeFHx7b+j4
+ d/TC6IUJ/NfkhHLAcDW+A8eSh5j5DrwvtnTGnOOzK55EFPo1CtFE/LpeWnNXn3MryyYk
+ JoOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QzyGkWHBsC8iwqqYrL53qax56ZVFreNZRL50avlkUeQ=;
+ b=pm/mbzDEu4h0lwA58skZlFSL79KVmEpF/WftmljvM4drGrFS3/DoPh1URcqGwNYifh
+ JKhlqqibPFiHVlWyoj7JMCi3owjGXAJcBru6puTHHdkxNUBqB0UrcDm/27LpvyOOQE4w
+ mLQ4+lCPA3Mo2DQD3zqWi3J06UyVfSilEDLzL6HDgjrWgi8ulsCinb5QyCIQFPZEZzpL
+ cHKMU6V0OPloyQEpg9uUglzlg4MtsOfY24MjKAoZZiKee5+E0rcDpJgNJxgYFhpqgbxK
+ gsIy0LSOKeA1xo34a9K8r9dXx+ovsgtP6xvlcltK+9sxnY9OxaMlnFQyVOCH/SI5hyvH
+ jLmg==
+X-Gm-Message-State: AOAM533woS6Wn/7rqJ1grtAOa32l0b2O4EVKQHpfhAIJ33Cg5K9wd+Js
+ sd7gyZO2i9y4wJF3j4wY7MyXSDAlTw67VGJFgMt96w==
+X-Google-Smtp-Source: ABdhPJzTTVF0LMtqB7IiiBj/1Ki11mTTE/puPEdQ2e7XpYv5/Ci060TUb2vcGBN10IwZfPPlArgHIW6gAXYe+zbxl8w=
+X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
+ m125-20020a0dfc83000000b002e5b0f4c125mr5679212ywf.347.1647524314829; Thu, 17
+ Mar 2022 06:38:34 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220317050538.924111-1-richard.henderson@linaro.org>
+ <20220317050538.924111-2-richard.henderson@linaro.org>
+In-Reply-To: <20220317050538.924111-2-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Mar 2022 13:38:23 +0000
+Message-ID: <CAFEAcA-WTAjYGnb0-cDLEa+XJYDLRV4cctQu=VHshXc48=ca5w@mail.gmail.com>
+Subject: Re: [PATCH for-7.1 v6 01/51] tcg: Fix indirect lowering vs
+ TCG_OPF_COND_BRANCH
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,93 +84,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Huth <thuth@redhat.com> writes:
-
-> On 17/03/2022 08.40, Markus Armbruster wrote:
->> Thomas Huth <thuth@redhat.com> writes:
->>=20
->>> On 16/03/2022 15.16, Markus Armbruster wrote:
->>>> Thomas Huth <thuth@redhat.com> writes:
->>>>
->>>>> On 16/03/2022 14.32, Philippe Mathieu-Daud=C3=A9 wrote:
->>>>>> On 16/3/22 14:24, Thomas Huth wrote:
->>>>>>> The vga_common_init() function currently cannot report errors to it=
-s
->>>>>>> caller. But in the following patch, we'd need this possibility, so
->>>>>>> let's change it to take an "Error **" as parameter for this.
->>>>>>>
->>>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-[...]
-
->>>> Historical reasons.  We deviated from GLib here only to find out that
->>>> the deviation leads to awkward code.  I flipped the guidance in commit
->>>> e3fe3988d7 "error: Document Error API usage rules" (2020-07-10).  A lo=
-t
->>>> of old code remains.
->>>
->>> Hmm, you should add some BiteSizeTasks to our issue tracker then to
->>> get this fixed, otherwise people like me will copy-n-paste the bad
->>> code examples that are all over the place!
->>
->> I'm not sure the issue tracker is a good fit here.  An issue tracker
->> works best when you use it to track units of work that can be completed
->> in one go.  An issue then tracks progress of its unit of work.
+On Thu, 17 Mar 2022 at 05:09, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> That's why I wrote "*some* BiteSizeTasks", not "one BitSizeTask"
-> ... of course you've got to break it down for unexperienced new
-> developers first, e.g. by subsystem. I did that for example for the
-> indentation clean up tasks:
+> With TCG_OPF_COND_BRANCH, we extended the lifetimes of
+> globals across extended basic blocks.  This means that
+> the liveness computed in pass 1 does not kill globals
+> in the same way as normal temps.
 >
->  https://gitlab.com/qemu-project/qemu/-/issues/376
->  https://gitlab.com/qemu-project/qemu/-/issues/371
->  https://gitlab.com/qemu-project/qemu/-/issues/372
-
-Okay, I get you now.
-
-When I flipped the guidance, I also updated a substantial amount of code
-to honor the rule:
-
-    Subject: [PATCH v4 00/45] Less clumsy error checking
-    Date: Tue,  7 Jul 2020 18:05:28 +0200
-
-    [...]
-
-    This series adopts the GError rule (in writing), and updates a
-    substantial amount of code to honor the rule.  Cuts the number of
-    error_propagate() calls nearly by half.  The diffstat speaks for
-    itself.
-
-    https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg02580.html
-
-The "substantial amount of code" were a few subsystems with many, many
-callers.  What remains, as far as I can tell, is many functions with few
-callers each.
-
-If I run into a bite-sized conversion task I'd like a volunteer to
-tackle, I should file an issue for it.
-
-But collecting the everything to be converted, then partitioning it into
-sane parts (*many* parts), then creating an issue for each, is not going
-to happen.  Nobody got time for that.
-
->> This isn't a unit, it's more like a class of units.
->> I added an item to https://wiki.qemu.org/ToDo/CodeTransitions for
->> now.
+> Introduce TYPE_EBB to match this lifetime, so that we
+> get correct register allocation for the temps that we
+> introduce during the indirect lowering pass.
 >
-> Thanks, but I doubt that this will help much - the description is
-> really terse, and for anybody who is not involved in this email thread
-> here, I guess it's hard for them to figure out the related parts in
-> the include/qapi/error.h on their own ... so if you really want
-> somebody else to work on this topic, I think you have to elaborate
-> there a little bit (e.g. by giving an example in-place).
+> Fixes: b4cb76e6208 ("tcg: Do not kill globals at conditional branches")
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/tcg/tcg.h |  2 ++
+>  tcg/tcg.c         | 10 ++++++++++
+>  2 files changed, 12 insertions(+)
+>
+> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+> index 73869fd9d0..27de13fae0 100644
+> --- a/include/tcg/tcg.h
+> +++ b/include/tcg/tcg.h
+> @@ -433,6 +433,8 @@ typedef enum TCGTempVal {
+>  typedef enum TCGTempKind {
+>      /* Temp is dead at the end of all basic blocks. */
+>      TEMP_NORMAL,
+> +    /* Temp is live across conditional branch, but dead otherwise. */
+> +    TEMP_EBB,
+>      /* Temp is saved across basic blocks but dead at the end of TBs. */
+>      TEMP_LOCAL,
+>      /* Temp is saved across both basic blocks and translation blocks. */
 
-"as explained in include/qapi/error.h" points to the full explanation,
-which includes examples.
+Maybe add an assert() in tcg_temp_free_internal() that ts->kind is
+not TEMP_EBB ?  (This was about the only place in the file that
+does different things based on ts->kind that you haven't added
+TEMP_EBB handling for.)
 
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 33a97eabdb..45030e88fd 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -1674,6 +1674,7 @@ static void tcg_reg_alloc_start(TCGContext *s)
+>          case TEMP_GLOBAL:
+>              break;
+>          case TEMP_NORMAL:
+> +        case TEMP_EBB:
+>              val = TEMP_VAL_DEAD;
+>              /* fall through */
+>          case TEMP_LOCAL:
+> @@ -1701,6 +1702,9 @@ static char *tcg_get_arg_str_ptr(TCGContext *s, char *buf, int buf_size,
+>      case TEMP_LOCAL:
+>          snprintf(buf, buf_size, "loc%d", idx - s->nb_globals);
+>          break;
+> +    case TEMP_EBB:
+> +        snprintf(buf, buf_size, "ebb%d", idx - s->nb_globals);
+> +        break;
+>      case TEMP_NORMAL:
+>          snprintf(buf, buf_size, "tmp%d", idx - s->nb_globals);
+>          break;
+> @@ -2378,6 +2382,7 @@ static void la_bb_end(TCGContext *s, int ng, int nt)
+>              state = TS_DEAD | TS_MEM;
+>              break;
+>          case TEMP_NORMAL:
+> +        case TEMP_EBB:
+>          case TEMP_CONST:
+>              state = TS_DEAD;
+>              break;
+> @@ -2427,6 +2432,7 @@ static void la_bb_sync(TCGContext *s, int ng, int nt)
+>          case TEMP_NORMAL:
+>              s->temps[i].state = TS_DEAD;
+>              break;
+> +        case TEMP_EBB:
+>          case TEMP_CONST:
+>              continue;
+>          default:
+
+The comment on la_bb_sync() needs updating:
+
+/*
+ * liveness analysis: conditional branch: all temps are dead
+ * unless explicitly live-across-conditional-branch, globals
+ * and local temps should be synced.
+ */
+
+
+> @@ -2797,6 +2803,7 @@ static bool liveness_pass_2(TCGContext *s)
+>              TCGTemp *dts = tcg_temp_alloc(s);
+>              dts->type = its->type;
+>              dts->base_type = its->base_type;
+> +            dts->kind = TEMP_EBB;
+>              its->state_ptr = dts;
+>          } else {
+>              its->state_ptr = NULL;
+> @@ -3107,6 +3114,7 @@ static void temp_free_or_dead(TCGContext *s, TCGTemp *ts, int free_or_dead)
+>          new_type = TEMP_VAL_MEM;
+>          break;
+>      case TEMP_NORMAL:
+> +    case TEMP_EBB:
+>          new_type = free_or_dead < 0 ? TEMP_VAL_MEM : TEMP_VAL_DEAD;
+>          break;
+>      case TEMP_CONST:
+> @@ -3353,6 +3361,7 @@ static void tcg_reg_alloc_bb_end(TCGContext *s, TCGRegSet allocated_regs)
+>              temp_save(s, ts, allocated_regs);
+>              break;
+>          case TEMP_NORMAL:
+> +        case TEMP_EBB:
+>              /* The liveness analysis already ensures that temps are dead.
+>                 Keep an tcg_debug_assert for safety. */
+>              tcg_debug_assert(ts->val_type == TEMP_VAL_DEAD);
+> @@ -3390,6 +3399,7 @@ static void tcg_reg_alloc_cbranch(TCGContext *s, TCGRegSet allocated_regs)
+>          case TEMP_NORMAL:
+>              tcg_debug_assert(ts->val_type == TEMP_VAL_DEAD);
+>              break;
+> +        case TEMP_EBB:
+>          case TEMP_CONST:
+>              break;
+>          default:
+
+Similarly, the comment above tcg_reg_alloc_cbranch() now should
+say "all temporaries are dead unless explicitly
+live-across-conditional-branch".
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+(though review from somebody more familiar with the TCG internals
+than me would still be useful I think)
+
+thanks
+-- PMM
 
