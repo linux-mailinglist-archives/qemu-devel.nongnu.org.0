@@ -2,94 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63614DC3FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 11:32:04 +0100 (CET)
-Received: from localhost ([::1]:38632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6A64DC416
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 11:37:51 +0100 (CET)
+Received: from localhost ([::1]:46544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUnQJ-0007B6-L0
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 06:32:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48190)
+	id 1nUnVu-0004SQ-H0
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 06:37:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnKG-0004oT-92
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:25:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38249)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnMd-0006Fo-20
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:28:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnJz-0006gi-DZ
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:25:34 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUnMb-00075N-Bl
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 06:28:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647512729;
+ s=mimecast20190719; t=1647512892;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XGG8rvCrV+8/PCXSnG6WpmWatMvBbqv6cpcqUX6jBVs=;
- b=X5zSvyZJit+buDpioEyxCuRR+lblLTp5V3XSkTU1tFuREzKDKyGfh3FWzXAGCIiwx1L3Im
- 7j7DiN4GOplrQJGaCeUNunSzX8PUtWGcPAY74AZ8DYCk+s2KM7Pv9O+yfK0Z8UZ03gdrA1
- 87r6T6b3y6L2fqNbDxDOxSyjqkYCXEo=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+fFDP+4thfRwxVNCGalOhBSo58U2R1MrvBaCKf9ziO4=;
+ b=BzLcUXCKLrcSg4vqHIY/PrfTsQfaNPlVo/DhXPsed0Y7p5agfZ7L4UJTdP+obLnRyTgdR5
+ U9gtIZfbT7HBLono8MHQZkSvgOhxvcYOyTrkHoKL60sfVIw3qVD2PDDriZiaUpTzbquspH
+ 97iv8z6SwmLLD2Utl0j1msURzYOl62U=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-327-bGtMVwpeMSmSH5PBIn3eCw-1; Thu, 17 Mar 2022 06:25:27 -0400
-X-MC-Unique: bGtMVwpeMSmSH5PBIn3eCw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- w15-20020a50c44f000000b00418f00014f8so1731722edf.18
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 03:25:26 -0700 (PDT)
+ us-mta-634-dZfvXLKOOWyh_z4Uh1SCIQ-1; Thu, 17 Mar 2022 06:28:11 -0400
+X-MC-Unique: dZfvXLKOOWyh_z4Uh1SCIQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 11-20020a50874b000000b004186b7c1252so2853756edv.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 03:28:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=XGG8rvCrV+8/PCXSnG6WpmWatMvBbqv6cpcqUX6jBVs=;
- b=CDE1xjz+YknC8K5ogzg+Yj04K9OHkWP9BGLXgrOxaOr+QW0h9x3hqIBmq2PxMJCis/
- v8aFYB9xMl4JYe9Szdgr1VuAngo7ogmsWtmkeh+ly13es+oHqjo8QBE2I3EFpSBPpT+I
- rNNklmFHijLIVc9OrI6QGW14+iBtIV5cHKHnF7L6H8KxBj9YYZBO+NNz/WbAXRqwtAiX
- k1IAa3GLpfsVyEeIYsLtjEDni+ZVlNCAnnKL5/e99tIIJf9M3DrBgtkMgYssDpIwN2Ci
- Bw/WTEYSRlQdi8MyX+i5bswvBSAWTvHXM3WJ27NOuikPvJQriCQQcsZEosLisC9ZB8gU
- gQrw==
-X-Gm-Message-State: AOAM533ph65vlWTplSXP4i/gajLCa86zcayD7bB5AWCn7GMK/bxtGxyv
- mFJcLME1tJ81c345XISr3gDM9HqFiUnLVIKyjOFHfQ8sQtbtR76aRpI9PEULfBTQteXCv3rRK4Y
- Sn/fWY2WR10M0o2E=
-X-Received: by 2002:a05:6402:5247:b0:416:cc5e:fc33 with SMTP id
- t7-20020a056402524700b00416cc5efc33mr3592368edd.398.1647512725795; 
- Thu, 17 Mar 2022 03:25:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyQaZoBz+D87M/IHn9l2vkCu5Yqt9wi7llkvmYnDrO2wjyCIoIrGAT0XYVBI7NuKHhP/V2j+Q==
-X-Received: by 2002:a05:6402:5247:b0:416:cc5e:fc33 with SMTP id
- t7-20020a056402524700b00416cc5efc33mr3592331edd.398.1647512725451; 
- Thu, 17 Mar 2022 03:25:25 -0700 (PDT)
+ bh=+fFDP+4thfRwxVNCGalOhBSo58U2R1MrvBaCKf9ziO4=;
+ b=KmutQOQnRfLT2mtHlYCzmM5m1vE1Is+43RXDsRq4q7DFtkrJCqmGYWOwMOmUiN74VN
+ hf+YjA1H5MCcGjUf6vJluPmK3Z07Oh4Ih+kAzJyjFu8RT8R1rC2DRc0ppj5gQ+Af2WlO
+ 2WqDgpYMNwU6QZfu7SkboVzjBKbGIFD2ehpbWXiLdVKbhqNbXVfBe6bUj6FhPIhsb4S9
+ Yr166Ieje2rt4f78mT0AmSPyS21mrtP+T9GmK8SYpIlllBJ9WeVrynqxpOOtN8xn+dnO
+ red5VpBUaU24tWIUmVFCLljuRfWBt1Yjzsg0IxlMjL3d+2cIKjmnDSOSC9QMVFy3Mnem
+ 4iYw==
+X-Gm-Message-State: AOAM533N/rjLeDYvwCCoAppTpKpEY452CRNbZ81YrRdGU9dJWwUTJpRa
+ R369joIBOam1MXWnoX1XVOV1BRnC7vo2g0P9H31AcIpSYormSnWvT6iT3lvynK7WO7RA3eoosV5
+ I+uOGTtUiLZF+miE=
+X-Received: by 2002:a17:906:2811:b0:6ce:eacf:5210 with SMTP id
+ r17-20020a170906281100b006ceeacf5210mr3892674ejc.618.1647512890377; 
+ Thu, 17 Mar 2022 03:28:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwkHK9EhGHa5LgjARWjLmFXR14wYuVxrotGdoQnT45aEHoXtTi0iBC+1vLLrWsXXWvOVGkfNg==
+X-Received: by 2002:a17:906:2811:b0:6ce:eacf:5210 with SMTP id
+ r17-20020a170906281100b006ceeacf5210mr3892653ejc.618.1647512890176; 
+ Thu, 17 Mar 2022 03:28:10 -0700 (PDT)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
  by smtp.gmail.com with ESMTPSA id
- f4-20020a170906738400b006df8b6787afsm1202702ejl.13.2022.03.17.03.25.24
+ qf2-20020a1709077f0200b006df742a3521sm2105531ejc.54.2022.03.17.03.28.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 03:25:25 -0700 (PDT)
-Message-ID: <e9b98326-1d20-b9fa-0756-42d0ab7f8466@redhat.com>
-Date: Thu, 17 Mar 2022 11:25:24 +0100
+ Thu, 17 Mar 2022 03:28:09 -0700 (PDT)
+Message-ID: <c1622285-d8f8-4a1c-3439-f00c6c646825@redhat.com>
+Date: Thu, 17 Mar 2022 11:28:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 4/5] iotests: make qemu_img raise on non-zero rc by
- default
+Subject: Re: [PATCH v3 3/5] iotests: Remove explicit checks for qemu_img() == 0
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20220308015728.1269649-1-jsnow@redhat.com>
- <20220308015728.1269649-5-jsnow@redhat.com>
+ <20220308015728.1269649-4-jsnow@redhat.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220308015728.1269649-5-jsnow@redhat.com>
+In-Reply-To: <20220308015728.1269649-4-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -111,157 +110,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 08.03.22 02:57, John Snow wrote:
-> re-write qemu_img() as a function that will by default raise a
-> VerboseProcessException (extended from CalledProcessException) on
-> non-zero return codes. This will produce a stack trace that will show
-> the command line arguments and return code from the failed process run.
-
-Why not qemu_img_pipe_and_status() as the central function where all 
-qemu-img calls go through?
-
-It seems like this makes qemu_img() a second version of 
-qemu_img_pipe_and_status(), which is a bit weird.
-
-(Or perhaps it should actually be qemu_tool_pipe_and_status() that 
-receives this treatment, with qemu-io functions just passing check=False 
-by default.)
-
-> Users that want something more flexible (there appears to be only one)
-> can use check=False and manage the return themselves. However, when the
-> return code is negative, the Exception will be raised no matter what.
-> This is done under the belief that there's no legitimate reason, even in
-> negative tests, to see a crash from qemu-img.
+> qemu_img() returning zero ought to be the rule, not the
+> exception. Remove all explicit checks against the condition in
+> preparation for making non-zero returns an Exception.
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
 > ---
->   tests/qemu-iotests/257        |  8 +++--
->   tests/qemu-iotests/iotests.py | 56 ++++++++++++++++++++++++++++++-----
->   2 files changed, 54 insertions(+), 10 deletions(-)
->
-> diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
-> index fb5359c581..e7e7a2317e 100755
-> --- a/tests/qemu-iotests/257
-> +++ b/tests/qemu-iotests/257
-> @@ -241,11 +241,13 @@ def compare_images(image, reference, baseimg=None, expected_match=True):
->       expected_ret = 0 if expected_match else 1
->       if baseimg:
->           qemu_img("rebase", "-u", "-b", baseimg, '-F', iotests.imgfmt, image)
-> -    ret = qemu_img("compare", image, reference)
-> +
-> +    sub = qemu_img("compare", image, reference, check=False)
-> +
->       log('qemu_img compare "{:s}" "{:s}" ==> {:s}, {:s}'.format(
->           image, reference,
-> -        "Identical" if ret == 0 else "Mismatch",
-> -        "OK!" if ret == expected_ret else "ERROR!"),
-> +        "Identical" if sub.returncode == 0 else "Mismatch",
-> +        "OK!" if sub.returncode == expected_ret else "ERROR!"),
->           filters=[iotests.filter_testfiles])
->   
->   def test_bitmap_sync(bsync_mode, msync_mode='bitmap', failure=None):
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-> index 508adade9e..ec4568b24a 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -37,9 +37,10 @@
->   
->   from contextlib import contextmanager
->   
-> +from qemu.aqmp.legacy import QEMUMonitorProtocol
->   from qemu.machine import qtest
->   from qemu.qmp import QMPMessage
-> -from qemu.aqmp.legacy import QEMUMonitorProtocol
-> +from qemu.utils import VerboseProcessError
->   
->   # Use this logger for logging messages directly from the iotests module
->   logger = logging.getLogger('qemu.iotests')
-> @@ -215,9 +216,49 @@ def qemu_img_pipe_and_status(*args: str) -> Tuple[str, int]:
->       return qemu_tool_pipe_and_status('qemu-img', full_args,
->                                        drop_successful_output=is_create)
->   
-> -def qemu_img(*args: str) -> int:
-> -    '''Run qemu-img and return the exit code'''
-> -    return qemu_img_pipe_and_status(*args)[1]
-> +def qemu_img(*args: str, check: bool = True, combine_stdio: bool = True
-> +             ) -> subprocess.CompletedProcess[str]:
-> +    """
-> +    Run qemu_img and return the status code and console output.
-> +
-> +    This function always prepends QEMU_IMG_OPTIONS and may further alter
-> +    the args for 'create' commands.
-> +
-> +    :param args: command-line arguments to qemu-img.
-> +    :param check: Enforce a return code of zero.
-> +    :param combine_stdio: set to False to keep stdout/stderr separated.
-> +
-> +    :raise VerboseProcessError:
-> +        When the return code is negative, or on any non-zero exit code
-> +        when 'check=True' was provided (the default). This exception has
-> +        'stdout', 'stderr', and 'returncode' properties that may be
-> +        inspected to show greater detail. If this exception is not
-> +        handled, the command-line, return code, and all console output
-> +        will be included at the bottom of the stack trace.
-> +
-> +    :return: a CompletedProcess. This object has args, returncode, and
-> +        stdout properties. If streams are not combined, it will also
-> +        have a stderr property.
-> +    """
-> +    full_args = qemu_img_args + qemu_img_create_prepare_args(list(args))
-> +
-> +    subp = subprocess.run(
-> +        full_args,
-> +        stdout=subprocess.PIPE,
-> +        stderr=subprocess.STDOUT if combine_stdio else subprocess.PIPE,
-> +        universal_newlines=True,
-> +        check=False
-> +    )
-> +
-> +    if check and subp.returncode or (subp.returncode < 0):
+>   tests/qemu-iotests/163                              |  9 +++------
+>   tests/qemu-iotests/216                              |  6 +++---
+>   tests/qemu-iotests/218                              |  2 +-
+>   tests/qemu-iotests/224                              | 11 +++++------
+>   tests/qemu-iotests/228                              | 12 ++++++------
+>   tests/qemu-iotests/257                              |  3 +--
+>   tests/qemu-iotests/258                              |  4 ++--
+>   tests/qemu-iotests/310                              | 13 ++++++-------
+>   tests/qemu-iotests/tests/block-status-cache         |  3 +--
+>   tests/qemu-iotests/tests/graph-changes-while-io     |  7 +++----
+>   tests/qemu-iotests/tests/image-fleecing             | 10 +++++-----
+>   tests/qemu-iotests/tests/mirror-ready-cancel-error  |  6 ++----
+>   tests/qemu-iotests/tests/mirror-top-perms           |  3 +--
+>   tests/qemu-iotests/tests/remove-bitmap-from-backing |  8 ++++----
+>   tests/qemu-iotests/tests/stream-error-on-reset      |  4 ++--
+>   15 files changed, 45 insertions(+), 56 deletions(-)
 
-I wouldn’t expect these parentheses here in any other language, are they 
-required in Python?
-
-> +        raise VerboseProcessError(
-> +            subp.returncode, full_args,
-> +            output=subp.stdout,
-> +            stderr=subp.stderr,
-> +        )
-
-I trust these parameters are correct, because it really sometimes seems 
-like Python doc doesn’t want to tell me about the arguments that 
-constructors take.  (The only thing I found out is that `stdout` works 
-as an alias for `output`, so passing `output` here and reading 
-`self.stdout` in `VerboseProcesError` should(tm) be fine.)
-
-Hanna
-
-> +
-> +    return subp
-> +
->   
->   def ordered_qmp(qmsg, conv_keys=True):
->       # Dictionaries are not ordered prior to 3.6, therefore:
-> @@ -232,7 +273,7 @@ def ordered_qmp(qmsg, conv_keys=True):
->           return od
->       return qmsg
->   
-> -def qemu_img_create(*args):
-> +def qemu_img_create(*args: str) -> subprocess.CompletedProcess[str]:
->       return qemu_img('create', *args)
->   
->   def qemu_img_measure(*args):
-> @@ -467,8 +508,9 @@ def qemu_nbd_popen(*args):
->   
->   def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
->       '''Return True if two image files are identical'''
-> -    return qemu_img('compare', '-f', fmt1,
-> -                    '-F', fmt2, img1, img2) == 0
-> +    res = qemu_img('compare', '-f', fmt1,
-> +                   '-F', fmt2, img1, img2, check=False)
-> +    return res.returncode == 0
->   
->   def create_image(name, size):
->       '''Create a fully-allocated raw image with sector markers'''
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
