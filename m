@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2BA5248DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 11:24:19 +0200 (CEST)
-Received: from localhost ([::1]:49796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03748524942
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 May 2022 11:40:05 +0200 (CEST)
+Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1np53R-00074O-LJ
-	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 05:24:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59758)
+	id 1np5Ih-0007p7-9l
+	for lists+qemu-devel@lfdr.de; Thu, 12 May 2022 05:40:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1np4bN-0003ct-1t; Thu, 12 May 2022 04:55:17 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:45248)
+ id 1np4bL-0003cq-NX; Thu, 12 May 2022 04:55:17 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:45250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1np4bK-0001Zn-6x; Thu, 12 May 2022 04:55:16 -0400
+ id 1np4bK-0001Zs-5g; Thu, 12 May 2022 04:55:15 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id B558911EF1B;
+ by mail-b.sr.ht (Postfix) with ESMTPSA id DA09611EF56;
  Thu, 12 May 2022 08:55:12 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
-Date: Thu, 17 Mar 2022 01:38:39 -0700
-Subject: [PATCH qemu v3 03/10] target/riscv: rvv: Add mask agnostic for vx
- instructions
-Message-ID: <165234571195.20102.85010942779919381-3@git.sr.ht>
+Date: Thu, 17 Mar 2022 01:43:10 -0700
+Subject: [PATCH qemu v3 04/10] target/riscv: rvv: Add mask agnostic for vector
+ integer shift instructions
+Message-ID: <165234571195.20102.85010942779919381-4@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <165234571195.20102.85010942779919381-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
@@ -66,52 +66,59 @@ Signed-off-by: eop Chen <eop.chen@sifive.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 2 ++
- target/riscv/vector_helper.c            | 3 +++
- 2 files changed, 5 insertions(+)
+ target/riscv/insn_trans/trans_rvv.c.inc | 1 +
+ target/riscv/vector_helper.c            | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_tran=
 s/trans_rvv.c.inc
-index 325c5120d4..9558c6edbf 100644
+index 9558c6edbf..e41e85f4f0 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -1306,6 +1306,7 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint=
-32_t vs2, uint32_t vm,
-     data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
-     data =3D FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s);
-+    data =3D FIELD_DP32(data, VDATA, VMA, s->vma);
-     desc =3D tcg_constant_i32(simd_desc(s->cfg_ptr->vlen / 8,
-                                       s->cfg_ptr->vlen / 8, data));
-=20
-@@ -1473,6 +1474,7 @@ static bool opivi_trans(uint32_t vd, uint32_t imm, uint=
-32_t vs2, uint32_t vm,
-     data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
-     data =3D FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s);
-+    data =3D FIELD_DP32(data, VDATA, VMA, s->vma);
-     desc =3D tcg_constant_i32(simd_desc(s->cfg_ptr->vlen / 8,
-                                       s->cfg_ptr->vlen / 8, data));
-=20
+@@ -1906,6 +1906,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a) =
+            \
+         data =3D FIELD_DP32(data, VDATA, VM, a->vm);                 \
+         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
+         data =3D FIELD_DP32(data, VDATA, VTA, s->vta);               \
++        data =3D FIELD_DP32(data, VDATA, VMA, s->vma);               \
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
+                            vreg_ofs(s, a->rs1),                    \
+                            vreg_ofs(s, a->rs2), cpu_env,           \
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index a92d7dbd3c..d3da1acc0d 100644
+index d3da1acc0d..2d3fcaefc9 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -898,10 +898,13 @@ static void do_vext_vx(void *vd, void *v0, target_long =
-s1, void *vs2,
-     uint32_t vl =3D env->vl;
-     uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);
-     uint32_t vta =3D vext_vta(desc);
-+    uint32_t vma =3D vext_vma(desc);
-     uint32_t i;
-=20
-     for (i =3D env->vstart; i < vl; i++) {
-         if (!vm && !vext_elem_mask(v0, i)) {
-+            /* set masked-off elements to 1s */
-+            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);
-             continue;
-         }
-         fn(vd, s1, vs2, i);
+@@ -1297,10 +1297,13 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,     =
+                     \
+     uint32_t esz =3D sizeof(TS1);                                           \
+     uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          \
+     uint32_t vta =3D vext_vta(desc);                                        \
++    uint32_t vma =3D vext_vma(desc);                                        \
+     uint32_t i;                                                           \
+                                                                           \
+     for (i =3D env->vstart; i < vl; i++) {                                  \
+         if (!vm && !vext_elem_mask(v0, i)) {                              \
++            /* set masked-off elements to 1s */                           \
++            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);           \
+             continue;                                                     \
+         }                                                                 \
+         TS1 s1 =3D *((TS1 *)vs1 + HS1(i));                                  \
+@@ -1338,10 +1341,14 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1=
+,      \
+     uint32_t total_elems =3D                                  \
+         vext_get_total_elems(env, desc, esz);               \
+     uint32_t vta =3D vext_vta(desc);                          \
++    uint32_t vma =3D vext_vma(desc);                          \
+     uint32_t i;                                             \
+                                                             \
+     for (i =3D env->vstart; i < vl; i++) {                    \
+         if (!vm && !vext_elem_mask(v0, i)) {                \
++            /* set masked-off elements to 1s */             \
++            vext_set_elems_1s(vd, vma, i * esz,             \
++                              (i + 1) * esz);               \
+             continue;                                       \
+         }                                                   \
+         TS2 s2 =3D *((TS2 *)vs2 + HS2(i));                    \
 --=20
 2.34.2
 
