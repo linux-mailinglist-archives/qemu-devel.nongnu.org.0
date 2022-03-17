@@ -2,99 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B62C4DC98A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 16:04:27 +0100 (CET)
-Received: from localhost ([::1]:44784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B1E4DC9A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 16:10:47 +0100 (CET)
+Received: from localhost ([::1]:51194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUrft-0004Qd-R0
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 11:04:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36722)
+	id 1nUrm2-0001Dj-2q
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 11:10:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nUrDT-0001He-EB
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:35:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21003)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUrTR-0007N2-Pn
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:51:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nUrDP-0001Vd-Nl
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:35:01 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUrTP-0004Pm-D9
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:51:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647527698;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1647528690;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6n4y9hEBD5o3MsbkSN8vCJn/ITjJz4WS9pHtIyWkuCw=;
- b=NnWpTgXs/fKHgSweft4KYfOs6AQdkHkCikw753RsfSlgWle9hxkP8x9zGYhlBa3pDDgW4y
- +P5RjrpLdM9HL7bQ96wVdIEdfXjag+UCrcHmkwqiiBISaelok17Yvb76kCiRuyhOOQgKqb
- aGkluaq91YiBJ0j6lzuCHO3cXa1g4gU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=w/QdTe1wWjtvUBYIMxgFyGKi6U5aXAbdsH4+QdctGR4=;
+ b=Qo6SG0I5HGvAaLYc1jM92hIN9j7drgb1+Hifp2dN4tyjpmWbA7YFGRGF6jOgM7RGfyYKre
+ oV8F82h2UtUUVvtIXqldq5Qf7c/2apvtj60LjRZCTkx20uGb1iknfXtzlt79xrFgxBOLcD
+ JLkVUs7pYMAgtqeAfq7zJzDso6sHh9A=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-jjQY_wboMtWDjm3ULAeBNQ-1; Thu, 17 Mar 2022 10:34:57 -0400
-X-MC-Unique: jjQY_wboMtWDjm3ULAeBNQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k41-20020a05600c1ca900b00389a2b983efso1716737wms.4
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 07:34:57 -0700 (PDT)
+ us-mta-417-HHRUSkytPXmjVkl9gUVw2g-1; Thu, 17 Mar 2022 10:51:29 -0400
+X-MC-Unique: HHRUSkytPXmjVkl9gUVw2g-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ d7-20020a1709061f4700b006bbf73a7becso3039940ejk.17
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 07:51:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=6n4y9hEBD5o3MsbkSN8vCJn/ITjJz4WS9pHtIyWkuCw=;
- b=sqijAHPCysfO8ycU4F99soC/VV11TxjnENRsnQGz2y+2+SYgm8ch3jaln3fAcdXQhj
- 395dpOL7LsymFI7XnY7Mlol9wofm5wA5LzxqAOWCVhdKcJb8GsaiEg5wlcfWdVdKZNea
- LADRdRhFOBx7XYJzpnd9BV/RXGsUj4yTBzcRjMXmohEq3sbfn6MRlF4Wq5JtHFUnc2zc
- LvqZ2SiYKLeegSGs8LEwzT/vhVKQojMcmtKFJYgrWYF1z4Woa0WYIsbl8ch3w7jiPRL6
- Bi900pX6Kzb5eVG7o2vgFnr3Y4wc/GwfJ1ySqfX5UULDfehaCILjGkRSZ25W8z5pod17
- Y2rA==
-X-Gm-Message-State: AOAM532kh5bmF7vZGGL0zEIQ+zKKPkmwKMh16kpWc8PYQIYZFv43b52B
- VAWOQeaNnpivYJiIp9YHKUyC5/7Tj3+eZ1ddBhUlx21KzNZubYr5Nc1pqoGWyj7RL1vm/AeSI4R
- WUxOJwMWef66cZ4M=
-X-Received: by 2002:adf:e78a:0:b0:203:8acf:4a65 with SMTP id
- n10-20020adfe78a000000b002038acf4a65mr4319278wrm.660.1647527696107; 
- Thu, 17 Mar 2022 07:34:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxpp7CC8tonrbWZRff7HzMDOQTJDlbddWVpWOD+032khq/OxAzSyEgAsRF91YRtqspxtRoG2Q==
-X-Received: by 2002:adf:e78a:0:b0:203:8acf:4a65 with SMTP id
- n10-20020adfe78a000000b002038acf4a65mr4319257wrm.660.1647527695819; 
- Thu, 17 Mar 2022 07:34:55 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=w/QdTe1wWjtvUBYIMxgFyGKi6U5aXAbdsH4+QdctGR4=;
+ b=QusKtqrigGFFyXUnj5MiLwjIQEDNIdc7VCW2vB/TPRGZr5D6fpoha7AlrXQg1Yqdg7
+ nIQfC27TM5SJTSsmWFQyl/GR9CUTsO0bqEL5d3uXiCoGmINhxywJGdo/rEQpa607rubM
+ nilFpGu9Lp2AKbXQ2vIdb/f7a56BED238x1tfqtJB2JUtleWG/jcQKsOxs1oN2WizJL/
+ H/nFC2kYfDHHokzgjQkv+Ge0IEHeekW8M03lnEghP0O8G+WKJx92QU2xLjjR4BcM5/tM
+ Ra+/C+nXak/qNKKwIxdaaKEH8azg4XmVInOV0/lsoQHrqRONN93wptl+MKHZ1sc/xQHh
+ b7jg==
+X-Gm-Message-State: AOAM530P9irSSpDafxcNUsEot54A9Ro7Gu4osqA/BKYSpsGfra8ZIUL4
+ /0BdFBeoGOw5QgGtcUGmSgcBvnHBZBz0bFQ5a5P2N66Wo8PCrqhsjD19nYZFzO/dF8FNUb/9ASa
+ 4AYSMyfydfKRjilA=
+X-Received: by 2002:a17:906:9c81:b0:6df:78a0:fb37 with SMTP id
+ fj1-20020a1709069c8100b006df78a0fb37mr4950118ejc.703.1647528688048; 
+ Thu, 17 Mar 2022 07:51:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxaFhw1uNeMLWR41Ip3pkggKwqEZApGi87pGd7NTABGnFtPTTrhM67Yw+NOBlOEVOZbP/Rtow==
+X-Received: by 2002:a17:906:9c81:b0:6df:78a0:fb37 with SMTP id
+ fj1-20020a1709069c8100b006df78a0fb37mr4950076ejc.703.1647528687605; 
+ Thu, 17 Mar 2022 07:51:27 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
  by smtp.gmail.com with ESMTPSA id
- p22-20020a1c5456000000b00389a558670fsm7672037wmi.11.2022.03.17.07.34.54
+ y14-20020a056402440e00b00416046b623csm3012843eda.2.2022.03.17.07.51.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 07:34:55 -0700 (PDT)
-Subject: Re: [PATCH for-7.1] vfio/common: remove spurious tpm-crb-cmd
- misalignment warning
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20220316202951.294860-1-eric.auger@redhat.com>
- <20220316170818.5b4f0032.alex.williamson@redhat.com>
- <826be3d2-8403-5d8f-9eee-f58b15bc1c32@redhat.com>
- <20220317082315.0a293120.alex.williamson@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <0ea966f3-d53f-3a43-9d02-36f4907eb000@redhat.com>
-Date: Thu, 17 Mar 2022 15:34:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thu, 17 Mar 2022 07:51:27 -0700 (PDT)
+Message-ID: <887d60f2-7c5c-5d79-8cc7-8b21fd3b8373@redhat.com>
+Date: Thu, 17 Mar 2022 15:51:26 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220317082315.0a293120.alex.williamson@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 01/14] iotests: add qemu_img_json()
+To: John Snow <jsnow@redhat.com>
+References: <20220309035407.1848654-1-jsnow@redhat.com>
+ <20220309035407.1848654-2-jsnow@redhat.com>
+ <813e9265-1920-1caf-0d07-39b20c7bb944@redhat.com>
+ <CAFn=p-Z-jLo8XEZFuXHMYfEx+rRp7=3XDL08gBxXPuzAtp6yuA@mail.gmail.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <CAFn=p-Z-jLo8XEZFuXHMYfEx+rRp7=3XDL08gBxXPuzAtp6yuA@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -109,145 +105,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: peter.maydell@linaro.org, stefanb@linux.vnet.ibm.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On 17.03.22 15:42, John Snow wrote:
+>
+>
+> On Thu, Mar 17, 2022, 6:53 AM Hanna Reitz <hreitz@redhat.com> wrote:
+>
+>     On 09.03.22 04:53, John Snow wrote:
+>     > qemu_img_json() is a new helper built on top of qemu_img() that
+>     tries to
+>     > pull a valid JSON document out of the stdout stream.
+>     >
+>     > In the event that the return code is negative (the program
+>     crashed), or
+>     > the code is greater than zero and did not produce valid JSON
+>     output, the
+>     > VerboseProcessError raised by qemu_img() is re-raised.
+>     >
+>     > In the event that the return code is zero but we can't parse
+>     valid JSON,
+>     > allow the JSON deserialization error to be raised.
+>     >
+>     > Signed-off-by: John Snow <jsnow@redhat.com>
+>     > ---
+>     >   tests/qemu-iotests/iotests.py | 38
+>     +++++++++++++++++++++++++++++++++++
+>     >   1 file changed, 38 insertions(+)
+>     >
+>     > diff --git a/tests/qemu-iotests/iotests.py
+>     b/tests/qemu-iotests/iotests.py
+>     > index 7057db0686..546b142a6c 100644
+>     > --- a/tests/qemu-iotests/iotests.py
+>     > +++ b/tests/qemu-iotests/iotests.py
+>     > @@ -276,6 +276,44 @@ def ordered_qmp(qmsg, conv_keys=True):
+>     >   def qemu_img_create(*args: str) ->
+>     subprocess.CompletedProcess[str]:
+>     >       return qemu_img('create', *args)
+>     >
+>     > +def qemu_img_json(*args: str) -> Any:
+>     > +    """
+>     > +    Run qemu-img and return its output as deserialized JSON.
+>     > +
+>     > +    :raise CalledProcessError:
+>     > +        When qemu-img crashes, or returns a non-zero exit code
+>     without
+>     > +        producing a valid JSON document to stdout.
+>     > +    :raise JSONDecoderError:
+>     > +        When qemu-img returns 0, but failed to produce a valid
+>     JSON document.
+>     > +
+>     > +    :return: A deserialized JSON object; probably a dict[str, Any].
+>     > +    """
+>     > +    json_data = ...  # json.loads can legitimately return 'None'.
+>
+>     What kind of arcane sigil is this?
+>
+>
+> I may genuinely start referring to it as the Arcane Sigil.
 
-On 3/17/22 3:23 PM, Alex Williamson wrote:
-> On Thu, 17 Mar 2022 14:57:30 +0100
-> Eric Auger <eric.auger@redhat.com> wrote:
->
->> Hi Alex,
->>
->> On 3/17/22 12:08 AM, Alex Williamson wrote:
->>> On Wed, 16 Mar 2022 21:29:51 +0100
->>> Eric Auger <eric.auger@redhat.com> wrote:
->>>  
->>>> The CRB command buffer currently is a RAM MemoryRegion and given
->>>> its base address alignment, it causes an error report on
->>>> vfio_listener_region_add(). This region could have been a RAM device
->>>> region, easing the detection of such safe situation but this option
->>>> was not well received. So let's add a helper function that uses the
->>>> memory region name to recognize the region and detect the situation
->>>> is safe wrt assignment. Other regions can be listed here if such kind
->>>> of problem occurs again.
->>>>
->>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>>> ---
->>>>  hw/vfio/common.c     | 26 +++++++++++++++++++++++++-
->>>>  hw/vfio/trace-events |  1 +
->>>>  2 files changed, 26 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->>>> index 080046e3f51..b58a38f5c57 100644
->>>> --- a/hw/vfio/common.c
->>>> +++ b/hw/vfio/common.c
->>>> @@ -861,6 +861,22 @@ static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
->>>>      g_free(vrdl);
->>>>  }
->>>>  
->>>> +static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
->>>> +{
->>>> +    MemoryRegion *mr = section->mr;
->>>> +
->>>> +    if (strcmp(memory_region_name(mr), "tpm-crb-cmd") != 0) {
->>>> +        return false;
->>>> +    }  
->>> Hi Eric,
->>>
->>> I was thinking more along the lines that we could use
->>> memory_region_owner() to get the owning Object, then on
->>> that we could maybe use INTERFACE_CHECK to look for TYPE_MEMORY_DEVICE,
->>> then consider anything else optional.  (a) could something like that
->>> work and (b) do all required mappings currently expose that interface?
->>> Thanks,  
->> If I understand correctly you just want to error_report() misalignement
->> of MR sections belonging to
->>
->> TYPE_MEMORY_DEVICE devices and silence the rest? Is that a correct
->> understanding? I thought you wanted to be much more protective and
->> ignore misalignments on a case by case basis hence the white listing
->> of this single tpm-crb-cmd region.
-> Ah right, so I'm just slipping back into what we currently do, fail for
-> memory and warn on devices, which would be a generally reasonable long
-> term plan except people file bugs about those warnings.  Crud.
->
-> I guess I don't have a better idea than creating essentially an
-> exception list like this.  Do you think it's better to do the strcmp
-> for the specific memory region or would it maybe be sufficient to test
-> the owner object is TYPE_TPM_CRB?  Thanks,
-I asked myself the question and eventually chose to be more conservative
-with the granularity of the MR. Sometimes objects own several MRs and I
-wondered if some misalignments could be considered as safe while others
-unsafe, within the same object.  Nevertheless I don't have a strong
-opinion and will respin according to your preferencee.
+Be my guest.  Perhaps one should identify the most arcane sigil for 
+every language.  (My C vote goes to the ternary operator.)
 
-Thanks
+>
+>     I’m trying to read into it, but it seems like...  Well, I won’t
+>     swear on
+>     a public list.  As far as I understand, it’s just a special singleton
+>     object that you can use for whatever you think is an appropriate
+>     use for
+>     an ellipsis?  And so in this case you use it as a special singleton
+>     object that would never legitimately appear, to be separate from None?
+>
+>     You’re really, really good at making me hate Python a bit more with
+>     every series.
+>
+>
+> I aim to please.
+>
+> Yes, it's just Another Singleton That Isn't None, because technically 
+> a JSON document can be just "null". Will qemu_img() ever, ever print 
+> that single string all by itself?
 
-Eric
+Is there even any case where qemu returns anything but a JSON object?
+
+> Well, I hope not, but. I felt guilty not addressing that technicality 
+> somehow.
 >
-> Alex
 >
->>>> +
->>>> +    /* this is a known safe misaligned region, just trace for
->>>> debug purpose */
->>>> +    trace_vfio_known_safe_misalignment(memory_region_name(mr),
->>>> +
->>>> section->offset_within_address_space,
->>>> +
->>>> section->offset_within_region,
->>>> +                                       qemu_real_host_page_size);
->>>> +    return true;
->>>> +}
->>>> +
->>>>  static void vfio_listener_region_add(MemoryListener *listener,
->>>>                                       MemoryRegionSection *section)
->>>>  {
->>>> @@ -884,7 +900,15 @@ static void
->>>> vfio_listener_region_add(MemoryListener *listener, if
->>>> (unlikely((section->offset_within_address_space &
->>>> ~qemu_real_host_page_mask) != (section->offset_within_region &
->>>> ~qemu_real_host_page_mask))) {
->>>> -        error_report("%s received unaligned region", __func__);
->>>> +        if (!vfio_known_safe_misalignment(section)) {
->>>> +            error_report("%s received unaligned region %s
->>>> iova=0x%"PRIx64
->>>> +                         " offset_within_region=0x%"PRIx64
->>>> +                         " qemu_real_host_page_mask=0x%"PRIxPTR,
->>>> +                         __func__,
->>>> memory_region_name(section->mr),
->>>> +                         section->offset_within_address_space,
->>>> +                         section->offset_within_region,
->>>> +                         qemu_real_host_page_mask);
->>>> +        }
->>>>          return;
->>>>      }
->>>>  
->>>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
->>>> index 0ef1b5f4a65..6f38a2e6991 100644
->>>> --- a/hw/vfio/trace-events
->>>> +++ b/hw/vfio/trace-events
->>>> @@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start,
->>>> uint64_t end) "SKIPPING region_add vfio_spapr_group_attach(int
->>>> groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
->>>> vfio_listener_region_add_iommu(uint64_t start, uint64_t end)
->>>> "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
->>>> vfio_listener_region_add_ram(uint64_t iova_start, uint64_t
->>>> iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64"
->>>> [%p]" +vfio_known_safe_misalignment(const char *name, uint64_t
->>>> iova, uint64_t offset_within_region, uint64_t page_size) "Region
->>>> \"%s\" iova=0x%"PRIx64" offset_within_region=0x%"PRIx64"
->>>> qemu_real_host_page_mask=0x%"PRIxPTR ": cannot be mapped for DMA"
->>>> vfio_listener_region_add_no_dma_map(const char *name, uint64_t
->>>> iova, uint64_t size, uint64_t page_size) "Region \"%s\"
->>>> 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and
->>>> cannot be mapped for DMA" vfio_listener_region_del_skip(uint64_t
->>>> start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
->>>> vfio_listener_region_del(uint64_t start, uint64_t end) "region_del
->>>> 0x%"PRIx64" - 0x%"PRIx64  
+>     It also just doesn’t seem very useful to me in this case. I’m not
+>     sure
+>     whether this notation is widely known in the Python world, but I have
+>     only myself to go off of, and I was just very confused, so I would
+>     prefer not to have this in the code.
+>
+>
+> You're right, it's a bit too clever. I judged the 
+> cleverness:usefulness ratio poorly.
+>
+> (I think it's a trick that a lot of long time python people know, 
+> because sooner or later one wants to distinguish between an explicitly 
+> provided "None" and a default value that signifies "No argument 
+> provided". It's definitely a hack. It's not something most users would 
+> know.)
+
+I hope similarly to how א‎₀ and its companions exist[1], there are also 
+multiple instances of `...`, so one can succeed at handling cases where 
+a `...` is a valid return type.  I suggest just more dots.
+
+[1] hope I got that “HEBREW LETTER ALEF” “LEFT-TO-RIGHT MARK” sequence 
+right...
 
 
