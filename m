@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A04A4DC6E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 13:57:26 +0100 (CET)
-Received: from localhost ([::1]:45610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3824DC6E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 13:57:50 +0100 (CET)
+Received: from localhost ([::1]:46374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUpgz-0002jz-B5
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 08:57:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40752)
+	id 1nUphN-0003GB-7H
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 08:57:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUpfM-0001CZ-Kh
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 08:55:45 -0400
-Received: from [2607:f8b0:4864:20::631] (port=34392
- helo=mail-pl1-x631.google.com)
+ id 1nUpfU-0001KL-Sa
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 08:55:52 -0400
+Received: from [2607:f8b0:4864:20::102c] (port=38635
+ helo=mail-pj1-x102c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUpfK-0002Gx-DN
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 08:55:43 -0400
-Received: by mail-pl1-x631.google.com with SMTP id i11so3673392plr.1
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 05:55:42 -0700 (PDT)
+ id 1nUpfT-0002Hp-6x
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 08:55:52 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ mm4-20020a17090b358400b001c68e836fa6so950322pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 05:55:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GqXlUJkuH0iaG1Q/oyGeSK9t+hegh4yYA/Ip18kZVdw=;
- b=GqFQbpftSW2Cx/8yPqjWv91YDfPeRdXGnX9SiPbUEXAEWP/d0wZHdxqZZuyIO+yVl3
- y2v4dLtT3UTypzkejX3CoxkFjv15aC+ACu7whGiA7QOI36Afrl7Ch8OyOxDc1AwYgf4+
- hU7DU+Ch0apCCOW6Csfuq1YggZaH2fjDZ307I7boFbtXDwHs+oNcfeRDDec06jHroLSn
- seNGMD3hUVShfdJAOiTLe6ViOs2MxlKwsqrv1El/JFedpLnQ12MzqD1Zw0zAwET0+yhA
- 35XfZ+vgIOMCZ4AXHmDrMmQh3+UCJSyvzy2cG+7F9IL61bME+4JItR0B+KZGrjZK93qP
- V3tg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=EV40ccb5NVkJ7QeeNSqB5ytxqShi3OnkSRljDHtQ9Yc=;
+ b=Key3WV4oY0+qeo5pFocDcepkX/CqMAWEOXe8s9UPHWtp2XfYFq0gfBeZ5MOxYIJspM
+ Px9NWJhRpmicqm192Nr1agpLD8NDw+N4pt/AJ63pcQkkHqB7YrXTcq5Ro4GpqXzgt2vT
+ w+jD6IIv6MWiswDQxJdgmb2pbhGYcBj3iuULEruptB7S4PS2xUjzLIquZ6xJ9TGPzcEd
+ 56jDp2mdfFgi/LS0wGnaSvbT2eNV8o4saqQqEz/4jRsUs8eURfpmJkeeWN4TTUh84P1V
+ minNJKZOqIi23nMBxnE9qLqMp0RvhWLxBqZ3+QQpqG1Ub++j0QCsSdHDuvlKPeXvFvkl
+ In4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GqXlUJkuH0iaG1Q/oyGeSK9t+hegh4yYA/Ip18kZVdw=;
- b=qPTPPYVIXb0+XHZMoXY3Hn650XucXGhJkc1KIdazNY6BGR1xMY8O5f1ni+MRoKlBbp
- FaaxGsWkCjdlZpAdDB7MtHoNKz8VcWSrn7If/pP4JOlDPXFhN8Y+glrz9knWlTSSIvTq
- mXf9zA5cFeiRJITW4GBKBA/MZi+I71jHDStDDk3zCsoMMHwBLiN2tG/pCKp3ebEKRJ2a
- kbLXog5u9cIh5kVB6oaQKRPdC5i54E7/xQqXYtE24Cj7ToVdLI8v06tC5JlCO3BGQFlV
- pTLVBDnSrhPRy6tl/NHsvvolD6X5WtoG4OOP4zguf/DVI5GRtWJ/en5yfEU43jsJq2oK
- Sm5g==
-X-Gm-Message-State: AOAM530AwX2uc5AALVQmRW2WyM2oniZNiPM4aULnc+XCFrZH3d+SUyqa
- Ju5GMVfSprfEROY6i3RiTXMh8dTbDHw=
-X-Google-Smtp-Source: ABdhPJy5GRWEjzcBYq8MQRqouCKFJzFz9YzB+bfg2VIo5QBtnPocqOvlTUx1+Zxh5rITflm+RPBOmg==
-X-Received: by 2002:a17:903:2281:b0:153:e056:f0f9 with SMTP id
- b1-20020a170903228100b00153e056f0f9mr4192222plh.32.1647521740859; 
- Thu, 17 Mar 2022 05:55:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=EV40ccb5NVkJ7QeeNSqB5ytxqShi3OnkSRljDHtQ9Yc=;
+ b=NYzaxQ/11Vcq5nMHgkw+kYLahyXkQEKDZcSsEj60MzYe7FzWrh364LyOcCBXfAnvi9
+ h9hJsYeUTR+12pqIeAbtA2m/OAWH5TUtbqDJ4ooGfnnwF6qSVtyJolGzQhsopwE/KgEI
+ 8LRNsXK1in5qts1Jh6Ql+iWLxXPvFzzGfzTwjbWfCY+ThjBD26y00gK2D+NVKxyHqgwj
+ +A3Di70wQdoPK+WL4nCXN+UTZzbMmTBp+O0CFuTYqpbb/yJ0WoicDZhD4+lcay/U5v4j
+ +XPkUCUsA7Hbw+y+vLeF2in8lj/SWSUgClKrcuLbI0LVsZ0PnhBG3CTL6TmK0/s5/E/b
+ /3SA==
+X-Gm-Message-State: AOAM533VrxE/Pf2iFzUCdKoDU1OBOjLUAWlIKQm2zT6ivOUJelqC/3J5
+ 9e+a5sLPK7JcYTv5EtGqun4yb+18e9U=
+X-Google-Smtp-Source: ABdhPJzDRhkV4pUekD5o0t//kO+L2EVtU4TYIRfM1pZr0mTryXr2yPlzWcPlz0EGO7g1rlotKELdHw==
+X-Received: by 2002:a17:903:120c:b0:14f:3f4a:f832 with SMTP id
+ l12-20020a170903120c00b0014f3f4af832mr4743832plh.157.1647521749554; 
+ Thu, 17 Mar 2022 05:55:49 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- c7-20020aa78e07000000b004f6e4d8ccc8sm6586224pfr.163.2022.03.17.05.55.38
+ d11-20020a056a0024cb00b004f725ecf900sm7169670pfv.97.2022.03.17.05.55.46
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 17 Mar 2022 05:55:40 -0700 (PDT)
+ Thu, 17 Mar 2022 05:55:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH-for-7.0 v4 0/2] cocoa: run qemu_init in the main thread
-Date: Thu, 17 Mar 2022 13:55:32 +0100
-Message-Id: <20220317125534.38706-1-philippe.mathieu.daude@gmail.com>
+Subject: [RFC PATCH-for-7.0 v4 1/2] ui/cocoa: Code movement
+Date: Thu, 17 Mar 2022 13:55:33 +0100
+Message-Id: <20220317125534.38706-2-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220317125534.38706-1-philippe.mathieu.daude@gmail.com>
+References: <20220317125534.38706-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x631.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,65 +101,146 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Posting v4 in case someone want to iterate.
+Pure code movement in preparation for the next commit.
 
-Pending issue raised by Akihiko Odaki:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ ui/cocoa.m | 86 +++++++++++++++++++++++++++---------------------------
+ 1 file changed, 43 insertions(+), 43 deletions(-)
 
-* this actually breaks the "runas" option with ui/cocoa.
-
-  [+NSApplication sharedApplication] calls issetugid() to see if
-  setgid() or setuid() is called before and calls exit() if it evaluates
-  true. It does not evaluate true without this patch since setgid() and
-  setuid() are called after [+NSApplication sharedApplication]. This
-  patch, however, changes the order and triggers the check.
-
-  There are two options to solve the problem:
-  1. Move setgid and setuid calls after [+NSApplication
-  sharedApplication] to let NSApplication initialize as the original
-  user.
-  2. Do: [[NSUserDefaults standardUserDefaults] setBool:YES
-  forKey:@"_NSAppAllowsNonTrustedUGID"]
-
-  Option 2 would be preferred in terms of practicality since nobody
-  would want to initialize NSApplication as the original user (usually
-  superuser). However, _NSAppAllowsNonTrustedUGID is not documented by
-  Apple.
-
-* Oudated comment in main():
-
- 1970  /*
- 1971   * Create the menu entries which depend on QEMU state (for consoles
- 1972   * and removeable devices). These make calls back into QEMU functions,
- 1973   * which is OK because at this point we know that the second thread
- 1974   * holds the iothread lock and is synchronously waiting for us to
- 1975   * finish.
- 1976   */
-
-(https://marc.info/?l=qemu-devel&m=164752136410805)
-
-Since v3:
-- Move qemu_event_init before cbowner alloc
-- Reduce main_thread scope to applicationDidFinishLaunching
-- Updated updateUIInfo() comment
-  (s/cocoa_display_init/applicationDidFinishLaunching)
-
-Since v2:
-- Extracted code movement in preliminary patch
-
-v3: https://lore.kernel.org/qemu-devel/20220317115644.37276-1-philippe.mathieu.daude@gmail.com/
-v2: https://lore.kernel.org/qemu-devel/20220316160300.85438-1-philippe.mathieu.daude@gmail.com/
-v1: https://lore.kernel.org/qemu-devel/20220307151004.578069-1-pbonzini@redhat.com/
-
-Paolo Bonzini (1):
-  ui/cocoa: run qemu_init in the main thread
-
-Philippe Mathieu-Daudé (1):
-  ui/cocoa: Code movement
-
- softmmu/main.c |  12 ++--
- ui/cocoa.m     | 161 ++++++++++++++++++++++---------------------------
- 2 files changed, 79 insertions(+), 94 deletions(-)
-
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index cb6e7c41dc..027c3053f7 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -75,6 +75,9 @@ typedef struct {
+     int height;
+ } QEMUScreen;
+ 
++@interface QemuCocoaPasteboardTypeOwner : NSObject<NSPasteboardTypeOwner>
++@end
++
+ static void cocoa_update(DisplayChangeListener *dcl,
+                          int x, int y, int w, int h);
+ 
+@@ -109,6 +112,8 @@ static bool allow_events;
+ 
+ static NSInteger cbchangecount = -1;
+ static QemuClipboardInfo *cbinfo;
++static QemuClipboardPeer cbpeer;
++static QemuCocoaPasteboardTypeOwner *cbowner;
+ static QemuEvent cbevent;
+ 
+ // Utility functions to run specified code block with iothread lock held
+@@ -142,6 +147,44 @@ static bool bool_with_iothread_lock(BoolCodeBlock block)
+     return val;
+ }
+ 
++/*
++ * The startup process for the OSX/Cocoa UI is complicated, because
++ * OSX insists that the UI runs on the initial main thread, and so we
++ * need to start a second thread which runs the vl.c qemu_main():
++ *
++ * Initial thread:                    2nd thread:
++ * in main():
++ *  create qemu-main thread
++ *  wait on display_init semaphore
++ *                                    call qemu_main()
++ *                                    ...
++ *                                    in cocoa_display_init():
++ *                                     post the display_init semaphore
++ *                                     wait on app_started semaphore
++ *  create application, menus, etc
++ *  enter OSX run loop
++ * in applicationDidFinishLaunching:
++ *  post app_started semaphore
++ *                                     tell main thread to fullscreen if needed
++ *                                    [...]
++ *                                    run qemu main-loop
++ *
++ * We do this in two stages so that we don't do the creation of the
++ * GUI application menus and so on for command line options like --help
++ * where we want to just print text to stdout and exit immediately.
++ */
++
++static void *call_qemu_main(void *opaque)
++{
++    int status;
++
++    COCOA_DEBUG("Second thread: calling qemu_main()\n");
++    status = qemu_main(gArgc, gArgv, *_NSGetEnviron());
++    COCOA_DEBUG("Second thread: qemu_main() returned, exiting\n");
++    [cbowner release];
++    exit(status);
++}
++
+ // Mac to QKeyCode conversion
+ static const int mac_to_qkeycode_map[] = {
+     [kVK_ANSI_A] = Q_KEY_CODE_A,
+@@ -1804,9 +1847,6 @@ static void addRemovableDevicesMenuItems(void)
+     qapi_free_BlockInfoList(pointerToFree);
+ }
+ 
+-@interface QemuCocoaPasteboardTypeOwner : NSObject<NSPasteboardTypeOwner>
+-@end
+-
+ @implementation QemuCocoaPasteboardTypeOwner
+ 
+ - (void)pasteboard:(NSPasteboard *)sender provideDataForType:(NSPasteboardType)type
+@@ -1841,8 +1881,6 @@ static void addRemovableDevicesMenuItems(void)
+ 
+ @end
+ 
+-static QemuCocoaPasteboardTypeOwner *cbowner;
+-
+ static void cocoa_clipboard_notify(Notifier *notifier, void *data);
+ static void cocoa_clipboard_request(QemuClipboardInfo *info,
+                                     QemuClipboardType type);
+@@ -1903,44 +1941,6 @@ static void cocoa_clipboard_request(QemuClipboardInfo *info,
+     }
+ }
+ 
+-/*
+- * The startup process for the OSX/Cocoa UI is complicated, because
+- * OSX insists that the UI runs on the initial main thread, and so we
+- * need to start a second thread which runs the vl.c qemu_main():
+- *
+- * Initial thread:                    2nd thread:
+- * in main():
+- *  create qemu-main thread
+- *  wait on display_init semaphore
+- *                                    call qemu_main()
+- *                                    ...
+- *                                    in cocoa_display_init():
+- *                                     post the display_init semaphore
+- *                                     wait on app_started semaphore
+- *  create application, menus, etc
+- *  enter OSX run loop
+- * in applicationDidFinishLaunching:
+- *  post app_started semaphore
+- *                                     tell main thread to fullscreen if needed
+- *                                    [...]
+- *                                    run qemu main-loop
+- *
+- * We do this in two stages so that we don't do the creation of the
+- * GUI application menus and so on for command line options like --help
+- * where we want to just print text to stdout and exit immediately.
+- */
+-
+-static void *call_qemu_main(void *opaque)
+-{
+-    int status;
+-
+-    COCOA_DEBUG("Second thread: calling qemu_main()\n");
+-    status = qemu_main(gArgc, gArgv, *_NSGetEnviron());
+-    COCOA_DEBUG("Second thread: qemu_main() returned, exiting\n");
+-    [cbowner release];
+-    exit(status);
+-}
+-
+ int main (int argc, char **argv) {
+     QemuThread thread;
+ 
 -- 
 2.34.1
 
