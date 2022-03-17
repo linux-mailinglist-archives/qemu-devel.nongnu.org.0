@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712C84DCB68
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 17:28:27 +0100 (CET)
-Received: from localhost ([::1]:55574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8184DCB77
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 17:31:45 +0100 (CET)
+Received: from localhost ([::1]:60364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUszB-00087K-Sv
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 12:28:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34004)
+	id 1nUt2O-0003DN-Pu
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 12:31:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUswR-0006iH-84
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 12:25:35 -0400
-Received: from [2607:f8b0:4864:20::b2d] (port=36780
- helo=mail-yb1-xb2d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUswM-0003zo-6i
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 12:25:32 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id f38so11212241ybi.3
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 09:25:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/1oh9zs/EKABTbVT/sL1101c/OQmJq6KooNBWajgnbY=;
- b=Fo08BvOc7nCygAXUrFFaulfi/I/QlGydZOUXnM+afRTL+8r1uLl4WDwvXyxN2JE9f6
- qrzSG48eyJXXrb/arZ8PJOQA5IZpWjUrKuMkcb6tlcXUGuH3m6jaOe0xjBMKhFpX3lQg
- SPr7adkmKyK4kQm3nBAwEg+71ylBsGU9kihzL8tqWhe7fIA36m8W9sn4LdolYTpi393f
- +33HFVcixNapVR9Elgmgf07FmJjEvD3UZc2aOLQLqRUl+S2d5cXBA8KreJOP8DzW+uYR
- 8/albY6yid2ruqwV1itsKlGAJRqN2Mmnxu3EXd9ojn0X5lzMyMPtzJqG4WAoFj/bEO2/
- MUQA==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nUsxc-0007yb-Vt
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 12:26:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nUsxa-0004Aq-0i
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 12:26:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647534405;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XRZzgPg79a1cSzBOAwtxcS65FO1PtFFdg/W31XKMDNQ=;
+ b=IBLEsT97Ep39Pl3sh5z7RKJbW0Evvri5zBhpcfJJg4B1XoQ+MUhs9ghOzhLwEYk9O8Q2Rc
+ RC/miY1lrQdlzSz6FzmCN0xp9EkiqXckHeRrRGeIxcM711N8ol3nzcTen8oui0/tYVWoQ3
+ MMaNjJU2aIPIZSp8njO7uh0BK8Wcsvk=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-455-YrtJx5Q9PCKreDHy2uy_sQ-1; Thu, 17 Mar 2022 12:26:44 -0400
+X-MC-Unique: YrtJx5Q9PCKreDHy2uy_sQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ a66-20020ae9e845000000b0067b308a9f56so3647676qkg.21
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 09:26:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/1oh9zs/EKABTbVT/sL1101c/OQmJq6KooNBWajgnbY=;
- b=1c1Xo/Pyan/KJyzU/jVl0uxUKR9bsqx7pNtTuHbHtobf0AqM8olsIQel7/dU7qJ6zU
- bCRIXQF+Q2FhBMWTRpg2jd2UBR5FVKUiirDaI1YeJm8q2zUiv70A8pWDMRAcN4DqNUIJ
- Sbnc25+/QCpQy7VKOWk4ch0HznIzV+yeOizqE9SwVAKOISeSWaG/FN9sg/2UdS6lAjin
- JJ6a2vr3J1qLbZ1ekCaEkdPUQp6ewt6HKFfi9SNXdH8IYyVUq7LdBRjGDZXo1KjdF/+W
- bxFgyqyVeaeK7lXtLcFBdtbqpzbyZroVhttZg6CDnPB4jRRtzNCg7uGW0g+ugmj2lV8M
- A9Ig==
-X-Gm-Message-State: AOAM533ag8jxJeb/bxqtGhrSQNpJ8z23Pz+mPSQih66nW0wQDwJ9RQgc
- xzopJBPizcGoVM1RXurEjuRnJ3QN/rlXMD095E2e9Q==
-X-Google-Smtp-Source: ABdhPJxhoemH/xeQBFpWGfEdIquJOAuUT5IbgU9kOgu0/Vzqa7rx3+P5gJgUvtgbJuUIEHpnGHblT8ZHeZ0wpjOV6k0=
-X-Received: by 2002:a25:cdc8:0:b0:633:8aa6:6a3 with SMTP id
- d191-20020a25cdc8000000b006338aa606a3mr5854961ybf.288.1647534327496; Thu, 17
- Mar 2022 09:25:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XRZzgPg79a1cSzBOAwtxcS65FO1PtFFdg/W31XKMDNQ=;
+ b=LQrl6Xys//J+p8Xu0aU7VfYPRKLmi/1JVGZq6JXdQPgP2ckwrhTJegR2mfo3nQ2rGy
+ JrNNAnUDTbTGsXhANsKMhyvM3xOVPuH9EnMmlb/oAOfTSfhnPnbs1HQtMMbn7Fo+OvY5
+ EjXPX5xwVS2gBfqNsvCh2AIzODV6J4B3n/uoX1r7M5PUJ6/imGpiqeFfeao+wgOWqfvl
+ nBk5u+Wn7rAUraulFqEh0BVAmZHYg8SwJujM9SCxVwFHltqj5TZpYjVVsxn6NXajytIe
+ m8suwYCFliicVYRuxEtuowTBc7S7b0K99wagJcR/ciXsoSnnRGESSIIiG6Re1T77ADe+
+ 7acA==
+X-Gm-Message-State: AOAM532ZCSl5KwlFPn/xeKNCAvxrJgPpbWaJWN1B1a4hi0II1xLfHCUi
+ xXs+0fwdggk4D2DGwM/IoIxyeG+rQeP2UDHjKgxU7MoagYVTGCyaxnPmuXHzNEGkr+GDKOntuoW
+ uBU0ttRRMawh/S2hR7F9XczfApT58+WXspoLXNpJNwt0qHEvDaOYXPWBrnhBao8psiPM=
+X-Received: by 2002:a05:622a:145:b0:2e1:b932:d019 with SMTP id
+ v5-20020a05622a014500b002e1b932d019mr4394267qtw.46.1647534403229; 
+ Thu, 17 Mar 2022 09:26:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxCKGDFTut7aUgL8Jl4CNUOKDRRcin0aE71dn3+WOGshQh2v19UTcqJGPV7WP0LFxbij30TJg==
+X-Received: by 2002:a05:622a:145:b0:2e1:b932:d019 with SMTP id
+ v5-20020a05622a014500b002e1b932d019mr4394240qtw.46.1647534402763; 
+ Thu, 17 Mar 2022 09:26:42 -0700 (PDT)
+Received: from step1.redhat.com (host-87-12-25-126.business.telecomitalia.it.
+ [87.12.25.126]) by smtp.gmail.com with ESMTPSA id
+ v1-20020a05620a440100b0067d3fc2eaa6sm2869986qkp.96.2022.03.17.09.26.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Mar 2022 09:26:41 -0700 (PDT)
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] block/rbd: fix write zeroes with growing images
+Date: Thu, 17 Mar 2022 17:26:38 +0100
+Message-Id: <20220317162638.41192-1-sgarzare@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220317050538.924111-1-richard.henderson@linaro.org>
- <20220317050538.924111-37-richard.henderson@linaro.org>
-In-Reply-To: <20220317050538.924111-37-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Mar 2022 16:25:15 +0000
-Message-ID: <CAFEAcA_hck2+FEREwKWFY-WmndUUvHByJD_0CRFfCm=qmFrkyA@mail.gmail.com>
-Subject: Re: [PATCH for-7.1 v6 36/51] target/nios2: Hoist set of is_jmp into
- gen_goto_tb
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,22 +97,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Peter Lieven <pl@kamp.de>, Hanna Reitz <hreitz@redhat.com>,
+ Ilya Dryomov <idryomov@gmail.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Mar 2022 at 05:40, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Rather than force all callers to set this, do it
-> within the subroutine.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/nios2/translate.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Commit d24f80234b ("block/rbd: increase dynamically the image size")
+added a workaround to support growing images (eg. qcow2), resizing
+the image before write operations that exceed the current size.
 
-thanks
--- PMM
+We recently added support for write zeroes and without the
+workaround we can have problems with qcow2.
+
+So let's move the resize into qemu_rbd_start_co() and do it when
+the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2020993
+Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+---
+ block/rbd.c | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
+
+diff --git a/block/rbd.c b/block/rbd.c
+index 8f183eba2a..6caf35cbba 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -1107,6 +1107,20 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
+ 
+     assert(!qiov || qiov->size == bytes);
+ 
++    if (cmd == RBD_AIO_WRITE || cmd == RBD_AIO_WRITE_ZEROES) {
++        /*
++         * RBD APIs don't allow us to write more than actual size, so in order
++         * to support growing images, we resize the image before write
++         * operations that exceed the current size.
++         */
++        if (offset + bytes > s->image_size) {
++            int r = qemu_rbd_resize(bs, offset + bytes);
++            if (r < 0) {
++                return r;
++            }
++        }
++    }
++
+     r = rbd_aio_create_completion(&task,
+                                   (rbd_callback_t) qemu_rbd_completion_cb, &c);
+     if (r < 0) {
+@@ -1182,18 +1196,6 @@ coroutine_fn qemu_rbd_co_pwritev(BlockDriverState *bs, int64_t offset,
+                                  int64_t bytes, QEMUIOVector *qiov,
+                                  BdrvRequestFlags flags)
+ {
+-    BDRVRBDState *s = bs->opaque;
+-    /*
+-     * RBD APIs don't allow us to write more than actual size, so in order
+-     * to support growing images, we resize the image before write
+-     * operations that exceed the current size.
+-     */
+-    if (offset + bytes > s->image_size) {
+-        int r = qemu_rbd_resize(bs, offset + bytes);
+-        if (r < 0) {
+-            return r;
+-        }
+-    }
+     return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_WRITE);
+ }
+ 
+-- 
+2.35.1
+
 
