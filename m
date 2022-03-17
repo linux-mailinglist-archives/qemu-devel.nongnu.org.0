@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D474DBE31
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 06:24:32 +0100 (CET)
-Received: from localhost ([::1]:33456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA59D4DBE29
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 06:22:12 +0100 (CET)
+Received: from localhost ([::1]:53396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUich-00076s-Bd
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 01:24:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51040)
+	id 1nUiaR-0001Lm-QX
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 01:22:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiKw-0001N2-DE
+ id 1nUiKx-0001N5-Bt
  for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:11 -0400
-Received: from [2607:f8b0:4864:20::1033] (port=55273
- helo=mail-pj1-x1033.google.com)
+Received: from [2607:f8b0:4864:20::435] (port=46849
+ helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiKu-0002Hn-RK
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:10 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id b8so3934345pjb.4
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 22:06:08 -0700 (PDT)
+ id 1nUiKv-0002Hs-Rr
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:11 -0400
+Received: by mail-pf1-x435.google.com with SMTP id s11so5848336pfu.13
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 22:06:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=c1gnsNdU+y7p35LQc37uO6M9rdhacpyrBQDCJlMzk6g=;
- b=lZQiZ3t+f905hUkYZY7elr21fcBUSiKuqZpWGjHMguPQNRjRnAN5zmAOro5Q4DlJst
- NcQfNqulMyCP2kqKpMPoBO/qOHgTA4Puy69JpLBGX7Q5Jzk/Rh6rUqDMTgPivqGxhTNp
- VaiF1rpuwm2lJiZf39saCCHnsdQdbn5J0n4+h0+bAlRh70ZtgT9e+Ic/ZJgeN/00jKYu
- UpwChxblZ6Uj36z25RN2tAPHgUdAnyor3bvl1xRUUGdtZer0CvmIPXUbwz00Av694iN6
- Q8qPC1Rz67iwPULUeeoc5TTVhXxL5uv13sHi7mKsOYvuIReztQ7jCcUwUvUv1sz0yUc8
- uYlg==
+ bh=1c7FByY8RueDOU9kVxB+CSgBA4nxhG+Xofet2o37MpM=;
+ b=I+JIv442p5jaHL4TAGlwZlm+2mqrWXMiSqfB/uw49ArZX5+jt0OehgMMSLAnBn2LWn
+ Op8nRfKPwXcDLfK9AKI/LuOvr7F04eZTABzEqLwyXKdCw8ElnmPT+Cro3xxcniwReuO4
+ Yp22YVcufsLZ6WYSIwd/Kmgu0zaUIxPAUChYynEoOGi1PdTUf4rFpFQVd4S7o+yHTted
+ U0+6zwx8sX5+30ap5LkH1V1TQmc9PP4eM/qrUZGz/3Mb4nClCdEG1/DHuHJzUIWiP4wU
+ wp97BC0lddj/LY9nG2VITEGG3z+77ZRH3nw/be3p744uCxj4ReiReM/bi2XRyGhvCFE2
+ FEMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=c1gnsNdU+y7p35LQc37uO6M9rdhacpyrBQDCJlMzk6g=;
- b=iZS61OK/zDhGuIraKjz9J53AYfV22yrthTau8wbFge8CF5t8szRWiTQj1RncohiFiZ
- 4ZfHDwMcdhS9YjsUnpwxiOlT98RjX/rqk3q81sFsPyxlS3sNTOKpbw5x+IT1zP5jCGx0
- KlJMZ2qtWFPmErDCz6CLZSVEZXps74QpX+465ylueIOZis75ZVjgn/JbDD3EReOPzbcP
- FL5AnXHz1XH1OaS3QfC3tgKMS/EZ0PiSG8UQk/YV3ituqavYazd+0usB5sbfjFQKTE0u
- q6EFF3SBzmvtZMfY6JfzQMwytTYQd3ElEEVC6qGkVyCpmXfPLMB7nHB+ezmoLfwfSRyW
- 9Ikg==
-X-Gm-Message-State: AOAM531jjFekkvOXSzyoleUbxvy2hjcIPTC7SUyWyGjrro93fUoPHWdd
- hMv4l8/xvUengj56PO21ygeA8EuzQ87hCQ==
-X-Google-Smtp-Source: ABdhPJzTeImC5BiGyPq062YlPfbkrWmW1qb3EgNJOxHkzgxD+UAkTjqqrmp9Hd48gyU5hzj03Lccrg==
-X-Received: by 2002:a17:902:8f83:b0:151:5c71:a6e6 with SMTP id
- z3-20020a1709028f8300b001515c71a6e6mr2885075plo.126.1647493567600; 
- Wed, 16 Mar 2022 22:06:07 -0700 (PDT)
+ bh=1c7FByY8RueDOU9kVxB+CSgBA4nxhG+Xofet2o37MpM=;
+ b=QcvyFlheV+GuX7g4PHDcYAHubI0+Z623Qv44vmTbsbb9pmtcDNI3AQ55LMLrMlZywD
+ Htol6L79HgQ3smf1uOWHd9f5wwyPfIn25cI9ot1HT7kRWBsI2dJg8B8VoyX3bCEwaj0l
+ ZmdEEvJ2vy5usB7YYwoL3eY+DHjnM2WncUWfMhhwZfcPNfJEYU7xYQR5df6Os+sRzYVh
+ PhRr0ePiutRoSyYNUDpqfCaNSMrW1aqb6J+AEk/cFfR+iH1wu77+5w3owPNGcniEaWkb
+ VqK2F3hHrOYb5WLaZVudwrQOza0WQhUmNZvA7htUt3O3nLYNiwz69cfUlO3KlRcPF99+
+ 9EkQ==
+X-Gm-Message-State: AOAM531qq1IY1a6Uc3+KvrnUEbgbC+nAQj4Mdm1RFyy0iLof/TW2hltL
+ FDj73DSnd/UMNJeQWjcTi564t5CBKs5IYQ==
+X-Google-Smtp-Source: ABdhPJzCozEcK/+CHIe95Ag9QOYvOgefrxPQBoK0N2xIOtJcSb3bbKhLezkC6xT+L70CoDTtsD8Q8Q==
+X-Received: by 2002:a63:9307:0:b0:373:a700:beaa with SMTP id
+ b7-20020a639307000000b00373a700beaamr2335461pge.260.1647493568617; 
+ Wed, 16 Mar 2022 22:06:08 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- h22-20020a056a001a5600b004f7c17b291asm5101357pfv.87.2022.03.16.22.06.06
+ h22-20020a056a001a5600b004f7c17b291asm5101357pfv.87.2022.03.16.22.06.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 22:06:07 -0700 (PDT)
+ Wed, 16 Mar 2022 22:06:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 v6 28/51] target/nios2: Implement CR_STATUS.RSIE
-Date: Wed, 16 Mar 2022 22:05:15 -0700
-Message-Id: <20220317050538.924111-29-richard.henderson@linaro.org>
+Subject: [PATCH for-7.1 v6 29/51] target/nios2: Remove CPU_INTERRUPT_NMI
+Date: Wed, 16 Mar 2022 22:05:16 -0700
+Message-Id: <20220317050538.924111-30-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220317050538.924111-1-richard.henderson@linaro.org>
 References: <20220317050538.924111-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,39 +93,42 @@ Cc: marex@denx.de, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Without EIC, this bit is RES1.  So set the bit at reset,
-and add it to the readonly fields of CR_STATUS.
+This interrupt bit is never set, so testing it in
+nios2_cpu_has_work is pointless.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/cpu.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/nios2/cpu.h | 2 --
+ target/nios2/cpu.c | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index 410e76ccbb..161f8efe82 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -177,8 +177,6 @@ FIELD(CR_TLBMISC, EE, 24, 1)
+ #define EXCP_MPUI     16
+ #define EXCP_MPUD     17
+ 
+-#define CPU_INTERRUPT_NMI       CPU_INTERRUPT_TGT_EXT_3
+-
+ struct CPUArchState {
+     uint32_t regs[NUM_GP_REGS];
+     uint32_t ctrl[NUM_CR_REGS];
 diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 2f1f5e35aa..9fc4fa7725 100644
+index 9fc4fa7725..e041aa41d0 100644
 --- a/target/nios2/cpu.c
 +++ b/target/nios2/cpu.c
-@@ -59,9 +59,9 @@ static void nios2_cpu_reset(DeviceState *dev)
+@@ -36,7 +36,7 @@ static void nios2_cpu_set_pc(CPUState *cs, vaddr value)
  
- #if defined(CONFIG_USER_ONLY)
-     /* Start in user mode with interrupts enabled. */
--    env->ctrl[CR_STATUS] = CR_STATUS_U | CR_STATUS_PIE;
-+    env->ctrl[CR_STATUS] = CR_STATUS_RSIE | CR_STATUS_U | CR_STATUS_PIE;
- #else
--    env->ctrl[CR_STATUS] = 0;
-+    env->ctrl[CR_STATUS] = CR_STATUS_RSIE;
- #endif
+ static bool nios2_cpu_has_work(CPUState *cs)
+ {
+-    return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
++    return cs->interrupt_request & CPU_INTERRUPT_HARD;
  }
  
-@@ -132,6 +132,7 @@ static void realize_cr_status(CPUState *cs)
-     WR_REG(CR_BADADDR);
- 
-     /* TODO: These control registers are not present with the EIC. */
-+    RO_FIELD(CR_STATUS, RSIE);
-     WR_REG(CR_IENABLE);
-     RO_REG(CR_IPENDING);
- 
+ static void nios2_cpu_reset(DeviceState *dev)
 -- 
 2.25.1
 
