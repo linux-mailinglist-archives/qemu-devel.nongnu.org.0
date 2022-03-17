@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183FE4DD1B8
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 01:12:33 +0100 (CET)
-Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3354DD1E6
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 01:22:23 +0100 (CET)
+Received: from localhost ([::1]:35516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nV0EK-0005Rk-5k
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 20:12:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36466)
+	id 1nV0Nq-0002hQ-Hh
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 20:22:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUzsT-0001iG-Iz
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 19:49:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24097)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUzsP-0005hC-2A
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 19:49:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647560991;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TFE91ExI1qbDIeJJ/USHDYcDKispyinHj+JbGFHRHj8=;
- b=DYPVXO/1QUUtxHgZ+h5bmpoINXW5y5zaMcn7PXFFTbQJBcN8OiaPs6g5FVjwH5PuO8noZz
- ontifTSvECfwuV5htbCqjf2sgglFA4GPu7l245BwqxUv+BNdqCcFARfN6Gxkf1EK+jBUkA
- r93uR+LdTi1wfu89L9IN1ghTW/JAPfU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-138-QVpOT5ivOSmOkdFR92yGtQ-1; Thu, 17 Mar 2022 19:49:50 -0400
-X-MC-Unique: QVpOT5ivOSmOkdFR92yGtQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1BC723C01C0A;
- Thu, 17 Mar 2022 23:49:50 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.32.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD6A2100335C;
- Thu, 17 Mar 2022 23:49:49 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 18/18] iotests: make qemu_img_log and img_info_log raise on
- error
-Date: Thu, 17 Mar 2022 19:49:37 -0400
-Message-Id: <20220317234937.569525-19-jsnow@redhat.com>
-In-Reply-To: <20220317234937.569525-1-jsnow@redhat.com>
-References: <20220317234937.569525-1-jsnow@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ (Exim 4.90_1) (envelope-from
+ <3HMozYgcKCpcM5EKLI57FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--venture.bounces.google.com>)
+ id 1nV02E-000369-Nf
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 20:00:07 -0400
+Received: from [2607:f8b0:4864:20::34a] (port=43576
+ helo=mail-ot1-x34a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3HMozYgcKCpcM5EKLI57FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--venture.bounces.google.com>)
+ id 1nV02C-0007LW-Rz
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 20:00:02 -0400
+Received: by mail-ot1-x34a.google.com with SMTP id
+ o17-20020a9d5c11000000b005b24a70c275so3618651otk.10
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 16:59:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=CZ3k1SLfFmUEjk+3ZnDSRBaEoZBUuBiFPw8PLhOQgNQ=;
+ b=hhqngyTXy9OjZPm9xUhjZ+g+acH6cW5CrW98Q0h1eCUPMqJSIe/tFNYQ2Qsn6roZcW
+ yZp94Np49w1hCnFm39PmgK4jvCuSHq+3hEmbjSiDhIwbtQlhBwaM0z+kKERTlriUGv1e
+ hyq5zHULe5Alx2G1cXNjSdsZMGnFdD+vFzyJNvDGBHw6SLmqPF7PK9OMTUasiJV0btrT
+ ydoPQAQWleJENNzNuE74T+bplQqSCywGNL23xgSCJ8YnEzNH5cWdqA3jJ8m58J5QPbI4
+ FmixJt957ZkEWbdN2KdhR+xV6GZCOz6oWlVQDKF5QgnnF1EHFq9fAxBFjb2daZCYJlh6
+ KO7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=CZ3k1SLfFmUEjk+3ZnDSRBaEoZBUuBiFPw8PLhOQgNQ=;
+ b=JvkuhS9poqK6N+WVsegb3WRnsq5GlrWbfarHnapij7N9BHTz/oo6KUBlD6ChnGMHjv
+ gQgJGmhomeVlENtphfdUHgDZKHvb4RxfAKcrJSMsG47CFDTyynI2ZgcozhkF6lMWHyrj
+ Z09Z5GkQtUiULcklIe1NXUxPJaaSHavtMPkPqIXvy85pCEwbQGgoc8R248Hb8pB5ZNn8
+ y85PQwHvbHLJwnmPZ1tDJ9ODW2Jc1iTMvtyJXiriVpqyQvxdHy8MHewUXxi2Xvge1eRH
+ mQav+au3m5PtLmTavUjWMbH9vWHOLT357TF2UzzbxG3VAVZfCsxG/yzcD1WTT4s9UNm7
+ IKvg==
+X-Gm-Message-State: AOAM532d3d5uNMw9ytutzyIOt1WTGyMJEsDxEUTC/4cn4U/bWhlJ9VAz
+ lZidEEaOT4RsG9qSvt3vuUIWcJxNdCjz
+X-Google-Smtp-Source: ABdhPJwC/5XRA185zdyPr0WHUrK2cQgiGYpLdlK1e8PxBaidUhMgeFyHjPoUZEcRzHsMFhJLkv/kispRG1J7
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:b296:d1f:c179:c0da])
+ (user=venture job=sendgmr) by 2002:a81:508b:0:b0:2e5:9904:8655 with SMTP id
+ e133-20020a81508b000000b002e599048655mr8829510ywb.196.1647561244323; Thu, 17
+ Mar 2022 16:54:04 -0700 (PDT)
+Date: Thu, 17 Mar 2022 16:53:54 -0700
+Message-Id: <20220317235354.94009-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.894.gb6a874cedc-goog
+Subject: [PATCH] hw/i2c: Enable an id for the pca954x devices
+From: Patrick Venture <venture@google.com>
+To: f4bug@amsat.org, peter.maydell@linaro.org
+Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>,
+ Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::34a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::34a;
+ envelope-from=3HMozYgcKCpcM5EKLI57FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--venture.bounces.google.com;
+ helo=mail-ot1-x34a.google.com
+X-Spam_score_int: -81
+X-Spam_score: -8.2
+X-Spam_bar: --------
+X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,95 +87,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a `check: bool = True` parameter to both functions and make their
-qemu_img() invocations raise on error by default.
+This allows the devices to be more readily found and specified.
+Without setting the id field, they can only be found by device type
+name, which doesn't let you specify the second of the same device type
+behind a bus.
 
-users of img_info_log:
-206, 207, 210, 211, 212, 213, 237, 242, 266, 274, 302
+Tested: Verified that by default the device was findable with the id
+'pca954x[77]', for an instance attached at that address.
 
-users of qemu_img_log:
-044, 209, 274, 302, 304
-
-iotests 242 and 266 need to use check=False for their negative tests.
-iotests 206, 210, 211, 212, 213, 237, 274 and 302 continue working
-normally.
-
-As of this commit, all calls to QEMU_IMG made from iotests enforce a
-return code of zero by default unless explicitly disabled or suppressed
-by passing check=False or with an exception handler.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
 ---
- tests/qemu-iotests/242        | 2 +-
- tests/qemu-iotests/266        | 2 +-
- tests/qemu-iotests/iotests.py | 8 +++++---
- 3 files changed, 7 insertions(+), 5 deletions(-)
+ hw/i2c/i2c_mux_pca954x.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242
-index 547bf382e3..b3afd36d72 100755
---- a/tests/qemu-iotests/242
-+++ b/tests/qemu-iotests/242
-@@ -100,7 +100,7 @@ add_bitmap(1, True, False)
- log('Write an unknown bitmap flag \'{}\' into a new QCOW2 image at offset {}'
-     .format(hex(bitmap_flag_unknown), flag_offset))
- toggle_flag(flag_offset)
--img_info_log(disk)
-+img_info_log(disk, check=False)
- toggle_flag(flag_offset)
- log('Unset the unknown bitmap flag \'{}\' in the bitmap directory entry:\n'
-     .format(hex(bitmap_flag_unknown)))
-diff --git a/tests/qemu-iotests/266 b/tests/qemu-iotests/266
-index 71ce81d0df..8fc3807ac5 100755
---- a/tests/qemu-iotests/266
-+++ b/tests/qemu-iotests/266
-@@ -137,7 +137,7 @@ def main():
-             iotests.log('')
+diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
+index a9517b612a..4f8c2d6ae1 100644
+--- a/hw/i2c/i2c_mux_pca954x.c
++++ b/hw/i2c/i2c_mux_pca954x.c
+@@ -20,6 +20,7 @@
+ #include "hw/i2c/i2c_mux_pca954x.h"
+ #include "hw/i2c/smbus_slave.h"
+ #include "hw/qdev-core.h"
++#include "hw/qdev-properties.h"
+ #include "hw/sysbus.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+@@ -43,6 +44,8 @@ typedef struct Pca954xState {
  
-             vm.shutdown()
--            iotests.img_info_log(file_path)
-+            iotests.img_info_log(file_path, check=False)
+     bool enabled[PCA9548_CHANNEL_COUNT];
+     I2CBus *bus[PCA9548_CHANNEL_COUNT];
++
++    char *id;
+ } Pca954xState;
  
+ /*
+@@ -181,6 +184,17 @@ static void pca9548_class_init(ObjectClass *klass, void *data)
+     s->nchans = PCA9548_CHANNEL_COUNT;
+ }
  
- iotests.script_main(main,
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index c75c7470e2..6cd8374c81 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -311,13 +311,15 @@ def qemu_img_info(*args: str) -> Any:
- def qemu_img_map(*args: str) -> Any:
-     return qemu_img_json('map', "--output", "json", *args)
++static void pca954x_realize(DeviceState *dev, Error **errp)
++{
++    Pca954xState *s = PCA954X(dev);
++    DeviceState *d = DEVICE(s);
++    if (s->id) {
++        d->id = g_strdup(s->id);
++    } else {
++        d->id = g_strdup_printf("pca954x[%x]", s->parent.i2c.address);
++    }
++}
++
+ static void pca954x_init(Object *obj)
+ {
+     Pca954xState *s = PCA954X(obj);
+@@ -197,6 +211,11 @@ static void pca954x_init(Object *obj)
+     }
+ }
  
--def qemu_img_log(*args: str) -> subprocess.CompletedProcess[str]:
--    result = qemu_img(*args, check=False)
-+def qemu_img_log(*args: str, check: bool = True
-+                 ) -> subprocess.CompletedProcess[str]:
-+    result = qemu_img(*args, check=check)
-     log(result.stdout, filters=[filter_testfiles])
-     return result
++static Property pca954x_props[] = {
++    DEFINE_PROP_STRING("id", Pca954xState, id),
++    DEFINE_PROP_END_OF_LIST()
++};
++
+ static void pca954x_class_init(ObjectClass *klass, void *data)
+ {
+     I2CSlaveClass *sc = I2C_SLAVE_CLASS(klass);
+@@ -209,9 +228,12 @@ static void pca954x_class_init(ObjectClass *klass, void *data)
+     rc->phases.enter = pca954x_enter_reset;
  
- def img_info_log(filename: str, filter_path: Optional[str] = None,
-                  use_image_opts: bool = False, extra_args: Sequence[str] = (),
-+                 check: bool = True,
-                  ) -> None:
-     args = ['info']
-     if use_image_opts:
-@@ -327,7 +329,7 @@ def img_info_log(filename: str, filter_path: Optional[str] = None,
-     args += extra_args
-     args.append(filename)
+     dc->desc = "Pca954x i2c-mux";
++    dc->realize = pca954x_realize;
  
--    output = qemu_img(*args, check=False).stdout
-+    output = qemu_img(*args, check=check).stdout
-     if not filter_path:
-         filter_path = filename
-     log(filter_img_info(output, filter_path))
+     k->write_data = pca954x_write_data;
+     k->receive_byte = pca954x_read_byte;
++
++    device_class_set_props(dc, pca954x_props);
+ }
+ 
+ static const TypeInfo pca954x_info[] = {
 -- 
-2.34.1
+2.35.1.894.gb6a874cedc-goog
 
 
