@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58AA14DBEE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 07:03:14 +0100 (CET)
-Received: from localhost ([::1]:42826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE594DBF1B
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 07:16:01 +0100 (CET)
+Received: from localhost ([::1]:49942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUjE9-00025o-8V
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 02:03:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51816)
+	id 1nUjQW-0006lZ-1w
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 02:16:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiOO-0005xf-9N
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:09:44 -0400
-Received: from [2607:f8b0:4864:20::52d] (port=39444
- helo=mail-pg1-x52d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiOL-0002gX-Dm
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:09:43 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id q19so1813039pgm.6
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 22:09:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IvBEhqppOoPljEvawEk60xBsH14k/3nhv0YU5DA6zfM=;
- b=VIXuo5Vn2DynCae9PPVpCUYAuRklbhoyvqcsAIeDc8A5uybJC+CslX01qBvSjCnYQ0
- o0Yn3GAievKV+CrzRqSbV5LPOoHoF178Njqrb58KBGe2N6eXvKjNSHaFNR43GBQ5WmHk
- e81wD1cOMjn4o9Hsw3fH2yN2EYnDsTynQHYts1xepZgU8yVJrPCsetR10qopl4dCDxrj
- m7AiywsHu2ttd8dH3HSScUOY9fBacrmqZP3TMXhjx7a0jsTbsxDCjdOk17FYFvaYmMKB
- 5Lif+H4C9s4KTGcBx/gWdn/vmp5N9t8LwJPQ8yW+RZp/JZmRM7jVk5q0mTO3eiHHChpE
- knTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IvBEhqppOoPljEvawEk60xBsH14k/3nhv0YU5DA6zfM=;
- b=RLaHVAW9B59S7jLkVFT6vcQDw1J3FwIrC6A1VwARBmUnmVkkwvFxrQTdOkMjA3rmNg
- yYbqUanmO9kMxHUJ38c+DnncoQzkefZabbfncnOIWd3pfr7ePtBKpRmzd//wpvfWF2Nx
- R826M1kxwS3df4iKkwGl3wLFo5LzgxpbsZq+5DuEv/uuOZFNRzgDhm0lYm7b+dvYFh1j
- sptp/V3DTQulrfQmuweU6X7C9wcxzCwU7fDZ13t5wz7vawEakcu+BclCvOrm4xg+6qJz
- NuuDYEZpvaT8SLzNvXmzJz9rK+3KRbtgNXBmeNn/pg5uOwQsjRT1Y2E51ZvbivWfWwj/
- 5DCg==
-X-Gm-Message-State: AOAM531hdBak7YxgkNnI4vvR7cSwm7O8in+PzqyDGFDzI+tii9331Jhr
- pOZ+Ud+TYlxFmMZhwFgsQQvkXty3PwEGRw==
-X-Google-Smtp-Source: ABdhPJyGDn2jTTnn3qs2eghAZtJ4rPlxhsTiiw0oUcBltvYlnFV05NnnG2fY5Jg9PiY8JbfLxgkk8Q==
-X-Received: by 2002:a05:6a00:16c7:b0:4f7:e497:69b8 with SMTP id
- l7-20020a056a0016c700b004f7e49769b8mr3311703pfc.6.1647493769380; 
- Wed, 16 Mar 2022 22:09:29 -0700 (PDT)
-Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
- [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- d10-20020a63360a000000b0037947abe4bbsm4217493pga.34.2022.03.16.22.09.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 22:09:28 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 v6 51/51] tests/tcg/nios2: Add test-shadow-1
-Date: Wed, 16 Mar 2022 22:05:38 -0700
-Message-Id: <20220317050538.924111-52-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220317050538.924111-1-richard.henderson@linaro.org>
-References: <20220317050538.924111-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nUjNU-0005Jq-Bt
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 02:12:52 -0400
+Received: from mga05.intel.com ([192.55.52.43]:64089)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nUjNR-0003gk-Ig
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 02:12:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647497569; x=1679033569;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=e8+nBh31J/LgW0UBnHwSozwAfLLujNMGXhtwbXV67FM=;
+ b=JflvbrDdG1XEJiLftAiHgD6Dc4FRmmLjoHIg+IR1ACrs9j+xDHK1vykC
+ e48EiXLQD+4fPTURIhtXcAZ6HcWP2BW9jpuaNnJ4HMGg0YCAOTMCdbLXO
+ GIsB+LG7xStJ0UpvrQ3qcf1nsK8pqTJolTswtDYZCs95pQX4qm/+z8Fea
+ HaftfzKnRjBK+D8Wiu1VJC9jjwnDDkZ1qq6uXv+oUIsYiJpvDDBrwXpb2
+ u4BBpBzkO/EMVuBAgqbhwzgfN/T3VJq0Jw2sN8oEyuJ2/IWafaG0xY/uV
+ vJSyKW1dP00pNQrWgihcDcEpgYpfT0AAn6tf+LtVdeFTqr0EDLP6qN0M1 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="343228278"
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="343228278"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2022 23:12:46 -0700
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="516640255"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.145.56])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 16 Mar 2022 23:12:44 -0700
+Date: Thu, 17 Mar 2022 13:56:49 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Peter Krempa <pkrempa@redhat.com>, pbonzini@redhat.com
+Subject: Re: [PULL 15/22] x86: Grant AMX permission for guest
+Message-ID: <20220317055649.GA23688@yangzhon-Virtual>
+References: <20220308113445.859669-1-pbonzini@redhat.com>
+ <20220308113445.859669-16-pbonzini@redhat.com>
+ <YjII86LKWTe0mVED@angien.pipo.sk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YjII86LKWTe0mVED@angien.pipo.sk>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=yang.zhong@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,79 +75,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, amir.gonnen@neuroblade.ai,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Jing Liu <jing2.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a regression test for tcg indirect global lowering.
+On Wed, Mar 16, 2022 at 04:57:39PM +0100, Peter Krempa wrote:
+> On Tue, Mar 08, 2022 at 12:34:38 +0100, Paolo Bonzini wrote:
+> > From: Yang Zhong <yang.zhong@intel.com>
+> > 
+> > Kernel allocates 4K xstate buffer by default. For XSAVE features
+> > which require large state component (e.g. AMX), Linux kernel
+> > dynamically expands the xstate buffer only after the process has
+> > acquired the necessary permissions. Those are called dynamically-
+> > enabled XSAVE features (or dynamic xfeatures).
+> > 
+> > There are separate permissions for native tasks and guests.
+> > 
+> > Qemu should request the guest permissions for dynamic xfeatures
+> > which will be exposed to the guest. This only needs to be done
+> > once before the first vcpu is created.
+> > 
+> > KVM implemented one new ARCH_GET_XCOMP_SUPP system attribute API to
+> > get host side supported_xcr0 and Qemu can decide if it can request
+> > dynamically enabled XSAVE features permission.
+> > https://lore.kernel.org/all/20220126152210.3044876-1-pbonzini@redhat.com/
+> > 
+> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> > Signed-off-by: Jing Liu <jing2.liu@intel.com>
+> > Message-Id: <20220217060434.52460-4-yang.zhong@intel.com>
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > ---
+> >  target/i386/cpu.c          |  7 +++++
+> >  target/i386/cpu.h          |  4 +++
+> >  target/i386/kvm/kvm-cpu.c  | 12 ++++----
+> >  target/i386/kvm/kvm.c      | 57 ++++++++++++++++++++++++++++++++++++++
+> >  target/i386/kvm/kvm_i386.h |  1 +
+> >  5 files changed, 75 insertions(+), 6 deletions(-)
+> 
+> With this commit qemu crashes for me when invoking the following
+> QMP command:
+> 
+> $ ~pipo/git/qemu.git/build/qemu-system-x86_64 -S -no-user-config -nodefaults -nographic -machine none,accel=kvm -qmp stdio
+> {"QMP": {"version": {"qemu": {"micro": 90, "minor": 2, "major": 6}, "package": "v7.0.0-rc0-8-g1d60bb4b14"}, "capabilities": ["oob"]}}
+> {'execute':'qmp_capabilities'}
+> {"return": {}}
+> {"execute":"qom-list-properties","arguments":{"typename":"max-x86_64-cpu"},"id":"libvirt-41"}
+> qemu-system-x86_64: ../target/i386/kvm/kvm-cpu.c:105: kvm_cpu_xsave_init: Assertion `esa->size == eax' failed.
+> Aborted (core dumped)
+> 
+> Note that the above is on a box with an 'AMD Ryzen 9 3900X'.
+> 
+> Curiously on a laptop with an Intel chip (Intel(R) Core(TM) i7-10610U)
+> it seems to work.
 
-This appeared with nios2, with cps != 0, so that we use
-indirection into the shadow register set.  An indirect
-call verifies alignment of rA.  The use of rA was live
-across the brcond leading to a tcg_debug_assert failure.
+  Thanks for pointing this out!
+  
+  In my side, no AMD machine can be used to try this issue, I listed the
+  FPU info from host kernel dmesg for reference.
+  
+  root@984fee00bf64:~# dmesg | grep fpu
+  [    0.000000] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+  [    0.000000] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+  [    0.000000] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+  [    0.000000] x86/fpu: Supporting XSAVE feature 0x020: 'AVX-512 opmask'
+  [    0.000000] x86/fpu: Supporting XSAVE feature 0x040: 'AVX-512 Hi256'
+  [    0.000000] x86/fpu: Supporting XSAVE feature 0x080: 'AVX-512 ZMM_Hi256'
+  [    0.000000] x86/fpu: Supporting XSAVE feature 0x200: 'Protection Keys User registers'
+  [    0.000000] x86/fpu: Supporting XSAVE feature 0x400: 'PASID state'
+  [    0.000000] x86/fpu: Supporting XSAVE feature 0x20000: 'AMX Tile config'
+  [    0.000000] x86/fpu: Supporting XSAVE feature 0x40000: 'AMX Tile data'
+  [    0.000000] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+  [    0.000000] x86/fpu: xstate_offset[5]:  832, xstate_sizes[5]:   64
+  [    0.000000] x86/fpu: xstate_offset[6]:  896, xstate_sizes[6]:  512
+  [    0.000000] x86/fpu: xstate_offset[7]: 1408, xstate_sizes[7]: 1024
+  [    0.000000] x86/fpu: xstate_offset[9]: 2432, xstate_sizes[9]:    8
+  [    0.000000] x86/fpu: xstate_offset[10]: 2440, xstate_sizes[10]:    8
+  [    0.000000] x86/fpu: xstate_offset[17]: 2496, xstate_sizes[17]:   64
+  [    0.000000] x86/fpu: xstate_offset[18]: 2560, xstate_sizes[18]: 8192
+  [    0.000000] x86/fpu: Enabled xstate features 0x606e7, context size is 10752 bytes, using 'compacted' format.
 
-Cc: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tests/tcg/nios2/Makefile.softmmu-target |  1 +
- tests/tcg/nios2/test-shadow-1.S         | 37 +++++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
- create mode 100644 tests/tcg/nios2/test-shadow-1.S
+  Paolo, if you have fix patch, I can double check this from Intel SPR server. thanks!
 
-diff --git a/tests/tcg/nios2/Makefile.softmmu-target b/tests/tcg/nios2/Makefile.softmmu-target
-index 20d8d143c6..48863549c9 100644
---- a/tests/tcg/nios2/Makefile.softmmu-target
-+++ b/tests/tcg/nios2/Makefile.softmmu-target
-@@ -30,3 +30,4 @@ QEMU_OPTS = -M 10m50-ghrd,vic=on -semihosting >$@.out -kernel
- 
- memory: CFLAGS+=-DCHECK_UNALIGNED=0
- TESTS += $(MULTIARCH_TESTS)
-+TESTS += test-shadow-1
-diff --git a/tests/tcg/nios2/test-shadow-1.S b/tests/tcg/nios2/test-shadow-1.S
-new file mode 100644
-index 0000000000..33076ddf59
---- /dev/null
-+++ b/tests/tcg/nios2/test-shadow-1.S
-@@ -0,0 +1,37 @@
-+/*
-+ * Regresion test for TCG indirect global lowering.
-+ */
-+
-+#include "semicall.h"
-+
-+	.text
-+	.set noat
-+	.align	2
-+	.globl	main
-+	.type	main, @function
-+
-+main:
-+	/* Initialize r0 in shadow register set 1. */
-+	movhi	at, 1			/* PRS=1, CRS=0, RSIE=0, PIE=0 */
-+	wrctl	status, at
-+	wrprs	zero, zero
-+
-+	/* Change current register set to 1. */
-+	movi	at, 1 << 10		/* PRS=0, CRS=1, RSIE=0, PIE=0 */
-+	wrctl	estatus, at
-+	movia	ea, 1f
-+	eret
-+
-+	/* Load address for callr, then end TB. */
-+1:	movia	at, 3f
-+	br	2f
-+
-+	/* Test case! TCG abort on indirect lowering across brcond. */
-+2:	callr	at
-+
-+	/* exit(0) */
-+3:	movi	r4, HOSTED_EXIT
-+	movi	r5, 0
-+	semihosting_call
-+
-+	.size	main, . - main
--- 
-2.25.1
+  Yang
 
 
