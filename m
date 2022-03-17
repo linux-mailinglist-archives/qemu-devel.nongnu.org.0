@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1134DCCE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 18:49:36 +0100 (CET)
-Received: from localhost ([::1]:33418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708164DCD2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 19:05:07 +0100 (CET)
+Received: from localhost ([::1]:44306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUuFi-00060b-V0
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 13:49:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49744)
+	id 1nUuUj-0005rL-UR
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 14:05:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUuCS-0004m1-C1
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:46:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33011)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUuCM-00005j-Lk
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:46:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647539166;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UGyHFeIO2EMqguvBy0oK0zssPtc4XlI5po61pvrX3YE=;
- b=GsUJPLf5/Qw5UydYkka0RIbDaiAMJ4U5XAA4inEkwaiigJWk2jAlTc6Vt15B6IykBj1aMF
- fDLpEdA8LX5yiBxTZbrctyBqQ49wv/mWGdUNyFELA53sf9iH1TXBvvSWyx3BsHrPIt28Sk
- dnK8YUYnXpHzF/Ki4pJ0Cl55sJ7iIx8=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-299-LmbJjOn7NCG4FwyrZIpYow-1; Thu, 17 Mar 2022 13:46:03 -0400
-X-MC-Unique: LmbJjOn7NCG4FwyrZIpYow-1
-Received: by mail-ua1-f69.google.com with SMTP id
- j16-20020ab01850000000b003517f6bb1easo2729405uag.10
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 10:46:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nUuSK-000436-00
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:02:36 -0400
+Received: from [2607:f8b0:4864:20::62f] (port=38746
+ helo=mail-pl1-x62f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nUuSI-0002k1-CX
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 14:02:35 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id n18so5102118plg.5
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 11:02:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=dr3718q0dxqOgoV+9X2gHa9m9ZX+YQocb//+JvbICIk=;
+ b=jxMr3eh/tRM407kFKiat+wRZX379BtbYkd89p+F7AcCwx+EBlRnAwsDKEV4fI23CuG
+ NzWZIQdAfUbXTFvP8jsPPr/X6YRryklOfdqmgduZI646Dk09sahTiGKXaemR2qaV1Zgv
+ Nrt2zAW2j0s9L/gUZujPlKOuBGIcfWosIk3ZYC/W0BgfrQb/59+ttfYBHg4zauXrDOJJ
+ TPbvZ0yyrXfA8w8yYyFL1vjzLK96STZuDBu80V5+zSNeD14tYvlr5hBLVSDCcUPKXDeG
+ Dps/4zLDKIp0Nr+cjVn76kys57foQyjmm0TofK6r9+c50SyeMiVSO9BktiJZ9i7n6HLg
+ rdOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UGyHFeIO2EMqguvBy0oK0zssPtc4XlI5po61pvrX3YE=;
- b=WMnlQIGU2f261m1b5OoSz5MtE/feRnMXkl4fz8vyorQ8rv17T/499nlXM1SGcteXrk
- lBnfZmQVHUiu/agh1aXQduhnMRHAi/vD15O79zqthxAnQ5fsvVBt6El4UPccsrJEu1nx
- 6eMuLjymtcmIGvc9ztUEzHpflNSQor434+6a7ERnTGLl5gblekmD0bw0ayldZpdWA3rr
- qM/xtBvgt09tbig03Vb3WZPSOVUJMKbJdAqYYklu2OQsE5009+lpm6ZFwCuDo2AE9Vih
- XOMorYMSmJluWrD4MOHDZrHCxEciLr+sAUXJk6NR3Yq9cMvYgwVuXu8AMfQx0l6z4/KU
- 7h+g==
-X-Gm-Message-State: AOAM530yx3YdcIh/ENOndSgNGhWA95OdNiaw4uyoptXE8JLf8rDsExBc
- 8UalgNmVadVHR6WkApUjDEsCT7ssAuC2i/dm9lsagBIBYfhhJKxAL2Ta9Ym3BmRsKT+VzNLfMzo
- E/AxKlTVX6t4i6CanpD/OGd4v84wMZXA=
-X-Received: by 2002:a05:6122:218b:b0:337:7e8d:9df7 with SMTP id
- j11-20020a056122218b00b003377e8d9df7mr2410322vkd.26.1647539162501; 
- Thu, 17 Mar 2022 10:46:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx00/LwO8WGl7sKe/pZmK6KvPMZeQLel43aY7v/MlS5lr1hO3JxJsbpYK0/u+W0A2+h4/Mrvbl4SKfvo2vJMZ8=
-X-Received: by 2002:a05:6122:218b:b0:337:7e8d:9df7 with SMTP id
- j11-20020a056122218b00b003377e8d9df7mr2410316vkd.26.1647539162242; Thu, 17
- Mar 2022 10:46:02 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dr3718q0dxqOgoV+9X2gHa9m9ZX+YQocb//+JvbICIk=;
+ b=koXFIoblsYgalEQtJahVbLcu9biU+4HAP64AWdRVN/4VmUAKeZQJuyBgobUd+JPuVM
+ MF/axla2mwxPAu8Ifd2LCCx+vm5bk+2UBMmFdmd6BTx3DDOXlYCSaX5DL0JAbwLCct6F
+ ZPAyF1m4/KCA96GRXv++QC0wGLKpa0JVBHiNnhVj/YKRD0WoRYQ9QPHyycaiMDa3G19Q
+ uBD00Vz3O6YabLnkp20LSZ4LqMidu1SFTvJzLIH9d/0252ma0dLZt8XfGpQLgg81ISvn
+ hmqPJ3YUncyYOjERE35VJetQA58870zgH/pK73nW4GFaRxHq+kvv5tYtJDaDl0i2w1ix
+ EA/g==
+X-Gm-Message-State: AOAM531kMYOleZUgLmpQY437xTmkW73279gTvzEC2l+/+7TI1YbinLeN
+ OPtCGJRdYEDpLscT7msdLEk=
+X-Google-Smtp-Source: ABdhPJwMzKHxHb5Gub8BfpeyTpbx5lUROihKdn2NBB6hNF6faE0v0X7UN9LMkmLN8k8L/5th1ed0tw==
+X-Received: by 2002:a17:90a:b393:b0:1bd:5400:cba9 with SMTP id
+ e19-20020a17090ab39300b001bd5400cba9mr17333204pjr.232.1647540152708; 
+ Thu, 17 Mar 2022 11:02:32 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ v23-20020a17090a521700b001bbfc181c93sm9960294pjh.19.2022.03.17.11.02.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Mar 2022 11:02:32 -0700 (PDT)
+Message-ID: <f79af5c7-8402-afd9-20cb-435a284f64a9@gmail.com>
+Date: Thu, 17 Mar 2022 19:02:25 +0100
 MIME-Version: 1.0
-References: <20220309035407.1848654-1-jsnow@redhat.com>
- <20220309035407.1848654-15-jsnow@redhat.com>
- <38910bd4-7f8f-bdf4-29a0-f76f01d75ade@redhat.com>
- <CAFn=p-ab92NRL+E7RytaUo_1S1UB0_eq1EJLjfTGs2Sn_dqSuQ@mail.gmail.com>
-In-Reply-To: <CAFn=p-ab92NRL+E7RytaUo_1S1UB0_eq1EJLjfTGs2Sn_dqSuQ@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 17 Mar 2022 13:45:51 -0400
-Message-ID: <CAFn=p-YXugb5Qz4VH8OvDMOtqjU=hS54oSo=hjRyn-i02v=dww@mail.gmail.com>
-Subject: Re: [PATCH 14/14] iotests: make img_info_log() call qemu_img_log()
-To: Hanna Reitz <hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH-for-7.0] ui/cocoa: Respect left-command-key option
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Gustavo Noronha Silva <gustavo@noronha.dev.br>,
+ Will Cohen <wwcohen@gmail.com>
+References: <20220317152949.68666-1-akihiko.odaki@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220317152949.68666-1-akihiko.odaki@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,60 +95,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 17, 2022 at 1:00 PM John Snow <jsnow@redhat.com> wrote:
->
-> On Thu, Mar 17, 2022 at 11:39 AM Hanna Reitz <hreitz@redhat.com> wrote:
-> >
-> > On 09.03.22 04:54, John Snow wrote:
-> > > Add configurable filters to qemu_img_log(), and re-write img_info_log()
-> > > to call into qemu_img_log() with a custom filter instead.
-> > >
-> > > After this patch, every last call to qemu_img() is now guaranteed to
-> > > either have its return code checked for zero, OR have its output
-> > > actually visibly logged somewhere.
-> > >
-> > > Signed-off-by: John Snow <jsnow@redhat.com>
-> > > ---
-> > >   tests/qemu-iotests/iotests.py | 13 +++++++++----
-> > >   1 file changed, 9 insertions(+), 4 deletions(-)
-> >
-> >  From my POV, this is a regression because before this patch (not this
-> > series, though, admittedly), `img_info_log()` would throw an exception
-> > on error, and with patch 12 being as it is, it will revert to its
-> > pre-series behavior of not throwing an exception.  I prefer exceptions
+On 17/3/22 16:29, Akihiko Odaki wrote:
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>   ui/cocoa.m | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index cb6e7c41dc6..c4e5468f9e6 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -923,7 +923,8 @@ - (bool) handleEventLocked:(NSEvent *)event
+>                   /* Don't pass command key changes to guest unless mouse is grabbed */
+>                   case kVK_Command:
+>                       if (isMouseGrabbed &&
+> -                        !!(modifiers & NSEventModifierFlagCommand)) {
+> +                        !!(modifiers & NSEventModifierFlagCommand) &&
+> +                        left_command_key_enabled) {
 
-Oh, actually... patch #12 does this:
+My bad for trying to resolve merge conflict myself sigh :(
 
--    output = qemu_img_pipe(*args)
-+    output = qemu_img(*args, check=False).stdout
+Fixes: 4797adce5f ("ui/cocoa: add option to swap Option and Command")
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-so I never actually toggled error checking on for this function at
-all. This isn't a regression.
-
-At a glance, img_info_log() calls fail as a matter of course in 242
-and 266 and ... hm, I can't quite test 207, it doesn't work for me,
-even before this series.
-
-I didn't test *all* qemu_img calls yet either, but ... I'm going to
-gently suggest that "converting logged calls to qemu_img() to be
-checked calls" is "for another series" material.
-
---js
-
-> > to failed reference output diffs, because an exception tells me which
-> > call failed.
->
-> Hm, yeah. I just need to figure out if *all* of the qemu_img_log()
-> calls are safe to enforce the return code of zero on... or how many
-> need work if I change the default behavior. Let me see what I can do.
->
-> I suppose it's maybe a bit late to try and squeak any of this in for
-> freeze, so I can roll everything back up into one big series again and
-> send a new revision.
-
+>                           if (swap_opt_cmd) {
+>                               [self toggleKey:Q_KEY_CODE_ALT];
+>                           } else {
 
