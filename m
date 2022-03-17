@@ -2,79 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0500F4DCA0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 16:34:17 +0100 (CET)
-Received: from localhost ([::1]:56990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4163E4DCA1D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 16:36:17 +0100 (CET)
+Received: from localhost ([::1]:59674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUs8m-00012W-3M
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 11:34:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49950)
+	id 1nUsAi-0002um-Cy
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 11:36:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nUs4k-0004t5-Vt
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:30:07 -0400
-Received: from [2607:f8b0:4864:20::1032] (port=35386
- helo=mail-pj1-x1032.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nUs4e-00036j-SK
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:30:02 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- mj15-20020a17090b368f00b001c637aa358eso7919808pjb.0
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 08:30:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=I0RR/k/9KtF/RXz/WXv2RD7jt062xchc26ttln2w1lY=;
- b=qDW/6KV3T/nmeTd110ftjrzAjDJqZTJbYQSy+bvF/ynzyZCvVqzmOwH3vthOZ82a5v
- 5k1b/QHMqS+pj9+LLKnCbjlZhL7MJHzjoJlGUWmVF/4ZQjEm/z9aWyUekxybsDZMc4ss
- 4tI5IRowH9soXLS94FLEOC3CMg2hchoFOc9wWcvCQHl4P8KwjFII9zWLoIF5b2ioGWHW
- wj4GAucVllP8WBUvPNoKxSXPliMB6pPc3LsSJZxgp7R5Bq3tY/p1p/ducI+lFoMR4BC2
- 1DR/yRJ2rxyWGlIKzSMxuF/oJf4rnkjr6QbLanwbppANBYxS0vpMhgiKpVUHqyuan69W
- ygEQ==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUs5n-0006Wh-MG
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:31:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56246)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUs5m-0003ac-8v
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:31:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647531069;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=86jMFpM+Is6NzZEGLKqU3L3fkTeHQw/H40lNfNnTZXE=;
+ b=af2uAj7A6BhElVZXZRqMY/Od8v/w4MaD6wO3nXEPr6VoKZ6iDxLMEDuPdVuCt+i0m7lHLT
+ P9VN5TVY+zWYrAD7iCsvG4B/uwL/5YMntc4zWhrcRdSBIu8YSdxn6VEvFqvqm3izeIpOPd
+ ZFAAp1rAFA5cFc2TUKBMnEtmHjOvB88=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-193-uYIY-QjwNf2oKJ-zdtbceg-1; Thu, 17 Mar 2022 11:31:08 -0400
+X-MC-Unique: uYIY-QjwNf2oKJ-zdtbceg-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ a188-20020a1f66c5000000b0033e52f60923so552913vkc.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 08:31:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=I0RR/k/9KtF/RXz/WXv2RD7jt062xchc26ttln2w1lY=;
- b=Qr3jiXFFEy+Cf0Er0k4+PrV4KXfpJLdjqDD1fKCwmEMECSeFsKewlm4cQ1aaX0bY4+
- avt8eFtvodHfS0zi1RUjPUimtDSBS69quNazm8XgPq2hb/cg5Mb7EYtplKgOCjEWcvYI
- 5pgO4zoXlVctEKaB9A+hNrW2zGPm55WMspSrh3lcWjQ32mwM1WiX9atXYWFilmAUE2yB
- c+QNgqrTOlungG7SmEzC+gG8eGHWQTELQuH2m/06vzi2/mrDy4BxyKFbaVzEPGOKDx8A
- JnfjO78uVmPQOyB9pnomdOUzaQ6VhRCd3GCwErBCam/4CwANbN5tQZRGyQJOzsNR5rHX
- nNwQ==
-X-Gm-Message-State: AOAM530ZUFLSP7DlRypZzUyClEWM5tDLQPrQ3reweIBkBty45EXjbwhI
- 8akMFhLZun0CoA+i4o3q/28NMus6iFE=
-X-Google-Smtp-Source: ABdhPJwg+KYjsIqpcOjba0lb/cV04hdeGEUQt2kanhTiJ4JZUqpM238qRBBbUSBmA31cLYUCgYBl2w==
-X-Received: by 2002:a17:90a:7085:b0:1bd:3db8:6597 with SMTP id
- g5-20020a17090a708500b001bd3db86597mr16523555pjk.86.1647530999091; 
- Thu, 17 Mar 2022 08:29:59 -0700 (PDT)
-Received: from localhost.localdomain ([2400:4050:c360:8200:4096:b81:d64e:d5df])
- by smtp.gmail.com with ESMTPSA id
- a11-20020a63cd4b000000b00378b9167493sm5638328pgj.52.2022.03.17.08.29.57
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 17 Mar 2022 08:29:58 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH] ui/cocoa: Respect left-command-key option
-Date: Fri, 18 Mar 2022 00:29:49 +0900
-Message-Id: <20220317152949.68666-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=86jMFpM+Is6NzZEGLKqU3L3fkTeHQw/H40lNfNnTZXE=;
+ b=5v483Dcf7Ck+XU0uLnROMEHCUQn0gKbA6grodHyb12eoEBLMEAoOePdBEOh/W9qYaB
+ UYkuwEAhNba5ChpT+fcg0Fh3N8fewbd9hBj8/rnLSLaXc1MkWJJeTjz8ZVq3KGkXIvJ+
+ CL+yCANw8EyR/duBEnypMRs1Kwz7cQVB1q31TKO5tUAu+YB6aKgf9rVSk/xjLbWPeO4g
+ VHcaRYTb2Od46ERtrvJR9TSIu4VGeb4m3vaMsUUYU+xO0AON2cgu/AJh3EFybjXtsYOP
+ aL5dSrLo84VPapgsxjU7UjZEGK7BrILTvOhWO1leDw83sydrQMfrfeQFNl6Or92LOoA+
+ t0jQ==
+X-Gm-Message-State: AOAM530334hor8hJ6trjwKa1uzcs0ryogyqtmb+W780YpMBGobIDgg/i
+ x3AtRZwZNz8vOmOScwTEZPLD9zRlbYsOz0MNsZPqOmuh8+8QX7QMwQ9XSBQdmtj8GXn1HxX5U68
+ Sgaq7ts6hfiLTqy4I4Apscc/Gq9YcqyE=
+X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
+ 187-20020a6717c4000000b00322cfd815a1mr1800148vsx.61.1647531067462; 
+ Thu, 17 Mar 2022 08:31:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGoJoDhGq9tGzjGQ6Bmik922hyly/OvFqUD4IXYxMj440MLAI8RQm9ELcF2yfsUJ+AAzPLM7LXtJb+QLqcdNg=
+X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
+ 187-20020a6717c4000000b00322cfd815a1mr1800136vsx.61.1647531067302; Thu, 17
+ Mar 2022 08:31:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+References: <20220309035407.1848654-1-jsnow@redhat.com>
+ <20220309035407.1848654-2-jsnow@redhat.com>
+ <813e9265-1920-1caf-0d07-39b20c7bb944@redhat.com>
+ <CAFn=p-Z-jLo8XEZFuXHMYfEx+rRp7=3XDL08gBxXPuzAtp6yuA@mail.gmail.com>
+ <887d60f2-7c5c-5d79-8cc7-8b21fd3b8373@redhat.com>
+In-Reply-To: <887d60f2-7c5c-5d79-8cc7-8b21fd3b8373@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 17 Mar 2022 11:30:56 -0400
+Message-ID: <CAFn=p-YxuVF16P19ZbyPdV3Zq+FOQ8hoULW+8a9-4XDcgtN0Gg@mail.gmail.com>
+Subject: Re: [PATCH 01/14] iotests: add qemu_img_json()
+To: Hanna Reitz <hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,32 +96,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- ui/cocoa.m | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Thu, Mar 17, 2022 at 10:51 AM Hanna Reitz <hreitz@redhat.com> wrote:
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index cb6e7c41dc6..c4e5468f9e6 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -923,7 +923,8 @@ - (bool) handleEventLocked:(NSEvent *)event
-                 /* Don't pass command key changes to guest unless mouse is grabbed */
-                 case kVK_Command:
-                     if (isMouseGrabbed &&
--                        !!(modifiers & NSEventModifierFlagCommand)) {
-+                        !!(modifiers & NSEventModifierFlagCommand) &&
-+                        left_command_key_enabled) {
-                         if (swap_opt_cmd) {
-                             [self toggleKey:Q_KEY_CODE_ALT];
-                         } else {
--- 
-2.32.0 (Apple Git-132)
+> I hope similarly to how =D7=90=E2=80=8E=E2=82=80 and its companions exist=
+[1], there are also
+> multiple instances of `...`, so one can succeed at handling cases where
+> a `...` is a valid return type.  I suggest just more dots.
+
+lol.
+
+I'm invested in higher-kinded ellipse theory.
+
+--js
 
 
