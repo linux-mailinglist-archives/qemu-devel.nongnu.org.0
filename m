@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C5A4DC7BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 14:39:36 +0100 (CET)
-Received: from localhost ([::1]:36528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3714DC7C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 14:42:51 +0100 (CET)
+Received: from localhost ([::1]:38698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUqLn-0001XG-1k
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 09:39:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52238)
+	id 1nUqOw-0003CJ-DW
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 09:42:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUqKs-0000r5-20
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:38:38 -0400
-Received: from [2607:f8b0:4864:20::112c] (port=42842
- helo=mail-yw1-x112c.google.com)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nUqNQ-0002SB-BP
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:41:16 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:40880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUqKq-0000mQ-DD
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:38:37 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2dbd97f9bfcso58173447b3.9
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 06:38:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QzyGkWHBsC8iwqqYrL53qax56ZVFreNZRL50avlkUeQ=;
- b=lIZlxhzufJyYeq8RqX2xFHC2QBD7XrWF3yJ6k87liE8JXTO8KoEwooLRXdPysixozd
- xh6y8/UOhpgbscYDXPp23nuwR17nyRBdkbY52ttAIe7RGBvthBiaHw1m6M44HabZ3aCZ
- Jydcu7kV+QthJrq2F1tNGxjDL4CFvd44LHibircCo3nt6StybSkK6jrwVc7Mey5wuA2I
- 0pKCvI6Pcg+JCaqlCQjAEi4MwpWrWy0iBZVSCUhsmzDLF0VJny7NIfQHKpbeFHx7b+j4
- d/TC6IUJ/NfkhHLAcDW+A8eSh5j5DrwvtnTGnOOzK55EFPo1CtFE/LpeWnNXn3MryyYk
- JoOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QzyGkWHBsC8iwqqYrL53qax56ZVFreNZRL50avlkUeQ=;
- b=pm/mbzDEu4h0lwA58skZlFSL79KVmEpF/WftmljvM4drGrFS3/DoPh1URcqGwNYifh
- JKhlqqibPFiHVlWyoj7JMCi3owjGXAJcBru6puTHHdkxNUBqB0UrcDm/27LpvyOOQE4w
- mLQ4+lCPA3Mo2DQD3zqWi3J06UyVfSilEDLzL6HDgjrWgi8ulsCinb5QyCIQFPZEZzpL
- cHKMU6V0OPloyQEpg9uUglzlg4MtsOfY24MjKAoZZiKee5+E0rcDpJgNJxgYFhpqgbxK
- gsIy0LSOKeA1xo34a9K8r9dXx+ovsgtP6xvlcltK+9sxnY9OxaMlnFQyVOCH/SI5hyvH
- jLmg==
-X-Gm-Message-State: AOAM533woS6Wn/7rqJ1grtAOa32l0b2O4EVKQHpfhAIJ33Cg5K9wd+Js
- sd7gyZO2i9y4wJF3j4wY7MyXSDAlTw67VGJFgMt96w==
-X-Google-Smtp-Source: ABdhPJzTTVF0LMtqB7IiiBj/1Ki11mTTE/puPEdQ2e7XpYv5/Ci060TUb2vcGBN10IwZfPPlArgHIW6gAXYe+zbxl8w=
-X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
- m125-20020a0dfc83000000b002e5b0f4c125mr5679212ywf.347.1647524314829; Thu, 17
- Mar 2022 06:38:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nUqNO-0001Dv-HB
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:41:16 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C937521112;
+ Thu, 17 Mar 2022 13:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1647524472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NGJBxT+xUFsKs+f25LQT45sv6F82JNHuaP7l1JmU9ZM=;
+ b=rTOuOJ4rzGold2quMZdDhafB29BQH2w+go76jxA8zigztjbrOigZIQ1wERHW0l2wkZm+jt
+ VvMAmIzIdb13QLF4VDV5HbrlKKIhDlAInJzmHGF+JZw2puALfGflX7PkwWLDDwtpHO5psZ
+ 8zT5RsGZqzyIN3qYxrPqD7pWy5semMs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1647524472;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NGJBxT+xUFsKs+f25LQT45sv6F82JNHuaP7l1JmU9ZM=;
+ b=4Ye8ERZ1f7zjJoBIJqX7qmVYlpim1eN8xWbAAtQkEb0/dURkSwWc6QyBX9H7vQf0+lWZJi
+ 9rfWuHjlb/ss7gDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9426813BAC;
+ Thu, 17 Mar 2022 13:41:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Xr3pIXg6M2LuFwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 17 Mar 2022 13:41:12 +0000
+Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
+ performance
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220312163001.3811-1-cfontana@suse.de>
+ <Yi94mQUfrxMVbiLM@redhat.com> <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de>
+ <Yi+ACeaZ+oXTVYjc@redhat.com> <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
+ <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
+Date: Thu, 17 Mar 2022 14:41:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20220317050538.924111-1-richard.henderson@linaro.org>
- <20220317050538.924111-2-richard.henderson@linaro.org>
-In-Reply-To: <20220317050538.924111-2-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Mar 2022 13:38:23 +0000
-Message-ID: <CAFEAcA-WTAjYGnb0-cDLEa+XJYDLRV4cctQu=VHshXc48=ca5w@mail.gmail.com>
-Subject: Re: [PATCH for-7.1 v6 01/51] tcg: Fix indirect lowering vs
- TCG_OPF_COND_BRANCH
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <YjMMfnEjXsz3Vi8h@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,139 +88,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
+Cc: libvir-list@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Mar 2022 at 05:09, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> With TCG_OPF_COND_BRANCH, we extended the lifetimes of
-> globals across extended basic blocks.  This means that
-> the liveness computed in pass 1 does not kill globals
-> in the same way as normal temps.
->
-> Introduce TYPE_EBB to match this lifetime, so that we
-> get correct register allocation for the temps that we
-> introduce during the indirect lowering pass.
->
-> Fixes: b4cb76e6208 ("tcg: Do not kill globals at conditional branches")
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/tcg/tcg.h |  2 ++
->  tcg/tcg.c         | 10 ++++++++++
->  2 files changed, 12 insertions(+)
->
-> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-> index 73869fd9d0..27de13fae0 100644
-> --- a/include/tcg/tcg.h
-> +++ b/include/tcg/tcg.h
-> @@ -433,6 +433,8 @@ typedef enum TCGTempVal {
->  typedef enum TCGTempKind {
->      /* Temp is dead at the end of all basic blocks. */
->      TEMP_NORMAL,
-> +    /* Temp is live across conditional branch, but dead otherwise. */
-> +    TEMP_EBB,
->      /* Temp is saved across basic blocks but dead at the end of TBs. */
->      TEMP_LOCAL,
->      /* Temp is saved across both basic blocks and translation blocks. */
+On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
+> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
+>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
+>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
+>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
+>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
+>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
+>>>>>>> the first user is the qemu driver,
+>>>>>>>
+>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
+>>>>>>>
+>>>>>>> This improves the situation by 400%.
+>>>>>>>
+>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
+>>>>>>> compared with direct qemu migration to a nc socket to a file.
+>>>>>>>
+>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>>>>> ---
+>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
+>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
+>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
+>>>>>>>  src/util/virfile.h        |  1 +
+>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
+>>>>>>>
+>>>>>>> Hello, I initially thought this to be a qemu performance issue,
+>>>>>>> so you can find the discussion about this in qemu-devel:
+>>>>>>>
+>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
+>>>>>>>
+>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
+> 
+> 
+>> Current results show these experimental averages maximum throughput
+>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
+>> "query-migrate", tests repeated 5 times for each).
+>> VM Size is 60G, most of the memory effectively touched before migration,
+>> through user application allocating and touching all memory with
+>> pseudorandom data.
+>>
+>> 64K:     5200 Mbps (current situation)
+>> 128K:    5800 Mbps
+>> 256K:   20900 Mbps
+>> 512K:   21600 Mbps
+>> 1M:     22800 Mbps
+>> 2M:     22800 Mbps
+>> 4M:     22400 Mbps
+>> 8M:     22500 Mbps
+>> 16M:    22800 Mbps
+>> 32M:    22900 Mbps
+>> 64M:    22900 Mbps
+>> 128M:   22800 Mbps
+>>
+>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
+> 
+> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
+> libvirt attempt to raise the pipe limit to 1 MB by default, but
+> not try to go higher.
+> 
+>> As for the theoretical limit for the libvirt architecture,
+>> I ran a qemu migration directly issuing the appropriate QMP
+>> commands, setting the same migration parameters as per libvirt,
+>> and then migrating to a socket netcatted to /dev/null via
+>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
+>>
+>> QMP:    37000 Mbps
+> 
+>> So although the Pipe size improves things (in particular the
+>> large jump is for the 256K size, although 1M seems a very good value),
+>> there is still a second bottleneck in there somewhere that
+>> accounts for a loss of ~14200 Mbps in throughput.
+> 
+> In the above tests with libvirt, were you using the
+> --bypass-cache flag or not ?
 
-Maybe add an assert() in tcg_temp_free_internal() that ts->kind is
-not TEMP_EBB ?  (This was about the only place in the file that
-does different things based on ts->kind that you haven't added
-TEMP_EBB handling for.)
+No, I do not. Tests with ramdisk did not show a notable difference for me,
 
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index 33a97eabdb..45030e88fd 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -1674,6 +1674,7 @@ static void tcg_reg_alloc_start(TCGContext *s)
->          case TEMP_GLOBAL:
->              break;
->          case TEMP_NORMAL:
-> +        case TEMP_EBB:
->              val = TEMP_VAL_DEAD;
->              /* fall through */
->          case TEMP_LOCAL:
-> @@ -1701,6 +1702,9 @@ static char *tcg_get_arg_str_ptr(TCGContext *s, char *buf, int buf_size,
->      case TEMP_LOCAL:
->          snprintf(buf, buf_size, "loc%d", idx - s->nb_globals);
->          break;
-> +    case TEMP_EBB:
-> +        snprintf(buf, buf_size, "ebb%d", idx - s->nb_globals);
-> +        break;
->      case TEMP_NORMAL:
->          snprintf(buf, buf_size, "tmp%d", idx - s->nb_globals);
->          break;
-> @@ -2378,6 +2382,7 @@ static void la_bb_end(TCGContext *s, int ng, int nt)
->              state = TS_DEAD | TS_MEM;
->              break;
->          case TEMP_NORMAL:
-> +        case TEMP_EBB:
->          case TEMP_CONST:
->              state = TS_DEAD;
->              break;
-> @@ -2427,6 +2432,7 @@ static void la_bb_sync(TCGContext *s, int ng, int nt)
->          case TEMP_NORMAL:
->              s->temps[i].state = TS_DEAD;
->              break;
-> +        case TEMP_EBB:
->          case TEMP_CONST:
->              continue;
->          default:
+but tests with /dev/null were not possible, since the command line is not accepted:
 
-The comment on la_bb_sync() needs updating:
+# virsh save centos7 /dev/null
+Domain 'centos7' saved to /dev/null
+[OK]
 
-/*
- * liveness analysis: conditional branch: all temps are dead
- * unless explicitly live-across-conditional-branch, globals
- * and local temps should be synced.
- */
+# virsh save centos7 /dev/null --bypass-cache
+error: Failed to save domain 'centos7' to /dev/null
+error: Failed to create file '/dev/null': Invalid argument
 
 
-> @@ -2797,6 +2803,7 @@ static bool liveness_pass_2(TCGContext *s)
->              TCGTemp *dts = tcg_temp_alloc(s);
->              dts->type = its->type;
->              dts->base_type = its->base_type;
-> +            dts->kind = TEMP_EBB;
->              its->state_ptr = dts;
->          } else {
->              its->state_ptr = NULL;
-> @@ -3107,6 +3114,7 @@ static void temp_free_or_dead(TCGContext *s, TCGTemp *ts, int free_or_dead)
->          new_type = TEMP_VAL_MEM;
->          break;
->      case TEMP_NORMAL:
-> +    case TEMP_EBB:
->          new_type = free_or_dead < 0 ? TEMP_VAL_MEM : TEMP_VAL_DEAD;
->          break;
->      case TEMP_CONST:
-> @@ -3353,6 +3361,7 @@ static void tcg_reg_alloc_bb_end(TCGContext *s, TCGRegSet allocated_regs)
->              temp_save(s, ts, allocated_regs);
->              break;
->          case TEMP_NORMAL:
-> +        case TEMP_EBB:
->              /* The liveness analysis already ensures that temps are dead.
->                 Keep an tcg_debug_assert for safety. */
->              tcg_debug_assert(ts->val_type == TEMP_VAL_DEAD);
-> @@ -3390,6 +3399,7 @@ static void tcg_reg_alloc_cbranch(TCGContext *s, TCGRegSet allocated_regs)
->          case TEMP_NORMAL:
->              tcg_debug_assert(ts->val_type == TEMP_VAL_DEAD);
->              break;
-> +        case TEMP_EBB:
->          case TEMP_CONST:
->              break;
->          default:
+> 
+> Hopefully use of O_DIRECT doesn't make a difference for
+> /dev/null, since the I/O is being immediately thrown
+> away and so ought to never go into I/O cache. 
+> 
+> In terms of the comparison, we still have libvirt iohelper
+> giving QEMU a pipe, while your test above gives QEMU a
+> UNIX socket.
+> 
+> So I still wonder if the delta is caused by the pipe vs socket
+> difference, as opposed to netcat vs libvirt iohelper code.
 
-Similarly, the comment above tcg_reg_alloc_cbranch() now should
-say "all temporaries are dead unless explicitly
-live-across-conditional-branch".
+I'll look into this aspect, thanks!
+> 
+> With regards,
+> Daniel
+> 
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Ciao,
 
-(though review from somebody more familiar with the TCG internals
-than me would still be useful I think)
+Claudio
 
-thanks
--- PMM
 
