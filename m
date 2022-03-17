@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778164DBCE7
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 03:17:22 +0100 (CET)
-Received: from localhost ([::1]:46744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A324DBDBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 04:58:39 +0100 (CET)
+Received: from localhost ([::1]:56446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUfhZ-0006oY-J4
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 22:17:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55068)
+	id 1nUhHa-0003f7-22
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 23:58:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nUfgK-000601-Uv
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 22:16:04 -0400
-Received: from [2a00:1450:4864:20::631] (port=33766
- helo=mail-ej1-x631.google.com)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nUhGi-0002t1-PG; Wed, 16 Mar 2022 23:57:44 -0400
+Received: from [2607:f8b0:4864:20::1134] (port=36261
+ helo=mail-yw1-x1134.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nUfgG-0004NE-DR
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 22:16:02 -0400
-Received: by mail-ej1-x631.google.com with SMTP id pv16so7983018ejb.0
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 19:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nUhGg-0001p6-Vg; Wed, 16 Mar 2022 23:57:44 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-2e5a8a8c1cdso36625637b3.3; 
+ Wed, 16 Mar 2022 20:57:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KPuSpSkTV26gpCqToX03buL1Nr0M5rshLVzCkB2TMAw=;
- b=jQnrCekHXZvsFLjMtmSNGrLbSkjkWtrLplMNgPH/90wdxZsmFWRvRgY8Yl8ENtHOHx
- w9+6iVlbn82uyTafPInYRj1RoXVPuJ6yA3ydjMYJpA9hgiP+xPbO0dI/WdqX8eS6UeL2
- bYyn41eWi6xVG9jq0br7KMEQEOO9ELB2oloYaneUF1wn5Ir7OgF2baXvEeLNijnYVfy7
- sqxsJXZiZbx6iEkjLkJbZT/JwRQ3u+o6l0WNaIuCpDHB6kItW1ZDEXfXvsd07byqX/8O
- owd+1Po2zUlpuTU05r1cRQN+iqYzqxNvV0/gADKo+Y0MGD12Tjo9rxZ28r9NObOhGszy
- f3Ow==
+ :cc; bh=dVOHmxiVQqBe5dGpnBVqUhETt8NzSW+qKwcjjvV/dgY=;
+ b=KQYY6qWIheo1KWXDFj+13ul12oZmrLOgD2Ne/BAKi1q3HMvO/HdDDeuaz0OaiWUzLU
+ /fwDtei5Zzg4FjZYBJ3wwsf36u1Dq5tA6cGNANJIJ5qytmGzLK7RFLTo5sbcG/iXt2Zx
+ KqWZnFxI7FtpIWmzdaqFoP9589bVypfR/Dbm/4jrRFMku4o8Wzgbovq9aWfl50UAfqYb
+ ZwtSOJMbDpXDKfnuPmUCL15kfifvCUIRnLO2ChOupQIr7QfNjYrmvFXKL0erMAuBXK4n
+ XweoNhYs9NlE8LgW3zoEaqy2rMV7jTUhBiusoQWpJ6pOzO5AX5qJsuY5mu512ZW/LtqG
+ iC6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KPuSpSkTV26gpCqToX03buL1Nr0M5rshLVzCkB2TMAw=;
- b=UaWA1uR3becbE8RCDU66VQPvizuukF/+lYTi9vMMaeo+i832nSb7glex0W06ELMJNU
- 1/Ik8VXUdNrbAad7TUvMNT4LMMJia+htGI+sHoLTZ+Qg1IPhur+rx0UhC1sUF+XDdDle
- lmtu8Nqhl76PQO9y/Dws549SPhOjloPHJAu2776RI0zmEmwre5rUoTekn0hlkEtQhVuT
- ntJx0S8DZnhV1Uo0Q7LQAA1Q6zZf7GOxTh8ggnE3QQS+Rl1XuVj5vuKLaHbzZZKrsnE1
- Z1kQwjmS5vw8RPEdXTPfGSkMdmf0dKXRjHRTkbGVCBMAtUCjqVx7toneLdTq7gj08pJw
- gzag==
-X-Gm-Message-State: AOAM530ntlhivdoupjgnZQ6O/K5aKM1NDzzSVYMOfNDUo5qqPdZmPLAd
- RmFKgzRxQzUuUupmap1gSmpurqEIUr+d5h03nC8t
-X-Google-Smtp-Source: ABdhPJy4P1fsSfysmu/bYJ+L8F8QMOwuv+RSukPCP85PysU3iTDzf/cZCn1EMIsIvQBVfFkz/FJCGjx6vr7bxNQkLGA=
-X-Received: by 2002:a17:906:4fd3:b0:6db:d516:482b with SMTP id
- i19-20020a1709064fd300b006dbd516482bmr2309598ejw.257.1647483358277; Wed, 16
- Mar 2022 19:15:58 -0700 (PDT)
+ bh=dVOHmxiVQqBe5dGpnBVqUhETt8NzSW+qKwcjjvV/dgY=;
+ b=eBHQo6yvcDrQicaW897G5IDoHHG5U6ch3kQ0ICOtzfvnV2Yp/PVUyuoL9L9YxDMeAx
+ zhPdARmL99XlLoVXjIvvWWqbN/s7JWCspmj2lQnx4FG5+mBS96XqUhbWJOWZxvjZG36H
+ VaqiVJWp/NJhEd3aMS30CBTqe2zhbbHSrZvX5N0NNm7/iEb9nmxgzP90qr/YfsWWzQab
+ UCGUxa8w7IH4KXxeQAwLYHerqaRAvhnVueyf/8P2cW9C4zzJJUNm0gcCeG3ApogPHCsT
+ 50UlhzgQBomvez+zwYbYXGAWFODz2nuXuZl+c+/IsyGXSKkgAYxUZs7Zw3n+wrP87ofF
+ a1ng==
+X-Gm-Message-State: AOAM533oZCAum8jgTI5EfCwv6ah4so7cU0w80NlMvla0MIJTrLq5TGXF
+ iR4h9yg8wBL3/IoGXDYIbbqpeC9OcGAqkzN/0QA=
+X-Google-Smtp-Source: ABdhPJyXJ56o8odvu1sIFa0yHES0zd/30012w/TKnYyshm9r5iAJmyENnw4mw/mM8JNGXFdYa+PdoBiKkRtZEnZU5mM=
+X-Received: by 2002:a0d:edc7:0:b0:2d8:2ec:2e87 with SMTP id
+ w190-20020a0dedc7000000b002d802ec2e87mr3694771ywe.209.1647489461468; Wed, 16
+ Mar 2022 20:57:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220215105943.90-1-xieyongji@bytedance.com>
- <20220215105943.90-4-xieyongji@bytedance.com>
- <YjBg3QnSnpY2cAdL@stefanha-x1.localdomain>
- <CACycT3s7cgHBAqmpy=RZPwPZz4uptr0REzJ9fhM1qv+G_miS1Q@mail.gmail.com>
- <YjHl66pJYw45oKL9@stefanha-x1.localdomain>
- <CACycT3vpQsLG7oxeTHMs3w1qdO7fGJnjGiORfm=t1U2ehgD+bw@mail.gmail.com>
- <YjIHhP7WlXyZ9gJm@stefanha-x1.localdomain>
-In-Reply-To: <YjIHhP7WlXyZ9gJm@stefanha-x1.localdomain>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Thu, 17 Mar 2022 10:15:53 +0800
-Message-ID: <CACycT3s-V27cCH1OXpXtYRf=sgkCWKrb9Uq_nwNbcgYe2Z5nGQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] libvduse: Add VDUSE (vDPA Device in Userspace)
- library
-To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20220316175759.821785-1-atishp@rivosinc.com>
+In-Reply-To: <20220316175759.821785-1-atishp@rivosinc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 17 Mar 2022 11:57:30 +0800
+Message-ID: <CAEUhbmVXC-EdyjxQLsi3EGZ04D27azyKBkF4QtsDaiBHJgyXyA@mail.gmail.com>
+Subject: Re: [PATCH v6] target/riscv: Add isa extenstion strings to the device
+ tree
+To: Atish Patra <atishp@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1134
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yw1-x1134.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,74 +81,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Heiko Stubner <heiko@sntech.de>,
+ Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 16, 2022 at 11:51 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Thu, Mar 17, 2022 at 1:58 AM Atish Patra <atishp@rivosinc.com> wrote:
 >
-> On Wed, Mar 16, 2022 at 09:49:19PM +0800, Yongji Xie wrote:
-> > On Wed, Mar 16, 2022 at 9:28 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >
-> > > On Tue, Mar 15, 2022 at 07:38:12PM +0800, Yongji Xie wrote:
-> > > > On Tue, Mar 15, 2022 at 5:48 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > > > >
-> > > > > On Tue, Feb 15, 2022 at 06:59:40PM +0800, Xie Yongji wrote:
-> > > > > > VDUSE [1] is a linux framework that makes it possible to implement
-> > > > > > software-emulated vDPA devices in userspace. This adds a library
-> > > > > > as a subproject to help implementing VDUSE backends in QEMU.
-> > > > > >
-> > > > > > [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
-> > > > > >
-> > > > > > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-> > > > > > ---
-> > > > > >  meson.build                                 |   15 +
-> > > > > >  meson_options.txt                           |    2 +
-> > > > > >  scripts/meson-buildoptions.sh               |    3 +
-> > > > > >  subprojects/libvduse/include/atomic.h       |    1 +
-> > > > > >  subprojects/libvduse/libvduse.c             | 1152 +++++++++++++++++++
-> > > > > >  subprojects/libvduse/libvduse.h             |  225 ++++
-> > > > > >  subprojects/libvduse/linux-headers/linux    |    1 +
-> > > > > >  subprojects/libvduse/meson.build            |   10 +
-> > > > > >  subprojects/libvduse/standard-headers/linux |    1 +
-> > > > > >  9 files changed, 1410 insertions(+)
-> > > > > >  create mode 120000 subprojects/libvduse/include/atomic.h
-> > > > > >  create mode 100644 subprojects/libvduse/libvduse.c
-> > > > > >  create mode 100644 subprojects/libvduse/libvduse.h
-> > > > > >  create mode 120000 subprojects/libvduse/linux-headers/linux
-> > > > > >  create mode 100644 subprojects/libvduse/meson.build
-> > > > > >  create mode 120000 subprojects/libvduse/standard-headers/linux
-> > > > >
-> > > > > Please update the ./MAINTAINERS file when adding new source files.
-> > > >
-> > > > OK, sure. And would you mind being one of the maintainers since I'm
-> > > > not sure if I can do this job well.
-> > >
-> > > You're welcome to become the maintainer. It means that you will be CCed
-> > > on patches affecting this code and sometimes people might send you
-> > > questions about VDUSE exports.
-> > >
-> >
-> > I see. I will try my best.
-> >
-> > > Is the issue lack of time?
-> > >
-> >
-> > I think the time is enough. But since I have no experience, I'm not
-> > sure if I can do this well.
+> The Linux kernel parses the ISA extensions from "riscv,isa" DT
+> property. It used to parse only the single letter base extensions
+> until now. A generic ISA extension parsing framework was proposed[1]
+> recently that can parse multi-letter ISA extensions as well.
 >
-> Great! Don't worry there will probably not be much you need to do.
+> Generate the extended ISA string by appending the available ISA extensions
+> to the "riscv,isa" string if it is enabled so that kernel can process it.
 >
-> If someone submits a patch they'll CC you and you can post your
-> "Reviewed-by:". Kevin or I can pick up the patches you've reviewed and
-> send them with our pull requests to the qemu.git maintainer.
+> [1] https://lkml.org/lkml/2022/2/15/263
+>
+> Reviewed-by: Anup Patel <anup@brainfault.org>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Suggested-by: Heiko Stubner <heiko@sntech.de>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+> Changes from v5->v6:
+> 1. Improved commit message.
+> 2. Fixed a typo for Zfh.
+>
+> Changes from v4->v5:
+> 1. Fixed the order of Zxx extensions.
+> 2. Added a comment clearly describing the rules of extension order.
+>
+> Changes from v3->v4:
+> 1. Fixed the order of the extension names.
+> 2. Added all the available ISA extensions in Qemu.
+>
+> Changes from v2->v3:
+> 1. Used g_strconcat to replace snprintf & a max isa string length as
+> suggested by Anup.
+> 2. I have not included the Tested-by Tag from Heiko because the
+> implementation changed from v2 to v3.
+>
+> Changes from v1->v2:
+> 1. Improved the code redability by using arrays instead of individual check
+> ---
+>  target/riscv/cpu.c | 60 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 60 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index ddda4906ffb7..937ccdda997b 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -34,6 +34,11 @@
+>
+>  /* RISC-V CPU definitions */
+>
+> +struct isa_ext_data {
+> +        const char *name;
+> +        bool enabled;
+> +};
+> +
+>  static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
+>
+>  const char * const riscv_int_regnames[] = {
+> @@ -898,6 +903,60 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+>      device_class_set_props(dc, riscv_cpu_properties);
+>  }
+>
+> +#define ISA_EDATA_ENTRY(name, prop) {#name, cpu->cfg.prop}
+> +
+> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+> +{
+> +    char *old = *isa_str;
+> +    char *new = *isa_str;
+> +    int i;
+> +
+> +    /**
+> +     * Here are the ordering rules of extension naming defined by RISC-V
+> +     * specification :
+> +     * 1. All extensions should be separated from from other multi-letter
+
+redundant "from"
+
+> +     *    extensions by an underscore.
+> +     * 2. The first letter following the 'Z' conventionally indicates the most
+> +     *    closely related alphabetical extension category, IMAFDQLCBKJTPVH.
+> +     *    If multiple 'Z' extensions are named, they should be ordered first
+> +     *    by category, then alphabetically within a category.
+> +     * 3. Standard supervisor-level extensions (starts with 'S') should be
+> +     *    listed after standard unprivileged extensions.  If multiple
+> +     *    supervisor-level extensions are listed, they should be ordered
+> +     *    alphabetically.
+> +     * 4. Non-standard extensions (starts with 'X') must be listed after all
+> +     *    standard extensions. They must be separated from other multi-letter
+> +     *    extensions by an underscore.
+> +     */
+> +    struct isa_ext_data isa_edata_arr[] = {
+> +        ISA_EDATA_ENTRY(zfh, ext_zfh),
+> +        ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+> +        ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+> +        ISA_EDATA_ENTRY(zdinx, ext_zdinx),
+> +        ISA_EDATA_ENTRY(zba, ext_zba),
+> +        ISA_EDATA_ENTRY(zbb, ext_zbb),
+> +        ISA_EDATA_ENTRY(zbc, ext_zbc),
+> +        ISA_EDATA_ENTRY(zbs, ext_zbs),
+> +        ISA_EDATA_ENTRY(zve32f, ext_zve32f),
+> +        ISA_EDATA_ENTRY(zve64f, ext_zve64f),
+> +        ISA_EDATA_ENTRY(zhinx, ext_zhinx),
+> +        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
+> +        ISA_EDATA_ENTRY(svinval, ext_svinval),
+> +        ISA_EDATA_ENTRY(svnapot, ext_svnapot),
+> +        ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
+> +    };
+> +
+> +    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+> +        if (isa_edata_arr[i].enabled) {
+> +            new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
+> +            g_free(old);
+> +            old = new;
+> +        }
+> +    }
+> +
+> +    *isa_str = new;
+> +}
+> +
+>  char *riscv_isa_string(RISCVCPU *cpu)
+>  {
+>      int i;
+> @@ -910,6 +969,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
+>          }
+>      }
+>      *p = '\0';
+> +    riscv_isa_string_ext(cpu, &isa_str, maxlen);
+>      return isa_str;
+>  }
 >
 
-OK, I got it. Thank you!
-
-Thanks,
-Yongji
+Otherwise,
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Tested-by: Bin Meng <bmeng.cn@gmail.com>
 
