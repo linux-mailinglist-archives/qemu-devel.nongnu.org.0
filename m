@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946154DCC03
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 18:05:09 +0100 (CET)
-Received: from localhost ([::1]:38368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B094DCC02
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 18:04:59 +0100 (CET)
+Received: from localhost ([::1]:38122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUtYi-0002TR-0q
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 13:05:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40956)
+	id 1nUtYY-0002IJ-Gv
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 13:04:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUtUS-0006n0-Nb
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:00:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUtUP-0001Kd-31
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:00:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647536439;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fI5p/6FUC6GFEBEZWd8RWxetguuwV2hxMw6wDUYRqV8=;
- b=SYJSwY1Kb5RG+Mz+6QQ+Sr7IvDx53T9B6YvT3ndqMfeaznSagtnShCbjuYC8YuQodOJuFK
- ezHk5W9nFu87cu2GRRi4ajN7WKck5TgAIb17+e/WRQmGncHOjkov2SN6+tZ6oWsCaYMU8V
- H/ic/PSV8sOppLluDDanPWdtPk066qg=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-538-IWZcjFlgNtOCSWmb2b-ZxA-1; Thu, 17 Mar 2022 13:00:38 -0400
-X-MC-Unique: IWZcjFlgNtOCSWmb2b-ZxA-1
-Received: by mail-ua1-f69.google.com with SMTP id
- 111-20020ab003f8000000b00352ab6f6681so1846232uau.20
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 10:00:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nUtVl-0000Cn-3B
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:02:05 -0400
+Received: from [2607:f8b0:4864:20::635] (port=42498
+ helo=mail-pl1-x635.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nUtVj-0001Tu-54
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:02:04 -0400
+Received: by mail-pl1-x635.google.com with SMTP id p17so4949276plo.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 10:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=x8SbDX8vup8YkAsDd7GA/elOdBUDF/45K8HAVKjP5/g=;
+ b=m8H7BIrkeXK23iO/hQX8+pIdfyyR1DM4gXH73gNwRdU2e8wcKc5FLqnU+1uAK+lMwt
+ g7Uprp1qMSCNbT3r+Pvq42iIF3f0gaTtcsZUZXncXrWILc/GD/ZlgaZAlJ/IL6M/yd0D
+ ec6rKpa5pO/3c2ocYFvHPI36Roe8/lxmU5itkNnYuMq7n7UXMtUFXD32QZrmRg8f5dQ3
+ UIiAz2HS45/0Z3znJBLq1StQjABqIC8saK+spDpCqixflAv56c4EVG/byNnj1Qa+diOf
+ svSYxsREZTPZ0Z3G5iDOAQmVXM37NizwybhZ5VET7QB5S3ZaCyYI7ATg3EgApYE0VezA
+ VXuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fI5p/6FUC6GFEBEZWd8RWxetguuwV2hxMw6wDUYRqV8=;
- b=pZeNkTQxXB4EaEDrD/8ie/VBwl1y9KsAZHB+vrwcJO8NKRMK9wlf4oKjBsFGJgz9hX
- UVI+5ESP53lknG9Wi4VRK/Y5YgfzcYKM9d2CMgVQG9BjLqUp3uHnt0K7tR79O9K4K1x7
- pyQe+aIdaaCHj6ycC3krQX4gIsPmBkNFFdC0VHvvlJ7mht+UiVKgd0ApjXQ6T1kqC8TL
- YYyaEkd1xR5DVl19Oj6dGKhsaoNgwFtz449lNDQ4GT0bNMyMuaufzMrQh7DEiCuZsKiN
- PpsTyEP5AmpD7+Rog7nx8kZHI22Vy6agr4g/5ZZlS5qh5aThlkieDi6bA0csppwu7MIY
- 1oYQ==
-X-Gm-Message-State: AOAM5307Uu23ELZM4+sa39TUNawa0Ok/7T80LoOlptRJpmFgUFS350dD
- fvSAVJ+LmdLYTZRtMqXbQDsXN6gv1x4kF47X5XYns2e2UOOI+foL/TsKdatm5qULFEzn8z8cJDB
- nX41AsULSwY7rOEL6Dgt3COTwby6X/Ro=
-X-Received: by 2002:ab0:67cf:0:b0:341:257f:ce52 with SMTP id
- w15-20020ab067cf000000b00341257fce52mr1971931uar.109.1647536437263; 
- Thu, 17 Mar 2022 10:00:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyoW4LIDdolsEo1FZmI9wTFjJhzalj/BRltyZ4HOWaCdTfJukqtqC8mbmAffVWdE5kXumQA1tI8qe18I+8b1y4=
-X-Received: by 2002:ab0:67cf:0:b0:341:257f:ce52 with SMTP id
- w15-20020ab067cf000000b00341257fce52mr1971911uar.109.1647536436944; Thu, 17
- Mar 2022 10:00:36 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=x8SbDX8vup8YkAsDd7GA/elOdBUDF/45K8HAVKjP5/g=;
+ b=ng8AmxN24XI71lvweZftkXF5lo2dsQ95FtpBznvqEWPQ2ICXpe/TOdZHPtqm/cVMvK
+ fqm4sD2Np3zWbwfnKR8pQbUeA0audDglW4x84cGF2/J3b73r1ROQHJo4llkv2qp8lEZm
+ fmnFKnamm5pQVClvLI9IjbqI7ZcW0CltrPdvBa5b0brGZbUQjQHMwWQsfqF5QBmkXpRW
+ To7euiewpfRXM8mo1UrFz4VOY9rNBi0Y6U5Ks+ufka85Rt+JIX8Xj5YW7Ut+YcQx1Hi3
+ XuT53fqubRSStoNZE+8CwC1VgoiAVUskp3Zw+Fq99vgbDsEqOYBJa9QC3eTZ5eAPs1Af
+ 4wHg==
+X-Gm-Message-State: AOAM532FWTJcovaaQ6KrLkW115qW0wCJ5eqI1Rf+GZDq4EJrJZHYpr2N
+ udfiv+LRuRvexMHkTtXOjhQpXw==
+X-Google-Smtp-Source: ABdhPJyGz/LtB186nfCnAaAsOIL0hdmAGvEufIYBaHxkvPG8jfBeJami1lAkyWlXFZHB8w3lAVJ7dA==
+X-Received: by 2002:a17:902:e9c2:b0:153:c185:c7b1 with SMTP id
+ 2-20020a170902e9c200b00153c185c7b1mr5786944plk.92.1647536521296; 
+ Thu, 17 Mar 2022 10:02:01 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ b2-20020a639302000000b003808dc4e133sm5954961pge.81.2022.03.17.10.02.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Mar 2022 10:02:00 -0700 (PDT)
+Message-ID: <28938ce0-28ab-8365-ffe7-8ddda5e860e9@linaro.org>
+Date: Thu, 17 Mar 2022 10:01:58 -0700
 MIME-Version: 1.0
-References: <20220309035407.1848654-1-jsnow@redhat.com>
- <20220309035407.1848654-15-jsnow@redhat.com>
- <38910bd4-7f8f-bdf4-29a0-f76f01d75ade@redhat.com>
-In-Reply-To: <38910bd4-7f8f-bdf4-29a0-f76f01d75ade@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 17 Mar 2022 13:00:26 -0400
-Message-ID: <CAFn=p-ab92NRL+E7RytaUo_1S1UB0_eq1EJLjfTGs2Sn_dqSuQ@mail.gmail.com>
-Subject: Re: [PATCH 14/14] iotests: make img_info_log() call qemu_img_log()
-To: Hanna Reitz <hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH for-7.1 v6 25/51] target/nios2: Clean up handling of
+ tlbmisc in do_exception
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220317050538.924111-1-richard.henderson@linaro.org>
+ <20220317050538.924111-26-richard.henderson@linaro.org>
+ <CAFEAcA8+tJfXEKKyJg63VuEKu_CmegRSzcSnOhCkdcL47UmOHA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8+tJfXEKKyJg63VuEKu_CmegRSzcSnOhCkdcL47UmOHA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,39 +95,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 17, 2022 at 11:39 AM Hanna Reitz <hreitz@redhat.com> wrote:
->
-> On 09.03.22 04:54, John Snow wrote:
-> > Add configurable filters to qemu_img_log(), and re-write img_info_log()
-> > to call into qemu_img_log() with a custom filter instead.
-> >
-> > After this patch, every last call to qemu_img() is now guaranteed to
-> > either have its return code checked for zero, OR have its output
-> > actually visibly logged somewhere.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >   tests/qemu-iotests/iotests.py | 13 +++++++++----
-> >   1 file changed, 9 insertions(+), 4 deletions(-)
->
->  From my POV, this is a regression because before this patch (not this
-> series, though, admittedly), `img_info_log()` would throw an exception
-> on error, and with patch 12 being as it is, it will revert to its
-> pre-series behavior of not throwing an exception.  I prefer exceptions
-> to failed reference output diffs, because an exception tells me which
-> call failed.
+On 3/17/22 08:41, Peter Maydell wrote:
+> On page 3-21 of
+> https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/hb/nios2/n2cpu_nii5v1_01.pdf
+> the description of the WE flag says
+> "Hardware sets the WE flag to one on a TLB permission violation
+> exception, and on a TLB miss exception when status.EH = 0."
+> 
+> This is the second of those two cases, isn't it ?
 
-Hm, yeah. I just need to figure out if *all* of the qemu_img_log()
-calls are safe to enforce the return code of zero on... or how many
-need work if I change the default behavior. Let me see what I can do.
+Good eyes.  I had been looking over the exception processing section.
 
-I suppose it's maybe a bit late to try and squeak any of this in for
-freeze, so I can roll everything back up into one big series again and
-send a new revision.
 
+r~
 
