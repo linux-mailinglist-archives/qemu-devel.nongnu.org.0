@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93FFE4DC8BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 15:26:30 +0100 (CET)
-Received: from localhost ([::1]:56692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780C24DC8D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 15:34:56 +0100 (CET)
+Received: from localhost ([::1]:46230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUr5B-0003mp-F9
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 10:26:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57734)
+	id 1nUrDL-0007UH-Is
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 10:34:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nUqhe-0001yj-5b
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:02:10 -0400
-Received: from mga14.intel.com ([192.55.52.115]:5010)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nUqhb-0004XU-PL
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:02:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647525727; x=1679061727;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=lo1NebM6v85iPLE7CbTDOi6lgz/BD8Sl+CjEzcVhm4g=;
- b=MIPFeAHJqL5l5sJalAgKwEHvHhoGeUZHJ68Ibtj8UaA/BY/5vfQbEKxk
- +a4IrC5UbRDuWSn/oLg9JN8gUQwDC0hR94XZDk0PJSCAYOPPQK9/Wlm/O
- rzJiHx5yG7EbtwJshjRAybAlaupFwwPOZZv7LvJy7+JfCR0CYC4FyRE9F
- q7EqUnTITnTxd714RlJCvQJrc19m+sxXZBxIarC/iUhdBL50lbO8LOYAu
- /xhj5o386+sGA0PmylctsBpv84vQm5VzQMjWdTXoyHG0uGYH4v+uVWzeP
- 6g1BLPYLU3DL1To018FXafKIhYCaJ2GSodIiNsDvzxIQTCGUAYxg0SIDv Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="257059274"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="257059274"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 07:02:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="541379144"
-Received: from lxy-dell.sh.intel.com ([10.239.159.55])
- by orsmga007.jf.intel.com with ESMTP; 17 Mar 2022 07:01:56 -0700
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: [RFC PATCH v3 36/36] docs: Add TDX documentation
-Date: Thu, 17 Mar 2022 21:59:13 +0800
-Message-Id: <20220317135913.2166202-37-xiaoyao.li@intel.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220317135913.2166202-1-xiaoyao.li@intel.com>
-References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nUqtB-0001eB-B4
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:14:05 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:50666)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nUqt9-0006Go-AA
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:14:05 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BE1051F38D;
+ Thu, 17 Mar 2022 14:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1647526441; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vIHxEROwwurP5ZAeJjRF5ZBzVKUXPUtiShgW+pnjzzQ=;
+ b=jKrytBvBhiiUjSjO2zz2Mq6Q5XGcAVAvZnbZvLb1sg+ZvIoZ+xNWib5CEBfuuwFz8ZJY7k
+ MkplUv1ynvG6j2N4R4cK8mVNRFtCORya3kiY7ufZUEKkxXXmS7jwI9cEm9UoJSjmkwX2Go
+ KAVFyxAoxWbPne4Nhc4VDqIP+2T7ZGg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1647526441;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vIHxEROwwurP5ZAeJjRF5ZBzVKUXPUtiShgW+pnjzzQ=;
+ b=oyFdCNe58cqSlZc452J50iK5BRPuaoJXhmi2T2OCphskkRB3pdITQfLn421kds1LWbrTa5
+ r6FmRCA+2i3mJHDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8F52A13BA2;
+ Thu, 17 Mar 2022 14:14:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id dUiEIClCM2JuJwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 17 Mar 2022 14:14:01 +0000
+Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
+ performance
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220312163001.3811-1-cfontana@suse.de>
+ <Yi94mQUfrxMVbiLM@redhat.com> <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de>
+ <Yi+ACeaZ+oXTVYjc@redhat.com> <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
+ <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
+ <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
+Message-ID: <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de>
+Date: Thu, 17 Mar 2022 15:14:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=xiaoyao.li@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,157 +89,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, kvm@vger.kernel.org,
- Connor Kuehl <ckuehl@redhat.com>, seanjc@google.com, xiaoyao.li@intel.com,
- qemu-devel@nongnu.org, erdemaktas@google.com
+Cc: libvir-list@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add docs/system/i386/tdx.rst for TDX support, and add tdx in
-confidential-guest-support.rst
+On 3/17/22 2:41 PM, Claudio Fontana wrote:
+> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
+>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
+>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
+>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
+>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
+>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
+>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
+>>>>>>>> the first user is the qemu driver,
+>>>>>>>>
+>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
+>>>>>>>>
+>>>>>>>> This improves the situation by 400%.
+>>>>>>>>
+>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
+>>>>>>>> compared with direct qemu migration to a nc socket to a file.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>>>>>> ---
+>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
+>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
+>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
+>>>>>>>>  src/util/virfile.h        |  1 +
+>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
+>>>>>>>>
+>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
+>>>>>>>> so you can find the discussion about this in qemu-devel:
+>>>>>>>>
+>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
+>>>>>>>>
+>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
+>>
+>>
+>>> Current results show these experimental averages maximum throughput
+>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
+>>> "query-migrate", tests repeated 5 times for each).
+>>> VM Size is 60G, most of the memory effectively touched before migration,
+>>> through user application allocating and touching all memory with
+>>> pseudorandom data.
+>>>
+>>> 64K:     5200 Mbps (current situation)
+>>> 128K:    5800 Mbps
+>>> 256K:   20900 Mbps
+>>> 512K:   21600 Mbps
+>>> 1M:     22800 Mbps
+>>> 2M:     22800 Mbps
+>>> 4M:     22400 Mbps
+>>> 8M:     22500 Mbps
+>>> 16M:    22800 Mbps
+>>> 32M:    22900 Mbps
+>>> 64M:    22900 Mbps
+>>> 128M:   22800 Mbps
+>>>
+>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
+>>
+>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
+>> libvirt attempt to raise the pipe limit to 1 MB by default, but
+>> not try to go higher.
+>>
+>>> As for the theoretical limit for the libvirt architecture,
+>>> I ran a qemu migration directly issuing the appropriate QMP
+>>> commands, setting the same migration parameters as per libvirt,
+>>> and then migrating to a socket netcatted to /dev/null via
+>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
+>>>
+>>> QMP:    37000 Mbps
+>>
+>>> So although the Pipe size improves things (in particular the
+>>> large jump is for the 256K size, although 1M seems a very good value),
+>>> there is still a second bottleneck in there somewhere that
+>>> accounts for a loss of ~14200 Mbps in throughput.
 
-Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
----
- docs/system/confidential-guest-support.rst |   1 +
- docs/system/i386/tdx.rst                   | 103 +++++++++++++++++++++
- docs/system/target-i386.rst                |   1 +
- 3 files changed, 105 insertions(+)
- create mode 100644 docs/system/i386/tdx.rst
 
-diff --git a/docs/system/confidential-guest-support.rst b/docs/system/confidential-guest-support.rst
-index 0c490dbda2b7..66129fbab64c 100644
---- a/docs/system/confidential-guest-support.rst
-+++ b/docs/system/confidential-guest-support.rst
-@@ -38,6 +38,7 @@ Supported mechanisms
- Currently supported confidential guest mechanisms are:
- 
- * AMD Secure Encrypted Virtualization (SEV) (see :doc:`i386/amd-memory-encryption`)
-+* Intel Trust Domain Extension (TDX) (see :doc:`i386/tdx`)
- * POWER Protected Execution Facility (PEF) (see :ref:`power-papr-protected-execution-facility-pef`)
- * s390x Protected Virtualization (PV) (see :doc:`s390x/protvirt`)
- 
-diff --git a/docs/system/i386/tdx.rst b/docs/system/i386/tdx.rst
-new file mode 100644
-index 000000000000..b6c410202c77
---- /dev/null
-+++ b/docs/system/i386/tdx.rst
-@@ -0,0 +1,103 @@
-+Intel Trusted Domain eXtension (TDX)
-+====================================
-+
-+Intel Trusted Domain eXtensions (TDX) refers to an Intel technology that extends
-+Virtual Machine Extensions (VMX) and Multi-Key Total Memory Encryption (MKTME)
-+with a new kind of virtual machine guest called a Trust Domain (TD). A TD runs
-+in a CPU mode that is designed to protect the confidentiality of its memory
-+contents and its CPU state from any other software, including the hosting
-+Virtual Machine Monitor (VMM), unless explicitly shared by the TD itself.
-+
-+Prerequisites
-+-------------
-+
-+To run TD, the physical machine needs to have TDX module loaded and initialized
-+whihe KVM hypervisor has TDX support. It those requirements are met, the
-+``KVM_CAP_VM_TYPES`` will report the support of ``KVM_X86_TDX_VM``.
-+
-+Trust Domain Virtual Firmware (TDVF)
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Trust Domain Virtual Firmware (TDVF) is required to provide TD services to boot
-+TD Guest OS. TDVF needs to be copied to guest private memory and measured before
-+a TD boots.
-+
-+The VM scope ``MEMORY_ENCRYPT_OP`` ioctl provides command ``KVM_TDX_INIT_MEM_REGION``
-+to copy the firmware image to TD's private memory space.
-+
-+OVMF is the opensource firmware that implements the TDVF support. It can be used
-+as exsiting usage that mapped via pflash interface to TDX VM. It's user-friendly
-+that requies no use model change, but it's mapped and acting as RAM instead of
-+flash (ROM device) unlike what OVMF acts to standard VM.
-+
-+Feature Control
-+---------------
-+
-+Unlike non-TDX VM, the CPU features (enumerated by CPU or MSR) of a TD is not
-+under full control of VMM. VMM can only configure part of features of a TD on
-+``KVM_TDX_INIT_VM`` command of VM scope ``MEMORY_ENCRYPT_OP`` ioctl.
-+
-+The configurable features have three types:
-+
-+- Attributes:
-+  - PKS (bit 30) controls whether Supervisor Protection Keys is exposed to TD,
-+  which determines related CPUID bit and CR4 bit;
-+  - PERFMON (bit 63) controls whether PMU is exposed to TD.
-+
-+- XSAVE related features (XFAM):
-+  XFAM is a 64b mask, which has the same format as XCR0 or IA32_XSS MSR. It
-+  determines the set of extended features available for use by the guest TD.
-+
-+- CPUID features:
-+  Only some bits of some CPUID leaves are directly configurable by VMM.
-+
-+What features can be configured is reported via TDX capabilities.
-+
-+TDX capabilities
-+~~~~~~~~~~~~~~~~
-+
-+The VM scope ``MEMORY_ENCRYPT_OP`` ioctl provides command ``KVM_TDX_CAPABILITIES``
-+to get the TDX capabilities from KVM. It returns a data structure of
-+``struct kvm_tdx_capabilites``, which tells the supported configuration of
-+attributes, XFAM and CPUIDs.
-+
-+Launching a TD (TDX VM)
-+-----------------------
-+
-+To launch a TDX guest:
-+
-+.. parsed-literal::
-+
-+    |qemu_system_x86| \\
-+        -machine ...,confidential-guest-support=tdx0 \\
-+        -object tdx-guest,id=tdx0,[sept-ve-disable=off] \\
-+        -drive if=pflash,format=raw,unit=0,file=/path/to/OVMF_CODE.fd \\
-+        -drive if=pflash,format=raw,unit=1,file=/path/to/OVMF_VARS.fd \\
-+
-+Debugging
-+---------
-+
-+Bit 0 of TD attributes, is DEBUG bit, which decides if the TD runs in off-TD
-+debug mode. When in off-TD debug mode, TD's VCPU state and private memory are
-+accessible via given SEAMCALLs. This requires KVM to expose APIs to invoke those
-+SEAMCALLs and resonponding QEMU change.
-+
-+It's targeted as future work.
-+
-+restrictions
-+------------
-+
-+ - No readonly support for private memory;
-+
-+ - No SMM support: SMM support requires manipulating the guset register states
-+   which is not allowed;
-+
-+Live Migration
-+--------------
-+
-+TODO
-+
-+References
-+----------
-+
-+- `TDX Homepage <https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html>`__
-diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
-index 96bf54889a82..16dd4f1a8c80 100644
---- a/docs/system/target-i386.rst
-+++ b/docs/system/target-i386.rst
-@@ -29,6 +29,7 @@ Architectural features
-    i386/kvm-pv
-    i386/sgx
-    i386/amd-memory-encryption
-+   i386/tdx
- 
- .. _pcsys_005freq:
- 
--- 
-2.27.0
+Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
+and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
+
+~50000 mbps qemu to netcat socket to /dev/null
+~35500 mbps virsh save to /dev/null
+
+Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
+
+Ciao,
+
+C
+
+>>
+>> In the above tests with libvirt, were you using the
+>> --bypass-cache flag or not ?
+> 
+> No, I do not. Tests with ramdisk did not show a notable difference for me,
+> 
+> but tests with /dev/null were not possible, since the command line is not accepted:
+> 
+> # virsh save centos7 /dev/null
+> Domain 'centos7' saved to /dev/null
+> [OK]
+> 
+> # virsh save centos7 /dev/null --bypass-cache
+> error: Failed to save domain 'centos7' to /dev/null
+> error: Failed to create file '/dev/null': Invalid argument
+> 
+> 
+>>
+>> Hopefully use of O_DIRECT doesn't make a difference for
+>> /dev/null, since the I/O is being immediately thrown
+>> away and so ought to never go into I/O cache. 
+>>
+>> In terms of the comparison, we still have libvirt iohelper
+>> giving QEMU a pipe, while your test above gives QEMU a
+>> UNIX socket.
+>>
+>> So I still wonder if the delta is caused by the pipe vs socket
+>> difference, as opposed to netcat vs libvirt iohelper code.
+> 
+> I'll look into this aspect, thanks!
 
 
