@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943054DCC23
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 18:13:09 +0100 (CET)
-Received: from localhost ([::1]:48122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622874DCC2C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 18:16:23 +0100 (CET)
+Received: from localhost ([::1]:50824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUtgS-0001by-6K
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 13:13:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43068)
+	id 1nUtja-0003bf-Gl
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 13:16:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUtea-0008T1-3e
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:11:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44977)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nUthw-0002fU-IZ
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:14:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUteT-0002uZ-Up
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:11:10 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nUthu-0003HY-PA
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:14:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647537064;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1647537278;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IsxvVOIbndERWiC+iBrp1VY+S4+h/wd7B9qrjKIicgQ=;
- b=AwcDLhYlJi54fHMqFKVb3QDHJZBpWP3egZ3z7sagTJTdKFANJAnOp+EV7+wdwdIXQIVFMw
- y6jDbg0Zasie4Yeqa+i+1ec7CJFnRKq1FOSeI8SOCNGV4vMeooSdW0zdG67WnoXcSQrCnv
- 5r5bkTJs2OUPmJkrrbts6xofPfYAtaI=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pdZHsv8NMNgKIwAWVsi5KOuNDBnQDEl9a2TRcsrbyS4=;
+ b=JrfCvpkEodfJdFdjc3iIYs2fMF74JAUoi3ZX0sBPap3aOA6Cs5NY6eC2JPj5kB3eMTyRQa
+ 1pussQ6PacR8TL0KoEznoSSgGzvBXpohBh/0dsHwgmZ9U1MWxzu8eVPuEs3VkWXs5Dm0ar
+ Runu50tUhJMjtToD4UILoGJ6U6jWvvI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-220-vo3vWGNxM0WKQgvJytJuqQ-1; Thu, 17 Mar 2022 13:11:03 -0400
-X-MC-Unique: vo3vWGNxM0WKQgvJytJuqQ-1
-Received: by mail-ua1-f72.google.com with SMTP id
- m17-20020ab061d1000000b00353a3a7c6aeso848207uan.4
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 10:11:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IsxvVOIbndERWiC+iBrp1VY+S4+h/wd7B9qrjKIicgQ=;
- b=mBRFKw2kgtqRnfpPoCCd4ZJ9z/1et//fjHHRrEHxR1v+uox2awrlyOYYOG5m9lUHXJ
- 0MR2fVmSVmShpTduGgaSTDFghpfJys7SXywaW+8OpZ5fUnt3mEE7oAT3y45cLpl/7UfD
- fVnbNtBxPmTfeoBHkDfufKuhNw0sYZdoeV+X/Hs5b0JPfUPuWdVyrSM230drJs4MGWbc
- czy2sY5zxAl3DSYTHp6m66/gC8JO9Hyimr3XvzBOlfPXvl10efwBG4zDI66zhqZO5spS
- ag+sw4Jcs3fHcPZDZWIpxS1Sx+OA0E7Ac2kHCrzTHb53DWUxFmY6ssXpeZBjemJ9oTDm
- Imyw==
-X-Gm-Message-State: AOAM531qdEp3zPQdxjf0S5c9FShAECpqlNiYoBPoUx8UxFDUWxCLBd0/
- 9HJHEnf3EMW+OPKa6YIgTQjf3DV1evE35L+cZ/iS9T10z3kbJ5RlSQgPSdpd935fncjmQjb1ttL
- xRC8bXOYFUwxUBIydu4eZmALdD19Lmlk=
-X-Received: by 2002:a1f:3244:0:b0:332:2037:83b1 with SMTP id
- y65-20020a1f3244000000b00332203783b1mr2375433vky.24.1647537062467; 
- Thu, 17 Mar 2022 10:11:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwu/mpeMlBI4t2zk478wD3sfNFmPk9GSEhnLO8EGqV6SF37qoGeFiHH42RD+eWe0DQIC22kR/DO13+0muZ90AQ=
-X-Received: by 2002:a1f:3244:0:b0:332:2037:83b1 with SMTP id
- y65-20020a1f3244000000b00332203783b1mr2375414vky.24.1647537062168; Thu, 17
- Mar 2022 10:11:02 -0700 (PDT)
+ us-mta-622-O_u_jzBoMp2X2XyqFzeKKg-1; Thu, 17 Mar 2022 13:14:25 -0400
+X-MC-Unique: O_u_jzBoMp2X2XyqFzeKKg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 277181C068CB;
+ Thu, 17 Mar 2022 17:14:25 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D29441136F5;
+ Thu, 17 Mar 2022 17:14:23 +0000 (UTC)
+Date: Thu, 17 Mar 2022 17:14:20 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PULL for-7.0 1/2] aio-posix: fix build failure io_uring 2.2
+Message-ID: <YjNsbJcTkoxdPE4P@redhat.com>
+References: <20220317165743.238662-1-stefanha@redhat.com>
+ <20220317165743.238662-2-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20220309035407.1848654-1-jsnow@redhat.com>
- <20220309035407.1848654-13-jsnow@redhat.com>
- <71c3d99f-f273-ac32-d644-4b2d3eee6ffb@redhat.com>
- <CAFn=p-ZpoF+QVZv0Quq8NmYVSvXOtVMxPmynDFSr7hG54aV-CA@mail.gmail.com>
- <1683432d-771e-2ffa-accd-916aaf3801dd@redhat.com>
-In-Reply-To: <1683432d-771e-2ffa-accd-916aaf3801dd@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 17 Mar 2022 13:10:51 -0400
-Message-ID: <CAFn=p-aewz0u3ePQEC0-RjGU3XEGaybnE=z_WPy_x0ye2aZocg@mail.gmail.com>
-Subject: Re: [PATCH 12/14] iotests: remove qemu_img_pipe_and_status()
-To: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220317165743.238662-2-stefanha@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -83,7 +71,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,96 +84,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Haiyue Wang <haiyue.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 17, 2022 at 12:04 PM Hanna Reitz <hreitz@redhat.com> wrote:
->
-> On 17.03.22 16:58, John Snow wrote:
-> > On Thu, Mar 17, 2022 at 11:28 AM Hanna Reitz <hreitz@redhat.com> wrote:
-> >> On 09.03.22 04:54, John Snow wrote:
-> >>> With the exceptional 'create' calls removed in the prior commit, chan=
-ge
-> >>> qemu_img_log() and img_info_log() to call qemu_img() directly
-> >>> instead.
-> >>>
-> >>> In keeping with the spirit of diff-based tests, allow these calls to
-> >>> qemu_img() to return an unchecked non-zero status code -- because any
-> >>> error we'd see from the output is going into the log anyway.
-> >> :(
-> >>
-> >> I=E2=80=99d prefer having an exception that points exactly to where in=
- the test
-> >> the offending qemu-img call was.  But then again, I dislike such
-> >> log-based tests anyway, and this is precisely one reason for it...
-> >>
-> >> I think Kevin disliked my approach of just `assert qemu_img() =3D=3D 0=
-`
-> >> mainly because you don=E2=80=99t get the stderr output with it.  But y=
-ou=E2=80=99ve
-> >> solved that problem now, so I don=E2=80=99t think there=E2=80=99s a re=
-ason why we
-> >> wouldn=E2=80=99t want a raised exception.
-> >>
-> >> Hanna
-> >>
-> > I thought you and Kevin actually preferred diff-based tests, maybe I
-> > misunderstood. I know that there was a strong dislike of the unittest
-> > based tests,
->
-> Oh gosh not from me.  I really like them, because they allow skipping
-> test cases so easily (and because reviewing patches for such tests tend
-> to be easier, because the code is explicit about what results it expects)=
-.
+On Thu, Mar 17, 2022 at 04:57:42PM +0000, Stefan Hajnoczi wrote:
+> From: Haiyue Wang <haiyue.wang@intel.com>
+> 
+> The io_uring fixed "Don't truncate addr fields to 32-bit on 32-bit":
+> https://git.kernel.dk/cgit/liburing/commit/?id=d84c29b19ed0b130000619cff40141bb1fc3615b
 
-Oh! Today-I-Learned. Yeah, the ability to skip cases is nice indeed.
+Ewww, that changes the public ABI of the library on 32-bit
+platforms, but failed to bump the soname version, except....
 
->
-> > and that the new script-style was more preferred. I
-> > thought inherent to that was an actual preference for diff-based
-> > itself, but maybe not?
-> >
-> > I'd say negative tests are easier with the diff-based as one benefit.
-> > I'm a little partial to that kind of test. (I noticed that bitmap
-> > tests were the most habitual user of negative tests involving
-> > qemu-img, haha.) Otherwise, I guess I don't really care what the test
-> > mechanism is provided that the error output is informative. Happy to
-> > defer to consensus between you and Kevin.
->
-> I don=E2=80=99t think we have a consensus. :)
->
-> But AFAIU the main disagreement was based on what each of us found more
-> important when something fails.  Kevin found it more important to see
-> what the failing process wrote to stderr, I found it more important to
-> see what call failed exactly.  Since your exception model gives us both,
-> I believe we can both be happy with it.
->
+...investigating this I noticed a further change that happend
+a few weeks earlier in liburing that actually dropped the
+version from the soname entirely making it an unversioned
+library.
 
-Yeah, I like having both. Knowing which call failed exactly is helpful
-for fixing the test and/or reproducing it on your own. Seeing the
-output can give extremely important clues about the nature of the
-failure.
+This is the current shipping 2.1 version:
 
-> > Anyway, this patch (and the ones that follow it, I haven't read your
-> > feedback on 13-14 yet) doesn't close the door on making everything
-> > Except-by-default, it would just be further work that needs to happen
-> > after the fact. How do you want to move forward?
-> >
-> > - Replace calls to qemu_img_log() with qemu_img()
-> > - Make qemu_img_log() raise by default, but log output on success cases
-> > - Something else?
->
-> Second one sounds good to me for this series, because I=E2=80=99d expect =
-it=E2=80=99d
-> mean the least amount of changes...?
->
+$ eu-readelf -a liburing.so.2.0.0  | grep SONAME
+  SONAME            Library soname: [liburing.so.2]
 
-Alright, I'll see what I can do. Thanks for the review, I know churn
-like this isn't the most fulfilling thing.
+and in git master:
 
-> Hanna
->
+$ eu-readelf -a src/liburing.so.2.2 | grep SONA
+  SONAME            Library soname: [liburing.so]
+
+Surely that's a mistake.
+
+After the ABI incompatibility above, I would have expected
+it to bump to liburing.so.3 
+
+
+> 
+> This leads to build failure:
+> ../util/fdmon-io_uring.c: In function ‘add_poll_remove_sqe’:
+> ../util/fdmon-io_uring.c:182:36: error: passing argument 2 of ‘io_uring_prep_poll_remove’ makes integer from pointer without a cast [-Werror=int-conversion]
+>   182 |     io_uring_prep_poll_remove(sqe, node);
+>       |                                    ^~~~
+>       |                                    |
+>       |                                    AioHandler *
+> In file included from /root/io/qemu/include/block/aio.h:18,
+>                  from ../util/aio-posix.h:20,
+>                  from ../util/fdmon-io_uring.c:49:
+> /usr/include/liburing.h:415:17: note: expected ‘__u64’ {aka ‘long long unsigned int’} but argument is of type ‘AioHandler *’
+>   415 |           __u64 user_data)
+>       |           ~~~~~~^~~~~~~~~
+> cc1: all warnings being treated as errors
+> 
+> Use LIBURING_HAVE_DATA64 to check whether the io_uring supports 64-bit
+> variants of the get/set userdata, to convert the paramter to the right
+> data type.
+> 
+> Signed-off-by: Haiyue Wang <haiyue.wang@intel.com>
+> Message-Id: <20220221162401.45415-1-haiyue.wang@intel.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  util/fdmon-io_uring.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/util/fdmon-io_uring.c b/util/fdmon-io_uring.c
+> index 1461dfa407..ab43052dd7 100644
+> --- a/util/fdmon-io_uring.c
+> +++ b/util/fdmon-io_uring.c
+> @@ -179,7 +179,11 @@ static void add_poll_remove_sqe(AioContext *ctx, AioHandler *node)
+>  {
+>      struct io_uring_sqe *sqe = get_sqe(ctx);
+>  
+> +#ifdef LIBURING_HAVE_DATA64
+> +    io_uring_prep_poll_remove(sqe, (__u64)(uintptr_t)node);
+> +#else
+>      io_uring_prep_poll_remove(sqe, node);
+> +#endif
+>  }
+>  
+>  /* Add a timeout that self-cancels when another cqe becomes ready */
+> -- 
+> 2.35.1
+> 
+> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
