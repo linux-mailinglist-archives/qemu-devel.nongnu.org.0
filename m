@@ -2,97 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F35D4DCA9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 16:59:40 +0100 (CET)
-Received: from localhost ([::1]:55952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130E74DCAA9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 17:02:36 +0100 (CET)
+Received: from localhost ([::1]:59098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUsXL-0004MZ-Gs
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 11:59:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55778)
+	id 1nUsaA-0006XF-Gi
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 12:02:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUsVr-0003Z9-UO
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:58:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36492)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUsWW-0004RC-Oh
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:58:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUsVp-0007wg-OX
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:58:06 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUsWV-0007zM-9w
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 11:58:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647532685;
+ s=mimecast20190719; t=1647532726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eSjd2aWlhwnp2nJUoQ0zBkWkxXZ45ePCvPn3Mbs5j68=;
- b=hFyhKRkilxtk2HX6itUhr1ZoY/SrDTRB+YIHALbLrqimc5owyOSqhZQExUzXi61Dt1LoTB
- vQkss7PM5NZwl57j8c91MU3PHEoSdvdJ5gcYWEMeNpROWzLNvzQcqTHU8bKaRQPTkZfqes
- /gjvstCJQB/0s1QCbJ8irkNe+NNVBno=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VFBRPwNp2i+9sO6u/53dQg6KDJrNrNDXw1XtxUKrPdY=;
+ b=R57jksgOgasj05XFdEh5a/meqAwBLkZwq8y7MKFZPunJ82y8bcpxjYXImXJdj/VBPsVCTz
+ ouoULrllnQBWjEKR7Pf5TpdJ6cU/NJlrcnIXOkv61sp+na0SlfeF4kZ/wRoUStP/m/Dw69
+ KsxM/4E+jh6610kAOjIn7kpGweHaiAk=
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
+ [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-630-JbHyw0OuP4OONA_TaHnFZw-1; Thu, 17 Mar 2022 11:58:04 -0400
-X-MC-Unique: JbHyw0OuP4OONA_TaHnFZw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- x1-20020a50f181000000b00418f6d4bccbso1654470edl.12
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 08:58:03 -0700 (PDT)
+ us-mta-437-5kntLiflML6xX-qp3A1ejA-1; Thu, 17 Mar 2022 11:58:45 -0400
+X-MC-Unique: 5kntLiflML6xX-qp3A1ejA-1
+Received: by mail-vs1-f69.google.com with SMTP id
+ t25-20020a67c799000000b00324ca44dd41so166990vsk.14
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 08:58:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=eSjd2aWlhwnp2nJUoQ0zBkWkxXZ45ePCvPn3Mbs5j68=;
- b=xU9golE4JOrDVTAtfKMeh2HM3eAH2VPOJrPF4gtuuCwEknD+H4/PH30fCQViazwC2x
- dP9Su3F+xRKNus3z1wUi7IX80eiD/o95EADUVwn7EZlYZ3UgAtWpE7FSC1nMg7JaHtKB
- Z75R/yZlCUqsDgIOaW3G+qyT27OV+SQWIKf1mNOQq55ronqci8gngjhta12wekHij4ny
- g+DscFK6L9YwWYeE6BSQ60uUGjGCZje5EBlIfqOq870yXCt1DeeCMqq3mhuE/J+fk0lU
- q5sctJxarLgj01KrKkWdVEZ6wGe/Z53Vo/0vDlZulY+B5E5pN6Tn/mru1jGURKl3b753
- mQpA==
-X-Gm-Message-State: AOAM531q6wat8Lj/5vgolgKFhQsO5ohOLU7/M8oPGw2iJ+XQHuDc1C9m
- 5JamLiWWlsvE2tmTc6AUwN9mxGiLmMiE2w/3zEUnjqr0/opvzcTWUgbeHxAYMZ2FIxE7WSfoact
- L5uZtmNJE2SxKTlw=
-X-Received: by 2002:a17:907:72d0:b0:6db:4788:66a9 with SMTP id
- du16-20020a17090772d000b006db478866a9mr5327095ejc.516.1647532682764; 
- Thu, 17 Mar 2022 08:58:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2LZOXCWVUCnYpJwrgjjq5E4spafEjkdrXZbqN2fcTuCiu69YlACVSrMPO7VMtjw+IHriiuw==
-X-Received: by 2002:a17:907:72d0:b0:6db:4788:66a9 with SMTP id
- du16-20020a17090772d000b006db478866a9mr5327076ejc.516.1647532682582; 
- Thu, 17 Mar 2022 08:58:02 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- h30-20020a056402095e00b00412b81dd96esm2795862edz.29.2022.03.17.08.58.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 08:58:02 -0700 (PDT)
-Message-ID: <7f4e7379-a3e6-31e3-148a-6282b4d87104@redhat.com>
-Date: Thu, 17 Mar 2022 16:58:01 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VFBRPwNp2i+9sO6u/53dQg6KDJrNrNDXw1XtxUKrPdY=;
+ b=30bInTaBxlsVzNvHVQcja2eDcWd8BJVvG+ITPX776UzL3fHH1f/Rq3pqbZLWMBZEd2
+ UcPA7LSxIwkZCuDkyhFUE01WzJCrtpfdPL/XKqCqbL3BqD0WevgJmqXyZ87Q0Xg2e4u2
+ QDxGGM/kpcCjJe3mQ/H6J/XSylydoNhe2qvTmB6d4JYk+A9zVDlPGN5RoOo0SlUcwIU/
+ 5YfsDxE/CtqudXcar0yoZOUPoEtcraCLmB1KmEvA/YiV9n0aAGLVsSrf5mJkdRoQsPOE
+ fFLHWEP4veZSxmruYi4gMVo4jZdhxEXyB+mK8pAa7zV67z0WmNT8+KaARAQG+fH/9r40
+ awHg==
+X-Gm-Message-State: AOAM531jsKF3BLeABmUCBKEO7kkXeu+l1m90s+9moh9CkwZC3KNN1rBg
+ LQuymShRSHOcYl4dW7mkznRaHnxo/vrny2aePgVUuEg/08nQPxwCQU0+3Yt4cLK3cIVsWKYdW0o
+ JFFT6hFZJbnDMC0UDKrzDwWQxyp6VQjE=
+X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
+ 7-20020a056122088700b00332699e7e67mr2370041vkf.35.1647532724649; 
+ Thu, 17 Mar 2022 08:58:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJySLGkmgsiI3OdfanjMheNtm3hdW/a0gNlmteObJPOCuNVWxyNJQDewmq4KT0t0u8NcB724j2RiZ7URjQYpjTQ=
+X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
+ 7-20020a056122088700b00332699e7e67mr2370032vkf.35.1647532724475; Thu, 17 Mar
+ 2022 08:58:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 4/5] iotests: make qemu_img raise on non-zero rc by
- default
-To: John Snow <jsnow@redhat.com>
-References: <20220308015728.1269649-1-jsnow@redhat.com>
- <20220308015728.1269649-5-jsnow@redhat.com>
- <e9b98326-1d20-b9fa-0756-42d0ab7f8466@redhat.com>
- <CAFn=p-ZKxZCPSk=jtX76ePntA5Ao1M5q3AsX=P_dKtVpdFrtAg@mail.gmail.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <CAFn=p-ZKxZCPSk=jtX76ePntA5Ao1M5q3AsX=P_dKtVpdFrtAg@mail.gmail.com>
+References: <20220309035407.1848654-1-jsnow@redhat.com>
+ <20220309035407.1848654-13-jsnow@redhat.com>
+ <71c3d99f-f273-ac32-d644-4b2d3eee6ffb@redhat.com>
+In-Reply-To: <71c3d99f-f273-ac32-d644-4b2d3eee6ffb@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 17 Mar 2022 11:58:33 -0400
+Message-ID: <CAFn=p-ZpoF+QVZv0Quq8NmYVSvXOtVMxPmynDFSr7hG54aV-CA@mail.gmail.com>
+Subject: Re: [PATCH 12/14] iotests: remove qemu_img_pipe_and_status()
+To: Hanna Reitz <hreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,44 +94,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.03.22 16:24, John Snow wrote:
-> On Thu, Mar 17, 2022 at 6:25 AM Hanna Reitz <hreitz@redhat.com> wrote:
->> On 08.03.22 02:57, John Snow wrote:
->>> +    if check and subp.returncode or (subp.returncode < 0):
->> I wouldn’t expect these parentheses here in any other language, are they
->> required in Python?
->>
-> It's not required, I just find it easier to read this way.
-
-Oh well.
-
->>> +        raise VerboseProcessError(
->>> +            subp.returncode, full_args,
->>> +            output=subp.stdout,
->>> +            stderr=subp.stderr,
->>> +        )
->> I trust these parameters are correct, because it really sometimes seems
->> like Python doc doesn’t want to tell me about the arguments that
->> constructors take.  (The only thing I found out is that `stdout` works
->> as an alias for `output`, so passing `output` here and reading
->> `self.stdout` in `VerboseProcesError` should(tm) be fine.)
->>
->>>> import subprocess
->>>> help(subprocess.CalledProcessError)
->   |  __init__(self, returncode, cmd, output=None, stderr=None)
->   |      Initialize self.  See help(type(self)) for accurate signature.
+On Thu, Mar 17, 2022 at 11:28 AM Hanna Reitz <hreitz@redhat.com> wrote:
 >
-> It should be fine :tm:
+> On 09.03.22 04:54, John Snow wrote:
+> > With the exceptional 'create' calls removed in the prior commit, change
+> > qemu_img_log() and img_info_log() to call qemu_img() directly
+> > instead.
+> >
+> > In keeping with the spirit of diff-based tests, allow these calls to
+> > qemu_img() to return an unchecked non-zero status code -- because any
+> > error we'd see from the output is going into the log anyway.
+>
+> :(
+>
+> I=E2=80=99d prefer having an exception that points exactly to where in th=
+e test
+> the offending qemu-img call was.  But then again, I dislike such
+> log-based tests anyway, and this is precisely one reason for it...
+>
+> I think Kevin disliked my approach of just `assert qemu_img() =3D=3D 0`
+> mainly because you don=E2=80=99t get the stderr output with it.  But you=
+=E2=80=99ve
+> solved that problem now, so I don=E2=80=99t think there=E2=80=99s a reaso=
+n why we
+> wouldn=E2=80=99t want a raised exception.
+>
+> Hanna
+>
 
-The things you learn...
+I thought you and Kevin actually preferred diff-based tests, maybe I
+misunderstood. I know that there was a strong dislike of the unittest
+based tests, and that the new script-style was more preferred. I
+thought inherent to that was an actual preference for diff-based
+itself, but maybe not?
 
-Hanna
+I'd say negative tests are easier with the diff-based as one benefit.
+I'm a little partial to that kind of test. (I noticed that bitmap
+tests were the most habitual user of negative tests involving
+qemu-img, haha.) Otherwise, I guess I don't really care what the test
+mechanism is provided that the error output is informative. Happy to
+defer to consensus between you and Kevin.
+
+Anyway, this patch (and the ones that follow it, I haven't read your
+feedback on 13-14 yet) doesn't close the door on making everything
+Except-by-default, it would just be further work that needs to happen
+after the fact. How do you want to move forward?
+
+- Replace calls to qemu_img_log() with qemu_img()
+- Make qemu_img_log() raise by default, but log output on success cases
+- Something else?
+
+--js
 
 
