@@ -2,79 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3714DC7C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 14:42:51 +0100 (CET)
-Received: from localhost ([::1]:38698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CD74DC81B
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 14:59:56 +0100 (CET)
+Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUqOw-0003CJ-DW
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 09:42:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52682)
+	id 1nUqfS-0007Ez-Gg
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 09:59:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nUqNQ-0002SB-BP
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:41:16 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:40880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nUqNO-0001Dv-HB
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:41:16 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C937521112;
- Thu, 17 Mar 2022 13:41:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1647524472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nUqdH-0006Mo-9F
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:57:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nUqdE-0003kf-2V
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 09:57:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647525454;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NGJBxT+xUFsKs+f25LQT45sv6F82JNHuaP7l1JmU9ZM=;
- b=rTOuOJ4rzGold2quMZdDhafB29BQH2w+go76jxA8zigztjbrOigZIQ1wERHW0l2wkZm+jt
- VvMAmIzIdb13QLF4VDV5HbrlKKIhDlAInJzmHGF+JZw2puALfGflX7PkwWLDDwtpHO5psZ
- 8zT5RsGZqzyIN3qYxrPqD7pWy5semMs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1647524472;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NGJBxT+xUFsKs+f25LQT45sv6F82JNHuaP7l1JmU9ZM=;
- b=4Ye8ERZ1f7zjJoBIJqX7qmVYlpim1eN8xWbAAtQkEb0/dURkSwWc6QyBX9H7vQf0+lWZJi
- 9rfWuHjlb/ss7gDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9426813BAC;
- Thu, 17 Mar 2022 13:41:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Xr3pIXg6M2LuFwAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 17 Mar 2022 13:41:12 +0000
-Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
- performance
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220312163001.3811-1-cfontana@suse.de>
- <Yi94mQUfrxMVbiLM@redhat.com> <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de>
- <Yi+ACeaZ+oXTVYjc@redhat.com> <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
- <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
-Date: Thu, 17 Mar 2022 14:41:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ bh=It9hfSrV5l77f35NMYEmsaw+gVCKwoDd26kFiUS0O+E=;
+ b=jO7bXM3YOvY6McdjEqoMh3+qD+xO3TI91QBj5CIwPJ9RyeWN2f4GmmAJXHzFSSU3Nfohqt
+ b6ndfWyUuFFxtuPtRGJj2IyZGZoLxX56WQY38nz8vYHbnpugDpitw51xSe3l1os0sgo9TL
+ igocWYJQRCTPVX2Ti2UUGS/GByHpB2k=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-114-sThCaCWyNceXj5-oHmT1og-1; Thu, 17 Mar 2022 09:57:33 -0400
+X-MC-Unique: sThCaCWyNceXj5-oHmT1og-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ k20-20020adfc714000000b001e305cd1597so1563190wrg.19
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 06:57:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=It9hfSrV5l77f35NMYEmsaw+gVCKwoDd26kFiUS0O+E=;
+ b=c4Dz7TdzzzyA6mqZAsrIlkmygdS/xWDhGcFH2Z97fKx3WTXkudyDb7mqZAIqB41laQ
+ 2icohypk+gUTlZwvfmEFlee7Jo7To8OaikXz+njyMPSuBKDC14fwjDsP8SzBOPg+mDKI
+ b9GjkgadhxssjFXqRxyy/JyMQvvnuDA4rmJPjCV+ycTpp3MPnLC68uz8bu0cssteSjvV
+ wTByWNq9PqilBFICxofObCI+ftGv7y+cDQHb4xm3OraURipznvml2JnsBmhrsgUYHLgk
+ l5Av6A1c/rnoAi0cXOA8s9RO+Y5IcSAyYoQ9ZWoWGqKeHMlRIDpYxtbfbVSFoR9ia9lL
+ oSZA==
+X-Gm-Message-State: AOAM532/qhqArM9u51yYKchGW+a+AxxvJaayJ7/zAUsULkAnULfn46Jt
+ zamFhJeKUzvfhiNBwySFEsfevyjPgPNU8WLPYlUtA2AdBeHUFfU69RPTvq/BMSQ/1u6ziogei/7
+ 7hyz8rf1JrS2Kvgo=
+X-Received: by 2002:adf:d1c2:0:b0:1f1:f897:9d1 with SMTP id
+ b2-20020adfd1c2000000b001f1f89709d1mr4178071wrd.84.1647525452143; 
+ Thu, 17 Mar 2022 06:57:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxTUFXwwM85ewkM6bsc6qPrk1ZCU9tcwmf60b/VzcHbwID+DuAif4a1kc47VqQwTd6jGs07NA==
+X-Received: by 2002:adf:d1c2:0:b0:1f1:f897:9d1 with SMTP id
+ b2-20020adfd1c2000000b001f1f89709d1mr4178044wrd.84.1647525451814; 
+ Thu, 17 Mar 2022 06:57:31 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ i6-20020adffc06000000b00203f2828075sm147716wrr.19.2022.03.17.06.57.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Mar 2022 06:57:31 -0700 (PDT)
+Subject: Re: [PATCH for-7.1] vfio/common: remove spurious tpm-crb-cmd
+ misalignment warning
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20220316202951.294860-1-eric.auger@redhat.com>
+ <20220316170818.5b4f0032.alex.williamson@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <826be3d2-8403-5d8f-9eee-f58b15bc1c32@redhat.com>
+Date: Thu, 17 Mar 2022 14:57:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YjMMfnEjXsz3Vi8h@redhat.com>
+In-Reply-To: <20220316170818.5b4f0032.alex.williamson@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,118 +107,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Reply-To: eric.auger@redhat.com
+Cc: peter.maydell@linaro.org, stefanb@linux.vnet.ibm.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
-> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
->> On 3/16/22 1:17 PM, Claudio Fontana wrote:
->>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
->>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
->>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
->>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
->>>>>>> the first user is the qemu driver,
->>>>>>>
->>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
->>>>>>>
->>>>>>> This improves the situation by 400%.
->>>>>>>
->>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
->>>>>>> compared with direct qemu migration to a nc socket to a file.
->>>>>>>
->>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>>>>> ---
->>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
->>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
->>>>>>>  src/util/virfile.c        | 12 ++++++++++++
->>>>>>>  src/util/virfile.h        |  1 +
->>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
->>>>>>>
->>>>>>> Hello, I initially thought this to be a qemu performance issue,
->>>>>>> so you can find the discussion about this in qemu-devel:
->>>>>>>
->>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
->>>>>>>
->>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
-> 
-> 
->> Current results show these experimental averages maximum throughput
->> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
->> "query-migrate", tests repeated 5 times for each).
->> VM Size is 60G, most of the memory effectively touched before migration,
->> through user application allocating and touching all memory with
->> pseudorandom data.
+Hi Alex,
+
+On 3/17/22 12:08 AM, Alex Williamson wrote:
+> On Wed, 16 Mar 2022 21:29:51 +0100
+> Eric Auger <eric.auger@redhat.com> wrote:
+>
+>> The CRB command buffer currently is a RAM MemoryRegion and given
+>> its base address alignment, it causes an error report on
+>> vfio_listener_region_add(). This region could have been a RAM device
+>> region, easing the detection of such safe situation but this option
+>> was not well received. So let's add a helper function that uses the
+>> memory region name to recognize the region and detect the situation
+>> is safe wrt assignment. Other regions can be listed here if such kind
+>> of problem occurs again.
 >>
->> 64K:     5200 Mbps (current situation)
->> 128K:    5800 Mbps
->> 256K:   20900 Mbps
->> 512K:   21600 Mbps
->> 1M:     22800 Mbps
->> 2M:     22800 Mbps
->> 4M:     22400 Mbps
->> 8M:     22500 Mbps
->> 16M:    22800 Mbps
->> 32M:    22900 Mbps
->> 64M:    22900 Mbps
->> 128M:   22800 Mbps
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> ---
+>>  hw/vfio/common.c     | 26 +++++++++++++++++++++++++-
+>>  hw/vfio/trace-events |  1 +
+>>  2 files changed, 26 insertions(+), 1 deletion(-)
 >>
->> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
-> 
-> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
-> libvirt attempt to raise the pipe limit to 1 MB by default, but
-> not try to go higher.
-> 
->> As for the theoretical limit for the libvirt architecture,
->> I ran a qemu migration directly issuing the appropriate QMP
->> commands, setting the same migration parameters as per libvirt,
->> and then migrating to a socket netcatted to /dev/null via
->> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
->>
->> QMP:    37000 Mbps
-> 
->> So although the Pipe size improves things (in particular the
->> large jump is for the 256K size, although 1M seems a very good value),
->> there is still a second bottleneck in there somewhere that
->> accounts for a loss of ~14200 Mbps in throughput.
-> 
-> In the above tests with libvirt, were you using the
-> --bypass-cache flag or not ?
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index 080046e3f51..b58a38f5c57 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -861,6 +861,22 @@ static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
+>>      g_free(vrdl);
+>>  }
+>>  
+>> +static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
+>> +{
+>> +    MemoryRegion *mr = section->mr;
+>> +
+>> +    if (strcmp(memory_region_name(mr), "tpm-crb-cmd") != 0) {
+>> +        return false;
+>> +    }
+> Hi Eric,
+>
+> I was thinking more along the lines that we could use
+> memory_region_owner() to get the owning Object, then on
+> that we could maybe use INTERFACE_CHECK to look for TYPE_MEMORY_DEVICE,
+> then consider anything else optional.  (a) could something like that
+> work and (b) do all required mappings currently expose that interface?
+> Thanks,
+If I understand correctly you just want to error_report() misalignement
+of MR sections belonging to
 
-No, I do not. Tests with ramdisk did not show a notable difference for me,
+TYPE_MEMORY_DEVICE devices and silence the rest? Is that a correct understanding? I thought you wanted to be much more protective and ignore misalignments on a case by case basis hence the white listing of this single tpm-crb-cmd region.
 
-but tests with /dev/null were not possible, since the command line is not accepted:
+Thanks
 
-# virsh save centos7 /dev/null
-Domain 'centos7' saved to /dev/null
-[OK]
+Eric
 
-# virsh save centos7 /dev/null --bypass-cache
-error: Failed to save domain 'centos7' to /dev/null
-error: Failed to create file '/dev/null': Invalid argument
-
-
-> 
-> Hopefully use of O_DIRECT doesn't make a difference for
-> /dev/null, since the I/O is being immediately thrown
-> away and so ought to never go into I/O cache. 
-> 
-> In terms of the comparison, we still have libvirt iohelper
-> giving QEMU a pipe, while your test above gives QEMU a
-> UNIX socket.
-> 
-> So I still wonder if the delta is caused by the pipe vs socket
-> difference, as opposed to netcat vs libvirt iohelper code.
-
-I'll look into this aspect, thanks!
-> 
-> With regards,
-> Daniel
-> 
-
-Ciao,
-
-Claudio
+>
+> Alex
+>
+>
+>> +
+>> +    /* this is a known safe misaligned region, just trace for debug purpose */
+>> +    trace_vfio_known_safe_misalignment(memory_region_name(mr),
+>> +                                       section->offset_within_address_space,
+>> +                                       section->offset_within_region,
+>> +                                       qemu_real_host_page_size);
+>> +    return true;
+>> +}
+>> +
+>>  static void vfio_listener_region_add(MemoryListener *listener,
+>>                                       MemoryRegionSection *section)
+>>  {
+>> @@ -884,7 +900,15 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>>      if (unlikely((section->offset_within_address_space &
+>>                    ~qemu_real_host_page_mask) !=
+>>                   (section->offset_within_region & ~qemu_real_host_page_mask))) {
+>> -        error_report("%s received unaligned region", __func__);
+>> +        if (!vfio_known_safe_misalignment(section)) {
+>> +            error_report("%s received unaligned region %s iova=0x%"PRIx64
+>> +                         " offset_within_region=0x%"PRIx64
+>> +                         " qemu_real_host_page_mask=0x%"PRIxPTR,
+>> +                         __func__, memory_region_name(section->mr),
+>> +                         section->offset_within_address_space,
+>> +                         section->offset_within_region,
+>> +                         qemu_real_host_page_mask);
+>> +        }
+>>          return;
+>>      }
+>>  
+>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+>> index 0ef1b5f4a65..6f38a2e6991 100644
+>> --- a/hw/vfio/trace-events
+>> +++ b/hw/vfio/trace-events
+>> @@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add
+>>  vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
+>>  vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
+>>  vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
+>> +vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_within_region, uint64_t page_size) "Region \"%s\" iova=0x%"PRIx64" offset_within_region=0x%"PRIx64" qemu_real_host_page_mask=0x%"PRIxPTR ": cannot be mapped for DMA"
+>>  vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
+>>  vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
+>>  vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
 
 
