@@ -2,86 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB845270B0
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 12:33:24 +0200 (CEST)
-Received: from localhost ([::1]:58036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECDA52728D
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 17:22:34 +0200 (CEST)
+Received: from localhost ([::1]:45536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npp5P-0005J4-Bh
-	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 06:33:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39256)
+	id 1nptbF-0001r0-SO
+	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 11:22:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npp2U-0003zF-5e
- for qemu-devel@nongnu.org; Sat, 14 May 2022 06:30:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30734)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1nptYF-0007gJ-I5; Sat, 14 May 2022 11:19:27 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:45662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npp2M-0000Oy-UR
- for qemu-devel@nongnu.org; Sat, 14 May 2022 06:30:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652524208;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BPoNDaXalKjJIq0/UPbpyMQJLkHpm4TvHFvgS/M5rts=;
- b=gusI2T1Gli+gGixqBqVrl/cH/oHUlHAQMNfi5I4qQR+h6SgVDXuuoT4j0AB6X/s2/aMSr6
- k47K5qbAw6Na1x3EId//jSj6IIhLBi/mU/bqJoXWjJWJmmFXE6rkcrgz+s+l+xBBHd0hzF
- e8ydwweL62sKpKNJQeXVak35JPCY8+0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-35-bdhxWJBtMTq4sEnG8AGb8A-1; Sat, 14 May 2022 06:30:03 -0400
-X-MC-Unique: bdhxWJBtMTq4sEnG8AGb8A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- g3-20020a7bc4c3000000b0039409519611so3969120wmk.9
- for <qemu-devel@nongnu.org>; Sat, 14 May 2022 03:30:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BPoNDaXalKjJIq0/UPbpyMQJLkHpm4TvHFvgS/M5rts=;
- b=5rJX7/7PWXIqYGOu2zmuqMKtR0ZKLJd/LL1u+o5/sgDQ/s3HHJO3ng7Ex5uXQ3OdbO
- D/Wcu4i6dyYed09rD6MHr9X15DLT/XNbrocFLa9PNeGGpqQKIlRZg1FWEefHvjdk5p/V
- TtU8Eck2IkKAmws7fdV6WK84CDJfAupCEb+hzDWzYHEx5iaEw2e+r2APu6cOqlKKypbj
- qTJd6/eKZ2iNfnnCoghPSyQcCCnDXLcOrjFCCv3XrdpAavQ+9aC7IZknQTtPk/8pI1rI
- TayHHZmpd/owMfenEsEtwRUm+EbmDGug6W7KUPNZL9CZjDkY2MJ+YabHwueAw7VRJ9WC
- fFbg==
-X-Gm-Message-State: AOAM532MvMzCt/gSu6Fgx3sxIpbjAd+V33lpTvM92L2PDpruR71Epx8r
- Cl1mTznjv4i51/p6L57pqHxqVvYFyQUrm4iDpVcnlw1oneRN2UUyq3W8S3v0Ci0ntnr1JBmND2m
- 5PDY/DgjeO0ASORAJlC1XKwssObmIVVlrFnXa2xz+rqs1XZ+J6KhmAo6D+9Nz+XPgNWw=
-X-Received: by 2002:adf:f0c8:0:b0:20d:137:c029 with SMTP id
- x8-20020adff0c8000000b0020d0137c029mr615468wro.363.1652524201457; 
- Sat, 14 May 2022 03:30:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyNnYQEnBMyU3ZQn6VnpRvRGEC4LFtfkSr172kqLvvpzDf6qzca9HqJasKwZKRAi5AS6AX8FQ==
-X-Received: by 2002:adf:f0c8:0:b0:20d:137:c029 with SMTP id
- x8-20020adff0c8000000b0020d0137c029mr615455wro.363.1652524201097; 
- Sat, 14 May 2022 03:30:01 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
- by smtp.gmail.com with ESMTPSA id
- bi12-20020a05600c3d8c00b003942a244edbsm1495842wmb.32.2022.05.14.03.29.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 May 2022 03:30:00 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org
-Subject: [PATCH] block/nvme: separate nvme_get_free_req cases for
- coroutine/non-coroutine context
-Date: Sat, 14 May 2022 12:29:58 +0200
-Message-Id: <20220514102958.1163922-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.0
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1nptYD-0004vJ-N6; Sat, 14 May 2022 11:19:27 -0400
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 5B72511EED7;
+ Sat, 14 May 2022 15:19:19 +0000 (UTC)
+From: ~eopxd <eopxd@git.sr.ht>
+Date: Thu, 17 Mar 2022 00:26:23 -0700
+Subject: [PATCH qemu v5 01/10] target/riscv: rvv: Add mask agnostic for vv
+ instructions
+Message-ID: <165254155887.25600.7755640218424566161-1@git.sr.ht>
+X-Mailer: git.sr.ht
+In-Reply-To: <165254155887.25600.7755640218424566161-0@git.sr.ht>
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
+ WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 36
+X-Spam_score: 3.6
+X-Spam_bar: +++
+X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,96 +56,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nvme_get_free_req has very difference semantics when called in
-coroutine context (when it waits) and in non-coroutine context
-(when it doesn't).  Split the two cases to make it clear what
-is being requested.
+From: Yueh-Ting (eop) Chen <eop.chen@sifive.com>
 
-Cc: qemu-block@nongnu.org
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+According to v-spec, mask agnostic behavior can be either kept as
+undisturbed or set elements' bits to all 1s. To distinguish the
+difference of mask policies, QEMU should be able to simulate the mask
+agnostic behavior as "set mask elements' bits to all 1s".
+
+There are multiple possibility for agnostic elements according to
+v-spec. The main intent of this patch-set tries to add option that
+can distinguish between mask policies. Setting agnostic elements to
+all 1s allows QEMU to express this.
+
+This is the first commit regarding the optional mask agnostic
+behavior. Follow-up commits will add this optional behavior
+for all rvv instructions.
+
+Signed-off-by: eop Chen <eop.chen@sifive.com>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 ---
- block/nvme.c | 48 ++++++++++++++++++++++++++++--------------------
- 1 file changed, 28 insertions(+), 20 deletions(-)
+ target/riscv/cpu.h                      | 2 ++
+ target/riscv/cpu_helper.c               | 2 ++
+ target/riscv/insn_trans/trans_rvv.c.inc | 3 +++
+ target/riscv/internals.h                | 5 +++--
+ target/riscv/translate.c                | 2 ++
+ target/riscv/vector_helper.c            | 8 ++++++++
+ 6 files changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/block/nvme.c b/block/nvme.c
-index 01fb28aa63..092c1f2f8e 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -293,34 +293,42 @@ static void nvme_kick(NVMeQueuePair *q)
-     q->need_kick = 0;
- }
- 
--/* Find a free request element if any, otherwise:
-- * a) if in coroutine context, try to wait for one to become available;
-- * b) if not in coroutine, return NULL;
-- */
--static NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
-+static NVMeRequest *nvme_get_free_req_nofail_locked(NVMeQueuePair *q)
- {
-     NVMeRequest *req;
- 
--    qemu_mutex_lock(&q->lock);
--
--    while (q->free_req_head == -1) {
--        if (qemu_in_coroutine()) {
--            trace_nvme_free_req_queue_wait(q->s, q->index);
--            qemu_co_queue_wait(&q->free_req_queue, &q->lock);
--        } else {
--            qemu_mutex_unlock(&q->lock);
--            return NULL;
--        }
--    }
--
-     req = &q->reqs[q->free_req_head];
-     q->free_req_head = req->free_req_next;
-     req->free_req_next = -1;
--
--    qemu_mutex_unlock(&q->lock);
-     return req;
- }
- 
-+/* Return a free request element if any, otherwise return NULL.  */
-+static NVMeRequest *nvme_get_free_req_nowait(NVMeQueuePair *q)
-+{
-+    QEMU_LOCK_GUARD(&q->lock);
-+    if (q->free_req_head == -1) {
-+        return NULL;
-+    }
-+    return nvme_get_free_req_nofail_locked(q);
-+}
-+
-+/*
-+ * Return a free request element if any, otherwise wait
-+ * for one to become available
-+ */
-+static coroutine_fn NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
-+{
-+    QEMU_LOCK_GUARD(&q->lock);
-+
-+    while (q->free_req_head == -1) {
-+       trace_nvme_free_req_queue_wait(q->s, q->index);
-+       qemu_co_queue_wait(&q->free_req_queue, &q->lock);
-+    }
-+
-+    return nvme_get_free_req_nofail_locked(q);
-+}
-+
- /* With q->lock */
- static void nvme_put_free_req_locked(NVMeQueuePair *q, NVMeRequest *req)
- {
-@@ -506,7 +514,7 @@ static int nvme_admin_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
-     AioContext *aio_context = bdrv_get_aio_context(bs);
-     NVMeRequest *req;
-     int ret = -EINPROGRESS;
--    req = nvme_get_free_req(q);
-+    req = nvme_get_free_req_nowait(q);
-     if (!req) {
-         return -EBUSY;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 61552408b5..4bce3798fc 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -406,6 +406,7 @@ struct RISCVCPUConfig {
+     bool ext_zve32f;
+     bool ext_zve64f;
+     bool rvv_ta_all_1s;
++    bool rvv_ma_all_1s;
+=20
+     uint32_t mvendorid;
+     uint64_t marchid;
+@@ -559,6 +560,7 @@ FIELD(TB_FLAGS, XL, 20, 2)
+ FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
+ FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
+ FIELD(TB_FLAGS, VTA, 24, 1)
++FIELD(TB_FLAGS, VMA, 25, 1)
+=20
+ #ifdef TARGET_RISCV32
+ #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index c0641b63cc..ba66b70bd1 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -67,6 +67,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong =
+*pc,
+         flags =3D FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
+         flags =3D FIELD_DP32(flags, TB_FLAGS, VTA,
+                     FIELD_EX64(env->vtype, VTYPE, VTA));
++        flags =3D FIELD_DP32(flags, TB_FLAGS, VMA,
++                    FIELD_EX64(env->vtype, VTYPE, VMA));
+     } else {
+         flags =3D FIELD_DP32(flags, TB_FLAGS, VILL, 1);
      }
--- 
-2.36.0
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_tran=
+s/trans_rvv.c.inc
+index 6e8ed7694c..df5a892150 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -1243,6 +1243,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn =
+*gvec_fn,
+         data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
+         data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
++        data =3D FIELD_DP32(data, VDATA, VMA, s->vma);
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+                            vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),
+                            cpu_env, s->cfg_ptr->vlen / 8,
+@@ -1541,6 +1542,7 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
+         data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
+         data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
++        data =3D FIELD_DP32(data, VDATA, VMA, s->vma);
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+                            vreg_ofs(s, a->rs1),
+                            vreg_ofs(s, a->rs2),
+@@ -1623,6 +1625,7 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
+         data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
+         data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
++        data =3D FIELD_DP32(data, VDATA, VMA, s->vma);
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+                            vreg_ofs(s, a->rs1),
+                            vreg_ofs(s, a->rs2),
+diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+index 193ce57a6d..5620fbffb6 100644
+--- a/target/riscv/internals.h
++++ b/target/riscv/internals.h
+@@ -26,8 +26,9 @@ FIELD(VDATA, VM, 0, 1)
+ FIELD(VDATA, LMUL, 1, 3)
+ FIELD(VDATA, VTA, 4, 1)
+ FIELD(VDATA, VTA_ALL_1S, 5, 1)
+-FIELD(VDATA, NF, 6, 4)
+-FIELD(VDATA, WD, 6, 1)
++FIELD(VDATA, VMA, 6, 1)
++FIELD(VDATA, NF, 7, 4)
++FIELD(VDATA, WD, 7, 1)
+=20
+ /* float point classify helpers */
+ target_ulong fclass_h(uint64_t frs1);
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 384ffcc0fa..c7e841da1c 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -95,6 +95,7 @@ typedef struct DisasContext {
+     int8_t lmul;
+     uint8_t sew;
+     uint8_t vta;
++    uint8_t vma;
+     bool cfg_vta_all_1s;
+     target_ulong vstart;
+     bool vl_eq_vlmax;
+@@ -1094,6 +1095,7 @@ static void riscv_tr_init_disas_context(DisasContextBas=
+e *dcbase, CPUState *cs)
+     ctx->sew =3D FIELD_EX32(tb_flags, TB_FLAGS, SEW);
+     ctx->lmul =3D sextract32(FIELD_EX32(tb_flags, TB_FLAGS, LMUL), 0, 3);
+     ctx->vta =3D FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_=
+1s;
++    ctx->vma =3D FIELD_EX32(tb_flags, TB_FLAGS, VMA) && cpu->cfg.rvv_ma_all_=
+1s;
+     ctx->cfg_vta_all_1s =3D cpu->cfg.rvv_ta_all_1s;
+     ctx->vstart =3D env->vstart;
+     ctx->vl_eq_vlmax =3D FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 2afbac6e37..6c55d5a750 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -127,6 +127,11 @@ static inline uint32_t vext_vta(uint32_t desc)
+     return FIELD_EX32(simd_data(desc), VDATA, VTA);
+ }
+=20
++static inline uint32_t vext_vma(uint32_t desc)
++{
++    return FIELD_EX32(simd_data(desc), VDATA, VMA);
++}
++
+ static inline uint32_t vext_vta_all_1s(uint32_t desc)
+ {
+     return FIELD_EX32(simd_data(desc), VDATA, VTA_ALL_1S);
+@@ -811,10 +816,13 @@ static void do_vext_vv(void *vd, void *v0, void *vs1, v=
+oid *vs2,
+     uint32_t vl =3D env->vl;
+     uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);
+     uint32_t vta =3D vext_vta(desc);
++    uint32_t vma =3D vext_vma(desc);
+     uint32_t i;
+=20
+     for (i =3D env->vstart; i < vl; i++) {
+         if (!vm && !vext_elem_mask(v0, i)) {
++            /* set masked-off elements to 1s */
++            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);
+             continue;
+         }
+         fn(vd, vs1, vs2, i);
+--=20
+2.34.2
 
 
