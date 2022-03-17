@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EC74DBCE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 03:12:24 +0100 (CET)
-Received: from localhost ([::1]:44114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 778164DBCE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 03:17:22 +0100 (CET)
+Received: from localhost ([::1]:46744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUfcl-0004aN-8J
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 22:12:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54738)
+	id 1nUfhZ-0006oY-J4
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 22:17:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nUfbW-0003uK-44; Wed, 16 Mar 2022 22:11:06 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:40274 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nUfbR-0003eQ-0p; Wed, 16 Mar 2022 22:11:05 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowAC3vkKqmDJil2nMAw--.13141S2;
- Thu, 17 Mar 2022 10:10:52 +0800 (CST)
-Subject: Re: [PATCH v2] target/riscv: write back unmodified value for
- csrrc/csrrs with rs1 is not x0 but holding zero
-To: Alistair Francis <alistair23@gmail.com>
-References: <20220311094601.30440-1-liweiwei@iscas.ac.cn>
- <CAEUhbmX7wBzhvojSioQnB=T-DDuq9FX7UTPdvtR=oXHDm5Ra4A@mail.gmail.com>
- <769fe78f-e4c0-83c1-d5fc-65fbf40bb5ff@iscas.ac.cn>
- <CAKmqyKMpWFo5-=XSTBy_B9aTqDsw6-uxWfe3RwNnKUCKXQtjeQ@mail.gmail.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <f5a1d76b-12a9-6d84-f73f-2dc523cfa4ee@iscas.ac.cn>
-Date: Thu, 17 Mar 2022 10:10:50 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nUfgK-000601-Uv
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 22:16:04 -0400
+Received: from [2a00:1450:4864:20::631] (port=33766
+ helo=mail-ej1-x631.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nUfgG-0004NE-DR
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 22:16:02 -0400
+Received: by mail-ej1-x631.google.com with SMTP id pv16so7983018ejb.0
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 19:15:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KPuSpSkTV26gpCqToX03buL1Nr0M5rshLVzCkB2TMAw=;
+ b=jQnrCekHXZvsFLjMtmSNGrLbSkjkWtrLplMNgPH/90wdxZsmFWRvRgY8Yl8ENtHOHx
+ w9+6iVlbn82uyTafPInYRj1RoXVPuJ6yA3ydjMYJpA9hgiP+xPbO0dI/WdqX8eS6UeL2
+ bYyn41eWi6xVG9jq0br7KMEQEOO9ELB2oloYaneUF1wn5Ir7OgF2baXvEeLNijnYVfy7
+ sqxsJXZiZbx6iEkjLkJbZT/JwRQ3u+o6l0WNaIuCpDHB6kItW1ZDEXfXvsd07byqX/8O
+ owd+1Po2zUlpuTU05r1cRQN+iqYzqxNvV0/gADKo+Y0MGD12Tjo9rxZ28r9NObOhGszy
+ f3Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KPuSpSkTV26gpCqToX03buL1Nr0M5rshLVzCkB2TMAw=;
+ b=UaWA1uR3becbE8RCDU66VQPvizuukF/+lYTi9vMMaeo+i832nSb7glex0W06ELMJNU
+ 1/Ik8VXUdNrbAad7TUvMNT4LMMJia+htGI+sHoLTZ+Qg1IPhur+rx0UhC1sUF+XDdDle
+ lmtu8Nqhl76PQO9y/Dws549SPhOjloPHJAu2776RI0zmEmwre5rUoTekn0hlkEtQhVuT
+ ntJx0S8DZnhV1Uo0Q7LQAA1Q6zZf7GOxTh8ggnE3QQS+Rl1XuVj5vuKLaHbzZZKrsnE1
+ Z1kQwjmS5vw8RPEdXTPfGSkMdmf0dKXRjHRTkbGVCBMAtUCjqVx7toneLdTq7gj08pJw
+ gzag==
+X-Gm-Message-State: AOAM530ntlhivdoupjgnZQ6O/K5aKM1NDzzSVYMOfNDUo5qqPdZmPLAd
+ RmFKgzRxQzUuUupmap1gSmpurqEIUr+d5h03nC8t
+X-Google-Smtp-Source: ABdhPJy4P1fsSfysmu/bYJ+L8F8QMOwuv+RSukPCP85PysU3iTDzf/cZCn1EMIsIvQBVfFkz/FJCGjx6vr7bxNQkLGA=
+X-Received: by 2002:a17:906:4fd3:b0:6db:d516:482b with SMTP id
+ i19-20020a1709064fd300b006dbd516482bmr2309598ejw.257.1647483358277; Wed, 16
+ Mar 2022 19:15:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKMpWFo5-=XSTBy_B9aTqDsw6-uxWfe3RwNnKUCKXQtjeQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: zQCowAC3vkKqmDJil2nMAw--.13141S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxWrWkGFy5AFyDXw4fXrWkJFb_yoW5Xw1Dp3
- y0qF4Yyr4kWF929w1vqw4rt3WYq3yrJryrXr4kJ34Yy3s0qF98Jr40yrsYkayDJr4Fyr12
- vFnFyr93uay5AaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20x
- vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
- 3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
- AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAI
- cVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
- A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU2fOwUUUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220215105943.90-1-xieyongji@bytedance.com>
+ <20220215105943.90-4-xieyongji@bytedance.com>
+ <YjBg3QnSnpY2cAdL@stefanha-x1.localdomain>
+ <CACycT3s7cgHBAqmpy=RZPwPZz4uptr0REzJ9fhM1qv+G_miS1Q@mail.gmail.com>
+ <YjHl66pJYw45oKL9@stefanha-x1.localdomain>
+ <CACycT3vpQsLG7oxeTHMs3w1qdO7fGJnjGiORfm=t1U2ehgD+bw@mail.gmail.com>
+ <YjIHhP7WlXyZ9gJm@stefanha-x1.localdomain>
+In-Reply-To: <YjIHhP7WlXyZ9gJm@stefanha-x1.localdomain>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Thu, 17 Mar 2022 10:15:53 +0800
+Message-ID: <CACycT3s-V27cCH1OXpXtYRf=sgkCWKrb9Uq_nwNbcgYe2Z5nGQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] libvduse: Add VDUSE (vDPA Device in Userspace)
+ library
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,102 +88,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/3/17 上午6:35, Alistair Francis 写道:
-> On Thu, Mar 17, 2022 at 1:13 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->>
->>>>            riscv_raise_exception(env, ret, GETPC());
->>>> @@ -90,7 +90,7 @@ void helper_csrw_i128(CPURISCVState *env, int csr,
->>>>    {
->>>>        RISCVException ret = riscv_csrrw_i128(env, csr, NULL,
->>>>                                              int128_make128(srcl, srch),
->>>> -                                          UINT128_MAX);
->>>> +                                          UINT128_MAX, true);
->>>>
->>>>        if (ret != RISCV_EXCP_NONE) {
->>>>            riscv_raise_exception(env, ret, GETPC());
->>>> @@ -104,7 +104,7 @@ target_ulong helper_csrrw_i128(CPURISCVState *env, int csr,
->>>>        Int128 rv = int128_zero();
->>>>        RISCVException ret = riscv_csrrw_i128(env, csr, &rv,
->>>>                                              int128_make128(srcl, srch),
->>>> -                                          int128_make128(maskl, maskh));
->>>> +                                          int128_make128(maskl, maskh), true);
->>>>
->>>>        if (ret != RISCV_EXCP_NONE) {
->>>>            riscv_raise_exception(env, ret, GETPC());
->>> I am afraid the adding of "bool write_op" argument was done on many
->>> functions, some of which do not look good to me, e.g.: predicate
->>> funcs. v1 is much better.*>
->> Yeah, I agree adding  argument to predicate is not a good idea. However
->> it seems that the csr(like seed)
->>
->> itself cannot  distinguish whether it's to be written or not except
->> these two ways(in v1 and v2).
->>
->> Or we can take seed CSR as a special case  in riscv_csrrw_check since no
->> other csr will limit itself
->>
->> to be accessed only with read-write instruction currently.
->>
->>> Or maybe, is that possible we do something in trans_csrrs() instead?
-> That might be a better option. Unless there are other CSRs we expect
-> to do this I think trans_csrr*() is probably the place to have this,
-> similar to the `rd == 0` case.
+On Wed, Mar 16, 2022 at 11:51 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> It could also go in helper_csrr() which would just be a simple if check.
+> On Wed, Mar 16, 2022 at 09:49:19PM +0800, Yongji Xie wrote:
+> > On Wed, Mar 16, 2022 at 9:28 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > >
+> > > On Tue, Mar 15, 2022 at 07:38:12PM +0800, Yongji Xie wrote:
+> > > > On Tue, Mar 15, 2022 at 5:48 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > > > >
+> > > > > On Tue, Feb 15, 2022 at 06:59:40PM +0800, Xie Yongji wrote:
+> > > > > > VDUSE [1] is a linux framework that makes it possible to implement
+> > > > > > software-emulated vDPA devices in userspace. This adds a library
+> > > > > > as a subproject to help implementing VDUSE backends in QEMU.
+> > > > > >
+> > > > > > [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
+> > > > > >
+> > > > > > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+> > > > > > ---
+> > > > > >  meson.build                                 |   15 +
+> > > > > >  meson_options.txt                           |    2 +
+> > > > > >  scripts/meson-buildoptions.sh               |    3 +
+> > > > > >  subprojects/libvduse/include/atomic.h       |    1 +
+> > > > > >  subprojects/libvduse/libvduse.c             | 1152 +++++++++++++++++++
+> > > > > >  subprojects/libvduse/libvduse.h             |  225 ++++
+> > > > > >  subprojects/libvduse/linux-headers/linux    |    1 +
+> > > > > >  subprojects/libvduse/meson.build            |   10 +
+> > > > > >  subprojects/libvduse/standard-headers/linux |    1 +
+> > > > > >  9 files changed, 1410 insertions(+)
+> > > > > >  create mode 120000 subprojects/libvduse/include/atomic.h
+> > > > > >  create mode 100644 subprojects/libvduse/libvduse.c
+> > > > > >  create mode 100644 subprojects/libvduse/libvduse.h
+> > > > > >  create mode 120000 subprojects/libvduse/linux-headers/linux
+> > > > > >  create mode 100644 subprojects/libvduse/meson.build
+> > > > > >  create mode 120000 subprojects/libvduse/standard-headers/linux
+> > > > >
+> > > > > Please update the ./MAINTAINERS file when adding new source files.
+> > > >
+> > > > OK, sure. And would you mind being one of the maintainers since I'm
+> > > > not sure if I can do this job well.
+> > >
+> > > You're welcome to become the maintainer. It means that you will be CCed
+> > > on patches affecting this code and sometimes people might send you
+> > > questions about VDUSE exports.
+> > >
+> >
+> > I see. I will try my best.
+> >
+> > > Is the issue lack of time?
+> > >
+> >
+> > I think the time is enough. But since I have no experience, I'm not
+> > sure if I can do this well.
 >
-> Alistair
+> Great! Don't worry there will probably not be much you need to do.
 >
-Sorry. I don't understand what can be done in trans_csrr*(). As I said 
-in last email: trans_csr*
+> If someone submits a patch they'll CC you and you can post your
+> "Reviewed-by:". Kevin or I can pick up the patches you've reviewed and
+> send them with our pull requests to the qemu.git maintainer.
+>
 
-have made all the read operation will go to the helper_csrr. However 
-helper_csrr share the progress
+OK, I got it. Thank you!
 
-of riscv_csrrw*  with helper_csrrw/helper_csrw to implement its function.
-
-The truely question is that helper_csrr will call riscv_csrrw*with 
-write_mask = zero, new_value=zero,
-
-which cannot distinguished from the call from helper_csrrw of which its 
-write_mask all can be zero
-
-(origin from trans_csrrs/trans_csrrc when rs1 is not x0 and the value of 
-rs1 reg is zero).
-
-Regards,
-
-Weiwei Li
-
-
->> The read and write operation in trans_csr*  have been truely
->> distinguished in original code:
->>
->> all the read operation will go to  the helper_csrr,  write to
->> helper_csrrw, read/write to helper_csrrw.
->>
->> However, they all go to the same progress  riscv_csrrw* in the helper
->> with different arguments.
->>
->> Regards,
->>
->> Weiwei Li
->>
->>> Regards,
->>> Bin
->>
->>
->>
->>
-
+Thanks,
+Yongji
 
