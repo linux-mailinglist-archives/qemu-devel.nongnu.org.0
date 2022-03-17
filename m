@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C674DBE28
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 06:22:07 +0100 (CET)
-Received: from localhost ([::1]:53232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB454DBEA0
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 06:46:01 +0100 (CET)
+Received: from localhost ([::1]:44556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUiaJ-0001FO-6J
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 01:22:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50892)
+	id 1nUixU-0000jB-7l
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 01:46:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiKp-0001BG-0s
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:03 -0400
-Received: from [2607:f8b0:4864:20::102a] (port=45917
- helo=mail-pj1-x102a.google.com)
+ id 1nUiKq-0001E2-1k
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:04 -0400
+Received: from [2607:f8b0:4864:20::62d] (port=43737
+ helo=mail-pl1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUiKn-0002GH-94
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:02 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- m11-20020a17090a7f8b00b001beef6143a8so4465014pjl.4
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 22:06:00 -0700 (PDT)
+ id 1nUiKo-0002GR-7S
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 01:06:03 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id w8so3539210pll.10
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 22:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=62d8othJIfgAKm86Avncs/clZTnNTHcuD30Oj5z4NnM=;
- b=R9UV28LxjftClDxlNhGQsPEZ1qef9s1ohMZ4HCNwKFoXiPPaGyXzvaxRK2duSQAcjQ
- FEzJ1Gc7hhX6IWdSs5ps2fOPxlzGXZPAuoCZI88h/mbcKuqd141Fx3VkNPf/8B+a+wMO
- DydTWIJ7mckcAczTTEbX6k6c9xUhgpEdtvK1QpbM5+YrBu6lKo76xfu9OK/Zz6HElBBb
- PtkrlvuFEvRoJda8yCo12OedtDYUj0T/WnNDf5TH/idZ+wBHc4vDUZfeq8vHypvJyTMk
- JwF7JDurQmrp1YaQNHz/HfZ9nF4V9YekPeN1hXm8RkVN/aZOGljXcAsr/Wxs84NvxSjJ
- XT0w==
+ bh=rza+S9dP6OxTxmW7BN1PpFg5SK23R8f/DSGJ4keNmyI=;
+ b=bpW7YUUPyu5ca/rNkhHzwMXoQucg24ThhwGbbQ41itxN0jqJnLIBGs8RoWkFdLu7IO
+ Box4tx62OifPzy26IAFn831Jt6W3hr0JNXz+DsgSMEOcU0Puhcc7Fbj+AohUWZcGr87f
+ +mbhbYWy5onfF+46JD0ITJKTsFd6uDkGIncejEVVKQC2+E5ZEKtqbEndz3AJJAjDLv6E
+ sQDoddn3jIKqOzVQCb7AaOQulo1ELPPHY9rE1qMeQfhKy1MMfOvdxiqjxSBpfJJyiSiD
+ NHocJxitkh1dik3PvVbo6SQmC3jYE9iAaTtVJnLKxnHlYmu7q2YJFqTsIA7Oj9QUe/GZ
+ B66w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=62d8othJIfgAKm86Avncs/clZTnNTHcuD30Oj5z4NnM=;
- b=DpWzNsqYzIDCSV1Ul/tkA87PKCEdlxk84LBol/fpZ0na2zq1gIHWcp3PEGy8QeAF5N
- mQoxmxLAiT7BdlvrE3hsTd1XQqLebtuYIxocxUNRFZN4RF40jbXEBuucwZfFGte6+uzw
- KIPjTpk3RdZCY/Z4wSLHmJG95I4M5jQA/mNpAR5hSKDtkBmfpvQPlG3+pGWh1IuVaB7+
- kCvzK2LERKajJ+SpljKWSuWDsw/Aj4UaopeD8oXEwvIGhTeKUyUvG439iE/5vNAr6rA4
- SlHV1RToFeHjKOBydhxuzRvqs7871XXbbaq9128nMrfEz5tY7GPYNBLoaAWgMgpXv1Z4
- bQ8w==
-X-Gm-Message-State: AOAM5317e118EfQtCqAxMkvxL8Mg94xmvFKaQ4TsxL/55akOVz2cM6yz
- 51M12OpEUwA8ldcaEkhNvcRNxDW11oYdGw==
-X-Google-Smtp-Source: ABdhPJxmIQtD44+ZY33lGh3ei+qgZw0YBNiA5iyTpwPD1VFqK/k7uiSEzleTB3/Lgk8LG8q5E5/hBA==
-X-Received: by 2002:a17:90b:314d:b0:1bf:acde:16e5 with SMTP id
- ip13-20020a17090b314d00b001bfacde16e5mr3284867pjb.165.1647493559985; 
- Wed, 16 Mar 2022 22:05:59 -0700 (PDT)
+ bh=rza+S9dP6OxTxmW7BN1PpFg5SK23R8f/DSGJ4keNmyI=;
+ b=sFOnOgg5Uldno5PIbZKfBP1o4aSSwcJDZGaUFdyhRzIQoA+oITInmzUxODO0Jrx+H1
+ NMireg7Onery1zpj5WAKQTthiIlFSBSXb0nGz5Jn9uh5FvcfrddLcTcpM9x5e/GI3Cjw
+ rfjs5Fh3hKpgEoAM1UrBl55ruumn/VC7nlWsIx937VMDF//pKS7Gf1sIum2E6DJamic8
+ aPlfvyfGLw1+awvcfJX7GB+KWKpgv3hvQZD5yVKIyn+WCIfBmaNcQ3Zx56yKwsxMbbKn
+ AHQhxrIp2LFlDyk1/1YcFjQtjaLUMyG+Z+51jN87HB3OTrCb2LUSGzAIKDPqyA7bYvbl
+ BUTQ==
+X-Gm-Message-State: AOAM533cmBBHUMfEkhFMBqUghKRVDCe1Vmw0hpG+Z/qVhdSS7DRPVV8K
+ AJVS4obATmGblnUq1CT4GezYYW1aOIAQNQ==
+X-Google-Smtp-Source: ABdhPJyk8hqFWztqjYcOYufDRN5ahat/GWJJ3ZbToVrTJ7ewfZt3P4nmmlQ/5EfQ2gaUU3uF/YYwjA==
+X-Received: by 2002:a17:90b:4b0d:b0:1bc:4cdb:ebe3 with SMTP id
+ lx13-20020a17090b4b0d00b001bc4cdbebe3mr3343961pjb.176.1647493560930; 
+ Wed, 16 Mar 2022 22:06:00 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- h22-20020a056a001a5600b004f7c17b291asm5101357pfv.87.2022.03.16.22.05.59
+ h22-20020a056a001a5600b004f7c17b291asm5101357pfv.87.2022.03.16.22.06.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 22:05:59 -0700 (PDT)
+ Wed, 16 Mar 2022 22:06:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 v6 20/51] target/nios2: Create EXCP_SEMIHOST for
- semi-hosting
-Date: Wed, 16 Mar 2022 22:05:07 -0700
-Message-Id: <20220317050538.924111-21-richard.henderson@linaro.org>
+Subject: [PATCH for-7.1 v6 21/51] target/nios2: Clean up nios2_cpu_do_interrupt
+Date: Wed, 16 Mar 2022 22:05:08 -0700
+Message-Id: <20220317050538.924111-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220317050538.924111-1-richard.henderson@linaro.org>
 References: <20220317050538.924111-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,108 +88,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, Peter Maydell <peter.maydell@linaro.org>,
- amir.gonnen@neuroblade.ai
+Cc: marex@denx.de, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Decode 'break 1' during translation, rather than doing
-it again during exception processing.
+Split out do_exception and do_iic_irq to handle bulk of the interrupt and
+exception processing.  Parameterize the changes required to cpu state.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The status.EH bit, which protects some data against double-faults,
+is only present with the MMU.  Several exception cases did not check
+for status.EH being set, as required.
+
+The status.IH bit, which had been set by EXCP_IRQ, is exclusive to
+the external interrupt controller, which we do not yet implement.
+The internal interrupt controller, when the MMU is also present,
+sets the status.EH bit.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h       |  1 +
- target/nios2/helper.c    | 14 ++++++--------
- target/nios2/translate.c | 17 ++++++++++++++++-
- 3 files changed, 23 insertions(+), 9 deletions(-)
+ target/nios2/helper.c | 141 +++++++++++++-----------------------------
+ 1 file changed, 44 insertions(+), 97 deletions(-)
 
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 555972fe6b..d003af5afc 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -156,6 +156,7 @@ FIELD(CR_TLBMISC, EE, 24, 1)
- 
- /* Exceptions */
- #define EXCP_BREAK    0x1000
-+#define EXCP_SEMIHOST 0x1001
- #define EXCP_RESET    0
- #define EXCP_PRESET   1
- #define EXCP_IRQ      2
 diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index 52a49f7ead..eeff032379 100644
+index eeff032379..6019e2443b 100644
 --- a/target/nios2/helper.c
 +++ b/target/nios2/helper.c
-@@ -172,14 +172,6 @@ void nios2_cpu_do_interrupt(CPUState *cs)
+@@ -49,6 +49,42 @@ void nios2_cpu_record_sigsegv(CPUState *cs, vaddr addr,
+ 
+ #else /* !CONFIG_USER_ONLY */
+ 
++static void do_exception(Nios2CPU *cpu, uint32_t exception_addr, bool is_break)
++{
++    CPUNios2State *env = &cpu->env;
++    CPUState *cs = CPU(cpu);
++    uint32_t old_status = env->ctrl[CR_STATUS];
++    uint32_t new_status = old_status;
++
++    if ((old_status & CR_STATUS_EH) == 0) {
++        int r_ea = R_EA, cr_es = CR_ESTATUS;
++
++        if (is_break) {
++            r_ea = R_BA;
++            cr_es = CR_BSTATUS;
++        }
++        env->ctrl[cr_es] = old_status;
++        env->regs[r_ea] = env->pc + 4;
++
++        if (cpu->mmu_present) {
++            new_status |= CR_STATUS_EH;
++        }
++    }
++
++    new_status &= ~(CR_STATUS_PIE | CR_STATUS_U);
++
++    env->ctrl[CR_STATUS] = new_status;
++    env->ctrl[CR_EXCEPTION] = FIELD_DP32(env->ctrl[CR_EXCEPTION],
++                                         CR_EXCEPTION, CAUSE,
++                                         cs->exception_index);
++    env->pc = exception_addr;
++}
++
++static void do_iic_irq(Nios2CPU *cpu)
++{
++    do_exception(cpu, cpu->exception_addr, false);
++}
++
+ void nios2_cpu_do_interrupt(CPUState *cs)
+ {
+     Nios2CPU *cpu = NIOS2_CPU(cs);
+@@ -56,57 +92,20 @@ void nios2_cpu_do_interrupt(CPUState *cs)
+ 
+     switch (cs->exception_index) {
+     case EXCP_IRQ:
+-        assert(env->ctrl[CR_STATUS] & CR_STATUS_PIE);
+-
+         qemu_log_mask(CPU_LOG_INT, "interrupt at pc=%x\n", env->pc);
+-
+-        env->ctrl[CR_ESTATUS] = env->ctrl[CR_STATUS];
+-        env->ctrl[CR_STATUS] |= CR_STATUS_IH;
+-        env->ctrl[CR_STATUS] &= ~(CR_STATUS_PIE | CR_STATUS_U);
+-
+-        env->ctrl[CR_EXCEPTION] = FIELD_DP32(env->ctrl[CR_EXCEPTION],
+-                                             CR_EXCEPTION, CAUSE,
+-                                             cs->exception_index);
+-
+-        env->regs[R_EA] = env->pc + 4;
+-        env->pc = cpu->exception_addr;
++        do_iic_irq(cpu);
+         break;
+ 
+     case EXCP_TLBD:
+         if ((env->ctrl[CR_STATUS] & CR_STATUS_EH) == 0) {
+             qemu_log_mask(CPU_LOG_INT, "TLB MISS (fast) at pc=%x\n", env->pc);
+-
+-            /* Fast TLB miss */
+-            /* Variation from the spec. Table 3-35 of the cpu reference shows
+-             * estatus not being changed for TLB miss but this appears to
+-             * be incorrect. */
+-            env->ctrl[CR_ESTATUS] = env->ctrl[CR_STATUS];
+-            env->ctrl[CR_STATUS] |= CR_STATUS_EH;
+-            env->ctrl[CR_STATUS] &= ~(CR_STATUS_PIE | CR_STATUS_U);
+-
+-            env->ctrl[CR_EXCEPTION] = FIELD_DP32(env->ctrl[CR_EXCEPTION],
+-                                                 CR_EXCEPTION, CAUSE,
+-                                                 cs->exception_index);
+-
+             env->ctrl[CR_TLBMISC] &= ~CR_TLBMISC_DBL;
+             env->ctrl[CR_TLBMISC] |= CR_TLBMISC_WE;
+-
+-            env->regs[R_EA] = env->pc + 4;
+-            env->pc = cpu->fast_tlb_miss_addr;
++            do_exception(cpu, cpu->fast_tlb_miss_addr, false);
+         } else {
+             qemu_log_mask(CPU_LOG_INT, "TLB MISS (double) at pc=%x\n", env->pc);
+-
+-            /* Double TLB miss */
+-            env->ctrl[CR_STATUS] |= CR_STATUS_EH;
+-            env->ctrl[CR_STATUS] &= ~(CR_STATUS_PIE | CR_STATUS_U);
+-
+-            env->ctrl[CR_EXCEPTION] = FIELD_DP32(env->ctrl[CR_EXCEPTION],
+-                                                 CR_EXCEPTION, CAUSE,
+-                                                 cs->exception_index);
+-
+             env->ctrl[CR_TLBMISC] |= CR_TLBMISC_DBL;
+-
+-            env->pc = cpu->exception_addr;
++            do_exception(cpu, cpu->exception_addr, false);
+         }
+         break;
+ 
+@@ -114,78 +113,28 @@ void nios2_cpu_do_interrupt(CPUState *cs)
+     case EXCP_TLBW:
+     case EXCP_TLBX:
+         qemu_log_mask(CPU_LOG_INT, "TLB PERM at pc=%x\n", env->pc);
+-
+-        env->ctrl[CR_ESTATUS] = env->ctrl[CR_STATUS];
+-        env->ctrl[CR_STATUS] |= CR_STATUS_EH;
+-        env->ctrl[CR_STATUS] &= ~(CR_STATUS_PIE | CR_STATUS_U);
+-
+-        env->ctrl[CR_EXCEPTION] = FIELD_DP32(env->ctrl[CR_EXCEPTION],
+-                                             CR_EXCEPTION, CAUSE,
+-                                             cs->exception_index);
+-
+         if ((env->ctrl[CR_STATUS] & CR_STATUS_EH) == 0) {
+             env->ctrl[CR_TLBMISC] |= CR_TLBMISC_WE;
+         }
+-
+-        env->regs[R_EA] = env->pc + 4;
+-        env->pc = cpu->exception_addr;
++        do_exception(cpu, cpu->exception_addr, false);
+         break;
+ 
+     case EXCP_SUPERA:
+     case EXCP_SUPERI:
+     case EXCP_SUPERD:
+         qemu_log_mask(CPU_LOG_INT, "SUPERVISOR exception at pc=%x\n", env->pc);
+-
+-        if ((env->ctrl[CR_STATUS] & CR_STATUS_EH) == 0) {
+-            env->ctrl[CR_ESTATUS] = env->ctrl[CR_STATUS];
+-            env->regs[R_EA] = env->pc + 4;
+-        }
+-
+-        env->ctrl[CR_STATUS] |= CR_STATUS_EH;
+-        env->ctrl[CR_STATUS] &= ~(CR_STATUS_PIE | CR_STATUS_U);
+-
+-        env->ctrl[CR_EXCEPTION] = FIELD_DP32(env->ctrl[CR_EXCEPTION],
+-                                             CR_EXCEPTION, CAUSE,
+-                                             cs->exception_index);
+-
+-        env->pc = cpu->exception_addr;
++        do_exception(cpu, cpu->exception_addr, false);
+         break;
+ 
+     case EXCP_ILLEGAL:
+     case EXCP_TRAP:
+         qemu_log_mask(CPU_LOG_INT, "TRAP exception at pc=%x\n", env->pc);
+-
+-        if ((env->ctrl[CR_STATUS] & CR_STATUS_EH) == 0) {
+-            env->ctrl[CR_ESTATUS] = env->ctrl[CR_STATUS];
+-            env->regs[R_EA] = env->pc + 4;
+-        }
+-
+-        env->ctrl[CR_STATUS] |= CR_STATUS_EH;
+-        env->ctrl[CR_STATUS] &= ~(CR_STATUS_PIE | CR_STATUS_U);
+-
+-        env->ctrl[CR_EXCEPTION] = FIELD_DP32(env->ctrl[CR_EXCEPTION],
+-                                             CR_EXCEPTION, CAUSE,
+-                                             cs->exception_index);
+-
+-        env->pc = cpu->exception_addr;
++        do_exception(cpu, cpu->exception_addr, false);
+         break;
  
      case EXCP_BREAK:
          qemu_log_mask(CPU_LOG_INT, "BREAK exception at pc=%x\n", env->pc);
--        /* The semihosting instruction is "break 1".  */
--        if (semihosting_enabled() &&
--            cpu_ldl_code(env, env->pc) == 0x003da07a)  {
--            qemu_log_mask(CPU_LOG_INT, "Entering semihosting\n");
--            env->pc += 4;
--            do_nios2_semihosting(env);
--            break;
+-
+-        if ((env->ctrl[CR_STATUS] & CR_STATUS_EH) == 0) {
+-            env->ctrl[CR_BSTATUS] = env->ctrl[CR_STATUS];
+-            env->regs[R_BA] = env->pc + 4;
 -        }
- 
-         if ((env->ctrl[CR_STATUS] & CR_STATUS_EH) == 0) {
-             env->ctrl[CR_BSTATUS] = env->ctrl[CR_STATUS];
-@@ -196,6 +188,12 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-         env->pc = cpu->exception_addr;
+-
+-        env->ctrl[CR_STATUS] |= CR_STATUS_EH;
+-        env->ctrl[CR_STATUS] &= ~(CR_STATUS_PIE | CR_STATUS_U);
+-
+-        env->ctrl[CR_EXCEPTION] = FIELD_DP32(env->ctrl[CR_EXCEPTION],
+-                                             CR_EXCEPTION, CAUSE,
+-                                             cs->exception_index);
+-
+-        env->pc = cpu->exception_addr;
++        do_exception(cpu, cpu->exception_addr, true);
          break;
  
-+    case EXCP_SEMIHOST:
-+        qemu_log_mask(CPU_LOG_INT, "BREAK semihosting at pc=%x\n", env->pc);
-+        env->pc += 4;
-+        do_nios2_semihosting(env);
-+        break;
-+
-     default:
-         cpu_abort(cs, "unhandled exception type=%d\n",
-                   cs->exception_index);
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 459e30b338..cfad110186 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -33,6 +33,7 @@
- #include "exec/translator.h"
- #include "qemu/qemu-print.h"
- #include "exec/gen-icount.h"
-+#include "semihosting/semihost.h"
+     case EXCP_SEMIHOST:
+@@ -195,9 +144,7 @@ void nios2_cpu_do_interrupt(CPUState *cs)
+         break;
  
- /* is_jmp field values */
- #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
-@@ -686,6 +687,20 @@ static void trap(DisasContext *dc, uint32_t code, uint32_t flags)
-     t_gen_helper_raise_exception(dc, EXCP_TRAP);
+     default:
+-        cpu_abort(cs, "unhandled exception type=%d\n",
+-                  cs->exception_index);
+-        break;
++        cpu_abort(cs, "unhandled exception type=%d\n", cs->exception_index);
+     }
  }
  
-+static void gen_break(DisasContext *dc, uint32_t code, uint32_t flags)
-+{
-+#ifndef CONFIG_USER_ONLY
-+    /* The semihosting instruction is "break 1".  */
-+    R_TYPE(instr, code);
-+    if (semihosting_enabled() && instr.imm5 == 1) {
-+        t_gen_helper_raise_exception(dc, EXCP_SEMIHOST);
-+        return;
-+    }
-+#endif
-+
-+    t_gen_helper_raise_exception(dc, EXCP_BREAK);
-+}
-+
- static const Nios2Instruction r_type_instructions[] = {
-     INSTRUCTION_ILLEGAL(),
-     INSTRUCTION(eret),                                /* eret */
-@@ -739,7 +754,7 @@ static const Nios2Instruction r_type_instructions[] = {
-     INSTRUCTION(add),                                 /* add */
-     INSTRUCTION_ILLEGAL(),
-     INSTRUCTION_ILLEGAL(),
--    INSTRUCTION_FLG(gen_excp, EXCP_BREAK),            /* break */
-+    INSTRUCTION(gen_break),                           /* break */
-     INSTRUCTION_ILLEGAL(),
-     INSTRUCTION(nop),                                 /* nop */
-     INSTRUCTION_ILLEGAL(),
 -- 
 2.25.1
 
