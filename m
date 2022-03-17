@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1626A4DC34E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 10:48:26 +0100 (CET)
-Received: from localhost ([::1]:46952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3526B4DC374
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 11:00:15 +0100 (CET)
+Received: from localhost ([::1]:49896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUmk4-0006rz-Jt
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 05:48:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40874)
+	id 1nUmvV-0001X2-LP
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 06:00:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUmhv-0005AY-Km
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 05:46:11 -0400
-Received: from [2607:f8b0:4864:20::112f] (port=39168
- helo=mail-yw1-x112f.google.com)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nUmtD-0000iz-30
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 05:57:51 -0400
+Received: from [2607:f8b0:4864:20::52d] (port=38426
+ helo=mail-pg1-x52d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUmhs-0000dV-Ch
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 05:46:11 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-2e5827a76f4so51604777b3.6
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 02:46:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nUmtA-0002Kb-JS
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 05:57:50 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id i3so653561pgc.5
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 02:57:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HGwsZ4JiKyr6t/aUHBUNDyNPD8d0+Cp/vVv0RDTDOIA=;
- b=zS8bugxx9QldzbTP/VW+mIka2GYsD7LRuqjsa+dKCpse1Sad+WG7xrwWeKpkvAKwqj
- RTEnURtpO606iarZiBX/vZEaXwMYAhCJ0SRQjhkzHs08kHm+vG+0ivz+gGqzcvBFs3It
- XxIC30w2Nk8Z0n3tKRXjy/tYDEuyzAWLP8C797ansMbZTYcst6JU3NEybPcahtUBv4pl
- N4qWjxgej7h9hEQ5KN//fbEZUpJg8lDWjtTIMF2rtQFphLfX7cra6NF25ERyCO1uV7WQ
- inmjyIwyCDVqDBwJ8DlaKjDncjKpEHqv3r6Z4iD9KEfb00wikyEozYdu7BP/Ky69TCPr
- gUEg==
+ :cc; bh=bigXU4UIDhO2tR/loz255+aZBYK2dhzBkGjin5Tpwgs=;
+ b=HJOThLWYmK/ighRS6/thYpA9t8L5gCkDVeM5eE/Te4KWgWNJdUb3Z6yGmk947nQQH0
+ ohI0syzO2FQWU8KwQB1D0wZg2OgEnPrgOS858bwFxErHFr/bYoVKO8k+Wy73iKZus8w9
+ lYgfrnFaVktFs91mhB7aOZdzsLQPnerBdaLyBc96mu/TM3HybCpJVqInujbsxxcFu3jb
+ iZypXNKULGziohaiXeZMUH1DVeRb+Q/p8T0JE8lklxVDit6U+r1iwQhJecZNq+SCvtxa
+ iyhziL1bWrw6uGHmKBHlEWmaNmHUY6vAyV++wisjKb4SSjPL3OoQNoHbwhvcaYwaxCWX
+ G7Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HGwsZ4JiKyr6t/aUHBUNDyNPD8d0+Cp/vVv0RDTDOIA=;
- b=CLhxmZyHgy/FBJOEfJtRtS5Cm4J6gQ1MUNo7SYlr/RczFF2CF87ynTUzAlSjGlZwYV
- cl9AzjF0vjrkzW0zRgLRwIuhC+La5x8T8ekHqN9+yY/dMBSk8adCacvw9/WLLklbyyFQ
- +Xbjr5DrODFnsn/frewKlWze6RUd1+WniAvs/RhDII3XnXugNLyY2cVkuu8ESeYEp1yF
- H/q917CmwwsWsxyjNeCpcVGS0XR1eBPX3dHXfm1auenUbU1SUYVrdMYGHhHVJYNiVf0h
- q/tXA4C7noo4YpXhG9j0vNeQ7oR6Dxxhmy8TQP3jEAmSwdAuA2SnqYqE014wTFpXGU5l
- tzEg==
-X-Gm-Message-State: AOAM530WhBo8DFX/jQ97aXrdEKTsK9kYrnHqgtVto7Jtf3IFCT+AsNwV
- D6ncDLjEoOQ0pkMIegxmeQULXnL551vjdxNiH4Hxnw==
-X-Google-Smtp-Source: ABdhPJxHJdeTgCUykTIpU2q7xfkHpoLtIxp57ktvlPCT8g5pZ+DzSPCsD881ZG9LjViAeLfonjCDuKiTFlB1ZLnrH9c=
-X-Received: by 2002:a81:1151:0:b0:2e5:99ec:9933 with SMTP id
- 78-20020a811151000000b002e599ec9933mr4544280ywr.64.1647510367285; Thu, 17 Mar
- 2022 02:46:07 -0700 (PDT)
+ bh=bigXU4UIDhO2tR/loz255+aZBYK2dhzBkGjin5Tpwgs=;
+ b=QnT+XTgrW2vIePZllfk3q1k8iqWyYddmbgzih3oIanH2uLCiYJKv+uZd/RDrH/O4J4
+ RnR8ZBIjJH42bLRBHgHuYJy8zgssTHEGeB7WfxC16N+ZsT61l67ehURXN5bRhAlrabFZ
+ W8HLf3Bhr+Puoa4lFGZqvgsOzEt2331R6kaATeFnY6WcZcB/q2bAnHt6edxYIg61A1CX
+ NoRkyg49vzhIQrSeWWwh2iXxxzuRuGGAT67GxucNlhU5drwJD9E6fvg48YjrRcIFovjq
+ B+rJceWwrkSzzQE1WOaf9DuJlOugG1fXNPKEZNa4lYkDMzeQNulbJ6Eq8o7L19CleJva
+ 5tdg==
+X-Gm-Message-State: AOAM5320nXdB1ptLtwwCGleEeKh3mvQLd5j+h3fFmom5Yb528uVqQNUL
+ xA+jZvs2tqi5NsKnrpNHQx0lfdZ02FLbll1v
+X-Google-Smtp-Source: ABdhPJwMNQh4WbXLWXoOfLrsH/YQgYt7EewSq/+YYBVAbIfQ0d8+5aQSG1eZtNfAYXSFfBW8UV7JAg==
+X-Received: by 2002:a05:6a00:1a88:b0:4fa:58f3:c55e with SMTP id
+ e8-20020a056a001a8800b004fa58f3c55emr952585pfv.82.1647511066695; 
+ Thu, 17 Mar 2022 02:57:46 -0700 (PDT)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com.
+ [209.85.216.45]) by smtp.gmail.com with ESMTPSA id
+ k1-20020a056a00134100b004f78df32666sm6765867pfu.198.2022.03.17.02.57.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Mar 2022 02:57:45 -0700 (PDT)
+Received: by mail-pj1-f45.google.com with SMTP id
+ mp6-20020a17090b190600b001c6841b8a52so1130698pjb.5; 
+ Thu, 17 Mar 2022 02:57:45 -0700 (PDT)
+X-Received: by 2002:a17:902:e88d:b0:151:ba78:3bc1 with SMTP id
+ w13-20020a170902e88d00b00151ba783bc1mr3879780plg.13.1647511064661; Thu, 17
+ Mar 2022 02:57:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <57412635-6b46-823b-14a4-0ee694ace5b8@oth-regensburg.de>
- <CAKmqyKOZN=hS73TfgHfMtxktZ9kkw4kBBA4-gjGAV8Q0Kw+KHw@mail.gmail.com>
- <CAAhSdy23Ag=ZqUj82aZ6BNA2SJq54rbCDjeX=1cHtbq7LR8jaQ@mail.gmail.com>
- <a840f9ac-7315-4381-4c85-719efb413b18@oth-regensburg.de>
- <CAFEAcA98VQmM_ETpNuhq31Y7xLkS_AjVRsTeCdnqzMZG-3uxBA@mail.gmail.com>
- <3783dce0-0c5b-824e-2097-bbc3367281a6@oth-regensburg.de>
- <CAKmqyKNf3qL9k83tRD+=Frdue=+WZNAJ8RxK4UivCjz0Adjbqg@mail.gmail.com>
-In-Reply-To: <CAKmqyKNf3qL9k83tRD+=Frdue=+WZNAJ8RxK4UivCjz0Adjbqg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Mar 2022 09:45:55 +0000
-Message-ID: <CAFEAcA8mqdAf58FkxDPtL_UK2feGTEUE+h--_a8pRpSsGUCHYw@mail.gmail.com>
-Subject: Re: [EXT] Re: QEMU+KVM on RISC-V + Hypervisor Extension
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112f
+References: <20220316175759.821785-1-atishp@rivosinc.com>
+In-Reply-To: <20220316175759.821785-1-atishp@rivosinc.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Thu, 17 Mar 2022 17:57:33 +0800
+X-Gmail-Original-Message-ID: <CANzO1D3jsXMKQ3UUjR8p-9PxHh_YK9rtNVFcr-+S0ZGB3S26RA@mail.gmail.com>
+Message-ID: <CANzO1D3jsXMKQ3UUjR8p-9PxHh_YK9rtNVFcr-+S0ZGB3S26RA@mail.gmail.com>
+Subject: Re: [PATCH v6] target/riscv: Add isa extenstion strings to the device
+ tree
+To: Atish Patra <atishp@rivosinc.com>
+Content-Type: multipart/alternative; boundary="000000000000c5d66705da670fb2"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -88,22 +94,321 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>, Anup Patel <anup@brainfault.org>,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Heiko Stubner <heiko@sntech.de>,
+ Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jiangyifei <jiangyifei@huawei.com>,
- Stefan Huber <stefan.huber@oth-regensburg.de>
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Mar 2022 at 22:23, Alistair Francis <alistair23@gmail.com> wrote:
-> Hmm... This seems like a bug. We shouldn't allow the user to specify a
-> `-bios` option if using KVM. Would you mind preparing a patch to catch
-> this?
+--000000000000c5d66705da670fb2
+Content-Type: text/plain; charset="UTF-8"
 
-You don't want to allow the possibility of a bios blob that expects
-to run in S-mode, the way arm virt can run an EL1 UEFI BIOS ?
+On Thu, Mar 17, 2022 at 1:58 AM Atish Patra <atishp@rivosinc.com> wrote:
 
-thanks
--- PMM
+> The Linux kernel parses the ISA extensions from "riscv,isa" DT
+> property. It used to parse only the single letter base extensions
+> until now. A generic ISA extension parsing framework was proposed[1]
+> recently that can parse multi-letter ISA extensions as well.
+>
+> Generate the extended ISA string by appending the available ISA extensions
+> to the "riscv,isa" string if it is enabled so that kernel can process it.
+>
+> [1] https://lkml.org/lkml/2022/2/15/263
+>
+> Reviewed-by: Anup Patel <anup@brainfault.org>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Suggested-by: Heiko Stubner <heiko@sntech.de>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+> Changes from v5->v6:
+> 1. Improved commit message.
+> 2. Fixed a typo for Zfh.
+>
+> Changes from v4->v5:
+> 1. Fixed the order of Zxx extensions.
+> 2. Added a comment clearly describing the rules of extension order.
+>
+> Changes from v3->v4:
+> 1. Fixed the order of the extension names.
+> 2. Added all the available ISA extensions in Qemu.
+>
+> Changes from v2->v3:
+> 1. Used g_strconcat to replace snprintf & a max isa string length as
+> suggested by Anup.
+> 2. I have not included the Tested-by Tag from Heiko because the
+> implementation changed from v2 to v3.
+>
+> Changes from v1->v2:
+> 1. Improved the code redability by using arrays instead of individual check
+> ---
+>  target/riscv/cpu.c | 60 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 60 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index ddda4906ffb7..937ccdda997b 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -34,6 +34,11 @@
+>
+>  /* RISC-V CPU definitions */
+>
+> +struct isa_ext_data {
+> +        const char *name;
+> +        bool enabled;
+> +};
+> +
+>  static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
+>
+>  const char * const riscv_int_regnames[] = {
+> @@ -898,6 +903,60 @@ static void riscv_cpu_class_init(ObjectClass *c, void
+> *data)
+>      device_class_set_props(dc, riscv_cpu_properties);
+>  }
+>
+> +#define ISA_EDATA_ENTRY(name, prop) {#name, cpu->cfg.prop}
+> +
+> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int
+> max_str_len)
+> +{
+> +    char *old = *isa_str;
+> +    char *new = *isa_str;
+> +    int i;
+> +
+> +    /**
+> +     * Here are the ordering rules of extension naming defined by RISC-V
+> +     * specification :
+> +     * 1. All extensions should be separated from from other multi-letter
+> +     *    extensions by an underscore.
+> +     * 2. The first letter following the 'Z' conventionally indicates the
+> most
+> +     *    closely related alphabetical extension category,
+> IMAFDQLCBKJTPVH.
+> +     *    If multiple 'Z' extensions are named, they should be ordered
+> first
+> +     *    by category, then alphabetically within a category.
+> +     * 3. Standard supervisor-level extensions (starts with 'S') should be
+> +     *    listed after standard unprivileged extensions.  If multiple
+> +     *    supervisor-level extensions are listed, they should be ordered
+> +     *    alphabetically.
+> +     * 4. Non-standard extensions (starts with 'X') must be listed after
+> all
+> +     *    standard extensions. They must be separated from other
+> multi-letter
+> +     *    extensions by an underscore.
+> +     */
+> +    struct isa_ext_data isa_edata_arr[] = {
+> +        ISA_EDATA_ENTRY(zfh, ext_zfh),
+> +        ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+> +        ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+> +        ISA_EDATA_ENTRY(zdinx, ext_zdinx),
+> +        ISA_EDATA_ENTRY(zba, ext_zba),
+> +        ISA_EDATA_ENTRY(zbb, ext_zbb),
+> +        ISA_EDATA_ENTRY(zbc, ext_zbc),
+> +        ISA_EDATA_ENTRY(zbs, ext_zbs),
+> +        ISA_EDATA_ENTRY(zve32f, ext_zve32f),
+> +        ISA_EDATA_ENTRY(zve64f, ext_zve64f),
+> +        ISA_EDATA_ENTRY(zhinx, ext_zhinx),
+> +        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
+> +        ISA_EDATA_ENTRY(svinval, ext_svinval),
+> +        ISA_EDATA_ENTRY(svnapot, ext_svnapot),
+> +        ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
+> +    };
+> +
+> +    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+> +        if (isa_edata_arr[i].enabled) {
+> +            new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
+> +            g_free(old);
+> +            old = new;
+> +        }
+> +    }
+> +
+> +    *isa_str = new;
+> +}
+> +
+>  char *riscv_isa_string(RISCVCPU *cpu)
+>  {
+>      int i;
+> @@ -910,6 +969,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
+>          }
+>      }
+>      *p = '\0';
+> +    riscv_isa_string_ext(cpu, &isa_str, maxlen);
+>      return isa_str;
+>  }
+>
+> --
+> 2.25.1
+>
+>
+>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+
+--000000000000c5d66705da670fb2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Mar 17, 2022 at 1:58 AM Atish Pat=
+ra &lt;<a href=3D"mailto:atishp@rivosinc.com">atishp@rivosinc.com</a>&gt; w=
+rote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">The Linux kernel parses the ISA extensions from &quot;risc=
+v,isa&quot; DT<br>
+property. It used to parse only the single letter base extensions<br>
+until now. A generic ISA extension parsing framework was proposed[1]<br>
+recently that can parse multi-letter ISA extensions as well.<br>
+<br>
+Generate the extended ISA string by appending the available ISA extensions<=
+br>
+to the &quot;riscv,isa&quot; string if it is enabled so that kernel can pro=
+cess it.<br>
+<br>
+[1] <a href=3D"https://lkml.org/lkml/2022/2/15/263" rel=3D"noreferrer" targ=
+et=3D"_blank">https://lkml.org/lkml/2022/2/15/263</a><br>
+<br>
+Reviewed-by: Anup Patel &lt;<a href=3D"mailto:anup@brainfault.org" target=
+=3D"_blank">anup@brainfault.org</a>&gt;<br>
+Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
+m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+Suggested-by: Heiko Stubner &lt;<a href=3D"mailto:heiko@sntech.de" target=
+=3D"_blank">heiko@sntech.de</a>&gt;<br>
+Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" targe=
+t=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
+---<br>
+Changes from v5-&gt;v6:<br>
+1. Improved commit message.<br>
+2. Fixed a typo for Zfh.<br>
+<br>
+Changes from v4-&gt;v5:<br>
+1. Fixed the order of Zxx extensions.<br>
+2. Added a comment clearly describing the rules of extension order.<br>
+<br>
+Changes from v3-&gt;v4:<br>
+1. Fixed the order of the extension names.<br>
+2. Added all the available ISA extensions in Qemu.<br>
+<br>
+Changes from v2-&gt;v3:<br>
+1. Used g_strconcat to replace snprintf &amp; a max isa string length as<br=
+>
+suggested by Anup.<br>
+2. I have not included the Tested-by Tag from Heiko because the<br>
+implementation changed from v2 to v3.<br>
+<br>
+Changes from v1-&gt;v2:<br>
+1. Improved the code redability by using arrays instead of individual check=
+<br>
+---<br>
+=C2=A0target/riscv/cpu.c | 60 +++++++++++++++++++++++++++++++++++++++++++++=
++<br>
+=C2=A01 file changed, 60 insertions(+)<br>
+<br>
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+index ddda4906ffb7..937ccdda997b 100644<br>
+--- a/target/riscv/cpu.c<br>
++++ b/target/riscv/cpu.c<br>
+@@ -34,6 +34,11 @@<br>
+<br>
+=C2=A0/* RISC-V CPU definitions */<br>
+<br>
++struct isa_ext_data {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *name;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool enabled;<br>
++};<br>
++<br>
+=C2=A0static const char riscv_exts[26] =3D &quot;IEMAFDQCLBJTPVNSUHKORWXYZG=
+&quot;;<br>
+<br>
+=C2=A0const char * const riscv_int_regnames[] =3D {<br>
+@@ -898,6 +903,60 @@ static void riscv_cpu_class_init(ObjectClass *c, void =
+*data)<br>
+=C2=A0 =C2=A0 =C2=A0device_class_set_props(dc, riscv_cpu_properties);<br>
+=C2=A0}<br>
+<br>
++#define ISA_EDATA_ENTRY(name, prop) {#name, cpu-&gt;cfg.prop}<br>
++<br>
++static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_st=
+r_len)<br>
++{<br>
++=C2=A0 =C2=A0 char *old =3D *isa_str;<br>
++=C2=A0 =C2=A0 char *new =3D *isa_str;<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 /**<br>
++=C2=A0 =C2=A0 =C2=A0* Here are the ordering rules of extension naming defi=
+ned by RISC-V<br>
++=C2=A0 =C2=A0 =C2=A0* specification :<br>
++=C2=A0 =C2=A0 =C2=A0* 1. All extensions should be separated from from othe=
+r multi-letter<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 extensions by an underscore.<br>
++=C2=A0 =C2=A0 =C2=A0* 2. The first letter following the &#39;Z&#39; conven=
+tionally indicates the most<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 closely related alphabetical extension =
+category, IMAFDQLCBKJTPVH.<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 If multiple &#39;Z&#39; extensions are =
+named, they should be ordered first<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 by category, then alphabetically within=
+ a category.<br>
++=C2=A0 =C2=A0 =C2=A0* 3. Standard supervisor-level extensions (starts with=
+ &#39;S&#39;) should be<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 listed after standard unprivileged exte=
+nsions.=C2=A0 If multiple<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 supervisor-level extensions are listed,=
+ they should be ordered<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 alphabetically.<br>
++=C2=A0 =C2=A0 =C2=A0* 4. Non-standard extensions (starts with &#39;X&#39;)=
+ must be listed after all<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 standard extensions. They must be separ=
+ated from other multi-letter<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 extensions by an underscore.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 struct isa_ext_data isa_edata_arr[] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfh, ext_zfh),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfinx, ext_zfinx),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zdinx, ext_zdinx),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zba, ext_zba),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbb, ext_zbb),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbc, ext_zbc),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbs, ext_zbs),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zve32f, ext_zve32f),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zve64f, ext_zve64f),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zhinx, ext_zhinx),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svinval, ext_svinval),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svnapot, ext_svnapot),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),<br>
++=C2=A0 =C2=A0 };<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(isa_edata_arr); i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (isa_edata_arr[i].enabled) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 new =3D g_strconcat(old, &quot;_=
+&quot;, isa_edata_arr[i].name, NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(old);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 old =3D new;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 *isa_str =3D new;<br>
++}<br>
++<br>
+=C2=A0char *riscv_isa_string(RISCVCPU *cpu)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0int i;<br>
+@@ -910,6 +969,7 @@ char *riscv_isa_string(RISCVCPU *cpu)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0*p =3D &#39;\0&#39;;<br>
++=C2=A0 =C2=A0 riscv_isa_string_ext(cpu, &amp;isa_str, maxlen);<br>
+=C2=A0 =C2=A0 =C2=A0return isa_str;<br>
+=C2=A0}<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br></blockquote><div><br></div><div>Reviewed-by: Frank Chang &lt;<a href=
+=3D"mailto:frank.chang@sifive.com">frank.chang@sifive.com</a>&gt;<br></div>=
+</div></div>
+
+--000000000000c5d66705da670fb2--
 
