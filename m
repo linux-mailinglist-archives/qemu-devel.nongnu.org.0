@@ -2,95 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C2C4DC504
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 12:47:37 +0100 (CET)
-Received: from localhost ([::1]:39872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B283E4DC511
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 12:54:45 +0100 (CET)
+Received: from localhost ([::1]:47572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUobQ-0006Tk-70
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 07:47:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35854)
+	id 1nUoiK-0004aY-QE
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 07:54:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUoT8-0003qc-Pk
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 07:39:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55932)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nUoT5-0002Ks-Hf
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 07:39:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647517138;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W4To3dIQD74NY/0YQwlRNgzr87S5+jctL+/La1HuB4A=;
- b=fU77N0X2eoMWn35tMQ1pdBb8zx8eBvQpr3QqrQOWLGWS8MJdY/bH3bNCKkKQ0du+dVt/H+
- 6IY1YT0oVtj5rfGZfGPw2khrPhLdAtn+y3bLC2HQexBiWfq5P9OcfMFYbdoBLiEk3AKSXn
- u68H8qeBd7BbVOlsAr5/ZhaPjEYDiUs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-7tPk-yucO--yFKKULmA1Bg-1; Thu, 17 Mar 2022 07:38:57 -0400
-X-MC-Unique: 7tPk-yucO--yFKKULmA1Bg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- x1-20020a50f181000000b00418f6d4bccbso1239090edl.12
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 04:38:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nUofB-0002Xc-FQ
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 07:51:29 -0400
+Received: from [2a00:1450:4864:20::634] (port=40761
+ helo=mail-ej1-x634.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nUof2-0005Bd-Rw
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 07:51:28 -0400
+Received: by mail-ej1-x634.google.com with SMTP id p15so10154939ejc.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 04:51:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=W4To3dIQD74NY/0YQwlRNgzr87S5+jctL+/La1HuB4A=;
- b=ryk3fSYLMMBMGWlEDHTGqlLITOifbIGchl8eS+7XGrRXWb0bCudOB2E36rXU1hzCV3
- 3oZvXAkToLKkQ0lHhjzN2jl9i3XoE4uxtplCfnL8Ev9AOuLiWdza68JkNi96YLuDvY0P
- +s6OIXGE/olvCSbPTHvGRaE43VubIba4gnXDkvGbGrxKiLEYAPAdEINLiYwKP3h8/k1I
- Fw3BRtPQFEd6CmF5ovZU9NjYe27cxNzb29H8hEeM8CLZ/ikk7ecNvkyLOJ5VplkvY24c
- MVKKjdmhuCaijw+xpn+R3DvCa/W3QRsXEQr2LFrFgzied+Vi43Pvm1+iKdwAcpJCjduY
- 00eA==
-X-Gm-Message-State: AOAM533+5+SF7/ZZl7lNuWQj0VVAmv4V0iv5rGr9H2n1kHewKu2qH9L8
- qX+4H/yaAovx4X5divfy87Bt66hcMcERC4/c11JBhJ256OVHbE7qvFT/DdRqpOlsyaxi5zD6Ih6
- LeUQsHDE0SPhiu90=
-X-Received: by 2002:a50:da8b:0:b0:415:a122:d7ad with SMTP id
- q11-20020a50da8b000000b00415a122d7admr3932412edj.123.1647517136262; 
- Thu, 17 Mar 2022 04:38:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOIZwX2mI83vXEoxofMfeyExa3DEG+npzNVyq/sTN75kVs+TRLaBrf+m90DMObGvMnE0WJag==
-X-Received: by 2002:a50:da8b:0:b0:415:a122:d7ad with SMTP id
- q11-20020a50da8b000000b00415a122d7admr3932400edj.123.1647517136088; 
- Thu, 17 Mar 2022 04:38:56 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- j7-20020a1709062a0700b006bc28a6b8f1sm2238767eje.222.2022.03.17.04.38.55
+ bh=4E/JiMnubydXsLao2rH+X8/9rmHXaHSoLTtrz+HMJyc=;
+ b=hKYEaTp//g3GD61twOvkEzBN4AaLombG/QVhqPHeE8Npv8/MLCFz7t9HFZoLfuKMkK
+ d81twsiY+Vr+aSAO74HNYIRxU2cD/J6/D+8rCQdyRjzvoKG3ywdZfH6PtVh/V9BI1aMK
+ pyh+IzXGh+ESG9a6xa/FFyz4X6LyzolL0QxG2lXRxasRG0V5AMVhFlsI5my5qlrwudAZ
+ 2KfLBs99qzPNYL722Sv/PR5Yfe5x3Va0qO8Cvukwu+bOMFcYP3Ttvp21sxguIMmGi3Oq
+ pNYoFaxaFOD1b41/y59AVllo9rjYQv5pr0V99424NT58jJhfGbxmQC/gOL6lljXvJwwC
+ z2xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4E/JiMnubydXsLao2rH+X8/9rmHXaHSoLTtrz+HMJyc=;
+ b=VIUBif7b2d8je4iNkGI6Mhkxzame6gxLJpQ3947CJ+Aw6ND5NHsSEb109Q1CU+oFi7
+ DTUQYbwE8vh2zKNI8WVcr8gmrRmlpuIfO2KiqzAvIYBClT9i6wXFgowTPRBwVDJgtXQs
+ grY/EmXpJHCdS+4zx5cFgvS4SUrxUaK8iXqDEHacaG0/1PoExfEz4BM0aPjZRTClFM89
+ e6tVpvhH5JTtnY5tFqTlzE8cj/XMqJU5o9xp3HjFSeRttu46qJ4ybc4xNsXrDmouYF4u
+ H+nuw/EFlhynVYMG7NrZy4uczJ8KoP4gl1kdCq4u2uZZqGeXme0fIbt2xmbe/hkRyLLJ
+ N1qA==
+X-Gm-Message-State: AOAM533LT1Yhne479dxvuzoc57j6LaRYwbicaTlhP+P1MQdLuwTLn2Jr
+ CfawJLET3qBnJWxXsCnW30g=
+X-Google-Smtp-Source: ABdhPJxbu8omzfPKn7xHZxD2KFAVTXP8SSSd42ZTiSHMpy91TUcoXxTCJGKxxU5XkKSeF06US1OmgQ==
+X-Received: by 2002:a17:906:6a11:b0:6d7:76cc:12f6 with SMTP id
+ qw17-20020a1709066a1100b006d776cc12f6mr4078380ejc.456.1647517878058; 
+ Thu, 17 Mar 2022 04:51:18 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ l5-20020a170906644500b006ce6b73ffd2sm2281898ejn.84.2022.03.17.04.51.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Mar 2022 04:38:55 -0700 (PDT)
-Message-ID: <b22155ed-167f-9788-7adb-4de25061ce2d@redhat.com>
-Date: Thu, 17 Mar 2022 12:38:55 +0100
+ Thu, 17 Mar 2022 04:51:17 -0700 (PDT)
+Message-ID: <db36f8e0-d4ce-c666-c69c-fb333ba004da@redhat.com>
+Date: Thu, 17 Mar 2022 12:51:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 07/14] iotests: replace unchecked calls to qemu_img_pipe()
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20220309035407.1848654-1-jsnow@redhat.com>
- <20220309035407.1848654-8-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220309035407.1848654-8-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [RFC PATCH-for-7.0 v2] cocoa: run qemu_init in the main thread
 Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220316160300.85438-1-philippe.mathieu.daude@gmail.com>
+ <e1a5b41b-708d-ef3b-4c9b-8b2469cf4a92@gmail.com>
+ <f7fb6c55-60ba-f510-b9cc-8a257859072e@redhat.com>
+ <CAFEAcA_JHky3XJYVsq9VzG38fWQgSO4k7QWWf+hAyUXrh-BfJQ@mail.gmail.com>
+ <CAFEAcA-bqoQR+qdFe6fkZ9Rvn4rKAxOXTwfPdFGA9uNEdHKGNg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAFEAcA-bqoQR+qdFe6fkZ9Rvn4rKAxOXTwfPdFGA9uNEdHKGNg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,30 +99,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.03.22 04:54, John Snow wrote:
-> qemu_img_pipe() discards the return code from qemu-img in favor of
-> returning just its output. Some tests using this function don't save,
-> log, or check the output either, though, which is unsafe.
->
-> Replace all of these calls with a checked version.
->
-> Tests affected are 194, 202, 203, 234, 262, and 303.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/194 | 4 ++--
->   tests/qemu-iotests/202 | 4 ++--
->   tests/qemu-iotests/203 | 4 ++--
->   tests/qemu-iotests/234 | 4 ++--
->   tests/qemu-iotests/262 | 2 +-
->   tests/qemu-iotests/303 | 2 +-
->   6 files changed, 10 insertions(+), 10 deletions(-)
+On 3/16/22 22:06, Peter Maydell wrote:
+>> Speaking of 7.1, is cocoa currently completely broken, ie in need
+>> of an interim fix for 7.0 ? If so, which of the various patches/approaches
+>> should it be ?
+> 
+> To answer the first half of my question, yes, the cocoa UI is
+> currently completely broken as it asserts on startup.
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+I think this patch is a good interim fix for 7.0 and an improvement in 
+general.  Any other changes can be deferred to 7.1.  For example it's 
+trivial for Cocoa not to block GTK+/SDL anymore, but no need to have 
+that in 7.0.  Same for removing main() from ui/cocoa.m.
 
+Paolo
 
