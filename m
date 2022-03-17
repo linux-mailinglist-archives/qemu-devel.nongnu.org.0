@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE04A4DC8D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 15:32:56 +0100 (CET)
-Received: from localhost ([::1]:40784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58ECA4DC8A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 15:21:07 +0100 (CET)
+Received: from localhost ([::1]:47010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUrBP-0003rZ-Qu
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 10:32:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57134)
+	id 1nUqzy-0004qq-3E
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 10:21:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nUqgb-0000cu-Ev
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:01:09 -0400
+ id 1nUqgh-0000fi-DY
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:01:13 -0400
 Received: from mga12.intel.com ([192.55.52.136]:25019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nUqgZ-0004LN-Gn
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:01:05 -0400
+ id 1nUqgf-0004LN-DH
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:01:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647525663; x=1679061663;
+ t=1647525669; x=1679061669;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/qTfHzbQ7Js7epycg8meh7h+jZZHKsMGM8Fx6fShEHQ=;
- b=CrWiQyyXDeMm7l79xX/378wZ5cagzU8cmTaImtvQTn1WxjlSdr5cBHQ9
- yN2pZtDfRuXllC+0P9G3RV6/Vwjyvp0gBCZMbFxogYcJ3s33gK9FTbQ06
- BffT649KSmx7NiGVzvQRmoaOvqYdXZDMjTECMzaZ+WwEU4/c2BpijOPJa
- 9TCcKLbCtiJV3ReW6N7l7c5tuXMa1rXuN4hguuC9nnbrMA9p8OEFWvFWb
- KtNOowrdPYP9bXKKIzp6sC1e+OGlJ29ATVBJ5TetxW1z3hgXzbQOJaEsW
- cJu4IeTId8manOgvjOBc+bDO0VULSDTvXKYhco9wYCM1pk3DSeAhFScgs w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="236816910"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="236816910"
+ bh=ot2UhC4Ngkt9x2qNK3E3XsueHhOSstt/gdRmDwhsnY4=;
+ b=ZwurcF5FnMZuObs6Nha2sJe7vZHYGvvvnClNwIVZgTtXGroLoU3L+kHy
+ oD+VH+5QwgFUAxUpiSxQtDxPDOy09GeLB7aqW9pBv2U2aQp8qhxIyfVun
+ 6nt+T0nD3AHooh2ntiiuPmwQt75A0n1w3yC4kR/++GJ4gxB5p9mYqYw3a
+ 6ESNtb3541KNPK8/6xbqFk5wKKIhefwQTtE6Dm+HTodtOMUS7zLtN+hqE
+ 49bIopQ2HSo5Y1WrKLFukpK0vgP48cjv7tpOzZnf8km9sL+QD3wtyGBZp
+ RIMsF0/lXSiYxcV3ODJUnRHtPTxlV6rN+UVOa88f0dVmCGLDylS/ozET0 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="236816943"
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="236816943"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 07:00:25 -0700
+ 17 Mar 2022 07:00:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="541378215"
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; d="scan'208";a="541378246"
 Received: from lxy-dell.sh.intel.com ([10.239.159.55])
- by orsmga007.jf.intel.com with ESMTP; 17 Mar 2022 07:00:21 -0700
+ by orsmga007.jf.intel.com with ESMTP; 17 Mar 2022 07:00:25 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -50,9 +50,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Marcelo Tosatti <mtosatti@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: [RFC PATCH v3 15/36] i386/tdx: Implement user specified tsc frequency
-Date: Thu, 17 Mar 2022 21:58:52 +0800
-Message-Id: <20220317135913.2166202-16-xiaoyao.li@intel.com>
+Subject: [RFC PATCH v3 16/36] i386/tdx: Set kvm_readonly_mem_enabled to false
+ for TDX VM
+Date: Thu, 17 Mar 2022 21:58:53 +0800
+Message-Id: <20220317135913.2166202-17-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220317135913.2166202-1-xiaoyao.li@intel.com>
 References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
@@ -86,80 +87,55 @@ Cc: isaku.yamahata@intel.com, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reuse "-cpu,tsc-frequency=" to get user wanted tsc frequency and pass it
-to KVM_TDX_INIT_VM.
+TDX only supports readonly for shared memory but not for private memory.
 
-Besides, sanity check the tsc frequency to be in the legal range and
-legal granularity (required by TDX module).
+In the view of QEMU, it has no idea whether a memslot is used by shared
+memory of private. Thus just mark kvm_readonly_mem_enabled to false to
+TDX VM for simplicity.
+
+Note, pflash has dependency on readonly capability from KVM while TDX
+wants to reuse pflash interface to load TDVF (as OVMF). Excuse TDX VM
+for readonly check in pflash.
 
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 ---
- target/i386/kvm/kvm.c |  8 ++++++++
- target/i386/kvm/tdx.c | 18 ++++++++++++++++++
- 2 files changed, 26 insertions(+)
+ hw/i386/pc_sysfw.c    | 2 +-
+ target/i386/kvm/tdx.c | 9 +++++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index f2d71359b59d..4a8b6e2c8797 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -806,6 +806,14 @@ static int kvm_arch_set_tsc_khz(CPUState *cs)
-     int r, cur_freq;
-     bool set_ioctl = false;
- 
-+    /*
-+     * TD guest's TSC is immutable, it cannot be set/changed via
-+     * KVM_SET_TSC_KHZ, but only be initialized via KVM_TDX_INIT_VM
-+     */
-+    if (is_tdx_vm()) {
-+        return 0;
-+    }
-+
-     if (!env->tsc_khz) {
-         return 0;
-     }
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index c8b17af95353..75b34d02cb4f 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -245,7 +245,7 @@ void pc_system_firmware_init(PCMachineState *pcms,
+         /* Machine property pflash0 not set, use ROM mode */
+         x86_bios_rom_init(MACHINE(pcms), "bios.bin", rom_memory, false);
+     } else {
+-        if (kvm_enabled() && !kvm_readonly_mem_enabled()) {
++        if (kvm_enabled() && (!kvm_readonly_mem_enabled() && !is_tdx_vm())) {
+             /*
+              * Older KVM cannot execute from device memory. So, flash
+              * memory cannot be used unless the readonly memory kvm
 diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-index a76c41fe5724..94a9c1ea7e9c 100644
+index 94a9c1ea7e9c..1bb8211e74e6 100644
 --- a/target/i386/kvm/tdx.c
 +++ b/target/i386/kvm/tdx.c
-@@ -26,6 +26,9 @@
- #define TDX_TD_ATTRIBUTES_PKS               BIT_ULL(30)
- #define TDX_TD_ATTRIBUTES_PERFMON           BIT_ULL(63)
- 
-+#define TDX_MIN_TSC_FREQUENCY_KHZ   (100 * 1000)
-+#define TDX_MAX_TSC_FREQUENCY_KHZ   (10 * 1000 * 1000)
-+
- static TdxGuest *tdx_guest;
- 
- /* It's valid after kvm_confidential_guest_init()->kvm_tdx_init() */
-@@ -209,6 +212,20 @@ int tdx_pre_create_vcpu(CPUState *cpu)
-         goto out;
+@@ -115,6 +115,15 @@ int tdx_kvm_init(MachineState *ms, Error **errp)
+         get_tdx_capabilities();
      }
  
-+    r = -EINVAL;
-+    if (env->tsc_khz && (env->tsc_khz < TDX_MIN_TSC_FREQUENCY_KHZ ||
-+                         env->tsc_khz > TDX_MAX_TSC_FREQUENCY_KHZ)) {
-+        error_report("Invalid TSC %ld KHz, must specify cpu_frequency between [%d, %d] kHz",
-+                      env->tsc_khz, TDX_MIN_TSC_FREQUENCY_KHZ,
-+                      TDX_MAX_TSC_FREQUENCY_KHZ);
-+        goto out;
-+    }
++    /*
++     * Set kvm_readonly_mem_allowed to false, because TDX only supports readonly
++     * memory for shared memory but not for private memory. Besides, whether a
++     * memslot is private or shared is not determined by QEMU.
++     *
++     * Thus, just mark readonly memory not supported for simplicity.
++     */
++    kvm_readonly_mem_allowed = false;
 +
-+    if (env->tsc_khz % (25 * 1000)) {
-+        error_report("Invalid TSC %ld KHz, it must be multiple of 25MHz", env->tsc_khz);
-+        goto out;
-+    }
-+
-     r = setup_td_guest_attributes(x86cpu);
-     if (r) {
-         goto out;
-@@ -219,6 +236,7 @@ int tdx_pre_create_vcpu(CPUState *cpu)
+     tdx_guest = tdx;
  
-     init_vm.cpuid = (__u64)(&cpuid_data);
-     init_vm.max_vcpus = ms->smp.cpus;
-+    init_vm.tsc_khz = env->tsc_khz;
-     init_vm.attributes = tdx_guest->attributes;
- 
-     r = tdx_vm_ioctl(KVM_TDX_INIT_VM, 0, &init_vm);
+     return 0;
 -- 
 2.27.0
 
