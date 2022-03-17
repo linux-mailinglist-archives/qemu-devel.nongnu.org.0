@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBBC74DCCA0
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 18:37:45 +0100 (CET)
-Received: from localhost ([::1]:53498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3154DCC9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 18:37:07 +0100 (CET)
+Received: from localhost ([::1]:50406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUu4G-0008NY-Us
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 13:37:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46462)
+	id 1nUu3e-0006Ia-6s
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 13:37:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vladislav.yaroshchuk@jetbrains.com>)
- id 1nUtvq-0005O7-OA
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:29:03 -0400
-Received: from [2a00:1450:4864:20::430] (port=46941
- helo=mail-wr1-x430.google.com)
+ id 1nUtvs-0005S8-Vi
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:29:05 -0400
+Received: from [2a00:1450:4864:20::429] (port=39566
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <vladislav.yaroshchuk@jetbrains.com>)
- id 1nUtvp-0005pk-6q
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:29:02 -0400
-Received: by mail-wr1-x430.google.com with SMTP id x15so8298024wru.13
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 10:29:00 -0700 (PDT)
+ id 1nUtvr-0005q0-E9
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 13:29:04 -0400
+Received: by mail-wr1-x429.google.com with SMTP id h15so8335277wrc.6
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 10:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jetbrains.com; s=googleapps;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TocqvUgt8oYqDt7ijO5+PrJ/oIA8D+p+ZMbp4ehOtYs=;
- b=Y0YxftjcXBaLVQ7Tdvp8hPzonz5ovqoleuk9t1R5VNT8URNlbBUF1/tvT9rWPss8bk
- wNOO1ZKzIfcoCIC8UwsB9E0wlWPQGV1Xwa9N/r6AAxf/8cAxRWNu2zPBxWKMVvB32Qva
- 9fIbxfd1aCmy3gxD646HytsqqXGTxLK2Zh3a0=
+ bh=v0RH9VmCWPcsPrNitBQ5880IrTspVYz6x+t+QgkXXVo=;
+ b=Hctd6SFSyLdRJsrpNuuQ8Ts34qQZHtt3Hbg6+flmhXlCacxlVOf3SIh89uEyYq5YDr
+ JVRehB4wV18ht02+TAt0yORe1QcFPC49f2pV9HI4gSn49CKxXs1bJ5aBaSb54uD4evEk
+ 5gqqdDVKQHY6FKsJSBXGzjOm9rUNYntiNk74U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TocqvUgt8oYqDt7ijO5+PrJ/oIA8D+p+ZMbp4ehOtYs=;
- b=EMHUBiG3IR+44itRcRNX6EeWBykvK/QvHwVsVZUaBoq82PreA+0PVxj3SxT+s5fe1c
- +gLGD89Oi3+xzxbkxz9x7u8kuJuqpzn9HOcwDCUlDQx5PHCxMwGLvbpcJNoYj5lpV6y+
- sMyWDh4KHeB4xvJBuvQ6pbCdhpkVqX/F/BGPz6w79A0at9IyqrC2RCkYftt8b6MJI9zo
- Z+L7VUmTIFkkfzLly1mMWuSA/UABk++7/0N0rEb8CWvVFVQ0fgj8IuEYAplrigRopw33
- J9mhWQv3e7EQ79PU0KRkTGRbAtcT8qWWhZ8dGv7/Gu1lkZ6Nqo5QqqowNdnW4KRBgO2c
- cMyA==
-X-Gm-Message-State: AOAM532mhpbvM/1nVHKngooFMZDfa6B/ewzapdA51X/btioIgKKa/flo
- 9QJhCCnv5KWmBhlE4TffohTSOi61xsSq/ILahys=
-X-Google-Smtp-Source: ABdhPJyLBJMHYAGh2CBKJbIu+1FWNOpfwNaZMJHiqwtwBAZy6qTDoimMYGzik6NG8Cy1Gpkbka+uVg==
-X-Received: by 2002:adf:d08f:0:b0:1f0:7eaa:e541 with SMTP id
- y15-20020adfd08f000000b001f07eaae541mr4979487wrh.372.1647538139667; 
- Thu, 17 Mar 2022 10:28:59 -0700 (PDT)
+ bh=v0RH9VmCWPcsPrNitBQ5880IrTspVYz6x+t+QgkXXVo=;
+ b=XeWWvNGyO+l5b09XAriROMTaht2sp5XAjyNHt3rFjYFD4y5PnOd0JT76G2ZQd92CT/
+ bUffr3TyteXfFjULyu0auGKo3MfOnb4ruXKgjletoNHbZUAYfvmM9jkypV13UInINF/R
+ r89WOXTuzwuADIkeg6dQ+WpDmj18B+FYUmD1Hb/J4U42R+AQWI6vZmQCSan+f4FO5iN4
+ DuYflZ24pWk+LUdXn2F7i0LUCMPVxiAs/hVHUYLDrGJftK7XoZp8jbQ/wpy0K+uSxVQQ
+ g6uwy+bqUHpHMN/dfSbSNTNSGKaYKHHy37MS/rHvuFPJ9YlDJTJy/UX+w6OhJfmEP7CD
+ VwnQ==
+X-Gm-Message-State: AOAM530mgzUQa5y+LT9O/Uy9Y1uhsGbeAi7c8WjGrlF2KShbc5X8xl7l
+ YrklLktmt4QuPTTvrQNmolvgxQ9gtLeXwqwP41k=
+X-Google-Smtp-Source: ABdhPJxz1FwA9zCUVxpfWogDD5zAyrpFbjO0xiGofiivsB37u7lgdCtc0Zdcj8zn4zzmRz5ujDhZBA==
+X-Received: by 2002:a5d:52ca:0:b0:203:db2f:2a47 with SMTP id
+ r10-20020a5d52ca000000b00203db2f2a47mr5013122wrv.580.1647538141683; 
+ Thu, 17 Mar 2022 10:29:01 -0700 (PDT)
 Received: from localhost.localdomain
  (ec2-3-121-162-165.eu-central-1.compute.amazonaws.com. [3.121.162.165])
  by smtp.gmail.com with ESMTPSA id
- 2-20020a1c1902000000b00380d3873d6asm4890702wmz.43.2022.03.17.10.28.57
+ 2-20020a1c1902000000b00380d3873d6asm4890702wmz.43.2022.03.17.10.28.59
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 17 Mar 2022 10:28:59 -0700 (PDT)
+ Thu, 17 Mar 2022 10:29:01 -0700 (PDT)
 From: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
 X-Google-Original-From: Vladislav Yaroshchuk
  <Vladislav.Yaroshchuk@jetbrains.com>
@@ -64,19 +64,19 @@ Cc: jasowang@redhat.com, r.bolshakov@yadro.com, eblake@redhat.com,
  agraf@csgraf.de, kraxel@redhat.com, alex.bennee@linaro.org,
  qemu_oss@crudebyte.com,
  Vladislav Yaroshchuk <Vladislav.Yaroshchuk@jetbrains.com>
-Subject: [PATCH v22 6/7] net/vmnet: update qemu-options.hx
-Date: Thu, 17 Mar 2022 20:28:38 +0300
-Message-Id: <20220317172839.28984-7-Vladislav.Yaroshchuk@jetbrains.com>
+Subject: [PATCH v22 7/7] net/vmnet: update hmp-commands.hx
+Date: Thu, 17 Mar 2022 20:28:39 +0300
+Message-Id: <20220317172839.28984-8-Vladislav.Yaroshchuk@jetbrains.com>
 X-Mailer: git-send-email 2.34.1.vfs.0.0
 In-Reply-To: <20220317172839.28984-1-Vladislav.Yaroshchuk@jetbrains.com>
 References: <20220317172839.28984-1-Vladislav.Yaroshchuk@jetbrains.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
  envelope-from=vladislav.yaroshchuk@jetbrains.com;
- helo=mail-wr1-x430.google.com
+ helo=mail-wr1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -102,59 +102,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Vladislav Yaroshchuk <Vladislav.Yaroshchuk@jetbrains.com>
 ---
- qemu-options.hx | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ hmp-commands.hx | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 5ce0ada75e..ea00d0eeb6 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2743,6 +2743,25 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
- #ifdef __linux__
-     "-netdev vhost-vdpa,id=str,vhostdev=/path/to/dev\n"
-     "                configure a vhost-vdpa network,Establish a vhost-vdpa netdev\n"
-+#endif
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 8476277aa9..8f3d78f177 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1265,7 +1265,11 @@ ERST
+     {
+         .name       = "netdev_add",
+         .args_type  = "netdev:O",
+-        .params     = "[user|tap|socket|vde|bridge|hubport|netmap|vhost-user],id=str[,prop=value][,...]",
++        .params     = "[user|tap|socket|vde|bridge|hubport|netmap|vhost-user"
 +#ifdef CONFIG_VMNET
-+    "-netdev vmnet-host,id=str[,isolated=on|off][,net-uuid=uuid]\n"
-+    "         [,start-address=addr,end-address=addr,subnet-mask=mask]\n"
-+    "                configure a vmnet network backend in host mode with ID 'str',\n"
-+    "                isolate this interface from others with 'isolated',\n"
-+    "                configure the address range and choose a subnet mask,\n"
-+    "                specify network UUID 'uuid' to disable DHCP and interact with\n"
-+    "                vmnet-host interfaces within this isolated network\n"
-+    "-netdev vmnet-shared,id=str[,isolated=on|off][,nat66-prefix=addr]\n"
-+    "         [,start-address=addr,end-address=addr,subnet-mask=mask]\n"
-+    "                configure a vmnet network backend in shared mode with ID 'str',\n"
-+    "                configure the address range and choose a subnet mask,\n"
-+    "                set IPv6 ULA prefix (of length 64) to use for internal network,\n"
-+    "                isolate this interface from others with 'isolated'\n"
-+    "-netdev vmnet-bridged,id=str,ifname=name[,isolated=on|off]\n"
-+    "                configure a vmnet network backend in bridged mode with ID 'str',\n"
-+    "                use 'ifname=name' to select a physical network interface to be bridged,\n"
-+    "                isolate this interface from others with 'isolated'\n"
- #endif
-     "-netdev hubport,id=str,hubid=n[,netdev=nd]\n"
-     "                configure a hub port on the hub with ID 'n'\n", QEMU_ARCH_ALL)
-@@ -2762,6 +2781,9 @@ DEF("nic", HAS_ARG, QEMU_OPTION_nic,
- #endif
- #ifdef CONFIG_POSIX
-     "vhost-user|"
++                      "|vmnet-host|vmnet-shared|vmnet-bridged"
 +#endif
-+#ifdef CONFIG_VMNET
-+    "vmnet-host|vmnet-shared|vmnet-bridged|"
- #endif
-     "socket][,option][,...][mac=macaddr]\n"
-     "                initialize an on-board / default host NIC (using MAC address\n"
-@@ -2784,6 +2806,9 @@ DEF("net", HAS_ARG, QEMU_OPTION_net,
- #endif
- #ifdef CONFIG_NETMAP
-     "netmap|"
-+#endif
-+#ifdef CONFIG_VMNET
-+    "vmnet-host|vmnet-shared|vmnet-bridged|"
- #endif
-     "socket][,option][,option][,...]\n"
-     "                old way to initialize a host network interface\n"
++                      "],id=str[,prop=value][,...]",
+         .help       = "add host network device",
+         .cmd        = hmp_netdev_add,
+         .command_completion = netdev_add_completion,
 -- 
 2.34.1.vfs.0.0
 
