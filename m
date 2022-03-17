@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780C24DC8D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 15:34:56 +0100 (CET)
-Received: from localhost ([::1]:46230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1CED4DC967
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 15:57:31 +0100 (CET)
+Received: from localhost ([::1]:34674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUrDL-0007UH-Is
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 10:34:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60112)
+	id 1nUrZC-0005I8-U3
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 10:57:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nUqtB-0001eB-B4
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:14:05 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:50666)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nUqt9-0006Go-AA
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:14:05 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BE1051F38D;
- Thu, 17 Mar 2022 14:14:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1647526441; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUr27-0001Qb-Pw
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:23:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47247)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUr24-0007rX-Na
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 10:23:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647526995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vIHxEROwwurP5ZAeJjRF5ZBzVKUXPUtiShgW+pnjzzQ=;
- b=jKrytBvBhiiUjSjO2zz2Mq6Q5XGcAVAvZnbZvLb1sg+ZvIoZ+xNWib5CEBfuuwFz8ZJY7k
- MkplUv1ynvG6j2N4R4cK8mVNRFtCORya3kiY7ufZUEKkxXXmS7jwI9cEm9UoJSjmkwX2Go
- KAVFyxAoxWbPne4Nhc4VDqIP+2T7ZGg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1647526441;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vIHxEROwwurP5ZAeJjRF5ZBzVKUXPUtiShgW+pnjzzQ=;
- b=oyFdCNe58cqSlZc452J50iK5BRPuaoJXhmi2T2OCphskkRB3pdITQfLn421kds1LWbrTa5
- r6FmRCA+2i3mJHDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8F52A13BA2;
- Thu, 17 Mar 2022 14:14:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id dUiEIClCM2JuJwAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 17 Mar 2022 14:14:01 +0000
-Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
- performance
-From: Claudio Fontana <cfontana@suse.de>
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220312163001.3811-1-cfontana@suse.de>
- <Yi94mQUfrxMVbiLM@redhat.com> <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de>
- <Yi+ACeaZ+oXTVYjc@redhat.com> <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
- <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
- <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
-Message-ID: <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de>
-Date: Thu, 17 Mar 2022 15:14:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ bh=D2pmiTpuQ78zXev+aanicXMu/A+tNSDKGbdJpgRStog=;
+ b=cnMQpcse2swvcXZahmTpqwwshCU4lFv8x/PqABL+BwcTo9eVcpCTRopTG+YAICU3zridkk
+ PEj5MtA3nYryw3OXVfOSFWAGrW3AD9oBtsDF14MVhBi5t8aHyOKbb+tcRbFQ33aHfWbDug
+ l8spNCicZ0Kh50rXizhgOk6Fpnpr4ww=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-592-tU4DMczOOCGbXezQ7Gz3_g-1; Thu, 17 Mar 2022 10:23:12 -0400
+X-MC-Unique: tU4DMczOOCGbXezQ7Gz3_g-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ a188-20020a1f66c5000000b0033e52f60923so530056vkc.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 07:23:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=D2pmiTpuQ78zXev+aanicXMu/A+tNSDKGbdJpgRStog=;
+ b=HZ4rMg2dl5ayV+/Xm5M5000DTmLlE7ClMZIO8SSm6f3KyKzNSS7rU/gpLrLxqBnrFY
+ gzz+XkjhxFANF215zAry1jk4eQQExMOTX3wDxZlPvFyA5J/Oa0/80ojbioARuYvaE3Na
+ X1XDDBCsbG6/E5MXWy/i3ru9uFe1uBN3QhDXdopae8uNyuHbS280qdfTGhWf00G4XJ//
+ bjKE00euGXERYAHVutcLiSHNwM7ZosyyVw30f7UBbNnFMO9HD7F0671nOIOFwkM4Htuc
+ VScBJnIuSdDKU2HEd1GVyyAmO8qU9Cj48FqScaE6ndoWAQ1YBxfoiGn0A944t6v4iOCt
+ KSmQ==
+X-Gm-Message-State: AOAM530x66qgfFelgow0URMFxlzvT0fUNiJvRsYyCT38DXwbo8hzzvCX
+ RJsO8QBRIvd+3u9Pi3GTOseYTCeDHYgGe3OI/H5nf4GfehJ3OitdajGyuRwlv+UdqiZuIgnV8dT
+ qTbWWy9tJBPcBnGiZ2wymPhG6hLzsZcE=
+X-Received: by 2002:a67:e8d5:0:b0:320:b8d1:cfa2 with SMTP id
+ y21-20020a67e8d5000000b00320b8d1cfa2mr1966898vsn.61.1647526991932; 
+ Thu, 17 Mar 2022 07:23:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxIPaiTNn23DoaES4c35QGHkRFE7pPONeMIRl20MubgEtpqk+WyzMEVilZuUtpgl19rNbORzGTSmYnnaZuIchg=
+X-Received: by 2002:a67:e8d5:0:b0:320:b8d1:cfa2 with SMTP id
+ y21-20020a67e8d5000000b00320b8d1cfa2mr1966885vsn.61.1647526991687; Thu, 17
+ Mar 2022 07:23:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220308015728.1269649-1-jsnow@redhat.com>
+ <20220308015728.1269649-5-jsnow@redhat.com>
+ <e9b98326-1d20-b9fa-0756-42d0ab7f8466@redhat.com>
+ <647ef14d-7c41-956b-1dcf-691407594a0b@redhat.com>
+In-Reply-To: <647ef14d-7c41-956b-1dcf-691407594a0b@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 17 Mar 2022 10:23:02 -0400
+Message-ID: <CAFn=p-YST4b-h_Cvy0VTgs2PoiORo0NYx2xpgh4bD+yNCQB4Ww@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] iotests: make qemu_img raise on non-zero rc by
+ default
+To: Hanna Reitz <hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000191d3605da6ac5d7"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,125 +94,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/22 2:41 PM, Claudio Fontana wrote:
-> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
->> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
->>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
->>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
->>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
->>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
->>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
->>>>>>>> the first user is the qemu driver,
->>>>>>>>
->>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
->>>>>>>>
->>>>>>>> This improves the situation by 400%.
->>>>>>>>
->>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
->>>>>>>> compared with direct qemu migration to a nc socket to a file.
->>>>>>>>
->>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>>>>>> ---
->>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
->>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
->>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
->>>>>>>>  src/util/virfile.h        |  1 +
->>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
->>>>>>>>
->>>>>>>> Hello, I initially thought this to be a qemu performance issue,
->>>>>>>> so you can find the discussion about this in qemu-devel:
->>>>>>>>
->>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
->>>>>>>>
->>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
->>
->>
->>> Current results show these experimental averages maximum throughput
->>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
->>> "query-migrate", tests repeated 5 times for each).
->>> VM Size is 60G, most of the memory effectively touched before migration,
->>> through user application allocating and touching all memory with
->>> pseudorandom data.
->>>
->>> 64K:     5200 Mbps (current situation)
->>> 128K:    5800 Mbps
->>> 256K:   20900 Mbps
->>> 512K:   21600 Mbps
->>> 1M:     22800 Mbps
->>> 2M:     22800 Mbps
->>> 4M:     22400 Mbps
->>> 8M:     22500 Mbps
->>> 16M:    22800 Mbps
->>> 32M:    22900 Mbps
->>> 64M:    22900 Mbps
->>> 128M:   22800 Mbps
->>>
->>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
->>
->> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
->> libvirt attempt to raise the pipe limit to 1 MB by default, but
->> not try to go higher.
->>
->>> As for the theoretical limit for the libvirt architecture,
->>> I ran a qemu migration directly issuing the appropriate QMP
->>> commands, setting the same migration parameters as per libvirt,
->>> and then migrating to a socket netcatted to /dev/null via
->>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
->>>
->>> QMP:    37000 Mbps
->>
->>> So although the Pipe size improves things (in particular the
->>> large jump is for the 256K size, although 1M seems a very good value),
->>> there is still a second bottleneck in there somewhere that
->>> accounts for a loss of ~14200 Mbps in throughput.
+--000000000000191d3605da6ac5d7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Mar 17, 2022, 6:41 AM Hanna Reitz <hreitz@redhat.com> wrote:
+
+> On 17.03.22 11:25, Hanna Reitz wrote:
+> > On 08.03.22 02:57, John Snow wrote:
+> >> re-write qemu_img() as a function that will by default raise a
+> >> VerboseProcessException (extended from CalledProcessException) on
+> >> non-zero return codes. This will produce a stack trace that will show
+> >> the command line arguments and return code from the failed process run=
+.
+> >
+> > Why not qemu_img_pipe_and_status() as the central function where all
+> > qemu-img calls go through?
+>
+> OK, I see that your follow-up series effectively does this.  Still
+> wondering why this patch here doesn=E2=80=99t touch qemu_img_pipe_and_sta=
+tus()
+> instead.
+>
+
+Just a bad habit, I guess. It's the way I wrote this series: add a new
+thing, then move the old things over to use it gradually.
+
+This patchset (and the next) is pretty much the order I actually wrote it
+in.
+
+I do prefer the shorter name qemu_img() for this fn, tho.
+
+(I struggle a lot with the order I write not being the order most people
+prefer for reading. I feel like I've never quite gotten that correct. I
+suppose I like to work backwards: start at the code I want and work
+backwards until it works again.)
 
 
-Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
-and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
+> > It seems like this makes qemu_img() a second version of
+> > qemu_img_pipe_and_status(), which is a bit weird.
+> >
+> > (Or perhaps it should actually be qemu_tool_pipe_and_status() that
+> > receives this treatment, with qemu-io functions just passing
+> > check=3DFalse by default.)
+>
+> (And perhaps this, but I guess qemu-io is the only other real user of
+> qemu_tool_pipe_and_status(), so if it doesn=E2=80=99t care, then there=E2=
+=80=99s no real
+> reason to change that function.)
+>
 
-~50000 mbps qemu to netcat socket to /dev/null
-~35500 mbps virsh save to /dev/null
+Similar reasoning: I'm not actually sure I can justify the change
+everywhere yet. I worked through all of qemu-io, but calls to qemu-nbd and
+qemu itself are not yet audited.
 
-Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
+In the end, that's the goal. Working my way backwards until replacing all
+of these functions, yes.
 
-Ciao,
+Sorry for my backwards brain, maybe. I felt doing it this way got us the
+most benefit the quickest.
 
-C
 
->>
->> In the above tests with libvirt, were you using the
->> --bypass-cache flag or not ?
-> 
-> No, I do not. Tests with ramdisk did not show a notable difference for me,
-> 
-> but tests with /dev/null were not possible, since the command line is not accepted:
-> 
-> # virsh save centos7 /dev/null
-> Domain 'centos7' saved to /dev/null
-> [OK]
-> 
-> # virsh save centos7 /dev/null --bypass-cache
-> error: Failed to save domain 'centos7' to /dev/null
-> error: Failed to create file '/dev/null': Invalid argument
-> 
-> 
->>
->> Hopefully use of O_DIRECT doesn't make a difference for
->> /dev/null, since the I/O is being immediately thrown
->> away and so ought to never go into I/O cache. 
->>
->> In terms of the comparison, we still have libvirt iohelper
->> giving QEMU a pipe, while your test above gives QEMU a
->> UNIX socket.
->>
->> So I still wonder if the delta is caused by the pipe vs socket
->> difference, as opposed to netcat vs libvirt iohelper code.
-> 
-> I'll look into this aspect, thanks!
+> Hanna
+>
+>
+
+--000000000000191d3605da6ac5d7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, Mar 17, 2022, 6:41 AM Hanna Reitz &lt;<a href=
+=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex">On 17.03.22 11:25, Hanna Reitz wrote:<br>
+&gt; On 08.03.22 02:57, John Snow wrote:<br>
+&gt;&gt; re-write qemu_img() as a function that will by default raise a<br>
+&gt;&gt; VerboseProcessException (extended from CalledProcessException) on<=
+br>
+&gt;&gt; non-zero return codes. This will produce a stack trace that will s=
+how<br>
+&gt;&gt; the command line arguments and return code from the failed process=
+ run.<br>
+&gt;<br>
+&gt; Why not qemu_img_pipe_and_status() as the central function where all <=
+br>
+&gt; qemu-img calls go through?<br>
+<br>
+OK, I see that your follow-up series effectively does this.=C2=A0 Still <br=
+>
+wondering why this patch here doesn=E2=80=99t touch qemu_img_pipe_and_statu=
+s() <br>
+instead.<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">Just a bad habit, I guess. It&#39;s the way I wrote this series: =
+add a new thing, then move the old things over to use it gradually.</div><d=
+iv dir=3D"auto"><br></div><div dir=3D"auto">This patchset (and the next) is=
+ pretty much the order I actually wrote it in.</div><div dir=3D"auto"><br><=
+/div><div dir=3D"auto">I do prefer the shorter name qemu_img() for this fn,=
+ tho.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(I struggle a lot =
+with the order I write not being the order most people prefer for reading. =
+I feel like I&#39;ve never quite gotten that correct. I suppose I like to w=
+ork backwards: start at the code I want and work backwards until it works a=
+gain.)</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gma=
+il_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><br>
+&gt; It seems like this makes qemu_img() a second version of <br>
+&gt; qemu_img_pipe_and_status(), which is a bit weird.<br>
+&gt;<br>
+&gt; (Or perhaps it should actually be qemu_tool_pipe_and_status() that <br=
+>
+&gt; receives this treatment, with qemu-io functions just passing <br>
+&gt; check=3DFalse by default.)<br>
+<br>
+(And perhaps this, but I guess qemu-io is the only other real user of <br>
+qemu_tool_pipe_and_status(), so if it doesn=E2=80=99t care, then there=E2=
+=80=99s no real <br>
+reason to change that function.)<br></blockquote></div></div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">Similar reasoning: I&#39;m not actually sur=
+e I can justify the change everywhere yet. I worked through all of qemu-io,=
+ but calls to qemu-nbd and qemu itself are not yet audited.</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">In the end, that&#39;s the goal. Work=
+ing my way backwards until replacing all of these functions, yes.</div><div=
+ dir=3D"auto"><br></div><div dir=3D"auto">Sorry for my backwards brain, may=
+be. I felt doing it this way got us the most benefit the quickest.</div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex"><br>
+Hanna<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000191d3605da6ac5d7--
 
 
