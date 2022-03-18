@@ -2,94 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9294DD78B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 10:58:43 +0100 (CET)
-Received: from localhost ([::1]:48762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606654DD7B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 11:10:59 +0100 (CET)
+Received: from localhost ([::1]:51720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nV9Na-0007H1-9p
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 05:58:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35522)
+	id 1nV9ZS-0001TE-0o
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 06:10:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nV9M1-00060M-W9
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 05:57:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46791)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nV9Xc-0000hY-T7
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 06:09:04 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nV9Lz-00005p-0v
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 05:57:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647597421;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aBwNtyMHlgxwVhh0Yi/Hsn6xvOHMXxnaBmeudqkztrM=;
- b=ExU1kGJuw2agwSBMs3kgXYtKuDvhwNXlwigdreViRF5NunBfNUFVQABMLfbltxo55AMAvj
- 60yz/8Q/QfXnuhj2tghU5PSxcO6Y2VRcGQ+xApaovgyh1Ov4xbItYzHnYlrk0pVgExq6c/
- fWoJKSYz5LWhJ4OUlK00ZpbvMRqw1IA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-9zc_6iQHNAGDcNYZv6SRaQ-1; Fri, 18 Mar 2022 05:57:00 -0400
-X-MC-Unique: 9zc_6iQHNAGDcNYZv6SRaQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- c31-20020a509fa2000000b004190d43d28fso746333edf.9
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 02:56:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aBwNtyMHlgxwVhh0Yi/Hsn6xvOHMXxnaBmeudqkztrM=;
- b=MjC38qTvmGYF4Krd+rqPj8WLaoBjWroixASfZQcEOxeTG0exz3LsvHTSQnx6bKowIN
- qQmtzFGNAT8HY8hmYc/+HIJ9gcv2bjTvir81s6DIfAZDNf9UV6GZebi6uqoXTJQsDeds
- wgEIBZ1rxCY3XgNntN2aNkhz2esxUPahmmQUaJ9lW6/SF9CefGjZmEMuZB3XNCsX1PYK
- k9b4fI82U/5UarmE9/FgIOYzoPZZiFkkVsWf8m7HXxijBkr1Mx6VXfUxRjvKfc+0atGN
- t696lq+jw+rcJpEr/qKAeLVXJFIONzTvyPzHmxAO7eohvNOWuOtRyaeOqMAURCivZbao
- nGuw==
-X-Gm-Message-State: AOAM531Y4OhZaRxsEn2i7Q24z3rm6q93Ury5WQ3GaEcDc8rlKvbUoySa
- sk1Rk+snaTc1+mA2wutcu7n/Hmug/WjedDU684PDA8NvZk8S2bbqQZvI8aB221hmXm0LABozzZs
- 9CXZphLVd+IdUs3o=
-X-Received: by 2002:a05:6402:5208:b0:416:ce01:f9b5 with SMTP id
- s8-20020a056402520800b00416ce01f9b5mr8500444edd.275.1647597418834; 
- Fri, 18 Mar 2022 02:56:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzMjSmt7oAaXL0fpyUoQbQBixkj7sR8UYb1/MM9FJilaAaH9vPEFjye8udxJjUoUjHCjLVjXA==
-X-Received: by 2002:a05:6402:5208:b0:416:ce01:f9b5 with SMTP id
- s8-20020a056402520800b00416ce01f9b5mr8500431edd.275.1647597418545; 
- Fri, 18 Mar 2022 02:56:58 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- og49-20020a1709071df100b006db0dcf673esm3540548ejc.27.2022.03.18.02.56.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Mar 2022 02:56:57 -0700 (PDT)
-Date: Fri, 18 Mar 2022 10:56:56 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Subject: Re: [PATCH v2 1/3] hw/arm/virt: Fix CPU's default NUMA node ID
-Message-ID: <20220318105656.67696eb8@redhat.com>
-In-Reply-To: <e894fe3a-a50e-f47f-773d-d859bc240923@huawei.com>
-References: <20220303031152.145960-1-gshan@redhat.com>
- <20220303031152.145960-2-gshan@redhat.com>
- <e894fe3a-a50e-f47f-773d-d859bc240923@huawei.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nV9Xa-0001hb-B7
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 06:09:04 -0400
+Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KKfpQ2ZRLz686k0;
+ Fri, 18 Mar 2022 18:07:58 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 18 Mar 2022 11:08:51 +0100
+Received: from localhost (10.47.70.82) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 18 Mar
+ 2022 10:08:50 +0000
+Date: Fri, 18 Mar 2022 10:08:46 +0000
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+CC: Peter Maydell <peter.maydell@linaro.org>, Shreyas Shah
+ <shreyas.shah@elastics.cloud>, Ben Widawsky <ben.widawsky@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
+ Samarth Saxena <samarths@cadence.com>, Chris Browy <cbrowy@avery-design.com>, 
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ <qemu-devel@nongnu.org>, <linuxarm@huawei.com>, <linux-cxl@vger.kernel.org>,
+ Igor Mammedov <imammedo@redhat.com>, Saransh Gupta1 <saransh@ibm.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, Dan Williams <dan.j.williams@intel.com>, David
+ Hildenbrand <david@redhat.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, "Shameerali Kolothum Thodi"
+ <shameerali.kolothum.thodi@huawei.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v7 00/46] CXl 2.0 emulation Support
+Message-ID: <20220318100846.000033a8@Huawei.com>
+In-Reply-To: <d710c6e1-a9b7-ed0d-ca23-c4315355268c@ilande.co.uk>
+References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
+ <20220306163119-mutt-send-email-mst@kernel.org>
+ <20220307093918.00002f20@Huawei.com> <YihiHNxVjDFI0Z8r@xz-m1.local>
+ <20220309112827.00002c73@Huawei.com> <Yimwjtd8SsVLOU5e@xz-m1.local>
+ <20220316165034.000037e7@Huawei.com>
+ <1efbfeeb-2598-57c5-2e2d-4f5fa2538aa7@ilande.co.uk>
+ <20220316175846.00007463@Huawei.com>
+ <20220316182618.00003ce5@Huawei.com>
+ <31f383e6-01bb-cf9a-6af8-d0f1821b3fd1@ilande.co.uk>
+ <20220317164723.00001c14@huawei.com>
+ <d710c6e1-a9b7-ed0d-ca23-c4315355268c@ilande.co.uk>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [10.47.70.82]
+X-ClientProxiedBy: lhreml726-chm.china.huawei.com (10.201.108.77) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,133 +87,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, Gavin Shan <gshan@redhat.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, zhenyzha@redhat.com,
- qemu-arm@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Fri, 18 Mar 2022 14:23:34 +0800
-"wangyanan (Y)" <wangyanan55@huawei.com> wrote:
+On Fri, 18 Mar 2022 08:14:58 +0000
+Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> wrote:
 
-> Hi Gavin,
+> On 17/03/2022 16:47, Jonathan Cameron via wrote:
 > 
-> On 2022/3/3 11:11, Gavin Shan wrote:
-> > The default CPU-to-NUMA association is given by mc->get_default_cpu_node_id()
-> > when it isn't provided explicitly. However, the CPU topology isn't fully
-> > considered in the default association and it causes CPU topology broken
-> > warnings on booting Linux guest.
-> >
-> > For example, the following warning messages are observed when the Linux guest
-> > is booted with the following command lines.
-> >
-> >    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
-> >    -accel kvm -machine virt,gic-version=host               \
-> >    -cpu host                                               \
-> >    -smp 6,sockets=2,cores=3,threads=1                      \
-> >    -m 1024M,slots=16,maxmem=64G                            \
-> >    -object memory-backend-ram,id=mem0,size=128M            \
-> >    -object memory-backend-ram,id=mem1,size=128M            \
-> >    -object memory-backend-ram,id=mem2,size=128M            \
-> >    -object memory-backend-ram,id=mem3,size=128M            \
-> >    -object memory-backend-ram,id=mem4,size=128M            \
-> >    -object memory-backend-ram,id=mem4,size=384M            \
-> >    -numa node,nodeid=0,memdev=mem0                         \
-> >    -numa node,nodeid=1,memdev=mem1                         \
-> >    -numa node,nodeid=2,memdev=mem2                         \
-> >    -numa node,nodeid=3,memdev=mem3                         \
-> >    -numa node,nodeid=4,memdev=mem4                         \
-> >    -numa node,nodeid=5,memdev=mem5
-> >           :
-> >    alternatives: patching kernel code
-> >    BUG: arch topology borken
-> >    the CLS domain not a subset of the MC domain
-> >    <the above error log repeats>
-> >    BUG: arch topology borken
-> >    the DIE domain not a subset of the NODE domain
-> >
-> > With current implementation of mc->get_default_cpu_node_id(), CPU#0 to CPU#5
-> > are associated with NODE#0 to NODE#5 separately. That's incorrect because
-> > CPU#0/1/2 should be associated with same NUMA node because they're seated
-> > in same socket.
-> >
-> > This fixes the issue by populating the CPU topology in virt_possible_cpu_arch_ids()
-> > and considering the socket index when default CPU-to-NUMA association is given
-> > in virt_possible_cpu_arch_ids(). With this applied, no more CPU topology broken
-> > warnings are seen from the Linux guest. The 6 CPUs are associated with NODE#0/1,
-> > but there are no CPUs associated with NODE#2/3/4/5.  
-> It may be better to split this patch into two. One extends 
-> virt_possible_cpu_arch_ids,
-> and the other fixes the numa node ID issue.
-> >
-> > Signed-off-by: Gavin Shan <gshan@redhat.com>
-> > ---
-> >   hw/arm/virt.c | 17 ++++++++++++++++-
-> >   1 file changed, 16 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > index 46bf7ceddf..dee02b60fc 100644
-> > --- a/hw/arm/virt.c
-> > +++ b/hw/arm/virt.c
-> > @@ -2488,7 +2488,9 @@ virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
-> >   
-> >   static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
-> >   {
-> > -    return idx % ms->numa_state->num_nodes;
-> > +    int64_t socket_id = ms->possible_cpus->cpus[idx].props.socket_id;
-> > +
-> > +    return socket_id % ms->numa_state->num_nodes;
-> >   }
-> >   
-> >   static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
-> > @@ -2496,6 +2498,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
-> >       int n;
-> >       unsigned int max_cpus = ms->smp.max_cpus;
-> >       VirtMachineState *vms = VIRT_MACHINE(ms);
-> > +    MachineClass *mc = MACHINE_GET_CLASS(vms);
-> >   
-> >       if (ms->possible_cpus) {
-> >           assert(ms->possible_cpus->len == max_cpus);
-> > @@ -2509,6 +2512,18 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
-> >           ms->possible_cpus->cpus[n].type = ms->cpu_type;
-> >           ms->possible_cpus->cpus[n].arch_id =
-> >               virt_cpu_mp_affinity(vms, n);
-> > +
-> > +        ms->possible_cpus->cpus[n].props.has_socket_id = true;
-> > +        ms->possible_cpus->cpus[n].props.socket_id =
-> > +            n / (ms->smp.dies * ms->smp.clusters *
-> > +                ms->smp.cores * ms->smp.threads);
-> > +        if (mc->smp_props.dies_supported) {
-> > +            ms->possible_cpus->cpus[n].props.has_die_id = true;
-> > +            ms->possible_cpus->cpus[n].props.die_id =
-> > +                n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
-> > +        }  
-> I still don't think we need to consider dies if it's certainly not
-> supported yet, IOW, we will never come into the if-branch.
-> We are populating arm-specific topo info instead of the generic,
-> we can probably uniformly update this part together with other
-> necessary places when we decide to support dies for arm virt
-> machine in the future. :)
+> >> Ah great! As you've already noticed my particular case was performing partial
+> >> decoding on a memory region, but there are no issues if you need to dispatch to
+> >> another existing address space such as PCI/IOMMU. Creating a separate address space
+> >> per device shouldn't be an issue either, as that's effectively how the PCI bus master
+> >> requests are handled.
+> >>
+> >> The address spaces are visible in "info mtree" so if you haven't already, I would
+> >> recommend generating a dynamic name for the address space based upon the device
+> >> name/address to make it easier for development and debugging.  
+> > info mtree already provides the following with a static name
+> > address-space: cxl-type3-dpa-space
+> >    0000000000000000-000000000fffffff (prio 0, nv-ram): cxl-mem2
+> > 
+> > So the device association is there anyway.  Hence I'm not sure a dynamic name adds
+> > a lot on this occasion and code is simpler without making it dynamic.  
+> 
+> Is this using a single address space for multiple memory devices, or one per device 
+> as you were suggesting in the thread? If it is one per device and cxl-mem2 is the 
+> value of the -device id parameter, I still think it is worth adding the same device 
+> id into the address space name for the sake of a g_strdup_printf() and corresponding 
+> g_free().
 
-it seems we do support dies and they are supposed to be numa boundary too,
-so perhaps we should account for it when generating node-id.
+One per device.  Ultimately when I add volatile memory support we'll end up with possibly
+having to add an mr as a container for the two hostmem mr.   Looking again, the name
+above is actually the id of the mr, not the type3 device. Probably better to optionally
+use the type3 device name if available.
 
-> > +        ms->possible_cpus->cpus[n].props.has_core_id = true;
-> > +        ms->possible_cpus->cpus[n].props.core_id = n / ms->smp.threads;
-> >           ms->possible_cpus->cpus[n].props.has_thread_id = true;
-> >           ms->possible_cpus->cpus[n].props.thread_id = n;
-> >       }  
-> Maybe we should use the same algorithm in x86_topo_ids_from_idx
-> to populate the IDs, so that scope of socket-id will be [0, total_sockets),
-> scope of thread-id is [0, threads_per_core), and so on. Then with a
-> group of socket/cluster/core/thread-id, we determine a CPU.
+I'll make the name something like cxl-type3-dpa-space-cxl-pmem3 if id available
+and fall back to cxl-type3-dpa-space as before if not.
+
 > 
-> Suggestion: For the long term, is it necessary now to add similar topo
-> info infrastructure for ARM, such as X86CPUTopoInfo, X86CPUTopoIDs,
-> x86_topo_ids_from_idx?
+> Alas I don't currently have the time (and enough knowledge of CXL!) to do a more 
+> comprehensive review of the patches, but a quick skim of the series suggests it seems 
+> quite mature. The only thing that I noticed was that there doesn't seem to be any 
+> trace-events added, which I think may be useful to aid driver developers if they need 
+> to debug some of the memory access routing.
+
+Good suggestion.  I'm inclined to add them in a follow up patch though because
+this patch set is already somewhat unmanageable from point of view of review.
+I already have a number of other patches queued up for a second series adding
+more functionality.
+
 > 
-> Thanks,
-> Yanan
+> Finally I should point out that there are a number of more experienced PCI developers 
+> on the CC list than me, and they should have the final say on patch review. So please 
+> consider these comments as recommendations based upon my development work on QEMU, 
+> and not as a NAK for proceeding with the series :)
+
+No problem and thanks for your help as (I think) you've solved the biggest open issue :)
+
+Jonathan
+
 > 
+> 
+> ATB,
+> 
+> Mark.
 
 
