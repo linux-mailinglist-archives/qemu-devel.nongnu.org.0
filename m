@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEEFA4DDAC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:44:36 +0100 (CET)
-Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620BA4DDAFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:54:05 +0100 (CET)
+Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVCuB-0007kw-VM
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:44:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47634)
+	id 1nVD3M-0007LL-EM
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:54:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nVCey-00083k-Oa; Fri, 18 Mar 2022 09:28:52 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35496)
+ id 1nVCf0-00085X-Jm; Fri, 18 Mar 2022 09:28:54 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nVCex-00031j-0b; Fri, 18 Mar 2022 09:28:52 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22ICnwAN001072; 
- Fri, 18 Mar 2022 13:28:46 GMT
+ id 1nVCey-00032B-21; Fri, 18 Mar 2022 09:28:53 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22ICnu8L003738; 
+ Fri, 18 Mar 2022 13:28:47 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ev1w15rh4-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ev2s54bpa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Mar 2022 13:28:47 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22IDPQxg018540;
+ Fri, 18 Mar 2022 13:28:47 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ev2s54bnb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 18 Mar 2022 13:28:46 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22IDKm2m005670;
- Fri, 18 Mar 2022 13:28:45 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ev1w15rg9-1
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22IDP4In014802;
+ Fri, 18 Mar 2022 13:28:44 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma05fra.de.ibm.com with ESMTP id 3erk58ukjf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Mar 2022 13:28:45 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22IDPNob005795;
- Fri, 18 Mar 2022 13:28:43 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3et95x0wh1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Mar 2022 13:28:43 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22IDSewj27656614
+ Fri, 18 Mar 2022 13:28:44 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22IDSfJr21889306
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 18 Mar 2022 13:28:41 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E44ACAE055;
- Fri, 18 Mar 2022 13:28:40 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A481CAE04D;
- Fri, 18 Mar 2022 13:28:40 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C758A4C04A;
+ Fri, 18 Mar 2022 13:28:41 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 785654C040;
+ Fri, 18 Mar 2022 13:28:41 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 18 Mar 2022 13:28:40 +0000 (GMT)
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri, 18 Mar 2022 13:28:41 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.93.169])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id DAA5F2201E8;
- Fri, 18 Mar 2022 14:28:39 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 91EF6220338;
+ Fri, 18 Mar 2022 14:28:40 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC PATCH 12/17] hw/sd: Fix SET_BLOCK_COUNT command argument
-Date: Fri, 18 Mar 2022 14:28:19 +0100
-Message-Id: <20220318132824.1134400-13-clg@kaod.org>
+Subject: [RFC PATCH 13/17] hw/sd: Update CMD1 definition for MMC
+Date: Fri, 18 Mar 2022 14:28:20 +0100
+Message-Id: <20220318132824.1134400-14-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220318132824.1134400-1-clg@kaod.org>
 References: <20220318132824.1134400-1-clg@kaod.org>
@@ -70,16 +70,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 67jtDIC-_oqi94oXRlqR-N62CF1Akq13
-X-Proofpoint-ORIG-GUID: t1k8bcgZ642aD8fjJfV3SLCUX8H_XIio
+X-Proofpoint-ORIG-GUID: VCrJYGTXphrwFR4jqaiDXHEshED0f9bd
+X-Proofpoint-GUID: sT_7s4tSZxAkG_-CIFHxa17Dw6S0CIZX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-18_09,2022-03-15_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- impostorscore=0 clxscore=1034 mlxscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ phishscore=0 spamscore=0
+ lowpriorityscore=0 bulkscore=0 mlxlogscore=675 suspectscore=0
+ malwarescore=0 clxscore=1034 mlxscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2202240000 definitions=main-2203180074
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
@@ -101,35 +101,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, qemu-block@nongnu.org,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The number of blocks is defined in the lower bits [15:0].
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 
-WIP. This needs to be more precise on the spec version.
+Add support to Power up the card and send response r3 in case of MMC.
 
+Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+[ clg: - ported on aspeed-7.0 patchset ]
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/sd/sd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/sd/sd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 5d7f04adf5a4..517699c5fc98 100644
+index 517699c5fc98..289764a38bf3 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1406,7 +1406,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd,=
- SDRequest req)
-         }
-         switch (sd->state) {
-         case sd_transfer_state:
--            sd->multi_blk_cnt =3D req.arg;
-+            sd->multi_blk_cnt =3D req.arg & 0xFFFF;
-             return sd_r1;
+@@ -2253,8 +2253,8 @@ static const SDProto sd_proto_sd =3D {
 =20
-         default:
+ static sd_rsp_type_t sd_emmc_cmd_SEND_OP_CMD(SDState *sd, SDRequest req)
+ {
+-    sd->state =3D sd_ready_state;
+-    return sd_r3;
++    sd_ocr_powerup(sd);
++    return sd->state =3D=3D sd_idle_state ? sd_r3 : sd_r0;
+ }
+=20
+ static sd_rsp_type_t sd_emmc_cmd_ALL_SEND_CID(SDState *sd, SDRequest req=
+)
 --=20
 2.34.1
 
