@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD6D4DD3CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 04:55:14 +0100 (CET)
-Received: from localhost ([::1]:57296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718554DD3C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 04:51:47 +0100 (CET)
+Received: from localhost ([::1]:54888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nV3hp-0006HU-IJ
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 23:55:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37964)
+	id 1nV3eU-0004U7-0G
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 23:51:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nV3Ux-0001Az-P6; Thu, 17 Mar 2022 23:41:55 -0400
-Received: from [2404:9400:2221:ea00::3] (port=60173 helo=gandalf.ozlabs.org)
+ id 1nV3Y0-0002sB-Ml
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 23:45:04 -0400
+Received: from [2404:9400:2221:ea00::3] (port=35065 helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nV3Ut-0004bi-QO; Thu, 17 Mar 2022 23:41:55 -0400
+ id 1nV3Xy-0004vE-Bs
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 23:45:04 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4KKVDk1D1dz4xgw; Fri, 18 Mar 2022 14:41:42 +1100 (AEDT)
+ id 4KKVJX2LBpz4xvn; Fri, 18 Mar 2022 14:45:00 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1647574902;
- bh=EyExtHR0sSOCTHPNt1p2HTzuYDoIGG7HYPwMywPJ8Yk=;
+ d=gibson.dropbear.id.au; s=201602; t=1647575100;
+ bh=IClvkkRizMu9vBKs6YFi70pATf+rG6vVGlIbIgZj4Jg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ClzG8bIfjomMRwajVBwQD9qhBQvVIjMTeG7NN4W4C0xz4uXEkQWaQRdQ/MydjiKLH
- WsLx9oRhyUJhPHJhicdkKMrKApQa7Wpnz2kDC29xvwqGhSi06PyTFjDUlWEgLGO/8b
- SuxyNkNxStHlN0hlPBWtRjqbfvyo3zhbuxo/pHzU=
-Date: Fri, 18 Mar 2022 14:41:36 +1100
+ b=mqqLfiupf2oGhZ9pBppYGUdykQExbL/EZsbAPZ+QzpFUJEJowBBzSp05XKGDo3j3D
+ Gp/4RarJxRCOR0cVaUNTw4V7c3mBxP27egkQPAAzC6Zy+Os/P6fCATMor/BrNjD2d+
+ b8QO/8Jbj5NP3FjexePU3v2fKt1sl8cMRbactnqs=
+Date: Fri, 18 Mar 2022 14:43:34 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 3/3] spapr: Move nested KVM hypercalls under a TCG only
- config.
-Message-ID: <YjP/cHK+TQt5Rzpo@yekko>
-References: <20220317172049.2681740-1-farosas@linux.ibm.com>
- <20220317172049.2681740-4-farosas@linux.ibm.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: Question about vmstate_register(), dc->vmsd and instance_id
+Message-ID: <YjP/5jzGh48ts5V+@yekko>
+References: <38c43d66-e57c-e0fe-d35f-c411d40d6611@gmail.com>
+ <CAFEAcA8eZ0G=ZxyCv7xCk-ZE7R_t6BnDtbGCsYgSBuLwyHprsQ@mail.gmail.com>
+ <YjNh2jSDpWvLJ1S3@work-vm>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4GHGztTPhhV31MKz"
+ protocol="application/pgp-signature"; boundary="Mn7JW1lFhQfmQpIl"
 Content-Disposition: inline
-In-Reply-To: <20220317172049.2681740-4-farosas@linux.ibm.com>
+In-Reply-To: <YjNh2jSDpWvLJ1S3@work-vm>
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2404:9400:2221:ea00::3
  (failed)
 Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
@@ -62,93 +64,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- npiggin@gmail.com, clg@kaod.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---4GHGztTPhhV31MKz
+--Mn7JW1lFhQfmQpIl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 17, 2022 at 02:20:49PM -0300, Fabiano Rosas wrote:
-> These are the spapr virtual hypervisor implementation of the nested
-> KVM API. They only make sense when running with TCG.
+On Thu, Mar 17, 2022 at 04:29:14PM +0000, Dr. David Alan Gilbert wrote:
+> * Peter Maydell (peter.maydell@linaro.org) wrote:
+> > On Thu, 17 Mar 2022 at 14:03, Daniel Henrique Barboza
+> > <danielhb413@gmail.com> wrote:
+> > > I've been looking into converting some vmstate_register() calls to us=
+e dc->vmsd,
+> > > using as a base the docs in docs/devel/migration.rst. This doc mentio=
+ns that we
+> > > can either register the vmsd by using vmstate_register() or we can us=
+e dc->vmsd
+> > > for qdev-based devices.
+> > >
+> > > When trying to convert this vmstate() call for the qdev alternative (=
+hw/ppc/spapr_drc.c,
+> > > drc_realize()) I found this:
+> > >
+> > >      vmstate_register(VMSTATE_IF(drc), spapr_drc_index(drc), &vmstate=
+_spapr_drc,
+> > >                       drc);
+> > >
+> > > spapr_drc_index() is an unique identifier for these DRC devices and i=
+t's being used
+> > > as instance_id. It is not clear to me how we can keep using this same=
+ instance_id when
+> > > using the dc->vmsd alternative. By looking a bit into migration files=
+ I understood
+> > > that if dc->vmsd is being used the instance_id is always autogenerate=
+d. Is that correct?
+> >=20
+> > Not entirely. It is the intended common setup, but because changing
+> > the ID value breaks migration compatibility there is a mechanism
+> > for saying "my device is special and needs to set the instance ID
+> > to something else" -- qdev_set_legacy_instance_id().
 >=20
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-> ---
->  hw/ppc/spapr_hcall.c | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index c0bfc4bc9c..f2c802c155 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -2,6 +2,7 @@
->  #include "qemu/cutils.h"
->  #include "qapi/error.h"
->  #include "sysemu/hw_accel.h"
-> +#include "sysemu/tcg.h"
->  #include "sysemu/runstate.h"
->  #include "qemu/log.h"
->  #include "qemu/main-loop.h"
-> @@ -1473,7 +1474,8 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, targe=
-t_ulong opcode,
->      return H_FUNCTION;
->  }
-> =20
-> -/* TCG only */
-> +#ifdef CONFIG_TCG
-> +
->  #define PRTS_MASK      0x1f
-> =20
->  static target_ulong h_set_ptbl(PowerPCCPU *cpu,
-> @@ -1807,6 +1809,12 @@ out_restore_l1:
->      g_free(spapr_cpu->nested_host_state);
->      spapr_cpu->nested_host_state =3D NULL;
->  }
-> +#else
-> +void spapr_exit_nested(PowerPCCPU *cpu, int excp)
-> +{
-> +    g_assert_not_reached();
-> +}
-> +#endif
-> =20
->  #ifndef CONFIG_TCG
->  static target_ulong h_softmmu(PowerPCCPU *cpu, SpaprMachineState *spapr,
-> @@ -1829,7 +1837,10 @@ static void hypercall_register_softmmu(void)
->  #else
->  static void hypercall_register_softmmu(void)
->  {
-> -    /* DO NOTHING */
-> +    spapr_register_hypercall(KVMPPC_H_SET_PARTITION_TABLE, h_set_ptbl);
-> +    spapr_register_hypercall(KVMPPC_H_ENTER_NESTED, h_enter_nested);
-> +    spapr_register_hypercall(KVMPPC_H_TLB_INVALIDATE, h_tlb_invalidate);
-> +    spapr_register_hypercall(KVMPPC_H_COPY_TOFROM_GUEST, h_copy_tofrom_g=
-uest);
+> Yes, this is normally only an issue for 'system' or memory mapped
+> devices;  for things hung off a bus that has it's own device naming,
+> then each instance of a device has it's own device due to the bus name
+> so instance_id's aren't used.  Where you've got a few of the
+> same device with the same name, and no bus for them to be named by, then
+> the instance_id is used to uniquify them.
 
-This doesn't fit.  This is specifically about the MMU hypercalls - if
-you want to put other things in there it needs a name change at least.
-
->  }
->  #endif
-> =20
-> @@ -1888,11 +1899,6 @@ static void hypercall_register_types(void)
->      spapr_register_hypercall(KVMPPC_H_CAS, h_client_architecture_support=
-);
-> =20
->      spapr_register_hypercall(KVMPPC_H_UPDATE_DT, h_update_dt);
-> -
-> -    spapr_register_hypercall(KVMPPC_H_SET_PARTITION_TABLE, h_set_ptbl);
-> -    spapr_register_hypercall(KVMPPC_H_ENTER_NESTED, h_enter_nested);
-> -    spapr_register_hypercall(KVMPPC_H_TLB_INVALIDATE, h_tlb_invalidate);
-> -    spapr_register_hypercall(KVMPPC_H_COPY_TOFROM_GUEST, h_copy_tofrom_g=
-uest);
->  }
-> =20
->  type_init(hypercall_register_types)
+Thanks for the information.  I remember deciding at the time that just
+using vmsd wouldn't work for the DRCs because we needed this fixed
+index.  At the time either qdev_set_legacy_instance_id() didn't exist,
+or I didn't know about it, hence the explicit vmstate_register() call
+so that an explicit instance id could be supplied.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -156,25 +129,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---4GHGztTPhhV31MKz
+--Mn7JW1lFhQfmQpIl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIz/2gACgkQgypY4gEw
-YSIHzg//XhmUMsoeHLENHlGip9/4r+IUZdzuInPsD93y2y1Cj/LFiii++hHPsodO
-nJ8trxl8tZGtZec9a2edTUHdmKz1ShmyHj70+a27YizTlzt0o185HKol9PC/oQdA
-WQnqz2F1TYYKMIhckglfED299v99dXlY/i+eRYKj6Po+DXR2oZNHmtRpo8XBWarz
-8/mvVBlBr0S2++UtdWyPY/o58FLw0xFKfBWajizejR3vPsrzB5oEqWrVsQX0bIWd
-0Ifjwpc8xwq2qYjJRY5SEwKN8xojwk1lY+AfukPNMySfxPqd/FnNzhfMxI0mu1Rc
-ASD7Uv1dkoEOpkXzI3RqnF9hcZhlgncLhtNn+WHThBhHdG+/LTh0xMGbPe5ZWrrB
-uWCYSYyaSN1DmRuw7iUbasP/sz8EClPcftyHuSQyh0lKa5e+SIz2twH6uhVv5JSa
-FtAHfE7BoKJBoPLRz3UdZEUO9dVky0fIn0GuJMqgkKQtNIDImft5/vStrSe2M6iQ
-bl5A9dCtgVUW0Vq+wwyuJiDJcl+JyFO/5qCkMQbx2f9TnI2LKqd/fl1my5+IWuc1
-pmmMWmxdPwkzx22kMeMHMs4l9wGdqTzKs3wff8mykjRokOrzAeBnEb0iFGgawsN2
-Tw+/mfD0Hrlpp/lDpe8hkpe3jbkoe14Gbj88ztxD9CCNfxfNPJc=
-=jYCe
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIz/98ACgkQgypY4gEw
+YSJyCRAAiAcpJfa9avGcOfZ5pPnmFBNce0PKmbjI45pQrdAjPZpSsHW7LBHzjqUN
+uIhwOfcH7D7itHTAS6QoKQlGIWROejbBJa1KvceNh4pOyX0ayNiQ/HdxSteKcQVO
+FmgyGlEGiYIJklYkFhesDviFROPENw0FCN+RwHKDjP4lZdOaaUmNqSIJoePHdVKZ
+Gp/HfZy1iwhWysThRFkvUvWKvN70OQfF3FlvFQJFaWiBKZ9TsrO0cix/0oDKhVf2
+SH3bTUZg8wPk+XIJowT31JN9zuQTIgVW43hjOsfUggam/FXG6/0CHKMFdCcTH7ec
+xaGrQtm+z+u1HwDAvCy/evBPeTLHrOE/iCvogBFCRUsdtmiK9YriX0TV+d2/k4pk
+TiecLzD8X46ef/eqUB0aECR6fawHoHW+0aAxz9E6D79BfK7GLHTZkCxapy11a70k
+7K4X3S5jkOmgyQrjhwPRUwT/C4VmhobEqOfxVr0b+P/Fu8HqGbWEE5We543P0YCK
+VMDniTIJSi2rJVjQr4cG8PsIxmCYsqnNjjjCEAFDyJPvo/kMTVJBp18uNgIfuyJN
+cNKvl4PFRvgZf6IO/eu3X7H41OMSxR4xsqqwf9NTfDDil8cLHOhqtqR9euOlWRgJ
+w1zQ1FK3o2+dLMaDGOMuvlU6DJzGloihheXBhqu6NBo+BPvIQsY=
+=JWcA
 -----END PGP SIGNATURE-----
 
---4GHGztTPhhV31MKz--
+--Mn7JW1lFhQfmQpIl--
 
