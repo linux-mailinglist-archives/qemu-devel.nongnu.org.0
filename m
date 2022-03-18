@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C148B4DE2C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 21:48:16 +0100 (CET)
-Received: from localhost ([::1]:51952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C984DE2A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 21:40:36 +0100 (CET)
+Received: from localhost ([::1]:56764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVJWB-0007Nb-Ra
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 16:48:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57696)
+	id 1nVJOl-0007kL-6T
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 16:40:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLQ-0002XC-Ju
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLQ-0002Wx-Fx
  for qemu-devel@nongnu.org; Fri, 18 Mar 2022 16:37:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20587)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLL-0005ZU-Gp
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLL-0005Zb-OP
  for qemu-devel@nongnu.org; Fri, 18 Mar 2022 16:37:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647635822;
+ s=mimecast20190719; t=1647635823;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=46s02IKfPzEHeky+CL14PRQ7s2txOzrx2qlksONgEv0=;
- b=F6Njlt7Xv/IdkAzUWKAQ66dTMowy+D7nFdpJ9eBYNIPWqSVO3mkUAWDIcmZz10BfRfSYDu
- bDGe1V1Dy91M6JkD1aZYzqhiYrBvDZiRiQ7BFyjWurJGRb4jn/SXWWhHfABhP17bxWu1J4
- Mf7hM3CUqgTentMOW6R2yJntuXFSTg8=
+ bh=o/qldgWi4lnWYA2nvmDxAvwHKsTQwe81x73WtjYyKX0=;
+ b=QrihKP0vooZevZp3SPHvG9doc/o+t4ScVdpuSY/qYmvPdqRYvmASY9lQRjuM9AGo6u2bnP
+ +AAfmQiajUDQ5TCQbFMPx0f+hJW1UZtYWOu6D/OeY3bQK6QfzyeKHHrvByEfJYYQ+ajyp+
+ e0+LIhfp1d8oB2+15g9R92JScthd15Q=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-563-1VKAQpjeMYGIJ7fmuym0hQ-1; Fri, 18 Mar 2022 16:36:59 -0400
-X-MC-Unique: 1VKAQpjeMYGIJ7fmuym0hQ-1
+ us-mta-577-eTJxuFi8NbivNBVBi8htTQ-1; Fri, 18 Mar 2022 16:37:00 -0400
+X-MC-Unique: eTJxuFi8NbivNBVBi8htTQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2A3C7185A7A4;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7744B811E75;
  Fri, 18 Mar 2022 20:36:59 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.8.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DBB054292C7;
- Fri, 18 Mar 2022 20:36:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3BA98403373;
+ Fri, 18 Mar 2022 20:36:59 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/15] iotests/245: fixup
-Date: Fri, 18 Mar 2022 16:36:50 -0400
-Message-Id: <20220318203655.676907-11-jsnow@redhat.com>
+Subject: [PATCH 11/15] iotests/migration-permissions: fixup
+Date: Fri, 18 Mar 2022 16:36:51 -0400
+Message-Id: <20220318203655.676907-12-jsnow@redhat.com>
 In-Reply-To: <20220318203655.676907-1-jsnow@redhat.com>
 References: <20220318203655.676907-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,40 +83,39 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(Merge with prior patch.)
+(Merge into prior commit)
+
+Note, this is a quick hack band-aid, but a follow-up patch spends the
+time to refactor it a bit. This is just the quick stop-gap to prevent
+bisection failures.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/242 | 2 +-
- tests/qemu-iotests/245 | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/tests/migration-permissions | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242
-index 4b7ec16af6..ecc851582a 100755
---- a/tests/qemu-iotests/242
-+++ b/tests/qemu-iotests/242
-@@ -22,7 +22,7 @@
- import iotests
- import json
- import struct
--from iotests import qemu_img_create, qemu_io, qemu_img_info, \
-+from iotests import qemu_img_create, qemu_io_log, qemu_img_info, \
-     file_path, img_info_log, log, filter_qemu_io
+diff --git a/tests/qemu-iotests/tests/migration-permissions b/tests/qemu-iotests/tests/migration-permissions
+index 6be02581c7..c7afb1bd2c 100755
+--- a/tests/qemu-iotests/tests/migration-permissions
++++ b/tests/qemu-iotests/tests/migration-permissions
+@@ -69,7 +69,7 @@ class TestMigrationPermissions(iotests.QMPTestCase):
+     def test_post_migration_permissions(self):
+         # Try to access the image R/W, which should fail because virtio-blk
+         # has not been configured with share-rw=on
+-        log = qemu_io('-f', imgfmt, '-c', 'quit', test_img)
++        log = qemu_io('-f', imgfmt, '-c', 'quit', test_img, check=False).stdout
+         if not log.strip():
+             print('ERROR (pre-migration): qemu-io should not be able to '
+                   'access this image, but it reported no error')
+@@ -84,7 +84,7 @@ class TestMigrationPermissions(iotests.QMPTestCase):
  
- iotests.script_initialize(supported_fmts=['qcow2'],
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index 8cbed7821b..efdad1a0c4 100755
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -217,7 +217,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-     # Reopen an image several times changing some of its options
-     def test_reopen(self):
-         # Check whether the filesystem supports O_DIRECT
--        if 'O_DIRECT' in qemu_io('-f', 'raw', '-t', 'none', '-c', 'quit', hd_path[0]):
-+        if 'O_DIRECT' in qemu_io('-f', 'raw', '-t', 'none', '-c', 'quit', hd_path[0]).stdout:
-             supports_direct = False
-         else:
-             supports_direct = True
+         # Try the same qemu-io access again, verifying that the WRITE
+         # permission remains unshared
+-        log = qemu_io('-f', imgfmt, '-c', 'quit', test_img)
++        log = qemu_io('-f', imgfmt, '-c', 'quit', test_img, check=False).stdout
+         if not log.strip():
+             print('ERROR (post-migration): qemu-io should not be able to '
+                   'access this image, but it reported no error')
 -- 
 2.34.1
 
