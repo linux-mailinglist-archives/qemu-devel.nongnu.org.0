@@ -2,65 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5CC84DD5E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 09:16:46 +0100 (CET)
-Received: from localhost ([::1]:54574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDA24DD63A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 09:33:02 +0100 (CET)
+Received: from localhost ([::1]:41132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nV7mv-00022l-Be
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 04:16:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45226)
+	id 1nV82f-00046z-D6
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 04:33:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nV7lU-0001Lx-Kc
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 04:15:16 -0400
-Received: from [2001:41c9:1:41f::167] (port=47238
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nV7vA-0007k3-7b
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 04:25:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nV7lT-00010z-0a
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 04:15:16 -0400
-Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nV7ka-0007Qx-02; Fri, 18 Mar 2022 08:14:20 +0000
-Message-ID: <d710c6e1-a9b7-ed0d-ca23-c4315355268c@ilande.co.uk>
-Date: Fri, 18 Mar 2022 08:14:58 +0000
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nV7v6-0002VH-Kn
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 04:25:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647591911;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t0bDdul1Ia7IbCDUOWacfdymQqCmhs7lQ/tAknvVExk=;
+ b=Y9Qc36Lxn3J74zjwIu12nUjxzfZbOKCU16TdWwzFPPM1R85/W3xEIS/jzwH2dCCr575fcm
+ McvllpATMHI6aLHJifC8ANW4qNxpOMDat47rx7+hx2ARFDJZrB99rAOC0Cw+JMSYS1Sz5P
+ FZ0eNTWATn1P1KjAhzKOBwrccLhGG6g=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-508-g-_ZONVPNNifcLLSYSGuBg-1; Fri, 18 Mar 2022 04:25:10 -0400
+X-MC-Unique: g-_ZONVPNNifcLLSYSGuBg-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ dj3-20020a056214090300b004354a9c60aaso5889499qvb.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 01:25:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=t0bDdul1Ia7IbCDUOWacfdymQqCmhs7lQ/tAknvVExk=;
+ b=IiA+8r1U4FAQYReJ7zcCvmO88FcAC3flWnPR9ITBFPVLHu3NcW8yI6TzRiohaDzUSO
+ 03wfYyJJwSE+DCxaqkdHvRbe2NCwD2NdwpBJTy94i7bAiQOQxFVCRs4baYjrWLRhZ+CL
+ iQ7xLBV1izTTWGbI4wis/MdPY3R3n5GP1r98WRJ3tpSe+O4sr3yNCPIXnjHTAqlFnIcr
+ oVkU3mNcttkqUywIoQSgNtmlA1rDzFSwbIc5ztsjkuDQYurDeyitgVJZuLXom7QRwZ3M
+ Ncn92ubOrGxWgDJb3RuVsgQgPT73r0fIEI3YY6CNExOu7YtHB2MFnOz2cuPBreMGoiA1
+ mo9Q==
+X-Gm-Message-State: AOAM532i6RLa7RWbi8vz31Oo4+PCkJIKJuwwJQ9T5IDz0kZS0/PvH/8I
+ sXRNTACR3gF953PmppC0NsekbEthWw50Ew+vFK9DqK/da6uczVETUydeiwYvlazScjBkOQWWf2d
+ 3lIBmtgTT6zgNUWc=
+X-Received: by 2002:a05:620a:2a14:b0:67d:9535:1641 with SMTP id
+ o20-20020a05620a2a1400b0067d95351641mr5134136qkp.412.1647591909440; 
+ Fri, 18 Mar 2022 01:25:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw8taFgvwJ9MeDk9jgXsEu0Fxe4suVBUOcMC2iURWfhnqrCitjz+eC1CeKWBMf+ZxzHdKy0GQ==
+X-Received: by 2002:a05:620a:2a14:b0:67d:9535:1641 with SMTP id
+ o20-20020a05620a2a1400b0067d95351641mr5134128qkp.412.1647591909148; 
+ Fri, 18 Mar 2022 01:25:09 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-12-25-114.business.telecomitalia.it.
+ [87.12.25.114]) by smtp.gmail.com with ESMTPSA id
+ q26-20020ae9e41a000000b0067d1a20872fsm3462976qkc.94.2022.03.18.01.25.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Mar 2022 01:25:08 -0700 (PDT)
+Date: Fri, 18 Mar 2022 09:25:04 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Peter Lieven <pl@kamp.de>
+Subject: Re: [PATCH] block/rbd: fix write zeroes with growing images
+Message-ID: <20220318082504.qxqcarorpo2jxnfk@sgarzare-redhat>
+References: <20220317162638.41192-1-sgarzare@redhat.com>
+ <CAC868B4-D120-4EB4-A0E9-78F38BA20FA7@kamp.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Content-Language: en-US
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
- <20220306163119-mutt-send-email-mst@kernel.org>
- <20220307093918.00002f20@Huawei.com> <YihiHNxVjDFI0Z8r@xz-m1.local>
- <20220309112827.00002c73@Huawei.com> <Yimwjtd8SsVLOU5e@xz-m1.local>
- <20220316165034.000037e7@Huawei.com>
- <1efbfeeb-2598-57c5-2e2d-4f5fa2538aa7@ilande.co.uk>
- <20220316175846.00007463@Huawei.com> <20220316182618.00003ce5@Huawei.com>
- <31f383e6-01bb-cf9a-6af8-d0f1821b3fd1@ilande.co.uk>
- <20220317164723.00001c14@huawei.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220317164723.00001c14@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v7 00/46] CXl 2.0 emulation Support
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAC868B4-D120-4EB4-A0E9-78F38BA20FA7@kamp.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,58 +102,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Samarth Saxena <samarths@cadence.com>, Chris Browy <cbrowy@avery-design.com>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org, Shreyas Shah <shreyas.shah@elastics.cloud>,
- linuxarm@huawei.com, linux-cxl@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
- David Hildenbrand <david@redhat.com>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Ilya Dryomov <idryomov@gmail.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/03/2022 16:47, Jonathan Cameron via wrote:
-
->> Ah great! As you've already noticed my particular case was performing partial
->> decoding on a memory region, but there are no issues if you need to dispatch to
->> another existing address space such as PCI/IOMMU. Creating a separate address space
->> per device shouldn't be an issue either, as that's effectively how the PCI bus master
->> requests are handled.
+On Thu, Mar 17, 2022 at 07:27:05PM +0100, Peter Lieven wrote:
+>
+>
+>> Am 17.03.2022 um 17:26 schrieb Stefano Garzarella <sgarzare@redhat.com>:
 >>
->> The address spaces are visible in "info mtree" so if you haven't already, I would
->> recommend generating a dynamic name for the address space based upon the device
->> name/address to make it easier for development and debugging.
-> info mtree already provides the following with a static name
-> address-space: cxl-type3-dpa-space
->    0000000000000000-000000000fffffff (prio 0, nv-ram): cxl-mem2
-> 
-> So the device association is there anyway.  Hence I'm not sure a dynamic name adds
-> a lot on this occasion and code is simpler without making it dynamic.
+>> ﻿Commit d24f80234b ("block/rbd: increase dynamically the image size")
+>> added a workaround to support growing images (eg. qcow2), resizing
+>> the image before write operations that exceed the current size.
+>>
+>> We recently added support for write zeroes and without the
+>> workaround we can have problems with qcow2.
+>>
+>> So let's move the resize into qemu_rbd_start_co() and do it when
+>> the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
+>>
+>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2020993
+>> Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
+>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>> ---
+>> block/rbd.c | 26 ++++++++++++++------------
+>> 1 file changed, 14 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/block/rbd.c b/block/rbd.c
+>> index 8f183eba2a..6caf35cbba 100644
+>> --- a/block/rbd.c
+>> +++ b/block/rbd.c
+>> @@ -1107,6 +1107,20 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
+>>
+>>     assert(!qiov || qiov->size == bytes);
+>>
+>> +    if (cmd == RBD_AIO_WRITE || cmd == RBD_AIO_WRITE_ZEROES) {
+>> +        /*
+>> +         * RBD APIs don't allow us to write more than actual size, so in order
+>> +         * to support growing images, we resize the image before write
+>> +         * operations that exceed the current size.
+>> +         */
+>> +        if (offset + bytes > s->image_size) {
+>> +            int r = qemu_rbd_resize(bs, offset + bytes);
+>> +            if (r < 0) {
+>> +                return r;
+>> +            }
+>> +        }
+>> +    }
+>> +
+>>     r = rbd_aio_create_completion(&task,
+>>                                   (rbd_callback_t) qemu_rbd_completion_cb, &c);
+>>     if (r < 0) {
+>> @@ -1182,18 +1196,6 @@ coroutine_fn qemu_rbd_co_pwritev(BlockDriverState *bs, int64_t offset,
+>>                                  int64_t bytes, QEMUIOVector *qiov,
+>>                                  BdrvRequestFlags flags)
+>> {
+>> -    BDRVRBDState *s = bs->opaque;
+>> -    /*
+>> -     * RBD APIs don't allow us to write more than actual size, so in order
+>> -     * to support growing images, we resize the image before write
+>> -     * operations that exceed the current size.
+>> -     */
+>> -    if (offset + bytes > s->image_size) {
+>> -        int r = qemu_rbd_resize(bs, offset + bytes);
+>> -        if (r < 0) {
+>> -            return r;
+>> -        }
+>> -    }
+>>     return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_WRITE);
+>> }
+>>
+>> --
+>> 2.35.1
+>>
+>
+>Do we really have a use case for growing rbd images?
 
-Is this using a single address space for multiple memory devices, or one per device 
-as you were suggesting in the thread? If it is one per device and cxl-mem2 is the 
-value of the -device id parameter, I still think it is worth adding the same device 
-id into the address space name for the sake of a g_strdup_printf() and corresponding 
-g_free().
+The use case is to have a qcow2 image on rbd.
+I don't think it's very common, but some people use it and here [1] we 
+had a little discussion about features that could be interesting (e.g.  
+persistent dirty bitmaps for incremental backup).
 
-Alas I don't currently have the time (and enough knowledge of CXL!) to do a more 
-comprehensive review of the patches, but a quick skim of the series suggests it seems 
-quite mature. The only thing that I noticed was that there doesn't seem to be any 
-trace-events added, which I think may be useful to aid driver developers if they need 
-to debug some of the memory access routing.
+In any case the support is quite simple and does not affect other use 
+cases since we only increase the size when we go beyond the current 
+size.
 
-Finally I should point out that there are a number of more experienced PCI developers 
-on the CC list than me, and they should have the final say on patch review. So please 
-consider these comments as recommendations based upon my development work on QEMU, 
-and not as a NAK for proceeding with the series :)
+IMHO we can have it in :-)
 
+Thanks,
+Stefano
 
-ATB,
+[1] 
+https://lore.kernel.org/all/20190415080452.GA6031@localhost.localdomain/
 
-Mark.
 
