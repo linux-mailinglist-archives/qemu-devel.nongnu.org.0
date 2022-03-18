@@ -2,89 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010A34DE354
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 22:14:40 +0100 (CET)
-Received: from localhost ([::1]:45226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 656554DE35D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 22:16:37 +0100 (CET)
+Received: from localhost ([::1]:48162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVJvi-00060E-Iw
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 17:14:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35452)
+	id 1nVJxc-0008Mk-GW
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 17:16:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tom@tromey.com>) id 1nVJuZ-0005Cu-Pe
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 17:13:27 -0400
-Received: from gproxy5-pub.mail.unifiedlayer.com ([67.222.38.55]:43537
- helo=progateway7-pub.mail.pro1.eigbox.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJvv-000726-Qg
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 17:14:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tom@tromey.com>) id 1nVJuU-0002XI-UB
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 17:13:26 -0400
-Received: from cmgw13.mail.unifiedlayer.com (unknown [10.0.90.128])
- by progateway7.mail.pro1.eigbox.com (Postfix) with ESMTP id 96A6D10042D1A
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 21:13:10 +0000 (UTC)
-Received: from box5379.bluehost.com ([162.241.216.53]) by cmsmtp with ESMTP
- id VJuIngqylY8ycVJuInImwI; Fri, 18 Mar 2022 21:13:10 +0000
-X-Authority-Reason: nr=8
-X-Authority-Analysis: v=2.4 cv=ff9od2cF c=1 sm=1 tr=0 ts=6234f5e6
- a=ApxJNpeYhEAb1aAlGBBbmA==:117 a=ApxJNpeYhEAb1aAlGBBbmA==:17
- a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=o8Y5sQTvuykA:10:nop_rcvd_month_year
- a=Qbun_eYptAEA:10:endurance_base64_authed_username_1 a=ZxGhNnm9vJj_tofHrAgA:9
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tromey.com; 
- s=default;
- h=Content-Type:MIME-Version:Message-ID:In-Reply-To:Date:References
- :Subject:Cc:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=WKcDFMdDKQw0jtDjRrWrjQ4ZnT3NHPgedhAN+HPlA1s=; b=GHLoBWU/t3Ms6I09D27KumF+Tc
- nXp09VtjvCxi4iEFN2Mrv7LunhUxpXPTD01gN6RsUQNcsTt8JqHrCpP2++Yeritk/nIoqC0fxvtu5
- d8WcPCR5E6l7LZ7uEqU7+lCxV;
-Received: from 71-211-175-224.hlrn.qwest.net ([71.211.175.224]:43178
- helo=prentzel) by box5379.bluehost.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <tom@tromey.com>)
- id 1nVJuH-000547-I8; Fri, 18 Mar 2022 15:13:09 -0600
-From: Tom Tromey <tom@tromey.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: How to backtrace an separate stack?
-References: <YiCk+NNtAGQPhyK5@stefanha-x1.localdomain>
- <87mti11yy9.fsf@tromey.com> <87r174gtuv.fsf@tromey.com>
- <YjCf8BPW+jITJain@stefanha-x1.localdomain>
-X-Attribution: Tom
-Date: Fri, 18 Mar 2022 15:13:08 -0600
-In-Reply-To: <YjCf8BPW+jITJain@stefanha-x1.localdomain> (Stefan Hajnoczi's
- message of "Tue, 15 Mar 2022 14:17:20 +0000")
-Message-ID: <87ee2zezh7.fsf@tromey.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJvj-0002dD-AP
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 17:14:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647638077;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p0ILwbLx5cX2JAGxVG1Q/Bzz4pMXa23Bbpwuq4Nm4H4=;
+ b=iFwAYJTKCSnStKD8fE3GVtnYOvpUYLhfdQI2NF5hY8pIDTeQ6Kqow9pO7ygpm89zS+Nrws
+ U7lDzEI3SO86AE31BWRD1uGNezR+NjKPkECOgUpP+SDE7dTvuXghviisLAL82uqfR8DLyO
+ 5zxDop7CeUJOCTbLW9xNLDEljLq9I98=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-414-WtDhbdUqNiOEKUKF1WHqlA-1; Fri, 18 Mar 2022 17:14:36 -0400
+X-MC-Unique: WtDhbdUqNiOEKUKF1WHqlA-1
+Received: by mail-vs1-f71.google.com with SMTP id
+ s15-20020a056102108f00b003207cd1704eso850073vsr.5
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 14:14:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p0ILwbLx5cX2JAGxVG1Q/Bzz4pMXa23Bbpwuq4Nm4H4=;
+ b=dZbaIH0jcL7O7tno4OlY+VKxo+SkKiqJ2ZZGonjoDDig13ieaOBZnSJX4Y5GkARr7R
+ V/1WlKGxMhci9RRWjySctdI9v+AISHIG9vYOQrwRpm2aHtjB9QqYnwgurkZ33wFIOBSI
+ qumw4aZySfNz/O6cLm+7NNYt1RCaodheDHsbffp2YimrDUy87HOi3aeD7hdXAhfDeX5W
+ o/+xjH5jAP/e4rl7Hp9xW5dt8w6ugnKLo7nEkEPdpBXyirDBIuF/VwqjZxxtjbORZ1x2
+ jN/g069VAGtd+YeCrqm7L+gzwtj1JEaLpEMeAfG7GDoT6gspJGZEm5cD4VmkA4h/Hf61
+ 3QVw==
+X-Gm-Message-State: AOAM532ZVI23UZ7CbiFj2vTG059UWH6ba3BktdSVbRZKsqe0oFJKWQCV
+ LumwVqhfQiVdTjf7OrFkVzv3NG/r3438EsMgBdIMkL8udNvFmJXMkqgplR/VDkzVwZJ0lt79Skf
+ G7znOHNTwHyUPzyT/E0Z0nOi7QtHc9V0=
+X-Received: by 2002:a05:6102:c8e:b0:321:7348:6c2a with SMTP id
+ f14-20020a0561020c8e00b0032173486c2amr4433035vst.11.1647638076244; 
+ Fri, 18 Mar 2022 14:14:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxuzInMzFTJkwSZpZa0wgoZi9j4OIkt+d9AxkS8Ik+ZrCYjNti+VJ9CnKK/C1P2X7Wd8O9AN5R/LuwGJyCYT+0=
+X-Received: by 2002:a05:6102:c8e:b0:321:7348:6c2a with SMTP id
+ f14-20020a0561020c8e00b0032173486c2amr4433026vst.11.1647638076042; Fri, 18
+ Mar 2022 14:14:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - box5379.bluehost.com
-X-AntiAbuse: Original Domain - nongnu.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - tromey.com
-X-BWhitelist: no
-X-Source-IP: 71.211.175.224
-X-Source-L: No
-X-Exim-ID: 1nVJuH-000547-I8
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 71-211-175-224.hlrn.qwest.net (prentzel)
- [71.211.175.224]:43178
-X-Source-Auth: tom+tromey.com
-X-Email-Count: 3
-X-Source-Cap: ZWx5bnJvYmk7ZWx5bnJvYmk7Ym94NTM3OS5ibHVlaG9zdC5jb20=
-X-Local-Domain: yes
-Received-SPF: pass client-ip=67.222.38.55; envelope-from=tom@tromey.com;
- helo=progateway7-pub.mail.pro1.eigbox.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+References: <20220317234937.569525-1-jsnow@redhat.com>
+ <73e7fc10-e843-68fd-ebe3-e7916c891c34@redhat.com>
+In-Reply-To: <73e7fc10-e843-68fd-ebe3-e7916c891c34@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 18 Mar 2022 17:14:25 -0400
+Message-ID: <CAFn=p-bffj3CK9o2haN-3PDRQvyMcdnMRJ0fKpqAFifYq_L63A@mail.gmail.com>
+Subject: Re: [PATCH v4 00/18] iotests: add enhanced debugging info to qemu-img
+ failures
+To: Hanna Reitz <hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,29 +92,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gdb@sourceware.org, Tom Tromey <tom@tromey.com>, qemu-devel@nongnu.org,
- pedro@palves.net, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> You can play with this if you want.  It's on 'submit/green-threads' on
->> my github.  Be warned that I rebase a lot.
+On Fri, Mar 18, 2022 at 9:36 AM Hanna Reitz <hreitz@redhat.com> wrote:
+>
+> On 18.03.22 00:49, John Snow wrote:
+> > Hiya!
+> >
+> > This series effectively replaces qemu_img_pipe_and_status() with a
+> > rewritten function named qemu_img() that raises an exception on non-zero
+> > return code by default. By the end of the series, every last invocation
+> > of the qemu-img binary ultimately goes through qemu_img().
+> >
+> > The exception that this function raises includes stdout/stderr output
+> > when the traceback is printed in a a little decorated text box so that
+> > it stands out from the jargony Python traceback readout.
+> >
+> > (You can test what this looks like for yourself, or at least you could,
+> > by disabling ztsd support and then running qcow2 iotest 065.)
+> >
+> > Negative tests are still possible in two ways:
+> >
+> > - Passing check=False to qemu_img, qemu_img_log, or img_info_log
+> > - Catching and handling the CalledProcessError exception at the callsite.
+>
+> Thanks!  Applied to my block branch:
+>
+> https://gitlab.com/hreitz/qemu/-/commits/block
+>
+> Hanna
+>
 
-Stefan> This looks cool! Would it be useful to see a port of QEMU's coroutine.py
-Stefan> script to your green threads API?
+Actually, hold it -- this looks like it is causing problems with the
+Gitlab CI. I need to investigate these.
+https://gitlab.com/jsnow/qemu/-/pipelines/495155073/failures
 
-Wouldn't hurt :)
+... and, ugh, naturally the nice error diagnostics are suppressed here
+so I can't see them. Well, there's one more thing to try and fix
+somehow.
 
-Stefan> QEMU's coroutines aren't in a scheduler list so there is no way to
-Stefan> enumerate all coroutines. The Python script can register a GDB command
-Stefan> (e.g. "qemu coroutine 0x12345678") that makes GDB aware of the
-Stefan> coroutine.
+--js
 
-On the one hand, maybe this means the model is wrong.
-
-On the other, I suppose qemu could also have a new command to create a
-temporary "thread", given a ucontext_t (or whatever), and switch to it.
-Then when the user "continue"s, the thread could be deleted again.
-
-Tom
 
