@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D3E4DDB37
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 15:07:04 +0100 (CET)
-Received: from localhost ([::1]:45052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD214DDBA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 15:26:02 +0100 (CET)
+Received: from localhost ([::1]:56764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVDFv-0005R7-Em
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 10:07:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53178)
+	id 1nVDYH-00086k-AQ
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 10:26:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nVD5x-0006A6-1X
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:56:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39494)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nVD5v-00085U-AY
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:56:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647611802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YKXbt6jOTk+LEq4QvA99ksNDDwq+o9E4+1JMnp5nJ4Q=;
- b=Hsj2UYdau2XFyAH75tXK9FNCcVneDT1qgo4pYZrw7aGEdvPyzXx0ejYBO2Jsb+vaD/CCKo
- M30ALm32KR95m9oLau/ZAg0G35GVbhvj+P4CPL8j7Z+mtuqoa1AsuY6LITZdjh8du0dBi+
- RT+UZXa13EVnSB/NwB57I51r/OqNQpU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-rRxXkPkfON6L55wm8FIYFQ-1; Fri, 18 Mar 2022 09:56:41 -0400
-X-MC-Unique: rRxXkPkfON6L55wm8FIYFQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4747289C7DB
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 13:56:41 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.196.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 06CCD400DB1C;
- Fri, 18 Mar 2022 13:56:41 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 67C111800605; Fri, 18 Mar 2022 14:56:34 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] hw/display/vga: Report a proper error when adding a 2nd
- ISA VGA
-Date: Fri, 18 Mar 2022 14:56:34 +0100
-Message-Id: <20220318135634.2851040-7-kraxel@redhat.com>
-In-Reply-To: <20220318135634.2851040-1-kraxel@redhat.com>
-References: <20220318135634.2851040-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nVDCq-0002FW-Ka; Fri, 18 Mar 2022 10:03:52 -0400
+Received: from [2607:f8b0:4864:20::436] (port=35359
+ helo=mail-pf1-x436.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nVDCo-0000e6-BK; Fri, 18 Mar 2022 10:03:52 -0400
+Received: by mail-pf1-x436.google.com with SMTP id a5so9559966pfv.2;
+ Fri, 18 Mar 2022 07:03:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=64qvE4ivymnbYLyGpAgwtJ4atgyNPhSPChxVQUV3e5Y=;
+ b=Mv9DFxW6Y+Csq4sS1IcSUftq6JgPReWqXMik7bDA1V0gEd1RT+dOLTnL3thwSUeoQg
+ DP3p6hd3irD5N2Pq5R3lK2uLJBch/odGMD4mtLdso3SWxrGkH/iN4+runom19vPekYtG
+ sQoREez7v2OpM4nm7k8Yfu8MYEWgo6E1p65eZWiLrSpuU9XyPiQCBEaZtxUO81eozJwh
+ DX/bPqNO7UBmV1bxFgTRLdKJnchZ3PXYQ1w5NKhMpj86Y1Kl0o9Ll5bEYouxmjsW2uhc
+ mTOQIJy+zv4+LsF75bsRxAOcLDiboGpLP5OmI/iQ6Hcu+8s7WU6z2Hfv/F3oXuKI9Kr6
+ qsJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=64qvE4ivymnbYLyGpAgwtJ4atgyNPhSPChxVQUV3e5Y=;
+ b=J3T+FdU+6/WdijTuynq7Ysr9NqUWqkfJRCaupYT6AEk1Io7n7QeFxx8O6pYpbPL0vd
+ cdepDiKE8DSAE4nzayatn7+qu6yH1twmhDnbM0bf+8fc9puXMU6U1S1FGMskQnYIFxUV
+ o4ze4J0tUghDXxlYGLnMVwiR56gDBYR1BIHRCFTl5Qx/WZCU3ldvme7Kpe1zOWTQOQG7
+ hXPRqB1crcm8ozqwj3kucXxKuyBg2BmrxXub6cBamj+MwE6q4oy1/BqGPthtfL8FTyo8
+ 9SdPZOl3WgxNNBjGIvuN9FeG3sZiOFbjMDzhdL+91qU1vQ5IpJFi+yRkpWG8g19virla
+ lYlA==
+X-Gm-Message-State: AOAM533qeWL0tWIRwbABno9tZx++loNJgh4x3zeMlhdGufoAMB3VhscY
+ e5FOV/ZE4Nw8uCzgXDxlQiyBuvVhUtU=
+X-Google-Smtp-Source: ABdhPJxBteUdnSeSoFZHGFs4MBfszHDpMZfclqvsjF6+dEJTw0myxlqgbXckS3XDK/tI+i/LTMneZw==
+X-Received: by 2002:a05:6a00:d91:b0:4f7:a462:7612 with SMTP id
+ bf17-20020a056a000d9100b004f7a4627612mr9917966pfb.15.1647612228333; 
+ Fri, 18 Mar 2022 07:03:48 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ pj13-20020a17090b4f4d00b001bf2ff56430sm12835246pjb.30.2022.03.18.07.03.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Mar 2022 07:03:48 -0700 (PDT)
+Message-ID: <2a8a7a37-57c1-9f6d-3a2d-359b8060abfb@gmail.com>
+Date: Fri, 18 Mar 2022 15:03:41 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [RFC PATCH-for-7.0] hw/i386/amd_iommu: Fix maybe-uninitialized
+ error with GCC 12
+Content-Language: en-US
+To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+References: <20220318004153.4510-1-philippe.mathieu.daude@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220318004153.4510-1-philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,57 +92,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
++qemu-trivial@
 
-QEMU currently abort()s if the user tries to add a second ISA VGA
-device, for example:
-
-$ ./qemu-system-x86_64 -device isa-vga -device isa-vga
-RAMBlock "vga.vram" already registered, abort!
-Aborted (core dumped)
-$ ./qemu-system-x86_64 -device isa-cirrus-vga -device isa-cirrus-vga
-RAMBlock "vga.vram" already registered, abort!
-Aborted (core dumped)
-$ ./qemu-system-mips64el -M pica61 -device isa-vga
-RAMBlock "vga.vram" already registered, abort!
-Aborted (core dumped)
-
-Such a crash should never happen just because of giving bad parameters
-at the command line. Let's return a proper error message instead.
-(The idea is based on an original patch by Jose R. Ziviani for the
-isa-vga device, but this now fixes it for the isa-cirrus-vga device, too)
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/44
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220317083027.16688-4-thuth@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/display/vga.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/hw/display/vga.c b/hw/display/vga.c
-index ae960235963b..a7a291fa2089 100644
---- a/hw/display/vga.c
-+++ b/hw/display/vga.c
-@@ -2206,6 +2206,12 @@ bool vga_common_init(VGACommonState *s, Object *obj, Error **errp)
-     s->vbe_size_mask = s->vbe_size - 1;
- 
-     s->is_vbe_vmstate = 1;
-+
-+    if (s->global_vmstate && qemu_ram_block_by_name("vga.vram")) {
-+        error_setg(errp, "Only one global VGA device can be used at a time");
-+        return false;
-+    }
-+
-     memory_region_init_ram_nomigrate(&s->vram, obj, "vga.vram", s->vram_size,
-                                      &local_err);
-     if (local_err) {
--- 
-2.35.1
+On 18/3/22 01:41, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> Initialize 'oldlevel' early to avoid on Debian/sid:
+> 
+>    FAILED: libqemu-x86_64-softmmu.fa.p/hw_i386_amd_iommu.c.o
+>    In function 'pte_get_page_mask',
+>        inlined from 'amdvi_page_walk' at hw/i386/amd_iommu.c:945:25,
+>        inlined from 'amdvi_do_translate' at hw/i386/amd_iommu.c:989:5,
+>        inlined from 'amdvi_translate' at hw/i386/amd_iommu.c:1038:5:
+>    hw/i386/amd_iommu.c:877:38: error: 'oldlevel' may be used uninitialized [-Werror=maybe-uninitialized]
+>      877 |     return ~((1UL << ((oldlevel * 9) + 3)) - 1);
+>          |                      ~~~~~~~~~~~~~~~~^~~~
+>    hw/i386/amd_iommu.c: In function 'amdvi_translate':
+>    hw/i386/amd_iommu.c:906:41: note: 'oldlevel' was declared here
+>      906 |     unsigned level, present, pte_perms, oldlevel;
+>          |                                         ^~~~~~~~
+>    cc1: all warnings being treated as errors
+> 
+> Having:
+> 
+>    $ gcc --version
+>    gcc (Debian 12-20220313-1) 12.0.1 20220314 (experimental)
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   hw/i386/amd_iommu.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+> index 4d13d8e697..b6d299f964 100644
+> --- a/hw/i386/amd_iommu.c
+> +++ b/hw/i386/amd_iommu.c
+> @@ -904,6 +904,7 @@ static void amdvi_page_walk(AMDVIAddressSpace *as, uint64_t *dte,
+>       /* make sure the DTE has TV = 1 */
+>       if (pte & AMDVI_DEV_TRANSLATION_VALID) {
+>           level = get_pte_translation_mode(pte);
+> +        oldlevel = level;
+>           if (level >= 7) {
+>               trace_amdvi_mode_invalid(level, addr);
+>               return;
 
 
