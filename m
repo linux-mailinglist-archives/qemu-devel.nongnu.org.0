@@ -2,88 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00BD4DDF17
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 17:33:08 +0100 (CET)
-Received: from localhost ([::1]:37328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27EF24DDF19
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 17:33:54 +0100 (CET)
+Received: from localhost ([::1]:39650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVFXH-0004GI-BT
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 12:33:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35566)
+	id 1nVFY1-0005p0-8f
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 12:33:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nVFWR-0003bw-5O
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 12:32:15 -0400
-Received: from [2607:f8b0:4864:20::102b] (port=39512
- helo=mail-pj1-x102b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nVFWP-0000mQ-Ks
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 12:32:14 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- mr5-20020a17090b238500b001c67366ae93so6317107pjb.4
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 09:32:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=2J3eOMgYKOjl0dqc1dPfWfOh0wSRSLfPAjXzMYIeZ4c=;
- b=okSeRkPTwC+Q70Nv07ZdiPYmhXchTSmA9cLQ63RqywqZAPm/EI0KcG+isbXg24LrMd
- r5AHN7uKH7kQPRQX6CKEGU8/9MtdmAqZQS8/hbGrVG6chUwd1HttBAOgyVqAVAhxuXSA
- LgQPCxKsUDyLmaTVLvlMrQGNUDKBe+LW/wQaOFgjAvXV7+Pj05Z11sGY66DYgAlrLONv
- tYqG0GFqr5srDoUIeSKM4MP7siJG7+BS60ubgfINwwkrXP932yFVA3bNZOCIvlnYZoFn
- IVKOSqkRBhn4PXJaO9Aeq+mT0ZviA7b2PD0xjIhubYWA1utgPQEH+JIq4WKKiapVP4xY
- vzWw==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nVFX4-0004UZ-KW
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 12:32:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36158)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nVFX1-0000oY-J5
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 12:32:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647621171;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kNoyvkpMqxFjw+SOZmDyPDSLtWXVAb8aPnikV8IHfk4=;
+ b=PqwlxnecnUK6etJMRU8PNMyTVNbcRxb/cx+PVn9x/voQbDvuytADUHj9Itq5ma0pNYjKgs
+ psC/CDsSULbVpy/GUjx1HNYgC9Yx/XdMr6xXh7cBuPzozmpNhkdz9EQUq8Gi8BCSc3Rpxy
+ 7CmaGx28w4kS7yw1K1uVpHcpYI378Cg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-553-RFks6-MxPxGk2yfktmPEjA-1; Fri, 18 Mar 2022 12:32:50 -0400
+X-MC-Unique: RFks6-MxPxGk2yfktmPEjA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ v9-20020a509549000000b00418d7c2f62aso5184315eda.15
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 09:32:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=2J3eOMgYKOjl0dqc1dPfWfOh0wSRSLfPAjXzMYIeZ4c=;
- b=Gw6aNboqmlZSL4OXpWa27lBjdHKpvWgazgvPrjPBdtJaNjn0GGpShX/et8qvQr+uom
- WyC5kVw+Kawqt4qZqr8F3KQKjoXmYCCnsTV08Il1QCHhIjsgn9Es14hvJzIYVYlOv0wm
- kxj5mmGSdzUZ4L+cwLCr/hlGiRC1pA4YDRU5H99a5c8nr9xkBOYC3U6woTVCh9v5TfZj
- 7OeBJGud2kCK461HazIpIcMbSxEam3jNhyrV6iaWbiT0uj8XTsgvAxmPJvYpW6NSKWO4
- vqky50Xsc+Cm1g0BfwD5Zy1G8nzKZOY9mujltlSsKSt0NtQeKzizZTx3KmSAp0fAt9RK
- It0g==
-X-Gm-Message-State: AOAM532PFB7fS+6DWAAWlUrFSGlMpJ3nwl/quI78I/AmLR+ul5H9ccXo
- hNATEKuuLJpQ1CPBR7ezCmU=
-X-Google-Smtp-Source: ABdhPJx3TD/ZhtxEZ6LCUrOk4SCwRozZu3DPriCbLGrECzuwTEDb9+VilEhxssTNbLDlAQxo51HZIA==
-X-Received: by 2002:a17:902:e949:b0:14b:1f32:e926 with SMTP id
- b9-20020a170902e94900b0014b1f32e926mr255609pll.170.1647621132039; 
- Fri, 18 Mar 2022 09:32:12 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ bh=kNoyvkpMqxFjw+SOZmDyPDSLtWXVAb8aPnikV8IHfk4=;
+ b=j8K4Vonu3h5f+TygaBY4Tb7r6sj0HEQxGi7dYA1v8W1eAr3+71PjivTMyiMly0SWfD
+ s/m7g7NYXEd08iRoNfr4bBN6h/GBmyaD2g29nxL9U9h9e75r2VHDerpwIv7brvMNMg6A
+ oHIaQSip4eUbpyzi0HTME9bWXJGHD3tLjUa8vPmDIQsVOAyMiKrDZdgP1qMGeDJqkByb
+ gJ0fTxKIsU1g4M/lYlFwYwuOHCa3WbffFK4VYmx/8Lpj+eJr0HgXLPtMoefXiQalrLOf
+ UuVnh/UmbmJVdn+OGA+Me8ImMzkabENHVr7KGPGPHZolXQtXnEHnDai7Vhq6Btnh3gaQ
+ HSFg==
+X-Gm-Message-State: AOAM533p5CsjM2/zpp6o+llxJ8qln/+TEUUqbGfGaTt2/9u/ezkCuXK2
+ jsIW9Aya6gJyMSs5FERu6ptf+X7D368EKAH79TUCX/JNlRmTHcVpvpXvltLCjksYY7UXfAtwq9Y
+ ruhwMs5VDTzQkchc=
+X-Received: by 2002:a50:a6c2:0:b0:410:a328:3c86 with SMTP id
+ f2-20020a50a6c2000000b00410a3283c86mr10299981edc.55.1647621166369; 
+ Fri, 18 Mar 2022 09:32:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx19smaxNGHkDOIKchP9stKYQ0SdaHJzPFf6UkitQowt1NCl+inTMkM2YnbcaNyWzi/hqrwLg==
+X-Received: by 2002:a50:a6c2:0:b0:410:a328:3c86 with SMTP id
+ f2-20020a50a6c2000000b00410a3283c86mr10299950edc.55.1647621166048; 
+ Fri, 18 Mar 2022 09:32:46 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
  by smtp.gmail.com with ESMTPSA id
- ay5-20020a056a00300500b004f6d510af4asm9061545pfb.124.2022.03.18.09.32.10
+ r16-20020a056402019000b00418ed60c332sm3932611edv.65.2022.03.18.09.32.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Mar 2022 09:32:11 -0700 (PDT)
-Message-ID: <66dc469a-6ba7-055c-1d5c-ac22c42ced35@gmail.com>
-Date: Fri, 18 Mar 2022 17:32:07 +0100
+ Fri, 18 Mar 2022 09:32:45 -0700 (PDT)
+Message-ID: <cac97a40-6dd6-2ede-d7f0-c7b198d44c7c@redhat.com>
+Date: Fri, 18 Mar 2022 17:32:44 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v2 5/5] i386/cpu: Free env->xsave_buf in
- x86_cpu_unrealizefn()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/4] iotests: finalize switch to async QMP
+To: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+References: <20220203022405.1336635-1-jsnow@redhat.com>
+ <CAFn=p-bL4XoZMajFffM9LKtFZBKj8W=x2qMQAiewSxLJAP7Qfw@mail.gmail.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <CAFn=p-bL4XoZMajFffM9LKtFZBKj8W=x2qMQAiewSxLJAP7Qfw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Mark Kanda <mark.kanda@oracle.com>, qemu-devel@nongnu.org
-References: <20220318151555.381737-1-mark.kanda@oracle.com>
- <20220318151555.381737-6-mark.kanda@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220318151555.381737-6-mark.kanda@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,51 +103,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/3/22 16:15, Mark Kanda wrote:
-> vCPU hotunplug related leak reported by Valgrind:
-> 
-> ==132362== 4,096 bytes in 1 blocks are definitely lost in loss record 8,440 of 8,549
-> ==132362==    at 0x4C3B15F: memalign (vg_replace_malloc.c:1265)
-> ==132362==    by 0x4C3B288: posix_memalign (vg_replace_malloc.c:1429)
-> ==132362==    by 0xB41195: qemu_try_memalign (memalign.c:53)
-> ==132362==    by 0xB41204: qemu_memalign (memalign.c:73)
-> ==132362==    by 0x7131CB: kvm_init_xsave (kvm.c:1601)
-> ==132362==    by 0x7148ED: kvm_arch_init_vcpu (kvm.c:2031)
-> ==132362==    by 0x91D224: kvm_init_vcpu (kvm-all.c:516)
-> ==132362==    by 0x9242C9: kvm_vcpu_thread_fn (kvm-accel-ops.c:40)
-> ==132362==    by 0xB2EB26: qemu_thread_start (qemu-thread-posix.c:556)
-> ==132362==    by 0x7EB2159: start_thread (in /usr/lib64/libpthread-2.28.so)
-> ==132362==    by 0x9D45DD2: clone (in /usr/lib64/libc-2.28.so)
-> 
-> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
-> ---
->   target/i386/cpu.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index a88d6554c8..014a716c36 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -6572,6 +6572,11 @@ static void x86_cpu_unrealizefn(DeviceState *dev)
->       }
->   
->       xcc->parent_unrealize(dev);
-> +
-> +#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
-> +    CPUX86State *env = &cpu->env;
-> +    g_free(env->xsave_buf);
+On 08.02.22 20:52, John Snow wrote:
+> Squeak Squeak...
+>
+> ...Any objections to me staging this?
+>
+> (This patchset removes the accommodations in iotests for allowing
+> either library to run and always forces the new one. Point of no
+> return for iotests.)
 
-This belong to hvf_arch_vcpu_destroy().
+I took this as “if I don’t reply, that’ll be reply enough” :)
 
-And for KVM, in the missing kvm_arch_destroy_vcpu().
+Looks to me like the rebase is minimal (just shuffling the imports in 
+patch 4 a bit), so I guess this’ll help even before you resend:
 
-> +#endif
->   }
->   
->   typedef struct BitProperty {
+Acked-by: Hanna Reitz <hreitz@redhat.com>
 
 
