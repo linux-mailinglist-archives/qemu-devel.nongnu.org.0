@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645124DDD0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:34:47 +0100 (CET)
-Received: from localhost ([::1]:53098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED65D4DDCA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:17:41 +0100 (CET)
+Received: from localhost ([::1]:34634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVEco-0004AS-GO
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:34:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43380)
+	id 1nVEMH-0005jQ-0B
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:17:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
- id 1nVEKs-0003Uk-IQ
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:16:14 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:6124)
+ id 1nVEKr-0003Oi-DL
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:16:13 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:6924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
- id 1nVEKq-0004SA-2j
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:16:14 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22ICdXdA017022; 
- Fri, 18 Mar 2022 15:16:07 GMT
+ id 1nVEKo-0004SE-Bz
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:16:12 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22ICdMud009939; 
+ Fri, 18 Mar 2022 15:16:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=nq+rMN4EZdbNtxnnFneKPq1ygOexbKbz9dWpq0T8m74=;
- b=gZPNibcjtDKmO0wFZX0a/6OxHxrcc4zKELnMs1Tn5eWeK5TahXtpLYweCIq4ik66tF3H
- hGJW5KFvzSgrr8G8vprHOOGdSmp7d4nve7Yubbr0JHzrbEfWGq5R+MkMEtbKFraA4vQM
- fVNXRd6LGNUiLZz2mKEAmyb1maMUIMpAiTSzxSLh4S/9WCzdZZNJ4cYDnzlROu67MJ71
- B17tfXnL3y+N+dUHV1Y6dpP61huGJHb3NMNR+1ceUcsEnaGrPt+3KetYaG1EiVGe47Kw
- UL4QbiGmk/lrxALREteuFk4vJFKeBZoy25R5aM74mgETHoeVJH1bMs5cPPfTnUxoBVOW vA== 
+ s=corp-2021-07-09; bh=9DhsHghyJz5PWbnPL8tSW6XFGo1rSiSnNXPNDoifFHI=;
+ b=YyPYB40yAkKOkw2LHvldi/xPlNYvGVoUWyxF52TmyDRafJcLqrD/rU53MiY6fhkMDaCE
+ E30VPg1Ky9n5RcAkdJ5oVYFpI9bHxqHucCRmnWZT4TAl1St2lW4Nfyjg4ZXwpyLDeOz1
+ w1LKYdO5cek85WacJvJdTnC/hFeuXl3KiyZhVKh9pegZ3NwFiRvXTS4TnJcAby2NSMkP
+ 9qLBNsKXMqzG9BDP7JX1eo9Gv9rlMzpFxO3VFQSa+3CmVjHdoGc8rTBn1zjW1QoYXGb3
+ FbvDnnjNkkrhwNj2scCHSHh9HtNTIGPeOfb4Rh4u0+Fgmsw7f/7EZYuqI6vqVIQvVbNY sQ== 
 Received: from aserp3030.oracle.com ([141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3et5xwusvm-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3et52q452v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 18 Mar 2022 15:16:07 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22IFAecv171688;
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22IFAecw171688;
  Fri, 18 Mar 2022 15:16:06 GMT
 Received: from nam02-sn1-obe.outbound.protection.outlook.com
  (mail-sn1anam02lp2048.outbound.protection.outlook.com [104.47.57.48])
- by aserp3030.oracle.com with ESMTP id 3et64u42bg-1
+ by aserp3030.oracle.com with ESMTP id 3et64u42bg-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 18 Mar 2022 15:16:06 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G9JXZGeNlajnNaKfVX53SK8SS6aNYKzYXY0uaHAdVugN/rJQJK4mKlkKWuWhwOYDxtU525/yuqdO1MXyOOXZte8qWOg2p2HvKKNnZqcKAWnHQtXUgIQwpriSbpcp6e5aEp362w1a276CblelltoTz0qYAneSQ6O/SjjBzUcBCPP2xA64GUzF8XWcUhimFxjlJe2euBLkSfqid/vSxTY66t51aPkbh2varPTcjD2mIlbRNnysuWGvOD1NrNBFpyEuBa0uUN1DBd64Cgu3t9T/Zsk4KbO3K4MofwznnepLbS0/vb8Rab8P12m0Woy+drjo3qM8NG1noICK+w4PUxJKZg==
+ b=JPPQklTiabhvFxs+PuYOxuyEvu1/vHAWqV/AfGxbctMceHL8lrP6l1LIPG6e8jjI5pIBvKRvIZNIlh03BlfVn3rKJCw5sR9WXtkcyNXJgMUp4ru3yaiKeW4ylmnvs7tpPfXYyd420Y/usdpE18AKHqP4FgSfzwZNXdHepLzMlVcmukiNK6W0QfjLNjDU8+lHEnwfAF3z8nzwscrQwcc1HEtitsx0VMfM1hyDeDGH9P4Wh1+9IyaoDznxUFiz0jwuGedfGc6jPGc5PzC9oEXzsvOUBwTI5byQ+6znmGEQ8YNJbUbszJuniQsiBtRuRD3JVx70Rv25BH8JN+ubvThiEg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nq+rMN4EZdbNtxnnFneKPq1ygOexbKbz9dWpq0T8m74=;
- b=PT7Dzx8SjpiYd5bo7qZzLxiwTi9eu5SdAEsyXyE0doNjR/crd5LVwbf61pMNzem94epglOUoGpsmUGQOxjNbgGG5PUdsp4Hgpntchsz+6qAcLndQ1KQYonFJhSBQMbiqJpHvax0eOzCvb8oGNucaNj+s/JQXHTI+9taHocxQY4BCrTtakSfcrHQHceJOu8Hr+aVK3xtBFUJ9WfQqiqquasMFtuJVyvMOtt93vbk7LoU8SxmcEnTbT6BnIUCcey+Wn8RbHn/kYyllze+OoFksrSnlHkf6r3xTMBA7Txwncq6CcQDWxntTn9FihX0zGQhkAd4qczSX5JhLM3yMUsbRPg==
+ bh=9DhsHghyJz5PWbnPL8tSW6XFGo1rSiSnNXPNDoifFHI=;
+ b=AgqLFEuZox5Z7x6vQ62skt8lJgj/DuGii6ovt+SkGyuKCY34F67czxhjjlQGbdDAcj7gPzXlXLqR/om8UqaOKNakT7SUv2A5uFWWYvkLZFR5T78KAztblQhDtCkSDROVbgC/47PiekiekTJi0qvPcXF1JJpmGvWTG0TtzweHG81EuHfD8eC6CvXJiT63ZzWVbR1Vxe/kX2y4sNxVTRmT6qw7sgH23ZMtj9bpHEnGKoA2iSzDEKeCK0Vnms+PlRAU75ewePS7aQjoQmgr06mUvIq7f/Gd7fa/pKWmO3ROv5YyW/HQ2QakFtHqvU3J/SLIJRXzTKDSkosc5p8xlByrmg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nq+rMN4EZdbNtxnnFneKPq1ygOexbKbz9dWpq0T8m74=;
- b=Vgtor91zHFqbxA/b9CevFxM6Vs1Mi3vE194OypeYCXM3fUntK74YZ2RUfFV2nW24Lxy4TOB+rIiJ5LMnRpsj/NC12uoqUkdDhHLh+RZAJtgGQhH+G5Hgw2/4IhzN9aeYpmpdEEkC4KhbMgSquQYfct1w+j5WEOGKeU87f4h6IUM=
+ bh=9DhsHghyJz5PWbnPL8tSW6XFGo1rSiSnNXPNDoifFHI=;
+ b=p4CV2ipEnbEMrYJkJbybcASxAI1+XWLTsvmwkswhOIbjuEAPAoJosPWweDquT1LeV228LK4rpiQb+LAq+3GkN5Qu3t1SxYxoB1NEKdM7xSdRjuJnA2FhOiggt3R3H3scJvsCp8Ma2UhBGSYlAd7lyN659R6hCPf20unHck37xjg=
 Received: from MW5PR10MB5825.namprd10.prod.outlook.com (2603:10b6:303:19a::11)
  by MN2PR10MB4174.namprd10.prod.outlook.com (2603:10b6:208:1dd::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Fri, 18 Mar
- 2022 15:16:04 +0000
+ 2022 15:16:05 +0000
 Received: from MW5PR10MB5825.namprd10.prod.outlook.com
  ([fe80::5915:58a8:f9b1:a71e]) by MW5PR10MB5825.namprd10.prod.outlook.com
  ([fe80::5915:58a8:f9b1:a71e%3]) with mapi id 15.20.5081.015; Fri, 18 Mar 2022
- 15:16:04 +0000
+ 15:16:05 +0000
 From: Mark Kanda <mark.kanda@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/5] softmmu/cpus: Free cpu->thread in
+Subject: [PATCH v2 3/5] softmmu/cpus: Free cpu->halt_cond in
  destroy_vcpu_thread_generic()
-Date: Fri, 18 Mar 2022 10:15:52 -0500
-Message-Id: <20220318151555.381737-3-mark.kanda@oracle.com>
+Date: Fri, 18 Mar 2022 10:15:53 -0500
+Message-Id: <20220318151555.381737-4-mark.kanda@oracle.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220318151555.381737-1-mark.kanda@oracle.com>
 References: <20220318151555.381737-1-mark.kanda@oracle.com>
@@ -84,53 +84,53 @@ X-ClientProxiedBy: DM5PR06CA0059.namprd06.prod.outlook.com
  (2603:10b6:303:19a::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 86c7bb2f-81a8-43be-78f9-08da08f23844
+X-MS-Office365-Filtering-Correlation-Id: 7462ccd4-7522-44f5-6061-08da08f238c4
 X-MS-TrafficTypeDiagnostic: MN2PR10MB4174:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR10MB4174574124DCAA75C5EEE60AF9139@MN2PR10MB4174.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <MN2PR10MB4174EC5481D9A2EC2F33FEE0F9139@MN2PR10MB4174.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: L7btBA4IcuyKFdXIFXZMqfohN2uYIjjkNe8PPn/tOK0eN6gw8IbbgIJEmwWD8KojuLf6kgdFLx31NCjrh00NK+NIb4oTk0ydPW29dtkUxfrF1D8sBNShEzrxJrP8XBcxjafLOFDgo+9D6h5OA+MfvIzsuldNWRPz+4FABnm06+bD+zQGKJr6WlT4bJuuyhPypd8K8iILlctC1tlOs0uubRQvWjJdFWBKoS8Sr0cZ2RgsXNHLrR6IXsuPad9EYpzb0aJaRro1rd0XguE2BOq5vK6KRcnOkMT/5hP5GIpn9CyFc+xN41lvXAxmqM750qLUmDxJ5NqHf5dORRNqbUOnSVCJvMkIXOBWWOIzezGTqQnebqCOWb1p9JwuweGx0tpWtnX9pXSLAde+CkwAQe1XqSSf/bzIWWfqMmsy3GvtM3kN0FNq8qaztWgKjtvBzkT0E7c6yigOs1MJJuOV+dHuBj9TEs7ix07KNJyX7yovWjMdGm9Bp0wS0nFid1xGsCAY634Pbzd4YIO3FrYN4WrQ+fjgf0WvJgiFNd4NAKCdI/SfbzBHvUFmo9l3VPGw5E6Ny00bLt+w7DWoDtmqRjPuzXxYut4L9P1UPYDGwEiMxQex5Z8BUOa3HD6D33IwEHdGuT4/qJGhOm7c4BbyyN3NwSUCOeTd21cY6SCDQ01jRJQOGBOvMlpldV9+WOF3oN4o
+X-Microsoft-Antispam-Message-Info: OaQ+OGaRHBfUWTfr0J1L48QTJWMH3YKrSCOW/Il1VXfReoYPeMA7HW7DdEgfAr0/+4eNVtKF8WXH5nSpl+83aD2SBNhusi7bOuwX8VNLpUDNTj+sp7OCCSVIlXlyPspxUcElUK8GDOPwucW2FfB99wRQJnmqIZmzQ8iTMJcbRx7lsxME/RsGNIu7qmdOomIF8kfHoM0IuhVOwE1hQZDfHB4g5R9B21GDPGZjNe7bx0hXiwirYJQesNEiQUwL0zH8wPF2NVlwZiirSsGOCJUZXs+ABUK69j3amyOREZrqrM8mwlNqwLfeV2ogSVi1rV+eLccMgUMNVfTf7NCL6KdocMYMZrsVDoMb4cbmZpiUBVsGFuf+E9zov77jkzJVdEHbuVzQG7QtFtQ6KY/oSFO8YNj6xP+1gefdUzbFJNowIbF6vpjG0Cs63PjKTQe4nrXY+jGwTZd18gOz/GSOVu3Rpe385l858KvZrL6E6YheSJGC7CuCcw42k8dwut/tP2UuZ+0C4hV0LwUitpHddQ8IQHi/v79y0Nu6wFXVT/PQnUg+I2OCwrYI0H7iwjXiCfGPZXrktXrSR8MAY8lbZ1P8+ueyUugLkxjhZE+sK/UzoV03DSkSmvBwF0lWdKVul7Ybbu75lvayDDfvZlYaAkwoiWMtb7o9awOrSs+HqPqOsY29ZWj4hAQ9Th/htUOfX5fZLITn2oL6jHGgbaek35y8gw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MW5PR10MB5825.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(366004)(52116002)(6506007)(107886003)(508600001)(36756003)(6666004)(2616005)(1076003)(6486002)(6512007)(86362001)(186003)(316002)(8936002)(2906002)(6916009)(5660300002)(44832011)(66946007)(4326008)(66556008)(66476007)(8676002)(38100700002)(83380400001)(41533002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?20fGpWnTkRPHUTT/UiNNYIONdQ3qVXAl39ywxYpvaWcC94lK6gqERPbUEXMV?=
- =?us-ascii?Q?gqYi0f1UZpMxVS5GB2+uermrrgy98YlcKEr9D38QJ/5JCflKOqa1xBekDvlp?=
- =?us-ascii?Q?YO+haz6r++t6g6e0RIgt0EiI6r3EOhODVdYBiu4NfY+CFBphkv5K7NfVhBSa?=
- =?us-ascii?Q?g4iMb19sAEmv6NTk/qJB7WpWeyNtnARGtt7qu/sxaQOW/qGFajsOzJqZVcJ3?=
- =?us-ascii?Q?ZMmbsH34EQV8HknLO7+RSk+zXbao3XHNdAYZqjfmzqdcaNES2guPqCFOgk1x?=
- =?us-ascii?Q?6WNMYW3wwkAkX8k2NGxKKYg+DU+TgKXC0H8jIolhO98JbE5KJJqpBinwzg5n?=
- =?us-ascii?Q?TsYxuigqqo//JiPUVbeScCDEoOfoKv2AWv7FtAosf4zee3fN2rjxJwj81wSG?=
- =?us-ascii?Q?/kskdO3Nao9j8Tm6WhWet0lvtBkPk1KIO2GVNmVnH5/urWGQqso2fD8Xzl25?=
- =?us-ascii?Q?SRuWXofLBLXuqw0GHeSsA6mZdL7gLLATPvB1BaNIbDzurWYSewLXIsZXqE26?=
- =?us-ascii?Q?zIULow84YOKdSDtthrQUtZzRDkJgZjsqPgCUSNpYKgcRNMIfYmg11RnVN1N6?=
- =?us-ascii?Q?Lb/+Of9dc8WSiUckbQYcEcnJ79VACzoz4KPlBBfSgRjfHcb6JmLV/dj8DLYS?=
- =?us-ascii?Q?m3hMqwm4y3NafX0WxdZoAJuZw+h+PSQQiGU6K/9ak6J2XxH9TsqTRCtIrp5r?=
- =?us-ascii?Q?YMuuQ6KAQThIKcZ0TI7b4aH79hBs4oFUKnyTc2VNxPeaQl9p8O40JPdjr7lZ?=
- =?us-ascii?Q?oL38Zgt0okxuEnkqmW4Ej4aPGgDkSDg993lmcXIYJfosW1fAVejmUt93kBjh?=
- =?us-ascii?Q?k8v9hy8FPkW2s5/k1JoS8CKX7EOITd4F6BY1GcF0INsZ4DjFdixihNw6XDf3?=
- =?us-ascii?Q?ubSIpkkQSojrxG5KuvMLo3PzaGPyxGPSKFiBsrhlOcwQwm8kFnWqbEbDSLyX?=
- =?us-ascii?Q?l+UEBcoaaOBGzEDHE5/r9ByJl5nrW9zHW9xMnkza50AwN+DiJswZ2yBNy0zf?=
- =?us-ascii?Q?2O2dzQR4rqdMDgzXJNmESBwo2fGlBuU1mPSZdkl6xH0fw816rvVhT3O5Yn66?=
- =?us-ascii?Q?uy+zFdr2Ix+r/NWjhK0iJyUpDbcYN8aEK5R6wuef5G7VlzyIOY358TRqUKve?=
- =?us-ascii?Q?GqXu8FwXzUFzpUthKNe4fYB2/0SJlXILWEvET4aKVELoNYpd2JQAjK2vvulS?=
- =?us-ascii?Q?/NYHVSSTi9VFln5GAuCyi9hXLlB7If1REYo5+SLDNNY8RRmg44yPxqMUrhQE?=
- =?us-ascii?Q?sU8WeE4308/hmccraYomBDMknVP6XH17MYHAcRvdbLFHmwGn5SSGVgSfvymV?=
- =?us-ascii?Q?xu1TDj9WJLQCgmNcAomjNUfCFFg3VlTBS7XOuO3OZyMLWDDBlbSA/av0b3fC?=
- =?us-ascii?Q?BmXr9v6uWIg8b+ql6W9gEdDcBJBjQ23LZPbDLpF9WQMVwTH0TKerdy+wwt47?=
- =?us-ascii?Q?3ciySKlsK6SXM4mu/Y+QHEKRS6gIA6TPX0hlWleEHlU/+RS4xh0dubKSw3QC?=
- =?us-ascii?Q?lCpahvIQStD9PrA=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wbBGA7CQ+7+qjCozeRkmviQiB7n4uhuCytNgT5S0FVO520RRRpKFp/Ki1rCG?=
+ =?us-ascii?Q?iNjFpkpwz475RhaTO5soJVLDV2bX4nnNzXh6EssRuj6VQVnWAybgb1DhywOE?=
+ =?us-ascii?Q?92hfe/OjBeaphJGm/ffohoyhtELVtylR8VYn3QrE66GMoCpPjnrbvLhY2h5k?=
+ =?us-ascii?Q?LCzjhrxdmq9pvv+B2jdcU6eNT/5pIl06tKk7rmvjGPbblyT2GKwVdGs2+z6Z?=
+ =?us-ascii?Q?JrFIBGlwppa7uuMTwddD/prxROprcYw9Un8Ac7/4FO94F4HoECN2mU1+pF6j?=
+ =?us-ascii?Q?hZMMsrwdowD32lc1+UmwnnoudgWpjtnilQ/n6JdW1DhNr1f2S/NxnBDxbVQl?=
+ =?us-ascii?Q?PnEYSOgJMrSwvlFtU8negrU8f5+U2Hjqc0cUjrEqYofFD4NpzefHV6PXIYIN?=
+ =?us-ascii?Q?ARakacFuaG8kpzam3FrO9aPOef3CbT70tEtecKm3lx03O71qMMrxSIquGz93?=
+ =?us-ascii?Q?Z4csbhcYl7SLMohLXMnNktS6///P85mWXJ3kd6F+1ZzvWdPoFlqGVMU8Ahgo?=
+ =?us-ascii?Q?rILAHsTBP1Of1MOg0r8cOTcMYSu9ATma+t9ovv7CvX7uHE1XcVnWMumcwF0b?=
+ =?us-ascii?Q?X7/l5K6bKsz4N3m+P4db5J9qa1CRdyArJBfu3SBDbzbEOnCQof9dXWHDqrZh?=
+ =?us-ascii?Q?BXxdl2zL/q9rACU37E6HlphBzJQydLTfm9ykytRkOWrrXahlFXt71G17k05r?=
+ =?us-ascii?Q?VgpyVlkgeRtLHUA0rIk7+Zf+9CIY+DxJ9UsgFtguDXqPQHS7+jzxJzohZkV/?=
+ =?us-ascii?Q?NlCX2fqWQc3jGgXn2t6GZmngDKTUFVuKiEN4qIbyrGy14JsA58sXTGm9Fmi6?=
+ =?us-ascii?Q?qPbQS3AeH9/mfyKd4zEybgF42tAbsIDCAtY1hWCIV09AUiCvsnfaOd0hrtfU?=
+ =?us-ascii?Q?smQDfbwm4C1StfAm4PwjUBAuQkMlX2r9tfKeGB5Ex6HAwl9KNYk64dmQ94k+?=
+ =?us-ascii?Q?G/8l4073PXD1W+cR43LSbufDkH/esdULQZirxAA4BvvYvpKl41537stJtZmV?=
+ =?us-ascii?Q?K4eCbcy+DHS/2SvsFcyoANvHOAiBPW0/f+4v0tv+EveR3ccp0hZBM2/GTQuw?=
+ =?us-ascii?Q?Qj/PHmAF1VOMpmYIzK2TagZnTGqtz3c4+pSj6eK/uCVOVSmtQSffAAsttUAh?=
+ =?us-ascii?Q?0xdD80/JvOu3JbWBmXvkP3oAzZl1LbzysI2VKbGyS6hkK3vI5I09dPdaL34/?=
+ =?us-ascii?Q?nwhZcy3xNKFAO2ebJ7YwcInsXld32+RVp0oTWXjcHVAkdrJw719NulQZPuRH?=
+ =?us-ascii?Q?Q/dE0QN3Wmt4ifwcF06AkxDz6lfc6w6sY9EO+QaF+vUyUsIePzrNzh5fH20a?=
+ =?us-ascii?Q?bz4x/h5Iz+CMMwCpcaZTHjRv3UwN9g0iWgj3zy0SFHdoE3GxHLAGKBOe6LHA?=
+ =?us-ascii?Q?8CQ4RA8+38dR05gE4ECVcrerj1Kh7vmDWu7lw0dqF9jQCEWQmJ9vLIzj7BV2?=
+ =?us-ascii?Q?Szr56eLUsfZClu4cGe0kV9i8IdKLCTjodW9FgRDZWhhg7zyoPG/KIq/MWf9L?=
+ =?us-ascii?Q?AaHXL2LAm5alxP0=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86c7bb2f-81a8-43be-78f9-08da08f23844
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7462ccd4-7522-44f5-6061-08da08f238c4
 X-MS-Exchange-CrossTenant-AuthSource: MW5PR10MB5825.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2022 15:16:04.6871 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2022 15:16:05.5254 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cWcDOkXJA0Xe+pNyzo0mERGaKTYs4Xtf8bMLNPWtWoulmPb/zhMi44kF2X6Zol7EkSp2kUPtvRZDwdKPSsUJ7A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: pIpQh+8Bpy1L6jdW5Hwjmis0s2rFDgkpZ2ebKhuEyTNKJr480kGX3sTUuCbJw3clR0TxvrwMNEvQWC1Gp4VJrA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4174
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10289
  signatures=693715
@@ -139,8 +139,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
  suspectscore=0 mlxscore=0 adultscore=0 spamscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
  definitions=main-2203180085
-X-Proofpoint-GUID: lCzKEd__gK3zc8cqMXwc0zk5cFMPrb8I
-X-Proofpoint-ORIG-GUID: lCzKEd__gK3zc8cqMXwc0zk5cFMPrb8I
+X-Proofpoint-GUID: TMJ2q2j91M4RYgMzlEvYq2bVv6Sy6C_3
+X-Proofpoint-ORIG-GUID: TMJ2q2j91M4RYgMzlEvYq2bVv6Sy6C_3
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=mark.kanda@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -167,15 +167,12 @@ Cc: pbonzini@redhat.com, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a new AccelOpsClass::destroy_vcpu_thread() handler
-destroy_vcpu_thread_generic() to free cpu->thread.
-
 vCPU hotunplug related leak reported by Valgrind:
 
-==102631== 8 bytes in 1 blocks are definitely lost in loss record 1,037 of 8,555
+==102631== 56 bytes in 1 blocks are definitely lost in loss record 5,089 of 8,555
 ==102631==    at 0x4C3ADBB: calloc (vg_replace_malloc.c:1117)
 ==102631==    by 0x69EE4CD: g_malloc0 (in /usr/lib64/libglib-2.0.so.0.5600.4)
-==102631==    by 0x92443A: kvm_start_vcpu_thread (kvm-accel-ops.c:68)
+==102631==    by 0x924452: kvm_start_vcpu_thread (kvm-accel-ops.c:69)
 ==102631==    by 0x4505C2: qemu_init_vcpu (cpus.c:643)
 ==102631==    by 0x76B4D1: x86_cpu_realizefn (cpu.c:6520)
 ==102631==    by 0x9344A7: device_set_realized (qdev.c:531)
@@ -188,146 +185,19 @@ vCPU hotunplug related leak reported by Valgrind:
 
 Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 ---
- accel/accel-common.c              | 6 ++++++
- accel/hvf/hvf-accel-ops.c         | 1 +
- accel/kvm/kvm-accel-ops.c         | 1 +
- accel/qtest/qtest.c               | 1 +
- accel/tcg/tcg-accel-ops.c         | 1 +
- accel/xen/xen-all.c               | 1 +
- include/sysemu/accel-ops.h        | 2 ++
- target/i386/hax/hax-accel-ops.c   | 1 +
- target/i386/nvmm/nvmm-accel-ops.c | 1 +
- target/i386/whpx/whpx-accel-ops.c | 1 +
- 10 files changed, 16 insertions(+)
+ accel/accel-common.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/accel/accel-common.c b/accel/accel-common.c
-index 7b8ec7e0f7..80b0d909b2 100644
+index 80b0d909b2..ae71a27799 100644
 --- a/accel/accel-common.c
 +++ b/accel/accel-common.c
-@@ -28,6 +28,7 @@
- 
- #include "cpu.h"
- #include "hw/core/accel-cpu.h"
-+#include "sysemu/accel-ops.h"
- 
- #ifndef CONFIG_USER_ONLY
- #include "accel-softmmu.h"
-@@ -135,3 +136,8 @@ static void register_accel_types(void)
- }
- 
- type_init(register_accel_types);
-+
-+void destroy_vcpu_thread_generic(CPUState *cpu)
-+{
-+    g_free(cpu->thread);
-+}
-diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
-index 54457c76c2..69c23f6763 100644
---- a/accel/hvf/hvf-accel-ops.c
-+++ b/accel/hvf/hvf-accel-ops.c
-@@ -467,6 +467,7 @@ static void hvf_accel_ops_class_init(ObjectClass *oc, void *data)
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
- 
-     ops->create_vcpu_thread = hvf_start_vcpu_thread;
-+    ops->destroy_vcpu_thread = destroy_vcpu_thread_generic;
-     ops->kick_vcpu_thread = hvf_kick_vcpu_thread;
- 
-     ops->synchronize_post_reset = hvf_cpu_synchronize_post_reset;
-diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
-index c4244a23c6..fd439f8e23 100644
---- a/accel/kvm/kvm-accel-ops.c
-+++ b/accel/kvm/kvm-accel-ops.c
-@@ -89,6 +89,7 @@ static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
- 
-     ops->create_vcpu_thread = kvm_start_vcpu_thread;
-+    ops->destroy_vcpu_thread = destroy_vcpu_thread_generic;
-     ops->cpu_thread_is_idle = kvm_vcpu_thread_is_idle;
-     ops->cpus_are_resettable = kvm_cpus_are_resettable;
-     ops->synchronize_post_reset = kvm_cpu_synchronize_post_reset;
-diff --git a/accel/qtest/qtest.c b/accel/qtest/qtest.c
-index f6056ac836..3ea148ed0e 100644
---- a/accel/qtest/qtest.c
-+++ b/accel/qtest/qtest.c
-@@ -51,6 +51,7 @@ static void qtest_accel_ops_class_init(ObjectClass *oc, void *data)
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
- 
-     ops->create_vcpu_thread = dummy_start_vcpu_thread;
-+    ops->destroy_vcpu_thread = destroy_vcpu_thread_generic;
-     ops->get_virtual_clock = qtest_get_virtual_clock;
- };
- 
-diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
-index ea7dcad674..4ef80c81e4 100644
---- a/accel/tcg/tcg-accel-ops.c
-+++ b/accel/tcg/tcg-accel-ops.c
-@@ -94,6 +94,7 @@ void tcg_handle_interrupt(CPUState *cpu, int mask)
- 
- static void tcg_accel_ops_init(AccelOpsClass *ops)
+@@ -140,4 +140,5 @@ type_init(register_accel_types);
+ void destroy_vcpu_thread_generic(CPUState *cpu)
  {
-+    ops->destroy_vcpu_thread = destroy_vcpu_thread_generic;
-     if (qemu_tcg_mttcg_enabled()) {
-         ops->create_vcpu_thread = mttcg_start_vcpu_thread;
-         ops->kick_vcpu_thread = mttcg_kick_vcpu_thread;
-diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
-index 69aa7d018b..c5982a782c 100644
---- a/accel/xen/xen-all.c
-+++ b/accel/xen/xen-all.c
-@@ -220,6 +220,7 @@ static void xen_accel_ops_class_init(ObjectClass *oc, void *data)
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
- 
-     ops->create_vcpu_thread = dummy_start_vcpu_thread;
-+    ops->destroy_vcpu_thread = destroy_vcpu_thread_generic;
+     g_free(cpu->thread);
++    g_free(cpu->halt_cond);
  }
- 
- static const TypeInfo xen_accel_ops_type = {
-diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-index e296b27b82..46e3190119 100644
---- a/include/sysemu/accel-ops.h
-+++ b/include/sysemu/accel-ops.h
-@@ -46,4 +46,6 @@ struct AccelOpsClass {
-     int64_t (*get_elapsed_ticks)(void);
- };
- 
-+/* free vcpu thread structures */
-+void destroy_vcpu_thread_generic(CPUState *cpu);
- #endif /* ACCEL_OPS_H */
-diff --git a/target/i386/hax/hax-accel-ops.c b/target/i386/hax/hax-accel-ops.c
-index 136630e9b2..8b6715d047 100644
---- a/target/i386/hax/hax-accel-ops.c
-+++ b/target/i386/hax/hax-accel-ops.c
-@@ -79,6 +79,7 @@ static void hax_accel_ops_class_init(ObjectClass *oc, void *data)
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
- 
-     ops->create_vcpu_thread = hax_start_vcpu_thread;
-+    ops->destroy_vcpu_thread = destroy_vcpu_thread_generic;
-     ops->kick_vcpu_thread = hax_kick_vcpu_thread;
- 
-     ops->synchronize_post_reset = hax_cpu_synchronize_post_reset;
-diff --git a/target/i386/nvmm/nvmm-accel-ops.c b/target/i386/nvmm/nvmm-accel-ops.c
-index f788f75289..f08292406c 100644
---- a/target/i386/nvmm/nvmm-accel-ops.c
-+++ b/target/i386/nvmm/nvmm-accel-ops.c
-@@ -88,6 +88,7 @@ static void nvmm_accel_ops_class_init(ObjectClass *oc, void *data)
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
- 
-     ops->create_vcpu_thread = nvmm_start_vcpu_thread;
-+    ops->destroy_vcpu_thread = destroy_vcpu_thread_generic;
-     ops->kick_vcpu_thread = nvmm_kick_vcpu_thread;
- 
-     ops->synchronize_post_reset = nvmm_cpu_synchronize_post_reset;
-diff --git a/target/i386/whpx/whpx-accel-ops.c b/target/i386/whpx/whpx-accel-ops.c
-index 1d30e4e2ed..17a385324c 100644
---- a/target/i386/whpx/whpx-accel-ops.c
-+++ b/target/i386/whpx/whpx-accel-ops.c
-@@ -93,6 +93,7 @@ static void whpx_accel_ops_class_init(ObjectClass *oc, void *data)
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
- 
-     ops->create_vcpu_thread = whpx_start_vcpu_thread;
-+    ops->destroy_vcpu_thread = destroy_vcpu_thread_generic;
-     ops->kick_vcpu_thread = whpx_kick_vcpu_thread;
-     ops->cpu_thread_is_idle = whpx_vcpu_thread_is_idle;
- 
 -- 
 2.27.0
 
