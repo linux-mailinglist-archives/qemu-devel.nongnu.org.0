@@ -2,80 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C424DDD28
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:41:18 +0100 (CET)
-Received: from localhost ([::1]:45402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F614DDD50
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:53:07 +0100 (CET)
+Received: from localhost ([::1]:51154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVEj7-00013T-EY
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:41:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46436)
+	id 1nVEuY-00078x-90
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:53:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nVEUq-0007e3-Uz
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:26:32 -0400
-Received: from [2a00:1450:4864:20::532] (port=42703
- helo=mail-ed1-x532.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nVEUp-0006JA-7v
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:26:32 -0400
-Received: by mail-ed1-x532.google.com with SMTP id a17so9634261edm.9
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 08:26:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5jfDVQHwgo4EPYTqpsajJCrkiZ7vbTgW4mqRzuRwUJo=;
- b=Z02NNApgeP06w0uqfjN4qedDFAA3Q0MYdrR40VNVhQTJJ4D8Tai1X70u86McrGTXOy
- EPR4aETXt7CiqJCAF7LClZZ+Xl8/AGpbQXTLDQKKd1WZuTsx7xC9XoOtkemBUvnJDM2R
- 3HuyKKuX+KSAlaHlpGaj9ks+dBNea+1oG7b1hocEbimMN84C5vUjGLoeLe3XgZjwhBnd
- 4JlDN99J5PvhKLvbA/A//qVHXjrb1gi0uOQYodeZvrFpi8aSOGSLnGOhMZE42jQ5GeLO
- QQ6k+sA7hhFpg5gMaHrxvwIS0PpCYY/XLLcsVLP2sx1XLllJD1XNW4RKNzvFLwzjuUpb
- U2CA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nVEf5-0003XV-E0
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:37:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40294)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nVEf2-0008AR-Bf
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:37:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647617823;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aa65jjyrKQehHbjmNaaFEOO5yf9i/IBXPQZM9f7qtaw=;
+ b=DuOajV7vnGO0FSDSQm+7FluHaXwwOjw+kf+HmjX10KJK73rMlLONAyaPbQQXR853srWTam
+ DfQQV1P7mwLGwam/wMN0u+s34U766GqJ+NWBEODDiwsNwEwUkomJqBkncX3k6/YENrD3LT
+ tn89arYtaVGve/DQdM39psHBDuAHgTs=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-382-zB87FG8BMlKZMtWNmhLUwA-1; Fri, 18 Mar 2022 11:37:02 -0400
+X-MC-Unique: zB87FG8BMlKZMtWNmhLUwA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ gv17-20020a1709072bd100b006dfcc7f7962so243904ejc.5
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 08:37:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=5jfDVQHwgo4EPYTqpsajJCrkiZ7vbTgW4mqRzuRwUJo=;
- b=Bdp0jCavWhpxlekxwaj+JAp3LJg1C+RZvSArhLlJI2+Iv+LeGTkrKL3Q/tV/QtEJj0
- lZ53j4M++TwaGDOoE89hzkDDnWgYqHaJ/YSyQRKOsuWZnZH1kwmcWHxSAiYbmt95LTFy
- FWbnAlkKQKM0/IaKUgNsqrC7WR4sRy2szM2koUetplxdmSx17qMC94KG5D4dY+4mAKF2
- 1hMf/mPPaSbJJCkkEpFafUHC3JLjTNb18H5OE5HS7AaVfWmSgaFe8Sk3yAar0qoknQLC
- epz3f5Frzj5eXh7BvFy1tl2oxIQadXX2f8U/HvWPFjDmc28LeNy+bQQHAR/8/P8If7lr
- zXNA==
-X-Gm-Message-State: AOAM5331Ld+JsFXucbHu85uYS6xYOGAELHVd5Q5BIypvyTcryc86w1ym
- /XZZktGhkIfX/+GN6p0H1FD03SGuV1s=
-X-Google-Smtp-Source: ABdhPJyqp+l5gN7Os6F7cWYCh0rKL3hxfXVOyUVmKTjhxmyPH4IbCXWetMmKBS/ZEWZQovtr+1LS8g==
-X-Received: by 2002:a05:6402:4386:b0:416:9ea3:5ee2 with SMTP id
- o6-20020a056402438600b004169ea35ee2mr10036089edc.298.1647617188859; 
- Fri, 18 Mar 2022 08:26:28 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=aa65jjyrKQehHbjmNaaFEOO5yf9i/IBXPQZM9f7qtaw=;
+ b=4BqU5JWB5S+OeGDKr/jZhxMfgYZpaI2nfcEfzINWU3TUjy6fff5fvAHJzIgDmYH5+K
+ e8o3PZadDqzJhHoYYFl0dTj8GIS40E5fUcVQxXB4/URPljWdt0VI20iQ6y/XxxfBeNyQ
+ art+AhLJZ5TAO5ifi/CJnjeBnqZ+qF3CB/Ou7iIQk2H6xxPI1/Ny4jBKknIhkSxWZ4Is
+ zIrs2IP4pZ2RwYHy4sTgqZWrubWl6U24e11KprTqVJSm8W4puKZ5OcFh2Bh+k8coSjvv
+ exa0GIf4UvjHgknUb2QksEXWsOP0lWqMAtnbxN7vSsYc4krPQBNpoRyT32zHBeBzCoo2
+ cWRg==
+X-Gm-Message-State: AOAM533Sr5mZldWW6Do+WpmnyAeLsZdIB2L3i4bfKPW4uYCzL6YLMebW
+ kdrGZsgj3A7muKGozVAwgwWxis7KK21L/l8bB3SVnEjR8XmyG3T5O9c7CQAvQ1ES/YsKtR0r2Ti
+ zYpi8eZUk1eGIvAw=
+X-Received: by 2002:a17:906:3fd4:b0:6db:143a:cf62 with SMTP id
+ k20-20020a1709063fd400b006db143acf62mr9457282ejj.454.1647617821498; 
+ Fri, 18 Mar 2022 08:37:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzsqJwKpk4FeSLWrAdLfZeX/y4F6cUmJksulx3I6WZkL6yDS1tFFjVDDFnW/h6s1qbLFRjlbg==
+X-Received: by 2002:a17:906:3fd4:b0:6db:143a:cf62 with SMTP id
+ k20-20020a1709063fd400b006db143acf62mr9457254ejj.454.1647617821119; 
+ Fri, 18 Mar 2022 08:37:01 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
  by smtp.gmail.com with ESMTPSA id
- s4-20020a170906a18400b006db0a78bde8sm3837539ejy.87.2022.03.18.08.26.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Mar 2022 08:26:28 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/i386: kvm: do not access uninitialized variable on
- older kernels
-Date: Fri, 18 Mar 2022 16:26:26 +0100
-Message-Id: <20220318152626.165431-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
+ s20-20020a056402015400b00418f9574a36sm2616659edu.73.2022.03.18.08.37.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Mar 2022 08:37:00 -0700 (PDT)
+Message-ID: <445199d8-a9cb-051a-b81d-bebaa2b782d2@redhat.com>
+Date: Fri, 18 Mar 2022 16:36:59 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] block/rbd: fix write zeroes with growing images
+To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
+References: <20220317162638.41192-1-sgarzare@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220317162638.41192-1-sgarzare@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,64 +102,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+ Peter Lieven <pl@kamp.de>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM support for AMX includes a new system attribute, KVM_X86_XCOMP_GUEST_SUPP.
-Commit 19db68ca68 ("x86: Grant AMX permission for guest", 2022-03-15) however
-did not fully consider the behavior on older kernels.  First, it warns
-too aggressively.  Second, it invokes the KVM_GET_DEVICE_ATTR ioctl
-unconditionally and then uses the "bitmask" variable, which remains
-uninitialized if the ioctl fails.
+On 17.03.22 17:26, Stefano Garzarella wrote:
+> Commit d24f80234b ("block/rbd: increase dynamically the image size")
+> added a workaround to support growing images (eg. qcow2), resizing
+> the image before write operations that exceed the current size.
+>
+> We recently added support for write zeroes and without the
+> workaround we can have problems with qcow2.
+>
+> So let's move the resize into qemu_rbd_start_co() and do it when
+> the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
+>
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2020993
+> Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> ---
+>   block/rbd.c | 26 ++++++++++++++------------
+>   1 file changed, 14 insertions(+), 12 deletions(-)
 
-While at it, explain why the ioctl is needed and KVM_GET_SUPPORTED_CPUID
-is not enough.
+Thanks, applied to my block branch:
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/kvm/kvm.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+https://gitlab.com/hreitz/qemu/-/commits/block
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index ce0e8a4042..f2c9f7b5ca 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -412,6 +412,12 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-         }
-     } else if (function == 0xd && index == 0 &&
-                (reg == R_EAX || reg == R_EDX)) {
-+        /*
-+         * The value returned by KVM_GET_SUPPORTED_CPUID does not include
-+         * features that still have to be enabled with the arch_prctl
-+         * system call.  QEMU needs the full value, which is retrieved
-+         * with KVM_GET_DEVICE_ATTR.
-+         */
-         struct kvm_device_attr attr = {
-             .group = 0,
-             .attr = KVM_X86_XCOMP_GUEST_SUPP,
-@@ -420,13 +426,16 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
- 
-         bool sys_attr = kvm_check_extension(s, KVM_CAP_SYS_ATTRIBUTES);
-         if (!sys_attr) {
--            warn_report("cannot get sys attribute capabilities %d", sys_attr);
-+            return ret;
-         }
- 
-         int rc = kvm_ioctl(s, KVM_GET_DEVICE_ATTR, &attr);
--        if (rc == -1 && (errno == ENXIO || errno == EINVAL)) {
--            warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
--                        "error: %d", rc);
-+        if (rc == -1) {
-+            if (errno != ENXIO) {
-+                warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
-+                            "error: %d", rc);
-+            }
-+            return ret;
-         }
-         ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
-     } else if (function == 0x80000001 && reg == R_ECX) {
--- 
-2.35.1
+Hanna
 
 
