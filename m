@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4DA4DE193
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 20:03:01 +0100 (CET)
-Received: from localhost ([::1]:46030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDCD4DE198
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 20:07:14 +0100 (CET)
+Received: from localhost ([::1]:55742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVHsK-0005Ka-2z
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 15:03:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38828)
+	id 1nVHwP-0003Rr-C8
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 15:07:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nVHm2-0004p1-Ho; Fri, 18 Mar 2022 14:56:31 -0400
-Received: from mga11.intel.com ([192.55.52.93]:7197)
+ id 1nVHm4-0004qS-85; Fri, 18 Mar 2022 14:56:33 -0400
+Received: from mga11.intel.com ([192.55.52.93]:7194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nVHm0-0006rZ-Dy; Fri, 18 Mar 2022 14:56:30 -0400
+ id 1nVHm2-0006rC-EG; Fri, 18 Mar 2022 14:56:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647629788; x=1679165788;
+ t=1647629790; x=1679165790;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Qf0+gZwqBaGid7Rc0z6pMhaGt3s0fB+Vly/Nksw5jmQ=;
- b=TfTawVcPR+lSzFVPI/F2ZhYh0+dpbftEX9+6+kI2yh9pYF40P4qoh7S2
- UWhpP7fe//1zLGbOVYS/wwRADtFApE5+oR7j1Fq/7GHyrVZQ/JyznGsVG
- 1O/w1/QvHu7zQNePB+6OohdnG1+3Nx+QUHR9DnU8DWeKqPdS9y7WsRgdr
- N6bXDf8tf6Cpx8FGqA7n8o/WQcOJtYeK52wZkvKE1c6d7ToE3msuxHKqG
- dZqXhfZdXVlont8Brt+653GdWCXuhov00teVCzgPUDEMtt81XqxB2ueHn
- mM14eyeVjaDGwQBC/RbPvEpKxVcld0sHapj+WVpBBqZI4Yum7YhwzYUhP g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10290"; a="254772056"
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="254772056"
+ bh=oJf9aQeSpzLJAv0B4lAkgiR82qC/OhEwFxrEoLxXgfU=;
+ b=EAOlbNBhN503CVW8XmRfvOkgZoUHkQBn2ymB+gAHoStY/H6aF94GC5VG
+ 6oqZBdcoyvy077ugwNWq97x4sSkq8ryDnUVLpT4I/sRpasQRdRnN2VtHX
+ GmqrcCcYAIWLOCi3cSwPx6JAVFz19Y0cwgd/jDxhYYvonQjXbgYrx/FFh
+ JfhTzlFjCuAAnoKg45tim+MPpTL1G50MJ6ybZYiHxIagjhwfBjbQIYS7/
+ r0L7NJuQE+pESZh8T7NyB+iDydMakkyW14k3cyjBNZtfjk3E50/+RKhhj
+ BKob6od4r4HD0FbgW4dfMGTyJNzoxQGBn35RfxQ3+U9rPe89UcISYZIwq g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10290"; a="254772059"
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="254772059"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2022 11:56:18 -0700
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="499352680"
+ 18 Mar 2022 11:56:21 -0700
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="499352705"
 Received: from lmaniak-dev.elements.local ([10.55.249.72])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2022 11:56:15 -0700
+ 18 Mar 2022 11:56:19 -0700
 From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 11/12] hw/nvme: Update the initalization place for the AER
- queue
-Date: Fri, 18 Mar 2022 19:53:50 +0100
-Message-Id: <20220318185352.1667375-11-lukasz.maniak@linux.intel.com>
+Subject: [PATCH v6 12/12] hw/acpi: Make the PCI hot-plug aware of SR-IOV
+Date: Fri, 18 Mar 2022 19:53:51 +0100
+Message-Id: <20220318185352.1667375-12-lukasz.maniak@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220318185352.1667375-1-lukasz.maniak@linux.intel.com>
 References: <20220318185352.1667375-1-lukasz.maniak@linux.intel.com>
@@ -71,58 +70,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Lukasz Maniak <lukasz.maniak@linux.intel.com>, Keith Busch <kbusch@kernel.org>,
+Cc: Ani Sinha <ani@anisinha.ca>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
- Klaus Jensen <its@irrelevant.dk>
+ Lukasz Maniak <lukasz.maniak@linux.intel.com>, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <its@irrelevant.dk>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 
-This patch updates the initialization place for the AER queue, so it’s
-initialized once, at controller initialization, and not every time
-controller is enabled.
+PCI device capable of SR-IOV support is a new, still-experimental
+feature with only a single working example of the Nvme device.
 
-While the original version works for a non-SR-IOV device, as it’s hard
-to interact with the controller if it’s not enabled, the multiple
-reinitialization is not necessarily correct.
+This patch in an attempt to fix a double-free problem when a
+SR-IOV-capable Nvme device is hot-unplugged. The problem and the
+reproduction steps can be found in this thread:
 
-With the SR/IOV feature enabled a segfault can happen: a VF can have its
-controller disabled, while a namespace can still be attached to the
-controller through the parent PF. An event generated in such case ends
-up on an uninitialized queue.
+https://patchew.org/QEMU/20220217174504.1051716-1-lukasz.maniak@linux.intel.com/20220217174504.1051716-14-lukasz.maniak@linux.intel.com/
 
-While it’s an interesting question whether a VF should support AER in
-the first place, I don’t think it must be answered today.
+Details of the proposed solution are, for convenience, included below.
+
+1) The current SR-IOV implementation assumes it’s the PhysicalFunction
+   that creates and deletes VirtualFunctions.
+2) It’s a design decision (the Nvme device at least) for the VFs to be
+   of the same class as PF. Effectively, they share the dc->hotpluggable
+   value.
+3) When a VF is created, it’s added as a child node to PF’s PCI bus
+   slot.
+4) Monitor/device_del triggers the ACPI mechanism. The implementation is
+   not aware of SR/IOV and ejects PF’s PCI slot, directly unrealizing all
+   hot-pluggable (!acpi_pcihp_pc_no_hotplug) children nodes.
+5) VFs are unrealized directly, and it doesn’t work well with (1).
+   SR/IOV structures are not updated, so when it’s PF’s turn to be
+   unrealized, it works on stale pointers to already-deleted VFs.
 
 Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/acpi/pcihp.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 247c09882dd..b0862b1d96c 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -6326,8 +6326,6 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 6351bd3424d..248839e1110 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -192,8 +192,12 @@ static bool acpi_pcihp_pc_no_hotplug(AcpiPciHpState *s, PCIDevice *dev)
+      * ACPI doesn't allow hotplug of bridge devices.  Don't allow
+      * hot-unplug of bridge devices unless they were added by hotplug
+      * (and so, not described by acpi).
++     *
++     * Don't allow hot-unplug of SR-IOV Virtual Functions, as they
++     * will be removed implicitly, when Physical Function is unplugged.
+      */
+-    return (pc->is_bridge && !dev->qdev.hotplugged) || !dc->hotpluggable;
++    return (pc->is_bridge && !dev->qdev.hotplugged) || !dc->hotpluggable ||
++           pci_is_vf(dev);
+ }
  
-     nvme_set_timestamp(n, 0ULL);
- 
--    QTAILQ_INIT(&n->aer_queue);
--
-     nvme_select_iocs(n);
- 
-     return 0;
-@@ -6987,6 +6985,7 @@ static void nvme_init_state(NvmeCtrl *n)
-     n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
-     n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
-     n->aer_reqs = g_new0(NvmeRequest *, n->params.aerl + 1);
-+    QTAILQ_INIT(&n->aer_queue);
- 
-     list->numcntl = cpu_to_le16(max_vfs);
-     for (i = 0; i < max_vfs; i++) {
+ static void acpi_pcihp_eject_slot(AcpiPciHpState *s, unsigned bsel, unsigned slots)
 -- 
 2.25.1
 
