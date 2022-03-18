@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9578E4DDA8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:29:02 +0100 (CET)
-Received: from localhost ([::1]:32802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB6F4DDA99
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:33:17 +0100 (CET)
+Received: from localhost ([::1]:41492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVCf7-0006Mk-Jz
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:29:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46062)
+	id 1nVCjE-000409-Gh
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:33:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVCZb-0006Ea-22
+ id 1nVCZb-0006H2-Lt
  for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:19 -0400
-Received: from [2a00:1450:4864:20::32e] (port=40738
+Received: from [2a00:1450:4864:20::32e] (port=55235
  helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVCZZ-0002As-AU
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:18 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- v130-20020a1cac88000000b00389d0a5c511so6656365wme.5
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 06:23:16 -0700 (PDT)
+ id 1nVCZa-0002B7-6t
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:19 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id r64so4832536wmr.4
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 06:23:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=s6v9sW/5b+lNngegiNeXR9i1AkvUX9wJBIUB91fUBiA=;
- b=hTrotaJVHDwZgeZ57S+RnwTFsYv1EdVgY5nNkxN3wMG0lxPCWjmi8E8nkn93po5Sc0
- hLlwKFpJ+qXp1kC6lWWZa6s+qxigiHRHAdLNK2nS8eRjDXzueXan5yEvq7uSqDcm7yAA
- 17M21FGIaoMzBfuhucMRlSljhgtXjZlYXTzLQnyd7zGKQAWxITu7ykCp/IWEEB7chL9z
- XD3FG7ga8jboMhQ/6CJbd4DHb/JWd2fRxlvJAtkFj8AaF4UerZGFuGZvbOkzeu6aiZUP
- LCE6VDzq+T5jwIkF0F4HL6GXypRI+og94SXYd5AfnmZAx8Zafudy9TMzne6QXX+xLDBo
- MR1Q==
+ bh=DEWExO7QLDaNCo9Eg6pGlE4QUxy0uT2YlPbVNfGUVoE=;
+ b=f60ua8IfJNIfApX6NdqmL1eKNVwWpHG0T7BPhatNAsINzbmjr556JnNKLE2cUcAWxW
+ oB85aA4q/HwApTkXOWFTR3wFKVU+UOChaBFuVUacvKqdedRs//8MuUrXqIQOnP4+RcJA
+ Oe3PvJWc6Sc/U/rmQJGpL6JggH9o1r3NMZsEUlnBsjBYNk5/yy0Do2umB32LWMDCcMhV
+ i2fZ4AaIxbu9SLkzp4dFmBSdiluVQljHPQz9V9bBMRW/MESLS6SAK09dYKHuUPyrpL5G
+ kvRFLEwM/p0B6BPLuEy+Kte5Wbsg7Cg+8oirXaom71X4q9YxML2x7Rv7wXJGk0ainPyy
+ 8XsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=s6v9sW/5b+lNngegiNeXR9i1AkvUX9wJBIUB91fUBiA=;
- b=31nCXGvmpK4CrSrs6s/SWjvEKNXxtfReO1i/GJHHFVI6dTzCJzcdYpjVPYelbNu0CI
- VJVR9IBx9DIZ+zppbZA+KF3vcl+M2JPwAODscBpfnCndwZlnu22yKTMtcMK+BA7z2CoX
- +HsX0nZo85h4l43PB46d73Jea1k3ckoaaK/X18NA1+fzAmFiMcaPhnX43TBqpZc+Ta4c
- uRAgmEms11DsQjyYAFcibAnvAxnPFYvZI5wvO6EOaoSqAJb3jKHIQrlGGhZuQkcvkM8k
- Pw2tZxVi07QGoLxM9TBJDxJKguLSlhVxo0HhS893zts9VpZUvrKKQMJTMF5plM4fh+7A
- bAZg==
-X-Gm-Message-State: AOAM5335tK1YO0pCL1P0rTdMg519CYynIE0tm5vcySSkYB98DQAvVJcs
- Y9pw1yBVvhgYgEAE1mQoJlUsyHVgWhqKsA==
-X-Google-Smtp-Source: ABdhPJzFXrEWCd0Pqi1fDIP2SBjJf96Az0t4uDk/Bm/63qcpeTL/kXCmiBHJP7iYr8xoQ0/J0brn9g==
-X-Received: by 2002:a05:600c:3b15:b0:38c:6cae:ff2 with SMTP id
- m21-20020a05600c3b1500b0038c6cae0ff2mr11729380wms.175.1647609795883; 
- Fri, 18 Mar 2022 06:23:15 -0700 (PDT)
+ bh=DEWExO7QLDaNCo9Eg6pGlE4QUxy0uT2YlPbVNfGUVoE=;
+ b=g6tCMF5C4zrBO8fNXEAYEf4dEufAyavRzv3RLZh29e4n9tqnyOv3JlevrJ5dl/YGi2
+ L/JK43IJOhCyoxQlpypWuNGK4FVWgnv4+CJDR/yJUE35tJVWXIueeaA7N1IY6Q6cgZtO
+ /heK0b0gueRjim6a2Jx2FIcHfV1ma07AzNUp4agLoyLwmO0KQraAQS+KUGPoNhCVKNOX
+ +uVoTdhtUd5vhQgpAtaZ8dAjVFPA3WThRQcWZ0AUiyWvepifNfgh5o0cbSr5wo4qnlaw
+ CQMkmlPsO/4+1ozlRf5ZCTBjvzTerU02WZGAEx0sm5YCD06S9BQ/F9apI8xX9pJ4sjMj
+ 6vHA==
+X-Gm-Message-State: AOAM531rB01pPXbs9uA8h6+Ae6lWWZmIQ9f1FtjuLeNniLaF0xVCstXI
+ 3phupk/pdrr92YNvwiY9mpWPPw/Ln3fHcQ==
+X-Google-Smtp-Source: ABdhPJxX1D/hWLGXK1jXCOL7xcP8WTU9Nf/eG8ktdSI3Tc9RkGKT0A2qjxaMJ0YXg5GYalaB36I+mA==
+X-Received: by 2002:a05:600c:1d81:b0:38c:c1f:16a6 with SMTP id
+ p1-20020a05600c1d8100b0038c0c1f16a6mr13752219wms.15.1647609796700; 
+ Fri, 18 Mar 2022 06:23:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- y15-20020a05600015cf00b00203e324347bsm6316599wry.102.2022.03.18.06.23.15
+ y15-20020a05600015cf00b00203e324347bsm6316599wry.102.2022.03.18.06.23.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Mar 2022 06:23:15 -0700 (PDT)
+ Fri, 18 Mar 2022 06:23:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/21] hw/misc/npcm7xx_clk: Don't leak string in
- npcm7xx_clk_sel_init()
-Date: Fri, 18 Mar 2022 13:22:50 +0000
-Message-Id: <20220318132306.3254960-6-peter.maydell@linaro.org>
+Subject: [PULL 06/21] nsis installer: List emulators in alphabetical order
+Date: Fri, 18 Mar 2022 13:22:51 +0000
+Message-Id: <20220318132306.3254960-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220318132306.3254960-1-peter.maydell@linaro.org>
 References: <20220318132306.3254960-1-peter.maydell@linaro.org>
@@ -95,34 +93,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In npcm7xx_clk_sel_init() we allocate a string with g_strdup_printf().
-Use g_autofree so we free it rather than leaking it.
-
-(Detected with the clang leak sanitizer.)
+We currently list the emulators in the Windows installer's dialog
+in an essentially random order (it's whatever glob.glob() returns
+them to, which is filesystem-implementation-dependent). Add a
+call to sorted() so they appear in alphabetical order.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20220308170302.2582820-1-peter.maydell@linaro.org
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Message-id: 20220305105743.2384766-2-peter.maydell@linaro.org
 ---
- hw/misc/npcm7xx_clk.c | 4 ++--
+ scripts/nsis.py | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/misc/npcm7xx_clk.c b/hw/misc/npcm7xx_clk.c
-index 0b61070c52f..bc2b879feb5 100644
---- a/hw/misc/npcm7xx_clk.c
-+++ b/hw/misc/npcm7xx_clk.c
-@@ -612,8 +612,8 @@ static void npcm7xx_clk_sel_init(Object *obj)
-     NPCM7xxClockSELState *sel = NPCM7XX_CLOCK_SEL(obj);
- 
-     for (i = 0; i < NPCM7XX_CLK_SEL_MAX_INPUT; ++i) {
--        sel->clock_in[i] = qdev_init_clock_in(DEVICE(sel),
--                g_strdup_printf("clock-in[%d]", i),
-+        g_autofree char *s = g_strdup_printf("clock-in[%d]", i);
-+        sel->clock_in[i] = qdev_init_clock_in(DEVICE(sel), s,
-                 npcm7xx_clk_update_sel_cb, sel, ClockUpdate);
-     }
-     sel->clock_out = qdev_init_clock_out(DEVICE(sel), "clock-out");
+diff --git a/scripts/nsis.py b/scripts/nsis.py
+index 5135a058316..383bef70332 100644
+--- a/scripts/nsis.py
++++ b/scripts/nsis.py
+@@ -34,9 +34,9 @@ def main():
+         with open(
+             os.path.join(destdir + args.prefix, "system-emulations.nsh"), "w"
+         ) as nsh:
+-            for exe in glob.glob(
++            for exe in sorted(glob.glob(
+                 os.path.join(destdir + args.prefix, "qemu-system-*.exe")
+-            ):
++            )):
+                 exe = os.path.basename(exe)
+                 arch = exe[12:-4]
+                 nsh.write(
 -- 
 2.25.1
 
