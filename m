@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD324DD9AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 13:20:56 +0100 (CET)
-Received: from localhost ([::1]:59686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5224DD9A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 13:20:39 +0100 (CET)
+Received: from localhost ([::1]:59082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVBbD-0003MP-FL
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 08:20:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60266)
+	id 1nVBaw-0002tf-Ug
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 08:20:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVBRv-0003q9-EA
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 08:11:21 -0400
-Received: from [2607:f8b0:4864:20::112f] (port=38481
- helo=mail-yw1-x112f.google.com)
+ id 1nVBSi-0004Xp-UF
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 08:12:08 -0400
+Received: from [2607:f8b0:4864:20::b35] (port=43620
+ helo=mail-yb1-xb35.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVBRu-0005tQ-16
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 08:11:19 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-2e592e700acso88884017b3.5
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 05:11:17 -0700 (PDT)
+ id 1nVBSg-0005xp-Ke
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 08:12:08 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id v35so15440370ybi.10
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 05:12:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2W02vop6NnPDtP6KCZyY5M0IPWVpcM7SO8ypdL7epIQ=;
- b=ZQT2CQu5HafzdBAh0+lIrd5kLCnQ6Z3cAg1rfEgYVHsWUYDiT1a3ozkGdklD62yihh
- QiEA0BNB1yaDb/cec5QItVvheyiVnvbC2WHbIIHH3k6Is4k3K8dtj4EJPD2ty+v7fVrV
- l9y474Z6YrYxk7EEs0cNjwzO7GpvmKCMpk4UTYMlmHJqhnKQjtwsMOZux6B4x9v3Prlk
- mA1E2o3FDUEun9Fqu5ljftFU6ZgzeNAHaV0mo+rf0SYM5WoQmBiW2GHNBMQHKnyPS3jQ
- 7BVT4AFxK0uBLM0M3gOVaXPcAfW9FH6l0NLkqUz4xcx/TpnJJZ1AYIdM349/2eGueKwU
- 8rGw==
+ :cc; bh=9WcgEF3o17QyADp+qFzE/ssFGdlXU+facX/VOe3YFtc=;
+ b=S4sDk4/DSd4tpwFzMqgghRWD9kac8eB6E2O98+TSROEq1s+9lFDOrjlou4rhqNSvmC
+ bd5OGLxOHUqgLaY4UHBm9nKufGHheQJsAInuHkCK7Cj/7C3TddRCQuZFp6/Zw1OyDQQK
+ 6ElFiy4gSDSB7/k7HVDgZfmR4UzxQD60PC481ClCfBEpkNht/JF7DDYSdV61kxQmWoWq
+ hJTKUsI7aawNdsnsOGr+N1PfY1O7zK6b+kizH5kvqJgxmAT1UKxCCFscVZqC82WxDx+H
+ weQUfYCo/gUjapBosvsDkzPwkhIbJVrSZrHaQFZeCB7T4wlprHiLserA1D9sWzYMhsWk
+ b6aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2W02vop6NnPDtP6KCZyY5M0IPWVpcM7SO8ypdL7epIQ=;
- b=h7DFzemFW5J9jRi1hvdcao3zP/vtu4+3oGaTzFiJTkvoVxD5qOrRCcneMoITZ1w2pA
- X7YQFcjmwHSLYFd8iyIyuU+Karq0PVgIOF20pRNBBSqLhlGbgN1m2aXTZKSd5IX+Z4vm
- B6zEFwxxGr6xr/flW0l2TF+Ib8GdN/q5ZbRlowkS8rXotUqBxjVU/s3tg9h61C0ubfIJ
- EXJj5aILOeWuBxyZjDOlZ/Q6AGIsj7imHtrkvnvc05nFKY1BRdn7B5TqPzkN2KskXKiQ
- qPN4v/OTDK1FwW/YBQO75C44hQGwkzOxAJ6uMhb2LrQVX2pGWU4kKhuotcTasjNqpiGh
- 8rRQ==
-X-Gm-Message-State: AOAM532lAcm8R5rze6Euu2DbGT6WumsFt+f7p8AbUNnThAtN2uhQZ5CJ
- q8k2A6GSxS2Ou8dVhCxvjgfcf35a4ZJ+OVx92DrMug==
-X-Google-Smtp-Source: ABdhPJyXbXhFhfuB9uju9zKiDDg28nRUpcnvZ0sSJr78LUeWr8HNnz3g3TEQEv0A5HiuDYSU1xdwFHOpEG5hUi/kXyQ=
-X-Received: by 2002:a81:a4e:0:b0:2e5:9946:525a with SMTP id
- 75-20020a810a4e000000b002e59946525amr10538367ywk.455.1647605477039; Fri, 18
- Mar 2022 05:11:17 -0700 (PDT)
+ bh=9WcgEF3o17QyADp+qFzE/ssFGdlXU+facX/VOe3YFtc=;
+ b=0dob9gLSthb6Ra+UfuJIEC916T6CD4B/sdPWURKGPORiRFU+CbGLA5XE9ZpXAvwil1
+ Os5hSTfGlyQUpHr/6hrpvE0FewInWMTbvs2xaZYGl1G5dVsiViXrdAvWATLXxnl/oLt/
+ kmQqgiB6KaoBCRiYE2LygNWzy94q3TKS1Hc2MV4CPX/yQY9xEx7fq3Z5tMsDGxUG+eiF
+ UThpovQIFIfUkg7El1rxbSxeqyzzVdg2BUkmTr1uyHAJDu8MnZwQpJ2f/ZEIChczIot9
+ 7rBziYgHWZe1pV/qCMkksQxBI09MDO4r/HNWfUPL4STcoPRqvrBZuQX3Mae1JCjleaaP
+ HnQQ==
+X-Gm-Message-State: AOAM531LXda3P8zedCM8JEqSxVxl8/kNAxf/TZcbgQ8GAhpADsWGrC4c
+ XZauJwiMW9a/sztMB87ZX58mcore+y1GPC2Fx8M+qw==
+X-Google-Smtp-Source: ABdhPJytV4HBKF1TL67nY5pHkdFHUMWquZ26tIIFgMhexeoeSMm7CEhIKaDaOLvuHaVOwMpQXM3jycQtMukBAm431fI=
+X-Received: by 2002:a25:cdc8:0:b0:633:8aa6:6a3 with SMTP id
+ d191-20020a25cdc8000000b006338aa606a3mr9654125ybf.288.1647605525785; Fri, 18
+ Mar 2022 05:12:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220302130417.18551-1-ubzeme@gmail.com>
- <20220302130417.18551-5-ubzeme@gmail.com>
-In-Reply-To: <20220302130417.18551-5-ubzeme@gmail.com>
+ <20220302130417.18551-7-ubzeme@gmail.com>
+In-Reply-To: <20220302130417.18551-7-ubzeme@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Mar 2022 12:11:05 +0000
-Message-ID: <CAFEAcA99HwWPjJqkJQ-y_rXimx+O9cPQiaGaV_TiLOwoxjOEFQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/9] hvf: rename struct hvf_slot to HVFSlot
+Date: Fri, 18 Mar 2022 12:11:54 +0000
+Message-ID: <CAFEAcA89+KEcg1eEQLsETNhAJ5AO51J6SRT0L0T6_K_twnu+Bw@mail.gmail.com>
+Subject: Re: [PATCH v3 6/9] hvf: add a lock for memory related functions
 To: Yan-Jie Wang <ubzeme@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b35
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,12 +89,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 2 Mar 2022 at 13:04, Yan-Jie Wang <ubzeme@gmail.com> wrote:
 >
-> Follow the QEMU coding style. Structured type names are in CamelCase.
->
-> Signed-off-by: Yan-Jie Wang <ubzeme@gmail.com>
-> ---
+> We follow how KVM accel does in its memory listener (kvm-all.c) and add
+> a lock for the memory related functions.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Could you outline the race condition or conflicting access that
+adding this mutex is fixing, please ?
 
 thanks
 -- PMM
