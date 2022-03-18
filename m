@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794C04DE00B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 18:36:04 +0100 (CET)
-Received: from localhost ([::1]:42746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083224DE00F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 18:37:13 +0100 (CET)
+Received: from localhost ([::1]:47196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVGWB-0007CG-Ie
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 13:36:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49586)
+	id 1nVGXH-0001tc-Rn
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 13:37:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nVGTj-0004Oi-Q2; Fri, 18 Mar 2022 13:33:32 -0400
-Received: from [2607:f8b0:4864:20::c2b] (port=39820
- helo=mail-oo1-xc2b.google.com)
+ id 1nVGTl-0004Rs-Nw; Fri, 18 Mar 2022 13:33:33 -0400
+Received: from [2607:f8b0:4864:20::22a] (port=35658
+ helo=mail-oi1-x22a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nVGTi-00029t-At; Fri, 18 Mar 2022 13:33:31 -0400
-Received: by mail-oo1-xc2b.google.com with SMTP id
- q1-20020a4a7d41000000b003211b63eb7bso10934040ooe.6; 
- Fri, 18 Mar 2022 10:33:29 -0700 (PDT)
+ id 1nVGTk-0002A4-6a; Fri, 18 Mar 2022 13:33:33 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id e4so6424661oif.2;
+ Fri, 18 Mar 2022 10:33:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZSBDvCmduhB8ruac4cuK0i15qx+G/Jt4NVS8OJmUmmc=;
- b=kee2ZkBBNrF/K63/JBOYTtVAoj3s0015s5eyGh2SAlNJmIAP6wj8FzUmfouPf9zG1v
- XlqrPdzJ4GS8vK/jHxfV48GqtDYTOVt3NlbikuSekutPVSxfp3Krbc/+e7P6HAW1Bqpu
- XNQQ2N92FTdcnbAbmAaT71aMab5p3mDoz1BR+ptQCEQwDdZVCSzyAwUEYMZvJk03JdCT
- 1tJl2QWf9LrjNTbYRhlJfrkXjTAMQZD4pUUczBGGDlJSARVDz4AgahbSHxT16DOd4RVz
- vBRppWWYoNZ8d/wHKX5640n6kjQPEbSo55hN9CZryzOMBfHyM3E+1FXkY8dRyUxnTp6c
- UBkA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=PjBudQVNMTSjgOEdtYkX7WxblOTeQuNDOTsgp3296vo=;
+ b=DoHolSe12gIpWc0L6rxb79auLX7c4U6u2W/zV8IXpOsdyeEydO+Y1OfarBxDi9CfbA
+ vqfB0+YEuxgO5j91JXfegMRFxJOXjLKEVwpJzHKKrtwXo/fug06MlhXlcNpGBREpKbST
+ 9iP8oS30yq42n+dSd3Td0lC/y5/UUoFQpYN0ADht6u/i/EEG3lLPXo1LBsKt/GnlvK/A
+ tX0sOC5xSw9XokMlDkOXF169LiCyXade1E6tJ2rCr0b4AeCmKPsi1D3Gcn5wBuKLtxTJ
+ MfzoSlfJbg6h1Y5bRtBrssrqJogj9+62dnikYyS5bxcEQPK/fK3ndAU553dWnGL1F9f9
+ dcXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZSBDvCmduhB8ruac4cuK0i15qx+G/Jt4NVS8OJmUmmc=;
- b=XLovRI2w1HjT7DsviuXnz9SdWUq2CWEL/orwLgP+vCZgbQPnUPNi31ybHYLTKC1EOR
- m2Cot4cfc65hDwOk8vPNs8cpIxiqHfvFfEs52vSShPH/ej6+k+QVVXuGxrayL3hzpnOd
- ntI5AmZEv+T5l8nK/hFK35H5v/WWB56NRcTfKJKi+5bt5p1egHEhx8ew1AgfN0EfuZrd
- /aOINIEIZ7wT3zte4OEXo/MTK/KvU1sYrJrv+m4Y7FmDQCUnkZPTzH+COx66YgGu+lZy
- 2XY6a3P2uFHK0tRf4c0V6AXZTZjquH8tTcpPv8kwNXUbun54T+MYzFW/ZtlO23fQRToo
- XwPg==
-X-Gm-Message-State: AOAM531YWqmQ1USzJyl5dxOskAEwISwKrQ3FDPMGGpnqoiP975TkGKiY
- oNSiqaz97BkpMdLYDj6UPRBs+BJJvGw=
-X-Google-Smtp-Source: ABdhPJzrafdXJzQCav2I3ph0eUQzMhowEAcdqoaMWeaVRUNzWwuC24TGxX3haeLWjN6r2xOJ+H1hKw==
-X-Received: by 2002:a05:6870:41c7:b0:da:df9:2039 with SMTP id
- z7-20020a05687041c700b000da0df92039mr3790107oac.75.1647624808544; 
- Fri, 18 Mar 2022 10:33:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=PjBudQVNMTSjgOEdtYkX7WxblOTeQuNDOTsgp3296vo=;
+ b=2lBR6YMYVWSfwPSsp+W4/RB+i9vnoWVYcvhzz+qE0o9rJiq186iAIYYi/lHdN909ZO
+ ewUKMrEQSMqfuu2SjPIO6P+4eOnLR3aKHaL+8u8ifwMMbdUdmcMRacHQC+391EGUXjBz
+ JX1GiGURJVhTdtgO3wmHMFR7z/ImAFmVZBv1NlnTAPucYCRQ61GOB+nNk5yEGhLqohGb
+ WzWI23a5Nlz0jzDTiZFpmwv5Z571unwVkgSqECBrhabiJ9QQdv19uZrWDR9nJqaKnblM
+ lfRyTrfAel56+Dw3Ae7xm2iBJ7jqc7LaZpCaTbaZkF1T2yfu2ey3Dmt1OB8+wPhYIviJ
+ P2vA==
+X-Gm-Message-State: AOAM533V1lkHUah6LLV5yqc1Z41+9lMcVJlvheei6ju8r14gQ8CPfmQs
+ GlW41pLR/BsRnWYRKKbBtVshpfEPXXo=
+X-Google-Smtp-Source: ABdhPJwAOf+Qc0CbLd5+G1/JprBdCM4RMi1BslFy/VWdOKcJdn0ozxAupbQMZxBXChEeKxRAVmmSIQ==
+X-Received: by 2002:a54:4104:0:b0:2ec:b263:9979 with SMTP id
+ l4-20020a544104000000b002ecb2639979mr8352575oic.66.1647624810614; 
+ Fri, 18 Mar 2022 10:33:30 -0700 (PDT)
 Received: from rekt.ibmmodules.com ([2804:431:c7c6:daa8:d948:1d15:1451:398f])
  by smtp.gmail.com with ESMTPSA id
- d2-20020a05683025c200b005c93d78e1f6sm4324662otu.29.2022.03.18.10.33.26
+ d2-20020a05683025c200b005c93d78e1f6sm4324662otu.29.2022.03.18.10.33.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Mar 2022 10:33:28 -0700 (PDT)
+ Fri, 18 Mar 2022 10:33:30 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 0/9] spapr: add drc->index, remove spapr_drc_index()
-Date: Fri, 18 Mar 2022 14:33:11 -0300
-Message-Id: <20220318173320.320541-1-danielhb413@gmail.com>
+Subject: [PATCH for-7.1 1/9] hw/ppc/spapr_drc.c: add drc->index
+Date: Fri, 18 Mar 2022 14:33:12 -0300
+Message-Id: <20220318173320.320541-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220318173320.320541-1-danielhb413@gmail.com>
+References: <20220318173320.320541-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22a.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -90,39 +91,53 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The DRC index is an unique identifier that is used across all spapr
+code. Its value is given by spapr_drc_index() as follows:
 
-I decided to make this change after realizing that (1) spapr_drc_index()
-always return the same index value for the DRC regardless of machine or
-device state and (2) we call spapr_drc_index() a lot throughout the
-spapr code.
+    return (drck->typeshift << DRC_INDEX_TYPE_SHIFT)
+        | (drc->id & DRC_INDEX_ID_MASK);
 
-This means that a new attribute to store the generated index in the DRC
-object time will spare us from calling a function that always returns
-the same value.
+We see that there is nothing that varies with the machine/device state
+on spapr_drc_index(). drc->id is defined in spapr_dr_connector_new() and
+it's read only, drck->typeshift relies on the DRC class type and it
+doesn't change as well and the two macros. Nevertheless,
+spapr_drc_index() is called multiple times across spapr files, meaning
+that we're always recalculating this value.
 
-No functional changes were made.
+This patch adds a new SpaprDrc attribute called 'index'. drc->index will
+be initialized with spapr_drc_index() and it's going to be a replacement
+for the repetitive spapr_drc_index() usage we have today.
 
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr_drc.c         | 1 +
+ include/hw/ppc/spapr_drc.h | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index 76bc5d42a0..1b8c797192 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -561,6 +561,7 @@ SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
  
-Daniel Henrique Barboza (9):
-  hw/ppc/spapr_drc.c: add drc->index
-  hw/ppc/spapr_drc.c: redefine 'index' SpaprDRC property
-  hw/ppc/spapr_drc.c: use drc->index in trace functions
-  hw/ppc/spapr_drc.c: use drc->index
-  hw/ppc/spapr.c: use drc->index
-  hw/ppc/spapr_events.c: use drc->index
-  hw/ppc/spapr_nvdimm.c: use drc->index
-  hw/ppc/spapr_pci.c: use drc->index
-  hw/ppc/spapr_drc.c: remove spapr_drc_index()
-
- hw/ppc/spapr.c             | 18 ++++-----
- hw/ppc/spapr_drc.c         | 79 +++++++++++++++-----------------------
- hw/ppc/spapr_events.c      |  4 +-
- hw/ppc/spapr_nvdimm.c      | 10 ++---
- hw/ppc/spapr_pci.c         |  5 +--
- include/hw/ppc/spapr_drc.h |  2 +-
- 6 files changed, 48 insertions(+), 70 deletions(-)
-
+     drc->id = id;
+     drc->owner = owner;
++    drc->index = spapr_drc_index(drc);
+     prop_name = g_strdup_printf("dr-connector[%"PRIu32"]",
+                                 spapr_drc_index(drc));
+     object_property_add_child(owner, prop_name, OBJECT(drc));
+diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+index 02a63b3666..93825e47a6 100644
+--- a/include/hw/ppc/spapr_drc.h
++++ b/include/hw/ppc/spapr_drc.h
+@@ -173,6 +173,7 @@ typedef struct SpaprDrc {
+     DeviceState parent;
+ 
+     uint32_t id;
++    uint32_t index;
+     Object *owner;
+ 
+     uint32_t state;
 -- 
 2.35.1
 
