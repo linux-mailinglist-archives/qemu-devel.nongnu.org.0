@@ -2,87 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A2BC4DDE2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 17:16:31 +0100 (CET)
-Received: from localhost ([::1]:48970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026D04DDE30
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 17:17:39 +0100 (CET)
+Received: from localhost ([::1]:51158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVFHC-0000b6-1c
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 12:16:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58670)
+	id 1nVFII-000277-4H
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 12:17:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nVFFk-00082K-Jv; Fri, 18 Mar 2022 12:15:00 -0400
-Received: from [2607:f8b0:4864:20::102a] (port=32937
- helo=mail-pj1-x102a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nVFFj-0005t2-6q; Fri, 18 Mar 2022 12:15:00 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- q1-20020a17090a4f8100b001c6575ae105so5869246pjh.0; 
- Fri, 18 Mar 2022 09:14:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=v2FB3ibC0PN2D9Ou398gRnH+T0IlchrYbvmYBo0HFlk=;
- b=FF2YNc5AloZnzUobfsrndnKzcgbYsoxeQ6g5teL2w6jB3mIrcDK40+75QmubT90c1a
- 7bO28Y70+ZIkRqkxhYG1pAPKV+g0hD8dyx/5p6G8rUQ2INooF30LR3Zw+uGIycZraJdM
- V6zjyor9ChmbNasZdd/6A/sKovjkVgULw6f9zEuYHSN2r+2vTHGlRi1LcYYVtFAOEmRl
- olYZ2SX7by6C/hb+n8XmtqqDlAbzPKIyCqLZP1nMkX+PC9ewxjVbgdqWuL2otJX7Zoz3
- GC4ma5MFsVn9TtRpLwayrmCN3P04YZPWXvaZSf97x7AOop6W9lA+uaQsmXfajbfewqGB
- zOnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=v2FB3ibC0PN2D9Ou398gRnH+T0IlchrYbvmYBo0HFlk=;
- b=dzwDDkCBs/vbHq5fwIJxLhd4LnK/hENouWjbGpMtzOxgBNxAcSaRDUdD9pKoeSMN13
- BOAdxE8TxZEka8nHeV0drBB5vHzPyDfeHButpd95lmsBxYnOqoEt+dDtzBtcT4jCCQJf
- qberHKqPqbl4SDjsrboMJKLm79SLSBraeKfG5wP2xIu5U9heJo+OYv6OO0U41BvcOunH
- 82vRn8m33SPst+7tPSxCMcmtqruQkU3QMUbGZxMTwAbHtfF2NRNDg+g3NjI7dEspu3MM
- NJMsosLjr2/D6Tmw0TiHh+k3UUvDDsB/CiiiGnGtcyUC3ndKz+JvXdGSAirzi/FuvV6Q
- WDcg==
-X-Gm-Message-State: AOAM532a4YhanZJwk54LRXLio7McDhgHAtx7UvbtClLFD0KdV19V0plY
- e+K7Nab/cWBLAxU8Sd+4BUg=
-X-Google-Smtp-Source: ABdhPJwPP2gmkXUBcS2XEUPFwAPEQONXJo6ho+eObrzVp/EJdX9RYTQRfSpc1mA2McJ2XPkWwJq9/w==
-X-Received: by 2002:a17:902:f68d:b0:153:9686:97ab with SMTP id
- l13-20020a170902f68d00b00153968697abmr213734plg.4.1647620097354; 
- Fri, 18 Mar 2022 09:14:57 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- e6-20020a056a001a8600b004f78b5a4493sm9810766pfv.105.2022.03.18.09.14.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Mar 2022 09:14:57 -0700 (PDT)
-Message-ID: <2ab1e5f9-6a34-6b82-8f43-b7dcf58bc8b1@gmail.com>
-Date: Fri, 18 Mar 2022 17:14:52 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH] gitattributes: Cover Objective-C source files
-Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20220317130326.39188-1-philippe.mathieu.daude@gmail.com>
- <62dbdfcf-771e-7c84-ab8b-b02a61112f86@gmail.com>
- <69c6db77-273e-dbeb-e695-e20772d003e2@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <69c6db77-273e-dbeb-e695-e20772d003e2@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1nVFGB-00008k-TD; Fri, 18 Mar 2022 12:15:28 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57040)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1nVFG9-0006A3-Vd; Fri, 18 Mar 2022 12:15:27 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22IFC1kb031862; 
+ Fri, 18 Mar 2022 16:15:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=wO8YK+D4VpUFcwMmLyTso0UPzK8D79kccozuDvZIiAc=;
+ b=JB4Ff+9OB4VKlg2lAM8vtNG1uQvg/X48AxVcKbX1rWrI2HgfYAwKUnAOC5doGdYQ9fhr
+ kJ+IcfUdsJ5AbH4cQceV0jqoHPILVcDaM8LCzNrtEuamzYUrQrvnc5EJuwNrvCh36nCy
+ e3H2Fn0ITf02iuUCA+uc9ZJjVng3uuk7kjuvag/5m86Suvvku5lce9vGjmmF+J3TayB5
+ pPsLqEPNiyoa+zdYletgeiqr79dzGoKXxC3CrcDM8H/62WuaBgR3iVlVc28XRLU4WW1e
+ SQKnNyCcQPlTvUX+CgdtxvuPyiOmaNNnS/0OvxxPwMnsGAHTcO9+LRa64iEpTCKyvmxR ug== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ev074tg5q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Mar 2022 16:15:05 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22IGF4JO017594;
+ Fri, 18 Mar 2022 16:15:04 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ev074tg56-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Mar 2022 16:15:04 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22IGDYiI020046;
+ Fri, 18 Mar 2022 16:15:03 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma04dal.us.ibm.com with ESMTP id 3erk5adyb5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Mar 2022 16:15:03 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22IGF1GO15401334
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 18 Mar 2022 16:15:01 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 910F1136053;
+ Fri, 18 Mar 2022 16:15:01 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8E8B6136051;
+ Fri, 18 Mar 2022 16:14:59 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.211.121.19])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 18 Mar 2022 16:14:59 +0000 (GMT)
+Message-ID: <be2c70218b9dbe0bd30c2bbf46277e36b6d8d2ce.camel@linux.ibm.com>
+Subject: Re: [PATCH for-7.1] hw: Add compat machines for 7.1
+From: Eric Farman <farman@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org
+Date: Fri, 18 Mar 2022 12:14:58 -0400
+In-Reply-To: <20220316145521.1224083-1-cohuck@redhat.com>
+References: <20220316145521.1224083-1-cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 7xT22L-qrh63pZEOrqrlS-yIBq3cZ2nk
+X-Proofpoint-ORIG-GUID: oq-hOPFkIikwtt2TIUqYEpSYgib3mWBB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-18_10,2022-03-15_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 suspectscore=0 malwarescore=0 mlxscore=0 adultscore=0
+ bulkscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=865
+ clxscore=1011 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203180087
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,37 +110,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, Yanan Wang <wangyanan55@huawei.com>,
+ Greg Kurz <groug@kaod.org>, =?ISO-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/3/22 15:42, Akihiko Odaki wrote:
-> I don't think this is needed. I could see a diff annotated with a method 
-> name even without this change:
-> % git diff
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index cb6e7c41dc6..14a4416cc8b 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -1264,6 +1264,7 @@ - (id) init
->           [pauseLabel setTextColor: [NSColor blackColor]];
->           [pauseLabel sizeToFit];
->       }
-> +    //
->       return self;
->   }
+On Wed, 2022-03-16 at 15:55 +0100, Cornelia Huck wrote:
+> Add 7.1 machine types for arm/i440fx/m68k/q35/s390x/spapr.
 > 
-> Commit 29cf16db23 says:
->> Since commits 0979ed017f0 ("meson: rename .inc.h files to .h.inc")
->> and 139c1837db7 ("meson: rename included C source files to .c.inc")
->> 'git-diff --function-context' stopped displaying C function context
->> correctly.
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>  hw/arm/virt.c              |  9 ++++++++-
+>  hw/core/machine.c          |  3 +++
+>  hw/i386/pc.c               |  3 +++
+>  hw/i386/pc_piix.c          | 14 +++++++++++++-
+>  hw/i386/pc_q35.c           | 13 ++++++++++++-
+>  hw/m68k/virt.c             |  9 ++++++++-
+>  hw/ppc/spapr.c             | 15 +++++++++++++--
+>  hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+>  include/hw/boards.h        |  3 +++
+>  include/hw/i386/pc.h       |  3 +++
+>  10 files changed, 79 insertions(+), 7 deletions(-)
 > 
-> So I suspect Git has some knowledge of common file extensions like .c, 
-> .h and .m although I couldn't find in the source code of Git.
 
-'git-diff --function-context' doesn't work for me without this change.
+For s390x:
+
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
+
+..snip...
+
 
