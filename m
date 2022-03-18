@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D794DDA9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:34:10 +0100 (CET)
-Received: from localhost ([::1]:44192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C444DDAA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:36:00 +0100 (CET)
+Received: from localhost ([::1]:50056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVCk5-0005r8-VK
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:34:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46196)
+	id 1nVClr-0001L4-4V
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:35:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVCZh-0006eh-VH
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:25 -0400
-Received: from [2a00:1450:4864:20::336] (port=46781
- helo=mail-wm1-x336.google.com)
+ id 1nVCZi-0006ho-O2
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:26 -0400
+Received: from [2a00:1450:4864:20::332] (port=39574
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVCZg-0002CV-8n
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:25 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- p184-20020a1c29c1000000b0037f76d8b484so4779166wmp.5
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 06:23:23 -0700 (PDT)
+ id 1nVCZh-0002Ci-22
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:26 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ bi13-20020a05600c3d8d00b0038c2c33d8f3so4037667wmb.4
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 06:23:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=skh7ZtJM7j+brlaef0ORPlmyZxfZeY2D1B+dwRbY6ME=;
- b=l/gtrMwX1wFNaIiBvsPsebThq51ArwbZpQosJ5s3AEuYRBtHrPy6oTfgaSuOoW5M04
- 5oxexEblsKNHSQn86qOf7r6VhmjMheikZe5rGeJx6oaQZoVAZ0TZIdJZgWd3Y0PKBIoz
- cyok2D84Iyd4Qo0m+Kn9jiQE4EkpzPjTQoDgHefu+ixsn17AXHiFTHFDYIlIrM0oQOoG
- xn/gyEuaRQho1lUTao/74XaX8D5/BimBDRGZmnmutAg1wwB6lkG35d6ab5WBVtFMtBV6
- F2ykkVO8MoZqjEYWxWSKFSE3So4D8Pos9Xjx1k9w8+lRyBOVs2BnGu+gTLTeV+jgrsoz
- ANWA==
+ bh=zbF++87+DFHxQnZv6iADOqjq+cHo8qKgkOCe675Yq1U=;
+ b=n8goMrk5BryY8Q9sUvU6rxO2OYEmhAsMHpd/DnQRKqsW3tLpIc+O1fnBUg0eEB+KUS
+ Yi7FYxchSKCJ+/SguHqU5pyjF/ccGOnUDRjee8a8ZF0ur/Oq9hFWWCM8Mde2BlQGDG/X
+ LYpF8nCg6+3qFKz8YJ6l4EtsDVegCYvhmoHSy3qWG/WN83gRKrE1oBeBJdBxtAyDmmH5
+ d6YYvTYmzB4cnfaDhknz8obZggYpBnEBQyP+ANZvxJqgvdU4vygEjnYSJU5mfNTKQ8ay
+ bh9qSvfF+WjH5re7LJv5V6MZNahzPj+EjzeB3o1Po2x5jOmQy7Q+U4zAkETp/Adhftbv
+ P5Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=skh7ZtJM7j+brlaef0ORPlmyZxfZeY2D1B+dwRbY6ME=;
- b=BJAoyx7N/vtYn7D4BuaF7uzHEFNi5lDJA1Du4c2Ty+30xKnccTN/L6Dhnp2SOOg9HL
- 90x0LchIBsj+yR6i9PAXAYYKU0ZBmBrhnPU7CzRfIBp6f4yfgZR0FjW1FU8sbbvKl8QQ
- HTLcGOWJ1FZgQIMFvEJiGvnULp80f5LO3s3DfDQusjZGQP6khb4stqUfDBdT6uSa1X9F
- kqbzFssK0j3+4gYViJhhaF0WFDAs97Pok6JMBCJnFqyUyLEziOFztbjJyJJz+i9yrAkz
- yA13K1RyeyGQ9ipsIzFz0x1visnaBMQDnZ0Dg1KKdkLFAcc5z5O4yutfvcz3I3im4iXN
- IHOA==
-X-Gm-Message-State: AOAM531etUm5Yc2P4uWQmVNRflkcNugBnsho8AV7PFP7pinnoxf0yhth
- 35+NKC3JJLBDcgviG24lKwo0eaokdXsqQw==
-X-Google-Smtp-Source: ABdhPJzSLCWieR3a9cvO3gB83+RbYT515kcW9v2C2PzJ5UtnwwyziakTnk1vYR5tfsRRkkl/t2Lgxg==
-X-Received: by 2002:a7b:cb83:0:b0:37e:bc50:3c6b with SMTP id
- m3-20020a7bcb83000000b0037ebc503c6bmr15830209wmi.67.1647609802873; 
- Fri, 18 Mar 2022 06:23:22 -0700 (PDT)
+ bh=zbF++87+DFHxQnZv6iADOqjq+cHo8qKgkOCe675Yq1U=;
+ b=20NdXNvMXI9IzvjxvKqvdkAV+ANChxXoFAPXLwOvp8EUpHjUKtBNDhwp6ebz0nUhTD
+ fZerbywVWJ8roMPuMvq8nU03lXRo+MyUSJVZETYpu9leWnUcKM2M7osXKYEyU/BQmvPS
+ NcZrn57lfhR90wcrGtgciNOQ8RBZAWMsK22v3MDBo3oxWZ+2CFI1YjDMJ/q4wyQ4cQc6
+ Wfn4geCDPO3Ke6z+SnUqXqCi5GcYQ+HetLMx3TTSNLCbqXItdhwDTZb8Z8Nh8Bh0eKt6
+ kZdqlxCNocSD1WePnxGh1q0uzf9aZiXN3pJxktHfKW5B4oSvH4n56aXCKH5JqEIPFc0w
+ A/kQ==
+X-Gm-Message-State: AOAM530B+W/kVX8Nkk3mcnjxF/B9V3u7yFuQDQdSzYPmFgVHXfZGzYdt
+ Znnz6jF+JcBWwqh4e2k6Y7MUnjDOYzQGJg==
+X-Google-Smtp-Source: ABdhPJxNt669Tjr6bP7J0FuwqkmCVDGHJZ0/gjHVWDGn07eUbMmMzfLxVb+Jx0XLGj97708GOIwmSQ==
+X-Received: by 2002:a05:600c:3584:b0:38a:258:1d6c with SMTP id
+ p4-20020a05600c358400b0038a02581d6cmr16084019wmq.126.1647609803665; 
+ Fri, 18 Mar 2022 06:23:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  y15-20020a05600015cf00b00203e324347bsm6316599wry.102.2022.03.18.06.23.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Mar 2022 06:23:22 -0700 (PDT)
+ Fri, 18 Mar 2022 06:23:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/21] hw/arm/xlnx-zynqmp: Add an unimplemented SERDES area
-Date: Fri, 18 Mar 2022 13:22:58 +0000
-Message-Id: <20220318132306.3254960-14-peter.maydell@linaro.org>
+Subject: [PULL 14/21] target/arm: Make rvbar settable after realize
+Date: Fri, 18 Mar 2022 13:22:59 +0000
+Message-Id: <20220318132306.3254960-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220318132306.3254960-1-peter.maydell@linaro.org>
 References: <20220318132306.3254960-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,54 +95,112 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Add an unimplemented SERDES (Serializer/Deserializer) area.
+Make the rvbar property settable after realize. This is done
+in preparation to model the ZynqMP's runtime configurable rvbar.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20220316164645.2303510-2-edgar.iglesias@gmail.com
+Message-id: 20220316164645.2303510-3-edgar.iglesias@gmail.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/xlnx-zynqmp.h | 2 +-
- hw/arm/xlnx-zynqmp.c         | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ target/arm/cpu.h    |  3 ++-
+ target/arm/cpu.c    | 12 +++++++-----
+ target/arm/helper.c | 10 +++++++---
+ 3 files changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-index 9424f81c377..0552ba18b41 100644
---- a/include/hw/arm/xlnx-zynqmp.h
-+++ b/include/hw/arm/xlnx-zynqmp.h
-@@ -85,7 +85,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
- /*
-  * Unimplemented mmio regions needed to boot some images.
-  */
--#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
-+#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 2
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 157f214cce1..23879de5fa7 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -447,6 +447,7 @@ typedef struct CPUArchState {
+             uint64_t vbar_el[4];
+         };
+         uint32_t mvbar; /* (monitor) vector base address register */
++        uint64_t rvbar; /* rvbar sampled from rvbar property at reset */
+         struct { /* FCSE PID. */
+             uint32_t fcseidr_ns;
+             uint32_t fcseidr_s;
+@@ -985,7 +986,7 @@ struct ArchCPU {
  
- struct XlnxZynqMPState {
-     /*< private >*/
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 6d0e4116db7..47324cdc441 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -52,6 +52,10 @@
- #define QSPI_DMA_ADDR       0xff0f0800
- #define NUM_QSPI_IRQ_LINES  2
+     /* DCZ blocksize, in log_2(words), ie low 4 bits of DCZID_EL0 */
+     uint32_t dcz_blocksize;
+-    uint64_t rvbar;
++    uint64_t rvbar_prop; /* Property/input signals.  */
  
-+/* Serializer/Deserializer.  */
-+#define SERDES_ADDR         0xfd400000
-+#define SERDES_SIZE         0x20000
+     /* Configurable aspects of GIC cpu interface (which is part of the CPU) */
+     int gic_num_lrs; /* number of list registers */
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 498fb9f71b3..5d4ca7a2270 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -236,7 +236,10 @@ static void arm_cpu_reset(DeviceState *dev)
+         } else {
+             env->pstate = PSTATE_MODE_EL1h;
+         }
+-        env->pc = cpu->rvbar;
 +
- #define DP_ADDR             0xfd4a0000
- #define DP_IRQ              113
++        /* Sample rvbar at reset.  */
++        env->cp15.rvbar = cpu->rvbar_prop;
++        env->pc = env->cp15.rvbar;
+ #endif
+     } else {
+ #if defined(CONFIG_USER_ONLY)
+@@ -1135,9 +1138,6 @@ static Property arm_cpu_reset_cbar_property =
+ static Property arm_cpu_reset_hivecs_property =
+             DEFINE_PROP_BOOL("reset-hivecs", ARMCPU, reset_hivecs, false);
  
-@@ -284,6 +288,7 @@ static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
-         hwaddr size;
-     } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
-         { .name = "apu", APU_ADDR, APU_SIZE },
-+        { .name = "serdes", SERDES_ADDR, SERDES_SIZE },
-     };
-     unsigned int nr;
+-static Property arm_cpu_rvbar_property =
+-            DEFINE_PROP_UINT64("rvbar", ARMCPU, rvbar, 0);
+-
+ #ifndef CONFIG_USER_ONLY
+ static Property arm_cpu_has_el2_property =
+             DEFINE_PROP_BOOL("has_el2", ARMCPU, has_el2, true);
+@@ -1240,7 +1240,9 @@ void arm_cpu_post_init(Object *obj)
+     }
  
+     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_rvbar_property);
++        object_property_add_uint64_ptr(obj, "rvbar",
++                                       &cpu->rvbar_prop,
++                                       OBJ_PROP_FLAG_READWRITE);
+     }
+ 
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index b5c8caafe84..812ca591f4e 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7967,7 +7967,8 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             ARMCPRegInfo rvbar = {
+                 .name = "RVBAR_EL1", .state = ARM_CP_STATE_AA64,
+                 .opc0 = 3, .opc1 = 0, .crn = 12, .crm = 0, .opc2 = 1,
+-                .type = ARM_CP_CONST, .access = PL1_R, .resetvalue = cpu->rvbar
++                .access = PL1_R,
++                .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
+             };
+             define_one_arm_cp_reg(cpu, &rvbar);
+         }
+@@ -8011,7 +8012,8 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             ARMCPRegInfo rvbar = {
+                 .name = "RVBAR_EL2", .state = ARM_CP_STATE_AA64,
+                 .opc0 = 3, .opc1 = 4, .crn = 12, .crm = 0, .opc2 = 1,
+-                .type = ARM_CP_CONST, .access = PL2_R, .resetvalue = cpu->rvbar
++                .access = PL2_R,
++                .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
+             };
+             define_one_arm_cp_reg(cpu, &rvbar);
+         }
+@@ -8048,7 +8050,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         ARMCPRegInfo el3_regs[] = {
+             { .name = "RVBAR_EL3", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 6, .crn = 12, .crm = 0, .opc2 = 1,
+-              .type = ARM_CP_CONST, .access = PL3_R, .resetvalue = cpu->rvbar },
++              .access = PL3_R,
++              .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
++            },
+             { .name = "SCTLR_EL3", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 0, .opc2 = 0,
+               .access = PL3_RW,
 -- 
 2.25.1
 
