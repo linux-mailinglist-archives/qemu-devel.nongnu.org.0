@@ -2,98 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD7F4DE164
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 19:52:31 +0100 (CET)
-Received: from localhost ([::1]:53084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C2A4DE186
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 19:58:59 +0100 (CET)
+Received: from localhost ([::1]:35010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVHi9-0007Ud-PB
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 14:52:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37496)
+	id 1nVHoQ-0006Ew-0l
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 14:58:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nVHgN-0005oj-4s
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 14:50:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33308)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nVHl8-0003Su-AR; Fri, 18 Mar 2022 14:55:34 -0400
+Received: from mga05.intel.com ([192.55.52.43]:18114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nVHgK-0005qA-Aq
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 14:50:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647629435;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=snxCuBP7ov3HzGcCVWDs0TksZba20EVxw7Y+w17FS8U=;
- b=fi/eA4X3GBdEWVMN6eHB/kJo768q6WYg0uG3MrvdwEsvAkBdy+BGxFKCt3nQWYjNAstXHA
- R57krMS+6rCypOTNT0oFEgI8jUPso4FVrXd7jNYfp54MsSmMKnRDIchTrFENbOcoil+NzC
- 9P6RSt1JdLEtupIqUFp1Bp/k7pbq2l8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-V5sSy9krMaGC6an_iMMeXQ-1; Fri, 18 Mar 2022 14:50:34 -0400
-X-MC-Unique: V5sSy9krMaGC6an_iMMeXQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c126-20020a1c3584000000b00380dee8a62cso3381576wma.8
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 11:50:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=snxCuBP7ov3HzGcCVWDs0TksZba20EVxw7Y+w17FS8U=;
- b=flYYPRNBAYZH8rQA34bX2zO1SQqZelpIH5KeC+r6Pll4AtuEiRpDdZ1oZOkWQXAOjg
- 0+1vWNkUVqF1pfzMgxmFRgpN0FvL1GZ2TWhM2ZN9uxs+1c/3t6k1Ym0uCOgAD8+kCs9H
- 3Rn3tgadV+a2YoMN7lN8cQV+wFVIGJIaOlP2hhRvNBuYhSxI6Cfoga7Pr8MKNRZepSVL
- hwqdKB6W4+UvDVtQXi8jjwSU5AYX2x73eeCZXku3tO2VOIxlATxtA9ip+BG5yJZYg8XJ
- F9S6v4rXaFu+xC8gO3JPgc0Yos94N9kJC6PgBzaulZP38qxtnkkvjj0XcYiB/kF1IZLD
- ypSA==
-X-Gm-Message-State: AOAM530GOZrjBuQzy66Xo9LCSBp9uq+VQ56p0GyX84G0maoxqF8Qy/9L
- VNbXLWrfO8RSHApZmqgrhyCDhlFIW1E5VYrw8DeL8te+eJEHQsiE7+PGgZjegVxOlKYShHJmzpS
- hgwlixWbZX97l3Gw9e9cYqHUnTnttLdW4uctFIxinPi7u/UR/QAjZVeNiu4tYdbo=
-X-Received: by 2002:adf:fbc6:0:b0:203:8dff:f49e with SMTP id
- d6-20020adffbc6000000b002038dfff49emr8902208wrs.72.1647629432793; 
- Fri, 18 Mar 2022 11:50:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhtXC4AQXEZV23RgpcMIqVOUZdSKWaM0Rtaq6EmfWtAWgtffAzIT4t+2M4a3AgXsWe3y6z4Q==
-X-Received: by 2002:adf:fbc6:0:b0:203:8dff:f49e with SMTP id
- d6-20020adffbc6000000b002038dfff49emr8902176wrs.72.1647629432399; 
- Fri, 18 Mar 2022 11:50:32 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
- [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
- z18-20020adfec92000000b00203f04ed4a8sm3471085wrn.13.2022.03.18.11.50.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Mar 2022 11:50:31 -0700 (PDT)
-Message-ID: <0656151f-a76d-bdd2-cdc9-ea0d1543b0f9@redhat.com>
-Date: Fri, 18 Mar 2022 19:50:29 +0100
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nVHl6-0006W7-6M; Fri, 18 Mar 2022 14:55:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647629732; x=1679165732;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=o/4/FDJP2OjBsQvID1HEMg3IG3LIXiAC9LxJyfUZAdQ=;
+ b=GZ99AMFjAqAzGI8lKGxscB4a+S8MXl515obY12w8+PDs2hK5KrxxveB/
+ koeZHmRdq6CRHAuq7uq5s9cEmAz1G764XMEu3kmxSBPs8ECVTSbOvPacg
+ aUqkm8+Sbwflhybi1U0gOu59+4GM8Vm6yn610iIvgLNFEXyv/bljhBk/y
+ o9peVCNgoX9sflO1PCE9dahNgeqOJoud+/DAQNTak2ZvySOSUP9loQP00
+ TvvlsF0Tc9ZD1vPTFFqDzhQZB+U5HDCop/GPYlSwD2vkFeRLYqlEYoJb0
+ Fn5Y2AxBfI09+rdef/rJRkHh7QjqAEi+77ua86Cd0psNDDyIRtZJxNf5V A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10290"; a="343639656"
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="343639656"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2022 11:55:28 -0700
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="499352428"
+Received: from lmaniak-dev.elements.local ([10.55.249.72])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2022 11:55:24 -0700
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 00/12] hw/nvme: SR-IOV with Virtualization Enhancements
+Date: Fri, 18 Mar 2022 19:53:27 +0100
+Message-Id: <20220318185327.1666536-1-lukasz.maniak@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH-for-6.2 0/2] hw/block/fdc: Fix CVE-2021-3507
-To: qemu-devel@nongnu.org, f4bug@amsat.org, John Snow <jsnow@redhat.com>
-References: <20211118115733.4038610-1-philmd@redhat.com>
- <7153eadf-3c43-b62c-aaa1-919abf0634ca@redhat.com>
- <1c5dfae3-1c3c-bd2f-d2b5-06dbe75c04c8@redhat.com>
- <4df33af0-0a28-2e20-1909-25baf87d0565@redhat.com>
- <01a68a16-fa01-e7f3-4248-fdec6595cf74@redhat.com>
- <38386efc-1e83-63d4-703d-10c7650e7829@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <38386efc-1e83-63d4-703d-10c7650e7829@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: none client-ip=192.55.52.43;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga05.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,59 +68,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
- Darren Kenny <darren.kenny@oracle.com>, Jon Maloy <jmaloy@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, lukasz.maniak@linux.intel.com,
+ stefanha@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
+ k.jensen@samsung.com, armbru@redhat.com, f4bug@amsat.org, kbusch@kernel.org,
+ its@irrelevant.dk, hreitz@redhat.com, xypron.glpk@gmx.de,
+ lukasz.gieryk@linux.intel.com, ani@anisinha.ca, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/03/2022 18.53, Jon Maloy wrote:
-> 
-> On 3/10/22 12:14, Thomas Huth wrote:
->> On 06/02/2022 20.19, Jon Maloy wrote:
->>> Trying again with correct email address.
->>> ///jon
->>>
->>> On 2/6/22 14:15, Jon Maloy wrote:
->>>>
->>>>
->>>> On 1/27/22 15:14, Jon Maloy wrote:
->>>>>
->>>>> On 11/18/21 06:57, Philippe Mathieu-Daudé wrote:
->>>>>> Trivial fix for CVE-2021-3507.
->>>>>>
->>>>>> Philippe Mathieu-Daudé (2):
->>>>>>    hw/block/fdc: Prevent end-of-track overrun (CVE-2021-3507)
->>>>>>    tests/qtest/fdc-test: Add a regression test for CVE-2021-3507
->>>>>>
->>>>>>   hw/block/fdc.c         |  8 ++++++++
->>>>>>   tests/qtest/fdc-test.c | 20 ++++++++++++++++++++
->>>>>>   2 files changed, 28 insertions(+)
->>>>>>
->>>>> Series
->>>>> Acked-by: Jon Maloy <jmaloy@redhat.com>
->>>>
->>>> Philippe,
->>>> I hear from other sources that you earlier have qualified this one as 
->>>> "incomplete".
->>>> I am of course aware that this one, just like my own patch, is just a 
->>>> mitigation and not a complete correction of the erroneous calculation.
->>>> Or did you have anything else in mind?
->>
->> Any news on this one? It would be nice to get the CVE fixed for 7.0 ?
->>
->>  Thomas
->>
-> The ball is currently with John Snow, as I understand it.
-> The concern is that this fix may not take the driver back to a consistent 
-> state, so that we may have other problems later.
-> Maybe Philippe can chip in with a comment here?
+Changes since v5:
+- Fixed PCI hotplug issue related to deleting VF twice
+- Corrected error messages for SR-IOV parameters
+- Rebased on master, patches for PCI got pulled into the tree
+- Added Reviewed-by labels
 
-John, Philippe, any ideas how to move this forward?
+Lukasz Maniak (4):
+  hw/nvme: Add support for SR-IOV
+  hw/nvme: Add support for Primary Controller Capabilities
+  hw/nvme: Add support for Secondary Controller List
+  docs: Add documentation for SR-IOV and Virtualization Enhancements
 
-  Thomas
+Łukasz Gieryk (8):
+  hw/nvme: Implement the Function Level Reset
+  hw/nvme: Make max_ioqpairs and msix_qsize configurable in runtime
+  hw/nvme: Remove reg_size variable and update BAR0 size calculation
+  hw/nvme: Calculate BAR attributes in a function
+  hw/nvme: Initialize capability structures for primary/secondary
+    controllers
+  hw/nvme: Add support for the Virtualization Management command
+  hw/nvme: Update the initalization place for the AER queue
+  hw/acpi: Make the PCI hot-plug aware of SR-IOV
+
+ docs/system/devices/nvme.rst |  82 +++++
+ hw/acpi/pcihp.c              |   6 +-
+ hw/nvme/ctrl.c               | 673 ++++++++++++++++++++++++++++++++---
+ hw/nvme/ns.c                 |   2 +-
+ hw/nvme/nvme.h               |  55 ++-
+ hw/nvme/subsys.c             |  75 +++-
+ hw/nvme/trace-events         |   6 +
+ include/block/nvme.h         |  65 ++++
+ include/hw/pci/pci_ids.h     |   1 +
+ 9 files changed, 909 insertions(+), 56 deletions(-)
+
+-- 
+2.25.1
 
 
