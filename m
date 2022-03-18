@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923AD4DE121
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 19:37:43 +0100 (CET)
-Received: from localhost ([::1]:39790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714FE4DE13F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 19:40:57 +0100 (CET)
+Received: from localhost ([::1]:42988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVHTq-0005VO-4y
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 14:37:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34824)
+	id 1nVHWy-0007kC-Ix
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 14:40:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nVHS9-00048U-KH
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 14:35:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32730)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nVHV1-0006VJ-SP
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 14:38:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nVHS4-0003lL-QZ
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 14:35:55 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nVHV0-00042W-6h
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 14:38:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647628547;
+ s=mimecast20190719; t=1647628733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vdJ4W8rN8QSBpfYdvlh21/MMF776llFydmTZ8icpDII=;
- b=PQy3ie2i5vChQQ6/oW94zNNKE0oHHdn8YYmOrj7r+gyzUang2edTuDRs/O9mf0Ll63+8lB
- lOvQIy0w0OMztuGuOdXpth0+kxDX81HxJ0nS0Kj0We0wA9NqkCNlZOf+OnP9n9mbgWSHmO
- +qYDezrRhrCLSnD75k3+NqcQhhf9FUU=
+ bh=q9vq172mxRtwNwXTPUzfXS+pDY5DpYB6lzoEZz6DQog=;
+ b=PWENbWAPvY/Mz9hL5CVSC8OkGZbHkWh/crynVFj/wrqumikxz3WfMlQmCPpQVAVwad05IN
+ arDvU5BOk+QfB/3SfCelajEhWjGqvFZsTJ4sWXBgTYNalcL9sIImcBPR/Hh7pMtnRwO793
+ TZwoIbZrfadQMUvBiQyk/zwyNyv+KPA=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-115-TdPC1s2sPYaNbXYMDDS7gQ-1; Fri, 18 Mar 2022 14:35:46 -0400
-X-MC-Unique: TdPC1s2sPYaNbXYMDDS7gQ-1
+ us-mta-314-YoiuzckoMCS3tElOSEXEcw-1; Fri, 18 Mar 2022 14:38:50 -0400
+X-MC-Unique: YoiuzckoMCS3tElOSEXEcw-1
 Received: by mail-wm1-f71.google.com with SMTP id
- h127-20020a1c2185000000b0038c6f7e22a4so4207942wmh.9
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 11:35:46 -0700 (PDT)
+ c126-20020a1c3584000000b00380dee8a62cso3370153wma.8
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 11:38:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vdJ4W8rN8QSBpfYdvlh21/MMF776llFydmTZ8icpDII=;
- b=tfJV180cvUz6lx7hJklY1KLZBYiL5T9RYp18rZRJBfni5tj0eDckBSSFcB+bfjIL9+
- 3pVERIo8KE8cKKZuQwMdkkllA+IflwoS1CqeR/w/kY4PLr0jOdzcHgSnq+fFnBfclm2S
- g7xvPFlrDl9Gk6fcDgSGFapFlc7d1PRJzej5m/R0BMPuz/YIKpouLVFhBIUd6tuBu4QY
- 9b7St6FFqsqUJSsvav4AyVGP+UYNWOMw8BnuXQxhoZmdFFLZgXC3lSRMIduUIQill5zW
- 9vAYX4XYlju8WdMkXkMOWipv4tBxg3nR/PTtr5uxBKftTC8K10KqkY8k8OIm8Bi1Edis
- ijCg==
-X-Gm-Message-State: AOAM532NbExVOLdyP7hqrkcmTc2vtvwoXuBHu1vbuq8wVNlSIMww9iP2
- m9SeLAYwhp9FOXUsO3yM2SiBlhCig8gCoJhaqVha//5shuf2rZGZabB37I9bh3fZNzzuqvqrq94
- LyOM3f+OVNTU4o3RzHEyIJFgk7JmnE9Hvk43y3XD6O2Gmxd4PROsNNY/sL1m3wmk=
-X-Received: by 2002:a7b:c40f:0:b0:389:f3ad:5166 with SMTP id
- k15-20020a7bc40f000000b00389f3ad5166mr9188393wmi.63.1647628544924; 
- Fri, 18 Mar 2022 11:35:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzhLKUx4ZMIGMkZUdtLO6tr0xt/NTfA8yla/kpyVF7/FEZKEIEjAeixNF99s4C7eyVVEnJmRA==
-X-Received: by 2002:a7b:c40f:0:b0:389:f3ad:5166 with SMTP id
- k15-20020a7bc40f000000b00389f3ad5166mr9188350wmi.63.1647628544425; 
- Fri, 18 Mar 2022 11:35:44 -0700 (PDT)
+ bh=q9vq172mxRtwNwXTPUzfXS+pDY5DpYB6lzoEZz6DQog=;
+ b=Y78qXDRbi//uzgpV+aeLGzjTBFjYa/8K3cNxTcr3vqaLafueT+lfnXVPmTbVpJL43/
+ QRry7ejJuTCtFyTRDj4MFSnXEgNr7TRSHQjLBmStvqq83eZAD2uY5MFw0lKxQdirNXrs
+ NKNXkAEGYPQ9KrC7TYzRdLQjgcStvsSG0gbFJFrtFbWQOzGb3f6uqlGCpJ+BwyAMu0MS
+ chPywgfocKWJbJ1mvmX673mPPUUiqvj+Jcb1TOVScC60tqUzu0q82PSILz1NdcMNpeXT
+ p6qcyp5x05ZUjA1icm0gX/5hy/52mhbp61PG6Uxgyd6mrzpgSiXnaITxRLa07HigfJdw
+ BDfw==
+X-Gm-Message-State: AOAM533IMbssNPloub9p85+oVO1zymJuAbB98bMmZ1VFbBBrc/tX6xzi
+ ayB5AcZKXdMDUp7ZwQvac65g6NPj+ZZX6sQuyL/2+Jx5D2AQznC+JJcn5AWlLzqqeVG+/kpfGO5
+ bfkaKiOjqAWHRy08sD29Dn36XxANvxUp/mC0G8C5Lq594MWYYngReULPUj/2mJWE=
+X-Received: by 2002:a05:6000:128f:b0:1f1:e586:87af with SMTP id
+ f15-20020a056000128f00b001f1e58687afmr9120468wrx.222.1647628729298; 
+ Fri, 18 Mar 2022 11:38:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/WrueNBOMSvMNqRIlQWfOVeucsUNsd/EP/ADs2DHhGpdZ+C+DGdXT/G3BAzKksek+kF8UlQ==
+X-Received: by 2002:a05:6000:128f:b0:1f1:e586:87af with SMTP id
+ f15-20020a056000128f00b001f1e58687afmr9120417wrx.222.1647628728745; 
+ Fri, 18 Mar 2022 11:38:48 -0700 (PDT)
 Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
  [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
- j17-20020a05600c191100b00389a1a68b95sm19426377wmq.27.2022.03.18.11.35.42
+ o12-20020adfa10c000000b001efb97fae48sm7178268wro.80.2022.03.18.11.38.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Mar 2022 11:35:43 -0700 (PDT)
-Message-ID: <44a2aec2-93ea-ab57-e1b1-2a47bd91e262@redhat.com>
-Date: Fri, 18 Mar 2022 19:35:40 +0100
+ Fri, 18 Mar 2022 11:38:47 -0700 (PDT)
+Message-ID: <cdf34ed8-a6bc-946f-a254-4b736fff3ff1@redhat.com>
+Date: Fri, 18 Mar 2022 19:38:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [RFC PATCH 1/3] hw/sd/sdhci: Honor failed DMA transactions
-To: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Bin Meng <bin.meng@windriver.com>
+Subject: Re: [RFC PATCH 2/3] hw/sd/sdhci: Prohibit DMA accesses to devices
+To: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ Bin Meng <bin.meng@windriver.com>
 References: <20211215205656.488940-1-philmd@redhat.com>
- <20211215205656.488940-2-philmd@redhat.com>
+ <20211215205656.488940-3-philmd@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20211215205656.488940-2-philmd@redhat.com>
+In-Reply-To: <20211215205656.488940-3-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,16 +82,16 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,90 +120,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 15/12/2021 21.56, Philippe Mathieu-Daudé wrote:
 > From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> DMA transactions might fail. The DMA API returns a MemTxResult,
-> indicating such failures. Do not ignore it. On failure, raise
-> the ADMA error flag and eventually triggering an IRQ (see spec
-> chapter 1.13.5: "ADMA2 States").
+> The issue reported by OSS-Fuzz produces the following backtrace:
 > 
+>    ==447470==ERROR: AddressSanitizer: heap-buffer-overflow
+>    READ of size 1 at 0x61500002a080 thread T0
+>        #0 0x71766d47 in sdhci_read_dataport hw/sd/sdhci.c:474:18
+>        #1 0x7175f139 in sdhci_read hw/sd/sdhci.c:1022:19
+>        #2 0x721b937b in memory_region_read_accessor softmmu/memory.c:440:11
+>        #3 0x72171e51 in access_with_adjusted_size softmmu/memory.c:554:18
+>        #4 0x7216f47c in memory_region_dispatch_read1 softmmu/memory.c:1424:16
+>        #5 0x7216ebb9 in memory_region_dispatch_read softmmu/memory.c:1452:9
+>        #6 0x7212db5d in flatview_read_continue softmmu/physmem.c:2879:23
+>        #7 0x7212f958 in flatview_read softmmu/physmem.c:2921:12
+>        #8 0x7212f418 in address_space_read_full softmmu/physmem.c:2934:18
+>        #9 0x721305a9 in address_space_rw softmmu/physmem.c:2962:16
+>        #10 0x7175a392 in dma_memory_rw_relaxed include/sysemu/dma.h:89:12
+>        #11 0x7175a0ea in dma_memory_rw include/sysemu/dma.h:132:12
+>        #12 0x71759684 in dma_memory_read include/sysemu/dma.h:152:12
+>        #13 0x7175518c in sdhci_do_adma hw/sd/sdhci.c:823:27
+>        #14 0x7174bf69 in sdhci_data_transfer hw/sd/sdhci.c:935:13
+>        #15 0x7176aaa7 in sdhci_send_command hw/sd/sdhci.c:376:9
+>        #16 0x717629ee in sdhci_write hw/sd/sdhci.c:1212:9
+>        #17 0x72172513 in memory_region_write_accessor softmmu/memory.c:492:5
+>        #18 0x72171e51 in access_with_adjusted_size softmmu/memory.c:554:18
+>        #19 0x72170766 in memory_region_dispatch_write softmmu/memory.c:1504:16
+>        #20 0x721419ee in flatview_write_continue softmmu/physmem.c:2812:23
+>        #21 0x721301eb in flatview_write softmmu/physmem.c:2854:12
+>        #22 0x7212fca8 in address_space_write softmmu/physmem.c:2950:18
+>        #23 0x721d9a53 in qtest_process_command softmmu/qtest.c:727:9
+> 
+> A DMA descriptor is previously filled in RAM. An I/O access to the
+> device (frames #22 to #16) start the DMA engine (frame #13). The
+> engine fetch the descriptor and execute the request, which itself
+> accesses the SDHCI I/O registers (frame #1 and #0), triggering a
+> re-entrancy issue.
+> 
+> Fix by prohibit transactions from the DMA to devices. The DMA engine
+> is thus restricted to memories.
+> 
+> Reported-by: OSS-Fuzz (Issue 36391)
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/451
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   hw/sd/sdhci.c | 34 +++++++++++++++++++++++++---------
->   1 file changed, 25 insertions(+), 9 deletions(-)
+>   hw/sd/sdhci.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 > 
 > diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-> index e0bbc903446..fe2f21f0c37 100644
+> index fe2f21f0c37..0e5e988927e 100644
 > --- a/hw/sd/sdhci.c
 > +++ b/hw/sd/sdhci.c
-> @@ -742,6 +742,7 @@ static void sdhci_do_adma(SDHCIState *s)
+> @@ -741,6 +741,7 @@ static void sdhci_do_adma(SDHCIState *s)
+>   {
 >       unsigned int begin, length;
 >       const uint16_t block_size = s->blksize & BLOCK_SIZE_MASK;
+> +    const MemTxAttrs attrs = { .memory = true };
 >       ADMADescr dscr = {};
-> +    MemTxResult res;
+>       MemTxResult res;
 >       int i;
->   
->       if (s->trnmod & SDHC_TRNS_BLK_CNT_EN && !s->blkcnt) {
-> @@ -790,10 +791,13 @@ static void sdhci_do_adma(SDHCIState *s)
->                           s->data_count = block_size;
->                           length -= block_size - begin;
+> @@ -794,7 +795,7 @@ static void sdhci_do_adma(SDHCIState *s)
+>                       res = dma_memory_write(s->dma_as, dscr.addr,
+>                                              &s->fifo_buffer[begin],
+>                                              s->data_count - begin,
+> -                                           MEMTXATTRS_UNSPECIFIED);
+> +                                           attrs);
+>                       if (res != MEMTX_OK) {
+>                           break;
 >                       }
-> -                    dma_memory_write(s->dma_as, dscr.addr,
-> -                                     &s->fifo_buffer[begin],
-> -                                     s->data_count - begin,
-> -                                     MEMTXATTRS_UNSPECIFIED);
-> +                    res = dma_memory_write(s->dma_as, dscr.addr,
-> +                                           &s->fifo_buffer[begin],
-> +                                           s->data_count - begin,
-> +                                           MEMTXATTRS_UNSPECIFIED);
-> +                    if (res != MEMTX_OK) {
-> +                        break;
-> +                    }
->                       dscr.addr += s->data_count - begin;
->                       if (s->data_count == block_size) {
->                           s->data_count = 0;
-> @@ -816,10 +820,13 @@ static void sdhci_do_adma(SDHCIState *s)
->                           s->data_count = block_size;
->                           length -= block_size - begin;
+> @@ -823,7 +824,7 @@ static void sdhci_do_adma(SDHCIState *s)
+>                       res = dma_memory_read(s->dma_as, dscr.addr,
+>                                             &s->fifo_buffer[begin],
+>                                             s->data_count - begin,
+> -                                          MEMTXATTRS_UNSPECIFIED);
+> +                                          attrs);
+>                       if (res != MEMTX_OK) {
+>                           break;
 >                       }
-> -                    dma_memory_read(s->dma_as, dscr.addr,
-> -                                    &s->fifo_buffer[begin],
-> -                                    s->data_count - begin,
-> -                                    MEMTXATTRS_UNSPECIFIED);
-> +                    res = dma_memory_read(s->dma_as, dscr.addr,
-> +                                          &s->fifo_buffer[begin],
-> +                                          s->data_count - begin,
-> +                                          MEMTXATTRS_UNSPECIFIED);
-> +                    if (res != MEMTX_OK) {
-> +                        break;
-> +                    }
->                       dscr.addr += s->data_count - begin;
->                       if (s->data_count == block_size) {
->                           sdbus_write_data(&s->sdbus, s->fifo_buffer, block_size);
-> @@ -833,7 +840,16 @@ static void sdhci_do_adma(SDHCIState *s)
->                       }
->                   }
->               }
-> -            s->admasysaddr += dscr.incr;
-> +            if (res != MEMTX_OK) {
-> +                if (s->errintstsen & SDHC_EISEN_ADMAERR) {
-> +                    trace_sdhci_error("Set ADMA error flag");
-> +                    s->errintsts |= SDHC_EIS_ADMAERR;
-> +                    s->norintsts |= SDHC_NIS_ERR;
-> +                }
-> +                sdhci_update_irq(s);
-> +            } else {
-> +                s->admasysaddr += dscr.incr;
-> +            }
->               break;
->           case SDHC_ADMA_ATTR_ACT_LINK:   /* link to next descriptor table */
->               s->admasysaddr = dscr.addr;
 
-Patch looks sane to me:
+Looks sane to me!
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-
-Are you still considering it or did you drop this from your TODO list? 
-(since it was just marked as RFC?)
-
-  Thomas
 
 
