@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91994DDAAD
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:38:23 +0100 (CET)
-Received: from localhost ([::1]:57882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D794DDA9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:34:10 +0100 (CET)
+Received: from localhost ([::1]:44192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVCoA-0006dd-TX
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:38:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46188)
+	id 1nVCk5-0005r8-VK
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:34:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVCZh-0006cI-7m
+ id 1nVCZh-0006eh-VH
  for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:25 -0400
-Received: from [2a00:1450:4864:20::433] (port=44830
- helo=mail-wr1-x433.google.com)
+Received: from [2a00:1450:4864:20::336] (port=46781
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVCZf-0002CH-Hy
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:24 -0400
-Received: by mail-wr1-x433.google.com with SMTP id b19so11706660wrh.11
+ id 1nVCZg-0002CV-8n
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:25 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ p184-20020a1c29c1000000b0037f76d8b484so4779166wmp.5
  for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 06:23:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=BdSqB/hxDC2NJFyRoZAEcCAYDQy1ee8PfJktNbNz4sU=;
- b=xMbYwIsKRiGpbPJN6kwPkm6m+Gi/7F2SpZV0C1BUV0lxHW+o/jWBzMPk95wXmae8Z1
- K/27gbOmmVnM+lUK3SHi6Ycil9HKgQaEdfobiKr4J/5b509WCdLLmlzG/q0fUMm53qYz
- SRPGzx5XDO3R9P4+VwjmWSMvJuNTjIe4kJAjXZAjgWJ6MRJwg5xx8ULvSU30h8+IofhO
- CvkEhQ/tCb0b/y8+QstUwy4DMUmVpYJsiKAjBLPobOxFRT/KAmO4IHkG6FdeMCo8x3rt
- /Ox2LDt9JUfO8xOmfS+nrewsPhC6zpiI/gFDAmP1ScxdQrW2c3K7OQ1Kc7WUlMK0BDu1
- k3rA==
+ bh=skh7ZtJM7j+brlaef0ORPlmyZxfZeY2D1B+dwRbY6ME=;
+ b=l/gtrMwX1wFNaIiBvsPsebThq51ArwbZpQosJ5s3AEuYRBtHrPy6oTfgaSuOoW5M04
+ 5oxexEblsKNHSQn86qOf7r6VhmjMheikZe5rGeJx6oaQZoVAZ0TZIdJZgWd3Y0PKBIoz
+ cyok2D84Iyd4Qo0m+Kn9jiQE4EkpzPjTQoDgHefu+ixsn17AXHiFTHFDYIlIrM0oQOoG
+ xn/gyEuaRQho1lUTao/74XaX8D5/BimBDRGZmnmutAg1wwB6lkG35d6ab5WBVtFMtBV6
+ F2ykkVO8MoZqjEYWxWSKFSE3So4D8Pos9Xjx1k9w8+lRyBOVs2BnGu+gTLTeV+jgrsoz
+ ANWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BdSqB/hxDC2NJFyRoZAEcCAYDQy1ee8PfJktNbNz4sU=;
- b=7S3HNmSu/lXIlmSO+GytJgnWX5Q0CxQVFUnP7g95R2tXEfYJY3TSIcjVrBh4uuZb+7
- 560LYMdyA+X0dWcwL23R22ujGMoL0vc9TxBXtnKEMT+iYPs38SZjQCKXMzQmrkuyIf7g
- QahnN9/DM0a4flmwaNIc8qoYgckIef54tSXFk0OGRpa2sjk8lWYx2z3RvmUcHzL2TUfG
- vuFdFNYEmhVvJbkj+KndGIljdNxqhO4dawln4MukLkUT+h+Mo2UaHO6SFb5wmWDoXpRO
- t7aUHLY0QaV+X9Xn+F9VBznZbuhrx4IAaJepat49lSRQJlbc04PaYU89vTnNoqZ12BiG
- xcVw==
-X-Gm-Message-State: AOAM5310OYkzrNpltn62m3Vj8X9WIa0WftBfAAkDN9Op0Vj7vi7uOwai
- YygCU+qy3l141EIU18ox2LsyC0CcTQtCiA==
-X-Google-Smtp-Source: ABdhPJxfFmyNCDbhven6Hsl4+d5OxAhErrGo9+cDubuJa9c0jft1hzBMF6hlAybZi5z0GVHXQgoqGg==
-X-Received: by 2002:adf:a35e:0:b0:1f0:9f2:a65e with SMTP id
- d30-20020adfa35e000000b001f009f2a65emr8094244wrb.535.1647609802121; 
+ bh=skh7ZtJM7j+brlaef0ORPlmyZxfZeY2D1B+dwRbY6ME=;
+ b=BJAoyx7N/vtYn7D4BuaF7uzHEFNi5lDJA1Du4c2Ty+30xKnccTN/L6Dhnp2SOOg9HL
+ 90x0LchIBsj+yR6i9PAXAYYKU0ZBmBrhnPU7CzRfIBp6f4yfgZR0FjW1FU8sbbvKl8QQ
+ HTLcGOWJ1FZgQIMFvEJiGvnULp80f5LO3s3DfDQusjZGQP6khb4stqUfDBdT6uSa1X9F
+ kqbzFssK0j3+4gYViJhhaF0WFDAs97Pok6JMBCJnFqyUyLEziOFztbjJyJJz+i9yrAkz
+ yA13K1RyeyGQ9ipsIzFz0x1visnaBMQDnZ0Dg1KKdkLFAcc5z5O4yutfvcz3I3im4iXN
+ IHOA==
+X-Gm-Message-State: AOAM531etUm5Yc2P4uWQmVNRflkcNugBnsho8AV7PFP7pinnoxf0yhth
+ 35+NKC3JJLBDcgviG24lKwo0eaokdXsqQw==
+X-Google-Smtp-Source: ABdhPJzSLCWieR3a9cvO3gB83+RbYT515kcW9v2C2PzJ5UtnwwyziakTnk1vYR5tfsRRkkl/t2Lgxg==
+X-Received: by 2002:a7b:cb83:0:b0:37e:bc50:3c6b with SMTP id
+ m3-20020a7bcb83000000b0037ebc503c6bmr15830209wmi.67.1647609802873; 
  Fri, 18 Mar 2022 06:23:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- y15-20020a05600015cf00b00203e324347bsm6316599wry.102.2022.03.18.06.23.21
+ y15-20020a05600015cf00b00203e324347bsm6316599wry.102.2022.03.18.06.23.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Mar 2022 06:23:21 -0700 (PDT)
+ Fri, 18 Mar 2022 06:23:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/21] target/arm: Log fault address for M-profile faults
-Date: Fri, 18 Mar 2022 13:22:57 +0000
-Message-Id: <20220318132306.3254960-13-peter.maydell@linaro.org>
+Subject: [PULL 13/21] hw/arm/xlnx-zynqmp: Add an unimplemented SERDES area
+Date: Fri, 18 Mar 2022 13:22:58 +0000
+Message-Id: <20220318132306.3254960-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220318132306.3254960-1-peter.maydell@linaro.org>
 References: <20220318132306.3254960-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,40 +94,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For M-profile, the fault address is not always exposed to the guest
-in a fault register (for instance the BFAR bus fault address register
-is only updated for bus faults on data accesses, not instruction
-accesses).  Currently we log the address only if we're putting it
-into a particular guest-visible register.  Since we always have it,
-log it generically, to make logs of i-side faults a bit clearer.
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Add an unimplemented SERDES (Serializer/Deserializer) area.
+
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20220315204306.2797684-3-peter.maydell@linaro.org
+Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Message-id: 20220316164645.2303510-2-edgar.iglesias@gmail.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/m_helper.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/hw/arm/xlnx-zynqmp.h | 2 +-
+ hw/arm/xlnx-zynqmp.c         | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 3bd16c0c465..b7a0fe01141 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -2272,7 +2272,13 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
-          * Note that for M profile we don't have a guest facing FSR, but
-          * the env->exception.fsr will be populated by the code that
-          * raises the fault, in the A profile short-descriptor format.
-+         *
-+         * Log the exception.vaddress now regardless of subtype, because
-+         * logging below only logs it when it goes into a guest visible
-+         * register.
-          */
-+        qemu_log_mask(CPU_LOG_INT, "...at fault address 0x%x\n",
-+                      (uint32_t)env->exception.vaddress);
-         switch (env->exception.fsr & 0xf) {
-         case M_FAKE_FSR_NSC_EXEC:
-             /*
+diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+index 9424f81c377..0552ba18b41 100644
+--- a/include/hw/arm/xlnx-zynqmp.h
++++ b/include/hw/arm/xlnx-zynqmp.h
+@@ -85,7 +85,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+ /*
+  * Unimplemented mmio regions needed to boot some images.
+  */
+-#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
++#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 2
+ 
+ struct XlnxZynqMPState {
+     /*< private >*/
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index 6d0e4116db7..47324cdc441 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -52,6 +52,10 @@
+ #define QSPI_DMA_ADDR       0xff0f0800
+ #define NUM_QSPI_IRQ_LINES  2
+ 
++/* Serializer/Deserializer.  */
++#define SERDES_ADDR         0xfd400000
++#define SERDES_SIZE         0x20000
++
+ #define DP_ADDR             0xfd4a0000
+ #define DP_IRQ              113
+ 
+@@ -284,6 +288,7 @@ static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
+         hwaddr size;
+     } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
+         { .name = "apu", APU_ADDR, APU_SIZE },
++        { .name = "serdes", SERDES_ADDR, SERDES_SIZE },
+     };
+     unsigned int nr;
+ 
 -- 
 2.25.1
 
