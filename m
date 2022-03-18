@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401474DE2E3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 21:52:14 +0100 (CET)
-Received: from localhost ([::1]:33190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D984F4DE2C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 21:46:08 +0100 (CET)
+Received: from localhost ([::1]:44456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVJa1-0005Ls-CE
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 16:52:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57682)
+	id 1nVJU7-00023K-Ua
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 16:46:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLQ-0002Wy-Gk
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLQ-0002Wz-H3
  for qemu-devel@nongnu.org; Fri, 18 Mar 2022 16:37:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58873)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLK-0005Yb-7r
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLK-0005Yk-CZ
  for qemu-devel@nongnu.org; Fri, 18 Mar 2022 16:37:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1647635821;
@@ -23,29 +23,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=97D4Idh/djdPoW1N9ZTKA71f6UmfRm1Hbv4LkFpvs0s=;
- b=L2A88HGaudgf6tlUm/P6wmTtfnSz4UxiYNHdiwKpcpu6rsVPWLgOHbqIpK5NoyfmCzoH8l
- rKL8mDzuse+ifPllpFVX3JSMXymEIGm/RM1hhrJaTaabUIQboEcaJCqNEWbxzi1x3FEfPC
- YQ74Wb95SCBuHZ7NpR4QSfwJilw0Jw4=
+ bh=l8RXLOLugEcJ24QsV9+uRJHuw3V8Sk3+hI/0hns61nI=;
+ b=aj2zdvs7Hf48AM7SmeTGsUnUdTEvIyhlai/SkuF1H0OVDAsFRLZqUpoUPFuVFO9oIN+lYp
+ 6JeNzMOZAAH50audfGT3SGdinvg41aFBjeFBx/dT94Co8n2Rz7hsxW949ZqWUntatYGuX6
+ Ngt5DSgG6Md4dFwjGnpTVCVfeC2FX6s=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-A_Rcp6wVPF6Zh7m2GzwsQg-1; Fri, 18 Mar 2022 16:36:58 -0400
-X-MC-Unique: A_Rcp6wVPF6Zh7m2GzwsQg-1
+ us-mta-152-lxLDbBMUNmeXoai5TTIdIw-1; Fri, 18 Mar 2022 16:36:58 -0400
+X-MC-Unique: lxLDbBMUNmeXoai5TTIdIw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1967A1C05ED6;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 773D33800E9C;
  Fri, 18 Mar 2022 20:36:58 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.8.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE2D0403373;
- Fri, 18 Mar 2022 20:36:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 34CCB403373;
+ Fri, 18 Mar 2022 20:36:58 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/15] iotests/030: fixup
-Date: Fri, 18 Mar 2022 16:36:47 -0400
-Message-Id: <20220318203655.676907-8-jsnow@redhat.com>
+Subject: [PATCH 08/15] iotests/149: fixup
+Date: Fri, 18 Mar 2022 16:36:48 -0400
+Message-Id: <20220318203655.676907-9-jsnow@redhat.com>
 In-Reply-To: <20220318203655.676907-1-jsnow@redhat.com>
 References: <20220318203655.676907-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,186 +85,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 (Merge into prior patch.)
 
+Notes: I don't quite like this change, but I'm at a loss for what would
+be cleaner. This is a funky test.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/030 | 85 ++++++++++++++++++++++++------------------
- 1 file changed, 49 insertions(+), 36 deletions(-)
+ tests/qemu-iotests/149 | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index 567bf1da67..3a2de920a3 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -64,16 +64,18 @@ class TestSingleDrive(iotests.QMPTestCase):
-         self.assert_no_active_block_jobs()
-         self.vm.shutdown()
+diff --git a/tests/qemu-iotests/149 b/tests/qemu-iotests/149
+index 9bb96d6a1d..2ae318f16f 100755
+--- a/tests/qemu-iotests/149
++++ b/tests/qemu-iotests/149
+@@ -295,7 +295,8 @@ def qemu_io_write_pattern(config, pattern, offset_mb, size_mb, dev=False):
+     args = ["-c", "write -P 0x%x %dM %dM" % (pattern, offset_mb, size_mb)]
+     args.extend(qemu_io_image_args(config, dev))
+     iotests.log("qemu-io " + " ".join(args), filters=[iotests.filter_test_dir])
+-    iotests.log(check_cipher_support(config, iotests.qemu_io(*args)),
++    output = iotests.qemu_io(*args, check=False).stdout
++    iotests.log(check_cipher_support(config, output),
+                 filters=[iotests.filter_test_dir, iotests.filter_qemu_io])
  
--        self.assertEqual(qemu_io('-f', 'raw', '-c', 'map', backing_img),
--                         qemu_io('-f', iotests.imgfmt, '-c', 'map', test_img),
--                         'image file map does not match backing file after streaming')
-+        self.assertEqual(
-+            qemu_io('-f', 'raw', '-c', 'map', backing_img).stdout,
-+            qemu_io('-f', iotests.imgfmt, '-c', 'map', test_img).stdout,
-+            'image file map does not match backing file after streaming')
  
-     def test_stream_intermediate(self):
-         self.assert_no_active_block_jobs()
+@@ -307,7 +308,8 @@ def qemu_io_read_pattern(config, pattern, offset_mb, size_mb, dev=False):
+     args = ["-c", "read -P 0x%x %dM %dM" % (pattern, offset_mb, size_mb)]
+     args.extend(qemu_io_image_args(config, dev))
+     iotests.log("qemu-io " + " ".join(args), filters=[iotests.filter_test_dir])
+-    iotests.log(check_cipher_support(config, iotests.qemu_io(*args)),
++    output = iotests.qemu_io(*args, check=False).stdout
++    iotests.log(check_cipher_support(config, output),
+                 filters=[iotests.filter_test_dir, iotests.filter_qemu_io])
  
--        self.assertNotEqual(qemu_io('-f', 'raw', '-rU', '-c', 'map', backing_img),
--                            qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', mid_img),
--                            'image file map matches backing file before streaming')
-+        self.assertNotEqual(
-+            qemu_io('-f', 'raw', '-rU', '-c', 'map', backing_img).stdout,
-+            qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', mid_img).stdout,
-+            'image file map matches backing file before streaming')
  
-         result = self.vm.qmp('block-stream', device='mid', job_id='stream-mid')
-         self.assert_qmp(result, 'return', {})
-@@ -83,9 +85,10 @@ class TestSingleDrive(iotests.QMPTestCase):
-         self.assert_no_active_block_jobs()
-         self.vm.shutdown()
- 
--        self.assertEqual(qemu_io('-f', 'raw', '-c', 'map', backing_img),
--                         qemu_io('-f', iotests.imgfmt, '-c', 'map', mid_img),
--                         'image file map does not match backing file after streaming')
-+        self.assertEqual(
-+            qemu_io('-f', 'raw', '-c', 'map', backing_img).stdout,
-+            qemu_io('-f', iotests.imgfmt, '-c', 'map', mid_img).stdout,
-+            'image file map does not match backing file after streaming')
- 
-     def test_stream_pause(self):
-         self.assert_no_active_block_jobs()
-@@ -113,15 +116,17 @@ class TestSingleDrive(iotests.QMPTestCase):
-         self.assert_no_active_block_jobs()
-         self.vm.shutdown()
- 
--        self.assertEqual(qemu_io('-f', 'raw', '-c', 'map', backing_img),
--                         qemu_io('-f', iotests.imgfmt, '-c', 'map', test_img),
--                         'image file map does not match backing file after streaming')
-+        self.assertEqual(
-+            qemu_io('-f', 'raw', '-c', 'map', backing_img).stdout,
-+            qemu_io('-f', iotests.imgfmt, '-c', 'map', test_img).stdout,
-+            'image file map does not match backing file after streaming')
- 
-     def test_stream_no_op(self):
-         self.assert_no_active_block_jobs()
- 
-         # The image map is empty before the operation
--        empty_map = qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', test_img)
-+        empty_map = qemu_io(
-+            '-f', iotests.imgfmt, '-rU', '-c', 'map', test_img).stdout
- 
-         # This is a no-op: no data should ever be copied from the base image
-         result = self.vm.qmp('block-stream', device='drive0', base=mid_img)
-@@ -132,8 +137,9 @@ class TestSingleDrive(iotests.QMPTestCase):
-         self.assert_no_active_block_jobs()
-         self.vm.shutdown()
- 
--        self.assertEqual(qemu_io('-f', iotests.imgfmt, '-c', 'map', test_img),
--                         empty_map, 'image file map changed after a no-op')
-+        self.assertEqual(
-+            qemu_io('-f', iotests.imgfmt, '-c', 'map', test_img).stdout,
-+            empty_map, 'image file map changed after a no-op')
- 
-     def test_stream_partial(self):
-         self.assert_no_active_block_jobs()
-@@ -146,9 +152,10 @@ class TestSingleDrive(iotests.QMPTestCase):
-         self.assert_no_active_block_jobs()
-         self.vm.shutdown()
- 
--        self.assertEqual(qemu_io('-f', iotests.imgfmt, '-c', 'map', mid_img),
--                         qemu_io('-f', iotests.imgfmt, '-c', 'map', test_img),
--                         'image file map does not match backing file after streaming')
-+        self.assertEqual(
-+            qemu_io('-f', iotests.imgfmt, '-c', 'map', mid_img).stdout,
-+            qemu_io('-f', iotests.imgfmt, '-c', 'map', test_img).stdout,
-+            'image file map does not match backing file after streaming')
- 
-     def test_device_not_found(self):
-         result = self.vm.qmp('block-stream', device='nonexistent')
-@@ -236,9 +243,10 @@ class TestParallelOps(iotests.QMPTestCase):
- 
-         # Check that the maps don't match before the streaming operations
-         for i in range(2, self.num_imgs, 2):
--            self.assertNotEqual(qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i]),
--                                qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i-1]),
--                                'image file map matches backing file before streaming')
-+            self.assertNotEqual(
-+                qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i]).stdout,
-+                qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i-1]).stdout,
-+                'image file map matches backing file before streaming')
- 
-         # Create all streaming jobs
-         pending_jobs = []
-@@ -278,9 +286,10 @@ class TestParallelOps(iotests.QMPTestCase):
- 
-         # Check that all maps match now
-         for i in range(2, self.num_imgs, 2):
--            self.assertEqual(qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i]),
--                             qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i-1]),
--                             'image file map does not match backing file after streaming')
-+            self.assertEqual(
-+                qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i]).stdout,
-+                qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i-1]).stdout,
-+                'image file map does not match backing file after streaming')
- 
-     # Test that it's not possible to perform two block-stream
-     # operations if there are nodes involved in both.
-@@ -509,9 +518,10 @@ class TestParallelOps(iotests.QMPTestCase):
-     def test_stream_base_node_name(self):
-         self.assert_no_active_block_jobs()
- 
--        self.assertNotEqual(qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[4]),
--                            qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[3]),
--                            'image file map matches backing file before streaming')
-+        self.assertNotEqual(
-+            qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[4]).stdout,
-+            qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[3]).stdout,
-+            'image file map matches backing file before streaming')
- 
-         # Error: the base node does not exist
-         result = self.vm.qmp('block-stream', device='node4', base_node='none', job_id='stream')
-@@ -542,9 +552,10 @@ class TestParallelOps(iotests.QMPTestCase):
-         self.assert_no_active_block_jobs()
-         self.vm.shutdown()
- 
--        self.assertEqual(qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[4]),
--                         qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[3]),
--                         'image file map matches backing file after streaming')
-+        self.assertEqual(
-+            qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[4]).stdout,
-+            qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[3]).stdout,
-+            'image file map matches backing file after streaming')
- 
- class TestQuorum(iotests.QMPTestCase):
-     num_children = 3
-@@ -583,9 +594,10 @@ class TestQuorum(iotests.QMPTestCase):
-             os.remove(img)
- 
-     def test_stream_quorum(self):
--        self.assertNotEqual(qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.children[0]),
--                            qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.backing[0]),
--                            'image file map matches backing file before streaming')
-+        self.assertNotEqual(
-+            qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.children[0]).stdout,
-+            qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.backing[0]).stdout,
-+            'image file map matches backing file before streaming')
- 
-         self.assert_no_active_block_jobs()
- 
-@@ -597,9 +609,10 @@ class TestQuorum(iotests.QMPTestCase):
-         self.assert_no_active_block_jobs()
-         self.vm.shutdown()
- 
--        self.assertEqual(qemu_io('-f', iotests.imgfmt, '-c', 'map', self.children[0]),
--                         qemu_io('-f', iotests.imgfmt, '-c', 'map', self.backing[0]),
--                         'image file map does not match backing file after streaming')
-+        self.assertEqual(
-+            qemu_io('-f', iotests.imgfmt, '-c', 'map', self.children[0]).stdout,
-+            qemu_io('-f', iotests.imgfmt, '-c', 'map', self.backing[0]).stdout,
-+            'image file map does not match backing file after streaming')
- 
- class TestSmallerBackingFile(iotests.QMPTestCase):
-     backing_len = 1 * 1024 * 1024 # MB
 -- 
 2.34.1
 
