@@ -2,94 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FCB4DDAD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:48:03 +0100 (CET)
-Received: from localhost ([::1]:52892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 043D74DDB53
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 15:12:26 +0100 (CET)
+Received: from localhost ([::1]:52014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVCxW-0005i5-Uu
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:48:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47676)
+	id 1nVDL6-0001ig-Ti
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 10:12:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nVCf0-00085Y-KG; Fri, 18 Mar 2022 09:28:54 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55766
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nVCfJ-0000YA-Ea
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:29:14 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:57806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nVCey-00032W-EG; Fri, 18 Mar 2022 09:28:53 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22ICnrYj026888; 
- Fri, 18 Mar 2022 13:28:49 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3evj92hs2r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Mar 2022 13:28:49 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22IDE3bo004021;
- Fri, 18 Mar 2022 13:28:49 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3evj92hs27-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Mar 2022 13:28:48 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22IDPHRY015369;
- Fri, 18 Mar 2022 13:28:47 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 3euc6r544t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Mar 2022 13:28:47 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22IDSiAi18088296
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Mar 2022 13:28:44 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B1FB0A4062;
- Fri, 18 Mar 2022 13:28:44 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6FE8BA4054;
- Fri, 18 Mar 2022 13:28:44 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 18 Mar 2022 13:28:44 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.93.169])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id A1274220338;
- Fri, 18 Mar 2022 14:28:43 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC PATCH 17/17] hw/sd: Subtract bootarea size from blk
-Date: Fri, 18 Mar 2022 14:28:24 +0100
-Message-Id: <20220318132824.1134400-18-clg@kaod.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220318132824.1134400-1-clg@kaod.org>
-References: <20220318132824.1134400-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nVCfG-00036w-Rv
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:29:13 -0400
+Received: from [192.168.1.13] (lfbn-lyo-1-488-129.w2-7.abo.wanadoo.fr
+ [2.7.77.129])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 6116F21A87;
+ Fri, 18 Mar 2022 13:29:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1647610146;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0BF4s7Dnp+C96WHzpAvbeVlUC6ASjkYxrbyAdXkd8/s=;
+ b=i7iQ7yi63zxykLipP+T96KrVnVGvbAmGOLVlMmDWFgBQA/dnhc+7rp4nGfmAhhrXVVE8vp
+ gEc7h52c3arbwndp9GkcAyW3R8CWlfPXAetXLeYH40XkrT01tG7csXq50eS4gc9z1tAoy1
+ YSsqI18kUd3O1rIckeWrsiolopLpfZ4=
+Message-ID: <238f5d37-a340-329a-9944-ce4b023d64f5@greensocs.com>
+Date: Fri, 18 Mar 2022 14:29:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 74wC-xsTEqWI9Z5VSUub7go0UnWoOtx4
-X-Proofpoint-ORIG-GUID: fdY5jxts_2ecuMhXi5K0nstLZ8NkgWj5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-18_09,2022-03-15_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 suspectscore=0 bulkscore=0 clxscore=1034 phishscore=0
- mlxlogscore=954 impostorscore=0 mlxscore=0 priorityscore=1501 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203180074
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.187,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v4 02/14] machine&vl: introduce phase_until() to handle
+ phase transitions
+Content-Language: en-US-large
+To: qemu-devel@nongnu.org, mark.burton@greensocs.com, edgari@xilinx.com
+References: <20220223090706.4888-1-damien.hedde@greensocs.com>
+ <20220223090706.4888-3-damien.hedde@greensocs.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <20220223090706.4888-3-damien.hedde@greensocs.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,50 +69,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+Hi !
 
-The userdata size is derived from the file the user passes on the
-command line, but we must take into account the boot areas.
+It would nice to have some feedback about this solution.
+Basically it just introduces a new function 'qemu_until' which implement
+the startup fsm.
+It's bit like what Markus proposed in december (hence the name), only it 
+is is only internal so we can change it if we find out it should be done 
+otherwise regarding startup.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/sd/sd.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+In practice it is just some code move from qmp_exit_preconfig() to 
+phase_until() with more indentation (not sure if there is a way to make 
+that easier to read).
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index e975fcf18512..2ac721bea026 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -644,6 +644,7 @@ static inline uint64_t sd_addr_to_wpnum(uint64_t addr=
-)
- static void sd_reset(DeviceState *dev)
- {
-     SDState *sd =3D SD_CARD(dev);
-+    SDCardClass *sc =3D SD_CARD_GET_CLASS(sd);
-     uint64_t size;
-     uint64_t sect;
-=20
-@@ -655,6 +656,11 @@ static void sd_reset(DeviceState *dev)
-     }
-     size =3D sect << 9;
-=20
-+    if (sc->bootpart_offset) {
-+        unsigned int boot_capacity =3D sd->ext_csd[EXT_CSD_BOOT_MULT] <<=
- 17;
-+        size -=3D boot_capacity * 2;
-+    }
-+
-     sect =3D sd_addr_to_wpnum(size) + 1;
-=20
-     sd->state =3D sd_idle_state;
---=20
-2.34.1
+In the following patches I use it in device_add() to ensure the startup 
+is advanced.
 
+Thanks,
+--
+Damien
+
+On 2/23/22 10:06, Damien Hedde wrote:
+> phase_until() is implemented in vl.c and is meant to be used
+> to make startup progress up to a specified phase being reached().
+> At this point, no behavior change is introduced: phase_until()
+> only supports a single double transition corresponding
+> to the functionality of qmp_exit_preconfig():
+> + accel-created -> machine-initialized -> machine-ready
+> 
+> As a result qmp_exit_preconfig() now uses phase_until().
+> 
+> This commit is a preparation to support cold plugging a device
+> using qapi command (which will be introduced in a following commit).
+> For this we need fine grain control of the phase.
+> 
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> ---
+>   include/hw/qdev-core.h | 14 ++++++++
+>   softmmu/vl.c           | 78 ++++++++++++++++++++++++++++++++----------
+>   2 files changed, 74 insertions(+), 18 deletions(-)
+> 
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index e29c705b74..5f73d06408 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -909,4 +909,18 @@ extern bool phase_check(MachineInitPhase phase);
+>    */
+>   extern void phase_advance(MachineInitPhase phase);
+>   
+> +/**
+> + * @phase_until:
+> + * @phase: the target phase
+> + * @errp: error report
+> + *
+> + * Make the machine init progress until the target phase is reached.
+> + *
+> + * Its is a no-op is the target phase is the current or an earlier
+> + * phase.
+> + *
+> + * Returns true in case of success.
+> + */
+> +extern bool phase_until(MachineInitPhase phase, Error **errp);
+> +
+>   #endif
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 5e1b35ba48..5689d0be88 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2741,30 +2741,72 @@ void qmp_x_exit_preconfig(Error **errp)
+>           error_setg(errp, "The command is permitted only before machine initialization");
+>           return;
+>       }
+> +    phase_until(PHASE_MACHINE_READY, errp);
+> +}
+>   
+> -    qemu_init_board();
+> -    qemu_create_cli_devices();
+> -    qemu_machine_creation_done();
+> -
+> -    if (loadvm) {
+> -        load_snapshot(loadvm, NULL, false, NULL, &error_fatal);
+> -    }
+> -    if (replay_mode != REPLAY_MODE_NONE) {
+> -        replay_vmstate_init();
+> +bool phase_until(MachineInitPhase phase, Error **errp)
+> +{
+> +    if (!phase_check(PHASE_ACCEL_CREATED)) {
+> +        error_setg(errp, "Phase transition is not supported until accelerator"
+> +                   " is created");
+> +        return false;
+>       }
+>   
+> -    if (incoming) {
+> -        Error *local_err = NULL;
+> -        if (strcmp(incoming, "defer") != 0) {
+> -            qmp_migrate_incoming(incoming, &local_err);
+> -            if (local_err) {
+> -                error_reportf_err(local_err, "-incoming %s: ", incoming);
+> -                exit(1);
+> +    while (!phase_check(phase)) {
+> +        MachineInitPhase cur_phase = phase_get();
+> +
+> +        switch (cur_phase) {
+> +        case PHASE_ACCEL_CREATED:
+> +            qemu_init_board();
+> +            /* We are now in PHASE_MACHINE_INITIALIZED. */
+> +            qemu_create_cli_devices();
+> +            /*
+> +             * At this point all CLI options are handled apart:
+> +             * + -S (autostart)
+> +             * + -incoming
+> +             */
+> +            qemu_machine_creation_done();
+> +            /* We are now in PHASE_MACHINE_READY. */
+> +
+> +            if (loadvm) {
+> +                load_snapshot(loadvm, NULL, false, NULL, &error_fatal);
+>               }
+> +            if (replay_mode != REPLAY_MODE_NONE) {
+> +                replay_vmstate_init();
+> +            }
+> +
+> +            if (incoming) {
+> +                Error *local_err = NULL;
+> +                if (strcmp(incoming, "defer") != 0) {
+> +                    qmp_migrate_incoming(incoming, &local_err);
+> +                    if (local_err) {
+> +                        error_reportf_err(local_err, "-incoming %s: ",
+> +                                          incoming);
+> +                        exit(1);
+> +                    }
+> +                }
+> +            } else if (autostart) {
+> +                qmp_cont(NULL);
+> +            }
+> +            break;
+> +
+> +        default:
+> +            /*
+> +             * If we end up here, it is because we miss a case above.
+> +             */
+> +            error_setg(&error_abort, "Requested phase transition is not"
+> +                       " implemented");
+> +            return false;
+>           }
+> -    } else if (autostart) {
+> -        qmp_cont(NULL);
+> +
+> +        /*
+> +         * Ensure we made some progress.
+> +         * With the default case above, it should be enough to prevent
+> +         * any infinite loop.
+> +         */
+> +        assert(cur_phase < phase_get());
+>       }
+> +    return true;
+>   }
+>   
+>   void qemu_init(int argc, char **argv, char **envp)
 
