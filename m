@@ -2,167 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA96F4DDF9D
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 18:08:18 +0100 (CET)
-Received: from localhost ([::1]:43144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E3B4DDF95
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 18:06:22 +0100 (CET)
+Received: from localhost ([::1]:39850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVG5J-0003j6-Sq
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 13:08:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43198)
+	id 1nVG3Q-0001TK-Tc
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 13:06:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
- id 1nVG1f-00085n-G8
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 13:04:33 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:30590)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nVG1e-00085Z-Ey
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 13:04:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58327)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
- id 1nVG1c-0005qy-Rd
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 13:04:30 -0400
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22IG1Mku001718; 
- Fri, 18 Mar 2022 17:04:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=D25NVEvTuGDtTX++uMhBVMR+bgeU2UtxMhFLOhci27U=;
- b=BF6mNMFc/dtcAecZil7ZZonCk+IdiJ2gWJNrlzPL8Kx+tXTWXA0GTixq6a+nJ0IEggyO
- k1uoOneyZ7RNIHpcux477Pux0A8NSRtHqiVeOai07PZQOo0qUlgVqPzUzkJ4OBd2yxa2
- AVXFS0d7xQ6Ta4DRLuQtqt8l1rx0zRvj7RGGbaPswrOZUXNYjTGHcEe7TbOyy7s+tJP+
- jjPFJhDUXjheOt27TPZxn0amwjiR0JE0OsDiVbb1IKauSU6Eu2mrDlKUyC2Ng1fczSGJ
- Gn7W/oAiWt4lCjOn1zELjD/GIzyuVVWTGNXxZ6GMWkRKlMPKdcre5voN9SBwueCSqUst EQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3et5fucmwe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Mar 2022 17:04:24 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22IH03rF062201;
- Fri, 18 Mar 2022 17:04:23 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
- by userp3020.oracle.com with ESMTP id 3et65abx14-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Mar 2022 17:04:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mlnXqlRKinJljpmoFKVA4rUIY6VnIg1AfYzz+pMijZer2GBX0T+RiecGsRP4zJOwfu1OpvBbRAyf2vNtbgkbn2VNR0b3tzD770o0xYzYYtpjkYXomwtyj7pL3EH9sDxsKucnJjw5mJkMAzqCjcP2JXM128Zv3/lIfoqrMDeMn0A3xh2PQW8sdAS+ircjlmvmadc/HyIgwSbv5F0xDnwyz2Cw4S2ZmouyZ89IwQIKqEruUEwUyRL/NbUeK3qdn730XCZw9U64NxHkeuXQx3Yjyn2/vkcXcF+8chdUmwhY56dWsZN+lIW6pYo3ozPfvJxn3SiXGeyXhRghvCRZy8nLLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D25NVEvTuGDtTX++uMhBVMR+bgeU2UtxMhFLOhci27U=;
- b=VnDzCB1HFfQArjJBfdP4mRAy641Ae4ZsQD5e3CkpN5hFqwY6uWJe07DFixJZa6AT07qdcXtFQzjoAWZ+cPOyxRyMbHcszsj28iEQ3UYl68rxX7S04g/pMq1BtTdTV60mVeVQiJnD7k0asLI74iOyH/0sEMXu6t12VVlgCM0CzhyRGRnDcREwrkIvkGvPLvx/KqkuxM6Pp6oZVcGU7zjYrC5NtIn7KooqqH2oIhvJSvqGnygW1LIQkfeAKZh0asv8qNDhsjVHbJuX34HPeoeOsVs7oiUYjv1aFRgDHihgWcfDAuttlLAQEBFmvDQ7iQE/czJG/6RPou2h/U6V0HLuCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D25NVEvTuGDtTX++uMhBVMR+bgeU2UtxMhFLOhci27U=;
- b=pHp+1p20j0IgLp+/fa0JGIS8kxD37SYTf9PWkYcKZAoALunRIY8iZ46tm/lY71jwb/OMT7/umTgZROtoTrTcucTFQe9aBge+RMH2EG9GY6dWFsBjTeEOxQDJ1nXl+6RKRI40JHfk5zJvc6LgV7L3jul6waoxkqVRqGs2lncg9+M=
-Received: from MW5PR10MB5825.namprd10.prod.outlook.com (2603:10b6:303:19a::11)
- by CH0PR10MB5308.namprd10.prod.outlook.com (2603:10b6:610:c6::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.16; Fri, 18 Mar
- 2022 17:04:21 +0000
-Received: from MW5PR10MB5825.namprd10.prod.outlook.com
- ([fe80::5915:58a8:f9b1:a71e]) by MW5PR10MB5825.namprd10.prod.outlook.com
- ([fe80::5915:58a8:f9b1:a71e%3]) with mapi id 15.20.5081.015; Fri, 18 Mar 2022
- 17:04:20 +0000
-Message-ID: <967828b5-19c2-fc64-4045-659c1f2f1ae8@oracle.com>
-Date: Fri, 18 Mar 2022 12:04:17 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v2 5/5] i386/cpu: Free env->xsave_buf in
- x86_cpu_unrealizefn()
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nVG1b-0005qq-F4
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 13:04:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647623066;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BUYsAWxWpDt79pIZZ85Rg2KX1TE9Of52sFO9g/lPASc=;
+ b=Qxhh9U5IHOjdsh8Riac4lNz+drr4n21P9b7nuZW/nxIRqiRH22qiky/R53QtV9O4JkdMY8
+ DyBjVZ+D7suZPf5VfE9HzzEopYJSr5nx8jnbuoxqE+3SOBWprKuc3hlOO6std6gcs0Up3E
+ q1oL5A/rBkP8/4IAsqHeYC9QfS+/0eI=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-590-vr-e1psHPW-ry8pE3tLsPg-1; Fri, 18 Mar 2022 13:04:22 -0400
+X-MC-Unique: vr-e1psHPW-ry8pE3tLsPg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ x2-20020a1709065ac200b006d9b316257fso4843608ejs.12
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 10:04:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BUYsAWxWpDt79pIZZ85Rg2KX1TE9Of52sFO9g/lPASc=;
+ b=NWoGS28aAFs6G2HJ6jQBnzuecGJfBqUhf+ZIC3dwO9/XvTMmSEFENBHfgWMfegnEN9
+ LuOvRtXc2T5qhkws1rtYtIMaFGgk2sovtzCsj0/OxjyTTiVlSrsnh1LnnXbOhPSj7UJC
+ KAldj/UkiqQfaDZQAViqIxcIYAC6/Z1dJjPOy6BJC0TMh9dtmuN/G5LKx0Cf8VJ8fHTh
+ sgf3zmtuw45lvK9MlqQrhagbtQHOjgFeSAZfqaxJ6UfNuHdclsmKBU5q1JwYY7sud08c
+ t++h49iyGd36beTVfKkc3+aaVbO3dnfNETvvqBcvta7cr6V8kW6DhpmxbuAHT3YX+IVH
+ fhQA==
+X-Gm-Message-State: AOAM533NFlpzMQiPPgtGUBGPAyV9CmYJlUKJiBSqwAIuieUC+rfOjMOR
+ W0WKUVj9I1eSXRYSPf6uYWc3Qj50a8xBrqzah13ldNnvngwB7h4T15x85hG+vUkzVqkT8qlJeSI
+ 5arwXuUaO8XGeY6c=
+X-Received: by 2002:a17:907:6e17:b0:6da:83a3:c27a with SMTP id
+ sd23-20020a1709076e1700b006da83a3c27amr9601327ejc.415.1647623061231; 
+ Fri, 18 Mar 2022 10:04:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxKyNCputgeEQT13K9yMoYGMIAYY1Ao15GC9xongohWmePI+ZwbiU2s1aP//DAGRXAMwBNhVQ==
+X-Received: by 2002:a17:907:6e17:b0:6da:83a3:c27a with SMTP id
+ sd23-20020a1709076e1700b006da83a3c27amr9601289ejc.415.1647623060803; 
+ Fri, 18 Mar 2022 10:04:20 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ o5-20020a056402438500b004187851753esm4294194edc.17.2022.03.18.10.04.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Mar 2022 10:04:20 -0700 (PDT)
+Message-ID: <2a2dadb8-24ba-50c4-617e-ab6d08166e83@redhat.com>
+Date: Fri, 18 Mar 2022 18:04:19 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4] tests: Do not treat the iotests as separate meson test
+ target anymore
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220310075048.2303495-1-thuth@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220310075048.2303495-1-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
- qemu-devel@nongnu.org
-References: <20220318151555.381737-1-mark.kanda@oracle.com>
- <20220318151555.381737-6-mark.kanda@oracle.com>
- <66dc469a-6ba7-055c-1d5c-ac22c42ced35@gmail.com>
-From: Mark Kanda <mark.kanda@oracle.com>
-In-Reply-To: <66dc469a-6ba7-055c-1d5c-ac22c42ced35@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DM6PR03CA0102.namprd03.prod.outlook.com
- (2603:10b6:5:333::35) To MW5PR10MB5825.namprd10.prod.outlook.com
- (2603:10b6:303:19a::11)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e89866f3-11ef-451e-baf6-08da09015856
-X-MS-TrafficTypeDiagnostic: CH0PR10MB5308:EE_
-X-Microsoft-Antispam-PRVS: <CH0PR10MB530800B56A5CFC4E30FB8483F9139@CH0PR10MB5308.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Bx1E/BaMp/IBnQf00m0LZDalSe7iGzIoKGGfs/WuQfCncWY2t20JXBTgJe3INpzsh3JLCugP1EgW6QdBKHor1nTMGAPBVr/6CUWB6NTSLlssyHuUK7CxdaGC8TW/fJDeqgSq9/JyrNk82RYNw3zBPo+x6QlpswBApE4Xvvztu6vCa3GunDuebEleCxhDMQKJ+bgBKLhBJkjj5dWWbcV2vDAyfGJOrI0cPrzcyaWuIjjXKV//qPShKoXcLa8fk9SrrQrfQy4wUlDyGIT6b8erEtitGfiVMQI54D4qkoKkK105OcdKnmxycDY5KYmwNUnK+rOpzwL51l9Umc/C6UPvy3Y6g9vLRJF84pCA4wxeRghr2GYFVsjsK9QwVpKGzKneo5QOiqARq19jLtR/1kmvsy05qnEAerMeY1j8YFCySyDWD++SR1EU+KGK8N5ddB04vAkvKKMlfMP6cJHKCpLRxAjSXc08QsfxagEK632ZUn/KmfyJ6zZmoCT+z4W1GnbbNtYUavZYh8Ri0i+o7bz7zDU+MPBIWczAlx/0q8YlmftTL/Yyz93jMUlOH/mWKQyDp1Eu1CfwBsehcWgZvCDElh/ZcKiZyD6/9raZ+94FzaO+V6EuaTtgXAANgswXnNbHDGtRGP5s78jKQBN3JWEMoFfX5OXCVPuhqB63ETAVKCZqzoiOvzPtQ+qVBc4IBKWfZepsXIXhvuoSCg4ACu+NJ9NU4AA2w9lyuBGpZqXmN/FAc5cpVL/Da/9WlDUXR+6Y
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW5PR10MB5825.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(44832011)(2906002)(31686004)(4326008)(36756003)(66946007)(66556008)(66476007)(8676002)(38100700002)(5660300002)(8936002)(316002)(26005)(186003)(2616005)(86362001)(31696002)(508600001)(6486002)(53546011)(6506007)(6666004)(83380400001)(6512007)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NlFZYTY4UWNCNnAxaS9BVThmYlczeGgrTlM2ckVsd29LKzFwRkl4TXlMb1RO?=
- =?utf-8?B?TlR4U0szV1RCRTJ1YlVoYXlXL3pyQ2hpOGQxbTBnV3JEMktTV1d3NEhnVVRx?=
- =?utf-8?B?U3BIRFV5dUowSXB0ZmRsR3RkMHkyUVBxUXMwU2EzQjVCN2hUbTRQMUtROUk5?=
- =?utf-8?B?aUJORnRucllyT1hTUHNwb0h5NjhiYmRoOVNOaXlwRWUwV25BZ2J5ODNiSHJP?=
- =?utf-8?B?S3JpM0FtcVJOVFhTVVJUSE0xcTNURmtxYVpPOXVtWFk4cUhENUZmcTlIWWxs?=
- =?utf-8?B?Y1Z0c1F0SHJlK1NzOEZWVDg3MVNxdER5UGNrSFRLQ0RxYTFQTHg2Z2swQXFR?=
- =?utf-8?B?cmQvTjNXYTlMUHBKZ0p3dUwwbmlLNDVicFhmQ0k3VFBWOUtHcldTL3RlUGo5?=
- =?utf-8?B?NytReTlTUlpMbG1aSjcvQ05XeVBRZVdsWWZnZ2lVQXFzbzJvL1pQcXJkcW9F?=
- =?utf-8?B?QTZVV3FGaFc1ZnREQXdxc0pXcWFZTWVQM3p0OFowOU51Qjh4cnlwWTNPMnAv?=
- =?utf-8?B?VEpCRDlJUlFYVGJFaTRXMG9DVWxNLzA4QU9jWkQvK3ZUQUl6NTBycVljNzhS?=
- =?utf-8?B?aVBwazN6cWRzY0NGU3crd0RrNTdZTEowNzhPWGlabFhJWVpsd0VkaFZYVXVr?=
- =?utf-8?B?NUxGOXN2WmkzY2c1VXFyMmYwZWI3TE1tZ3k0TXRNRGtFTUVFMnF0RXFVUWtx?=
- =?utf-8?B?ZDRtUVlXaFRMM3hhL0NUZU1YVTR2bENKaFVhMkQ1UGlZM1UzK2I4ZkZRRk1Y?=
- =?utf-8?B?S1VReE4rQnFNTmhuTldZNVFHUmxNK2JIbGNEdFVqWXgvcGFtd0p4WmpZbHo4?=
- =?utf-8?B?ek9hNElvV21lVkNPOUh5UmtLUHBoL1l0Wi9LNDRHQ3pkYkJ0RU9QTmlXV0dr?=
- =?utf-8?B?Yy95VDJ0TWJSNDBIUnliMmRRdFpiNFhPUyt2d3E4V05BRm5GYmlZZGVmYzVo?=
- =?utf-8?B?V2JkMEdFKzNsaGkybHNxZGJoNUZTV28vcDBzSGtBV2VvMWpjOGJoUy9pKzZs?=
- =?utf-8?B?R2NtTlRyM0xoU0ZON0xVcWFrODMzemFVWTNEdm0zbWhSTnpUQ0ZqV25BdGJU?=
- =?utf-8?B?Nzl6WUpQV1YrUyt0V0t5QW04Y2REd1FLREd0ZURqMGMyaVhDempsVE8zdnNR?=
- =?utf-8?B?Z2lMNEVyODAxMUV6ZFlKOTRnWUFhVFN5UlZ6RjhLKy9TWi9lTEdGdXlqUisx?=
- =?utf-8?B?OTUzaTlPdUN3Ykh3YWdrcGFjUit6Q2tST0dpakVBeG4yZlhPeXJ2TVQ2MXVD?=
- =?utf-8?B?a3J4R0lOa1g2R09UNUNRZzNaMitRQ1QxSUNPR3d4K25LbS9VRFgvbmg3L1ox?=
- =?utf-8?B?blVVajhuSDMyRy9QWm84RE5KR1luQlhYZEtnanQwYk9aOWlPWnJhNTM2djlE?=
- =?utf-8?B?QTZLa3RTUDAzang0QUgwMjZMRndNN1RFYnMwbitCclVuTkt5YU90RSt1MTBu?=
- =?utf-8?B?YktKeXk4UGFqRUJ5b0NUdm9jNUlPT3lEeUJybWtGZTd3WnVkc2owMy9tczZV?=
- =?utf-8?B?SjhEcUJ0MHRYKzV6OTJrN3diNWFUZ3NlbWcwY1B0b3IrL0c3d2gwZGF5bjZ0?=
- =?utf-8?B?M2pONStXWFZKcndsVXJ3OVVuSVVmSVBSV1BlM0paS3dqOHVlRGNSNWpCUFdp?=
- =?utf-8?B?MVBYVElENjAyUll4N3cvRnJXMTJKbmszNDUvNUpsWEpKbVRvL0dBMDRBdEx0?=
- =?utf-8?B?bmJWYXJnZ1JyaE1Dcmw4MkVOT21DYlJNZk5nVXFPNWVTbzM2TGhFTFNEdkVS?=
- =?utf-8?B?bGQxa21GWGIrRlp1UFdVeGF3a0gvaG9iTkJQdEVrcmhkOUJOYUxqU2RVZUNY?=
- =?utf-8?B?dVV2ck1sUHlqTDVVQW9IN0VqUS8xK05GWktBVStjZHVJQVhPdE1vMThlbmtS?=
- =?utf-8?B?aUZhblJhSnVCSThRWTRKZDE2UGVQd2cxMjA5bjRIV0xjM1d1MmJzeW5WMUY0?=
- =?utf-8?B?enpJWjlvaFB1cHFENUdlLzY4dlkxcldHZFpDb0FyQUZVL05ocDB6UThCeTdp?=
- =?utf-8?B?V1VxNmFKMElBPT0=?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e89866f3-11ef-451e-baf6-08da09015856
-X-MS-Exchange-CrossTenant-AuthSource: MW5PR10MB5825.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2022 17:04:20.9136 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AcwB7P1ZaF2GDglKJeKPQMmD1Ss5Avi1Lw/0AZo1l2/bv/D+LzO+sgeIl86BQgMAnhnXZfcUU4PhXFqD7HxB6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB5308
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10290
- signatures=694221
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- spamscore=0
- malwarescore=0 adultscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203180090
-X-Proofpoint-GUID: O50e8thNPOet7CMgv-099LmKYHZm19gK
-X-Proofpoint-ORIG-GUID: O50e8thNPOet7CMgv-099LmKYHZm19gK
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=mark.kanda@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -176,52 +104,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/18/2022 11:32 AM, Philippe Mathieu-Daudé wrote:
-> On 18/3/22 16:15, Mark Kanda wrote:
->> vCPU hotunplug related leak reported by Valgrind:
->>
->> ==132362== 4,096 bytes in 1 blocks are definitely lost in loss record 8,440 
->> of 8,549
->> ==132362==    at 0x4C3B15F: memalign (vg_replace_malloc.c:1265)
->> ==132362==    by 0x4C3B288: posix_memalign (vg_replace_malloc.c:1429)
->> ==132362==    by 0xB41195: qemu_try_memalign (memalign.c:53)
->> ==132362==    by 0xB41204: qemu_memalign (memalign.c:73)
->> ==132362==    by 0x7131CB: kvm_init_xsave (kvm.c:1601)
->> ==132362==    by 0x7148ED: kvm_arch_init_vcpu (kvm.c:2031)
->> ==132362==    by 0x91D224: kvm_init_vcpu (kvm-all.c:516)
->> ==132362==    by 0x9242C9: kvm_vcpu_thread_fn (kvm-accel-ops.c:40)
->> ==132362==    by 0xB2EB26: qemu_thread_start (qemu-thread-posix.c:556)
->> ==132362==    by 0x7EB2159: start_thread (in /usr/lib64/libpthread-2.28.so)
->> ==132362==    by 0x9D45DD2: clone (in /usr/lib64/libc-2.28.so)
->>
->> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
->> ---
->>   target/i386/cpu.c | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index a88d6554c8..014a716c36 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -6572,6 +6572,11 @@ static void x86_cpu_unrealizefn(DeviceState *dev)
->>       }
->>         xcc->parent_unrealize(dev);
->> +
->> +#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
->> +    CPUX86State *env = &cpu->env;
->> +    g_free(env->xsave_buf);
+On 10.03.22 08:50, Thomas Huth wrote:
+> If there is a failing iotest, the output is currently not logged to
+> the console anymore. To get this working again, we need to run the
+> meson test runner with "--print-errorlogs" (and without "--verbose"
+> due to a current meson bug that will be fixed here:
+> https://github.com/mesonbuild/meson/commit/c3f145ca2b9f5.patch ).
+> We could update the "meson test" call in tests/Makefile.include,
+> but actually it's nicer and easier if we simply do not treat the
+> iotests as separate test target anymore and integrate them along
+> with the other test suites. This has the disadvantage of not getting
+> the detailed progress indication there anymore, but since that was
+> only working right in single-threaded "make -j1" mode anyway, it's
+> not a huge loss right now.
 >
-> This belong to hvf_arch_vcpu_destroy().
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   v4: updated commit description
 >
-> And for KVM, in the missing kvm_arch_destroy_vcpu().
->
+>   meson.build            | 6 +++---
+>   scripts/mtest2make.py  | 4 ----
+>   tests/Makefile.include | 9 +--------
+>   3 files changed, 4 insertions(+), 15 deletions(-)
 
-Will fix in v3.
+I can’t really say I understand what’s going on in this patch and around 
+it, but I can confirm that it before this patch, fail diffs aren’t 
+printed; but afterwards, they are.  So I’m afraid all I can give is a
 
-Thanks Philippe,
--Mark
+Tested-by: Hanna Reitz <hreitz@redhat.com>
+
+If noone else steps up and you need a tree for this to go in, I’d be up 
+for it.
+
+Hanna
+
 
