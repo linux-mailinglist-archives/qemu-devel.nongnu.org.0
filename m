@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9870F4DD904
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 12:35:12 +0100 (CET)
-Received: from localhost ([::1]:50370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9062A4DD930
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 12:47:23 +0100 (CET)
+Received: from localhost ([::1]:54804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVAsx-0000DC-6i
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 07:35:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52140)
+	id 1nVB4k-0004Aa-5v
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 07:47:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVAr1-0006oI-R5
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:33:11 -0400
-Received: from [2607:f8b0:4864:20::b34] (port=42882
- helo=mail-yb1-xb34.google.com)
+ id 1nVAzL-0003DB-I9
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:41:47 -0400
+Received: from [2607:f8b0:4864:20::112b] (port=37651
+ helo=mail-yw1-x112b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVAr0-0007mY-4z
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:33:11 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id u103so15279971ybi.9
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 04:33:08 -0700 (PDT)
+ id 1nVAzF-0000mG-9P
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:41:42 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2e5757b57caso88239977b3.4
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 04:41:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uyYwVfi99L+VoqlqiP+4CzARSg/tg1ZHsiv7iuBLOoE=;
- b=t7lM5RbJmFGelAIXdEboHHUgxMvdhkUjBz0vxi1t2ZVcBdt1wB4bhVgNq/5cTyBVXt
- 4aOyUfWefiTDizJKsWsSTIuMxQDGi96+VIWg94S0AiQkc/3wOmoOxeGhyOWkvz81p3D3
- gX0UoizPPKN3Yd/KogZVmibcxy8ZEOcngoVSxfm7xYyPz0kWq3UaF5A1sTpg5Ck/6YdY
- iY183m2Ei0DtEAK/6GjRnkecU5tkdlmXrVsAflVuMy5P5U75PlrYQ/Kush5t/H4/Eqsh
- jpHlXVhumxiaUXw1h3YAihbLHj4ANSSKMNIwD7cjmc956zzGNgj8k+xDV6nBssJx7x2p
- Xzyg==
+ :cc; bh=A3RQbMafMLHH62Wm8oL61/J5I5dP7kcfaW2OxQGVjxs=;
+ b=zKveAwC25ThQTeZoVAnvcJc8cTF/RnbCL5CJ+fBpklVF7eYUY/2TC+tMBV36MsyylU
+ 5WPmSmtwyOYbSwtu8lnyecE8uFaBwB+9LLLU/wdqq1/H1OybVxqMUDTwKB1dRLbrUBfz
+ yhKsgKd1jUAEdefgZFMjwZIsqyXFZ7X2llTk9a3uCaigHvA6l0+cSdUIb5ZJWaHT4jwF
+ lLTiF4Aswv9JyW0cnfiI4iSzAph5Nw2gVj0QmsB1wAwyKCAo3Q56WJONrg15eEfqMpwD
+ /zmsKbYTrksBaWoiB+QEvRkGFh/yQPbXB3cGacD+uhi9J4Kwzcp0l+e6ghkbzg8g5/zr
+ GeWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uyYwVfi99L+VoqlqiP+4CzARSg/tg1ZHsiv7iuBLOoE=;
- b=7tWdgdeRVs3lXLnlf6jq/k59NbPJamNuq/WUPm06ghIFjDOLvdQf+Jclz8K0KUr1e0
- JvoYMTWmyz59+udTB+7XanI1XS3gk4dFxRRfYCWkg02rGSOR1jHbpnhsyreR9B98cLSq
- BVByyD4U7gyHo3vKdiwPVkwhp+v5ooSk/ygaRbPQzXdlb811Himd1fjEOmrcNTaRSYaT
- lhYCg+a1/OO3VHxQscG5vhmuaHYqXJzMm5FuwYkMjSuzu0gugBha97d4KVywumPPaPLL
- 7DI3LP417b4mX23+w7AJTdvoo1VY5+AiFi4tfY7086RXStbtM+f5CgA6Rcu/Ib78Kc7J
- vx2A==
-X-Gm-Message-State: AOAM532hrNcn+tNM7FVQ2c8yod5RFcFUMrLdpHYNY/wRBBfbAKzbMsWl
- 6AosA5PsA3waLV50AKl6uw+W/ErWjJOgl+upsvjmfw==
-X-Google-Smtp-Source: ABdhPJyDLCeOoFXdQd18DL2b0sIeegnvL0D801S0ftiBLMYH5vgjLjyA2GS60SAo6mXFt35TiDxzU32Rsp+Ef1xLc2I=
-X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
- r1-20020a5b06c1000000b00633b5c7b9b7mr4704518ybq.67.1647603188342; Fri, 18 Mar
- 2022 04:33:08 -0700 (PDT)
+ bh=A3RQbMafMLHH62Wm8oL61/J5I5dP7kcfaW2OxQGVjxs=;
+ b=Kx5/r3RKWXhDEQinShVvdnI1+0c3efTtwpOu3LtIdbGeMSk8P5EiEJkjmdxvKzNdKJ
+ a0KpYWRA9ulvAOqukmVTckR4CkTsLN9Byq93yNfzy3Tb3FpQCEy2UeUHrMPY0nME1zqs
+ A2JikZcjApPwaJZMLKtAbXJpzRRUoNbVWUpM40uK8gHgCZRgqlPR8tWyqjXa+cVKpFAo
+ skoVfhZt0pBMbExauBHP97wHJ0wSmWHc+sRcNV69fmSWx66RGDeuZ8KX5mZx9rtZeGEW
+ gMkuygdJQMpNWc0naTEYAyYgPEqzLx7bV9hERmGduGU7OgkIEvWhgBlDenY4r+eLMgE+
+ PZvA==
+X-Gm-Message-State: AOAM533ZXIVAzLPnSdVGtLADLVQ6hSm3n7LXva7kadTESv71vxAO7COG
+ Dy+Dm0fNefYnwDwLLsOS1spwln2LHI95D3O7vxU2Ug==
+X-Google-Smtp-Source: ABdhPJxK8Au2fnW1HqyPzxEa4cWbHESDHFYur3DDF3IQWWRR74O17+HRUygmBitxmgWePxqKpn+PkExq3/psCjC5JBE=
+X-Received: by 2002:a0d:f603:0:b0:2d1:57e5:234 with SMTP id
+ g3-20020a0df603000000b002d157e50234mr10953974ywf.469.1647603699815; Fri, 18
+ Mar 2022 04:41:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220316164645.2303510-1-edgar.iglesias@gmail.com>
- <CAFEAcA9EYK7gS4bDToAXXD23uzhEazVeP--UGOrOX4wF3P-Fug@mail.gmail.com>
- <CAJy5ezopSM=N+rdmPs=PTerJFju5286eBRy7qMNwSOB2ftU9_A@mail.gmail.com>
-In-Reply-To: <CAJy5ezopSM=N+rdmPs=PTerJFju5286eBRy7qMNwSOB2ftU9_A@mail.gmail.com>
+References: <20220315224519.498463-1-richard.henderson@linaro.org>
+In-Reply-To: <20220315224519.498463-1-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Mar 2022 11:32:56 +0000
-Message-ID: <CAFEAcA8TMW7=q1ohZ78Z75Hb8iGmbF_wSwiajKC0mvACGw__Vw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] hw/arm: zynqmp: Add CRF and APU control to support
- PSCI
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Date: Fri, 18 Mar 2022 11:41:28 +0000
+Message-ID: <CAFEAcA9KjAtYy7KxjX_1LDafBOj07NHnzKaRzxoaa5JVU+kwzg@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Clean up arg_start/arg_end confusion
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -84,41 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luc@lmichel.fr, edgar.iglesias@amd.com,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- francisco iglesias <frasse.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm <qemu-arm@nongnu.org>
+Cc: qemu-devel@nongnu.org, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Mar 2022 at 19:21, Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
+On Tue, 15 Mar 2022 at 22:47, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On Thu, Mar 17, 2022 at 8:15 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> On Wed, 16 Mar 2022 at 16:46, Edgar E. Iglesias
->> <edgar.iglesias@gmail.com> wrote:
->> >
->> > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
->> >
->> > This adds the necessary modeling to support some of our firmware
->> > tests at EL3 implementing PSCI (TBM). These are the test-cases
->> > that were previously relying on QEMU's builtin PSCI emulation.
->>
->> I wouldn't usually take patches new devices after softfreeze, but
->> on the other hand this is addressing a regression, and it only
->> affects the xilinx boards. Do you have a view on whether we should put
->> this into 7.0 or defer to 7.1 ?
+> We had two sets of variables: arg_start/arg_end, and
+> arg_strings/env_strings.  In linuxload.c, we set the
+> first pair to the bounds of the argv strings, but in
+> elfload.c, we set the first pair to the bounds of the
+> argv pointers and the second pair to the bounds of
+> the argv strings.
+>
+> Remove arg_start/arg_end, replacing them with the standard
+> argc/argv/envc/envp values.  Retain arg_strings/env_strings.
 
-> I'd lean slightly towards 7.0 (to allow our tests to pass cleanly on 7.0)
-> but it's not of huge importance.
+"Retain arg_strings/env_strings with the meaning we were using
+in elfload.c" ? (ie linuxload.c changes to that definition).
 
-Yeah, I agree -- I'll queue this into target-arm.next for 7.0.
+> Update linuxload.c, elfload.c, and arm-compat-semi.c to match.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/714
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> --- a/linux-user/linuxload.c
+> +++ b/linux-user/linuxload.c
+> @@ -92,33 +92,35 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+>      envp = sp;
+>      sp -= (argc + 1) * n;
+>      argv = sp;
+> +    ts->info->envp = envp;
+> +    ts->info->envc = envc;
+> +    ts->info->argv = argv;
+> +    ts->info->argc = argc;
+> +
+>      if (push_ptr) {
+> -        /* FIXME - handle put_user() failures */
+
+Why are you deleting all these FIXME comments? That seems like an
+unrelated change.
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
