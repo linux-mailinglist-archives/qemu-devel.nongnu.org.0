@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42B24DDD18
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:37:15 +0100 (CET)
-Received: from localhost ([::1]:33984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B6F4DDD2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:42:18 +0100 (CET)
+Received: from localhost ([::1]:49262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVEfC-0001pr-Sw
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:37:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46122)
+	id 1nVEk5-0003hE-Oh
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:42:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nVETL-0005mp-PX
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:24:59 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2445)
+ id 1nVETq-000643-KZ
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:25:34 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nVETJ-0005tp-NA
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:24:58 -0400
-Received: from fraeml703-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KKnq56r8Cz67wMm;
- Fri, 18 Mar 2022 23:24:01 +0800 (CST)
+ id 1nVETo-00066b-At
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:25:29 -0400
+Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KKnpt1lsFz67y44;
+ Fri, 18 Mar 2022 23:23:50 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml703-chm.china.huawei.com (10.206.15.52) with Microsoft SMTP Server
+ fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Fri, 18 Mar 2022 16:24:55 +0100
+ 15.1.2375.24; Fri, 18 Mar 2022 16:25:26 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 18 Mar 2022 15:24:54 +0000
+ 15.1.2308.21; Fri, 18 Mar 2022 15:25:25 +0000
 To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
  <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
@@ -44,9 +44,10 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  "Samarth Saxena" <samarths@cadence.com>, Dan Williams
  <dan.j.williams@intel.com>, "Mark Cave-Ayland"
  <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH v8 36/46] tests/acpi: q35: Allow addition of a CXL test.
-Date: Fri, 18 Mar 2022 15:06:25 +0000
-Message-ID: <20220318150635.24600-37-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v8 37/46] qtests/bios-tables-test: Add a test for CXL
+ emulation.
+Date: Fri, 18 Mar 2022 15:06:26 +0000
+Message-ID: <20220318150635.24600-38-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
 References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
@@ -82,30 +83,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-Add exceptions for the DSDT and the new CEDT tables
-specific to a new CXL test in the following patch.
+The DSDT includes several CXL specific elements and the CEDT
+table is only present if we enable CXL.
+
+The test exercises all current functionality with several
+CFMWS, CHBS structures in CEDT and ACPI0016/ACPI00017 and _OSC
+entries in DSDT.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- tests/data/acpi/q35/CEDT.cxl                | 0
- tests/data/acpi/q35/DSDT.cxl                | 0
- tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
- 3 files changed, 2 insertions(+)
+ tests/qtest/bios-tables-test.c | 44 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/tests/data/acpi/q35/CEDT.cxl b/tests/data/acpi/q35/CEDT.cxl
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/DSDT.cxl b/tests/data/acpi/q35/DSDT.cxl
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..7c7f9fbc44 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,3 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT.cxl",
-+"tests/data/acpi/q35/CEDT.cxl",
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index c4a2d1e166..d43503a42d 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1537,6 +1537,49 @@ static void test_acpi_q35_viot(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_q35_cxl(void)
++{
++    gchar *tmp_path = g_dir_make_tmp("qemu-test-cxl.XXXXXX", NULL);
++    gchar *params;
++
++    test_data data = {
++        .machine = MACHINE_Q35,
++        .variant = ".cxl",
++    };
++    /*
++     * A complex CXL setup.
++     */
++    params = g_strdup_printf(" -machine cxl=on"
++                             " -object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=cxl-mem4,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=lsa1,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=lsa2,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=lsa3,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=lsa4,mem-path=%s,size=256M"
++                             " -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1"
++                             " -device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2"
++                             " -device cxl-rp,port=0,bus=cxl.1,id=rp1,chassis=0,slot=2"
++                             " -device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,size=256M"
++                             " -device cxl-rp,port=1,bus=cxl.1,id=rp2,chassis=0,slot=3"
++                             " -device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2,size=256M"
++                             " -device cxl-rp,port=0,bus=cxl.2,id=rp3,chassis=0,slot=5"
++                             " -device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3,size=256M"
++                             " -device cxl-rp,port=1,bus=cxl.2,id=rp4,chassis=0,slot=6"
++                             " -device cxl-type3,bus=rp4,memdev=cxl-mem4,lsa=lsa4,size=256M"
++                             " -cxl-fixed-memory-window targets.0=cxl.1,size=4G,interleave-granularity=8k"
++                             " -cxl-fixed-memory-window targets.0=cxl.1,targets.1=cxl.2,size=4G,interleave-granularity=8k",
++                             tmp_path, tmp_path, tmp_path, tmp_path,
++                             tmp_path, tmp_path, tmp_path, tmp_path);
++    test_acpi_one(params, &data);
++
++    g_free(params);
++    g_assert(g_rmdir(tmp_path) == 0);
++    g_free(tmp_path);
++    free_test_data(&data);
++}
++
+ static void test_acpi_virt_viot(void)
+ {
+     test_data data = {
+@@ -1742,6 +1785,7 @@ int main(int argc, char *argv[])
+             qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
+         }
+         qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
++        qtest_add_func("acpi/q35/cxl", test_acpi_q35_cxl);
+         qtest_add_func("acpi/q35/slic", test_acpi_q35_slic);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         if (has_tcg) {
 -- 
 2.32.0
 
