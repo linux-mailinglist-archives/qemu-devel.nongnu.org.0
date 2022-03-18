@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C774DDA98
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:33:12 +0100 (CET)
-Received: from localhost ([::1]:41298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C91994DDAAD
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:38:23 +0100 (CET)
+Received: from localhost ([::1]:57882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVCj9-0003s9-Lk
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:33:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46172)
+	id 1nVCoA-0006dd-TX
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:38:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVCZg-0006Za-Ga
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:24 -0400
-Received: from [2a00:1450:4864:20::432] (port=45981
- helo=mail-wr1-x432.google.com)
+ id 1nVCZh-0006cI-7m
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:25 -0400
+Received: from [2a00:1450:4864:20::433] (port=44830
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVCZe-0002C7-OK
+ id 1nVCZf-0002CH-Hy
  for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:23:24 -0400
-Received: by mail-wr1-x432.google.com with SMTP id p9so11694021wra.12
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 06:23:22 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id b19so11706660wrh.11
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 06:23:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=F5b5cXpmQL4zvEgjGCRXLiRUXPPFUSGLdiVG1e343YA=;
- b=YA9YH96zTuDGRoEDALss1MeBNSw2bV1HoB4wWl+yYsjfhZsrsyuzluWFyHq68vpK6J
- 2MUzDqJFrPv/ZvnQwpuBg1DXBp31PJk5lMKoQiUemxDuL6qRyEzOZ3/sYiLPwSB6IzjB
- vBePX9y/b8aZZ+7sAKVAlPu3cTdBMFl3/012cbS5ioedtep7gEqTDxk2WYUfcMNZCsxL
- RkHtz7IfsiHerkW13cgRl8msVzCLodMBLmn2VJo1XEbEOv+oMhFTuKSMg8JGc4WyS7LX
- mxWrtbwjmg711v1O0c8UQKkKDGHNO0v/8/DFYjJwioqE363m+a6UZJuyG8qqXgAAFZvY
- kH0g==
+ bh=BdSqB/hxDC2NJFyRoZAEcCAYDQy1ee8PfJktNbNz4sU=;
+ b=xMbYwIsKRiGpbPJN6kwPkm6m+Gi/7F2SpZV0C1BUV0lxHW+o/jWBzMPk95wXmae8Z1
+ K/27gbOmmVnM+lUK3SHi6Ycil9HKgQaEdfobiKr4J/5b509WCdLLmlzG/q0fUMm53qYz
+ SRPGzx5XDO3R9P4+VwjmWSMvJuNTjIe4kJAjXZAjgWJ6MRJwg5xx8ULvSU30h8+IofhO
+ CvkEhQ/tCb0b/y8+QstUwy4DMUmVpYJsiKAjBLPobOxFRT/KAmO4IHkG6FdeMCo8x3rt
+ /Ox2LDt9JUfO8xOmfS+nrewsPhC6zpiI/gFDAmP1ScxdQrW2c3K7OQ1Kc7WUlMK0BDu1
+ k3rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F5b5cXpmQL4zvEgjGCRXLiRUXPPFUSGLdiVG1e343YA=;
- b=7tXmKgEOvC+l9XNChyL7u8LKLUZ9CWluEwEVOSYcAsfGTgRiHxTI5TDPqDr++S45aS
- vgFRwZykE0ACdICDt4RYPjuomqGs0T6+jp6ozaogfuAB6yQ319l1pNKlf/MA6pPeKuyn
- ckc2wjypFGEAyv3eaunkvRJtaF0XqmAa2pmEgAWDxZzEEuRhbN4AaBHpBj0wmmiouuyv
- sCDWfhAzPOPPvW2IxhjLskYhPh88YBQtahCyoAP+4JgQq3VAuis7HutvdcAt4gHf2Azu
- nsrNMtVwM46WLsH1BccVgZ8Cnhu1NtgiquG4eVUgO2R14+Zp3McSBHFNb4DoLS8KVB9c
- 5C4A==
-X-Gm-Message-State: AOAM532T55/KH0XmBElSbKvbaMzJIe7xO3MgRo0Lf9QSiGbTkwnkjY/j
- 49dk7+lMzRenFOhcrSINAmeEQBf0TNr1pQ==
-X-Google-Smtp-Source: ABdhPJz0pzGqHMnQ63YJzeMFmDM9RDbV+W7Rvi9j7+XgzM3PULXODFqoRvLG1u+VKrCRqZmp4IXxeA==
-X-Received: by 2002:a05:6000:10cf:b0:203:d8da:129c with SMTP id
- b15-20020a05600010cf00b00203d8da129cmr8084800wrx.300.1647609801296; 
- Fri, 18 Mar 2022 06:23:21 -0700 (PDT)
+ bh=BdSqB/hxDC2NJFyRoZAEcCAYDQy1ee8PfJktNbNz4sU=;
+ b=7S3HNmSu/lXIlmSO+GytJgnWX5Q0CxQVFUnP7g95R2tXEfYJY3TSIcjVrBh4uuZb+7
+ 560LYMdyA+X0dWcwL23R22ujGMoL0vc9TxBXtnKEMT+iYPs38SZjQCKXMzQmrkuyIf7g
+ QahnN9/DM0a4flmwaNIc8qoYgckIef54tSXFk0OGRpa2sjk8lWYx2z3RvmUcHzL2TUfG
+ vuFdFNYEmhVvJbkj+KndGIljdNxqhO4dawln4MukLkUT+h+Mo2UaHO6SFb5wmWDoXpRO
+ t7aUHLY0QaV+X9Xn+F9VBznZbuhrx4IAaJepat49lSRQJlbc04PaYU89vTnNoqZ12BiG
+ xcVw==
+X-Gm-Message-State: AOAM5310OYkzrNpltn62m3Vj8X9WIa0WftBfAAkDN9Op0Vj7vi7uOwai
+ YygCU+qy3l141EIU18ox2LsyC0CcTQtCiA==
+X-Google-Smtp-Source: ABdhPJxfFmyNCDbhven6Hsl4+d5OxAhErrGo9+cDubuJa9c0jft1hzBMF6hlAybZi5z0GVHXQgoqGg==
+X-Received: by 2002:adf:a35e:0:b0:1f0:9f2:a65e with SMTP id
+ d30-20020adfa35e000000b001f009f2a65emr8094244wrb.535.1647609802121; 
+ Fri, 18 Mar 2022 06:23:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- y15-20020a05600015cf00b00203e324347bsm6316599wry.102.2022.03.18.06.23.20
+ y15-20020a05600015cf00b00203e324347bsm6316599wry.102.2022.03.18.06.23.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Mar 2022 06:23:20 -0700 (PDT)
+ Fri, 18 Mar 2022 06:23:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/21] target/arm: Log M-profile vector table accesses
-Date: Fri, 18 Mar 2022 13:22:56 +0000
-Message-Id: <20220318132306.3254960-12-peter.maydell@linaro.org>
+Subject: [PULL 12/21] target/arm: Log fault address for M-profile faults
+Date: Fri, 18 Mar 2022 13:22:57 +0000
+Message-Id: <20220318132306.3254960-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220318132306.3254960-1-peter.maydell@linaro.org>
 References: <20220318132306.3254960-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,87 +93,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the CPU_LOG_INT logging misses some useful information
-about loads from the vector table.  Add logging where we load vector
-table entries.  This is particularly helpful for cases where the user
-has accidentally not put a vector table in their image at all, which
-can result in confusing guest crashes at startup.
-
-Here's an example of the new logging for a case where
-the vector table contains garbage:
-
-Loaded reset SP 0x0 PC 0x0 from vector table
-Loaded reset SP 0xd008f8df PC 0xf000bf00 from vector table
-Taking exception 3 [Prefetch Abort] on CPU 0
-...with CFSR.IACCVIOL
-...BusFault with BFSR.STKERR
-...taking pending nonsecure exception 3
-...loading from element 3 of non-secure vector table at 0xc
-...loaded new PC 0x20000558
-----------------
-IN:
-0x20000558:  08000079  stmdaeq  r0, {r0, r3, r4, r5, r6}
-
-(The double reset logging is the result of our long-standing
-"CPUs all get reset twice" weirdness; it looks a bit ugly
-but it'll go away if we ever fix that :-))
+For M-profile, the fault address is not always exposed to the guest
+in a fault register (for instance the BFAR bus fault address register
+is only updated for bus faults on data accesses, not instruction
+accesses).  Currently we log the address only if we're putting it
+into a particular guest-visible register.  Since we always have it,
+log it generically, to make logs of i-side faults a bit clearer.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20220315204306.2797684-2-peter.maydell@linaro.org
+Message-id: 20220315204306.2797684-3-peter.maydell@linaro.org
 ---
- target/arm/cpu.c      | 5 +++++
- target/arm/m_helper.c | 5 +++++
- 2 files changed, 10 insertions(+)
+ target/arm/m_helper.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 185d4e774d5..498fb9f71b3 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "qemu/qemu-print.h"
- #include "qemu/timer.h"
-+#include "qemu/log.h"
- #include "qemu-common.h"
- #include "target/arm/idau.h"
- #include "qemu/module.h"
-@@ -366,6 +367,10 @@ static void arm_cpu_reset(DeviceState *dev)
-             initial_pc = ldl_phys(s->as, vecbase + 4);
-         }
- 
-+        qemu_log_mask(CPU_LOG_INT,
-+                      "Loaded reset SP 0x%x PC 0x%x from vector table\n",
-+                      initial_msp, initial_pc);
-+
-         env->regs[13] = initial_msp & 0xFFFFFFFC;
-         env->regs[15] = initial_pc & ~1;
-         env->thumb = initial_pc & 1;
 diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 648a3b3fc16..3bd16c0c465 100644
+index 3bd16c0c465..b7a0fe01141 100644
 --- a/target/arm/m_helper.c
 +++ b/target/arm/m_helper.c
-@@ -679,6 +679,10 @@ static bool arm_v7m_load_vector(ARMCPU *cpu, int exc, bool targets_secure,
-     ARMMMUIdx mmu_idx;
-     bool exc_secure;
- 
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "...loading from element %d of %s vector table at 0x%x\n",
-+                  exc, targets_secure ? "secure" : "non-secure", addr);
-+
-     mmu_idx = arm_v7m_mmu_idx_for_secstate_and_priv(env, targets_secure, true);
- 
-     /*
-@@ -719,6 +723,7 @@ static bool arm_v7m_load_vector(ARMCPU *cpu, int exc, bool targets_secure,
-         goto load_fail;
-     }
-     *pvec = vector_entry;
-+    qemu_log_mask(CPU_LOG_INT, "...loaded new PC 0x%x\n", *pvec);
-     return true;
- 
- load_fail:
+@@ -2272,7 +2272,13 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
+          * Note that for M profile we don't have a guest facing FSR, but
+          * the env->exception.fsr will be populated by the code that
+          * raises the fault, in the A profile short-descriptor format.
++         *
++         * Log the exception.vaddress now regardless of subtype, because
++         * logging below only logs it when it goes into a guest visible
++         * register.
+          */
++        qemu_log_mask(CPU_LOG_INT, "...at fault address 0x%x\n",
++                      (uint32_t)env->exception.vaddress);
+         switch (env->exception.fsr & 0xf) {
+         case M_FAKE_FSR_NSC_EXEC:
+             /*
 -- 
 2.25.1
 
