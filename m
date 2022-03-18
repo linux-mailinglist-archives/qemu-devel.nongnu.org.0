@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E6B4DE037
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 18:46:39 +0100 (CET)
-Received: from localhost ([::1]:56710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C94F54DE048
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 18:49:59 +0100 (CET)
+Received: from localhost ([::1]:60902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVGgQ-0000JW-Ip
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 13:46:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49660)
+	id 1nVGjd-0003vt-Gh
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 13:49:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nVGTs-0004bi-DY; Fri, 18 Mar 2022 13:33:41 -0400
-Received: from [2607:f8b0:4864:20::330] (port=45960
- helo=mail-ot1-x330.google.com)
+ id 1nVGTu-0004dA-AQ; Fri, 18 Mar 2022 13:33:43 -0400
+Received: from [2607:f8b0:4864:20::22c] (port=37401
+ helo=mail-oi1-x22c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nVGTq-0002Ay-Ua; Fri, 18 Mar 2022 13:33:40 -0400
-Received: by mail-ot1-x330.google.com with SMTP id
- g6-20020a9d6486000000b005acf9a0b644so5987948otl.12; 
- Fri, 18 Mar 2022 10:33:38 -0700 (PDT)
+ id 1nVGTs-0002BK-Qc; Fri, 18 Mar 2022 13:33:42 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id q129so7471992oif.4;
+ Fri, 18 Mar 2022 10:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/zSkqJudAShGrnJ6MfxVuMIYXjQTFUxnVA7QMwg6Xn8=;
- b=HHhNGzDoItx/P680vam4NNvYZhF+7oFY5FFrxq5oarIgeXsalJH7WVSUvjgHLAVXhC
- vrKOaAIWqb3orm8dETl82SgcIgtE94+wB4XkxfhjrEvjJcj6yG8F5t/l40ACHncA9rU4
- l7hv5fcwZ6qSs0SaOkqMJ3qHcTrhmiWY8aTsJQw1xXGIqyT11xly/LnGJlzg7944sYxP
- 4+upBRFucqDD2aNg+H9mERAsnMIsNodenErkz9bGGlmNvxu07oSdVqovN1mXwXlBwMJ9
- IQpqAMv7mMo0eIN2kqdbx5dsmC1Oo2gEyfcS8IL2IayvFwiIWkrr8+QAr3Uki1xzRjMk
- SCYA==
+ bh=XCEnkdrJV8hdZcD8pw6LWVdLrXvE4UKd1LTtyFJHg7k=;
+ b=AIprN1mUuFya2fEzSQXUwNX9JdnrtVI0gcjVE9WOy+v60lD7jf2Ir0lZU87n/XDZVw
+ 52SBVxv05rsGVLniN+ghLyd30fEFfgmPwMZR/6PhGIDxyEvr8W7uNdQYK4jKxpPp3FTC
+ h8zFrJ21PT9CUqv0qBjcTYAIu4dDh3D1iLlE+VOHN2F53wTGENUPfXtV6HzH/niVE7e4
+ 0SpJHMKrEEjNu1HdgGUvJU+oAz/PUlOeTnSAwcafPyeFdG87i6uBaFn8hnqMqLNZ3ZY8
+ ZeyscsPtS4d6y9FK/2Dbg37w6XCJn7YFyrNDePgqqwZalNaxp7tQTuw+t6BZp30P6cj3
+ KG4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/zSkqJudAShGrnJ6MfxVuMIYXjQTFUxnVA7QMwg6Xn8=;
- b=CNhxS98YQYz8cwQA+tqDBJGnXAqazYoYoPmYqT+1x1A3PcW4EQBPVxCtuDoDSc603W
- NdOIcY9uJbFB2x5qzl8/6qdNXnmdO/cKYHnLZuV3scj1cBMyf8f3cFPB4tei2XDFP0dK
- ywHYcU+DhewPfsMLB75uyry/+UrJfijpX4euFuska6mWjezpRY1aY2+s88zdCP5TmwYQ
- PMSXK+/yeskHxKdzIveI6tyDV/kCkbeIvoLu1D6Yyg+sfjwQQG5V2oLhc+BD1Na2XnoZ
- VX429/7sVPv+muTeIXiHLTpV/jUtpXyk4EqzqNcXyAvuTBuhZtBDLlvdWogkayCsWmvu
- QpxA==
-X-Gm-Message-State: AOAM532FX/nmio/I4JPC6WM8oIfoLYXMUxtDazsnHig4OdxW8xsmyYVX
- doM5KAFR4fMSQywaSgWWJxZnAUutHcw=
-X-Google-Smtp-Source: ABdhPJyGgD/jRXus0w8kAAQuDz5z3th7F/4b71emdCf5t3Z4TOBF6QN2KY8/lTmnGqa3NP0DOHGLbA==
-X-Received: by 2002:a05:6830:905:b0:5c9:35c1:2351 with SMTP id
- v5-20020a056830090500b005c935c12351mr3684023ott.358.1647624817491; 
- Fri, 18 Mar 2022 10:33:37 -0700 (PDT)
+ bh=XCEnkdrJV8hdZcD8pw6LWVdLrXvE4UKd1LTtyFJHg7k=;
+ b=XYHNiyBl/pDI/LTJmDNC7X66BVXd7d1YrviYl20Lmvf8/BKpxaAwe4wYx0CzPCE8h+
+ lh3FhApbUdMsKlsWaorSAvEdn+Miu/0hwpgqerBniV24TjkddiAIv+J8v2fkYp60hEED
+ 5dsNVtlAK/1p1ijBs1kiD5EnNk4SOo3yn3GzDVpNupDY9BdR3+ky5qzz3ECcsMMDSLMv
+ ErQSUazziqYZbBZOsLTh6nvEs6hW8q8zSIU277Hvc/baxupjhPY8pw9fViSIFpervRS1
+ QFdibiMPADwfyGOmHmCk3OennNNxUdajbWAe7ugRGnT3bnucwGj3bsWcbLjV+Du6hno9
+ p3zA==
+X-Gm-Message-State: AOAM531Sgfe7bf9Jot7//PS8m7KnR61BQf3/ZMh4Er6bfNhrG15f4w64
+ 7WnQDuDOKkqMiqo1V0WMckBqoo/rGLc=
+X-Google-Smtp-Source: ABdhPJxdLbx6VQSwy0VF9N7kk0gmUtXrBP/PIyv0BaiwGmdKKKKi90pAF2649GCyBn/pxTbaQ9TuLw==
+X-Received: by 2002:a05:6808:1a10:b0:2da:5a40:36f0 with SMTP id
+ bk16-20020a0568081a1000b002da5a4036f0mr8314998oib.41.1647624819495; 
+ Fri, 18 Mar 2022 10:33:39 -0700 (PDT)
 Received: from rekt.ibmmodules.com ([2804:431:c7c6:daa8:d948:1d15:1451:398f])
  by smtp.gmail.com with ESMTPSA id
- d2-20020a05683025c200b005c93d78e1f6sm4324662otu.29.2022.03.18.10.33.35
+ d2-20020a05683025c200b005c93d78e1f6sm4324662otu.29.2022.03.18.10.33.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Mar 2022 10:33:37 -0700 (PDT)
+ Fri, 18 Mar 2022 10:33:39 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 4/9] hw/ppc/spapr_drc.c: use drc->index
-Date: Fri, 18 Mar 2022 14:33:15 -0300
-Message-Id: <20220318173320.320541-5-danielhb413@gmail.com>
+Subject: [PATCH for-7.1 5/9] hw/ppc/spapr.c: use drc->index
+Date: Fri, 18 Mar 2022 14:33:16 -0300
+Message-Id: <20220318173320.320541-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220318173320.320541-1-danielhb413@gmail.com>
 References: <20220318173320.320541-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x330.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -92,77 +91,94 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After this patch, the only place where spapr_drc_index() is still being
-used in this file is in the drc->index initialization.
-
-We can't get rid of spapr_drc_index() yet because of external callers.
-We'll handle them next.
-
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_drc.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ hw/ppc/spapr.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 1d751fe9cc..11a49620c8 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -509,7 +509,7 @@ static const VMStateDescription vmstate_spapr_drc = {
- static void drc_realize(DeviceState *d, Error **errp)
- {
-     SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
--    g_autofree gchar *link_name = g_strdup_printf("%x", spapr_drc_index(drc));
-+    g_autofree gchar *link_name = g_strdup_printf("%x", drc->index);
-     Object *root_container;
-     const char *child_name;
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 953fc65fa8..6aab04787d 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -419,7 +419,7 @@ static int spapr_dt_dynamic_memory_v2(SpaprMachineState *spapr, void *fdt,
+             drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB, cur_addr / lmb_size);
+             g_assert(drc);
+             elem = spapr_get_drconf_cell((addr - cur_addr) / lmb_size,
+-                                         cur_addr, spapr_drc_index(drc), -1, 0);
++                                         cur_addr, drc->index, -1, 0);
+             QSIMPLEQ_INSERT_TAIL(&drconf_queue, elem, entry);
+             nr_entries++;
+         }
+@@ -428,7 +428,7 @@ static int spapr_dt_dynamic_memory_v2(SpaprMachineState *spapr, void *fdt,
+         drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB, addr / lmb_size);
+         g_assert(drc);
+         elem = spapr_get_drconf_cell(size / lmb_size, addr,
+-                                     spapr_drc_index(drc), node,
++                                     drc->index, node,
+                                      (SPAPR_LMB_FLAGS_ASSIGNED |
+                                       SPAPR_LMB_FLAGS_HOTREMOVABLE));
+         QSIMPLEQ_INSERT_TAIL(&drconf_queue, elem, entry);
+@@ -441,7 +441,7 @@ static int spapr_dt_dynamic_memory_v2(SpaprMachineState *spapr, void *fdt,
+         drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB, cur_addr / lmb_size);
+         g_assert(drc);
+         elem = spapr_get_drconf_cell((mem_end - cur_addr) / lmb_size,
+-                                     cur_addr, spapr_drc_index(drc), -1, 0);
++                                     cur_addr, drc->index, -1, 0);
+         QSIMPLEQ_INSERT_TAIL(&drconf_queue, elem, entry);
+         nr_entries++;
+     }
+@@ -497,7 +497,7 @@ static int spapr_dt_dynamic_memory(SpaprMachineState *spapr, void *fdt,
  
-@@ -526,15 +526,14 @@ static void drc_realize(DeviceState *d, Error **errp)
-     trace_spapr_drc_realize_child(drc->index, child_name);
-     object_property_add_alias(root_container, link_name,
-                               drc->owner, child_name);
--    vmstate_register(VMSTATE_IF(drc), spapr_drc_index(drc), &vmstate_spapr_drc,
--                     drc);
-+    vmstate_register(VMSTATE_IF(drc), drc->index, &vmstate_spapr_drc, drc);
-     trace_spapr_drc_realize_complete(drc->index);
- }
+             dynamic_memory[0] = cpu_to_be32(addr >> 32);
+             dynamic_memory[1] = cpu_to_be32(addr & 0xffffffff);
+-            dynamic_memory[2] = cpu_to_be32(spapr_drc_index(drc));
++            dynamic_memory[2] = cpu_to_be32(drc->index);
+             dynamic_memory[3] = cpu_to_be32(0); /* reserved */
+             dynamic_memory[4] = cpu_to_be32(spapr_pc_dimm_node(dimms, addr));
+             if (memory_region_present(get_system_memory(), addr)) {
+@@ -663,14 +663,12 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, int offset,
+     uint32_t pft_size_prop[] = {0, cpu_to_be32(spapr->htab_shift)};
+     int compat_smt = MIN(smp_threads, ppc_compat_max_vthreads(cpu));
+     SpaprDrc *drc;
+-    int drc_index;
+     uint32_t radix_AP_encodings[PPC_PAGE_SIZES_MAX_SZ];
+     int i;
  
- static void drc_unrealize(DeviceState *d)
- {
-     SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
--    g_autofree gchar *name = g_strdup_printf("%x", spapr_drc_index(drc));
-+    g_autofree gchar *name = g_strdup_printf("%x", drc->index);
-     Object *root_container;
- 
-     trace_spapr_drc_unrealize(drc->index);
-@@ -552,8 +551,7 @@ SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
-     drc->id = id;
-     drc->owner = owner;
-     drc->index = spapr_drc_index(drc);
--    prop_name = g_strdup_printf("dr-connector[%"PRIu32"]",
--                                spapr_drc_index(drc));
-+    prop_name = g_strdup_printf("dr-connector[%"PRIu32"]", drc->index);
-     object_property_add_child(owner, prop_name, OBJECT(drc));
-     object_unref(OBJECT(drc));
-     qdev_realize(DEVICE(drc), NULL, NULL);
-@@ -633,8 +631,7 @@ static void realize_physical(DeviceState *d, Error **errp)
-         return;
+     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_CPU, index);
+     if (drc) {
+-        drc_index = spapr_drc_index(drc);
+-        _FDT((fdt_setprop_cell(fdt, offset, "ibm,my-drc-index", drc_index)));
++        _FDT((fdt_setprop_cell(fdt, offset, "ibm,my-drc-index", drc->index)));
      }
  
--    vmstate_register(VMSTATE_IF(drcp),
--                     spapr_drc_index(SPAPR_DR_CONNECTOR(drcp)),
-+    vmstate_register(VMSTATE_IF(drcp), SPAPR_DR_CONNECTOR(drcp)->index,
-                      &vmstate_spapr_drc_physical, drcp);
-     qemu_register_reset(drc_physical_reset, drcp);
+     _FDT((fdt_setprop_cell(fdt, offset, "reg", index)));
+@@ -3448,7 +3446,7 @@ int spapr_lmb_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+     uint64_t addr;
+     uint32_t node;
+ 
+-    addr = spapr_drc_index(drc) * SPAPR_MEMORY_BLOCK_SIZE;
++    addr = drc->index * SPAPR_MEMORY_BLOCK_SIZE;
+     node = object_property_get_uint(OBJECT(drc->dev), PC_DIMM_NODE_PROP,
+                                     &error_abort);
+     *fdt_start_offset = spapr_dt_memory_node(spapr, fdt, node, addr,
+@@ -3491,7 +3489,7 @@ static void spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
+             g_assert(drc);
+             spapr_hotplug_req_add_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
+                                                    nr_lmbs,
+-                                                   spapr_drc_index(drc));
++                                                   drc->index);
+         } else {
+             spapr_hotplug_req_add_by_count(SPAPR_DR_CONNECTOR_TYPE_LMB,
+                                            nr_lmbs);
+@@ -3791,7 +3789,7 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
+     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
+                           addr_start / SPAPR_MEMORY_BLOCK_SIZE);
+     spapr_hotplug_req_remove_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
+-                                              nr_lmbs, spapr_drc_index(drc));
++                                              nr_lmbs, drc->index);
  }
-@@ -883,7 +880,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask)
-         drc_count++;
  
-         /* ibm,drc-indexes */
--        drc_index = cpu_to_be32(spapr_drc_index(drc));
-+        drc_index = cpu_to_be32(drc->index);
-         g_array_append_val(drc_indexes, drc_index);
- 
-         /* ibm,drc-power-domains */
+ /* Callback to be called during DRC release. */
 -- 
 2.35.1
 
