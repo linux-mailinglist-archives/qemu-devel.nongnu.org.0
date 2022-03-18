@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8644DDCB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:24:03 +0100 (CET)
-Received: from localhost ([::1]:52514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3064DDC9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:17:00 +0100 (CET)
+Received: from localhost ([::1]:60438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVESQ-0001Ia-Fa
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:24:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41886)
+	id 1nVELb-0004Eq-HA
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:16:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nVEFO-00024k-Rv
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:10:34 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2417)
+ id 1nVEFs-0002jk-O1
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:11:05 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nVEFN-0003ZO-6s
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:10:34 -0400
-Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KKnVS186fz67hYm;
- Fri, 18 Mar 2022 23:09:36 +0800 (CST)
+ id 1nVEFq-0003cr-Ak
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:11:03 -0400
+Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KKnW30DlWz67kM8;
+ Fri, 18 Mar 2022 23:10:07 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
+ fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 18 Mar 2022 16:10:29 +0100
+ 15.1.2375.24; Fri, 18 Mar 2022 16:11:00 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 18 Mar 2022 15:10:28 +0000
+ 15.1.2308.21; Fri, 18 Mar 2022 15:10:59 +0000
 To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
  <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
@@ -44,10 +44,9 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  "Samarth Saxena" <samarths@cadence.com>, Dan Williams
  <dan.j.williams@intel.com>, "Mark Cave-Ayland"
  <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH v8 08/46] hw/cxl/device: Add cheap EVENTS implementation
- (8.2.9.1)
-Date: Fri, 18 Mar 2022 15:05:57 +0000
-Message-ID: <20220318150635.24600-9-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v8 09/46] hw/cxl/device: Timestamp implementation (8.2.9.3)
+Date: Fri, 18 Mar 2022 15:05:58 +0000
+Message-ID: <20220318150635.24600-10-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
 References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
@@ -85,63 +84,105 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
 From: Ben Widawsky <ben.widawsky@intel.com>
 
-Using the previously implemented stubbed helpers, it is now possible to
-easily add the missing, required commands to the implementation.
+Errata F4 to CXL 2.0 clarified the meaning of the timer as the
+sum of the value set with the timestamp set command and the number
+of nano seconds since it was last set.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/cxl/cxl-mailbox-utils.c | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ hw/cxl/cxl-mailbox-utils.c  | 42 +++++++++++++++++++++++++++++++++++++
+ include/hw/cxl/cxl_device.h |  6 ++++++
+ 2 files changed, 48 insertions(+)
 
 diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-index 7e03dc224a..51af9282e2 100644
+index 51af9282e2..05e6bbdd6f 100644
 --- a/hw/cxl/cxl-mailbox-utils.c
 +++ b/hw/cxl/cxl-mailbox-utils.c
-@@ -38,6 +38,14 @@
-  *  a register interface that already deals with it.
-  */
+@@ -44,6 +44,9 @@ enum {
+         #define CLEAR_RECORDS   0x1
+         #define GET_INTERRUPT_POLICY   0x2
+         #define SET_INTERRUPT_POLICY   0x3
++    TIMESTAMP   = 0x03,
++        #define GET           0x0
++        #define SET           0x1
+ };
  
-+enum {
-+    EVENTS      = 0x01,
-+        #define GET_RECORDS   0x0
-+        #define CLEAR_RECORDS   0x1
-+        #define GET_INTERRUPT_POLICY   0x2
-+        #define SET_INTERRUPT_POLICY   0x3
-+};
-+
  /* 8.2.8.4.5.1 Command Return Codes */
- typedef enum {
-     CXL_MBOX_SUCCESS = 0x0,
-@@ -93,9 +101,26 @@ struct cxl_cmd {
-         return CXL_MBOX_SUCCESS;                                          \
-     }
+@@ -106,9 +109,46 @@ DEFINE_MAILBOX_HANDLER_NOP(events_clear_records);
+ DEFINE_MAILBOX_HANDLER_ZEROED(events_get_interrupt_policy, 4);
+ DEFINE_MAILBOX_HANDLER_NOP(events_set_interrupt_policy);
  
-+DEFINE_MAILBOX_HANDLER_ZEROED(events_get_records, 0x20);
-+DEFINE_MAILBOX_HANDLER_NOP(events_clear_records);
-+DEFINE_MAILBOX_HANDLER_ZEROED(events_get_interrupt_policy, 4);
-+DEFINE_MAILBOX_HANDLER_NOP(events_set_interrupt_policy);
++/* 8.2.9.3.1 */
++static ret_code cmd_timestamp_get(struct cxl_cmd *cmd,
++                                  CXLDeviceState *cxl_dstate,
++                                  uint16_t *len)
++{
++    uint64_t time, delta;
++    uint64_t final_time = 0;
++
++    if (cxl_dstate->timestamp.set) {
++        /* First find the delta from the last time the host set the time. */
++        time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        delta = time - cxl_dstate->timestamp.last_set;
++        final_time = cxl_dstate->timestamp.host_set + delta;
++    }
++
++    /* Then adjust the actual time */
++    stq_le_p(cmd->payload, final_time);
++    *len = 8;
++
++    return CXL_MBOX_SUCCESS;
++}
++
++/* 8.2.9.3.2 */
++static ret_code cmd_timestamp_set(struct cxl_cmd *cmd,
++                                  CXLDeviceState *cxl_dstate,
++                                  uint16_t *len)
++{
++    cxl_dstate->timestamp.set = true;
++    cxl_dstate->timestamp.last_set = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++
++    cxl_dstate->timestamp.host_set = le64_to_cpu(*(uint64_t *)cmd->payload);
++
++    *len = 0;
++    return CXL_MBOX_SUCCESS;
++}
 +
  static QemuUUID cel_uuid;
  
--static struct cxl_cmd cxl_cmd_set[256][256] = {};
-+#define IMMEDIATE_CONFIG_CHANGE (1 << 1)
-+#define IMMEDIATE_LOG_CHANGE (1 << 4)
-+
-+static struct cxl_cmd cxl_cmd_set[256][256] = {
-+    [EVENTS][GET_RECORDS] = { "EVENTS_GET_RECORDS",
-+        cmd_events_get_records, 1, 0 },
-+    [EVENTS][CLEAR_RECORDS] = { "EVENTS_CLEAR_RECORDS",
-+        cmd_events_clear_records, ~0, IMMEDIATE_LOG_CHANGE },
-+    [EVENTS][GET_INTERRUPT_POLICY] = { "EVENTS_GET_INTERRUPT_POLICY",
-+        cmd_events_get_interrupt_policy, 0, 0 },
-+    [EVENTS][SET_INTERRUPT_POLICY] = { "EVENTS_SET_INTERRUPT_POLICY",
-+        cmd_events_set_interrupt_policy, 4, IMMEDIATE_CONFIG_CHANGE },
-+};
+ #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
++#define IMMEDIATE_POLICY_CHANGE (1 << 3)
+ #define IMMEDIATE_LOG_CHANGE (1 << 4)
+ 
+ static struct cxl_cmd cxl_cmd_set[256][256] = {
+@@ -120,6 +160,8 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
+         cmd_events_get_interrupt_policy, 0, 0 },
+     [EVENTS][SET_INTERRUPT_POLICY] = { "EVENTS_SET_INTERRUPT_POLICY",
+         cmd_events_set_interrupt_policy, 4, IMMEDIATE_CONFIG_CHANGE },
++    [TIMESTAMP][GET] = { "TIMESTAMP_GET", cmd_timestamp_get, 0, 0 },
++    [TIMESTAMP][SET] = { "TIMESTAMP_SET", cmd_timestamp_set, 8, IMMEDIATE_POLICY_CHANGE },
+ };
  
  void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
- {
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index 7fd8d0f616..8102d2a813 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -117,6 +117,12 @@ typedef struct cxl_device_state {
+         size_t cel_size;
+     };
+ 
++    struct {
++        bool set;
++        uint64_t last_set;
++        uint64_t host_set;
++    } timestamp;
++
+     /* memory region for persistent memory, HDM */
+     uint64_t pmem_size;
+ } CXLDeviceState;
 -- 
 2.32.0
 
