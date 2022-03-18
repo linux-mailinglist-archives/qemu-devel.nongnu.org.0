@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487DD4DDCA7
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:20:18 +0100 (CET)
-Received: from localhost ([::1]:42738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0201C4DDC6C
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:08:06 +0100 (CET)
+Received: from localhost ([::1]:34504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVEOn-0002c4-DL
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:20:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39830)
+	id 1nVECy-0005Am-HU
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:08:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nVE7Q-0002jy-Hn
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:02:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45301)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nVEBS-00044m-VQ
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:06:31 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nVE7M-0002BB-Ri
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:02:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647615730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TuoafLXZKIqwoVL0wdK6e9ufCZaEc068k4bglagKQL8=;
- b=ReP2JQd2m5KETfcLOspoMc1MghsiLA5I3nUjzmn8NT6/HLudCUCrslR45RCOo9Sldk67f3
- zLU6w3IQuYI+qSr+gVk1i1XUCH8DOu+otRI7H9LIzCGdpC2LyLXIcgRg2p9LMGosx1cFDT
- OcuHSuAj4bdoY+nh+E/VGXsvlKcQrV0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-5R_-l1apOTqHI5HfdIXIig-1; Fri, 18 Mar 2022 11:02:08 -0400
-X-MC-Unique: 5R_-l1apOTqHI5HfdIXIig-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90BA0380407F;
- Fri, 18 Mar 2022 15:01:53 +0000 (UTC)
-Received: from laptop.redhat.com (unknown [10.39.192.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A7A78112C256;
- Fri, 18 Mar 2022 15:01:37 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- alex.williamson@redhat.com
-Subject: [PATCH v2 for-7.1] vfio/common: remove spurious tpm-crb-cmd
- misalignment warning
-Date: Fri, 18 Mar 2022 16:01:35 +0100
-Message-Id: <20220318150135.308623-1-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nVEBP-0002r8-Ed
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:06:30 -0400
+Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KKnPh4h6Yz67kM8;
+ Fri, 18 Mar 2022 23:05:28 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 18 Mar 2022 16:06:22 +0100
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 18 Mar 2022 15:06:21 +0000
+To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
+ <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>
+CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
+ <shameerali.kolothum.thodi@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Peter Xu
+ <peterx@redhat.com>, David Hildenbrand <david@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah
+ <shreyas.shah@elastics.cloud>, Chris Browy <cbrowy@avery-design.com>,
+ "Samarth Saxena" <samarths@cadence.com>, Dan Williams
+ <dan.j.williams@intel.com>, "Mark Cave-Ayland"
+ <mark.cave-ayland@ilande.co.uk>
+Subject: [PATCH v8 00/46] CXl 2.0 emulation Support
+Date: Fri, 18 Mar 2022 15:05:49 +0000
+Message-ID: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml732-chm.china.huawei.com (10.201.108.83) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,96 +75,237 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, peter.maydell@linaro.org, david@gibson.dropbear.id.au,
- stefanb@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-The CRB command buffer currently is a RAM MemoryRegion and given
-its base address alignment, it causes an error report on
-vfio_listener_region_add(). This region could have been a RAM device
-region, easing the detection of such safe situation but this option
-was not well received. So let's add a helper function that uses the
-memory region owner type to detect the situation is safe wrt
-the assignment. Other device types can be checked here if such kind
-of problem occurs again.
+Changes since v7:
+* Fixed and added comments for _OSC definition (Michael Tsirkin)
+* Dropped the RFC patch that added memops to a hostmem backend
+  and replaced with a per CXL type 3 device address space and use
+  of address_space_read() / address_space_write(). (Mark Cave-Ayland)
+* Added switch documentation as a new patch.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Note that I haven't added tracepoints as Mark suggested. That will
+probably be the subject of a future patchset building on this support.
 
----
+Posting now so that people can review it when then find time, but clearly
+this will need to wait for the next cycle.
 
-v1 -> v2:
-- do not check the MR name but rather the owner type
----
- hw/vfio/common.c     | 27 ++++++++++++++++++++++++++-
- hw/vfio/trace-events |  1 +
- 2 files changed, 27 insertions(+), 1 deletion(-)
+Series organized to allow it to be taken in stages if the maintainers
+prefer that approach. Most sets end with the addition of appropriate
+tests (TBD for switch support)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 080046e3f51..98b0b6fb8c7 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -40,6 +40,7 @@
- #include "trace.h"
- #include "qapi/error.h"
- #include "migration/migration.h"
-+#include "sysemu/tpm.h"
- 
- VFIOGroupList vfio_group_list =
-     QLIST_HEAD_INITIALIZER(vfio_group_list);
-@@ -861,6 +862,22 @@ static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
-     g_free(vrdl);
- }
- 
-+static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
-+{
-+    MemoryRegion *mr = section->mr;
-+
-+    if (!object_dynamic_cast(mr->owner, TYPE_TPM_CRB)) {
-+        return false;
-+    }
-+
-+    /* this is a known safe misaligned region, just trace for debug purpose */
-+    trace_vfio_known_safe_misalignment(memory_region_name(mr),
-+                                       section->offset_within_address_space,
-+                                       section->offset_within_region,
-+                                       qemu_real_host_page_size);
-+    return true;
-+}
-+
- static void vfio_listener_region_add(MemoryListener *listener,
-                                      MemoryRegionSection *section)
- {
-@@ -884,7 +901,15 @@ static void vfio_listener_region_add(MemoryListener *listener,
-     if (unlikely((section->offset_within_address_space &
-                   ~qemu_real_host_page_mask) !=
-                  (section->offset_within_region & ~qemu_real_host_page_mask))) {
--        error_report("%s received unaligned region", __func__);
-+        if (!vfio_known_safe_misalignment(section)) {
-+            error_report("%s received unaligned region %s iova=0x%"PRIx64
-+                         " offset_within_region=0x%"PRIx64
-+                         " qemu_real_host_page_mask=0x%"PRIxPTR,
-+                         __func__, memory_region_name(section->mr),
-+                         section->offset_within_address_space,
-+                         section->offset_within_region,
-+                         qemu_real_host_page_mask);
-+        }
-         return;
-     }
- 
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 0ef1b5f4a65..6f38a2e6991 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add
- vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
- vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
- vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
-+vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_within_region, uint64_t page_size) "Region \"%s\" iova=0x%"PRIx64" offset_within_region=0x%"PRIx64" qemu_real_host_page_mask=0x%"PRIxPTR ": cannot be mapped for DMA"
- vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
- vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
- vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
+Patches 0-15 - CXL PXB
+Patches 16-22 - Type 3 Device, Root Port
+Patches 23-39 - ACPI, board elements and interleave decoding to enable x86 hosts
+Patches 40-41 - arm64 support on virt.
+Patch 42 - Initial documentation
+Patches 43-46 - Switch support.
+
+I'm resisting the urge to have this series continue to grow with
+additional features on the basis it is already huge and what we have
+here is useful + functional.
+
+Updated background info:
+
+Looking in particular for:
+* Review of the PCI interactions
+* x86 and ARM machine interactions (particularly the memory maps)
+* Review of the interleaving approach - is the basic idea
+  acceptable?  It has changed since v7!
+* Review of the command line interface.
+* CXL related review welcome but much of that got reviewed
+  in earlier versions and hasn't changed substantially.
+
+Big TODOs:
+
+* Volatile memory devices (easy but it's more code so left for now).
+* Hotplug?  May not need much but it's not tested yet!
+* More tests and tighter verification that values written to hardware
+  are actually valid - stuff that real hardware would check.
+* Testing, testing and more testing.  I have been running a basic
+  set of ARM and x86 tests on this, but there is always room for
+  more tests and greater automation.
+* CFMWS flags as requested by Ben.
+
+Why do we want QEMU emulation of CXL?
+
+As Ben stated in V3, QEMU support has been critical to getting OS
+software written given lack of availability of hardware supporting the
+latest CXL features (coupled with very high demand for support being
+ready in a timely fashion). What has become clear since Ben's v3
+is that situation is a continuous one. Whilst we can't talk about
+them yet, CXL 3.0 features and OS support have been prototyped on
+top of this support and a lot of the ongoing kernel work is being
+tested against these patches. The kernel CXL mocking code allows
+some forms of testing, but QEMU provides a more versatile and
+exensible platform.
+
+Other features on the qemu-list that build on these include PCI-DOE
+/CDAT support from the Avery Design team further showing how this
+code is useful. Whilst not directly related this is also the test
+platform for work on PCI IDE/CMA + related DMTF SPDM as CXL both
+utilizes and extends those technologies and is likely to be an early
+adopter.
+Refs:
+CMA Kernel: https://lore.kernel.org/all/20210804161839.3492053-1-Jonathan.Cameron@huawei.com/
+CMA Qemu: https://lore.kernel.org/qemu-devel/1624665723-5169-1-git-send-email-cbrowy@avery-design.com/
+DOE Qemu: https://lore.kernel.org/qemu-devel/1623329999-15662-1-git-send-email-cbrowy@avery-design.com/
+
+As can be seen there is non trivial interaction with other areas of
+Qemu, particularly PCI and keeping this set up to date is proving
+a burden we'd rather do without :)
+
+Ben mentioned a few other good reasons in v3:
+https://lore.kernel.org/qemu-devel/20210202005948.241655-1-ben.widawsky@intel.com/
+
+What we have here is about what you need for it to be useful for testing
+currently kernel code.  Note the kernel code is moving fast so
+since v4, some features have been introduced we don't yet support in
+QEMU (e.g. use of the PCIe serial number extended capability).
+
+All comments welcome.
+
+Additional info that was here in v5 is now in the documentation patch.
+
+Thanks,
+
+Jonathan
+
+Ben Widawsky (24):
+  hw/pci/cxl: Add a CXL component type (interface)
+  hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
+  hw/cxl/device: Introduce a CXL device (8.2.8)
+  hw/cxl/device: Implement the CAP array (8.2.8.1-2)
+  hw/cxl/device: Implement basic mailbox (8.2.8.4)
+  hw/cxl/device: Add memory device utilities
+  hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
+  hw/cxl/device: Timestamp implementation (8.2.9.3)
+  hw/cxl/device: Add log commands (8.2.9.4) + CEL
+  hw/pxb: Use a type for realizing expanders
+  hw/pci/cxl: Create a CXL bus type
+  hw/pxb: Allow creation of a CXL PXB (host bridge)
+  hw/cxl/rp: Add a root port
+  hw/cxl/device: Add a memory device (8.2.8.5)
+  hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
+  hw/cxl/device: Add some trivial commands
+  hw/cxl/device: Plumb real Label Storage Area (LSA) sizing
+  hw/cxl/device: Implement get/set Label Storage Area (LSA)
+  hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
+  acpi/cxl: Add _OSC implementation (9.14.2)
+  acpi/cxl: Create the CEDT (9.14.1)
+  acpi/cxl: Introduce CFMWS structures in CEDT
+  hw/cxl/component Add a dumb HDM decoder handler
+  qtest/cxl: Add more complex test cases with CFMWs
+
+Jonathan Cameron (22):
+  MAINTAINERS: Add entry for Compute Express Link Emulation
+  cxl: Machine level control on whether CXL support is enabled
+  qtest/cxl: Introduce initial test for pxb-cxl only.
+  qtests/cxl: Add initial root port and CXL type3 tests
+  hw/cxl/component: Add utils for interleave parameter encoding/decoding
+  hw/cxl/host: Add support for CXL Fixed Memory Windows.
+  hw/pci-host/gpex-acpi: Add support for dsdt construction for pxb-cxl
+  pci/pcie_port: Add pci_find_port_by_pn()
+  CXL/cxl_component: Add cxl_get_hb_cstate()
+  mem/cxl_type3: Add read and write functions for associated hostmem.
+  cxl/cxl-host: Add memops for CFMWS region.
+  i386/pc: Enable CXL fixed memory windows
+  tests/acpi: q35: Allow addition of a CXL test.
+  qtests/bios-tables-test: Add a test for CXL emulation.
+  tests/acpi: Add tables for CXL emulation.
+  hw/arm/virt: Basic CXL enablement on pci_expander_bridge instances
+    pxb-cxl
+  qtest/cxl: Add aarch64 virt test for CXL
+  docs/cxl: Add initial Compute eXpress Link (CXL) documentation.
+  pci-bridge/cxl_upstream: Add a CXL switch upstream port
+  pci-bridge/cxl_downstream: Add a CXL switch downstream port
+  cxl/cxl-host: Support interleave decoding with one level of switches.
+  docs/cxl: Add switch documentation
+
+ MAINTAINERS                         |   7 +
+ docs/system/device-emulation.rst    |   1 +
+ docs/system/devices/cxl.rst         | 386 ++++++++++++++++++++++
+ hw/Kconfig                          |   1 +
+ hw/acpi/Kconfig                     |   5 +
+ hw/acpi/cxl-stub.c                  |  12 +
+ hw/acpi/cxl.c                       | 257 +++++++++++++++
+ hw/acpi/meson.build                 |   4 +-
+ hw/arm/Kconfig                      |   1 +
+ hw/arm/virt-acpi-build.c            |  33 ++
+ hw/arm/virt.c                       |  40 ++-
+ hw/core/machine.c                   |  28 ++
+ hw/cxl/Kconfig                      |   3 +
+ hw/cxl/cxl-component-utils.c        | 284 ++++++++++++++++
+ hw/cxl/cxl-device-utils.c           | 265 +++++++++++++++
+ hw/cxl/cxl-host-stubs.c             |  16 +
+ hw/cxl/cxl-host.c                   | 262 +++++++++++++++
+ hw/cxl/cxl-mailbox-utils.c          | 485 ++++++++++++++++++++++++++++
+ hw/cxl/meson.build                  |  12 +
+ hw/i386/acpi-build.c                |  57 +++-
+ hw/i386/pc.c                        |  57 +++-
+ hw/mem/Kconfig                      |   5 +
+ hw/mem/cxl_type3.c                  | 359 ++++++++++++++++++++
+ hw/mem/meson.build                  |   1 +
+ hw/meson.build                      |   1 +
+ hw/pci-bridge/Kconfig               |   5 +
+ hw/pci-bridge/cxl_downstream.c      | 229 +++++++++++++
+ hw/pci-bridge/cxl_root_port.c       | 231 +++++++++++++
+ hw/pci-bridge/cxl_upstream.c        | 205 ++++++++++++
+ hw/pci-bridge/meson.build           |   1 +
+ hw/pci-bridge/pci_expander_bridge.c | 172 +++++++++-
+ hw/pci-bridge/pcie_root_port.c      |   6 +-
+ hw/pci-host/gpex-acpi.c             |  20 +-
+ hw/pci/pci.c                        |  21 +-
+ hw/pci/pcie_port.c                  |  25 ++
+ include/hw/acpi/cxl.h               |  28 ++
+ include/hw/arm/virt.h               |   1 +
+ include/hw/boards.h                 |   2 +
+ include/hw/cxl/cxl.h                |  54 ++++
+ include/hw/cxl/cxl_component.h      | 207 ++++++++++++
+ include/hw/cxl/cxl_device.h         | 271 ++++++++++++++++
+ include/hw/cxl/cxl_pci.h            | 156 +++++++++
+ include/hw/pci/pci.h                |  14 +
+ include/hw/pci/pci_bridge.h         |  20 ++
+ include/hw/pci/pci_bus.h            |   7 +
+ include/hw/pci/pci_ids.h            |   1 +
+ include/hw/pci/pcie_port.h          |   2 +
+ qapi/machine.json                   |  18 ++
+ qemu-options.hx                     |  38 +++
+ scripts/device-crash-test           |   1 +
+ softmmu/vl.c                        |  44 +++
+ tests/data/acpi/q35/CEDT.cxl        | Bin 0 -> 184 bytes
+ tests/data/acpi/q35/DSDT.cxl        | Bin 0 -> 9615 bytes
+ tests/qtest/bios-tables-test.c      |  44 +++
+ tests/qtest/cxl-test.c              | 181 +++++++++++
+ tests/qtest/meson.build             |   5 +
+ 56 files changed, 4566 insertions(+), 25 deletions(-)
+ create mode 100644 docs/system/devices/cxl.rst
+ create mode 100644 hw/acpi/cxl-stub.c
+ create mode 100644 hw/acpi/cxl.c
+ create mode 100644 hw/cxl/Kconfig
+ create mode 100644 hw/cxl/cxl-component-utils.c
+ create mode 100644 hw/cxl/cxl-device-utils.c
+ create mode 100644 hw/cxl/cxl-host-stubs.c
+ create mode 100644 hw/cxl/cxl-host.c
+ create mode 100644 hw/cxl/cxl-mailbox-utils.c
+ create mode 100644 hw/cxl/meson.build
+ create mode 100644 hw/mem/cxl_type3.c
+ create mode 100644 hw/pci-bridge/cxl_downstream.c
+ create mode 100644 hw/pci-bridge/cxl_root_port.c
+ create mode 100644 hw/pci-bridge/cxl_upstream.c
+ create mode 100644 include/hw/acpi/cxl.h
+ create mode 100644 include/hw/cxl/cxl.h
+ create mode 100644 include/hw/cxl/cxl_component.h
+ create mode 100644 include/hw/cxl/cxl_device.h
+ create mode 100644 include/hw/cxl/cxl_pci.h
+ create mode 100644 tests/data/acpi/q35/CEDT.cxl
+ create mode 100644 tests/data/acpi/q35/DSDT.cxl
+ create mode 100644 tests/qtest/cxl-test.c
+
 -- 
-2.26.3
+2.32.0
 
 
