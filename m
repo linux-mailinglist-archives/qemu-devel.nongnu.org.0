@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CDB4DD200
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 01:44:28 +0100 (CET)
-Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC344DD2C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 03:08:39 +0100 (CET)
+Received: from localhost ([::1]:54004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nV0jB-0006tW-UF
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 20:44:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44108)
+	id 1nV22f-0004ZS-Hl
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 22:08:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nV0gq-0006C5-SS
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 20:42:00 -0400
-Received: from [2a00:1450:4864:20::42a] (port=34701
- helo=mail-wr1-x42a.google.com)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1nV21C-0003t2-9r
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 22:07:06 -0400
+Received: from [2607:f8b0:4864:20::62f] (port=45600
+ helo=mail-pl1-x62f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nV0go-0004kR-QB
- for qemu-devel@nongnu.org; Thu, 17 Mar 2022 20:42:00 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id j26so9734293wrb.1
- for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 17:41:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1nV21A-0008Qk-JT
+ for qemu-devel@nongnu.org; Thu, 17 Mar 2022 22:07:05 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id q13so5912698plk.12
+ for <qemu-devel@nongnu.org>; Thu, 17 Mar 2022 19:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tiFryPU0B6x9A6PdlzjQshXAB1vfdHXTBBqlQgqo51U=;
- b=eWBtTCDjexgxp073agTaG9K5B8O7cVtNWCONkXZx3vp5YW093/CYE6fTtcq/b7FXXf
- Y4rN8/BYDz9tM5IQDnKCkveIIsH1sqyAYVSmEj+A/L5oVo1kmROEDB1kLDtitAULZJsY
- r0aYPR+0F86KvJ1itc7Q8TaoWJIjCVS2OfzSaZM0RMnytRXxI4oCPp2zx7oOW8YzQ3IK
- 61jcEKqzQmlrS7kbEOiY3MQCS2HN/QFkLr+FDFXXnCqHE5129QaPq+HRlQ3vjnN6EXnD
- VpURk9nKALuirnzYjWL6EpagCLNf36uV4GTa1UflJi3SEhlUCvvDpucCgFYW+ZdFiAZC
- VW2w==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ZXiy/C7hMwMxLnwuA1L60XS6noDYSqCJLi2XWmMShJY=;
+ b=HdAYBQsaGCzzw8E2AYi3GkH8GMKUT0DIEZMfuEghBVQrnHPqg/87BmWOSjn7T/E+qt
+ MbKnfNg9Xp6FUvdmca3Bsv5NJQeLaU9/OEsVtSTVvLhng/Ssm75/mkxU05iNjBf2CwpG
+ 9nyIdivEHI97g6FabsCOQPIOIMbf95Pt4y+NlIwdbiBSMXXCEboNjmj0rsoKQh/DQQ1R
+ Qc4+sNsTggvpcX0/AQQPBu105EeFUbsbs82xFaK78NJ/X44e4TwN8trnrG/SRf9GcTA/
+ nP1KNmgs9G2ipgURIxNX1okWfe6hSVoj1ttzRm8T8YeljrgVwYBNIQWO0rdS0e2FhKuP
+ qNDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tiFryPU0B6x9A6PdlzjQshXAB1vfdHXTBBqlQgqo51U=;
- b=RqZvywOVkJY0Yg5XwqEOhCqRkDsOGaGsfW9CWhRB9ZZ+/W59ogV6e4LvFCkBH9aC3c
- /EwM9+nCaiEcKwAHDOrK5tYtYqPRm0u/kReJ+u0y1+3DZ4wJuWjI6Et1Mp/EDHZxAU91
- QLmb6zFsnMoiHhWIZoyj3bEsuPaHwh/m3rG5/rPwYpdaYSyx9x2WOFkrAIZKd6JurwWn
- 6b1DaR4SrDyGBZPItmaY2ltyDItQ3c4REelfjmM2yhIB2JRhjABgmvrUbPmbDmiTo+66
- KWbMo74RsOPYTb43K5chcw9jsjOxZtQHtRLfA0ReWdsIZb20Jpp91q9krWkW3cSK6Ff7
- fcZw==
-X-Gm-Message-State: AOAM5323HZKcOkezLFSrtQr4OA/uaFe3kRqU5OQdzqNL/F+QD+nzHxX/
- 1GBvbPSvJMlnCYIL9BR/d/gX0ful4Og=
-X-Google-Smtp-Source: ABdhPJxGRg1nm8Eybk0xLlSKplV7Om7v429Im224lIHer1sIKtfDiRN9boYgM3nW2FMqB/Cv1rhC9g==
-X-Received: by 2002:a05:6000:10cf:b0:203:d8da:129c with SMTP id
- b15-20020a05600010cf00b00203d8da129cmr6106839wrx.300.1647564116610; 
- Thu, 17 Mar 2022 17:41:56 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- p22-20020a1c5456000000b00389e7e62800sm5451499wmi.8.2022.03.17.17.41.55
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 17 Mar 2022 17:41:56 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH-for-7.0] hw/i386/amd_iommu: Fix maybe-uninitialized error
- with GCC 12
-Date: Fri, 18 Mar 2022 01:41:53 +0100
-Message-Id: <20220318004153.4510-1-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZXiy/C7hMwMxLnwuA1L60XS6noDYSqCJLi2XWmMShJY=;
+ b=I5TWdzlpbBZ50OPqXLOvF0g9A2hExXy5DukLOakf57r08fCDUXWwVjETGiVdBuej+N
+ lntFcF0d8p5Hb0sdYPCwPKIMRxnuPD+CyuZvIe2nJxyEAIl0fW4x9pa1XQwLEGLBRJNw
+ t3cXjCXaPH/o4r8n47buhscKQReKMK/VFvcLnH/spDCMCwlyk6iOjI5ujobemGAHnNNQ
+ DAgNpZzGMS0NAU2SN/WpiV4VjheG3SatGHK7zdiKAcZxO1XtNFNJ0Mvi92cmC3F2lN9L
+ jfjkZ1SrfiqDEB4pgzq1TEisLsoPGxMhqcyZ3Jq+GEUCypUpnYUBtyYeGoAwi3iiQXh4
+ 6bow==
+X-Gm-Message-State: AOAM531r9oSaxBirnkIA6gTRSBoshEYd8tfM1sU2Hm6/5h0ScbEJb3mF
+ QWgHNILxISzdVXinhfo1jbQ=
+X-Google-Smtp-Source: ABdhPJzrIITKIs04Bav53tODGnX7+92k0YLk1AlAiz7xzpR9xRBtJkSyo9jcFpuKl/TiUrTuZEYdcQ==
+X-Received: by 2002:a17:90b:3ece:b0:1bf:16ac:7a1b with SMTP id
+ rm14-20020a17090b3ece00b001bf16ac7a1bmr8636107pjb.236.1647569222575; 
+ Thu, 17 Mar 2022 19:07:02 -0700 (PDT)
+Received: from localhost ([192.55.54.52]) by smtp.gmail.com with ESMTPSA id
+ na8-20020a17090b4c0800b001bf191ee347sm11362529pjb.27.2022.03.17.19.07.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Mar 2022 19:07:02 -0700 (PDT)
+Date: Thu, 17 Mar 2022 19:07:00 -0700
+From: Isaku Yamahata <isaku.yamahata@gmail.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: Re: [RFC PATCH v3 05/36] i386/tdx: Implement tdx_kvm_init() to
+ initialize TDX VM context
+Message-ID: <20220318020700.GA4006347@ls.amr.corp.intel.com>
+References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
+ <20220317135913.2166202-6-xiaoyao.li@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220317135913.2166202-6-xiaoyao.li@intel.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=isaku.yamahata@gmail.com; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,55 +89,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ "Daniel P. Berrang???" <berrange@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Philippe Mathieu-Daud??? <f4bug@amsat.org>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, seanjc@google.com, erdemaktas@google.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ isaku.yamahata@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Thu, Mar 17, 2022 at 09:58:42PM +0800,
+Xiaoyao Li <xiaoyao.li@intel.com> wrote:
 
-Initialize 'oldlevel' early to avoid on Debian/sid:
+> Introduce tdx_kvm_init() and invoke it in kvm_confidential_guest_init()
+> if it's a TDX VM. More initialization will be added later.
+> 
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> ---
+>  target/i386/kvm/kvm.c       | 15 ++++++---------
+>  target/i386/kvm/meson.build |  2 +-
+>  target/i386/kvm/tdx-stub.c  |  9 +++++++++
+>  target/i386/kvm/tdx.c       | 13 +++++++++++++
+>  target/i386/kvm/tdx.h       |  2 ++
+>  5 files changed, 31 insertions(+), 10 deletions(-)
+>  create mode 100644 target/i386/kvm/tdx-stub.c
+> 
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index 70454355f3bf..26ed5faf07b8 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -54,6 +54,7 @@
+>  #include "migration/blocker.h"
+>  #include "exec/memattrs.h"
+>  #include "trace.h"
+> +#include "tdx.h"
+>  
+>  //#define DEBUG_KVM
+>  
+> @@ -2360,6 +2361,8 @@ static int kvm_confidential_guest_init(MachineState *ms, Error **errp)
+>  {
+>      if (object_dynamic_cast(OBJECT(ms->cgs), TYPE_SEV_GUEST)) {
+>          return sev_kvm_init(ms->cgs, errp);
+> +    } else if (object_dynamic_cast(OBJECT(ms->cgs), TYPE_TDX_GUEST)) {
+> +        return tdx_kvm_init(ms, errp);
+>      }
+>  
+>      return 0;
+> @@ -2374,16 +2377,10 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>      Error *local_err = NULL;
+>  
+>      /*
+> -     * Initialize SEV context, if required
+> +     * Initialize confidential guest (SEV/TDX) context, if required
+>       *
+> -     * If no memory encryption is requested (ms->cgs == NULL) this is
+> -     * a no-op.
+> -     *
+> -     * It's also a no-op if a non-SEV confidential guest support
+> -     * mechanism is selected.  SEV is the only mechanism available to
+> -     * select on x86 at present, so this doesn't arise, but if new
+> -     * mechanisms are supported in future (e.g. TDX), they'll need
+> -     * their own initialization either here or elsewhere.
+> +     * It's a no-op if a non-SEV/non-tdx confidential guest support
+> +     * mechanism is selected, i.e., ms->cgs == NULL
+>       */
+>      ret = kvm_confidential_guest_init(ms, &local_err);
+>      if (ret < 0) {
+> diff --git a/target/i386/kvm/meson.build b/target/i386/kvm/meson.build
+> index b2d7d41acde2..fd30b93ecec9 100644
+> --- a/target/i386/kvm/meson.build
+> +++ b/target/i386/kvm/meson.build
+> @@ -9,7 +9,7 @@ i386_softmmu_kvm_ss.add(files(
+>  
+>  i386_softmmu_kvm_ss.add(when: 'CONFIG_SEV', if_false: files('sev-stub.c'))
+>  
+> -i386_softmmu_kvm_ss.add(when: 'CONFIG_TDX', if_true: files('tdx.c'))
+> +i386_softmmu_kvm_ss.add(when: 'CONFIG_TDX', if_true: files('tdx.c'), if_false: files('tdx-stub.c'))
+>  
+>  i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
+>  
+> diff --git a/target/i386/kvm/tdx-stub.c b/target/i386/kvm/tdx-stub.c
+> new file mode 100644
+> index 000000000000..1df24735201e
+> --- /dev/null
+> +++ b/target/i386/kvm/tdx-stub.c
+> @@ -0,0 +1,9 @@
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +
+> +#include "tdx.h"
+> +
+> +int tdx_kvm_init(MachineState *ms, Error **errp)
+> +{
+> +    return -EINVAL;
+> +}
+> diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
+> index d3792d4a3d56..e3b94373b316 100644
+> --- a/target/i386/kvm/tdx.c
+> +++ b/target/i386/kvm/tdx.c
+> @@ -12,10 +12,23 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include "qapi/error.h"
+>  #include "qom/object_interfaces.h"
+>  
+> +#include "hw/i386/x86.h"
+>  #include "tdx.h"
+>  
+> +int tdx_kvm_init(MachineState *ms, Error **errp)
+> +{
+> +    TdxGuest *tdx = (TdxGuest *)object_dynamic_cast(OBJECT(ms->cgs),
+> +                                                    TYPE_TDX_GUEST);
 
-  FAILED: libqemu-x86_64-softmmu.fa.p/hw_i386_amd_iommu.c.o
-  In function 'pte_get_page_mask',
-      inlined from 'amdvi_page_walk' at hw/i386/amd_iommu.c:945:25,
-      inlined from 'amdvi_do_translate' at hw/i386/amd_iommu.c:989:5,
-      inlined from 'amdvi_translate' at hw/i386/amd_iommu.c:1038:5:
-  hw/i386/amd_iommu.c:877:38: error: 'oldlevel' may be used uninitialized [-Werror=maybe-uninitialized]
-    877 |     return ~((1UL << ((oldlevel * 9) + 3)) - 1);
-        |                      ~~~~~~~~~~~~~~~~^~~~
-  hw/i386/amd_iommu.c: In function 'amdvi_translate':
-  hw/i386/amd_iommu.c:906:41: note: 'oldlevel' was declared here
-    906 |     unsigned level, present, pte_perms, oldlevel;
-        |                                         ^~~~~~~~
-  cc1: all warnings being treated as errors
+The caller already checks it.  This is redundant. Maybe assert?
 
-Having:
 
-  $ gcc --version
-  gcc (Debian 12-20220313-1) 12.0.1 20220314 (experimental)
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/i386/amd_iommu.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index 4d13d8e697..b6d299f964 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -904,6 +904,7 @@ static void amdvi_page_walk(AMDVIAddressSpace *as, uint64_t *dte,
-     /* make sure the DTE has TV = 1 */
-     if (pte & AMDVI_DEV_TRANSLATION_VALID) {
-         level = get_pte_translation_mode(pte);
-+        oldlevel = level;
-         if (level >= 7) {
-             trace_amdvi_mode_invalid(level, addr);
-             return;
 -- 
-2.35.1
-
+Isaku Yamahata <isaku.yamahata@gmail.com>
 
