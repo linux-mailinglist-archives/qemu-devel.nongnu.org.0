@@ -2,56 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281F74DD4B8
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 07:39:34 +0100 (CET)
-Received: from localhost ([::1]:42864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC154DD514
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 08:10:23 +0100 (CET)
+Received: from localhost ([::1]:36626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nV6Gq-0003GE-LS
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 02:39:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59402)
+	id 1nV6kf-0003C0-T6
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 03:10:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nV6Bq-00016q-UO; Fri, 18 Mar 2022 02:34:23 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:5133)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nV6jI-0002Na-Ie
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 03:08:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nV6Bn-0003e7-Bt; Fri, 18 Mar 2022 02:34:22 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KKZ1Q2gXLzCqjP;
- Fri, 18 Mar 2022 14:32:10 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.21; Fri, 18 Mar 2022 14:34:12 +0800
-Subject: Re: [PATCH v2 2/3] hw/acpi/aml-build: Use existing CPU topology to
- build PPTT table
-To: Gavin Shan <gshan@redhat.com>, <qemu-arm@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <imammedo@redhat.com>, <drjones@redhat.com>,
- <peter.maydell@linaro.org>, <richard.henderson@linaro.org>,
- <shan.gavin@gmail.com>, <zhenyzha@redhat.com>
-References: <20220303031152.145960-1-gshan@redhat.com>
- <20220303031152.145960-3-gshan@redhat.com>
-Message-ID: <12b4a089-b01f-f536-499e-d6029d0b1dea@huawei.com>
-Date: Fri, 18 Mar 2022 14:34:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nV6jF-0008N3-Cd
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 03:08:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647587331;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K09/QLKTA5GgTONhLAEVd097SaYDFYzvWA3SFtG94Hc=;
+ b=W6y6jt433421TEU2eh0diir4k6L5rE+Rr2A+MsxeWBXPaiT+1egrWd1GVIuqEkbhEqPcEj
+ hUlz7qnU65hbZtMzFDgbmQnWgh+o1yG/9xJfRUxIZPQLri/hYbQjZX9H1zUJO/qSXc3v3g
+ n7ddTivvK2qkOkactpDzwppOVng/bsI=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-635-GMlrYkEjOvSmGUw3Od8bkg-1; Fri, 18 Mar 2022 03:08:50 -0400
+X-MC-Unique: GMlrYkEjOvSmGUw3Od8bkg-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ u4-20020a63b544000000b0037c62d8b0ecso2960431pgo.13
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 00:08:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=K09/QLKTA5GgTONhLAEVd097SaYDFYzvWA3SFtG94Hc=;
+ b=r2Sobd+iNhDJNaTcNqbgZm2kFmOqTH/pXxcXKbY4JwZ8NqRjlrJ1Dwi3e1a4oKVZwN
+ TCd5M9cx7e+V4+lYDLN+ikrBZrpRjMvQnVy2wcsNwQeNVhEg14WGSokL9Kg0oBnwAQDV
+ Lkl/Eufdcrn8lgqTLYFOLJciZXDnQKnTwQ1NW+8V6jli8p9IojgEyTyTC+bHzIiLuLKn
+ wKnWnabwGQ/9k4YOEMyV+ooLjNygeklQNG2ljZDg3NBKENOAqy8diVdR0JN8Tfp0MkVG
+ X7zjaZbl1U4ermzzNWg+Vp49yDjM9xIlth+kIUzdD7hQJWki0pBDbxmuNU1Rh2vVLQ/Q
+ 2fQQ==
+X-Gm-Message-State: AOAM531lhHBLRdgfd3JjGvfvNp9I8k09ZT7M5ikYRSQT1M0yzLeihCvq
+ 3KeuEDfIYJZRAK097+emorda2y/EmMU+yABL2erUPVIeHMq9zeTHXwC+K312Cdx6NOInAGzweQf
+ i0C5M7b59O6BFlSM=
+X-Received: by 2002:a05:6a00:1f19:b0:4fa:6b9c:6e1c with SMTP id
+ be25-20020a056a001f1900b004fa6b9c6e1cmr2825217pfb.35.1647587329233; 
+ Fri, 18 Mar 2022 00:08:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwcMfgJrXQdlbticWb4u2WF5SJ0Lf6unuiPaiybHc29Oa6XkGy/N5CZYojnLjDrRdcSLEFktQ==
+X-Received: by 2002:a05:6a00:1f19:b0:4fa:6b9c:6e1c with SMTP id
+ be25-20020a056a001f1900b004fa6b9c6e1cmr2825196pfb.35.1647587328880; 
+ Fri, 18 Mar 2022 00:08:48 -0700 (PDT)
+Received: from xz-m1.local ([191.101.132.138])
+ by smtp.gmail.com with ESMTPSA id
+ ob13-20020a17090b390d00b001becfd7c6f3sm7851299pjb.27.2022.03.18.00.08.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Mar 2022 00:08:48 -0700 (PDT)
+Date: Fri, 18 Mar 2022 15:08:43 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: Time to introduce a migration protocol negotiation (Re: [PATCH
+ v2 00/25] migration: Postcopy Preemption)
+Message-ID: <YjQv+8KRrLoks/TP@xz-m1.local>
+References: <Yh30/nPtWyvqp8xo@redhat.com> <Yh37hLn5Dlffm13P@xz-m1.local>
+ <Yh5O/eq4If4MYpTq@work-vm> <Yi+ONfiZlQD2LoHX@redhat.com>
+ <YjAul3GIWmB3+v0P@xz-m1.local> <YjB1XXzIsJWtSR4E@redhat.com>
+ <YjFZ84Wdz6jpSekr@xz-m1.local> <YjG1AGhai1QvDdrd@redhat.com>
+ <YjG+iHCmCXRPIV1m@xz-m1.local> <YjHDZSCZM3VmUVx8@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220303031152.145960-3-gshan@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <YjHDZSCZM3VmUVx8@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -66,204 +104,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-Hi Gavin,
+On Wed, Mar 16, 2022 at 11:00:53AM +0000, Daniel P. Berrangé wrote:
+> On Wed, Mar 16, 2022 at 06:40:08PM +0800, Peter Xu wrote:
+> > On Wed, Mar 16, 2022 at 09:59:28AM +0000, Daniel P. Berrangé wrote:
+> > > On Wed, Mar 16, 2022 at 11:30:59AM +0800, Peter Xu wrote:
+> > > > On Tue, Mar 15, 2022 at 11:15:41AM +0000, Daniel P. Berrangé wrote:
+> > > > > > I still remember you mentioned the upper layer softwares can have
+> > > > > > assumption on using only 1 pair of socket for migration, I think that makes
+> > > > > > postcopy-preempt by default impossible.
+> > > > > > 
+> > > > > > Why multifd is different here?
+> > > > > 
+> > > > > It isn't different. We went through the pain to extending libvirt
+> > > > > to know how to open many channels for multifd. We'll have todo
+> > > > > the same with this postcopy-pre-empt. To this day though, management
+> > > > > apps above libvirt largely don't enable multifd, which is a real
+> > > > > shame. This is the key reason I think we need to handle this at
+> > > > > the QEMU level automatically.
+> > > > 
+> > > > But I still don't undertand how QEMU could know about those tunnels, which
+> > > > should be beyond QEMU's awareness?
+> > > > 
+> > > > The tunneling program can be some admin initiated socat tcp forwarding
+> > > > programs, which by default may not allow >1 socket pairs.
+> > > > 
+> > > > Or maybe I have mis-understood on what's the tunneling we're discussing?
+> > > 
+> > > I dont think I was talking about tunneling at all, just QEMU
+> > > migration protocol options !
+> > 
+> > Ah. :)
+> > 
+> > > 
+> > > If an app is tunnelling QEMU's migration protocol over some
+> > > channel, that isn't important to QEMU - regardless whether a
+> > > passed in 'fd:' protocol FD is a direct TCP socket, or a
+> > > UNIX socket for a tunnel, QEMU works the same way. In one
+> > > of my other replies I mention a way to make 'fd:' work with
+> > > an arbitrary number of channels, by using an event from QEMU
+> > > to request the app provide additional FDs.
+> > 
+> > I very much agree on the whole concept of what you proposed, either on the
+> > new negotiation phase itself, or the idea that with the negotiation phase
+> > we can try to auto-enable some features we not used to.
+> > 
+> > What I wanted to express is we can't enable either preempt mode or multifd
+> > automatically from qemu even with them, because these two are quite special
+> > IMHO in that qemu doesn't know whether the mgmt app can handle the multiple
+> > socket pairs.  Yes we could teach qemu to dynamically accept new "fd"s, but
+> > again IMHO that still needs to be intervened by the mgmt app.
+> 
+> My proposal absolutely *can* let QEMU do that automatically, and that
+> is one of the most important benefits of it.
+> 
+> [quote]
+> Introduce one *final-no-more-never-again-after-this* migration
+> capability called "protocol-negotiation".
+> 
+> When that capability is set, first declare that henceforth the
+> migration transport is REQUIRED to support **multiple**,
+> **bi-directional** channels. We might only use 1 TCP channel
+> in some cases, but it declares our intent that we expect to be
+> able to use as many channels as we see fit henceforth.
+> [/quote]
+> 
+> IOW, any management app that enabled 'protocol-negotiation' is explicitly
+> declaring that it accepts the new requirements for support for multiple
+> channels. An app which enabled 'protocol-negotiation' capability while
+> only allowing 1 chanels is simply broken, because it would be violating
+> the documented requirements for the capability.
 
-On 2022/3/3 11:11, Gavin Shan wrote:
-> When the PPTT table is built, the CPU topology is re-calculated, but
-> it's unecessary because the CPU topology, except the cluster IDs,
-> has been populated in virt_possible_cpu_arch_ids() on arm/virt machine.
->
-> This avoids to re-calculate the CPU topology by reusing the existing
-> one in ms->possible_cpus. However, the cluster ID for the CPU instance
-> has to be calculated dynamically because there is no corresponding
-> field in struct CpuInstanceProperties. Currently, the only user of
-> build_pptt() is arm/virt machine.
->
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> ---
->   hw/acpi/aml-build.c | 106 ++++++++++++++++++++++++++++++++++----------
->   1 file changed, 82 insertions(+), 24 deletions(-)
->
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index 8966e16320..572cf5fc00 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -2002,18 +2002,27 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->                   const char *oem_id, const char *oem_table_id)
->   {
->       MachineClass *mc = MACHINE_GET_CLASS(ms);
-> +    CPUArchIdList *cpus = ms->possible_cpus;
-> +    GQueue *socket_list = g_queue_new();
-> +    GQueue *cluster_list = g_queue_new();
-> +    GQueue *core_list = g_queue_new();
->       GQueue *list = g_queue_new();
->       guint pptt_start = table_data->len;
->       guint parent_offset;
->       guint length, i;
-> -    int uid = 0;
-> -    int socket;
-> +    int n, id, socket_id, cluster_id, core_id, thread_id;
->       AcpiTable table = { .sig = "PPTT", .rev = 2,
->                           .oem_id = oem_id, .oem_table_id = oem_table_id };
->   
->       acpi_table_begin(&table, table_data);
->   
-> -    for (socket = 0; socket < ms->smp.sockets; socket++) {
-> +    for (n = 0; n < cpus->len; n++) {
-> +        socket_id = cpus->cpus[n].props.socket_id;
-> +        if (g_queue_find(socket_list, GUINT_TO_POINTER(socket_id))) {
-> +            continue;
-> +        }
-> +
-> +        g_queue_push_tail(socket_list, GUINT_TO_POINTER(socket_id));
->           g_queue_push_tail(list,
->               GUINT_TO_POINTER(table_data->len - pptt_start));
->           build_processor_hierarchy_node(
-> @@ -2023,65 +2032,114 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->                * of a physical package
->                */
->               (1 << 0),
-> -            0, socket, NULL, 0);
-> +            0, socket_id, NULL, 0);
->       }
->   
->       if (mc->smp_props.clusters_supported) {
->           length = g_queue_get_length(list);
->           for (i = 0; i < length; i++) {
-> -            int cluster;
-> -
->               parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
-> -            for (cluster = 0; cluster < ms->smp.clusters; cluster++) {
-> +            socket_id = GPOINTER_TO_UINT(g_queue_pop_head(socket_list));
-> +
-> +            for (n = 0; n < cpus->len; n++) {
-> +                if (cpus->cpus[n].props.socket_id != socket_id) {
-> +                    continue;
-> +                }
-> +
-> +                /*
-> +                 * We have to calculate the cluster ID because it isn't
-> +                 * available in the CPU instance properties.
-> +                 */
-Since we need cluster ID now, maybe we can simply make it supported
-in the CPU instance properties.
+Sorry I misteriously overlooked that paragraph.. it's just that from the
+wording "negotiation" shouldn't rely on multipe sockets, since from the
+literal meaning any bidirectional channel should be negotiatable.  But I
+see what you mean now..  Thanks,
 
-Thanks,
-Yanan
-> +                cluster_id = cpus->cpus[n].props.thread_id /
-> +                             (ms->smp.cores * ms->smp.threads);
-> +                if (g_queue_find(cluster_list, GUINT_TO_POINTER(cluster_id))) {
-> +                    continue;
-> +                }
-> +
-> +                g_queue_push_tail(cluster_list, GUINT_TO_POINTER(cluster_id));
->                   g_queue_push_tail(list,
->                       GUINT_TO_POINTER(table_data->len - pptt_start));
->                   build_processor_hierarchy_node(
->                       table_data,
->                       (0 << 0), /* not a physical package */
-> -                    parent_offset, cluster, NULL, 0);
-> +                    parent_offset, cluster_id, NULL, 0);
->               }
->           }
->       }
->   
->       length = g_queue_get_length(list);
->       for (i = 0; i < length; i++) {
-> -        int core;
-> -
->           parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
-> -        for (core = 0; core < ms->smp.cores; core++) {
-> -            if (ms->smp.threads > 1) {
-> -                g_queue_push_tail(list,
-> -                    GUINT_TO_POINTER(table_data->len - pptt_start));
-> -                build_processor_hierarchy_node(
-> -                    table_data,
-> -                    (0 << 0), /* not a physical package */
-> -                    parent_offset, core, NULL, 0);
-> -            } else {
-> +        if (!mc->smp_props.clusters_supported) {
-> +            socket_id = GPOINTER_TO_UINT(g_queue_pop_head(socket_list));
-> +        } else {
-> +            cluster_id = GPOINTER_TO_UINT(g_queue_pop_head(cluster_list));
-> +        }
-> +
-> +        for (n = 0; n < cpus->len; n++) {
-> +            if (!mc->smp_props.clusters_supported &&
-> +                cpus->cpus[n].props.socket_id != socket_id) {
-> +                continue;
-> +            }
-> +
-> +            /*
-> +             * We have to calculate the cluster ID because it isn't
-> +             * available in the CPU instance properties.
-> +             */
-> +            id = cpus->cpus[n].props.thread_id /
-> +                (ms->smp.cores * ms->smp.threads);
-> +            if (mc->smp_props.clusters_supported && id != cluster_id) {
-> +                continue;
-> +            }
-> +
-> +            core_id = cpus->cpus[n].props.core_id;
-> +            if (ms->smp.threads <= 1) {
->                   build_processor_hierarchy_node(
->                       table_data,
->                       (1 << 1) | /* ACPI Processor ID valid */
->                       (1 << 3),  /* Node is a Leaf */
-> -                    parent_offset, uid++, NULL, 0);
-> +                    parent_offset, core_id, NULL, 0);
-> +                continue;
->               }
-> +
-> +            if (g_queue_find(core_list, GUINT_TO_POINTER(core_id))) {
-> +                continue;
-> +            }
-> +
-> +            g_queue_push_tail(core_list, GUINT_TO_POINTER(core_id));
-> +            g_queue_push_tail(list,
-> +                GUINT_TO_POINTER(table_data->len - pptt_start));
-> +            build_processor_hierarchy_node(
-> +                table_data,
-> +                (0 << 0), /* not a physical package */
-> +                parent_offset, core_id, NULL, 0);
->           }
->       }
->   
->       length = g_queue_get_length(list);
->       for (i = 0; i < length; i++) {
-> -        int thread;
-> -
->           parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
-> -        for (thread = 0; thread < ms->smp.threads; thread++) {
-> +        core_id = GPOINTER_TO_UINT(g_queue_pop_head(core_list));
-> +
-> +        for (n = 0; n < cpus->len; n++) {
-> +            if (cpus->cpus[n].props.core_id != core_id) {
-> +                continue;
-> +            }
-> +
-> +            thread_id = cpus->cpus[n].props.thread_id;
->               build_processor_hierarchy_node(
->                   table_data,
->                   (1 << 1) | /* ACPI Processor ID valid */
->                   (1 << 2) | /* Processor is a Thread */
->                   (1 << 3),  /* Node is a Leaf */
-> -                parent_offset, uid++, NULL, 0);
-> +                parent_offset, thread_id, NULL, 0);
->           }
->       }
->   
->       g_queue_free(list);
-> +    g_queue_free(core_list);
-> +    g_queue_free(cluster_list);
-> +    g_queue_free(socket_list);
->       acpi_table_end(linker, &table);
->   }
->   
+-- 
+Peter Xu
 
 
