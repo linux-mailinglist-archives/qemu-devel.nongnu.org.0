@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C738D4DE18B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 20:00:06 +0100 (CET)
-Received: from localhost ([::1]:40412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6534DE188
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 19:59:22 +0100 (CET)
+Received: from localhost ([::1]:37168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVHpV-0001Qc-Oo
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 15:00:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38612)
+	id 1nVHon-0007gp-Gx
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 14:59:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nVHlY-0004AY-SJ; Fri, 18 Mar 2022 14:56:02 -0400
-Received: from mga11.intel.com ([192.55.52.93]:7171)
+ id 1nVHle-0004FU-9d; Fri, 18 Mar 2022 14:56:06 -0400
+Received: from mga11.intel.com ([192.55.52.93]:7179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nVHlW-0006dK-MW; Fri, 18 Mar 2022 14:56:00 -0400
+ id 1nVHlc-0006dV-1I; Fri, 18 Mar 2022 14:56:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647629758; x=1679165758;
+ t=1647629764; x=1679165764;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=AdljJPnIIt8n489fncP3gsrIIr06YAUXc+Zn08sLnfM=;
- b=mcnFy2WVZeYZSzhOXwtmYWlbsCAdlABEa8A+mm4zhafGxF95NH1SHVbv
- 2YBtxGtLgWird5lxhv+xxCz3z8eW6XHJbsf7nG+1M+eKxzWRQUSBZhIpB
- zLX/iMsVfz1xm7/m30ceFZgvAp738tPBpk/Ur9fmmJN8YGL8AbB9Cb7Qv
- khAUJKyezoWUCkHfrbZdx1kkmMkyzKN3j/kvwEsAJXd7CMyKXT/i6JFl9
- AvQxQxMFaectSvQA8mT13xVUy8PuW3QR5US+XPYt2bKVf9P2+3HWPVPJ/
- wrIjxn46ef0agZo+QIY8Yp5Qa6/IC1ETvUcT7EDrKGnvcc5jIR7BCYJfP w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10290"; a="254772008"
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="254772008"
+ bh=TcxLsv27v8yxt7nc32+7V2Jyd9XZEw065EwBQDXUYkI=;
+ b=En8P3qfkl9wV8uPIomCitXdZ7KAaU7eNus2KV0XMmRj+hrTl4NJnfw8B
+ 8AlNiv5+eCpL0SczmqEFsNskyRULfp4HgjgTiXpS5MdoC3wXMCVHeASVb
+ fS96OlyjLlcx4nEB4YWfgiMpRlf9T6wY9IVMeUulDPOFeWhNB8fJ8LUn2
+ 46ETTj+QGy4R4d8tboQQks4w6gsP+wOKW2l/SJeYVIspWRYqqTpwuWHC3
+ CofP/IrpMkzBvjijdlEHz+2rGsMNBMSzSRX5ivU+ai2EPkGFCjyOWHy0+
+ Y1njPjhKHrgEqiRBPDl5iT1/E2H60Fbfw6tlVrtYuECqwUbowa0ktQED1 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10290"; a="254772028"
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="254772028"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2022 11:55:56 -0700
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="499352558"
+ 18 Mar 2022 11:56:01 -0700
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="499352583"
 Received: from lmaniak-dev.elements.local ([10.55.249.72])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2022 11:55:52 -0700
+ 18 Mar 2022 11:55:59 -0700
 From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 03/12] hw/nvme: Add support for Secondary Controller List
-Date: Fri, 18 Mar 2022 19:53:42 +0100
-Message-Id: <20220318185352.1667375-3-lukasz.maniak@linux.intel.com>
+Subject: [PATCH v6 05/12] hw/nvme: Make max_ioqpairs and msix_qsize
+ configurable in runtime
+Date: Fri, 18 Mar 2022 19:53:44 +0100
+Message-Id: <20220318185352.1667375-5-lukasz.maniak@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220318185352.1667375-1-lukasz.maniak@linux.intel.com>
 References: <20220318185352.1667375-1-lukasz.maniak@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=192.55.52.93;
  envelope-from=lukasz.maniak@linux.intel.com; helo=mga11.intel.com
@@ -69,325 +71,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org,
+Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Lukasz Maniak <lukasz.maniak@linux.intel.com>, Keith Busch <kbusch@kernel.org>,
  =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
- Lukasz Maniak <lukasz.maniak@linux.intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Keith Busch <kbusch@kernel.org>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce handling for Secondary Controller List (Identify command with
-CNS value of 15h).
+From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 
-Secondary controller ids are unique in the subsystem, hence they are
-reserved by it upon initialization of the primary controller to the
-number of sriov_max_vfs.
+The NVMe device defines two properties: max_ioqpairs, msix_qsize. Having
+them as constants is problematic for SR-IOV support.
 
-ID reservation requires the addition of an intermediate controller slot
-state, so the reserved controller has the address 0xFFFF.
-A secondary controller is in the reserved state when it has no virtual
-function assigned, but its primary controller is realized.
-Secondary controller reservations are released to NULL when its primary
-controller is unregistered.
+SR-IOV introduces virtual resources (queues, interrupts) that can be
+assigned to PF and its dependent VFs. Each device, following a reset,
+should work with the configured number of queues. A single constant is
+no longer sufficient to hold the whole state.
 
-Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+This patch tries to solve the problem by introducing additional
+variables in NvmeCtrl’s state. The variables for, e.g., managing queues
+are therefore organized as:
+ - n->params.max_ioqpairs – no changes, constant set by the user
+ - n->(mutable_state) – (not a part of this patch) user-configurable,
+                        specifies number of queues available _after_
+                        reset
+ - n->conf_ioqpairs - (new) used in all the places instead of the ‘old’
+                      n->params.max_ioqpairs; initialized in realize()
+                      and updated during reset() to reflect user’s
+                      changes to the mutable state
+
+Since the number of available i/o queues and interrupts can change in
+runtime, buffers for sq/cqs and the MSIX-related structures are
+allocated big enough to handle the limits, to completely avoid the
+complicated reallocation. A helper function (nvme_update_msixcap_ts)
+updates the corresponding capability register, to signal configuration
+changes.
+
+Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c       | 35 +++++++++++++++++++++
- hw/nvme/ns.c         |  2 +-
- hw/nvme/nvme.h       | 18 +++++++++++
- hw/nvme/subsys.c     | 75 ++++++++++++++++++++++++++++++++++++++------
- hw/nvme/trace-events |  1 +
- include/block/nvme.h | 20 ++++++++++++
- 6 files changed, 141 insertions(+), 10 deletions(-)
+ hw/nvme/ctrl.c | 52 ++++++++++++++++++++++++++++++++++----------------
+ hw/nvme/nvme.h |  2 ++
+ 2 files changed, 38 insertions(+), 16 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index ea9d5af3545..b1b1bebbaf2 100644
+index e6d6e5840af..12372038075 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -4807,6 +4807,29 @@ static uint16_t nvme_identify_pri_ctrl_cap(NvmeCtrl *n, NvmeRequest *req)
-                     sizeof(NvmePriCtrlCap), req);
+@@ -448,12 +448,12 @@ static bool nvme_nsid_valid(NvmeCtrl *n, uint32_t nsid)
+ 
+ static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
+ {
+-    return sqid < n->params.max_ioqpairs + 1 && n->sq[sqid] != NULL ? 0 : -1;
++    return sqid < n->conf_ioqpairs + 1 && n->sq[sqid] != NULL ? 0 : -1;
  }
  
-+static uint16_t nvme_identify_sec_ctrl_list(NvmeCtrl *n, NvmeRequest *req)
+ static int nvme_check_cqid(NvmeCtrl *n, uint16_t cqid)
+ {
+-    return cqid < n->params.max_ioqpairs + 1 && n->cq[cqid] != NULL ? 0 : -1;
++    return cqid < n->conf_ioqpairs + 1 && n->cq[cqid] != NULL ? 0 : -1;
+ }
+ 
+ static void nvme_inc_cq_tail(NvmeCQueue *cq)
+@@ -4290,8 +4290,7 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeRequest *req)
+         trace_pci_nvme_err_invalid_create_sq_cqid(cqid);
+         return NVME_INVALID_CQID | NVME_DNR;
+     }
+-    if (unlikely(!sqid || sqid > n->params.max_ioqpairs ||
+-        n->sq[sqid] != NULL)) {
++    if (unlikely(!sqid || sqid > n->conf_ioqpairs || n->sq[sqid] != NULL)) {
+         trace_pci_nvme_err_invalid_create_sq_sqid(sqid);
+         return NVME_INVALID_QID | NVME_DNR;
+     }
+@@ -4643,8 +4642,7 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
+     trace_pci_nvme_create_cq(prp1, cqid, vector, qsize, qflags,
+                              NVME_CQ_FLAGS_IEN(qflags) != 0);
+ 
+-    if (unlikely(!cqid || cqid > n->params.max_ioqpairs ||
+-        n->cq[cqid] != NULL)) {
++    if (unlikely(!cqid || cqid > n->conf_ioqpairs || n->cq[cqid] != NULL)) {
+         trace_pci_nvme_err_invalid_create_cq_cqid(cqid);
+         return NVME_INVALID_QID | NVME_DNR;
+     }
+@@ -4660,7 +4658,7 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
+         trace_pci_nvme_err_invalid_create_cq_vector(vector);
+         return NVME_INVALID_IRQ_VECTOR | NVME_DNR;
+     }
+-    if (unlikely(vector >= n->params.msix_qsize)) {
++    if (unlikely(vector >= n->conf_msix_qsize)) {
+         trace_pci_nvme_err_invalid_create_cq_vector(vector);
+         return NVME_INVALID_IRQ_VECTOR | NVME_DNR;
+     }
+@@ -5261,13 +5259,12 @@ defaults:
+ 
+         break;
+     case NVME_NUMBER_OF_QUEUES:
+-        result = (n->params.max_ioqpairs - 1) |
+-            ((n->params.max_ioqpairs - 1) << 16);
++        result = (n->conf_ioqpairs - 1) | ((n->conf_ioqpairs - 1) << 16);
+         trace_pci_nvme_getfeat_numq(result);
+         break;
+     case NVME_INTERRUPT_VECTOR_CONF:
+         iv = dw11 & 0xffff;
+-        if (iv >= n->params.max_ioqpairs + 1) {
++        if (iv >= n->conf_ioqpairs + 1) {
+             return NVME_INVALID_FIELD | NVME_DNR;
+         }
+ 
+@@ -5423,10 +5420,10 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+ 
+         trace_pci_nvme_setfeat_numq((dw11 & 0xffff) + 1,
+                                     ((dw11 >> 16) & 0xffff) + 1,
+-                                    n->params.max_ioqpairs,
+-                                    n->params.max_ioqpairs);
+-        req->cqe.result = cpu_to_le32((n->params.max_ioqpairs - 1) |
+-                                      ((n->params.max_ioqpairs - 1) << 16));
++                                    n->conf_ioqpairs,
++                                    n->conf_ioqpairs);
++        req->cqe.result = cpu_to_le32((n->conf_ioqpairs - 1) |
++                                      ((n->conf_ioqpairs - 1) << 16));
+         break;
+     case NVME_ASYNCHRONOUS_EVENT_CONF:
+         n->features.async_config = dw11;
+@@ -5901,8 +5898,24 @@ static void nvme_process_sq(void *opaque)
+     }
+ }
+ 
++static void nvme_update_msixcap_ts(PCIDevice *pci_dev, uint32_t table_size)
 +{
-+    NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
-+    uint16_t pri_ctrl_id = le16_to_cpu(n->pri_ctrl_cap.cntlid);
-+    uint16_t min_id = le16_to_cpu(c->ctrlid);
-+    uint8_t num_sec_ctrl = n->sec_ctrl_list.numcntl;
-+    NvmeSecCtrlList list = {0};
-+    uint8_t i;
++    uint8_t *config;
 +
-+    for (i = 0; i < num_sec_ctrl; i++) {
-+        if (n->sec_ctrl_list.sec[i].scid >= min_id) {
-+            list.numcntl = num_sec_ctrl - i;
-+            memcpy(&list.sec, n->sec_ctrl_list.sec + i,
-+                   list.numcntl * sizeof(NvmeSecCtrlEntry));
-+            break;
-+        }
++    if (!msix_present(pci_dev)) {
++        return;
 +    }
 +
-+    trace_pci_nvme_identify_sec_ctrl_list(pri_ctrl_id, list.numcntl);
++    assert(table_size > 0 && table_size <= pci_dev->msix_entries_nr);
 +
-+    return nvme_c2h(n, (uint8_t *)&list, sizeof(list), req);
++    config = pci_dev->config + pci_dev->msix_cap;
++    pci_set_word_by_mask(config + PCI_MSIX_FLAGS, PCI_MSIX_FLAGS_QSIZE,
++                         table_size - 1);
 +}
 +
- static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
-                                      bool active)
+ static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst)
  {
-@@ -5028,6 +5051,8 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
-         return nvme_identify_ctrl_list(n, req, false);
-     case NVME_ID_CNS_PRIMARY_CTRL_CAP:
-         return nvme_identify_pri_ctrl_cap(n, req);
-+    case NVME_ID_CNS_SECONDARY_CTRL_LIST:
-+        return nvme_identify_sec_ctrl_list(n, req);
-     case NVME_ID_CNS_CS_NS:
-         return nvme_identify_ns_csi(n, req, true);
-     case NVME_ID_CNS_CS_NS_PRESENT:
-@@ -6620,6 +6645,9 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
- static void nvme_init_state(NvmeCtrl *n)
- {
-     NvmePriCtrlCap *cap = &n->pri_ctrl_cap;
-+    NvmeSecCtrlList *list = &n->sec_ctrl_list;
-+    NvmeSecCtrlEntry *sctrl;
-+    int i;
++    PCIDevice *pci_dev = &n->parent_obj;
+     NvmeNamespace *ns;
+     int i;
  
-     /* add one to max_ioqpairs to account for the admin queue pair */
-     n->reg_size = pow2ceil(sizeof(NvmeBar) +
-@@ -6631,6 +6659,13 @@ static void nvme_init_state(NvmeCtrl *n)
-     n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
-     n->aer_reqs = g_new0(NvmeRequest *, n->params.aerl + 1);
- 
-+    list->numcntl = cpu_to_le16(n->params.sriov_max_vfs);
-+    for (i = 0; i < n->params.sriov_max_vfs; i++) {
-+        sctrl = &list->sec[i];
-+        sctrl->pcid = cpu_to_le16(n->cntlid);
-+        sctrl->vfn = cpu_to_le16(i + 1);
-+    }
-+
-     cap->cntlid = cpu_to_le16(n->cntlid);
- }
- 
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 8a3613d9ab0..cfd232bb147 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -596,7 +596,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
-             for (i = 0; i < ARRAY_SIZE(subsys->ctrls); i++) {
-                 NvmeCtrl *ctrl = subsys->ctrls[i];
- 
--                if (ctrl) {
-+                if (ctrl && ctrl != SUBSYS_SLOT_RSVD) {
-                     nvme_attach_ns(ctrl, ns);
-                 }
-             }
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index e58bab841e2..7581ef26fdb 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -43,6 +43,7 @@ typedef struct NvmeBus {
- #define TYPE_NVME_SUBSYS "nvme-subsys"
- #define NVME_SUBSYS(obj) \
-     OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
-+#define SUBSYS_SLOT_RSVD (void *)0xFFFF
- 
- typedef struct NvmeSubsystem {
-     DeviceState parent_obj;
-@@ -67,6 +68,10 @@ static inline NvmeCtrl *nvme_subsys_ctrl(NvmeSubsystem *subsys,
-         return NULL;
+@@ -5932,15 +5945,17 @@ static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst)
+         g_free(event);
      }
  
-+    if (subsys->ctrls[cntlid] == SUBSYS_SLOT_RSVD) {
-+        return NULL;
-+    }
-+
-     return subsys->ctrls[cntlid];
- }
- 
-@@ -479,6 +484,7 @@ typedef struct NvmeCtrl {
-     } features;
- 
-     NvmePriCtrlCap  pri_ctrl_cap;
-+    NvmeSecCtrlList sec_ctrl_list;
- } NvmeCtrl;
- 
- static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
-@@ -513,6 +519,18 @@ static inline uint16_t nvme_cid(NvmeRequest *req)
-     return le16_to_cpu(req->cqe.cid);
- }
- 
-+static inline NvmeSecCtrlEntry *nvme_sctrl(NvmeCtrl *n)
-+{
-+    PCIDevice *pci_dev = &n->parent_obj;
-+    NvmeCtrl *pf = NVME(pcie_sriov_get_pf(pci_dev));
-+
-+    if (pci_is_vf(pci_dev)) {
-+        return &pf->sec_ctrl_list.sec[pcie_sriov_vf_number(pci_dev)];
-+    }
-+
-+    return NULL;
-+}
-+
- void nvme_attach_ns(NvmeCtrl *n, NvmeNamespace *ns);
- uint16_t nvme_bounce_data(NvmeCtrl *n, void *ptr, uint32_t len,
-                           NvmeTxDirection dir, NvmeRequest *req);
-diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
-index fb58d639504..f445ca86c25 100644
---- a/hw/nvme/subsys.c
-+++ b/hw/nvme/subsys.c
-@@ -11,20 +11,71 @@
- 
- #include "nvme.h"
- 
--int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
-+static int nvme_subsys_reserve_cntlids(NvmeCtrl *n, int start, int num)
- {
-     NvmeSubsystem *subsys = n->subsys;
--    int cntlid, nsid;
-+    NvmeSecCtrlList *list = &n->sec_ctrl_list;
-+    NvmeSecCtrlEntry *sctrl;
-+    int i, cnt = 0;
-+
-+    for (i = start; i < ARRAY_SIZE(subsys->ctrls) && cnt < num; i++) {
-+        if (!subsys->ctrls[i]) {
-+            sctrl = &list->sec[cnt];
-+            sctrl->scid = cpu_to_le16(i);
-+            subsys->ctrls[i] = SUBSYS_SLOT_RSVD;
-+            cnt++;
-+        }
-+    }
-+
-+    return cnt;
-+}
- 
--    for (cntlid = 0; cntlid < ARRAY_SIZE(subsys->ctrls); cntlid++) {
--        if (!subsys->ctrls[cntlid]) {
--            break;
-+static void nvme_subsys_unreserve_cntlids(NvmeCtrl *n)
-+{
-+    NvmeSubsystem *subsys = n->subsys;
-+    NvmeSecCtrlList *list = &n->sec_ctrl_list;
-+    NvmeSecCtrlEntry *sctrl;
-+    int i, cntlid;
-+
-+    for (i = 0; i < n->params.sriov_max_vfs; i++) {
-+        sctrl = &list->sec[i];
-+        cntlid = le16_to_cpu(sctrl->scid);
-+
-+        if (cntlid) {
-+            assert(subsys->ctrls[cntlid] == SUBSYS_SLOT_RSVD);
-+            subsys->ctrls[cntlid] = NULL;
-+            sctrl->scid = 0;
+-    if (!pci_is_vf(&n->parent_obj) && n->params.sriov_max_vfs) {
++    if (!pci_is_vf(pci_dev) && n->params.sriov_max_vfs) {
+         if (rst != NVME_RESET_CONTROLLER) {
+-            pcie_sriov_pf_disable_vfs(&n->parent_obj);
++            pcie_sriov_pf_disable_vfs(pci_dev);
          }
      }
-+}
-+
-+int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
-+{
-+    NvmeSubsystem *subsys = n->subsys;
-+    NvmeSecCtrlEntry *sctrl = nvme_sctrl(n);
-+    int cntlid, nsid, num_rsvd, num_vfs = n->params.sriov_max_vfs;
-+
-+    if (pci_is_vf(&n->parent_obj)) {
-+        cntlid = le16_to_cpu(sctrl->scid);
-+    } else {
-+        for (cntlid = 0; cntlid < ARRAY_SIZE(subsys->ctrls); cntlid++) {
-+            if (!subsys->ctrls[cntlid]) {
-+                break;
-+            }
-+        }
  
--    if (cntlid == ARRAY_SIZE(subsys->ctrls)) {
--        error_setg(errp, "no more free controller id");
--        return -1;
-+        if (cntlid == ARRAY_SIZE(subsys->ctrls)) {
-+            error_setg(errp, "no more free controller id");
-+            return -1;
-+        }
+     n->aer_queued = 0;
+     n->outstanding_aers = 0;
+     n->qs_created = false;
 +
-+        num_rsvd = nvme_subsys_reserve_cntlids(n, cntlid + 1, num_vfs);
-+        if (num_rsvd != num_vfs) {
-+            nvme_subsys_unreserve_cntlids(n);
-+            error_setg(errp,
-+                       "no more free controller ids for secondary controllers");
-+            return -1;
-+        }
++    nvme_update_msixcap_ts(pci_dev, n->conf_msix_qsize);
+ }
+ 
+ static void nvme_ctrl_shutdown(NvmeCtrl *n)
+@@ -6651,6 +6666,9 @@ static void nvme_init_state(NvmeCtrl *n)
+     NvmeSecCtrlEntry *sctrl;
+     int i;
+ 
++    n->conf_ioqpairs = n->params.max_ioqpairs;
++    n->conf_msix_qsize = n->params.msix_qsize;
++
+     /* add one to max_ioqpairs to account for the admin queue pair */
+     n->reg_size = pow2ceil(sizeof(NvmeBar) +
+                            2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE);
+@@ -6812,6 +6830,8 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+         }
      }
  
-     subsys->ctrls[cntlid] = n;
-@@ -41,7 +92,13 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
- 
- void nvme_subsys_unregister_ctrl(NvmeSubsystem *subsys, NvmeCtrl *n)
- {
--    subsys->ctrls[n->cntlid] = NULL;
-+    if (pci_is_vf(&n->parent_obj)) {
-+        subsys->ctrls[n->cntlid] = SUBSYS_SLOT_RSVD;
-+    } else {
-+        subsys->ctrls[n->cntlid] = NULL;
-+        nvme_subsys_unreserve_cntlids(n);
-+    }
++    nvme_update_msixcap_ts(pci_dev, n->conf_msix_qsize);
 +
-     n->cntlid = -1;
- }
+     if (n->params.cmb_size_mb) {
+         nvme_init_cmb(n, pci_dev);
+     }
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 4ca6cb2bac1..5bd6ac698bc 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -438,6 +438,8 @@ typedef struct NvmeCtrl {
+     uint64_t    starttime_ms;
+     uint16_t    temperature;
+     uint8_t     smart_critical_warning;
++    uint32_t    conf_msix_qsize;
++    uint32_t    conf_ioqpairs;
  
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index 1834b17cf21..889bbb3101e 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -57,6 +57,7 @@ pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
- pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
- pci_nvme_identify_ctrl_list(uint8_t cns, uint16_t cntid) "cns 0x%"PRIx8" cntid %"PRIu16""
- pci_nvme_identify_pri_ctrl_cap(uint16_t cntlid) "identify primary controller capabilities cntlid=%"PRIu16""
-+pci_nvme_identify_sec_ctrl_list(uint16_t cntlid, uint8_t numcntl) "identify secondary controller list cntlid=%"PRIu16" numcntl=%"PRIu8""
- pci_nvme_identify_ns_csi(uint32_t ns, uint8_t csi) "nsid=%"PRIu32", csi=0x%"PRIx8""
- pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
- pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "nsid=%"PRIu16", csi=0x%"PRIx8""
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 524a04fb94e..94efd32578c 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -1034,6 +1034,7 @@ enum NvmeIdCns {
-     NVME_ID_CNS_NS_ATTACHED_CTRL_LIST = 0x12,
-     NVME_ID_CNS_CTRL_LIST             = 0x13,
-     NVME_ID_CNS_PRIMARY_CTRL_CAP      = 0x14,
-+    NVME_ID_CNS_SECONDARY_CTRL_LIST   = 0x15,
-     NVME_ID_CNS_CS_NS_PRESENT_LIST    = 0x1a,
-     NVME_ID_CNS_CS_NS_PRESENT         = 0x1b,
-     NVME_ID_CNS_IO_COMMAND_SET        = 0x1c,
-@@ -1575,6 +1576,23 @@ typedef struct QEMU_PACKED NvmePriCtrlCap {
-     uint8_t     rsvd80[4016];
- } NvmePriCtrlCap;
- 
-+typedef struct QEMU_PACKED NvmeSecCtrlEntry {
-+    uint16_t    scid;
-+    uint16_t    pcid;
-+    uint8_t     scs;
-+    uint8_t     rsvd5[3];
-+    uint16_t    vfn;
-+    uint16_t    nvq;
-+    uint16_t    nvi;
-+    uint8_t     rsvd14[18];
-+} NvmeSecCtrlEntry;
-+
-+typedef struct QEMU_PACKED NvmeSecCtrlList {
-+    uint8_t             numcntl;
-+    uint8_t             rsvd1[31];
-+    NvmeSecCtrlEntry    sec[127];
-+} NvmeSecCtrlList;
-+
- static inline void _nvme_check_size(void)
- {
-     QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
-@@ -1611,5 +1629,7 @@ static inline void _nvme_check_size(void)
-     QEMU_BUILD_BUG_ON(sizeof(NvmeZoneDescr) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeDifTuple) != 16);
-     QEMU_BUILD_BUG_ON(sizeof(NvmePriCtrlCap) != 4096);
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeSecCtrlEntry) != 32);
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeSecCtrlList) != 4096);
- }
- #endif
+     struct {
+         MemoryRegion mem;
 -- 
 2.25.1
 
