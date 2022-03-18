@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9062A4DD930
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 12:47:23 +0100 (CET)
-Received: from localhost ([::1]:54804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2900E4DD93E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 12:50:55 +0100 (CET)
+Received: from localhost ([::1]:57310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVB4k-0004Aa-5v
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 07:47:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53748)
+	id 1nVB8A-0005wp-8g
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 07:50:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVAzL-0003DB-I9
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:41:47 -0400
-Received: from [2607:f8b0:4864:20::112b] (port=37651
- helo=mail-yw1-x112b.google.com)
+ id 1nVB3w-0004SQ-OD
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:46:32 -0400
+Received: from [2607:f8b0:4864:20::112f] (port=40295
+ helo=mail-yw1-x112f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVAzF-0000mG-9P
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:41:42 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2e5757b57caso88239977b3.4
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 04:41:40 -0700 (PDT)
+ id 1nVB3v-0001YP-Br
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:46:32 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2e5e9025c20so5103867b3.7
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 04:46:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=A3RQbMafMLHH62Wm8oL61/J5I5dP7kcfaW2OxQGVjxs=;
- b=zKveAwC25ThQTeZoVAnvcJc8cTF/RnbCL5CJ+fBpklVF7eYUY/2TC+tMBV36MsyylU
- 5WPmSmtwyOYbSwtu8lnyecE8uFaBwB+9LLLU/wdqq1/H1OybVxqMUDTwKB1dRLbrUBfz
- yhKsgKd1jUAEdefgZFMjwZIsqyXFZ7X2llTk9a3uCaigHvA6l0+cSdUIb5ZJWaHT4jwF
- lLTiF4Aswv9JyW0cnfiI4iSzAph5Nw2gVj0QmsB1wAwyKCAo3Q56WJONrg15eEfqMpwD
- /zmsKbYTrksBaWoiB+QEvRkGFh/yQPbXB3cGacD+uhi9J4Kwzcp0l+e6ghkbzg8g5/zr
- GeWA==
+ :cc; bh=RL1+BTbf8vNhcrVvVsf65vvoN25nMrIhYNDwBfAxNqo=;
+ b=c7WPBqrpjbKniQf0E7M5/WGiAJn/78Bsvoff3oMuSs/MK2jLVmWoUQEyb0OLY08eYK
+ L5L0VpgpLJjiErQgUMEo3OtQPTD2OA+xlZX7+6cYfQLGyApjXoUvgpm8QsgFeqsQszMa
+ u9qbOS+VLYBZvb9UKqI9bxBMl9dYqb8e3YKgcJ8YIJWKY5oS/KVSYGgZ02NHXQkO1Ej3
+ 9/yYoQRcYoJBg8NMWlp27LrAZ3QzZ19oMdw40PsSC2mFitTllWIK9KtV7iozWVguWPIx
+ r/v20Bi67ribodYj9TWG5aGXDqscmp/5RWSWGsponnVScM0oJmDXPyzrhdaja7TzG6Wh
+ /WFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=A3RQbMafMLHH62Wm8oL61/J5I5dP7kcfaW2OxQGVjxs=;
- b=Kx5/r3RKWXhDEQinShVvdnI1+0c3efTtwpOu3LtIdbGeMSk8P5EiEJkjmdxvKzNdKJ
- a0KpYWRA9ulvAOqukmVTckR4CkTsLN9Byq93yNfzy3Tb3FpQCEy2UeUHrMPY0nME1zqs
- A2JikZcjApPwaJZMLKtAbXJpzRRUoNbVWUpM40uK8gHgCZRgqlPR8tWyqjXa+cVKpFAo
- skoVfhZt0pBMbExauBHP97wHJ0wSmWHc+sRcNV69fmSWx66RGDeuZ8KX5mZx9rtZeGEW
- gMkuygdJQMpNWc0naTEYAyYgPEqzLx7bV9hERmGduGU7OgkIEvWhgBlDenY4r+eLMgE+
- PZvA==
-X-Gm-Message-State: AOAM533ZXIVAzLPnSdVGtLADLVQ6hSm3n7LXva7kadTESv71vxAO7COG
- Dy+Dm0fNefYnwDwLLsOS1spwln2LHI95D3O7vxU2Ug==
-X-Google-Smtp-Source: ABdhPJxK8Au2fnW1HqyPzxEa4cWbHESDHFYur3DDF3IQWWRR74O17+HRUygmBitxmgWePxqKpn+PkExq3/psCjC5JBE=
-X-Received: by 2002:a0d:f603:0:b0:2d1:57e5:234 with SMTP id
- g3-20020a0df603000000b002d157e50234mr10953974ywf.469.1647603699815; Fri, 18
- Mar 2022 04:41:39 -0700 (PDT)
+ bh=RL1+BTbf8vNhcrVvVsf65vvoN25nMrIhYNDwBfAxNqo=;
+ b=wC6+C7Tx+ZPoMbTlDmanNZBR2muk958QTLEsx7Y9B0XUENBjT0ShgffqtFjsC6NH5O
+ 4kfDXZA4abPKZrxnYadebhOQ8ZASq6znsU6JC7MJElG0nVkwXoUabvn28A9EMMN7Sohx
+ VsfhSQ0QvOe6rp/XtVp6/VEyS2kGiVlV0i6x2Zqwi7UKLB9FajmAJxLG9NXjILXSD6DA
+ 79sMa/EwdMPuE03efoLEM3bf2AWsrWa/RXZR0rvO9BBfdqm8d0d/CzZqUP9b+4BdxDZB
+ OO9iSkaVPCC+8A7KQm+ortrIGY970KrOxksao11D+yhYBGadknTsybjTVsdJTejpuh7K
+ avmw==
+X-Gm-Message-State: AOAM532HwQFhcAmEdJGuvlI6Cbvd7WWlCcDYirDbK8LHcRWfeLANM0ro
+ FykRTVe1mbPbobj3Ur6o+XwM/jBddk1HF8wl/Dqa8A==
+X-Google-Smtp-Source: ABdhPJz0lHWaWYbgn5HB4UO+vTiwIB4mWWdNp5EBwjt6wfhdYkM50a+rSr+n5lLfdmxlmHITk4WyDasTb3OLryRxcSA=
+X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
+ m125-20020a0dfc83000000b002e5b0f4c125mr10689257ywf.347.1647603990401; Fri, 18
+ Mar 2022 04:46:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220315224519.498463-1-richard.henderson@linaro.org>
-In-Reply-To: <20220315224519.498463-1-richard.henderson@linaro.org>
+References: <20220302130417.18551-1-ubzeme@gmail.com>
+ <20220302130417.18551-2-ubzeme@gmail.com>
+In-Reply-To: <20220302130417.18551-2-ubzeme@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Mar 2022 11:41:28 +0000
-Message-ID: <CAFEAcA9KjAtYy7KxjX_1LDafBOj07NHnzKaRzxoaa5JVU+kwzg@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: Clean up arg_start/arg_end confusion
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Fri, 18 Mar 2022 11:46:18 +0000
+Message-ID: <CAFEAcA-Ktb6RDhXLsBhWwFvg5LPYG-B=+4mQnMtrwq9vSzjPsw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/9] hvf: move memory related functions from
+ hvf-accel-ops.c to hvf-mem.c
+To: Yan-Jie Wang <ubzeme@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -82,48 +84,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Laurent@vivier.eu
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 at 22:47, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Wed, 2 Mar 2022 at 13:04, Yan-Jie Wang <ubzeme@gmail.com> wrote:
 >
-> We had two sets of variables: arg_start/arg_end, and
-> arg_strings/env_strings.  In linuxload.c, we set the
-> first pair to the bounds of the argv strings, but in
-> elfload.c, we set the first pair to the bounds of the
-> argv pointers and the second pair to the bounds of
-> the argv strings.
->
-> Remove arg_start/arg_end, replacing them with the standard
-> argc/argv/envc/envp values.  Retain arg_strings/env_strings.
+> Signed-off-by: Yan-Jie Wang <ubzeme@gmail.com>
+> ---
+>  accel/hvf/hvf-accel-ops.c | 220 +--------------------------------
+>  accel/hvf/hvf-mem.c       | 252 ++++++++++++++++++++++++++++++++++++++
+>  accel/hvf/meson.build     |   1 +
+>  include/sysemu/hvf_int.h  |   2 +
+>  4 files changed, 256 insertions(+), 219 deletions(-)
+>  create mode 100644 accel/hvf/hvf-mem.c
 
-"Retain arg_strings/env_strings with the meaning we were using
-in elfload.c" ? (ie linuxload.c changes to that definition).
-
-> Update linuxload.c, elfload.c, and arm-compat-semi.c to match.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/714
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> --- a/linux-user/linuxload.c
-> +++ b/linux-user/linuxload.c
-> @@ -92,33 +92,35 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
->      envp = sp;
->      sp -= (argc + 1) * n;
->      argv = sp;
-> +    ts->info->envp = envp;
-> +    ts->info->envc = envc;
-> +    ts->info->argv = argv;
-> +    ts->info->argc = argc;
-> +
->      if (push_ptr) {
-> -        /* FIXME - handle put_user() failures */
-
-Why are you deleting all these FIXME comments? That seems like an
-unrelated change.
-
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
