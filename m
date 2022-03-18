@@ -2,82 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8E74DDB41
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 15:08:02 +0100 (CET)
-Received: from localhost ([::1]:49252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F3F4DDB69
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 15:15:41 +0100 (CET)
+Received: from localhost ([::1]:36014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVDGr-0008I6-UO
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 10:08:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48982)
+	id 1nVDOG-0001qQ-Dn
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 10:15:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nVCkU-00015g-Ln
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:34:36 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:41374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nVCkS-0003r7-Od
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:34:34 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 10923210EC;
- Fri, 18 Mar 2022 13:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1647610470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nVClz-0003y8-M2
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:36:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nVClv-0004Kx-9Y
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:36:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647610562;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wQDri514keMR5TPJqscuOAumyYvyh0zXd90WDk86DLU=;
- b=kpWMyoH7MWYFm1aKuK8lTyOox17mKAWp5tAJZW7+EQxXVk/n+L5VSQ2w6ock/t/878lg+G
- roC5onmYbdL/hMHLNQmV/RXvC8uTpgtKepweLUy6X4jHzhVbi0KxSxT8Ut53Rs8b735F7P
- Vms4UkWvK4SGHyH9fUoEodG4K+3VYww=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1647610470;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wQDri514keMR5TPJqscuOAumyYvyh0zXd90WDk86DLU=;
- b=kwPraFnh4d3eVZdqLVSWV9lnFYiW9J5AvCeE6ozT9j8uPNvthvMYz57qs3ZqFoUHklbyIK
- GRlp7cbOHCL8lHCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D398112FC5;
- Fri, 18 Mar 2022 13:34:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id y1+xMWWKNGKJLQAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 18 Mar 2022 13:34:29 +0000
-Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
- performance
-References: <20220312163001.3811-1-cfontana@suse.de>
- <Yi94mQUfrxMVbiLM@redhat.com> <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de>
- <Yi+ACeaZ+oXTVYjc@redhat.com> <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
- <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
- <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
- <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de> <YjNNqzb7eBBwMFJN@work-vm>
-From: Claudio Fontana <cfontana@suse.de>
-To: Jiri Denemark <jdenemar@redhat.com>
-Message-ID: <737974fa-905c-d171-05b0-ec4df42bc762@suse.de>
-Date: Fri, 18 Mar 2022 14:34:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ bh=uZfjcxrZZSQYHEAUPJMUOORRyWBzG7wVWRD9Yw+dHjo=;
+ b=BnAx+tbeTi5D2xIs57K6GuNK7AliprP4Dq6bO4hfmOeKRnSToHVkoMMq/8c0Yx8ZJBFpby
+ avMzJGMETuvQVtewLWcGx0Udsq6D2j2CDVSPe/oiGBczee62sILTBCt6M9xbVkBdrfMlxw
+ 9gaZG6RqvQx8AcZXTnbnskEM3Ih6ySQ=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-345-7CsufskJOKak9Q9bvjqycA-1; Fri, 18 Mar 2022 09:36:01 -0400
+X-MC-Unique: 7CsufskJOKak9Q9bvjqycA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ ga31-20020a1709070c1f00b006cec400422fso4526794ejc.22
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 06:36:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=uZfjcxrZZSQYHEAUPJMUOORRyWBzG7wVWRD9Yw+dHjo=;
+ b=xtM4vhQLyjBgHMDpB3Lt/17vfM5UxvRDYDKYZyeaXi8Xram0IEQkexLMUikFQSAUma
+ BKdn8APBfjGFCWzEiOtF+wYOylUvrAU1PUEfF3E0EZp+7TR8hIhonIHONXWiB5t6JWiX
+ 3Mj94ZvAQP694kZT9AM/W64jvorriVAwBCYx4gAHMaF5vfNWiLvj05ZUTvivsKkowSXv
+ mXvRz81GqGJcMqCGkebjKZ7r6Q+Bqxf6+UUjJTYxTZ5fLl+J4+f5v34yX5agL944YHNl
+ llL3m50XNhzv2s/S4l+ARPD3Q+PMf8ASPPkD7hnvytuN8pmJq8fYG6Ad+Vg/u5QyoxOQ
+ 39Yw==
+X-Gm-Message-State: AOAM5336hlA9jCpEvNm2li91IBnmdNJ6bu8VhiHh5tUA/f6VuCu/jeF3
+ zmyA8B4EiTcN0sUOyBAAQIrjSdhrjGwp5AtGNzB+LDdi3RqTNH0MWQ/fNrA/9LSPY7zm0c2Lkix
+ 4uH+pvDsiG+FI+kA=
+X-Received: by 2002:a05:6402:5208:b0:418:4be4:d248 with SMTP id
+ s8-20020a056402520800b004184be4d248mr9336173edd.133.1647610559933; 
+ Fri, 18 Mar 2022 06:35:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzc43akBTeQphuy0nK0UPlA9ugtaidTWKdbSMI3S33dEyq0iLvxdNnRfRuUehy4RqlZnQV5Sw==
+X-Received: by 2002:a05:6402:5208:b0:418:4be4:d248 with SMTP id
+ s8-20020a056402520800b004184be4d248mr9336160edd.133.1647610559754; 
+ Fri, 18 Mar 2022 06:35:59 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ 17-20020a170906059100b006cee1bceddasm3677751ejn.130.2022.03.18.06.35.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Mar 2022 06:35:59 -0700 (PDT)
+Message-ID: <73e7fc10-e843-68fd-ebe3-e7916c891c34@redhat.com>
+Date: Fri, 18 Mar 2022 14:35:58 +0100
 MIME-Version: 1.0
-In-Reply-To: <YjNNqzb7eBBwMFJN@work-vm>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 00/18] iotests: add enhanced debugging info to qemu-img
+ failures
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20220317234937.569525-1-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220317234937.569525-1-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,177 +103,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, andrea.righi@canonical.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-block@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/22 4:03 PM, Dr. David Alan Gilbert wrote:
-> * Claudio Fontana (cfontana@suse.de) wrote:
->> On 3/17/22 2:41 PM, Claudio Fontana wrote:
->>> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
->>>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
->>>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
->>>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
->>>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
->>>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
->>>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
->>>>>>>>>> the first user is the qemu driver,
->>>>>>>>>>
->>>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
->>>>>>>>>>
->>>>>>>>>> This improves the situation by 400%.
->>>>>>>>>>
->>>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
->>>>>>>>>> compared with direct qemu migration to a nc socket to a file.
->>>>>>>>>>
->>>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>>>>>>>> ---
->>>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
->>>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
->>>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
->>>>>>>>>>  src/util/virfile.h        |  1 +
->>>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
->>>>>>>>>>
->>>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
->>>>>>>>>> so you can find the discussion about this in qemu-devel:
->>>>>>>>>>
->>>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
->>>>>>>>>>
->>>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
->>>>
->>>>
->>>>> Current results show these experimental averages maximum throughput
->>>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
->>>>> "query-migrate", tests repeated 5 times for each).
->>>>> VM Size is 60G, most of the memory effectively touched before migration,
->>>>> through user application allocating and touching all memory with
->>>>> pseudorandom data.
->>>>>
->>>>> 64K:     5200 Mbps (current situation)
->>>>> 128K:    5800 Mbps
->>>>> 256K:   20900 Mbps
->>>>> 512K:   21600 Mbps
->>>>> 1M:     22800 Mbps
->>>>> 2M:     22800 Mbps
->>>>> 4M:     22400 Mbps
->>>>> 8M:     22500 Mbps
->>>>> 16M:    22800 Mbps
->>>>> 32M:    22900 Mbps
->>>>> 64M:    22900 Mbps
->>>>> 128M:   22800 Mbps
->>>>>
->>>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
->>>>
->>>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
->>>> libvirt attempt to raise the pipe limit to 1 MB by default, but
->>>> not try to go higher.
->>>>
->>>>> As for the theoretical limit for the libvirt architecture,
->>>>> I ran a qemu migration directly issuing the appropriate QMP
->>>>> commands, setting the same migration parameters as per libvirt,
->>>>> and then migrating to a socket netcatted to /dev/null via
->>>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
->>>>>
->>>>> QMP:    37000 Mbps
->>>>
->>>>> So although the Pipe size improves things (in particular the
->>>>> large jump is for the 256K size, although 1M seems a very good value),
->>>>> there is still a second bottleneck in there somewhere that
->>>>> accounts for a loss of ~14200 Mbps in throughput.
->>
->>
->> Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
->> and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
->>
->> ~50000 mbps qemu to netcat socket to /dev/null
->> ~35500 mbps virsh save to /dev/null
->>
->> Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
-> 
-> It might be closer to RAM or cache bandwidth limited though; for an extra copy.
+On 18.03.22 00:49, John Snow wrote:
+> Hiya!
+>
+> This series effectively replaces qemu_img_pipe_and_status() with a
+> rewritten function named qemu_img() that raises an exception on non-zero
+> return code by default. By the end of the series, every last invocation
+> of the qemu-img binary ultimately goes through qemu_img().
+>
+> The exception that this function raises includes stdout/stderr output
+> when the traceback is printed in a a little decorated text box so that
+> it stands out from the jargony Python traceback readout.
+>
+> (You can test what this looks like for yourself, or at least you could,
+> by disabling ztsd support and then running qcow2 iotest 065.)
+>
+> Negative tests are still possible in two ways:
+>
+> - Passing check=False to qemu_img, qemu_img_log, or img_info_log
+> - Catching and handling the CalledProcessError exception at the callsite.
 
-I was thinking about sendfile(2) in iohelper, but that probably can't work as the input fd is a socket, I am getting EINVAL.
+Thanks!  Applied to my block branch:
 
-One thing that I noticed is:
+https://gitlab.com/hreitz/qemu/-/commits/block
 
-ommit afe6e58aedcd5e27ea16184fed90b338569bd042
-Author: Jiri Denemark <jdenemar@redhat.com>
-Date:   Mon Feb 6 14:40:48 2012 +0100
-
-    util: Generalize virFileDirectFd
-    
-    virFileDirectFd was used for accessing files opened with O_DIRECT using
-    libvirt_iohelper. We will want to use the helper for accessing files
-    regardless on O_DIRECT and thus virFileDirectFd was generalized and
-    renamed to virFileWrapperFd.
-
-
-And in particular the comment in src/util/virFile.c:
-
-    /* XXX support posix_fadvise rather than O_DIRECT, if the kernel support                                                                                                 
-     * for that is decent enough. In that case, we will also need to                                                                                                         
-     * explicitly support VIR_FILE_WRAPPER_NON_BLOCKING since                                                                                                                
-     * VIR_FILE_WRAPPER_BYPASS_CACHE alone will no longer require spawning                                                                                                   
-     * iohelper.                                                                                                                                                             
-     */
-
-by Jiri Denemark.
-
-I have lots of questions here, and I tried to involve Jiri and Andrea Righi here, who a long time ago proposed a POSIX_FADV_NOREUSE implementation.
-
-1) What is the reason iohelper was introduced?
-
-2) Was Jiri's comment about the missing linux implementation of POSIX_FADV_NOREUSE?
-
-3) if using O_DIRECT is the only reason for iohelper to exist (...?), would replacing it with posix_fadvise remove the need for iohelper?
-
-4) What has stopped Andreas' or another POSIX_FADV_NOREUSE implementation in the kernel?
-
-Lots of questions..
-
-Thanks for all your insight,
-
-Claudio
-
-> 
-> Dave
-> 
->> Ciao,
->>
->> C
->>
->>>>
->>>> In the above tests with libvirt, were you using the
->>>> --bypass-cache flag or not ?
->>>
->>> No, I do not. Tests with ramdisk did not show a notable difference for me,
->>>
->>> but tests with /dev/null were not possible, since the command line is not accepted:
->>>
->>> # virsh save centos7 /dev/null
->>> Domain 'centos7' saved to /dev/null
->>> [OK]
->>>
->>> # virsh save centos7 /dev/null --bypass-cache
->>> error: Failed to save domain 'centos7' to /dev/null
->>> error: Failed to create file '/dev/null': Invalid argument
->>>
->>>
->>>>
->>>> Hopefully use of O_DIRECT doesn't make a difference for
->>>> /dev/null, since the I/O is being immediately thrown
->>>> away and so ought to never go into I/O cache. 
->>>>
->>>> In terms of the comparison, we still have libvirt iohelper
->>>> giving QEMU a pipe, while your test above gives QEMU a
->>>> UNIX socket.
->>>>
->>>> So I still wonder if the delta is caused by the pipe vs socket
->>>> difference, as opposed to netcat vs libvirt iohelper code.
->>>
->>> I'll look into this aspect, thanks!
->>
+Hanna
 
 
