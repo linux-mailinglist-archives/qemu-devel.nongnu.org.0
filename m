@@ -2,102 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026D04DDE30
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 17:17:39 +0100 (CET)
-Received: from localhost ([::1]:51158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C554DDE8E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 17:19:25 +0100 (CET)
+Received: from localhost ([::1]:54306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVFII-000277-4H
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 12:17:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58794)
+	id 1nVFK0-0004Hl-A7
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 12:19:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1nVFGB-00008k-TD; Fri, 18 Mar 2022 12:15:28 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57040)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1nVFG9-0006A3-Vd; Fri, 18 Mar 2022 12:15:27 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22IFC1kb031862; 
- Fri, 18 Mar 2022 16:15:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=wO8YK+D4VpUFcwMmLyTso0UPzK8D79kccozuDvZIiAc=;
- b=JB4Ff+9OB4VKlg2lAM8vtNG1uQvg/X48AxVcKbX1rWrI2HgfYAwKUnAOC5doGdYQ9fhr
- kJ+IcfUdsJ5AbH4cQceV0jqoHPILVcDaM8LCzNrtEuamzYUrQrvnc5EJuwNrvCh36nCy
- e3H2Fn0ITf02iuUCA+uc9ZJjVng3uuk7kjuvag/5m86Suvvku5lce9vGjmmF+J3TayB5
- pPsLqEPNiyoa+zdYletgeiqr79dzGoKXxC3CrcDM8H/62WuaBgR3iVlVc28XRLU4WW1e
- SQKnNyCcQPlTvUX+CgdtxvuPyiOmaNNnS/0OvxxPwMnsGAHTcO9+LRa64iEpTCKyvmxR ug== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ev074tg5q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Mar 2022 16:15:05 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22IGF4JO017594;
- Fri, 18 Mar 2022 16:15:04 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ev074tg56-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Mar 2022 16:15:04 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22IGDYiI020046;
- Fri, 18 Mar 2022 16:15:03 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma04dal.us.ibm.com with ESMTP id 3erk5adyb5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Mar 2022 16:15:03 +0000
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22IGF1GO15401334
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Mar 2022 16:15:01 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 910F1136053;
- Fri, 18 Mar 2022 16:15:01 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8E8B6136051;
- Fri, 18 Mar 2022 16:14:59 +0000 (GMT)
-Received: from farman-thinkpad-t470p (unknown [9.211.121.19])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 18 Mar 2022 16:14:59 +0000 (GMT)
-Message-ID: <be2c70218b9dbe0bd30c2bbf46277e36b6d8d2ce.camel@linux.ibm.com>
-Subject: Re: [PATCH for-7.1] hw: Add compat machines for 7.1
-From: Eric Farman <farman@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org
-Date: Fri, 18 Mar 2022 12:14:58 -0400
-In-Reply-To: <20220316145521.1224083-1-cohuck@redhat.com>
-References: <20220316145521.1224083-1-cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7xT22L-qrh63pZEOrqrlS-yIBq3cZ2nk
-X-Proofpoint-ORIG-GUID: oq-hOPFkIikwtt2TIUqYEpSYgib3mWBB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-18_10,2022-03-15_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 suspectscore=0 malwarescore=0 mlxscore=0 adultscore=0
- bulkscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=865
- clxscore=1011 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203180087
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nVFIs-0003J6-WB
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 12:18:15 -0400
+Received: from [2607:f8b0:4864:20::534] (port=34352
+ helo=mail-pg1-x534.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nVFIr-0006SO-Dh
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 12:18:14 -0400
+Received: by mail-pg1-x534.google.com with SMTP id t187so5367562pgb.1
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 09:18:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=A6lZLuiZdeZJebLh+6FDBs0cEjaUMc5OTNzZow0yxAE=;
+ b=kDXOzITt9sPr75d9BhpD74pUYIhQH8gyXMYwuadM6nWdYXtWR+bahnxH03XszFF8YK
+ xVPkBhd/Ndo6aynC2XIpnWU7WA9b2Uw3+YgpP92GbAqoBtQTyKdwa7CfNAuVaopg1PHo
+ UoXZDiJoZ7vbGglBEwelHwZVIpy2NDOof6FAQaFVYwg/LAj2y3dCwzgTq88nFG7kLFws
+ vsGro4a0v4ljGqvlgBV0onJL1bSsqcAsypXsaCxqlVWWI7bULnqGkPddPD9ZRK5J74w5
+ jYF+oAZwZuk24Z6stEfQ0pivWCv2VlIaU4T1HMSDixbBviugh1An/cGdiW36ekYg2Dqf
+ rTMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=A6lZLuiZdeZJebLh+6FDBs0cEjaUMc5OTNzZow0yxAE=;
+ b=XaHBDbxrYJgzOOSljBMA/Ok9yl3YyiM5gmAb2ppx9+m+RRzwRMwnmxvpAqkcH5YoIC
+ DPC5xvX8nnh24DKzH+oXcXWaoCMdbHGKkcvOrIOCM2d2Ia1euFtj1M0J5K5m22MpjpyJ
+ hmc46Nl0nRsStizz+5g/+VnUfHFvYqusASYNYKu+6NhiZads+rjCysPKn6Z4mIVKJsed
+ DMbn14uSoTV9pBJifcnHXB/fFnAKyQT0RzKfGpU2dH2nKpLCGaJy3gc3L3E6w06JMyko
+ PmNR+EcQWNQmM8fNyXg3e2v4atgbML6o0P6q6I5/oIORTwEqgmptgPDtWwZVJ4FaiPoh
+ Vb2w==
+X-Gm-Message-State: AOAM5319cws5dFdl+7mNaPLd9WdaSZO5WD5PznaiHsm3pu02OF1OJ7yP
+ FJYJIvH98dmIRXLLsv0dA3A=
+X-Google-Smtp-Source: ABdhPJzN5cPs8CJSWNoAeS0t5ThZmvpZmIKY6pSyVevgx1d/b5zUgpfkm7oqq10+5lrl8HO1QTkmEA==
+X-Received: by 2002:a65:4143:0:b0:375:89f4:b46a with SMTP id
+ x3-20020a654143000000b0037589f4b46amr8391101pgp.335.1647620292031; 
+ Fri, 18 Mar 2022 09:18:12 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ y32-20020a056a001ca000b004fa201a613fsm8875086pfw.196.2022.03.18.09.18.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Mar 2022 09:18:11 -0700 (PDT)
+Message-ID: <b3f40e00-ab03-0815-4ba8-61e3763e9edd@gmail.com>
+Date: Fri, 18 Mar 2022 17:18:07 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH v2 for-7.1] vfio/common: remove spurious tpm-crb-cmd
+ misalignment warning
+Content-Language: en-US
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, alex.williamson@redhat.com
+References: <20220318150135.308623-1-eric.auger@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220318150135.308623-1-eric.auger@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,43 +95,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, Yanan Wang <wangyanan55@huawei.com>,
- Greg Kurz <groug@kaod.org>, =?ISO-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, cohuck@redhat.com, stefanb@linux.vnet.ibm.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2022-03-16 at 15:55 +0100, Cornelia Huck wrote:
-> Add 7.1 machine types for arm/i440fx/m68k/q35/s390x/spapr.
+On 18/3/22 16:01, Eric Auger wrote:
+> The CRB command buffer currently is a RAM MemoryRegion and given
+> its base address alignment, it causes an error report on
+> vfio_listener_region_add(). This region could have been a RAM device
+> region, easing the detection of such safe situation but this option
+> was not well received. So let's add a helper function that uses the
+> memory region owner type to detect the situation is safe wrt
+> the assignment. Other device types can be checked here if such kind
+> of problem occurs again.
 > 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> 
 > ---
->  hw/arm/virt.c              |  9 ++++++++-
->  hw/core/machine.c          |  3 +++
->  hw/i386/pc.c               |  3 +++
->  hw/i386/pc_piix.c          | 14 +++++++++++++-
->  hw/i386/pc_q35.c           | 13 ++++++++++++-
->  hw/m68k/virt.c             |  9 ++++++++-
->  hw/ppc/spapr.c             | 15 +++++++++++++--
->  hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
->  include/hw/boards.h        |  3 +++
->  include/hw/i386/pc.h       |  3 +++
->  10 files changed, 79 insertions(+), 7 deletions(-)
 > 
+> v1 -> v2:
+> - do not check the MR name but rather the owner type
+> ---
+>   hw/vfio/common.c     | 27 ++++++++++++++++++++++++++-
+>   hw/vfio/trace-events |  1 +
+>   2 files changed, 27 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 080046e3f51..98b0b6fb8c7 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -40,6 +40,7 @@
+>   #include "trace.h"
+>   #include "qapi/error.h"
+>   #include "migration/migration.h"
+> +#include "sysemu/tpm.h"
 
-For s390x:
+> +static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
+> +{
+> +    MemoryRegion *mr = section->mr;
+> +
+> +    if (!object_dynamic_cast(mr->owner, TYPE_TPM_CRB)) {
 
-Reviewed-by: Eric Farman <farman@linux.ibm.com>
-
-..snip...
-
+Using TPM_IS_CRB() instead:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
