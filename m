@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA634DDD2C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:42:34 +0100 (CET)
-Received: from localhost ([::1]:50804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF264DDD34
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:45:34 +0100 (CET)
+Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVEkL-0004i0-Mv
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:42:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43856)
+	id 1nVEnE-0001lA-Tu
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:45:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nVEMM-0007oQ-Vu
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:17:47 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2431)
+ id 1nVEMr-0000Zq-Uk
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:18:17 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nVEML-0004gf-1k
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:17:46 -0400
-Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KKndz2HVKz67dqp;
- Fri, 18 Mar 2022 23:16:07 +0800 (CST)
+ id 1nVEMp-0004jV-OK
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 11:18:17 -0400
+Received: from fraeml738-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KKnfY5tPtz67x0m;
+ Fri, 18 Mar 2022 23:16:37 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
+ fraeml738-chm.china.huawei.com (10.206.15.219) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 18 Mar 2022 16:17:43 +0100
+ 15.1.2375.24; Fri, 18 Mar 2022 16:18:13 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 18 Mar 2022 15:17:41 +0000
+ 15.1.2308.21; Fri, 18 Mar 2022 15:18:12 +0000
 To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
  <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
@@ -44,9 +44,10 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  "Samarth Saxena" <samarths@cadence.com>, Dan Williams
  <dan.j.williams@intel.com>, "Mark Cave-Ayland"
  <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH v8 22/46] qtests/cxl: Add initial root port and CXL type3 tests
-Date: Fri, 18 Mar 2022 15:06:11 +0000
-Message-ID: <20220318150635.24600-23-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v8 23/46] hw/cxl/component: Implement host bridge MMIO (8.2.5,
+ table 142)
+Date: Fri, 18 Mar 2022 15:06:12 +0000
+Message-ID: <20220318150635.24600-24-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
 References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
@@ -82,163 +83,270 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-At this stage we can boot configurations with host bridges,
-root ports and type 3 memory devices, so add appropriate
-tests.
+From: Ben Widawsky <ben.widawsky@intel.com>
 
+CXL host bridges themselves may have MMIO. Since host bridges don't have
+a BAR they are treated as special for MMIO.  This patch includes
+i386/pc support.
+Also hook up the device reset now that we have have the MMIO
+space in which the results are visible.
+
+Note that we duplicate the PCI express case for the aml_build but
+the implementations will diverge when the CXL specific _OSC is
+introduced.
+
+Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/qtest/cxl-test.c | 126 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
+ hw/i386/acpi-build.c                | 25 +++++++++++-
+ hw/i386/pc.c                        | 27 ++++++++++++-
+ hw/pci-bridge/pci_expander_bridge.c | 62 ++++++++++++++++++++++++++++-
+ include/hw/cxl/cxl.h                |  4 ++
+ 4 files changed, 114 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-index 1006c8ae4e..148bc94340 100644
---- a/tests/qtest/cxl-test.c
-+++ b/tests/qtest/cxl-test.c
-@@ -8,6 +8,54 @@
- #include "qemu/osdep.h"
- #include "libqtest-single.h"
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 4ad4d7286c..0b7d06e107 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -28,6 +28,7 @@
+ #include "qemu/bitmap.h"
+ #include "qemu/error-report.h"
+ #include "hw/pci/pci.h"
++#include "hw/cxl/cxl.h"
+ #include "hw/core/cpu.h"
+ #include "target/i386/cpu.h"
+ #include "hw/misc/pvpanic.h"
+@@ -1572,10 +1573,21 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             }
  
-+#define QEMU_PXB_CMD "-machine q35,cxl=on " \
-+                     "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "
+             scope = aml_scope("\\_SB");
+-            dev = aml_device("PC%.02X", bus_num);
 +
-+#define QEMU_2PXB_CMD "-machine q35,cxl=on " \
-+                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-+                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 "
++            if (pci_bus_is_cxl(bus)) {
++                dev = aml_device("CL%.02X", bus_num);
++            } else {
++                dev = aml_device("PC%.02X", bus_num);
++            }
+             aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
+             aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
+-            if (pci_bus_is_express(bus)) {
++            if (pci_bus_is_cxl(bus)) {
++                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
++                aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
 +
-+#define QEMU_RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 "
-+
-+/* Dual ports on first pxb */
-+#define QEMU_2RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
-+                 "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 "
-+
-+/* Dual ports on each of the pxb instances */
-+#define QEMU_4RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
-+                 "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 " \
-+                 "-device cxl-rp,id=rp2,bus=cxl.1,chassis=0,slot=2 " \
-+                 "-device cxl-rp,id=rp3,bus=cxl.1,chassis=0,slot=3 "
-+
-+#define QEMU_T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
-+                 "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
-+                 "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0,size=256M "
-+
-+#define QEMU_2T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M "    \
-+                  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0,size=256M " \
-+                  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
-+                  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1,size=256M "
-+
-+#define QEMU_4T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
-+                  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0,size=256M " \
-+                  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
-+                  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1,size=256M " \
-+                  "-object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M "    \
-+                  "-object memory-backend-file,id=lsa2,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2,id=cxl-pmem2,size=256M " \
-+                  "-object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M "    \
-+                  "-object memory-backend-file,id=lsa3,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3,id=cxl-pmem3,size=256M "
-+
-+static void cxl_basic_hb(void)
-+{
-+    qtest_start("-machine q35,cxl=on");
-+    qtest_end();
-+}
++                /* Expander bridges do not have ACPI PCI Hot-plug enabled */
++                aml_append(dev, build_q35_osc_method(true));
++            } else if (pci_bus_is_express(bus)) {
+                 aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+                 aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
  
- static void cxl_basic_pxb(void)
+@@ -1595,6 +1607,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             aml_append(dev, aml_name_decl("_CRS", crs));
+             aml_append(scope, dev);
+             aml_append(dsdt, scope);
++
++            /* Handle the ranges for the PXB expanders */
++            if (pci_bus_is_cxl(bus)) {
++                MemoryRegion *mr = &machine->cxl_devices_state->host_mr;
++                uint64_t base = mr->addr;
++
++                crs_range_insert(crs_range_set.mem_ranges, base,
++                                 base + memory_region_size(mr) - 1);
++            }
+         }
+     }
+ 
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index e2849fc741..da74f08f9e 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -75,6 +75,7 @@
+ #include "acpi-build.h"
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/mem/nvdimm.h"
++#include "hw/cxl/cxl.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-visit-common.h"
+ #include "qapi/qapi-visit-machine.h"
+@@ -813,6 +814,7 @@ void pc_memory_init(PCMachineState *pcms,
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+     X86MachineState *x86ms = X86_MACHINE(pcms);
++    hwaddr cxl_base;
+ 
+     assert(machine->ram_size == x86ms->below_4g_mem_size +
+                                 x86ms->above_4g_mem_size);
+@@ -902,6 +904,26 @@ void pc_memory_init(PCMachineState *pcms,
+                                     &machine->device_memory->mr);
+     }
+ 
++    if (machine->cxl_devices_state->is_enabled) {
++        MemoryRegion *mr = &machine->cxl_devices_state->host_mr;
++        hwaddr cxl_size = MiB;
++
++        if (pcmc->has_reserved_memory && machine->device_memory->base) {
++            cxl_base = machine->device_memory->base;
++            if (!pcmc->broken_reserved_end) {
++                cxl_base += memory_region_size(&machine->device_memory->mr);
++            }
++        } else if (pcms->sgx_epc.size != 0) {
++            cxl_base = sgx_epc_above_4g_end(&pcms->sgx_epc);
++        } else {
++            cxl_base = 0x100000000ULL + x86ms->above_4g_mem_size;
++        }
++
++        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
++        memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
++        memory_region_add_subregion(system_memory, cxl_base, mr);
++    }
++
+     /* Initialize PC system firmware */
+     pc_system_firmware_init(pcms, rom_memory);
+ 
+@@ -962,7 +984,10 @@ uint64_t pc_pci_hole64_start(void)
+     X86MachineState *x86ms = X86_MACHINE(pcms);
+     uint64_t hole64_start = 0;
+ 
+-    if (pcmc->has_reserved_memory && ms->device_memory->base) {
++    if (ms->cxl_devices_state->host_mr.addr) {
++        hole64_start = ms->cxl_devices_state->host_mr.addr +
++            memory_region_size(&ms->cxl_devices_state->host_mr);
++    } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
+         hole64_start = ms->device_memory->base;
+         if (!pcmc->broken_reserved_end) {
+             hole64_start += memory_region_size(&ms->device_memory->mr);
+diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+index f762eb4a6e..b3b5f93650 100644
+--- a/hw/pci-bridge/pci_expander_bridge.c
++++ b/hw/pci-bridge/pci_expander_bridge.c
+@@ -75,6 +75,9 @@ struct PXBDev {
+     uint8_t bus_nr;
+     uint16_t numa_node;
+     bool bypass_iommu;
++    struct cxl_dev {
++        CXLHost *cxl_host_bridge;
++    } cxl;
+ };
+ 
+ static PXBDev *convert_to_pxb(PCIDevice *dev)
+@@ -92,6 +95,9 @@ static GList *pxb_dev_list;
+ 
+ #define TYPE_PXB_HOST "pxb-host"
+ 
++#define TYPE_PXB_CXL_HOST "pxb-cxl-host"
++#define PXB_CXL_HOST(obj) OBJECT_CHECK(CXLHost, (obj), TYPE_PXB_CXL_HOST)
++
+ static int pxb_bus_num(PCIBus *bus)
  {
-@@ -15,9 +63,87 @@ static void cxl_basic_pxb(void)
-     qtest_end();
+     PXBDev *pxb = convert_to_pxb(bus->parent_dev);
+@@ -197,6 +203,52 @@ static const TypeInfo pxb_host_info = {
+     .class_init    = pxb_host_class_init,
+ };
+ 
++static void pxb_cxl_realize(DeviceState *dev, Error **errp)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++    CXLHost *cxl = PXB_CXL_HOST(dev);
++    CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
++    struct MemoryRegion *mr = &cxl_cstate->crb.component_registers;
++    hwaddr offset;
++
++    cxl_component_register_block_init(OBJECT(dev), cxl_cstate,
++                                      TYPE_PXB_CXL_HOST);
++    sysbus_init_mmio(sbd, mr);
++
++    offset = memory_region_size(mr) * ms->cxl_devices_state->next_mr_idx;
++    if (offset > memory_region_size(&ms->cxl_devices_state->host_mr)) {
++        error_setg(errp, "Insufficient space for pxb cxl host register space");
++        return;
++    }
++
++    memory_region_add_subregion(&ms->cxl_devices_state->host_mr, offset, mr);
++    ms->cxl_devices_state->next_mr_idx++;
++}
++
++static void pxb_cxl_host_class_init(ObjectClass *class, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(class);
++    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(class);
++
++    hc->root_bus_path = pxb_host_root_bus_path;
++    dc->fw_name = "cxl";
++    dc->realize = pxb_cxl_realize;
++    /* Reason: Internal part of the pxb/pxb-pcie device, not usable by itself */
++    dc->user_creatable = false;
++}
++
++/*
++ * This is a device to handle the MMIO for a CXL host bridge. It does nothing
++ * else.
++ */
++static const TypeInfo cxl_host_info = {
++    .name          = TYPE_PXB_CXL_HOST,
++    .parent        = TYPE_PCI_HOST_BRIDGE,
++    .instance_size = sizeof(CXLHost),
++    .class_init    = pxb_cxl_host_class_init,
++};
++
+ /*
+  * Registers the PXB bus as a child of pci host root bus.
+  */
+@@ -245,6 +297,12 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, int pin)
+ 
+ static void pxb_dev_reset(DeviceState *dev)
+ {
++    CXLHost *cxl = PXB_CXL_DEV(dev)->cxl.cxl_host_bridge;
++    CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
++    uint32_t *reg_state = cxl_cstate->crb.cache_mem_registers;
++
++    cxl_component_register_init_common(reg_state, CXL2_ROOT_PORT);
++    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT, 8);
  }
  
-+static void cxl_pxb_with_window(void)
-+{
-+    qtest_start(QEMU_PXB_CMD);
-+    qtest_end();
-+}
+ static gint pxb_compare(gconstpointer a, gconstpointer b)
+@@ -281,12 +339,13 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
+         dev_name = dev->qdev.id;
+     }
+ 
+-    ds = qdev_new(TYPE_PXB_HOST);
++    ds = qdev_new(type == CXL ? TYPE_PXB_CXL_HOST : TYPE_PXB_HOST);
+     if (type == PCIE) {
+         bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
+     } else if (type == CXL) {
+         bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_CXL_BUS);
+         bus->flags |= PCI_BUS_CXL;
++        PXB_CXL_DEV(dev)->cxl.cxl_host_bridge = PXB_CXL_HOST(ds);
+     } else {
+         bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
+         bds = qdev_new("pci-bridge");
+@@ -475,6 +534,7 @@ static void pxb_register_types(void)
+     type_register_static(&pxb_pcie_bus_info);
+     type_register_static(&pxb_cxl_bus_info);
+     type_register_static(&pxb_host_info);
++    type_register_static(&cxl_host_info);
+     type_register_static(&pxb_dev_info);
+     type_register_static(&pxb_pcie_dev_info);
+     type_register_static(&pxb_cxl_dev_info);
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 31af92fd5e..75e5bf71e1 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -17,8 +17,12 @@
+ #define CXL_COMPONENT_REG_BAR_IDX 0
+ #define CXL_DEVICE_REG_BAR_IDX 2
+ 
++#define CXL_WINDOW_MAX 10
 +
-+static void cxl_2pxb_with_window(void)
-+{
-+    qtest_start(QEMU_2PXB_CMD);
-+    qtest_end();
-+}
-+
-+static void cxl_root_port(void)
-+{
-+    qtest_start(QEMU_PXB_CMD QEMU_RP);
-+    qtest_end();
-+}
-+
-+static void cxl_2root_port(void)
-+{
-+    qtest_start(QEMU_PXB_CMD QEMU_2RP);
-+    qtest_end();
-+}
-+
-+static void cxl_t3d(void)
-+{
-+    g_autoptr(GString) cmdline = g_string_new(NULL);
-+    char template[] = "/tmp/cxl-test-XXXXXX";
-+    const char *tmpfs;
-+
-+    tmpfs = mkdtemp(template);
-+
-+    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3D, tmpfs, tmpfs);
-+
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+}
-+
-+static void cxl_1pxb_2rp_2t3d(void)
-+{
-+    g_autoptr(GString) cmdline = g_string_new(NULL);
-+    char template[] = "/tmp/cxl-test-XXXXXX";
-+    const char *tmpfs;
-+
-+    tmpfs = mkdtemp(template);
-+
-+    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_2RP QEMU_2T3D,
-+                    tmpfs, tmpfs, tmpfs, tmpfs);
-+
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+}
-+
-+static void cxl_2pxb_4rp_4t3d(void)
-+{
-+    g_autoptr(GString) cmdline = g_string_new(NULL);
-+    char template[] = "/tmp/cxl-test-XXXXXX";
-+    const char *tmpfs;
-+
-+    tmpfs = mkdtemp(template);
-+
-+    g_string_printf(cmdline, QEMU_2PXB_CMD QEMU_4RP QEMU_4T3D,
-+                    tmpfs, tmpfs, tmpfs, tmpfs, tmpfs, tmpfs,
-+                    tmpfs, tmpfs);
-+
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+}
-+
- int main(int argc, char **argv)
- {
-     g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_func("/pci/cxl/basic_hostbridge", cxl_basic_hb);
-     qtest_add_func("/pci/cxl/basic_pxb", cxl_basic_pxb);
-+    qtest_add_func("/pci/cxl/pxb_with_window", cxl_pxb_with_window);
-+    qtest_add_func("/pci/cxl/pxb_x2_with_window", cxl_2pxb_with_window);
-+    qtest_add_func("/pci/cxl/rp", cxl_root_port);
-+    qtest_add_func("/pci/cxl/rp_x2", cxl_2root_port);
-+    qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
-+    qtest_add_func("/pci/cxl/rp_x2_type3_x2", cxl_1pxb_2rp_2t3d);
-+    qtest_add_func("/pci/cxl/pxb_x2_root_port_x4_type3_x4", cxl_2pxb_4rp_4t3d);
-     return g_test_run();
- }
+ typedef struct CXLState {
+     bool is_enabled;
++    MemoryRegion host_mr;
++    unsigned int next_mr_idx;
+ } CXLState;
+ 
+ #endif
 -- 
 2.32.0
 
