@@ -2,95 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925514DDF4E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 17:48:35 +0100 (CET)
-Received: from localhost ([::1]:49760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A32E4DDF5B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 17:51:26 +0100 (CET)
+Received: from localhost ([::1]:54060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVFmE-0004ya-3v
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 12:48:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39204)
+	id 1nVFoz-0007ui-21
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 12:51:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nVFkj-00047R-NQ
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 12:47:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48157)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nVFlZ-0004tE-V9
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 12:47:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nVFkg-0002xY-OT
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 12:46:59 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nVFlY-00032R-7v
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 12:47:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647622017;
+ s=mimecast20190719; t=1647622071;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mEXUHk+evoB/f6eQwdM+8yZz+SSp6P46clHf2pN6R0w=;
- b=cDVKT2iZY1UietKcbLazy+XY/8hsPpVVqiHHku2M5jaovGydl+FaNbKxMPa7sViBIFl2x1
- G0RP/LHnNKfA/WWHNJDE7imnM0XjR+eCfbe6Z3xBxXjjfTMuc+FmZ5KsU/eVP0GvxL7IpG
- Zh1Lx0f2nCcAotmLbp2WTB91ojZ8NKE=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kAoQTmA0z7XQ+e5TGw0bc6AFwDdHMYA4eF5pj3bAc3k=;
+ b=i23no15anSzSc/iq6D/8r6KM38uOoEB+UeoqsdV573AiVMOXrFTGSM1TubIQW3TN/YywhO
+ Xi8wvuuEzKi9jMyEKpfELpgnJBIqgr/QpxTZx+bRiuqSKwuY8tIgTXgHYubg+tXKiXoNhY
+ EkdtcVGSIVkRlZAie9i4lSW/E8CpucM=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-574-FvoliV6cPjyW_PGVQU5bWw-1; Fri, 18 Mar 2022 12:46:56 -0400
-X-MC-Unique: FvoliV6cPjyW_PGVQU5bWw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- m21-20020a50d7d5000000b00418c7e4c2bbso5231387edj.6
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 09:46:56 -0700 (PDT)
+ us-mta-139-bv0-LFyaOsS4cxxJKDTfTQ-1; Fri, 18 Mar 2022 12:47:50 -0400
+X-MC-Unique: bv0-LFyaOsS4cxxJKDTfTQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ k1-20020ac85fc1000000b002e1c5930386so6002323qta.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 09:47:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mEXUHk+evoB/f6eQwdM+8yZz+SSp6P46clHf2pN6R0w=;
- b=w+nCELTAeTigDy/0GeqAm419HZr1JMZF5GWsGcezi5SYtWcldyffnnOsIsCInaAQfM
- QHtwHjQCMPlzVGsVM79ULX6nNvEKPNPa3WYdArrj2puVm/ug1LHn04+pP1GVRNKh/0Fh
- w7CLBYLkfJUJbL37Y7IU9ZxB7cvInrRtwzYntfo+IBSn2tWOiQmWL4cxWkXGaCYz+pKA
- kd9eeHV2mEhgFyfNO7/6g2f96A94BXgTAFH/ZMzVVK2ceztyi0ZHf10LwDVPOotibjl4
- F/6bvNxlzwcDDedM1YJFA47s4JCogmfEtIZBPHQxwWjzKFzZ1jltIPtxdk4MOXJR5tem
- n9Gg==
-X-Gm-Message-State: AOAM531x9dm7QWcauYO+EUK+A46e0WAUruGzb0Egb8rtf7z87kuoEjcg
- A5cEkjptZlNEG1NWhfgJUFL6LxzyVD3MChezy1QAUmYh76Ar9Ge7NCmcqDQs9Zhkab26K1VgW/V
- SeWSWwKnxIJv1ics=
-X-Received: by 2002:a17:907:3f03:b0:6df:b04b:8712 with SMTP id
- hq3-20020a1709073f0300b006dfb04b8712mr4768891ejc.290.1647622015471; 
- Fri, 18 Mar 2022 09:46:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwBbaOfm5CGKP6uKzEkS4siF/53o/W0KMod9KmtOmOuLKiXAR1gqFTWtkp/iz+aYmrO/EOr7w==
-X-Received: by 2002:a17:907:3f03:b0:6df:b04b:8712 with SMTP id
- hq3-20020a1709073f0300b006dfb04b8712mr4768866ejc.290.1647622015112; 
- Fri, 18 Mar 2022 09:46:55 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- o21-20020a170906289500b006d144662b24sm3778522ejd.152.2022.03.18.09.46.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Mar 2022 09:46:54 -0700 (PDT)
-Message-ID: <82853cac-a5e6-f193-9acf-d3371f471dc9@redhat.com>
-Date: Fri, 18 Mar 2022 17:46:54 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=kAoQTmA0z7XQ+e5TGw0bc6AFwDdHMYA4eF5pj3bAc3k=;
+ b=icD3M703+O1o/A4fMxQLSDR1UzyYmHv7XYhUcfykDNOX3cBh6ytRRRDnA6ItQmP5dW
+ wpBSR7BWGB67/Y+nMQ9J3cdj1YC8KOD8PcyYIhpzBdbsGAa4FIq9xrItS2FsH9RnzZbb
+ p5PoopPLQTZIozK4ZRbWwmNjSDB6rrvIPbxi9RGxMKCp5mZsT8SoE894Nf9dE4m5bHRc
+ 4f6ieAyxjqwJz+6OaXRK1CJQ6icvxsFlfAUF/f9FCPyYdrIVeYDTtc3+2OkF8PjPPJ5B
+ n/upnVuS8JhkwcIGcd18AaW7L0E7Vsq6pIQPVjMjqXuFehUaNITd2+b4tAOfJWlc0nI3
+ 7qqA==
+X-Gm-Message-State: AOAM532x0XOeU0MzJv4JRwN4tHvHheVFBjrjRZ03/8XtuefLD/3hbrDl
+ WtoW7qKDCUG6gPVjwFquksL+e8WP1t5e7Bm4+BNZij9N11e95joTrnGE0Qx9nlLX+zoFXDoV99r
+ OA642Gr9f14yomzI=
+X-Received: by 2002:ac8:5ac3:0:b0:2e1:e117:b2ed with SMTP id
+ d3-20020ac85ac3000000b002e1e117b2edmr8016944qtd.541.1647622069692; 
+ Fri, 18 Mar 2022 09:47:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwC2fdhfozaGV1UdoHDKDB2XYrKjG4iFjcWVoQYV4a0FB8jR23DsHvg35kWLrca/zOu3AJ8YA==
+X-Received: by 2002:ac8:5ac3:0:b0:2e1:e117:b2ed with SMTP id
+ d3-20020ac85ac3000000b002e1e117b2edmr8016919qtd.541.1647622069345; 
+ Fri, 18 Mar 2022 09:47:49 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-12-25-114.business.telecomitalia.it.
+ [87.12.25.114]) by smtp.gmail.com with ESMTPSA id
+ i17-20020ac85e51000000b002e1cf062ef4sm6102842qtx.45.2022.03.18.09.47.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Mar 2022 09:47:48 -0700 (PDT)
+Date: Fri, 18 Mar 2022 17:47:43 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Peter Lieven <pl@kamp.de>
+Subject: Re: [PATCH] block/rbd: fix write zeroes with growing images
+Message-ID: <20220318164743.vgkbcoeok2e4r6pa@sgarzare-redhat>
+References: <20220318082504.qxqcarorpo2jxnfk@sgarzare-redhat>
+ <AA4AC067-D604-43A4-AE1F-18AA1BFCF90C@kamp.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] tests/qemu-iotests: Use GNU sed in two more spots where
- it is necessary
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-References: <20220309101626.637836-1-thuth@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220309101626.637836-1-thuth@redhat.com>
+In-Reply-To: <AA4AC067-D604-43A4-AE1F-18AA1BFCF90C@kamp.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,24 +102,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Ilya Dryomov <idryomov@gmail.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.03.22 11:16, Thomas Huth wrote:
-> These two spots have been missed in commit 9086c7639822 ("Rework the
-> checks and spots using GNU sed") - they need GNU sed, too, since they
-> are using the "+" address form.
+On Fri, Mar 18, 2022 at 04:48:18PM +0100, Peter Lieven wrote:
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   tests/qemu-iotests/common.filter | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+>> Am 18.03.2022 um 09:25 schrieb Stefano Garzarella <sgarzare@redhat.com>:
+>>
+>> ﻿On Thu, Mar 17, 2022 at 07:27:05PM +0100, Peter Lieven wrote:
+>>>
+>>>
+>>>>> Am 17.03.2022 um 17:26 schrieb Stefano Garzarella <sgarzare@redhat.com>:
+>>>>
+>>>> ﻿Commit d24f80234b ("block/rbd: increase dynamically the image size")
+>>>> added a workaround to support growing images (eg. qcow2), resizing
+>>>> the image before write operations that exceed the current size.
+>>>>
+>>>> We recently added support for write zeroes and without the
+>>>> workaround we can have problems with qcow2.
+>>>>
+>>>> So let's move the resize into qemu_rbd_start_co() and do it when
+>>>> the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
+>>>>
+>>>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2020993
+>>>> Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
+>>>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>>>> ---
+>>>> block/rbd.c | 26 ++++++++++++++------------
+>>>> 1 file changed, 14 insertions(+), 12 deletions(-)
+>>>>
+>>>> diff --git a/block/rbd.c b/block/rbd.c
+>>>> index 8f183eba2a..6caf35cbba 100644
+>>>> --- a/block/rbd.c
+>>>> +++ b/block/rbd.c
+>>>> @@ -1107,6 +1107,20 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
+>>>>
+>>>>    assert(!qiov || qiov->size == bytes);
+>>>>
+>>>> +    if (cmd == RBD_AIO_WRITE || cmd == RBD_AIO_WRITE_ZEROES) {
+>>>> +        /*
+>>>> +         * RBD APIs don't allow us to write more than actual size, so in order
+>>>> +         * to support growing images, we resize the image before write
+>>>> +         * operations that exceed the current size.
+>>>> +         */
+>>>> +        if (offset + bytes > s->image_size) {
+>>>> +            int r = qemu_rbd_resize(bs, offset + bytes);
+>>>> +            if (r < 0) {
+>>>> +                return r;
+>>>> +            }
+>>>> +        }
+>>>> +    }
+>>>> +
+>>>>    r = rbd_aio_create_completion(&task,
+>>>>                                  (rbd_callback_t) qemu_rbd_completion_cb, &c);
+>>>>    if (r < 0) {
+>>>> @@ -1182,18 +1196,6 @@ coroutine_fn qemu_rbd_co_pwritev(BlockDriverState *bs, int64_t offset,
+>>>>                                 int64_t bytes, QEMUIOVector *qiov,
+>>>>                                 BdrvRequestFlags flags)
+>>>> {
+>>>> -    BDRVRBDState *s = bs->opaque;
+>>>> -    /*
+>>>> -     * RBD APIs don't allow us to write more than actual size, so in order
+>>>> -     * to support growing images, we resize the image before write
+>>>> -     * operations that exceed the current size.
+>>>> -     */
+>>>> -    if (offset + bytes > s->image_size) {
+>>>> -        int r = qemu_rbd_resize(bs, offset + bytes);
+>>>> -        if (r < 0) {
+>>>> -            return r;
+>>>> -        }
+>>>> -    }
+>>>>    return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_WRITE);
+>>>> }
+>>>>
+>>>> --
+>>>> 2.35.1
+>>>>
+>>>
+>>> Do we really have a use case for growing rbd images?
+>>
+>> The use case is to have a qcow2 image on rbd.
+>> I don't think it's very common, but some people use it and here [1] we had a little discussion about features that could be interesting (e.g.  persistent dirty bitmaps for incremental backup).
+>>
+>> In any case the support is quite simple and does not affect other use cases since we only increase the size when we go beyond the current size.
+>>
+>> IMHO we can have it in :-)
+>>
+>
+>The QCOW2 alone doesn’t make much sense, but additional metadata might 
+>be a use case.
 
-Thanks, applied to my block branch:
+Yep.
 
-https://gitlab.com/hreitz/qemu/-/commits/block
+>Be aware that the current approach will serialize requests. If there is 
+>a real use case, we might think of a better solution.
 
-Hanna
+Good point, but it only happens when we have to resize, so maybe it's 
+okay for now, but I agree we could do better ;-)
+
+Thanks,
+Stefano
 
 
