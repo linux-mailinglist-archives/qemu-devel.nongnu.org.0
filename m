@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E114DD973
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 13:13:52 +0100 (CET)
-Received: from localhost ([::1]:49412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD2D4DD949
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 12:57:21 +0100 (CET)
+Received: from localhost ([::1]:35934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVBUN-0004ZO-9x
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 08:13:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59828)
+	id 1nVBEO-0002UG-JL
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 07:57:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nVBQR-0002J0-Np
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 08:09:49 -0400
-Received: from mga12.intel.com ([192.55.52.136]:29425)
+ id 1nVBCj-0001ME-1X
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:55:37 -0400
+Received: from mga06.intel.com ([134.134.136.31]:49605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nVBQO-0005RD-S9
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 08:09:47 -0400
+ id 1nVBCg-0002lb-8u
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:55:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647605384; x=1679141384;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=/qfBokc3of1SZgcqHrP4j9+9nVTTweBakkIJlzwj29Q=;
- b=m0hPtQekr5B8ElegSoNSMPOBnBE8huEgDBLKW2nIqymrSxmg6lGUlK8Y
- F+25uR8GSVyJw3xPHGX9xunu4YdzCMKDDV9oHF+Ho4cfO1F1wkvYOF//r
- oTgpHt9MVbOT420Av3ocTOcKna7AmV2Glywc+w2DEH3xKRb3y3sVl00rk
- mFIKfSL8St+q30npmiUfdGRQRQS9Ud0LJcjibTk90aOYeOxlUHyn9MIeb
- 9F52mHVu8soaxMY6PAR1xSv0GOMtPNWB6X/0tKFjUep2HYCaHKiKOjJGP
- J9Wc4aHhOKlw+8gR8HJ7hqjbACooa+6cakcvdL0/lSnjCrEiaDf8Ij5KU w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="237069059"
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="237069059"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2022 05:09:42 -0700
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="558410479"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.145.56])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 18 Mar 2022 05:09:39 -0700
-Date: Fri, 18 Mar 2022 19:53:44 +0800
+ t=1647604534; x=1679140534;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=F764auwYFVZErB2yzIux3JIw4zIGbwLG0sp96TPuiu8=;
+ b=DJqDTGfrVI0aR97hu3JUQIzpqJZQ5SlBquPJl8Lne2Mk/YlftYEgmGFX
+ Yh4y1fkGPHMR7eCs1KwGQQ937/AplxJpVY0+pENJ2PGVx2Ayy3Xj3OKiM
+ kLpx224jTa+9Jpb+xJXHlZHwFg7axRLPQ243fB79W6TX1VKjVBtOo9Uv/
+ LXKCKDzpS3L8jHkVDs9g/eZ5N+RQLzgGJfzslVX+QGkIN8UPRyN1qgCbZ
+ JmayzhJmNzG6DA6WnxdSFEMRHgugoXJYOD8bNkXD4G7hbU5d3GuW6pi1r
+ v6ScjQgG6kpRoqWmpK1guoF90JYrgpahNTZfGhqJj+RL9bsYNVd7FoG9l Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="317837838"
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="317837838"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2022 04:55:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="691291743"
+Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
+ by fmsmga001.fm.intel.com with ESMTP; 18 Mar 2022 04:55:29 -0700
 From: Yang Zhong <yang.zhong@intel.com>
-To: Michal =?iso-8859-1?B?UHLtdm96bu1r?= <mprivozn@redhat.com>,
- pbonzini@redhat.com
-Subject: Re: [PULL 15/22] x86: Grant AMX permission for guest
-Message-ID: <20220318115344.GA24975@yangzhon-Virtual>
-References: <20220308113445.859669-1-pbonzini@redhat.com>
- <20220308113445.859669-16-pbonzini@redhat.com>
- <YjII86LKWTe0mVED@angien.pipo.sk>
- <50ab6e2a-7cdf-14e2-29da-6780ad4a43d2@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] x86/amx: compatible with older kernel release
+Date: Fri, 18 Mar 2022 04:55:29 -0700
+Message-Id: <20220318115529.4850-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <50ab6e2a-7cdf-14e2-29da-6780ad4a43d2@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=yang.zhong@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,97 +69,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Krempa <pkrempa@redhat.com>, qemu-devel@nongnu.org,
- Jing Liu <jing2.liu@intel.com>
+Cc: yang.zhong@intel.com, pbonzini@redhat.com, pkrempa@redhat.com,
+ mprivozn@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 18, 2022 at 11:13:56AM +0100, Michal Prívozník wrote:
-> On 3/16/22 16:57, Peter Krempa wrote:
-> > On Tue, Mar 08, 2022 at 12:34:38 +0100, Paolo Bonzini wrote:
-> >> From: Yang Zhong <yang.zhong@intel.com>
-> >>
-> >> Kernel allocates 4K xstate buffer by default. For XSAVE features
-> >> which require large state component (e.g. AMX), Linux kernel
-> >> dynamically expands the xstate buffer only after the process has
-> >> acquired the necessary permissions. Those are called dynamically-
-> >> enabled XSAVE features (or dynamic xfeatures).
-> >>
-> >> There are separate permissions for native tasks and guests.
-> >>
-> >> Qemu should request the guest permissions for dynamic xfeatures
-> >> which will be exposed to the guest. This only needs to be done
-> >> once before the first vcpu is created.
-> >>
-> >> KVM implemented one new ARCH_GET_XCOMP_SUPP system attribute API to
-> >> get host side supported_xcr0 and Qemu can decide if it can request
-> >> dynamically enabled XSAVE features permission.
-> >> https://lore.kernel.org/all/20220126152210.3044876-1-pbonzini@redhat.com/
-> >>
-> >> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> >> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> >> Signed-off-by: Jing Liu <jing2.liu@intel.com>
-> >> Message-Id: <20220217060434.52460-4-yang.zhong@intel.com>
-> >> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> >> ---
-> >>  target/i386/cpu.c          |  7 +++++
-> >>  target/i386/cpu.h          |  4 +++
-> >>  target/i386/kvm/kvm-cpu.c  | 12 ++++----
-> >>  target/i386/kvm/kvm.c      | 57 ++++++++++++++++++++++++++++++++++++++
-> >>  target/i386/kvm/kvm_i386.h |  1 +
-> >>  5 files changed, 75 insertions(+), 6 deletions(-)
-> > 
-> > With this commit qemu crashes for me when invoking the following
-> > QMP command:
-> > 
-> > $ ~pipo/git/qemu.git/build/qemu-system-x86_64 -S -no-user-config -nodefaults -nographic -machine none,accel=kvm -qmp stdio
-> > {"QMP": {"version": {"qemu": {"micro": 90, "minor": 2, "major": 6}, "package": "v7.0.0-rc0-8-g1d60bb4b14"}, "capabilities": ["oob"]}}
-> > {'execute':'qmp_capabilities'}
-> > {"return": {}}
-> > {"execute":"qom-list-properties","arguments":{"typename":"max-x86_64-cpu"},"id":"libvirt-41"}
-> > qemu-system-x86_64: ../target/i386/kvm/kvm-cpu.c:105: kvm_cpu_xsave_init: Assertion `esa->size == eax' failed.
-> > Aborted (core dumped)
-> > 
-> > Note that the above is on a box with an 'AMD Ryzen 9 3900X'.
-> > 
-> > Curiously on a laptop with an Intel chip (Intel(R) Core(TM) i7-10610U)
-> > it seems to work.
-> > 
-> > 
-> 
-> Not trying to beat a dead horse here, but I've just found another
-> problem with this patch. On my laptop (Linux maggie
-> 5.15.26-gentoo-x86_64 #1 SMP Thu Mar 10 08:55:28 CET 2022 x86_64
-> Intel(R) Core(TM) i7-10610U CPU @ 1.80GHz GenuineIntel GNU/Linux), when
-> I start a guest it no longer sees AVX instructions:
-> 
->   qemu.git $ ./build/qemu-system-x86_64 -accel kvm -cpu host ...
->
+The AMX KVM introduced one new ARCH_GET_XCOMP_SUPP system attribute
+API to get host side supported_xcr0 and latest Qemu can decide if it
+can request dynamically enabled XSAVE features permission. But this
+implementation(19db68ca68) did not consider older kernel release.
+This patch can avoid to read this new KVM_GET_DEVICE_ATTR ioctl.
 
-  Thanks Michal, this issue is caused by compatibility with older kernel version.
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+---
+ target/i386/kvm/kvm.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-  The Qemu will report below logs:
-  emu-system-x86_64: warning: cannot get sys attribute capabilities 0
-  qemu-system-x86_64: warning: cannot get sys attribute capabilities 0
-  qemu-system-x86_64: warning: cannot get sys attribute capabilities 0
-  qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.0DH:EAX [bit 5]
-  qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.0DH:EAX [bit 6]
-  qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.0DH:EAX [bit 9]
-  ......
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index ef2c68a6f4..cda95e7ba6 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -420,14 +420,14 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+         bool sys_attr = kvm_check_extension(s, KVM_CAP_SYS_ATTRIBUTES);
+         if (!sys_attr) {
+             warn_report("cannot get sys attribute capabilities %d", sys_attr);
+-        }
+-
+-        int rc = kvm_ioctl(s, KVM_GET_DEVICE_ATTR, &attr);
+-        if (rc == -1 && (errno == ENXIO || errno == EINVAL)) {
+-            warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
+-                        "error: %d", rc);
+-        }
+-        ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
++        } else {
++            int rc = kvm_ioctl(s, KVM_GET_DEVICE_ATTR, &attr);
++            if (rc == -1 && (errno == ENXIO || errno == EINVAL)) {
++                warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
++                            "error: %d", rc);
++            }
++            ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
++       }
+     } else if (function == 0x80000001 && reg == R_ECX) {
+         /*
+          * It's safe to enable TOPOEXT even if it's not returned by
+-- 
+2.25.1
 
-  Since the AMX changes in Qemu need read ARCH_GET_XCOMP_SUPP attribute to get host supported_xcr0
-  value, and new kernel release add this new API. So the older kernel can't report right xcr0 value.
-
-  I made one new patch to fix this issue, please try this patch. thanks!
-  https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg04732.html
-
-  Paolo, this patch only fix this compatibility issue, but the issue caused by AMD cpu is still not
-  fixed from my side because no AMD platform can be used in my side. If you have no time to check
-  this issue, maybe I need lookfor this platform from our internal. thanks!
-
-  Yang 
-
- 
-> Michal
 
