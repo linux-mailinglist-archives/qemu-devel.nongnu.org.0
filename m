@@ -2,63 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0E24DDA16
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:02:46 +0100 (CET)
-Received: from localhost ([::1]:38754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A41F4DDA18
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:03:15 +0100 (CET)
+Received: from localhost ([::1]:39906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVCFg-0005xI-LV
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:02:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41882)
+	id 1nVCGA-0006kr-1H
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:03:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nVCBe-0003Zt-Do; Fri, 18 Mar 2022 08:58:34 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:50155)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nVCBb-0006Xc-IY; Fri, 18 Mar 2022 08:58:34 -0400
-Received: from [192.168.100.1] ([82.142.28.230]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MbAYo-1o6SoS4BIW-00bXyS; Fri, 18 Mar 2022 13:58:25 +0100
-Message-ID: <af35bbd9-6683-b68f-eb97-fb7c7ab68c2e@vivier.eu>
-Date: Fri, 18 Mar 2022 13:58:24 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nVCBp-00043d-4F
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 08:58:45 -0400
+Received: from [2607:f8b0:4864:20::b35] (port=41876
+ helo=mail-yb1-xb35.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nVCBn-0006Yk-EW
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 08:58:44 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id l2so15670872ybe.8
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 05:58:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7QawA1ImlUW330VZHgGvPXYjO9EHk1xkcOo8ZQLyOXY=;
+ b=T02FF4vg7jNlBRYAiLWplJFL81ztF4HslxVNj+Nhk81i+ItvSaboj3ZZ+kg7Ni6zMq
+ lvT5Z73Dw8LSJzVHDREUce3HMuRRBl5mVNVQLWOVV54zMReDtS8r38d7ehwF7puMEOen
+ X0876HQmrIymr8akT0PDMMP5geFPW2ly2utV6psRo/EOxM7t5/PN6jiHuMef7vCSZflJ
+ jWlUD8mLQSexghFfWVWAZlkH/l/6n4+bzjm+oHBXtAU6EsRtGg86XosCDIV9ydDzUylk
+ mzKoKq4ZltDlClf3qQ9VSe57rNpwDSd5NxyR7tbGXPA4B6vsThoJGkn3BVWyMdfN6s9Q
+ +o0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7QawA1ImlUW330VZHgGvPXYjO9EHk1xkcOo8ZQLyOXY=;
+ b=K+8jnnHecFI9lhwlKBRQp1+yN4nfmX7vNk1rrUDQ2DvgBZm3g8ZWrQq20x37rvAjw0
+ BZ6uNcYAyzTbtPjWZPtQ+vYoM0K3/C2mXb2+E/j4nEPhs7CGdJh2Mk1Pu8iTGZLIQ0JX
+ 3V8XMDxMc7WElRmnNKp2HIcNxQRQe7qLD2gUMsZn56C0C8jkROumEqJuFDm4zfetZhhX
+ EF83dy4bhQ2z05uGUeENthCCCPxII+GhNNLTShoFz0Fq513BtPh3W5VIWwCJDbtcWtZ1
+ NoNc4aQTb8ast9x2ycH0Hh8i13nHQwJl4adClLvaIHmxMKoHRUz+Pd6ETsSWyADY+kV1
+ PO+A==
+X-Gm-Message-State: AOAM5327iGHkHtszcaSYfZXCmQaA0dKokQtixNeL94AD1fpnbM1/VpbO
+ Zjfz7l+4zFacAmRMjNEQKs6ALRLCTShZD50vYy7VQw==
+X-Google-Smtp-Source: ABdhPJzyz2eD2mQ3BJs87hQR2RMFsqkGwHz8xBPX2pNDD6sw/9Sc1Qiu3W4NJu0/NtfxkwhVNU1CA07WRwDN/SOy0C8=
+X-Received: by 2002:a25:bf8b:0:b0:633:8a66:c4cd with SMTP id
+ l11-20020a25bf8b000000b006338a66c4cdmr9852318ybk.85.1647608321991; Fri, 18
+ Mar 2022 05:58:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH vRESEND] virtio/virtio-balloon: Prefer Object* over void*
- parameter
-Content-Language: fr
-To: "Michael S. Tsirkin" <mst@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-References: <20220301222301.103821-1-shentey@gmail.com>
- <20220301222301.103821-2-shentey@gmail.com>
- <20220304051952-mutt-send-email-mst@kernel.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220304051952-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:x34MfYIanpXryuHF3qHkpvdRrGMjnpj77kTsR+S54qpizGrAKG/
- 5oZEZcUknM+etmvsI7s5IZTQgxsE+E/FEX5raiIUNDTFPm0d96L4f/qlzDcafZBhXeFaBS4
- tQxVktZHdSNROtuj6anfAjI0g5dnN9m7mlk+BuopKkyD5qplWiKXSAU3tXMx/kL6IhaFRAM
- IA87wIn6J7A18gzpi/MIQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:py5J7NMGDI8=:W23+2JfwLJ36KcfJJZqYfn
- RPSIqkB8lMzc5oV3UzgZWtmm6divVH9PG03wSKofQLII5/4BGO8q1CC6etRicdsn8X8erFHrb
- WclYLcVWlO9IchVOYZwukEJ3b0Rx/zOXgxsN/kcuec6bnJAfgdrVRx6RJNu/TJs9PieRp5xBn
- otnj7QcAVdrgWnLlvTBOIeKiel8uZL2QqyJchZx6lmE95iapj008ub9VKhAEdjQa2gL1TUXnv
- 6NsNwNDwFylWZL2rmO4Jl854h9j6ZTywI+0JJ1aHIWZYhcxK9Jf48SFfYn+PC88vVt+lzgYFN
- xyd4WrV7YHBIRuNXDHQEvtx3EyHv6BxZVt+LSZbSC+g4/aa4fs1/4qqyL3vKSrBL3fOXtaqoE
- VsCpGg2SiOvLN5HuTicKnr0qRa8oB2xz5/LR5huDZ7Ho22bg07lpB4a1id8qNTG/QBq38AUoL
- Y2XsRgsRJ7ZWyB8MY6axj42+lG3swvlxJiY0XDET5TYhpydVk7km4FAQi/R5PXGx5tJnxe74t
- CurgbxcBjl8o31V8HwIIXl4aP8fqJCcmEPNxHk3SdfVNF0/vWwqQ36osG4wnIK43Jkikg/DDO
- YjZwg5NvZgAhNLBhYh7b5K5LmxXY1YTFdC4VRHNO6n+a2eI6gJ2IB+ewADg5HpuUR6o/8Wp1z
- 8WrvA0XMc/WzpWpdf4C0pH2cKsOKgHZQ2xk73WyFgfO1k0i88kZEvwE4bcWGfL4pQQAg=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220302130417.18551-1-ubzeme@gmail.com>
+ <20220302130417.18551-8-ubzeme@gmail.com>
+In-Reply-To: <20220302130417.18551-8-ubzeme@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Mar 2022 12:58:30 +0000
+Message-ID: <CAFEAcA9HBwe0g2OTXgdqxSE+ecW55YLuSrKeL3DWs_tLLRY08w@mail.gmail.com>
+Subject: Re: [PATCH v3 7/9] hvf: use GTree to store memory slots instead of
+ fixed-size array
+To: Yan-Jie Wang <ubzeme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b35
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,26 +83,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 04/03/2022 à 11:20, Michael S. Tsirkin a écrit :
-> On Tue, Mar 01, 2022 at 11:23:01PM +0100, Bernhard Beschow wrote:
->> *opaque is an alias to *obj. Using the ladder makes the code consistent with
->> with other devices, e.g. accel/kvm/kvm-all and accel/tcg/tcg-all. It also
->> makes the cast more typesafe.
->>
->> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->> Reviewed-by: David Hildenbrand <david@redhat.com>
-> 
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> trivial tree pls
+On Wed, 2 Mar 2022 at 13:04, Yan-Jie Wang <ubzeme@gmail.com> wrote:
+>
+> Currently, there are only 32 memory slots in the fixed size array.
+> It is not scalable. Instead of using fixed size array, use GTree
+> (from glib library) and dynamically-allocated structures to store
+> memory slots.
+>
+> Signed-off-by: Yan-Jie Wang <ubzeme@gmail.com>
+> ---
+>  accel/hvf/hvf-mem.c | 63 +++++++++++++++++++++++----------------------
+>  1 file changed, 32 insertions(+), 31 deletions(-)
+>
+> diff --git a/accel/hvf/hvf-mem.c b/accel/hvf/hvf-mem.c
+> index 081029ba98..2f70ceb307 100644
+> --- a/accel/hvf/hvf-mem.c
+> +++ b/accel/hvf/hvf-mem.c
+> @@ -28,8 +28,6 @@
+>
+>  /* Memory slots */
+>
+> -#define HVF_NUM_SLOTS 32
+> -
+>  /* HVFSlot flags */
+>  #define HVF_SLOT_LOG (1 << 0)
+>  #define HVF_SLOT_READONLY (1 << 1)
+> @@ -42,35 +40,24 @@ typedef struct HVFSlot {
+>      MemoryRegion *region;
+>  } HVFSlot;
+>
+> -static HVFSlot memslots[HVF_NUM_SLOTS];
+> +static GTree *memslots;
+>  static QemuMutex memlock;
+>
+>  static HVFSlot *hvf_find_overlap_slot(hwaddr start, hwaddr size)
+>  {
+> -    HVFSlot *slot;
+> -    int x;
+> -    for (x = 0; x < HVF_NUM_SLOTS; ++x) {
+> -        slot = &memslots[x];
+> -        if (slot->size && start < (slot->start + slot->size) &&
+> -            (start + size) > slot->start) {
+> -            return slot;
+> -        }
+> -    }
+> -    return NULL;
+> +    HVFSlot key = {.start = start, .size = 1};
 
-Applied to my trivial-patches branch.
+Doesn't using a size of 1 mean that this function no longer
+finds an overlapping slot which starts somewhere above
+our 'start' address ?
 
-Thanks,
-Laurent
+> +    return g_tree_lookup(memslots, &key);
+>  }
+>
+
+-- PMM
 
