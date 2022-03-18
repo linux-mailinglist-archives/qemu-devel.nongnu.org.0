@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228EA4DD555
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 08:41:15 +0100 (CET)
-Received: from localhost ([::1]:47616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5CC84DD5E4
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 09:16:46 +0100 (CET)
+Received: from localhost ([::1]:54574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nV7EX-0004Gb-NT
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 03:41:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39860)
+	id 1nV7mv-00022l-Be
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 04:16:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nV7CW-0002pX-Hs; Fri, 18 Mar 2022 03:39:08 -0400
-Received: from [2607:f8b0:4864:20::d2f] (port=40718
- helo=mail-io1-xd2f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nV7CU-0004EO-Ro; Fri, 18 Mar 2022 03:39:08 -0400
-Received: by mail-io1-xd2f.google.com with SMTP id x4so8425846iop.7;
- Fri, 18 Mar 2022 00:39:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IStUsWQm7PSqsN6eak1dH4f4Hzc/CLdaduAHd3aB+E4=;
- b=httmhYORcN42ST85JA4HmFw18SlCDiHT9vrd8YB1JyP//iqqz02p5VPw3nv83trVox
- /ViWHGPDhMzD7wwoh0Hs2RsNPnuBahJNL2pJ2/fpZXVC0VwxdfNTTgHiz0J4XQu4/40J
- nxFDb6ld9ON3J+hwpU1JbARxA2qL9+WHQCJViWs/FJd7FQHZ/9dVDrRcvGM8FWJmidbQ
- SWm3prkt1KnTA7jtq6G5nr1GGWTEPurpctbAY9A3bBYHBic3wuWJdjjSIJuNxnIc87Jf
- qpRQ5A68ymFDOMUx6Y1VcGX5iPltHoiG+jgK+m5y+DnOJsCBK+9xd7ilBXQ3x+NseEmo
- FKXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IStUsWQm7PSqsN6eak1dH4f4Hzc/CLdaduAHd3aB+E4=;
- b=1tm6d144Tckchu1G8BexzQcHICgxBTOHwq/zzr2hCVXbpdfMwNRX2exrYargSzd3aR
- yKhZr/fDXqe9YzR5qP1skdgLIQQegsQ9GeCcDUy3KEgtbWvBlmiLDK/Gg3WtJtq4t0b/
- RtB/Q77nFm1m8sqn3iBmn973kl2FiqQomaWJc/jgNtCLqv7F4tXplUyHTvWAlxUd2FRn
- 85gZrmMfQNVk+mnNgBw6Cu9LrerHu2IJoo7A1B8bvZRhAZrhFRzxtm4gdlqu1cOt7WER
- OmWyFEDChKpUlCRdMge9pF8k2GWqqQZADb1lfFSAUJwWFWcFccn7xvT5UapOTSrE5xau
- y6Lw==
-X-Gm-Message-State: AOAM532qY53inj6eMF2Na4XFVVrchn6ttaRfXE4c8K4LVlDnMxfQf298
- 6C0bDAc3/6r7iJ4zUvuUhggVixCdj6KcSYp5EN8=
-X-Google-Smtp-Source: ABdhPJyquwFy2f5cPWlDf1kjzdE167IvoFV9kRdyn6iBSgvkuvlI2yDBbK3S9kmGmO7Uk43hkBSbThXlc58g6AFxm1g=
-X-Received: by 2002:a05:6602:2d05:b0:645:74b1:531a with SMTP id
- c5-20020a0566022d0500b0064574b1531amr3912156iow.203.1647589145456; Fri, 18
- Mar 2022 00:39:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nV7lU-0001Lx-Kc
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 04:15:16 -0400
+Received: from [2001:41c9:1:41f::167] (port=47238
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nV7lT-00010z-0a
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 04:15:16 -0400
+Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nV7ka-0007Qx-02; Fri, 18 Mar 2022 08:14:20 +0000
+Message-ID: <d710c6e1-a9b7-ed0d-ca23-c4315355268c@ilande.co.uk>
+Date: Fri, 18 Mar 2022 08:14:58 +0000
 MIME-Version: 1.0
-References: <20220315065529.62198-1-bmeng.cn@gmail.com>
-In-Reply-To: <20220315065529.62198-1-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 18 Mar 2022 17:38:39 +1000
-Message-ID: <CAKmqyKOtbkHh3eeUNegfmy0d6UtbEEHH3KwZ9kBp9AYmn98WyQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] target/riscv: Initial support for the Sdtrig
- extension via M-mode CSRs
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2f
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Content-Language: en-US
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
+ <20220306163119-mutt-send-email-mst@kernel.org>
+ <20220307093918.00002f20@Huawei.com> <YihiHNxVjDFI0Z8r@xz-m1.local>
+ <20220309112827.00002c73@Huawei.com> <Yimwjtd8SsVLOU5e@xz-m1.local>
+ <20220316165034.000037e7@Huawei.com>
+ <1efbfeeb-2598-57c5-2e2d-4f5fa2538aa7@ilande.co.uk>
+ <20220316175846.00007463@Huawei.com> <20220316182618.00003ce5@Huawei.com>
+ <31f383e6-01bb-cf9a-6af8-d0f1821b3fd1@ilande.co.uk>
+ <20220317164723.00001c14@huawei.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220317164723.00001c14@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v7 00/46] CXl 2.0 emulation Support
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,70 +73,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Samarth Saxena <samarths@cadence.com>, Chris Browy <cbrowy@avery-design.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org, Shreyas Shah <shreyas.shah@elastics.cloud>,
+ linuxarm@huawei.com, linux-cxl@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
+ David Hildenbrand <david@redhat.com>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 15, 2022 at 5:17 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
->
-> This adds initial support for the Sdtrig extension via the Trigger Module,
-> as defined in the RISC-V Debug Specification [1].
->
-> Only "Address / Data Match" trigger (type 2) is implemented as of now,
-> which is mainly used for hardware breakpoint and watchpoint. The number
-> of type 2 triggers implemented is 2, which is the number that we can
-> find in the SiFive U54/U74 cores.
->
-> [1] https://github.com/riscv/riscv-debug-spec/raw/master/riscv-debug-stable.pdf
->
-> Changes in v4:
-> - mention Sdtrig extension in the commit
-> - rename 'struct trigger_type2_t' to 'type2_trigger_t'
-> - move riscv_trigger_init() call to riscv_cpu_reset()
->
-> Changes in v3:
-> - drop riscv_trigger_init(), which will be moved to patch #5
-> - add riscv_trigger_init(), moved from patch #1 to this patch
-> - enable debug feature by default for all CPUs
->
-> Changes in v2:
-> - new patch: add debug state description
-> - use 0 instead of GETPC()
-> - change the config option to 'disabled' by default
->
-> Bin Meng (7):
->   target/riscv: Add initial support for the Sdtrig extension
->   target/riscv: machine: Add debug state description
->   target/riscv: debug: Implement debug related TCGCPUOps
->   target/riscv: cpu: Add a config option for native debug
->   target/riscv: csr: Hook debug CSR read/write
->   target/riscv: cpu: Enable native debug feature
->   hw/core: tcg-cpu-ops.h: Update comments of debug_check_watchpoint()
+On 17/03/2022 16:47, Jonathan Cameron via wrote:
 
-Thanks!
+>> Ah great! As you've already noticed my particular case was performing partial
+>> decoding on a memory region, but there are no issues if you need to dispatch to
+>> another existing address space such as PCI/IOMMU. Creating a separate address space
+>> per device shouldn't be an issue either, as that's effectively how the PCI bus master
+>> requests are handled.
+>>
+>> The address spaces are visible in "info mtree" so if you haven't already, I would
+>> recommend generating a dynamic name for the address space based upon the device
+>> name/address to make it easier for development and debugging.
+> info mtree already provides the following with a static name
+> address-space: cxl-type3-dpa-space
+>    0000000000000000-000000000fffffff (prio 0, nv-ram): cxl-mem2
+> 
+> So the device association is there anyway.  Hence I'm not sure a dynamic name adds
+> a lot on this occasion and code is simpler without making it dynamic.
 
-Applied to riscv-to-apply.next
+Is this using a single address space for multiple memory devices, or one per device 
+as you were suggesting in the thread? If it is one per device and cxl-mem2 is the 
+value of the -device id parameter, I still think it is worth adding the same device 
+id into the address space name for the sake of a g_strdup_printf() and corresponding 
+g_free().
 
-Alistair
+Alas I don't currently have the time (and enough knowledge of CXL!) to do a more 
+comprehensive review of the patches, but a quick skim of the series suggests it seems 
+quite mature. The only thing that I noticed was that there doesn't seem to be any 
+trace-events added, which I think may be useful to aid driver developers if they need 
+to debug some of the memory access routing.
 
->
->  include/hw/core/tcg-cpu-ops.h |   1 +
->  target/riscv/cpu.h            |   9 +-
->  target/riscv/debug.h          | 114 +++++++++
->  target/riscv/cpu.c            |  12 +
->  target/riscv/csr.c            |  57 +++++
->  target/riscv/debug.c          | 441 ++++++++++++++++++++++++++++++++++
->  target/riscv/machine.c        |  32 +++
->  target/riscv/meson.build      |   1 +
->  8 files changed, 666 insertions(+), 1 deletion(-)
->  create mode 100644 target/riscv/debug.h
->  create mode 100644 target/riscv/debug.c
->
-> --
-> 2.25.1
->
->
+Finally I should point out that there are a number of more experienced PCI developers 
+on the CC list than me, and they should have the final say on patch review. So please 
+consider these comments as recommendations based upon my development work on QEMU, 
+and not as a NAK for proceeding with the series :)
+
+
+ATB,
+
+Mark.
 
