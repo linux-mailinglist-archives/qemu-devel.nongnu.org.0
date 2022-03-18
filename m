@@ -2,81 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3484DDFC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 18:21:12 +0100 (CET)
-Received: from localhost ([::1]:54688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 671704DDFD3
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 18:27:28 +0100 (CET)
+Received: from localhost ([::1]:59742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVGHm-0003js-L8
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 13:21:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46550)
+	id 1nVGNr-0007dv-0l
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 13:27:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1nVGG9-0002Tt-U1
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 13:19:29 -0400
-Received: from [2607:f8b0:4864:20::533] (port=38604
- helo=mail-pg1-x533.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1nVGG8-00083w-4e
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 13:19:29 -0400
-Received: by mail-pg1-x533.google.com with SMTP id s72so2766977pgc.5
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 10:19:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=lzsvd7vgCFzNYVBiGWplExgWAHNobHxZzTboIKXc/JM=;
- b=irvMD+AAm6EZE0bGA8/vkh/YM9K5q5/mhTYeLKN0BzU1c0guDLLvLfhfRMgN+FNxwa
- djyf/3EEGIemzb7FdQfd4kLDwKSyuCS0sFNI9k8syhhfHhBk4iuo5VFsQPM7z/Fd+zf5
- aJtlQz63LsWcP9is20MviJ1htSNsRWS5dSxplKyoOYF2SA735Bej0uQVZSp4AcqRDm9P
- hVvqHix+xiBguD4a2zSdNeBb/O54z2h73wo6NP/M66Ycc4WFHY5835GlQuWLyJQ2zksq
- GS3p9C1v7sqrXjEM4dwH2GjDWi8mQ1F2YejFcetDWvWCGRIlLhwoLbQHSQ6O7PzlztCT
- uDtg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nVGMI-0006nK-5c
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 13:25:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nVGMF-000164-AK
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 13:25:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647624346;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=asH6X9HWMOkBVqKKgg7llwQ5TC5dw9HIPQJ1qI0bvEI=;
+ b=OziqiXl7uPtsvP3H990SJzM9VyMihGbFZzw9elj7U4PCUNEeoY4jKscUuwpEoFHT7Yzfmi
+ wW+1WXzVQu/8+r4hLHqCK30FFFIm2PTarBeUuNRBc5cc7rw4VtkuF/hXiCgYzmwRg+lvUu
+ mbXrodC0siYE3JBdiK0hxOfVMUXe1Y8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-538-cBV1IcJiO1mJzvhP4RqjRQ-1; Fri, 18 Mar 2022 13:25:44 -0400
+X-MC-Unique: cBV1IcJiO1mJzvhP4RqjRQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i65-20020a1c3b44000000b00385c3f3defaso1671427wma.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 10:25:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=lzsvd7vgCFzNYVBiGWplExgWAHNobHxZzTboIKXc/JM=;
- b=GmyMo53O9guC1XRrZRSKXo/3YsBkRCqSfqnU0KFL9R5QoCbSFCoXuG3Y40VEIoCsTc
- 3eQkNv7sDMCkMD8FEJdAB5oKZ62UNRkxGE5C7Ep9Xs5F4SxPmW4XBkFL2K69+tAj8Y22
- zaC9AbX4qFNdXiwlBWgSu4fR8TOaf8HNvptpXJ24Vt0xFUhXGJsQ9pnPGJrjG+HhpZaT
- gJX8+BqjVDf+ZYMtTccrWytsOpLgDVmdi1LoV6vwys/I9CnfxjQV9M6COjuKKXFdd7c8
- eR0rtsHisQLNHMi/hOASxubNiLDuMPVzrxW9Pw7BavSuUvAPiXrBxCNELJiZOjp7llDr
- L3RQ==
-X-Gm-Message-State: AOAM533+cjnfXwU2EMUW63KqHX11tnhG8c7svyHVZP5AhHN8EVAQ2hcv
- vZbXWCQcIzxRwWPoslkSDG0=
-X-Google-Smtp-Source: ABdhPJzNcF3n+0tDpc7uLaqC2sLoM/SqX1zpNhuDj2W2m4pPPlWWp2K98llsclEWCQkOFShBKxEPBg==
-X-Received: by 2002:a65:6b95:0:b0:380:85c1:98e3 with SMTP id
- d21-20020a656b95000000b0038085c198e3mr8711399pgw.511.1647623966432; 
- Fri, 18 Mar 2022 10:19:26 -0700 (PDT)
-Received: from localhost ([192.55.54.52]) by smtp.gmail.com with ESMTPSA id
- j67-20020a636e46000000b003740d689ca9sm7929796pgc.62.2022.03.18.10.19.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Mar 2022 10:19:25 -0700 (PDT)
-Date: Fri, 18 Mar 2022 10:19:24 -0700
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Subject: Re: [RFC PATCH v3 18/36] i386/tdvf: Introduce function to parse TDVF
- metadata
-Message-ID: <20220318171924.GA4050087@ls.amr.corp.intel.com>
-References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
- <20220317135913.2166202-19-xiaoyao.li@intel.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=asH6X9HWMOkBVqKKgg7llwQ5TC5dw9HIPQJ1qI0bvEI=;
+ b=eYqCjvdaGZfaQAcxDnOcqQXgKsFphpXjG33c1ymBx8JfMyDzQy40v4bbj7jUgR3x6L
+ o37ukPneZ52kF2iu+vDIM7Z/1FURv0c8y+WbFCMmB5GAgkD5UnhcFqgI0IfXJSo5HRXf
+ eT8r2XmiJJhaLzwJtQ/xgGFKJ8kTje2ZrR96K9+mBUDx7/i7ff7lnyWHjcW0v9cIx/83
+ Dkl+XJunffcK8Jy6bKMp/pSWTuLacU0h5fFuK3nNkjo/SO1nL+IU9qGl+XUYb4GAokhd
+ YZVz4fshn77SgmYvSusd88+pkIQJNi6sBbp2r8TfwJOMLCY35V109CqqIro93NZ3w88J
+ S8gQ==
+X-Gm-Message-State: AOAM530YA7IhttWJyf1YUDGmBswKLdjee++OPS4TajQfDgIODArirjnT
+ DsNZF/rxIwtTF+KUrExB5YjyA5jRv0uCbcK6FP+KcnZ8E77TKhBC1giNTpOFaVtAH4+dcbqJhbi
+ HVfYt9dsjO8qmQhw=
+X-Received: by 2002:adf:f28c:0:b0:1f1:e5e5:28c0 with SMTP id
+ k12-20020adff28c000000b001f1e5e528c0mr8882457wro.417.1647624343360; 
+ Fri, 18 Mar 2022 10:25:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+qYQg6vjC9mhMlL2XBKxQZG/VxBIed3TGhHC+7CePQsP4WdMBOuJdWzPOt8QbZ9stuxKRmg==
+X-Received: by 2002:adf:f28c:0:b0:1f1:e5e5:28c0 with SMTP id
+ k12-20020adff28c000000b001f1e5e528c0mr8882449wro.417.1647624343115; 
+ Fri, 18 Mar 2022 10:25:43 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ x6-20020adfdcc6000000b00203fc6ba079sm697814wrm.2.2022.03.18.10.25.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Mar 2022 10:25:42 -0700 (PDT)
+Message-ID: <d9a8f15d-d582-5fc9-5ddd-206185f459c4@redhat.com>
+Date: Fri, 18 Mar 2022 18:25:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220317135913.2166202-19-xiaoyao.li@intel.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] sh4: Replace TAB indentations with spaces
+To: Ahmed Abouzied <email@aabouzied.com>, qemu-devel@nongnu.org
+References: <20210620175452.10076-1-email@aabouzied.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20210620175452.10076-1-email@aabouzied.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,113 +101,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
- "Daniel P. Berrang???" <berrange@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Eric Blake <eblake@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe Mathieu-Daud??? <f4bug@amsat.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, seanjc@google.com, erdemaktas@google.com,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- isaku.yamahata@gmail.com
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 17, 2022 at 09:58:55PM +0800,
-Xiaoyao Li <xiaoyao.li@intel.com> wrote:
+On 20/06/2021 19.54, Ahmed Abouzied wrote:
+> Replaces TABs with spaces, making sure to have a consistent coding style
+> of 4 space indentations in the SH4 subsystem.
+> 
+> Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/376
+> ---
+...
+> @@ -1705,101 +1705,101 @@ static void _decode_opc(DisasContext * ctx)
+>           }
+>           return;
+>       case 0xf00d: /* fsts FPUL,FRn - FPSCR: Nothing */
+> -	CHECK_FPU_ENABLED
+> +    CHECK_FPU_ENABLED
+>           tcg_gen_mov_i32(FREG(B11_8), cpu_fpul);
+> -	return;
+> +    return;
+>       case 0xf01d: /* flds FRm,FPUL - FPSCR: Nothing */
+> -	CHECK_FPU_ENABLED
+> +    CHECK_FPU_ENABLED
+>           tcg_gen_mov_i32(cpu_fpul, FREG(B11_8));
+> -	return;
+> +    return;
 
-> diff --git a/hw/i386/tdvf.c b/hw/i386/tdvf.c
-> new file mode 100644
-> index 000000000000..02da1d2c12dd
-> --- /dev/null
-> +++ b/hw/i386/tdvf.c
-> @@ -0,0 +1,196 @@
-> +/*
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> + * Copyright (c) 2020 Intel Corporation
-> + * Author: Isaku Yamahata <isaku.yamahata at gmail.com>
-> + *                        <isaku.yamahata at intel.com>
-> + *
-> + * This program is free software; you can redistribute it and/or modify
-> + * it under the terms of the GNU General Public License as published by
-> + * the Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> +
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> +
-> + * You should have received a copy of the GNU General Public License along
-> + * with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/i386/pc.h"
-> +#include "hw/i386/tdvf.h"
-> +#include "sysemu/kvm.h"
-> +
-> +#define TDX_METADATA_GUID "e47a6535-984a-4798-865e-4685a7bf8ec2"
-> +#define TDX_METADATA_VERSION    1
-> +#define TDVF_SIGNATURE_LE32     0x46564454 /* TDVF as little endian */
+Sorry, it's a very late reply ... but in case you're still interested in 
+fixing this: It seems like at least some of these files used TABs as 8 
+spaces, not as 4 spaces, so after applying your patch, the indentation seems 
+to be wrong in all places. Please double-check the look of the files before 
+sending! Thanks!
 
-_LE32 doesn't make sense.  qemu doesn't provide macro version for byteswap.
-Let's convert at the usage point.
+  Thomas
 
-
-> +
-> +typedef struct {
-> +    uint32_t DataOffset;
-> +    uint32_t RawDataSize;
-> +    uint64_t MemoryAddress;
-> +    uint64_t MemoryDataSize;
-> +    uint32_t Type;
-> +    uint32_t Attributes;
-> +} TdvfSectionEntry;
-> +
-> +typedef struct {
-> +    uint32_t Signature;
-> +    uint32_t Length;
-> +    uint32_t Version;
-> +    uint32_t NumberOfSectionEntries;
-> +    TdvfSectionEntry SectionEntries[];
-> +} TdvfMetadata;
-> +
-> +struct tdx_metadata_offset {
-> +    uint32_t offset;
-> +};
-> +
-> +static TdvfMetadata *tdvf_get_metadata(void *flash_ptr, int size)
-> +{
-> +    TdvfMetadata *metadata;
-> +    uint32_t offset = 0;
-> +    uint8_t *data;
-> +
-> +    if ((uint32_t) size != size) {
-> +        return NULL;
-> +    }
-> +
-> +    if (pc_system_ovmf_table_find(TDX_METADATA_GUID, &data, NULL)) {
-> +        offset = size - le32_to_cpu(((struct tdx_metadata_offset *)data)->offset);
-> +
-> +        if (offset + sizeof(*metadata) > size) {
-> +            return NULL;
-> +        }
-> +    } else {
-> +        error_report("Cannot find TDX_METADATA_GUID\n");
-> +        return NULL;
-> +    }
-> +
-> +    metadata = flash_ptr + offset;
-> +
-> +    /* Finally, verify the signature to determine if this is a TDVF image. */
-> +   if (metadata->Signature != TDVF_SIGNATURE_LE32) {
-
-
-metadata->Signature = le32_to_cpu(metadata->Signature);
-metadata->Signature != TDVF_SIGNATURE for consistency.
-
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
 
