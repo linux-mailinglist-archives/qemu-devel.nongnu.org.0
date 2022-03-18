@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407234DE2B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 21:43:46 +0100 (CET)
-Received: from localhost ([::1]:37036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C148B4DE2C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 21:48:16 +0100 (CET)
+Received: from localhost ([::1]:51952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVJRo-00058U-Kn
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 16:43:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57688)
+	id 1nVJWB-0007Nb-Ra
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 16:48:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLQ-0002X0-Gh
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLQ-0002XC-Ju
  for qemu-devel@nongnu.org; Fri, 18 Mar 2022 16:37:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47214)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLL-0005Z8-1U
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 16:37:06 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVJLL-0005ZU-Gp
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 16:37:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1647635822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bLr6zY9XqLosGuNpmqH3mBnTHxejKtvuQqrh/NZR/dE=;
- b=Lbpw07jcSHHZoNHjMgLZEnIGmV9or+vIvzh/2nJtYttc9/SZ02zpT6EV3gEbtVzvy+7X+o
- c6UGO1ktiQZuGNxmZWyuKm6XQlZzGOwyk2DVBRXr4HxPK43az442n1N/CMOdrp9omd9vV1
- y01yH+wtRh5ngoApmGnEXpIVPVfCkIM=
+ bh=46s02IKfPzEHeky+CL14PRQ7s2txOzrx2qlksONgEv0=;
+ b=F6Njlt7Xv/IdkAzUWKAQ66dTMowy+D7nFdpJ9eBYNIPWqSVO3mkUAWDIcmZz10BfRfSYDu
+ bDGe1V1Dy91M6JkD1aZYzqhiYrBvDZiRiQ7BFyjWurJGRb4jn/SXWWhHfABhP17bxWu1J4
+ Mf7hM3CUqgTentMOW6R2yJntuXFSTg8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-427-jT-_lbYKOu-QaGC3571ENA-1; Fri, 18 Mar 2022 16:36:59 -0400
-X-MC-Unique: jT-_lbYKOu-QaGC3571ENA-1
+ us-mta-563-1VKAQpjeMYGIJ7fmuym0hQ-1; Fri, 18 Mar 2022 16:36:59 -0400
+X-MC-Unique: 1VKAQpjeMYGIJ7fmuym0hQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBC288002BF;
- Fri, 18 Mar 2022 20:36:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2A3C7185A7A4;
+ Fri, 18 Mar 2022 20:36:59 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.8.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 87E06403373;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBB054292C7;
  Fri, 18 Mar 2022 20:36:58 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/15] iotests/205: fixup
-Date: Fri, 18 Mar 2022 16:36:49 -0400
-Message-Id: <20220318203655.676907-10-jsnow@redhat.com>
+Subject: [PATCH 10/15] iotests/245: fixup
+Date: Fri, 18 Mar 2022 16:36:50 -0400
+Message-Id: <20220318203655.676907-11-jsnow@redhat.com>
 In-Reply-To: <20220318203655.676907-1-jsnow@redhat.com>
 References: <20220318203655.676907-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,33 +83,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(Merge into prior patch.)
+(Merge with prior patch.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/205 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/242 | 2 +-
+ tests/qemu-iotests/245 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/205 b/tests/qemu-iotests/205
-index c0e107328f..15f798288a 100755
---- a/tests/qemu-iotests/205
-+++ b/tests/qemu-iotests/205
-@@ -85,13 +85,13 @@ class TestNbdServerRemove(iotests.QMPTestCase):
+diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242
+index 4b7ec16af6..ecc851582a 100755
+--- a/tests/qemu-iotests/242
++++ b/tests/qemu-iotests/242
+@@ -22,7 +22,7 @@
+ import iotests
+ import json
+ import struct
+-from iotests import qemu_img_create, qemu_io, qemu_img_info, \
++from iotests import qemu_img_create, qemu_io_log, qemu_img_info, \
+     file_path, img_info_log, log, filter_qemu_io
  
-     def do_test_connect_after_remove(self, mode=None):
-         args = ('-r', '-f', 'raw', '-c', 'read 0 512', nbd_uri)
--        self.assertReadOk(qemu_io(*args))
-+        self.assertReadOk(qemu_io(*args).stdout)
- 
-         result = self.remove_export('exp', mode)
-         self.assert_qmp(result, 'return', {})
- 
-         self.assertExportNotFound('exp')
--        self.assertConnectFailed(qemu_io(*args))
-+        self.assertConnectFailed(qemu_io(*args, check=False).stdout)
- 
-     def test_connect_after_remove_default(self):
-         self.do_test_connect_after_remove()
+ iotests.script_initialize(supported_fmts=['qcow2'],
+diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+index 8cbed7821b..efdad1a0c4 100755
+--- a/tests/qemu-iotests/245
++++ b/tests/qemu-iotests/245
+@@ -217,7 +217,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+     # Reopen an image several times changing some of its options
+     def test_reopen(self):
+         # Check whether the filesystem supports O_DIRECT
+-        if 'O_DIRECT' in qemu_io('-f', 'raw', '-t', 'none', '-c', 'quit', hd_path[0]):
++        if 'O_DIRECT' in qemu_io('-f', 'raw', '-t', 'none', '-c', 'quit', hd_path[0]).stdout:
+             supports_direct = False
+         else:
+             supports_direct = True
 -- 
 2.34.1
 
