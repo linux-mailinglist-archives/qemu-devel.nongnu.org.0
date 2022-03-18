@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC734DD2FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 03:17:33 +0100 (CET)
-Received: from localhost ([::1]:36682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1EB4DD300
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 03:19:56 +0100 (CET)
+Received: from localhost ([::1]:40350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nV2BI-0003kF-AH
-	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 22:17:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56720)
+	id 1nV2Dc-0006Ji-3K
+	for lists+qemu-devel@lfdr.de; Thu, 17 Mar 2022 22:19:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nV29R-00031H-7K; Thu, 17 Mar 2022 22:15:37 -0400
-Received: from [2607:f8b0:4864:20::d35] (port=33693
- helo=mail-io1-xd35.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nV29H-0001Ba-Nj; Thu, 17 Mar 2022 22:15:30 -0400
-Received: by mail-io1-xd35.google.com with SMTP id 195so8031015iou.0;
- Thu, 17 Mar 2022 19:15:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SFhdy3QN/o4ozZ33Z9rtKB8Kh+R4enB1hDvfoaw3df4=;
- b=YZqB+yARBWtME6WTk9cfg8hFVialrEKFUke7l+MX54wAp3E+KtBcTiq6fu2pen/Vlh
- tsOMwlKvHhlejVSK9v0cTs+RCEGJdrjMiu6CcdV4cpxu2s49S4+vBjOy2StaooedV0PK
- 0343WnQ6a+Q28v690DOQmYWyvdimKqm0X4IWOQMFtr/xS8dfXtfJNS5xYJgk++TpgPgC
- H20PRnNgdXmzk+an/CNHdlXWn9LlZz3JNq7GdZvuTc2kqg94NS8SJ0IvRhhUlvNakIMv
- 8EndU0sYgk1HoLLqNzR0a7TKnNCcJWJ0Wa7UOCwrbwUQbtYatTB9qI0EmyFfK6RIKrS2
- s4Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SFhdy3QN/o4ozZ33Z9rtKB8Kh+R4enB1hDvfoaw3df4=;
- b=XYWgCnAUxYfuTfgIBKSzvOHfM5AraYCr7MNf+tVHIizsFghqF9cvawQIa1XQLiowjr
- 8T8iG8BbAGX+TzZMz7icZ6QPvv5Rz3/dVsC7c5O+iDRlUPTYEzqYkbM7gqAKJ53nfkRJ
- bEcPClleyfs56cq0D/wAsC/84E7ADnDeDjj3DNHDkji1wFB/zZeTRCvSCSun91wDrUC8
- WQPkVSWOKaesOTbOq+KiXOgPn9i02YAP3akbt9881cVYrmovwSDm3BpnZonOEme8wVTI
- ClMKB9gUXeacFxbh15d7UsHKWPnv5i++plyjrBrVds04EGLCj8p6Ns7Sy6aUtZbGppps
- SQvQ==
-X-Gm-Message-State: AOAM533TOrRTpZj6M9sSjq+gF+vqCXZSYdRIZzCNK0KKTb9BOn9LxAC5
- OgZkmZeqQxy5hyjgWz97DDYrwzhxiVkVqZv7Axo=
-X-Google-Smtp-Source: ABdhPJzYzSRZRJYzSKm1UQXN8BrSAZAHemzfYLjDmiX70SNKpuscltZJTpbmMvCvAozVDoGa58YqF6OxoYxxQO7yg3E=
-X-Received: by 2002:a05:6638:24cd:b0:31a:607c:4434 with SMTP id
- y13-20020a05663824cd00b0031a607c4434mr2886636jat.267.1647569711865; Thu, 17
- Mar 2022 19:15:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1nV2BG-0004JI-BB; Thu, 17 Mar 2022 22:17:30 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3800)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1nV2BD-0001Rw-7g; Thu, 17 Mar 2022 22:17:29 -0400
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KKSKW1KDJzfYxq;
+ Fri, 18 Mar 2022 10:15:43 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.21; Fri, 18 Mar 2022 10:17:11 +0800
+Subject: Re: [PATCH for-7.1] hw: Add compat machines for 7.1
+To: Cornelia Huck <cohuck@redhat.com>, <qemu-arm@nongnu.org>,
+ <qemu-devel@nongnu.org>, <qemu-ppc@nongnu.org>, <qemu-s390x@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, Eduardo Habkost
+ <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, Daniel Henrique Barboza
+ <danielhb413@gmail.com>, David Gibson <david@gibson.dropbear.id.au>, Greg
+ Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
+References: <20220316145521.1224083-1-cohuck@redhat.com>
+Message-ID: <f80f1b03-929b-669e-22ba-0754b257770f@huawei.com>
+Date: Fri, 18 Mar 2022 10:17:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20220315065529.62198-1-bmeng.cn@gmail.com>
- <20220315065529.62198-6-bmeng.cn@gmail.com>
-In-Reply-To: <20220315065529.62198-6-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 18 Mar 2022 12:14:46 +1000
-Message-ID: <CAKmqyKOzyB3UHTZhKLvNFta8PmYB2LDbzafbK2gkuF+pO9-s9A@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] target/riscv: csr: Hook debug CSR read/write
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d35
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220316145521.1224083-1-cohuck@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,183 +72,262 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-On Tue, Mar 15, 2022 at 5:08 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+
+
+On 2022/3/16 22:55, Cornelia Huck wrote:
+> Add 7.1 machine types for arm/i440fx/m68k/q35/s390x/spapr.
 >
-> From: Bin Meng <bin.meng@windriver.com>
->
-> This adds debug CSR read/write support to the RISC-V CSR RW table.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 > ---
->
-> Changes in v4:
-> - move riscv_trigger_init() call to riscv_cpu_reset()
->
-> Changes in v3:
-> - add riscv_trigger_init(), moved from patch #1 to this patch
->
->  target/riscv/debug.h |  2 ++
->  target/riscv/cpu.c   |  4 ++++
->  target/riscv/csr.c   | 57 ++++++++++++++++++++++++++++++++++++++++++++
->  target/riscv/debug.c | 27 +++++++++++++++++++++
->  4 files changed, 90 insertions(+)
->
-> diff --git a/target/riscv/debug.h b/target/riscv/debug.h
-> index fb21706e1c..27b9cac6b4 100644
-> --- a/target/riscv/debug.h
-> +++ b/target/riscv/debug.h
-> @@ -109,4 +109,6 @@ void riscv_cpu_debug_excp_handler(CPUState *cs);
->  bool riscv_cpu_debug_check_breakpoint(CPUState *cs);
->  bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
->
-> +void riscv_trigger_init(CPURISCVState *env);
-> +
->  #endif /* RISCV_DEBUG_H */
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index eb2be5fa05..ba9cc3bcd6 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -461,6 +461,10 @@ static void riscv_cpu_reset(DeviceState *dev)
->      set_default_nan_mode(1, &env->fp_status);
->
->  #ifndef CONFIG_USER_ONLY
-> +    if (riscv_feature(env, RISCV_FEATURE_DEBUG)) {
-> +        riscv_trigger_init(env);
-> +    }
-> +
->      if (kvm_enabled()) {
->          kvm_riscv_reset_vcpu(cpu);
->      }
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 0606cd0ea8..3b9008709d 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -290,6 +290,15 @@ static RISCVException epmp(CPURISCVState *env, int csrno)
->
->      return RISCV_EXCP_ILLEGAL_INST;
->  }
-> +
-> +static RISCVException debug(CPURISCVState *env, int csrno)
+>   hw/arm/virt.c              |  9 ++++++++-
+>   hw/core/machine.c          |  3 +++
+>   hw/i386/pc.c               |  3 +++
+>   hw/i386/pc_piix.c          | 14 +++++++++++++-
+>   hw/i386/pc_q35.c           | 13 ++++++++++++-
+>   hw/m68k/virt.c             |  9 ++++++++-
+>   hw/ppc/spapr.c             | 15 +++++++++++++--
+>   hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+>   include/hw/boards.h        |  3 +++
+>   include/hw/i386/pc.h       |  3 +++
+>   10 files changed, 79 insertions(+), 7 deletions(-)
+Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+
+Thanks,
+Yanan
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 46a42502bc55..2e6b4aac8c75 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -3017,10 +3017,17 @@ static void machvirt_machine_init(void)
+>   }
+>   type_init(machvirt_machine_init);
+>   
+> +static void virt_machine_7_1_options(MachineClass *mc)
 > +{
-> +    if (riscv_feature(env, RISCV_FEATURE_DEBUG)) {
-> +        return RISCV_EXCP_NONE;
-> +    }
-> +
-> +    return RISCV_EXCP_ILLEGAL_INST;
 > +}
->  #endif
->
->  /* User Floating-Point CSRs */
-> @@ -2576,6 +2585,48 @@ static RISCVException write_pmpaddr(CPURISCVState *env, int csrno,
->      return RISCV_EXCP_NONE;
->  }
->
-> +static RISCVException read_tselect(CPURISCVState *env, int csrno,
-> +                                   target_ulong *val)
+> +DEFINE_VIRT_MACHINE_AS_LATEST(7, 1)
+> +
+>   static void virt_machine_7_0_options(MachineClass *mc)
+>   {
+> +    virt_machine_7_1_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>   }
+> -DEFINE_VIRT_MACHINE_AS_LATEST(7, 0)
+> +DEFINE_VIRT_MACHINE(7, 0)
+>   
+>   static void virt_machine_6_2_options(MachineClass *mc)
+>   {
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index d856485cb4d0..cb9c05a7ded7 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -37,6 +37,9 @@
+>   #include "hw/virtio/virtio.h"
+>   #include "hw/virtio/virtio-pci.h"
+>   
+> +GlobalProperty hw_compat_7_0[] = {};
+> +const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
+> +
+>   GlobalProperty hw_compat_6_2[] = {};
+>   const size_t hw_compat_6_2_len = G_N_ELEMENTS(hw_compat_6_2);
+>   
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index fd55fc725caf..23bba9d82c12 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -95,6 +95,9 @@
+>   #include "trace.h"
+>   #include CONFIG_DEVICES
+>   
+> +GlobalProperty pc_compat_7_0[] = {};
+> +const size_t pc_compat_7_0_len = G_N_ELEMENTS(pc_compat_7_0);
+> +
+>   GlobalProperty pc_compat_6_2[] = {
+>       { "virtio-mem", "unplugged-inaccessible", "off" },
+>   };
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index b72c03d0a626..4c185c72d014 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -415,7 +415,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
+>       machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+>   }
+>   
+> -static void pc_i440fx_7_0_machine_options(MachineClass *m)
+> +static void pc_i440fx_7_1_machine_options(MachineClass *m)
+>   {
+>       PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>       pc_i440fx_machine_options(m);
+> @@ -424,6 +424,18 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
+>       pcmc->default_cpu_version = 1;
+>   }
+>   
+> +DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
+> +                      pc_i440fx_7_1_machine_options);
+> +
+> +static void pc_i440fx_7_0_machine_options(MachineClass *m)
 > +{
-> +    *val = tselect_csr_read(env);
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_tselect(CPURISCVState *env, int csrno,
-> +                                    target_ulong val)
-> +{
-> +    tselect_csr_write(env, val);
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_tdata(CPURISCVState *env, int csrno,
-> +                                 target_ulong *val)
-> +{
-> +    /* return 0 in tdata1 to end the trigger enumeration */
-> +    if (env->trigger_cur >= TRIGGER_NUM && csrno == CSR_TDATA1) {
-> +        *val = 0;
-> +        return RISCV_EXCP_NONE;
-> +    }
-> +
-> +    if (!tdata_available(env, csrno - CSR_TDATA1)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    *val = tdata_csr_read(env, csrno - CSR_TDATA1);
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_tdata(CPURISCVState *env, int csrno,
-> +                                  target_ulong val)
-> +{
-> +    if (!tdata_available(env, csrno - CSR_TDATA1)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    tdata_csr_write(env, csrno - CSR_TDATA1, val);
-> +    return RISCV_EXCP_NONE;
+> +    pc_i440fx_7_1_machine_options(m);
+> +    m->alias = NULL;
+> +    m->is_default = false;
+> +    compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+> +    compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
 > +}
 > +
->  /*
->   * Functions to access Pointer Masking feature registers
->   * We have to check if current priv lvl could modify
-> @@ -3265,6 +3316,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_PMPADDR14] =  { "pmpaddr14", pmp, read_pmpaddr, write_pmpaddr },
->      [CSR_PMPADDR15] =  { "pmpaddr15", pmp, read_pmpaddr, write_pmpaddr },
->
-> +    /* Debug CSRs */
-> +    [CSR_TSELECT]   =  { "tselect", debug, read_tselect, write_tselect },
-> +    [CSR_TDATA1]    =  { "tdata1",  debug, read_tdata,   write_tdata   },
-> +    [CSR_TDATA2]    =  { "tdata2",  debug, read_tdata,   write_tdata   },
-> +    [CSR_TDATA3]    =  { "tdata3",  debug, read_tdata,   write_tdata   },
+>   DEFINE_I440FX_MACHINE(v7_0, "pc-i440fx-7.0", NULL,
+>                         pc_i440fx_7_0_machine_options);
+>   
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 1780f79bc127..302288342a91 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -360,7 +360,7 @@ static void pc_q35_machine_options(MachineClass *m)
+>       m->max_cpus = 288;
+>   }
+>   
+> -static void pc_q35_7_0_machine_options(MachineClass *m)
+> +static void pc_q35_7_1_machine_options(MachineClass *m)
+>   {
+>       PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>       pc_q35_machine_options(m);
+> @@ -368,6 +368,17 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
+>       pcmc->default_cpu_version = 1;
+>   }
+>   
+> +DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
+> +                   pc_q35_7_1_machine_options);
 > +
->      /* User Pointer Masking */
->      [CSR_UMTE]    =    { "umte",    pointer_masking, read_umte,    write_umte    },
->      [CSR_UPMMASK] =    { "upmmask", pointer_masking, read_upmmask, write_upmmask },
-> diff --git a/target/riscv/debug.c b/target/riscv/debug.c
-> index 1a9392645e..2f2a51c732 100644
-> --- a/target/riscv/debug.c
-> +++ b/target/riscv/debug.c
-> @@ -412,3 +412,30 @@ bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
->
->      return false;
->  }
-> +
-> +void riscv_trigger_init(CPURISCVState *env)
+> +static void pc_q35_7_0_machine_options(MachineClass *m)
 > +{
-> +    target_ulong type2 = trigger_type(env, TRIGGER_TYPE_AD_MATCH);
-> +    int i;
-> +
-> +    /* type 2 triggers */
-> +    for (i = 0; i < TRIGGER_TYPE2_NUM; i++) {
-> +        /*
-> +         * type = TRIGGER_TYPE_AD_MATCH
-> +         * dmode = 0 (both debug and M-mode can write tdata)
-> +         * maskmax = 0 (unimplemented, always 0)
-> +         * sizehi = 0 (match against any size, RV64 only)
-> +         * hit = 0 (unimplemented, always 0)
-> +         * select = 0 (always 0, perform match on address)
-> +         * timing = 0 (always 0, trigger before instruction)
-> +         * sizelo = 0 (match against any size)
-> +         * action = 0 (always 0, raise a breakpoint exception)
-> +         * chain = 0 (unimplemented, always 0)
-> +         * match = 0 (always 0, when any compare value equals tdata2)
-> +         */
-> +        env->type2_trig[i].mcontrol = type2;
-> +        env->type2_trig[i].maddress = 0;
-> +        env->type2_trig[i].bp = NULL;
-> +        env->type2_trig[i].wp = NULL;
-> +    }
+> +    pc_q35_7_1_machine_options(m);
+> +    m->alias = NULL;
+> +    compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+> +    compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
 > +}
-> --
-> 2.25.1
->
->
+> +
+>   DEFINE_Q35_MACHINE(v7_0, "pc-q35-7.0", NULL,
+>                      pc_q35_7_0_machine_options);
+>   
+> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+> index bbaf630bbf20..afa52d7e491e 100644
+> --- a/hw/m68k/virt.c
+> +++ b/hw/m68k/virt.c
+> @@ -316,10 +316,17 @@ type_init(virt_machine_register_types)
+>       } \
+>       type_init(machvirt_machine_##major##_##minor##_init);
+>   
+> +static void virt_machine_7_1_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_VIRT_MACHINE(7, 1, true)
+> +
+>   static void virt_machine_7_0_options(MachineClass *mc)
+>   {
+> +    virt_machine_7_1_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>   }
+> -DEFINE_VIRT_MACHINE(7, 0, true)
+> +DEFINE_VIRT_MACHINE(7, 0, false)
+>   
+>   static void virt_machine_6_2_options(MachineClass *mc)
+>   {
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 953fc65fa863..3561882d6615 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4703,15 +4703,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
+>       }                                                                \
+>       type_init(spapr_machine_register_##suffix)
+>   
+> +/*
+> + * pseries-7.1
+> + */
+> +static void spapr_machine_7_1_class_options(MachineClass *mc)
+> +{
+> +    /* Defaults for the latest behaviour inherited from the base class */
+> +}
+> +
+> +DEFINE_SPAPR_MACHINE(7_1, "7.1", true);
+> +
+>   /*
+>    * pseries-7.0
+>    */
+>   static void spapr_machine_7_0_class_options(MachineClass *mc)
+>   {
+> -    /* Defaults for the latest behaviour inherited from the base class */
+> +    spapr_machine_7_1_class_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>   }
+>   
+> -DEFINE_SPAPR_MACHINE(7_0, "7.0", true);
+> +DEFINE_SPAPR_MACHINE(7_0, "7.0", false);
+>   
+>   /*
+>    * pseries-6.2
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 90480e7cf9bc..c3eab13c60e8 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -791,14 +791,26 @@ bool css_migration_enabled(void)
+>       }                                                                         \
+>       type_init(ccw_machine_register_##suffix)
+>   
+> +static void ccw_machine_7_1_instance_options(MachineState *machine)
+> +{
+> +}
+> +
+> +static void ccw_machine_7_1_class_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_CCW_MACHINE(7_1, "7.1", true);
+> +
+>   static void ccw_machine_7_0_instance_options(MachineState *machine)
+>   {
+> +    ccw_machine_7_1_instance_options(machine);
+>   }
+>   
+>   static void ccw_machine_7_0_class_options(MachineClass *mc)
+>   {
+> +    ccw_machine_7_1_class_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>   }
+> -DEFINE_CCW_MACHINE(7_0, "7.0", true);
+> +DEFINE_CCW_MACHINE(7_0, "7.0", false);
+>   
+>   static void ccw_machine_6_2_instance_options(MachineState *machine)
+>   {
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index c92ac8815c85..d64b5481e834 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -380,6 +380,9 @@ struct MachineState {
+>       } \
+>       type_init(machine_initfn##_register_types)
+>   
+> +extern GlobalProperty hw_compat_7_0[];
+> +extern const size_t hw_compat_7_0_len;
+> +
+>   extern GlobalProperty hw_compat_6_2[];
+>   extern const size_t hw_compat_6_2_len;
+>   
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 1a27de9c8b35..637367dc5fae 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -202,6 +202,9 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+>   /* sgx.c */
+>   void pc_machine_init_sgx_epc(PCMachineState *pcms);
+>   
+> +extern GlobalProperty pc_compat_7_0[];
+> +extern const size_t pc_compat_7_0_len;
+> +
+>   extern GlobalProperty pc_compat_6_2[];
+>   extern const size_t pc_compat_6_2_len;
+>   
+
 
