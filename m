@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC154DD514
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 08:10:23 +0100 (CET)
-Received: from localhost ([::1]:36626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D234DD543
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 08:33:04 +0100 (CET)
+Received: from localhost ([::1]:41700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nV6kf-0003C0-T6
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 03:10:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34920)
+	id 1nV76c-000847-TD
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 03:33:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nV6jI-0002Na-Ie
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 03:08:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23901)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nV73n-0006ac-3Q
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 03:30:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nV6jF-0008N3-Cd
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 03:08:55 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nV73j-0002rV-0S
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 03:30:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647587331;
+ s=mimecast20190719; t=1647588601;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K09/QLKTA5GgTONhLAEVd097SaYDFYzvWA3SFtG94Hc=;
- b=W6y6jt433421TEU2eh0diir4k6L5rE+Rr2A+MsxeWBXPaiT+1egrWd1GVIuqEkbhEqPcEj
- hUlz7qnU65hbZtMzFDgbmQnWgh+o1yG/9xJfRUxIZPQLri/hYbQjZX9H1zUJO/qSXc3v3g
- n7ddTivvK2qkOkactpDzwppOVng/bsI=
+ bh=IRR4eelOFukvdHWTEOpAdmSxrJnwQJUHQImDgZ8n6Bc=;
+ b=HTsBr8g1/5cAY3tPGi4KXaIAjVDDfOB4xL/erU51U8qdL1ENJ9ZDuTjyFGqciBhExsVKzM
+ ZIgsG6w6vO2y8Lv7tXLdtnBpLYBXKLzHboFpEKtPMo+PQQkZni2cuOF5HVKGgEg93QDzGD
+ yVlVCqX+dmjUlpFT/H7BWnOmYSLR4mY=
 Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
  [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-GMlrYkEjOvSmGUw3Od8bkg-1; Fri, 18 Mar 2022 03:08:50 -0400
-X-MC-Unique: GMlrYkEjOvSmGUw3Od8bkg-1
+ us-mta-567--At5rS87PManvdlHxlposg-1; Fri, 18 Mar 2022 03:29:57 -0400
+X-MC-Unique: -At5rS87PManvdlHxlposg-1
 Received: by mail-pg1-f200.google.com with SMTP id
- u4-20020a63b544000000b0037c62d8b0ecso2960431pgo.13
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 00:08:50 -0700 (PDT)
+ l6-20020a637006000000b003811a27370aso2980437pgc.2
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 00:29:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=K09/QLKTA5GgTONhLAEVd097SaYDFYzvWA3SFtG94Hc=;
- b=r2Sobd+iNhDJNaTcNqbgZm2kFmOqTH/pXxcXKbY4JwZ8NqRjlrJ1Dwi3e1a4oKVZwN
- TCd5M9cx7e+V4+lYDLN+ikrBZrpRjMvQnVy2wcsNwQeNVhEg14WGSokL9Kg0oBnwAQDV
- Lkl/Eufdcrn8lgqTLYFOLJciZXDnQKnTwQ1NW+8V6jli8p9IojgEyTyTC+bHzIiLuLKn
- wKnWnabwGQ/9k4YOEMyV+ooLjNygeklQNG2ljZDg3NBKENOAqy8diVdR0JN8Tfp0MkVG
- X7zjaZbl1U4ermzzNWg+Vp49yDjM9xIlth+kIUzdD7hQJWki0pBDbxmuNU1Rh2vVLQ/Q
- 2fQQ==
-X-Gm-Message-State: AOAM531lhHBLRdgfd3JjGvfvNp9I8k09ZT7M5ikYRSQT1M0yzLeihCvq
- 3KeuEDfIYJZRAK097+emorda2y/EmMU+yABL2erUPVIeHMq9zeTHXwC+K312Cdx6NOInAGzweQf
- i0C5M7b59O6BFlSM=
-X-Received: by 2002:a05:6a00:1f19:b0:4fa:6b9c:6e1c with SMTP id
- be25-20020a056a001f1900b004fa6b9c6e1cmr2825217pfb.35.1647587329233; 
- Fri, 18 Mar 2022 00:08:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwcMfgJrXQdlbticWb4u2WF5SJ0Lf6unuiPaiybHc29Oa6XkGy/N5CZYojnLjDrRdcSLEFktQ==
-X-Received: by 2002:a05:6a00:1f19:b0:4fa:6b9c:6e1c with SMTP id
- be25-20020a056a001f1900b004fa6b9c6e1cmr2825196pfb.35.1647587328880; 
- Fri, 18 Mar 2022 00:08:48 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=IRR4eelOFukvdHWTEOpAdmSxrJnwQJUHQImDgZ8n6Bc=;
+ b=LDGlzMa44hZp+ZghFFng57B3LlVc+5XHXswXtPCXDdjagrxs2yWZHJo0+0vUqrf6Bx
+ I2O4cE4HFKRCbUyy/dxZ02J9IiaxfbHk1465SWg4y2RE1WInrvewAPuv2uZbYovC/niU
+ e+NXDCgeqo9qADkDkDFNpu5WB/E1LuPIHYnXWPdPHLJ736b6WTaseOrFl2pSTLb0tJCQ
+ IbQEZraG3IyKhzJGMOlIX5ZLzJPx3J2iN04r4OFLYuIWVrpLm2wkS/RweO1zB5ZOi1AJ
+ yLEwJPMt4C8iiOiBajb+B5N98+U4hVKkTjFZzeirv7uzsrxybOgI66sccEOyznJWlTpz
+ 2dnA==
+X-Gm-Message-State: AOAM5339W5PbNlE7h7ntq4ytgYGbABv+WG70VN8SEKcLISzGNUrLdyg8
+ tE0LIWu9hEuSelnJkJbPhBTbIBGEG87+L1GL6yubod858IQFm0vGWoerY+cIYFGBp+7FOc5kYT3
+ dFLbPr4ty4Wee5Mk=
+X-Received: by 2002:a05:6a00:b44:b0:4f7:1043:a72d with SMTP id
+ p4-20020a056a000b4400b004f71043a72dmr8373048pfo.23.1647588596484; 
+ Fri, 18 Mar 2022 00:29:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxclqPsG++cbVGvfb/0yv3KhKw3nmNyHuEqHochqzWcAUG44Yziuibh5BvwKaFTn9FBzRHQww==
+X-Received: by 2002:a05:6a00:b44:b0:4f7:1043:a72d with SMTP id
+ p4-20020a056a000b4400b004f71043a72dmr8373032pfo.23.1647588596190; 
+ Fri, 18 Mar 2022 00:29:56 -0700 (PDT)
 Received: from xz-m1.local ([191.101.132.138])
  by smtp.gmail.com with ESMTPSA id
- ob13-20020a17090b390d00b001becfd7c6f3sm7851299pjb.27.2022.03.18.00.08.45
+ a38-20020a056a001d2600b004f70d5e92basm8795272pfx.34.2022.03.18.00.29.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Mar 2022 00:08:48 -0700 (PDT)
-Date: Fri, 18 Mar 2022 15:08:43 +0800
+ Fri, 18 Mar 2022 00:29:55 -0700 (PDT)
+Date: Fri, 18 Mar 2022 15:29:51 +0800
 From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: Time to introduce a migration protocol negotiation (Re: [PATCH
- v2 00/25] migration: Postcopy Preemption)
-Message-ID: <YjQv+8KRrLoks/TP@xz-m1.local>
-References: <Yh30/nPtWyvqp8xo@redhat.com> <Yh37hLn5Dlffm13P@xz-m1.local>
- <Yh5O/eq4If4MYpTq@work-vm> <Yi+ONfiZlQD2LoHX@redhat.com>
- <YjAul3GIWmB3+v0P@xz-m1.local> <YjB1XXzIsJWtSR4E@redhat.com>
- <YjFZ84Wdz6jpSekr@xz-m1.local> <YjG1AGhai1QvDdrd@redhat.com>
- <YjG+iHCmCXRPIV1m@xz-m1.local> <YjHDZSCZM3VmUVx8@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 1/2] intel-iommu: update root_scalable before switching
+ as during post_load
+Message-ID: <YjQ07/8IX+u7HUNi@xz-m1.local>
+References: <20220317080522.14621-1-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YjHDZSCZM3VmUVx8@redhat.com>
+In-Reply-To: <20220317080522.14621-1-jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -104,86 +97,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 16, 2022 at 11:00:53AM +0000, Daniel P. Berrangé wrote:
-> On Wed, Mar 16, 2022 at 06:40:08PM +0800, Peter Xu wrote:
-> > On Wed, Mar 16, 2022 at 09:59:28AM +0000, Daniel P. Berrangé wrote:
-> > > On Wed, Mar 16, 2022 at 11:30:59AM +0800, Peter Xu wrote:
-> > > > On Tue, Mar 15, 2022 at 11:15:41AM +0000, Daniel P. Berrangé wrote:
-> > > > > > I still remember you mentioned the upper layer softwares can have
-> > > > > > assumption on using only 1 pair of socket for migration, I think that makes
-> > > > > > postcopy-preempt by default impossible.
-> > > > > > 
-> > > > > > Why multifd is different here?
-> > > > > 
-> > > > > It isn't different. We went through the pain to extending libvirt
-> > > > > to know how to open many channels for multifd. We'll have todo
-> > > > > the same with this postcopy-pre-empt. To this day though, management
-> > > > > apps above libvirt largely don't enable multifd, which is a real
-> > > > > shame. This is the key reason I think we need to handle this at
-> > > > > the QEMU level automatically.
-> > > > 
-> > > > But I still don't undertand how QEMU could know about those tunnels, which
-> > > > should be beyond QEMU's awareness?
-> > > > 
-> > > > The tunneling program can be some admin initiated socat tcp forwarding
-> > > > programs, which by default may not allow >1 socket pairs.
-> > > > 
-> > > > Or maybe I have mis-understood on what's the tunneling we're discussing?
-> > > 
-> > > I dont think I was talking about tunneling at all, just QEMU
-> > > migration protocol options !
-> > 
-> > Ah. :)
-> > 
-> > > 
-> > > If an app is tunnelling QEMU's migration protocol over some
-> > > channel, that isn't important to QEMU - regardless whether a
-> > > passed in 'fd:' protocol FD is a direct TCP socket, or a
-> > > UNIX socket for a tunnel, QEMU works the same way. In one
-> > > of my other replies I mention a way to make 'fd:' work with
-> > > an arbitrary number of channels, by using an event from QEMU
-> > > to request the app provide additional FDs.
-> > 
-> > I very much agree on the whole concept of what you proposed, either on the
-> > new negotiation phase itself, or the idea that with the negotiation phase
-> > we can try to auto-enable some features we not used to.
-> > 
-> > What I wanted to express is we can't enable either preempt mode or multifd
-> > automatically from qemu even with them, because these two are quite special
-> > IMHO in that qemu doesn't know whether the mgmt app can handle the multiple
-> > socket pairs.  Yes we could teach qemu to dynamically accept new "fd"s, but
-> > again IMHO that still needs to be intervened by the mgmt app.
+On Thu, Mar 17, 2022 at 04:05:21PM +0800, Jason Wang wrote:
+> We need check whether passthrough is enabled during
+> vtd_switch_address_space() by checking the context entries. This
+> requires the root_scalable to be set correctly otherwise we may try to
+> check legacy rsvd bits instead of scalable ones.
 > 
-> My proposal absolutely *can* let QEMU do that automatically, and that
-> is one of the most important benefits of it.
+> Fixing this by updating root_scalable before switching the address
+> spaces during post_load.
 > 
-> [quote]
-> Introduce one *final-no-more-never-again-after-this* migration
-> capability called "protocol-negotiation".
-> 
-> When that capability is set, first declare that henceforth the
-> migration transport is REQUIRED to support **multiple**,
-> **bi-directional** channels. We might only use 1 TCP channel
-> in some cases, but it declares our intent that we expect to be
-> able to use as many channels as we see fit henceforth.
-> [/quote]
-> 
-> IOW, any management app that enabled 'protocol-negotiation' is explicitly
-> declaring that it accepts the new requirements for support for multiple
-> channels. An app which enabled 'protocol-negotiation' capability while
-> only allowing 1 chanels is simply broken, because it would be violating
-> the documented requirements for the capability.
+> Fixes: fb43cf739e ("intel_iommu: scalable mode emulation")
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
 
-Sorry I misteriously overlooked that paragraph.. it's just that from the
-wording "negotiation" shouldn't rely on multipe sockets, since from the
-literal meaning any bidirectional channel should be negotiatable.  But I
-see what you mean now..  Thanks,
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
 -- 
 Peter Xu
