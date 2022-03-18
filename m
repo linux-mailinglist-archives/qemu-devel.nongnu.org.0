@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAC84DDBDD
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 15:43:57 +0100 (CET)
-Received: from localhost ([::1]:47828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE324DDC8B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 16:14:08 +0100 (CET)
+Received: from localhost ([::1]:59658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVDpc-0004ib-Fs
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 10:43:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35836)
+	id 1nVEIo-0003C1-D9
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 11:14:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nVDoi-0003J7-Dd; Fri, 18 Mar 2022 10:43:00 -0400
-Received: from [2607:f8b0:4864:20::1029] (port=50995
- helo=mail-pj1-x1029.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nVDog-0007Pj-Nz; Fri, 18 Mar 2022 10:43:00 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id m22so7619085pja.0;
- Fri, 18 Mar 2022 07:42:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=EhOjmmlk6lfmEc3bhbVxGITu9BQG2eWb5VTDIIzKOU8=;
- b=pRuZ/I/xk8QcJPLI4CtcSG44RT2gFwno3EFhLCrzNK8/SR9jplC8+d38ay4igkW1rh
- fOuu7MzD8usg/vEqlVP/TXafdJabSSTSxRtV6DJQ5/R0prLX/dr/aIBdmoailBipfYAT
- 7eFDexunPO1z1FqEO15ig7cV2+XYVDlyWk+DsGmaWSrOhEobXHSoN8WRiD1NkSqQvy3v
- yE7cIBVTYivXhBUJeYy8rcX6p2uJEwjGALpBsSagzcqjPsOIPyUsJmS4VKvIOxgIUi0j
- teAOXnRhYaXvaK6xzgj5FkOGcvBFALwxitlcTC7V9c67QbOq7i6rkZyLXKUAfLVlWC/3
- 0m/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=EhOjmmlk6lfmEc3bhbVxGITu9BQG2eWb5VTDIIzKOU8=;
- b=0gSfKADvd09IWzVVBZDhaXT6g/YF0Zd7KxRl3dm4+P/QLVh11KL0L26bTiTWJmc8Z5
- TWux61vt9PGzU3VL+vmWJ69kdJIamwLkGCVfUc0Jiq8N9LsiyyZ0U1RfmUv/bVwJTJ+d
- /rwaokC7aPbohCZ3oT4MJ3Eygiz2yH/Dt4oLTJww76yGCVo6zdiCUr6tgdMkIkIVuFbo
- MDvVHrgk0I+Dh/P6WWMwlaQ6KIQfQ9L3snhov4LTL3l1h3INv9ZJXNzJAF2IlLWp7GlT
- 3Mp6yKnlxhHqlwukB7r0jj8UmsM/iQuF2rtbD7LQyImEczaoxq0uHRprcUDMn7qFUayr
- PQTA==
-X-Gm-Message-State: AOAM531DONOfN7D2nCBJJAZztMs2ywy70gH6qRaVLPoezf7jEy+bwcTP
- vV71b9rWXNx77x5r3ddDQ8k=
-X-Google-Smtp-Source: ABdhPJw2XFkE5/SRMIGjMUp+WokP6pYRe1TS4GNWUmvf/GZ7iALKtVqVbFKBxl60297OVNuf/C/RSA==
-X-Received: by 2002:a17:902:7b88:b0:154:10fd:e748 with SMTP id
- w8-20020a1709027b8800b0015410fde748mr2796703pll.120.1647614576072; 
- Fri, 18 Mar 2022 07:42:56 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- q9-20020a056a00088900b004e03b051040sm10567765pfj.112.2022.03.18.07.42.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Mar 2022 07:42:55 -0700 (PDT)
-Message-ID: <69c6db77-273e-dbeb-e695-e20772d003e2@gmail.com>
-Date: Fri, 18 Mar 2022 23:42:52 +0900
+ (Exim 4.90_1) (envelope-from
+ <BATV+21b8d8e7a28caf86bda1+6781+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1nVE1o-0001up-BX
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 10:56:32 -0400
+Received: from [2001:8b0:10b:1236::1] (port=43178 helo=casper.infradead.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+21b8d8e7a28caf86bda1+6781+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1nVE1l-0001NT-H3
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 10:56:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=Bm3yvoaddycniuPvHcN6hsG4s/JqAX/3aID2KnkRBXo=; b=ECL1RwQWhuhTyQY8Uspc6SLDwl
+ TwsDX4gkN7glEFGt3yImcDOUYzG+G1mM2vy789M3BfOwdj+QpFNCpEiEjpOrMxf3bbdmR9g1Bh+7m
+ icl2fjXBgh1HTitd1BSKq2Vpq7QtYdEC/pkPn6IabUf4u5AWfyxWcYTU0P7dKA8PLea4UFz/Ui9Uv
+ DA0xRUqjqjZpJPL3xguG64uuLqV0V1byTJZAThH0eHDBLXGFLUOJsr1J7hMikzroVdvH6EzmwjnL6
+ oeoMDVCA3zcZ6ZjNCSzyl2OXj5nf4Jc3ArQytDlYIiq+NXIQMG6HLX2315MM7Q4+jnhfJTImQW/T3
+ NMVx2Jdg==;
+Received: from [2001:8b0:10b:1::3ae] (helo=u3832b3a9db3152.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nVE1c-00828e-SV; Fri, 18 Mar 2022 14:56:21 +0000
+Message-ID: <adf345a93c70d58f28b0e812488a668003784481.camel@infradead.org>
+Subject: Re: [PATCH 1/4] target/i386: Fix sanity check on max APIC ID /
+ X2APIC enablement
+From: David Woodhouse <dwmw2@infradead.org>
+To: Igor Mammedov <imammedo@redhat.com>
+Date: Fri, 18 Mar 2022 14:56:19 +0000
+In-Reply-To: <20220318151742.6653ad7d@redhat.com>
+References: <20220314142544.150555-1-dwmw2@infradead.org>
+ <20220316100425.2758afc3@redhat.com>
+ <d374107ebd48432b6c2b13c13c407a48fdb2d755.camel@infradead.org>
+ <20220316055333-mutt-send-email-mst@kernel.org>
+ <c359ac8572d0193dd65bb384f68873d24d0c72d3.camel@infradead.org>
+ <20220316064631-mutt-send-email-mst@kernel.org>
+ <20220316122842.0bc78825@redhat.com>
+ <2d2eb49f7a59918521c1614debe5b87017f5789b.camel@infradead.org>
+ <20220317094209.2888b431@redhat.com> <20220317100536.6ccabfe0@redhat.com>
+ <1c7ae19b8ca87b1fcf0b70f4057e24c7e21720f4.camel@infradead.org>
+ <20220318151742.6653ad7d@redhat.com>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-WCgmDVam7y0aq8LWgWZG"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] gitattributes: Cover Objective-C source files
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20220317130326.39188-1-philippe.mathieu.daude@gmail.com>
- <62dbdfcf-771e-7c84-ab8b-b02a61112f86@gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <62dbdfcf-771e-7c84-ab8b-b02a61112f86@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:8b0:10b:1236::1
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+21b8d8e7a28caf86bda1+6781+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,63 +83,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: berrange@redhat.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Paolo Bonzini <pbonzini@redhat.com>, vkuznets@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don't think this is needed. I could see a diff annotated with a method 
-name even without this change:
-% git diff
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index cb6e7c41dc6..14a4416cc8b 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1264,6 +1264,7 @@ - (id) init
-          [pauseLabel setTextColor: [NSColor blackColor]];
-          [pauseLabel sizeToFit];
-      }
-+    //
-      return self;
-  }
 
-Commit 29cf16db23 says:
-> Since commits 0979ed017f0 ("meson: rename .inc.h files to .h.inc")
-> and 139c1837db7 ("meson: rename included C source files to .c.inc")
-> 'git-diff --function-context' stopped displaying C function context
-> correctly.
+--=-WCgmDVam7y0aq8LWgWZG
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-So I suspect Git has some knowledge of common file extensions like .c, 
-.h and .m although I couldn't find in the source code of Git.
+On Fri, 2022-03-18 at 15:17 +0100, Igor Mammedov wrote:
+> On Thu, 17 Mar 2022 11:13:44 +0000 David Woodhouse <dwmw2@infradead.org> =
+wrote:
+> > Thus far, I didn't think anyone had been talking about a dependency on
+> > IOMMU. That doesn't make any sense at all. EXT_DEST_ID is perfectly
+> > sufficient for Linux kernels from 5.10 onwards and they don't need the
+> > IOMMU.
+>=20
+> IOMMU was required before EXT_DEST_ID due to irq-remapping dependency,
+> and that conservative config worked fine for both Linux and Windows
+> guests. That's why I've raised question if we should revert restriction
+> to the way it was back then.
+>=20
+> With Linux pre-5.10 guests, dmesg output at least complains about
+> IRQ remapping, so user has a small chance to be able to figure out
+> that IOMMU should be configured to get all CPUs working.
+> For post-5.10, all one gets is "bad cpu" without any clue as to why,
+> if EXT_DEST_ID is not advertised by hypervisor.
+>
+> It would be better if guest kernel printed some error/warning in that cas=
+e.
 
-Regards,
-Akihiko Odaki
+That case doesn't exist any more since your change. You *can't* launch
+qemu with that many vCPUs and not support EXT_DEST_ID.
 
-On 2022/03/18 23:10, Philippe Mathieu-Daudé wrote:
-> +qemu-trivial@
-> 
-> On 17/3/22 14:03, Philippe Mathieu-Daudé wrote:
->> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->> See comments in commit 29cf16db23 ("buildsys: Help git-diff
->> adding .gitattributes config file") for details.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   .gitattributes | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/.gitattributes b/.gitattributes
->> index 07f430e944..a217cb7bfe 100644
->> --- a/.gitattributes
->> +++ b/.gitattributes
->> @@ -1,3 +1,4 @@
->>   *.c.inc         diff=c
->>   *.h.inc         diff=c
->> +*.m             diff=objc
->>   *.py            diff=python
-> 
+
+--=-WCgmDVam7y0aq8LWgWZG
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIwMzE4MTQ1NjE5WjAvBgkqhkiG9w0BCQQxIgQgWZV+hA19
+3zU56dJ1q1eoiO2VIQBPAkc1EG6UJYFYnn8wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBqhyEAliK4apMoQW6gLFZ1bKgJZxid2VkQ
+Kdp7H4Haztq+IneaQY+AnplkIeVv0zENrXn4nPVNEdKE1VfusnmmMNNl/OK+2kOzz/aDryk838w2
+qFvEU5F3VXHasmlFFp+2vTJ3NV1TNoi9uRBYdCHLt+eaYFV/v6Qps5T9qV1Y6LNmI6dWNSIaHi2q
+On1/MhaMkesbjh2Ro5J/xlOuuSCSTJWeVoE56Bo0PzEM0An3z1GPC1EfSiTDpP/eeV4BEx9rkWzn
+jg3BOAlOJoayugOmPEnIedMPlwxZxlGH7C9nqtxp8YuIuk9AJU7eEcL+K9pJSPFOJxuRJLjWWlEJ
+vqef0dqFRheqCekQL/AHOQRldnJ4V0T/fRfacO3ALmkQ9fnvnLKU8qwVtuO3/5MPxaykPUFxlhR/
+erDCXDVCca55Irtx6C9l4zLQGwC1mH18rtTWxx6ugJOHQY4esz9iLmklDlPKTtq7dPU5/N8jy14d
+dIhKe1Mmc9RwZztZNZwyDhgVQPuKJKtm6xZY7mnCmFXeJ+NosjZMwGesZP/83BjRbCfh1IZ61TpU
+QgaSvApnHmPb/O2XH/6qk/eLijRBzZA9ilafb9xFNrRAaDKy4TMxxsAHodSbkjSyCMZaDhdeL6dQ
+qceDWbk+NS1FO6R80qks6oR+8HYUlpT1vcXeukk4WwAAAAAAAA==
+
+
+--=-WCgmDVam7y0aq8LWgWZG--
 
 
