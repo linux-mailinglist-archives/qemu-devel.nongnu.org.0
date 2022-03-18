@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD2D4DD949
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 12:57:21 +0100 (CET)
-Received: from localhost ([::1]:35934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBE14DD966
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 13:07:23 +0100 (CET)
+Received: from localhost ([::1]:41698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVBEO-0002UG-JL
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 07:57:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56354)
+	id 1nVBO6-0007KG-Aj
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 08:07:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nVBCj-0001ME-1X
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:55:37 -0400
-Received: from mga06.intel.com ([134.134.136.31]:49605)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1nVBLP-0005Js-QH; Fri, 18 Mar 2022 08:04:37 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:60743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nVBCg-0002lb-8u
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 07:55:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647604534; x=1679140534;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=F764auwYFVZErB2yzIux3JIw4zIGbwLG0sp96TPuiu8=;
- b=DJqDTGfrVI0aR97hu3JUQIzpqJZQ5SlBquPJl8Lne2Mk/YlftYEgmGFX
- Yh4y1fkGPHMR7eCs1KwGQQ937/AplxJpVY0+pENJ2PGVx2Ayy3Xj3OKiM
- kLpx224jTa+9Jpb+xJXHlZHwFg7axRLPQ243fB79W6TX1VKjVBtOo9Uv/
- LXKCKDzpS3L8jHkVDs9g/eZ5N+RQLzgGJfzslVX+QGkIN8UPRyN1qgCbZ
- JmayzhJmNzG6DA6WnxdSFEMRHgugoXJYOD8bNkXD4G7hbU5d3GuW6pi1r
- v6ScjQgG6kpRoqWmpK1guoF90JYrgpahNTZfGhqJj+RL9bsYNVd7FoG9l Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="317837838"
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="317837838"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2022 04:55:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="691291743"
-Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
- by fmsmga001.fm.intel.com with ESMTP; 18 Mar 2022 04:55:29 -0700
-From: Yang Zhong <yang.zhong@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] x86/amx: compatible with older kernel release
-Date: Fri, 18 Mar 2022 04:55:29 -0700
-Message-Id: <20220318115529.4850-1-yang.zhong@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1nVBLM-0004US-DC; Fri, 18 Mar 2022 08:04:35 -0400
+Received: from [192.168.100.1] ([82.142.28.230]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mw9Lu-1oKwZf3rvw-00s6Oq; Fri, 18 Mar 2022 13:04:00 +0100
+Message-ID: <7ef3f3c4-6a2f-e63a-cbcc-aa80bd3bb17f@vivier.eu>
+Date: Fri, 18 Mar 2022 13:03:56 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH for-7.1] hw: Add compat machines for 7.1
+Content-Language: fr
+To: Cornelia Huck <cohuck@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org
+References: <20220316145521.1224083-1-cohuck@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220316145521.1224083-1-cohuck@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Provags-ID: V03:K1:lkg9z/G84KoiIgbVDME3FzpZtY5hGAiXhrk6hWFUr8ZmivvNA6z
+ q/JN3MSpliTusF+6kpTofnBsoqU0YuotpzPSYc9uC0zGvg9luh/PX/7e7Mi8XPR4cU8RaY5
+ 5ZLHGaMUug6AAuEaXH44JMgWBWkR6dfBpBMecTqOxoNoecHfiw9GzjU+kOiUsSfZzHVsGId
+ 833VxLYMEp/FTapwJP0Jg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VaB0c6a8VJY=:njhsnUlDgV/cXAyw+7BoQy
+ VAtCi/1CukBK93162dM8pKUiv88szUriVH9uDEZvE8IZrTBadprW/4Kiio6kJtsyGRDg2vfQn
+ OOmINVP8dtFQAZA+Q6YtutKuJ0yACiotLaYCcoCxf1EpBRzMlZCm5c/FZnBIUT9kwfzciQVv9
+ XA8z4rP7rinLNMdTNpJezT9RioxR6JLdDCnhTz2JjqcvG2MzwcSbWc2YoVWQXr7+C8YekeTph
+ vcbreA47z080mHeutN4FelopJV1BSNCChHFY19Rhcj3/9exSmWEBMqM81LifNNuR4uUvHfEJZ
+ yiDL0HzIBDWDrlF1SxxgPeRPMHRQcepNizA+x0NPCjaWw6hDPg0AnJhJDWlQmu8hltfOBDqjW
+ hvaoxGQMbQshHW+7ZjjQ/u/dYEMrwZib3I9PO/NEUlY/TvOrVOyP/Dyu6QPMgOiSPobhIEkam
+ dsJ5zqolgWcNizy04ILntxsrlkBOGSwpbP3bRTEvISrv9Y2ziXWDevF5K1oHFVPXVx5bOTZuH
+ 8GKdRSveUp34B9hB5wcYb8dPWv2F0b/jhnVmrDG9yEqeMcky4RoOfHLbA5ux9MbTVxPV/X2OW
+ 4kRKvKyPOzpGNHVVZss0aV+Q0VHFCuagagSALNQp81fGeGR7n/0caSNBkVNWaApITrXL98URw
+ 6sBps0JfigUrIpnGRbdolWOfhwphDRIR4JW73LVPKsvdD1lF+ynepBpNfxFjiMPgK3yE=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,50 +69,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, pkrempa@redhat.com,
- mprivozn@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Eric Farman <farman@linux.ibm.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Greg Kurz <groug@kaod.org>, Yanan Wang <wangyanan55@huawei.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AMX KVM introduced one new ARCH_GET_XCOMP_SUPP system attribute
-API to get host side supported_xcr0 and latest Qemu can decide if it
-can request dynamically enabled XSAVE features permission. But this
-implementation(19db68ca68) did not consider older kernel release.
-This patch can avoid to read this new KVM_GET_DEVICE_ATTR ioctl.
+Le 16/03/2022 à 15:55, Cornelia Huck a écrit :
+> Add 7.1 machine types for arm/i440fx/m68k/q35/s390x/spapr.
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>   hw/arm/virt.c              |  9 ++++++++-
+>   hw/core/machine.c          |  3 +++
+>   hw/i386/pc.c               |  3 +++
+>   hw/i386/pc_piix.c          | 14 +++++++++++++-
+>   hw/i386/pc_q35.c           | 13 ++++++++++++-
+>   hw/m68k/virt.c             |  9 ++++++++-
+>   hw/ppc/spapr.c             | 15 +++++++++++++--
+>   hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+>   include/hw/boards.h        |  3 +++
+>   include/hw/i386/pc.h       |  3 +++
+>   10 files changed, 79 insertions(+), 7 deletions(-)
+> 
+...
+> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+> index bbaf630bbf20..afa52d7e491e 100644
+> --- a/hw/m68k/virt.c
+> +++ b/hw/m68k/virt.c
+> @@ -316,10 +316,17 @@ type_init(virt_machine_register_types)
+>       } \
+>       type_init(machvirt_machine_##major##_##minor##_init);
+>   
+> +static void virt_machine_7_1_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_VIRT_MACHINE(7, 1, true)
+> +
+>   static void virt_machine_7_0_options(MachineClass *mc)
+>   {
+> +    virt_machine_7_1_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>   }
+> -DEFINE_VIRT_MACHINE(7, 0, true)
+> +DEFINE_VIRT_MACHINE(7, 0, false)
+>   
+>   static void virt_machine_6_2_options(MachineClass *mc)
+>   {
 
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
----
- target/i386/kvm/kvm.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+For the m68k part:
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index ef2c68a6f4..cda95e7ba6 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -420,14 +420,14 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-         bool sys_attr = kvm_check_extension(s, KVM_CAP_SYS_ATTRIBUTES);
-         if (!sys_attr) {
-             warn_report("cannot get sys attribute capabilities %d", sys_attr);
--        }
--
--        int rc = kvm_ioctl(s, KVM_GET_DEVICE_ATTR, &attr);
--        if (rc == -1 && (errno == ENXIO || errno == EINVAL)) {
--            warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
--                        "error: %d", rc);
--        }
--        ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
-+        } else {
-+            int rc = kvm_ioctl(s, KVM_GET_DEVICE_ATTR, &attr);
-+            if (rc == -1 && (errno == ENXIO || errno == EINVAL)) {
-+                warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
-+                            "error: %d", rc);
-+            }
-+            ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
-+       }
-     } else if (function == 0x80000001 && reg == R_ECX) {
-         /*
-          * It's safe to enable TOPOEXT even if it's not returned by
--- 
-2.25.1
-
+Acked-by: Laurent Vivier <laurent@vivier.eu>
 
