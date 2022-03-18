@@ -2,75 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F46E4DE306
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 21:58:00 +0100 (CET)
-Received: from localhost ([::1]:37350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 913EB4DE194
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 20:04:04 +0100 (CET)
+Received: from localhost ([::1]:48900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVJfb-0008Qw-8l
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 16:57:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54324)
+	id 1nVHtL-0007En-Ld
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 15:04:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ahmedaabouzied44@gmail.com>)
- id 1nVGrQ-0006DI-OV; Fri, 18 Mar 2022 13:58:03 -0400
-Received: from [2607:f8b0:4864:20::a2b] (port=45757
- helo=mail-vk1-xa2b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ahmedaabouzied44@gmail.com>)
- id 1nVGrO-0005m0-DD; Fri, 18 Mar 2022 13:58:00 -0400
-Received: by mail-vk1-xa2b.google.com with SMTP id 134so2868513vkz.12;
- Fri, 18 Mar 2022 10:57:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8Yjvkj3yqr41ZdAuasyMTbpIIeoAciKXaNTpV2FhFnM=;
- b=ijJptlpMDrdiapXccbSkO1W3DoU9rN+SiGlrxAmaEj7BzK0br+oTngKnWW8f1K2jgv
- x6PzToFixs1gcUl3U8IHhhk5hCexaZYSZeNxMqoGS1oAhqPPjFrHMn/opYjC6SOGd7Cc
- SLRR7CU4xMJs2h1bm077BB4T7LGKHgifFlA9siXTuMeIJfomZDqGsmy+b4ThBFbSthCu
- 57+JTg2msPpABOAtnu3L/T6eZE4BMNy2yg5+YeXyGc1L7JSB3BKVC9NpTZY9UEuBljb+
- wOy8knBenmfviqVB1pMYAR8PePRIIxkJLB5cfntvDf2Z4P+X8D+tn5oXJ/iMokBmTXj+
- WgoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8Yjvkj3yqr41ZdAuasyMTbpIIeoAciKXaNTpV2FhFnM=;
- b=jVnJu4bPuuk5hQDSZeB7Ml+9uNw/dfZ+2zO5JO2l25FvPdF6JQ0dT9ygK4JDY1uxLl
- hF87LSq3h1R1m6+ETPY+E8j6UgwDJAff90ipWHG/TwMsVhRbu1i+XNrOpI6VF0yZcvod
- RuAr5y3vWcbeaYfFzN6QpeIf8o2CNQX8z/N3d4WXI41DO6LG5F37G8gnqNa8URP3h0eN
- AUFcLUUEzC899019jgeIrJiZad2lA8bsa3JKnLzhOGz+JY1vMufZcRFC7bO1by20A+7u
- f8GRHwzW/dxCwC2X8ehBGL7PlkG5KGiGo5AI9C8abMmS282Pg7RMVxomNMGMvrgDEw/b
- 1BaA==
-X-Gm-Message-State: AOAM533rmN3e/S/qyX1G3Q6TMBm8eQ7TQ7YX9QsA/4UKJem0c34ebx9g
- dAxaXCHxhtwZJzK3qrJgUqddOMEYBfv+a3Kg1jyQrLu0
-X-Google-Smtp-Source: ABdhPJw6kvGerRhVG0FfIJ65psyU3ArPcpJPbUFqlLO9DJEtczIpHtlqwFJ1HosetjvH7TBtV+fQyqzn9RvvBjmKTY4=
-X-Received: by 2002:a05:6122:78a:b0:337:5ba4:f588 with SMTP id
- k10-20020a056122078a00b003375ba4f588mr4077256vkr.27.1647626276674; Fri, 18
- Mar 2022 10:57:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nVHlX-0004AV-Sz; Fri, 18 Mar 2022 14:56:02 -0400
+Received: from mga11.intel.com ([192.55.52.93]:7179)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nVHlT-0006dV-4x; Fri, 18 Mar 2022 14:55:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647629755; x=1679165755;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=XlTpKduC37mwO2ZGL/59gKzV95W9OXS4clM8MA9wZmg=;
+ b=ivqtCg1eKxWLUSAbnlRLEr1MMfCesLXLzWLS0UhB7kxBJvIQfLtGWGoJ
+ R7qEX5AajLxe1Ilwbto8WVsrTs3MpYrP6Nk1xHcxGd7NhHtUwnQ10XL4W
+ CnucARbds9wUXlmQWi8zUo7MWkoCeDFjbYDxh5hcneNXJzCy7kgMu1gFR
+ NOPRUV96P0w7LKsqIGwZ8sUsz6/a08RkDVy73mwJoSFuMt3GU0z07dZ/G
+ /W/xgOY++px0qBSwhxjp9qv34PX4T+kNXgnTOs3rVVTDm+OSletjpf8UZ
+ 82iPuI7xesU7Kev/m0lmu9XDx156qEXds8VioWWMCB/ylIcouLGJ+vFlo g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10290"; a="254772001"
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="254772001"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2022 11:55:52 -0700
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; d="scan'208";a="499352547"
+Received: from lmaniak-dev.elements.local ([10.55.249.72])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2022 11:55:49 -0700
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 02/12] hw/nvme: Add support for Primary Controller
+ Capabilities
+Date: Fri, 18 Mar 2022 19:53:41 +0100
+Message-Id: <20220318185352.1667375-2-lukasz.maniak@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220318185352.1667375-1-lukasz.maniak@linux.intel.com>
+References: <20220318185352.1667375-1-lukasz.maniak@linux.intel.com>
 MIME-Version: 1.0
-References: <20210620175452.10076-1-email@aabouzied.com>
- <d9a8f15d-d582-5fc9-5ddd-206185f459c4@redhat.com>
-In-Reply-To: <d9a8f15d-d582-5fc9-5ddd-206185f459c4@redhat.com>
-From: Ahmed Abouzied <ahmedaabouzied44@gmail.com>
-Date: Fri, 18 Mar 2022 19:57:45 +0200
-Message-ID: <CANL98e-ZM322A4Lor3=ct2PbTMZnAoAUMPxxU9poYo0xLbEvjA@mail.gmail.com>
-Subject: Re: [PATCH] sh4: Replace TAB indentations with spaces
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000f1a19f05da81e2d4"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2b;
- envelope-from=ahmedaabouzied44@gmail.com; helo=mail-vk1-xa2b.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 18 Mar 2022 16:57:06 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,124 +70,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Lukasz Maniak <lukasz.maniak@linux.intel.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Keith Busch <kbusch@kernel.org>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f1a19f05da81e2d4
-Content-Type: text/plain; charset="UTF-8"
+Implementation of Primary Controller Capabilities data
+structure (Identify command with CNS value of 14h).
 
-Hello,
+Currently, the command returns only ID of a primary controller.
+Handling of remaining fields are added in subsequent patches
+implementing virtualization enhancements.
 
-I remember this PR. It was a long time ago. I'll take a look at it and
-propose a fix.
+Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c       | 23 ++++++++++++++++++-----
+ hw/nvme/nvme.h       |  2 ++
+ hw/nvme/trace-events |  1 +
+ include/block/nvme.h | 23 +++++++++++++++++++++++
+ 4 files changed, 44 insertions(+), 5 deletions(-)
 
-Thanks,
-Ahmed
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 0e1d8d03c87..ea9d5af3545 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -4799,6 +4799,14 @@ static uint16_t nvme_identify_ctrl_list(NvmeCtrl *n, NvmeRequest *req,
+     return nvme_c2h(n, (uint8_t *)list, sizeof(list), req);
+ }
+ 
++static uint16_t nvme_identify_pri_ctrl_cap(NvmeCtrl *n, NvmeRequest *req)
++{
++    trace_pci_nvme_identify_pri_ctrl_cap(le16_to_cpu(n->pri_ctrl_cap.cntlid));
++
++    return nvme_c2h(n, (uint8_t *)&n->pri_ctrl_cap,
++                    sizeof(NvmePriCtrlCap), req);
++}
++
+ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
+                                      bool active)
+ {
+@@ -5018,6 +5026,8 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_identify_ctrl_list(n, req, true);
+     case NVME_ID_CNS_CTRL_LIST:
+         return nvme_identify_ctrl_list(n, req, false);
++    case NVME_ID_CNS_PRIMARY_CTRL_CAP:
++        return nvme_identify_pri_ctrl_cap(n, req);
+     case NVME_ID_CNS_CS_NS:
+         return nvme_identify_ns_csi(n, req, true);
+     case NVME_ID_CNS_CS_NS_PRESENT:
+@@ -6609,6 +6619,8 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+ 
+ static void nvme_init_state(NvmeCtrl *n)
+ {
++    NvmePriCtrlCap *cap = &n->pri_ctrl_cap;
++
+     /* add one to max_ioqpairs to account for the admin queue pair */
+     n->reg_size = pow2ceil(sizeof(NvmeBar) +
+                            2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE);
+@@ -6618,6 +6630,8 @@ static void nvme_init_state(NvmeCtrl *n)
+     n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
+     n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+     n->aer_reqs = g_new0(NvmeRequest *, n->params.aerl + 1);
++
++    cap->cntlid = cpu_to_le16(n->cntlid);
+ }
+ 
+ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+@@ -6919,15 +6933,14 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     qbus_init(&n->bus, sizeof(NvmeBus), TYPE_NVME_BUS,
+               &pci_dev->qdev, n->parent_obj.qdev.id);
+ 
+-    nvme_init_state(n);
+-    if (nvme_init_pci(n, pci_dev, errp)) {
+-        return;
+-    }
+-
+     if (nvme_init_subsys(n, errp)) {
+         error_propagate(errp, local_err);
+         return;
+     }
++    nvme_init_state(n);
++    if (nvme_init_pci(n, pci_dev, errp)) {
++        return;
++    }
+     nvme_init_ctrl(n, pci_dev);
+ 
+     /* setup a namespace if the controller drive property was given */
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 89ca6e96401..e58bab841e2 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -477,6 +477,8 @@ typedef struct NvmeCtrl {
+         uint32_t                async_config;
+         NvmeHostBehaviorSupport hbs;
+     } features;
++
++    NvmePriCtrlCap  pri_ctrl_cap;
+ } NvmeCtrl;
+ 
+ static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
+diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+index ff1b4589692..1834b17cf21 100644
+--- a/hw/nvme/trace-events
++++ b/hw/nvme/trace-events
+@@ -56,6 +56,7 @@ pci_nvme_identify_ctrl(void) "identify controller"
+ pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
+ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_ctrl_list(uint8_t cns, uint16_t cntid) "cns 0x%"PRIx8" cntid %"PRIu16""
++pci_nvme_identify_pri_ctrl_cap(uint16_t cntlid) "identify primary controller capabilities cntlid=%"PRIu16""
+ pci_nvme_identify_ns_csi(uint32_t ns, uint8_t csi) "nsid=%"PRIu32", csi=0x%"PRIx8""
+ pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "nsid=%"PRIu16", csi=0x%"PRIx8""
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 3737351cc81..524a04fb94e 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -1033,6 +1033,7 @@ enum NvmeIdCns {
+     NVME_ID_CNS_NS_PRESENT            = 0x11,
+     NVME_ID_CNS_NS_ATTACHED_CTRL_LIST = 0x12,
+     NVME_ID_CNS_CTRL_LIST             = 0x13,
++    NVME_ID_CNS_PRIMARY_CTRL_CAP      = 0x14,
+     NVME_ID_CNS_CS_NS_PRESENT_LIST    = 0x1a,
+     NVME_ID_CNS_CS_NS_PRESENT         = 0x1b,
+     NVME_ID_CNS_IO_COMMAND_SET        = 0x1c,
+@@ -1553,6 +1554,27 @@ typedef enum NvmeZoneState {
+     NVME_ZONE_STATE_OFFLINE          = 0x0f,
+ } NvmeZoneState;
+ 
++typedef struct QEMU_PACKED NvmePriCtrlCap {
++    uint16_t    cntlid;
++    uint16_t    portid;
++    uint8_t     crt;
++    uint8_t     rsvd5[27];
++    uint32_t    vqfrt;
++    uint32_t    vqrfa;
++    uint16_t    vqrfap;
++    uint16_t    vqprt;
++    uint16_t    vqfrsm;
++    uint16_t    vqgran;
++    uint8_t     rsvd48[16];
++    uint32_t    vifrt;
++    uint32_t    virfa;
++    uint16_t    virfap;
++    uint16_t    viprt;
++    uint16_t    vifrsm;
++    uint16_t    vigran;
++    uint8_t     rsvd80[4016];
++} NvmePriCtrlCap;
++
+ static inline void _nvme_check_size(void)
+ {
+     QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
+@@ -1588,5 +1610,6 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsDescr) != 4);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeZoneDescr) != 64);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeDifTuple) != 16);
++    QEMU_BUILD_BUG_ON(sizeof(NvmePriCtrlCap) != 4096);
+ }
+ #endif
+-- 
+2.25.1
 
-On Fri, 18 Mar 2022 at 19:25, Thomas Huth <thuth@redhat.com> wrote:
-
-> On 20/06/2021 19.54, Ahmed Abouzied wrote:
-> > Replaces TABs with spaces, making sure to have a consistent coding style
-> > of 4 space indentations in the SH4 subsystem.
-> >
-> > Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
-> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/376
-> > ---
-> ...
-> > @@ -1705,101 +1705,101 @@ static void _decode_opc(DisasContext * ctx)
-> >           }
-> >           return;
-> >       case 0xf00d: /* fsts FPUL,FRn - FPSCR: Nothing */
-> > -     CHECK_FPU_ENABLED
-> > +    CHECK_FPU_ENABLED
-> >           tcg_gen_mov_i32(FREG(B11_8), cpu_fpul);
-> > -     return;
-> > +    return;
-> >       case 0xf01d: /* flds FRm,FPUL - FPSCR: Nothing */
-> > -     CHECK_FPU_ENABLED
-> > +    CHECK_FPU_ENABLED
-> >           tcg_gen_mov_i32(cpu_fpul, FREG(B11_8));
-> > -     return;
-> > +    return;
->
-> Sorry, it's a very late reply ... but in case you're still interested in
-> fixing this: It seems like at least some of these files used TABs as 8
-> spaces, not as 4 spaces, so after applying your patch, the indentation
-> seems
-> to be wrong in all places. Please double-check the look of the files
-> before
-> sending! Thanks!
->
->   Thomas
->
->
-
---000000000000f1a19f05da81e2d4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default"><font size=3D"2"><span style=
-=3D"font-family:arial,sans-serif">Hello,</span></font></div><div class=3D"g=
-mail_default"><font size=3D"2"><span style=3D"font-family:arial,sans-serif"=
-><br></span></font></div><div class=3D"gmail_default"><font size=3D"2"><spa=
-n style=3D"font-family:arial,sans-serif">I remember this PR. It was a long =
-time ago. I&#39;ll take a look at it and propose a fix. <br></span></font><=
-/div><div class=3D"gmail_default"><font size=3D"2"><span style=3D"font-fami=
-ly:arial,sans-serif"><br></span></font></div><div class=3D"gmail_default"><=
-font size=3D"2"><span style=3D"font-family:arial,sans-serif">Thanks,</span>=
-</font></div><div class=3D"gmail_default" style=3D"font-family:monospace;fo=
-nt-size:large"><font size=3D"2"><span style=3D"font-family:arial,sans-serif=
-">Ahmed</span></font><br></div></div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Fri, 18 Mar 2022 at 19:25, Thomas Huth &l=
-t;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">On 20/06/2021 19.54, =
-Ahmed Abouzied wrote:<br>
-&gt; Replaces TABs with spaces, making sure to have a consistent coding sty=
-le<br>
-&gt; of 4 space indentations in the SH4 subsystem.<br>
-&gt; <br>
-&gt; Signed-off-by: Ahmed Abouzied &lt;<a href=3D"mailto:email@aabouzied.co=
-m" target=3D"_blank">email@aabouzied.com</a>&gt;<br>
-&gt; Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/376=
-" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu=
-/-/issues/376</a><br>
-&gt; ---<br>
-...<br>
-&gt; @@ -1705,101 +1705,101 @@ static void _decode_opc(DisasContext * ctx)<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0case 0xf00d: /* fsts FPUL,FRn - FPSCR: Nothi=
-ng */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0CHECK_FPU_ENABLED<br>
-&gt; +=C2=A0 =C2=A0 CHECK_FPU_ENABLED<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_mov_i32(FREG(B11_8), c=
-pu_fpul);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return;<br>
-&gt; +=C2=A0 =C2=A0 return;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0case 0xf01d: /* flds FRm,FPUL - FPSCR: Nothi=
-ng */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0CHECK_FPU_ENABLED<br>
-&gt; +=C2=A0 =C2=A0 CHECK_FPU_ENABLED<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_mov_i32(cpu_fpul, FREG=
-(B11_8));<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return;<br>
-&gt; +=C2=A0 =C2=A0 return;<br>
-<br>
-Sorry, it&#39;s a very late reply ... but in case you&#39;re still interest=
-ed in <br>
-fixing this: It seems like at least some of these files used TABs as 8 <br>
-spaces, not as 4 spaces, so after applying your patch, the indentation seem=
-s <br>
-to be wrong in all places. Please double-check the look of the files before=
- <br>
-sending! Thanks!<br>
-<br>
-=C2=A0 Thomas<br>
-<br>
-</blockquote></div>
-
---000000000000f1a19f05da81e2d4--
 
