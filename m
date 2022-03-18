@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7434DDA1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:03:52 +0100 (CET)
-Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A123B4DDA30
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:11:43 +0100 (CET)
+Received: from localhost ([::1]:46220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVCGl-0000RK-SW
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:03:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42228)
+	id 1nVCOM-0003Vb-Hu
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:11:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nVCDn-0005G4-L8; Fri, 18 Mar 2022 09:00:52 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3928)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nVCDh-00071U-Nf; Fri, 18 Mar 2022 09:00:46 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KKkbv3jytzfYqX;
- Fri, 18 Mar 2022 20:59:07 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.21; Fri, 18 Mar 2022 21:00:36 +0800
-Subject: Re: [PATCH v2 1/3] hw/arm/virt: Fix CPU's default NUMA node ID
-To: Igor Mammedov <imammedo@redhat.com>
-CC: Gavin Shan <gshan@redhat.com>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>, <drjones@redhat.com>, <peter.maydell@linaro.org>,
- <richard.henderson@linaro.org>, <shan.gavin@gmail.com>, <zhenyzha@redhat.com>
-References: <20220303031152.145960-1-gshan@redhat.com>
- <20220303031152.145960-2-gshan@redhat.com>
- <e894fe3a-a50e-f47f-773d-d859bc240923@huawei.com>
- <20220318105656.67696eb8@redhat.com>
-Message-ID: <5aea5611-0987-68cd-58d3-8ae53ec641e8@huawei.com>
-Date: Fri, 18 Mar 2022 21:00:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nVCMR-0002jV-E3
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:09:43 -0400
+Received: from [2607:f8b0:4864:20::1130] (port=34887
+ helo=mail-yw1-x1130.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nVCMP-00086q-NM
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:09:43 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c0so90449057b3.2
+ for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 06:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=d28JjyRvulvxE8OOu5TylSi+K19pJb3wy6NFRhzG9KA=;
+ b=O6W7XUcxPkDCMMVx7Vs9t45T8u0S3EWHy8axyyJE/4K1nR0XwMOJipljE9Tjw8jihy
+ BzsrxwD3IM0asZjTGuRFLucphORece4zNXcZGeoEstPFZHNN/2jDJG1N7xSaWotXTusW
+ 5stZHfmH7OZhyzO6GwP2l3Z5E5MkT4/64A+lUwiV6XmQ5O8t8GVxLJIZP2N1gsR6xa9y
+ bLzyiS2DUSpbS/MxLniVD/Wo0hC0Egid8SENgLomSaMpoFNyDKCVeK9/TnLtx5NmH/O0
+ G20wC1JRISm5i0zBOs2VPbZYqgwqNzQdd9RpEKKiZYFjqVPoRYj1b+zyiN/3rgBt5ZVs
+ vB0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=d28JjyRvulvxE8OOu5TylSi+K19pJb3wy6NFRhzG9KA=;
+ b=vYuu10NuyNVKR6clpP/U3dXfoiiTI9BWEGwh4JcP+nMb/oJyOedNyZqtacaM6yc7C9
+ xlG1btZDJ80YUtdAvPzfVYa1tM5uIHh8Mdkw2jDKF/0QpWj4lsO+Td61RK2zFLhIccnD
+ wsmw7vuG8YnenMogKXsB6UvUDiRkHFft8TJ3eZP7cbYqDNcdF7UEXqy8QvFVNn1vFwEF
+ 9UJuDBPpC+8C0EW4mCmiFjVQ2w0eH9i5dHP/tuRSX+CzmOQSRAiiOQvNUlyFLuUL5nnK
+ D0mDLFi9+pYXbNKtKB1U+u8vzRoIzUu2m2rECZkovQ2p/r+A4yfEWUQJ6oeER4UEpllB
+ DAIg==
+X-Gm-Message-State: AOAM532lX+FjDU60mnhAh2+Kz1EKH9+7Zvoc2GW+vNQg2G2IS6at6F0a
+ z/L9p9c96vQ3uLvUEC7DaDCYzSH3pv1NrNaLjBCQHw==
+X-Google-Smtp-Source: ABdhPJzQGJ2ctuFU95H28tP5TeRG6UEy2iXKiu/084fAr+4aXsVqqEXIzhY2GpJzGxXYdRI2Tm/nYtNMtqBqDRUhfJ0=
+X-Received: by 2002:a81:1151:0:b0:2e5:99ec:9933 with SMTP id
+ 78-20020a811151000000b002e599ec9933mr10643942ywr.64.1647608980600; Fri, 18
+ Mar 2022 06:09:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220318105656.67696eb8@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220302130417.18551-1-ubzeme@gmail.com>
+ <20220302130417.18551-6-ubzeme@gmail.com>
+In-Reply-To: <20220302130417.18551-6-ubzeme@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Mar 2022 13:09:28 +0000
+Message-ID: <CAFEAcA9gJB=-LA6uK-1Bo6iDkdwToC_hxKOLuD9=UJ2Ou1oW6A@mail.gmail.com>
+Subject: Re: [PATCH v3 5/9] hvf: fix memory dirty-tracking
+To: Yan-Jie Wang <ubzeme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1130
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,139 +83,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-On 2022/3/18 17:56, Igor Mammedov wrote:
-> On Fri, 18 Mar 2022 14:23:34 +0800
-> "wangyanan (Y)" <wangyanan55@huawei.com> wrote:
+On Wed, 2 Mar 2022 at 13:04, Yan-Jie Wang <ubzeme@gmail.com> wrote:
 >
->> Hi Gavin,
->>
->> On 2022/3/3 11:11, Gavin Shan wrote:
->>> The default CPU-to-NUMA association is given by mc->get_default_cpu_node_id()
->>> when it isn't provided explicitly. However, the CPU topology isn't fully
->>> considered in the default association and it causes CPU topology broken
->>> warnings on booting Linux guest.
->>>
->>> For example, the following warning messages are observed when the Linux guest
->>> is booted with the following command lines.
->>>
->>>     /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
->>>     -accel kvm -machine virt,gic-version=host               \
->>>     -cpu host                                               \
->>>     -smp 6,sockets=2,cores=3,threads=1                      \
->>>     -m 1024M,slots=16,maxmem=64G                            \
->>>     -object memory-backend-ram,id=mem0,size=128M            \
->>>     -object memory-backend-ram,id=mem1,size=128M            \
->>>     -object memory-backend-ram,id=mem2,size=128M            \
->>>     -object memory-backend-ram,id=mem3,size=128M            \
->>>     -object memory-backend-ram,id=mem4,size=128M            \
->>>     -object memory-backend-ram,id=mem4,size=384M            \
->>>     -numa node,nodeid=0,memdev=mem0                         \
->>>     -numa node,nodeid=1,memdev=mem1                         \
->>>     -numa node,nodeid=2,memdev=mem2                         \
->>>     -numa node,nodeid=3,memdev=mem3                         \
->>>     -numa node,nodeid=4,memdev=mem4                         \
->>>     -numa node,nodeid=5,memdev=mem5
->>>            :
->>>     alternatives: patching kernel code
->>>     BUG: arch topology borken
->>>     the CLS domain not a subset of the MC domain
->>>     <the above error log repeats>
->>>     BUG: arch topology borken
->>>     the DIE domain not a subset of the NODE domain
->>>
->>> With current implementation of mc->get_default_cpu_node_id(), CPU#0 to CPU#5
->>> are associated with NODE#0 to NODE#5 separately. That's incorrect because
->>> CPU#0/1/2 should be associated with same NUMA node because they're seated
->>> in same socket.
->>>
->>> This fixes the issue by populating the CPU topology in virt_possible_cpu_arch_ids()
->>> and considering the socket index when default CPU-to-NUMA association is given
->>> in virt_possible_cpu_arch_ids(). With this applied, no more CPU topology broken
->>> warnings are seen from the Linux guest. The 6 CPUs are associated with NODE#0/1,
->>> but there are no CPUs associated with NODE#2/3/4/5.
->> It may be better to split this patch into two. One extends
->> virt_possible_cpu_arch_ids,
->> and the other fixes the numa node ID issue.
->>> Signed-off-by: Gavin Shan <gshan@redhat.com>
->>> ---
->>>    hw/arm/virt.c | 17 ++++++++++++++++-
->>>    1 file changed, 16 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->>> index 46bf7ceddf..dee02b60fc 100644
->>> --- a/hw/arm/virt.c
->>> +++ b/hw/arm/virt.c
->>> @@ -2488,7 +2488,9 @@ virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
->>>    
->>>    static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
->>>    {
->>> -    return idx % ms->numa_state->num_nodes;
->>> +    int64_t socket_id = ms->possible_cpus->cpus[idx].props.socket_id;
->>> +
->>> +    return socket_id % ms->numa_state->num_nodes;
->>>    }
->>>    
->>>    static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>> @@ -2496,6 +2498,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>>        int n;
->>>        unsigned int max_cpus = ms->smp.max_cpus;
->>>        VirtMachineState *vms = VIRT_MACHINE(ms);
->>> +    MachineClass *mc = MACHINE_GET_CLASS(vms);
->>>    
->>>        if (ms->possible_cpus) {
->>>            assert(ms->possible_cpus->len == max_cpus);
->>> @@ -2509,6 +2512,18 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>>            ms->possible_cpus->cpus[n].type = ms->cpu_type;
->>>            ms->possible_cpus->cpus[n].arch_id =
->>>                virt_cpu_mp_affinity(vms, n);
->>> +
->>> +        ms->possible_cpus->cpus[n].props.has_socket_id = true;
->>> +        ms->possible_cpus->cpus[n].props.socket_id =
->>> +            n / (ms->smp.dies * ms->smp.clusters *
->>> +                ms->smp.cores * ms->smp.threads);
->>> +        if (mc->smp_props.dies_supported) {
->>> +            ms->possible_cpus->cpus[n].props.has_die_id = true;
->>> +            ms->possible_cpus->cpus[n].props.die_id =
->>> +                n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
->>> +        }
->> I still don't think we need to consider dies if it's certainly not
->> supported yet, IOW, we will never come into the if-branch.
->> We are populating arm-specific topo info instead of the generic,
->> we can probably uniformly update this part together with other
->> necessary places when we decide to support dies for arm virt
->> machine in the future. :)
-> it seems we do support dies and they are supposed to be numa boundary too,
-> so perhaps we should account for it when generating node-id.
-Sorry, I actually meant that we currently don't support dies for arm, so 
-that
-we will always have "mc->smp_props.dies_supported == False" here, which
-makes the code a bit unnecessary.  dies are only supported for x86 for 
-now. :)
+> Dirty-tracking in HVF is not properly implemented.
+>
+> On Intel Macs, Ubuntu ISO boot menu does not show properly.
+>
+> On Apple Silicon, using bochs-display may cause the guest crashes because
+> the guest may uses load/store instructions on framebuffer which causes
+> vmexits and the exception register does not contain enough information
+> (ESR_EL2.ISV = 0) for QEMU to emulate the memory operation.
+>
+> The strategy to log the dirty pages is to write-protect the memory regions
+> that are being dirty-tracked.
+>
+> When the guest is trapped to the host because of memory write, check whether
+> the address being written is being dirty-tracked.
+>
+> If it is being dirty-tracked, restore the write permission of the page and
+> mark the accessed page dirty, and resume the guest without increasing
+> program counter, and then the same instruction will be execute again.
+>
+> This patch fixes the problem and make the dirty-tracking work properly.
+>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1827005
+> Signed-off-by: Yan-Jie Wang <ubzeme@gmail.com>
+> ---
+>  accel/hvf/hvf-mem.c      | 62 ++++++++++++++++++++++++++++++++++++----
+>  include/sysemu/hvf_int.h | 14 +--------
+>  target/arm/hvf/hvf.c     |  5 ++++
+>  target/i386/hvf/hvf.c    | 25 ++++------------
+>  4 files changed, 68 insertions(+), 38 deletions(-)
+>
 
-Thanks,
-Yanan
->>> +        ms->possible_cpus->cpus[n].props.has_core_id = true;
->>> +        ms->possible_cpus->cpus[n].props.core_id = n / ms->smp.threads;
->>>            ms->possible_cpus->cpus[n].props.has_thread_id = true;
->>>            ms->possible_cpus->cpus[n].props.thread_id = n;
->>>        }
->> Maybe we should use the same algorithm in x86_topo_ids_from_idx
->> to populate the IDs, so that scope of socket-id will be [0, total_sockets),
->> scope of thread-id is [0, threads_per_core), and so on. Then with a
->> group of socket/cluster/core/thread-id, we determine a CPU.
->>
->> Suggestion: For the long term, is it necessary now to add similar topo
->> info infrastructure for ARM, such as X86CPUTopoInfo, X86CPUTopoIDs,
->> x86_topo_ids_from_idx?
->>
->> Thanks,
->> Yanan
->>
-> .
 
+> +/*
+> + * The function is called when the guest is accessing memory causing vmexit.
+> + * Check whether the guest can access the memory directly and
+> + * also mark the accessed page being written dirty
+> + * if the page is being dirty-tracked.
+> + *
+> + * Return true if the access is within the mapped region,
+> + * otherwise return false.
+> + */
+> +bool hvf_access_memory(hwaddr address, bool write)
+> +{
+> +    HVFSlot *slot;
+> +    hv_return_t ret;
+> +    hwaddr start, size;
+> +
+> +    slot = hvf_find_overlap_slot(address, 1);
+
+What happens if the guest does an unaligned 4 byte access
+such that byte 1 is in one slot and bytes 2-4 are in a
+different slot, or not covered by a slot at all ?
+
+> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+> index 4d4ddab348..398ad50a29 100644
+> --- a/target/arm/hvf/hvf.c
+> +++ b/target/arm/hvf/hvf.c
+> @@ -1202,6 +1202,11 @@ int hvf_vcpu_exec(CPUState *cpu)
+>              break;
+>          }
+>
+> +        if (iswrite &&
+> +            hvf_access_memory(hvf_exit->exception.physical_address, 1)) {
+
+hvf_access_memory() can return true even if it has not changed the
+protection flags on the memory, in which case we'll go into an
+infinite loop of taking the fault again.
+
+> +            break;
+> +        }
+> +
+>          assert(isv);
+>
+>          if (iswrite)
+
+thanks
+-- PMM
 
