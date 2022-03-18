@@ -2,95 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD334DDBB6
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 15:32:27 +0100 (CET)
-Received: from localhost ([::1]:37414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A68EE4DDBCA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 15:38:08 +0100 (CET)
+Received: from localhost ([::1]:39934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVDeU-0005qs-7Q
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 10:32:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32954)
+	id 1nVDjz-0007ic-9J
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 10:38:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1nVDda-0005As-3w
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 10:31:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29511)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nVDip-00071A-U1
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 10:36:56 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:56787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1nVDdX-0005Lr-Dw
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 10:31:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647613886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ez8liIrkA5jDkGSVnz5d9GpQROPPN5YmQa5MioyZI1A=;
- b=isxQK0ZBkUR9zS0cy5cj0GvBsDAtK8Y/oMDXt/J0e+l8howxo83MqBxYNTHvk1aQJICh5h
- d/8SOvBDSW8H+d6wwrXfsy922G9/GAqYcqrg1j71N81sdnT96xIsXt1kV4RWSf1nKLFjXJ
- i25rpHZJka201QzAJkrvkI5ym7W6P3Y=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-Qm-1iZ6LMiO4V5fBZMWlLA-1; Fri, 18 Mar 2022 10:31:25 -0400
-X-MC-Unique: Qm-1iZ6LMiO4V5fBZMWlLA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- jx2-20020a170907760200b006dfc374c502so659862ejc.7
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 07:31:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ez8liIrkA5jDkGSVnz5d9GpQROPPN5YmQa5MioyZI1A=;
- b=c+ptYJMdDGELss7wPn3/n60WVCT/S/d98UkeKP5xbs38QJtRa3CplsaSoCHNKl6hya
- t8qBfSoFxnyOkBcCNG63ZSvUq7q6GfxpfO5orZ7FRZ4MTPjlW9ijf3RoDOVbNjQPyKfB
- YBKCIWMDBRSXwoTwXm7Hl9W1QH2IAl9r+u/cl6mvkonVtFuBj0mztery7CGiGB1/FVrC
- hZSlF95OwWVvTHXTnDxccsGcFg53rX8OuK5lr9TJ0QoZuN0ka3m0436pApMPtSozaflm
- FQqeQPFm9M3Qb/qJeMs1R4Drw9eUzF0BOdxz+sgU+qHzKmScMyNJNkT0+rycB2tGQxxz
- zdzg==
-X-Gm-Message-State: AOAM5329YY0+wKakwVUi168pKL4dMuAE7K9+RmRH/MfNvliSOGCor8me
- LuPmJyJm3ZYFP7iHjWyQTVSNlVtjHOMBjmp/zi2I4A4V1FICAxaDpEQOMu+YDI7EmUQ1nWaxOsT
- ZYG84bw8biRxhL/4=
-X-Received: by 2002:a17:906:32cf:b0:6d5:83bc:e962 with SMTP id
- k15-20020a17090632cf00b006d583bce962mr9302727ejk.108.1647613882559; 
- Fri, 18 Mar 2022 07:31:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFI3TxekZvIEGwM8fDhiTBZtbN3KLdk7CE5dj0hUHmjR7m6qFjFmfGWQuDHrpB/ygduzglmQ==
-X-Received: by 2002:a17:906:32cf:b0:6d5:83bc:e962 with SMTP id
- k15-20020a17090632cf00b006d583bce962mr9302706ejk.108.1647613882374; 
- Fri, 18 Mar 2022 07:31:22 -0700 (PDT)
-Received: from [10.43.2.152] (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- l9-20020a1709060cc900b006ce04bb8668sm3691909ejh.184.2022.03.18.07.31.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Mar 2022 07:31:22 -0700 (PDT)
-Message-ID: <eb0d5aaf-940a-30fb-19dd-4d730bec30d6@redhat.com>
-Date: Fri, 18 Mar 2022 15:31:20 +0100
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nVDim-0006D0-0H
+ for qemu-devel@nongnu.org; Fri, 18 Mar 2022 10:36:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=IZy/8coWTA94d5/gp2JeT2u/FMJ6AHnwPIOjkrOHXb8=; b=m5jpcXXbI4d7KRkAbCVLICep+z
+ 3hFXpqBBLpiCiWPlor9S4JQvUeCR7RG9gFH3P8XvgkEdzgDWZgVWtgaZkwHrt6y21b0TwGw8mO1FD
+ co75XveL1cbz7G875FFXOq3V8F0Ixu2s84VEBQ7YAvYdupy9RPrnM92sNaFwBT01IaG8MfHn1gMt2
+ uXAFRBpETQcCEGu7NzC3u1rASMmj9ATZdRY9Y/i/a9Tv+eFf4hl38l/HeZwVP3lChKM48hAvTxjeH
+ LR49cfEKqx2KWBZ60vcOQYa//2ykg7Gp4uowbAe4xWMl52wDp5SYagGzGYJTkHpA/CINAP8/T4KV0
+ 73Ow1rBnqJ/t3sC3WhBHcFhEwOSz2RdhN+wydCggFqA6+rubat+epjbT0/Dk5Hs9A6fqu9atKYPJh
+ OyWf3MR625VeSUc/6f/iHKdg/SOkdudX4o/AxKBgErlVY+MDhC2i+bzP1bSicRP9jqkNvxIPnBzJw
+ l5D1S/fnoTIARldTngD4vrWssWNO6VX8vUgFKe7nChmOknwTFt/7qao8Dxiwpit0Eh9n9bLVOHutD
+ XicN1BoAD3L58oBi9ZRigUAk22tM1AyAXcPIw3CSa+hv7XrLrS/Pv5Wa6g4tPaCZYlHyLDwA14fgc
+ 991OlffASPd/uL1K2w+r7CzMF/vNDWsU8HG75Ltr4=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?=
+ <philippe.mathieu.daude@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] gitattributes: Cover Objective-C source files
+Date: Fri, 18 Mar 2022 15:36:45 +0100
+Message-ID: <2528763.O0PJEcRQa9@silver>
+In-Reply-To: <20220317130326.39188-1-philippe.mathieu.daude@gmail.com>
+References: <20220317130326.39188-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] x86/amx: compatible with older kernel release
-To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
-References: <20220318115529.4850-1-yang.zhong@intel.com>
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-In-Reply-To: <20220318115529.4850-1-yang.zhong@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,26 +67,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, pkrempa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/18/22 12:55, Yang Zhong wrote:
-> The AMX KVM introduced one new ARCH_GET_XCOMP_SUPP system attribute
-> API to get host side supported_xcr0 and latest Qemu can decide if it
-> can request dynamically enabled XSAVE features permission. But this
-> implementation(19db68ca68) did not consider older kernel release.
-> This patch can avoid to read this new KVM_GET_DEVICE_ATTR ioctl.
-> 
-> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+On Donnerstag, 17. M=E4rz 2022 14:03:26 CET Philippe Mathieu-Daud=E9 wrote:
+> From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+>=20
+> See comments in commit 29cf16db23 ("buildsys: Help git-diff
+> adding .gitattributes config file") for details.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 > ---
->  target/i386/kvm/kvm.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
 
-Tested-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-Thank you.
+>  .gitattributes | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/.gitattributes b/.gitattributes
+> index 07f430e944..a217cb7bfe 100644
+> --- a/.gitattributes
+> +++ b/.gitattributes
+> @@ -1,3 +1,4 @@
+>  *.c.inc         diff=3Dc
+>  *.h.inc         diff=3Dc
+> +*.m             diff=3Dobjc
+>  *.py            diff=3Dpython
 
-Michal
 
 
