@@ -2,96 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258B64DDAC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:42:59 +0100 (CET)
-Received: from localhost ([::1]:39736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD03D4DDB00
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 14:54:31 +0100 (CET)
+Received: from localhost ([::1]:39436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVCsc-00054t-7C
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:42:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47158)
+	id 1nVD3m-0007lv-SF
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 09:54:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nVCdl-00063O-0p
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:27:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28560)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nVCey-00083h-17; Fri, 18 Mar 2022 09:28:52 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nVCdg-0002v6-NB
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 09:27:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647610049;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1zIpS5fV8hR/B2l/McxrDw7J4k/h/ng1DXHbqJvwLx4=;
- b=aln6/K34DqErwsYBSf/KtiwtT0QILsZhhe3+7ke1A0aavYJBgg8QiaUJllHim3M8pTSaSV
- nIdRt4wBiyFhKwq8PqU9JKvkwOkLaHGrmZarhA/Th2RerkCS977s7rUkSaCsjFVC2GYf3q
- CsTFMapEa89K9aDggcEapPUxw6KQ2+M=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-2CFgFfhiNQeeMzJKcFg-Rw-1; Fri, 18 Mar 2022 09:27:27 -0400
-X-MC-Unique: 2CFgFfhiNQeeMzJKcFg-Rw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- bq19-20020a056402215300b0040f276105a4so4904746edb.2
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 06:27:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1zIpS5fV8hR/B2l/McxrDw7J4k/h/ng1DXHbqJvwLx4=;
- b=3LFnsu5YUkzjDVM++9I48m5vUW0W2OMYquxxpzDIUu/Mg/P02sjfsR4Iywh+m9Yf4q
- +ZEJcXxVngQvxY3yCt0PTli/Kz0Gwkc+3veJW3ilNAj4+qybm6IcQRl0sdItx0C1cLjV
- 7Q4Ruh9YmCLGCxPa2MSxMJ4tCJFF3czpKZDQAakV+pIgGKbaMer3mi8AZDHeMKjNUx/C
- ZVhEvLpGPhrslwIPiJfoX8F4GwNCS1IhiOcJUSieQDHT6sI2YT4eXljhVQEsQDC2v7Gx
- pUWUWrJWMi/mN5a3crN8oOCHhxF23mS7HqJUBrtpFm2UD7xNpcWrcg3be55uAyhbf8JW
- kWyw==
-X-Gm-Message-State: AOAM532uOEV6QBVrErTSQbHq+M/G3hdxNTOixEsKzPS49MMqyaSgIEDk
- TUWFBrQvj5Ofar3vZ+Ffd9u13mkua08Y7Y81YzsMjMquKertLsBh5x+jJjdFiY53uS6LCM/mif3
- GCH1dG4zjzbmNmrs=
-X-Received: by 2002:a17:907:b590:b0:6cf:48a4:9a4c with SMTP id
- qx16-20020a170907b59000b006cf48a49a4cmr8779181ejc.6.1647610046520; 
- Fri, 18 Mar 2022 06:27:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyK0fwndVh0doZrYBszhzTRVwJSpgWuTtL0My42LzhUZ2OG2h1NdPXIrHlTZ+eRCqlIHlH+pw==
-X-Received: by 2002:a17:907:b590:b0:6cf:48a4:9a4c with SMTP id
- qx16-20020a170907b59000b006cf48a49a4cmr8779160ejc.6.1647610046216; 
- Fri, 18 Mar 2022 06:27:26 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- ky5-20020a170907778500b006d1b2dd8d4csm3740513ejc.99.2022.03.18.06.27.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Mar 2022 06:27:25 -0700 (PDT)
-Date: Fri, 18 Mar 2022 14:27:23 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Subject: Re: [PATCH v2 1/3] hw/arm/virt: Fix CPU's default NUMA node ID
-Message-ID: <20220318142723.142157c3@redhat.com>
-In-Reply-To: <5aea5611-0987-68cd-58d3-8ae53ec641e8@huawei.com>
-References: <20220303031152.145960-1-gshan@redhat.com>
- <20220303031152.145960-2-gshan@redhat.com>
- <e894fe3a-a50e-f47f-773d-d859bc240923@huawei.com>
- <20220318105656.67696eb8@redhat.com>
- <5aea5611-0987-68cd-58d3-8ae53ec641e8@huawei.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nVCeu-00031E-T2; Fri, 18 Mar 2022 09:28:51 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22ICntd2003688; 
+ Fri, 18 Mar 2022 13:28:37 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ev2s54bjh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Mar 2022 13:28:37 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22IDLhTW001924;
+ Fri, 18 Mar 2022 13:28:36 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ev2s54bhy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Mar 2022 13:28:36 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22IDP8Ef015072;
+ Fri, 18 Mar 2022 13:28:34 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3erk595m19-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Mar 2022 13:28:34 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 22IDSYhp46072230
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 18 Mar 2022 13:28:34 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 10B594C046;
+ Fri, 18 Mar 2022 13:28:32 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C3E734C050;
+ Fri, 18 Mar 2022 13:28:31 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri, 18 Mar 2022 13:28:31 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.93.169])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id B44E02201E8;
+ Fri, 18 Mar 2022 14:28:30 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: [RFC PATCH 00/17] hw/sd: Rework models for eMMC support
+Date: Fri, 18 Mar 2022 14:28:07 +0100
+Message-Id: <20220318132824.1134400-1-clg@kaod.org>
+X-Mailer: git-send-email 2.34.1
 Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: UVadVOyVuhzIORb_t5MWRwDdJUP_Q2UP
+X-Proofpoint-GUID: q-AX57mNG6E1mmS6bnVkR5yKu8y7Y5uA
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-18_09,2022-03-15_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ lowpriorityscore=0 bulkscore=0 mlxlogscore=432 suspectscore=0
+ malwarescore=0 clxscore=1034 mlxscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203180074
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,172 +100,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, Gavin Shan <gshan@redhat.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, zhenyzha@redhat.com,
- qemu-arm@nongnu.org, shan.gavin@gmail.com
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Mar 2022 21:00:35 +0800
-"wangyanan (Y)" <wangyanan55@huawei.com> wrote:
+Hello Philippe,
 
-> On 2022/3/18 17:56, Igor Mammedov wrote:
-> > On Fri, 18 Mar 2022 14:23:34 +0800
-> > "wangyanan (Y)" <wangyanan55@huawei.com> wrote:
-> > =20
-> >> Hi Gavin,
-> >>
-> >> On 2022/3/3 11:11, Gavin Shan wrote: =20
-> >>> The default CPU-to-NUMA association is given by mc->get_default_cpu_n=
-ode_id()
-> >>> when it isn't provided explicitly. However, the CPU topology isn't fu=
-lly
-> >>> considered in the default association and it causes CPU topology brok=
-en
-> >>> warnings on booting Linux guest.
-> >>>
-> >>> For example, the following warning messages are observed when the Lin=
-ux guest
-> >>> is booted with the following command lines.
-> >>>
-> >>>     /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
-> >>>     -accel kvm -machine virt,gic-version=3Dhost               \
-> >>>     -cpu host                                               \
-> >>>     -smp 6,sockets=3D2,cores=3D3,threads=3D1                      \
-> >>>     -m 1024M,slots=3D16,maxmem=3D64G                            \
-> >>>     -object memory-backend-ram,id=3Dmem0,size=3D128M            \
-> >>>     -object memory-backend-ram,id=3Dmem1,size=3D128M            \
-> >>>     -object memory-backend-ram,id=3Dmem2,size=3D128M            \
-> >>>     -object memory-backend-ram,id=3Dmem3,size=3D128M            \
-> >>>     -object memory-backend-ram,id=3Dmem4,size=3D128M            \
-> >>>     -object memory-backend-ram,id=3Dmem4,size=3D384M            \
-> >>>     -numa node,nodeid=3D0,memdev=3Dmem0                         \
-> >>>     -numa node,nodeid=3D1,memdev=3Dmem1                         \
-> >>>     -numa node,nodeid=3D2,memdev=3Dmem2                         \
-> >>>     -numa node,nodeid=3D3,memdev=3Dmem3                         \
-> >>>     -numa node,nodeid=3D4,memdev=3Dmem4                         \
-> >>>     -numa node,nodeid=3D5,memdev=3Dmem5
-> >>>            :
-> >>>     alternatives: patching kernel code
-> >>>     BUG: arch topology borken
-> >>>     the CLS domain not a subset of the MC domain
-> >>>     <the above error log repeats>
-> >>>     BUG: arch topology borken
-> >>>     the DIE domain not a subset of the NODE domain
-> >>>
-> >>> With current implementation of mc->get_default_cpu_node_id(), CPU#0 t=
-o CPU#5
-> >>> are associated with NODE#0 to NODE#5 separately. That's incorrect bec=
-ause
-> >>> CPU#0/1/2 should be associated with same NUMA node because they're se=
-ated
-> >>> in same socket.
-> >>>
-> >>> This fixes the issue by populating the CPU topology in virt_possible_=
-cpu_arch_ids()
-> >>> and considering the socket index when default CPU-to-NUMA association=
- is given
-> >>> in virt_possible_cpu_arch_ids(). With this applied, no more CPU topol=
-ogy broken
-> >>> warnings are seen from the Linux guest. The 6 CPUs are associated wit=
-h NODE#0/1,
-> >>> but there are no CPUs associated with NODE#2/3/4/5. =20
-> >> It may be better to split this patch into two. One extends
-> >> virt_possible_cpu_arch_ids,
-> >> and the other fixes the numa node ID issue. =20
-> >>> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> >>> ---
-> >>>    hw/arm/virt.c | 17 ++++++++++++++++-
-> >>>    1 file changed, 16 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> >>> index 46bf7ceddf..dee02b60fc 100644
-> >>> --- a/hw/arm/virt.c
-> >>> +++ b/hw/arm/virt.c
-> >>> @@ -2488,7 +2488,9 @@ virt_cpu_index_to_props(MachineState *ms, unsig=
-ned cpu_index)
-> >>>   =20
-> >>>    static int64_t virt_get_default_cpu_node_id(const MachineState *ms=
-, int idx)
-> >>>    {
-> >>> -    return idx % ms->numa_state->num_nodes;
-> >>> +    int64_t socket_id =3D ms->possible_cpus->cpus[idx].props.socket_=
-id;
-> >>> +
-> >>> +    return socket_id % ms->numa_state->num_nodes;
-> >>>    }
-> >>>   =20
-> >>>    static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineStat=
-e *ms)
-> >>> @@ -2496,6 +2498,7 @@ static const CPUArchIdList *virt_possible_cpu_a=
-rch_ids(MachineState *ms)
-> >>>        int n;
-> >>>        unsigned int max_cpus =3D ms->smp.max_cpus;
-> >>>        VirtMachineState *vms =3D VIRT_MACHINE(ms);
-> >>> +    MachineClass *mc =3D MACHINE_GET_CLASS(vms);
-> >>>   =20
-> >>>        if (ms->possible_cpus) {
-> >>>            assert(ms->possible_cpus->len =3D=3D max_cpus);
-> >>> @@ -2509,6 +2512,18 @@ static const CPUArchIdList *virt_possible_cpu_=
-arch_ids(MachineState *ms)
-> >>>            ms->possible_cpus->cpus[n].type =3D ms->cpu_type;
-> >>>            ms->possible_cpus->cpus[n].arch_id =3D
-> >>>                virt_cpu_mp_affinity(vms, n);
-> >>> +
-> >>> +        ms->possible_cpus->cpus[n].props.has_socket_id =3D true;
-> >>> +        ms->possible_cpus->cpus[n].props.socket_id =3D
-> >>> +            n / (ms->smp.dies * ms->smp.clusters *
-> >>> +                ms->smp.cores * ms->smp.threads);
-> >>> +        if (mc->smp_props.dies_supported) {
-> >>> +            ms->possible_cpus->cpus[n].props.has_die_id =3D true;
-> >>> +            ms->possible_cpus->cpus[n].props.die_id =3D
-> >>> +                n / (ms->smp.clusters * ms->smp.cores * ms->smp.thre=
-ads);
-> >>> +        } =20
-> >> I still don't think we need to consider dies if it's certainly not
-> >> supported yet, IOW, we will never come into the if-branch.
-> >> We are populating arm-specific topo info instead of the generic,
-> >> we can probably uniformly update this part together with other
-> >> necessary places when we decide to support dies for arm virt
-> >> machine in the future. :) =20
-> > it seems we do support dies and they are supposed to be numa boundary t=
-oo,
-> > so perhaps we should account for it when generating node-id. =20
-> Sorry, I actually meant that we currently don't support dies for arm, so=
-=20
-> that
-> we will always have "mc->smp_props.dies_supported =3D=3D False" here, whi=
-ch
-> makes the code a bit unnecessary.=C2=A0 dies are only supported for x86 f=
-or=20
-> now. :)
->=20
+I am restarting the discussion we started in :=20
 
-then perhaps add an assert() here, so that we would notice and fix this
-place when dies_supported becomes true.
+  http://patchwork.ozlabs.org/project/qemu-devel/list/?series=3D250563
 
-> Thanks,
-> Yanan
-> >>> +        ms->possible_cpus->cpus[n].props.has_core_id =3D true;
-> >>> +        ms->possible_cpus->cpus[n].props.core_id =3D n / ms->smp.thr=
-eads;
-> >>>            ms->possible_cpus->cpus[n].props.has_thread_id =3D true;
-> >>>            ms->possible_cpus->cpus[n].props.thread_id =3D n;
-> >>>        } =20
-> >> Maybe we should use the same algorithm in x86_topo_ids_from_idx
-> >> to populate the IDs, so that scope of socket-id will be [0, total_sock=
-ets),
-> >> scope of thread-id is [0, threads_per_core), and so on. Then with a
-> >> group of socket/cluster/core/thread-id, we determine a CPU.
-> >>
-> >> Suggestion: For the long term, is it necessary now to add similar topo
-> >> info infrastructure for ARM, such as X86CPUTopoInfo, X86CPUTopoIDs,
-> >> x86_topo_ids_from_idx?
-> >>
-> >> Thanks,
-> >> Yanan
-> >> =20
-> > . =20
->=20
+This series adds an extension for a new eMMC device using the
+framework you put in place. It's not perfect but we are getting close.
+The SPI variant would need its own class I suppose and there are more
+cleanups to be done in the set of commands. Please comment !
+
+Thanks,
+
+C.
+
+C=C3=A9dric Le Goater (2):
+  hw/sd: Add eMMC support
+  hw/sd: Fix SET_BLOCK_COUNT command argument
+
+Joel Stanley (3):
+  hw/sd: Add sd_cmd_SEND_TUNING_BLOCK() handler
+  hw/sd: Support boot area in emmc image
+  hw/sd: Subtract bootarea size from blk
+
+Philippe Mathieu-Daud=C3=A9 (9):
+  hw/sd: When card is in wrong state, log which state it is
+  hw/sd: Move proto_name to SDProto structure
+  hw/sd: Introduce sd_cmd_handler type
+  hw/sd: Add sd_cmd_illegal() handler
+  hw/sd: Add sd_cmd_unimplemented() handler
+  hw/sd: Add sd_cmd_GO_IDLE_STATE() handler
+  hw/sd: Add sd_cmd_SEND_OP_CMD() handler
+  hw/sd: Add sd_cmd_ALL_SEND_CID() handler
+  hw/sd: Add sd_cmd_SEND_RELATIVE_ADDR() handler
+
+Sai Pavan Boddu (3):
+  hw/sd: Update CMD1 definition for MMC
+  hw/sd: Add CMD21 tuning sequence
+  hw/sd: Add mmc switch function support
+
+ hw/sd/sdmmc-internal.h |  97 +++++++
+ include/hw/sd/sd.h     |  10 +
+ hw/sd/sd.c             | 585 +++++++++++++++++++++++++++++++++--------
+ hw/sd/sdmmc-internal.c |   2 +-
+ 4 files changed, 583 insertions(+), 111 deletions(-)
+
+--=20
+2.34.1
 
 
