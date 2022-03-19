@@ -2,58 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834C84DE7D8
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 13:22:58 +0100 (CET)
-Received: from localhost ([::1]:49236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C475A4DE7DC
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 13:28:05 +0100 (CET)
+Received: from localhost ([::1]:51884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVY6j-0000TX-Aw
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 08:22:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54344)
+	id 1nVYBg-0002Qy-Gw
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 08:28:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nVY4e-0007Qz-0o
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:20:48 -0400
-Received: from [2001:41c9:1:41f::167] (port=48770
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nVY4b-0007eK-3L
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:20:47 -0400
-Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nVY3o-0005Sl-LF; Sat, 19 Mar 2022 12:20:00 +0000
-Message-ID: <9ec434d1-be49-e81b-b911-5f74027cde97@ilande.co.uk>
-Date: Sat, 19 Mar 2022 12:20:36 +0000
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nVY8k-0001Iv-8n
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:25:03 -0400
+Received: from [2001:638:a01:1096::12] (port=47842 helo=mta02.hs-regensburg.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nVY8g-0007yz-Tx
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:25:01 -0400
+Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
+ [IPv6:2001:638:a01:8013::93])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "E16S03", Issuer "E16S03" (not verified))
+ by mta02.hs-regensburg.de (Postfix) with ESMTPS id 4KLKnq3g9PzxwB;
+ Sat, 19 Mar 2022 13:24:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
+ s=mta02-20211122; t=1647692687;
+ bh=nwLpcamAiW2FWMbPCpZrIlPqn6XFuUYj+VBQY7dpM8o=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To:From;
+ b=cc1iORq3NTkEY99qfBh2wwIXEvAFoKb7A+Zj8nJbOnshy7khXXwkNmYY67Q2Scf4F
+ v/U9XKR8Z/fsk72y7HplMXqFDEyGTHAiOktFfnH+pGGfj2K8XzqEmLorCc9dI30/OE
+ +77a6V9bX1Re24UsWY6yiPqBKHLkp8N44oRgpcpwkcH7pZW67PxXwi3FloiDKFfBmJ
+ G3DQc1D59IRJIXgripy32iLD/JqYzPRKhWtUz/e9by/gzawVvV6x6gGepattI5V5sQ
+ Ab3xu5CZRDwc8SCdY+Jc3JVzCk4Ib5WJ4RSlXokPytWUCNvANsRh+R370NYKlUUSJA
+ mQ5A5E5E3gBiA==
+Received: from [IPV6:2a02:810d:8fc0:44bc::10ea] (2001:638:a01:8013::138) by
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 19 Mar 2022 13:24:47 +0100
+Message-ID: <80929f17-34c6-672f-18bd-946f381ae69f@oth-regensburg.de>
+Date: Sat, 19 Mar 2022 13:24:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
+ Thunderbird/91.7.0
+Subject: Re: [EXT] Re: QEMU+KVM on RISC-V + Hypervisor Extension
 Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
- <20220225080308.1405-18-yangxiaojuan@loongson.cn>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220225080308.1405-18-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Peter Maydell <peter.maydell@linaro.org>, Alistair Francis
+ <alistair23@gmail.com>
+References: <57412635-6b46-823b-14a4-0ee694ace5b8@oth-regensburg.de>
+ <CAKmqyKOZN=hS73TfgHfMtxktZ9kkw4kBBA4-gjGAV8Q0Kw+KHw@mail.gmail.com>
+ <CAAhSdy23Ag=ZqUj82aZ6BNA2SJq54rbCDjeX=1cHtbq7LR8jaQ@mail.gmail.com>
+ <a840f9ac-7315-4381-4c85-719efb413b18@oth-regensburg.de>
+ <CAFEAcA98VQmM_ETpNuhq31Y7xLkS_AjVRsTeCdnqzMZG-3uxBA@mail.gmail.com>
+ <3783dce0-0c5b-824e-2097-bbc3367281a6@oth-regensburg.de>
+ <CAKmqyKNf3qL9k83tRD+=Frdue=+WZNAJ8RxK4UivCjz0Adjbqg@mail.gmail.com>
+ <CAFEAcA8mqdAf58FkxDPtL_UK2feGTEUE+h--_a8pRpSsGUCHYw@mail.gmail.com>
+From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+In-Reply-To: <CAFEAcA8mqdAf58FkxDPtL_UK2feGTEUE+h--_a8pRpSsGUCHYw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH v6 17/29] hw/intc: Add LoongArch ls7a interrupt
- controller support(PCH-PIC)
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+X-Originating-IP: [2001:638:a01:8013::138]
+X-ClientProxiedBy: E16S02.hs-regensburg.de (2001:638:a01:8013::92) To
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:638:a01:1096::12
  (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2001:638:a01:1096::12;
+ envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta02.hs-regensburg.de
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,661 +86,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, Song Gao <gaosong@loongson.cn>
+Cc: Anup Patel <apatel@ventanamicro.com>, Anup Patel <anup@brainfault.org>,
+ Jiangyifei <jiangyifei@huawei.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Stefan Huber <stefan.huber@oth-regensburg.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/02/2022 08:02, Xiaojuan Yang wrote:
 
-> This patch realize the PCH-PIC interrupt controller.
+
+On 17/03/2022 10:45, Peter Maydell wrote:
+> On Wed, 16 Mar 2022 at 22:23, Alistair Francis <alistair23@gmail.com> wrote:
+>> Hmm... This seems like a bug. We shouldn't allow the user to specify a
+>> `-bios` option if using KVM. Would you mind preparing a patch to catch
+>> this?
 > 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   hw/intc/Kconfig                     |   4 +
->   hw/intc/loongarch_pch_pic.c         | 488 ++++++++++++++++++++++++++++
->   hw/intc/meson.build                 |   1 +
->   hw/intc/trace-events                |   9 +
->   hw/loongarch/Kconfig                |   1 +
->   include/hw/intc/loongarch_pch_pic.h |  81 +++++
->   6 files changed, 584 insertions(+)
->   create mode 100644 hw/intc/loongarch_pch_pic.c
->   create mode 100644 include/hw/intc/loongarch_pch_pic.h
+> You don't want to allow the possibility of a bios blob that expects
+> to run in S-mode, the way arm virt can run an EL1 UEFI BIOS ?
+
+Valid point. In any case, if you wish, we could provide a patch for 
+disallowing -bios in combination with -enable-kvm.
+
+Thanks
+   Ralf
+
 > 
-> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-> index d67ce57496..4f7776d8ac 100644
-> --- a/hw/intc/Kconfig
-> +++ b/hw/intc/Kconfig
-> @@ -84,3 +84,7 @@ config M68K_IRQC
->   
->   config LOONGARCH_IPI
->       bool
-> +
-> +config LOONGARCH_PCH_PIC
-> +    bool
-> +    select UNIMP
-> diff --git a/hw/intc/loongarch_pch_pic.c b/hw/intc/loongarch_pch_pic.c
-> new file mode 100644
-> index 0000000000..04b9bdce36
-> --- /dev/null
-> +++ b/hw/intc/loongarch_pch_pic.c
-> @@ -0,0 +1,488 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * QEMU Loongson 7A1000 I/O interrupt controller.
-> + *
-> + * Copyright (C) 2021 Loongson Technology Corporation Limited
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/sysbus.h"
-> +#include "hw/loongarch/loongarch.h"
-> +#include "hw/irq.h"
-> +#include "hw/intc/loongarch_pch_pic.h"
-> +#include "migration/vmstate.h"
-> +#include "trace.h"
-> +
-> +static void pch_pic_update_irq(LoongArchPCHPIC *s, uint32_t mask,
-> +                               int level, int hi)
-> +{
-> +    uint32_t val, irq;
-> +
-> +    if (level == 1) {
-> +        if (hi) {
-> +            val = mask & s->intirr_hi & (~s->int_mask_hi);
-> +            irq = find_first_bit((void *)&val, 32);
-> +            if (irq != 32) {
-> +                s->intisr_hi |= 1ULL << irq;
-> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq + 32]], 1);
-> +            }
-> +        } else {
-> +            val = mask & s->intirr_lo & (~s->int_mask_lo);
-> +            irq = find_first_bit((void *)&val, 32);
-> +            if (irq != 32) {
-> +                s->intisr_lo |= 1ULL << irq;
-> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 1);
-> +            }
-> +        }
-> +    } else {
-> +        if (hi) {
-> +            val = mask & s->intisr_hi;
-> +            irq = find_first_bit((void *)&val, 32);
-> +            if (irq != 32) {
-> +                s->intisr_hi &= ~(0x1ULL << irq);
-> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq + 32]], 0);
-> +            }
-> +        } else {
-> +            val = mask & s->intisr_lo;
-> +            irq = find_first_bit((void *)&val, 32);
-> +            if (irq != 32) {
-> +                s->intisr_lo &= ~(0x1ULL << irq);
-> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 0);
-> +            }
-> +        }
-> +    }
-> +}
-> +
-> +static void pch_pic_irq_handler(void *opaque, int irq, int level)
-> +{
-> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-> +    int hi = 0;
-> +    uint32_t mask;
-> +
-> +    assert(irq < PCH_PIC_IRQ_NUM);
-> +    trace_pch_pic_irq_handler(irq, level);
-> +
-> +    hi = (irq >= 32) ? 1 : 0;
-> +    if (hi) {
-> +        irq = irq - 32;
-> +    }
-> +
-> +    mask = 1ULL << irq;
-> +
-> +    if (hi) {
-> +        if (s->intedge_hi & mask) {
-> +            /* Edge triggered */
-> +            if (level) {
-> +                if ((s->last_intirr_hi & mask) == 0) {
-> +                    s->intirr_hi |= mask;
-> +                }
-> +                s->last_intirr_hi |= mask;
-> +            } else {
-> +                s->last_intirr_hi &= ~mask;
-> +            }
-> +        } else {
-> +            /* Level triggered */
-> +            if (level) {
-> +                s->intirr_hi |= mask;
-> +                s->last_intirr_hi |= mask;
-> +            } else {
-> +                s->intirr_hi &= ~mask;
-> +                s->last_intirr_hi &= ~mask;
-> +            }
-> +        }
-> +    } else {
-> +        if (s->intedge_lo & mask) {
-> +            /* Edge triggered */
-> +            if (level) {
-> +                if ((s->last_intirr_lo & mask) == 0) {
-> +                    s->intirr_lo |= mask;
-> +                }
-> +                s->last_intirr_lo |= mask;
-> +            } else {
-> +                s->last_intirr_lo &= ~mask;
-> +            }
-> +        } else {
-> +            /* Level triggered */
-> +            if (level) {
-> +                s->intirr_lo |= mask;
-> +                s->last_intirr_lo |= mask;
-> +            } else {
-> +                s->intirr_lo &= ~mask;
-> +                s->last_intirr_lo &= ~mask;
-> +            }
-> +
-> +        }
-> +    }
-> +    pch_pic_update_irq(s, mask, level, hi);
-> +}
-> +
-> +static uint64_t loongarch_pch_pic_low_readw(void *opaque, hwaddr addr,
-> +                                            unsigned size)
-> +{
-> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-> +    uint64_t val = 0;
-> +    uint32_t offset = addr & 0xfff;
-> +
-> +    switch (offset) {
-> +    case PCH_PIC_INT_ID_LO:
-> +        val = PCH_PIC_INT_ID_VAL;
-> +        break;
-> +    case PCH_PIC_INT_ID_HI:
-> +        val = PCH_PIC_INT_ID_NUM;
-> +        break;
-> +    case PCH_PIC_INT_MASK_LO:
-> +        val = s->int_mask_lo;
-> +        break;
-> +    case PCH_PIC_INT_MASK_HI:
-> +        val = s->int_mask_hi;
-> +        break;
-> +    case PCH_PIC_INT_EDGE_LO:
-> +        val = s->intedge_lo;
-> +        break;
-> +    case PCH_PIC_INT_EDGE_HI:
-> +        val = s->intedge_hi;
-> +        break;
-> +    case PCH_PIC_HTMSI_EN_LO:
-> +        val = s->htmsi_en_lo;
-> +        break;
-> +    case PCH_PIC_HTMSI_EN_HI:
-> +        val = s->htmsi_en_hi;
-> +        break;
-> +    case PCH_PIC_AUTO_CTRL0_LO:
-> +    case PCH_PIC_AUTO_CTRL0_HI:
-> +    case PCH_PIC_AUTO_CTRL1_LO:
-> +    case PCH_PIC_AUTO_CTRL1_HI:
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +
-> +    trace_loongarch_pch_pic_low_readw(size, (uint32_t)addr, val);
-> +    return val;
-> +}
-> +
-> +static void loongarch_pch_pic_low_writew(void *opaque, hwaddr addr,
-> +                                         uint64_t data, unsigned size)
-> +{
-> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-> +    uint32_t offset, old;
-> +    offset = addr & 0xfff;
-> +
-> +    trace_loongarch_pch_pic_low_writew(size, (uint32_t)addr, data);
-> +
-> +    switch (offset) {
-> +    case PCH_PIC_INT_MASK_LO:
-> +        old = s->int_mask_lo;
-> +        s->int_mask_lo = data;
-> +        if (old & ~data) {
-> +            pch_pic_update_irq(s, (old & ~data), 1, 0);
-> +        } else if (~old & data) {
-> +            pch_pic_update_irq(s, (~old & data), 0, 0);
-> +        }
-> +        break;
-> +    case PCH_PIC_INT_MASK_HI:
-> +        old = s->int_mask_hi;
-> +        s->int_mask_hi = data;
-> +        if (old & ~data) {
-> +            pch_pic_update_irq(s, (old & ~data), 1, 1);
-> +        } else if (~old & data) {
-> +            pch_pic_update_irq(s, (~old & data), 0, 1);
-> +        }
-> +        break;
-> +    case PCH_PIC_INT_EDGE_LO:
-> +        s->intedge_lo = data;
-> +        break;
-> +    case PCH_PIC_INT_EDGE_HI:
-> +        s->intedge_hi = data;
-> +        break;
-> +    case PCH_PIC_INT_CLEAR_LO:
-> +        if (s->intedge_lo & data) {
-> +            s->intirr_lo &= (~data);
-> +            pch_pic_update_irq(s, data, 0, 0);
-> +            s->intisr_lo &= (~data);
-> +        }
-> +        break;
-> +    case PCH_PIC_INT_CLEAR_HI:
-> +        if (s->intedge_hi & data) {
-> +            s->intirr_hi &= (~data);
-> +            pch_pic_update_irq(s, data, 0, 1);
-> +            s->intisr_hi &= (~data);
-> +        }
-> +        break;
-> +    case PCH_PIC_HTMSI_EN_LO:
-> +        s->htmsi_en_lo = data;
-> +        break;
-> +    case PCH_PIC_HTMSI_EN_HI:
-> +        s->htmsi_en_hi = data;
-> +        break;
-> +    case PCH_PIC_AUTO_CTRL0_LO:
-> +    case PCH_PIC_AUTO_CTRL0_HI:
-> +    case PCH_PIC_AUTO_CTRL1_LO:
-> +    case PCH_PIC_AUTO_CTRL1_HI:
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +}
-> +
-> +static uint64_t loongarch_pch_pic_high_readw(void *opaque, hwaddr addr,
-> +                                        unsigned size)
-> +{
-> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-> +    uint64_t val = 0;
-> +    uint32_t offset = addr & 0xfff;
-> +
-> +    switch (offset) {
-> +    case STATUS_LO_START:
-> +        val = s->intisr_lo & (~s->int_mask_lo);
-> +        break;
-> +    case STATUS_HI_START:
-> +        val = s->intisr_hi & (~s->int_mask_hi);
-> +        break;
-> +    case POL_LO_START:
-> +        val = s->int_polarity_lo;
-> +        break;
-> +    case POL_HI_START:
-> +        val = s->int_polarity_hi;
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +
-> +    trace_loongarch_pch_pic_high_readw(size, (uint32_t)addr, val);
-> +    return val;
-> +}
-> +
-> +static void loongarch_pch_pic_high_writew(void *opaque, hwaddr addr,
-> +                                     uint64_t data, unsigned size)
-> +{
-> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-> +    uint32_t offset;
-> +    offset = addr & 0xfff;
-> +
-> +    trace_loongarch_pch_pic_high_writew(size, (uint32_t)addr, data);
-> +
-> +    switch (offset) {
-> +    case STATUS_LO_START:
-> +        s->intisr_lo = data;
-> +        break;
-> +    case STATUS_HI_START:
-> +        s->intisr_hi = data;
-> +        break;
-> +    case POL_LO_START:
-> +        s->int_polarity_lo = data;
-> +        break;
-> +    case POL_HI_START:
-> +        s->int_polarity_hi = data;
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +}
-> +
-> +static uint64_t loongarch_pch_pic_readb(void *opaque, hwaddr addr,
-> +                                        unsigned size)
-> +{
-> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-> +    uint64_t val = 0;
-> +    uint32_t offset = (addr & 0xfff) + PCH_PIC_ROUTE_ENTRY_OFFSET;
-> +    int64_t offset_tmp;
-> +
-> +    switch (offset) {
-> +    case PCH_PIC_HTMSI_VEC_OFFSET ... PCH_PIC_HTMSI_VEC_END:
-> +        offset_tmp = offset - PCH_PIC_HTMSI_VEC_OFFSET;
-> +        if (offset_tmp >= 0 && offset_tmp < 64) {
-> +            val = s->htmsi_vector[offset_tmp];
-> +        }
-> +        break;
-> +    case PCH_PIC_ROUTE_ENTRY_OFFSET ... PCH_PIC_ROUTE_ENTRY_END:
-> +        offset_tmp = offset - PCH_PIC_ROUTE_ENTRY_OFFSET;
-> +        if (offset_tmp >= 0 && offset_tmp < 64) {
-> +            val = s->route_entry[offset_tmp];
-> +        }
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +
-> +    trace_loongarch_pch_pic_readb(size, (uint32_t)addr, val);
-> +    return val;
-> +}
-> +
-> +static void loongarch_pch_pic_writeb(void *opaque, hwaddr addr,
-> +                                     uint64_t data, unsigned size)
-> +{
-> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-> +    int32_t offset_tmp;
-> +    uint32_t offset = (addr & 0xfff) + PCH_PIC_ROUTE_ENTRY_OFFSET;
-> +
-> +    trace_loongarch_pch_pic_writeb(size, (uint32_t)addr, data);
-> +
-> +    switch (offset) {
-> +    case PCH_PIC_HTMSI_VEC_OFFSET ... PCH_PIC_HTMSI_VEC_END:
-> +        offset_tmp = offset - PCH_PIC_HTMSI_VEC_OFFSET;
-> +        if (offset_tmp >= 0 && offset_tmp < 64) {
-> +            s->htmsi_vector[offset_tmp] = (uint8_t)(data & 0xff);
-> +        }
-> +        break;
-> +    case PCH_PIC_ROUTE_ENTRY_OFFSET ... PCH_PIC_ROUTE_ENTRY_END:
-> +        offset_tmp = offset - PCH_PIC_ROUTE_ENTRY_OFFSET;
-> +        if (offset_tmp >= 0 && offset_tmp < 64) {
-> +            s->route_entry[offset_tmp] = (uint8_t)(data & 0xff);
-> +        }
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +}
-> +
-> +static const MemoryRegionOps loongarch_pch_pic_reg32_low_ops = {
-> +    .read = loongarch_pch_pic_low_readw,
-> +    .write = loongarch_pch_pic_low_writew,
-> +    .valid = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 8,
-> +    },
-> +    .impl = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    },
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +};
-> +
-> +static const MemoryRegionOps loongarch_pch_pic_reg32_high_ops = {
-> +    .read = loongarch_pch_pic_high_readw,
-> +    .write = loongarch_pch_pic_high_writew,
-> +    .valid = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 8,
-> +    },
-> +    .impl = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    },
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +};
-> +
-> +static const MemoryRegionOps loongarch_pch_pic_reg8_ops = {
-> +    .read = loongarch_pch_pic_readb,
-> +    .write = loongarch_pch_pic_writeb,
-> +    .valid = {
-> +        .min_access_size = 1,
-> +        .max_access_size = 1,
-> +    },
-> +    .impl = {
-> +        .min_access_size = 1,
-> +        .max_access_size = 1,
-> +    },
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +};
-> +
-> +static void loongarch_pch_pic_reset(DeviceState *d)
-> +{
-> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(d);
-> +    int i;
-> +
-> +    s->int_mask_lo = -1;
-> +    s->int_mask_hi = -1;
-> +    s->htmsi_en_lo = 0x0;
-> +    s->htmsi_en_hi = 0x0;
-> +    s->intedge_lo  = 0x0;
-> +    s->intedge_hi  = 0x0;
-> +    s->intclr_lo   = 0x0;
-> +    s->intclr_hi   = 0x0;
-> +    s->auto_crtl0_lo = 0x0;
-> +    s->auto_crtl0_hi = 0x0;
-> +    s->auto_crtl1_lo = 0x0;
-> +    s->auto_crtl1_hi = 0x0;
-> +    for (i = 0; i < 64; i++) {
-> +        s->route_entry[i] = 0x1;
-> +        s->htmsi_vector[i] = 0x0;
-> +    }
-> +    s->intirr_lo = 0x0;
-> +    s->intirr_hi = 0x0;
-> +    s->intisr_lo = 0x0;
-> +    s->intisr_hi = 0x0;
-> +    s->last_intirr_lo = 0x0;
-> +    s->last_intirr_hi = 0x0;
-> +    s->int_polarity_lo = 0x0;
-> +    s->int_polarity_hi = 0x0;
-> +}
-> +
-> +static void loongarch_pch_pic_init(Object *obj)
-> +{
-> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(obj);
-> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-> +    int i;
-> +
-> +    memory_region_init_io(&s->iomem32_low, obj,
-> +                          &loongarch_pch_pic_reg32_low_ops,
-> +                          s, PCH_PIC_NAME(.reg32_part1), 0x100);
-> +    memory_region_init_io(&s->iomem8, obj, &loongarch_pch_pic_reg8_ops,
-> +                          s, PCH_PIC_NAME(.reg8), 0x2a0);
-> +    memory_region_init_io(&s->iomem32_high, obj,
-> +                          &loongarch_pch_pic_reg32_high_ops,
-> +                          s, PCH_PIC_NAME(.reg32_part2), 0xc60);
-> +    sysbus_init_mmio(sbd, &s->iomem32_low);
-> +    sysbus_init_mmio(sbd, &s->iomem8);
-> +    sysbus_init_mmio(sbd, &s->iomem32_high);
-> +
-> +    for (i = 0; i < PCH_PIC_IRQ_NUM; i++) {
-> +        sysbus_init_irq(sbd, &s->parent_irq[i]);
-> +    }
-> +    qdev_init_gpio_in(DEVICE(obj), pch_pic_irq_handler, PCH_PIC_IRQ_NUM);
-> +}
-> +
-> +static const VMStateDescription vmstate_loongarch_pch_pic = {
-> +    .name = TYPE_LOONGARCH_PCH_PIC,
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT32(int_mask_lo, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(int_mask_hi, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(htmsi_en_lo, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(htmsi_en_hi, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(intedge_lo, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(intedge_hi, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(intclr_lo, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(intclr_hi, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(auto_crtl0_lo, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(auto_crtl0_hi, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(auto_crtl1_lo, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(auto_crtl1_hi, LoongArchPCHPIC),
-> +        VMSTATE_UINT8_ARRAY(route_entry, LoongArchPCHPIC, 64),
-> +        VMSTATE_UINT8_ARRAY(htmsi_vector, LoongArchPCHPIC, 64),
-> +        VMSTATE_UINT32(last_intirr_lo, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(last_intirr_hi, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(intirr_lo, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(intirr_hi, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(intisr_lo, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(intisr_hi, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(int_polarity_lo, LoongArchPCHPIC),
-> +        VMSTATE_UINT32(int_polarity_hi, LoongArchPCHPIC),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static void loongarch_pch_pic_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->reset = loongarch_pch_pic_reset;
-> +    dc->vmsd = &vmstate_loongarch_pch_pic;
-> +}
-> +
-> +static const TypeInfo loongarch_pch_pic_info = {
-> +    .name          = TYPE_LOONGARCH_PCH_PIC,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(LoongArchPCHPIC),
-> +    .instance_init = loongarch_pch_pic_init,
-> +    .class_init    = loongarch_pch_pic_class_init,
-> +};
-> +
-> +static void loongarch_pch_pic_register_types(void)
-> +{
-> +    type_register_static(&loongarch_pch_pic_info);
-> +}
-> +
-> +type_init(loongarch_pch_pic_register_types)
-> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-> index c50a18aab0..0e4343b806 100644
-> --- a/hw/intc/meson.build
-> +++ b/hw/intc/meson.build
-> @@ -62,3 +62,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
->   specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
->   specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
->   specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
-> +specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_PIC', if_true: files('loongarch_pch_pic.c'))
-> diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-> index b9666d965a..9bb6e5f2f9 100644
-> --- a/hw/intc/trace-events
-> +++ b/hw/intc/trace-events
-> @@ -258,3 +258,12 @@ sh_intc_set(int id, int enable) "setting interrupt group %d to %d"
->   # loongarch_ipi.c
->   loongarch_ipi_read(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
->   loongarch_ipi_write(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
-> +
-> +# loongarch_pch_pic.c
-> +pch_pic_irq_handler(int irq, int level) "irq %d level %d"
-> +loongarch_pch_pic_low_readw(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-> +loongarch_pch_pic_low_writew(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-> +loongarch_pch_pic_high_readw(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-> +loongarch_pch_pic_high_writew(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-> +loongarch_pch_pic_readb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-> +loongarch_pch_pic_writeb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-> index f0dad3329a..2df45f7e8f 100644
-> --- a/hw/loongarch/Kconfig
-> +++ b/hw/loongarch/Kconfig
-> @@ -3,3 +3,4 @@ config LOONGARCH_VIRT
->       select PCI
->       select PCI_EXPRESS_GENERIC_BRIDGE
->       select LOONGARCH_IPI
-> +    select LOONGARCH_PCH_PIC
-> diff --git a/include/hw/intc/loongarch_pch_pic.h b/include/hw/intc/loongarch_pch_pic.h
-> new file mode 100644
-> index 0000000000..45207e5291
-> --- /dev/null
-> +++ b/include/hw/intc/loongarch_pch_pic.h
-> @@ -0,0 +1,81 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * LoongArch 7A1000 I/O interrupt controller definitions
-> + *
-> + * Copyright (c) 2021 Loongson Technology Corporation Limited
-> + */
-> +
-> +#define TYPE_LOONGARCH_PCH_PIC "loongarch_pch_pic"
-> +#define PCH_PIC_NAME(name) TYPE_LOONGARCH_PCH_PIC#name
-> +DECLARE_INSTANCE_CHECKER(struct LoongArchPCHPIC, LOONGARCH_PCH_PIC,
-> +                         TYPE_LOONGARCH_PCH_PIC)
-
-Same again here too. In fact, assume this needs to be done for all devices in the 
-series to save me having to repeat the comment for each individual patch.
-
-> +#define PCH_PIC_IRQ_START               0
-> +#define PCH_PIC_IRQ_END                 63
-> +#define PCH_PIC_IRQ_NUM                 64
-> +#define PCH_PIC_INT_ID_VAL              0x7000000UL
-> +#define PCH_PIC_INT_ID_NUM              0x3f0001UL
-> +
-> +#define PCH_PIC_INT_ID_LO               0x00
-> +#define PCH_PIC_INT_ID_HI               0x04
-> +#define PCH_PIC_INT_MASK_LO             0x20
-> +#define PCH_PIC_INT_MASK_HI             0x24
-> +#define PCH_PIC_HTMSI_EN_LO             0x40
-> +#define PCH_PIC_HTMSI_EN_HI             0x44
-> +#define PCH_PIC_INT_EDGE_LO             0x60
-> +#define PCH_PIC_INT_EDGE_HI             0x64
-> +#define PCH_PIC_INT_CLEAR_LO            0x80
-> +#define PCH_PIC_INT_CLEAR_HI            0x84
-> +#define PCH_PIC_AUTO_CTRL0_LO           0xc0
-> +#define PCH_PIC_AUTO_CTRL0_HI           0xc4
-> +#define PCH_PIC_AUTO_CTRL1_LO           0xe0
-> +#define PCH_PIC_AUTO_CTRL1_HI           0xe4
-> +#define PCH_PIC_ROUTE_ENTRY_OFFSET      0x100
-> +#define PCH_PIC_ROUTE_ENTRY_END         0x13f
-> +#define PCH_PIC_HTMSI_VEC_OFFSET        0x200
-> +#define PCH_PIC_HTMSI_VEC_END           0x23f
-> +#define PCH_PIC_INT_STATUS_LO           0x3a0
-> +#define PCH_PIC_INT_STATUS_HI           0x3a4
-> +#define PCH_PIC_INT_POL_LO              0x3e0
-> +#define PCH_PIC_INT_POL_HI              0x3e4
-> +
-> +#define STATUS_LO_START                 0
-> +#define STATUS_HI_START                 0x4
-> +#define POL_LO_START                    0x40
-> +#define POL_HI_START                    0x44
-> +
-> +typedef struct LoongArchPCHPIC {
-> +    SysBusDevice parent_obj;
-> +    qemu_irq parent_irq[64];
-> +    uint32_t int_mask_lo; /*0x020 interrupt mask register*/
-> +    uint32_t int_mask_hi;
-> +    uint32_t htmsi_en_lo; /*0x040 1=msi*/
-> +    uint32_t htmsi_en_hi;
-> +    uint32_t intedge_lo; /*0x060 edge=1 level  =0*/
-> +    uint32_t intedge_hi; /*0x060 edge=1 level  =0*/
-> +    uint32_t intclr_lo; /*0x080 for clean edge int,set 1 clean,set 0 is noused*/
-> +    uint32_t intclr_hi; /*0x080 for clean edge int,set 1 clean,set 0 is noused*/
-> +    uint32_t auto_crtl0_lo; /*0x0c0*/
-> +    uint32_t auto_crtl0_hi; /*0x0c0*/
-> +    uint32_t auto_crtl1_lo; /*0x0e0*/
-> +    uint32_t auto_crtl1_hi; /*0x0e0*/
-> +    uint32_t last_intirr_lo;    /* edge detection */
-> +    uint32_t last_intirr_hi;    /* edge detection */
-> +    uint32_t intirr_lo; /* 0x380 interrupt request register */
-> +    uint32_t intirr_hi; /* 0x380 interrupt request register */
-> +    uint32_t intisr_lo; /* 0x3a0 interrupt service register */
-> +    uint32_t intisr_hi; /* 0x3a0 interrupt service register */
-> +    /*
-> +     * 0x3e0 interrupt level polarity selection
-> +     * register 0 for high level trigger
-> +     */
-> +    uint32_t int_polarity_lo;
-> +    uint32_t int_polarity_hi;
-> +
-> +    uint8_t route_entry[64]; /*0x100 - 0x138*/
-> +    uint8_t htmsi_vector[64]; /*0x200 - 0x238*/
-> +
-> +    MemoryRegion iomem32_low;
-> +    MemoryRegion iomem32_high;
-> +    MemoryRegion iomem8;
-> +} LoongArchPCHPIC;
-
-
-ATB,
-
-Mark.
+> thanks
+> -- PMM
 
