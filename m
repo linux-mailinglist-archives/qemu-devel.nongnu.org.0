@@ -2,88 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7E54DE838
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 14:51:11 +0100 (CET)
-Received: from localhost ([::1]:55548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DECA94DE83D
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 14:58:32 +0100 (CET)
+Received: from localhost ([::1]:60614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVZU5-0005IL-SW
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 09:51:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40074)
+	id 1nVZbD-0000dz-Q4
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 09:58:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nVZST-0004YK-Jd; Sat, 19 Mar 2022 09:49:31 -0400
-Received: from [2a00:1450:4864:20::432] (port=40882
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nVZSR-0004Zd-SD; Sat, 19 Mar 2022 09:49:29 -0400
-Received: by mail-wr1-x432.google.com with SMTP id d7so15116054wrb.7;
- Sat, 19 Mar 2022 06:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=7TeQ1AufWGJ+z0yzP8hFrMlZDsx7qvUHyS9c2S0IFYI=;
- b=ON+ZMaasvHWoNJEp5Y/D1I/gVmfqzz/UXbp1olCnzVjnelItmjXI7d1gJQ0D4W3yqV
- Ztb3ZPgB61Zbr+Iv/3EcAiEckjDc/suLeSHJ4KGa7N2X/0BIwiP56jxjz/uwIqWgxWEU
- fhBPrj510WRTQYA/Kh+mMWDBLcs264KUc59pFbNH1WjOEvkfVDZa9/DDimpT/zAwmmaV
- a8tClrRETsaGWGN/b2+k5YdwZ73Z5eNox1p9dAgr+KE5taTAjnXwkCaCOKEzGXwgTpRM
- 9HqQDljlAZtn28s9591I4qh6xt9joB40xU/H1M5fBv4XAdzPHYBFGIrPFbnTmdiTlHpQ
- sccQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7TeQ1AufWGJ+z0yzP8hFrMlZDsx7qvUHyS9c2S0IFYI=;
- b=GmD+0/QOogYwsJ4k7U08IWjjR1xbV2Caqhz9roHZl9KbzGmyGLudDfWiUI1C8x0SAy
- xeHDdzuMMlmItziQZVDBL/p7IdOSaka99G9J0J3fpu2A4YiHSjjzPDFXtGRCM7eUwxxt
- 1pEw3Ck5D/dTWnT930HUwAQz6SPd2yFmkpSbzprIhqRUAy/toyhus3GZo2fghjRUlDk2
- 2ClrHfLzUmhXyaE2RTT3lqVgpeCvk0zjN6qPEdUsSNKh/tyHrQQKPXuhjL0Z2z02Jeug
- jHkh7LFKNpU1IAM3AEKHDdFRv6JWgcuintl35g8oSKCMI6GkNodi4rCWkTYsczsvJF0w
- f8cA==
-X-Gm-Message-State: AOAM530Fm0gGE82XHfCigKzyf2F0I2t0/D6rKhfxgdqfnr/8LJ6rx0mZ
- 2NYHN/wnM6ZoJePV5OrF4Hw=
-X-Google-Smtp-Source: ABdhPJx8Lf+2RgDqrxNUdb3ByA2ku6ZMfTW+VqymiW53rRU2wUtka/yi6zjWHyhBYS+DeCLWj9rpNA==
-X-Received: by 2002:adf:e885:0:b0:203:f46f:e19f with SMTP id
- d5-20020adfe885000000b00203f46fe19fmr7402934wrm.449.1647697765914; 
- Sat, 19 Mar 2022 06:49:25 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- h16-20020a05600c351000b0038c763e0478sm7279682wmq.3.2022.03.19.06.49.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 19 Mar 2022 06:49:25 -0700 (PDT)
-Message-ID: <42c1f3fa-0cc9-51ff-299e-5ebe1a5f5d32@gmail.com>
-Date: Sat, 19 Mar 2022 14:49:22 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nVZZ6-0007NP-Om; Sat, 19 Mar 2022 09:56:20 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:41148 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nVZZ3-00069m-Bl; Sat, 19 Mar 2022 09:56:20 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-01 (Coremail) with SMTP id qwCowADX3vr04DVivBxTBA--.3549S2;
+ Sat, 19 Mar 2022 21:56:05 +0800 (CST)
+Subject: Re: [PATCH qemu 03/13] target/riscv: rvv: Early exit when vstart >= vl
+To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <164769423983.18409.14760549429989700286-3@git.sr.ht>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <7070b602-b6ab-17ff-b0c0-c95efc1be6bc@iscas.ac.cn>
+Date: Sat, 19 Mar 2022 21:56:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH] gitattributes: Cover Objective-C source files
-Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220317130326.39188-1-philippe.mathieu.daude@gmail.com>
- <62dbdfcf-771e-7c84-ab8b-b02a61112f86@gmail.com>
- <69c6db77-273e-dbeb-e695-e20772d003e2@gmail.com>
- <2ab1e5f9-6a34-6b82-8f43-b7dcf58bc8b1@gmail.com>
- <a37d98d4-5fdf-8a57-af64-eab4daacf49d@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <a37d98d4-5fdf-8a57-af64-eab4daacf49d@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <164769423983.18409.14760549429989700286-3@git.sr.ht>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: qwCowADX3vr04DVivBxTBA--.3549S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Xw1xury5CFyDGF45uF1fCrg_yoWxWFWkpr
+ 17tw4fZ39rGa4fJ34Fga15Ar4FvF4v9r4IvwnIyrs5GrWrJr4DJr4UGw4Ygr1IvFW3XrWa
+ ya17ZFWqganxWaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+ 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
+ bIxvr21lc7CjxVAKzI0EY4vE52x082I5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+ AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+ 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+ IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq
+ 3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIda
+ VFxhVjvjDU0xZFpf9x0JUTOJ5UUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,51 +74,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ eop Chen <eop.chen@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/3/22 04:25, Akihiko Odaki wrote:
-> On 2022/03/19 1:14, Philippe Mathieu-Daudé wrote:
->>> Commit 29cf16db23 says:
->>>> Since commits 0979ed017f0 ("meson: rename .inc.h files to .h.inc")
->>>> and 139c1837db7 ("meson: rename included C source files to .c.inc")
->>>> 'git-diff --function-context' stopped displaying C function context
->>>> correctly.
->>>
->>> So I suspect Git has some knowledge of common file extensions like 
->>> .c, .h and .m although I couldn't find in the source code of Git.
->>
->> 'git-diff --function-context' doesn't work for me without this change.
-> 
-> With some debugging, I found Apple's Git distribution actually carries a 
-> default gitattributes file which annotates *.m.
-> https://github.com/apple-opensource/Git/blob/master/gitattributes
 
-I see, I'm using the Homebrew git. Anyway this change helps non-native
-Darwin users to review these .m files.
+在 2022/3/12 下午2:28, ~eopxd 写道:
+> From: eopXD <eop.chen@sifive.com>
+>
+> According to v-spec (section 5.4):
+> When vstart ≥ vl, there are no body elements, and no elements are
+> updated in any destination vector register group, including that
+> no tail elements are updated with agnostic values.
+>
+> Signed-off-by: eop Chen <eop.chen@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>   target/riscv/insn_trans/trans_rvv.c.inc | 30 +++++++++++++++++++++++++
+>   1 file changed, 30 insertions(+)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 275fded6e4..3ae75dc6ae 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -652,6 +652,7 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
+>   
+>       TCGLabel *over = gen_new_label();
+>       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>       dest = tcg_temp_new_ptr();
+>       mask = tcg_temp_new_ptr();
+> @@ -818,6 +819,7 @@ static bool ldst_stride_trans(uint32_t vd, uint32_t rs1, uint32_t rs2,
+>   
+>       TCGLabel *over = gen_new_label();
+>       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>       dest = tcg_temp_new_ptr();
+>       mask = tcg_temp_new_ptr();
+> @@ -925,6 +927,7 @@ static bool ldst_index_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
+>   
+>       TCGLabel *over = gen_new_label();
+>       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>       dest = tcg_temp_new_ptr();
+>       mask = tcg_temp_new_ptr();
+> @@ -1067,6 +1070,7 @@ static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
+>   
+>       TCGLabel *over = gen_new_label();
+>       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>       dest = tcg_temp_new_ptr();
+>       mask = tcg_temp_new_ptr();
+> @@ -1216,6 +1220,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn *gvec_fn,
+>       }
+>   
+>       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>       if (a->vm && s->vl_eq_vlmax) {
+>           gvec_fn(s->sew, vreg_ofs(s, a->rd),
+> @@ -1263,6 +1268,7 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
+>   
+>       TCGLabel *over = gen_new_label();
+>       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>       dest = tcg_temp_new_ptr();
+>       mask = tcg_temp_new_ptr();
+> @@ -1427,6 +1433,7 @@ static bool opivi_trans(uint32_t vd, uint32_t imm, uint32_t vs2, uint32_t vm,
+>   
+>       TCGLabel *over = gen_new_label();
+>       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>       dest = tcg_temp_new_ptr();
+>       mask = tcg_temp_new_ptr();
+> @@ -1513,6 +1520,7 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
+>           uint32_t data = 0;
+>           TCGLabel *over = gen_new_label();
+>           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>           data = FIELD_DP32(data, VDATA, VM, a->vm);
+>           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> @@ -1593,6 +1601,7 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
+>           uint32_t data = 0;
+>           TCGLabel *over = gen_new_label();
+>           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>           data = FIELD_DP32(data, VDATA, VM, a->vm);
+>           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> @@ -1670,6 +1679,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
+>           };                                                         \
+>           TCGLabel *over = gen_new_label();                          \
+>           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
+>                                                                      \
+>           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
+>           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
+> @@ -1851,6 +1861,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
+>           };                                                         \
+>           TCGLabel *over = gen_new_label();                          \
+>           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
+>                                                                      \
+>           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
+>           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
+> @@ -2061,6 +2072,7 @@ static bool trans_vmv_v_v(DisasContext *s, arg_vmv_v_v *a)
+>               };
+>               TCGLabel *over = gen_new_label();
+>               tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +            tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>               tcg_gen_gvec_2_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, a->rs1),
+>                                  cpu_env, s->cfg_ptr->vlen / 8,
+> @@ -2084,6 +2096,7 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
+>           TCGv s1;
+>           TCGLabel *over = gen_new_label();
+>           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>           s1 = get_gpr(s, a->rs1, EXT_SIGN);
+>   
+> @@ -2139,6 +2152,7 @@ static bool trans_vmv_v_i(DisasContext *s, arg_vmv_v_i *a)
+>               };
+>               TCGLabel *over = gen_new_label();
+>               tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +            tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>               s1 = tcg_constant_i64(simm);
+>               dest = tcg_temp_new_ptr();
+> @@ -2291,6 +2305,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
+>           TCGLabel *over = gen_new_label();                          \
+>           gen_set_rm(s, RISCV_FRM_DYN);                              \
+>           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
+>                                                                      \
+>           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
+>           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
+> @@ -2321,6 +2336,7 @@ static bool opfvf_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
+>   
+>       TCGLabel *over = gen_new_label();
+>       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+>       dest = tcg_temp_new_ptr();
+>       mask = tcg_temp_new_ptr();
+> @@ -2409,6 +2425,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)           \
+>           TCGLabel *over = gen_new_label();                        \
+>           gen_set_rm(s, RISCV_FRM_DYN);                            \
+>           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);        \
+> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);\
 
-> However, it does not annotate *.c or *.h. Apparently there is no "c" 
-> diff pattern and they are handled with the "default" diff pattern which 
-> is actually designed for C. In fact, "c" diff pattern is not present in 
-> the documentation:
-> https://git-scm.com/docs/gitattributes#_defining_an_external_diff_driver
+Maybe miss a space here.
 
-'cpp' is listed. Maybe 'c' is aliased to it?
+Regards,
 
-> In conclusion, *.m should be listed in gitattributes but *.c.inc and 
-> *.h.inc should not be if my understanding is correct.
-
-But then how git-tools can detect .inc are C files? I remember it was
-not working (on Linux hosts) without this change.
-
-> Paolo Bonzini, I found you are the author of commit 29cf16db23. Can you 
-> test the above conclusion?
-> 
-> Regards,
-> Akihiko Odaki
+Weiwei Li
 
 
