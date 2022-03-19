@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29EFB4DE96E
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 17:55:32 +0100 (CET)
-Received: from localhost ([::1]:42314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B784DE96F
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 17:56:42 +0100 (CET)
+Received: from localhost ([::1]:45606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVcMV-0005Dm-8C
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 12:55:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37134)
+	id 1nVcNd-0007Pq-Au
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 12:56:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lw945lw945@yahoo.com>)
- id 1nVbcA-0001ZV-8a
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 12:07:38 -0400
-Received: from sonic307-55.consmr.mail.gq1.yahoo.com ([98.137.64.31]:45378)
+ id 1nVbcL-0001um-BA
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 12:07:49 -0400
+Received: from sonic314-19.consmr.mail.gq1.yahoo.com ([98.137.69.82]:36212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <lw945lw945@yahoo.com>)
- id 1nVbc8-000703-4s
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 12:07:37 -0400
+ id 1nVbcF-00070u-LS
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 12:07:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1647706054; bh=xjBUtVBBtSbSdAVIiSAKafpTOG8Miv0cFuJhpmdl+Mo=;
+ t=1647706062; bh=T5uVP7TLlzzvSRtv+kPrwiop5tZ/UMkAu36xhj7x8pw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=qpCrQC8qu35GF3to6vhrENgcGAEEXHKP3Mpdck46K65enkNaygd6EwbmkWU5L7JrjRt767UTNqnhkUmGjZ6WxC0xtGFsYIQFjZGu4LCdiqQ8JEzZrig8Wp7RgfFV+RW1/aIeaIx7L4haFQcQ4jB29NEtmqwkkWElUY3ELPjSI2/+3YyNDT+656MO+MRHJqXR7JH3JUGqtiX6pA7wuaLfh4bCi8lXvr35X01iSptiy1vhKdROMml0sZTxIQQjcRZ/pBLJsUXb7uqmafS2m2ZIw+zZVi4HSQIItnYBaNrmGDQc+0oZAHNPHc9EX2LUYx04EtKkUQ9FA0g6tQL22dUUTw==
+ b=JjaNw0GKDy3i7URUeRT/YlO8BSaqbbNB6IoZ+nFx4URcsNGBycmFVK4xUouSlfm5ownqLRp473rwiwxB2hIAaRx6LlMqeF1/slzJiYthvezWQUBULlwSkWQE74vY1YbbsjOxfBgp6wcPaBiSzTNaMpMBXdDnpd5IvDSITVwM9uFxozIISXgFv8lfG4e6MMk/96/2dVHItKcaqWcRUtep6OWDNsMlFt9lmu0tRMz7Np69Fsb0WLgWogUel3MAKnxS89TywcIqg091E8kb8yhZQOeffPKXhU5W0FT121ydMpkluM7SZ2BUGWh6qJSKhZucYm+okgDYqNeUI289Np8reQ==
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1647706054; bh=NmiIT/kfwsl43dxVZ28Pn2ZmzzXJgBh8ofz7ZpRtjny=;
+ t=1647706062; bh=6q16FSUaj3Log3Rv6KXbzofc0YYsqEZCSfkQrwM41vi=;
  h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=YMNwUPIRGC5AqBHncK0ecrBpxQTZPfcues/GhlCiGz5H2SP6kR6SwlTkvp5sGIhJw5JOdnC+TYNhn9dEfctnHl/UX8tuDpOHSnRfkyeenm4zvT7xb/rrP/jAmNqdoEpCURQoVHJyPu5JB51lLP1C9ZuUaqnSYRDSwnWILFldN9n1vGBY+8ljFqmn2j6gt4ykm0Z/z70Z3dQJH4cBCILpQtxPEHcIGqQ/aQDZi5nT4xiLeNNg9rDhBtxLZEkzrsRaBf6vHl7bT+zum4/fBPjDv81UxS5HgEiAY6cHfFw+Z4/jNSkS8Kfh8YZzNY9XawBn8P927QxZ2XyKfEko3qK8Pw==
-X-YMail-OSG: LH3UwBEVM1kus093jBFH9H3vaJEaglkyTyWs12M8ZXhSpLHvP28TkdRKI6SmHCx
- KnfeFxtozNS7Pk.XMwwvfVDOFmlUakVsl7DiUftrEObXX6FUkNHIHmi2AKGeugyQOhc1KUt59B3a
- UAWOeCBdH55Im0_3XDXcx6UGNf3uz77PqLiYm3Od84lLKCCLeiGwg5h.eVqJLhPW1uAJunIdKj4t
- 3smGxFGJldgxvGMAaFGoQddHtFcnV7TG_JZlCHPnlaJhEeOxy8e9.dmGeW_Ft8a_a8hZHKmAbIkR
- OAUUx1LQAlzbKwsa9wBBfnjhTZpr9QOuTThgc8nThXzDmnRT1QJSI5Q2dETIAg.m.8rSqm346rKh
- BvIdA3j85spuA7FQycOOJg4FJgU92GETrrxPKfP3Ul1z3fbEeC249Zdr4pknttsJKPF53b_Smf4t
- UPe8HMx19DngtSJZlXAuc.YPbA7XpwJiLmm0KFyzX4URypfQfDc8lIRmjQCJHzBnCyGjCANb6rX1
- QpJlhv0hNND4sCeistC_m188Hy17CSmKydnEinj3sC5IcT54BBGN0ns4pndIjXHkjmRlxrZZRqqN
- _xRtJObmCeYNQiiqaWzhY7IlkFOPDMeHMXsO0b2_KAHQJYwFixIVQPQ3jCaLIU2e.HLBZWvjV8kW
- b7mKLN8Krq1Ow1Bb88xss4oRQHkdx8OK3m1rhiv0LOO01.sPR6gr2jbpB77BIPccQyOK_AKAkSPq
- xPwnUIW8faLwZPHUhZ6qTCS51e1VZW9roovqXr6d00ZA3ZpYYet2Mf9gO3P1sf0pXJi0tNQZrGOC
- fM8Jw7dREZQ1KKKLINX3dc.AD8KPctctbACJuTC_C3JrVZdtS_HZPbnVfZZ8m7dQo5kRztec73oT
- c0Eo.BlqXs3TWMxriHs5Eq86MnZW7VUeVYXGVd0t.uuLJ83K_cI7LqOy5MVXTc9XeCuc3k74KSuB
- BMnNlb4nDdA8sOOb0NTIBDyOvfPOAkV4eeJ1J9uXLlMI47c7ndL31SXv6glmlfNyCziix79YqAHl
- z3j3D1OgziE5GdteLhsvBv1r9TcCRiYofDwP0pxp2tjYdmcO4LbYX7lrB1Tn_G1l_XUbMAKuLC5G
- 2lYQNYaKLIz.Q1usT_Pzhpb2MBP4ipUUUEQDSuy3ARXqiMQZ9bQdiePC_s3olN6unF_quTiv8t40
- t7TNtV8uC4afNaFxTcOGASgVSi8P8FFK_H.jd3InvYvaywdDntefpdh5YdiQNPqt30J_KUoGkNYO
- WHDgt_86EVpOPHtUbmsYayE5EBc6Kg.bgnu6eVYe0c24Bp58JlFGgJ7uww_YVVrUVOYXlxMNRp7K
- hM7O1pKmUBUruvRx3qjY_Q4_N94bRDSQ9Xz29MEM2wIHtiKHfa91XSDSaxvIWGqgFosQUfQEA2gW
- _PLAkTD9sFCm20d6pJft7Fi0Xw5K5xaGGPAMbgiPiyo7BuOszDaL.lYu29IF91VgSLnm7_ROf4TJ
- 2KHDudASxu757UmZctcXehW2UaVxjHv02Im4R7XgTTJBSINv2etf8OJ_ETTJ_scpr5148iStSvQ9
- JyRRypj2fq6DvP6xvLqyalps.xL.ZMvVAwZnIU0gM6BdpDaSap7ApGvzUVuTcimV0nBDoy3u.r.c
- lq3Unz8YYxjEOU7ft3.ZjvA0FoawEoxq_hIc9nu.cJlJRmH9x3eNlT.2P.WGOwUMoSH7lakkJp_G
- lwjJ7gZtEXkEP8R_xJujDTbKD6FXklPRVYqLHVJV1guA2ONDXht9C7Jfsfw_PVL1w2C0NMnF2C4p
- a1ItOCTkULilyNpBAtJpAYDWj44a3j8bxvWcrE_iI79jlnkHhsg25qzomtJvZnx2aCH04DmK_rAh
- qIrUx5zp98CMgIraX6tc6s1Q1TK7uC5WafO_8fxB01HEZAqQLBOmf567hckblQ_180TgyCP3Ejb5
- OlZEhuPPb9wB3ZYGAqMJtR4ZwibhIDNgdTl3py6Ri4mWVUMwaG5TSlxFyN4rQnKnARFJtT3a6sYx
- lYd8PmEOZ9VMOKoASAZKgSUWPbvPzjo52H6mKqQOV37QbwVNRxgWsSBl_d3CJf2yLvOt0nlH0zaL
- jqXVCDOEAl0uqyWkhzwu075PUXyc3KDlJ7qrg8YDkEh.V8I4Sl_Ykm01KzOt4EmoMihLkPBpRoWv
- sVaRekIT7sSNPLVRu04rsyihd5ah90SttBRty9TWzZRu15QQ6Jde4GB7Q8F298sNprhuVGCCTlIg
- qcq.FPj.tS7D.wnPqYfU7OXqGyh1x1hQ6L3xtgUMkXdBr1xiKT5Cl07_dRHEXTFEErSE-
+ b=P4XZ0ygw2LrW4b0fgcv89hixwTCcIOTaDNswVonWLx2xrKLqFfx1fEaCEIr2+iP5KG1fl1Sejew+ims/d3lQmyXEl0RaVWlJVcfl375pLLuph77iHo0GUykQQD2SSVJNHb613ARDHOTCNLuQwm5uy4SlM6I69yZtcmDcOoiNSoa+cIg6uHhzIpwCmCfPa9k4PgSNxNRXsLMFZ1iAatim/VJE+YBls/ET+be2yYrkEVsOZs59x8iQcIwMNoEIbgZWy3BeVvw0ID8UAII4PYomd8UBtIkdcS8w08shxH1Uix5PhL8T6l8VuiCWp48+uip9vMfV8mVgrbV1ed3dRE45xA==
+X-YMail-OSG: e5OxzjUVM1khfl.O8S6qhJ1HlHeX6KenZw7VupBUPE7QMnUkNmlR2mVGF6TjtQO
+ Jx6NYDSCXATcL7C1JFAC2KISAb8v97qQSgKhzyHkCbfWOdtHKuF8HGrj9THffTjveZwxQF3kaYde
+ 0K9V0r.IWuY.9TBurel2yi_.xPhylgPfqyicZsiFCo03aP09qV_Od96TiC7k3W15U8s8ntLQKe8d
+ BFdzAaiqZok1WIscUkMqNZwpS_9kXyRNL_Zamp73dn.8qVIf9dntZwy7Hp5dsSgFPT6dMQpfv9DH
+ gOZElx9CIlBcM7hJUmA5mI0ts1hEU.pT.mDIswBad03jchyYEsgzSCLcLHT4r3uQ3Q66eMECGt04
+ DO2LX6w4x4qfV4OxF2KJAdQZfl.K4c_ccxtOLDW59XDwIdJyfh0dKVcFyG_halIwe4QlXyuWfMA4
+ LosVQmct5lKDi2BX8u.PEdWXa3V.XiducZX58UUu58nrUDXHqCpBnwgufk1v8d3LA4.Vv6HlljGz
+ Wurx5UIGF1LmVZhzcYhrnb1J8HoniX1u88ImPBOiU9h9dN5tbo9_G..nmFVoMQjoF.xSDGGTHSmn
+ K_uLhnPKGUSh2BkD2rVD9Cs0n4eoSoznGY7Blu.Gnz2rZFe29Jhh9n2ox6w.NxWoxSDiEZrkvWWi
+ 3hisbMN_HADm4RfJsGPJo_vU1SDXe5PmTB.lx1WNydcqWbpBFJsfaznjkxQ7QWsWaXs7neFf3hhu
+ .dp2aEvn1JaG_D0GSzNSuMrDi1iBBEDqch0RiLjlZ4VbHZlMv5GO_iZgVeQRGPYZOiU4NToEp_ju
+ g7FPe2OsBl8kjSEFOARtK7BD45pjQivLIjeelUFVdyyMztM_qeK1eJOOL9w9Ll.wZzGsOLHTPHUY
+ hvdNW_DK7Un5__9MBJ4HIRTQa0jqimfbBC4y2VIoBgzs_LXFm3k8azHc3GBaI8bP4BZaG0e6lEiJ
+ nZuD4IqphHIH3iy9q2V1F6gItMKJh894.u_FOkrlOqNj7.y3Pps.16AOAGAZgQK5Zw6NP8qjy6ob
+ bbAEjfAtlzwhMLijHUn7myor_s8JfrMaMQYuFDkzZYAa5at_u4J9C38iChdzafZHbsUHuivD7K8Q
+ ku_TrnWY3eY8TGaxoWHDcxzuzFMyq4jdpFySOOXesd31fzVdV_uQhmO4gG6EpXYSPUK_ej4N_4H8
+ N.sdF2a15ze3RnqtdEmEjlWt3hT_e7HkgvKZIRjBP53PZ_JAFNwj6s.sY70h07lqDPxqeQhyVB8W
+ 0me6x2PaDCEdKveMtml8etJ0tx32gd1XxTzVgaAwVFOLOVKHyZE.6v3kBfG7hgqdanOfLBmQc7aY
+ T5Pchi72aYrhz6Ntyc_omw2OmKk9n00.w2ROyzTVDPfhWr1z5HUPkuH6S2N8QR3i5azpqsek2jCU
+ cJltbIZag06R60FFdnib_u2ttIDcUDvPQpeqyB5mUrd5pxdOl3RHkGkDkBpGVb6fxVAQ9.zoYTAy
+ 6U5wHXMaVclH0rfyhz58gs5spkXVHtfKmp14zxUMokY4GJaKDXYy24Dh04YCwok0nle6kQgZrvpX
+ eWeb2ipTORDJE2v_3fJhS65BAmqCbefsV8ixdE06YDND8vQenbn1746x.9MPSqLQ0I0S13sgrrYt
+ Yt9cmrduo7w0IzrE27T2NyJtJwOKrSNuStae0JW8iFJQncaKM0BJ8EtSHhkv9aQXAN6d8jtiX7AI
+ fH51Dx9CcL0WUE4r9VokugFwcmMATF9H0wXx9ChjJexDgQshaesbIOq8sDwQjrNMMN2Yv8UOmJJX
+ kCWYqVeQXWJhqAsl4jHDdYFvHzdtbzsBO67eHUugE49pFi0x0E2AsLm5bqOVDjdc2yfbf.8Wjn_6
+ Yy1JPifixczU2CjRfqdYd8XPDTIKbhD4ApADjdCfXViQtc8J9RM3ocDa1liI2SPiuoLd2YMYsZic
+ gWkS1Q5xl0ARJJuBnSrrs386SgHOT_TtOd6uv6jeM5mJFvX9Yf58EgePTVhjjIzAtaT2ZARRtvAl
+ hbcbYLF3DtMNRBySyvA1gwG51N9CQmGHj0c6Qj5IvJtzpQETGbU34lbJX72m4ZCuuwfVCZAsL6Pz
+ E0hrF57rtV.xWiJK8ueKqSLmeZlPBB3td2cmT4r5rOmY.iFrEY2gyxIT_BDMj5wv3X6yaw9F8NE5
+ nHTRHdCQZ.7GySsk5jjVpFszcR_60SFn9VadJJ_ua.iMWWaSwkkBT_RlGlXq9xMSawKIc9oMB5G2
+ 9sqpz8ONtnO3fXHI.MsRhqyHmAr9AoJDge4BCHnkXZCngZbUDTiYXbxYraXNSjY0q8rHKhdQ5
 X-Sonic-MF: <lw945lw945@yahoo.com>
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic307.consmr.mail.gq1.yahoo.com with HTTP; Sat, 19 Mar 2022 16:07:34 +0000
+ sonic314.consmr.mail.gq1.yahoo.com with HTTP; Sat, 19 Mar 2022 16:07:42 +0000
 Received: by hermes--canary-production-bf1-665cdb9985-zm65g (VZM Hermes SMTP
  Server) with ESMTPA ID bd8d586da7e6832dcd6ba8030d16f89c; 
- Sat, 19 Mar 2022 16:07:28 +0000 (UTC)
+ Sat, 19 Mar 2022 16:07:39 +0000 (UTC)
 From: Wei Li <lw945lw945@yahoo.com>
 To: pbonzini@redhat.com,
 	richard.henderson@linaro.org,
 	eduardo@habkost.net
 Cc: qemu-devel@nongnu.org,
 	Wei Li <lw945lw945@yahoo.com>
-Subject: [PATCH 1/2] fix cmpxchg instruction
-Date: Sun, 20 Mar 2022 00:06:57 +0800
-Message-Id: <20220319160658.336882-2-lw945lw945@yahoo.com>
+Subject: [PATCH 2/2] fix lock cmpxchg instruction
+Date: Sun, 20 Mar 2022 00:06:58 +0800
+Message-Id: <20220319160658.336882-3-lw945lw945@yahoo.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220319160658.336882-1-lw945lw945@yahoo.com>
 References: <20220319160658.336882-1-lw945lw945@yahoo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=98.137.64.31; envelope-from=lw945lw945@yahoo.com;
- helo=sonic307-55.consmr.mail.gq1.yahoo.com
+Received-SPF: pass client-ip=98.137.69.82; envelope-from=lw945lw945@yahoo.com;
+ helo=sonic314-19.consmr.mail.gq1.yahoo.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -104,87 +104,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need a branch to determine when the instruction can touch the
-accumulator. But there is a branch provided by movcond. So it is
-redundant to use both branch and movcond. Just use one branch to
-solve the problem according to intel manual.
+For lock cmpxchg, the situation is more complex. After the instruction
+is completed by tcg_gen_atomic_cmpxchg_tl, it needs a branch to judge
+if oldv == cmpv or not. The instruction only touches accumulator when
+oldv != cmpv.
 
 Signed-off-by: Wei Li <lw945lw945@yahoo.com>
 ---
- target/i386/tcg/translate.c | 27 +++++++++++++++++++--------
- 1 file changed, 19 insertions(+), 8 deletions(-)
+ target/i386/tcg/translate.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 2a94d33742..05be8d08e6 100644
+index 05be8d08e6..4fd9c03cb7 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -5339,15 +5339,17 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     case 0x1b0:
-     case 0x1b1: /* cmpxchg Ev, Gv */
-         {
--            TCGv oldv, newv, cmpv;
-+            TCGLabel *label1, *label2;
-+            TCGv oldv, newv, cmpv, a0;
- 
-             ot = mo_b_d(b, dflag);
-             modrm = x86_ldub_code(env, s);
-             reg = ((modrm >> 3) & 7) | REX_R(s);
-             mod = (modrm >> 6) & 3;
--            oldv = tcg_temp_new();
--            newv = tcg_temp_new();
--            cmpv = tcg_temp_new();
-+            oldv = tcg_temp_local_new();
-+            newv = tcg_temp_local_new();
-+            cmpv = tcg_temp_local_new();
-+            a0 = tcg_temp_local_new();
-             gen_op_mov_v_reg(s, ot, newv, reg);
-             tcg_gen_mov_tl(cmpv, cpu_regs[R_EAX]);
- 
-@@ -5365,24 +5367,32 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-                     gen_op_mov_v_reg(s, ot, oldv, rm);
-                 } else {
-                     gen_lea_modrm(env, s, modrm);
--                    gen_op_ld_v(s, ot, oldv, s->A0);
-+                    tcg_gen_mov_tl(a0, s->A0);
-+                    gen_op_ld_v(s, ot, oldv, a0);
-                     rm = 0; /* avoid warning */
-                 }
+@@ -5360,7 +5360,12 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                 gen_lea_modrm(env, s, modrm);
+                 tcg_gen_atomic_cmpxchg_tl(oldv, s->A0, cmpv, newv,
+                                           s->mem_index, ot | MO_LE);
 +                label1 = gen_new_label();
-                 gen_extu(ot, oldv);
-                 gen_extu(ot, cmpv);
--                /* store value = (old == cmp ? new : old);  */
--                tcg_gen_movcond_tl(TCG_COND_EQ, newv, oldv, cmpv, newv, oldv);
++                gen_extu(ot, oldv);
++                gen_extu(ot, cmpv);
 +                tcg_gen_brcond_tl(TCG_COND_EQ, oldv, cmpv, label1);
-+                label2 = gen_new_label();
+                 gen_op_mov_reg_v(s, ot, R_EAX, oldv);
++                gen_set_label(label1);
+             } else {
                  if (mod == 3) {
-                     gen_op_mov_reg_v(s, ot, R_EAX, oldv);
-+                    tcg_gen_br(label2);
-+                    gen_set_label(label1);
-                     gen_op_mov_reg_v(s, ot, rm, newv);
-                 } else {
-                     /* Perform an unconditional store cycle like physical cpu;
-                        must be before changing accumulator to ensure
-                        idempotency if the store faults and the instruction
-                        is restarted */
--                    gen_op_st_v(s, ot, newv, s->A0);
-+                    gen_op_st_v(s, ot, oldv, a0);
-                     gen_op_mov_reg_v(s, ot, R_EAX, oldv);
-+                    tcg_gen_br(label2);
-+                    gen_set_label(label1);
-+                    gen_op_st_v(s, ot, newv, a0);
-                 }
-+                gen_set_label(label2);
-             }
-             tcg_gen_mov_tl(cpu_cc_src, oldv);
-             tcg_gen_mov_tl(s->cc_srcT, cmpv);
-@@ -5391,6 +5401,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-             tcg_temp_free(oldv);
-             tcg_temp_free(newv);
-             tcg_temp_free(cmpv);
-+            tcg_temp_free(a0);
-         }
-         break;
-     case 0x1c7: /* cmpxchg8b */
+                     rm = (modrm & 7) | REX_B(s);
 -- 
 2.30.2
 
