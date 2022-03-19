@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECA94DE83D
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 14:58:32 +0100 (CET)
-Received: from localhost ([::1]:60614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A684DE83C
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 14:58:26 +0100 (CET)
+Received: from localhost ([::1]:60108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVZbD-0000dz-Q4
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 09:58:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41786)
+	id 1nVZb6-0000IW-MO
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 09:58:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nVZZ6-0007NP-Om; Sat, 19 Mar 2022 09:56:20 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:41148 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nVZZ3-00069m-Bl; Sat, 19 Mar 2022 09:56:20 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowADX3vr04DVivBxTBA--.3549S2;
- Sat, 19 Mar 2022 21:56:05 +0800 (CST)
-Subject: Re: [PATCH qemu 03/13] target/riscv: rvv: Early exit when vstart >= vl
-To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <164769423983.18409.14760549429989700286-3@git.sr.ht>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <7070b602-b6ab-17ff-b0c0-c95efc1be6bc@iscas.ac.cn>
-Date: Sat, 19 Mar 2022 21:56:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nVZZ0-0007GM-MQ
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 09:56:14 -0400
+Received: from [2a00:1450:4864:20::434] (port=43737
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nVZYy-0006BC-TW
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 09:56:14 -0400
+Received: by mail-wr1-x434.google.com with SMTP id a1so13760742wrh.10
+ for <qemu-devel@nongnu.org>; Sat, 19 Mar 2022 06:56:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=c064RfI8l1te+8IfiqPeqYiqDxYsHx9Iux5okmRdy20=;
+ b=nPDsGNFqYSwHJyW+JX826MMUa7/9JBMGLhQ+eoRreRNWWylsADzYaqok4YEvw5P96O
+ YA6nLfpUK0g4g8cVX/oE6tlEXjHOP0Ve2K92M2NgFT4FRHoFH994XJ1I94z3bFMYyWIu
+ Ej/DmXaXWLyE5A0Cg17puQIMCl6CmXeuBj437x8sI0cvCfYLDaHUcN3UqzeV3V0L5KZ1
+ KYokwwBhoWx3evWnzW8A6nMohz2qMsFWUTAVarBWn7gUxyOkkIKNb6mgQIb7gU7ODDz4
+ ht9fztKqe1cXZC0JWUaCYXr90Q9p6dNhsYftSLhDVMIOSfiHQkQhGJ5iMHZJ3j9nmuo6
+ VdAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=c064RfI8l1te+8IfiqPeqYiqDxYsHx9Iux5okmRdy20=;
+ b=3iwvuIufyba/OYxsVs04mRbLcmbEm56BA9H+MXFHXTH3IHjAFH4OhcD8MXDbAvcqZ5
+ IcRBYWmR4az06Po6gHmounrBpmtkE6ABe9mPQQ5RLV/8w8fsqKgTvG3u6C7h1BRu8BB5
+ jMQTDF/wA6K+ltLC1vlXJndscBLSYAPAzXrrbS9yCWUmxzRERCzdD1eeiL8oJVQGUB8T
+ Lm6yKtuEfRWcZ14VTYfQiwIeASs6ba4nJbAY7EsyuqfAORfliFbfj8dJmZwy3WlvXjo8
+ bh/W7xxmToAVDsu2B77nf1Wq6FPKtmMRfMC97hXkchBjGMW8UdLC7jMJRXuqxPlskxv8
+ g/ng==
+X-Gm-Message-State: AOAM532uL+djSFwT4mvJVYPSRnIN2paGFRZn+ig/1JK882bNpgWZtKaT
+ vtKGPD2XNFx9WEs0Yk893X4BmMVE2F4=
+X-Google-Smtp-Source: ABdhPJzY4H2w1Dv42X1lGDmevnybkTS9mGBajkV1BUjo4TFS7BBCbPCwYKXdIXI70OQTAfctMiUdAA==
+X-Received: by 2002:a5d:4245:0:b0:203:dc49:2604 with SMTP id
+ s5-20020a5d4245000000b00203dc492604mr12189785wrr.32.1647698170606; 
+ Sat, 19 Mar 2022 06:56:10 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ 14-20020a056000154e00b00203f8adde0csm4051289wry.32.2022.03.19.06.56.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 19 Mar 2022 06:56:10 -0700 (PDT)
+Message-ID: <342e06e6-8d38-d068-5686-eb13c70da93b@gmail.com>
+Date: Sat, 19 Mar 2022 14:56:08 +0100
 MIME-Version: 1.0
-In-Reply-To: <164769423983.18409.14760549429989700286-3@git.sr.ht>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [RFC PATCH-for-7.0 v4 0/2] cocoa: run qemu_init in the main thread
 Content-Language: en-US
-X-CM-TRANSID: qwCowADX3vr04DVivBxTBA--.3549S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Xw1xury5CFyDGF45uF1fCrg_yoWxWFWkpr
- 17tw4fZ39rGa4fJ34Fga15Ar4FvF4v9r4IvwnIyrs5GrWrJr4DJr4UGw4Ygr1IvFW3XrWa
- ya17ZFWqganxWaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21lc7CjxVAKzI0EY4vE52x082I5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq
- 3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIda
- VFxhVjvjDU0xZFpf9x0JUTOJ5UUUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
+References: <20220317125534.38706-1-philippe.mathieu.daude@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220317125534.38706-1-philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,169 +94,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- eop Chen <eop.chen@sifive.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Akihiko, Paolo, Peter.
 
-在 2022/3/12 下午2:28, ~eopxd 写道:
-> From: eopXD <eop.chen@sifive.com>
->
-> According to v-spec (section 5.4):
-> When vstart ≥ vl, there are no body elements, and no elements are
-> updated in any destination vector register group, including that
-> no tail elements are updated with agnostic values.
->
-> Signed-off-by: eop Chen <eop.chen@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> ---
->   target/riscv/insn_trans/trans_rvv.c.inc | 30 +++++++++++++++++++++++++
->   1 file changed, 30 insertions(+)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 275fded6e4..3ae75dc6ae 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -652,6 +652,7 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -818,6 +819,7 @@ static bool ldst_stride_trans(uint32_t vd, uint32_t rs1, uint32_t rs2,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -925,6 +927,7 @@ static bool ldst_index_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -1067,6 +1070,7 @@ static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -1216,6 +1220,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn *gvec_fn,
->       }
->   
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       if (a->vm && s->vl_eq_vlmax) {
->           gvec_fn(s->sew, vreg_ofs(s, a->rd),
-> @@ -1263,6 +1268,7 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -1427,6 +1433,7 @@ static bool opivi_trans(uint32_t vd, uint32_t imm, uint32_t vs2, uint32_t vm,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -1513,6 +1520,7 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
->           uint32_t data = 0;
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> @@ -1593,6 +1601,7 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
->           uint32_t data = 0;
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> @@ -1670,6 +1679,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
->           };                                                         \
->           TCGLabel *over = gen_new_label();                          \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> @@ -1851,6 +1861,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
->           };                                                         \
->           TCGLabel *over = gen_new_label();                          \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> @@ -2061,6 +2072,7 @@ static bool trans_vmv_v_v(DisasContext *s, arg_vmv_v_v *a)
->               };
->               TCGLabel *over = gen_new_label();
->               tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +            tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->               tcg_gen_gvec_2_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, a->rs1),
->                                  cpu_env, s->cfg_ptr->vlen / 8,
-> @@ -2084,6 +2096,7 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
->           TCGv s1;
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->           s1 = get_gpr(s, a->rs1, EXT_SIGN);
->   
-> @@ -2139,6 +2152,7 @@ static bool trans_vmv_v_i(DisasContext *s, arg_vmv_v_i *a)
->               };
->               TCGLabel *over = gen_new_label();
->               tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +            tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->               s1 = tcg_constant_i64(simm);
->               dest = tcg_temp_new_ptr();
-> @@ -2291,6 +2305,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
->           TCGLabel *over = gen_new_label();                          \
->           gen_set_rm(s, RISCV_FRM_DYN);                              \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> @@ -2321,6 +2336,7 @@ static bool opfvf_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -2409,6 +2425,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)           \
->           TCGLabel *over = gen_new_label();                        \
->           gen_set_rm(s, RISCV_FRM_DYN);                            \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);        \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);\
+On 17/3/22 13:55, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> Posting v4 in case someone want to iterate.
+> 
+> Pending issue raised by Akihiko Odaki:
+> 
+> * this actually breaks the "runas" option with ui/cocoa.
+> 
+>    [+NSApplication sharedApplication] calls issetugid() to see if
+>    setgid() or setuid() is called before and calls exit() if it evaluates
+>    true. It does not evaluate true without this patch since setgid() and
+>    setuid() are called after [+NSApplication sharedApplication]. This
+>    patch, however, changes the order and triggers the check.
+> 
+>    There are two options to solve the problem:
+>    1. Move setgid and setuid calls after [+NSApplication
+>    sharedApplication] to let NSApplication initialize as the original
+>    user.
 
-Maybe miss a space here.
+Akihiko, could you send a patch?
 
-Regards,
+>    2. Do: [[NSUserDefaults standardUserDefaults] setBool:YES
+>    forKey:@"_NSAppAllowsNonTrustedUGID"]
+> 
+>    Option 2 would be preferred in terms of practicality since nobody
+>    would want to initialize NSApplication as the original user (usually
+>    superuser). However, _NSAppAllowsNonTrustedUGID is not documented by
+>    Apple.
 
-Weiwei Li
+What are your views on this problem for 7.0-rc1? Keep modifying cocoa
+UI? Disable block layer assertions? Only disable them for Darwin?
+
+> * Oudated comment in main():
+> 
+>   1970  /*
+>   1971   * Create the menu entries which depend on QEMU state (for consoles
+>   1972   * and removeable devices). These make calls back into QEMU functions,
+>   1973   * which is OK because at this point we know that the second thread
+>   1974   * holds the iothread lock and is synchronously waiting for us to
+>   1975   * finish.
+>   1976   */
+> 
+> (https://marc.info/?l=qemu-devel&m=164752136410805)
+> 
+> Since v3:
+> - Move qemu_event_init before cbowner alloc
+> - Reduce main_thread scope to applicationDidFinishLaunching
+> - Updated updateUIInfo() comment
+>    (s/cocoa_display_init/applicationDidFinishLaunching)
+> 
+> Since v2:
+> - Extracted code movement in preliminary patch
+> 
+> v3: https://lore.kernel.org/qemu-devel/20220317115644.37276-1-philippe.mathieu.daude@gmail.com/
+> v2: https://lore.kernel.org/qemu-devel/20220316160300.85438-1-philippe.mathieu.daude@gmail.com/
+> v1: https://lore.kernel.org/qemu-devel/20220307151004.578069-1-pbonzini@redhat.com/
+> 
+> Paolo Bonzini (1):
+>    ui/cocoa: run qemu_init in the main thread
+> 
+> Philippe Mathieu-Daudé (1):
+>    ui/cocoa: Code movement
+> 
+>   softmmu/main.c |  12 ++--
+>   ui/cocoa.m     | 161 ++++++++++++++++++++++---------------------------
+>   2 files changed, 79 insertions(+), 94 deletions(-)
+> 
 
 
