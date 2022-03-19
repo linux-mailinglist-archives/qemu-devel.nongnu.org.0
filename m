@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2634DE824
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 14:24:55 +0100 (CET)
-Received: from localhost ([::1]:49510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7E54DE838
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 14:51:11 +0100 (CET)
+Received: from localhost ([::1]:55548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVZ4g-0007xX-In
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 09:24:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33426)
+	id 1nVZU5-0005IL-SW
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 09:51:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1nVZ2f-0006s5-BC; Sat, 19 Mar 2022 09:22:49 -0400
-Received: from [2607:f8b0:4864:20::a33] (port=36832
- helo=mail-vk1-xa33.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nVZST-0004YK-Jd; Sat, 19 Mar 2022 09:49:31 -0400
+Received: from [2a00:1450:4864:20::432] (port=40882
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1nVZ2d-00006S-Fm; Sat, 19 Mar 2022 09:22:49 -0400
-Received: by mail-vk1-xa33.google.com with SMTP id w128so5802224vkd.3;
- Sat, 19 Mar 2022 06:22:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nVZSR-0004Zd-SD; Sat, 19 Mar 2022 09:49:29 -0400
+Received: by mail-wr1-x432.google.com with SMTP id d7so15116054wrb.7;
+ Sat, 19 Mar 2022 06:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Hc/5SHR/MXdi5pnpdzgjrclmjCTPyhKIA7vJMAq7l94=;
- b=RRERX19YcWotS2Gzw/tzvkgnqdKb1bL5de5V+mg93PBpnujfA02S/l1PywIVhZSVFx
- BiP+znny8ECUHsfHxYLdjHWpe/o7S6DuP8S1sn/CLaDhKZ5MIukhwmXPnqNpD8cIA+Kn
- bnz4h9dDTkLT7stZGYIUqZove0h2rtTxEiRAARkuWRGqpJweeDzf1q1C7wGPUzdoncqA
- b3ympdkhgzYuSj6V5lreB7ITc1x+npReZWfi5zE51AFrfwzfZhsHk2eFoNwIyVNPioJ0
- ACuelxD2OvI8ssgz/XhqBFKGoz0rCh4KSNU+AZjLg9b1ATHNdNAAQDvI+YEKTtG/oblU
- XyJQ==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=7TeQ1AufWGJ+z0yzP8hFrMlZDsx7qvUHyS9c2S0IFYI=;
+ b=ON+ZMaasvHWoNJEp5Y/D1I/gVmfqzz/UXbp1olCnzVjnelItmjXI7d1gJQ0D4W3yqV
+ Ztb3ZPgB61Zbr+Iv/3EcAiEckjDc/suLeSHJ4KGa7N2X/0BIwiP56jxjz/uwIqWgxWEU
+ fhBPrj510WRTQYA/Kh+mMWDBLcs264KUc59pFbNH1WjOEvkfVDZa9/DDimpT/zAwmmaV
+ a8tClrRETsaGWGN/b2+k5YdwZ73Z5eNox1p9dAgr+KE5taTAjnXwkCaCOKEzGXwgTpRM
+ 9HqQDljlAZtn28s9591I4qh6xt9joB40xU/H1M5fBv4XAdzPHYBFGIrPFbnTmdiTlHpQ
+ sccQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Hc/5SHR/MXdi5pnpdzgjrclmjCTPyhKIA7vJMAq7l94=;
- b=j75MP/6t7wgoJTZJim5hRQIMfG+56xuLKHTiEnlIAninGogb+pv5XruskRCaijQ8wG
- 1GtUspU69OWdNVgJydknm0d2YfPSnq/h8SnEMjP3VYPMO4k71mMSdl5MfcLeax5BjydP
- m5S+7Rr4M5SBCdS9YdmUz1/VixKOKwg/4DNolrFW+cGHFmbwSqzabz7vz6qTbJAHU/UM
- g23+xYXQo2XKW6yW4ZbClHh38s/dariysnGJVAeUQi1PD5MOivV09NaQVb9GqDsc2Vmf
- ySNk7FndJrlHCbdnZ4BkoKAPrNqAX39MUa8nr8oaHg16KAhmQfo/tY4k9Qo2PxMbc5qZ
- 3dxQ==
-X-Gm-Message-State: AOAM532OczBfT/bMqtaqoLbaVK8y7SNuPJOkNpVmV8C90WUOjyXYlE3s
- A7b4yUqV2zB8pbA9ElD29hDdRkkYkNy9S3BAb6c=
-X-Google-Smtp-Source: ABdhPJwL16I4Zr8C/V7ZJSrDxLNdpgfkgCn9CaA+eTSH/alEQ9NE/LNd3F/ss06T6TYr/4ZTuKfqg7SpStdyrP6gx74=
-X-Received: by 2002:a05:6122:91d:b0:33e:8751:834c with SMTP id
- j29-20020a056122091d00b0033e8751834cmr4551778vka.11.1647696166140; Sat, 19
- Mar 2022 06:22:46 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7TeQ1AufWGJ+z0yzP8hFrMlZDsx7qvUHyS9c2S0IFYI=;
+ b=GmD+0/QOogYwsJ4k7U08IWjjR1xbV2Caqhz9roHZl9KbzGmyGLudDfWiUI1C8x0SAy
+ xeHDdzuMMlmItziQZVDBL/p7IdOSaka99G9J0J3fpu2A4YiHSjjzPDFXtGRCM7eUwxxt
+ 1pEw3Ck5D/dTWnT930HUwAQz6SPd2yFmkpSbzprIhqRUAy/toyhus3GZo2fghjRUlDk2
+ 2ClrHfLzUmhXyaE2RTT3lqVgpeCvk0zjN6qPEdUsSNKh/tyHrQQKPXuhjL0Z2z02Jeug
+ jHkh7LFKNpU1IAM3AEKHDdFRv6JWgcuintl35g8oSKCMI6GkNodi4rCWkTYsczsvJF0w
+ f8cA==
+X-Gm-Message-State: AOAM530Fm0gGE82XHfCigKzyf2F0I2t0/D6rKhfxgdqfnr/8LJ6rx0mZ
+ 2NYHN/wnM6ZoJePV5OrF4Hw=
+X-Google-Smtp-Source: ABdhPJx8Lf+2RgDqrxNUdb3ByA2ku6ZMfTW+VqymiW53rRU2wUtka/yi6zjWHyhBYS+DeCLWj9rpNA==
+X-Received: by 2002:adf:e885:0:b0:203:f46f:e19f with SMTP id
+ d5-20020adfe885000000b00203f46fe19fmr7402934wrm.449.1647697765914; 
+ Sat, 19 Mar 2022 06:49:25 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ h16-20020a05600c351000b0038c763e0478sm7279682wmq.3.2022.03.19.06.49.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 19 Mar 2022 06:49:25 -0700 (PDT)
+Message-ID: <42c1f3fa-0cc9-51ff-299e-5ebe1a5f5d32@gmail.com>
+Date: Sat, 19 Mar 2022 14:49:22 +0100
 MIME-Version: 1.0
-References: <20220317162638.41192-1-sgarzare@redhat.com>
- <CAC868B4-D120-4EB4-A0E9-78F38BA20FA7@kamp.de>
- <20220318082504.qxqcarorpo2jxnfk@sgarzare-redhat>
- <CAOi1vP8Y-_LkuTaH6BCLiUhAUcBBbu-3scpM5d5gwz+xxvkYCw@mail.gmail.com>
-In-Reply-To: <CAOi1vP8Y-_LkuTaH6BCLiUhAUcBBbu-3scpM5d5gwz+xxvkYCw@mail.gmail.com>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Sat, 19 Mar 2022 14:23:18 +0100
-Message-ID: <CAOi1vP8aqApM5ubScq1M=uiAuA=N0eSChjP9uoWg7as0-RFcbg@mail.gmail.com>
-Subject: Re: [PATCH] block/rbd: fix write zeroes with growing images
-To: Stefano Garzarella <sgarzare@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a33
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH] gitattributes: Cover Objective-C source files
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220317130326.39188-1-philippe.mathieu.daude@gmail.com>
+ <62dbdfcf-771e-7c84-ab8b-b02a61112f86@gmail.com>
+ <69c6db77-273e-dbeb-e695-e20772d003e2@gmail.com>
+ <2ab1e5f9-6a34-6b82-8f43-b7dcf58bc8b1@gmail.com>
+ <a37d98d4-5fdf-8a57-af64-eab4daacf49d@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <a37d98d4-5fdf-8a57-af64-eab4daacf49d@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a33;
- envelope-from=idryomov@gmail.com; helo=mail-vk1-xa33.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,115 +96,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- qemu block <qemu-block@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Mar 19, 2022 at 1:40 PM Ilya Dryomov <idryomov@gmail.com> wrote:
->
-> On Fri, Mar 18, 2022 at 9:25 AM Stefano Garzarella <sgarzare@redhat.com> =
-wrote:
-> >
-> > On Thu, Mar 17, 2022 at 07:27:05PM +0100, Peter Lieven wrote:
-> > >
-> > >
-> > >> Am 17.03.2022 um 17:26 schrieb Stefano Garzarella <sgarzare@redhat.c=
-om>:
-> > >>
-> > >> =EF=BB=BFCommit d24f80234b ("block/rbd: increase dynamically the ima=
-ge size")
-> > >> added a workaround to support growing images (eg. qcow2), resizing
-> > >> the image before write operations that exceed the current size.
-> > >>
-> > >> We recently added support for write zeroes and without the
-> > >> workaround we can have problems with qcow2.
-> > >>
-> > >> So let's move the resize into qemu_rbd_start_co() and do it when
-> > >> the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
-> > >>
-> > >> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D2020993
-> > >> Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
-> > >> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> > >> ---
-> > >> block/rbd.c | 26 ++++++++++++++------------
-> > >> 1 file changed, 14 insertions(+), 12 deletions(-)
-> > >>
-> > >> diff --git a/block/rbd.c b/block/rbd.c
-> > >> index 8f183eba2a..6caf35cbba 100644
-> > >> --- a/block/rbd.c
-> > >> +++ b/block/rbd.c
-> > >> @@ -1107,6 +1107,20 @@ static int coroutine_fn qemu_rbd_start_co(Blo=
-ckDriverState *bs,
-> > >>
-> > >>     assert(!qiov || qiov->size =3D=3D bytes);
-> > >>
-> > >> +    if (cmd =3D=3D RBD_AIO_WRITE || cmd =3D=3D RBD_AIO_WRITE_ZEROES=
-) {
-> > >> +        /*
-> > >> +         * RBD APIs don't allow us to write more than actual size, =
-so in order
-> > >> +         * to support growing images, we resize the image before wr=
-ite
-> > >> +         * operations that exceed the current size.
-> > >> +         */
-> > >> +        if (offset + bytes > s->image_size) {
-> > >> +            int r =3D qemu_rbd_resize(bs, offset + bytes);
-> > >> +            if (r < 0) {
-> > >> +                return r;
-> > >> +            }
-> > >> +        }
-> > >> +    }
-> > >> +
-> > >>     r =3D rbd_aio_create_completion(&task,
-> > >>                                   (rbd_callback_t) qemu_rbd_completi=
-on_cb, &c);
-> > >>     if (r < 0) {
-> > >> @@ -1182,18 +1196,6 @@ coroutine_fn qemu_rbd_co_pwritev(BlockDriverS=
-tate *bs, int64_t offset,
-> > >>                                  int64_t bytes, QEMUIOVector *qiov,
-> > >>                                  BdrvRequestFlags flags)
-> > >> {
-> > >> -    BDRVRBDState *s =3D bs->opaque;
-> > >> -    /*
-> > >> -     * RBD APIs don't allow us to write more than actual size, so i=
-n order
-> > >> -     * to support growing images, we resize the image before write
-> > >> -     * operations that exceed the current size.
-> > >> -     */
-> > >> -    if (offset + bytes > s->image_size) {
-> > >> -        int r =3D qemu_rbd_resize(bs, offset + bytes);
-> > >> -        if (r < 0) {
-> > >> -            return r;
-> > >> -        }
-> > >> -    }
-> > >>     return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO=
-_WRITE);
-> > >> }
-> > >>
-> > >> --
-> > >> 2.35.1
-> > >>
-> > >
-> > >Do we really have a use case for growing rbd images?
-> >
-> > The use case is to have a qcow2 image on rbd.
-> > I don't think it's very common, but some people use it and here [1] we
-> > had a little discussion about features that could be interesting (e.g.
-> > persistent dirty bitmaps for incremental backup).
->
-> RBD supports that natively (object-map and fast-diff image features).
-> The granularity is higher than a typical QCOW2 granularity (64K vs 4M)
-> but I have never heard of that being a concern.
+On 19/3/22 04:25, Akihiko Odaki wrote:
+> On 2022/03/19 1:14, Philippe Mathieu-Daudé wrote:
+>>> Commit 29cf16db23 says:
+>>>> Since commits 0979ed017f0 ("meson: rename .inc.h files to .h.inc")
+>>>> and 139c1837db7 ("meson: rename included C source files to .c.inc")
+>>>> 'git-diff --function-context' stopped displaying C function context
+>>>> correctly.
+>>>
+>>> So I suspect Git has some knowledge of common file extensions like 
+>>> .c, .h and .m although I couldn't find in the source code of Git.
+>>
+>> 'git-diff --function-context' doesn't work for me without this change.
+> 
+> With some debugging, I found Apple's Git distribution actually carries a 
+> default gitattributes file which annotates *.m.
+> https://github.com/apple-opensource/Git/blob/master/gitattributes
 
-Sorry, I meant to say lower (more coarse grained) above.
+I see, I'm using the Homebrew git. Anyway this change helps non-native
+Darwin users to review these .m files.
 
-RBD's default object size is 4M and that is the granularity at which
-dirtiness is typically tracked.  It is possible to ask for a byte-level
-incremental diff but it is obviously slow.
+> However, it does not annotate *.c or *.h. Apparently there is no "c" 
+> diff pattern and they are handled with the "default" diff pattern which 
+> is actually designed for C. In fact, "c" diff pattern is not present in 
+> the documentation:
+> https://git-scm.com/docs/gitattributes#_defining_an_external_diff_driver
 
-Thanks,
+'cpp' is listed. Maybe 'c' is aliased to it?
 
-                Ilya
+> In conclusion, *.m should be listed in gitattributes but *.c.inc and 
+> *.h.inc should not be if my understanding is correct.
+
+But then how git-tools can detect .inc are C files? I remember it was
+not working (on Linux hosts) without this change.
+
+> Paolo Bonzini, I found you are the author of commit 29cf16db23. Can you 
+> test the above conclusion?
+> 
+> Regards,
+> Akihiko Odaki
+
 
