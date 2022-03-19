@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30944DE6B0
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 08:22:53 +0100 (CET)
-Received: from localhost ([::1]:52932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F284DE6B4
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 08:25:06 +0100 (CET)
+Received: from localhost ([::1]:60522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVTQK-00057C-Sz
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 03:22:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45288)
+	id 1nVTST-0001k1-T9
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 03:25:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nVTO7-0002Fx-P6
+ id 1nVTO7-0002Fw-JU
  for qemu-devel@nongnu.org; Sat, 19 Mar 2022 03:20:35 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3930)
+Received: from szxga08-in.huawei.com ([45.249.212.255]:3859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nVTO4-0005EJ-3Q
+ id 1nVTO4-0005EO-37
  for qemu-devel@nongnu.org; Sat, 19 Mar 2022 03:20:35 -0400
-Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KLC0q39qCzfYnp;
- Sat, 19 Mar 2022 15:18:51 +0800 (CST)
+Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.55])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KLC2V73x7z1GBvt;
+ Sat, 19 Mar 2022 15:20:18 +0800 (CST)
 Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
- dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
+ dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2308.21; Sat, 19 Mar 2022 15:20:21 +0800
 Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
  dggpeml100016.china.huawei.com (7.185.36.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sat, 19 Mar 2022 15:20:20 +0800
+ 15.1.2308.21; Sat, 19 Mar 2022 15:20:21 +0800
 To: <stefanha@redhat.com>, <mst@redhat.com>, <cohuck@redhat.com>,
  <sgarzare@redhat.com>
 CC: <pbonzini@redhat.com>, <arei.gonglei@huawei.com>, <yechuan@huawei.com>,
  <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>, Longpeng
  <longpeng2@huawei.com>
-Subject: [PATCH v3 07/10] vdpa-dev: implement the get_config/set_config
- interface
-Date: Sat, 19 Mar 2022 15:20:09 +0800
-Message-ID: <20220319072012.525-8-longpeng2@huawei.com>
+Subject: [PATCH v3 08/10] vdpa-dev: implement the get_features interface
+Date: Sat, 19 Mar 2022 15:20:10 +0800
+Message-ID: <20220319072012.525-9-longpeng2@huawei.com>
 X-Mailer: git-send-email 2.25.0.windows.1
 In-Reply-To: <20220319072012.525-1-longpeng2@huawei.com>
 References: <20220319072012.525-1-longpeng2@huawei.com>
@@ -49,8 +48,8 @@ X-Originating-IP: [10.174.148.223]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpeml100016.china.huawei.com (7.185.36.216)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
+ helo=szxga08-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -76,43 +75,33 @@ From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
 From: Longpeng <longpeng2@huawei.com>
 
-Implements the .get_config and .set_config interface.
+Implements the .get_features interface.
 
 Signed-off-by: Longpeng <longpeng2@huawei.com>
 ---
- hw/virtio/vdpa-dev.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ hw/virtio/vdpa-dev.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
-index 1713818bc3..f28d3ed5f9 100644
+index f28d3ed5f9..9536982061 100644
 --- a/hw/virtio/vdpa-dev.c
 +++ b/hw/virtio/vdpa-dev.c
-@@ -189,13 +189,23 @@ static void vhost_vdpa_device_unrealize(DeviceState *dev)
- static void
- vhost_vdpa_device_get_config(VirtIODevice *vdev, uint8_t *config)
+@@ -212,7 +212,14 @@ static uint64_t vhost_vdpa_device_get_features(VirtIODevice *vdev,
+                                                uint64_t features,
+                                                Error **errp)
  {
--    return;
+-    return (uint64_t)-1;
 +    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
++    uint64_t backend_features = s->dev.features;
 +
-+    memcpy(config, s->config, s->config_size);
- }
- 
- static void
- vhost_vdpa_device_set_config(VirtIODevice *vdev, const uint8_t *config)
- {
--    return;
-+    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
-+    int ret;
-+
-+    ret = vhost_dev_set_config(&s->dev, s->config, 0, s->config_size,
-+                               VHOST_SET_CONFIG_TYPE_MASTER);
-+    if (ret) {
-+        error_report("set device config space failed");
-+        return;
++    if (!virtio_has_feature(features, VIRTIO_F_IOMMU_PLATFORM)) {
++        virtio_clear_feature(&backend_features, VIRTIO_F_IOMMU_PLATFORM);
 +    }
++
++    return backend_features;
  }
  
- static uint64_t vhost_vdpa_device_get_features(VirtIODevice *vdev,
+ static void vhost_vdpa_device_set_status(VirtIODevice *vdev, uint8_t status)
 -- 
 2.23.0
 
