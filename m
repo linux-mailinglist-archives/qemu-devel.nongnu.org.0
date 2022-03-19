@@ -2,77 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C475A4DE7DC
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 13:28:05 +0100 (CET)
-Received: from localhost ([::1]:51884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D804DE7DF
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 13:28:31 +0100 (CET)
+Received: from localhost ([::1]:52920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVYBg-0002Qy-Gw
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 08:28:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54702)
+	id 1nVYC6-00037S-E8
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 08:28:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1nVY8k-0001Iv-8n
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:25:03 -0400
-Received: from [2001:638:a01:1096::12] (port=47842 helo=mta02.hs-regensburg.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1nVY8g-0007yz-Tx
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:25:01 -0400
-Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
- [IPv6:2001:638:a01:8013::93])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client CN "E16S03", Issuer "E16S03" (not verified))
- by mta02.hs-regensburg.de (Postfix) with ESMTPS id 4KLKnq3g9PzxwB;
- Sat, 19 Mar 2022 13:24:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
- s=mta02-20211122; t=1647692687;
- bh=nwLpcamAiW2FWMbPCpZrIlPqn6XFuUYj+VBQY7dpM8o=;
- h=Date:Subject:To:CC:References:From:In-Reply-To:From;
- b=cc1iORq3NTkEY99qfBh2wwIXEvAFoKb7A+Zj8nJbOnshy7khXXwkNmYY67Q2Scf4F
- v/U9XKR8Z/fsk72y7HplMXqFDEyGTHAiOktFfnH+pGGfj2K8XzqEmLorCc9dI30/OE
- +77a6V9bX1Re24UsWY6yiPqBKHLkp8N44oRgpcpwkcH7pZW67PxXwi3FloiDKFfBmJ
- G3DQc1D59IRJIXgripy32iLD/JqYzPRKhWtUz/e9by/gzawVvV6x6gGepattI5V5sQ
- Ab3xu5CZRDwc8SCdY+Jc3JVzCk4Ib5WJ4RSlXokPytWUCNvANsRh+R370NYKlUUSJA
- mQ5A5E5E3gBiA==
-Received: from [IPV6:2a02:810d:8fc0:44bc::10ea] (2001:638:a01:8013::138) by
- E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 19 Mar 2022 13:24:47 +0100
-Message-ID: <80929f17-34c6-672f-18bd-946f381ae69f@oth-regensburg.de>
-Date: Sat, 19 Mar 2022 13:24:45 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nVY9t-0001mJ-3D
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:26:13 -0400
+Received: from [2001:41c9:1:41f::167] (port=48788
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nVY9i-0008JR-Mp
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:26:06 -0400
+Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nVY8w-0005VH-C1; Sat, 19 Mar 2022 12:25:18 +0000
+Message-ID: <7c85f922-484f-dade-2096-7ad26514cddf@ilande.co.uk>
+Date: Sat, 19 Mar 2022 12:25:53 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [EXT] Re: QEMU+KVM on RISC-V + Hypervisor Extension
+ Thunderbird/91.6.2
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, Alistair Francis
- <alistair23@gmail.com>
-References: <57412635-6b46-823b-14a4-0ee694ace5b8@oth-regensburg.de>
- <CAKmqyKOZN=hS73TfgHfMtxktZ9kkw4kBBA4-gjGAV8Q0Kw+KHw@mail.gmail.com>
- <CAAhSdy23Ag=ZqUj82aZ6BNA2SJq54rbCDjeX=1cHtbq7LR8jaQ@mail.gmail.com>
- <a840f9ac-7315-4381-4c85-719efb413b18@oth-regensburg.de>
- <CAFEAcA98VQmM_ETpNuhq31Y7xLkS_AjVRsTeCdnqzMZG-3uxBA@mail.gmail.com>
- <3783dce0-0c5b-824e-2097-bbc3367281a6@oth-regensburg.de>
- <CAKmqyKNf3qL9k83tRD+=Frdue=+WZNAJ8RxK4UivCjz0Adjbqg@mail.gmail.com>
- <CAFEAcA8mqdAf58FkxDPtL_UK2feGTEUE+h--_a8pRpSsGUCHYw@mail.gmail.com>
-From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-In-Reply-To: <CAFEAcA8mqdAf58FkxDPtL_UK2feGTEUE+h--_a8pRpSsGUCHYw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
+ <20220225080308.1405-20-yangxiaojuan@loongson.cn>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220225080308.1405-20-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [2001:638:a01:8013::138]
-X-ClientProxiedBy: E16S02.hs-regensburg.de (2001:638:a01:8013::92) To
- E16S03.hs-regensburg.de (2001:638:a01:8013::93)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:638:a01:1096::12
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH v6 19/29] hw/intc: Add LoongArch extioi interrupt
+ controller(EIOINTC)
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
  (failed)
-Received-SPF: pass client-ip=2001:638:a01:1096::12;
- envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta02.hs-regensburg.de
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,31 +67,590 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>, Anup Patel <anup@brainfault.org>,
- Jiangyifei <jiangyifei@huawei.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Stefan Huber <stefan.huber@oth-regensburg.de>
+Cc: richard.henderson@linaro.org, Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 17/03/2022 10:45, Peter Maydell wrote:
-> On Wed, 16 Mar 2022 at 22:23, Alistair Francis <alistair23@gmail.com> wrote:
->> Hmm... This seems like a bug. We shouldn't allow the user to specify a
->> `-bios` option if using KVM. Would you mind preparing a patch to catch
->> this?
+On 25/02/2022 08:02, Xiaojuan Yang wrote:
+> This patch realize the EIOINTC interrupt controller.
 > 
-> You don't want to allow the possibility of a bios blob that expects
-> to run in S-mode, the way arm virt can run an EL1 UEFI BIOS ?
-
-Valid point. In any case, if you wish, we could provide a patch for 
-disallowing -bios in combination with -enable-kvm.
-
-Thanks
-   Ralf
-
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   hw/intc/Kconfig                    |   3 +
+>   hw/intc/loongarch_extioi.c         | 417 +++++++++++++++++++++++++++++
+>   hw/intc/meson.build                |   1 +
+>   hw/intc/trace-events               |  11 +
+>   hw/loongarch/Kconfig               |   1 +
+>   include/hw/intc/loongarch_extioi.h |  79 ++++++
+>   6 files changed, 512 insertions(+)
+>   create mode 100644 hw/intc/loongarch_extioi.c
+>   create mode 100644 include/hw/intc/loongarch_extioi.h
 > 
-> thanks
-> -- PMM
+> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+> index 1514810297..d9b2a2e450 100644
+> --- a/hw/intc/Kconfig
+> +++ b/hw/intc/Kconfig
+> @@ -93,3 +93,6 @@ config LOONGARCH_PCH_MSI
+>       select MSI_NONBROKEN
+>       bool
+>       select UNIMP
+> +
+> +config LOONGARCH_EXTIOI
+> +    bool
+> diff --git a/hw/intc/loongarch_extioi.c b/hw/intc/loongarch_extioi.c
+> new file mode 100644
+> index 0000000000..5eb6029abc
+> --- /dev/null
+> +++ b/hw/intc/loongarch_extioi.c
+> @@ -0,0 +1,417 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Loongson 3A5000 ext interrupt controller emulation
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/module.h"
+> +#include "qemu/log.h"
+> +#include "hw/irq.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/loongarch/loongarch.h"
+> +#include "hw/qdev-properties.h"
+> +#include "exec/address-spaces.h"
+> +#include "hw/intc/loongarch_extioi.h"
+> +#include "migration/vmstate.h"
+> +#include "trace.h"
+> +
+> +static void extioi_update_irq(void *opaque, int irq_num, int level)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+> +    uint8_t  ipnum, cpu;
+> +    unsigned long found1, found2;
+> +
+> +    ipnum = s->sw_ipmap[irq_num];
+> +    cpu   = s->sw_coremap[irq_num];
+> +    if (level == 1) {
+> +        if (test_bit(irq_num, (void *)s->enable) == false) {
+> +            return;
+> +        }
+> +        bitmap_set((void *)s->coreisr[cpu], irq_num, 1);
+> +        found1 = find_next_bit((void *)&(s->sw_ipisr[cpu][ipnum]),
+> +                               EXTIOI_IRQS, 0);
+> +        bitmap_set((void *)&(s->sw_ipisr[cpu][ipnum]), irq_num, 1);
+> +
+> +        if (found1 >= EXTIOI_IRQS) {
+> +            qemu_set_irq(s->parent_irq[cpu][ipnum], level);
+> +        }
+> +    } else {
+> +        bitmap_clear((void *)s->coreisr[cpu], irq_num, 1);
+> +        found1 = find_next_bit((void *)&(s->sw_ipisr[cpu][ipnum]),
+> +                               EXTIOI_IRQS, 0);
+> +        bitmap_clear((void *)&(s->sw_ipisr[cpu][ipnum]), irq_num, 1);
+> +        found2 = find_next_bit((void *)&(s->sw_ipisr[cpu][ipnum]),
+> +                               EXTIOI_IRQS, 0);
+> +
+> +        if ((found1 < EXTIOI_IRQS) && (found2 >= EXTIOI_IRQS)) {
+> +            qemu_set_irq(s->parent_irq[cpu][ipnum], level);
+> +        }
+> +    }
+> +}
+> +
+> +static void extioi_setirq(void *opaque, int irq, int level)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+> +    trace_extioi_setirq(irq, level);
+> +    extioi_update_irq(s, irq, level);
+> +}
+> +
+> +static uint64_t extioi_nodetype_readw(void *opaque, hwaddr addr, unsigned size)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+> +    unsigned long offset = addr & 0xffff;
+> +    uint32_t ret, index;
+> +
+> +    switch (offset) {
+> +    case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
+> +        index = (offset - EXTIOI_NODETYPE_START) >> 2;
+> +        ret = s->nodetype[index];
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    trace_loongarch_extioi_nodetype_readw((uint32_t)addr, ret);
+> +    return ret;
+> +}
+> +
+> +static void extioi_nodetype_writew(void *opaque, hwaddr addr,
+> +                                   uint64_t val, unsigned size)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+> +    int index;
+> +    uint32_t offset;
+> +    trace_loongarch_extioi_nodetype_writew(size, (uint32_t)addr, val);
+> +
+> +    offset = addr & 0xffff;
+> +
+> +    switch (offset) {
+> +    case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
+> +        index = (offset - EXTIOI_NODETYPE_START) >> 2;
+> +        s->nodetype[index] = val;
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +}
+> +
+> +static uint64_t extioi_ipmap_enable_read(void *opaque, hwaddr addr,
+> +                                         unsigned size)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+> +    uint8_t ret;
+> +
+> +    switch (addr) {
+> +    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
+> +        ret = s->ipmap[addr];
+> +        break;
+> +    case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
+> +        addr -= EXTIOI_ENABLE_START;
+> +        ret = s->enable[addr];
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    trace_loongarch_extioi_ipmap_enable_read((uint8_t)addr, ret);
+> +    return ret;
+> +}
+> +
+> +static void extioi_ipmap_enable_write(void *opaque, hwaddr addr,
+> +                                      uint64_t value, unsigned size)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+> +    uint8_t old_data, val = value & 0xff;
+> +    int i, level, ipnum, irqnum;
+> +    trace_loongarch_extioi_ipmap_enable_write(size, (uint8_t)addr, val);
+> +
+> +    switch (addr) {
+> +    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
+> +        s->ipmap[addr] = val;
+> +        /* Routing in groups of 32 interrupt */
+> +        ipnum = find_first_bit((void *)&val, 4);
+> +        for (i = 0; i < 32; i++) {
+> +            irqnum = addr * 32 + i;
+> +            if (ipnum != 4) {
+> +                s->sw_ipmap[irqnum] = ipnum;
+> +            } else {
+> +                s->sw_ipmap[irqnum] = 0;
+> +            }
+> +        }
+> +        break;
+> +    case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
+> +        addr -= EXTIOI_ENABLE_START;
+> +        old_data = s->enable[addr];
+> +        if (old_data != val) {
+> +            s->enable[addr] = val;
+> +            old_data = old_data ^ val;
+> +
+> +            while ((i = find_first_bit((void *)&old_data, 8)) != 8) {
+> +                level = test_bit(i, (unsigned long *)&val);
+> +                extioi_update_irq(s, i + addr * 8, level);
+> +                clear_bit(i, (void *)&old_data);
+> +            }
+> +        }
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +}
+> +
+> +static uint64_t extioi_bounce_coreisr_readw(void *opaque, hwaddr addr,
+> +                                            unsigned size)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+> +    unsigned long offset = addr & 0xffff;
+> +    uint32_t ret, index;
+> +    int cpu;
+> +
+> +    switch (offset) {
+> +    case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
+> +        index = (offset - EXTIOI_BOUNCE_START) >> 2;
+> +        ret = s->bounce[index];
+> +        break;
+> +    case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
+> +        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
+> +        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
+> +        ret = s->coreisr[cpu][index];
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    trace_loongarch_extioi_bounce_coreisr_readw((uint32_t)addr, ret);
+> +    return ret;
+> +}
+> +
+> +static void extioi_bounce_coreisr_writew(void *opaque, hwaddr addr,
+> +                                         uint64_t val, unsigned size)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+> +    int cpu, index;
+> +    uint32_t offset, old_data, i, j, bits;
+> +
+> +    offset = addr & 0xffff;
+> +    trace_loongarch_extioi_bounce_coreisr_writew(size, (uint32_t)addr, val);
+> +    switch (offset) {
+> +    case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
+> +        index = (offset - EXTIOI_BOUNCE_START) >> 2;
+> +        s->bounce[index] = val;
+> +        break;
+> +    case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
+> +        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
+> +        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
+> +        old_data = s->coreisr[cpu][index];
+> +        s->coreisr[cpu][index] = old_data & ~val;
+> +        if (old_data != s->coreisr[cpu][index]) {
+> +            bits = size * 8;
+> +            while ((i = find_first_bit((void *)&val, bits)) != bits) {
+> +                j = test_bit(i, (unsigned long *)&old_data);
+> +                if (j) {
+> +                    extioi_update_irq(s, i + index * 32, 0);
+> +                }
+> +                clear_bit(i, (void *)&val);
+> +            }
+> +        }
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +}
+> +
+> +static uint64_t extioi_coremap_read(void *opaque, hwaddr addr, unsigned size)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+> +    uint8_t ret;
+> +
+> +    switch (addr) {
+> +    case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
+> +        ret = s->coremap[addr];
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    trace_loongarch_extioi_coremap_read((uint8_t)addr, ret);
+> +    return ret;
+> +}
+> +
+> +static void extioi_coremap_write(void *opaque, hwaddr addr,
+> +                                 uint64_t value, unsigned size)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+> +    uint8_t val = value & 0xff;
+> +    int cpu;
+> +
+> +    trace_loongarch_extioi_coremap_write(size, (uint8_t)addr, val);
+> +    switch (addr) {
+> +    case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
+> +        s->coremap[addr] = val;
+> +
+> +        /* Only support 1 node now only handle the core map*/
+> +        if (val) {
+> +            cpu = find_first_bit((void *)&val, 4);
+> +            if (cpu != 4) {
+> +                s->sw_coremap[addr] = cpu;
+> +            }
+> +        }
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +}
+> +
+> +static const MemoryRegionOps extioi_nodetype_ops = {
+> +    .read = extioi_nodetype_readw,
+> +    .write = extioi_nodetype_writew,
+> +    .impl.min_access_size = 4,
+> +    .impl.max_access_size = 4,
+> +    .valid.min_access_size = 4,
+> +    .valid.max_access_size = 8,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +};
+> +
+> +static const MemoryRegionOps extioi_ipmap_enable_ops = {
+> +    .read = extioi_ipmap_enable_read,
+> +    .write = extioi_ipmap_enable_write,
+> +    .impl.min_access_size = 1,
+> +    .impl.max_access_size = 1,
+> +    .valid.min_access_size = 1,
+> +    .valid.max_access_size = 8,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +};
+> +
+> +static const MemoryRegionOps extioi_bounce_coreisr_ops = {
+> +    .read = extioi_bounce_coreisr_readw,
+> +    .write = extioi_bounce_coreisr_writew,
+> +    .impl.min_access_size = 4,
+> +    .impl.max_access_size = 4,
+> +    .valid.min_access_size = 4,
+> +    .valid.max_access_size = 8,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +};
+> +
+> +static const MemoryRegionOps extioi_coremap_ops = {
+> +    .read = extioi_coremap_read,
+> +    .write = extioi_coremap_write,
+> +    .impl.min_access_size = 1,
+> +    .impl.max_access_size = 1,
+> +    .valid.min_access_size = 1,
+> +    .valid.max_access_size = 8,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +};
+> +
+> +static void loongarch_extioi_realize(DeviceState *dev, Error **errp)
+> +{
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(dev);
+> +    int cpu;
+> +
+> +    for (cpu = 0; cpu < MAX_CORES; cpu++) {
+> +        memory_region_init(&s->mmio[cpu], OBJECT(s),
+> +                           "loongarch_extioi", EXTIOI_SIZE);
+> +
+> +        memory_region_init_io(&s->mmio_nodetype[cpu], OBJECT(s),
+> +                              &extioi_nodetype_ops, s,
+> +                              EXTIOI_LINKNAME(.nodetype),
+> +                              IPMAP_OFFSET - APIC_BASE);
+> +        memory_region_add_subregion(&s->mmio[cpu], 0, &s->mmio_nodetype[cpu]);
+> +
+> +        memory_region_init_io(&s->mmio_ipmap_enable[cpu], OBJECT(s),
+> +                              &extioi_ipmap_enable_ops, s,
+> +                              EXTIOI_LINKNAME(.ipmap_enable),
+> +                              BOUNCE_OFFSET - IPMAP_OFFSET);
+> +        memory_region_add_subregion(&s->mmio[cpu], IPMAP_OFFSET - APIC_BASE,
+> +                                    &s->mmio_ipmap_enable[cpu]);
+> +
+> +        memory_region_init_io(&s->mmio_bounce_coreisr[cpu], OBJECT(s),
+> +                              &extioi_bounce_coreisr_ops, s,
+> +                              EXTIOI_LINKNAME(.bounce_coreisr),
+> +                              COREMAP_OFFSET - BOUNCE_OFFSET);
+> +        memory_region_add_subregion(&s->mmio[cpu], BOUNCE_OFFSET - APIC_BASE,
+> +                                    &s->mmio_bounce_coreisr[cpu]);
+> +
+> +        memory_region_init_io(&s->mmio_coremap[cpu], OBJECT(s),
+> +                              &extioi_coremap_ops, s,
+> +                              EXTIOI_LINKNAME(.coremap),
+> +                              EXTIOI_COREMAP_END);
+> +        memory_region_add_subregion(&s->mmio[cpu], COREMAP_OFFSET - APIC_BASE,
+> +                                    &s->mmio_coremap[cpu]);
+> +    }
+> +}
+
+Much better! I'd be inclined to do this setup in loongarch_extioi_instance_init() 
+rather than in loongarch_extioi_realize() for 2 reasons: i) it avoids duplicating the 
+MAX_CORES loop in both init() and realize() and ii) it ensures that your memory 
+region declared with sysbus_init_mmio() is always set after init() (which is already 
+the case for your sysbus IRQs).
+
+> +static const VMStateDescription vmstate_ext_sw_ipisr = {
+> +    .name = "ext_sw_ipisr",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT8_ARRAY(irq, ext_sw_ipisr, EXTIOI_IRQS),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static const VMStateDescription vmstate_loongarch_extioi = {
+> +    .name = TYPE_LOONGARCH_EXTIOI,
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT32_ARRAY(bounce, LoongArchExtIOI, EXTIOI_IRQS_GROUP_COUNT),
+> +        VMSTATE_UINT32_2DARRAY(coreisr, LoongArchExtIOI, MAX_CORES,
+> +                               EXTIOI_IRQS_GROUP_COUNT),
+> +        VMSTATE_UINT32_ARRAY(nodetype, LoongArchExtIOI,
+> +                             EXTIOI_IRQS_NODETYPE_COUNT / 2),
+> +        VMSTATE_UINT8_ARRAY(enable, LoongArchExtIOI, EXTIOI_IRQS / 8),
+> +        VMSTATE_UINT8_ARRAY(ipmap, LoongArchExtIOI, 8),
+> +        VMSTATE_UINT8_ARRAY(coremap, LoongArchExtIOI, EXTIOI_IRQS),
+> +        VMSTATE_UINT8_ARRAY(sw_ipmap, LoongArchExtIOI, EXTIOI_IRQS),
+> +        VMSTATE_UINT8_ARRAY(sw_coremap, LoongArchExtIOI, EXTIOI_IRQS),
+> +        VMSTATE_STRUCT_2DARRAY(sw_ipisr, LoongArchExtIOI, MAX_CORES,
+> +                               LS3A_INTC_IP, 1, vmstate_ext_sw_ipisr,
+> +                               ext_sw_ipisr),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static void loongarch_extioi_instance_init(Object *obj)
+> +{
+> +    SysBusDevice *dev = SYS_BUS_DEVICE(obj);
+> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(obj);
+> +    int i, cpu, pin;
+> +
+> +    for (i = 0; i < EXTIOI_IRQS; i++) {
+> +        sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq[i]);
+> +    }
+> +
+> +    qdev_init_gpio_in(DEVICE(obj), extioi_setirq, EXTIOI_IRQS);
+> +
+> +    for (cpu = 0; cpu < MAX_CORES; cpu++) {
+> +        sysbus_init_mmio(dev, &s->mmio[cpu]);
+> +        for (pin = 0; pin < LS3A_INTC_IP; pin++) {
+> +            qdev_init_gpio_out(DEVICE(obj), &s->parent_irq[cpu][pin], 1);
+> +        }
+> +    }
+> +}
+> +
+> +static void loongarch_extioi_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->vmsd = &vmstate_loongarch_extioi;
+> +    dc->realize = loongarch_extioi_realize;
+> +}
+> +
+> +static const TypeInfo loongarch_extioi_info = {
+> +    .name          = TYPE_LOONGARCH_EXTIOI,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_init = loongarch_extioi_instance_init,
+> +    .instance_size = sizeof(struct LoongArchExtIOI),
+> +    .class_init    = loongarch_extioi_class_init,
+> +};
+> +
+> +static void loongarch_extioi_register_types(void)
+> +{
+> +    type_register_static(&loongarch_extioi_info);
+> +}
+> +
+> +type_init(loongarch_extioi_register_types)
+> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+> index 308f4e2364..81e776b338 100644
+> --- a/hw/intc/meson.build
+> +++ b/hw/intc/meson.build
+> @@ -64,3 +64,4 @@ specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
+>   specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
+>   specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_PIC', if_true: files('loongarch_pch_pic.c'))
+>   specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_MSI', if_true: files('loongarch_pch_msi.c'))
+> +specific_ss.add(when: 'CONFIG_LOONGARCH_EXTIOI', if_true: files('loongarch_extioi.c'))
+> diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+> index 56d6a01e79..b6d10dd4b6 100644
+> --- a/hw/intc/trace-events
+> +++ b/hw/intc/trace-events
+> @@ -270,3 +270,14 @@ loongarch_pch_pic_writeb(unsigned size, uint32_t addr, unsigned long val) "size:
+>   
+>   # loongarch_pch_msi.c
+>   loongarch_msi_set_irq(int irq_num) "set msi irq %d"
+> +
+> +# loongarch_extioi.c
+> +extioi_setirq(int irq, int level) "set extirq irq %d level %d"
+> +loongarch_extioi_nodetype_readw(uint32_t addr, uint32_t val) "addr: 0x%"PRIx32 "val: 0x%" PRIx32
+> +loongarch_extioi_nodetype_writew(unsigned size, uint32_t addr, uint32_t val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx32
+> +loongarch_extioi_ipmap_enable_read(uint8_t addr, uint8_t val) "addr: 0x%"PRIu8 "val: 0x%" PRIu8
+> +loongarch_extioi_ipmap_enable_write(unsigned size, uint8_t addr, uint8_t val) "size: %u addr: 0x%"PRIu8 "val: 0x%" PRIu8
+> +loongarch_extioi_bounce_coreisr_readw(uint32_t addr, uint32_t val) "addr: 0x%"PRIx32 "val: 0x%" PRIx32
+> +loongarch_extioi_bounce_coreisr_writew(unsigned size, uint32_t addr, uint32_t val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx32
+> +loongarch_extioi_coremap_read(uint8_t addr, uint8_t val) "addr: 0x%"PRIu8 "val: 0x%" PRIu8
+> +loongarch_extioi_coremap_write(unsigned size, uint8_t addr, uint8_t val) "size: %u addr: 0x%"PRIu8 "val: 0x%" PRIu8
+> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+> index d814fc6103..f779087416 100644
+> --- a/hw/loongarch/Kconfig
+> +++ b/hw/loongarch/Kconfig
+> @@ -5,3 +5,4 @@ config LOONGARCH_VIRT
+>       select LOONGARCH_IPI
+>       select LOONGARCH_PCH_PIC
+>       select LOONGARCH_PCH_MSI
+> +    select LOONGARCH_EXTIOI
+> diff --git a/include/hw/intc/loongarch_extioi.h b/include/hw/intc/loongarch_extioi.h
+> new file mode 100644
+> index 0000000000..dc30ce5845
+> --- /dev/null
+> +++ b/include/hw/intc/loongarch_extioi.h
+> @@ -0,0 +1,79 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * LoongArch 3A5000 ext interrupt controller definitions
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#include "hw/sysbus.h"
+> +#include "hw/loongarch/loongarch.h"
+> +
+> +#ifndef LOONGARCH_EXTIOI_H
+> +#define LOONGARCH_EXTIOI_H
+> +
+> +#define LS3A_INTC_IP                 8
+> +#define MAX_CORES                    LOONGARCH_MAX_VCPUS
+> +#define EXTIOI_IRQS                  (256)
+> +/* 32 irqs belong to a group */
+> +#define EXTIOI_IRQS_GROUP_COUNT      (256 / 32)
+> +/* map to ipnum per 32 irqs */
+> +#define EXTIOI_IRQS_NODETYPE_COUNT   16
+> +
+> +#define APIC_BASE                    0x1400
+> +#define ENABLE_OFFSET                0x1600
+> +#define IPMAP_OFFSET                 0x14c0
+> +#define COREMAP_OFFSET               0x1c00
+> +#define NODETYPE_OFFSET              0x14a0
+> +#define BOUNCE_OFFSET                0x1680
+> +#define COREISR_OFFSET               0x1800
+> +
+> +#define EXTIOI_NODETYPE_START        (0x14a0 - APIC_BASE)
+> +#define EXTIOI_NODETYPE_END          (0x14c0 - APIC_BASE)
+> +#define EXTIOI_BOUNCE_START          0
+> +#define EXTIOI_BOUNCE_END            (0x16a0 - BOUNCE_OFFSET)
+> +#define EXTIOI_COREISR_START         (0x1800 - BOUNCE_OFFSET)
+> +#define EXTIOI_COREISR_END           (0x1B20 - BOUNCE_OFFSET)
+> +
+> +#define EXTIOI_IPMAP_START           0
+> +#define EXTIOI_IPMAP_END             (0x14c8 - IPMAP_OFFSET)
+> +#define EXTIOI_ENABLE_START          (0x1600 - IPMAP_OFFSET)
+> +#define EXTIOI_ENABLE_END            (0x1618 - IPMAP_OFFSET)
+> +
+> +#define EXTIOI_COREMAP_START         0
+> +#define EXTIOI_COREMAP_END           (0x1d00 - COREMAP_OFFSET)
+> +#define EXTIOI_SIZE                  0x900
+> +
+> +#define TYPE_LOONGARCH_EXTIOI "loongarch_extioi"
+> +#define EXTIOI_LINKNAME(name) TYPE_LOONGARCH_EXTIOI#name
+> +DECLARE_INSTANCE_CHECKER(struct LoongArchExtIOI, LOONGARCH_EXTIOI,
+> +                         TYPE_LOONGARCH_EXTIOI)
+> +
+> +typedef struct ext_sw_ipisr {
+> +    uint8_t irq[EXTIOI_IRQS];
+> +} ext_sw_ipisr;
+> +
+> +typedef struct LoongArchExtIOI {
+> +    SysBusDevice parent_obj;
+> +    /* hardware state */
+> +    uint32_t nodetype[EXTIOI_IRQS_NODETYPE_COUNT / 2];
+> +    uint32_t bounce[EXTIOI_IRQS_GROUP_COUNT];
+> +    uint32_t coreisr[MAX_CORES][EXTIOI_IRQS_GROUP_COUNT];
+> +
+> +    uint8_t enable[EXTIOI_IRQS / 8];
+> +    uint8_t ipmap[8];
+> +    uint8_t coremap[EXTIOI_IRQS];
+> +    /*software state */
+> +    uint8_t sw_ipmap[EXTIOI_IRQS];
+> +    uint8_t sw_coremap[EXTIOI_IRQS];
+> +    ext_sw_ipisr sw_ipisr[MAX_CORES][LS3A_INTC_IP];
+> +
+> +    qemu_irq parent_irq[MAX_CORES][LS3A_INTC_IP];
+> +    qemu_irq irq[EXTIOI_IRQS];
+> +    MemoryRegion mmio[MAX_CORES];
+> +    MemoryRegion mmio_nodetype[MAX_CORES];
+> +    MemoryRegion mmio_ipmap_enable[MAX_CORES];
+> +    MemoryRegion mmio_bounce_coreisr[MAX_CORES];
+> +    MemoryRegion mmio_coremap[MAX_CORES];
+> +} LoongArchExtIOI;
+> +
+> +#endif /* LOONGARCH_EXTIOI_H */
+
+ATB,
+
+Mark.
 
