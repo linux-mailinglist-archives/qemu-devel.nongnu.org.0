@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD3D4DE7E3
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 13:39:30 +0100 (CET)
-Received: from localhost ([::1]:59054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A1B4DE7E8
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 13:40:56 +0100 (CET)
+Received: from localhost ([::1]:32956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVYMi-0007dX-Ra
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 08:39:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55916)
+	id 1nVYO6-0000eK-Gj
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 08:40:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nVYIq-000689-Nd
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:35:29 -0400
-Received: from [2001:41c9:1:41f::167] (port=48814
+ id 1nVYKO-00072T-KY
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:37:04 -0400
+Received: from [2001:41c9:1:41f::167] (port=48824
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nVYIm-0001e3-No
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:35:27 -0400
+ id 1nVYKK-0001rM-Sj
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:37:04 -0400
 Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nVYI2-0005Zo-6O; Sat, 19 Mar 2022 12:34:42 +0000
-Message-ID: <a001eba6-476e-af8a-2eae-69e05f40b640@ilande.co.uk>
-Date: Sat, 19 Mar 2022 12:35:18 +0000
+ id 1nVYJY-0005al-Lb; Sat, 19 Mar 2022 12:36:16 +0000
+Message-ID: <45703695-cb38-b814-d292-80951da52ff2@ilande.co.uk>
+Date: Sat, 19 Mar 2022 12:36:52 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.2
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
- <20220225080308.1405-24-yangxiaojuan@loongson.cn>
+References: <20220225080203.4186192-1-yangxiaojuan@loongson.cn>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220225080308.1405-24-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220225080203.4186192-1-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH v6 23/29] hw/loongarch: Add LoongArch ls7a rtc device
- support
+Subject: Re: [RFC PATCH v6 00/29] Add LoongArch softmmu support
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -67,432 +65,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, Song Gao <gaosong@loongson.cn>
+Cc: richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/02/2022 08:03, Xiaojuan Yang wrote:
+On 25/02/2022 08:01, Xiaojuan Yang wrote:
 
-> This patch add ls7a rtc device support.
+> This series patch add softmmu support for LoongArch.
+> The latest kernel:
+>    * https://github.com/loongson/linux/tree/loongarch-next
+> The latest uefi:
+>    * https://github.com/loongson/edk2
+>    * https://github.com/loongson/edk2-platforms
+> The manual:
+>    * https://github.com/loongson/LoongArch-Documentation/releases/tag/2021.10.11
 > 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   MAINTAINERS                |   1 +
->   hw/loongarch/Kconfig       |   1 +
->   hw/loongarch/loongson3.c   |   4 +
->   hw/rtc/Kconfig             |   3 +
->   hw/rtc/ls7a_rtc.c          | 323 +++++++++++++++++++++++++++++++++++++
->   hw/rtc/meson.build         |   1 +
->   include/hw/pci-host/ls7a.h |   4 +
->   7 files changed, 337 insertions(+)
+> You can get LoongArch qemu series like this:
+>     git clone https://github.com/loongson/qemu.git
+>     git checkout tcg-dev
+> 
+> 
+> Changes for v6:
+> 
+> 1. Add the new loongarch_cpu_init function.
+> 2. Improved extioi memory region.
+> 3. Replaced the original LS7A bridge with a new GPEX bridge.
+> 
+> 
+> Changes for v5:
+> 
+> 1. Fix host bridge map irq function.
+> 2. Move cpu timer init function into machine init.
+> 3. Adjust memory region layout.
+> 4. Add the documentation at docs/system/loongarch/loongson3.rst.
+>     - Introduction to 3a5000 virt.
+>     - Output of "info mtree".
+> 
+> 
+> Changes for v4:
+> 1. Uefi code is open and add some fdt interface to pass info between qemu and uefi.
+> 2. Use a per cpu address space for iocsr.
+> 3. Modify the tlb emulation.
+> 4. Machine and board code mainly follow Mark's advice.
+> 5. Adjust pci host space map.
+> 6. Use more memregion to simplify the interrupt controller's emulate.
+> 
+> 
+> Changes for v3:
+> 1.Target code mainly follow Richard's code review comments.
+> 2.Put the csr and iocsr read/write instruction emulate into 2 different patch.
+> 3.Simply the tlb emulation.
+> 4.Delete some unused csr registers defintion.
+> 5.Machine and board code mainly follow Mark's advice, discard the obsolete interface.
+> 6.NUMA function is removed for it is not completed.
+> 7.Adjust some format problem and the Naming problem
+> 
+> 
+> Changes for v3:
+> 1.Target code mainly follow Richard's code review comments.
+> 2.Put the csr and iocsr read/write instruction emulate into 2 different patch.
+> 3.Simply the tlb emulation.
+> 4.Delete some unused csr registers defintion.
+> 5.Machine and board code mainly follow Mark's advice, discard the obsolete interface.
+> 6.NUMA function is removed for it is not completed.
+> 7.Adjust some format problem and the Naming problem
+> 
+> 
+> Changes for v2:
+> 1.Combine patch 2 and 3 into one.
+> 2.Adjust the order of the patch.
+> 3.Put all the binaries on the github.
+> 4.Modify some emulate errors when use the kernel from the github.
+> 5.Adjust some format problem and the Naming problem
+> 6.Others mainly follow Richard's code review comments.
+> 
+> Please help review!
+> 
+> Thanks
+> 
+> 
+> Xiaojuan Yang (29):
+>    target/loongarch: Add system emulation introduction
+>    target/loongarch: Add CSRs definition
+>    target/loongarch: Add basic vmstate description of CPU.
+>    target/loongarch: Implement qmp_query_cpu_definitions()
+>    target/loongarch: Add constant timer support
+>    target/loongarch: Add MMU support for LoongArch CPU.
+>    target/loongarch: Add LoongArch CSR instruction
+>    target/loongarch: Add LoongArch IOCSR instruction
+>    target/loongarch: Add TLB instruction support
+>    target/loongarch: Add other core instructions support
+>    target/loongarch: Add LoongArch interrupt and exception handle
+>    target/loongarch: Add timer related instructions support.
+>    target/loongarch: Add gdb support.
+>    hw/loongarch: Add support loongson3 virt machine type.
+>    hw/loongarch: Add LoongArch cpu interrupt support(CPUINTC)
+>    hw/loongarch: Add LoongArch ipi interrupt support(IPI)
+>    hw/intc: Add LoongArch ls7a interrupt controller support(PCH-PIC)
+>    hw/intc: Add LoongArch ls7a msi interrupt controller support(PCH-MSI)
+>    hw/intc: Add LoongArch extioi interrupt controller(EIOINTC)
+>    hw/loongarch: Add irq hierarchy for the system
+>    Enable common virtio pci support for LoongArch
+>    hw/loongarch: Add some devices support for 3A5000.
+>    hw/loongarch: Add LoongArch ls7a rtc device support
+>    hw/loongarch: Add default bios startup support.
+>    hw/loongarch: Add -kernel and -initrd options support
+>    hw/loongarch: Add LoongArch smbios support
+>    hw/loongarch: Add LoongArch acpi support
+>    hw/loongarch: Add fdt support.
+>    tests/tcg/loongarch64: Add hello/memory test in loongarch64 system
+> 
+>   MAINTAINERS                                   |  20 +
+>   .../devices/loongarch64-softmmu/default.mak   |   3 +
+>   configs/targets/loongarch64-softmmu.mak       |   4 +
+>   docs/system/loongarch/loongson3.rst           |  37 +
+>   gdb-xml/loongarch-base64.xml                  |  43 +
+>   gdb-xml/loongarch-fpu64.xml                   |  57 ++
+>   hw/Kconfig                                    |   1 +
+>   hw/acpi/Kconfig                               |   4 +
+>   hw/acpi/ls7a.c                                | 374 +++++++++
+>   hw/acpi/meson.build                           |   1 +
+>   hw/intc/Kconfig                               |  15 +
+>   hw/intc/loongarch_extioi.c                    | 417 ++++++++++
+>   hw/intc/loongarch_ipi.c                       | 164 ++++
+>   hw/intc/loongarch_pch_msi.c                   |  75 ++
+>   hw/intc/loongarch_pch_pic.c                   | 488 +++++++++++
+>   hw/intc/meson.build                           |   4 +
+>   hw/intc/trace-events                          |  27 +
+>   hw/loongarch/Kconfig                          |  23 +
+>   hw/loongarch/acpi-build.c                     | 636 +++++++++++++++
+>   hw/loongarch/fw_cfg.c                         |  33 +
+>   hw/loongarch/fw_cfg.h                         |  15 +
+>   hw/loongarch/loongson3.c                      | 752 +++++++++++++++++
+>   hw/loongarch/meson.build                      |   6 +
+>   hw/meson.build                                |   1 +
+>   hw/rtc/Kconfig                                |   3 +
+>   hw/rtc/ls7a_rtc.c                             | 323 ++++++++
+>   hw/rtc/meson.build                            |   1 +
+>   include/exec/poison.h                         |   2 +
+>   include/hw/acpi/ls7a.h                        |  53 ++
+>   include/hw/intc/loongarch_extioi.h            |  79 ++
+>   include/hw/intc/loongarch_ipi.h               |  48 ++
+>   include/hw/intc/loongarch_pch_msi.h           |  21 +
+>   include/hw/intc/loongarch_pch_pic.h           |  81 ++
+>   include/hw/loongarch/loongarch.h              |  77 ++
+>   include/hw/pci-host/ls7a.h                    |  48 ++
+>   include/sysemu/arch_init.h                    |   1 +
+>   linux-user/loongarch64/cpu_loop.c             |   8 +-
+>   qapi/machine-target.json                      |   6 +-
+>   qapi/machine.json                             |   2 +-
+>   softmmu/qdev-monitor.c                        |   3 +-
+>   target/Kconfig                                |   1 +
+>   target/loongarch/Kconfig                      |   2 +
+>   target/loongarch/README                       |  28 +
+>   target/loongarch/constant_timer.c             |  62 ++
+>   target/loongarch/cpu-csr.h                    | 236 ++++++
+>   target/loongarch/cpu-param.h                  |   2 +-
+>   target/loongarch/cpu.c                        | 354 +++++++-
+>   target/loongarch/cpu.h                        | 218 ++++-
+>   target/loongarch/csr_helper.c                 | 112 +++
+>   target/loongarch/disas.c                      |  57 ++
+>   target/loongarch/fpu_helper.c                 |   2 +-
+>   target/loongarch/gdbstub.c                    |  97 +++
+>   target/loongarch/helper.h                     |  26 +
+>   target/loongarch/insn_trans/trans_extra.c.inc |  36 +-
+>   .../insn_trans/trans_privileged.c.inc         | 410 ++++++++++
+>   target/loongarch/insns.decode                 |  44 +
+>   target/loongarch/internals.h                  |  28 +
+>   target/loongarch/iocsr_helper.c               | 139 ++++
+>   target/loongarch/machine.c                    | 102 +++
+>   target/loongarch/meson.build                  |  11 +
+>   target/loongarch/op_helper.c                  |  52 ++
+>   target/loongarch/tlb_helper.c                 | 767 ++++++++++++++++++
+>   target/loongarch/translate.c                  |   9 +-
+>   tests/tcg/loongarch64/Makefile.softmmu-target |  33 +
+>   tests/tcg/loongarch64/system/boot.S           |  56 ++
+>   tests/tcg/loongarch64/system/kernel.ld        |  30 +
+>   tests/tcg/loongarch64/system/regdef.h         |  86 ++
+>   67 files changed, 6925 insertions(+), 31 deletions(-)
+>   create mode 100644 configs/devices/loongarch64-softmmu/default.mak
+>   create mode 100644 configs/targets/loongarch64-softmmu.mak
+>   create mode 100644 docs/system/loongarch/loongson3.rst
+>   create mode 100644 gdb-xml/loongarch-base64.xml
+>   create mode 100644 gdb-xml/loongarch-fpu64.xml
+>   create mode 100644 hw/acpi/ls7a.c
+>   create mode 100644 hw/intc/loongarch_extioi.c
+>   create mode 100644 hw/intc/loongarch_ipi.c
+>   create mode 100644 hw/intc/loongarch_pch_msi.c
+>   create mode 100644 hw/intc/loongarch_pch_pic.c
+>   create mode 100644 hw/loongarch/Kconfig
+>   create mode 100644 hw/loongarch/acpi-build.c
+>   create mode 100644 hw/loongarch/fw_cfg.c
+>   create mode 100644 hw/loongarch/fw_cfg.h
+>   create mode 100644 hw/loongarch/loongson3.c
+>   create mode 100644 hw/loongarch/meson.build
 >   create mode 100644 hw/rtc/ls7a_rtc.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 306a0fc8f1..a1b4f600bf 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1130,6 +1130,7 @@ F: include/hw/loongarch/loongarch.h
->   F: include/hw/intc/loongarch_*.h
->   F: hw/intc/loongarch_*.c
->   F: include/hw/pci-host/ls7a.h
-> +F: hw/rtc/ls7a_rtc.c
->   
->   M68K Machines
->   -------------
-> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-> index 8552ff4bee..35b6680772 100644
-> --- a/hw/loongarch/Kconfig
-> +++ b/hw/loongarch/Kconfig
-> @@ -13,3 +13,4 @@ config LOONGARCH_VIRT
->       select LOONGARCH_PCH_PIC
->       select LOONGARCH_PCH_MSI
->       select LOONGARCH_EXTIOI
-> +    select LS7A_RTC
-> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-> index 2c96efece7..975e8f991b 100644
-> --- a/hw/loongarch/loongson3.c
-> +++ b/hw/loongarch/loongson3.c
-> @@ -217,6 +217,10 @@ static void loongarch_devices_init(DeviceState *pch_pic)
->        * Create some unimplemented devices to emulate this.
->        */
->       create_unimplemented_device("pci-dma-cfg", 0x1001041c, 0x4);
-> +
-> +    sysbus_create_simple("ls7a_rtc", LS7A_RTC_REG_BASE,
-> +                         qdev_get_gpio_in(pch_pic,
-> +                         LS7A_RTC_IRQ - PCH_PIC_IRQ_OFFSET));
->   }
->   
->   static void loongarch_irq_init(LoongArchMachineState *lams,
-> diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
-> index 730c272bc5..d0d8dda084 100644
-> --- a/hw/rtc/Kconfig
-> +++ b/hw/rtc/Kconfig
-> @@ -27,3 +27,6 @@ config SUN4V_RTC
->   
->   config GOLDFISH_RTC
->       bool
-> +
-> +config LS7A_RTC
-> +    bool
-> diff --git a/hw/rtc/ls7a_rtc.c b/hw/rtc/ls7a_rtc.c
-> new file mode 100644
-> index 0000000000..5e52e9cfe6
-> --- /dev/null
-> +++ b/hw/rtc/ls7a_rtc.c
-> @@ -0,0 +1,323 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Loongarch LS7A Real Time Clock emulation
-> + *
-> + * Copyright (C) 2021 Loongson Technology Corporation Limited
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +#include "hw/sysbus.h"
-> +#include "hw/irq.h"
-> +#include "include/hw/register.h"
-> +#include "qemu/timer.h"
-> +#include "sysemu/sysemu.h"
-> +#include "qemu/cutils.h"
-> +#include "qemu/log.h"
-> +#include "migration/vmstate.h"
-> +#include "hw/misc/unimp.h"
-> +#include "sysemu/rtc.h"
-> +
-> +#define SYS_TOYTRIM        0x20
-> +#define SYS_TOYWRITE0      0x24
-> +#define SYS_TOYWRITE1      0x28
-> +#define SYS_TOYREAD0       0x2C
-> +#define SYS_TOYREAD1       0x30
-> +#define SYS_TOYMATCH0      0x34
-> +#define SYS_TOYMATCH1      0x38
-> +#define SYS_TOYMATCH2      0x3C
-> +#define SYS_RTCCTRL        0x40
-> +#define SYS_RTCTRIM        0x60
-> +#define SYS_RTCWRTIE0      0x64
-> +#define SYS_RTCREAD0       0x68
-> +#define SYS_RTCMATCH0      0x6C
-> +#define SYS_RTCMATCH1      0x70
-> +#define SYS_RTCMATCH2      0x74
-> +
-> +/*
-> + * Shift bits and filed mask
-> + */
-> +#define TOY_MON_MASK   0x3f
-> +#define TOY_DAY_MASK   0x1f
-> +#define TOY_HOUR_MASK  0x1f
-> +#define TOY_MIN_MASK   0x3f
-> +#define TOY_SEC_MASK   0x3f
-> +#define TOY_MSEC_MASK  0xf
-> +
-> +#define TOY_MON_SHIFT  26
-> +#define TOY_DAY_SHIFT  21
-> +#define TOY_HOUR_SHIFT 16
-> +#define TOY_MIN_SHIFT  10
-> +#define TOY_SEC_SHIFT  4
-> +#define TOY_MSEC_SHIFT 0
-> +
-> +#define TOY_MATCH_YEAR_MASK  0x3f
-> +#define TOY_MATCH_MON_MASK   0xf
-> +#define TOY_MATCH_DAY_MASK   0x1f
-> +#define TOY_MATCH_HOUR_MASK  0x1f
-> +#define TOY_MATCH_MIN_MASK   0x3f
-> +#define TOY_MATCH_SEC_MASK   0x3f
-> +
-> +#define TOY_MATCH_YEAR_SHIFT 26
-> +#define TOY_MATCH_MON_SHIFT  22
-> +#define TOY_MATCH_DAY_SHIFT  17
-> +#define TOY_MATCH_HOUR_SHIFT 12
-> +#define TOY_MATCH_MIN_SHIFT  6
-> +#define TOY_MATCH_SEC_SHIFT  0
-> +
-> +#define TOY_ENABLE_BIT (1U << 11)
-> +
-> +#define TYPE_LS7A_RTC "ls7a_rtc"
-> +OBJECT_DECLARE_SIMPLE_TYPE(LS7ARtcState, LS7A_RTC)
+>   create mode 100644 include/hw/acpi/ls7a.h
+>   create mode 100644 include/hw/intc/loongarch_extioi.h
+>   create mode 100644 include/hw/intc/loongarch_ipi.h
+>   create mode 100644 include/hw/intc/loongarch_pch_msi.h
+>   create mode 100644 include/hw/intc/loongarch_pch_pic.h
+>   create mode 100644 include/hw/loongarch/loongarch.h
+>   create mode 100644 include/hw/pci-host/ls7a.h
+>   create mode 100644 target/loongarch/Kconfig
+>   create mode 100644 target/loongarch/constant_timer.c
+>   create mode 100644 target/loongarch/cpu-csr.h
+>   create mode 100644 target/loongarch/csr_helper.c
+>   create mode 100644 target/loongarch/gdbstub.c
+>   create mode 100644 target/loongarch/insn_trans/trans_privileged.c.inc
+>   create mode 100644 target/loongarch/iocsr_helper.c
+>   create mode 100644 target/loongarch/machine.c
+>   create mode 100644 target/loongarch/tlb_helper.c
+>   create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
+>   create mode 100644 tests/tcg/loongarch64/system/boot.S
+>   create mode 100644 tests/tcg/loongarch64/system/kernel.ld
+>   create mode 100644 tests/tcg/loongarch64/system/regdef.h
 
-This one looks right...
+This looks fairly close to me with just a couple of minor comments outstanding. The 
+main issue is the use of DECLARE_INSTANCE_CHECKER() rather than 
+OBJECT_DECLARE_SIMPLE_TYPE() for declaring QOM types which should work for just about 
+all cases here.
 
-> +typedef struct LS7ARtcState {
-> +    SysBusDevice parent_obj;
-> +
-> +    MemoryRegion iomem;
-> +    QEMUTimer *timer;
-> +    /*
-> +     * Needed to preserve the tick_count across migration, even if the
-> +     * absolute value of the rtc_clock is different on the source and
-> +     * destination.
-> +     */
-> +    int64_t offset;
-> +    int64_t data;
-> +    int64_t save_alarm_offset;
-> +    int tidx;
-> +    uint32_t toymatch[3];
-> +    uint32_t toytrim;
-> +    uint32_t cntrctl;
-> +    uint32_t rtctrim;
-> +    uint32_t rtccount;
-> +    uint32_t rtcmatch[3];
-> +    qemu_irq toy_irq;
-> +} LS7ARtcState;
-
-except you can drop the typedef as this should already be handled.
-
-> +enum {
-> +    TOYEN = 1UL << 11,
-> +    RTCEN = 1UL << 13,
-> +};
-> +
-> +static uint64_t ls7a_rtc_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    LS7ARtcState *s = LS7A_RTC(opaque);
-> +    struct tm tm;
-> +    unsigned int val;
-> +
-> +    val = 0;
-> +
-> +    switch (addr) {
-> +    case SYS_TOYREAD0:
-> +        qemu_get_timedate(&tm, s->offset);
-> +        val = (((tm.tm_mon + 1) & TOY_MON_MASK) << TOY_MON_SHIFT)
-> +        | (((tm.tm_mday) & TOY_DAY_MASK) << TOY_DAY_SHIFT)
-> +        | (((tm.tm_hour) & TOY_HOUR_MASK) << TOY_HOUR_SHIFT)
-> +        | (((tm.tm_min) & TOY_MIN_MASK) << TOY_MIN_SHIFT)
-> +        | (((tm.tm_sec) & TOY_SEC_MASK) << TOY_SEC_SHIFT) | 0x0;
-> +        break;
-> +    case SYS_TOYREAD1:
-> +        qemu_get_timedate(&tm, s->offset);
-> +        val = tm.tm_year;
-> +        break;
-> +    case SYS_TOYMATCH0:
-> +        val = s->toymatch[0];
-> +        break;
-> +    case SYS_TOYMATCH1:
-> +        val = s->toymatch[1];
-> +        break;
-> +    case SYS_TOYMATCH2:
-> +        val = s->toymatch[2];
-> +        break;
-> +    case SYS_RTCCTRL:
-> +        val = s->cntrctl;
-> +        break;
-> +    case SYS_RTCREAD0:
-> +        val = s->rtccount;
-> +        break;
-> +    case SYS_RTCMATCH0:
-> +        val = s->rtcmatch[0];
-> +        break;
-> +    case SYS_RTCMATCH1:
-> +        val = s->rtcmatch[1];
-> +        break;
-> +    case SYS_RTCMATCH2:
-> +        val = s->rtcmatch[2];
-> +        break;
-> +    default:
-> +        val = 0;
-> +        break;
-> +    }
-> +    return val;
-> +}
-> +
-> +static void ls7a_rtc_write(void *opaque, hwaddr addr,
-> +                           uint64_t val, unsigned size)
-> +{
-> +    LS7ARtcState *s = LS7A_RTC(opaque);
-> +    struct tm tm;
-> +    int64_t alarm_offset, year_diff, expire_time;
-> +
-> +    switch (addr) {
-> +    case SYS_TOYWRITE0:
-> +        qemu_get_timedate(&tm, s->offset);
-> +        tm.tm_sec = (val >> TOY_SEC_SHIFT) & TOY_SEC_MASK;
-> +        tm.tm_min = (val >> TOY_MIN_SHIFT) & TOY_MIN_MASK;
-> +        tm.tm_hour = (val >> TOY_HOUR_SHIFT) & TOY_HOUR_MASK;
-> +        tm.tm_mday = ((val >> TOY_DAY_SHIFT) & TOY_DAY_MASK);
-> +        tm.tm_mon = ((val >> TOY_MON_SHIFT) & TOY_MON_MASK) - 1;
-> +        s->offset = qemu_timedate_diff(&tm);
-> +    break;
-> +    case SYS_TOYWRITE1:
-> +        qemu_get_timedate(&tm, s->offset);
-> +        tm.tm_year = val;
-> +        s->offset = qemu_timedate_diff(&tm);
-> +        break;
-> +    case SYS_TOYMATCH0:
-> +        s->toymatch[0] = val;
-> +        qemu_get_timedate(&tm, s->offset);
-> +        tm.tm_sec = (val >> TOY_MATCH_SEC_SHIFT) & TOY_MATCH_SEC_MASK;
-> +        tm.tm_min = (val >> TOY_MATCH_MIN_SHIFT) & TOY_MATCH_MIN_MASK;
-> +        tm.tm_hour = ((val >> TOY_MATCH_HOUR_SHIFT) & TOY_MATCH_HOUR_MASK);
-> +        tm.tm_mday = ((val >> TOY_MATCH_DAY_SHIFT) & TOY_MATCH_DAY_MASK);
-> +        tm.tm_mon = ((val >> TOY_MATCH_MON_SHIFT) & TOY_MATCH_MON_MASK) - 1;
-> +        year_diff = ((val >> TOY_MATCH_YEAR_SHIFT) & TOY_MATCH_YEAR_MASK);
-> +        year_diff = year_diff - (tm.tm_year & TOY_MATCH_YEAR_MASK);
-> +        tm.tm_year = tm.tm_year + year_diff;
-> +        alarm_offset = qemu_timedate_diff(&tm) - s->offset;
-> +        if ((alarm_offset < 0) && (alarm_offset > -5)) {
-> +            alarm_offset = 0;
-> +        }
-> +        expire_time = qemu_clock_get_ms(rtc_clock);
-> +        expire_time += ((alarm_offset * 1000) + 100);
-> +        timer_mod(s->timer, expire_time);
-> +        break;
-> +    case SYS_TOYMATCH1:
-> +        s->toymatch[1] = val;
-> +        break;
-> +    case SYS_TOYMATCH2:
-> +        s->toymatch[2] = val;
-> +        break;
-> +    case SYS_RTCCTRL:
-> +        s->cntrctl = val;
-> +        break;
-> +    case SYS_RTCWRTIE0:
-> +        s->rtccount = val;
-> +        break;
-> +    case SYS_RTCMATCH0:
-> +        s->rtcmatch[0] = val;
-> +        break;
-> +    case SYS_RTCMATCH1:
-> +        val = s->rtcmatch[1];
-> +        break;
-> +    case SYS_RTCMATCH2:
-> +        val = s->rtcmatch[2];
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +}
-> +
-> +static const MemoryRegionOps ls7a_rtc_ops = {
-> +    .read = ls7a_rtc_read,
-> +    .write = ls7a_rtc_write,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .valid = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    },
-> +};
-> +
-> +static void toy_timer(void *opaque)
-> +{
-> +    LS7ARtcState *s = LS7A_RTC(opaque);
-> +
-> +    if (s->cntrctl & TOY_ENABLE_BIT) {
-> +        qemu_irq_pulse(s->toy_irq);
-> +    }
-> +}
-> +
-> +static void ls7a_rtc_realize(DeviceState *dev, Error **errp)
-> +{
-> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-> +    LS7ARtcState *d = LS7A_RTC(sbd);
-> +    memory_region_init_io(&d->iomem, NULL, &ls7a_rtc_ops,
-> +                         (void *)d, "ls7a_rtc", 0x100);
-> +
-> +    sysbus_init_irq(sbd, &d->toy_irq);
-> +
-> +    sysbus_init_mmio(sbd, &d->iomem);
-> +    d->timer = timer_new_ms(rtc_clock, toy_timer, d);
-> +    timer_mod(d->timer, qemu_clock_get_ms(rtc_clock) + 100);
-> +    d->offset = 0;
-> +
-> +    create_unimplemented_device("mmio fallback 1", 0x10013ffc, 0x4);
-> +}
-> +
-> +static int ls7a_rtc_pre_save(void *opaque)
-> +{
-> +    LS7ARtcState *s = LS7A_RTC(opaque);
-> +    struct tm tm;
-> +    int64_t year_diff, value;
-> +
-> +    value = s->toymatch[0];
-> +    qemu_get_timedate(&tm, s->offset);
-> +    tm.tm_sec = (value >> TOY_MATCH_SEC_SHIFT) & TOY_MATCH_SEC_MASK;
-> +    tm.tm_min = (value >> TOY_MATCH_MIN_SHIFT) & TOY_MATCH_MIN_MASK;
-> +    tm.tm_hour = ((value >> TOY_MATCH_HOUR_SHIFT) & TOY_MATCH_HOUR_MASK);
-> +    tm.tm_mday = ((value >> TOY_MATCH_DAY_SHIFT) & TOY_MATCH_DAY_MASK);
-> +    tm.tm_mon = ((value >> TOY_MATCH_MON_SHIFT) & TOY_MATCH_MON_MASK) - 1;
-> +    year_diff = ((value >> TOY_MATCH_YEAR_SHIFT) & TOY_MATCH_YEAR_MASK);
-> +    year_diff = year_diff - (tm.tm_year & TOY_MATCH_YEAR_MASK);
-> +    tm.tm_year = tm.tm_year + year_diff;
-> +    s->save_alarm_offset = qemu_timedate_diff(&tm) - s->offset;
-> +
-> +    return 0;
-> +}
-> +
-> +static int ls7a_rtc_post_load(void *opaque, int version_id)
-> +{
-> +    LS7ARtcState *s = LS7A_RTC(opaque);
-> +    int64_t expire_time;
-> +
-> +    expire_time = qemu_clock_get_ms(rtc_clock) + (s->save_alarm_offset * 1000);
-> +    timer_mod(s->timer, expire_time);
-> +
-> +    return 0;
-> +}
-> +
-> +static const VMStateDescription vmstate_ls7a_rtc = {
-> +    .name = "ls7a_rtc",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .pre_save = ls7a_rtc_pre_save,
-> +    .post_load = ls7a_rtc_post_load,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_INT64(offset, LS7ARtcState),
-> +        VMSTATE_INT64(save_alarm_offset, LS7ARtcState),
-> +        VMSTATE_UINT32(toymatch[0], LS7ARtcState),
-> +        VMSTATE_UINT32(cntrctl, LS7ARtcState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static void ls7a_rtc_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    dc->vmsd = &vmstate_ls7a_rtc;
-> +    dc->realize = ls7a_rtc_realize;
-> +    dc->desc = "ls7a rtc";
-> +}
-> +
-> +static const TypeInfo ls7a_rtc_info = {
-> +    .name          = TYPE_LS7A_RTC,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(LS7ARtcState),
-> +    .class_init    = ls7a_rtc_class_init,
-> +};
-> +
-> +static void ls7a_rtc_register_types(void)
-> +{
-> +    type_register_static(&ls7a_rtc_info);
-> +}
-> +
-> +type_init(ls7a_rtc_register_types)
-> diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
-> index 8fd8d8f9a7..1d4870d8c4 100644
-> --- a/hw/rtc/meson.build
-> +++ b/hw/rtc/meson.build
-> @@ -11,6 +11,7 @@ softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_rtc.c'))
->   softmmu_ss.add(when: 'CONFIG_SUN4V_RTC', if_true: files('sun4v-rtc.c'))
->   softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c'))
->   softmmu_ss.add(when: 'CONFIG_GOLDFISH_RTC', if_true: files('goldfish_rtc.c'))
-> +softmmu_ss.add(when: 'CONFIG_LS7A_RTC', if_true: files('ls7a_rtc.c'))
->   softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-rtc.c'))
->   
->   specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
-> diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
-> index f57417b096..1110d25306 100644
-> --- a/include/hw/pci-host/ls7a.h
-> +++ b/include/hw/pci-host/ls7a.h
-> @@ -35,4 +35,8 @@
->   #define LS7A_PCI_IRQS           48
->   #define LS7A_UART_IRQ           (PCH_PIC_IRQ_OFFSET + 2)
->   #define LS7A_UART_BASE          0x1fe001e0
-> +#define LS7A_RTC_IRQ            (PCH_PIC_IRQ_OFFSET + 3)
-> +#define LS7A_MISC_REG_BASE      (LS7A_PCH_REG_BASE + 0x00080000)
-> +#define LS7A_RTC_REG_BASE       (LS7A_MISC_REG_BASE + 0x00050100)
-> +#define LS7A_RTC_LEN            0x100
->   #endif
 
 ATB,
 
