@@ -2,67 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71934DE845
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 15:16:50 +0100 (CET)
-Received: from localhost ([::1]:41608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98F54DE847
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 15:18:59 +0100 (CET)
+Received: from localhost ([::1]:44932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVZsv-0007kS-FT
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 10:16:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47094)
+	id 1nVZv0-0001rX-NR
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 10:18:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nVZqp-0006ln-7a; Sat, 19 Mar 2022 10:14:39 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:43486 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nVZqn-0000du-0M; Sat, 19 Mar 2022 10:14:38 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowAAXt8RH5TVimaJTBA--.56439S2;
- Sat, 19 Mar 2022 22:14:32 +0800 (CST)
-Subject: Re: [PATCH qemu 05/13] target/riscv: rvv: Add tail agnostic for vx,
- vvm, vxm instructions
-To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <164769423983.18409.14760549429989700286-5@git.sr.ht>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <418dcf55-d0e8-e81b-9383-8e57dff36d71@iscas.ac.cn>
-Date: Sat, 19 Mar 2022 22:14:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nVZs5-0008AL-M1
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 10:15:57 -0400
+Received: from [2607:f8b0:4864:20::1034] (port=36581
+ helo=mail-pj1-x1034.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nVZs3-00019F-UL
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 10:15:57 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ kx5-20020a17090b228500b001c6ed9db871so417918pjb.1
+ for <qemu-devel@nongnu.org>; Sat, 19 Mar 2022 07:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=28Nq1V8Wj+dr0X3Oy5MGNleOY4l+yba7s0shP/2PiqU=;
+ b=Il3pvhmiA3SC3LXH9rWBQusListxwubMS60kYDIbEisn5kuYVetZ1vRiT1N2sqmhmQ
+ 99M9ILNDcPEv5zv0dLHKy+7O+o++BXdZwlIYKNFU43wR5WU8trvZrswwzy92tukKmoaP
+ uacEqaYEnzn1blpLiqNutGNblHcR62D18Ne+mdXkNvCiAi9ARUKUP8y6btTmIYYKXj3c
+ i2PzydnxdQ/jtn05YKuq7d6PY35K6sLxtxPwUBl9gzav1BFicrJO4MnueEsYFRNmxAFf
+ NCjoAkA84GR9w8Sg6MhUlnd+vyeFxDp0SH/SA3VGauM5iIlk9vDriPLXVgoVCeXVHdRV
+ s2xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=28Nq1V8Wj+dr0X3Oy5MGNleOY4l+yba7s0shP/2PiqU=;
+ b=6agrRN43QIw4u/3wTO3l/+FEveXpDj4pMlOtiP5E7weyqJx+YN0JMEErPVRhyrvGot
+ OO+N0JtQO/sMxrHezeHlJ+xBg+gfiwvzqhhb+ckCPUN7nMpMkfxTGY42KRdJc6sxlkk/
+ q6ZywzAEhPxSvUgGEKDYlezkM0v+qzbHqMoTgcPmenuQD3MPh5Q8EI0iRITKKEjOjGLj
+ /0WSNWl2hBalyt9BDPzsbfBmq5FuosZIwsiNrLqQ7Dj+DF/d0e+dzKIOyO24sK40jHjm
+ L3Hq0l8/p5Pu9LYFRp2Em3cTJ1eytlkpY+jtNRiE6FcVJL8dwMwUIqSlUys70pPvtdMI
+ CbeA==
+X-Gm-Message-State: AOAM530c2adBoTxqkQgVMfIaXFsya+zNPObEKMfzuK3AfVpuyLIfr0pN
+ MotHnUPUbDfWOOzmtLEsorI=
+X-Google-Smtp-Source: ABdhPJyTpzSQqgwW3N0LVOcyhjt4xNpLp9XZNELJLE+5tbbNBOY/nrfLcZIhk8dNtuTlhPnjTvUxuQ==
+X-Received: by 2002:a17:90b:1b0f:b0:1c6:ed78:67ad with SMTP id
+ nu15-20020a17090b1b0f00b001c6ed7867admr1139918pjb.41.1647699354507; 
+ Sat, 19 Mar 2022 07:15:54 -0700 (PDT)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ u41-20020a056a0009a900b004fa831fb240sm2512582pfg.6.2022.03.19.07.15.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 19 Mar 2022 07:15:53 -0700 (PDT)
+Message-ID: <67825229-6bca-1da8-7517-2d08e3e705cb@gmail.com>
+Date: Sat, 19 Mar 2022 23:15:48 +0900
 MIME-Version: 1.0
-In-Reply-To: <164769423983.18409.14760549429989700286-5@git.sr.ht>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH-for-7.0 v4 0/2] cocoa: run qemu_init in the main thread
 Content-Language: en-US
-X-CM-TRANSID: qwCowAAXt8RH5TVimaJTBA--.56439S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCr4xAFy8AF4kXw18WFWfXwb_yoWrWF17p3
- WkKrWSqrsxKFyfZ3WSqF4UZr1Fvan5Kw1jkr1vgw4rCas8t3ykXFWDta1Iyry2ya43CF40
- k3WrA3ya9anYyFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21lc7CjxVAKzI0EY4vE52x082I5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3
- Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUj2jg7UUUUU==
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220317125534.38706-1-philippe.mathieu.daude@gmail.com>
+ <342e06e6-8d38-d068-5686-eb13c70da93b@gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <342e06e6-8d38-d068-5686-eb13c70da93b@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,123 +96,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- eop Chen <eop.chen@sifive.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2022/03/19 22:56, Philippe Mathieu-Daudé wrote:
+> Hi Akihiko, Paolo, Peter.
+> 
+> On 17/3/22 13:55, Philippe Mathieu-Daudé wrote:
+>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>> Posting v4 in case someone want to iterate.
+>>
+>> Pending issue raised by Akihiko Odaki:
+>>
+>> * this actually breaks the "runas" option with ui/cocoa.
+>>
+>>    [+NSApplication sharedApplication] calls issetugid() to see if
+>>    setgid() or setuid() is called before and calls exit() if it evaluates
+>>    true. It does not evaluate true without this patch since setgid() and
+>>    setuid() are called after [+NSApplication sharedApplication]. This
+>>    patch, however, changes the order and triggers the check.
+>>
+>>    There are two options to solve the problem:
+>>    1. Move setgid and setuid calls after [+NSApplication
+>>    sharedApplication] to let NSApplication initialize as the original
+>>    user.
+> 
+> Akihiko, could you send a patch?
 
-在 2022/3/7 下午3:32, ~eopxd 写道:
-> From: eopXD <eop.chen@sifive.com>
->
-> Signed-off-by: eop Chen <eop.chen@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> ---
->   target/riscv/insn_trans/trans_rvv.c.inc |   5 +
->   target/riscv/vector_helper.c            | 311 +++++++++++++-----------
->   2 files changed, 178 insertions(+), 138 deletions(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 3efac1efe0..ac6379a8fc 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -1278,6 +1278,7 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
->   
->       data = FIELD_DP32(data, VDATA, VM, vm);
->       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       desc = tcg_constant_i32(simd_desc(s->cfg_ptr->vlen / 8,
->                                         s->cfg_ptr->vlen / 8, data));
->   
-> @@ -1443,6 +1444,7 @@ static bool opivi_trans(uint32_t vd, uint32_t imm, uint32_t vs2, uint32_t vm,
->   
->       data = FIELD_DP32(data, VDATA, VM, vm);
->       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->       desc = tcg_constant_i32(simd_desc(s->cfg_ptr->vlen / 8,
->                                         s->cfg_ptr->vlen / 8, data));
->   
-> @@ -1525,6 +1527,7 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
->   
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);
->           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
->                              vreg_ofs(s, a->rs1),
->                              vreg_ofs(s, a->rs2),
-> @@ -1606,6 +1609,7 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
->   
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);
->           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
->                              vreg_ofs(s, a->rs1),
->                              vreg_ofs(s, a->rs2),
-> @@ -1684,6 +1688,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);               \
->           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
->                              vreg_ofs(s, a->rs1),                    \
->                              vreg_ofs(s, a->rs2), cpu_env,           \
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 2e8a9f3578..56a32adcb9 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -815,10 +815,12 @@ RVVCALL(OPIVX2, vrsub_vx_d, OP_SSS_D, H8, H8, DO_RSUB)
->   
->   static void do_vext_vx(void *vd, void *v0, target_long s1, void *vs2,
->                          CPURISCVState *env, uint32_t desc,
-> -                       opivx2_fn fn)
-> +                       opivx2_fn fn, uint32_t esz)
->   {
->       uint32_t vm = vext_vm(desc);
->       uint32_t vl = env->vl;
-> +    uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
-> +    uint32_t vta = vext_vta(desc);
->       uint32_t i;
->   
->       for (i = env->vstart; i < vl; i++) {
-> @@ -828,30 +830,32 @@ static void do_vext_vx(void *vd, void *v0, target_long s1, void *vs2,
->           fn(vd, s1, vs2, i);
->       }
->       env->vstart = 0;
-> +    /* set tail elements to 1s */
-> +    vext_set_elems_1s_fns[ctzl(esz)](vd, vta, vl, vl * esz, vlmax * esz);
->   }
->   
->   /* generate the helpers for OPIVX */
-> -#define GEN_VEXT_VX(NAME)                                 \
-> +#define GEN_VEXT_VX(NAME, ETYPE)                          \
->   void HELPER(NAME)(void *vd, void *v0, target_ulong s1,    \
->                     void *vs2, CPURISCVState *env,          \
->                     uint32_t desc)                          \
->   {                                                         \
->       do_vext_vx(vd, v0, s1, vs2, env, desc,                \
-> -               do_##NAME);                                \
-> -}
-> -
-> -GEN_VEXT_VX(vadd_vx_b)
-> -GEN_VEXT_VX(vadd_vx_h)
-> -GEN_VEXT_VX(vadd_vx_w)
-> -GEN_VEXT_VX(vadd_vx_d)
-> -GEN_VEXT_VX(vsub_vx_b)
-> -GEN_VEXT_VX(vsub_vx_h)
-> -GEN_VEXT_VX(vsub_vx_w)
-> -GEN_VEXT_VX(vsub_vx_d)
-> -GEN_VEXT_VX(vrsub_vx_b)
-> -GEN_VEXT_VX(vrsub_vx_h)
-> -GEN_VEXT_VX(vrsub_vx_w)
-> -GEN_VEXT_VX(vrsub_vx_d)
-> +               do_##NAME, sizeof(ETYPE));                 \
-> +}
-> +
-Similar to last patch, can use ESZ directly here.
+Do you mean a patch for option 1?
+
+> 
+>>    2. Do: [[NSUserDefaults standardUserDefaults] setBool:YES
+>>    forKey:@"_NSAppAllowsNonTrustedUGID"]
+>>
+>>    Option 2 would be preferred in terms of practicality since nobody
+>>    would want to initialize NSApplication as the original user (usually
+>>    superuser). However, _NSAppAllowsNonTrustedUGID is not documented by
+>>    Apple.
+> 
+> What are your views on this problem for 7.0-rc1? Keep modifying cocoa
+> UI? Disable block layer assertions? Only disable them for Darwin?
+
+I think we should disable block layer assertions. It is not a change 
+visible to user and its value is more apparent in development.
+We can preserve most of its benefit if we restore the assertions 
+immediately after 7.0 release and let them work during the next 
+development cycle.
+
+If it is not preferred, we can apply the following change as a 
+less-intrusive alternative:
+https://patchew.org/QEMU/20220307134946.61407-1-akihiko.odaki@gmail.com/
+
+The change faced objections as it uses Cocoa APIs from iothread. It is 
+still in accordance with Cocoa's API convention and the only negative 
+effect is that it can confuse developers. It is not affecting users and 
+we can also minimize the possibility of confusion by immediately 
+following with this "qemu_init in the main thread" patch after 7.0 release.
 
 Regards,
+Akihiko Odaki
 
-Weiwei Li
+> 
+>> * Oudated comment in main():
+>>
+>>   1970  /*
+>>   1971   * Create the menu entries which depend on QEMU state (for 
+>> consoles
+>>   1972   * and removeable devices). These make calls back into QEMU 
+>> functions,
+>>   1973   * which is OK because at this point we know that the second 
+>> thread
+>>   1974   * holds the iothread lock and is synchronously waiting for us to
+>>   1975   * finish.
+>>   1976   */
+>>
+>> (https://marc.info/?l=qemu-devel&m=164752136410805)
+>>
+>> Since v3:
+>> - Move qemu_event_init before cbowner alloc
+>> - Reduce main_thread scope to applicationDidFinishLaunching
+>> - Updated updateUIInfo() comment
+>>    (s/cocoa_display_init/applicationDidFinishLaunching)
+>>
+>> Since v2:
+>> - Extracted code movement in preliminary patch
+>>
+>> v3: 
+>> https://lore.kernel.org/qemu-devel/20220317115644.37276-1-philippe.mathieu.daude@gmail.com/ 
+>>
+>> v2: 
+>> https://lore.kernel.org/qemu-devel/20220316160300.85438-1-philippe.mathieu.daude@gmail.com/ 
+>>
+>> v1: 
+>> https://lore.kernel.org/qemu-devel/20220307151004.578069-1-pbonzini@redhat.com/ 
+>>
+>>
+>> Paolo Bonzini (1):
+>>    ui/cocoa: run qemu_init in the main thread
+>>
+>> Philippe Mathieu-Daudé (1):
+>>    ui/cocoa: Code movement
+>>
+>>   softmmu/main.c |  12 ++--
+>>   ui/cocoa.m     | 161 ++++++++++++++++++++++---------------------------
+>>   2 files changed, 79 insertions(+), 94 deletions(-)
+>>
+> 
 
 
