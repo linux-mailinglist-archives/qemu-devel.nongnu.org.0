@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E440B4DE420
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Mar 2022 23:41:31 +0100 (CET)
-Received: from localhost ([::1]:45666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0734DE556
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 04:27:28 +0100 (CET)
+Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVLHn-0005xI-1F
-	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 18:41:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48344)
+	id 1nVPkU-0003rQ-JS
+	for lists+qemu-devel@lfdr.de; Fri, 18 Mar 2022 23:27:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVLGg-00054O-Sa
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 18:40:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59748)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nVLGe-0007VZ-B1
- for qemu-devel@nongnu.org; Fri, 18 Mar 2022 18:40:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647643219;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G3MqRjipwuYzU3cQnA5URe0EKzxChCPKujZ/iR8XtkM=;
- b=Ckm0XtE/OlZmZFtB5oKtkcvGpc2ZkP7NpZYPSZzwktn2sjVN7EeYqWwZuZMQtNBNvz73m/
- sjryHJVajiFfsv9C0dB2yUmY2b4fwU+HQQwUgvOtEf8k+MRHK55RLfZbVsOOjAdKs8EgGa
- 6EfRS/XtI/ntBj2J+ujjLwx1/N7QBKg=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-235-RHBp873PPH-B_hJuQftoxQ-1; Fri, 18 Mar 2022 18:40:18 -0400
-X-MC-Unique: RHBp873PPH-B_hJuQftoxQ-1
-Received: by mail-ua1-f71.google.com with SMTP id
- z1-20020ab05641000000b00341f2a589deso4433654uaa.7
- for <qemu-devel@nongnu.org>; Fri, 18 Mar 2022 15:40:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nVPit-0002DO-Te; Fri, 18 Mar 2022 23:25:47 -0400
+Received: from [2607:f8b0:4864:20::102c] (port=54096
+ helo=mail-pj1-x102c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nVPir-0006kY-2z; Fri, 18 Mar 2022 23:25:46 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id bx5so8840716pjb.3;
+ Fri, 18 Mar 2022 20:25:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=XTW4S5ckpvq8HegZ6yTgNuRtPlmgbfhUQGcBCDoCe88=;
+ b=KeWvWE07J+UiNMb+xel1xebiUWM3ebXDsajyb0kskEGEyW9Ad8QbfqzSuycF56s5+C
+ 5PcSuEYlH4oAqjYCzJjwWLKPMchoVDUNY6AH1+Khs9t7vTzUuKOJoBytNiyiCDhUWa2P
+ +dIb+VdUw+WHCIeuaIs6tbGxD+0fE4ELBzLqrU1XKC77ztpEH7CEzbKmU2YIYLCH93R+
+ dRwITr+BDijQ1rmP7091QX3TgQPV1HU8rEukIo5dhfn7PGoPghqz/j2tQEGRPhy5sJOM
+ prk2VzrZG2kF7bke3Gh1FPOq/YwH3grc5pHs0GCRGsOm5mLaVCWj/QZXXxI0GopRc5Bl
+ 0XEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=G3MqRjipwuYzU3cQnA5URe0EKzxChCPKujZ/iR8XtkM=;
- b=fQbggSLRJToHZZUUO3Mzasxd2nYNsw9Lq84iKfo1tZz7B4SrcZBZCCuftOPVvFQVYK
- NWkFh4icJyVjOKLIbRHBsxpEftcqeEhe3IBtlui2Iro62jhWewvUO9lhSA+dZ0ekvLPt
- 9fqXp/C4zIjBfYmpr3c0SHcw1xONzuLimy6D9/Eou7o7DWydofV7OM9xhZ5JtaIxKcII
- ZmdmFmzaHify69wijoa1gHUrM/8H5nQr+Ptvz4sP/WjMIl862+zNIXaLqMK03eDsk/Ok
- bYuVGx8ic/xnm1b0g+9CgYZVcFF4P2DvVmKbgMToq4Poozrhpn27QNkzlg1SXazVYVI4
- AxEA==
-X-Gm-Message-State: AOAM5304n0cJSxX0f59hummkqAVQp16sQ1psM8UxO1YRI44aYKWjojAy
- wlbBeEa2SwLAkXRFsWq0fYFkp7b+WNEZ1EYdssCwpIgjWWAXowggAi2XClJwWbGQkJb1AhHFHax
- XysLARhlhrWyhqn3bgP6/lfEzzVd/MOk=
-X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
- 7-20020a056122088700b00332699e7e67mr4785035vkf.35.1647643217705; 
- Fri, 18 Mar 2022 15:40:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwpO5vvVvlpQmD7igt+cowkYq5RdFqCj315ILSFmaiqqCHmhS7iOTwtl24jdiZlryDc0aAFgIVbK0gizDNDh6s=
-X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
- 7-20020a056122088700b00332699e7e67mr4785030vkf.35.1647643217348; Fri, 18 Mar
- 2022 15:40:17 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XTW4S5ckpvq8HegZ6yTgNuRtPlmgbfhUQGcBCDoCe88=;
+ b=lWT/yUYnQTAR4qaF+bT0T/TIZCl/OHyf46GSyGDHzRzRdCKEOZBnLXcP/DSBYt/Xfr
+ /Kw7LKGuN4SDcxdd1JbWLS6O3CBX1TG1CeLXML10ZIIg2dZquCKq+596GWIy2ZvTEMBL
+ Rsx9VNlBWbk9Nbxq/MKbFGLZdPUJYUXmX7o3slvDEAT8ZdImQyZ3pCI1fXqbMRGxhz8f
+ j7AeQeC1J7pFO3c+HjCLAcj5Zk9kgdOqT9EBW7Pt/QlLpF5YaFWuwY6YuKm8EMmQCxC8
+ tf3fMpL20Qttbq9V+1Nn+zP8PkAbrBPGTzEdCv7War3GY9AzSKZHVrYFp9EyZ7ZX1fV/
+ EfIw==
+X-Gm-Message-State: AOAM532Z2D63ghtw40xOpCwhFn903IbfO0QdxzuvwGlyblJRZhMwcz+o
+ cWhIxGwG+7KrC4Xr83n0zjI=
+X-Google-Smtp-Source: ABdhPJzyMZz90iloxkS9KPCdtPii3t2vJu1VknelNfN4KT6CN71gL5FEJr34vC+KySm8dEJ9Tw+NpQ==
+X-Received: by 2002:a17:902:ec86:b0:154:4f9:f938 with SMTP id
+ x6-20020a170902ec8600b0015404f9f938mr2570945plg.5.1647660338977; 
+ Fri, 18 Mar 2022 20:25:38 -0700 (PDT)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ r17-20020a639b11000000b003810ac60e40sm8453116pgd.69.2022.03.18.20.25.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Mar 2022 20:25:38 -0700 (PDT)
+Message-ID: <a37d98d4-5fdf-8a57-af64-eab4daacf49d@gmail.com>
+Date: Sat, 19 Mar 2022 12:25:35 +0900
 MIME-Version: 1.0
-References: <20220318125304.66131-1-hreitz@redhat.com>
- <20220318125304.66131-3-hreitz@redhat.com>
-In-Reply-To: <20220318125304.66131-3-hreitz@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 18 Mar 2022 18:40:06 -0400
-Message-ID: <CAFn=p-ZchBuVyvBVqVxbERTz-_J+vBYBNZk5fo=XRekfhsv=Pw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] iotests/207: Filter host fingerprint
-To: Hanna Reitz <hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] gitattributes: Cover Objective-C source files
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>
+References: <20220317130326.39188-1-philippe.mathieu.daude@gmail.com>
+ <62dbdfcf-771e-7c84-ab8b-b02a61112f86@gmail.com>
+ <69c6db77-273e-dbeb-e695-e20772d003e2@gmail.com>
+ <2ab1e5f9-6a34-6b82-8f43-b7dcf58bc8b1@gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <2ab1e5f9-6a34-6b82-8f43-b7dcf58bc8b1@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,104 +94,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 18, 2022 at 8:53 AM Hanna Reitz <hreitz@redhat.com> wrote:
->
-> Commit e3296cc796aeaf319f3ed4e064ec309baf5e4da4 made the ssh block
-> driver's error message for fingerprint mismatches more verbose, so it
-> now prints the actual host key fingerprint and the key type.
->
-> iotest 207 tests such errors, but was not amended to filter that
-> fingerprint (which is host-specific), so do it now.  Filter the key
-> type, too, because I guess this too can differ depending on the host
-> configuration.
->
+On 2022/03/19 1:14, Philippe Mathieu-Daudé wrote:
+>> Commit 29cf16db23 says:
+>>> Since commits 0979ed017f0 ("meson: rename .inc.h files to .h.inc")
+>>> and 139c1837db7 ("meson: rename included C source files to .c.inc")
+>>> 'git-diff --function-context' stopped displaying C function context
+>>> correctly.
+>>
+>> So I suspect Git has some knowledge of common file extensions like .c, 
+>> .h and .m although I couldn't find in the source code of Git.
+> 
+> 'git-diff --function-context' doesn't work for me without this change.
 
-Oh, neat.
+With some debugging, I found Apple's Git distribution actually carries a 
+default gitattributes file which annotates *.m.
+https://github.com/apple-opensource/Git/blob/master/gitattributes
 
-(Not that neat.)
+However, it does not annotate *.c or *.h. Apparently there is no "c" 
+diff pattern and they are handled with the "default" diff pattern which 
+is actually designed for C. In fact, "c" diff pattern is not present in 
+the documentation:
+https://git-scm.com/docs/gitattributes#_defining_an_external_diff_driver
 
-> Fixes: e3296cc796aeaf319f3ed4e064ec309baf5e4da4
->        ("block: print the server key type and fingerprint on failure")
-> Reported-by: John Snow <jsnow@redhat.com>
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
->  tests/qemu-iotests/207     | 7 ++++++-
->  tests/qemu-iotests/207.out | 6 +++---
->  2 files changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/tests/qemu-iotests/207 b/tests/qemu-iotests/207
-> index 0f5c4bc8a0..41dcf3ff55 100755
-> --- a/tests/qemu-iotests/207
-> +++ b/tests/qemu-iotests/207
-> @@ -35,7 +35,12 @@ def filter_hash(qmsg):
->          if key =3D=3D 'hash' and re.match('[0-9a-f]+', value):
->              return 'HASH'
->          return value
-> -    return iotests.filter_qmp(qmsg, _filter)
-> +    if isinstance(qmsg, str):
-> +        # Strip key type and fingerprint
-> +        p =3D r"\S+ (key fingerprint) '(md5|sha1|sha256):[0-9a-f]+'"
-> +        return re.sub(p, r"\1 '\2:HASH'", qmsg)
-> +    else:
-> +        return iotests.filter_qmp(qmsg, _filter)
->
->  def blockdev_create(vm, options):
->      vm.blockdev_create(options, filters=3D[iotests.filter_qmp_testfiles,=
- filter_hash])
-> diff --git a/tests/qemu-iotests/207.out b/tests/qemu-iotests/207.out
-> index aeb8569d77..05cf753283 100644
-> --- a/tests/qemu-iotests/207.out
-> +++ b/tests/qemu-iotests/207.out
-> @@ -42,7 +42,7 @@ virtual size: 4 MiB (4194304 bytes)
->
->  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options"=
-: {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode"=
-: "hash", "type": "md5"}, "path": "TEST_DIR/PID-t.img", "server": {"host": =
-"127.0.0.1", "port": "22"}}, "size": 2097152}}}
->  {"return": {}}
-> -Job failed: remote host key does not match host_key_check 'wrong'
-> +Job failed: remote host key fingerprint 'md5:HASH' does not match host_k=
-ey_check 'md5:wrong'
->  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
->  {"return": {}}
->
-> @@ -59,7 +59,7 @@ virtual size: 8 MiB (8388608 bytes)
->
->  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options"=
-: {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode"=
-: "hash", "type": "sha1"}, "path": "TEST_DIR/PID-t.img", "server": {"host":=
- "127.0.0.1", "port": "22"}}, "size": 2097152}}}
->  {"return": {}}
-> -Job failed: remote host key does not match host_key_check 'wrong'
-> +Job failed: remote host key fingerprint 'sha1:HASH' does not match host_=
-key_check 'sha1:wrong'
->  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
->  {"return": {}}
->
-> @@ -76,7 +76,7 @@ virtual size: 4 MiB (4194304 bytes)
->
->  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options"=
-: {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode"=
-: "hash", "type": "sha256"}, "path": "TEST_DIR/PID-t.img", "server": {"host=
-": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
->  {"return": {}}
-> -Job failed: remote host key does not match host_key_check 'wrong'
-> +Job failed: remote host key fingerprint 'sha256:HASH' does not match hos=
-t_key_check 'sha256:wrong'
->  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
->  {"return": {}}
->
-> --
-> 2.35.1
->
+In conclusion, *.m should be listed in gitattributes but *.c.inc and 
+*.h.inc should not be if my understanding is correct.
 
-sankyuu~
+Paolo Bonzini, I found you are the author of commit 29cf16db23. Can you 
+test the above conclusion?
 
-Reviewed-by: John Snow <jsnow@redhat.com>
-
+Regards,
+Akihiko Odaki
 
