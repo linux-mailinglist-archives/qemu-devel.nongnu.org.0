@@ -2,66 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42784DE8DC
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 15:47:15 +0100 (CET)
-Received: from localhost ([::1]:58162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDA54DE8F9
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 16:17:36 +0100 (CET)
+Received: from localhost ([::1]:38116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVaMM-0004FV-Cw
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 10:47:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57224)
+	id 1nVapj-0003ez-3w
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 11:17:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nVaKt-0003Br-1u; Sat, 19 Mar 2022 10:45:43 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:46482 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nVaKq-0006uS-Bt; Sat, 19 Mar 2022 10:45:42 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowACHj8eL7DVim4VUBA--.5272S2;
- Sat, 19 Mar 2022 22:45:32 +0800 (CST)
-Subject: Re: [PATCH qemu 00/13] Add tail agnostic behavior for rvv instructions
-To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <164769423983.18409.14760549429989700286-0@git.sr.ht>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <3fdb7da2-7f68-ad7b-d23f-cd3a3845bcfd@iscas.ac.cn>
-Date: Sat, 19 Mar 2022 22:45:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <164769423983.18409.14760549429989700286-0@git.sr.ht>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: qwCowACHj8eL7DVim4VUBA--.5272S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7WF13WrWrCr4fJr43KF45Wrg_yoW8Cry3pF
- 48Ga13G398XrZFgw1SgF48Cr15tFZ3Gr4rAwnrJ348t3y3trZ5tF1vk34I9FnrJFyUWr12
- k3WDAr13uws8ArDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21lc7CjxVAKzI0EY4vE52x082I5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3
- Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUUyCJPUUUUU==
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1nVanz-0002nm-GD; Sat, 19 Mar 2022 11:15:47 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:48546)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1nVanw-0005iQ-WC; Sat, 19 Mar 2022 11:15:47 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from smtpclient.apple ([80.187.74.154])
+ (authenticated user pl@kamp.de) by kerio.kamp.de with ESMTPSA
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
+ Sat, 19 Mar 2022 16:15:34 +0100
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Peter Lieven <pl@kamp.de>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] block/rbd: fix write zeroes with growing images
+Date: Sat, 19 Mar 2022 16:15:33 +0100
+Message-Id: <40388E21-4608-4815-B332-C6173412B6C3@kamp.de>
+References: <20220318164743.vgkbcoeok2e4r6pa@sgarzare-redhat>
+In-Reply-To: <20220318164743.vgkbcoeok2e4r6pa@sgarzare-redhat>
+To: Stefano Garzarella <sgarzare@redhat.com>
+X-Mailer: iPhone Mail (19C56)
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,58 +52,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- eop Chen <eop.chen@sifive.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Ilya Dryomov <idryomov@gmail.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/3/19 下午8:50, ~eopxd 写道:
-> According to v-spec, tail agnostic behavior can be either kept as
-> undisturbed or set elements' bits to all 1s. To distinguish the
-> difference of tail policies, qemu should be able to simulate the tail
-> agnostic behavior as "set tail elements' bits to all 1s". An option
-> 'rvv_ta_all_1s' is added to enable the behavior, it is default as
-> disabled.
 
-Another question: when rvv_ta_all_1s for vta  is enabled, How about vma? 
-Is it necessary to set the inactive elements to all 1s?
+> Am 18.03.2022 um 17:47 schrieb Stefano Garzarella <sgarzare@redhat.com>:
+>=20
+> =EF=BB=BFOn Fri, Mar 18, 2022 at 04:48:18PM +0100, Peter Lieven wrote:
+>>=20
+>>=20
+>>>> Am 18.03.2022 um 09:25 schrieb Stefano Garzarella <sgarzare@redhat.com>=
+:
+>>>=20
+>>> =EF=BB=BFOn Thu, Mar 17, 2022 at 07:27:05PM +0100, Peter Lieven wrote:
+>>>>=20
+>>>>=20
+>>>>>> Am 17.03.2022 um 17:26 schrieb Stefano Garzarella <sgarzare@redhat.co=
+m>:
+>>>>>=20
+>>>>> =EF=BB=BFCommit d24f80234b ("block/rbd: increase dynamically the image=
+ size")
+>>>>> added a workaround to support growing images (eg. qcow2), resizing
+>>>>> the image before write operations that exceed the current size.
+>>>>>=20
+>>>>> We recently added support for write zeroes and without the
+>>>>> workaround we can have problems with qcow2.
+>>>>>=20
+>>>>> So let's move the resize into qemu_rbd_start_co() and do it when
+>>>>> the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
+>>>>>=20
+>>>>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D2020993
+>>>>> Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
+>>>>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>>>>> ---
+>>>>> block/rbd.c | 26 ++++++++++++++------------
+>>>>> 1 file changed, 14 insertions(+), 12 deletions(-)
+>>>>>=20
+>>>>> diff --git a/block/rbd.c b/block/rbd.c
+>>>>> index 8f183eba2a..6caf35cbba 100644
+>>>>> --- a/block/rbd.c
+>>>>> +++ b/block/rbd.c
+>>>>> @@ -1107,6 +1107,20 @@ static int coroutine_fn qemu_rbd_start_co(Block=
+DriverState *bs,
+>>>>>=20
+>>>>>   assert(!qiov || qiov->size =3D=3D bytes);
+>>>>>=20
+>>>>> +    if (cmd =3D=3D RBD_AIO_WRITE || cmd =3D=3D RBD_AIO_WRITE_ZEROES) {=
 
-Regards,
+>>>>> +        /*
+>>>>> +         * RBD APIs don't allow us to write more than actual size, so=
+ in order
+>>>>> +         * to support growing images, we resize the image before writ=
+e
+>>>>> +         * operations that exceed the current size.
+>>>>> +         */
+>>>>> +        if (offset + bytes > s->image_size) {
+>>>>> +            int r =3D qemu_rbd_resize(bs, offset + bytes);
+>>>>> +            if (r < 0) {
+>>>>> +                return r;
+>>>>> +            }
+>>>>> +        }
+>>>>> +    }
+>>>>> +
+>>>>>   r =3D rbd_aio_create_completion(&task,
+>>>>>                                 (rbd_callback_t) qemu_rbd_completion_c=
+b, &c);
+>>>>>   if (r < 0) {
+>>>>> @@ -1182,18 +1196,6 @@ coroutine_fn qemu_rbd_co_pwritev(BlockDriverSta=
+te *bs, int64_t offset,
+>>>>>                                int64_t bytes, QEMUIOVector *qiov,
+>>>>>                                BdrvRequestFlags flags)
+>>>>> {
+>>>>> -    BDRVRBDState *s =3D bs->opaque;
+>>>>> -    /*
+>>>>> -     * RBD APIs don't allow us to write more than actual size, so in o=
+rder
+>>>>> -     * to support growing images, we resize the image before write
+>>>>> -     * operations that exceed the current size.
+>>>>> -     */
+>>>>> -    if (offset + bytes > s->image_size) {
+>>>>> -        int r =3D qemu_rbd_resize(bs, offset + bytes);
+>>>>> -        if (r < 0) {
+>>>>> -            return r;
+>>>>> -        }
+>>>>> -    }
+>>>>>   return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_WRI=
+TE);
+>>>>> }
+>>>>>=20
+>>>>> --
+>>>>> 2.35.1
+>>>>>=20
+>>>>=20
+>>>> Do we really have a use case for growing rbd images?
+>>>=20
+>>> The use case is to have a qcow2 image on rbd.
+>>> I don't think it's very common, but some people use it and here [1] we h=
+ad a little discussion about features that could be interesting (e.g.  persi=
+stent dirty bitmaps for incremental backup).
+>>>=20
+>>> In any case the support is quite simple and does not affect other use ca=
+ses since we only increase the size when we go beyond the current size.
+>>>=20
+>>> IMHO we can have it in :-)
+>>>=20
+>>=20
+>> The QCOW2 alone doesn=E2=80=99t make much sense, but additional metadata m=
+ight be a use case.
+>=20
+> Yep.
+>=20
+>> Be aware that the current approach will serialize requests. If there is a=
+ real use case, we might think of a better solution.
+>=20
+> Good point, but it only happens when we have to resize, so maybe it's okay=
+ for now, but I agree we could do better ;-)
 
-Weiwei Li
+There might also be a problem if a write for a higher offset past eof will b=
+e executed shortly before a write to a slightly lower offset past eof. The s=
+econd resize will fail as it would shrink the image. We would need proper lo=
+cking to avoid this. Maybe we need to check if we write past eof. If yes, ta=
+ke a lock around the resize op and then check again if it=E2=80=99s still eo=
+f and only resize if true.
 
->
-> eopXD (13):
->    target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
->    target/riscv: rvv: Rename ambiguous esz
->    target/riscv: rvv: Early exit when vstart >= vl
->    target/riscv: rvv: Add tail agnostic for vv instructions
->    target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
->    target/riscv: rvv: Add tail agnostic for vector integer shift
->      instructions
->    target/riscv: rvv: Add tail agnostic for vector integer comparison
->      instructions
->    target/riscv: rvv: Add tail agnostic for vector integer merge and move
->      instructions
->    target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
->      instructions
->    target/riscv: rvv: Add tail agnostic for vector floating-point
->      instructions
->    target/riscv: rvv: Add tail agnostic for vector reduction instructions
->    target/riscv: rvv: Add tail agnostic for vector mask instructions
->    target/riscv: rvv: Add tail agnostic for vector permutation
->      instructions
->
->   target/riscv/cpu.c                      |    1 +
->   target/riscv/cpu.h                      |    2 +
->   target/riscv/cpu_helper.c               |    2 +
->   target/riscv/insn_trans/trans_rvv.c.inc |   58 +
->   target/riscv/internals.h                |    5 +-
->   target/riscv/translate.c                |    2 +
->   target/riscv/vector_helper.c            | 1508 ++++++++++++++---------
->   7 files changed, 961 insertions(+), 617 deletions(-)
->
+Peter
+
+>=20
+> Thanks,
+> Stefano
+>=20
+
 
 
