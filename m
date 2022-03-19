@@ -2,73 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21C34DE79C
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 12:31:50 +0100 (CET)
-Received: from localhost ([::1]:58100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639404DE7D1
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 13:18:11 +0100 (CET)
+Received: from localhost ([::1]:44286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVXJF-0001MS-8E
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 07:31:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45576)
+	id 1nVY25-0005R5-UQ
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 08:18:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVXGc-0000P5-Ai
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 07:29:06 -0400
-Received: from [2607:f8b0:4864:20::1132] (port=46011
- helo=mail-yw1-x1132.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVXGS-0008Ly-4t
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 07:28:57 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-2e5ad7166f1so101354707b3.12
- for <qemu-devel@nongnu.org>; Sat, 19 Mar 2022 04:28:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZnZ5MYtwdpYDnsHIJTtKI+IfMhev7Rj/cTI2+g2lhiI=;
- b=faKutP9L4nxik/NLay3DSrqPIMDeR+Aci0c7FdJZ1X2uPjuEzsem0YH5ihAaWUFeMT
- pxRG1XBclCPwRwQK8pVPdMse9XzRIDe+zhUHSsWEULXSl6LDfad7W4hBQk2zfrXsPDOr
- uTPU4UP7ZqdqV5rnmJ109YhWN7fzigiqhc/RkIOB+i3+YyyKZUw8C96//JIyD+I7k+Ot
- rgku/skPP6tYBXO3ByIVn7yNlc97/4QAEBXTyCQJ60AlNbsdJhWRFuNd95L8Ijy17O2j
- P26OoH97y65X+ijKv+Seiet/S2IMmESkhCVeCM+H+ZntGUyiXh+TBQP/JbAyQaDiYDbI
- P5uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZnZ5MYtwdpYDnsHIJTtKI+IfMhev7Rj/cTI2+g2lhiI=;
- b=OV8IiN5WQACjg3wJgAN/tWDgTmByivg3uewTH3bKu8oaD59rDw4QCp0DF1zcug+tbl
- bO3AWtGoMQKgVdqMc+4De61W1/2K1Hz4hZj3Q2WWdq1caJXq7iNcfQSJP7BQGDMUqlgW
- QfbdbibImhfiGaBFfMnBEq6lz1jK/lv3dSi7x/FEd0QRWje6B6U1alJo2spogK6Ail//
- XjC0KqaVfaNOj6+/sPeCwLObO8mnsY8/Ks9evGlnd2kf+5QxS5zBaDfRIoY2YWXkQ7v4
- pFH8x0xvWiijk+qCHsbwaOG4X4qtHIoYv8OTWu4Gj3kF67cEFEfA8LS8reH/vwbFZxeV
- 7LLA==
-X-Gm-Message-State: AOAM530PBOetRqJuSnMY82MlNTkHfsmFCPUoMVIW6T+Rig4VOf3mzKX9
- ZTd0NVjC5fcDQexulU9So90QYSoG0UbahEWJYK2/lw==
-X-Google-Smtp-Source: ABdhPJzNM2O0jatTwuKDuxSoQWifQRyKTCewmyRJ2Jtw7kLcFiRcFMT9IYPmHWgmSs7JnZ1T5cp1B3iZxzgXFqBhjAc=
-X-Received: by 2002:a0d:fd02:0:b0:2e5:9617:fda8 with SMTP id
- n2-20020a0dfd02000000b002e59617fda8mr15496519ywf.10.1647689334893; Sat, 19
- Mar 2022 04:28:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nVXz1-0003fk-U8
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:14:59 -0400
+Received: from [2001:41c9:1:41f::167] (port=48750
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nVXyz-0006kB-6f
+ for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:14:59 -0400
+Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nVXyC-0005Pt-Jd; Sat, 19 Mar 2022 12:14:12 +0000
+Message-ID: <c87918e6-3929-84b5-4412-9ed2853a1df8@ilande.co.uk>
+Date: Sat, 19 Mar 2022 12:14:47 +0000
 MIME-Version: 1.0
-References: <20220318134333.2901052-1-laurent@vivier.eu>
-In-Reply-To: <20220318134333.2901052-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 19 Mar 2022 11:28:42 +0000
-Message-ID: <CAFEAcA9N__jByE16Q9ih5emX-WBtzQKgz5UxR_in8p27qkgM3w@mail.gmail.com>
-Subject: Re: [PULL 0/2] Trivial branch for 7.0 patches
-To: Laurent Vivier <Laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1132
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
+ <20220225080308.1405-15-yangxiaojuan@loongson.cn>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220225080308.1405-15-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH v6 14/29] hw/loongarch: Add support loongson3 virt
+ machine type.
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,32 +67,441 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Mar 2022 at 14:02, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 1d60bb4b14601e38ed17384277aa4c30c57925d3:
->
->   Merge tag 'pull-request-2022-03-15v2' of https://gitlab.com/thuth/qemu into staging (2022-03-16 10:43:58 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-7.0-pull-request
->
-> for you to fetch changes up to a2d860bb546aa766f6c28a47fabedafbfa191cc2:
->
->   virtio/virtio-balloon: Prefer Object* over void* parameter (2022-03-18 13:57:50 +0100)
->
-> ----------------------------------------------------------------
-> Trivial branch pull request 20220318
+On 25/02/2022 08:02, Xiaojuan Yang wrote:
+
+> Emulate a 3A5000 board use the new loongarch instruction.
+> 3A5000 belongs to the Loongson3 series processors.
+> The board consists of a 3A5000 cpu model and the virt
+> bridge. The host 3A5000 board is really complicated and
+> contains many functions.Now for the tcg softmmu mode
+> only part functions are emulated.
+> 
+> More detailed info you can see
+> https://github.com/loongson/LoongArch-Documentation
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   MAINTAINERS                                   |   3 +
+>   .../devices/loongarch64-softmmu/default.mak   |   3 +
+>   configs/targets/loongarch64-softmmu.mak       |   3 +
+>   hw/Kconfig                                    |   1 +
+>   hw/loongarch/Kconfig                          |   4 +
+>   hw/loongarch/loongson3.c                      | 158 ++++++++++++++++++
+>   hw/loongarch/meson.build                      |   4 +
+>   hw/meson.build                                |   1 +
+>   include/exec/poison.h                         |   2 +
+>   include/hw/loongarch/loongarch.h              |  52 ++++++
+>   include/sysemu/arch_init.h                    |   1 +
+>   qapi/machine.json                             |   2 +-
+>   target/Kconfig                                |   1 +
+>   target/loongarch/Kconfig                      |   2 +
+>   target/loongarch/cpu.h                        |   3 +
+>   15 files changed, 239 insertions(+), 1 deletion(-)
+>   create mode 100644 configs/devices/loongarch64-softmmu/default.mak
+>   create mode 100644 hw/loongarch/Kconfig
+>   create mode 100644 hw/loongarch/loongson3.c
+>   create mode 100644 hw/loongarch/meson.build
+>   create mode 100644 include/hw/loongarch/loongarch.h
+>   create mode 100644 target/loongarch/Kconfig
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9812f148ac..20632528f7 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1123,7 +1123,10 @@ M: Song Gao <gaosong@loongson.cn>
+>   S: Maintained
+>   F: docs/system/loongarch/loongson3.rst
+>   F: configs/targets/loongarch64-softmmu.mak
+> +F: configs/devices/loongarch64-softmmu/default.mak
+>   F: gdb-xml/loongarch*.xml
+> +F: hw/loongarch/
+> +F: include/hw/loongarch/loongarch.h
+>   
+>   M68K Machines
+>   -------------
+> diff --git a/configs/devices/loongarch64-softmmu/default.mak b/configs/devices/loongarch64-softmmu/default.mak
+> new file mode 100644
+> index 0000000000..928bc117ef
+> --- /dev/null
+> +++ b/configs/devices/loongarch64-softmmu/default.mak
+> @@ -0,0 +1,3 @@
+> +# Default configuration for loongarch64-softmmu
+> +
+> +CONFIG_LOONGARCH_VIRT=y
+> diff --git a/configs/targets/loongarch64-softmmu.mak b/configs/targets/loongarch64-softmmu.mak
+> index f33fa1590b..7bc06c850c 100644
+> --- a/configs/targets/loongarch64-softmmu.mak
+> +++ b/configs/targets/loongarch64-softmmu.mak
+> @@ -1 +1,4 @@
+> +TARGET_ARCH=loongarch64
+> +TARGET_BASE_ARCH=loongarch
+> +TARGET_SUPPORTS_MTTCG=y
+>   TARGET_XML_FILES= gdb-xml/loongarch-base64.xml gdb-xml/loongarch-fpu64.xml
+> diff --git a/hw/Kconfig b/hw/Kconfig
+> index ad20cce0a9..f71b2155ed 100644
+> --- a/hw/Kconfig
+> +++ b/hw/Kconfig
+> @@ -49,6 +49,7 @@ source avr/Kconfig
+>   source cris/Kconfig
+>   source hppa/Kconfig
+>   source i386/Kconfig
+> +source loongarch/Kconfig
+>   source m68k/Kconfig
+>   source microblaze/Kconfig
+>   source mips/Kconfig
+> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+> new file mode 100644
+> index 0000000000..13e8501897
+> --- /dev/null
+> +++ b/hw/loongarch/Kconfig
+> @@ -0,0 +1,4 @@
+> +config LOONGARCH_VIRT
+> +    bool
+> +    select PCI
+> +    select PCI_EXPRESS_GENERIC_BRIDGE
+> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+> new file mode 100644
+> index 0000000000..1cb7bf057c
+> --- /dev/null
+> +++ b/hw/loongarch/loongson3.c
+> @@ -0,0 +1,158 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * QEMU loongson 3a5000 develop board emulation
+> + *
+> + * Copyright (c) 2021 Loongson Technology Corporation Limited
+> + */
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "qemu/units.h"
+> +#include "qemu/datadir.h"
+> +#include "qapi/error.h"
+> +#include "hw/boards.h"
+> +#include "sysemu/sysemu.h"
+> +#include "sysemu/qtest.h"
+> +#include "sysemu/runstate.h"
+> +#include "sysemu/reset.h"
+> +#include "sysemu/rtc.h"
+> +#include "hw/loongarch/loongarch.h"
+> +
+> +#include "target/loongarch/cpu.h"
+> +
+> +static void loongarch_cpu_reset(void *opaque)
+> +{
+> +    LoongArchCPU *cpu = opaque;
+> +
+> +    cpu_reset(CPU(cpu));
+> +}
+> +
+> +static void loongarch_qemu_write(void *opaque, hwaddr addr,
+> +                                 uint64_t val, unsigned size)
+> +{
+> +}
+> +
+> +static uint64_t loongarch_qemu_read(void *opaque, hwaddr addr, unsigned size)
+> +{
+> +    uint64_t feature = 0UL;
+> +
+> +    switch (addr) {
+> +    case FEATURE_REG:
+> +        feature |= 1UL << IOCSRF_MSI | 1UL << IOCSRF_EXTIOI |
+> +                   1UL << IOCSRF_CSRIPI;
+> +        return feature ;
+> +    case VENDOR_REG:
+> +        return *(uint64_t *)"Loongson";
+> +    case CPUNAME_REG:
+> +        return *(uint64_t *)"3A5000";
+> +    case MISC_FUNC_REG:
+> +        return 1UL << IOCSRM_EXTIOI_EN;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static const MemoryRegionOps loongarch_qemu_ops = {
+> +    .read = loongarch_qemu_read,
+> +    .write = loongarch_qemu_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .valid = {
+> +        .min_access_size = 4,
+> +        .max_access_size = 8,
+> +    },
+> +    .impl = {
+> +        .min_access_size = 4,
+> +        .max_access_size = 8,
+> +    },
+> +};
+> +
+> +static void loongarch_cpu_init(LoongArchCPU *la_cpu, int cpu_num)
+> +{
+> +    CPULoongArchState *env;
+> +    env = &la_cpu->env;
+> +
+> +    memory_region_init_io(&env->system_iocsr, OBJECT(la_cpu), NULL,
+> +                      env, "iocsr", UINT64_MAX);
+> +    address_space_init(&env->address_space_iocsr, &env->system_iocsr, "IOCSR");
+> +
+> +    timer_init_ns(&la_cpu->timer, QEMU_CLOCK_VIRTUAL,
+> +                  &loongarch_constant_timer_cb, la_cpu);
+> +
+> +    qemu_register_reset(loongarch_cpu_reset, la_cpu);
+> +
+> +    memory_region_init_io(&env->iocsr_mem, OBJECT(la_cpu), &loongarch_qemu_ops,
+> +                          NULL, "iocsr_misc", IOCSR_MEM_SIZE);
+> +
+> +    memory_region_add_subregion(&env->system_iocsr, 0, &env->iocsr_mem);
+> +}
+> +
+> +static void loongarch_init(MachineState *machine)
+> +{
+> +    const char *cpu_model = machine->cpu_type;
+> +    LoongArchCPU *la_cpu;
+> +    ram_addr_t offset = 0;
+> +    ram_addr_t ram_size = machine->ram_size;
+> +    uint64_t highram_size = 0;
+> +    MemoryRegion *address_space_mem = get_system_memory();
+> +    LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+> +    int i;
+> +
+> +    if (!cpu_model) {
+> +        cpu_model = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
+> +    }
+> +
+> +    if (!strstr(cpu_model, "Loongson-3A5000")) {
+> +        error_report("LoongArch/TCG needs cpu type Loongson-3A5000");
+> +        exit(1);
+> +    }
+> +
+> +    /* Init CPUs */
+> +    for (i = 0; i < machine->smp.cpus; i++) {
+> +        la_cpu = LOONGARCH_CPU(cpu_create(machine->cpu_type));
+> +        loongarch_cpu_init(la_cpu, i);
+> +    }
+> +
+> +    /* Add memory region */
+> +    memory_region_init_alias(&lams->lowmem, NULL, "loongarch.lowram",
+> +                             machine->ram, 0, 256 * MiB);
+> +    memory_region_add_subregion(address_space_mem, offset, &lams->lowmem);
+> +    offset += 256 * MiB;
+> +
+> +    highram_size = ram_size - 256 * MiB;
+> +    memory_region_init_alias(&lams->highmem, NULL, "loongarch.highmem",
+> +                             machine->ram, offset, highram_size);
+> +    memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
+> +    offset += highram_size;
+> +
+> +    /* Add isa io region */
+> +    memory_region_init_alias(&lams->isa_io, NULL, "isa-io",
+> +                             get_system_io(), 0, LOONGARCH_ISA_IO_SIZE);
+> +    memory_region_add_subregion(address_space_mem, LOONGARCH_ISA_IO_BASE,
+> +                                &lams->isa_io);
+> +}
+> +
+> +static void loongarch_class_init(ObjectClass *oc, void *data)
+> +{
+> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +
+> +    mc->desc = "Loongson-3A5000 LS7A1000 machine";
+> +    mc->init = loongarch_init;
+> +    mc->default_ram_size = 1 * GiB;
+> +    mc->default_cpu_type = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
+> +    mc->default_ram_id = "loongarch.ram";
+> +    mc->max_cpus = LOONGARCH_MAX_VCPUS;
+> +    mc->is_default = 1;
+> +    mc->default_kernel_irqchip_split = false;
+> +    mc->block_default_type = IF_VIRTIO;
+> +    mc->default_boot_order = "c";
+> +    mc->no_cdrom = 1;
+> +}
+> +
+> +static const TypeInfo loongarch_machine_types[] = {
+> +    {
+> +        .name           = TYPE_LOONGARCH_MACHINE,
+> +        .parent         = TYPE_MACHINE,
+> +        .instance_size  = sizeof(LoongArchMachineState),
+> +        .class_init     = loongarch_class_init,
+> +    }
+> +};
+> +
+> +DEFINE_TYPES(loongarch_machine_types)
+> diff --git a/hw/loongarch/meson.build b/hw/loongarch/meson.build
+> new file mode 100644
+> index 0000000000..cecb1a5d65
+> --- /dev/null
+> +++ b/hw/loongarch/meson.build
+> @@ -0,0 +1,4 @@
+> +loongarch_ss = ss.source_set()
+> +loongarch_ss.add(when: 'CONFIG_LOONGARCH_VIRT', if_true: files('loongson3.c'))
+> +
+> +hw_arch += {'loongarch': loongarch_ss}
+> diff --git a/hw/meson.build b/hw/meson.build
+> index b3366c888e..95202649b7 100644
+> --- a/hw/meson.build
+> +++ b/hw/meson.build
+> @@ -49,6 +49,7 @@ subdir('avr')
+>   subdir('cris')
+>   subdir('hppa')
+>   subdir('i386')
+> +subdir('loongarch')
+>   subdir('m68k')
+>   subdir('microblaze')
+>   subdir('mips')
+> diff --git a/include/exec/poison.h b/include/exec/poison.h
+> index 7ad4ad18e8..590bc305c7 100644
+> --- a/include/exec/poison.h
+> +++ b/include/exec/poison.h
+> @@ -14,6 +14,7 @@
+>   #pragma GCC poison TARGET_CRIS
+>   #pragma GCC poison TARGET_HEXAGON
+>   #pragma GCC poison TARGET_HPPA
+> +#pragma GCC poison TARGET_LOONGARCH64
+>   #pragma GCC poison TARGET_M68K
+>   #pragma GCC poison TARGET_MICROBLAZE
+>   #pragma GCC poison TARGET_MIPS
+> @@ -73,6 +74,7 @@
+>   #pragma GCC poison CONFIG_HPPA_DIS
+>   #pragma GCC poison CONFIG_I386_DIS
+>   #pragma GCC poison CONFIG_HEXAGON_DIS
+> +#pragma GCC poison CONFIG_LOONGARCH_DIS
+>   #pragma GCC poison CONFIG_M68K_DIS
+>   #pragma GCC poison CONFIG_MICROBLAZE_DIS
+>   #pragma GCC poison CONFIG_MIPS_DIS
+> diff --git a/include/hw/loongarch/loongarch.h b/include/hw/loongarch/loongarch.h
+> new file mode 100644
+> index 0000000000..21a9aa40c1
+> --- /dev/null
+> +++ b/include/hw/loongarch/loongarch.h
+> @@ -0,0 +1,52 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Definitions for loongarch board emulation.
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#ifndef HW_LOONGARCH_H
+> +#define HW_LOONGARCH_H
+> +
+> +#include "target/loongarch/cpu.h"
+> +#include "qemu-common.h"
+> +#include "hw/boards.h"
+> +#include "qemu/queue.h"
+> +
+> +#define LOONGARCH_MAX_VCPUS     4
+> +
+> +#define FEATURE_REG             0x8
+> +#define IOCSRF_TEMP             0
+> +#define IOCSRF_NODECNT          1
+> +#define IOCSRF_MSI              2
+> +#define IOCSRF_EXTIOI           3
+> +#define IOCSRF_CSRIPI           4
+> +#define IOCSRF_FREQCSR          5
+> +#define IOCSRF_FREQSCALE        6
+> +#define IOCSRF_DVFSV1           7
+> +#define IOCSRF_GMOD             9
+> +#define IOCSRF_VM               11
+> +
+> +#define IOCSR_MEM_SIZE          0x428
+> +
+> +#define VENDOR_REG              0x10
+> +#define CPUNAME_REG             0x20
+> +#define MISC_FUNC_REG           0x420
+> +#define IOCSRM_EXTIOI_EN        48
+> +
+> +#define LOONGARCH_ISA_IO_BASE   0x18000000UL
+> +#define LOONGARCH_ISA_IO_SIZE   0x0004000
+> +
+> +typedef struct LoongArchMachineState {
+> +    /*< private >*/
+> +    MachineState parent_obj;
+> +
+> +    MemoryRegion lowmem;
+> +    MemoryRegion highmem;
+> +    MemoryRegion isa_io;
+> +} LoongArchMachineState;
+> +
+> +#define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
+> +DECLARE_INSTANCE_CHECKER(LoongArchMachineState, LOONGARCH_MACHINE,
+> +                         TYPE_LOONGARCH_MACHINE)
+
+You should drop the typedef above on LoongArchMachineState and replace 
+DECLARE_INSTANCE_CHECKER() with OBJECT_DECLARE_SIMPLE_TYPE() e.g.
+
+OBJECT_DECLARE_SIMPLE_TYPE(LoongArchMachineState, LOONGARCH_MACHINE)
+
+> +#endif
+> diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
+> index 70c579560a..3ac3634bbb 100644
+> --- a/include/sysemu/arch_init.h
+> +++ b/include/sysemu/arch_init.h
+> @@ -24,6 +24,7 @@ enum {
+>       QEMU_ARCH_RX = (1 << 20),
+>       QEMU_ARCH_AVR = (1 << 21),
+>       QEMU_ARCH_HEXAGON = (1 << 22),
+> +    QEMU_ARCH_LOONGARCH = (1 << 23),
+>   };
+>   
+>   extern const uint32_t arch_type;
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 42fc68403d..52a6b08ebe 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -30,7 +30,7 @@
+>   ##
+>   { 'enum' : 'SysEmuTarget',
+>     'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386',
+> -             'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+> +             'loongarch64', 'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+>                'mips64el', 'mipsel', 'nios2', 'or1k', 'ppc',
+>                'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
+>                'sh4eb', 'sparc', 'sparc64', 'tricore',
+> diff --git a/target/Kconfig b/target/Kconfig
+> index ae7f24fc66..83da0bd293 100644
+> --- a/target/Kconfig
+> +++ b/target/Kconfig
+> @@ -4,6 +4,7 @@ source avr/Kconfig
+>   source cris/Kconfig
+>   source hppa/Kconfig
+>   source i386/Kconfig
+> +source loongarch/Kconfig
+>   source m68k/Kconfig
+>   source microblaze/Kconfig
+>   source mips/Kconfig
+> diff --git a/target/loongarch/Kconfig b/target/loongarch/Kconfig
+> new file mode 100644
+> index 0000000000..46b26b1a85
+> --- /dev/null
+> +++ b/target/loongarch/Kconfig
+> @@ -0,0 +1,2 @@
+> +config LOONGARCH64
+> +    bool
+> diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+> index 01453e1192..883c7c05b2 100644
+> --- a/target/loongarch/cpu.h
+> +++ b/target/loongarch/cpu.h
+> @@ -13,6 +13,8 @@
+>   #include "hw/registerfields.h"
+>   #include "cpu-csr.h"
+>   #include "qemu/timer.h"
+> +#include "exec/memory.h"
+> +#include "hw/sysbus.h"
+>   
+>   #define TCG_GUEST_DEFAULT_MO (0)
+>   
+> @@ -253,6 +255,7 @@ struct CPULoongArchState {
+>   
+>       AddressSpace address_space_iocsr;
+>       MemoryRegion system_iocsr;
+> +    MemoryRegion iocsr_mem;
+>   #endif
+>   };
 
 
-Applied, thanks.
+ATB,
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
-
--- PMM
+Mark.
 
