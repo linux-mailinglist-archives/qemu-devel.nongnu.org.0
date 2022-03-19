@@ -2,56 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A1B4DE7E8
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 13:40:56 +0100 (CET)
-Received: from localhost ([::1]:32956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E272E4DE7E9
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 13:42:42 +0100 (CET)
+Received: from localhost ([::1]:36328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVYO6-0000eK-Gj
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 08:40:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56096)
+	id 1nVYPp-00033k-Vv
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 08:42:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nVYKO-00072T-KY
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:37:04 -0400
-Received: from [2001:41c9:1:41f::167] (port=48824
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nVYKK-0001rM-Sj
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 08:37:04 -0400
-Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nVYJY-0005al-Lb; Sat, 19 Mar 2022 12:36:16 +0000
-Message-ID: <45703695-cb38-b814-d292-80951da52ff2@ilande.co.uk>
-Date: Sat, 19 Mar 2022 12:36:52 +0000
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1nVYNC-0001PB-CB; Sat, 19 Mar 2022 08:39:58 -0400
+Received: from [2607:f8b0:4864:20::a2d] (port=43549
+ helo=mail-vk1-xa2d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1nVYNA-00022u-P8; Sat, 19 Mar 2022 08:39:58 -0400
+Received: by mail-vk1-xa2d.google.com with SMTP id 6so2632122vkc.10;
+ Sat, 19 Mar 2022 05:39:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=q27BkwObJmDD4Xd8QgkFxGlMuUvG94v1anEANk+z1Ww=;
+ b=Zjj64k4ISbdrD31Qv5UcCpmMwIskX07q6gSilOukdt4c2H7Ho5YxFVPP5PFvMszYnX
+ MdtMFxf4wdXHrN96+HmthPvm6yMe/piUdX4N5UPk4mspC/o5TJuI0wzbwYdeaPqCmzrO
+ ctJDS9EjFNRivmOAELtioHuhisuOQlMHJ3KNV24tqAs6v2AOvFrSPn/JOMp0D9OvltH8
+ 98nQAV0jM2+eCMcNOIWnGCQIMaJBlTIstU40b/vvJtKnmxbZsiGUQ22BwCNMzjy24dam
+ 46K26dScgUHIrG/AuBTH1riyCdvR0CsyIHMgmUrgQ6nqNe3DojiZroIaFdnnN+iTX8Nh
+ cnDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=q27BkwObJmDD4Xd8QgkFxGlMuUvG94v1anEANk+z1Ww=;
+ b=cmeRsv8MKrZNv+z2JF1pXP4mHGx/KSvPxagT4ZLVMXE+zWEM7r6PFih8h9yELuFk+B
+ xDOT1SjmdRBLCDNaUXPaR6E0UH5y0nlOHhvXy7Z0PYRTgxvn4nc1GmQ+QJHfNJvxnWZQ
+ 801RUglesoS4KxJOBtNJAhoUZXmFpQdhnvW39EJF3ATc7+hZpEb48CZ11iKOSQDGpKBG
+ c83fCvKz4hspVAvWt9/8nvsx1EGeDxi1NEpaeWCFjgzimy8aYv1m/6hU6ztrWYpZcL/D
+ RrBpNBl/8YuRy02KutDY4yVxrMlbLeCRBBpqzR6Zu7BQBWp8hYaLfdEmQ+DfIHbeVDn4
+ yGvA==
+X-Gm-Message-State: AOAM532hZTEFHzxcTdJv7K6j8XaZq+YSR0vgA90+kOIXV3OHKl4ZHckd
+ 1SMFAOCAJTpTGLf+7xF0YdaCKL6tbsPYOA4F3ho=
+X-Google-Smtp-Source: ABdhPJwinmgne7O1LrHmFpXiAovMpSGSqDU31bHeFraGAowVNcLMk39Nh/8jbuV4jX4Wks5divJitdUoA45QerKWlLM=
+X-Received: by 2002:a1f:2e95:0:b0:33e:bd23:f1f with SMTP id
+ u143-20020a1f2e95000000b0033ebd230f1fmr2069792vku.1.1647693595138; Sat, 19
+ Mar 2022 05:39:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220225080203.4186192-1-yangxiaojuan@loongson.cn>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220225080203.4186192-1-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH v6 00/29] Add LoongArch softmmu support
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+References: <20220317162638.41192-1-sgarzare@redhat.com>
+ <CAC868B4-D120-4EB4-A0E9-78F38BA20FA7@kamp.de>
+ <20220318082504.qxqcarorpo2jxnfk@sgarzare-redhat>
+In-Reply-To: <20220318082504.qxqcarorpo2jxnfk@sgarzare-redhat>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Sat, 19 Mar 2022 13:40:27 +0100
+Message-ID: <CAOi1vP8Y-_LkuTaH6BCLiUhAUcBBbu-3scpM5d5gwz+xxvkYCw@mail.gmail.com>
+Subject: Re: [PATCH] block/rbd: fix write zeroes with growing images
+To: Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2d
  (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2d;
+ envelope-from=idryomov@gmail.com; helo=mail-vk1-xa2d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,229 +83,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ qemu block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/02/2022 08:01, Xiaojuan Yang wrote:
+On Fri, Mar 18, 2022 at 9:25 AM Stefano Garzarella <sgarzare@redhat.com> wr=
+ote:
+>
+> On Thu, Mar 17, 2022 at 07:27:05PM +0100, Peter Lieven wrote:
+> >
+> >
+> >> Am 17.03.2022 um 17:26 schrieb Stefano Garzarella <sgarzare@redhat.com=
+>:
+> >>
+> >> =EF=BB=BFCommit d24f80234b ("block/rbd: increase dynamically the image=
+ size")
+> >> added a workaround to support growing images (eg. qcow2), resizing
+> >> the image before write operations that exceed the current size.
+> >>
+> >> We recently added support for write zeroes and without the
+> >> workaround we can have problems with qcow2.
+> >>
+> >> So let's move the resize into qemu_rbd_start_co() and do it when
+> >> the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
+> >>
+> >> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D2020993
+> >> Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
+> >> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> >> ---
+> >> block/rbd.c | 26 ++++++++++++++------------
+> >> 1 file changed, 14 insertions(+), 12 deletions(-)
+> >>
+> >> diff --git a/block/rbd.c b/block/rbd.c
+> >> index 8f183eba2a..6caf35cbba 100644
+> >> --- a/block/rbd.c
+> >> +++ b/block/rbd.c
+> >> @@ -1107,6 +1107,20 @@ static int coroutine_fn qemu_rbd_start_co(Block=
+DriverState *bs,
+> >>
+> >>     assert(!qiov || qiov->size =3D=3D bytes);
+> >>
+> >> +    if (cmd =3D=3D RBD_AIO_WRITE || cmd =3D=3D RBD_AIO_WRITE_ZEROES) =
+{
+> >> +        /*
+> >> +         * RBD APIs don't allow us to write more than actual size, so=
+ in order
+> >> +         * to support growing images, we resize the image before writ=
+e
+> >> +         * operations that exceed the current size.
+> >> +         */
+> >> +        if (offset + bytes > s->image_size) {
+> >> +            int r =3D qemu_rbd_resize(bs, offset + bytes);
+> >> +            if (r < 0) {
+> >> +                return r;
+> >> +            }
+> >> +        }
+> >> +    }
+> >> +
+> >>     r =3D rbd_aio_create_completion(&task,
+> >>                                   (rbd_callback_t) qemu_rbd_completion=
+_cb, &c);
+> >>     if (r < 0) {
+> >> @@ -1182,18 +1196,6 @@ coroutine_fn qemu_rbd_co_pwritev(BlockDriverSta=
+te *bs, int64_t offset,
+> >>                                  int64_t bytes, QEMUIOVector *qiov,
+> >>                                  BdrvRequestFlags flags)
+> >> {
+> >> -    BDRVRBDState *s =3D bs->opaque;
+> >> -    /*
+> >> -     * RBD APIs don't allow us to write more than actual size, so in =
+order
+> >> -     * to support growing images, we resize the image before write
+> >> -     * operations that exceed the current size.
+> >> -     */
+> >> -    if (offset + bytes > s->image_size) {
+> >> -        int r =3D qemu_rbd_resize(bs, offset + bytes);
+> >> -        if (r < 0) {
+> >> -            return r;
+> >> -        }
+> >> -    }
+> >>     return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_W=
+RITE);
+> >> }
+> >>
+> >> --
+> >> 2.35.1
+> >>
+> >
+> >Do we really have a use case for growing rbd images?
+>
+> The use case is to have a qcow2 image on rbd.
+> I don't think it's very common, but some people use it and here [1] we
+> had a little discussion about features that could be interesting (e.g.
+> persistent dirty bitmaps for incremental backup).
 
-> This series patch add softmmu support for LoongArch.
-> The latest kernel:
->    * https://github.com/loongson/linux/tree/loongarch-next
-> The latest uefi:
->    * https://github.com/loongson/edk2
->    * https://github.com/loongson/edk2-platforms
-> The manual:
->    * https://github.com/loongson/LoongArch-Documentation/releases/tag/2021.10.11
-> 
-> You can get LoongArch qemu series like this:
->     git clone https://github.com/loongson/qemu.git
->     git checkout tcg-dev
-> 
-> 
-> Changes for v6:
-> 
-> 1. Add the new loongarch_cpu_init function.
-> 2. Improved extioi memory region.
-> 3. Replaced the original LS7A bridge with a new GPEX bridge.
-> 
-> 
-> Changes for v5:
-> 
-> 1. Fix host bridge map irq function.
-> 2. Move cpu timer init function into machine init.
-> 3. Adjust memory region layout.
-> 4. Add the documentation at docs/system/loongarch/loongson3.rst.
->     - Introduction to 3a5000 virt.
->     - Output of "info mtree".
-> 
-> 
-> Changes for v4:
-> 1. Uefi code is open and add some fdt interface to pass info between qemu and uefi.
-> 2. Use a per cpu address space for iocsr.
-> 3. Modify the tlb emulation.
-> 4. Machine and board code mainly follow Mark's advice.
-> 5. Adjust pci host space map.
-> 6. Use more memregion to simplify the interrupt controller's emulate.
-> 
-> 
-> Changes for v3:
-> 1.Target code mainly follow Richard's code review comments.
-> 2.Put the csr and iocsr read/write instruction emulate into 2 different patch.
-> 3.Simply the tlb emulation.
-> 4.Delete some unused csr registers defintion.
-> 5.Machine and board code mainly follow Mark's advice, discard the obsolete interface.
-> 6.NUMA function is removed for it is not completed.
-> 7.Adjust some format problem and the Naming problem
-> 
-> 
-> Changes for v3:
-> 1.Target code mainly follow Richard's code review comments.
-> 2.Put the csr and iocsr read/write instruction emulate into 2 different patch.
-> 3.Simply the tlb emulation.
-> 4.Delete some unused csr registers defintion.
-> 5.Machine and board code mainly follow Mark's advice, discard the obsolete interface.
-> 6.NUMA function is removed for it is not completed.
-> 7.Adjust some format problem and the Naming problem
-> 
-> 
-> Changes for v2:
-> 1.Combine patch 2 and 3 into one.
-> 2.Adjust the order of the patch.
-> 3.Put all the binaries on the github.
-> 4.Modify some emulate errors when use the kernel from the github.
-> 5.Adjust some format problem and the Naming problem
-> 6.Others mainly follow Richard's code review comments.
-> 
-> Please help review!
-> 
-> Thanks
-> 
-> 
-> Xiaojuan Yang (29):
->    target/loongarch: Add system emulation introduction
->    target/loongarch: Add CSRs definition
->    target/loongarch: Add basic vmstate description of CPU.
->    target/loongarch: Implement qmp_query_cpu_definitions()
->    target/loongarch: Add constant timer support
->    target/loongarch: Add MMU support for LoongArch CPU.
->    target/loongarch: Add LoongArch CSR instruction
->    target/loongarch: Add LoongArch IOCSR instruction
->    target/loongarch: Add TLB instruction support
->    target/loongarch: Add other core instructions support
->    target/loongarch: Add LoongArch interrupt and exception handle
->    target/loongarch: Add timer related instructions support.
->    target/loongarch: Add gdb support.
->    hw/loongarch: Add support loongson3 virt machine type.
->    hw/loongarch: Add LoongArch cpu interrupt support(CPUINTC)
->    hw/loongarch: Add LoongArch ipi interrupt support(IPI)
->    hw/intc: Add LoongArch ls7a interrupt controller support(PCH-PIC)
->    hw/intc: Add LoongArch ls7a msi interrupt controller support(PCH-MSI)
->    hw/intc: Add LoongArch extioi interrupt controller(EIOINTC)
->    hw/loongarch: Add irq hierarchy for the system
->    Enable common virtio pci support for LoongArch
->    hw/loongarch: Add some devices support for 3A5000.
->    hw/loongarch: Add LoongArch ls7a rtc device support
->    hw/loongarch: Add default bios startup support.
->    hw/loongarch: Add -kernel and -initrd options support
->    hw/loongarch: Add LoongArch smbios support
->    hw/loongarch: Add LoongArch acpi support
->    hw/loongarch: Add fdt support.
->    tests/tcg/loongarch64: Add hello/memory test in loongarch64 system
-> 
->   MAINTAINERS                                   |  20 +
->   .../devices/loongarch64-softmmu/default.mak   |   3 +
->   configs/targets/loongarch64-softmmu.mak       |   4 +
->   docs/system/loongarch/loongson3.rst           |  37 +
->   gdb-xml/loongarch-base64.xml                  |  43 +
->   gdb-xml/loongarch-fpu64.xml                   |  57 ++
->   hw/Kconfig                                    |   1 +
->   hw/acpi/Kconfig                               |   4 +
->   hw/acpi/ls7a.c                                | 374 +++++++++
->   hw/acpi/meson.build                           |   1 +
->   hw/intc/Kconfig                               |  15 +
->   hw/intc/loongarch_extioi.c                    | 417 ++++++++++
->   hw/intc/loongarch_ipi.c                       | 164 ++++
->   hw/intc/loongarch_pch_msi.c                   |  75 ++
->   hw/intc/loongarch_pch_pic.c                   | 488 +++++++++++
->   hw/intc/meson.build                           |   4 +
->   hw/intc/trace-events                          |  27 +
->   hw/loongarch/Kconfig                          |  23 +
->   hw/loongarch/acpi-build.c                     | 636 +++++++++++++++
->   hw/loongarch/fw_cfg.c                         |  33 +
->   hw/loongarch/fw_cfg.h                         |  15 +
->   hw/loongarch/loongson3.c                      | 752 +++++++++++++++++
->   hw/loongarch/meson.build                      |   6 +
->   hw/meson.build                                |   1 +
->   hw/rtc/Kconfig                                |   3 +
->   hw/rtc/ls7a_rtc.c                             | 323 ++++++++
->   hw/rtc/meson.build                            |   1 +
->   include/exec/poison.h                         |   2 +
->   include/hw/acpi/ls7a.h                        |  53 ++
->   include/hw/intc/loongarch_extioi.h            |  79 ++
->   include/hw/intc/loongarch_ipi.h               |  48 ++
->   include/hw/intc/loongarch_pch_msi.h           |  21 +
->   include/hw/intc/loongarch_pch_pic.h           |  81 ++
->   include/hw/loongarch/loongarch.h              |  77 ++
->   include/hw/pci-host/ls7a.h                    |  48 ++
->   include/sysemu/arch_init.h                    |   1 +
->   linux-user/loongarch64/cpu_loop.c             |   8 +-
->   qapi/machine-target.json                      |   6 +-
->   qapi/machine.json                             |   2 +-
->   softmmu/qdev-monitor.c                        |   3 +-
->   target/Kconfig                                |   1 +
->   target/loongarch/Kconfig                      |   2 +
->   target/loongarch/README                       |  28 +
->   target/loongarch/constant_timer.c             |  62 ++
->   target/loongarch/cpu-csr.h                    | 236 ++++++
->   target/loongarch/cpu-param.h                  |   2 +-
->   target/loongarch/cpu.c                        | 354 +++++++-
->   target/loongarch/cpu.h                        | 218 ++++-
->   target/loongarch/csr_helper.c                 | 112 +++
->   target/loongarch/disas.c                      |  57 ++
->   target/loongarch/fpu_helper.c                 |   2 +-
->   target/loongarch/gdbstub.c                    |  97 +++
->   target/loongarch/helper.h                     |  26 +
->   target/loongarch/insn_trans/trans_extra.c.inc |  36 +-
->   .../insn_trans/trans_privileged.c.inc         | 410 ++++++++++
->   target/loongarch/insns.decode                 |  44 +
->   target/loongarch/internals.h                  |  28 +
->   target/loongarch/iocsr_helper.c               | 139 ++++
->   target/loongarch/machine.c                    | 102 +++
->   target/loongarch/meson.build                  |  11 +
->   target/loongarch/op_helper.c                  |  52 ++
->   target/loongarch/tlb_helper.c                 | 767 ++++++++++++++++++
->   target/loongarch/translate.c                  |   9 +-
->   tests/tcg/loongarch64/Makefile.softmmu-target |  33 +
->   tests/tcg/loongarch64/system/boot.S           |  56 ++
->   tests/tcg/loongarch64/system/kernel.ld        |  30 +
->   tests/tcg/loongarch64/system/regdef.h         |  86 ++
->   67 files changed, 6925 insertions(+), 31 deletions(-)
->   create mode 100644 configs/devices/loongarch64-softmmu/default.mak
->   create mode 100644 configs/targets/loongarch64-softmmu.mak
->   create mode 100644 docs/system/loongarch/loongson3.rst
->   create mode 100644 gdb-xml/loongarch-base64.xml
->   create mode 100644 gdb-xml/loongarch-fpu64.xml
->   create mode 100644 hw/acpi/ls7a.c
->   create mode 100644 hw/intc/loongarch_extioi.c
->   create mode 100644 hw/intc/loongarch_ipi.c
->   create mode 100644 hw/intc/loongarch_pch_msi.c
->   create mode 100644 hw/intc/loongarch_pch_pic.c
->   create mode 100644 hw/loongarch/Kconfig
->   create mode 100644 hw/loongarch/acpi-build.c
->   create mode 100644 hw/loongarch/fw_cfg.c
->   create mode 100644 hw/loongarch/fw_cfg.h
->   create mode 100644 hw/loongarch/loongson3.c
->   create mode 100644 hw/loongarch/meson.build
->   create mode 100644 hw/rtc/ls7a_rtc.c
->   create mode 100644 include/hw/acpi/ls7a.h
->   create mode 100644 include/hw/intc/loongarch_extioi.h
->   create mode 100644 include/hw/intc/loongarch_ipi.h
->   create mode 100644 include/hw/intc/loongarch_pch_msi.h
->   create mode 100644 include/hw/intc/loongarch_pch_pic.h
->   create mode 100644 include/hw/loongarch/loongarch.h
->   create mode 100644 include/hw/pci-host/ls7a.h
->   create mode 100644 target/loongarch/Kconfig
->   create mode 100644 target/loongarch/constant_timer.c
->   create mode 100644 target/loongarch/cpu-csr.h
->   create mode 100644 target/loongarch/csr_helper.c
->   create mode 100644 target/loongarch/gdbstub.c
->   create mode 100644 target/loongarch/insn_trans/trans_privileged.c.inc
->   create mode 100644 target/loongarch/iocsr_helper.c
->   create mode 100644 target/loongarch/machine.c
->   create mode 100644 target/loongarch/tlb_helper.c
->   create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
->   create mode 100644 tests/tcg/loongarch64/system/boot.S
->   create mode 100644 tests/tcg/loongarch64/system/kernel.ld
->   create mode 100644 tests/tcg/loongarch64/system/regdef.h
+RBD supports that natively (object-map and fast-diff image features).
+The granularity is higher than a typical QCOW2 granularity (64K vs 4M)
+but I have never heard of that being a concern.
 
-This looks fairly close to me with just a couple of minor comments outstanding. The 
-main issue is the use of DECLARE_INSTANCE_CHECKER() rather than 
-OBJECT_DECLARE_SIMPLE_TYPE() for declaring QOM types which should work for just about 
-all cases here.
+Thanks,
 
-
-ATB,
-
-Mark.
+                Ilya
 
