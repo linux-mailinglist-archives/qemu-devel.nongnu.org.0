@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5C94DE6AF
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 08:22:53 +0100 (CET)
-Received: from localhost ([::1]:52838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD834DE6AD
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 08:22:46 +0100 (CET)
+Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVTQK-00053u-Gk
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 03:22:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45192)
+	id 1nVTQD-0004wF-Bl
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 03:22:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nVTO5-0002FG-Cf
+ id 1nVTO5-0002FF-1V
  for qemu-devel@nongnu.org; Sat, 19 Mar 2022 03:20:33 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:3858)
+Received: from szxga03-in.huawei.com ([45.249.212.189]:4214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nVTO2-0005E6-4X
+ id 1nVTO2-0005E8-5Y
  for qemu-devel@nongnu.org; Sat, 19 Mar 2022 03:20:32 -0400
-Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KLC2S2lZcz13VdT;
- Sat, 19 Mar 2022 15:20:16 +0800 (CST)
+Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KLBy417Dsz9spH;
+ Sat, 19 Mar 2022 15:16:28 +0800 (CST)
 Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
- dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
+ dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2308.21; Sat, 19 Mar 2022 15:20:19 +0800
 Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
  dggpeml100016.china.huawei.com (7.185.36.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sat, 19 Mar 2022 15:20:18 +0800
+ 15.1.2308.21; Sat, 19 Mar 2022 15:20:19 +0800
 To: <stefanha@redhat.com>, <mst@redhat.com>, <cohuck@redhat.com>,
  <sgarzare@redhat.com>
 CC: <pbonzini@redhat.com>, <arei.gonglei@huawei.com>, <yechuan@huawei.com>,
  <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>, Longpeng
  <longpeng2@huawei.com>
-Subject: [PATCH v3 03/10] vdpa: add the infrastructure of vdpa-dev
-Date: Sat, 19 Mar 2022 15:20:05 +0800
-Message-ID: <20220319072012.525-4-longpeng2@huawei.com>
+Subject: [PATCH v3 04/10] vdpa-dev: implement the instance_init/class_init
+ interface
+Date: Sat, 19 Mar 2022 15:20:06 +0800
+Message-ID: <20220319072012.525-5-longpeng2@huawei.com>
 X-Mailer: git-send-email 2.25.0.windows.1
 In-Reply-To: <20220319072012.525-1-longpeng2@huawei.com>
 References: <20220319072012.525-1-longpeng2@huawei.com>
@@ -48,8 +49,8 @@ X-Originating-IP: [10.174.148.223]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpeml100016.china.huawei.com (7.185.36.216)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
- helo=szxga08-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.189; envelope-from=longpeng2@huawei.com;
+ helo=szxga03-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -75,223 +76,156 @@ From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
 From: Longpeng <longpeng2@huawei.com>
 
-Add the infrastructure of vdpa-dev (the generic vDPA device), we
-can add a generic vDPA device as follow:
-  -device vhost-vdpa-device-pci,vdpa-dev=/dev/vhost-vdpa-X
+Implements the .instance_init and the .class_init interface.
 
 Signed-off-by: Longpeng <longpeng2@huawei.com>
 ---
- hw/virtio/Kconfig            |  5 +++
- hw/virtio/meson.build        |  2 ++
- hw/virtio/vdpa-dev-pci.c     | 65 ++++++++++++++++++++++++++++++++++++
- hw/virtio/vdpa-dev.c         | 55 ++++++++++++++++++++++++++++++
- include/hw/virtio/vdpa-dev.h | 30 +++++++++++++++++
- 5 files changed, 157 insertions(+)
- create mode 100644 hw/virtio/vdpa-dev-pci.c
- create mode 100644 hw/virtio/vdpa-dev.c
- create mode 100644 include/hw/virtio/vdpa-dev.h
+ hw/virtio/vdpa-dev-pci.c     | 22 +++++++++++-
+ hw/virtio/vdpa-dev.c         | 69 ++++++++++++++++++++++++++++++++++--
+ include/hw/virtio/vdpa-dev.h |  3 ++
+ 3 files changed, 91 insertions(+), 3 deletions(-)
 
-diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
-index c144d42f9b..2723283382 100644
---- a/hw/virtio/Kconfig
-+++ b/hw/virtio/Kconfig
-@@ -68,3 +68,8 @@ config VHOST_USER_RNG
-     bool
-     default y
-     depends on VIRTIO && VHOST_USER
-+
-+config VHOST_VDPA_DEV
-+    bool
-+    default y if VIRTIO_PCI
-+    depends on VIRTIO && VHOST_VDPA && LINUX
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 521f7d64a8..8e8943e20b 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -29,6 +29,7 @@ virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c.c'))
- virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_I2C'], if_true: files('vhost-user-i2c-pci.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng.c'))
- virtio_ss.add(when: ['CONFIG_VHOST_USER_RNG', 'CONFIG_VIRTIO_PCI'], if_true: files('vhost-user-rng-pci.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST_VDPA_DEV', if_true: files('vdpa-dev.c'))
- 
- virtio_pci_ss = ss.source_set()
- virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
-@@ -49,6 +50,7 @@ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-serial-pc
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VHOST_VDPA_DEV', if_true: files('vdpa-dev-pci.c'))
- 
- virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
- 
 diff --git a/hw/virtio/vdpa-dev-pci.c b/hw/virtio/vdpa-dev-pci.c
-new file mode 100644
-index 0000000000..9c0f25a02d
---- /dev/null
+index 9c0f25a02d..9eb590ce8c 100644
+--- a/hw/virtio/vdpa-dev-pci.c
 +++ b/hw/virtio/vdpa-dev-pci.c
-@@ -0,0 +1,65 @@
-+/*
-+ * Vhost Vdpa Device PCI Bindings
-+ *
-+ * Copyright (c) Huawei Technologies Co., Ltd. 2022. All Rights Reserved.
-+ *
-+ * Authors:
-+ *   Longpeng <longpeng2@huawei.com>
-+ *
-+ * Largely based on the "vhost-user-blk-pci.c" and "vhost-user-blk.c" implemented by:
-+ *   Changpeng Liu <changpeng.liu@intel.com>
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include <sys/ioctl.h>
-+#include <linux/vhost.h>
-+#include "hw/virtio/virtio.h"
-+#include "hw/virtio/vdpa-dev.h"
-+#include "hw/pci/pci.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qemu/module.h"
-+#include "virtio-pci.h"
-+#include "qom/object.h"
+@@ -38,13 +38,33 @@ struct VhostVdpaDevicePCI {
+ };
+ 
+ static void vhost_vdpa_device_pci_instance_init(Object *obj)
++{
++    VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(obj);
 +
++    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
++                                TYPE_VHOST_VDPA_DEVICE);
++    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
++                              "bootindex");
++}
 +
-+typedef struct VhostVdpaDevicePCI VhostVdpaDevicePCI;
-+
-+#define TYPE_VHOST_VDPA_DEVICE_PCI "vhost-vdpa-device-pci-base"
-+DECLARE_INSTANCE_CHECKER(VhostVdpaDevicePCI, VHOST_VDPA_DEVICE_PCI,
-+                         TYPE_VHOST_VDPA_DEVICE_PCI)
-+
-+struct VhostVdpaDevicePCI {
-+    VirtIOPCIProxy parent_obj;
-+    VhostVdpaDevice vdev;
++static Property vhost_vdpa_device_pci_properties[] = {
++    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void vhost_vdpa_device_pci_instance_init(Object *obj)
-+{
-+    return;
-+}
++static void
++vhost_vdpa_device_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+ {
+     return;
+ }
+ 
+ static void vhost_vdpa_device_pci_class_init(ObjectClass *klass, void *data)
+ {
+-    return;
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
 +
-+static void vhost_vdpa_device_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    return;
-+}
-+
-+static const VirtioPCIDeviceTypeInfo vhost_vdpa_device_pci_info = {
-+    .base_name               = TYPE_VHOST_VDPA_DEVICE_PCI,
-+    .generic_name            = "vhost-vdpa-device-pci",
-+    .transitional_name       = "vhost-vdpa-device-pci-transitional",
-+    .non_transitional_name   = "vhost-vdpa-device-pci-non-transitional",
-+    .instance_size  = sizeof(VhostVdpaDevicePCI),
-+    .instance_init  = vhost_vdpa_device_pci_instance_init,
-+    .class_init     = vhost_vdpa_device_pci_class_init,
-+};
-+
-+static void vhost_vdpa_device_pci_register(void)
-+{
-+    virtio_pci_types_register(&vhost_vdpa_device_pci_info);
-+}
-+
-+type_init(vhost_vdpa_device_pci_register);
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++    device_class_set_props(dc, vhost_vdpa_device_pci_properties);
++    k->realize = vhost_vdpa_device_pci_realize;
+ }
+ 
+ static const VirtioPCIDeviceTypeInfo vhost_vdpa_device_pci_info = {
 diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
-new file mode 100644
-index 0000000000..5c506ff304
---- /dev/null
+index 5c506ff304..993cbc7d11 100644
+--- a/hw/virtio/vdpa-dev.c
 +++ b/hw/virtio/vdpa-dev.c
-@@ -0,0 +1,55 @@
-+/*
-+ * Vhost Vdpa Device
-+ *
-+ * Copyright (c) Huawei Technologies Co., Ltd. 2022. All Rights Reserved.
-+ *
-+ * Authors:
-+ *   Longpeng <longpeng2@huawei.com>
-+ *
-+ * Largely based on the "vhost-user-blk-pci.c" and "vhost-user-blk.c" implemented by:
-+ *   Changpeng Liu <changpeng.liu@intel.com>
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include <sys/ioctl.h>
-+#include <linux/vhost.h>
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qemu/cutils.h"
-+#include "hw/qdev-core.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/qdev-properties-system.h"
-+#include "hw/virtio/vhost.h"
-+#include "hw/virtio/virtio.h"
-+#include "hw/virtio/virtio-bus.h"
-+#include "hw/virtio/virtio-access.h"
-+#include "hw/virtio/vdpa-dev.h"
-+#include "sysemu/sysemu.h"
-+#include "sysemu/runstate.h"
+@@ -29,16 +29,81 @@
+ #include "sysemu/sysemu.h"
+ #include "sysemu/runstate.h"
+ 
+-static void vhost_vdpa_device_class_init(ObjectClass *klass, void *data)
++static void vhost_vdpa_device_realize(DeviceState *dev, Error **errp)
+ {
+     return;
+ }
+ 
+-static void vhost_vdpa_device_instance_init(Object *obj)
++static void vhost_vdpa_device_unrealize(DeviceState *dev)
++{
++    return;
++}
++
++static void
++vhost_vdpa_device_get_config(VirtIODevice *vdev, uint8_t *config)
++{
++    return;
++}
++
++static void
++vhost_vdpa_device_set_config(VirtIODevice *vdev, const uint8_t *config)
+ {
+     return;
+ }
+ 
++static uint64_t vhost_vdpa_device_get_features(VirtIODevice *vdev,
++                                               uint64_t features,
++                                               Error **errp)
++{
++    return (uint64_t)-1;
++}
++
++static void vhost_vdpa_device_set_status(VirtIODevice *vdev, uint8_t status)
++{
++    return;
++}
++
++static Property vhost_vdpa_device_properties[] = {
++    DEFINE_PROP_STRING("vdpa-dev", VhostVdpaDevice, vdpa_dev),
++    DEFINE_PROP_INT32("vdpa-dev-fd", VhostVdpaDevice, vdpa_dev_fd, -1),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static const VMStateDescription vmstate_vhost_vdpa_device = {
++    .name = "vhost-vdpa-device",
++    .minimum_version_id = 1,
++    .version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_VIRTIO_DEVICE,
++        VMSTATE_END_OF_LIST()
++    },
++};
 +
 +static void vhost_vdpa_device_class_init(ObjectClass *klass, void *data)
 +{
-+    return;
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
++
++    device_class_set_props(dc, vhost_vdpa_device_properties);
++    dc->desc = "VDPA-based generic device assignment";
++    dc->vmsd = &vmstate_vhost_vdpa_device;
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++    vdc->realize = vhost_vdpa_device_realize;
++    vdc->unrealize = vhost_vdpa_device_unrealize;
++    vdc->get_config = vhost_vdpa_device_get_config;
++    vdc->set_config = vhost_vdpa_device_set_config;
++    vdc->get_features = vhost_vdpa_device_get_features;
++    vdc->set_status = vhost_vdpa_device_set_status;
 +}
 +
 +static void vhost_vdpa_device_instance_init(Object *obj)
 +{
-+    return;
++    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(obj);
++
++    device_add_bootindex_property(obj, &s->bootindex, "bootindex",
++                                  NULL, DEVICE(obj));
 +}
 +
-+static const TypeInfo vhost_vdpa_device_info = {
-+    .name = TYPE_VHOST_VDPA_DEVICE,
-+    .parent = TYPE_VIRTIO_DEVICE,
-+    .instance_size = sizeof(VhostVdpaDevice),
-+    .class_init = vhost_vdpa_device_class_init,
-+    .instance_init = vhost_vdpa_device_instance_init,
-+};
-+
-+static void register_vhost_vdpa_device_type(void)
-+{
-+    type_register_static(&vhost_vdpa_device_info);
-+}
-+
-+type_init(register_vhost_vdpa_device_type);
+ static const TypeInfo vhost_vdpa_device_info = {
+     .name = TYPE_VHOST_VDPA_DEVICE,
+     .parent = TYPE_VIRTIO_DEVICE,
 diff --git a/include/hw/virtio/vdpa-dev.h b/include/hw/virtio/vdpa-dev.h
-new file mode 100644
-index 0000000000..bd60367793
---- /dev/null
+index bd60367793..476bda0873 100644
+--- a/include/hw/virtio/vdpa-dev.h
 +++ b/include/hw/virtio/vdpa-dev.h
-@@ -0,0 +1,30 @@
-+/*
-+ * Vhost Vdpa Device
-+ *
-+ * Copyright (c) Huawei Technologies Co., Ltd. 2022. All Rights Reserved.
-+ *
-+ * Authors:
-+ *   Longpeng <longpeng2@huawei.com>
-+ *
-+ * Largely based on the "vhost-user-blk.h" implemented by:
-+ *   Changpeng Liu <changpeng.liu@intel.com>
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ */
-+#ifndef _VHOST_VDPA_DEVICE_H
-+#define _VHOST_VDPA_DEVICE_H
-+
-+#include "hw/virtio/vhost.h"
-+#include "hw/virtio/vhost-vdpa.h"
-+#include "qom/object.h"
-+
-+
-+#define TYPE_VHOST_VDPA_DEVICE "vhost-vdpa-device"
-+OBJECT_DECLARE_SIMPLE_TYPE(VhostVdpaDevice, VHOST_VDPA_DEVICE)
-+
-+struct VhostVdpaDevice {
-+    VirtIODevice parent_obj;
-+};
-+
-+#endif
+@@ -25,6 +25,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(VhostVdpaDevice, VHOST_VDPA_DEVICE)
+ 
+ struct VhostVdpaDevice {
+     VirtIODevice parent_obj;
++    char *vdpa_dev;
++    int vdpa_dev_fd;
++    int32_t bootindex;
+ };
+ 
+ #endif
 -- 
 2.23.0
 
