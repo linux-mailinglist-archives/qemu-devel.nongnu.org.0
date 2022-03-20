@@ -2,66 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931B04E19B9
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 06:03:40 +0100 (CET)
-Received: from localhost ([::1]:59648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282854E1A54
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 07:10:47 +0100 (CET)
+Received: from localhost ([::1]:50152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVnj9-0003BO-4y
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 01:03:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39138)
+	id 1nVom4-0001fS-MB
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 02:10:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nVnfI-0002Ez-L1; Sun, 20 Mar 2022 00:59:40 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:33278 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nVnfF-00072p-Nk; Sun, 20 Mar 2022 00:59:40 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowAD3_0OxtDZiGcZkBA--.39680S2;
- Sun, 20 Mar 2022 12:59:29 +0800 (CST)
-Subject: Re: [PATCH qemu 03/13] target/riscv: rvv: Early exit when vstart >= vl
-To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <164769423983.18409.14760549429989700286-3@git.sr.ht>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <aaabfae7-d933-ae95-5bf0-fda21c1d8877@iscas.ac.cn>
-Date: Sun, 20 Mar 2022 12:59:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <xen0n@gentoo.org>) id 1nVo2i-00083h-PI
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 01:23:53 -0400
+Received: from woodpecker.gentoo.org ([140.211.166.183]:46742
+ helo=smtp.gentoo.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <xen0n@gentoo.org>) id 1nVo2R-00026U-Pc
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 01:23:40 -0400
+From: WANG Xuerui <xen0n@gentoo.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-7.0] linux-user: Fix syscall parameter handling for MIPS
+ n32
+Date: Sun, 20 Mar 2022 13:22:59 +0800
+Message-Id: <20220320052259.1610883-1-xen0n@gentoo.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <164769423983.18409.14760549429989700286-3@git.sr.ht>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: zQCowAD3_0OxtDZiGcZkBA--.39680S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CryxurWfJrW5ZFy3uFy5XFb_yoW8ury7pw
- 1fCFWrZ3s8Ga4fAw1Sqa1UAr4FvFsYkrWjyFn2yws5Xa95Jw4kXr4qkw1rKr12yF45Wr1v
- y3WjvF9F9anIkaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
- 67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
- kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
- 67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
- CI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E
- 3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUjdHUDUUUUU==
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=140.211.166.183; envelope-from=xen0n@gentoo.org;
+ helo=smtp.gentoo.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sun, 20 Mar 2022 01:54:16 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,65 +49,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- eop Chen <eop.chen@sifive.com>
+Cc: WANG Xuerui <xen0n@gentoo.org>,
+ =?UTF-8?q?Andreas=20K=20=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The MIPS n32 ABI is basically n64 with the address space (i.e. pointer
+width) shrinked to 32 bits. Meanwhile the current code treats it as
+o32-like based on TARGET_ABI_BITS, which causes problems with n32
+syscalls utilizing 64-bit offsets, like pread64, affecting most (if not
+all) recently built n32 binaries.
 
-在 2022/3/12 下午2:28, ~eopxd 写道:
-> From: eopXD <eop.chen@sifive.com>
->
-> According to v-spec (section 5.4):
-> When vstart ≥ vl, there are no body elements, and no elements are
-> updated in any destination vector register group, including that
-> no tail elements are updated with agnostic values.
->
-> Signed-off-by: eop Chen <eop.chen@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> ---
->   target/riscv/insn_trans/trans_rvv.c.inc | 30 +++++++++++++++++++++++++
->   1 file changed, 30 insertions(+)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 275fded6e4..3ae75dc6ae 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
->   
->
-> @@ -3164,6 +3189,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
->           gen_helper_gvec_3_ptr *fn = gen_helper_##NAME;             \
->           TCGLabel *over = gen_new_label();                          \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> @@ -3201,6 +3227,7 @@ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
->           uint32_t data = 0;
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->
-> @@ -3674,6 +3702,7 @@ static bool trans_vcompress_vm(DisasContext *s, arg_r *a)
->           };
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+This partially solves issue #909 ("qemu-mipsn32(el) user mode emulator
+fails to execute any recently built n32 binaries"); with this change
+applied, the built qemu-mipsn32el is able to progress beyond the
+pread64, and finish _dl_start_user for the "getting ld.so load libc.so"
+case. The program later dies with SIGBUS, though, due to _dl_start_user
+not maintaining stack alignment after removing ld.so itself from argv,
+and qemu-user starting to enforce alignment recently, but that is
+orthogonal to the issue here; the more common case of chrooting is
+working, verified with my own-built Gentoo n32 sysroot. (Depending on
+the exact ISA used, one may have to explicitly specify QEMU_CPU, which
+is the case for my chroot.)
 
-  vmsbf.m, vmsif.m,vmsof.m, viota.m, vcompress require vstart to be 
-zero. so these checks seem  unnecessary.
+Buglink: https://gitlab.com/qemu-project/qemu/-/issues/909
+Signed-off-by: WANG Xuerui <xen0n@gentoo.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Andreas K. Hüttel <dilfridge@gentoo.org>
+---
 
-Regards,
+P.S. This patch is done with my Gentoo hat on, so I'm not using my
+usual xen0n.name address. I'd like to add a mailmap entry for correct
+shortlog display though, but it seems there's no category for "merely
+preference" mappings yet. What should I do in this case?
 
-Weiwei Li
+ linux-user/user-internals.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
+index a8fdd6933b2..ee152ccfaa8 100644
+--- a/linux-user/user-internals.h
++++ b/linux-user/user-internals.h
+@@ -112,7 +112,7 @@ static inline int is_error(abi_long ret)
+     return (abi_ulong)ret >= (abi_ulong)(-4096);
+ }
+ 
+-#if TARGET_ABI_BITS == 32
++#if (TARGET_ABI_BITS == 32) && !defined(TARGET_ABI_MIPSN32)
+ static inline uint64_t target_offset64(uint32_t word0, uint32_t word1)
+ {
+ #ifdef TARGET_WORDS_BIGENDIAN
+@@ -121,7 +121,7 @@ static inline uint64_t target_offset64(uint32_t word0, uint32_t word1)
+     return ((uint64_t)word1 << 32) | word0;
+ #endif
+ }
+-#else /* TARGET_ABI_BITS == 32 */
++#else /* TARGET_ABI_BITS == 32 && !defined(TARGET_ABI_MIPSN32) */
+ static inline uint64_t target_offset64(uint64_t word0, uint64_t word1)
+ {
+     return word0;
+@@ -136,7 +136,7 @@ static inline int regpairs_aligned(void *cpu_env, int num)
+ {
+     return ((((CPUARMState *)cpu_env)->eabi) == 1) ;
+ }
+-#elif defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
++#elif defined(TARGET_MIPS) && defined(TARGET_ABI_MIPSO32)
+ static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
+ #elif defined(TARGET_PPC) && !defined(TARGET_PPC64)
+ /*
+-- 
+2.35.1
 
 
