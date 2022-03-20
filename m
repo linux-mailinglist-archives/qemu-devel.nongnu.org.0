@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55314E1E31
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 23:54:12 +0100 (CET)
-Received: from localhost ([::1]:37574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D65E4E1E54
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 00:51:49 +0100 (CET)
+Received: from localhost ([::1]:47422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nW4R9-0002Bq-Bg
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 18:54:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56418)
+	id 1nW5Kt-0003BH-Oh
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 19:51:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nW4QE-0001VS-Ts
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 18:53:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60375)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nW4QB-0003G0-PC
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 18:53:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647816790;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lbklHsC4p2zDoA9Qm45sY9QvlkWdqqX9EtVTWkPxbLA=;
- b=TcNXjRqi/sMoz/p1eroeIlV8om0e909RmQme1L3vYD7ftn0dINAU/ouGFmIeBdqHCCsFGE
- VRsaV8Es6s2PXM/n2gSWTdphJNFWqBzZnxYmVQzF2YHJrPAij4lVc29ibYl48xVMmUj8KD
- CR2+/7q3Kna6eC9g0vB/Mh5GSrxWL9E=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-153-4MVWJMPWNhqLgT_7wDI73w-1; Sun, 20 Mar 2022 18:53:08 -0400
-X-MC-Unique: 4MVWJMPWNhqLgT_7wDI73w-1
-Received: by mail-ej1-f69.google.com with SMTP id
- hz15-20020a1709072cef00b006dfeceff2d1so992946ejc.17
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 15:53:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nW5I1-0001p4-Jy; Sun, 20 Mar 2022 19:48:50 -0400
+Received: from [2607:f8b0:4864:20::130] (port=33668
+ helo=mail-il1-x130.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nW5Hz-0002xR-Sw; Sun, 20 Mar 2022 19:48:49 -0400
+Received: by mail-il1-x130.google.com with SMTP id r2so9416244ilh.0;
+ Sun, 20 Mar 2022 16:48:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nFjCQ9jHjQCujGQAULU0XTTWu4OKaaXuSje1wF9gAqo=;
+ b=j+kUOC+MGG1QB4n3hsLrvQW5zCY+mLca/uwqkwuV3BQQfUmRuS2VbOyinKc6rtCYOd
+ YC5Y8dMyJpo3JHp6q8OroFsyNFUcU6qZU3/hRglLaDGlmKDUDMgHWZLlClG+Aiz5jITd
+ bU0kgtQbiqCt319QRo4u/XDaJ0GVRM4vv6qznDU/uSdGYt9qSv0fNKVrugZR0rfIUuOd
+ HcG8o/aReJUKC3XnQ3K6BHW+S0yUJBazRhb5ZJj2LEipRitvnzVuu4Fxc0kOvUKP0HTp
+ l9ljJhIToUy3tNoVqb6q0WiLjKGZd7Thy9gFse2KCT4pDxpfnglQFb5C5U7i2ue8ZDa9
+ c8tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=lbklHsC4p2zDoA9Qm45sY9QvlkWdqqX9EtVTWkPxbLA=;
- b=RHHwGb3r3lbu6xfULZVqMxAJSna/JlWnZdOtUDweCZ5g24iMh/8/KO0RE+4AFBoNZ+
- qYWTllGO1xQZ5YHLBsZa6tPTGWQgn+f/lQmNkp1c68i0rOmUeyNIwQ2I4tR1DS4Zea7n
- A0tZUdNJ5XH9w5Wui94dniZsn9wbGWEotExfkk3lgiFxnEWQBS0UvCvjyqwCndGmdLa6
- Cce2Q9WWp+S1xoUE+Gr1bNtrbTBVmpdVQK0EMvNBYwZNcVVPrA+G0ms8bvq314WErQQ8
- xvXJFW1rLpAPXdrAbt6HPOiLRZhPx1vwtje5RcHA6U1jwKC0wMah1lysLIafZwJL6IrP
- 3trw==
-X-Gm-Message-State: AOAM533mwEJfes6O6BVWNNpf0pl+vldjT8sQRNyM3hGsWQZAgDxCgfQT
- ObuLjg26/cwfVDfG9otOfpFnKQ29oN93ybp3v36EvT8ecCmQ+E75JT2oOwiTe+ECR5Pel6Zfzhi
- qB6i4aeH2vO96Ysc=
-X-Received: by 2002:a17:907:7287:b0:6df:8f48:3f76 with SMTP id
- dt7-20020a170907728700b006df8f483f76mr17022731ejc.411.1647816787650; 
- Sun, 20 Mar 2022 15:53:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZe9l6Up1iG5LURVWCj/AihbE5iv/oi8hjD6mxD1AXkSiAxFIFKMfPOvm35kPXKaxucLH/AQ==
-X-Received: by 2002:a17:907:7287:b0:6df:8f48:3f76 with SMTP id
- dt7-20020a170907728700b006df8f483f76mr17022701ejc.411.1647816787435; 
- Sun, 20 Mar 2022 15:53:07 -0700 (PDT)
-Received: from redhat.com ([2.55.132.0]) by smtp.gmail.com with ESMTPSA id
- t14-20020a170906608e00b006d1455acc62sm6300968ejj.74.2022.03.20.15.53.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Mar 2022 15:53:06 -0700 (PDT)
-Date: Sun, 20 Mar 2022 18:53:01 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alexander Graf <graf@amazon.com>
-Subject: Re: propagating vmgenid outward and upward
-Message-ID: <20220320185049-mutt-send-email-mst@kernel.org>
-References: <Yh4+9+UpanJWAIyZ@zx2c4.com>
- <c5181fb5-38fb-f261-9de5-24655be1c749@amazon.com>
- <CAHmME9rTMDkE7UA3_wg87mrDVYps+YaHw+dZwF0EbM0zC4pQQw@mail.gmail.com>
- <47137806-9162-0f60-e830-1a3731595c8c@amazon.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nFjCQ9jHjQCujGQAULU0XTTWu4OKaaXuSje1wF9gAqo=;
+ b=1LVY8iHFJjubBAVp5T4rQ4OwrcPU07v6fKpQsZQwzqSBuG9/XNnSCpqGdcB5hOaJ+4
+ BKvAtltTFRrnXsB0z81zrWBelGpGCteg/LMTA5bAesR4vl1lwDw4EhFbF+y0I7OWI1ox
+ pKiCQ/n3vuwpI/bELW+jvXBFPPJfLls2JFTICBDK7KTZ2GCB6UOgWOcSsG3YjXVIRHq1
+ kERo319hNSK7kniVvESJNHO0BGsnC1CI96IU8UD/vExOyjrmz5yul+md8aG1s+NVLu5c
+ 7OoeW5egLWVOJZpviuG0kylV4t3f52hhK41O4HfT59hsWzIktLZrHUlEZsDg3AnTmp1I
+ S7FA==
+X-Gm-Message-State: AOAM5337QTkdKEoZOkcZ0uBFKgy1N0KDEjMoSzMSdJ3xS+3oUaokbJ7E
+ CxKDYXfQZxdXpfPQol5mehtNVFN8/N6wh/cDkhs=
+X-Google-Smtp-Source: ABdhPJw9rO7Uc5n3Tnfv35IdN/p1JJk1d6VBQworMUcwAQ5hvAdhlLEpe0lXE7Ylacg8GUuvwWMS1TUaKPx0KQt9Fr4=
+X-Received: by 2002:a05:6e02:218a:b0:2c8:1bf8:e15e with SMTP id
+ j10-20020a056e02218a00b002c81bf8e15emr2728697ila.55.1647820125880; Sun, 20
+ Mar 2022 16:48:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <47137806-9162-0f60-e830-1a3731595c8c@amazon.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <164762720573.18409.3931931227997483525-0@git.sr.ht>
+In-Reply-To: <164762720573.18409.3931931227997483525-0@git.sr.ht>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 21 Mar 2022 09:48:20 +1000
+Message-ID: <CAKmqyKNbxh_zWiWwOEvJZ8YvGEoN-0pcy9itnYwvYa+eVVaiMA@mail.gmail.com>
+Subject: Re: [PATCH qemu] target/riscv: rvv: Add missing early exit condition
+ for whole register load/store
+To: "~eopxd" <yueh.ting.chen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::130
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x130.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,30 +82,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Brown, Len" <len.brown@intel.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Colm MacCarthaigh <colmmacc@amazon.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- adrian@parity.io, KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- linux-hyperv@vger.kernel.org, Dominik Brodowski <linux@dominikbrodowski.net>,
- LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Theodore Ts'o <tytso@mit.edu>,
- "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 10, 2022 at 12:18:04PM +0100, Alexander Graf wrote:
-> I agree on the slightly racy compromise
+On Sat, Mar 19, 2022 at 6:59 AM ~eopxd <eopxd@git.sr.ht> wrote:
+>
+> From: Yueh-Ting (eop) Chen <eop.chen@sifive.com>
+>
+> According to v-spec (section 7.9):
+> The instructions operate with an effective vector length, evl=3DNFIELDS*V=
+LEN/EEW,
+> regardless of current settings in vtype and vl. The usual property that n=
+o
+> elements are written if vstart =E2=89=A5 vl does not apply to these instr=
+uctions.
+> Instead, no elements are written if vstart =E2=89=A5 evl.
+>
+> Signed-off-by: eop Chen <eop.chen@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
-Thought hard about this, I think I agree, and I guess as a minimum we
-can start with at least the ACPI+RNG patch, right? That will already
-address wireguard ...
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
--- 
-MST
+Alistair
 
+> ---
+>  target/riscv/insn_trans/trans_rvv.c.inc | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
+trans/trans_rvv.c.inc
+> index 275fded6e4..4ea7e41e1a 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -1121,6 +1121,10 @@ static bool ldst_whole_trans(uint32_t vd, uint32_t=
+ rs1, uint32_t nf,
+>                               gen_helper_ldst_whole *fn, DisasContext *s,
+>                               bool is_store)
+>  {
+> +    uint32_t evl =3D (s->cfg_ptr->vlen / 8) * nf / (1 << s->sew);
+> +    TCGLabel *over =3D gen_new_label();
+> +    tcg_gen_brcondi_tl(TCG_COND_GEU, cpu_vstart, evl, over);
+> +
+>      TCGv_ptr dest;
+>      TCGv base;
+>      TCGv_i32 desc;
+> @@ -1140,6 +1144,7 @@ static bool ldst_whole_trans(uint32_t vd, uint32_t =
+rs1, uint32_t nf,
+>      if (!is_store) {
+>          mark_vs_dirty(s);
+>      }
+> +    gen_set_label(over);
+>
+>      return true;
+>  }
+> --
+> 2.34.1
+>
 
