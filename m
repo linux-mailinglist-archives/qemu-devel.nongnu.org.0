@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D804B4E1D41
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 18:55:01 +0100 (CET)
-Received: from localhost ([::1]:48870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0A44E1D51
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 19:06:11 +0100 (CET)
+Received: from localhost ([::1]:33072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVzlc-0003wm-UX
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 13:55:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33752)
+	id 1nVzwQ-0004FZ-Gx
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 14:06:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVz8K-0002vs-AB
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:14:29 -0400
-Received: from [2607:f8b0:4864:20::102d] (port=33052
- helo=mail-pj1-x102d.google.com)
+ id 1nVztt-0003a6-P3
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 14:03:33 -0400
+Received: from [2607:f8b0:4864:20::52f] (port=34438
+ helo=mail-pg1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVz8I-0003hB-2o
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:14:23 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- q1-20020a17090a4f8100b001c6575ae105so8764430pjh.0
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 10:14:21 -0700 (PDT)
+ id 1nVzts-0006K5-5j
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 14:03:33 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id t187so8792840pgb.1
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 11:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=JV1lSbvbxcntAU71axjdGOp7EiTeIeda5B50ROh6QR8=;
- b=XDopeHsL59kETwH6fIjtuN9hpFdEUdZqqmGPJeplb5lCBLUC/KMuaPz7XjjOnuR5hK
- VwpvYglVTRFARet1BBNy+q9I1KO/k8dZLixrqmvUMeyIYCEarq3G4uGSKYrCq5CYuvoz
- MqX5bn7F9vh05Uh+4BK0jXDqfK/dqyfdKskFk22LWwzcjm49B49nMSIBcqe9bLlepY5M
- RLBghg4vkHnQ9KILHDZ54cBE3wydnFZ5WG11NYcidexbhAghKrYUf7gK5rWNBVRzD38n
- RRhgRomq/E0givHEouHwx6aoTwak6SpP+yOt9BJ+6iRE78T2vEiRjFCTmtAg0KmbZYBe
- C4tQ==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=3CpBs6Za3/6hXod2u0y0w9dwj9/Gockyis2LDPYUPn4=;
+ b=s1+x68m5d6CVpYk4hcpBECTceIjTDqEB1bzJLPcUwCJWd33MfrybeqWmeOu27PKEaf
+ PG5dOpvPXRnspDmyhrwvx/DrllYg50T9VktBN6tkaYM2xi5gon9T5TlcwUKs0bjrBCwC
+ J+obUxZECqDM8MUsLuy3uivHjcR/2I7yLYKesdk9B7UKMc/OucE48IYVds4A+OxheDBw
+ icyY9lqLocE7qfLg2PiYOBzHVjgkRuZ5Go9VEPTRLJD7VF+YPomUemgQ310F2OtAqTQP
+ rSocvjv+FezFMtOv5CNv49EGEySncgcW+e5e1Pj7UOmPiT8ILIW724hJ1ycoDV8vJexn
+ atew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JV1lSbvbxcntAU71axjdGOp7EiTeIeda5B50ROh6QR8=;
- b=xDwkNMN0Eb5PyV1++VltZI2zH+3abTSZ0uuE7sK42Kut95u5XmENB+x1FewUxY2QIx
- kT3Nv5BAEXD3nA1f4+5FeKurG8A8skeEOS42HP8nq3Tv2Ohq2z/EvFDlIUBCLqq3lo4g
- 87aQkCSLG5Zk2qQ617QBF9ejtVPnPLx/GWLOqNWalkTiDv9y/ML5osNJBBQMJwFfVW6u
- DmRgc8lZyJvGL547h6Wz+3l8W4ySFcmjt3QnPnF8l+PayRwXRwzjKI+/aUw0683LZkwh
- paeswnebmSHLaUeboRgPToVPCs9ZfjQ1oEGuPKMjIcQsaCK2ZjHq443Yb0/eI4veO0op
- kSAA==
-X-Gm-Message-State: AOAM532uxhmyFvETIplAu+i/0E4symdShHt5Zge1um7oN0OfFmC1fUDy
- zv9yHJuCchLnNwUcW52Qer5O92wkWwi37A==
-X-Google-Smtp-Source: ABdhPJwnPHeUH9taGNw4qKe0mRvMx7gd8rrkrznq5ErrtBCcs1jT/SShouR5BkqHdMRYf2H3rxQWwA==
-X-Received: by 2002:a17:902:b406:b0:14f:bb35:95ab with SMTP id
- x6-20020a170902b40600b0014fbb3595abmr9150118plr.140.1647796460790; 
- Sun, 20 Mar 2022 10:14:20 -0700 (PDT)
+ bh=3CpBs6Za3/6hXod2u0y0w9dwj9/Gockyis2LDPYUPn4=;
+ b=XxzVLc6qfEYydeOR+Mp5LiGatj97Xypqab4eLkwZxew+MyMVB1CSAGWvtlgp49ZpwC
+ r2MvLdV2RXfpU4JMHj7nEkkbXdqnN1ieCNg9OVN0ap3YDMCyoSqs9zDPBu3Mng+VATRI
+ 7PbHXrGkoB0R4FtkhbWa6kgsVOcmItYjD+Mgw8b0+mkA6H65X5UR1dXfKsd8oGNv7v/i
+ ewkcpt249tnkIQxvNFogTP231JTcuO55/CKM3+ZR1Gm3zQBN0Lm3ZnAgr/66sXLmlABx
+ p9POtCIOJC8CzUwLCVLyYieD4VfQA97rvHH/krZn7wxERZUdmMtAGAS4ubh3Qr1fr1eL
+ RyIg==
+X-Gm-Message-State: AOAM533beSp2AOllCn8Y+9q6N9A2hmv7JMIT0G5W09RvzjWvEG7jHqFq
+ aC9c8MWbGnBU5WLlLGn4d1zxVw==
+X-Google-Smtp-Source: ABdhPJxiHrMWLO/i2ITBsI64KHUPat2ZbCMEnkyYACunxhz/yQgTTPXx4k7VIu7nwvWd7+OR4N0KlQ==
+X-Received: by 2002:a05:6a00:298c:b0:4fa:8e7b:349d with SMTP id
+ cj12-20020a056a00298c00b004fa8e7b349dmr5274132pfb.26.1647799410301; 
+ Sun, 20 Mar 2022 11:03:30 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- c3-20020a056a00248300b004f6f729e485sm16748848pfv.127.2022.03.20.10.14.20
+ p27-20020a056a000a1b00b004f3f63e3cf2sm17646917pfh.58.2022.03.20.11.03.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Mar 2022 10:14:20 -0700 (PDT)
-Message-ID: <840fb436-3f3a-a8a9-9ba1-ac2a2fca9a22@linaro.org>
-Date: Sun, 20 Mar 2022 10:14:18 -0700
+ Sun, 20 Mar 2022 11:03:29 -0700 (PDT)
+Message-ID: <9428c4ad-8a52-0adc-c835-e61cc9cba7af@linaro.org>
+Date: Sun, 20 Mar 2022 11:03:27 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PULL for-7.1 00/36] Logging cleanup and per-thread logfiles
+Subject: Re: [PATCH for-7.0] linux-user: Fix syscall parameter handling for
+ MIPS n32
 Content-Language: en-US
+To: WANG Xuerui <xen0n@gentoo.org>, qemu-devel@nongnu.org
+References: <20220320052259.1610883-1-xen0n@gentoo.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20220320171135.2704502-1-richard.henderson@linaro.org>
-In-Reply-To: <20220320171135.2704502-1-richard.henderson@linaro.org>
+In-Reply-To: <20220320052259.1610883-1-xen0n@gentoo.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,24 +93,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: =?UTF-8?Q?Andreas_K_=2e_H=c3=bcttel?= <dilfridge@gentoo.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/20/22 10:10, Richard Henderson wrote:
-> Most of the changes here reduce the amount of locking involved
-> in logging, due to repeated qemu_log calls, each of which takes
-> and releases the rcu_read_lock.
+On 3/19/22 22:22, WANG Xuerui wrote:
+> The MIPS n32 ABI is basically n64 with the address space (i.e. pointer
+> width) shrinked to 32 bits. Meanwhile the current code treats it as
+> o32-like based on TARGET_ABI_BITS, which causes problems with n32
+> syscalls utilizing 64-bit offsets, like pread64, affecting most (if not
+> all) recently built n32 binaries.
 > 
-> This makes more use of qemu_log_lock/unlock around code blocks,
-> which both keeps the output together in the face of threads and
-> also plays the rcu_read_lock game only once for the block.
+> This partially solves issue #909 ("qemu-mipsn32(el) user mode emulator
+> fails to execute any recently built n32 binaries"); with this change
+> applied, the built qemu-mipsn32el is able to progress beyond the
+> pread64, and finish _dl_start_user for the "getting ld.so load libc.so"
+> case. The program later dies with SIGBUS, though, due to _dl_start_user
+> not maintaining stack alignment after removing ld.so itself from argv,
+> and qemu-user starting to enforce alignment recently, but that is
+> orthogonal to the issue here; the more common case of chrooting is
+> working, verified with my own-built Gentoo n32 sysroot. (Depending on
+> the exact ISA used, one may have to explicitly specify QEMU_CPU, which
+> is the case for my chroot.)
 > 
-> Finally, add a -d tid option to open per-thread logfiles.
-> This can be extremely helpful in debugging user-only threads.
+> Buglink:https://gitlab.com/qemu-project/qemu/-/issues/909
+> Signed-off-by: WANG Xuerui<xen0n@gentoo.org>
+> Cc: Laurent Vivier<laurent@vivier.eu>
+> Cc: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> Cc: Jiaxun Yang<jiaxun.yang@flygoat.com>
+> Cc: Andreas K. Hüttel<dilfridge@gentoo.org>
 
-Gah.  I didn't mean to write 'PULL' here, just PATCH.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
