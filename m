@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D946D4E1D1C
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 18:23:21 +0100 (CET)
-Received: from localhost ([::1]:46776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2CF4E1D19
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 18:23:16 +0100 (CET)
+Received: from localhost ([::1]:46380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVzGy-000645-U3
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 13:23:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32926)
+	id 1nVzGt-0005nT-H3
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 13:23:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVz5l-0008KR-TL
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:45 -0400
-Received: from [2607:f8b0:4864:20::52b] (port=33514
- helo=mail-pg1-x52b.google.com)
+ id 1nVz5n-0008Lk-IF
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:47 -0400
+Received: from [2607:f8b0:4864:20::532] (port=35759
+ helo=mail-pg1-x532.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVz5j-0003Qe-O4
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:44 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id 6so8741555pgg.0
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 10:11:43 -0700 (PDT)
+ id 1nVz5l-0003Qn-K0
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:46 -0400
+Received: by mail-pg1-x532.google.com with SMTP id e6so8737180pgn.2
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 10:11:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AiGXKmM5Cv0Fdfz4VnJTiU6gz9cUezs0SPdSZR5WJXA=;
- b=F160S3K/J48W+34HwvHGEi2w7IO1lXA6+C3AXYSIsvRVDt4Dx1nheHumuqD6Xh46fw
- pYnCdMRDC62bytTuEtjsMV5GIBiuqVVvNXtGb/6kL2BJwCGbfQW3BsbgzARHIvvOe0JN
- dQ6FE+6FelVt2t6SqrwAF89fYD9sfEJn9nLrurOrCzEsgtZMh6nfhRvScvwiKI9lWexz
- PrIVlu3XwtKdQxCj2qviGUDXKM1UQjNl+rnCwlDpqFaN3Nqr/KgiDQUIP3+1NwZmE6Bc
- dcUDSMGwhlGx2VLQRXGs7c06P+TcaOqK8/kBjtyY1aBgY4aevPWIXfmIVHqoXxf/POD5
- yd6A==
+ bh=J1dSl4TTW2l9haojZKtDE3xV0KCAHP/jmJTof7woW9Y=;
+ b=G3Zx6dmWTDj3rdH7H5Zzsiei+VsMlRBdn5ump6JYSnDHw7m/W6ssIub/PxMwr20Zud
+ yhJbqbnvQXxy0GyosxouG3qihWKYvoBPDMZPar/MGV2KJpty9jJUMzQbSVhuk7WL8jHW
+ SIYRI+bc6qjcszOSKGah1fKXvwL9oEy5CUaYFg+MkSqhopNKoMsmKkmJFSbx+g5dhKZq
+ o+0S0PehzgYmtYeSpvUuOpF/a8b4i6f2KDczyj1hE5Pa8BVmMVdxU7/PZ4N3u4AKZ1oc
+ QVfCsgilgH9C+dDh9pC1cBaJ6OdYh8AhKjy1tEXwSAegoyCqCZuBtPRniVPQLqDj+yM8
+ 9KEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AiGXKmM5Cv0Fdfz4VnJTiU6gz9cUezs0SPdSZR5WJXA=;
- b=SXZgwq0XDnfZa1USwuHl1pY6uRJ7dj+H0SH7qbsJB94sLXVb1vxYQ8Anprq9p9kXrm
- WgrwE0jB99Murdg6RKm/gr+sfNdESMk0KIe/C39zE5XOpOmA/EegkJ42ThGEl6ut9+Ip
- v9iccHyDMqoeKG/T2+vRf4orjgzzNuUhXshWgniI5wWHPNgKJ443kv7aeyWnqIEGG1Bm
- piDKjmcKsP8dA8mfwk5HJODSRISTN6vc8LZO/+zTWXcQDkXzZvRIJ+MALbthth9nmKMx
- CMY+2ZZwO03ROgf0v6R21xiOTAARFMtGOhikU2cRR9cxsb6d5y5bxd6nrOZGqm4Tz8Vp
- wTIA==
-X-Gm-Message-State: AOAM530iG4buz8S6qU2ECZML32lIOxZnGl/n9MNL0O0nG/LG90Vhpljy
- RmXgB+BklmxIIpii6PwEPQCnsSHcNqMHSA==
-X-Google-Smtp-Source: ABdhPJxMNrKHXmPFGKVT/MAvtb8fXSg/ab7TvxxVnJTKEhghqMl/B8sKE1nG5smllntRpigG9ZJTcg==
-X-Received: by 2002:a05:6a00:814:b0:4f7:4c6:1227 with SMTP id
- m20-20020a056a00081400b004f704c61227mr20241967pfk.54.1647796302389; 
- Sun, 20 Mar 2022 10:11:42 -0700 (PDT)
+ bh=J1dSl4TTW2l9haojZKtDE3xV0KCAHP/jmJTof7woW9Y=;
+ b=qh5MvREFmkFuUrt80a6DH+8IOcnjfXctbm0PpX8VRQRrido/RkeUGVwliNxe/fWS3S
+ ZIQ9BNn2Bv+qJ8AcvrJkocB71dA2VQ6mJnWmxOj3ni14wTZCX2QOG/tfyIA94Y4MpTzU
+ 8ty//Iv7LzgUYf7KyyQYXXLCIqDojQnxBQGsQebI5XmWz+CVNQgO0pb1Rg8xBM5U8o1/
+ cOs+ppyZ/39/gh8UAqA2ckOdCAvjKLZvKWrbcf6QOu1WJr7AwblJwSNF4x8/8e+N6NLR
+ hg64NNRed+UOJwmdw6JrE2/hlfQ1i6WtQBBm+Sj+5f27tvKucxarUPxrP6vzBNxdJsyT
+ 4QOg==
+X-Gm-Message-State: AOAM532IDG/ifR0wyeYJGMkCjUMEZDuqPiZjqYBJ9f2c8zIii37iTDfD
+ dk+pmX2yU1FcgTge3f5+bCHVU2LZWGAQYA==
+X-Google-Smtp-Source: ABdhPJxXMBpkcykVo18sISt1zlvE2uxrLgjrfECUsEsT3V8NL7Vy5Zyd2elX5eCQIrjFrK6s7oJIyg==
+X-Received: by 2002:a63:4766:0:b0:382:6cc2:c0d3 with SMTP id
+ w38-20020a634766000000b003826cc2c0d3mr3234343pgk.6.1647796303299; 
+ Sun, 20 Mar 2022 10:11:43 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- q12-20020a17090aa00c00b001bc6f1baaaesm17149697pjp.39.2022.03.20.10.11.41
+ q12-20020a17090aa00c00b001bc6f1baaaesm17149697pjp.39.2022.03.20.10.11.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 20 Mar 2022 10:11:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-7.1 06/36] util/log: Treat qemu_log_lock like trylock
-Date: Sun, 20 Mar 2022 10:11:05 -0700
-Message-Id: <20220320171135.2704502-7-richard.henderson@linaro.org>
+Subject: [PULL for-7.1 07/36] hw/xen: Split out xen_pv_output_msg
+Date: Sun, 20 Mar 2022 10:11:06 -0700
+Message-Id: <20220320171135.2704502-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220320171135.2704502-1-richard.henderson@linaro.org>
 References: <20220320171135.2704502-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::532
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,43 +92,77 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not require qemu_log_unlock to be called when
-qemu_log_lock returns NULL.
+Do not replicate the individual logging statements.
+Use qemu_log_lock/unlock instead of qemu_log directly.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- util/log.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/xen/xen_pvdev.c | 44 ++++++++++++++++++++++++--------------------
+ 1 file changed, 24 insertions(+), 20 deletions(-)
 
-diff --git a/util/log.c b/util/log.c
-index 248db6211e..b1651d8122 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -39,12 +39,14 @@ static GArray *debug_regions;
- FILE *qemu_log_lock(void)
- {
-     QemuLogFile *logfile;
+diff --git a/hw/xen/xen_pvdev.c b/hw/xen/xen_pvdev.c
+index 8ab458922a..355bbda60d 100644
+--- a/hw/xen/xen_pvdev.c
++++ b/hw/xen/xen_pvdev.c
+@@ -196,34 +196,38 @@ const char *xenbus_strstate(enum xenbus_state state)
+  *  2 == noisy debug messages (logfile only).
+  *  3 == will flood your log (logfile only).
+  */
++static void xen_pv_output_msg(struct XenLegacyDevice *xendev,
++                              FILE *f, const char *fmt, va_list args)
++{
++    if (xendev) {
++        fprintf(f, "xen be: %s: ", xendev->name);
++    } else {
++        fprintf(f, "xen be core: ");
++    }
++    vfprintf(f, fmt, args);
++}
 +
-     rcu_read_lock();
-     logfile = qatomic_rcu_read(&qemu_logfile);
-     if (logfile) {
-         qemu_flockfile(logfile->fd);
-         return logfile->fd;
-     } else {
-+        rcu_read_unlock();
-         return NULL;
-     }
- }
-@@ -53,8 +55,8 @@ void qemu_log_unlock(FILE *fd)
+ void xen_pv_printf(struct XenLegacyDevice *xendev, int msg_level,
+                    const char *fmt, ...)
  {
-     if (fd) {
-         qemu_funlockfile(fd);
-+        rcu_read_unlock();
-     }
--    rcu_read_unlock();
- }
++    FILE *logfile;
+     va_list args;
  
- /* Return the number of characters emitted.  */
+-    if (xendev) {
+-        if (msg_level > xendev->debug) {
+-            return;
+-        }
+-        qemu_log("xen be: %s: ", xendev->name);
+-        if (msg_level == 0) {
+-            fprintf(stderr, "xen be: %s: ", xendev->name);
+-        }
+-    } else {
+-        if (msg_level > debug) {
+-            return;
+-        }
+-        qemu_log("xen be core: ");
+-        if (msg_level == 0) {
+-            fprintf(stderr, "xen be core: ");
+-        }
++    if (msg_level > (xendev ? xendev->debug : debug)) {
++        return;
+     }
+-    va_start(args, fmt);
+-    qemu_log_vprintf(fmt, args);
+-    va_end(args);
++
++    logfile = qemu_log_lock();
++    if (logfile) {
++        va_start(args, fmt);
++        xen_pv_output_msg(xendev, logfile, fmt, args);
++        va_end(args);
++        qemu_log_unlock(logfile);
++    }
++
+     if (msg_level == 0) {
+         va_start(args, fmt);
+-        vfprintf(stderr, fmt, args);
++        xen_pv_output_msg(xendev, stderr, fmt, args);
+         va_end(args);
+     }
+     qemu_log_flush();
 -- 
 2.25.1
 
