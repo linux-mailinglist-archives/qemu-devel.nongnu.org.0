@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2A94E1E04
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 22:43:53 +0100 (CET)
-Received: from localhost ([::1]:50618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742064E1E02
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 22:40:53 +0100 (CET)
+Received: from localhost ([::1]:45426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nW3L6-0003o1-LC
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 17:43:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47002)
+	id 1nW3IC-0000Fa-JE
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 17:40:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
- id 1nW3Gt-0007I4-3H
+ id 1nW3Gt-0007I0-25
  for qemu-devel@nongnu.org; Sun, 20 Mar 2022 17:39:31 -0400
-Received: from smtp103.iad3a.emailsrvr.com ([173.203.187.103]:51600)
+Received: from smtp102.iad3a.emailsrvr.com ([173.203.187.102]:49114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
- id 1nW3Gp-0003hf-Cj
+ id 1nW3Gp-0003hm-SU
  for qemu-devel@nongnu.org; Sun, 20 Mar 2022 17:39:30 -0400
 X-Auth-ID: adeason@sinenomine.net
 Received: by smtp21.relay.iad3a.emailsrvr.com (Authenticated sender:
- adeason-AT-sinenomine.net) with ESMTPSA id 23BF922AEC; 
+ adeason-AT-sinenomine.net) with ESMTPSA id 92C0223EDC; 
  Sun, 20 Mar 2022 17:39:03 -0400 (EDT)
 From: Andrew Deason <adeason@sinenomine.net>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] qga/commands-posix: Fix iface hw address detection
-Date: Sun, 20 Mar 2022 16:38:42 -0500
-Message-Id: <20220320213843.4544-3-adeason@sinenomine.net>
+Subject: [PATCH 3/3] qga/commands-posix: Fix listing ifaces for Solaris
+Date: Sun, 20 Mar 2022 16:38:43 -0500
+Message-Id: <20220320213843.4544-4-adeason@sinenomine.net>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20220320213843.4544-1-adeason@sinenomine.net>
 References: <20220320213843.4544-1-adeason@sinenomine.net>
-X-Classification-ID: 24b37eb1-89c9-490c-a9ff-4b3c6c12b24b-3-1
-Received-SPF: pass client-ip=173.203.187.103;
- envelope-from=adeason@sinenomine.net; helo=smtp103.iad3a.emailsrvr.com
+X-Classification-ID: 24b37eb1-89c9-490c-a9ff-4b3c6c12b24b-4-1
+Received-SPF: pass client-ip=173.203.187.102;
+ envelope-from=adeason@sinenomine.net; helo=smtp102.iad3a.emailsrvr.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -57,136 +57,96 @@ Cc: Michael Roth <michael.roth@amd.com>, Andrew Deason <adeason@sinenomine.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since its introduction in commit 3424fc9f16a1 ("qemu-ga: add
-guest-network-get-interfaces command"), guest-network-get-interfaces
-seems to check if a given interface has a hardware address by checking
-'ifa->ifa_flags & SIOCGIFHWADDR'. But ifa_flags is a field for IFF_*
-flags (IFF_UP, IFF_LOOPBACK, etc), and comparing it to an ioctl like
-SIOCGIFHWADDR doesn't make sense.
+The code for guest-network-get-interfaces needs a couple of small
+adjustments for Solaris:
 
-On Linux, this isn't a big deal, since SIOCGIFHWADDR has so many bits
-set (0x8927), 'ifa->ifa_flags & SIOCGIFHWADDR' will usually have a
-nonzero result for any 'normal'-looking interfaces: anything with
-IFF_UP (0x1) or IFF_BROADCAST (0x2) set, as well as several
-less-common flags. This means we'll try to get the hardware address
-for most/all interfaces, even those that don't really have one (like
-the loopback device). For those interfaces, Linux just returns a
-hardware address of all zeroes.
+- The results from SIOCGIFHWADDR are documented as being in ifr_addr,
+  not ifr_hwaddr (ifr_hwaddr doesn't exist on Solaris).
 
-On Solaris, however, trying to get the hardware address for a loopback
-device returns an EADDRNOTAVAIL error. This causes us to return an
-error and the entire guest-network-get-interfaces call fails.
-
-Change this logic to always try to get the hardware address for each
-interface, and don't return an error if we fail to get it. Instead,
-just don't include the 'hardware-address' field in the result if we
-can't get the hardware address.
+- The implementation of guest_get_network_stats is Linux-specific, so
+  hide it under #ifdef CONFIG_LINUX. On non-Linux, we just won't
+  provide network interface stats.
 
 Signed-off-by: Andrew Deason <adeason@sinenomine.net>
 ---
-As implemented, this commit results in a behavior difference between Linux and
-Solaris. It's fixable, but I'm not sure which behavior we should have, or if
-it's okay that they behave differently:
-
-On Linux, we've always returned the MAC address for loopback as all zeroes. In
-this commit, on Solaris we don't return a MAC address at all for loopback
-(because trying to get the MAC for lo results in an error).
-
-It doesn't have to be like this; the behavior could be made the same if we
-wanted, by either:
-
-- Making it so failing to get the hw address falls back to providing an
-  all-zeroes address (making Solaris look more like Linux).
-
-- Stop providing a 'fake' all-zeroes hw address on Linux (arguably more
-  accurate, but harder to detect, and different than past behavior).
-
-Or we could just leave the behavior as it is and have the two behave slightly
-differently; we're merely reflecting what the underlying platform does, and I'm
-not sure anyone cares about the difference. I assume this applies to any
-network interface that doesn't have a hardware address, but loopback is the
-only one I've seen on the simple test VMs I've been using so far.
-
- qga/commands-posix.c | 39 ++++++++++++++++++++++++---------------
- 1 file changed, 24 insertions(+), 15 deletions(-)
+ qga/commands-posix.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index e0feb5ffb5..bd0d67f674 100644
+index bd0d67f674..c0b00fc488 100644
 --- a/qga/commands-posix.c
 +++ b/qga/commands-posix.c
-@@ -2875,48 +2875,57 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
- 
-         info = guest_find_interface(head, ifa->ifa_name);
- 
-         if (!info) {
-             info = g_malloc0(sizeof(*info));
-             info->name = g_strdup(ifa->ifa_name);
- 
-             QAPI_LIST_APPEND(tail, info);
+@@ -2781,20 +2781,21 @@ guest_find_interface(GuestNetworkInterfaceList *head,
+             return head->value;
          }
+     }
  
--        if (!info->has_hardware_address && ifa->ifa_flags & SIOCGIFHWADDR) {
-+        if (!info->has_hardware_address) {
-             /* we haven't obtained HW address yet */
-             sock = socket(PF_INET, SOCK_STREAM, 0);
-             if (sock == -1) {
-                 error_setg_errno(errp, errno, "failed to create socket");
-                 goto error;
-             }
+     return NULL;
+ }
  
-             memset(&ifr, 0, sizeof(ifr));
-             pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->name);
-             if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
--                error_setg_errno(errp, errno,
--                                 "failed to get MAC address of %s",
--                                 ifa->ifa_name);
--                close(sock);
--                goto error;
--            }
-+                /*
-+                 * We can't get the hw addr of this interface, but that's not a
-+                 * fatal error. Don't set info->hardware_address, but keep
-+                 * going.
-+                 */
-+                if (errno == EADDRNOTAVAIL) {
-+                    /* The interface doesn't have a hw addr (e.g. loopback). */
-+                    g_debug("failed to get MAC address of %s: %s",
-+                            ifa->ifa_name, strerror(errno));
-+                } else{
-+                    g_warning("failed to get MAC address of %s: %s",
-+                              ifa->ifa_name, strerror(errno));
-+                }
- 
--            close(sock);
--            mac_addr = (unsigned char *) &ifr.ifr_hwaddr.sa_data;
-+            } else {
-+                mac_addr = (unsigned char *) &ifr.ifr_hwaddr.sa_data;
- 
--            info->hardware_address =
--                g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
--                                (int) mac_addr[0], (int) mac_addr[1],
--                                (int) mac_addr[2], (int) mac_addr[3],
--                                (int) mac_addr[4], (int) mac_addr[5]);
-+                info->hardware_address =
-+                    g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
-+                                    (int) mac_addr[0], (int) mac_addr[1],
-+                                    (int) mac_addr[2], (int) mac_addr[3],
-+                                    (int) mac_addr[4], (int) mac_addr[5]);
- 
--            info->has_hardware_address = true;
-+                info->has_hardware_address = true;
-+            }
-+            close(sock);
+ static int guest_get_network_stats(const char *name,
+                        GuestNetworkInterfaceStat *stats)
+ {
++#ifdef CONFIG_LINUX
+     int name_len;
+     char const *devinfo = "/proc/net/dev";
+     FILE *fp;
+     char *line = NULL, *colon;
+     size_t n = 0;
+     fp = fopen(devinfo, "r");
+     if (!fp) {
+         return -1;
+     }
+     name_len = strlen(name);
+@@ -2836,20 +2837,21 @@ static int guest_get_network_stats(const char *name,
+             stats->tx_errs = tx_errs;
+             stats->tx_dropped = tx_dropped;
+             fclose(fp);
+             g_free(line);
+             return 0;
          }
+     }
+     fclose(fp);
+     g_free(line);
+     g_debug("/proc/net/dev: Interface '%s' not found", name);
++#endif /* CONFIG_LINUX */
+     return -1;
+ }
  
-         if (ifa->ifa_addr &&
-             ifa->ifa_addr->sa_family == AF_INET) {
-             /* interface with IPv4 address */
-             p = &((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
-             if (!inet_ntop(AF_INET, p, addr4, sizeof(addr4))) {
-                 error_setg_errno(errp, errno, "inet_ntop failed");
-                 goto error;
+ /*
+  * Build information about guest interfaces
+  */
+ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+ {
+     GuestNetworkInterfaceList *head = NULL, **tail = &head;
+     struct ifaddrs *ifap, *ifa;
+@@ -2901,22 +2903,25 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+                 if (errno == EADDRNOTAVAIL) {
+                     /* The interface doesn't have a hw addr (e.g. loopback). */
+                     g_debug("failed to get MAC address of %s: %s",
+                             ifa->ifa_name, strerror(errno));
+                 } else{
+                     g_warning("failed to get MAC address of %s: %s",
+                               ifa->ifa_name, strerror(errno));
+                 }
+ 
+             } else {
++#ifdef CONFIG_SOLARIS
++                mac_addr = (unsigned char *) &ifr.ifr_addr.sa_data;
++#else
+                 mac_addr = (unsigned char *) &ifr.ifr_hwaddr.sa_data;
+-
++#endif
+                 info->hardware_address =
+                     g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
+                                     (int) mac_addr[0], (int) mac_addr[1],
+                                     (int) mac_addr[2], (int) mac_addr[3],
+                                     (int) mac_addr[4], (int) mac_addr[5]);
+ 
+                 info->has_hardware_address = true;
              }
+             close(sock);
+         }
 -- 
 2.11.0
 
