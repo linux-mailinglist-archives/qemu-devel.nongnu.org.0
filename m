@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0A44E1D51
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 19:06:11 +0100 (CET)
-Received: from localhost ([::1]:33072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD6C4E1D88
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 20:08:59 +0100 (CET)
+Received: from localhost ([::1]:50982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVzwQ-0004FZ-Gx
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 14:06:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41948)
+	id 1nW0vB-0002Xh-Pn
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 15:08:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVztt-0003a6-P3
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 14:03:33 -0400
-Received: from [2607:f8b0:4864:20::52f] (port=34438
- helo=mail-pg1-x52f.google.com)
+ id 1nW0u8-0001lH-Ti
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 15:07:52 -0400
+Received: from [2607:f8b0:4864:20::634] (port=39889
+ helo=mail-pl1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVzts-0006K5-5j
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 14:03:33 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id t187so8792840pgb.1
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 11:03:31 -0700 (PDT)
+ id 1nW0u7-0002P7-Gf
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 15:07:52 -0400
+Received: by mail-pl1-x634.google.com with SMTP id d18so11010624plr.6
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 12:07:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3CpBs6Za3/6hXod2u0y0w9dwj9/Gockyis2LDPYUPn4=;
- b=s1+x68m5d6CVpYk4hcpBECTceIjTDqEB1bzJLPcUwCJWd33MfrybeqWmeOu27PKEaf
- PG5dOpvPXRnspDmyhrwvx/DrllYg50T9VktBN6tkaYM2xi5gon9T5TlcwUKs0bjrBCwC
- J+obUxZECqDM8MUsLuy3uivHjcR/2I7yLYKesdk9B7UKMc/OucE48IYVds4A+OxheDBw
- icyY9lqLocE7qfLg2PiYOBzHVjgkRuZ5Go9VEPTRLJD7VF+YPomUemgQ310F2OtAqTQP
- rSocvjv+FezFMtOv5CNv49EGEySncgcW+e5e1Pj7UOmPiT8ILIW724hJ1ycoDV8vJexn
- atew==
+ bh=xpU5IxxJv3aBMTtW9szSsFcekz55tqki9VnUOaFjuqk=;
+ b=nSE1vOFAp8kw0JaOwra3vR1M3uAit+SLJ4+3gIm6RlmYaAfWRM5G1KF3T2sUqnVjf1
+ xQrAje0thu1NPJU9jThOcKlErNsLcf+SLjXBfGbo7RllrBZZKrTPATvu9xp1Z9Xqop3h
+ l+c9FnL7Qj+2tgH/CBbsx47t8dUQIQq8/qEXZihM3hnkL8QRq/XFXXHt5cDdx+fum9Rp
+ imqg+MmzCQ9KeVLSA4W/5dvQfp6c+4HHUwwe/aHpMOqTHu327y9+gk1l3tkfxfb/hqcF
+ BZGz/HjMJkrJGfGCwWDTqAK0dgQdwdPtA6PeBsEDBVNjCS0ETcNziJIh64z3t3BoGJIX
+ 4ldA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3CpBs6Za3/6hXod2u0y0w9dwj9/Gockyis2LDPYUPn4=;
- b=XxzVLc6qfEYydeOR+Mp5LiGatj97Xypqab4eLkwZxew+MyMVB1CSAGWvtlgp49ZpwC
- r2MvLdV2RXfpU4JMHj7nEkkbXdqnN1ieCNg9OVN0ap3YDMCyoSqs9zDPBu3Mng+VATRI
- 7PbHXrGkoB0R4FtkhbWa6kgsVOcmItYjD+Mgw8b0+mkA6H65X5UR1dXfKsd8oGNv7v/i
- ewkcpt249tnkIQxvNFogTP231JTcuO55/CKM3+ZR1Gm3zQBN0Lm3ZnAgr/66sXLmlABx
- p9POtCIOJC8CzUwLCVLyYieD4VfQA97rvHH/krZn7wxERZUdmMtAGAS4ubh3Qr1fr1eL
- RyIg==
-X-Gm-Message-State: AOAM533beSp2AOllCn8Y+9q6N9A2hmv7JMIT0G5W09RvzjWvEG7jHqFq
- aC9c8MWbGnBU5WLlLGn4d1zxVw==
-X-Google-Smtp-Source: ABdhPJxiHrMWLO/i2ITBsI64KHUPat2ZbCMEnkyYACunxhz/yQgTTPXx4k7VIu7nwvWd7+OR4N0KlQ==
-X-Received: by 2002:a05:6a00:298c:b0:4fa:8e7b:349d with SMTP id
- cj12-20020a056a00298c00b004fa8e7b349dmr5274132pfb.26.1647799410301; 
- Sun, 20 Mar 2022 11:03:30 -0700 (PDT)
+ bh=xpU5IxxJv3aBMTtW9szSsFcekz55tqki9VnUOaFjuqk=;
+ b=QN/26mIL9h2iVhtbcwfE7iOAXRZYDCRLDD8BeCqwjrOpY5inSbp3JVimen0MqwUQ4+
+ 0UIW6pI6dBS5Wu5nVBVI9emqY4twm0UzKzScyycIB73trG7Qs0mKbVhFqxY1ukY1lcaX
+ JHyETqme3YzY0gmGByKiIUh7g0B19XjhP7OP1q9AQuxryi3GvI+zMUX5BXjNJf4Z7Zyb
+ FMPZsjFuFsafJJgoaelTTuOvw91O7sRoNVG3u3Pl+e5r448mJqHILnSmURm49TiQ1ia6
+ eyXg4t9MDpTamCcqURbd0D1wLH6yVyqVWnEjz2nnBWlahBg8pI7KBECZNO4cGT1JGkiw
+ OISA==
+X-Gm-Message-State: AOAM531MQ89nU8vERkscsCr9cSrjayb8Ft+vIoOw/i0mzNrgbEx1lxXf
+ BFF/Fc/uZ35wFKKrry0btwvbXQ==
+X-Google-Smtp-Source: ABdhPJyYim+eNEfACSVagHEYGUgxcmVnbYiusnftzRZcCvzCaNSicMs7auh07KjMZX/lHnaRVsEQ5A==
+X-Received: by 2002:a17:902:6a86:b0:151:f1c5:2fa3 with SMTP id
+ n6-20020a1709026a8600b00151f1c52fa3mr9453324plk.77.1647803269907; 
+ Sun, 20 Mar 2022 12:07:49 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- p27-20020a056a000a1b00b004f3f63e3cf2sm17646917pfh.58.2022.03.20.11.03.29
+ x29-20020aa79a5d000000b004f0ef1822d3sm15895320pfj.128.2022.03.20.12.07.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Mar 2022 11:03:29 -0700 (PDT)
-Message-ID: <9428c4ad-8a52-0adc-c835-e61cc9cba7af@linaro.org>
-Date: Sun, 20 Mar 2022 11:03:27 -0700
+ Sun, 20 Mar 2022 12:07:49 -0700 (PDT)
+Message-ID: <5389600e-2bce-3db4-3826-1d46221dddb0@linaro.org>
+Date: Sun, 20 Mar 2022 12:07:47 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH for-7.0] linux-user: Fix syscall parameter handling for
- MIPS n32
+Subject: Re: [PATCH 1/2] fix cmpxchg instruction
 Content-Language: en-US
-To: WANG Xuerui <xen0n@gentoo.org>, qemu-devel@nongnu.org
-References: <20220320052259.1610883-1-xen0n@gentoo.org>
+To: Wei Li <lw945lw945@yahoo.com>, pbonzini@redhat.com, eduardo@habkost.net
+References: <20220319160658.336882-1-lw945lw945@yahoo.com>
+ <20220319160658.336882-2-lw945lw945@yahoo.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220320052259.1610883-1-xen0n@gentoo.org>
+In-Reply-To: <20220319160658.336882-2-lw945lw945@yahoo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,40 +93,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Andreas_K_=2e_H=c3=bcttel?= <dilfridge@gentoo.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/19/22 22:22, WANG Xuerui wrote:
-> The MIPS n32 ABI is basically n64 with the address space (i.e. pointer
-> width) shrinked to 32 bits. Meanwhile the current code treats it as
-> o32-like based on TARGET_ABI_BITS, which causes problems with n32
-> syscalls utilizing 64-bit offsets, like pread64, affecting most (if not
-> all) recently built n32 binaries.
-> 
-> This partially solves issue #909 ("qemu-mipsn32(el) user mode emulator
-> fails to execute any recently built n32 binaries"); with this change
-> applied, the built qemu-mipsn32el is able to progress beyond the
-> pread64, and finish _dl_start_user for the "getting ld.so load libc.so"
-> case. The program later dies with SIGBUS, though, due to _dl_start_user
-> not maintaining stack alignment after removing ld.so itself from argv,
-> and qemu-user starting to enforce alignment recently, but that is
-> orthogonal to the issue here; the more common case of chrooting is
-> working, verified with my own-built Gentoo n32 sysroot. (Depending on
-> the exact ISA used, one may have to explicitly specify QEMU_CPU, which
-> is the case for my chroot.)
-> 
-> Buglink:https://gitlab.com/qemu-project/qemu/-/issues/909
-> Signed-off-by: WANG Xuerui<xen0n@gentoo.org>
-> Cc: Laurent Vivier<laurent@vivier.eu>
-> Cc: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> Cc: Jiaxun Yang<jiaxun.yang@flygoat.com>
-> Cc: Andreas K. Hüttel<dilfridge@gentoo.org>
+On 3/19/22 09:06, Wei Li wrote:
+> We need a branch to determine when the instruction can touch the
+> accumulator. But there is a branch provided by movcond.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+There is no branch in movcond -- this expands to cmov.
+
+> -                /* store value = (old == cmp ? new : old);  */
+> -                tcg_gen_movcond_tl(TCG_COND_EQ, newv, oldv, cmpv, newv, oldv);
+> +                tcg_gen_brcond_tl(TCG_COND_EQ, oldv, cmpv, label1);
+...
+>                       /* Perform an unconditional store cycle like physical cpu;
+>                          must be before changing accumulator to ensure
+>                          idempotency if the store faults and the instruction
+>                          is restarted */
+
+Your branch invalidates the comment -- the store becomes conditional, and we no longer get 
+a write fault on read-only pages when the comparison fails.  OTOH, we're already getting 
+the incorrect SIGSEGV behaviour, since we get a read fault on an unmapped page instead of 
+a write fault.
+
+The faulting behaviour could be addressed with a write_probe prior to the original load. 
+Alternately, we can use the tcg_gen_atomic_cmpxchg_tl path whenever mod != 3.  While an 
+unlocked cmpxchg need not be atomic, it is not required to be non-atomic either, and it 
+would reduce code duplication.
+
 
 r~
-
 
