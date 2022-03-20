@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BEA04E1C7D
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 17:09:03 +0100 (CET)
-Received: from localhost ([::1]:57150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7774E1C7A
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 17:06:04 +0100 (CET)
+Received: from localhost ([::1]:48708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVy73-0005m5-Tn
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 12:09:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46604)
+	id 1nVy4B-0008VU-57
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 12:06:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVxyi-0005Ku-1E
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 12:00:27 -0400
-Received: from [2607:f8b0:4864:20::636] (port=41781
- helo=mail-pl1-x636.google.com)
+ id 1nVxyi-0005Kw-IH
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 12:00:33 -0400
+Received: from [2607:f8b0:4864:20::634] (port=43661
+ helo=mail-pl1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVxye-000664-Cy
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 12:00:23 -0400
-Received: by mail-pl1-x636.google.com with SMTP id j13so901464plj.8
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 09:00:16 -0700 (PDT)
+ id 1nVxyf-00066B-UV
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 12:00:24 -0400
+Received: by mail-pl1-x634.google.com with SMTP id w8so10782041pll.10
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 09:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1T8UqtoVKD4QHw3Ob4yOhcSZMQMSY9kekR+Tew5Lo84=;
- b=q9iBdsM4EkbRro7Ic5JxuoOFhU41ia3MxslqdAMcbe6uJVTW2P1nMtP8Lb8aOIHfZV
- xHh/sj6qm/EqqigIp8kfFUQuKN4IBN1qbU2lFyXnXi4YgddSPGKrWzY95Tlc+xkqZNgm
- I1GckOyZ2VwJ48uPa1uglBYV8YYn6wCSDhwR4JCkkG9g3MebXaf3tK6jUmSjwun346dh
- mZ0Z7a8rLPWz8yvh9tQReKcSYdRo0w/0C5rL43LVoH73O45g5jPE7u5iFgTXdS918HzF
- s1EBusfaR60U+dv0+Xq+q/4Bg6bIzjO2Ivl3tytiREquz39Ho5iJeh8WqKKGzTGiRA9l
- Dxsg==
+ bh=/vRQUrPXATR+Gi9ECEWVdt6AMeM9dbVbhXfJgx7mHpE=;
+ b=agP66jAeZwb9JxcRFnxSYUConelWk2rHu6N9AJ65hMtSLWeeyM113SxJW9QtSlDBC6
+ 0/7qalmflCiwDji3qp49WecSGg6gX2gYsPAf8+kFCoDYp1lNZTuMEwo0mVj0CpfOKvlK
+ UDB2VV1/bKCeDLM1RPYJWxj748p9WBbmfpNNUUF/zejoUplZx8WZHJAqacp+XjlZQ0PF
+ lOCHA3WyLYGq8TtHthi3f6W5yYJ4XM0CGXt8Nma7yUmH9Dhwu9b/F9wN6n7daQUKV523
+ jcG9rfdWc/NWUcK87u/STNYDLjL21SGgbV0HFt/3s6vAq6552rhTO6dnZXjU2X7JFfu4
+ SKBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1T8UqtoVKD4QHw3Ob4yOhcSZMQMSY9kekR+Tew5Lo84=;
- b=jQR0OszJorXxrHEcP+kDRK/SYC9rLUNQMHeDBKH1SVHPaz4Bwbs+PVgKCLUlXPiVkI
- PJf4C/RX4VHnQtnzZ58TH29FD9+6ZPrGHWhwv9CfibKTp9JA4MtJ2eIMD+eRtOmd4HUt
- x/Fz+7aYyWGdZu1pHgZYscvyuJoF7fwuhIHauptnIqyqNLaeN+/2UB/eI8kqcVZiEAIA
- l7ur3vjb5/rNI1S4OO3KaKr3fm+9HwPdTuwv0O2QnHD1q/w0J28ULbJdcFUhirPgELcd
- kdFzxcOMNCV+wKphKd9i78ozIEUAj/OpXfYZrKjLAQ6s7Ck4tpKrf3v9bUTuaR2tlcd5
- qfWg==
-X-Gm-Message-State: AOAM530SSQp/B2CANLk2J6heO2IyTkcDovfjIweoPnKRQrcCZcx/z3c+
- JT2/17FTWLAwBNa9JokuJLxJFDfVe2K8gQ==
-X-Google-Smtp-Source: ABdhPJw2wwE6sDc36fmS+h/0yO3YbiweZcFgkQtzEmPDb2N0RD38LT5zVTT/+rBgP5eCPRfP0du0kQ==
-X-Received: by 2002:a17:90a:1197:b0:1bf:65ff:f542 with SMTP id
- e23-20020a17090a119700b001bf65fff542mr31718143pja.5.1647792015024; 
- Sun, 20 Mar 2022 09:00:15 -0700 (PDT)
+ bh=/vRQUrPXATR+Gi9ECEWVdt6AMeM9dbVbhXfJgx7mHpE=;
+ b=ye+q9gqfzHuqCSoNcWywl/Gy5W+FOy+PtGMiOaMUqIREcMGcUOzO0zpicIFFOWCgxS
+ 8yDG1S2mFrOjCvI6OtT1Xp6wMr9Xtfoo8yzSOTuDJ5DhPisjh+CdRRa7HkD4ot28LssL
+ AisdJwt99iislfZLJNeXaKwxjorFYud34tAfH8TUPqpjlh2vsFiXBofQAsHeZhgO7s6v
+ jtGIopM8kPrXvWGlLkp+AURE5QMVzIzQTV/R3MFcBzaVsIKDrwdHQ1+PqFL4FXfv+yWR
+ BaqirTMq8QkKULG7yY2qGTPHN5TOQDwSsZNsuOKeVQuGyr/377XxhUdTms+XPkkkVHwp
+ mrGQ==
+X-Gm-Message-State: AOAM532R46cfn68cGhY4WrQnq/CqTPXGc7UgW9tvO8mFUp5Znff7EbID
+ Le69ZzQcliPfaTCyks3lsdwgennp9HngEQ==
+X-Google-Smtp-Source: ABdhPJwtfT8nqxfsm4Z7ZrPHDNMH38Bl84G7xbKNtpHaIIbqYAhnc/IYIofRnkCaZjBDypuvKJCn3g==
+X-Received: by 2002:a17:90a:66c3:b0:1bc:cfab:86ec with SMTP id
+ z3-20020a17090a66c300b001bccfab86ecmr32462181pjl.74.1647792016092; 
+ Sun, 20 Mar 2022 09:00:16 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- j23-20020a17090ae61700b001c6bb352763sm6590099pjy.52.2022.03.20.09.00.14
+ j23-20020a17090ae61700b001c6bb352763sm6590099pjy.52.2022.03.20.09.00.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Mar 2022 09:00:14 -0700 (PDT)
+ Sun, 20 Mar 2022 09:00:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] linux-user/nios2: Drop syscall 0 "workaround"
-Date: Sun, 20 Mar 2022 09:00:04 -0700
-Message-Id: <20220320160009.2665152-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/7] linux-user/nios2: Adjust error return
+Date: Sun, 20 Mar 2022 09:00:05 -0700
+Message-Id: <20220320160009.2665152-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220320160009.2665152-1-richard.henderson@linaro.org>
 References: <20220320160009.2665152-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,29 +92,40 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's no documentation for what the problem was.
+Follow syscall_set_return_value rather than the kernel assembly
+in setting the syscall return values.  Only negate ret on error.
 
-Fixes: a0a839b65b6 ("nios2: Add usermode binaries emulation")
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/nios2/cpu_loop.c | 4 ----
- 1 file changed, 4 deletions(-)
+ linux-user/nios2/cpu_loop.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index a3acaa92ca..ac71f4ee47 100644
+index ac71f4ee47..2ae94f4a95 100644
 --- a/linux-user/nios2/cpu_loop.c
 +++ b/linux-user/nios2/cpu_loop.c
-@@ -48,10 +48,6 @@ void cpu_loop(CPUNios2State *env)
+@@ -48,9 +48,18 @@ void cpu_loop(CPUNios2State *env)
                                   env->regs[7], env->regs[8], env->regs[9],
                                   0, 0);
  
--                if (env->regs[2] == 0) {    /* FIXME: syscall 0 workaround */
--                    ret = 0;
--                }
--
-                 env->regs[2] = abs(ret);
-                 /* Return value is 0..4096 */
-                 env->regs[7] = ret > 0xfffff000u;
+-                env->regs[2] = abs(ret);
+-                /* Return value is 0..4096 */
+-                env->regs[7] = ret > 0xfffff000u;
++                /*
++                 * See syscall_set_return_value.
++                 * Use the QEMU traditional -515 error indication in
++                 * preference to the < 0 indication used in entry.S.
++                 */
++                if (ret > (abi_ulong)-515) {
++                    env->regs[2] = -ret;
++                    env->regs[7] = 1;
++                } else {
++                    env->regs[2] = ret;
++                    env->regs[7] = 0;
++                }
+                 break;
+ 
+             case 1:
 -- 
 2.25.1
 
