@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0544E1E18
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 23:01:54 +0100 (CET)
-Received: from localhost ([::1]:41342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13494E1E19
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 23:03:20 +0100 (CET)
+Received: from localhost ([::1]:46432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nW3cX-0000Dy-RK
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 18:01:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49604)
+	id 1nW3dv-0003gx-Op
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 18:03:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nW3Zc-0006Wp-2v
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 17:58:52 -0400
-Received: from [2a00:1450:4864:20::333] (port=46684
- helo=mail-wm1-x333.google.com)
+ id 1nW3aZ-0007kh-JE
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 17:59:52 -0400
+Received: from [2a00:1450:4864:20::433] (port=41856
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nW3Za-0003kO-Lq
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 17:58:51 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- p184-20020a1c29c1000000b0037f76d8b484so7465160wmp.5
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 14:58:50 -0700 (PDT)
+ id 1nW3aY-0003od-9c
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 17:59:51 -0400
+Received: by mail-wr1-x433.google.com with SMTP id h23so17847517wrb.8
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 14:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=egUEoJCkN3YcHocl/eTWCTG31eaDI1tFlhtFhOLmTIY=;
- b=DqS9y603CckyH+kL6bHumkATguTc9gNCUpktWnOHQ1wQ6Ypi/3BYEzECNT2HrHPWSD
- /HzCq2advDX+lVcaDyFz1cpD3d1gNte60yBDG9wshdsajX8YUNrfyVK3tYPUmxLjJZax
- 8kP1wE4tkyoBWMAsmzMMsoP9oMqdoidV2KVjGVILMqkvtvcpIdcmge8SSjgTVka9oiAr
- b2Sb53EK0ih+MPwkElJ1LntzyVuJaiTS72OCx6QjIboo7ai7eb0mX4t4L3mGphTf8Zyn
- NQVJOlewnH2lZsQ2ryNyDbjvu/h5XsK8Ucirm4LE150piFEZGu6coAwxv2mYlSR5gKxC
- Mpiw==
+ bh=RSvecjA/IN85mk1fwcnG8gkfqPpqrEwQwBYCrxk+7kU=;
+ b=KdHnn535B1W6nnfi2KX1AxBhJnUmUGupjthXq6CNw4/nnbrobSWCroLabjJD1ZYuw8
+ lN0Vkidm0N+o46p29A6Lt/YQ1yixRZ7nLn3SkIOXVnaEigtqBgtEwCOP9b1w7voXVcU2
+ lWVY0C/WbtUOWe4petfukh5Vn42gtLyKJ+MczB68kbz/Ic5SiIfVibDWdTu90ny7exZr
+ ohpDMgaXMKGgFVPQbq58I7WIS7GtHMTHdOhuuD+iK9CDT3ZopNDbDbltN3NM3cQ866bv
+ Hol+Its0u3N6Jaep47WN3nOABr3N20BoXRPD9nbkHpH/J+74ATlGtH0GKei68JBL1nzh
+ Vnzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=egUEoJCkN3YcHocl/eTWCTG31eaDI1tFlhtFhOLmTIY=;
- b=HnlLH5rPYFNYbHb3vxOHkx6qk9KEBo5nVRtRuNcGYGjIrBShV1WZLhQEbcD/KQ7gyT
- S/SChKT2JwloSFFAISgqFUTEC6pkIu1MiiefzC8b5moyarzpne1xjBD2EIH7rqfTna4T
- d5345mtR7H7fAfLGng4RtLTyBOC3WvwCagsdcf05XSQorZf3tN5O8Ogm/ZR5YgHysgm6
- mOHw2Zr43K1J7/E5rxHrdToGS2zQvt+wLsVba25GNUx0nt6mUMKTqcUfOYZX+npGiCbZ
- Kw9clOLHzc0bQdCzmy8ziMYxEV1cdIuO9JB4/jMgSFCgiFhKT7ALPF3ChWUFd4D+9G4k
- y23Q==
-X-Gm-Message-State: AOAM531wDKVbkDUijavNEVNOhDiWR6mwUgel+GrPdbNzX9YkU8nytFmM
- 3PzGobs5VgGuDWHNIkeKtxWDmoKT7M6yoA==
-X-Google-Smtp-Source: ABdhPJw8IO+G++vZpfM534dZSQ/ABSca26I3WxmjquKlJuIm1WGiBALYLBKoqsmrU5V5ZfKk1AyWkw==
-X-Received: by 2002:a1c:c907:0:b0:37b:f983:5d4e with SMTP id
- f7-20020a1cc907000000b0037bf9835d4emr17021597wmb.174.1647813529326; 
- Sun, 20 Mar 2022 14:58:49 -0700 (PDT)
+ bh=RSvecjA/IN85mk1fwcnG8gkfqPpqrEwQwBYCrxk+7kU=;
+ b=sazE1npTZ5GyiANdE+IvmwqtTW9UzBecfkkbmwnccDgieAKu9VelsM6sLWv+5kzDto
+ qdrW6HxZtgpusWIKB+2dtzf27dibWY9jhXOTiSrysBZSPByXtRbdeY+XCFS81aQVn3sY
+ 7fbEVteZ5ll4Lr2WFginiHxBlyf9iwkM7f+PCiWQQ17342dvbWnt7IM/A6OvWJu+nOrf
+ zogjwGQE+ny7yDm9SbD7TXK3MM87dSTDv4R7INoCErZDjL7JRs8mcIKyxRWH07WnbEF8
+ sg36vthwSGXHJhhEYRu4xGzuK4X27cEwWXEDm3WevU+EeM3yX/prQlejIR3WphLf+Iee
+ JQ4A==
+X-Gm-Message-State: AOAM531WnPIBrPCa0FsCcuXlyP4+ZOYE9AVxNkuWPqyf31+S3JCM+nk5
+ rMi7tLPmBQbfraAVKOeYZlmqBRVyWkWUEA==
+X-Google-Smtp-Source: ABdhPJy7wDV9UsA2Lta7IqsPhD8KeuqiNw6HGSgJkjBuAhQudpp+3gurzRJHpWNFcKzmAWiuti3Zlg==
+X-Received: by 2002:adf:c54c:0:b0:203:ed16:2570 with SMTP id
+ s12-20020adfc54c000000b00203ed162570mr13975365wrf.646.1647813589025; 
+ Sun, 20 Mar 2022 14:59:49 -0700 (PDT)
 Received: from [192.168.1.34] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- c5-20020a5d63c5000000b002040822b680sm4650373wrw.81.2022.03.20.14.58.46
+ q16-20020adfea10000000b00203e0735791sm11157139wrm.39.2022.03.20.14.59.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Mar 2022 14:58:48 -0700 (PDT)
-Message-ID: <2f051562-c38a-16ec-f994-a3b5defbf4eb@gmail.com>
-Date: Sun, 20 Mar 2022 22:58:45 +0100
+ Sun, 20 Mar 2022 14:59:48 -0700 (PDT)
+Message-ID: <e2939d80-4c4e-0d56-0ed2-6581d8f453e0@gmail.com>
+Date: Sun, 20 Mar 2022 22:59:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PULL for-7.1 32/36] util/log: Hoist the eval of is_daemonized in
- qemu_set_log_internal
+Subject: Re: [PULL for-7.1 29/36] util/log: Rename logfilename to
+ global_filename
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220320171135.2704502-1-richard.henderson@linaro.org>
- <20220320171135.2704502-33-richard.henderson@linaro.org>
+ <20220320171135.2704502-30-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220320171135.2704502-33-richard.henderson@linaro.org>
+In-Reply-To: <20220320171135.2704502-30-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,13 +100,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 20/3/22 18:11, Richard Henderson wrote:
-> Only call is_daemonized once.
-> We require the result on all paths after this point.
+> Rename to emphasize this is the file-scope global variable.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   util/log.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
+>   util/log.c | 13 ++++++-------
+>   1 file changed, 6 insertions(+), 7 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
