@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EFCD4E1D9C
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 20:36:28 +0100 (CET)
-Received: from localhost ([::1]:34692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE22A4E1D9D
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 20:40:17 +0100 (CET)
+Received: from localhost ([::1]:36890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nW1Lm-0003Jk-JN
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 15:36:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56024)
+	id 1nW1PU-0004xF-Oy
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 15:40:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nW1KE-0002Ce-EV
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 15:34:50 -0400
-Received: from [2607:f8b0:4864:20::435] (port=35412
- helo=mail-pf1-x435.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nW1Ob-0004HQ-QW
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 15:39:21 -0400
+Received: from [2a00:1450:4864:20::62d] (port=34609
+ helo=mail-ej1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nW1KC-0003pM-VL
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 15:34:50 -0400
-Received: by mail-pf1-x435.google.com with SMTP id a5so13862753pfv.2
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 12:34:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=iXj7P8MX507lg298k13mDivyGtQq8El/UdwAD3XE2z8=;
- b=eL5w8fIcfLeOo09FAX0AKpzyp83DeBHR1/jHdnGRJ1mWi1xOlr7gi14xe6UzrJMfmx
- VPUfN219iRakW1LUyHmkVZN+tkyfMndDVRi9vXtA5tDNiyLJYfAFIMrH8wbYWJ5rltfU
- nTzvLAHjfaPLQoBTBPnB7M8yyisRTIesOn9BM2ku/cMmnB39ydnZsGmFtSNpHa1Vt24l
- UIwT0J4dsSk5Qv2DxMec8Iv3TfG3gvw68ZtJq7OyDqxPTp9spFHnrsxMAEQeyyD0zitP
- uQwzkvSsSNERR/kWv85eC7cyiFspvRCNTbKuu7NXUYIOFPMud0dXtS0/Tc8mIoGFlgrh
- Ni5w==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nW1Oa-0004XA-7Z
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 15:39:21 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id o10so7412801ejd.1
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 12:39:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=meXKtiTj9oVaBUBtAhQzlAyITdYiehVjmV1emt2Kta0=;
+ b=aP6DPVVyuNe3pB5LM+VwbmJoLcB7UMOQr+F3mfmDU9woF5C2mJ6IQJc+TeBq1TGKWn
+ BRyJsWkq6tA+v+uytk0FpD0PF1usStqFYJwWOepjFeVjf+tiFQyZYsvgAjuSwoMWkhAZ
+ rPyf2mXk0dYjjHCthrUb4lYkKInkly7pK2w1s/fFTfNOhQ1ofbV+OI35+ZeP+ZAt3+uj
+ O56oV6ACf6SrHay7/OCrtgr1Ueth0aExZGUTqv89guoa6XuZhTjws1zujQoOWzWo7JrB
+ gHnJQ8aASX0r2XoKCXYG6qiE2xL2dtbunDCmfKrqomMxoQF7I25+qT6z9EvMiQCyv0AN
+ 5DiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iXj7P8MX507lg298k13mDivyGtQq8El/UdwAD3XE2z8=;
- b=d+uDiAzvmnsagAloGAn+BRVY+gESSOvMwJoOmAoc7UkJiJuW9/swqUMDTPH2gTJ0fi
- UsmrNe2nt4J4nNSg5CzvP4WHATk/ex1cApKkScJP6+CYS3Yn6XozAuyjRDRcwzYFMJdj
- 6YLMuhqqa1fUKXRlIWUPJQPug9kGteJE9msf84G+tyixA19bGDXm0ppU/Qvon0nU+oK8
- QlzX0fZ3GL5VlyR0ScOF4PubpoznYFc6aG7R6wO+MCXsWnM8EQYFxWaCOAvUM6Jhi2j+
- fRunZ1aGIpadWfUiWWd0c6Qt5QL27gKGLbQaUaZ+Ot/uNeq2ba3mtM0LV4DbWnnS/Lft
- KgSg==
-X-Gm-Message-State: AOAM5332x9+sD8H/f9rsME+OK1EGExnCcsbLBKVTwDpG4YVDBZm+iubU
- A6cZmLQXij16YUpL1yDYVugFOw==
-X-Google-Smtp-Source: ABdhPJyRJ1y9qXTx4D90M5ZTzYr94Di+s/9jnv7wubIBs5WOY6IUmFIhp72lXIvXB1LJBePNX1e5uA==
-X-Received: by 2002:a63:dd47:0:b0:381:2bb3:86ba with SMTP id
- g7-20020a63dd47000000b003812bb386bamr15745827pgj.381.1647804887356; 
- Sun, 20 Mar 2022 12:34:47 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=meXKtiTj9oVaBUBtAhQzlAyITdYiehVjmV1emt2Kta0=;
+ b=rxdhmm0sA7SY4KoRVOrTsPy1AixOrSF7popjwXvbQ45tE17t5f2fBkNAt6k79sL3bM
+ Iik5cP8NqCG4rdzzoRgNOZ3dfnGw0oZUk2EYyiX6/yxNpPeuk+BitdswwdA8EOmcp+LY
+ /wT7LPC2sXfSSdnauUP0XE/MIidaSFwk9cbt+fFHE7jPg+TwepwLUHqPsP1J7IOr8oX/
+ icNgrWPm2tBlAE+DmR+0mq1KMyOYipuEcU4QFJfiQ7UqCjphZJiusTqBRh0icHaFjuS9
+ ekoniXug/kX3qT5EvK2PwWQTIpglDZuRrf+MgBtSWO0iHLLgaMJwcLYUMVkv7TJVM7rQ
+ QMqw==
+X-Gm-Message-State: AOAM532rMYOXltu6UE9HmZCXxfsmQAajJOoHgryuElRCbTPK7r9hSJnJ
+ CBL65ARy8upB8we/pRgqvrpzZC0a7qQ=
+X-Google-Smtp-Source: ABdhPJx9EsGHCeoDggkD7JO8NrIg0QThpimHMdTIh1t5wh09KRRBLft0RTsO6oa610sWaVR2B2bq8A==
+X-Received: by 2002:a17:906:2b93:b0:6cf:bb48:5a80 with SMTP id
+ m19-20020a1709062b9300b006cfbb485a80mr17341032ejg.681.1647805158125; 
+ Sun, 20 Mar 2022 12:39:18 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id
- z37-20020a056a001da500b004fa7bce792asm6372214pfw.129.2022.03.20.12.34.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Mar 2022 12:34:46 -0700 (PDT)
-Message-ID: <43f1bc2e-91e4-6895-0088-8c298d104fa8@linaro.org>
-Date: Sun, 20 Mar 2022 12:34:45 -0700
+ i11-20020a50fd0b000000b0041936bc0f7esm815116eds.52.2022.03.20.12.39.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Mar 2022 12:39:17 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] target/i386: kvm: do not access uninitialized variable on
+ older kernels
+Date: Sun, 20 Mar 2022 20:39:14 +0100
+Message-Id: <20220320193914.111356-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] linux-user: Clean up arg_start/arg_end confusion
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20220315224519.498463-1-richard.henderson@linaro.org>
- <CAFEAcA9KjAtYy7KxjX_1LDafBOj07NHnzKaRzxoaa5JVU+kwzg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA9KjAtYy7KxjX_1LDafBOj07NHnzKaRzxoaa5JVU+kwzg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -93,37 +88,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Laurent@vivier.eu
+Cc: pkrempa@redhat.com, vr_qemu@t-online.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/18/22 04:41, Peter Maydell wrote:
-> On Tue, 15 Mar 2022 at 22:47, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> We had two sets of variables: arg_start/arg_end, and
->> arg_strings/env_strings.  In linuxload.c, we set the
->> first pair to the bounds of the argv strings, but in
->> elfload.c, we set the first pair to the bounds of the
->> argv pointers and the second pair to the bounds of
->> the argv strings.
->>
->> Remove arg_start/arg_end, replacing them with the standard
->> argc/argv/envc/envp values.  Retain arg_strings/env_strings.
-> 
-> "Retain arg_strings/env_strings with the meaning we were using
-> in elfload.c" ? (ie linuxload.c changes to that definition).
+KVM support for AMX includes a new system attribute, KVM_X86_XCOMP_GUEST_SUPP.
+Commit 19db68ca68 ("x86: Grant AMX permission for guest", 2022-03-15) however
+did not fully consider the behavior on older kernels.  First, it warns
+too aggressively.  Second, it invokes the KVM_GET_DEVICE_ATTR ioctl
+unconditionally and then uses the "bitmask" variable, which remains
+uninitialized if the ioctl fails.  Third, kvm_ioctl returns -errno rather
+than -1 on errors.
 
-Ah, yes, quite.
+While at it, explain why the ioctl is needed and KVM_GET_SUPPORTED_CPUID
+is not enough.
 
->> -        /* FIXME - handle put_user() failures */
-> 
-> Why are you deleting all these FIXME comments? That seems like an
-> unrelated change.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+        v1->v2: for error condition for kvm_ioctl [Volker]
+ target/i386/kvm/kvm.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-Indeed.  Instead of just removing these, I should convert to lock the entire buffer and 
-use __put_user instead.
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index ef2c68a6f4..06901c2a43 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -411,6 +411,12 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+         }
+     } else if (function == 0xd && index == 0 &&
+                (reg == R_EAX || reg == R_EDX)) {
++        /*
++         * The value returned by KVM_GET_SUPPORTED_CPUID does not include
++         * features that still have to be enabled with the arch_prctl
++         * system call.  QEMU needs the full value, which is retrieved
++         * with KVM_GET_DEVICE_ATTR.
++         */
+         struct kvm_device_attr attr = {
+             .group = 0,
+             .attr = KVM_X86_XCOMP_GUEST_SUPP,
+@@ -419,13 +425,16 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+ 
+         bool sys_attr = kvm_check_extension(s, KVM_CAP_SYS_ATTRIBUTES);
+         if (!sys_attr) {
+-            warn_report("cannot get sys attribute capabilities %d", sys_attr);
++            return ret;
+         }
+ 
+         int rc = kvm_ioctl(s, KVM_GET_DEVICE_ATTR, &attr);
+-        if (rc == -1 && (errno == ENXIO || errno == EINVAL)) {
+-            warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
+-                        "error: %d", rc);
++        if (rc < 0) {
++            if (rc != -ENXIO) {
++                warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
++                            "error: %d", rc);
++            }
++            return ret;
+         }
+         ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
+     } else if (function == 0x80000001 && reg == R_ECX) {
+-- 
+2.35.1
 
-
-r~
 
