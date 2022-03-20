@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD5C4E1AFC
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 11:10:23 +0100 (CET)
-Received: from localhost ([::1]:36334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D40A4E1B84
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 13:06:46 +0100 (CET)
+Received: from localhost ([::1]:50652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVsVy-0000ET-5J
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 06:10:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50020)
+	id 1nVuKa-0008Md-Pp
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 08:06:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVsTM-0007bt-Et
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 06:07:40 -0400
-Received: from [2607:f8b0:4864:20::112d] (port=35056
- helo=mail-yw1-x112d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nVsTK-00079A-H1
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 06:07:40 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2d07ae0b1c0so129462877b3.2
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 03:07:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=F/CgasYLAF0n3qXvxgdzxewrRHRhAwGR7hjt3C8Fdz4=;
- b=l+5COkIuLIZMw6cizdnz1xi1YdONgy/6FKG1vnfzjT8XVA7q95lI3G0CxSGh+0t9Qo
- aRxoTl0DzgXYwQ2H1QB2OVFbPQk+2WhCOAKNS3gc4J6K4MGN5y+P/qMfx1cREfGAsRHi
- e2unh0klZ4u+mLq7yybU9VV6Dx/azqHCkUxGwKXYmcwNs/Y9Q+c5XtS7ZRKVPHF07hbD
- nqwBS2bPTcxAmjeNUG5TfODQXOK0aCsYQd4lVyiu34+QU7ST1TUHzItO9jgMoDKFZzMf
- uVZ82CGE4HXlnGz/1oKAOGZ6u2eOVSf4DjNXTULaQuzDLKbYzuQvNc18wh7xcVd1rlom
- 2FLw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nVuG6-0006Tr-OR
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 08:02:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55589)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nVuG0-0001NJ-J4
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 08:02:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647777718;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jZX/g2tZ+VGdOfqIMjXstMdORX3LbjGPS49OSCwmuu0=;
+ b=YjSDE9S/ModVnek3BmYsr6KzYdg9h4lgJscKg0WTxed6XNXGKemxYbyL/EINrZcO5vDbub
+ Tpccr1PJ/TOxijaUfkbjUDiN7vganYZQ2WPxT0mTT9nrtjjYBLkhC5gsZTwwq+cqNqQH06
+ VYAvdkbUBIMg7e7Kl3fTLchH1rz1BZs=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-533-hF0yqmGuPL2GyFtdgxlmnQ-1; Sun, 20 Mar 2022 08:01:57 -0400
+X-MC-Unique: hF0yqmGuPL2GyFtdgxlmnQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ er8-20020a170907738800b006e003254d86so300812ejc.11
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 05:01:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=F/CgasYLAF0n3qXvxgdzxewrRHRhAwGR7hjt3C8Fdz4=;
- b=N8SD1bOdYZCBFCMzytOvkgN7Eay9zK1XYvC3e1rFZv/DEE9zDlTarggC92fvgONfAh
- pheJTyZ7CcifLH8LM5VyTQaSfp859SJisnh9tWMcIjBrmfG6B8QT/f9UOVpmWmyrDv6/
- 9nzMvM59SUidSlJubpDVYOJcz/sb/Uury6dQUDDgrBPLFGtqssj2gMMFQ8ETsJv9CC2/
- GysGY1v7oKN6Bs2vAFLGl/xOCMpWm6Ajgdw5rGC18V7qj2uzCPiFZGqj65A5DPNjJhnR
- lXZ4hQHCzrtFla8y1uW/6iFmLNLgHBGB2iUy4R/qjisWxtHZTp2YO6dMUfpltttai/Jn
- tgqg==
-X-Gm-Message-State: AOAM531AZ8dZZDb1sQPY3ZeKurxb+LE9/jOoFqFb9l+lDb9FS9PRBGb5
- DfJx/7WbXASGM/grRzU6UuzAJ5M+U1uC6w3eebmkbQ==
-X-Google-Smtp-Source: ABdhPJwekopLJc5pl8aWmmvVok2JCXEppZF0gP0IEz1K/VTTAjiZDJzWrNKy/PSTedwfYCJPGwT9Vpp+X7YOoe4Zrsg=
-X-Received: by 2002:a81:1151:0:b0:2e5:99ec:9933 with SMTP id
- 78-20020a811151000000b002e599ec9933mr18284088ywr.64.1647770856795; Sun, 20
- Mar 2022 03:07:36 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=jZX/g2tZ+VGdOfqIMjXstMdORX3LbjGPS49OSCwmuu0=;
+ b=Pg6Y5Csg3Ja6i+pDrW1jWNXhRPbE6aBwyzaWIfoYwIlNR3FyU0KUDXMNtNF+brl44/
+ IfdsQefOkXGwne5OY0Cr1ohSC8uY6xZnESpEnnsuK1MIciYa4Fs62G/VysXjJ2c8UxHi
+ GtToECW5QKBT4LvygeYF0588lxL60TUjwYQ7RU/BmF53e8G43Ri1LUpThEIKTaO7Z/mc
+ jqyvPKtiAIdyQkWQXFCGUWz/Nbe6LR0EoSSYoy2VjwNgKAlZqudJ9fvpQKCOp9kWwpgO
+ NiEWkxA7LZmTfsZolUJ50398ghDNT9WQEM4u/dv+FFwj2E9XjPKsWaN8I7/SrY3gpzJW
+ +Q3A==
+X-Gm-Message-State: AOAM530r6aVH5fqV87ud3mB0WjqkD4huJHtUf3ho8LFljDSTrPNxwndt
+ BZNxOjSvgbmNeh84RyxZEOnbbZPotR1mXjq+J2UoQInbfaNx0XxjF2/qsS0iwb4JAxfmrOBvjSE
+ W4lSnk8G1L88tRQw=
+X-Received: by 2002:a17:907:3d87:b0:6e0:bef:c3cb with SMTP id
+ he7-20020a1709073d8700b006e00befc3cbmr685077ejc.503.1647777716237; 
+ Sun, 20 Mar 2022 05:01:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzuNAqjrRA8u8YKwQj4ZgoWjCSiTW35AkFm6x59kdmA0ae0/LKmvMA3su2q+M6I3d98tYo+qQ==
+X-Received: by 2002:a17:907:3d87:b0:6e0:bef:c3cb with SMTP id
+ he7-20020a1709073d8700b006e00befc3cbmr685059ejc.503.1647777716013; 
+ Sun, 20 Mar 2022 05:01:56 -0700 (PDT)
+Received: from redhat.com ([2.55.132.0]) by smtp.gmail.com with ESMTPSA id
+ ch26-20020a0564021bda00b00418f99695f0sm4875718edb.23.2022.03.20.05.01.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Mar 2022 05:01:55 -0700 (PDT)
+Date: Sun, 20 Mar 2022 08:01:51 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 1/2] intel-iommu: remove VTD_FR_RESERVED_ERR
+Message-ID: <20220320080145-mutt-send-email-mst@kernel.org>
+References: <20220210092815.45174-1-jasowang@redhat.com>
+ <CACGkMEtv3uZ6-K=E_=74EHLtRN0yBGO6WhL8MzSRvf+YB8+aDg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220319193214.56553-1-zongyuan.li@smartx.com>
- <20220319193214.56553-2-zongyuan.li@smartx.com>
-In-Reply-To: <20220319193214.56553-2-zongyuan.li@smartx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 20 Mar 2022 10:07:24 +0000
-Message-ID: <CAFEAcA8WQarGR-XponK9eh_hfedJYt2B2XmNJLkWtFK4VhT5RA@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 1/1] hw/arm/realview: replace 'qemu_split_irq' with
- 'TYPE_SPLIT_IRQ'
-To: Zongyuan Li <zongyuan.li@smartx.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <CACGkMEtv3uZ6-K=E_=74EHLtRN0yBGO6WhL8MzSRvf+YB8+aDg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,138 +96,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:Real View" <qemu-arm@nongnu.org>, qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 19 Mar 2022 at 19:32, Zongyuan Li <zongyuan.li@smartx.com> wrote:
->
-> Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/811
+Will do, thanks!
 
-Thanks for this patch.
+On Thu, Mar 17, 2022 at 12:38:35PM +0800, Jason Wang wrote:
+> HI Michael:
+> 
+> Want to take this series?
+> 
+> Thanks
+> 
+> On Thu, Feb 10, 2022 at 5:28 PM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > This fault reason is not used and is duplicated with SPT.2 condition
+> > code. So let's remove it.
+> >
+> > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > ---
+> >  hw/i386/intel_iommu.c          | 6 ------
+> >  hw/i386/intel_iommu_internal.h | 5 -----
+> >  2 files changed, 11 deletions(-)
+> >
+> > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > index 5b865ac08c..55281ee1b4 100644
+> > --- a/hw/i386/intel_iommu.c
+> > +++ b/hw/i386/intel_iommu.c
+> > @@ -469,11 +469,6 @@ static void vtd_report_dmar_fault(IntelIOMMUState *s, uint16_t source_id,
+> >
+> >      assert(fault < VTD_FR_MAX);
+> >
+> > -    if (fault == VTD_FR_RESERVED_ERR) {
+> > -        /* This is not a normal fault reason case. Drop it. */
+> > -        return;
+> > -    }
+> > -
+> >      trace_vtd_dmar_fault(source_id, fault, addr, is_write);
+> >
+> >      if (fsts_reg & VTD_FSTS_PFO) {
+> > @@ -1629,7 +1624,6 @@ static const bool vtd_qualified_faults[] = {
+> >      [VTD_FR_PAGING_ENTRY_RSVD] = true,
+> >      [VTD_FR_CONTEXT_ENTRY_TT] = true,
+> >      [VTD_FR_PASID_TABLE_INV] = false,
+> > -    [VTD_FR_RESERVED_ERR] = false,
+> >      [VTD_FR_MAX] = false,
+> >  };
+> >
+> > diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
+> > index a6c788049b..d0bb43ae87 100644
+> > --- a/hw/i386/intel_iommu_internal.h
+> > +++ b/hw/i386/intel_iommu_internal.h
+> > @@ -303,11 +303,6 @@ typedef enum VTDFaultReason {
+> >
+> >      VTD_FR_PASID_TABLE_INV = 0x58,  /*Invalid PASID table entry */
+> >
+> > -    /* This is not a normal fault reason. We use this to indicate some faults
+> > -     * that are not referenced by the VT-d specification.
+> > -     * Fault event with such reason should not be recorded.
+> > -     */
+> > -    VTD_FR_RESERVED_ERR,
+> >      VTD_FR_MAX,                 /* Guard */
+> >  } VTDFaultReason;
+> >
+> > --
+> > 2.25.1
+> >
 
-> +#include "hw/qdev-core.h"
->  #include "qemu/osdep.h"
-
-The osdep.h include must always be first in every .c file.
-Put new #include lines below it, not above it.
-
->  #include "qapi/error.h"
->  #include "cpu.h"
->  #include "hw/sysbus.h"
->  #include "hw/arm/boot.h"
->  #include "hw/arm/primecell.h"
-> +#include "hw/core/split-irq.h"
->  #include "hw/net/lan9118.h"
->  #include "hw/net/smc91c111.h"
->  #include "hw/pci/pci.h"
->  #include "net/net.h"
-> +#include "qom/object.h"
->  #include "sysemu/sysemu.h"
->  #include "hw/boards.h"
->  #include "hw/i2c/i2c.h"
-> @@ -27,6 +30,7 @@
->  #include "hw/irq.h"
->  #include "hw/i2c/arm_sbcon_i2c.h"
->  #include "hw/sd/sd.h"
-> +#include <stdarg.h>
-
-This include should not be necessary -- osdep.h provides it for you.
-
->
->  #define SMP_BOOT_ADDR 0xe0000000
->  #define SMP_BOOTREG_ADDR 0x10000030
-> @@ -53,6 +57,30 @@ static const int realview_board_id[] = {
->      0x76d
->  };
->
-> +static bool split_to_irq_varargs(Object *obj, int nums_of_output, ...) {
-> +    int i;
-> +    va_list va;
-> +    qemu_irq output;
-> +    Object *src_irq= object_new(TYPE_SPLIT_IRQ);
-> +
-> +    if (!object_property_set_int(src_irq, "num-lines", nums_of_output, &error_fatal)) {
-> +        return false;
-> +    }
-> +
-> +    if (!qdev_realize(DEVICE(src_irq), NULL, &error_fatal)) {
-> +        return false;
-> +    }
-
-In board code, prefer to create this device with
-qdev_new() and then realize it with
-qdev_realize_and_unref(). There's an example in
-hw/openrisc/openrisc_sim.c. (NB: for splitters and other
-devices created in SoC device objects rather than board code,
-the pattern will be different.)
-
-> +
-> +    va_start(va, nums_of_output);
-> +    for (i = 0; i < nums_of_output; i++) {
-> +        output = va_arg(va, qemu_irq);
-> +        qdev_connect_gpio_out(DEVICE(src_irq), i, output);
-> +    }
-> +       va_end(va);
-> +
-> +    return true;
-> +}
-
-I think this varargs function is unnecessarily complicated. We only
-create two split devices here, and they are always with a fixed
-number of output. Just write the "create splitter and wire it up"
-code directly. Again, the openrisc_sim.c code is a good example.
-
-> +
->  static void realview_init(MachineState *machine,
->                            enum realview_board_type board_type)
->  {
-> @@ -67,6 +95,8 @@ static void realview_init(MachineState *machine,
->      SysBusDevice *busdev;
->      qemu_irq pic[64];
->      qemu_irq mmc_irq[2];
-> +    Object *mmc_irq_for_ro = object_new(TYPE_SPLIT_IRQ);
-> +    Object *mmc_irq_for_cardin = object_new(TYPE_SPLIT_IRQ);
-
-You seem to be creating the splitter objects both here and also
-in your split_to_irq_varargs() function...
-
->      PCIBus *pci_bus = NULL;
->      NICInfo *nd;
->      DriveInfo *dinfo;
-> @@ -229,14 +259,20 @@ static void realview_init(MachineState *machine,
->       * and the PL061 has them the other way about. Also the card
->       * detect line is inverted.
->       */
-> -    mmc_irq[0] = qemu_irq_split(
-> -        qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_WPROT),
-> -        qdev_get_gpio_in(gpio2, 1));
-> -    mmc_irq[1] = qemu_irq_split(
-> -        qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_CARDIN),
-> -        qemu_irq_invert(qdev_get_gpio_in(gpio2, 0)));
-> -    qdev_connect_gpio_out_named(dev, "card-read-only", 0, mmc_irq[0]);
-> -    qdev_connect_gpio_out_named(dev, "card-inserted", 0, mmc_irq[1]);
-> +    if (!split_to_irq_varargs(mmc_irq_for_ro, 2,
-> +                              qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_WPROT),
-> +                              qdev_get_gpio_in(gpio2, 1))) {
-> +        return;
-> +    }
-> +    qdev_connect_gpio_out_named(dev, "card-read-only", 0, DEVICE(mmc_irq_for_ro));
-> +
-> +    if (!split_to_irq_varargs(mmc_irq_for_cardin, 2,
-> +                              qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_CARDIN),
-> +                              qemu_irq_invert(qdev_get_gpio_in(gpio2, 0)))) {
-> +        return;
-> +    }
-> +    qdev_connect_gpio_out_named(dev, "card-inserted", 0, DEVICE(mmc_irq_for_cardin));
-> +
->      dinfo = drive_get(IF_SD, 0, 0);
->      if (dinfo) {
->          DeviceState *card;
-> --
-> 2.34.0
-
-thanks
--- PMM
 
