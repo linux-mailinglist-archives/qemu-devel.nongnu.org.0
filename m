@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7CCD4E1C81
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 17:11:56 +0100 (CET)
-Received: from localhost ([::1]:35582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BEA04E1C7D
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 17:09:03 +0100 (CET)
+Received: from localhost ([::1]:57150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVy9p-0001tC-Rc
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 12:11:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46576)
+	id 1nVy73-0005m5-Tn
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 12:09:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVxyh-0005Kr-Cq
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 12:00:25 -0400
-Received: from [2607:f8b0:4864:20::629] (port=45956
- helo=mail-pl1-x629.google.com)
+ id 1nVxyi-0005Ku-1E
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 12:00:27 -0400
+Received: from [2607:f8b0:4864:20::636] (port=41781
+ helo=mail-pl1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVxye-00065m-C1
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 12:00:22 -0400
-Received: by mail-pl1-x629.google.com with SMTP id k6so3632805plg.12
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 09:00:15 -0700 (PDT)
+ id 1nVxye-000664-Cy
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 12:00:23 -0400
+Received: by mail-pl1-x636.google.com with SMTP id j13so901464plj.8
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 09:00:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NqjSqqJYJqBZpZ7IPTgBDuMNo4UxguCJGEl833fSoDE=;
- b=BFbdpMLhpY0T/YtRsqnKhLGHE2V8iQ5NW2C9jdyKtnUrARhZAwDx0K72c1XEAD/mjz
- g2tQKFm/u0t5GNfdgltRiT15zjwPYeQLa91xC1b0r30R/oyw10+PPFoW0dwqC1gi3RIJ
- mElrS/dL55dvVOhK7u03Sy5kAvcv0A5cL8lPEcdAjp+kIQSCMPcno+xdRYDZz7dI3014
- MegRXrQNC1yGM2PsdTDqvtvjZ8VKdP3J0F/kTdQv7t6jomaZe5QO09n0ygpXibY6F3oM
- J9OFOxg/8kov0zPNOwRk1n6xunODSU93caXoZVev9iVNNOKQ/DtKmK/+GQZnmZWvVwR9
- 0+Hw==
+ bh=1T8UqtoVKD4QHw3Ob4yOhcSZMQMSY9kekR+Tew5Lo84=;
+ b=q9iBdsM4EkbRro7Ic5JxuoOFhU41ia3MxslqdAMcbe6uJVTW2P1nMtP8Lb8aOIHfZV
+ xHh/sj6qm/EqqigIp8kfFUQuKN4IBN1qbU2lFyXnXi4YgddSPGKrWzY95Tlc+xkqZNgm
+ I1GckOyZ2VwJ48uPa1uglBYV8YYn6wCSDhwR4JCkkG9g3MebXaf3tK6jUmSjwun346dh
+ mZ0Z7a8rLPWz8yvh9tQReKcSYdRo0w/0C5rL43LVoH73O45g5jPE7u5iFgTXdS918HzF
+ s1EBusfaR60U+dv0+Xq+q/4Bg6bIzjO2Ivl3tytiREquz39Ho5iJeh8WqKKGzTGiRA9l
+ Dxsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NqjSqqJYJqBZpZ7IPTgBDuMNo4UxguCJGEl833fSoDE=;
- b=eVLAmp9pcXAqnVS1swlgiCiljnlvTUiH5gNqDCJrcyaL5OdEFF1pxxVhSnjQP61ct8
- KnQK9VpZP41KFfyRAFLTp8cCWG4YIs2EsF564tjEkh9JaWDfYuW6k1B35IZUpce9Y+s1
- y78uPTj06KznwX6Jbd6Oyxg9g+FmWTfezWYOa/U0wuCgvxtCHpqEs/opzbV8CQZlzrJ8
- VRFZ9EnnpNHBh3nLVqaerbp9C0mPWFmPwpabMDy8NWBK/IAHHJxq9qcZ3lfefjRdbFP2
- 5u4bvY04SHGv8Y75AmxajQ1Vq2qu5Kg3qXfpp6vRPTi6BxnIlb6v2Oun7767eAuwbxd8
- ZxhQ==
-X-Gm-Message-State: AOAM533gUBxkZT2bcMeBH5IgMoC2wmcAN+h5yonyrA7Tti/mK/SF0oeb
- RtQ6/S0JS2Vj1XV6/sP2eNZd+r5G8KlihQ==
-X-Google-Smtp-Source: ABdhPJztefOcC4UbWryLsCrn/vJqKzG/3ij65HPUrvmR0c3G01I14zsvXthhZeXW4jzCzkzh3LqR+Q==
-X-Received: by 2002:a17:902:7fc2:b0:153:3c90:17b9 with SMTP id
- t2-20020a1709027fc200b001533c9017b9mr8955203plb.61.1647792013774; 
- Sun, 20 Mar 2022 09:00:13 -0700 (PDT)
+ bh=1T8UqtoVKD4QHw3Ob4yOhcSZMQMSY9kekR+Tew5Lo84=;
+ b=jQR0OszJorXxrHEcP+kDRK/SYC9rLUNQMHeDBKH1SVHPaz4Bwbs+PVgKCLUlXPiVkI
+ PJf4C/RX4VHnQtnzZ58TH29FD9+6ZPrGHWhwv9CfibKTp9JA4MtJ2eIMD+eRtOmd4HUt
+ x/Fz+7aYyWGdZu1pHgZYscvyuJoF7fwuhIHauptnIqyqNLaeN+/2UB/eI8kqcVZiEAIA
+ l7ur3vjb5/rNI1S4OO3KaKr3fm+9HwPdTuwv0O2QnHD1q/w0J28ULbJdcFUhirPgELcd
+ kdFzxcOMNCV+wKphKd9i78ozIEUAj/OpXfYZrKjLAQ6s7Ck4tpKrf3v9bUTuaR2tlcd5
+ qfWg==
+X-Gm-Message-State: AOAM530SSQp/B2CANLk2J6heO2IyTkcDovfjIweoPnKRQrcCZcx/z3c+
+ JT2/17FTWLAwBNa9JokuJLxJFDfVe2K8gQ==
+X-Google-Smtp-Source: ABdhPJw2wwE6sDc36fmS+h/0yO3YbiweZcFgkQtzEmPDb2N0RD38LT5zVTT/+rBgP5eCPRfP0du0kQ==
+X-Received: by 2002:a17:90a:1197:b0:1bf:65ff:f542 with SMTP id
+ e23-20020a17090a119700b001bf65fff542mr31718143pja.5.1647792015024; 
+ Sun, 20 Mar 2022 09:00:15 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- j23-20020a17090ae61700b001c6bb352763sm6590099pjy.52.2022.03.20.09.00.13
+ j23-20020a17090ae61700b001c6bb352763sm6590099pjy.52.2022.03.20.09.00.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Mar 2022 09:00:13 -0700 (PDT)
+ Sun, 20 Mar 2022 09:00:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] linux-user/nios2: Fix clone child return
-Date: Sun, 20 Mar 2022 09:00:03 -0700
-Message-Id: <20220320160009.2665152-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/7] linux-user/nios2: Drop syscall 0 "workaround"
+Date: Sun, 20 Mar 2022 09:00:04 -0700
+Message-Id: <20220320160009.2665152-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220320160009.2665152-1-richard.henderson@linaro.org>
 References: <20220320160009.2665152-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,52 +92,29 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The child side of clone needs to set the secondary
-syscall return value, r7, to indicate syscall success.
+There's no documentation for what the problem was.
 
-Advance the pc before do_syscall, so that the new thread
-does not re-execute the clone syscall.
-
+Fixes: a0a839b65b6 ("nios2: Add usermode binaries emulation")
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/nios2/target_cpu.h | 1 +
- linux-user/nios2/cpu_loop.c   | 4 +---
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ linux-user/nios2/cpu_loop.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/linux-user/nios2/target_cpu.h b/linux-user/nios2/target_cpu.h
-index 2d2008f002..830b4c0741 100644
---- a/linux-user/nios2/target_cpu.h
-+++ b/linux-user/nios2/target_cpu.h
-@@ -27,6 +27,7 @@ static inline void cpu_clone_regs_child(CPUNios2State *env, target_ulong newsp,
-         env->regs[R_SP] = newsp;
-     }
-     env->regs[R_RET0] = 0;
-+    env->regs[7] = 0;
- }
- 
- static inline void cpu_clone_regs_parent(CPUNios2State *env, unsigned flags)
 diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index 1e93ef34e6..a3acaa92ca 100644
+index a3acaa92ca..ac71f4ee47 100644
 --- a/linux-user/nios2/cpu_loop.c
 +++ b/linux-user/nios2/cpu_loop.c
-@@ -42,8 +42,7 @@ void cpu_loop(CPUNios2State *env)
-         case EXCP_TRAP:
-             switch (env->error_code) {
-             case 0:
--                qemu_log_mask(CPU_LOG_INT, "\nSyscall\n");
--
-+                env->regs[R_PC] += 4;
-                 ret = do_syscall(env, env->regs[2],
-                                  env->regs[4], env->regs[5], env->regs[6],
+@@ -48,10 +48,6 @@ void cpu_loop(CPUNios2State *env)
                                   env->regs[7], env->regs[8], env->regs[9],
-@@ -56,7 +55,6 @@ void cpu_loop(CPUNios2State *env)
+                                  0, 0);
+ 
+-                if (env->regs[2] == 0) {    /* FIXME: syscall 0 workaround */
+-                    ret = 0;
+-                }
+-
                  env->regs[2] = abs(ret);
                  /* Return value is 0..4096 */
                  env->regs[7] = ret > 0xfffff000u;
--                env->regs[R_PC] += 4;
-                 break;
- 
-             case 1:
 -- 
 2.25.1
 
