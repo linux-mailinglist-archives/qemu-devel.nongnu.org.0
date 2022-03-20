@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A7C4DEA84
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Mar 2022 20:58:55 +0100 (CET)
-Received: from localhost ([::1]:48168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74074E194F
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 02:17:06 +0100 (CET)
+Received: from localhost ([::1]:36164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVfDy-0005HE-PZ
-	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 15:58:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52754)
+	id 1nVkBt-0001bT-AX
+	for lists+qemu-devel@lfdr.de; Sat, 19 Mar 2022 21:17:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
- id 1nVeoB-0005Gs-9B
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 15:32:15 -0400
-Received: from [2607:f8b0:4864:20::1041] (port=43584
- helo=mail-pj1-x1041.google.com)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nVk9k-0000oq-7s; Sat, 19 Mar 2022 21:14:52 -0400
+Received: from [2607:f8b0:4864:20::22e] (port=36528
+ helo=mail-oi1-x22e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
- id 1nVeo9-0005mk-Ha
- for qemu-devel@nongnu.org; Sat, 19 Mar 2022 15:32:15 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id
- n7-20020a17090aab8700b001c6aa871860so5080337pjq.2
- for <qemu-devel@nongnu.org>; Sat, 19 Mar 2022 12:32:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xYruDH4XH6J3bLFAbCk4mpmbwrtXd5m2IkLEV5S3ETI=;
- b=bNRknetJm+PCrYYb8FSBRJskWZqyeH/OrbOdkM5x0elM3mzGlnKquXPCuqY70chP/o
- nXvntv4h2pUW3XOSoinExTCyIxwGaoNEJ39s+29OTUGkogX/HXtbsdu0rCmmtXtKRw1a
- 9jjdWzN0dxTW1M2N3PhkXvbKR8i9n/W7MXiTZhJDT8ALdDEjHGOFVpOZhhuSMwP6QJ/q
- eOr3Ih61VNgp5qY/DkwN4pddC86hpjHmZSdX8+iIZ48cjwRT12/mjdJ5VLM90ODo4Hdi
- amoMeN+KI4l1mpKsFu/5Te+VoxYq9+A7TxRggdZxguWnkj1uyruf2JEYLNhGbId4AFGV
- Osng==
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nVk9f-0007MR-ND; Sat, 19 Mar 2022 21:14:49 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id z8so12828614oix.3;
+ Sat, 19 Mar 2022 18:14:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=POEXv5dCsKFj0yf3SN9ClQ9ToB0mcWyX/UBB1k/SHEI=;
+ b=fabyvt4RDnNRN7rJ0m20o68C70A4DTT2RY4tPQRL9aljE5+fsAEu15SiI89pi0nIb1
+ 7o/sM4P40Tcqv5xHFi+/fJEMnJMQFnLP94fk71iQgLuYFkF38SMaF3sS+XzwMwoS47vL
+ /Rnt/uUWZbqVvJTrFNG16ONGfcFfYdwDQGrndY6XBDN9tbt7pNXVonFWk1CVVf19MnID
+ v2sTr91hHketLIocDzs9WkZGHsCTnwQslkPLn8xQTte75iSjwJSlzv9LKRyirYMU3s4b
+ ZcTUxaThcMxG0kGwmnc/kNaKG++VXvyD03cYga5G0TJhTyvmb3+ycZ1ptsAcMYYMKb+Z
+ b0iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xYruDH4XH6J3bLFAbCk4mpmbwrtXd5m2IkLEV5S3ETI=;
- b=UCBOCXa3HkzNshR/xBWBpgH89OBs1z8JuSjnfr/+EpSZujWoGXUUIza5OeS+sLR6Yp
- uc+sxj90frKeskQcjLJ6g3HjWTNl62KB9g9rHtPSVorE2JZiBQbj0F5ryhzcTe+tkbLK
- Um6Yr74nfkKR4vzpZIHQ/HnitEtfYEefcC38X2GU6Grj8J6qRlsgbq82N3/+05Cchger
- ED5aITwhu5QQP7ErxNmLYT1fGfmb+e6eGhUzTdSjOXgk+dfR+s4/8tWsAufp5xEM+xJ5
- uI3aJd8rSKHkjBLxu9IHQ8cH/4flkZNiXD37COb+GG1RYAdD+MYj9auI5fQMqYULBm0Y
- l7Ww==
-X-Gm-Message-State: AOAM5337hm8nf8zGobFO+VvOY0xQlLeM/VpBtFR77K7JNTLm+vS0iEuO
- jjkqZBrhsNzpmkrzunzjBXRzt6i1V8/e1S9G
-X-Google-Smtp-Source: ABdhPJz5bYc9rQADNMT2pP1Ywcpn5+WJ2XejpDvC7KErXo5ET/o0C0F0STx/DSo5+4Et/6N86D9b6w==
-X-Received: by 2002:a17:90b:3b50:b0:1c2:5a5c:8cc3 with SMTP id
- ot16-20020a17090b3b5000b001c25a5c8cc3mr28399983pjb.42.1647718332201; 
- Sat, 19 Mar 2022 12:32:12 -0700 (PDT)
-Received: from dev.lizongyuan.local (61-221-155-10.hinet-ip.hinet.net.
- [61.221.155.10]) by smtp.gmail.com with ESMTPSA id
- u17-20020a056a00159100b004f763ac761fsm14406865pfk.33.2022.03.19.12.32.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Mar 2022 12:32:11 -0700 (PDT)
-From: Zongyuan Li <zongyuan.li@smartx.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 1/1] hw/arm/realview: replace 'qemu_split_irq' with
- 'TYPE_SPLIT_IRQ'
-Date: Sun, 20 Mar 2022 03:32:14 +0800
-Message-Id: <20220319193214.56553-2-zongyuan.li@smartx.com>
-X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20220319193214.56553-1-zongyuan.li@smartx.com>
-References: <20220319193214.56553-1-zongyuan.li@smartx.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=POEXv5dCsKFj0yf3SN9ClQ9ToB0mcWyX/UBB1k/SHEI=;
+ b=3VnYCQ7XlZJk5dWZjlZ8dVFf9ji78G3m26iwcBx4kNYSdnRUfz8GgLlSWVR9sU8EzC
+ lws1Vg6K5w4MQhr6UVqQ5iTzstmqCfzFRt8SayXKtS2m4cvHMTNkyv5yYPpzAAXmEJhA
+ HSiB8AXnsYXgdQGUyMg/LgtbVaGmhNbujIP0LE06k6IVOkEuToZLihMJYFx2TPkqIMW2
+ C0U+mJT9MXvIKbBsMXQ+E17zFG2/oVbDci8qqMrnMfmK1QxBCFdNw/T2ax5A0+1aHz9N
+ m+W39nvEfqmnZRhHhBJH35coLJADt4T2sTzhdPMmmO1cHwIy3qv7erZ5dGjYwo/ImEPx
+ KOiQ==
+X-Gm-Message-State: AOAM533N/ji8iLUfQEyscQY5Goh6jNmApmW1k4lKj8/wSkfpilPTjMZA
+ nschdI7kTzb/EwOqwhUQz/TGEtLphgY7GrpVIMc=
+X-Google-Smtp-Source: ABdhPJwO1/+X0phAERvfwbEnv4QjDbvU4w9dbr4Z7Xyctw6LxMnUys3QzN16dAVFZsCFkDcUXE0aSjGCqPGM2FCKu/s=
+X-Received: by 2002:a05:6808:2327:b0:2ec:a7fe:fb0c with SMTP id
+ bn39-20020a056808232700b002eca7fefb0cmr7207206oib.16.1647738884823; Sat, 19
+ Mar 2022 18:14:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1041
+References: <20220308015358.188499-1-richard.henderson@linaro.org>
+ <CAEgyohXWk7uFrZmOwZKSYtrHs8_NnAWhvr9DgqnYP0JmLEPP_Q@mail.gmail.com>
+In-Reply-To: <CAEgyohXWk7uFrZmOwZKSYtrHs8_NnAWhvr9DgqnYP0JmLEPP_Q@mail.gmail.com>
+From: David Miller <dmiller423@gmail.com>
+Date: Sat, 19 Mar 2022 21:14:32 -0400
+Message-ID: <CAEgyohX__f2CmMTpJQ=y7T2GT3B9Pa7k9VggxsPaMdTNdkDK=w@mail.gmail.com>
+Subject: Re: [PATCH v3 00/11] s390x/tcg: Implement Vector-Enhancements
+ Facility 2
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22e
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::1041;
- envelope-from=zongyuan.li@smartx.com; helo=mail-pj1-x1041.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=dmiller423@gmail.com; helo=mail-oi1-x22e.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 19 Mar 2022 15:56:40 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,120 +81,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:Real View" <qemu-arm@nongnu.org>,
- Zongyuan Li <zongyuan.li@smartx.com>
+Cc: qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/811
----
- hw/arm/realview.c | 52 +++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 44 insertions(+), 8 deletions(-)
+Is this waiting on me for anything?
+I wanted to ensure this is wrapped up before starting a new project.
 
-diff --git a/hw/arm/realview.c b/hw/arm/realview.c
-index 7b424e94a5..741ed5c2c7 100644
---- a/hw/arm/realview.c
-+++ b/hw/arm/realview.c
-@@ -7,16 +7,19 @@
-  * This code is licensed under the GPL.
-  */
- 
-+#include "hw/qdev-core.h"
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "cpu.h"
- #include "hw/sysbus.h"
- #include "hw/arm/boot.h"
- #include "hw/arm/primecell.h"
-+#include "hw/core/split-irq.h"
- #include "hw/net/lan9118.h"
- #include "hw/net/smc91c111.h"
- #include "hw/pci/pci.h"
- #include "net/net.h"
-+#include "qom/object.h"
- #include "sysemu/sysemu.h"
- #include "hw/boards.h"
- #include "hw/i2c/i2c.h"
-@@ -27,6 +30,7 @@
- #include "hw/irq.h"
- #include "hw/i2c/arm_sbcon_i2c.h"
- #include "hw/sd/sd.h"
-+#include <stdarg.h>
- 
- #define SMP_BOOT_ADDR 0xe0000000
- #define SMP_BOOTREG_ADDR 0x10000030
-@@ -53,6 +57,30 @@ static const int realview_board_id[] = {
-     0x76d
- };
- 
-+static bool split_to_irq_varargs(Object *obj, int nums_of_output, ...) {
-+    int i;
-+    va_list va;
-+    qemu_irq output;
-+    Object *src_irq= object_new(TYPE_SPLIT_IRQ);
-+
-+    if (!object_property_set_int(src_irq, "num-lines", nums_of_output, &error_fatal)) {
-+        return false;
-+    }
-+
-+    if (!qdev_realize(DEVICE(src_irq), NULL, &error_fatal)) {
-+        return false;
-+    }
-+
-+    va_start(va, nums_of_output);
-+    for (i = 0; i < nums_of_output; i++) {
-+        output = va_arg(va, qemu_irq);
-+        qdev_connect_gpio_out(DEVICE(src_irq), i, output);
-+    }
-+	va_end(va);
-+
-+    return true;
-+}
-+
- static void realview_init(MachineState *machine,
-                           enum realview_board_type board_type)
- {
-@@ -67,6 +95,8 @@ static void realview_init(MachineState *machine,
-     SysBusDevice *busdev;
-     qemu_irq pic[64];
-     qemu_irq mmc_irq[2];
-+    Object *mmc_irq_for_ro = object_new(TYPE_SPLIT_IRQ);
-+    Object *mmc_irq_for_cardin = object_new(TYPE_SPLIT_IRQ);
-     PCIBus *pci_bus = NULL;
-     NICInfo *nd;
-     DriveInfo *dinfo;
-@@ -229,14 +259,20 @@ static void realview_init(MachineState *machine,
-      * and the PL061 has them the other way about. Also the card
-      * detect line is inverted.
-      */
--    mmc_irq[0] = qemu_irq_split(
--        qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_WPROT),
--        qdev_get_gpio_in(gpio2, 1));
--    mmc_irq[1] = qemu_irq_split(
--        qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_CARDIN),
--        qemu_irq_invert(qdev_get_gpio_in(gpio2, 0)));
--    qdev_connect_gpio_out_named(dev, "card-read-only", 0, mmc_irq[0]);
--    qdev_connect_gpio_out_named(dev, "card-inserted", 0, mmc_irq[1]);
-+    if (!split_to_irq_varargs(mmc_irq_for_ro, 2,
-+                              qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_WPROT),
-+                              qdev_get_gpio_in(gpio2, 1))) {
-+        return;
-+    }
-+    qdev_connect_gpio_out_named(dev, "card-read-only", 0, DEVICE(mmc_irq_for_ro));
-+
-+    if (!split_to_irq_varargs(mmc_irq_for_cardin, 2,
-+                              qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_CARDIN),
-+                              qemu_irq_invert(qdev_get_gpio_in(gpio2, 0)))) {
-+        return;
-+    }
-+    qdev_connect_gpio_out_named(dev, "card-inserted", 0, DEVICE(mmc_irq_for_cardin));
-+
-     dinfo = drive_get(IF_SD, 0, 0);
-     if (dinfo) {
-         DeviceState *card;
--- 
-2.34.0
+Thanks,
+-  David Miller
 
+On Mon, Mar 7, 2022 at 11:09 PM David Miller <dmiller423@gmail.com> wrote:
+>
+>
+> I've reviewed all changes,  looks good.
+> Ran all of my own tests including vstrs, all passed.
+>
+> Thank you for all reviews and changes here.
+>
+> - David Miller
+>
+> On Mon, Mar 7, 2022 at 8:54 PM Richard Henderson <richard.henderson@linaro.org> wrote:
+>>
+>> Hi David,
+>>
+>> I've split up the patches a bit, made some improvements to
+>> the shifts and reversals, and fixed a few bugs.
+>>
+>> Please especially review vector string search, as that is
+>> has had major changes.
+>>
+>>
+>> r~
+>>
+>>
+>> David Miller (9):
+>>   target/s390x: vxeh2: vector convert short/32b
+>>   target/s390x: vxeh2: vector string search
+>>   target/s390x: vxeh2: Update for changes to vector shifts
+>>   target/s390x: vxeh2: vector shift double by bit
+>>   target/s390x: vxeh2: vector {load, store} elements reversed
+>>   target/s390x: vxeh2: vector {load, store} byte reversed elements
+>>   target/s390x: vxeh2: vector {load, store} byte reversed element
+>>   target/s390x: add S390_FEAT_VECTOR_ENH2 to cpu max
+>>   tests/tcg/s390x: Tests for Vector Enhancements Facility 2
+>>
+>> Richard Henderson (2):
+>>   tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+>>   target/s390x: Fix writeback to v1 in helper_vstl
+>>
+>>  include/tcg/tcg-op.h                 |   6 +
+>>  target/s390x/helper.h                |  13 +
+>>  target/s390x/gen-features.c          |   2 +
+>>  target/s390x/tcg/translate.c         |   3 +-
+>>  target/s390x/tcg/vec_fpu_helper.c    |  31 ++
+>>  target/s390x/tcg/vec_helper.c        |   2 -
+>>  target/s390x/tcg/vec_int_helper.c    |  58 ++++
+>>  target/s390x/tcg/vec_string_helper.c | 101 ++++++
+>>  tcg/tcg-op.c                         |  30 ++
+>>  tests/tcg/s390x/vxeh2_vcvt.c         |  97 ++++++
+>>  tests/tcg/s390x/vxeh2_vlstr.c        | 146 +++++++++
+>>  tests/tcg/s390x/vxeh2_vs.c           |  91 ++++++
+>>  target/s390x/tcg/translate_vx.c.inc  | 442 ++++++++++++++++++++++++---
+>>  target/s390x/tcg/insn-data.def       |  40 ++-
+>>  tests/tcg/s390x/Makefile.target      |   8 +
+>>  15 files changed, 1018 insertions(+), 52 deletions(-)
+>>  create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c
+>>  create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c
+>>  create mode 100644 tests/tcg/s390x/vxeh2_vs.c
+>>
+>> --
+>> 2.25.1
+>>
 
