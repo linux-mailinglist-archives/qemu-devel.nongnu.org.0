@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010914E1D2B
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 18:34:22 +0100 (CET)
-Received: from localhost ([::1]:44394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8084E1D26
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 18:30:08 +0100 (CET)
+Received: from localhost ([::1]:35772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVzRb-0006gB-VT
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 13:34:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33118)
+	id 1nVzNX-0000nC-Mi
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 13:30:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVz5v-0008UF-E1
+ id 1nVz5v-0008U2-C8
  for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:55 -0400
-Received: from [2607:f8b0:4864:20::102e] (port=35577
- helo=mail-pj1-x102e.google.com)
+Received: from [2607:f8b0:4864:20::630] (port=33610
+ helo=mail-pl1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVz5r-0003Rc-57
+ id 1nVz5r-0003S5-At
  for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:53 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- mj15-20020a17090b368f00b001c637aa358eso14578451pjb.0
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 10:11:47 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id t22so10919148plo.0
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 10:11:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V9+EaOr/1vXn37zvEYgcVW2CiCTUfDr4DYqxTsoYhfw=;
- b=E33d3vsi3l0HjbemdUavvIntflo2LmKa3UVOnrmvQ2Y7IL8QTbWRPsSdfGdii/YBT+
- 4u6kNsVLn707eWkw6nPStIR8nI6trrsgN5Vgt+9trncbPkg/ytcx2/goBEB6TU0D+02w
- 5Hd/F9iNF5EkWFYUq0cHrSsYh0RQUHvBBOq6n8JkdsaUulM6TsbtRxE4XqefSJCXs8fa
- QR+GZQYN9Gnog1SkAzgILSQwQlzOYmgDYeHONycqXUgT65hHVuK5cSRP5kVo48KXAku8
- lLH8PdIhri/EFalwvKv4cdf0kmZzEhGtjTIq42a8U2uKy36ZlEO+OkRuH/8sWGB8s5Kf
- a3vg==
+ bh=fCluu6SAceuICVILsHlila9mg06bMaWRED/sDhgyEaA=;
+ b=yyfXStKLgRELxO6ob4by7e4wGGY+wkFkuV2GEEVIw5N/v6eSmUlxU84j0EOhzFyA3c
+ BKWP56k7iVZgPD3aJodfB9EbXWTSGIbWvHbvce1c24xvrYwZoxU7n9nLsIlQ83eMyj4L
+ HMCsfndQgAoMApxSy2x0ZwBmGpDP1Z0pH6N4BV4lxZKlbJptc8L375/KGw8vOBBUQm/7
+ LW4/1ZIP+rDzwVQzkYjJE2U04CQgAUzMc2FrG0opkVNhTk899dfZR/FOFWE9Lf+c28Z2
+ gY0fxCbtjPbVpdNdgN5qOxG24uVl2BPmlnIqEHkPLJDoBE0EJO3Hoy6kzrowtLZHUb9+
+ QQ1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V9+EaOr/1vXn37zvEYgcVW2CiCTUfDr4DYqxTsoYhfw=;
- b=lcHNwFKqzUhzHKe5ifcG4M+xEBYHDyIu3y0S/mIBPdklSbjkK9nwb6sxKMf8EQERFv
- q3QmfRU65dht/pKPD+PtvRuBLhyG8n8nvjlX74yt0QZa5AIGcTOtjkPx3XhzWs2YPxUU
- 1V/TYIGOI0caaLoAj2SmjpFJlr4W0Wfwk3GlePjKblz+4maG0cKJ8Vlu6XlrxxKi5mES
- 05Eg8XfLC9Ve2WG7l/TSLpmTbi4Vrd2ywAolIb+vTWNLLsmxyGMmtMHU2mckelFdONgD
- kYxuYIgvVx8Sab8hVZjWlnXln2T58AJ2OGC6yo6mVLfZVwGgWwcqKAh4CWGrZmgdVGFH
- hK4g==
-X-Gm-Message-State: AOAM531TRSxfBqgkB4l+3RLmufLqw89Yp3ShORRgZBNE2dW+Y/uFibKx
- EMtKvxP0A1Gpb97ZTi8J72KGd+NSb/JkSQ==
-X-Google-Smtp-Source: ABdhPJw+BI3l8iyfJT0osDrm3G4KyJUBCQfEvfb4IxPBsSsBxzwFiTfC7AfIlQ7omCttGNWcTlkKGQ==
-X-Received: by 2002:a17:903:2305:b0:154:4aa2:e800 with SMTP id
- d5-20020a170903230500b001544aa2e800mr3551074plh.167.1647796306911; 
- Sun, 20 Mar 2022 10:11:46 -0700 (PDT)
+ bh=fCluu6SAceuICVILsHlila9mg06bMaWRED/sDhgyEaA=;
+ b=5jCP31eVp1ZSc5JkUrIDi4SphF2zKraWALFjVDzgOilOue6HcrKw/JdliTzrR2WTZ+
+ sxz5FKT1DL+NN5Auuqiu1ZADQw63f23zuTe+oqEvlCzu0hUBbA7ZtZ/FpEDd0GufzbLE
+ jurdNdgpNYf18i9aSDQrdU5TCUx1G+SCP+J5eOAMKQTQUIEu8Us52oCdXRblx2yrpIRv
+ 7MSgX2lJPCcB6SkM+lP4SP+04Zl0aW2QVakxB9ykh82qYffD2+7ofZC3IlHvDvNBDDcl
+ ZAJZQCSZ5eTPR12qZlkqknxY+XAF+ZzYqKvjLArju+/0/E83Y9wpcHAhKc3kh7E3OMZm
+ /sDw==
+X-Gm-Message-State: AOAM5301qkcqntEOzNWHeTsvnTYe5JvyDoGIe4EPFSvjJRuTo4MbwluB
+ omqLWZNWlOpenR3nXCMVQE9Z01+NPsSPHQ==
+X-Google-Smtp-Source: ABdhPJz8HeAhrISEI9Qbcd6saM+xnw62Cdea5R0CyC0F0KuRT/lcIrARihOnn4w8QcrCpZYR0qBuIw==
+X-Received: by 2002:a17:902:ce8a:b0:154:361b:48d1 with SMTP id
+ f10-20020a170902ce8a00b00154361b48d1mr6401406plg.72.1647796307722; 
+ Sun, 20 Mar 2022 10:11:47 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- q12-20020a17090aa00c00b001bc6f1baaaesm17149697pjp.39.2022.03.20.10.11.46
+ q12-20020a17090aa00c00b001bc6f1baaaesm17149697pjp.39.2022.03.20.10.11.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Mar 2022 10:11:46 -0700 (PDT)
+ Sun, 20 Mar 2022 10:11:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-7.1 11/36] exec/translator: Pass the locked filepointer to
- disas_log hook
-Date: Sun, 20 Mar 2022 10:11:10 -0700
-Message-Id: <20220320171135.2704502-12-richard.henderson@linaro.org>
+Subject: [PULL for-7.1 12/36] exec/log: Remove log_disas and log_target_disas
+Date: Sun, 20 Mar 2022 10:11:11 -0700
+Message-Id: <20220320171135.2704502-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220320171135.2704502-1-richard.henderson@linaro.org>
 References: <20220320171135.2704502-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,510 +92,48 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have fetched and locked the logfile in translator_loop.
-Pass the filepointer down to the disas_log hook so that it
-need not be fetched and locked again.
+These functions are no longer used.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/translator.h     |  2 +-
- accel/tcg/translator.c        |  2 +-
- target/alpha/translate.c      |  7 ++++---
- target/arm/translate-a64.c    |  6 +++---
- target/arm/translate.c        |  7 ++++---
- target/avr/translate.c        |  7 ++++---
- target/cris/translate.c       |  7 ++++---
- target/hexagon/translate.c    |  7 ++++---
- target/hppa/translate.c       | 15 ++++++++-------
- target/i386/tcg/translate.c   |  6 +++---
- target/m68k/translate.c       |  7 ++++---
- target/microblaze/translate.c |  7 ++++---
- target/mips/tcg/translate.c   |  7 ++++---
- target/nios2/translate.c      |  7 ++++---
- target/openrisc/translate.c   |  7 ++++---
- target/ppc/translate.c        |  7 ++++---
- target/riscv/translate.c      | 10 ++++++----
- target/rx/translate.c         |  7 ++++---
- target/s390x/tcg/translate.c  | 11 ++++++-----
- target/sh4/translate.c        |  7 ++++---
- target/sparc/translate.c      |  7 ++++---
- target/tricore/translate.c    |  7 ++++---
- target/xtensa/translate.c     |  7 ++++---
- 23 files changed, 92 insertions(+), 72 deletions(-)
+ include/exec/log.h | 24 ------------------------
+ 1 file changed, 24 deletions(-)
 
-diff --git a/include/exec/translator.h b/include/exec/translator.h
-index 9bc46eda59..31d3fa76ff 100644
---- a/include/exec/translator.h
-+++ b/include/exec/translator.h
-@@ -118,7 +118,7 @@ typedef struct TranslatorOps {
-     void (*insn_start)(DisasContextBase *db, CPUState *cpu);
-     void (*translate_insn)(DisasContextBase *db, CPUState *cpu);
-     void (*tb_stop)(DisasContextBase *db, CPUState *cpu);
--    void (*disas_log)(const DisasContextBase *db, CPUState *cpu);
-+    void (*disas_log)(const DisasContextBase *db, CPUState *cpu, FILE *f);
- } TranslatorOps;
- 
- /**
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 90da944dab..7d1505b239 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -142,7 +142,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-         FILE *logfile = qemu_log_lock();
-         if (logfile) {
-             fprintf(logfile, "----------------\n");
--            ops->disas_log(db, cpu);
-+            ops->disas_log(db, cpu, logfile);
-             fprintf(logfile, "\n");
-             qemu_log_unlock(logfile);
-         }
-diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index 66768ab47a..b1f78cff53 100644
---- a/target/alpha/translate.c
-+++ b/target/alpha/translate.c
-@@ -3027,10 +3027,11 @@ static void alpha_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-     }
+diff --git a/include/exec/log.h b/include/exec/log.h
+index 6a53199d44..d131a3140d 100644
+--- a/include/exec/log.h
++++ b/include/exec/log.h
+@@ -43,30 +43,6 @@ static inline void log_cpu_state_mask(int mask, CPUState *cpu, int flags)
  }
  
--static void alpha_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+static void alpha_tr_disas_log(const DisasContextBase *dcbase,
-+                               CPUState *cpu, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--    log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cpu, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps alpha_tr_ops = {
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index d1a59fad9c..87ae8b7571 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -14962,12 +14962,12 @@ static void aarch64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
- }
- 
- static void aarch64_tr_disas_log(const DisasContextBase *dcbase,
--                                      CPUState *cpu)
-+                                 CPUState *cpu, FILE *logfile)
- {
-     DisasContext *dc = container_of(dcbase, DisasContext, base);
- 
--    qemu_log("IN: %s\n", lookup_symbol(dc->base.pc_first));
--    log_target_disas(cpu, dc->base.pc_first, dc->base.tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dc->base.pc_first));
-+    target_disas(logfile, cpu, dc->base.pc_first, dc->base.tb->size);
- }
- 
- const TranslatorOps aarch64_translator_ops = {
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index bf2196b9e2..783a43b4ae 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -9891,12 +9891,13 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-     }
- }
- 
--static void arm_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+static void arm_tr_disas_log(const DisasContextBase *dcbase,
-+                             CPUState *cpu, FILE *logfile)
- {
-     DisasContext *dc = container_of(dcbase, DisasContext, base);
- 
--    qemu_log("IN: %s\n", lookup_symbol(dc->base.pc_first));
--    log_target_disas(cpu, dc->base.pc_first, dc->base.tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dc->base.pc_first));
-+    target_disas(logfile, cpu, dc->base.pc_first, dc->base.tb->size);
- }
- 
- static const TranslatorOps arm_translator_ops = {
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index af8a3e0f9c..dc9c3d6bcc 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -3015,10 +3015,11 @@ static void avr_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- }
- 
--static void avr_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
-+static void avr_tr_disas_log(const DisasContextBase *dcbase,
-+                             CPUState *cs, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--    log_target_disas(cs, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cs, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps avr_tr_ops = {
-diff --git a/target/cris/translate.c b/target/cris/translate.c
-index 3656cd6db1..ac101344a3 100644
---- a/target/cris/translate.c
-+++ b/target/cris/translate.c
-@@ -3268,11 +3268,12 @@ static void cris_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-     }
- }
- 
--static void cris_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+static void cris_tr_disas_log(const DisasContextBase *dcbase,
-+                              CPUState *cpu, FILE *logfile)
- {
-     if (!DISAS_CRIS) {
--        qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--        log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
-+        fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+        target_disas(logfile, cpu, dcbase->pc_first, dcbase->tb->size);
-     }
- }
- 
-diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
-index 98f1452cad..d4fc92f7e9 100644
---- a/target/hexagon/translate.c
-+++ b/target/hexagon/translate.c
-@@ -833,10 +833,11 @@ static void hexagon_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-     }
- }
- 
--static void hexagon_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+static void hexagon_tr_disas_log(const DisasContextBase *dcbase,
-+                                 CPUState *cpu, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--    log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cpu, dcbase->pc_first, dcbase->tb->size);
- }
- 
- 
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index 5c0b1eb274..c24d3ce3b8 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -4305,29 +4305,30 @@ static void hppa_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- }
- 
--static void hppa_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
-+static void hppa_tr_disas_log(const DisasContextBase *dcbase,
-+                              CPUState *cs, FILE *logfile)
- {
-     target_ulong pc = dcbase->pc_first;
- 
- #ifdef CONFIG_USER_ONLY
-     switch (pc) {
-     case 0x00:
--        qemu_log("IN:\n0x00000000:  (null)\n");
-+        fprintf(logfile, "IN:\n0x00000000:  (null)\n");
-         return;
-     case 0xb0:
--        qemu_log("IN:\n0x000000b0:  light-weight-syscall\n");
-+        fprintf(logfile, "IN:\n0x000000b0:  light-weight-syscall\n");
-         return;
-     case 0xe0:
--        qemu_log("IN:\n0x000000e0:  set-thread-pointer-syscall\n");
-+        fprintf(logfile, "IN:\n0x000000e0:  set-thread-pointer-syscall\n");
-         return;
-     case 0x100:
--        qemu_log("IN:\n0x00000100:  syscall\n");
-+        fprintf(logfile, "IN:\n0x00000100:  syscall\n");
-         return;
-     }
- #endif
- 
--    qemu_log("IN: %s\n", lookup_symbol(pc));
--    log_target_disas(cs, pc, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(pc));
-+    target_disas(logfile, cs, pc, dcbase->tb->size);
- }
- 
- static const TranslatorOps hppa_tr_ops = {
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 7b75e79e2b..f905a34bd7 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -8692,12 +8692,12 @@ static void i386_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
- }
- 
- static void i386_tr_disas_log(const DisasContextBase *dcbase,
--                              CPUState *cpu)
-+                              CPUState *cpu, FILE *logfile)
- {
-     DisasContext *dc = container_of(dcbase, DisasContext, base);
- 
--    qemu_log("IN: %s\n", lookup_symbol(dc->base.pc_first));
--    log_target_disas(cpu, dc->base.pc_first, dc->base.tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dc->base.pc_first));
-+    target_disas(logfile, cpu, dc->base.pc_first, dc->base.tb->size);
- }
- 
- static const TranslatorOps i386_tr_ops = {
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index af43c8eab8..4026572ed8 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -6257,10 +6257,11 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-     }
- }
- 
--static void m68k_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+static void m68k_tr_disas_log(const DisasContextBase *dcbase,
-+                              CPUState *cpu, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--    log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cpu, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps m68k_tr_ops = {
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 2561b904b9..bf01384d33 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -1833,10 +1833,11 @@ static void mb_tr_tb_stop(DisasContextBase *dcb, CPUState *cs)
-     }
- }
- 
--static void mb_tr_disas_log(const DisasContextBase *dcb, CPUState *cs)
-+static void mb_tr_disas_log(const DisasContextBase *dcb,
-+                            CPUState *cs, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcb->pc_first));
--    log_target_disas(cs, dcb->pc_first, dcb->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcb->pc_first));
-+    target_disas(logfile, cs, dcb->pc_first, dcb->tb->size);
- }
- 
- static const TranslatorOps mb_tr_ops = {
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index b82a7ec6ad..6de5b66650 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -16141,10 +16141,11 @@ static void mips_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- }
- 
--static void mips_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
-+static void mips_tr_disas_log(const DisasContextBase *dcbase,
-+                              CPUState *cs, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--    log_target_disas(cs, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cs, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps mips_tr_ops = {
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index f89271dbed..89b97ef520 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -833,10 +833,11 @@ static void nios2_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- }
- 
--static void nios2_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+static void nios2_tr_disas_log(const DisasContextBase *dcbase,
-+                               CPUState *cpu, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--    log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cpu, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps nios2_tr_ops = {
-diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
-index ca79e609da..7b8ad43d5f 100644
---- a/target/openrisc/translate.c
-+++ b/target/openrisc/translate.c
-@@ -1687,12 +1687,13 @@ static void openrisc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- }
- 
--static void openrisc_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
-+static void openrisc_tr_disas_log(const DisasContextBase *dcbase,
-+                                  CPUState *cs, FILE *logfile)
- {
-     DisasContext *s = container_of(dcbase, DisasContext, base);
- 
--    qemu_log("IN: %s\n", lookup_symbol(s->base.pc_first));
--    log_target_disas(cs, s->base.pc_first, s->base.tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(s->base.pc_first));
-+    target_disas(logfile, cs, s->base.pc_first, s->base.tb->size);
- }
- 
- static const TranslatorOps openrisc_tr_ops = {
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 408ae26173..e0c9f74da4 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -7769,10 +7769,11 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- }
- 
--static void ppc_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
-+static void ppc_tr_disas_log(const DisasContextBase *dcbase,
-+                             CPUState *cs, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--    log_target_disas(cs, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cs, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps ppc_tr_ops = {
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index fac998a6b5..6495726302 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -1155,18 +1155,20 @@ static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-     }
- }
- 
--static void riscv_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+static void riscv_tr_disas_log(const DisasContextBase *dcbase,
-+                               CPUState *cpu, FILE *logfile)
- {
- #ifndef CONFIG_USER_ONLY
-     RISCVCPU *rvcpu = RISCV_CPU(cpu);
-     CPURISCVState *env = &rvcpu->env;
- #endif
- 
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
- #ifndef CONFIG_USER_ONLY
--    qemu_log("Priv: "TARGET_FMT_ld"; Virt: "TARGET_FMT_ld"\n", env->priv, env->virt);
-+    fprintf(logfile, "Priv: "TARGET_FMT_ld"; Virt: "TARGET_FMT_ld"\n",
-+            env->priv, env->virt);
- #endif
--    log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
-+    target_disas(logfile, cpu, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps riscv_tr_ops = {
-diff --git a/target/rx/translate.c b/target/rx/translate.c
-index 5db8f79a82..c8a8991a63 100644
---- a/target/rx/translate.c
-+++ b/target/rx/translate.c
-@@ -2342,10 +2342,11 @@ static void rx_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- }
- 
--static void rx_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
-+static void rx_tr_disas_log(const DisasContextBase *dcbase,
-+                            CPUState *cs, FILE *logfile)
- {
--    qemu_log("IN:\n");  /* , lookup_symbol(dcbase->pc_first)); */
--    log_target_disas(cs, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cs, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps rx_tr_ops = {
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 5acfc0ff9b..1e7f470c4b 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -6660,16 +6660,17 @@ static void s390x_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- }
- 
--static void s390x_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
-+static void s390x_tr_disas_log(const DisasContextBase *dcbase,
-+                               CPUState *cs, FILE *logfile)
- {
-     DisasContext *dc = container_of(dcbase, DisasContext, base);
- 
-     if (unlikely(dc->ex_value)) {
--        /* ??? Unfortunately log_target_disas can't use host memory.  */
--        qemu_log("IN: EXECUTE %016" PRIx64, dc->ex_value);
-+        /* ??? Unfortunately target_disas can't use host memory.  */
-+        fprintf(logfile, "IN: EXECUTE %016" PRIx64, dc->ex_value);
-     } else {
--        qemu_log("IN: %s\n", lookup_symbol(dc->base.pc_first));
--        log_target_disas(cs, dc->base.pc_first, dc->base.tb->size);
-+        fprintf(logfile, "IN: %s\n", lookup_symbol(dc->base.pc_first));
-+        target_disas(logfile, cs, dc->base.pc_first, dc->base.tb->size);
-     }
- }
- 
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index 43bc88b7b3..f1b190e7cf 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -2352,10 +2352,11 @@ static void sh4_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- }
- 
--static void sh4_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
-+static void sh4_tr_disas_log(const DisasContextBase *dcbase,
-+                             CPUState *cs, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--    log_target_disas(cs, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cs, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps sh4_tr_ops = {
-diff --git a/target/sparc/translate.c b/target/sparc/translate.c
-index 4c7c7b5347..2e28222d31 100644
---- a/target/sparc/translate.c
-+++ b/target/sparc/translate.c
-@@ -5901,10 +5901,11 @@ static void sparc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- }
- 
--static void sparc_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+static void sparc_tr_disas_log(const DisasContextBase *dcbase,
-+                               CPUState *cpu, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--    log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cpu, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps sparc_tr_ops = {
-diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 417edbd3f0..d170500fa5 100644
---- a/target/tricore/translate.c
-+++ b/target/tricore/translate.c
-@@ -8861,10 +8861,11 @@ static void tricore_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-     }
- }
- 
--static void tricore_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+static void tricore_tr_disas_log(const DisasContextBase *dcbase,
-+                                 CPUState *cpu, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--    log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cpu, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps tricore_tr_ops = {
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index b1491ed625..a9e69c4153 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -1296,10 +1296,11 @@ static void xtensa_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-     }
- }
- 
--static void xtensa_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+static void xtensa_tr_disas_log(const DisasContextBase *dcbase,
-+                                CPUState *cpu, FILE *logfile)
- {
--    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
--    log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
-+    fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    target_disas(logfile, cpu, dcbase->pc_first, dcbase->tb->size);
- }
- 
- static const TranslatorOps xtensa_translator_ops = {
+ #ifdef NEED_CPU_H
+-/* disas() and target_disas() to qemu_logfile: */
+-static inline void log_target_disas(CPUState *cpu, target_ulong start,
+-                                    target_ulong len)
+-{
+-    QemuLogFile *logfile;
+-    rcu_read_lock();
+-    logfile = qatomic_rcu_read(&qemu_logfile);
+-    if (logfile) {
+-        target_disas(logfile->fd, cpu, start, len);
+-    }
+-    rcu_read_unlock();
+-}
+-
+-static inline void log_disas(const void *code, unsigned long size)
+-{
+-    QemuLogFile *logfile;
+-    rcu_read_lock();
+-    logfile = qatomic_rcu_read(&qemu_logfile);
+-    if (logfile) {
+-        disas(logfile->fd, code, size);
+-    }
+-    rcu_read_unlock();
+-}
+-
+ #if defined(CONFIG_USER_ONLY)
+ /* page_dump() output to the log file: */
+ static inline void log_page_dump(const char *operation)
 -- 
 2.25.1
 
