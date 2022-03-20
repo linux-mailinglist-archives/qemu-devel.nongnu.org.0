@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9AF4E1D08
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 18:16:22 +0100 (CET)
-Received: from localhost ([::1]:57520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9264E1D0A
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 18:16:25 +0100 (CET)
+Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVzAD-0002j0-7I
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 13:16:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32812)
+	id 1nVzAG-0002u8-Ss
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 13:16:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVz5g-0008JQ-GU
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:40 -0400
-Received: from [2607:f8b0:4864:20::535] (port=34779
- helo=mail-pg1-x535.google.com)
+ id 1nVz5h-0008Jb-NB
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:41 -0400
+Received: from [2607:f8b0:4864:20::1034] (port=56074
+ helo=mail-pj1-x1034.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVz5e-0003Ph-9J
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:39 -0400
-Received: by mail-pg1-x535.google.com with SMTP id t187so8736966pgb.1
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 10:11:37 -0700 (PDT)
+ id 1nVz5f-0003Pm-Fm
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:41 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id e3so11256262pjm.5
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 10:11:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Cn7Tq9d8JU/29Z2I0zkVPYVTmmMiHTu6JIy+zbzkI4w=;
- b=iRydV+XyUOvmgRxaOt1BxfPFBSjHnki5cJTEeZXNNYWpiSmAJSgx4j/g0KI+Yc1ehp
- zq5WDeetqCfZs5kbzgXcajzccfIqd+Pv1AAZOaOYO5xnTQBlIqUyxBLkANxAEEvSJU5w
- OY9+NyMX8r5F3Es6GvGDrvUFX44KuRJOgssnAI81mRgN6MG0ZffFB1A3uYeY08WaqTV8
- BIoUqCrROC+yCakICsW4BNKu9vyAZ2yHIOL+Nzam4A5aLlzyvvWSV3xz76utM1lyqJal
- +0JNljJisHkOVub72AJUiEhe46LwQh2maoQPPmTwxel/Qk8bMhfeqkzDt4LCeydR0gav
- G1gw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0QkXC8NBloa4lQ1dJr9n5F8IaX751sw3OjPlQ3q4G5M=;
+ b=IUNtxrArwdd6X13tTr7XaTLoskrITi858kDgSZzVI20oFinaGMzllLB2rOu8mpn/zY
+ bRY/7/NOH75+hAFWcDESbPg5Yw3yNH4+s7vF6scnuqPQvD6o35QOLVxZm2e7rFb0Jyu3
+ mLtHN05YkIeIMnPXhUW2epT9gpkJqOF0kkmBXDwriBfYkGunPU8kvbafstue+/mBwJN/
+ eE985p9ir0ha8241XV1TC7EMaFCQwIbAJW6eWNRiCS7XrGZC768ViEkbER/8IS7xDWfw
+ TxVcjWDnicy5JzgmTJEnRmgkXnL3D+tMwtB2uJIrlPkPgjorQ5cr4nsey11X1zbeq0bu
+ NVNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Cn7Tq9d8JU/29Z2I0zkVPYVTmmMiHTu6JIy+zbzkI4w=;
- b=nhRgxEHXvf+FfH95WlaAmCfIx/tyImusESdEXamSgInkp6EI7KOp2x2j00geYB1Sn1
- B8tc5+alsdga9ABP+RHO4H2bEvOxc+QwYM013J8GHFBZTaCoJR/p4x5QkNXCRqsyNOjH
- ydN/IaYNCFLBzpqsQDdItiO0vH6PF2UMQLaE7f5X52+mPFVvCb2ibI7MJ6Wy00xI+nk4
- /dbLKe0De3rEbfAysGUp63qhGerjjP/LBicz54Up115iJad6lSF/VmCGNGNt29wWLrDH
- HWtmY1d7x9EihdxHS3mnd8AzCsH0fDmYqH7+/zDCJHcUP64ScSbKLmi6qq/EiKPuSUKa
- IX9g==
-X-Gm-Message-State: AOAM530EOOezvjJifZTrXYHHDagiJqwx4syY2jvRJKAVrksRgZFxLsXK
- kkiOTJK9aXj+bDYPMHrH8ALOkq/mQgbHCw==
-X-Google-Smtp-Source: ABdhPJwajsiwEubNtu4CTG6lcjwN+wSfcfERADVwaqzq/sqK8hYE+g0BhNuTKZsKNT+W+zPYBPBMiQ==
-X-Received: by 2002:a05:6a00:887:b0:4f2:6d3f:5b53 with SMTP id
- q7-20020a056a00088700b004f26d3f5b53mr19839443pfj.21.1647796296547; 
- Sun, 20 Mar 2022 10:11:36 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0QkXC8NBloa4lQ1dJr9n5F8IaX751sw3OjPlQ3q4G5M=;
+ b=JjsFbG+WWVNGyqm7HHkTdEJ0HJF2pQ3IG66qPYZ0WKribnnlBbSsdmIx8Xp1s03Nr4
+ jL1QRxSSaeEOT/zPYvKVLKNMGvQC6KtBfjHOgBXSoQoevyJhLDi3cyUHayheIwdSNrfF
+ 53fR/QMDyf8eO4/PoGGskPGjQriAVTWY8RYzBksea/U4l/ePzVhnhGgvyWnhTJi09uGK
+ CE0qqsGG3vuuZDgealu0kY4+j9FIIqfbjvsmS9rOL9CzwKAwgvPX2V/+dpNQNUjCa8zp
+ Tv+xyeluPk381OMtI2CGM4jwcLQ3mS08d7gdmuQhNsRgVdh1eWGqAQIrz5iChUZzI7On
+ 1cSA==
+X-Gm-Message-State: AOAM53097cAzovaia8ORc00UBWOrEYdPAStAD94kCnPvfcLUPlUZxhYt
+ NbYezKL738BZ72Q5ZCG4e3VKwFUb+SM6lw==
+X-Google-Smtp-Source: ABdhPJz8PAdwcBUv9olNP7WDXxR/BGncXC8WIsc6l9IBxPqv5mTX8bWpJa8/l01QXdg1PnX4WLagzg==
+X-Received: by 2002:a17:90b:1642:b0:1c6:c6d0:fbfa with SMTP id
+ il2-20020a17090b164200b001c6c6d0fbfamr11556396pjb.218.1647796297552; 
+ Sun, 20 Mar 2022 10:11:37 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- q12-20020a17090aa00c00b001bc6f1baaaesm17149697pjp.39.2022.03.20.10.11.35
+ q12-20020a17090aa00c00b001bc6f1baaaesm17149697pjp.39.2022.03.20.10.11.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Mar 2022 10:11:36 -0700 (PDT)
+ Sun, 20 Mar 2022 10:11:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-7.1 00/36] Logging cleanup and per-thread logfiles
-Date: Sun, 20 Mar 2022 10:10:59 -0700
-Message-Id: <20220320171135.2704502-1-richard.henderson@linaro.org>
+Subject: [PULL for-7.1 01/36] util/log: Drop manual log buffering
+Date: Sun, 20 Mar 2022 10:11:00 -0700
+Message-Id: <20220320171135.2704502-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220320171135.2704502-1-richard.henderson@linaro.org>
+References: <20220320171135.2704502-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::535
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,109 +92,105 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of the changes here reduce the amount of locking involved
-in logging, due to repeated qemu_log calls, each of which takes
-and releases the rcu_read_lock.
+This buffering was introduced during the Paleozoic: 9fa3e853531.
 
-This makes more use of qemu_log_lock/unlock around code blocks,
-which both keeps the output together in the face of threads and
-also plays the rcu_read_lock game only once for the block.
+There has never been an explanation as to why we may not allow
+glibc to allocate the file buffer itself.  We certainly have
+many other uses of mmap and malloc during user-only startup,
+so presumably whatever the issue was, it has been fixed during
+the preceeding 18 years.
 
-Finally, add a -d tid option to open per-thread logfiles.
-This can be extremely helpful in debugging user-only threads.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/qemu/log.h |  1 -
+ bsd-user/main.c    |  1 -
+ linux-user/main.c  |  1 -
+ util/log.c         | 21 ++++-----------------
+ 4 files changed, 4 insertions(+), 20 deletions(-)
 
-
-r~
-
-
-Richard Henderson (36):
-  util/log: Drop manual log buffering
-  target/hexagon: Remove qemu_set_log in hexagon_translate_init
-  util/log: Pass Error pointer to qemu_set_log
-  os-posix: Use qemu_log_enabled
-  util/log: Move qemu_log_lock, qemu_log_unlock out of line
-  util/log: Treat qemu_log_lock like trylock
-  hw/xen: Split out xen_pv_output_msg
-  *: Use fprintf between qemu_log_lock/unlock
-  util/log: Remove qemu_log_vprintf
-  tcg: Pass the locked filepointer to tcg_dump_ops
-  exec/translator: Pass the locked filepointer to disas_log hook
-  exec/log: Remove log_disas and log_target_disas
-  accel/tcg: Use cpu_dump_state between qemu_log_lock/unlock
-  target/nios2: Remove log_cpu_state from reset
-  util/log: Use qemu_log_lock/unlock in qemu_log
-  util/log: Remove qemu_log_flush
-  util/log: Drop call to setvbuf
-  bsd-user: Expand log_page_dump inline
-  linux-user: Expand log_page_dump inline
-  tests/unit: Do not reference QemuLogFile directly
-  include/exec/log: Do not reference QemuLogFile directly
-  include/qemu/log: Move entire implementation out-of-line
-  sysemu/os-win32: Test for and use _lock_file/_unlock_file
-  util/log: Introduce qemu_set_log_filename_flags
-  bsd-user: Use qemu_set_log_filename_flags
-  linux-user: Use qemu_set_log_filename_flags
-  softmmu: Use qemu_set_log_filename_flags
-  util/log: Remove qemu_log_close
-  util/log: Rename logfilename to global_filename
-  util/log: Rename qemu_logfile to global_file
-  util/log: Rename qemu_logfile_mutex to global_mutex
-  util/log: Hoist the eval of is_daemonized in qemu_set_log_internal
-  util/log: Combine two logfile closes
-  util/log: Rename QemuLogFile to RCUCloseFILE
-  util/log: Limit RCUCloseFILE to file closing
-  util/log: Support per-thread log files
-
- meson.build                          |  12 +
- include/exec/log.h                   |  52 +----
- include/exec/translator.h            |   2 +-
- include/qemu/log.h                   |  91 +-------
- include/sysemu/os-win32.h            |  16 +-
- accel/tcg/cpu-exec.c                 |  16 +-
- accel/tcg/translate-all.c            | 116 +++++-----
- accel/tcg/translator.c               |  10 +-
- bsd-user/main.c                      |  44 ++--
- cpu.c                                |  10 +-
- hw/net/can/can_sja1000.c             |  24 +-
- hw/xen/xen_pvdev.c                   |  45 ++--
- linux-user/main.c                    |  55 +++--
- linux-user/mmap.c                    |   7 +-
- monitor/misc.c                       |   7 +-
- net/can/can_socketcan.c              |  23 +-
- os-posix.c                           |   2 +-
- qemu-img.c                           |   2 +-
- qemu-io.c                            |   2 +-
- qemu-nbd.c                           |   2 +-
- scsi/qemu-pr-helper.c                |   2 +-
- softmmu/vl.c                         |  21 +-
- storage-daemon/qemu-storage-daemon.c |   2 +-
- target/alpha/translate.c             |   7 +-
- target/arm/translate-a64.c           |   6 +-
- target/arm/translate.c               |   7 +-
- target/avr/translate.c               |   7 +-
- target/cris/translate.c              |   7 +-
- target/hexagon/translate.c           |  13 +-
- target/hppa/translate.c              |  15 +-
- target/i386/tcg/translate.c          |  20 +-
- target/m68k/translate.c              |   7 +-
- target/microblaze/translate.c        |   7 +-
- target/mips/tcg/translate.c          |   7 +-
- target/nios2/cpu.c                   |   5 -
- target/nios2/translate.c             |   7 +-
- target/openrisc/translate.c          |   7 +-
- target/ppc/translate.c               |   7 +-
- target/riscv/translate.c             |  10 +-
- target/rx/translate.c                |   7 +-
- target/s390x/tcg/translate.c         |  11 +-
- target/sh4/translate.c               |   7 +-
- target/sparc/translate.c             |   7 +-
- target/tricore/translate.c           |   7 +-
- target/xtensa/translate.c            |   7 +-
- tcg/tcg.c                            | 176 +++++++-------
- tests/unit/test-logging.c            |  40 ++--
- util/log.c                           | 331 +++++++++++++++++----------
- 48 files changed, 669 insertions(+), 626 deletions(-)
-
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index 9b80660207..08b0cd0bb3 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -148,7 +148,6 @@ typedef struct QEMULogItem {
+ extern const QEMULogItem qemu_log_items[];
+ 
+ void qemu_set_log(int log_flags);
+-void qemu_log_needs_buffers(void);
+ void qemu_set_log_filename(const char *filename, Error **errp);
+ void qemu_set_dfilter_ranges(const char *ranges, Error **errp);
+ bool qemu_log_in_addr_range(uint64_t addr);
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 88d347d05e..08f43af235 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -405,7 +405,6 @@ int main(int argc, char **argv)
+     }
+ 
+     /* init debug */
+-    qemu_log_needs_buffers();
+     qemu_set_log_filename(log_file, &error_fatal);
+     if (log_mask) {
+         int mask;
+diff --git a/linux-user/main.c b/linux-user/main.c
+index fbc9bcfd5f..2b06350688 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -679,7 +679,6 @@ int main(int argc, char **argv, char **envp)
+ 
+     log_mask = last_log_mask | (enable_strace ? LOG_STRACE : 0);
+     if (log_mask) {
+-        qemu_log_needs_buffers();
+         qemu_set_log(log_mask);
+     }
+ 
+diff --git a/util/log.c b/util/log.c
+index 2ee1500bee..ffa66a267e 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -72,8 +72,6 @@ static void qemu_logfile_free(QemuLogFile *logfile)
+     g_free(logfile);
+ }
+ 
+-static bool log_uses_own_buffers;
+-
+ /* enable or disable low levels log */
+ void qemu_set_log(int log_flags)
+ {
+@@ -121,29 +119,18 @@ void qemu_set_log(int log_flags)
+             assert(!is_daemonized());
+             logfile->fd = stderr;
+         }
+-        /* must avoid mmap() usage of glibc by setting a buffer "by hand" */
+-        if (log_uses_own_buffers) {
+-            static char logfile_buf[4096];
+ 
+-            setvbuf(logfile->fd, logfile_buf, _IOLBF, sizeof(logfile_buf));
+-        } else {
+ #if defined(_WIN32)
+-            /* Win32 doesn't support line-buffering, so use unbuffered output. */
+-            setvbuf(logfile->fd, NULL, _IONBF, 0);
++        /* Win32 doesn't support line-buffering, so use unbuffered output. */
++        setvbuf(logfile->fd, NULL, _IONBF, 0);
+ #else
+-            setvbuf(logfile->fd, NULL, _IOLBF, 0);
++        setvbuf(logfile->fd, NULL, _IOLBF, 0);
+ #endif
+-            log_append = 1;
+-        }
++        log_append = 1;
+         qatomic_rcu_set(&qemu_logfile, logfile);
+     }
+ }
+ 
+-void qemu_log_needs_buffers(void)
+-{
+-    log_uses_own_buffers = true;
+-}
+-
+ /*
+  * Allow the user to include %d in their logfile which will be
+  * substituted with the current PID. This is useful for debugging many
 -- 
 2.25.1
 
