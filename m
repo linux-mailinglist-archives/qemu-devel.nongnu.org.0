@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2174E1E1A
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 23:03:27 +0100 (CET)
-Received: from localhost ([::1]:46832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5200E4E1E1D
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 23:09:19 +0100 (CET)
+Received: from localhost ([::1]:54430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nW3e2-0003xT-AW
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 18:03:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49782)
+	id 1nW3jh-0000o7-Uh
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 18:09:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nW3ar-0008Lv-VN
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 18:00:10 -0400
-Received: from [2a00:1450:4864:20::431] (port=42619
- helo=mail-wr1-x431.google.com)
+ (Exim 4.90_1) (envelope-from <kwestover.kw@gmail.com>)
+ id 1nW3ey-0006Az-QM
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 18:04:24 -0400
+Received: from [2607:f8b0:4864:20::d35] (port=44789
+ helo=mail-io1-xd35.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nW3aq-00042K-85
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 18:00:09 -0400
-Received: by mail-wr1-x431.google.com with SMTP id r13so3424377wrr.9
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 15:00:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwestover.kw@gmail.com>)
+ id 1nW3ew-0004aa-PP
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 18:04:24 -0400
+Received: by mail-io1-xd35.google.com with SMTP id e22so14913288ioe.11
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 15:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=l002E5n0bg2jfvBYR07fN++7O1S0uszpGz+NkOhwmUY=;
- b=N9MA+9907RpUe+P5HpJjZbY9Dh5TEFaBO1vflzKDwGAP4ZG8WqKee5TYIcvU44oujc
- vG31mMGz2x8Va6DXD23YOgnOK9nX2hDCnl20n0xwaXdC/ZYpIkQfGzC4Xt4VULMwfHNV
- XIrETO96phwq5/WI6SG3D3L6KL8/8FjPkqaJHEu6Zg2WpLEf4AC/jhtJYssfkvRHeN7A
- DsgWeH3aRWxZu/eLm4F6yNDnfzU3ffSfZ5dSnuvq8OTo1T6yGqGbNRp5iLHAUi/LB8TD
- V4HeHRSaFeXikgqLH7frBj1TX7ZDma3pN1qPE9d+LjzvlBiAMjNu2pei3w1LLg+X2rqJ
- O9bg==
+ h=message-id:date:mime-version:user-agent:content-language:to:from
+ :subject; bh=Tk4yoMUs8zVUbEK5kfMB/ijzwsBGCgAse0P9NdqBqag=;
+ b=SGjSqu4yhJfsCBYGED8P+kE1wuGxWFRJXLtx6YLGmEgCCqR5pmtWxHF1W8+pTyJ0kw
+ aMagoaD1hdRdHQ6TedaBwJvzxmLOGGy7hCqaAoqgZVJ0IMBNpwLjulSs4EoD9ImgjIRY
+ fdvV573NpKES+eDmB7wQGK8ZsEs1u6KBw5iZwCPpUoW9NimIUg2ro1l1wGx0J9VD7Rzw
+ f4I1CTAEJm87o+a00fzTj7vWnwNzAvXEjp73/27bvyKHcMhzCJ9NL1EOyUXp3+468OKr
+ wKUq1bFr72F/Lakjyzvp2GHnpFeK58Pu9uwtAMALBocUZDlLSosjyoZ7WHXzHlwqn6qD
+ 8Pkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=l002E5n0bg2jfvBYR07fN++7O1S0uszpGz+NkOhwmUY=;
- b=kdN9nFBOx4uSH8NbnFyGMTMCyEAIbUwe/1lnHXniJgprRTE/DL3NQ4Yc5qB7sW3AQO
- yufrFdbtQRm2v1kgl/TurJS1f2VAQHplmZVGd5ezvIAWZUZuMxqfz5Nf5UsZQOOu+eQ+
- tGxjHFNOPPARFrhviFJIeyo7ehdr/g1AeP79B+D5ofJJaJvbkUeEzyI0aeAD01bDMtx3
- x9P608eHpmJivvrj3F1lXrUMSA3as29f4Od13fikFwCll3PSLdN6hb7GyV5AWE2jMCla
- oOAFZH0+RCzhifSLYan22tz2iIw2nax4qDUE43idvxvphKzPfz8YyX65nCD2ySoK+TaF
- oZpQ==
-X-Gm-Message-State: AOAM531OBzTv8Y213GTutWqdnN8vfjLRosujGAZuL6U3SIhjLA1A8/xm
- gnY4cfVWSVb6qa7vwYNeVN1mEkpEmcNTjg==
-X-Google-Smtp-Source: ABdhPJwlom/WmuRX7O05ti4UWlku6OC4wmcQoXQNhGyl0rR0YLTfR2aOCwt9ro96uhWTl9glR+pmFg==
-X-Received: by 2002:adf:fd02:0:b0:203:f2aa:37f2 with SMTP id
- e2-20020adffd02000000b00203f2aa37f2mr715311wrr.396.1647813606921; 
- Sun, 20 Mar 2022 15:00:06 -0700 (PDT)
-Received: from [192.168.1.34] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- n1-20020a5d5981000000b00203d8ea8c94sm13134749wri.84.2022.03.20.15.00.05
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:from:subject;
+ bh=Tk4yoMUs8zVUbEK5kfMB/ijzwsBGCgAse0P9NdqBqag=;
+ b=afPnZsCaY6ymeafxa9vgicZ0a33YW7evrBMn8fOZZbc9rRpZ3W/N45Uf+jESCQB1/+
+ XUXcJyzVEil0dejBHjJTTI1Drf/ShzumCs4anodwa0vV7J5Pewg515duzvAyGJMz2v9Q
+ W/hmpemy2nr4mQApmMyLoic7uUDqmmfzpuJylTf36UupuS2ahUBHzhEVIa11+e5xnRqR
+ mPaq2sHYNMl4cm8IXmNalMiHCCUkWMZiqTv6N7lbOZpFrvZ2CE+J6VcldBqeceEH1yEc
+ Q7F2S1e4yyxoOfvs4HsTmyjoHxe4NpBkrQ49vy3d4Pn5BtI1xcGJuVKLcMpcGFQo0x7+
+ Ht7g==
+X-Gm-Message-State: AOAM533FxxccepHn2Dm/B4srRI4EvSz2ktNw74JWLNn8jVFDd95jeKlH
+ z490uYnzZ46QqbhKPaUqk+30854Ja2IQlQ==
+X-Google-Smtp-Source: ABdhPJyO/ba4C699abuVQpRzXLLkdz3/ghQHWyxBj/sGOcCLc5r0/v73p6Mvjk8SiNaidM3rqHvPDw==
+X-Received: by 2002:a05:6602:341e:b0:648:a68e:e543 with SMTP id
+ n30-20020a056602341e00b00648a68ee543mr8678206ioz.4.1647813860500; 
+ Sun, 20 Mar 2022 15:04:20 -0700 (PDT)
+Received: from [192.168.1.115] (cable-217-24.sssnet.com. [24.140.217.24])
+ by smtp.gmail.com with ESMTPSA id
+ i3-20020a056602134300b0064620a85b6dsm7995855iov.12.2022.03.20.15.04.19
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Mar 2022 15:00:06 -0700 (PDT)
-Message-ID: <75c493c5-3b72-cd3d-adb5-a2e254eb21b6@gmail.com>
-Date: Sun, 20 Mar 2022 23:00:05 +0100
+ Sun, 20 Mar 2022 15:04:19 -0700 (PDT)
+Message-ID: <cbb051b2-956d-9720-34cb-764034a0dd84@gmail.com>
+Date: Sun, 20 Mar 2022 18:04:17 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PULL for-7.1 30/36] util/log: Rename qemu_logfile to global_file
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220320171135.2704502-1-richard.henderson@linaro.org>
- <20220320171135.2704502-31-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220320171135.2704502-31-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+To: qemu-devel@nongnu.org
+From: Ben Westover <kwestover.kw@gmail.com>
+Subject: Account creation on QEMU Wiki
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------PDlYjk8B0dtfkxcjpQEqokgB"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d35
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=kwestover.kw@gmail.com; helo=mail-io1-xd35.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sun, 20 Mar 2022 18:08:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,17 +91,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/3/22 18:11, Richard Henderson wrote:
-> Rename to emphasize this is the file-scope global variable.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   util/log.c | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------PDlYjk8B0dtfkxcjpQEqokgB
+Content-Type: multipart/mixed; boundary="------------yvrF20AsQ2p0xNHpPW403K0z";
+ protected-headers="v1"
+From: Ben Westover <kwestover.kw@gmail.com>
+To: qemu-devel@nongnu.org
+Message-ID: <cbb051b2-956d-9720-34cb-764034a0dd84@gmail.com>
+Subject: Account creation on QEMU Wiki
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--------------yvrF20AsQ2p0xNHpPW403K0z
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGVsbG8sDQoNCkknZCBsaWtlIHRvIGNyZWF0ZSBhbiBhY2NvdW50IG9uIHRoZSBRRU1VIFdp
+a2ksIGJ1dCBhcyBpdCBzYXlzIG9uIHRoZSANCm1haW4gcGFnZSwgYWNjb3VudCBjcmVhdGlv
+biBpcyBjdXJyZW50bHkgZGlzYWJsZWQgdG8gcmVkdWNlIHNwYW0uDQpJdCBzYXlzIHRvIGFz
+ayBzb21lb25lIHdpdGggYW4gZXhpc3RpbmcgYWNjb3VudCB0byBjcmVhdGUgb25lIGZvciBt
+ZSwgDQpidXQgSSBkb24ndCBrbm93IGFueW9uZSB3aG8gaGFzIG9uZSwgc28gSSdtIGFza2lu
+ZyBoZXJlLg0KDQpUaGFua3MsDQotLQ0KQmVuIFdlc3RvdmVyDQo=
+
+--------------yvrF20AsQ2p0xNHpPW403K0z--
+
+--------------PDlYjk8B0dtfkxcjpQEqokgB
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEEOGnacqRhdU6eNmtFwxHF9U6JtpgFAmI3pOEFAwAAAAAACgkQwxHF9U6JtpgQ
+PBAAqkD3ILKwrk06ef7vVPSrfeUICeZ846/zJgdGp/Gv+Oy+rXoLQcQoVFCLcGAcDm1c19opX+n0
+f+Tr1WB0ovDX/rezcOrJtYAfWKIVSg1dbDeRlJBDbuxEPKpdHmpXRhZKNTqIWSSLTvNbb4XUwLro
+DUUvB7YIvFixTNz3e6f7FEwAk3/mQT/UVxJr2QSzcUgbvwDOKECxJS4zVB8ZpFIhouivkUXtR8lP
+RrOzSDyqdbIZ34DE17vx3Lb/kaNDqqjg+IGrK2L1pveZUotCtvMm4/ZCJsDBPDENlP7JoMgcxkwN
+L1zU0YD4sjlkO32nGIIywlIuIWaMum9DrYRxAW7TCBhlZYCDORKmhMtavOTznBkl6dbsvic/6d1o
+PZMRIIEadsSzgqHkarmHXPcQDYp60MWEyekWZAqTF6BkNo0Nec1OotA/q6PUYQA2J0kADdEaUAUE
+Uuz1Lsiv7Z69qrkyjczlQcIa42tBYBtBSBNEYRxMJ4Ryttll/ZibOuBJWISchHYWoCNh572GBPSy
+sHn61ol09hdlk5yP1jx6WKBYzXspQC00leEMjhEG9RBEYTfiWOGzdjpGD58G+sfpVosuQApxNTKf
+1Y3bulwCJa7mLS4XXRmOp58R46m5cFACfBQo3DbIx0KDy++YMWG05ioR8I1M5iTk6ys+2SG4+xIc
+8do=
+=yu7p
+-----END PGP SIGNATURE-----
+
+--------------PDlYjk8B0dtfkxcjpQEqokgB--
 
