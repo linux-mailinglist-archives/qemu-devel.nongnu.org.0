@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BD24E1D32
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 18:37:21 +0100 (CET)
-Received: from localhost ([::1]:52944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5424E1D1D
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 18:27:11 +0100 (CET)
+Received: from localhost ([::1]:54884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nVzUW-0003ye-Ta
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 13:37:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33168)
+	id 1nVzKg-0003Bb-Ut
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 13:27:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVz5x-0008W2-CO
+ id 1nVz5x-0008W3-Cj
  for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:58 -0400
-Received: from [2607:f8b0:4864:20::52b] (port=45993
- helo=mail-pg1-x52b.google.com)
+Received: from [2607:f8b0:4864:20::631] (port=42807
+ helo=mail-pl1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nVz5v-0003St-3j
+ id 1nVz5v-0003TA-4U
  for qemu-devel@nongnu.org; Sun, 20 Mar 2022 13:11:56 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id o13so8738104pgc.12
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 10:11:52 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id p17so10876604plo.9
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 10:11:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WUo/UXugquCgKpGx2VP7SOTX0x7aIWwccomkB6QAm9Q=;
- b=lR7xrozeJMnsVVDvJU+Wu9VdwiRnknyIPcGLcXTET0IivLgLR8vHlWLYb6Y+PXr9sl
- 3bObCfPTT/XUKq5qcBwE7QpjaXjlN7IUxQQeXtIBm9m3vIomdaAXdgw706pEfmpj/jmQ
- 1Gc620efJ7g6GT/GoicY40S1zaWPKPRLLSTVhct6e/3DEymC1DnM86UMHwceDjJCdi8L
- xzVyWqbq7nvPnNdoalTgmXr+Zh2ddG6Q8RN/75WDQG9Gx21laCrf0FZKlpF0i8h71nn/
- ijjih8ypzFTDftXRO7H7bg4kglVU6UMnPc+rmtp9YIFEE+EFA+c52FNZUEBoQONMmXZf
- z6Fw==
+ bh=91XMdGfqxA7BvJwgW6QHFNJ0sL3SZqCOihIKSdvbIRg=;
+ b=GFmnPbA+Foj745z27nMHc1bIyzNzpu+5gAxboDYLKfD2eWqq8t2ejszgpHHjphuQIp
+ 85UFuXLN1vISyAGUn3HbTI8efQqqLgNekyzN2PnjSZeF6TEtJK0xqRTo7WdhxKL3uuxO
+ Fue7osoDJ7qsSqNRYWKtKadAVJcqg9l+Rg2TYg2Fj78cEuj6EGZDTXjuyN2Iog+TwOQM
+ ozVwlttJZdqsCscF4SS85pACcdsOtz5Bzf9R84i1rLftxWgj24R4OXMnkdyUq6iD6/tJ
+ POxaGytPu0fw/heJAgVG92+GiPl9QkY3VwsZ61VfB/B8lZgXugeLe43e0kTeqGZ3Dika
+ 5vnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WUo/UXugquCgKpGx2VP7SOTX0x7aIWwccomkB6QAm9Q=;
- b=RnmxuyQdVjSLCab/3OvckPWWU0orz47702uZIzuWLrkDiqajCtwhJEo8eIW6eoPWRG
- D6KDAvHUDVICn3hRSAhiAm48sqx1bOuBNuEs41uZUuV5tx5p8jD+8N25nofqC5Br7MYq
- UrBb+Mo5/AP9oG7mUn6/sK4dzJADH254cCeDbxxGpUSToUULEjAtdpJz61GCSadtN7JY
- BPZvkdp5psUuEwwpRw1FfR7t7L4QxkBnH+vCBBnQrssVOrCDM+tluqPK+ijd5AJlC24D
- 5GdHzBpgG7cdANUEZgYNE1YbyzD2nKjuDIuHsRwfaEYMFvWmrGGLqPLks7y+Q5CFGHLL
- ao9g==
-X-Gm-Message-State: AOAM531A0BxUk5dbPtg0ex9fUSQ8HFyQGgdJKOY779LZ2B13l7vnlAuV
- zbCzKBzrKW/cW66Rbe1JrzfvFsi6cZNQ4Q==
-X-Google-Smtp-Source: ABdhPJxwXzrQALyQGXz0JNwzwcQaGf1TiGSKRegPZgd+J1ylAh7rstCCNrE5wfIeaabDdSmEdODM7Q==
-X-Received: by 2002:a65:6942:0:b0:378:9365:5963 with SMTP id
- w2-20020a656942000000b0037893655963mr15235347pgq.142.1647796312098; 
- Sun, 20 Mar 2022 10:11:52 -0700 (PDT)
+ bh=91XMdGfqxA7BvJwgW6QHFNJ0sL3SZqCOihIKSdvbIRg=;
+ b=kJWsixn5Eiemvc1IDjpS9uBaHHtPTmlnfUZAFqXhz7L0th41IbNPD/evstr0vZJSlb
+ egvxHJjR0EU7anyy6CuuNWj6o3PhWVvElYhlkcrM+27k8fjakMA274+KxeO8XieErupt
+ 2i/X1NTfl6kCi9TWyj16FxcihNHjvi/XznBxNYY4UT4hW5znVg5gSD0XoIfEIZ2ihrvA
+ B220Rt/kB90DMCYnUoJlT2fqXKF++xIEWEPmEY0xDFxR33JQr7eM5LMyk6QODrMV+1SJ
+ 6t23Xy64mByqlaS6wEEMZ14XiU14EJCWdwmMV34Knb8HhWNrVMFM+5X8rTQGZ4w6caSE
+ FcOg==
+X-Gm-Message-State: AOAM531uYZNzzk9IQpb7/T3ZDggSyYylWl8fJaaw+pM+TdV76EI5/1Uo
+ 0FXMaYfPGyzhwq9RW/uEx9cooNiSEaLkoQ==
+X-Google-Smtp-Source: ABdhPJzBLjPtrYu+VNI+QvmgW1JHEOiDHhBy5MOZ/tmAkIK+1/8aOll0MZub32KydghYGQJWZ8/bsA==
+X-Received: by 2002:a17:90a:1b65:b0:1c6:5bc5:99b4 with SMTP id
+ q92-20020a17090a1b6500b001c65bc599b4mr25072202pjq.177.1647796313112; 
+ Sun, 20 Mar 2022 10:11:53 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- q12-20020a17090aa00c00b001bc6f1baaaesm17149697pjp.39.2022.03.20.10.11.51
+ q12-20020a17090aa00c00b001bc6f1baaaesm17149697pjp.39.2022.03.20.10.11.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Mar 2022 10:11:51 -0700 (PDT)
+ Sun, 20 Mar 2022 10:11:52 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-7.1 17/36] util/log: Drop call to setvbuf
-Date: Sun, 20 Mar 2022 10:11:16 -0700
-Message-Id: <20220320171135.2704502-18-richard.henderson@linaro.org>
+Subject: [PULL for-7.1 18/36] bsd-user: Expand log_page_dump inline
+Date: Sun, 20 Mar 2022 10:11:17 -0700
+Message-Id: <20220320171135.2704502-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220320171135.2704502-1-richard.henderson@linaro.org>
 References: <20220320171135.2704502-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,33 +92,54 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the log buffer is flushed after every qemu_log_unlock,
-which includes every call to qemu_log, we do not need to force
-line buffering (or unbuffering for windows).  Block buffer the
-entire loggable unit.
+We have extra stuff to log at the same time.
+Hoist the qemu_log_lock/unlock to the caller and use fprintf.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- util/log.c | 6 ------
- 1 file changed, 6 deletions(-)
+ bsd-user/main.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/util/log.c b/util/log.c
-index 73597c40c0..be20ae6c1c 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -145,12 +145,6 @@ void qemu_set_log(int log_flags, Error **errp)
-             logfile->fd = stderr;
-         }
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 0c8aa1ae90..d25d1c6015 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -503,20 +503,25 @@ int main(int argc, char **argv)
+     g_free(target_environ);
  
--#if defined(_WIN32)
--        /* Win32 doesn't support line-buffering, so use unbuffered output. */
--        setvbuf(logfile->fd, NULL, _IONBF, 0);
--#else
--        setvbuf(logfile->fd, NULL, _IOLBF, 0);
--#endif
-         log_append = 1;
-         qatomic_rcu_set(&qemu_logfile, logfile);
+     if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
+-        qemu_log("guest_base  %p\n", (void *)guest_base);
+-        log_page_dump("binary load");
++        FILE *f = qemu_log_lock();
+ 
+-        qemu_log("start_brk   0x" TARGET_ABI_FMT_lx "\n", info->start_brk);
+-        qemu_log("end_code    0x" TARGET_ABI_FMT_lx "\n", info->end_code);
+-        qemu_log("start_code  0x" TARGET_ABI_FMT_lx "\n",
++        fprintf(f, "guest_base  %p\n", (void *)guest_base);
++        fprintf(f, "page layout changed following binary load\n");
++        page_dump(f);
++
++        fprintf(f, "start_brk   0x" TARGET_ABI_FMT_lx "\n", info->start_brk);
++        fprintf(f, "end_code    0x" TARGET_ABI_FMT_lx "\n", info->end_code);
++        fprintf(f, "start_code  0x" TARGET_ABI_FMT_lx "\n",
+                  info->start_code);
+-        qemu_log("start_data  0x" TARGET_ABI_FMT_lx "\n",
++        fprintf(f, "start_data  0x" TARGET_ABI_FMT_lx "\n",
+                  info->start_data);
+-        qemu_log("end_data    0x" TARGET_ABI_FMT_lx "\n", info->end_data);
+-        qemu_log("start_stack 0x" TARGET_ABI_FMT_lx "\n",
++        fprintf(f, "end_data    0x" TARGET_ABI_FMT_lx "\n", info->end_data);
++        fprintf(f, "start_stack 0x" TARGET_ABI_FMT_lx "\n",
+                  info->start_stack);
+-        qemu_log("brk         0x" TARGET_ABI_FMT_lx "\n", info->brk);
+-        qemu_log("entry       0x" TARGET_ABI_FMT_lx "\n", info->entry);
++        fprintf(f, "brk         0x" TARGET_ABI_FMT_lx "\n", info->brk);
++        fprintf(f, "entry       0x" TARGET_ABI_FMT_lx "\n", info->entry);
++
++        qemu_log_unlock(f);
      }
+ 
+     /* build Task State */
 -- 
 2.25.1
 
