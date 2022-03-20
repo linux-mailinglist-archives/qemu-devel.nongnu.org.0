@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13494E1E19
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 23:03:20 +0100 (CET)
-Received: from localhost ([::1]:46432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2174E1E1A
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Mar 2022 23:03:27 +0100 (CET)
+Received: from localhost ([::1]:46832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nW3dv-0003gx-Op
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 18:03:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49718)
+	id 1nW3e2-0003xT-AW
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 18:03:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nW3aZ-0007kh-JE
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 17:59:52 -0400
-Received: from [2a00:1450:4864:20::433] (port=41856
- helo=mail-wr1-x433.google.com)
+ id 1nW3ar-0008Lv-VN
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 18:00:10 -0400
+Received: from [2a00:1450:4864:20::431] (port=42619
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nW3aY-0003od-9c
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 17:59:51 -0400
-Received: by mail-wr1-x433.google.com with SMTP id h23so17847517wrb.8
- for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 14:59:49 -0700 (PDT)
+ id 1nW3aq-00042K-85
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 18:00:09 -0400
+Received: by mail-wr1-x431.google.com with SMTP id r13so3424377wrr.9
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 15:00:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=RSvecjA/IN85mk1fwcnG8gkfqPpqrEwQwBYCrxk+7kU=;
- b=KdHnn535B1W6nnfi2KX1AxBhJnUmUGupjthXq6CNw4/nnbrobSWCroLabjJD1ZYuw8
- lN0Vkidm0N+o46p29A6Lt/YQ1yixRZ7nLn3SkIOXVnaEigtqBgtEwCOP9b1w7voXVcU2
- lWVY0C/WbtUOWe4petfukh5Vn42gtLyKJ+MczB68kbz/Ic5SiIfVibDWdTu90ny7exZr
- ohpDMgaXMKGgFVPQbq58I7WIS7GtHMTHdOhuuD+iK9CDT3ZopNDbDbltN3NM3cQ866bv
- Hol+Its0u3N6Jaep47WN3nOABr3N20BoXRPD9nbkHpH/J+74ATlGtH0GKei68JBL1nzh
- Vnzg==
+ bh=l002E5n0bg2jfvBYR07fN++7O1S0uszpGz+NkOhwmUY=;
+ b=N9MA+9907RpUe+P5HpJjZbY9Dh5TEFaBO1vflzKDwGAP4ZG8WqKee5TYIcvU44oujc
+ vG31mMGz2x8Va6DXD23YOgnOK9nX2hDCnl20n0xwaXdC/ZYpIkQfGzC4Xt4VULMwfHNV
+ XIrETO96phwq5/WI6SG3D3L6KL8/8FjPkqaJHEu6Zg2WpLEf4AC/jhtJYssfkvRHeN7A
+ DsgWeH3aRWxZu/eLm4F6yNDnfzU3ffSfZ5dSnuvq8OTo1T6yGqGbNRp5iLHAUi/LB8TD
+ V4HeHRSaFeXikgqLH7frBj1TX7ZDma3pN1qPE9d+LjzvlBiAMjNu2pei3w1LLg+X2rqJ
+ O9bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=RSvecjA/IN85mk1fwcnG8gkfqPpqrEwQwBYCrxk+7kU=;
- b=sazE1npTZ5GyiANdE+IvmwqtTW9UzBecfkkbmwnccDgieAKu9VelsM6sLWv+5kzDto
- qdrW6HxZtgpusWIKB+2dtzf27dibWY9jhXOTiSrysBZSPByXtRbdeY+XCFS81aQVn3sY
- 7fbEVteZ5ll4Lr2WFginiHxBlyf9iwkM7f+PCiWQQ17342dvbWnt7IM/A6OvWJu+nOrf
- zogjwGQE+ny7yDm9SbD7TXK3MM87dSTDv4R7INoCErZDjL7JRs8mcIKyxRWH07WnbEF8
- sg36vthwSGXHJhhEYRu4xGzuK4X27cEwWXEDm3WevU+EeM3yX/prQlejIR3WphLf+Iee
- JQ4A==
-X-Gm-Message-State: AOAM531WnPIBrPCa0FsCcuXlyP4+ZOYE9AVxNkuWPqyf31+S3JCM+nk5
- rMi7tLPmBQbfraAVKOeYZlmqBRVyWkWUEA==
-X-Google-Smtp-Source: ABdhPJy7wDV9UsA2Lta7IqsPhD8KeuqiNw6HGSgJkjBuAhQudpp+3gurzRJHpWNFcKzmAWiuti3Zlg==
-X-Received: by 2002:adf:c54c:0:b0:203:ed16:2570 with SMTP id
- s12-20020adfc54c000000b00203ed162570mr13975365wrf.646.1647813589025; 
- Sun, 20 Mar 2022 14:59:49 -0700 (PDT)
+ bh=l002E5n0bg2jfvBYR07fN++7O1S0uszpGz+NkOhwmUY=;
+ b=kdN9nFBOx4uSH8NbnFyGMTMCyEAIbUwe/1lnHXniJgprRTE/DL3NQ4Yc5qB7sW3AQO
+ yufrFdbtQRm2v1kgl/TurJS1f2VAQHplmZVGd5ezvIAWZUZuMxqfz5Nf5UsZQOOu+eQ+
+ tGxjHFNOPPARFrhviFJIeyo7ehdr/g1AeP79B+D5ofJJaJvbkUeEzyI0aeAD01bDMtx3
+ x9P608eHpmJivvrj3F1lXrUMSA3as29f4Od13fikFwCll3PSLdN6hb7GyV5AWE2jMCla
+ oOAFZH0+RCzhifSLYan22tz2iIw2nax4qDUE43idvxvphKzPfz8YyX65nCD2ySoK+TaF
+ oZpQ==
+X-Gm-Message-State: AOAM531OBzTv8Y213GTutWqdnN8vfjLRosujGAZuL6U3SIhjLA1A8/xm
+ gnY4cfVWSVb6qa7vwYNeVN1mEkpEmcNTjg==
+X-Google-Smtp-Source: ABdhPJwlom/WmuRX7O05ti4UWlku6OC4wmcQoXQNhGyl0rR0YLTfR2aOCwt9ro96uhWTl9glR+pmFg==
+X-Received: by 2002:adf:fd02:0:b0:203:f2aa:37f2 with SMTP id
+ e2-20020adffd02000000b00203f2aa37f2mr715311wrr.396.1647813606921; 
+ Sun, 20 Mar 2022 15:00:06 -0700 (PDT)
 Received: from [192.168.1.34] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- q16-20020adfea10000000b00203e0735791sm11157139wrm.39.2022.03.20.14.59.48
+ n1-20020a5d5981000000b00203d8ea8c94sm13134749wri.84.2022.03.20.15.00.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Mar 2022 14:59:48 -0700 (PDT)
-Message-ID: <e2939d80-4c4e-0d56-0ed2-6581d8f453e0@gmail.com>
-Date: Sun, 20 Mar 2022 22:59:47 +0100
+ Sun, 20 Mar 2022 15:00:06 -0700 (PDT)
+Message-ID: <75c493c5-3b72-cd3d-adb5-a2e254eb21b6@gmail.com>
+Date: Sun, 20 Mar 2022 23:00:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PULL for-7.1 29/36] util/log: Rename logfilename to
- global_filename
+Subject: Re: [PULL for-7.1 30/36] util/log: Rename qemu_logfile to global_file
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220320171135.2704502-1-richard.henderson@linaro.org>
- <20220320171135.2704502-30-richard.henderson@linaro.org>
+ <20220320171135.2704502-31-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220320171135.2704502-30-richard.henderson@linaro.org>
+In-Reply-To: <20220320171135.2704502-31-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -104,8 +103,8 @@ On 20/3/22 18:11, Richard Henderson wrote:
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   util/log.c | 13 ++++++-------
->   1 file changed, 6 insertions(+), 7 deletions(-)
+>   util/log.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
