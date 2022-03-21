@@ -2,132 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF534E3030
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 19:42:38 +0100 (CET)
-Received: from localhost ([::1]:45398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 046534E304E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 19:57:24 +0100 (CET)
+Received: from localhost ([::1]:52266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWMzE-0005SZ-J1
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 14:42:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36900)
+	id 1nWNDW-0002S3-Kt
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 14:57:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1nWMxW-0004NC-F7
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:40:51 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:36078)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nWNCD-0001Gl-QJ
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:56:01 -0400
+Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:37247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1nWMxU-0003gx-4M
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:40:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1647888047; x=1648492847;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=IEVpaRlfoD2q78kzLIBsn5qpXle9aD1V1kZm3+6hHhg=;
- b=WNEoIajcaEkcOk6Hk8oaREVlM8HwuvLmJhAWHlKsfYbks2RbHp8Ww+4d
- 8XZrw2IeX+I+4PWVXvnJTetlmt4dvo0DI9rGU5uzJhon/qDSSFz7sye25
- MFQx3N+uXG3daC26KId6wrKgvPjCDQwdNHlgSCkARxFeHiNRTLNRaynNH 0=;
-Received: from mail-bn1nam07lp2040.outbound.protection.outlook.com (HELO
- NAM02-BN1-obe.outbound.protection.outlook.com) ([104.47.51.40])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 18:40:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ff/fSsdLKoV/zeZ6vEyolIyPhmNi9XEn4dlTmOBmoVtT6VW7ohg/pLjjDJ2hekYBLaxeDZZi+mi46OMXVLA96XbLfIXWJBSWZqnf73jmq0UxKPzoldm+uuqA7JKJ+ZNkQORViiWBhkzDIFgYvof4tFDNHDhEmAGv0LX4CWyLz/V3AohZRikFCYmb4RamLqyazi8/d5vPdejiDv/mdXLP1vpltPWlZfZGu8V0ZDJbbV9wFXS12Krht66rfwjUM2NSL7NdhCkyYMJsZ+lmw/zEtL1P7gbfnPtQPG+JALcF2d22RitDjtLlD2QjYJupDL+lC1KdfSuBxYnPr19UNUjn1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IEVpaRlfoD2q78kzLIBsn5qpXle9aD1V1kZm3+6hHhg=;
- b=GcO/xZRUXlO0ifFbPdyxKNBXMQERh38qLPH2vncFJPTdO3R/Y0GtrIIcoEagcShAgwSu1U4T4XziOzXXpAQyF4juJvz8LkegRp50zi2Bv41V5os4SN2RpK3A5iczI4OMBPXtPB0YkKkO0hcYK1FDUVLWL3ZnBQpZFpSEXEoYtnK/D/z9frq4jwZMKqKQ5jFqNZy77yPW4sAj97PAxdVzYDXD1aEpZLNt22QSikN5qY9wp9T8x/GCoweumZr09CurE5FJWXFpbJAAotJIdshpw0AUQI/snXT3DJjr18pAdHypp2HYFUXOKkjf+9s8wmdRYONvjIP/OHnjtPzQLRyIrA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by BYAPR02MB5799.namprd02.prod.outlook.com
- (2603:10b6:a03:128::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.19; Mon, 21 Mar
- 2022 18:40:41 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::a55a:64a8:cac:4a39]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::a55a:64a8:cac:4a39%3]) with mapi id 15.20.5081.022; Mon, 21 Mar 2022
- 18:40:41 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Anton Johansson <anjo@rev.ng>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v8 09/12] target/hexagon: import lexer for idef-parser
-Thread-Topic: [PATCH v8 09/12] target/hexagon: import lexer for idef-parser
-Thread-Index: AQHYHdcAoVyg/hFKhkWTasdW89A6VazKaKyw
-Date: Mon, 21 Mar 2022 18:40:41 +0000
-Message-ID: <SN4PR0201MB8808C325A4B4734F4DF09CAEDE169@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20220209170312.30662-1-anjo@rev.ng>
- <20220209170312.30662-10-anjo@rev.ng>
-In-Reply-To: <20220209170312.30662-10-anjo@rev.ng>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=quicinc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c6ba24e6-ee21-48db-e46e-08da0b6a4d22
-x-ms-traffictypediagnostic: BYAPR02MB5799:EE_
-x-microsoft-antispam-prvs: <BYAPR02MB57992A685DF38178F717A054DE169@BYAPR02MB5799.namprd02.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qiOPsj8ATIaCqv5mnY3XjY4EnYS58+dwdoyL6v9BOA6mAwQle/6/7xXCVaeUDr6XOtoqghBzl4hF662dTklyPJmHW5osu27+sQ2Vr4DEMU/bPRLEJPJn8x8wi69IItzDfCimOwAA2TkZ3xdldEraUZ8rgwHubTUEGuONliQ383kRXMZQSZOd8yqq1ShjmIb3q4z4COAPFPz0RbwYUej2mgtLjz4jLdnKV8AXzCPc1sMQhdCeLoiqViDpaS2ldLUFyWi0mLt3hYE0YId2J4vTPHHopFH6bVQZzU8vvxZX8wSlnCF15DIR+5E/Cmee5wVdGJ4z65HVwfJOCbOFqzt/Y1RrY43Z4p5HexlD1AUOYM3KmirX+5nWgIy8fUYoxG10qs7T6z783SOuZ01SDmbcl1hsesPpJ564pd4k1fLAJI3e0kwLurf5OZkyAzERJ9FnUm2PG7cXoQD0XGfC+LAb/PfUNl9JCks1I0jWecdSWGTKfLCTLt4C1daMPI96xqjcDjRmrsOFJY+ThSR7S4nX+yWYzgHM2wsvWZTxDKWLgEdEsyEMZH4RZPCMLjHDVbk5p8Kq0FflQuPa9mTox8Wt3stIIFMipkHT1zUxN3VWXI/8kovLEfqdPrqaNOwpRGxGSs+8iOI+nIgh2aTbbCXERpsFuy3K8D76Mw1hRF/W8cGxp6DyCxbLd68UHiDe6u8IIRmZ2PQEHWMINoyRKRBZIg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(71200400001)(316002)(83380400001)(54906003)(110136005)(33656002)(38100700002)(6506007)(9686003)(7696005)(122000001)(53546011)(2906002)(8936002)(64756008)(8676002)(76116006)(66446008)(66946007)(66556008)(86362001)(66476007)(26005)(4326008)(186003)(38070700005)(5660300002)(55016003)(4744005)(52536014)(508600001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?YbdvmQzHECgXW0M3sp5zMbW/Nd9VfvTdOlH8AHIkTA8E+5FPDOolAeAbpzO2?=
- =?us-ascii?Q?ZZjlqeZwjCISooz12RVCiT0zUu2YZPwKMGleIOvF2bXBkaqizo/ImLK3VxTZ?=
- =?us-ascii?Q?lxr5Wp3DHP/LccPxFAMHQ7b9qYFedhh0ld3GzRIQ2BOn6o3BIv/IwZJZsCus?=
- =?us-ascii?Q?6r5gtFTSqf6PeC5FU7VX/eKDYpcnLKFrQZs2YKlSwpxT3fhyte5CS+ofYos6?=
- =?us-ascii?Q?HkORQgPQprHkwRcXWZEVnCdC0ZrOTnC8ny42V54+1qo4WhdPevGfQrnamPYS?=
- =?us-ascii?Q?Cpj6p6wPPRNa+SK3OhBFLBh5kpLWyZHaXxU+w12lv8Zmy/vG4zoCU3RCj7T7?=
- =?us-ascii?Q?pD70pjkV/tVUsYxDxEbQPLNzKqveuCR2L3sJPveh+0EdZzweLGP9GfFR0ykl?=
- =?us-ascii?Q?LuAV3rp0wWP1s+29cFJLQN1xxu+8hUmOkKMlTPV4xUfU9NBhYE8NPBGYERe7?=
- =?us-ascii?Q?bjXMz9imyICLk14ictP0RpsN6PSs/+A5sm3VdxypNexfCuHa+ZaUcTEYI/3/?=
- =?us-ascii?Q?hO/XaRLKmAUQROVNygNxlQ+sFSA3jX5LQAPp5jT28p9QQprSPkuH3BFaP7+J?=
- =?us-ascii?Q?vGM1wtkbDbeRdN3nXw2kmYel5QI8YulrwF98l6vSwciAuOk/Y3ziC/aW7ioM?=
- =?us-ascii?Q?EVvoaXCu/WhzLWMdmsEN55MyFf2WgWA3760Jp/TSA6zEuj4xq30tZfmq2FbU?=
- =?us-ascii?Q?O5SeF71ZrAcxKCVVztdjYUyBLSsrmVmGNmqy0ISrwE6urmR0CCHwJXWGkvYu?=
- =?us-ascii?Q?t3169zGd8LppNgNkHA1r5Z3dUV65rmGuSfrFy7ELCyX4oLmHJdWNFeWL1Fos?=
- =?us-ascii?Q?O74+JlIsWe8FCrRZXr/Q6g2Eiy4vHn4Qow7X4j7vcPBVgj62IdORZlIf+CTx?=
- =?us-ascii?Q?FIUuIg6+Q9ErVgP5YexTG9eKv+CbtIOEmsZQHdPk0XJmn0dTw+yqCvGQ7oF2?=
- =?us-ascii?Q?Nwfu12mat/ZLpB0yoKm0tZyRAgXmyP0Ia2OJ5cx0EeT/epkZCw+JaWPs82RD?=
- =?us-ascii?Q?GV+uDVtQNQWK379spIwMR9Wq4UwM7bnRIw+1AQbhCwPVfz38uTFnBMtGt52L?=
- =?us-ascii?Q?sZFQGvawPcPwY9spen4981Y2PyBGs4gOp9wJLA1xaG6afI3Hr26/343KjXqI?=
- =?us-ascii?Q?C3ZjlO0skr4rvYCooahNJiTjX9oTllk5H8Yc3RQihczepCl6KDgGqRUtXqXI?=
- =?us-ascii?Q?/mE5O/PeKc4tUdA79MmBFy5hXe77w8YuqzeY6oJLZht4no3Tm955I8LH2WoF?=
- =?us-ascii?Q?LOAm6H7bbMnpU8ndAxO+8QZwbJ4PcJx7l3iJHS2PwUtelZZs5+29cgS0A7x7?=
- =?us-ascii?Q?HpWM8SPActp8XT1pDLnodhsNqGEGA1HDbvIb1l5HaIl/GylEraQGMiZaJCaO?=
- =?us-ascii?Q?DLUNGGxEaH9n9d5aNIIGJCd/EiJHxmpRBdrhKazFvCutHRrvO9wjIJxAkaqb?=
- =?us-ascii?Q?B6vN8v/VSIJya+GudfPuhMRx/PbsWl30?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nWNCA-0008Nv-SN
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:56:01 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.159])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id DCC23240BB;
+ Mon, 21 Mar 2022 18:55:55 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 21 Mar
+ 2022 19:55:55 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G0056b5ba6bc-3543-4cec-bdc2-e1b27516a8aa,
+ 1B2610401919D9AAB2F83A5D9344AD9F0D4CD782) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <067ebb15-593b-4b9e-26d6-a4d98db4fd5c@kaod.org>
+Date: Mon, 21 Mar 2022 19:55:54 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6ba24e6-ee21-48db-e46e-08da0b6a4d22
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2022 18:40:41.3824 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fYC/IPtatl2od6cHPBHtid2xuUMwpm6SxVnDwop+ip2dxYqUw4aGHrXlzhqdtZAsYztuM6AZt2KA7cVfb8JudQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5799
-Received-SPF: pass client-ip=216.71.142.165; envelope-from=tsimpson@quicinc.com;
- helo=esa.hc3962-90.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: Memory leak in via_isa_realize()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, Thomas Huth <thuth@redhat.com>, QEMU
+ Developers <qemu-devel@nongnu.org>, Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <d60cb762-40a5-f918-02aa-463758205af5@redhat.com>
+ <89a014e0-8850-e628-dea5-76999513a18e@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <89a014e0-8850-e628-dea5-76999513a18e@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: bde5c987-2e3e-4f54-b867-1e47484893ce
+X-Ovh-Tracer-Id: 14572241022890773356
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudegfedguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
+ helo=4.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -140,38 +74,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "babush@rev.ng" <babush@rev.ng>, "nizzo@rev.ng" <nizzo@rev.ng>,
- Michael Lambert <mlambert@quicinc.com>
+Cc: "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Bernhard Beschow <shentey@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/21/22 14:04, Philippe Mathieu-Daudé wrote:
+> Cc'ing Bernhard who did a similar cleanup recently.
+> 
+> On 21/3/22 11:31, Thomas Huth wrote:
+>>
+>>   Hi!
+>>
+>> FYI, I'm seeing a memory leak in via_isa_realize() when building
+>> QEMU with sanitizers enabled or when running QEMU through valgrind:
+>>
+>> $ valgrind --leak-check=full --show-leak-kinds=definite ./qemu-system-mips64el --nographic -M fuloong2e
+>> ==210405== Memcheck, a memory error detector
+>> ==210405== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+>> ==210405== Using Valgrind-3.17.0 and LibVEX; rerun with -h for copyright info
+>> ==210405== Command: ./qemu-system-mips64el --nographic -M fuloong2e
+>> ==210405==
+>> ==210405== Warning: set address range perms: large range [0x15c9f000, 0x55c9f000) (defined)
+>> ==210405== Warning: set address range perms: large range [0x59ea4000, 0x99ea4000) (defined)
+>> ==210405== Warning: set address range perms: large range [0x99ea4000, 0xaa0a4000) (noaccess)
+>> QEMU 6.2.90 monitor - type 'help' for more information
+>> (qemu) q
+>> ==210405==
+>> ==210405== HEAP SUMMARY:
+>> ==210405==     in use at exit: 8,409,442 bytes in 23,516 blocks
+>> ==210405==   total heap usage: 37,073 allocs, 13,557 frees, 32,674,469 bytes allocated
+>> ==210405==
+>> ==210405== 8 bytes in 1 blocks are definitely lost in loss record 715 of 6,085
+>> ==210405==    at 0x4C360A5: malloc (vg_replace_malloc.c:380)
+>> ==210405==    by 0x7059475: g_malloc (in /usr/lib64/libglib-2.0.so.0.5600.4)
+>> ==210405==    by 0x96C52C: qemu_extend_irqs (irq.c:57)
+>> ==210405==    by 0x96C5B8: qemu_allocate_irqs (irq.c:66)
+>> ==210405==    by 0x5FFA47: via_isa_realize (vt82c686.c:591)
+>> ==210405==    by 0x5FFCDA: vt82c686b_realize (vt82c686.c:646)
+>> ==210405==    by 0x681502: pci_qdev_realize (pci.c:2192)
+>> ==210405==    by 0x969A5D: device_set_realized (qdev.c:531)
+>> ==210405==    by 0x97354A: property_set_bool (object.c:2273)
+>> ==210405==    by 0x9715A0: object_property_set (object.c:1408)
+>> ==210405==    by 0x975938: object_property_set_qobject (qom-qobject.c:28)
+>> ==210405==    by 0x971907: object_property_set_bool (object.c:1477)
+>> ==210405==
+>> ==210405== LEAK SUMMARY:
+>> ==210405==    definitely lost: 8 bytes in 1 blocks
+>> ==210405==    indirectly lost: 0 bytes in 0 blocks
+>> ==210405==      possibly lost: 3,794 bytes in 45 blocks
+>> ==210405==    still reachable: 8,405,640 bytes in 23,470 blocks
+>> ==210405==                       of which reachable via heuristic:
+>> ==210405==                         newarray           : 1,536 bytes in 16 blocks
+>> ==210405==         suppressed: 0 bytes in 0 blocks
+>> ==210405== Reachable blocks (those to which a pointer was found) are not shown.
+>> ==210405== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+>> ==210405==
+>> ==210405== For lists of detected and suppressed errors, rerun with: -s
+>> ==210405== ERROR SUMMARY: 46 errors from 46 contexts (suppressed: 0 from 0)
+>>
+>> Same problem happens with qemu-system-ppc64 and the pegasos2 machine.
+>>
+>> No clue how to properly fix this... is it safe to free the pointer
+>> at the end of the function?
 
+I introduced quite a few of these calls,
 
-> -----Original Message-----
-> From: Anton Johansson <anjo@rev.ng>
-> Sent: Wednesday, February 9, 2022 11:03 AM
-> To: qemu-devel@nongnu.org
-> Cc: ale@rev.ng; Taylor Simpson <tsimpson@quicinc.com>; Brian Cain
-> <bcain@quicinc.com>; Michael Lambert <mlambert@quicinc.com>;
-> babush@rev.ng; nizzo@rev.ng; richard.henderson@linaro.org
-> Subject: [PATCH v8 09/12] target/hexagon: import lexer for idef-parser
->=20
-> From: Paolo Montesel <babush@rev.ng>
->=20
-> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-> Signed-off-by: Paolo Montesel <babush@rev.ng>
-> Signed-off-by: Anton Johansson <anjo@rev.ng>
-> ---
->  target/hexagon/idef-parser/idef-parser.h   | 254 +++++++++
->  target/hexagon/idef-parser/idef-parser.lex | 566
-> +++++++++++++++++++++
->  target/hexagon/meson.build                 |   4 +
->  3 files changed, 824 insertions(+)
->  create mode 100644 target/hexagon/idef-parser/idef-parser.h
->  create mode 100644 target/hexagon/idef-parser/idef-parser.lex
+   hw/ppc/pnv_lpc.c:    irqs = qemu_allocate_irqs(handler, lpc, ISA_NUM_IRQS);
+   hw/ppc/pnv_psi.c:    psi->qirqs = qemu_allocate_irqs(ics_set_irq, ics, ics->nr_irqs);
+   hw/ppc/pnv_psi.c:    psi->qirqs = qemu_allocate_irqs(xive_source_set_irq, xsrc, xsrc->nr_irqs);
+   hw/ppc/ppc.c:    env->irq_inputs = (void **)qemu_allocate_irqs(&ppc6xx_set_irq, cpu,
+   hw/ppc/ppc.c:    env->irq_inputs = (void **)qemu_allocate_irqs(&ppc970_set_irq, cpu,
+   hw/ppc/ppc.c:    env->irq_inputs = (void **)qemu_allocate_irqs(&power7_set_irq, cpu,
+   hw/ppc/ppc.c:    env->irq_inputs = (void **)qemu_allocate_irqs(&power9_set_irq, cpu,
+   hw/ppc/ppc.c:    env->irq_inputs = (void **)qemu_allocate_irqs(&ppc40x_set_irq,
+   hw/ppc/ppc.c:    env->irq_inputs = (void **)qemu_allocate_irqs(&ppce500_set_irq,
+   hw/ppc/spapr_irq.c:    spapr->qirqs = qemu_allocate_irqs(spapr_set_irq, spapr,
 
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+and may be I can remove some. What's the best practice ?
 
+Thanks,
+
+C.
 
