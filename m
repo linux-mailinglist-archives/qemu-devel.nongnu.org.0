@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 094D44E2C60
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 16:34:36 +0100 (CET)
-Received: from localhost ([::1]:35612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E323D4E2C78
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 16:39:44 +0100 (CET)
+Received: from localhost ([::1]:44356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWK3G-0005OB-Hm
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 11:34:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41826)
+	id 1nWK8G-0003Gh-0R
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 11:39:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nWJw9-0002WG-Cv
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 11:27:16 -0400
-Received: from [2607:f8b0:4864:20::1132] (port=43224
- helo=mail-yw1-x1132.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nWJw6-0002pH-Fi
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 11:27:12 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-2e5e31c34bfso80279297b3.10
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 08:27:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ITJgA2SsVQctmlZN+Lq1QHnGCPn9Xkcmqb4tdjkN+EQ=;
- b=a3Nxj+fF5tP+6Hq7v6g57TIRwkIbYNsoe4CzNpVbA/LO4+p2BuAISdw+nDbdQ9iOuv
- DxFOFsZu8yzJniqAFsTkx12NWGh09vCq0GwhvLo8hMngTlDk0C0/7Ok6GtTwwFi4xylh
- GRk3B+nk5Z3Mm6CcBnivRtIc6R9i+N5IHKQI8//jrH8WPgTm3JISknTlhKsV/KEdv3yS
- NOceezPU+sk5CElrwHNzJBMk9xt9I0xjLc1kpVvWy9QUtWiiObDsSswNpt7HQXxGGQhf
- LmnpYul2qabNh5G9ffA8RMfEQdapoKn+gwtP067dOyLXaOzt7BPpysokDO8OCHusgP8w
- 1jRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ITJgA2SsVQctmlZN+Lq1QHnGCPn9Xkcmqb4tdjkN+EQ=;
- b=0NXNjb0L/uthapXifNVuxIZoX55FBC6pkivacQbiJAgdVaws8RHPavGZjv+GBAxyCu
- ncOhSqOn2rq6xUm6WKltWUy4Y7S0MmcluqlfN8rth8/zXleBDH8WxT7udmxUhXTafmhs
- 7pUUWq+4OTuaWZUOpXkwt72hydU4AIabDslaRaxONQSFhosSFF8I3zRl8KWTnti8+JcJ
- zBMmixEOssDTJsy0WP7tNfvqhPUvu0qGAwb7aVwCsxT6jRrgm21ubxqGByF7zwj/TrZD
- 9/CAbSRCd1OMq8DsOFXLdMaLBGSdIWCU1KgFWoaM9ONzn52Mt1HRz4uQ3kfYUR8XAa42
- 2THQ==
-X-Gm-Message-State: AOAM533hn4p+qLFEglI4MKcvJGw7CZsPlaAtE7sKyllVb332W84R9Mo7
- hXpdexS9fSAuhHZvH+KLngGIpxqrBRVOiNgXfhNNa4Wl3Hp4Kw==
-X-Google-Smtp-Source: ABdhPJzfO7lC7nVty0bGA/bgwG9cNWlgpuR6S3P8PKoaA0XejSKzbLXTO71ZPJfrfJKDYfPSbTD/Z+9/+PuIs00Yn88=
-X-Received: by 2002:a0d:fd02:0:b0:2e5:9617:fda8 with SMTP id
- n2-20020a0dfd02000000b002e59617fda8mr24512629ywf.10.1647876429307; Mon, 21
- Mar 2022 08:27:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWJy3-0004EK-S6
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 11:29:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWJy1-000400-1P
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 11:29:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647876548;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=A9JnP6ONzlgICUDIOzfmcwk2lJnUAtFtVXHJrV8rC74=;
+ b=XHUCuHbr9fCxsCxX8xp4QlbRRyrK/ZX8uu1w37ULlWQcqoIBIQ+wakhiZsuRl9cDzV6UiT
+ jnQsgsp0V9Us4y/UwmLeG/NW9S2aj3PlH2bKhllZkxALuBEQ89BDJhQhxVPbxGVc1Vp/Dh
+ OOyTPs94EzediGQleWZft6cDwX4a8nk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-647-Fw_RstxSP9SczW2Ysd-GiQ-1; Mon, 21 Mar 2022 11:29:05 -0400
+X-MC-Unique: Fw_RstxSP9SczW2Ysd-GiQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3B883C11C62;
+ Mon, 21 Mar 2022 15:29:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 30D20400E87A;
+ Mon, 21 Mar 2022 15:29:04 +0000 (UTC)
+Date: Mon, 21 Mar 2022 10:29:02 -0500
+From: Eric Blake <eblake@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 06/15] iotests: rebase qemu_io() on top of qemu_tool()
+Message-ID: <20220321152902.tasnzpwo7b4ufqaa@redhat.com>
+References: <20220318203655.676907-1-jsnow@redhat.com>
+ <20220318203655.676907-7-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <20220321064458.1517999-1-clg@kaod.org>
-In-Reply-To: <20220321064458.1517999-1-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Mar 2022 15:26:56 +0000
-Message-ID: <CAFEAcA-d2RUr6ETzvSuAiCqXdvbiHNLJVgkFuKf5wMyHEa5DLw@mail.gmail.com>
-Subject: Re: [PULL 0/3] ppc queue
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1132
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220318203655.676907-7-jsnow@redhat.com>
+User-Agent: NeoMutt/20211029-454-6adf99
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,40 +79,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Mar 2022 at 06:45, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> The following changes since commit 2058fdbe81e2985c226a026851dd26b146d339=
-5c:
->
->   Merge tag 'fixes-20220318-pull-request' of git://git.kraxel.org/qemu in=
-to staging (2022-03-19 11:28:54 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/legoater/qemu/ tags/pull-ppc-20220321
->
-> for you to fetch changes up to 3515553bf625ad48aa90210379c4f387c2596093:
->
->   target/ppc: Replicate Double->Single-Precision result (2022-03-20 23:35=
-:27 +0100)
->
-> ----------------------------------------------------------------
-> ppc-7.0 queue :
->
-> * ISA v3.1 vector instruction fixes
-> * Compilation fix regarding 'struct pt_regs' definition
->
-> ----------------------------------------------------------------
+On Fri, Mar 18, 2022 at 04:36:46PM -0400, John Snow wrote:
+> Rework qemu_io() to be analogous to qemu_img(); a function that requires
+> a return code of zero by default unless disabled explicitly.
+> 
+> Tests that use qemu_io():
+> 030 040 041 044 055 056 093 124 129 132 136 148 149 151 152 163 165 205
+> 209 219 236 245 248 254 255 257 260 264 280 298 300 302 304
+> image-fleecing migrate-bitmaps-postcopy-test migrate-bitmaps-test
+> migrate-during-backup migration-permissions
+> 
+> Test that use qemu_io_log():
+> 242 245 255 274 303 307 nbd-reconnect-on-open
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> 
+> ---
+> 
+> Note: This breaks several tests at this point. I'll be fixing each
+> broken test one by one in the subsequent commits. We can squash them all
+> on merge to avoid test regressions.
+> 
+> (Seems like a way to have your cake and eat it too with regards to
+> maintaining bisectability while also having nice mailing list patches.)
 
+Interesting approach; it does appear to have made reviewing a bit
+easier, so thanks for trying it.
 
-Applied, thanks.
+I'll withhold actual R-b until the last squashed patch, but so far, I
+haven't seen anything that causes me grief other than the lack of
+bisectability that you already have documented how it will be
+addressed.  [less wordy - this patch is incomplete, as advertised, but
+looks good]
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
--- PMM
 
