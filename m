@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDEF4E2F5F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 18:50:15 +0100 (CET)
-Received: from localhost ([::1]:42020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634BD4E2FA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 19:09:05 +0100 (CET)
+Received: from localhost ([::1]:46572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWMAY-0005Lk-4s
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 13:50:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52672)
+	id 1nWMSm-0001Yl-1t
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 14:09:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nWM6m-0002sg-8M
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:46:20 -0400
-Received: from [2607:f8b0:4864:20::112a] (port=42948
- helo=mail-yw1-x112a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nWM6k-0006SA-FV
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:46:19 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-2e612af95e3so52918947b3.9
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 10:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LEKN03msIdf4th6bQzg+Cx/cw3+oDE60olI3zVLUByY=;
- b=l8+jnEYyd17ULPrJUb6r/sf0G4z9tna6h+ASIm4jig5mnbBh0RC9AR9kcg6MZAr1L/
- 1IYfdabtGVV8+D7B8GYc+Sk2FISmduarmV18G59sVbfp1oRIvB8lcMWGqKseMdQoCkPm
- fSscQc96X3qoP0H0TPr4w30N65WW8ctikKEo8NByZDdqOOXG4+FCoj29hDL5zAsl2zVr
- sZZfM5apcAX88ShagJvlIBq77PleHXMPumv+GLyXwRzP9GAkha7Ii8xmRgSsOvCSXGys
- TUEm3fffICDjBQBeINPlonUCiXTUv3XLqaDaZzy+929Zb6yVCUujk98nffY7bgfJJUpF
- hXvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LEKN03msIdf4th6bQzg+Cx/cw3+oDE60olI3zVLUByY=;
- b=BOWY72R6sQGKozDkfB8r012xeY2kdgByvN5neo2IjuTKpkllmD1vjPx3IzkqatVhXj
- DvSTQFJUc6RSboTF7x9yox7PMNHOP9WoYaP9f+Fy8YOqxqIMjVc2JwHtSVsOMcT9/6U7
- Ryi+K1JxGu5fhQ8yYSr0b948bSh20gntVak4DMiFnRwfMq5paUxNneMFqo2c9fpao7Xb
- Ya9apqh1T33gSaaGjGU945za4jd74gpl+VA5E59/zjZDKr078M38ADkH5il2khW+Qpwy
- UPVPtDWjsmhwWD0kAPZKxbUPMD2TBQMGVX8dU7ZjtuImooO8Z9yAJttliS4VSKb+sBuG
- M37g==
-X-Gm-Message-State: AOAM531XTZ2AzdnEVOS7KyTeo3uqSTqF+zxra3bVZ+VrvKT1sOjIcjjF
- cAcs/kT8Qv+yBk/eXjixOm+JsZCiZ+BTMjAK7vsEqg==
-X-Google-Smtp-Source: ABdhPJyOuD4ZD9s3lU08ZgRTAhyYjJXXu8j3yzNzPRIXDNDwE63Xs5+vdytyE7QCQCDXMlIFFKToadlgIsRIFDZbDjs=
-X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
- m125-20020a0dfc83000000b002e5b0f4c125mr25277481ywf.347.1647884776799; Mon, 21
- Mar 2022 10:46:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWMRj-0000lr-OW
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:07:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWMRg-0003qe-Qf
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:07:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647886076;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=m8kmuwkhDFrLHldKaBQY6TYRDIZohDJzTOldLhPfHKs=;
+ b=K3jt4RaFOPq1g3StmPa6LjbW/igHCQxTNySOPMNqdViVhVpgh6VAXVPyuhWDzHwRnkwpJT
+ pRh39Ymy2Wb0kFNN+Ek6MwR9FA9X97JzB1lxLukaDgONjhJht0q+hQFNKFrPEq96lT59OP
+ uDUVzH5uj1FxTG83K8COY10gWLMwu2Y=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-369-sZ3T-p9BPDy5NZ98kY0enQ-1; Mon, 21 Mar 2022 14:07:53 -0400
+X-MC-Unique: sZ3T-p9BPDy5NZ98kY0enQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5529428035E2;
+ Mon, 21 Mar 2022 18:07:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE1F1403D178;
+ Mon, 21 Mar 2022 18:07:52 +0000 (UTC)
+Date: Mon, 21 Mar 2022 13:07:51 -0500
+From: Eric Blake <eblake@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 12/15] iotests/migration-permissions: use assertRaises()
+ for qemu_io() negative test
+Message-ID: <20220321180751.75zixieer72aahcw@redhat.com>
+References: <20220318203655.676907-1-jsnow@redhat.com>
+ <20220318203655.676907-13-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <20220317165743.238662-1-stefanha@redhat.com>
- <CAFEAcA97E1F0MgYPgZgUUegzDMpL9wNa9fzkGKE8_A-fUmbzyA@mail.gmail.com>
- <YjiPTBfFH6/K4TEy@stefanha-x1.localdomain>
-In-Reply-To: <YjiPTBfFH6/K4TEy@stefanha-x1.localdomain>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Mar 2022 17:46:04 +0000
-Message-ID: <CAFEAcA8SMBPJg19aP4NwVx_J3E64L3j6QOtK8vbbmQR0f1hH5Q@mail.gmail.com>
-Subject: Re: [PULL for-7.0 0/2] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220318203655.676907-13-jsnow@redhat.com>
+User-Agent: NeoMutt/20211029-454-6adf99
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,52 +80,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Mar 2022 at 14:44, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> On Thu, Mar 17, 2022 at 06:36:36PM +0000, Peter Maydell wrote:
-> > On Thu, 17 Mar 2022 at 16:57, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >
-> > > The following changes since commit 1d60bb4b14601e38ed17384277aa4c30c57925d3:
-> > >
-> > >   Merge tag 'pull-request-2022-03-15v2' of https://gitlab.com/thuth/qemu into staging (2022-03-16 10:43:58 +0000)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
-> > >
-> > > for you to fetch changes up to fc8796465c6cd4091efe6a2f8b353f07324f49c7:
-> > >
-> > >   aio-posix: fix spurious ->poll_ready() callbacks in main loop (2022-03-17 11:23:18 +0000)
-> > >
-> > > ----------------------------------------------------------------
-> > > Pull request
-> > >
-> > > Bug fixes for 7.0.
-> >
-> > msys2-32bit CI job fails on test-aio:
-> >
-> > | 14/85 ERROR:../tests/unit/test-aio.c:501:test_timer_schedule:
-> > assertion failed: (aio_poll(ctx, true)) ERROR
-> > 14/85 qemu:unit / test-aio ERROR 2.40s (exit status 2147483651 or
-> > signal 2147483523 SIGinvalid)
-> >
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2217696361
->
-> Looks like a random failure. The commits touch Linux/POSIX code so I
-> don't know how this pull request could affect Windows.
+On Fri, Mar 18, 2022 at 04:36:52PM -0400, John Snow wrote:
+> Modify this test to use assertRaises for its negative testing of
+> qemu_io. If the exception raised does not match the one we tell it to
+> expect, we get *that* exception unhandled. If we get no exception, we
+> get a unittest assertion failure and the provided emsg printed to
+> screen.
+> 
+> If we get the CalledProcessError exception but the output is not what we
+> expect, we re-raise the original CalledProcessError.
+> 
+> Tidy.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  .../qemu-iotests/tests/migration-permissions  | 28 +++++++++----------
+>  1 file changed, 14 insertions(+), 14 deletions(-)
 
-Seems like it.
+The 11/15 patch is also included in my R-b of the squashed patch.
 
+For this patch, it's a wash on lines of code, but certainly a more
+robust test now than with the hack of the fixup patch 11/15.
 
-Applied, thanks.
+> 
+> diff --git a/tests/qemu-iotests/tests/migration-permissions b/tests/qemu-iotests/tests/migration-permissions
+> index c7afb1bd2c..4e1da369c9 100755
+> --- a/tests/qemu-iotests/tests/migration-permissions
+> +++ b/tests/qemu-iotests/tests/migration-permissions
+> @@ -18,6 +18,8 @@
+>  #
+>  
+>  import os
+> +from subprocess import CalledProcessError
+> +
+>  import iotests
+>  from iotests import imgfmt, qemu_img_create, qemu_io
+>  
+> @@ -69,13 +71,12 @@ class TestMigrationPermissions(iotests.QMPTestCase):
+>      def test_post_migration_permissions(self):
+>          # Try to access the image R/W, which should fail because virtio-blk
+>          # has not been configured with share-rw=on
+> -        log = qemu_io('-f', imgfmt, '-c', 'quit', test_img, check=False).stdout
+> -        if not log.strip():
+> -            print('ERROR (pre-migration): qemu-io should not be able to '
+> -                  'access this image, but it reported no error')
+> -        else:
+> -            # This is the expected output
+> -            assert 'Is another process using the image' in log
+> +        emsg = ('ERROR (pre-migration): qemu-io should not be able to '
+> +                'access this image, but it reported no error')
+> +        with self.assertRaises(CalledProcessError, msg=emsg) as ctx:
+> +            qemu_io('-f', imgfmt, '-c', 'quit', test_img)
+> +        if 'Is another process using the image' not in ctx.exception.stdout:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+Wait a minute - is 'ctx' still in scope after the 'with ... as ctx:'
+with scope ends?  Python continues to surprise me.
 
--- PMM
+> +            raise ctx.exception
+>  
+>          # Now migrate the VM
+>          self.vm_s.qmp('migrate', uri=f'unix:{mig_sock}')
+> @@ -84,13 +85,12 @@ class TestMigrationPermissions(iotests.QMPTestCase):
+>  
+>          # Try the same qemu-io access again, verifying that the WRITE
+>          # permission remains unshared
+> -        log = qemu_io('-f', imgfmt, '-c', 'quit', test_img, check=False).stdout
+> -        if not log.strip():
+> -            print('ERROR (post-migration): qemu-io should not be able to '
+> -                  'access this image, but it reported no error')
+> -        else:
+> -            # This is the expected output
+> -            assert 'Is another process using the image' in log
+> +        emsg = ('ERROR (post-migration): qemu-io should not be able to '
+> +                'access this image, but it reported no error')
+> +        with self.assertRaises(CalledProcessError, msg=emsg) as ctx:
+> +            qemu_io('-f', imgfmt, '-c', 'quit', test_img)
+> +        if 'Is another process using the image' not in ctx.exception.stdout:
+> +            raise ctx.exception
+
+The cover letter didn't mention a Based-on: tag, and so my first
+attempt to reproduce this hit a rebase error on 5/15 followed by
+'./check -raw migration-permissions' on this patch failing with:
+
++Traceback (most recent call last):
++  File "/home/eblake/qemu/tests/qemu-iotests/tests/migration-permissions", line 77, in test_post_migration_permissions
++    qemu_io('-f', imgfmt, '-c', 'quit', test_img)
++  File "/home/eblake/qemu/tests/qemu-iotests/iotests.py", line 334, in qemu_io
++    return qemu_tool(*qemu_io_wrap_args(args),
++  File "/home/eblake/qemu/tests/qemu-iotests/iotests.py", line 249, in qemu_tool
++    raise VerboseProcessError(
++NameError: name 'VerboseProcessError' is not defined
+
+so it's pretty obvious I didn't apply the pre-requisite patch that
+introduced VerboseProcessError in order to fix qemu_img() first.  But
+with more churn on my end (applying your v4 qemu_img series first), it
+looks like accessing ctx.exception after the with clause ends (even
+though the with clause is what brought ctx into existance) works, so:
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Tested-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
