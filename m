@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDE04E2E7C
+	by mail.lfdr.de (Postfix) with ESMTPS id 172054E2E7B
 	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:47:56 +0100 (CET)
-Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:57678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWLCF-0005TP-M6
+	id 1nWLCF-0005RI-6X
 	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:47:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36724)
+Received: from eggs.gnu.org ([209.51.188.92]:37388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nWL7M-0007BT-8s
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:42:52 -0400
-Received: from [2a00:1450:4864:20::52c] (port=34531
- helo=mail-ed1-x52c.google.com)
+ id 1nWL9Y-0002P7-6L
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:45:08 -0400
+Received: from [2a00:1450:4864:20::52a] (port=37517
+ helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nWL7K-0007d8-GI
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:42:51 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id h1so18558038edj.1
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:42:50 -0700 (PDT)
+ id 1nWL9V-00080y-S9
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:45:07 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id b15so18582184edn.4
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:45:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=OfhcIiLCY45YF/Ut1w62m8ui11c4whw09XU1Y5ZWGnU=;
- b=etcDERE97ferYwARvLG6VLfhPq3WCSK3EhA6eZlkbTF46qE4GyeJpBhRnn/DZueCDZ
- CMLVXO5/MJyv/EyIRILpBHsmgfZk349Q6IMdIOnjSaj2Co90mSKSkSyn3+QOwrAPtv69
- BcSva1QPSBbhnbnk6T4qc4MR7rUBQFFOJxS1o+yZT17ltm5ZruIoFRwSCE9E5XyAivJ8
- qjJSOCWFe9e3VGg2/j+82hMEQ5RSmTiLzB2jOFrnXhOhIDGjD9osF2BEw2lNzZNRTdYm
- cIppwLsUbMlzkom19OrA7Ne+lpxwniK4LrP18oWMl/PUOJLqeNtdpLeSApaaaC4y4zAA
- LGFQ==
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pNZnv1saRQDDmcJLBkOEI7OsO8XdqJo3aoM6lXuAMCw=;
+ b=NthXUVNX83wpzRcmhe3cpFcwxrNMCrBuQuCTruvhsuzmKbC59zde2XoLDP9vPh3d4V
+ 8Mu5fJiEois9qlS8EZyXI2d1lwUlrlEWMhpvyjrjllyvmHBxCpyWuNIGsny6rArKz99/
+ T4tiX0YZXRtPV/hUBUFKOsCu7mYfmFFYUhutG0V+gOg61OP5OVK2YyJMdOQoYk1wA74I
+ WkFoQk0qMVMpKYk1XAADvfowHNxuTicSKlTI/M91og0+Tebk4wxFnNuPjNeyuC7+WVg8
+ aiIY9ilHaqQRWCZORqqsFqBuHpThCwt3+a6Zxbvnc5AtvqNShCkTQsDnEj/b8+26ThWM
+ 4CNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OfhcIiLCY45YF/Ut1w62m8ui11c4whw09XU1Y5ZWGnU=;
- b=MnLHTjOjwv5Jgb5C91jYOz46oIRbVwIhu7spNl8Pzw4cpMuc7zCNIImCAI4JFcZssO
- Mj4gxAZKuKbsh/OxtpOFfNZsymgDJwid2x5Bl4q5oac1yg0kggzQnTt3LgfMQ8phn5E6
- PD5qZwRWP4W3kbm2LP+KIFAuUDkkzZM47OJWpdtSgvQkyvGdDn8yUNplYNB3qNM9lDql
- i+8wAwKjlQ6Wc4Hd1fkGd9+UJoWvY0Bl/BPoncthJgHNvuagk6nSz0OLwGYfaLFZJCTd
- 7l/KvlHO8fYZJywd83GpUZZqFK7LaRnvNrgrm0AWdaLVYsig9ohp7fzYg+Bj5lUV77g1
- 6k9w==
-X-Gm-Message-State: AOAM532vt5tfkDAcY3sYtmnAa9TR4S7cmu+fmRzgI1+/S8WpetdygdB6
- en/gtW0KG2pc/RgLvye5QmLKuTLVVuM=
-X-Google-Smtp-Source: ABdhPJxcKFpyVITHq65sijmLrsEGvf3IU7bOWcoUnfeUL0PqtIIopImxFbAg7PhAEdNe4TN0wk2muw==
-X-Received: by 2002:aa7:c683:0:b0:418:f5f3:9684 with SMTP id
- n3-20020aa7c683000000b00418f5f39684mr23605511edq.184.1647880969213; 
- Mon, 21 Mar 2022 09:42:49 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=pNZnv1saRQDDmcJLBkOEI7OsO8XdqJo3aoM6lXuAMCw=;
+ b=IjkwDYR2yVVIDRiN+XoprDzgB3TeLS+GQd3FuT5LdWb0Yb4Dm+7eOnn8HjrAl2Lakr
+ PbFsTJhB50Og7dcDR8wL+Y6GqPFQJWPmyomjbkzSWs4gKA43ufNqfyZ1yss5CVTQRwWp
+ B90wyNhcf9lI5ksJQkWU8KtoyjrgVmR9ovXfxBKmGdtmTDj/+g2HrHbydaJ3chX0sHyr
+ foqpe9fyFSUMVM4Pvxrql1+kZgXs0ZOPmOySg+QiTMvlW+B3AxBDLrG1ZAj+nQNDTQJo
+ /URkQFN2SpItBDzHLm1YtTJfdGD13UHz60JL7/e4cJX6H3e3hiFzOJdLibkGGtIiw6sj
+ DRvg==
+X-Gm-Message-State: AOAM530lLG2niMqJF3C89UJAMMML0xoxNoAAhQh6XNbcw5dppHMXEdhj
+ EE610Qpr0QaObK7wOKkqyYEwu5eLtzY=
+X-Google-Smtp-Source: ABdhPJzDqV/Ki6ui9raPYUzF4Z3Ytqozi/BnXxizRqtgC4sTNblEUibeCR73Q0z2uFsX6z+eQzq+Cw==
+X-Received: by 2002:a05:6402:d67:b0:419:48b:a762 with SMTP id
+ ec39-20020a0564020d6700b00419048ba762mr19239858edb.291.1647881104043; 
+ Mon, 21 Mar 2022 09:45:04 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id
- o2-20020a50d802000000b00410d7f0c52csm8289385edj.8.2022.03.21.09.42.48
+ a102-20020a509eef000000b0041614c8f79asm7949352edf.88.2022.03.21.09.45.03
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 09:42:48 -0700 (PDT)
+ Mon, 21 Mar 2022 09:45:03 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] qapi-schema: test: add a unit test for parsing array
- alternates
-Date: Mon, 21 Mar 2022 17:42:43 +0100
-Message-Id: <20220321164243.200569-4-pbonzini@redhat.com>
+Subject: [PULL 0/2] Bugfixes for QEMU 7.0-rc1
+Date: Mon, 21 Mar 2022 17:45:00 +0100
+Message-Id: <20220321164502.201160-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220321164243.200569-1-pbonzini@redhat.com>
-References: <20220321164243.200569-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -90,119 +89,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/qapi-schema/qapi-schema-test.json |  1 +
- tests/qapi-schema/qapi-schema-test.out  |  4 +++
- tests/unit/test-qobject-input-visitor.c | 43 +++++++++++++++++++++++++
- 3 files changed, 48 insertions(+)
+The following changes since commit e2fb7d8aa218256793df99571d16f92074258447:
 
-diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
-index 43b8697002..ba7302f42b 100644
---- a/tests/qapi-schema/qapi-schema-test.json
-+++ b/tests/qapi-schema/qapi-schema-test.json
-@@ -119,6 +119,7 @@
- { 'alternate': 'AltEnumNum', 'data': { 'e': 'EnumOne', 'n': 'number' } }
- { 'alternate': 'AltNumEnum', 'data': { 'n': 'number', 'e': 'EnumOne' } }
- { 'alternate': 'AltEnumInt', 'data': { 'e': 'EnumOne', 'i': 'int' } }
-+{ 'alternate': 'AltListInt', 'data': { 'l': ['int'], 'i': 'int' } }
- 
- # for testing use of 'str' within alternates
- { 'alternate': 'AltStrObj', 'data': { 's': 'str', 'o': 'TestStruct' } }
-diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
-index 1f9585fa9b..043d75c655 100644
---- a/tests/qapi-schema/qapi-schema-test.out
-+++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -121,6 +121,10 @@ alternate AltEnumInt
-     tag type
-     case e: EnumOne
-     case i: int
-+alternate AltListInt
-+    tag type
-+    case l: intList
-+    case i: int
- alternate AltStrObj
-     tag type
-     case s: str
-diff --git a/tests/unit/test-qobject-input-visitor.c b/tests/unit/test-qobject-input-visitor.c
-index 6f59a7f432..2af002dd82 100644
---- a/tests/unit/test-qobject-input-visitor.c
-+++ b/tests/unit/test-qobject-input-visitor.c
-@@ -776,6 +776,7 @@ static void test_visitor_in_alternate_number(TestInputVisitorData *data,
-     AltEnumNum *aen;
-     AltNumEnum *ans;
-     AltEnumInt *asi;
-+    AltListInt *ali;
- 
-     /* Parsing an int */
- 
-@@ -802,6 +803,12 @@ static void test_visitor_in_alternate_number(TestInputVisitorData *data,
-     g_assert_cmpint(asi->u.i, ==, 42);
-     qapi_free_AltEnumInt(asi);
- 
-+    v = visitor_input_test_init(data, "42");
-+    visit_type_AltListInt(v, NULL, &ali, &error_abort);
-+    g_assert_cmpint(ali->type, ==, QTYPE_QNUM);
-+    g_assert_cmpint(ali->u.i, ==, 42);
-+    qapi_free_AltListInt(ali);
-+
-     /* Parsing a double */
- 
-     v = visitor_input_test_init(data, "42.5");
-@@ -827,6 +834,40 @@ static void test_visitor_in_alternate_number(TestInputVisitorData *data,
-     qapi_free_AltEnumInt(asi);
- }
- 
-+static void test_visitor_in_alternate_list(TestInputVisitorData *data,
-+                                 const void *unused)
-+{
-+    intList *item;
-+    Visitor *v;
-+    AltListInt *ali;
-+    int i;
-+
-+    v = visitor_input_test_init(data, "[ 42, 43, 44 ]");
-+    visit_type_AltListInt(v, NULL, &ali, &error_abort);
-+    g_assert(ali != NULL);
-+
-+    g_assert_cmpint(ali->type, ==, QTYPE_QLIST);
-+    for (i = 0, item = ali->u.l; item; item = item->next, i++) {
-+        char string[12];
-+
-+        snprintf(string, sizeof(string), "string%d", i);
-+        g_assert_cmpint(item->value, ==, 42 + i);
-+    }
-+
-+    qapi_free_AltListInt(ali);
-+    ali = NULL;
-+
-+    /* An empty list is valid */
-+    v = visitor_input_test_init(data, "[]");
-+    visit_type_AltListInt(v, NULL, &ali, &error_abort);
-+    g_assert(ali != NULL);
-+
-+    g_assert_cmpint(ali->type, ==, QTYPE_QLIST);
-+    g_assert(!ali->u.l);
-+    qapi_free_AltListInt(ali);
-+    ali = NULL;
-+}
-+
- static void input_visitor_test_add(const char *testpath,
-                                    const void *user_data,
-                                    void (*test_func)(TestInputVisitorData *data,
-@@ -1188,6 +1229,8 @@ int main(int argc, char **argv)
-                            NULL, test_visitor_in_wrong_type);
-     input_visitor_test_add("/visitor/input/alternate-number",
-                            NULL, test_visitor_in_alternate_number);
-+    input_visitor_test_add("/visitor/input/alternate-list",
-+                           NULL, test_visitor_in_alternate_list);
-     input_visitor_test_add("/visitor/input/fail/struct",
-                            NULL, test_visitor_in_fail_struct);
-     input_visitor_test_add("/visitor/input/fail/struct-nested",
+  Merge tag 'dbus-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-03-15 16:28:50 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 17e6ffa6a5d2674cb2ebfd967d28b1048261d977:
+
+  hw/i386/amd_iommu: Fix maybe-uninitialized error with GCC 12 (2022-03-21 15:57:47 +0100)
+
+----------------------------------------------------------------
+Bugfixes.
+
+----------------------------------------------------------------
+Paolo Bonzini (2):
+      target/i386: kvm: do not access uninitialized variable on older kernels
+      hw/i386/amd_iommu: Fix maybe-uninitialized error with GCC 12
+
+ hw/i386/amd_iommu.c   |  7 ++-----
+ target/i386/kvm/kvm.c | 17 +++++++++++++----
+ 2 files changed, 15 insertions(+), 9 deletions(-)
 -- 
 2.35.1
 
