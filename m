@@ -2,98 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4254E22ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 10:07:20 +0100 (CET)
-Received: from localhost ([::1]:57316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB0F4E2327
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 10:18:19 +0100 (CET)
+Received: from localhost ([::1]:39080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWE0U-0000sH-Mu
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 05:07:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50052)
+	id 1nWEB7-0007xt-TA
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 05:18:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWDzU-00080Z-KE
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 05:06:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWDzR-0002ny-Hn
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 05:06:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647853571;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=byjJCLbU26CnwtNE/tR0IWymCe11e7g0pJ0hQ/E8vOs=;
- b=ZNbszNpMOI4Vi/LGnwy8h41JAYlrB4ks3FX7gRriyTHTyYePPVlVdFvCg9pOWP/b9kFJOC
- RjmSOvI7n2WTvHhM5hqRl6G4xDMVVxvsz2ufaN+CypV46H5OBRxMYGVth18vQU0Eal6Son
- YR2Kl3uFxuokJwbowRO0yGBKaCQUPY4=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-62-CdGk9GP3N-mBPbhgYsWSQA-1; Mon, 21 Mar 2022 05:06:07 -0400
-X-MC-Unique: CdGk9GP3N-mBPbhgYsWSQA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- my15-20020a1709065a4f00b006dfd2b16e6cso1920776ejc.1
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 02:06:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nWE7S-0004Gg-Ew
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 05:14:30 -0400
+Received: from [2a00:1450:4864:20::531] (port=37584
+ helo=mail-ed1-x531.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nWE7Q-00040V-Mb
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 05:14:30 -0400
+Received: by mail-ed1-x531.google.com with SMTP id b15so17023007edn.4
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 02:14:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=byjJCLbU26CnwtNE/tR0IWymCe11e7g0pJ0hQ/E8vOs=;
- b=WX3G7h7p3j9qwDBy09WHycopfGnUDTIra99b8GCY69g16Dpt7xvwUD4Za4i/R/R5hc
- a0sPFttCypE2J3zAGOEUTp/XSmt+GuyxSZMInL5KuQtwf1XxxqcBCsM8tipJ87/kUvDy
- 3MyyJa4ZXza0kd3/J+mDXwJWyaxb/7yrpGv4Mjh9uOaMwVZfu1VDVCafjSvMQdWdU2CH
- ZELrzTdcqSuhFlrG7650uq+MqZJWw1ENFs/KQjv2NIN95LU/KfkdPZb6zboQ8ONkc6XW
- odW05OXJMdmKLNE3crAHG3pfyipzd9zZ8gM7C6dhYtNir6K8xmVTjH1Chv8hDhN1U9nd
- AQ8A==
-X-Gm-Message-State: AOAM5312a4nbco+uZLrZA4gtTB1OiIy2VzUcZiK3HNrSHoOkMplyqnfp
- eAPN7zZjvRR/a/Os7vylq0d4vUXIdZGCl/o1fdb4Vtm/S6t7w63LfjSpLAEinMtkuqIHTRG4xz7
- TJQwbkWwsmME9FeU=
-X-Received: by 2002:a17:906:b6c7:b0:6db:2e14:875 with SMTP id
- ec7-20020a170906b6c700b006db2e140875mr19852892ejb.737.1647853566718; 
- Mon, 21 Mar 2022 02:06:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzrXxcsvM5tNi9k7ruHS9lLAwQqF0+Y9LCBxhRDr+PNdvrUs3B4Nm7zX3FdhcZa9wN7YKG+Ig==
-X-Received: by 2002:a17:906:b6c7:b0:6db:2e14:875 with SMTP id
- ec7-20020a170906b6c700b006db2e140875mr19852867ejb.737.1647853566396; 
- Mon, 21 Mar 2022 02:06:06 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- u4-20020a170906780400b006ce69ff6050sm6606438ejm.69.2022.03.21.02.06.05
+ bh=no3qUNHVh6uthb4h2aYDbVN1t1iD8xCXedEWZ6Y3L9M=;
+ b=PMkImg/n6b9D148JA9qxqz2pa64Z8+x+9CYZFHaqO1rEG1Csq2IwTRpZSHYFDEwWMd
+ 0QNBxYTz55BpLn/9fwdkDOumm0G+2B3UTTOsLM5c3Do5o8j3QiPdio0Au/SzOZ9OnR0C
+ I++H/peX94qJRhOMbz+cdbVFjwdFW7OtG3S5FT+xB0XT6hH9pMuBTt++x38P4FE5vaPz
+ 5eJmfl09tkLcoWBpT4DEOwWrFXu/jNDFqT6dsyuYxtAaIIXKscKupImiHP+Ey/SFKK6W
+ IAnqBvQVbSQfj1Ftt2WqTIYPjU9Rj91/DlKTWiMTcN1zRKg4IZdPlFnZmZNg4hJ5Si/u
+ hBQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=no3qUNHVh6uthb4h2aYDbVN1t1iD8xCXedEWZ6Y3L9M=;
+ b=y0M5cNxL7OdMDymncuklKA9PTP+DKOHOj6sdpZ3GVzgrg9yc4hLJbprKi+8zHTZOmh
+ QasFbDtK7c2Wk2w/Bb0pcJkB8tlJB7JPnhq3pD9cqp49iI2QAnPOCIUwdx6QA52hhUEw
+ jYwVZSegQ6tg5yHbhTYbHZ6QAUtwFpuP5YgJODwHBRmaacfm4SV6cM/YO+UCs70g7E8/
+ UpTs/UogWAngeInR7ZT2q7TXaWdyYBa0TwAKy0nmXfMRP7DJbypEdzCUssR1D6x6AaN9
+ wRtCWx63ZYZiUTnda+7U0AuC1sKCcYeAq4diIUm+3mbOqi/pqye1PvOT8BdZ8CtcjDS0
+ H2WQ==
+X-Gm-Message-State: AOAM5307WQIl8I4iCPmr5W1hkJhd7490fVd3Jg7lx2XcmfAZXtQdMJpQ
+ SefchubDUu43Q8dGEuS/fSg=
+X-Google-Smtp-Source: ABdhPJzTMh69KHTWC2c4CvdYQF8TUdJoqEJb2HN3fY0qVpnjBcZARLSfDrZ1HtX10g1gGPcNRdXXCQ==
+X-Received: by 2002:a05:6402:909:b0:415:cdbf:4748 with SMTP id
+ g9-20020a056402090900b00415cdbf4748mr21614423edz.395.1647854066895; 
+ Mon, 21 Mar 2022 02:14:26 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.googlemail.com with ESMTPSA id
+ o3-20020a17090637c300b006d8631b2935sm6582505ejc.186.2022.03.21.02.14.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 02:06:05 -0700 (PDT)
-Message-ID: <ed1c97e8-8a70-8808-cbeb-e6b4f6d1dccf@redhat.com>
-Date: Mon, 21 Mar 2022 10:06:05 +0100
+ Mon, 21 Mar 2022 02:14:26 -0700 (PDT)
+Message-ID: <d74d6213-09ef-b835-e3e3-16b00a42f3e8@redhat.com>
+Date: Mon, 21 Mar 2022 10:14:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4] tests: Do not treat the iotests as separate meson test
- target anymore
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220310075048.2303495-1-thuth@redhat.com>
- <2a2dadb8-24ba-50c4-617e-ab6d08166e83@redhat.com>
- <d59847b7-98cb-9e9c-0c42-74576f152737@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <d59847b7-98cb-9e9c-0c42-74576f152737@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH-for-7.0 v4 0/2] cocoa: run qemu_init in the main thread
 Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+References: <20220317125534.38706-1-philippe.mathieu.daude@gmail.com>
+ <342e06e6-8d38-d068-5686-eb13c70da93b@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <342e06e6-8d38-d068-5686-eb13c70da93b@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,61 +99,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.03.22 18:36, Thomas Huth wrote:
-> On 18/03/2022 18.04, Hanna Reitz wrote:
->> On 10.03.22 08:50, Thomas Huth wrote:
->>> If there is a failing iotest, the output is currently not logged to
->>> the console anymore. To get this working again, we need to run the
->>> meson test runner with "--print-errorlogs" (and without "--verbose"
->>> due to a current meson bug that will be fixed here:
->>> https://github.com/mesonbuild/meson/commit/c3f145ca2b9f5.patch ).
->>> We could update the "meson test" call in tests/Makefile.include,
->>> but actually it's nicer and easier if we simply do not treat the
->>> iotests as separate test target anymore and integrate them along
->>> with the other test suites. This has the disadvantage of not getting
->>> the detailed progress indication there anymore, but since that was
->>> only working right in single-threaded "make -j1" mode anyway, it's
->>> not a huge loss right now.
->>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   v4: updated commit description
->>>
->>>   meson.build            | 6 +++---
->>>   scripts/mtest2make.py  | 4 ----
->>>   tests/Makefile.include | 9 +--------
->>>   3 files changed, 4 insertions(+), 15 deletions(-)
->>
->> I can’t really say I understand what’s going on in this patch and 
->> around it, but I can confirm that it before this patch, fail diffs 
->> aren’t printed; but afterwards, they are
->
-> It's a bug in Meson. It will be fixed in 0.61.3 and later (so this 
-> patch won't be needed there anymore), but the update to meson 0.61.3 
-> caused other problems so we also can't do that right now... so I'm not 
-> sure whether we now want to have this patch here included, wait for a 
-> better version of meson, or even rather want to revert the TAP support 
-> / meson integration again for 7.0 ... ?
+On 3/19/22 14:56, Philippe Mathieu-Daudé wrote:
+>>    1. Move setgid and setuid calls after [+NSApplication
+>>    sharedApplication] to let NSApplication initialize as the original
+>>    user.
 
-I don’t have anything against this patch, I just don’t fully understand 
-what it does, and how it works.
+Another possibility is to move the code up to "[QemuApplication 
+sharedApplication]" from main() to cocoa_display_init().
 
-So as far as I understand, check-block was its own target and used 
---verbose so that the progress indication would work (with -j1). Now 
-that causes problems because of a bug in meson, and so this patch drops 
-that special-casing again.  The only disadvantage is that the progress 
-indication (which only worked with -j1) no longer ever works.
-
-(Is that right?)
-
-I personally don’t mind that disadvantage, because on CI systems it 
-doesn’t really matter anyway; and on developers’ systems, I would assume 
-`make check` to always be run with -jX anyway.
-
-Hanna
-
+Paolo
 
