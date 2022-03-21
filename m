@@ -2,86 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3814E273B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:08:45 +0100 (CET)
-Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537E14E274C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:14:31 +0100 (CET)
+Received: from localhost ([::1]:39568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWHm7-0001bH-S8
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:08:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59360)
+	id 1nWHri-00043Z-81
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:14:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWHk4-0000fy-Bb; Mon, 21 Mar 2022 09:06:36 -0400
-Received: from [2607:f8b0:4864:20::62f] (port=46934
- helo=mail-pl1-x62f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWHk2-0004GA-M8; Mon, 21 Mar 2022 09:06:35 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id w4so12643853ply.13;
- Mon, 21 Mar 2022 06:06:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3/kxjof2ZOML7YmnPPwMhJ3t5ucm8eiE4KiHRF0dBdg=;
- b=QvysWhx4Tcrr8Ad0yu2MEXe5ons+18BemJWlLfXubZdqHrH80y8w1z8LJVWOMErJRA
- 4ICVqG/tivho2aZt1rcQbpHaDv2nfyJlfdmXpw1VrUa3qtdURGHYmqh+MqHJO3yfDuGh
- aEmkquQHqSovDBt/OAD7Hjq5c6Aa0qK5U+XpMOgZp77jdX/6iu9HyhtqvoGXbALA/sT7
- Pp1VmSDHWU8yoWdjEErT++StlhpNMWbIDCZxyPuVLCmz0hXDy8s8xBAs+g3GXCOorDmO
- 0HNjqMdPu2JItBX/IHl/b5yFHsm/PZ2cVor4PQyyUl+bGkKkU8x4YyCd5oPOimvoxjy2
- 7s6Q==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWHp9-0002eW-7i
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:11:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30947)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWHp5-0005CH-9u
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:11:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647868305;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EmzI2WleKJCezogd64bceWxDc9eaJo4sBkTgbmvsm64=;
+ b=MdsuIjyf8zd6WQuf6oHWQyht+cyAl+qSTr4cwCMT5i1Hf4X/lph+98gIYXAMMmddBfhy1J
+ On7a/VZ7o/MKpun9lFLW0D3SvG7Fxd8jnfbtCciacMr980MjJDmemXTXMS4xWoaqlNEJ4a
+ 8Yfli3J1IGSdmYrQu7Zya3QAC0oFlPk=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-478-3MSFTbPMO-qaj-vsMSGNIw-1; Mon, 21 Mar 2022 09:11:41 -0400
+X-MC-Unique: 3MSFTbPMO-qaj-vsMSGNIw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ i14-20020a17090639ce00b006dabe6a112fso6966434eje.13
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 06:11:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3/kxjof2ZOML7YmnPPwMhJ3t5ucm8eiE4KiHRF0dBdg=;
- b=KV6RiAhVEoT5xxmj8dckjTM5yBX5MHhjr75JqTDCG3lw4VencuHUcdKuY6wR3L9EB+
- TLSh8oYwo2lNoET5Mk9oUgN1hTdZgWKzmIt3wKn6B8xGmTM//C6XpRyo15AXNfLZExQT
- 0ENMFDNCccmzTx6Su+EsrSpeQZBJg2bHX2qFw0fLGoqPdAdfyehhxXsK910Kt9oOf36b
- K+75EX066//iYh+ys33xBIvvBHPJ1YsMcDP5I4hlrmRHsULRH2CqcUFA3XITouw0jYpv
- K5KPXcw0DB5BNs89wFU9oXOtCYYomifRJU97v7H+1A+F1IoW0ineygr61C0XUdgL5s3n
- PieA==
-X-Gm-Message-State: AOAM5338xRwsjkvbdiBvsuU1Ks+F1U78n/ppJYlWo+3DaVBLG5l2SG2Z
- MCt8Wdl+pWY8n9GAxdQVCGehAhw06zUxng==
-X-Google-Smtp-Source: ABdhPJxg19RR6RSkKWnlR3Y4IlkI/qy01V2Kw+778vmh++VE5MSr2ChrtixKIhZ4rbx9wp53ioNThA==
-X-Received: by 2002:a17:902:f54d:b0:154:6794:ab38 with SMTP id
- h13-20020a170902f54d00b001546794ab38mr2757479plf.114.1647867993094; 
- Mon, 21 Mar 2022 06:06:33 -0700 (PDT)
-Received: from [192.168.64.175] (138.red-95-127-187.staticip.rima-tde.net.
- [95.127.187.138]) by smtp.gmail.com with ESMTPSA id
- l13-20020a056a00140d00b004e13da93eaasm19536089pfu.62.2022.03.21.06.06.30
+ bh=EmzI2WleKJCezogd64bceWxDc9eaJo4sBkTgbmvsm64=;
+ b=MYbdRbEOzbblvxKGBVPiqqbuuPyB4XyoEcuR17gXnW/kQaM9nAYerTcU8PAYzRQvTw
+ aWhu0f6YH/RNdMFDU9Evga9ef/SQBK+vEpPhnFEfWrJS5ezY8JW0tTbn4ewTrmMXbLq5
+ jg2pZ8h1mOfsw98I6+JqUvkLsS2fUnIS1e5dGZcjlBgazskHz3E2Vm62r8jD5vxxfnUL
+ jHpeXDm33m47TEn2viwaM7245j7iFtdLtB463MOsM92+OnqudlgzIxXAqaTBJl+TiOCu
+ 9ZpoO7xFV70M/ozmZzJS7sMZEmP/2SwWXEtbely38W84fHKm61WqQa15OKwqzDxRQ8fi
+ /s/Q==
+X-Gm-Message-State: AOAM532VdLSInm46M19h+RbxnGHPTOfw0UHIJ2hg2YKzZo4a2TyIy7hE
+ BqfRHi1//UmrEOmygW8sz/WL1LkLo+1sYLMJOWBt9mPkfUfUWUDps+tqqm0POsxzPjNvH1opzy9
+ kqjfVxEBPxtozlmI=
+X-Received: by 2002:a05:6402:11d2:b0:419:4da5:ed71 with SMTP id
+ j18-20020a05640211d200b004194da5ed71mr1673157edw.272.1647868299944; 
+ Mon, 21 Mar 2022 06:11:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx56x+4J79AeGeplGPXD4ekyPmr5NuSC1+M+PSGtacObQr46Xhl0E7VnbjfBfmIicuBC54pIw==
+X-Received: by 2002:a05:6402:11d2:b0:419:4da5:ed71 with SMTP id
+ j18-20020a05640211d200b004194da5ed71mr1673118edw.272.1647868299584; 
+ Mon, 21 Mar 2022 06:11:39 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ qa44-20020a17090786ac00b006dbcd7c9656sm6882520ejc.172.2022.03.21.06.11.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 06:06:32 -0700 (PDT)
-Message-ID: <a35794be-1e41-82a0-f6b0-c9541d2373c5@gmail.com>
-Date: Mon, 21 Mar 2022 14:06:29 +0100
+ Mon, 21 Mar 2022 06:11:39 -0700 (PDT)
+Message-ID: <052f71b0-2163-bc6a-e3f0-c6d806e591e0@redhat.com>
+Date: Mon, 21 Mar 2022 14:11:38 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH RESEND 1/2] hw/vfio/pci-quirks: Resolve redundant property
- getters
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4] tests: Do not treat the iotests as separate meson test
+ target anymore
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220310075048.2303495-1-thuth@redhat.com>
+ <2a2dadb8-24ba-50c4-617e-ab6d08166e83@redhat.com>
+ <d59847b7-98cb-9e9c-0c42-74576f152737@redhat.com>
+ <ed1c97e8-8a70-8808-cbeb-e6b4f6d1dccf@redhat.com>
+ <f30fe79c-cebd-037c-043e-6eaaeed7070c@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <f30fe79c-cebd-037c-043e-6eaaeed7070c@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-References: <20220301225220.239065-1-shentey@gmail.com>
- <20220301225220.239065-2-shentey@gmail.com>
- <5F510D6C-37E7-46A1-AEB8-E7D060B4ED0B@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <5F510D6C-37E7-46A1-AEB8-E7D060B4ED0B@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,89 +108,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/3/22 11:57, Bernhard Beschow wrote:
-> Am 1. März 2022 22:52:19 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
->> The QOM API already provides getters for uint64 and uint32 values, so reuse
->> them.
+On 21.03.22 10:17, Thomas Huth wrote:
+> On 21/03/2022 10.06, Hanna Reitz wrote:
+>> On 18.03.22 18:36, Thomas Huth wrote:
+>>> On 18/03/2022 18.04, Hanna Reitz wrote:
+>>>> On 10.03.22 08:50, Thomas Huth wrote:
+>>>>> If there is a failing iotest, the output is currently not logged to
+>>>>> the console anymore. To get this working again, we need to run the
+>>>>> meson test runner with "--print-errorlogs" (and without "--verbose"
+>>>>> due to a current meson bug that will be fixed here:
+>>>>> https://github.com/mesonbuild/meson/commit/c3f145ca2b9f5.patch ).
+>>>>> We could update the "meson test" call in tests/Makefile.include,
+>>>>> but actually it's nicer and easier if we simply do not treat the
+>>>>> iotests as separate test target anymore and integrate them along
+>>>>> with the other test suites. This has the disadvantage of not getting
+>>>>> the detailed progress indication there anymore, but since that was
+>>>>> only working right in single-threaded "make -j1" mode anyway, it's
+>>>>> not a huge loss right now.
+>>>>>
+>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>> ---
+>>>>>   v4: updated commit description
+>>>>>
+>>>>>   meson.build            | 6 +++---
+>>>>>   scripts/mtest2make.py  | 4 ----
+>>>>>   tests/Makefile.include | 9 +--------
+>>>>>   3 files changed, 4 insertions(+), 15 deletions(-)
+>>>>
+>>>> I can’t really say I understand what’s going on in this patch and 
+>>>> around it, but I can confirm that it before this patch, fail diffs 
+>>>> aren’t printed; but afterwards, they are
+>>>
+>>> It's a bug in Meson. It will be fixed in 0.61.3 and later (so this 
+>>> patch won't be needed there anymore), but the update to meson 0.61.3 
+>>> caused other problems so we also can't do that right now... so I'm 
+>>> not sure whether we now want to have this patch here included, wait 
+>>> for a better version of meson, or even rather want to revert the TAP 
+>>> support / meson integration again for 7.0 ... ?
 >>
->> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> hw/vfio/pci-quirks.c | 34 +++++++++-------------------------
->> 1 file changed, 9 insertions(+), 25 deletions(-)
+>> I don’t have anything against this patch, I just don’t fully 
+>> understand what it does, and how it works.
 >>
->> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
->> index 0cf69a8c6d..f0147a050a 100644
->> --- a/hw/vfio/pci-quirks.c
->> +++ b/hw/vfio/pci-quirks.c
->> @@ -1565,22 +1565,6 @@ static int vfio_add_nv_gpudirect_cap(VFIOPCIDevice *vdev, Error **errp)
->>      return 0;
->> }
+>> So as far as I understand, check-block was its own target and used 
+>> --verbose so that the progress indication would work (with -j1). Now 
+>> that causes problems because of a bug in meson, and so this patch 
+>> drops that special-casing again.  The only disadvantage is that the 
+>> progress indication (which only worked with -j1) no longer ever works.
 >>
->> -static void vfio_pci_nvlink2_get_tgt(Object *obj, Visitor *v,
->> -                                     const char *name,
->> -                                     void *opaque, Error **errp)
->> -{
->> -    uint64_t tgt = (uintptr_t) opaque;
->> -    visit_type_uint64(v, name, &tgt, errp);
->> -}
->> -
->> -static void vfio_pci_nvlink2_get_link_speed(Object *obj, Visitor *v,
->> -                                                 const char *name,
->> -                                                 void *opaque, Error **errp)
->> -{
->> -    uint32_t link_speed = (uint32_t)(uintptr_t) opaque;
->> -    visit_type_uint32(v, name, &link_speed, errp);
->> -}
->> -
->> int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp)
->> {
->>      int ret;
->> @@ -1618,9 +1602,9 @@ int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp)
->>                                 nv2reg->size, p);
->>      QLIST_INSERT_HEAD(&vdev->bars[0].quirks, quirk, next);
->>
->> -    object_property_add(OBJECT(vdev), "nvlink2-tgt", "uint64",
->> -                        vfio_pci_nvlink2_get_tgt, NULL, NULL,
->> -                        (void *) (uintptr_t) cap->tgt);
->> +    object_property_add_uint64_ptr(OBJECT(vdev), "nvlink2-tgt",
->> +                                   (uint64_t *) &cap->tgt,
->> +                                   OBJ_PROP_FLAG_READ);
->>      trace_vfio_pci_nvidia_gpu_setup_quirk(vdev->vbasedev.name, cap->tgt,
->>                                            nv2reg->size);
->> free_exit:
->> @@ -1679,15 +1663,15 @@ int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp)
->>          QLIST_INSERT_HEAD(&vdev->bars[0].quirks, quirk, next);
->>      }
->>
->> -    object_property_add(OBJECT(vdev), "nvlink2-tgt", "uint64",
->> -                        vfio_pci_nvlink2_get_tgt, NULL, NULL,
->> -                        (void *) (uintptr_t) captgt->tgt);
->> +    object_property_add_uint64_ptr(OBJECT(vdev), "nvlink2-tgt",
->> +                                   (uint64_t *) &captgt->tgt,
->> +                                   OBJ_PROP_FLAG_READ);
->>      trace_vfio_pci_nvlink2_setup_quirk_ssatgt(vdev->vbasedev.name, captgt->tgt,
->>                                                atsdreg->size);
->>
->> -    object_property_add(OBJECT(vdev), "nvlink2-link-speed", "uint32",
->> -                        vfio_pci_nvlink2_get_link_speed, NULL, NULL,
->> -                        (void *) (uintptr_t) capspeed->link_speed);
->> +    object_property_add_uint32_ptr(OBJECT(vdev), "nvlink2-link-speed",
->> +                                   &capspeed->link_speed,
->> +                                   OBJ_PROP_FLAG_READ);
->>      trace_vfio_pci_nvlink2_setup_quirk_lnkspd(vdev->vbasedev.name,
->>                                                capspeed->link_speed);
->> free_exit:
-> 
-> Ping
-> 
-> @Alistair: When resending, I accidently added a Reviewed-by with your name here which I asked to be ignored *after* you re-acked patch 2/2. In case you intended to ack this patch as well your voice would be needed again.
+>> (Is that right?)
+>
+> Right!
+>
+>> I personally don’t mind that disadvantage, because on CI systems it 
+>> doesn’t really matter anyway; and on developers’ systems, I would 
+>> assume `make check` to always be run with -jX anyway.
+>
+> Right again. So currently the only question is: Do we want to see a 
+> nice progress output with -j1 and do not care about the error logs, or 
+> do we rather want to see the error logs with -j1 and do not care about 
+> the nice progress output? For -jX with X > 1, the patch does not 
+> change much, and we'd need a newer version of meson to fix that.
 
-FWIW I expect these patches to get merged via the qemu-trivial@ tree
-once the 7.1 development window opens.
+OK, to me the answer sounds obvious.  We absolutely need error logs, 
+nice output is secondary to it.
+
+Waiting for a new usable version of meson is not really an option, 
+because when it comes around, we can just revert this patch (or take any 
+other course of action that seems best then).
+
+I guess we could revert TAP and/or the meson integration, I suppose 
+that’d mean we’d get some progress output again, but it’s just the plain 
+one from the iotests’ `check` script, right?  I’m hard-pressed to find 
+good arguments against that, but I don’t really like that idea either.
+
+Having this patch as a workaround until the functionality can be 
+restored (which seems in sight) seems absolutely fine to me.  I guess 
+I’ll just take it to my tree, then.  Won’t stop others from being able 
+to protest, after all. :)
+
+(I.e.: Thanks, applied to my block branch: 
+https://gitlab.com/hreitz/qemu/-/commits/block)
+
+Hanna
+
 
