@@ -2,94 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C052E4E2241
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 09:33:49 +0100 (CET)
-Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA6F4E226C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 09:47:10 +0100 (CET)
+Received: from localhost ([::1]:38272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWDU4-0000pu-CK
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 04:33:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41324)
+	id 1nWDgy-0004YL-LA
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 04:47:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nWDSE-0008QN-CH
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:31:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20073)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nWDS5-0004y3-PH
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:31:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647851504;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jBUyQa3hCw+i7wzo7ZMHpkb54FvXrTw5CWoiYttbMOg=;
- b=bfHIx2v3ofijEO3RJeuh8XLxbFOmUFK0iXw+OBi68zJYGfMGZvWmfAt95rdQR+6Z4V312Q
- OC1YF5RJEB1D/OOgwmkrFl7D6EMoCaJBcDGVhQN0dRiCF78cqoAisOgQ5HknBuaBnsQtQR
- bX9nC6Fl0jXee2DcX+CBEW9NUabz3CQ=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-20-lKoKA94nM_-jVfEBZXskMQ-1; Mon, 21 Mar 2022 04:31:42 -0400
-X-MC-Unique: lKoKA94nM_-jVfEBZXskMQ-1
-Received: by mail-qv1-f70.google.com with SMTP id
- 94-20020a0c8167000000b004411702e935so3197142qvc.7
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 01:31:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=jBUyQa3hCw+i7wzo7ZMHpkb54FvXrTw5CWoiYttbMOg=;
- b=f4KCmZIYA4MmsUZa3atMIwRNLVNgH4wezW/1F5ydpUIYaTnUsZ8NzAMC3wnTbRk3bP
- d3DHLBb9GIO6vqp2NP9hJcE4e+Jp4YUr2vhOisvuzharkRCCS65llsc9yom4hFF5fWCR
- 3/3tVAerEPdRzaT6I7KonmExiqeqKbCwySHjwBV91ZKKqVNBx45ccpmRVhri/yqDNUlT
- iHzza0ZpBA/Z13TFD9sKXVujaGgFqJur7ywriC5lKigAcjT3S+cDyjChR/l4WHYGImNX
- 7sAG0FMT1gItivBIexw8RSaPmh+MR41gaQ2AyvMt6b2Ic6YAOkx2Y6DvMyUMyOsRh3+1
- tumw==
-X-Gm-Message-State: AOAM532WbQcO/k2t594RfBVeFXmDyR3oWEvKAOZ6GBZevLHcVbwts+ca
- VABmG2hhhugwKXKzmdZNH+H0RnsEtlG7JgyGlJh99LLQ/hG/FC9sZipJXcQyPcekzlDuOBU1mkY
- il5BrZd4O39o4nak=
-X-Received: by 2002:a05:622a:1386:b0:2e1:e80c:a026 with SMTP id
- o6-20020a05622a138600b002e1e80ca026mr15059525qtk.596.1647851502454; 
- Mon, 21 Mar 2022 01:31:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxWp8tJFzPPHD0R5O0S6r/m3jXVj9XmJ3x/e/ItIo50PvVWNkhY1EXYwvSu9QAYMIQIfAbZUg==
-X-Received: by 2002:a05:622a:1386:b0:2e1:e80c:a026 with SMTP id
- o6-20020a05622a138600b002e1e80ca026mr15059515qtk.596.1647851502209; 
- Mon, 21 Mar 2022 01:31:42 -0700 (PDT)
-Received: from sgarzare-redhat (host-87-12-25-114.business.telecomitalia.it.
- [87.12.25.114]) by smtp.gmail.com with ESMTPSA id
- d11-20020a05620a166b00b0067e380258e7sm5933319qko.73.2022.03.21.01.31.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 01:31:41 -0700 (PDT)
-Date: Mon, 21 Mar 2022 09:31:37 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Peter Lieven <pl@kamp.de>
-Subject: Re: [PATCH] block/rbd: fix write zeroes with growing images
-Message-ID: <20220321083137.rtwh6gretloaipwk@sgarzare-redhat>
-References: <20220318164743.vgkbcoeok2e4r6pa@sgarzare-redhat>
- <40388E21-4608-4815-B332-C6173412B6C3@kamp.de>
+ (Exim 4.90_1) (envelope-from <lw945lw945@yahoo.com>)
+ id 1nWDfE-0003rf-KS
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:45:21 -0400
+Received: from sonic302-20.consmr.mail.gq1.yahoo.com ([98.137.68.146]:41700)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lw945lw945@yahoo.com>)
+ id 1nWDfC-0007B1-Ay
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:45:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1647852314; bh=chv8/AGYhp6AbIy75VuzFR0g2DufR9g+Ej2h/BMKCYM=;
+ h=Date:From:Reply-To:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To;
+ b=gD09vrktv+TPHds/yVEomBVRZV5gREwjuSrVM4E9wZAjcszl75ls2yXnnhQnksvpYHB8knkIB0TMfkvAHNyZZLP62PtPDaoa/5HLuuX+ZxfvFYRfyFaOtZqwhrFjzXo2JXi8oL4anVbyLrzjjP26UMo9+LGtcJCV1r5mlv61J70/yKwwhAAR8+XipHC7Zpjw0lba40tZSomtIjZ6DzBfhBQGtschJWIc7xqSLNkMwSyBDogOdloiepHSncNec4Hk0z8c6GHjs5kkKIER2Uo94CFqgR+WDyK5+EmTS4WM/pFiTpGruMBYvaDFTUIXoBKqwDGLvNgNDZfh8XJ4OhQSIw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1647852314; bh=nlMgF40nDZ2s58aWD4tmwSKWeON7WBI9e/bu0z4SB9J=;
+ h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
+ b=EMjEyc+XaabE6Dgehylhk7IMPkhvNSjIJFjMjApUAXtqZwq1TPMsIprQfn2Ud9hyJgqTxFhbLY7HhhAEwL9emjEmtRRys4KaUBD4lHruBJGJznapCFy5OS5Vnxr3SrDKOE7/aUjVl1DM9ek/9T3mj6/TdewPd1MqfmErl/nR9vzB9x/EJCzSiwRB37rmbajmR6IXh+5JC31Muqj6DsBleqEwdtDwM1WqNDvvQChyItbPYomzvHzgAZ4XoiqA3VRagRTf7qrNkrgroGIbRfD43/NvDYZRmhpPEyZUd907ut+XnaLWXBzl/CVK8QQcmLN5yCGLFjUQs3shyrRjUc211Q==
+X-YMail-OSG: QrH6L_EVM1mLwtTQly5GfbCNPoqHxACCui1bKs3J5uQa_apk1VfzuCboqDQX9c9
+ ST398EIiwBi7Ec9HbseIh4LUz.pRFs7gPDCAPXr2VGp.u8KWmvtPQUFIn2ngNWfMGXJc5FIKb1Tx
+ SVEyO0jsyRqWrg7t_C0s5hMCykQoTwK3iiA6dXY6UMmjTDGmqHuM4vKDNXaCUkq37Qv8XyaIePu7
+ UADhRglj.D70UYBsX_qSnzz9L1aYaZCXbgVoV_mtrngkR3QV8MWBAx1j_lkAsuTran9UBUOza4tN
+ 4_9CU4lvrK80jovIF.lYshp1HPdPCDG.M3vYrTM62iM4v2cVWMNH4Jh0LTjCuOFrwV2sILk3larJ
+ PL_gglw5ygE7DhJzsxjW3iwpDWQ4a4JLdOm8Z_TFl3h8rkl34Dsyka05d00jFb7UA.hlxFmB1UJl
+ TktbzZsmSHZQCccRW99hj8OlUD8gBuBRkXTpJbXFAGTZyfsls0Ujt2_zb8b5RCfR5uZ8rwHGCfmw
+ FUAGE1qs0DF5Fsu24vuNdn5Pj0.AC9IFv.DLRbwbRSAnPp.WTsDdDbVHnyHiFUDcC1e7L.UJFSck
+ KbXATac8GCwM2qREht.fmXv6zjFAQAvyWAugaV7MIIEVlBmrN7Nb9xSNW_Oewy5d18UmMIdzR0aI
+ fbILo2gI8UOrP7qTpIrsgAAXD1RwaPtuPP06GysDD2OQgq..EMD2c8W6NRla56RQbxgCwXlFfAOq
+ 5vJAFwILCKSpWwr9UfcfGtBLDEwO8Y8nXENnGrm4NGDlpyyWDUCTEbpqsaptl1EJSeYbiSxdfBor
+ 1ViWnvEcdWMLyrzCHOBqazNJBsLZMLYDH_fD0rOiIxpmURpj.kAGC53hxzZeqiXX5.oXRjtCmWsK
+ 4u72KwH8X1n3bmk9wf9lpO3kPND_OifEHTgYBw9LJKaI4Rcu.aN6xojDIkOmrXcpKViTdB58GUg3
+ d266ILZ7z.2DLwc6pKSykxMoc6.EEHSHkCQa6u_80RTHKl3yWOQMdNPWhzMI1PFkoHJ1GSFe_7WB
+ a9vUuslVNjVrUTs.YCSmmlN7njOemy_sEMR.uhepHjA27IdXzAbi7hn7j5lAUI7nUldsD3i841bO
+ WQ4iO1BJVoM.hg_ZSKyJz_IoZlH8IPjNeEhHBmcGigf5PHjKi36aly7jO.mrQFnMf0qhn8UZGR9R
+ .Z3gMSytZUukvNcXjLDdfA_2Ysoh5VAMxIUttUlyxaR8mTfsFuBGxeBlYa8yqocqOgu0aaPqFGUK
+ dA1cyagiwH1hhksWSsMQcxK60Nsfi_hIjpGXLN16MzguNhO7bM3YMbmugkl9xRBP_bJzqjX.rioj
+ zcf0A7Hje9uO4.Uc8Tz7S6Xpzg8KdfU4GsFhKuvT0MCQta5YRUK2wo7iFHatKUCyABeR_oEoMkub
+ n5UJ7WqtT4b6d4ixo3Sv4FZNnHcgyebgrdjLmuFZVRBtiBAD_q5zeXs3_CbD7O5RonwMfQTJ37hb
+ j917GbH0T.t9Es2LfxT8TBjAfV82oYKj1r_258wxX8gNgpeIHdIzeihkGfp6ihKq67Y8uT9NKSpI
+ 84WmqkI61rsCzKksg22jVm5kH2FryWA0ad2CpSfN8lIaH1iH4_7_g0cNpPNeJUFG9jtlJzGM3BNR
+ f9cncKrI3sri2cLtezLPMDVLKWAtTYFcqn6BCj6OnBjvjeaQcyddXnqWhC5f.4d_B3DJZkEIiELt
+ kn1JyT6mXJH7m5rlWSa.jdaveP2KRc6DmrVEtgp1OxN6FX9yJGmePzpEhUtFYNt2OJ2gKIFqjkpN
+ eriqEYH09UILCGOgDev2T0Qd13o.izl3YDX1q7RIP96qhzQE3Smj8bpA5eanWt0NyodmBi.vpahA
+ XWUU3WzkF2v_2o1IdELDECh2m4Rm9dxwJx0yCcWK2QoBnc3qLp65HEvGJwYr1F8blMxRiqSDDg3.
+ rTXPn32Lb.GV6PjNVSXtLuStN0RIxRISy_aXPp0a5UgYMjVL5FyQJ.pVQItBWArzWc7eQyEpkKMM
+ PwZwilfOrh9iwYM3KVB5KqMLaLutkOKGKWx1RpggfYc7pM9jD4MEMuUN0m4Hxuy2XIBUyvSDrS1B
+ PUrwaYLgeYtFyQmHqFRXMTM6_wBKVy87kyUo3ZCJZfM7GSL0iaj_lnRyV8Et1EwLDHilhSNStha6
+ O6TAPJQFa5hA9IspKOgIeUtLYavafmHQuAkRvAaeSEbNlBJtMF9VzeVbljg_CFhFYjjNTeCZDuxd
+ Z7xdPJSpYjBTKWQf4QhgeDgSHg.CUiVTOHAxgKP_JTDxVj7OZe6hiRehwr_rUWcfi4Q--
+X-Sonic-MF: <lw945lw945@yahoo.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic302.consmr.mail.gq1.yahoo.com with HTTP; Mon, 21 Mar 2022 08:45:14 +0000
+Date: Mon, 21 Mar 2022 08:44:23 +0000 (UTC)
+From: Wei Li <lw945lw945@yahoo.com>
+To: "pbonzini@redhat.com" <pbonzini@redhat.com>, 
+ "eduardo@habkost.net" <eduardo@habkost.net>, 
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Message-ID: <813174543.699529.1647852263395@mail.yahoo.com>
+In-Reply-To: <5389600e-2bce-3db4-3826-1d46221dddb0@linaro.org>
+References: <20220319160658.336882-1-lw945lw945@yahoo.com>
+ <20220319160658.336882-2-lw945lw945@yahoo.com>
+ <5389600e-2bce-3db4-3826-1d46221dddb0@linaro.org>
+Subject: Re: [PATCH 1/2] fix cmpxchg instruction
 MIME-Version: 1.0
-In-Reply-To: <40388E21-4608-4815-B332-C6173412B6C3@kamp.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_699528_513786592.1647852263393"
+X-Mailer: WebService/1.1.19894 YMailNorrin
+Received-SPF: pass client-ip=98.137.68.146; envelope-from=lw945lw945@yahoo.com;
+ helo=sonic302-20.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_REPLYTO_END_DIGIT=0.25, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,133 +100,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Ilya Dryomov <idryomov@gmail.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Reply-To: Wei Li <lw945lw945@yahoo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Mar 19, 2022 at 04:15:33PM +0100, Peter Lieven wrote:
->
->
->> Am 18.03.2022 um 17:47 schrieb Stefano Garzarella <sgarzare@redhat.com>:
->>
->> ﻿On Fri, Mar 18, 2022 at 04:48:18PM +0100, Peter Lieven wrote:
->>>
->>>
->>>>> Am 18.03.2022 um 09:25 schrieb Stefano Garzarella <sgarzare@redhat.com>:
->>>>
->>>> ﻿On Thu, Mar 17, 2022 at 07:27:05PM +0100, Peter Lieven wrote:
->>>>>
->>>>>
->>>>>>> Am 17.03.2022 um 17:26 schrieb Stefano Garzarella <sgarzare@redhat.com>:
->>>>>>
->>>>>> ﻿Commit d24f80234b ("block/rbd: increase dynamically the image size")
->>>>>> added a workaround to support growing images (eg. qcow2), resizing
->>>>>> the image before write operations that exceed the current size.
->>>>>>
->>>>>> We recently added support for write zeroes and without the
->>>>>> workaround we can have problems with qcow2.
->>>>>>
->>>>>> So let's move the resize into qemu_rbd_start_co() and do it when
->>>>>> the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
->>>>>>
->>>>>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2020993
->>>>>> Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
->>>>>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
->>>>>> ---
->>>>>> block/rbd.c | 26 ++++++++++++++------------
->>>>>> 1 file changed, 14 insertions(+), 12 deletions(-)
->>>>>>
->>>>>> diff --git a/block/rbd.c b/block/rbd.c
->>>>>> index 8f183eba2a..6caf35cbba 100644
->>>>>> --- a/block/rbd.c
->>>>>> +++ b/block/rbd.c
->>>>>> @@ -1107,6 +1107,20 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
->>>>>>
->>>>>>   assert(!qiov || qiov->size == bytes);
->>>>>>
->>>>>> +    if (cmd == RBD_AIO_WRITE || cmd == RBD_AIO_WRITE_ZEROES) {
->>>>>> +        /*
->>>>>> +         * RBD APIs don't allow us to write more than actual size, so in order
->>>>>> +         * to support growing images, we resize the image before write
->>>>>> +         * operations that exceed the current size.
->>>>>> +         */
->>>>>> +        if (offset + bytes > s->image_size) {
->>>>>> +            int r = qemu_rbd_resize(bs, offset + bytes);
->>>>>> +            if (r < 0) {
->>>>>> +                return r;
->>>>>> +            }
->>>>>> +        }
->>>>>> +    }
->>>>>> +
->>>>>>   r = rbd_aio_create_completion(&task,
->>>>>>                                 (rbd_callback_t) qemu_rbd_completion_cb, &c);
->>>>>>   if (r < 0) {
->>>>>> @@ -1182,18 +1196,6 @@ coroutine_fn qemu_rbd_co_pwritev(BlockDriverState *bs, int64_t offset,
->>>>>>                                int64_t bytes, QEMUIOVector *qiov,
->>>>>>                                BdrvRequestFlags flags)
->>>>>> {
->>>>>> -    BDRVRBDState *s = bs->opaque;
->>>>>> -    /*
->>>>>> -     * RBD APIs don't allow us to write more than actual size, so in order
->>>>>> -     * to support growing images, we resize the image before write
->>>>>> -     * operations that exceed the current size.
->>>>>> -     */
->>>>>> -    if (offset + bytes > s->image_size) {
->>>>>> -        int r = qemu_rbd_resize(bs, offset + bytes);
->>>>>> -        if (r < 0) {
->>>>>> -            return r;
->>>>>> -        }
->>>>>> -    }
->>>>>>   return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_WRITE);
->>>>>> }
->>>>>>
->>>>>> --
->>>>>> 2.35.1
->>>>>>
->>>>>
->>>>> Do we really have a use case for growing rbd images?
->>>>
->>>> The use case is to have a qcow2 image on rbd.
->>>> I don't think it's very common, but some people use it and here [1] 
->>>> we had a little discussion about features that could be interesting 
->>>> (e.g.  persistent dirty bitmaps for incremental backup).
->>>>
->>>> In any case the support is quite simple and does not affect other 
->>>> use cases since we only increase the size when we go beyond the 
->>>> current size.
->>>>
->>>> IMHO we can have it in :-)
->>>>
->>>
->>> The QCOW2 alone doesn’t make much sense, but additional metadata 
->>> might be a use case.
->>
->> Yep.
->>
->>> Be aware that the current approach will serialize requests. If there 
->>> is a real use case, we might think of a better solution.
->>
->> Good point, but it only happens when we have to resize, so maybe it's 
->> okay for now, but I agree we could do better ;-)
->
->There might also be a problem if a write for a higher offset past eof 
->will be executed shortly before a write to a slightly lower offset past 
->eof. The second resize will fail as it would shrink the image. We would 
->need proper locking to avoid this. Maybe we need to check if we write 
->past eof. If yes, take a lock around the resize op and then check again 
->if it’s still eof and only resize if true.
+------=_Part_699528_513786592.1647852263393
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I thought rbd_resize() was synchronous. Indeed when you said this could 
-serialize writes it sounded like confirmation to me.
+>There is no branch in movcond -- this expands to cmov.Thanks. I get it.
+>Your branch invalidates the comment -- the store becomes conditional, and =
+we no longer get
+>a write fault on read-only pages when the comparison fails.=C2=A0 OTOH, we=
+'re already getting
+>the incorrect SIGSEGV behaviour, since we get a read fault on an unmapped =
+page instead of
+>a write fault.I cannot get the point. Here is my understanding.when the co=
+mparison fails, program executes=C2=A0gen_op_st_v(s, ot, oldv, a0). Then we=
+ will get theincorrect SIGSEGV behaviour that a read fault instead of a wri=
+te fault. But why the SIGSEGVbehaviour is a read fault not a write fault? T=
+he memory operation is a write operation.
+>Alternately, we can use the tcg_gen_atomic_cmpxchg_tl path whenever mod !=
+=3D 3.=C2=A0 While an>unlocked cmpxchg need not be atomic, it is not requir=
+ed to be non-atomic either, and it>would reduce code duplication.A good adv=
+ice to implement. I will update in patch v2.
 
-Since we call rbd_resize() before rbd_aio_writev(), I thought this case 
-could not occur.
+Wei Li=20
 
-Can you please elaborate?
+    On Monday, March 21, 2022, 03:07:50 AM GMT+8, Richard Henderson <richar=
+d.henderson@linaro.org> wrote: =20
+=20
+ On 3/19/22 09:06, Wei Li wrote:
+> We need a branch to determine when the instruction can touch the
+> accumulator. But there is a branch provided by movcond.
 
-Thanks,
-Stefano
+There is no branch in movcond -- this expands to cmov.
 
+> -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* store value =
+=3D (old =3D=3D cmp ? new : old);=C2=A0 */
+> -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_movcond_=
+tl(TCG_COND_EQ, newv, oldv, cmpv, newv, oldv);
+> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_brcond_t=
+l(TCG_COND_EQ, oldv, cmpv, label1);
+...
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 /* Perform an unconditional store cycle like physical cpu;
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 must be before changing accumulator to ensure
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 idempotency if the store faults and the instruction
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 is restarted */
+
+Your branch invalidates the comment -- the store becomes conditional, and w=
+e no longer get=20
+a write fault on read-only pages when the comparison fails.=C2=A0 OTOH, we'=
+re already getting=20
+the incorrect SIGSEGV behaviour, since we get a read fault on an unmapped p=
+age instead of=20
+a write fault.
+
+The faulting behaviour could be addressed with a write_probe prior to the o=
+riginal load.=20
+Alternately, we can use the tcg_gen_atomic_cmpxchg_tl path whenever mod !=
+=3D 3.=C2=A0 While an=20
+unlocked cmpxchg need not be atomic, it is not required to be non-atomic ei=
+ther, and it=20
+would reduce code duplication.
+
+
+r~
+ =20
+------=_Part_699528_513786592.1647852263393
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body><div class=3D"ydpbf9bf775yahoo-style-wrap" style=
+=3D"font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:13px=
+;"><div><div dir=3D"ltr" data-setdir=3D"false">&gt;<span><span style=3D"fon=
+t-family: Helvetica Neue, Helvetica, Arial, sans-serif;">There is no branch=
+ in movcond -- this expands to cmov.</span></span></div><div dir=3D"ltr" da=
+ta-setdir=3D"false">Thanks. I get it.</div><div dir=3D"ltr" data-setdir=3D"=
+false"><br></div><div dir=3D"ltr" data-setdir=3D"false"><div><span style=3D=
+"font-family: Helvetica Neue, Helvetica, Arial, sans-serif;">&gt;Your branc=
+h invalidates the comment -- the store becomes conditional, and we no longe=
+r get</span><br clear=3D"none" style=3D"font-family: Helvetica Neue, Helvet=
+ica, Arial, sans-serif;"><span style=3D"font-family: Helvetica Neue, Helvet=
+ica, Arial, sans-serif;">&gt;a write fault on read-only pages when the comp=
+arison fails.&nbsp; OTOH, we're already getting</span><br clear=3D"none" st=
+yle=3D"font-family: Helvetica Neue, Helvetica, Arial, sans-serif;"><span st=
+yle=3D"font-family: Helvetica Neue, Helvetica, Arial, sans-serif;">&gt;the =
+incorrect SIGSEGV behaviour, since we get a read fault on an unmapped page =
+instead of</span><br clear=3D"none" style=3D"font-family: Helvetica Neue, H=
+elvetica, Arial, sans-serif;"><span style=3D"font-family: Helvetica Neue, H=
+elvetica, Arial, sans-serif;">&gt;a write fault.</span></div>I cannot get t=
+he point. Here is my understanding.</div><div dir=3D"ltr" data-setdir=3D"fa=
+lse">when the comparison fails, program executes&nbsp;<span>gen_op_st_v(s, =
+ot, oldv, a0). Then we will get the</span></div><div dir=3D"ltr" data-setdi=
+r=3D"false"><span><span>incorrect SIGSEGV behaviour that a read fault inste=
+ad of a write fault. But why the SIGSEGV</span></span></div><div dir=3D"ltr=
+" data-setdir=3D"false"><span><span>behaviour is a read fault not a write f=
+ault? The memory operation is a write operation.</span></span></div><div di=
+r=3D"ltr" data-setdir=3D"false"><span><span><br></span></span></div><div di=
+r=3D"ltr" data-setdir=3D"false"><span><div><div>&gt;Alternately, we can use=
+ the tcg_gen_atomic_cmpxchg_tl path whenever mod !=3D 3.&nbsp; While an</di=
+v><div>&gt;unlocked cmpxchg need not be atomic, it is not required to be no=
+n-atomic either, and it</div><div>&gt;would reduce code duplication.</div><=
+/div><div>A good advice to implement. I will update in patch v2.</div></spa=
+n></div><div><br></div><div class=3D"ydpbf9bf775signature"><br><div>Wei Li<=
+/div></div></div>
+        <div><br></div><div><br></div>
+       =20
+        </div><div id=3D"ydpc5b12434yahoo_quoted_8763604967" class=3D"ydpc5=
+b12434yahoo_quoted">
+            <div style=3D"font-family:'Helvetica Neue', Helvetica, Arial, s=
+ans-serif;font-size:13px;color:#26282a;">
+               =20
+                <div>
+                    On Monday, March 21, 2022, 03:07:50 AM GMT+8, Richard H=
+enderson &lt;richard.henderson@linaro.org&gt; wrote:
+                </div>
+                <div><br></div>
+                <div><br></div>
+                <div><div dir=3D"ltr">On 3/19/22 09:06, Wei Li wrote:<br cl=
+ear=3D"none">&gt; We need a branch to determine when the instruction can to=
+uch the<br clear=3D"none">&gt; accumulator. But there is a branch provided =
+by movcond.<br clear=3D"none"><br clear=3D"none">There is no branch in movc=
+ond -- this expands to cmov.<br clear=3D"none"><br clear=3D"none">&gt; -&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /* store value =3D (ol=
+d =3D=3D cmp ? new : old);&nbsp; */<br clear=3D"none">&gt; -&nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; tcg_gen_movcond_tl(TCG_COND_EQ, ne=
+wv, oldv, cmpv, newv, oldv);<br clear=3D"none">&gt; +&nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; tcg_gen_brcond_tl(TCG_COND_EQ, oldv, cmpv=
+, label1);<br clear=3D"none">...<br clear=3D"none">&gt;&nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  /* Perform an unc=
+onditional store cycle like physical cpu;<br clear=3D"none">&gt;&nbsp; &nbs=
+p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
+bsp; must be before changing accumulator to ensure<br clear=3D"none">&gt;&n=
+bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; idempotency if the store faults and the instruction<br clear=
+=3D"none">&gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp; is restarted */<br clear=3D"none"><br clear=
+=3D"none">Your branch invalidates the comment -- the store becomes conditio=
+nal, and we no longer get <br clear=3D"none">a write fault on read-only pag=
+es when the comparison fails.&nbsp; OTOH, we're already getting <br clear=
+=3D"none">the incorrect SIGSEGV behaviour, since we get a read fault on an =
+unmapped page instead of <br clear=3D"none">a write fault.<br clear=3D"none=
+"><br clear=3D"none">The faulting behaviour could be addressed with a write=
+_probe prior to the original load. <br clear=3D"none">Alternately, we can u=
+se the tcg_gen_atomic_cmpxchg_tl path whenever mod !=3D 3.&nbsp; While an <=
+br clear=3D"none">unlocked cmpxchg need not be atomic, it is not required t=
+o be non-atomic either, and it <br clear=3D"none">would reduce code duplica=
+tion.<div class=3D"ydpc5b12434yqt9761350354" id=3D"ydpc5b12434yqtfd39038"><=
+br clear=3D"none"><br clear=3D"none"><br clear=3D"none">r~<br clear=3D"none=
+"></div></div></div>
+            </div>
+        </div></body></html>
+------=_Part_699528_513786592.1647852263393--
 
