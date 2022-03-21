@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172054E2E7B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:47:56 +0100 (CET)
-Received: from localhost ([::1]:57678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B42C4E2E7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:47:43 +0100 (CET)
+Received: from localhost ([::1]:56764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWLCF-0005RI-6X
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:47:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37388)
+	id 1nWLC2-0004nJ-M7
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:47:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nWL9Y-0002P7-6L
+ id 1nWL9Y-0002PJ-8t
  for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:45:08 -0400
-Received: from [2a00:1450:4864:20::52a] (port=37517
- helo=mail-ed1-x52a.google.com)
+Received: from [2a00:1450:4864:20::52c] (port=35614
+ helo=mail-ed1-x52c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nWL9V-00080y-S9
+ id 1nWL9W-00081N-FU
  for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:45:07 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id b15so18582184edn.4
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:45:05 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id k10so4841634edj.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:45:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pNZnv1saRQDDmcJLBkOEI7OsO8XdqJo3aoM6lXuAMCw=;
- b=NthXUVNX83wpzRcmhe3cpFcwxrNMCrBuQuCTruvhsuzmKbC59zde2XoLDP9vPh3d4V
- 8Mu5fJiEois9qlS8EZyXI2d1lwUlrlEWMhpvyjrjllyvmHBxCpyWuNIGsny6rArKz99/
- T4tiX0YZXRtPV/hUBUFKOsCu7mYfmFFYUhutG0V+gOg61OP5OVK2YyJMdOQoYk1wA74I
- WkFoQk0qMVMpKYk1XAADvfowHNxuTicSKlTI/M91og0+Tebk4wxFnNuPjNeyuC7+WVg8
- aiIY9ilHaqQRWCZORqqsFqBuHpThCwt3+a6Zxbvnc5AtvqNShCkTQsDnEj/b8+26ThWM
- 4CNw==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=efi8DSRTf2i20NY52YUXz0KrEVCIILq2P4XhBCv2IZg=;
+ b=Z7heLaZ7whcQFy5E86/fOscN6/fuPsbg5WOJ2eeXLP3ADu5hYFoTL2M5uSD99EjKpr
+ iFYNVeY0rh1AfJyyLFB+8XqZKyAOZU7oPO9N9WpXcZWoR+fbOAfMdrY07i5CMi0UJdeb
+ OgRiFoMMeDpfM6oY52ik48xVBxAPeZBd+j90v7SgExOzOtWRPD+Cnnbi1E7VOsxiAsgP
+ DOZBmX4YO7fFu2z7sUc4P3lvNmrxiFGVyFpKRQCQvDLM7Vq0enRURQDXdkH/Vl42rWQW
+ gdCN9sImFyhhgDX2uhMcJY98Yu4V6Amv8HGv5eq8TyA8TUbLUxbryQNz2x51dwNs+PKP
+ vyFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=pNZnv1saRQDDmcJLBkOEI7OsO8XdqJo3aoM6lXuAMCw=;
- b=IjkwDYR2yVVIDRiN+XoprDzgB3TeLS+GQd3FuT5LdWb0Yb4Dm+7eOnn8HjrAl2Lakr
- PbFsTJhB50Og7dcDR8wL+Y6GqPFQJWPmyomjbkzSWs4gKA43ufNqfyZ1yss5CVTQRwWp
- B90wyNhcf9lI5ksJQkWU8KtoyjrgVmR9ovXfxBKmGdtmTDj/+g2HrHbydaJ3chX0sHyr
- foqpe9fyFSUMVM4Pvxrql1+kZgXs0ZOPmOySg+QiTMvlW+B3AxBDLrG1ZAj+nQNDTQJo
- /URkQFN2SpItBDzHLm1YtTJfdGD13UHz60JL7/e4cJX6H3e3hiFzOJdLibkGGtIiw6sj
- DRvg==
-X-Gm-Message-State: AOAM530lLG2niMqJF3C89UJAMMML0xoxNoAAhQh6XNbcw5dppHMXEdhj
- EE610Qpr0QaObK7wOKkqyYEwu5eLtzY=
-X-Google-Smtp-Source: ABdhPJzDqV/Ki6ui9raPYUzF4Z3Ytqozi/BnXxizRqtgC4sTNblEUibeCR73Q0z2uFsX6z+eQzq+Cw==
-X-Received: by 2002:a05:6402:d67:b0:419:48b:a762 with SMTP id
- ec39-20020a0564020d6700b00419048ba762mr19239858edb.291.1647881104043; 
- Mon, 21 Mar 2022 09:45:04 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=efi8DSRTf2i20NY52YUXz0KrEVCIILq2P4XhBCv2IZg=;
+ b=VgbbKgAvBIxR3Gm2C1CateHo7Oi08JVH+e+b0BTF/SEMCZ0mlSnkIcS1T74jxl1qrl
+ TmK4MuQYoJA5nz0aDfeT0T3mHoyVOFBbtvTVXrwE4VwntkhydeLO4chet3IC8x4gUsL6
+ qRd2G1sNc97E3Iv7rk8yOMwxmI9v2oPV+t/rvPRt0x4KcVn6fe7L5hEdHW01XofpxgFt
+ VI4dUi+rq0Pngy/lKYbrUIJ3y9UFvFxpId48xU6ScNyZh1cWQf5SoHeOmYDbGyajB44t
+ cjhN5hDYJ7R9/+DUbMbSmNoGLlcxHU0zneUYxSBUF+UStzj9mV/uaAitkGHbCaBfdhVT
+ Yovw==
+X-Gm-Message-State: AOAM530BDyQXnpCMgq91aufDGeo3p7DFqr2HBPQ5ugeUXUOc8HxZvr0z
+ 63MmxaueefVuME+S253TDfyz3c0Q+qc=
+X-Google-Smtp-Source: ABdhPJwWKREyySZf771JABKj0wk//ydliDWWNVluKijobp/S/9c2c4u1su8j9NsaVq0BJ9+M8hrHrg==
+X-Received: by 2002:a05:6402:17dc:b0:418:efa5:f445 with SMTP id
+ s28-20020a05640217dc00b00418efa5f445mr23805286edy.125.1647881105154; 
+ Mon, 21 Mar 2022 09:45:05 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id
- a102-20020a509eef000000b0041614c8f79asm7949352edf.88.2022.03.21.09.45.03
+ a102-20020a509eef000000b0041614c8f79asm7949352edf.88.2022.03.21.09.45.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 09:45:03 -0700 (PDT)
+ Mon, 21 Mar 2022 09:45:04 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] Bugfixes for QEMU 7.0-rc1
-Date: Mon, 21 Mar 2022 17:45:00 +0100
-Message-Id: <20220321164502.201160-1-pbonzini@redhat.com>
+Subject: [PULL 1/2] target/i386: kvm: do not access uninitialized variable on
+ older kernels
+Date: Mon, 21 Mar 2022 17:45:01 +0100
+Message-Id: <20220321164502.201160-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220321164502.201160-1-pbonzini@redhat.com>
+References: <20220321164502.201160-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -92,30 +94,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e2fb7d8aa218256793df99571d16f92074258447:
+KVM support for AMX includes a new system attribute, KVM_X86_XCOMP_GUEST_SUPP.
+Commit 19db68ca68 ("x86: Grant AMX permission for guest", 2022-03-15) however
+did not fully consider the behavior on older kernels.  First, it warns
+too aggressively.  Second, it invokes the KVM_GET_DEVICE_ATTR ioctl
+unconditionally and then uses the "bitmask" variable, which remains
+uninitialized if the ioctl fails.  Third, kvm_ioctl returns -errno rather
+than -1 on errors.
 
-  Merge tag 'dbus-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-03-15 16:28:50 +0000)
+While at it, explain why the ioctl is needed and KVM_GET_SUPPORTED_CPUID
+is not enough.
 
-are available in the Git repository at:
-
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 17e6ffa6a5d2674cb2ebfd967d28b1048261d977:
-
-  hw/i386/amd_iommu: Fix maybe-uninitialized error with GCC 12 (2022-03-21 15:57:47 +0100)
-
-----------------------------------------------------------------
-Bugfixes.
-
-----------------------------------------------------------------
-Paolo Bonzini (2):
-      target/i386: kvm: do not access uninitialized variable on older kernels
-      hw/i386/amd_iommu: Fix maybe-uninitialized error with GCC 12
-
- hw/i386/amd_iommu.c   |  7 ++-----
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
  target/i386/kvm/kvm.c | 17 +++++++++++++----
- 2 files changed, 15 insertions(+), 9 deletions(-)
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index ef2c68a6f4..06901c2a43 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -411,6 +411,12 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+         }
+     } else if (function == 0xd && index == 0 &&
+                (reg == R_EAX || reg == R_EDX)) {
++        /*
++         * The value returned by KVM_GET_SUPPORTED_CPUID does not include
++         * features that still have to be enabled with the arch_prctl
++         * system call.  QEMU needs the full value, which is retrieved
++         * with KVM_GET_DEVICE_ATTR.
++         */
+         struct kvm_device_attr attr = {
+             .group = 0,
+             .attr = KVM_X86_XCOMP_GUEST_SUPP,
+@@ -419,13 +425,16 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+ 
+         bool sys_attr = kvm_check_extension(s, KVM_CAP_SYS_ATTRIBUTES);
+         if (!sys_attr) {
+-            warn_report("cannot get sys attribute capabilities %d", sys_attr);
++            return ret;
+         }
+ 
+         int rc = kvm_ioctl(s, KVM_GET_DEVICE_ATTR, &attr);
+-        if (rc == -1 && (errno == ENXIO || errno == EINVAL)) {
+-            warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
+-                        "error: %d", rc);
++        if (rc < 0) {
++            if (rc != -ENXIO) {
++                warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
++                            "error: %d", rc);
++            }
++            return ret;
+         }
+         ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
+     } else if (function == 0x80000001 && reg == R_ECX) {
 -- 
 2.35.1
+
 
 
