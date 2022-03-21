@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32104E3293
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 23:11:28 +0100 (CET)
-Received: from localhost ([::1]:59474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555074E3295
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 23:11:58 +0100 (CET)
+Received: from localhost ([::1]:32978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWQFL-0007bZ-KM
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 18:11:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34892)
+	id 1nWQFp-0000N4-E3
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 18:11:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWQC8-0004FV-DZ
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:08:08 -0400
-Received: from [2a00:1450:4864:20::433] (port=46694
- helo=mail-wr1-x433.google.com)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nWQCR-0004YL-BL
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:08:27 -0400
+Received: from [2607:f8b0:4864:20::634] (port=44844
+ helo=mail-pl1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWQC7-0004ft-21
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:08:08 -0400
-Received: by mail-wr1-x433.google.com with SMTP id h4so4581859wrc.13
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 15:08:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nWQCP-0004ia-Oe
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:08:27 -0400
+Received: by mail-pl1-x634.google.com with SMTP id q11so13888816pln.11
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 15:08:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=a/hYYN8BbL4ShY2j48e6b20B+dWEh/XMhNWc8oWxq/c=;
- b=DGWcJKn2+a9IBn4oNgHv6U0RX4cfUGv/TsSTofrgIYPAnmufz6ju0GffWScecX49l7
- fqkHRUTFzV5wCMwLmgF2smh8MyoLZ5wUUmrYumj1y+0j4GdJPje2bNQtAcx0vC+PC2OK
- RzDnR9yojxM8L2cZg7cwv1zkMrMP0871MPreh2Ixgfug7UpFxgBJzcPyHND5LmTUvS/y
- PQiwkgB5zWX72gWoPe/W4LQ4M5kYQ1BLye5goQ4jUm9EwGuBZPXMQyAyVTehaNJpjsJt
- dJn6jbt6qtfWcl8OcE7exE7bsFpNNlh+6hGBihZWVSDmpumsbfF4KpWJrEP7fH+Vf1Mb
- 9vEw==
+ bh=ddf7ftXJmx/TRo9txIxGawoe3B1XUWGF3JBjN842l+g=;
+ b=hb24yUcBssJzGpB7iA7hhXXyG9p9Kd0lgvKoG2/UTSTVFDIu36B9Xk6U78OrZXrHoF
+ 1oDHE+OYg0RD40ArkIceYujwiNTyM7ltrVt+UUJBHxgVGu6//KsZzyZEQPVjFxIzjLQo
+ QPA45xJC5KcliL+qAcmj0qrH5+4nNVGf+wC2A+t4JHpRVLTblp7enbF94fg5Vem71Ct0
+ iUEY/1ydQJqYFXH9ortWn48I0JJ3kDpk/3nf67RXtnMjgXEVph1UxvqKhVCJGWrTXwlO
+ j3tPqI/h3b71QeCls9os5/oHSz1swSskeLtIl4EPKRHNSECivXq2URddJcxode6Wma0Z
+ HpKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=a/hYYN8BbL4ShY2j48e6b20B+dWEh/XMhNWc8oWxq/c=;
- b=b0z9hRR1zEmyW9/hvFYwuJP1utkVZUqn241AhKbY9CE8ucl++6DLkAnk8ufB/WEG5I
- vDPBRTf/K8h9q1g2e5VY0sQOOs2w5uxsrXVyIjwY2KO42NdU9QTUAw6j++w5BS4SPdOd
- 1uzKocSCGqKKbH0ALw60zntlvmsNiyi4GXDV9FpyeyV7gnxjpcEf8lmedGUnq5A82jth
- JIUMnTlPFR6xxPCS3BT7Z7PpzhLN+RhlChTLczwgxirg0gdU3Z5j2uZDzIAh5b7Hpujy
- EpuqbnuNHkK9clg3tLJt+JAL9uT3QYFv/VcSPxZF5v9mR/yhwJQDIoiRCgfdGVscfem4
- U5DQ==
-X-Gm-Message-State: AOAM531UVRqceU6N90t2Js59BlADkfXyXMKwSh7DayNRQ/D4r+uyTTVD
- tR8pNjN02BvXppaD5y7HDAQ=
-X-Google-Smtp-Source: ABdhPJxDRJHDVqbHKb2qtzDJVr2cflYnztfp0SyBt44azn0SbJGa86OR0cOwbeEZLECsHmXeyUGfYQ==
-X-Received: by 2002:a5d:47cb:0:b0:203:fa18:3657 with SMTP id
- o11-20020a5d47cb000000b00203fa183657mr13356747wrc.490.1647900485189; 
- Mon, 21 Mar 2022 15:08:05 -0700 (PDT)
-Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
- [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- o11-20020adf9d4b000000b001f0077ea337sm14382800wre.22.2022.03.21.15.08.04
+ bh=ddf7ftXJmx/TRo9txIxGawoe3B1XUWGF3JBjN842l+g=;
+ b=PkI0oZOgyW4sJ+Q5AStI2ZyZVkPPLV8IED0pHL+AFS2ON3ovI9cYV5QGBsV0tNZVLP
+ fWDuRyJYV+Iyfo3Up8FVVHJmYfJpf6g0Z/qySwPRQnV2yGzg5OlDtXFd/KB3twv+Sbj0
+ Jkwk7oEta5HuoN5B5jCR06yBihLGc5nGS1Y1odf9kFaM/kuGoUVGhS6WzbybwLSgDwRB
+ kFhVsLFpEk7Cc91CALO7T004SeD3BJC3zglaTOGJpVgCV5ZSk8CzaRIVimknWgNr0I/a
+ 6Cul5lE5xv6737G6N11B3xZKt6f2MVX2sKUAhL0hnLklDyEFftSnKT9Hxlj4wJTvoKMA
+ JIxQ==
+X-Gm-Message-State: AOAM530RCvv3UgVpjsp3OIdUdYYXC7mVfH1hVhE1MuJYJ/Pm2OgcJi7q
+ EW6t/PZ0MG7Q6yoyvS41wdU=
+X-Google-Smtp-Source: ABdhPJwyujKn7186iYeL4xiBXuh1ujwqZlWaz5QsNaXsGwT7BmkD1n9F8pJBxjS7p19FfK2Z4dBKng==
+X-Received: by 2002:a17:90b:38cf:b0:1bf:42ee:6fa with SMTP id
+ nn15-20020a17090b38cf00b001bf42ee06famr1321648pjb.9.1647900504467; 
+ Mon, 21 Mar 2022 15:08:24 -0700 (PDT)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ h22-20020a056a00231600b004fa7eb1e85esm10440978pfh.180.2022.03.21.15.08.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 15:08:04 -0700 (PDT)
-Message-ID: <7f689b45-a16c-8a59-d3d7-6344f0982b38@gmail.com>
-Date: Mon, 21 Mar 2022 23:08:03 +0100
+ Mon, 21 Mar 2022 15:08:23 -0700 (PDT)
+Message-ID: <223681b8-ae67-8e9b-c41c-1538d7319da9@gmail.com>
+Date: Tue, 22 Mar 2022 07:08:18 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v3 2/5] softmmu/cpus: Free cpu->thread in
- generic_destroy_vcpu_thread()
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH-for-7.0] qemu/main-loop: Disable block backend global
+ state assertion on Darwin
 Content-Language: en-US
-To: Mark Kanda <mark.kanda@oracle.com>, qemu-devel@nongnu.org
-References: <20220321141409.3112932-1-mark.kanda@oracle.com>
- <20220321141409.3112932-3-mark.kanda@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220321141409.3112932-3-mark.kanda@oracle.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
+References: <20220321145537.98924-1-philippe.mathieu.daude@gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <20220321145537.98924-1-philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,43 +94,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, f4bug@amsat.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/3/22 15:14, Mark Kanda wrote:
-> Free cpu->thread in a new AccelOpsClass::destroy_vcpu_thread() handler
-> generic_destroy_vcpu_thread().
+On 2022/03/21 23:55, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> vCPU hotunplug related leak reported by Valgrind:
+> Since commit 0439c5a462 ("block/block-backend.c: assertions for
+> block-backend") QEMU crashes on Darwin hosts, example on macOS:
 > 
-> ==102631== 8 bytes in 1 blocks are definitely lost in loss record 1,037 of 8,555
-> ==102631==    at 0x4C3ADBB: calloc (vg_replace_malloc.c:1117)
-> ==102631==    by 0x69EE4CD: g_malloc0 (in /usr/lib64/libglib-2.0.so.0.5600.4)
-> ==102631==    by 0x92443A: kvm_start_vcpu_thread (kvm-accel-ops.c:68)
-> ==102631==    by 0x4505C2: qemu_init_vcpu (cpus.c:643)
-> ==102631==    by 0x76B4D1: x86_cpu_realizefn (cpu.c:6520)
-> ==102631==    by 0x9344A7: device_set_realized (qdev.c:531)
-> ==102631==    by 0x93E329: property_set_bool (object.c:2273)
-> ==102631==    by 0x93C2F8: object_property_set (object.c:1408)
-> ==102631==    by 0x940796: object_property_set_qobject (qom-qobject.c:28)
-> ==102631==    by 0x93C663: object_property_set_bool (object.c:1477)
-> ==102631==    by 0x933D3B: qdev_realize (qdev.c:333)
-> ==102631==    by 0x455EC4: qdev_device_add_from_qdict (qdev-monitor.c:713)
+>    $ qemu-system-i386
+>    Assertion failed: (qemu_in_main_thread()), function blk_all_next, file block-backend.c, line 552.
+>    Abort trap: 6
 > 
-> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+> Looking with lldb:
+> 
+>    Assertion failed: (qemu_in_main_thread()), function blk_all_next, file block-backend.c, line 552.
+>    Process 76914 stopped
+>    * thread #1, queue = 'com.apple.main-thread', stop reason = hit program assert
+>       frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1
+>    at block-backend.c:552:5 [opt]
+>        549    */
+>        550   BlockBackend *blk_all_next(BlockBackend *blk)
+>        551   {
+>    --> 552       GLOBAL_STATE_CODE();
+>        553       return blk ? QTAILQ_NEXT(blk, link)
+>        554                  : QTAILQ_FIRST(&block_backends);
+>        555   }
+>    Target 1: (qemu-system-i386) stopped.
+> 
+>    (lldb) bt
+>    * thread #1, queue = 'com.apple.main-thread', stop reason = hit program assert
+>       frame #0: 0x00000001908c99b8 libsystem_kernel.dylib`__pthread_kill + 8
+>       frame #1: 0x00000001908fceb0 libsystem_pthread.dylib`pthread_kill + 288
+>       frame #2: 0x000000019083a314 libsystem_c.dylib`abort + 164
+>       frame #3: 0x000000019083972c libsystem_c.dylib`__assert_rtn + 300
+>     * frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1 at block-backend.c:552:5 [opt]
+>       frame #5: 0x00000001003c00b4 qemu-system-i386`blk_all_next(blk=<unavailable>) at block-backend.c:552:5 [opt]
+>       frame #6: 0x00000001003d8f04 qemu-system-i386`qmp_query_block(errp=0x0000000000000000) at qapi.c:591:16 [opt]
+>       frame #7: 0x000000010003ab0c qemu-system-i386`main [inlined] addRemovableDevicesMenuItems at cocoa.m:1756:21 [opt]
+>       frame #8: 0x000000010003ab04 qemu-system-i386`main(argc=<unavailable>, argv=<unavailable>) at cocoa.m:1980:5 [opt]
+>       frame #9: 0x00000001012690f4 dyld`start + 520
+> 
+> As we are in passed release 7.0 hard freeze, disable the block
+> backend assertion which, while being valuable during development,
+> is not helpful to users. We'll restore this assertion immediately
+> once 7.0 is released and work on a fix.
+> 
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Suggested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   accel/accel-common.c              | 6 ++++++
->   accel/hvf/hvf-accel-ops.c         | 1 +
->   accel/kvm/kvm-accel-ops.c         | 1 +
->   accel/qtest/qtest.c               | 1 +
->   accel/tcg/tcg-accel-ops.c         | 1 +
->   accel/xen/xen-all.c               | 1 +
->   include/sysemu/accel-ops.h        | 2 ++
->   target/i386/hax/hax-accel-ops.c   | 1 +
->   target/i386/nvmm/nvmm-accel-ops.c | 1 +
->   target/i386/whpx/whpx-accel-ops.c | 1 +
->   10 files changed, 16 insertions(+)
+>   include/qemu/main-loop.h | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+> index 7a4d6a0920..c27968ce33 100644
+> --- a/include/qemu/main-loop.h
+> +++ b/include/qemu/main-loop.h
+> @@ -270,10 +270,14 @@ bool qemu_mutex_iothread_locked(void);
+>   bool qemu_in_main_thread(void);
+>   
+>   /* Mark and check that the function is part of the global state API. */
+> +#ifdef CONFIG_DARWIN
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+You may use CONFIG_COCOA instead. The assertion can still do its job on 
+Darwin if ui/cocoa is not in use.
+
+Also, some code comment is nice to have since the intention is rather 
+unclear from the code even though this is temporary and few people would 
+stumble upon it.
+
+Regards,
+Akihiko Odaki
+
+> +#define GLOBAL_STATE_CODE()
+> +#else
+>   #define GLOBAL_STATE_CODE()                                         \
+>       do {                                                            \
+>           assert(qemu_in_main_thread());                              \
+>       } while (0)
+> +#endif /* CONFIG_DARWIN */
+>   
+>   /* Mark and check that the function is part of the I/O API. */
+>   #define IO_CODE()                                                   \
+
 
