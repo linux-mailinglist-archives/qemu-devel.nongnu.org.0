@@ -2,81 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E73714E277B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:26:31 +0100 (CET)
-Received: from localhost ([::1]:34170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF234E276B
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:22:05 +0100 (CET)
+Received: from localhost ([::1]:50918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWI3K-00038w-O7
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:26:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33340)
+	id 1nWHz2-0003iG-10
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:22:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
- id 1nWCoe-0001zb-QO
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 03:51:01 -0400
-Received: from [2607:f8b0:4864:20::102a] (port=36640
- helo=mail-pj1-x102a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
- id 1nWCoc-0007z4-Fe
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 03:51:00 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- kx5-20020a17090b228500b001c6ed9db871so3351100pjb.1
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 00:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:mime-version:subject:message-id:date:cc:to;
- bh=xw+UHeE/WlPnjS6igLkf6cJqO8zrJISeOqFOIYWeGw8=;
- b=ZqqGfpmMeaXcG0Zf4uarZ0kWUlJeHvibmm7j5gxmdMwGh7WOrdPfft0g0MWifWXPua
- OdhK4mVv+pW4RP178SqgI8cI1MBX0EuoF5MefcjAbUEvklNe6G5+/dMcx+1t7UKRsdvM
- 2mX2D2PGS3yrAT15vtE+fUxs6PqXEsuP3dXcnRHlUCCemI/Y2EPGl4wcJ5A9Tnqtl1Wf
- 01pb2n+/is7eZYct83aHFss+43kvC4oUQrWJT8GokhwbQy/STdbRg3+grxtHf0rINcE7
- zBjP55wNaZTAZp6f0+ylA6rVZBA7uaopYLVtZgV8EOHYjFgq/J+JgGSwSKrSJLy4mf6Q
- wRCg==
+ (Exim 4.90_1) (envelope-from <andrea.righi@canonical.com>)
+ id 1nWCte-0003LW-3o
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 03:56:10 -0400
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:33180)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrea.righi@canonical.com>)
+ id 1nWCtY-0007ka-SB
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 03:56:09 -0400
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id EE2873F1C0
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 07:55:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1647849357;
+ bh=uFuBmms42aPmvQcreu/ayndBUtUKwJx/UYqxGQ1JWT4=;
+ h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+ Content-Type:In-Reply-To;
+ b=WU/lMuv5K8WMrCLdRQKys6RmPwbcpxmkYNbNncCsYtzpcnttU7LW6Z85B6A5K/+Bu
+ kwKYQ4xJ9TPJWGTzr+jkz3x/zGAZb0V7PEZLuXC7/QsbQahsPFwTWuHw/w1o4pHaxj
+ QjZDKiFbT+8EK6Udn+SASyKxLPBKV1wiK0dsZn5NalGpg4QMQ4GJAbHp485J1h3+HS
+ gnAaknFu2ejLj7CejYQ6oCS7bviKhAq/bqJPovPP4+mEEy3DV73GuouOUFyj5SKBsM
+ U3STVhsdXkKN7VcgxjWFGvZkPOV9zQbZ8A3PJsTv9Czkdy+baADddneB/cWJBZoRxY
+ fO+KmCJpEyGUA==
+Received: by mail-wr1-f71.google.com with SMTP id
+ f14-20020adfc98e000000b001e8593b40b0so2814941wrh.14
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 00:55:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:mime-version:subject:message-id:date:cc:to;
- bh=xw+UHeE/WlPnjS6igLkf6cJqO8zrJISeOqFOIYWeGw8=;
- b=MgdJl95VTRpakttYOIO+TkpSWul2DuG2zT9l5kKkpCWF3hEA7kcX6B/mBmbCQxB871
- MWAOp425ZpxWnrqGm1esCd0wSEqBavuQRMCSHpClgWcBY3ojQX/NH8DbT8UOO9a9nOoF
- IM6MZ40WzHsz0QyzjnHEcOX5uPeJ9uJ1EO0uzc/1pERh8CsXMUd88y4CnvFt++f8A9H1
- RBR0fOtUMVtBw+pGNceZWlxr0+UtD8dpVfDORonlgZPdzUuZioSqow6k3oCORIlWHMGQ
- l4HozJhvsDMQGnsSpYaFe6+8chRdEJEAaJAp1ntje0UyUEwOUUg/e2aIiYUUx6JmR0nH
- JVfQ==
-X-Gm-Message-State: AOAM531HzWNJtoWZJ2qJaLpsU8TCVmGdN00bvcvf6mWXCDU5kjJpz4Nj
- K8mLOmdeMVjTn/WGYYigd2EtPQ==
-X-Google-Smtp-Source: ABdhPJxPbAL06VaiIJ4LoRE4ay/vRaxuEp8IiM0iSs9BoqP58WYoMJjMFLVtYgI3DURnvvLLnVjpWg==
-X-Received: by 2002:a17:903:1cd:b0:154:5edf:5704 with SMTP id
- e13-20020a17090301cd00b001545edf5704mr3141082plh.26.1647849056619; 
- Mon, 21 Mar 2022 00:50:56 -0700 (PDT)
-Received: from smtpclient.apple
- (2001-b011-0007-1667-1874-96eb-8cbd-9f0a.dynamic-ip6.hinet.net.
- [2001:b011:7:1667:1874:96eb:8cbd:9f0a])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=uFuBmms42aPmvQcreu/ayndBUtUKwJx/UYqxGQ1JWT4=;
+ b=UNRb07V4idhjk59c2nmo0hOV7+EGUayAu9AG87UYGuDumo2KVYUud4CGlc9Hjd90kJ
+ 10k4IxGk6RGzRN+tjq8WeZGZziq5r6v3D7OpP3zEqrjcEqy9eiOzLEZZoFS+urJLMXQ4
+ dpwnUtvEs7BnlwokXJXR3ZXYmx4J2/kFcoO0H2fK8stobRumJUsJ2uRGHaMvP2pPMu3t
+ iCeZxyHbqzL9KG4t7JFaaOV05tUTTVBiMvWd/fCACfhYYcdAkS69Rjc9JGCP28JhbUu+
+ TRVMpCSroBShzKlgYbT20q7OhqZvdZBbA1BH/Dyqkwukk3so+lu2mqjtujr1Cfahg63K
+ dM+w==
+X-Gm-Message-State: AOAM530vHxiYEsIviu5PcYUVQRW/uu8TtwTrRpk/elkI6lEoHxcD/sgJ
+ bNXmRrJhV8jQffOMkpJKCoQXjsVZNHSod8+Ia4XTkV+Fy0qNv6bIYzkaKxj2pttYIYVAAQth0Bz
+ IhqW5fMF+NsB0WHa7LAGyOPghJ/BsLbJD
+X-Received: by 2002:adf:9dc6:0:b0:203:fb2d:75d6 with SMTP id
+ q6-20020adf9dc6000000b00203fb2d75d6mr10604287wre.571.1647849357651; 
+ Mon, 21 Mar 2022 00:55:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz5FhylrgLJ/zfqITE/clfB8NUfeFAm8JAlNprg6e9GRJZBumOjpzwC6xIVCcqSeycZNKBVuA==
+X-Received: by 2002:adf:9dc6:0:b0:203:fb2d:75d6 with SMTP id
+ q6-20020adf9dc6000000b00203fb2d75d6mr10604273wre.571.1647849357305; 
+ Mon, 21 Mar 2022 00:55:57 -0700 (PDT)
+Received: from localhost ([2001:67c:1560:8007::aac:c1b6])
  by smtp.gmail.com with ESMTPSA id
- h10-20020a056a001a4a00b004f7c76f29c3sm18141955pfv.24.2022.03.21.00.50.54
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 21 Mar 2022 00:50:56 -0700 (PDT)
-From: eop Chen <eop.chen@sifive.com>
-Content-Type: multipart/alternative;
- boundary="Apple-Mail=_E163C4B7-0548-4B37-9E37-E56EFEB0ADEE"
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
-Subject: Re: [PATCH qemu 00/13] Add tail agnostic behavior for rvv instructions
-Message-Id: <A3DC40FA-D929-47A3-9B0D-6BA4F7CFBCDC@sifive.com>
-Date: Mon, 21 Mar 2022 15:50:53 +0800
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-X-Mailer: Apple Mail (2.3693.60.0.1.1)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=eop.chen@sifive.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: 9
-X-Spam_score: 0.9
-X-Spam_bar: /
-X-Spam_report: (0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FAKE_REPLY_B=1.566, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ r12-20020a5d6c6c000000b00203ec2b1255sm11237325wrz.60.2022.03.21.00.55.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Mar 2022 00:55:56 -0700 (PDT)
+Date: Mon, 21 Mar 2022 08:55:55 +0100
+From: Andrea Righi <andrea.righi@canonical.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
+ performance
+Message-ID: <Yjgtw9AWsFy/Ssvr@arighi-desktop>
+References: <Yi94mQUfrxMVbiLM@redhat.com>
+ <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de>
+ <Yi+ACeaZ+oXTVYjc@redhat.com>
+ <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
+ <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de>
+ <YjMMfnEjXsz3Vi8h@redhat.com>
+ <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
+ <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de>
+ <YjNNqzb7eBBwMFJN@work-vm>
+ <737974fa-905c-d171-05b0-ec4df42bc762@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <737974fa-905c-d171-05b0-ec4df42bc762@suse.de>
+Received-SPF: pass client-ip=185.125.188.123;
+ envelope-from=andrea.righi@canonical.com;
+ helo=smtp-relay-internal-1.canonical.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Mon, 21 Mar 2022 09:18:17 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,258 +109,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, palmer@dabbelt.com,
- bin.meng@windriver.com, alistair.francis@wdc.com
+Cc: libvir-list@redhat.com, Jiri Denemark <jdenemar@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Mar 18, 2022 at 02:34:29PM +0100, Claudio Fontana wrote:
+...
+> I have lots of questions here, and I tried to involve Jiri and Andrea Righi here, who a long time ago proposed a POSIX_FADV_NOREUSE implementation.
+> 
+> 1) What is the reason iohelper was introduced?
+> 
+> 2) Was Jiri's comment about the missing linux implementation of POSIX_FADV_NOREUSE?
+> 
+> 3) if using O_DIRECT is the only reason for iohelper to exist (...?), would replacing it with posix_fadvise remove the need for iohelper?
+> 
+> 4) What has stopped Andreas' or another POSIX_FADV_NOREUSE implementation in the kernel?
 
---Apple-Mail=_E163C4B7-0548-4B37-9E37-E56EFEB0ADEE
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+For what I remember (it was a long time ago sorry) I stopped to pursue
+the POSIX_FADV_NOREUSE idea, because we thought that moving to a
+memcg-based solution was a better and more flexible approach, assuming
+memcg would have given some form of specific page cache control. As of
+today I think we still don't have any specific page cache control
+feature in memcg, so maybe we could reconsider the FADV_NOREUSE idea (or
+something similar)?
 
+Maybe even introduce a separate FADV_<something> flag if we don't want
+to bind a specific implementation of this feature to a standard POSIX
+flag (even if FADV_NOREUSE is still implemented as a no-op in the
+kernel).
 
-Hi WeiWei,
+The thing that I liked about the fadvise approach is its simplicity from
+an application perspective, because it's just a syscall and that's it,
+without having to deal with any other subsystems (cgroups, sysfs, and
+similar).
 
-Thanks for reviewing this PR.
+-Andrea
 
-=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-
-Regarding to possible behaviors on agnostic elements to mask =
-instructions, I
-want to ask for you and other's opinion on this proposed PR before =
-sending the
-next version.
-
-I understand that there are multiple possibility for agnostic elements
-according to v-spec. The main intent of this patch-set tries to add =
-option that
-can distinguish between tail policies. Setting agnostic elements to all =
-1s
-makes things simple and allow qemu to express that the element is =
-agnostic.
-Therefore I want unify **all** agnostic elements to be set to 1s in this =
-when
-this option is enabled.
-
-To avoid affecting the current behavior, the option is default to =
-=E2=80=9Cdisabled".
-This option is an extra feature to offer so users that care can enable =
-it on
-their will.
-
-=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-
-Here are some replies to your review comments.
-
-Under [00/13]
-> Another question: when rvv_ta_all_1s for vta  is enabled, How about =
-vma?=20
-> Is it necessary to set the inactive elements to all 1s?
-
-This PR will add tail agnostic feature. I am planning on adding the mask
-policy in another PR to keep the size of change more reasonable for =
-review.
-
-Under [01/13]
-> ESZ can be used in the later patches. Maybe it's better to move this=20=
-
-> patch to  last  and prune redundant DSZ parameter.
-
-ESZ and DSZ are redundant code that aren't cleaned-up in the past =
-developments.
-I prefer to clean this up first and add it back incrementally in the =
-following
-commit to make the commits more readable. I do agree with you that =
-`ETYPE` is
-not a straight-forward naming and I will change them to `ESZ`.
-
-Under [03/13]
-> Maybe miss a space here.
-
-Nice catch here, thank you.
-
-Under [04/13]
-> ETYPE seems have no other meaning here. Why not use ESZ directly  as=20=
-
-original code.
-
-Yes I agree with you. I will update it in the next version.
-
-Under [05/13]
-> Similar to last patch, can use ESZ directly here.
-
-I will update it in the next version.
-
-Under [06/13]
-> Use vlmax here and in the previous patches may not contains all the =
-tail=20
-> elements:
-> "When LMUL < 1, the tail includes the elements past VLMAX that are =
-held=20
-> in the same vector register"
-
-Nice catch for this. I will cover LMUL < 1 cases for all functions in =
-the next
-version.
-
-Under [07/13]
-> Why comment 'clear tail element' here?
-> "In addition, except for mask load instructions, any element in the =
-tail=20
-> of a mask result can also be written with the value the
-> mask-producing operation would have calculated with vl=3DVLMAX.
-> Furthermore, for mask-logical instructions and vmsbf.m,
-> vmsif.m, vmsof.m mask-manipulation instructions, any element in the =
-tail=20
-> of the result can be written with the value the
-> mask-producing operation would have calculated with vl=3DVLEN, SEW=3D8, =
-and=20
-> LMUL=3D8 (i.e., all bits of the mask register can
-> be overwritten)."
-
-I will wait for you and other's reply on my comment on this.
-
-=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-
-Thanks again for your time.
-
-Best,
-
-Yueh-Ting (eop) Chen
-
-
---Apple-Mail=_E163C4B7-0548-4B37-9E37-E56EFEB0ADEE
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><br =
-class=3D""><div class=3D"">
-
-</div>
-<div style=3D"color: rgb(54, 54, 54); font-family: Menlo, Monaco, =
-&quot;Courier New&quot;, monospace; line-height: 18px; white-space: =
-pre;" class=3D""><div class=3D"">Hi WeiWei,</div><br class=3D""><div =
-class=3D"">Thanks for reviewing this PR.</div><br class=3D""><div =
-class=3D""><span style=3D"color: rgb(63, 151, 223); font-weight: bold;" =
-class=3D"">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D</span></div><br class=3D""><div =
-class=3D"">Regarding to possible behaviors on agnostic elements to mask =
-instructions, I</div><div class=3D"">want to ask for you and other's =
-opinion on this proposed PR before sending the</div><div class=3D"">next =
-version.</div><br class=3D""><div class=3D"">I understand that there are =
-multiple possibility for agnostic elements</div><div class=3D"">according =
-to v-spec. The main intent of this patch-set tries to add option =
-that</div><div class=3D"">can distinguish between tail policies. Setting =
-agnostic elements to all 1s</div><div class=3D"">makes things simple and =
-allow qemu to express that the element is agnostic.</div><div =
-class=3D"">Therefore I want unify <span style=3D"color: rgb(63, 151, =
-223); font-weight: bold;" class=3D"">**all**</span> agnostic elements to =
-be set to 1s in this when</div><div class=3D"">this option is =
-enabled.</div><br class=3D""><div class=3D"">To avoid affecting the =
-current behavior, the option is default to =E2=80=9Cdisabled".</div><div =
-class=3D"">This option is an extra feature to offer so users that care =
-can enable it on</div><div class=3D"">their will.</div><br class=3D""><div=
- class=3D""><span style=3D"color: rgb(63, 151, 223); font-weight: bold;" =
-class=3D"">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D</span></div><br class=3D""><div class=3D"">Here =
-are some replies to your review comments.</div><br class=3D""><div =
-class=3D"">Under [00/13]</div><div class=3D""><span style=3D"color: =
-rgb(146, 205, 120);" class=3D"">&gt;</span> Another question: when =
-rvv_ta_all_1s for vta  is enabled, How about vma? </div><div =
-class=3D""><span style=3D"color: rgb(146, 205, 120);" =
-class=3D"">&gt;</span> Is it necessary to set the inactive elements to =
-all 1s?</div><br class=3D""><div class=3D"">This PR will add tail =
-agnostic feature. I am planning on adding the mask</div><div =
-class=3D"">policy in another PR to keep the size of change more =
-reasonable for review.</div><br class=3D""><div class=3D"">Under =
-[01/13]</div><div class=3D""><span style=3D"color: rgb(146, 205, 120);" =
-class=3D"">&gt;</span> ESZ can be used in the later patches. Maybe it's =
-better to move this </div><div class=3D""><span style=3D"color: rgb(146, =
-205, 120);" class=3D"">&gt;</span> patch to  last  and prune redundant =
-DSZ parameter.</div><br class=3D""><div class=3D"">ESZ and DSZ are =
-redundant code that aren't cleaned-up in the past =
-developments.</div><div class=3D"">I prefer to clean this up first and =
-add it back incrementally in the following</div><div class=3D"">commit =
-to make the commits more readable. I do agree with you that <span =
-style=3D"color: rgb(162, 86, 55);" class=3D"">`ETYPE`</span> =
-is</div><div class=3D"">not a straight-forward naming and I will change =
-them to <span style=3D"color: rgb(162, 86, 55);" =
-class=3D"">`ESZ`</span>.</div><br class=3D""><div class=3D"">Under =
-[03/13]</div><div class=3D""><span style=3D"color: rgb(146, 205, 120);" =
-class=3D"">&gt;</span> Maybe miss a space here.</div><br class=3D""><div =
-class=3D"">Nice catch here, thank you.</div><br class=3D""><div =
-class=3D"">Under [04/13]</div><div class=3D""><span style=3D"color: =
-rgb(146, 205, 120);" class=3D"">&gt;</span> ETYPE seems have no other =
-meaning here. Why not use ESZ directly  as </div><div class=3D"">original =
-code.</div><br class=3D""><div class=3D"">Yes I agree with you. I will =
-update it in the next version.</div><br class=3D""><div class=3D"">Under =
-[05/13]</div><div class=3D""><span style=3D"color: rgb(146, 205, 120);" =
-class=3D"">&gt;</span> Similar to last patch, can use ESZ directly =
-here.</div><br class=3D""><div class=3D"">I will update it in the next =
-version.</div><br class=3D""><div class=3D"">Under [06/13]</div><div =
-class=3D""><span style=3D"color: rgb(146, 205, 120);" =
-class=3D"">&gt;</span> Use vlmax here and in the previous patches may =
-not contains all the tail </div><div class=3D""><span style=3D"color: =
-rgb(146, 205, 120);" class=3D"">&gt;</span> elements:</div><div =
-class=3D""><span style=3D"color: rgb(146, 205, 120);" =
-class=3D"">&gt;</span> "When LMUL &lt; 1, the tail includes the elements =
-past VLMAX that are held </div><div class=3D""><span style=3D"color: =
-rgb(146, 205, 120);" class=3D"">&gt;</span> in the same vector =
-register"</div><br class=3D""><div class=3D"">Nice catch for this. I =
-will cover LMUL &lt; 1 cases for all functions in the next</div><div =
-class=3D"">version.</div><br class=3D""><div class=3D"">Under =
-[07/13]</div><div class=3D""><span style=3D"color: rgb(146, 205, 120);" =
-class=3D"">&gt;</span> Why comment 'clear tail element' here?</div><div =
-class=3D""><span style=3D"color: rgb(146, 205, 120);" =
-class=3D"">&gt;</span> "In addition, except for mask load instructions, =
-any element in the tail </div><div class=3D""><span style=3D"color: =
-rgb(146, 205, 120);" class=3D"">&gt;</span> of a mask result can also be =
-written with the value the</div><div class=3D""><span style=3D"color: =
-rgb(146, 205, 120);" class=3D"">&gt;</span> mask-producing operation =
-would have calculated with vl=3DVLMAX.</div><div class=3D""><span =
-style=3D"color: rgb(146, 205, 120);" class=3D"">&gt;</span> Furthermore, =
-for mask-logical instructions and vmsbf.m,</div><div class=3D""><span =
-style=3D"color: rgb(146, 205, 120);" class=3D"">&gt;</span> vmsif.m, =
-vmsof.m mask-manipulation instructions, any element in the tail =
-</div><div class=3D""><span style=3D"color: rgb(146, 205, 120);" =
-class=3D"">&gt;</span> of the result can be written with the value =
-the</div><div class=3D""><span style=3D"color: rgb(146, 205, 120);" =
-class=3D"">&gt;</span> mask-producing operation would have calculated =
-with vl=3DVLEN, SEW=3D8, and </div><div class=3D""><span style=3D"color: =
-rgb(146, 205, 120);" class=3D"">&gt;</span> LMUL=3D8 (i.e., all bits of =
-the mask register can</div><div class=3D""><span style=3D"color: =
-rgb(146, 205, 120);" class=3D"">&gt;</span> be overwritten)."</div><br =
-class=3D""><div class=3D"">I will wait for you and other's reply on my =
-comment on this.</div><br class=3D""><div class=3D""><span style=3D"color:=
- rgb(63, 151, 223); font-weight: bold;" =
-class=3D"">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D</span></div><br class=3D""><div class=3D"">Thanks=
- again for your time.</div><br class=3D""><div class=3D"">Best,</div><br =
-class=3D""><div class=3D"">Yueh-Ting (eop) Chen</div><br =
-class=3D""></div></body></html>=
-
---Apple-Mail=_E163C4B7-0548-4B37-9E37-E56EFEB0ADEE--
+> 
+> Lots of questions..
+> 
+> Thanks for all your insight,
+> 
+> Claudio
+> 
+> > 
+> > Dave
+> > 
+> >> Ciao,
+> >>
+> >> C
+> >>
+> >>>>
+> >>>> In the above tests with libvirt, were you using the
+> >>>> --bypass-cache flag or not ?
+> >>>
+> >>> No, I do not. Tests with ramdisk did not show a notable difference for me,
+> >>>
+> >>> but tests with /dev/null were not possible, since the command line is not accepted:
+> >>>
+> >>> # virsh save centos7 /dev/null
+> >>> Domain 'centos7' saved to /dev/null
+> >>> [OK]
+> >>>
+> >>> # virsh save centos7 /dev/null --bypass-cache
+> >>> error: Failed to save domain 'centos7' to /dev/null
+> >>> error: Failed to create file '/dev/null': Invalid argument
+> >>>
+> >>>
+> >>>>
+> >>>> Hopefully use of O_DIRECT doesn't make a difference for
+> >>>> /dev/null, since the I/O is being immediately thrown
+> >>>> away and so ought to never go into I/O cache. 
+> >>>>
+> >>>> In terms of the comparison, we still have libvirt iohelper
+> >>>> giving QEMU a pipe, while your test above gives QEMU a
+> >>>> UNIX socket.
+> >>>>
+> >>>> So I still wonder if the delta is caused by the pipe vs socket
+> >>>> difference, as opposed to netcat vs libvirt iohelper code.
+> >>>
+> >>> I'll look into this aspect, thanks!
+> >>
 
