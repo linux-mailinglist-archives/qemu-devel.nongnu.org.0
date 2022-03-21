@@ -2,61 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6854E2EDD
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 18:11:16 +0100 (CET)
-Received: from localhost ([::1]:60528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0536E4E2EE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 18:14:47 +0100 (CET)
+Received: from localhost ([::1]:43472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWLYp-00029t-3G
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 13:11:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42474)
+	id 1nWLcE-0001JS-3m
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 13:14:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWLRg-0001ra-E0
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:03:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44726)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWLYa-0003bq-W5
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:11:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWLRe-00059o-5c
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:03:51 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWLYZ-0006T1-Bt
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:11:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647882229;
+ s=mimecast20190719; t=1647882657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DhuPmU9LJA8M+qjfjISBRbzoq636/OC0gkE+0xDHxo0=;
- b=TXlNfh+QQmaaG/d4vp2IphsVBNQhx1dtSNw6BfPK01mpMHHak7kpwIqEZxO8I3u9kXE+gp
- Bulp2+DQ4Pi9Hy7GEG89T5AcBS0y2O4rqddQwsJXpSZgreDDs5SJ5aEs8nNH2UMp0idE1+
- 61un/H95t5FyrWKDgR7eEUxuf5d6IoA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=x3G6WchGWvyVgp7y1+VYyRvZmCDd0+pELE6d0oFsGNg=;
+ b=QAd7EWKILXEWe2ChzF+dCl2Hlzr1DtIBBhNVHj5iocGCJvHoSc1wORkKHZYYVQLmZfaM9a
+ VF/IsZZH9uvt0rlqkNF5PaLVMFAnmPm2pN4WSRHcZi+lbw+5B1dMgJyWJ8VOhNWtcE14Sl
+ +Mbk6OCEVzGC7NVC5r4rkpaleFd8oUk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-164-GrR_PXGoNdOXcO1Nxg__Vw-1; Mon, 21 Mar 2022 13:03:46 -0400
-X-MC-Unique: GrR_PXGoNdOXcO1Nxg__Vw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06C7582A6C2;
- Mon, 21 Mar 2022 17:03:46 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.195.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5389C4010A1C;
- Mon, 21 Mar 2022 17:03:43 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 8/8] tests/qtest/fuzz-sdcard-test: Add reproducer for OSS-Fuzz
- (Issue 29225)
-Date: Mon, 21 Mar 2022 18:03:20 +0100
-Message-Id: <20220321170320.282496-9-thuth@redhat.com>
-In-Reply-To: <20220321170320.282496-1-thuth@redhat.com>
-References: <20220321170320.282496-1-thuth@redhat.com>
+ us-mta-516-7eS_cpsDPfKZVYKHxaJ0CA-1; Mon, 21 Mar 2022 13:10:53 -0400
+X-MC-Unique: 7eS_cpsDPfKZVYKHxaJ0CA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v184-20020a1cacc1000000b0038a12dbc23bso10529145wme.5
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 10:10:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=x3G6WchGWvyVgp7y1+VYyRvZmCDd0+pELE6d0oFsGNg=;
+ b=7gmIR2ra0hByOO997fWa4dwdeIVW2dGdPTwO6Xv0Zjh3fq+w6vTIQIJdFj9iHWgV/s
+ vN6DY48ZPnulKnmw5GW70E74YY7jeS3RNKZMBszS8uSauE18WTJSSjgmME9058zppWjN
+ iDSCAJMc2vNavSYX7KjINWnTkRgsTvZfSPyaDOKWa14i/E3Ny1LQgyKP+ZeXf38mGbhx
+ ST5z9WBhGnAM5xGB+X8IMHFzqOghHyzuu/Y03775f5EQ86f6LAMCooTdWYzaI7ARwIiJ
+ UIAUtXmFZkr+Zdto+VTaPyEuXVp5CmbAJxs0R+FACgPMC8MrmFiycGiPmgjzfCkxHT1A
+ jRpA==
+X-Gm-Message-State: AOAM5318808PwF0xCMvK9RI99n5VumSX9pR+VGvg14DI3Rc//xR8sYAt
+ P9WhW78dusjFwFeDokYRGPaNwpQ+KRUFB+NPo0zPazO4SNPyZ5ltERisStwC2YE10p4WZErZ9Ie
+ 6jiLtSmi/1bVLE3k=
+X-Received: by 2002:a5d:6651:0:b0:203:fc53:cf22 with SMTP id
+ f17-20020a5d6651000000b00203fc53cf22mr11702282wrw.365.1647882652230; 
+ Mon, 21 Mar 2022 10:10:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwjNh82Y6NykqMwS7TcEkhqsX9+rXGtHlfi6rZdLtO3Z8edOCGvVdhqbsE2CN9SNdotIqayVQ==
+X-Received: by 2002:a5d:6651:0:b0:203:fc53:cf22 with SMTP id
+ f17-20020a5d6651000000b00203fc53cf22mr11702258wrw.365.1647882652008; 
+ Mon, 21 Mar 2022 10:10:52 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ c11-20020a05600c0a4b00b0037c91e085ddsm66891wmq.40.2022.03.21.10.10.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Mar 2022 10:10:51 -0700 (PDT)
+Message-ID: <ede500df-5261-ddae-b359-1cc6e051cd07@redhat.com>
+Date: Mon, 21 Mar 2022 18:10:49 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v1 2/8] tests/avocado: update aarch64_virt test to
+ exercise -cpu max
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20220315121251.2280317-1-alex.bennee@linaro.org>
+ <20220315121251.2280317-3-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220315121251.2280317-3-alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -65,9 +89,9 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,180 +104,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alexander Bulekov <alxndr@bu.edu>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com, Beraldo Leal <bleal@redhat.com>,
+ sw@weilnetz.de, richard.henderson@linaro.org, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 15/03/2022 13.12, Alex Bennée wrote:
+> The Fedora 29 kernel is quite old and importantly fails when running
+> in LPA2 scenarios. As it's not really exercising much of the CPU space
+> replace it with a custom 5.16.12 kernel with all the architecture
+> options turned on. There is a minimal buildroot initramfs included in
+> the kernel which has a few tools for stress testing the memory
+> subsystem. The userspace also targets the Neoverse N1 processor so
+> will fail without additional v8.x+ features.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20220307172249.3125779-1-alex.bennee@linaro.org>
+> ---
+>   tests/avocado/boot_linux_console.py | 22 ++++++++++++++--------
+>   1 file changed, 14 insertions(+), 8 deletions(-)
+> 
+> diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+> index 9c618d4809..ca3a40e91d 100644
+> --- a/tests/avocado/boot_linux_console.py
+> +++ b/tests/avocado/boot_linux_console.py
+> @@ -12,6 +12,7 @@
+>   import lzma
+>   import gzip
+>   import shutil
+> +import time
+>   
+>   from avocado import skip
+>   from avocado import skipUnless
+> @@ -330,25 +331,30 @@ def test_aarch64_virt(self):
+>           :avocado: tags=arch:aarch64
+>           :avocado: tags=machine:virt
+>           :avocado: tags=accel:tcg
+> -        :avocado: tags=cpu:cortex-a53
+> +        :avocado: tags=cpu:max
+>           """
+> -        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+> -                      '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
+> -                      '/vmlinuz')
+> -        kernel_hash = '8c73e469fc6ea06a58dc83a628fc695b693b8493'
+> +        kernel_url = ('https://fileserver.linaro.org/s/'
+> +                      'z6B2ARM7DQT3HWN/download')
+> +
+> +        kernel_hash = 'ed11daab50c151dde0e1e9c9cb8b2d9bd3215347'
+>           kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>   
+>           self.vm.set_console()
+>           kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+>                                  'console=ttyAMA0')
+>           self.require_accelerator("tcg")
+> -        self.vm.add_args('-cpu', 'cortex-a53',
+> +        self.vm.add_args('-cpu', 'max,pauth-impdef=on',
+>                            '-accel', 'tcg',
+>                            '-kernel', kernel_path,
+>                            '-append', kernel_command_line)
+>           self.vm.launch()
+> -        console_pattern = 'Kernel command line: %s' % kernel_command_line
+> -        self.wait_for_console_pattern(console_pattern)
+> +        self.wait_for_console_pattern('Welcome to Buildroot')
+> +        time.sleep(0.1)
+> +        exec_command(self, 'root')
+> +        time.sleep(0.1)
+> +        exec_command(self, 'cat /proc/self/maps')
+> +        time.sleep(0.1)
 
-Include the qtest reproducer provided by Alexander Bulekov
-in https://gitlab.com/qemu-project/qemu/-/issues/451. Without
-the previous commit, we get:
+I can't say much about scope of aarch64 testing, but while you're at it, you 
+also could move the new test to a separate file, like 
+machine_aarch64_virt.py, so that it could be added to MAINTAINERS, too?
 
-  $ make check-qtest-i386
-  ...
-  Running test qtest-i386/fuzz-sdcard-test
-  ==447470==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61500002a080 at pc 0x564c71766d48 bp 0x7ffc126c62b0 sp 0x7ffc126c62a8
-  READ of size 1 at 0x61500002a080 thread T0
-      #0 0x564c71766d47 in sdhci_read_dataport hw/sd/sdhci.c:474:18
-      #1 0x564c7175f139 in sdhci_read hw/sd/sdhci.c:1022:19
-      #2 0x564c721b937b in memory_region_read_accessor softmmu/memory.c:440:11
-      #3 0x564c72171e51 in access_with_adjusted_size softmmu/memory.c:554:18
-      #4 0x564c7216f47c in memory_region_dispatch_read1 softmmu/memory.c:1424:16
-      #5 0x564c7216ebb9 in memory_region_dispatch_read softmmu/memory.c:1452:9
-      #6 0x564c7212db5d in flatview_read_continue softmmu/physmem.c:2879:23
-      #7 0x564c7212f958 in flatview_read softmmu/physmem.c:2921:12
-      #8 0x564c7212f418 in address_space_read_full softmmu/physmem.c:2934:18
-      #9 0x564c721305a9 in address_space_rw softmmu/physmem.c:2962:16
-      #10 0x564c7175a392 in dma_memory_rw_relaxed include/sysemu/dma.h:89:12
-      #11 0x564c7175a0ea in dma_memory_rw include/sysemu/dma.h:132:12
-      #12 0x564c71759684 in dma_memory_read include/sysemu/dma.h:152:12
-      #13 0x564c7175518c in sdhci_do_adma hw/sd/sdhci.c:823:27
-      #14 0x564c7174bf69 in sdhci_data_transfer hw/sd/sdhci.c:935:13
-      #15 0x564c7176aaa7 in sdhci_send_command hw/sd/sdhci.c:376:9
-      #16 0x564c717629ee in sdhci_write hw/sd/sdhci.c:1212:9
-      #17 0x564c72172513 in memory_region_write_accessor softmmu/memory.c:492:5
-      #18 0x564c72171e51 in access_with_adjusted_size softmmu/memory.c:554:18
-      #19 0x564c72170766 in memory_region_dispatch_write softmmu/memory.c:1504:16
-      #20 0x564c721419ee in flatview_write_continue softmmu/physmem.c:2812:23
-      #21 0x564c721301eb in flatview_write softmmu/physmem.c:2854:12
-      #22 0x564c7212fca8 in address_space_write softmmu/physmem.c:2950:18
-      #23 0x564c721d9a53 in qtest_process_command softmmu/qtest.c:727:9
-
-  0x61500002a080 is located 0 bytes to the right of 512-byte region [0x615000029e80,0x61500002a080)
-  allocated by thread T0 here:
-      #0 0x564c708e1737 in __interceptor_calloc (qemu-system-i386+0x1e6a737)
-      #1 0x7ff05567b5e0 in g_malloc0 (/lib64/libglib-2.0.so.0+0x5a5e0)
-      #2 0x564c71774adb in sdhci_pci_realize hw/sd/sdhci-pci.c:36:5
-
-  SUMMARY: AddressSanitizer: heap-buffer-overflow hw/sd/sdhci.c:474:18 in sdhci_read_dataport
-  Shadow bytes around the buggy address:
-    0x0c2a7fffd3c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-    0x0c2a7fffd3d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    0x0c2a7fffd3e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    0x0c2a7fffd3f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    0x0c2a7fffd400: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  =>0x0c2a7fffd410:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-    0x0c2a7fffd420: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2a7fffd430: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2a7fffd440: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2a7fffd450: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2a7fffd460: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  Shadow byte legend (one shadow byte represents 8 application bytes):
-    Addressable:           00
-    Heap left redzone:       fa
-    Freed heap region:       fd
-  ==447470==ABORTING
-  Broken pipe
-  ERROR qtest-i386/fuzz-sdcard-test - too few tests run (expected 3, got 2)
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20211215205656.488940-4-philmd@redhat.com>
-[thuth: Replaced "-m 4G" with "-m 512M"]
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/fuzz-sdcard-test.c | 76 ++++++++++++++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
-
-diff --git a/tests/qtest/fuzz-sdcard-test.c b/tests/qtest/fuzz-sdcard-test.c
-index ae14305344..0f94965a66 100644
---- a/tests/qtest/fuzz-sdcard-test.c
-+++ b/tests/qtest/fuzz-sdcard-test.c
-@@ -87,6 +87,81 @@ static void oss_fuzz_36217(void)
-     qtest_quit(s);
- }
- 
-+/*
-+ * https://gitlab.com/qemu-project/qemu/-/issues/451
-+ * Used to trigger a heap buffer overflow.
-+ */
-+static void oss_fuzz_36391(void)
-+{
-+    QTestState *s;
-+
-+    s = qtest_init(" -display none -m 512M -nodefaults -nographic"
-+                   " -device sdhci-pci,sd-spec-version=3"
-+                   " -device sd-card,drive=drv"
-+                   " -drive if=none,index=0,file=null-co://,format=raw,id=drv");
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xe0000000);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x7);
-+    qtest_bufwrite(s, 0xe0000005, "\x73", 0x1);
-+    qtest_bufwrite(s, 0xe0000028, "\x55", 0x1);
-+    qtest_bufwrite(s, 0xe000002c, "\x55", 0x1);
-+    qtest_bufwrite(s, 0x0, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x7, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x8, "\x65", 0x1);
-+    qtest_bufwrite(s, 0xf, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x10, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x17, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x18, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x1f, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x20, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x27, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x28, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x2f, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x30, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x37, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x38, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x3f, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x40, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x47, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x48, "\x65", 0x1);
-+    qtest_bufwrite(s, 0xe000000c, "\x55", 0x1);
-+    qtest_bufwrite(s, 0xe000000e, "\x2c", 0x1);
-+    qtest_bufwrite(s, 0xe000000f, "\x5b", 0x1);
-+    qtest_bufwrite(s, 0xe0000010, "\x06\x46", 0x2);
-+    qtest_bufwrite(s, 0x50, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x57, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x58, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x5f, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x60, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x67, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x68, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x6f, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x70, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x77, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x78, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x7f, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x80, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x87, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x88, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x8f, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x90, "\x65", 0x1);
-+    qtest_bufwrite(s, 0x97, "\x69", 0x1);
-+    qtest_bufwrite(s, 0x98, "\x65", 0x1);
-+    qtest_bufwrite(s, 0xe0000026, "\x5a\x06", 0x2);
-+    qtest_bufwrite(s, 0xe0000028, "\x46\xc0\xc9\xc9", 0x4);
-+    qtest_bufwrite(s, 0xe0000028, "\x55", 0x1);
-+    qtest_bufwrite(s, 0xe000002a, "\x5a", 0x1);
-+    qtest_bufwrite(s, 0xa0, "\x65", 0x1);
-+    qtest_bufwrite(s, 0xa5, "\xff", 0x1);
-+    qtest_bufwrite(s, 0xa6, "\xff", 0x1);
-+    qtest_bufwrite(s, 0xa7, "\xdf", 0x1);
-+    qtest_bufwrite(s, 0xe000000c, "\x27", 0x1);
-+    qtest_bufwrite(s, 0xe000000f, "\x55", 0x1);
-+
-+    qtest_quit(s);
-+}
-+
- int main(int argc, char **argv)
- {
-     const char *arch = qtest_get_arch();
-@@ -96,6 +171,7 @@ int main(int argc, char **argv)
-    if (strcmp(arch, "i386") == 0) {
-         qtest_add_func("fuzz/sdcard/oss_fuzz_29225", oss_fuzz_29225);
-         qtest_add_func("fuzz/sdcard/oss_fuzz_36217", oss_fuzz_36217);
-+        qtest_add_func("fuzz/sdcard/oss_fuzz_36391", oss_fuzz_36391);
-    }
- 
-    return g_test_run();
--- 
-2.27.0
+  Thomas
 
 
