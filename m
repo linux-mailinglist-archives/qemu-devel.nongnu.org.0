@@ -2,90 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702E24E25C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 12:56:01 +0100 (CET)
-Received: from localhost ([::1]:45468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80654E261C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 13:13:28 +0100 (CET)
+Received: from localhost ([::1]:49256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWGdk-0000AF-BW
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 07:56:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33752)
+	id 1nWGud-0003el-Ih
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 08:13:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nWGYm-0001Uv-8F
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 07:50:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45589)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nWGt3-0002yt-Lx
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 08:11:49 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:40557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nWGYk-0003Zh-3Y
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 07:50:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647863448;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ftntAS5Cs6mLr7AoW9IRdBRPNsBRMmgxTHQFCkKBTzA=;
- b=NgO5hg2w2V+XVR1vO2e6pkxe8ZMAfMtkhdFcAKopvfqYTAmQh14jHKVxYlwmewTai2iEUj
- 3nlsbOmiNBRktvqzVg39xYgBhjKJbZLN/tu6gLA4QaEb6Mw+CzWQH2DVqxGZhaVjvtPRHI
- uXpEkK5NZlbnOofuROe4CyG13ZXgZcQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-468-pMzSIEy3N8GPb6GWxlWaiA-1; Mon, 21 Mar 2022 07:50:47 -0400
-X-MC-Unique: pMzSIEy3N8GPb6GWxlWaiA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 41-20020adf802c000000b00203f27bebddso1511510wrk.21
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 04:50:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ftntAS5Cs6mLr7AoW9IRdBRPNsBRMmgxTHQFCkKBTzA=;
- b=zNDnRlGOs1WwZ2f74hCz/TUToIMfFsYwtIeijRSDH1RTUaM2UIaaT+0S8cT8N2QoAq
- 0tBND7nUJ+v5R0rVYDaWxlNOw92jBA4z6TsZi7JtLkWP41PgOCma9hC87AbzoT9VbQWC
- iZDJo5JWM0IDxTLgzGxiEC6pcjLtpj7FxeyMi92/uArg0tJ/q3enhPViM+LZqhKYxQd8
- I80kNSHCLPE8WrCDHSwE5HJijll1mW/YNLHEFB8YvPt4ZnkKF0v13yruKr0HwTvCIKPY
- M8cpZnyXxWeIXz5RYkGIDWPrIRpHZj05AwK/V0oka23y+5FiFj7UP/8867Un0euDzrTi
- QFPA==
-X-Gm-Message-State: AOAM530vITQXsdCA/S+Qc3bxbwzOMQB/72dxOSBJvy0tmBHbHGuEs2p7
- mqzd4RUieQUc432VTnPOZ8PD9Yas8Jvw+Qigg8viS+A7uK1UA6ernxg1EiczO6gTCapxmT7winI
- xKuiIGOBHktZjuEM=
-X-Received: by 2002:adf:d1c9:0:b0:203:c4f8:dd17 with SMTP id
- b9-20020adfd1c9000000b00203c4f8dd17mr17663822wrd.633.1647863446307; 
- Mon, 21 Mar 2022 04:50:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJysKI20evaEmOf251Bv/7a1Ay1+GkSpqZb+i42fv+aUaIbTYuj2SMuryC36OZiHybFCRBMRUQ==
-X-Received: by 2002:adf:d1c9:0:b0:203:c4f8:dd17 with SMTP id
- b9-20020adfd1c9000000b00203c4f8dd17mr17663802wrd.633.1647863446030; 
- Mon, 21 Mar 2022 04:50:46 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- a11-20020a056000188b00b00204109f7826sm3560619wri.28.2022.03.21.04.50.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 04:50:45 -0700 (PDT)
-Date: Mon, 21 Mar 2022 11:50:43 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v5 1/8] migration: Export ram_transferred_ram()
-Message-ID: <Yjhmk+MB4r4OOPxj@work-vm>
-References: <20220310153454.3929-1-quintela@redhat.com>
- <20220310153454.3929-2-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nWGt1-0007vb-4i
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 08:11:49 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id CCDC87466FF;
+ Mon, 21 Mar 2022 13:11:40 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5AE54745958; Mon, 21 Mar 2022 13:11:40 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 58D447456FE;
+ Mon, 21 Mar 2022 13:11:40 +0100 (CET)
+Date: Mon, 21 Mar 2022 13:11:40 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Memory leak in via_isa_realize()
+In-Reply-To: <CAFEAcA-jEqnpUdtfgqMFUn_ghwoYM+8UyceLUz+Uo07FuH+S-Q@mail.gmail.com>
+Message-ID: <ab9c9599-2021-42df-7bfe-4f2f3842cb84@eik.bme.hu>
+References: <d60cb762-40a5-f918-02aa-463758205af5@redhat.com>
+ <CAFEAcA-jEqnpUdtfgqMFUn_ghwoYM+8UyceLUz+Uo07FuH+S-Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220310153454.3929-2-quintela@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,53 +58,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On Mon, 21 Mar 2022, Peter Maydell wrote:
+> On Mon, 21 Mar 2022 at 10:31, Thomas Huth <thuth@redhat.com> wrote:
+>> FYI, I'm seeing a memory leak in via_isa_realize() when building
+>> QEMU with sanitizers enabled or when running QEMU through valgrind:
+>> Same problem happens with qemu-system-ppc64 and the pegasos2 machine.
+>>
+>> No clue how to properly fix this... is it safe to free the pointer
+>> at the end of the function?
+>
+> This is because the code is still using the old function
+> qemu_allocate_irqs(), which is almost always going to involve
+> it leaking memory. The fix is usually to rewrite the code to not use
+> that function at all, i.e. to manage its irq/gpio lines differently.
+> Probably the i8259 code should have a named GPIO output line
+> rather than wanting to be passed a qemu_irq in an init function,
+> and the via code should have an input GPIO line which it connects
+> up to the i8259. It looks from a quick glance like the i8259 and
+> its callers have perhaps not been completely QOMified.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Everything involving ISA emulation in QEMU is not completely QOMified and 
+this has caused some problems before but I did not want to try to fix it 
+both becuase it's too much unrelated work and because it's used by too 
+many things that could break that I can't even test. So I'd rather 
+somebody more comfortable with this would look at ISA QOMification.
 
-> ---
->  migration/ram.h | 2 ++
->  migration/ram.c | 2 +-
->  2 files changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/migration/ram.h b/migration/ram.h
-> index 2c6dc3675d..2e27c49f90 100644
-> --- a/migration/ram.h
-> +++ b/migration/ram.h
-> @@ -64,6 +64,8 @@ int ram_postcopy_incoming_init(MigrationIncomingState *mis);
->  
->  void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
->  
-> +void ram_transferred_add(uint64_t bytes);
-> +
->  int ramblock_recv_bitmap_test(RAMBlock *rb, void *host_addr);
->  bool ramblock_recv_bitmap_test_byte_offset(RAMBlock *rb, uint64_t byte_offset);
->  void ramblock_recv_bitmap_set(RAMBlock *rb, void *host_addr);
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 170e522a1f..947ed44c89 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -394,7 +394,7 @@ uint64_t ram_bytes_remaining(void)
->  
->  MigrationStats ram_counters;
->  
-> -static void ram_transferred_add(uint64_t bytes)
-> +void ram_transferred_add(uint64_t bytes)
->  {
->      if (runstate_is_running()) {
->          ram_counters.precopy_bytes += bytes;
-> -- 
-> 2.34.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> In this specific case, though, it seems like the only thing that
+> the via_isa_request_i8259_irq() function does is pass the interrupt
+> signal through to its own s->cpu_intr, so I think a relatively
+> self-contained way to deal with the leak is to pass s->cpu_intr
+> into i8259_init() and drop the isa_irq allocated irq and its
+> associated helper function entirely. (There might be some subtlety
+> I'm missing that means that wouldn't work, of course.)
 
+I think I've tried to do that first and it did not work for some reason 
+then I got this way from some other device model which works but I forgot 
+the details. You can test it by booting MorphOS or Debian Linux 8.11 PPC 
+on pegasos2 which support this machine or maybe I can have a look later 
+this week if it's not urgent and try something but I don't mind if 
+somebody comes up with a fix before that.
+
+Regards,
+BALATON Zoltan
 
