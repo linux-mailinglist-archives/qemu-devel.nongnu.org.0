@@ -2,89 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0E74E2468
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 11:33:39 +0100 (CET)
-Received: from localhost ([::1]:48268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589764E2482
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 11:41:29 +0100 (CET)
+Received: from localhost ([::1]:54600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWFM2-0002kZ-HX
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 06:33:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42482)
+	id 1nWFTc-0007KL-18
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 06:41:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWFKC-00012i-Eb
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 06:31:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23213)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nWFSR-0006Ea-Lh
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 06:40:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWFKA-0003ZE-Nu
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 06:31:44 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nWFSM-000576-8D
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 06:40:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647858702;
+ s=mimecast20190719; t=1647859209;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=OEGHcTljqkhWRVdBveaAF5rFPl3LP61n3uqXLIewPxY=;
- b=KBy/fpIefbAYnhKV1zFaa5Z+PulCVu172qmB7gVKaFPxuCurlLGFX0P2AyOTfe/PdwG7bb
- 6GT0EJYQuVW2GGr1/bVhDNUUrM+ejZ6qHMqO/khCQBipL/TWAjJC06Bhxrn602/j7hM3Jx
- cXW/ae6RmW2rQ/NeWwxV2SJcyBqAxfk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ in-reply-to:in-reply-to:references:references;
+ bh=SYCjIhCDxtw5dYh0Iezo5rH72cP1+c7WUNC3UVCUU6A=;
+ b=F3VHTsiFMGiEPLpwBqpVYp64e2iUmKW8WhY4wh5ZuNr6RccB6B7hx6MlHQLRAF+f56bD2K
+ pzFgFj6loIl9aLD9WyLgwwqJsO43uCQaNbReJfSEFboDeslJyipNpOZzintC4nmVORJWS6
+ uPPockOb/kyMV/AyapdrtgilwnQc9PE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-bkhvc2k4Mja3Kf444n6I-Q-1; Mon, 21 Mar 2022 06:31:40 -0400
-X-MC-Unique: bkhvc2k4Mja3Kf444n6I-Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- i6-20020a1c5406000000b0038c97ed0db5so1860212wmb.7
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 03:31:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:from:subject:content-transfer-encoding;
- bh=OEGHcTljqkhWRVdBveaAF5rFPl3LP61n3uqXLIewPxY=;
- b=AEbMu4IjJ9rBOBA1wlYPUscxuxCD3nr/1ufmSZPYkz9bUiAXY9N7dWXzY8uEIwBn9E
- 86FCkBIho86kqJD4Mt2g5+6QZf1SPOajb58ZP8wdYn62kfIlTSp8PlKC6snhtcFntzfD
- Z+KViVw4UP/ZrMm6OJjSndj9u+ZVbDzqmJfxInbf5vtzxY7SIH4F8aD5RaTbHuoDBImH
- QnGY0059HGBpyPGHDG3NjFie4bMFw4fbVyVeblbiw1BQPw4mlebQ/dHdcnObAe9jaM2A
- q1YARSPBnl75sQT2wa7DRQ6MLC6nQWmCWGDt/lHT+Nl5lEngOSL0Cx0POpPhz2+da6n0
- j+3Q==
-X-Gm-Message-State: AOAM533CZa1ro/qKv1SDC/DGWJSEDtwhIzWNo+BYLFxiEHFPkhFXMd9C
- BA5UADJIDec9XH5gE4JtMx7nzOSV1jVsaQ/WjlhjDM3xn+QbVFy02TxlDatbvjsvdnc01ULv76O
- wRXL3+rPJMa6qUSHhRkwhIIJyAyv0uETV5CzNaTfakPA4sh1sf7noiJvkseUrVJI=
-X-Received: by 2002:a05:600c:1e1f:b0:38b:d7ea:99b9 with SMTP id
- ay31-20020a05600c1e1f00b0038bd7ea99b9mr19033225wmb.8.1647858699492; 
- Mon, 21 Mar 2022 03:31:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6SbVXvw2zz1NG0NhgKWciccKn8mpDR3NEyYPIBDosV9VehJ0Q6BPk1xqaPFyBI1waYqDjKg==
-X-Received: by 2002:a05:600c:1e1f:b0:38b:d7ea:99b9 with SMTP id
- ay31-20020a05600c1e1f00b0038bd7ea99b9mr19033200wmb.8.1647858699113; 
- Mon, 21 Mar 2022 03:31:39 -0700 (PDT)
-Received: from [10.33.192.213] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- m34-20020a05600c3b2200b00380e3225af9sm14943754wms.0.2022.03.21.03.31.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 03:31:38 -0700 (PDT)
-Message-ID: <d60cb762-40a5-f918-02aa-463758205af5@redhat.com>
-Date: Mon, 21 Mar 2022 11:31:37 +0100
+ us-mta-376-1FaflM1-NhyIJAn4dHW_eQ-1; Mon, 21 Mar 2022 06:40:06 -0400
+X-MC-Unique: 1FaflM1-NhyIJAn4dHW_eQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B53382A59559;
+ Mon, 21 Mar 2022 10:40:05 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C314492C14;
+ Mon, 21 Mar 2022 10:40:05 +0000 (UTC)
+Date: Mon, 21 Mar 2022 10:40:04 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: comparison of coroutine backends
+Message-ID: <YjhWBDm6jHVI6H0F@stefanha-x1.localdomain>
+References: <8e98ff69-2f35-72c1-9b68-2a6a19ed716b@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-To: QEMU Developers <qemu-devel@nongnu.org>,
- Huacai Chen <chenhuacai@kernel.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Memory leak in via_isa_realize()
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ooyzxNQMnx2nKJga"
+Content-Disposition: inline
+In-Reply-To: <8e98ff69-2f35-72c1-9b68-2a6a19ed716b@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,65 +76,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-  Hi!
+--ooyzxNQMnx2nKJga
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-FYI, I'm seeing a memory leak in via_isa_realize() when building
-QEMU with sanitizers enabled or when running QEMU through valgrind:
+On Fri, Mar 18, 2022 at 09:48:37AM +0100, Paolo Bonzini wrote:
+> Hi all,
+>=20
+> based on the previous discussions here is a comparison of the various
+> possibilities for implementing coroutine backends in QEMU and the
+> respective advantages and disadvantages.
+>=20
+> I'm adding a third possibility for stackless coroutines, which is to
+> use the LLVM/clang builtins.  I believe that would still require a
+> source-to-source translator, but it would offload to the compiler the
+> complicated bits such as liveness analysis.
+>=20
+> 1) Stackful coroutines:
+> Advantages:
+> - no changes to current code
+>=20
+> Disadvantages:
+> - portability issues regarding shadow stacks (SafeStack, CET)
+> - portability/nonconformance issues regarding TLS
+>=20
+> Another possible advantage is that it allows using the same function for
+> both coroutine and non-coroutine context.  I'm listing this separately
+> because I'm not sure that's desirable, as it prevents compile-time
+> checking of calls to coroutine_fn.  Compile-time checking would be
+> possible using clang -fthread-safety if we forgo the ability to use the
+> same function in both scenarios.
+>=20
+>=20
+> 2) "Duff's device" stackless coroutines
+> Advantages:
 
-$ valgrind --leak-check=full --show-leak-kinds=definite ./qemu-system-mips64el --nographic -M fuloong2e
-==210405== Memcheck, a memory error detector
-==210405== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==210405== Using Valgrind-3.17.0 and LibVEX; rerun with -h for copyright info
-==210405== Command: ./qemu-system-mips64el --nographic -M fuloong2e
-==210405==
-==210405== Warning: set address range perms: large range [0x15c9f000, 0x55c9f000) (defined)
-==210405== Warning: set address range perms: large range [0x59ea4000, 0x99ea4000) (defined)
-==210405== Warning: set address range perms: large range [0x99ea4000, 0xaa0a4000) (noaccess)
-QEMU 6.2.90 monitor - type 'help' for more information
-(qemu) q
-==210405==
-==210405== HEAP SUMMARY:
-==210405==     in use at exit: 8,409,442 bytes in 23,516 blocks
-==210405==   total heap usage: 37,073 allocs, 13,557 frees, 32,674,469 bytes allocated
-==210405==
-==210405== 8 bytes in 1 blocks are definitely lost in loss record 715 of 6,085
-==210405==    at 0x4C360A5: malloc (vg_replace_malloc.c:380)
-==210405==    by 0x7059475: g_malloc (in /usr/lib64/libglib-2.0.so.0.5600.4)
-==210405==    by 0x96C52C: qemu_extend_irqs (irq.c:57)
-==210405==    by 0x96C5B8: qemu_allocate_irqs (irq.c:66)
-==210405==    by 0x5FFA47: via_isa_realize (vt82c686.c:591)
-==210405==    by 0x5FFCDA: vt82c686b_realize (vt82c686.c:646)
-==210405==    by 0x681502: pci_qdev_realize (pci.c:2192)
-==210405==    by 0x969A5D: device_set_realized (qdev.c:531)
-==210405==    by 0x97354A: property_set_bool (object.c:2273)
-==210405==    by 0x9715A0: object_property_set (object.c:1408)
-==210405==    by 0x975938: object_property_set_qobject (qom-qobject.c:28)
-==210405==    by 0x971907: object_property_set_bool (object.c:1477)
-==210405==
-==210405== LEAK SUMMARY:
-==210405==    definitely lost: 8 bytes in 1 blocks
-==210405==    indirectly lost: 0 bytes in 0 blocks
-==210405==      possibly lost: 3,794 bytes in 45 blocks
-==210405==    still reachable: 8,405,640 bytes in 23,470 blocks
-==210405==                       of which reachable via heuristic:
-==210405==                         newarray           : 1,536 bytes in 16 blocks
-==210405==         suppressed: 0 bytes in 0 blocks
-==210405== Reachable blocks (those to which a pointer was found) are not shown.
-==210405== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==210405==
-==210405== For lists of detected and suppressed errors, rerun with: -s
-==210405== ERROR SUMMARY: 46 errors from 46 contexts (suppressed: 0 from 0)
+- Supports gcc and clang
 
-Same problem happens with qemu-system-ppc64 and the pegasos2 machine.
+> - no portability issues regarding both shadow stacks and TLS
+> - compiles to good old C code
+> - compile-time checking of "coroutine-only" but not awaitable functions
+> - debuggability: stack frames should be easy to inspect
 
-No clue how to properly fix this... is it safe to free the pointer
-at the end of the function?
+The user needs to understand how the coroutine runtime works in order to
+get a backtrace of a suspended coroutine. More likely a GDB Python
+script will be needed for this.
 
-  Thomas
+> Disadvantages:
+> - complex source-to-source translator
+> - more complex build process
+>=20
+>=20
+> 3) C++20 stackless coroutines
+> Advantages:
+> - no portability issues regarding both shadow stacks and TLS
+> - no code to write outside QEMU
+> - simpler build process
+>=20
+> Disadvantages:
+> - requires a new compiler
+> - it's C++
+
+- raises questions about C++ usage in QEMU, which seem to be
+  controversial
+
+> - no compile-time checking of "coroutine-only" but not awaitable functions
+>=20
+>=20
+> 4) LLVM stackless coroutines
+> Advantages:
+> - no portability issues regarding both shadow stacks and TLS
+> - no code to write outside QEMU
+>=20
+> Disadvantages:
+> - relatively simple source-to-source translator
+> - more complex build process
+> - requires a new compiler and doesn't support GCC
+>=20
+>=20
+> Note that (2) would still have a build dependency on libclang.
+> However the code generation could still be done with GCC and with
+> any compiler version.
+>=20
+> I'll also put it in a table, though I understand that some choices
+> here might be debatable:
+>=20
+>                          stackful      Duff's device            C++20    =
+          LLVM
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Code to write/maintain    ++ [1]             ---                   +++   =
+           - [2]
+> Changes to existing code  ++ [3]             -                     --    =
+           -
+> Community acceptance      ++                 ++                    --    =
+           ?
+> Code or PoC exists        ++                 +                     -     =
+           --
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Portability               --                 ++                    +     =
+           -
+> Debuggability             -                  ++                    ?     =
+           ?
+> Performance               -                  ++ [4]                ++    =
+           ++
+>=20
+> [1] I'm penalizing stackful coroutines here because the worse portability
+> has an impact on future maintainability too.
+>=20
+> [2] This is an educated guess.
+>=20
+> [3] If we decide to remove the possibility of using the same function for
+> both coroutine and non-coroutine context, the changes to existing code
+> would be the same as for Duff's device and LLVM coroutines.
+>=20
+> [4] Slightly worse than C++20 coroutines for the PoC, but that is mostly =
+due
+> to implementation choices that are easy to change.
+>=20
+>=20
+> Stackful coroutines are obviously pretty good, or we wouldn't have used t=
+hem.
+> They might be a local optimum though, as shown by the negative points in =
+terms
+> of portability, debuggability and performance.
+>=20
+> Both Duff's device and LLVM would be more or less transparent to the part=
+ of
+> the community that doesn't care about the coroutines.  The translator wou=
+ld
+> probably be write-and-forget (though I'm not sure about the API stability=
+ of
+> libclang, which would be a major factor), but it would still be a substan=
+tial
+> amount of work to commit to.
+
+I don't see a clear winner but here is my order of preference:
+1. Stackful - the devil we know
+2. Duff's device - a temporary (wasteful) step before native compiler suppo=
+rt?
+3. LLVM - actually not bad but requires dropping gcc support
+4. C++20 - I worry adding C++ into the codebase will cause friction
+
+Ideally gcc and clang would support C coroutines natively, making the
+choice simple. Is it worth treating this as a long term project and
+working with LLVM/clang and gcc to add native C coroutine support to
+compilers? We still have stackful coroutines in the short term.
+
+Stefan
+
+--ooyzxNQMnx2nKJga
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmI4VgQACgkQnKSrs4Gr
+c8guyQgAlf0jzEl8xRLqvEG08JBOdvOThGt3euLeGiY7vQmshofUaXd4xcsO8ZSy
+oJNkP1Laj0oLPbTL1s8a01UPuRy7puzwUbmlye2tM3Qhl4JRwWtmPP8xw0TI8ZiH
+PDfec1ViHtVwyPDPU5IlukGR0fHtEJVYDXfIFBk1Jo+0G/8/Gclo08Ta4W00bgw7
+VeUTaVS24HOPKALhGZ9aWlFrUolgx3iyBpodgHAIpjfWy21GjUiQZLvCzeNeJoos
+MQjuwca4lw5wh7ZtBLjmJZI3azZ9jn5mRGSF0FXX3wecFRiaJJ9HCDt3irGF7l8L
+gxmA3w1NIiyRbsm9s4VgPtQnRECdFg==
+=t+of
+-----END PGP SIGNATURE-----
+
+--ooyzxNQMnx2nKJga--
 
 
