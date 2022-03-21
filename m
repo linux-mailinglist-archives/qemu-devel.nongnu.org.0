@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9864E27F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:41:48 +0100 (CET)
-Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E464E27FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:45:25 +0100 (CET)
+Received: from localhost ([::1]:33202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWII7-0001or-GJ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:41:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40512)
+	id 1nWILc-0005Fr-C1
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:45:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nWIFi-0000Q5-Fr
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:39:18 -0400
-Received: from [2a00:1450:4864:20::62c] (port=42635
- helo=mail-ej1-x62c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nWIFg-0003Ch-QD
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:39:18 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id j15so15807811eje.9
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 06:39:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W0rfxDtyPFADXPTxxxeUNjyMio6IDcuCPLrcyoFqTPk=;
- b=ZU1Gs7KNDka2IUPjem5Jz1e/Co2DKjk+fdcB32VvFo/UxFBu5HgNUwO7/r/fNwVy4i
- mJnn5/A4s7pKdd4CNzpuna54tAzCjvOZosre+lqyJhZjBOf6sDTeB5/z1Hi7U7MJFY1K
- 5h2EF3z/fUz5qmERcGvJZPEg1N/k4fK/SgVzDjtE9W7TXgcK2gDXYwD/OUOTyakduUVm
- 8sleX3tqJOT9q0Oa064/3F2ouNvon26tq+e7PetDcEcdElmN482ayQEU7HOuVkw05ioX
- dmkvP5V1phzIwC6QX1eJYTkgk7ng+v5ymY1FC4KXlkabGPyaLe5VG+FEnsyKU7lxsGH1
- PRiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W0rfxDtyPFADXPTxxxeUNjyMio6IDcuCPLrcyoFqTPk=;
- b=wf4CRndYWhcdN+1m99/fo2C4TT1Lid39u0YyjlJcjsirroaj9sVfrPpZuKA8grmPWQ
- jrbdbPDJbjcZ8g5qnMBFqCmP1fA7XR6jFNaLKVjdfAmE5qRPWJkZQsJ8GeSdWHOgWAcj
- 74Z+noeILuKHSJx9B/0aoFYmo1hzQtjI8/zpeAWjTltyYXYkukAAz06epx6snZ2cBUf7
- 6iB8qnc4LcnkUehGKeScj4Zo/uHpHkUe1dgZQdbPuKTazetrXZNXm6TZRNbda05/L/KK
- O3My5qfozIarJb1LLCwkOoOD/IjsOgF6AAGcWrhvZDLBDDQvikJlUdn9GhPUMLUXS6Ze
- gSIw==
-X-Gm-Message-State: AOAM5339DkKgSPpXJ6Wik4joXh769EfXhfPitn/ZzA7tO3IgYvPtFp04
- LzJTzNIgxpiUWjtcjoed77xncw==
-X-Google-Smtp-Source: ABdhPJxbgb/v4oiOP9atPl4Tt15dh0St0SA5+NMJuRbTu+O/235DJuGS9WiGJ8u4tLEQvmZn18nxog==
-X-Received: by 2002:a17:906:9755:b0:6df:c781:9040 with SMTP id
- o21-20020a170906975500b006dfc7819040mr12607344ejy.764.1647869953985; 
- Mon, 21 Mar 2022 06:39:13 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- hq15-20020a1709073f0f00b006dfc0fe42b1sm3884113ejc.177.2022.03.21.06.39.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 06:39:13 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E74C21FFB7;
- Mon, 21 Mar 2022 13:39:11 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] gitlab: disable accelerated zlib for s390x
-Date: Mon, 21 Mar 2022 13:39:05 +0000
-Message-Id: <20220321133905.3278054-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWIHB-0001f0-Hg
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:40:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29979)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWIH8-0003ib-1q
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:40:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647870044;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dB7RXQWRVzgBI0NIeaCFhOgjQm4WSbR86DzUuMGwxpI=;
+ b=h3D5we5HKeGh01F1QfB2ORdojX5Ee/FF7IveO1QWeMF4yqba3TU+tUS8ON8PgsYmyEuJ5m
+ dvb89KuyMcUBthPQNMAoZS0OJOBvMzb1T7+2R6ix2uuWJAH0/rRZPIDdrBQVsgAFdPUxgv
+ 1UuQkYBLTCTg+0ZI7iWOb62XYDY/oys=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-571-RoOEhAYGPyiohvdbrbzMFw-1; Mon, 21 Mar 2022 09:40:41 -0400
+X-MC-Unique: RoOEhAYGPyiohvdbrbzMFw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F35992999B34;
+ Mon, 21 Mar 2022 13:40:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C764400F721;
+ Mon, 21 Mar 2022 13:40:40 +0000 (UTC)
+Date: Mon, 21 Mar 2022 08:40:38 -0500
+From: Eric Blake <eblake@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 06/18] iotests: add qemu_img_json()
+Message-ID: <20220321134038.4t4dgrjtdhgeev5e@redhat.com>
+References: <20220317234937.569525-1-jsnow@redhat.com>
+ <20220317234937.569525-7-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220317234937.569525-7-jsnow@redhat.com>
+User-Agent: NeoMutt/20211029-454-6adf99
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,82 +79,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Apparently this causes problems with migration.
+On Thu, Mar 17, 2022 at 07:49:25PM -0400, John Snow wrote:
+> qemu_img_json() is a new helper built on top of qemu_img() that tries to
+> pull a valid JSON document out of the stdout stream.
+> 
+> In the event that the return code is negative (the program crashed), or
+> the code is greater than zero and did not produce valid JSON output, the
+> VerboseProcessError raised by qemu_img() is re-raised.
+> 
+> In the event that the return code is zero but we can't parse valid JSON,
+> allow the JSON deserialization error to be raised.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  tests/qemu-iotests/iotests.py | 32 ++++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+> 
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 7057db0686..9d23066701 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -276,6 +276,38 @@ def ordered_qmp(qmsg, conv_keys=True):
+>  def qemu_img_create(*args: str) -> subprocess.CompletedProcess[str]:
+>      return qemu_img('create', *args)
+>  
+> +def qemu_img_json(*args: str) -> Any:
+> +    """
+> +    Run qemu-img and return its output as deserialized JSON.
+> +
+> +    :raise CalledProcessError:
+> +        When qemu-img crashes, or returns a non-zero exit code without
+> +        producing a valid JSON document to stdout.
+> +    :raise JSONDecoderError:
+> +        When qemu-img returns 0, but failed to produce a valid JSON document.
+> +
+> +    :return: A deserialized JSON object; probably a dict[str, Any].
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
----
- .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Interesting choice to type the function as '-> Any', but document that
+we expect a more specific '-> dict[str, Any]' for our known usage of
+qemu-img.  But it makes sense to me (in case a future qemu-img
+--output=json produces something that is JSON but not a dict).
 
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-index 0333872113..4f292a8a5b 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-@@ -8,6 +8,8 @@ ubuntu-20.04-s390x-all-linux-static:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-  - if: "$S390X_RUNNER_AVAILABLE"
-@@ -27,6 +29,8 @@ ubuntu-20.04-s390x-all:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-  - if: "$S390X_RUNNER_AVAILABLE"
-@@ -43,6 +47,8 @@ ubuntu-20.04-s390x-alldbg:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
-@@ -64,6 +70,8 @@ ubuntu-20.04-s390x-clang:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
-@@ -84,6 +92,8 @@ ubuntu-20.04-s390x-tci:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
-@@ -103,6 +113,8 @@ ubuntu-20.04-s390x-notcg:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
+> +    """
+> +    try:
+> +        res = qemu_img(*args, combine_stdio=False)
+> +    except subprocess.CalledProcessError as exc:
+> +        # Terminated due to signal. Don't bother.
+> +        if exc.returncode < 0:
+> +            raise
+> +
+> +        # Commands like 'check' can return failure (exit codes 2 and 3)
+> +        # to indicate command completion, but with errors found. For
+> +        # multi-command flexibility, ignore the exact error codes and
+> +        # *try* to load JSON.
+> +        try:
+> +            return json.loads(exc.stdout)
+> +        except json.JSONDecodeError:
+> +            # Nope. This thing is toast. Raise the /process/ error.
+> +            pass
+> +        raise
+> +
+> +    return json.loads(res.stdout)
+
+The comments were very helpful.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 -- 
-2.30.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
