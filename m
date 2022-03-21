@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2FA4E31D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 21:32:56 +0100 (CET)
-Received: from localhost ([::1]:46790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871124E31C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 21:29:23 +0100 (CET)
+Received: from localhost ([::1]:35336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWOhz-0001Pa-C1
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 16:32:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32926)
+	id 1nWOeY-00027C-LB
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 16:29:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWOSC-0006Qx-V8
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 16:16:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50084)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWOS8-00069V-2i
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 16:16:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWOS7-0001mc-9Q
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 16:16:36 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWOS4-0001kU-K6
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 16:16:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647893790;
+ s=mimecast20190719; t=1647893788;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WOjqwTM9lfZzOWsVp3CIQlq8CF+sKbro2PxMUQwkJ68=;
- b=XsRD2wr3ru98QJYB0HNPAEsV1IAFErYMCiCYLvHj6P6xGB2XG8kWaSgMS4G9jRsn0D11Fi
- zILCvS8rklCrquFtdBMRzwZlz51UL52y6JARJFx51qGzXkKOJZLRQSk/eVjv8YtT4Hq9KI
- nnFbZKhLlntKWyfC8g6C35iIC9lgkDY=
+ bh=C2jh5ZJFqJqX8+Xw3hsJVjPEKeug9errvLF/hyI7/k4=;
+ b=PnTAq7R9Ip+ehk8dUIiLPmFhHb27jjkxoy1HlWaGxNcZa0Rhav5T1CciYx9YOMsNXV0gV2
+ CH4LX4zHWPeXNZ05j6lJQH+p46D0Bua8tgIukrB4CvvQ/dPGJ61qnWgnNj3ma0Jk0qNzrv
+ h0pqqFvivS/MgRYXVtmXjDP/PrH2ov0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-wTb664O6OI2RGvI-CtlZRA-1; Mon, 21 Mar 2022 16:16:26 -0400
-X-MC-Unique: wTb664O6OI2RGvI-CtlZRA-1
+ us-mta-43-8puxcBwTNZa3GCqSQYsc5w-1; Mon, 21 Mar 2022 16:16:26 -0400
+X-MC-Unique: 8puxcBwTNZa3GCqSQYsc5w-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 29200185A7B2;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 886061044561;
  Mon, 21 Mar 2022 20:16:26 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8769454D60;
- Mon, 21 Mar 2022 20:16:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 36DD3454D60;
+ Mon, 21 Mar 2022 20:16:26 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 14/18] iotests: remove remaining calls to qemu_img_pipe()
-Date: Mon, 21 Mar 2022 16:16:14 -0400
-Message-Id: <20220321201618.903471-15-jsnow@redhat.com>
+Subject: [PATCH v5 15/18] iotests: use qemu_img() in has_working_luks()
+Date: Mon, 21 Mar 2022 16:16:15 -0400
+Message-Id: <20220321201618.903471-16-jsnow@redhat.com>
 In-Reply-To: <20220321201618.903471-1-jsnow@redhat.com>
 References: <20220321201618.903471-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,136 +85,50 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As part of moving all python iotest invocations of qemu-img onto a
-single qemu_img() implementation, remove a few lingering uses of
-qemu_img_pipe() from outside of iotests.py itself.
-
-Several cases here rely on the knowledge that qemu_img_pipe() suppresses
-*all* output on a successful case when the command being issued is
-'create'.
-
-065: This call's output is inspected, but it appears as if it's expected
-     to succeed. Replace this call with the checked qemu_img() variant
-     instead to get better diagnostics if/when qemu-img itself fails.
-
-237: "create" call output isn't actually logged. Use qemu_img_create()
-     instead, which checks the return code. Remove the empty lines from
-     the test output.
-
-296: Two calls;
-     -create: Expected to succeed. Like other create calls, the output
-              isn't actually logged.  Switch to a checked variant
-              (qemu_img_create) instead. The output for this test is
-              a mixture of both test styles, so actually replace the
-              blank line for readability.
-     -amend:  This is expected to fail. Log the output.
-
-After this patch, the only uses of qemu_img_pipe are internal to
-iotests.py and will be removed in subsequent patches.
+Admittedly a mostly lateral move, but qemu_img() is essentially the
+replacement for qemu_img_pipe_and_status(). It will give slightly better
+diagnostics on crash.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/065     |  4 ++--
- tests/qemu-iotests/237     |  3 +--
- tests/qemu-iotests/237.out |  3 ---
- tests/qemu-iotests/296     | 12 ++++++------
- 4 files changed, 9 insertions(+), 13 deletions(-)
+ tests/qemu-iotests/iotests.py | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
-index 9466ce7df4..ba94e19349 100755
---- a/tests/qemu-iotests/065
-+++ b/tests/qemu-iotests/065
-@@ -24,7 +24,7 @@ import os
- import re
- import json
- import iotests
--from iotests import qemu_img, qemu_img_info, qemu_img_pipe
-+from iotests import qemu_img, qemu_img_info
- import unittest
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index aaf4da8be4..d006f56127 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -1445,20 +1445,20 @@ def has_working_luks() -> Tuple[bool, str]:
+     """
  
- test_img = os.path.join(iotests.test_dir, 'test.img')
-@@ -54,7 +54,7 @@ class TestQemuImgInfo(TestImageInfoSpecific):
-         self.assertEqual(data['data'], self.json_compare)
+     img_file = f'{test_dir}/luks-test.luks'
+-    (output, status) = \
+-        qemu_img_pipe_and_status('create', '-f', 'luks',
+-                                 '--object', luks_default_secret_object,
+-                                 '-o', luks_default_key_secret_opt,
+-                                 '-o', 'iter-time=10',
+-                                 img_file, '1G')
++    res = qemu_img('create', '-f', 'luks',
++                   '--object', luks_default_secret_object,
++                   '-o', luks_default_key_secret_opt,
++                   '-o', 'iter-time=10',
++                   img_file, '1G',
++                   check=False)
+     try:
+         os.remove(img_file)
+     except OSError:
+         pass
  
-     def test_human(self):
--        data = qemu_img_pipe('info', '--output=human', test_img).split('\n')
-+        data = qemu_img('info', '--output=human', test_img).stdout.split('\n')
-         data = data[(data.index('Format specific information:') + 1)
-                     :data.index('')]
-         for field in data:
-diff --git a/tests/qemu-iotests/237 b/tests/qemu-iotests/237
-index 43dfd3bd40..5ea13eb01f 100755
---- a/tests/qemu-iotests/237
-+++ b/tests/qemu-iotests/237
-@@ -165,8 +165,7 @@ with iotests.FilePath('t.vmdk') as disk_path, \
-     iotests.log("")
- 
-     for path in [ extent1_path, extent2_path, extent3_path ]:
--        msg = iotests.qemu_img_pipe('create', '-f', imgfmt, path, '0')
--        iotests.log(msg, [iotests.filter_testfiles])
-+        iotests.qemu_img_create('-f', imgfmt, path, '0')
- 
-     vm.add_blockdev('driver=file,filename=%s,node-name=ext1' % (extent1_path))
-     vm.add_blockdev('driver=file,filename=%s,node-name=ext2' % (extent2_path))
-diff --git a/tests/qemu-iotests/237.out b/tests/qemu-iotests/237.out
-index aeb9724492..62b8865677 100644
---- a/tests/qemu-iotests/237.out
-+++ b/tests/qemu-iotests/237.out
-@@ -129,9 +129,6 @@ Job failed: Cannot find device='this doesn't exist' nor node-name='this doesn't
- 
- === Other subformats ===
- 
--
--
--
- == Missing extent ==
- 
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "vmdk", "file": "node0", "size": 33554432, "subformat": "monolithicFlat"}}}
-diff --git a/tests/qemu-iotests/296 b/tests/qemu-iotests/296
-index f80ef3434a..0d21b740a7 100755
---- a/tests/qemu-iotests/296
-+++ b/tests/qemu-iotests/296
-@@ -76,7 +76,7 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
-     # create the encrypted block device using qemu-img
-     def createImg(self, file, secret):
- 
--        output = iotests.qemu_img_pipe(
-+        iotests.qemu_img(
-             'create',
-             '--object', *secret.to_cmdline_object(),
-             '-f', iotests.imgfmt,
-@@ -84,8 +84,7 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
-             '-o', 'iter-time=10',
-             file,
-             '1M')
--
--        iotests.log(output, filters=[iotests.filter_test_dir])
-+        iotests.log('')
- 
-     # attempts to add a key using qemu-img
-     def addKey(self, file, secret, new_secret):
-@@ -99,7 +98,7 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
-                 }
-             }
- 
--        output = iotests.qemu_img_pipe(
-+        output = iotests.qemu_img(
-             'amend',
-             '--object', *secret.to_cmdline_object(),
-             '--object', *new_secret.to_cmdline_object(),
-@@ -108,8 +107,9 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
-             '-o', 'new-secret=' + new_secret.id(),
-             '-o', 'iter-time=10',
- 
--            "json:" + json.dumps(image_options)
--            )
-+            "json:" + json.dumps(image_options),
-+            check=False  # Expected to fail. Log output.
-+        ).stdout
- 
-         iotests.log(output, filters=[iotests.filter_test_dir])
- 
+-    if status != 0:
+-        reason = output
+-        for line in output.splitlines():
++    if res.returncode:
++        reason = res.stdout
++        for line in res.stdout.splitlines():
+             if img_file + ':' in line:
+                 reason = line.split(img_file + ':', 1)[1].strip()
+                 break
 -- 
 2.34.1
 
