@@ -2,97 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0604E26AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 13:36:48 +0100 (CET)
-Received: from localhost ([::1]:39162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2044E26BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 13:39:38 +0100 (CET)
+Received: from localhost ([::1]:43736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWHHD-0008T1-Bh
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 08:36:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48002)
+	id 1nWHJx-0003BS-5k
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 08:39:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nWHDw-0006uB-Am
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 08:33:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34231)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nWHHg-0001fR-UI; Mon, 21 Mar 2022 08:37:16 -0400
+Received: from mga03.intel.com ([134.134.136.65]:31691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nWHDo-0005Dh-MU
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 08:33:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647865995;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dMEecMKRCA/TNZTdrBulYveDs4q4KN2lCAhZ0/vgQFk=;
- b=f7A1Vr9q9osch1YLtFXzTXsNQg8FTZHNVpU7slGFsu5FockxhtojKvgrDYyNMORkxyYtfx
- ePufIhsFbEWdTL9KrBelDmA1wvjlFMvHw9NPsocq8iMYD2lPdGy/REZFBtFovV0B6Wgtie
- TBamqdwSoCqb/SrlHMXfM9gx+Zt5DSQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-OJVPCyAuN5S6WLHZEAAr5A-1; Mon, 21 Mar 2022 08:33:14 -0400
-X-MC-Unique: OJVPCyAuN5S6WLHZEAAr5A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n19-20020a7bcbd3000000b0038c94b86258so2334236wmi.2
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 05:33:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=dMEecMKRCA/TNZTdrBulYveDs4q4KN2lCAhZ0/vgQFk=;
- b=sCcJlmnddlkLoBllsFmMHvu+izOFc3OU0HR7ZfpjeSACB4jnP8M/5aURaFx10UyJ95
- 1IsE6rax0eQgQFRSbZ3kquk4Dd8xD7V7GuoZf6kNLjwBt0am00Mj2RSHTQNSPOQQjyxV
- /E7N99KM86IzdiokvSxIp40NBBCcolOJvnpg0fVyc95P/OGPsoKZjlViVRbStSBuzPNz
- Nq+HH+aZmlyBREMm3+hR4bdJ6E0yUw12tFBMkKYcoG0uk98cpE2g9JMdoHkXEmY/DCUe
- v+frpmX1EG7jFuta1zDoKo2x70X3fqmGwNZdVs0lnXb4IEL2hGbzveA6t1PnuZyyMkkn
- 8Tnw==
-X-Gm-Message-State: AOAM531ajUdw540qFBNgWUp/BALALJ6rWTz4ZW0nvukmHfZSYT0P5Sci
- +45x3RMOZMEPvHmlA1MMkeExxwGaoqoXzNc3jsQFI6ALFSEJzQzKbJ4BHhXuuSvXZna2hcjCNPZ
- GrBck0hhr1JYm1Mo=
-X-Received: by 2002:adf:fb90:0:b0:203:b456:c71e with SMTP id
- a16-20020adffb90000000b00203b456c71emr18224209wrr.244.1647865993098; 
- Mon, 21 Mar 2022 05:33:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwgw93w9CAHkEM0rKakuOSI/0sVYXHIhiwwHDtu0ExoXszBGvWg/tL7sxFcufF2ivH+be5Pqg==
-X-Received: by 2002:adf:fb90:0:b0:203:b456:c71e with SMTP id
- a16-20020adffb90000000b00203b456c71emr18224193wrr.244.1647865992880; 
- Mon, 21 Mar 2022 05:33:12 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:4900:849b:f76e:5e1f:ff95?
- (p200300cbc7044900849bf76e5e1fff95.dip0.t-ipconnect.de.
- [2003:cb:c704:4900:849b:f76e:5e1f:ff95])
- by smtp.gmail.com with ESMTPSA id
- l11-20020a5d674b000000b0020402c09067sm5830673wrw.50.2022.03.21.05.33.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 05:33:12 -0700 (PDT)
-Message-ID: <ade8b532-604b-8ae5-0ce3-4a42790a2669@redhat.com>
-Date: Mon, 21 Mar 2022 13:33:11 +0100
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nWHHe-0005td-TK; Mon, 21 Mar 2022 08:37:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647866234; x=1679402234;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=fkfFb8YeTsygVBSyMhjqeDuvAeoj08UvQ+f4TT1y0xE=;
+ b=gI015ds0PIy4oI6gcu5iFNddbc0g/Ovqf/6UVFabB0fC9vSnQ9i305GG
+ XJSngb376y5HscuOfoJ1MHDFDG26nTnH6avvMzWfe9lr7rXxQqI/LVM/u
+ cG/h2U3brfp4QBFqdwrnxHO1Wl+mwDMtbhMG/bmfR2TkcnvqnMkkF3WOA
+ eQztbHRYbUzGfFOt+Z48djivi5OqLjLls2mGzA34iRPlOD63CditsmT86
+ XXoULmQ6ns8lt+aoDPjLx9TwrDTa2Rl9QSWOOkpGnDjEqBF7f0gUASNQM
+ aJ8YwjV4YQXWrErhfcmTW6GxOqNdysVaOWkHI5qNEx6qBoARHe3DDExSp w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="257487851"
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="257487851"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 05:37:12 -0700
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="559850543"
+Received: from kagner-mobl1.ger.corp.intel.com ([10.252.35.134])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2022 05:37:07 -0700
+Date: Mon, 21 Mar 2022 13:36:59 +0100
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v5 14/15] docs: Add documentation for SR-IOV and
+ Virtualization Enhancements
+Message-ID: <YjhxX9r6XLKCM1Fh@kagner-MOBL1.ger.corp.intel.com>
+References: <20220217174504.1051716-1-lukasz.maniak@linux.intel.com>
+ <20220217174504.1051716-15-lukasz.maniak@linux.intel.com>
+ <Yh4QNqgQ+jl+sZCC@apples>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220308015358.188499-1-richard.henderson@linaro.org>
- <20220308015358.188499-9-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v3 08/11] target/s390x: vxeh2: vector {load, store} byte
- reversed element
-In-Reply-To: <20220308015358.188499-9-richard.henderson@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yh4QNqgQ+jl+sZCC@apples>
+Received-SPF: none client-ip=134.134.136.65;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga03.intel.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,67 +72,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, dmiller423@gmail.com
+Cc: qemu-block@nongnu.org,
+ =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.03.22 02:53, Richard Henderson wrote:
-> From: David Miller <dmiller423@gmail.com>
+On Tue, Mar 01, 2022 at 01:23:18PM +0100, Klaus Jensen wrote:
+> On Feb 17 18:45, Lukasz Maniak wrote:
+> > Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 > 
-> This includes VLEBR* and VSTEBR* (single element);
-> VLBRREP (load single element and replicate); and
-> VLLEBRZ (load single element and zero).
+> Please add a short commit description as well. Otherwise,
 
-"load byte reversed element and ..."
+Klaus,
 
+Sorry I forgot to add the description in v6 aka v7, been really busy
+recently.
+I am going to add the description for v8.
+
+Regards,
+Lukasz
 > 
-> Signed-off-by: David Miller <dmiller423@gmail.com>
-> Message-Id: <20220307020327.3003-6-dmiller423@gmail.com>
-> [rth: Split out elements (plural) from element (scalar),
->       Use tcg little-endian memory operations.]
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+> 
+> > ---
+> >  docs/system/devices/nvme.rst | 82 ++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 82 insertions(+)
+> > 
+> > diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
+> > index b5acb2a9c19..aba253304e4 100644
+> > --- a/docs/system/devices/nvme.rst
+> > +++ b/docs/system/devices/nvme.rst
+> > @@ -239,3 +239,85 @@ The virtual namespace device supports DIF- and DIX-based protection information
+> >    to ``1`` to transfer protection information as the first eight bytes of
+> >    metadata. Otherwise, the protection information is transferred as the last
+> >    eight bytes.
+> > +
+> > +Virtualization Enhancements and SR-IOV (Experimental Support)
+> > +-------------------------------------------------------------
+> > +
+> > +The ``nvme`` device supports Single Root I/O Virtualization and Sharing
+> > +along with Virtualization Enhancements. The controller has to be linked to
+> > +an NVM Subsystem device (``nvme-subsys``) for use with SR-IOV.
+> > +
+> > +A number of parameters are present (**please note, that they may be
+> > +subject to change**):
+> > +
+> > +``sriov_max_vfs`` (default: ``0``)
+> > +  Indicates the maximum number of PCIe virtual functions supported
+> > +  by the controller. Specifying a non-zero value enables reporting of both
+> > +  SR-IOV and ARI (Alternative Routing-ID Interpretation) capabilities
+> > +  by the NVMe device. Virtual function controllers will not report SR-IOV.
+> > +
+> > +``sriov_vq_flexible``
+> > +  Indicates the total number of flexible queue resources assignable to all
+> > +  the secondary controllers. Implicitly sets the number of primary
+> > +  controller's private resources to ``(max_ioqpairs - sriov_vq_flexible)``.
+> > +
+> > +``sriov_vi_flexible``
+> > +  Indicates the total number of flexible interrupt resources assignable to
+> > +  all the secondary controllers. Implicitly sets the number of primary
+> > +  controller's private resources to ``(msix_qsize - sriov_vi_flexible)``.
+> > +
+> > +``sriov_max_vi_per_vf`` (default: ``0``)
+> > +  Indicates the maximum number of virtual interrupt resources assignable
+> > +  to a secondary controller. The default ``0`` resolves to
+> > +  ``(sriov_vi_flexible / sriov_max_vfs)``
+> > +
+> > +``sriov_max_vq_per_vf`` (default: ``0``)
+> > +  Indicates the maximum number of virtual queue resources assignable to
+> > +  a secondary controller. The default ``0`` resolves to
+> > +  ``(sriov_vq_flexible / sriov_max_vfs)``
+> > +
+> > +The simplest possible invocation enables the capability to set up one VF
+> > +controller and assign an admin queue, an IO queue, and a MSI-X interrupt.
+> > +
+> > +.. code-block:: console
+> > +
+> > +   -device nvme-subsys,id=subsys0
+> > +   -device nvme,serial=deadbeef,subsys=subsys0,sriov_max_vfs=1,
+> > +    sriov_vq_flexible=2,sriov_vi_flexible=1
+> > +
+> > +The minimum steps required to configure a functional NVMe secondary
+> > +controller are:
+> > +
+> > +  * unbind flexible resources from the primary controller
+> > +
+> > +.. code-block:: console
+> > +
+> > +   nvme virt-mgmt /dev/nvme0 -c 0 -r 1 -a 1 -n 0
+> > +   nvme virt-mgmt /dev/nvme0 -c 0 -r 0 -a 1 -n 0
+> > +
+> > +  * perform a Function Level Reset on the primary controller to actually
+> > +    release the resources
+> > +
+> > +.. code-block:: console
+> > +
+> > +   echo 1 > /sys/bus/pci/devices/0000:01:00.0/reset
+> > +
+> > +  * enable VF
+> > +
+> > +.. code-block:: console
+> > +
+> > +   echo 1 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+> > +
+> > +  * assign the flexible resources to the VF and set it ONLINE
+> > +
+> > +.. code-block:: console
+> > +
+> > +   nvme virt-mgmt /dev/nvme0 -c 1 -r 1 -a 8 -n 1
+> > +   nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 8 -n 2
+> > +   nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 9 -n 0
+> > +
+> > +  * bind the NVMe driver to the VF
+> > +
+> > +.. code-block:: console
+> > +
+> > +   echo 0000:01:00.1 > /sys/bus/pci/drivers/nvme/bind
+> > \ No newline at end of file
+> > -- 
+> > 2.25.1
+> > 
+> 
+> -- 
+> One of us - No more doubt, silence or taboo about mental illness.
 
-[...]
-
-> diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
-> index ee6e1dc9e5..b80f989002 100644
-> --- a/target/s390x/tcg/insn-data.def
-> +++ b/target/s390x/tcg/insn-data.def
-> @@ -1027,6 +1027,14 @@
->      F(0xe756, VLR,     VRR_a, V,   0, 0, 0, 0, vlr, 0, IF_VEC)
->  /* VECTOR LOAD AND REPLICATE */
->      F(0xe705, VLREP,   VRX,   V,   la2, 0, 0, 0, vlrep, 0, IF_VEC)
-> +/* VECTOR LOAD BYTE REVERSED ELEMENT */
-> +    E(0xe601, VLEBRH,  VRX,   VE2, la2, 0, 0, 0, vlebr, 0, ES_16, IF_VEC)
-> +    E(0xe603, VLEBRF,  VRX,   VE2, la2, 0, 0, 0, vlebr, 0, ES_32, IF_VEC)
-> +    E(0xe602, VLEBRG,  VRX,   VE2, la2, 0, 0, 0, vlebr, 0, ES_64, IF_VEC)
-> +/* VECTOR LOAD BYTE REVERSED ELEMENT AND REPLOCATE */
-
-s/REPLOCATE/REPLICATE/
-
-> +    F(0xe605, VLBRREP, VRX,   VE2, la2, 0, 0, 0, vlbrrep, 0, IF_VEC)
-> +/* VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO */
-> +    F(0xe604, VLLEBRZ, VRX,   VE2, la2, 0, 0, 0, vllebrz, 0, IF_VEC)
->  /* VECTOR LOAD BYTE REVERSED ELEMENTS */
->      F(0xe606, VLBR,    VRX,   VE2, la2, 0, 0, 0, vlbr, 0, IF_VEC)
->  /* VECTOR LOAD ELEMENT */
-> @@ -1081,6 +1089,10 @@
->      F(0xe75f, VSEG,    VRR_a, V,   0, 0, 0, 0, vseg, 0, IF_VEC)
->  /* VECTOR STORE */
->      F(0xe70e, VST,     VRX,   V,   la2, 0, 0, 0, vst, 0, IF_VEC)
-> +/* VECTOR STORE BYTE REVERSED ELEMENT */
-> +    E(0xe609, VSTEBRH,  VRX,   VE2, la2, 0, 0, 0, vstebr, 0, ES_16, IF_VEC)
-> +    E(0xe60b, VSTEBRF,  VRX,   VE2, la2, 0, 0, 0, vstebr, 0, ES_32, IF_VEC)
-> +    E(0xe60a, VSTEBRG,  VRX,   VE2, la2, 0, 0, 0, vstebr, 0, ES_64, IF_VEC)
->  /* VECTOR STORE BYTE REVERSED ELEMENTS */
->      F(0xe60e, VSTBR,    VRX,   VE2, la2, 0, 0, 0, vstbr, 0, IF_VEC)
->  /* VECTOR STORE ELEMENT */
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
--- 
-Thanks,
-
-David / dhildenb
 
 
