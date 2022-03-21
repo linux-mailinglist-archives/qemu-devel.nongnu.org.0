@@ -2,74 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603D44E2DDC
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:26:56 +0100 (CET)
-Received: from localhost ([::1]:52166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 375B84E2DE7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:28:57 +0100 (CET)
+Received: from localhost ([::1]:56780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWKru-000782-V3
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:26:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59064)
+	id 1nWKtr-0001sc-KO
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:28:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nWKna-0000Pq-EC
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:22:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27581)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWKnb-0000Ps-02
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:22:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nWKnY-0004bU-GQ
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:22:25 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWKnZ-0004eJ-8f
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:22:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647879743;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1647879744;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RwcszGPg0TmiTauuuc+cr9HYML0Z06pGik9WUnY5DwM=;
- b=HjP8sxK4yKm9R0RrkRy+8PPPo9UKhF51UvCb9fHyO4kD1lxFO3JzdbmAKAYFj2md4Pji+I
- t+fPfUUCcwjrsPvIiAob/3EPUgOX/3K3+VTrvTTYPyWI1jDRhUUVWHZrAX7eivKEdoVhqg
- G0A0ysVxjLvwZ2EKUr7aSd3mFfZi374=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YSaMjPtUL/t3yDtYwpuxiJQuCTDqmYDQUbpQ8hW7ixI=;
+ b=a2sMUjfNHQMPEfnLnIddPUbuUf6p4oY0YTGoIfCiVyaOANA+r5VVbBn86z4yi8SE8cuSQl
+ EudY7TrqgApfYjWIdlJUCwbP30/Q4hi3m6srVc+lpuetxUuOAlMkClRP1y9amnAysJqM6e
+ CrkEs9xASck5pWs7rQ6+XhJYWTBNeM4=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-wYihiByaNx-vepbftht9CQ-1; Mon, 21 Mar 2022 12:22:16 -0400
-X-MC-Unique: wYihiByaNx-vepbftht9CQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B40D8117B0;
- Mon, 21 Mar 2022 16:22:16 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C754B40C1241;
- Mon, 21 Mar 2022 16:22:14 +0000 (UTC)
-Date: Mon, 21 Mar 2022 16:22:12 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2] gitlab: disable accelerated zlib for s390x
-Message-ID: <YjimNLjIJZocY4a8@redhat.com>
-References: <20220321161151.3654386-1-alex.bennee@linaro.org>
+ us-mta-125-9CHvQWYIMBqYy5WX2_1PPw-1; Mon, 21 Mar 2022 12:22:23 -0400
+X-MC-Unique: 9CHvQWYIMBqYy5WX2_1PPw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ zd21-20020a17090698d500b006df778721f7so7272841ejb.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:22:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YSaMjPtUL/t3yDtYwpuxiJQuCTDqmYDQUbpQ8hW7ixI=;
+ b=REdkUjeazH/uBcnYDxTWZ8cCUK6hXaONj4xAezsbZd+NuVw9eYjg1vFj10sq0MQVG+
+ sldXxomT/WORuxj1yy44hermWXQqo/ftgExgm2Etvo2qjLW32YeGmbfhsMtLXIc5QfmT
+ b2nAXmldqEeRMvSgDcC9cGM08zNvo4MzNoMVtZBM2SLEpCSW7WHUqmBqTFa89dNoltqy
+ Cp69uxNjVnfZ+zXreQVpaqA3elzm+pQgyp9Yyq8asF7hb14HAJI/Cm1p83IvG35kompI
+ 8bjqhrkQf/AJHTnTgpCbsHJihEy2iMaIfdmuIn0ES14hTT9IsaFFDn/ezLnuqQRZ4ygO
+ UekQ==
+X-Gm-Message-State: AOAM5304rVxDSyijWQcuWxms9SQvxc2wEKzZcjtZ5WcKs+UWDujfcAVc
+ 4JAXe5fdv1VO3nd+QGqUlh2NK/PbUFteDXjrOrKNZoeTf6g+UQ+LnVwyPH7q4lPOnm9MnSAJsTj
+ tUBo2easPw5gqyw4=
+X-Received: by 2002:a05:6402:1d4d:b0:419:430b:5734 with SMTP id
+ dz13-20020a0564021d4d00b00419430b5734mr5077916edb.212.1647879742221; 
+ Mon, 21 Mar 2022 09:22:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx0idp573oltbriih1fYDSEqs2f8Q5r1ot1M+a8ddav7Avl2vbUHDjTLirBXI5+7e28J1GxPg==
+X-Received: by 2002:a05:6402:1d4d:b0:419:430b:5734 with SMTP id
+ dz13-20020a0564021d4d00b00419430b5734mr5077890edb.212.1647879741932; 
+ Mon, 21 Mar 2022 09:22:21 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ q16-20020a170906145000b006bdaf981589sm7076696ejc.81.2022.03.21.09.22.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Mar 2022 09:22:21 -0700 (PDT)
+Message-ID: <218ffc35-dcc5-e522-db14-7d193e279787@redhat.com>
+Date: Mon, 21 Mar 2022 17:22:20 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220321161151.3654386-1-alex.bennee@linaro.org>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] tests/qemu-iotests/testrunner: Supply a test plan in TAP
+ mode
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220223095816.2663005-1-thuth@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220223095816.2663005-1-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,44 +104,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 21, 2022 at 04:11:51PM +0000, Alex Bennée wrote:
-> There appears to be a bug in the s390 hardware-accelerated version of
-> zlib distributed with Ubuntu 20.04, which makes our test
-> /i386/migration/multifd/tcp/zlib hit an assertion perhaps one time in
-> 10. Fortunately zlib provides an escape hatch where we can disable the
-> hardware-acceleration entirely by setting the environment variable
-> DFLTCC to 0. Do this on all our CI which runs on s390 hosts, both our
-> custom gitlab runner and also the Travis hosts.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> 
+On 23.02.22 10:58, Thomas Huth wrote:
+> Quoting the TAP specification: "The plan tells how many tests will be
+> run [...]. It’s a check that the test file hasn’t stopped prematurely."
+> That's a good idea of course, so let's support that in the iotest
+> testrunner, too.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
-> v2
->   - more complete commit wording from Peter
->   - also tweak travis rules
-> ---
->  .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 12 ++++++++++++
->  .travis.yml                                        |  6 ++++--
->  2 files changed, 16 insertions(+), 2 deletions(-)
+>   tests/qemu-iotests/testrunner.py | 1 +
+>   1 file changed, 1 insertion(+)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Yep, that seems to work nicely.  Thanks!
 
+Applied to my block branch (better late than never):
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+https://gitlab.com/hreitz/qemu/-/commits/block
+
+Hanna
 
 
