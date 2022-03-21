@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855264E325A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 22:34:44 +0100 (CET)
-Received: from localhost ([::1]:47200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCE94E3265
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 22:46:12 +0100 (CET)
+Received: from localhost ([::1]:55842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWPfn-0003Eg-Lh
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 17:34:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52554)
+	id 1nWPqt-00018h-Dr
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 17:46:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWPeH-0001Bb-95
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 17:33:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34789)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWPmi-00050B-Kg
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 17:41:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWPeF-0004hL-Mo
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 17:33:08 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWPmc-0006IQ-7O
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 17:41:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647898386;
+ s=mimecast20190719; t=1647898900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nbXSs1q0bwKSukey17yPFZdW8b0LCB9k5/tyrQ2dcVw=;
- b=YyYSTrOxPNGAYjaj7UvBfeKme0iA3ElUF7v/0/Qiap/qzVUD8uCbS0Zxy6eTSYY/lZw1Zi
- VVm4m3bGbDTK/zg8L77Zqp6w7sSlTloQGJ5ShdyrV8vT6kT9BbzbPrf6jTFKa858YWwERw
- Wy+9/qYmYLBJ3M4gXIiAK5fuEb03vhs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sda3LhiB+Wt19BJMTKF6mps9v1Eg491361+yysqUe3c=;
+ b=c2vAeaIe0pyLqgV0G+uOonvpKFta88eJPsug1lOqcuCKWCI51pYbu9I3whowS1CkTAhSKl
+ oO90ez+EaUApVzHvuxG8tFhJ/1jWxfqXV4s3QrbHuCIG7HeE4WKZ7sg/MzuHjFue6fC71a
+ nTY7C0uTcghLtPv+Igv45hf9If4tGfA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-322-kaPRsirPMTKlwaq9CD3iwg-1; Mon, 21 Mar 2022 17:33:05 -0400
-X-MC-Unique: kaPRsirPMTKlwaq9CD3iwg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-244-ec6KxbJDOQyWkn2HC3MOvA-1; Mon, 21 Mar 2022 17:41:37 -0400
+X-MC-Unique: ec6KxbJDOQyWkn2HC3MOvA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 970581044563;
- Mon, 21 Mar 2022 21:33:05 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 00DB540C1241;
- Mon, 21 Mar 2022 21:33:04 +0000 (UTC)
-Date: Mon, 21 Mar 2022 16:33:03 -0500
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 532E23C00128
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 21:41:37 +0000 (UTC)
+Received: from blue.redhat.com (unknown [10.2.16.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BCB943E3BD
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 21:41:37 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v5 18/18] iotests: make qemu_img_log and img_info_log
- raise on error
-Message-ID: <20220321213303.xjfelyctamduycef@redhat.com>
-References: <20220321201618.903471-1-jsnow@redhat.com>
- <20220321201618.903471-19-jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] NBD patches for -rc1
+Date: Mon, 21 Mar 2022 16:41:31 -0500
+Message-Id: <20220321214134.597006-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220321201618.903471-19-jsnow@redhat.com>
-User-Agent: NeoMutt/20211029-454-6adf99
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -67,7 +62,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,42 +75,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 21, 2022 at 04:16:18PM -0400, John Snow wrote:
-> Add a `check: bool = True` parameter to both functions and make their
-> qemu_img() invocations raise on error by default.
-> 
-> users of img_info_log:
-> 206, 207, 210, 211, 212, 213, 237, 242, 266, 274, 302
-> 
-> users of qemu_img_log:
-> 044, 209, 274, 302, 304
-> 
-> iotests 242 and 266 need to use check=False for their negative tests.
-> iotests 206, 210, 211, 212, 213, 237, 274 and 302 continue working
-> normally.
-> 
-> As of this commit, all calls to QEMU_IMG made from iotests enforce a
-> return code of zero by default unless explicitly disabled or suppressed
-> by passing check=False or with an exception handler.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  tests/qemu-iotests/242        | 2 +-
->  tests/qemu-iotests/266        | 2 +-
->  tests/qemu-iotests/iotests.py | 8 +++++---
->  3 files changed, 7 insertions(+), 5 deletions(-)
+The following changes since commit 2028ab513bf0232841a909e1368309858919dbcc:
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2022-03-21 15:27:13 +0000)
+
+are available in the Git repository at:
+
+  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2022-03-21
+
+for you to fetch changes up to 6690302b848e5b55e3e3da34f0ee7fd9f8602e23:
+
+  block/nbd.c: Fixed IO request coroutine not being wakeup when kill NBD server (2022-03-21 15:21:09 -0500)
+
+One bug fix, and two patches that don't impact the binary but might as
+well be included.
+
+----------------------------------------------------------------
+nbd patches for 2022-03-21
+
+- Rao Lei: fix nbd client hang on server death
+- Vladimir Sementsov-Ogievskiy: email address update
+- Eric Blake: qemu-nbd documentation tweak
+
+----------------------------------------------------------------
+Eric Blake (1):
+      docs: Consistent typography for options of qemu-nbd
+
+Rao Lei (1):
+      block/nbd.c: Fixed IO request coroutine not being wakeup when kill NBD server
+
+Vladimir Sementsov-Ogievskiy (1):
+      MAINTAINERS: change Vladimir's email address
+
+ docs/tools/qemu-nbd.rst | 12 ++++++------
+ block/nbd.c             |  2 +-
+ MAINTAINERS             | 12 ++++++------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.35.1
 
 
