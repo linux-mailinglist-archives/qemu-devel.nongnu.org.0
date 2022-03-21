@@ -2,92 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1B54E37E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 05:21:42 +0100 (CET)
-Received: from localhost ([::1]:54774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A234E3928
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 07:49:26 +0100 (CET)
+Received: from localhost ([::1]:51810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWW1d-00062W-LB
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 00:21:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33480)
+	id 1nWYKZ-0006Xq-Sq
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 02:49:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lw945lw945@yahoo.com>)
- id 1nWW0R-0004fH-BQ
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 00:20:27 -0400
-Received: from sonic306-21.consmr.mail.gq1.yahoo.com ([98.137.68.84]:45535)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nWY9n-0003rk-Gc
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 02:38:15 -0400
+Received: from [2a00:1450:4864:20::629] (port=36474
+ helo=mail-ej1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lw945lw945@yahoo.com>)
- id 1nWW0P-0002vg-I7
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 00:20:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1647922823; bh=GH4yRp4/tEfn9PX0lUuw5MQLPnUaBzR94zakALJYQ7U=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=WXU4lCDaFVlbT4qIWvlrzKy3qzr4qe6qiUubIlbw87SJh07uLjdbu0AppslQ+FzMwKdIjsA0T+LTiDBnOs358l48nR4WzabcoEzNysjOvReUNweXg5Ywk22ZFZSSlV5gBUTTN5baiEmbF5Vw+zRpn0J9/sy4xWf+pZmT/x0+l9Veg69H4oMD7Yrjyl4A7tuB5v0Q/JoSArAUG6KjtPyTBqZHJNLjjzEHWOUP7RXghs2GRNoii/XYztqYFzkTr69NkqwkvSyYCxJP+HIB1YaQ+XPAaXA39gXMt+d5/UXTccfhxep9Kjwxdyasqrp0xBaEk2XpEW+oOimUAdneTMft8A==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1647922823; bh=5GGVHzhw9EPw68TN1mS5f6afliK8bGpRRcDFwTNDcqS=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=HMpL1qWBL36yrH5YbLe6tZ0uNZJPzS9uftw8sISRYBnGDIS+uLQXeQNzsRFiyu36F/kwzlj4shroYcu5Njh9TArZofmTrp0+2Wb+Ypage9TPmI2pJJq4VRIANctJD0V6eWveN7P/zQjMnjbh1O4inzHn3s43lzcNHUvkS7Hv1q5WfyDyccaZLp+M5YVOD/C1LutTgk12wLu0AJMRP5viJKxoebguvu6m/xK1W5C6NlmOhz71QpkRJrIF7m+YqPTnlBiL18n4ph7xOj1SErR+IjsyMMEoCex84lgnlD5Jc777JNLb34Gr6M7OY+r7uL9yTBkZIXofmP6XRyHxZPCW4Q==
-X-YMail-OSG: hbOSstYVM1ndMgZR5jgRMzR23OWr8ZNw7JvHYuUfpX32j_6ac9JSKmr.bOvPdHJ
- k_YrYusWDyubxsu8BrpVQd2hnKraB.fZp87_.DEj0Da1sPnQO21Cqh3AauJ4VqCRf2aAzvvKOWDi
- K5sngNG4msgKxPxPOwy7tHqIB0c0rrGVJRed0klk0La.fIksQMcQY05_QEAryQATCEslQ7ZegLHh
- E1cf7GCAhPGtugs9KHKWq65RP.fQR4WvPbLfTu88483htYPXj7OC1Xe9yegBYnEwaMMxsQYhGjYw
- i8I9h0rCCy7Kx1czO35Rt2RNWe7Ec4.aw8uKNl5oMOeQtwOCFxaKf_psaBLz205ngfIZTiQG7hIq
- nRvyWhIvbwL32nXrCCwXEu9tEjt0qQjxQ.jYrdjH2wsL8SLsp6jWnq_vR1bs0PYbatl8VoQLPKam
- p5mso0LiwOiMfrrbDryo4yJMSLWKc5yZ42hblPJn9NLPOvRzndytPctU8L.EF5yzNzSMg7YC8Xt.
- mzDGylAKYulDkPxUkpvOXnf99ijt16v1hHIZZ5Kxufn2_JBDWTHWrhuqL45wKEYkpnjN_r_V4Muh
- oetsmj_EGjgTZE4aelGcPNB9t4UWvwdWM2z53_AoE90y24fItWXSWw0mTJy.AcAa8F75hl0W_H8g
- OdXNzX3z8YVTkNrSenGAmVpp59ewQpehkzQjHoNMIxD6mvekDgcr1LJnJk7_ecjZo3BzKkSUENBT
- 6aF2XwA4Z3ho0OyDhUKV0H3O4ms.8jdmSrcQUeL96Nhy2h77lnZ20_PqH5H9ok4RK75qQkD9kodF
- TTuVK1195GhkH3PsbFBfMdINpFxo67fm2icm_9eBPVgeBDrxI9M4Te52fUKlsc_4FsFfoUGS7iO4
- zz2j1_laDlSTUFnLCJjGu3EI64ydTuupzu35PnsYSSyweRqM1k2zdNALoZfKRsexqZmd3juTtxDl
- PD3tao.awole8onZYI.JhE9olD8ANM_mC5Lx9w5JE47MUNkPU_qvfOFQyD3UIvS6PYTLB4SkPt86
- gclnglbJD.cLDZouEs84Ie28whWK01wQ1CVlUGW7fP7N7gbWwIG7mNohvlYXish8s4aLbM65gkE_
- NZoQ4a.IFPmzo2s_NHItaIegjZ3uEG9wZ2.8NrDsnI_dv0zZiiGR6FONkw.v4Bonz7xWeLA.l58z
- XNpJ.bYP723pmyk4T8XwAyz7BK0akMGwUNkbXgzf4mBxyekGN6Pic0pfw1LlhsLWy5SdoAyRac_Q
- s5tyDmfM2ofNmzoIhMSIkaVq0SCPvAshvWiCvWuHeZhbiPOkc7wb3xgcmRbHKSxOkR9QnmppHwKR
- VC_pSy9hFKigXyl_hAFJX8C3BiFbYd0tWitPAvAUSi5MzChKheg0K2pOdIN_i3NhRPpGDzqhbdKc
- W2VCJpbi4Fjbgqb8DfGnrWX8Nk3PCn6VL1F25m1KUajL7k_IsVuL9qCC7RM2F6o0aWi80gVNw24n
- P1Elp1h5.4wDygLB8SfLLfujzbwCZ.LrhzshY88SQxyPOdb_SsIr6XctGg1UXLfbmEMS21lvFMwl
- jmmEpsVRnmEL6x9WEbXpxOlr8r6rx3wxJ9DfV7bRqUp3ENctmy0yB5WDL6CR51VOHQLUVAao7mm5
- W3RY8UdKXs81NVw7Kp8px72aWkpMSSP5hkN8ukmXuQQQFRAhZ4d_oeq.OF9spNASbf1MR8wntdzh
- 7Q8p.Y7UXNEdKHtMyz1bVgXIbNr.7I4EkrwICIFLWydVzZAi50oFJa1W7d3K5Ll.9.xzHpD.FTaT
- WkFZ8eMzxvmZQsb9AX1S4hXo2p9.6sFtRshFZRnzH5emeuLzdozxhbk54SaoGxc_BydSAaen2eEz
- nHXH4Wyq5.aKNGKEJHH8TfhaTfiN_wYey0BxqVtvDzV_UtbvEw6GeksZx58clyxBERiuoKjxJQS2
- AlyHTHPBacGbLvkCaUyTwMVcr0QFNEkX7.yuAXw.luojDr_xLO10nDRwTUkl04Os1WgRlkCbhxTx
- y63nZVxUyfO79gxQzv9nuv3Sy_5RKInu3gIusnuzKDDWL1LW7tfD9cDaeWfqzmhuny_7QhiosVZT
- EXgYIKO_Xy_nNnQAqwSt_8kyqPETLIkibhxkjmlHUeZulMeqQ7NWj2scFnE.kcdLfyUR3UH2IsdS
- 2EBjCLpDOGtTfzHNyh5L9VaHUECT.Q4SjyGrLVxo0LX1mZXBQO9x1e4mpfEUwf3_kl9Z_NCjk0EU
- Hp7GvrHUD49TMbFmWQZ.2vQjdO74FxS47xgDptD1kmejFsQFDGp6ltAQS2KSoZlp3huZAho1mlhE
- tmI2HgJi4Nw--
-X-Sonic-MF: <lw945lw945@yahoo.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic306.consmr.mail.gq1.yahoo.com with HTTP; Tue, 22 Mar 2022 04:20:23 +0000
-Received: by kubenode532.mail-prod1.omega.gq1.yahoo.com (VZM Hermes SMTP
- Server) with ESMTPA ID cd57a348f3b3e19681ab39e769f07847; 
- Tue, 22 Mar 2022 04:20:21 +0000 (UTC)
-From: Wei Li <lw945lw945@yahoo.com>
-To: pbonzini@redhat.com,
-	richard.henderson@linaro.org,
-	eduardo@habkost.net
-Cc: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/1] fix cmpxchg and lock cmpxchg instruction
-Date: Tue, 22 Mar 2022 12:20:08 +0800
-Message-Id: <20220322042008.399857-2-lw945lw945@yahoo.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220322042008.399857-1-lw945lw945@yahoo.com>
-References: <20220322042008.399857-1-lw945lw945@yahoo.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nWY9l-0005gH-6b
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 02:38:14 -0400
+Received: by mail-ej1-x629.google.com with SMTP id bi12so34178630ejb.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 23:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4KulkMBg+JcJCfb+CAVtelt7vlmrxteIhxWycETj1vI=;
+ b=nHvveMhxJEwe7bNZYZwCPYZ3k725g/lfftwAQ2HWINKkivMiuqLkZrjQMGEna7lwVb
+ 83LIexXlzVdMFK1KwP0zXN8UhhBTVu3S2SuDRKtgcsOCZ1l/hnkj7mzzUJbobVBIvx8Z
+ vrGM6lqEgI2ZlGAae4h6UAU9wFcZPs3IWPlSORHfO0sSNJdXVmu5QAxKGaTT0scClmEG
+ J72cCEvLG9XpEyIO7fAlC3JAeDQ2EttIrb+zqJGjjmD2wf98n7T+NDsbH5Sf6b7YCw9S
+ 85HF0wM+nf+Lftcot3MICOj3UoFrK/lyWsfnaB9IcrDjJPL5nKzmQlrNp2VmLMkKi6MW
+ ZX/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4KulkMBg+JcJCfb+CAVtelt7vlmrxteIhxWycETj1vI=;
+ b=TjqxGgQwm653Z03U6VBupcwHpC1XKBcmjAbRlpxB6Bm7iLqyFBUkSC566cR/T6ofIY
+ kAW+qsNcPnQpoErZ42QjEjgFfMS1Xku53i83O5UMpafNU8PxwVJOqYCr8RH8S7xr9m0q
+ eMkF2ck/1JYeMdnIEApCSRIx+/qWLZ3xvJtusbx9KNvRsSUdF+9RgM8IokhdlvIa0IWx
+ ZHw90Y0FOoVE5sdIgRN0YxU8vC/2B57BStA/8gKkMQ48KrAnswRj9ZC5ytKJoH05LTUh
+ xZ4/vkqTMqi6hgbITAXCnUuCUb2JWqq2eHwtIXJqpEUnIPGb1+mag7loww8l90icStiy
+ GHGA==
+X-Gm-Message-State: AOAM533vsoNu1UqHlnbdx51+NwTOwr+FcoTsPqXcKAY4iRhnQbLjP5G+
+ lnPNlj1xPFvzPZf6RKjN4ns=
+X-Google-Smtp-Source: ABdhPJwhH+KkajYObP3jcuBNMpW5T6L60xUI1+IXsFRyBBDYSmO/PMhiVTzyt8Md4bsKsSGpWAAaAQ==
+X-Received: by 2002:a17:906:b757:b0:6d6:e990:b0de with SMTP id
+ fx23-20020a170906b75700b006d6e990b0demr24078221ejb.603.1647931089539; 
+ Mon, 21 Mar 2022 23:38:09 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.googlemail.com with ESMTPSA id
+ hr38-20020a1709073fa600b006e0280f3bbdsm1575106ejc.110.2022.03.21.23.38.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Mar 2022 23:38:08 -0700 (PDT)
+Message-ID: <e6e1fdb6-640c-645a-0f8f-3a81bfe60de0@redhat.com>
+Date: Mon, 21 Mar 2022 15:40:30 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH-for-7.0] hw/i386/amd_iommu: Fix maybe-uninitialized
+ error with GCC 12
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
+References: <20220318004153.4510-1-philippe.mathieu.daude@gmail.com>
+ <2a8a7a37-57c1-9f6d-3a2d-359b8060abfb@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <2a8a7a37-57c1-9f6d-3a2d-359b8060abfb@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=98.137.68.84; envelope-from=lw945lw945@yahoo.com;
- helo=sonic306-21.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+X-Spam_score_int: 10
+X-Spam_score: 1.0
+X-Spam_bar: +
+X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,126 +99,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One question is that we can reduce more code duplication if we use
+On 3/18/22 15:03, Philippe Mathieu-Daudé wrote:
+> +qemu-trivial@
 
----------
-if(foo){
-    ....
-    tcg_gen_atomic_cmpxchg_tl(oldv, s->A0, cmpv, newv,
-                              s->mem_index, ot | MO_LE);
-    gen_extu(ot, oldv);
-    gen_extu(ot, cmpv); 
-}else{
-    ....
-    tcg_gen_movcond_tl(TCG_COND_EQ, newv, old, cmpv, newv, oldv);
-    gen_op_mov_reg_v(s, ot, rm, newv);
-}
-gen_op_mov_reg_v(s, ot, R_EAX, oldv);
-tcg_gen_movcond_tl(TCG_COND_EQ, cpu_regs[R_EAX], oldv, cmpv,
-                    temp, cpu_regs[R_EAX]);
---------
+Laurent,
 
-The problem is gen_op_mov_reg_v(s, ot, rm, newv) will happen before
-gen_op_mov_reg_v(s, ot, R_EAX, oldv). According to SDM, write to R_EAX
-should happen before write to rm. I am not sure about its side effects.
+please do not merge this patch as I've sent a replacement and I'll take 
+care of merging it.
 
-All in all, if there is no side effect, we can use the code above to
-reduce more code duplication. Or we use the code below to ensure
-correctness.
+Paolo
 
-Signed-off-by: Wei Li <lw945lw945@yahoo.com>
----
- target/i386/tcg/translate.c | 44 +++++++++++++++++++------------------
- 1 file changed, 23 insertions(+), 21 deletions(-)
-
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 2a94d33742..6633d8ece6 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -5339,7 +5339,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     case 0x1b0:
-     case 0x1b1: /* cmpxchg Ev, Gv */
-         {
--            TCGv oldv, newv, cmpv;
-+            TCGv oldv, newv, cmpv, temp;
- 
-             ot = mo_b_d(b, dflag);
-             modrm = x86_ldub_code(env, s);
-@@ -5348,41 +5348,42 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-             oldv = tcg_temp_new();
-             newv = tcg_temp_new();
-             cmpv = tcg_temp_new();
-+            temp = tcg_temp_new();
-             gen_op_mov_v_reg(s, ot, newv, reg);
-             tcg_gen_mov_tl(cmpv, cpu_regs[R_EAX]);
-+            tcg_gen_mov_tl(temp, cpu_regs[R_EAX]);
- 
--            if (s->prefix & PREFIX_LOCK) {
-+            if ((s->prefix & PREFIX_LOCK) ||
-+                (mod != 3)) {
-+                /* Use the tcg_gen_atomic_cmpxchg_tl path whenever mod != 3.
-+                   While an unlocked cmpxchg need not be atomic, it is not
-+                   required to be non-atomic either. */
-                 if (mod == 3) {
-                     goto illegal_op;
-                 }
-                 gen_lea_modrm(env, s, modrm);
-                 tcg_gen_atomic_cmpxchg_tl(oldv, s->A0, cmpv, newv,
-                                           s->mem_index, ot | MO_LE);
-+                gen_extu(ot, oldv);
-+                gen_extu(ot, cmpv);
-+                /* Perform the merge into %al or %ax as required by ot. */
-                 gen_op_mov_reg_v(s, ot, R_EAX, oldv);
-+                /* Undo the entire modification to %rax if comparison equal. */
-+                tcg_gen_movcond_tl(TCG_COND_EQ, cpu_regs[R_EAX], oldv, cmpv,
-+                                    temp, cpu_regs[R_EAX]);
-             } else {
--                if (mod == 3) {
--                    rm = (modrm & 7) | REX_B(s);
--                    gen_op_mov_v_reg(s, ot, oldv, rm);
--                } else {
--                    gen_lea_modrm(env, s, modrm);
--                    gen_op_ld_v(s, ot, oldv, s->A0);
--                    rm = 0; /* avoid warning */
--                }
-+                rm = (modrm & 7) | REX_B(s);
-+                gen_op_mov_v_reg(s, ot, oldv, rm);
-                 gen_extu(ot, oldv);
-                 gen_extu(ot, cmpv);
-                 /* store value = (old == cmp ? new : old);  */
-                 tcg_gen_movcond_tl(TCG_COND_EQ, newv, oldv, cmpv, newv, oldv);
--                if (mod == 3) {
--                    gen_op_mov_reg_v(s, ot, R_EAX, oldv);
--                    gen_op_mov_reg_v(s, ot, rm, newv);
--                } else {
--                    /* Perform an unconditional store cycle like physical cpu;
--                       must be before changing accumulator to ensure
--                       idempotency if the store faults and the instruction
--                       is restarted */
--                    gen_op_st_v(s, ot, newv, s->A0);
--                    gen_op_mov_reg_v(s, ot, R_EAX, oldv);
--                }
-+                /* Perform the merge into %al or %ax as required by ot. */
-+                gen_op_mov_reg_v(s, ot, R_EAX, oldv);
-+                /* Undo the entire modification to %rax if comparison equal. */
-+                tcg_gen_movcond_tl(TCG_COND_EQ, cpu_regs[R_EAX], oldv, cmpv,
-+                                    temp, cpu_regs[R_EAX]);
-+                gen_op_mov_reg_v(s, ot, rm, newv);
-             }
-             tcg_gen_mov_tl(cpu_cc_src, oldv);
-             tcg_gen_mov_tl(s->cc_srcT, cmpv);
-@@ -5391,6 +5392,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-             tcg_temp_free(oldv);
-             tcg_temp_free(newv);
-             tcg_temp_free(cmpv);
-+            tcg_temp_free(temp);
-         }
-         break;
-     case 0x1c7: /* cmpxchg8b */
--- 
-2.30.2
+> On 18/3/22 01:41, Philippe Mathieu-Daudé wrote:
+>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>> Initialize 'oldlevel' early to avoid on Debian/sid:
+>>
+>>    FAILED: libqemu-x86_64-softmmu.fa.p/hw_i386_amd_iommu.c.o
+>>    In function 'pte_get_page_mask',
+>>        inlined from 'amdvi_page_walk' at hw/i386/amd_iommu.c:945:25,
+>>        inlined from 'amdvi_do_translate' at hw/i386/amd_iommu.c:989:5,
+>>        inlined from 'amdvi_translate' at hw/i386/amd_iommu.c:1038:5:
+>>    hw/i386/amd_iommu.c:877:38: error: 'oldlevel' may be used 
+>> uninitialized [-Werror=maybe-uninitialized]
+>>      877 |     return ~((1UL << ((oldlevel * 9) + 3)) - 1);
+>>          |                      ~~~~~~~~~~~~~~~~^~~~
+>>    hw/i386/amd_iommu.c: In function 'amdvi_translate':
+>>    hw/i386/amd_iommu.c:906:41: note: 'oldlevel' was declared here
+>>      906 |     unsigned level, present, pte_perms, oldlevel;
+>>          |                                         ^~~~~~~~
+>>    cc1: all warnings being treated as errors
+>>
+>> Having:
+>>
+>>    $ gcc --version
+>>    gcc (Debian 12-20220313-1) 12.0.1 20220314 (experimental)
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   hw/i386/amd_iommu.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+>> index 4d13d8e697..b6d299f964 100644
+>> --- a/hw/i386/amd_iommu.c
+>> +++ b/hw/i386/amd_iommu.c
+>> @@ -904,6 +904,7 @@ static void amdvi_page_walk(AMDVIAddressSpace *as, 
+>> uint64_t *dte,
+>>       /* make sure the DTE has TV = 1 */
+>>       if (pte & AMDVI_DEV_TRANSLATION_VALID) {
+>>           level = get_pte_translation_mode(pte);
+>> +        oldlevel = level;
+>>           if (level >= 7) {
+>>               trace_amdvi_mode_invalid(level, addr);
+>>               return;
+> 
+> 
 
 
