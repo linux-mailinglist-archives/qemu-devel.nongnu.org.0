@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06574E2E7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:49:43 +0100 (CET)
-Received: from localhost ([::1]:35598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE5E4E2E86
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:52:04 +0100 (CET)
+Received: from localhost ([::1]:38428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWLDy-0001Ff-Se
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:49:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37400)
+	id 1nWLGF-0003Mi-Pu
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:52:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nWL9Z-0002Qz-AT
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:45:09 -0400
-Received: from [2a00:1450:4864:20::52e] (port=46052
- helo=mail-ed1-x52e.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nWLBn-0005he-1X
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:47:27 -0400
+Received: from [2a00:1450:4864:20::535] (port=41590
+ helo=mail-ed1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nWL9X-00081Y-Mo
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:45:09 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id u26so3005742eda.12
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:45:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JKI4o3Uyi6+0rR6FdNfTHfNiYxgnnwwsGGd+FolDfEs=;
- b=c+BxN7Z9SkLEQOIEvNwmn86jXEEGo7ZnCWUKsrKg0GnfVgEoGfVQZ9mQdsUUY0mxdm
- QU0dT74IaDencuh1PhRXsVY2qtpKZyO9rj+m+iglozUDidmYcQwGWzT1YMY7U6FWC9p6
- RLqcLyghsAQEC9iEQSpmhMW71CZe25DHd3HYkhzhsZCMXiHjbdkxAyu0VvAKdljm5JNK
- QS7OQrvx66yPCoXNF89QlVtyzWN2ButPspnDot4VVfvFQSSuSWm/Ntq5ad7jx71nCBAc
- BKsqbdlxu8rwqVyiSMztHy98O5o53Zn4mKL7iEz463qPQFuZUhHuFqJhFGn2lxuQc34W
- HGbA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nWLBk-0008Rd-NC
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:47:26 -0400
+Received: by mail-ed1-x535.google.com with SMTP id x34so17417787ede.8
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:47:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=c8Vb/3J2WmBC8JPmtAVXIjJB8FG7kuMrPClGrDve0es=;
+ b=nw7pxVE1sVWnYvbwJE/jBZPvC3OEgisiXXM6OJWbuRe/E45gCkoECbdOk1qVBlYQtK
+ z5LHnjXaGfncy1NsagQIyrKoozyGiuYQwtxLXxgSbhbOQRXCNrnas0CnNerxFXpivuDf
+ WMUWgQzV5UqdHM381nonnxNByUyiFzFj2cu4HDtMpvNuDgGJpPsVhZrUjGi07i3i1e9z
+ IO6NweQoL9Eo8OGzAkhQcwvnIduTpfDXUxeebJCKiTySY5fmVbIAGsHYzUHT0s3JOClG
+ 1tLdNWTWMYWdnJ0/b5RfKlRL4gvBnVP7nRWEfs8w9R/HNsTIK/Y3OHQ97fgzy7X/5xFU
+ KPog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JKI4o3Uyi6+0rR6FdNfTHfNiYxgnnwwsGGd+FolDfEs=;
- b=hjIlDYcAd/T0ttAdxFYMJrpC/DgfWddT8rYFlKbLAIv51QNXX8oBww6+IOmgLTFw2U
- kB/I9YjL+eZwoggZ1DdBAky29O0Xkq+3CgoCcG6TxKAgEc7WwwguJEP8OBxJv1evJ3PT
- 9I2nzLNm2FOV/M/AV8PKUJn3qmv+hSaIZ/J1T3aQCwDa4uvQdH/AjX8Vzak9NGbyNsyP
- oiOLG+pVtmbD4X8p5U8L8rEktkjHDF2s0m5EA+0USJIBuiTK4REDBlgzNBFPhRRnvPf6
- zyv7MYn92BSP48Hyozn8IaJ/agWgQiRpoYYjQGVjJ7uAg4HTz3Qdi0QXFLih7naLlmG7
- lRTQ==
-X-Gm-Message-State: AOAM532pJ456UYo39wUGazt3ex8YXfiJIzBi7BUEHRJbgAzGeCPPJLUY
- yF3kqiCN2UEJr86uob3thYlmAWzbDgQ=
-X-Google-Smtp-Source: ABdhPJwC45zS6FUrBu6VNOfnyF46NIaEt04iEwVQxxtK5c3rf44CZ2EcPC9QyoGqVcDDyJBmAX4X3g==
-X-Received: by 2002:a50:9505:0:b0:416:4496:5ec4 with SMTP id
- u5-20020a509505000000b0041644965ec4mr24304698eda.309.1647881106152; 
- Mon, 21 Mar 2022 09:45:06 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=c8Vb/3J2WmBC8JPmtAVXIjJB8FG7kuMrPClGrDve0es=;
+ b=RdVx52UZc47JtWPjUa2TFutXuFcFgXLAyhzX0mmm/MDoJtu343l0KcOVwQXJQ0ZGen
+ JZa9Odmt1Prw2V2hK17YoJinZQZeIMrd0SbpsxQqvrR1TBB0pVDaEJ4uOvmOcKdeund9
+ GM/cUbqwgPjS+CrgthpKDst7MW1eUOWT2oBQ/Qs6xIFgfI7T0X+DNaNWsfAKzon1txk/
+ gIppuHkZSQIfD2jMbnyaoN0vq5oFr8BEPpsxo3sFlh9ba/Ss03Pkmt6/gLHOJFtCFJMG
+ vxDNjtD7dmyxixe6qNmzXu9Ak15dn6fFJVLH4rrRA3w9ybxsdEPiHkCba1XwdCBuKkxF
+ JqzQ==
+X-Gm-Message-State: AOAM530PhvRY/LWAkaJQwu3oUMFfxTVzvJT/x96RmOpcgOTH0Xo96gYD
+ JirhSKi9sUgCA9s0U7GaZq8oSw==
+X-Google-Smtp-Source: ABdhPJwUobR/yrdY2HIGxERfWCOL/dn1tKpBdSPnVZjllaNnyd+yRb/Lj2EEeyC4GfQmC6SU4fawWA==
+X-Received: by 2002:a05:6402:3712:b0:416:13bf:4fc5 with SMTP id
+ ek18-20020a056402371200b0041613bf4fc5mr23994991edb.115.1647881242980; 
+ Mon, 21 Mar 2022 09:47:22 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- a102-20020a509eef000000b0041614c8f79asm7949352edf.88.2022.03.21.09.45.05
+ kb28-20020a1709070f9c00b006d5d8bf1b72sm7095379ejc.78.2022.03.21.09.47.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 09:45:05 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ Mon, 21 Mar 2022 09:47:21 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D716D1FFB7;
+ Mon, 21 Mar 2022 16:47:20 +0000 (GMT)
+References: <20220315121251.2280317-1-alex.bennee@linaro.org>
+User-agent: mu4e 1.7.10; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] hw/i386/amd_iommu: Fix maybe-uninitialized error with GCC
- 12
-Date: Mon, 21 Mar 2022 17:45:02 +0100
-Message-Id: <20220321164502.201160-3-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220321164502.201160-1-pbonzini@redhat.com>
-References: <20220321164502.201160-1-pbonzini@redhat.com>
+Subject: Re: [PATCH for 7.0 v1 0/8] misc testing, i386, docs, gitdm, gitlab
+Date: Mon, 21 Mar 2022 16:46:52 +0000
+In-reply-to: <20220315121251.2280317-1-alex.bennee@linaro.org>
+Message-ID: <87a6dj45if.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -91,64 +92,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: fam@euphon.net, berrange@redhat.com, sw@weilnetz.de,
+ richard.henderson@linaro.org, f4bug@amsat.org, qemu-arm@nongnu.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Be more explicit that the loop must roll at least once.  Avoids the
-following warning:
 
-  FAILED: libqemu-x86_64-softmmu.fa.p/hw_i386_amd_iommu.c.o
-  In function 'pte_get_page_mask',
-      inlined from 'amdvi_page_walk' at hw/i386/amd_iommu.c:945:25,
-      inlined from 'amdvi_do_translate' at hw/i386/amd_iommu.c:989:5,
-      inlined from 'amdvi_translate' at hw/i386/amd_iommu.c:1038:5:
-  hw/i386/amd_iommu.c:877:38: error: 'oldlevel' may be used uninitialized [-Werror=maybe-uninitialized]
-    877 |     return ~((1UL << ((oldlevel * 9) + 3)) - 1);
-        |                      ~~~~~~~~~~~~~~~~^~~~
-  hw/i386/amd_iommu.c: In function 'amdvi_translate':
-  hw/i386/amd_iommu.c:906:41: note: 'oldlevel' was declared here
-    906 |     unsigned level, present, pte_perms, oldlevel;
-        |                                         ^~~~~~~~
-  cc1: all warnings being treated as errors
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Having:
+> Hi,
+>
+> As per usual here are the collection of random fixes and tweaks as we
+> go through the release process. Most of these patches have been posted
+> individually before although the semihosting and gitlab patches are
+> new.
+>
+> The following need review:
+>
+>  - gitlab: include new aarch32 job in custom-runners
+>  - semihosting: clean up handling of expanded argv
+>  - tests/avocado: update aarch64_virt test to exercise -cpu max
 
-  $ gcc --version
-  gcc (Debian 12-20220313-1) 12.0.1 20220314 (experimental)
+Ping? Any more reviews before I generate the PR?
 
-Reported-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/i386/amd_iommu.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index 4d13d8e697..6986ad3b87 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -913,7 +913,7 @@ static void amdvi_page_walk(AMDVIAddressSpace *as, uint64_t *dte,
-         }
- 
-         /* we are at the leaf page table or page table encodes a huge page */
--        while (level > 0) {
-+        do {
-             pte_perms = amdvi_get_perms(pte);
-             present = pte & 1;
-             if (!present || perms != (perms & pte_perms)) {
-@@ -932,10 +932,7 @@ static void amdvi_page_walk(AMDVIAddressSpace *as, uint64_t *dte,
-             }
-             oldlevel = level;
-             level = get_pte_translation_mode(pte);
--            if (level == 0x7) {
--                break;
--            }
--        }
-+        } while (level > 0 && level < 7);
- 
-         if (level == 0x7) {
-             page_mask = pte_override_page_mask(pte);
--- 
-2.35.1
-
+--=20
+Alex Benn=C3=A9e
 
