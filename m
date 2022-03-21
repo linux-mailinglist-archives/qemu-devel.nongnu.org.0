@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6B94E2FCA
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 19:18:01 +0100 (CET)
-Received: from localhost ([::1]:52060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B901C4E2FE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 19:24:21 +0100 (CET)
+Received: from localhost ([::1]:55276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWMbQ-00066k-7J
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 14:18:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59704)
+	id 1nWMhY-0000bM-D8
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 14:24:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWMZf-0005Dy-78
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:16:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50452)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWMfU-0008EB-Sh
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:22:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWMZa-000563-OK
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:16:10 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWMfS-0001xd-TX
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:22:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647886566;
+ s=mimecast20190719; t=1647886929;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BCa2AXz+Wsx+lownzOY8oJn2oxUe8++ZpYZaiAKkyEs=;
- b=RlbF8HoL9VHM4zw1vxxeO0R5169vrCJSUtyEbSK3M9fbDquHoZfG1hB6yQ1oEzbSZnt4zZ
- 57eEdaQYu6Bb+Rb+QbyU2MRMGF5bZJyEMCyIz5tEu/TLGMUU5+ZMKFpaQzd/5nQnw60Std
- g9dZDlsc0fKZ0hlHqMz6RzuQYppPnRQ=
+ bh=Kswne+N6nKHXw8VnGBTWVx20S7ULH9uCQmyu/GeGGLY=;
+ b=a01+Ai0N/dbS4vIa03Xm+MfmsLSJLAEe++nSgWv7moLSxMuHcyC/JrUoDffVf7NCr5pE9z
+ mpYVtOIpxzy75T1GEgIrk+WQ9Atu3fg24WxMeqP91LuxhZ7go3Qr88Bl5y9LVW/S28nEy7
+ O/zpRyLyLAPMQurazL+pxj9CEJHOq1U=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-478-pJQlFL9hMmi3Qmx9Hjr8sg-1; Mon, 21 Mar 2022 14:16:02 -0400
-X-MC-Unique: pJQlFL9hMmi3Qmx9Hjr8sg-1
+ us-mta-352-5qcOuOdHNBiev_VwqcV3fQ-1; Mon, 21 Mar 2022 14:22:08 -0400
+X-MC-Unique: 5qcOuOdHNBiev_VwqcV3fQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91E82802809;
- Mon, 21 Mar 2022 18:16:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08BA1185A7BA;
+ Mon, 21 Mar 2022 18:22:08 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.16.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 17D0D40CF8FB;
- Mon, 21 Mar 2022 18:16:02 +0000 (UTC)
-Date: Mon, 21 Mar 2022 13:16:00 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 824E840CF8FB;
+ Mon, 21 Mar 2022 18:22:07 +0000 (UTC)
+Date: Mon, 21 Mar 2022 13:22:05 -0500
 From: Eric Blake <eblake@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 14/15] iotests: remove qemu_io_silent() and
- qemu_io_silent_check().
-Message-ID: <20220321181600.wblgnqaqhjkkf27z@redhat.com>
+Subject: Re: [PATCH 15/15] iotests: make qemu_io_log() check return codes by
+ default
+Message-ID: <20220321182205.s7fuxglvfbj3qjyr@redhat.com>
 References: <20220318203655.676907-1-jsnow@redhat.com>
- <20220318203655.676907-15-jsnow@redhat.com>
+ <20220318203655.676907-16-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220318203655.676907-15-jsnow@redhat.com>
+In-Reply-To: <20220318203655.676907-16-jsnow@redhat.com>
 User-Agent: NeoMutt/20211029-454-6adf99
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
@@ -60,14 +60,14 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,91 +85,23 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 18, 2022 at 04:36:54PM -0400, John Snow wrote:
-> Like qemu-img, qemu-io returning 0 should be the norm and not the
-> exception. Remove all calls to qemu_io_silent that just assert the
-> return code is zero (That's every last call, as it turns out), and
-> replace them with a normal qemu_io() call.
+On Fri, Mar 18, 2022 at 04:36:55PM -0400, John Snow wrote:
+> Just like qemu_img_log(), upgrade qemu_io_log() to enforce a return code
+> of zero by default.
+> 
+> Affected tests: 242 245 255 274 303 307 nbd-reconnect-on-open
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  tests/qemu-iotests/216                        | 12 +++++-----
->  tests/qemu-iotests/218                        |  5 ++---
->  tests/qemu-iotests/224                        |  4 ++--
->  tests/qemu-iotests/258                        | 12 +++++-----
->  tests/qemu-iotests/298                        | 16 ++++++--------
->  tests/qemu-iotests/310                        | 22 +++++++++----------
->  tests/qemu-iotests/iotests.py                 | 16 --------------
->  tests/qemu-iotests/tests/image-fleecing       |  4 ++--
->  .../tests/mirror-ready-cancel-error           |  2 +-
->  .../qemu-iotests/tests/stream-error-on-reset  |  4 ++--
->  10 files changed, 39 insertions(+), 58 deletions(-)
+>  tests/qemu-iotests/iotests.py                  | 5 +++--
+>  tests/qemu-iotests/tests/nbd-reconnect-on-open | 2 +-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+>
 
-> +++ b/tests/qemu-iotests/258
-> @@ -21,7 +21,7 @@
->  # Creator/Owner: Max Reitz <mreitz@redhat.com>
->  
->  import iotests
-> -from iotests import log, qemu_img, qemu_io_silent, \
-> +from iotests import log, qemu_img, qemu_io, \
->          filter_qmp_testfiles, filter_qmp_imgfmt
->  
->  # Returns a node for blockdev-add
-> @@ -86,15 +86,15 @@ def test_concurrent_finish(write_to_stream_node):
->          if write_to_stream_node:
->              # This is what (most of the time) makes commit finish
->              # earlier and then pull in stream
-> -            assert qemu_io_silent(node2_path,
-> -                                  '-c', 'write %iK 64K' % (65536 - 192),
-> -                                  '-c', 'write %iK 64K' % (65536 -  64)) == 0
-> +            qemu_io(node2_path,
-> +                    '-c', 'write %iK 64K' % (65536 - 192),
-> +                    '-c', 'write %iK 64K' % (65536 -  64))
->  
->              stream_throttle='tg'
->          else:
->              # And this makes stream finish earlier
-> -            assert qemu_io_silent(node1_path,
-> -                                  '-c', 'write %iK 64K' % (65536 - 64)) == 0
-> +            qemu_io(node1_path,
-> +                    '-c', 'write %iK 64K' % (65536 - 64))
-
-This could fit on one line.  But the split matches the instance
-earlier in the hunk that needed two lines.
-
->  
->              commit_throttle='tg'
->  
-> diff --git a/tests/qemu-iotests/298 b/tests/qemu-iotests/298
-> index fae72211b1..9d6d95d953 100755
-> --- a/tests/qemu-iotests/298
-> +++ b/tests/qemu-iotests/298
-> @@ -129,16 +129,14 @@ class TestTruncate(iotests.QMPTestCase):
->          os.remove(refdisk)
->  
->      def do_test(self, prealloc_mode, new_size):
-> -        ret = iotests.qemu_io_silent('--image-opts', '-c', 'write 0 10M', '-c',
-> -                                     f'truncate -m {prealloc_mode} {new_size}',
-> -                                     drive_opts)
-> -        self.assertEqual(ret, 0)
-> +        iotests.qemu_io('--image-opts', '-c', 'write 0 10M', '-c',
-> +                        f'truncate -m {prealloc_mode} {new_size}',
-> +                        drive_opts)
->  
-> -        ret = iotests.qemu_io_silent('-f', iotests.imgfmt, '-c', 'write 0 10M',
-> -                                     '-c',
-> -                                     f'truncate -m {prealloc_mode} {new_size}',
-> -                                     refdisk)
-> -        self.assertEqual(ret, 0)
-> +        iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write 0 10M',
-> +                        '-c',
-> +                        f'truncate -m {prealloc_mode} {new_size}',
-
-And as long as I'm pontificating on line wraps, putting '-c' and
-f'truncate...' on the same line might make sense.
-
-At any rate, whether or not you choose to do anything about my
-observations on cosmetic line wraps:
+If I'm reading the commit message correctly, 'Affected tests' are all
+tests that used qemu_io_log, but only nbd-reconnect-on-open needed a
+change because it was the only one that explicitly tested a scenario
+that triggers an expected non-zero status.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
