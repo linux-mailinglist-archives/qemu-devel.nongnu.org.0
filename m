@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589764E2482
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 11:41:29 +0100 (CET)
-Received: from localhost ([::1]:54600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965384E24BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 11:56:58 +0100 (CET)
+Received: from localhost ([::1]:58382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWFTc-0007KL-18
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 06:41:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45400)
+	id 1nWFib-0002Cq-0k
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 06:56:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nWFSR-0006Ea-Lh
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 06:40:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46556)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nWFhH-0001Ia-CM
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 06:55:35 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:57741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nWFSM-000576-8D
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 06:40:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647859209;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SYCjIhCDxtw5dYh0Iezo5rH72cP1+c7WUNC3UVCUU6A=;
- b=F3VHTsiFMGiEPLpwBqpVYp64e2iUmKW8WhY4wh5ZuNr6RccB6B7hx6MlHQLRAF+f56bD2K
- pzFgFj6loIl9aLD9WyLgwwqJsO43uCQaNbReJfSEFboDeslJyipNpOZzintC4nmVORJWS6
- uPPockOb/kyMV/AyapdrtgilwnQc9PE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-1FaflM1-NhyIJAn4dHW_eQ-1; Mon, 21 Mar 2022 06:40:06 -0400
-X-MC-Unique: 1FaflM1-NhyIJAn4dHW_eQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B53382A59559;
- Mon, 21 Mar 2022 10:40:05 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C314492C14;
- Mon, 21 Mar 2022 10:40:05 +0000 (UTC)
-Date: Mon, 21 Mar 2022 10:40:04 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: comparison of coroutine backends
-Message-ID: <YjhWBDm6jHVI6H0F@stefanha-x1.localdomain>
-References: <8e98ff69-2f35-72c1-9b68-2a6a19ed716b@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nWFhF-0004oT-FA
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 06:55:35 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.84])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 5A5B4ED114DD;
+ Mon, 21 Mar 2022 11:55:28 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 21 Mar
+ 2022 11:55:28 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R00376421b0b-1911-4048-9cd5-a6da7b471e99,
+ 1B2610401919D9AAB2F83A5D9344AD9F0D4CD782) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <549ac24b-4636-374c-7086-33588f906be5@kaod.org>
+Date: Mon, 21 Mar 2022 11:55:22 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ooyzxNQMnx2nKJga"
-Content-Disposition: inline
-In-Reply-To: <8e98ff69-2f35-72c1-9b68-2a6a19ed716b@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v1 0/1] hw/gpio Add ASPEED GPIO model for AST1030
+Content-Language: en-US
+To: Jamin Lin <jamin_lin@aspeedtech.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
+ <joel@jms.id.au>, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, "open
+ list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20220321091453.17113-1-jamin_lin@aspeedtech.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220321091453.17113-1-jamin_lin@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: df01e5ab-a3a5-4b1d-a8cc-ccd8393146cf
+X-Ovh-Tracer-Id: 6458161869366791020
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudegfedgvdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeefiedukefhueejteffvedthffhkeehhefhtdejkeefheeifeejvdfgfffgieefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhm
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,182 +73,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu block <qemu-block@nongnu.org>
+Cc: troy_lee@aspeedtech.com, steven_lee@aspeedtech.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello Jamin,
 
---ooyzxNQMnx2nKJga
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 3/21/22 10:14, Jamin Lin wrote:
+> 1. Add GPIO read/write trace event.
+> 2. Support GPIO index mode for write operation.
+> It did not support GPIO index mode for read operation.
+> 3. AST1030 integrates one set of Parallel GPIO Controller
 
-On Fri, Mar 18, 2022 at 09:48:37AM +0100, Paolo Bonzini wrote:
-> Hi all,
->=20
-> based on the previous discussions here is a comparison of the various
-> possibilities for implementing coroutine backends in QEMU and the
-> respective advantages and disadvantages.
->=20
-> I'm adding a third possibility for stackless coroutines, which is to
-> use the LLVM/clang builtins.  I believe that would still require a
-> source-to-source translator, but it would offload to the compiler the
-> complicated bits such as liveness analysis.
->=20
-> 1) Stackful coroutines:
-> Advantages:
-> - no changes to current code
->=20
-> Disadvantages:
-> - portability issues regarding shadow stacks (SafeStack, CET)
-> - portability/nonconformance issues regarding TLS
->=20
-> Another possible advantage is that it allows using the same function for
-> both coroutine and non-coroutine context.  I'm listing this separately
-> because I'm not sure that's desirable, as it prevents compile-time
-> checking of calls to coroutine_fn.  Compile-time checking would be
-> possible using clang -fthread-safety if we forgo the ability to use the
-> same function in both scenarios.
->=20
->=20
-> 2) "Duff's device" stackless coroutines
-> Advantages:
+Is the AST1030 a new SoC you are developing ? We don't have a machine
+for it in QEMU. We should introduce the models first if the changes
+are specific to this SoC.
 
-- Supports gcc and clang
+Thanks,
 
-> - no portability issues regarding both shadow stacks and TLS
-> - compiles to good old C code
-> - compile-time checking of "coroutine-only" but not awaitable functions
-> - debuggability: stack frames should be easy to inspect
+C.
 
-The user needs to understand how the coroutine runtime works in order to
-get a backtrace of a suspended coroutine. More likely a GDB Python
-script will be needed for this.
 
-> Disadvantages:
-> - complex source-to-source translator
-> - more complex build process
->=20
->=20
-> 3) C++20 stackless coroutines
-> Advantages:
-> - no portability issues regarding both shadow stacks and TLS
-> - no code to write outside QEMU
-> - simpler build process
->=20
-> Disadvantages:
-> - requires a new compiler
-> - it's C++
-
-- raises questions about C++ usage in QEMU, which seem to be
-  controversial
-
-> - no compile-time checking of "coroutine-only" but not awaitable functions
->=20
->=20
-> 4) LLVM stackless coroutines
-> Advantages:
-> - no portability issues regarding both shadow stacks and TLS
-> - no code to write outside QEMU
->=20
-> Disadvantages:
-> - relatively simple source-to-source translator
-> - more complex build process
-> - requires a new compiler and doesn't support GCC
->=20
->=20
-> Note that (2) would still have a build dependency on libclang.
-> However the code generation could still be done with GCC and with
-> any compiler version.
->=20
-> I'll also put it in a table, though I understand that some choices
-> here might be debatable:
->=20
->                          stackful      Duff's device            C++20    =
-          LLVM
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Code to write/maintain    ++ [1]             ---                   +++   =
-           - [2]
-> Changes to existing code  ++ [3]             -                     --    =
-           -
-> Community acceptance      ++                 ++                    --    =
-           ?
-> Code or PoC exists        ++                 +                     -     =
-           --
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Portability               --                 ++                    +     =
-           -
-> Debuggability             -                  ++                    ?     =
-           ?
-> Performance               -                  ++ [4]                ++    =
-           ++
->=20
-> [1] I'm penalizing stackful coroutines here because the worse portability
-> has an impact on future maintainability too.
->=20
-> [2] This is an educated guess.
->=20
-> [3] If we decide to remove the possibility of using the same function for
-> both coroutine and non-coroutine context, the changes to existing code
-> would be the same as for Duff's device and LLVM coroutines.
->=20
-> [4] Slightly worse than C++20 coroutines for the PoC, but that is mostly =
-due
-> to implementation choices that are easy to change.
->=20
->=20
-> Stackful coroutines are obviously pretty good, or we wouldn't have used t=
-hem.
-> They might be a local optimum though, as shown by the negative points in =
-terms
-> of portability, debuggability and performance.
->=20
-> Both Duff's device and LLVM would be more or less transparent to the part=
- of
-> the community that doesn't care about the coroutines.  The translator wou=
-ld
-> probably be write-and-forget (though I'm not sure about the API stability=
- of
-> libclang, which would be a major factor), but it would still be a substan=
-tial
-> amount of work to commit to.
-
-I don't see a clear winner but here is my order of preference:
-1. Stackful - the devil we know
-2. Duff's device - a temporary (wasteful) step before native compiler suppo=
-rt?
-3. LLVM - actually not bad but requires dropping gcc support
-4. C++20 - I worry adding C++ into the codebase will cause friction
-
-Ideally gcc and clang would support C coroutines natively, making the
-choice simple. Is it worth treating this as a long term project and
-working with LLVM/clang and gcc to add native C coroutine support to
-compilers? We still have stackful coroutines in the short term.
-
-Stefan
-
---ooyzxNQMnx2nKJga
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmI4VgQACgkQnKSrs4Gr
-c8guyQgAlf0jzEl8xRLqvEG08JBOdvOThGt3euLeGiY7vQmshofUaXd4xcsO8ZSy
-oJNkP1Laj0oLPbTL1s8a01UPuRy7puzwUbmlye2tM3Qhl4JRwWtmPP8xw0TI8ZiH
-PDfec1ViHtVwyPDPU5IlukGR0fHtEJVYDXfIFBk1Jo+0G/8/Gclo08Ta4W00bgw7
-VeUTaVS24HOPKALhGZ9aWlFrUolgx3iyBpodgHAIpjfWy21GjUiQZLvCzeNeJoos
-MQjuwca4lw5wh7ZtBLjmJZI3azZ9jn5mRGSF0FXX3wecFRiaJJ9HCDt3irGF7l8L
-gxmA3w1NIiyRbsm9s4VgPtQnRECdFg==
-=t+of
------END PGP SIGNATURE-----
-
---ooyzxNQMnx2nKJga--
+> with maximum 151 control pins, which are 21 groups
+> (A~U, exclude pin: M6 M7 Q5 Q6 Q7 R0 R1 R4 R5 R6 R7 S0 S3 S4
+> S5 S6 S7 ) and the group T and U are input only.
+> 
+> Test Steps:
+> 1. Download image from
+> https://github.com/AspeedTech-BMC/zephyr/releases/download/v00.01.04/ast1030-evb-demo.zip
+> 2. Extract the zip file to obtain zephyr.elf
+> 3. Run ./qemu-system-arm -M ast1030-evb -kernel $PATH/zephyr.elf -nographic
+> 4. Test GPIO D6 Pin
+> uart:~$ gpio conf GPIO0_A_D 30 out
+> uart:~$ gpio get GPIO0_A_D 30
+> [Result]
+> Reading GPIO0_A_D pin 30
+> Value 0
+> uart:~$ gpio set GPIO0_A_D 30 1
+> uart:~$ gpio get GPIO0_A_D 30
+> [Result]
+> Reading GPIO0_A_D pin 30
+> Value 1
+> uart:~$ gpio set GPIO0_A_D 30 0
+> uart:~$ gpio get GPIO0_A_D 30
+> [Result]
+> Reading GPIO0_A_D pin 30
+> Value 0
+> 
+> Jamin Lin (1):
+>    hw/gpio: Add ASPEED GPIO model for AST1030
+> 
+>   hw/gpio/aspeed_gpio.c         | 250 ++++++++++++++++++++++++++++++++--
+>   hw/gpio/trace-events          |   5 +
+>   include/hw/gpio/aspeed_gpio.h |  16 ++-
+>   3 files changed, 255 insertions(+), 16 deletions(-)
+> 
 
 
