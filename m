@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19304E2CD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 16:51:52 +0100 (CET)
-Received: from localhost ([::1]:39534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA5D4E2CCE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 16:48:23 +0100 (CET)
+Received: from localhost ([::1]:32896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWKJy-00029k-N8
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 11:51:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43034)
+	id 1nWKGc-00065Q-Mx
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 11:48:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nWJzt-0005IH-8V
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 11:31:07 -0400
-Received: from [2a00:1450:4864:20::62f] (port=34587
- helo=mail-ej1-x62f.google.com)
+ id 1nWJzp-0005Ge-1E
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 11:31:01 -0400
+Received: from [2a00:1450:4864:20::635] (port=37651
+ helo=mail-ej1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nWJzr-0004xg-1p
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 11:31:04 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id o10so11847965ejd.1
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 08:31:01 -0700 (PDT)
+ id 1nWJzn-0004xP-9U
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 11:31:00 -0400
+Received: by mail-ej1-x635.google.com with SMTP id bg10so30605726ejb.4
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 08:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZJ4SOL73gMJvu81Wu3v8plZDwv28BscaYBchhYSZgQU=;
- b=tczvxcE5mAJDvyzDYAlohPPyrN+ogchCQwqRxeZvq6EH0Jxrpguw10CcSldqVX4s3u
- b69oPyCaYahqOPtjmbZne95CzDuWeSrp9x5blBgThYgkF466gRkWMIWHXsALc/XfoBS4
- m+1xlYmzb6k7GlpgEy9JZHhlEb7NZluQApSi21DpBLpcI4DeVeo1qeY901f8BbYV6+y7
- LuV1x9JHnfo8+0QPqAoJRMEfmdPen1oJExOvyn2oW2vlvvK6MGGrLAZlscuilgeOiZg0
- BjygH8hREcxCZ5tidm6ReqancJvVZ2WizbJ4Ka4uUiHAZyFFXIoyJyqNxztas8G/CwKt
- Sk2Q==
+ bh=MQjMBfPt07Yn8P1M2RUzALevfIxDKLCIzvSLtVRCENI=;
+ b=ICjWZPI8I8qbP6Pu/t693tRJX/Q3y3YFPPSA7xKw1v05WgSQV5YVt4pZh5OQW8uT9k
+ 3RzzZcoNJhRxkf50UVsQhVr0GnIPa5D4lu3zNc7kNSk5oY7oz5gITJPw6hTJ4qbwgrAY
+ neYhIQgvCGK25HGMU3fjOBNY6jN1d5v8jdreuBLzgU9gsjzehV040x+Xm2s5dEa7M4Ui
+ 0iI9Il5wWLhah8+hn/8tIkmNPXpwNAukDPNmPdkbJvUPh+8B1yQ5dufduumOnhizGZHT
+ EKCkz6q83wpWHV9qhzE6JFZE58jycC1vYNbBWEf+w71WaU/Rcyx7KkowW5aiEzcJTlI1
+ aJ2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZJ4SOL73gMJvu81Wu3v8plZDwv28BscaYBchhYSZgQU=;
- b=qishyFp94yXGXYb2WjG1DcbpnpGlLPBtkEemYCdmksgHXqNirv63U0RCX7DS62coO0
- Uuw4hnJoHaXXTzYo7IXmjqGUvPuzIdAWb+8hl6DdoY/DR+NSOHREqze0FHpyvy6Glh3N
- SiKlnQejFpFAW6W0ozGycO7gDZxUZM55MujajK0k1brZpY3Yp1JMCtgsrjZDG3uqLhmk
- 0wcRZRZlvNPVVQFUGq16nHQl0/ctD7e51DWeH4YotSmLr2GdLUnJFy1QNQM7w8xRZrUc
- BMbgrLXWHhVz+KVJ3eoAuF5Qv5oGKAiReywcWGvrkO8GSod1CSQF8qtvBnkA2T2fSetJ
- G0yw==
-X-Gm-Message-State: AOAM5313bNUFRPG1fqwhsevTF4cXYgeYRpN793Qsk6u+weSry9CGC5Hf
- 9c729BFkMnM8dR5MtzbiNvRlbA==
-X-Google-Smtp-Source: ABdhPJyQy1dlYFcO31VxRB4qWsRhrAHbIyXQ39BiswsbkIAb8WbJ3eCT2vwN+IaOgT5WurooC2H0iA==
-X-Received: by 2002:a17:907:8d17:b0:6df:c072:2f66 with SMTP id
- tc23-20020a1709078d1700b006dfc0722f66mr13770679ejc.444.1647876660764; 
- Mon, 21 Mar 2022 08:31:00 -0700 (PDT)
+ bh=MQjMBfPt07Yn8P1M2RUzALevfIxDKLCIzvSLtVRCENI=;
+ b=EaTmx6cYrn60WpkwvHT4dheU4XUXr9AUYWYmtcSiuEPix7iR6d8fgCtV6qQcIEcjes
+ 7lYv2eUMBn2J4+3btyKEdEmnU9ehmS5aK5o/rW4SIdA85uitnEPpMEnLOnm5nIXWmMTv
+ ZK/Aey6v15NKS5peiOtt044b7xuNuDI6+BeS4LrA2CR2PLWYxuveBiYbvRdf3APMfijU
+ u0uq1xdgjo+TbNG8aUXzoG1DxaUF0EJYG544K+kSFdQI4ftWsc7A7kGYIIMpSXjWhIsZ
+ xoAYNIcXJXNzy50pTLveBrVA8pFSWrFejhFkxU3LyjPNab/aaK6mVhWZMF+jg8+3I53m
+ gzVA==
+X-Gm-Message-State: AOAM5317mVoEJVxW/Jvvr6NaEiBUIDyzzDMS341Lp1OnI9y6cyDVGVPz
+ HNB/il0PhT8UYHrbq9INXasNMg==
+X-Google-Smtp-Source: ABdhPJzCrNF5T4QQSORkWFOu4JOcMv5w00smsg8qzinsD4D5XSSbfC66EgrCAsWVkLcaqXhAVqvcvg==
+X-Received: by 2002:a17:907:60c8:b0:6da:83f0:9eaa with SMTP id
+ hv8-20020a17090760c800b006da83f09eaamr21111824ejc.605.1647876657507; 
+ Mon, 21 Mar 2022 08:30:57 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- g1-20020a056402424100b00416c6cbfa4csm7898468edb.54.2022.03.21.08.30.43
+ bd12-20020a056402206c00b00418c9bf71cbsm7887193edb.68.2022.03.21.08.30.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 21 Mar 2022 08:30:49 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 773101FFC1;
+ by zen.linaroharston (Postfix) with ESMTP id 8EDB41FFC2;
  Mon, 21 Mar 2022 15:30:38 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 09/13] docs/devel: start documenting writing VirtIO devices
-Date: Mon, 21 Mar 2022 15:30:33 +0000
-Message-Id: <20220321153037.3622127-10-alex.bennee@linaro.org>
+Subject: [PATCH  v1 10/13] include/hw: start documenting the vhost API
+Date: Mon, 21 Mar 2022 15:30:34 +0000
+Message-Id: <20220321153037.3622127-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220321153037.3622127-1-alex.bennee@linaro.org>
 References: <20220321153037.3622127-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,269 +93,188 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: slp@redhat.com, mathieu.poirier@linaro.org, mst@redhat.com,
- viresh.kumar@linaro.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, stefanha@redhat.com,
- marcandre.lureau@redhat.com,
+ viresh.kumar@linaro.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While writing my own VirtIO devices I've gotten confused with how
-things are structured and what sort of shared infrastructure there is.
-If we can document how everything is supposed to work we can then
-maybe start cleaning up inconsistencies in the code.
+While trying to get my head around the nest of interactions for vhost
+devices I though I could start by documenting the key API functions.
+This patch documents the main API hooks for creating and starting a
+vhost device as well as how the configuration changes are handled.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Michael S. Tsirkin <mst@redhat.com>
 Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20220309164929.19395-1-alex.bennee@linaro.org>
-
 ---
-v2
-  - move more description to the leader text
-  - try not to confuse backend and frontend terms
-  - more explicit description of objects
-  - try and tease apart vhost_dev_init vs QOM-ifed vhost-user-backend
----
- docs/devel/index-internals.rst |   1 +
- docs/devel/virtio-backends.rst | 214 +++++++++++++++++++++++++++++++++
- 2 files changed, 215 insertions(+)
- create mode 100644 docs/devel/virtio-backends.rst
+ include/hw/virtio/vhost.h | 132 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 122 insertions(+), 10 deletions(-)
 
-diff --git a/docs/devel/index-internals.rst b/docs/devel/index-internals.rst
-index bb118b8eaf..5d9f95dd93 100644
---- a/docs/devel/index-internals.rst
-+++ b/docs/devel/index-internals.rst
-@@ -19,3 +19,4 @@ Details about QEMU's various subsystems including how to add features to them.
-    tracing
-    vfio-migration
-    writing-monitor-commands
-+   virtio-backends
-diff --git a/docs/devel/virtio-backends.rst b/docs/devel/virtio-backends.rst
-new file mode 100644
-index 0000000000..9ff092e7a0
---- /dev/null
-+++ b/docs/devel/virtio-backends.rst
-@@ -0,0 +1,214 @@
-+..
-+   Copyright (c) 2022, Linaro Limited
-+   Written by Alex Bennée
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 58a73e7b7a..b291fe4e24 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -61,6 +61,12 @@ typedef struct VhostDevConfigOps {
+ } VhostDevConfigOps;
+ 
+ struct vhost_memory;
 +
-+Writing VirtIO backends for QEMU
-+================================
++/**
++ * struct vhost_dev - common vhost_dev structure
++ * @vhost_ops: backend specific ops
++ * @config_ops: ops for config changes (see @vhost_dev_set_config_notifier)
++ */
+ struct vhost_dev {
+     VirtIODevice *vdev;
+     MemoryListener memory_listener;
+@@ -108,15 +114,129 @@ struct vhost_net {
+     NetClientState *nc;
+ };
+ 
++/**
++ * vhost_dev_init() - initialise the vhost interface
++ * @hdev: the common vhost_dev structure
++ * @opaque: opaque ptr passed to backend (vhost/vhost-user/vdpa)
++ * @backend_type: type of backend
++ * @busyloop_timeout: timeout for polling virtqueue
++ * @errp: error handle
++ *
++ * The initialisation of the vhost device will trigger the
++ * initialisation of the backend and potentially capability
++ * negotiation of backend interface. Configuration of the VirtIO
++ * itself won't happen until the interface is started.
++ *
++ * Return: 0 on success, non-zero on error while setting errp.
++ */
+ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+                    VhostBackendType backend_type,
+                    uint32_t busyloop_timeout, Error **errp);
 +
-+This document attempts to outline the information a developer needs to
-+know to write device emulations in QEMU. It is specifically focused on
-+implementing VirtIO devices. For VirtIO the frontend is the driver
-+running on the guest. The backend is the everything that QEMU needs to
-+do to handle the emulation of the VirtIO device. This can be done
-+entirely in QEMU, divided between QEMU and the kernel (vhost) or
-+handled by a separate process which is configured by QEMU
-+(vhost-user).
++/**
++ * vhost_dev_cleanup() - tear down and cleanup vhost interface
++ * @hdev: the common vhost_dev structure
++ */
+ void vhost_dev_cleanup(struct vhost_dev *hdev);
+-int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
+-void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
 +
-+VirtIO Transports
-+-----------------
++/**
++ * vhost_dev_enable_notifiers() - enable event notifiers
++ * @hdev: common vhost_dev structure
++ * @vdev: the VirtIODevice structure
++ *
++ * Enable notifications directly to the vhost device rather than being
++ * triggered by QEMU itself. Notifications should be enabled before
++ * the vhost device is started via @vhost_dev_start.
++ *
++ * Return: 0 on success, < 0 on error.
++ */
+ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
 +
-+VirtIO supports a number of different transports. While the details of
-+the configuration and operation of the device will generally be the
-+same QEMU represents them as different devices depending on the
-+transport they use. For example -device virtio-foo represents the foo
-+device using mmio and -device virtio-foo-pci is the same class of
-+device using the PCI transport.
++/**
++ * vhost_dev_disable_notifiers - disable event notifications
++ * @hdev: common vhost_dev structure
++ * @vdev: the VirtIODevice structure
++ *
++ * Disable direct notifications to vhost device.
++ */
+ void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
+ 
++/**
++ * vhost_dev_start() - start the vhost device
++ * @hdev: common vhost_dev structure
++ * @vdev: the VirtIODevice structure
++ *
++ * Starts the vhost device. From this point VirtIO feature negotiation
++ * can start and the device can start processing VirtIO transactions.
++ *
++ * Return: 0 on success, < 0 on error.
++ */
++int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
 +
-+Using the QEMU Object Model (QOM)
-+---------------------------------
++/**
++ * vhost_dev_stop() - stop the vhost device
++ * @hdev: common vhost_dev structure
++ * @vdev: the VirtIODevice structure
++ *
++ * Stop the vhost device. After the device is stopped the notifiers
++ * can be disabled (@vhost_dev_disable_notifiers) and the device can
++ * be torn down (@vhost_dev_cleanup).
++ */
++void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
 +
-+Generally all devices in QEMU are super classes of ``TYPE_DEVICE``
-+however VirtIO devices should be based on ``TYPE_VIRTIO_DEVICE`` which
-+itself is derived from the base class. For example:
++/**
++ * DOC: vhost device configuration handling
++ *
++ * The VirtIO device configuration space is used for rarely changing
++ * or initialisation time parameters. The configuration can be updated
++ * by either the guest driver or the device itself. If the device can
++ * change the configuration over time the vhost handler should
++ * register a @VhostDevConfigOps structure with
++ * @vhost_dev_set_config_notifier so the guest can be notified. Some
++ * devices register a handler anyway and will signal an error if an
++ * unexpected config change happens.
++ */
 +
-+.. code:: c
++/**
++ * vhost_dev_get_config() - fetch device configuration
++ * @hdev: common vhost_dev_structure
++ * @config: pointer to device appropriate config structure
++ * @config_len: size of device appropriate config structure
++ *
++ * Return: 0 on success, < 0 on error while setting errp
++ */
++int vhost_dev_get_config(struct vhost_dev *hdev, uint8_t *config,
++                         uint32_t config_len, Error **errp);
 +
-+  static const TypeInfo virtio_blk_info = {
-+      .name = TYPE_VIRTIO_BLK,
-+      .parent = TYPE_VIRTIO_DEVICE,
-+      .instance_size = sizeof(VirtIOBlock),
-+      .instance_init = virtio_blk_instance_init,
-+      .class_init = virtio_blk_class_init,
-+  };
++/**
++ * vhost_dev_set_config() - set device configuration
++ * @hdev: common vhost_dev_structure
++ * @data: pointer to data to set
++ * @offset: offset into configuration space
++ * @size: length of set
++ * @flags: @VhostSetConfigType flags
++ *
++ * By use of @offset/@size a subset of the configuration space can be
++ * written to. The @flags are used to indicate if it is a normal
++ * transaction or related to migration.
++ *
++ * Return: 0 on success, non-zero on error
++ */
++int vhost_dev_set_config(struct vhost_dev *dev, const uint8_t *data,
++                         uint32_t offset, uint32_t size, uint32_t flags);
 +
-+The author may decide to have a more expansive class hierarchy to
-+support multiple device types. For example the Virtio GPU device:
++/**
++ * vhost_dev_set_config_notifier() - register VhostDevConfigOps
++ * @hdev: common vhost_dev_structure
++ * @ops: notifier ops
++ *
++ * If the device is expected to change configuration a notifier can be
++ * setup to handle the case.
++ */
++void vhost_dev_set_config_notifier(struct vhost_dev *dev,
++                                   const VhostDevConfigOps *ops);
 +
-+.. code:: c
 +
-+  static const TypeInfo virtio_gpu_base_info = {
-+      .name = TYPE_VIRTIO_GPU_BASE,
-+      .parent = TYPE_VIRTIO_DEVICE,
-+      .instance_size = sizeof(VirtIOGPUBase),
-+      .class_size = sizeof(VirtIOGPUBaseClass),
-+      .class_init = virtio_gpu_base_class_init,
-+      .abstract = true
-+  };
-+
-+  static const TypeInfo vhost_user_gpu_info = {
-+      .name = TYPE_VHOST_USER_GPU,
-+      .parent = TYPE_VIRTIO_GPU_BASE,
-+      .instance_size = sizeof(VhostUserGPU),
-+      .instance_init = vhost_user_gpu_instance_init,
-+      .instance_finalize = vhost_user_gpu_instance_finalize,
-+      .class_init = vhost_user_gpu_class_init,
-+  };
-+
-+  static const TypeInfo virtio_gpu_info = {
-+      .name = TYPE_VIRTIO_GPU,
-+      .parent = TYPE_VIRTIO_GPU_BASE,
-+      .instance_size = sizeof(VirtIOGPU),
-+      .class_size = sizeof(VirtIOGPUClass),
-+      .class_init = virtio_gpu_class_init,
-+  };
-+
-+defines a base class for the VirtIO GPU and then specialises two
-+versions, one for the internal implementation and the other for the
-+vhost-user version.
-+
-+VirtIOPCIProxy
-+^^^^^^^^^^^^^^
-+
-+[AJB: the following is supposition and welcomes more informed
-+opinions]
-+
-+Probably due to legacy from the pre-QOM days PCI VirtIO devices don't
-+follow the normal hierarchy. Instead the a standalone object is based
-+on the VirtIOPCIProxy class and the specific VirtIO instance is
-+manually instantiated:
-+
-+.. code:: c
-+
-+  /*
-+   * virtio-blk-pci: This extends VirtioPCIProxy.
-+   */
-+  #define TYPE_VIRTIO_BLK_PCI "virtio-blk-pci-base"
-+  DECLARE_INSTANCE_CHECKER(VirtIOBlkPCI, VIRTIO_BLK_PCI,
-+                           TYPE_VIRTIO_BLK_PCI)
-+
-+  struct VirtIOBlkPCI {
-+      VirtIOPCIProxy parent_obj;
-+      VirtIOBlock vdev;
-+  };
-+
-+  static Property virtio_blk_pci_properties[] = {
-+      DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
-+      DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
-+                      VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
-+      DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
-+                         DEV_NVECTORS_UNSPECIFIED),
-+      DEFINE_PROP_END_OF_LIST(),
-+  };
-+
-+  static void virtio_blk_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+  {
-+      VirtIOBlkPCI *dev = VIRTIO_BLK_PCI(vpci_dev);
-+      DeviceState *vdev = DEVICE(&dev->vdev);
-+
-+      ...
-+
-+      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-+  }
-+
-+  static void virtio_blk_pci_class_init(ObjectClass *klass, void *data)
-+  {
-+      DeviceClass *dc = DEVICE_CLASS(klass);
-+      VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+      PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
-+
-+      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+      device_class_set_props(dc, virtio_blk_pci_properties);
-+      k->realize = virtio_blk_pci_realize;
-+      pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
-+      pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_BLOCK;
-+      pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
-+      pcidev_k->class_id = PCI_CLASS_STORAGE_SCSI;
-+  }
-+
-+  static void virtio_blk_pci_instance_init(Object *obj)
-+  {
-+      VirtIOBlkPCI *dev = VIRTIO_BLK_PCI(obj);
-+
-+      virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                  TYPE_VIRTIO_BLK);
-+      object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
-+                                "bootindex");
-+  }
-+
-+  static const VirtioPCIDeviceTypeInfo virtio_blk_pci_info = {
-+      .base_name              = TYPE_VIRTIO_BLK_PCI,
-+      .generic_name           = "virtio-blk-pci",
-+      .transitional_name      = "virtio-blk-pci-transitional",
-+      .non_transitional_name  = "virtio-blk-pci-non-transitional",
-+      .instance_size = sizeof(VirtIOBlkPCI),
-+      .instance_init = virtio_blk_pci_instance_init,
-+      .class_init    = virtio_blk_pci_class_init,
-+  };
-+
-+Here you can see the instance_init has to manually instantiate the
-+underlying ``TYPE_VIRTIO_BLOCK`` object and link an alias for one of
-+it's properties to the PCI device.
-+
-+  
-+Back End Implementations
-+------------------------
-+
-+There are a number of places where the implementation of the backend
-+can be done:
-+
-+* in QEMU itself
-+* in the host kernel (a.k.a vhost)
-+* in a separate process (a.k.a. vhost-user)
-+
-+vhost_ops vs TYPE_VHOST_USER_BACKEND
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+There are two choices to how to implement vhost code. Most of the code
-+which has to work with either vhost or vhost-user uses
-+``vhost_dev_init()`` to instantiate the appropriate backend. This
-+means including a ``struct vhost_dev`` in the main object structure.
-+
-+For vhost-user devices you also need to add code to track the
-+initialisation of the ``chardev`` device used for the control socket
-+between QEMU and the external vhost-user process.
-+
-+If you only need to implement a vhost-user backed the other option is
-+a use a QOM-ified version of vhost-user.
-+
-+.. code:: c
-+
-+  static void
-+  vhost_user_gpu_instance_init(Object *obj)
-+  {
-+      VhostUserGPU *g = VHOST_USER_GPU(obj);
-+
-+      g->vhost = VHOST_USER_BACKEND(object_new(TYPE_VHOST_USER_BACKEND));
-+      object_property_add_alias(obj, "chardev",
-+                                OBJECT(g->vhost), "chardev");
-+  }
-+
-+  static const TypeInfo vhost_user_gpu_info = {
-+      .name = TYPE_VHOST_USER_GPU,
-+      .parent = TYPE_VIRTIO_GPU_BASE,
-+      .instance_size = sizeof(VhostUserGPU),
-+      .instance_init = vhost_user_gpu_instance_init,
-+      .instance_finalize = vhost_user_gpu_instance_finalize,
-+      .class_init = vhost_user_gpu_class_init,
-+  };
-+
-+Using it this way entails adding a ``struct VhostUserBackend`` to your
-+core object structure and manually instantiating the backend. This
-+sub-structure tracks both the ``vhost_dev`` and ``CharDev`` types
-+needed for the connection. Instead of calling ``vhost_dev_init`` you
-+would call ``vhost_user_backend_dev_init`` which does what is needed
-+on your behalf.
+ /* Test and clear masked event pending status.
+  * Should be called after unmask to avoid losing events.
+  */
+@@ -136,14 +256,6 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
+                           struct vhost_vring_file *file);
+ 
+ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write);
+-int vhost_dev_get_config(struct vhost_dev *hdev, uint8_t *config,
+-                         uint32_t config_len, Error **errp);
+-int vhost_dev_set_config(struct vhost_dev *dev, const uint8_t *data,
+-                         uint32_t offset, uint32_t size, uint32_t flags);
+-/* notifier callback in case vhost device config space changed
+- */
+-void vhost_dev_set_config_notifier(struct vhost_dev *dev,
+-                                   const VhostDevConfigOps *ops);
+ 
+ void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
+ void vhost_dev_free_inflight(struct vhost_inflight *inflight);
 -- 
 2.30.2
 
