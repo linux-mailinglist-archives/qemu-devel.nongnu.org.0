@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCED4E2E3D
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:40:31 +0100 (CET)
-Received: from localhost ([::1]:46318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A134A4E2E6A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:45:09 +0100 (CET)
+Received: from localhost ([::1]:51062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWL54-0005oJ-H0
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:40:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35798)
+	id 1nWL9Y-0000r8-EE
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:45:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nWL3j-0004zu-Sn
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:39:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nWL3h-0006vV-Vj
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:39:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647880744;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2d0AsfQ7TFAPXcyhpJ33LO9+1k2Vt/Gc9xoQzk/U5Wk=;
- b=eyo1CnPa32rTJ9/5bnhZPNs0njFC3cjAacA6omroezNUkn467nG+Sl7yntSV7bR2KzME8I
- d4iTZhb1/wC7bYB4eHPToFb1VwsJ/12N4zIsOoZjS53iZrLOJUHGEqm+GFHVP4/KBcoX7P
- R0xLfkpZsUES/6dLYAHLrEeFGDKZ2fY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-kidXTSHEPe61z3H4UXb5mg-1; Mon, 21 Mar 2022 12:39:01 -0400
-X-MC-Unique: kidXTSHEPe61z3H4UXb5mg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 13C23185A79C;
- Mon, 21 Mar 2022 16:39:01 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9069A2026D07;
- Mon, 21 Mar 2022 16:38:55 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] gitlab: disable accelerated zlib for s390x
-In-Reply-To: <20220321161151.3654386-1-alex.bennee@linaro.org>
-Organization: Red Hat GmbH
-References: <20220321161151.3654386-1-alex.bennee@linaro.org>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Mon, 21 Mar 2022 17:38:54 +0100
-Message-ID: <87mthjqmzl.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nWL7K-00079k-65
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:42:50 -0400
+Received: from [2a00:1450:4864:20::630] (port=42936
+ helo=mail-ej1-x630.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nWL7I-0007ci-G7
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:42:49 -0400
+Received: by mail-ej1-x630.google.com with SMTP id j15so16947029eje.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:42:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DcvwiOqc2vYTSdOf3rGmIEf65P07F9aYYVWomNBm6Lg=;
+ b=S5wKKu3GQvFD8xTBIGr3Efw6k+EQI777rPGHViArVzuc7v/C5Lqji2uYKPfUE5FmlF
+ F8SyQEJS8zFU5srYHYhsOGGli5EXJJcg24Jlvl4+GePPjOkNGcFbdvwGv4aX5fhWHEx/
+ iEPdNl/LeMpXYHfuyC+DPNvlSFBqKuomd01ZBsnxC6iyWvZnDPO0YP8ARxlDq7ERSyeU
+ mKbvr0CwaFuxoNu6bQBL32Yw45pPkrQDw0t+xbKV95D5IpBxaBritqd5hXGW6zOQvidO
+ RRcfY7oMd8WoJHeAEPScYf0yN40TqlTrCK3Enjj1NqSIQ/Y1RU7zfiQ9cX8U8U+d4OEk
+ iPIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=DcvwiOqc2vYTSdOf3rGmIEf65P07F9aYYVWomNBm6Lg=;
+ b=sK2oG5+UZfuVDCbbnIQ4IDQZ/6rGFFM+ZP73CZtAYDJQQj+CSeNVOEWt6sgIrQ07xi
+ s4ktsQnBCXivNqPBr6XlgMCDuxIK1yh8KpFC7BYaN9hfFRsDHYSo36nW80m+c7HBLyJe
+ Lxa9LsD+BzT/7xELVp0yD8gx0kKbpIYfysL03h+h+yUZhXNC0udgQ8NQkjy4VhLdgThl
+ vPIwWMd0gvPfEkaZG3/HU8fWv/h/WDYAATlrIs7vFYxtICGxRP+iAKIZblnC9KpKPe4J
+ HCHF5XKUovZx9cZsV1LATaVQ+E54RduAOKEfXSMX8WjXpFDlK1dmGQMfYqIpUtxFjH+V
+ mV9A==
+X-Gm-Message-State: AOAM533ATtLuy2GyYRlFjrEHyzfwogxD8WJls6vZi1Gw9WkfClwN/b0J
+ tjUVw8swUfqMYzcNUIx4oNk+cMGcDpE=
+X-Google-Smtp-Source: ABdhPJxey7u5ENZ24FHZBGKFl3w7vhU+R0ASCNuvdBZ4Had5HdCnPMxn8NUc1QhaGZs+f6XRbQSAVg==
+X-Received: by 2002:a17:907:1c0a:b0:6da:7ac4:5349 with SMTP id
+ nc10-20020a1709071c0a00b006da7ac45349mr21490570ejc.596.1647880966468; 
+ Mon, 21 Mar 2022 09:42:46 -0700 (PDT)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id
+ o2-20020a50d802000000b00410d7f0c52csm8289385edj.8.2022.03.21.09.42.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Mar 2022 09:42:45 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] qapi-schema: support alternates with array type
+Date: Mon, 21 Mar 2022 17:42:40 +0100
+Message-Id: <20220321164243.200569-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,37 +87,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, "open list:S390
- general arch..." <qemu-s390x@nongnu.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 21 2022, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
+As suggested in the review of the statistics subsystem.
 
-> There appears to be a bug in the s390 hardware-accelerated version of
-> zlib distributed with Ubuntu 20.04, which makes our test
-> /i386/migration/multifd/tcp/zlib hit an assertion perhaps one time in
-> 10. Fortunately zlib provides an escape hatch where we can disable the
-> hardware-acceleration entirely by setting the environment variable
-> DFLTCC to 0. Do this on all our CI which runs on s390 hosts, both our
-> custom gitlab runner and also the Travis hosts.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
->
-> ---
-> v2
->   - more complete commit wording from Peter
->   - also tweak travis rules
-> ---
->  .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 12 ++++++++++++
->  .travis.yml                                        |  6 ++++--
->  2 files changed, 16 insertions(+), 2 deletions(-)
+Paolo Bonzini (3):
+  qapi-schema: support alternates with array type
+  qapi-schema: test: add a qapi-schema-test for array alternates
+  qapi-schema: test: add a unit test for parsing array alternates
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+ scripts/qapi/expr.py                          |  2 +-
+ scripts/qapi/schema.py                        |  4 ++
+ tests/qapi-schema/alternate-array.err         |  2 -
+ tests/qapi-schema/alternate-array.json        |  2 -
+ tests/qapi-schema/alternate-array.out         | 18 ++++++++
+ .../qapi-schema/alternate-conflict-lists.err  |  2 +
+ .../qapi-schema/alternate-conflict-lists.json |  6 +++
+ .../qapi-schema/alternate-conflict-lists.out  |  0
+ tests/qapi-schema/meson.build                 |  1 +
+ tests/qapi-schema/qapi-schema-test.json       |  1 +
+ tests/qapi-schema/qapi-schema-test.out        |  4 ++
+ tests/unit/test-qobject-input-visitor.c       | 43 +++++++++++++++++++
+ 12 files changed, 79 insertions(+), 5 deletions(-)
+ create mode 100644 tests/qapi-schema/alternate-conflict-lists.err
+ create mode 100644 tests/qapi-schema/alternate-conflict-lists.json
+ create mode 100644 tests/qapi-schema/alternate-conflict-lists.out
+
+-- 
+2.35.1
 
 
