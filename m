@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A134A4E2E6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:45:09 +0100 (CET)
-Received: from localhost ([::1]:51062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59C04E2E68
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:45:05 +0100 (CET)
+Received: from localhost ([::1]:50904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWL9Y-0000r8-EE
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:45:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36698)
+	id 1nWL9U-0000kb-4f
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:45:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nWL7K-00079k-65
+ id 1nWL7K-00079r-Cr
  for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:42:50 -0400
-Received: from [2a00:1450:4864:20::630] (port=42936
- helo=mail-ej1-x630.google.com)
+Received: from [2a00:1450:4864:20::536] (port=46033
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nWL7I-0007ci-G7
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:42:49 -0400
-Received: by mail-ej1-x630.google.com with SMTP id j15so16947029eje.9
+ id 1nWL7I-0007ck-Ph
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:42:50 -0400
+Received: by mail-ed1-x536.google.com with SMTP id u26so2997322eda.12
  for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:42:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DcvwiOqc2vYTSdOf3rGmIEf65P07F9aYYVWomNBm6Lg=;
- b=S5wKKu3GQvFD8xTBIGr3Efw6k+EQI777rPGHViArVzuc7v/C5Lqji2uYKPfUE5FmlF
- F8SyQEJS8zFU5srYHYhsOGGli5EXJJcg24Jlvl4+GePPjOkNGcFbdvwGv4aX5fhWHEx/
- iEPdNl/LeMpXYHfuyC+DPNvlSFBqKuomd01ZBsnxC6iyWvZnDPO0YP8ARxlDq7ERSyeU
- mKbvr0CwaFuxoNu6bQBL32Yw45pPkrQDw0t+xbKV95D5IpBxaBritqd5hXGW6zOQvidO
- RRcfY7oMd8WoJHeAEPScYf0yN40TqlTrCK3Enjj1NqSIQ/Y1RU7zfiQ9cX8U8U+d4OEk
- iPIg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=gX6EOlTl67BBZkn2jdiMxQvQHOFK6dHd/5w2dropqn8=;
+ b=EwcREvGlFelTn9dkea+ZzbdaWVA8oCS2hxEkWjVj6GnOiz6yczi0uTvmiRZPnmqSww
+ 0rXRi4VwEm0zKpYBpbpttiPCKA76pRG0RcTV9goO2w0v4S1LR1fx/o2ivfI7Pv/75mLv
+ wmhC2EAON767Mo8V30pyH9QX+jVh3KgJ5D3+NCMPrI2yqLAVH+aHR1wFj6b2uTnsaKCe
+ jwA81bb1Vu3guEUIddMS6LEpO2XD9R0DULfr9/VdvfWm93SzRfyo8MSUt2oVGpuYLLzG
+ po+XGwJXz1GrkxDNmG9P3404y+tSUgC88MHjUyvleoPkxMWX5Z6TVd8N+ZUx6JHdVStQ
+ jFEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=DcvwiOqc2vYTSdOf3rGmIEf65P07F9aYYVWomNBm6Lg=;
- b=sK2oG5+UZfuVDCbbnIQ4IDQZ/6rGFFM+ZP73CZtAYDJQQj+CSeNVOEWt6sgIrQ07xi
- s4ktsQnBCXivNqPBr6XlgMCDuxIK1yh8KpFC7BYaN9hfFRsDHYSo36nW80m+c7HBLyJe
- Lxa9LsD+BzT/7xELVp0yD8gx0kKbpIYfysL03h+h+yUZhXNC0udgQ8NQkjy4VhLdgThl
- vPIwWMd0gvPfEkaZG3/HU8fWv/h/WDYAATlrIs7vFYxtICGxRP+iAKIZblnC9KpKPe4J
- HCHF5XKUovZx9cZsV1LATaVQ+E54RduAOKEfXSMX8WjXpFDlK1dmGQMfYqIpUtxFjH+V
- mV9A==
-X-Gm-Message-State: AOAM533ATtLuy2GyYRlFjrEHyzfwogxD8WJls6vZi1Gw9WkfClwN/b0J
- tjUVw8swUfqMYzcNUIx4oNk+cMGcDpE=
-X-Google-Smtp-Source: ABdhPJxey7u5ENZ24FHZBGKFl3w7vhU+R0ASCNuvdBZ4Had5HdCnPMxn8NUc1QhaGZs+f6XRbQSAVg==
-X-Received: by 2002:a17:907:1c0a:b0:6da:7ac4:5349 with SMTP id
- nc10-20020a1709071c0a00b006da7ac45349mr21490570ejc.596.1647880966468; 
- Mon, 21 Mar 2022 09:42:46 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=gX6EOlTl67BBZkn2jdiMxQvQHOFK6dHd/5w2dropqn8=;
+ b=lsXyYXRxvqMBQmpdZNYkyVnVUullDSw7GkNJHm+u2zdCVhyBzt4SFLFaUMozn4ZQ9t
+ UCEbFZWvKkzahkzAHDVs0DYAwdbnDFL5mwNzlVP8tejGJyaEjvnQYOpSRvVCO12vVyK6
+ pynmC4C+TRy6K1ipanQ5mDl05/k7sDD9MpK+x0Nre00eoE991begMCrcL77C/+L9mqIN
+ x6P0tQ0OUguJugrL5uU281eAxCfmXxgCNWWtP4VxlsyX4fheavW+vqWW3Yk/hmmFC7W7
+ EqsQ3mo4hDOoNbVlVNJfCse1sqTvVilPqbYcX/J9qxp/pHiRZjDFmJWZeVHXP0sJXod5
+ PFSA==
+X-Gm-Message-State: AOAM533ConSqG6NY75wVroiFB513sUFQ/deaK4vVkY/GYDiTpTfJAcRY
+ kJFrEmmbCtFn+F2u3igWmfmZ4GZZBEU=
+X-Google-Smtp-Source: ABdhPJxG8LqouPsUMoWcJvKas/E9QPwnnatmov2zneTKXWKH0Pd8m/u0YJyv2BcD+Ds8HsenBV0JPQ==
+X-Received: by 2002:a05:6402:1909:b0:418:d876:3119 with SMTP id
+ e9-20020a056402190900b00418d8763119mr24473825edz.266.1647880967344; 
+ Mon, 21 Mar 2022 09:42:47 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id
- o2-20020a50d802000000b00410d7f0c52csm8289385edj.8.2022.03.21.09.42.45
+ o2-20020a50d802000000b00410d7f0c52csm8289385edj.8.2022.03.21.09.42.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 09:42:45 -0700 (PDT)
+ Mon, 21 Mar 2022 09:42:46 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] qapi-schema: support alternates with array type
-Date: Mon, 21 Mar 2022 17:42:40 +0100
-Message-Id: <20220321164243.200569-1-pbonzini@redhat.com>
+Subject: [PATCH 1/3] qapi-schema: support alternates with array type
+Date: Mon, 21 Mar 2022 17:42:41 +0100
+Message-Id: <20220321164243.200569-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220321164243.200569-1-pbonzini@redhat.com>
+References: <20220321164243.200569-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -91,31 +93,96 @@ Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As suggested in the review of the statistics subsystem.
+Detect array types as alternate branches, and turn the JSON list into
+a QAPISchemaArrayType.  Array types in an alternate are represented with
+QTYPE_QLIST in the type field.
 
-Paolo Bonzini (3):
-  qapi-schema: support alternates with array type
-  qapi-schema: test: add a qapi-schema-test for array alternates
-  qapi-schema: test: add a unit test for parsing array alternates
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/qapi/expr.py                   |  2 +-
+ scripts/qapi/schema.py                 |  4 ++++
+ tests/qapi-schema/alternate-array.err  |  2 --
+ tests/qapi-schema/alternate-array.json |  2 --
+ tests/qapi-schema/alternate-array.out  | 18 ++++++++++++++++++
+ 5 files changed, 23 insertions(+), 5 deletions(-)
 
- scripts/qapi/expr.py                          |  2 +-
- scripts/qapi/schema.py                        |  4 ++
- tests/qapi-schema/alternate-array.err         |  2 -
- tests/qapi-schema/alternate-array.json        |  2 -
- tests/qapi-schema/alternate-array.out         | 18 ++++++++
- .../qapi-schema/alternate-conflict-lists.err  |  2 +
- .../qapi-schema/alternate-conflict-lists.json |  6 +++
- .../qapi-schema/alternate-conflict-lists.out  |  0
- tests/qapi-schema/meson.build                 |  1 +
- tests/qapi-schema/qapi-schema-test.json       |  1 +
- tests/qapi-schema/qapi-schema-test.out        |  4 ++
- tests/unit/test-qobject-input-visitor.c       | 43 +++++++++++++++++++
- 12 files changed, 79 insertions(+), 5 deletions(-)
- create mode 100644 tests/qapi-schema/alternate-conflict-lists.err
- create mode 100644 tests/qapi-schema/alternate-conflict-lists.json
- create mode 100644 tests/qapi-schema/alternate-conflict-lists.out
-
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index 3cb389e875..48578e1698 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -554,7 +554,7 @@ def check_alternate(expr: _JSONObject, info: QAPISourceInfo) -> None:
+         check_name_lower(key, info, source)
+         check_keys(value, info, source, ['type'], ['if'])
+         check_if(value, info, source)
+-        check_type(value['type'], info, source)
++        check_type(value['type'], info, source, allow_array=True)
+ 
+ 
+ def check_command(expr: _JSONObject, info: QAPISourceInfo) -> None:
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index b7b3fc0ce4..3728340c37 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -243,6 +243,7 @@ def alternate_qtype(self):
+             'number':  'QTYPE_QNUM',
+             'int':     'QTYPE_QNUM',
+             'boolean': 'QTYPE_QBOOL',
++            'array':   'QTYPE_QLIST',
+             'object':  'QTYPE_QDICT'
+         }
+         return json2qtype.get(self.json_type())
+@@ -1069,6 +1070,9 @@ def _def_struct_type(self, expr, info, doc):
+             None))
+ 
+     def _make_variant(self, case, typ, ifcond, info):
++        if isinstance(typ, list):
++            assert len(typ) == 1
++            typ = self._make_array_type(typ[0], info)
+         return QAPISchemaVariant(case, info, typ, ifcond)
+ 
+     def _def_union_type(self, expr, info, doc):
+diff --git a/tests/qapi-schema/alternate-array.err b/tests/qapi-schema/alternate-array.err
+index b1aa1f4e8d..e69de29bb2 100644
+--- a/tests/qapi-schema/alternate-array.err
++++ b/tests/qapi-schema/alternate-array.err
+@@ -1,2 +0,0 @@
+-alternate-array.json: In alternate 'Alt':
+-alternate-array.json:5: 'data' member 'two' cannot be an array
+diff --git a/tests/qapi-schema/alternate-array.json b/tests/qapi-schema/alternate-array.json
+index f241aac122..b878a2db77 100644
+--- a/tests/qapi-schema/alternate-array.json
++++ b/tests/qapi-schema/alternate-array.json
+@@ -1,5 +1,3 @@
+-# we do not allow array branches in alternates
+-# TODO: should we support this?
+ { 'struct': 'One',
+   'data': { 'name': 'str' } }
+ { 'alternate': 'Alt',
+diff --git a/tests/qapi-schema/alternate-array.out b/tests/qapi-schema/alternate-array.out
+index e69de29bb2..a657d85738 100644
+--- a/tests/qapi-schema/alternate-array.out
++++ b/tests/qapi-schema/alternate-array.out
+@@ -0,0 +1,18 @@
++module ./builtin
++object q_empty
++enum QType
++    prefix QTYPE
++    member none
++    member qnull
++    member qnum
++    member qstring
++    member qdict
++    member qlist
++    member qbool
++module alternate-array.json
++object One
++    member name: str optional=False
++alternate Alt
++    tag type
++    case one: One
++    case two: intList
 -- 
 2.35.1
+
 
 
