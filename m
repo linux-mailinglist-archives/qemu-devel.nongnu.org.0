@@ -2,79 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F104E2EF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 18:21:59 +0100 (CET)
-Received: from localhost ([::1]:54836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC9D4E2F08
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 18:27:30 +0100 (CET)
+Received: from localhost ([::1]:59644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWLjB-0001Cz-RG
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 13:21:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46800)
+	id 1nWLoX-0004xB-6j
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 13:27:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raj.khem@gmail.com>)
- id 1nWLhZ-0000U4-UH
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:20:18 -0400
-Received: from [2607:f8b0:4864:20::42c] (port=46919
- helo=mail-pf1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raj.khem@gmail.com>)
- id 1nWLhW-0001hb-Un
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:20:17 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id s11so15990598pfu.13
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 10:20:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5vnJQuGmsx8Lwg6VQPxPOntEQsXQqrO5kNZiFbFwlqU=;
- b=jQvv3OOB/Y5SeLDxP5AzrQ82+/9xaQmA/GnagJ1CJr6xEr+3nkWRgKynzUJQ37AJEh
- kPGpoYiT2qmHVPSIbrOScM3veqrP3BZzamqkG4Zgp+MRpfDgScNlpQZnEKI6sJWxuKLC
- 75AKd92isv5OJWqxw+O2W0HotVk+NGgM0d/Drv0AsBvnSYxddxTdmiL86wBSBbSazqWf
- wTrDmWd8qc9kk+iJg3xGpOmHeYlVqxPmYzpzFT51uqfdY23h80igorxP56Auo0cjXZlB
- 9amkGIuQWsV3qyC2ndSBeH+zqNTgRuwKMDzZbpl/bBPNsP2RhIRu39cXu5Oob7+dlHRO
- +fBw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWLnN-00044i-DV
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:26:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWLnK-0000qN-CC
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:26:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647883573;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lky1zqh23Y3W+XeVpHKfh88WoT48CLmirq4lNusbQKY=;
+ b=eV6Q0nhqre8tD1G3iaiKrtBQM3Z6yucJ53lZilpez6n8ZwkxYum7noQX2MVoM3VzLCSpva
+ HJXWf/Jsj6Z/lU3rb1ZkBrw+1JBeTpf3ntdx9rcejofS1S52k3fh43hIs3+KiY229tAnI0
+ oUWIKeKlNW171ebSiirpEC6HSjZgeQw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-654-U-l-Shr7NWuu1J29O8eN5A-1; Mon, 21 Mar 2022 13:26:10 -0400
+X-MC-Unique: U-l-Shr7NWuu1J29O8eN5A-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 88-20020adf8161000000b0020410a1bd93so659518wrm.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 10:26:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=5vnJQuGmsx8Lwg6VQPxPOntEQsXQqrO5kNZiFbFwlqU=;
- b=lTTcDsRd6VpvUTfGDWms8vzRCcDcsYbS+GLFSfCwdB2hl7XSClheTDG4NwPbHk2mDC
- vQe8F2MYs7LFCkoOCjC2VzvI8d6skB3tTu9EMzwvqrZi4RS4I0DiH4g1m6grhYGVUyhx
- eqcYAGKSkm0jOVO/8XyrdSvI9anKCdAwGqsXsWO44S7pPPezZKyorrQ++IhSurjdUhzA
- eUGdZD+AZ0Ttg2qrXk7Tzw0NM3Cc4v8LpqWkreqZugFudJjRPPe5TUHx/+2+I03onFsf
- 7IeDe3aTXIWkp/JApVb1nRJ5Zxxg7iCJPZ5dWTOR25IDtVolrqjGFWmJj+ra6/D5whBt
- tYpA==
-X-Gm-Message-State: AOAM532riL+QQwAvS/XGTmhxirvnamF9K6y2VZp/aUvhoRokxq0AarRM
- 5y3d1yYHfEo2B6UVQknIfFFNwCi4asjzCA==
-X-Google-Smtp-Source: ABdhPJzLko7s0DiMgUjGr0BDovJBnXVCaq0Aab5WBDSERau5vG4eAfYTweFd4Zrpg6sHoq3q6hQBiw==
-X-Received: by 2002:a65:49cc:0:b0:372:a079:cb3a with SMTP id
- t12-20020a6549cc000000b00372a079cb3amr18688961pgs.222.1647883209190; 
- Mon, 21 Mar 2022 10:20:09 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::781b])
- by smtp.gmail.com with ESMTPSA id
- z6-20020a056a00240600b004e17ab23340sm20924748pfh.177.2022.03.21.10.20.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 10:20:08 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Define MAP_SYNC and MAP_SHARED_VALIDATE on needed linux
- systems
-Date: Mon, 21 Mar 2022 10:20:06 -0700
-Message-Id: <20220321172006.3014516-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ bh=lky1zqh23Y3W+XeVpHKfh88WoT48CLmirq4lNusbQKY=;
+ b=iqmtWlCuJFo+Y5tQOcs1SjREwoMY5mWyJkseiWksYB4ck50Y6LZ3kBT+ptL++iexmM
+ sPg9j45BLOoxbiEAPKYl0Y1kfhS+XZUIENxmEfIrX0iPRP5Pq6ExXaQMMvnu05rRHSHp
+ /QQlinCgCUWWKFq3rH+9uaq8d7c8rCgk1DqsQqVTrJ/jH4EjjYeKd9iV0xys/yqzFhmc
+ bAzJISIFNUg4G86dF67a5Crjbc3G5b+KCE8DWNRPoByLsvEfOPnuygHaKa8hjdD5e4+5
+ rklwF91jpDkTDoDg6894AOmLIpPxbVEQM/JcRG/R8X/zYFZBBvgx5fP7PFRocFfgW3mD
+ 8Vqg==
+X-Gm-Message-State: AOAM531LooEPPzrRWMcH1EFEcHImaxyspgDm4n08w5CL7jfwGZWsji7q
+ kbGj5bLPWbP5y1Zp42tuIHDCPcxYFlShG5vz7+aJRQir4AGJuHtD2FYyjw6+7pt7W2N2QU1TRlk
+ E7K+Nu02dWSXvOl4=
+X-Received: by 2002:a5d:6510:0:b0:204:a6f:1226 with SMTP id
+ x16-20020a5d6510000000b002040a6f1226mr6471517wru.59.1647883568808; 
+ Mon, 21 Mar 2022 10:26:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxiToL7tXYLTkeWrE+taxfqvtfiXe7j3aSb+Wl4wM0WbG04laILdoVEptOhBrB7tEH/xrWpHQ==
+X-Received: by 2002:a5d:6510:0:b0:204:a6f:1226 with SMTP id
+ x16-20020a5d6510000000b002040a6f1226mr6471495wru.59.1647883568574; 
+ Mon, 21 Mar 2022 10:26:08 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ b3-20020adfd1c3000000b00203f94379a4sm9125258wrd.67.2022.03.21.10.26.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Mar 2022 10:26:07 -0700 (PDT)
+Message-ID: <b9dd43ca-0120-a27b-823a-a88572be94c6@redhat.com>
+Date: Mon, 21 Mar 2022 18:26:06 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v3 0/4] Improve integration of iotests in the meson test
+ harness
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20220223093840.2515281-1-thuth@redhat.com>
+ <f71c35ff-1db2-7491-c9fe-a0dd3ab1cbee@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <f71c35ff-1db2-7491-c9fe-a0dd3ab1cbee@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=raj.khem@gmail.com; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,50 +104,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Yi <yi.z.zhang@linux.intel.com>, Khem Raj <raj.khem@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-linux only wires MAP_SYNC and MAP_SHARED_VALIDATE for architectures
-which include asm-generic/mman.h and mips/powerpc are not including this
-file in linux/mman.h, therefore these should be defined for such
-architectures on Linux as well. This fixes build on mips/musl/linux
+On 21/03/2022 17.14, Hanna Reitz wrote:
+> On 23.02.22 10:38, Thomas Huth wrote:
+>> Though "make check-block" is currently already run via the meson test
+>> runner, it still looks like an oddball in the output of "make check". It
+>> would be nicer if the iotests would show up like the other tests suites.
+>>
+>> My original plan was to add each iotests individually from meson.build,
+>> but I did not get that done reliably yet [*], so here's now a cut-down
+>> version to improve the situation at least a little bit: The first three
+>> patches are preparation for the clean-up (long-term goal is to get rid
+>> of check-block.sh, though we're not quite there yet), and the final
+>> patch adds the iotests not as separate test target in the meson test
+>> harness anymore. This way, we can now finally get the output of failed
+>> tests on the console again (unless you're running meson test in verbose
+>> mode, where meson only puts this to the log file - for incomprehensible
+>> reasons), so this should hopefully help to diagnose problems with the
+>> iotests in most cases more easily.
+>>
+>> [*] See v2 here:
+>>      https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01942.html
+>>
+>> Thomas Huth (4):
+>>    tests/qemu-iotests: Rework the checks and spots using GNU sed
+>>    tests/qemu-iotests/meson.build: Improve the indentation
+>>    tests/qemu-iotests: Move the bash and sanitizer checks to meson.build
+>>    tests: Do not treat the iotests as separate meson test target anymore
+> 
+> What’s the status of this series?  I wonder why you split it apart, mainly.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Zhang Yi <yi.z.zhang@linux.intel.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
----
- util/mmap-alloc.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+I've mainly split the fourth patch apart since Paolo mentioned that the 
+commit message should mention the meson bug (IIRC), and  since QEMU was 
+entering soft-freeze, thus I doubt that a patch like "Move the bash and 
+sanitizer checks to meson.build" is still acceptable at this point in time. 
+The meson.build clean-up is rather something for 7.1 instead.
 
-diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-index 893d864354..86d3cda248 100644
---- a/util/mmap-alloc.c
-+++ b/util/mmap-alloc.c
-@@ -10,14 +10,18 @@
-  * later.  See the COPYING file in the top-level directory.
-  */
- 
-+#include "qemu/osdep.h"
- #ifdef CONFIG_LINUX
- #include <linux/mman.h>
--#else  /* !CONFIG_LINUX */
-+#endif  /* CONFIG_LINUX */
-+
-+#ifndef MAP_SYNC
- #define MAP_SYNC              0x0
-+#endif /* MAP_SYNC */
-+#ifndef MAP_SHARED_VALIDATE
- #define MAP_SHARED_VALIDATE   0x0
--#endif /* CONFIG_LINUX */
-+#endif /* MAP_SHARED_VALIDATE */
- 
--#include "qemu/osdep.h"
- #include "qemu/mmap-alloc.h"
- #include "qemu/host-utils.h"
- #include "qemu/cutils.h"
--- 
-2.35.1
+> Patch 1 was already merged, and I took patch 4 today.  So what about patches 
+> 2 and 3?  They look sensible to me, but is this series still relevant and 
+> fresh, considering you sent new versions of patches 1 and 4?
+
+If you think they are still ok for 7.0, you can certainly also pick the 2nd 
+and 3rd patch ... otherwise I'll respin them later for 7.1.
+
+> (And are there any other iotests patches from you that flew under my radar?)
+
+There's my "Supply a test plan in TAP mode" patch on the list, but 
+apparently you already found it :-)
+
+Thanks!
+
+   Thomas
 
 
