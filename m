@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DB44E1FB1
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE574E1FB2
 	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 05:59:38 +0100 (CET)
-Received: from localhost ([::1]:48340 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:48366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWA8l-0008Ay-TM
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 00:59:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46314)
+	id 1nWA8n-0008C3-RS
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 00:59:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wucy11@chinatelecom.cn>)
- id 1nW8ie-0003GA-M8
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 23:28:33 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:40895
+ id 1nW8ax-0000Cl-Po
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 23:20:37 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:49038
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wucy11@chinatelecom.cn>) id 1nW8ic-00011w-Eu
- for qemu-devel@nongnu.org; Sun, 20 Mar 2022 23:28:32 -0400
-HMM_SOURCE_IP: 172.18.0.48:58182.1398798744
+ (envelope-from <wucy11@chinatelecom.cn>) id 1nW8ar-0005jY-RR
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 23:20:35 -0400
+HMM_SOURCE_IP: 172.18.0.218:47140.1415164590
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
-Received: from clientip-36.111.64.85 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 623BD280126;
- Mon, 21 Mar 2022 11:12:41 +0800 (CST)
+Received: from clientip-36.111.64.85 (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 3A2E42800FB;
+ Mon, 21 Mar 2022 11:13:23 +0800 (CST)
 X-189-SAVE-TO-SEND: wucy11@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id cef6c5c2e03143fa8cd9a09d2b252c43 for
- kvm@vger.kernel.org; Mon, 21 Mar 2022 11:12:46 CST
-X-Transaction-ID: cef6c5c2e03143fa8cd9a09d2b252c43
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id 720c90debc374da4ab78b2700e9cc5cc for
+ kvm@vger.kernel.org; Mon, 21 Mar 2022 11:13:31 CST
+X-Transaction-ID: 720c90debc374da4ab78b2700e9cc5cc
 X-Real-From: wucy11@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
+X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
-Message-ID: <78ba5059-5da0-8750-7663-d8e78e786523@chinatelecom.cn>
-Date: Mon, 21 Mar 2022 11:12:40 +0800
+Message-ID: <3455c9de-3d2f-08e0-5194-d741034a3e44@chinatelecom.cn>
+Date: Mon, 21 Mar 2022 11:13:21 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
 From: Chongyun Wu <wucy11@chinatelecom.cn>
-Subject: [PATCH 1/5] kvm, memory: Optimize dirty page collection for dirty ring
+Subject: [PATCH 3/5] kvm: Dirty ring autoconverge optmization for
+ kvm_cpu_synchronize_kick_all
 To: kvm@vger.kernel.org, qemu-devel@nongnu.org
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=42.123.76.228;
+Received-SPF: pass client-ip=42.123.76.226;
  envelope-from=wucy11@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -50,7 +51,7 @@ X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 21 Mar 2022 00:52:38 -0400
+X-Mailman-Approved-At: Mon, 21 Mar 2022 00:52:35 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,37 +73,136 @@ Cc: "ligh10@chinatelecom.cn" <ligh10@chinatelecom.cn>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When log_sync_global of dirty ring is called, it will collect
-dirty pages on all cpus, including all dirty pages on memslot,
-so when memory_region_sync_dirty_bitmap collects dirty pages
-from KVM, this interface needs to be called once, instead of
-traversing every dirty page. Each memslot is called once,
-which is meaningless and time-consuming. So only need to call
-log_sync_global once in memory_region_sync_dirty_bitmap.
+Dirty ring feature need call kvm_cpu_synchronize_kick_all
+to flush hardware buffers into KVMslots, but when aucoverge
+run kvm_cpu_synchronize_kick_all calling will become more
+and more time consuming. This will significantly reduce the
+efficiency of dirty page queries, especially when memory
+pressure is high and the speed limit is high.
+
+When the CPU speed limit is high and kvm_cpu_synchronize_kick_all
+is time-consuming, the rate of dirty pages generated by the VM
+will also be significantly reduced, so it is not necessary to
+call kvm_cpu_synchronize_kick_all at this time, just call it once
+before stopping the VM. This will significantly improve the
+efficiency of dirty page queries under high pressure.
 
 Signed-off-by: Chongyun Wu <wucy11@chinatelecom.cn>
 ---
-  softmmu/memory.c | 6 ++++++
-  1 file changed, 6 insertions(+)
+  accel/kvm/kvm-all.c   | 23 +++--------------------
+  include/sysemu/cpus.h |  1 +
+  migration/migration.c | 12 ++++++++++++
+  softmmu/cpus.c        | 18 ++++++++++++++++++
+  4 files changed, 34 insertions(+), 20 deletions(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 678dc62..30d7281 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2184,6 +2184,12 @@ static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
-               */
-              listener->log_sync_global(listener);
-              trace_memory_region_sync_dirty(mr ? mr->name : "(all)", 
-listener->name, 1);
-+            /*
-+             * The log_sync_global of the dirty ring will collect the dirty
-+             * pages of all memslots at one time, so there is no need to
-+             * call log_sync_global once when traversing each memslot.
-+             */
-+            break;
-          }
-      }
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 51012f4..64a211b 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -839,25 +839,6 @@ static uint64_t kvm_dirty_ring_reap(KVMState *s)
+      return total;
   }
+
+-static void do_kvm_cpu_synchronize_kick(CPUState *cpu, run_on_cpu_data arg)
+-{
+-    /* No need to do anything */
+-}
+-
+-/*
+- * Kick all vcpus out in a synchronized way.  When returned, we
+- * guarantee that every vcpu has been kicked and at least returned to
+- * userspace once.
+- */
+-static void kvm_cpu_synchronize_kick_all(void)
+-{
+-    CPUState *cpu;
+-
+-    CPU_FOREACH(cpu) {
+-        run_on_cpu(cpu, do_kvm_cpu_synchronize_kick, RUN_ON_CPU_NULL);
+-    }
+-}
+-
+  /*
+   * Flush all the existing dirty pages to the KVM slot buffers.  When
+   * this call returns, we guarantee that all the touched dirty pages
+@@ -879,7 +860,9 @@ static void kvm_dirty_ring_flush(void)
+       * First make sure to flush the hardware buffers by kicking all
+       * vcpus out in a synchronous way.
+       */
+-    kvm_cpu_synchronize_kick_all();
++    if (!cpu_throttle_get_percentage()) {
++        qemu_kvm_cpu_synchronize_kick_all();
++    }
+      kvm_dirty_ring_reap(kvm_state);
+      trace_kvm_dirty_ring_flush(1);
+  }
+diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
+index 868f119..3225b27 100644
+--- a/include/sysemu/cpus.h
++++ b/include/sysemu/cpus.h
+@@ -56,5 +56,6 @@ extern int smp_threads;
+  #endif
+
+  void list_cpus(const char *optarg);
++void qemu_kvm_cpu_synchronize_kick_all(void);
+
+  #endif
+diff --git a/migration/migration.c b/migration/migration.c
+index bcc385b..1114b2f 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -61,6 +61,8 @@
+  #include "sysemu/cpus.h"
+  #include "yank_functions.h"
+  #include "sysemu/qtest.h"
++#include "sysemu/kvm.h"
++#include "sysemu/cpus.h"
+
+  #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
+
+@@ -3177,6 +3179,16 @@ static void migration_completion(MigrationState *s)
+
+          if (!ret) {
+              bool inactivate = !migrate_colo_enabled();
++            /*
++             * Before stop vm do qemu_kvm_cpu_synchronize_kick_all to
++             * fulsh hardware buffer into KVMslots for dirty ring
++             * optmiaztion, If qemu_kvm_cpu_synchronize_kick_all is not
++             * called when the CPU speed is limited to improve efficiency
++             */
++            if (kvm_dirty_ring_enabled()
++                && cpu_throttle_get_percentage()) {
++                qemu_kvm_cpu_synchronize_kick_all();
++            }
+              ret = vm_stop_force_state(RUN_STATE_FINISH_MIGRATE);
+              trace_migration_completion_vm_stop(ret);
+              if (ret >= 0) {
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 035395a..505ed3e 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -807,3 +807,21 @@ void qmp_inject_nmi(Error **errp)
+      nmi_monitor_handle(monitor_get_cpu_index(monitor_cur()), errp);
+  }
+
++static void do_kvm_cpu_synchronize_kick(CPUState *cpu, run_on_cpu_data arg)
++{
++    /* No need to do anything */
++}
++
++/*
++ * Kick all vcpus out in a synchronized way.  When returned, we
++ * guarantee that every vcpu has been kicked and at least returned to
++ * userspace once.
++ */
++void qemu_kvm_cpu_synchronize_kick_all(void)
++{
++    CPUState *cpu;
++
++    CPU_FOREACH(cpu) {
++        run_on_cpu(cpu, do_kvm_cpu_synchronize_kick, RUN_ON_CPU_NULL);
++    }
++}
 --
 1.8.3.1
 
