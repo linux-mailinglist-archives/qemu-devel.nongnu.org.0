@@ -2,84 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE8F4E2DDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:26:11 +0100 (CET)
-Received: from localhost ([::1]:49328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E92294E2DB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:19:34 +0100 (CET)
+Received: from localhost ([::1]:36422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWKrC-0004ts-KZ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:26:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56884)
+	id 1nWKkn-00044Z-OZ
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:19:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWKgy-0008DI-0A
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:15:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38958)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWKhs-0001p5-6E
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:16:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWKgs-00008q-CI
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:15:31 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWKhq-0000Q7-L3
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:16:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647879329;
+ s=mimecast20190719; t=1647879389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P7dnso3UntHv5I7MNeZbmzuPCzzfv/ruH36Ko+2SjQs=;
- b=Eh0bxCLFCk4m9406s/8Msf4QLq82XQGVl2NYQCIttnAow/BCvPI+D1gG4l96wgo4F+a6kN
- tLw63kqk52r/cfJC2dwcZ+GC4CuWx260CJrs0WVor0XjQ3rAOYzaNCXfBoyyUth4GHSXAN
- Z46su3Hr9ppdgZNytUeYQAJ7PP7ytFo=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QsVcX2L7+9faR3P5XHdEyXMGTlUzZt2iMvML0nhHw+c=;
+ b=GooiT7gEkWfNFYAB0sgj+b/H68EMOrdMbuafn8nUiN5j5our57e6qaAYIsfusaVqqtRIjs
+ M2Ysyqf/KXj4fzZQG0/X+IUUUJTMMTf7INQyP+c0bIwY6xo2IthdzM33jF+BCS5Kc3qn6n
+ 0+quM1B0yj2OINBsu649c3HJ2w22TuU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-dUfXDeCkOeqOGS63wXoACw-1; Mon, 21 Mar 2022 12:15:25 -0400
-X-MC-Unique: dUfXDeCkOeqOGS63wXoACw-1
-Received: by mail-vs1-f69.google.com with SMTP id
- d19-20020a67c493000000b00324db4e7285so932846vsk.12
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:15:25 -0700 (PDT)
+ us-mta-374-ElwBrNThOAKRYPD0KdGBig-1; Mon, 21 Mar 2022 12:16:28 -0400
+X-MC-Unique: ElwBrNThOAKRYPD0KdGBig-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 88-20020adf8161000000b0020410a1bd93so604736wrm.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:16:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=P7dnso3UntHv5I7MNeZbmzuPCzzfv/ruH36Ko+2SjQs=;
- b=g2rBgLnKFWnURFAUV3cQpjZilSbH8C6GsGPn1cUIPS5bSxIue9hZm7/rBBs7mNeaOm
- EjscwoAhzNA033pQvdaFmtx5/HesnjYHjUNNHj42Iw4CkrnmY1TruQsN133awR9H3w0f
- hKBy+Nlu8m7tY4e66kcTbgz18hhUmf03IXNgHex2zKQ+ojZyURh+H6WgRdo8usjJh/L0
- vimGeMQh0vKvo5CyUHy2LaDRkBR2pxQLTjLYKc3YK2XHkDP00+iZuXinhU8aD6H1mtcz
- CfnI7Qm89E1sob5zgWnbfriuhE5P57DIQImqyMtjIQejaLeQ5hj+JcBWEBuQDB5mY0NF
- XfWQ==
-X-Gm-Message-State: AOAM533BdyKJ1hhNI0duJGXT++z0+6c1E5Y1Jwh5B6s2QFBJLQYI0uWa
- LD1lpYO7S+uXI+92AOdt8ndAi/tERRo6aBohVYybE4o+IRA2ADvA1Sqv5Jk0xGjQc+mgYVN11Gw
- aCjmQCxth/Q0p+DBWSm9SWNDD9j3XJ/E=
-X-Received: by 2002:a05:6102:1592:b0:324:d1a2:5718 with SMTP id
- g18-20020a056102159200b00324d1a25718mr6784777vsv.35.1647879325097; 
- Mon, 21 Mar 2022 09:15:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy1SSxrWSBMAW3jzDFjmr018lLA/4eI+GtKKm9e3eJt/TG+6obkLC9jazfmakkAgzw4WfBcSu5SvlrqGKIfnJI=
-X-Received: by 2002:a05:6102:1592:b0:324:d1a2:5718 with SMTP id
- g18-20020a056102159200b00324d1a25718mr6784697vsv.35.1647879323285; Mon, 21
- Mar 2022 09:15:23 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=QsVcX2L7+9faR3P5XHdEyXMGTlUzZt2iMvML0nhHw+c=;
+ b=swEjQWaC6EO926aw70pp4/+e7aDKmAt4BcCKCzwLoI5q8pt08uP3E+GbjKJPCdqiam
+ X0bgCLHEvSxEkSBfWMOJwd/msht0/pxjxJJmtMvPQbA9jnshkIKg62dullTq0dzcnbx0
+ IfoYfS5na+74YVG+bAe9zcWC3djAOc6pZJvhF/B2g28kQe3NpZsj60q5oSKgHjYOwt/X
+ i2bvqDtXlTxJNIwHNr0dsVc6H9j4onwMaCZIevRSUqMq56OLHWN9S8S4wK/LmXi8tWNf
+ ZX6us+RLyvOxONOq25teDGR0lNfWzXRtUMCqAxa/cTC8djWik0yW8bFRVNEqdtsxOz0K
+ ZKKQ==
+X-Gm-Message-State: AOAM532reXo4JjrKuwVYC/Z2fjiOjNj0Mdy+0wvDzdws38QGHoBXv4ec
+ pWTuiNrA3klOZ5WiCnf2AMF/J7np+D1mVjAV4oBOnAElrxldUu2qIKCsk5i19Etz5khmaiqIwRD
+ d6FBEvv52R4/MWIM=
+X-Received: by 2002:a05:600c:4e8b:b0:38c:90cf:1158 with SMTP id
+ f11-20020a05600c4e8b00b0038c90cf1158mr12665593wmq.107.1647879387317; 
+ Mon, 21 Mar 2022 09:16:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyeFJCuV10A4eh6a5EddJQAfzYVGAKnMjLwlSH0rSmOe1waxPr3H0PlVtfcl8nu5r/ngTqrLw==
+X-Received: by 2002:a05:600c:4e8b:b0:38c:90cf:1158 with SMTP id
+ f11-20020a05600c4e8b00b0038c90cf1158mr12665563wmq.107.1647879387013; 
+ Mon, 21 Mar 2022 09:16:27 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ f8-20020a5d6648000000b00203e64e3637sm11637140wrw.89.2022.03.21.09.16.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Mar 2022 09:16:26 -0700 (PDT)
+Message-ID: <262a80f9-88d5-c831-a299-a77f7f500958@redhat.com>
+Date: Mon, 21 Mar 2022 17:16:24 +0100
 MIME-Version: 1.0
-References: <20220317234937.569525-1-jsnow@redhat.com>
- <20220317234937.569525-11-jsnow@redhat.com>
- <20220321142437.tcbchgpht3mluhp6@redhat.com>
-In-Reply-To: <20220321142437.tcbchgpht3mluhp6@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 21 Mar 2022 12:15:13 -0400
-Message-ID: <CAFn=p-Y=seq40r=qMS-tsvmJQkRjgPgj-Ok8vYv2E773cYUDkA@mail.gmail.com>
-Subject: Re: [PATCH v4 10/18] iotests: add qemu_img_map() function
-To: Eric Blake <eblake@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2] gitlab: disable accelerated zlib for s390x
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20220321161151.3654386-1-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220321161151.3654386-1-alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000b292b405dabccdd1"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,150 +102,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b292b405dabccdd1
-Content-Type: text/plain; charset="UTF-8"
+On 21/03/2022 17.11, Alex Bennée wrote:
+> There appears to be a bug in the s390 hardware-accelerated version of
+> zlib distributed with Ubuntu 20.04, which makes our test
+> /i386/migration/multifd/tcp/zlib hit an assertion perhaps one time in
+> 10. Fortunately zlib provides an escape hatch where we can disable the
+> hardware-acceleration entirely by setting the environment variable
+> DFLTCC to 0. Do this on all our CI which runs on s390 hosts, both our
+> custom gitlab runner and also the Travis hosts.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> 
+> ---
+> v2
+>    - more complete commit wording from Peter
+>    - also tweak travis rules
+> ---
+>   .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 12 ++++++++++++
+>   .travis.yml                                        |  6 ++++--
+>   2 files changed, 16 insertions(+), 2 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+> index 0333872113..4f292a8a5b 100644
+> --- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+> +++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+> @@ -8,6 +8,8 @@ ubuntu-20.04-s390x-all-linux-static:
+>    tags:
+>    - ubuntu_20.04
+>    - s390x
+> + variables:
+> +    DFLTCC: 0
+>    rules:
+>    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+>    - if: "$S390X_RUNNER_AVAILABLE"
+> @@ -27,6 +29,8 @@ ubuntu-20.04-s390x-all:
+>    tags:
+>    - ubuntu_20.04
+>    - s390x
+> + variables:
+> +    DFLTCC: 0
+>    rules:
+>    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+>    - if: "$S390X_RUNNER_AVAILABLE"
+> @@ -43,6 +47,8 @@ ubuntu-20.04-s390x-alldbg:
+>    tags:
+>    - ubuntu_20.04
+>    - s390x
+> + variables:
+> +    DFLTCC: 0
+>    rules:
+>    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+>      when: manual
+> @@ -64,6 +70,8 @@ ubuntu-20.04-s390x-clang:
+>    tags:
+>    - ubuntu_20.04
+>    - s390x
+> + variables:
+> +    DFLTCC: 0
+>    rules:
+>    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+>      when: manual
+> @@ -84,6 +92,8 @@ ubuntu-20.04-s390x-tci:
+>    tags:
+>    - ubuntu_20.04
+>    - s390x
+> + variables:
+> +    DFLTCC: 0
+>    rules:
+>    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+>      when: manual
+> @@ -103,6 +113,8 @@ ubuntu-20.04-s390x-notcg:
+>    tags:
+>    - ubuntu_20.04
+>    - s390x
+> + variables:
+> +    DFLTCC: 0
+>    rules:
+>    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+>      when: manual
+> diff --git a/.travis.yml b/.travis.yml
+> index c3c8048842..9afc4a54b8 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -218,6 +218,7 @@ jobs:
+>           - TEST_CMD="make check check-tcg V=1"
+>           - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
+>           - UNRELIABLE=true
+> +        - DFLTCC=0
+>         script:
+>           - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
+>           - |
+> @@ -257,7 +258,7 @@ jobs:
+>         env:
+>           - CONFIG="--disable-containers --audio-drv-list=sdl --disable-user
+>                     --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
+> -
+> +        - DFLTCC=0
+>       - name: "[s390x] GCC (user)"
+>         arch: s390x
+>         dist: focal
+> @@ -269,7 +270,7 @@ jobs:
+>             - ninja-build
+>         env:
+>           - CONFIG="--disable-containers --disable-system"
+> -
+> +        - DFLTCC=0
+>       - name: "[s390x] Clang (disable-tcg)"
+>         arch: s390x
+>         dist: focal
+> @@ -303,3 +304,4 @@ jobs:
+>           - CONFIG="--disable-containers --disable-tcg --enable-kvm
+>                     --disable-tools --host-cc=clang --cxx=clang++"
+>           - UNRELIABLE=true
+> +        - DFLTCC=0
 
-On Mon, Mar 21, 2022, 10:24 AM Eric Blake <eblake@redhat.com> wrote:
-
-> On Thu, Mar 17, 2022 at 07:49:29PM -0400, John Snow wrote:
-> > Add a qemu_img_map() function by analogy with qemu_img_measure(),
-> > qemu_img_check(), and qemu_img_info() that all return JSON information.
-> >
-> > Replace calls to qemu_img_pipe('map', '--output=json', ...) with this
-> > new function, which provides better diagnostic information on failure.
-> >
-> > Note: The output for iotest 211 changes, because logging JSON after it
-> > was deserialized by Python behaves a little differently than logging the
-> > raw JSON document string itself.
-> > (iotests.log() sorts the keys for Python 3.6 support.)
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
->
-> > +++ b/tests/qemu-iotests/211.out
->
-> > @@ -55,9 +53,7 @@ file format: IMGFMT
-> >  virtual size: 32 MiB (33554432 bytes)
-> >  cluster_size: 1048576
-> >
-> > -[{ "start": 0, "length": 3072, "depth": 0, "present": true, "zero":
-> false, "data": true, "offset": 1024},
-> > -{ "start": 3072, "length": 33551360, "depth": 0, "present": true,
-> "zero": true, "data": true, "offset": 4096}]
-> > -
-> > +[{"data": true, "depth": 0, "length": 3072, "offset": 1024, "present":
-> true, "start": 0, "zero": false}, {"data": true, "depth": 0, "length":
-> 33551360, "offset": 4096, "present": true, "start": 3072, "zero": true}]
->
-> The change in format can produce really long lines for a more complex
-> map, which can introduce its own problems in legibility. But I can
-> live with it.
->
-> Reviewed-by: Eric Blake <eblake@redhat.com>
->
-> --
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3266
-> Virtualization:  qemu.org | libvirt.org
-
-
-Yeah, we don't have to print out the entire thing, either. We could also
-pretty-print it if we want to.
-
-(Once we drop 3.6 (which I know is contested as to when we can do it) we
-can remove a lot of our special QMP sorting code and just start printing
-the raw JSON objects, which makes dealing with qmp a lot easier in
-diff-based tests.)
-
-The point was more just to remove any copy-pastables using the JSON and
-provide only the "one good way". This patch in and of itself is otherwise
-pretty lateral.
-
-
->
-
---000000000000b292b405dabccdd1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, Mar 21, 2022, 10:24 AM Eric Blake &lt;<a href=
-=3D"mailto:eblake@redhat.com" target=3D"_blank" rel=3D"noreferrer">eblake@r=
-edhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, =
-Mar 17, 2022 at 07:49:29PM -0400, John Snow wrote:<br>
-&gt; Add a qemu_img_map() function by analogy with qemu_img_measure(),<br>
-&gt; qemu_img_check(), and qemu_img_info() that all return JSON information=
-.<br>
-&gt; <br>
-&gt; Replace calls to qemu_img_pipe(&#39;map&#39;, &#39;--output=3Djson&#39=
-;, ...) with this<br>
-&gt; new function, which provides better diagnostic information on failure.=
-<br>
-&gt; <br>
-&gt; Note: The output for iotest 211 changes, because logging JSON after it=
-<br>
-&gt; was deserialized by Python behaves a little differently than logging t=
-he<br>
-&gt; raw JSON document string itself.<br>
-&gt; (iotests.log() sorts the keys for Python 3.6 support.)<br>
-&gt; <br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-<br>
-&gt; +++ b/tests/qemu-iotests/211.out<br>
-<br>
-&gt; @@ -55,9 +53,7 @@ file format: IMGFMT<br>
-&gt;=C2=A0 virtual size: 32 MiB (33554432 bytes)<br>
-&gt;=C2=A0 cluster_size: 1048576<br>
-&gt;=C2=A0 <br>
-&gt; -[{ &quot;start&quot;: 0, &quot;length&quot;: 3072, &quot;depth&quot;:=
- 0, &quot;present&quot;: true, &quot;zero&quot;: false, &quot;data&quot;: t=
-rue, &quot;offset&quot;: 1024},<br>
-&gt; -{ &quot;start&quot;: 3072, &quot;length&quot;: 33551360, &quot;depth&=
-quot;: 0, &quot;present&quot;: true, &quot;zero&quot;: true, &quot;data&quo=
-t;: true, &quot;offset&quot;: 4096}]<br>
-&gt; -<br>
-&gt; +[{&quot;data&quot;: true, &quot;depth&quot;: 0, &quot;length&quot;: 3=
-072, &quot;offset&quot;: 1024, &quot;present&quot;: true, &quot;start&quot;=
-: 0, &quot;zero&quot;: false}, {&quot;data&quot;: true, &quot;depth&quot;: =
-0, &quot;length&quot;: 33551360, &quot;offset&quot;: 4096, &quot;present&qu=
-ot;: true, &quot;start&quot;: 3072, &quot;zero&quot;: true}]<br>
-<br>
-The change in format can produce really long lines for a more complex<br>
-map, which can introduce its own problems in legibility. But I can<br>
-live with it.<br>
-<br>
-Reviewed-by: Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com" rel=3D"nor=
-eferrer noreferrer" target=3D"_blank">eblake@redhat.com</a>&gt;<br>
-<br>
--- <br>
-Eric Blake, Principal Software Engineer<br>
-Red Hat, Inc.=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+1-919-301-3266<br>
-Virtualization:=C2=A0 <a href=3D"http://qemu.org" rel=3D"noreferrer norefer=
-rer noreferrer" target=3D"_blank">qemu.org</a> | <a href=3D"http://libvirt.=
-org" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">libvirt.org=
-</a></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">=
-Yeah, we don&#39;t have to print out the entire thing, either. We could als=
-o pretty-print it if we want to.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">(Once we drop 3.6 (which I know is contested as to when we can do=
- it) we can remove a lot of our special QMP sorting code and just start pri=
-nting the raw JSON objects, which makes dealing with qmp a lot easier in di=
-ff-based tests.)</div><div dir=3D"auto"><br></div><div dir=3D"auto">The poi=
-nt was more just to remove any copy-pastables using the JSON and provide on=
-ly the &quot;one good way&quot;. This patch in and of itself is otherwise p=
-retty lateral.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div clas=
-s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-</blockquote></div></div></div>
-
---000000000000b292b405dabccdd1--
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
