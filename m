@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6899D4E2730
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:05:52 +0100 (CET)
-Received: from localhost ([::1]:33522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3814E273B
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:08:45 +0100 (CET)
+Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWHjL-00082b-GQ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:05:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58832)
+	id 1nWHm7-0001bH-S8
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:08:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWHi3-0007FI-LE
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:04:31 -0400
-Received: from [2607:f8b0:4864:20::1036] (port=43651
- helo=mail-pj1-x1036.google.com)
+ id 1nWHk4-0000fy-Bb; Mon, 21 Mar 2022 09:06:36 -0400
+Received: from [2607:f8b0:4864:20::62f] (port=46934
+ helo=mail-pl1-x62f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWHi1-0003p6-Qv
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:04:31 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- n7-20020a17090aab8700b001c6aa871860so8258299pjq.2
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 06:04:28 -0700 (PDT)
+ id 1nWHk2-0004GA-M8; Mon, 21 Mar 2022 09:06:35 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id w4so12643853ply.13;
+ Mon, 21 Mar 2022 06:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=V2CnSCANrbgCTPbXDzNLCYi4ux+1gAuJmfvSfLPIpaU=;
- b=Ek5/kUCSRsvfZpuaBw8VeeV/UDS81MPhXJZ2PIkK2eZPouIzQ40v9j/vsLS6SsEUvv
- nKXF1Y8BENZMPuTGx00OjNpNGA/3zp6nHVkWfoplxphlCyYtP4c19CaIomWWjM+1GOjh
- a2LeqzD3OCL8BdfsTHG35GbAdCm8cN6hYJ4uSUiM3pmCUXUdDpoxu925HiBqheUJtzRm
- mr7IoPqCuxezck7SdCt5AKR53HWEb/xE6zHw0T0IGeLDcovwL0jOiLK+j95oI29yNTf6
- ocC9IxIzZrWwzX+i0SUbRlWuf/iKoMbIwUgN2JGYP7UsD9YYbX21w9lBD9F/dWzhaO/K
- vJBw==
+ bh=3/kxjof2ZOML7YmnPPwMhJ3t5ucm8eiE4KiHRF0dBdg=;
+ b=QvysWhx4Tcrr8Ad0yu2MEXe5ons+18BemJWlLfXubZdqHrH80y8w1z8LJVWOMErJRA
+ 4ICVqG/tivho2aZt1rcQbpHaDv2nfyJlfdmXpw1VrUa3qtdURGHYmqh+MqHJO3yfDuGh
+ aEmkquQHqSovDBt/OAD7Hjq5c6Aa0qK5U+XpMOgZp77jdX/6iu9HyhtqvoGXbALA/sT7
+ Pp1VmSDHWU8yoWdjEErT++StlhpNMWbIDCZxyPuVLCmz0hXDy8s8xBAs+g3GXCOorDmO
+ 0HNjqMdPu2JItBX/IHl/b5yFHsm/PZ2cVor4PQyyUl+bGkKkU8x4YyCd5oPOimvoxjy2
+ 7s6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=V2CnSCANrbgCTPbXDzNLCYi4ux+1gAuJmfvSfLPIpaU=;
- b=EDHWyFfB6zSj/127Qc6pWd1JmZQVNdcPjWlBIvQ7uRZBIhBzaODH+Sz8zip1vKUUS8
- 74F/tuT383fuS8Uc+oZavLBsWODecgS/G99VI7XHaa+03u1MmwKjc4S3IO39ScI8xwHt
- 1G9690t4dJWfsrQLwWn8pVaT4FGxnNlx+yfAYxs9p76N2q6mTs2WcOzBiF+5Yp4Y767N
- dHZeYHkhjceSBrLQc7HGrYNBKe0FFb0vA1LFi0/15GrP7iVJdtIVzWqnafEZ1VoWtNy4
- YzgqxS92YmqIzlF7dsqufRw2SSkBshzGCCG6xyg2b2r4wTwcIo+yZlk8wY/YHrtAcZkE
- Ofhg==
-X-Gm-Message-State: AOAM5319KFGvvWUFhQX9JtHcVQ2lPaGpK7YQjKbVEmVV9HhZE8vwFEU2
- QaRDG66eCXx0Q4BDr0A1MEA=
-X-Google-Smtp-Source: ABdhPJzGXRsyB9XfaKiVD940bCmIoPBWZEwLR5RtpUZoA7tfzYeo9VobK/EcSO8hZabOaI1f1oJ+MA==
-X-Received: by 2002:a17:902:7045:b0:153:a8b1:d666 with SMTP id
- h5-20020a170902704500b00153a8b1d666mr12702806plt.75.1647867867569; 
- Mon, 21 Mar 2022 06:04:27 -0700 (PDT)
+ bh=3/kxjof2ZOML7YmnPPwMhJ3t5ucm8eiE4KiHRF0dBdg=;
+ b=KV6RiAhVEoT5xxmj8dckjTM5yBX5MHhjr75JqTDCG3lw4VencuHUcdKuY6wR3L9EB+
+ TLSh8oYwo2lNoET5Mk9oUgN1hTdZgWKzmIt3wKn6B8xGmTM//C6XpRyo15AXNfLZExQT
+ 0ENMFDNCccmzTx6Su+EsrSpeQZBJg2bHX2qFw0fLGoqPdAdfyehhxXsK910Kt9oOf36b
+ K+75EX066//iYh+ys33xBIvvBHPJ1YsMcDP5I4hlrmRHsULRH2CqcUFA3XITouw0jYpv
+ K5KPXcw0DB5BNs89wFU9oXOtCYYomifRJU97v7H+1A+F1IoW0ineygr61C0XUdgL5s3n
+ PieA==
+X-Gm-Message-State: AOAM5338xRwsjkvbdiBvsuU1Ks+F1U78n/ppJYlWo+3DaVBLG5l2SG2Z
+ MCt8Wdl+pWY8n9GAxdQVCGehAhw06zUxng==
+X-Google-Smtp-Source: ABdhPJxg19RR6RSkKWnlR3Y4IlkI/qy01V2Kw+778vmh++VE5MSr2ChrtixKIhZ4rbx9wp53ioNThA==
+X-Received: by 2002:a17:902:f54d:b0:154:6794:ab38 with SMTP id
+ h13-20020a170902f54d00b001546794ab38mr2757479plf.114.1647867993094; 
+ Mon, 21 Mar 2022 06:06:33 -0700 (PDT)
 Received: from [192.168.64.175] (138.red-95-127-187.staticip.rima-tde.net.
  [95.127.187.138]) by smtp.gmail.com with ESMTPSA id
- v23-20020a17090a521700b001bbfc181c93sm19973780pjh.19.2022.03.21.06.04.24
+ l13-20020a056a00140d00b004e13da93eaasm19536089pfu.62.2022.03.21.06.06.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 06:04:27 -0700 (PDT)
-Message-ID: <89a014e0-8850-e628-dea5-76999513a18e@gmail.com>
-Date: Mon, 21 Mar 2022 14:04:22 +0100
+ Mon, 21 Mar 2022 06:06:32 -0700 (PDT)
+Message-ID: <a35794be-1e41-82a0-f6b0-c9541d2373c5@gmail.com>
+Date: Mon, 21 Mar 2022 14:06:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: Memory leak in via_isa_realize()
+Subject: Re: [PATCH RESEND 1/2] hw/vfio/pci-quirks: Resolve redundant property
+ getters
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Huacai Chen <chenhuacai@kernel.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <d60cb762-40a5-f918-02aa-463758205af5@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+References: <20220301225220.239065-1-shentey@gmail.com>
+ <20220301225220.239065-2-shentey@gmail.com>
+ <5F510D6C-37E7-46A1-AEB8-E7D060B4ED0B@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <d60cb762-40a5-f918-02aa-463758205af5@redhat.com>
+In-Reply-To: <5F510D6C-37E7-46A1-AEB8-E7D060B4ED0B@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,80 +94,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-trivial@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Bernhard who did a similar cleanup recently.
+On 21/3/22 11:57, Bernhard Beschow wrote:
+> Am 1. März 2022 22:52:19 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
+>> The QOM API already provides getters for uint64 and uint32 values, so reuse
+>> them.
+>>
+>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>> hw/vfio/pci-quirks.c | 34 +++++++++-------------------------
+>> 1 file changed, 9 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+>> index 0cf69a8c6d..f0147a050a 100644
+>> --- a/hw/vfio/pci-quirks.c
+>> +++ b/hw/vfio/pci-quirks.c
+>> @@ -1565,22 +1565,6 @@ static int vfio_add_nv_gpudirect_cap(VFIOPCIDevice *vdev, Error **errp)
+>>      return 0;
+>> }
+>>
+>> -static void vfio_pci_nvlink2_get_tgt(Object *obj, Visitor *v,
+>> -                                     const char *name,
+>> -                                     void *opaque, Error **errp)
+>> -{
+>> -    uint64_t tgt = (uintptr_t) opaque;
+>> -    visit_type_uint64(v, name, &tgt, errp);
+>> -}
+>> -
+>> -static void vfio_pci_nvlink2_get_link_speed(Object *obj, Visitor *v,
+>> -                                                 const char *name,
+>> -                                                 void *opaque, Error **errp)
+>> -{
+>> -    uint32_t link_speed = (uint32_t)(uintptr_t) opaque;
+>> -    visit_type_uint32(v, name, &link_speed, errp);
+>> -}
+>> -
+>> int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp)
+>> {
+>>      int ret;
+>> @@ -1618,9 +1602,9 @@ int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp)
+>>                                 nv2reg->size, p);
+>>      QLIST_INSERT_HEAD(&vdev->bars[0].quirks, quirk, next);
+>>
+>> -    object_property_add(OBJECT(vdev), "nvlink2-tgt", "uint64",
+>> -                        vfio_pci_nvlink2_get_tgt, NULL, NULL,
+>> -                        (void *) (uintptr_t) cap->tgt);
+>> +    object_property_add_uint64_ptr(OBJECT(vdev), "nvlink2-tgt",
+>> +                                   (uint64_t *) &cap->tgt,
+>> +                                   OBJ_PROP_FLAG_READ);
+>>      trace_vfio_pci_nvidia_gpu_setup_quirk(vdev->vbasedev.name, cap->tgt,
+>>                                            nv2reg->size);
+>> free_exit:
+>> @@ -1679,15 +1663,15 @@ int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp)
+>>          QLIST_INSERT_HEAD(&vdev->bars[0].quirks, quirk, next);
+>>      }
+>>
+>> -    object_property_add(OBJECT(vdev), "nvlink2-tgt", "uint64",
+>> -                        vfio_pci_nvlink2_get_tgt, NULL, NULL,
+>> -                        (void *) (uintptr_t) captgt->tgt);
+>> +    object_property_add_uint64_ptr(OBJECT(vdev), "nvlink2-tgt",
+>> +                                   (uint64_t *) &captgt->tgt,
+>> +                                   OBJ_PROP_FLAG_READ);
+>>      trace_vfio_pci_nvlink2_setup_quirk_ssatgt(vdev->vbasedev.name, captgt->tgt,
+>>                                                atsdreg->size);
+>>
+>> -    object_property_add(OBJECT(vdev), "nvlink2-link-speed", "uint32",
+>> -                        vfio_pci_nvlink2_get_link_speed, NULL, NULL,
+>> -                        (void *) (uintptr_t) capspeed->link_speed);
+>> +    object_property_add_uint32_ptr(OBJECT(vdev), "nvlink2-link-speed",
+>> +                                   &capspeed->link_speed,
+>> +                                   OBJ_PROP_FLAG_READ);
+>>      trace_vfio_pci_nvlink2_setup_quirk_lnkspd(vdev->vbasedev.name,
+>>                                                capspeed->link_speed);
+>> free_exit:
+> 
+> Ping
+> 
+> @Alistair: When resending, I accidently added a Reviewed-by with your name here which I asked to be ignored *after* you re-acked patch 2/2. In case you intended to ack this patch as well your voice would be needed again.
 
-On 21/3/22 11:31, Thomas Huth wrote:
-> 
->   Hi!
-> 
-> FYI, I'm seeing a memory leak in via_isa_realize() when building
-> QEMU with sanitizers enabled or when running QEMU through valgrind:
-> 
-> $ valgrind --leak-check=full --show-leak-kinds=definite 
-> ./qemu-system-mips64el --nographic -M fuloong2e
-> ==210405== Memcheck, a memory error detector
-> ==210405== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-> ==210405== Using Valgrind-3.17.0 and LibVEX; rerun with -h for copyright 
-> info
-> ==210405== Command: ./qemu-system-mips64el --nographic -M fuloong2e
-> ==210405==
-> ==210405== Warning: set address range perms: large range [0x15c9f000, 
-> 0x55c9f000) (defined)
-> ==210405== Warning: set address range perms: large range [0x59ea4000, 
-> 0x99ea4000) (defined)
-> ==210405== Warning: set address range perms: large range [0x99ea4000, 
-> 0xaa0a4000) (noaccess)
-> QEMU 6.2.90 monitor - type 'help' for more information
-> (qemu) q
-> ==210405==
-> ==210405== HEAP SUMMARY:
-> ==210405==     in use at exit: 8,409,442 bytes in 23,516 blocks
-> ==210405==   total heap usage: 37,073 allocs, 13,557 frees, 32,674,469 
-> bytes allocated
-> ==210405==
-> ==210405== 8 bytes in 1 blocks are definitely lost in loss record 715 of 
-> 6,085
-> ==210405==    at 0x4C360A5: malloc (vg_replace_malloc.c:380)
-> ==210405==    by 0x7059475: g_malloc (in 
-> /usr/lib64/libglib-2.0.so.0.5600.4)
-> ==210405==    by 0x96C52C: qemu_extend_irqs (irq.c:57)
-> ==210405==    by 0x96C5B8: qemu_allocate_irqs (irq.c:66)
-> ==210405==    by 0x5FFA47: via_isa_realize (vt82c686.c:591)
-> ==210405==    by 0x5FFCDA: vt82c686b_realize (vt82c686.c:646)
-> ==210405==    by 0x681502: pci_qdev_realize (pci.c:2192)
-> ==210405==    by 0x969A5D: device_set_realized (qdev.c:531)
-> ==210405==    by 0x97354A: property_set_bool (object.c:2273)
-> ==210405==    by 0x9715A0: object_property_set (object.c:1408)
-> ==210405==    by 0x975938: object_property_set_qobject (qom-qobject.c:28)
-> ==210405==    by 0x971907: object_property_set_bool (object.c:1477)
-> ==210405==
-> ==210405== LEAK SUMMARY:
-> ==210405==    definitely lost: 8 bytes in 1 blocks
-> ==210405==    indirectly lost: 0 bytes in 0 blocks
-> ==210405==      possibly lost: 3,794 bytes in 45 blocks
-> ==210405==    still reachable: 8,405,640 bytes in 23,470 blocks
-> ==210405==                       of which reachable via heuristic:
-> ==210405==                         newarray           : 1,536 bytes in 
-> 16 blocks
-> ==210405==         suppressed: 0 bytes in 0 blocks
-> ==210405== Reachable blocks (those to which a pointer was found) are not 
-> shown.
-> ==210405== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-> ==210405==
-> ==210405== For lists of detected and suppressed errors, rerun with: -s
-> ==210405== ERROR SUMMARY: 46 errors from 46 contexts (suppressed: 0 from 0)
-> 
-> Same problem happens with qemu-system-ppc64 and the pegasos2 machine.
-> 
-> No clue how to properly fix this... is it safe to free the pointer
-> at the end of the function?
-> 
->   Thomas
-> 
-
+FWIW I expect these patches to get merged via the qemu-trivial@ tree
+once the 7.1 development window opens.
 
