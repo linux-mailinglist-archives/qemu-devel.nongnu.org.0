@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C23C4E27D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:38:21 +0100 (CET)
-Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9864E27F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:41:48 +0100 (CET)
+Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWIEm-0006Vi-B7
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:38:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39562)
+	id 1nWII7-0001or-GJ
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:41:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWICF-0004d1-VP
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:35:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35270)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWICD-0002j3-FV
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:35:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647869740;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Rzz0AXlM0VrY6OqVRLfm9uF8h3KFlcn9U6WTSJYc6YM=;
- b=cG9Iv7fyQ5hwAD0U/iFjGAKtbM0Ws+aV3WnlGZOyR9bO8rM6jazLAQjCae6b94FKGvg+Sl
- HqXdixP6xmcE9HRk0XL7SSI/mlkTaqtvHLQTK0E6UFmPqXaI/hbw8p7jBufZCVYuz6NwkF
- Lm6b8OuIMqUX4S46C2QWx0j66pzjJlI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-uKf5-J4oPcqp3wRLxcEIQA-1; Mon, 21 Mar 2022 09:35:39 -0400
-X-MC-Unique: uKf5-J4oPcqp3wRLxcEIQA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B29F11066559;
- Mon, 21 Mar 2022 13:35:38 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E76540E8101;
- Mon, 21 Mar 2022 13:35:38 +0000 (UTC)
-Date: Mon, 21 Mar 2022 08:35:36 -0500
-From: Eric Blake <eblake@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 01/15] iotests: replace calls to log(qemu_io(...)) with
- qemu_io_log()
-Message-ID: <20220321133536.smzupjq3c3pej6jc@redhat.com>
-References: <20220318203655.676907-1-jsnow@redhat.com>
- <20220318203655.676907-2-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nWIFi-0000Q5-Fr
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:39:18 -0400
+Received: from [2a00:1450:4864:20::62c] (port=42635
+ helo=mail-ej1-x62c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nWIFg-0003Ch-QD
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:39:18 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id j15so15807811eje.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 06:39:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W0rfxDtyPFADXPTxxxeUNjyMio6IDcuCPLrcyoFqTPk=;
+ b=ZU1Gs7KNDka2IUPjem5Jz1e/Co2DKjk+fdcB32VvFo/UxFBu5HgNUwO7/r/fNwVy4i
+ mJnn5/A4s7pKdd4CNzpuna54tAzCjvOZosre+lqyJhZjBOf6sDTeB5/z1Hi7U7MJFY1K
+ 5h2EF3z/fUz5qmERcGvJZPEg1N/k4fK/SgVzDjtE9W7TXgcK2gDXYwD/OUOTyakduUVm
+ 8sleX3tqJOT9q0Oa064/3F2ouNvon26tq+e7PetDcEcdElmN482ayQEU7HOuVkw05ioX
+ dmkvP5V1phzIwC6QX1eJYTkgk7ng+v5ymY1FC4KXlkabGPyaLe5VG+FEnsyKU7lxsGH1
+ PRiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W0rfxDtyPFADXPTxxxeUNjyMio6IDcuCPLrcyoFqTPk=;
+ b=wf4CRndYWhcdN+1m99/fo2C4TT1Lid39u0YyjlJcjsirroaj9sVfrPpZuKA8grmPWQ
+ jrbdbPDJbjcZ8g5qnMBFqCmP1fA7XR6jFNaLKVjdfAmE5qRPWJkZQsJ8GeSdWHOgWAcj
+ 74Z+noeILuKHSJx9B/0aoFYmo1hzQtjI8/zpeAWjTltyYXYkukAAz06epx6snZ2cBUf7
+ 6iB8qnc4LcnkUehGKeScj4Zo/uHpHkUe1dgZQdbPuKTazetrXZNXm6TZRNbda05/L/KK
+ O3My5qfozIarJb1LLCwkOoOD/IjsOgF6AAGcWrhvZDLBDDQvikJlUdn9GhPUMLUXS6Ze
+ gSIw==
+X-Gm-Message-State: AOAM5339DkKgSPpXJ6Wik4joXh769EfXhfPitn/ZzA7tO3IgYvPtFp04
+ LzJTzNIgxpiUWjtcjoed77xncw==
+X-Google-Smtp-Source: ABdhPJxbgb/v4oiOP9atPl4Tt15dh0St0SA5+NMJuRbTu+O/235DJuGS9WiGJ8u4tLEQvmZn18nxog==
+X-Received: by 2002:a17:906:9755:b0:6df:c781:9040 with SMTP id
+ o21-20020a170906975500b006dfc7819040mr12607344ejy.764.1647869953985; 
+ Mon, 21 Mar 2022 06:39:13 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ hq15-20020a1709073f0f00b006dfc0fe42b1sm3884113ejc.177.2022.03.21.06.39.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Mar 2022 06:39:13 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E74C21FFB7;
+ Mon, 21 Mar 2022 13:39:11 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] gitlab: disable accelerated zlib for s390x
+Date: Mon, 21 Mar 2022 13:39:05 +0000
+Message-Id: <20220321133905.3278054-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20220318203655.676907-2-jsnow@redhat.com>
-User-Agent: NeoMutt/20211029-454-6adf99
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,24 +90,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 18, 2022 at 04:36:41PM -0400, John Snow wrote:
-> This makes these callsites a little simpler, but the real motivation is
-> a forthcoming commit will change the return type of qemu_io(), so removing
-> users of the return value now is helpful.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
+Apparently this causes problems with migration.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+---
+ .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+index 0333872113..4f292a8a5b 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+@@ -8,6 +8,8 @@ ubuntu-20.04-s390x-all-linux-static:
+  tags:
+  - ubuntu_20.04
+  - s390x
++ variables:
++    DFLTCC: 0
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+  - if: "$S390X_RUNNER_AVAILABLE"
+@@ -27,6 +29,8 @@ ubuntu-20.04-s390x-all:
+  tags:
+  - ubuntu_20.04
+  - s390x
++ variables:
++    DFLTCC: 0
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+  - if: "$S390X_RUNNER_AVAILABLE"
+@@ -43,6 +47,8 @@ ubuntu-20.04-s390x-alldbg:
+  tags:
+  - ubuntu_20.04
+  - s390x
++ variables:
++    DFLTCC: 0
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+    when: manual
+@@ -64,6 +70,8 @@ ubuntu-20.04-s390x-clang:
+  tags:
+  - ubuntu_20.04
+  - s390x
++ variables:
++    DFLTCC: 0
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+    when: manual
+@@ -84,6 +92,8 @@ ubuntu-20.04-s390x-tci:
+  tags:
+  - ubuntu_20.04
+  - s390x
++ variables:
++    DFLTCC: 0
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+    when: manual
+@@ -103,6 +113,8 @@ ubuntu-20.04-s390x-notcg:
+  tags:
+  - ubuntu_20.04
+  - s390x
++ variables:
++    DFLTCC: 0
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+    when: manual
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.30.2
 
 
