@@ -2,79 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702644E274B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:14:21 +0100 (CET)
-Received: from localhost ([::1]:39488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D714E2762
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:20:16 +0100 (CET)
+Received: from localhost ([::1]:46474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWHrY-00040D-Ap
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:14:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32914)
+	id 1nWHxF-0000dH-TB
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:20:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1nWHp9-0002ea-1a
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:11:52 -0400
-Received: from [2a00:1450:4864:20::631] (port=40584
- helo=mail-ej1-x631.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1nWHp7-0005CP-Hv
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:11:50 -0400
-Received: by mail-ej1-x631.google.com with SMTP id p15so29722916ejc.7
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 06:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rw3BvSzLUICVSKRTUElxsDTnLrG1TOeRBBtMoBza3Yg=;
- b=bKQUeA6mYXz0l+xEHkMkvMuWgGootA2mBL27tHnINhbWcACMrCteXGe9zJIfVW4i1k
- Sk3TdSMVaN1nSNL7mT4oB8jZJ689oAtBQUQZ2sMzNkGLk5UVCnl/lrvuQZqD5fNKVotM
- B4LDfsQl+KRCUm67gQn5YJE/Nww74RB4XaASiwYPAQQ4xj9v/gDVvperjR6XhCagksHb
- NBe63XY3x/TXCjOBLNs/KFkgJ53+DluMWy5Xl+Dq4Uv2M351IlbYbM8LBx6+osYqfuF1
- bz1sPFYLBJy8Zhl8/XAg8uV/aswM0YsBY0h8hR+chbVXPWXMCZgOvqGv9AsS4n0hew5T
- Go9w==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWHrr-0005cZ-FN
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:14:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWHro-0005Xa-1I
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:14:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647868475;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I5pyeqNRf21N8nMBaUv0wY7hh9F2ICcYZzvLJlfU6iM=;
+ b=bCA/QaTjesOIapHerLgs8pwsClo4Z/CUF2mqL5qwcMER9DAH16eqHbi3uUytBOhiVmwuGe
+ TC/QhlzWcBhyXlwLKO/CSgRWs3NGxihUYWvj9OOGTOan2hbnZ8zXnlv7N5IGvj80ydgz6F
+ 1vVeQP2i/n3M6qbs4UL8Vkv/ee98CQI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-75-Nab3X4tzMAuxyodBImszAA-1; Mon, 21 Mar 2022 09:14:32 -0400
+X-MC-Unique: Nab3X4tzMAuxyodBImszAA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ s7-20020a508dc7000000b0040f29ccd65aso8611882edh.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 06:14:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rw3BvSzLUICVSKRTUElxsDTnLrG1TOeRBBtMoBza3Yg=;
- b=pH8ac/bJCll8ac7Pxipl6DeAUyFHKdf1i8hM6QknWCiyjhp53jgT+518rK9HAJ1ShD
- kIymln6mPNydpA2UvOwC0AFiVj1hkwnyoBEjpVUNTdVYojfSEQ2g1QktHL1lL7dFdDNM
- +OFZ2LAnJB8oG8OBneiJhNPRX7dLANrbD8Y1yan5TO/jAmjacMO8l4I7echLQibX4r1K
- Z2smlE6zR67MntM9npkZgOfL1HPP+Fk6CrkN2ajX4IXiCXqpmWwlnsATc1YmiTWx8MV4
- 7i9AfnkFrO/kPoNh06ngacy8SkixHRL1Pu575rFY+/jT7jH3Etr+6/1Uc7Pv7na8hQKF
- gwKA==
-X-Gm-Message-State: AOAM533QtGaBJEJtRVLnz/vHlTzAQQ/t4HhpGb9iHWvZHxGY4Hm4GVPD
- 5PHNuEjh/O2nljEMgIGG0H4/PvS7VgM=
-X-Google-Smtp-Source: ABdhPJwGGM/mlQly+AjdwPfJypCKe9cTLgSwzFsk/9+lgCZuJyW0dHWHuxEKYV0FpaiNW3Bxw2Om2A==
-X-Received: by 2002:a17:906:6a08:b0:6df:d511:3760 with SMTP id
- qw8-20020a1709066a0800b006dfd5113760mr10507072ejc.682.1647868307308; 
- Mon, 21 Mar 2022 06:11:47 -0700 (PDT)
-Received: from localhost.localdomain ([5.29.20.198])
+ bh=I5pyeqNRf21N8nMBaUv0wY7hh9F2ICcYZzvLJlfU6iM=;
+ b=GQ0+GsSr3EfW1FXXEM6+W+cT3o9jp6CXFFUXEP8DPeaU5q3ua8L4mL4xpe94Xd44EU
+ vQ/JwbKp6Q0V2cNomJcSJmd0dgYs4ObDITM5YyT5ub4xpEmB1b+eJAplOddlX7rwlzeo
+ MzsGYyL7klnSokOF/YbyO4U8jZKqIdXsKvjxmTxNwXXpJpEnUSbSiCL4G5IbGIT2nMEb
+ puokY+VRVH7dhCQEE6gqupN+RVtIAk32PoyTMtQZjkNFyPtNTdzRMrb8W5KQjUC8ZPDx
+ YYEvaz9qie7+g4Te6Ji1qZuLCUyuhDcJUg4RO9ucxkHb13Ur1ugUHsnu9tkAm6PLLXns
+ tRiw==
+X-Gm-Message-State: AOAM530NX6E9/efPT/P/ZWSiv3Rng8QcDv1iiuJGSPQmw9/UYdHJLOv9
+ 52nD9Pchy2o3tm9QhUeCDSJvcPSjkxwzY+1BC2Tmux8itjHKZOmGxnGhA8E6MeWJs3vvArUGac7
+ FipxzTx3ZaBCDeWE=
+X-Received: by 2002:a17:907:9811:b0:6df:f50e:47a0 with SMTP id
+ ji17-20020a170907981100b006dff50e47a0mr8016895ejc.124.1647868471654; 
+ Mon, 21 Mar 2022 06:14:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrzm+02Mv1L0o8MkKp2lWfDne7s/9jGf5FBV0PDpdUBnVpNbOQHlD/yfS2uvlIp9fFD/y+0Q==
+X-Received: by 2002:a17:907:9811:b0:6df:f50e:47a0 with SMTP id
+ ji17-20020a170907981100b006dff50e47a0mr8016880ejc.124.1647868471455; 
+ Mon, 21 Mar 2022 06:14:31 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
  by smtp.gmail.com with ESMTPSA id
- l2-20020aa7cac2000000b003f9b3ac68d6sm7888359edt.15.2022.03.21.06.11.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 06:11:47 -0700 (PDT)
-From: Yuval Shaia <yuval.shaia.ml@gmail.com>
-To: qemu-devel@nongnu.org, yuval.shaia.ml@gmail.com,
- marcel.apfelbaum@gmail.com, mcascell@redhat.com, wxhusst@gmail.com
-Subject: [PATCH] hw/pvrdma: Protect against buggy or malicious guest driver
-Date: Mon, 21 Mar 2022 15:11:43 +0200
-Message-Id: <20220321131143.31210-1-yuval.shaia.ml@gmail.com>
-X-Mailer: git-send-email 2.20.1
+ v2-20020a509d02000000b00412d53177a6sm7925205ede.20.2022.03.21.06.14.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Mar 2022 06:14:31 -0700 (PDT)
+Message-ID: <96332ab4-c4fb-75c3-d865-4fe3d2588325@redhat.com>
+Date: Mon, 21 Mar 2022 14:14:30 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 00/18] iotests: add enhanced debugging info to qemu-img
+ failures
+To: John Snow <jsnow@redhat.com>
+References: <20220317234937.569525-1-jsnow@redhat.com>
+ <73e7fc10-e843-68fd-ebe3-e7916c891c34@redhat.com>
+ <CAFn=p-bffj3CK9o2haN-3PDRQvyMcdnMRJ0fKpqAFifYq_L63A@mail.gmail.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <CAFn=p-bffj3CK9o2haN-3PDRQvyMcdnMRJ0fKpqAFifYq_L63A@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=yuval.shaia.ml@gmail.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,71 +105,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Guest driver might execute HW commands when shared buffers are not yet
-allocated.
-This might happen on purpose (malicious guest) or because some other
-guest/host address mapping.
-We need to protect againts such case.
+On 18.03.22 22:14, John Snow wrote:
+> On Fri, Mar 18, 2022 at 9:36 AM Hanna Reitz <hreitz@redhat.com> wrote:
+>> On 18.03.22 00:49, John Snow wrote:
+>>> Hiya!
+>>>
+>>> This series effectively replaces qemu_img_pipe_and_status() with a
+>>> rewritten function named qemu_img() that raises an exception on non-zero
+>>> return code by default. By the end of the series, every last invocation
+>>> of the qemu-img binary ultimately goes through qemu_img().
+>>>
+>>> The exception that this function raises includes stdout/stderr output
+>>> when the traceback is printed in a a little decorated text box so that
+>>> it stands out from the jargony Python traceback readout.
+>>>
+>>> (You can test what this looks like for yourself, or at least you could,
+>>> by disabling ztsd support and then running qcow2 iotest 065.)
+>>>
+>>> Negative tests are still possible in two ways:
+>>>
+>>> - Passing check=False to qemu_img, qemu_img_log, or img_info_log
+>>> - Catching and handling the CalledProcessError exception at the callsite.
+>> Thanks!  Applied to my block branch:
+>>
+>> https://gitlab.com/hreitz/qemu/-/commits/block
+>>
+>> Hanna
+>>
+> Actually, hold it -- this looks like it is causing problems with the
+> Gitlab CI. I need to investigate these.
+> https://gitlab.com/jsnow/qemu/-/pipelines/495155073/failures
+>
+> ... and, ugh, naturally the nice error diagnostics are suppressed here
+> so I can't see them. Well, there's one more thing to try and fix
+> somehow.
 
-Reported-by: Mauro Matteo Cascella <mcascell@redhat.com>
-Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
----
- hw/rdma/vmw/pvrdma_cmd.c  | 6 ++++++
- hw/rdma/vmw/pvrdma_main.c | 9 +++++----
- 2 files changed, 11 insertions(+), 4 deletions(-)
+I hope this patch by Thomas fixes the logging at least:
 
-diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
-index da7ddfa548..89db963c46 100644
---- a/hw/rdma/vmw/pvrdma_cmd.c
-+++ b/hw/rdma/vmw/pvrdma_cmd.c
-@@ -796,6 +796,12 @@ int pvrdma_exec_cmd(PVRDMADev *dev)
- 
-     dsr_info = &dev->dsr_info;
- 
-+    if (!dsr_info->dsr) {
-+            /* Buggy or malicious guest driver */
-+            rdma_error_report("Exec command without dsr, req or rsp buffers");
-+            goto out;
-+    }
-+
-     if (dsr_info->req->hdr.cmd >= sizeof(cmd_handlers) /
-                       sizeof(struct cmd_handler)) {
-         rdma_error_report("Unsupported command");
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 91206dbb8e..aae382af59 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -159,13 +159,13 @@ static void free_dsr(PVRDMADev *dev)
-     free_dev_ring(pci_dev, &dev->dsr_info.cq, dev->dsr_info.cq_ring_state);
- 
-     rdma_pci_dma_unmap(pci_dev, dev->dsr_info.req,
--                         sizeof(union pvrdma_cmd_req));
-+                       sizeof(union pvrdma_cmd_req));
- 
-     rdma_pci_dma_unmap(pci_dev, dev->dsr_info.rsp,
--                         sizeof(union pvrdma_cmd_resp));
-+                       sizeof(union pvrdma_cmd_resp));
- 
-     rdma_pci_dma_unmap(pci_dev, dev->dsr_info.dsr,
--                         sizeof(struct pvrdma_device_shared_region));
-+                       sizeof(struct pvrdma_device_shared_region));
- 
-     dev->dsr_info.dsr = NULL;
- }
-@@ -249,7 +249,8 @@ static void init_dsr_dev_caps(PVRDMADev *dev)
- {
-     struct pvrdma_device_shared_region *dsr;
- 
--    if (dev->dsr_info.dsr == NULL) {
-+    if (!dev->dsr_info.dsr) {
-+        /* Buggy or malicious guest driver */
-         rdma_error_report("Can't initialized DSR");
-         return;
-     }
--- 
-2.20.1
+https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg02946.html
+
+Let’s see.
+
+Hanna
 
 
