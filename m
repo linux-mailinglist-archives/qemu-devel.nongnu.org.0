@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92294E2DB6
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:19:34 +0100 (CET)
-Received: from localhost ([::1]:36422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 938D64E2DCD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:24:18 +0100 (CET)
+Received: from localhost ([::1]:45048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWKkn-00044Z-OZ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:19:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57244)
+	id 1nWKpN-0001nL-44
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:24:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWKhs-0001p5-6E
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:16:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55355)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWKm7-0007RZ-PO
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:20:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWKhq-0000Q7-L3
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:16:31 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWKm5-0003c3-J9
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:20:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647879389;
+ s=mimecast20190719; t=1647879652;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QsVcX2L7+9faR3P5XHdEyXMGTlUzZt2iMvML0nhHw+c=;
- b=GooiT7gEkWfNFYAB0sgj+b/H68EMOrdMbuafn8nUiN5j5our57e6qaAYIsfusaVqqtRIjs
- M2Ysyqf/KXj4fzZQG0/X+IUUUJTMMTf7INQyP+c0bIwY6xo2IthdzM33jF+BCS5Kc3qn6n
- 0+quM1B0yj2OINBsu649c3HJ2w22TuU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DV80UT0zkm1u+vklCus3q/t03wpQeiegUDJUpHtc7XQ=;
+ b=Lr8uxCsltnjQ8Sl2O2jSPHBceU3pfqEEK/DXOphBONUBF0RYKQtEptWJNm2jPA5Ox215jr
+ 6YeY5Ls6tI5CZ/CVDuvrdcBfLivzI2XlFeeQYsGEL6TJsITt8O8433GTwlbED9fadYuYW0
+ Gm8wLS4jDkgzopqZYGx26NJLZLZQASM=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-374-ElwBrNThOAKRYPD0KdGBig-1; Mon, 21 Mar 2022 12:16:28 -0400
-X-MC-Unique: ElwBrNThOAKRYPD0KdGBig-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 88-20020adf8161000000b0020410a1bd93so604736wrm.0
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:16:28 -0700 (PDT)
+ us-mta-441-eKCLBoD8MjKx1aZ1BXfalw-1; Mon, 21 Mar 2022 12:20:51 -0400
+X-MC-Unique: eKCLBoD8MjKx1aZ1BXfalw-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ n7-20020a0561020a8700b00322bc971ed4so1417102vsg.15
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:20:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=QsVcX2L7+9faR3P5XHdEyXMGTlUzZt2iMvML0nhHw+c=;
- b=swEjQWaC6EO926aw70pp4/+e7aDKmAt4BcCKCzwLoI5q8pt08uP3E+GbjKJPCdqiam
- X0bgCLHEvSxEkSBfWMOJwd/msht0/pxjxJJmtMvPQbA9jnshkIKg62dullTq0dzcnbx0
- IfoYfS5na+74YVG+bAe9zcWC3djAOc6pZJvhF/B2g28kQe3NpZsj60q5oSKgHjYOwt/X
- i2bvqDtXlTxJNIwHNr0dsVc6H9j4onwMaCZIevRSUqMq56OLHWN9S8S4wK/LmXi8tWNf
- ZX6us+RLyvOxONOq25teDGR0lNfWzXRtUMCqAxa/cTC8djWik0yW8bFRVNEqdtsxOz0K
- ZKKQ==
-X-Gm-Message-State: AOAM532reXo4JjrKuwVYC/Z2fjiOjNj0Mdy+0wvDzdws38QGHoBXv4ec
- pWTuiNrA3klOZ5WiCnf2AMF/J7np+D1mVjAV4oBOnAElrxldUu2qIKCsk5i19Etz5khmaiqIwRD
- d6FBEvv52R4/MWIM=
-X-Received: by 2002:a05:600c:4e8b:b0:38c:90cf:1158 with SMTP id
- f11-20020a05600c4e8b00b0038c90cf1158mr12665593wmq.107.1647879387317; 
- Mon, 21 Mar 2022 09:16:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyeFJCuV10A4eh6a5EddJQAfzYVGAKnMjLwlSH0rSmOe1waxPr3H0PlVtfcl8nu5r/ngTqrLw==
-X-Received: by 2002:a05:600c:4e8b:b0:38c:90cf:1158 with SMTP id
- f11-20020a05600c4e8b00b0038c90cf1158mr12665563wmq.107.1647879387013; 
- Mon, 21 Mar 2022 09:16:27 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
- [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
- f8-20020a5d6648000000b00203e64e3637sm11637140wrw.89.2022.03.21.09.16.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 09:16:26 -0700 (PDT)
-Message-ID: <262a80f9-88d5-c831-a299-a77f7f500958@redhat.com>
-Date: Mon, 21 Mar 2022 17:16:24 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DV80UT0zkm1u+vklCus3q/t03wpQeiegUDJUpHtc7XQ=;
+ b=RKeGJvR3bwqHWVzRrWAQKsnssuq/zCrRJlhnIRBeOnPwzaMmZ30tLa6uJII2XCIMjo
+ wsLwma/L8QwHuJeIdcmam+tCN4Of7Zls/UcpuLspq2FwsdIhRf8KagllueGLQYu3uLGx
+ c/Ynh/gfQPBMAHuKoGO+BguVDhTrqVhtY9TFbirQD/MHSdR7v57DdWNjr8CItVvOuQL8
+ AABaPB4zCAMxyH9HHuEvCzJ5t8wXGRfrZkF+Jcdi8YQ+OndD1DxXVRd8dphvP/zjG1Nf
+ xWzPpI7ijMOVEv3YgJHSYtmbYxP+v4dXpp6CvKIt8H2eOmheVfDUm9aSynYwLR29nECh
+ mbFA==
+X-Gm-Message-State: AOAM531oqteXx0WfFfEBs5wUi3nFV90jvRsQiY7YeDPcLyUUQ1TCKqa0
+ NaZPtm+UIDxyEHmyQ5zTu/21FiWS9G3HrMvnseZsFcxE2D4xcg6f0ZECqa0IN8wXQnjje0/FBt7
+ +kDWjp8Dv2cXxX9yggB6IBiVpLdJYPGU=
+X-Received: by 2002:a05:6122:992:b0:33f:2253:436 with SMTP id
+ g18-20020a056122099200b0033f22530436mr1769786vkd.3.1647879650291; 
+ Mon, 21 Mar 2022 09:20:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZuZs0lhkS4XXku8sMSwMCBuUrapKWTGsoKObxofsglUb8PhFEW/oObhVNxlAisGwzAYl0aZCte6xseCLai2I=
+X-Received: by 2002:a05:6122:992:b0:33f:2253:436 with SMTP id
+ g18-20020a056122099200b0033f22530436mr1769771vkd.3.1647879650019; Mon, 21 Mar
+ 2022 09:20:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2] gitlab: disable accelerated zlib for s390x
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20220321161151.3654386-1-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220321161151.3654386-1-alex.bennee@linaro.org>
+References: <20220318203655.676907-1-jsnow@redhat.com>
+ <20220318203655.676907-6-jsnow@redhat.com>
+ <20220321151307.mvf4zob2sr4fqobq@redhat.com>
+In-Reply-To: <20220321151307.mvf4zob2sr4fqobq@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 21 Mar 2022 12:20:40 -0400
+Message-ID: <CAFn=p-b4nzc0RGBfs84wxKXDis4gczmxodoutAfPQ8sr34h9eQ@mail.gmail.com>
+Subject: Re: [PATCH 05/15] iotests: create generic qemu_tool() function
+To: Eric Blake <eblake@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: multipart/alternative; boundary="0000000000002c20a505dabce145"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,129 +92,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/03/2022 17.11, Alex Bennée wrote:
-> There appears to be a bug in the s390 hardware-accelerated version of
-> zlib distributed with Ubuntu 20.04, which makes our test
-> /i386/migration/multifd/tcp/zlib hit an assertion perhaps one time in
-> 10. Fortunately zlib provides an escape hatch where we can disable the
-> hardware-acceleration entirely by setting the environment variable
-> DFLTCC to 0. Do this on all our CI which runs on s390 hosts, both our
-> custom gitlab runner and also the Travis hosts.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> 
-> ---
-> v2
->    - more complete commit wording from Peter
->    - also tweak travis rules
-> ---
->   .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 12 ++++++++++++
->   .travis.yml                                        |  6 ++++--
->   2 files changed, 16 insertions(+), 2 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-> index 0333872113..4f292a8a5b 100644
-> --- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-> +++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-> @@ -8,6 +8,8 @@ ubuntu-20.04-s390x-all-linux-static:
->    tags:
->    - ubuntu_20.04
->    - s390x
-> + variables:
-> +    DFLTCC: 0
->    rules:
->    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
->    - if: "$S390X_RUNNER_AVAILABLE"
-> @@ -27,6 +29,8 @@ ubuntu-20.04-s390x-all:
->    tags:
->    - ubuntu_20.04
->    - s390x
-> + variables:
-> +    DFLTCC: 0
->    rules:
->    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
->    - if: "$S390X_RUNNER_AVAILABLE"
-> @@ -43,6 +47,8 @@ ubuntu-20.04-s390x-alldbg:
->    tags:
->    - ubuntu_20.04
->    - s390x
-> + variables:
-> +    DFLTCC: 0
->    rules:
->    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
->      when: manual
-> @@ -64,6 +70,8 @@ ubuntu-20.04-s390x-clang:
->    tags:
->    - ubuntu_20.04
->    - s390x
-> + variables:
-> +    DFLTCC: 0
->    rules:
->    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
->      when: manual
-> @@ -84,6 +92,8 @@ ubuntu-20.04-s390x-tci:
->    tags:
->    - ubuntu_20.04
->    - s390x
-> + variables:
-> +    DFLTCC: 0
->    rules:
->    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
->      when: manual
-> @@ -103,6 +113,8 @@ ubuntu-20.04-s390x-notcg:
->    tags:
->    - ubuntu_20.04
->    - s390x
-> + variables:
-> +    DFLTCC: 0
->    rules:
->    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
->      when: manual
-> diff --git a/.travis.yml b/.travis.yml
-> index c3c8048842..9afc4a54b8 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -218,6 +218,7 @@ jobs:
->           - TEST_CMD="make check check-tcg V=1"
->           - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
->           - UNRELIABLE=true
-> +        - DFLTCC=0
->         script:
->           - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
->           - |
-> @@ -257,7 +258,7 @@ jobs:
->         env:
->           - CONFIG="--disable-containers --audio-drv-list=sdl --disable-user
->                     --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
-> -
-> +        - DFLTCC=0
->       - name: "[s390x] GCC (user)"
->         arch: s390x
->         dist: focal
-> @@ -269,7 +270,7 @@ jobs:
->             - ninja-build
->         env:
->           - CONFIG="--disable-containers --disable-system"
-> -
-> +        - DFLTCC=0
->       - name: "[s390x] Clang (disable-tcg)"
->         arch: s390x
->         dist: focal
-> @@ -303,3 +304,4 @@ jobs:
->           - CONFIG="--disable-containers --disable-tcg --enable-kvm
->                     --disable-tools --host-cc=clang --cxx=clang++"
->           - UNRELIABLE=true
-> +        - DFLTCC=0
+--0000000000002c20a505dabce145
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+On Mon, Mar 21, 2022, 11:13 AM Eric Blake <eblake@redhat.com> wrote:
+
+> On Fri, Mar 18, 2022 at 04:36:45PM -0400, John Snow wrote:
+> > reimplement qemu_img() in terms of qemu_tool() in preparation for doing
+> > the same with qemu_io().
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  tests/qemu-iotests/iotests.py | 37 +++++++++++++++++++++++------------
+> >  1 file changed, 24 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/tests/qemu-iotests/iotests.py
+> b/tests/qemu-iotests/iotests.py
+> > index 6cd8374c81..974a2b0c8d 100644
+> > --- a/tests/qemu-iotests/iotests.py
+> > +++ b/tests/qemu-iotests/iotests.py
+> > @@ -207,15 +207,13 @@ def qemu_img_create_prepare_args(args: List[str])
+> -> List[str]:
+> >
+> >      return result
+> >
+> > -def qemu_img(*args: str, check: bool =3D True, combine_stdio: bool =3D=
+ True
+> > +
+> > +def qemu_tool(*args: str, check: bool =3D True, combine_stdio: bool =
+=3D True
+> >               ) -> subprocess.CompletedProcess[str]:
+>
+> Does this line need reindentation?
+>
+
+Huh, I'll check. Maybe I fixed this by accident in a later patch and didn't
+notice. Or maybe git diff is playing tricks on me.
+
+
+> > @@ -227,14 +225,13 @@ def qemu_img(*args: str, check: bool =3D True,
+> combine_stdio: bool =3D True
+> >          handled, the command-line, return code, and all console output
+> >          will be included at the bottom of the stack trace.
+> >
+> > -    :return: a CompletedProcess. This object has args, returncode, and
+> > -        stdout properties. If streams are not combined, it will also
+> > -        have a stderr property.
+> > +    :return:
+> > +        A CompletedProcess. This object has args, returncode, and stdo=
+ut
+> > +        properties. If streams are not combined, it will also have a
+> > +        stderr property.
+>
+> Should this reflow be squashed in some earlier patch?
+>
+
+Aw, you caught me. =F0=9F=98=85
+
+I need to respin the qemu-img stuff anyway due to CI failures, so I can fix
+it where it appears first.
+
+(When I wrote this, I didn't realize that the qemu-img series was failing
+CI yet.)
+
+
+> As those are both cosemetic only,
+>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+>
+> --
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3266
+> Virtualization:  qemu.org | libvirt.org
+>
+>
+
+--0000000000002c20a505dabce145
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Mon, Mar 21, 2022, 11:13 AM Eric Blake &lt;<a href=
+=3D"mailto:eblake@redhat.com">eblake@redhat.com</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex">On Fri, Mar 18, 2022 at 04:36:45PM -0400, John =
+Snow wrote:<br>
+&gt; reimplement qemu_img() in terms of qemu_tool() in preparation for doin=
+g<br>
+&gt; the same with qemu_io().<br>
+&gt; <br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 tests/qemu-iotests/iotests.py | 37 +++++++++++++++++++++++------=
+------<br>
+&gt;=C2=A0 1 file changed, 24 insertions(+), 13 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotest=
+s.py<br>
+&gt; index 6cd8374c81..974a2b0c8d 100644<br>
+&gt; --- a/tests/qemu-iotests/iotests.py<br>
+&gt; +++ b/tests/qemu-iotests/iotests.py<br>
+&gt; @@ -207,15 +207,13 @@ def qemu_img_create_prepare_args(args: List[str]=
+) -&gt; List[str]:<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return result<br>
+&gt;=C2=A0 <br>
+&gt; -def qemu_img(*args: str, check: bool =3D True, combine_stdio: bool =
+=3D True<br>
+&gt; +<br>
+&gt; +def qemu_tool(*args: str, check: bool =3D True, combine_stdio: bool =
+=3D True<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0) -&gt; subproce=
+ss.CompletedProcess[str]:<br>
+<br>
+Does this line need reindentation?<br></blockquote></div></div><div dir=3D"=
+auto"><br></div><div dir=3D"auto">Huh, I&#39;ll check. Maybe I fixed this b=
+y accident in a later patch and didn&#39;t notice. Or maybe git diff is pla=
+ying tricks on me.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div =
+class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+&gt; @@ -227,14 +225,13 @@ def qemu_img(*args: str, check: bool =3D True, c=
+ombine_stdio: bool =3D True<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 handled, the command-line, return co=
+de, and all console output<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 will be included at the bottom of th=
+e stack trace.<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 :return: a CompletedProcess. This object has args, retu=
+rncode, and<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 stdout properties. If streams are not com=
+bined, it will also<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 have a stderr property.<br>
+&gt; +=C2=A0 =C2=A0 :return:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 A CompletedProcess. This object has args,=
+ returncode, and stdout<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 properties. If streams are not combined, =
+it will also have a<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 stderr property.<br>
+<br>
+Should this reflow be squashed in some earlier patch?<br></blockquote></div=
+></div><div dir=3D"auto"><br></div><div dir=3D"auto">Aw, you caught me. =F0=
+=9F=98=85</div><div dir=3D"auto"><br></div><div dir=3D"auto">I need to resp=
+in the qemu-img stuff anyway due to CI failures, so I can fix it where it a=
+ppears first.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(When I wr=
+ote this, I didn&#39;t realize that the qemu-img series was failing CI yet.=
+)</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_qu=
+ote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">
+<br>
+As those are both cosemetic only,<br>
+<br>
+Reviewed-by: Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com" target=3D"=
+_blank" rel=3D"noreferrer">eblake@redhat.com</a>&gt;<br>
+<br>
+-- <br>
+Eric Blake, Principal Software Engineer<br>
+Red Hat, Inc.=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+1-919-301-3266<br>
+Virtualization:=C2=A0 <a href=3D"http://qemu.org" rel=3D"noreferrer norefer=
+rer" target=3D"_blank">qemu.org</a> | <a href=3D"http://libvirt.org" rel=3D=
+"noreferrer noreferrer" target=3D"_blank">libvirt.org</a><br>
+<br>
+</blockquote></div></div></div>
+
+--0000000000002c20a505dabce145--
 
 
