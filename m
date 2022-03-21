@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 043104E3200
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 21:46:59 +0100 (CET)
-Received: from localhost ([::1]:46352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1FD4E3205
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 21:48:31 +0100 (CET)
+Received: from localhost ([::1]:49244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWOva-0003ko-Jt
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 16:46:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39192)
+	id 1nWOx4-0005qx-S8
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 16:48:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWOtE-0002iK-LY
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 16:44:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24961)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWOtC-00006q-9J
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 16:44:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647895469;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zYOtubC+7E3DKPhMm+tljMhQH47bVACfa6wmSiSmKSE=;
- b=hr0XVYfc8KMln4r8lF9SwNnCmYg6f4HGJfBlWhs0AIyCaA2vsHaf/y14fzvv/+OjRzggAs
- CaUPMd9DAPpLxVUDhsTIsTUQPeFx5LC4z2+YEWjwIcxS67XrcYmklK4zc8xpa6NjMEuEkc
- ydeO05fg+Z7GnBfpaE4WmE3P6rMO8pA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-29-p6HpPuw6N129Nk2is56-DA-1; Mon, 21 Mar 2022 16:44:26 -0400
-X-MC-Unique: p6HpPuw6N129Nk2is56-DA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A8448038E3;
- Mon, 21 Mar 2022 20:44:25 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DEA540C1241;
- Mon, 21 Mar 2022 20:44:25 +0000 (UTC)
-Date: Mon, 21 Mar 2022 15:44:23 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-Subject: Re: [PATCH v2] MAINTAINERS: change Vladimir's email address
-Message-ID: <20220321204423.2ggfljmv7ay33pmw@redhat.com>
-References: <20220316092702.426629-1-v.sementsov-og@mail.ru>
- <20220316213620.yrc6fvskjqabogoi@redhat.com>
- <3e0a174c-71e1-2308-855e-0cc9102a8ee0@mail.ru>
- <20220321201251.ohhzthftzmijihf2@redhat.com>
- <a788ef1d-45e8-85ef-583b-227710351f3f@mail.ru>
-MIME-Version: 1.0
-In-Reply-To: <a788ef1d-45e8-85ef-583b-227710351f3f@mail.ru>
-User-Agent: NeoMutt/20211029-454-6adf99
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1nWOvk-0004QW-9w
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 16:47:08 -0400
+Received: from [2607:f8b0:4864:20::62a] (port=40496
+ helo=mail-pl1-x62a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1nWOvg-0000j0-Kj
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 16:47:07 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id x2so236466plm.7
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 13:47:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XTvfFoaUn8XK6PQpLG8EqnovNtzBLW3XDaOJlTvkkSk=;
+ b=2hX/uJkY8wNwCIK7IXOjtbx7OH+fGW4zThf4/yw/W1X7j65tk7epq8kFpiWktkaXjY
+ JtYXSI52ejeNGNK6T61ZksjFQiHnZY4yBi5uHg2307r7QEAiDntqWdkEdnA/qTHtqSG8
+ jpws6MS2nlCS75gUhHDMokSH1pz9kp5w2kSKK6o/WhNnVREARc8DuHZ/srxo9a2O1TKM
+ bnSZCzsNHl/WKKsxiX8UrMNWJM0gyFgPdmfLLJD5Zd4ced0HW6jHd5utCPO71AdpdXj5
+ 4b9pvIAUGZWxgrGt7VEBVyL8Tlr8mgh4cLb0Bl13XUw25UTTzoMT/RuAPUQesC1JS3Fc
+ HclA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=XTvfFoaUn8XK6PQpLG8EqnovNtzBLW3XDaOJlTvkkSk=;
+ b=5xKo7OEdzINGI00v9DBjY7juWzYnMhX3VnC82G6Wx4AJAWDieBFL8jxPgEVBqi5wW0
+ VLHkWwHAy31FuYAe4s/Ta+f2wrWBklRY/W7M0HexhiUTQg5HmDsX5fbjlAtHCPC0HI5R
+ atkD4vPOIt9QQe8HDNOzLd0GB08MFu/H9a04xXldPuV8qnBR+OqNxk9mPZg66np+zDVC
+ 1I16yrvR6FarAkI9/PKUyhz35HXLwud3aIQ+VyHfeUh7ouEsKIC8SrmJZZpfr7kl6Qtc
+ gKJ44HRLuny8BMd7d+gRW7EXawDRv0nlOOOzuZbvmJumj/6Pa8l0tCUvXm+JERTQ/4Dx
+ /RpA==
+X-Gm-Message-State: AOAM533kwucDaLba6vmG4clklvFYQvfFdfV83b/1+tXih/OXhxlTKq2x
+ QSLOcN0KWSgqwl4eOwG7H2mllw==
+X-Google-Smtp-Source: ABdhPJx1kG1Df7QN8ejmoK60t+I+2O2vYqYJ7ykLeVcjAxoE9p5r4GSSAkdAtmqLy0s1bXaxWxr7Mw==
+X-Received: by 2002:a17:902:f70d:b0:14f:a1e1:b9b3 with SMTP id
+ h13-20020a170902f70d00b0014fa1e1b9b3mr14863116plo.36.1647895621491; 
+ Mon, 21 Mar 2022 13:47:01 -0700 (PDT)
+Received: from localhost ([12.3.194.138]) by smtp.gmail.com with ESMTPSA id
+ t26-20020a056a00139a00b004faa13ba384sm5263538pfg.162.2022.03.21.13.47.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Mar 2022 13:47:01 -0700 (PDT)
+Date: Mon, 21 Mar 2022 13:47:01 -0700 (PDT)
+X-Google-Original-Date: Mon, 21 Mar 2022 13:46:59 PDT (-0700)
+Subject: Re: [EXT] Re: QEMU+KVM on RISC-V + Hypervisor Extension
+In-Reply-To: <CAKmqyKMGJR8M6MkL5Cer81qbCce0XmdcS8pQEkmH6X9h0SutmQ@mail.gmail.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: alistair23@gmail.com
+Message-ID: <mhng-274dfa51-81cb-47bc-b31c-1a2dd8efa543@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=palmer@dabbelt.com; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,66 +87,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: apatel@ventanamicro.com, Peter Maydell <peter.maydell@linaro.org>,
+ anup@brainfault.org, qemu-devel@nongnu.org, ralf.ramsauer@oth-regensburg.de,
+ jiangyifei@huawei.com, stefan.huber@oth-regensburg.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 21, 2022 at 11:31:18PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> 21.03.2022 23:12, Eric Blake wrote:
-> > On Thu, Mar 17, 2022 at 11:24:28AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > 17.03.2022 00:36, Eric Blake wrote:
-> > > > On Wed, Mar 16, 2022 at 12:27:02PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > > > Old vsementsov@virtuozzo.com is not accessible anymore.
-> > > > > 
-> > > > > Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-> > > > > ---
-> > > > > 
-> > > > > v2: @ya.ru mailbox works bad with mailing lists and git send-email
-> > > > > command, @mail.ru works normally.
-> > > > > 
-> > > > > Probably, I'll have to change the email again in the near future. May be
-> > > > > not. But I think it worth to change it now to something that works.
-> > > > 
-> > > > Same comment as with your attempt with @ya.ru - I'm happy to
-> > > > incorporate this through my NBD tree, but want to confirm that we had
-> > > > a round-trip conversation so that you are happy with the address
-> > > > working to your needs.
-> > > > 
-> > > 
-> > > It works)
-> > 
-> > Okay, I'm queueing this up through my NBD tree.  Do you also want to
-> > tweak .mailmap and/or contrib/gitdm/aliases?
-> > 
-> 
-> I looked them through, but didn't finally understand, how they are used, and therefore, is it really needed.
+On Sun, 20 Mar 2022 22:43:07 PDT (-0700), alistair23@gmail.com wrote:
+> On Thu, Mar 17, 2022 at 7:46 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> On Wed, 16 Mar 2022 at 22:23, Alistair Francis <alistair23@gmail.com> wrote:
+>> > Hmm... This seems like a bug. We shouldn't allow the user to specify a
+>> > `-bios` option if using KVM. Would you mind preparing a patch to catch
+>> > this?
+>>
+>> You don't want to allow the possibility of a bios blob that expects
+>> to run in S-mode, the way arm virt can run an EL1 UEFI BIOS ?
+>
+> Interesting. We could still allow that by using -device loader though.
+>
+> If we load something in S mode it really is a kernel and not firmware,
+> so I think the -bios argument is a little misleading. We could make
+> -bios and -enable-kvm a warning instead, to discourage users from
+> providing OpenSBI, but still allow them to pass something.
 
-They're both optional, so I won't hold up this patch as written.
+We could handle this in OpenSBI: have it just detect that it's been 
+launched in S-mode and just jump to the payload.
 
-Among other things, .mailmap lets 'git shortlog' and similar combine
-all commits by two different email addresses but one underlying author
-under a single group, rather than one group per email address.  It is
-most commonly used to correct spelling errors (for example, altering
-your spelling to take advantage of UTF-8 characters, or correcting an
-email sent from a username instead of a Proper Name), but does have a
-section for
+> To me not allowing it seems reasonable, and we can always re-allow it
+> in the future if there is a good use case.
 
-# Next, replace old addresses by a more recent one.
+That also seems fine to me.  There'd be a lot of work involved in doing 
+anything useful with S-mode firmware, given that things aren't really 
+designed to work that way.  Certainly a lot more work than re-enabling 
+this sort of flag, and while it might be a bit of a headache coupling 
+that to a QEMU source-level change my guess is that there'd need to be a 
+bunch of work done on new HW interfaces to make this useful so there'd 
+be QEMU changes to emulate those either way.
 
-which can be useful for someone trying to follow up to a patch's
-original author to reach that author by their now-preferred address.
+Having at least a warning seems prudent, as most users are going to end 
+up with a hang here and a silent hang is a headache for everyone.
 
-contrib/gitdm/aliases is similar, but more concerned when running
-status reports of how many commits were contributed from a given
-company vs. an individual contributor.  Here, merging a company and a
-personal address makes sense if you freely post from both accounts but
-want all your patches to be tied to your employer, and makes less
-sense if you want a clear line of delineation between patches you did
-on your own time instead of for employment.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+> Alistair
+>
+>>
+>> thanks
+>> -- PMM
 
