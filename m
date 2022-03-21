@@ -2,88 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C7D4E3075
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 20:05:39 +0100 (CET)
-Received: from localhost ([::1]:33274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 186774E3139
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 21:09:20 +0100 (CET)
+Received: from localhost ([::1]:54276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWNLW-0000OA-1f
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 15:05:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41436)
+	id 1nWOL8-0001CP-Of
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 16:09:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWNJv-0007SV-0H; Mon, 21 Mar 2022 15:03:59 -0400
-Received: from [2607:f8b0:4864:20::436] (port=36762
- helo=mail-pf1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWNJt-00019o-LP; Mon, 21 Mar 2022 15:03:58 -0400
-Received: by mail-pf1-x436.google.com with SMTP id z16so16320276pfh.3;
- Mon, 21 Mar 2022 12:03:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jOk33/bASCdPCmMYOpiDvjjtRy77ov8ojeaQVsRcMt0=;
- b=NeM0CngQ61OvKFdZXHJe9mYkq9VXaLTpxRIfjZlemPDkWrYpX23QE0BJqIgWhl7mHZ
- QUDk0J+n8Cu7oVxd8jrJrHepl7qWMotf/laIiV4q3toBO3u0JC1YvpZsvv8w9umo+lZa
- 1bE1V3+uwqIckMxUVQFFobCBQcgFUxSYPxfqKozafEzNj6tnxIENR8ogZFnYifrcNKen
- BUL43ZFMdH9FmQVATE7ewUTXEYOv1gsXBLAnWG8l2JfX2Ok9aa76DyY1vD2Ydshfqf8M
- ng1HI2yVT89KScAY4Ne1N8IMSZoHemkLW4JyTmR+lAsVXW3BR603ZAaNpCYgqAetTAMr
- 43KA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWOJa-0000Qy-LC
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 16:07:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32251)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWOJX-0000A1-AW
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 16:07:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647893254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=C69x18n+b/OPwUp5jhIlxjpBHqDKQUDoVjB/2JQK+lk=;
+ b=H3bY+a2VNzXi+lUPPZ2QvYrPnyRqdnuRzhZEQgtQ5Fz54m3aw/YZc/CBP62+ZyUSfQpFGG
+ VkqRaextQVe20MTxXdCBXzcvovrIOF3hbmeEPZwajSbxQAH3ybw7vaIedM9oMkTp9kY+29
+ BpaITdBQhaBJuFk26WVeYy4s668KvZg=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-633-anr8AevfMqGFWyc2dl23fA-1; Mon, 21 Mar 2022 16:07:28 -0400
+X-MC-Unique: anr8AevfMqGFWyc2dl23fA-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ p4-20020ab01544000000b003595f320dfeso108086uae.21
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 13:07:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jOk33/bASCdPCmMYOpiDvjjtRy77ov8ojeaQVsRcMt0=;
- b=fQ9QdBGuh4EmNZrJCDXY5DRByv+OXLO2yAchapsAbiT7P17OApwOVg7lUdLrm5dOvN
- O96BMAzt/xQ9nntd+qzfVirpqF7/7s4F8ayjTTL7eRZ5elybJtCVTESnNbi/B0hr4hv1
- yRmxhhO1xeUS5xjiNo4lDHSEhNS/qR0D7qvZZX2CU6bqHbICGZ4HjhFnPdzcCK7+KD+9
- f05iD56XBur674XOgzOt0o0AdKICNEawnYOSCFOjvflk5PODIXoBbb7L4ZU1ivLp5W9v
- HZMLXHspCJcSaD2RTPyoH3UKU6h+vO5NjqTzNmONuliRb9qk92wuO0AbWtMCBnvUTUyJ
- BX3g==
-X-Gm-Message-State: AOAM5324tU0Qab9jlO8FfyiXjVRH6zOw1x3XsO7t7pDjFgD+pOPd0tVf
- vPw/3+IhXQ6bj/fUGbSHKe8=
-X-Google-Smtp-Source: ABdhPJwL49yWUBJhlZcejznKWpn+biMnbXdKu2RA6TlG1cgnbu0b0pnSMTtrTNWgOXQXFdEucFLc9g==
-X-Received: by 2002:a63:1f55:0:b0:382:65eb:3073 with SMTP id
- q21-20020a631f55000000b0038265eb3073mr7799720pgm.624.1647889436117; 
- Mon, 21 Mar 2022 12:03:56 -0700 (PDT)
-Received: from [192.168.1.34] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- f14-20020a63380e000000b0038253c4d5casm6613027pga.36.2022.03.21.12.03.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 12:03:55 -0700 (PDT)
-Message-ID: <506c2658-425d-38cb-87a9-1fb0bdbb995a@gmail.com>
-Date: Mon, 21 Mar 2022 20:03:50 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=C69x18n+b/OPwUp5jhIlxjpBHqDKQUDoVjB/2JQK+lk=;
+ b=0cOUlq3RAOl9C8f6JbcGiKCK3pk5z97ltBcmlmIh+/7AtFnT5gTR8CyOAjBc/bwOsD
+ 1TIQLNq3yBmHQuJnULn+YJlUs27yKhRvbrCyCx+g7JhzZvXLZt7tAc1Hua2J8kgV8IlJ
+ bEsiVYB9FR2+vAlncLHcINwZbTHEHgYRjZaV39i23h9o1nnYXwPEI5huMJ+9SuXNv5Sq
+ 5BZKRxgPraZwF7dspg2g6Ig47DyPpcszs3Uayg300SkhZzJUke4b9YSt3MBxKCrhTFZx
+ SBh9LsOZ365qY66gQHR195TkWwhA/TcPkmAwTvyui9QQ3LtNXxlMYwmOv6Cj8zGeb4BV
+ 00CA==
+X-Gm-Message-State: AOAM533JZ0+d1qym0UWwBcveVU9aQtCrJyXoSCWTVNPMKlCUNPo941Na
+ zA9bBviGJL5WdvIS8kbPvLqDmo3G7eN6I+GuNOu+Duhw5U1R2Up7xJqcbbCxrqkphQOw/UlvlCA
+ jWClVgGrvupS9giYbK70kBCpbaeTsIKI=
+X-Received: by 2002:a05:6102:1592:b0:324:d1a2:5718 with SMTP id
+ g18-20020a056102159200b00324d1a25718mr7181061vsv.35.1647893247987; 
+ Mon, 21 Mar 2022 13:07:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzQaCKnPGRhjUuxEYfzdv9KqnhZrg3TCCFiygj1uwxeNxeMIAysqgav3g+caIYQjmFBxptshUKeLB2qQDBBlOs=
+X-Received: by 2002:a05:6102:1592:b0:324:d1a2:5718 with SMTP id
+ g18-20020a056102159200b00324d1a25718mr7181050vsv.35.1647893247707; Mon, 21
+ Mar 2022 13:07:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: Memory leak in via_isa_realize()
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Huacai Chen <chenhuacai@kernel.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <d60cb762-40a5-f918-02aa-463758205af5@redhat.com>
- <89a014e0-8850-e628-dea5-76999513a18e@gmail.com>
- <067ebb15-593b-4b9e-26d6-a4d98db4fd5c@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <067ebb15-593b-4b9e-26d6-a4d98db4fd5c@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220318203655.676907-1-jsnow@redhat.com>
+ <20220318203655.676907-15-jsnow@redhat.com>
+ <20220321181600.wblgnqaqhjkkf27z@redhat.com>
+In-Reply-To: <20220321181600.wblgnqaqhjkkf27z@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 21 Mar 2022 16:07:16 -0400
+Message-ID: <CAFn=p-aeNPkSMbpKmkr=HmaShMvEupo48CwpBYUUKCgVFrt-bQ@mail.gmail.com>
+Subject: Re: [PATCH 14/15] iotests: remove qemu_io_silent() and
+ qemu_io_silent_check().
+To: Eric Blake <eblake@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,47 +93,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Bernhard Beschow <shentey@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/3/22 19:55, Cédric Le Goater wrote:
-> On 3/21/22 14:04, Philippe Mathieu-Daudé wrote:
->> Cc'ing Bernhard who did a similar cleanup recently.
+On Mon, Mar 21, 2022 at 2:16 PM Eric Blake <eblake@redhat.com> wrote:
+>
+> On Fri, Mar 18, 2022 at 04:36:54PM -0400, John Snow wrote:
+> > Like qemu-img, qemu-io returning 0 should be the norm and not the
+> > exception. Remove all calls to qemu_io_silent that just assert the
+> > return code is zero (That's every last call, as it turns out), and
+> > replace them with a normal qemu_io() call.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  tests/qemu-iotests/216                        | 12 +++++-----
+> >  tests/qemu-iotests/218                        |  5 ++---
+> >  tests/qemu-iotests/224                        |  4 ++--
+> >  tests/qemu-iotests/258                        | 12 +++++-----
+> >  tests/qemu-iotests/298                        | 16 ++++++--------
+> >  tests/qemu-iotests/310                        | 22 +++++++++----------
+> >  tests/qemu-iotests/iotests.py                 | 16 --------------
+> >  tests/qemu-iotests/tests/image-fleecing       |  4 ++--
+> >  .../tests/mirror-ready-cancel-error           |  2 +-
+> >  .../qemu-iotests/tests/stream-error-on-reset  |  4 ++--
+> >  10 files changed, 39 insertions(+), 58 deletions(-)
+>
+> > +++ b/tests/qemu-iotests/258
+> > @@ -21,7 +21,7 @@
+> >  # Creator/Owner: Max Reitz <mreitz@redhat.com>
+> >
+> >  import iotests
+> > -from iotests import log, qemu_img, qemu_io_silent, \
+> > +from iotests import log, qemu_img, qemu_io, \
+> >          filter_qmp_testfiles, filter_qmp_imgfmt
+> >
+> >  # Returns a node for blockdev-add
+> > @@ -86,15 +86,15 @@ def test_concurrent_finish(write_to_stream_node):
+> >          if write_to_stream_node:
+> >              # This is what (most of the time) makes commit finish
+> >              # earlier and then pull in stream
+> > -            assert qemu_io_silent(node2_path,
+> > -                                  '-c', 'write %iK 64K' % (65536 - 192),
+> > -                                  '-c', 'write %iK 64K' % (65536 -  64)) == 0
+> > +            qemu_io(node2_path,
+> > +                    '-c', 'write %iK 64K' % (65536 - 192),
+> > +                    '-c', 'write %iK 64K' % (65536 -  64))
+> >
+> >              stream_throttle='tg'
+> >          else:
+> >              # And this makes stream finish earlier
+> > -            assert qemu_io_silent(node1_path,
+> > -                                  '-c', 'write %iK 64K' % (65536 - 64)) == 0
+> > +            qemu_io(node1_path,
+> > +                    '-c', 'write %iK 64K' % (65536 - 64))
+>
+> This could fit on one line.  But the split matches the instance
+> earlier in the hunk that needed two lines.
+>
+> >
+> >              commit_throttle='tg'
+> >
+> > diff --git a/tests/qemu-iotests/298 b/tests/qemu-iotests/298
+> > index fae72211b1..9d6d95d953 100755
+> > --- a/tests/qemu-iotests/298
+> > +++ b/tests/qemu-iotests/298
+> > @@ -129,16 +129,14 @@ class TestTruncate(iotests.QMPTestCase):
+> >          os.remove(refdisk)
+> >
+> >      def do_test(self, prealloc_mode, new_size):
+> > -        ret = iotests.qemu_io_silent('--image-opts', '-c', 'write 0 10M', '-c',
+> > -                                     f'truncate -m {prealloc_mode} {new_size}',
+> > -                                     drive_opts)
+> > -        self.assertEqual(ret, 0)
+> > +        iotests.qemu_io('--image-opts', '-c', 'write 0 10M', '-c',
+> > +                        f'truncate -m {prealloc_mode} {new_size}',
+> > +                        drive_opts)
+> >
+> > -        ret = iotests.qemu_io_silent('-f', iotests.imgfmt, '-c', 'write 0 10M',
+> > -                                     '-c',
+> > -                                     f'truncate -m {prealloc_mode} {new_size}',
+> > -                                     refdisk)
+> > -        self.assertEqual(ret, 0)
+> > +        iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write 0 10M',
+> > +                        '-c',
+> > +                        f'truncate -m {prealloc_mode} {new_size}',
+>
+> And as long as I'm pontificating on line wraps, putting '-c' and
+> f'truncate...' on the same line might make sense.
+>
+> At any rate, whether or not you choose to do anything about my
+> observations on cosmetic line wraps:
+>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+>
 
->>> Same problem happens with qemu-system-ppc64 and the pegasos2 machine.
->>>
->>> No clue how to properly fix this... is it safe to free the pointer
->>> at the end of the function?
-> 
-> I introduced quite a few of these calls,
-> 
->    hw/ppc/pnv_lpc.c:    irqs = qemu_allocate_irqs(handler, lpc, 
-> ISA_NUM_IRQS);
->    hw/ppc/pnv_psi.c:    psi->qirqs = qemu_allocate_irqs(ics_set_irq, 
-> ics, ics->nr_irqs);
->    hw/ppc/pnv_psi.c:    psi->qirqs = 
-> qemu_allocate_irqs(xive_source_set_irq, xsrc, xsrc->nr_irqs);
->    hw/ppc/ppc.c:    env->irq_inputs = (void 
-> **)qemu_allocate_irqs(&ppc6xx_set_irq, cpu,
->    hw/ppc/ppc.c:    env->irq_inputs = (void 
-> **)qemu_allocate_irqs(&ppc970_set_irq, cpu,
->    hw/ppc/ppc.c:    env->irq_inputs = (void 
-> **)qemu_allocate_irqs(&power7_set_irq, cpu,
->    hw/ppc/ppc.c:    env->irq_inputs = (void 
-> **)qemu_allocate_irqs(&power9_set_irq, cpu,
->    hw/ppc/ppc.c:    env->irq_inputs = (void 
-> **)qemu_allocate_irqs(&ppc40x_set_irq,
->    hw/ppc/ppc.c:    env->irq_inputs = (void 
-> **)qemu_allocate_irqs(&ppce500_set_irq,
->    hw/ppc/spapr_irq.c:    spapr->qirqs = 
-> qemu_allocate_irqs(spapr_set_irq, spapr,
-> 
-> and may be I can remove some. What's the best practice ?
+Rolled them in, why not.
 
-I recommend looking at how Peter did it recently in commit 3391953660
-("hw/sparc: Make grlib-irqmp device handle its own inbound IRQ lines")
-and d9cd403972 ("hw/m68k/next-cube: Make next_irq GPIO inputs to NEXT_PC
-device").
+--js
+
 
