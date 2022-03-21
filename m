@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621B94E25AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 12:53:27 +0100 (CET)
-Received: from localhost ([::1]:38920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 702E24E25C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 12:56:01 +0100 (CET)
+Received: from localhost ([::1]:45468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWGbG-00049g-2a
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 07:53:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33688)
+	id 1nWGdk-0000AF-BW
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 07:56:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nWGYV-0001Kz-7Q; Mon, 21 Mar 2022 07:50:35 -0400
-Received: from smtp47.i.mail.ru ([94.100.177.107]:57782)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nWGYm-0001Uv-8F
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 07:50:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nWGYS-0003WK-BC; Mon, 21 Mar 2022 07:50:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
- s=mail4; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=XazBMo2sCUIfA3gdkuM3t0TzhMPS0A9/Cqh9C+nd2vM=; 
- t=1647863432;x=1648468832; 
- b=Z1l/qcRBvjMM6+IYLWl4wUpul7TUpMyGmo6Gi7f4Ve3sPbZ1iZvg2l6IbKIqBmSFoSLAI9akHWQGk/fDKQnoejmP2G7wdk38CaGTIaWEhGOfW18tEsrOVMgNjnhikbQnlNFNMcxvT7d4Pb2KCMsEhj1FHxo0EIqqx8mwjTo0/edzbZMO4xOJTy0aWgzR4yp9u57qD/dU80vrXWWjYw8o4qgy1vDRt8UJH09p0n3SiXrp0pFZWn1cFSEAZ6sCcLrIP7X/Eb/HrMLBFvhxRAgLihFsAef3fb8zup4BZreVqPuyDKM3Eut2FAE+0HzvLR0KHEILZWTufRHSVmUFaG5xZA==;
-Received: by smtp47.i.mail.ru with esmtpa (envelope-from
- <v.sementsov-og@mail.ru>)
- id 1nWGYN-00020P-B4; Mon, 21 Mar 2022 14:50:27 +0300
-Message-ID: <b55b3f46-6b8d-8522-9a08-e7c2ddcf8f67@mail.ru>
-Date: Mon, 21 Mar 2022 14:50:25 +0300
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nWGYk-0003Zh-3Y
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 07:50:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647863448;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ftntAS5Cs6mLr7AoW9IRdBRPNsBRMmgxTHQFCkKBTzA=;
+ b=NgO5hg2w2V+XVR1vO2e6pkxe8ZMAfMtkhdFcAKopvfqYTAmQh14jHKVxYlwmewTai2iEUj
+ 3nlsbOmiNBRktvqzVg39xYgBhjKJbZLN/tu6gLA4QaEb6Mw+CzWQH2DVqxGZhaVjvtPRHI
+ uXpEkK5NZlbnOofuROe4CyG13ZXgZcQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-468-pMzSIEy3N8GPb6GWxlWaiA-1; Mon, 21 Mar 2022 07:50:47 -0400
+X-MC-Unique: pMzSIEy3N8GPb6GWxlWaiA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ 41-20020adf802c000000b00203f27bebddso1511510wrk.21
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 04:50:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ftntAS5Cs6mLr7AoW9IRdBRPNsBRMmgxTHQFCkKBTzA=;
+ b=zNDnRlGOs1WwZ2f74hCz/TUToIMfFsYwtIeijRSDH1RTUaM2UIaaT+0S8cT8N2QoAq
+ 0tBND7nUJ+v5R0rVYDaWxlNOw92jBA4z6TsZi7JtLkWP41PgOCma9hC87AbzoT9VbQWC
+ iZDJo5JWM0IDxTLgzGxiEC6pcjLtpj7FxeyMi92/uArg0tJ/q3enhPViM+LZqhKYxQd8
+ I80kNSHCLPE8WrCDHSwE5HJijll1mW/YNLHEFB8YvPt4ZnkKF0v13yruKr0HwTvCIKPY
+ M8cpZnyXxWeIXz5RYkGIDWPrIRpHZj05AwK/V0oka23y+5FiFj7UP/8867Un0euDzrTi
+ QFPA==
+X-Gm-Message-State: AOAM530vITQXsdCA/S+Qc3bxbwzOMQB/72dxOSBJvy0tmBHbHGuEs2p7
+ mqzd4RUieQUc432VTnPOZ8PD9Yas8Jvw+Qigg8viS+A7uK1UA6ernxg1EiczO6gTCapxmT7winI
+ xKuiIGOBHktZjuEM=
+X-Received: by 2002:adf:d1c9:0:b0:203:c4f8:dd17 with SMTP id
+ b9-20020adfd1c9000000b00203c4f8dd17mr17663822wrd.633.1647863446307; 
+ Mon, 21 Mar 2022 04:50:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJysKI20evaEmOf251Bv/7a1Ay1+GkSpqZb+i42fv+aUaIbTYuj2SMuryC36OZiHybFCRBMRUQ==
+X-Received: by 2002:adf:d1c9:0:b0:203:c4f8:dd17 with SMTP id
+ b9-20020adfd1c9000000b00203c4f8dd17mr17663802wrd.633.1647863446030; 
+ Mon, 21 Mar 2022 04:50:46 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ a11-20020a056000188b00b00204109f7826sm3560619wri.28.2022.03.21.04.50.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Mar 2022 04:50:45 -0700 (PDT)
+Date: Mon, 21 Mar 2022 11:50:43 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v5 1/8] migration: Export ram_transferred_ram()
+Message-ID: <Yjhmk+MB4r4OOPxj@work-vm>
+References: <20220310153454.3929-1-quintela@redhat.com>
+ <20220310153454.3929-2-quintela@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/3] qapi: nbd-export: allow select bitmaps by
- node/name pair
-Content-Language: en-US
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
- hreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com, v.sementsov-og@ya.ru,
- yuriy.vasiliev@virtuozzo.com
-References: <20220314213226.362217-1-v.sementsov-og@mail.ru>
- <20220314213226.362217-3-v.sementsov-og@mail.ru>
- <20220316212855.ra54pckg3u6xgwzw@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-In-Reply-To: <20220316212855.ra54pckg3u6xgwzw@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp47.i.mail.ru;
- auth=pass smtp.auth=v.sementsov-og@mail.ru
- smtp.mailfrom=v.sementsov-og@mail.ru
-X-4EC0790: 10
-X-7564579A: EEAE043A70213CC8
-X-77F55803: 4F1203BC0FB41BD95983D7D89D92196DAEE08C8B4332C69BD3B54C3E627D4433182A05F5380850401465D607C980D6BE306D4A2BF93A719183AB23533A61D6BA025833BDA1320839
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7705F446BE41E38A1EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006375D8840FA58F505298638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8DAAA4DC8C962692F394892DFB522FEA06F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE78C592797616C97AB9FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD182CC0D3CB04F14752D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BAE9A1BBD95851C5BA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC9FD33E375ABA78F43AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F79006376B6BCF2887184E5BD81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89F10D407B19AF7F7505E1C53F199C2BB95B5C8C57E37DE458BEDA766A37F9254B7
-X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: 0D63561A33F958A580F987129B2527009AB80EA41EE81F93D14C0D959096CA11D59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA7540E9CF2C1C1CEBBA410CA545F18667F91A7EA1CDA0B5A7A0
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D343DCFC3BEDFB0242D9CF0AAD3B80F374B2C221767A94219D57B99757AEED9890762AAAD2A2459A5621D7E09C32AA3244C5F39805A544BBFBAEA2A85488B71F8227101BF96129E401127AC49D2B05FCCD8
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojSLL0ldHQslbURscrkxB7+Q==
-X-Mailru-Sender: 6C3E74F07C41AE94BE5520CD20DE4F15F2A23F2152AD3C63A3B51619249ACB9DD3C18203515230B3E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-Received-SPF: pass client-ip=94.100.177.107;
- envelope-from=v.sementsov-og@mail.ru; helo=smtp47.i.mail.ru
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20220310153454.3929-2-quintela@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,89 +100,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.03.2022 00:28, Eric Blake wrote:
-> On Tue, Mar 15, 2022 at 12:32:25AM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
->>
->> Hi all! Current logic of relying on search through backing chain is not
->> safe neither convenient.
->>
->> Sometimes it leads to necessity of extra bitmap copying. Also, we are
->> going to add "snapshot-access" driver, to access some snapshot state
->> through NBD. And this driver is not formally a filter, and of course
->> it's not a COW format driver. So, searching through backing chain will
->> not work. Instead of widening the workaround of bitmap searching, let's
->> extend the interface so that user can select bitmap precisely.
->>
->> Note, that checking for bitmap active status is not copied to the new
->> API, I don't see a reason for it, user should understand the risks. And
->> anyway, bitmap from other node is unrelated to this export being
->> read-only or read-write.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
->> ---
->>   blockdev-nbd.c         |  8 +++++-
->>   nbd/server.c           | 63 +++++++++++++++++++++++++++---------------
->>   qapi/block-export.json |  5 +++-
->>   qemu-nbd.c             | 11 ++++++--
->>   4 files changed, 61 insertions(+), 26 deletions(-)
->>
-> 
->> @@ -1709,37 +1709,56 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
->>       }
->>       exp->export_bitmaps = g_new0(BdrvDirtyBitmap *, exp->nr_export_bitmaps);
->>       for (i = 0, bitmaps = arg->bitmaps; bitmaps;
->> -         i++, bitmaps = bitmaps->next) {
->> -        const char *bitmap = bitmaps->value;
->> +         i++, bitmaps = bitmaps->next)
->> +    {
->> +        const char *bitmap;
-> 
-> I'm not sure if our prevailing style splits { to its own line on a
-> multi-line 'for'.  But this is a cosmetic question, not one of
-> correctness.
-> 
->> +        case QTYPE_QDICT:
->> +            bitmap = bitmaps->value->u.external.name;
->> +            bm = block_dirty_bitmap_lookup(bitmaps->value->u.external.node,
->> +                                           bitmap, NULL, errp);
->> +            if (!bm) {
->> +                ret = -ENOENT;
->> +                goto fail;
->> +            }
->> +            break;
->> +        default:
->> +            abort();
-> 
-> Not sure if g_assert_not_reached() or __builtin_unreachable() would be
-> any better here.  I'm fine with the abort() for now.
-> 
->> +++ b/qapi/block-export.json
->> @@ -6,6 +6,7 @@
->>   ##
->>   
->>   { 'include': 'sockets.json' }
->> +{ 'include': 'block-core.json' }
-> 
-> Hmm.  Does this extra inclusion negatively impact qemu-storage-daemon,
-> since that is why we created block-export.json in the first place (to
-> minimize the stuff that qsd pulled in without needing all of
-> block-core.json)?  In other words, would it be better to move
-> BlockDirtyBitmapOrStr to this file?
+* Juan Quintela (quintela@redhat.com) wrote:
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-And include block-export in block-core?
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Another alternative is to move BlockDirtyBitmapOrStr to a separate file included from both block-export and block-core but that seems to be too much.
-
+> ---
+>  migration/ram.h | 2 ++
+>  migration/ram.c | 2 +-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
 > 
-> Everything else looks okay with this patch.
+> diff --git a/migration/ram.h b/migration/ram.h
+> index 2c6dc3675d..2e27c49f90 100644
+> --- a/migration/ram.h
+> +++ b/migration/ram.h
+> @@ -64,6 +64,8 @@ int ram_postcopy_incoming_init(MigrationIncomingState *mis);
+>  
+>  void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
+>  
+> +void ram_transferred_add(uint64_t bytes);
+> +
+>  int ramblock_recv_bitmap_test(RAMBlock *rb, void *host_addr);
+>  bool ramblock_recv_bitmap_test_byte_offset(RAMBlock *rb, uint64_t byte_offset);
+>  void ramblock_recv_bitmap_set(RAMBlock *rb, void *host_addr);
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 170e522a1f..947ed44c89 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -394,7 +394,7 @@ uint64_t ram_bytes_remaining(void)
+>  
+>  MigrationStats ram_counters;
+>  
+> -static void ram_transferred_add(uint64_t bytes)
+> +void ram_transferred_add(uint64_t bytes)
+>  {
+>      if (runstate_is_running()) {
+>          ram_counters.precopy_bytes += bytes;
+> -- 
+> 2.34.1
 > 
-
-
 -- 
-Best regards,
-Vladimir
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
