@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66674E3297
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 23:13:32 +0100 (CET)
-Received: from localhost ([::1]:38726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CDA4E3298
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 23:13:33 +0100 (CET)
+Received: from localhost ([::1]:38754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWQHM-0004D1-0n
+	id 1nWQHM-0004ED-P8
 	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 18:13:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35006)
+Received: from eggs.gnu.org ([209.51.188.92]:35660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWQCf-0004ev-1G
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:08:41 -0400
-Received: from [2a00:1450:4864:20::32c] (port=41943
- helo=mail-wm1-x32c.google.com)
+ id 1nWQG7-0002CN-2Z
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:12:15 -0400
+Received: from [2a00:1450:4864:20::42a] (port=38441
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWQCd-0004je-KR
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:08:40 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- k124-20020a1ca182000000b0038c9cf6e2a6so344819wme.0
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 15:08:39 -0700 (PDT)
+ id 1nWQG4-0005Na-CH
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:12:13 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id t11so22581709wrm.5
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 15:12:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=sR6AW07KZKtk/94ITy1swC+H8ulK6BnCAbOp/nlAVHg=;
- b=NWDnssfwm11FusHHJ+3rI/kNLsHy1ZWOZCJFgy1XpwCRZjrb7itlgOQuEdoVsLzTJL
- amQTxAQmDqxctJaKcK0ZXymC0DnrO+l+7tr5RREpV5fxsSumetu+20Ta7CDNjHFWE/ux
- H7XGsSsQkg7btnZ7JYkMXCsdGYWOo8oqAyWlyfhIbb4SRkcp02AXSBAwymdlbvWid9D+
- mIeJNSU1JRZLM37+tYNFR3CTKcbARECV6LTWiYf5uKYiVtnIOUsSBcNyfV1EoVoajEQ5
- 3NHl3VtlUDIcMOmd6Vh46HHlQECYScVekvv2QZBYvu2+3CrrBacjADonjyIkUvOx/+K7
- nxlw==
+ bh=lN4uAChASYabnyAx04z3g4UCGFmw351OSuY4EUQ79Do=;
+ b=Knz5U6kRBYju8jovYBcCugTTwSMNA0PSEOPY1TX9GXN3hCZ9W6hy8xdaBN2oaJqKOG
+ KmDMOI1pq7pOwNE2LCuzIlAd3qGZ6udKKliiS4Jzf2T3Btn6y/uQ5FdOWymu4zYZx/0d
+ pdKsB22pGNK9USAIcKj3FVYltdzZwOu8JBV28GdpHM9fHsDmMink35A1SRNkrhy+EO/M
+ RlRtro07i+twZqKJKHbkvOvuWkXH4ZPyPn2uKDCQWSnG7L5zxiXgCbHR9OT+ozL0doTC
+ ARXDXjO2hEjDmWTVaJ09n5ESsdCN1kxEqU8M4bDMI9+PlTrKYy7gJTLA+7TCe0WFsMHs
+ teEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=sR6AW07KZKtk/94ITy1swC+H8ulK6BnCAbOp/nlAVHg=;
- b=d3c47BOO18gExY+t4fGyUskqGHLqcKqpFbHw/+uUNZTCh1kw/gVLcg5AbSBAHAOapv
- 8zBBUN0gnrIcJWvIqtvnAXcBP3dqvmXQ4Fj6c+WoqWzZmCQ7mgYwh1BlW6qlLaDtO8P1
- w9JY5DmMSMPp95eGBjwFxZggSw9Tsd1351xDxN+ghVKwW9nOCEI2raFpMbGJB8t65ZSC
- pfyJ3Q864gaa6OfEZLwksPnsQLCWNOU24XHtqKS33ZMHO/UxE3iWjX6aCzyOI/rCdqeU
- mrlwigJ4qVqn3I1pftuV11Ao/nf0AHNUD3XlT7RJ49YTap4xhQeooNKTQpnNpywW1svH
- RKEw==
-X-Gm-Message-State: AOAM533lh/78+OL+3HYsdtRapMIlo6EIsl3bGM94Ot0dA5sCBbzb2n14
- GW2jCYRLmJA/2hq323nYyRo=
-X-Google-Smtp-Source: ABdhPJwrTt2ivH5dbfiqzL5ZvCqQjRYb3RLAZ4AT9e8ah8KEz30WmuVsm98/V2tVu0kHgAcFvalA6g==
-X-Received: by 2002:a05:600c:2188:b0:38c:9a21:9c95 with SMTP id
- e8-20020a05600c218800b0038c9a219c95mr950498wme.87.1647900518412; 
- Mon, 21 Mar 2022 15:08:38 -0700 (PDT)
+ bh=lN4uAChASYabnyAx04z3g4UCGFmw351OSuY4EUQ79Do=;
+ b=UCw6cDqQpHAbVAJh4XiS5aX1270fIFgo0SGA2kMaaXWLnzWjhfE6SyItZD1l4rX6aX
+ 7y+++MAyd9YvyFw8IucsV/7Jc/bBhb592COD5e0YcgixSy4bVBP15zkdEpNIk1QKMF1E
+ qznPDAhuXcc5jrO0wZ30Zs+G9HPJ1j7hzOM9Kw2g6K516QQGqDLwLUHQmhMh1WfdLYaG
+ DmrvAFUq6llYX5iQTy4MpkZ+dpOYsRB0NPxd8GdXpRcoKdKsDCkajIy/dBBMjsNKOqod
+ LSaJyu3MGM7MeQnEpAAASQ+NRQaVluWO/ZHdb+OfzWMAjuKac3UXotSR+kogn5NPOAhG
+ E46g==
+X-Gm-Message-State: AOAM530DDrZK4kYIQ8RT0t8iT6pH7rXOTefCplF7VJpCLPylhX1vfOMw
+ QkCWNPWMNLNiyxSbTrc72vZJ4N6g/r4=
+X-Google-Smtp-Source: ABdhPJycGWb7NEQfmhesgLOVcGGDuXXPtQBoxqg6iZog+nomV7lVCkzjJuQt7X7vSDCbVYL7m+CYog==
+X-Received: by 2002:a5d:4441:0:b0:1f0:882d:77e9 with SMTP id
+ x1-20020a5d4441000000b001f0882d77e9mr19220520wrr.718.1647900730934; 
+ Mon, 21 Mar 2022 15:12:10 -0700 (PDT)
 Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
  [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- 2-20020a056000154200b00203ee1fd1desm12195563wry.64.2022.03.21.15.08.37
+ g10-20020a5d46ca000000b00203fd86e198sm7919594wrs.96.2022.03.21.15.12.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 15:08:38 -0700 (PDT)
-Message-ID: <38ac951e-011d-547b-21cf-347a2a06a2a6@gmail.com>
-Date: Mon, 21 Mar 2022 23:08:37 +0100
+ Mon, 21 Mar 2022 15:12:10 -0700 (PDT)
+Message-ID: <652c4cf9-65d4-33fb-805e-07d156271ccb@gmail.com>
+Date: Mon, 21 Mar 2022 23:12:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v3 5/5] i386/cpu: Free env->xsave_buf in KVM and HVF
- destory_vcpu_thread routines
+Subject: Re: [PATCH v3 3/5] softmmu/cpus: Free cpu->halt_cond in
+ generic_destroy_vcpu_thread()
 Content-Language: en-US
 To: Mark Kanda <mark.kanda@oracle.com>, qemu-devel@nongnu.org
 References: <20220321141409.3112932-1-mark.kanda@oracle.com>
- <20220321141409.3112932-6-mark.kanda@oracle.com>
- <1938c323-1737-479d-2e3b-baa6c746da4a@gmail.com>
+ <20220321141409.3112932-4-mark.kanda@oracle.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <1938c323-1737-479d-2e3b-baa6c746da4a@gmail.com>
+In-Reply-To: <20220321141409.3112932-4-mark.kanda@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,40 +99,40 @@ Cc: pbonzini@redhat.com, richard.henderson@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/3/22 23:04, Philippe Mathieu-Daudé wrote:
-> On 21/3/22 15:14, Mark Kanda wrote:
->> Create KVM and HVF specific destory_vcpu_thread() routines to free
+On 21/3/22 15:14, Mark Kanda wrote:
+> vCPU hotunplug related leak reported by Valgrind:
 > 
-> Typo "destroy"
-> 
->> env->xsave_buf.
->>
->> vCPU hotunplug related leak reported by Valgrind:
->>
->> ==132362== 4,096 bytes in 1 blocks are definitely lost in loss record 
->> 8,440 of 8,549
->> ==132362==    at 0x4C3B15F: memalign (vg_replace_malloc.c:1265)
->> ==132362==    by 0x4C3B288: posix_memalign (vg_replace_malloc.c:1429)
->> ==132362==    by 0xB41195: qemu_try_memalign (memalign.c:53)
->> ==132362==    by 0xB41204: qemu_memalign (memalign.c:73)
->> ==132362==    by 0x7131CB: kvm_init_xsave (kvm.c:1601)
->> ==132362==    by 0x7148ED: kvm_arch_init_vcpu (kvm.c:2031)
->> ==132362==    by 0x91D224: kvm_init_vcpu (kvm-all.c:516)
->> ==132362==    by 0x9242C9: kvm_vcpu_thread_fn (kvm-accel-ops.c:40)
->> ==132362==    by 0xB2EB26: qemu_thread_start (qemu-thread-posix.c:556)
->> ==132362==    by 0x7EB2159: start_thread (in 
->> /usr/lib64/libpthread-2.28.so)
->> ==132362==    by 0x9D45DD2: clone (in /usr/lib64/libc-2.28.so)
->>
->> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
->> ---
->>   accel/hvf/hvf-accel-ops.c | 11 ++++++++++-
->>   accel/kvm/kvm-accel-ops.c | 11 ++++++++++-
->>   2 files changed, 20 insertions(+), 2 deletions(-)
-> 
-> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ==102631== 56 bytes in 1 blocks are definitely lost in loss record 5,089 of 8,555
+> ==102631==    at 0x4C3ADBB: calloc (vg_replace_malloc.c:1117)
+> ==102631==    by 0x69EE4CD: g_malloc0 (in /usr/lib64/libglib-2.0.so.0.5600.4)
+> ==102631==    by 0x924452: kvm_start_vcpu_thread (kvm-accel-ops.c:69)
 
-I meant:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Here we want to extract a common generic_init_vcpu_thread().
+
+> ==102631==    by 0x4505C2: qemu_init_vcpu (cpus.c:643)
+> ==102631==    by 0x76B4D1: x86_cpu_realizefn (cpu.c:6520)
+> ==102631==    by 0x9344A7: device_set_realized (qdev.c:531)
+> ==102631==    by 0x93E329: property_set_bool (object.c:2273)
+> ==102631==    by 0x93C2F8: object_property_set (object.c:1408)
+> ==102631==    by 0x940796: object_property_set_qobject (qom-qobject.c:28)
+> ==102631==    by 0x93C663: object_property_set_bool (object.c:1477)
+> ==102631==    by 0x933D3B: qdev_realize (qdev.c:333)
+> ==102631==    by 0x455EC4: qdev_device_add_from_qdict (qdev-monitor.c:713)
+> 
+> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+> ---
+>   accel/accel-common.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/accel/accel-common.c b/accel/accel-common.c
+> index 623df43cc3..297d4e4ef1 100644
+> --- a/accel/accel-common.c
+> +++ b/accel/accel-common.c
+> @@ -140,4 +140,5 @@ type_init(register_accel_types);
+>   void generic_destroy_vcpu_thread(CPUState *cpu)
+>   {
+>       g_free(cpu->thread);
+> +    g_free(cpu->halt_cond);
+>   }
 
 
