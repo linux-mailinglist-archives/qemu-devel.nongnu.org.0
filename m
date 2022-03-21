@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86BCC4E1F0A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 03:31:18 +0100 (CET)
-Received: from localhost ([::1]:58226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3954E1F1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 03:43:45 +0100 (CET)
+Received: from localhost ([::1]:34346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nW7pF-0003ZU-4M
-	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 22:31:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37238)
+	id 1nW81I-00074P-4j
+	for lists+qemu-devel@lfdr.de; Sun, 20 Mar 2022 22:43:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nW7nX-0002cV-BW; Sun, 20 Mar 2022 22:29:31 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:5135)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nW80D-0006OH-IN
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 22:42:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nW7nU-0000lx-5U; Sun, 20 Mar 2022 22:29:30 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KMJRC6Fg5zCqqW;
- Mon, 21 Mar 2022 10:27:03 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.21; Mon, 21 Mar 2022 10:28:52 +0800
-Subject: Re: [PATCH v2 1/3] hw/arm/virt: Fix CPU's default NUMA node ID
-To: Igor Mammedov <imammedo@redhat.com>
-CC: Gavin Shan <gshan@redhat.com>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>, <drjones@redhat.com>, <peter.maydell@linaro.org>,
- <richard.henderson@linaro.org>, <shan.gavin@gmail.com>, <zhenyzha@redhat.com>
-References: <20220303031152.145960-1-gshan@redhat.com>
- <20220303031152.145960-2-gshan@redhat.com>
- <e894fe3a-a50e-f47f-773d-d859bc240923@huawei.com>
- <20220318105656.67696eb8@redhat.com>
- <5aea5611-0987-68cd-58d3-8ae53ec641e8@huawei.com>
- <20220318142723.142157c3@redhat.com>
-Message-ID: <e6efb1ca-08bb-fce5-de58-b8e2079880ca@huawei.com>
-Date: Mon, 21 Mar 2022 10:28:52 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nW80A-0002ms-6u
+ for qemu-devel@nongnu.org; Sun, 20 Mar 2022 22:42:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647830552;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j2PzGdMXgszBLS7fQ7fCBWuvTIlsPpoEzpksOd83VPI=;
+ b=Rrw+1xTrQY1+BepOSW8QFPhCWtYes+w2nQ9iS+p5guqRpPr1g6lgjm861TqNnLyOw41z8G
+ Prepz8eD/lfbdueLLRJR5KUCdB/PckF9Erw7H+b/foe9uSVgk1p/6W2x8NN1hGp/3DYyhZ
+ zk9eJkqcXLNqMjrjrjCOMuKuJC7XIVk=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-302-xjs6CI1IO4G-1zbTdrL9ww-1; Sun, 20 Mar 2022 22:42:27 -0400
+X-MC-Unique: xjs6CI1IO4G-1zbTdrL9ww-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ u29-20020ac251dd000000b0044a245bcc1aso357558lfm.7
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 19:42:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=j2PzGdMXgszBLS7fQ7fCBWuvTIlsPpoEzpksOd83VPI=;
+ b=mLcA5UeXgTDNnAklVK+1w2mAaYfnKZCDxXPslJzYylBuDDnwxYq7KWVQBVlE2vsWvZ
+ siyNKa2TYGZCg+gZWFz/Z0GoVdLQEITczkSwEpNsvIlqm7mP8zGgogsVsMBXrK7INTPp
+ KC507MmSPa7VbZnYvwnb6nnBPxjvobNk4b67eIZlQ/cePbJwNy4wc+TYk9TPVW87mQ8n
+ cAako0d/XKKpCR8DJzbtobeLR6mxioKWCplIUNTLYN4ZUCOtXVLGRPEgdKwJTB6U0EiQ
+ 2Q1m/V89IPHchP/KvE20LUngyoohwxt2g7YMn9OZbF7L24TCtY8doPEL3PYzFoirFvbZ
+ P6RQ==
+X-Gm-Message-State: AOAM530jPU6n/whnr8uNsWm7GRSuZ6HusNPR/IxvxY7yQueGr07M4YLm
+ lkOMIBg6LGzZwnKojsG3RdWqtOZELj9g84UI6SlaRM+ldqrJQonWDOSvuvGdO5FQcceqoJ+Ah0j
+ TlCtfZorLlXFNSMMdo0ee0+CzEbWJs88=
+X-Received: by 2002:a05:6512:ad2:b0:448:ac0a:2df8 with SMTP id
+ n18-20020a0565120ad200b00448ac0a2df8mr13079303lfu.376.1647830546259; 
+ Sun, 20 Mar 2022 19:42:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTi0ieNpKGJesxeup+/tqhCMfiIxig95ubQJwdkhEyXlGCEfDBlrTmDCU5oolxeY0oqtgTvqYWO8RKHHvvf8o=
+X-Received: by 2002:a05:6512:ad2:b0:448:ac0a:2df8 with SMTP id
+ n18-20020a0565120ad200b00448ac0a2df8mr13079270lfu.376.1647830545918; Sun, 20
+ Mar 2022 19:42:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220318142723.142157c3@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220317172839.28984-1-Vladislav.Yaroshchuk@jetbrains.com>
+ <691be87c-6bac-cdb7-28f9-009735a94c28@gmail.com>
+In-Reply-To: <691be87c-6bac-cdb7-28f9-009735a94c28@gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 21 Mar 2022 10:42:14 +0800
+Message-ID: <CACGkMEsxqxNtvFnu9qnoncUEngmXMn=OvZpWFj++3r5aJ5bO3w@mail.gmail.com>
+Subject: Re: [PATCH v22 0/7] Add vmnet.framework based network backend
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -69,150 +93,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Cameron Esfahani <dirty@apple.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, phillip.ennen@gmail.com,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>, "Armbruster,
+ Markus" <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>, Phillip Tennen <phillip@axleos.com>,
+ Roman Bolshakov <roman@roolebo.dev>, Howard Spoelstra <hsp.cat7@gmail.com>,
+ Alessio Dionisi <hello@adns.io>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Eric Blake <eblake@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-On 2022/3/18 21:27, Igor Mammedov wrote:
-> On Fri, 18 Mar 2022 21:00:35 +0800
-> "wangyanan (Y)" <wangyanan55@huawei.com> wrote:
+On Fri, Mar 18, 2022 at 5:30 PM Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
 >
->> On 2022/3/18 17:56, Igor Mammedov wrote:
->>> On Fri, 18 Mar 2022 14:23:34 +0800
->>> "wangyanan (Y)" <wangyanan55@huawei.com> wrote:
->>>   
->>>> Hi Gavin,
->>>>
->>>> On 2022/3/3 11:11, Gavin Shan wrote:
->>>>> The default CPU-to-NUMA association is given by mc->get_default_cpu_node_id()
->>>>> when it isn't provided explicitly. However, the CPU topology isn't fully
->>>>> considered in the default association and it causes CPU topology broken
->>>>> warnings on booting Linux guest.
->>>>>
->>>>> For example, the following warning messages are observed when the Linux guest
->>>>> is booted with the following command lines.
->>>>>
->>>>>      /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
->>>>>      -accel kvm -machine virt,gic-version=host               \
->>>>>      -cpu host                                               \
->>>>>      -smp 6,sockets=2,cores=3,threads=1                      \
->>>>>      -m 1024M,slots=16,maxmem=64G                            \
->>>>>      -object memory-backend-ram,id=mem0,size=128M            \
->>>>>      -object memory-backend-ram,id=mem1,size=128M            \
->>>>>      -object memory-backend-ram,id=mem2,size=128M            \
->>>>>      -object memory-backend-ram,id=mem3,size=128M            \
->>>>>      -object memory-backend-ram,id=mem4,size=128M            \
->>>>>      -object memory-backend-ram,id=mem4,size=384M            \
->>>>>      -numa node,nodeid=0,memdev=mem0                         \
->>>>>      -numa node,nodeid=1,memdev=mem1                         \
->>>>>      -numa node,nodeid=2,memdev=mem2                         \
->>>>>      -numa node,nodeid=3,memdev=mem3                         \
->>>>>      -numa node,nodeid=4,memdev=mem4                         \
->>>>>      -numa node,nodeid=5,memdev=mem5
->>>>>             :
->>>>>      alternatives: patching kernel code
->>>>>      BUG: arch topology borken
->>>>>      the CLS domain not a subset of the MC domain
->>>>>      <the above error log repeats>
->>>>>      BUG: arch topology borken
->>>>>      the DIE domain not a subset of the NODE domain
->>>>>
->>>>> With current implementation of mc->get_default_cpu_node_id(), CPU#0 to CPU#5
->>>>> are associated with NODE#0 to NODE#5 separately. That's incorrect because
->>>>> CPU#0/1/2 should be associated with same NUMA node because they're seated
->>>>> in same socket.
->>>>>
->>>>> This fixes the issue by populating the CPU topology in virt_possible_cpu_arch_ids()
->>>>> and considering the socket index when default CPU-to-NUMA association is given
->>>>> in virt_possible_cpu_arch_ids(). With this applied, no more CPU topology broken
->>>>> warnings are seen from the Linux guest. The 6 CPUs are associated with NODE#0/1,
->>>>> but there are no CPUs associated with NODE#2/3/4/5.
->>>> It may be better to split this patch into two. One extends
->>>> virt_possible_cpu_arch_ids,
->>>> and the other fixes the numa node ID issue.
->>>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
->>>>> ---
->>>>>     hw/arm/virt.c | 17 ++++++++++++++++-
->>>>>     1 file changed, 16 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->>>>> index 46bf7ceddf..dee02b60fc 100644
->>>>> --- a/hw/arm/virt.c
->>>>> +++ b/hw/arm/virt.c
->>>>> @@ -2488,7 +2488,9 @@ virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
->>>>>     
->>>>>     static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
->>>>>     {
->>>>> -    return idx % ms->numa_state->num_nodes;
->>>>> +    int64_t socket_id = ms->possible_cpus->cpus[idx].props.socket_id;
->>>>> +
->>>>> +    return socket_id % ms->numa_state->num_nodes;
->>>>>     }
->>>>>     
->>>>>     static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>>>> @@ -2496,6 +2498,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>>>>         int n;
->>>>>         unsigned int max_cpus = ms->smp.max_cpus;
->>>>>         VirtMachineState *vms = VIRT_MACHINE(ms);
->>>>> +    MachineClass *mc = MACHINE_GET_CLASS(vms);
->>>>>     
->>>>>         if (ms->possible_cpus) {
->>>>>             assert(ms->possible_cpus->len == max_cpus);
->>>>> @@ -2509,6 +2512,18 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>>>>             ms->possible_cpus->cpus[n].type = ms->cpu_type;
->>>>>             ms->possible_cpus->cpus[n].arch_id =
->>>>>                 virt_cpu_mp_affinity(vms, n);
->>>>> +
->>>>> +        ms->possible_cpus->cpus[n].props.has_socket_id = true;
->>>>> +        ms->possible_cpus->cpus[n].props.socket_id =
->>>>> +            n / (ms->smp.dies * ms->smp.clusters *
->>>>> +                ms->smp.cores * ms->smp.threads);
->>>>> +        if (mc->smp_props.dies_supported) {
->>>>> +            ms->possible_cpus->cpus[n].props.has_die_id = true;
->>>>> +            ms->possible_cpus->cpus[n].props.die_id =
->>>>> +                n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
->>>>> +        }
->>>> I still don't think we need to consider dies if it's certainly not
->>>> supported yet, IOW, we will never come into the if-branch.
->>>> We are populating arm-specific topo info instead of the generic,
->>>> we can probably uniformly update this part together with other
->>>> necessary places when we decide to support dies for arm virt
->>>> machine in the future. :)
->>> it seems we do support dies and they are supposed to be numa boundary too,
->>> so perhaps we should account for it when generating node-id.
->> Sorry, I actually meant that we currently don't support dies for arm, so
->> that
->> we will always have "mc->smp_props.dies_supported == False" here, which
->> makes the code a bit unnecessary.  dies are only supported for x86 for
->> now. :)
->>
-> then perhaps add an assert() here, so that we would notice and fix this
-> place when dies_supported becomes true.
-A simple assert() works here, I think.
+> Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+>
+> Thank you for this great work!
 
-Thanks,
-Yanan
->> Thanks,
->> Yanan
->>>>> +        ms->possible_cpus->cpus[n].props.has_core_id = true;
->>>>> +        ms->possible_cpus->cpus[n].props.core_id = n / ms->smp.threads;
->>>>>             ms->possible_cpus->cpus[n].props.has_thread_id = true;
->>>>>             ms->possible_cpus->cpus[n].props.thread_id = n;
->>>>>         }
->>>> Maybe we should use the same algorithm in x86_topo_ids_from_idx
->>>> to populate the IDs, so that scope of socket-id will be [0, total_sockets),
->>>> scope of thread-id is [0, threads_per_core), and so on. Then with a
->>>> group of socket/cluster/core/thread-id, we determine a CPU.
->>>>
->>>> Suggestion: For the long term, is it necessary now to add similar topo
->>>> info infrastructure for ARM, such as X86CPUTopoInfo, X86CPUTopoIDs,
->>>> x86_topo_ids_from_idx?
->>>>
->>>> Thanks,
->>>> Yanan
->>>>   
->>> .
-> .
+We miss 7.0 so I will queue this for 7.1
+
+Thanks everyone!
+
+>
+> On 2022/03/18 2:28, Vladislav Yaroshchuk wrote:
+> > macOS provides networking API for VMs called 'vmnet.framework':
+> > https://developer.apple.com/documentation/vmnet
+> >
+> > We can provide its support as the new QEMU network backends which
+> > represent three different vmnet.framework interface usage modes:
+> >
+> >    * `vmnet-shared`:
+> >      allows the guest to communicate with other guests in shared mode and
+> >      also with external network (Internet) via NAT. Has (macOS-provided)
+> >      DHCP server; subnet mask and IP range can be configured;
+> >
+> >    * `vmnet-host`:
+> >      allows the guest to communicate with other guests in host mode.
+> >      By default has enabled DHCP as `vmnet-shared`, but providing
+> >      network unique id (uuid) can make `vmnet-host` interfaces isolated
+> >      from each other and also disables DHCP.
+> >
+> >    * `vmnet-bridged`:
+> >      bridges the guest with a physical network interface.
+> >
+> > This backends cannot work on macOS Catalina 10.15 cause we use
+> > vmnet.framework API provided only with macOS 11 and newer. Seems
+> > that it is not a problem, because QEMU guarantees to work on two most
+> > recent versions of macOS which now are Big Sur (11) and Monterey (12).
+> >
+> > Also, we have one inconvenient restriction: vmnet.framework interfaces
+> > can create only privileged user:
+> > `$ sudo qemu-system-x86_64 -nic vmnet-shared`
+> >
+> > Attempt of `vmnet-*` netdev creation being unprivileged user fails with
+> > vmnet's 'general failure'.
+> >
+> > This happens because vmnet.framework requires `com.apple.vm.networking`
+> > entitlement which is: "restricted to developers of virtualization software.
+> > To request this entitlement, contact your Apple representative." as Apple
+> > documentation says:
+> > https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_vm_networking
+> >
+> > One more note: we still have quite useful but not supported
+> > 'vmnet.framework' features as creating port forwarding rules, IPv6
+> > NAT prefix specifying and so on.
+> >
+> > Nevertheless, new backends work fine and tested within `qemu-system-x86-64`
+> > on macOS Bir Sur 11.5.2 host with such nic models:
+> >    * e1000-82545em
+> >    * virtio-net-pci
+> >    * vmxnet3
+> >
+> > The guests were:
+> >    * macOS 10.15.7
+> >    * Ubuntu Bionic (server cloudimg)
+> >
+> >
+> > This series partially reuses patches by Phillip Tennen:
+> > https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/
+> > So I included them signed-off line into one of the commit messages and
+> > also here.
+> >
+> > v1 -> v2:
+> >   Since v1 minor typos were fixed, patches rebased onto latest master,
+> >   redundant changes removed (small commits squashed)
+> > v2 -> v3:
+> >   - QAPI style fixes
+> >   - Typos fixes in comments
+> >   - `#include`'s updated to be in sync with recent master
+> > v3 -> v4:
+> >   - Support vmnet interfaces isolation feature
+> >   - Support vmnet-host network uuid setting feature
+> >   - Refactored sources a bit
+> > v4 -> v5:
+> >   - Missed 6.2 boat, now 7.0 candidate
+> >   - Fix qapi netdev descriptions and styles
+> >     (@subnetmask -> @subnet-mask)
+> >   - Support vmnet-shared IPv6 prefix setting feature
+> > v5 -> v6
+> >   - provide detailed commit messages for commits of
+> >     many changes
+> >   - rename properties @dhcpstart and @dhcpend to
+> >     @start-address and @end-address
+> >   - improve qapi documentation about isolation
+> >     features (@isolated, @net-uuid)
+> > v6 -> v7:
+> >   - update MAINTAINERS list
+> > v7 -> v8
+> >   - QAPI code style fixes
+> > v8 -> v9
+> >   - Fix building on Linux: add missing qapi
+> >     `'if': 'CONFIG_VMNET'` statement to Netdev union
+> > v9 -> v10
+> >   - Disable vmnet feature for macOS < 11.0: add
+> >     vmnet.framework API probe into meson.build.
+> >     This fixes QEMU building on macOS < 11.0:
+> >     https://patchew.org/QEMU/20220110034000.20221-1-jasowang@redhat.com/
+> > v10 -> v11
+> >   - Enable vmnet for macOS 10.15 with subset of available
+> >     features. Disable vmnet for macOS < 10.15.
+> >   - Fix typos
+> > v11 -> v12
+> >   - use more general macOS version check with
+> >     MAC_OS_VERSION_11_0 instead of manual
+> >     definition creating.
+> > v12 -> v13
+> >   - fix incorrect macOS version bound while
+> >     'feature available since 11.0' check.
+> >     Use MAC_OS_X_VERSION_MIN_REQUIRED instead of
+> >     MAC_OS_X_VERSION_MAX_ALLOWED.
+> > v13 -> v14
+> >   - fix memory leaks
+> >   - get rid of direct global mutex taking while resending
+> >     packets from vmnet to QEMU, schedule a bottom half
+> >     instead (it can be a thing to discuss, maybe exists a
+> >     better way to perform the packets transfer)
+> >   - update hmp commands
+> >   - a bit refactor everything
+> >   - change the email from which patches are being
+> >     submitted, same to email in MAINTAINERS list
+> >   - P.S. sorry for so late reply
+> > v14 -> v15
+> >   - restore --enable-vdi and --disable-vdi
+> >     mistakenly dropped in previous series
+> > v15 -> v16
+> >   - common: complete sending pending packets when
+> >     QEMU is ready, refactor, fix memory leaks
+> >   - QAPI: change version to 7.1 (cause 7.0 feature freeze
+> >     happened). This is the only change in QAPI, Markus Armbruster,
+> >     please confirm if you can (decided to drop your Acked-by due
+> >     to this change)
+> >   - vmnet-bridged: extend "supported ifnames" message buffer len
+> >   - fix behaviour dependence on debug (add "return -1" after
+> >     assert_not_reached)
+> >   - use PRIu64 for proper printing
+> >   - NOTE: This version of patch series may be one the last
+> >     I submit - JetBrains has suspended operations in
+> >     Russia indefinitely due to all the awful things happened
+> >     the last weeks. I may leave this company and loose the
+> >     ability to work on vmnet support :(
+> >     It will be perfect if someone can handle my unfinished work,
+> >     if something required to fix/improve is found.
+> >     Because of this, MAINTAINERS list update is dropped
+> > v16 -> v17
+> >   - host: move network_uuid to local variable
+> >   - common: refactor, add documentation
+> >   - common/send (vmnet->qemu): read new packets after QEMU
+> >     send_cb invoked
+> >   - common/receive (qemu->vmnet): drop redundant vmnet
+> >     status checks
+> >   - restore dropped commit messaged from the previous series
+> > v17 -> v18
+> >   - use VmnetState struct for all three operation modes
+> >   - drop send_enabled flag
+> >   - do not unregister vmnet event callback on cleanup,
+> >     let vmnet.framework do everything itself while interface
+> >     destruction
+> > v18 -> v19
+> >   - use positive pointers values to describe unsent packets
+> >     window of VmnetState buffer
+> > v19 -> v20
+> >   - vmnet-host: minor but required refactor
+> > v20 -> v21
+> >   - vmnet-bridged: dynamically allocate valid ifnames list
+> >   - QAPI schema: add `Markus Armbruster <armbru@redhat.com>`'s acked-by
+> > v21 -> v22
+> >   - common: fix if_desc memory leak
+> >
+> > Vladislav Yaroshchuk (7):
+> >    net/vmnet: add vmnet dependency and customizable option
+> >    net/vmnet: add vmnet backends to qapi/net
+> >    net/vmnet: implement shared mode (vmnet-shared)
+> >    net/vmnet: implement host mode (vmnet-host)
+> >    net/vmnet: implement bridged mode (vmnet-bridged)
+> >    net/vmnet: update qemu-options.hx
+> >    net/vmnet: update hmp-commands.hx
+> >
+> >   hmp-commands.hx               |   6 +-
+> >   meson.build                   |  16 +-
+> >   meson_options.txt             |   2 +
+> >   net/clients.h                 |  11 +
+> >   net/meson.build               |   7 +
+> >   net/net.c                     |  10 +
+> >   net/vmnet-bridged.m           | 152 ++++++++++++++
+> >   net/vmnet-common.m            | 378 ++++++++++++++++++++++++++++++++++
+> >   net/vmnet-host.c              | 128 ++++++++++++
+> >   net/vmnet-shared.c            | 114 ++++++++++
+> >   net/vmnet_int.h               |  63 ++++++
+> >   qapi/net.json                 | 133 +++++++++++-
+> >   qemu-options.hx               |  25 +++
+> >   scripts/meson-buildoptions.sh |   1 +
+> >   14 files changed, 1042 insertions(+), 4 deletions(-)
+> >   create mode 100644 net/vmnet-bridged.m
+> >   create mode 100644 net/vmnet-common.m
+> >   create mode 100644 net/vmnet-host.c
+> >   create mode 100644 net/vmnet-shared.c
+> >   create mode 100644 net/vmnet_int.h
+> >
+>
 
 
