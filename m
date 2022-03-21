@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE5E4E2E86
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:52:04 +0100 (CET)
-Received: from localhost ([::1]:38428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200BC4E2EA0
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:59:13 +0100 (CET)
+Received: from localhost ([::1]:44682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWLGF-0003Mi-Pu
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:52:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38070)
+	id 1nWLN9-0007sU-Q7
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:59:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nWLBn-0005he-1X
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:47:27 -0400
-Received: from [2a00:1450:4864:20::535] (port=41590
- helo=mail-ed1-x535.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nWLBk-0008Rd-NC
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:47:26 -0400
-Received: by mail-ed1-x535.google.com with SMTP id x34so17417787ede.8
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:47:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=c8Vb/3J2WmBC8JPmtAVXIjJB8FG7kuMrPClGrDve0es=;
- b=nw7pxVE1sVWnYvbwJE/jBZPvC3OEgisiXXM6OJWbuRe/E45gCkoECbdOk1qVBlYQtK
- z5LHnjXaGfncy1NsagQIyrKoozyGiuYQwtxLXxgSbhbOQRXCNrnas0CnNerxFXpivuDf
- WMUWgQzV5UqdHM381nonnxNByUyiFzFj2cu4HDtMpvNuDgGJpPsVhZrUjGi07i3i1e9z
- IO6NweQoL9Eo8OGzAkhQcwvnIduTpfDXUxeebJCKiTySY5fmVbIAGsHYzUHT0s3JOClG
- 1tLdNWTWMYWdnJ0/b5RfKlRL4gvBnVP7nRWEfs8w9R/HNsTIK/Y3OHQ97fgzy7X/5xFU
- KPog==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWLLa-0006mr-6H
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:57:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58131)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWLLV-0001wz-O8
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:57:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647881847;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZdmYds06cXJ0Y+t815TzoNhW3lwCFbDSC0puq3bJ/Ow=;
+ b=QFp0m7z6vepDdVQfiKRCQIfMbQJd7tkcBAMcQRB5ou8ORVBLknx4W3awLWByqUSwLFs7il
+ 3dW6HO4h4tq/by7bsIYM1MjkrBUSvwU15tJ8OxZ+OVkOEYidfIimMOi1kzkhiMZP25nw+N
+ 8qecjD0/wHWCXe2dey7a6g2lTI9G9BI=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-329-Td_ObUVTN-ybr2Wb65cwOA-1; Mon, 21 Mar 2022 12:57:25 -0400
+X-MC-Unique: Td_ObUVTN-ybr2Wb65cwOA-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ s13-20020a056130020d00b0034dfb85694dso6431522uac.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:57:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=c8Vb/3J2WmBC8JPmtAVXIjJB8FG7kuMrPClGrDve0es=;
- b=RdVx52UZc47JtWPjUa2TFutXuFcFgXLAyhzX0mmm/MDoJtu343l0KcOVwQXJQ0ZGen
- JZa9Odmt1Prw2V2hK17YoJinZQZeIMrd0SbpsxQqvrR1TBB0pVDaEJ4uOvmOcKdeund9
- GM/cUbqwgPjS+CrgthpKDst7MW1eUOWT2oBQ/Qs6xIFgfI7T0X+DNaNWsfAKzon1txk/
- gIppuHkZSQIfD2jMbnyaoN0vq5oFr8BEPpsxo3sFlh9ba/Ss03Pkmt6/gLHOJFtCFJMG
- vxDNjtD7dmyxixe6qNmzXu9Ak15dn6fFJVLH4rrRA3w9ybxsdEPiHkCba1XwdCBuKkxF
- JqzQ==
-X-Gm-Message-State: AOAM530PhvRY/LWAkaJQwu3oUMFfxTVzvJT/x96RmOpcgOTH0Xo96gYD
- JirhSKi9sUgCA9s0U7GaZq8oSw==
-X-Google-Smtp-Source: ABdhPJwUobR/yrdY2HIGxERfWCOL/dn1tKpBdSPnVZjllaNnyd+yRb/Lj2EEeyC4GfQmC6SU4fawWA==
-X-Received: by 2002:a05:6402:3712:b0:416:13bf:4fc5 with SMTP id
- ek18-20020a056402371200b0041613bf4fc5mr23994991edb.115.1647881242980; 
- Mon, 21 Mar 2022 09:47:22 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- kb28-20020a1709070f9c00b006d5d8bf1b72sm7095379ejc.78.2022.03.21.09.47.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 09:47:21 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D716D1FFB7;
- Mon, 21 Mar 2022 16:47:20 +0000 (GMT)
-References: <20220315121251.2280317-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.7.10; emacs 28.0.92
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH for 7.0 v1 0/8] misc testing, i386, docs, gitdm, gitlab
-Date: Mon, 21 Mar 2022 16:46:52 +0000
-In-reply-to: <20220315121251.2280317-1-alex.bennee@linaro.org>
-Message-ID: <87a6dj45if.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZdmYds06cXJ0Y+t815TzoNhW3lwCFbDSC0puq3bJ/Ow=;
+ b=n/eQ8B8dz3o6FurG0mA8dfdgaSdysirdsMN6N6yP6NB7ebceNtHVfI9cU7gSf1L36c
+ S3hQWMZS+QJuE7cmbrP/HtFDQe1wzGNcMeplkIek4x2rPzzehpV+Repczep5H5hDvHwe
+ jpKU/L5APi78YyXBH5rUKs6wEyFM7FkV175RXDGifSQqdRMrN8q0vaSU16SreOxavUpi
+ 3UzzILcuTC+Zk8FvOtZ+jOf8QBRkJiWAP0k/E4dtxUZE/HaVXmuU0NvAKcWtYwkOj5qj
+ +hsnrZ/Xq+Ybd5HT7FAWgL0AcDzEg0qYE+ZYS8Zh/t2dfNSHdA0dQAXj6DuEdlA/NXx+
+ lU7A==
+X-Gm-Message-State: AOAM530CVT5XNV70w2qAhr8xn0dWF7FF5WOG8Js9lTwxcmJS8REQGUGy
+ XaWPpOYsFeEGx5/XFrIZi62xXotFeJ8VvnXWj3YGHjPG0/pnz5aCC4yO2MZi6IXHZ9ioB7PFS+U
+ I9vdjp1ov/Ao2ra+PD4naSTuyFF+08Fg=
+X-Received: by 2002:a05:6122:a11:b0:33f:c7d:8040 with SMTP id
+ 17-20020a0561220a1100b0033f0c7d8040mr2282375vkn.1.1647881843903; 
+ Mon, 21 Mar 2022 09:57:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxXJHP6lJc5no5ays7z3slxlpLodc/jPZuOYyGK0UkddKIuX2NSp36D9BtLYDfvyq0DQGV8ObV0bBGWhZWsNNQ=
+X-Received: by 2002:a05:6122:a11:b0:33f:c7d:8040 with SMTP id
+ 17-20020a0561220a1100b0033f0c7d8040mr2282364vkn.1.1647881843659; Mon, 21 Mar
+ 2022 09:57:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220318203655.676907-1-jsnow@redhat.com>
+ <20220318203655.676907-7-jsnow@redhat.com>
+ <20220321152902.tasnzpwo7b4ufqaa@redhat.com>
+In-Reply-To: <20220321152902.tasnzpwo7b4ufqaa@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 21 Mar 2022 12:57:13 -0400
+Message-ID: <CAFn=p-bU6aemFpu_HvbzDmCrWfpmVVQuujS8HbZ1gKiFow9xhQ@mail.gmail.com>
+Subject: Re: [PATCH 06/15] iotests: rebase qemu_io() on top of qemu_tool()
+To: Eric Blake <eblake@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000ec6c7005dabd6327"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,31 +92,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, sw@weilnetz.de,
- richard.henderson@linaro.org, f4bug@amsat.org, qemu-arm@nongnu.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000ec6c7005dabd6327
+Content-Type: text/plain; charset="UTF-8"
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+On Mon, Mar 21, 2022, 11:29 AM Eric Blake <eblake@redhat.com> wrote:
 
-> Hi,
+> On Fri, Mar 18, 2022 at 04:36:46PM -0400, John Snow wrote:
+> > Rework qemu_io() to be analogous to qemu_img(); a function that requires
+> > a return code of zero by default unless disabled explicitly.
+> >
+> > Tests that use qemu_io():
+> > 030 040 041 044 055 056 093 124 129 132 136 148 149 151 152 163 165 205
+> > 209 219 236 245 248 254 255 257 260 264 280 298 300 302 304
+> > image-fleecing migrate-bitmaps-postcopy-test migrate-bitmaps-test
+> > migrate-during-backup migration-permissions
+> >
+> > Test that use qemu_io_log():
+> > 242 245 255 274 303 307 nbd-reconnect-on-open
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> >
+> > ---
+> >
+> > Note: This breaks several tests at this point. I'll be fixing each
+> > broken test one by one in the subsequent commits. We can squash them all
+> > on merge to avoid test regressions.
+> >
+> > (Seems like a way to have your cake and eat it too with regards to
+> > maintaining bisectability while also having nice mailing list patches.)
 >
-> As per usual here are the collection of random fixes and tweaks as we
-> go through the release process. Most of these patches have been posted
-> individually before although the semihosting and gitlab patches are
-> new.
+> Interesting approach; it does appear to have made reviewing a bit
+> easier, so thanks for trying it.
 >
-> The following need review:
+> I'll withhold actual R-b until the last squashed patch, but so far, I
+> haven't seen anything that causes me grief other than the lack of
+> bisectability that you already have documented how it will be
+> addressed.  [less wordy - this patch is incomplete, as advertised, but
+> looks good]
 >
->  - gitlab: include new aarch32 job in custom-runners
->  - semihosting: clean up handling of expanded argv
->  - tests/avocado: update aarch64_virt test to exercise -cpu max
 
-Ping? Any more reviews before I generate the PR?
+Meta chat about QEMU patch process:
 
---=20
-Alex Benn=C3=A9e
+I have to admit that I often "work backwards" and I prototype things by
+just making a function behave like how I want it to, and then I try and
+measure how many things broke post-hoc and use that to decide if the
+refactoring is even tractable.
+
+Often the slowest part of writing a series for me is breaking apart the
+"WIP" commit into a series of smaller steps that don't break the bisect.
+
+Sometimes this even involves a complete rewrite of an intermediate data
+structure to handle the in-between step.
+
+It feels like a lot of work just to delete it several commits later,
+sometimes. I realize giant merge commits are tough to backport, but
+sometimes I really just get stumped on how to not create twice as much work
+for myself just to arrive at an end point I've already arrived at.
+
+Of course, making things like this reviewable is a primary concern too.
+
+I'm not sure I'm an advocate of the squash-on-merge school of thought
+entirely, but maybe it's not so bad to use it sparingly, sometimes. I find
+keeping mini-commits separate can sometimes help me iterate on the design
+of a series quicker, too.
+
+In this case, I did try to position fixes that would work independently of
+the switch ahead of the pivot, but I couldn't quite get everything. Most of
+what's left is really just cases where the return type matters.
+
+Eh.
+
+This is definitely "Software Engineering" and not "Computer Science".
+
+Thanks for taking a look.
+
+
+> --
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3266
+> Virtualization:  qemu.org | libvirt.org
+>
+>
+
+--000000000000ec6c7005dabd6327
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Mon, Mar 21, 2022, 11:29 AM Eric Blake &lt;<a href=
+=3D"mailto:eblake@redhat.com">eblake@redhat.com</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex">On Fri, Mar 18, 2022 at 04:36:46PM -0400, John =
+Snow wrote:<br>
+&gt; Rework qemu_io() to be analogous to qemu_img(); a function that requir=
+es<br>
+&gt; a return code of zero by default unless disabled explicitly.<br>
+&gt; <br>
+&gt; Tests that use qemu_io():<br>
+&gt; 030 040 041 044 055 056 093 124 129 132 136 148 149 151 152 163 165 20=
+5<br>
+&gt; 209 219 236 245 248 254 255 257 260 264 280 298 300 302 304<br>
+&gt; image-fleecing migrate-bitmaps-postcopy-test migrate-bitmaps-test<br>
+&gt; migrate-during-backup migration-permissions<br>
+&gt; <br>
+&gt; Test that use qemu_io_log():<br>
+&gt; 242 245 255 274 303 307 nbd-reconnect-on-open<br>
+&gt; <br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; ---<br>
+&gt; <br>
+&gt; Note: This breaks several tests at this point. I&#39;ll be fixing each=
+<br>
+&gt; broken test one by one in the subsequent commits. We can squash them a=
+ll<br>
+&gt; on merge to avoid test regressions.<br>
+&gt; <br>
+&gt; (Seems like a way to have your cake and eat it too with regards to<br>
+&gt; maintaining bisectability while also having nice mailing list patches.=
+)<br>
+<br>
+Interesting approach; it does appear to have made reviewing a bit<br>
+easier, so thanks for trying it.<br>
+<br>
+I&#39;ll withhold actual R-b until the last squashed patch, but so far, I<b=
+r>
+haven&#39;t seen anything that causes me grief other than the lack of<br>
+bisectability that you already have documented how it will be<br>
+addressed.=C2=A0 [less wordy - this patch is incomplete, as advertised, but=
+<br>
+looks good]<br></blockquote></div></div><div dir=3D"auto"><br></div><div di=
+r=3D"auto">Meta chat about QEMU patch process:</div><div dir=3D"auto"><br><=
+/div><div dir=3D"auto">I have to admit that I often &quot;work backwards&qu=
+ot; and I prototype things by just making a function behave like how I want=
+ it to, and then I try and measure how many things broke post-hoc and use t=
+hat to decide if the refactoring is even tractable.</div><div dir=3D"auto">=
+<br></div><div dir=3D"auto">Often the slowest part of writing a series for =
+me is breaking apart the &quot;WIP&quot; commit into a series of smaller st=
+eps that don&#39;t break the bisect.</div><div dir=3D"auto"><br></div><div =
+dir=3D"auto">Sometimes this even involves a complete rewrite of an intermed=
+iate data structure to handle the in-between step.</div><div dir=3D"auto"><=
+br></div><div dir=3D"auto">It feels like a lot of work just to delete it se=
+veral commits later, sometimes. I realize giant merge commits are tough to =
+backport, but sometimes I really just get stumped on how to not create twic=
+e as much work for myself just to arrive at an end point I&#39;ve already a=
+rrived at.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Of course, ma=
+king things like this reviewable is a primary concern too.</div><div dir=3D=
+"auto"><br></div><div dir=3D"auto">I&#39;m not sure I&#39;m an advocate of =
+the squash-on-merge school of thought entirely, but maybe it&#39;s not so b=
+ad to use it sparingly, sometimes. I find keeping mini-commits separate can=
+ sometimes help me iterate on the design of a series quicker, too.</div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto">In this case, I did try to posit=
+ion fixes that would work independently of the switch ahead of the pivot, b=
+ut I couldn&#39;t quite get everything. Most of what&#39;s left is really j=
+ust cases where the return type matters.</div><div dir=3D"auto"><br></div><=
+div dir=3D"auto">Eh.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thi=
+s is definitely &quot;Software Engineering&quot; and not &quot;Computer Sci=
+ence&quot;.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks for t=
+aking a look.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+-- <br>
+Eric Blake, Principal Software Engineer<br>
+Red Hat, Inc.=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+1-919-301-3266<br>
+Virtualization:=C2=A0 <a href=3D"http://qemu.org" rel=3D"noreferrer norefer=
+rer" target=3D"_blank">qemu.org</a> | <a href=3D"http://libvirt.org" rel=3D=
+"noreferrer noreferrer" target=3D"_blank">libvirt.org</a><br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000ec6c7005dabd6327--
+
 
