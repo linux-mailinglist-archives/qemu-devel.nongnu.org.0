@@ -2,73 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9F74E2223
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 09:24:17 +0100 (CET)
-Received: from localhost ([::1]:56460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C052E4E2241
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 09:33:49 +0100 (CET)
+Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWDKp-0005MT-Pq
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 04:24:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39506)
+	id 1nWDU4-0000pu-CK
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 04:33:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1nWDIj-0004F8-2F
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:22:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55725)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nWDSE-0008QN-CH
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:31:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1nWDIf-0003UQ-V8
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:22:03 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nWDS5-0004y3-PH
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:31:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647850920;
+ s=mimecast20190719; t=1647851504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PjB7jkvgDV3zyNZntj89IXCugbrNysTJ3UTeXcUzSgY=;
- b=dYHK8XZP+TukqS+hiXaXhR2rxi55fmUfVafQBUSHysGE2OAh7ixFkxsAr1FRnjHfeRHsPn
- fOkH2PQxBSI/5dHAvuLyZ9TMXmrcxNvqC8OX1RIh11z6ha0TOpeMjZg/dQUiElCsKJDKZW
- yKrC7cDWbYAbWWrfwRlqFarFr8qURnQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jBUyQa3hCw+i7wzo7ZMHpkb54FvXrTw5CWoiYttbMOg=;
+ b=bfHIx2v3ofijEO3RJeuh8XLxbFOmUFK0iXw+OBi68zJYGfMGZvWmfAt95rdQR+6Z4V312Q
+ OC1YF5RJEB1D/OOgwmkrFl7D6EMoCaJBcDGVhQN0dRiCF78cqoAisOgQ5HknBuaBnsQtQR
+ bX9nC6Fl0jXee2DcX+CBEW9NUabz3CQ=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-507-xSsvaMC5MuGOtSdfOXrmFw-1; Mon, 21 Mar 2022 04:21:59 -0400
-X-MC-Unique: xSsvaMC5MuGOtSdfOXrmFw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1876038035AC;
- Mon, 21 Mar 2022 08:21:59 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 31148492C14;
- Mon, 21 Mar 2022 08:21:58 +0000 (UTC)
-Date: Mon, 21 Mar 2022 09:21:55 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2] target/i386: kvm: do not access uninitialized
- variable on older kernels
-Message-ID: <Yjg1o3jMMYDo9rYE@angien.pipo.sk>
-References: <20220320193914.111356-1-pbonzini@redhat.com>
+ us-mta-20-lKoKA94nM_-jVfEBZXskMQ-1; Mon, 21 Mar 2022 04:31:42 -0400
+X-MC-Unique: lKoKA94nM_-jVfEBZXskMQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ 94-20020a0c8167000000b004411702e935so3197142qvc.7
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 01:31:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=jBUyQa3hCw+i7wzo7ZMHpkb54FvXrTw5CWoiYttbMOg=;
+ b=f4KCmZIYA4MmsUZa3atMIwRNLVNgH4wezW/1F5ydpUIYaTnUsZ8NzAMC3wnTbRk3bP
+ d3DHLBb9GIO6vqp2NP9hJcE4e+Jp4YUr2vhOisvuzharkRCCS65llsc9yom4hFF5fWCR
+ 3/3tVAerEPdRzaT6I7KonmExiqeqKbCwySHjwBV91ZKKqVNBx45ccpmRVhri/yqDNUlT
+ iHzza0ZpBA/Z13TFD9sKXVujaGgFqJur7ywriC5lKigAcjT3S+cDyjChR/l4WHYGImNX
+ 7sAG0FMT1gItivBIexw8RSaPmh+MR41gaQ2AyvMt6b2Ic6YAOkx2Y6DvMyUMyOsRh3+1
+ tumw==
+X-Gm-Message-State: AOAM532WbQcO/k2t594RfBVeFXmDyR3oWEvKAOZ6GBZevLHcVbwts+ca
+ VABmG2hhhugwKXKzmdZNH+H0RnsEtlG7JgyGlJh99LLQ/hG/FC9sZipJXcQyPcekzlDuOBU1mkY
+ il5BrZd4O39o4nak=
+X-Received: by 2002:a05:622a:1386:b0:2e1:e80c:a026 with SMTP id
+ o6-20020a05622a138600b002e1e80ca026mr15059525qtk.596.1647851502454; 
+ Mon, 21 Mar 2022 01:31:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxWp8tJFzPPHD0R5O0S6r/m3jXVj9XmJ3x/e/ItIo50PvVWNkhY1EXYwvSu9QAYMIQIfAbZUg==
+X-Received: by 2002:a05:622a:1386:b0:2e1:e80c:a026 with SMTP id
+ o6-20020a05622a138600b002e1e80ca026mr15059515qtk.596.1647851502209; 
+ Mon, 21 Mar 2022 01:31:42 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-12-25-114.business.telecomitalia.it.
+ [87.12.25.114]) by smtp.gmail.com with ESMTPSA id
+ d11-20020a05620a166b00b0067e380258e7sm5933319qko.73.2022.03.21.01.31.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Mar 2022 01:31:41 -0700 (PDT)
+Date: Mon, 21 Mar 2022 09:31:37 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Peter Lieven <pl@kamp.de>
+Subject: Re: [PATCH] block/rbd: fix write zeroes with growing images
+Message-ID: <20220321083137.rtwh6gretloaipwk@sgarzare-redhat>
+References: <20220318164743.vgkbcoeok2e4r6pa@sgarzare-redhat>
+ <40388E21-4608-4815-B332-C6173412B6C3@kamp.de>
 MIME-Version: 1.0
-In-Reply-To: <20220320193914.111356-1-pbonzini@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+In-Reply-To: <40388E21-4608-4815-B332-C6173412B6C3@kamp.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pkrempa@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,35 +102,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vr_qemu@t-online.de, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Ilya Dryomov <idryomov@gmail.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 20, 2022 at 20:39:14 +0100, Paolo Bonzini wrote:
-> KVM support for AMX includes a new system attribute, KVM_X86_XCOMP_GUEST_SUPP.
-> Commit 19db68ca68 ("x86: Grant AMX permission for guest", 2022-03-15) however
-> did not fully consider the behavior on older kernels.  First, it warns
-> too aggressively.  Second, it invokes the KVM_GET_DEVICE_ATTR ioctl
-> unconditionally and then uses the "bitmask" variable, which remains
-> uninitialized if the ioctl fails.  Third, kvm_ioctl returns -errno rather
-> than -1 on errors.
-> 
-> While at it, explain why the ioctl is needed and KVM_GET_SUPPORTED_CPUID
-> is not enough.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->         v1->v2: for error condition for kvm_ioctl [Volker]
->  target/i386/kvm/kvm.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
+On Sat, Mar 19, 2022 at 04:15:33PM +0100, Peter Lieven wrote:
+>
+>
+>> Am 18.03.2022 um 17:47 schrieb Stefano Garzarella <sgarzare@redhat.com>:
+>>
+>> ﻿On Fri, Mar 18, 2022 at 04:48:18PM +0100, Peter Lieven wrote:
+>>>
+>>>
+>>>>> Am 18.03.2022 um 09:25 schrieb Stefano Garzarella <sgarzare@redhat.com>:
+>>>>
+>>>> ﻿On Thu, Mar 17, 2022 at 07:27:05PM +0100, Peter Lieven wrote:
+>>>>>
+>>>>>
+>>>>>>> Am 17.03.2022 um 17:26 schrieb Stefano Garzarella <sgarzare@redhat.com>:
+>>>>>>
+>>>>>> ﻿Commit d24f80234b ("block/rbd: increase dynamically the image size")
+>>>>>> added a workaround to support growing images (eg. qcow2), resizing
+>>>>>> the image before write operations that exceed the current size.
+>>>>>>
+>>>>>> We recently added support for write zeroes and without the
+>>>>>> workaround we can have problems with qcow2.
+>>>>>>
+>>>>>> So let's move the resize into qemu_rbd_start_co() and do it when
+>>>>>> the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
+>>>>>>
+>>>>>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2020993
+>>>>>> Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
+>>>>>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>>>>>> ---
+>>>>>> block/rbd.c | 26 ++++++++++++++------------
+>>>>>> 1 file changed, 14 insertions(+), 12 deletions(-)
+>>>>>>
+>>>>>> diff --git a/block/rbd.c b/block/rbd.c
+>>>>>> index 8f183eba2a..6caf35cbba 100644
+>>>>>> --- a/block/rbd.c
+>>>>>> +++ b/block/rbd.c
+>>>>>> @@ -1107,6 +1107,20 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
+>>>>>>
+>>>>>>   assert(!qiov || qiov->size == bytes);
+>>>>>>
+>>>>>> +    if (cmd == RBD_AIO_WRITE || cmd == RBD_AIO_WRITE_ZEROES) {
+>>>>>> +        /*
+>>>>>> +         * RBD APIs don't allow us to write more than actual size, so in order
+>>>>>> +         * to support growing images, we resize the image before write
+>>>>>> +         * operations that exceed the current size.
+>>>>>> +         */
+>>>>>> +        if (offset + bytes > s->image_size) {
+>>>>>> +            int r = qemu_rbd_resize(bs, offset + bytes);
+>>>>>> +            if (r < 0) {
+>>>>>> +                return r;
+>>>>>> +            }
+>>>>>> +        }
+>>>>>> +    }
+>>>>>> +
+>>>>>>   r = rbd_aio_create_completion(&task,
+>>>>>>                                 (rbd_callback_t) qemu_rbd_completion_cb, &c);
+>>>>>>   if (r < 0) {
+>>>>>> @@ -1182,18 +1196,6 @@ coroutine_fn qemu_rbd_co_pwritev(BlockDriverState *bs, int64_t offset,
+>>>>>>                                int64_t bytes, QEMUIOVector *qiov,
+>>>>>>                                BdrvRequestFlags flags)
+>>>>>> {
+>>>>>> -    BDRVRBDState *s = bs->opaque;
+>>>>>> -    /*
+>>>>>> -     * RBD APIs don't allow us to write more than actual size, so in order
+>>>>>> -     * to support growing images, we resize the image before write
+>>>>>> -     * operations that exceed the current size.
+>>>>>> -     */
+>>>>>> -    if (offset + bytes > s->image_size) {
+>>>>>> -        int r = qemu_rbd_resize(bs, offset + bytes);
+>>>>>> -        if (r < 0) {
+>>>>>> -            return r;
+>>>>>> -        }
+>>>>>> -    }
+>>>>>>   return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_WRITE);
+>>>>>> }
+>>>>>>
+>>>>>> --
+>>>>>> 2.35.1
+>>>>>>
+>>>>>
+>>>>> Do we really have a use case for growing rbd images?
+>>>>
+>>>> The use case is to have a qcow2 image on rbd.
+>>>> I don't think it's very common, but some people use it and here [1] 
+>>>> we had a little discussion about features that could be interesting 
+>>>> (e.g.  persistent dirty bitmaps for incremental backup).
+>>>>
+>>>> In any case the support is quite simple and does not affect other 
+>>>> use cases since we only increase the size when we go beyond the 
+>>>> current size.
+>>>>
+>>>> IMHO we can have it in :-)
+>>>>
+>>>
+>>> The QCOW2 alone doesn’t make much sense, but additional metadata 
+>>> might be a use case.
+>>
+>> Yep.
+>>
+>>> Be aware that the current approach will serialize requests. If there 
+>>> is a real use case, we might think of a better solution.
+>>
+>> Good point, but it only happens when we have to resize, so maybe it's 
+>> okay for now, but I agree we could do better ;-)
+>
+>There might also be a problem if a write for a higher offset past eof 
+>will be executed shortly before a write to a slightly lower offset past 
+>eof. The second resize will fail as it would shrink the image. We would 
+>need proper locking to avoid this. Maybe we need to check if we write 
+>past eof. If yes, take a lock around the resize op and then check again 
+>if it’s still eof and only resize if true.
 
-Based on the commit message it seems that this is only for the problem
-that Michal reported, right?
+I thought rbd_resize() was synchronous. Indeed when you said this could 
+serialize writes it sounded like confirmation to me.
 
-Because it doesn't still fix the assertion failure on my AMD box:
+Since we call rbd_resize() before rbd_aio_writev(), I thought this case 
+could not occur.
 
-$  ./build/qemu-system-x86_64 -accel kvm
-qemu-system-x86_64: ../target/i386/kvm/kvm-cpu.c:105: kvm_cpu_xsave_init: Assertion `esa->size == eax' failed.
-Aborted (core dumped)
+Can you please elaborate?
+
+Thanks,
+Stefano
 
 
