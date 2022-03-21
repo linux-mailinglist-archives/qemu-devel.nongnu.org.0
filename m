@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1154E24EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 12:03:32 +0100 (CET)
-Received: from localhost ([::1]:35680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3B64E2518
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 12:15:53 +0100 (CET)
+Received: from localhost ([::1]:40622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWFox-00069V-4H
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 07:03:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50072)
+	id 1nWG0u-0001d6-1J
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 07:15:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nWFnE-0005Q3-2d
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 07:01:44 -0400
-Received: from [2607:f8b0:4864:20::b2d] (port=35670
- helo=mail-yb1-xb2d.google.com)
+ id 1nWFxg-0000oq-Nr
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 07:12:32 -0400
+Received: from [2607:f8b0:4864:20::1132] (port=42103
+ helo=mail-yw1-x1132.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nWFnC-0001Yz-7L
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 07:01:43 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id o5so27326042ybe.2
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 04:01:41 -0700 (PDT)
+ id 1nWFxf-0003OY-2h
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 07:12:32 -0400
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-2e612af95e3so39391507b3.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 04:12:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wSSpsBPzZ/r1Fvi1opWUkoYVj1/KYSwGLAnzHX5rzfo=;
- b=Hsg1/7u44OeZF7mhQctS+T7oLe68JRhryofiGArLXzSXyPYa0ixQSkjE/F42a4ZeSS
- +yIdFFJ7Q7rBY/x9/cBhKMqepcaZ3UMrPu2Z0dqqM4hTgZxlf8lVqmMby7TOcdZ/HSfD
- FspwwGJu3+XRBqlWfeOW2kZ4Bf0OHxRh/cU3kyqCZlIx7AGngS2uOVe0uNOSIJ012HOd
- qTs7Qhb5s8AgD5j/DGndBxhYK6oN/bfUjS5tdWQn/1W5hGpT4Vku0Lx6d39yv6+BDj6v
- iA+joVrY1t87u1JLYqlGYiLh45TVz8k6dls592T3+p1H0s4yBTYHv/MlCOkP8u61Eu9O
- ls8g==
+ :cc; bh=L/+iLVf04UcPMPazh9HAFp7deMGx+P1IUgGSi0uh/08=;
+ b=BaaCr6lsTPjtOv99BlmOfkUlKNckPoC2/F6pwBt239ifbE+9cbFbkXwbzqb3CziMPY
+ Zf14rEdpVX4sdcFCAm71sk1hO4SFMHM34kuU/NsNLKzZVgv4Lni5rJjkHz818y6pfwE0
+ DOQ5KZj8wbSyPAcrHkIdlkj+HZlC+UvZTcOkvj7kfEZZX6BJIamuPCcZnnuZVn/BMwbW
+ eAES8SV1kmFHMQkoyPHFlOJooD3CwbrsPS21pi1niRRy+9dBvT38Mc+NCz1CRRpOLNGy
+ 0ePwnp6wR3Ak6qb/QV4YWvXUSNfzVJZMZfDoqZNs/GbAb6oymZC/N4ww+Lph1ioN8h6j
+ dW8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wSSpsBPzZ/r1Fvi1opWUkoYVj1/KYSwGLAnzHX5rzfo=;
- b=vapao/FSWpj6ewr1798daK21BSeWk2jJOAEkXDqnv3fjsJlzDVIOlc+oZQX7EvfODq
- OVE5u9zH1bDhmv0h4IlIgmPRmamA2JtvWiJaLnKEgrf4w2DksE4/yibdkN3rRXEl5fD2
- 7L4k37FQXocEHO1HNKIadpJwO2xF5lB0dNsFclRGrvPDDCbZabiW8MVD+oc/bB/W/UNS
- 3uT5UvTauuibd5uo0BIvbDz+h0R/ZcyZtgStJguuVw+NmvdGWYYrHctNxLLaCj2iEQCO
- RLJVrZIujpG6KtYSS0SyRT5zxiKRFOUjdeBhXIGHZQmpgks6zmz43qGwXNH/gwmSsfz+
- vZYA==
-X-Gm-Message-State: AOAM530F6vl2fy1oWKcnrP9qQClp2V7g0kb/OXlRzouh/LBvx+JvWb7W
- SE3JB4CsG7u7TXerFxl8SKFU9P+IURwg1a4Iu0R+OQ==
-X-Google-Smtp-Source: ABdhPJxpYqgzAcKX4NU5qwXeakDH4Ep8o23PpGtU/nl1PXadGalcu9ucOIDSnRBfEYMvnrMYSOqfhCIrEC5xbJVIfuM=
-X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
- h3-20020a056902008300b0061a709bd841mr20315924ybs.140.1647860500833; Mon, 21
- Mar 2022 04:01:40 -0700 (PDT)
+ bh=L/+iLVf04UcPMPazh9HAFp7deMGx+P1IUgGSi0uh/08=;
+ b=HDMk2iOgXDdC8hTkBbBUKOHvW4KfN9yZVaZQsdD/+v1pS9ZL2HTPzX8f5Fmb+ygDXI
+ W4nMQZxwTYyKURJKMBKeLjBHujc59goz+i3ppzR57MtDKnaH7Tf2bCVt0e9va8S/oQYw
+ FuasqSkfKQjiqaxK79f2TFEjHfXPGaHO6NV/GiZFAHmIhtYAZ2RkZpf7QQR1OyPh3Ocx
+ FEXt3zPrBrUksasDTuYaz+NXxCszyWaS4Cl4T9+bSfBqGnVKwXBzA1XK1RImsFOsjwjz
+ 2Ni/FIxavIAujsCJwQ/OZ0RyC7WLr3LkQZ0NTjae5TdMVfongYATk4LZV53cummBuyH9
+ s5CQ==
+X-Gm-Message-State: AOAM530wfeVdvFKBdXBWFTJb7NKHn2kP8naERx46QELraarplcT9wD4a
+ x1y5LedQjfFZ8lhgS6+op2RNtDsCcCOCNIGJrRYWPw==
+X-Google-Smtp-Source: ABdhPJwRmjBLP6CAltDYxfhG3TAPNKewUiP2vc+4Ldwz3RJRHhNic0EUburkomVaNxQF4ul2jBoXXL24btHdXhwf4pY=
+X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
+ e69-20020a81a748000000b002d61f8b23a9mr22599802ywh.329.1647861149520; Mon, 21
+ Mar 2022 04:12:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220314104943.513593-1-kchamart@redhat.com>
- <20220314104943.513593-3-kchamart@redhat.com>
- <31ae45f5-e9ce-f905-ea4f-c5d869ecc72b@redhat.com> <YjC4Bmr3s96TzYTv@paraplu>
- <CAFEAcA9vqS+2Tou1iK7hqmFXnvsXxABmYW9EQRjGnKKAp=k_xQ@mail.gmail.com>
- <YjhLeU8sIIMAwUK+@paraplu>
-In-Reply-To: <YjhLeU8sIIMAwUK+@paraplu>
+References: <d60cb762-40a5-f918-02aa-463758205af5@redhat.com>
+In-Reply-To: <d60cb762-40a5-f918-02aa-463758205af5@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Mar 2022 11:01:28 +0000
-Message-ID: <CAFEAcA9swaArGjwxGUsX3n7pkQMLsK6aA=T37kC_RhbrNM4dBg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] docs: rSTify MailingLists wiki; move it to QEMU Git
-To: Kashyap Chamarthy <kchamart@redhat.com>
+Date: Mon, 21 Mar 2022 11:12:16 +0000
+Message-ID: <CAFEAcA-jEqnpUdtfgqMFUn_ghwoYM+8UyceLUz+Uo07FuH+S-Q@mail.gmail.com>
+Subject: Re: Memory leak in via_isa_realize()
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1132
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -85,43 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Thomas Huth <thuth@redhat.com>, eblake@redhat.com,
- qemu-devel@nongnu.org
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Mar 2022 at 09:55, Kashyap Chamarthy <kchamart@redhat.com> wrote:
+On Mon, 21 Mar 2022 at 10:31, Thomas Huth <thuth@redhat.com> wrote:
+> FYI, I'm seeing a memory leak in via_isa_realize() when building
+> QEMU with sanitizers enabled or when running QEMU through valgrind:
+> Same problem happens with qemu-system-ppc64 and the pegasos2 machine.
 >
-> On Tue, Mar 15, 2022 at 04:12:50PM +0000, Peter Maydell wrote:
-> > On Tue, 15 Mar 2022 at 16:00, Kashyap Chamarthy <kchamart@redhat.com> wrote:
-> > >
-> > > On Tue, Mar 15, 2022 at 02:25:05PM +0100, Thomas Huth wrote:
-> > > > On 14/03/2022 11.49, Kashyap Chamarthy wrote:
-> > >
-> > > [...]
-> > >
-> > > > At least the "users" mailing list is not related to development, so maybe
-> > > > this should rather go into docs/about/ instead?
-> > >
-> > > Yeah, makes sense.  I wonder if should create a new doc in docs/about/
-> > > for user-lists, as none of the existing docs fit the bill:
-> > >
-> > >     build-platforms.rst  deprecated.rst  index.rst license.rst
-> > >     removed-features.rst
-> >
-> > Yes, I think that about/ should have a document something like
-> > "Contacting the project" or "Support", which could tell users about not just
-> > the user-facing mailing lists but also where to file bugs, and so on.
-> >
-> > In fact, it should probably look rather like the
-> > https://www.qemu.org/support/ page...
->
-> Heh, thanks, I missed that page.  So, if I parsed you right, you're
-> implying, given the above qemu-web page, there's no need for a separate
-> about/support.rst doc.
+> No clue how to properly fix this... is it safe to free the pointer
+> at the end of the function?
 
-I think there is some merit in the documentation being standalone,
-even if it does mean a bit of duplication with the website.
+This is because the code is still using the old function
+qemu_allocate_irqs(), which is almost always going to involve
+it leaking memory. The fix is usually to rewrite the code to not use
+that function at all, i.e. to manage its irq/gpio lines differently.
+Probably the i8259 code should have a named GPIO output line
+rather than wanting to be passed a qemu_irq in an init function,
+and the via code should have an input GPIO line which it connects
+up to the i8259. It looks from a quick glance like the i8259 and
+its callers have perhaps not been completely QOMified.
+
+In this specific case, though, it seems like the only thing that
+the via_isa_request_i8259_irq() function does is pass the interrupt
+signal through to its own s->cpu_intr, so I think a relatively
+self-contained way to deal with the leak is to pass s->cpu_intr
+into i8259_init() and drop the isa_irq allocated irq and its
+associated helper function entirely. (There might be some subtlety
+I'm missing that means that wouldn't work, of course.)
 
 -- PMM
 
