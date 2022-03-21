@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A554E3285
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 23:04:19 +0100 (CET)
-Received: from localhost ([::1]:45104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ADC84E3286
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 23:06:39 +0100 (CET)
+Received: from localhost ([::1]:47618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWQ8Q-0005wm-5X
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 18:04:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60464)
+	id 1nWQAf-0007rf-Qb
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 18:06:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWQ4P-0002KP-H1
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:00:11 -0400
-Received: from [2a00:1450:4864:20::42b] (port=34416
- helo=mail-wr1-x42b.google.com)
+ id 1nWQ7i-00060u-T4
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:03:34 -0400
+Received: from [2a00:1450:4864:20::42a] (port=33555
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWQ4N-0005qf-9j
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:00:08 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id m30so12688679wrb.1
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 15:00:06 -0700 (PDT)
+ id 1nWQ7h-0003lS-Bf
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 18:03:34 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id q8so11175628wrc.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 15:03:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ncpKBZPP598khdBrir1e7E7oubTpWBBl0S/QkMCdQm8=;
- b=O/Yh59SSHEYWFebVqXAGO3XruGVSxv2SIsqLFxLvvTUMJCGd9sW6TRmN6Jr7+m65Tf
- l45VmE41CEhxh+Uyd8l5kd669reXxElORTBIaTn4oQc/Xah3HqUpCqJOTVy0dikypWfE
- 1wBEt70sRNXPkMtaSFOh/MeQ7N1O4uZKX7o51U0oZj2nAILBCzBFY71iAkdLLMzR8M6I
- HYRSzT1p4gv+NtYTQ53UtndlRAGJWLBYLEHm4IsSSYPNqr56SB/mRDaN7o7b2vWIPWY0
- XhkhNbSnYIvx2elfePzzzaRbLynXtDI6iTSGJV8viYlQ+OlRiUZ0MiBJIgD67bpZZUbD
- qcQQ==
+ bh=syh7/c2M3bR7jwxTzja/DPfYO7Qybum5V1fip3FFt60=;
+ b=EexGE+sz+MNuFZWlxvGYxRIB4aG6+IoScVY1DMoXeS1Rq1JxcJBk1pqtRPzOIoAkUe
+ +lH5mVgo/HP2fHgbYCjPN75D9U+QD/0GgwOSoamvwgM2Rx0WoMysdG3PmaK2F5gURfQD
+ 9d9OxDoqbD6i8JwMLJ/Wvp8txS8fBLQ6hQVcMzI5zLeRGa04OfADpA9aSzpVkjfxWDGJ
+ dDt7/K8BpEngGL9lXMNx1O4tBA6ksWK5p1buT7sXdGBKuzefSj6OC6wujxuqI42C6hWq
+ d+g3xWdNPTvMxypvN7zfNMlkJc+eah1RDRUauRBwEvDNXgs7ipNxntpw80wrgGx1Al5x
+ C78g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ncpKBZPP598khdBrir1e7E7oubTpWBBl0S/QkMCdQm8=;
- b=gXhxdHPLFuUJaImvW/wFKEE3lS7LtlLUwRPjWSW575WOEiThcohS8q9ylDz1/Bp3Ek
- 2tMLC/6cek6XgBav9/BKg7LAVyUV7C3Iccubf0AJa7/pnbNxAcBh6N5iRhftJs3E6tzk
- sbK0zSj/W/ZTivHi4mWiJCBYyiZ27BcVcwR3Ka/vH5z3cK40qYx+afrpgUihdCDzmJF/
- HzAaTGNDCtgz7ygauXRpQbkTO3QB+IfyxhGFNHTc/ZzsP8RJQZLv3Fl2FM4msiS0ly/J
- +7zl0yn/dT7PWJwKIRijcNxY5nLIpMLtSdSMNVeSQzjWWNjtD20AucB0KK9uqKrlSl87
- xvBQ==
-X-Gm-Message-State: AOAM5315VGfh1l9cn1IZZ5Z8rY/GH3+WEMJYcyaet1ABvzzZIeo13akL
- x0kNNlG6hRn+ZkUw70csndA=
-X-Google-Smtp-Source: ABdhPJx7jG091C9FzxaiXH2UT160UhnY+qEiFzDJOFGIFz3vvmPA1MnTrtFHoSDixCoRKvmZ+2pRYw==
-X-Received: by 2002:a5d:66ca:0:b0:203:fb72:a223 with SMTP id
- k10-20020a5d66ca000000b00203fb72a223mr12512410wrw.12.1647900004887; 
- Mon, 21 Mar 2022 15:00:04 -0700 (PDT)
+ bh=syh7/c2M3bR7jwxTzja/DPfYO7Qybum5V1fip3FFt60=;
+ b=QjXWvnXHwOuBQuAhPGTLVlh95DkafU4yMEbNaUjR/y6U4695ywukQo9aDL6g8STM9L
+ QL9s5p5d/edE+26sZ2VOg1XUCt1BkNRqt50NAqQlfoc30vu2fR/YSEbwiYPQAj9dGqD1
+ mvhxgNu8GpCYkL7ytcmVieW5tdFCABLg01M2eDqS8PUjKSPMkhfxoXNPXaVpOniNe8ZP
+ GzZjefACUYX1VTZhnp4aBdl1JBE6noTaP3N2QENCkEYPOzcpJPYJyTPlH+XHFFK3p7YY
+ lxv+qTKeVuiaFZhZ0+4XFFf55g9Cjl1E0A8db+HvCmtMqbBxFDK/4oyE2Vy8i4nB42Hr
+ hxyg==
+X-Gm-Message-State: AOAM532vPvn8PD2kaiQLron9vcONyiRXZ+Dx0vJqhkUHbMlumRGxIoJS
+ 9fbECK1iL2rcEtvXuJPjJ4co0EQZIsg=
+X-Google-Smtp-Source: ABdhPJyO07FBMGPY54Fiot3uk1v/0JzBbrwcxeJPEe7XzVM7xrPiRzyj38yzxv6DIZmzWIOT5Ldl9A==
+X-Received: by 2002:adf:fb8e:0:b0:203:bd5a:5741 with SMTP id
+ a14-20020adffb8e000000b00203bd5a5741mr19634871wrr.65.1647900212008; 
+ Mon, 21 Mar 2022 15:03:32 -0700 (PDT)
 Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
  [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- z5-20020a05600c0a0500b0037fa93193a8sm580175wmp.44.2022.03.21.15.00.03
+ e10-20020a056000178a00b0020414f27a58sm3532972wrg.35.2022.03.21.15.03.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 15:00:04 -0700 (PDT)
-Message-ID: <35fee27e-186f-ad15-e3c7-526cbe66dd1e@gmail.com>
-Date: Mon, 21 Mar 2022 23:00:03 +0100
+ Mon, 21 Mar 2022 15:03:31 -0700 (PDT)
+Message-ID: <96a26850-2444-fd18-92ae-809b9fd17e10@gmail.com>
+Date: Mon, 21 Mar 2022 23:03:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v3 2/2] ui/cocoa: Create menus in iothread
+Subject: Re: [PATCH v3 4/5] cpu: Free cpu->cpu_ases in
+ cpu_address_space_destroy()
 Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-References: <20220321041043.24112-1-akihiko.odaki@gmail.com>
- <20220321041043.24112-3-akihiko.odaki@gmail.com>
+To: Mark Kanda <mark.kanda@oracle.com>, qemu-devel@nongnu.org
+References: <20220321141409.3112932-1-mark.kanda@oracle.com>
+ <20220321141409.3112932-5-mark.kanda@oracle.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220321041043.24112-3-akihiko.odaki@gmail.com>
+In-Reply-To: <20220321141409.3112932-5-mark.kanda@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,29 +95,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/3/22 05:10, Akihiko Odaki wrote:
-> Commit 0439c5a4623d674efa0c72abd62ca6e98bb7cf87 introduced an
-> assertion that blk_all_next is called in the main thread. The function
-> is called in the following chain:
-> - blk_all_next
-> - qmp_query_block
-> - addRemovableDevicesMenuItems
-> - main
+On 21/3/22 15:14, Mark Kanda wrote:
+> Create cpu_address_space_destroy() to free a CPU's cpu_ases list.
 > 
-> This change moves the menu creation to the iothread. This also changes
-> the menu creation procedure to construct the entire menu tree before
-> setting to NSApp, which is necessary because a menu set once cannot be
-> modified if NSApp is already running.
+> vCPU hotunplug related leak reported by Valgrind:
 > 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ==132362== 216 bytes in 1 blocks are definitely lost in loss record 7,119 of 8,549
+> ==132362==    at 0x4C3ADBB: calloc (vg_replace_malloc.c:1117)
+> ==132362==    by 0x69EE4CD: g_malloc0 (in /usr/lib64/libglib-2.0.so.0.5600.4)
+> ==132362==    by 0x7E34AF: cpu_address_space_init (physmem.c:751)
+> ==132362==    by 0x45053E: qemu_init_vcpu (cpus.c:635)
+> ==132362==    by 0x76B4A7: x86_cpu_realizefn (cpu.c:6520)
+> ==132362==    by 0x9343ED: device_set_realized (qdev.c:531)
+> ==132362==    by 0x93E26F: property_set_bool (object.c:2273)
+> ==132362==    by 0x93C23E: object_property_set (object.c:1408)
+> ==132362==    by 0x9406DC: object_property_set_qobject (qom-qobject.c:28)
+> ==132362==    by 0x93C5A9: object_property_set_bool (object.c:1477)
+> ==132362==    by 0x933C81: qdev_realize (qdev.c:333)
+> ==132362==    by 0x455E9A: qdev_device_add_from_qdict (qdev-monitor.c:713)
+> 
+> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 > ---
->   ui/cocoa.m | 59 +++++++++++++++++++++---------------------------------
->   1 file changed, 23 insertions(+), 36 deletions(-)
+>   cpu.c                     | 1 +
+>   include/exec/cpu-common.h | 7 +++++++
+>   softmmu/physmem.c         | 5 +++++
+>   3 files changed, 13 insertions(+)
 
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
