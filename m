@@ -2,98 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E3E4E25A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 12:52:26 +0100 (CET)
-Received: from localhost ([::1]:34840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 621B94E25AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 12:53:27 +0100 (CET)
+Received: from localhost ([::1]:38920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWGaH-0001Kn-GX
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 07:52:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60910)
+	id 1nWGbG-00049g-2a
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 07:53:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nWGTP-0007mV-LH
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 07:45:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49462)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nWGYV-0001Kz-7Q; Mon, 21 Mar 2022 07:50:35 -0400
+Received: from smtp47.i.mail.ru ([94.100.177.107]:57782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nWGTI-0001hA-I8
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 07:45:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647863110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cXOn5grRkBx7UzeSZrn19Y22nfFTfef+a2+w0gUOnk4=;
- b=EOSFrBNyYFRtOnJl66A3aN1fluF9NIznDzxx/QNgMELkSrVlf7sVnqiolL3scibdVPHdCm
- dPxqyx5zXbqFvdD6JHTy+PgmqOOeIOtbfPcDEkmSG/Aen1oH0chF60NNWxk/bFc7s8ZvX1
- bnQU+nngEaEhG3y1J6rAbR9m5cfiQZo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-332-c8UizysSOROSuPBSVeCxLw-1; Mon, 21 Mar 2022 07:45:09 -0400
-X-MC-Unique: c8UizysSOROSuPBSVeCxLw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v184-20020a1cacc1000000b0038a12dbc23bso10146929wme.5
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 04:45:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=cXOn5grRkBx7UzeSZrn19Y22nfFTfef+a2+w0gUOnk4=;
- b=IoUpJhX9t81LC7zClbpjol1RgUA6sk/SqwistZCDbwo/cuP0QaIoCQBfANeDkkR+Im
- 09jmaoY6J2iZbA5DDLejqXzr83glWaN/vXbWexJZfdUIGhMsjPBfzZ50BeJFeMHVeixY
- aBhaJ7rABp0Fvh8MuyIj4HyCOJ5okK3Em8coeC8hrX5Gj+aJ60tb1m52rYP8JQBqzyT8
- ip3m5dXzJxOaWi+9n9oqIHXTPlg5GOAyfz6jnOUlWes9KoyO7P8wkKqBr7AckY0STp5z
- A5CWJqzu57ppVE+SnEixsXo0uoVWTSOMUhV45F4mDbv7L8dC6CNb1m4TfD423Ya0C1az
- Aqfg==
-X-Gm-Message-State: AOAM5319XAnF+54USFacngajphCNTeBVsiuoCVo4t79AjnWjdU3JQ3Vx
- SmTkclIRopgkSZMWz2Qva9GdcDcIOACD7m1t1cqzQZobOA/uX4geoHjMy8K42bNYvlshyASqbVB
- nEpWG0/kOFAZ+LJw=
-X-Received: by 2002:a5d:6944:0:b0:203:e024:7cdd with SMTP id
- r4-20020a5d6944000000b00203e0247cddmr11272458wrw.503.1647863108435; 
- Mon, 21 Mar 2022 04:45:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIhRIBVCs14Qi6mKGL2+bO//qRF6gCBpA9lBzsXDj5I5AOATP3ABa1GvJe0TCKyu0+YynilA==
-X-Received: by 2002:a5d:6944:0:b0:203:e024:7cdd with SMTP id
- r4-20020a5d6944000000b00203e0247cddmr11272434wrw.503.1647863108126; 
- Mon, 21 Mar 2022 04:45:08 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:4900:849b:f76e:5e1f:ff95?
- (p200300cbc7044900849bf76e5e1fff95.dip0.t-ipconnect.de.
- [2003:cb:c704:4900:849b:f76e:5e1f:ff95])
- by smtp.gmail.com with ESMTPSA id
- i74-20020adf90d0000000b0020373ba7beesm19175260wri.0.2022.03.21.04.45.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 04:45:07 -0700 (PDT)
-Message-ID: <d98d81c9-2a40-c70e-2aff-85bf9a8c797d@redhat.com>
-Date: Mon, 21 Mar 2022 12:45:06 +0100
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nWGYS-0003WK-BC; Mon, 21 Mar 2022 07:50:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+ s=mail4; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=XazBMo2sCUIfA3gdkuM3t0TzhMPS0A9/Cqh9C+nd2vM=; 
+ t=1647863432;x=1648468832; 
+ b=Z1l/qcRBvjMM6+IYLWl4wUpul7TUpMyGmo6Gi7f4Ve3sPbZ1iZvg2l6IbKIqBmSFoSLAI9akHWQGk/fDKQnoejmP2G7wdk38CaGTIaWEhGOfW18tEsrOVMgNjnhikbQnlNFNMcxvT7d4Pb2KCMsEhj1FHxo0EIqqx8mwjTo0/edzbZMO4xOJTy0aWgzR4yp9u57qD/dU80vrXWWjYw8o4qgy1vDRt8UJH09p0n3SiXrp0pFZWn1cFSEAZ6sCcLrIP7X/Eb/HrMLBFvhxRAgLihFsAef3fb8zup4BZreVqPuyDKM3Eut2FAE+0HzvLR0KHEILZWTufRHSVmUFaG5xZA==;
+Received: by smtp47.i.mail.ru with esmtpa (envelope-from
+ <v.sementsov-og@mail.ru>)
+ id 1nWGYN-00020P-B4; Mon, 21 Mar 2022 14:50:27 +0300
+Message-ID: <b55b3f46-6b8d-8522-9a08-e7c2ddcf8f67@mail.ru>
+Date: Mon, 21 Mar 2022 14:50:25 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v3 07/11] target/s390x: vxeh2: vector {load, store} byte
- reversed elements
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220308015358.188499-1-richard.henderson@linaro.org>
- <20220308015358.188499-8-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220308015358.188499-8-richard.henderson@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 2/3] qapi: nbd-export: allow select bitmaps by
+ node/name pair
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ hreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com, v.sementsov-og@ya.ru,
+ yuriy.vasiliev@virtuozzo.com
+References: <20220314213226.362217-1-v.sementsov-og@mail.ru>
+ <20220314213226.362217-3-v.sementsov-og@mail.ru>
+ <20220316212855.ra54pckg3u6xgwzw@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+In-Reply-To: <20220316212855.ra54pckg3u6xgwzw@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Authentication-Results: smtp47.i.mail.ru;
+ auth=pass smtp.auth=v.sementsov-og@mail.ru
+ smtp.mailfrom=v.sementsov-og@mail.ru
+X-4EC0790: 10
+X-7564579A: EEAE043A70213CC8
+X-77F55803: 4F1203BC0FB41BD95983D7D89D92196DAEE08C8B4332C69BD3B54C3E627D4433182A05F5380850401465D607C980D6BE306D4A2BF93A719183AB23533A61D6BA025833BDA1320839
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7705F446BE41E38A1EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006375D8840FA58F505298638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8DAAA4DC8C962692F394892DFB522FEA06F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE78C592797616C97AB9FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD182CC0D3CB04F14752D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BAE9A1BBD95851C5BA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC9FD33E375ABA78F43AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F79006376B6BCF2887184E5BD81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89F10D407B19AF7F7505E1C53F199C2BB95B5C8C57E37DE458BEDA766A37F9254B7
+X-8FC586DF: 6EFBBC1D9D64D975
+X-C1DE0DAB: 0D63561A33F958A580F987129B2527009AB80EA41EE81F93D14C0D959096CA11D59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA7540E9CF2C1C1CEBBA410CA545F18667F91A7EA1CDA0B5A7A0
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D343DCFC3BEDFB0242D9CF0AAD3B80F374B2C221767A94219D57B99757AEED9890762AAAD2A2459A5621D7E09C32AA3244C5F39805A544BBFBAEA2A85488B71F8227101BF96129E401127AC49D2B05FCCD8
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojSLL0ldHQslbURscrkxB7+Q==
+X-Mailru-Sender: 6C3E74F07C41AE94BE5520CD20DE4F15F2A23F2152AD3C63A3B51619249ACB9DD3C18203515230B3E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+Received-SPF: pass client-ip=94.100.177.107;
+ envelope-from=v.sementsov-og@mail.ru; helo=smtp47.i.mail.ru
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,203 +79,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linar.org>,
- dmiller423@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.03.22 02:53, Richard Henderson wrote:
-> From: David Miller <dmiller423@gmail.com>
+17.03.2022 00:28, Eric Blake wrote:
+> On Tue, Mar 15, 2022 at 12:32:25AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>> From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+>>
+>> Hi all! Current logic of relying on search through backing chain is not
+>> safe neither convenient.
+>>
+>> Sometimes it leads to necessity of extra bitmap copying. Also, we are
+>> going to add "snapshot-access" driver, to access some snapshot state
+>> through NBD. And this driver is not formally a filter, and of course
+>> it's not a COW format driver. So, searching through backing chain will
+>> not work. Instead of widening the workaround of bitmap searching, let's
+>> extend the interface so that user can select bitmap precisely.
+>>
+>> Note, that checking for bitmap active status is not copied to the new
+>> API, I don't see a reason for it, user should understand the risks. And
+>> anyway, bitmap from other node is unrelated to this export being
+>> read-only or read-write.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+>> ---
+>>   blockdev-nbd.c         |  8 +++++-
+>>   nbd/server.c           | 63 +++++++++++++++++++++++++++---------------
+>>   qapi/block-export.json |  5 +++-
+>>   qemu-nbd.c             | 11 ++++++--
+>>   4 files changed, 61 insertions(+), 26 deletions(-)
+>>
 > 
-> Signed-off-by: David Miller <dmiller423@gmail.com>
-> Message-Id: <20220307020327.3003-6-dmiller423@gmail.com>
-> [rth: Split out elements (plural) from element (scalar)
->       Use tcg little-endian memory ops, plus hswap and wswap.]
-> Signed-off-by: Richard Henderson <richard.henderson@linar.org>
-> ---
->  target/s390x/tcg/translate_vx.c.inc | 101 ++++++++++++++++++++++++++++
->  target/s390x/tcg/insn-data.def      |   4 ++
->  2 files changed, 105 insertions(+)
+>> @@ -1709,37 +1709,56 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
+>>       }
+>>       exp->export_bitmaps = g_new0(BdrvDirtyBitmap *, exp->nr_export_bitmaps);
+>>       for (i = 0, bitmaps = arg->bitmaps; bitmaps;
+>> -         i++, bitmaps = bitmaps->next) {
+>> -        const char *bitmap = bitmaps->value;
+>> +         i++, bitmaps = bitmaps->next)
+>> +    {
+>> +        const char *bitmap;
 > 
-> diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
-> index ac807122a3..9a82401d71 100644
-> --- a/target/s390x/tcg/translate_vx.c.inc
-> +++ b/target/s390x/tcg/translate_vx.c.inc
-> @@ -457,6 +457,56 @@ static DisasJumpType op_vlrep(DisasContext *s, DisasOps *o)
->      return DISAS_NEXT;
->  }
->  
-> +static DisasJumpType op_vlbr(DisasContext *s, DisasOps *o)
-> +{
-> +    const uint8_t es = get_field(s, m3);
-> +    TCGv_i64 t0, t1, tt;
-> +
-> +    if (es < ES_16 || es > ES_128) {
-> +        gen_program_exception(s, PGM_SPECIFICATION);
-> +        return DISAS_NORETURN;
-> +    }
-> +
-> +    t0 = tcg_temp_new_i64();
-> +    t1 = tcg_temp_new_i64();
-> +
-> +    /* Begin with byte reversed doublewords... */
-> +    tcg_gen_qemu_ld_i64(t0, o->addr1, get_mem_index(s), MO_LEUQ);
-> +    gen_addi_and_wrap_i64(s, o->addr1, o->addr1, 8);
-> +    tcg_gen_qemu_ld_i64(t1, o->addr1, get_mem_index(s), MO_LEUQ);
-> +
+> I'm not sure if our prevailing style splits { to its own line on a
+> multi-line 'for'.  But this is a cosmetic question, not one of
+> correctness.
+> 
+>> +        case QTYPE_QDICT:
+>> +            bitmap = bitmaps->value->u.external.name;
+>> +            bm = block_dirty_bitmap_lookup(bitmaps->value->u.external.node,
+>> +                                           bitmap, NULL, errp);
+>> +            if (!bm) {
+>> +                ret = -ENOENT;
+>> +                goto fail;
+>> +            }
+>> +            break;
+>> +        default:
+>> +            abort();
+> 
+> Not sure if g_assert_not_reached() or __builtin_unreachable() would be
+> any better here.  I'm fine with the abort() for now.
+> 
+>> +++ b/qapi/block-export.json
+>> @@ -6,6 +6,7 @@
+>>   ##
+>>   
+>>   { 'include': 'sockets.json' }
+>> +{ 'include': 'block-core.json' }
+> 
+> Hmm.  Does this extra inclusion negatively impact qemu-storage-daemon,
+> since that is why we created block-export.json in the first place (to
+> minimize the stuff that qsd pulled in without needing all of
+> block-core.json)?  In other words, would it be better to move
+> BlockDirtyBitmapOrStr to this file?
 
-Would it make sense to just special-case ES_128, by loading them into
-the proper t0/t1 right away?
+And include block-export in block-core?
 
-if (es == ES_128) {
-    tcg_gen_qemu_ld_i64(t1, o->addr1, get_mem_index(s), MO_LEUQ);
-    gen_addi_and_wrap_i64(s, o->addr1, o->addr1, 8);
-    tcg_gen_qemu_ld_i64(t0, o->addr1, get_mem_index(s), MO_LEUQ);
-    goto write;
-}
+Another alternative is to move BlockDirtyBitmapOrStr to a separate file included from both block-export and block-core but that seems to be too much.
 
-/* Begin with byte reversed doublewords... */
-tcg_gen_qemu_ld_i64(t0, o->addr1, get_mem_index(s), MO_LEUQ);
-gen_addi_and_wrap_i64(s, o->addr1, o->addr1, 8);
-tcg_gen_qemu_ld_i64(t1, o->addr1, get_mem_index(s), MO_LEUQ);
-
-/*
- * For 16 and 32-bit elements, the doubleword bswap also reversed
- * the order of the elements.  Perform a larger order swap to put
- * them back into place.
- */
-switch (es) {
-...
-}
-
-write:
-write_vec_element_i64(t0, get_field(s, v1), 0, ES_64);
-write_vec_element_i64(t1, get_field(s, v1), 1, ES_64);
-
-> +    /*
-> +     * For 16 and 32-bit elements, the doubleword bswap also reversed
-> +     * the order of the elements.  Perform a larger order swap to put
-> +     * them back into place.  For the 128-bit "element", finish the
-> +     * bswap by swapping the doublewords.
-> +     */
-> +    switch (es) {
-> +    case ES_16:
-> +        tcg_gen_hswap_i64(t0, t0);
-> +        tcg_gen_hswap_i64(t1, t1);
-> +        break;
-> +    case ES_32:
-> +        tcg_gen_wswap_i64(t0, t0);
-> +        tcg_gen_wswap_i64(t1, t1);
-> +        break;
-> +    case ES_64:
-> +        break;
-> +    case ES_128:
-> +        tt = t0, t0 = t1, t1 = tt;
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +
-> +    write_vec_element_i64(t0, get_field(s, v1), 0, ES_64);
-> +    write_vec_element_i64(t1, get_field(s, v1), 1, ES_64);
-> +
-> +    tcg_temp_free(t0);
-> +    tcg_temp_free(t1);
-> +    return DISAS_NEXT;
-> +}
-> +
->  static DisasJumpType op_vle(DisasContext *s, DisasOps *o)
->  {
->      const uint8_t es = s->insn->data;
-> @@ -998,6 +1048,57 @@ static DisasJumpType op_vst(DisasContext *s, DisasOps *o)
->      return DISAS_NEXT;
->  }
->  
-> +static DisasJumpType op_vstbr(DisasContext *s, DisasOps *o)
-> +{
-> +    const uint8_t es = get_field(s, m3);
-> +    TCGv_i64 t0, t1, tt;
-> +
-> +    if (es < ES_16 || es > ES_128) {
-> +        gen_program_exception(s, PGM_SPECIFICATION);
-> +        return DISAS_NORETURN;
-> +    }
-> +
-> +    /* Probe write access before actually modifying memory */
-> +    gen_helper_probe_write_access(cpu_env, o->addr1, tcg_constant_i64(16));
-> +
-> +    t0 = tcg_temp_new_i64();
-> +    t1 = tcg_temp_new_i64();
-> +    read_vec_element_i64(t0, get_field(s, v1), 0, ES_64);
-> +    read_vec_element_i64(t1, get_field(s, v1), 1, ES_64);
-
-
-Dito, eventually just special case on MO_128 directly.
-
-> +
-> +    /*
-> +     * For 16 and 32-bit elements, the doubleword bswap below will
-> +     * reverse the order of the elements.  Perform a larger order
-> +     * swap to put them back into place.  For the 128-bit "element",
-> +     * finish the bswap by swapping the doublewords.
-> +     */
-> +    switch (es) {
-> +    case MO_16:
-> +        tcg_gen_hswap_i64(t0, t0);
-> +        tcg_gen_hswap_i64(t1, t1);
-> +        break;
-> +    case MO_32:
-> +        tcg_gen_wswap_i64(t0, t0);
-> +        tcg_gen_wswap_i64(t1, t1);
-> +        break;
-> +    case MO_64:
-> +        break;
-> +    case MO_128:
-> +        tt = t0, t0 = t1, t1 = tt;
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +
-> +    tcg_gen_qemu_st_i64(t0, o->addr1, get_mem_index(s), MO_LEUQ);
-> +    gen_addi_and_wrap_i64(s, o->addr1, o->addr1, 8);
-> +    tcg_gen_qemu_st_i64(t1, o->addr1, get_mem_index(s), MO_LEUQ);
-> +
-> +    tcg_temp_free(t0);
-> +    tcg_temp_free(t1);
-> +    return DISAS_NEXT;
-> +}
-> +
->  static DisasJumpType op_vste(DisasContext *s, DisasOps *o)
->  {
->      const uint8_t es = s->insn->data;
-> diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
-> index b524541a7d..ee6e1dc9e5 100644
-> --- a/target/s390x/tcg/insn-data.def
-> +++ b/target/s390x/tcg/insn-data.def
-> @@ -1027,6 +1027,8 @@
->      F(0xe756, VLR,     VRR_a, V,   0, 0, 0, 0, vlr, 0, IF_VEC)
->  /* VECTOR LOAD AND REPLICATE */
->      F(0xe705, VLREP,   VRX,   V,   la2, 0, 0, 0, vlrep, 0, IF_VEC)
-> +/* VECTOR LOAD BYTE REVERSED ELEMENTS */
-> +    F(0xe606, VLBR,    VRX,   VE2, la2, 0, 0, 0, vlbr, 0, IF_VEC)
->  /* VECTOR LOAD ELEMENT */
->      E(0xe700, VLEB,    VRX,   V,   la2, 0, 0, 0, vle, 0, ES_8, IF_VEC)
->      E(0xe701, VLEH,    VRX,   V,   la2, 0, 0, 0, vle, 0, ES_16, IF_VEC)
-> @@ -1079,6 +1081,8 @@
->      F(0xe75f, VSEG,    VRR_a, V,   0, 0, 0, 0, vseg, 0, IF_VEC)
->  /* VECTOR STORE */
->      F(0xe70e, VST,     VRX,   V,   la2, 0, 0, 0, vst, 0, IF_VEC)
-> +/* VECTOR STORE BYTE REVERSED ELEMENTS */
-> +    F(0xe60e, VSTBR,    VRX,   VE2, la2, 0, 0, 0, vstbr, 0, IF_VEC)
->  /* VECTOR STORE ELEMENT */
->      E(0xe708, VSTEB,   VRX,   V,   la2, 0, 0, 0, vste, 0, ES_8, IF_VEC)
->      E(0xe709, VSTEH,   VRX,   V,   la2, 0, 0, 0, vste, 0, ES_16, IF_VEC)
+> 
+> Everything else looks okay with this patch.
+> 
 
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Best regards,
+Vladimir
 
