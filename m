@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7F14E2098
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 07:24:06 +0100 (CET)
-Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C48C4E20C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 07:55:54 +0100 (CET)
+Received: from localhost ([::1]:47920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWBSX-0002w2-Ad
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 02:24:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44314)
+	id 1nWBxJ-00006H-Nq
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 02:55:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nWBGF-0000Ej-Qp
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 02:11:24 -0400
-Received: from mga06.intel.com ([134.134.136.31]:11681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nWBGD-0002uG-EQ
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 02:11:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647843081; x=1679379081;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=YX3EtHyoc+rRobAvLm9ROpna2RtILtiVYzShu3ZinXU=;
- b=Yl5bqa9i2DjmROLSIG+sTVy2MYzpj4AlWxYWW2/x4se8j/EUDaO/K8wc
- bUOSGYcCidNmUnpIU0+3KwXd9+NuYgstYWgZyj6eZGOmjR0736jAprQHo
- eAxXXNbj/VP4lj5eH9cG31dguzQDmrVIbK33Hr/Xsvcbu6CiaFgctXwF2
- TVBHy5xQjjMyhO1l/mcEErCJkgpXBf8rfXPg61hWNG7y0shsgzI2Fjklt
- f0HTaQqrND8LO0T1Rghb4pOdeT4V2wB6nyHTKX1uCiAGX1KvUwYgtnLSG
- BCtk+y4H151C8a1PJWPxi1CgsBFd+awM1SThZojSHtFUFVquKCeAbKy8K A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="318186694"
-X-IronPort-AV: E=Sophos;i="5.90,197,1643702400"; d="scan'208";a="318186694"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2022 23:11:19 -0700
-X-IronPort-AV: E=Sophos;i="5.90,197,1643702400"; d="scan'208";a="559720521"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.169.245])
- ([10.249.169.245])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2022 23:11:13 -0700
-Message-ID: <e3ca31cb-cd82-6214-6c5b-6293119c2098@intel.com>
-Date: Mon, 21 Mar 2022 14:11:11 +0800
+ (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
+ id 1nWBmV-0002Jk-JA
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 02:44:44 -0400
+Received: from [2607:f8b0:4864:20::535] (port=43522
+ helo=mail-pg1-x535.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
+ id 1nWBmR-0006Z7-AW
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 02:44:41 -0400
+Received: by mail-pg1-x535.google.com with SMTP id c2so9641366pga.10
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 23:44:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=smartx-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ksXdtS//i0c6PfJk4DpuOmBnEbRaa3UByTgAIVIq8m8=;
+ b=TB5jkt8D/KZFzf1T/P96zXWKXMb7tAGJepwsDALMuaRc4bHl0cibrMRLXaXUKe+4j+
+ mUesAj7+pAzwMTtDAzFVn8iskGBlat9Wcjm405Ysi8vtyvQwiSCqfHdY+UYL8Ugy0w2H
+ cR6RowHb4djmtXS04xsHfCBDZNKfFgq7QcAalM+lwGrBCN9hSqQaedUw/riv3pNPurcw
+ 9rZmTVdfi/7rS3NsYw0j/RoBUf3Kv1vw3zV01HhLOnhBwAWCLVgA1HyXFocUX1m9wm9H
+ M504d56MREd6LWGV7cdsANmUgtYACtxdfGg5W0xJaz8UvI6vdhmw0rk0iJEM2HeF4DWn
+ osVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ksXdtS//i0c6PfJk4DpuOmBnEbRaa3UByTgAIVIq8m8=;
+ b=V57O4s+qclSOlxj9XduyQQPK1JMAPsaeaSAj6eTUV/Ydhk0Fiw0xQGNRlwOuCo3tBv
+ 2yJRB5mn7obOmarui5HfjhvxWqCSliuGarp90dAG+MQCxc3M8ZaPzKHN6wr7UrLnkOoH
+ iYAmlybNER/841A8FsDm61x2FLMQDZXT/o2WWY5EPZ13Ma6rfWeDeV7faS8gcAiJiEtQ
+ 8IYYGrPXtZtXOVC1JfBhr4GSpCgPLP85R+1qWq+XZTH0LVnzURkhG+/UJgnB8Ixul2pt
+ erzD6hz9oLdO0OkNB1wfAtS2ilOxPWefanZ6KxM5bW6QfxNUCZEgpiogPlb0ltVh2Hkh
+ NjEA==
+X-Gm-Message-State: AOAM530wPLhOS0NW83t7GV/kDu7qdPjxe2fF9HDBe1rvA51iCpUIPXIB
+ 2TMGZBCGArhiiHNjaYhISA3LP+SF3ry2dg==
+X-Google-Smtp-Source: ABdhPJwxgJOwSLdJpWdR+XS09umck/7wfVAL5kdPkZd3jwjqdsfAc2/Zn3Lp8k3aQw4DO1kOIFLY6A==
+X-Received: by 2002:a63:4707:0:b0:382:207b:889c with SMTP id
+ u7-20020a634707000000b00382207b889cmr13536041pga.541.1647845074684; 
+ Sun, 20 Mar 2022 23:44:34 -0700 (PDT)
+Received: from dev.lizongyuan.local ([103.177.44.11])
+ by smtp.gmail.com with ESMTPSA id
+ q13-20020a056a00088d00b004e1bea9c582sm18628842pfj.43.2022.03.20.23.44.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Mar 2022 23:44:34 -0700 (PDT)
+From: Zongyuan Li <zongyuan.li@smartx.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v2 0/1] Replace 'qemu_irq_split' with 'TYPE_SPLIT_IRQ'
+Date: Mon, 21 Mar 2022 14:44:34 +0800
+Message-Id: <20220321064435.126799-1-zongyuan.li@smartx.com>
+X-Mailer: git-send-email 2.34.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [RFC PATCH v3 18/36] i386/tdvf: Introduce function to parse TDVF
- metadata
-Content-Language: en-US
-To: Isaku Yamahata <isaku.yamahata@gmail.com>
-References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
- <20220317135913.2166202-19-xiaoyao.li@intel.com>
- <20220318171924.GA4050087@ls.amr.corp.intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220318171924.GA4050087@ls.amr.corp.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=xiaoyao.li@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::535
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::535;
+ envelope-from=zongyuan.li@smartx.com; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,68 +86,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
- "Daniel P. Berrang???" <berrange@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Eric Blake <eblake@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe Mathieu-Daud??? <f4bug@amsat.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, seanjc@google.com, erdemaktas@google.com,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: Zongyuan Li <zongyuan.li@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/19/2022 1:19 AM, Isaku Yamahata wrote:
-> On Thu, Mar 17, 2022 at 09:58:55PM +0800,
-> Xiaoyao Li <xiaoyao.li@intel.com> wrote:
-> 
->> diff --git a/hw/i386/tdvf.c b/hw/i386/tdvf.c
->> new file mode 100644
->> index 000000000000..02da1d2c12dd
->> --- /dev/null
->> +++ b/hw/i386/tdvf.c
->> @@ -0,0 +1,196 @@
->> +/*
->> + * SPDX-License-Identifier: GPL-2.0-or-later
->> +
->> + * Copyright (c) 2020 Intel Corporation
->> + * Author: Isaku Yamahata <isaku.yamahata at gmail.com>
->> + *                        <isaku.yamahata at intel.com>
->> + *
->> + * This program is free software; you can redistribute it and/or modify
->> + * it under the terms of the GNU General Public License as published by
->> + * the Free Software Foundation; either version 2 of the License, or
->> + * (at your option) any later version.
->> +
->> + * This program is distributed in the hope that it will be useful,
->> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
->> + * GNU General Public License for more details.
->> +
->> + * You should have received a copy of the GNU General Public License along
->> + * with this program; if not, see <http://www.gnu.org/licenses/>.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "hw/i386/pc.h"
->> +#include "hw/i386/tdvf.h"
->> +#include "sysemu/kvm.h"
->> +
->> +#define TDX_METADATA_GUID "e47a6535-984a-4798-865e-4685a7bf8ec2"
->> +#define TDX_METADATA_VERSION    1
->> +#define TDVF_SIGNATURE_LE32     0x46564454 /* TDVF as little endian */
-> 
-> _LE32 doesn't make sense.  qemu doesn't provide macro version for byteswap.
-> Let's convert at the usage point.
+This is a WIP patch set trying to resolve
 
-OK
->> +
->> +    /* Finally, verify the signature to determine if this is a TDVF image. */
->> +   if (metadata->Signature != TDVF_SIGNATURE_LE32) {
-> 
-> 
-> metadata->Signature = le32_to_cpu(metadata->Signature);
-> metadata->Signature != TDVF_SIGNATURE for consistency.
-> 
+https://gitlab.com/qemu-project/qemu/-/issues/811
+
+which will totally replace 'qemu_irq_split' with use 
+QOM object 'TYPE_SPLIT_IRQ' device.
+
+I just want to make sure I'm on the right way, so
+only 'realview' module is modified.
+
+Changes since v1:
+
+1. Remove unnecessary headers realview.c
+2. Rewrite the splitter helper function. I agree that previous valist
+   implementation is too complicated, but keeping it will make code
+   more readable. Or any other reason we need to write the code
+   directly into the init function? If that is true, I will change that
+3. Use 'qdev_*' rather than 'Object' directly
+
+Thanks for reviewing.
+
+Zongyuan Li (1):
+  hw/arm/realview: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+
+ hw/arm/realview.c | 41 ++++++++++++++++++++++++++++++++---------
+ 1 file changed, 32 insertions(+), 9 deletions(-)
+
+-- 
+2.34.0
 
 
