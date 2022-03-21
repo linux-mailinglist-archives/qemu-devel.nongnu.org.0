@@ -2,56 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B68D4E2C1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 16:24:19 +0100 (CET)
-Received: from localhost ([::1]:55810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD214E2C41
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 16:29:06 +0100 (CET)
+Received: from localhost ([::1]:60572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWJtK-00082Z-0r
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 11:24:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40266)
+	id 1nWJxw-00036O-QG
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 11:29:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nWJqn-0005iH-Ec
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 11:21:41 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:59201
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nWJqj-00052l-89
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 11:21:40 -0400
-HMM_SOURCE_IP: 172.18.0.188:59560.318688335
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.98.168 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id EDB69280097;
- Mon, 21 Mar 2022 23:21:22 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.188])
- by app0023 with ESMTP id 5fc100c6b3674655a82376932a3497e9 for
- qemu-devel@nongnu.org; Mon, 21 Mar 2022 23:21:26 CST
-X-Transaction-ID: 5fc100c6b3674655a82376932a3497e9
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.188
-X-MEDUSA-Status: 0
-Message-ID: <245b5067-6619-cf0d-f729-fac48ad5c56c@chinatelecom.cn>
-Date: Mon, 21 Mar 2022 23:21:19 +0800
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nWJtR-0001JB-0E; Mon, 21 Mar 2022 11:24:25 -0400
+Received: from smtp52.i.mail.ru ([94.100.177.112]:59986)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nWJtM-0007xk-GP; Mon, 21 Mar 2022 11:24:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+ s=mail4; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=vUkU3QY2wYxoDbSH6P8OcxYIo0VvisoSkmAofpI+qrM=; 
+ t=1647876260;x=1648481660; 
+ b=i0Sf1Am/YjdKcGv/O2ZFxR1vavsIH8Vo9xbMDBRUPqziMtDnFH8uoF6LVoNKkVITiBEDf9tCioNEwk9EarzXJUNy2hn8ZedIgDpGZwr6kmEco06R2kQhfNQfAkFPCoYqifkUZvxsPR1YOUMlmK+hB3/6q5CkUYv4m3SnHTQy2aYu4lVbmdl41O0pK5YDZA0dhzRqa9ez7GOERKnLKiBQYOzVXNRrGWxom0S/Dg0fb+RjPIJAltoBWkh6qcMqiwisQ30fN9UWMw1ajPUR1iMhE5rp1UmaZEgzxHx03Fiil+s+keabaCsxOPF8sVGDbI3x7tLRCrEViFHfrHa9aKoGIg==;
+Received: by smtp52.i.mail.ru with esmtpa (envelope-from
+ <v.sementsov-og@mail.ru>)
+ id 1nWJtI-0004lk-J8; Mon, 21 Mar 2022 18:24:17 +0300
+Message-ID: <ed62e9f7-051d-0405-f619-2c0f49f8c852@mail.ru>
+Date: Mon, 21 Mar 2022 18:24:15 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v21 0/9] support dirty restraint on vCPU
-To: qemu-devel <qemu-devel@nongnu.org>
-References: <cover.1647435820.git.huangy81@chinatelecom.cn>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1647435820.git.huangy81@chinatelecom.cn>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH 0/5] Removal of AioContext lock, bs->parents and
+ ->children: proof of concept
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220301142113.163174-1-eesposit@redhat.com>
+ <516a480e-15a0-896f-6ff8-4303e110210e@virtuozzo.com>
+ <f43e3499-fa70-f0ce-4daa-d62b5bb9819c@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+In-Reply-To: <f43e3499-fa70-f0ce-4daa-d62b5bb9819c@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Authentication-Results: smtp52.i.mail.ru;
+ auth=pass smtp.auth=v.sementsov-og@mail.ru
+ smtp.mailfrom=v.sementsov-og@mail.ru
+X-4EC0790: 10
+X-7564579A: EEAE043A70213CC8
+X-77F55803: 4F1203BC0FB41BD95C8DF32398C35CA640B06EEE757A11FFF4F198476F253530182A05F5380850404C228DA9ACA6FE274EDD8ECE64B9EF8E2686E43F0D6BF6FC13ADEEB4D17BBADF6BE62D0F7F190BFD
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7CF4D16325FBE1EEDEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637A431CDDF496E6E598638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D88352018CB5D16298D651C154DF060BAF6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE7ECE82AE7387CF2AD9FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD18C26CFBAC0749D213D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BAE9A1BBD95851C5BA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FCF85C6090AC60C6353AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F7900637A127B390D51FD6B1D81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89F443EE4078611238157739F23D657EF2BB5C8C57E37DE458BEDA766A37F9254B7
+X-8FC586DF: 6EFBBC1D9D64D975
+X-C1DE0DAB: 0D63561A33F958A5DA3E03FE5851049F87157B8BA20606B26C5914BFE9215AA7D59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA7506FE1F977233B9BB410CA545F18667F91A7EA1CDA0B5A7A0
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D344F2126FF337FA651C77CF36381D7B17A7FA44EF7C1F93A4910C90D3FE289A1AE71F50A93517BC9C71D7E09C32AA3244C3489CE14267868CA7D94C6D7638CC4693C6EB905E3A8056B27AC49D2B05FCCD8
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojSLL0ldHQslZQ83bBSvsCwQ==
+X-Mailru-Sender: 6C3E74F07C41AE94BE5520CD20DE4F15FDF18E5579725CD58CE1E4879A93BC8D758624742D437F80E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+Received-SPF: pass client-ip=94.100.177.112;
+ envelope-from=v.sementsov-og@mail.ru; helo=smtp52.i.mail.ru
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,496 +80,249 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping
+09.03.2022 16:26, Emanuele Giuseppe Esposito wrote:
+> 
+> 
+> Am 02/03/2022 um 12:07 schrieb Vladimir Sementsov-Ogievskiy:
+>> 01.03.2022 17:21, Emanuele Giuseppe Esposito wrote:
+>>> This serie tries to provide a proof of concept and a clear explanation
+>>> on why we need to use drains (and more precisely subtree_drains)
+>>> to replace the aiocontext lock, especially to protect BlockDriverState
+>>> ->children and ->parent lists.
+>>>
+>>> Just a small recap on the key concepts:
+>>> * We split block layer APIs in "global state" (GS), "I/O", and
+>>> "global state or I/O".
+>>>     GS are running in the main loop, under BQL, and are the only
+>>>     one allowed to modify the BlockDriverState graph.
+>>>
+>>>     I/O APIs are thread safe and can run in any thread
+>>>
+>>>     "global state or I/O" are essentially all APIs that use
+>>>     BDRV_POLL_WHILE. This is because there can be only 2 threads
+>>>     that can use BDRV_POLL_WHILE: main loop and the iothread that
+>>>     runs the aiocontext.
+>>>
+>>> * Drains allow the caller (either main loop or iothread running
+>>> the context) to wait all in_flights requests and operations
+>>> of a BDS: normal drains target a given node and is parents, while
+>>> subtree ones also include the subgraph of the node. Siblings are
+>>> not affected by any of these two kind of drains.
+>>> After bdrv_drained_begin, no more request is allowed to come
+>>> from the affected nodes. Therefore the only actor left working
+>>> on a drained part of the graph should be the main loop.
+>>>
+>>> What do we intend to do
+>>> -----------------------
+>>> We want to remove the AioContext lock. It is not 100% clear on how
+>>> many things we are protecting with it, and why.
+>>> As a starter, we want to protect BlockDriverState ->parents and
+>>> ->children lists, since they are read by main loop and I/O but
+>>> only written by main loop under BQL. The function that modifies
+>>> these lists is bdrv_replace_child_common().
+>>>
+>>> How do we want to do it
+>>> -----------------------
+>>> We individuated as ideal subtitute of AioContext lock
+>>> the subtree_drain API. The reason is simple: draining prevents the
+>>> iothread to read or write the nodes, so once the main loop finishes
+>>
+>> I'm not sure it's ideal. Unfortunately I'm not really good in all that
+>> BQL, AioContext locks and drains. So, I can't give good advice. But here
+>> are my doubts:
+>>
+>> Draining is very restrictive measure: even if drained section is very
+>> short, at least on bdrv_drained_begin() we have to wait for all current
+>> requests, and don't start new ones. That slows down the guest.
+> 
+> I don't think we are in a critical path where performance is important here.
+> 
+> In the
+>> same time there are operations that don't require to stop guest IO
+>> requests. For example manipulation with dirty bitmaps - qmp commands
+>> block-dirty-bitmap-add block-dirty-bitmap-remove. Or different query
+>> requests..
+>>
+> 
+> Maybe you misunderstood or I was not 100% clear, but I am talking about replacing the AioContext lock for the ->parents and ->children instance. Not everywhere. This is the first step, and then we will see if the additional things that it protects can use drain or something else
 
-Hi!
-I think this patchset is meaningful to merge, not just
-for it provides interfaces for limiting dirty page
-rate, but also it builds foundation for the dirtylimit
-capability of live migration. Which is implemented in the
-following repo:
-https://github.com/newfriday/qemu/tree/migration_dirtylimit_v1
+Ok, if we are only about graph modification that's not a critical performance path.
 
-I compare the auto-converge and dirtylimit capability in
-live migration from 3 aspects: total time, guest unixbench score,
-guest memory performance, and the result is satisfactory.
+> 
+>   
+>> I see only two real cases, where we do need drain:
+>>
+>> 1. When we need a consistent "point-in-time". For example, when we start
+>> backup in transaction with some dirty-bitmap manipulation commands.
+>>
+>> 2. When we need to modify block-graph: if we are going to break relation
+>> A -> B, there must not be any in-flight request that want to use this
+>> relation.
+> 
+> That's the use case I am considering.
+>>
+>> All other operations, for which we want some kind of lock (like
+>> AioContext lock or something) we actually don't want to stop guest IO.
+> 
+> Yes, they have to be analyzed case by case.
+>>
+>>
+>> Next, I have a problem in mind, that in past lead to a lot of iotest 30
+>> failures. Next there were different fixes and improvements, but the core
+>> problem (as far as I understand) is still here: nothing protects us when
+>> we are in some graph modification process (for example block-job
+>> finalization) do yield, switch to other coroutine and enter another
+>> graph modification process (for example, another block-job finaliztion)..
+> 
+> That's another point to consider. I don't really have a solution for this.
+> 
+>> (for details look at my old "[PATCH RFC 0/5] Fix accidental crash in
+>> iotest 30"
+>> https://lists.nongnu.org/archive/html/qemu-devel/2020-11/msg05290.html ,
+>> where I suggested to add a global graph_modify_mutex CoMutex, to be held
+>> during graph-modifying process that may yield)..
+>> Does your proposal solve this problem?
+>>
+>>
+>>> executing bdrv_drained_begin() on the interested graph, we are sure that
+>>> the iothread is not going to look or even interfere with that part of
+>>> the graph.
+>>> We are also sure that the only two actors that can look at a specific
+>>> BlockDriverState in any given context are the main loop and the
+>>> iothread running the AioContext (ensured by "global state or IO" logic).
+>>>
+>>> Why use _subtree_ instead of normal drain
+>>> -----------------------------------------
+>>> A simple drain "blocks" a given node and all its parents.
+>>> But it doesn't touch the child.
+>>> This means that if we use a simple drain, a child can always
+>>> keep processing requests, and eventually end up calling itself
+>>> bdrv_drained_begin, ending up reading the parents node while the main
+>>> loop
+>>> is modifying them. Therefore a subtree drain is necessary.
+>>
+>> I'm not sure I understand.. Could you give a more concrete example of
+>> what may happen if we use simple drain?
+>> Who will call bdrv_drained_begin() you say about? Some IO path in
+>> parallel thread? Do we really have an IO path that calls
+>> bdrv_drained_begin()?
+> 
+> It is already being done in mirror, where it drains while running the .run() Job callback.
+> 
+> I made an unit test for this:
+> https://gitlab.com/eesposit/qemu/-/commit/1ffd7193ed441020f51aeeb49c3b07edb6949760
+> 
+> assume that you have the following graph:
+> 
+> blk (blk) -> overlay (bs)
+> overlay (bs) --- backed by ---> backing (bs)
+> job1 (blockjob) --> backing
+> 
+> Then the main loop calls bdrv_drained_begin(overlay)
+> This means overlay and bs are under drain, but backing and most importantly the job are not.
+> At this point, the job run() function decides to drain. It should not be
+> allowed to read overlay parents list for example, but instead there is nothing
+> to prevent it from doing that, and thus we see drains_done >0.
+> 
+> On the other side, when we subtree_drain, also the job is drained and thus it goes in
+> pause.
+> 
+> Makes sense?
 
-I explain the result in plain terms:
+Ah seems I understand what you mean.
 
-For migration total time:
-Dirtylimit reduce by 30% - 50% and could achieve convergence
-more easily than auto-converge in large vCPU size scenario.
+One of my arguments is that "drain" - is not a lock against other clients who want to modify the graph. Because, drained section allows nested drained sections.
 
-For unixbench test, i run commands in a vm like this:
-taskset -c 0-1 --vm {N}
-taskset -c 8-15 ./Run {CASE} -i 2 -c 8
+And you try to solve it, by draining more things, this way, we'll drain also the job, which is a possible client, who may want to modify the graph in parallel.
 
-And almost all the test cases(dhry2reg、pipe、context1..)
-score improve in dirtylimit migration.
+So, in other words, when we want to modify the graph, we drain the whole connectivity component of the graph. And we think that we are safe from other graph modifications because all related jobs are drained.
+Interesting, is that possible that some not drained job from another connectivity component will want to connect some node from our drained component?
 
-For guest performance, i use qemu guestperf tool to test,
-The changing curves of memory update rate of dirtylimit
-is similar to auto-converge. The difference is dirtylimit
-memory perfmance drop earlier and faster than auto-converge.
+I just still feel that draining is a wrong mechanism to avoid interaction with other clients who want to modify the graph, because:
 
-What do you think of this?
+1. we stop the whole IO on all subgraph which is not necessary
+2. draining is not a mutex, it allows nesting and it's ok when two different clients drain same nodes. Draining is just a requirement to do no IO at these nodes.
 
-在 2022/3/16 21:07, huangy81@chinatelecom.cn 写道:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> v21
-> - remove the tmpfs declarations in header file and
->    test case should use tmpfs as internal var respectively.
-> 
-> v20
-> - fix the style problems and let QEMU test pass
-> - change the dirty limit case logic:
->    test fail if dirtyrate measurement 200ms timeout
-> 
-> v19
-> - rebase on master and fix conflicts
-> - add test case for dirty page rate limit
-> 
-> Ping.
-> 
-> Adding an test case and hope it can be merged along with previous
-> patchset by the way.
-> 
-> Please review. Thanks,
-> 
-> Regards
-> Yong
-> 
-> v18
-> - squash commit "Ignore query-vcpu-dirty-limit test" into
->    "Implement dirty page rate limit" in  [PATCH v17] to make
->    the modification logic self-contained.
-> 
-> Please review. Thanks,
-> 
-> Regards
-> Yong
-> 
-> v17
-> - rebase on master
-> - fix qmp-cmd-test
-> 
-> v16
-> - rebase on master
-> - drop the unused typedef syntax in [PATCH v15 6/7]
-> - add the Reviewed-by and Acked-by tags by the way
-> 
-> v15
-> - rebase on master
-> - drop the 'init_time_ms' parameter in function vcpu_calculate_dirtyrate
-> - drop the 'setup' field in dirtylimit_state and call dirtylimit_process
->    directly, which makes code cleaner.
-> - code clean in dirtylimit_adjust_throttle
-> - fix miss dirtylimit_state_unlock() in dirtylimit_process and
->    dirtylimit_query_all
-> - add some comment
-> 
-> Please review. Thanks,
-> 
-> Regards
-> Yong
-> 
-> v14
-> - v13 sent by accident, resend patchset.
-> 
-> v13
-> - rebase on master
-> - passing NULL to kvm_dirty_ring_reap in commit
->    "refactor per-vcpu dirty ring reaping" to keep the logic unchanged.
->    In other word, we still try the best to reap as much PFNs as possible
->    if dirtylimit not in service.
-> - move the cpu list gen id changes into a separate patch.
-> - release the lock before sleep during dirty page rate calculation.
-> - move the dirty ring size fetch logic into a separate patch.
-> - drop the DIRTYLIMIT_LINEAR_ADJUSTMENT_WATERMARK MACRO .
-> - substitute bh with function pointer when implement dirtylimit.
-> - merge the dirtylimit_start/stop into dirtylimit_change.
-> - fix "cpu-index" parameter type with "int" to keep consistency.
-> - fix some syntax error in documents.
-> 
-> Please review. Thanks,
-> 
-> Yong
-> 
-> v12
-> - rebase on master
-> - add a new commmit to refactor per-vcpu dirty ring reaping, which can resolve
->    the "vcpu miss the chances to sleep" problem
-> - remove the dirtylimit_thread and implemtment throttle in bottom half instead.
-> - let the dirty ring reaper thread keep sleeping when dirtylimit is in service
-> - introduce cpu_list_generation_id to identify cpu_list changing.
-> - keep taking the cpu_list_lock during dirty_stat_wait to prevent vcpu plug/unplug
->    when calculating the dirty page rate
-> - move the dirtylimit global initializations out of dirtylimit_set_vcpu and do
->    some code clean
-> - add DIRTYLIMIT_LINEAR_ADJUSTMENT_WATERMARK in case of oscillation when throttling
-> - remove the unmatched count field in dirtylimit_state
-> - add stub to fix build on non-x86
-> - refactor the documents
-> 
-> Thanks Peter and Markus for reviewing the previous versions, please review.
-> 
-> Thanks,
-> Yong
-> 
-> v11
-> - rebase on master
-> - add a commit " refactor dirty page rate calculation"  so that dirty page rate limit
->    can reuse the calculation logic.
-> - handle the cpu hotplug/unplug case in the dirty page rate calculation logic.
-> - modify the qmp commands according to Markus's advice.
-> - introduce a standalone file dirtylimit.c to implement dirty page rate limit
-> - check if dirty limit in service by dirtylimit_state pointer instead of global variable
-> - introduce dirtylimit_mutex to protect dirtylimit_state
-> - do some code clean and docs
-> 
-> See the commit for more detail, thanks Markus and Peter very mush for the code
-> review and give the experienced and insightful advices, most modifications are
-> based on these advices.
-> 
-> v10:
-> - rebase on master
-> - make the following modifications on patch [1/3]:
->    1. Make "dirtylimit-calc" thread joinable and join it after quitting.
-> 
->    2. Add finalize function to free dirtylimit_calc_state
-> 
->    3. Do some code clean work
-> 
-> - make the following modifications on patch [2/3]:
->    1. Remove the original implementation of throttle according to
->       Peter's advice.
->       
->    2. Introduce a negative feedback system and implement the throttle
->       on all vcpu in one thread named "dirtylimit".
-> 
->    3. Simplify the algo when calculation the throttle_us_per_full:
->       increase/decrease linearly when there exists a wide difference
->       between quota and current dirty page rate, increase/decrease
->       a fixed time slice when the difference is narrow. This makes
->       throttle responds faster and reach the quota smoothly.
-> 
->    4. Introduce a unfit_cnt in algo to make sure throttle really
->       takes effect.
-> 
->    5. Set the max sleep time 99 times more than "ring_full_time_us".
->                                                                                                                                                                                                                                               
->    6. Make "dirtylimit" thread joinable and join it after quitting.
->                                                                                                                                                                                                                                               
-> - make the following modifications on patch [3/3]:
->    1. Remove the unplug cpu handling logic.
->                                                                                                                                                                                                                                               
->    2. "query-vcpu-dirty-limit" only return dirtylimit information of
->       vcpus that enable dirtylimit
->                                                                                                                                                                                                                                               
->    3. Remove the "dirtylimit_setup" function
->                                                                                                                                                                                                                                               
->    4. Trigger the dirtylimit and initialize the global state only
->       when someone enable dirtylimit, and finalize it after the last
->       dirtylimit be canceled.
->                                                                                                                                                                                                                                               
->    5. Redefine the qmp command vcpu-dirty-limit/query-vcpu-dirty-limit:
->       enable/disable dirtylimit use a single command "vcpu-dirty-limit",
->       to enable/disabled dirtylimit on specified vcpu only if "cpu-index"
->       is specified, otherwise, all vcpu will be affected.
-> 
->    6. Redefine the hmp command vcpu_dirty_limit/info vcpu_dirty_limit
-> 
-> - other points about the code review:
->    1. "merge the code of calculation dirty page rate"
->       I think maybe it's not suitable to touch the 'calc-dirty-rate',
->       because 'calc-dirty-rate' will stop sync log after calculating
->       the dirtyrate and the 'dirtylimit-cal' will not untill the last
->       dirtylimit be canceled, if we merge the GLOBAL_DIRTY_LIMIT into
->       GLOBAL_DIRTY_DIRTYRATE, the two are interacted with each other.
-> 
->    2. The new implementaion of throttle algo enlightened by Peter
->       responds faster and consume less cpu resource than the older,
->       we make a impressed progress.
-> 
->       And there is a viewpoint may be discussed, it is that the new
->       throttle logic is "passive", vcpu sleeps only after dirty ring,
->       is full, unlike the "auto-converge" which will kick vcpu instead
->       in a fixed slice time. If the vcpu is memory-write intensive
->       and the ring size is large, it will produce dirty memory during
->       the dirty ring full time and the throttle works not so good, it
->       means the throttle depends on the dirty ring size.
-> 
->       I actually tested the new algo in two case:
-> 
->       case 1: dirty-ring-size: 4096, dirtyrate: 1170MB/s
->       result: minimum quota dirtyrate is 25MB/s or even less
->               minimum vcpu util is 6%
-> 
->       case 2: dirty-ring-size: 65536, dirtyrate: 1170MB/s
->       result: minimum quota dirtyrate is 256MB/s
->               minimum vcpu util is 24%
->       
->       I post this just for discussion, i think this is not a big deal
->       beacase if we set the dirty-ring-size to the maximum value(65536),
->       we assume the server's bandwidth is capable of handling it.
-> 
->    3. I hard-code the acceptable deviation value to 25MB/s, see the
->       macro DIRTYLIMIT_TOLERANCE_RANGE. I'm struggling to decide
->       whether to let it configurable
->     
->    4. Another point is the unplug cpu handle, current algo affects the
->       unplugged vcpu, if we set dirty limit on it, we should fork 2
->       thread "dirtylimit" and "dirtylimit-calc" but do nothing, once the
->       vcpu is hot-plugged, dirty limit works, i think the logic is ok
->       but still there can be different advice.
-> 
-> - to let developers play with it easier, i post the hmp usage example:
->    (qemu) vcpu_dirty_limit -g on -1 500
->    [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
->    
->    (qemu) info vcpu_dirty_limit
->    vcpu[0], limit rate 500 (MB/s), current rate 415 (MB/s)
->    vcpu[1], limit rate 500 (MB/s), current rate 496 (MB/s)
->    vcpu[2], limit rate 500 (MB/s), current rate 0 (MB/s)
->    vcpu[3], limit rate 500 (MB/s), current rate 0 (MB/s)
->    (qemu) vcpu_dirty_limit -g off
->    [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
->    
->    (qemu) info vcpu_dirty_limit
->    Dirty page limit not enabled!
->    
->    (qemu) vcpu_dirty_limit on 0 300
->    [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
->    
->    (qemu) vcpu_dirty_limit on 1 500
->    [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
->    
->    (qemu) info vcpu_dirty_limit
->    vcpu[0], limit rate 300 (MB/s), current rate 342 (MB/s)
->    vcpu[1], limit rate 500 (MB/s), current rate 485 (MB/s)
->    
->    (qemu) vcpu_dirty_limit off 0
->    [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
->    
->    (qemu) info vcpu_dirty_limit
->    vcpu[1], limit rate 500 (MB/s), current rate 528 (MB/s)
->    
->    (qemu) vcpu_dirty_limit off 1
->    [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
->    
->    (qemu) info vcpu_dirty_limit
->    Dirty page limit not enabled!
-> 
-> Thanks very much for the instructive algo suggestion given by Peter,
-> the comment and other code reviews made by Markus.
-> 
-> Please review, thanks!
-> 
-> v9:
-> - rebase on master
-> - fix the meson directory change, keep it untouched.
-> 
-> v8:
-> - rebase on master
-> - polish the error message and remove the "unlikely" compilation syntax
->    according to the advice given by Markus.
-> - keep the dirty tracking enabled during "dirtylimit-calc" lifecycle
->    so that the overhead can be reduced according to the advice given by
->    Peter.
-> - merge the "set/cancel" qmp commands into one named "vcpu-dirty-limit"
->    and introduce qmp command "query-vcpu-dirty-limit" to query dirty
->    limit information about virtual CPU, according to the advice given by
->    Peter.
-> - check if vcpu index is valid and handle the unplug case before
->    enabling, disabling dirty limit for virtual CPU.
-> - introduce hmp commands so developers can play with them easier, use
->    "vcpu_dirty_limit" to enable dirty limit and "info vcpu_dirty_limit"
->    to query.
-> 
-> The patch [2/3] has not been touched so far. Any corrections and
-> suggetions are welcome.
-> 
-> Please review, thanks!
-> 
-> v7:
-> - rebase on master
-> - polish the comments and error message according to the
->    advices given by Markus
-> - introduce dirtylimit_enabled function to pre-check if dirty
->    page limit is enabled before canceling.
-> 
-> v6:
-> - rebase on master
-> - fix dirtylimit setup crash found by Markus
-> - polish the comments according to the advice given by Markus
-> - adjust the qemu qmp command tag to 7.0
-> 
-> v5:
-> - rebase on master
-> - adjust the throttle algorithm by removing the tuning in
->    RESTRAINT_RATIO case so that dirty page rate could reachs the quota
->    more quickly.
-> - fix percentage update in throttle iteration.
-> 
-> v4:
-> - rebase on master
-> - modify the following points according to the advice given by Markus
->    1. move the defination into migration.json
->    2. polish the comments of set-dirty-limit
->    3. do the syntax check and change dirty rate to dirty page rate
-> 
-> Thanks for the carefule reviews made by Markus.
-> 
-> Please review, thanks!
-> 
-> v3:
-> - rebase on master
-> - modify the following points according to the advice given by Markus
->    1. remove the DirtyRateQuotaVcpu and use its field as option directly
->    2. add comments to show details of what dirtylimit setup do
->    3. explain how to use dirtylimit in combination with existing qmp
->       commands "calc-dirty-rate" and "query-dirty-rate" in documentation.
-> 
-> Thanks for the carefule reviews made by Markus.
-> 
-> Please review, thanks!
-> 
-> Hyman
-> 
-> v2:
-> - rebase on master
-> - modify the following points according to the advices given by Juan
->    1. rename dirtyrestraint to dirtylimit
->    2. implement the full lifecyle function of dirtylimit_calc, include
->       dirtylimit_calc and dirtylimit_calc_quit
->    3. introduce 'quit' field in dirtylimit_calc_state to implement the
->       dirtylimit_calc_quit
->    4. remove the ready_cond and ready_mtx since it may not be suitable
->    5. put the 'record_dirtypage' function code at the beggining of the
->       file
->    6. remove the unnecesary return;
-> - other modifications has been made after code review
->    1. introduce 'bmap' and 'nr' field in dirtylimit_state to record the
->       number of running thread forked by dirtylimit
->    2. stop the dirtyrate calculation thread if all the dirtylimit thread
->       are stopped
->    3. do some renaming works
->       dirtyrate calulation thread -> dirtylimit-calc
->       dirtylimit thread -> dirtylimit-{cpu_index}
->       function name do_dirtyrestraint -> dirtylimit_check
->       qmp command dirty-restraint -> set-drity-limit
->       qmp command dirty-restraint-cancel -> cancel-dirty-limit
->       header file dirtyrestraint.h -> dirtylimit.h
-> 
-> Please review, thanks !
-> 
-> thanks for the accurate and timely advices given by Juan. we really
-> appreciate it if corrections and suggetions about this patchset are
-> proposed.
-> 
-> Best Regards !
-> 
-> Hyman
-> 
-> v1:
-> this patchset introduce a mechanism to impose dirty restraint
-> on vCPU, aiming to keep the vCPU running in a certain dirtyrate
-> given by user. dirty restraint on vCPU maybe an alternative
-> method to implement convergence logic for live migration,
-> which could improve guest memory performance during migration
-> compared with traditional method in theory.
-> 
-> For the current live migration implementation, the convergence
-> logic throttles all vCPUs of the VM, which has some side effects.
-> -'read processes' on vCPU will be unnecessarily penalized
-> - throttle increase percentage step by step, which seems
->    struggling to find the optimal throttle percentage when
->    dirtyrate is high.
-> - hard to predict the remaining time of migration if the
->    throttling percentage reachs 99%
-> 
-> to a certain extent, the dirty restraint machnism can fix these
-> effects by throttling at vCPU granularity during migration.
-> 
-> the implementation is rather straightforward, we calculate
-> vCPU dirtyrate via the Dirty Ring mechanism periodically
-> as the commit 0e21bf246 "implement dirty-ring dirtyrate calculation"
-> does, for vCPU that be specified to impose dirty restraint,
-> we throttle it periodically as the auto-converge does, once after
-> throttling, we compare the quota dirtyrate with current dirtyrate,
-> if current dirtyrate is not under the quota, increase the throttling
-> percentage until current dirtyrate is under the quota.
-> 
-> this patchset is the basis of implmenting a new auto-converge method
-> for live migration, we introduce two qmp commands for impose/cancel
-> the dirty restraint on specified vCPU, so it also can be an independent
-> api to supply the upper app such as libvirt, which can use it to
-> implement the convergence logic during live migration, supplemented
-> with the qmp 'calc-dirty-rate' command or whatever.
-> 
-> we post this patchset for RFC and any corrections and suggetions about
-> the implementation, api, throttleing algorithm or whatever are very
-> appreciated!
-> 
-> Please review, thanks !
-> 
-> Best Regards !
-> 
-> Hyman Huang (9):
->    accel/kvm/kvm-all: Refactor per-vcpu dirty ring reaping
->    cpus: Introduce cpu_list_generation_id
->    migration/dirtyrate: Refactor dirty page rate calculation
->    softmmu/dirtylimit: Implement vCPU dirtyrate calculation periodically
->    accel/kvm/kvm-all: Introduce kvm_dirty_ring_size function
->    softmmu/dirtylimit: Implement virtual CPU throttle
->    softmmu/dirtylimit: Implement dirty page rate limit
->    migration-test: Export migration-test util funtions
->    tests: Add dirty page rate limit test
-> 
->   accel/kvm/kvm-all.c             |  46 ++-
->   accel/stubs/kvm-stub.c          |   6 +
->   cpus-common.c                   |   8 +
->   hmp-commands-info.hx            |  13 +
->   hmp-commands.hx                 |  32 +++
->   include/exec/cpu-common.h       |   1 +
->   include/exec/memory.h           |   5 +-
->   include/hw/core/cpu.h           |   6 +
->   include/monitor/hmp.h           |   3 +
->   include/sysemu/dirtylimit.h     |  37 +++
->   include/sysemu/dirtyrate.h      |  28 ++
->   include/sysemu/kvm.h            |   2 +
->   migration/dirtyrate.c           | 227 +++++++++------
->   migration/dirtyrate.h           |   7 +-
->   qapi/migration.json             |  80 ++++++
->   softmmu/dirtylimit.c            | 602 ++++++++++++++++++++++++++++++++++++++++
->   softmmu/meson.build             |   1 +
->   softmmu/trace-events            |   7 +
->   tests/qtest/dirtylimit-test.c   | 327 ++++++++++++++++++++++
->   tests/qtest/meson.build         |   2 +
->   tests/qtest/migration-helpers.c |  87 ++++++
->   tests/qtest/migration-helpers.h |  12 +
->   tests/qtest/migration-test.c    | 132 ++-------
->   tests/qtest/qmp-cmd-test.c      |   2 +
->   24 files changed, 1461 insertions(+), 212 deletions(-)
->   create mode 100644 include/sysemu/dirtylimit.h
->   create mode 100644 include/sysemu/dirtyrate.h
->   create mode 100644 softmmu/dirtylimit.c
->   create mode 100644 tests/qtest/dirtylimit-test.c
-> 
+And in your way, it seems that to be absolutely safe we'll need to drain everything..
+
+In my feeling it's better to keep draining what it is now: requirement to have no IO requests. And to isolate graph modifications from each other make a new synchronization mechanism, something like a global queue, where clients who want to get an access to graph modifications wait for their turn.
+
+>>
+>>>
+>>> Possible scenarios
+>>> -------------------
+>>> Keeping in mind that we can only have an iothread and the main loop
+>>> draining on a certain node, we could have:
+>>>
+>>> main loop successfully drains and then iothread tries to drain:
+>>>     impossible scenario, as iothread is already stopped once main
+>>>     successfully drains.
+>>>
+>>> iothread successfully drains and then main loop drains:
+>>>     should not be a problem, as:
+>>>     1) the iothread should be already "blocked" by its own drain
+>>>     2) main loop would still wait for it to completely block
+>>>     There is the issue of mirror overriding such scenario to avoid
+>>>     having deadlocks, but that is handled in the next section.
+>>>
+>>> main loop and iothread try to drain together:
+>>>     As above, this case doens't really matter. As long as
+>>>     bdrv_drained_begin invariant is respected, the main loop will
+>>>     continue only once the iothread is "blocked" on that part of the
+>>> graph.
+>>>
+>>> A note on iothread draining
+>>> ---------------------------
+>>> Theoretically draining from an iothread should not be possible,
+>>> as the iothread would be scheduling a bh in the main loop waiting
+>>> for itself to stop, even though it is not yet stopped since it is
+>>> waiting for the bh.
+>>>
+>>> This is what would happen in the tests in patch 5 if .drained_poll
+>>> was not implemented.
+>>>
+>>> Therefore, one solution is to use .drained_poll callback in
+>>> BlockJobDriver.
+>>> This callback overrides the default job poll() behavior, and
+>>> allows the polling condition to stop waiting for the job.
+>>> It is actually used only in mirror.
+>>> This however breaks bdrv_drained_begin invariant, because the
+>>> iothread is not really blocked on that node but continues running.
+>>> In order to fix this, patch 4 allows the polling condition to be
+>>> used only by the iothread, and not the main loop too, preventing
+>>> the drain to return before the iothread is effectively stopped.
+>>> This is also shown in the tests in patch 5. If the fix in patch
+>>> 4 is removed, then the main loop drain will return earlier and
+>>> allow the iothread to run and drain together.
+>>>
+>>> The other patches in this serie are cherry-picked from the various
+>>> series I already sent, and are included here just to allow
+>>> subtree_drained_begin/end_unlocked implementation.
+>>>
+>>> Emanuele Giuseppe Esposito (5):
+>>>     aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
+>>>     introduce BDRV_POLL_WHILE_UNLOCKED
+>>>     block/io.c: introduce bdrv_subtree_drained_{begin/end}_unlocked
+>>>     child_job_drained_poll: override polling condition only when in home
+>>>       thread
+>>>     test-bdrv-drain: ensure draining from main loop stops iothreads
+>>>
+>>>    block/io.c                   |  48 ++++++--
+>>>    blockjob.c                   |   3 +-
+>>>    include/block/aio-wait.h     |  15 ++-
+>>>    include/block/block.h        |   7 ++
+>>>    tests/unit/test-bdrv-drain.c | 218 +++++++++++++++++++++++++++++++++++
+>>>    5 files changed, 274 insertions(+), 17 deletions(-)
+>>>
+>>
+>>
+> 
+
 
 -- 
-Best regard
-
-Hyman Huang(黄勇)
+Best regards,
+Vladimir
 
