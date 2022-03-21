@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325BF4E2849
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:54:29 +0100 (CET)
-Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3244E2980
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 15:04:09 +0100 (CET)
+Received: from localhost ([::1]:53130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWIUO-00064l-9o
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:54:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43684)
+	id 1nWIdj-0002rG-Pq
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 10:04:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nWIQc-0003ps-0Z
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:50:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47738)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nWIQa-0005lc-2j
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 09:50:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647870630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I4qXjoQXfLjWIIyjDwAe1oOFfpPMN/d31Nd3bn7IMrQ=;
- b=C9sv2RdkD7SUSOZnbYkV8YcvaW0Vu5Q0GyI3cNQkNUS2JvgZCUrnBOioh6LiutsTjg7tuM
- TqJQUaSit77B0n9ubIR9P/OV1ldZEAI0HQjpGGUzvUDLkDi5W0Dz7cVbyLWw8aYZAsA/Bc
- U9eJZ4T3zVpVVfwSKujPLVxrTkm+5qw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-173-Umj6yI4dOTe4uBN4yRBGww-1; Mon, 21 Mar 2022 09:50:27 -0400
-X-MC-Unique: Umj6yI4dOTe4uBN4yRBGww-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB18A3C23FA1;
- Mon, 21 Mar 2022 13:50:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AE3340CF8FA;
- Mon, 21 Mar 2022 13:50:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6846821E66C8; Mon, 21 Mar 2022 14:50:25 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Mark Kanda <mark.kanda@oracle.com>
-Subject: Re: [PATCH v4 1/3] qmp: Support for querying stats
-References: <20220215150433.2310711-1-mark.kanda@oracle.com>
- <20220215150433.2310711-2-mark.kanda@oracle.com>
- <87a6dw7i55.fsf@pond.sub.org>
- <efd0b85b-beb1-feeb-6c38-510f8bc36af9@oracle.com>
-Date: Mon, 21 Mar 2022 14:50:25 +0100
-In-Reply-To: <efd0b85b-beb1-feeb-6c38-510f8bc36af9@oracle.com> (Mark Kanda's
- message of "Mon, 14 Mar 2022 12:28:02 -0500")
-Message-ID: <874k3r5s9q.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nWIci-000246-1c
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 10:03:04 -0400
+Received: from [2a00:1450:4864:20::62a] (port=42585
+ helo=mail-ej1-x62a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nWIcd-0007j9-Qu
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 10:03:01 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id j15so15962849eje.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 07:02:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Cj/cTaG+WGomhVO9Jz29DQDjy18L+qylMJI42WjaT0M=;
+ b=zcz+5prqC0qMIZKqqt1vh8zKzyqf35SYo2d42RSEu429cOXtWGGck5qqivY9vPGKsd
+ dl4BL45xL9XVkM2Zw0NjQjmFPxOMQqDlNIe3QDV246XGRh8uoOcJJ5fz9e6LBD+tu4nK
+ xLdaScNcjNMPmq6FE3/55eLWKF0HziVwMeQfNV6YD9ZOd4qfwDjfakHxQjXI0eYlF7xu
+ 6CqlUitPqDKYnenBsRwbcYvjWio9w/zL+s8Lx4i9XrBkqQh/gYjjGRW9bBKT0x+hpAD2
+ qgshp7die8jyn+5m01UNH5xaUoL9gUm/3n5dIpMmkq+3t6x+JnfV/qVFyYsRCFnQQ7fN
+ FZ7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Cj/cTaG+WGomhVO9Jz29DQDjy18L+qylMJI42WjaT0M=;
+ b=sSonnqJ7Rp1Dq2hOjFOGxck6cPb72USBlXwT5aH6emBXmY9+roacT6taBGfM9/ZpKT
+ 3kjqlUqlnA0YnCR+O39esBi9DqYTpXYQrEKzYcTKWwR1//pGyyKUB1qhkt/bZrqkrCJT
+ OZAjUzcZiD69UJv0oZk+Znel2Ud/Gjb3axbiXpdtxYeLNOe/xhf2D/pV9p33dALfHN/B
+ 0QuQVocG5XSgEkIkejOiQutKHdxKCfR7MAAqBvr7Ul2abejfvyatXEEIQJC+Vf7JHaEg
+ +Q9nXsOZ84f7CZB5xry32r+jGqe3nGXiGVPB5Jc9AVBcaRy72u1DPVelYYwKre3jHgjM
+ jfVg==
+X-Gm-Message-State: AOAM531aaSYjKBfCPjWQh9DYbuagzudyeBk/r7SL4ONJ4T9CqmQ0QXu9
+ qa233UFSUioWxLOdql5tQ3QdlOLOIvkAAcqdOsCk
+X-Google-Smtp-Source: ABdhPJz0vFdOe7azrow4Ycj2xBpCSYhxufSouUj+jEpRzXtiYxiuIK3+OOaA0lQhWisAxjx/nGzbnHIHg0Eic8O56Zg=
+X-Received: by 2002:a17:906:c102:b0:6df:e34c:9923 with SMTP id
+ do2-20020a170906c10200b006dfe34c9923mr9385924ejc.667.1647871376806; Mon, 21
+ Mar 2022 07:02:56 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220321071439.151-1-xieyongji@bytedance.com>
+ <20220321071439.151-5-xieyongji@bytedance.com>
+ <20220321132514.nmfl5rxjkncrnme3@redhat.com>
+In-Reply-To: <20220321132514.nmfl5rxjkncrnme3@redhat.com>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Mon, 21 Mar 2022 22:02:56 +0800
+Message-ID: <CACycT3ua5Xy3SCmwYLa1iLWvBjYb-M67os22UZPEtFFecn-s4g@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] vduse-blk: implements vduse-blk export
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,214 +83,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, jsnow@redhat.com,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First: sorry for my slow response.
-
-Mark Kanda <mark.kanda@oracle.com> writes:
-
-> Thank you Markus.
+On Mon, Mar 21, 2022 at 9:25 PM Eric Blake <eblake@redhat.com> wrote:
 >
-> On 3/11/2022 7:06 AM, Markus Armbruster wrote:
->> Mark Kanda <mark.kanda@oracle.com> writes:
->>
->>> Introduce QMP support for querying stats. Provide a framework for adding new
->>> stats and support for the following commands:
->>>
->>> - query-stats
->>> Returns a list of all stats per target type (only VM and vCPU to start), with
->>> additional options for specifying stat names, vCPU qom paths, and providers.
->>>
->>> - query-stats-schemas
->>> Returns a list of stats included in each target type, with an option for
->>> specifying the provider.
->>>
->>> The framework provides a method to register callbacks for these QMP commands.
->>>
->>> The first use-case will be for fd-based KVM stats (in an upcoming patch).
->>>
->>> Examples (with fd-based KVM stats):
->>>
->>> - Query all VM stats:
->>>
->>> { "execute": "query-stats", "arguments" : { "target": "vm" } }
->>>
->>> { "return": {
->>>    "vm": [
->>>       { "provider": "kvm",
->>>         "stats": [
->>>            { "name": "max_mmu_page_hash_collisions", "value": 0 },
->>>            { "name": "max_mmu_rmap_size", "value": 0 },
->>>            { "name": "nx_lpage_splits", "value": 148 },
->>>            ...
->>>       { "provider": "xyz",
->>>         "stats": [ ...
->>>       ...
->>> ] } }
->>>
->>> - Query all vCPU stats:
->>>
->>> { "execute": "query-stats", "arguments" : { "target": "vcpu" } }
->>>
->>> { "return": {
->>>      "vcpus": [
->>>        { "path": "/machine/unattached/device[0]"
->>>          "providers": [
->>>            { "provider": "kvm",
->>>              "stats": [
->>>                { "name": "guest_mode", "value": 0 },
->>>                { "name": "directed_yield_successful", "value": 0 },
->>>                { "name": "directed_yield_attempted", "value": 106 },
->>>                ...
->>>            { "provider": "xyz",
->>>              "stats": [ ...
->>>             ...
->>>        { "path": "/machine/unattached/device[1]"
->>>          "providers": [
->>>            { "provider": "kvm",
->>>              "stats": [...
->>>            ...
->>> } ] } }
->>>
->>> - Query 'exits' and 'l1d_flush' KVM stats, and 'somestat' from provider 'xyz'
->>> for vCPUs '/machine/unattached/device[2]' and '/machine/unattached/device[4]':
->>>
->>> { "execute": "query-stats",
->>>    "arguments": {
->>>      "target": "vcpu",
->>>      "vcpus": [ "/machine/unattached/device[2]",
->>>                 "/machine/unattached/device[4]" ],
->>>      "filters": [
->>>        { "provider": "kvm",
->>>          "fields": [ "l1d_flush", "exits" ] },
->>>        { "provider": "xyz",
->>>          "fields": [ "somestat" ] } ] } }
->> Are the stats bulky enough to justfify the extra complexity of
->> filtering?
+> On Mon, Mar 21, 2022 at 03:14:37PM +0800, Xie Yongji wrote:
+> > This implements a VDUSE block backends based on
+> > the libvduse library. We can use it to export the BDSs
+> > for both VM and container (host) usage.
+> >
+> > The new command-line syntax is:
+> >
+> > $ qemu-storage-daemon \
+> >     --blockdev file,node-name=drive0,filename=test.img \
+> >     --export vduse-blk,node-name=drive0,id=vduse-export0,writable=on
+> >
+> > After the qemu-storage-daemon started, we need to use
+> > the "vdpa" command to attach the device to vDPA bus:
+> >
+> > $ vdpa dev add name vduse-export0 mgmtdev vduse
+> >
+> > Also the device must be removed via the "vdpa" command
+> > before we stop the qemu-storage-daemon.
+> >
+> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+> > ---
 >
-> If this was only for KVM, the complexity probably isn't worth it. However, the 
-> framework is intended to support future stats with new providers and targets 
-> (there has also been mention of moving existing stats to this framework). 
-> Without some sort of filtering, I think the payload could become unmanageable.
-
-I'm deeply wary of "may need $complexity in the future" when $complexity
-could be added when we actually need it :)
-
->>> { "return": {
->>>      "vcpus": [
->>>        { "path": "/machine/unattached/device[2]"
->>>          "providers": [
->>>            { "provider": "kvm",
->>>              "stats": [ { "name": "l1d_flush", "value": 41213 },
->>>                         { "name": "exits", "value": 74291 } ] },
->>>            { "provider": "xyz",
->>>              "stats": [ ... ] } ] },
->>>        { "path": "/machine/unattached/device[4]"
->>>          "providers": [
->>>            { "provider": "kvm",
->>>              "stats": [ { "name": "l1d_flush", "value": 16132 },
->>>                         { "name": "exits", "value": 57922 } ] },
->>>            { "provider": "xyz",
->>>              "stats": [ ... ] } ] } ] } }
->>>
->>> - Query stats schemas:
->>>
->>> { "execute": "query-stats-schemas" }
->>>
->>> { "return": {
->>>      "vcpu": [
->>>        { "provider": "kvm",
->>>          "stats": [
->>>             { "name": "guest_mode",
->>>               "unit": "none",
->>>               "base": 10,
->>>               "exponent": 0,
->>>               "type": "instant" },
->>>            { "name": "directed_yield_successful",
->>>               "unit": "none",
->>>               "base": 10,
->>>               "exponent": 0,
->>>               "type": "cumulative" },
->>>               ...
->>>        { "provider": "xyz",
->>>          ...
->>>     "vm": [
->>>        { "provider": "kvm",
->>>          "stats": [
->>>             { "name": "max_mmu_page_hash_collisions",
->>>               "unit": "none",
->>>               "base": 10,
->>>               "exponent": 0,
->>>               "type": "peak" },
->>>        { "provider": "xyz",
->>>        ...
->> Can you give a use case for query-stats-schemas?
+> Looking at just the QAPI:
 >
-> 'query-stats-schemas' provide the the type details about each stat; such as the 
-> unit, base, etc. These details are not reported by 'query-stats' (only the stat 
-> name and raw values are returned).
-
-Yes, but what is going to use these type details, and for what purpose?
-
->>> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
->>> ---
->>>   include/monitor/stats.h |  51 ++++++++
->>>   monitor/qmp-cmds.c      | 219 +++++++++++++++++++++++++++++++++
->>>   qapi/meson.build        |   1 +
->>>   qapi/qapi-schema.json   |   1 +
->>>   qapi/stats.json         | 259 ++++++++++++++++++++++++++++++++++++++++
->>
->> That's a lot of schema code.
->>
->> How much of it is for query-stats, and how much for query-stats-schemas?
+> > +++ b/qapi/block-export.json
+> > @@ -170,6 +170,22 @@
+> >              '*allow-other': 'FuseExportAllowOther' },
+> >    'if': 'CONFIG_FUSE' }
+> >
+> > +##
+> > +# @BlockExportOptionsVduseBlk:
+> > +#
+> > +# A vduse-blk block export.
+> > +#
+> > +# @num-queues: the number of virtqueues. Defaults to 1.
+> > +# @queue-size: the size of virtqueue. Defaults to 128.
+> > +# @logical-block-size: Logical block size in bytes. Defaults to 512 bytes.
 >
-> It's roughly 60% query-stats, 40% query-stats-schemas.
+> Any restrictions on this not being allowed to be smaller than 512, or
+> that it must be a power of 2, or that it has a maximum size?  If so,
+> they should be documented.
 >
->> How much of the query-stats part is for filtering?
+
+Yes, it must be [512, PAGE_SIZE]. I will document it in v4.
+
+> > +#
+> > +# Since: 7.0
 >
-> I think filtering is about 40% of query-stats.
-
-Have you considered splitting this up into three parts: unfiltered
-query-stats, filtering, and query-stats-schemas?
-
-[...]
->>>   5 files changed, 531 insertions(+)
->>>   create mode 100644 include/monitor/stats.h
->>>   create mode 100644 qapi/stats.json
->> [...]
->>
->>> diff --git a/qapi/stats.json b/qapi/stats.json
->>> new file mode 100644
->>> index 0000000000..ae5dc3ee2c
->>> --- /dev/null
->>> +++ b/qapi/stats.json
-
-[...]
-
->>> +##
->>> +# @StatsValue:
->>> +#
->>> +# @scalar: single uint64.
->>> +# @list: list of uint64.
->>> +#
->>> +# Since: 7.0
->>> +##
->>> +{ 'alternate': 'StatsValue',
->>> +  'data': { 'scalar': 'uint64',
->>> +            'list': 'StatsValueArray' } }
->>
->> Any particular reason for wrapping the array in a struct?
+> This is a new feature, and is too late for 7.0, so this line should
+> mention 7.1.
 >
-> Due to the limitation in the QAPI framework, I hit:
-> ../qapi/stats.json:139: 'data' member 'list' cannot be an array
+
+Oh, right. I will fix it.
+
+> > +##
+> > +{ 'struct': 'BlockExportOptionsVduseBlk',
+> > +  'data': { '*num-queues': 'uint16',
+> > +            '*queue-size': 'uint16',
+> > +            '*logical-block-size': 'size'} }
+> > +
+> >  ##
+> >  # @NbdServerAddOptions:
+> >  #
+> > @@ -273,6 +289,7 @@
+> >  # @nbd: NBD export
+> >  # @vhost-user-blk: vhost-user-blk export (since 5.2)
+> >  # @fuse: FUSE export (since: 6.0)
+> > +# @vduse-blk: vduse-blk export (since 7.0)
 >
-> I can look at adding support...
+> Another spot for 7.1.
+>
 
-That would be nice.  Could you use help to get started with it?
+Will fix it.
 
-We could perhaps merge with the current schema, then clean it up on top,
-both in 7.1, if that's easier for you.
-
+Thanks,
+Yongji
 
