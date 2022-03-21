@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C0E4E3259
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 22:33:27 +0100 (CET)
-Received: from localhost ([::1]:43828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855264E325A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 22:34:44 +0100 (CET)
+Received: from localhost ([::1]:47200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWPeX-0000vt-WA
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 17:33:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52144)
+	id 1nWPfn-0003Eg-Lh
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 17:34:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWPdD-0007zl-4Z
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 17:32:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50818)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWPeH-0001Bb-95
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 17:33:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWPd9-0004T3-GZ
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 17:32:00 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nWPeF-0004hL-Mo
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 17:33:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647898318;
+ s=mimecast20190719; t=1647898386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=PK+n9GDeLUKcwl9yx5DIgAQojHJ3wILuG43fMxG5K0E=;
- b=G55ym8T1G6SKz2Tq7/ftZjxwTP/2ruzMT4aS3II5hYs4LArMPLjLq5tcPiER/5rzP8Gc+3
- xmUJjCFNbnqWQ97bu4ceSIB+IBe2xRD1hXO6S3AchPjgTaIVUbfkDMMkh7n3Hi21BddQ2U
- UhoNbjSz1msMnvo87NifbkzCu8ve1hE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nbXSs1q0bwKSukey17yPFZdW8b0LCB9k5/tyrQ2dcVw=;
+ b=YyYSTrOxPNGAYjaj7UvBfeKme0iA3ElUF7v/0/Qiap/qzVUD8uCbS0Zxy6eTSYY/lZw1Zi
+ VVm4m3bGbDTK/zg8L77Zqp6w7sSlTloQGJ5ShdyrV8vT6kT9BbzbPrf6jTFKa858YWwERw
+ Wy+9/qYmYLBJ3M4gXIiAK5fuEb03vhs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-402-0xgBrCIVPfyXVV-jh2Y5Mw-1; Mon, 21 Mar 2022 17:31:54 -0400
-X-MC-Unique: 0xgBrCIVPfyXVV-jh2Y5Mw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-322-kaPRsirPMTKlwaq9CD3iwg-1; Mon, 21 Mar 2022 17:33:05 -0400
+X-MC-Unique: kaPRsirPMTKlwaq9CD3iwg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3B063C14CCA;
- Mon, 21 Mar 2022 21:31:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 970581044563;
+ Mon, 21 Mar 2022 21:33:05 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.16.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D1D11121314;
- Mon, 21 Mar 2022 21:31:53 +0000 (UTC)
-Date: Mon, 21 Mar 2022 16:31:51 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 00DB540C1241;
+ Mon, 21 Mar 2022 21:33:04 +0000 (UTC)
+Date: Mon, 21 Mar 2022 16:33:03 -0500
 From: Eric Blake <eblake@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v5 17/18] iotests: remove qemu_img_pipe_and_status()
-Message-ID: <20220321213151.ox7wneobhru66awn@redhat.com>
+Subject: Re: [PATCH v5 18/18] iotests: make qemu_img_log and img_info_log
+ raise on error
+Message-ID: <20220321213303.xjfelyctamduycef@redhat.com>
 References: <20220321201618.903471-1-jsnow@redhat.com>
- <20220321201618.903471-18-jsnow@redhat.com>
+ <20220321201618.903471-19-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220321201618.903471-18-jsnow@redhat.com>
+In-Reply-To: <20220321201618.903471-19-jsnow@redhat.com>
 User-Agent: NeoMutt/20211029-454-6adf99
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,21 +86,30 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 21, 2022 at 04:16:17PM -0400, John Snow wrote:
-> With the exceptional 'create' calls removed in the prior commit, change
-> qemu_img_log() and img_info_log() to call qemu_img() directly
-> instead.
+On Mon, Mar 21, 2022 at 04:16:18PM -0400, John Snow wrote:
+> Add a `check: bool = True` parameter to both functions and make their
+> qemu_img() invocations raise on error by default.
 > 
-> For now, allow these calls to qemu-img to return non-zero on the basis
-> that any unusual output will be logged anyway. The very next commit
-> begins to enforce a successful exit code by default even for the logged
-> functions.
+> users of img_info_log:
+> 206, 207, 210, 211, 212, 213, 237, 242, 266, 274, 302
+> 
+> users of qemu_img_log:
+> 044, 209, 274, 302, 304
+> 
+> iotests 242 and 266 need to use check=False for their negative tests.
+> iotests 206, 210, 211, 212, 213, 237, 274 and 302 continue working
+> normally.
+> 
+> As of this commit, all calls to QEMU_IMG made from iotests enforce a
+> return code of zero by default unless explicitly disabled or suppressed
+> by passing check=False or with an exception handler.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  tests/qemu-iotests/iotests.py | 26 +++++++-------------------
->  1 file changed, 7 insertions(+), 19 deletions(-)
->
+>  tests/qemu-iotests/242        | 2 +-
+>  tests/qemu-iotests/266        | 2 +-
+>  tests/qemu-iotests/iotests.py | 8 +++++---
+>  3 files changed, 7 insertions(+), 5 deletions(-)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
