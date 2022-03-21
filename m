@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC214E322A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 22:11:07 +0100 (CET)
-Received: from localhost ([::1]:59734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A980C4E322B
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 22:11:26 +0100 (CET)
+Received: from localhost ([::1]:59850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWPIw-0005cR-Ky
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 17:11:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45332)
+	id 1nWPJE-0005ii-0k
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 17:11:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWPGp-0002KP-UX
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 17:08:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26176)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWPGq-0002M4-84
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 17:08:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWPGn-0006PC-Rt
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWPGo-0006PK-0V
  for qemu-devel@nongnu.org; Mon, 21 Mar 2022 17:08:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1647896933;
@@ -23,30 +23,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3Rh2PqKLn1WtX5VPupoQMBse2oAT2O3EOfDswiXPVQY=;
- b=Q27MV8eNCMnZsm9NCcq/msb1Mw058mjjWR2b2JDJqHns7KrUlxG0ezgCEFUapbzRiaBNTS
- tm3nctnEh+uWNCSRXIEZzrYYzkVWJj8LQ704CiGmRHmZgkTdD0zZbk7On3Bgyh5nKxEUTw
- dEVVpzohUqrXZO7xaxlZD3PhcpmlI1g=
+ bh=cPhW8sF+67MJRLnLSzs3HBXt2hGS4K5U20OrkkIb1DA=;
+ b=UnSuZ2fjQBKztKRtI9+CFqiGvHu2hsv+9lEaq/FeFjr8fPUFSSxpuc0yxs/FjfAVjjxdyE
+ DwTcAGoX3hcmFkdhrSBeXNkB2AJmmtYOux2TJ42VzRED9sa0NRyLdfJhh0AWUJimVv8itU
+ SlIu3Zg3tMW31ufY3Cu0vzI9VUGYM1g=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-19-2j1UfxlXMpqN_7GhLSjOuA-1; Mon, 21 Mar 2022 17:08:49 -0400
-X-MC-Unique: 2j1UfxlXMpqN_7GhLSjOuA-1
+ us-mta-111-fEUPysa9PLGhgHvLrLL4xw-1; Mon, 21 Mar 2022 17:08:50 -0400
+X-MC-Unique: fEUPysa9PLGhgHvLrLL4xw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8CBDA899EC2;
- Mon, 21 Mar 2022 21:08:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 00BB3811E75;
+ Mon, 21 Mar 2022 21:08:50 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 37E331121321;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C8781121321;
  Mon, 21 Mar 2022 21:08:49 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/10] python: temporarily silence pylint duplicate-code
- warnings
-Date: Mon, 21 Mar 2022 17:08:40 -0400
-Message-Id: <20220321210847.914787-4-jsnow@redhat.com>
+Subject: [PATCH 04/10] python/aqmp: take QMPBadPortError and parse_address
+ from qemu.qmp
+Date: Mon, 21 Mar 2022 17:08:41 -0400
+Message-Id: <20220321210847.914787-5-jsnow@redhat.com>
 In-Reply-To: <20220321210847.914787-1-jsnow@redhat.com>
 References: <20220321210847.914787-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -66,7 +66,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,29 +87,134 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The next several commits copy some code from qemu.qmp to qemu.aqmp, then
-delete qemu.qmp. In the interim, to prevent test failures, the duplicate
-code detection needs to be silenced to prevent bisect problems with CI
-testing.
+Shift these definitions over from the qmp package to the async qmp
+package.
+
+(Licensing: this is a lateral move, from GPLv2 (only) to GPLv2 (only))
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
 ---
- python/setup.cfg | 1 +
- 1 file changed, 1 insertion(+)
+ python/qemu/aqmp/aqmp_tui.py |  3 +--
+ python/qemu/aqmp/legacy.py   | 30 ++++++++++++++++++++++++++----
+ python/qemu/qmp/__init__.py  | 26 --------------------------
+ 3 files changed, 27 insertions(+), 32 deletions(-)
 
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 241f243e8b..cdeced44d2 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -119,6 +119,7 @@ disable=consider-using-f-string,
-         too-many-function-args,  # mypy handles this with less false positives.
-         too-many-instance-attributes,
-         no-member,  # mypy also handles this better.
-+        duplicate-code,  # To be removed by the end of this patch series.
+diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
+index f1e926dd75..184a3e4690 100644
+--- a/python/qemu/aqmp/aqmp_tui.py
++++ b/python/qemu/aqmp/aqmp_tui.py
+@@ -35,9 +35,8 @@
+ import urwid
+ import urwid_readline
  
- [pylint.basic]
- # Good variable names which should always be accepted, separated by a comma.
+-from qemu.qmp import QEMUMonitorProtocol, QMPBadPortError
+-
+ from .error import ProtocolError
++from .legacy import QEMUMonitorProtocol, QMPBadPortError
+ from .message import DeserializationError, Message, UnexpectedTypeError
+ from .protocol import ConnectError, Runstate
+ from .qmp_client import ExecInterruptedError, QMPClient
+diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
+index f86cb29804..f026274949 100644
+--- a/python/qemu/aqmp/legacy.py
++++ b/python/qemu/aqmp/legacy.py
+@@ -33,9 +33,6 @@
+ from .qmp_client import QMPClient
+ 
+ 
+-# (Temporarily) Re-export QMPBadPortError
+-QMPBadPortError = qemu.qmp.QMPBadPortError
+-
+ #: QMPMessage is an entire QMP message of any kind.
+ QMPMessage = Dict[str, Any]
+ 
+@@ -56,6 +53,12 @@
+ # pylint: disable=missing-docstring
+ 
+ 
++class QMPBadPortError(QMPError):
++    """
++    Unable to parse socket address: Port was non-numerical.
++    """
++
++
+ class QEMUMonitorProtocol(qemu.qmp.QEMUMonitorProtocol):
+     def __init__(self, address: SocketAddrT,
+                  server: bool = False,
+@@ -86,7 +89,26 @@ def _get_greeting(self) -> Optional[QMPMessage]:
+         return None
+ 
+     # __enter__ and __exit__ need no changes
+-    # parse_address needs no changes
++
++    @classmethod
++    def parse_address(cls, address: str) -> SocketAddrT:
++        """
++        Parse a string into a QMP address.
++
++        Figure out if the argument is in the port:host form.
++        If it's not, it's probably a file path.
++        """
++        components = address.split(':')
++        if len(components) == 2:
++            try:
++                port = int(components[1])
++            except ValueError:
++                msg = f"Bad port: '{components[1]}' in '{address}'."
++                raise QMPBadPortError(msg) from None
++            return (components[0], port)
++
++        # Treat as filepath.
++        return address
+ 
+     def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
+         self._aqmp.await_greeting = negotiate
+diff --git a/python/qemu/qmp/__init__.py b/python/qemu/qmp/__init__.py
+index 358c0971d0..4e08641154 100644
+--- a/python/qemu/qmp/__init__.py
++++ b/python/qemu/qmp/__init__.py
+@@ -102,12 +102,6 @@ def __init__(self, reply: QMPMessage):
+         self.reply = reply
+ 
+ 
+-class QMPBadPortError(QMPError):
+-    """
+-    Unable to parse socket address: Port was non-numerical.
+-    """
+-
+-
+ class QEMUMonitorProtocol:
+     """
+     Provide an API to connect to QEMU via QEMU Monitor Protocol (QMP) and then
+@@ -237,26 +231,6 @@ def __exit__(self,
+         # Implement context manager exit function.
+         self.close()
+ 
+-    @classmethod
+-    def parse_address(cls, address: str) -> SocketAddrT:
+-        """
+-        Parse a string into a QMP address.
+-
+-        Figure out if the argument is in the port:host form.
+-        If it's not, it's probably a file path.
+-        """
+-        components = address.split(':')
+-        if len(components) == 2:
+-            try:
+-                port = int(components[1])
+-            except ValueError:
+-                msg = f"Bad port: '{components[1]}' in '{address}'."
+-                raise QMPBadPortError(msg) from None
+-            return (components[0], port)
+-
+-        # Treat as filepath.
+-        return address
+-
+     def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
+         """
+         Connect to the QMP Monitor and perform capabilities negotiation.
 -- 
 2.34.1
 
