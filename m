@@ -2,74 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864014E2648
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 13:27:17 +0100 (CET)
-Received: from localhost ([::1]:60434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0604E26AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 13:36:48 +0100 (CET)
+Received: from localhost ([::1]:39162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWH7z-0003Ho-WA
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 08:27:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42438)
+	id 1nWHHD-0008T1-Bh
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 08:36:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nWH3Z-0001ex-F3; Mon, 21 Mar 2022 08:22:43 -0400
-Received: from smtp49.i.mail.ru ([94.100.177.109]:37702)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nWHDw-0006uB-Am
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 08:33:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34231)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nWH3I-0005kG-Fw; Mon, 21 Mar 2022 08:22:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
- s=mail4; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=Vv5pXDyP6ZaVVAZcNozgH7TF1Cywxb+1Syc5PSq/5eQ=; 
- t=1647865344;x=1648470744; 
- b=iWpVYRI1AmFTKLfJVhj2j6W7g8UUbnqTx3rvMhchPaB5z1bStmFuPkeSExNEKI9YX7L1rfjamqZRRElYsrrbM/xgP6JNctSE+PbK5RpNhjOUDXeft9BP+/qf5NIrGjT+zO4miOOpRkATDsbE8W7KG46LfFPfDe7Nz7YVxGCagfY8CylGhelYynzujncCrpl4s7Z2yS0NyMFxCTB/6qxYkHOwrFNqF62ZXT4+1X9K1lRGe9dYtw/GOLWrQnMgiQAIdcljCOvSfOPnjIxcKWQPfK3OzrxSNSGUXyLuinmJmDarCT20bWTJgGwHa+q1gBGoFulHipcPmsSBvg+au/TY8A==;
-Received: by smtp49.i.mail.ru with esmtpa (envelope-from
- <v.sementsov-og@mail.ru>)
- id 1nWH3E-0000Oi-T2; Mon, 21 Mar 2022 15:22:21 +0300
-Message-ID: <9215c4ca-110e-8929-62a0-908d4a3f27b9@mail.ru>
-Date: Mon, 21 Mar 2022 15:22:19 +0300
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nWHDo-0005Dh-MU
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 08:33:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647865995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dMEecMKRCA/TNZTdrBulYveDs4q4KN2lCAhZ0/vgQFk=;
+ b=f7A1Vr9q9osch1YLtFXzTXsNQg8FTZHNVpU7slGFsu5FockxhtojKvgrDYyNMORkxyYtfx
+ ePufIhsFbEWdTL9KrBelDmA1wvjlFMvHw9NPsocq8iMYD2lPdGy/REZFBtFovV0B6Wgtie
+ TBamqdwSoCqb/SrlHMXfM9gx+Zt5DSQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-645-OJVPCyAuN5S6WLHZEAAr5A-1; Mon, 21 Mar 2022 08:33:14 -0400
+X-MC-Unique: OJVPCyAuN5S6WLHZEAAr5A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n19-20020a7bcbd3000000b0038c94b86258so2334236wmi.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 05:33:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=dMEecMKRCA/TNZTdrBulYveDs4q4KN2lCAhZ0/vgQFk=;
+ b=sCcJlmnddlkLoBllsFmMHvu+izOFc3OU0HR7ZfpjeSACB4jnP8M/5aURaFx10UyJ95
+ 1IsE6rax0eQgQFRSbZ3kquk4Dd8xD7V7GuoZf6kNLjwBt0am00Mj2RSHTQNSPOQQjyxV
+ /E7N99KM86IzdiokvSxIp40NBBCcolOJvnpg0fVyc95P/OGPsoKZjlViVRbStSBuzPNz
+ Nq+HH+aZmlyBREMm3+hR4bdJ6E0yUw12tFBMkKYcoG0uk98cpE2g9JMdoHkXEmY/DCUe
+ v+frpmX1EG7jFuta1zDoKo2x70X3fqmGwNZdVs0lnXb4IEL2hGbzveA6t1PnuZyyMkkn
+ 8Tnw==
+X-Gm-Message-State: AOAM531ajUdw540qFBNgWUp/BALALJ6rWTz4ZW0nvukmHfZSYT0P5Sci
+ +45x3RMOZMEPvHmlA1MMkeExxwGaoqoXzNc3jsQFI6ALFSEJzQzKbJ4BHhXuuSvXZna2hcjCNPZ
+ GrBck0hhr1JYm1Mo=
+X-Received: by 2002:adf:fb90:0:b0:203:b456:c71e with SMTP id
+ a16-20020adffb90000000b00203b456c71emr18224209wrr.244.1647865993098; 
+ Mon, 21 Mar 2022 05:33:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwgw93w9CAHkEM0rKakuOSI/0sVYXHIhiwwHDtu0ExoXszBGvWg/tL7sxFcufF2ivH+be5Pqg==
+X-Received: by 2002:adf:fb90:0:b0:203:b456:c71e with SMTP id
+ a16-20020adffb90000000b00203b456c71emr18224193wrr.244.1647865992880; 
+ Mon, 21 Mar 2022 05:33:12 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c704:4900:849b:f76e:5e1f:ff95?
+ (p200300cbc7044900849bf76e5e1fff95.dip0.t-ipconnect.de.
+ [2003:cb:c704:4900:849b:f76e:5e1f:ff95])
+ by smtp.gmail.com with ESMTPSA id
+ l11-20020a5d674b000000b0020402c09067sm5830673wrw.50.2022.03.21.05.33.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Mar 2022 05:33:12 -0700 (PDT)
+Message-ID: <ade8b532-604b-8ae5-0ce3-4a42790a2669@redhat.com>
+Date: Mon, 21 Mar 2022 13:33:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC PATCH 0/5] Removal of AioContext lock, bs->parents and
- ->children: proof of concept
+ Thunderbird/91.6.2
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220308015358.188499-1-richard.henderson@linaro.org>
+ <20220308015358.188499-9-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v3 08/11] target/s390x: vxeh2: vector {load, store} byte
+ reversed element
+In-Reply-To: <20220308015358.188499-9-richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
-References: <20220301142113.163174-1-eesposit@redhat.com>
- <516a480e-15a0-896f-6ff8-4303e110210e@virtuozzo.com>
- <f43e3499-fa70-f0ce-4daa-d62b5bb9819c@redhat.com>
- <e1f1051f-f3bd-9a05-2821-143542d6ff18@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-In-Reply-To: <e1f1051f-f3bd-9a05-2821-143542d6ff18@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp49.i.mail.ru;
- auth=pass smtp.auth=v.sementsov-og@mail.ru
- smtp.mailfrom=v.sementsov-og@mail.ru
-X-7564579A: EEAE043A70213CC8
-X-77F55803: 4F1203BC0FB41BD95C8DF32398C35CA633AC8158FD68276C79E92F1BB1950288182A05F5380850404C228DA9ACA6FE27B4491ACCD92FCE2F89F3324C1FBE6391E61329B3A92A44C69F2531095DBA3DB7
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7C6A43EB42C8B28B9EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637A521848D7B067A388638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8F0911625929F0DEF4A2EA79432D5A35E6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE7BCD80908B360209B9FA2833FD35BB23D9E625A9149C048EEB1593CA6EC85F86DBDFBBEFFF4125B51D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BED943DBD20860CC2A471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC040E0003A52AFEF73AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F79006372CCD0B7543C42194D81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89F443EE40786112381A91E23F1B6B78B78B5C8C57E37DE458BEDA766A37F9254B7
-X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: 0D63561A33F958A5876933C307350DF52A23B8D2755445683DB223C1E4820384D59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA7540E9CF2C1C1CEBBA410CA545F18667F91A7EA1CDA0B5A7A0
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34697E0FA301E28215C5EB6A7EBEA1FF555F87E5BE19ADAD9120298016066F68650CA39E4B7E247BA21D7E09C32AA3244CBE603C7BF4EBD4E60BEE9E5916F00F3297FE24653F78E668ED98077840A144B9
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojSLL0ldHQslaBf3y3xflrWQ==
-X-Mailru-Sender: 6C3E74F07C41AE94BE5520CD20DE4F15C90EBE37D31C6C9D44CC60DB2C8E96FEFE377E342BF95D99E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-Received-SPF: pass client-ip=94.100.177.109;
- envelope-from=v.sementsov-og@mail.ru; helo=smtp49.i.mail.ru
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_BL=0.001,
- RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,45 +106,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-s390x@nongnu.org, dmiller423@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.03.2022 00:55, Emanuele Giuseppe Esposito wrote:
+On 08.03.22 02:53, Richard Henderson wrote:
+> From: David Miller <dmiller423@gmail.com>
 > 
+> This includes VLEBR* and VSTEBR* (single element);
+> VLBRREP (load single element and replicate); and
+> VLLEBRZ (load single element and zero).
+
+"load byte reversed element and ..."
+
 > 
-> Am 09/03/2022 um 14:26 schrieb Emanuele Giuseppe Esposito:
->>> Next, I have a problem in mind, that in past lead to a lot of iotest 30
->>> failures. Next there were different fixes and improvements, but the core
->>> problem (as far as I understand) is still here: nothing protects us when
->>> we are in some graph modification process (for example block-job
->>> finalization) do yield, switch to other coroutine and enter another
->>> graph modification process (for example, another block-job finaliztion)..
->> That's another point to consider. I don't really have a solution for this.
->>
-> On a side note, that might not be a real problem.
-> If I understand correctly, your fear is that we are doing something like
-> parent->children[x] = new_node // partial graph operation
-> /* yield to another coroutine */
-> coroutine reads/writes parent->children[x] and/or new_node->parents[y]
-> /* yield back */
-> new_node->parents[y] = parent // end of the initial graph operation
-> 
-> Is that what you are pointing out here?
-> If so, is there a concrete example for this? Because yields and drains
-> (that eventually can poll) seem to be put either before or after the
-> whole graph modification section. In other words, even if a coroutine
-> enters, it will be always before or after the _whole_ graph modification
-> is performed.
-> 
+> Signed-off-by: David Miller <dmiller423@gmail.com>
+> Message-Id: <20220307020327.3003-6-dmiller423@gmail.com>
+> [rth: Split out elements (plural) from element (scalar),
+>       Use tcg little-endian memory operations.]
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-The old example was here: https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05212.html  - not sure how much is it applicable now.
+[...]
 
-Another example - look at bdrv_drop_intermediate() in block.c and at TODO comments in it.
+> diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
+> index ee6e1dc9e5..b80f989002 100644
+> --- a/target/s390x/tcg/insn-data.def
+> +++ b/target/s390x/tcg/insn-data.def
+> @@ -1027,6 +1027,14 @@
+>      F(0xe756, VLR,     VRR_a, V,   0, 0, 0, 0, vlr, 0, IF_VEC)
+>  /* VECTOR LOAD AND REPLICATE */
+>      F(0xe705, VLREP,   VRX,   V,   la2, 0, 0, 0, vlrep, 0, IF_VEC)
+> +/* VECTOR LOAD BYTE REVERSED ELEMENT */
+> +    E(0xe601, VLEBRH,  VRX,   VE2, la2, 0, 0, 0, vlebr, 0, ES_16, IF_VEC)
+> +    E(0xe603, VLEBRF,  VRX,   VE2, la2, 0, 0, 0, vlebr, 0, ES_32, IF_VEC)
+> +    E(0xe602, VLEBRG,  VRX,   VE2, la2, 0, 0, 0, vlebr, 0, ES_64, IF_VEC)
+> +/* VECTOR LOAD BYTE REVERSED ELEMENT AND REPLOCATE */
 
-In both cases the problem is we want to update some metadata in qcow2 (backing file name) as part of block-graph modification. But this update does write to qcow2 header which may yield and switch to some another block-graph modification code.
+s/REPLOCATE/REPLICATE/
 
+> +    F(0xe605, VLBRREP, VRX,   VE2, la2, 0, 0, 0, vlbrrep, 0, IF_VEC)
+> +/* VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO */
+> +    F(0xe604, VLLEBRZ, VRX,   VE2, la2, 0, 0, 0, vllebrz, 0, IF_VEC)
+>  /* VECTOR LOAD BYTE REVERSED ELEMENTS */
+>      F(0xe606, VLBR,    VRX,   VE2, la2, 0, 0, 0, vlbr, 0, IF_VEC)
+>  /* VECTOR LOAD ELEMENT */
+> @@ -1081,6 +1089,10 @@
+>      F(0xe75f, VSEG,    VRR_a, V,   0, 0, 0, 0, vseg, 0, IF_VEC)
+>  /* VECTOR STORE */
+>      F(0xe70e, VST,     VRX,   V,   la2, 0, 0, 0, vst, 0, IF_VEC)
+> +/* VECTOR STORE BYTE REVERSED ELEMENT */
+> +    E(0xe609, VSTEBRH,  VRX,   VE2, la2, 0, 0, 0, vstebr, 0, ES_16, IF_VEC)
+> +    E(0xe60b, VSTEBRF,  VRX,   VE2, la2, 0, 0, 0, vstebr, 0, ES_32, IF_VEC)
+> +    E(0xe60a, VSTEBRG,  VRX,   VE2, la2, 0, 0, 0, vstebr, 0, ES_64, IF_VEC)
+>  /* VECTOR STORE BYTE REVERSED ELEMENTS */
+>      F(0xe60e, VSTBR,    VRX,   VE2, la2, 0, 0, 0, vstbr, 0, IF_VEC)
+>  /* VECTOR STORE ELEMENT */
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
 -- 
-Best regards,
-Vladimir
+Thanks,
+
+David / dhildenb
+
 
