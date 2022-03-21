@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA734E1F6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 05:02:56 +0100 (CET)
-Received: from localhost ([::1]:60736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C81454E1F72
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 05:13:05 +0100 (CET)
+Received: from localhost ([::1]:36548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nW9Fu-000393-RK
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 00:02:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50398)
+	id 1nW9Pk-0006Rj-83
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 00:13:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nW98q-0001dQ-Vc; Sun, 20 Mar 2022 23:55:38 -0400
-Received: from [2404:9400:2221:ea00::3] (port=36933 helo=gandalf.ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nW98m-0004Uu-Lc; Sun, 20 Mar 2022 23:55:36 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4KMLP44ff9z4xc2; Mon, 21 Mar 2022 14:55:20 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1647834920;
- bh=NhXF9zs0fXHCpHXOItb55/m3GpPJ7X+Of9m/GOUqViU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JNaW/f5Kx3ztbTKuxc36ROFYa9AQjT9bJ+3XvHX3c2CDviFVyipqdirT5dhrj0B0T
- o5Y1olpGQ6knwhxMJd9DcgEs9abFu/L8dos/p4LkkVjxXaj3++d3tZYOgaUFcCBYw6
- qa1sPic3/DDjMhXqhwFybKVMIsbjdkj6Gr0L/5gA=
-Date: Mon, 21 Mar 2022 14:55:13 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH for-7.1 0/9] spapr: add drc->index, remove
- spapr_drc_index()
-Message-ID: <Yjf3Ifdun+jaJ8zF@yekko>
-References: <20220318173320.320541-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nW9Nm-0005AA-M8
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 00:11:02 -0400
+Received: from [2607:f8b0:4864:20::c35] (port=35806
+ helo=mail-oo1-xc35.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nW9Nk-00082G-Sh
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 00:11:02 -0400
+Received: by mail-oo1-xc35.google.com with SMTP id
+ y27-20020a4a9c1b000000b0032129651bb0so17759598ooj.2
+ for <qemu-devel@nongnu.org>; Sun, 20 Mar 2022 21:10:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rPXr8GSk9j+/bnukFc9RZ4mzis9YYVlpcwRt3ZzWOrA=;
+ b=Lj+46dJdAtXwLvCMu2zqGSVxqF6JRwP3wHg61qbaTOKneF+LIe32RbCAa35RMYO0yr
+ byM5RxVz+Kh+NGQ88WqC6Brq4KV85ph2IcdrFYQPJtgo1LUgtOqncU1GE0UeUbf9Ja6n
+ t7XGRU4mdarK1DyugZVSb0EBxYBVdWi5E6ga8ulQiFI0fVa3aVnyUPSLiAwZn04GZ2x5
+ LAgStc17G/FexVtlD0DiqzJYyRWwmkp3QbYNqKRSTZPemCotnp942kGw0zT6x+KgZirW
+ NNqBNP3Vs3PmiJqYauFzP819SdmERHG0oAqykcyWYDRFhCa0zY+DH2wIHvJjASIe12q4
+ JOFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rPXr8GSk9j+/bnukFc9RZ4mzis9YYVlpcwRt3ZzWOrA=;
+ b=NwPiBFDtqXpMkiZMfUpeY+MaSIT6TRH8Q9D6Q/mwgCGc1vKG9KklYm6Tgu8os68xS2
+ KbAVsGA7HBT9rjbNYEvqP9hkxZORwSum8dBX9kcskJkABLivmp8iImW6wf0F+BG3NfkH
+ ML8xJG2B6EK3aFBPMfFevmgiSWlKklwB0bYnZxkeKtF7wvckvWxds+p4wJc+r7eTEdlY
+ Ec2sPMdKZzjN5DoSWA9njub6GJfDb6HenOCAQh4+Ve2SreekENvThqvN4AtPvZ/ta56A
+ NbH1hEnZ96XivzLFa9Wmry43rXfqpcVoZmU4Y/dGDSdam11S1PCDqfC+pz0sPJ+uuKiU
+ rJmA==
+X-Gm-Message-State: AOAM5314DPPSoIRVkfB61QorLNIAgDENJ7NpwOFTWbQ9r2XeE5G7mvRe
+ 3E2y/mxN/U4hSaor2mi538RXFCMPP34=
+X-Google-Smtp-Source: ABdhPJzfFlQPtdTdnJrtOquhlJEtJDgUXRuGmCfUMYy0A1O9bEh8KnHQaayzd5E9nal4JG/jhhTKwQ==
+X-Received: by 2002:a05:6870:c21e:b0:dd:be4f:5dec with SMTP id
+ z30-20020a056870c21e00b000ddbe4f5decmr6437714oae.66.1647835857898; 
+ Sun, 20 Mar 2022 21:10:57 -0700 (PDT)
+Received: from localhost.localdomain ([2400:4050:c360:8200:e0e3:734:1053:5eaa])
+ by smtp.gmail.com with ESMTPSA id
+ n3-20020a9d4d03000000b005b236de8911sm6936593otf.24.2022.03.20.21.10.55
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sun, 20 Mar 2022 21:10:57 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH v3 0/2] Create menus in iothread
+Date: Mon, 21 Mar 2022 13:10:41 +0900
+Message-Id: <20220321041043.24112-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QptgshbiukAzpH5r"
-Content-Disposition: inline
-In-Reply-To: <20220318173320.320541-1-danielhb413@gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2404:9400:2221:ea00::3
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c35
  (failed)
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-oo1-xc35.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,84 +87,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Commit 0439c5a4623d674efa0c72abd62ca6e98bb7cf87 introduced an
+assertion that blk_all_next is called in the main thread. The function
+is called in the following chain:
+- blk_all_next
+- qmp_query_block
+- addRemovableDevicesMenuItems
+- main
 
---QptgshbiukAzpH5r
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This change moves the menu creation to the iothread. This also changes
+the menu creation procedure to construct the entire menu tree before
+setting to NSApp, which is necessary because a menu set once cannot be
+modified if NSApp is already running.
 
-On Fri, Mar 18, 2022 at 02:33:11PM -0300, Daniel Henrique Barboza wrote:
-> Hi,
->=20
-> I decided to make this change after realizing that (1) spapr_drc_index()
-> always return the same index value for the DRC regardless of machine or
-> device state and (2) we call spapr_drc_index() a lot throughout the
-> spapr code.
+v2: Separate a change moving create_initial_menus (Peter Maydell)
 
-Hmm.. so, spapr_drc_index() wasn't ever intended as an abstraction
-point.  Rather, it's just there as a matter of data redundancy.  The
-index can be derived from the drc->id and the type.  Unless there's a
-compelling reason otherwise, it's usually a good idea to store data in
-just one form (if there's more it's an opportunity for bugs to let it
-get out of sync).
+v3: Rebased to commit 2058fdbe81e2985c226a026851dd26b146d3395c
 
->=20
-> This means that a new attribute to store the generated index in the DRC
-> object time will spare us from calling a function that always returns
-> the same value.
->=20
-> No functional changes were made.
->=20
-> =20
-> Daniel Henrique Barboza (9):
->   hw/ppc/spapr_drc.c: add drc->index
->   hw/ppc/spapr_drc.c: redefine 'index' SpaprDRC property
->   hw/ppc/spapr_drc.c: use drc->index in trace functions
->   hw/ppc/spapr_drc.c: use drc->index
->   hw/ppc/spapr.c: use drc->index
->   hw/ppc/spapr_events.c: use drc->index
->   hw/ppc/spapr_nvdimm.c: use drc->index
->   hw/ppc/spapr_pci.c: use drc->index
->   hw/ppc/spapr_drc.c: remove spapr_drc_index()
->=20
->  hw/ppc/spapr.c             | 18 ++++-----
->  hw/ppc/spapr_drc.c         | 79 +++++++++++++++-----------------------
->  hw/ppc/spapr_events.c      |  4 +-
->  hw/ppc/spapr_nvdimm.c      | 10 ++---
->  hw/ppc/spapr_pci.c         |  5 +--
->  include/hw/ppc/spapr_drc.h |  2 +-
->  6 files changed, 48 insertions(+), 70 deletions(-)
->=20
+Akihiko Odaki (2):
+  ui/cocoa: Move create_initial_menus
+  ui/cocoa: Create menus in iothread
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+ ui/cocoa.m | 209 +++++++++++++++++++++++++----------------------------
+ 1 file changed, 98 insertions(+), 111 deletions(-)
 
---QptgshbiukAzpH5r
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.32.0 (Apple Git-132)
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmI39xgACgkQgypY4gEw
-YSJHIg//dUIvRThqvMvaROcbFn/IHtOwn0EUXslxCGKZB/EQ5HFN4OJxfyodXtf/
-3CCrNTu+CFmSTgfz6RBdgFcYUsvVjEliHthQ1uACEqLdGvHNm6rf6geoZvhrniJl
-kTzSAm0gTlhWD1SJ8vLVu4TJy6FNuemo56PeYsROlCCbJB0qmuz1MTASTz4vAodu
-RP6MWfqkNtGgGgb2nagGfYK7lfc3ctfIvXRdgheY+192CmvRXtbZJebXhJDsT25r
-TIdFvfZAWZMHsBJY377SyqGSQr6buCrA4BDkOShlHAzFU/Qi6w0fZqdzKONF42LY
-2vbHkQk/4ttZPyYhlF5bVJT9RLwUR9/3vkXTayGb9lo3oQWsFAJl2w8pSMiS6Hyf
-gqi75YTYrdiGoGy/ynyoyuxmoIN8XT9S9GdypxOnPbzlrZqmKduNY8RX/5CggfPZ
-AOBPwr/P9qz6xrzntJZwq53qrBGdsowXsyvdDFsUWDpUKHXD/XWQS70n5NAidwqy
-0NljOV9UMwlazkhjnbBIZzEPEouD5Ksr8LQHqNBAjm1mB5QLIMz5IkzHqq3+ghhf
-TFlXzmcfcjIAU78BD/HtFijwZWsTju5vGvJgs7IEmABIHb4TU+uJ5iVRxwYg4FD4
-upRVIb7DT1sBnAG9/GbVF81aT7CAPc3bMKjmrXX/+Wg7y8DH/5c=
-=gQC9
------END PGP SIGNATURE-----
-
---QptgshbiukAzpH5r--
 
