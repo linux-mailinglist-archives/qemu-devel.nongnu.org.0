@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD264E2EC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 18:07:52 +0100 (CET)
-Received: from localhost ([::1]:52190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C09F4E2EDE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 18:11:17 +0100 (CET)
+Received: from localhost ([::1]:60708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWLVX-0004wM-EJ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 13:07:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42208)
+	id 1nWLYq-0002H1-JH
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 13:11:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWLRL-0001cU-7Q
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:03:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32649)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWLRQ-0001dM-7c
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:03:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWLRI-00055k-J8
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:03:30 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWLRO-00056K-2j
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 13:03:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647882206;
+ s=mimecast20190719; t=1647882210;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=I5IH/e9OJLTLfU6cDr6judmeznQwSIBTw6dzY+7ZPZs=;
- b=DM8zwqTUj9lWNqfRpjiohQEjRh/Fmzdw8178zzvTF3gg9zToFo5d5kX8SrpZZztCFhFt7o
- QyqbjChs0Ld/kG1op/b3FXKtC0WZY8/SckNf2tTNiOsa7KgsmUofclajhcpE6DZM1VyhYC
- GeTywj5P/kMU1hshdS3K368rgbh30F8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J95rbpkj87CAW3W15/KRRo91TCCezonRv7pSULKlia8=;
+ b=OwyEMjXYObIGUjptFgyDjtcmWrKN8bWtj3htjFgB7bElNWmAkRxpHY3Iu2V4x8DjTUSZXZ
+ El9RfRV1Nl8BdU6mp0ttiOdLgL2MdVmVD35hUIXfdbTLAX1qTwe375sF0CdT23Gt7xtkV6
+ TY1sE9TGlXiAIIsaxtiTfxCPeZKZb+8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-FIOh9OT2NmukQQhuYTSd1Q-1; Mon, 21 Mar 2022 13:03:25 -0400
-X-MC-Unique: FIOh9OT2NmukQQhuYTSd1Q-1
+ us-mta-306-7ezDjXGcMeeo7NKKC17ViQ-1; Mon, 21 Mar 2022 13:03:27 -0400
+X-MC-Unique: 7ezDjXGcMeeo7NKKC17ViQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5C6618E5357;
- Mon, 21 Mar 2022 17:03:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CEDDB3C174C3;
+ Mon, 21 Mar 2022 17:03:26 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.195.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9019403D188;
- Mon, 21 Mar 2022 17:03:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2647040D2822;
+ Mon, 21 Mar 2022 17:03:25 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/8] Fix CVE-2021-3611 and heap overflow in sdhci code
-Date: Mon, 21 Mar 2022 18:03:12 +0100
-Message-Id: <20220321170320.282496-1-thuth@redhat.com>
+Subject: [PULL 1/8] softmmu/physmem: Simplify flatview_write and
+ address_space_access_valid
+Date: Mon, 21 Mar 2022 18:03:13 +0100
+Message-Id: <20220321170320.282496-2-thuth@redhat.com>
+In-Reply-To: <20220321170320.282496-1-thuth@redhat.com>
+References: <20220321170320.282496-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Authentication-Results: relay.mimecast.com;
@@ -63,7 +67,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,46 +87,57 @@ Cc: qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2058fdbe81e2985c226a026851dd26b146d3395c:
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  Merge tag 'fixes-20220318-pull-request' of git://git.kraxel.org/qemu into staging (2022-03-19 11:28:54 +0000)
+Remove unuseful local 'result' variables.
 
-are available in the Git repository at:
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20211215182421.418374-3-philmd@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ softmmu/physmem.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-03-21
-
-for you to fetch changes up to 27801168ecbb34b987d2e92a12369367bf9ac2bf:
-
-  tests/qtest/fuzz-sdcard-test: Add reproducer for OSS-Fuzz (Issue 29225) (2022-03-21 14:05:42 +0100)
-
-----------------------------------------------------------------
-* Fix stack-overflow due to recursive DMA in intel-hda (CVE-2021-3611)
-* Fix heap overflow due to recursive DMA in sdhci code
-
-----------------------------------------------------------------
-
-As far as I can see, these patches were ready to go, just felt
-through the cracks so far since Philippe is now doing other stuff...
-I think it would be nice to get these fixed for 7.0 (and if there
-is ever a thorough global DMA reentrancy fix later in >= 7.1, we
-can still revert the device-specific fixes here again later).
-
-Philippe Mathieu-Daudé (8):
-    softmmu/physmem: Simplify flatview_write and address_space_access_valid
-    softmmu/physmem: Introduce MemTxAttrs::memory field and MEMTX_ACCESS_ERROR
-    hw/audio/intel-hda: Do not ignore DMA overrun errors
-    hw/audio/intel-hda: Restrict DMA engine to memories (not MMIO devices)
-    tests/qtest/intel-hda-test: Add reproducer for issue #542
-    hw/sd/sdhci: Honor failed DMA transactions
-    hw/sd/sdhci: Prohibit DMA accesses to devices
-    tests/qtest/fuzz-sdcard-test: Add reproducer for OSS-Fuzz (Issue 29225)
-
- include/exec/memattrs.h        |  9 +++++
- hw/audio/intel-hda.c           | 11 ++++--
- hw/sd/sdhci.c                  | 35 ++++++++++++++-----
- softmmu/physmem.c              | 55 ++++++++++++++++++++++++------
- tests/qtest/fuzz-sdcard-test.c | 76 ++++++++++++++++++++++++++++++++++++++++++
- tests/qtest/intel-hda-test.c   | 34 +++++++++++++++++++
- 6 files changed, 198 insertions(+), 22 deletions(-)
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 43ae70fbe2..3d968ca92f 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2816,14 +2816,11 @@ static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs attrs,
+     hwaddr l;
+     hwaddr addr1;
+     MemoryRegion *mr;
+-    MemTxResult result = MEMTX_OK;
+ 
+     l = len;
+     mr = flatview_translate(fv, addr, &addr1, &l, true, attrs);
+-    result = flatview_write_continue(fv, addr, attrs, buf, len,
+-                                     addr1, l, mr);
+-
+-    return result;
++    return flatview_write_continue(fv, addr, attrs, buf, len,
++                                   addr1, l, mr);
+ }
+ 
+ /* Called within RCU critical section.  */
+@@ -3139,12 +3136,10 @@ bool address_space_access_valid(AddressSpace *as, hwaddr addr,
+                                 MemTxAttrs attrs)
+ {
+     FlatView *fv;
+-    bool result;
+ 
+     RCU_READ_LOCK_GUARD();
+     fv = address_space_to_flatview(as);
+-    result = flatview_access_valid(fv, addr, len, is_write, attrs);
+-    return result;
++    return flatview_access_valid(fv, addr, len, is_write, attrs);
+ }
+ 
+ static hwaddr
+-- 
+2.27.0
 
 
