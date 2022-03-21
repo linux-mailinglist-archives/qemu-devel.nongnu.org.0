@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED54E4E3006
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 19:31:29 +0100 (CET)
-Received: from localhost ([::1]:60010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41EDA4E3014
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 19:36:50 +0100 (CET)
+Received: from localhost ([::1]:38236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWMoQ-00046D-3K
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 14:31:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34302)
+	id 1nWMtc-0000Hp-PQ
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 14:36:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1nWMlx-0003NA-Hh
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:28:53 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:23032)
+ id 1nWMqp-0007GZ-IE
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:33:55 -0400
+Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:35936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1nWMlv-00013u-1n
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:28:52 -0400
+ id 1nWMqn-0002OF-Ci
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 14:33:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1647887330; x=1648492130;
+ t=1647887633; x=1648492433;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=k74eWMLcVjYD0xNIOPGloXswa4pS97hKdeS12TW2UvQ=;
- b=ETuK1r5Lpi8dMKdTX+T0wtmTN1rP2zJPfNLBSZBR830vc9+rQ4H0PhIh
- bJwQrLMsx8qcpi2ETpNFvloGj4KPrxr2cK0jPxFAsCH7Vz5JuL5pgO5ep
- jtat1AT//qxP5unyn9ioaUfiXOen4gYHxJebs3zUus18IVasUvq12W1kN g=;
-Received: from mail-bn8nam11lp2176.outbound.protection.outlook.com (HELO
- NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.176])
+ bh=iAT9M/MR+Wxa9KuAv2gni6kJGmvM+siaxrLU9fbLsR8=;
+ b=Cjzo2ta2J9B+tIBM1oNtF9IchXCJV41MABsYTI7BsWBoOBXUB6VcdwHV
+ jZsUypejUkUK5hx3Kyl/qucpyxwVQllwW4YktsTbyH7SfKgxzPyeYssv5
+ J4q5okm6gWPG/Co3kVgVry+bcfDcshhOR7BvWB6YYQzXfh7J/wWf9ZYq8 0=;
+Received: from mail-dm6nam11lp2172.outbound.protection.outlook.com (HELO
+ NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.172])
  by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 18:28:45 +0000
+ 21 Mar 2022 18:33:50 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a/4h9wyrwr5dBVpkGNz8vJ9/L1b8kz5cm4U6grx38Qacn/nXQ9L2c+zc4X6ZHBYKavwI9vu+T7CCv+TD0tFXmx8N8Sh8UzjFcm6/GNFOZtOSqCqmS2/2MTIyE+ukHeCG9T/6l0xgerFX/sLruSvfgbSBiuSsFWeRabvKeQCbrmlJcVrngNuQjKu09KInIblYs4t2iHWv1OG5rmHHk2PEb1iABKGWv+jS6NQF9hMpI2njx67/tRd/OFjxknwzGeiMTMoBclxLiqzYQQNxeZx9OWGnwoJuZ6/pPsW4ls95k12UR4kUFFvEjxSs/nzmrh8I75fWhzuus8jsxs4/k8M05A==
+ b=NJ6YGo50oSnfQlSEQGtQAxLDW4vC1aC3StRuNud2I9h+bFHqglkoj0EC2Ei93Q8N062Z+dO02eLITbUHbh2imIiH0XpGmDdwTdEmQP2L4zEMlzh2fbrrcwpMo2abyoXmCfBXJ9yUV9BSLZ1GVLf3vk2uBYPTOZE7eMVV1EMOASc60co2xl6r6+MD8R4KwKGhj9QeD+SeS3PWN9vReYKmZxBY1GtK82m3PM+F/FklQfwAScVwOZZLW26zLf+USqNG4T14DTdq0iKbpfc1LOy7uhZwjxJsmFF989f8sXgSi2olCBUUMaLqg+uS1foG4KaPg5Kz1i9W8qPoBB57W9yg8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k74eWMLcVjYD0xNIOPGloXswa4pS97hKdeS12TW2UvQ=;
- b=VsMpcQ2izCq4J6L9ZUlQ8lfkbFictHLNEi7gqAk00R4mhczhc2qHzJ6eZlsNNKoT1fgKfAVrIISlodfMQ85AQIwaFTO04TqMmzLDs36xiEApSot3j2oLGDTl6XZu09iUMBrEHdShmmzpxXdejhwdwsdVa8fOXDwS8xBIoUOF7WcudJeiJOAUVwEHJRoaBou8THagYxZlAwkDtr1IUe+k6tGwpS7QMCwEPOlu5/Q1M2GB101O7a9tYObgALE9SoSuErtgpzUzyhnDgoCJ2UvFMTGpCSWVG389AQRvQRvsznGJEwbMy7ckhcbr4EBjft+or2bIGssLyhDyhQu/aSupDg==
+ bh=iAT9M/MR+Wxa9KuAv2gni6kJGmvM+siaxrLU9fbLsR8=;
+ b=HRCrjgDwTRaTSEMfeNnmuu9IGY7ReO+e8lBI0ry2qBNUftf/SiHKSHJiWvwr9234pZxqmgLdjCtFJImjKr/V/XVbq2jaJNjzLa5KsHyTiOA72FHKkTk2Kmqea2GTw4k27LSUJmXfHYpovxZXeWRUsk9hPDe9gssiI1qSWtd+93VxLI/+Lz4OT7J+KgYaIW7Ke305xBjW/LJua+AYwNIzdDevLZr+kiFQzRPTNktEu74SznE4ilOogHoDeTX1Je1MgZ2ErcC8P4MJip7PFZhjIOlxgmmVMGEjDZ8w2wNmfzS7DcKhORUN1ZbNMK7R8KXCzbzwVhO53L1f3tujOFoIaQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
  dkim=pass header.d=quicinc.com; arc=none
 Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by SJ0PR02MB7533.namprd02.prod.outlook.com
- (2603:10b6:a03:321::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.15; Mon, 21 Mar
- 2022 18:28:41 +0000
+ (2603:10b6:806:203::12) by BY5PR02MB6084.namprd02.prod.outlook.com
+ (2603:10b6:a03:1b4::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.18; Mon, 21 Mar
+ 2022 18:33:48 +0000
 Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
  ([fe80::a55a:64a8:cac:4a39]) by SN4PR0201MB8808.namprd02.prod.outlook.com
  ([fe80::a55a:64a8:cac:4a39%3]) with mapi id 15.20.5081.022; Mon, 21 Mar 2022
- 18:28:41 +0000
+ 18:33:48 +0000
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: Anton Johansson <anjo@rev.ng>, "qemu-devel@nongnu.org"
  <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v8 05/12] target/hexagon: introduce new helper functions
-Thread-Topic: [PATCH v8 05/12] target/hexagon: introduce new helper functions
-Thread-Index: AQHYHdb7FiDlrLNVGEW6O3p34l/fw6zKZldg
-Date: Mon, 21 Mar 2022 18:28:41 +0000
-Message-ID: <SN4PR0201MB8808206B060C406CF035DEADDE169@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Subject: RE: [PATCH v8 07/12] target/hexagon: prepare input for the idef-parser
+Thread-Topic: [PATCH v8 07/12] target/hexagon: prepare input for the
+ idef-parser
+Thread-Index: AQHYHdb8rXjXokvz3UKplnD4tEfyOKzKZ2CA
+Date: Mon, 21 Mar 2022 18:33:48 +0000
+Message-ID: <SN4PR0201MB880811D683261179164D2AABDE169@SN4PR0201MB8808.namprd02.prod.outlook.com>
 References: <20220209170312.30662-1-anjo@rev.ng>
- <20220209170312.30662-6-anjo@rev.ng>
-In-Reply-To: <20220209170312.30662-6-anjo@rev.ng>
+ <20220209170312.30662-8-anjo@rev.ng>
+In-Reply-To: <20220209170312.30662-8-anjo@rev.ng>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -69,64 +70,56 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=quicinc.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5b65c697-9e82-4136-11ca-08da0b689fce
-x-ms-traffictypediagnostic: SJ0PR02MB7533:EE_
-x-microsoft-antispam-prvs: <SJ0PR02MB753354D3FA2D5F4798267912DE169@SJ0PR02MB7533.namprd02.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 23d631a7-a660-4f3e-736a-08da0b695719
+x-ms-traffictypediagnostic: BY5PR02MB6084:EE_
+x-microsoft-antispam-prvs: <BY5PR02MB608463AA8D166727B108532DDE169@BY5PR02MB6084.namprd02.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: PE80IoB3DpcsVO3+ZAnx+WZzVwZegvJXrTrPEecJunZ1RFwDekA47Un/EqpqPvnzle5WjsZkwOLQ/5DwBxJSl3bXFJdhqe8bPEXwAnKw5594zpUMFg2gjSicVC9qATDYnH90A3jpRl4kBfi83vOpLHoF7Cxf4UZ7xY8tBpTiORr79ZEWsMNwiHKdctXbm2h75BU/Ib2frrIIAcQzwRN/iXLO2iaZ51iY3CE/vhyIYu4O6FwB+lhfedo4ulioYsdl1Y6bwlwLP0t083NwgWeEtHn3d8CrUTylN3bvYwx65sucm0CKeP/6igv81SDqSRMlwrzkjSJVXQ7qFn3r3xiR1wVC/wox2SZ5eW0sTBgK1Rn+Oz93Gv6+yVDkEJJUA65Q2/PxcXK0crHfj4mY7CrxPEF7Zqr5ykF6TY6vnOz/ABeZH6/O0Yx7W6oNl96Cimr0pEFL98+t5INxCmc5Nt7ESMSMp4YhmHLLGJ5QPA4jQMb9q5Qxw7R45Jpb18HO516SFSA58kkqueYFcaS3UdV/95wuOu6I9fhh23t5uvdhgr8zkIYB0WcWdPc23ixDJYt9qIZ+Ij5EbCkEi7R+nTXuabmjgaNSweqjKkadrLv2/qR78WaS1lTSyPjMuiQ3aUGOr12VShCq+RN7CXQLBmO14MZlslbHtpsOLMELSKDliZdtij22BRp0KZ2V5QNYbsKzJAFxAZjegtixvBwWWFEoFA==
+x-microsoft-antispam-message-info: N+dETUOqnphCf3xQvzgY/HU5zj0AkpjzJioD4wYPUM4MA4dwFuF1wzVH057flbBUbe6wgXOPZQoDXfzNSZAAeTObwxZHl8Yp2q7mJlaUx3JuessgxKRI3kBPRHCB7znc1L3DWEiCaTlgAipMREIUQ8MbFpK9/0jkbl9Zq8pvxZrnR7QDkh/0ozsYYgNMh1ceBA9VTD600xF8Uw1cpbsGjS6AZMSfFMkeNO1oEPuvs8kUFzwf8KnIkgOP6NZn2A5g6weqA4nBKyKXOFXLVtF6FpOF68qruUqJtk6OE3jKabnl+FWZuZoKmk1ygNBc86ii56DI+jHpcGWB6MRnliT36I0j1k+PmxSz8H/Xv1bglOCaN5rvDHROpGikMjSEy2P88upd3JUqmgYqARe0GF7M1FrQeDr3Rh6ZwmWCnQjloYR20MrwKJybNPiOmVpm5URGYuXbLVRZ9Mv7KNPAktQSaChF97KhwmTIlfvOB8ExPpiXpTtEfopCSBcxxbwe0Kr151ESaZ+4VX7jl8QnGqgihB9gkMI88kXa+abo4dPcL1QtcLGNvToYlDsj6yPne+qQB/iGAzWUgjPBQcgB56UWR3s7KJVHUgUnGmp569AjKrfJqnJ/XbHx3MxRjGlnX4+QWRPJl+BkkcW3C69ridIVuo7ZMlfVZ8KCynFalR6VeLciLljqpIRpXKSUTSygZidlqQNhZcw9MF4I0kBMSgkF6w==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6506007)(186003)(54906003)(26005)(52536014)(9686003)(110136005)(33656002)(71200400001)(55016003)(8676002)(53546011)(64756008)(76116006)(4326008)(66946007)(66556008)(66476007)(66446008)(7696005)(508600001)(38070700005)(122000001)(86362001)(5660300002)(8936002)(4744005)(316002)(83380400001)(38100700002)(2906002);
+ SFS:(13230001)(4636009)(366004)(71200400001)(83380400001)(53546011)(6506007)(7696005)(9686003)(26005)(55016003)(508600001)(186003)(316002)(8936002)(76116006)(66946007)(66556008)(66476007)(64756008)(66446008)(86362001)(4326008)(2906002)(5660300002)(52536014)(38070700005)(33656002)(54906003)(110136005)(122000001)(38100700002)(8676002);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?d2ZMTG5UUjVsWG5IMU9ncGtJd2dZM21EVjRrZGdWVE5PZEdDM3BEUEJWZm4x?=
- =?utf-8?B?SlVlRC9FVFhLUFRoL1hTcFdIYXdHaE5sdkdBdjN0eXlQYWczL3lUZFE2aUVx?=
- =?utf-8?B?SUNlMlVzZ093anl3N3YyY2pCbTlqLzd1NEVWaUtZTjFOWWlyOEFyU2hwd2xC?=
- =?utf-8?B?eldDUGRFbWhtcmtybUhyZ0k4TnpQbUF2S1crNWtvbTFPYXZndVZUTElBekk0?=
- =?utf-8?B?ek4vbkVya0JHU0gyNU1OampxRHJYOHc3cmZHMzVjaCsyYWlZK3VlWGpnNDlo?=
- =?utf-8?B?NGp2MW9RM0ZqeWdudmx5VVF6d0U0UHlsSldQcWJRbEhrRGg0clE4V085WFhR?=
- =?utf-8?B?K1UwTkxtTU5xMHlhT1ZKMHowZ1NaZS9xaWVuZ1pNaUg1dFQvaEpxWURmNko1?=
- =?utf-8?B?dTBtNEMrdVJSOThJVXR4eFpUdyt4U3RhWlh0U2VkaFFnK3A4VDVtMmNLaFB2?=
- =?utf-8?B?TGszZ2xxZW5CaURWMk43UHhHT2FhUWZXT3JVZnBKUFhmbFNJZU9JeGFiUU9m?=
- =?utf-8?B?MFg0WkFKdjdCdWxUVnk0U0lQT1lnK0MwQUo1N1ovb1U4dDFDOE1WSnlYUWFa?=
- =?utf-8?B?NWg5cGJBRktwOTl1bkdVZm84NXBQZWExOEZ2b0tuNWVDVkxXajNSMFhEUndX?=
- =?utf-8?B?WWNKVXZEelRYdWVzQ1doS2hXMzVaVzlnQXJTWnNYbzBzVUtHNVFTRWc5eGdx?=
- =?utf-8?B?REVjY3NqRkdxWWFFU3hDeVhabGpqZVplekF5TGV0RmF4cGlHU0Z1dGVHemph?=
- =?utf-8?B?UGVzKzJEcGZNQkRWUWtjVWEzam13d3ZZOHlOdllybW0vdkkwa1FVWHVldDlj?=
- =?utf-8?B?RFZOcFVua0JybnNkZW80M1l4Vmo1blNGeDQwdnVMeXpGeldiT01Rc2piZTg2?=
- =?utf-8?B?aVRPTkFlWHVUTWVJVzNlbERJbU5BempkOGhFZlZtRDY3RTRmT3luMHY2UE9T?=
- =?utf-8?B?MUtGUHFnVHVTY1BCeXo3Q0I4cTlnVDlTQWYzd0hKN1MzNUYwNGJ1Q2RFbTV3?=
- =?utf-8?B?V1RqckV5cStkcUpGSXJpUHJNRnVJbVc2VjlHdTRKb2pBKzROM2JzSzk1MDhk?=
- =?utf-8?B?RWZCTDQrSThHcHFqRTM3VlFId2xHZUxRRjUrTm9oVVpVTXJkYy9jSWZlMFRL?=
- =?utf-8?B?dUo5RlFJN3ZUTjhlM0ZDbmExeEdIRzdQVWxkK1Z2RmJFYnRBekNrc0RRNkRP?=
- =?utf-8?B?eEwxdjBoeUF5b1grOXJpMFUybDNjRlA4cXRGSTJGdWhURXRXZWtlZDIzcWZB?=
- =?utf-8?B?T015NUg3M1NhUkpxc1dBRDRmNWJ1RmJGbkZRc0I4M1cxc2JUb3RpQkVKTHRQ?=
- =?utf-8?B?czBNQ1lGWEpaY0dFckMza3g2RGU2Y2FoMEllYVh0eUVVY1B0VkMyQWQ3OUl1?=
- =?utf-8?B?WGlJQW9HZFVDUmJZOHluc0M0aytRNENkTWZHWWU4UHZySW51Mm9VaUlGL1VX?=
- =?utf-8?B?Q1ZkK2ZvblB4SitxQzN0b1BVcVFaSGZKRTV4OW50aTlObFlxOExBREIwWURY?=
- =?utf-8?B?TmF4cEw1Ris4NFAyMnZ2WkpRTE9STkU5cUdIT2J4eis4R1BOVUMxVkpKTVQ0?=
- =?utf-8?B?TmdHRERITnEzNmo2N3h0cTh4MFM1ek0wVGx5aE9OUEE5QnhCemxUZXZLeG9k?=
- =?utf-8?B?MnhpellxTzFKT1hTSit4YmI1TWgzSFJ3VkJoVkNHbythbyszRkdlZTR5bzlz?=
- =?utf-8?B?K053bm9BcWIvZHlFaTFOZE1qUlFyUGVlcUJZVkRGdDJSSkdVa29hbVpJcGQy?=
- =?utf-8?B?bEZjMUhzM2Voakh6a3JMaVRSLytISDIyOG43V29UZkhpc1g0TTZ5bTQyM2ds?=
- =?utf-8?B?cmMvajQ5RkVkMXA3OHBsc3IzWTBBUjhyNEZMd3lxUHVIVjgxKzZ1QjhLenY5?=
- =?utf-8?B?Q3hwQnRIY3czVDBHWmU5MHFTYkFKeTQyUzg5NzkxUVRTTytXRm9KLzVVMnhJ?=
- =?utf-8?Q?gqWWzRL58dh4h3zfd5KOzXzyreQgGjky?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zB9ybyWGJMZT69TpIabA+e/21Q4Fck45QGkPmYy0zcCOu4+7FG6VjV4SulH1?=
+ =?us-ascii?Q?2k31/3llBtGTECqtaSJb/8fKRlogortwlQOCUX3JBUe15BKIJMBM6d0DFLIN?=
+ =?us-ascii?Q?QV6TTR2f+G2CAjGwwhj3vdT8sDqAuv3rRyC0XIvvsXaI78XqYQ9vMRz9NYhf?=
+ =?us-ascii?Q?wvYQA3nZF161Otjm+O3iWkgR+mHkZ5rRvfhuPLgJOi6AkZN6sDp9fkcULI58?=
+ =?us-ascii?Q?LEccs5xxLrlZ2VFFtV7IyuGPh5uBBMNPK2BbStftGclei4xTSuBIVRxVLttX?=
+ =?us-ascii?Q?JfIZch9XdqjguNnIMEBPF03dpSgR8xor6vr4cKFGMdjet5S5kgAObNpCi7ve?=
+ =?us-ascii?Q?hNIbtJmbenUeL3H0pYyFDxcSCOqrwOxLeEN6Fji1iUeKfFSqtFYCyQtmWnnQ?=
+ =?us-ascii?Q?TZUQ59fQiPEAuOobtnFHDiSgT9naTr3AG0QayO4HGw/PB7dmt9Kk5l5k6gFV?=
+ =?us-ascii?Q?nd+TT22nxCnb2UyHBjcRJl/kVZWWklBUjx54wzxeWyM2mTfqpp4h+hjj7LUX?=
+ =?us-ascii?Q?+OSQyalvsuAuHIz8tJ/dcmoUaBAid7NFD7YVswZmH2YUwgM2Y+tsFksjgH2n?=
+ =?us-ascii?Q?jD2nzxur6pExpFOgNAUqbPTcL65pL5q/QhztWFpwGqCK9gnS8l6DLaDKANXL?=
+ =?us-ascii?Q?KmmzG/v0RhD4fohgiMJk1z0ID2hYc7wPHPKDMtWCchGYh4MOygsqMsO0fPwM?=
+ =?us-ascii?Q?5eSbn3I+4/OvmN31shPk9JZ/9raLJg4svQsHTCBh7sBr2gfUKGHAIHuKE+tW?=
+ =?us-ascii?Q?e33jpRU8WrduPlOhLgeT0/1sxllf+J7aG090Bm1dXwLq3rcTYw+zHRkcLmQx?=
+ =?us-ascii?Q?WWiIo+799p7Mwj+NS2xnLdzl0kVo1xzLYSvegnx7E7ojv20kd+3V0/jnfK0j?=
+ =?us-ascii?Q?JgH4AvzSRr1iBkHkUCvsMFK/0BZEJI4la87xWM3yJXFBwu2N8L37ixGhrrjy?=
+ =?us-ascii?Q?TOA57LmZJg9cGJT+KUCAgsxm7PgvcmQogf+c0EUTC4t6t/qPbarTvC5d/urn?=
+ =?us-ascii?Q?SFejtp5kVU+hImp6LPGn2X50mduUKYcYI8okN97e58ypTodOk2Bz6qMfzKJW?=
+ =?us-ascii?Q?fH80W7EGPcAnLaAxJNXovOvy26aroM0cQEbZHIOy8L86+FWxEzcv8UVvTVU/?=
+ =?us-ascii?Q?ZIugr3xK7eytcfDridWjqgi9JFTQgW8Z8WO9spuUhb01ppva4wi9uMYEILNa?=
+ =?us-ascii?Q?HYGz2n66RmAEKeW3GD9+RAEqUhps0T8bLMsT7/OX7BYiaYqT1V54eaF+4kLE?=
+ =?us-ascii?Q?/CZqKOGxto3X4S1Y9MDTeX0hIzgc7mBRyXXSxIFmSCyqSBHWitWB8p07GgG5?=
+ =?us-ascii?Q?JCzCFyUAuwWG7zpnImgJAt9VvCbTWk0ObPdCNFjr5EB5Cu+6zk1QkoKSO6O4?=
+ =?us-ascii?Q?1Xv5rkgrttLxo8mxmvFtqSLZHUBLxbLmD8j2bozTiLI36dKjsiBl4xbfixvw?=
+ =?us-ascii?Q?zJJgZBDNQ/3F6Z6QSLmnlovijSft0JDT?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: quicinc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b65c697-9e82-4136-11ca-08da0b689fce
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2022 18:28:41.0995 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23d631a7-a660-4f3e-736a-08da0b695719
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2022 18:33:48.6166 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JpjRswzZPVUHxaOmnB2DII3CJOxo27IaYShk4jMSelntQ47p+6+XNHrrnTWEegTYWRlvXvF9GRIJOf4iVEzQkA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7533
+X-MS-Exchange-CrossTenant-userprincipalname: aJ0eqBG4t5tFdiHTAkw4zq1Lr8tZnH/vfaSJn0MUqUXWvrqS8bePNEe/t2Eiex56h+mkbcWYBNfumIID9nw4LQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6084
 Received-SPF: pass client-ip=216.71.142.165; envelope-from=tsimpson@quicinc.com;
  helo=esa.hc3962-90.iphmx.com
 X-Spam_score_int: -43
@@ -155,25 +148,37 @@ Cc: "ale@rev.ng" <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW50b24gSm9oYW5zc29u
-IDxhbmpvQHJldi5uZz4NCj4gU2VudDogV2VkbmVzZGF5LCBGZWJydWFyeSA5LCAyMDIyIDExOjAz
-IEFNDQo+IFRvOiBxZW11LWRldmVsQG5vbmdudS5vcmcNCj4gQ2M6IGFsZUByZXYubmc7IFRheWxv
-ciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5jLmNvbT47IEJyaWFuIENhaW4NCj4gPGJjYWluQHF1
-aWNpbmMuY29tPjsgTWljaGFlbCBMYW1iZXJ0IDxtbGFtYmVydEBxdWljaW5jLmNvbT47DQo+IGJh
-YnVzaEByZXYubmc7IG5penpvQHJldi5uZzsgcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZw0K
-PiBTdWJqZWN0OiBbUEFUQ0ggdjggMDUvMTJdIHRhcmdldC9oZXhhZ29uOiBpbnRyb2R1Y2UgbmV3
-IGhlbHBlciBmdW5jdGlvbnMNCj4gDQo+IEZyb206IE5pY2NvbMOyIEl6em8gPG5penpvQHJldi5u
-Zz4NCj4gDQo+IFRoZXNlIGhlbHBlcnMgd2lsbCBiZSBlbXBsb3llZCBieSB0aGUgaWRlZi1wYXJz
-ZXIgZ2VuZXJhdGVkIGNvZGUsIHRvDQo+IGNvcnJlY3RseSBpbXBsZW1lbnQgaW5zdHJ1Y3Rpb24g
-c2VtYW50aWNzLiAiSGVscGVyIiBmdW5jdGlvbnMsIGluIHRoZSBjb250ZXh0DQo+IG9mIHRoaXMg
-cGF0Y2gsIHJlZmVycyB0byBmdW5jdGlvbnMgd2hpY2ggcHJvdmlkZSBhIG1hbnVhbCBUQ0cNCj4g
-aW1wbGVtZW50YXRpb24gb2YgY2VydGFpbiBmZWF0dXJlcy4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6
-IEFsZXNzYW5kcm8gRGkgRmVkZXJpY28gPGFsZUByZXYubmc+DQo+IFNpZ25lZC1vZmYtYnk6IE5p
-Y2NvbMOyIEl6em8gPG5penpvQHJldi5uZz4NCj4gU2lnbmVkLW9mZi1ieTogQW50b24gSm9oYW5z
-c29uIDxhbmpvQHJldi5uZz4NCj4gLS0tDQo+ICB0YXJnZXQvaGV4YWdvbi9nZW5wdHIuYyB8IDE2
-Nw0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tDQo+ICB0YXJnZXQv
-aGV4YWdvbi9nZW5wdHIuaCB8ICAxNiArKystDQo+ICB0YXJnZXQvaGV4YWdvbi9tYWNyb3MuaCB8
-ICAgOSArKysNCj4gIDMgZmlsZXMgY2hhbmdlZCwgMTg0IGluc2VydGlvbnMoKyksIDggZGVsZXRp
-b25zKC0pDQoNClJldmlld2VkLWJ5OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5j
-b20+DQo=
+
+
+> -----Original Message-----
+> From: Anton Johansson <anjo@rev.ng>
+> Sent: Wednesday, February 9, 2022 11:03 AM
+> To: qemu-devel@nongnu.org
+> Cc: ale@rev.ng; Taylor Simpson <tsimpson@quicinc.com>; Brian Cain
+> <bcain@quicinc.com>; Michael Lambert <mlambert@quicinc.com>;
+> babush@rev.ng; nizzo@rev.ng; richard.henderson@linaro.org
+> Subject: [PATCH v8 07/12] target/hexagon: prepare input for the idef-pars=
+er
+>=20
+> From: Alessandro Di Federico <ale@rev.ng>
+>=20
+> Introduce infrastructure necessary to produce a file suitable for being p=
+arsed
+> by the idef-parser.
+>=20
+> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+> Signed-off-by: Anton Johansson <anjo@rev.ng>
+> ---
+>  target/hexagon/gen_idef_parser_funcs.py | 125
+> +++++++++++++++++++++
+>  target/hexagon/idef-parser/macros.inc   | 140
+> ++++++++++++++++++++++++
+>  target/hexagon/idef-parser/prepare      |  24 ++++
+>  target/hexagon/meson.build              |  17 +++
+>  4 files changed, 306 insertions(+)
+>  create mode 100644 target/hexagon/gen_idef_parser_funcs.py
+>  create mode 100644 target/hexagon/idef-parser/macros.inc
+>  create mode 100755 target/hexagon/idef-parser/prepare
+
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 
