@@ -2,65 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2044E26BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 13:39:38 +0100 (CET)
-Received: from localhost ([::1]:43736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53DD4E276D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 14:23:43 +0100 (CET)
+Received: from localhost ([::1]:55448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWHJx-0003BS-5k
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 08:39:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49856)
+	id 1nWI0c-0006la-TD
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 09:23:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nWHHg-0001fR-UI; Mon, 21 Mar 2022 08:37:16 -0400
-Received: from mga03.intel.com ([134.134.136.65]:31691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nWHHe-0005td-TK; Mon, 21 Mar 2022 08:37:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647866234; x=1679402234;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=fkfFb8YeTsygVBSyMhjqeDuvAeoj08UvQ+f4TT1y0xE=;
- b=gI015ds0PIy4oI6gcu5iFNddbc0g/Ovqf/6UVFabB0fC9vSnQ9i305GG
- XJSngb376y5HscuOfoJ1MHDFDG26nTnH6avvMzWfe9lr7rXxQqI/LVM/u
- cG/h2U3brfp4QBFqdwrnxHO1Wl+mwDMtbhMG/bmfR2TkcnvqnMkkF3WOA
- eQztbHRYbUzGfFOt+Z48djivi5OqLjLls2mGzA34iRPlOD63CditsmT86
- XXoULmQ6ns8lt+aoDPjLx9TwrDTa2Rl9QSWOOkpGnDjEqBF7f0gUASNQM
- aJ8YwjV4YQXWrErhfcmTW6GxOqNdysVaOWkHI5qNEx6qBoARHe3DDExSp w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="257487851"
-X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="257487851"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 05:37:12 -0700
-X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="559850543"
-Received: from kagner-mobl1.ger.corp.intel.com ([10.252.35.134])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 05:37:07 -0700
-Date: Mon, 21 Mar 2022 13:36:59 +0100
-From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH v5 14/15] docs: Add documentation for SR-IOV and
- Virtualization Enhancements
-Message-ID: <YjhxX9r6XLKCM1Fh@kagner-MOBL1.ger.corp.intel.com>
-References: <20220217174504.1051716-1-lukasz.maniak@linux.intel.com>
- <20220217174504.1051716-15-lukasz.maniak@linux.intel.com>
- <Yh4QNqgQ+jl+sZCC@apples>
+ (Exim 4.90_1) (envelope-from <Lu.Gao@verisilicon.com>)
+ id 1nWB8b-0004L2-On; Mon, 21 Mar 2022 02:03:29 -0400
+Received: from shasxm03.verisilicon.com ([101.89.135.44]:17905)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <Lu.Gao@verisilicon.com>)
+ id 1nWB8Y-0001ez-CV; Mon, 21 Mar 2022 02:03:29 -0400
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
+ c=simple/simple; t=1647842241; h=from:subject:to:date:message-id;
+ bh=+emZLlpOZ9+VPS4dqhgDvYfNvqC1InT6dkkwPAq+XvY=;
+ b=Y0rOz/7vPjtSPRvvN+qyVkHM+BhkAOGelXyKduB+eQKWzX2IyDFG2bdCEIzSMPVaCMlUNRBQUUR
+ F9pVIQ7MHnE/yrhvn9X9Td3CTnYiKN4GkcCOGslefYV388Cor+iAfeGNMmAjNUJlKvFrICm1AQNzU
+ cKs9P+BABCQ+Rwrnqew=
+Received: from coding0919.verisilicon.com (192.168.103.179) by
+ SHASXM03.verisilicon.com (10.10.128.202) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Mon, 21 Mar 2022 13:57:20 +0800
+From: Lu Gao <lu.gao@verisilicon.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] hw/sd/sdhci: Block Size Register bits [14:12] is lost
+Date: Mon, 21 Mar 2022 13:56:18 +0800
+Message-ID: <20220321055618.4026-1-lu.gao@verisilicon.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yh4QNqgQ+jl+sZCC@apples>
-Received-SPF: none client-ip=134.134.136.65;
- envelope-from=lukasz.maniak@linux.intel.com; helo=mga03.intel.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Originating-IP: [192.168.103.179]
+X-TM-AS-Product-Ver: SMEX-11.0.0.4283-8.100.1062-25628.004
+X-TM-AS-Result: No--5.239500-0.000000-31
+X-TM-AS-MatchedID: 151186-704318-703880-700535-700598-703001-705244-703115-7
+ 04822-701510-705248-704240-702395-188019-704477-703968-702898-700946-703953
+ -704959-702299-701812-703812-704990-702975-704849-704823-63-148004-148036-4
+ 2000-42003-63
+X-TM-AS-User-Approved-Sender: Yes
+X-TM-AS-User-Blocked-Sender: No
+Received-SPF: pass client-ip=101.89.135.44;
+ envelope-from=Lu.Gao@verisilicon.com; helo=shasxm03.verisilicon.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 21 Mar 2022 09:18:17 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,134 +64,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org,
- =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <k.jensen@samsung.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Lu Gao <lu.gao@verisilicon.com>, Bin Meng <bin.meng@windriver.com>,
+ Jianxian Wen <jianxian.wen@verisilicon.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "open list:SD \(Secure Card\)" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 01, 2022 at 01:23:18PM +0100, Klaus Jensen wrote:
-> On Feb 17 18:45, Lukasz Maniak wrote:
-> > Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-> 
-> Please add a short commit description as well. Otherwise,
+Block Size Register bits [14:12] is SDMA Buffer Boundary, it is missed
+in register write, but it is needed in SDMA transfer. e.g. it will be
+used in sdhci_sdma_transfer_multi_blocks to calculate boundary_ variables.
 
-Klaus,
+Missing this field will cause wrong operation for different SDMA Buffer
+Boundary settings.
 
-Sorry I forgot to add the description in v6 aka v7, been really busy
-recently.
-I am going to add the description for v8.
+Signed-off-by: Lu Gao <lu.gao@verisilicon.com>
+Signed-off-by: Jianxian Wen <jianxian.wen@verisilicon.com>
+---
+ hw/sd/sdhci.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-Regards,
-Lukasz
-> 
-> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> 
-> > ---
-> >  docs/system/devices/nvme.rst | 82 ++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 82 insertions(+)
-> > 
-> > diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
-> > index b5acb2a9c19..aba253304e4 100644
-> > --- a/docs/system/devices/nvme.rst
-> > +++ b/docs/system/devices/nvme.rst
-> > @@ -239,3 +239,85 @@ The virtual namespace device supports DIF- and DIX-based protection information
-> >    to ``1`` to transfer protection information as the first eight bytes of
-> >    metadata. Otherwise, the protection information is transferred as the last
-> >    eight bytes.
-> > +
-> > +Virtualization Enhancements and SR-IOV (Experimental Support)
-> > +-------------------------------------------------------------
-> > +
-> > +The ``nvme`` device supports Single Root I/O Virtualization and Sharing
-> > +along with Virtualization Enhancements. The controller has to be linked to
-> > +an NVM Subsystem device (``nvme-subsys``) for use with SR-IOV.
-> > +
-> > +A number of parameters are present (**please note, that they may be
-> > +subject to change**):
-> > +
-> > +``sriov_max_vfs`` (default: ``0``)
-> > +  Indicates the maximum number of PCIe virtual functions supported
-> > +  by the controller. Specifying a non-zero value enables reporting of both
-> > +  SR-IOV and ARI (Alternative Routing-ID Interpretation) capabilities
-> > +  by the NVMe device. Virtual function controllers will not report SR-IOV.
-> > +
-> > +``sriov_vq_flexible``
-> > +  Indicates the total number of flexible queue resources assignable to all
-> > +  the secondary controllers. Implicitly sets the number of primary
-> > +  controller's private resources to ``(max_ioqpairs - sriov_vq_flexible)``.
-> > +
-> > +``sriov_vi_flexible``
-> > +  Indicates the total number of flexible interrupt resources assignable to
-> > +  all the secondary controllers. Implicitly sets the number of primary
-> > +  controller's private resources to ``(msix_qsize - sriov_vi_flexible)``.
-> > +
-> > +``sriov_max_vi_per_vf`` (default: ``0``)
-> > +  Indicates the maximum number of virtual interrupt resources assignable
-> > +  to a secondary controller. The default ``0`` resolves to
-> > +  ``(sriov_vi_flexible / sriov_max_vfs)``
-> > +
-> > +``sriov_max_vq_per_vf`` (default: ``0``)
-> > +  Indicates the maximum number of virtual queue resources assignable to
-> > +  a secondary controller. The default ``0`` resolves to
-> > +  ``(sriov_vq_flexible / sriov_max_vfs)``
-> > +
-> > +The simplest possible invocation enables the capability to set up one VF
-> > +controller and assign an admin queue, an IO queue, and a MSI-X interrupt.
-> > +
-> > +.. code-block:: console
-> > +
-> > +   -device nvme-subsys,id=subsys0
-> > +   -device nvme,serial=deadbeef,subsys=subsys0,sriov_max_vfs=1,
-> > +    sriov_vq_flexible=2,sriov_vi_flexible=1
-> > +
-> > +The minimum steps required to configure a functional NVMe secondary
-> > +controller are:
-> > +
-> > +  * unbind flexible resources from the primary controller
-> > +
-> > +.. code-block:: console
-> > +
-> > +   nvme virt-mgmt /dev/nvme0 -c 0 -r 1 -a 1 -n 0
-> > +   nvme virt-mgmt /dev/nvme0 -c 0 -r 0 -a 1 -n 0
-> > +
-> > +  * perform a Function Level Reset on the primary controller to actually
-> > +    release the resources
-> > +
-> > +.. code-block:: console
-> > +
-> > +   echo 1 > /sys/bus/pci/devices/0000:01:00.0/reset
-> > +
-> > +  * enable VF
-> > +
-> > +.. code-block:: console
-> > +
-> > +   echo 1 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
-> > +
-> > +  * assign the flexible resources to the VF and set it ONLINE
-> > +
-> > +.. code-block:: console
-> > +
-> > +   nvme virt-mgmt /dev/nvme0 -c 1 -r 1 -a 8 -n 1
-> > +   nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 8 -n 2
-> > +   nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 9 -n 0
-> > +
-> > +  * bind the NVMe driver to the VF
-> > +
-> > +.. code-block:: console
-> > +
-> > +   echo 0000:01:00.1 > /sys/bus/pci/drivers/nvme/bind
-> > \ No newline at end of file
-> > -- 
-> > 2.25.1
-> > 
-> 
-> -- 
-> One of us - No more doubt, silence or taboo about mental illness.
-
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index e0bbc90344..350ceb487d 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -321,6 +321,8 @@ static void sdhci_poweron_reset(DeviceState *dev)
+ 
+ static void sdhci_data_transfer(void *opaque);
+ 
++#define BLOCK_SIZE_MASK (4 * KiB - 1)
++
+ static void sdhci_send_command(SDHCIState *s)
+ {
+     SDRequest request;
+@@ -371,7 +373,8 @@ static void sdhci_send_command(SDHCIState *s)
+ 
+     sdhci_update_irq(s);
+ 
+-    if (!timeout && s->blksize && (s->cmdreg & SDHC_CMD_DATA_PRESENT)) {
++    if (!timeout && (s->blksize & BLOCK_SIZE_MASK) &&
++        (s->cmdreg & SDHC_CMD_DATA_PRESENT)) {
+         s->data_count = 0;
+         sdhci_data_transfer(s);
+     }
+@@ -406,7 +409,6 @@ static void sdhci_end_transfer(SDHCIState *s)
+ /*
+  * Programmed i/o data transfer
+  */
+-#define BLOCK_SIZE_MASK (4 * KiB - 1)
+ 
+ /* Fill host controller's read buffer with BLKSIZE bytes of data from card */
+ static void sdhci_read_block_from_card(SDHCIState *s)
+@@ -1137,7 +1139,8 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+             s->sdmasysad = (s->sdmasysad & mask) | value;
+             MASKED_WRITE(s->sdmasysad, mask, value);
+             /* Writing to last byte of sdmasysad might trigger transfer */
+-            if (!(mask & 0xFF000000) && s->blkcnt && s->blksize &&
++            if (!(mask & 0xFF000000) && s->blkcnt &&
++                (s->blksize & BLOCK_SIZE_MASK) &&
+                 SDHC_DMA_TYPE(s->hostctl1) == SDHC_CTRL_SDMA) {
+                 if (s->trnmod & SDHC_TRNS_MULTI) {
+                     sdhci_sdma_transfer_multi_blocks(s);
+@@ -1151,7 +1154,11 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+         if (!TRANSFERRING_DATA(s->prnsts)) {
+             uint16_t blksize = s->blksize;
+ 
+-            MASKED_WRITE(s->blksize, mask, extract32(value, 0, 12));
++            /*
++             * [14:12] SDMA Buffer Boundary
++             * [11:00] Transfer Block Size
++             */
++            MASKED_WRITE(s->blksize, mask, extract32(value, 0, 15));
+             MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
+ 
+             /* Limit block size to the maximum buffer size */
+-- 
+2.17.1
 
 
