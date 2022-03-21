@@ -2,94 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6894E2326
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 10:17:40 +0100 (CET)
-Received: from localhost ([::1]:37608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E65BF4E2337
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 10:21:30 +0100 (CET)
+Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWEAV-000703-F8
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 05:17:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52048)
+	id 1nWEEC-00038l-VG
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 05:21:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1nWE81-0004oE-33
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 05:15:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45381)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWEAp-0000ki-4B
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 05:17:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1nWE7y-00046q-Rr
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 05:15:04 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWEAm-0004d3-BI
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 05:17:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647854102;
+ s=mimecast20190719; t=1647854275;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l2ZzT70PZ1sEn2MaePquHviM94lbPVk+KL7ml+Za3xU=;
- b=CHkM0mhgi3Wb3tH8GPDDGGNboT4T5LlOsueM2SwsgDXmQ22q+uP/7u09WgwkxiJEoMxaNZ
- U3u0nUWxR73ivW8NMVXBO+fZIonvP7jIb3MkssAAEcnKXAjMVGE41QLXb7zOuod85lmBhL
- +yW4JN0Ug3fwsiSvMVxMeAZDcICYmZo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AjrqT4Qka+KYJvNuWWonewHoTSTZzADIa7sCf1HgawE=;
+ b=Y0AuMQEL/+De8zq6hofHl27UTBEq0Q0Qc0HGmMkXdldghZ84q6k3iaAlIHxNsyUsu1yJi7
+ 2QbQpXhtXRS/CPBVa4gVw30SNLk8PuLNIHR3TkpX6tkQVdVjfILf6Y0C7HJjKUOpm0xn5w
+ 85gsl72Yy1FJoaXYpnjEpY8DfuyOkiQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-49-uVoANqPIMV63HKmfT9o5Vg-1; Mon, 21 Mar 2022 05:15:00 -0400
-X-MC-Unique: uVoANqPIMV63HKmfT9o5Vg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- n4-20020a5099c4000000b00418ed58d92fso7581480edb.0
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 02:15:00 -0700 (PDT)
+ us-mta-490-OvCHfgrdPNG3fW6Hx1S9Jg-1; Mon, 21 Mar 2022 05:17:53 -0400
+X-MC-Unique: OvCHfgrdPNG3fW6Hx1S9Jg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v2-20020a05600c214200b0038c7c02deceso4205735wml.8
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 02:17:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=l2ZzT70PZ1sEn2MaePquHviM94lbPVk+KL7ml+Za3xU=;
- b=6d3vv04f01k2yh1v0DsjCHzHdSu23ZFSCSOTrMxDEKBW0UsrREHyZrF1lQo7Sy8WV9
- wnsiZMQxGCvzkgT9OJs830W0uuxYEwAwc6fEsp10LyVzaZN2ChNXMrM8or0boNhAfpMn
- 8ZJ/fOsx1Xvy/ItjxJbfsgtBVa8hrm6qOSpKz/PIPv0a3PW9ZWdyoJ99yqTrp3EDYsdQ
- Lw+CysMDkg0uUIPM5rn0xmDAzswf3nSuiG+3ks1B6UGoGgzAJdEAHoWhJZ04Vycj8TBq
- OaXB8mNS2C4HyKG85Ji0HLlnZVslGjlhzaQCnBb6WGVE+RN9rikfrvsshCmM/+4830Gi
- Rz9w==
-X-Gm-Message-State: AOAM532cifl43l+yU/k055LUSN5OfipWTXFj2fDHwArxIFHwu12Kb1kB
- BXovN8tndMyzTN2ud+tEZklYgxyyyvqDoLi3RFD1Wm6CJvkoLfBO6JC6+9DHWliNxFO/Ikj5rnN
- OPlWYUw64/uOIEfY=
-X-Received: by 2002:a17:906:dc8b:b0:6df:7a71:1321 with SMTP id
- cs11-20020a170906dc8b00b006df7a711321mr19433441ejc.476.1647854099497; 
- Mon, 21 Mar 2022 02:14:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwBPbFj5f0qa6/pXHUPYU3Dx7brggK659WpG8ZwgTseJpPAh4MFY/xJ+sVHgfYig0nAGIOS3A==
-X-Received: by 2002:a17:906:dc8b:b0:6df:7a71:1321 with SMTP id
- cs11-20020a170906dc8b00b006df7a711321mr19433431ejc.476.1647854099323; 
- Mon, 21 Mar 2022 02:14:59 -0700 (PDT)
-Received: from [10.43.2.152] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ bh=AjrqT4Qka+KYJvNuWWonewHoTSTZzADIa7sCf1HgawE=;
+ b=1y2OFYAPCnSiHa6cy7vbVi24hugsgUEwxQd/nQPVCrfo9OJP+TVTTu+o95aUf8/f7v
+ r6qSYYVHWkRXCmakF54wTtyt4K84o0JVrk5oCjgZ1R1clUojcDWDKQ6QYhGcgjgkv6fZ
+ +JHzHcXgMiWpWtqQFGaYekM7xpccCfzoihL/mMw4W6LtgKSd8UmxgNIMoZ++jO5WIbHJ
+ 3010CVxMrExYmdAo72nw3/xS4K0VUApmwpMPGt/d7oLpqOYdg+K3WAOd3mHDKeY8U13W
+ 3zK4wXy+RKA8oKxS8pTj3nLoy4P0gW2fOnbK7VrbB2qffPMxD7Y0q+3LLBct88TML9fn
+ YwUA==
+X-Gm-Message-State: AOAM530F8bQm8edrPSXMATo3mw5yAs+kOVFl62CeHZVMm7RSWgG+ov6c
+ 9dAsXTWN13/JK1wglhZEX3qeAd/LgP2m+3VP85fW/GyHZ9nCCVaHBlyx3ppPv4VCqqYWas5C1RV
+ xhyHWKKHQIMw10L8=
+X-Received: by 2002:a05:600c:3d12:b0:38c:9768:b42 with SMTP id
+ bh18-20020a05600c3d1200b0038c97680b42mr8467604wmb.151.1647854271852; 
+ Mon, 21 Mar 2022 02:17:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9kD9ybbiOBQUZTWyPHDp8vW3q7dN1KkLPpVbNLKUjgPKRAmDUI5mUlYc+3tnQ0s/IjTSrNQ==
+X-Received: by 2002:a05:600c:3d12:b0:38c:9768:b42 with SMTP id
+ bh18-20020a05600c3d1200b0038c97680b42mr8467585wmb.151.1647854271525; 
+ Mon, 21 Mar 2022 02:17:51 -0700 (PDT)
+Received: from [10.33.192.213] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- hu8-20020a170907a08800b006dfd2056ab2sm2831815ejc.97.2022.03.21.02.14.58
+ g10-20020a5d46ca000000b00203fd86e198sm6448073wrs.96.2022.03.21.02.17.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 02:14:58 -0700 (PDT)
-Message-ID: <10f8e706-ae5b-6cd1-d057-110933b865ff@redhat.com>
-Date: Mon, 21 Mar 2022 10:14:57 +0100
+ Mon, 21 Mar 2022 02:17:50 -0700 (PDT)
+Message-ID: <f30fe79c-cebd-037c-043e-6eaaeed7070c@redhat.com>
+Date: Mon, 21 Mar 2022 10:17:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 3/3] qga/commands-posix: Fix listing ifaces for Solaris
-To: Andrew Deason <adeason@sinenomine.net>, qemu-devel@nongnu.org
-References: <20220320213843.4544-1-adeason@sinenomine.net>
- <20220320213843.4544-4-adeason@sinenomine.net>
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-In-Reply-To: <20220320213843.4544-4-adeason@sinenomine.net>
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4] tests: Do not treat the iotests as separate meson test
+ target anymore
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220310075048.2303495-1-thuth@redhat.com>
+ <2a2dadb8-24ba-50c4-617e-ab6d08166e83@redhat.com>
+ <d59847b7-98cb-9e9c-0c42-74576f152737@redhat.com>
+ <ed1c97e8-8a70-8808-cbeb-e6b4f6d1dccf@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <ed1c97e8-8a70-8808-cbeb-e6b4f6d1dccf@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -104,79 +106,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/20/22 22:38, Andrew Deason wrote:
-> The code for guest-network-get-interfaces needs a couple of small
-> adjustments for Solaris:
+On 21/03/2022 10.06, Hanna Reitz wrote:
+> On 18.03.22 18:36, Thomas Huth wrote:
+>> On 18/03/2022 18.04, Hanna Reitz wrote:
+>>> On 10.03.22 08:50, Thomas Huth wrote:
+>>>> If there is a failing iotest, the output is currently not logged to
+>>>> the console anymore. To get this working again, we need to run the
+>>>> meson test runner with "--print-errorlogs" (and without "--verbose"
+>>>> due to a current meson bug that will be fixed here:
+>>>> https://github.com/mesonbuild/meson/commit/c3f145ca2b9f5.patch ).
+>>>> We could update the "meson test" call in tests/Makefile.include,
+>>>> but actually it's nicer and easier if we simply do not treat the
+>>>> iotests as separate test target anymore and integrate them along
+>>>> with the other test suites. This has the disadvantage of not getting
+>>>> the detailed progress indication there anymore, but since that was
+>>>> only working right in single-threaded "make -j1" mode anyway, it's
+>>>> not a huge loss right now.
+>>>>
+>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>> ---
+>>>>   v4: updated commit description
+>>>>
+>>>>   meson.build            | 6 +++---
+>>>>   scripts/mtest2make.py  | 4 ----
+>>>>   tests/Makefile.include | 9 +--------
+>>>>   3 files changed, 4 insertions(+), 15 deletions(-)
+>>>
+>>> I can’t really say I understand what’s going on in this patch and around 
+>>> it, but I can confirm that it before this patch, fail diffs aren’t 
+>>> printed; but afterwards, they are
+>>
+>> It's a bug in Meson. It will be fixed in 0.61.3 and later (so this patch 
+>> won't be needed there anymore), but the update to meson 0.61.3 caused 
+>> other problems so we also can't do that right now... so I'm not sure 
+>> whether we now want to have this patch here included, wait for a better 
+>> version of meson, or even rather want to revert the TAP support / meson 
+>> integration again for 7.0 ... ?
 > 
-> - The results from SIOCGIFHWADDR are documented as being in ifr_addr,
->   not ifr_hwaddr (ifr_hwaddr doesn't exist on Solaris).
+> I don’t have anything against this patch, I just don’t fully understand what 
+> it does, and how it works.
 > 
-> - The implementation of guest_get_network_stats is Linux-specific, so
->   hide it under #ifdef CONFIG_LINUX. On non-Linux, we just won't
->   provide network interface stats.
+> So as far as I understand, check-block was its own target and used --verbose 
+> so that the progress indication would work (with -j1). Now that causes 
+> problems because of a bug in meson, and so this patch drops that 
+> special-casing again.  The only disadvantage is that the progress indication 
+> (which only worked with -j1) no longer ever works.
 > 
-> Signed-off-by: Andrew Deason <adeason@sinenomine.net>
-> ---
->  qga/commands-posix.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index bd0d67f674..c0b00fc488 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -2781,20 +2781,21 @@ guest_find_interface(GuestNetworkInterfaceList *head,
->              return head->value;
->          }
->      }
->  
->      return NULL;
->  }
->  
->  static int guest_get_network_stats(const char *name,
->                         GuestNetworkInterfaceStat *stats)
->  {
-> +#ifdef CONFIG_LINUX
->      int name_len;
->      char const *devinfo = "/proc/net/dev";
->      FILE *fp;
->      char *line = NULL, *colon;
->      size_t n = 0;
->      fp = fopen(devinfo, "r");
->      if (!fp) {
->          return -1;
->      }
->      name_len = strlen(name);
-> @@ -2836,20 +2837,21 @@ static int guest_get_network_stats(const char *name,
->              stats->tx_errs = tx_errs;
->              stats->tx_dropped = tx_dropped;
->              fclose(fp);
->              g_free(line);
->              return 0;
->          }
->      }
->      fclose(fp);
->      g_free(line);
->      g_debug("/proc/net/dev: Interface '%s' not found", name);
-> +#endif /* CONFIG_LINUX */
+> (Is that right?)
 
-I wonder whether we should signal this somehow. I mean, have something
-like this:
+Right!
 
-#else /* !CONFIG_LINUX */
-  g_debug("Stats reporting available only for Linux");
-#endif /* !CONFIG_LINUX */
+> I personally don’t mind that disadvantage, because on CI systems it doesn’t 
+> really matter anyway; and on developers’ systems, I would assume `make 
+> check` to always be run with -jX anyway.
 
->      return -1;
->  }
+Right again. So currently the only question is: Do we want to see a nice 
+progress output with -j1 and do not care about the error logs, or do we 
+rather want to see the error logs with -j1 and do not care about the nice 
+progress output? For -jX with X > 1, the patch does not change much, and 
+we'd need a newer version of meson to fix that.
 
-A counter argument is that if fopen() above fails then -1 is returned
-without any error/debug message reported. And stats fetching is best
-effort anyway.
-
-Michal
+  Thomas
 
 
