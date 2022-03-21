@@ -2,82 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89C34E2DBE
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:21:44 +0100 (CET)
-Received: from localhost ([::1]:39006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB854E2DB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:17:53 +0100 (CET)
+Received: from localhost ([::1]:33010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWKmt-0005yV-Qi
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:21:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55534)
+	id 1nWKjA-0001ZL-5i
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:17:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nWKdS-00030c-Bn
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:11:58 -0400
-Received: from [2a00:1450:4864:20::632] (port=40884
- helo=mail-ej1-x632.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nWKdQ-0007lP-Lo
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:11:57 -0400
-Received: by mail-ej1-x632.google.com with SMTP id p15so30853933ejc.7
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:11:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Nzc6yglUTpgqqIrg3RuRQQxPvmOmJnlNAIxXwm8xSEU=;
- b=rIMEgCv1Iy98bXVNkBxrnlBkXHxyDX7/1a/MP9qwjiPnIKESAsClLqkwrwXkNB4owz
- RFjEEr6bUystZHMOLxTTeOZBkIjehG9N8+yTgTQi+J9ky1Kobe60D+j3cKaHDHvbSdD7
- v0ZXPchrHkgMnbD3dlql97Oo+pjcKgIexRAgLVSHBk5ChB1ETSpsBU7aWBDqCa7vRVPE
- G9VK/ztYnLFRpW/ecSoZftEMg8jKTX6lDowyKpXbQgjNjLvdiabUfXVUgkRpD9tw3g2a
- nuad4xp+E3SiDY7nrggcwETivz3SfGHQr/7qDKq7ESOrvnrINRnnBTVW0sfbn/Nn5O7v
- bvrw==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWKfu-0007JK-L1
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:14:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59355)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWKfr-0008BM-2j
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:14:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647879265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1Zra4UF5/pWpvYIf86S93YgOWIDcXEFMhQWUMgavmCo=;
+ b=KNycv0JtWZ6f639mUEAixED7aRFVClPybxPRjubZA7UlPKRLYb6+TtCvNgBkusgOr4C4qJ
+ gKLeUhjMZlxoCEz/QXaFir201Bjbk/T/kw+TmWjK0S88AjBwLQZA+A4ffVWWp7AfUx8Axi
+ Lc6VqB8Gtmo/1QKM5rSehu9CFeKJpjA=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-312-tx0Ej7QEOaeYp5AeO89TaQ-1; Mon, 21 Mar 2022 12:14:22 -0400
+X-MC-Unique: tx0Ej7QEOaeYp5AeO89TaQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ ga31-20020a1709070c1f00b006cec400422fso7285571ejc.22
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:14:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Nzc6yglUTpgqqIrg3RuRQQxPvmOmJnlNAIxXwm8xSEU=;
- b=R/SZx4dw0MTJVniy7QSCJ0bzxATCnsZwuEsfXOd2V7MtfSI1g9k1C0Se5su0E/Jqd/
- QMPc1uZQJNQee2DV8WLXfiz4YkZAHJDQ1HtKNN4VHVFdha5TgFPGeNzoPBN6ewmbieY0
- wxk8BEKVDgK/G9TN7KTInXjV02JAKFqFg9bNKHksXSGTD0W8CayG5mbE2s0J75qRqGjY
- wX/F8CJCKqhB1qLHl+re4KIqZCZAEi55+1TgKBu5P2J+OceScbOnKCkMuU4r7GJrwSfL
- p4OqccUaDolHThhtqiCT4qh2ikaqZ5+DGBbi8tqSPR3vBaojJfJ27Dk4LasVqCxJ6Sg5
- PUGQ==
-X-Gm-Message-State: AOAM5336zOHy6qG9fzZCOqGztMuxjCi1dybciCMNB57Jvod9LNHloDVm
- jySD4tQUY47SIQdtN2HsR/m+pQ==
-X-Google-Smtp-Source: ABdhPJxsI9qZHY5ocmwpdAMFAnPe5H4q/jykcNWPOvQTpe8lA9ZqNM8TNhGioeJIXAj2hoIcqumrag==
-X-Received: by 2002:a17:906:9c82:b0:6df:c5f0:d456 with SMTP id
- fj2-20020a1709069c8200b006dfc5f0d456mr13907810ejc.287.1647879114648; 
- Mon, 21 Mar 2022 09:11:54 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
+ bh=1Zra4UF5/pWpvYIf86S93YgOWIDcXEFMhQWUMgavmCo=;
+ b=jlPQp8/7pR8I6Rn1FXAcDwXwMVBAC3liItstvfYIGqYfazAOXiApxElg/Zm7VsO2a6
+ CH33unqTt3g2bZIeMkFpx/IzpTTT2hgmsW5MHWnk37YiRhsGFBn2Dxn23PuOpx9taam+
+ 2WLFZReJk2f4e8JJn+oLVUw/W4eP51o8ii2ipamsCh4np6+B8sV/iztSyUR4tLquryFh
+ b7RsGaBP8Hik2SExRKHjWLjM4Cm9rdUbU98YVG7Gn/aFX0y3zfuV+QLYWcEVcqwpEQ5J
+ uXx61eE5fN/pZ47kB21Vx9sYazziN2hbFSmwUZ4NeF7FKtNixqO61yPs3E8bmFllRCKq
+ 9FqA==
+X-Gm-Message-State: AOAM530/5rbyKud/VtIEqRSDdg3dA9OOWOuS59voNn+4FS6fyp15xbJm
+ xAT7e2bjqDCDiNgM3zMSCv2c6FlBELf7c12UGnPJafXmy8tRvoDZIw185fEchY16VML/j2QnWRc
+ 7wj0tLNsSaC2XCaE=
+X-Received: by 2002:a17:907:7b92:b0:6db:71f1:fc20 with SMTP id
+ ne18-20020a1709077b9200b006db71f1fc20mr20652172ejc.343.1647879261066; 
+ Mon, 21 Mar 2022 09:14:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJywW7g3wSDdhmorPA8CVrOYh+EDZxGe3UlGmOHmY0h+WuRNFnJWW4mcZPYzLaft3MpPJ3IQGg==
+X-Received: by 2002:a17:907:7b92:b0:6db:71f1:fc20 with SMTP id
+ ne18-20020a1709077b9200b006db71f1fc20mr20652154ejc.343.1647879260831; 
+ Mon, 21 Mar 2022 09:14:20 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
  by smtp.gmail.com with ESMTPSA id
- e19-20020a056402105300b004162d0b4cbbsm8110797edu.93.2022.03.21.09.11.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 09:11:53 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 328761FFB7;
- Mon, 21 Mar 2022 16:11:52 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] gitlab: disable accelerated zlib for s390x
-Date: Mon, 21 Mar 2022 16:11:51 +0000
-Message-Id: <20220321161151.3654386-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ t14-20020a170906608e00b006d1455acc62sm7171171ejj.74.2022.03.21.09.14.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Mar 2022 09:14:20 -0700 (PDT)
+Message-ID: <f71c35ff-1db2-7491-c9fe-a0dd3ab1cbee@redhat.com>
+Date: Mon, 21 Mar 2022 17:14:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 0/4] Improve integration of iotests in the meson test
+ harness
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20220223093840.2515281-1-thuth@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220223093840.2515281-1-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,129 +104,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There appears to be a bug in the s390 hardware-accelerated version of
-zlib distributed with Ubuntu 20.04, which makes our test
-/i386/migration/multifd/tcp/zlib hit an assertion perhaps one time in
-10. Fortunately zlib provides an escape hatch where we can disable the
-hardware-acceleration entirely by setting the environment variable
-DFLTCC to 0. Do this on all our CI which runs on s390 hosts, both our
-custom gitlab runner and also the Travis hosts.
+On 23.02.22 10:38, Thomas Huth wrote:
+> Though "make check-block" is currently already run via the meson test
+> runner, it still looks like an oddball in the output of "make check". It
+> would be nicer if the iotests would show up like the other tests suites.
+>
+> My original plan was to add each iotests individually from meson.build,
+> but I did not get that done reliably yet [*], so here's now a cut-down
+> version to improve the situation at least a little bit: The first three
+> patches are preparation for the clean-up (long-term goal is to get rid
+> of check-block.sh, though we're not quite there yet), and the final
+> patch adds the iotests not as separate test target in the meson test
+> harness anymore. This way, we can now finally get the output of failed
+> tests on the console again (unless you're running meson test in verbose
+> mode, where meson only puts this to the log file - for incomprehensible
+> reasons), so this should hopefully help to diagnose problems with the
+> iotests in most cases more easily.
+>
+> [*] See v2 here:
+>      https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01942.html
+>
+> Thomas Huth (4):
+>    tests/qemu-iotests: Rework the checks and spots using GNU sed
+>    tests/qemu-iotests/meson.build: Improve the indentation
+>    tests/qemu-iotests: Move the bash and sanitizer checks to meson.build
+>    tests: Do not treat the iotests as separate meson test target anymore
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+What’s the status of this series?  I wonder why you split it apart, mainly.
 
----
-v2
-  - more complete commit wording from Peter
-  - also tweak travis rules
----
- .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 12 ++++++++++++
- .travis.yml                                        |  6 ++++--
- 2 files changed, 16 insertions(+), 2 deletions(-)
+Patch 1 was already merged, and I took patch 4 today.  So what about 
+patches 2 and 3?  They look sensible to me, but is this series still 
+relevant and fresh, considering you sent new versions of patches 1 and 4?
 
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-index 0333872113..4f292a8a5b 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-@@ -8,6 +8,8 @@ ubuntu-20.04-s390x-all-linux-static:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-  - if: "$S390X_RUNNER_AVAILABLE"
-@@ -27,6 +29,8 @@ ubuntu-20.04-s390x-all:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-  - if: "$S390X_RUNNER_AVAILABLE"
-@@ -43,6 +47,8 @@ ubuntu-20.04-s390x-alldbg:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
-@@ -64,6 +70,8 @@ ubuntu-20.04-s390x-clang:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
-@@ -84,6 +92,8 @@ ubuntu-20.04-s390x-tci:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
-@@ -103,6 +113,8 @@ ubuntu-20.04-s390x-notcg:
-  tags:
-  - ubuntu_20.04
-  - s390x
-+ variables:
-+    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
-diff --git a/.travis.yml b/.travis.yml
-index c3c8048842..9afc4a54b8 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -218,6 +218,7 @@ jobs:
-         - TEST_CMD="make check check-tcg V=1"
-         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
-         - UNRELIABLE=true
-+        - DFLTCC=0
-       script:
-         - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
-         - |
-@@ -257,7 +258,7 @@ jobs:
-       env:
-         - CONFIG="--disable-containers --audio-drv-list=sdl --disable-user
-                   --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
--
-+        - DFLTCC=0
-     - name: "[s390x] GCC (user)"
-       arch: s390x
-       dist: focal
-@@ -269,7 +270,7 @@ jobs:
-           - ninja-build
-       env:
-         - CONFIG="--disable-containers --disable-system"
--
-+        - DFLTCC=0
-     - name: "[s390x] Clang (disable-tcg)"
-       arch: s390x
-       dist: focal
-@@ -303,3 +304,4 @@ jobs:
-         - CONFIG="--disable-containers --disable-tcg --enable-kvm
-                   --disable-tools --host-cc=clang --cxx=clang++"
-         - UNRELIABLE=true
-+        - DFLTCC=0
--- 
-2.30.2
+(And are there any other iotests patches from you that flew under my radar?)
+
+Hanna
 
 
