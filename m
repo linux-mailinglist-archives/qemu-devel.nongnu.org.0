@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FEE4E2E1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:32:36 +0100 (CET)
-Received: from localhost ([::1]:36402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F88B4E2DEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 17:30:00 +0100 (CET)
+Received: from localhost ([::1]:60296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWKxP-0007HF-2j
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:32:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60350)
+	id 1nWKut-0004FD-87
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 12:29:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWKrD-0006O3-RV
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:26:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45821)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWKt5-0001b5-Cw
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:28:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWKrB-0001oj-V6
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:26:11 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWKt3-0002Ew-Jk
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 12:28:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647879969;
+ s=mimecast20190719; t=1647880084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a7hhjmPYpBowoI6w4GxhbynqJRTQmZ+YMwUcB7HBUr8=;
- b=NJdGN9LEBwong8pV3HeEheTqQXdUqQruyMev9R1gJ8LN4GwQ82E5kbGn6h8u9jmltplAMm
- 1NVclvQdzDpya3ZuxEHZVQHvf+xAqkuFTDx2zDb7oWNRAW7T12h8yZt2FQ26HkXDzwsoqr
- LR+ZhB//xKJUbyJqGvNAMcNxEgo//iU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ymQhnr0LECeUo5OEWJXtE+1dt4mQUUyXuS+JmvqT7mo=;
+ b=bwNZh3bjmH6eDb3pJ/12G7k+xjPcoKEUL6bOlKw3XASJykAtGLKT1sSPXebyzx9lNY29Ty
+ +l6V+lhGoM/g/zGhdlOLgg7qSEAW8cusnCRoUBupvUhkX9l9PIDVAJP5TlprM5PIFCithw
+ i2z2O0NHLSFCZEQm9hiJqgjbpeOUHGw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-656-w0MKefaAO7uy7wcP8-RhwA-1; Mon, 21 Mar 2022 12:26:07 -0400
-X-MC-Unique: w0MKefaAO7uy7wcP8-RhwA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- hr26-20020a1709073f9a00b006d6d1ee8cf8so7245507ejc.19
- for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:26:07 -0700 (PDT)
+ us-mta-156-OzILAJKSNqCHDdxazLFu7w-1; Mon, 21 Mar 2022 12:28:01 -0400
+X-MC-Unique: OzILAJKSNqCHDdxazLFu7w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n62-20020a1ca441000000b0038124c99ebcso5912762wme.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 09:28:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=a7hhjmPYpBowoI6w4GxhbynqJRTQmZ+YMwUcB7HBUr8=;
- b=lK/HvR+hDCKo5rMo1FnNtbVxqGeoyfV+bNeraSQ71OIBblLs+5fwoBhpoylsC0BWsM
- hEj5nepDSHqQbAd2fIfhr7okH8JCHvVtri+MK8w/QFspLmRhy/Z5UgNNL0VLX0ng/Y1P
- UeV51Kd4YWgGkZdh/ChUbjCUG2yTqDDQntJJ1gY1Umobjks7kqe23q+ReTB+CMQaZ9eP
- GN1v1m7oMl3zlHWibU9cGmQ9bNz+dEmNfo8z6YBwutgWWNPhgEAQgqbT9KNLNQRWDzNV
- 21qFEWRmm7FCIbOn313YaJxdplxuPZKBaGtpowZ9KjVjJGyU4aBNwO/7ynQky/Ny5DWr
- x+Lg==
-X-Gm-Message-State: AOAM531OKlwpe3TtoZGoIzKu5kxrSY1K9TNNHb1zKeEVb/xcQnFIPenx
- fKuLYIp8tvp2Fyt3RFDQVDN9R3gO5Udq1aOJWNjHceibEDllJOjKtcuxp4xqkizXj9ojdiMkkN/
- f9xWBpafPX8Bg9/Q=
-X-Received: by 2002:a17:907:7b88:b0:6df:ee7d:10e2 with SMTP id
- ne8-20020a1709077b8800b006dfee7d10e2mr9365245ejc.586.1647879966561; 
- Mon, 21 Mar 2022 09:26:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxp/AYd1TTt11AdzWV/+fSIC5Xb7V0ORDLYI72jzb/Lxs9M5VtfuNaUKXf7g4PhiZi0d/fsGg==
-X-Received: by 2002:a17:907:7b88:b0:6df:ee7d:10e2 with SMTP id
- ne8-20020a1709077b8800b006dfee7d10e2mr9365227ejc.586.1647879966267; 
- Mon, 21 Mar 2022 09:26:06 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- a21-20020a170906275500b006d10c07fabesm7070137ejd.201.2022.03.21.09.26.05
+ bh=ymQhnr0LECeUo5OEWJXtE+1dt4mQUUyXuS+JmvqT7mo=;
+ b=hFD4KXi0qHnxtR7kQ3lbcMGOPcvwISAGA7jhzGJ5wl11WaFkBG7VaGRzBntW74hYUb
+ nOwgoDHo++PTIm9lSX/Ho92EVaVjscsxkf4DvFBAFjPdHPb8kzwK6wbtI1IwFLpwz9Ox
+ tEmbB0AcKZ46JH/FxA5WBcqJElPec6hrtXwa/WKjstf00Ytc98k/a/lZGT7L40mqI3hX
+ FUPo+5deJey21ODMggAEr+C4YORdDtNWAEb0a2bHWHAQIBo9WBML5DMJT1FUR9+7zPWf
+ h5upMYg3WdMpUoVn7HCDUJVK4sD9fMNx2OTzXJi4S4dpKS1Us2ROHGo66SFKoXyP2Aso
+ BJvQ==
+X-Gm-Message-State: AOAM531fqbc2lhDK7vzRRNC52ds5Ih6kCNKyfjz1IjTXyolLrcnnEkKC
+ w9K1o8sDZKHT7BaL/04mFo2tD8L59f0fl9MSuk3wFQkgvnMIZ/LGki6qoL3DzHR9Kf5BqFYpOWU
+ YWQcIbNKB4NvI6io=
+X-Received: by 2002:a5d:650d:0:b0:1f0:19c:a066 with SMTP id
+ x13-20020a5d650d000000b001f0019ca066mr18536615wru.149.1647880080373; 
+ Mon, 21 Mar 2022 09:28:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz3wQzVK4XJwKu7f80InHHEw8fIp6hZNJE5uWG4GOhV1gNDbtSRTLRyz0PQ6JqOXPx4nsKepA==
+X-Received: by 2002:a5d:650d:0:b0:1f0:19c:a066 with SMTP id
+ x13-20020a5d650d000000b001f0019ca066mr18536603wru.149.1647880080072; 
+ Mon, 21 Mar 2022 09:28:00 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ 3-20020a5d47a3000000b0020412ba45f6sm3780696wrb.8.2022.03.21.09.27.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Mar 2022 09:26:05 -0700 (PDT)
-Message-ID: <d627f73e-0744-bd9f-6683-6698d0734f78@redhat.com>
-Date: Mon, 21 Mar 2022 17:26:04 +0100
+ Mon, 21 Mar 2022 09:27:59 -0700 (PDT)
+Message-ID: <bb5cb2f8-7f02-0e0b-23ad-d1dab7fd6022@redhat.com>
+Date: Mon, 21 Mar 2022 17:27:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 00/18] iotests: add enhanced debugging info to qemu-img
- failures
-To: John Snow <jsnow@redhat.com>
-References: <20220317234937.569525-1-jsnow@redhat.com>
- <73e7fc10-e843-68fd-ebe3-e7916c891c34@redhat.com>
- <CAFn=p-bffj3CK9o2haN-3PDRQvyMcdnMRJ0fKpqAFifYq_L63A@mail.gmail.com>
- <96332ab4-c4fb-75c3-d865-4fe3d2588325@redhat.com>
- <c75ad6d2-c4cc-bf79-3f7b-ac150450dd65@redhat.com>
- <CAFn=p-aDoMOf0urEibgsiNoKgrX9vqvk+11nB5gKOnqAGA-ohA@mail.gmail.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <CAFn=p-aDoMOf0urEibgsiNoKgrX9vqvk+11nB5gKOnqAGA-ohA@mail.gmail.com>
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4] tests: Do not treat the iotests as separate meson test
+ target anymore
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220310075048.2303495-1-thuth@redhat.com>
+ <2a2dadb8-24ba-50c4-617e-ab6d08166e83@redhat.com>
+ <d59847b7-98cb-9e9c-0c42-74576f152737@redhat.com>
+ <ed1c97e8-8a70-8808-cbeb-e6b4f6d1dccf@redhat.com>
+ <f30fe79c-cebd-037c-043e-6eaaeed7070c@redhat.com>
+ <052f71b0-2163-bc6a-e3f0-c6d806e591e0@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <052f71b0-2163-bc6a-e3f0-c6d806e591e0@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -95,7 +95,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,115 +108,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.03.22 17:23, John Snow wrote:
->
->
-> On Mon, Mar 21, 2022, 11:50 AM Hanna Reitz <hreitz@redhat.com> wrote:
->
->     On 21.03.22 14:14, Hanna Reitz wrote:
->     > On 18.03.22 22:14, John Snow wrote:
->     >> On Fri, Mar 18, 2022 at 9:36 AM Hanna Reitz <hreitz@redhat.com>
->     wrote:
->     >>> On 18.03.22 00:49, John Snow wrote:
->     >>>> Hiya!
->     >>>>
->     >>>> This series effectively replaces qemu_img_pipe_and_status()
->     with a
->     >>>> rewritten function named qemu_img() that raises an exception on
->     >>>> non-zero
->     >>>> return code by default. By the end of the series, every last
->     >>>> invocation
->     >>>> of the qemu-img binary ultimately goes through qemu_img().
->     >>>>
->     >>>> The exception that this function raises includes
->     stdout/stderr output
->     >>>> when the traceback is printed in a a little decorated text
->     box so that
->     >>>> it stands out from the jargony Python traceback readout.
->     >>>>
->     >>>> (You can test what this looks like for yourself, or at least you
->     >>>> could,
->     >>>> by disabling ztsd support and then running qcow2 iotest 065.)
->     >>>>
->     >>>> Negative tests are still possible in two ways:
->     >>>>
->     >>>> - Passing check=False to qemu_img, qemu_img_log, or img_info_log
->     >>>> - Catching and handling the CalledProcessError exception at the
->     >>>> callsite.
->     >>> Thanks!  Applied to my block branch:
->     >>>
->     >>> https://gitlab.com/hreitz/qemu/-/commits/block
->     >>>
->     >>> Hanna
->     >>>
->     >> Actually, hold it -- this looks like it is causing problems
->     with the
->     >> Gitlab CI. I need to investigate these.
->     >> https://gitlab.com/jsnow/qemu/-/pipelines/495155073/failures
->     >>
->     >> ... and, ugh, naturally the nice error diagnostics are
->     suppressed here
->     >> so I can't see them. Well, there's one more thing to try and fix
->     >> somehow.
->     >
->     > I hope this patch by Thomas fixes the logging at least:
->     >
->     >
->     https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg02946.html
->
->     So I found three issues:
->
->     1. check-patch wrongfully complains about the comment added in in
->     “python/utils: add add_visual_margin() text decoration utility” that
->     shows an example for how the output looks.  It complains the lines
->     consisting mostly of “━━━━━━━━” were too long.  I believe that’s
->     because
->     it counts bytes, not characters.
->
->     Not fatal, i.e. doesn’t break the pipeline.  We should ignore that.
->
->
-> Agree. (Though I did shorten the lines in my re-spin to see if I could 
-> make it shut up, but it didn't work. Ignoring it is.)
->
->
->     2. riscv64-debian-cross-container breaks, but that looks
->     pre-existing.
->     apt complains about some dependencies.
->
->     Also marked as allowed-to-fail, so I believe we should also just
->     ignore
->     that.  (Seems to fail on `master`, too.)
->
->
-> Yeah, I don't think this is me.
->
->
->     3. The rest are runs complaining about
->     `subprocess.CompletedProcess[str]`.  Looks like the same issue I was
->     facing for ec88eed8d14088b36a3495710368b8d1a3c33420, where I had to
->     specify the type as a string.
->
->     Indeed this is fixed by something like
->     https://gitlab.com/hreitz/qemu/-/commit/87615eb536bdca7babe8eb4a35fd4ea810d1da24
->
->     .  Maybe squash that in?  (If it’s the correct way to go about this?)
->
->     Hanna
->
->
-> Yep, sorry for not replying. I respun the series and tested it, but it 
-> became "way too Saturday" for me to hit send on the respin. Will do so 
-> today.
+On 21/03/2022 14.11, Hanna Reitz wrote:
+> On 21.03.22 10:17, Thomas Huth wrote:
+>> On 21/03/2022 10.06, Hanna Reitz wrote:
+>>> On 18.03.22 18:36, Thomas Huth wrote:
+>>>> On 18/03/2022 18.04, Hanna Reitz wrote:
+>>>>> On 10.03.22 08:50, Thomas Huth wrote:
+>>>>>> If there is a failing iotest, the output is currently not logged to
+>>>>>> the console anymore. To get this working again, we need to run the
+>>>>>> meson test runner with "--print-errorlogs" (and without "--verbose"
+>>>>>> due to a current meson bug that will be fixed here:
+>>>>>> https://github.com/mesonbuild/meson/commit/c3f145ca2b9f5.patch ).
+>>>>>> We could update the "meson test" call in tests/Makefile.include,
+>>>>>> but actually it's nicer and easier if we simply do not treat the
+>>>>>> iotests as separate test target anymore and integrate them along
+>>>>>> with the other test suites. This has the disadvantage of not getting
+>>>>>> the detailed progress indication there anymore, but since that was
+>>>>>> only working right in single-threaded "make -j1" mode anyway, it's
+>>>>>> not a huge loss right now.
+>>>>>>
+>>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>>> ---
+>>>>>>   v4: updated commit description
+>>>>>>
+>>>>>>   meson.build            | 6 +++---
+>>>>>>   scripts/mtest2make.py  | 4 ----
+>>>>>>   tests/Makefile.include | 9 +--------
+>>>>>>   3 files changed, 4 insertions(+), 15 deletions(-)
+>>>>>
+>>>>> I can’t really say I understand what’s going on in this patch and 
+>>>>> around it, but I can confirm that it before this patch, fail diffs 
+>>>>> aren’t printed; but afterwards, they are
+>>>>
+>>>> It's a bug in Meson. It will be fixed in 0.61.3 and later (so this patch 
+>>>> won't be needed there anymore), but the update to meson 0.61.3 caused 
+>>>> other problems so we also can't do that right now... so I'm not sure 
+>>>> whether we now want to have this patch here included, wait for a better 
+>>>> version of meson, or even rather want to revert the TAP support / meson 
+>>>> integration again for 7.0 ... ?
+>>>
+>>> I don’t have anything against this patch, I just don’t fully understand 
+>>> what it does, and how it works.
+>>>
+>>> So as far as I understand, check-block was its own target and used 
+>>> --verbose so that the progress indication would work (with -j1). Now that 
+>>> causes problems because of a bug in meson, and so this patch drops that 
+>>> special-casing again.  The only disadvantage is that the progress 
+>>> indication (which only worked with -j1) no longer ever works.
+>>>
+>>> (Is that right?)
+>>
+>> Right!
+>>
+>>> I personally don’t mind that disadvantage, because on CI systems it 
+>>> doesn’t really matter anyway; and on developers’ systems, I would assume 
+>>> `make check` to always be run with -jX anyway.
+>>
+>> Right again. So currently the only question is: Do we want to see a nice 
+>> progress output with -j1 and do not care about the error logs, or do we 
+>> rather want to see the error logs with -j1 and do not care about the nice 
+>> progress output? For -jX with X > 1, the patch does not change much, and 
+>> we'd need a newer version of meson to fix that.
+> 
+> OK, to me the answer sounds obvious.  We absolutely need error logs, nice 
+> output is secondary to it.
+> 
+> Waiting for a new usable version of meson is not really an option, because 
+> when it comes around, we can just revert this patch (or take any other 
+> course of action that seems best then).
+> 
+> I guess we could revert TAP and/or the meson integration, I suppose that’d 
+> mean we’d get some progress output again, but it’s just the plain one from 
+> the iotests’ `check` script, right?
 
-Great, thanks!
+Right, reverting means to get the old progress output again.
 
-Hanna
+>  I’m hard-pressed to find good arguments 
+> against that, but I don’t really like that idea either.
+
+Me neither, since it feels like a big step backwards, but if someone insists 
+on having both, progress indication *and* error logs, it's currently the 
+only feasible way, I think.
+
+> Having this patch as a workaround until the functionality can be restored 
+> (which seems in sight) seems absolutely fine to me.  I guess I’ll just take 
+> it to my tree, then.  Won’t stop others from being able to protest, after 
+> all. :)
+> 
+> (I.e.: Thanks, applied to my block branch: 
+> https://gitlab.com/hreitz/qemu/-/commits/block)
+
+Thank you!
+
+  Thomas
 
 
