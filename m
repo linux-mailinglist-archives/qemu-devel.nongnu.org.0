@@ -2,71 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567704E2201
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 09:18:30 +0100 (CET)
-Received: from localhost ([::1]:49670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5774A4E2207
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Mar 2022 09:19:45 +0100 (CET)
+Received: from localhost ([::1]:52056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWDFE-0000Yd-UK
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 04:18:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38332)
+	id 1nWDGS-0002Gt-FR
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 04:19:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nWDCN-0008BR-7u
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:15:31 -0400
-Received: from mga17.intel.com ([192.55.52.151]:60160)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nWDEc-0000xs-Sw
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:17:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nWDCK-0002QI-KT
- for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:15:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647850528; x=1679386528;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=emHGj6ghKUk9AmDI87yzqr6a+usVYgHge4IUp6jmt9M=;
- b=ke4eMnDRicid8I2ml16FtaQLMjVKz25oYvYJ4GhIra9YDZDzosJWBLg0
- SH0msu+X6xi+PXZXZwoN2r4HeKDO5S/5Ke5zO0IQIasTHupLT1Re0ZcOx
- s0NWV/Cv+nX+gq3f7N0GnexkEK9GpWcdtKBCr11LLQ8OP27S5ZUKoXIaX
- olWjwQS7BHFDJAB8QoR3fVN/owmCd7VloDPK9vEHhjvcAsitYl/Y4gv5U
- 2crHin9RKuSEG6fXo4gFQpK9uG469Z7+tw7aQK+c4v8ipknLxahtmrU+4
- efRkCOz3ZwXmU7t98UtoR4nzNMHmQsdnjgUn064NTvZBxrCa5hEN0ldH4 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="238101080"
-X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="238101080"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 01:15:24 -0700
-X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; d="scan'208";a="500092839"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.249])
- ([10.255.28.249])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 01:15:19 -0700
-Message-ID: <398611c0-cccc-2d4c-171f-68a93b55dea5@intel.com>
-Date: Mon, 21 Mar 2022 16:15:17 +0800
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nWDEZ-0002fZ-TH
+ for qemu-devel@nongnu.org; Mon, 21 Mar 2022 04:17:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647850666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UkAGbenbh4vyXPzJdSyrjEiyIJQ5avPPdOGROpt6BqY=;
+ b=Zr7tWS47ZQBH+UA6UEQdJwqEvCyjebVRIPS4nhQcpQMNPRqLZarkaw+HPWLn0TT+r8BcgH
+ BMPMNq/EatJsKSvk8+fEzVwqoCJ/tCEfJIze6ExtYyxw7de8TzXoKTwgr/7XTRs1E67t8V
+ uZ9ZmlqumLVj8w/Z6pfEkjd8sMAxYgI=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-636-gi86Kuj-OmatNFrCz16KzA-1; Mon, 21 Mar 2022 04:17:42 -0400
+X-MC-Unique: gi86Kuj-OmatNFrCz16KzA-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ i2-20020a05620a248200b0067b51fa1269so9338917qkn.19
+ for <qemu-devel@nongnu.org>; Mon, 21 Mar 2022 01:17:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=UkAGbenbh4vyXPzJdSyrjEiyIJQ5avPPdOGROpt6BqY=;
+ b=WkdDJPUKMO/4fT0NqxwuRsqRx1sZZ0H+IlqmeWuydT42bYoETG3d6/oWmbnVDh1QeL
+ p8YbrDvRi9V9gg+YGLl5QwkHMrepvnwpW6e6PyFctxhCA79LhPkeJKnGYHVlWAE2nuVZ
+ PgEKi8HiXrFsgVDnfL8jmyHrnRQw1FphN89e4ulh38SEgh+ccxo2KOuXCfp34WQRP1WL
+ l1LB99Zf+SAsBpO5bjJ4HkfLDKjLoDTYXTkGbCylE4ZGenbAG0/L2DG7La/WupoP0iyb
+ IK27Yi6XnvwTa1F88A7VZrCrNc5gIzQbO9W8MZUGdg2A+9P07lVUhSf0iCPNn5LWnsrx
+ cq0Q==
+X-Gm-Message-State: AOAM530m/mQdm1gGki1SgQ+oq1kGkrEIKbKntcSVlqr5bTRCZE1RYAHN
+ Xuc8fnYYQFzy0hvHnRiZco8lBDmj2zKcw8rs4u2BI1SYpDmSoFFHXkHnT7Ypg8HY/ov/EbdQ6+b
+ FIXFF2I1cCe6S65M=
+X-Received: by 2002:a05:620a:4592:b0:67d:8ed9:8c37 with SMTP id
+ bp18-20020a05620a459200b0067d8ed98c37mr12165869qkb.150.1647850661548; 
+ Mon, 21 Mar 2022 01:17:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzlLbeQs2XfeQQrLGNNWyTs9/uu1z6uL1DuTLR11a9dNinK0p/b/vjbT4lhJvrj5Rw+UzVZRw==
+X-Received: by 2002:a05:620a:4592:b0:67d:8ed9:8c37 with SMTP id
+ bp18-20020a05620a459200b0067d8ed98c37mr12165863qkb.150.1647850661251; 
+ Mon, 21 Mar 2022 01:17:41 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-12-25-114.business.telecomitalia.it.
+ [87.12.25.114]) by smtp.gmail.com with ESMTPSA id
+ u17-20020ac858d1000000b002e1cdbb50besm11159306qta.78.2022.03.21.01.17.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Mar 2022 01:17:40 -0700 (PDT)
+Date: Mon, 21 Mar 2022 09:17:35 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Ilya Dryomov <idryomov@gmail.com>
+Subject: Re: [PATCH] block/rbd: fix write zeroes with growing images
+Message-ID: <20220321081735.qupwljukz6owcnuz@sgarzare-redhat>
+References: <20220317162638.41192-1-sgarzare@redhat.com>
+ <CAC868B4-D120-4EB4-A0E9-78F38BA20FA7@kamp.de>
+ <20220318082504.qxqcarorpo2jxnfk@sgarzare-redhat>
+ <CAOi1vP8Y-_LkuTaH6BCLiUhAUcBBbu-3scpM5d5gwz+xxvkYCw@mail.gmail.com>
+ <CAOi1vP8aqApM5ubScq1M=uiAuA=N0eSChjP9uoWg7as0-RFcbg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [RFC PATCH v3 16/36] i386/tdx: Set kvm_readonly_mem_enabled to
- false for TDX VM
-Content-Language: en-US
-To: Isaku Yamahata <isaku.yamahata@gmail.com>
-References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
- <20220317135913.2166202-17-xiaoyao.li@intel.com>
- <20220318171117.GC4049379@ls.amr.corp.intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220318171117.GC4049379@ls.amr.corp.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=xiaoyao.li@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+In-Reply-To: <CAOi1vP8aqApM5ubScq1M=uiAuA=N0eSChjP9uoWg7as0-RFcbg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,55 +105,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
- "Daniel P. Berrang???" <berrange@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Eric Blake <eblake@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe Mathieu-Daud??? <f4bug@amsat.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, seanjc@google.com, erdemaktas@google.com,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ qemu block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/19/2022 1:11 AM, Isaku Yamahata wrote:
-> On Thu, Mar 17, 2022 at 09:58:53PM +0800,
-> Xiaoyao Li <xiaoyao.li@intel.com> wrote:
-> 
->> TDX only supports readonly for shared memory but not for private memory.
+On Sat, Mar 19, 2022 at 02:23:18PM +0100, Ilya Dryomov wrote:
+>On Sat, Mar 19, 2022 at 1:40 PM Ilya Dryomov <idryomov@gmail.com> wrote:
 >>
->> In the view of QEMU, it has no idea whether a memslot is used by shared
->> memory of private. Thus just mark kvm_readonly_mem_enabled to false to
->> TDX VM for simplicity.
+>> On Fri, Mar 18, 2022 at 9:25 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>> >
+>> > On Thu, Mar 17, 2022 at 07:27:05PM +0100, Peter Lieven wrote:
+>> > >
+>> > >
+>> > >> Am 17.03.2022 um 17:26 schrieb Stefano Garzarella <sgarzare@redhat.com>:
+>> > >>
+>> > >> ﻿Commit d24f80234b ("block/rbd: increase dynamically the image size")
+>> > >> added a workaround to support growing images (eg. qcow2), resizing
+>> > >> the image before write operations that exceed the current size.
+>> > >>
+>> > >> We recently added support for write zeroes and without the
+>> > >> workaround we can have problems with qcow2.
+>> > >>
+>> > >> So let's move the resize into qemu_rbd_start_co() and do it when
+>> > >> the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
+>> > >>
+>> > >> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2020993
+>> > >> Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
+>> > >> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>> > >> ---
+>> > >> block/rbd.c | 26 ++++++++++++++------------
+>> > >> 1 file changed, 14 insertions(+), 12 deletions(-)
+>> > >>
+>> > >> diff --git a/block/rbd.c b/block/rbd.c
+>> > >> index 8f183eba2a..6caf35cbba 100644
+>> > >> --- a/block/rbd.c
+>> > >> +++ b/block/rbd.c
+>> > >> @@ -1107,6 +1107,20 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
+>> > >>
+>> > >>     assert(!qiov || qiov->size == bytes);
+>> > >>
+>> > >> +    if (cmd == RBD_AIO_WRITE || cmd == RBD_AIO_WRITE_ZEROES) {
+>> > >> +        /*
+>> > >> +         * RBD APIs don't allow us to write more than actual size, so in order
+>> > >> +         * to support growing images, we resize the image before write
+>> > >> +         * operations that exceed the current size.
+>> > >> +         */
+>> > >> +        if (offset + bytes > s->image_size) {
+>> > >> +            int r = qemu_rbd_resize(bs, offset + bytes);
+>> > >> +            if (r < 0) {
+>> > >> +                return r;
+>> > >> +            }
+>> > >> +        }
+>> > >> +    }
+>> > >> +
+>> > >>     r = rbd_aio_create_completion(&task,
+>> > >>                                   (rbd_callback_t) qemu_rbd_completion_cb, &c);
+>> > >>     if (r < 0) {
+>> > >> @@ -1182,18 +1196,6 @@ coroutine_fn qemu_rbd_co_pwritev(BlockDriverState *bs, int64_t offset,
+>> > >>                                  int64_t bytes, QEMUIOVector *qiov,
+>> > >>                                  BdrvRequestFlags flags)
+>> > >> {
+>> > >> -    BDRVRBDState *s = bs->opaque;
+>> > >> -    /*
+>> > >> -     * RBD APIs don't allow us to write more than actual size, so in order
+>> > >> -     * to support growing images, we resize the image before write
+>> > >> -     * operations that exceed the current size.
+>> > >> -     */
+>> > >> -    if (offset + bytes > s->image_size) {
+>> > >> -        int r = qemu_rbd_resize(bs, offset + bytes);
+>> > >> -        if (r < 0) {
+>> > >> -            return r;
+>> > >> -        }
+>> > >> -    }
+>> > >>     return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_WRITE);
+>> > >> }
+>> > >>
+>> > >> --
+>> > >> 2.35.1
+>> > >>
+>> > >
+>> > >Do we really have a use case for growing rbd images?
+>> >
+>> > The use case is to have a qcow2 image on rbd.
+>> > I don't think it's very common, but some people use it and here [1] we
+>> > had a little discussion about features that could be interesting (e.g.
+>> > persistent dirty bitmaps for incremental backup).
 >>
->> Note, pflash has dependency on readonly capability from KVM while TDX
->> wants to reuse pflash interface to load TDVF (as OVMF). Excuse TDX VM
->> for readonly check in pflash.
->>
->> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
->> ---
->>   hw/i386/pc_sysfw.c    | 2 +-
->>   target/i386/kvm/tdx.c | 9 +++++++++
->>   2 files changed, 10 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
->> index c8b17af95353..75b34d02cb4f 100644
->> --- a/hw/i386/pc_sysfw.c
->> +++ b/hw/i386/pc_sysfw.c
->> @@ -245,7 +245,7 @@ void pc_system_firmware_init(PCMachineState *pcms,
->>           /* Machine property pflash0 not set, use ROM mode */
->>           x86_bios_rom_init(MACHINE(pcms), "bios.bin", rom_memory, false);
->>       } else {
->> -        if (kvm_enabled() && !kvm_readonly_mem_enabled()) {
->> +        if (kvm_enabled() && (!kvm_readonly_mem_enabled() && !is_tdx_vm())) {
-> 
-> Is this called before tdx_kvm_init()?
+>> RBD supports that natively (object-map and fast-diff image features).
+>> The granularity is higher than a typical QCOW2 granularity (64K vs 4M)
+>> but I have never heard of that being a concern.
+>
+>Sorry, I meant to say lower (more coarse grained) above.
+>
+>RBD's default object size is 4M and that is the granularity at which
+>dirtiness is typically tracked.  It is possible to ask for a byte-level
+>incremental diff but it is obviously slow.
 
-yes.
+I didn't know that, thanks for letting me know!
 
-pc_init1()/ pc_q35_init()
-  pc_memory_init()
-     pc_system_firmware_init()
+Stefano
 
-is called after configure_accelerator() to configure kvm.
 
