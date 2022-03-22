@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC78D4E4443
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 17:32:55 +0100 (CET)
-Received: from localhost ([::1]:45714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D99B04E445A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 17:39:19 +0100 (CET)
+Received: from localhost ([::1]:48908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWhRE-0006i7-Uh
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 12:32:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52402)
+	id 1nWhXS-0000qG-Ui
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 12:39:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWhPF-0003QW-G7
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:30:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52543)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWhVR-0007t5-2h
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:37:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWhPD-0007Z5-BS
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:30:49 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWhVL-00006H-V4
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:37:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647966646;
+ s=mimecast20190719; t=1647967027;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aviOVJJe/zAC3ZpokErGsVNF26XWqoXagZoyur5yUFI=;
- b=TRei5I5Uzp8VKSdyzl+8m4iqTyiCQ0sVn31QyEJyB1rLwC2gdUmBOeeNSZyHCTuxJGm5Nu
- +09xLS5rPjFhwAxEIcOlTfg2iJVSvyo02AMG2HOrYBF6IotgORA0Gw+9t6eToqG74abhOm
- EXh7Yr2PtRjxQPzGdcnlPtUL8Ej9yV8=
+ bh=HRrsHg+ZqVZ0y13DygtR9DKXuy6BNBZ6aoR7zhiUdX4=;
+ b=LUXxW7btsSjNUP1DmVz2ACMxpz1cELLO00gSIwfGTr/F+dUUAloJvJDmptbQW9AkPIAnrT
+ bq+O9JsoLLv6gxPSJeE76CVp5MTVBkQ6l6TyXLCQ5av2bZ1HxZvzxQ3JavV7SW4W8F1XIq
+ BzRpvqhKWzZ5fBQqesyjxgm997ovDnM=
 Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
  [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-354-Vh2A3W3mOuWAujQU_IrW9w-1; Tue, 22 Mar 2022 12:30:45 -0400
-X-MC-Unique: Vh2A3W3mOuWAujQU_IrW9w-1
+ us-mta-399-PNdLM0G6OvOpneLq6SN6Cw-1; Tue, 22 Mar 2022 12:37:05 -0400
+X-MC-Unique: PNdLM0G6OvOpneLq6SN6Cw-1
 Received: by mail-vk1-f199.google.com with SMTP id
- s191-20020a1f2cc8000000b00331bc5a8878so2822056vks.6
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 09:30:45 -0700 (PDT)
+ e14-20020ac5c14e000000b0033ef6f852dcso1064344vkk.19
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 09:37:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=aviOVJJe/zAC3ZpokErGsVNF26XWqoXagZoyur5yUFI=;
- b=vGWogJvbklWkki2q5A21ZGYrYRpd59L83qPaAHI3gK9pf1CgkJ8iZbekb6Z0Tv5pQX
- tvBWjqjUGL6IdMcXn2YwYwkkKiT4Ze3DDYSxCB46/8Ij4wykE0um6l/cEwt+bQ+31fkQ
- HNwHwntqxQLY3/AsSExKfYgbl+G9XkAx7lpU8DECNUs1Ppjy1bcEy1HrnyTDp+j+WDlA
- l4USzp04A6l4NdAPsPDrzr9wIlVUOSzYCdLwRAoTDviEHOKog6SfSGC0flc+bMvT8re1
- cw3XcPWARDWRlCuh/vz/2f/ngZnSUTr/Z+Odxi4BNPIxcGigsGOgoBrX4kxqPoDl+Q05
- nl1w==
-X-Gm-Message-State: AOAM530l1QGmTh16z9KalHUci7o6PkU4IfNd7CP+R0aUMBl4fulTBHCG
- 1QtelKWQF+f3/aHUcU0Sv6Q6orABL0PkEC1Kjj/ki3r01BXUIJD7dL2T8uhbvB0mUY/ZwCIcPR1
- eIgqm10uIAUvK5MCMFhZ1Tegb0rloKSk=
-X-Received: by 2002:a05:6102:1592:b0:324:d1a2:5718 with SMTP id
- g18-20020a056102159200b00324d1a25718mr8965281vsv.35.1647966644591; 
- Tue, 22 Mar 2022 09:30:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqopdwM4XasFBQzgiEBW5eRAs9QK78fVt5yGMsTlp1OtjY2OMsGdXt8Ysj10WaxK33M/9ACuNW+FeBcR1O1tg=
-X-Received: by 2002:a05:6102:1592:b0:324:d1a2:5718 with SMTP id
- g18-20020a056102159200b00324d1a25718mr8965269vsv.35.1647966644299; Tue, 22
- Mar 2022 09:30:44 -0700 (PDT)
+ bh=HRrsHg+ZqVZ0y13DygtR9DKXuy6BNBZ6aoR7zhiUdX4=;
+ b=evlw2hJ7F2o3qhTmDqf0ZSjheel4GQCwPceJjuYWH77MCSC1fcjOltJwbYFE/+4gvL
+ ixHdyNvxxeuD5HeNrXGBJmLD8CJYDBTQ3vLx10xQ9x7Yy5E8IEUj00wIrz21wvelNK8v
+ 1PNYIM0zUSN8un2lwKLcS+SnUKWTvucnnBeJA/80EXTkhASMQhXBDFD43S4pExilzqHo
+ meif3EVqBgQ9q2zlsLGvShEaTODXNeMul47ejmb0uyjZWCpRpoNovtSmx68H+rdf75m2
+ Axb21cAafaN0HKSom6eIXje3mh6ZUbV6MJ1pzAoGqVcZNtX0JpdBh70/r3TNClDUx3lN
+ P2YA==
+X-Gm-Message-State: AOAM532MNma73A3GPJBt3XBmj0NRNAV+g1H1TQHj7bukJlpUPRQaQVot
+ VE1Do9IQiLiZkHZNQebd2ttTfGqpC9zJRk7wd0kRL0lQRS/+jcrAW/421EtMUC6aT0QwN9f1Z7+
+ God4BvQ0aocL2UUmmb9w5ULNL3AvbMFU=
+X-Received: by 2002:a05:6122:21aa:b0:33f:1889:b254 with SMTP id
+ j42-20020a05612221aa00b0033f1889b254mr4085472vkd.26.1647967024909; 
+ Tue, 22 Mar 2022 09:37:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzCdKcgWjcmEn3PFEwW1KUEtfLQj43SJR/vmIvoTYs+TqauHKkITgygLna/S5biLXBezZmWOr8Tw5LpB9WdlU=
+X-Received: by 2002:a05:6122:21aa:b0:33f:1889:b254 with SMTP id
+ j42-20020a05612221aa00b0033f1889b254mr4085464vkd.26.1647967024676; Tue, 22
+ Mar 2022 09:37:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220318203655.676907-1-jsnow@redhat.com>
- <20220318203655.676907-7-jsnow@redhat.com>
- <d89a365d-161b-e7bb-e5a0-80418e60d063@redhat.com>
-In-Reply-To: <d89a365d-161b-e7bb-e5a0-80418e60d063@redhat.com>
+ <20220318203655.676907-11-jsnow@redhat.com>
+ <258fcd46-38a6-2258-a39f-4126be26c8ce@redhat.com>
+In-Reply-To: <258fcd46-38a6-2258-a39f-4126be26c8ce@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 22 Mar 2022 12:30:34 -0400
-Message-ID: <CAFn=p-YWjxRpMf3c3V4YkLJgii2jm97qrjHHmRc=7ezSyJ+UUQ@mail.gmail.com>
-Subject: Re: [PATCH 06/15] iotests: rebase qemu_io() on top of qemu_tool()
+Date: Tue, 22 Mar 2022 12:36:55 -0400
+Message-ID: <CAFn=p-Z2fEck2Zd2VYFCOPcYjbfGBt4gkDU0Lvx8ATFaHULeaQ@mail.gmail.com>
+Subject: Re: [PATCH 10/15] iotests/245: fixup
 To: Hanna Reitz <hreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000006f7c0b05dad1222a"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: multipart/alternative; boundary="0000000000001b9cca05dad139e5"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,290 +97,121 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006f7c0b05dad1222a
+--0000000000001b9cca05dad139e5
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 22, 2022, 11:04 AM Hanna Reitz <hreitz@redhat.com> wrote:
+On Tue, Mar 22, 2022, 12:30 PM Hanna Reitz <hreitz@redhat.com> wrote:
 
 > On 18.03.22 21:36, John Snow wrote:
-> > Rework qemu_io() to be analogous to qemu_img(); a function that require=
-s
-> > a return code of zero by default unless disabled explicitly.
-> >
-> > Tests that use qemu_io():
-> > 030 040 041 044 055 056 093 124 129 132 136 148 149 151 152 163 165 205
-> > 209 219 236 245 248 254 255 257 260 264 280 298 300 302 304
-> > image-fleecing migrate-bitmaps-postcopy-test migrate-bitmaps-test
-> > migrate-during-backup migration-permissions
-> >
-> > Test that use qemu_io_log():
-> > 242 245 255 274 303 307 nbd-reconnect-on-open
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> >
-> > ---
-> >
-> > Note: This breaks several tests at this point. I'll be fixing each
-> > broken test one by one in the subsequent commits. We can squash them al=
-l
-> > on merge to avoid test regressions.
->
-> Well, absolutely.
->
-> > (Seems like a way to have your cake and eat it too with regards to
-> > maintaining bisectability while also having nice mailing list patches.)
->
-> I personally find reviewability to not be affected whether this is one
-> patch or multiple, given that the changes are in different files anyway.
->
-> I am afraid someone might forgot to squash when merging this series,
-> though...
->
-> Also, I don=E2=80=99t know how to squash R-b tags, and I don=E2=80=99t fe=
-el like I can
-> give an R-b for a patch that decidedly breaks tests.
->
-> >
-> > Copy-pastables:
-> >
-> > ./check -qcow2 030 040 041 044 055 056 124 129 132 151 152 163 165 209 =
-\
-> >                 219 236 242 245 248 254 255 257 260 264 274 \
-> >                 280 298 300 302 303 304 307 image-fleecing \
-> >                 migrate-bitmaps-postcopy-test migrate-bitmaps-test \
-> >                 migrate-during-backup nbd-reconnect-on-open
-> >
-> > ./check -raw 093 136 148 migration-permissions
-> >
-> > ./check -nbd 205
-> >
-> > # ./configure configure --disable-gnutls --enable-gcrypt
-> > # this ALSO requires passwordless sudo.
-> > ./check -luks 149
-> >
-> >
-> > # Just the ones that fail:
-> > ./check -qcow2 030 040 242 245
-> > ./check -raw migration-permissions
-> > ./check -nbd 205
-> > ./check -luks 149
+> > (Merge with prior patch.)
 > >
 > > Signed-off-by: John Snow <jsnow@redhat.com>
 > > ---
-> >   tests/qemu-iotests/iotests.py | 19 +++++++++++++------
-> >   1 file changed, 13 insertions(+), 6 deletions(-)
+> >   tests/qemu-iotests/242 | 2 +-
+> >   tests/qemu-iotests/245 | 2 +-
+> >   2 files changed, 2 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/tests/qemu-iotests/iotests.py
-> b/tests/qemu-iotests/iotests.py
-> > index 974a2b0c8d..58ea766568 100644
-> > --- a/tests/qemu-iotests/iotests.py
-> > +++ b/tests/qemu-iotests/iotests.py
-> > @@ -354,16 +354,23 @@ def qemu_io_wrap_args(args: Sequence[str]) ->
-> List[str]:
-> >   def qemu_io_popen(*args):
-> >       return qemu_tool_popen(qemu_io_wrap_args(args))
+> > diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242
+> > index 4b7ec16af6..ecc851582a 100755
+> > --- a/tests/qemu-iotests/242
+> > +++ b/tests/qemu-iotests/242
+> > @@ -22,7 +22,7 @@
+> >   import iotests
+> >   import json
+> >   import struct
+> > -from iotests import qemu_img_create, qemu_io, qemu_img_info, \
+> > +from iotests import qemu_img_create, qemu_io_log, qemu_img_info, \
+> >       file_path, img_info_log, log, filter_qemu_io
 > >
-> > -def qemu_io(*args):
-> > -    '''Run qemu-io and return the stdout data'''
-> > -    return qemu_tool_pipe_and_status('qemu-io',
-> qemu_io_wrap_args(args))[0]
-> > +def qemu_io(*args: str, check: bool =3D True, combine_stdio: bool =3D =
-True
-> > +            ) -> subprocess.CompletedProcess[str]:
+> >   iotests.script_initialize(supported_fmts=3D['qcow2'],
+> > diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+> > index 8cbed7821b..efdad1a0c4 100755
+> > --- a/tests/qemu-iotests/245
+> > +++ b/tests/qemu-iotests/245
+> > @@ -217,7 +217,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+> >       # Reopen an image several times changing some of its options
+> >       def test_reopen(self):
+> >           # Check whether the filesystem supports O_DIRECT
+> > -        if 'O_DIRECT' in qemu_io('-f', 'raw', '-t', 'none', '-c',
+> 'quit', hd_path[0]):
+> > +        if 'O_DIRECT' in qemu_io('-f', 'raw', '-t', 'none', '-c',
+> 'quit', hd_path[0]).stdout:
 >
-> I guess this return type probably has to be quoted.
+> This is to verify that O_DIRECT works or not.  If it doesn=E2=80=99t work=
+, this
+> will fail, so we need to pass check=3DFalse here.
 >
-
-Yep. Sent this just before I figured out the problem from the prior series.
-I'll make sure this whole series passes CI before I send it out a second
-time.
-
-I'll rebase on your staging branch and take my time with v2.
-
-
-> > +    """
-> > +    Run QEMU_IO_PROG and return the status code and console output.
-> > +
-> > +    This function always prepends either QEMU_IO_OPTIONS or
-> > +    QEMU_IO_OPTIONS_NO_FMT.
-> > +    """
-> > +    return qemu_tool(*qemu_io_wrap_args(args),
-> > +                     check=3Dcheck, combine_stdio=3Dcombine_stdio)
-> >
-> >   def qemu_io_pipe_and_status(*args):
-> >       return qemu_tool_pipe_and_status('qemu-io',
-> qemu_io_wrap_args(args))
-> >
-> > -def qemu_io_log(*args):
-> > -    result =3D qemu_io(*args)
-> > -    log(result, filters=3D[filter_testfiles, filter_qemu_io])
-> > +def qemu_io_log(*args: str) -> subprocess.CompletedProcess[str]:
->
-> ...and this one.
+> (Or this test fails on tmpfs.)
 >
 > Hanna
 >
-> > +    result =3D qemu_io(*args, check=3DFalse)
-> > +    log(result.stdout, filters=3D[filter_testfiles, filter_qemu_io])
-> >       return result
-> >
-> >   def qemu_io_silent(*args):
->
->
 
---0000000000006f7c0b05dad1222a
+Oh, I didn't realize a solitary "quit" command could still fail. Thanks for
+the tip.
+
+--0000000000001b9cca05dad139e5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Tue, Mar 22, 2022, 11:04 AM Hanna Reitz &lt;<a href=
+class=3D"gmail_attr">On Tue, Mar 22, 2022, 12:30 PM Hanna Reitz &lt;<a href=
 =3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; wrote:<br></div><bl=
 ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
 ccc solid;padding-left:1ex">On 18.03.22 21:36, John Snow wrote:<br>
-&gt; Rework qemu_io() to be analogous to qemu_img(); a function that requir=
-es<br>
-&gt; a return code of zero by default unless disabled explicitly.<br>
-&gt;<br>
-&gt; Tests that use qemu_io():<br>
-&gt; 030 040 041 044 055 056 093 124 129 132 136 148 149 151 152 163 165 20=
-5<br>
-&gt; 209 219 236 245 248 254 255 257 260 264 280 298 300 302 304<br>
-&gt; image-fleecing migrate-bitmaps-postcopy-test migrate-bitmaps-test<br>
-&gt; migrate-during-backup migration-permissions<br>
-&gt;<br>
-&gt; Test that use qemu_io_log():<br>
-&gt; 242 245 255 274 303 307 nbd-reconnect-on-open<br>
+&gt; (Merge with prior patch.)<br>
 &gt;<br>
 &gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
 t=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;<br>
-&gt;<br>
 &gt; ---<br>
+&gt;=C2=A0 =C2=A0tests/qemu-iotests/242 | 2 +-<br>
+&gt;=C2=A0 =C2=A0tests/qemu-iotests/245 | 2 +-<br>
+&gt;=C2=A0 =C2=A02 files changed, 2 insertions(+), 2 deletions(-)<br>
 &gt;<br>
-&gt; Note: This breaks several tests at this point. I&#39;ll be fixing each=
-<br>
-&gt; broken test one by one in the subsequent commits. We can squash them a=
-ll<br>
-&gt; on merge to avoid test regressions.<br>
-<br>
-Well, absolutely.<br>
-<br>
-&gt; (Seems like a way to have your cake and eat it too with regards to<br>
-&gt; maintaining bisectability while also having nice mailing list patches.=
-)<br>
-<br>
-I personally find reviewability to not be affected whether this is one <br>
-patch or multiple, given that the changes are in different files anyway.<br=
+&gt; diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242<br>
+&gt; index 4b7ec16af6..ecc851582a 100755<br>
+&gt; --- a/tests/qemu-iotests/242<br>
+&gt; +++ b/tests/qemu-iotests/242<br>
+&gt; @@ -22,7 +22,7 @@<br>
+&gt;=C2=A0 =C2=A0import iotests<br>
+&gt;=C2=A0 =C2=A0import json<br>
+&gt;=C2=A0 =C2=A0import struct<br>
+&gt; -from iotests import qemu_img_create, qemu_io, qemu_img_info, \<br>
+&gt; +from iotests import qemu_img_create, qemu_io_log, qemu_img_info, \<br=
 >
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0file_path, img_info_log, log, filter_qemu_io=
 <br>
-I am afraid someone might forgot to squash when merging this series, <br>
-though...<br>
-<br>
-Also, I don=E2=80=99t know how to squash R-b tags, and I don=E2=80=99t feel=
- like I can <br>
-give an R-b for a patch that decidedly breaks tests.<br>
-<br>
-&gt;<br>
-&gt; Copy-pastables:<br>
-&gt;<br>
-&gt; ./check -qcow2 030 040 041 044 055 056 124 129 132 151 152 163 165 209=
- \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0219 236 2=
-42 245 248 254 255 257 260 264 274 \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0280 298 3=
-00 302 303 304 307 image-fleecing \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0migrate-b=
-itmaps-postcopy-test migrate-bitmaps-test \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0migrate-d=
-uring-backup nbd-reconnect-on-open<br>
-&gt;<br>
-&gt; ./check -raw 093 136 148 migration-permissions<br>
-&gt;<br>
-&gt; ./check -nbd 205<br>
-&gt;<br>
-&gt; # ./configure configure --disable-gnutls --enable-gcrypt<br>
-&gt; # this ALSO requires passwordless sudo.<br>
-&gt; ./check -luks 149<br>
-&gt;<br>
-&gt;<br>
-&gt; # Just the ones that fail:<br>
-&gt; ./check -qcow2 030 040 242 245<br>
-&gt; ./check -raw migration-permissions<br>
-&gt; ./check -nbd 205<br>
-&gt; ./check -luks 149<br>
-&gt;<br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0tests/qemu-iotests/iotests.py | 19 +++++++++++++------<br>
-&gt;=C2=A0 =C2=A01 file changed, 13 insertions(+), 6 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotest=
-s.py<br>
-&gt; index 974a2b0c8d..58ea766568 100644<br>
-&gt; --- a/tests/qemu-iotests/iotests.py<br>
-&gt; +++ b/tests/qemu-iotests/iotests.py<br>
-&gt; @@ -354,16 +354,23 @@ def qemu_io_wrap_args(args: Sequence[str]) -&gt;=
- List[str]:<br>
-&gt;=C2=A0 =C2=A0def qemu_io_popen(*args):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return qemu_tool_popen(qemu_io_wrap_args(arg=
-s))<br>
 &gt;=C2=A0 =C2=A0<br>
-&gt; -def qemu_io(*args):<br>
-&gt; -=C2=A0 =C2=A0 &#39;&#39;&#39;Run qemu-io and return the stdout data&#=
-39;&#39;&#39;<br>
-&gt; -=C2=A0 =C2=A0 return qemu_tool_pipe_and_status(&#39;qemu-io&#39;, qem=
-u_io_wrap_args(args))[0]<br>
-&gt; +def qemu_io(*args: str, check: bool =3D True, combine_stdio: bool =3D=
- True<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ) -&gt; subprocess.Complete=
-dProcess[str]:<br>
+&gt;=C2=A0 =C2=A0iotests.script_initialize(supported_fmts=3D[&#39;qcow2&#39=
+;],<br>
+&gt; diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245<br>
+&gt; index 8cbed7821b..efdad1a0c4 100755<br>
+&gt; --- a/tests/qemu-iotests/245<br>
+&gt; +++ b/tests/qemu-iotests/245<br>
+&gt; @@ -217,7 +217,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0# Reopen an image several times changing som=
+e of its options<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0def test_reopen(self):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Check whether the filesystem=
+ supports O_DIRECT<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;O_DIRECT&#39; in qemu_io(&#39;-f&=
+#39;, &#39;raw&#39;, &#39;-t&#39;, &#39;none&#39;, &#39;-c&#39;, &#39;quit&=
+#39;, hd_path[0]):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;O_DIRECT&#39; in qemu_io(&#39;-f&=
+#39;, &#39;raw&#39;, &#39;-t&#39;, &#39;none&#39;, &#39;-c&#39;, &#39;quit&=
+#39;, hd_path[0]).stdout:<br>
 <br>
-I guess this return type probably has to be quoted.<br></blockquote></div><=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">Yep. Sent this just befo=
-re I figured out the problem from the prior series. I&#39;ll make sure this=
- whole series passes CI before I send it out a second time.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">I&#39;ll rebase on your staging branc=
-h and take my time with v2.</div><div dir=3D"auto"><br></div><div dir=3D"au=
-to"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+This is to verify that O_DIRECT works or not.=C2=A0 If it doesn=E2=80=99t w=
+ork, this <br>
+will fail, so we need to pass check=3DFalse here.<br>
 <br>
-&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 Run QEMU_IO_PROG and return the status code and console=
- output.<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 This function always prepends either QEMU_IO_OPTIONS or=
+(Or this test fails on tmpfs.)<br>
 <br>
-&gt; +=C2=A0 =C2=A0 QEMU_IO_OPTIONS_NO_FMT.<br>
-&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 return qemu_tool(*qemu_io_wrap_args(args),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0check=3Dcheck, combine_stdio=3Dcombine_stdio)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0def qemu_io_pipe_and_status(*args):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return qemu_tool_pipe_and_status(&#39;qemu-i=
-o&#39;, qemu_io_wrap_args(args))<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -def qemu_io_log(*args):<br>
-&gt; -=C2=A0 =C2=A0 result =3D qemu_io(*args)<br>
-&gt; -=C2=A0 =C2=A0 log(result, filters=3D[filter_testfiles, filter_qemu_io=
-])<br>
-&gt; +def qemu_io_log(*args: str) -&gt; subprocess.CompletedProcess[str]:<b=
-r>
-<br>
-...and this one.<br>
-<br>
-Hanna<br>
-<br>
-&gt; +=C2=A0 =C2=A0 result =3D qemu_io(*args, check=3DFalse)<br>
-&gt; +=C2=A0 =C2=A0 log(result.stdout, filters=3D[filter_testfiles, filter_=
-qemu_io])<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return result<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0def qemu_io_silent(*args):<br>
-<br>
-</blockquote></div></div></div>
+Hanna<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"a=
+uto">Oh, I didn&#39;t realize a solitary &quot;quit&quot; command could sti=
+ll fail. Thanks for the tip.</div><div dir=3D"auto"><br></div><div dir=3D"a=
+uto"><br></div></div>
 
---0000000000006f7c0b05dad1222a--
+--0000000000001b9cca05dad139e5--
 
 
