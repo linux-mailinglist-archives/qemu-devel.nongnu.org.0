@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F78D4E3C17
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 11:01:27 +0100 (CET)
-Received: from localhost ([::1]:48608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DB34E3C44
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 11:14:51 +0100 (CET)
+Received: from localhost ([::1]:60370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWbKO-0007hU-Oj
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 06:01:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53788)
+	id 1nWbXN-00081n-QM
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 06:14:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWbHX-0005fx-C4
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:58:27 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:33653)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWbVZ-0007LK-5w
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 06:12:57 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:40939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWbHV-0003oU-HF
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:58:26 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWbVU-0006ME-7w
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 06:12:53 -0400
 Received: from [192.168.100.1] ([82.142.12.150]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MNtjq-1nhduX2DDE-00OHzb; Tue, 22 Mar 2022 10:58:21 +0100
-Message-ID: <831d87d4-49fb-e738-bed8-2b5af96bfa4f@vivier.eu>
-Date: Tue, 22 Mar 2022 10:58:20 +0100
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M5fUy-1nQaAV1MaI-007Azi; Tue, 22 Mar 2022 11:12:49 +0100
+Message-ID: <04c5229f-7255-b30f-80a0-93165ea982a2@vivier.eu>
+Date: Tue, 22 Mar 2022 11:12:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/5] linux-user/alpha: Fix sigsuspend for big-endian hosts
+Subject: Re: [PATCH 2/5] linux-user: Split out helpers for sigsuspend
 Content-Language: fr
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220315084308.433109-1-richard.henderson@linaro.org>
- <20220315084308.433109-2-richard.henderson@linaro.org>
+ <20220315084308.433109-3-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220315084308.433109-2-richard.henderson@linaro.org>
+In-Reply-To: <20220315084308.433109-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:dCYMxIhgkgoaVRd88/YwaIULTVAh+KDWU6+e3qDHYy3nHaP48WH
- e3UNFqBbevAeL7mb6wEnvKKxSlrowktyOVjx0TYO0YE9tvkLmcqVJqlSIN6l0W55UgxNKHF
- i+r4XvKkLT5C2NN1Bd1dF6bOGz+GxDsZ9WU/rMW99WKVpUQ1sIIC2lBG+WFbeloxQA7C3LJ
- ZZJ+Ay+Nb8wujgHjcYP+A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ezWrFYlv7PM=:mOQ/6x78+4BShenTVFzQaJ
- lgJo7sUyQtknxd2HqDt6sApR8r6FKlAtQMuJ8O78mg3sD49BYqBbKObkv6CbrCO+3Uvj+yj/p
- 4w3eFc9OKtwftmP6g6mxG5WVYVTQWBONxajMlTe+YC/Qlx1VpqxSTexkn/35XQEog2dsygqr1
- KmR6qAB6L9CwHWGhKBvdvbN96aoIFKkHYYO9bpib+A9xVrmLmNZuTPRHBsxv5GasCXesUqy7F
- pT8dC9nGyO/4NCKw75tOq3PrZmJKha6foein+/9BGSgPLCrcLZ3O3z30UgRHPzCgYIhTHwk0+
- G0sGkQoTmerPFKcC20hvz3IG9VjDfRTygULfrLNjWHsizX7NQOYjV7I32iD5DEwXhbA/stal5
- LL2I9bsajuZx6yF4QSOFvA7XbeWSoPBFL5Ga4lkUqBtzWqOtO9jH26oSuvUt9f5IYcQopRNae
- JbOfj0OU3qSM8U+IBMgMieQZb86VjX6dg5aPYhtL9rQBiEJw6abMlU4uuHoLS95S0FyAT3oEh
- NSa8vf9Li2QHtjIF2GhgCHNvClmp70R+UF9rb8emPG1Nr5Pp100KkhCuhsLFmnftExmt+JOjj
- Jg7LB/hYX/MHk4Ocz87PHuCWgXujMLKgTC/V6PzU8dEzzQlMWPDf3w7reJeVL1X6ir4wnp376
- ou4GT9HKbNCNMz+RYnjcgv3MOlF9U9/+MWbPqvezYf2Sv3dY/TuvAKao1OeAq6gWYOZ0=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:SFR3l1WwgraCbBo72rCHXaa1shkzXBl//m1X/5StvIGYX4sTihl
+ GeCbKcMapQZjQIVYvi5K3j/uIGkCmDLkT/cauGJwB+dV2/dTvtxEVMYN+IoDoMex91sjaJX
+ /L7Ukjewojq8qTLkkCHMCtZEt5jXTYGTdS4Cg7xzzjcF2ToN8IafjYv5/bb+S36p9miMVnz
+ /7cIFbyzo3Wb7CWpIqCmQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:P2G5l/mfUAE=:JnzmWXYkR05nuEUaZ4AEmS
+ dFyohSIAY2aRPCGP9sML+K/O2LVeaNGOzIE9nW6lFE0eWunmxSnMCTwthfhfbkDjSVEyyq5jk
+ KhSrZPzKa+Af+ffoa/jndXuP9UnaY/e6fYPFZYLEcQ+n4oWG92Gtc8P8GqPfF9+48pnJ3bFnf
+ 1eFR80dBu4IYK3/END8K4Cgyf/blhcp9Z1P08RaIA9w4SWVfSHO9W56fPpqNA0yVGsF7G68dR
+ /bDkxtA77nJsD/UYLBF0KG2Vjtgytb+IHTAPDoXSQFPxyjUUugQh6fc6z1fj7BLe40kqpNojL
+ orMLhoSvXnKgnG+YYnuuA/UDzCG5T9UxKfrOy/yGA7N1W9WatNCKYvQeXiRePYKRiNnA25sAy
+ ANAiskaXtIRpSC1pyrZB3wxDBZMYn7vHcbFnrlF5xUEbzrVmBkI0liE7+lBVhtM373WUzHIP1
+ oJJPf+EKoz0zTo6ihEw/3SJ1ymvs2o/Q2LBp21YN0Y36mLgpgZP5khpApO8tNqU1BPj6ehuLS
+ W2h7NghmF3XckUe8Ril7YPaVC55SerY8pmUh06YkldeD4p6QhbVVHAbcx7jDQtnbTJme3u48Z
+ bAq9U+xf87NWGJL4CYuyRPexgdxI9+BO+Qh9V4bble6DjmqNvlhcuBinefk+tq4MbCD3xDTXG
+ gzEA6db9W91xdYx1GpRQxs2w6/kTHzMX30OLWNk5QLasSGFIImXzKwnPrzhGsgRR5/c4=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,33 +73,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 15/03/2022 à 09:43, Richard Henderson a écrit :
-> On alpha, the sigset argument for sigsuspend is in a register.
-> When we drop that into memory that happens in host-endianness,
-> but target_to_host_old_sigset will treat it as target-endianness.
+> Two new functions: process_sigsuspend_mask and finish_sigsuspend_mask.
+> Move the size check and copy-from-user code.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   linux-user/syscall.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   linux-user/signal-common.h | 26 +++++++++++++++++++++++++
+>   linux-user/signal.c        | 23 ++++++++++++++++++++++
+>   linux-user/syscall.c       | 40 ++++++++++++++++----------------------
+>   3 files changed, 66 insertions(+), 23 deletions(-)
 > 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index b9b18a7eaf..ecd00382a8 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -9559,7 +9559,8 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->           {
->               TaskState *ts = cpu->opaque;
->   #if defined(TARGET_ALPHA)
-> -            abi_ulong mask = arg1;
-> +            /* target_to_host_old_sigset will bswap back */
-> +            abi_ulong mask = tswapal(arg1);
->               target_to_host_old_sigset(&ts->sigsuspend_mask, &mask);
->   #else
->               if (!(p = lock_user(VERIFY_READ, arg1, sizeof(target_sigset_t), 1)))
 
-And what about target_set in TARGET_NR_ssetmask, mask in TARGET_NR_sigprocmask and in 
-TARGET_NR_osf_sigprocmask?
-
-Thanks,
-Laurent
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
