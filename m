@@ -2,50 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69EF4E3712
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 04:02:18 +0100 (CET)
-Received: from localhost ([::1]:32940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7094E373D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 04:07:27 +0100 (CET)
+Received: from localhost ([::1]:35550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWUmn-00024a-S0
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 23:02:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43994)
+	id 1nWUrn-00042I-0a
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 23:07:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
- id 1nWUe0-0003IY-7h; Mon, 21 Mar 2022 22:53:12 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:31742)
+ id 1nWUq0-00037l-Qi; Mon, 21 Mar 2022 23:05:36 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:57808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
- id 1nWUdy-0001ws-7i; Mon, 21 Mar 2022 22:53:11 -0400
+ id 1nWUpy-0005QH-7L; Mon, 21 Mar 2022 23:05:36 -0400
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 22M2fTBj078437;
- Tue, 22 Mar 2022 10:41:29 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 22M2shuT079375;
+ Tue, 22 Mar 2022 10:54:43 +0800 (GMT-8)
  (envelope-from jamin_lin@aspeedtech.com)
-Received: from localhost.localdomain (192.168.70.87) by TWMBX02.aspeed.com
+Received: from aspeedtech.com (192.168.70.87) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 22 Mar
- 2022 10:51:57 +0800
+ 2022 11:05:11 +0800
+Date: Tue, 22 Mar 2022 11:04:57 +0800
 From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Peter Maydell
- <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, Alistair Francis <alistair@alistair23.me>, Cleber Rosa
- <crosa@redhat.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "Beraldo Leal" <bleal@redhat.com>, "open list:ASPEED BMCs"
- <qemu-arm@nongnu.org>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-Subject: [PATCH v1 1/9] aspeed/adc: Add AST1030 support
-Date: Tue, 22 Mar 2022 10:51:46 +0800
-Message-ID: <20220322025154.3989-2-jamin_lin@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220322025154.3989-1-jamin_lin@aspeedtech.com>
-References: <20220322025154.3989-1-jamin_lin@aspeedtech.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v1 1/1] test/avocado/machine_aspeed.py: Add ast1030 test
+ case
+Message-ID: <20220322030455.GA4273@aspeedtech.com>
+References: <20220321091646.17234-1-jamin_lin@aspeedtech.com>
+ <20220321091646.17234-2-jamin_lin@aspeedtech.com>
+ <1f14533c-1163-f3c0-72ee-b79eba79480c@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <1f14533c-1163-f3c0-72ee-b79eba79480c@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Originating-IP: [192.168.70.87]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 22M2fTBj078437
+X-MAIL: twspam01.aspeedtech.com 22M2shuT079375
 Received-SPF: pass client-ip=211.20.114.71;
  envelope-from=jamin_lin@aspeedtech.com; helo=twspam01.aspeedtech.com
 X-Spam_score_int: -18
@@ -65,77 +62,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jamin_lin@aspeedtech.com, troy_lee@aspeedtech.com,
- steven_lee@aspeedtech.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ Troy Lee <troy_lee@aspeedtech.com>, Steven Lee <steven_lee@aspeedtech.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Steven Lee <steven_lee@aspeedtech.com>
-
-Per ast1030_v7.pdf, AST1030 ADC engine is identical to AST2600's ADC.
-
-Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
-Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
----
- hw/adc/aspeed_adc.c         | 16 ++++++++++++++++
- include/hw/adc/aspeed_adc.h |  1 +
- 2 files changed, 17 insertions(+)
-
-diff --git a/hw/adc/aspeed_adc.c b/hw/adc/aspeed_adc.c
-index c5fcae29f6..0d29663129 100644
---- a/hw/adc/aspeed_adc.c
-+++ b/hw/adc/aspeed_adc.c
-@@ -389,6 +389,15 @@ static void aspeed_2600_adc_class_init(ObjectClass *klass, void *data)
-     aac->nr_engines = 2;
- }
- 
-+static void aspeed_1030_adc_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    AspeedADCClass *aac = ASPEED_ADC_CLASS(klass);
-+
-+    dc->desc = "ASPEED 1030 ADC Controller";
-+    aac->nr_engines = 2;
-+}
-+
- static const TypeInfo aspeed_adc_info = {
-     .name = TYPE_ASPEED_ADC,
-     .parent = TYPE_SYS_BUS_DEVICE,
-@@ -415,6 +424,12 @@ static const TypeInfo aspeed_2600_adc_info = {
-     .class_init = aspeed_2600_adc_class_init,
- };
- 
-+static const TypeInfo aspeed_1030_adc_info = {
-+    .name = TYPE_ASPEED_1030_ADC,
-+    .parent = TYPE_ASPEED_ADC,
-+    .class_init = aspeed_1030_adc_class_init, /* No change since AST2600 */
-+};
-+
- static void aspeed_adc_register_types(void)
- {
-     type_register_static(&aspeed_adc_engine_info);
-@@ -422,6 +437,7 @@ static void aspeed_adc_register_types(void)
-     type_register_static(&aspeed_2400_adc_info);
-     type_register_static(&aspeed_2500_adc_info);
-     type_register_static(&aspeed_2600_adc_info);
-+    type_register_static(&aspeed_1030_adc_info);
- }
- 
- type_init(aspeed_adc_register_types);
-diff --git a/include/hw/adc/aspeed_adc.h b/include/hw/adc/aspeed_adc.h
-index 2f166e8be1..ff1d06ea91 100644
---- a/include/hw/adc/aspeed_adc.h
-+++ b/include/hw/adc/aspeed_adc.h
-@@ -17,6 +17,7 @@
- #define TYPE_ASPEED_2400_ADC TYPE_ASPEED_ADC "-ast2400"
- #define TYPE_ASPEED_2500_ADC TYPE_ASPEED_ADC "-ast2500"
- #define TYPE_ASPEED_2600_ADC TYPE_ASPEED_ADC "-ast2600"
-+#define TYPE_ASPEED_1030_ADC TYPE_ASPEED_ADC "-ast1030"
- OBJECT_DECLARE_TYPE(AspeedADCState, AspeedADCClass, ASPEED_ADC)
- 
- #define TYPE_ASPEED_ADC_ENGINE "aspeed.adc.engine"
--- 
-2.17.1
-
+The 03/21/2022 17:39, Thomas Huth wrote:
+> On 21/03/2022 10.16, Jamin Lin wrote:
+> > Add test case to test "ast1030-evb" machine with zephyr os
+> > 
+> > Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+> > ---
+> >   tests/avocado/machine_aspeed.py | 36 +++++++++++++++++++++++++++++++++
+> >   1 file changed, 36 insertions(+)
+> >   create mode 100644 tests/avocado/machine_aspeed.py
+> > 
+> > diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
+> > new file mode 100644
+> > index 0000000000..33090af199
+> > --- /dev/null
+> > +++ b/tests/avocado/machine_aspeed.py
+> > @@ -0,0 +1,36 @@
+> > +# Functional test that boots the ASPEED SoCs with firmware
+> > +#
+> > +# Copyright (C) 2022 ASPEED Technology Inc
+> > +#
+> > +# This work is licensed under the terms of the GNU GPL, version 2 or
+> > +# later.  See the COPYING file in the top-level directory.
+> > +
+> > +from avocado_qemu import QemuSystemTest
+> > +from avocado_qemu import wait_for_console_pattern
+> > +from avocado_qemu import exec_command_and_wait_for_pattern
+> > +from avocado.utils import archive
+> > +
+> > +
+> > +class AST1030Machine(QemuSystemTest):
+> > +    """Boots the zephyr os and checks that the console is operational"""
+> > +
+> > +    timeout = 10
+> > +
+> > +    def test_ast1030_zephyros(self):
+> > +        """
+> > +        :avocado: tags=arch:arm
+> > +        :avocado: tags=machine:ast1030-evb
+> > +        """
+> > +        tar_url = ('https://github.com/AspeedTech-BMC'
+> > +                   '/zephyr/releases/download/v00.01.04/ast1030-evb-demo.zip')
+> > +        tar_hash = '4c6a8ce3a8ba76ef1a65dae419ae3409343c4b20'
+> > +        tar_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+> > +        archive.extract(tar_path, self.workdir)
+> > +        kernel_file = self.workdir + "/ast1030-evb-demo/zephyr.elf"
+> > +        self.vm.set_console()
+> > +        self.vm.add_args('-kernel', kernel_file,
+> > +                         '-nographic')
+> > +        self.vm.launch()
+> > +        wait_for_console_pattern(self, "Booting Zephyr OS")
+> > +        exec_command_and_wait_for_pattern(self, "help",
+> > +                                          "Available commands")
+> Looks like this belongs to a new machine type that we do not have in QEMU 
+> yet? ... in that case, please send it along in a threaded patch series where 
+> you add the new machine type, otherwise it does not make much sense to see 
+> this as a single patch on the list.
+> 
+>   Thomas
+>
+I created a new series patch to support AST1030 model which included
+this patch for avocado test.
+http://patchwork.ozlabs.org/project/qemu-devel/list/?series=291430
+Thanks-Jamin
 
