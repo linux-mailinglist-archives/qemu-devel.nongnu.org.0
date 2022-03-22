@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA854E3F22
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 14:06:19 +0100 (CET)
-Received: from localhost ([::1]:57956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6E94E3F25
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 14:08:02 +0100 (CET)
+Received: from localhost ([::1]:34074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWeDK-0006U3-8L
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 09:06:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40622)
+	id 1nWeEy-00015U-0F
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 09:08:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nWdcT-0006sr-9q
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:28:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48279)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nWdcS-0002pW-00
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:28:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647952091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xOHQEZDE34NV0V8hMARq1AdSy4psmXwARLwqQvrE7rk=;
- b=eeWaN2FrW7OEJeYhJKmJhDKpsRF6WSIjXz67eoCNTIt0DSMD0GXsfl+htj9IkQ5qjV7MX6
- 8vawFKy5mKX0+suK4RozfIk5vwJ67nlx/CHpz13nWK/G2pBHJroG/krzah0fv3wlEXjivO
- 6OIL2N0BYhZEMB/Qqe3p91NZazEdSWA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-385-9SURh3NyPoqQT1y72YeWgA-1; Tue, 22 Mar 2022 08:28:10 -0400
-X-MC-Unique: 9SURh3NyPoqQT1y72YeWgA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1123C80231F;
- Tue, 22 Mar 2022 12:28:10 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E1EC141DC5F;
- Tue, 22 Mar 2022 12:28:09 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PULL 21/21] qapi: remove needless include
-Date: Tue, 22 Mar 2022 16:26:01 +0400
-Message-Id: <20220322122601.927238-22-marcandre.lureau@redhat.com>
-In-Reply-To: <20220322122601.927238-1-marcandre.lureau@redhat.com>
-References: <20220322122601.927238-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
+ id 1nWdgk-0002lc-PZ
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:32:38 -0400
+Received: from [2001:4860:4864:20::31] (port=32931
+ helo=mail-oa1-x31.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
+ id 1nWdgj-0003eS-5c
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:32:38 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-de3eda6b5dso1520914fac.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 05:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XnJkIyO8ObZphild5QCjLK29dsSDwK+k/eupFa8K1e0=;
+ b=gyvjjYZIpMhL3rsdtjtRsfN+QyH5WLv8hZvLPaLqDe4UNrnEi8fmfkcfXjh24rbfUm
+ nJSOU+BzEytM/idCZGXVWeVAPzo68aTbG751zXNJCYoRRPMNCLpS0FwOcy5Tbt7nIYpX
+ T5Kw+RNPFBAkRmiG68bu/N+4bCz4KwvgQrpHlZAgMgEVdUEvOBMlyByiThJZ/RTUNYKx
+ owbVO1VI1/nG5Ka4e7tnOwKtGOvVaTuLUmiy7206bPwR7EQqlOKPXsFOKuwa3bpAP3j0
+ 85y6VnhffK62MQgGXRXYj4Uay57ccFqwE1Ij8IZBukbhi+SIv/W9XcRn5ENqHD4F/OH7
+ Y6gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XnJkIyO8ObZphild5QCjLK29dsSDwK+k/eupFa8K1e0=;
+ b=K7zP1IhwB2gOhrQQm7Lvy9J6kTAz6zOHfqdi7mnlYd2TbY/bb4qU1MA1XpgzkKNDSh
+ 6Nq+7RM+QqFjs+noiJVaEVLTM67Pk9AVDECl2pEIdF2DPlbqPQerRt231QWvidrwe/v6
+ C6Az7yO69lgc2As5eaH6bsZUCTwoLjEDNVJSYPsRagPYZcDAvczU30TyWcRLyuM6aZ9q
+ VOnxBTfzj5rUXwl0TRJbhSKfBZWQ3EUWlsFuztcROzcpaEtD0h9VklJGNnJDHqEHs1Nf
+ 1iQCMNtss0F0PiAHHnugAwxgnRcTKtnaeGwtQdA0LXDNd4YapJaoggTq0fk8QAw2lRWv
+ bmCA==
+X-Gm-Message-State: AOAM5334U4V1qO6BQFN/KWjL6J+tAWiYORaOofigyGkAQYS/elc5ypMw
+ 6OweMt+iH3tZCPLKlt5qOagC4A9WZCJs7U4UjIxhY3olYjUQ6w==
+X-Google-Smtp-Source: ABdhPJwgQhjM8Jl2szymkzHbKso9gzUn7x+cS0TBBuAqgWg6DAUx70uXeZ5RfGak5oK0a8Rd74xwfpUlNHKntrJcIz0=
+X-Received: by 2002:a05:6870:e316:b0:dd:cfdf:5d51 with SMTP id
+ z22-20020a056870e31600b000ddcfdf5d51mr1463291oad.202.1647952033614; Tue, 22
+ Mar 2022 05:27:13 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220321131143.31210-1-yuval.shaia.ml@gmail.com>
+In-Reply-To: <20220321131143.31210-1-yuval.shaia.ml@gmail.com>
+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Date: Tue, 22 Mar 2022 13:27:02 +0100
+Message-ID: <CAC_L=vXa2O_YVACvwPPkNyy7agQ5aJnBHV70MSN3XZfD+zremw@mail.gmail.com>
+Subject: Re: [PATCH] hw/pvrdma: Protect against buggy or malicious guest driver
+To: Yuval Shaia <yuval.shaia.ml@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::31
+ (failed)
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=marcel.apfelbaum@gmail.com; helo=mail-oa1-x31.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,32 +81,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: wxhusst@gmail.com, Mauro Matteo Cascella <mcascell@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Hi Yuval
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/qapi-forward-visitor.c | 1 -
- 1 file changed, 1 deletion(-)
+On Mon, Mar 21, 2022 at 2:11 PM Yuval Shaia <yuval.shaia.ml@gmail.com> wrote:
+>
+> Guest driver might execute HW commands when shared buffers are not yet
+> allocated.
+> This might happen on purpose (malicious guest) or because some other
+> guest/host address mapping.
+> We need to protect againts such case.
+>
+> Reported-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
+> ---
+>  hw/rdma/vmw/pvrdma_cmd.c  | 6 ++++++
+>  hw/rdma/vmw/pvrdma_main.c | 9 +++++----
+>  2 files changed, 11 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
+> index da7ddfa548..89db963c46 100644
+> --- a/hw/rdma/vmw/pvrdma_cmd.c
+> +++ b/hw/rdma/vmw/pvrdma_cmd.c
+> @@ -796,6 +796,12 @@ int pvrdma_exec_cmd(PVRDMADev *dev)
+>
+>      dsr_info = &dev->dsr_info;
+>
+> +    if (!dsr_info->dsr) {
+> +            /* Buggy or malicious guest driver */
+> +            rdma_error_report("Exec command without dsr, req or rsp buffers");
+> +            goto out;
+> +    }
+> +
+>      if (dsr_info->req->hdr.cmd >= sizeof(cmd_handlers) /
+>                        sizeof(struct cmd_handler)) {
+>          rdma_error_report("Unsupported command");
+> diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+> index 91206dbb8e..aae382af59 100644
+> --- a/hw/rdma/vmw/pvrdma_main.c
+> +++ b/hw/rdma/vmw/pvrdma_main.c
+> @@ -159,13 +159,13 @@ static void free_dsr(PVRDMADev *dev)
+>      free_dev_ring(pci_dev, &dev->dsr_info.cq, dev->dsr_info.cq_ring_state);
+>
+>      rdma_pci_dma_unmap(pci_dev, dev->dsr_info.req,
+> -                         sizeof(union pvrdma_cmd_req));
+> +                       sizeof(union pvrdma_cmd_req));
+>
+>      rdma_pci_dma_unmap(pci_dev, dev->dsr_info.rsp,
+> -                         sizeof(union pvrdma_cmd_resp));
+> +                       sizeof(union pvrdma_cmd_resp));
+>
+>      rdma_pci_dma_unmap(pci_dev, dev->dsr_info.dsr,
+> -                         sizeof(struct pvrdma_device_shared_region));
+> +                       sizeof(struct pvrdma_device_shared_region));
+>
 
-diff --git a/qapi/qapi-forward-visitor.c b/qapi/qapi-forward-visitor.c
-index 4ea7e0bec3f5..e36d9bc9ba7e 100644
---- a/qapi/qapi-forward-visitor.c
-+++ b/qapi/qapi-forward-visitor.c
-@@ -23,7 +23,6 @@
- #include "qapi/qmp/qnum.h"
- #include "qapi/qmp/qstring.h"
- #include "qemu/cutils.h"
--#include "qemu/option.h"
- 
- struct ForwardFieldVisitor {
-     Visitor visitor;
--- 
-2.35.1.273.ge6ebfd0e8cbb
+Nit: the above changes are not related to the patch, maybe drop them?
 
+Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+
+Thanks,
+Marcel
+
+>      dev->dsr_info.dsr = NULL;
+>  }
+> @@ -249,7 +249,8 @@ static void init_dsr_dev_caps(PVRDMADev *dev)
+>  {
+>      struct pvrdma_device_shared_region *dsr;
+>
+> -    if (dev->dsr_info.dsr == NULL) {
+> +    if (!dev->dsr_info.dsr) {
+> +        /* Buggy or malicious guest driver */
+>          rdma_error_report("Can't initialized DSR");
+>          return;
+>      }
+> --
+> 2.20.1
+>
 
