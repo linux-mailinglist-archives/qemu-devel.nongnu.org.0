@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC25A4E3D95
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 12:29:21 +0100 (CET)
-Received: from localhost ([::1]:40440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEC94E3D96
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 12:30:06 +0100 (CET)
+Received: from localhost ([::1]:41612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWchU-0005Vf-Pf
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 07:29:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51784)
+	id 1nWciD-0006HW-Ng
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 07:30:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWcfj-0003HO-Iz
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:27:31 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:52163)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWcgW-0004mL-4V
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:28:20 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:58301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWcfh-00028T-VA
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:27:31 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWcgU-0002FJ-FS
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:28:19 -0400
 Received: from [192.168.100.1] ([82.142.12.150]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MMXcP-1npfWT49cF-00JcOZ; Tue, 22 Mar 2022 12:27:27 +0100
-Message-ID: <aab473a3-2744-fbe5-c811-91e033d5a64b@vivier.eu>
-Date: Tue, 22 Mar 2022 12:27:26 +0100
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M3lLh-1nWtfP1BBr-000pwq; Tue, 22 Mar 2022 12:28:16 +0100
+Message-ID: <b29d3558-7a4c-6fe6-1e7f-d9cca4a7b05d@vivier.eu>
+Date: Tue, 22 Mar 2022 12:28:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 4/5] linux-user: Properly handle sigset arg to epoll_pwait
+Subject: Re: [PATCH 5/5] linux-user: Properly handle sigset arg to ppoll
 Content-Language: fr
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220315084308.433109-1-richard.henderson@linaro.org>
- <20220315084308.433109-5-richard.henderson@linaro.org>
+ <20220315084308.433109-6-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220315084308.433109-5-richard.henderson@linaro.org>
+In-Reply-To: <20220315084308.433109-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2lLAP3ff3BjoKIJ1GGUoM5ybzoz9BM6x62e9yaoC6Fr59njWyYu
- W1jPwSXaXpB3betNBPQWFDyZXhkXKIWw5KcLJEHl0aam3DXd0EiakuebBOlNns+0AOTh9LA
- to7n0U21MUCwgJtHgBsaVl8LhgfZ/+F5L3uCvVn3XRvyp3smkYXsyfvX+6DxHUPA3ZXvkt0
- SSWC5QRk6ZS+nfHakEhKg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:43QST38oWcE=:45Dmow+N6dhfoPj21VwzSS
- FVUlFfv3GyFHmcX56oL1WuX9xPpBvK539upNhLJUbWgrcQlTa7zyGWzJ9SJYFHHtM78TTl1zj
- 3/T1vrAGrkqtBfdhH+3a8tPl3Lxpxj8SSBdU9b2dv+TVkPh6FihiiWfxnehFkf3u9fCOE57tE
- vEhvonFyrfX2zdxCq9eo+It/Cz1tlh8NBPeKTuuhep6fABYj3zai9ONuTA8Auc5wwdEiYMSmd
- qM3aBT9IZLplm6PPcjZdKNztWnmRhjJU97Dr7mNPkEnwOHH4UX5F1HeXdvdZX3EZxRiuZpe6z
- YtJJIMNIj1ni9PsJdv6kxSP24Ex2YAVg/TDxQ1SuPukbM0ksrFxZk3CII6H1w5gd1N27z2/iJ
- YEHysvVEtejDMXjns+0j9Skdn1YBQwyXx0Gdbzt62tExH9P8upZEJ45Q+hq3DeYjHi7+ArfEN
- WDAIa5V60VefO8S5oVJzzTIUrIk0KsY=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:mtb3nN3fzi0jMvaHIf+ZcfIIzERl2SY4KrDWMnNNt1KD+BWEkV6
+ ART6k7W5xhtQmMV+mv+mgWm7i9QIoEdKQTuTsMmE9P3QmGaWNfstWY5W44IDq3tw/f4mRiM
+ g4zYRUvOomRwjYcpXEoO6nT6MUE02soQq04k1v19eL62FF7JjZq2uCM/h7KICyMr/rmIOB6
+ lrsAvTlh2CRiCkZt1T8sQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IA0UbGu/a/o=:hJmTdyCQoTiKfXZveiRm78
+ z9loduWkFvqJYMmZWbQa3TP0snjMOG9a/7CcLV44SHdIkFwIvtKwKyeXZ6XbGMRAU0reECgcs
+ F+TvJW/gjfUd/32HlqVoT6iT1/r4zvvzI/ZV8cTAB8WSJMNBarLmOdSzgmb1n+Cst0VPJR0rU
+ aBSHkKWtW/SedzAbXzTtYubiFzhOREkmH4ZtFzIRI0b0ZWYMQx1RnQlz09Mu4bz4/G/GERS9H
+ EerNe3BIFGSSJUIjfMm3edA4K8csPUtp6YU/SGl2aPN0UGpY4kMTRepcBIDqo/O+IR6YOM/4o
+ WJx6EVhoJIZ//n+WJ4xqj9rdNYKZOtfNb9BAn87IIgSh+KrW/wS1xc7Try2ZtlCfqgXOfZZrt
+ X3niGBOIy2fH6kLoiN+DBp8hL2pZ+Hu6Bkxo90uwLwR17sgZb0bemEBfZAWY49jZ0FicINhj8
+ VRqyDGMnFOtMwXY+0UCUDTx3k9lYU4Q=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,8 +76,8 @@ Le 15/03/2022 à 09:43, Richard Henderson a écrit :
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   linux-user/syscall.c | 22 +++++++---------------
->   1 file changed, 7 insertions(+), 15 deletions(-)
+>   linux-user/syscall.c | 24 +++++++-----------------
+>   1 file changed, 7 insertions(+), 17 deletions(-)
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
