@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EF54E4634
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 19:42:57 +0100 (CET)
-Received: from localhost ([::1]:44898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFE94E4633
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 19:42:52 +0100 (CET)
+Received: from localhost ([::1]:44382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWjT7-0005Ry-2O
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 14:42:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56834)
+	id 1nWjT1-00054y-IQ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 14:42:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nWjPX-0002Ok-6W; Tue, 22 Mar 2022 14:39:15 -0400
-Received: from [2607:f8b0:4864:20::c29] (port=44687
- helo=mail-oo1-xc29.google.com)
+ id 1nWjPY-0002Sh-Ct; Tue, 22 Mar 2022 14:39:20 -0400
+Received: from [2607:f8b0:4864:20::32c] (port=39817
+ helo=mail-ot1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nWjPV-0006a3-OL; Tue, 22 Mar 2022 14:39:14 -0400
-Received: by mail-oo1-xc29.google.com with SMTP id
- j7-20020a4ad6c7000000b0031c690e4123so21291762oot.11; 
- Tue, 22 Mar 2022 11:39:12 -0700 (PDT)
+ id 1nWjPW-0006aV-25; Tue, 22 Mar 2022 14:39:16 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id
+ a17-20020a9d3e11000000b005cb483c500dso8701719otd.6; 
+ Tue, 22 Mar 2022 11:39:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h3tTFfrRS7qhxgSna2mS+NqVXyrjXDbAiB5G5+CJqBY=;
- b=oDLcyYM95N7LxLM7/6//0Nt4ZJd+sEogNRuO2LV7kTb/pZ+LA+OyDg+bYkIW66Rsdg
- QIBGGoUOm8wIrFzTnYDoC58uJDYS/wPILF3KD+2B9AaMy2URQ0kJ2d4Uka5iTapyDezM
- ptcjrj5DqBJ1xQ+O2cwY/mqbT0VIW3oBIRynryFLhF7L0vAwzMtgN/vkn+Wd6JTK+q03
- 5QwxLZixCFeEZYmT7ROGk8AWQj4CD84yJ/V4nvs1S4c15HFgCPTXlwlmuObTGfKtT159
- hgfQbOOuRRqAnmD+Lra1u6Q7IKpuTutuKxzdxDCOa2mrXG5rMKIK0kdF5eZsC9fDBaL4
- 5Gjg==
+ bh=/ZB+NAl/2RAHlVzCkyaNJO8uJxeA8ba7I+7zknXaYBA=;
+ b=nJ4HdsEPPF82NbUDTmr/jH2o/k+3jSninw0hFeFyg4ohopES3k7mLH4ahQ81wO/slo
+ F1C1iNap3qwUKGCYfB9Cxz3f95cmWBCopRTtcjARkPSEawN+i4tokJh1CmtmQCteTuCT
+ i/wBubsYNz8L1ZtZ9PQSC9Skilyt+5twlKmNOoLDxvTyfdYVzEc2wJ7fjRDjwi1Aly/v
+ m9+oqV4yMMIx/f/KJ7EHDuShkoAbuP72IYgMI1bLFn/wBPwoYa6JQBz4DngB/+KKTcgI
+ cferyXqcuwsmCqZmDiAY8go1r27SZfH3ce3lTRkSB924ndxalm1w6sdw/DybMyIMpu9w
+ tqjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h3tTFfrRS7qhxgSna2mS+NqVXyrjXDbAiB5G5+CJqBY=;
- b=Pkk7H4WJlH5/Fm9spycQXoOYUJp4HDxpNSiKnWKiQxLwBpyL+uDSo3rd5gaH3t9afb
- t2aTtOv5BxsNQ5x2wqbp+R43wnn1acAuPmiTzWs2wIra3OqiPjz0JDFUnwgqhWdyVP8w
- 9k4X8XSuLW3y5jCsr6QIjGTcHS9NjRJ76Sa/a/volZD+AdXd/D4EEXsrzmg751Xm3YK7
- eXtRDBeh5KI9e+Uv6hoqozu6m5vI7VZXDIUkJTabgvnUEsDZjawOax0GsI02bmS+eDUp
- C25qUhRktJgy9XUeeI+pz/IXMrh/mNMN4MSjNj2wwGQQPo17Ivl1C9so5EUmFpdgrwnn
- ebnA==
-X-Gm-Message-State: AOAM530zUsM4KoMzON9tGVlFMKFe5CN5DqIA95dh607IjygxUJ2E8Y9d
- rdB2xFvVtKyWFM+x9Pkg1xvYmNmdCHk=
-X-Google-Smtp-Source: ABdhPJyabLayGdOXK9CR005HLZrlHhzjDNDoLNt/1kPq6iJ8bqVhW9DOWZXMHOYNyqTKW/ikLQxRKA==
-X-Received: by 2002:a4a:c68d:0:b0:321:6a20:e9c9 with SMTP id
- m13-20020a4ac68d000000b003216a20e9c9mr8879610ooq.63.1647974350559; 
- Tue, 22 Mar 2022 11:39:10 -0700 (PDT)
+ bh=/ZB+NAl/2RAHlVzCkyaNJO8uJxeA8ba7I+7zknXaYBA=;
+ b=EQAbZacNMvdS+nLY+Es46Pb2hQLBmAzS9jIoJxqcpBrzXrCzgfjtEs7UIeoSkZ8kkV
+ ZsOwmeDWrI72pRWdwx8vKalrbMbFB2w/qHB039KxgeVBYEvpMjyYCu/6UR4ewfEaTH6/
+ w+R/K0s7fqEqJCflmYbloGeNo5lOBt9T+kI2LsY4JgfZSUfSgn2H9Ud6Dfokt9aeXHPR
+ xCfqCKAurKftZz0eWem2LIID1IT6W9JEyuDX/ip8CnFhzhTKHMyk3SfLxKDC6IaPDB6M
+ 7TXgcUwoAC4lEu+3quBy2cxipjNf1KDf7yI7MkgwWII+GLAeU6u7ux9Tpu0Uv+iYcQx9
+ dnFA==
+X-Gm-Message-State: AOAM533TqxgRnpMH6OsxkyDi2+pKHEEaHu+kL7nz7eDHdc7L8SHNzpsp
+ QATkz/7Bj4s3zm3FtkHDQSJtv4Ta80I=
+X-Google-Smtp-Source: ABdhPJwy4FIL/f5d39UuE7FA6uS5JgBnXIcIGObKG4qj9jY63q0fJp6PXH097Rx3kFprbcixHj0MVA==
+X-Received: by 2002:a05:6830:4121:b0:5c9:4d2b:7364 with SMTP id
+ w33-20020a056830412100b005c94d2b7364mr11073718ott.366.1647974352681; 
+ Tue, 22 Mar 2022 11:39:12 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96])
  by smtp.gmail.com with ESMTPSA id
- 96-20020a9d0469000000b005c959dd643csm9109627otc.3.2022.03.22.11.39.08
+ 96-20020a9d0469000000b005c959dd643csm9109627otc.3.2022.03.22.11.39.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 11:39:10 -0700 (PDT)
+ Tue, 22 Mar 2022 11:39:12 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 3/4] hw/ppc: use qdev to register spapr_iommu tcet
- vmstate
-Date: Tue, 22 Mar 2022 15:38:53 -0300
-Message-Id: <20220322183854.196063-4-danielhb413@gmail.com>
+Subject: [PATCH for-7.1 4/4] hw/ppc: use qdev to register spapr_nvdimm vmsd
+Date: Tue, 22 Mar 2022 15:38:54 -0300
+Message-Id: <20220322183854.196063-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220322183854.196063-1-danielhb413@gmail.com>
 References: <20220322183854.196063-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c29
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c29;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32c.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -89,51 +88,56 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+ clg@kaod.org, Shivaprasad G Bhat <sbhat@linux.ibm.com>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the dc->vmsd interface to register the vmstate of the tcet. The
-instance_id is being set to tcet->liobn by calling
-qdev_set_legacy_instance_id() during spapr_tce_table_realize().
+Make the code a little more maintainable by using dc->vmsd to register
+the vmstate instead of using vmstate_(un)register calls.
 
+'instance_id' was being set to VMSTATE_INSTANCE_ID_ANY so there is no need
+for qdev_set_legacy_instance_id() calls.
+
+spapr_nvdimm_unrealize() was removed since it was only being used to
+call vmstate_unregister().
+
+Cc: Shivaprasad G Bhat <sbhat@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_iommu.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/ppc/spapr_nvdimm.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/hw/ppc/spapr_iommu.c b/hw/ppc/spapr_iommu.c
-index 81e5a1aea3..ac3389f0b7 100644
---- a/hw/ppc/spapr_iommu.c
-+++ b/hw/ppc/spapr_iommu.c
-@@ -321,8 +321,8 @@ static void spapr_tce_table_realize(DeviceState *dev, Error **errp)
- 
-     QLIST_INSERT_HEAD(&spapr_tce_tables, tcet, list);
- 
--    vmstate_register(VMSTATE_IF(tcet), tcet->liobn, &vmstate_spapr_tce_table,
--                     tcet);
-+    qdev_set_legacy_instance_id(dev, tcet->liobn,
-+                                vmstate_spapr_tce_table.minimum_version_id);
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index c4c97da5de..973e9d0fbe 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -866,14 +866,6 @@ static void spapr_nvdimm_realize(NVDIMMDevice *dimm, Error **errp)
+     if (!is_pmem || pmem_override) {
+         s_nvdimm->hcall_flush_required = true;
+     }
+-
+-    vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY,
+-                     &vmstate_spapr_nvdimm_states, dimm);
+-}
+-
+-static void spapr_nvdimm_unrealize(NVDIMMDevice *dimm)
+-{
+-    vmstate_unregister(NULL, &vmstate_spapr_nvdimm_states, dimm);
  }
  
- void spapr_tce_set_need_vfio(SpaprTceTable *tcet, bool need_vfio)
-@@ -424,8 +424,6 @@ static void spapr_tce_table_unrealize(DeviceState *dev)
- {
-     SpaprTceTable *tcet = SPAPR_TCE_TABLE(dev);
+ static Property spapr_nvdimm_properties[] = {
+@@ -888,8 +880,9 @@ static void spapr_nvdimm_class_init(ObjectClass *oc, void *data)
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     NVDIMMClass *nvc = NVDIMM_CLASS(oc);
  
--    vmstate_unregister(VMSTATE_IF(tcet), &vmstate_spapr_tce_table, tcet);
--
-     QLIST_REMOVE(tcet, list);
++    dc->vmsd = &vmstate_spapr_nvdimm_states;
++
+     nvc->realize = spapr_nvdimm_realize;
+-    nvc->unrealize = spapr_nvdimm_unrealize;
  
-     spapr_tce_table_disable(tcet);
-@@ -673,6 +671,7 @@ static void spapr_tce_table_class_init(ObjectClass *klass, void *data)
-     dc->realize = spapr_tce_table_realize;
-     dc->reset = spapr_tce_reset;
-     dc->unrealize = spapr_tce_table_unrealize;
-+    dc->vmsd = &vmstate_spapr_tce_table;
-     /* Reason: This is just an internal device for handling the hypercalls */
-     dc->user_creatable = false;
- 
+     device_class_set_props(dc, spapr_nvdimm_properties);
+ }
 -- 
 2.35.1
 
