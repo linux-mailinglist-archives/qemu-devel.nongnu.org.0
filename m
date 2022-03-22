@@ -2,98 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8F74E44D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 18:14:30 +0100 (CET)
-Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 359D64E44DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 18:18:06 +0100 (CET)
+Received: from localhost ([::1]:54342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWi5V-0006YL-0y
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 13:14:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34984)
+	id 1nWi8z-0001aU-0P
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 13:18:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWi3u-0004xG-NA
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 13:12:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55270)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWi7v-0000oR-7U
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 13:16:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWi3s-00050K-Dj
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 13:12:49 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWi7q-0008Dv-Rm
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 13:16:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647969166;
+ s=mimecast20190719; t=1647969413;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=suzVEHh852gcSLEAfwPXNVYJjB8hmQJagK6I7da3wFQ=;
- b=MxVMYn6hbPCBzYBZadLrRdbf1DBAGFLNvfr7/TwuYwGO5Jdwrj0+OivkyfKGov0cqR2SgK
- 7nzFmvRyw2w2LS431gYdYNdcabkdJMaXFbgTWXYgFyy6aN6MqtZ2yfBjVjBaROjnRsXgzd
- KTBJiAD2pMQsk7SAErYx0JKSWUF1MK4=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uwB4SSqf/SktOs0ivHuA26TeYqMvjr8vdYHkZO+OXw8=;
+ b=CwuDbUoSbKSi5Kk6eYKiOj2B0DzFbH5/TAnQCq71w3guvN+d5Zs4TzSC88tGf8hVrEqfbb
+ 3mvWXfM9OsqP2e9NJ3u5wXrJIPipxDhNMKU59j504mvUDMH9KDM7S/78df/Q1iJILSqY1y
+ mB+z3xPfceL5FvwBpUCjhCrxxPNRB+Y=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-272-0IifRPtNPMKidWT3dEsgxA-1; Tue, 22 Mar 2022 13:12:45 -0400
-X-MC-Unique: 0IifRPtNPMKidWT3dEsgxA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- 13-20020a170906328d00b006982d0888a4so8977190ejw.9
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 10:12:45 -0700 (PDT)
+ us-mta-673-hdIV_MKiOteXBj21s3NJcQ-1; Tue, 22 Mar 2022 13:16:52 -0400
+X-MC-Unique: hdIV_MKiOteXBj21s3NJcQ-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ e79-20020a1f1e52000000b0033ecfa8aa1fso1797997vke.11
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 10:16:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=suzVEHh852gcSLEAfwPXNVYJjB8hmQJagK6I7da3wFQ=;
- b=ALYccvOnBSQFH43JXZAWADRGpM0J/THJtQXvT6yucz3QUsK1p8RCXx1D9gyJblHvK5
- L63EgwYQQc/Y+NemvOrPcwQPnFRbK8BivEUQSbq+avav27f+L0vtUeHvpPm15227VLWb
- VeEoyMQgNdR39qmcR0ie9Qgjdq6t6jtX8uzDh26O/I48Lk9e0+DijlglnuMgrItw4Syw
- SpnZ+zNbVa7K3nDQSzof62fkSo8fHw6ynJ/IF90Fh2rF3bStnZpHdPmgUWhzCDzpSIjV
- xEx5+tXC+mtTIinZZmGhYQC0fF3xEfAC22acGt97u9poyI+RZmklsjKBi6yDsMFbO1Ng
- KGog==
-X-Gm-Message-State: AOAM532Er8Cxh5SrGEgYeWjtWIf8XiGkeePXxh5K51r2wW9dGF3dMqhF
- TnzZCqj2nYRGg2JnjIHZexOJ3TlJgnivaZ2/xCkcbtB74dwYVzB8PumiCuyq3EgXL+OuCBamvHO
- JWvTsZQ8zvfPgi/8=
-X-Received: by 2002:a05:6402:90c:b0:415:d340:4ae2 with SMTP id
- g12-20020a056402090c00b00415d3404ae2mr29803551edz.331.1647969164144; 
- Tue, 22 Mar 2022 10:12:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxRo49UlcUTt5+P6RB+D/lgVOnkOr0qq3aAIMjpFgbZxW+hBBYZPExk/xIxeLwBBfMRD4cf8A==
-X-Received: by 2002:a05:6402:90c:b0:415:d340:4ae2 with SMTP id
- g12-20020a056402090c00b00415d3404ae2mr29803522edz.331.1647969163880; 
- Tue, 22 Mar 2022 10:12:43 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- j11-20020a056402238b00b00419181bb171sm5794151eda.38.2022.03.22.10.12.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 10:12:43 -0700 (PDT)
-Message-ID: <ec0c04b1-9964-991c-a49b-29ce9119c410@redhat.com>
-Date: Tue, 22 Mar 2022 18:12:42 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uwB4SSqf/SktOs0ivHuA26TeYqMvjr8vdYHkZO+OXw8=;
+ b=ebXws4K553pia3htawNa/L4k2P86dzuAgA2RpCC9+4OZ30eOUidGxcE26JER8tnX9C
+ GOQvRZsldfqDjXQl1wIJntzi+i5LCJTDaPrLFYm/ZKarbr5opB9/xuNVKIWpFgaazer3
+ kph8bNHEdFUOOMy2rIXAvovpzFsHK+/nsvqYIFKjKnc9iXKYq20zK21yNouk+9LKB5CX
+ mGcu/obRYMxRnfLQX8GbGMEoac3NioHxd/FNsVAI8muHABLh6UGoalh9kWQ7Cl0DPYdU
+ B8ss0IuTh06efQcrX21XneXiCyz8znWKXANOVKNQZ4roFxbEVhD9E5dGVkwbf80Lk9FY
+ ML0g==
+X-Gm-Message-State: AOAM533Ssfh7VO87va62P6YnuMJNDjDg93wMD5OcV6CBeigMI0+u2c4W
+ vPRBH/CxS+/zPraW2/iXC3JFKo1CUfZbBlc9AauAe59wnmZIoT1FnzG42ZnGeayJBXISXhEP79B
+ CwuZ4Qfcxooo6VCRgfrKU0UVCjnrN/50=
+X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
+ 187-20020a6717c4000000b00322cfd815a1mr9313245vsx.61.1647969412267; 
+ Tue, 22 Mar 2022 10:16:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgAkxYSLgK/1hEpyOAR0bQGLNnkmxFzk/A6cMqiJc7K9HDG1dNJPEAL+TIgQcZmuYAOWSRY2kNEtU4BqUZUus=
+X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
+ 187-20020a6717c4000000b00322cfd815a1mr9313234vsx.61.1647969412109; Tue, 22
+ Mar 2022 10:16:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 04/15] iotests/040: Don't check image pattern on
- zero-length image
-To: John Snow <jsnow@redhat.com>
 References: <20220318203655.676907-1-jsnow@redhat.com>
- <20220318203655.676907-5-jsnow@redhat.com>
- <df38293e-2b72-7678-e684-398514fce655@redhat.com>
- <CAFn=p-Z-JADwHe9oV9s8eg=9gPHVejYCUw=3=x3PkpxJBTxs+w@mail.gmail.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <CAFn=p-Z-JADwHe9oV9s8eg=9gPHVejYCUw=3=x3PkpxJBTxs+w@mail.gmail.com>
+ <20220318203655.676907-15-jsnow@redhat.com>
+ <6d1bcfb1-312c-f36b-e512-f4091af37084@redhat.com>
+In-Reply-To: <6d1bcfb1-312c-f36b-e512-f4091af37084@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 22 Mar 2022 13:16:41 -0400
+Message-ID: <CAFn=p-baLoYxX2Dxtk85H-X+=uNQw+k7BM_QWH3_V0pTgVtpkQ@mail.gmail.com>
+Subject: Re: [PATCH 14/15] iotests: remove qemu_io_silent() and
+ qemu_io_silent_check().
+To: Hanna Reitz <hreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,46 +98,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.03.22 17:19, John Snow wrote:
+On Tue, Mar 22, 2022 at 1:00 PM Hanna Reitz <hreitz@redhat.com> wrote:
 >
+> On 18.03.22 21:36, John Snow wrote:
+> > Like qemu-img, qemu-io returning 0 should be the norm and not the
+> > exception. Remove all calls to qemu_io_silent that just assert the
+> > return code is zero (That's every last call, as it turns out), and
+> > replace them with a normal qemu_io() call.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >   tests/qemu-iotests/216                        | 12 +++++-----
+> >   tests/qemu-iotests/218                        |  5 ++---
+> >   tests/qemu-iotests/224                        |  4 ++--
+> >   tests/qemu-iotests/258                        | 12 +++++-----
+> >   tests/qemu-iotests/298                        | 16 ++++++--------
+> >   tests/qemu-iotests/310                        | 22 +++++++++----------
+> >   tests/qemu-iotests/iotests.py                 | 16 --------------
+> >   tests/qemu-iotests/tests/image-fleecing       |  4 ++--
+> >   .../tests/mirror-ready-cancel-error           |  2 +-
+> >   .../qemu-iotests/tests/stream-error-on-reset  |  4 ++--
+> >   10 files changed, 39 insertions(+), 58 deletions(-)
 >
-> On Tue, Mar 22, 2022, 10:22 AM Hanna Reitz <hreitz@redhat.com> wrote:
+> qemu_io_silent_check() was unused anyway, right...?
 >
->     On 18.03.22 21:36, John Snow wrote:
->     > qemu-io fails on read/write with zero-length raw images, so skip
->     these
->     > when running the zero-length image tests.
->     >
->     > Signed-off-by: John Snow <jsnow@redhat.com>
->     > ---
->     >   tests/qemu-iotests/040 | 14 ++++++++++++--
->     >   1 file changed, 12 insertions(+), 2 deletions(-)
+> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 >
->     Doesn’t look specific to zero-length images, but the fact that we
->     do I/O
->     beyond the image size, i.e. any image below 1 MB would be affected.
->
->     Anyway, the zero-length image is the only one tested with a size
->     of less
->     than 1 MB, so this works.
->
->     Reviewed-by: Hanna Reitz <hreitz@redhat.com>
->
->
-> (Check the cover letter, too - this patch is still good, but iotest 
-> 040 still fails and I'm not 100% clear as to why.)
 
-Sure, but I didn’t see anything wrong with the patch, so...
-
- From a glance, I believe the problem to be that the commit job changed 
-one image’s backing file string to contain a JSON description of a block 
-graph including a throttle node.  The accompanying throttle group of 
-course doesn’t exist outside of qemu, so qemu-io complains.
-
-We never noticed because we just checked for “pattern verification 
-failed”, which isn’t in the error message, so this was a pass.  I’ll 
-take a closer look.
-
-Hanna
+As far as I can tell.
 
 
