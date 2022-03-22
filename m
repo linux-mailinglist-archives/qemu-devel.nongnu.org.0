@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B62C4E3C4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 11:19:19 +0100 (CET)
-Received: from localhost ([::1]:38500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 687934E3C50
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 11:19:39 +0100 (CET)
+Received: from localhost ([::1]:39084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWbbi-0004Fl-97
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 06:19:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59102)
+	id 1nWbc2-0004h3-H5
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 06:19:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWbZT-0001rH-LR; Tue, 22 Mar 2022 06:16:59 -0400
-Received: from [2a00:1450:4864:20::32c] (port=40507
- helo=mail-wm1-x32c.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nWbaN-0002wJ-Pr
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 06:17:55 -0400
+Received: from [2607:f8b0:4864:20::1129] (port=38485
+ helo=mail-yw1-x1129.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWbZS-0006fl-1m; Tue, 22 Mar 2022 06:16:59 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- v130-20020a1cac88000000b00389d0a5c511so1321780wme.5; 
- Tue, 22 Mar 2022 03:16:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=uY1qwecAKkjbfoa/EKuoDdUSmFzBHTm19+p5FTH2LBU=;
- b=WI5n42NJDps03MwbqSDwBmiq1QheIt6rgk5iS16fVLPs2eMfbS3tTu9zMJtbWUWsvB
- 7ljYxJ8DRoR7A/5DZ22RPz7Wc+Rhh13VTaR1VglVnx+DnKC7SB8m5nWi2fRgXqcNbmVo
- pXR8LOirk5cZSS6LQ2pNzTA+rXZIAbjLZf2lUyRIzJJBtSc6dU3gyvWokeGyGlYq7toB
- dUDeSX1AZFuRbDSLCj7kYhVaG7T3rPipzm8G6tptUd9K9bIOBm+Ey6Bv40vk1fCd05m+
- JgOQuXvck39HgzCeOeqil2QWwdIjkPjGnpMszeVU1+TDCjI/TFoW28933Zz61tbe4LFw
- +tzg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nWbaL-0006js-6D
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 06:17:54 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-2e592e700acso184827537b3.5
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 03:17:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=O2HNh41q8davH3Me0DfSKmo2HiyD6SERaytlfmzNRwY=;
+ b=tgm/DcjWelKUYtZYCnpcCoTdY4TH6sZEe7nGe7YwIXHz6Y9OSDiL335CEcFthTYySm
+ pcOrEwJ385j5gZuagLbd2f1XrPXOcyIpQsdD9QbX581jEufWTeuiV4uEKGUxW/MHcXaP
+ TjClaXntiMV3399/coegSUmYEAcXzOhyWPrVKKC6b9mRUMhzCdnLJ9jj4d24xIwEVJVf
+ bV2Xt0nCt/H86S+cole0no14Buo+DRfc7D4aZVjqpgTDh5bmJLGc0VWciE/Zyi5r38zB
+ 2/rO4xpKbTBi+IxfXLDIPhC3RhT2Y7cVD/j7zkrssE3MiC1nqBS/jG5ktD0ajxTl5wkI
+ AEkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=uY1qwecAKkjbfoa/EKuoDdUSmFzBHTm19+p5FTH2LBU=;
- b=q5h/SX0I2bvUWwfcrTfnvYy7oS/N35EvwzwycQawllTkmygCuLOoz3+1l9GXsFxP+x
- PJpyFMWogb0tbmWGwfSAanO/mHTBEhSjtcFq3GURde20T2DcLbcbrb1Jsv+3mCECjDj7
- eC+50sWnjv0NlAHp9O6+NggClCEMlLaLtwPV+fUNBVS16FF6ysHINiRlLXQs2R4ebCx0
- YZxBi8QvNuODkx65oMPamT8eUyIvGDA5L5zetPaCZKIJZpqDPoLgy1QZWZZyyhovEBZ4
- /eGvOxFAtP1D0/mfyEj/Iby1tyycZdOwdguz6TjzrGjYXPrRME865k4PAkugTVvxgf8Q
- kmIg==
-X-Gm-Message-State: AOAM531gtHWZ7KDGtCR3ON8fRnhesvls5rOmgdOpyLL/5RZG+DFZdJBz
- roPwKhrqkPs8ww4TcFTqJZ4=
-X-Google-Smtp-Source: ABdhPJz+10ooDWlPsYx8vX6GdDgzfvHO/Ql6S99m4ESdyBxlVR58sZBEEQbMVN8XEUkQ/DXlkeQgpw==
-X-Received: by 2002:a05:6000:2cd:b0:204:1bf4:e4f8 with SMTP id
- o13-20020a05600002cd00b002041bf4e4f8mr5109089wry.682.1647944216335; 
- Tue, 22 Mar 2022 03:16:56 -0700 (PDT)
-Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
- [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- d1-20020adffbc1000000b00203de0fff63sm15550702wrs.70.2022.03.22.03.16.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 03:16:55 -0700 (PDT)
-Message-ID: <a85f9adc-1db9-860f-0194-a32a47601aa9@gmail.com>
-Date: Tue, 22 Mar 2022 11:16:55 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=O2HNh41q8davH3Me0DfSKmo2HiyD6SERaytlfmzNRwY=;
+ b=4rDAHXJYLcrBR9ZUltP2XD8Jc+aVtQiN+p7B3jQ7QGpPEo8fZNxmbrwAoc+H+h9cNc
+ 4oucYfAg1mtDv2DzsMNQBNdjCzHeRNPX9UxNiDGZoX9c+MAyySXrB/L1A3IuW0DwxfeM
+ /BJnbuTe2QVAGslP6+fTdThL0oI5sOTaN6ib3F/rPnTcXbv7F5SEJECdJ0857VkAWvmc
+ zm0p42iw+ajtRdEuzfBLgb0LYfAvcCH0JQ9bGrpEcGc3/f1tr0xn5wcRkmQyFmBYmYEK
+ FuZ54TEnAq+uNtvre8t2HkHs3l7pL9N+ND/mTbuqKdFl04+nC6e+3u8612/efk3bjHW8
+ pclw==
+X-Gm-Message-State: AOAM530bXIVQAiSa1I/EJJ40qp2S0uflXq/2ZSiNOrBon8V7zoAf2itx
+ B92guzUbwI4McpGUkbQv5hau6d9fXNb5VdPByP+OFDCKghn3eQ==
+X-Google-Smtp-Source: ABdhPJyfRlQgdPDE0tl7Xpw94ZKduckd+inCnPyLJTbfyV9f+si5yh59y3Am3aQRaXUiJ0xTB/cpE12G7vyCbn5NiiE=
+X-Received: by 2002:a0d:f603:0:b0:2d1:57e5:234 with SMTP id
+ g3-20020a0df603000000b002d157e50234mr29143746ywf.469.1647944272136; Tue, 22
+ Mar 2022 03:17:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH] target/avr: Drop avr_cpu_memory_rw_debug()
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, Michael Rolnik <mrolnik@gmail.com>,
- qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-References: <20220322095004.70682-1-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220322095004.70682-1-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+References: <20220321164502.201160-1-pbonzini@redhat.com>
+In-Reply-To: <20220321164502.201160-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 22 Mar 2022 10:17:39 +0000
+Message-ID: <CAFEAcA8Zjio6e1qVA6T_eMcBM2pyVphiqhc6vjCAcr8UL43D=A@mail.gmail.com>
+Subject: Re: [PULL 0/2] Bugfixes for QEMU 7.0-rc1
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,21 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/3/22 10:50, Bin Meng wrote:
-> CPUClass::memory_rw_debug() holds a callback for GDB memory access.
-> If not provided, cpu_memory_rw_debug() is used by the GDB stub.
-> Drop avr_cpu_memory_rw_debug() which does nothing special.
-> 
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> ---
-> 
->   target/avr/cpu.h    | 2 --
->   target/avr/cpu.c    | 1 -
->   target/avr/helper.c | 6 ------
->   3 files changed, 9 deletions(-)
+On Mon, 21 Mar 2022 at 16:48, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit e2fb7d8aa218256793df99571d16f92074258447:
+>
+>   Merge tag 'dbus-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-03-15 16:28:50 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 17e6ffa6a5d2674cb2ebfd967d28b1048261d977:
+>
+>   hw/i386/amd_iommu: Fix maybe-uninitialized error with GCC 12 (2022-03-21 15:57:47 +0100)
+>
+> ----------------------------------------------------------------
+> Bugfixes.
+>
+> ----------------------------------------------------------------
+> Paolo Bonzini (2):
+>       target/i386: kvm: do not access uninitialized variable on older kernels
+>       hw/i386/amd_iommu: Fix maybe-uninitialized error with GCC 12
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
+-- PMM
 
