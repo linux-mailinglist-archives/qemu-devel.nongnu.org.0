@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469D74E3BBD
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 10:29:15 +0100 (CET)
-Received: from localhost ([::1]:55076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 201674E3BC9
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 10:34:16 +0100 (CET)
+Received: from localhost ([::1]:34986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWapG-0006BQ-Dc
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 05:29:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46448)
+	id 1nWau6-0003b4-QX
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 05:34:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nWanq-0004pp-L6
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:27:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53742)
+ id 1nWaqB-0007zT-6a
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:30:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nWann-00013b-L5
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:27:45 -0400
+ id 1nWaq8-0001wW-Rj
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:30:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647941262;
+ s=mimecast20190719; t=1647941407;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=th+mnmAVh061eX/f7HAeAetoQpUM4B65nl+PWZ1KrPE=;
- b=AZxiYczPJXPiEoXGEr81m1s12jt71T1334g6lM+/nbVKLeGRB3FggTHXGTI9Gw10dvzAdO
- wrpPtX7+VPs1p82bgJ/oPW4NcoiC5FqkrVYoyjVetCEpEu9ml/BLF5vKZounPQB9HDmX4d
- qNZGh2OX2WFifjsuu5WI0LwytdBx8sc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=WvAx0gqmJgN7iOL12kRdoAxfZVQoNQP8msiXzlvQRbQ=;
+ b=aSQ/zuhKnHJVnmapLOqTAdaglwLW5wNAY07/MehfHTVye6IUVsd4QtvaGSBl1k2i2hoTea
+ qWITIQmWuK8ojXpJT6UnNXgd7MN5r3ECO5cVLuP7esK/UPOzl8FzoDxQHtpejsCFoZv+wF
+ rZf8iFi58ybP/3VvNjM0qTCU9QKYInY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-355-HVqzAQ1RNgOEunQiqpjWag-1; Tue, 22 Mar 2022 05:27:41 -0400
-X-MC-Unique: HVqzAQ1RNgOEunQiqpjWag-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-517-FF6o3ReuOC6Q2YBi0Iw6cA-1; Tue, 22 Mar 2022 05:30:04 -0400
+X-MC-Unique: FF6o3ReuOC6Q2YBi0Iw6cA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 942A91161A84;
- Tue, 22 Mar 2022 09:27:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 380AF3801EC4;
+ Tue, 22 Mar 2022 09:30:04 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.195.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 92445C27EA1;
- Tue, 22 Mar 2022 09:27:35 +0000 (UTC)
-Date: Tue, 22 Mar 2022 09:27:32 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A2EFE40CF8EF;
+ Tue, 22 Mar 2022 09:30:00 +0000 (UTC)
+Date: Tue, 22 Mar 2022 09:29:57 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
 Subject: Re: [RFC PATCH v3 17/36] pflash_cfi01/tdx: Introduce ram_mode of
  pflash for TDVF
-Message-ID: <YjmWhMVx80/BFY8z@redhat.com>
+Message-ID: <YjmXFZRCbKXTkAhN@redhat.com>
 References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
  <20220317135913.2166202-18-xiaoyao.li@intel.com>
  <f418548e-c24c-1bc3-4e16-d7a775298a18@gmail.com>
  <7a8233e4-0cae-b05a-7931-695a7ee87fc9@intel.com>
+ <20220322092141.qsgv3pqlvlemgrgw@sirius.home.kraxel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7a8233e4-0cae-b05a-7931-695a7ee87fc9@intel.com>
+In-Reply-To: <20220322092141.qsgv3pqlvlemgrgw@sirius.home.kraxel.org>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -86,94 +84,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
  kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
  Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, seanjc@google.com, erdemaktas@google.com,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+ seanjc@google.com, erdemaktas@google.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 21, 2022 at 04:54:51PM +0800, Xiaoyao Li wrote:
-> On 3/18/2022 10:07 PM, Philippe Mathieu-Daudé wrote:
-> > Hi,
-> > 
-> > On 17/3/22 14:58, Xiaoyao Li wrote:
-> > > TDX VM needs to boot with Trust Domain Virtual Firmware (TDVF). Unlike
-> > > that OVMF is mapped as rom device, TDVF needs to be mapped as private
-> > > memory. This is because TDX architecture doesn't provide read-only
-> > > capability for VMM, and it doesn't support instruction emulation due
-> > > to guest memory and registers are not accessible for VMM.
-> > > 
-> > > On the other hand, OVMF can work as TDVF, which is usually configured
-> > > as pflash device in QEMU. To keep the same usage (QEMU parameter),
-> > > introduce ram_mode to pflash for TDVF. When it's creating a TDX VM,
-> > > ram_mode will be enabled automatically that map the firmware as RAM.
-> > > 
-> > > Note, this implies two things:
-> > >   1. TDVF (OVMF) is not read-only (write-protected).
-> > > 
-> > >   2. It doesn't support non-volatile UEFI variables as what pflash
-> > >      supports that the change to non-volatile UEFI variables won't get
-> > >      synced back to backend vars.fd file.
-> > > 
-> > > Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-> > > ---
-> > >   hw/block/pflash_cfi01.c | 25 ++++++++++++++++++-------
-> > >   hw/i386/pc_sysfw.c      | 14 +++++++++++---
-> > >   2 files changed, 29 insertions(+), 10 deletions(-)
-> > 
-> > If you don't need a pflash device, don't use it: simply map your nvram
-> > region as ram in your machine. No need to clutter the pflash model like
-> > that.
+On Tue, Mar 22, 2022 at 10:21:41AM +0100, Gerd Hoffmann wrote:
+>   Hi,
 > 
-> I know it's dirty to hack the pflash device. The purpose is to make the user
-> interface unchanged that people can still use
+> > > If you don't need a pflash device, don't use it: simply map your nvram
+> > > region as ram in your machine. No need to clutter the pflash model like
+> > > that.
 > 
-> 	-drive if=pflash,format=raw,unit=0,file=/path/to/OVMF_CODE.fd
->         -drive if=pflash,format=raw,unit=1,file=/path/to/OVMF_VARS.fd
+> Using the pflash device for something which isn't actually flash looks a
+> bit silly indeed.
+> 
+> > 
+> > I know it's dirty to hack the pflash device. The purpose is to make the user
+> > interface unchanged that people can still use
+> > 
+> > 	-drive if=pflash,format=raw,unit=0,file=/path/to/OVMF_CODE.fd
+> >         -drive if=pflash,format=raw,unit=1,file=/path/to/OVMF_VARS.fd
+> > 
+> > to create TD guest.
+> 
+> Well, if persistent vars are not supported anyway there is little reason
+> to split the firmware into CODE and VARS files.  You can use just use
+> OVMF.fd with a single pflash device.  libvirt recently got support for
+> that.
 
-Note, that in the default pflash config, libvirt will set the 'readonly=on'
-flag for OVMF_CODE.fd ie, it will use
+Agreed.
 
-    -drive if=pflash,format=raw,unit=0,file=/path/to/OVMF_CODE.fd,readonly=on
-    -drive if=pflash,format=raw,unit=1,file=/path/to/OVMF_VARS.fd
+> Just using -bios OVMF.fd might work too.  Daniel tried that recently for
+> sev, but ran into problems with wiring up ovmf metadata parsing for
+> -bios.  Don't remember the details though.
 
-IOW, we're requiring OVMF_CODE.fd is ROM, while OVMF_VARS.fd is NVRAM
+It was related to the BIOS shadowing, whereby QEMU loads it at one
+address, and then when CPUs start it is copied to another address.
+This was not compatible with the way AMD SEV wants to do measurement
+of the firmware. May or may not be relevant for TDX, I don't know
+enough about TDX to say.
 
-IIUC, this patch here is changing the semantics of these args:
-
-   - OVMF_CODE.fd is mapped as RAM, but IIUC, QEMU would still be
-     prevented from writing to it due to readonly=on in the
-     block layer
-
-   - OVMF_VARS.fd is mapped as RAM, but IIUC you're saying that
-     none the less, any writes don't propagate back into the file ?
-
-
-
-Dealing with OVMF_VARS.fd first, I really wonder why you want to have
-a OVMF_VARS.fd file at all, if you don't have writes propagated into
-it ? It has no reason to exist if you're not writing to it.
-
-IMHO the AmdSev build for OVMF gets this right by entirely disabling
-the split OVMF_CODE.fd vs OVMF_VARS.fd, and just having a single
-OVMF.fd file that is exposed read-only to the guest.
-
-This is further represented in $QEMU.git/docs/interop/firmware.json
-by marking the firmware as 'stateless', which apps like libvirt will
-use to figure out what QEMU command line to pick.
-
-IOW, if you don't want OVMF_VARS.fd to be written to, then follow
-what AmdSev has done, and get rid of the split files.
-
-
-As for exposing OVMF_CODE.fd as RAM instead of ROM. That feels a
-little odd, but as long as its backing store file on disk honours
-the readony=on request to -drive, that's not terrible IMHO.
 
 With regards,
 Daniel
