@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81FA4E4666
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 20:01:23 +0100 (CET)
-Received: from localhost ([::1]:59154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834B74E4671
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 20:05:21 +0100 (CET)
+Received: from localhost ([::1]:33692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWjku-00082F-OC
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 15:01:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32832)
+	id 1nWjom-0001v1-IR
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 15:05:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWjj0-0007HS-Dm
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 14:59:22 -0400
-Received: from [2607:f8b0:4864:20::432] (port=47020
- helo=mail-pf1-x432.google.com)
+ id 1nWjn6-0000pT-96; Tue, 22 Mar 2022 15:03:36 -0400
+Received: from [2607:f8b0:4864:20::102e] (port=46718
+ helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWjix-0008I2-TY
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 14:59:21 -0400
-Received: by mail-pf1-x432.google.com with SMTP id s11so18897669pfu.13
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 11:59:19 -0700 (PDT)
+ id 1nWjn4-0000bs-UB; Tue, 22 Mar 2022 15:03:36 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ bx24-20020a17090af49800b001c6872a9e4eso2982163pjb.5; 
+ Tue, 22 Mar 2022 12:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Rj02rijt9kd/yFjxeDzUWwje7+O2DDvHu2lOtwIQ68U=;
- b=YkR263zDgIWAkAQAoOLc8VbRRfRufn9ceS7RYbv++SLu6MItVNNtzLjS7zksMPHMrV
- gya8+yEm92glQ4kQ6RhLIlD/CthSLj3TqqXU+LFqVZ1cPWFM04uWSxhq8wvtbkbjpkil
- gfTHP+T/i0lI5BgrYKwtPPduNHsejT+fFd4SLVKKGbE5sPBgTMd/FNzXJjkdckH2zACA
- 0uKoS4Dl52yKZlB40ywTkqpVYtGJskq9Xjld+8FGal3tXgciKfetC/WRGL/dJF4ibMrS
- im7Wlhn6eS8aJwkeT1GbBRvOrYkUiRh+FLNoxr+G6+DHQJJ8CUtfULXhfHW7wPYURIon
- Kkxw==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=5Xv/26Q6cemp19vo+R8RguchOww60BalgLqjn/TfuCI=;
+ b=lDY3Sgaa6f/Z5kBZ7kJunoaGajKeeWlOU88ADd5MpCqmJRUgYDLgifglmPUr3ib8K+
+ NbOEMpOLZHlkzzg0iHJfbY6ZBumyBq3cAa59uMXuF3xSOtQvPjSuB0oIJr1QodQdEr8E
+ j3cOK60MhZGC0VEFrE4fKa7perdsVuf1Wu6vSYnQShuLhHB9zMDENnN59OtnMexjSrTa
+ FbTeMWb/59q9+PzX7Ebphx5u3SjApe5pjWkCPRhtlenrj00DI4IOA8qtJVAcNz60OjQq
+ 4cVXPIhQ+unnuBZ57mb1jm3dhV5Kkuf50fnHnJnwmKt0yIYGX/cDs+WtsI8Fdn9JLQOT
+ jVeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Rj02rijt9kd/yFjxeDzUWwje7+O2DDvHu2lOtwIQ68U=;
- b=7UVrE9Jh/NU9S5AWy2FwggBn1cBkDLGkIyGK6ce2Nupz2c5DfKtI6XlS7wy2Vl3kEj
- 92HNOEMWK0C5KK45Ni21nx7RAWoKKhlaIXO0w1nH5LLJWvZd9RTRESKyO2vADnG0Wpuc
- qGQZ9248940is+H0zw18HnIbIvlnrO+eY70RSU3Z3XhhxnSn4RfHPRJfPEEHMdEhq1QM
- XpZEUIlxqi/RKD8ImsBfYp53T/6FvX3OrxkUG97UmP/hinnt+vkJ6b1565rdwgJ3ExUW
- pzKzNOZYu1iV4rdhqpbZnew8Gi8AHcHX2hEO6BkCOPw73Z+iHe8x4SmWALVrHbWyszWW
- UwPA==
-X-Gm-Message-State: AOAM531msOSziXdZxOQ77fiuhiTkk1soEd7cY3HJiKtaLEC1XKn1s5ZR
- c0FCiG5ebdfYiXjdIP4GSvc=
-X-Google-Smtp-Source: ABdhPJyXkrin/F5QgEZL2jAvig8pVRzqDRGvPFXVx3OhBOcSXKAskk5gVUiuZ6qiH/0CxKNuFChQkA==
-X-Received: by 2002:a63:cc:0:b0:380:afc4:bb07 with SMTP id
- 195-20020a6300cc000000b00380afc4bb07mr22961050pga.341.1647975558048; 
- Tue, 22 Mar 2022 11:59:18 -0700 (PDT)
+ bh=5Xv/26Q6cemp19vo+R8RguchOww60BalgLqjn/TfuCI=;
+ b=m+w3lApCnK1hn8GVGfpRc7Sxmeq0t4oJIhbzE5ieeJ1wKW/xTlT9qqfEftb4Uz5igb
+ n60hwUUo+GRjvc5Wf+TuJdVwvrgm9vT8zsIXKqowTfd6P6xpBBeGtPryZ25UhrgEAnat
+ YEDYVDK81Z5KxdJVi+C7rdLLREpHrgdGYg34BFZmwJPD3J+lV6wCg2t1OST0BjCAM5S4
+ +pR8gKk5NKPKt6zZWR8AblU4kkYcTuLaq5Xe/qahFu/vNvEVlGF9KMv+smZwI/fI9gA5
+ ZYuTD95aCnSgi+gCJ+RCSsuCuZOsXL1MWgeb8ubZ8ynW1i7dR6GB9wQOP+knjrGVShnN
+ qoRg==
+X-Gm-Message-State: AOAM531olbRT0BXvAnbS+RIrXppjnU8At9l5mEhLakLi/NMhpR4awOHS
+ y+FKu/EhS/wrrpl8eag/2kY=
+X-Google-Smtp-Source: ABdhPJxMM1Ln7osfy1BWeMppbdqvJe5wfjDUSq20Cr5ZmkYzV1Up/DEOyntL+UXCmgntJ/WbJ6nA7g==
+X-Received: by 2002:a17:902:ec8c:b0:154:7cee:774e with SMTP id
+ x12-20020a170902ec8c00b001547cee774emr6847333plg.61.1647975813365; 
+ Tue, 22 Mar 2022 12:03:33 -0700 (PDT)
 Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
  [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- rj13-20020a17090b3e8d00b001c77bc09541sm391623pjb.51.2022.03.22.11.59.15
+ ob8-20020a17090b390800b001c6a1e5595asm3855291pjb.21.2022.03.22.12.03.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 11:59:17 -0700 (PDT)
-Message-ID: <6a32d012-98b2-698b-82f8-8ed62cf47c4d@gmail.com>
-Date: Tue, 22 Mar 2022 19:59:13 +0100
+ Tue, 22 Mar 2022 12:03:32 -0700 (PDT)
+Message-ID: <6cd7b4bc-07de-6a73-ccaa-0e5c2a31adb9@gmail.com>
+Date: Tue, 22 Mar 2022 20:03:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 1/2] gdbstub: Set current_cpu for memory read write
+Subject: Re: [PATCH for-7.0] hw/intc/arm_gicv3_its: Add missing newlines to
+ process_mapc() logging
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bmeng.cn@gmail.com>
-References: <20220322154213.86475-1-bmeng.cn@gmail.com>
- <CAFEAcA8RdqQ5fzoZtb5SaYe41FA=oKo21veergqhMgo=eFmB6Q@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220322102824.3474956-1-peter.maydell@linaro.org>
+ <afdadedc-1d35-068b-ccde-12897f9bea34@gmail.com>
+ <dab530d9-53d2-3d7d-c9ac-44906ba9b386@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <CAFEAcA8RdqQ5fzoZtb5SaYe41FA=oKo21veergqhMgo=eFmB6Q@mail.gmail.com>
+In-Reply-To: <dab530d9-53d2-3d7d-c9ac-44906ba9b386@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::432
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,39 +97,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Thomas
-
-On 22/3/22 16:56, Peter Maydell wrote:
-> On Tue, 22 Mar 2022 at 15:43, Bin Meng <bmeng.cn@gmail.com> wrote:
+On 22/3/22 15:58, Richard Henderson wrote:
+> On 3/22/22 03:38, Philippe Mathieu-Daudé wrote:
+>> On 22/3/22 11:28, Peter Maydell wrote:
+>>> In commit 84d43d2e82da we rearranged the logging of errors in
+>>> process_mapc(), and inadvertently dropped the trailing newlines
+>>> from the log messages. Restore them.
+>>>
+>>> Fixes: 84d43d2e82da ("hw/intc/arm_gicv3_its: In MAPC with V=0, don't 
+>>> check rdbase field")
+>>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>>> ---
+>>>   hw/intc/arm_gicv3_its.c | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+>>> index b96b874afdf..d9c741f5fdd 100644
+>>> --- a/hw/intc/arm_gicv3_its.c
+>>> +++ b/hw/intc/arm_gicv3_its.c
+>>> @@ -524,12 +524,12 @@ static ItsCmdResult process_mapc(GICv3ITSState 
+>>> *s, const uint64_t *cmdpkt)
+>>>       trace_gicv3_its_cmd_mapc(icid, cte.rdbase, cte.valid);
+>>>       if (icid >= s->ct.num_entries) {
+>>> -        qemu_log_mask(LOG_GUEST_ERROR, "ITS MAPC: invalid ICID 
+>>> 0x%d", icid);
+>>> +        qemu_log_mask(LOG_GUEST_ERROR, "ITS MAPC: invalid ICID 
+>>> 0x%d\n", icid);
 >>
->> When accessing the per-CPU register bank of some devices (e.g.: GIC)
->> from the GDB stub context, a segfault occurs. This is due to current_cpu
->> is not set, as the contect is not a guest CPU.
->>
->> Let's set current_cpu before doing the acutal memory read write.
->>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/124
->> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
->> ---
+>> (pre-existing: "%u" format, since icid is uint32_t)
 > 
-> This works, but I worry a bit that it might have unexpected
-> side effects, and setting globals (even if thread-local) to
-> cause side-effects elsewhere isn't ideal...
+> Worse than that: 0x%d is going to be *very* misleading.
+> Should fix to 0x%x right away.
 
-Yeah, gdbstub is like a JTAG probe, CPU accessors/views shouldn't be
-involved. Having current_cpu==NULL seems the correct behavior.
+Triple review is helpful :)
 
-There was a thread few years ago about an issue similar to this one.
-IIRC it was about how to have qtest commands select a different address
-space instead of the 'current cpu' one.
-
-I wonder why target_memory_rw_debug() involves CPU at all. Maybe it is
-simply not using the correct API?
 
