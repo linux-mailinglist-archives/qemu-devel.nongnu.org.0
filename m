@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC4B4E3BE9
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 10:48:10 +0100 (CET)
-Received: from localhost ([::1]:50968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4374E3BEA
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 10:49:59 +0100 (CET)
+Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWb7a-0006Ym-0f
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 05:48:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50886)
+	id 1nWb9K-0000lN-GA
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 05:49:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nWb5x-0005Do-4w
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:46:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41978)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nWb74-0006pg-9y
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:47:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nWb5v-00021x-BB
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:46:28 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nWb72-00027I-Jh
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:47:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647942386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gp7GFF3gplQjwoS2ZAj30exrVZN4fOeCJQCcQprq2ko=;
- b=S9/pw3KZf/U7zto2gJvZb0e1eDnelhUR7TBwM3WpjNKDIF6erZxOrLgUtS7pPv47kY6HWh
- 2AsGUtzMG6MDJG7XlsfAQOsRRnHTE0xxfVc5yj4Y6FfrdQSiG1sVvOXgzdysXIVttTPHFO
- pCOJwZtAJdvmazOPUXGdAlVthxdjkko=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1647942456;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=WgabqUtLH4h4vlaV8qFAXdlN5VpaSz2HDcONZIsN9Zc=;
+ b=WIFDe7Qr3MnN6JlGvCxRvSv9o928EvRGKkQhDjjAcjrQRukqy4eppjEKumhti8n/2JOXY4
+ zwjky0A08fkQcysC7mw2Nrk/JI6nHSy9E32uVIJzfMMUt5Oo/PFqdegrOBfe+2DmO7pZSV
+ zkHkpurRS/6iC/AkfqwCOj/wWx0HHtQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-fJZaHPy6OPWT2rKUx1LQ-Q-1; Tue, 22 Mar 2022 05:46:23 -0400
-X-MC-Unique: fJZaHPy6OPWT2rKUx1LQ-Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-552-zfZBsv0yMkK3XTj0frYCGQ-1; Tue, 22 Mar 2022 05:47:32 -0400
+X-MC-Unique: zfZBsv0yMkK3XTj0frYCGQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C9462999B4B;
- Tue, 22 Mar 2022 09:46:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EBF74400E881;
- Tue, 22 Mar 2022 09:46:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C7E9221E6742; Tue, 22 Mar 2022 10:46:21 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 2/3] qapi-schema: test: add a qapi-schema-test for array
- alternates
-References: <20220321164243.200569-1-pbonzini@redhat.com>
- <20220321164243.200569-3-pbonzini@redhat.com>
-Date: Tue, 22 Mar 2022 10:46:21 +0100
-In-Reply-To: <20220321164243.200569-3-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Mon, 21 Mar 2022 17:42:42 +0100")
-Message-ID: <87a6dijp5e.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6C3A18038E3;
+ Tue, 22 Mar 2022 09:47:32 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.0])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 581651417201;
+ Tue, 22 Mar 2022 09:47:30 +0000 (UTC)
+Date: Tue, 22 Mar 2022 09:47:27 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kshitij Suri <kshitij.suri@nutanix.com>
+Subject: Re: [PATCH v2 2/2] Added parameter to take screenshot with
+ screendump as PNG
+Message-ID: <YjmbL3E2CRqjFii1@redhat.com>
+References: <20220322081845.19680-1-kshitij.suri@nutanix.com>
+ <20220322081845.19680-2-kshitij.suri@nutanix.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+In-Reply-To: <20220322081845.19680-2-kshitij.suri@nutanix.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -82,70 +82,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: soham.ghosh@nutanix.com, thuth@redhat.com, prerna.saxena@nutanix.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, philippe.mathieu.daude@gmail.com,
+ kraxel@redhat.com, prachatos.mitra@nutanix.com, eblake@redhat.com,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> Check that conflicts among array alternates are detected correctly.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Tue, Mar 22, 2022 at 08:18:45AM +0000, Kshitij Suri wrote:
+> Currently screendump only supports PPM format, which is un-compressed and not
+> standard. Added a "format" parameter to qemu monitor screendump capabilites
+> to support PNG image capture using libpng. The param was added in QAPI schema
+> of screendump present in ui.json along with png_save() function which converts
+> pixman_image to PNG. HMP command equivalent was also modified to support the
+> feature.
+> 
+> Example usage:
+> { "execute": "screendump", "arguments": { "filename": "/tmp/image",
+> "format":"png" } }
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/718
+> 
+> Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
 > ---
->  tests/qapi-schema/alternate-conflict-lists.err  | 2 ++
->  tests/qapi-schema/alternate-conflict-lists.json | 6 +++++
->  tests/qapi-schema/alternate-conflict-lists.out  | 0
->  tests/qapi-schema/meson.build                   | 1 +
->  4 files changed, 8 insertions(+)
->  create mode 100644 tests/qapi-schema/alternate-conflict-lists.err
->  create mode 100644 tests/qapi-schema/alternate-conflict-lists.json
->  create mode 100644 tests/qapi-schema/alternate-conflict-lists.out
->
-> diff --git a/tests/qapi-schema/alternate-conflict-lists.err b/tests/qapi-schema/alternate-conflict-lists.err
-> new file mode 100644
-> index 0000000000..288b75a2ff
-> --- /dev/null
-> +++ b/tests/qapi-schema/alternate-conflict-lists.err
-> @@ -0,0 +1,2 @@
-> +alternate-conflict-lists.json: In alternate 'Alt':
-> +alternate-conflict-lists.json:5: branch 'two' can't be distinguished from 'one'
+> diff to v1:
+>   - Removed repeated alpha conversion operation.
+>   - Modified logic to mirror png conversion in vnc-enc-tight.c file.
+>   - Added a new CONFIG_PNG parameter for libpng support.
+>   - Changed input format to enum instead of string.
+>   - Improved error handling.
+>  hmp-commands.hx    |  11 ++---
+>  monitor/hmp-cmds.c |  20 ++++++++-
+>  qapi/ui.json       |  24 +++++++++--
+>  ui/console.c       | 101 +++++++++++++++++++++++++++++++++++++++++++--
+>  4 files changed, 144 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index 8476277aa9..19b7cab595 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -244,11 +244,12 @@ ERST
+>  
+>      {
+>          .name       = "screendump",
+> -        .args_type  = "filename:F,device:s?,head:i?",
+> -        .params     = "filename [device [head]]",
+> -        .help       = "save screen from head 'head' of display device 'device' "
+> -                      "into PPM image 'filename'",
+> -        .cmd        = hmp_screendump,
+> +        .args_type  = "filename:F,format:s?,device:s?,head:i?",
+> +        .params     = "filename [format] [device [head]]",
+> +        .help       = "save screen from head 'head' of display device 'device'"
+> +                      "in specified format 'format' as image 'filename'."
+> +                      "Currently only 'png' and 'ppm' formats are supported.",
+> +         .cmd        = hmp_screendump,
+>          .coroutine  = true,
+>      },
+>  
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 634968498b..bf3ba76bd3 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -1720,9 +1720,27 @@ hmp_screendump(Monitor *mon, const QDict *qdict)
+>      const char *filename = qdict_get_str(qdict, "filename");
+>      const char *id = qdict_get_try_str(qdict, "device");
+>      int64_t head = qdict_get_try_int(qdict, "head", 0);
+> +    const char *input_format  = qdict_get_try_str(qdict, "format");
+>      Error *err = NULL;
+> +    ImageFormat format;
+>  
+> -    qmp_screendump(filename, id != NULL, id, id != NULL, head, &err);
+> +    int val = qapi_enum_parse(&ImageFormat_lookup, input_format,
+> +                              IMAGE_FORMAT_PPM, &err);
+> +    if (err) {
+> +        goto end;
+> +    }
+> +
+> +    switch (val) {
+> +    case IMAGE_FORMAT_PNG:
+> +        format = IMAGE_FORMAT_PNG;
+> +        break;
+> +    default:
+> +        format = IMAGE_FORMAT_PPM;
+> +    }
 
-Needs a trivial fixup:
+This switch looks pointless - the code is passing the default into
+qapi_enum_parse already, this doesn't need to handle defaulting
+again. This just needs
 
--alternate-conflict-lists.json:5: branch 'two' can't be distinguished from 'one'
-+alternate-conflict-lists.json:4: branch 'two' can't be distinguished from 'one'
+        format = qapi_enum_parse(&ImageFormat_lookup, input_format,
+                                 IMAGE_FORMAT_PPM, &err);
+        if (err) {
+           goto end;
+         }
 
-Happy to apply it in my tree.
+> +
+> +    qmp_screendump(filename, id != NULL, id, id != NULL, head,
+> +                   input_format != NULL, format, &err);
+> +end:
+>      hmp_handle_error(mon, err);
+>  }
+>  
 
-> diff --git a/tests/qapi-schema/alternate-conflict-lists.json b/tests/qapi-schema/alternate-conflict-lists.json
-> new file mode 100644
-> index 0000000000..90710da115
-> --- /dev/null
-> +++ b/tests/qapi-schema/alternate-conflict-lists.json
-> @@ -0,0 +1,6 @@
-> +# Two lists conflict even if their inner types would be compatible
-> +{ 'struct': 'One',
-> +  'data': { 'name': 'str' } }
-> +{ 'alternate': 'Alt',
-> +  'data': { 'one': [ 'int' ],
-> +            'two': [ 'str' ] } }
-> diff --git a/tests/qapi-schema/alternate-conflict-lists.out b/tests/qapi-schema/alternate-conflict-lists.out
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-> index caf0791ba8..c18dd7d02f 100644
-> --- a/tests/qapi-schema/meson.build
-> +++ b/tests/qapi-schema/meson.build
-> @@ -11,6 +11,7 @@ schemas = [
->    'alternate-conflict-dict.json',
->    'alternate-conflict-enum-bool.json',
->    'alternate-conflict-enum-int.json',
-> +  'alternate-conflict-lists.json',
->    'alternate-conflict-string.json',
->    'alternate-conflict-bool-string.json',
->    'alternate-conflict-num-string.json',
+> +    for (y = 0; y < height; ++y) {
+> +        qemu_pixman_linebuf_fill(linebuf, image, width, 0, y);
+> +       png_write_row(png_ptr, buf);
+> +    }
 
-With the fixup:
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Tiny style bug, indent off-by-1
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
