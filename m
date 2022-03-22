@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1D44E468A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 20:17:06 +0100 (CET)
-Received: from localhost ([::1]:44156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DB34E468C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 20:17:34 +0100 (CET)
+Received: from localhost ([::1]:44704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWk09-0000yU-EP
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 15:17:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36700)
+	id 1nWk0b-0001PF-Hl
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 15:17:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1nWjxs-0007Yh-GS; Tue, 22 Mar 2022 15:14:44 -0400
-Received: from [2607:f8b0:4864:20::1033] (port=43780
- helo=mail-pj1-x1033.google.com)
+ id 1nWjxz-0007jd-Tl; Tue, 22 Mar 2022 15:14:51 -0400
+Received: from [2607:f8b0:4864:20::102f] (port=41780
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1nWjxq-0005Pn-VQ; Tue, 22 Mar 2022 15:14:44 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- n7-20020a17090aab8700b001c6aa871860so3022506pjq.2; 
- Tue, 22 Mar 2022 12:14:42 -0700 (PDT)
+ id 1nWjxy-0005RQ-AW; Tue, 22 Mar 2022 15:14:51 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ l4-20020a17090a49c400b001c6840df4a3so3050042pjm.0; 
+ Tue, 22 Mar 2022 12:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QzIyP8Mkvb2J5evFSr9KnKa1FyPsV8VryUkh49s1xvA=;
- b=BRzphTLIzrBvJ7ikBJHA+GPKchDysPdlJC5H7e2gr3nS1zRsgjTQwg1js3XgMk++VW
- ZkIezFEMk91EtfE+FIGlceHI5n7dgKkHl4YTj1YhxY6NOQk9q7BB0U44dcRf+l+ryPOM
- LpKOJLVx9vh11sfER4vdZmuJGzeTdh8JoYROudAdMibXZzmVVJkmxi73Gv0r/3gfFOd2
- 1iuwcDyAFVnUYvcz+9HFXy8n1N8aGxzKaivmqnhMDMYuIMZNjk/JI4Mx55g6sBZEjCRV
- YAUUZqbQSDcmX00M+VIFUORsdrZAXzW4pUqhoKWTzL8gLByzLSyIYCaGcM2aUyc60NTU
- yCtw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Hkbus/u5e7icQPKpMpa2Rxe1myfOttHl8Kl3isWHAtM=;
+ b=Ru02Bfwwwm1t6LxTyzCiuCl0DfXgKXnX7XxyfWoFXcSLGvEktTo+Mk1DO3xCkdByLu
+ hZwlq8Waw1MyuDsuVyDzY9IDhVA1YqUY61IKx/QTxvIxryFXFdxA3ZptMzBguP7FEwmX
+ kGjSoZSgub6Hy9rV27cL6DN6H+qqb4a/3lOFH+P++WsKYP6E8nrs5ef1WPgi3KNSsekC
+ C8X+fEE3wfx+exaGUOen2q6HQLVf0jYFfxVrZsei8WQL8hQtoB4NA6ZgIla0JAtQTN6B
+ WGpuguFwd6ILokSkbvBprtmxSc7ihb9JTN1nwsQJm9HMbdCj1a2iy7OhDpc/5LqWI23u
+ Wl+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QzIyP8Mkvb2J5evFSr9KnKa1FyPsV8VryUkh49s1xvA=;
- b=oM2LOOk2tHcONQ9VzETcEy0f1/qnpE4yNNfiSqTEs0pR59/qF6iEY5j6w/F6JqBfoe
- Vsf0ORqB/u90jIGPUkR1PBgk833yIA3nePlOnrFodVBR8JRxcUknHDt5jeOmdehr0AMe
- Zr4sWdu2v/XNVAtflgmYNqKasdtJ5vxIY4QfAusvFj5ppwbbC+1uHTKyy3UsYlyFkQ+h
- VWR6dpUubUYVp2L4jxtpPIKZfSffDd6wKgUDE0CmdDAS0MfYMi3rtM+8vo1RfHKrJyL+
- JBWlyQCCgu704vB65t7ogJ358CYYx79mT68CCEKOjGPHMWJvEpviVzL8JantLZaXx5z3
- RR7g==
-X-Gm-Message-State: AOAM531bDY8B/dFyqJynrD3vYCuOsxFqwPdtzAc8BkhAhp3VY4IoD+8s
- UYhPITHQhduqk7MgpMgoUxQQPXIrqOseOQ==
-X-Google-Smtp-Source: ABdhPJyQ5d6lH9YwGRcpFpQTKDOXb9ZOFSM/NWyph5mpuctrxJcyIElt2cIDkxVdxle+yDgphwGUlg==
-X-Received: by 2002:a17:90a:7304:b0:1c6:aadc:90e5 with SMTP id
- m4-20020a17090a730400b001c6aadc90e5mr6869831pjk.164.1647976480643; 
- Tue, 22 Mar 2022 12:14:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Hkbus/u5e7icQPKpMpa2Rxe1myfOttHl8Kl3isWHAtM=;
+ b=KfBMef20wx9Tbruh6GQXGhMjcaEeEXhwVv3nm8UmbqJ28Py3LsmzPDn+vPHw6lXDv1
+ FjodBJ08Iz67HpQLzlJU/aD/PlbjjPXRp2IODhoW0DrFUr/OKWtFMAz4ROrMRQ51khLr
+ XUSfPgroIkej0i3eaBXHqjeQqI4mXxAb2mN59Z+7FUJOLYDjmGpuaisMeBOUQZLhBr8r
+ Xmc380ZePe3KReFBa+mgyFlPZkiE8e0gw4cV7SqTMxRnrfbytZ6joJQcmKGRdvylTAKo
+ HKlzWvb5KwsXYIB37ADgkuCUHaNkL+dDsHh4FL982IM7bkOKBHYzjuajLOsoLbuds+bH
+ +R6g==
+X-Gm-Message-State: AOAM532xCcmmBfp4iSJeHeQeDv13vEBPd6VfCGO89989clph/ZixGMxT
+ QXXR72XS+J8D9bS/woOivRNQuga75lOmgQ==
+X-Google-Smtp-Source: ABdhPJy/qz8OcWc3nERqhH4nbM3qhZat3NsoN6qiwD3GPbX+4nVzeydWN9WNUi1Wj7sP8HgFiCrfzg==
+X-Received: by 2002:a17:90b:3b4c:b0:1c6:d9f0:77b8 with SMTP id
+ ot12-20020a17090b3b4c00b001c6d9f077b8mr6709095pjb.124.1647976487922; 
+ Tue, 22 Mar 2022 12:14:47 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
  by smtp.googlemail.com with ESMTPSA id
- q20-20020a056a00151400b004fa99ba6654sm10146827pfu.115.2022.03.22.12.14.34
+ q20-20020a056a00151400b004fa99ba6654sm10146827pfu.115.2022.03.22.12.14.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 12:14:40 -0700 (PDT)
+ Tue, 22 Mar 2022 12:14:47 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: QEMU Devel <qemu-devel@nongnu.org>
-Subject: [PATCH v2 0/2] CI fixes
-Date: Wed, 23 Mar 2022 03:14:07 +0800
-Message-Id: <20220322191409.1330-1-luoyonggang@gmail.com>
+Subject: [PATCH v2 1/2] ci: Add github workflow for getting cirrus working
+ properly
+Date: Wed, 23 Mar 2022 03:14:08 +0800
+Message-Id: <20220322191409.1330-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.31.1.windows.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220322191409.1330-1-luoyonggang@gmail.com>
+References: <20220322191409.1330-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,20 +98,66 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Fixes the cirrus CI
-* Add an empty github actions to get cirrus CI works properly
-
-Yonggang Luo (2):
-  ci: Add github workflow for getting cirrus working properly
-  cirrus: upgrade mingw base packages.
-
- .cirrus.yml                |  2 +-
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
  .github/workflows/main.yml | 29 +++++++++++++++++++++++++++++
- .gitlab-ci.d/windows.yml   |  2 +-
  MAINTAINERS                |  4 +++-
- 4 files changed, 34 insertions(+), 3 deletions(-)
+ 2 files changed, 32 insertions(+), 1 deletion(-)
  create mode 100644 .github/workflows/main.yml
 
+diff --git a/.github/workflows/main.yml b/.github/workflows/main.yml
+new file mode 100644
+index 0000000000..85a392b962
+--- /dev/null
++++ b/.github/workflows/main.yml
+@@ -0,0 +1,29 @@
++# This is a basic workflow to help you get started with Actions
++
++name: CI
++
++# Controls when the action will run. Triggers the workflow on push or pull request
++# events but only for the master branch
++on:
++  push:
++    branches: [ master ]
++  pull_request:
++    branches: [ master ]
++
++# A workflow run is made up of one or more jobs that can run sequentially or in parallel
++jobs:
++  check-patch:
++    name: Check Patch
++    runs-on: ubuntu-latest
++    steps:
++      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
++      - uses: actions/checkout@v2
++        with:
++          fetch-depth: 0
++      - name: Install dependent packages
++        run: sudo apt install perl
++      - name: Checkpatch
++        run: |
++          git fetch https://git.qemu.org/git/qemu.git master
++          git tag base_tag_to_rebase FETCH_HEAD --force
++          ./scripts/checkpatch.pl --mailback base_tag_to_rebase..
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc364afef7..6d1dcc36b0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3612,10 +3612,12 @@ Build and test automation, general continuous integration
+ M: Alex Bennée <alex.bennee@linaro.org>
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ M: Thomas Huth <thuth@redhat.com>
++M: Yonggang Luo <luoyonggang@gmail>
+ R: Wainer dos Santos Moschetta <wainersm@redhat.com>
+ R: Beraldo Leal <bleal@redhat.com>
+ S: Maintained
+-F: .github/lockdown.yml
++F: .github/workflows/lockdown.yml
++F: .github/workflows/main.yml
+ F: .gitlab-ci.yml
+ F: .gitlab-ci.d/
+ F: .travis.yml
 -- 
 2.31.1.windows.1
 
