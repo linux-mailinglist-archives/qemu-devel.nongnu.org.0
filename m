@@ -2,95 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11104E446A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 17:41:52 +0100 (CET)
-Received: from localhost ([::1]:56308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48374E4469
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 17:41:47 +0100 (CET)
+Received: from localhost ([::1]:56120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWhZv-0005zs-NF
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 12:41:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54720)
+	id 1nWhZq-0005sB-U2
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 12:41:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWhXi-0003Dq-3A
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:39:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46549)
+ (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
+ id 1nWhYO-000451-Nt
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:40:19 -0400
+Received: from smtp86.ord1c.emailsrvr.com ([108.166.43.86]:36251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWhXg-0000MA-Ki
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:39:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647967171;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3BkC2dB/xht1QV9JNV2oRgOqTb6OKQVNq6kLyStwaPw=;
- b=fkrPh52OtoXpCKahoSK/BuK+NgPLG+QPf0xwr4+SI83NWJpECfJNlI5g/eMf1MPIn/+X4f
- H2LR0IOl2qESb53oaH0Azb3Iokxq6xJNjLnH1ca50i/uIGh25fcXpAChfHRgeZkrr/v8EF
- hQm/Zp9GXo2vlu62q6EI+70ZGR/REfQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-295-ldTaqaCgNa6fxh18a13Wkg-1; Tue, 22 Mar 2022 12:39:30 -0400
-X-MC-Unique: ldTaqaCgNa6fxh18a13Wkg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- hz15-20020a1709072cef00b006dfeceff2d1so3696604ejc.17
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 09:39:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3BkC2dB/xht1QV9JNV2oRgOqTb6OKQVNq6kLyStwaPw=;
- b=wtO6nj5O6U0QiKx5dfXhKo9njlPoUoPgeGDqv2Yjf4TomOnT/HmCznX0b9DKdSrteG
- 2oHtGvGabh8InPV1jiX4YNlxjRW1TlGQb7dyAhWKZ2uC+HsDIvGUebodIzSxoj8hAPXU
- 0lSijzIwzqi9QoL92kh3y5G6JhtYxSDJEBW+TBbV2aSoBanmbGvb+2crUpC8gmRflBta
- t5/kBrlDjCDJcpI2u+46lxc7NnDchyP5Mx6l2KIvBPQuOxKTQN+zt3NikO/uVDs4rNEj
- VHQK0tTZDvOyCk/XCwN4EO7PTZDdkY9d2cHOewsSEcGBPccD3BVb7CEET2rbflNZ/yan
- TTxA==
-X-Gm-Message-State: AOAM533LIrLYtMx8u9bH3haW0/8O5DMRsTXMpuVRN1s+M2fzdntOVdrO
- xksTGgCmgOey1nQnvdGML8BlH9+viMmp6/lBTKt3PQIyB2xFeHAD6arGecu3lUED3U2/cGqfXgb
- b75QyOEJ6MBfsZ7E=
-X-Received: by 2002:a17:907:94d5:b0:6e0:2924:bd54 with SMTP id
- dn21-20020a17090794d500b006e02924bd54mr8003559ejc.170.1647967169480; 
- Tue, 22 Mar 2022 09:39:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUQn5f6K/jySZ/Zbkg7I0dFyEXPGIWEUCLw8cNmY+hgPERrkFjLZwt2MLGm+7IIfS7U6xipg==
-X-Received: by 2002:a17:907:94d5:b0:6e0:2924:bd54 with SMTP id
- dn21-20020a17090794d500b006e02924bd54mr8003540ejc.170.1647967169255; 
- Tue, 22 Mar 2022 09:39:29 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- r16-20020a056402019000b00418ed60c332sm9506898edv.65.2022.03.22.09.39.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 09:39:28 -0700 (PDT)
-Message-ID: <6ce9a930-3a89-dae0-4a43-c00af005fbbf@redhat.com>
-Date: Tue, 22 Mar 2022 17:39:28 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 13/15] iotests: remove qemu_io_pipe_and_status()
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20220318203655.676907-1-jsnow@redhat.com>
- <20220318203655.676907-14-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220318203655.676907-14-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
+ id 1nWhYM-0000Pq-L3
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:40:16 -0400
+X-Auth-ID: adeason@sinenomine.net
+Received: by smtp27.relay.ord1c.emailsrvr.com (Authenticated sender:
+ adeason-AT-sinenomine.net) with ESMTPSA id 62E3D40159; 
+ Tue, 22 Mar 2022 12:39:49 -0400 (EDT)
+Date: Tue, 22 Mar 2022 11:39:49 -0500
+From: Andrew Deason <adeason@sinenomine.net>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH] softmmu/physmem: Use qemu_madvise
+Message-Id: <20220322113949.d297e615317fa34894de8ed2@sinenomine.net>
+In-Reply-To: <a9f31184-f157-e973-5c75-0af327fc2921@redhat.com>
+References: <20220316040405.4131-1-adeason@sinenomine.net>
+ <9c36fe6b-39e1-0bfc-d2bb-97b106828ee1@redhat.com>
+ <CAFEAcA96=yDKOknYmCKriWDJe4g-q07+b8yL3tFUf9=G-o84zA@mail.gmail.com>
+ <YjGvvRvPRV3ACbFY@work-vm>
+ <a9f31184-f157-e973-5c75-0af327fc2921@redhat.com>
+Organization: Sine Nomine Associates
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Classification-ID: e2283891-6b4c-4aa2-9311-cb7b89b61f5a-1-1
+Received-SPF: pass client-ip=108.166.43.86;
+ envelope-from=adeason@sinenomine.net; helo=smtp86.ord1c.emailsrvr.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,21 +61,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.03.22 21:36, John Snow wrote:
-> I know we just added it, sorry. This is done in favor of qemu_io() which
-> *also* returns the console output and status, but with more robust error
-> handling on failure.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/iotests.py           |  3 ---
->   tests/qemu-iotests/tests/image-fleecing | 12 +++---------
->   2 files changed, 3 insertions(+), 12 deletions(-)
+On Wed, 16 Mar 2022 10:41:41 +0100
+David Hildenbrand <david@redhat.com> wrote:
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+> On 16.03.22 10:37, Dr. David Alan Gilbert wrote:
+> > * Peter Maydell (peter.maydell@linaro.org) wrote:
+> >> On Wed, 16 Mar 2022 at 07:53, David Hildenbrand <david@redhat.com> wrote:
+> >>>
+> >>> On 16.03.22 05:04, Andrew Deason wrote:
+> >>>> We have a thin wrapper around madvise, called qemu_madvise, which
+> >>>> provides consistent behavior for the !CONFIG_MADVISE case, and works
+> >>>> around some platform-specific quirks (some platforms only provide
+> >>>> posix_madvise, and some don't offer all 'advise' types). This specific
+> >>>> caller of madvise has never used it, tracing back to its original
+> >>>> introduction in commit e0b266f01dd2 ("migration_completion: Take
+> >>>> current state").
+> >>>>
+> >>>> Call qemu_madvise here, to follow the same logic as all of our other
+> >>>> madvise callers. This slightly changes the behavior for
+> >>>> !CONFIG_MADVISE (EINVAL instead of ENOSYS, and a slightly different
+> >>>> error message), but this is now more consistent with other callers
+> >>>> that use qemu_madvise.
+> >>>>
+> >>>> Signed-off-by: Andrew Deason <adeason@sinenomine.net>
+> >>>> ---
+> >>>> Looking at the history of commits that touch this madvise() call, it
+> >>>> doesn't _look_ like there's any reason to be directly calling madvise vs
+> >>>> qemu_advise (I don't see anything mentioned), but I'm not sure.
+> >>>>
+> >>>>  softmmu/physmem.c | 12 ++----------
+> >>>>  1 file changed, 2 insertions(+), 10 deletions(-)
+> >>>>
+> >>>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> >>>> index 43ae70fbe2..900c692b5e 100644
+> >>>> --- a/softmmu/physmem.c
+> >>>> +++ b/softmmu/physmem.c
+> >>>> @@ -3584,40 +3584,32 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
+> >>>>                           rb->idstr, start, length, ret);
+> >>>>              goto err;
+> >>>>  #endif
+> >>>>          }
+> >>>>          if (need_madvise) {
+> >>>>              /* For normal RAM this causes it to be unmapped,
+> >>>>               * for shared memory it causes the local mapping to disappear
+> >>>>               * and to fall back on the file contents (which we just
+> >>>>               * fallocate'd away).
+> >>>>               */
+> >>>> -#if defined(CONFIG_MADVISE)
+> >>>>              if (qemu_ram_is_shared(rb) && rb->fd < 0) {
+> >>>> -                ret = madvise(host_startaddr, length, QEMU_MADV_REMOVE);
+> >>>> +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_REMOVE);
+> >>>>              } else {
+> >>>> -                ret = madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
+> >>>> +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
+> >>>
+> >>> posix_madvise(QEMU_MADV_DONTNEED) has completely different semantics
+> >>> then madvise() -- it's not a discard that we need here.
+> >>>
+> >>> So ram_block_discard_range() would now succeed in environments (BSD?)
+> >>> where it's supposed to fail.
+> >>>
+> >>> So AFAIKs this isn't sane.
+> >>
+> >> But CONFIG_MADVISE just means "host has madvise()"; it doesn't imply
+> >> "this is a Linux madvise() with MADV_DONTNEED". Solaris madvise()
+> >> doesn't seem to have  MADV_DONTNEED at all; a quick look at the
+> >> FreeBSD manpage suggests its madvise MADV_DONTNEED is identical
+> >> to its posix_madvise MADV_DONTNEED.
+> >>
+> >> If we need "specifically Linux MADV_DONTNEED semantics" maybe we
+> >> should define a QEMU_MADV_LINUX_DONTNEED which either (a) does the
+> >> right thing or (b) fails, and use qemu_madvise() regardless.
+> >>
+> >> Certainly the current code is pretty fragile to being changed by
+> >> people who don't understand the undocumented subtlety behind
+> >> the use of a direct madvise() call here.
+> > 
+> > Yeh and I'm not sure I can remembe rall the subtleties; there's a big
+> > hairy set of ifdef's in include/qemu/madvise.h that makes
+> > sure we always have the definition of QEMU_MADV_REMOVE/DONTNEED
+> > even on platforms that might not define it themselves.
+> > 
+> > But I think this code is used for things with different degrees
+> > of care about the semantics; e.g. 'balloon' just cares that
+> > it frees memory up and doesn't care about the detailed semantics
+> > that much; so it's probably fine with that.
+> > Postcopy is much more touchy, but then it's only going to be
+> > calling this on Linux anyway (because of the userfault dependency).
+> 
+> MADV_DONTNEED/MADV_REMOVE only provides discard semantics on Linux IIRC
+> -- and that's what we want to achieve: ram_block_discard_range()
+> 
+> So I agree with Peter that we might want to make this more explicit.
 
+I was looking at the comments/history around this code to try to make
+this more explicit/clear, and it seems like the whole function is very
+Linux-specific. All we ever do is:
+
+- fallocate(FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE)
+- madvise(MADV_REMOVE)
+- madvise(MADV_DONTNEED) with Linux semantics
+
+All of those operations are Linux-only, so trying to figure out the
+cross-platform way to model this seems kind of pointless. Is it fine to
+just #ifdef the whole thing to be just for Linux?
+
+-- 
+Andrew Deason
+adeason@sinenomine.net
 
