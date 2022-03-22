@@ -2,92 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D8A4E3FFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 15:03:28 +0100 (CET)
-Received: from localhost ([::1]:38576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25AB4E4031
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 15:07:36 +0100 (CET)
+Received: from localhost ([::1]:42042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWf6d-0003rE-9e
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 10:03:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39832)
+	id 1nWfAe-0006Lk-3x
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 10:07:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nWf5U-0001Ry-8h
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:02:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49081)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nWf5R-0001eX-F2
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:02:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647957732;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HbLXttatpBT8og1yzev8mN+c8PPg3CnPldtlnB+3FnU=;
- b=KrwZEQlsuz4RMjQVe3jPXn4jY8TdhgjREhlRrfd0avvTS15Pw7ONMLoGj8IZ4RQHe8K3hh
- lrzLGeCpabAaW/xuGKJ/7yAOFtc3/3HWIA37CTzTBOvMKz3jYQyKep1DNF6Ae0DfK2QtP2
- FmVVWk4lM5uLMgL0AX8SsJxVFbKnQI4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-JWhihut2MuaCKqMlD0bGwg-1; Tue, 22 Mar 2022 10:02:10 -0400
-X-MC-Unique: JWhihut2MuaCKqMlD0bGwg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o18-20020a05600c511200b0038cb92d58dcso50118wms.5
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 07:02:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nWf8O-0005Wf-LP
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:05:18 -0400
+Received: from [2607:f8b0:4864:20::533] (port=34725
+ helo=mail-pg1-x533.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nWf8I-0002Fc-JF
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:05:14 -0400
+Received: by mail-pg1-x533.google.com with SMTP id i184so1891575pgc.1
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 07:05:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=AqfE+YXzQHxcRQFPAkwfE41ALnObhp3XXyp7wCWxZzo=;
+ b=gtWVPuqG42PKC/3olovp/8k3JN94snCGwbiof69oZq9CTZpljX4DmroMCCcTs8bM/U
+ h+dHVrL1aqOoRwSHbn3PV6DaWC/RQy++X0WHaO9WXVXSLQllCXQUKvHUXoCOYhSasbLx
+ qnu1RsiePe0Hkw9KY5/nyFbL9AHBq6i9VEhmUjSS23y1YQ+fzrllao450w/nL9t+tcGa
+ 8fAsyVOL0NVBYgI2sWvD7FbTMcgOSbOX1V4hLVGuNUT1KDqmISYIOKEivNtGDCxXY3V1
+ ZCpyYLK+TqsiI4uhW/PgKy62aDdkz0xeIdTI50uADHz2ltx+feSH3jNYQyPREj28NOfF
+ xVnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=HbLXttatpBT8og1yzev8mN+c8PPg3CnPldtlnB+3FnU=;
- b=HSpSFvpZ0GBQXOtQhEXynSJ/XK4xrfhXeae/39ar7qcymby7sYRLdd93zkeYuRm7wL
- hnO8YLRRwE91RDV7gMqDWzwFpqywA2N+iVGNQKqeWdd/mEb0HEyPrJXLyRgVLN31/VWv
- LRsiLyd3PHitqV/u2DQz24PE68w+B3gNTGl2q00FF5+maUFOr2k8D58BjlTpA6sljFC+
- htRg9x27p/5YmN+cS/BZR2eR7jyZc5SH9JfDtX97+DnXG2kKVhEJyt1hDAvZnJijBT7+
- R+El7CAmfWi5x1b7eg1N9XAJ4WrEPutmt6tMqaIG4bGkM6ZaZ3Resp82zxQQByKbCprJ
- ZoVA==
-X-Gm-Message-State: AOAM532OlnY6or0V1VI1oHG8Osfke6vuumdDZ/dq1iJZ6OW7xm75zfxl
- 9XlgZFlWng6WPhk8wfZM4Dgz/i3K/iUfhvrpRrt+xAiD8IE49ujgl8Yu9zhKgxvchbW2DpltS7D
- bLs1vEdPZDfk6+Fs=
-X-Received: by 2002:a05:6000:1549:b0:203:f11a:ac4c with SMTP id
- 9-20020a056000154900b00203f11aac4cmr18875002wry.233.1647957729464; 
- Tue, 22 Mar 2022 07:02:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzjYu1g0tEipFayZMKlO56xN6rKUaWs8j/NaRQcKPJ0XzVfXBG63g4lC4C3kiJreIm+TdbxkQ==
-X-Received: by 2002:a05:6000:1549:b0:203:f11a:ac4c with SMTP id
- 9-20020a056000154900b00203f11aac4cmr18874960wry.233.1647957729157; 
- Tue, 22 Mar 2022 07:02:09 -0700 (PDT)
-Received: from redhat.com ([2.55.132.0]) by smtp.gmail.com with ESMTPSA id
- o8-20020a5d6488000000b002051f1028f6sm1880416wri.111.2022.03.22.07.02.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 07:02:08 -0700 (PDT)
-Date: Tue, 22 Mar 2022 10:02:03 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH  v1 12/13] hw/virtio/vhost-user: don't suppress F_CONFIG
- when supported
-Message-ID: <20220322095720-mutt-send-email-mst@kernel.org>
-References: <20220321153037.3622127-1-alex.bennee@linaro.org>
- <20220321153037.3622127-13-alex.bennee@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AqfE+YXzQHxcRQFPAkwfE41ALnObhp3XXyp7wCWxZzo=;
+ b=0FivyxLJWPUzi00E9eVAPoH2fM5RL36K4vEyG6ZrR3Sldok5maqecAIunTuv9uM611
+ TLZ/gL99iDarzqQsoJ4/jthFbtWjJGc2d8mnRZl1zxv7W1OBx53NClNsNfghtiml4vX9
+ JHI3ZGx90SeSu3STtDZk3w+p7CHhNITXhXghe7VLgZU6kScfNiM10JOPDfdDa5+IUIyx
+ zXUFrunsN86NMoSK+/kuVLy9sdFOQI30YrffOOIu2lA4XYL6am3pVqAMS6XZy5EyioGV
+ M8En2TK61Xbo7HWFff1Uhfl3DIDQspILjJII7Ml9x70NzWk4v29ueePP690JC2q907oG
+ rESg==
+X-Gm-Message-State: AOAM533LXSh3x7wwgnKk2L1lwku9L7SGblAS87Hw2rMwvREeubcoeJpg
+ t0m0J9MMaepWofyUOPjksNbgag==
+X-Google-Smtp-Source: ABdhPJz6mPTOEy6sYRTQCrPUtEYwsfeIbHpy6rSEo+iU5YiuPTOno8Y9lcIXzRFJeRDfpFyXjfxCEA==
+X-Received: by 2002:a63:df0d:0:b0:373:401:6818 with SMTP id
+ u13-20020a63df0d000000b0037304016818mr21860898pgg.34.1647957908097; 
+ Tue, 22 Mar 2022 07:05:08 -0700 (PDT)
+Received: from [192.168.10.94] ([152.44.200.141])
+ by smtp.gmail.com with ESMTPSA id
+ a16-20020a637050000000b00385f92b13d1sm1403418pgn.43.2022.03.22.07.05.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Mar 2022 07:05:07 -0700 (PDT)
+Message-ID: <b24f3ca8-da88-3e3d-771b-74544b7b556b@linaro.org>
+Date: Tue, 22 Mar 2022 07:05:05 -0700
 MIME-Version: 1.0
-In-Reply-To: <20220321153037.3622127-13-alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] Define MAP_SYNC and MAP_SHARED_VALIDATE on needed linux
+ systems
+Content-Language: en-US
+To: Khem Raj <raj.khem@gmail.com>, qemu-devel@nongnu.org
+References: <20220321172006.3014516-1-raj.khem@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220321172006.3014516-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,158 +93,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, slp@redhat.com, mathieu.poirier@linaro.org,
- viresh.kumar@linaro.org, qemu-devel@nongnu.org,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Maxime Coquelin <maxime.coquelin@redhat.com>, stefanha@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, marcandre.lureau@redhat.com
+Cc: Zhang Yi <yi.z.zhang@linux.intel.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 21, 2022 at 03:30:36PM +0000, Alex Bennée wrote:
-> Previously we would silently suppress VHOST_USER_PROTOCOL_F_CONFIG
-> during the protocol negotiation if the QEMU stub hadn't implemented
-> the vhost_dev_config_notifier. However this isn't the only way we can
-> handle config messages, the existing vdc->get/set_config can do this
-> as well.
+On 3/21/22 10:20, Khem Raj wrote:
+> linux only wires MAP_SYNC and MAP_SHARED_VALIDATE for architectures
+> which include asm-generic/mman.h and mips/powerpc are not including this
+> file in linux/mman.h, therefore these should be defined for such
+> architectures on Linux as well.
 
+This is not precisely correct.
 
-Could you give an example where the problem is encountered please?
+MAP_SHARED_VALIDATE is defined in <linux/mman.h> for all architectures.
 
-> Lightly re-factor the code to check for both potential methods and
-> instead of silently squashing the feature error out. It is unlikely
-> that a vhost-user backend expecting to handle CONFIG messages will
-> behave correctly if they never get sent.
+MAP_SYNC is defined in <asm-generic/mman-common.h>, which is included by powerpc 
+<asm/mman.h>.  But you are correct that this is missing for mips.
 
-Hmm but are you sure? Most devices work mostly fine without CONFIG
-messages, there's a chance a backend set this flag just in case
-without much thought ...
-
-> Fixes: 1c3e5a2617 ("vhost-user: back SET/GET_CONFIG requests with a protocol feature")
-
-I'm not sure whether something is broken or this is a cleanup patch.
-Fixes tag means "if you have 1c3e5a2617 you should pick this patch", so
-cleanups don't need a fixes: tag.
-
-
-> Cc: Maxime Coquelin <maxime.coquelin@redhat.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> ---
->   - we can't check for get_config/set_config as the stack squashed vdev
->   - use vhost-user-state to transmit this
-> ---
->  include/hw/virtio/vhost-user.h |  1 +
->  hw/scsi/vhost-user-scsi.c      |  1 +
->  hw/virtio/vhost-user.c         | 46 ++++++++++++++++++++++++----------
->  3 files changed, 35 insertions(+), 13 deletions(-)
-> 
-> diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
-> index e44a41bb70..6e0e8a71a3 100644
-> --- a/include/hw/virtio/vhost-user.h
-> +++ b/include/hw/virtio/vhost-user.h
-> @@ -22,6 +22,7 @@ typedef struct VhostUserState {
->      CharBackend *chr;
->      VhostUserHostNotifier notifier[VIRTIO_QUEUE_MAX];
->      int memory_slots;
-> +    bool supports_config;
->  } VhostUserState;
->  
->  bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp);
-> diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-> index 1b2f7eed98..9be21d07ee 100644
-> --- a/hw/scsi/vhost-user-scsi.c
-> +++ b/hw/scsi/vhost-user-scsi.c
-> @@ -121,6 +121,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
->      vsc->dev.backend_features = 0;
->      vqs = vsc->dev.vqs;
->  
-> +    s->vhost_user.supports_config = true;
->      ret = vhost_dev_init(&vsc->dev, &s->vhost_user,
->                           VHOST_BACKEND_TYPE_USER, 0, errp);
->      if (ret < 0) {
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index b27b8c56e2..6ce082861b 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -1949,14 +1949,15 @@ static int vhost_user_postcopy_notifier(NotifierWithReturn *notifier,
->  static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
->                                     Error **errp)
->  {
-> -    uint64_t features, protocol_features, ram_slots;
-> +    uint64_t features, ram_slots;
->      struct vhost_user *u;
-> +    VhostUserState *vus = (VhostUserState *) opaque;
->      int err;
->  
->      assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_USER);
->  
->      u = g_new0(struct vhost_user, 1);
-> -    u->user = opaque;
-> +    u->user = vus;
->      u->dev = dev;
->      dev->opaque = u;
->  
-> @@ -1967,6 +1968,10 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
->      }
->  
->      if (virtio_has_feature(features, VHOST_USER_F_PROTOCOL_FEATURES)) {
-> +        bool supports_f_config = vus->supports_config ||
-> +            (dev->config_ops && dev->config_ops->vhost_dev_config_notifier);
-> +        uint64_t protocol_features;
+> @@ -10,14 +10,18 @@
+>    * later.  See the COPYING file in the top-level directory.
+>    */
+>   
+> +#include "qemu/osdep.h"
+>   #ifdef CONFIG_LINUX
+>   #include <linux/mman.h>
+> -#else  /* !CONFIG_LINUX */
+> +#endif  /* CONFIG_LINUX */
 > +
->          dev->backend_features |= 1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
->  
->          err = vhost_user_get_u64(dev, VHOST_USER_GET_PROTOCOL_FEATURES,
-> @@ -1976,19 +1981,34 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
->              return -EPROTO;
->          }
->  
-> -        dev->protocol_features =
-> -            protocol_features & VHOST_USER_PROTOCOL_FEATURE_MASK;
-> -
-> -        if (!dev->config_ops || !dev->config_ops->vhost_dev_config_notifier) {
-> -            /* Don't acknowledge CONFIG feature if device doesn't support it */
-> -            dev->protocol_features &= ~(1ULL << VHOST_USER_PROTOCOL_F_CONFIG);
-> -        } else if (!(protocol_features &
-> -                    (1ULL << VHOST_USER_PROTOCOL_F_CONFIG))) {
-> -            error_setg(errp, "Device expects VHOST_USER_PROTOCOL_F_CONFIG "
-> -                       "but backend does not support it.");
-> -            return -EINVAL;
-> +        /*
-> +         * We will use all the protocol features we support - although
-> +         * we suppress F_CONFIG if we know QEMUs internal code can not support
-> +         * it.
-> +         */
-> +        protocol_features &= VHOST_USER_PROTOCOL_FEATURE_MASK;
-> +
-> +        if (supports_f_config) {
-> +            if (!virtio_has_feature(protocol_features,
-> +                                    VHOST_USER_PROTOCOL_F_CONFIG)) {
-> +                error_setg(errp, "vhost-user device %s expecting "
-> +                           "VHOST_USER_PROTOCOL_F_CONFIG but the vhost-user backend does "
-> +                           "not support it.", dev->vdev->name);
-> +                return -EPROTO;
-> +            }
-> +        } else {
-> +            if (virtio_has_feature(protocol_features,
-> +                                   VHOST_USER_PROTOCOL_F_CONFIG)) {
-> +                warn_reportf_err(*errp, "vhost-user backend supports "
-> +                                 "VHOST_USER_PROTOCOL_F_CONFIG for "
-> +                                 "device %s but QEMU does not.",
-> +                                 dev->vdev->name);
-> +                protocol_features &= ~(1ULL << VHOST_USER_PROTOCOL_F_CONFIG);
-> +            }
->          }
->  
-> +        /* final set of protocol features */
-> +        dev->protocol_features = protocol_features;
->          err = vhost_user_set_protocol_features(dev, dev->protocol_features);
->          if (err < 0) {
->              error_setg_errno(errp, EPROTO, "vhost_backend_init failed");
-> -- 
-> 2.30.2
+> +#ifndef MAP_SYNC
+>   #define MAP_SYNC              0x0
+> +#endif /* MAP_SYNC */
+> +#ifndef MAP_SHARED_VALIDATE
+>   #define MAP_SHARED_VALIDATE   0x0
+> -#endif /* CONFIG_LINUX */
+> +#endif /* MAP_SHARED_VALIDATE */
+>   
+> -#include "qemu/osdep.h"
 
+The patch is correct, just need to fix the description.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
