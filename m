@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C444E3D90
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 12:27:58 +0100 (CET)
-Received: from localhost ([::1]:37338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC25A4E3D95
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 12:29:21 +0100 (CET)
+Received: from localhost ([::1]:40440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWcg9-0003PY-Ty
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 07:27:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51576)
+	id 1nWchU-0005Vf-Pf
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 07:29:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWcew-00021j-K1
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:26:43 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:43311)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWcfj-0003HO-Iz
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:27:31 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:52163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWceu-00023k-JU
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:26:42 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWcfh-00028T-VA
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:27:31 -0400
 Received: from [192.168.100.1] ([82.142.12.150]) by mrelayeu.kundenserver.de
  (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Ma1sQ-1nc8wk0XrQ-00W0km; Tue, 22 Mar 2022 12:26:38 +0100
-Message-ID: <9f575b84-2d68-6fa2-5913-38189d60b481@vivier.eu>
-Date: Tue, 22 Mar 2022 12:26:37 +0100
+ 1MMXcP-1npfWT49cF-00JcOZ; Tue, 22 Mar 2022 12:27:27 +0100
+Message-ID: <aab473a3-2744-fbe5-c811-91e033d5a64b@vivier.eu>
+Date: Tue, 22 Mar 2022 12:27:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 3/5] linux-user: Properly handle sigset arg to pselect
+Subject: Re: [PATCH 4/5] linux-user: Properly handle sigset arg to epoll_pwait
 Content-Language: fr
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220315084308.433109-1-richard.henderson@linaro.org>
- <20220315084308.433109-4-richard.henderson@linaro.org>
+ <20220315084308.433109-5-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220315084308.433109-4-richard.henderson@linaro.org>
+In-Reply-To: <20220315084308.433109-5-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vKSVQGF3W4GCZvlEjqwYWfvEmazxmdhr50VjWMr0kCCTdz5nDOI
- 2cIFUQdZYsucEMpTaejsysNS8hkOC+YxKrlhHTw3Z1phKbuCMixSQ7Xnn1DiBEDNHZw9QdJ
- ky9JqbpFQH784/Jon38I8Btnekoi8SEQf9v45TNzuWeuA8ma3mJ90EEIJKb3t+jLzXzTrj7
- NrVhpSxcN2A3ZBD6c6NyQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jsCxrHPzIC4=:svrPavbv7zkVCW6syrjw0b
- +SkLQEi55x411widg3Zj79lh4yppmNStfCeO+GuNqgWOFbP1h42veLrozHdwVg1L9gZwr9fv7
- A+h4nSvfLSPlDB4qiNLyps15cCBC+bEfEZHPIhNp8OpMVaIIdYA15y0sHJ63VCVvq5n5hHEJJ
- lqu/UGIjD9eVjkeqnJoDMExz4Hrt37KTPeIPLnvK9KNSeFQf0ES0Mi0snRnbihVUgy5noCYiO
- geuSEhp1Ahdbn7kwD6q7tgCuixwVqLwvXSy9nKr65zBKxjozew4CdMTtcFftyV54Nkq3OfxOw
- aMsRzMXzowaBrwdP/lTZfWkz4APDNBAo0gp6v8pVwW4yTyDnJeg+O0bbI74iH56oJ00ypvxD/
- AKMeaLMvPmsmiXhFStNrWaFz3jwVfA61bVPpoYSax+HIrCeUDOWVAeoWEqBQww7x/MD+eZXYn
- XJnQngV++ym19dGOlYr+D8JVrvBxKkiFeiKhznuZNdtr74VIaGKLSZ3fytyNr41UXRymGqIhW
- ym4gfngdDmA+grjJo9DTZ9FTPbcFiRd147vM7w4cGbRjZXfs18D499t0S2lo6CNYZ9Z+pDxE6
- 9Ci3ApIDmZhpis3Zqa/V42ehoHDtExhyyY/blmjIEOgiMvnPME20HMiUEqGLhyN+NE3z7QyDF
- 8eSGBLTYRcDGta/bh8v5mp1dUQNXlxMCSJUBxkxBvLUkVv0VXdNmLQvmK5p/wQU+/PUk=
+X-Provags-ID: V03:K1:2lLAP3ff3BjoKIJ1GGUoM5ybzoz9BM6x62e9yaoC6Fr59njWyYu
+ W1jPwSXaXpB3betNBPQWFDyZXhkXKIWw5KcLJEHl0aam3DXd0EiakuebBOlNns+0AOTh9LA
+ to7n0U21MUCwgJtHgBsaVl8LhgfZ/+F5L3uCvVn3XRvyp3smkYXsyfvX+6DxHUPA3ZXvkt0
+ SSWC5QRk6ZS+nfHakEhKg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:43QST38oWcE=:45Dmow+N6dhfoPj21VwzSS
+ FVUlFfv3GyFHmcX56oL1WuX9xPpBvK539upNhLJUbWgrcQlTa7zyGWzJ9SJYFHHtM78TTl1zj
+ 3/T1vrAGrkqtBfdhH+3a8tPl3Lxpxj8SSBdU9b2dv+TVkPh6FihiiWfxnehFkf3u9fCOE57tE
+ vEhvonFyrfX2zdxCq9eo+It/Cz1tlh8NBPeKTuuhep6fABYj3zai9ONuTA8Auc5wwdEiYMSmd
+ qM3aBT9IZLplm6PPcjZdKNztWnmRhjJU97Dr7mNPkEnwOHH4UX5F1HeXdvdZX3EZxRiuZpe6z
+ YtJJIMNIj1ni9PsJdv6kxSP24Ex2YAVg/TDxQ1SuPukbM0ksrFxZk3CII6H1w5gd1N27z2/iJ
+ YEHysvVEtejDMXjns+0j9Skdn1YBQwyXx0Gdbzt62tExH9P8upZEJ45Q+hq3DeYjHi7+ArfEN
+ WDAIa5V60VefO8S5oVJzzTIUrIk0KsY=
 Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -77,11 +74,10 @@ Le 15/03/2022 à 09:43, Richard Henderson a écrit :
 > didn't record the new mask for process_pending_signals.
 > Handle this with the same mechanism as sigsuspend.
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/834
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   linux-user/syscall.c | 30 ++++++++++--------------------
->   1 file changed, 10 insertions(+), 20 deletions(-)
+>   linux-user/syscall.c | 22 +++++++---------------
+>   1 file changed, 7 insertions(+), 15 deletions(-)
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
