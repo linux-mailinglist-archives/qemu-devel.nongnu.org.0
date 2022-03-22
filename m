@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A384E3E9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:39:35 +0100 (CET)
-Received: from localhost ([::1]:58806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E204E3ED8
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:54:20 +0100 (CET)
+Received: from localhost ([::1]:59486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWdnS-00025p-Tb
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:39:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40194)
+	id 1nWe1j-00051A-JA
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:54:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nWdbH-0005Pv-61
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:26:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35502)
+ id 1nWdbQ-0005WO-4M
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:27:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nWdbE-0002fp-BQ
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:26:58 -0400
+ id 1nWdbO-0002hK-Ho
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:27:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647952015;
+ s=mimecast20190719; t=1647952025;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BdRSnVVqZ+dqsypANZakqWIZ1OZr6YbIfISstvIDBMU=;
- b=iF8cgzX2t/ZUIYznqn93h1+NOYsZCoUshldmSMYleEH32lTIy4yapp4GoDcx/2/Q8afLzF
- HZvP7wh/UZ9LKTJmp/W2A0suDYZHjES5zPYVwM9DKpdsekfHuKxnsaxIofeKd/uE/aw4LH
- DxwXW8aJnkgSER4FZXLys0kLmmUQfxk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=i6SNvjQ9JIxxJdxLKniZ4GF31hRuvF0vfmNKRo+WzSk=;
+ b=KgPscaTLWBOJTH7300h6wXRD15GQR6WU50UHGvMXWxPHP/VwAS/VL3MoYJ0xv6IhsxWpnm
+ EHiMNJYgGd4dNW4oYIKTEPTUSlC1eryT9270wa69OvGGoTTPXOh+Mum3+OOSW4oT6ZLeeU
+ IMB31YExZ97AxKFyshZGZcZrW8xsf+8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-586-cwpj4IiRO-21kZgVYDuCyA-1; Tue, 22 Mar 2022 08:26:54 -0400
-X-MC-Unique: cwpj4IiRO-21kZgVYDuCyA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-437-P0j77JGCMkyQPzfT5spt-w-1; Tue, 22 Mar 2022 08:27:02 -0400
+X-MC-Unique: P0j77JGCMkyQPzfT5spt-w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD6C41044560;
- Tue, 22 Mar 2022 12:26:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B40653C14CCA;
+ Tue, 22 Mar 2022 12:27:01 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABF9C401E90;
- Tue, 22 Mar 2022 12:26:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1AFC2026D60;
+ Tue, 22 Mar 2022 12:26:57 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/21] Move HOST_LONG_BITS to compiler.h
-Date: Tue, 22 Mar 2022 16:25:49 +0400
-Message-Id: <20220322122601.927238-10-marcandre.lureau@redhat.com>
+Subject: [PULL 10/21] scripts/modinfo-collect: remove unused/dead code
+Date: Tue, 22 Mar 2022 16:25:50 +0400
+Message-Id: <20220322122601.927238-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20220322122601.927238-1-marcandre.lureau@redhat.com>
 References: <20220322122601.927238-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -66,7 +66,7 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,46 +88,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This will help to make common code independent.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Acked-by: John Snow <jsnow@redhat.com>
 ---
- include/qemu/compiler.h | 5 +++++
- include/qemu/osdep.h    | 3 ---
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ scripts/modinfo-collect.py | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index 0a5e67fb970e..d9359859d435 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -7,6 +7,11 @@
- #ifndef COMPILER_H
- #define COMPILER_H
+diff --git a/scripts/modinfo-collect.py b/scripts/modinfo-collect.py
+index 61b90688c6dc..4e7584df6676 100755
+--- a/scripts/modinfo-collect.py
++++ b/scripts/modinfo-collect.py
+@@ -18,13 +18,8 @@ def find_command(src, target, compile_commands):
  
-+#define HOST_BIG_ENDIAN (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
-+
-+/* HOST_LONG_BITS is the size of a native pointer in bits. */
-+#define HOST_LONG_BITS (__SIZEOF_POINTER__ * 8)
-+
- #if defined __clang_analyzer__ || defined __COVERITY__
- #define QEMU_STATIC_ANALYSIS 1
- #endif
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 8b070dee21c4..9f06bf536fb1 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -244,9 +244,6 @@ extern "C" {
- #define TIME_MAX TYPE_MAXIMUM(time_t)
- #endif
- 
--/* HOST_LONG_BITS is the size of a native pointer in bits. */
--#define HOST_LONG_BITS (__SIZEOF_POINTER__ * 8)
--
- /* Mac OSX has a <stdint.h> bug that incorrectly defines SIZE_MAX with
-  * the wrong type. Our replacement isn't usable in preprocessor
-  * expressions, but it is sufficient for our needs. */
+ def process_command(src, command):
+     skip = False
+-    arg = False
+     out = []
+     for item in shlex.split(command):
+-        if arg:
+-            out.append(x)
+-            arg = False
+-            continue
+         if skip:
+             skip = False
+             continue
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
