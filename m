@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330654E467E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 20:09:22 +0100 (CET)
-Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1D44E468A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 20:17:06 +0100 (CET)
+Received: from localhost ([::1]:44156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWjsf-0004b5-0W
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 15:09:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35018)
+	id 1nWk09-0000yU-EP
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 15:17:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWjrH-0003EA-98
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 15:07:55 -0400
-Received: from [2607:f8b0:4864:20::533] (port=43967
- helo=mail-pg1-x533.google.com)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1nWjxs-0007Yh-GS; Tue, 22 Mar 2022 15:14:44 -0400
+Received: from [2607:f8b0:4864:20::1033] (port=43780
+ helo=mail-pj1-x1033.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWjrF-0001Mo-GI
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 15:07:54 -0400
-Received: by mail-pg1-x533.google.com with SMTP id c2so13283920pga.10
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 12:07:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1nWjxq-0005Pn-VQ; Tue, 22 Mar 2022 15:14:44 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ n7-20020a17090aab8700b001c6aa871860so3022506pjq.2; 
+ Tue, 22 Mar 2022 12:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=bDnsp64dy23km8dL17HIpLYraoqdROmh6JM8WZ9QnxQ=;
- b=L4jnThfAX6weorw+rTlovTZzOlJLVdJXPWMdd3Os2Fui5Gdriw/AU2CtdIsPGfYdO9
- Bg5uqOH2mVDdVb/hJ2QHF2RSitPHirOUBg7CRM3YjvQCxh3R4LkUVEDe9Sqdb1/uSpzV
- DlY3v/IhkdivpRBGHKxHldSV0WFV8cHuHgcigVbiSkZcwtYqGnvdB0hhczC+bJGD5oXK
- 8P6S/eXWSqTDwMoMk8nN3rKO73nSQ1FRukri9Rt13MjJFNcZDMt5PmVoxvjiwcSe3iGT
- lyqtp8YyXh3o+z/8R6woWP0gAKPml4/fieyC+fTHXW0MEKIypdCwxKXlYJss1tO3dzba
- 7aog==
+ bh=QzIyP8Mkvb2J5evFSr9KnKa1FyPsV8VryUkh49s1xvA=;
+ b=BRzphTLIzrBvJ7ikBJHA+GPKchDysPdlJC5H7e2gr3nS1zRsgjTQwg1js3XgMk++VW
+ ZkIezFEMk91EtfE+FIGlceHI5n7dgKkHl4YTj1YhxY6NOQk9q7BB0U44dcRf+l+ryPOM
+ LpKOJLVx9vh11sfER4vdZmuJGzeTdh8JoYROudAdMibXZzmVVJkmxi73Gv0r/3gfFOd2
+ 1iuwcDyAFVnUYvcz+9HFXy8n1N8aGxzKaivmqnhMDMYuIMZNjk/JI4Mx55g6sBZEjCRV
+ YAUUZqbQSDcmX00M+VIFUORsdrZAXzW4pUqhoKWTzL8gLByzLSyIYCaGcM2aUyc60NTU
+ yCtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=bDnsp64dy23km8dL17HIpLYraoqdROmh6JM8WZ9QnxQ=;
- b=Jo9+UM+gQGM5enY8B3hURM/hRX80bvYw4MNCOe+SXwK2lAqjI9ixVnxiqE3vO/uE3Y
- PkQKb37xEvObJY4UBl3Q/tkF3HvGJNTImRO+VMf41n+yJLnGWA7qqqQPrfRLbqRjx2f/
- 46SQ5MSpYAgb58y0d8X3u2TTmA8R4y679CwPSxTwBXZ036zXmTSDbGbL2PCj/KRuwO94
- nWte6dCi1Tk5PcQ6nqdO6UH4NCDy/Yzej7UfvQLsLAyLhZOvZFd8RxMF6gGBUzLEyLJ+
- FT4A0nqhkpIoTgepIU578leU+IUmrVLcx6/CTbWezLJKfkmodUhSaJ5qqiT/e2fW5QK9
- UJRg==
-X-Gm-Message-State: AOAM532IWJ3RBck+k2hHg4GOBYwtEmah/kLhd7hmKO0tFHngRF8p9KxD
- wKL2tTVLQ9E1KUagStVbrpQcYV4z62I=
-X-Google-Smtp-Source: ABdhPJw+VIm8AGR2iezhWtd3f3hdyMkowLMXgSIkRs3pOvfAUuxeRAHxVjOZVNMv1sfbsIQrts7cbA==
-X-Received: by 2002:a65:53cc:0:b0:382:8506:f1a6 with SMTP id
- z12-20020a6553cc000000b003828506f1a6mr8642804pgr.44.1647976071990; 
- Tue, 22 Mar 2022 12:07:51 -0700 (PDT)
-Received: from localhost.localdomain (198.red-83-50-65.dynamicip.rima-tde.net.
- [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- e10-20020a056a00162a00b004f6fc39c081sm21921009pfc.211.2022.03.22.12.07.49
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 22 Mar 2022 12:07:51 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-7.0] target/i386/hvf: Free ressources when vCPU is
- destroyed
-Date: Tue, 22 Mar 2022 20:07:45 +0100
-Message-Id: <20220322190745.37727-1-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ bh=QzIyP8Mkvb2J5evFSr9KnKa1FyPsV8VryUkh49s1xvA=;
+ b=oM2LOOk2tHcONQ9VzETcEy0f1/qnpE4yNNfiSqTEs0pR59/qF6iEY5j6w/F6JqBfoe
+ Vsf0ORqB/u90jIGPUkR1PBgk833yIA3nePlOnrFodVBR8JRxcUknHDt5jeOmdehr0AMe
+ Zr4sWdu2v/XNVAtflgmYNqKasdtJ5vxIY4QfAusvFj5ppwbbC+1uHTKyy3UsYlyFkQ+h
+ VWR6dpUubUYVp2L4jxtpPIKZfSffDd6wKgUDE0CmdDAS0MfYMi3rtM+8vo1RfHKrJyL+
+ JBWlyQCCgu704vB65t7ogJ358CYYx79mT68CCEKOjGPHMWJvEpviVzL8JantLZaXx5z3
+ RR7g==
+X-Gm-Message-State: AOAM531bDY8B/dFyqJynrD3vYCuOsxFqwPdtzAc8BkhAhp3VY4IoD+8s
+ UYhPITHQhduqk7MgpMgoUxQQPXIrqOseOQ==
+X-Google-Smtp-Source: ABdhPJyQ5d6lH9YwGRcpFpQTKDOXb9ZOFSM/NWyph5mpuctrxJcyIElt2cIDkxVdxle+yDgphwGUlg==
+X-Received: by 2002:a17:90a:7304:b0:1c6:aadc:90e5 with SMTP id
+ m4-20020a17090a730400b001c6aadc90e5mr6869831pjk.164.1647976480643; 
+ Tue, 22 Mar 2022 12:14:40 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id
+ q20-20020a056a00151400b004fa99ba6654sm10146827pfu.115.2022.03.22.12.14.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Mar 2022 12:14:40 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: QEMU Devel <qemu-devel@nongnu.org>
+Subject: [PATCH v2 0/2] CI fixes
+Date: Wed, 23 Mar 2022 03:14:07 +0800
+Message-Id: <20220322191409.1330-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.31.1.windows.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,39 +86,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=D0=B8=D0=B6?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=D0=B8=D0=B6e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+* Fixes the cirrus CI
+* Add an empty github actions to get cirrus CI works properly
 
-Both xsave_buf and hvf_caps are allocated in hvf_arch_init_vcpu(),
-free them in hvf_arch_vcpu_destroy().
+Yonggang Luo (2):
+  ci: Add github workflow for getting cirrus working properly
+  cirrus: upgrade mingw base packages.
 
-Reported-by: Mark Kanda <mark.kanda@oracle.com>
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/i386/hvf/hvf.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .cirrus.yml                |  2 +-
+ .github/workflows/main.yml | 29 +++++++++++++++++++++++++++++
+ .gitlab-ci.d/windows.yml   |  2 +-
+ MAINTAINERS                |  4 +++-
+ 4 files changed, 34 insertions(+), 3 deletions(-)
+ create mode 100644 .github/workflows/main.yml
 
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index fc12c02fb2..39fa4641b9 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -163,7 +163,9 @@ void hvf_arch_vcpu_destroy(CPUState *cpu)
-     X86CPU *x86_cpu = X86_CPU(cpu);
-     CPUX86State *env = &x86_cpu->env;
- 
-+    g_free(env->xsave_buf);
-     g_free(env->hvf_mmio_buf);
-+    g_free(hvf_state->hvf_caps);
- }
- 
- static void init_tsc_freq(CPUX86State *env)
 -- 
-2.35.1
+2.31.1.windows.1
 
 
