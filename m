@@ -2,96 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA39A4E4114
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 15:24:18 +0100 (CET)
-Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E557F4E4148
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 15:28:57 +0100 (CET)
+Received: from localhost ([::1]:36790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWfQn-0003pS-7r
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 10:24:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45244)
+	id 1nWfVI-0006Vu-Ph
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 10:28:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWfOk-0001r5-0N
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:22:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35188)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWfOh-0007It-GA
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:22:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647958926;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/Ws2It+wpDl84aynVEfqhFVcyPW/KeXlM5cOXLPnels=;
- b=WeLaN4UQmDRWqFRMDq3fHae7FI+OsLLvSldmqPvWl+kYhI+SDhJJVZ8L35DfLK5PFE2qcs
- YOr4nb2eLmD5hgr87LqgazG4Vva485ijtJ/urppnZUqa9rDb6aKRBons9s/LLjuZ+UEso3
- kWaXwtoFYB2sYkgJsHlOCsLMA4qMq/8=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-473-ugMt2Yj2MiiIS5Cnq4qZLg-1; Tue, 22 Mar 2022 10:22:05 -0400
-X-MC-Unique: ugMt2Yj2MiiIS5Cnq4qZLg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- w11-20020a170907270b00b006df8927010eso7559807ejk.0
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 07:22:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nWfTi-0005XC-M1
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:27:18 -0400
+Received: from [2607:f8b0:4864:20::102f] (port=34012
+ helo=mail-pj1-x102f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nWfTg-0003p4-P7
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:27:18 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ o68-20020a17090a0a4a00b001c686a48263so1830343pjo.1
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 07:27:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ftjt5vXWkLl1r7QN4QByvx0cIhYHSGPZde/5cznEmZw=;
+ b=Khx+ky60zZ3gi8W8kTM8OiEv7uDvO6x3O06xQrLtihBv8akFIHr/aGsVyrT7djO728
+ yDKMoiy04OqFh1dgoa78vhcJ0TQ30yyVYH/uRFMdmzKuzGa7bZf1KaXtrSjp9D+3Rz6i
+ bjr6IdJDXUzPDBQqM66f3ySV1eoeU5lkzzo1eLYBRILNgCABP9+KqF7up73OYXlUilYF
+ RUAw+eq0L4g8y+jvCerGNVNHd1yejqFz66whe6f9QGrDOfP4YmQsLe36LfEfzu03soJ5
+ PjeVNDYVLmNg0gHVmVnvQ1pH4fZ6deFGoHPf2yUvDlRCFEaG4vecx7tI+8dAZw/4c7r8
+ 767Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/Ws2It+wpDl84aynVEfqhFVcyPW/KeXlM5cOXLPnels=;
- b=o6T75siQ/ouiIiycQ6ACStNM1vhBIMQ+dLF90zvy63AqtaoW7nh/tocCGKQgGFCDbF
- iZmt8kkp5dfqaSFC0vdc3565F4L50j3myFn1cpto+Fp3g0JXTEd5VvLM872wnSKcTeGG
- MfZaSWIIwR6kRx2OlWqUso15kfrkQn4PP/nEbJB4+lAQJLExR/Ne5J2ot3JlvvjRiB1E
- w1BkZ4OkOYob3liWqVs8U4hfTk6sTSIG53EnygZbXoWNDi6CyVla9VhlgWjrheHsvTAj
- txkAbGMDFNI0Qs9CJH89OTWtn6AITfjY/SIKPfkzSr6IAZiUw46VpnOoDrWmbt3bzf9+
- BoWw==
-X-Gm-Message-State: AOAM532zq1Db892/Y8IUWxN1QTTF5yiIVTywmL5ttOnZ6g/1NiuyzKCJ
- AmBVDaP/u0ixcDqM1HfhaHgaQUzB4lpkuINoIUZ/GjrOsaNyptomqXUlwtw1Bt8oEOnfmFc3+ZU
- 6/iIL9gVpYMKTZgI=
-X-Received: by 2002:a17:906:c149:b0:6df:f047:1698 with SMTP id
- dp9-20020a170906c14900b006dff0471698mr13409187ejc.16.1647958924503; 
- Tue, 22 Mar 2022 07:22:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzcttHdqHAhd+UNwxvqtxo4q2yTJyCFLk72/HpE2Af2feszEBKVhKMcsxATegGMUjRLOq0LJQ==
-X-Received: by 2002:a17:906:c149:b0:6df:f047:1698 with SMTP id
- dp9-20020a170906c14900b006dff0471698mr13409155ejc.16.1647958924252; 
- Tue, 22 Mar 2022 07:22:04 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ bh=ftjt5vXWkLl1r7QN4QByvx0cIhYHSGPZde/5cznEmZw=;
+ b=6HGo1PQKg5QVMHoPRotJyy+IQ7mXw1dosxLgN3dSQTNTs8q3T92s+kv0hp22yWNjnF
+ 1K1wZZD0eB8CWClFiiTQ0AFuDp2Ogwd+fHNEwTiCnVC/Falb8ijbs9+0iQlhTN6vem1I
+ 4Rjo2WK2rj/bXROo9fWeyQlmZAGeznpYwpz8UiC0aimn+tuLfIj8jlrg9ImDk/bhiwy5
+ QHNA2/9yAWpGWIOL2OPKITdOJQUWEQ8tCvMctaZQINdPPI2cMm+Y8DVuoMxbrBLc/wtr
+ UHiYM06mkBji2qcew42plviKigcIknDMnN1sdBsBx3/wpsFlD3qOxvsJfG9gHJOdx/by
+ MSsw==
+X-Gm-Message-State: AOAM533y0pG73FhBjD33cFY8QDB5V4WBCZEhoxUj20F3bNJlsFLwTCj6
+ pvbsGWMdYseswWMxD7X2GOP95A==
+X-Google-Smtp-Source: ABdhPJzakESrY6Q4Z0JPv3VQ8FSPfN4KSeVGHEBzuZZgtcKzaR5PHtbi8x3ngI/je8nStQAUQ3Ia+Q==
+X-Received: by 2002:a17:903:124a:b0:151:99fe:1a10 with SMTP id
+ u10-20020a170903124a00b0015199fe1a10mr18262973plh.87.1647959235054; 
+ Tue, 22 Mar 2022 07:27:15 -0700 (PDT)
+Received: from [192.168.10.94] ([152.44.200.141])
  by smtp.gmail.com with ESMTPSA id
- d24-20020a1709067a1800b006e021f4c1c3sm2198475ejo.166.2022.03.22.07.22.03
+ s20-20020a056a00179400b004f709998d13sm24471161pfg.10.2022.03.22.07.27.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 07:22:03 -0700 (PDT)
-Message-ID: <df38293e-2b72-7678-e684-398514fce655@redhat.com>
-Date: Tue, 22 Mar 2022 15:22:03 +0100
+ Tue, 22 Mar 2022 07:27:14 -0700 (PDT)
+Message-ID: <b2ceef95-eacc-cc41-5a00-2f2adfee6e64@linaro.org>
+Date: Tue, 22 Mar 2022 07:27:12 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 04/15] iotests/040: Don't check image pattern on
- zero-length image
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20220318203655.676907-1-jsnow@redhat.com>
- <20220318203655.676907-5-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220318203655.676907-5-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v2 1/1] fix cmpxchg and lock cmpxchg instruction
 Content-Language: en-US
+To: Wei Li <lw945lw945@yahoo.com>, pbonzini@redhat.com, eduardo@habkost.net
+References: <20220322042008.399857-1-lw945lw945@yahoo.com>
+ <20220322042008.399857-2-lw945lw945@yahoo.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220322042008.399857-2-lw945lw945@yahoo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,25 +94,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.03.22 21:36, John Snow wrote:
-> qemu-io fails on read/write with zero-length raw images, so skip these
-> when running the zero-length image tests.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
+On 3/21/22 21:20, Wei Li wrote:
+> One question is that we can reduce more code duplication if we use
+> 
+> ---------
+> if(foo){
+>      ....
+>      tcg_gen_atomic_cmpxchg_tl(oldv, s->A0, cmpv, newv,
+>                                s->mem_index, ot | MO_LE);
+>      gen_extu(ot, oldv);
+>      gen_extu(ot, cmpv);
+> }else{
+>      ....
+>      tcg_gen_movcond_tl(TCG_COND_EQ, newv, old, cmpv, newv, oldv);
+>      gen_op_mov_reg_v(s, ot, rm, newv);
+> }
+> gen_op_mov_reg_v(s, ot, R_EAX, oldv);
+> tcg_gen_movcond_tl(TCG_COND_EQ, cpu_regs[R_EAX], oldv, cmpv,
+>                      temp, cpu_regs[R_EAX]);
+> --------
+> 
+> The problem is gen_op_mov_reg_v(s, ot, rm, newv) will happen before
+> gen_op_mov_reg_v(s, ot, R_EAX, oldv). According to SDM, write to R_EAX
+> should happen before write to rm. I am not sure about its side effects.
+
+There are no side effects beyond the store into RM.
+I do prefer the structure above.
+
+
+r~
+
+> 
+> All in all, if there is no side effect, we can use the code above to
+> reduce more code duplication. Or we use the code below to ensure
+> correctness.
+> 
+> Signed-off-by: Wei Li <lw945lw945@yahoo.com>
 > ---
->   tests/qemu-iotests/040 | 14 ++++++++++++--
->   1 file changed, 12 insertions(+), 2 deletions(-)
-
-Doesn’t look specific to zero-length images, but the fact that we do I/O 
-beyond the image size, i.e. any image below 1 MB would be affected.
-
-Anyway, the zero-length image is the only one tested with a size of less 
-than 1 MB, so this works.
-
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+>   target/i386/tcg/translate.c | 44 +++++++++++++++++++------------------
+>   1 file changed, 23 insertions(+), 21 deletions(-)
+> 
+> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+> index 2a94d33742..6633d8ece6 100644
+> --- a/target/i386/tcg/translate.c
+> +++ b/target/i386/tcg/translate.c
+> @@ -5339,7 +5339,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>       case 0x1b0:
+>       case 0x1b1: /* cmpxchg Ev, Gv */
+>           {
+> -            TCGv oldv, newv, cmpv;
+> +            TCGv oldv, newv, cmpv, temp;
+>   
+>               ot = mo_b_d(b, dflag);
+>               modrm = x86_ldub_code(env, s);
+> @@ -5348,41 +5348,42 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>               oldv = tcg_temp_new();
+>               newv = tcg_temp_new();
+>               cmpv = tcg_temp_new();
+> +            temp = tcg_temp_new();
+>               gen_op_mov_v_reg(s, ot, newv, reg);
+>               tcg_gen_mov_tl(cmpv, cpu_regs[R_EAX]);
+> +            tcg_gen_mov_tl(temp, cpu_regs[R_EAX]);
+>   
+> -            if (s->prefix & PREFIX_LOCK) {
+> +            if ((s->prefix & PREFIX_LOCK) ||
+> +                (mod != 3)) {
+> +                /* Use the tcg_gen_atomic_cmpxchg_tl path whenever mod != 3.
+> +                   While an unlocked cmpxchg need not be atomic, it is not
+> +                   required to be non-atomic either. */
+>                   if (mod == 3) {
+>                       goto illegal_op;
+>                   }
+>                   gen_lea_modrm(env, s, modrm);
+>                   tcg_gen_atomic_cmpxchg_tl(oldv, s->A0, cmpv, newv,
+>                                             s->mem_index, ot | MO_LE);
+> +                gen_extu(ot, oldv);
+> +                gen_extu(ot, cmpv);
+> +                /* Perform the merge into %al or %ax as required by ot. */
+>                   gen_op_mov_reg_v(s, ot, R_EAX, oldv);
+> +                /* Undo the entire modification to %rax if comparison equal. */
+> +                tcg_gen_movcond_tl(TCG_COND_EQ, cpu_regs[R_EAX], oldv, cmpv,
+> +                                    temp, cpu_regs[R_EAX]);
+>               } else {
+> -                if (mod == 3) {
+> -                    rm = (modrm & 7) | REX_B(s);
+> -                    gen_op_mov_v_reg(s, ot, oldv, rm);
+> -                } else {
+> -                    gen_lea_modrm(env, s, modrm);
+> -                    gen_op_ld_v(s, ot, oldv, s->A0);
+> -                    rm = 0; /* avoid warning */
+> -                }
+> +                rm = (modrm & 7) | REX_B(s);
+> +                gen_op_mov_v_reg(s, ot, oldv, rm);
+>                   gen_extu(ot, oldv);
+>                   gen_extu(ot, cmpv);
+>                   /* store value = (old == cmp ? new : old);  */
+>                   tcg_gen_movcond_tl(TCG_COND_EQ, newv, oldv, cmpv, newv, oldv);
+> -                if (mod == 3) {
+> -                    gen_op_mov_reg_v(s, ot, R_EAX, oldv);
+> -                    gen_op_mov_reg_v(s, ot, rm, newv);
+> -                } else {
+> -                    /* Perform an unconditional store cycle like physical cpu;
+> -                       must be before changing accumulator to ensure
+> -                       idempotency if the store faults and the instruction
+> -                       is restarted */
+> -                    gen_op_st_v(s, ot, newv, s->A0);
+> -                    gen_op_mov_reg_v(s, ot, R_EAX, oldv);
+> -                }
+> +                /* Perform the merge into %al or %ax as required by ot. */
+> +                gen_op_mov_reg_v(s, ot, R_EAX, oldv);
+> +                /* Undo the entire modification to %rax if comparison equal. */
+> +                tcg_gen_movcond_tl(TCG_COND_EQ, cpu_regs[R_EAX], oldv, cmpv,
+> +                                    temp, cpu_regs[R_EAX]);
+> +                gen_op_mov_reg_v(s, ot, rm, newv);
+>               }
+>               tcg_gen_mov_tl(cpu_cc_src, oldv);
+>               tcg_gen_mov_tl(s->cc_srcT, cmpv);
+> @@ -5391,6 +5392,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>               tcg_temp_free(oldv);
+>               tcg_temp_free(newv);
+>               tcg_temp_free(cmpv);
+> +            tcg_temp_free(temp);
+>           }
+>           break;
+>       case 0x1c7: /* cmpxchg8b */
 
 
