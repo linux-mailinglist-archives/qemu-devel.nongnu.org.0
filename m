@@ -2,95 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1EF4E427F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 16:06:13 +0100 (CET)
-Received: from localhost ([::1]:35584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D05514E4283
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 16:08:09 +0100 (CET)
+Received: from localhost ([::1]:38536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWg5M-0003hS-5O
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 11:06:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56828)
+	id 1nWg7E-0005mk-VX
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 11:08:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWg3O-0002Ip-TM
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:04:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28314)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nWg4e-0003Ah-3e
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:05:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWg3L-0003OM-Pi
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:04:09 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nWg4c-0003nl-6D
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:05:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647961446;
+ s=mimecast20190719; t=1647961525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L2+bd3YslzxCVRN0spwqEC40gXgC4wbUYP+RU4jr/zs=;
- b=eYPSGwVHWdlNBa2HJ6g65FVAJ0s+cl2BYmjojNHiAJpUKu6z7ylCau5T+riusd+ayTBLIm
- 2eAffNj5GvJX0fwo5QP+jvHM/dt1rZLOZqYBORDgER7a8jLP6fz9MKIVuojKBqcTVQTjjc
- Iuw1iBJ3D3KqSGib6W4ZGUd1bixQY7g=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=G0eqWp6IpJLcsfeENUpoJaOkDHG6yVxW0sCFG8Btzaw=;
+ b=P0ILm3Kbp4zcWj4gVPaFVZDkt7Y0tzY2Q1sJ48lCWvDQFXvqa9dNMTsh8zS9vSP6hxICr4
+ tIVZvl0c1/csXGPeICB4/OS7pQe/pIongVcSo/raCLPKgUc4bzfVSENw3PX4Ov53rvalCD
+ 67w43bmrLT2kadSf0P0oFTWNBf0BuLc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-512-pNoJVs-IMf6w7OMLcLZa7w-1; Tue, 22 Mar 2022 11:04:05 -0400
-X-MC-Unique: pNoJVs-IMf6w7OMLcLZa7w-1
-Received: by mail-ed1-f70.google.com with SMTP id
- q25-20020a50aa99000000b004192a64d410so4465226edc.16
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 08:04:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=L2+bd3YslzxCVRN0spwqEC40gXgC4wbUYP+RU4jr/zs=;
- b=HDwu0vugEXpOOyi7cEBTqCwW4cP53a8UbmH80Vtp/bvPB5UjaUvZKVpzqm9gc/LmzB
- ISp0IZ6HR12oqWWJgy7RgKZ/qO7EHKvtQqAYH5I1/oYM34HTSfBwy4JLyNSXzVa7FGA2
- oIwx5UphSCiIPq2KFUbrtFGUck/oMcvvke5fYUlTuHfcVZt9gSsNVSRRJCRLDFyWHMn7
- q+aFdBhbwwrf4XCsHalY6tyt0uX4bWSuQJjTeGThVGa8SLsyfqm5aSwFiA+HA/Bg6MJI
- G/iVqKp3yPNMlThMe2l7+FSBfnTfWDtSMrGNjmjkedIKGs9SG7sipZL1eKD3nQGvfJFh
- VO1A==
-X-Gm-Message-State: AOAM532o5q1vGQwnq+VXuvkJR/rpGe87TaJ7e7Y3/PdWS4L/2z9UPYcd
- LaBIChXcFiqb/9xkt+CcncfWAufI8A182+BK0EyrBZCwH8B9TvnEm9dHMa+9odAWLe0JbiATc5p
- h6Iz5XVAZ6N/Xe9o=
-X-Received: by 2002:a17:907:1628:b0:6d0:ae1c:251b with SMTP id
- hb40-20020a170907162800b006d0ae1c251bmr26300365ejc.393.1647961444270; 
- Tue, 22 Mar 2022 08:04:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz83XUkKv3QZR/OP0fgnzqOrzNGJ2IYMVvttyZ92dxizpnRNvDnqkaEjWZuMJtPLZP0Q9fcuA==
-X-Received: by 2002:a17:907:1628:b0:6d0:ae1c:251b with SMTP id
- hb40-20020a170907162800b006d0ae1c251bmr26300330ejc.393.1647961443924; 
- Tue, 22 Mar 2022 08:04:03 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- l7-20020a056402254700b0041967ac94cbsm3995edb.7.2022.03.22.08.04.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 08:04:03 -0700 (PDT)
-Message-ID: <d89a365d-161b-e7bb-e5a0-80418e60d063@redhat.com>
-Date: Tue, 22 Mar 2022 16:04:03 +0100
+ us-mta-460-0t8jgmPSNRycBj9E3lRHuA-1; Tue, 22 Mar 2022 11:05:20 -0400
+X-MC-Unique: 0t8jgmPSNRycBj9E3lRHuA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58F2D811E81;
+ Tue, 22 Mar 2022 15:05:20 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.227])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 009744010A02;
+ Tue, 22 Mar 2022 15:05:19 +0000 (UTC)
+Date: Tue, 22 Mar 2022 15:05:19 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>
+Subject: Re: Proposal for a regular upstream performance testing
+Message-ID: <Yjnlr67GOzii0Ead@stefanha-x1.localdomain>
+References: <3a664806-8aa3-feb4-fb30-303d303217a8@redhat.com>
+ <a0f8c750-ed7b-908a-1a29-bf03004579e4@redhat.com>
+ <YjhIddqwACSpoCfR@stefanha-x1.localdomain>
+ <470cb0ab-137f-655c-9dcd-a480f66dac33@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 06/15] iotests: rebase qemu_io() on top of qemu_tool()
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20220318203655.676907-1-jsnow@redhat.com>
- <20220318203655.676907-7-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220318203655.676907-7-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="s649EFo6HN6CrvoN"
+Content-Disposition: inline
+In-Reply-To: <470cb0ab-137f-655c-9dcd-a480f66dac33@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,115 +79,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: Charles Shih <cheshi@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.03.22 21:36, John Snow wrote:
-> Rework qemu_io() to be analogous to qemu_img(); a function that requires
-> a return code of zero by default unless disabled explicitly.
->
-> Tests that use qemu_io():
-> 030 040 041 044 055 056 093 124 129 132 136 148 149 151 152 163 165 205
-> 209 219 236 245 248 254 255 257 260 264 280 298 300 302 304
-> image-fleecing migrate-bitmaps-postcopy-test migrate-bitmaps-test
-> migrate-during-backup migration-permissions
->
-> Test that use qemu_io_log():
-> 242 245 255 274 303 307 nbd-reconnect-on-open
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
->
-> ---
->
-> Note: This breaks several tests at this point. I'll be fixing each
-> broken test one by one in the subsequent commits. We can squash them all
-> on merge to avoid test regressions.
 
-Well, absolutely.
+--s649EFo6HN6CrvoN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> (Seems like a way to have your cake and eat it too with regards to
-> maintaining bisectability while also having nice mailing list patches.)
+On Mon, Mar 21, 2022 at 11:29:42AM +0100, Luk=C3=A1=C5=A1 Doktor wrote:
+> Hello Stefan,
+>=20
+> Dne 21. 03. 22 v 10:42 Stefan Hajnoczi napsal(a):
+> > On Mon, Mar 21, 2022 at 09:46:12AM +0100, Luk=C3=A1=C5=A1 Doktor wrote:
+> >> Dear qemu developers,
+> >>
+> >> you might remember the "replied to" email from a bit over year ago to =
+raise a discussion about a qemu performance regression CI. On KVM forum I p=
+resented https://www.youtube.com/watch?v=3DCbm3o4ACE3Y&list=3DPLbzoR-pLrL6q=
+4ZzA4VRpy42Ua4-D2xHUR&index=3D9 some details about my testing pipeline. I t=
+hink it's stable enough to become part of the official CI so people can con=
+sume, rely on it and hopefully even suggest configuration changes.
+> >>
+> >> The CI consists of:
+> >>
+> >> 1. Jenkins pipeline(s) - internal, not available to developers, runnin=
+g daily builds of the latest available commit
+> >> 2. Publicly available anonymized results: https://ldoktor.github.io/tm=
+p/RedHat-Perf-worker1/
+> >=20
+> > This link is 404.
+> >=20
+>=20
+> My mistake, it works well without the tailing slash: https://ldoktor.gith=
+ub.io/tmp/RedHat-Perf-worker1
+>=20
+> >> 3. (optional) a manual gitlab pulling job which triggered by the Jenki=
+ns pipeline when that particular commit is checked
+> >>
+> >> The (1) is described here: https://run-perf.readthedocs.io/en/latest/j=
+enkins.html and can be replicated on other premises and the individual jobs=
+ can be executed directly https://run-perf.readthedocs.io on any linux box =
+using Fedora guests (via pip or container https://run-perf.readthedocs.io/e=
+n/latest/container.html ).
+> >>
+> >> As for the (3) I made a testing pipeline available here: https://gitla=
+b.com/ldoktor/qemu/-/pipelines with one always-passing test and one allow-t=
+o-fail actual testing job. If you think such integration would be useful, I=
+ can add it as another job to the official qemu repo. Note the integration =
+is a bit hacky as, due to resources, we can not test all commits but rather=
+ test on daily basis, which is not officially supported by gitlab.
+> >>
+> >> Note the aim of this project is to ensure some very basic system-level=
+ workflow performance stays the same or that the differences are described =
+and ideally pinned to individual commits. It should not replace thorough re=
+lease testing or low-level performance tests.
+> >=20
+> > If I understand correctly the GitLab CI integration you described
+> > follows the "push" model where Jenkins (running on your own machine)
+> > triggers a manual job in GitLab CI simply to indicate the status of the
+> > nightly performance regression test?
+> >=20
+> > What process should QEMU follow to handle performance regressions
+> > identified by your job? In other words, which stakeholders need to
+> > triage, notify, debug, etc when a regression is identified?
+> >=20
+> > My guess is:
+> > - Someone (you or the qemu.git committer) need to watch the job status =
+and triage failures.
+> > - That person then notifies likely authors of suspected commits so they=
+ can investigate.
+> > - The authors need a way to reproduce the issue - either locally or by =
+pushing commits to GitLab and waiting for test results.
+> > - Fixes will be merged as additional qemu.git commits since commit hist=
+ory cannot be rewritten.
+> > - If necessary a git-revert(1) commit can be merged to temporarily undo=
+ a commit that caused issues.
+> >=20
+> > Who will watch the job status and triage failures?
+> >=20
+> > Stefan
+>=20
+> This is exactly the main question I'd like to resolve as part of consider=
+ing-this-to-be-official-part-of-the-upstream-qemu-testing. At this point ou=
+r team is offering it's service to maintain this single worker for daily jo=
+bs, monitoring the status and pinging people in case of bisectable results.
 
-I personally find reviewability to not be affected whether this is one 
-patch or multiple, given that the changes are in different files anyway.
+That's great! The main hurdle is finding someone to triage regressions
+and if you are volunteering to do that then these regression tests would
+be helpful to QEMU.
 
-I am afraid someone might forgot to squash when merging this series, 
-though...
+> From the upstream qemu community we are mainly looking for a feedback:
+>=20
+> * whether they'd want to be notified of such issues (and via what means)
 
-Also, I don’t know how to squash R-b tags, and I don’t feel like I can 
-give an R-b for a patch that decidedly breaks tests.
+I have CCed Kevin Wolf in case he has any questions regarding how fio
+regressions will be handled.
 
->
-> Copy-pastables:
->
-> ./check -qcow2 030 040 041 044 055 056 124 129 132 151 152 163 165 209 \
->                 219 236 242 245 248 254 255 257 260 264 274 \
->                 280 298 300 302 303 304 307 image-fleecing \
->                 migrate-bitmaps-postcopy-test migrate-bitmaps-test \
->                 migrate-during-backup nbd-reconnect-on-open
->
-> ./check -raw 093 136 148 migration-permissions
->
-> ./check -nbd 205
->
-> # ./configure configure --disable-gnutls --enable-gcrypt
-> # this ALSO requires passwordless sudo.
-> ./check -luks 149
->
->
-> # Just the ones that fail:
-> ./check -qcow2 030 040 242 245
-> ./check -raw migration-permissions
-> ./check -nbd 205
-> ./check -luks 149
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/iotests.py | 19 +++++++++++++------
->   1 file changed, 13 insertions(+), 6 deletions(-)
->
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-> index 974a2b0c8d..58ea766568 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -354,16 +354,23 @@ def qemu_io_wrap_args(args: Sequence[str]) -> List[str]:
->   def qemu_io_popen(*args):
->       return qemu_tool_popen(qemu_io_wrap_args(args))
->   
-> -def qemu_io(*args):
-> -    '''Run qemu-io and return the stdout data'''
-> -    return qemu_tool_pipe_and_status('qemu-io', qemu_io_wrap_args(args))[0]
-> +def qemu_io(*args: str, check: bool = True, combine_stdio: bool = True
-> +            ) -> subprocess.CompletedProcess[str]:
+I'm happy to be contacted when a regression bisects to a commit I
+authored.
 
-I guess this return type probably has to be quoted.
+> * whether the current approach seems to be actually performing useful tas=
+ks
+> * whether the reports are understandable
 
-> +    """
-> +    Run QEMU_IO_PROG and return the status code and console output.
-> +
-> +    This function always prepends either QEMU_IO_OPTIONS or
-> +    QEMU_IO_OPTIONS_NO_FMT.
-> +    """
-> +    return qemu_tool(*qemu_io_wrap_args(args),
-> +                     check=check, combine_stdio=combine_stdio)
->   
->   def qemu_io_pipe_and_status(*args):
->       return qemu_tool_pipe_and_status('qemu-io', qemu_io_wrap_args(args))
->   
-> -def qemu_io_log(*args):
-> -    result = qemu_io(*args)
-> -    log(result, filters=[filter_testfiles, filter_qemu_io])
-> +def qemu_io_log(*args: str) -> subprocess.CompletedProcess[str]:
+Reports aren't something I would look at as a developer. Although the
+history and current status may be useful to some maintainers, that
+information isn't critical. Developers simply need to know which commit
+introduced a regression and the details of how to run the regression.
 
-...and this one.
+> * whether the reports should be regularly pushed into publicly available =
+place (or just on regression/improvement)
+> * whether there are any volunteers to be interested in non-clearly-bisect=
+able issues (probably by-topic)
 
-Hanna
+One option is to notify maintainers, but when I'm in this position
+myself I usually only investigate critical issues due to limited time.
 
-> +    result = qemu_io(*args, check=False)
-> +    log(result.stdout, filters=[filter_testfiles, filter_qemu_io])
->       return result
->   
->   def qemu_io_silent(*args):
+Regarding how to contact people, I suggest emailing them and CCing
+qemu-devel so others are aware.
+
+Thanks,
+Stefan
+
+--s649EFo6HN6CrvoN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmI55a8ACgkQnKSrs4Gr
+c8jsCAf7ByjOKS/Z1kHh7mkFOnvu7aoM2WOGDFoUNZYtA/ykB440gD1VTf2Wolv5
+WZwRUHT9wYm+klsS3fFl7TK0xnNlEl5W3UnAohN1gW/P6i8EPsVqm7xuwZ2FeI82
+mkr9O8FcwTUg2TZFbhq0K8zN2+pVVP7V0BiwEBchRDXjdPCdfjLbS1PXrpftJhVO
+nYV42WwOF9iQFpawvMydFCUfIjI7wFYbbvU3WxXCVhhTdEMw1UHyYD0dE7xHQF51
+JR/YTr8LIyiSLX4Hut3VQySi2H1yoOOJUHIOcqq6xuBJa0dOBtuNPS2oZ42LqAPf
+gdLREFiNbeYTxqHk7AjgTVEkZrUFcQ==
+=tD9n
+-----END PGP SIGNATURE-----
+
+--s649EFo6HN6CrvoN--
 
 
