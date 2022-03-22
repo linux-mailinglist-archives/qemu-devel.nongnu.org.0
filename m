@@ -2,121 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FF44E398A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 08:26:01 +0100 (CET)
-Received: from localhost ([::1]:58408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230AC4E3996
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 08:28:42 +0100 (CET)
+Received: from localhost ([::1]:60560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWYu0-0004RR-BU
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 03:26:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44782)
+	id 1nWYwb-00060O-4j
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 03:28:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nWYrV-0003V0-Io
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 03:23:25 -0400
-Received: from mail-os0jpn01on2118.outbound.protection.outlook.com
- ([40.107.113.118]:22627 helo=JPN01-OS0-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nWYrn-0003kJ-Gp
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 03:23:43 -0400
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:47771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nWYrS-0006Up-AM
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 03:23:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BeSERt6o+Lu95RRxRoGy8my/j+K6TezbRXjQJbaNLwxDaEYIaWLF2mGkTfEcKQQC/uRhlMcrPlJRBY4s3uVAb37G1wwjd1VRU01mnm+7QVNG+/1PnRG9YwUv1jKFx4venyAzjaVHEy+ZeOpqa4OiznzC/Cwae0vuVO2SmonxoZkKZ3BTjCF6CmPx4iM4TF3eLty2hzWkhDERpMw/+T/DwtGATXk00JLW29YS0Cl2U5P39tHZTRiE0UtJJqFbuMSwR8TRabdCofnMycH1o47BqaJqNJE+p43ocwwZn9vEqMuz1G14FJVP1qHDJiS8VQJ2u4MFHr8bGSVFxa2kNtaazg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AVgH1FKpeQT3udwyi7/dOzEfrx3oDRcZti2pgiH49iQ=;
- b=hKMM4b1abcymkbgiAlafhXxjXztpjGuDvPyIMemCeSn4nERbywm3PyjBtBg7yksqnrykQfHp9mHlMbfVegNdvFJiSE4Q236CGRmzZTUENOnNcRfBN4N6L05ywF2NQ4euNR0JSmrFiMBfIqNvQPl2FZhtz4IQMQhjY/Aj+zU5hqzH2XPww+J3ddlIOecWyJDbHIilbn6ZZ0d4vQ0Yf27row/7CIJ2+zf6WRUecN1YyTPtzSJnEahAZ2cdQ7Qz0jw34EFFJW2/MkIShgMmvFNmzU0E4OKA2GyT3iW2Xa4/XK1BVgTG9nj57Soz6CqK32inJ3pKJ35w+X9bPRYxq8Pe6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
- dkim=pass header.d=zenithal.me; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AVgH1FKpeQT3udwyi7/dOzEfrx3oDRcZti2pgiH49iQ=;
- b=XbWmA2/9Zp/FreuzhuyG4bXJbe+WKjWHnI5sVgzp7GRA3tuom/gGtb3TO5Y/tI0ZpEjhLRI5cduLeOC/8abKY5t2p/wECN5Od8CHTIU6ZBRiqhnHFzA9mevoPLQNDJwC53P57H5AgAd+TGRxy43//Sp/TCJlS4Xuz5ULE2/oWHA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=zenithal.me;
-Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
- TYAP286MB0859.JPNP286.PROD.OUTLOOK.COM (2603:1096:402:3d::7) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5081.18; Tue, 22 Mar 2022 07:18:11 +0000
-Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- ([fe80::45e2:c04f:6bf9:2134]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- ([fe80::45e2:c04f:6bf9:2134%7]) with mapi id 15.20.5081.023; Tue, 22 Mar 2022
- 07:18:11 +0000
-Date: Tue, 22 Mar 2022 15:18:02 +0800
-From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 0/6] Introduce CanoKey QEMU
-Message-ID: <Yjl4KqzeVBjNL1z0@Sun>
-References: <YfJozy5qjVYh24Xp@Sun> <Yge2Sy2sA6JpUvcj@Sun>
- <20220304105119.wcmgrlefsawnqmc2@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220304105119.wcmgrlefsawnqmc2@sirius.home.kraxel.org>
-X-Operating-System: Linux Sun 5.15.26 
-X-Mailer: Mutt 2.2.1 (2022-02-19)
-X-ClientProxiedBy: SJ0PR03CA0238.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::33) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:c0::6)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nWYrk-0006VS-OH
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 03:23:42 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.173])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5E86724490;
+ Tue, 22 Mar 2022 07:23:28 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 22 Mar
+ 2022 08:23:28 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003940a262b-0815-484e-8a4c-68b15aab91ae,
+ 469EFB141CFE40B2A85C1EB4DF33FF44F3CA3D4D) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <698a471b-cfb1-b2ed-54e0-84585a042214@kaod.org>
+Date: Tue, 22 Mar 2022 08:23:27 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c1e81779-83aa-4805-4326-08da0bd41ef8
-X-MS-TrafficTypeDiagnostic: TYAP286MB0859:EE_
-X-Microsoft-Antispam-PRVS: <TYAP286MB08594E966FAB5F06E5D8E842BC179@TYAP286MB0859.JPNP286.PROD.OUTLOOK.COM>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8u6Dga02L0PBqHBcm8YM98Jb5RGPADrocnmym4MthFAuh0IJg7JEA+x55CXLr2Bj/FS+WBq4Q8azZaqTYkKEbJtkmZr8eMWENu2F5KXy+BQrclQXo6HE6fKDpe6c737T1UvjP8J0ddHvAcVYTg9ygLVXUOrCEZFIEj83NO92Y7WU38quMVH+oxBcUPbtksLi9a3Z88FGCQYcjqUU4LJ4i5jTTXx3M0jrPB4U5nfj7D4nmpyvRgVsDamX7PYKgiz156KJUM7EtXdnPSRF6oaGWS19lTer0bBjV88jdqspvy1G8zoBUhg6d3Dm4sp1wqK+GL4kiIb8C76eJYMpriKh334Bxx6j+5vvHYUqPxLFdeO2vEx0a2Sq69pcqUOtr7RUIeCq+o31HcP2GcFbtrLIBPJ3MQp2LXPDT54BVbcgnOc7OQ8uFYln3RXG2fMxkTTUsjcLetZEf5UAkINiKqnNeZiCTHFuJGuXsEhXSKjwbLdGSuQturQzH4lOZisevmEM+Hgazr6+/SzPl2LyxqdAp6euZlN3kqw94LFmulslNahoOiKSStgoWCcjuYkMbzgq7pPFXR2y9hvNXOzBZKVnha1Y/2PmS4jy/QLKxgRbY7DQxSzKVxsW1HnkheT1qCRSSbBim98wAQcH1E7SrxV/vbxnYfO27JtFr5fxM/lqQUDYxhkfjVFJPYVNTBd3nInjB/vaV3AiU+Jeg9sncaaJjInwDFFyG21vXPEJ+f8PItnJ6RM9bEJF85qlJOv7lKxPXZ5+7sRYPP9fEYXTUZFZew==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(136003)(39830400003)(376002)(346002)(396003)(366004)(2906002)(6506007)(186003)(52116002)(9686003)(6512007)(33716001)(83380400001)(6916009)(786003)(316002)(38100700002)(8676002)(8936002)(5660300002)(4326008)(86362001)(66946007)(66556008)(66476007)(508600001)(6486002)(6666004)(966005)(49092004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6Wx3w1PhH0yTBB2mk/1gfIK9kO4gz7prmcL8Pmcxd0lsjRzD+BudT0m+kvDG?=
- =?us-ascii?Q?DAZrz4khBen/mMIDXikp0uhAE3f/F86DtFh12T1DI5OujHdRqL8l0S3qDHv4?=
- =?us-ascii?Q?eOqJzYAJxGf/HSrj+KgD7j159gb+5L+Zzb4BIqgRuhS4ur3y1iGKAJMkaK6M?=
- =?us-ascii?Q?rC6vrtggus5MKuZa0q8mUsZwPE3BUIk87bggCKZbIu0znRtlW3nGT+A2UxNw?=
- =?us-ascii?Q?Lh44MNBwWj6LCAZH3o6qAnY8t54U+SEV+LuoayfncN7WGtVWvBLFJCE4R0iz?=
- =?us-ascii?Q?anKJ9AlQhz9pN9F8o+TCGml7R/R4TYZiw2ZKro/qk1TQwGsLoJMjgdxB0ASP?=
- =?us-ascii?Q?8jOibaaNx25NwNCppRe1s6kT1DxNC/2uC3qIv8hsj0OeIUU1lYXeX6yVspzB?=
- =?us-ascii?Q?Pv2EjjszntFXQNWN5BqsgjwWwY9kq//sQnNp1mZXkbysZQTUd1fRxKRCzZpY?=
- =?us-ascii?Q?1QJQQEbaSy+XPgPIUNPFBFLd4HPvM+TDE1DKgj1id0FUf+kMzzdFJR8okeW0?=
- =?us-ascii?Q?ZywKkySfH8b9UbHptUI4U2q/zDMK0R6Iok1IQ0LhqmpjthIgUrEm8tOfylv4?=
- =?us-ascii?Q?tjSLu9V3+JpzmnHoTiidn2kL4bVa+9j4o1Q3T6SoH4/A9bKMYTyPbjrn4knB?=
- =?us-ascii?Q?MvTRCtSFtILnPPciCLBMepnAc5EClkt+TcUnPGUSi7Q69kXH9tiGj1ifFOhv?=
- =?us-ascii?Q?OdPJ7bRTyl/S8I+teQWI/TUoMBLtGCSwgmcmwiZQrze2/XPIzmIhvCKFtFtj?=
- =?us-ascii?Q?5d4R3q/Jzn4NHga7EcBm6nxgBWr8IrYbsVpU0KMMqK+DUwKzGyinhCXJE8Uv?=
- =?us-ascii?Q?jF+Dkn0qzTd5vK5uoLXh55e88avdNg+Q2ChEsV0HBRiTwJe4bbtyf2vWP9Ee?=
- =?us-ascii?Q?lYGbLjag2jn1s8DsYM+sCu7TzL2q6mPyWM210u/fBDZ2CyVH4PpBsNNEcYEx?=
- =?us-ascii?Q?NGGK3TwEyukr+lQPgWlSBaOD8YNHHUqLDyJBD0NnPmsVfoDTfOiqSAVGyVqR?=
- =?us-ascii?Q?cC6x8XG0bIpWUArp7Ooos4B9j4y+W93rcWDhKhXXBYfmjarisWlmZmgMyBSn?=
- =?us-ascii?Q?Fd4tSt6bef93JaGPalpOlp7pUcQZomZP7oTk8h8Ds85439Drw8lDDmezOUNL?=
- =?us-ascii?Q?49lVudGJkJ9dxtDY1GgxbHTKOlwPmTQBpG0wFOGX8SNvX7kMocgZl3jU9Q03?=
- =?us-ascii?Q?AsRbmvX3TCdXponuursVbnAmICQ0raGmnpmbGbpW7dix4qk83ujcTHYSxOZG?=
- =?us-ascii?Q?4fQfB+lvw6oYLUvOLxho7FdJ5uFSYJe6aiqk5lQL7P4nT2kjJxhmUb3KmflW?=
- =?us-ascii?Q?DV7A3SIMvYYkjsHblrODuPlgmU3ECo6/yGNii4IQZ7i9/oZVxcUCqcBlIlAQ?=
- =?us-ascii?Q?43+5ugYr6dB80keUFJlDpvNDkdHso3o+wpKZvCfSRS7ks1HykaCgtLj6/AUt?=
- =?us-ascii?Q?WyCVUcJJQkd0R+/24XRpJ8WifKx94s2s?=
-X-OriginatorOrg: zenithal.me
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1e81779-83aa-4805-4326-08da0bd41ef8
-X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2022 07:18:10.9885 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xVpy0r81jHbyVfuaP2Wzcgl4gwlGoKOi2u7ijfZBZlAwoCtBJgC2SW03GoNro/yL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAP286MB0859
-Received-SPF: pass client-ip=40.107.113.118; envelope-from=i@zenithal.me;
- helo=JPN01-OS0-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v1 3/9] aspeed/wdt: Fix ast2500/ast2600 default reload
+ value.
+Content-Language: en-US
+To: Jamin Lin <jamin_lin@aspeedtech.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
+ <joel@jms.id.au>, Alistair Francis <alistair@alistair23.me>, Cleber Rosa
+ <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo
+ Leal <bleal@redhat.com>, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, "open
+ list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20220322025154.3989-1-jamin_lin@aspeedtech.com>
+ <20220322025154.3989-4-jamin_lin@aspeedtech.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220322025154.3989-4-jamin_lin@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 3f7c4d56-9a7f-41f2-adea-5197fccb3084
+X-Ovh-Tracer-Id: 8750494079099505595
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudeggedguddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepthhrohihpghlvggvsegrshhpvggvughtvggthhdrtghomh
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -129,57 +78,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, contact@canokeys.org
+Cc: troy_lee@aspeedtech.com, steven_lee@aspeedtech.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 11:51:19AM +0100, Gerd Hoffmann wrote:
-> On Sat, Feb 12, 2022 at 09:29:47PM +0800, Hongren (Zenithal) Zheng wrote:
-> > Hi,
-> > 
-> > Is there any further feedback on this patch set.
+On 3/22/22 03:51, Jamin Lin wrote:
+> From: Steven Lee <steven_lee@aspeedtech.com>
 > 
-> Sorry for the looong delay, I'm rather busy with edk2.
-
-Fully understandable. There is also delay on my side, sorry for that
-too.
-
+> Per ast2500_2520_datasheet_v1.8 and ast2600v11.pdf, the default value of
+> WDT00 and WDT04 is 0x014FB180 for ast2500/ast2600.
+> Add default_status and default_reload_value attributes for storing
+> counter status and reload value as they are different from ast2400.
 > 
-> Tried to queue up this, noticed it breaks the build in case the
-> canokey library is not installed.
+> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+> Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
 
-Yes, this is my fault. I forgot to put `softmmu_ss.add(canokey)`
-inside a `if canokey.found()` conditional check.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-I've fixed it with 
-https://gitlab.com/ZenithalHourlyRate/qemu/-/commit/5d8604c70abefc8146dbb4f7836f3215bc9df966
-which will be contained in v5.
+Thanks,
 
+C.
+
+> ---
+>   hw/watchdog/wdt_aspeed.c         | 10 ++++++++--
+>   include/hw/watchdog/wdt_aspeed.h |  2 ++
+>   2 files changed, 10 insertions(+), 2 deletions(-)
 > 
-> I'd suggest to run the patch series through the qemu gitlab CI
-> before sending out v5.
+> diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+> index 6aa6f90b66..386928e9c0 100644
+> --- a/hw/watchdog/wdt_aspeed.c
+> +++ b/hw/watchdog/wdt_aspeed.c
+> @@ -232,8 +232,8 @@ static void aspeed_wdt_reset(DeviceState *dev)
+>       AspeedWDTState *s = ASPEED_WDT(dev);
+>       AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(s);
+>   
+> -    s->regs[WDT_STATUS] = 0x3EF1480;
+> -    s->regs[WDT_RELOAD_VALUE] = 0x03EF1480;
+> +    s->regs[WDT_STATUS] = awc->default_status;
+> +    s->regs[WDT_RELOAD_VALUE] = awc->default_reload_value;
+>       s->regs[WDT_RESTART] = 0;
+>       s->regs[WDT_CTRL] = awc->sanitize_ctrl(0);
+>       s->regs[WDT_RESET_WIDTH] = 0xFF;
+> @@ -319,6 +319,8 @@ static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
+>       awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
+>       awc->wdt_reload = aspeed_wdt_reload;
+>       awc->sanitize_ctrl = aspeed_2400_sanitize_ctrl;
+> +    awc->default_status = 0x03EF1480;
+> +    awc->default_reload_value = 0x03EF1480;
+>   }
+>   
+>   static const TypeInfo aspeed_2400_wdt_info = {
+> @@ -355,6 +357,8 @@ static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
+>       awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
+>       awc->wdt_reload = aspeed_wdt_reload_1mhz;
+>       awc->sanitize_ctrl = aspeed_2500_sanitize_ctrl;
+> +    awc->default_status = 0x014FB180;
+> +    awc->default_reload_value = 0x014FB180;
+>   }
+>   
+>   static const TypeInfo aspeed_2500_wdt_info = {
+> @@ -376,6 +380,8 @@ static void aspeed_2600_wdt_class_init(ObjectClass *klass, void *data)
+>       awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
+>       awc->wdt_reload = aspeed_wdt_reload_1mhz;
+>       awc->sanitize_ctrl = aspeed_2600_sanitize_ctrl;
+> +    awc->default_status = 0x014FB180;
+> +    awc->default_reload_value = 0x014FB180;
+>   }
+>   
+>   static const TypeInfo aspeed_2600_wdt_info = {
+> diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
+> index f945cd6c58..0e37f39f38 100644
+> --- a/include/hw/watchdog/wdt_aspeed.h
+> +++ b/include/hw/watchdog/wdt_aspeed.h
+> @@ -45,6 +45,8 @@ struct AspeedWDTClass {
+>       void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
+>       void (*wdt_reload)(AspeedWDTState *s);
+>       uint64_t (*sanitize_ctrl)(uint64_t data);
+> +    uint32_t default_status;
+> +    uint32_t default_reload_value;
+>   };
+>   
+>   #endif /* WDT_ASPEED_H */
 
-I have gone through qemu gitlab CI and the result is in
-https://gitlab.com/ZenithalHourlyRate/qemu/-/pipelines/497317417
-Except check-dco and check-patch (I only generate Signed-off-by line
-when `git format-patch`), other failed checks are "allowed to fail" and
-I've checked the log, these failures are about Debian RISC-V packages
-instead of qemu itself.
-
-Is this appropriate for sending out v5?
-
-By the way, we are planning to separate libcanokey-qemu.so
-from canokey-core to a dedicated repo at
-https://github.com/canokeys/canokey-qemu
-(not done yet), which would result in changes in documentation.
-I will contain these changes in v5 once we are done.
-
-> 
-> take care,
->   Gerd
-> 
-
-Regards,
-
-Hongren
 
