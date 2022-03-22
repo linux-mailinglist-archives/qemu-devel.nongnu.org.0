@@ -2,88 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B444E3F84
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 14:27:25 +0100 (CET)
-Received: from localhost ([::1]:48678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01FE54E3F93
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 14:31:14 +0100 (CET)
+Received: from localhost ([::1]:53122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWeXk-0004In-7x
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 09:27:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56860)
+	id 1nWebQ-0007N2-Nx
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 09:31:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nWeWe-00033q-Gj
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 09:26:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31709)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nWeWX-0003Ui-Uh
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 09:26:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647955568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Mk3hl79SOvvRPnNyVsHVQnRiriDoUuiJYwsyISW4b0k=;
- b=HnxH/dWiG5qdYcUOX8x0sbDblWxYk3DpJvwysjs5rTensNtmzJCvEKEPxTChTm5D3zAsia
- fH+P579ZrOmSu66O9OeKvezz9910JmLIUAeqLsvTeo+GnjUU6QqHSzH0dQmt28iXzSSnyj
- 08q2Foo0YtbSEESzWzNhZSNnzaiNA6Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-176-dYFcTk0oOYaFE60yBXyB_w-1; Tue, 22 Mar 2022 09:26:07 -0400
-X-MC-Unique: dYFcTk0oOYaFE60yBXyB_w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 2-20020a1c0202000000b0038c71e8c49cso1278841wmc.1
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 06:26:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nWeZm-0005cF-PN
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 09:29:30 -0400
+Received: from [2a00:1450:4864:20::32c] (port=43566
+ helo=mail-wm1-x32c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nWeZl-0004Ej-3Z
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 09:29:30 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ p12-20020a05600c430c00b0038cbdf52227so891091wme.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 06:29:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=fG9HbzCKw1GM4kFdIeLZU3ef1PIf/GnDdByrJY9IDtI=;
+ b=l5cRMLA71wXL2GFyxJNtw3l5sIjkmgSK8OimI6mBXsbfcJww6pyRvb2QBR0n8E9tu5
+ QsM6iL/G6rJUuUz1eY3+e6+BMXhxuta/cTCRhO2+FuEOwak0t+uEssoVwrv3KGNH3Lgj
+ 9xpy0SvHttXboqsRjfC3KcgDlXncw9PgcwCz7QkEKfCSjrEF6HOSCvZ87w110XEd+hHB
+ dnHoUwGPb4xuULdAEeX/l0oGnsMmW9oZvZst/2PlJ6p9PQyp+B+K7jBjDW5Vb6Zm/tQX
+ F9Ko40p1EuaBDK1Vag73lEO2JU5K85ujGCjUf/uvO4LQv4tXBglhJGhbEaM3Jyeswtz0
+ 0xqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Mk3hl79SOvvRPnNyVsHVQnRiriDoUuiJYwsyISW4b0k=;
- b=dVMBFzdqVLL+8gO7Zd6rlXhfV6icQ8vtR8fWzVugHodD4PMO43nLDIH+l7v82PVQ34
- raHnKQzOYZtpUjgFYTYr3Mg9JxQ3DJ17klQR6fxCoCpeILaCznO/eUAs+R8R8kzncJou
- K/gZLodh5QFMM2GOM2hLTKslI/ZFaTwaV/UkK9Y6G46EAXrCtL6KMfu235Na0v2ifKLt
- w9mG/1vhaFDPgCHODk0RSx75NZyIkzBHXDWpLbKAC5aFxc7BiH8BzJH+Ba1jHgVKR54f
- qPSFWPKbepbzrChNMSlBtmxEe0qRPr9bJFRADYSBqX+2cdNQuJCfxjuq5s+KZZnyRW4f
- HFyg==
-X-Gm-Message-State: AOAM533ytCCUOAJdWC8pPz36HiDhzt/CaXIJVOMDEgh/TGfDS1syC9ZV
- LgK+DjZ4Gx48mzuaQUetq8hW48WFVX4b1QL5VLrbGyi1v7kg+KiSln56C75PiDxD2vQJYUPhRjd
- q4bYquYqqWNk9WFA=
-X-Received: by 2002:a05:600c:1e0d:b0:38c:bb0c:e01 with SMTP id
- ay13-20020a05600c1e0d00b0038cbb0c0e01mr2299358wmb.115.1647955566004; 
- Tue, 22 Mar 2022 06:26:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9R6xweHbYOlT41nX8VS8jupEnB/cxHKbwK3VEwN1bfzNeZZNTKEUKx2jEvOzPtm6sO39XFQ==
-X-Received: by 2002:a05:600c:1e0d:b0:38c:bb0c:e01 with SMTP id
- ay13-20020a05600c1e0d00b0038cbb0c0e01mr2299266wmb.115.1647955565576; 
- Tue, 22 Mar 2022 06:26:05 -0700 (PDT)
-Received: from redhat.com ([2.55.132.0]) by smtp.gmail.com with ESMTPSA id
- b15-20020adfc74f000000b001e888b871a0sm15919477wrh.87.2022.03.22.06.25.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 06:26:04 -0700 (PDT)
-Date: Tue, 22 Mar 2022 09:25:54 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 0/3] Use g_new() & friends where that makes obvious
- sense
-Message-ID: <20220322092520-mutt-send-email-mst@kernel.org>
-References: <20220315144156.1595462-1-armbru@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fG9HbzCKw1GM4kFdIeLZU3ef1PIf/GnDdByrJY9IDtI=;
+ b=WvsvMhLlZHtBOBErvzrSOmZgr86vvLtn1igv+Tp6Cf7UwxYkU0cqcbANpIj96XbIA8
+ QiHUkN0AGA3HQeKmamDApmsYou9qTRyRYRw4Bo+63TG8v3I9CPwA6GQ0Rc7y4k7WKt0X
+ EVuscSTLDvXhMgwXHNx3BscSSGsHpcNbdvTOqsj4qTG/YLf/J6KHCjT/BHWIMTkaOwgi
+ UCjgtfex2ntVSFwjmMBdWJ2bj7JK1B/c0F2MzANS+0PLjiWR7HfmDfLk1KPpoS70TqJw
+ 7G7uJkDp4ZYhO7i3Ot/yYP+7nfg72SDjOY1FLplAEDc6L2LgMqGcQ26Jo0dlKQoudQz/
+ VvOw==
+X-Gm-Message-State: AOAM532bcYzs2MQiphnDSPxy0DzvTG4tA+aAY1bD2gE8ZC64uNAV4epL
+ hKWqaYSN4JjCiXrl1/XHLpszGxiV+E8=
+X-Google-Smtp-Source: ABdhPJwMQA3KXffkE8yeaemCOJpEmz59thlUG4Zt55AGFcq7ZvPvgziVKGuj+23qtyYOAkANdkQZZA==
+X-Received: by 2002:a05:6000:1687:b0:205:80b7:afca with SMTP id
+ y7-20020a056000168700b0020580b7afcamr525192wrd.665.1647955767166; 
+ Tue, 22 Mar 2022 06:29:27 -0700 (PDT)
+Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
+ [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
+ g6-20020a5d5406000000b001f049726044sm15548581wrv.79.2022.03.22.06.29.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Mar 2022 06:29:26 -0700 (PDT)
+Message-ID: <e4603209-651f-a0a0-d7be-255e0ddf2db7@gmail.com>
+Date: Tue, 22 Mar 2022 14:29:25 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220315144156.1595462-1-armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [RFC PATCH-for-7.0 v4] target/i386/kvm: Free xsave_buf when
+ destroying vCPU
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+References: <20220322120522.26200-1-philippe.mathieu.daude@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220322120522.26200-1-philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,237 +95,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
- Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Reinoud Zandijk <reinoud@netbsd.org>,
- Eric Blake <eblake@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Magnus Damm <magnus.damm@gmail.com>, Kamil Rytarowski <kamil@netbsd.org>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Michael Roth <michael.roth@amd.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Amit Shah <amit@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, haxm-team@intel.com,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Fabien Chouteau <chouteau@adacore.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Keith Busch <kbusch@kernel.org>,
- qemu-ppc@nongnu.org, David Hildenbrand <david@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
- qemu-s390x@nongnu.org, Patrick Venture <venture@google.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Corey Minyard <cminyard@mvista.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Igor Mammedov <imammedo@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 15, 2022 at 03:41:53PM +0100, Markus Armbruster wrote:
-> g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
-> for two reasons.  One, it catches multiplication overflowing size_t.
-> Two, it returns T * rather than void *, which lets the compiler catch
-> more type errors.
+On 22/3/22 13:05, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> This series only touches allocations with size arguments of the form
-> sizeof(T).  It's mechanical, except for a tiny fix in PATCH 2.
+> Fix vCPU hot-unplug related leak reported by Valgrind:
 > 
-> PATCH 1 adds the Coccinelle script.
+>    ==132362== 4,096 bytes in 1 blocks are definitely lost in loss record 8,440 of 8,549
+>    ==132362==    at 0x4C3B15F: memalign (vg_replace_malloc.c:1265)
+>    ==132362==    by 0x4C3B288: posix_memalign (vg_replace_malloc.c:1429)
+>    ==132362==    by 0xB41195: qemu_try_memalign (memalign.c:53)
+>    ==132362==    by 0xB41204: qemu_memalign (memalign.c:73)
+>    ==132362==    by 0x7131CB: kvm_init_xsave (kvm.c:1601)
+>    ==132362==    by 0x7148ED: kvm_arch_init_vcpu (kvm.c:2031)
+>    ==132362==    by 0x91D224: kvm_init_vcpu (kvm-all.c:516)
+>    ==132362==    by 0x9242C9: kvm_vcpu_thread_fn (kvm-accel-ops.c:40)
+>    ==132362==    by 0xB2EB26: qemu_thread_start (qemu-thread-posix.c:556)
+>    ==132362==    by 0x7EB2159: start_thread (in /usr/lib64/libpthread-2.28.so)
+>    ==132362==    by 0x9D45DD2: clone (in /usr/lib64/libc-2.28.so)
 > 
-> PATCH 2 cleans up the virtio-9p subsystem, and fixes a harmless typing
-> error uncovered by the cleanup.
+> Reported-by: Mark Kanda <mark.kanda@oracle.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> Based on a series from Mark:
+> https://lore.kernel.org/qemu-devel/20220321141409.3112932-1-mark.kanda@oracle.com/
 > 
-> PATCH 3 cleans up everything else.  I started to split it up, but
-> splitting is a lot of decisions, and I just can't see the value.
+> RFC because currently no time to test
 
-series:
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-
-> For instance, MAINTAINERS tells me to split for subsystem "virtio",
-> patching
-> 
->     hw/char/virtio-serial-bus.c
->     hw/display/virtio-gpu.c
->     hw/net/virtio-net.c
->     hw/virtio/virtio-crypto.c
->     hw/virtio/virtio-iommu.c
->     hw/virtio/virtio.c
-> 
-> But it also tells me to split for subsystem "Character devices",
-> patching
-> 
->     hw/char/parallel.c                       |  2 +-
->     hw/char/riscv_htif.c                     |  2 +-
->     hw/char/virtio-serial-bus.c              |  6 +-
-> 
-> and for subsystem "Network devices", patching
-> 
->     hw/net/virtio-net.c
-> 
-> and for subsystem "virtio-gpu", patching
-> 
->     hw/display/virtio-gpu.c
-> 
-> I guess I'd go with "virtio".  Six files down, 103 to go.  Thanks, but
-> no thanks.
-> 
-> Since the transformation is local to a function call, dropping is
-> completely safe.  We can deal with conflicts by dropping conflicting
-> hunks, with "git-pull -s recursive -X ours".  Or drop entire files
-> with conflicts.
-> 
-> If you want me to split off certain parts, please tell me exactly what
-> you want split off, and I'll gladly do the splitting.  I don't mind
-> the splitting part, I do mind the *thinking* part.
-> 
-> I backed out two changes made by the Coccinelle script:
-> scripts/coverity-scan/model.c, because that's special, and
-> semihosting/config.c, because it has a typing error similar to the one
-> fixed in PATCH 2, and Alex already posted a patch for it.
-> 
-> v2:
-> * PATCH 3: Change to scripts/coverity-scan/model.c dropped [Eric]
-> * PATCH 3: Change to semihosting/config.c dropped [Alex]
-> * Commit messages tweaked
-> 
-> Markus Armbruster (3):
->   scripts/coccinelle: New use-g_new-etc.cocci
->   9pfs: Use g_new() & friends where that makes obvious sense
->   Use g_new() & friends where that makes obvious sense
-> 
->  scripts/coccinelle/use-g_new-etc.cocci   | 75 ++++++++++++++++++++++++
->  include/qemu/timer.h                     |  2 +-
->  accel/kvm/kvm-all.c                      |  6 +-
->  accel/tcg/tcg-accel-ops-mttcg.c          |  2 +-
->  accel/tcg/tcg-accel-ops-rr.c             |  4 +-
->  audio/audio.c                            |  4 +-
->  audio/audio_legacy.c                     |  6 +-
->  audio/dsoundaudio.c                      |  2 +-
->  audio/jackaudio.c                        |  6 +-
->  audio/paaudio.c                          |  4 +-
->  backends/cryptodev.c                     |  2 +-
->  contrib/vhost-user-gpu/vhost-user-gpu.c  |  2 +-
->  cpus-common.c                            |  4 +-
->  dump/dump.c                              |  2 +-
->  hw/9pfs/9p-proxy.c                       |  2 +-
->  hw/9pfs/9p-synth.c                       |  4 +-
->  hw/9pfs/9p.c                             |  8 +--
->  hw/9pfs/codir.c                          |  6 +-
->  hw/acpi/hmat.c                           |  2 +-
->  hw/audio/intel-hda.c                     |  2 +-
->  hw/char/parallel.c                       |  2 +-
->  hw/char/riscv_htif.c                     |  2 +-
->  hw/char/virtio-serial-bus.c              |  6 +-
->  hw/core/irq.c                            |  2 +-
->  hw/core/reset.c                          |  2 +-
->  hw/display/pxa2xx_lcd.c                  |  2 +-
->  hw/display/tc6393xb.c                    |  2 +-
->  hw/display/virtio-gpu.c                  |  4 +-
->  hw/display/xenfb.c                       |  4 +-
->  hw/dma/rc4030.c                          |  4 +-
->  hw/i2c/core.c                            |  4 +-
->  hw/i2c/i2c_mux_pca954x.c                 |  2 +-
->  hw/i386/amd_iommu.c                      |  4 +-
->  hw/i386/intel_iommu.c                    |  2 +-
->  hw/i386/xen/xen-hvm.c                    | 10 ++--
->  hw/i386/xen/xen-mapcache.c               | 14 ++---
->  hw/input/lasips2.c                       |  2 +-
->  hw/input/pckbd.c                         |  2 +-
->  hw/input/ps2.c                           |  4 +-
->  hw/input/pxa2xx_keypad.c                 |  2 +-
->  hw/input/tsc2005.c                       |  3 +-
->  hw/intc/riscv_aclint.c                   |  6 +-
->  hw/intc/xics.c                           |  2 +-
->  hw/m68k/virt.c                           |  2 +-
->  hw/mips/mipssim.c                        |  2 +-
->  hw/misc/applesmc.c                       |  2 +-
->  hw/misc/imx6_src.c                       |  2 +-
->  hw/misc/ivshmem.c                        |  4 +-
->  hw/net/virtio-net.c                      |  4 +-
->  hw/nvme/ns.c                             |  2 +-
->  hw/pci-host/pnv_phb3.c                   |  2 +-
->  hw/pci-host/pnv_phb4.c                   |  2 +-
->  hw/pci/pcie_sriov.c                      |  2 +-
->  hw/ppc/e500.c                            |  2 +-
->  hw/ppc/ppc.c                             |  8 +--
->  hw/ppc/ppc405_boards.c                   |  4 +-
->  hw/ppc/ppc405_uc.c                       | 18 +++---
->  hw/ppc/ppc4xx_devs.c                     |  2 +-
->  hw/ppc/ppc_booke.c                       |  4 +-
->  hw/ppc/spapr.c                           |  2 +-
->  hw/ppc/spapr_events.c                    |  2 +-
->  hw/ppc/spapr_hcall.c                     |  2 +-
->  hw/ppc/spapr_numa.c                      |  3 +-
->  hw/rdma/vmw/pvrdma_dev_ring.c            |  2 +-
->  hw/rdma/vmw/pvrdma_qp_ops.c              |  6 +-
->  hw/sh4/r2d.c                             |  4 +-
->  hw/sh4/sh7750.c                          |  2 +-
->  hw/sparc/leon3.c                         |  2 +-
->  hw/sparc64/sparc64.c                     |  4 +-
->  hw/timer/arm_timer.c                     |  2 +-
->  hw/timer/slavio_timer.c                  |  2 +-
->  hw/vfio/pci.c                            |  4 +-
->  hw/vfio/platform.c                       |  4 +-
->  hw/virtio/virtio-crypto.c                |  2 +-
->  hw/virtio/virtio-iommu.c                 |  2 +-
->  hw/virtio/virtio.c                       |  5 +-
->  hw/xtensa/xtfpga.c                       |  2 +-
->  linux-user/syscall.c                     |  2 +-
->  migration/dirtyrate.c                    |  4 +-
->  migration/multifd-zlib.c                 |  4 +-
->  migration/ram.c                          |  2 +-
->  monitor/misc.c                           |  2 +-
->  monitor/qmp-cmds.c                       |  2 +-
->  qga/commands-win32.c                     |  8 +--
->  qga/commands.c                           |  2 +-
->  qom/qom-qmp-cmds.c                       |  2 +-
->  replay/replay-char.c                     |  4 +-
->  replay/replay-events.c                   | 10 ++--
->  softmmu/bootdevice.c                     |  4 +-
->  softmmu/dma-helpers.c                    |  4 +-
->  softmmu/memory_mapping.c                 |  2 +-
->  target/i386/cpu-sysemu.c                 |  2 +-
->  target/i386/hax/hax-accel-ops.c          |  4 +-
->  target/i386/nvmm/nvmm-accel-ops.c        |  4 +-
->  target/i386/whpx/whpx-accel-ops.c        |  4 +-
->  target/i386/whpx/whpx-all.c              |  2 +-
->  target/s390x/cpu-sysemu.c                |  2 +-
->  tests/qtest/virtio-9p-test.c             |  4 +-
->  tests/unit/test-hbitmap.c                |  2 +-
->  tests/unit/test-qmp-cmds.c               | 14 ++---
->  tests/unit/test-qobject-output-visitor.c |  2 +-
->  tests/unit/test-vmstate.c                | 42 ++++++-------
->  ui/vnc-enc-tight.c                       |  2 +-
->  util/envlist.c                           |  2 +-
->  util/hbitmap.c                           |  2 +-
->  util/main-loop.c                         |  2 +-
->  util/qemu-timer.c                        |  2 +-
->  util/vfio-helpers.c                      |  4 +-
->  108 files changed, 282 insertions(+), 212 deletions(-)
->  create mode 100644 scripts/coccinelle/use-g_new-etc.cocci
-> 
-> -- 
-> 2.35.1
-
+Mark, do you mind testing this patch?
 
