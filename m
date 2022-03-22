@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAD44E442D
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 17:25:44 +0100 (CET)
-Received: from localhost ([::1]:32782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4D34E442E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 17:25:45 +0100 (CET)
+Received: from localhost ([::1]:32854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWhKJ-0005jn-Nb
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 12:25:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50634)
+	id 1nWhKK-0005mc-FZ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 12:25:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lw945lw945@yahoo.com>)
- id 1nWhIR-0003gJ-FQ
+ id 1nWhIR-0003gW-PS
  for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:23:47 -0400
-Received: from sonic310-21.consmr.mail.gq1.yahoo.com ([98.137.69.147]:40330)
+Received: from sonic308-55.consmr.mail.gq1.yahoo.com ([98.137.68.31]:45157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <lw945lw945@yahoo.com>)
- id 1nWhIP-0006Ip-Cq
+ id 1nWhIP-0006JD-T1
  for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:23:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1647966222; bh=6TcMAhIBij7gZQVuFTLM7jVLORl/dzaM8OKNjkXMKEQ=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=asrLSJFSnb6Iorx8RYoFx6EoewzXD7qIuG6Lfhiu5f97U2IJHoyxoC4rKaIchzqk9ScvtWBOxq5SYSwnyun7+dWLQd6Irb27EdHZOB6ad8xoooB9u6/2tgxM0ewr4uo/H53FRNKlWYtUFf5CjnyhbL4XgwjkzjNl6Xwx1hp77ZH+6Q6ugzOPui9Lh++aKeh5JDdnPb4LhMz39FY6v66lpvixgjJ6tcqbyjIu85/f+fTNDMZg+J3pZezhAki36IqermvzSuLWQePnbFYEkEQPbgqZtIkD8GGfHLO2wVfOK76NHMplAXhIXAtZ5ZMWa9E8367xsBwRw50YEoXBKoElvw==
+ t=1647966223; bh=jH6nYmBREDZ4VjniIAyvx8hpkGlqMW0y7mAtCcxFlJs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
+ b=OwwiCATZGXLnNeo5HXyh3nN51AXT0tiNixnRO00SFFN8B81fJFk7TeTmG+i1fbXe7j2h6Z+C4Ej4jCrvUqB4jij3psc6rcOZ5XSqHVDEL4Eewmfq3WkGtHW4ujGD5NXICIMRHjeU2aXV3cosVqjdkm4GdYlAEnu+vmbaMqERMOwRtZSZjxB2TRBoWPv8pQ5EY6L/YXwVXHx/oxfnO4wO2Z12Cr0D/IKxKjggTmq0qUSXNwyX4pi5DOCLxFmVPH0ZU09DSc7txiFIu4b6vdL5MldJVheFt2t/7rG+IfoZ0ThQQg0s1ngUeQOM9nCMlt+N02w1uwOs5G3iQW0hR8AEXQ==
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1647966222; bh=AR2xv/qk68q0p3JrKAELWzUMBfYlXKJavVQ4ax/2ltJ=;
+ t=1647966223; bh=wBdlkN0X2leXUB4ot9hepBuypm3WqtE/FAGeyNYBNjN=;
  h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=G25QJbcMvLj+uBiFcKLJ5WQuUUz60bxlzlk0AH6FS2c7kYOPJQie3/lX1CC2XymVfhDbmH5Gy/HRMK+nKh/HK+bdhSfRd2u6rEiNISu5z2+2ZzPutekcP4CoYOs1G/lJHtwLhluk4+NiWQsEnIxUKbuURcg/70qvY9VwMtEzFSnzcGWHw8e63TQnFx5yfEz+hUk8C08sMizXgw0wf3O5KVCtOXQ4Vy14XakD57nHTRMzqxTvChv/Fo4k3UOisZjk7tFs9NuUJ4jzZ3wJiGW/T5mSphgrdIUBHhbnqxLo5p6HhkGTx4gORGRBFHpzFW4UnL539lFi7gnDJSbwcWj/yQ==
-X-YMail-OSG: H4fb5ccVM1m5.dANDvbh0sS1rbiQJwqeIvPq1BL5LpIpRnv47Plqo312VWHR2fU
- Nqip1sUwxa3uSIJ6P3rl1dOpShEjAQngGMzk2keHlSoy4bxct9IZM.WvRCkqCt4K.nTrV.G5Hmyz
- BJbpGt09ME_8sNoyezZqL18BpL9XOZkpVFmAsn7CB.LKVr9UilWuXnaxfZtb7W1uPwADjQiX.LCF
- _tmt.K3EwwvldCRs6OfwOpIP0b_HL8LP04h3gdseftwRXk2jKVwswTpHx5jAbgOj3Nw4kUK.Cko0
- w_od_agpK9yBcqEMYjQSMENx.XocwHDCzBJhcZLO4L643ulzjvskLNAOo3rsKCUbdFjMazWijdWH
- MCCWi.ovMeNm2OvQfnr8J09GdP_p0HQ0s_HxUR42PlIC.GdWSB_VhKfiiS9G6ojKGMJtUN_R0C3j
- bON_ICr7Bcj_BH6F8NyWTLyHJjAcRzVlR.ONncZ5iMJDjoNhn4R4ALr.J_It8zO6dLGOj97M9Clg
- zmEw4YBAzj4n54N_QY2R6nZ5kql68L52icSYbumsmWUZxCZSzXN1a.0Xk495ceAMZS4GbyX..oRS
- xxf.7Ilg_tsG1tO9mu7CjS7wUSp.C9LAmI8vJEuf4z02Y2ZcUeEjARYavv.TFOXRKQQZtJiKjfPH
- krxKtEVEegxCjsNy.zT2XXimmPw2M6NoOoZrWmpUaDTCyPzM6Rd0jhDVPM68QPIBJ5fd.DVpHz1n
- WSYO9uI3Hvi_pt33YuwI54cYR_hqhw.ALrRiL.WVy0CxtCxpYvgpY03ZlGPa.fTks.AaroFLFYAH
- hthb0b90mESEwv2avriDK7et6jpk142vpFYNij80bhkfGZYfWj8LT6cNWVwnaK4CNEKUWIyWb2gH
- VoktGldkpz84RWGOXZDMaK_0nDqTQhwL_QNxOxjXXRvOc.bY.w_57l8IeQSCCLN3D8ZwmSSmSyMD
- 1Yk1LMgpfNADnaCwPMLOytPnz2ATO6Bm9IrGnt9w2NZ8lNcMLJ3t.sAegPFLqP5i61Xr9xPX4JX4
- TsqBjM_.SDyGxJ6yW6o2ryV9cPTrSdQzReLMRkP5p_3JcIRUqEc2ODifZXAQ404zLAER0O9HA_V9
- .epb2Ujsns3NFk5XAhaQvwzyIrh45QAz19IHi750gX_svfs_.XKG2gwVrQMg6xHbjOM61oGYFthg
- jesmw7KvdNXOEi7XKpL27QYMzH5oPHwBBqETMt5yGgdwnOEqvXYWGRZfOsZSoHToRdrlVqaHAWxS
- DP7n5k.4mwqaNuFZ6aHxRK6V17jpWGCuorJzcpXjZ6EHa26ePY3sq_fULsImRVvwL0bh1fvJesBr
- uGueC8HtGFmxpQVfK9me5x1ujLhQw80uGtW25OcdDoYh17I66WxE_tjrrZh2slgwUH4QLUcbeZlJ
- PhCpOppykn_HxyTUSAOpDLwn9A6MoIrZK7IJobnhMFjkuv0guT5a9KyzPtNERZnIcrTEU.fH.GWf
- GORawsFu.SDNpCCOYrlwXJUKJFVW6akpJYTVQCe3nwYlIQTNt4T9Za4DWA1bVjpE7OUlw4rw8bug
- oZNg8E6LAL78kcHGtBT88D1dF0CH.GrQLcliltmsM.V38lawnh3D.GPrL3suWAdsOSbvuqEqmRCB
- lSUbhroDapx1IZe0bN.ADvzRIJTiFqT4yB4QveQ2sbjgkIoCHDcz1QhCPM3dyMHEwfvITb_S8fUW
- FEXgBBXeR9yXLbjnYQloWQ.vEDH2neWYquCcMQLFJqSyxTUsPpH_yEGNulu5agc2pAAxNdkreL7M
- sC_5u1kcjxUpEKCOpSKKrAxyswLLese6i4nYDOwvZD3CcAs60mEbKgGGtq5bUSVBeiDdoxGWPMcm
- X5T3JDgmIbqckOzIAuA8J7glMpewY7FYQ0.9QJch_gZEg6YBwHXzFfYmLKP7g3UBBv3YxJ8V8kDc
- wKsT4cUo9vAKSqDQVUgBTcpTTIGchFw8ZKDIZZ72AuzJS.Tgz.73eUU2LDyWLkid1W.r_zVRVSF_
- fXx2DWByx7UhpjMrIWz7wZE1JOomfDm9waGCDx95x8jT3YvhqFxK0pjhQgAK1raRmm3xLnJKIQy4
- 7kj.ZP4bv4ltiQzWRxEPEsqr5BKOULOEaMkuTi72iT8roRUpIw4_YoHfrvR6Xgsj71t7btgZACFv
- INHn33PJ7zgfL1onRABldFz7xPok3RZHO7ayGy8JPLogoMTv9SRYFYXquU.Kp5hFKSZdQvcUyLJr
- CnC0aEr5zdEAWnt6gB5_UwL7nUNUQ5GTAH.J7_miHF0lqZaZHOZL9sM8Igzh6PNWkjXmqNhXq9XL
- Q5iTSuUtcz29e4bELqLEdwLvpsbYsqakc4Fy74LPbFNdy.xE.BVasXRtPYqBYZM11Q8kC.d9OYMc
- 8
+ b=s42DvpM992r1H3mdSFZBut5eat86g9T60SDB3DvRRzexm8sj2zcEaTKwQaB+6TSxShu92ywEmh84L7MqEJSPskmLTde0peH/w0ThQQ9yNUzLE16Ieckngz9bn0wVkLMy1dbvBDWSXKvfNcT/bt7V4uncq95S96JSJRmmv5sVJDhwwUjBy6QBHO9zmoQuH+GUx03LtdnU4gm/OxjXEqIntXQDxUZhTy05j7mFgz5jiEmHuY4V35d6a/0mgaRAMzbX1wI39VxeOYMRgGX5s706nsLOah6ViTfjFZ6yHc/rrE80h92PuEgVC+pAop02WWQai+gKepnBqFJYTQBjItHD5g==
+X-YMail-OSG: DFMMt3MVM1nn.MFE_J0YmEGwopbglcJb0ZsiunRLPC3LOEmYd2BRHh6hyW.0aNi
+ wAQgbLxV4C.RtBYTWBOA6ISH3MiHJ.oWc4vEJc1gY23cH9Oq6IjtETeouDYuNE9gDgICHKK5Gh.g
+ TWbE3s7hjzNHu51XVCj9QvsNPnsC.QhE0ANUCBGNpjuogWrAKhHYvklaS9_n1G9XLH99YmbB3.a6
+ I4VH958vPUHC6yjUDAbs2gh9WyrxeI_97KqeKTp9bTqE3dN45wqgssjEMzmRJok6ZNC.NXMsn4nO
+ vFxIZ4Z79.GIS4_f3upG7w4PC6uxdKCZ5AmJLh2mQCm9FdU6RZn6op6E9rdZn21n1C2jaXAKYtU7
+ 0Kfr70NaiUUuA.0ZPiZ1_HDX9uNAjUhFty34yZtSYCmGKiK.fzjvwf5Of7Re__BIKQTGlOmNgIIC
+ ibC1KT8X0WFmXR17xoitHGFpPpKu0MM7t3k8OP1vVpQ01qxoYaEdLnDIOjez5IJH01NYOvIdWLZ3
+ ewAmZOzFJmxCQhHtNglU_j0mUrG6JaZI9Q9phKfPXjnS4OTk79tTjE1QWPJMdcwYdM5sO0Quo9XY
+ LAFCow.f847RGcpYoPR01vpdeiKb.DGvEiwD5ARYqnXpppSqJ_KQI.0JoRk2iu5ueBntVkADbUC.
+ rWv8ztgZJcPk445Xc.yaTp8JiEVDV0sxehTaowp6YKhyt6e_c8hEbTo5g4vgEPi4XlpMwiw5vW8G
+ GPvNO4gTnh2CS979V1pDsidRyfOmFO9D3ONTIt4lwiftgnrMlPX40_0u3L_EdeHMEMJnO4Zh3jdP
+ rKJo1c4qzpeRHmlzjBjSCG4XMewq3e6yuE8XNPNgO3QzSfiUHsZ3NAG.iJXAVB2EvmXKuVd9WUiA
+ jtBM_vnrSw84ZrYh_f.bLqzp.9bW4fV_CXcm6Whcq.T6kje5irnv18ED5RbsFgIayG4que94OsG8
+ 7VXpIpMaBUxzf0MDePwYz2ktKU8OdZ74vVfzr8Zrm2u3kReRlk3CAMdLloZg7A7Nrnb7ZmRrWXWz
+ Yhuv4asLvNumRUSMgaSllpx1FVod5WL7S0JTwtMHdRIC_3dik4Eki.i1IqQv2mXoKp7yUhOnExid
+ ewS_B0gVfbhOdulIGiVrtPWvj9sJ_EUIj140hY2p7OsRM8spDVxW7_kKaDZpwXJNKI.H1R_cmgTy
+ BaXJpEEgqXGkv6PONtaebspPYozK1RD_gPEWN9NZjt6fbMayRqhx6YfjjwQLBfYgOGskXiOJJjUn
+ 94DYgwlGjchlgxz7dhrDsGSGsjfPkEJ4MNQBxKF6wS7b1SKXcXFg4qa4cxZBvLkwAwRZnzI_tkpC
+ k1cfJfh6CG202uFNbAr7RYRCX9eKENllCVD7OEgV5SjlD4pauqdO2XGBQ6Gryfr.WKQVgAEJWawq
+ IfR1QMA20TPE1vkFm6ikHjqcdnIyXZhmPd2vNPiZuzDPmy_a25XQc0uMtLbbdxICHAf1tn7K_1gB
+ uSZpE.P4luF45BR.WWIZkJk5qC81RLP_zQhOdJs1WzSPaFMvJODDyu2GpeETQWE6paOxMMv3XyYR
+ 6a8hfWXG7mJiJ35QyWfk7eWicpqxpsC1nL64G4Dv62ezSPYY0uunzD0ThrjvYfxt_aCsA9AtLJqo
+ fFXxGNOU5MoV9gz8jaWaD816qnaVIunplv8Oqf9ikkBkpLkCZ2DzpqvCtwbAqZ.yC5bG2mhzQFRr
+ XW05GiB7efpaoPCbFaX517T28GoXZl40nASQIYNYZ6jyn9zHhqENKaxlYi3xI5GZxIKqGHDqQSE9
+ TwK0sXagO53rl3PdbKf7aCejXhFTUtqxXc1I3IFWP9cj_wXCgJZTpf3aFnNL1i5_DzQ3s6EjdNn0
+ 8JHEGGNoI4pBJhOzUjMSqoV2LCo2NwJFREVi0wOc6s9CDhJaRaCRIy.QS7Doqt9Vv46oMFQaVlLo
+ U0g8SVRDOdjjKfDakJWovX8TXKfQWNJLby0F2fOJh99DynuGwX4cb1imQwH3M_CbGHmjwLNtpcHu
+ HrXQInRk47fPOWq7ihzrCy2XxDgX85qmlSeNeLi3PaI6pBTydKZC0arGFpTcwLhBFXPmA6HvKAAv
+ 6KgOsoVg2WCjJTfT19SQGqJeoaniAyxW3ryTMk7NC04y9Rk5kgrUHfvpZywCxsDekClte_VjImp_
+ b3WN4pweSS35RcMHmx8dQdmgC.Ep8b1XfTjufUjxVNrDoJVztWNZ42hcpWgK4a7Yp63q.mtUjAr6
+ FxoOlDfRLzPAG.5Lw6uP4dTF.7ZcY1tCuV11JSVOIqBV0JCCD51V6et_q28J.Ba8_qegIlgvGXiQ
+ df8zEjXBBSSU-
 X-Sonic-MF: <lw945lw945@yahoo.com>
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic310.consmr.mail.gq1.yahoo.com with HTTP; Tue, 22 Mar 2022 16:23:42 +0000
+ sonic308.consmr.mail.gq1.yahoo.com with HTTP; Tue, 22 Mar 2022 16:23:43 +0000
 Received: by kubenode527.mail-prod1.omega.gq1.yahoo.com (VZM Hermes SMTP
  Server) with ESMTPA ID 808f424003ffb5335f380da6f5d24d72; 
- Tue, 22 Mar 2022 16:23:36 +0000 (UTC)
+ Tue, 22 Mar 2022 16:23:39 +0000 (UTC)
 From: Wei Li <lw945lw945@yahoo.com>
 To: pbonzini@redhat.com,
 	richard.henderson@linaro.org,
 	eduardo@habkost.net
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/1] cmpxchg and lock cmpxchg should not touch accumulator 
-Date: Wed, 23 Mar 2022 00:23:13 +0800
-Message-Id: <20220322162314.408170-1-lw945lw945@yahoo.com>
+Subject: [PATCH v3 1/1] fix cmpxchg and lock cmpxchg instruction
+Date: Wed, 23 Mar 2022 00:23:14 +0800
+Message-Id: <20220322162314.408170-2-lw945lw945@yahoo.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220322162314.408170-1-lw945lw945@yahoo.com>
+References: <20220322162314.408170-1-lw945lw945@yahoo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-References: <20220322162314.408170-1-lw945lw945.ref@yahoo.com>
-Received-SPF: pass client-ip=98.137.69.147; envelope-from=lw945lw945@yahoo.com;
- helo=sonic310-21.consmr.mail.gq1.yahoo.com
+Received-SPF: pass client-ip=98.137.68.31; envelope-from=lw945lw945@yahoo.com;
+ helo=sonic308-55.consmr.mail.gq1.yahoo.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -103,32 +103,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series fix a bug reported on issues 508.
-The problem is cmpxchg and lock cmpxchg would touch accumulator when
-they should not do that.
+Give a better code struture to reduce more code duplication according
+to the discuss in patch v2.
 
-Changes from v2
-* Give a better code struture to reduce more code duplication.
-
-v2 link:
-https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg05410.html
-
-Changes from v1
-* cmpxchg uses the lock cmpxchg path whenever mod != 3 to reduce code
-  duplication.
-* lock cmpxchg uses movcond to replace branch.
-* Combine the two patches into one patch because cmpxchg uses the lock
-  cmpxchg path.
-
-v1 link:
-https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg05023.html
-
-Wei Li (1):
-  fix cmpxchg and lock cmpxchg instruction
-
+Signed-off-by: Wei Li <lw945lw945@yahoo.com>
+---
  target/i386/tcg/translate.c | 41 +++++++++++++++++--------------------
  1 file changed, 19 insertions(+), 22 deletions(-)
 
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 2a94d33742..9677f9576b 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -5339,7 +5339,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x1b0:
+     case 0x1b1: /* cmpxchg Ev, Gv */
+         {
+-            TCGv oldv, newv, cmpv;
++            TCGv oldv, newv, cmpv, temp;
+ 
+             ot = mo_b_d(b, dflag);
+             modrm = x86_ldub_code(env, s);
+@@ -5348,42 +5348,38 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             oldv = tcg_temp_new();
+             newv = tcg_temp_new();
+             cmpv = tcg_temp_new();
++            temp = tcg_temp_new();
+             gen_op_mov_v_reg(s, ot, newv, reg);
+             tcg_gen_mov_tl(cmpv, cpu_regs[R_EAX]);
++            tcg_gen_mov_tl(temp, cpu_regs[R_EAX]);
+ 
+-            if (s->prefix & PREFIX_LOCK) {
++            if ((s->prefix & PREFIX_LOCK) ||
++                (mod != 3)) {
++                /* Use the tcg_gen_atomic_cmpxchg_tl path whenever mod != 3.
++                   While an unlocked cmpxchg need not be atomic, it is not
++                   required to be non-atomic either. */
+                 if (mod == 3) {
+                     goto illegal_op;
+                 }
+                 gen_lea_modrm(env, s, modrm);
+                 tcg_gen_atomic_cmpxchg_tl(oldv, s->A0, cmpv, newv,
+                                           s->mem_index, ot | MO_LE);
+-                gen_op_mov_reg_v(s, ot, R_EAX, oldv);
++                gen_extu(ot, oldv);
++                gen_extu(ot, cmpv);
+             } else {
+-                if (mod == 3) {
+-                    rm = (modrm & 7) | REX_B(s);
+-                    gen_op_mov_v_reg(s, ot, oldv, rm);
+-                } else {
+-                    gen_lea_modrm(env, s, modrm);
+-                    gen_op_ld_v(s, ot, oldv, s->A0);
+-                    rm = 0; /* avoid warning */
+-                }
++                rm = (modrm & 7) | REX_B(s);
++                gen_op_mov_v_reg(s, ot, oldv, rm);
+                 gen_extu(ot, oldv);
+                 gen_extu(ot, cmpv);
+                 /* store value = (old == cmp ? new : old);  */
+                 tcg_gen_movcond_tl(TCG_COND_EQ, newv, oldv, cmpv, newv, oldv);
+-                if (mod == 3) {
+-                    gen_op_mov_reg_v(s, ot, R_EAX, oldv);
+-                    gen_op_mov_reg_v(s, ot, rm, newv);
+-                } else {
+-                    /* Perform an unconditional store cycle like physical cpu;
+-                       must be before changing accumulator to ensure
+-                       idempotency if the store faults and the instruction
+-                       is restarted */
+-                    gen_op_st_v(s, ot, newv, s->A0);
+-                    gen_op_mov_reg_v(s, ot, R_EAX, oldv);
+-                }
++                gen_op_mov_reg_v(s, ot, rm, newv);
+             }
++            /* Perform the merge into %al or %ax as required by ot. */
++            gen_op_mov_reg_v(s, ot, R_EAX, oldv);
++            /* Undo the entire modification to %rax if comparison equal. */
++            tcg_gen_movcond_tl(TCG_COND_EQ, cpu_regs[R_EAX], oldv, cmpv,
++                                temp, cpu_regs[R_EAX]);
+             tcg_gen_mov_tl(cpu_cc_src, oldv);
+             tcg_gen_mov_tl(s->cc_srcT, cmpv);
+             tcg_gen_sub_tl(cpu_cc_dst, cmpv, oldv);
+@@ -5391,6 +5387,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             tcg_temp_free(oldv);
+             tcg_temp_free(newv);
+             tcg_temp_free(cmpv);
++            tcg_temp_free(temp);
+         }
+         break;
+     case 0x1c7: /* cmpxchg8b */
 -- 
 2.30.2
 
