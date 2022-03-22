@@ -2,87 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C134E4052
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 15:13:43 +0100 (CET)
-Received: from localhost ([::1]:48640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C074E4110
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 15:18:27 +0100 (CET)
+Received: from localhost ([::1]:53026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWfGY-0002Y7-OU
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 10:13:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42056)
+	id 1nWfL7-00067T-Tm
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 10:18:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWfEa-0001VB-Jm
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:11:40 -0400
-Received: from [2a00:1450:4864:20::32b] (port=56116
- helo=mail-wm1-x32b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWfEY-0003PV-3s
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:11:39 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id n35so9555436wms.5
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 07:11:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jZyHXiiRUKBPSug4zRfvxJ4vQfPiNJq+efCZBx4jhfA=;
- b=DlB4BIKJo6TzVJCw9sMT8OqwzzRRr1l6+FFZvCNpAFXJrnyXvCpEtr7Vw5SFQEmgrm
- eHSi2sBClyk1O1b93bdUhAslDp6gVl/9RgCm6VLfp+EJzRCc0o9WqWvvihYr5xIuymEB
- Ya9oFjVxDh3lTFtErvC3svUt3eRk9CKhAENa7By1Xxb22qq0YKwwNNJKJ+h1cxxJxnHN
- 3VbgLPj6RO2tt2JPObUIPC3HX+Fua+xy85A6zmCgswNdkZsmDZZckGNXOVgdph7tKClP
- oXKz3NRZuLngJtenZVFwTEKVukJmhstB18ZnbMbNhSCV3nwSTBpXC2hguyJfXQKzh9+w
- JGmA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWfJU-00051T-SF
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:16:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWfJS-000578-Gn
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:16:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647958601;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C+Ia/o5w0KuBVlI2VfclxI4n4TgHdRUs7FGHjXH5MXo=;
+ b=LRDnTkGESEQdG4M5iHgMgZ2MrnJuxKU0mbBygj0o0y/0hQay05sW6ww3CuRsfA4Ecy/OZl
+ llyweorJQjL1l3i3v0Yr7bGLgIYg2oDHjJmMHxLGdSf99cLzIa2g2gkeaAmi05ouIbKL3Y
+ ziDfz4vmwywSU/iGiAnihQQeSytt7LQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-414-IvaTfmp_PFaXeAIzmtLeXA-1; Tue, 22 Mar 2022 10:16:40 -0400
+X-MC-Unique: IvaTfmp_PFaXeAIzmtLeXA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ o20-20020aa7dd54000000b00413bc19ad08so10638556edw.7
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 07:16:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=jZyHXiiRUKBPSug4zRfvxJ4vQfPiNJq+efCZBx4jhfA=;
- b=GsxWU+7zg/fqiR9cnWFelKAthlz23EjQvvkq+G/cR9SMcBmu9nR7FhEBv/uPe0z7wk
- zm9t84tdEp/jOCEc9PiQCbg+cDExIrndEpUaosxIK/D7thegwUOks9Whcwn0+FtWIb8P
- B+mGQEKBloyzi+rVcgm4nvZrtvHihyLAMBgupIsk1AUD3Fy6If3jaz/N9RxN2PosY5sV
- xxc/YSc4G7fSArJuJdwXhqru0ZjMhxu6ZhkZ8HGa3H02zRvqT9t995hoyYJop0ILXH9n
- IwQP9Qb27zzoYCTvM7bN+81uGIRziQuJaXHU3hsFSS9whKwBAGmCOMGA46gHbdYzZ8CH
- 6Kwg==
-X-Gm-Message-State: AOAM531Kdej/QcTU+oz1K2knDvkxzutNxJONK3f6MXEQ9dbTGQsXN5jf
- lv32S8NGMGlm7ePsmq4NTE8=
-X-Google-Smtp-Source: ABdhPJwiLRJOyCSrZGigL9EUS+F9+c+h9NYg009qlbPibZaGiOsn11fwhgL6wff6JxREyS3zB3TJNw==
-X-Received: by 2002:a05:600c:154c:b0:389:fb24:f36c with SMTP id
- f12-20020a05600c154c00b00389fb24f36cmr4163047wmg.51.1647958295996; 
- Tue, 22 Mar 2022 07:11:35 -0700 (PDT)
-Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
- [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- l12-20020a056000022c00b00203ee262d12sm12392042wrz.116.2022.03.22.07.11.35
+ bh=C+Ia/o5w0KuBVlI2VfclxI4n4TgHdRUs7FGHjXH5MXo=;
+ b=UV9JKPHahWLFVvuGhiq7+dVTPMyuK86VwfOMPgS+zMKySW8YaPry0FwLEdFmo+D18x
+ dKkDhbrn0U9ZwzazKbYdupUXu0wfVdDhUGo022TGlP6bADPggvA6BMGEE/RzxqW09C+G
+ v8FQ7DeKWzCqsR1hfiXgo/jELVpp5sh1fy9psY8y5DUA6572CsgEE7a2C2wpGjguOdtL
+ 98pvPowj5rPOsC7yA9OQdFlNSSF5XnVJ7KNk3oBDyww5Jbneu7GGxjsVc+H8YOXeY9PI
+ lGV4xxaXVHh71lMJBAukvn3GcNMzoELQtY/SPqbqtS0WffffQFMUqZHfFhEX91vBPwXl
+ vV9g==
+X-Gm-Message-State: AOAM533QtXbe3a2EcB5CvAbuySo6DshnYM7eyl6QmN+RA6yv66eztX9Q
+ lCPVq6UB2qYfw/kpD3CN20PjuczJLz5DVhE1/Aw0GmFsOmSefxeLSZXFG+KMYSfPuwQR7ZEXjAh
+ RjC8fDq/7pd7lAko=
+X-Received: by 2002:a17:907:7287:b0:6df:8f48:3f76 with SMTP id
+ dt7-20020a170907728700b006df8f483f76mr24753239ejc.411.1647958599108; 
+ Tue, 22 Mar 2022 07:16:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/UBhm6Uanyhh/Er410c29ffNkTC4yHsRDhB8irtpmZhkJdiRdv11sTY2q54hugMhQFdu3XA==
+X-Received: by 2002:a17:907:7287:b0:6df:8f48:3f76 with SMTP id
+ dt7-20020a170907728700b006df8f483f76mr24753218ejc.411.1647958598891; 
+ Tue, 22 Mar 2022 07:16:38 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ s20-20020a056402015400b00418f9574a36sm7919701edu.73.2022.03.22.07.16.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 07:11:35 -0700 (PDT)
-Message-ID: <4967c8c2-36be-fa58-d111-bf33342fe3cd@gmail.com>
-Date: Tue, 22 Mar 2022 15:11:34 +0100
+ Tue, 22 Mar 2022 07:16:38 -0700 (PDT)
+Message-ID: <2a1e5741-424b-6bb4-2b1b-64ff11be9625@redhat.com>
+Date: Tue, 22 Mar 2022 15:16:37 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [RFC PATCH-for-7.0 v4] target/i386/kvm: Free xsave_buf when
- destroying vCPU
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 03/15] iotests: Don't check qemu_io() output for specific
+ error strings
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20220318203655.676907-1-jsnow@redhat.com>
+ <20220318203655.676907-4-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220318203655.676907-4-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20220322120522.26200-1-philippe.mathieu.daude@gmail.com>
- <20220322145629.7e0b3b8c@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220322145629.7e0b3b8c@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,63 +104,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/3/22 14:56, Igor Mammedov wrote:
-> On Tue, 22 Mar 2022 13:05:22 +0100
-> Philippe Mathieu-Daudé         <philippe.mathieu.daude@gmail.com> wrote:
-> 
->> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->> Fix vCPU hot-unplug related leak reported by Valgrind:
->>
->>    ==132362== 4,096 bytes in 1 blocks are definitely lost in loss record 8,440 of 8,549
->>    ==132362==    at 0x4C3B15F: memalign (vg_replace_malloc.c:1265)
->>    ==132362==    by 0x4C3B288: posix_memalign (vg_replace_malloc.c:1429)
->>    ==132362==    by 0xB41195: qemu_try_memalign (memalign.c:53)
->>    ==132362==    by 0xB41204: qemu_memalign (memalign.c:73)
->>    ==132362==    by 0x7131CB: kvm_init_xsave (kvm.c:1601)
->>    ==132362==    by 0x7148ED: kvm_arch_init_vcpu (kvm.c:2031)
->>    ==132362==    by 0x91D224: kvm_init_vcpu (kvm-all.c:516)
->>    ==132362==    by 0x9242C9: kvm_vcpu_thread_fn (kvm-accel-ops.c:40)
->>    ==132362==    by 0xB2EB26: qemu_thread_start (qemu-thread-posix.c:556)
->>    ==132362==    by 0x7EB2159: start_thread (in /usr/lib64/libpthread-2.28.so)
->>    ==132362==    by 0x9D45DD2: clone (in /usr/lib64/libc-2.28.so)
->>
->> Reported-by: Mark Kanda <mark.kanda@oracle.com>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> Based on a series from Mark:
->> https://lore.kernel.org/qemu-devel/20220321141409.3112932-1-mark.kanda@oracle.com/
->>
->> RFC because currently no time to test
->> ---
->>   target/i386/kvm/kvm.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->> index ef2c68a6f4..e93440e774 100644
->> --- a/target/i386/kvm/kvm.c
->> +++ b/target/i386/kvm/kvm.c
->> @@ -2072,6 +2072,8 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
->>       X86CPU *cpu = X86_CPU(cs);
->>       CPUX86State *env = &cpu->env;
->>   
->> +    g_free(env->xsave_buf);
->> +
->>       if (cpu->kvm_msr_buf) {
->>           g_free(cpu->kvm_msr_buf);
->>           cpu->kvm_msr_buf = NULL;
-> 
-> 
-> shouldn't we do the same in hvf_arch_vcpu_destroy() ?
+On 18.03.22 21:36, John Snow wrote:
+> A forthcoming commit updates qemu_io() to raise an exception on non-zero
+> return by default, and changes its return type.
+>
+> In preparation, simplify some calls to qemu_io() that assert that
+> specific error message strings do not appear in qemu-io's
+> output. Asserting that all of these calls return a status code of zero
+> will be a more robust way to guard against failure.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   tests/qemu-iotests/040 | 33 ++++++++++++++++-----------------
+>   tests/qemu-iotests/056 |  2 +-
+>   2 files changed, 17 insertions(+), 18 deletions(-)
 
-Yeah HVF needs a similar patch (at least hvf_caps needs to be released
-too, but I had no time to review it carefully yet).
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
