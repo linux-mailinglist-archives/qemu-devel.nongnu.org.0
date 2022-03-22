@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250AF4E47B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 21:47:00 +0100 (CET)
-Received: from localhost ([::1]:51532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBEF4E496F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 23:59:42 +0100 (CET)
+Received: from localhost ([::1]:33158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWlP8-0006j8-Nl
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 16:46:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58880)
+	id 1nWnTZ-0008VO-7z
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 18:59:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nWlNe-0005H8-EP
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 16:45:29 -0400
-Received: from [2607:f8b0:4864:20::1135] (port=36990
- helo=mail-yw1-x1135.google.com)
+ id 1nWnSN-0007eg-7E
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 18:58:27 -0400
+Received: from [2607:f8b0:4864:20::1132] (port=36207
+ helo=mail-yw1-x1132.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nWlNc-0005CJ-K3
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 16:45:25 -0400
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-2e5757b57caso204974997b3.4
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 13:45:24 -0700 (PDT)
+ id 1nWnSL-0006NX-4a
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 18:58:26 -0400
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-2e64a6b20eeso68855497b3.3
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 15:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7aZmZWqgYGkmSy2+CkjMvSUxFJBeifLhK88ayhYZcrE=;
- b=HXL6zB+KBRKClBOKZEH3kNC+5O1dmRQa2QT1ddzfSNETkrLDEEhszh1nAm7+bYfNT7
- +dg1JZzw6qKctYN6GwdXzosQR2E1u/azRHq1mGWaZNrN4HrZ/Ib9Dx5riWC3p9ad/Apl
- YPJcEAZsulvRA+ere3wpVXtYAIIn9NDHuurjN55YDj5Q1uFrY3D7tYMDgKbVsguZx+MO
- qEmbP0dgF49Rmw3dpTIUxthq1M/Bec4E4NkXIdlgUYes2vc9BnUvyUEoomVRsDjxLU4w
- ejOVzRaj9MrhjjTq/te4lhsrpsgersICIPFmscjENNabkzzqqp65sb4aNHciLsnerO23
- /jwQ==
+ :cc; bh=4Ll+C6V2DtlB0+V4lrHaOvJ3EHxG4z1BntN726QJwNo=;
+ b=JvRAmQSNeKSgTgu+R2mJrPbUSSrpL5LTnxk9ZmUfPWCDqBsN2Y4ok4Sg+VSxXb9T34
+ He8//derTGVJ9jMkbkmfPU5YGpU5r5Nu99Zc4ZkImao6MgwxrFBguTedOvVMhSDnH6f6
+ s14VdDWnTMaRep1wZy6h7geeRzis5lAxd+Pet4EZhGBoTptrL852ozI1cJt2wMI007Ln
+ Qc0Aoiqg0XM3909rPoJOecVvAZ5vBpvrqKSfUx3dnR7wbp+05c0SqLy8KMtQxGzXpGyc
+ LAzOlLbE0DPV4olG6jCV/Y63e3SzVq9I7S8LCdYEwusm/UWX9ocbUcqm3l8poffDfuT7
+ VbYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7aZmZWqgYGkmSy2+CkjMvSUxFJBeifLhK88ayhYZcrE=;
- b=olbTaEb3GTAM+04g074fnn24DOXYthHbabeXvi1pR1X/K4wcFfXiPr/FrkgjBlA/ir
- HbCBI19z0CdYD8PN2enTvAtlHtSHKAx/AS7nOeERVjTeYt1hs1m9lPdbJvLfQCj+uDJV
- 7L2LNaGuqT8dfVRpM7rGX913rfXtwq7kKEgC16fu4zpNwSuaXivUuDCXBIlJbgE8Rscj
- KC6/zDwDe5ZQcBKN0dcUdo3EilLf4X40V2XrCRZ+hfThDLDd6iwEsBVouMiAt48aVC/S
- piO1Ae6tSDjv5Fg0TlkVyyFZIROzxlEkrEsB0KlxPTU+fBV4Wa7w87V59VZXMENwyOkv
- VS2Q==
-X-Gm-Message-State: AOAM533TKV/cflB6etxDhSc4sPRa5GQ+gXaKXydYRHHh7ifpWEVSdKbN
- +le+tHv8ZBHWnNj8SNNuw9C0D0y86uoJZkmJhLh6iw==
-X-Google-Smtp-Source: ABdhPJzq0QxqQ09XQAO++Nyywq7/KsgIgv0qm3kiJXzGfU0m7xEuiUhJavP79B1IO6hT5DrTpov/RHqqNDVERtP7eAQ=
-X-Received: by 2002:a81:1151:0:b0:2e5:99ec:9933 with SMTP id
- 78-20020a811151000000b002e599ec9933mr30589440ywr.64.1647981923484; Tue, 22
- Mar 2022 13:45:23 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=4Ll+C6V2DtlB0+V4lrHaOvJ3EHxG4z1BntN726QJwNo=;
+ b=QW2L8Iiu16S0O7iFKlhp+J+ObQLz80vzy8ta+/cSWSJOrN9orUj9eiaMVZVah7Lkl6
+ Ob/3haAPG+NngDyoPN0Qkd7gDENFhCxVr1pbcun1tUmI+4z0v8nhMVwFHr8JemaSkhVK
+ 5f2zQYSrWNkqXi4Su6EUzv5h/Atv+V1gbhOX88pQIkMlvL+eF907m0iUWwxUKoXriA6P
+ JWg8oJuHFeF+F7Y0zJX/4PnoCIHa2S430bBJEDHTZ5joE1fb+EBF5l3soCk+lrlBh9DN
+ AiQpPpNcE30/Rgl9xICvr4zb3uGl8P+wdO62Z/pcOLmH05BxscEk4yXAsizH4rEbdZo9
+ BJ3Q==
+X-Gm-Message-State: AOAM530+nXbttfwN+7yLq5QtzH5214G6IOKHVX2mRmTWdbPy0oA3JSIU
+ 1c+TPuzti0yRke5QkOtUzSpDGYSuvi74hpKPfSskrQ==
+X-Google-Smtp-Source: ABdhPJw4TewTMHbrwi2W33W8gLvjqn/ri+EsV2+5Knxypp+fNOpDyf1ugx01hkLBCFyhL35dZiLgoM9TdleS2zPLq6E=
+X-Received: by 2002:a0d:fd02:0:b0:2e5:9617:fda8 with SMTP id
+ n2-20020a0dfd02000000b002e59617fda8mr32152712ywf.10.1647989904097; Tue, 22
+ Mar 2022 15:58:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220322122601.927238-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20220322122601.927238-1-marcandre.lureau@redhat.com>
+References: <20220321170320.282496-1-thuth@redhat.com>
+In-Reply-To: <20220321170320.282496-1-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Mar 2022 20:45:10 +0000
-Message-ID: <CAFEAcA9NHeORX7pTttzcsg02SKQeZOoE5C-K-Ddzm8xjYHPjCg@mail.gmail.com>
-Subject: Re: [PULL 00/21] Fixes patches
-To: marcandre.lureau@redhat.com
+Date: Tue, 22 Mar 2022 22:58:11 +0000
+Message-ID: <CAFEAcA8wSSECrT4eQ2DEbTxUKd64CenoOS3Fp8O0dhLD9HNUKg@mail.gmail.com>
+Subject: Re: [PULL 0/8] Fix CVE-2021-3611 and heap overflow in sdhci code
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1135
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1132
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -84,37 +82,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Alexander Bulekov <alxndr@bu.edu>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Mar 2022 at 12:26, <marcandre.lureau@redhat.com> wrote:
+On Mon, 21 Mar 2022 at 17:03, Thomas Huth <thuth@redhat.com> wrote:
 >
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> The following changes since commit 2058fdbe81e2985c226a026851dd26b146d3395c:
 >
-> The following changes since commit 48fb0a826eea2e7b0135f49e7fa63e7efe2b76=
-77:
->
->   Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into stagin=
-g (2022-03-21 21:27:14 +0000)
+>   Merge tag 'fixes-20220318-pull-request' of git://git.kraxel.org/qemu into staging (2022-03-19 11:28:54 +0000)
 >
 > are available in the Git repository at:
 >
->   git@gitlab.com:marcandre.lureau/qemu.git tags/fixes-pull-request
+>   https://gitlab.com/thuth/qemu.git tags/pull-request-2022-03-21
 >
-> for you to fetch changes up to 4ea4bec6f459ff1af6af01677d5bfac240db0201:
+> for you to fetch changes up to 27801168ecbb34b987d2e92a12369367bf9ac2bf:
 >
->   qapi: remove needless include (2022-03-22 14:46:18 +0400)
->
-> ----------------------------------------------------------------
-> Fixes and cleanups for 7.0
->
-> Hi,
->
-> A collection of fixes & cleanup patches that should be safe for 7.0 inclu=
-sion.
+>   tests/qtest/fuzz-sdcard-test: Add reproducer for OSS-Fuzz (Issue 29225) (2022-03-21 14:05:42 +0100)
 >
 > ----------------------------------------------------------------
+> * Fix stack-overflow due to recursive DMA in intel-hda (CVE-2021-3611)
+> * Fix heap overflow due to recursive DMA in sdhci code
+>
+> ----------------------------------------------------------------
+>
 
 
 Applied, thanks.
