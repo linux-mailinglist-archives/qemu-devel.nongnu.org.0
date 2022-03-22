@@ -2,54 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13D04E3DA6
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 12:33:00 +0100 (CET)
-Received: from localhost ([::1]:44436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CD24E3DAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 12:34:54 +0100 (CET)
+Received: from localhost ([::1]:46606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWcl2-0008Lc-0a
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 07:33:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53132)
+	id 1nWcmr-0001Ry-0M
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 07:34:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWcjs-0007gM-Vm
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:31:49 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:46311)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWckl-0000Fr-06
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:32:43 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:44121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWcjr-0002wG-5b
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:31:48 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWckj-000337-Bn
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:32:42 -0400
 Received: from [192.168.100.1] ([82.142.12.150]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M6DSo-1nQ12O2BOi-006d0o; Tue, 22 Mar 2022 12:31:44 +0100
-Message-ID: <731c291a-1ccd-46d0-4c40-d95ca6036b62@vivier.eu>
-Date: Tue, 22 Mar 2022 12:31:43 +0100
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M7KG2-1nR7VL2mxY-007iWK; Tue, 22 Mar 2022 12:32:39 +0100
+Message-ID: <e323d99d-88f2-5497-f929-fdc2bc42d031@vivier.eu>
+Date: Tue, 22 Mar 2022 12:32:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/5] linux-user/alpha: Fix sigsuspend for big-endian hosts
+Subject: Re: [PATCH 0/5] linux-user: signal mask fixes for pselect et al
 Content-Language: fr
-From: Laurent Vivier <laurent@vivier.eu>
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220315084308.433109-1-richard.henderson@linaro.org>
- <20220315084308.433109-2-richard.henderson@linaro.org>
- <831d87d4-49fb-e738-bed8-2b5af96bfa4f@vivier.eu>
-In-Reply-To: <831d87d4-49fb-e738-bed8-2b5af96bfa4f@vivier.eu>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220315084308.433109-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZmskBCxluqjFocaS4xs2DID7htPhiJi59LsZY7TCoj7UEWT2vu5
- aw8h4vYh1azERnfQHbtNiS8d5pQkp2kNVy4n75GXVTdmTwJ7/yiBfrJ2Q5AK+BonxuYbxiJ
- 3iOE06x8riLjEAyeirSP4W67wdr2epznfq+vkG5Pk9jdEDaDyJ1WZFVioTQnyRSpOarfKzn
- UyZFtcu9Dy9EROIlORdCg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PY634tRSvC8=:K8fpjXBJuskMVqRpv1K1Cs
- +NF1abQ/dVlCj7HexDBrEyoEXtLdj8RA+ZXhWqsLzSMjWm7IexHmcA6M4eRvUT9aTP9FtJF9C
- 2ixniwsADEqISJcmgVOzOZXrVDb8ewRAZtXkbe1Hpq+img7gKUyn0qAJVLXOYbdeVFvONqr9x
- uoK2x/WqS0Jw4SFo7mw2jyIvMJUdysa4Ve98Y3r6vyE+Kind1xwgFbqqdExYrwXIDusVBfirf
- 2AyJWkjAypsOQwW6akezq6A0axsZ9obg/fMRjC+q99eLtmoWBr4IqaZKBe5fKMNwHlR6hrnKl
- 34STdiVIy9x1+m41ufgfXW/uxmHi/xZ9ml14ST5mx5YRLbuxkvhSJPDsHQJLRRHf+5j8cyeQu
- neu2LxeIfKTN5SDLCBtr9QLr1wZStFOzFzXYj1+TV5KN66KYVaRJmg/qHvB4xHWnEGEXMhHN6
- KgByPC7pBYgkBIJY9X9xF7lsfeAH3bUP0akrTwZy5J7AqSmXZ6DvOID6fiG4DrDsHAz/i8aAq
- KEFZkxdMivXziAprpF+N58gSi2l241sMA5NmzG8zE9NQ4n7DU82ImbIqaVIMEa+C97HUD2u1I
- pCxTE0XZRBw+6Oxb4e/kluV530I+QZUi9bvNDWzw6WKg4NzBnB2I2fXwSJxgbQv8HD1ASWqwd
- TGhC97daUBsSyinUg2GlAStL5M1KXC8dnm9dsSj3FF3Rhiz5wy5kCSvh6VeFir2280n0=
+X-Provags-ID: V03:K1:k4RKCPVmFfiiX2/Ww6dNGj0vKtCiAN0rckRXRNKSltsQnzH/gHM
+ aT4rZQQgme8LUQ4JjpKPkLbCnhX4qWLPYiXqRVpH113ArYMgdR+At7cYMgl8nF37xIwSSqD
+ ch1rvdPRLMSfv37OaDK7lRs9EvOAl7vrqlATDtFIygqlpLwflgMiCXwot+pwvyysl5eAuA7
+ ALO23yh94wd6wCsF2HT+g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7lso48AVvog=:QYKnZiOrWX+A1PlrUR/2CT
+ z/g3i8jAALDlGkm2obo3h22ltFSeH8ub0YHozo4VP4NM9nIwBkDbEd+4s344E1N2ELIDNEW1+
+ 7GqqENa6TzIenC18DOvB1dFUK6wvVrRMlZ2/2YKukDcFF64BC3BBcb+/oFIhT/rd/UuER6NE0
+ 4iVUsPHdHzgBqDEE/VYaTktsApNXkf8PQni/rbxVMI7ektwm9bpej2i10V9wTNmXq5s+J8iim
+ 3WgG4Dvsp5CZG2+J6NF1OMObogeSVc90AVsHkiDvUlom5Yqn2vfpkxoWgAiVv+By3HP3PW/lU
+ AdnKK3nKfw4DYehTV2wb9fR6+nHw1wfqXWPkoEI+8+x7Z4PFI5R9N7KF0fbxPgSA6c+Zh7XLQ
+ waEH5m07rbLeaHv3AzURb/Ev0OLqyVpZY3Dms3qi3V4QSQ2YZkaDvq/Wy0ztp5fbUONqE2WZF
+ lIdcPMIam+hsMkwzNm39QaBIH7tecRFxHeajRymUOPGdlBXPYFsq5KYTVd27Y7xsyCv8hM8AX
+ e/GfvSHWWTNJtsqfJyPrC5IlVUTtKaAcvJVTv3vjIU2sEXFyRr762qvccCQq7TaeZ3S//bRh4
+ ba3zvE9QnqE8V6UBmymPQnWJk8lQNq0e5ErM11aNghY4Dfzr260rI3z5muPYEhcRMbiI3J8VG
+ 8173Bf2dtkNoO7WkYHkhdbXQmQ5EqvCWDX7NbR1g2756yKQyVAUlyxSo+4lHAWhTTmF4=
 Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -74,38 +72,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 22/03/2022 à 10:58, Laurent Vivier a écrit :
-> Le 15/03/2022 à 09:43, Richard Henderson a écrit :
->> On alpha, the sigset argument for sigsuspend is in a register.
->> When we drop that into memory that happens in host-endianness,
->> but target_to_host_old_sigset will treat it as target-endianness.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   linux-user/syscall.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> index b9b18a7eaf..ecd00382a8 100644
->> --- a/linux-user/syscall.c
->> +++ b/linux-user/syscall.c
->> @@ -9559,7 +9559,8 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->>           {
->>               TaskState *ts = cpu->opaque;
->>   #if defined(TARGET_ALPHA)
->> -            abi_ulong mask = arg1;
->> +            /* target_to_host_old_sigset will bswap back */
->> +            abi_ulong mask = tswapal(arg1);
->>               target_to_host_old_sigset(&ts->sigsuspend_mask, &mask);
->>   #else
->>               if (!(p = lock_user(VERIFY_READ, arg1, sizeof(target_sigset_t), 1)))
+Le 15/03/2022 à 09:43, Richard Henderson a écrit :
+> Split out some helpers from sigsuspend.
+> Reuse them for pselect, epoll_pwait, ppoll.
+> Fix an alpha buglet found on the way.
 > 
-> And what about target_set in TARGET_NR_ssetmask, mask in TARGET_NR_sigprocmask and in 
-> TARGET_NR_osf_sigprocmask?
+> r~
+> 
+> Richard Henderson (5):
+>    linux-user/alpha: Fix sigsuspend for big-endian hosts
+>    linux-user: Split out helpers for sigsuspend
+>    linux-user: Properly handle sigset arg to pselect
+>    linux-user: Properly handle sigset arg to epoll_pwait
+>    linux-user: Properly handle sigset arg to ppoll
+> 
+>   linux-user/signal-common.h |  26 ++++++++
+>   linux-user/signal.c        |  23 +++++++
+>   linux-user/syscall.c       | 119 ++++++++++++++-----------------------
+>   3 files changed, 92 insertions(+), 76 deletions(-)
 > 
 
-Anyway, the fix is correct and I will add it in my next pull request.
+Series applied to my linux-user-for-7.0 branch.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Thanks,
+Laurent
 
 
