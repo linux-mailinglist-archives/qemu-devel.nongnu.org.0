@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230AC4E3996
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 08:28:42 +0100 (CET)
-Received: from localhost ([::1]:60560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CF94E39EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 08:54:45 +0100 (CET)
+Received: from localhost ([::1]:37354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWYwb-00060O-4j
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 03:28:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44856)
+	id 1nWZLo-00027M-Aw
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 03:54:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nWYrn-0003kJ-Gp
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 03:23:43 -0400
-Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:47771)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nWZKH-00010d-B3; Tue, 22 Mar 2022 03:53:09 -0400
+Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:60981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nWYrk-0006VS-OH
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 03:23:42 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.173])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5E86724490;
- Tue, 22 Mar 2022 07:23:28 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nWZKF-0004Su-CT; Tue, 22 Mar 2022 03:53:09 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.227])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id D53FB23F35;
+ Tue, 22 Mar 2022 07:53:02 +0000 (UTC)
+Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 22 Mar
- 2022 08:23:28 +0100
+ 2022 08:53:01 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003940a262b-0815-484e-8a4c-68b15aab91ae,
+ (GARM-107S001a1fdc2ca-cc46-4e1e-9321-078b62af6524,
  469EFB141CFE40B2A85C1EB4DF33FF44F3CA3D4D) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <698a471b-cfb1-b2ed-54e0-84585a042214@kaod.org>
-Date: Tue, 22 Mar 2022 08:23:27 +0100
+Message-ID: <599d3dc3-7c2d-9e52-7c32-82c6802ae801@kaod.org>
+Date: Tue, 22 Mar 2022 08:52:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.2
-Subject: Re: [PATCH v1 3/9] aspeed/wdt: Fix ast2500/ast2600 default reload
- value.
+Subject: Re: [PATCH v1 1/9] aspeed/adc: Add AST1030 support
 Content-Language: en-US
 To: Jamin Lin <jamin_lin@aspeedtech.com>, Peter Maydell
  <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
@@ -44,28 +43,27 @@ To: Jamin Lin <jamin_lin@aspeedtech.com>, Peter Maydell
  Leal <bleal@redhat.com>, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, "open
  list:All patches CC here" <qemu-devel@nongnu.org>
 References: <20220322025154.3989-1-jamin_lin@aspeedtech.com>
- <20220322025154.3989-4-jamin_lin@aspeedtech.com>
+ <20220322025154.3989-2-jamin_lin@aspeedtech.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220322025154.3989-4-jamin_lin@aspeedtech.com>
+In-Reply-To: <20220322025154.3989-2-jamin_lin@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
+X-Originating-IP: [37.59.142.107]
 X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 3f7c4d56-9a7f-41f2-adea-5197fccb3084
-X-Ovh-Tracer-Id: 8750494079099505595
+X-Ovh-Tracer-GUID: a02ce098-9d4e-421a-b3d7-46c8ae30db26
+X-Ovh-Tracer-Id: 9249830686498589627
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudeggedguddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepthhrohihpghlvggvsegrshhpvggvughtvggthhdrtghomh
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
- helo=7.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudeggedgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhm
+Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
+ helo=2.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,10 +83,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 3/22/22 03:51, Jamin Lin wrote:
 > From: Steven Lee <steven_lee@aspeedtech.com>
 > 
-> Per ast2500_2520_datasheet_v1.8 and ast2600v11.pdf, the default value of
-> WDT00 and WDT04 is 0x014FB180 for ast2500/ast2600.
-> Add default_status and default_reload_value attributes for storing
-> counter status and reload value as they are different from ast2400.
+> Per ast1030_v7.pdf, AST1030 ADC engine is identical to AST2600's ADC.
 > 
 > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
 > Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
@@ -100,65 +95,65 @@ Thanks,
 
 C.
 
+
+
 > ---
->   hw/watchdog/wdt_aspeed.c         | 10 ++++++++--
->   include/hw/watchdog/wdt_aspeed.h |  2 ++
->   2 files changed, 10 insertions(+), 2 deletions(-)
+>   hw/adc/aspeed_adc.c         | 16 ++++++++++++++++
+>   include/hw/adc/aspeed_adc.h |  1 +
+>   2 files changed, 17 insertions(+)
 > 
-> diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-> index 6aa6f90b66..386928e9c0 100644
-> --- a/hw/watchdog/wdt_aspeed.c
-> +++ b/hw/watchdog/wdt_aspeed.c
-> @@ -232,8 +232,8 @@ static void aspeed_wdt_reset(DeviceState *dev)
->       AspeedWDTState *s = ASPEED_WDT(dev);
->       AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(s);
->   
-> -    s->regs[WDT_STATUS] = 0x3EF1480;
-> -    s->regs[WDT_RELOAD_VALUE] = 0x03EF1480;
-> +    s->regs[WDT_STATUS] = awc->default_status;
-> +    s->regs[WDT_RELOAD_VALUE] = awc->default_reload_value;
->       s->regs[WDT_RESTART] = 0;
->       s->regs[WDT_CTRL] = awc->sanitize_ctrl(0);
->       s->regs[WDT_RESET_WIDTH] = 0xFF;
-> @@ -319,6 +319,8 @@ static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
->       awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
->       awc->wdt_reload = aspeed_wdt_reload;
->       awc->sanitize_ctrl = aspeed_2400_sanitize_ctrl;
-> +    awc->default_status = 0x03EF1480;
-> +    awc->default_reload_value = 0x03EF1480;
+> diff --git a/hw/adc/aspeed_adc.c b/hw/adc/aspeed_adc.c
+> index c5fcae29f6..0d29663129 100644
+> --- a/hw/adc/aspeed_adc.c
+> +++ b/hw/adc/aspeed_adc.c
+> @@ -389,6 +389,15 @@ static void aspeed_2600_adc_class_init(ObjectClass *klass, void *data)
+>       aac->nr_engines = 2;
 >   }
 >   
->   static const TypeInfo aspeed_2400_wdt_info = {
-> @@ -355,6 +357,8 @@ static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
->       awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
->       awc->wdt_reload = aspeed_wdt_reload_1mhz;
->       awc->sanitize_ctrl = aspeed_2500_sanitize_ctrl;
-> +    awc->default_status = 0x014FB180;
-> +    awc->default_reload_value = 0x014FB180;
->   }
->   
->   static const TypeInfo aspeed_2500_wdt_info = {
-> @@ -376,6 +380,8 @@ static void aspeed_2600_wdt_class_init(ObjectClass *klass, void *data)
->       awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
->       awc->wdt_reload = aspeed_wdt_reload_1mhz;
->       awc->sanitize_ctrl = aspeed_2600_sanitize_ctrl;
-> +    awc->default_status = 0x014FB180;
-> +    awc->default_reload_value = 0x014FB180;
->   }
->   
->   static const TypeInfo aspeed_2600_wdt_info = {
-> diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
-> index f945cd6c58..0e37f39f38 100644
-> --- a/include/hw/watchdog/wdt_aspeed.h
-> +++ b/include/hw/watchdog/wdt_aspeed.h
-> @@ -45,6 +45,8 @@ struct AspeedWDTClass {
->       void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
->       void (*wdt_reload)(AspeedWDTState *s);
->       uint64_t (*sanitize_ctrl)(uint64_t data);
-> +    uint32_t default_status;
-> +    uint32_t default_reload_value;
+> +static void aspeed_1030_adc_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    AspeedADCClass *aac = ASPEED_ADC_CLASS(klass);
+> +
+> +    dc->desc = "ASPEED 1030 ADC Controller";
+> +    aac->nr_engines = 2;
+> +}
+> +
+>   static const TypeInfo aspeed_adc_info = {
+>       .name = TYPE_ASPEED_ADC,
+>       .parent = TYPE_SYS_BUS_DEVICE,
+> @@ -415,6 +424,12 @@ static const TypeInfo aspeed_2600_adc_info = {
+>       .class_init = aspeed_2600_adc_class_init,
 >   };
 >   
->   #endif /* WDT_ASPEED_H */
+> +static const TypeInfo aspeed_1030_adc_info = {
+> +    .name = TYPE_ASPEED_1030_ADC,
+> +    .parent = TYPE_ASPEED_ADC,
+> +    .class_init = aspeed_1030_adc_class_init, /* No change since AST2600 */
+> +};
+> +
+>   static void aspeed_adc_register_types(void)
+>   {
+>       type_register_static(&aspeed_adc_engine_info);
+> @@ -422,6 +437,7 @@ static void aspeed_adc_register_types(void)
+>       type_register_static(&aspeed_2400_adc_info);
+>       type_register_static(&aspeed_2500_adc_info);
+>       type_register_static(&aspeed_2600_adc_info);
+> +    type_register_static(&aspeed_1030_adc_info);
+>   }
+>   
+>   type_init(aspeed_adc_register_types);
+> diff --git a/include/hw/adc/aspeed_adc.h b/include/hw/adc/aspeed_adc.h
+> index 2f166e8be1..ff1d06ea91 100644
+> --- a/include/hw/adc/aspeed_adc.h
+> +++ b/include/hw/adc/aspeed_adc.h
+> @@ -17,6 +17,7 @@
+>   #define TYPE_ASPEED_2400_ADC TYPE_ASPEED_ADC "-ast2400"
+>   #define TYPE_ASPEED_2500_ADC TYPE_ASPEED_ADC "-ast2500"
+>   #define TYPE_ASPEED_2600_ADC TYPE_ASPEED_ADC "-ast2600"
+> +#define TYPE_ASPEED_1030_ADC TYPE_ASPEED_ADC "-ast1030"
+>   OBJECT_DECLARE_TYPE(AspeedADCState, AspeedADCClass, ASPEED_ADC)
+>   
+>   #define TYPE_ASPEED_ADC_ENGINE "aspeed.adc.engine"
 
 
