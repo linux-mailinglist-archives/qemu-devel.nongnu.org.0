@@ -2,82 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2952F4E44A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 18:04:55 +0100 (CET)
-Received: from localhost ([::1]:33460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04BA64E44B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 18:06:59 +0100 (CET)
+Received: from localhost ([::1]:37932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWhwD-0004Dr-WC
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 13:04:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60272)
+	id 1nWhyE-0007GF-4Y
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 13:06:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWhs1-0000pa-3p
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 13:00:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23011)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWhuy-0003kh-AW
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 13:03:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWhry-0002sG-UR
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 13:00:32 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWhuw-0003Ji-Ir
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 13:03:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647968430;
+ s=mimecast20190719; t=1647968613;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U8oXZ02OTXxow1BnAwMzcGjx/1DNdZ8KE+5tTpyvn6I=;
- b=FbDtlGDdb4KDPkI5jbq1Y0kh0Y7CzaWsp7dztW/FZZgj7QrtxqUounMxJ7QKBPBwW8svX1
- uUGZivqP/T0BtxHi75ypWM13HmtFtDhxy6HFnGRAH9UjcXikTeX7oiBmooh0I+SWfHCAOa
- 0QLl7R9/roJJpoi7uqN6mzp8igqC6oY=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Oz1blCasAoIt0CmmWN4KT9nJozqgyq9yS0om6Fd+F1o=;
+ b=gB9+ptzElhUq2fOfl9jvHvdt+YVnsn3Uxb5kZ+cOqYy6EeTj8H/IjqPhCA9xJFVovuCP2x
+ aHY0+1BYuDaScL31H1KcRRqmwUeVyV6hU1vpw2hXThfnFNeUgr5MdbHT2rgdf2blc6TTzp
+ Sp66N9f4/Er6MYe8Y//4GPvaUGg4Fm0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-58toIhbPMmWiMS2j28l_Xg-1; Tue, 22 Mar 2022 13:00:29 -0400
-X-MC-Unique: 58toIhbPMmWiMS2j28l_Xg-1
-Received: by mail-ua1-f70.google.com with SMTP id
- q32-20020a05613002a000b0035691ee6ebbso2576027uac.17
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 10:00:29 -0700 (PDT)
+ us-mta-116-yXO4kkUCMSy4qK6bPSLXiA-1; Tue, 22 Mar 2022 13:03:31 -0400
+X-MC-Unique: yXO4kkUCMSy4qK6bPSLXiA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ w11-20020a170907270b00b006df8927010eso7802211ejk.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 10:03:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=U8oXZ02OTXxow1BnAwMzcGjx/1DNdZ8KE+5tTpyvn6I=;
- b=f1d97SabVRFo5glpNrX0svWtPYKeE2P7MnPBU0gQHghie0rWIlIWtbKElSlkBPTcqm
- WdnHwog9nojkQcFO7rhmKg0gY6Oc/VQfm0incUgWfQ1huG1Fx6WxoZoyY7tDxjlPD8Gu
- x6/DRfxpYzr0k3ZpRk2eBFsuDiwujM95qsPGZyzK2Bj+ytBfarQEsObPJ1orpoKWQsLM
- 2s6V2VOyKZFtCIIMDAQRovRVruAk6PImFJuM2BbgULAk4D7qmfE3teoygLQ5imIjL0U2
- J6BqtasTbu6q7YGnjqETWnjr6iJWBKFjl21EvRomGOc0GFVlMKvAVnK1UL6HXv1oYEvE
- FlzA==
-X-Gm-Message-State: AOAM533DRU+0wxpEu4KasUU5/sikIuwiCdeZhVG/pG/779EJtB33vCeA
- kSoQbdC75GJTSN6F+8MFeSG2uzPe0PW0IwFSSJJAKOFj0vsvFx5hqSEMynBkbsDQMYXP9npISUx
- nIIL+fZ6mnl0bqb2/eioIh0OIXk6gqKk=
-X-Received: by 2002:a05:6102:c8e:b0:321:7348:6c2a with SMTP id
- f14-20020a0561020c8e00b0032173486c2amr10158060vst.11.1647968428392; 
- Tue, 22 Mar 2022 10:00:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyHHDE9SZZdFraHogo6whXqBoO50OBmfQ3UeJ2jo4YUP/YCTYQpfmcPcxrGzNKc81K16J/YycnIkZu4dACYa+4=
-X-Received: by 2002:a05:6102:c8e:b0:321:7348:6c2a with SMTP id
- f14-20020a0561020c8e00b0032173486c2amr10158045vst.11.1647968428097; Tue, 22
- Mar 2022 10:00:28 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Oz1blCasAoIt0CmmWN4KT9nJozqgyq9yS0om6Fd+F1o=;
+ b=bnkZ+40bIeDGU0eFXaZgJXjncYuTnVg5QiPRP+1C5gonSpXx6tNnJDoo5WSL5rzh2L
+ Jatb6+ysPP3X3uEijDDCrSJ5vtuNjs0R4Jjn/W3RuBcmYo4l4GO75YtTSNHbrPVpnexG
+ /jVgDAjC7fQ/htBOiXtQ6cMuwlFOKHgO0Zn4UY3V47qfHaxL+K5nOpETXjr58YXIItsR
+ NiFD8edgRSpAEjzu2hgtWZ0ScimbPdMCw1WpXFQM3r2pb79Wv3Uoul1+4Sr1BWb3P87s
+ vdjTLOKewCGUZ0TFTWKw/KMWnhcJotHdSIhqc+0mqKVBm9DbuaJtWOoIndYAx0mve+WO
+ bwoA==
+X-Gm-Message-State: AOAM5307/tuYgxIbQA2dyit1wDoTLUBOPx395a8UlcIlrgIij3C4jG3e
+ oboRi1lZuqiTDKMNij4L8S9tb99rJd/aezfS+O5OOPAdGUaicxRiktH8CKuMdZqxX+h8eS8R4Zp
+ FiEOcC+WRgDDj6pg=
+X-Received: by 2002:a17:906:a1a:b0:6cf:d2d9:410c with SMTP id
+ w26-20020a1709060a1a00b006cfd2d9410cmr27469047ejf.713.1647968610754; 
+ Tue, 22 Mar 2022 10:03:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxA5sthCUXzRLDsDgDhPGXLnEUm+wZALC0BDIulpZbwRhz4jBEu2gRlHTFxj99GlEdPpxFhAQ==
+X-Received: by 2002:a17:906:a1a:b0:6cf:d2d9:410c with SMTP id
+ w26-20020a1709060a1a00b006cfd2d9410cmr27469030ejf.713.1647968610546; 
+ Tue, 22 Mar 2022 10:03:30 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ o6-20020a17090637c600b006e058e4ab74sm112807ejc.94.2022.03.22.10.03.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Mar 2022 10:03:30 -0700 (PDT)
+Message-ID: <4ea992b8-7d4e-778f-27b6-176903a3c43a@redhat.com>
+Date: Tue, 22 Mar 2022 18:03:29 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 15/15] iotests: make qemu_io_log() check return codes by
+ default
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20220318203655.676907-1-jsnow@redhat.com>
- <20220318203655.676907-11-jsnow@redhat.com>
-In-Reply-To: <20220318203655.676907-11-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 22 Mar 2022 13:00:17 -0400
-Message-ID: <CAFn=p-aQ6BPyH5aNLqpD4jC8R8GvKoOqY63pCY7B+rUTO3gErA@mail.gmail.com>
-Subject: Re: [PATCH 10/15] iotests/245: fixup
-To: qemu-devel <qemu-devel@nongnu.org>
+ <20220318203655.676907-16-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220318203655.676907-16-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,20 +104,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 18, 2022 at 4:37 PM John Snow <jsnow@redhat.com> wrote:
+On 18.03.22 21:36, John Snow wrote:
+> Just like qemu_img_log(), upgrade qemu_io_log() to enforce a return code
+> of zero by default.
 >
-> (Merge with prior patch.)
+> Affected tests: 242 245 255 274 303 307 nbd-reconnect-on-open
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  tests/qemu-iotests/242 | 2 +-
+>   tests/qemu-iotests/iotests.py                  | 5 +++--
+>   tests/qemu-iotests/tests/nbd-reconnect-on-open | 2 +-
+>   2 files changed, 4 insertions(+), 3 deletions(-)
 
-^ Oh, there's the stray import changes that needed to be folded into
-patch #1. Fixed for v2.
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
