@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491B74E3E41
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:16:41 +0100 (CET)
-Received: from localhost ([::1]:47686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 030654E3E72
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:25:17 +0100 (CET)
+Received: from localhost ([::1]:33546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWdRI-00083A-7x
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:16:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59740)
+	id 1nWdZc-0001He-12
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:25:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8n-0003RA-Aj
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33732)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8p-0003SM-5v
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8l-0006Xu-Kb
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:33 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8n-0006YS-9c
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647950251;
+ s=mimecast20190719; t=1647950252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x/nWOWZ4rJg8/bzrORM6fWx6B4c3zOa/QO5cgrz63tE=;
- b=MHNfGEF+j53B/eVBUqVUDzo4wqtTk6RNihV1IMZsF2W0D5Ed+8c9GQKyBVAYBsvnguMfRN
- JWEUQud/Z5O+biX+/VOSi0ROIbVWQSTioU5NkYeAZjfk7+LvBZSL8amKrAsWO+/h0VFLe4
- 2PsfibvPS+H5Y+4lhp3zdIJtb/nicWI=
+ bh=i91O8dWwUcv78cm11nfWjgAvjx3LbmIrrCZ8Ackajak=;
+ b=KHu2/bX2GmQJ8zhc7GfKxY+4sLVt1PHt8Oicl9F2chKfzg76INTKd2K5njLcEkw/w6Mx7c
+ ETVZc2aXjT+k3amOoy1gu1SeTE0nJIyh8oIgFx40qWYpFLDWp0zlcR7p1KAGPbjlWWH2xJ
+ 9/ykodEYtG5G5yNUelhaT4OaLxOklDY=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-134--mShUXKBMh2TqzL-jXhWnw-1; Tue, 22 Mar 2022 07:57:29 -0400
-X-MC-Unique: -mShUXKBMh2TqzL-jXhWnw-1
+ us-mta-102-OFAjd-g_PYiDltcYibeIrA-1; Tue, 22 Mar 2022 07:57:31 -0400
+X-MC-Unique: OFAjd-g_PYiDltcYibeIrA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 870691C04B60;
- Tue, 22 Mar 2022 11:57:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 19FE13C16196;
+ Tue, 22 Mar 2022 11:57:31 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 439624010A1C;
- Tue, 22 Mar 2022 11:57:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6412403D1A3;
+ Tue, 22 Mar 2022 11:57:30 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 24/25] iotests.py: Filters for VM.run_job()
-Date: Tue, 22 Mar 2022 12:56:46 +0100
-Message-Id: <20220322115647.726044-25-hreitz@redhat.com>
+Subject: [PULL 25/25] iotests/207: Filter host fingerprint
+Date: Tue, 22 Mar 2022 12:56:47 +0100
+Message-Id: <20220322115647.726044-26-hreitz@redhat.com>
 In-Reply-To: <20220322115647.726044-1-hreitz@redhat.com>
 References: <20220322115647.726044-1-hreitz@redhat.com>
 MIME-Version: 1.0
@@ -83,99 +83,74 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow filters for VM.run_job(), and pass the filters given to
-VM.blockdev_create() to it.
+Commit e3296cc796aeaf319f3ed4e064ec309baf5e4da4 made the ssh block
+driver's error message for fingerprint mismatches more verbose, so it
+now prints the actual host key fingerprint and the key type.
 
-(Use this opportunity to annotate VM.run_job()'s parameter types;
-unfortunately, for the filter, I could not come up with anything better
-than Callable[[Any], Any] that would pass mypy's scrutiny.)
+iotest 207 tests such errors, but was not amended to filter that
+fingerprint (which is host-specific), so do it now.  Filter the key
+type, too, because I guess this too can differ depending on the host
+configuration.
 
-At one point, a plain string is logged, so the filters passed to it must
-work fine with plain strings.  The only filters passed to it at this
-point are the ones from VM.blockdev_create(), which are
-filter_qmp_test_files() (by default) and 207's filter_hash().  Both
-cannot handle plain strings yet, but we can make them by amending
-filter_qmp() to treat them as plain values with a None key.
-
+Fixes: e3296cc796aeaf319f3ed4e064ec309baf5e4da4
+       ("block: print the server key type and fingerprint on failure")
+Reported-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220318125304.66131-2-hreitz@redhat.com>
+Message-Id: <20220318125304.66131-3-hreitz@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+ tests/qemu-iotests/207     | 7 ++++++-
+ tests/qemu-iotests/207.out | 6 +++---
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 4b788c7491..fcec3e51e5 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -607,8 +607,10 @@ def filter_qmp(qmsg, filter_fn):
-     # Iterate through either lists or dicts;
-     if isinstance(qmsg, list):
-         items = enumerate(qmsg)
--    else:
-+    elif isinstance(qmsg, dict):
-         items = qmsg.items()
+diff --git a/tests/qemu-iotests/207 b/tests/qemu-iotests/207
+index 0f5c4bc8a0..41dcf3ff55 100755
+--- a/tests/qemu-iotests/207
++++ b/tests/qemu-iotests/207
+@@ -35,7 +35,12 @@ def filter_hash(qmsg):
+         if key == 'hash' and re.match('[0-9a-f]+', value):
+             return 'HASH'
+         return value
+-    return iotests.filter_qmp(qmsg, _filter)
++    if isinstance(qmsg, str):
++        # Strip key type and fingerprint
++        p = r"\S+ (key fingerprint) '(md5|sha1|sha256):[0-9a-f]+'"
++        return re.sub(p, r"\1 '\2:HASH'", qmsg)
 +    else:
-+        return filter_fn(None, qmsg)
++        return iotests.filter_qmp(qmsg, _filter)
  
-     for k, v in items:
-         if isinstance(v, (dict, list)):
-@@ -944,8 +946,12 @@ def qmp_log(self, cmd, filters=(), indent=None, **kwargs):
-         return result
+ def blockdev_create(vm, options):
+     vm.blockdev_create(options, filters=[iotests.filter_qmp_testfiles, filter_hash])
+diff --git a/tests/qemu-iotests/207.out b/tests/qemu-iotests/207.out
+index aeb8569d77..05cf753283 100644
+--- a/tests/qemu-iotests/207.out
++++ b/tests/qemu-iotests/207.out
+@@ -42,7 +42,7 @@ virtual size: 4 MiB (4194304 bytes)
  
-     # Returns None on success, and an error string on failure
--    def run_job(self, job, auto_finalize=True, auto_dismiss=False,
--                pre_finalize=None, cancel=False, wait=60.0):
-+    def run_job(self, job: str, auto_finalize: bool = True,
-+                auto_dismiss: bool = False,
-+                pre_finalize: Optional[Callable[[], None]] = None,
-+                cancel: bool = False, wait: float = 60.0,
-+                filters: Iterable[Callable[[Any], Any]] = (),
-+                ) -> Optional[str]:
-         """
-         run_job moves a job from creation through to dismissal.
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "md5"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
+ {"return": {}}
+-Job failed: remote host key does not match host_key_check 'wrong'
++Job failed: remote host key fingerprint 'md5:HASH' does not match host_key_check 'md5:wrong'
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
  
-@@ -975,7 +981,7 @@ def run_job(self, job, auto_finalize=True, auto_dismiss=False,
-         while True:
-             ev = filter_qmp_event(self.events_wait(events, timeout=wait))
-             if ev['event'] != 'JOB_STATUS_CHANGE':
--                log(ev)
-+                log(ev, filters=filters)
-                 continue
-             status = ev['data']['status']
-             if status == 'aborting':
-@@ -983,18 +989,18 @@ def run_job(self, job, auto_finalize=True, auto_dismiss=False,
-                 for j in result['return']:
-                     if j['id'] == job:
-                         error = j['error']
--                        log('Job failed: %s' % (j['error']))
-+                        log('Job failed: %s' % (j['error']), filters=filters)
-             elif status == 'ready':
--                self.qmp_log('job-complete', id=job)
-+                self.qmp_log('job-complete', id=job, filters=filters)
-             elif status == 'pending' and not auto_finalize:
-                 if pre_finalize:
-                     pre_finalize()
-                 if cancel:
--                    self.qmp_log('job-cancel', id=job)
-+                    self.qmp_log('job-cancel', id=job, filters=filters)
-                 else:
--                    self.qmp_log('job-finalize', id=job)
-+                    self.qmp_log('job-finalize', id=job, filters=filters)
-             elif status == 'concluded' and not auto_dismiss:
--                self.qmp_log('job-dismiss', id=job)
-+                self.qmp_log('job-dismiss', id=job, filters=filters)
-             elif status == 'null':
-                 return error
+@@ -59,7 +59,7 @@ virtual size: 8 MiB (8388608 bytes)
  
-@@ -1007,7 +1013,7 @@ def blockdev_create(self, options, job_id='job0', filters=None):
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "sha1"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
+ {"return": {}}
+-Job failed: remote host key does not match host_key_check 'wrong'
++Job failed: remote host key fingerprint 'sha1:HASH' does not match host_key_check 'sha1:wrong'
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
  
-         if 'return' in result:
-             assert result['return'] == {}
--            job_result = self.run_job(job_id)
-+            job_result = self.run_job(job_id, filters=filters)
-         else:
-             job_result = result['error']
+@@ -76,7 +76,7 @@ virtual size: 4 MiB (4194304 bytes)
+ 
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "sha256"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
+ {"return": {}}
+-Job failed: remote host key does not match host_key_check 'wrong'
++Job failed: remote host key fingerprint 'sha256:HASH' does not match host_key_check 'sha256:wrong'
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
  
 -- 
 2.35.1
