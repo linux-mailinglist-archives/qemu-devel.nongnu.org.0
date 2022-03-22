@@ -2,87 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C954E4489
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 17:50:59 +0100 (CET)
-Received: from localhost ([::1]:45086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 221F64E4495
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 17:55:02 +0100 (CET)
+Received: from localhost ([::1]:51382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWhik-000144-Tz
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 12:50:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57456)
+	id 1nWhme-0005PL-NI
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 12:55:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nWhhH-0008Iu-6Y
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:49:27 -0400
-Received: from [2607:f8b0:4864:20::530] (port=37450
- helo=mail-pg1-x530.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nWhhF-0004mK-MA
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:49:26 -0400
-Received: by mail-pg1-x530.google.com with SMTP id bc27so13026867pgb.4
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 09:49:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=JmfhQdsGQ7vsHp96PngBCD8Y7rG4c07+Z5Seq9tTlZk=;
- b=bRk8C+ewE6ZA/JMnIjSGxN3vG8wSxM9NwMw8CLBtHCqUPUkn+S5wusGoSxKuFWGMPS
- YXvXnf5kyJtqgKVf8OKGIYo4qnzOg5+y4lu3o6Uy8c0QWfJ4lIFUo+XJx7rRSysjnwpz
- dYkerD/ZpRe19A9Bpd2PcouJTelxT7qKv+7MbL9wSGcjVKnZNpbEguaADqhYPcTkZQlr
- SXs0miW7qGBOzcLV1/K5L2aMP0Nj3Ibt9UCHNnozUsueniQbdwQaz4sZENw+gdFB9WF7
- gTTBO320rIop4oYWFTDN8+v6O0IcXp4u8uli/o7nvA/xhScle9cwbDUYEOQ6oeGRZMVm
- 6cHg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nWhkz-0003yy-J7
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:53:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59317)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nWhkv-00075q-G0
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:53:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647967991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RjADmLDB5Hzkt78CnYfzVqgYgeqDRzvt/uBn2NOALZ4=;
+ b=JbObOub2q3esZZ5PbHzEJjmFA4kbrYrMBbaMnMY8zXGIkT7mP21+aPa7HxOBHxzkQ90uF8
+ +D8ttalxY23qVMasd6PEd9QuNngLNqFwFyKRT+9V/XO6ZVzLn4BYUXvPsFpY6GAmzCMZar
+ 7ofCxKxqeMddtC06A8O2n4NH6S4u8lU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-544-iF4cUd95O3GYUzXX6JYzeg-1; Tue, 22 Mar 2022 12:53:10 -0400
+X-MC-Unique: iF4cUd95O3GYUzXX6JYzeg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f19-20020a7bcd13000000b0038c01defd5aso1191530wmj.7
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 09:53:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JmfhQdsGQ7vsHp96PngBCD8Y7rG4c07+Z5Seq9tTlZk=;
- b=gXxPhTIqR3j1WxdRN295WfJpWLkA38Gr7Qyp71x6qaTdjHwi5J0shh4/9rMN+hNdqA
- TyugC4Zt1iWWpejbc+pqhGyRenVr9fUQsCdcs4F8tHA0pof47Prw9Nl46wxzp2Gt/Myf
- 7hg4CP84IGPyNI5uTz+V8otGpQ259NdAJlnNZJeL5Axcs0k5OYdpQMLVYnmSwRVYJU+D
- FFOAMPaTiDMcaMG2sEjU5svqndNGYu7qcI+DL30LmmmKnOIYegaO+IVJ583ZtOw4mx6u
- DpGGqyKUJAvd0u45oCEQNKomNkxS48ah9VZkgWvoq92Rjth1poPsnYAMWqXyEx4EZavr
- Tbmg==
-X-Gm-Message-State: AOAM532iSXbGrV34O4ByNW4azbghJVyq1XPKkx9BoBQh1qB2WDuwhM5G
- 1mrOPCKyHOwW+uUyFEvD7k2mZA==
-X-Google-Smtp-Source: ABdhPJwPyvxb3QbR67mBjN4HaQ4kn/Lbu0CjQlhNCxZDUhGMEMq97jGpP/55FRWQr4392qOuOnNLeA==
-X-Received: by 2002:a63:6b83:0:b0:380:102:8779 with SMTP id
- g125-20020a636b83000000b0038001028779mr22852405pgc.42.1647967764254; 
- Tue, 22 Mar 2022 09:49:24 -0700 (PDT)
-Received: from [192.168.10.94] ([152.44.200.141])
- by smtp.gmail.com with ESMTPSA id
- h6-20020a636c06000000b00363a2533b17sm17785592pgc.8.2022.03.22.09.49.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 09:49:23 -0700 (PDT)
-Message-ID: <be27ed3b-cbba-3ccf-63ce-813457cafb42@linaro.org>
-Date: Tue, 22 Mar 2022 09:49:21 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=RjADmLDB5Hzkt78CnYfzVqgYgeqDRzvt/uBn2NOALZ4=;
+ b=RY/NAUThn2XllO0g8BAq1F9cudPwJGuNwvG4pCZEFz0Wxl62SaxHjf07mbJHdA02TS
+ rL0a02FvNtRWPdT3hvxvJIbGXNHklo91SMPwnBbddpUEVKDkfZB8e8Q+aTmO4vScGSVS
+ 6C2znxEqDKOHEgLV+T5KtOQmuP6/3hnCjT1P1XduLM1M7oy7oaMrZQk1ZLbzmxOHUY5V
+ eBLQTCrR9pV05qSj54vwLx1hZ+6WZv0EbqdS9KcoQR4Mruba3zFxd0dYQ0PdB7c4CtPI
+ JhIFK1MDQ6hMY5Pt2LyQjSa4NXRU5sJ6H0JDnr3xejC2CAPkJgV7PcnZW1Qw75ZxQ/dl
+ Ktjw==
+X-Gm-Message-State: AOAM531nqReNOTouZkm8rhnCZ0r6VjhmTzMqoa2RAd70vZoCo3Tzya0c
+ uQDCC7XjrfPcJrBWkEqH9A2kCHiWG/zPiIuzBxmXkKM26j3nM8wT+yg9qhcbQpqMgs5RFZ3U7qk
+ YO/8y1KOkSZ9Yca8=
+X-Received: by 2002:adf:fd41:0:b0:203:decd:841d with SMTP id
+ h1-20020adffd41000000b00203decd841dmr23347054wrs.537.1647967989311; 
+ Tue, 22 Mar 2022 09:53:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+WzMnXRhQ5nYRmcdcQdQToEHgQzPXKsHxhqWY6euVxvFjjRsUdqMTIoXnQKSaOtecucNYVw==
+X-Received: by 2002:adf:fd41:0:b0:203:decd:841d with SMTP id
+ h1-20020adffd41000000b00203decd841dmr23347028wrs.537.1647967989020; 
+ Tue, 22 Mar 2022 09:53:09 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ 14-20020a056000154e00b00203f8adde0csm13390481wry.32.2022.03.22.09.53.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Mar 2022 09:53:08 -0700 (PDT)
+Date: Tue, 22 Mar 2022 16:53:05 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Andrew Deason <adeason@sinenomine.net>
+Subject: Re: [PATCH] softmmu/physmem: Use qemu_madvise
+Message-ID: <Yjn+8ZMcnQ0NKWCO@work-vm>
+References: <20220316040405.4131-1-adeason@sinenomine.net>
+ <9c36fe6b-39e1-0bfc-d2bb-97b106828ee1@redhat.com>
+ <CAFEAcA96=yDKOknYmCKriWDJe4g-q07+b8yL3tFUf9=G-o84zA@mail.gmail.com>
+ <YjGvvRvPRV3ACbFY@work-vm>
+ <a9f31184-f157-e973-5c75-0af327fc2921@redhat.com>
+ <20220322113949.d297e615317fa34894de8ed2@sinenomine.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 2/8] tests/avocado: update aarch64_virt test to
- exercise -cpu max
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20220315121251.2280317-1-alex.bennee@linaro.org>
- <20220315121251.2280317-3-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220315121251.2280317-3-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::530
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220322113949.d297e615317fa34894de8ed2@sinenomine.net>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,41 +104,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, Beraldo Leal <bleal@redhat.com>,
- sw@weilnetz.de, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/22 05:12, Alex Bennée wrote:
-> The Fedora 29 kernel is quite old and importantly fails when running
-> in LPA2 scenarios. As it's not really exercising much of the CPU space
-> replace it with a custom 5.16.12 kernel with all the architecture
-> options turned on. There is a minimal buildroot initramfs included in
-> the kernel which has a few tools for stress testing the memory
-> subsystem. The userspace also targets the Neoverse N1 processor so
-> will fail without additional v8.x+ features.
-
-Maybe better as "would fail with a v8.0 cpu like cortex-a53"?
-The way it is worded now suggests it won't work at all at present, since we don't 
-completely support all features of the neoverse-n1.
-
+* Andrew Deason (adeason@sinenomine.net) wrote:
+> On Wed, 16 Mar 2022 10:41:41 +0100
+> David Hildenbrand <david@redhat.com> wrote:
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20220307172249.3125779-1-alex.bennee@linaro.org>
-> ---
->   tests/avocado/boot_linux_console.py | 22 ++++++++++++++--------
->   1 file changed, 14 insertions(+), 8 deletions(-)
+> > On 16.03.22 10:37, Dr. David Alan Gilbert wrote:
+> > > * Peter Maydell (peter.maydell@linaro.org) wrote:
+> > >> On Wed, 16 Mar 2022 at 07:53, David Hildenbrand <david@redhat.com> wrote:
+> > >>>
+> > >>> On 16.03.22 05:04, Andrew Deason wrote:
+> > >>>> We have a thin wrapper around madvise, called qemu_madvise, which
+> > >>>> provides consistent behavior for the !CONFIG_MADVISE case, and works
+> > >>>> around some platform-specific quirks (some platforms only provide
+> > >>>> posix_madvise, and some don't offer all 'advise' types). This specific
+> > >>>> caller of madvise has never used it, tracing back to its original
+> > >>>> introduction in commit e0b266f01dd2 ("migration_completion: Take
+> > >>>> current state").
+> > >>>>
+> > >>>> Call qemu_madvise here, to follow the same logic as all of our other
+> > >>>> madvise callers. This slightly changes the behavior for
+> > >>>> !CONFIG_MADVISE (EINVAL instead of ENOSYS, and a slightly different
+> > >>>> error message), but this is now more consistent with other callers
+> > >>>> that use qemu_madvise.
+> > >>>>
+> > >>>> Signed-off-by: Andrew Deason <adeason@sinenomine.net>
+> > >>>> ---
+> > >>>> Looking at the history of commits that touch this madvise() call, it
+> > >>>> doesn't _look_ like there's any reason to be directly calling madvise vs
+> > >>>> qemu_advise (I don't see anything mentioned), but I'm not sure.
+> > >>>>
+> > >>>>  softmmu/physmem.c | 12 ++----------
+> > >>>>  1 file changed, 2 insertions(+), 10 deletions(-)
+> > >>>>
+> > >>>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> > >>>> index 43ae70fbe2..900c692b5e 100644
+> > >>>> --- a/softmmu/physmem.c
+> > >>>> +++ b/softmmu/physmem.c
+> > >>>> @@ -3584,40 +3584,32 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
+> > >>>>                           rb->idstr, start, length, ret);
+> > >>>>              goto err;
+> > >>>>  #endif
+> > >>>>          }
+> > >>>>          if (need_madvise) {
+> > >>>>              /* For normal RAM this causes it to be unmapped,
+> > >>>>               * for shared memory it causes the local mapping to disappear
+> > >>>>               * and to fall back on the file contents (which we just
+> > >>>>               * fallocate'd away).
+> > >>>>               */
+> > >>>> -#if defined(CONFIG_MADVISE)
+> > >>>>              if (qemu_ram_is_shared(rb) && rb->fd < 0) {
+> > >>>> -                ret = madvise(host_startaddr, length, QEMU_MADV_REMOVE);
+> > >>>> +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_REMOVE);
+> > >>>>              } else {
+> > >>>> -                ret = madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
+> > >>>> +                ret = qemu_madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
+> > >>>
+> > >>> posix_madvise(QEMU_MADV_DONTNEED) has completely different semantics
+> > >>> then madvise() -- it's not a discard that we need here.
+> > >>>
+> > >>> So ram_block_discard_range() would now succeed in environments (BSD?)
+> > >>> where it's supposed to fail.
+> > >>>
+> > >>> So AFAIKs this isn't sane.
+> > >>
+> > >> But CONFIG_MADVISE just means "host has madvise()"; it doesn't imply
+> > >> "this is a Linux madvise() with MADV_DONTNEED". Solaris madvise()
+> > >> doesn't seem to have  MADV_DONTNEED at all; a quick look at the
+> > >> FreeBSD manpage suggests its madvise MADV_DONTNEED is identical
+> > >> to its posix_madvise MADV_DONTNEED.
+> > >>
+> > >> If we need "specifically Linux MADV_DONTNEED semantics" maybe we
+> > >> should define a QEMU_MADV_LINUX_DONTNEED which either (a) does the
+> > >> right thing or (b) fails, and use qemu_madvise() regardless.
+> > >>
+> > >> Certainly the current code is pretty fragile to being changed by
+> > >> people who don't understand the undocumented subtlety behind
+> > >> the use of a direct madvise() call here.
+> > > 
+> > > Yeh and I'm not sure I can remembe rall the subtleties; there's a big
+> > > hairy set of ifdef's in include/qemu/madvise.h that makes
+> > > sure we always have the definition of QEMU_MADV_REMOVE/DONTNEED
+> > > even on platforms that might not define it themselves.
+> > > 
+> > > But I think this code is used for things with different degrees
+> > > of care about the semantics; e.g. 'balloon' just cares that
+> > > it frees memory up and doesn't care about the detailed semantics
+> > > that much; so it's probably fine with that.
+> > > Postcopy is much more touchy, but then it's only going to be
+> > > calling this on Linux anyway (because of the userfault dependency).
+> > 
+> > MADV_DONTNEED/MADV_REMOVE only provides discard semantics on Linux IIRC
+> > -- and that's what we want to achieve: ram_block_discard_range()
+> > 
+> > So I agree with Peter that we might want to make this more explicit.
+> 
+> I was looking at the comments/history around this code to try to make
+> this more explicit/clear, and it seems like the whole function is very
+> Linux-specific. All we ever do is:
+> 
+> - fallocate(FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE)
+> - madvise(MADV_REMOVE)
+> - madvise(MADV_DONTNEED) with Linux semantics
+> 
+> All of those operations are Linux-only, so trying to figure out the
+> cross-platform way to model this seems kind of pointless. Is it fine to
+> just #ifdef the whole thing to be just for Linux?
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+For ballooning we don't really need Linux semantics; we just need it to
+use less host memory.  Postcopy needs the more careful semantics though.
 
->  (04/32) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_aarch64_virt: PASS (3.66 s)
+Dave
+> -- 
+> Andrew Deason
+> adeason@sinenomine.net
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
 
