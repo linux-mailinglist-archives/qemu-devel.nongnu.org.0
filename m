@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05FB4E3E73
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:25:17 +0100 (CET)
-Received: from localhost ([::1]:33456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4314E3E31
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:12:43 +0100 (CET)
+Received: from localhost ([::1]:42322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWdZc-0001Df-Mw
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:25:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59524)
+	id 1nWdNS-0004NT-QK
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:12:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8e-00036V-79
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24173)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8h-0003IC-L7
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8b-0006Ua-OU
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:23 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8f-0006VF-EZ
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647950241;
+ s=mimecast20190719; t=1647950244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SZzMVTip4gjaDKoK3aJSqqIrn3D4aoY7OzkEHXCr+6w=;
- b=NZEVFlVbCRcpGXCV09r/0ro9OU6wWV0xjRhZwvRHfJaHtqyO/AZxnajoQ6ktywWCQIK9zZ
- NPJJ+xt9T6DNJ5BEiBHcCn+vViS+YKJ9OEc0U6lOrXuQBr0takpH+vG+GVhKy8x+uPlJ1T
- Ru2j+LKU6Qw0sZ8rj/ezBwbKLJnKsGE=
+ bh=i3FiW9dyi/ToJO1Zs0c5Tcxq+BKcXbz++TOqGeQszl8=;
+ b=Jk4eK5MHjkKjwgUgGr7PnGRmNnqnpyoh9y+ub65WF1nZ7DVVwFi2na6whk9GFvws++4ba4
+ UjkUPfrYgVR0PWle9JhC6ObKPK9AlQwAIRWv/KGnm2MIt91ZmrcEgV39fDKwJ/5njkG5IX
+ w/CyFYOyA+I29oUl4FhZM9Zg3zERBew=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-l6LszUsKP5KN0ftiLEzRpQ-1; Tue, 22 Mar 2022 07:57:20 -0400
-X-MC-Unique: l6LszUsKP5KN0ftiLEzRpQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-652-U372qTB1Oh2d5blYSWo89w-1; Tue, 22 Mar 2022 07:57:21 -0400
+X-MC-Unique: U372qTB1Oh2d5blYSWo89w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC67E1044561;
- Tue, 22 Mar 2022 11:57:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7BDAF803B22;
+ Tue, 22 Mar 2022 11:57:21 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A6212166B2D;
- Tue, 22 Mar 2022 11:57:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 370E040CFD01;
+ Tue, 22 Mar 2022 11:57:21 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 18/25] iotests/149: Remove qemu_img_pipe() call
-Date: Tue, 22 Mar 2022 12:56:40 +0100
-Message-Id: <20220322115647.726044-19-hreitz@redhat.com>
+Subject: [PULL 19/25] iotests: remove remaining calls to qemu_img_pipe()
+Date: Tue, 22 Mar 2022 12:56:41 +0100
+Message-Id: <20220322115647.726044-20-hreitz@redhat.com>
 In-Reply-To: <20220322115647.726044-1-hreitz@redhat.com>
 References: <20220322115647.726044-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,212 +85,138 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-qemu_img_pipe calls blank their output when the command being run is a
-'create' call and the command succeeds. Thus, the normative output for
-this command in iotest 149 is to print a blank line. We can remove the
-logging from this invocation and use a checked invocation, but we still
-need to inspect the actual output to see if we want to retroactively
-skip the test due to missing cipher support.
+As part of moving all python iotest invocations of qemu-img onto a
+single qemu_img() implementation, remove a few lingering uses of
+qemu_img_pipe() from outside of iotests.py itself.
+
+Several cases here rely on the knowledge that qemu_img_pipe() suppresses
+*all* output on a successful case when the command being issued is
+'create'.
+
+065: This call's output is inspected, but it appears as if it's expected
+     to succeed. Replace this call with the checked qemu_img() variant
+     instead to get better diagnostics if/when qemu-img itself fails.
+
+237: "create" call output isn't actually logged. Use qemu_img_create()
+     instead, which checks the return code. Remove the empty lines from
+     the test output.
+
+296: Two calls;
+     -create: Expected to succeed. Like other create calls, the output
+              isn't actually logged.  Switch to a checked variant
+              (qemu_img_create) instead. The output for this test is
+              a mixture of both test styles, so actually replace the
+              blank line for readability.
+     -amend:  This is expected to fail. Log the output.
+
+After this patch, the only uses of qemu_img_pipe are internal to
+iotests.py and will be removed in subsequent patches.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220321201618.903471-14-jsnow@redhat.com>
+Message-Id: <20220321201618.903471-15-jsnow@redhat.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/149     |  7 +++++--
- tests/qemu-iotests/149.out | 21 ---------------------
- 2 files changed, 5 insertions(+), 23 deletions(-)
+ tests/qemu-iotests/065     |  4 ++--
+ tests/qemu-iotests/237     |  3 +--
+ tests/qemu-iotests/237.out |  3 ---
+ tests/qemu-iotests/296     | 12 ++++++------
+ 4 files changed, 9 insertions(+), 13 deletions(-)
 
-diff --git a/tests/qemu-iotests/149 b/tests/qemu-iotests/149
-index d49646ca60..9bb96d6a1d 100755
---- a/tests/qemu-iotests/149
-+++ b/tests/qemu-iotests/149
-@@ -265,8 +265,11 @@ def qemu_img_create(config, size_mb):
-             "%dM" % size_mb]
+diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
+index 9466ce7df4..ba94e19349 100755
+--- a/tests/qemu-iotests/065
++++ b/tests/qemu-iotests/065
+@@ -24,7 +24,7 @@ import os
+ import re
+ import json
+ import iotests
+-from iotests import qemu_img, qemu_img_info, qemu_img_pipe
++from iotests import qemu_img, qemu_img_info
+ import unittest
  
-     iotests.log("qemu-img " + " ".join(args), filters=[iotests.filter_test_dir])
--    iotests.log(check_cipher_support(config, iotests.qemu_img_pipe(*args)),
--                filters=[iotests.filter_test_dir])
-+    try:
-+        iotests.qemu_img(*args)
-+    except subprocess.CalledProcessError as exc:
-+        check_cipher_support(config, exc.output)
-+        raise
+ test_img = os.path.join(iotests.test_dir, 'test.img')
+@@ -54,7 +54,7 @@ class TestQemuImgInfo(TestImageInfoSpecific):
+         self.assertEqual(data['data'], self.json_compare)
  
- def qemu_io_image_args(config, dev=False):
-     """Get the args for access an image or device with qemu-io"""
-diff --git a/tests/qemu-iotests/149.out b/tests/qemu-iotests/149.out
-index ab879596ce..2cc5b82f7c 100644
---- a/tests/qemu-iotests/149.out
-+++ b/tests/qemu-iotests/149.out
-@@ -61,7 +61,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha1.img
- # ================= qemu-img aes-256-xts-plain64-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-aes-256-xts-plain64-sha1.img 4194304M
+     def test_human(self):
+-        data = qemu_img_pipe('info', '--output=human', test_img).split('\n')
++        data = qemu_img('info', '--output=human', test_img).stdout.split('\n')
+         data = data[(data.index('Format specific information:') + 1)
+                     :data.index('')]
+         for field in data:
+diff --git a/tests/qemu-iotests/237 b/tests/qemu-iotests/237
+index 43dfd3bd40..5ea13eb01f 100755
+--- a/tests/qemu-iotests/237
++++ b/tests/qemu-iotests/237
+@@ -165,8 +165,7 @@ with iotests.FilePath('t.vmdk') as disk_path, \
+     iotests.log("")
+ 
+     for path in [ extent1_path, extent2_path, extent3_path ]:
+-        msg = iotests.qemu_img_pipe('create', '-f', imgfmt, path, '0')
+-        iotests.log(msg, [iotests.filter_testfiles])
++        iotests.qemu_img_create('-f', imgfmt, path, '0')
+ 
+     vm.add_blockdev('driver=file,filename=%s,node-name=ext1' % (extent1_path))
+     vm.add_blockdev('driver=file,filename=%s,node-name=ext2' % (extent2_path))
+diff --git a/tests/qemu-iotests/237.out b/tests/qemu-iotests/237.out
+index aeb9724492..62b8865677 100644
+--- a/tests/qemu-iotests/237.out
++++ b/tests/qemu-iotests/237.out
+@@ -129,9 +129,6 @@ Job failed: Cannot find device='this doesn't exist' nor node-name='this doesn't
+ 
+ === Other subformats ===
+ 
 -
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha1.img qiotest-145-aes-256-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -180,7 +179,6 @@ unlink TEST_DIR/luks-twofish-256-xts-plain64-sha1.img
- # ================= qemu-img twofish-256-xts-plain64-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=twofish-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-twofish-256-xts-plain64-sha1.img 4194304M
 -
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-twofish-256-xts-plain64-sha1.img qiotest-145-twofish-256-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -299,7 +297,6 @@ unlink TEST_DIR/luks-serpent-256-xts-plain64-sha1.img
- # ================= qemu-img serpent-256-xts-plain64-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=serpent-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-serpent-256-xts-plain64-sha1.img 4194304M
 -
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-serpent-256-xts-plain64-sha1.img qiotest-145-serpent-256-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -418,7 +415,6 @@ unlink TEST_DIR/luks-cast5-128-cbc-plain64-sha1.img
- # ================= qemu-img cast5-128-cbc-plain64-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=cast5-128,cipher-mode=cbc,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-cast5-128-cbc-plain64-sha1.img 4194304M
+ == Missing extent ==
+ 
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "vmdk", "file": "node0", "size": 33554432, "subformat": "monolithicFlat"}}}
+diff --git a/tests/qemu-iotests/296 b/tests/qemu-iotests/296
+index f80ef3434a..0d21b740a7 100755
+--- a/tests/qemu-iotests/296
++++ b/tests/qemu-iotests/296
+@@ -76,7 +76,7 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
+     # create the encrypted block device using qemu-img
+     def createImg(self, file, secret):
+ 
+-        output = iotests.qemu_img_pipe(
++        iotests.qemu_img(
+             'create',
+             '--object', *secret.to_cmdline_object(),
+             '-f', iotests.imgfmt,
+@@ -84,8 +84,7 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
+             '-o', 'iter-time=10',
+             file,
+             '1M')
 -
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-cast5-128-cbc-plain64-sha1.img qiotest-145-cast5-128-cbc-plain64-sha1
- # Write test pattern 0xa7
-@@ -538,7 +534,6 @@ unlink TEST_DIR/luks-aes-256-cbc-plain-sha1.img
- # ================= qemu-img aes-256-cbc-plain-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=cbc,ivgen-alg=plain,hash-alg=sha1 TEST_DIR/luks-aes-256-cbc-plain-sha1.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-plain-sha1.img qiotest-145-aes-256-cbc-plain-sha1
- # Write test pattern 0xa7
-@@ -657,7 +652,6 @@ unlink TEST_DIR/luks-aes-256-cbc-plain64-sha1.img
- # ================= qemu-img aes-256-cbc-plain64-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=cbc,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-aes-256-cbc-plain64-sha1.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-plain64-sha1.img qiotest-145-aes-256-cbc-plain64-sha1
- # Write test pattern 0xa7
-@@ -776,7 +770,6 @@ unlink TEST_DIR/luks-aes-256-cbc-essiv-sha256-sha1.img
- # ================= qemu-img aes-256-cbc-essiv-sha256-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=cbc,ivgen-alg=essiv,hash-alg=sha1,ivgen-hash-alg=sha256 TEST_DIR/luks-aes-256-cbc-essiv-sha256-sha1.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-essiv-sha256-sha1.img qiotest-145-aes-256-cbc-essiv-sha256-sha1
- # Write test pattern 0xa7
-@@ -895,7 +888,6 @@ unlink TEST_DIR/luks-aes-256-xts-essiv-sha256-sha1.img
- # ================= qemu-img aes-256-xts-essiv-sha256-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=essiv,hash-alg=sha1,ivgen-hash-alg=sha256 TEST_DIR/luks-aes-256-xts-essiv-sha256-sha1.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-essiv-sha256-sha1.img qiotest-145-aes-256-xts-essiv-sha256-sha1
- # Write test pattern 0xa7
-@@ -1014,7 +1006,6 @@ unlink TEST_DIR/luks-aes-128-xts-plain64-sha256-sha1.img
- # ================= qemu-img aes-128-xts-plain64-sha256-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-128,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-aes-128-xts-plain64-sha256-sha1.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-128-xts-plain64-sha256-sha1.img qiotest-145-aes-128-xts-plain64-sha256-sha1
- # Write test pattern 0xa7
-@@ -1133,7 +1124,6 @@ unlink TEST_DIR/luks-aes-192-xts-plain64-sha256-sha1.img
- # ================= qemu-img aes-192-xts-plain64-sha256-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-192,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-aes-192-xts-plain64-sha256-sha1.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-192-xts-plain64-sha256-sha1.img qiotest-145-aes-192-xts-plain64-sha256-sha1
- # Write test pattern 0xa7
-@@ -1252,7 +1242,6 @@ unlink TEST_DIR/luks-twofish-128-xts-plain64-sha1.img
- # ================= qemu-img twofish-128-xts-plain64-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=twofish-128,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-twofish-128-xts-plain64-sha1.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-twofish-128-xts-plain64-sha1.img qiotest-145-twofish-128-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -1372,7 +1361,6 @@ unlink TEST_DIR/luks-serpent-128-xts-plain64-sha1.img
- # ================= qemu-img serpent-128-xts-plain64-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=serpent-128,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-serpent-128-xts-plain64-sha1.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-serpent-128-xts-plain64-sha1.img qiotest-145-serpent-128-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -1491,7 +1479,6 @@ unlink TEST_DIR/luks-serpent-192-xts-plain64-sha1.img
- # ================= qemu-img serpent-192-xts-plain64-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=serpent-192,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-serpent-192-xts-plain64-sha1.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-serpent-192-xts-plain64-sha1.img qiotest-145-serpent-192-xts-plain64-sha1
- # Write test pattern 0xa7
-@@ -1612,7 +1599,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha224.img
- # ================= qemu-img aes-256-xts-plain64-sha224 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha224 TEST_DIR/luks-aes-256-xts-plain64-sha224.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha224.img qiotest-145-aes-256-xts-plain64-sha224
- # Write test pattern 0xa7
-@@ -1731,7 +1717,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha256.img
- # ================= qemu-img aes-256-xts-plain64-sha256 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha256 TEST_DIR/luks-aes-256-xts-plain64-sha256.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha256.img qiotest-145-aes-256-xts-plain64-sha256
- # Write test pattern 0xa7
-@@ -1850,7 +1835,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha384.img
- # ================= qemu-img aes-256-xts-plain64-sha384 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha384 TEST_DIR/luks-aes-256-xts-plain64-sha384.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha384.img qiotest-145-aes-256-xts-plain64-sha384
- # Write test pattern 0xa7
-@@ -1969,7 +1953,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha512.img
- # ================= qemu-img aes-256-xts-plain64-sha512 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha512 TEST_DIR/luks-aes-256-xts-plain64-sha512.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha512.img qiotest-145-aes-256-xts-plain64-sha512
- # Write test pattern 0xa7
-@@ -2088,7 +2071,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-ripemd160.img
- # ================= qemu-img aes-256-xts-plain64-ripemd160 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=ripemd160 TEST_DIR/luks-aes-256-xts-plain64-ripemd160.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-ripemd160.img qiotest-145-aes-256-xts-plain64-ripemd160
- # Write test pattern 0xa7
-@@ -2281,7 +2263,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain-sha1-pwallslots.img
- # ================= qemu-img aes-256-xts-plain-sha1-pwallslots =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=c2xvdDE=,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain,hash-alg=sha1 TEST_DIR/luks-aes-256-xts-plain-sha1-pwallslots.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain-sha1-pwallslots.img qiotest-145-aes-256-xts-plain-sha1-pwallslots
- # Write test pattern 0xa7
-@@ -2400,7 +2381,6 @@ unlink TEST_DIR/luks-aes-256-cbc-essiv-auto-sha1.img
- # ================= qemu-img aes-256-cbc-essiv-auto-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=cbc,ivgen-alg=essiv,hash-alg=sha1 TEST_DIR/luks-aes-256-cbc-essiv-auto-sha1.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-essiv-auto-sha1.img qiotest-145-aes-256-cbc-essiv-auto-sha1
- # Write test pattern 0xa7
-@@ -2519,7 +2499,6 @@ unlink TEST_DIR/luks-aes-256-cbc-plain64-sha256-sha1.img
- # ================= qemu-img aes-256-cbc-plain64-sha256-sha1 =================
- # Create image
- qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=cbc,ivgen-alg=plain64,hash-alg=sha1,ivgen-hash-alg=sha256 TEST_DIR/luks-aes-256-cbc-plain64-sha256-sha1.img 4194304M
--
- # Open dev
- sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-plain64-sha256-sha1.img qiotest-145-aes-256-cbc-plain64-sha256-sha1
- # Write test pattern 0xa7
+-        iotests.log(output, filters=[iotests.filter_test_dir])
++        iotests.log('')
+ 
+     # attempts to add a key using qemu-img
+     def addKey(self, file, secret, new_secret):
+@@ -99,7 +98,7 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
+                 }
+             }
+ 
+-        output = iotests.qemu_img_pipe(
++        output = iotests.qemu_img(
+             'amend',
+             '--object', *secret.to_cmdline_object(),
+             '--object', *new_secret.to_cmdline_object(),
+@@ -108,8 +107,9 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
+             '-o', 'new-secret=' + new_secret.id(),
+             '-o', 'iter-time=10',
+ 
+-            "json:" + json.dumps(image_options)
+-            )
++            "json:" + json.dumps(image_options),
++            check=False  # Expected to fail. Log output.
++        ).stdout
+ 
+         iotests.log(output, filters=[iotests.filter_test_dir])
+ 
 -- 
 2.35.1
 
