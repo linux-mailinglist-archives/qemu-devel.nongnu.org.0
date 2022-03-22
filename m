@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50CB54E3E24
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:09:14 +0100 (CET)
-Received: from localhost ([::1]:33914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C374E3E02
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:02:19 +0100 (CET)
+Received: from localhost ([::1]:44388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWdK5-00071M-C8
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:09:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59158)
+	id 1nWdDO-0003UJ-DA
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:02:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8L-0002Lj-Rd
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8L-0002L8-Iv
  for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34154)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8I-0006PN-Og
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8J-0006Pd-6X
  for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1647950222;
@@ -23,48 +23,47 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q7mWX3ewa0GFrrGrYKJuTZRzmNYcVKgxkgBQO6sPKaU=;
- b=MoigazrnIjxOOEzJzyPm6TzFXzyzgiId+Qfx2ndE+6OG/CJFdpRZrwO9WuE0/YVTBWT698
- IVelxGHJYeHxzehKzDv2bTjZXUtS16OEBm5vHYnZED3andtoA6XAzsNY7UgZZmmxd3OkBw
- 5x6NGX3qAwDtijaErSwptTYEoHW3nDE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yW+kN9HZV+ZAc9TUWVMRFN2Q1VjClQJEtA5UxYRl7H0=;
+ b=F9TMSFAKpswqwl0YQyPRKy9Txsm/v3G7k9/VZMBN0CckrFIZXil6/bQVtqO2nb/4heoK+k
+ CePz6U0cn0VrRqQ5Ri9DUIEm4wAPbj7d3tKkOLLh+brZ0cArFBK2jcTvCJ2G1ZhH5rrIs0
+ M1Y7MrcKVQFfhS2LvBCHVYGKOI8RD1M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-481-Afv1CTmWNuKUJZbJdtZ1DQ-1; Tue, 22 Mar 2022 07:56:59 -0400
-X-MC-Unique: Afv1CTmWNuKUJZbJdtZ1DQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-400-_ADpLGY6PFKjTe5Zkde7yw-1; Tue, 22 Mar 2022 07:57:00 -0400
+X-MC-Unique: _ADpLGY6PFKjTe5Zkde7yw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8C983801EC0;
- Tue, 22 Mar 2022 11:56:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75811802E5B;
+ Tue, 22 Mar 2022 11:57:00 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 749892166B2D;
- Tue, 22 Mar 2022 11:56:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 302A42024CB6;
+ Tue, 22 Mar 2022 11:57:00 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/25] python/utils: add add_visual_margin() text decoration
- utility
-Date: Tue, 22 Mar 2022 12:56:28 +0100
-Message-Id: <20220322115647.726044-7-hreitz@redhat.com>
+Subject: [PULL 07/25] python/utils: add VerboseProcessError
+Date: Tue, 22 Mar 2022 12:56:29 +0100
+Message-Id: <20220322115647.726044-8-hreitz@redhat.com>
 In-Reply-To: <20220322115647.726044-1-hreitz@redhat.com>
 References: <20220322115647.726044-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -86,124 +85,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
->>> print(add_visual_margin(msg, width=72, name="Commit Message"))
-┏━ Commit Message ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-┃ add_visual_margin() takes a chunk of text and wraps it in a visual
-┃ container that force-wraps to a specified width. An optional title
-┃ label may be given, and any of the individual glyphs used to draw the
-┃ box may be replaced or specified as well.
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+This adds an Exception that extends the Python stdlib
+subprocess.CalledProcessError.
+
+The difference is that the str() method of this exception also adds the
+stdout/stderr logs. In effect, if this exception goes unhandled, Python
+will print the output in a visually distinct wrapper to the terminal so
+that it's easy to spot in a sea of traceback information.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Acked-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220321201618.903471-2-jsnow@redhat.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20220321201618.903471-3-jsnow@redhat.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- python/qemu/utils/__init__.py | 78 +++++++++++++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
+ python/qemu/utils/__init__.py | 39 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
 diff --git a/python/qemu/utils/__init__.py b/python/qemu/utils/__init__.py
-index 7f1a5138c4..b84c86d004 100644
+index b84c86d004..9fb273b13d 100644
 --- a/python/qemu/utils/__init__.py
 +++ b/python/qemu/utils/__init__.py
-@@ -15,7 +15,10 @@
- # the COPYING file in the top-level directory.
- #
- 
-+import os
+@@ -18,6 +18,7 @@
+ import os
  import re
-+import shutil
-+import textwrap
+ import shutil
++from subprocess import CalledProcessError
+ import textwrap
  from typing import Optional
  
- # pylint: disable=import-error
-@@ -23,6 +26,7 @@
+@@ -26,6 +27,7 @@
  
  
  __all__ = (
-+    'add_visual_margin',
++    'VerboseProcessError',
+     'add_visual_margin',
      'get_info_usernet_hostfwd_port',
      'kvm_available',
-     'list_accel',
-@@ -43,3 +47,77 @@ def get_info_usernet_hostfwd_port(info_usernet_output: str) -> Optional[int]:
-         if match is not None:
-             return int(match[1])
-     return None
+@@ -121,3 +123,40 @@ def _wrap(line: str) -> str:
+         os.linesep.join(_wrap(line) for line in content.splitlines()),
+         _bar(None, top=False),
+     ))
 +
 +
-+# pylint: disable=too-many-arguments
-+def add_visual_margin(
-+        content: str = '',
-+        width: Optional[int] = None,
-+        name: Optional[str] = None,
-+        padding: int = 1,
-+        upper_left: str = '┏',
-+        lower_left: str = '┗',
-+        horizontal: str = '━',
-+        vertical: str = '┃',
-+) -> str:
++class VerboseProcessError(CalledProcessError):
 +    """
-+    Decorate and wrap some text with a visual decoration around it.
++    The same as CalledProcessError, but more verbose.
 +
-+    This function assumes that the text decoration characters are single
-+    characters that display using a single monospace column.
-+
-+    ┏━ Example ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-+    ┃ This is what this function looks like with text content that's
-+    ┃ wrapped to 66 characters. The right-hand margin is left open to
-+    ┃ accommodate the occasional unicode character that might make
-+    ┃ predicting the total "visual" width of a line difficult. This
-+    ┃ provides a visual distinction that's good-enough, though.
-+    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-+
-+    :param content: The text to wrap and decorate.
-+    :param width:
-+        The number of columns to use, including for the decoration
-+        itself. The default (None) uses the the available width of the
-+        current terminal, or a fallback of 72 lines. A negative number
-+        subtracts a fixed-width from the default size. The default obeys
-+        the COLUMNS environment variable, if set.
-+    :param name: A label to apply to the upper-left of the box.
-+    :param padding: How many columns of padding to apply inside.
-+    :param upper_left: Upper-left single-width text decoration character.
-+    :param lower_left: Lower-left single-width text decoration character.
-+    :param horizontal: Horizontal single-width text decoration character.
-+    :param vertical: Vertical single-width text decoration character.
++    This is useful for debugging failed calls during test executions.
++    The return code, signal (if any), and terminal output will be displayed
++    on unhandled exceptions.
 +    """
-+    if width is None or width < 0:
-+        avail = shutil.get_terminal_size(fallback=(72, 24))[0]
-+        if width is None:
-+            _width = avail
++    def summary(self) -> str:
++        """Return the normal CalledProcessError str() output."""
++        return super().__str__()
++
++    def __str__(self) -> str:
++        lmargin = '  '
++        width = -len(lmargin)
++        sections = []
++
++        # Does self.stdout contain both stdout and stderr?
++        has_combined_output = self.stderr is None
++
++        name = 'output' if has_combined_output else 'stdout'
++        if self.stdout:
++            sections.append(add_visual_margin(self.stdout, width, name))
 +        else:
-+            _width = avail + width
-+    else:
-+        _width = width
++            sections.append(f"{name}: N/A")
 +
-+    prefix = vertical + (' ' * padding)
++        if self.stderr:
++            sections.append(add_visual_margin(self.stderr, width, 'stderr'))
++        elif not has_combined_output:
++            sections.append("stderr: N/A")
 +
-+    def _bar(name: Optional[str], top: bool = True) -> str:
-+        ret = upper_left if top else lower_left
-+        if name is not None:
-+            ret += f"{horizontal} {name} "
-+
-+        filler_len = _width - len(ret)
-+        ret += f"{horizontal * filler_len}"
-+        return ret
-+
-+    def _wrap(line: str) -> str:
-+        return os.linesep.join(
-+            textwrap.wrap(
-+                line, width=_width - padding, initial_indent=prefix,
-+                subsequent_indent=prefix, replace_whitespace=False,
-+                drop_whitespace=True, break_on_hyphens=False)
-+        )
-+
-+    return os.linesep.join((
-+        _bar(name, top=True),
-+        os.linesep.join(_wrap(line) for line in content.splitlines()),
-+        _bar(None, top=False),
-+    ))
++        return os.linesep.join((
++            self.summary(),
++            textwrap.indent(os.linesep.join(sections), prefix=lmargin),
++        ))
 -- 
 2.35.1
 
