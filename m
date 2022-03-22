@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40D94E3DE7
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 12:58:55 +0100 (CET)
-Received: from localhost ([::1]:34268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CB64E3E00
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:01:59 +0100 (CET)
+Received: from localhost ([::1]:42822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWdA6-00055Z-RN
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 07:58:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58980)
+	id 1nWdD4-0002LR-SX
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:01:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8E-00028K-5U
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:56:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39938)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8G-00029O-Cf
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8C-0006NY-F9
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:56:57 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWd8E-0006O2-Uf
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:57:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647950216;
+ s=mimecast20190719; t=1647950217;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T4TT4bbocb2VkrJZ5oa3Bxmdsdqc5CNeeucUIzGVai8=;
- b=UKihY1gHoqacHxq8a4yKY2UkyDqjCEQH1vAcIAeKwO+tMTSryn1K7tA4uEyRbEheIqmvX+
- 868qRSXIKgweImJkEUHPStbpaLRRIXv0cTxDXXLRa4B/d4t/fnwpLkYtfd9HD7aogEpwll
- 4bGaDvYXAOOu7f3o6ldYdqA2Ikw1lY0=
+ bh=DehzDUUUL9UTJbER0x1YYX5E/OAx+EakAaCUQuOxVg8=;
+ b=Yx1jEWdFDAZnxbMB06RgpKsvSRX0tLboaPhKC/ffr0XpUE2CV9/fZD+70tAyhxAX3ejbrD
+ wsvkMEIhQ0ejaiIycET3eHGCwoxnZ0gVUUDgrpI+mvvBhhDQx4eFQWmYClTQXS+BUFYMVo
+ mdthG43XOh+2vrk2JPrASTH8non5c8s=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-499-lt1Mr7ypNP6EWtcCqEA_9Q-1; Tue, 22 Mar 2022 07:56:52 -0400
-X-MC-Unique: lt1Mr7ypNP6EWtcCqEA_9Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-433-eUgd5reWNXKD1GiX-rSZxg-1; Tue, 22 Mar 2022 07:56:54 -0400
+X-MC-Unique: eUgd5reWNXKD1GiX-rSZxg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8103629DD995;
- Tue, 22 Mar 2022 11:56:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 103343C16181;
+ Tue, 22 Mar 2022 11:56:54 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E4BA403D188;
- Tue, 22 Mar 2022 11:56:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C29431121314;
+ Tue, 22 Mar 2022 11:56:53 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 02/25] block/rbd: fix write zeroes with growing images
-Date: Tue, 22 Mar 2022 12:56:24 +0100
-Message-Id: <20220322115647.726044-3-hreitz@redhat.com>
+Subject: [PULL 03/25] tests/qemu-iotests: Use GNU sed in two more spots where
+ it is necessary
+Date: Tue, 22 Mar 2022 12:56:25 +0100
+Message-Id: <20220322115647.726044-4-hreitz@redhat.com>
 In-Reply-To: <20220322115647.726044-1-hreitz@redhat.com>
 References: <20220322115647.726044-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -83,71 +84,41 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Commit d24f80234b ("block/rbd: increase dynamically the image size")
-added a workaround to support growing images (eg. qcow2), resizing
-the image before write operations that exceed the current size.
+These two spots have been missed in commit 9086c7639822 ("Rework the
+checks and spots using GNU sed") - they need GNU sed, too, since they
+are using the "+" address form.
 
-We recently added support for write zeroes and without the
-workaround we can have problems with qcow2.
-
-So let's move the resize into qemu_rbd_start_co() and do it when
-the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2020993
-Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20220317162638.41192-1-sgarzare@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20220309101626.637836-1-thuth@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block/rbd.c | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+ tests/qemu-iotests/common.filter | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/rbd.c b/block/rbd.c
-index 8f183eba2a..6caf35cbba 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -1107,6 +1107,20 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
- 
-     assert(!qiov || qiov->size == bytes);
- 
-+    if (cmd == RBD_AIO_WRITE || cmd == RBD_AIO_WRITE_ZEROES) {
-+        /*
-+         * RBD APIs don't allow us to write more than actual size, so in order
-+         * to support growing images, we resize the image before write
-+         * operations that exceed the current size.
-+         */
-+        if (offset + bytes > s->image_size) {
-+            int r = qemu_rbd_resize(bs, offset + bytes);
-+            if (r < 0) {
-+                return r;
-+            }
-+        }
-+    }
-+
-     r = rbd_aio_create_completion(&task,
-                                   (rbd_callback_t) qemu_rbd_completion_cb, &c);
-     if (r < 0) {
-@@ -1182,18 +1196,6 @@ coroutine_fn qemu_rbd_co_pwritev(BlockDriverState *bs, int64_t offset,
-                                  int64_t bytes, QEMUIOVector *qiov,
-                                  BdrvRequestFlags flags)
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+index 9790411bf0..cc9f1a5891 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -106,13 +106,13 @@ _filter_hmp()
+ # replace block job offset
+ _filter_block_job_offset()
  {
--    BDRVRBDState *s = bs->opaque;
--    /*
--     * RBD APIs don't allow us to write more than actual size, so in order
--     * to support growing images, we resize the image before write
--     * operations that exceed the current size.
--     */
--    if (offset + bytes > s->image_size) {
--        int r = qemu_rbd_resize(bs, offset + bytes);
--        if (r < 0) {
--            return r;
--        }
--    }
-     return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_WRITE);
+-    sed -e 's/, "offset": [0-9]\+,/, "offset": OFFSET,/'
++    gsed -e 's/, "offset": [0-9]\+,/, "offset": OFFSET,/'
  }
  
+ # replace block job len
+ _filter_block_job_len()
+ {
+-    sed -e 's/, "len": [0-9]\+,/, "len": LEN,/g'
++    gsed -e 's/, "len": [0-9]\+,/, "len": LEN,/g'
+ }
+ 
+ # replace actual image size (depends on the host filesystem)
 -- 
 2.35.1
 
