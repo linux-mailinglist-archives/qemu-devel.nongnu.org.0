@@ -2,88 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC394E3D09
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 11:58:08 +0100 (CET)
-Received: from localhost ([::1]:48756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3204E3D81
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 12:23:41 +0100 (CET)
+Received: from localhost ([::1]:56394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWcDH-0006g7-RM
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 06:58:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42848)
+	id 1nWcc0-0005Yc-GQ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 07:23:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nWcCA-0005z7-5F
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 06:56:58 -0400
-Received: from [2607:f8b0:4864:20::436] (port=42983
- helo=mail-pf1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nWcC8-0004qj-0s
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 06:56:57 -0400
-Received: by mail-pf1-x436.google.com with SMTP id g19so17816813pfc.9
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 03:56:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Lyu890gainsaZYMU3NH2X3aGDKZ3gW4C3hXbJypyYtU=;
- b=dm5JfGAwrHxcfErMMCdGMfnZZeX7jHQTDFUjWiYgj+2KzttKUVy20N9aL1KqQpx+yy
- X/5ovNPxbDkXdu46XtZdSPPdbBPop6oyF3UzpA7oC7ZkFJtydoPESP7M+Y6qdYc588OK
- 3YqAcxFKP+Du8Ls3vmVSvKqovyakCIhV615jkq3Jaf6yjyGSyFefKexFH1IfcV8JCpyP
- 1t6GBK16iq6EHw+kGDLQVX6lnL+cXLTC4VAyWawVU5f5sx15Uof0kcpM9kkDj5v3yqHX
- 6U9brHTpPyfi8CKvGLToLNoObfC12eLC68sVzYm4gJKnxfFgqIgqZRu/gaaKty+QuHIJ
- kLJw==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nWca1-0003rb-IW
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:21:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nWcZy-0007IB-0V
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 07:21:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647948089;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sI/gJK8PHjVhsB9l+0a1Cbfqayf1bW3iE9HELjmMQqg=;
+ b=Wg7np52ZXYBwDiIXbHtAA3ixJ6zTtwLnuAXJBZO2wD9FyehpYHE6oFSkYicNdaKrxU4b2f
+ xiHcF0n/MjUj5r6HLxmij1XMOWR4xaeunvM0w0CPUUAaP4M4SzZ74wZWqXzZv80AhAw54F
+ 8Ax8P0EqR9I/qaiPe4mygtqaLwyuGwo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-655-dUsRRlrtNCqSB2GCkDO8og-1; Tue, 22 Mar 2022 07:21:28 -0400
+X-MC-Unique: dUsRRlrtNCqSB2GCkDO8og-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ v15-20020a50f08f000000b0041902200ab4so7551694edl.22
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 04:21:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Lyu890gainsaZYMU3NH2X3aGDKZ3gW4C3hXbJypyYtU=;
- b=VOIKdrQgbXc6fOyk2o2sJQnnyAQrCTJ77epYb3NVIc5MCdR0DxUeaufUPHC8Xgo1vh
- 2i40U7GijJGke6ztiQfCLMl95dx0UUzocffGwntjh2tDqPHQugT/JMEORCd0heh156UA
- GZkgmujJBYV4L8jSQrDSWGwzu3/3uPym8zq5xXNCIr412Uu+vrpkNIE7PN8meYB41faC
- 76NOwLqG6i059QYk2urbUSaG+stZkoGGKk5POaX1NKAKDXqH/xaOCuwzFts5IgPEdrKo
- GiE/dQsco5NuVcSvSeb+DMPBXcSXAmogeHIFRkOD9GgTO15brxLI0eoMby/cxgn0rlo5
- IlJg==
-X-Gm-Message-State: AOAM533plANQgWOU7su5LPyVoGAPeLWtf8dj32ivhPuI5cUKxvXJ1JEY
- 8Hbwdtnn1Sxb3MKN48bJDcs=
-X-Google-Smtp-Source: ABdhPJy8KJhmmN0fDnkAtjdlbFUjVXSqbCk103Ve4kqCgvLXhsxdER8udpJtrbZLdeWijMLxUP98uQ==
-X-Received: by 2002:a62:e213:0:b0:4fa:6b13:3a9a with SMTP id
- a19-20020a62e213000000b004fa6b133a9amr22964642pfi.18.1647946614519; 
- Tue, 22 Mar 2022 03:56:54 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Bx3w8/lhlewJ7oUWvr/1eh6laDl4Abf2g0d4r2c9J7s=;
+ b=VdlI8qTuRC3KCdz5SpnyJqUH3WKEJNw18jxCvWvF/zrfBAR2JfpBSz2U+EwxBuwZRT
+ 56DlVHzDwpnsEfdQIxJOx6veykdNL3bha86j15tj/y06oF62sKlugwsjqTRnOsKVqfkQ
+ 2/JFefO1VrEbhHfQMnB6FIYYqkeSZOsqZKo22rH9L8smSM9XZ6XTVSoTwRoL8Jihdlvi
+ nRidUCrom03zZby+VCTxAHRGPP47fGYU6eOL3CU2dDKJwRrSTjpbms3KJRWYNcu5p9Ge
+ lpWh0XcW1sCCSGrFsPwTT9vAPBeQDND8TntlpTGPYqexl3U3PH8KHZ8gMr+sJ28qe+ya
+ Zadw==
+X-Gm-Message-State: AOAM530+C4loPW/s5QsR7FGvKMrnxARD0OXH94n1nYUJuONrZPTQlfPr
+ YAxmlPvg5uHXhihkp9DWIX9rfUt7MeFNc0aBgv8yDh3HDbyzHsqsmUJa/GCbXL5fQhJ3IZmGP7n
+ DhX/Sjem2/JvF1LM=
+X-Received: by 2002:a05:6402:5243:b0:419:4ce2:cb5c with SMTP id
+ t3-20020a056402524300b004194ce2cb5cmr6931877edd.151.1647948087486; 
+ Tue, 22 Mar 2022 04:21:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyiCZtBiS5tBYkHXW9CYVzlZ6xWEpBQiuxdMrs5J8/gCaIPyAwbOSsr9vx7UIAZ7GGLmjEZiA==
+X-Received: by 2002:a05:6402:5243:b0:419:4ce2:cb5c with SMTP id
+ t3-20020a056402524300b004194ce2cb5cmr6931812edd.151.1647948087187; 
+ Tue, 22 Mar 2022 04:21:27 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- f22-20020a056a0022d600b004f7a0b47b0dsm24448884pfj.109.2022.03.22.03.56.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 03:56:53 -0700 (PDT)
-Message-ID: <9ab2deed-c798-057c-681b-5649ac309df0@gmail.com>
-Date: Tue, 22 Mar 2022 19:56:49 +0900
+ hs12-20020a1709073e8c00b006dfd7dee980sm4080173ejc.30.2022.03.22.04.21.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Mar 2022 04:21:26 -0700 (PDT)
+Date: Tue, 22 Mar 2022 12:21:24 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 3/3] Use g_new() & friends where that makes obvious
+ sense
+Message-ID: <20220322122124.4f1d76e9@redhat.com>
+In-Reply-To: <20220315144156.1595462-4-armbru@redhat.com>
+References: <20220315144156.1595462-1-armbru@redhat.com>
+ <20220315144156.1595462-4-armbru@redhat.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH-for-7.0 v2] qemu/main-loop: Disable block backend global
- state assertion on Cocoa
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20220322075400.8627-1-philippe.mathieu.daude@gmail.com>
- <7230eb78-0d9c-b636-f412-328b874280b3@redhat.com>
- <7ae621b5-7451-4a70-d109-f1adbcdaac68@gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <7ae621b5-7451-4a70-d109-f1adbcdaac68@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,233 +102,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Eric Blake <eblake@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ Paul Durrant <paul@xen.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ =?UTF-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Amit Shah <amit@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, haxm-team@intel.com,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?B?Q8Op?= =?UTF-8?B?ZHJpYw==?= Le Goater <clg@kaod.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, xen-devel@lists.xenproject.org,
+ Keith Busch <kbusch@kernel.org>, qemu-ppc@nongnu.org,
+ David Hildenbrand <david@redhat.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
+ qemu-s390x@nongnu.org, Patrick Venture <venture@google.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Corey Minyard <cminyard@mvista.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/03/22 18:35, Philippe Mathieu-Daudé wrote:
-> On 22/3/22 09:32, Paolo Bonzini wrote:
->> On 3/22/22 08:54, Philippe Mathieu-Daudé wrote:
->>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>
->>> Since commit 0439c5a462 ("block/block-backend.c: assertions for
->>> block-backend") QEMU crashes when using Cocoa on Darwin hosts.
->>>
->>> Example on macOS:
->>>
->>>    $ qemu-system-i386
->>>    Assertion failed: (qemu_in_main_thread()), function blk_all_next, 
->>> file block-backend.c, line 552.
->>>    Abort trap: 6
->>>
->>> Looking with lldb:
->>>
->>>    Assertion failed: (qemu_in_main_thread()), function blk_all_next, 
->>> file block-backend.c, line 552.
->>>    Process 76914 stopped
->>>    * thread #1, queue = 'com.apple.main-thread', stop reason = hit 
->>> program assert
->>>       frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1
->>>    at block-backend.c:552:5 [opt]
->>>        549    */
->>>        550   BlockBackend *blk_all_next(BlockBackend *blk)
->>>        551   {
->>>    --> 552       GLOBAL_STATE_CODE();
->>>        553       return blk ? QTAILQ_NEXT(blk, link)
->>>        554                  : QTAILQ_FIRST(&block_backends);
->>>        555   }
->>>    Target 1: (qemu-system-i386) stopped.
->>>
->>>    (lldb) bt
->>>    * thread #1, queue = 'com.apple.main-thread', stop reason = hit 
->>> program assert
->>>       frame #0: 0x00000001908c99b8 
->>> libsystem_kernel.dylib`__pthread_kill + 8
->>>       frame #1: 0x00000001908fceb0 
->>> libsystem_pthread.dylib`pthread_kill + 288
->>>       frame #2: 0x000000019083a314 libsystem_c.dylib`abort + 164
->>>       frame #3: 0x000000019083972c libsystem_c.dylib`__assert_rtn + 300
->>>     * frame #4: 0x000000010057c2d4 
->>> qemu-system-i386`blk_all_next.cold.1 at block-backend.c:552:5 [opt]
->>>       frame #5: 0x00000001003c00b4 
->>> qemu-system-i386`blk_all_next(blk=<unavailable>) at 
->>> block-backend.c:552:5 [opt]
->>>       frame #6: 0x00000001003d8f04 
->>> qemu-system-i386`qmp_query_block(errp=0x0000000000000000) at 
->>> qapi.c:591:16 [opt]
->>>       frame #7: 0x000000010003ab0c qemu-system-i386`main [inlined] 
->>> addRemovableDevicesMenuItems at cocoa.m:1756:21 [opt]
->>>       frame #8: 0x000000010003ab04 
->>> qemu-system-i386`main(argc=<unavailable>, argv=<unavailable>) at 
->>> cocoa.m:1980:5 [opt]
->>>       frame #9: 0x00000001012690f4 dyld`start + 520
->>>
->>> As we are in passed release 7.0 hard freeze, disable the block
->>> backend assertion which, while being valuable during development,
->>> is not helpful to users. We'll restore this assertion immediately
->>> once 7.0 is released and work on a fix.
->>>
->>> Cc: Kevin Wolf <kwolf@redhat.com>
->>> Cc: Paolo Bonzini <pbonzini@redhat.com>
->>> Cc: Peter Maydell <peter.maydell@linaro.org>
->>> Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>> Suggested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>> Supersedes: <20220321145537.98924-1-philippe.mathieu.daude@gmail.com>
->>> ---
->>>   include/qemu/main-loop.h | 12 ++++++++++++
->>>   1 file changed, 12 insertions(+)
->>>
->>> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
->>> index 7a4d6a0920..48061f736b 100644
->>> --- a/include/qemu/main-loop.h
->>> +++ b/include/qemu/main-loop.h
->>> @@ -270,10 +270,22 @@ bool qemu_mutex_iothread_locked(void);
->>>   bool qemu_in_main_thread(void);
->>>   /* Mark and check that the function is part of the global state 
->>> API. */
->>> +#ifdef CONFIG_COCOA
->>> +/*
->>> + * When using Cocoa ui, addRemovableDevicesMenuItems() calls 
->>> qmp_query_block()
->>> + * while expecting the main thread to still hold the BQL, triggering 
->>> this
->>> + * assertions in the block layer (commit 0439c5a462). As the Cocoa 
->>> fix is not
->>> + * trivial, disable this assertion for the v7.0.0 release when using 
->>> Cocoa; it
->>> + * will be restored immediately after the release. This issue is 
->>> tracked as
->>> + * https://gitlab.com/qemu-project/qemu/-/issues/926
->>> + */
->>> +#define GLOBAL_STATE_CODE()
->>> +#else
->>>   #define GLOBAL_STATE_CODE()                                         \
->>>       do {                                                            \
->>>           assert(qemu_in_main_thread());                              \
->>>       } while (0)
->>> +#endif /* CONFIG_DARWIN */
->>>   /* Mark and check that the function is part of the I/O API. */
->>>   #define IO_CODE()                                                   \
->>
->> I don't know, it seems to me that the reorganized initialization code 
->> had only advantages.
->>
->> For now, it fixes the regression and makes the Cocoa build much more 
->> similar to the others.  There is an easy way to fix the -runas 
->> regression, by moving the code up to the call of -sharedApplication in 
->> cocoa_display_init.
-> 
-> So the options are:
-> 
-> #1 disabling the assert for cocoa (this patch)
-> 
-> #2 run qemu_init() in the main thread​ from Paolo [*] with this (?)
->     patch on top:
-> 
-> -- >8 --
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index e69ce97f44..867c222e18 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -1946,7 +1946,6 @@ static void 
-> cocoa_clipboard_request(QemuClipboardInfo *info,
->   int main(int argc, char **argv, char **envp)
->   {
->       COCOA_DEBUG("Entered main()\n");
-> -    qemu_event_init(&cbevent, false);
-> 
->       /* Takes iothread lock, released in 
-> applicationDidFinishLaunching:.  */
->       qemu_init(argc, argv, envp);
-> @@ -1958,13 +1957,6 @@ int main(int argc, char **argv, char **envp)
-> 
->       NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-> 
-> -    // Pull this console process up to being a fully-fledged graphical
-> -    // app with a menubar and Dock icon
-> -    ProcessSerialNumber psn = { 0, kCurrentProcess };
-> -    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
-> -
-> -    [QemuApplication sharedApplication];
-> -
->       create_initial_menus();
-> 
->       /*
-> @@ -1976,7 +1968,6 @@ int main(int argc, char **argv, char **envp)
->        */
->       add_console_menu_entries();
->       addRemovableDevicesMenuItems();
-> -    cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
-> 
->       // Create an Application controller
->       QemuCocoaAppController *appController = [[QemuCocoaAppController 
-> alloc] init];
-> @@ -2089,6 +2080,17 @@ static void cocoa_display_init(DisplayState *ds, 
-> DisplayOptions *opts)
->       if (opts->u.cocoa.has_left_command_key && 
-> !opts->u.cocoa.left_command_key) {
->           left_command_key_enabled = 0;
->       }
-> +
-> +    qemu_event_init(&cbevent, false);
-> +
-> +    cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
-> +
-> +    // Pull this console process up to being a fully-fledged graphical
-> +    // app with a menubar and Dock icon
-> +    ProcessSerialNumber psn = { 0, kCurrentProcess };
-> +    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
-> +
-> +    [QemuApplication sharedApplication];
+On Tue, 15 Mar 2022 15:41:56 +0100
+Markus Armbruster <armbru@redhat.com> wrote:
 
-I think the changes for cbevent and cbowner are irrelevant, but 
-basically this should do.
+> g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
+> for two reasons.  One, it catches multiplication overflowing size_t.
+> Two, it returns T * rather than void *, which lets the compiler catch
+> more type errors.
+>=20
+> This commit only touches allocations with size arguments of the form
+> sizeof(T).
+>=20
+> Patch created mechanically with:
+>=20
+>     $ spatch --in-place --sp-file scripts/coccinelle/use-g_new-etc.cocci =
+\
+> =09     --macro-file scripts/cocci-macro-file.h FILES...
+>=20
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
->   }
-> 
-> ---
-> 
-> # 3 "Create menus in iothread" approach from Akihiko:
-> https://lore.kernel.org/qemu-devel/20220321041043.24112-1-akihiko.odaki@gmail.com/ 
-> 
-> 
-> Is that correct? (#2 patch and the 3 different options)
-> 
-> What is preferred between #2 and #3? I don't have enough knowledge to
-> take the decision, which is why I suggested the chicken-hearted "disable
-> assert" option #1.
 
-#2 can help allowing ui/cocoa to live in the same binary with ui/gtk and 
-ui/sdl2 in the future and I believe it should be eventually (possible 
-after 7.0) done, but requires relatively large code change.
+for */i386/*
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-#3 aims to solve only the problem with iothread dependency when creating 
-menus and its scope of modification is minimal. It is concerned that #3 
-may confuse developers since it touches Cocoa interfaces from iothread 
-although it is still according to its API convention.
 
-I'm pretty sure both of #2 and #3 work, but I would like to rather 
-insist #1 as the safest. As a developer, I don't want see such an ugly 
-workaround like #1 of course, but such feeling does not matter much in 
-practice. On the other hand, having the entire next release cycle for 
-testing #2 is a real advantage even if the possibility of discovering a 
-new problem is very tiny.
+nit:
+possible miss, see below=20
 
-Regards,
-Akihiko Odaki
+[...]
+> diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+> index cf8e500514..0731f70410 100644
+> --- a/hw/i386/xen/xen-hvm.c
+> +++ b/hw/i386/xen/xen-hvm.c
 
-> 
-> Thanks,
-> 
-> Phil.
-> 
-> [*] 
-> https://lore.kernel.org/qemu-devel/20220317125534.38706-1-philippe.mathieu.daude@gmail.com/ 
-> 
+missed:
+
+ pfn_list =3D g_malloc(sizeof (*pfn_list) * nr_pfn);
+
+
+> @@ -396,7 +396,7 @@ go_physmap:
+> =20
+>      mr_name =3D memory_region_name(mr);
+> =20
+> -    physmap =3D g_malloc(sizeof(XenPhysmap));
+> +    physmap =3D g_new(XenPhysmap, 1);
+> =20
+>      physmap->start_addr =3D start_addr;
+>      physmap->size =3D size;
+> @@ -1281,7 +1281,7 @@ static void xen_read_physmap(XenIOState *state)
+>          return;
+> =20
+>      for (i =3D 0; i < num; i++) {
+> -        physmap =3D g_malloc(sizeof (XenPhysmap));
+> +        physmap =3D g_new(XenPhysmap, 1);
+>          physmap->phys_offset =3D strtoull(entries[i], NULL, 16);
+>          snprintf(path, sizeof(path),
+>                  "/local/domain/0/device-model/%d/physmap/%s/start_addr",
+> @@ -1410,7 +1410,7 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRe=
+gion **ram_memory)
+>      xen_pfn_t ioreq_pfn;
+>      XenIOState *state;
+> =20
+> -    state =3D g_malloc0(sizeof (XenIOState));
+> +    state =3D g_new0(XenIOState, 1);
+> =20
+>      state->xce_handle =3D xenevtchn_open(NULL, 0);
+>      if (state->xce_handle =3D=3D NULL) {
+> @@ -1463,7 +1463,7 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRe=
+gion **ram_memory)
+>      }
+> =20
+>      /* Note: cpus is empty at this point in init */
+> -    state->cpu_by_vcpu_id =3D g_malloc0(max_cpus * sizeof(CPUState *));
+> +    state->cpu_by_vcpu_id =3D g_new0(CPUState *, max_cpus);
+> =20
+>      rc =3D xen_set_ioreq_server_state(xen_domid, state->ioservid, true);
+>      if (rc < 0) {
+> @@ -1472,7 +1472,7 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRe=
+gion **ram_memory)
+>          goto err;
+>      }
+> =20
+> -    state->ioreq_local_port =3D g_malloc0(max_cpus * sizeof (evtchn_port=
+_t));
+> +    state->ioreq_local_port =3D g_new0(evtchn_port_t, max_cpus);
+
+[...]
 
 
