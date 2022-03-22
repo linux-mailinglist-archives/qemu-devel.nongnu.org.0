@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005F24E3ECC
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:51:48 +0100 (CET)
-Received: from localhost ([::1]:53660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85224E3EDB
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:55:12 +0100 (CET)
+Received: from localhost ([::1]:33898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWdzH-0000yc-M9
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:51:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40454)
+	id 1nWe2Z-0006lN-Sc
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:55:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nWdc6-0006MQ-0r
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:27:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54477)
+ id 1nWdcB-0006RZ-EH
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:27:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nWdc4-0002mc-N1
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:27:49 -0400
+ id 1nWdcA-0002nQ-1V
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:27:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647952068;
+ s=mimecast20190719; t=1647952073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SKuhfTZ7r0r1xNhdqbtDZbZAj/gwTHsepxONeEFevrc=;
- b=b9HRf5HCl4VSI3RwZC0A08HwqAnBDhuANgQVLKtzZRf0b70fqWNJfhey0A8IWtGBaQc7jU
- DYwtaFbsgr9GXuOm3kxfJ0niaezSgQC31XPv+WuKI9LchR2TngEN+OC1TSNngXuTWVt2UK
- E0C2wLWiAL1tJudSt1eZirT7beL9hGs=
+ bh=u71e6JqUQHj5bHDLqupDGQ7gGwiFNocfzXN/1r051ek=;
+ b=Jgcowr2GAB70Ff3ZWt6ScT8g2wcB2ajL7wtiaq/qRLYAfOhrLD31D/w+ruI8efo9d/+EmN
+ aMj/eGaRJW9UyCFcGujg+StV9cHOW718I/TjGznRNQNzjZAAGnfATzvoEdy92Y8JwoJrtQ
+ zkE1ujZvapYi7pZMWxm/0UNsbGOrEa4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-108-Lik53tbDPtyhv-KHUuLJxA-1; Tue, 22 Mar 2022 08:27:47 -0400
-X-MC-Unique: Lik53tbDPtyhv-KHUuLJxA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-336-cYrm883BOqO8S6EPUDy5wA-1; Tue, 22 Mar 2022 08:27:51 -0400
+X-MC-Unique: cYrm883BOqO8S6EPUDy5wA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C055180159B;
- Tue, 22 Mar 2022 12:27:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 78836811E80;
+ Tue, 22 Mar 2022 12:27:51 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69F9C2026985;
- Tue, 22 Mar 2022 12:27:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5835C441983;
+ Tue, 22 Mar 2022 12:27:50 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/21] qapi: remove needless include
-Date: Tue, 22 Mar 2022 16:25:56 +0400
-Message-Id: <20220322122601.927238-17-marcandre.lureau@redhat.com>
+Subject: [PULL 17/21] qga: remove bswap.h include
+Date: Tue, 22 Mar 2022 16:25:57 +0400
+Message-Id: <20220322122601.927238-18-marcandre.lureau@redhat.com>
 In-Reply-To: <20220322122601.927238-1-marcandre.lureau@redhat.com>
 References: <20220322122601.927238-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,24 +88,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Apparently not needed anymore.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/string-output-visitor.c | 1 -
+ qga/main.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/qapi/string-output-visitor.c b/qapi/string-output-visitor.c
-index 5506c933deef..71ddc92b7b98 100644
---- a/qapi/string-output-visitor.c
-+++ b/qapi/string-output-visitor.c
-@@ -14,7 +14,6 @@
+diff --git a/qga/main.c b/qga/main.c
+index 15fd3a4149f4..b9dd19918e47 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -27,7 +27,6 @@
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/error.h"
+ #include "channel.h"
+-#include "qemu/bswap.h"
  #include "qemu/cutils.h"
- #include "qapi/string-output-visitor.h"
- #include "qapi/visitor-impl.h"
--#include "qemu/host-utils.h"
- #include <math.h>
- #include "qemu/range.h"
- 
+ #include "qemu/help_option.h"
+ #include "qemu/sockets.h"
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
