@@ -2,60 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DB34E3C44
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 11:14:51 +0100 (CET)
-Received: from localhost ([::1]:60370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A764E3C48
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 11:16:59 +0100 (CET)
+Received: from localhost ([::1]:34402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWbXN-00081n-QM
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 06:14:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58300)
+	id 1nWbZS-0001GY-MW
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 06:16:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWbVZ-0007LK-5w
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 06:12:57 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:40939)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nWbXy-0000Tx-4f
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 06:15:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nWbVU-0006ME-7w
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 06:12:53 -0400
-Received: from [192.168.100.1] ([82.142.12.150]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M5fUy-1nQaAV1MaI-007Azi; Tue, 22 Mar 2022 11:12:49 +0100
-Message-ID: <04c5229f-7255-b30f-80a0-93165ea982a2@vivier.eu>
-Date: Tue, 22 Mar 2022 11:12:48 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nWbXu-0003ao-OO
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 06:15:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647944121;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6qRXVU3pTUdigH53ziRR2/MI1rF3QL2ap2OSufNvLg0=;
+ b=InKSMJu500LUbjwLqAWE8UoYxNJFuxH/wNpLcj+FKpXLoDyBSAI9iufWGmtrw7qMDfbme9
+ liJBQjoxlu94K2eZt46chRje5Nh3ebJLLesd/myq2HqEYn02fprrToBThBnWwFreM8S+Vx
+ uRN+XIBVce4Li+IjQZwBgxlTXB3YYu8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-347-QuDylOmeNTmKvjgaFPfzIw-1; Tue, 22 Mar 2022 06:15:18 -0400
+X-MC-Unique: QuDylOmeNTmKvjgaFPfzIw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DCB53C0D1AC;
+ Tue, 22 Mar 2022 10:15:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA5AD40CF8EF;
+ Tue, 22 Mar 2022 10:15:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A85FE21E6821; Tue, 22 Mar 2022 11:15:16 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 2/2] Added parameter to take screenshot with
+ screendump as PNG
+References: <20220322081845.19680-1-kshitij.suri@nutanix.com>
+ <20220322081845.19680-2-kshitij.suri@nutanix.com>
+ <YjmbL3E2CRqjFii1@redhat.com>
+Date: Tue, 22 Mar 2022 11:15:16 +0100
+In-Reply-To: <YjmbL3E2CRqjFii1@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Tue, 22 Mar 2022 09:47:27 +0000")
+Message-ID: <877d8mi98r.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/5] linux-user: Split out helpers for sigsuspend
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220315084308.433109-1-richard.henderson@linaro.org>
- <20220315084308.433109-3-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220315084308.433109-3-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SFR3l1WwgraCbBo72rCHXaa1shkzXBl//m1X/5StvIGYX4sTihl
- GeCbKcMapQZjQIVYvi5K3j/uIGkCmDLkT/cauGJwB+dV2/dTvtxEVMYN+IoDoMex91sjaJX
- /L7Ukjewojq8qTLkkCHMCtZEt5jXTYGTdS4Cg7xzzjcF2ToN8IafjYv5/bb+S36p9miMVnz
- /7cIFbyzo3Wb7CWpIqCmQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:P2G5l/mfUAE=:JnzmWXYkR05nuEUaZ4AEmS
- dFyohSIAY2aRPCGP9sML+K/O2LVeaNGOzIE9nW6lFE0eWunmxSnMCTwthfhfbkDjSVEyyq5jk
- KhSrZPzKa+Af+ffoa/jndXuP9UnaY/e6fYPFZYLEcQ+n4oWG92Gtc8P8GqPfF9+48pnJ3bFnf
- 1eFR80dBu4IYK3/END8K4Cgyf/blhcp9Z1P08RaIA9w4SWVfSHO9W56fPpqNA0yVGsF7G68dR
- /bDkxtA77nJsD/UYLBF0KG2Vjtgytb+IHTAPDoXSQFPxyjUUugQh6fc6z1fj7BLe40kqpNojL
- orMLhoSvXnKgnG+YYnuuA/UDzCG5T9UxKfrOy/yGA7N1W9WatNCKYvQeXiRePYKRiNnA25sAy
- ANAiskaXtIRpSC1pyrZB3wxDBZMYn7vHcbFnrlF5xUEbzrVmBkI0liE7+lBVhtM373WUzHIP1
- oJJPf+EKoz0zTo6ihEw/3SJ1ymvs2o/Q2LBp21YN0Y36mLgpgZP5khpApO8tNqU1BPj6ehuLS
- W2h7NghmF3XckUe8Ril7YPaVC55SerY8pmUh06YkldeD4p6QhbVVHAbcx7jDQtnbTJme3u48Z
- bAq9U+xf87NWGJL4CYuyRPexgdxI9+BO+Qh9V4bble6DjmqNvlhcuBinefk+tq4MbCD3xDTXG
- gzEA6db9W91xdYx1GpRQxs2w6/kTHzMX30OLWNk5QLasSGFIImXzKwnPrzhGsgRR5/c4=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,20 +86,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: soham.ghosh@nutanix.com, thuth@redhat.com, prerna.saxena@nutanix.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com,
+ Kshitij Suri <kshitij.suri@nutanix.com>, philippe.mathieu.daude@gmail.com,
+ kraxel@redhat.com, prachatos.mitra@nutanix.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/03/2022 à 09:43, Richard Henderson a écrit :
-> Two new functions: process_sigsuspend_mask and finish_sigsuspend_mask.
-> Move the size check and copy-from-user code.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   linux-user/signal-common.h | 26 +++++++++++++++++++++++++
->   linux-user/signal.c        | 23 ++++++++++++++++++++++
->   linux-user/syscall.c       | 40 ++++++++++++++++----------------------
->   3 files changed, 66 insertions(+), 23 deletions(-)
-> 
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> On Tue, Mar 22, 2022 at 08:18:45AM +0000, Kshitij Suri wrote:
+>> Currently screendump only supports PPM format, which is un-compressed an=
+d not
+>> standard. Added a "format" parameter to qemu monitor screendump capabili=
+tes
+>> to support PNG image capture using libpng. The param was added in QAPI s=
+chema
+>> of screendump present in ui.json along with png_save() function which co=
+nverts
+>> pixman_image to PNG. HMP command equivalent was also modified to support=
+ the
+>> feature.
+>>=20
+>> Example usage:
+>> { "execute": "screendump", "arguments": { "filename": "/tmp/image",
+>> "format":"png" } }
+>>=20
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/718
+>>=20
+>> Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
+>> ---
+>> diff to v1:
+>>   - Removed repeated alpha conversion operation.
+>>   - Modified logic to mirror png conversion in vnc-enc-tight.c file.
+>>   - Added a new CONFIG_PNG parameter for libpng support.
+>>   - Changed input format to enum instead of string.
+>>   - Improved error handling.
+>>  hmp-commands.hx    |  11 ++---
+>>  monitor/hmp-cmds.c |  20 ++++++++-
+>>  qapi/ui.json       |  24 +++++++++--
+>>  ui/console.c       | 101 +++++++++++++++++++++++++++++++++++++++++++--
+>>  4 files changed, 144 insertions(+), 12 deletions(-)
+>>=20
+>> diff --git a/hmp-commands.hx b/hmp-commands.hx
+>> index 8476277aa9..19b7cab595 100644
+>> --- a/hmp-commands.hx
+>> +++ b/hmp-commands.hx
+>> @@ -244,11 +244,12 @@ ERST
+>> =20
+>>      {
+>>          .name       =3D "screendump",
+>> -        .args_type  =3D "filename:F,device:s?,head:i?",
+>> -        .params     =3D "filename [device [head]]",
+>> -        .help       =3D "save screen from head 'head' of display device=
+ 'device' "
+>> -                      "into PPM image 'filename'",
+>> -        .cmd        =3D hmp_screendump,
+>> +        .args_type  =3D "filename:F,format:s?,device:s?,head:i?",
+>> +        .params     =3D "filename [format] [device [head]]",
+>> +        .help       =3D "save screen from head 'head' of display device=
+ 'device'"
+>> +                      "in specified format 'format' as image 'filename'=
+."
+>> +                      "Currently only 'png' and 'ppm' formats are suppo=
+rted.",
+>> +         .cmd        =3D hmp_screendump,
+>>          .coroutine  =3D true,
+>>      },
+>> =20
+>> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+>> index 634968498b..bf3ba76bd3 100644
+>> --- a/monitor/hmp-cmds.c
+>> +++ b/monitor/hmp-cmds.c
+>> @@ -1720,9 +1720,27 @@ hmp_screendump(Monitor *mon, const QDict *qdict)
+>>      const char *filename =3D qdict_get_str(qdict, "filename");
+>>      const char *id =3D qdict_get_try_str(qdict, "device");
+>>      int64_t head =3D qdict_get_try_int(qdict, "head", 0);
+>> +    const char *input_format  =3D qdict_get_try_str(qdict, "format");
+>>      Error *err =3D NULL;
+>> +    ImageFormat format;
+>> =20
+>> -    qmp_screendump(filename, id !=3D NULL, id, id !=3D NULL, head, &err=
+);
+>> +    int val =3D qapi_enum_parse(&ImageFormat_lookup, input_format,
+>> +                              IMAGE_FORMAT_PPM, &err);
+>> +    if (err) {
+>> +        goto end;
+>> +    }
+>> +
+>> +    switch (val) {
+>> +    case IMAGE_FORMAT_PNG:
+>> +        format =3D IMAGE_FORMAT_PNG;
+>> +        break;
+>> +    default:
+>> +        format =3D IMAGE_FORMAT_PPM;
+>> +    }
+>
+> This switch looks pointless - the code is passing the default into
+> qapi_enum_parse already, this doesn't need to handle defaulting
+> again. This just needs
+>
+>         format =3D qapi_enum_parse(&ImageFormat_lookup, input_format,
+>                                  IMAGE_FORMAT_PPM, &err);
+>         if (err) {
+>            goto end;
+>          }
+
+Correct.  See my review of v1 for a detailed explanation.
+
+>
+>> +
+>> +    qmp_screendump(filename, id !=3D NULL, id, id !=3D NULL, head,
+>> +                   input_format !=3D NULL, format, &err);
+>> +end:
+>>      hmp_handle_error(mon, err);
+>>  }
+>> =20
+>
+>> +    for (y =3D 0; y < height; ++y) {
+>> +        qemu_pixman_linebuf_fill(linebuf, image, width, 0, y);
+>> +       png_write_row(png_ptr, buf);
+>> +    }
+>
+> Tiny style bug, indent off-by-1
+>
+>
+> With regards,
+> Daniel
+
 
