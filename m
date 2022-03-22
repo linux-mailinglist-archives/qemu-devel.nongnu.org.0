@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC404E3EBD
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:47:14 +0100 (CET)
-Received: from localhost ([::1]:47524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11FF4E3EB0
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 13:42:54 +0100 (CET)
+Received: from localhost ([::1]:39170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWdur-000589-CN
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:47:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40146)
+	id 1nWdqg-0007uH-23
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 08:42:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nWdbE-0005Ow-L5
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:26:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56264)
+ id 1nWdbG-0005Pt-0i
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:26:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nWdb2-0002do-Tq
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:26:47 -0400
+ id 1nWdb9-0002eU-6J
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:26:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647952003;
+ s=mimecast20190719; t=1647952005;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dDh6JsDuK0kiKhMm5ABwV+LCpJsydFeyo715bL8jMEA=;
- b=T0Y718NmybjFupuBaL8jcTfCrm0Mqlr6cQl9vHeblDEW6k6ydy4aL1Qd8/mjgsCx3RkDXQ
- tI3PTK9cWvbwsz8KuEYLX5ns5Th4hQw9rhnYi17FhuPmco/F/ED8+/2serrPVrX+m+cwJA
- ksDEJPXk3oCQIBOkPpbs9f1b6NpolZE=
+ bh=MMKCXvyK5NC3rpXWziXyJv/uS6tZJ1wbns/7ecsA8/Y=;
+ b=UEBHJ+bEi7p8MF7eaEsvsCi6/TicS+D7iH7Twx3yepSFGjJT6hitIK+wVGJ6H+KFmE1C8r
+ 27PRcdZ6S15meTYN+RC60oU7VOR750SAumVo4iG/T5jMBNOLjCZZcGdTbmvqG+rf52cu84
+ 3XyP3gh/YApX+OpfwzQXpch8vyKNCc8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-7OqTM8xRPf6h2CoE9oiKRQ-1; Tue, 22 Mar 2022 08:26:40 -0400
-X-MC-Unique: 7OqTM8xRPf6h2CoE9oiKRQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-622-WlHybi60P5Gz5J9Pjn_CFg-1; Tue, 22 Mar 2022 08:26:44 -0400
+X-MC-Unique: WlHybi60P5Gz5J9Pjn_CFg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F4F1803B22;
- Tue, 22 Mar 2022 12:26:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02D9185A5BC;
+ Tue, 22 Mar 2022 12:26:44 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8DA8D441983;
- Tue, 22 Mar 2022 12:26:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 496A6401E86;
+ Tue, 22 Mar 2022 12:26:42 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/21] compiler.h: replace QEMU_WARN_UNUSED_RESULT with
- G_GNUC_WARN_UNUSED_RESULT
-Date: Tue, 22 Mar 2022 16:25:46 +0400
-Message-Id: <20220322122601.927238-7-marcandre.lureau@redhat.com>
+Subject: [PULL 07/21] compiler.h: replace QEMU_SENTINEL with
+ G_GNUC_NULL_TERMINATED
+Date: Tue, 22 Mar 2022 16:25:47 +0400
+Message-Id: <20220322122601.927238-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20220322122601.927238-1-marcandre.lureau@redhat.com>
 References: <20220322122601.927238-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -96,119 +96,82 @@ Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/qemu-common.h      |  2 +-
- include/qemu/compiler.h    |  2 --
- include/qemu/range.h       |  4 ++--
- scripts/cocci-macro-file.h |  2 +-
- block/qcow2-refcount.c     | 20 +++++++++++---------
- scripts/checkpatch.pl      |  2 +-
- 6 files changed, 16 insertions(+), 16 deletions(-)
+ include/qemu/compiler.h    | 2 --
+ include/qom/object.h       | 6 +++---
+ scripts/cocci-macro-file.h | 2 +-
+ scripts/checkpatch.pl      | 2 +-
+ 4 files changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index 9c04fa94e89a..19e254dbe53e 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -27,7 +27,7 @@ int qemu_main(int argc, char **argv, char **envp);
- #endif
- 
- ssize_t qemu_write_full(int fd, const void *buf, size_t count)
--    QEMU_WARN_UNUSED_RESULT;
-+    G_GNUC_WARN_UNUSED_RESULT;
- 
- #ifndef _WIN32
- int qemu_pipe(int pipefd[2]);
 diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index f2bd050e3b9a..8385e477c18e 100644
+index 8385e477c18e..0a5e67fb970e 100644
 --- a/include/qemu/compiler.h
 +++ b/include/qemu/compiler.h
 @@ -19,8 +19,6 @@
  
  #define QEMU_NORETURN __attribute__ ((__noreturn__))
  
--#define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
+-#define QEMU_SENTINEL __attribute__((sentinel))
 -
- #define QEMU_SENTINEL __attribute__((sentinel))
- 
  #if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
-diff --git a/include/qemu/range.h b/include/qemu/range.h
-index f62b363e0d12..7e2b1cc447af 100644
---- a/include/qemu/range.h
-+++ b/include/qemu/range.h
-@@ -114,8 +114,8 @@ static inline uint64_t range_upb(Range *range)
-  * @size may be 0. If the range would overflow, returns -ERANGE, otherwise
-  * 0.
+ # define QEMU_PACKED __attribute__((gcc_struct, packed))
+ #else
+diff --git a/include/qom/object.h b/include/qom/object.h
+index fae096f51cce..5f3d5b5bf532 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -616,7 +616,7 @@ Object *object_new_with_props(const char *typename,
+                               Object *parent,
+                               const char *id,
+                               Error **errp,
+-                              ...) QEMU_SENTINEL;
++                              ...) G_GNUC_NULL_TERMINATED;
+ 
+ /**
+  * object_new_with_propv:
+@@ -676,7 +676,7 @@ void object_apply_compat_props(Object *obj);
+  *
+  * Returns: %true on success, %false on error.
   */
--static inline int QEMU_WARN_UNUSED_RESULT range_init(Range *range, uint64_t lob,
--                                                     uint64_t size)
-+G_GNUC_WARN_UNUSED_RESULT
-+static inline int range_init(Range *range, uint64_t lob, uint64_t size)
- {
-     if (lob + size < lob) {
-         return -ERANGE;
+-bool object_set_props(Object *obj, Error **errp, ...) QEMU_SENTINEL;
++bool object_set_props(Object *obj, Error **errp, ...) G_GNUC_NULL_TERMINATED;
+ 
+ /**
+  * object_set_propv:
+@@ -728,7 +728,7 @@ void object_initialize(void *obj, size_t size, const char *typename);
+ bool object_initialize_child_with_props(Object *parentobj,
+                              const char *propname,
+                              void *childobj, size_t size, const char *type,
+-                             Error **errp, ...) QEMU_SENTINEL;
++                             Error **errp, ...) G_GNUC_NULL_TERMINATED;
+ 
+ /**
+  * object_initialize_child_with_propsv:
 diff --git a/scripts/cocci-macro-file.h b/scripts/cocci-macro-file.h
-index c2fcea8e77a2..9daec24d7825 100644
+index 9daec24d7825..3d1e9b50919a 100644
 --- a/scripts/cocci-macro-file.h
 +++ b/scripts/cocci-macro-file.h
-@@ -20,7 +20,7 @@
- 
+@@ -21,7 +21,7 @@
  /* From qemu/compiler.h */
  #define QEMU_NORETURN __attribute__ ((__noreturn__))
--#define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
-+#define G_GNUC_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
- #define QEMU_SENTINEL __attribute__((sentinel))
+ #define G_GNUC_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
+-#define QEMU_SENTINEL __attribute__((sentinel))
++#define G_GNUC_NULL_TERMINATED __attribute__((sentinel))
  
  #if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index 94033972bedc..b91499410c0c 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -33,9 +33,11 @@
- 
- static int64_t alloc_clusters_noref(BlockDriverState *bs, uint64_t size,
-                                     uint64_t max);
--static int QEMU_WARN_UNUSED_RESULT update_refcount(BlockDriverState *bs,
--                            int64_t offset, int64_t length, uint64_t addend,
--                            bool decrease, enum qcow2_discard_type type);
-+
-+G_GNUC_WARN_UNUSED_RESULT
-+static int update_refcount(BlockDriverState *bs,
-+                           int64_t offset, int64_t length, uint64_t addend,
-+                           bool decrease, enum qcow2_discard_type type);
- 
- static uint64_t get_refcount_ro0(const void *refcount_array, uint64_t index);
- static uint64_t get_refcount_ro1(const void *refcount_array, uint64_t index);
-@@ -803,12 +805,12 @@ found:
- /* XXX: cache several refcount block clusters ? */
- /* @addend is the absolute value of the addend; if @decrease is set, @addend
-  * will be subtracted from the current refcount, otherwise it will be added */
--static int QEMU_WARN_UNUSED_RESULT update_refcount(BlockDriverState *bs,
--                                                   int64_t offset,
--                                                   int64_t length,
--                                                   uint64_t addend,
--                                                   bool decrease,
--                                                   enum qcow2_discard_type type)
-+static int update_refcount(BlockDriverState *bs,
-+                           int64_t offset,
-+                           int64_t length,
-+                           uint64_t addend,
-+                           bool decrease,
-+                           enum qcow2_discard_type type)
- {
-     BDRVQcow2State *s = bs->opaque;
-     int64_t start, last, cluster_offset;
+ # define QEMU_PACKED __attribute__((gcc_struct, packed))
 diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index a07f0effb540..797738a8e839 100755
+index 797738a8e839..ddc6003de280 100755
 --- a/scripts/checkpatch.pl
 +++ b/scripts/checkpatch.pl
-@@ -224,7 +224,7 @@ our $Attribute	= qr{
- 			const|
+@@ -225,7 +225,7 @@ our $Attribute	= qr{
  			volatile|
  			QEMU_NORETURN|
--			QEMU_WARN_UNUSED_RESULT|
-+			G_GNUC_WARN_UNUSED_RESULT|
- 			QEMU_SENTINEL|
+ 			G_GNUC_WARN_UNUSED_RESULT|
+-			QEMU_SENTINEL|
++			G_GNUC_NULL_TERMINATED|
  			QEMU_PACKED|
  			G_GNUC_PRINTF
+ 		  }x;
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
