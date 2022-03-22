@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DBA4E353F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 01:08:08 +0100 (CET)
-Received: from localhost ([::1]:44136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB2C4E3549
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 01:14:43 +0100 (CET)
+Received: from localhost ([::1]:58408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWS4F-0002It-81
-	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 20:08:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41618)
+	id 1nWSAc-0003WM-Rf
+	for lists+qemu-devel@lfdr.de; Mon, 21 Mar 2022 20:14:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nWS1L-0007pW-0i; Mon, 21 Mar 2022 20:05:07 -0400
-Received: from [2607:f8b0:4864:20::730] (port=45725
- helo=mail-qk1-x730.google.com)
+ id 1nWS1M-0007pq-Bw; Mon, 21 Mar 2022 20:05:11 -0400
+Received: from [2607:f8b0:4864:20::734] (port=42778
+ helo=mail-qk1-x734.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nWS1C-0007HS-E7; Mon, 21 Mar 2022 20:05:03 -0400
-Received: by mail-qk1-x730.google.com with SMTP id h196so12887185qke.12;
+ id 1nWS1F-0007Hc-26; Mon, 21 Mar 2022 20:05:04 -0400
+Received: by mail-qk1-x734.google.com with SMTP id 85so12905109qkm.9;
  Mon, 21 Mar 2022 17:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cL3i9Bbw69pWqGNe1Y+Ghn4Ri9Z4untEXU+PI9NOki4=;
- b=SsXEfiIS9KR7DF+51ih0ZGNLVMZZ45AKeuikaOvlKNl6HcjdoLjYWawYgjoAs4ooTw
- OQ9hnZJp658KLBwtYT2e4cfmAq994ReDbrHhmjFofr67wMpDBF8f+HOOEP4IHXHNALbV
- 9YOPw/j6jG8LRXYImaIgkPvnKkI8SP0HUh0YxNf/c8OXr+ymLU5EoIDIyta4v8TygDaY
- OpKcN5aTgPvpUU6hkS31FrQWat5sOpRV6UwnD+VwVptrlHxAVuyDSp7e3Tpcejjnamyd
- 1JqSY3Ggl4cQNUBvXEqw16ULnrc0LUC9sExa47spZQsydVsyMRJwv8rGJnpL2A+3CyOg
- hNDA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YI3G43DEooYXj0cStPID1IbX8K+nJHWH4oT4vvHDMRc=;
+ b=FD7cPOjDqAFbKRpJOvC8ZbBQ5w+iIPWr47HK+1MZabiYOvjDU4ad8yjTOgDO8CzevT
+ DAawlE1DehW2G9JePssB+CL6+Ny+VAwsBrz/BjcbYz+y84GXlrcnbdSC5d/2NxbdnI+b
+ ypr4/1JLPF5+3fChITXrL3Ag/RH0+1f9r36abS4GCO7A2TE+vWk9eITPnHj+1TwzC2Qy
+ nu8xRR+I6jiRvkQ/SD/VHZAQxvCWVJN8Ev/mb2oOJw7J1kD9c8eXs8nJctvVEJ7Vxr4I
+ CTzVqm4Oqxu0TuJSbSC5bezYHYNnYTbr5seymHEFDOKWLFEiI2ZRPDrehMA7HljOWkxV
+ Y70Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cL3i9Bbw69pWqGNe1Y+Ghn4Ri9Z4untEXU+PI9NOki4=;
- b=NvB5dQ1fALfb8Sm9IFkMy1b39ZhLqdqbGyZYFnXDbCu11sHFY8MseIHiEvAqGHpHup
- VTZ3AWJouz8vBaULJT1PtUZeYRux4gvjefZKLvrPQPby6bKjqZwjtiiYSvZYp2rjyC2y
- N86ZfEo68a/RH0MNIz7Lws4hdi+IuHu1ZXbPqNDFSGTtPRIeo3A3WocW5ZrON93sNjuN
- 0Wu/qBLo37aJUCj3BrkENhnuWSsNrAlGN/zzbGdHpghhxM3RI3zS9+FKKpEtJdRimGS/
- fU2bxS5Ow4CZHYkqIxuqYZzZ8PWEtNd7rPE41oojP5EgznoH7DVwSZJhqd+Fz6VzB0jK
- lZ/Q==
-X-Gm-Message-State: AOAM533HdbFC2gnl1lA0/VNy2tz9Y7vLsCsqFPXqg+XoVc3hf3MdmTUK
- m3XSidQEzCQ6mrsoIxr+uGdR3Bg2AsV5xA==
-X-Google-Smtp-Source: ABdhPJxK6rpLK9/jFBG9Fc5fATX1ybK0zFfn9r8nFW4AdCNyy1s8Bh+Eho1JSZ/Q3xt4REFxFkiQ7A==
-X-Received: by 2002:a05:620a:45a1:b0:67d:af98:10d5 with SMTP id
- bp33-20020a05620a45a100b0067daf9810d5mr14248559qkb.1.1647907494281; 
- Mon, 21 Mar 2022 17:04:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YI3G43DEooYXj0cStPID1IbX8K+nJHWH4oT4vvHDMRc=;
+ b=xBOpfjfGNv4Erbj3heGNsvPZIKQwoYd8is4Lc231MkMad1ThXXKd0NjOelf6yJ5Hi5
+ 1YcqT524tdKwZ6d16QEckfAk7IrbjzLM5hIddgypzN5aK7UTt96M9308+0x7E5IRYLeg
+ JULoMk8tdyNXq2sxzrr/sW6JAzHn64RwFX2nClGe453HseWi/hLGRbfEsq2ltjuzRBDn
+ IImLcLf0uRcvYhwI4w8KoRFC56/8ytaFPPk6RRebEm2mn8jKtoCTHzdvIB379d5AL4X+
+ 49UKVk/UfwZDKOPRTZQlkWIz3tk+wg6uEq04i0HWV5TgIU2U5HyYCwn2vcMvduj2eUaQ
+ o6iA==
+X-Gm-Message-State: AOAM5326t0vWyEQ6sdf0q3H7/x8NO6vBoXybl6LD2s0Xo1fm4uGoIQU+
+ dvKD7addlMBQbnPspSgJ6lwP8AQ2h8gRUw==
+X-Google-Smtp-Source: ABdhPJyMDe8pVl2LtmjcWBeDvz5k7GhthO9+kMqPk+fR6DMIUo/aXRAOSlBYTaTEwzR1U80sDkhAUg==
+X-Received: by 2002:a37:a556:0:b0:67e:b484:135d with SMTP id
+ o83-20020a37a556000000b0067eb484135dmr2146952qke.576.1647907495175; 
+ Mon, 21 Mar 2022 17:04:55 -0700 (PDT)
 Received: from localhost.localdomain (mont-dyn-146-104.pwrtc.com.
  [205.174.146.104]) by smtp.gmail.com with ESMTPSA id
- a129-20020a376687000000b0067d186d953bsm8214038qkc.121.2022.03.21.17.04.53
+ a129-20020a376687000000b0067d186d953bsm8214038qkc.121.2022.03.21.17.04.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Mar 2022 17:04:53 -0700 (PDT)
+ Mon, 21 Mar 2022 17:04:54 -0700 (PDT)
 From: David Miller <dmiller423@gmail.com>
 To: qemu-s390x@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v4 00/11] s390x/tcg: Implement Vector-Enhancements Facility 2
-Date: Mon, 21 Mar 2022 20:04:30 -0400
-Message-Id: <20220322000441.26495-1-dmiller423@gmail.com>
+Subject: [PATCH v4 01/11] tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+Date: Mon, 21 Mar 2022 20:04:31 -0400
+Message-Id: <20220322000441.26495-2-dmiller423@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220322000441.26495-1-dmiller423@gmail.com>
+References: <20220322000441.26495-1-dmiller423@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::730
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::734
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=dmiller423@gmail.com; helo=mail-qk1-x730.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
+ envelope-from=dmiller423@gmail.com; helo=mail-qk1-x734.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -92,70 +94,105 @@ Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement Vector-Enhancements Facility 2 for s390x
+From: Richard Henderson <richard.henderson@linaro.org>
 
-resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
+Swap half-words (16-bit) and words (32-bit) within a larger value.
+Mirrors functions of the same names within include/qemu/bitops.h.
 
-implements:
-    VECTOR LOAD ELEMENTS REVERSED               (VLER)
-    VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
-    VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
-    VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
-    VECTOR LOAD BYTE REVERSED ELEMENT AND REPLICATE (VLBRREP)
-    VECTOR STORE ELEMENTS REVERSED              (VSTER)
-    VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
-    VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
-    VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
-    VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
-    VECTOR STRING SEARCH                        (VSTRS)
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: David Miller <dmiller423@gmail.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+---
+ include/tcg/tcg-op.h |  6 ++++++
+ tcg/tcg-op.c         | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
 
-    modifies:
-    VECTOR FP CONVERT FROM FIXED                (VCFPS)
-    VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
-    VECTOR FP CONVERT TO FIXED                  (VCSFP)
-    VECTOR FP CONVERT TO LOGICAL                (VCLFP)
-    VECTOR SHIFT LEFT                           (VSL)
-    VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
-    VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
-
-
-David Miller (9):
-  tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
-  target/s390x: vxeh2: vector convert short/32b
-  target/s390x: vxeh2: vector string search
-  target/s390x: vxeh2: Update for changes to vector shifts
-  target/s390x: vxeh2: vector shift double by bit
-  target/s390x: vxeh2: vector {load, store} elements reversed
-  target/s390x: vxeh2: vector {load, store} byte reversed elements
-  target/s390x: vxeh2: vector {load, store} byte reversed element
-  target/s390x: add S390_FEAT_VECTOR_ENH2 to qemu CPU model
-  tests/tcg/s390x: Tests for Vector Enhancements Facility 2
-  target/s390x: Fix writeback to v1 in helper_vstl
-
-Richard Henderson (2):
-  tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
-  target/s390x: Fix writeback to v1 in helper_vstl
-
- include/tcg/tcg-op.h                 |   6 +
- target/s390x/gen-features.c          |   2 +
- target/s390x/helper.h                |  13 +
- target/s390x/tcg/insn-data.def       |  40 ++-
- target/s390x/tcg/translate.c         |   3 +-
- target/s390x/tcg/translate_vx.c.inc  | 463 ++++++++++++++++++++++++---
- target/s390x/tcg/vec_fpu_helper.c    |  31 ++
- target/s390x/tcg/vec_helper.c        |   2 -
- target/s390x/tcg/vec_int_helper.c    |  55 ++++
- target/s390x/tcg/vec_string_helper.c |  99 ++++++
- tcg/tcg-op.c                         |  30 ++
- tests/tcg/s390x/Makefile.target      |   8 +
- tests/tcg/s390x/vxeh2_vcvt.c         |  97 ++++++
- tests/tcg/s390x/vxeh2_vlstr.c        | 146 +++++++++
- tests/tcg/s390x/vxeh2_vs.c           |  91 ++++++
- 15 files changed, 1031 insertions(+), 55 deletions(-)
- create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c
- create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c
- create mode 100644 tests/tcg/s390x/vxeh2_vs.c
-
+diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
+index caa0a63612..b09b8b4a05 100644
+--- a/include/tcg/tcg-op.h
++++ b/include/tcg/tcg-op.h
+@@ -332,6 +332,7 @@ void tcg_gen_ext8u_i32(TCGv_i32 ret, TCGv_i32 arg);
+ void tcg_gen_ext16u_i32(TCGv_i32 ret, TCGv_i32 arg);
+ void tcg_gen_bswap16_i32(TCGv_i32 ret, TCGv_i32 arg, int flags);
+ void tcg_gen_bswap32_i32(TCGv_i32 ret, TCGv_i32 arg);
++void tcg_gen_hswap_i32(TCGv_i32 ret, TCGv_i32 arg);
+ void tcg_gen_smin_i32(TCGv_i32, TCGv_i32 arg1, TCGv_i32 arg2);
+ void tcg_gen_smax_i32(TCGv_i32, TCGv_i32 arg1, TCGv_i32 arg2);
+ void tcg_gen_umin_i32(TCGv_i32, TCGv_i32 arg1, TCGv_i32 arg2);
+@@ -531,6 +532,8 @@ void tcg_gen_ext32u_i64(TCGv_i64 ret, TCGv_i64 arg);
+ void tcg_gen_bswap16_i64(TCGv_i64 ret, TCGv_i64 arg, int flags);
+ void tcg_gen_bswap32_i64(TCGv_i64 ret, TCGv_i64 arg, int flags);
+ void tcg_gen_bswap64_i64(TCGv_i64 ret, TCGv_i64 arg);
++void tcg_gen_hswap_i64(TCGv_i64 ret, TCGv_i64 arg);
++void tcg_gen_wswap_i64(TCGv_i64 ret, TCGv_i64 arg);
+ void tcg_gen_smin_i64(TCGv_i64, TCGv_i64 arg1, TCGv_i64 arg2);
+ void tcg_gen_smax_i64(TCGv_i64, TCGv_i64 arg1, TCGv_i64 arg2);
+ void tcg_gen_umin_i64(TCGv_i64, TCGv_i64 arg1, TCGv_i64 arg2);
+@@ -1077,6 +1080,8 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr base, TCGArg offset, TCGType t);
+ #define tcg_gen_bswap32_tl tcg_gen_bswap32_i64
+ #define tcg_gen_bswap64_tl tcg_gen_bswap64_i64
+ #define tcg_gen_bswap_tl tcg_gen_bswap64_i64
++#define tcg_gen_hswap_tl tcg_gen_hswap_i64
++#define tcg_gen_wswap_tl tcg_gen_wswap_i64
+ #define tcg_gen_concat_tl_i64 tcg_gen_concat32_i64
+ #define tcg_gen_extr_i64_tl tcg_gen_extr32_i64
+ #define tcg_gen_andc_tl tcg_gen_andc_i64
+@@ -1192,6 +1197,7 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr base, TCGArg offset, TCGType t);
+ #define tcg_gen_bswap16_tl tcg_gen_bswap16_i32
+ #define tcg_gen_bswap32_tl(D, S, F) tcg_gen_bswap32_i32(D, S)
+ #define tcg_gen_bswap_tl tcg_gen_bswap32_i32
++#define tcg_gen_hswap_tl tcg_gen_hswap_i32
+ #define tcg_gen_concat_tl_i64 tcg_gen_concat_i32_i64
+ #define tcg_gen_extr_i64_tl tcg_gen_extr_i64_i32
+ #define tcg_gen_andc_tl tcg_gen_andc_i32
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index 65e1c94c2d..ae336ff6c2 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -1056,6 +1056,12 @@ void tcg_gen_bswap32_i32(TCGv_i32 ret, TCGv_i32 arg)
+     }
+ }
+ 
++void tcg_gen_hswap_i32(TCGv_i32 ret, TCGv_i32 arg)
++{
++    /* Swapping 2 16-bit elements is a rotate. */
++    tcg_gen_rotli_i32(ret, arg, 16);
++}
++
+ void tcg_gen_smin_i32(TCGv_i32 ret, TCGv_i32 a, TCGv_i32 b)
+ {
+     tcg_gen_movcond_i32(TCG_COND_LT, ret, a, b, a, b);
+@@ -1792,6 +1798,30 @@ void tcg_gen_bswap64_i64(TCGv_i64 ret, TCGv_i64 arg)
+     }
+ }
+ 
++void tcg_gen_hswap_i64(TCGv_i64 ret, TCGv_i64 arg)
++{
++    uint64_t m = 0x0000ffff0000ffffull;
++    TCGv_i64 t0 = tcg_temp_new_i64();
++    TCGv_i64 t1 = tcg_temp_new_i64();
++
++    /* See include/qemu/bitops.h, hswap64. */
++    tcg_gen_rotli_i64(t1, arg, 32);
++    tcg_gen_andi_i64(t0, t1, m);
++    tcg_gen_shli_i64(t0, t0, 16);
++    tcg_gen_shri_i64(t1, t1, 16);
++    tcg_gen_andi_i64(t1, t1, m);
++    tcg_gen_or_i64(ret, t0, t1);
++
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
++}
++
++void tcg_gen_wswap_i64(TCGv_i64 ret, TCGv_i64 arg)
++{
++    /* Swapping 2 32-bit elements is a rotate. */
++    tcg_gen_rotli_i64(ret, arg, 32);
++}
++
+ void tcg_gen_not_i64(TCGv_i64 ret, TCGv_i64 arg)
+ {
+     if (TCG_TARGET_REG_BITS == 32) {
 -- 
 2.34.1
 
