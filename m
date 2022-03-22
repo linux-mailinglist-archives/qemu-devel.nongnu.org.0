@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78CDB4E3BF8
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 10:54:08 +0100 (CET)
-Received: from localhost ([::1]:36854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26CB4E3BF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 10:52:51 +0100 (CET)
+Received: from localhost ([::1]:33124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWbDL-0007tJ-IE
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 05:54:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51608)
+	id 1nWbC6-0005NX-TI
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 05:52:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nWb9a-0002VO-He
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:50:14 -0400
-Received: from [2607:f8b0:4864:20::62c] (port=41920
- helo=mail-pl1-x62c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nWb9Y-0002XI-SF
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:50:14 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id j13so5091858plj.8
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 02:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ttsoqqFhh3RaR52rpWp9JF6UkfTiR8IMJgoSzFIdVqE=;
- b=NVDqkKb5q/UZoFxgN2i9qxareq8GfCvZxfcaZnyVtRNmF4LEx0UsZHFNEwSZ345s1D
- +uqKWszhUQ4jXZ5nlZBVsHTMbmDUiAGwZttMentgLSwQweOX+OQXSy19CmNieu7qx/uU
- ZvG0Fvc+5EIVWZsDhf5vI7aYi3SFXFQ59jS0O3R/Zv65XUt7Uagi6ebekfrUpAics40D
- EBTWkl4L6LxcqQnIdp5HRRmb3UyKtoXvucSS0QOQUg3zOj5lA/D0dzJq4Uu1Bk1xsfoS
- aivuh+7RY9MDJk/8LE9N7bz0UOf6bt7HpI5wGNU+7ifPOvmzM/iEc2JZFMscV2lxICXP
- rh0g==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWbA9-00034x-Au
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:50:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21888)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWbA6-0002kr-TY
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:50:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647942646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7VSV14mJ8XqlEKX53w5CnZV5Mu43YvqF896c5D31SBo=;
+ b=Zx0TeYmJGqkthulatQRa2/bNwaK4qHV4I3+qAJ5mCXnebsMcsH6FoT6ZC3Nr8rDhFB56eO
+ VXX30jPJUNLsAUTS2zM/uvoSRnX8ZiL2hsk325BniDAQsJUAM3LijKIrcWUqTLBONyz73O
+ hfpPzmmOZF4d3MHIaLDaYya1NroYClc=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-659-hESD5PcFNPWjYkmx3opAWw-1; Tue, 22 Mar 2022 05:50:45 -0400
+X-MC-Unique: hESD5PcFNPWjYkmx3opAWw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ d28-20020a50f69c000000b00419125c67f4so6000472edn.17
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 02:50:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ttsoqqFhh3RaR52rpWp9JF6UkfTiR8IMJgoSzFIdVqE=;
- b=kOjl3Vwm0cX2GezAp4wDvYmBHIxvMOIWuZvCZT+8gI6vipldTIuLeUE8EmNh0IsP7n
- sjolIlxBKOfDbju1QPY6fNyv0GBOyEvt7LlZ6Rb7/mOrEldOWi9kwVlRRBCsr7b2dK4y
- u/aEscJ4NkjfZN0Qs13gAAboMPjmFqy9iqayhMn++FHhhTX5/Jg9zcyzGs9pCFtYJo+p
- d0SokTNpMnOB81V5ZuhX6Iyr0Gr8lTED/4zI7/5y8OxhdweGtuq9OWGTzCphvgIfZdgU
- v4w+j8zJVT3Xl0WvilKEVKgyYpYEJo45Qlk18aOKbk++vLVnuDrGOfNCWSC5vNS7WPXS
- R4zg==
-X-Gm-Message-State: AOAM531CCo6dnPwfxgd3/ry6vwcjXJJVy9qq9lk7SpIQUerKyf3cyVo2
- 9HwwiE1R3izlFGu9Toy1SFA=
-X-Google-Smtp-Source: ABdhPJxPX2UYz3a6b862btAmnLDZA3AILsTk1hiCvMWcMjPgF7k2VEDSgJvNdfvdk6ko4HCWDJrgMA==
-X-Received: by 2002:a17:902:9a0a:b0:14a:199:bc5c with SMTP id
- v10-20020a1709029a0a00b0014a0199bc5cmr16937761plp.10.1647942609417; 
- Tue, 22 Mar 2022 02:50:09 -0700 (PDT)
-Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
- [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
- 68-20020a621647000000b004fa763ef1easm13518016pfw.125.2022.03.22.02.50.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 02:50:09 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Michael Rolnik <mrolnik@gmail.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH] target/avr: Drop avr_cpu_memory_rw_debug()
-Date: Tue, 22 Mar 2022 17:50:04 +0800
-Message-Id: <20220322095004.70682-1-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ bh=7VSV14mJ8XqlEKX53w5CnZV5Mu43YvqF896c5D31SBo=;
+ b=0o8Rr0aM1RTcVtWQfvrBLvVvUCr1rqKerqr/YwddN91QlyJ6mNEgSOduIVQe3gYsHe
+ 1V8WcsigLQt7yEcHN/5n6LMqBQx15MkurlJMaeIh/x4CtKySJ6Xc66MTuK4wAVkb0m1L
+ Hcl38cYx3ZI27Lw6SgQJReyERC2Vw7Nwp84blqA+xjVGIE/vN1LQl0Rf036BNrENMc7o
+ HhOAoTiR7Q7vdo2xx8ZmGrSkBroE2jJOlxavo0M4tGC+jwCKO31wwt7cOJDV0iiswUfh
+ v4s1uze1avPkbcJ7+LowY3rvypBL5IRaXu7RF/uGpKHkrROoYdu1xR+4BINamUlppuGq
+ zASg==
+X-Gm-Message-State: AOAM532p6b3luXl1VCySG3W4up4LDZdzytuUlIzv2vQ1ksP93J7HWs9p
+ odHpav4kCiuhRbX1esukcqpMTqtt2flRDhZD5LdwB68HT/ubypcfDrAl74AsENikv4ydtXPKC31
+ EzogV/hAahWXc7oo=
+X-Received: by 2002:a50:f19a:0:b0:418:f94c:fc24 with SMTP id
+ x26-20020a50f19a000000b00418f94cfc24mr25701467edl.34.1647942644214; 
+ Tue, 22 Mar 2022 02:50:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyu2NvzIBOv4mHJzXxLoZTREwlPZSaSyPf2lYkhGTKHZCSYHuOlI060eSpxD3C1yDikPg+9pw==
+X-Received: by 2002:a50:f19a:0:b0:418:f94c:fc24 with SMTP id
+ x26-20020a50f19a000000b00418f94cfc24mr25701446edl.34.1647942644025; 
+ Tue, 22 Mar 2022 02:50:44 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ f1-20020a056402194100b00416b174987asm9489551edz.35.2022.03.22.02.50.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Mar 2022 02:50:43 -0700 (PDT)
+Message-ID: <c3ea89af-850f-7b37-2bac-26efa1776200@redhat.com>
+Date: Tue, 22 Mar 2022 10:50:43 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/2] iotests/207: Filter host fingerprint
+To: qemu-block@nongnu.org
+References: <20220318125304.66131-1-hreitz@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220318125304.66131-1-hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,64 +102,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CPUClass::memory_rw_debug() holds a callback for GDB memory access.
-If not provided, cpu_memory_rw_debug() is used by the GDB stub.
-Drop avr_cpu_memory_rw_debug() which does nothing special.
+On 18.03.22 13:53, Hanna Reitz wrote:
+> Hi,
+>
+> Commit e3296cc796aeaf (“block: print the server key type and fingerprint
+> on failure”) improved the verbosity of our ssh block driver's error
+> messages for fingerprint mismatches.  However, iotest 207, which tests
+> such errors, has not been adjusted accordingly.
+>
+> Since the fingerprint will differ between hosts, we need to filter it
+> (and can’t just statically adjust the reference output).  The problem is
+> that the error condition is printed by iotest.py’s VM.run_job(), so we
+> need to pass the filter to that function.  Right now, VM.run_job()
+> doesn’t support any filters, though, so patch 1 adds a filter parameter
+> and makes VM.run_job() use it.
+>
+> Patch 2 then has the fix for iotest 207.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
----
+Thanks for the review, applied to my block branch.
 
- target/avr/cpu.h    | 2 --
- target/avr/cpu.c    | 1 -
- target/avr/helper.c | 6 ------
- 3 files changed, 9 deletions(-)
-
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index 55497f851d..44c2b08bd7 100644
---- a/target/avr/cpu.h
-+++ b/target/avr/cpu.h
-@@ -184,8 +184,6 @@ void avr_cpu_tcg_init(void);
- 
- void avr_cpu_list(void);
- int cpu_avr_exec(CPUState *cpu);
--int avr_cpu_memory_rw_debug(CPUState *cs, vaddr address, uint8_t *buf,
--                            int len, bool is_write);
- 
- enum {
-     TB_FLAGS_FULL_ACCESS = 1,
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 5d70e34dd5..05b992ff73 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -214,7 +214,6 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->has_work = avr_cpu_has_work;
-     cc->dump_state = avr_cpu_dump_state;
-     cc->set_pc = avr_cpu_set_pc;
--    cc->memory_rw_debug = avr_cpu_memory_rw_debug;
-     dc->vmsd = &vms_avr_cpu;
-     cc->sysemu_ops = &avr_sysemu_ops;
-     cc->disas_set_info = avr_cpu_disas_set_info;
-diff --git a/target/avr/helper.c b/target/avr/helper.c
-index c27f702901..db76452f9a 100644
---- a/target/avr/helper.c
-+++ b/target/avr/helper.c
-@@ -93,12 +93,6 @@ void avr_cpu_do_interrupt(CPUState *cs)
-     cs->exception_index = -1;
- }
- 
--int avr_cpu_memory_rw_debug(CPUState *cs, vaddr addr, uint8_t *buf,
--                            int len, bool is_write)
--{
--    return cpu_memory_rw_debug(cs, addr, buf, len, is_write);
--}
--
- hwaddr avr_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
- {
-     return addr; /* I assume 1:1 address correspondence */
--- 
-2.25.1
+Hanna
 
 
