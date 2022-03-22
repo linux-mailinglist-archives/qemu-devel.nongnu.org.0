@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E954E3FF0
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 14:58:27 +0100 (CET)
-Received: from localhost ([::1]:59096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BAB64E3FEF
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 14:58:19 +0100 (CET)
+Received: from localhost ([::1]:58710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWf1m-0006sO-Dq
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 09:58:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38190)
+	id 1nWf1e-0006ZV-28
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 09:58:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nWf05-0005Nq-Qh
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 09:56:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46736)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nWf00-0005Hx-Qk
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 09:56:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nWf04-0000OC-A5
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 09:56:41 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nWezz-0000NY-54
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 09:56:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647957399;
+ s=mimecast20190719; t=1647957394;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jU3sZZRNuS/wjkqMvhgaYbUSqnhkPbWny02pJowxsxo=;
- b=GTVaSLowwhbG207D8ypU/FekSRYpL/bF0TXW8eHnMfYHmjxMh3E5Gt2rd0hOramjjyNX4V
- 9121xMmQmAi7buks2LJuBlBT0Q67WmkyD4SCc8C9Vllk92JnF5FHd+TOLpvt0io3nNBaur
- Jpw7YwTPj0RyMzx8ZjDuqmeFIkPD/EA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rEnlirW372nmB3J3wABai4eGIbIUqFnFLm6F038KosI=;
+ b=JF8puVqyAhpSxztKthS7URRr/ng+0hMMbC0fZSUbQpoSKtUgeYMBvgVjGr3r5Jj9Lv75Fh
+ 9jidozhQ+vbMSTxaXljmMNTctQ+HNeVIbqCIT94ObpFMECa5wFWVxuB5gMYdCwkMYS9xFo
+ AfKcAoGOQtBNVvnBFl7deNfGPE2NSwc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-78-Cm4nF0dAN12_HGvzFxDyjQ-1; Tue, 22 Mar 2022 09:56:34 -0400
-X-MC-Unique: Cm4nF0dAN12_HGvzFxDyjQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v2-20020a05600c214200b0038c7c02deceso957867wml.8
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 06:56:34 -0700 (PDT)
+ us-mta-308-UGWk1iy8Oj6WtP8AN3eazQ-1; Tue, 22 Mar 2022 09:56:33 -0400
+X-MC-Unique: UGWk1iy8Oj6WtP8AN3eazQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ q25-20020a50aa99000000b004192a64d410so4351415edc.16
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 06:56:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=jU3sZZRNuS/wjkqMvhgaYbUSqnhkPbWny02pJowxsxo=;
- b=vD5Y7OBI6GydSddShBsDGt/YS9TNuzBfQ9ViacMU5DSfPZgnDvYGocBRBblUSwfMoo
- 8DYUsbCwlb+viwFf6FKrXNKF3xx17JvErCx9sDYYfNJPElsm/To48x0BNjVBWtmuXoX9
- ZeQy1QkOPi1Prnn5GAAHPmavtZxPYWRGWJnbgeTnY2neqAAJrE+AjyhCU3S4LKTqOIcB
- LyS6SdUqxWC4N31i9KbsGuo+9j34H7HD8Cj5ukdEQlzAGllFLhvc2wSywuwSIAlBaOI6
- Fs0xDpCnkLnP4eO95PUYxvwrpaAN0YiYUTweIqDXXIFFvOnMsIZd7xviAkknYX/Hgla8
- wyyg==
-X-Gm-Message-State: AOAM532FE1kLJ9bt7q6OxZ4X/eqcuoUtk6RrMqHly2XiVQcKrcpnrtOk
- aob0pItAzjzOupdUc3ybWrno9SUEbWGQy2dirFt9lDoSyoUWnJ/zQWzhRdhMSGropg5kGBXV3qh
- 2FeOSGeyDN+dTDSU=
-X-Received: by 2002:adf:e58a:0:b0:203:f3c8:4cfe with SMTP id
- l10-20020adfe58a000000b00203f3c84cfemr17796432wrm.475.1647957393469; 
- Tue, 22 Mar 2022 06:56:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4S1paSuCTeILDTipSKzHk6iY3+KHQ6y5LdfdvOmFRL+9b2oo2tYbM36b7EPKUtO29aQIGQw==
-X-Received: by 2002:adf:e58a:0:b0:203:f3c8:4cfe with SMTP id
- l10-20020adfe58a000000b00203f3c84cfemr17796405wrm.475.1647957393177; 
- Tue, 22 Mar 2022 06:56:33 -0700 (PDT)
-Received: from redhat.com ([2.55.132.0]) by smtp.gmail.com with ESMTPSA id
- l20-20020a05600c1d1400b0038cba2f88c0sm1582601wms.26.2022.03.22.06.56.30
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=rEnlirW372nmB3J3wABai4eGIbIUqFnFLm6F038KosI=;
+ b=4o60RpO/L9WTa0OixfKMS6qy1yLQmpTYTza2bvfo+9wI19ips/k8ZYg7A+EYzP9JIc
+ 54ZEA5PSqdmL3PL9eFG3FYvJMz2RiwOArmWXdBTkjCyc+me9f5RFZXPaDYcofd8Kusgv
+ S1fcJ5YBsPc8dK9Li+zaOE86zyTdBPAgdplb3NGS8IMRIWcsr3laQdMXVWiNLkOgf355
+ ErvlM96LHp9Q1k1ITxbsrxt/F/hdjytvIk9yRehIVeoibeeWdoccE/HGN0YLA0siBpp5
+ EHS1sXXc7RIZMZky5T2694cWn7fu0ibYRweqM0whKOyQhNbFF4/+b6YPwTgt/n/94UnZ
+ 44rg==
+X-Gm-Message-State: AOAM531fHqqszUf7rY8ihEuGoFVZwRpw4FBw88pr9mwiS+HzlnM9utzW
+ F3nwE0AH9blPB9bO4fmXq72Ix3lyMT5YoDpFuF3hh+2nOPS3x3Z5xhCzGoMVZtsL2Gzcd5PoH0E
+ MTwfANEnixtxwjck=
+X-Received: by 2002:a17:906:7307:b0:6da:92e1:9c83 with SMTP id
+ di7-20020a170906730700b006da92e19c83mr26188104ejc.459.1647957391648; 
+ Tue, 22 Mar 2022 06:56:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqBDQ65WMaJo5YSmdmuEtqdEirNOnVZJFZPa01uqnSh7sZWzQZ74jeDQEobs73nT3uW/Wuyw==
+X-Received: by 2002:a17:906:7307:b0:6da:92e1:9c83 with SMTP id
+ di7-20020a170906730700b006da92e19c83mr26188081ejc.459.1647957391402; 
+ Tue, 22 Mar 2022 06:56:31 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ o3-20020a17090637c300b006d8631b2935sm8268071ejc.186.2022.03.22.06.56.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 06:56:32 -0700 (PDT)
-Date: Tue, 22 Mar 2022 09:56:28 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH  v1 00/13] various virtio docs, fixes and tweaks
-Message-ID: <20220322094901-mutt-send-email-mst@kernel.org>
-References: <20220321153037.3622127-1-alex.bennee@linaro.org>
+ Tue, 22 Mar 2022 06:56:31 -0700 (PDT)
+Date: Tue, 22 Mar 2022 14:56:29 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=        
+ <philippe.mathieu.daude@gmail.com>
+Subject: Re: [RFC PATCH-for-7.0 v4] target/i386/kvm: Free xsave_buf when
+ destroying vCPU
+Message-ID: <20220322145629.7e0b3b8c@redhat.com>
+In-Reply-To: <20220322120522.26200-1-philippe.mathieu.daude@gmail.com>
+References: <20220322120522.26200-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20220321153037.3622127-1-alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -98,103 +102,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: slp@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- qemu-devel@nongnu.org, stefanha@redhat.com, marcandre.lureau@redhat.com
+Cc: kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 21, 2022 at 03:30:24PM +0000, Alex Bennée wrote:
-> Hi,
-> 
-> This series is a sub-set of patches while I was trying to re-rev my
-> virtio-rpmb patches. It attempts to address a few things:
-> 
->   - improve documentation for virtio/vhost/vhost-user
->   - document some of the API
->   - a hacky fix for F_CONFIG handling
->   - putting VhostUserState on a diet, make VhostUserHostNotifier dynamic
+On Tue, 22 Mar 2022 13:05:22 +0100
+Philippe Mathieu-Daud=C3=A9         <philippe.mathieu.daude@gmail.com> wrot=
+e:
 
-So I think this is best deferred until after the release,
-more of a cleanup than a bugfix.
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>=20
+> Fix vCPU hot-unplug related leak reported by Valgrind:
+>=20
+>   =3D=3D132362=3D=3D 4,096 bytes in 1 blocks are definitely lost in loss =
+record 8,440 of 8,549
+>   =3D=3D132362=3D=3D    at 0x4C3B15F: memalign (vg_replace_malloc.c:1265)
+>   =3D=3D132362=3D=3D    by 0x4C3B288: posix_memalign (vg_replace_malloc.c=
+:1429)
+>   =3D=3D132362=3D=3D    by 0xB41195: qemu_try_memalign (memalign.c:53)
+>   =3D=3D132362=3D=3D    by 0xB41204: qemu_memalign (memalign.c:73)
+>   =3D=3D132362=3D=3D    by 0x7131CB: kvm_init_xsave (kvm.c:1601)
+>   =3D=3D132362=3D=3D    by 0x7148ED: kvm_arch_init_vcpu (kvm.c:2031)
+>   =3D=3D132362=3D=3D    by 0x91D224: kvm_init_vcpu (kvm-all.c:516)
+>   =3D=3D132362=3D=3D    by 0x9242C9: kvm_vcpu_thread_fn (kvm-accel-ops.c:=
+40)
+>   =3D=3D132362=3D=3D    by 0xB2EB26: qemu_thread_start (qemu-thread-posix=
+.c:556)
+>   =3D=3D132362=3D=3D    by 0x7EB2159: start_thread (in /usr/lib64/libpthr=
+ead-2.28.so)
+>   =3D=3D132362=3D=3D    by 0x9D45DD2: clone (in /usr/lib64/libc-2.28.so)
+>=20
+> Reported-by: Mark Kanda <mark.kanda@oracle.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Based on a series from Mark:
+> https://lore.kernel.org/qemu-devel/20220321141409.3112932-1-mark.kanda@or=
+acle.com/
+>=20
+> RFC because currently no time to test
+> ---
+>  target/i386/kvm/kvm.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index ef2c68a6f4..e93440e774 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -2072,6 +2072,8 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
+>      X86CPU *cpu =3D X86_CPU(cs);
+>      CPUX86State *env =3D &cpu->env;
+> =20
+> +    g_free(env->xsave_buf);
+> +
+>      if (cpu->kvm_msr_buf) {
+>          g_free(cpu->kvm_msr_buf);
+>          cpu->kvm_msr_buf =3D NULL;
 
-I will tag this series, but please do remind me after the release
-to help make sure it does not get lost.
 
-
-> In particular I've been trying to better understand how vhost-user
-> interactions are meant to work and why there are two different methods
-> for instantiating them. If my supposition is correct perhaps a number
-> of devices that don't have in-kernel vhost equivalents could be converted?
-
-Hope I understand your question.  Well we started off with saying
-vhost-user is just a backend, so should not affect the frontend device.
-This is clean and makes migration work e.g. you can migrate between
-different backends, but it makes adding features more work.
-
-
-> While working onthe VhostUserHostNotifier changes I found it quite
-> hard to trigger the code. Is this rarely used code or just requires
-> backends we don't see in the testing?
-
-Which function are you asking about exactly?
-
-> Alex Bennée (10):
->   hw/virtio: move virtio-pci.h into shared include space
->   virtio-pci: add notification trace points
->   hw/virtio: add vhost_user_[read|write] trace points
->   vhost-user.rst: add clarifying language about protocol negotiation
->   libvhost-user: expose vu_request_to_string
->   docs/devel: start documenting writing VirtIO devices
->   include/hw: start documenting the vhost API
->   contrib/vhost-user-blk: fix 32 bit build and enable
->   hw/virtio/vhost-user: don't suppress F_CONFIG when supported
->   virtio/vhost-user: dynamically assign VhostUserHostNotifiers
-> 
-> Paolo Bonzini (3):
->   docs: vhost-user: clean up request/reply description
->   docs: vhost-user: rewrite section on ring state machine
->   docs: vhost-user: replace master/slave with front-end/back-end
-> 
->  docs/devel/index-internals.rst            |   1 +
->  docs/devel/virtio-backends.rst            | 214 +++++++++
->  docs/interop/vhost-user-gpu.rst           |  10 +-
->  docs/interop/vhost-user.rst               | 555 ++++++++++++----------
->  meson.build                               |   2 +-
->  include/hw/virtio/vhost-user.h            |  43 +-
->  include/hw/virtio/vhost.h                 | 132 ++++-
->  {hw => include/hw}/virtio/virtio-pci.h    |   0
->  subprojects/libvhost-user/libvhost-user.h |   9 +
->  contrib/vhost-user-blk/vhost-user-blk.c   |   6 +-
->  hw/scsi/vhost-user-scsi.c                 |   1 +
->  hw/virtio/vhost-scsi-pci.c                |   2 +-
->  hw/virtio/vhost-user-blk-pci.c            |   2 +-
->  hw/virtio/vhost-user-fs-pci.c             |   2 +-
->  hw/virtio/vhost-user-i2c-pci.c            |   2 +-
->  hw/virtio/vhost-user-input-pci.c          |   2 +-
->  hw/virtio/vhost-user-rng-pci.c            |   2 +-
->  hw/virtio/vhost-user-scsi-pci.c           |   2 +-
->  hw/virtio/vhost-user-vsock-pci.c          |   2 +-
->  hw/virtio/vhost-user.c                    | 133 ++++--
->  hw/virtio/vhost-vsock-pci.c               |   2 +-
->  hw/virtio/virtio-9p-pci.c                 |   2 +-
->  hw/virtio/virtio-balloon-pci.c            |   2 +-
->  hw/virtio/virtio-blk-pci.c                |   2 +-
->  hw/virtio/virtio-input-host-pci.c         |   2 +-
->  hw/virtio/virtio-input-pci.c              |   2 +-
->  hw/virtio/virtio-iommu-pci.c              |   2 +-
->  hw/virtio/virtio-net-pci.c                |   2 +-
->  hw/virtio/virtio-pci.c                    |   5 +-
->  hw/virtio/virtio-rng-pci.c                |   2 +-
->  hw/virtio/virtio-scsi-pci.c               |   2 +-
->  hw/virtio/virtio-serial-pci.c             |   2 +-
->  subprojects/libvhost-user/libvhost-user.c |   2 +-
->  contrib/vhost-user-blk/meson.build        |   3 +-
->  hw/virtio/trace-events                    |  10 +-
->  35 files changed, 831 insertions(+), 333 deletions(-)
->  create mode 100644 docs/devel/virtio-backends.rst
->  rename {hw => include/hw}/virtio/virtio-pci.h (100%)
-> 
-> -- 
-> 2.30.2
+shouldn't we do the same in hvf_arch_vcpu_destroy() ?
 
 
