@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C1D4E3BDF
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 10:45:50 +0100 (CET)
-Received: from localhost ([::1]:46082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC4B4E3BE9
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 10:48:10 +0100 (CET)
+Received: from localhost ([::1]:50968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWb5J-00038Q-CV
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 05:45:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50254)
+	id 1nWb7a-0006Ym-0f
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 05:48:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWb2a-0000zx-TK
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:43:00 -0400
-Received: from [2a00:1450:4864:20::331] (port=34575
- helo=mail-wm1-x331.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWb2Z-0007ag-AG
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:43:00 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- o30-20020a05600c511e00b0038c9cfb79cbso1045987wms.1
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 02:42:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=YCY9a/a4MenThFfNJZyyscCdaTif3ka8so6/WuXcoC0=;
- b=QxuT9aOzzkBJ+lJW+05L0kIWoCXtrgTnC2q5M6dZsafW1MQOlEbiPQre8OzIMuPE27
- 7qcS0WlQLrNptXoLVOhShkYvnI0rm3iRMeYLWFIfCQiX3zRPByur21+pah8g2uTHeqF4
- 59bzoJ1KKMXrsC8+AgJjqt5rtA0eR7gDdC/iTBiwDIX9qjaGf+NIimhvMyLkSdOvV1Yl
- 3ZJQJO93XQN6Zh4lAMt5d75Nz1AW2OQx1ENrtW7EdD7JGa5cSPTCG/XTeGoWyhat5ZZ7
- Z1c9q7g4f4goX8frYQkfSUsl+LrdEQTHO8zirNNUo8lWeKODLw8fdbZtU6/+alMaY+4v
- fymg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YCY9a/a4MenThFfNJZyyscCdaTif3ka8so6/WuXcoC0=;
- b=OVygpHt163EbOCJVtu84MfDwv7VpOxlesmujqem1Ats3JZIGlkRefml+So0jqvCuyj
- erOiYmQYqT6wCqpIrC391+1urBH/D0GDtndQjU3eD375zbrDvyI4GK5JeM52BshzU6EI
- FIX+EAd8QCNi6DJxOS1AbYmkG3O1q5wqLAjQqQ1zUWMdP7Wy23bIq1cTilVZc3HFtPah
- kY6rNaGmZRIplMwWitI1i+YrOpDFuVEnQ27UeW8fR+fG2vLFKGVTYYsa0oGHtNqDmS6X
- H6/tnKO1uouKZbi5IDSwyJnGlhqkPT8H9EwAdpKV3ki3U4c+818EqWNcFm7nilAEzS6H
- jtJg==
-X-Gm-Message-State: AOAM532zWxvDwlLQq2n1DTUmX7fHWtyjadr0NoOXvdjo/aGkeWTDklJc
- KLy7rkNdLkzYSqcpkyAh36o=
-X-Google-Smtp-Source: ABdhPJzJJk01qsZsDWQJGGi9bxwuhAEC3Cz0geeAa2yliGRq+rvNOeOwZ9lHDeOVp8gMrxAys/K7RQ==
-X-Received: by 2002:a5d:47cf:0:b0:203:edf6:480a with SMTP id
- o15-20020a5d47cf000000b00203edf6480amr19201461wrc.415.1647942177823; 
- Tue, 22 Mar 2022 02:42:57 -0700 (PDT)
-Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
- [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- w7-20020a1cf607000000b00389a5390180sm1468849wmc.25.2022.03.22.02.42.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 02:42:57 -0700 (PDT)
-Message-ID: <d5199035-2c98-d577-e6db-79df2778ae2f@gmail.com>
-Date: Tue, 22 Mar 2022 10:42:56 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nWb5x-0005Do-4w
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:46:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41978)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nWb5v-00021x-BB
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 05:46:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647942386;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gp7GFF3gplQjwoS2ZAj30exrVZN4fOeCJQCcQprq2ko=;
+ b=S9/pw3KZf/U7zto2gJvZb0e1eDnelhUR7TBwM3WpjNKDIF6erZxOrLgUtS7pPv47kY6HWh
+ 2AsGUtzMG6MDJG7XlsfAQOsRRnHTE0xxfVc5yj4Y6FfrdQSiG1sVvOXgzdysXIVttTPHFO
+ pCOJwZtAJdvmazOPUXGdAlVthxdjkko=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-460-fJZaHPy6OPWT2rKUx1LQ-Q-1; Tue, 22 Mar 2022 05:46:23 -0400
+X-MC-Unique: fJZaHPy6OPWT2rKUx1LQ-Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C9462999B4B;
+ Tue, 22 Mar 2022 09:46:23 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EBF74400E881;
+ Tue, 22 Mar 2022 09:46:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C7E9221E6742; Tue, 22 Mar 2022 10:46:21 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/3] qapi-schema: test: add a qapi-schema-test for array
+ alternates
+References: <20220321164243.200569-1-pbonzini@redhat.com>
+ <20220321164243.200569-3-pbonzini@redhat.com>
+Date: Tue, 22 Mar 2022 10:46:21 +0100
+In-Reply-To: <20220321164243.200569-3-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Mon, 21 Mar 2022 17:42:42 +0100")
+Message-ID: <87a6dijp5e.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH] audio/mixeng: Do not declare unused variables
-Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-References: <20220316061053.60587-1-akihiko.odaki@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220316061053.60587-1-akihiko.odaki@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,18 +82,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/3/22 07:10, Akihiko Odaki wrote:
-> The unused variables when FLOAT_MIXENG is defined caused warnings on
-> Apple clang version 13.1.6 (clang-1316.0.21.2).
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
->   audio/mixeng.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-FWIW this patch is already in the tree as commit 832061a2fa.
+> Check that conflicts among array alternates are detected correctly.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  tests/qapi-schema/alternate-conflict-lists.err  | 2 ++
+>  tests/qapi-schema/alternate-conflict-lists.json | 6 +++++
+>  tests/qapi-schema/alternate-conflict-lists.out  | 0
+>  tests/qapi-schema/meson.build                   | 1 +
+>  4 files changed, 8 insertions(+)
+>  create mode 100644 tests/qapi-schema/alternate-conflict-lists.err
+>  create mode 100644 tests/qapi-schema/alternate-conflict-lists.json
+>  create mode 100644 tests/qapi-schema/alternate-conflict-lists.out
+>
+> diff --git a/tests/qapi-schema/alternate-conflict-lists.err b/tests/qapi-schema/alternate-conflict-lists.err
+> new file mode 100644
+> index 0000000000..288b75a2ff
+> --- /dev/null
+> +++ b/tests/qapi-schema/alternate-conflict-lists.err
+> @@ -0,0 +1,2 @@
+> +alternate-conflict-lists.json: In alternate 'Alt':
+> +alternate-conflict-lists.json:5: branch 'two' can't be distinguished from 'one'
+
+Needs a trivial fixup:
+
+-alternate-conflict-lists.json:5: branch 'two' can't be distinguished from 'one'
++alternate-conflict-lists.json:4: branch 'two' can't be distinguished from 'one'
+
+Happy to apply it in my tree.
+
+> diff --git a/tests/qapi-schema/alternate-conflict-lists.json b/tests/qapi-schema/alternate-conflict-lists.json
+> new file mode 100644
+> index 0000000000..90710da115
+> --- /dev/null
+> +++ b/tests/qapi-schema/alternate-conflict-lists.json
+> @@ -0,0 +1,6 @@
+> +# Two lists conflict even if their inner types would be compatible
+> +{ 'struct': 'One',
+> +  'data': { 'name': 'str' } }
+> +{ 'alternate': 'Alt',
+> +  'data': { 'one': [ 'int' ],
+> +            'two': [ 'str' ] } }
+> diff --git a/tests/qapi-schema/alternate-conflict-lists.out b/tests/qapi-schema/alternate-conflict-lists.out
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+> index caf0791ba8..c18dd7d02f 100644
+> --- a/tests/qapi-schema/meson.build
+> +++ b/tests/qapi-schema/meson.build
+> @@ -11,6 +11,7 @@ schemas = [
+>    'alternate-conflict-dict.json',
+>    'alternate-conflict-enum-bool.json',
+>    'alternate-conflict-enum-int.json',
+> +  'alternate-conflict-lists.json',
+>    'alternate-conflict-string.json',
+>    'alternate-conflict-bool-string.json',
+>    'alternate-conflict-num-string.json',
+
+With the fixup:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
 
