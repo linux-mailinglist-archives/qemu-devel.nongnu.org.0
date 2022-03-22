@@ -2,95 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959124E4257
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 15:51:35 +0100 (CET)
-Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DD24E426E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 15:59:50 +0100 (CET)
+Received: from localhost ([::1]:57042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWfrB-0002xk-CS
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 10:51:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52702)
+	id 1nWfzB-0006qg-8z
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 10:59:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWfpR-0001iJ-IL
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:49:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58241)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWfpO-0000jw-8a
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:49:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647960581;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NkPHLYNPbZK7Sl9mF3LfsCifM89/txqlN94NqwGW0NI=;
- b=QNgbdUONnbuoUo4zJlSMp3MCKg2i9RP+d14sgCfGM8RA+bxccxBz1YnXuM8ZI5wQ7DeraP
- FwWjOCM5s0ZrtR52f3usxrODQTCadphbpFpe9u6X2yhVeIEUuVeMYrlR9av3LONPMiemYd
- OD9arbMaoKnxazLExmZyzmOELvVq7YU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-LlzpWnHZP6Sh0822yXxvbA-1; Tue, 22 Mar 2022 10:49:40 -0400
-X-MC-Unique: LlzpWnHZP6Sh0822yXxvbA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- z22-20020a50cd16000000b0041960ea8555so717206edi.2
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 07:49:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nWfxt-0005rJ-3W
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:58:29 -0400
+Received: from [2607:f8b0:4864:20::1033] (port=37607
+ helo=mail-pj1-x1033.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nWfxq-0002P6-Vw
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 10:58:28 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ mz9-20020a17090b378900b001c657559290so3059995pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 07:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=HLzo9QcSnalNkQ7QlQrfCuIheR8vLZRH/gf27axdlBA=;
+ b=cCYWGm1HLfwwUiG2/wHPp08XdWYypJNVABtZ4dzzf0x3lY/D58BcMksBZqxE19Eic+
+ sXzdLH5aPLKueXc3AG7x77UWCzl3pW8c3BNdVXmCT0M55JBcwfPznxr5J9bIY8zMdZSi
+ hAHOYHEtLN0uDLB1lL7ALB38YDQ8j0jCp7+CbmpXmRJJ5NJ69MpuSbhRODOlg0vLOWyF
+ pgSH/75jhFFigM0IIu3nKm7xZ4c65XVgjjjICpRzmL43VkIqQUN63gQYggpuccJMkqcK
+ Aa/75TmrLqrLoIMSLWurRZLSkKaCOKKyCgWzvc1D2pzhi58K0L0tZ8/JPFiK5qXlFasV
+ HeoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NkPHLYNPbZK7Sl9mF3LfsCifM89/txqlN94NqwGW0NI=;
- b=A8Dsj4zWEDAzzBHsNHH6hSFgUN7RyAjmyyJ6AeyaW/ampHWIyrM7HR9cjbDdAUv8c8
- BAQ/QAbOAzuHqXWDf+QB4Ql1+ojMpIhS2krWHLGquYjiRu/JiPZETYONsNR9+f0InJ4Y
- xBmjd0imSdO+PvuV57E3qOZJziNJPGd2VYwQcTAAoj3IrbRAGXzWizRUBwDcx7oywTKE
- 9K/bNZ0trv9hDZePr1+ZilpH/2uF1m7aAjVQb/7LS9BgCfpQMJ79ETeh6kN/RDFwPh8i
- ETS9mRK+xQRBYRuQ6wJ7I0I7RKMLIi9Gv2MhNR/cgoQLADZwI+FNcPXAGZaGSPg4ugFK
- KaWw==
-X-Gm-Message-State: AOAM531NYbwyycx9XuEj6lXOfP8wAOwoDzA0MPopGRVh9MUnSYUgPYpm
- WVx1Eq5iQDwdOHZ7F6tdG5xfyccb3NjwtCFQeXLe8KsG85Tntk1PwzjQRrZQf3T+Mweaps8hSH/
- 9J25gi/6tUaTD7Yo=
-X-Received: by 2002:a17:907:7f10:b0:6e0:4f1d:7ab5 with SMTP id
- qf16-20020a1709077f1000b006e04f1d7ab5mr2200299ejc.162.1647960578898; 
- Tue, 22 Mar 2022 07:49:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxDj3abDS1TpuXIqEkU0k6tbY+4YLdalNydPGBFwpWM7RR+jscJDQYAA4u4lmUEt8MrV9hDGA==
-X-Received: by 2002:a17:907:7f10:b0:6e0:4f1d:7ab5 with SMTP id
- qf16-20020a1709077f1000b006e04f1d7ab5mr2200278ejc.162.1647960578678; 
- Tue, 22 Mar 2022 07:49:38 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ bh=HLzo9QcSnalNkQ7QlQrfCuIheR8vLZRH/gf27axdlBA=;
+ b=cLu1mkSJFxAzF4gPbIev2tgz4EHRuznssKywHUi/hpBk+NeZMCyqRxAkRZnZd/ftqL
+ +WmCv5oxMqUluBN3X02wzP6oM4AZ1i2YttuK1O6U3dQHLmBpx0aHc6/yxrg28eSI//0U
+ UpSz5u9LIVCQwKymp6SLMq29FMr3c0JXt311DD99jSvvFtnY766vL8z1K9q0RpPsfoW+
+ mUzt2D6fvtBr38NgtmZjj7Gj/4FT4CRi501AducSvRa1qUNS0GFG1GIYhm9QK94WWPl9
+ Qp4xjh1PBukU3SOHXURuf/A7OjHDXxLGI+m+9lDurBc9n8AI9KRRQr93Q63wueOQAdtt
+ HqaA==
+X-Gm-Message-State: AOAM532I7/2YuSxXcbCKSgnDoZpwdjvI8xzXzWGaYnu+FTWd/tGVHR2k
+ ZCkC8mG813NYETaAqEPIZUfRag==
+X-Google-Smtp-Source: ABdhPJyyqHf5TtIca0jEkIiQoBdSItlXrT1YTp9DMq4OxATjwIcQJPFVA0nfwQhimDdC5ntl+7UjRw==
+X-Received: by 2002:a17:903:204a:b0:153:a38b:977e with SMTP id
+ q10-20020a170903204a00b00153a38b977emr18582817pla.126.1647961104782; 
+ Tue, 22 Mar 2022 07:58:24 -0700 (PDT)
+Received: from [192.168.10.94] ([152.44.200.141])
  by smtp.gmail.com with ESMTPSA id
- f4-20020a170906738400b006df8b6787afsm7661065ejl.13.2022.03.22.07.49.37
+ x15-20020a056a00188f00b004f7675962d5sm26276229pfh.175.2022.03.22.07.58.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 07:49:38 -0700 (PDT)
-Message-ID: <62d645b5-31e8-4889-c87c-83e0fac18d10@redhat.com>
-Date: Tue, 22 Mar 2022 15:49:37 +0100
+ Tue, 22 Mar 2022 07:58:24 -0700 (PDT)
+Message-ID: <dab530d9-53d2-3d7d-c9ac-44906ba9b386@linaro.org>
+Date: Tue, 22 Mar 2022 07:58:22 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 05/15] iotests: create generic qemu_tool() function
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20220318203655.676907-1-jsnow@redhat.com>
- <20220318203655.676907-6-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220318203655.676907-6-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH for-7.0] hw/intc/arm_gicv3_its: Add missing newlines to
+ process_mapc() logging
 Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, Peter Maydell
+ <peter.maydell@linaro.org>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20220322102824.3474956-1-peter.maydell@linaro.org>
+ <afdadedc-1d35-068b-ccde-12897f9bea34@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <afdadedc-1d35-068b-ccde-12897f9bea34@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,46 +97,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.03.22 21:36, John Snow wrote:
-> reimplement qemu_img() in terms of qemu_tool() in preparation for doing
-> the same with qemu_io().
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/iotests.py | 37 +++++++++++++++++++++++------------
->   1 file changed, 24 insertions(+), 13 deletions(-)
->
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-> index 6cd8374c81..974a2b0c8d 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -207,15 +207,13 @@ def qemu_img_create_prepare_args(args: List[str]) -> List[str]:
->   
->       return result
->   
-> -def qemu_img(*args: str, check: bool = True, combine_stdio: bool = True
-> +
-> +def qemu_tool(*args: str, check: bool = True, combine_stdio: bool = True
->                ) -> subprocess.CompletedProcess[str]:
->       """
-> -    Run qemu_img and return the status code and console output.
-> +    Run a qemu tool and return its status code and console output.
->   
-> -    This function always prepends QEMU_IMG_OPTIONS and may further alter
-> -    the args for 'create' commands.
-> -
-> -    :param args: command-line arguments to qemu-img.
-> +    :param args: command-line arguments to a QEMU cli tool.
+On 3/22/22 03:38, Philippe Mathieu-Daudé wrote:
+> On 22/3/22 11:28, Peter Maydell wrote:
+>> In commit 84d43d2e82da we rearranged the logging of errors in
+>> process_mapc(), and inadvertently dropped the trailing newlines
+>> from the log messages. Restore them.
+>>
+>> Fixes: 84d43d2e82da ("hw/intc/arm_gicv3_its: In MAPC with V=0, don't check rdbase field")
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>>   hw/intc/arm_gicv3_its.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+>> index b96b874afdf..d9c741f5fdd 100644
+>> --- a/hw/intc/arm_gicv3_its.c
+>> +++ b/hw/intc/arm_gicv3_its.c
+>> @@ -524,12 +524,12 @@ static ItsCmdResult process_mapc(GICv3ITSState *s, const uint64_t 
+>> *cmdpkt)
+>>       trace_gicv3_its_cmd_mapc(icid, cte.rdbase, cte.valid);
+>>       if (icid >= s->ct.num_entries) {
+>> -        qemu_log_mask(LOG_GUEST_ERROR, "ITS MAPC: invalid ICID 0x%d", icid);
+>> +        qemu_log_mask(LOG_GUEST_ERROR, "ITS MAPC: invalid ICID 0x%d\n", icid);
+> 
+> (pre-existing: "%u" format, since icid is uint32_t)
 
-This makes me ask how I am to specify which tool to use.  Perhaps it 
-should just be “full command line to run” or something.
+Worse than that: 0x%d is going to be *very* misleading.
+Should fix to 0x%x right away.
 
-Might be nice™, but:
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-
+r~
 
