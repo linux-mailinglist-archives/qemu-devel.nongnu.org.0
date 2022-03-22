@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FF14E443A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 17:31:36 +0100 (CET)
-Received: from localhost ([::1]:41268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9591B4E443D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 17:32:18 +0100 (CET)
+Received: from localhost ([::1]:43438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWhPy-0003LF-G3
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 12:31:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52142)
+	id 1nWhQf-00054Q-NZ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 12:32:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWhOB-0002K8-4y
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:29:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46982)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWhOu-00036n-2X
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:30:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWhO9-0007AZ-N1
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:29:42 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWhOs-0007VS-5X
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 12:30:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647966580;
+ s=mimecast20190719; t=1647966625;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8Fv1aEGCgRDGilCAJzXkXWRWfAs6e8ZUjyL2OfTaFdE=;
- b=APMHbetnAZmZtMN72NXg0YotZPXpGzQCF9SditnIAMfS6Gbk4XEo6aEDZbrHtM7+GdLglc
- D23kjOzfAw+Zp86ALSsFWEd2xeLWnSuvCxK78Rei1VDpwPV7++jC8OSwuVjRJt80QXNq/6
- yqsJqRW4HGJ5EkrorRtQyjoCLUXcXns=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pLXzMmxkxNgGEVoV9UMrl0erpCYSvhV0M5InbcJNWWY=;
+ b=Hxi6LghwSGiPegAcMub/qvUm3wM7wfB9Gw5hH+w+wNNyBot70CiauWMEdQUgkJpUJKU/8X
+ oeD+mlPSLnzGcUuoNMdc6J5MyfR47OfR6KhB+uJ9SfDkYenwna4eP3GX9sKEoPnczomkcf
+ wx6p/g4WilD9Jm/3bQ9bBS5WsL45Tyk=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-uuK0tAiQMFm7EkQRpBLjVA-1; Tue, 22 Mar 2022 12:29:39 -0400
-X-MC-Unique: uuK0tAiQMFm7EkQRpBLjVA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- v9-20020a509549000000b00418d7c2f62aso10829269eda.15
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 09:29:39 -0700 (PDT)
+ us-mta-557-IanuEhLtPlCYNh8DGgFspQ-1; Tue, 22 Mar 2022 12:30:23 -0400
+X-MC-Unique: IanuEhLtPlCYNh8DGgFspQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ x2-20020a1709065ac200b006d9b316257fso9023234ejs.12
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 09:30:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=8Fv1aEGCgRDGilCAJzXkXWRWfAs6e8ZUjyL2OfTaFdE=;
- b=Aks1d63nRkT2OVN17E2UpSD+Kn78/ltgkkjK72NYtULseHVkL4j3EzR95EaIRY2zaj
- I3f5uW77NCtmpuVy5belB5eDkmlJJE2ZRLAnWF9lexvia8bxEfNqbvkNf+LTi4HBofuK
- Y6uW1i6VgW4vEcJGTbhcx3/nfiHpES/QIfi28ES4r8fIwJ2EU9opsp9+rSAEtjIYnaY4
- nZJRquoRv/B8njDdXQ+Vt5Qf4u1UpaI48c0aIQVBWpd2QW69hgm9H7ShCex63eyjUtJ4
- AhBy8nV73A7lxN5bVD1S6uXILtMMMt6W5aSNKL40/My6EShISyACgu8rB4BM/hB8/SWF
- f4fQ==
-X-Gm-Message-State: AOAM530ROw9PYEtehtx2N6RsP7cRjBTR0tFqjFr0SLj6XPjwKQVkabX4
- 7FLIhF4BW7MZcFxz8tl5p5/IxfoblODuBQ6Ynsv2NCFR83d0k3bz/h8Ig0EeS0uu7c6MvCLd9ks
- d8PtvCdAplTMRy3k=
-X-Received: by 2002:a05:6402:26cc:b0:416:4189:f65e with SMTP id
- x12-20020a05640226cc00b004164189f65emr29111162edd.228.1647966578299; 
- Tue, 22 Mar 2022 09:29:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyOswG2MWnQBVhZD94R6adVp3z5+0SxdPckiHhxWKkIhdQquyv/r1IxGUm8P8Q/JUp1cv7UMA==
-X-Received: by 2002:a05:6402:26cc:b0:416:4189:f65e with SMTP id
- x12-20020a05640226cc00b004164189f65emr29111136edd.228.1647966578077; 
- Tue, 22 Mar 2022 09:29:38 -0700 (PDT)
+ bh=pLXzMmxkxNgGEVoV9UMrl0erpCYSvhV0M5InbcJNWWY=;
+ b=sKJfIY0lZ8B10cZn7hOkCSBHi2YQdS4wYB4VmGSmFvU13SW436s2syQ38rntcT9ePI
+ O+2WBWd2Uajnf3ach8EMn8Ap6kJlEudaRWt4usiHsIYeZoHF1YnJEGzrOCQuVt5NUVbI
+ nuoqjVeXYdvHZTM/lc47IVsNdCUU1SfkrRVESf94MQnwksrdv2I0EwPay27BPwNBjMzR
+ XocsjVuZsb5ShuUzd4AocEUv7SnPk5KAj95K+xDYbzJ5y7SClv7XIq+hzQG4+ZJBm4DQ
+ P4IVWxGlNOrsLpY50UJ92RrXs8ZEBzlYw1acqQL+93p3B6camTOPlxQq/5XelESjblJN
+ /YSQ==
+X-Gm-Message-State: AOAM5339XEMIHVN+02QCvlOy2P7aAmhewlDwEbc+4IW4rlVbpKWdhNst
+ B9hol0ZH1Cl/ROrBN7n5rV+p9Z69hbPgEQg0t+CKSEL4Oxs55oduOrlhOSz2tEc23n0ffwnRqtJ
+ QUSmAq5LiY9INuq0=
+X-Received: by 2002:a17:907:7fa6:b0:6db:6e1b:c467 with SMTP id
+ qk38-20020a1709077fa600b006db6e1bc467mr26899087ejc.552.1647966622498; 
+ Tue, 22 Mar 2022 09:30:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFTwWbVNMGcEZkeVAZ/oXGCTby/WrDyQvF6D4hFWQ8a7rDhu0NUvQLQlOTxN2qrtq79Txuwg==
+X-Received: by 2002:a17:907:7fa6:b0:6db:6e1b:c467 with SMTP id
+ qk38-20020a1709077fa600b006db6e1bc467mr26899068ejc.552.1647966622295; 
+ Tue, 22 Mar 2022 09:30:22 -0700 (PDT)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
  by smtp.gmail.com with ESMTPSA id
- ka6-20020a170907990600b006ce54c95e3csm8577864ejc.161.2022.03.22.09.29.37
+ u4-20020aa7db84000000b004136c2c357csm9952420edt.70.2022.03.22.09.30.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 09:29:37 -0700 (PDT)
-Message-ID: <8588aea9-05c3-67ae-09f4-4b3ebf1a1119@redhat.com>
-Date: Tue, 22 Mar 2022 17:29:37 +0100
+ Tue, 22 Mar 2022 09:30:21 -0700 (PDT)
+Message-ID: <258fcd46-38a6-2258-a39f-4126be26c8ce@redhat.com>
+Date: Tue, 22 Mar 2022 17:30:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 08/15] iotests/149: fixup
+Subject: Re: [PATCH 10/15] iotests/245: fixup
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20220318203655.676907-1-jsnow@redhat.com>
- <20220318203655.676907-9-jsnow@redhat.com>
+ <20220318203655.676907-11-jsnow@redhat.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220318203655.676907-9-jsnow@redhat.com>
+In-Reply-To: <20220318203655.676907-11-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -108,43 +108,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 18.03.22 21:36, John Snow wrote:
-> (Merge into prior patch.)
->
-> Notes: I don't quite like this change, but I'm at a loss for what would
-> be cleaner. This is a funky test.
+> (Merge with prior patch.)
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   tests/qemu-iotests/149 | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+>   tests/qemu-iotests/242 | 2 +-
+>   tests/qemu-iotests/245 | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242
+> index 4b7ec16af6..ecc851582a 100755
+> --- a/tests/qemu-iotests/242
+> +++ b/tests/qemu-iotests/242
+> @@ -22,7 +22,7 @@
+>   import iotests
+>   import json
+>   import struct
+> -from iotests import qemu_img_create, qemu_io, qemu_img_info, \
+> +from iotests import qemu_img_create, qemu_io_log, qemu_img_info, \
+>       file_path, img_info_log, log, filter_qemu_io
+>   
+>   iotests.script_initialize(supported_fmts=['qcow2'],
+> diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+> index 8cbed7821b..efdad1a0c4 100755
+> --- a/tests/qemu-iotests/245
+> +++ b/tests/qemu-iotests/245
+> @@ -217,7 +217,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+>       # Reopen an image several times changing some of its options
+>       def test_reopen(self):
+>           # Check whether the filesystem supports O_DIRECT
+> -        if 'O_DIRECT' in qemu_io('-f', 'raw', '-t', 'none', '-c', 'quit', hd_path[0]):
+> +        if 'O_DIRECT' in qemu_io('-f', 'raw', '-t', 'none', '-c', 'quit', hd_path[0]).stdout:
 
-I mean, looks fine to me, fwiw.
+This is to verify that O_DIRECT works or not.  If it doesn’t work, this 
+will fail, so we need to pass check=False here.
+
+(Or this test fails on tmpfs.)
 
 Hanna
 
-> diff --git a/tests/qemu-iotests/149 b/tests/qemu-iotests/149
-> index 9bb96d6a1d..2ae318f16f 100755
-> --- a/tests/qemu-iotests/149
-> +++ b/tests/qemu-iotests/149
-> @@ -295,7 +295,8 @@ def qemu_io_write_pattern(config, pattern, offset_mb, size_mb, dev=False):
->       args = ["-c", "write -P 0x%x %dM %dM" % (pattern, offset_mb, size_mb)]
->       args.extend(qemu_io_image_args(config, dev))
->       iotests.log("qemu-io " + " ".join(args), filters=[iotests.filter_test_dir])
-> -    iotests.log(check_cipher_support(config, iotests.qemu_io(*args)),
-> +    output = iotests.qemu_io(*args, check=False).stdout
-> +    iotests.log(check_cipher_support(config, output),
->                   filters=[iotests.filter_test_dir, iotests.filter_qemu_io])
->   
->   
-> @@ -307,7 +308,8 @@ def qemu_io_read_pattern(config, pattern, offset_mb, size_mb, dev=False):
->       args = ["-c", "read -P 0x%x %dM %dM" % (pattern, offset_mb, size_mb)]
->       args.extend(qemu_io_image_args(config, dev))
->       iotests.log("qemu-io " + " ".join(args), filters=[iotests.filter_test_dir])
-> -    iotests.log(check_cipher_support(config, iotests.qemu_io(*args)),
-> +    output = iotests.qemu_io(*args, check=False).stdout
-> +    iotests.log(check_cipher_support(config, output),
->                   filters=[iotests.filter_test_dir, iotests.filter_qemu_io])
->   
->   
+>               supports_direct = False
+>           else:
+>               supports_direct = True
 
 
