@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56FA84E4348
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 16:43:40 +0100 (CET)
-Received: from localhost ([::1]:41164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 986824E4349
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 16:43:41 +0100 (CET)
+Received: from localhost ([::1]:41366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWgfa-0004Hi-Uy
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 11:43:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39386)
+	id 1nWgfc-0004Pw-Kc
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 11:43:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nWgeL-0002i7-NG
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:42:21 -0400
-Received: from [2607:f8b0:4864:20::435] (port=38608
- helo=mail-pf1-x435.google.com)
+ id 1nWgeO-0002lq-2f
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:42:24 -0400
+Received: from [2607:f8b0:4864:20::436] (port=41762
+ helo=mail-pf1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nWgeK-0001c0-4T
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:42:21 -0400
-Received: by mail-pf1-x435.google.com with SMTP id p5so12371926pfo.5
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 08:42:19 -0700 (PDT)
+ id 1nWgeM-0001cP-NZ
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:42:23 -0400
+Received: by mail-pf1-x436.google.com with SMTP id p8so18474122pfh.8
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 08:42:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=h/Xc6kzIUTOxeLIhESyA4D64LChnfkFS4s+/E7srJug=;
- b=Zg8U5f5gwrcl6OXrVJuR1cBUrJH9i+RQbv49non6Q2LrdDb6YGm31D0yjNjMvGI2Gk
- RD9O9JJGnySm8+NURcbh4uh8cDrEGviXlEo/Wq2+n81/kCok1YJTCgnROioC0h/av4Qr
- mTsu4Qy/hfSNHlVaTN8d669t4n/tqQLR9FVmWQy4dEo4E7CKqLWEDP8I103Zwht8mqRB
- qnDuZjxS402+Sfsc1KWpuru5E1N3yvj/WiOkQDC/tlIKTVqwwlagE/Ac6QXAk1w20gQk
- cr5FkRhVqheyP9SM5zI7mDQDJnWyrVO6I8YwU2ghjzQjskuU/emwenUUan9BEitdUStM
- ArNA==
+ bh=Z8AP0uHw1Rv86KjAWyW3L4/MoLXbK4RQ98es20jgisk=;
+ b=gurqfqdsy14K7+TNk4Orra0sRmi+o2N2CgMPBdg+Rz5xfmaF6V+aPY4k7/j0B3Bl5X
+ /OSHc2kOVyRw1jTJ4gFmnShbUZjNRl4CK63x9itxAWox2P7DPfuOUQGqPVeW7cfo5imS
+ SuLTcrEYYSStBJ8aRwiozwIyb3NabQyNcei6uUzgACklJnQ3jEnMnLAylgNOIxJDQONi
+ Jdf9GJbGnQ7jZ/E7AcOnomva506uhuFLu42ndCcn+NDqajysYwd6vEVCoGlYLRRU/3S3
+ GhUgNrcMi/zgQwQBt16Ry+ipIbb6oBWJSOPPz2YescbTmDDGoqQB+K0ZYNOi13GNzAs1
+ n9vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=h/Xc6kzIUTOxeLIhESyA4D64LChnfkFS4s+/E7srJug=;
- b=4XL0cgRPm9nbd392fMt/Tg003rC13VYgD8Oy899kCiGpNLgA9fHFj5FYjszu3qYKcC
- GC2Vi1C4zjdBb9xXlTHwLVcGtq6kp/16Cnm0VDiJQVgFqVOQE3h4Eov+DQsiQzOO0pQ0
- y6qstuXMCOImuSVdtppFn5exvq7Yq8wQil3e0+0NEKtTCxY8bF+opkrImCWsExGzwZ59
- QStd/0h3sE2kxhiIuNb/1gsM4cosmaVK94k9lFOGHRx4QVJNSllP9QwZPJgsPn9ei+x+
- DQ5u3WzNqHKiayBLQgB97et5RaZoC2xkL3KoW9ciwZwSYixpZXV5K1FvXjGPFYOKOirV
- 9SAg==
-X-Gm-Message-State: AOAM5313agkEuskf6g81G5VY4B96gl9FrInfyj8QBQtIMOtPtSNfflBt
- CxLjXxrKu1ju6HQ6K0D5ljM=
-X-Google-Smtp-Source: ABdhPJzvanWZ1GmPha48nQWw5+0U0hqJWDUMgjvjWfSG2d1VNySx1qYY1XQr1r+h0uB7LeyNhIlpuA==
-X-Received: by 2002:a63:4c5c:0:b0:383:1b87:2d20 with SMTP id
- m28-20020a634c5c000000b003831b872d20mr3747543pgl.294.1647963738789; 
- Tue, 22 Mar 2022 08:42:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Z8AP0uHw1Rv86KjAWyW3L4/MoLXbK4RQ98es20jgisk=;
+ b=bcEZ5wN+JFq7+aYNCx7cxb1dSbDWRwY2Apv5IfQHGtHlZpIx8vBRcvwjQiHr+gf6xV
+ O8sEn9N35R9qOa9h5Jbfz/A1FIfpFxXoBZiPd0QtLsJB+doIFux7hciTI9slToNklj6X
+ rk45YUvdXJuYipg2hvgXTnlWOm84ebe7sHoFQ7emM3dr2zoaqeMSSzFDRpwr486TU++k
+ OOQ1cJcB9o4xf3wSgVtuSuPGbbJApLkbD4jkvO3vySLbI03lclqhr/r+TRG5D3NfP+sC
+ ioWDYkpfCELSbo/E0PNTTW3zKxrNysgArwGAk9qtYMwkywHPO123gDnoayorla916GMU
+ owDg==
+X-Gm-Message-State: AOAM530zBejXrkZoXP9/zGNAORL4bhBuhfsWCA2NLKfjqsBiFFNZ4xh8
+ ztlmupC9Kl8HxsJYa2UsmGsEKgHGgXlU8A==
+X-Google-Smtp-Source: ABdhPJyAUhqQBHjBNmMZtqO4eaAWTKuDtPDxdiMaicAwB2I4ueHW2IhjtVyGuzC1bTrqTWdu1bPGKA==
+X-Received: by 2002:a63:6446:0:b0:382:6aff:7bff with SMTP id
+ y67-20020a636446000000b003826aff7bffmr10637701pgb.318.1647963741356; 
+ Tue, 22 Mar 2022 08:42:21 -0700 (PDT)
 Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
  [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
- u4-20020a056a00158400b004fa0263cf5dsm24482136pfk.130.2022.03.22.08.42.16
+ u4-20020a056a00158400b004fa0263cf5dsm24482136pfk.130.2022.03.22.08.42.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 08:42:18 -0700 (PDT)
+ Tue, 22 Mar 2022 08:42:20 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH 1/2] gdbstub: Set current_cpu for memory read write
-Date: Tue, 22 Mar 2022 23:42:12 +0800
-Message-Id: <20220322154213.86475-1-bmeng.cn@gmail.com>
+Subject: [PATCH 2/2] monitor/misc: Set current_cpu for memory dump
+Date: Tue, 22 Mar 2022 23:42:13 +0800
+Message-Id: <20220322154213.86475-2-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220322154213.86475-1-bmeng.cn@gmail.com>
+References: <20220322154213.86475-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,57 +94,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 When accessing the per-CPU register bank of some devices (e.g.: GIC)
-from the GDB stub context, a segfault occurs. This is due to current_cpu
-is not set, as the contect is not a guest CPU.
+from the monitor context, a segfault occurs. This is due to current_cpu
+is not set, as the context is not a guest CPU.
 
-Let's set current_cpu before doing the acutal memory read write.
+Let's set current_cpu before doing the acutal memory dump.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/124
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 ---
 
- gdbstub.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ monitor/misc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 3c14c6a038..0b12b98fbc 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -66,6 +66,9 @@ static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
-                                          uint8_t *buf, int len, bool is_write)
- {
-     CPUClass *cc;
-+    int ret;
-+
-+    current_cpu = cpu;
- 
- #ifndef CONFIG_USER_ONLY
-     if (phy_memory_mode) {
-@@ -74,15 +77,21 @@ static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
-         } else {
-             cpu_physical_memory_read(addr, buf, len);
-         }
--        return 0;
-+        ret = 0;
-+        goto done;
+diff --git a/monitor/misc.c b/monitor/misc.c
+index b1839cb8ee..228f017b71 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -558,6 +558,7 @@ static void memory_dump(Monitor *mon, int count, int format, int wsize,
+         break;
      }
- #endif
  
-     cc = CPU_GET_CLASS(cpu);
-     if (cc->memory_rw_debug) {
--        return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
-+        ret = cc->memory_rw_debug(cpu, addr, buf, len, is_write);
-+        goto done;
++    current_cpu = cs;
+     while (len > 0) {
+         if (is_physical) {
+             monitor_printf(mon, TARGET_FMT_plx ":", addr);
+@@ -622,6 +623,7 @@ static void memory_dump(Monitor *mon, int count, int format, int wsize,
+         addr += l;
+         len -= l;
      }
--    return cpu_memory_rw_debug(cpu, addr, buf, len, is_write);
-+    ret = cpu_memory_rw_debug(cpu, addr, buf, len, is_write);
-+
-+done:
 +    current_cpu = NULL;
-+    return ret;
  }
  
- /* Return the GDB index for a given vCPU state.
+ static void hmp_memory_dump(Monitor *mon, const QDict *qdict)
 -- 
 2.25.1
 
