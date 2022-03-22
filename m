@@ -2,91 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE88E4E44EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 18:21:12 +0100 (CET)
-Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 425954E4528
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 18:28:15 +0100 (CET)
+Received: from localhost ([::1]:37330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWiBy-0003jS-Mj
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 13:21:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36828)
+	id 1nWiIn-0001Ck-Co
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 13:28:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWi9T-0002aU-Tg
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 13:18:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37606)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nWiD5-0006C6-Ok; Tue, 22 Mar 2022 13:22:20 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:43033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWi9S-0008UN-Ab
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 13:18:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647969513;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wkF7BmoWZL4AOKgwc3cKUwAbv765+U3Ld9h9qaA4Rmo=;
- b=JQEmzOkHAIu1upy1VbXozJz+5mVcmy5dGe2T+SBYNt/NL+KcQuqN7JtQIibvlELQW4oMYP
- KSiiO6OOg5sRNXOsbGPShy+yorWlC24AFhZN/RZ7lL/k8fLVSKWdPs+Mekytmm0HmWpzpt
- fg5WuMmcaoAVS/OouD3aGXhYD1A0foY=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-549-P0U-1Y-yOWeOfLO1malxwQ-1; Tue, 22 Mar 2022 13:18:32 -0400
-X-MC-Unique: P0U-1Y-yOWeOfLO1malxwQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- 13-20020a170906328d00b006982d0888a4so8984894ejw.9
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 10:18:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to;
- bh=nM2NNGCWd7hCA8C/4ubYLVgQa2XK+6AcZdg4zNLZK9s=;
- b=HVvZTMjfF5g43RXnzq0MWucgzNuxXm5v3IXpuOtyNrrWX6Q5gShYi2HmCxBM/MpU8r
- eqUwesuC42XoPpdrOWQyjYe9eeLnEJACgjyla5bIyJQSgEvdfwlqUkNu9912x9ymvj3J
- LRplillhCXopsjBTJ5DOa1FRhCmU1asxvMTij7BwY5GtJ0TL8VZZP6Locv8cXhZpB7pE
- oLAo/WqbvVsNA7CRxUEckpkDINCnUAlGYYi4vruKu224T77EZxw+NGZY4nqBEF6gKCyg
- CmLrvYhQDANr9133EG/lVkwV6R52vsRcOUm8Utp5jCUAF8GHpD/1/Aw72RuhF+cJusME
- n71Q==
-X-Gm-Message-State: AOAM532JqIgY2MDKeDiKtcJ2cKT85QGUxB3apAOH1EFZXhSAjhW1K5cj
- UoMXYB2qrlvlKs1HXAPH5tO2qTwe1iiKGgOnQY1IRDHN5iBFNSKXu1Fpv3ZlcOnIK4lzRK9kUPR
- t+GCIiC3oVSd2YvY=
-X-Received: by 2002:a17:906:d1c4:b0:6d5:83bb:f58a with SMTP id
- bs4-20020a170906d1c400b006d583bbf58amr27244632ejb.672.1647969511188; 
- Tue, 22 Mar 2022 10:18:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxCLLgWIO+TczeaR8J7ArPRNKDlcZt1fbJMTHFK5n+EzHGWqjfEOFNmyi0dCjShu1SOs2IJAQ==
-X-Received: by 2002:a17:906:d1c4:b0:6d5:83bb:f58a with SMTP id
- bs4-20020a170906d1c400b006d583bbf58amr27244607ejb.672.1647969510848; 
- Tue, 22 Mar 2022 10:18:30 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- a4-20020a170906274400b006da9456e802sm8793041ejd.102.2022.03.22.10.18.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Mar 2022 10:18:30 -0700 (PDT)
-Message-ID: <06acbaf5-0e47-52f1-df79-5161b6c68424@redhat.com>
-Date: Tue, 22 Mar 2022 18:18:29 +0100
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nWiD0-0002ne-Gi; Tue, 22 Mar 2022 13:22:17 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C20565801B2;
+ Tue, 22 Mar 2022 13:22:10 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Tue, 22 Mar 2022 13:22:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; bh=DKA1S+zaOnp0EXg0D/eCjdJnTBqB3w
+ lH33M2skJaIIM=; b=kUjswknOc/LNgIBFH7zcVbzZV9YF/Q7z7pKdb1AQC2FC6e
+ tzxhuA3aNM7wNZzPtyEtnsPihfCxdYq4JV1l2ve6fTch6rDfr61f7+4xLQBY8GAG
+ Z4H/2nh9Mdfc8j4wrXjcwJs9303SEHhbq1+XKBLkJqBVzhpIGLv75bBitbKEjYzn
+ 7HRrsZ9Cz7abydk5FnBX9cKXa31Cn6tK/pXZvAVhNEEueJV6HI6QUhPH5FtC2M1x
+ yPxITWXQs7HQQRtyekZloFU2ESBiMFUewLOq0lEbsPb4d4+jGa2v/CQZHCfLtJQp
+ ug3mXazcnjhZTW9Mz0SZN/HmL4N89/cRdYNqYAwg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=DKA1S+zaOnp0EXg0D
+ /eCjdJnTBqB3wlH33M2skJaIIM=; b=dbnSSTgUklpqQhwWFknQDnahg1Ryed2g7
+ wZ0PE3zLkLNJpLCKyefyvIzDT1zdqKS0G43qgA4EidVFIWdForoozWc7RWaJ0BW4
+ 3r3L3gR7+QeaibY37sjTIFuJVwZ3E+FC8iej7yL5lRnra7n8fkxbge4yWFaaaPNr
+ gasE8fIyPuP0EtOKfvrde3Va2Zc1Ge9Fhhc2aeU3W+Rg9uX2+9pLEPYBlawvbirN
+ vESQFI4Y/HCFWVPYAuOyfE69fJ/jrRMYIBSMKi5u9sppOJQrIJ0irBz5VrR99jGk
+ niEfkdZ4sh/2I7LfxNxuTUVKZXmv5ej/Da4vUOHhwCVJ3d3eWhRWw==
+X-ME-Sender: <xms:wAU6YuiDVSiO5DXDfSL8EIMJPMlDj54UyI_sfzAOFASsHtGMDphZBg>
+ <xme:wAU6YvC1wRJ4Pxg8ngkDfAEPQ0xqzNpje2B93LCNzR3fLKD5slrs57CvkQ6hzA-MA
+ MO7QN7gFJpfj1rOVFo>
+X-ME-Received: <xmr:wAU6YmFvkNY5p9PlD_Cw_LT0A6zz4RfLSj-c-dcgQdAukt_SOaChW2UNw_k-lh11iO-gqeOtvp9zgH0V7w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeghedgleejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:wAU6YnT-3y9ba53YTbdzDilaJdXcBx0lP9NRYpcahWvudI3S6ZAyQQ>
+ <xmx:wAU6YrxTLwhzw0WFqIxp-d74Cf2UQRYGNgd8JFhrgumPo2LmigxrBQ>
+ <xmx:wAU6Yl4rmLv7PAa_H7QhvkfyzDaoXDiwKlGZYaq58M_gYE7Kj1ksNw>
+ <xmx:wgU6Ylh8R0wqYvzc50CjDVm3cmAN4T0qVUWveuXkCGEB5-jlmI349w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 22 Mar 2022 13:22:00 -0400 (EDT)
+Date: Tue, 22 Mar 2022 18:21:58 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 3/3] Use g_new() & friends where that makes obvious
+ sense
+Message-ID: <YjoFtvvV/LtGt2X9@apples>
+References: <20220315144156.1595462-1-armbru@redhat.com>
+ <20220315144156.1595462-4-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 00/15] iotests: add enhanced debugging info to qemu-io
- failures
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20220318203655.676907-1-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220318203655.676907-1-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="------------t5h93eABLgQraak4uOlJ3umF"
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="W/A79Jf9YM97F5Ll"
+Content-Disposition: inline
+In-Reply-To: <20220315144156.1595462-4-armbru@redhat.com>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
+ helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,94 +96,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, haxm-team@intel.com,
+ Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Eric Blake <eblake@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ Paul Durrant <paul@xen.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Amit Shah <amit@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ qemu-ppc@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
+ qemu-s390x@nongnu.org, Patrick Venture <venture@google.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Corey Minyard <cminyard@mvista.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------t5h93eABLgQraak4uOlJ3umF
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 18.03.22 21:36, John Snow wrote:
-> Howdy,
+--W/A79Jf9YM97F5Ll
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Heya,
+On Mar 15 15:41, Markus Armbruster wrote:
+> g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
+> for two reasons.  One, it catches multiplication overflowing size_t.
+> Two, it returns T * rather than void *, which lets the compiler catch
+> more type errors.
+>=20
+> This commit only touches allocations with size arguments of the form
+> sizeof(T).
+>=20
+> Patch created mechanically with:
+>=20
+>     $ spatch --in-place --sp-file scripts/coccinelle/use-g_new-etc.cocci \
+> 	     --macro-file scripts/cocci-macro-file.h FILES...
+>=20
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/nvme/ns.c                             |  2 +-
 
-[...]
+For hw/nvme,
 
-> - Uh, actually, test 040 fails with this patchset and I don't understand
->    if it's intentional, harmless, a test design problem, or worse:
->
-> ======================================================================
-> ERROR: test_filterless_commit (__main__.TestCommitWithFilters)
-> ----------------------------------------------------------------------
-> Traceback (most recent call last):
->    File "/home/jsnow/src/qemu/tests/qemu-iotests/040", line 822, in tearDown
->      self.do_test_io('read')
->    File "/home/jsnow/src/qemu/tests/qemu-iotests/040", line 751, in do_test_io
->      qemu_io('-f', iotests.imgfmt,
->    File "/home/jsnow/src/qemu/tests/qemu-iotests/iotests.py", line 365, in qemu_io
->      return qemu_tool(*qemu_io_wrap_args(args),
->    File "/home/jsnow/src/qemu/tests/qemu-iotests/iotests.py", line 242, in qemu_tool
->      raise VerboseProcessError(
->
-> qemu.utils.VerboseProcessError: Command
->    '('/home/jsnow/src/qemu/bin/git/tests/qemu-iotests/../../qemu-io',
->    '--cache', 'writeback', '--aio', 'threads', '-f', 'qcow2', '-c',
->    'read -P 4 3M 1M',
->    '/home/jsnow/src/qemu/bin/git/tests/qemu-iotests/scratch/3.img')'
->    returned non-zero exit status 1.
->    ┏━ output ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
->    ┃ qemu-io: can't open device
->    ┃ /home/jsnow/src/qemu/bin/git/tests/qemu-iotests/scratch/3.img:
->    ┃ Could not open backing file: Could not open backing file: Throttle
->    ┃ group 'tg' does not exist
->    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
->
-> It looks like we start with the img chain 3->2->1->0, then we commit 2
-> down into 1, but checking '3' fails somewhere in the backing
-> chain. Maybe a real bug?
+Acked-by: Klaus Jensen <k.jensen@samsung.com>
 
-Looks like my hunch was right: The problem is that it’s hard to figure 
-out a good backing file string when there are filters involved, and so 
-in one test here we generate one that contains a JSON description of the 
-backing subgraph including a throttle node. Outside of qemu, that 
-doesn’t make much sense, hence the error.
+--W/A79Jf9YM97F5Ll
+Content-Type: application/pgp-signature; name="signature.asc"
 
-(And because we checked only for “pattern verification failed” 
-specifically, that error here never surfaced.)
+-----BEGIN PGP SIGNATURE-----
 
-I think (hope?) we can expect management tools to manually specify 
-backing file strings in such cases, like the attached diff does. That 
-seems to fix the problem.
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmI6BbQACgkQTeGvMW1P
+DemVHQf/UvBrob2AKXn7QLs1LPvjspegusuMZAUULXyiS7FJ456DBSy0wWUweIj0
++PKX+HOXbZu7s0mUXhZ0GpiD5V39c/M7/18p620LaokIDnuwuI1Mshnytrk5gao6
+EyfSap+WxrF/ys8BQ7X22h6juLgDsY4J/QwuHEk+rcjSO4YQpeJBpp+3AsOFbWbl
+7wx6aFzLcoAWIWr5zc9BwboE5w9Ot7/fSBdn1GnbWUfVr0VxCJGv5oU833IsOcbL
+3Kufe+QE2ZxyD7v+mHI1/THkr9rFYaWJ8f4HAfQ5XfoOo/ULXo6qkw4fM04tD3ex
+oGvzJovacGYnvSvYmde1KMydB+oNXQ==
+=KxTS
+-----END PGP SIGNATURE-----
 
-Hanna
---------------t5h93eABLgQraak4uOlJ3umF
-Content-Type: text/x-patch; charset=UTF-8; name="040.diff"
-Content-Disposition: attachment; filename="040.diff"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL3Rlc3RzL3FlbXUtaW90ZXN0cy8wNDAgYi90ZXN0cy9xZW11LWlvdGVzdHMv
-MDQwCmluZGV4IGM0YTkwOTM3ZGMuLjMwZWI5NzgyOWUgMTAwNzU1Ci0tLSBhL3Rlc3RzL3FlbXUt
-aW90ZXN0cy8wNDAKKysrIGIvdGVzdHMvcWVtdS1pb3Rlc3RzLzA0MApAQCAtODM2LDcgKzgzNiw4
-IEBAIGNsYXNzIFRlc3RDb21taXRXaXRoRmlsdGVycyhpb3Rlc3RzLlFNUFRlc3RDYXNlKToKICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgam9iX2lkPSdjb21taXQnLAogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBkZXZpY2U9J3RvcC1maWx0ZXInLAogICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB0b3Bfbm9kZT0nY293LTInLAotICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBiYXNlX25vZGU9J2Nvdy0xJykKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYmFzZV9u
-b2RlPSdjb3ctMScsCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJhY2tpbmdfZmlsZT1z
-ZWxmLmltZzEpCiAgICAgICAgIHNlbGYuYXNzZXJ0X3FtcChyZXN1bHQsICdyZXR1cm4nLCB7fSkK
-ICAgICAgICAgc2VsZi53YWl0X3VudGlsX2NvbXBsZXRlZChkcml2ZT0nY29tbWl0JykKIApAQCAt
-ODUyLDcgKzg1Myw4IEBAIGNsYXNzIFRlc3RDb21taXRXaXRoRmlsdGVycyhpb3Rlc3RzLlFNUFRl
-c3RDYXNlKToKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgam9iX2lkPSdjb21taXQnLAog
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZXZpY2U9J3RvcC1maWx0ZXInLAogICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICB0b3Bfbm9kZT0nY293LTEnLAotICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBiYXNlX25vZGU9J2Nvdy0wJykKKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgYmFzZV9ub2RlPSdjb3ctMCcsCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJh
-Y2tpbmdfZmlsZT1zZWxmLmltZzApCiAgICAgICAgIHNlbGYuYXNzZXJ0X3FtcChyZXN1bHQsICdy
-ZXR1cm4nLCB7fSkKICAgICAgICAgc2VsZi53YWl0X3VudGlsX2NvbXBsZXRlZChkcml2ZT0nY29t
-bWl0JykKIAo=
---------------t5h93eABLgQraak4uOlJ3umF--
-
+--W/A79Jf9YM97F5Ll--
 
