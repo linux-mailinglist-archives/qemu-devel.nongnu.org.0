@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246E44E4351
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 16:49:36 +0100 (CET)
-Received: from localhost ([::1]:45648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD364E4378
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 16:57:10 +0100 (CET)
+Received: from localhost ([::1]:55758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWglL-0007br-0p
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 11:49:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40548)
+	id 1nWgse-0006ZM-Rs
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 11:57:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raj.khem@gmail.com>)
- id 1nWgix-0006b1-E3
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:47:09 -0400
-Received: from [2607:f8b0:4864:20::62f] (port=43676
- helo=mail-pl1-x62f.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nWgpo-0003D7-Ri
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:54:14 -0400
+Received: from [2a00:1450:4864:20::433] (port=38869
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raj.khem@gmail.com>)
- id 1nWgiv-0006NB-0a
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:47:06 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id w8so15779239pll.10;
- Tue, 22 Mar 2022 08:47:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oJVSwDZLdSSX5Q5h1Pc04iwcrn35ldxRRwFHHVEFamo=;
- b=mqosNJHHXFiBik+jY1rFyzmsh1cqmgVLgaX3JOI2N+iF3iGTsm5cI4HCNbs8aM4D9k
- PzGnDOWmQZKvSas0gjV3cK431p1kKZ3sBxRX5R6P9b8yFPgCnMlGRXagiUHDh/+KMNQW
- 3/ap2TB3/F2AdX3tM+EJ53XafvGwWxoRbVwbaRDvRkT/YrrDqwdWEOr0W1TEWqsn5M0R
- so2mL/ruoCf+9uppjNmjguituchGoFg26g9RyiUgFH8TT2VCGy+dhRHmwlELaFl1CuWX
- LOzE06C3hTCq6fPmGALeCHXv42oGRUMaKcJQEuFRmcAA3y64pdrrvaGvu6+uObgOqULi
- NuiQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nWgpl-0002aE-Of
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 11:54:11 -0400
+Received: by mail-wr1-x433.google.com with SMTP id t11so24063048wrm.5
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 08:54:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=TYtdxLNeYJap3QJ4Wny8UCGWdk+higk5HBPVkswUc5c=;
+ b=S2Srvi++etbZxYutG3ZsWe1IHGh+4y+xZBh0ytjPwDz6jXcGu8NtmZzDhKqO6pV0Uw
+ iEFwBd04zBBA0xWoqx7kja27vh7u0n7oI3jLESOz6rpAL8zzo/1m2SXlaCImRWB+WOtl
+ 784ptKIkmPc6WG2czs+LLDn3ysrMoxNQFrpg5uWGbMijRmSLsYChlRygT5+69OOLQAoI
+ 2vKMV7a6plAVKFZyWjAyWqmnGl+ucuO3ikyQ15ydW6Fk5OO/FebwRtVtfq5xWbjoSQKQ
+ 8hL3wFs4bNWvP96PCcmhzkeDK3K2fgfcntgspvwAUzFWiIo0LnHCblOg0xdZwgonPjHv
+ zTjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oJVSwDZLdSSX5Q5h1Pc04iwcrn35ldxRRwFHHVEFamo=;
- b=ULc236p9jl2k/CZW9FV4nkzKD83eHGU6el4RURiTtIFlzRPo97+ogy0DEupgJzwf9A
- vuLIQR89FoaZ/Ge/OEX6Paqunczep0SdtKaI9Bp+1XRaFMCXiqRPpzLP841StB9XeCp5
- np5+QI0pklJDQZ4oEOgYghDSiVF6gnL2EShea62qfoyDHCTwchK/6E6Ia6Z4xy26diYw
- NiUWZ0LiaY4hC+UVPoIbmrd0CHUpr0Uds7lIZnrrjgLZ0i0/l/FtNfN9fsX+hm1uwKEV
- p/C4xMequ7f5lZi+xROtQU5FeEQGa276GDV7ezQ1B16YXQ/Vn1wON+dhJqnegPcFcmXG
- mZLw==
-X-Gm-Message-State: AOAM530hyfnLh66anfQpshyrmW0GkvA7Hziyk7w3IXPrencgHdjTCt4X
- 3wvO6GLI3X2g/7wboWNeLmoYZ2ib9hL1cA==
-X-Google-Smtp-Source: ABdhPJwrbTetU4rwTWpPcJQuSZCXim+NbK1kmwANL4OGiapYLGOvPlsRPSh5M4L8ChRP4+YL+kb4tg==
-X-Received: by 2002:a17:90a:600a:b0:1b9:dd79:ea77 with SMTP id
- y10-20020a17090a600a00b001b9dd79ea77mr5767087pji.44.1647964021470; 
- Tue, 22 Mar 2022 08:47:01 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::781b])
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=TYtdxLNeYJap3QJ4Wny8UCGWdk+higk5HBPVkswUc5c=;
+ b=vk2eOiVUg7YcvT6pFWB0Az5XbPpFoZBB1J7YiFXM0dGodGhsJcMiFgnsBws3PVdLUZ
+ mCjvLyXe2OQIhwo+tE/7ybxRgBDQYrAkPjJ3Pc6IzEjfmocEkPe6RMsEy7Mpq5Ywci48
+ ovIcRLJ9cQ1/IN23WiRbi0n5mUwc3AgRYj2mMHIbhTbDUv2+uO1UlFN+jgkmaB52mqil
+ EkSG8kjWU7X5yPh6juqMJBKGxCsBzVQiyRinxHPvTCW7pWhXDk1E3oaNy6GZgUoy/Aal
+ zZi/C4oOBTDZdGNnKk7iUohRhF5082VXZhjsptG6IhQh1B4lSioR8pJXOywDCXn/YBlv
+ 6B4Q==
+X-Gm-Message-State: AOAM533NhYKcMs+2XxA5RHWUTJ57seBDzprVA9RKMuO66cA1UdrwLiYi
+ yg+6dMQS+cFMhewd7R0Pbuwy+i80sSx8lw==
+X-Google-Smtp-Source: ABdhPJwqWLiBA58QOw1QugpdaflU/TXPuckUkQ31Uh0jsbA3SED/dpBMo2t19owjNF90s3RfGfeH6w==
+X-Received: by 2002:a05:6000:f:b0:203:d97a:947 with SMTP id
+ h15-20020a056000000f00b00203d97a0947mr22937787wrx.654.1647964446874; 
+ Tue, 22 Mar 2022 08:54:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- l13-20020a056a00140d00b004e13da93eaasm23517763pfu.62.2022.03.22.08.47.00
+ l126-20020a1c2584000000b00387d4f35651sm2156213wml.10.2022.03.22.08.54.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Mar 2022 08:47:01 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: qemu-devel@nongnu.org,
-	qemu-mips@nongnu.org
-Subject: [PATCH v2] Define MAP_SYNC and MAP_SHARED_VALIDATE on needed linux
- systems
-Date: Tue, 22 Mar 2022 08:46:58 -0700
-Message-Id: <20220322154658.1687620-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ Tue, 22 Mar 2022 08:54:05 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B422D1FFB7;
+ Tue, 22 Mar 2022 15:54:04 +0000 (GMT)
+References: <20220321153037.3622127-1-alex.bennee@linaro.org>
+ <20220322094901-mutt-send-email-mst@kernel.org>
+User-agent: mu4e 1.7.10; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH  v1 00/13] various virtio docs, fixes and tweaks
+Date: Tue, 22 Mar 2022 15:50:28 +0000
+In-reply-to: <20220322094901-mutt-send-email-mst@kernel.org>
+Message-ID: <87v8w656g3.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=raj.khem@gmail.com; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -88,55 +93,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Yi <yi.z.zhang@linux.intel.com>, Khem Raj <raj.khem@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: slp@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
+ qemu-devel@nongnu.org, stefanha@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-linux only wires MAP_SYNC for architectures which include
-asm-generic/mman-common.h and mips is one such architecture which is not
-including this file via linux/mman.h, therefore as a fall back
-these constants should be defined for such architectures on Linux
-as well.
 
-This fixes build on mips/musl/linux
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Zhang Yi <yi.z.zhang@linux.intel.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
----
-v2: Improve commit message
+> On Mon, Mar 21, 2022 at 03:30:24PM +0000, Alex Benn=C3=A9e wrote:
+>> Hi,
+>>=20
+>> This series is a sub-set of patches while I was trying to re-rev my
+>> virtio-rpmb patches. It attempts to address a few things:
+>>=20
+>>   - improve documentation for virtio/vhost/vhost-user
+>>   - document some of the API
+>>   - a hacky fix for F_CONFIG handling
+>>   - putting VhostUserState on a diet, make VhostUserHostNotifier dynamic
+>
+> So I think this is best deferred until after the release,
+> more of a cleanup than a bugfix.
 
- util/mmap-alloc.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Sorry I should have made it clearer - I wasn't intending this for 7.0
+but I also didn't want it bound up with the rpmb changes which will take
+longer to land.
 
-diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-index 893d864354..86d3cda248 100644
---- a/util/mmap-alloc.c
-+++ b/util/mmap-alloc.c
-@@ -10,14 +10,18 @@
-  * later.  See the COPYING file in the top-level directory.
-  */
- 
-+#include "qemu/osdep.h"
- #ifdef CONFIG_LINUX
- #include <linux/mman.h>
--#else  /* !CONFIG_LINUX */
-+#endif  /* CONFIG_LINUX */
-+
-+#ifndef MAP_SYNC
- #define MAP_SYNC              0x0
-+#endif /* MAP_SYNC */
-+#ifndef MAP_SHARED_VALIDATE
- #define MAP_SHARED_VALIDATE   0x0
--#endif /* CONFIG_LINUX */
-+#endif /* MAP_SHARED_VALIDATE */
- 
--#include "qemu/osdep.h"
- #include "qemu/mmap-alloc.h"
- #include "qemu/host-utils.h"
- #include "qemu/cutils.h"
--- 
-2.35.1
+>
+> I will tag this series, but please do remind me after the release
+> to help make sure it does not get lost.
+>
+>
+>> In particular I've been trying to better understand how vhost-user
+>> interactions are meant to work and why there are two different methods
+>> for instantiating them. If my supposition is correct perhaps a number
+>> of devices that don't have in-kernel vhost equivalents could be converte=
+d?
+>
+> Hope I understand your question.  Well we started off with saying
+> vhost-user is just a backend, so should not affect the frontend device.
+> This is clean and makes migration work e.g. you can migrate between
+> different backends, but it makes adding features more work.
 
+This is covered in the doc patch, specifically:
+
+  vhost_ops vs TYPE_VHOST_USER_BACKEND
+
+>> While working onthe VhostUserHostNotifier changes I found it quite
+>> hard to trigger the code. Is this rarely used code or just requires
+>> backends we don't see in the testing?
+>
+> Which function are you asking about exactly?
+
+  vhost_user_slave_handle_vring_host_notifier
+
+which is the only place where a mapping is set up AFAICT.
+
+>
+>> Alex Benn=C3=A9e (10):
+>>   hw/virtio: move virtio-pci.h into shared include space
+>>   virtio-pci: add notification trace points
+>>   hw/virtio: add vhost_user_[read|write] trace points
+>>   vhost-user.rst: add clarifying language about protocol negotiation
+>>   libvhost-user: expose vu_request_to_string
+>>   docs/devel: start documenting writing VirtIO devices
+>>   include/hw: start documenting the vhost API
+>>   contrib/vhost-user-blk: fix 32 bit build and enable
+>>   hw/virtio/vhost-user: don't suppress F_CONFIG when supported
+>>   virtio/vhost-user: dynamically assign VhostUserHostNotifiers
+>>=20
+>> Paolo Bonzini (3):
+>>   docs: vhost-user: clean up request/reply description
+>>   docs: vhost-user: rewrite section on ring state machine
+>>   docs: vhost-user: replace master/slave with front-end/back-end
+>>=20
+>>  docs/devel/index-internals.rst            |   1 +
+>>  docs/devel/virtio-backends.rst            | 214 +++++++++
+>>  docs/interop/vhost-user-gpu.rst           |  10 +-
+>>  docs/interop/vhost-user.rst               | 555 ++++++++++++----------
+>>  meson.build                               |   2 +-
+>>  include/hw/virtio/vhost-user.h            |  43 +-
+>>  include/hw/virtio/vhost.h                 | 132 ++++-
+>>  {hw =3D> include/hw}/virtio/virtio-pci.h    |   0
+>>  subprojects/libvhost-user/libvhost-user.h |   9 +
+>>  contrib/vhost-user-blk/vhost-user-blk.c   |   6 +-
+>>  hw/scsi/vhost-user-scsi.c                 |   1 +
+>>  hw/virtio/vhost-scsi-pci.c                |   2 +-
+>>  hw/virtio/vhost-user-blk-pci.c            |   2 +-
+>>  hw/virtio/vhost-user-fs-pci.c             |   2 +-
+>>  hw/virtio/vhost-user-i2c-pci.c            |   2 +-
+>>  hw/virtio/vhost-user-input-pci.c          |   2 +-
+>>  hw/virtio/vhost-user-rng-pci.c            |   2 +-
+>>  hw/virtio/vhost-user-scsi-pci.c           |   2 +-
+>>  hw/virtio/vhost-user-vsock-pci.c          |   2 +-
+>>  hw/virtio/vhost-user.c                    | 133 ++++--
+>>  hw/virtio/vhost-vsock-pci.c               |   2 +-
+>>  hw/virtio/virtio-9p-pci.c                 |   2 +-
+>>  hw/virtio/virtio-balloon-pci.c            |   2 +-
+>>  hw/virtio/virtio-blk-pci.c                |   2 +-
+>>  hw/virtio/virtio-input-host-pci.c         |   2 +-
+>>  hw/virtio/virtio-input-pci.c              |   2 +-
+>>  hw/virtio/virtio-iommu-pci.c              |   2 +-
+>>  hw/virtio/virtio-net-pci.c                |   2 +-
+>>  hw/virtio/virtio-pci.c                    |   5 +-
+>>  hw/virtio/virtio-rng-pci.c                |   2 +-
+>>  hw/virtio/virtio-scsi-pci.c               |   2 +-
+>>  hw/virtio/virtio-serial-pci.c             |   2 +-
+>>  subprojects/libvhost-user/libvhost-user.c |   2 +-
+>>  contrib/vhost-user-blk/meson.build        |   3 +-
+>>  hw/virtio/trace-events                    |  10 +-
+>>  35 files changed, 831 insertions(+), 333 deletions(-)
+>>  create mode 100644 docs/devel/virtio-backends.rst
+>>  rename {hw =3D> include/hw}/virtio/virtio-pci.h (100%)
+>>=20
+>> --=20
+>> 2.30.2
+
+
+--=20
+Alex Benn=C3=A9e
 
