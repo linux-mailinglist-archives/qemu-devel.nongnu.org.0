@@ -2,168 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F8914E3F3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 14:14:12 +0100 (CET)
-Received: from localhost ([::1]:42978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B444E3F84
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Mar 2022 14:27:25 +0100 (CET)
+Received: from localhost ([::1]:48678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWeKx-0007an-1N
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 09:14:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46508)
+	id 1nWeXk-0004In-7x
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 09:27:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
- id 1nWe0G-0004W1-B3
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:52:53 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:24068)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nWeWe-00033q-Gj
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 09:26:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
- id 1nWe0D-0006S2-Nr
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 08:52:47 -0400
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22MA9HMl001496; 
- Tue, 22 Mar 2022 12:52:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=5FUVLJ0Uw0eqSLxEIc0BLCsJC3BVBdWEfJSyK0a2Ht4=;
- b=mgTFA9lWz4pDhEMoHPJCmef9/TBETyFBDaK6lNqHnwjo5d+8vaAVtY6Kfgu/5a5ofCeH
- ngjzoLL99ylfkoQsJotrV/VAF3sixWf6DQnkqwRnGRGupBCMNLseELjQnLe4whVakXEl
- CzcUHqOyUE+90MBV3TZPBFO4HQb/zuFdCHVIfSisFWgI/ZVlA9ezxlGtV/ovK/39zINq
- f4LsgRfe38QmnCmrBVf9WtwRaceDF/2cLG6wcZWMdG8d3gXKiW1oHPY8jQs4U7lzE0FT
- Nz/z+GT85kRyfRkJI2gDAIz3XP9Gs4XFZvB00duVAe/O6/ALqBd+HV28W+sm9WUhmMLZ Hw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80] (may
- be forged)) by mx0b-00069f02.pphosted.com with ESMTP id 3ew7qt6b07-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 22 Mar 2022 12:52:31 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22MCpDAV038141;
- Tue, 22 Mar 2022 12:52:29 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam08lp2042.outbound.protection.outlook.com [104.47.73.42])
- by userp3030.oracle.com with ESMTP id 3ew49r6f0u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 22 Mar 2022 12:52:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PkYwQgpTric8GTwcOra/VC2rNm/yuDKQpLKkP3G5broSTBvX6UOFLTKG7Lp+L7+2hYMCMy0C9EKYaVJ8cRCRadOL3Mj3U7aqOJZfOua5FesAvJPyALe9cLP+mHUdsLFMUYiCshJamRcd7tuGnPQ15EZxLDbjPoEWE2CBc/w2yJYjWBisaV1DogoZ+8BhufHT/b/OeSM24T+AcMRq7EXfHgaNwofbYA2hcdHuqeFuJBj1EB+Nykb7yxAp7rYJACebTer7ZFhBXYQ6IjdR2jzm0cgcocpJdEM5XX4jOCzZPvg79SQFuq9tTN/0M21hbxmPUmTvkBdc08uCN0c6JDaIbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5FUVLJ0Uw0eqSLxEIc0BLCsJC3BVBdWEfJSyK0a2Ht4=;
- b=Hlxv3ceEI32XsgyIRPcWtd9Ev7o5dUPL8A+i8Ox8MU5PWpNE5kS71HWPIF02RFjv/6eh8xuG+o4/Wwn9cTCPJ4gOnd9jnGNUwToUShLMHIfymxOQvKHrNyO+ZCuYJwRKtoO41EhJsXurAqyJtuJkFhsnPB8O1efwvSPywK8jP4AKanX7L9P5zdrsJh2FeU+//QpGCuSDZ6E4XwgEkiO0oVvZfG/dE1c1DBX5QJc1T+h3ba32GaonDDmkMfGX4yzBs5cKHmLdJwWO4JTP3BOk2BtEwa/qCxYaZOHDfiLkpb+s/UYuGbBSjgPOOyBTmkqiTmOTzigOpxVAq+2UgLf/Mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5FUVLJ0Uw0eqSLxEIc0BLCsJC3BVBdWEfJSyK0a2Ht4=;
- b=TlALZXIdbMNohYd5C8t9loa66LH34z5ZHnRfWB3VHqV/g6FWY5tfBzamZ1FgsKqq8y+/eYWqBbN9/esqVet5095PmLUNAUdoxIGN+ecnSqcYk0keNFcMA66xad6PC7E//YU7CfSv+hJlJlnRH4P8+APZttH0prIaHBppsN2dyS8=
-Received: from SA1PR10MB5841.namprd10.prod.outlook.com (2603:10b6:806:22b::16)
- by CO1PR10MB4642.namprd10.prod.outlook.com (2603:10b6:303:6f::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.16; Tue, 22 Mar
- 2022 12:52:28 +0000
-Received: from SA1PR10MB5841.namprd10.prod.outlook.com
- ([fe80::85a0:903e:852d:6c15]) by SA1PR10MB5841.namprd10.prod.outlook.com
- ([fe80::85a0:903e:852d:6c15%5]) with mapi id 15.20.5081.018; Tue, 22 Mar 2022
- 12:52:28 +0000
-Message-ID: <41ab0621-fd01-9d1e-f8f6-d434b80aca8e@oracle.com>
-Date: Tue, 22 Mar 2022 07:52:24 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 3/5] softmmu/cpus: Free cpu->halt_cond in
- generic_destroy_vcpu_thread()
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
- qemu-devel@nongnu.org
-References: <20220321141409.3112932-1-mark.kanda@oracle.com>
- <20220321141409.3112932-4-mark.kanda@oracle.com>
- <652c4cf9-65d4-33fb-805e-07d156271ccb@gmail.com>
-From: Mark Kanda <mark.kanda@oracle.com>
-In-Reply-To: <652c4cf9-65d4-33fb-805e-07d156271ccb@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN4PR0201CA0066.namprd02.prod.outlook.com
- (2603:10b6:803:20::28) To SA1PR10MB5841.namprd10.prod.outlook.com
- (2603:10b6:806:22b::16)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nWeWX-0003Ui-Uh
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 09:26:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647955568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Mk3hl79SOvvRPnNyVsHVQnRiriDoUuiJYwsyISW4b0k=;
+ b=HnxH/dWiG5qdYcUOX8x0sbDblWxYk3DpJvwysjs5rTensNtmzJCvEKEPxTChTm5D3zAsia
+ fH+P579ZrOmSu66O9OeKvezz9910JmLIUAeqLsvTeo+GnjUU6QqHSzH0dQmt28iXzSSnyj
+ 08q2Foo0YtbSEESzWzNhZSNnzaiNA6Q=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-176-dYFcTk0oOYaFE60yBXyB_w-1; Tue, 22 Mar 2022 09:26:07 -0400
+X-MC-Unique: dYFcTk0oOYaFE60yBXyB_w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 2-20020a1c0202000000b0038c71e8c49cso1278841wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 06:26:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Mk3hl79SOvvRPnNyVsHVQnRiriDoUuiJYwsyISW4b0k=;
+ b=dVMBFzdqVLL+8gO7Zd6rlXhfV6icQ8vtR8fWzVugHodD4PMO43nLDIH+l7v82PVQ34
+ raHnKQzOYZtpUjgFYTYr3Mg9JxQ3DJ17klQR6fxCoCpeILaCznO/eUAs+R8R8kzncJou
+ K/gZLodh5QFMM2GOM2hLTKslI/ZFaTwaV/UkK9Y6G46EAXrCtL6KMfu235Na0v2ifKLt
+ w9mG/1vhaFDPgCHODk0RSx75NZyIkzBHXDWpLbKAC5aFxc7BiH8BzJH+Ba1jHgVKR54f
+ qPSFWPKbepbzrChNMSlBtmxEe0qRPr9bJFRADYSBqX+2cdNQuJCfxjuq5s+KZZnyRW4f
+ HFyg==
+X-Gm-Message-State: AOAM533ytCCUOAJdWC8pPz36HiDhzt/CaXIJVOMDEgh/TGfDS1syC9ZV
+ LgK+DjZ4Gx48mzuaQUetq8hW48WFVX4b1QL5VLrbGyi1v7kg+KiSln56C75PiDxD2vQJYUPhRjd
+ q4bYquYqqWNk9WFA=
+X-Received: by 2002:a05:600c:1e0d:b0:38c:bb0c:e01 with SMTP id
+ ay13-20020a05600c1e0d00b0038cbb0c0e01mr2299358wmb.115.1647955566004; 
+ Tue, 22 Mar 2022 06:26:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy9R6xweHbYOlT41nX8VS8jupEnB/cxHKbwK3VEwN1bfzNeZZNTKEUKx2jEvOzPtm6sO39XFQ==
+X-Received: by 2002:a05:600c:1e0d:b0:38c:bb0c:e01 with SMTP id
+ ay13-20020a05600c1e0d00b0038cbb0c0e01mr2299266wmb.115.1647955565576; 
+ Tue, 22 Mar 2022 06:26:05 -0700 (PDT)
+Received: from redhat.com ([2.55.132.0]) by smtp.gmail.com with ESMTPSA id
+ b15-20020adfc74f000000b001e888b871a0sm15919477wrh.87.2022.03.22.06.25.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Mar 2022 06:26:04 -0700 (PDT)
+Date: Tue, 22 Mar 2022 09:25:54 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 0/3] Use g_new() & friends where that makes obvious
+ sense
+Message-ID: <20220322092520-mutt-send-email-mst@kernel.org>
+References: <20220315144156.1595462-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 228fd4bc-6147-424b-7deb-08da0c02d1f6
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4642:EE_
-X-Microsoft-Antispam-PRVS: <CO1PR10MB46429332DAC7593DBD1F49B3F9179@CO1PR10MB4642.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Y3/xtLFSgBJUewTLB82fEPt8sDI20+WtK3KnHNAkZ5wFnrxabspYnbPe7XTJYsGtLDArKg0+UES3FrgCojKm7kY5Z8ikegSGmwP/2rOt+2gsLJ3eiAj2Jaa7GNPDdsE21N+I7TMHRYcL7wG1ZeqRnIIvd1PcFgMkFbbu+PPtyZwRk7objcbOCuU98LQ1zVCaLnVovoPVBIz248vi1P1y4HObBwD1bNJLboZ4VaDiBBYaUQLljpmf0Uh5oubkAj8dK/5pMvlsbcKBvIQt+994pW/56FyHhK5uOl0KkQVg7666RN79MKXNkdB3LbEO4ASGi9VUPJOnC88+HRvvFmQswiCAJAm8qIx6Kbl6S1wqjtpF6ps/YZalG1oYpbuX//fGv0y9J0AKokTjlTuHbXYMoMgy0A2WurTyfe9YNRJ2eFJHKt14BD+yOKPdNca/g1HDPCWyG42fsPp3VmfbclhkIwD8yQZTgWYnms9HvqT8EAZaq8ly6ISau51hk7EjSSEsPEqKliMb96ZQ4ZW08O3VuCaJJZwFTS+VXx394Pt+S1VCCRhxVKWw82zUwhrshWcr22bsB/rpVLXhvV/q60JeMGDLYZCNgKgWOggIJ/R8rzaMzBOe1Ci4wEWBQCjvHX8jvb9WUNAZatfNwRlqMfnveQfrSjqpY3v9dI0xq2l7pYat41Xaf+nVRmU2vLTypuYNt2PyKp7KNyeLxS6U1LW6TZW3hISqIK2zZnRtOFF1L+E4gkTWIV/1fqx49latIDgAP9/8C9YXgwlfvx9tUnopKQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR10MB5841.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(4326008)(66476007)(66556008)(8676002)(66946007)(5660300002)(8936002)(83380400001)(316002)(6666004)(38100700002)(508600001)(6486002)(44832011)(2616005)(31696002)(86362001)(186003)(26005)(2906002)(53546011)(6506007)(6512007)(36756003)(31686004)(41533002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ny9WTjR6NWkyaTRLaFk2aURRa3Z5aEVuSjd2Z3I4K1IreE8raUl4dUs0TnRN?=
- =?utf-8?B?a2lXSUJ5cHNmMHVSM1RNcnQzUEFjNHJreUZaZnE1T3BKdjhXMDhJVHJZYndM?=
- =?utf-8?B?TGhCSFpMc2dsV2JFc0VTdVJiaW5oRFBuSklCK25YNkVJSytwZWRrbS90VU5n?=
- =?utf-8?B?azVxWFQvNVgwQTRldDREQ3FmaDY3MXh6MnhCaDVPdGI0WFBWR2xYdWw2M3NO?=
- =?utf-8?B?U245Znl3WXNISDdQVzhzczlSazF6bVZlWWwzaE45N0hyTXpBL3hXZjE4bkV1?=
- =?utf-8?B?Q3E0VitjTGNaTE9oWENyUHJvckxzcXBHcDcxUmhZUTZ4cll3K1EwRk9DNTVN?=
- =?utf-8?B?TEp0NU9hWTBZUUl2L0tKV3FOZElVTmZGVmV5S0l3R1JpSDI3MUJlQXBlMGR5?=
- =?utf-8?B?R29ndTBFbDI0ZFduMFRIV2tBZ1Vaek1rdDliNzZnSEdpcFNIL2pzbHZmNkhp?=
- =?utf-8?B?Tm9lYmFENEdTZUxoN240L3cyMzhlN1Q5RGZrV051MGREa0szZVZwaWRsUDdZ?=
- =?utf-8?B?aXo0RGkxSzQ1bmhWQlRaYTlLM3JPdHRVZ1Y3MFIrcGNYc3M5dy8vWEQ2WWVS?=
- =?utf-8?B?MU9mUm90OE9hT3NCbWVnS1ZOT0tyeStxekErNHJqK0V2ZC8rMmxvRTZraEhN?=
- =?utf-8?B?TGRqbXFTQkgwRUhvSGRVcnVKZzgrMGtUNWlseVdJTHVQNjQ5SVdlbkY1dWhM?=
- =?utf-8?B?TjFheGhoOEF5OGNmZEVyUFEvNkNoTlh5a29Ka3YzN2RHcGYzMnE0QllKMkNy?=
- =?utf-8?B?ZDY4bzJZa3hxNzZxNUNoZU84a05sOCthN1Exb0xodWQ2NFlVbVRTMkxMSG1v?=
- =?utf-8?B?aU92T2VuUGlpeXFZeTdBTFRGSVZsc0FZVEtGNDRrWU5uZTdhbkw4T3Z6a0Rj?=
- =?utf-8?B?UVlGVUF3MzRCRm1VN2Q5T2piZm1Ub0dJZnV4OEhnT1krQkZtcUF3MXBsRVFr?=
- =?utf-8?B?NzE4OURVcy9hR25aYk42S0JYU2ZPZjVncFNXUEJtSEptcjNvYUdiMkdtbVVL?=
- =?utf-8?B?ZzlDNFlmK0c0SmVRUjdpa0VZQzFNTWRZeGxIMTFReFNETGFoMHcwUE5USktN?=
- =?utf-8?B?M1dYb0gxeXVWVEZCejNmTGNaY1ZRYTlnOC9JVi9GeTJtSFBQa2IyREhMV0lM?=
- =?utf-8?B?VXdWeTNrNHNQZ1ZrUUhZTjRhQmYwREVid0FXL1F5UVZwZ2V6Q0J6a2ZqZDNK?=
- =?utf-8?B?OUg4UzBMT0xSQlFNbGpXU3pqL1BRS2E5Zjl0MG53K3hLY283cStiSkplRUxl?=
- =?utf-8?B?emZTNG5ML2pTQnVqZmtQcElXRE5rYlB0MC96dnFxekcwZlVJVDFWU1doRi9z?=
- =?utf-8?B?aGJaQkZQTWFBS3d6WGxLUkltb1NBSjliSFY4OUFrM0cwd1ludHFreHFaeDE3?=
- =?utf-8?B?N0ZXdXFITjhCUzdjNmdrTnpOOWEvWU1JZkpOK0lqbkpOaWVZY2t3Z0JBMEhn?=
- =?utf-8?B?M05YZ3NqMmg3T0dOVlBwTDFkak1WbG1QVERDNEpNcmx3bC9jOW81bmowZkJp?=
- =?utf-8?B?Q2l6YWRHQkRXaDFRNjhBQmg2bmErUFRSdDZLRWRkcEhCajlSNFhXQlF5N0l2?=
- =?utf-8?B?R1RUbTMvdExOUHRNa09qa3VaTk44NlRWMEVqUlNpTHlIeXNxOWlXcWRuRFU1?=
- =?utf-8?B?ZzJLVWhiZWdHNXA4L1RMcWJhR2pVNFNuTFh0NlpSYXRYdDQ5VWZpTENORzc3?=
- =?utf-8?B?V1ZwNDdDWlBRN1QxOFFiL2lMOFY1UFAvMFkzYm01YzVpdjRtSHBPeEV3MEpR?=
- =?utf-8?B?eFFyM1VpVTU4TVQzZmprckt4bklzV2liK0xzLzdnUTFmRFJGNmx1RnZzNEh3?=
- =?utf-8?B?ZUFCS3V1bTRabWEwRGpRNk0rWithaG5KRUFxZnNsUHhpRnpmMkp6UEJweVU4?=
- =?utf-8?B?RUNNcDdSeEVkZldyckUzcE5POGtHRldRaEtsY2xRR2d1V3JWT25FM3I2NnM2?=
- =?utf-8?B?NmlBZEdoUkdzWDc1cWVhVkpBTTJNT29wdzZ6azNReW9qSWQxeHJHNE03QzNl?=
- =?utf-8?B?eW1KSXNJdHlRPT0=?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 228fd4bc-6147-424b-7deb-08da0c02d1f6
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR10MB5841.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2022 12:52:27.9500 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AnNoa1xIwJShiEt2tOZUuupOsIZWSUc7g3LxQCE/ybGmKfm2rvzqQF/nDmX3XC6/MLVQwDVXJ3Vlb8rlwK9f1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4642
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10293
- signatures=694221
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0 mlxscore=0
- bulkscore=0 phishscore=0 spamscore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203220074
-X-Proofpoint-GUID: vycUWrDYrfPjt3TwzeCxHpUAtWaXJmOn
-X-Proofpoint-ORIG-GUID: vycUWrDYrfPjt3TwzeCxHpUAtWaXJmOn
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=mark.kanda@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20220315144156.1595462-1-armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -176,56 +96,237 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, f4bug@amsat.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
+ Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Eric Blake <eblake@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Amit Shah <amit@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, haxm-team@intel.com,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ qemu-ppc@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
+ qemu-s390x@nongnu.org, Patrick Venture <venture@google.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Corey Minyard <cminyard@mvista.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks Philippe,
+On Tue, Mar 15, 2022 at 03:41:53PM +0100, Markus Armbruster wrote:
+> g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
+> for two reasons.  One, it catches multiplication overflowing size_t.
+> Two, it returns T * rather than void *, which lets the compiler catch
+> more type errors.
+> 
+> This series only touches allocations with size arguments of the form
+> sizeof(T).  It's mechanical, except for a tiny fix in PATCH 2.
+> 
+> PATCH 1 adds the Coccinelle script.
+> 
+> PATCH 2 cleans up the virtio-9p subsystem, and fixes a harmless typing
+> error uncovered by the cleanup.
+> 
+> PATCH 3 cleans up everything else.  I started to split it up, but
+> splitting is a lot of decisions, and I just can't see the value.
 
-On 3/21/2022 5:12 PM, Philippe Mathieu-Daudé wrote:
-> On 21/3/22 15:14, Mark Kanda wrote:
->> vCPU hotunplug related leak reported by Valgrind:
->>
->> ==102631== 56 bytes in 1 blocks are definitely lost in loss record 5,089 of 
->> 8,555
->> ==102631==    at 0x4C3ADBB: calloc (vg_replace_malloc.c:1117)
->> ==102631==    by 0x69EE4CD: g_malloc0 (in /usr/lib64/libglib-2.0.so.0.5600.4)
->> ==102631==    by 0x924452: kvm_start_vcpu_thread (kvm-accel-ops.c:69)
->
-> Here we want to extract a common generic_init_vcpu_thread().
->
+series:
 
-How about I add extracting 'generic_init_vcpu_thread()' as a separate cleanup 
-patch at the end? I'll also drop my xsave_buf patch due to your followup.
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-Thanks/regards,
--Mark
 
->> ==102631==    by 0x4505C2: qemu_init_vcpu (cpus.c:643)
->> ==102631==    by 0x76B4D1: x86_cpu_realizefn (cpu.c:6520)
->> ==102631==    by 0x9344A7: device_set_realized (qdev.c:531)
->> ==102631==    by 0x93E329: property_set_bool (object.c:2273)
->> ==102631==    by 0x93C2F8: object_property_set (object.c:1408)
->> ==102631==    by 0x940796: object_property_set_qobject (qom-qobject.c:28)
->> ==102631==    by 0x93C663: object_property_set_bool (object.c:1477)
->> ==102631==    by 0x933D3B: qdev_realize (qdev.c:333)
->> ==102631==    by 0x455EC4: qdev_device_add_from_qdict (qdev-monitor.c:713)
->>
->> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
->> ---
->>   accel/accel-common.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/accel/accel-common.c b/accel/accel-common.c
->> index 623df43cc3..297d4e4ef1 100644
->> --- a/accel/accel-common.c
->> +++ b/accel/accel-common.c
->> @@ -140,4 +140,5 @@ type_init(register_accel_types);
->>   void generic_destroy_vcpu_thread(CPUState *cpu)
->>   {
->>       g_free(cpu->thread);
->> +    g_free(cpu->halt_cond);
->>   }
->
+> For instance, MAINTAINERS tells me to split for subsystem "virtio",
+> patching
+> 
+>     hw/char/virtio-serial-bus.c
+>     hw/display/virtio-gpu.c
+>     hw/net/virtio-net.c
+>     hw/virtio/virtio-crypto.c
+>     hw/virtio/virtio-iommu.c
+>     hw/virtio/virtio.c
+> 
+> But it also tells me to split for subsystem "Character devices",
+> patching
+> 
+>     hw/char/parallel.c                       |  2 +-
+>     hw/char/riscv_htif.c                     |  2 +-
+>     hw/char/virtio-serial-bus.c              |  6 +-
+> 
+> and for subsystem "Network devices", patching
+> 
+>     hw/net/virtio-net.c
+> 
+> and for subsystem "virtio-gpu", patching
+> 
+>     hw/display/virtio-gpu.c
+> 
+> I guess I'd go with "virtio".  Six files down, 103 to go.  Thanks, but
+> no thanks.
+> 
+> Since the transformation is local to a function call, dropping is
+> completely safe.  We can deal with conflicts by dropping conflicting
+> hunks, with "git-pull -s recursive -X ours".  Or drop entire files
+> with conflicts.
+> 
+> If you want me to split off certain parts, please tell me exactly what
+> you want split off, and I'll gladly do the splitting.  I don't mind
+> the splitting part, I do mind the *thinking* part.
+> 
+> I backed out two changes made by the Coccinelle script:
+> scripts/coverity-scan/model.c, because that's special, and
+> semihosting/config.c, because it has a typing error similar to the one
+> fixed in PATCH 2, and Alex already posted a patch for it.
+> 
+> v2:
+> * PATCH 3: Change to scripts/coverity-scan/model.c dropped [Eric]
+> * PATCH 3: Change to semihosting/config.c dropped [Alex]
+> * Commit messages tweaked
+> 
+> Markus Armbruster (3):
+>   scripts/coccinelle: New use-g_new-etc.cocci
+>   9pfs: Use g_new() & friends where that makes obvious sense
+>   Use g_new() & friends where that makes obvious sense
+> 
+>  scripts/coccinelle/use-g_new-etc.cocci   | 75 ++++++++++++++++++++++++
+>  include/qemu/timer.h                     |  2 +-
+>  accel/kvm/kvm-all.c                      |  6 +-
+>  accel/tcg/tcg-accel-ops-mttcg.c          |  2 +-
+>  accel/tcg/tcg-accel-ops-rr.c             |  4 +-
+>  audio/audio.c                            |  4 +-
+>  audio/audio_legacy.c                     |  6 +-
+>  audio/dsoundaudio.c                      |  2 +-
+>  audio/jackaudio.c                        |  6 +-
+>  audio/paaudio.c                          |  4 +-
+>  backends/cryptodev.c                     |  2 +-
+>  contrib/vhost-user-gpu/vhost-user-gpu.c  |  2 +-
+>  cpus-common.c                            |  4 +-
+>  dump/dump.c                              |  2 +-
+>  hw/9pfs/9p-proxy.c                       |  2 +-
+>  hw/9pfs/9p-synth.c                       |  4 +-
+>  hw/9pfs/9p.c                             |  8 +--
+>  hw/9pfs/codir.c                          |  6 +-
+>  hw/acpi/hmat.c                           |  2 +-
+>  hw/audio/intel-hda.c                     |  2 +-
+>  hw/char/parallel.c                       |  2 +-
+>  hw/char/riscv_htif.c                     |  2 +-
+>  hw/char/virtio-serial-bus.c              |  6 +-
+>  hw/core/irq.c                            |  2 +-
+>  hw/core/reset.c                          |  2 +-
+>  hw/display/pxa2xx_lcd.c                  |  2 +-
+>  hw/display/tc6393xb.c                    |  2 +-
+>  hw/display/virtio-gpu.c                  |  4 +-
+>  hw/display/xenfb.c                       |  4 +-
+>  hw/dma/rc4030.c                          |  4 +-
+>  hw/i2c/core.c                            |  4 +-
+>  hw/i2c/i2c_mux_pca954x.c                 |  2 +-
+>  hw/i386/amd_iommu.c                      |  4 +-
+>  hw/i386/intel_iommu.c                    |  2 +-
+>  hw/i386/xen/xen-hvm.c                    | 10 ++--
+>  hw/i386/xen/xen-mapcache.c               | 14 ++---
+>  hw/input/lasips2.c                       |  2 +-
+>  hw/input/pckbd.c                         |  2 +-
+>  hw/input/ps2.c                           |  4 +-
+>  hw/input/pxa2xx_keypad.c                 |  2 +-
+>  hw/input/tsc2005.c                       |  3 +-
+>  hw/intc/riscv_aclint.c                   |  6 +-
+>  hw/intc/xics.c                           |  2 +-
+>  hw/m68k/virt.c                           |  2 +-
+>  hw/mips/mipssim.c                        |  2 +-
+>  hw/misc/applesmc.c                       |  2 +-
+>  hw/misc/imx6_src.c                       |  2 +-
+>  hw/misc/ivshmem.c                        |  4 +-
+>  hw/net/virtio-net.c                      |  4 +-
+>  hw/nvme/ns.c                             |  2 +-
+>  hw/pci-host/pnv_phb3.c                   |  2 +-
+>  hw/pci-host/pnv_phb4.c                   |  2 +-
+>  hw/pci/pcie_sriov.c                      |  2 +-
+>  hw/ppc/e500.c                            |  2 +-
+>  hw/ppc/ppc.c                             |  8 +--
+>  hw/ppc/ppc405_boards.c                   |  4 +-
+>  hw/ppc/ppc405_uc.c                       | 18 +++---
+>  hw/ppc/ppc4xx_devs.c                     |  2 +-
+>  hw/ppc/ppc_booke.c                       |  4 +-
+>  hw/ppc/spapr.c                           |  2 +-
+>  hw/ppc/spapr_events.c                    |  2 +-
+>  hw/ppc/spapr_hcall.c                     |  2 +-
+>  hw/ppc/spapr_numa.c                      |  3 +-
+>  hw/rdma/vmw/pvrdma_dev_ring.c            |  2 +-
+>  hw/rdma/vmw/pvrdma_qp_ops.c              |  6 +-
+>  hw/sh4/r2d.c                             |  4 +-
+>  hw/sh4/sh7750.c                          |  2 +-
+>  hw/sparc/leon3.c                         |  2 +-
+>  hw/sparc64/sparc64.c                     |  4 +-
+>  hw/timer/arm_timer.c                     |  2 +-
+>  hw/timer/slavio_timer.c                  |  2 +-
+>  hw/vfio/pci.c                            |  4 +-
+>  hw/vfio/platform.c                       |  4 +-
+>  hw/virtio/virtio-crypto.c                |  2 +-
+>  hw/virtio/virtio-iommu.c                 |  2 +-
+>  hw/virtio/virtio.c                       |  5 +-
+>  hw/xtensa/xtfpga.c                       |  2 +-
+>  linux-user/syscall.c                     |  2 +-
+>  migration/dirtyrate.c                    |  4 +-
+>  migration/multifd-zlib.c                 |  4 +-
+>  migration/ram.c                          |  2 +-
+>  monitor/misc.c                           |  2 +-
+>  monitor/qmp-cmds.c                       |  2 +-
+>  qga/commands-win32.c                     |  8 +--
+>  qga/commands.c                           |  2 +-
+>  qom/qom-qmp-cmds.c                       |  2 +-
+>  replay/replay-char.c                     |  4 +-
+>  replay/replay-events.c                   | 10 ++--
+>  softmmu/bootdevice.c                     |  4 +-
+>  softmmu/dma-helpers.c                    |  4 +-
+>  softmmu/memory_mapping.c                 |  2 +-
+>  target/i386/cpu-sysemu.c                 |  2 +-
+>  target/i386/hax/hax-accel-ops.c          |  4 +-
+>  target/i386/nvmm/nvmm-accel-ops.c        |  4 +-
+>  target/i386/whpx/whpx-accel-ops.c        |  4 +-
+>  target/i386/whpx/whpx-all.c              |  2 +-
+>  target/s390x/cpu-sysemu.c                |  2 +-
+>  tests/qtest/virtio-9p-test.c             |  4 +-
+>  tests/unit/test-hbitmap.c                |  2 +-
+>  tests/unit/test-qmp-cmds.c               | 14 ++---
+>  tests/unit/test-qobject-output-visitor.c |  2 +-
+>  tests/unit/test-vmstate.c                | 42 ++++++-------
+>  ui/vnc-enc-tight.c                       |  2 +-
+>  util/envlist.c                           |  2 +-
+>  util/hbitmap.c                           |  2 +-
+>  util/main-loop.c                         |  2 +-
+>  util/qemu-timer.c                        |  2 +-
+>  util/vfio-helpers.c                      |  4 +-
+>  108 files changed, 282 insertions(+), 212 deletions(-)
+>  create mode 100644 scripts/coccinelle/use-g_new-etc.cocci
+> 
+> -- 
+> 2.35.1
 
 
