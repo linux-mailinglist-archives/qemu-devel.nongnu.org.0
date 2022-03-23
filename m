@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77944E5B49
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 23:37:13 +0100 (CET)
-Received: from localhost ([::1]:36646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A8A4E5B6B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 23:44:17 +0100 (CET)
+Received: from localhost ([::1]:43880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX9bM-0003mI-Fy
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 18:37:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38378)
+	id 1nX9iB-0001Me-Uy
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 18:44:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1nX9WN-0007od-O0
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:32:03 -0400
-Received: from mta02.hs-regensburg.de ([194.95.104.12]:54882)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nX9gE-0000Pd-BG
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:42:14 -0400
+Received: from [2607:f8b0:4864:20::102c] (port=34093
+ helo=mail-pj1-x102c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1nX9WL-0006e7-Da
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:32:03 -0400
-Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
- [IPv6:2001:638:a01:8013::93])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client CN "E16S03", Issuer "E16S03" (not verified))
- by mta02.hs-regensburg.de (Postfix) with ESMTPS id 4KP34b3Ghszxxg;
- Wed, 23 Mar 2022 23:31:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
- s=mta02-20211122; t=1648074719;
- bh=NIVl29/mf2XMmS0WfDxscBPm0g1tj4VYiMCE9p8xBuU=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=dxCNcGEb3GRqZB/kj6mrW/Nea3EZ2mPRB46Q1XaFuXa3LUoHK2+daFTshrOuski9j
- mjAimOQHDYi7v7i1uR/+ykn4pDxNqnbKlhIveeLtGR8eu+rCY03lJqYw2zeUmxNtM1
- N9zq5DrE44l8nOp0gRmotnC5AVOUyU1tjfCtGIt5x4JSw4KLO7oCk0lNMlmvE0t8Mq
- FFhf+C32sNWNQSNHoUiA75m0CP6Fh/GE6gH34HNU9nbH9C2Hl+QmSbM2QDFnnCeGBC
- FdgSkzx8bLqXqlXxZSd0E6BQpor0tk8gr/eHU9ccwxCbSkXhq1rBxlc2ZrYsTC+hmE
- Jassr6UyFcseA==
-Received: from atlantis.regensburg.freifunk.net (2001:638:a01:8013::138) by
- E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 23 Mar 2022 23:31:58 +0100
-From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2] hw/riscv: virt: Warn the user if -bios is provided when
- using KVM
-Date: Wed, 23 Mar 2022 23:31:50 +0100
-Message-ID: <20220323223150.1600194-1-ralf.ramsauer@oth-regensburg.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
-References: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nX9gC-0001Fk-QU
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:42:13 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ o68-20020a17090a0a4a00b001c686a48263so4381621pjo.1
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 15:42:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=bVY7soqiA3XCeAktGtOltVSnsWK0ipkOhc3Gp8lbCXw=;
+ b=HCXj+BCwblaGSuakokQGfF9RI/TV1E1oKcG0pXTRawG6eqa3KSsr9di1HwaoQQCsL5
+ NZP3ZBvGO5Kaq6KkB6v5U1oRnKcS91AsC7MdA4JGYaBM7bhH+tFxGlB1ahZQrQtblaHh
+ /CKkq1nDH/pgeB4Zw3WuRfPiK03tRTlPk3JL5wz5cW0sz2jV2mvKbGCjrk2zfs5DgwQ6
+ LPIYGNegATnOlfpu5MBSQvk79HLHDbnx5mecffGmtQ5ScbkfdPm92m8tJe3K6LB4Zcbn
+ 8dZ41nT5HX/w7IVBteYIKIrCqR4cnnZufysW1fgQSOpePn80cE9u4dNwChI6UBUXuwhX
+ c2Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bVY7soqiA3XCeAktGtOltVSnsWK0ipkOhc3Gp8lbCXw=;
+ b=wyl92zXYJT9T+jG6mjHshhw2jYUgGhPdxY4KnyhlZ4MCCoETkn2exRqgWicuzitzTB
+ jtI/iTLIGJhFr4sNpd2apyGp/fExy09krATCWZSodklxRC2CCB1s14oMBCDscl+xU6Ni
+ W+1JdcUcYAwLiMpWzb3qynCjkWVVtJ2mKZUUBrKj4L5b9nWjck0zCKvN9QUX01xz4yRq
+ mR/Zzcny4meouF4RSuO1UmXOLtpijVWODzyNfHGxeQo6nNU1m/QjWo5vosqoaOQx5Rpl
+ U3m4rGNmDA92tULTD3mXaMj/h1bMPPhV8dnqeeR9I3pM6XxFm9tSqXBtEZlK+DutZIzY
+ yD0w==
+X-Gm-Message-State: AOAM533BN9pQSWR6yGu90xkZyAzdYKodi3R1jcg/edkkfsOZ/Ex+JGeD
+ cts5iO3stLUODxCqIcmVtzSFmg==
+X-Google-Smtp-Source: ABdhPJyVLtKRpLSTaZKPfxDXW9cS9gB0xbc6CTvIQGWYScQ4QvflxTFKgrae8jcYgMYAsfgEms3Vxw==
+X-Received: by 2002:a17:90a:bd09:b0:1c6:d549:7b92 with SMTP id
+ y9-20020a17090abd0900b001c6d5497b92mr2332661pjr.94.1648075331335; 
+ Wed, 23 Mar 2022 15:42:11 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ p3-20020a056a000b4300b004faee36ea56sm15607pfo.155.2022.03.23.15.42.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Mar 2022 15:42:10 -0700 (PDT)
+Message-ID: <443e171e-77a1-e51f-569d-e65f37077922@linaro.org>
+Date: Wed, 23 Mar 2022 15:42:09 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 11/13] accel/tcg: Add rr_destroy_vcpu_thread_precheck()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
+References: <20220323171751.78612-1-philippe.mathieu.daude@gmail.com>
+ <20220323171751.78612-12-philippe.mathieu.daude@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220323171751.78612-12-philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [2001:638:a01:8013::138]
-X-ClientProxiedBy: E16S02.hs-regensburg.de (2001:638:a01:8013::92) To
- E16S03.hs-regensburg.de (2001:638:a01:8013::93)
-Received-SPF: pass client-ip=194.95.104.12;
- envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta02.hs-regensburg.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,40 +95,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: apatel@ventanamicro.com, Peter Maydell <peter.maydell@linaro.org>,
- anup@brainfault.org, Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
- Palmer Dabbelt <palmer@dabbelt.com>, stefan.huber@oth-regensburg.de,
- alistair23@gmail.com, jiangyifei@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The -bios option is silently ignored if used in combination with -enable-kvm.
-The reason is that the machine starts in S-Mode, and the bios typically runs in
-M-Mode.
+On 3/23/22 10:17, Philippe Mathieu-Daudé wrote:
+> +bool rr_destroy_vcpu_thread_precheck(CPUState *cpu)
+> +{
+> +    if (single_tcg_cpu_thread) {
+> +        single_tcg_cpu_thread = NULL;
+> +        return true;
+> +    }
+> +    return false;
+> +}
 
-Warn the user that the bios won't be loaded.
+This would become
 
-Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
----
- hw/riscv/virt.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index da50cbed43..0c477addbc 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1312,6 +1312,10 @@ static void virt_machine_init(MachineState *machine)
-      * when KVM is enabled.
-      */
-     if (kvm_enabled()) {
-+        if (machine->firmware && strcmp(machine->firmware, "none")) {
-+            warn_report("Machine mode firmware is not supported in combination "
-+                        "with KVM. Ignoring -bios.");
-+        }
-         g_free(machine->firmware);
-         machine->firmware = g_strdup("none");
+void rr_destroy_vcpu_thread(CPUState *cpu)
+{
+     if (single_tcg_cpu_thread) {
+         g_free(single_tcg_cpu_thread);
+         g_free(single_tcg_halt_cond);
+         single_tcg_cpu_thread = NULL;
+         single_tcg_halt_cond = NULL;
      }
--- 
-2.35.1
+}
 
+
+r~
 
