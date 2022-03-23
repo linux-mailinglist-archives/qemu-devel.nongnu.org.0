@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01B74E4D25
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 08:16:19 +0100 (CET)
-Received: from localhost ([::1]:34182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21604E4D53
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 08:28:58 +0100 (CET)
+Received: from localhost ([::1]:38536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWvEA-0002Cq-AF
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 03:16:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39818)
+	id 1nWvQP-0005q0-Jq
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 03:28:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nWvBv-0001Np-VC; Wed, 23 Mar 2022 03:13:59 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:39860 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nWvBs-0002qm-Ho; Wed, 23 Mar 2022 03:13:59 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowADn7NinyDpiWzQCBQ--.48578S2;
- Wed, 23 Mar 2022 15:13:45 +0800 (CST)
-Subject: Re: [PATCH qemu v3 03/14] target/riscv: rvv: Early exit when vstart
- >= vl
-To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <164800788276.12449.15168787569124374586-3@git.sr.ht>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <4518f298-507f-2dd5-f696-d8db16501ef3@iscas.ac.cn>
-Date: Wed, 23 Mar 2022 15:13:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nWvMj-0003dR-JJ
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 03:25:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nWvMg-0000gT-AU
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 03:25:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648020304;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ozZJjW77tp1RPbsuTtFCvlLt9ygsLD+rOf6IJpldEgk=;
+ b=Ay926nJebkEsqLLEJ4FV140cjVGieFph2hp1DE6jBwkepgGDjUIvrvkwjVFS612c3VGPB9
+ IOwTMIkOfrPchLQzEasxi+rOq2Ul2I20P5KbUCP8G/iuPTljdaOS9lqIcnDBG1LuJMv5lB
+ 2hb4KudSD6ogD9FTQQVxrRYqO2LcqhY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-460-W0L4eJm3MmC7XbkhqWfE2w-1; Wed, 23 Mar 2022 03:25:03 -0400
+X-MC-Unique: W0L4eJm3MmC7XbkhqWfE2w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E7572899EC2;
+ Wed, 23 Mar 2022 07:25:02 +0000 (UTC)
+Received: from gshan.redhat.com (ovpn-12-33.pek2.redhat.com [10.72.12.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7AD2F2166B2D;
+ Wed, 23 Mar 2022 07:24:56 +0000 (UTC)
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-arm@nongnu.org
+Subject: [PATCH v3 0/4] hw/arm/virt: Fix CPU's default NUMA node ID
+Date: Wed, 23 Mar 2022 15:24:34 +0800
+Message-Id: <20220323072438.71815-1-gshan@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <164800788276.12449.15168787569124374586-3@git.sr.ht>
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: zQCowADn7NinyDpiWzQCBQ--.48578S2
-X-Coremail-Antispam: 1UD129KBjvJXoWfGr43GFWrJw1kCrW3Xr45Awb_yoWkWryrpr
- 17tr4fZ39rGa4rJ34Fgw45Ar4FvF40kr4F9wnIyr4rGrW8Jr4DJr4DGw4Ygr1IvF43XrW2
- ya17ZFyqganxGaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21lc7CjxVAKzI0EY4vE52x082I5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq
- 3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
- nIWIevJa73UjIFyTuYvjfU8VbyDUUUU
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,273 +75,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, eop Chen <eop.chen@sifive.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, zhenyzha@redhat.com, wangyanan55@huawei.com,
+ shan.gavin@gmail.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When the CPU-to-NUMA association isn't provided by user, the default NUMA
+node ID for the specific CPU is returned from virt_get_default_cpu_node_id().
+Unfortunately, the default NUMA node ID breaks socket boundary and leads to
+the broken CPU topology warning message in Linux guest. This series intends
+to fix the issue.
 
-在 2022/3/12 下午2:28, ~eopxd 写道:
-> From: eopXD <eop.chen@sifive.com>
->
-> According to v-spec (section 5.4):
-> When vstart ≥ vl, there are no body elements, and no elements are
-> updated in any destination vector register group, including that
-> no tail elements are updated with agnostic values.
->
-> Signed-off-by: eop Chen <eop.chen@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> ---
->   target/riscv/insn_trans/trans_rvv.c.inc | 29 +++++++++++++++++++++++++
->   1 file changed, 29 insertions(+)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 275fded6e4..1e51a3e79c 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -652,6 +652,7 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -818,6 +819,7 @@ static bool ldst_stride_trans(uint32_t vd, uint32_t rs1, uint32_t rs2,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -925,6 +927,7 @@ static bool ldst_index_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -1067,6 +1070,7 @@ static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -1216,6 +1220,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn *gvec_fn,
->       }
->   
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       if (a->vm && s->vl_eq_vlmax) {
->           gvec_fn(s->sew, vreg_ofs(s, a->rd),
-> @@ -1263,6 +1268,7 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -1427,6 +1433,7 @@ static bool opivi_trans(uint32_t vd, uint32_t imm, uint32_t vs2, uint32_t vm,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -1513,6 +1520,7 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
->           uint32_t data = 0;
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> @@ -1593,6 +1601,7 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
->           uint32_t data = 0;
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> @@ -1670,6 +1679,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
->           };                                                         \
->           TCGLabel *over = gen_new_label();                          \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> @@ -1851,6 +1861,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
->           };                                                         \
->           TCGLabel *over = gen_new_label();                          \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> @@ -2061,6 +2072,7 @@ static bool trans_vmv_v_v(DisasContext *s, arg_vmv_v_v *a)
->               };
->               TCGLabel *over = gen_new_label();
->               tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +            tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->               tcg_gen_gvec_2_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, a->rs1),
->                                  cpu_env, s->cfg_ptr->vlen / 8,
-> @@ -2084,6 +2096,7 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
->           TCGv s1;
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->           s1 = get_gpr(s, a->rs1, EXT_SIGN);
->   
-> @@ -2139,6 +2152,7 @@ static bool trans_vmv_v_i(DisasContext *s, arg_vmv_v_i *a)
->               };
->               TCGLabel *over = gen_new_label();
->               tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +            tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->               s1 = tcg_constant_i64(simm);
->               dest = tcg_temp_new_ptr();
-> @@ -2291,6 +2305,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
->           TCGLabel *over = gen_new_label();                          \
->           gen_set_rm(s, RISCV_FRM_DYN);                              \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> @@ -2321,6 +2336,7 @@ static bool opfvf_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
->   
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       dest = tcg_temp_new_ptr();
->       mask = tcg_temp_new_ptr();
-> @@ -2409,6 +2425,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)           \
->           TCGLabel *over = gen_new_label();                        \
->           gen_set_rm(s, RISCV_FRM_DYN);                            \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);        \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);\
->                                                                    \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);               \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);           \
-> @@ -2483,6 +2500,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
->           TCGLabel *over = gen_new_label();                          \
->           gen_set_rm(s, RISCV_FRM_DYN);                              \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> @@ -2604,6 +2622,7 @@ static bool do_opfv(DisasContext *s, arg_rmr *a,
->           TCGLabel *over = gen_new_label();
->           gen_set_rm(s, rm);
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> @@ -2717,6 +2736,7 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
->               };
->               TCGLabel *over = gen_new_label();
->               tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +            tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->               t1 = tcg_temp_new_i64();
->               /* NaN-box f[rs1] */
-> @@ -2805,6 +2825,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
->           TCGLabel *over = gen_new_label();                          \
->           gen_set_rm(s, FRM);                                        \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> @@ -2856,6 +2877,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
->           TCGLabel *over = gen_new_label();                          \
->           gen_set_rm(s, RISCV_FRM_DYN);                              \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-> @@ -2921,6 +2943,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
->           TCGLabel *over = gen_new_label();                          \
->           gen_set_rm(s, FRM);                                        \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> @@ -2974,6 +2997,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
->           TCGLabel *over = gen_new_label();                          \
->           gen_set_rm(s, FRM);                                        \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
->           tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-> @@ -3061,6 +3085,7 @@ static bool trans_##NAME(DisasContext *s, arg_r *a)                \
->           gen_helper_gvec_4_ptr *fn = gen_helper_##NAME;             \
->           TCGLabel *over = gen_new_label();                          \
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
->                                                                      \
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
->           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-> @@ -3201,6 +3226,7 @@ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
->           uint32_t data = 0;
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> @@ -3229,6 +3255,7 @@ static bool trans_vid_v(DisasContext *s, arg_vid_v *a)
->           uint32_t data = 0;
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> @@ -3674,6 +3701,7 @@ static bool trans_vcompress_vm(DisasContext *s, arg_r *a)
->           };
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
+  PATCH[1/4] Uses SMP configuration to populate CPU topology
+  PATCH[2/4] Fixes the broken CPU topology by considering the socket boundary
+             when the default NUMA node ID is given
+  PATCH[3/4] Uses the populated CPU topology to build PPTT table, instead of
+             calculate it again
+  PATCH[4/4] Take thread ID as the ACPI processor ID in MDAT and SRAT tables
 
-vmsbf.m, vmsif.m,vmsof.m, viota.m, vcompress instructions themselves 
-require vstart to be zero.
+Changelog
+=========
+v3:
+   * Split PATCH[v2 1/3] to PATCH[v3 1/4] and PATCH[v3 2/4]     (Yanan)
+   * Don't take account of die ID in CPU topology population
+     and added assert(!mc->smp_props.dies_supported)            (Yanan/Igor)      
+   * Assign cluster_id and use it when building PPTT table      (Yanan/Igor)
+v2:
+   * Populate the CPU topology in virt_possible_cpu_arch_ids()
+     so that it can be reused in virt_get_default_cpu_node_id() (Igor)
+   * Added PATCH[2/3] to use the existing CPU topology when the
+     PPTT table is built                                        (Igor)
+   * Added PATCH[3/3] to take thread ID as ACPI processor ID
+     in MADT and SRAT table                                     (Gavin)
 
-So it seems unnecessary here.  By the way, I remember I have commented 
-this in last patchset. We
+Gavin Shan (4):
+  hw/arm/virt: Consider SMP configuration in CPU topology
+  hw/arm/virt: Fix CPU's default NUMA node ID
+  hw/acpi/aml-build: Use existing CPU topology to build PPTT table
+  hw/arm/virt: Unify ACPI processor ID in MADT and SRAT table
 
-both lost it in our previous discussion.
+ hw/acpi/aml-build.c      | 96 ++++++++++++++++++++++++++++++----------
+ hw/arm/virt-acpi-build.c | 12 +++--
+ hw/arm/virt.c            | 15 ++++++-
+ qapi/machine.json        |  6 ++-
+ 4 files changed, 99 insertions(+), 30 deletions(-)
 
-Regards,
-Weiwei Li
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
-> @@ -3746,6 +3774,7 @@ static bool int_ext_op(DisasContext *s, arg_rmr *a, uint8_t seq)
->       gen_helper_gvec_3_ptr *fn;
->       TCGLabel *over = gen_new_label();
->       tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
->   
->       static gen_helper_gvec_3_ptr * const fns[6][4] = {
->           {
+-- 
+2.23.0
 
 
