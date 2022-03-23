@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84A74E5A25
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 21:48:15 +0100 (CET)
-Received: from localhost ([::1]:54446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140814E5A46
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 21:58:01 +0100 (CET)
+Received: from localhost ([::1]:58138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX7tu-00010t-Ei
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 16:48:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42856)
+	id 1nX83L-0003zh-NT
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 16:57:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX7sN-0000DK-6M
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 16:46:39 -0400
-Received: from [2607:f8b0:4864:20::62e] (port=46732
- helo=mail-pl1-x62e.google.com)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nX81x-0003J7-Fk
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 16:56:33 -0400
+Received: from [2607:f8b0:4864:20::62b] (port=46782
+ helo=mail-pl1-x62b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX7sL-0004cD-MT
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 16:46:38 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id w4so2685826ply.13
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 13:46:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nX81v-0007YK-Or
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 16:56:33 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id w4so2708886ply.13
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 13:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=+73ItPzcNOeokWhyN8RJCRTvEWkL/iECJKv8dAriwpg=;
- b=mx3m3b1tUxc+ywmFOeERRGDQOcu6PK5MmF+oz/ON1ua1cRQR8TeDQHUlMyKGY+ZRk9
- AjdZwBfUVXbNmoWFwQBR6WNp3BFwh6HPVz9Uw6ktYD7EtZQiQmAMQ2t62fnwQmx7ADk/
- GAaLVtgu5bO5eEWw80DBTRQ5t5P37swbYaiE0CKs34kmXfxuMvX461jOv0SwE5zJ1qIZ
- HWheIxfihm2cXJfu6dZcFpIm1RnHfbuK5+UFK8Gsftwp9Yoiu5P3DSS2LBZL71zkksJz
- TvEmcA9KTsqlc7p/ztsHXOFLnn/Czwm5BYtUihysgwyJmZydnA644cW8K1wvQyjV5o+K
- A6RQ==
+ bh=q/k3wcHXNikb5tqQBFm/3fxIKyfYwoD634rUB0dfwLo=;
+ b=JwkOCg7Y3eEyjfhq+bbFz0gqUHclfkGfk2vjusc94jDzvwYBi7hDMD+0ZS8Jpgvt1i
+ XP8XnVB0gRMDdCS9++h2N883Vy2sR4xD2j0jsdjAygRHc2kCHT8cAGBzXIMFsjUXz2D2
+ 0ZiYVb/AjaxIJbIkFJgist4Z6i2SUOcHfO+0Hty2VhU9s3Vz7RkcJcU3niqWa42FdsFi
+ M64MIKKztKrVhXdsiUGzDvtCaPLj1UzGfGulfoBfJFQFlxmmAUiT41mNE9KPo4Swn8cd
+ vjpeEWnoaoYGHNK/pNUGBDg3/ES/6EVvHlckfWsgKtUv4BLccbnbSsVz90jd+jtKl1Hw
+ jpUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+73ItPzcNOeokWhyN8RJCRTvEWkL/iECJKv8dAriwpg=;
- b=lUDivQC9RbcyC7/BX1ESZYfJqVEaK/uOdPej1iV9rWbNGB/0o3xw4Ao6u9y3a/dXos
- Cwlc7t+hs2ovndEgsl1hfIaERnZoB2vb52YsxfU16MkJmcZbL84DZfZl2LgYvPewajW4
- Q5yuaOEFJp/NMhMyrQrwXK5nnO1P7GI8QRlS2ag8k9uZXV0hZdB++aU3S4JGYj6mUc7m
- cNjuI5nMwkR9AySxb2IesJcz7rGcCTos2noRUZRVVRzc0GUIuywjIzcVfDIPjaUV8NB4
- TuPXBAu4csqVSa1Aq9nv6DwFV08mkb4ZHMsBUC3cFWT9+43LedVS71GXiZBS66ayhrhV
- ZViA==
-X-Gm-Message-State: AOAM531TZu09hjkIQ1C55L+/ndOkgqigUXXQURw38IudB/8oMZDGouR6
- dHPZQ2dhE+aohlWKbfl7pjSrrg==
-X-Google-Smtp-Source: ABdhPJwHdPaHj6lLyyYCV7GS2Gae+myjeNOozgJxIu2OeSjiMvOC3hXvs5iswq5F625LJIR3YuJybg==
-X-Received: by 2002:a17:90b:3e82:b0:1c7:2920:7c54 with SMTP id
- rj2-20020a17090b3e8200b001c729207c54mr13918478pjb.2.1648068392835; 
- Wed, 23 Mar 2022 13:46:32 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ bh=q/k3wcHXNikb5tqQBFm/3fxIKyfYwoD634rUB0dfwLo=;
+ b=Z1FfAKQ8Ujjv2vVaaSBdZ2tJ+cJRFT8dauionOP6USZwugvlCd9gNtvybPH1FoQSwN
+ MfrQDAL/zcmCG2nz6T5o8FzRpGk5G9uytMZLTMcpDr6KOd2ly7aVUZKwCNtmKgGph0gi
+ qtrCQB6JPj+lbUcO8KhGJMgJb9wsTDS2dtHVp1iyCpH23i3A4X+3j5F62ytRURDyD+uH
+ XXbTmTV3fAnVL+o8feMGJ/16YOGzyYFvaRag3JcUAWXZEsYB1hqE6DXejcPjUP2T2krx
+ qCLMaEkezIl3NaiTBcuJFUiBGJqaVXvDZpqhYM0th7o952w5UqWWAO78HftFZZUhkDBe
+ cSJg==
+X-Gm-Message-State: AOAM531m7azNGxWjLLcw5EDY/rjFJIULjtlZ+4gGmjwkUQNccY1GJ+vt
+ O6aRmgxtzUj9hTF9lHp8Ow4=
+X-Google-Smtp-Source: ABdhPJzmmISDUuwFVkHZfqp5BCdCnB9Z+j2DFwcOSb2LgrvNvCLPyzdzsiiOtUW6jHSWe24uAxpF9w==
+X-Received: by 2002:a17:90b:1184:b0:1c7:2d83:6e03 with SMTP id
+ gk4-20020a17090b118400b001c72d836e03mr1811727pjb.221.1648068984286; 
+ Wed, 23 Mar 2022 13:56:24 -0700 (PDT)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a056a000b4d00b004faecee6e89sm15114pfo.208.2022.03.23.13.46.31
+ c69-20020a633548000000b0038554192b91sm599447pga.38.2022.03.23.13.56.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 13:46:32 -0700 (PDT)
-Message-ID: <3df76126-e4ab-7821-831a-c1a21e31fbc5@linaro.org>
-Date: Wed, 23 Mar 2022 13:46:30 -0700
+ Wed, 23 Mar 2022 13:56:23 -0700 (PDT)
+Message-ID: <93d39976-324e-de23-f4bb-12e8d6c98323@gmail.com>
+Date: Thu, 24 Mar 2022 05:56:19 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PULL for-7.1 08/36] *: Use fprintf between qemu_log_lock/unlock
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 31/32] RFC: Simplify softmmu/main.c
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20220320171135.2704502-1-richard.henderson@linaro.org>
- <20220320171135.2704502-9-richard.henderson@linaro.org>
- <87a6dg4m2h.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87a6dg4m2h.fsf@linaro.org>
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
+ <20220323155743.1585078-32-marcandre.lureau@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <20220323155743.1585078-32-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,30 +93,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/22 10:22, Alex Bennée wrote:
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+
+On 2022/03/24 0:57, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Richard Henderson <richard.henderson@linaro.org> writes:
+> Move qemu_main() declaration to a new header.
 > 
->> Inside qemu_log, we perform qemu_log_lock/unlock, which need
->> not be done if we have already performed the lock beforehand.
->>
->> Always check the result of qemu_log_lock -- only checking
->> qemu_loglevel_mask races with the acquisition of the lock
->> on the logfile.
+> Simplify main.c since both cocoa & sdl cannot be enabled together.
 > 
-> I'm not sure I like introducing all these raw fprintfs over introducing
-> a function like qemu_log__locked().
+> (there might be some small conflict with the RFC patch "cocoa: run qemu_init
+> in the main thread", but the two look like they could be used together
+> to improve the code)
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   include/qemu-common.h |  5 -----
+>   include/qemu-main.h   |  6 ++++++
+>   softmmu/main.c        | 25 +++++++++----------------
+>   ui/cocoa.m            |  1 +
+>   4 files changed, 16 insertions(+), 21 deletions(-)
+>   create mode 100644 include/qemu-main.h
+> 
+> diff --git a/include/qemu-common.h b/include/qemu-common.h
+> index 65483f70d4fe..0498acd16b78 100644
+> --- a/include/qemu-common.h
+> +++ b/include/qemu-common.h
+> @@ -19,9 +19,4 @@
+>       "See <https://qemu.org/contribute/report-a-bug> for how to report bugs.\n" \
+>       "More information on the QEMU project at <https://qemu.org>."
+>   
+> -/* main function, renamed */
+> -#if defined(CONFIG_COCOA)
+> -int qemu_main(int argc, char **argv, char **envp);
+> -#endif
+> -
+>   #endif
+> diff --git a/include/qemu-main.h b/include/qemu-main.h
+> new file mode 100644
+> index 000000000000..74d670bbf9a7
+> --- /dev/null
+> +++ b/include/qemu-main.h
+> @@ -0,0 +1,6 @@
+> +#ifndef QEMU_MAIN_H
+> +#define QEMU_MAIN_H
+> +
+> +int qemu_main(int argc, char **argv, char **envp);
+> +
+> +#endif /* QEMU_MAIN_H */
+> diff --git a/softmmu/main.c b/softmmu/main.c
+> index 639c67ff4893..c00432ff098e 100644
+> --- a/softmmu/main.c
+> +++ b/softmmu/main.c
+> @@ -23,28 +23,14 @@
+>    */
+>   
+>   #include "qemu/osdep.h"
+> -#include "qemu-common.h"
+> +#include "qemu-main.h"
+>   #include "sysemu/sysemu.h"
+>   
+>   #ifdef CONFIG_SDL
+> -#if defined(__APPLE__) || defined(main)
+>   #include <SDL.h>
+> -static int qemu_main(int argc, char **argv, char **envp);
+> -int main(int argc, char **argv)
+> -{
+> -    return qemu_main(argc, argv, NULL);
+> -}
+> -#undef main
+> -#define main qemu_main
+>   #endif
+> -#endif /* CONFIG_SDL */
+> -
+> -#ifdef CONFIG_COCOA
+> -#undef main
+> -#define main qemu_main
+> -#endif /* CONFIG_COCOA */
+>   
+> -int main(int argc, char **argv, char **envp)
+> +int qemu_main(int argc, char **argv, char **envp)
+>   {
+>       qemu_init(argc, argv, envp);
+>       qemu_main_loop();
+> @@ -52,3 +38,10 @@ int main(int argc, char **argv, char **envp)
+>   
+>       return 0;
+>   }
+> +
+> +#ifndef CONFIG_COCOA
+> +int main(int argc, char **argv)
+> +{
+> +    return qemu_main(argc, argv, NULL);
+> +}
+> +#endif
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index cb6e7c41dc6f..e566372b8f73 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -28,6 +28,7 @@
+>   #include <crt_externs.h>
+>   
+>   #include "qemu-common.h"
+> +#include "qemu-main.h"
+>   #include "ui/clipboard.h"
+>   #include "ui/console.h"
+>   #include "ui/input.h"
 
-There's no way to implement qemu_log__locked with rcu.  The lookup itself is what needs 
-the locking; the return value of the FILE* is then valid until the unlock.  To lookup the 
-FILE* again would require more atomic operations.
-
-And I do prefer the printfs over repeated qemu_log.
-
-
-r~
 
