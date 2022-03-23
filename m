@@ -2,74 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4EC4E5A6B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 22:07:46 +0100 (CET)
-Received: from localhost ([::1]:33194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E047A4E5A80
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 22:12:56 +0100 (CET)
+Received: from localhost ([::1]:38336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX8Cm-0007O4-Qk
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 17:07:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47636)
+	id 1nX8Hn-0002yy-Iq
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 17:12:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nX8Ai-0006b5-3n
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:05:36 -0400
-Received: from [2607:f8b0:4864:20::129] (port=33323
- helo=mail-il1-x129.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nX8Gy-0002Iq-5C
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:12:04 -0400
+Received: from [2607:f8b0:4864:20::102a] (port=35356
+ helo=mail-pj1-x102a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nX8Ag-0000k4-2O
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:05:35 -0400
-Received: by mail-il1-x129.google.com with SMTP id i1so1925182ila.0
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 14:05:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nX8Gw-0001q1-Hz
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:12:03 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ mj15-20020a17090b368f00b001c637aa358eso7639044pjb.0
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 14:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=94RI7Z4U7n9/rl3ingrhG3jpTC3aQxwOC+7fQ4PZDBA=;
- b=ks1zdQzBESFPclRvgk2Jpt5lT/avPeq2ZPM/gKjQ+7Hp7aS7PT6wrgYybbYjCGZmKA
- itZVBeSLE9GyXhI//JOlc+bGKxzvMdDkujRXqAdJ/rCDatw7XOV58ZHX7FIn5fMJVxcj
- PMgufrrnDLu/wOMFWHiKpSPBfiu/RXMcluSf0ilinSeAqRgYmG0u9NXEZYJ67Fe1yQNm
- V/uXjXL5w0nLiBt10iWr4/0/AkGHuBrb4M7e7g/mQdF4LIgbsGD8DDtb+NRdSF3SH9Yd
- yMTjWD1Rxh/VQDeQBr4KqJzmEAsC2sDjBS9o+NQvVtHLT72wxuPblQaSH5/MqdhQob48
- Nelw==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=x7XuOxtxUFegqKS/fRJPhw+dRsNHRbfBZ5omnv76mAw=;
+ b=dA9QpeBlFWBtLbEClT73VHd8JVok9mosvk/NCa2iAs4ZKNJ1xkfBCrNr0/msmTmflD
+ OPM0DGY9o8MbNw9EfBzKHVHPq37in7fId4dFk9iK565Ipi9YBba6jA8VcJrXUelaZtuJ
+ O2DPBfrm/F+NUymkSqHy75GN8jnR4zBsThsaBNmMW1zeKiHjDNms7dOJZnzrOsNwDKD4
+ QbfwuhsLfOOajrwTvapxGLF4RZCI1f1g+Rztr/Qw0T6Rv5XG9fwvyeB6yXUTv3mz8qzl
+ OO/IhM04CrAJO2AHDvt4FrhwSDAEESw1cNRC7t7e1Mp9YE9ys8QsAAvsmZGJ+CzIus2W
+ mdSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=94RI7Z4U7n9/rl3ingrhG3jpTC3aQxwOC+7fQ4PZDBA=;
- b=M9k6jQXxBF/Ht92KoR7EmE8/uCmsk9G9Xsy/hjV5u88Gj3JEOnghSTjdbeusUAacZb
- jkrGrob5ZgwwS4idp3jy2tVj3Pe84yJm/yarv3S3BNI8RuceIQw5+oy1sEtKx9vZsTuv
- SRpi9Wpxa4aUakmL0wryDTWziiQftyoXBs0w20QSpeIoAlAX8g5agQq+9+6qzHhgqH8x
- aaH+RhYTPnB9eqZdhqHARBwE9oT4+kyaLCIDC2ib7/I72m1pmfzHM8tJ1q8P4YoxxMTS
- 2n/Yb4LlIfDCixNPCI8I52tcXhDqtajJveTIlFRlsdXP1zqA8CN4O0CC2muIbCcgTEG6
- JrnA==
-X-Gm-Message-State: AOAM5321PBbVV3PeGqUj1SnAsa4ayE2gwcbJnE0l6bhQ8pAvef++PGhN
- Tu6sP4SXtMt4FhclFAgNxdpsF/ir3rPGBIHnUJCC5A1E5CPo62Ai
-X-Google-Smtp-Source: ABdhPJxED3qsEo280G/KszdiZ8NBElGvpCxiv6tWcEwiw7tDG0XnIyG6zWBAKXrJK6LffdpHhcFpZMJMBPVIGeqHL3s=
-X-Received: by 2002:a05:6e02:20ec:b0:2c6:158a:cb33 with SMTP id
- q12-20020a056e0220ec00b002c6158acb33mr1000658ilv.113.1648069532490; Wed, 23
- Mar 2022 14:05:32 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=x7XuOxtxUFegqKS/fRJPhw+dRsNHRbfBZ5omnv76mAw=;
+ b=qjq75K4QghEZ70YMARlDx/X7HpfdrrPBjZR3ZHKglTEWbTzJ8is4F+hEhZSoVvqXxA
+ m6fSwn3tQ/+gvxJQKHYVTgqBC28k9S38I/zmd7usrWxu6wo2R7V8JAcToi9USTDf1cdx
+ ZotkMHb/mIjgAwG/8YGzBvBZenUed/95+vKnQ3lEdgKfqUJD0DEVXXApP06TyrvhCBGh
+ YoF/TfmXRLXwQ8sefrDODNWhKkQcnH1mXDoH6VW20pvYQNv6FG1WHMEqbSZgIIHy4gnA
+ DeibE7dv3BejDNUyQ2iBXC06km+d2ocUis7JenyECecySg3OE6LWAwZCxuUC71EftZQw
+ LP1Q==
+X-Gm-Message-State: AOAM533cDwarPREPNDkDYP7LZ5+sG/YhO2yYH2T3AR8RJQgkY0ZH7wS6
+ DmBeAc8NRG1YmA7VSSsD/Ug=
+X-Google-Smtp-Source: ABdhPJwR5z/W8bsN+RBWCAzZVlgahqNvWkGoDh65/mT4/CPGj6HHV7KSP3UDbImaDz1Up5/8iVctnQ==
+X-Received: by 2002:a17:90b:4f8c:b0:1c7:2217:e980 with SMTP id
+ qe12-20020a17090b4f8c00b001c72217e980mr1874430pjb.17.1648069921057; 
+ Wed, 23 Mar 2022 14:12:01 -0700 (PDT)
+Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
+ [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
+ gk13-20020a17090b118d00b001c6b2472576sm561669pjb.19.2022.03.23.14.11.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Mar 2022 14:12:00 -0700 (PDT)
+Message-ID: <20ea5898-1531-8238-0fbf-35cbf6647f10@gmail.com>
+Date: Wed, 23 Mar 2022 22:11:57 +0100
 MIME-Version: 1.0
-References: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
-In-Reply-To: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 24 Mar 2022 07:05:06 +1000
-Message-ID: <CAKmqyKP8Nf5X7-X8Y+-xdczn2nauzhh1GEwj77_S6GFTMGmPTQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: virt: Warn the user if -bios is provided when
- using KVM
-To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::129
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH 26/32] include: move os_*() to os-foo.h
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
+ <20220323155743.1585078-27-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220323155743.1585078-27-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::129;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x129.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,60 +95,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Stefan Huber <stefan.huber@oth-regensburg.de>,
- Jiangyifei <jiangyifei@huawei.com>
+Cc: Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 3:13 AM Ralf Ramsauer
-<ralf.ramsauer@oth-regensburg.de> wrote:
->
-> The -bios option is silently ignored if used in combination with -enable-kvm.
-> The reason is that the machine starts in S-Mode, and the bios typically runs in
-> M-Mode.
->
-> Warn the user that the bios won't be loaded.
->
-> Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-
-Thanks for the patch.
-
+On 23/3/22 16:57, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> For consistency with other os_ functions that do not have POSIX
+> implementation, declare an inline function for the stub in os-win32.h.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  hw/riscv/virt.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 4496a15346..a4d13114ee 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -1312,6 +1312,9 @@ static void virt_machine_init(MachineState *machine)
->       * when KVM is enabled.
->       */
->      if (kvm_enabled()) {
-> +        if (machine->firmware && strcmp(machine->firmware, "none"))
+>   include/qemu-common.h     | 4 ----
+>   include/sysemu/os-posix.h | 2 ++
+>   include/sysemu/os-win32.h | 4 +++-
+>   os-win32.c                | 9 ---------
+>   4 files changed, 5 insertions(+), 14 deletions(-)
+> 
+> diff --git a/include/qemu-common.h b/include/qemu-common.h
+> index 1fbc20e4bcf7..a271cac66a1b 100644
+> --- a/include/qemu-common.h
+> +++ b/include/qemu-common.h
+> @@ -24,10 +24,6 @@
+>   int qemu_main(int argc, char **argv, char **envp);
+>   #endif
+>   
+> -/* OS specific functions */
+> -void os_setup_early_signal_handling(void);
+> -int os_parse_cmd_args(int index, const char *optarg);
+> -
+>   void page_size_init(void);
+>   
+>   #endif
+> diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
+> index dd64fb401dfb..a49c6848ff1a 100644
+> --- a/include/sysemu/os-posix.h
+> +++ b/include/sysemu/os-posix.h
+> @@ -42,7 +42,9 @@
+>   extern "C" {
+>   #endif
+>   
+> +int os_parse_cmd_args(int index, const char *optarg);
+>   void os_set_line_buffering(void);
+> +void os_setup_early_signal_handling(void);
+>   void os_set_proc_name(const char *s);
+>   void os_setup_signal_handling(void);
+>   void os_daemonize(void);
+> diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+> index 770752222ae3..c0ba65389986 100644
+> --- a/include/sysemu/os-win32.h
+> +++ b/include/sysemu/os-win32.h
+> @@ -62,8 +62,10 @@ struct tm *localtime_r(const time_t *timep, struct tm *result);
+>   static inline void os_setup_signal_handling(void) {}
+>   static inline void os_daemonize(void) {}
+>   static inline void os_setup_post(void) {}
+> -void os_set_line_buffering(void);
+>   static inline void os_set_proc_name(const char *dummy) {}
+> +static inline int os_parse_cmd_args(int index, const char *optarg) { return -1; }
+> +void os_set_line_buffering(void);
+> +void os_setup_early_signal_handling(void);
 
-You need curly braces around the if statement. You can run checkpatch
-on the patch to catch issues like this with:
-
-git show | ./scripts/checkpatch.pl -
-
-> +            warn_report("BIOS is not supported in combination with KVM. "
-> +                        "Ignoring BIOS.");
-
-Maybe say
-
-"Machine mode firmware is not supported in combination with KVM. Ignoring -bios"
-
-Alistair
-
->          g_free(machine->firmware);
->          machine->firmware = g_strdup("none");
->      }
-> --
-> 2.32.0
->
+By declaring the same prototype in various headers, we risk someone
+update only one implementation. Maybe we need a "os-common.h" header?
 
