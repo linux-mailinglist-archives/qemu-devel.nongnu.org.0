@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D664E4B70
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 04:26:07 +0100 (CET)
-Received: from localhost ([::1]:35232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3D54E4B72
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 04:26:43 +0100 (CET)
+Received: from localhost ([::1]:36606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWrdO-0006HB-M2
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 23:26:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50502)
+	id 1nWrdy-0007HQ-C5
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 23:26:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wucy11@chinatelecom.cn>)
- id 1nWrWa-0002bM-C8
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:19:04 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:48550
+ id 1nWrWg-0002i7-GO
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:19:10 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:48618
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wucy11@chinatelecom.cn>) id 1nWrWY-0006g6-4F
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:19:04 -0400
+ (envelope-from <wucy11@chinatelecom.cn>) id 1nWrWe-0006h6-F4
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:19:10 -0400
 HMM_SOURCE_IP: 172.18.0.218:52666.2058481772
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-36.111.64.85 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id CEC1D28046D;
- Wed, 23 Mar 2022 11:18:55 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 3AD7228047A;
+ Wed, 23 Mar 2022 11:19:01 +0800 (CST)
 X-189-SAVE-TO-SEND: +wucy11@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id f841c27cea0042d8aac437c8432f9b1e for
- qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:19:00 CST
-X-Transaction-ID: f841c27cea0042d8aac437c8432f9b1e
+ by app0025 with ESMTP id ce0e06a26c37436f838f61d4d3a3b9e0 for
+ qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:19:06 CST
+X-Transaction-ID: ce0e06a26c37436f838f61d4d3a3b9e0
 X-Real-From: wucy11@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: wucy11@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/5] kvm: Dynamically adjust the rate of dirty ring reaper
- thread
-Date: Wed, 23 Mar 2022 11:18:35 +0800
-Message-Id: <34f1a7ab114dc52aaae4551b6ef12d88437df7df.1648002360.git.wucy11@chinatelecom.cn>
+Subject: [PATCH v1 3/5] kvm: Dirty ring autoconverge optmization for
+ kvm_cpu_synchronize_kick_all
+Date: Wed, 23 Mar 2022 11:18:36 +0800
+Message-Id: <f9637c2b11d1fbafece205c5276564fb390bcc0b.1648002360.git.wucy11@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1648002359.git.wucy11@chinatelecom.cn>
 References: <cover.1648002359.git.wucy11@chinatelecom.cn>
@@ -75,240 +75,144 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chongyun Wu <wucy11@chinatelecom.cn>
 
-Dynamically adjust the dirty ring collection thread to
-reduce the occurrence of ring full, thereby reducing the
-impact on customers, improving the efficiency of dirty
-page collection, and thus improving the migration efficiency.
+Dirty ring feature need call kvm_cpu_synchronize_kick_all
+to flush hardware buffers into KVMslots, but when aucoverge
+run kvm_cpu_synchronize_kick_all calling will become more
+and more time consuming. This will significantly reduce the
+efficiency of dirty page queries, especially when memory
+pressure is high and the speed limit is high.
 
-Implementation:
-1) Define different collection speeds for the reap thread.
-
-2) Divide the total number of dirty pages collected each
-time by the ring size to get a ratio which indicates the
-occupancy rate of dirty pages in the ring. The higher the
-ratio, the higher the possibility that the ring will be full.
-
-3) Different ratios correspond to different running speeds.
-A higher ratio value indicates that a higher running speed
-is required to collect dirty pages as soon as possible to
-ensure that too many ring fulls will not be generated,
-which will affect the customer's business.
-
-This patch can significantly reduce the number of ring full
-occurrences in the case of high memory dirty page pressure,
-and minimize the impact on guests.
-
-Using this patch for the qeum guestperf test, the memory
-performance during the migration process is somewhat improved
-compared to the bitmap method, and is significantly improved
-compared to the unoptimized dirty ring method. For detailed
-test data, please refer to the follow-up series of patches.
+When the CPU speed limit is high and kvm_cpu_synchronize_kick_all
+is time-consuming, the rate of dirty pages generated by the VM
+will also be significantly reduced, so it is not necessary to
+call kvm_cpu_synchronize_kick_all at this time, just call it once
+before stopping the VM. This will significantly improve the
+efficiency of dirty page queries under high pressure.
 
 Signed-off-by: Chongyun Wu <wucy11@chinatelecom.cn>
 ---
- accel/kvm/kvm-all.c | 149 ++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 144 insertions(+), 5 deletions(-)
+ accel/kvm/kvm-all.c       | 25 +++++--------------------
+ include/exec/cpu-common.h |  2 ++
+ migration/migration.c     | 11 +++++++++++
+ softmmu/cpus.c            | 18 ++++++++++++++++++
+ 4 files changed, 36 insertions(+), 20 deletions(-)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 27864df..65a4de8 100644
+index 65a4de8..5e02700 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -91,6 +91,27 @@ enum KVMDirtyRingReaperState {
-     KVM_DIRTY_RING_REAPER_REAPING,
- };
+@@ -48,6 +48,8 @@
  
-+enum KVMDirtyRingReaperRunLevel {
-+    /* The reaper runs at default normal speed */
-+    KVM_DIRTY_RING_REAPER_RUN_NORMAL = 0,
-+    /* The reaper starts to accelerate in different gears */
-+    KVM_DIRTY_RING_REAPER_RUN_FAST1,
-+    KVM_DIRTY_RING_REAPER_RUN_FAST2,
-+    KVM_DIRTY_RING_REAPER_RUN_FAST3,
-+    KVM_DIRTY_RING_REAPER_RUN_FAST4,
-+    /* The reaper runs at the fastest speed */
-+    KVM_DIRTY_RING_REAPER_RUN_MAX_SPEED,
-+};
-+
-+enum KVMDirtyRingReaperSpeedControl {
-+    /* Maintain current speed */
-+    KVM_DIRTY_RING_REAPER_SPEED_CONTROL_KEEP = 0,
-+    /* Accelerate current speed */
-+    KVM_DIRTY_RING_REAPER_SPEED_CONTROL_UP,
-+    /* Decrease current speed */
-+    KVM_DIRTY_RING_REAPER_SPEED_CONTROL_DOWN
-+};
-+
- /*
-  * KVM reaper instance, responsible for collecting the KVM dirty bits
-  * via the dirty ring.
-@@ -100,6 +121,11 @@ struct KVMDirtyRingReaper {
-     QemuThread reaper_thr;
-     volatile uint64_t reaper_iteration; /* iteration number of reaper thr */
-     volatile enum KVMDirtyRingReaperState reaper_state; /* reap thr state */
-+    /* Control the running speed of the reaper thread to fit dirty page rate */
-+    enum KVMDirtyRingReaperRunLevel run_level;
-+    uint64_t ring_full_cnt;
-+    float ratio_adjust_threshold;
-+    int stable_count_threshold;
- };
+ #include "hw/boards.h"
  
- struct KVMState
-@@ -1449,11 +1475,115 @@ out:
-     kvm_slots_unlock();
++#include "sysemu/cpu-throttle.h"
++
+ /* This check must be after config-host.h is included */
+ #ifdef CONFIG_EVENTFD
+ #include <sys/eventfd.h>
+@@ -839,25 +841,6 @@ static uint64_t kvm_dirty_ring_reap(KVMState *s)
+     return total;
  }
  
-+static uint64_t calcu_sleep_time(KVMState *s,
-+                                       uint64_t dirty_count,
-+                                       uint64_t ring_full_cnt_last,
-+                                       uint32_t *speed_down_cnt)
-+{
-+    float ratio = 0.0;
-+    uint64_t sleep_time = 1000000;
-+    enum KVMDirtyRingReaperRunLevel run_level_want;
-+    enum KVMDirtyRingReaperSpeedControl speed_control;
+-static void do_kvm_cpu_synchronize_kick(CPUState *cpu, run_on_cpu_data arg)
+-{
+-    /* No need to do anything */
+-}
+-
+-/*
+- * Kick all vcpus out in a synchronized way.  When returned, we
+- * guarantee that every vcpu has been kicked and at least returned to
+- * userspace once.
+- */
+-static void kvm_cpu_synchronize_kick_all(void)
+-{
+-    CPUState *cpu;
+-
+-    CPU_FOREACH(cpu) {
+-        run_on_cpu(cpu, do_kvm_cpu_synchronize_kick, RUN_ON_CPU_NULL);
+-    }
+-}
+-
+ /*
+  * Flush all the existing dirty pages to the KVM slot buffers.  When
+  * this call returns, we guarantee that all the touched dirty pages
+@@ -879,7 +862,9 @@ static void kvm_dirty_ring_flush(void)
+      * First make sure to flush the hardware buffers by kicking all
+      * vcpus out in a synchronous way.
+      */
+-    kvm_cpu_synchronize_kick_all();
++    if (!cpu_throttle_get_percentage()) {
++        qemu_kvm_cpu_synchronize_kick_all();
++    }
+     kvm_dirty_ring_reap(kvm_state);
+     trace_kvm_dirty_ring_flush(1);
+ }
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index 50a7d29..13045b3 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -160,4 +160,6 @@ extern int singlestep;
+ 
+ void list_cpus(const char *optarg);
+ 
++void qemu_kvm_cpu_synchronize_kick_all(void);
 +
-+    /*
-+     * When the number of dirty pages collected exceeds
-+     * the given percentage of the ring size,the speed
-+     * up action will be triggered.
-+     */
-+    s->reaper.ratio_adjust_threshold = 0.1;
-+    s->reaper.stable_count_threshold = 5;
-+
-+    ratio = (float)dirty_count / s->kvm_dirty_ring_size;
-+
-+    if (s->reaper.ring_full_cnt > ring_full_cnt_last) {
-+        /* If get a new ring full need speed up reaper thread */
-+        if (s->reaper.run_level != KVM_DIRTY_RING_REAPER_RUN_MAX_SPEED) {
-+            s->reaper.run_level++;
-+        }
-+    } else {
-+        /*
-+         * If get more dirty pages this loop and this status continus
-+         * for many times try to speed up reaper thread.
-+         * If the status is stable and need to decide which speed need
-+         * to use.
-+         */
-+        if (ratio < s->reaper.ratio_adjust_threshold) {
-+            run_level_want = KVM_DIRTY_RING_REAPER_RUN_NORMAL;
-+        } else if (ratio < s->reaper.ratio_adjust_threshold * 2) {
-+            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST1;
-+        } else if (ratio < s->reaper.ratio_adjust_threshold * 3) {
-+            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST2;
-+        } else if (ratio < s->reaper.ratio_adjust_threshold * 4) {
-+            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST3;
-+        } else if (ratio < s->reaper.ratio_adjust_threshold * 5) {
-+            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST4;
-+        } else {
-+            run_level_want = KVM_DIRTY_RING_REAPER_RUN_MAX_SPEED;
-+        }
-+
-+        /* Get if need speed up or slow down */
-+        if (run_level_want > s->reaper.run_level) {
-+            speed_control = KVM_DIRTY_RING_REAPER_SPEED_CONTROL_UP;
-+            *speed_down_cnt = 0;
-+        } else if (run_level_want < s->reaper.run_level) {
-+            speed_control = KVM_DIRTY_RING_REAPER_SPEED_CONTROL_DOWN;
-+            *speed_down_cnt++;
-+        } else {
-+            speed_control = KVM_DIRTY_RING_REAPER_SPEED_CONTROL_KEEP;
-+        }
-+
-+        /* Control reaper thread run in sutiable run speed level */
-+        if (speed_control == KVM_DIRTY_RING_REAPER_SPEED_CONTROL_UP) {
-+            /* If need speed up do not check its stable just do it */
-+            s->reaper.run_level++;
-+        } else if (speed_control ==
-+            KVM_DIRTY_RING_REAPER_SPEED_CONTROL_DOWN) {
-+            /* If need speed down we should filter this status */
-+            if (*speed_down_cnt > s->reaper.stable_count_threshold) {
-+                s->reaper.run_level--;
+ #endif /* CPU_COMMON_H */
+diff --git a/migration/migration.c b/migration/migration.c
+index 695f0f2..ca1db88 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -61,6 +61,7 @@
+ #include "sysemu/cpus.h"
+ #include "yank_functions.h"
+ #include "sysemu/qtest.h"
++#include "sysemu/kvm.h"
+ 
+ #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
+ 
+@@ -3183,6 +3184,16 @@ static void migration_completion(MigrationState *s)
+ 
+         if (!ret) {
+             bool inactivate = !migrate_colo_enabled();
++            /*
++             * Before stop vm do qemu_kvm_cpu_synchronize_kick_all to
++             * fulsh hardware buffer into KVMslots for dirty ring
++             * optmiaztion, If qemu_kvm_cpu_synchronize_kick_all is not
++             * called when the CPU speed is limited to improve efficiency
++             */
++            if (kvm_dirty_ring_enabled()
++                && cpu_throttle_get_percentage()) {
++                qemu_kvm_cpu_synchronize_kick_all();
 +            }
-+        }
-+    }
-+
-+    /* Set the actual running rate of the reaper */
-+    switch (s->reaper.run_level) {
-+    case KVM_DIRTY_RING_REAPER_RUN_NORMAL:
-+        sleep_time = 1000000;
-+        break;
-+    case KVM_DIRTY_RING_REAPER_RUN_FAST1:
-+        sleep_time = 500000;
-+        break;
-+    case KVM_DIRTY_RING_REAPER_RUN_FAST2:
-+        sleep_time = 250000;
-+        break;
-+    case KVM_DIRTY_RING_REAPER_RUN_FAST3:
-+        sleep_time = 125000;
-+        break;
-+    case KVM_DIRTY_RING_REAPER_RUN_FAST4:
-+        sleep_time = 100000;
-+        break;
-+    case KVM_DIRTY_RING_REAPER_RUN_MAX_SPEED:
-+        sleep_time = 80000;
-+        break;
-+    default:
-+        sleep_time = 1000000;
-+        error_report("Bad reaper thread run level, use default");
-+    }
-+
-+    return sleep_time;
+             ret = vm_stop_force_state(RUN_STATE_FINISH_MIGRATE);
+             trace_migration_completion_vm_stop(ret);
+             if (ret >= 0) {
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 7b75bb6..d028d83 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -810,3 +810,21 @@ void qmp_inject_nmi(Error **errp)
+     nmi_monitor_handle(monitor_get_cpu_index(monitor_cur()), errp);
+ }
+ 
++static void do_kvm_cpu_synchronize_kick(CPUState *cpu, run_on_cpu_data arg)
++{
++    /* No need to do anything */
 +}
 +
- static void *kvm_dirty_ring_reaper_thread(void *data)
- {
-     KVMState *s = data;
-     struct KVMDirtyRingReaper *r = &s->reaper;
- 
-+    uint64_t count = 0;
-+    uint64_t sleep_time = 1000000;
-+    uint64_t ring_full_cnt_last = 0;
-+    /* Filter speed jitter */
-+    uint32_t speed_down_cnt = 0;
++/*
++ * Kick all vcpus out in a synchronized way.  When returned, we
++ * guarantee that every vcpu has been kicked and at least returned to
++ * userspace once.
++ */
++void qemu_kvm_cpu_synchronize_kick_all(void)
++{
++    CPUState *cpu;
 +
-     rcu_register_thread();
- 
-     trace_kvm_dirty_ring_reaper("init");
-@@ -1461,18 +1591,26 @@ static void *kvm_dirty_ring_reaper_thread(void *data)
-     while (true) {
-         r->reaper_state = KVM_DIRTY_RING_REAPER_WAIT;
-         trace_kvm_dirty_ring_reaper("wait");
--        /*
--         * TODO: provide a smarter timeout rather than a constant?
--         */
--        sleep(1);
-+
-+       ring_full_cnt_last = s->reaper.ring_full_cnt;
-+
-+        usleep(sleep_time);
- 
-         trace_kvm_dirty_ring_reaper("wakeup");
-         r->reaper_state = KVM_DIRTY_RING_REAPER_REAPING;
- 
-         qemu_mutex_lock_iothread();
--        kvm_dirty_ring_reap(s);
-+        count = kvm_dirty_ring_reap(s);
-         qemu_mutex_unlock_iothread();
- 
-+        /*
-+         * Calculate the appropriate sleep time according to
-+         * the speed of the current dirty page.
-+         */
-+        sleep_time = calcu_sleep_time(s, count,
-+                                      ring_full_cnt_last,
-+                                      &speed_down_cnt);
-+
-         r->reaper_iteration++;
-     }
- 
-@@ -2958,6 +3096,7 @@ int kvm_cpu_exec(CPUState *cpu)
-             trace_kvm_dirty_ring_full(cpu->cpu_index);
-             qemu_mutex_lock_iothread();
-             kvm_dirty_ring_reap(kvm_state);
-+            kvm_state->reaper.ring_full_cnt++;
-             qemu_mutex_unlock_iothread();
-             ret = 0;
-             break;
++    CPU_FOREACH(cpu) {
++        run_on_cpu(cpu, do_kvm_cpu_synchronize_kick, RUN_ON_CPU_NULL);
++    }
++}
 -- 
 1.8.3.1
 
