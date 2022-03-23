@@ -2,95 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E404E4D8A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 08:46:26 +0100 (CET)
-Received: from localhost ([::1]:47274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 172A64E4DA8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 08:56:29 +0100 (CET)
+Received: from localhost ([::1]:50812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWvhJ-0006fI-6N
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 03:46:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45786)
+	id 1nWvr1-0001BF-Vc
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 03:56:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWvfW-0004tw-0d
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 03:44:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWvfS-00041y-KN
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 03:44:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648021470;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eACxuUsXxsWvWpkBtvwbt1f8GVxFOqka1F3NNKAsb8Y=;
- b=V97ZEUtPeknNXXjqVtkDdxjw7IwSTfOkuFJfDx1oTJhtOVP2YMbL9WeqVxQ02utkOZy0hR
- B4XmXUo3UGJypofN8OdZdBXmWE0peR9vB9SW0lq98+Hlp2Hf5bIndS+qXUsRaq3bFYHRJz
- 3MB7uuEVN3khwNKsDfM5QJwNspd1v5w=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-oY4EUluVPMq6ZDdQWMtpHQ-1; Wed, 23 Mar 2022 03:44:25 -0400
-X-MC-Unique: oY4EUluVPMq6ZDdQWMtpHQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v2-20020a05600c214200b0038c7c02deceso323695wml.8
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 00:44:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=eACxuUsXxsWvWpkBtvwbt1f8GVxFOqka1F3NNKAsb8Y=;
- b=v9204mLSaxONHy/+7Bas0lx5R4H2OfOWlbvwUgrMqmLnMfRLCEvNbQJBlSCuPU7r++
- WjazR/5AiRiRarkgM9aMxnwz++Kf5sOz1ZWQe/tmt6DKxldeBMhszI1VaMwWMwQsSFa8
- u99SKMpSkNU4WNVG4/euWxOp4ZMN7+KINOC4igtWYFQY8zU1/1M6QmOEVc1FEUInVQ0A
- etxeKILAhmg66SSYgkL0V3fZEtVMgfSxmyOx9gQJhpmYYano50Tow5V2VKFc/72EPISh
- Tq7+bOGGDJrouzlfuovixHzaCNm6XSIxeXCUQfwc9PEuoUj9/Kp+dvbqU8iXCSWqCrMW
- /HVA==
-X-Gm-Message-State: AOAM532SbW4UOiMyjqfjIuGzeGWU/9Qi905NmrOYfN/pdx3DKXQHLtKJ
- NGEANmeGNjhT+UCCE/pBvsl3glDrM+RarP6Q7Hx1crRDf3RNz+p62WWSWC3Oy/ilIkjQ7t9gGRK
- Pu2S0bJxmUQH7JXo=
-X-Received: by 2002:adf:ab09:0:b0:203:f9ce:cc1d with SMTP id
- q9-20020adfab09000000b00203f9cecc1dmr18990457wrc.269.1648021464691; 
- Wed, 23 Mar 2022 00:44:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwrn6MYjMI8BkBYaqcv6BVHiHGj8A5unY/Mm+XdiWpcgaFcJYmpzzAvyVHxh+8OuIxKYDYL4A==
-X-Received: by 2002:adf:ab09:0:b0:203:f9ce:cc1d with SMTP id
- q9-20020adfab09000000b00203f9cecc1dmr18990442wrc.269.1648021464458; 
- Wed, 23 Mar 2022 00:44:24 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
- [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
- y6-20020a05600015c600b00203fa70b4ebsm14725760wry.53.2022.03.23.00.44.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 00:44:24 -0700 (PDT)
-Message-ID: <0ab85e95-2cb2-51ae-fa48-089f02ac0c0e@redhat.com>
-Date: Wed, 23 Mar 2022 08:44:22 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nWvpQ-0000Gv-Gn; Wed, 23 Mar 2022 03:54:48 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:48646 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nWvpM-00028D-0U; Wed, 23 Mar 2022 03:54:48 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowAC3vkI60jpiRYkDBQ--.38288S2;
+ Wed, 23 Mar 2022 15:54:34 +0800 (CST)
+Subject: Re: [PATCH qemu v3 00/14] Add tail agnostic behavior for rvv
+ instructions
+To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <164800788276.12449.15168787569124374586-0@git.sr.ht>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <ec87cb8d-423f-794e-0864-2f4f7cf483e2@iscas.ac.cn>
+Date: Wed, 23 Mar 2022 15:54:34 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 1/2] ci: Add github workflow for getting cirrus working
- properly
-To: Yonggang Luo <luoyonggang@gmail.com>, QEMU Devel <qemu-devel@nongnu.org>
-References: <20220322191409.1330-1-luoyonggang@gmail.com>
- <20220322191409.1330-2-luoyonggang@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220322191409.1330-2-luoyonggang@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <164800788276.12449.15168787569124374586-0@git.sr.ht>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: zQCowAC3vkI60jpiRYkDBQ--.38288S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCrWDtrW7Cr1UWryfGry8Krg_yoW5XF1kpF
+ 4kCa13GrZ5XrZrWw1SgF48Ar15tFZ3Gw4rJwnrJ34UJ39xtrWktF1kK34j9FnrJFyUWry7
+ K3WDAr13Zws8ArDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
+ 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
+ 67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+ AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
+ c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+ AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_
+ Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU1
+ a9aPUUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,84 +74,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=d0=b8=d0=b6?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5u0LjQtmU=?= <alex.bennee@linaro.org>
+Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ eop Chen <eop.chen@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/03/2022 20.14, Yonggang Luo wrote:
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 
-Missing patch description ... why is this needed? I can't see anything 
-related to Cirrus-CI in here?
+在 2022/3/23 上午11:58, ~eopxd 写道:
+> According to v-spec, tail agnostic behavior can be either kept as
+> undisturbed or set elements' bits to all 1s. To distinguish the
+> difference of tail policies, QEMU should be able to simulate the tail
+> agnostic behavior as "set tail elements' bits to all 1s". An option
+> 'rvv_ta_all_1s' is added to enable the behavior, it is default as
+> disabled.
+>
+> There are multiple possibility for agnostic elements according to
+> v-spec. The main intent of this patch-set tries to add option that
+> can distinguish between tail policies. Setting agnostic elements to
+> all 1s makes things simple and allow QEMU to express this.
+>
+> We may explore other possibility of agnostic behavior by adding
+> other options in the future. Please understand that this patch-set
+> is limited.
+>
+> v2 updates:
+> - Addressed comments from Weiwei Li
+> - Added commit tail agnostic on load / store instructions (which
+>     I forgot to include into the patch-set)
+>
+> v3 updates:
+> - Missed the very 1st commit, adding it back
 
-> ---
->   .github/workflows/main.yml | 29 +++++++++++++++++++++++++++++
->   MAINTAINERS                |  4 +++-
->   2 files changed, 32 insertions(+), 1 deletion(-)
->   create mode 100644 .github/workflows/main.yml
-> 
-> diff --git a/.github/workflows/main.yml b/.github/workflows/main.yml
-> new file mode 100644
-> index 0000000000..85a392b962
-> --- /dev/null
-> +++ b/.github/workflows/main.yml
-> @@ -0,0 +1,29 @@
-> +# This is a basic workflow to help you get started with Actions
-> +
-> +name: CI
-> +
-> +# Controls when the action will run. Triggers the workflow on push or pull request
-> +# events but only for the master branch
-> +on:
-> +  push:
-> +    branches: [ master ]
-> +  pull_request:
-> +    branches: [ master ]
-> +
-> +# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-> +jobs:
-> +  check-patch:
-> +    name: Check Patch
-> +    runs-on: ubuntu-latest
-> +    steps:
-> +      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-> +      - uses: actions/checkout@v2
-> +        with:
-> +          fetch-depth: 0
-> +      - name: Install dependent packages
-> +        run: sudo apt install perl
-> +      - name: Checkpatch
-> +        run: |
-> +          git fetch https://git.qemu.org/git/qemu.git master
-> +          git tag base_tag_to_rebase FETCH_HEAD --force
-> +          ./scripts/checkpatch.pl --mailback base_tag_to_rebase..
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cc364afef7..6d1dcc36b0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3612,10 +3612,12 @@ Build and test automation, general continuous integration
->   M: Alex Bennée <alex.bennee@linaro.org>
->   M: Philippe Mathieu-Daudé <f4bug@amsat.org>
->   M: Thomas Huth <thuth@redhat.com>
-> +M: Yonggang Luo <luoyonggang@gmail>
->   R: Wainer dos Santos Moschetta <wainersm@redhat.com>
->   R: Beraldo Leal <bleal@redhat.com>
->   S: Maintained
-> -F: .github/lockdown.yml
-> +F: .github/workflows/lockdown.yml
-> +F: .github/workflows/main.yml
->   F: .gitlab-ci.yml
->   F: .gitlab-ci.d/
->   F: .travis.yml
+I find  some trans_* function for vector instructions are optimized  to 
+use tcg_gen_gvec_*
 
-You also don't mention that change anywhere. And IIRC you've also only been 
-involved in the Windows-related CI tasks so far? So it might make more sense 
-to update the "Windows Hosted Continuous Integration" section instead?
+directly when vl = vlmax (vl_eq_vlmax is true). However, as discussed 
+before,
 
-  Thomas
+tail elements may pass vlmax when lmul < 0.
+
+So additional tail elements  may also need to overwrite here.
+
+Regards,
+
+Weiwei Li
+
+>
+> eopXD (14):
+>    target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
+>    target/riscv: rvv: Rename ambiguous esz
+>    target/riscv: rvv: Early exit when vstart >= vl
+>    target/riscv: rvv: Add tail agnostic for vv instructions
+>    target/riscv: rvv: Add tail agnostic for vector load / store
+>      instructions
+>    target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
+>    target/riscv: rvv: Add tail agnostic for vector integer shift
+>      instructions
+>    target/riscv: rvv: Add tail agnostic for vector integer comparison
+>      instructions
+>    target/riscv: rvv: Add tail agnostic for vector integer merge and move
+>      instructions
+>    target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
+>      instructions
+>    target/riscv: rvv: Add tail agnostic for vector floating-point
+>      instructions
+>    target/riscv: rvv: Add tail agnostic for vector reduction instructions
+>    target/riscv: rvv: Add tail agnostic for vector mask instructions
+>    target/riscv: rvv: Add tail agnostic for vector permutation
+>      instructions
+>
+>   target/riscv/cpu.c                      |    1 +
+>   target/riscv/cpu.h                      |    2 +
+>   target/riscv/cpu_helper.c               |    2 +
+>   target/riscv/insn_trans/trans_rvv.c.inc |   66 +
+>   target/riscv/internals.h                |    5 +-
+>   target/riscv/translate.c                |    2 +
+>   target/riscv/vector_helper.c            | 1571 ++++++++++++++---------
+>   7 files changed, 1026 insertions(+), 623 deletions(-)
+>
 
 
