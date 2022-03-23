@@ -2,98 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D7E4E51B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 12:57:18 +0100 (CET)
-Received: from localhost ([::1]:59714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192154E51E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 13:09:28 +0100 (CET)
+Received: from localhost ([::1]:42674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWzc5-0000TC-8m
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 07:57:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40244)
+	id 1nWznq-0000t3-Ns
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 08:09:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWzFA-0003f8-9v
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:34:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25718)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWzEw-0007Bl-Fv
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:33:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648035199;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ameg0XAwgR73srj0022TjpkgX/ZfQPWUHabzWIVwrjk=;
- b=AmmV6dfdVzI5aHZJHz0ETqnRKv80oap4M8+0cuAJhK1nN5AkoJs1etD434yKKUaoz+jqzO
- przeFyKh3lT2bzzqGVhlCg3LG4qy3vd9fwlK5r37x4MhAme2DOa3Wa+p4pfGiZVCoapMIa
- fOaDUVkVIWoPFBy6xV6EU9to5+EJrb8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-122-8dGy53W8NJO4weSeKtzX2w-1; Wed, 23 Mar 2022 07:33:16 -0400
-X-MC-Unique: 8dGy53W8NJO4weSeKtzX2w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- o20-20020aa7dd54000000b00413bc19ad08so873077edw.7
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 04:33:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1nWzHs-000424-Sd; Wed, 23 Mar 2022 07:36:25 -0400
+Received: from [2a00:1450:4864:20::62a] (port=41706
+ helo=mail-ej1-x62a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1nWzHp-000881-G4; Wed, 23 Mar 2022 07:36:24 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id a8so2204519ejc.8;
+ Wed, 23 Mar 2022 04:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=MtlW6xouBq7U9a9mWHnPCh013FJzep//D/yBhZkelHE=;
+ b=OGAdb09SekqTflcR5hg+xYw41ZZB9H939DDTCcSrDiO37B/hjcy9BT/aQZsEsf8MvI
+ Lo8TGuR2R/0Nv+aVGj95oQDXltRhO/JtYtve/iILaJ8GjwFYnDUxZlae0YhSyelTve+T
+ uAcKp88ClMi2fE4Xsfwu4BaoZik6pDEarNgoat6tRDl0XHGzVnl48gzuB2+ZV4MaUdSZ
+ boh3T46/bRFmg/QrT2ihahZmFarnMxIS+FfjVDGniCdV+c7iYsFZ9+6S0rFypsCfox11
+ bI+gQ21H+ufEa2+w5XlpKhbeT5CJvwoIdIlcGkh4FKD9nL53gUY5b9Btpt9P7GkGnxrK
+ qoew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ameg0XAwgR73srj0022TjpkgX/ZfQPWUHabzWIVwrjk=;
- b=nG+JgurS/rBtRNjgGyacsU+LNusNtwXOMYLU1xyar9MrJy8jQUliIDZFg0gA8skcSi
- JSrAvEzDBBZeU7I+whsw/DRD9leiAQeqAGvoiQTiS+o4IfyrMErcTIwIcvPHbG7OSX/i
- 7WJKoKEQrazRSe76b2gGlfUbgGfFW6Ymc7I1oZJssIZ+3J3kZ6d4ViUbavsjDD1n5Zoy
- Yh2evD5pSBKwG6TSf7e50BENAw4roA1Lf2o/Q93jJjCdXuGQ9ZpDfiVYEpctyA+albWq
- SlNovzwoGR66bMZZsITbzO6GdlAxgQgytqpoUmS9+IqZeX56dDiskkdwdO0x0GAZCETX
- aBQQ==
-X-Gm-Message-State: AOAM533M/bH+qartBWn1RoBNiSXlVvr/re8yoxkIiSog5bOT3kPOURP3
- BuTndcawzglQdsC9GMKTj34VojopzFxbsNpLVUl2js7X3GeK23Owx64XHjakUuz2Gd8bEKxv18o
- 81KgZslt6uCZ+VVY=
-X-Received: by 2002:a17:906:c114:b0:6d7:1065:a8b0 with SMTP id
- do20-20020a170906c11400b006d71065a8b0mr31614300ejc.181.1648035195659; 
- Wed, 23 Mar 2022 04:33:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFYm3oLbQxB/7lAqvMZmP2Z7M15YILvnH2dPXTu3LZuM3WAabZhp7AxFwKYfaZN2EQ/aisSg==
-X-Received: by 2002:a17:906:c114:b0:6d7:1065:a8b0 with SMTP id
- do20-20020a170906c11400b006d71065a8b0mr31614274ejc.181.1648035195412; 
- Wed, 23 Mar 2022 04:33:15 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- b9-20020a1709063ca900b006cea15612cbsm9883316ejh.176.2022.03.23.04.33.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 04:33:14 -0700 (PDT)
-Message-ID: <e22baaff-2d21-ff8b-dedb-65797971af7e@redhat.com>
-Date: Wed, 23 Mar 2022 12:33:14 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=MtlW6xouBq7U9a9mWHnPCh013FJzep//D/yBhZkelHE=;
+ b=SgTniyPkA0IzPjpwThq/bQdQmKAIclYaxqTXBx5Qox0/egs7vYG8nWWHRnAnHMVytJ
+ 1IliA5zAczhZBwTdSslUXlltuelpEGsU6wTTRYUxjLqAxvv0ypH6BkuqUHFR3VU80FTH
+ FZP1fVFiJgb8kVGQgi+OfrpEWZ+rXEPR/f4U7KX38eaG76CyIten0yzaKELJCFQpsTZ2
+ FiRAyyVs2eiW+qyWLFnqRfdTHeH81Nr3CEiq0c1r/8P01aQriO0qNAfCVqwYgnDMXkTM
+ HUfi7RzaNOX/vkJFB0ECv0xJnUCbLSf35xO/edICXiG5nU0o9tOAyoVYEqBGrBRj9ad7
+ 2TPg==
+X-Gm-Message-State: AOAM530aaSyi9wrBFmnz+Hzm07SfqdeWlfRce+eatpB3PjEIERMCSfr0
+ d1KJvjTKojMCf/2XsZAtPSvsYqMHi8B/oe4M+/BCsxG6gR4=
+X-Google-Smtp-Source: ABdhPJxXP68wFQjBb7u5dC4c3POsUbhorBayqPoXAZANZt4WKBuCRTflPm0A+ehmn43xwFowJ12l1IuzOzHvvulftPQ=
+X-Received: by 2002:a17:907:97c9:b0:6db:ab53:1fdf with SMTP id
+ js9-20020a17090797c900b006dbab531fdfmr31559514ejc.406.1648035348482; Wed, 23
+ Mar 2022 04:35:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 0/4] Improve integration of iotests in the meson test
- harness
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-References: <20220223093840.2515281-1-thuth@redhat.com>
- <f71c35ff-1db2-7491-c9fe-a0dd3ab1cbee@redhat.com>
- <b9dd43ca-0120-a27b-823a-a88572be94c6@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <b9dd43ca-0120-a27b-823a-a88572be94c6@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220323080755.156-1-luoyonggang@gmail.com>
+ <20220323080755.156-3-luoyonggang@gmail.com>
+ <YjrpW2O8HqOT2PXN@redhat.com>
+In-Reply-To: <YjrpW2O8HqOT2PXN@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Wed, 23 Mar 2022 19:35:35 +0800
+Message-ID: <CAE2XoE9ez2WgdViMxCPbon8GNPbwvte6R9N6O=VbiU2=1G=7pw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] ci: Add empty github workflow for reporting
+ historical cirrus result at github
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000860f8905dae12110"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=luoyonggang@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,67 +83,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Reply-To: luoyonggang@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=D0=B8=D0=B6?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5u0LjQtmU=?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.03.22 18:26, Thomas Huth wrote:
-> On 21/03/2022 17.14, Hanna Reitz wrote:
->> On 23.02.22 10:38, Thomas Huth wrote:
->>> Though "make check-block" is currently already run via the meson test
->>> runner, it still looks like an oddball in the output of "make 
->>> check". It
->>> would be nicer if the iotests would show up like the other tests 
->>> suites.
->>>
->>> My original plan was to add each iotests individually from meson.build,
->>> but I did not get that done reliably yet [*], so here's now a cut-down
->>> version to improve the situation at least a little bit: The first three
->>> patches are preparation for the clean-up (long-term goal is to get rid
->>> of check-block.sh, though we're not quite there yet), and the final
->>> patch adds the iotests not as separate test target in the meson test
->>> harness anymore. This way, we can now finally get the output of failed
->>> tests on the console again (unless you're running meson test in verbose
->>> mode, where meson only puts this to the log file - for incomprehensible
->>> reasons), so this should hopefully help to diagnose problems with the
->>> iotests in most cases more easily.
->>>
->>> [*] See v2 here:
->>> https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01942.html
->>>
->>> Thomas Huth (4):
->>>    tests/qemu-iotests: Rework the checks and spots using GNU sed
->>>    tests/qemu-iotests/meson.build: Improve the indentation
->>>    tests/qemu-iotests: Move the bash and sanitizer checks to 
->>> meson.build
->>>    tests: Do not treat the iotests as separate meson test target 
->>> anymore
->>
->> What’s the status of this series?  I wonder why you split it apart, 
->> mainly.
+--000000000000860f8905dae12110
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Mar 23, 2022 at 5:33 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 >
-> I've mainly split the fourth patch apart since Paolo mentioned that 
-> the commit message should mention the meson bug (IIRC), and since QEMU 
-> was entering soft-freeze, thus I doubt that a patch like "Move the 
-> bash and sanitizer checks to meson.build" is still acceptable at this 
-> point in time. The meson.build clean-up is rather something for 7.1 
-> instead.
+> On Wed, Mar 23, 2022 at 04:07:54PM +0800, Yonggang Luo wrote:
+> > Looks like https://github.com/lygstate/qemu/actions does
+> >
+> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> > ---
+> >  .github/workflows/main.yml | 24 ++++++++++++++++++++++++
+> >  MAINTAINERS                |  1 +
+> >  2 files changed, 25 insertions(+)
+> >  create mode 100644 .github/workflows/main.yml
+> >
+> > diff --git a/.github/workflows/main.yml b/.github/workflows/main.yml
+> > new file mode 100644
+> > index 0000000000..71f5fbd556
+> > --- /dev/null
+> > +++ b/.github/workflows/main.yml
+> > @@ -0,0 +1,24 @@
+> > +# This is a basic workflow to help you get started with Actions
+> > +
+> > +name: CI
+> > +
+> > +# Controls when the action will run. Triggers the workflow on push or
+pull request
+> > +# events but only for the master branch
+> > +on:
+> > +  push:
+> > +    branches: [ master ]
+> > +  pull_request:
+> > +    branches: [ master ]
+> > +
+> > +# A workflow run is made up of one or more jobs that can run
+sequentially or in parallel
+> > +jobs:
+> > +  check-patch:
+> > +    name: Check Patch
+> > +    runs-on: ubuntu-latest
+> > +    steps:
+> > +      # Checks-out your repository under $GITHUB_WORKSPACE, so your
+job can access it
+> > +      - uses: actions/checkout@v2
+> > +        with:
+> > +          fetch-depth: 0
+> > +      - name: Install dependent packages
+> > +        run: echo "Empty action"
 >
->> Patch 1 was already merged, and I took patch 4 today.  So what about 
->> patches 2 and 3?  They look sensible to me, but is this series still 
->> relevant and fresh, considering you sent new versions of patches 1 
->> and 4?
+> I really rather we just integrated the Cirrus CI windows job into our
+GitLab
+> pipeline using cirrus-run, as we did for the other Cirrus jobs.
 >
-> If you think they are still ok for 7.0, you can certainly also pick 
-> the 2nd and 3rd patch ... otherwise I'll respin them later for 7.1.
+> We've also already got some native msys jobs under GitLab that test some
+> combinations, but not all since they're somewhat slow. So we still need
+> to take advantage of Cirrus for some msys testing, but we can likely
+> reduce the overlap.
+>
+> I definitely don't want to see us increasing our use of GitHub, as having
+> multiple places to look at for CI results is a really bad thing. We want
+> todo what is possible to make GitLab the single dashboard for all CI info=
+.
 
-That sounds like you don’t really need to respin, so I’ve taken them to 
-my block-next branch for 7.1:
+Agreed a single dashboard is meaningfull, I'll try that. other than that, a
+empty
+github actions can give better experience with qemu, there is 3.9k for at
+github,
+and 5.9k star at github
 
-https://gitlab.com/hreitz/qemu/-/commits/block-next
+>
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+https://www.instagram.com/dberrange :|
+>
 
-Thanks!
 
-Hanna
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
+--000000000000860f8905dae12110
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Wed, Mar 23, 2022 at 5:33 PM Daniel P. Berrang=
+=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&g=
+t; wrote:<br>&gt;<br>&gt; On Wed, Mar 23, 2022 at 04:07:54PM +0800, Yonggan=
+g Luo wrote:<br>&gt; &gt; Looks like <a href=3D"https://github.com/lygstate=
+/qemu/actions">https://github.com/lygstate/qemu/actions</a> does<br>&gt; &g=
+t;<br>&gt; &gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyongga=
+ng@gmail.com">luoyonggang@gmail.com</a>&gt;<br>&gt; &gt; ---<br>&gt; &gt; =
+=C2=A0.github/workflows/main.yml | 24 ++++++++++++++++++++++++<br>&gt; &gt;=
+ =C2=A0MAINTAINERS =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+ =C2=A01 +<br>&gt; &gt; =C2=A02 files changed, 25 insertions(+)<br>&gt; &gt=
+; =C2=A0create mode 100644 .github/workflows/main.yml<br>&gt; &gt;<br>&gt; =
+&gt; diff --git a/.github/workflows/main.yml b/.github/workflows/main.yml<b=
+r>&gt; &gt; new file mode 100644<br>&gt; &gt; index 0000000000..71f5fbd556<=
+br>&gt; &gt; --- /dev/null<br>&gt; &gt; +++ b/.github/workflows/main.yml<br=
+>&gt; &gt; @@ -0,0 +1,24 @@<br>&gt; &gt; +# This is a basic workflow to hel=
+p you get started with Actions<br>&gt; &gt; +<br>&gt; &gt; +name: CI<br>&gt=
+; &gt; +<br>&gt; &gt; +# Controls when the action will run. Triggers the wo=
+rkflow on push or pull request<br>&gt; &gt; +# events but only for the mast=
+er branch<br>&gt; &gt; +on:<br>&gt; &gt; + =C2=A0push:<br>&gt; &gt; + =C2=
+=A0 =C2=A0branches: [ master ]<br>&gt; &gt; + =C2=A0pull_request:<br>&gt; &=
+gt; + =C2=A0 =C2=A0branches: [ master ]<br>&gt; &gt; +<br>&gt; &gt; +# A wo=
+rkflow run is made up of one or more jobs that can run sequentially or in p=
+arallel<br>&gt; &gt; +jobs:<br>&gt; &gt; + =C2=A0check-patch:<br>&gt; &gt; =
++ =C2=A0 =C2=A0name: Check Patch<br>&gt; &gt; + =C2=A0 =C2=A0runs-on: ubunt=
+u-latest<br>&gt; &gt; + =C2=A0 =C2=A0steps:<br>&gt; &gt; + =C2=A0 =C2=A0 =
+=C2=A0# Checks-out your repository under $GITHUB_WORKSPACE, so your job can=
+ access it<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0- uses: actions/checkout@v2<b=
+r>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0with:<br>&gt; &gt; + =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0fetch-depth: 0<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0- na=
+me: Install dependent packages<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0ru=
+n: echo &quot;Empty action&quot;<br>&gt;<br>&gt; I really rather we just in=
+tegrated the Cirrus CI windows job into our GitLab<br>&gt; pipeline using c=
+irrus-run, as we did for the other Cirrus jobs.<br>&gt;<br>&gt; We&#39;ve a=
+lso already got some native msys jobs under GitLab that test some<br>&gt; c=
+ombinations, but not all since they&#39;re somewhat slow. So we still need<=
+br>&gt; to take advantage of Cirrus for some msys testing, but we can likel=
+y<br>&gt; reduce the overlap.<br>&gt;<br>&gt; I definitely don&#39;t want t=
+o see us increasing our use of GitHub, as having<br>&gt; multiple places to=
+ look at for CI results is a really bad thing. We want<div>&gt; todo what i=
+s possible to make GitLab the single dashboard for all CI info.</div><div><=
+br></div><div>Agreed a single dashboard is meaningfull, I&#39;ll try that. =
+other than that, a empty</div><div>github actions can give better experienc=
+e with qemu, there is 3.9k for at github,</div><div>and 5.9k star at github=
+=C2=A0</div><div><br>&gt;<br>&gt;<br>&gt; With regards,<br>&gt; Daniel<br>&=
+gt; --<br>&gt; |: <a href=3D"https://berrange.com">https://berrange.com</a>=
+ =C2=A0 =C2=A0 =C2=A0-o- =C2=A0 =C2=A0<a href=3D"https://www.flickr.com/pho=
+tos/dberrange">https://www.flickr.com/photos/dberrange</a> :|<br>&gt; |: <a=
+ href=3D"https://libvirt.org">https://libvirt.org</a> =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 -o- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://fsto=
+p138.berrange.com">https://fstop138.berrange.com</a> :|<br>&gt; |: <a href=
+=3D"https://entangle-photo.org">https://entangle-photo.org</a> =C2=A0 =C2=
+=A0-o- =C2=A0 =C2=A0<a href=3D"https://www.instagram.com/dberrange">https:/=
+/www.instagram.com/dberrange</a> :|<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=
+=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
+
+--000000000000860f8905dae12110--
 
