@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75ED44E56DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:48:21 +0100 (CET)
-Received: from localhost ([::1]:44230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77BCB4E5724
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 18:06:41 +0100 (CET)
+Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX49k-0001vA-4a
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:48:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49998)
+	id 1nX4RU-00008E-52
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 13:06:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nX45J-0004re-1U
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:43:45 -0400
-Received: from [2a00:1450:4864:20::42f] (port=39445
- helo=mail-wr1-x42f.google.com)
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nX4QG-0007ls-CW
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:05:24 -0400
+Received: from [2001:638:a01:1096::11] (port=42738 helo=mta01.hs-regensburg.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nX45H-0003BK-Bl
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:43:44 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id j18so2951601wrd.6
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 09:43:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=pk1J+McWKI7S+0+v5jJDVxd48C6/O6QAAZDe8U7m/1A=;
- b=sXsbcyJN9LkIsk3VsWnpIfDrQ6bOs0IvlyB88xIg/1oPjzqJYqiM5f5jA2s++yvx+k
- jPmRNrxiU2jP2w7RHMNt/5rY49jYnG4TWoFgvS9GP1v6+FZ9RMAjGryH42NhR7KFIjWW
- UAAGZrMR6bjeKdt1lZQBevq8mE1QvApayAhGzNH7XLAvZkQT/FEFZuy3UBEL8Z2OT4vm
- V/j4uv9rfI/pTzoSOJgfuaf3bEUV0+sMBAGkhgryE/+mW19pkUE4RsqeYNfX37fCY3+a
- 2K0TH9jle1eS+4fN7BXLFehNH9uXqUzGmhiGMemlnmF2Rp41pZoCInVFAJxzM00xa/r6
- 9LoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=pk1J+McWKI7S+0+v5jJDVxd48C6/O6QAAZDe8U7m/1A=;
- b=7k+4xER4Vi/FZ4+Xi45zuFycxVOJAXJvMtLJOpVUVB/iwKVwxSvK+XMGVJnEEPSySL
- uN9lH7ztb7d/C4w0J7osrBYHJqvZuXyh3V32y4ikjg5uhx+nJbIIvdjmOw6bE6JoVsHB
- keaQMrA5jSpEGkl2nypJqGxrmUkIpE8mUUhOJmUq4i81PDBxkNfBOifhChLZq1eoXpLT
- AWZNiX5IjNEa6O3XFXsMYTaqlsCGlFc74KtPvJx+2IzuJaJGC7W5SnR3i3+4vlYZAF9a
- IPzu8CSgPD11gdkIfpHiX4OQsoh9zF/iq0dpR97uWIrzkfYvD4vOQuHc0F4XsN8Tbe/n
- Ev7A==
-X-Gm-Message-State: AOAM533PXLXRLFbhbjJJ6tTzyVL7TbepVhw6iGxQ+HSsyoOCKM+sB8cZ
- gUwCrSx21IdV4//W46rIzwaN1Aw+BzPzwA==
-X-Google-Smtp-Source: ABdhPJwzQvkepl06Jo50K9LD4v723O1qEyTPJ50OlNUQ0LG+tBcVAKcnQNKNbYF7TQPFmCu79CFWNA==
-X-Received: by 2002:adf:914f:0:b0:1ed:bb92:d0cc with SMTP id
- j73-20020adf914f000000b001edbb92d0ccmr662676wrj.297.1648053821903; 
- Wed, 23 Mar 2022 09:43:41 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- v10-20020a056000144a00b00203df06cf9bsm309991wrx.106.2022.03.23.09.43.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 09:43:40 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 284A61FFB7;
- Wed, 23 Mar 2022 16:43:40 +0000 (GMT)
-References: <20220320171135.2704502-1-richard.henderson@linaro.org>
- <20220320171135.2704502-7-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.10; emacs 28.0.92
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PULL for-7.1 06/36] util/log: Treat qemu_log_lock like trylock
-Date: Wed, 23 Mar 2022 16:43:36 +0000
-In-reply-to: <20220320171135.2704502-7-richard.henderson@linaro.org>
-Message-ID: <87ils44o1v.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nX4QD-0007w3-LJ
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:05:23 -0400
+Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
+ [IPv6:2001:638:a01:8013::93])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "E16S03", Issuer "E16S03" (not verified))
+ by mta01.hs-regensburg.de (Postfix) with ESMTPS id 4KNvqV4yqnzy2b;
+ Wed, 23 Mar 2022 18:05:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
+ s=mta01-20211122; t=1648055110;
+ bh=FOtCIgl93LzvuUQBmOsjosrFQyXaaBTgWafWZDYjh80=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To:From;
+ b=FIeRmu4R61Rn+7j2l+H72RCKs1uElzO1StjDwZcIFrxV6GNuXQNaQIFbKUUP5G2fW
+ 7jm/gB7ClvkLd2Tk6eJXD7KVp/pc9Sw5oGLGI5DeHgd8cdtuNqFIAqs3kUhHEbZvHi
+ MP68pAJJQsIbtH6vNYLK6+Kkdv3ORX64V2nEaNZvRYQKxVSA86Xg+eiip77I6Knf2M
+ UF/WhoLNQDYExpD+F7wm+i0kPrXaPtAFAu74zKuGxyWqoIyfiV1RE3flnFISFh9kVN
+ v9MSbBYCH0ngB40j6WfHilydJMOtMrxC1WLU3CqzrjHFXsdtMwsUaTwP1FqKDyrW3y
+ C8prJPggj/vdg==
+Received: from [IPV6:2001:638:a01:8068:7fd:af2f:5cb8:5796]
+ (2001:638:a01:8013::138) by E16S03.hs-regensburg.de (2001:638:a01:8013::93)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 23 Mar
+ 2022 18:05:10 +0100
+Message-ID: <ce845d03-1215-9481-6a6f-097abb75a5f0@oth-regensburg.de>
+Date: Wed, 23 Mar 2022 18:05:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [EXT] Re: QEMU+KVM on RISC-V + Hypervisor Extension
+Content-Language: en-US
+To: Palmer Dabbelt <palmer@dabbelt.com>, <alistair23@gmail.com>
+References: <mhng-274dfa51-81cb-47bc-b31c-1a2dd8efa543@palmer-ri-x1c9>
+From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+In-Reply-To: <mhng-274dfa51-81cb-47bc-b31c-1a2dd8efa543@palmer-ri-x1c9>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [2001:638:a01:8013::138]
+X-ClientProxiedBy: E16S04.hs-regensburg.de (2001:638:a01:8013::94) To
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:638:a01:1096::11
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2001:638:a01:1096::11;
+ envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta01.hs-regensburg.de
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,20 +79,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: apatel@ventanamicro.com, Peter Maydell <peter.maydell@linaro.org>,
+ anup@brainfault.org, qemu-devel@nongnu.org, jiangyifei@huawei.com,
+ stefan.huber@oth-regensburg.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Do not require qemu_log_unlock to be called when
-> qemu_log_lock returns NULL.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 21/03/2022 21:47, Palmer Dabbelt wrote:
+> On Sun, 20 Mar 2022 22:43:07 PDT (-0700), alistair23@gmail.com wrote:
+>> On Thu, Mar 17, 2022 at 7:46 PM Peter Maydell 
+>> <peter.maydell@linaro.org> wrote:
+>>>
+>>> On Wed, 16 Mar 2022 at 22:23, Alistair Francis <alistair23@gmail.com> 
+>>> wrote:
+>>> > Hmm... This seems like a bug. We shouldn't allow the user to specify a
+>>> > `-bios` option if using KVM. Would you mind preparing a patch to catch
+>>> > this?
+>>>
+>>> You don't want to allow the possibility of a bios blob that expects
+>>> to run in S-mode, the way arm virt can run an EL1 UEFI BIOS ?
+>>
+>> Interesting. We could still allow that by using -device loader though.
+>>
+>> If we load something in S mode it really is a kernel and not firmware,
+>> so I think the -bios argument is a little misleading. We could make
+>> -bios and -enable-kvm a warning instead, to discourage users from
+>> providing OpenSBI, but still allow them to pass something.
+> 
+> We could handle this in OpenSBI: have it just detect that it's been 
+> launched in S-mode and just jump to the payload.
+> 
+>> To me not allowing it seems reasonable, and we can always re-allow it
+>> in the future if there is a good use case.
+> 
+> That also seems fine to me.  There'd be a lot of work involved in doing 
+> anything useful with S-mode firmware, given that things aren't really 
+> designed to work that way.  Certainly a lot more work than re-enabling 
+> this sort of flag, and while it might be a bit of a headache coupling 
+> that to a QEMU source-level change my guess is that there'd need to be a 
+> bunch of work done on new HW interfaces to make this useful so there'd 
+> be QEMU changes to emulate those either way.
+> 
+> Having at least a warning seems prudent, as most users are going to end 
+> up with a hang here and a silent hang is a headache for everyone.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Okay, my analysis was wrong, -bios is in fact already ignored when being 
+used in combination with -enable-kvm on the virt machine model. See:
 
---=20
-Alex Benn=C3=A9e
+https://git.qemu.org/?p=qemu.git;a=blob;f=hw/riscv/virt.c;h=da50cbed43ec54777992d40dbf158ec63fccef03;hb=HEAD#l1314
+
+However, the bios will be silently ignored and dropped, which led me to 
+the mistake. I'll provide a patch that gives a warning to the user.
+
+   Ralf
+
+> 
+>> Alistair
+>>
+>>>
+>>> thanks
+>>> -- PMM
 
