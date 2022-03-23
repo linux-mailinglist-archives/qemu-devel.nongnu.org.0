@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FEE14E5040
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 11:26:11 +0100 (CET)
-Received: from localhost ([::1]:38340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2B94E5042
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 11:26:22 +0100 (CET)
+Received: from localhost ([::1]:38412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWyBt-0006b6-Or
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 06:26:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52328)
+	id 1nWyC3-0006dp-El
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 06:26:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nWy9Q-0005G1-Gv
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:23:36 -0400
-Received: from [2607:f8b0:4864:20::429] (port=39490
- helo=mail-pf1-x429.google.com)
+ id 1nWy9Q-0005G8-U8
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:23:37 -0400
+Received: from [2607:f8b0:4864:20::102d] (port=56130
+ helo=mail-pj1-x102d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nWy9K-0001CT-Gw
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:23:33 -0400
-Received: by mail-pf1-x429.google.com with SMTP id u22so1157079pfg.6
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 03:23:29 -0700 (PDT)
+ id 1nWy9N-0001D6-Bg
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:23:34 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id jx9so1216351pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 03:23:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lNP74VzTy4Ut4laPr89cQYkBOjiSKGaavJx5ft/sk2U=;
- b=Jiv4dKsC6sZHJqAEvTCWGMQ3uyHgY0lGctIi4mN6yHw4Lg6+7rVr/dh/op/rq6LLza
- the5r+H3m52D76CpcBiWNWDHJwMKo0BIEn43G5ou/Us7lYL7cbKBnmZKXIrJl01iTNkt
- tz53Mmw7RSGkufNCSt9Js+768ivH5w0sTv9Pf/XY7V5YBrVPpekr8JLYHsIC2X0dm6JH
- Ew6Uo1Ii1V3pkoCIge66zU7de7GAVFdzzUL//7gm/wYNVk7NJ+wUCG8NVZCBQzWDalWu
- cmM910FrNzh13oqHNj8VFx4YJKn/3+ow2CXElehEiBvT8K+dk/8fmo28o1uNFIyxyUfb
- 7HQQ==
+ bh=gpuSROt/QpYl/pOGRvtl+SrlH38ZvQjd791fDET2MpA=;
+ b=IXKFl3mVXNFHX1zo41E3dEmSDIaSyjpNoITHo8iv8AFEbJA/ChrBXZ22r3te6tmbGE
+ XjPOkYf2Cir2CYgmy8IxR52CfN/NebRftgBsu2ybs7UPl0Ven2XJ8W2YtX3KkSvKSRo4
+ MYg7MzHOMMhDe1ypnw5Hb9MKb6Y+lzqTMchESLqfMFcu/+vvNkhIgl2f9VCnMaCetVLs
+ +PjxvNoAr2DNL22hWS0nw9G24kNKTXiH4f+WP+d52UcOlYwsURe5GxxOtDi+PPFQhcMH
+ cpeCnf5p/Qw877pbM5TmqvEy9kyZY8PoOYkux3bXL3Hey8+YbAHwIG9xZ211TLb1t3US
+ SyVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lNP74VzTy4Ut4laPr89cQYkBOjiSKGaavJx5ft/sk2U=;
- b=0aPh/ID7G3O8AGBV0qL9WbL6tdlDuU0wTLyS8Bm9qhYz2QD08nwOZ+8xakhw6c10+Q
- 7eSUxOOunVFIbIcByS74eqQA6exZT4W1r62fdE5rKPqJWPDI0q67wXJa5u/fbmbtVOk0
- dk3acDERMNvKcitXsMpJPp0ZQOXF98+tEZd8iJ79PfAgUODdVOdUdVpx9OYovn3wrvJV
- 8GyoOwuSYXaOn4b3QYc5XT/l0yxMKtB+pmvg8JPofw0E4WCGr+Elc2+bbwDA6teNJXbS
- IT31xv7X2iK58nPLp1gw3oTdI5MZpQ9puLmrnM2cOyspakSnZ/8QNjIy+TsXtEPR/wSE
- uhpg==
-X-Gm-Message-State: AOAM531CqrBEzx88KSfs/9rO/566Px6qYwEjQ38/Ks1YELwMryjzN6Ey
- +M+xUyuNBS7VmGHAJDMge5vZ5WD8CwnPPRiH
-X-Google-Smtp-Source: ABdhPJxnQt1EZHQlG8lph9rjq7ncT98/iD8QJF6BuJ6nEKuOg1B7obzPb4BitCO1HK/UdmG7ALyRzQ==
-X-Received: by 2002:a63:7216:0:b0:382:3f32:cdb2 with SMTP id
- n22-20020a637216000000b003823f32cdb2mr18197322pgc.253.1648031008667; 
- Wed, 23 Mar 2022 03:23:28 -0700 (PDT)
+ bh=gpuSROt/QpYl/pOGRvtl+SrlH38ZvQjd791fDET2MpA=;
+ b=CHpI6+APqqW4dbFOBNA7waA55/77zi1DL4MRB77PM4gjD61Vyv1FPo1yHz0q5zqK9u
+ 97wguAdjKFFKhM7S3CVxhNsMrjbysYu+qGDdNdLcCvSbJyYqqcDMR2azuScNam8o3zUh
+ fLJL3JLqO4w/YjUyJ5JG8ZSX2EEQ9SFP+QbpjDP5KcA7Re192JhHBZEhFXOH5hI47XFA
+ Z6QBPG2XgndtaH4rGc0+AopRJAittEkPc7gCkMFq5IB9OnEhi20r3AAcTEweN35vPb3v
+ Zm0colO3UtLVSIFn+dJaNz1AXHGfUT9HrVEJYr3P6AD04Iu2X9r5V2DIM9Mby5dx7qI0
+ LDMg==
+X-Gm-Message-State: AOAM531jy0gO/k49jhYV0wzo98wROEu4zsx0rNjDqWuXLLCMi6Bron1t
+ 8EyT4W/tI8cWw4XVe2RYTY16H63x95+eVqN+
+X-Google-Smtp-Source: ABdhPJwzy55AHuptgi6IPYyWp8P4A5vSlpegeq/w6q0AsaGU9z9LBMiTC4UzAJYiBtRIejclu9A8gQ==
+X-Received: by 2002:a17:902:ac88:b0:153:a34f:5648 with SMTP id
+ h8-20020a170902ac8800b00153a34f5648mr23265530plr.121.1648031012013; 
+ Wed, 23 Mar 2022 03:23:32 -0700 (PDT)
 Received: from always-x1.www.tendawifi.com ([139.177.225.224])
  by smtp.gmail.com with ESMTPSA id
- 124-20020a621682000000b004f6a2e59a4dsm24778765pfw.121.2022.03.23.03.23.26
+ 124-20020a621682000000b004f6a2e59a4dsm24778765pfw.121.2022.03.23.03.23.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 03:23:28 -0700 (PDT)
+ Wed, 23 Mar 2022 03:23:31 -0700 (PDT)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: armbru@redhat.com,
 	michael.roth@amd.com
-Subject: [RESEND 1/2] qga: Introduce NVMe disk bus type
-Date: Wed, 23 Mar 2022 18:19:57 +0800
-Message-Id: <20220323101958.300848-2-pizhenwei@bytedance.com>
+Subject: [RESEND 2/2] qga: Introduce disk smart
+Date: Wed, 23 Mar 2022 18:19:58 +0800
+Message-Id: <20220323101958.300848-3-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220323101958.300848-1-pizhenwei@bytedance.com>
 References: <20220323101958.300848-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -89,86 +90,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>
+Cc: Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Assigning a NVMe disk by VFIO or emulating a NVMe controller by QEMU,
-a NVMe disk get exposed in guest side. Support NVMe disk bus type and
-implement posix version.
+After assigning a NVMe/SCSI controller to guest by VFIO, we lose
+everything on the host side. A guest uses these devices exclusively,
+we usually don't care the actions on these devices. But there is a
+low probability that hitting physical hardware warning, we need a
+chance to get the basic smart log info.
 
-Test PCI passthrough case:
-~#virsh qemu-agent-command buster '{"execute":"guest-get-disks"}' | jq
-  ...
-    {
-      "name": "/dev/nvme0n1",
-      "dependencies": [],
-      "partition": false,
-      "address": {
-        "serial": "SAMSUNG MZQL23T8HCLS-00A07_S64HNE0N500076",
-        "bus-type": "nvme",
-        "bus": 0,
-        "unit": 0,
-        "pci-controller": {
-          "bus": 0,
-          "slot": 22,
-          "domain": 0,
-          "function": 0
-        },
-        "dev": "/dev/nvme0n1",
-        "target": 0
-      }
-  ...
+Introduce disk smart, and implement NVMe smart on linux.
 
+Thanks to Keith and Marc-André.
+
+CC: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- qga/commands-posix.c | 5 ++++-
- qga/qapi-schema.json | 3 ++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ qga/commands-posix.c | 73 ++++++++++++++++++++++++++++++++++++++++++++
+ qga/qapi-schema.json | 53 +++++++++++++++++++++++++++++++-
+ 2 files changed, 125 insertions(+), 1 deletion(-)
 
 diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 75dbaab68e..4ec83bbfbc 100644
+index 4ec83bbfbc..383bbebe42 100644
 --- a/qga/commands-posix.c
 +++ b/qga/commands-posix.c
-@@ -889,7 +889,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
-         if (driver && (g_str_equal(driver, "ata_piix") ||
-                        g_str_equal(driver, "sym53c8xx") ||
-                        g_str_equal(driver, "virtio-pci") ||
--                       g_str_equal(driver, "ahci"))) {
-+                       g_str_equal(driver, "ahci") ||
-+                       g_str_equal(driver, "nvme"))) {
-             break;
+@@ -27,6 +27,7 @@
+ #include "qemu/base64.h"
+ #include "qemu/cutils.h"
+ #include "commands-common.h"
++#include "block/nvme.h"
+ 
+ #ifdef HAVE_UTMPX
+ #include <utmpx.h>
+@@ -49,6 +50,7 @@ extern char **environ;
+ #include <sys/socket.h>
+ #include <net/if.h>
+ #include <sys/statvfs.h>
++#include <linux/nvme_ioctl.h>
+ 
+ #ifdef CONFIG_LIBUDEV
+ #include <libudev.h>
+@@ -1390,6 +1392,76 @@ static GuestDiskInfoList *get_disk_partitions(
+     return ret;
+ }
+ 
++static void get_nvme_smart(GuestDiskInfo *disk)
++{
++    int fd;
++    GuestNVMeSmart *smart;
++    NvmeSmartLog log = {0};
++    struct nvme_admin_cmd cmd = {
++        .opcode = NVME_ADM_CMD_GET_LOG_PAGE,
++        .nsid = NVME_NSID_BROADCAST,
++        .addr = (uint64_t)&log,
++        .data_len = sizeof(log),
++        .cdw10 = NVME_LOG_SMART_INFO | (1 << 15) /* RAE bit */
++                 | (((sizeof(log) >> 2) - 1) << 16)
++    };
++
++    fd = qemu_open_old(disk->name, O_RDONLY);
++    if (fd == -1) {
++        g_debug("Failed to open device: %s: %s", disk->name, g_strerror(errno));
++        return;
++    }
++
++    if (ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd)) {
++        g_debug("Failed to get smart: %s: %s", disk->name, g_strerror(errno));
++        close(fd);
++        return;
++    }
++
++    disk->has_smart = true;
++    disk->smart = g_new0(GuestDiskSmart, 1);
++    disk->smart->type = GUEST_DISK_BUS_TYPE_NVME;
++
++    smart = &disk->smart->u.nvme;
++    smart->critical_warning = log.critical_warning;
++    smart->temperature = lduw_le_p(&log.temperature); /* unaligned field */
++    smart->available_spare = log.available_spare;
++    smart->available_spare_threshold = log.available_spare_threshold;
++    smart->percentage_used = log.percentage_used;
++    smart->data_units_read_lo = le64_to_cpu(log.data_units_read[0]);
++    smart->data_units_read_hi = le64_to_cpu(log.data_units_read[1]);
++    smart->data_units_written_lo = le64_to_cpu(log.data_units_written[0]);
++    smart->data_units_written_hi = le64_to_cpu(log.data_units_written[1]);
++    smart->host_read_commands_lo = le64_to_cpu(log.host_read_commands[0]);
++    smart->host_read_commands_hi = le64_to_cpu(log.host_read_commands[1]);
++    smart->host_write_commands_lo = le64_to_cpu(log.host_write_commands[0]);
++    smart->host_write_commands_hi = le64_to_cpu(log.host_write_commands[1]);
++    smart->controller_busy_time_lo = le64_to_cpu(log.controller_busy_time[0]);
++    smart->controller_busy_time_hi = le64_to_cpu(log.controller_busy_time[1]);
++    smart->power_cycles_lo = le64_to_cpu(log.power_cycles[0]);
++    smart->power_cycles_hi = le64_to_cpu(log.power_cycles[1]);
++    smart->power_on_hours_lo = le64_to_cpu(log.power_on_hours[0]);
++    smart->power_on_hours_hi = le64_to_cpu(log.power_on_hours[1]);
++    smart->unsafe_shutdowns_lo = le64_to_cpu(log.unsafe_shutdowns[0]);
++    smart->unsafe_shutdowns_hi = le64_to_cpu(log.unsafe_shutdowns[1]);
++    smart->media_errors_lo = le64_to_cpu(log.media_errors[0]);
++    smart->media_errors_hi = le64_to_cpu(log.media_errors[1]);
++    smart->number_of_error_log_entries_lo =
++        le64_to_cpu(log.number_of_error_log_entries[0]);
++    smart->number_of_error_log_entries_hi =
++        le64_to_cpu(log.number_of_error_log_entries[1]);
++
++    close(fd);
++}
++
++static void get_disk_smart(GuestDiskInfo *disk)
++{
++    if (disk->has_address
++        && (disk->address->bus_type == GUEST_DISK_BUS_TYPE_NVME)) {
++        get_nvme_smart(disk);
++    }
++}
++
+ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+ {
+     GuestDiskInfoList *ret = NULL;
+@@ -1463,6 +1535,7 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
          }
  
-@@ -984,6 +985,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
-             g_debug("no host for '%s' (driver '%s')", syspath, driver);
-             goto cleanup;
-         }
-+    } else if (strcmp(driver, "nvme") == 0) {
-+        disk->bus_type = GUEST_DISK_BUS_TYPE_NVME;
-     } else {
-         g_debug("unknown driver '%s' (sysfs path '%s')", driver, syspath);
-         goto cleanup;
+         get_disk_deps(disk_dir, disk);
++        get_disk_smart(disk);
+         ret = get_disk_partitions(ret, de->d_name, disk_dir, dev_name);
+     }
+ 
 diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index 94e4aacdcc..4ea2a50228 100644
+index 4ea2a50228..228703f209 100644
 --- a/qga/qapi-schema.json
 +++ b/qga/qapi-schema.json
-@@ -827,13 +827,14 @@
- # @mmc: Win multimedia card (MMC) bus type
- # @virtual: Win virtual bus type
- # @file-backed-virtual: Win file-backed bus type
-+# @nvme: NVMe disks (since 7.0)
+@@ -888,6 +888,55 @@
+            '*serial': 'str', '*dev': 'str',
+            '*ccw-address': 'GuestCCWAddress'} }
+ 
++##
++# @GuestNVMeSmart:
++#
++# NVMe smart informations, based on NVMe specification,
++# section <SMART / Health Information (Log Identifier 02h)>
++#
++# Since: 7.0
++##
++{ 'struct': 'GuestNVMeSmart',
++  'data': {'critical-warning': 'int',
++           'temperature': 'int',
++           'available-spare': 'int',
++           'available-spare-threshold': 'int',
++           'percentage-used': 'int',
++           'data-units-read-lo': 'uint64',
++           'data-units-read-hi': 'uint64',
++           'data-units-written-lo': 'uint64',
++           'data-units-written-hi': 'uint64',
++           'host-read-commands-lo': 'uint64',
++           'host-read-commands-hi': 'uint64',
++           'host-write-commands-lo': 'uint64',
++           'host-write-commands-hi': 'uint64',
++           'controller-busy-time-lo': 'uint64',
++           'controller-busy-time-hi': 'uint64',
++           'power-cycles-lo': 'uint64',
++           'power-cycles-hi': 'uint64',
++           'power-on-hours-lo': 'uint64',
++           'power-on-hours-hi': 'uint64',
++           'unsafe-shutdowns-lo': 'uint64',
++           'unsafe-shutdowns-hi': 'uint64',
++           'media-errors-lo': 'uint64',
++           'media-errors-hi': 'uint64',
++           'number-of-error-log-entries-lo': 'uint64',
++           'number-of-error-log-entries-hi': 'uint64' } }
++
++##
++# @GuestDiskSmart:
++#
++# Disk type related smart information.
++#
++# - @nvme: NVMe disk smart
++#
++# Since: 7.0
++##
++{ 'union': 'GuestDiskSmart',
++  'base': { 'type': 'GuestDiskBusType' },
++  'discriminator': 'type',
++  'data': { 'nvme': 'GuestNVMeSmart' } }
++
+ ##
+ # @GuestDiskInfo:
  #
- # Since: 2.2; 'Unknown' and all entries below since 2.4
+@@ -899,12 +948,14 @@
+ # @address: disk address information (only for non-virtual devices)
+ # @alias: optional alias assigned to the disk, on Linux this is a name assigned
+ #         by device mapper
++# @smart: disk smart information (Since 7.0)
+ #
+ # Since 5.2
  ##
- { 'enum': 'GuestDiskBusType',
-   'data': [ 'ide', 'fdc', 'scsi', 'virtio', 'xen', 'usb', 'uml', 'sata',
-             'sd', 'unknown', 'ieee1394', 'ssa', 'fibre', 'raid', 'iscsi',
--            'sas', 'mmc', 'virtual', 'file-backed-virtual' ] }
-+            'sas', 'mmc', 'virtual', 'file-backed-virtual', 'nvme' ] }
- 
+ { 'struct': 'GuestDiskInfo',
+   'data': {'name': 'str', 'partition': 'bool', '*dependencies': ['str'],
+-           '*address': 'GuestDiskAddress', '*alias': 'str'} }
++           '*address': 'GuestDiskAddress', '*alias': 'str',
++           '*smart': 'GuestDiskSmart'} }
  
  ##
+ # @guest-get-disks:
 -- 
 2.25.1
 
