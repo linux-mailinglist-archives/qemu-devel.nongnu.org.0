@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A974E5AD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 22:46:26 +0100 (CET)
-Received: from localhost ([::1]:58728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89C924E5AE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 22:49:39 +0100 (CET)
+Received: from localhost ([::1]:34304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX8oD-00029s-Db
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 17:46:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55112)
+	id 1nX8rK-0004nk-2q
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 17:49:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nX8mK-00014E-8X; Wed, 23 Mar 2022 17:44:28 -0400
-Received: from [2607:f8b0:4864:20::231] (port=38584
- helo=mail-oi1-x231.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nX8mI-0003FN-Mg; Wed, 23 Mar 2022 17:44:27 -0400
-Received: by mail-oi1-x231.google.com with SMTP id r8so3046764oib.5;
- Wed, 23 Mar 2022 14:44:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=caEfRrdX5O7nVIspztTymSSwMD2XV2FEnPXZA3AFw18=;
- b=Ysw7JdzJBn1KUmIeTMub+weLdVlbGB5jW6IyuVQdsp3YKQpqk1qW5IPfziR8FHNT+F
- z3CrGiLDdAJp7KKAV3KlnDT2vZtEvURQsUP2jQVhkKXu+DQgsHcP4AgjkSt4MGayRmES
- +VJ6RDS0xhfyvfiQU61dg4XpoCyqtHbIv0LdTGTc+1K4H9dnDHPwKtsIK5KocnLFjabJ
- c0lsNz17rWobpla0d5d7wgX5onENjo1zoQObt41mM+X2i9iIDWTkNk3Mph73fy+xEZY6
- BJCwRHVHpwEkJu9dwV82ObV9Xor6IYwvKjrbXOusBqcMOjUdM8fuoRqx+kKv+cFMru95
- T+nQ==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nX8pu-0003Jf-RP
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:48:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nX8ps-0005yX-AJ
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:48:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648072084;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=I8yjyFAC6ZJ2FdL3pF43fXg7uCXfqhTfupPfV/ziaE4=;
+ b=RjvIHqN5jshttkjdo7ZhQUMR+K+/+F6NSPZ1J5F0iq7vRTA/5dRXFQmQtoXCalmzpxd7Rr
+ vQ6CIlIpZn3NqLpeGI/CjziZ6dLqoa3lPWlFw9n7eezBMZMWBaVY5MVulkjWvaloLi6wje
+ mQ+b/ExhDHHul6mO1kONHiHBbSOdOtc=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-127-Bxtu6WiHPXCvufVMgMV2Fg-1; Wed, 23 Mar 2022 17:48:00 -0400
+X-MC-Unique: Bxtu6WiHPXCvufVMgMV2Fg-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ e9-20020a67c509000000b003255c4cf120so73874vsk.6
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 14:48:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=caEfRrdX5O7nVIspztTymSSwMD2XV2FEnPXZA3AFw18=;
- b=A+O6109w2mMbmKcm/G0PB59Mf+7P+SC5wQEtcAlN3+mmsytFrBdRPn11Vs4yaUAGBa
- wo+kU+HxMRSlVV/w2FfMOm5Qh6B7Ot9gVkFseJc2A465JtnEAaO9aB9z82G8IMSDaXCD
- Tu3kzdh9C8vhYPq9bBaA+XU/xU0l+uoVoxDdwEiRGlVNtVLQbCqdY/9WFBzgdIE+Bs8p
- 79l8+EQfLknxBGuZ/Ikq13ir7o5faSo2kkpXuxzZO7siQSpD5HYh8Me0CFY8TFm/pdbO
- VS3hTB5h8CCIJC75CyG4s0Jqazgn5etvdGecmUWd2xGTD0riupMWqZRJkcPSWnTcYmjr
- KC7Q==
-X-Gm-Message-State: AOAM532O3eZuQvOLwEj/AjqoEGWw3yN5/ApBZ+OfKYpjA+PxJrHDVaFg
- TlABSepIEDw9ErDxT2jjNSCEXLH/NJU=
-X-Google-Smtp-Source: ABdhPJw+AQ3YkRqWRrlHuNE65pfuoGb20gYiMmz2FGAnYgrYf791AP1OHYnuBUdOKDDRuQ3ef2GtMw==
-X-Received: by 2002:a05:6808:1115:b0:2ec:e103:99c8 with SMTP id
- e21-20020a056808111500b002ece10399c8mr1132445oih.194.1648071864014; 
- Wed, 23 Mar 2022 14:44:24 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96?
- ([2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96])
- by smtp.gmail.com with ESMTPSA id
- l133-20020aca3e8b000000b002ef8ed00461sm493094oia.19.2022.03.23.14.44.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 14:44:23 -0700 (PDT)
-Message-ID: <9fc262cf-7706-1611-fb64-467ee37d6117@gmail.com>
-Date: Wed, 23 Mar 2022 18:44:21 -0300
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=I8yjyFAC6ZJ2FdL3pF43fXg7uCXfqhTfupPfV/ziaE4=;
+ b=AejnIoKZ7phoAWANvO3cJFa8UG7HY1RyA7ITsoNqR1g4FE7HMJt0QFG4O/McA6iU3w
+ d8ji8jBO+KPWdpvfBHw4yjYvdlExdlpCLB50K8SmKJHjBjXOeNepXr4yVl2ZRU4bkqdj
+ jQV7G+n/WW2p4sja6R3ikuv4GqWhFEtWFFdP9UNPWkh14JSVBcfx6Jbr5Z/qQT+7wxv3
+ W3v3nA3L21AEbWXmlqMWJ4ouFSh5iPlJOXq+JnYow7AGOCw+Vb8SZbrZJ2Uk8NKKmeTw
+ xZdXuLGpVRQpXjMOeIQveK8hZF7RMJX7Qo7i/x+eS/PcUyFtIKONR8CzVbzkCiXV23DL
+ 8A1w==
+X-Gm-Message-State: AOAM531kLZnv5Vriu2JY59N/ZiDLow7Tpsyr1moRGvgCZkDa+JxLBk3I
+ dTwnzKy9pB6Kki21a20Wrvw3Vy88z89w8wMyzdFTplImQoxmG7Yc+MKVZ3UY7ozoGuxPYQNK4XM
+ HecYUY4h0nN3FoA6KfizFRyK4xealSsM=
+X-Received: by 2002:ab0:7c4d:0:b0:34f:3fc0:9b05 with SMTP id
+ d13-20020ab07c4d000000b0034f3fc09b05mr1052238uaw.103.1648072079524; 
+ Wed, 23 Mar 2022 14:47:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqdUVWuS/nZiQ4ydqJIQet2UOX6BFn+bbsQLdskMNJtETo4NtSn0C0RDp5dlwdrnYWZ6C9U24QJKO2+7B6KCE=
+X-Received: by 2002:ab0:7c4d:0:b0:34f:3fc0:9b05 with SMTP id
+ d13-20020ab07c4d000000b0034f3fc09b05mr1052221uaw.103.1648072079319; Wed, 23
+ Mar 2022 14:47:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH for-7.1 2/4] hw/ppc: use qdev to register physical DRC
- vmstates
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20220322183854.196063-1-danielhb413@gmail.com>
- <20220322183854.196063-3-danielhb413@gmail.com> <Yjp8hkhiiVDrUTIa@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <Yjp8hkhiiVDrUTIa@yekko>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::231
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x231.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+References: <20220321210847.914787-1-jsnow@redhat.com>
+ <20220321210847.914787-2-jsnow@redhat.com>
+In-Reply-To: <20220321210847.914787-2-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 23 Mar 2022 17:47:48 -0400
+Message-ID: <CAFn=p-YM8VoXLMBz4nmkvkAMH8SHa+uT=Wx9F77Q-xKrea9GLg@mail.gmail.com>
+Subject: Re: [PATCH 01/10] python/aqmp: add explicit GPLv2 license to legacy.py
+To: qemu-devel <qemu-devel@nongnu.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,90 +91,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Luiz Capitulino <lcapitulino@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Mar 21, 2022 at 5:08 PM John Snow <jsnow@redhat.com> wrote:
+>
+> The legacy.py module is heavily based on the QMP module by Luiz
+> Capitulino (et al) which is licensed as explicit GPLv2-only. The async
+> QMP package is currently licensed similarly, but I intend to relicense
+> the async package to the more flexible GPLv2+.
+>
+> In preparation for that change, make the license on legacy.py explicit.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/aqmp/legacy.py | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
+> index 46026e9fdc..f86cb29804 100644
+> --- a/python/qemu/aqmp/legacy.py
+> +++ b/python/qemu/aqmp/legacy.py
+> @@ -4,6 +4,17 @@
+>  This class pretends to be qemu.qmp.QEMUMonitorProtocol.
+>  """
+>
+> +#
+> +# Copyright (C) 2009-2022 Red Hat Inc.
+> +#
+> +# Authors:
+> +#  Luiz Capitulino <lcapitulino@redhat.com>
+> +#  John Snow <jsnow@redhat.com>
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2.  See
+> +# the COPYING file in the top-level directory.
+> +#
+> +
+>  import asyncio
+>  from typing import (
+>      Any,
+> --
+> 2.34.1
+>
 
+Anyone have any strong feelings on me doing this? CC'ing people with
+known strong feelings on licenses.
 
-On 3/22/22 22:48, David Gibson wrote:
-> On Tue, Mar 22, 2022 at 03:38:52PM -0300, Daniel Henrique Barboza wrote:
->> Similar to logical DRCs, let's convert physical DRCs to register their
->> vmstates using dc->vmsd.
->>
->> The same constraints with instance_id being set to spapr_drc_index()
->> also applies in this case. However, since realize_physical() calls
->> drc_realize(), qdev_set_legacy_instance_id() is already being set.
-> 
-> Ok, and you've verified that you don't need to set the legacy ID on
-> both "layers"?  That is, have you tested that you can migrate from
-> before this change to after?
+I'm:
 
-It works for the wrong reasons. The way I tested this patch wasn't triggering
-the migration of the DRCs.
+(1) Re-affirming that the legacy interface for async QMP is GPLv2
+(like the classic QMP library is), because the interface and
+docstrings here are largely copy-pasted from that library. It's
+heavily remixed and modified, but it is undeniably derivative. (This
+patch)
 
-Doing a hotplug and migrating afterwards was enough to migrate the DRC back in 2017,
-but after all the work we did in DRC code over these years what happens now is that,
-during machine reset, the drc is set to ready_state:
+(2) Re-licensing async QMP as GPLv2+. (Next patch)
 
-     if (drc->dev) {
-         /* A device present at reset is ready to go, same as coldplugged */
-         drc->state = drck->ready_state;
+(3) Someday, eventually, adding a different sync interface that
+doesn't re-mix this specific compatibility interface and will provide
+better event-waiting primitives and so on. legacy.py will get dropped
+at that point and the sub-project will become wholly GPLv2+. Until
+then, it will be mixed.
 
-And spapr_drc_needed() is returning false:
+--js
 
-     /*
-      * We need to reset the DRC at CAS or to migrate the DRC state if it's
-      * not equal to the expected long-term state, which is the same as the
-      * coldplugged initial state, or if an unplug request is pending.
-      */
-     return drc->state != drck->ready_state || spapr_drc_unplug_requested(drc);
-
-
-So the CPU DRCs aren't being migrated. I noticed that when turning on traces
-of the migration code to debug a problem with patch 03.
-
-
-
-Daniel
-
-> 
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/ppc/spapr_drc.c | 6 ++----
->>   1 file changed, 2 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
->> index a5ef64d2a2..5a60885876 100644
->> --- a/hw/ppc/spapr_drc.c
->> +++ b/hw/ppc/spapr_drc.c
->> @@ -640,9 +640,6 @@ static void realize_physical(DeviceState *d, Error **errp)
->>           return;
->>       }
->>   
->> -    vmstate_register(VMSTATE_IF(drcp),
->> -                     spapr_drc_index(SPAPR_DR_CONNECTOR(drcp)),
->> -                     &vmstate_spapr_drc_physical, drcp);
->>       qemu_register_reset(drc_physical_reset, drcp);
->>   }
->>   
->> @@ -651,7 +648,6 @@ static void unrealize_physical(DeviceState *d)
->>       SpaprDrcPhysical *drcp = SPAPR_DRC_PHYSICAL(d);
->>   
->>       drc_unrealize(d);
->> -    vmstate_unregister(VMSTATE_IF(drcp), &vmstate_spapr_drc_physical, drcp);
->>       qemu_unregister_reset(drc_physical_reset, drcp);
->>   }
->>   
->> @@ -662,6 +658,8 @@ static void spapr_drc_physical_class_init(ObjectClass *k, void *data)
->>   
->>       dk->realize = realize_physical;
->>       dk->unrealize = unrealize_physical;
->> +    dk->vmsd = &vmstate_spapr_drc_physical;
->> +
->>       drck->dr_entity_sense = physical_entity_sense;
->>       drck->isolate = drc_isolate_physical;
->>       drck->unisolate = drc_unisolate_physical;
-> 
 
