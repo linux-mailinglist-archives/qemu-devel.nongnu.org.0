@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560914E556D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 16:40:01 +0100 (CET)
-Received: from localhost ([::1]:39142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 945CB4E559D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 16:46:01 +0100 (CET)
+Received: from localhost ([::1]:41730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX35c-0003Tv-0V
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 11:40:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58884)
+	id 1nX3BQ-0005cS-Gu
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 11:46:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nX34D-0002f0-AO
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:38:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45987)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nX39g-0004uG-ET
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:44:12 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nX34A-0000Hq-B3
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:38:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648049909;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=52OyT4hNZgnDakpoSYVZAqnZ+3Oak7O7fHORDYjy2eA=;
- b=MgbVoJ15BhzujMO8Qo9p69fGYhMnTYz5f4GQfvOy8Vpdod1qo+g/QtT233s8LEvIw6UUHq
- iWKKwVZaZJJaw72YCFgT3/nH9w9GhcDr9wVu1KtWRqgFiG/wqcDUxqqcaEB7GpSI9khEnY
- 9uyguA6+VjW7o+qFWhxDK/IJc4ueq2A=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-39-spB1Q2qaM_GCIH9FixBKRw-1; Wed, 23 Mar 2022 11:38:26 -0400
-X-MC-Unique: spB1Q2qaM_GCIH9FixBKRw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCBAE2800F6B;
- Wed, 23 Mar 2022 15:38:25 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 299AD140241B;
- Wed, 23 Mar 2022 15:38:24 +0000 (UTC)
-Date: Wed, 23 Mar 2022 15:38:21 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: zhenwei pi <pizhenwei@bytedance.com>
-Subject: Re: [PATCH v3 1/6] virtio-crypto: header update
-Message-ID: <Yjs+7TYdumci1Q9h@redhat.com>
-References: <20220323024912.249789-1-pizhenwei@bytedance.com>
- <20220323024912.249789-2-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nX39d-0001KW-Az
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:44:12 -0400
+Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KNt0S0mF3z67yRn;
+ Wed, 23 Mar 2022 23:42:48 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 23 Mar 2022 16:43:55 +0100
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Wed, 23 Mar
+ 2022 15:43:54 +0000
+Date: Wed, 23 Mar 2022 15:43:53 +0000
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+CC: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Be?=
+ =?ISO-8859-1?Q?nn=E9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
+ <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
+ <shameerali.kolothum.thodi@huawei.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
+ =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, 
+ Chris Browy <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, 
+ Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v8 32/46] mem/cxl_type3: Add read and write functions
+ for associated hostmem.
+Message-ID: <20220323154353.0000617e@huawei.com>
+In-Reply-To: <5e0dc4e5-d002-9fab-2b69-d849aee68acc@ilande.co.uk>
+References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
+ <20220318150635.24600-33-Jonathan.Cameron@huawei.com>
+ <5e0dc4e5-d002-9fab-2b69-d849aee68acc@ilande.co.uk>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220323024912.249789-2-pizhenwei@bytedance.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml745-chm.china.huawei.com (10.201.108.195) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,118 +80,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: herbert@gondor.apana.org.au, mst@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
- arei.gonglei@huawei.com, linux-crypto@vger.kernel.org,
- lei he <helei.sig11@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, Mar 23, 2022 at 10:49:07AM +0800, zhenwei pi wrote:
-> Update header from linux, support akcipher service.
+On Sat, 19 Mar 2022 08:53:40 +0000
+Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> wrote:
 
-I'm assuming this is updated for *non-merged* Linux headers, since
-I don't see these changes present in current linux.git 
+> On 18/03/2022 15:06, Jonathan Cameron wrote:
+> 
+> > From: Jonathan Cameron <jonathan.cameron@huawei.com>
+> > 
+> > Once a read or write reaches a CXL type 3 device, the HDM decoders
+> > on the device are used to establish the Device Physical Address
+> > which should be accessed.  These functions peform the required maths
+> > and then use a device specific address space to access the
+> > hostmem->mr to fullfil the actual operation.  Note that failed writes
+> > are silent, but failed reads return poison.  Note this is based
+> > loosely on:
+> > 
+> > https://lore.kernel.org/qemu-devel/20200817161853.593247-6-f4bug@amsat.org/
+> > [RFC PATCH 0/9] hw/misc: Add support for interleaved memory accesses
+> > 
+> > Only lightly tested so far.  More complex test cases yet to be written.
+> > 
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
+> >   hw/mem/cxl_type3.c          | 88 +++++++++++++++++++++++++++++++++++++
+> >   include/hw/cxl/cxl_device.h |  6 +++
+> >   2 files changed, 94 insertions(+)
+> > 
+> > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> > index 244eb5dc91..225155dac5 100644
+> > --- a/hw/mem/cxl_type3.c
+> > +++ b/hw/mem/cxl_type3.c
+> > @@ -100,7 +100,9 @@ static void ct3_finalize(Object *obj)
+> >   
+> >   static void cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
+> >   {
+> > +    DeviceState *ds = DEVICE(ct3d);
+> >       MemoryRegion *mr;
+> > +    g_autofree char *name = NULL;
+> >   
+> >       if (!ct3d->hostmem) {
+> >           error_setg(errp, "memdev property must be set");
+> > @@ -115,6 +117,13 @@ static void cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
+> >       memory_region_set_nonvolatile(mr, true);
+> >       memory_region_set_enabled(mr, true);
+> >       host_memory_backend_set_mapped(ct3d->hostmem, true);  
+> 
+> There is an existing example for generating names for PCI devices in SPAPR which you 
+> can borrow which looks something like this (not compile tested!):
+> 
+> static char *cxl_type3_get_id(CXLType3Dev *ct3d)
+> {
+>      uint32_t busnr = pci_bus_num(PCI_BUS(qdev_get_parent_bus(DEVICE(ct3d))));
+>      PCIDevice *pd = PCI_DEVICE(ct3d);
+>      DeviceState *ds = DEVICE(ct3d);
+> 
+>      if (ds->id) {
+>          return g_strdup_printf("%s:%02x:%02x.%x", ds->id, busnr,
+>                                 PCI_SLOT(pd->devfn), PCI_FUNC(pd->devfn));
+>      } else {
+>          return g_strdup_printf("%02x:%02x.%x", busnr,
+>                                 PCI_SLOT(pd->devfn), PCI_FUNC(pd->devfn));
+>      }
+> }
+
+The snag is at this point the PCI bus hasn't been enumerated so all of these
+numbers are 0 for endpoints. They can change at any point (in theory) so
+using them to help identify a device is unstable.
+I switched to using a : as the separator as that is clear than
+yet another -
 
 > 
-> Reviewed-by: Gonglei <arei.gonglei@huawei.com>
-> Signed-off-by: lei he <helei.sig11@bytedance.com>
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> ---
->  .../standard-headers/linux/virtio_crypto.h    | 82 ++++++++++++++++++-
->  1 file changed, 81 insertions(+), 1 deletion(-)
+> > +
+> > +    if (ds->id) {
+> > +        name = g_strdup_printf("cxl-type3-dpa-space-%s", ds->id);
+> > +    } else {
+> > +        name = g_strdup("cxl-type3-dpa-space");
+> > +    }  
 > 
-> diff --git a/include/standard-headers/linux/virtio_crypto.h b/include/standard-headers/linux/virtio_crypto.h
-> index 5ff0b4ee59..68066dafb6 100644
-> --- a/include/standard-headers/linux/virtio_crypto.h
-> +++ b/include/standard-headers/linux/virtio_crypto.h
-> @@ -37,6 +37,7 @@
->  #define VIRTIO_CRYPTO_SERVICE_HASH   1
->  #define VIRTIO_CRYPTO_SERVICE_MAC    2
->  #define VIRTIO_CRYPTO_SERVICE_AEAD   3
-> +#define VIRTIO_CRYPTO_SERVICE_AKCIPHER 4
->  
->  #define VIRTIO_CRYPTO_OPCODE(service, op)   (((service) << 8) | (op))
->  
-> @@ -57,6 +58,10 @@ struct virtio_crypto_ctrl_header {
->  	   VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AEAD, 0x02)
->  #define VIRTIO_CRYPTO_AEAD_DESTROY_SESSION \
->  	   VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AEAD, 0x03)
-> +#define VIRTIO_CRYPTO_AKCIPHER_CREATE_SESSION \
-> +	   VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AKCIPHER, 0x04)
-> +#define VIRTIO_CRYPTO_AKCIPHER_DESTROY_SESSION \
-> +	   VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AKCIPHER, 0x05)
->  	uint32_t opcode;
->  	uint32_t algo;
->  	uint32_t flag;
-> @@ -180,6 +185,58 @@ struct virtio_crypto_aead_create_session_req {
->  	uint8_t padding[32];
->  };
->  
-> +struct virtio_crypto_rsa_session_para {
-> +#define VIRTIO_CRYPTO_RSA_RAW_PADDING   0
-> +#define VIRTIO_CRYPTO_RSA_PKCS1_PADDING 1
-> +	uint32_t padding_algo;
-> +
-> +#define VIRTIO_CRYPTO_RSA_NO_HASH   0
-> +#define VIRTIO_CRYPTO_RSA_MD2       1
-> +#define VIRTIO_CRYPTO_RSA_MD3       2
-> +#define VIRTIO_CRYPTO_RSA_MD4       3
-> +#define VIRTIO_CRYPTO_RSA_MD5       4
-> +#define VIRTIO_CRYPTO_RSA_SHA1      5
+> This then becomes:
+> 
+>      char *id, *name;
+>      ...
+> 
+>      id = cxl_type3_get_id(ct3d);
+>      name = g_strdup_printf("cxl-type3-dpa-space:%s", id);
+>      address_space_init(&ct3d->hostmem_as, mr, name);
+>      g_free(id);
+>      g_free(name);
+> 
+> > +    address_space_init(&ct3d->hostmem_as, mr, name);  
+> 
+> There is an address_space_init() here but no associated address_space_destroy() - 
+> you'll need to add a ct3_finalize() function to remove the address space, otherwise 
+> there will be a memory leak when the device is removed because of the dangling reference.
 
-Do we really need to be adding support for all these obsolete
-hash functions. Maybe SHA1 is borderline acceptable, but all
-those obsolete MD* functions too ??
+I was lazy on this for two reasons:
+a) I could actually figure out to do a finalize for a PCI device. I think after digging
+   more it's via the pc->exit callback (which is very oddly named - I guess for historic
+   reasons - why is the unwind of realize called exit?  Ah well. I had previously
+   had it in instance_finalize which resulted in a qtest crash as it would
+   destroy an address space we hadn't created.
+b) Only a tiny percentage of all the address spaces in qemu are ever destroyed (or at least
+   I couldn't find where they were destroyed). I guess using bad practice elsewhere isn't
+   the best way to write code :)
 
-> +#define VIRTIO_CRYPTO_RSA_SHA256    6
-> +#define VIRTIO_CRYPTO_RSA_SHA384    7
-> +#define VIRTIO_CRYPTO_RSA_SHA512    8
-> +#define VIRTIO_CRYPTO_RSA_SHA224    9
-> +	uint32_t hash_algo;
-> +};
-> +
-> +struct virtio_crypto_ecdsa_session_para {
-> +#define VIRTIO_CRYPTO_CURVE_UNKNOWN   0
-> +#define VIRTIO_CRYPTO_CURVE_NIST_P192 1
-> +#define VIRTIO_CRYPTO_CURVE_NIST_P224 2
-> +#define VIRTIO_CRYPTO_CURVE_NIST_P256 3
-> +#define VIRTIO_CRYPTO_CURVE_NIST_P384 4
-> +#define VIRTIO_CRYPTO_CURVE_NIST_P521 5
-> +	uint32_t curve_id;
-> +	uint32_t padding;
-> +};
-> +
-> +struct virtio_crypto_akcipher_session_para {
-> +#define VIRTIO_CRYPTO_NO_AKCIPHER    0
-> +#define VIRTIO_CRYPTO_AKCIPHER_RSA   1
-> +#define VIRTIO_CRYPTO_AKCIPHER_DSA   2
-> +#define VIRTIO_CRYPTO_AKCIPHER_ECDSA 3
+Having chased it through it seems to me that what I had in instance_finalize in 23
+should have been in pc->exit as it is unwinding stuff done in pc->realize()
+not the instance_init.
 
-Here we have RSA, DSA and ECDSA, but the corresponding QEMU
-qapi/crypto.json doesn't define DSA at all. Is that a mistake
-on the QEMU side, or is the DSA support redundant ?
+Thanks,
 
-> +	uint32_t algo;
-> +
-> +#define VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PUBLIC  1
-> +#define VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PRIVATE 2
-> +	uint32_t keytype;
-> +	uint32_t keylen;
-> +
-> +	union {
-> +		struct virtio_crypto_rsa_session_para rsa;
-> +		struct virtio_crypto_ecdsa_session_para ecdsa;
-> +	} u;
-> +};
+Jonathan
 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+> >       ct3d->cxl_dstate.pmem_size = ct3d->hostmem->size;
+> >   
+> >       if (!ct3d->lsa) {
+> > @@ -160,6 +169,85 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+> >                        &ct3d->cxl_dstate.device_registers);
+> >   }
+> >   
+> > +/* TODO: Support multiple HDM decoders and DPA skip */
+> > +static bool cxl_type3_dpa(CXLType3Dev *ct3d, hwaddr host_addr, uint64_t *dpa)
+> > +{
+> > +    uint32_t *cache_mem = ct3d->cxl_cstate.crb.cache_mem_registers;
+> > +    uint64_t decoder_base, decoder_size, hpa_offset;
+> > +    uint32_t hdm0_ctrl;
+> > +    int ig, iw;
+> > +
+> > +    decoder_base = (((uint64_t)cache_mem[R_CXL_HDM_DECODER0_BASE_HI] << 32) |
+> > +                    cache_mem[R_CXL_HDM_DECODER0_BASE_LO]);
+> > +    if ((uint64_t)host_addr < decoder_base) {
+> > +        return false;
+> > +    }
+> > +
+> > +    hpa_offset = (uint64_t)host_addr - decoder_base;
+> > +
+> > +    decoder_size = ((uint64_t)cache_mem[R_CXL_HDM_DECODER0_SIZE_HI] << 32) |
+> > +        cache_mem[R_CXL_HDM_DECODER0_SIZE_LO];
+> > +    if (hpa_offset >= decoder_size) {
+> > +        return false;
+> > +    }
+> > +
+> > +    hdm0_ctrl = cache_mem[R_CXL_HDM_DECODER0_CTRL];
+> > +    iw = FIELD_EX32(hdm0_ctrl, CXL_HDM_DECODER0_CTRL, IW);
+> > +    ig = FIELD_EX32(hdm0_ctrl, CXL_HDM_DECODER0_CTRL, IG);
+> > +
+> > +    *dpa = (MAKE_64BIT_MASK(0, 8 + ig) & hpa_offset) |
+> > +        ((MAKE_64BIT_MASK(8 + ig + iw, 64 - 8 - ig - iw) & hpa_offset) >> iw);
+> > +
+> > +    return true;
+> > +}
+> > +
+> > +MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
+> > +                           unsigned size, MemTxAttrs attrs)
+> > +{
+> > +    CXLType3Dev *ct3d = CT3(d);
+> > +    uint64_t dpa_offset;
+> > +    MemoryRegion *mr;
+> > +
+> > +    /* TODO support volatile region */
+> > +    mr = host_memory_backend_get_memory(ct3d->hostmem);
+> > +    if (!mr) {
+> > +        return MEMTX_ERROR;
+> > +    }
+> > +
+> > +    if (!cxl_type3_dpa(ct3d, host_addr, &dpa_offset)) {
+> > +        return MEMTX_ERROR;
+> > +    }
+> > +
+> > +    if (dpa_offset > int128_get64(mr->size)) {
+> > +        return MEMTX_ERROR;
+> > +    }
+> > +
+> > +    return address_space_read(&ct3d->hostmem_as, dpa_offset, attrs, data, size);
+> > +}
+> > +
+> > +MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
+> > +                            unsigned size, MemTxAttrs attrs)
+> > +{
+> > +    CXLType3Dev *ct3d = CT3(d);
+> > +    uint64_t dpa_offset;
+> > +    MemoryRegion *mr;
+> > +
+> > +    mr = host_memory_backend_get_memory(ct3d->hostmem);
+> > +    if (!mr) {
+> > +        return MEMTX_OK;
+> > +    }
+> > +
+> > +    if (!cxl_type3_dpa(ct3d, host_addr, &dpa_offset)) {
+> > +        return MEMTX_OK;
+> > +    }
+> > +
+> > +    if (dpa_offset > int128_get64(mr->size)) {
+> > +        return MEMTX_OK;
+> > +    }
+> > +    return address_space_write(&ct3d->hostmem_as, dpa_offset, attrs,
+> > +                               &data, size);
+> > +}
+> > +
+> >   static void ct3d_reset(DeviceState *dev)
+> >   {
+> >       CXLType3Dev *ct3d = CT3(dev);
+> > diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+> > index 288cc11772..eb998791d7 100644
+> > --- a/include/hw/cxl/cxl_device.h
+> > +++ b/include/hw/cxl/cxl_device.h
+> > @@ -235,6 +235,7 @@ typedef struct cxl_type3_dev {
+> >       PCIDevice parent_obj;
+> >   
+> >       /* Properties */
+> > +    AddressSpace hostmem_as;
+> >       uint64_t size;
+> >       HostMemoryBackend *hostmem;
+> >       HostMemoryBackend *lsa;
+> > @@ -262,4 +263,9 @@ struct CXLType3Class {
+> >                       uint64_t offset);
+> >   };
+> >   
+> > +MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
+> > +                           unsigned size, MemTxAttrs attrs);
+> > +MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
+> > +                            unsigned size, MemTxAttrs attrs);
+> > +
+> >   #endif  
+> 
+> 
+> ATB,
+> 
+> Mark.
 
 
