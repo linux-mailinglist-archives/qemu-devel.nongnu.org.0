@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F416A4E4B77
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 04:30:12 +0100 (CET)
-Received: from localhost ([::1]:41862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6494E4B79
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 04:31:33 +0100 (CET)
+Received: from localhost ([::1]:44366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWrhL-0002Rc-NM
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 23:30:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51550)
+	id 1nWrie-0004Ah-By
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 23:31:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nWrdz-0008Lu-Bc
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:26:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32245)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nWrgl-0002k5-NX
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:29:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nWrdv-0003R3-JV
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:26:41 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nWrgi-0003iV-IQ
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:29:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648005999;
+ s=mimecast20190719; t=1648006172;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vCiZ43v27uzAWVcOukl0ep+Hq/ITY1CMRj61K83M+hc=;
- b=ZzH9ZrdLoIFsVaGR7YsdpFeFr4pm3KFKsXRtcaMf7cid/dmG5m6IOZV3R59jVtI1LTcQ6y
- oXc3U4hDle1bz2LpjGad96H+FdfreoGRdSQM/a1Ht03pMFBOmXLQOBJ1CX3OdNNuMWJn8k
- wYtutdgovpvmJ43ZP1n+Q93rJfOIKes=
+ bh=vid4mYPnboxP9w/8aNwtQjxdjARAAb9ozLLbjVnt0yk=;
+ b=bt602J3iqnoBNVtuaf64VExxz5T9IEep2jUIrRFX/QBV9UyeLUfZ0M5Jvr+Mvz58yLDmBc
+ i3Wh7Lpi2HEOEuBsWRFollOWnHjpXgL2LNL1AfsyfY8bsIMZdt+wD7bo0i28RZjnKjNsZL
+ 8WB0nATkqhhXlG7U4n/T3th7/pFnhfc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-aNSh1I4IONKQ6XaGHy2usA-1; Tue, 22 Mar 2022 23:26:35 -0400
-X-MC-Unique: aNSh1I4IONKQ6XaGHy2usA-1
+ us-mta-645-zO0Q1PwgNDOsmuxbE1ATwg-1; Tue, 22 Mar 2022 23:29:27 -0400
+X-MC-Unique: zO0Q1PwgNDOsmuxbE1ATwg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0FA4811E75;
- Wed, 23 Mar 2022 03:26:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69B4180159B;
+ Wed, 23 Mar 2022 03:29:27 +0000 (UTC)
 Received: from [10.72.12.33] (ovpn-12-33.pek2.redhat.com [10.72.12.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F8CB2166B2D;
- Wed, 23 Mar 2022 03:26:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9EB72166B2D;
+ Wed, 23 Mar 2022 03:29:22 +0000 (UTC)
 Subject: Re: [PATCH v2 1/3] hw/arm/virt: Fix CPU's default NUMA node ID
 To: "wangyanan (Y)" <wangyanan55@huawei.com>,
  Igor Mammedov <imammedo@redhat.com>
@@ -53,8 +53,8 @@ References: <20220303031152.145960-1-gshan@redhat.com>
  <20220318142723.142157c3@redhat.com>
  <e6efb1ca-08bb-fce5-de58-b8e2079880ca@huawei.com>
 From: Gavin Shan <gshan@redhat.com>
-Message-ID: <477808a7-beec-2607-10f9-cb1bc8035467@redhat.com>
-Date: Wed, 23 Mar 2022 11:26:25 +0800
+Message-ID: <d4a8d585-2ce8-410e-ae69-f126bc013c4f@redhat.com>
+Date: Wed, 23 Mar 2022 11:29:19 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.0
 MIME-Version: 1.0
@@ -67,16 +67,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,15 +96,18 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yanan and Igor,
+Hi Yanan,
 
 On 3/21/22 10:28 AM, wangyanan (Y) wrote:
 > On 2022/3/18 21:27, Igor Mammedov wrote:
 >> On Fri, 18 Mar 2022 21:00:35 +0800
 >> "wangyanan (Y)" <wangyanan55@huawei.com> wrote:
+>>
 >>> On 2022/3/18 17:56, Igor Mammedov wrote:
 >>>> On Fri, 18 Mar 2022 14:23:34 +0800
 >>>> "wangyanan (Y)" <wangyanan55@huawei.com> wrote:
+>>>>> Hi Gavin,
+>>>>>
 >>>>> On 2022/3/3 11:11, Gavin Shan wrote:
 >>>>>> The default CPU-to-NUMA association is given by mc->get_default_cpu_node_id()
 >>>>>> when it isn't provided explicitly. However, the CPU topology isn't fully
@@ -151,6 +154,12 @@ On 3/21/22 10:28 AM, wangyanan (Y) wrote:
 >>>>>> but there are no CPUs associated with NODE#2/3/4/5.
 >>>>> It may be better to split this patch into two. One extends
 >>>>> virt_possible_cpu_arch_ids,
+
+Agreed, I will do in v3. Sorry that I forgot to mention it in last reply.
+
+Thanks,
+Gavin
+
 >>>>> and the other fixes the numa node ID issue.
 >>>>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
 >>>>>> ---
@@ -209,11 +218,10 @@ On 3/21/22 10:28 AM, wangyanan (Y) wrote:
 >> place when dies_supported becomes true.
 > A simple assert() works here, I think.
 > 
-
-Ok. I will have the changes in v3. ms->smp.dies won't be included in
-the calculation and assert(!mc->smp_props.clusters_supported) will be
-added.
-
+> Thanks,
+> Yanan
+>>> Thanks,
+>>> Yanan
 >>>>>> +        ms->possible_cpus->cpus[n].props.has_core_id = true;
 >>>>>> +        ms->possible_cpus->cpus[n].props.core_id = n / ms->smp.threads;
 >>>>>>             ms->possible_cpus->cpus[n].props.has_thread_id = true;
@@ -225,21 +233,13 @@ added.
 >>>>> group of socket/cluster/core/thread-id, we determine a CPU.
 >>>>>
 >>>>> Suggestion: For the long term, is it necessary now to add similar topo
->>>>> info infrastructure for ARM, such as X86 TopoInfo, X86CPUTopoIDs,
+>>>>> info infrastructure for ARM, such as X86CPUTopoInfo, X86CPUTopoIDs,
 >>>>> x86_topo_ids_from_idx?
 >>>>>
-
-It's a good idea, but I think it's something for future. Once
-the die is supported, we may have generic mechanism to generate
-the CPU topology based on its index or thread ID. It would be
-nice if the mechanism can be shared by various architectures.
-
-In the guest, which is booted with the given command lines in
-the commit log, CPUs are associated with NUMA node#0/1 and
-no CPUs are associated with node#2/3/4/5 after the patch is
-applied on arm/virt machine. x86 has same behavior.
-
-Thanks,
-Gavin
+>>>>> Thanks,
+>>>>> Yanan
+>>>> .
+>> .
+> 
 
 
