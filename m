@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8554E595F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 20:48:15 +0100 (CET)
-Received: from localhost ([::1]:57320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4847A4E58E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 20:06:45 +0100 (CET)
+Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX6xq-0004hM-0N
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 15:48:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41826)
+	id 1nX6Jf-0007kv-Ut
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 15:06:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1nX2F5-0001Iv-GY
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 10:45:44 -0400
-Received: from [2a00:1450:4864:20::144] (port=45644
- helo=mail-lf1-x144.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nX6IB-0006zF-P0
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 15:05:15 -0400
+Received: from [2a00:1450:4864:20::62a] (port=46595
+ helo=mail-ej1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1nX27u-0005G4-6D
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 10:38:20 -0400
-Received: by mail-lf1-x144.google.com with SMTP id l20so3025561lfg.12
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 07:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=openvz-org.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to;
- bh=lxjxwKVE1uHYC7yyCF0JjiUo9WYCK3PX3Mlr+nK/65o=;
- b=2oTLInQJFacYBAdWV6UxtMWN5Sx8Nc9u1FCifXtroDUIYoF2GKkrH0m90NIPyzQriY
- zQ+pugPh4NQCRE+7piw6v4SmVyOaii9lv7KyE8bTkwfp9MiYN5aIcRHNPPkFcD5c6+v0
- 5CcNUQBeZczQ4tDa84wEFWpghx/GKquFbwUPKLvgojy7O86Zu85X7g8CkhEw7pNjsS52
- ji7tOlcf/IfWKwqfdEdZr6KipC6lYwMYSpUM7q1ekNORyuvVkTbDhqBSpXbUu4YeQrX2
- 0y8BB/mld1ISRMElweaMGA6X+RukCcpeUW+6W1jVxcvYlxigwuGXHmjQYyGlTekGRI5M
- wyiw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nX6I9-0008Dd-5r
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 15:05:10 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id qx21so4731659ejb.13
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 12:05:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Tae71RGe+fh0Ov4UK2RctqokSFvBA6nwM22GTqzv8Fk=;
+ b=jUNjVogYnEJXTrw1R69IX0rawnTZh4VHs3xC6+DoIVgwvGu7Gq6d0SDVLPtkeFdJnn
+ 0AjbmLFGM/2Cs1g5UprYxxtfiA+HoCeG2R/VtfOjcbNP2XWskVuwadbi3n1lj7L1hXtu
+ KVqXcIpsaPNJ+8dk/m+l62g9HuBGoEcTTCW62Cip92tYS7B03CU9a7MD4HD+UEO6+5u9
+ ogwYltVW2NZo+TOhEKN9revGM+jBlFj8MMtn2sM+9EfxOiZc26z6kbFf6fbqjVPdwhhl
+ 2/7bzdj31hZFyGdNIlYBnjfXkv8jZNbxhG9yQ2fJbnZyR9SsRz+Y/q59afGjTDh1p2Up
+ DxnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to;
- bh=lxjxwKVE1uHYC7yyCF0JjiUo9WYCK3PX3Mlr+nK/65o=;
- b=JOcCeJAEDiUkLSKiiGgf4MZwrxvbB5uDSkIgvfrz3wdwcpS5FUJJ3SdKXi8goZS5cN
- MEjpFc2vTO2b5Qgwl9V7L0gJvfijMgdVyBoK9EXN+of6xv3sLs+f3+RZSeP24ancs9Ve
- RdsotgCTCXs8Sp6EtkSPLU0rmWD5aH/TjGiTKv+nPpFM3CUM65RgQGeS6gfDAtS7Uoh9
- nMGsQRuk21eJYErJT+ufQ/Ygbml1Id3wQgw6a9+Nz52qIk7hJ2KiDEgZzr3/uXB4eh7o
- DBpOBsf8/n2QvNn5M6nmXyrpUh//5ilfwy5P9lOeALSGX4NcuZfesiFsAhKVryZ/wsfL
- vufQ==
-X-Gm-Message-State: AOAM530bAHMiDmcMhUMnPQ/XKcrNigOw5tA3ROVFFAHcLU/IsHsRo8ng
- lGgyrLw6JOzuOBZiYZeGAt/DxA==
-X-Google-Smtp-Source: ABdhPJxMFlzQR5xtc5w16WYBUNWxIGbErZl67dttNVKdeiNUgoJ7HKWV65kpAnnw+E0zpRmsXf7EJg==
-X-Received: by 2002:a05:6512:3056:b0:44a:5117:2b2b with SMTP id
- b22-20020a056512305600b0044a51172b2bmr132345lfb.275.1648046295960; 
- Wed, 23 Mar 2022 07:38:15 -0700 (PDT)
-Received: from [192.168.0.105] ([93.175.28.51])
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Tae71RGe+fh0Ov4UK2RctqokSFvBA6nwM22GTqzv8Fk=;
+ b=dsyn+pgW1MQsdIZlR9ojg4DO/PNdSk/1UpiUPcaVXdFpfK7xWkT2y7G0lTNBvqhW6A
+ E07KPl8qH/020EN0P/bn9QjKlwkiRf/NDVCBhav1mE6/GSsuADSm2r9NKNEDxZpmH5TV
+ TeSmamh54bTETXBv08+rrpI7lSlYp1nJsQVafZ+lSyVvrxZaSl6/7WZNr4um3/n01QkM
+ WtZ1UC6RuyqAqju2XotB7JaCExTiKjg0rHrZ27T4oJimwzmYpyCJapwKJISL/VGz1rTK
+ SchKA+8pdhf1rnSwIHMkEoIyZvxYpXrO52lBE7Uhtje6h8jew8MV4Za1yU0EqRHOlkIo
+ JQXg==
+X-Gm-Message-State: AOAM5319Ikg4dcRqqIWWhBvxK/a/4wZusQet6IELM7Dn0hBbhAcYzrJh
+ Qa3tLPh7W2zuBvc1QVYY61IkKFKfvEcZGw==
+X-Google-Smtp-Source: ABdhPJzRGePr2s3RxUMSzBSlx9rm8ubUV0Rf6OCD4qOTWHqf2+j0vlFdTHk2b9tWbhr1GezpWfnenQ==
+X-Received: by 2002:a17:906:9746:b0:6e0:5c9a:1a20 with SMTP id
+ o6-20020a170906974600b006e05c9a1a20mr1732625ejy.714.1648062301988; 
+ Wed, 23 Mar 2022 12:05:01 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- t19-20020a195f13000000b0044a49618534sm9491lfb.132.2022.03.23.07.38.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 07:38:15 -0700 (PDT)
-Content-Type: multipart/alternative;
- boundary="------------np8wgDX73REE2FByDsoX0vWE"
-Message-ID: <59ced950-3748-5b19-9fa0-f276336b06a8@openvz.org>
-Date: Wed, 23 Mar 2022 17:38:14 +0300
+ gt34-20020a1709072da200b006df6bb3db69sm266246ejc.158.2022.03.23.12.05.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Mar 2022 12:05:00 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B759A1FFB7;
+ Wed, 23 Mar 2022 19:04:59 +0000 (GMT)
+References: <20220323112711.440376-1-alex.bennee@linaro.org>
+ <CAFEAcA-Eua8V0L1bKRf1C5F7-cVyfcJ+EEnidaj90L+E86FHJg@mail.gmail.com>
+User-agent: mu4e 1.7.10; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL for 7.0 0/8] i386, docs, gitlab fixes
+Date: Wed, 23 Mar 2022 19:04:04 +0000
+In-reply-to: <CAFEAcA-Eua8V0L1bKRf1C5F7-cVyfcJ+EEnidaj90L+E86FHJg@mail.gmail.com>
+Message-ID: <871qys4hic.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v1 7/8] migration: analyze-migration script changed
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- qemu-devel@nongnu.org
-References: <20220323105400.17649-1-nikita.lapshin@openvz.org>
- <20220323105400.17649-8-nikita.lapshin@openvz.org>
- <48f06c75-de34-ade1-afa4-bcac105e4520@mail.ru>
-From: Nikita Lapshin <nikita.lapshin@openvz.org>
-In-Reply-To: <48f06c75-de34-ade1-afa4-bcac105e4520@mail.ru>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::144
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
  (failed)
-Received-SPF: permerror client-ip=2a00:1450:4864:20::144;
- envelope-from=nikita.lapshin@openvz.org; helo=mail-lf1-x144.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 23 Mar 2022 15:46:39 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,321 +93,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, Nikita Lapshin <nikita.lapshin@virtuozzo.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------np8wgDX73REE2FByDsoX0vWE
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 3/23/22 16:57, Vladimir Sementsov-Ogievskiy wrote:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> 23.03.2022 13:53, Nikita Lapshin wrote:
->> From: Nikita Lapshin<nikita.lapshin@virtuozzo.com>
->> This script is used for RAM capabilities test. But it cannot work
->> in case of no vm description in migration stream.
->> So new flag is added to allow work this script with ram-only
->> migration stream.
->> Signed-off-by: Nikita Lapshin<nikita.lapshin@openvz.org>
->> ---
->>    scripts/analyze-migration.py | 19 ++++++++++++-------
->>    1 file changed, 12 insertions(+), 7 deletions(-)
->> diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
->> index b82a1b0c58..80077a09bc 100755
->> --- a/scripts/analyze-migration.py
->> +++ b/scripts/analyze-migration.py
->> @@ -495,7 +495,7 @@ def __init__(self, filename):
->>            self.filename = filename
->>            self.vmsd_desc = None
->>    
->> -    def read(self, desc_only = False, dump_memory = False, write_memory = False):
->> +    def read(self, ram_only, desc_only = False, dump_memory = False, write_memory = False):
->>            # Read in the whole file
->>            file = MigrationFile(self.filename)
->>    
->> @@ -509,7 +509,8 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
->>            if data != self.QEMU_VM_FILE_VERSION:
->>                raise Exception("Invalid version number %d" % data)
->>    
->> -        self.load_vmsd_json(file)
->> +        if not ram_only:
->> +            self.load_vmsd_json(file)
->>    
->>            # Read sections
->>            self.sections = collections.OrderedDict()
->> @@ -518,7 +519,10 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
->>                return
->>    
->>            ramargs = {}
->> -        ramargs['page_size'] = self.vmsd_desc['page_size']
->> +        if ram_only:
->> +            ramargs['page_size'] = 4096
->> +        else:
->> +            ramargs['page_size'] = self.vmsd_desc['page_size']
->>            ramargs['dump_memory'] = dump_memory
->>            ramargs['write_memory'] = write_memory
->>            self.section_classes[('ram',0)][1] = ramargs
->> @@ -579,6 +583,7 @@ def default(self, o):
->>    parser.add_argument("-m", "--memory", help='dump RAM contents as well', action='store_true')
->>    parser.add_argument("-d", "--dump", help='what to dump ("state" or "desc")', default='state')
->>    parser.add_argument("-x", "--extract", help='extract contents into individual files', action='store_true')
->> +parser.add_argument("--ram-only", help='parse migration dump containing only RAM', action='store_true')
->>    args = parser.parse_args()
->>    
->>    jsonenc = JSONEncoder(indent=4, separators=(',', ': '))
->> @@ -586,14 +591,14 @@ def default(self, o):
->>    if args.extract:
->>        dump = MigrationDump(args.file)
-> could this ram_only instead be stored into object, so that we do
-> dump = MigrationDump(args.file, ram_only=args.ram_only)
-> and don't update each read call?
-
-Yes, it could, don't see any problem with this.
-
->>    
->> -    dump.read(desc_only = True)
->> +    dump.read(desc_only = True, ram_only = args.ram_only)
->>        print("desc.json")
->>        f = open("desc.json", "w")
->>        f.truncate()
->>        f.write(jsonenc.encode(dump.vmsd_desc))
->>        f.close()
->>    
->> -    dump.read(write_memory = True)
->> +    dump.read(write_memory = True, ram_only = args.ram_only)
->>        dict = dump.getDict()
->>        print("state.json")
->>        f = open("state.json", "w")
->> @@ -602,12 +607,12 @@ def default(self, o):
->>        f.close()
->>    elif args.dump == "state":
->>        dump = MigrationDump(args.file)
->> -    dump.read(dump_memory = args.memory)
->> +    dump.read(dump_memory = args.memory, ram_only = args.ram_only)
->>        dict = dump.getDict()
->>        print(jsonenc.encode(dict))
->>    elif args.dump == "desc":
->>        dump = MigrationDump(args.file)
->> -    dump.read(desc_only = True)
->> +    dump.read(desc_only = True, ram_only = args.ram_only)
->>        print(jsonenc.encode(dump.vmsd_desc))
->>    else:
->>        raise Exception("Please specify either -x, -d state or -d desc")
+> On Wed, 23 Mar 2022 at 11:27, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> The following changes since commit 15ef89d2a1a7b93845a6b09c2ee8e1979f6eb=
+30b:
+>>
+>>   Update version for v7.0.0-rc1 release (2022-03-22 22:58:44 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/stsquad/qemu.git tags/pull-fixes-for-7.0-230322-1
+>>
+>> for you to fetch changes up to 0f37cf2f71f764c5649e149c774172df7ab187c7:
+>>
+>>   docs/tcg-plugins: document QEMU_PLUGIN behaviour (2022-03-23 10:38:09 =
++0000)
+>>
+>> ----------------------------------------------------------------
+>> Various fixes for 7.0
+>>
+>>   - make clean also cleans tcg tests
+>>   - fix rounding error in i386 fildl[l]
+>>   - more clean-ups to gitdm/mailmap metadata
+>>   - apply some organisation to docs/devel
+>>   - clean-up semihosting argv handling
+>>   - add custom runner for aarch32
+>>   - remove old qemu_logo.pdf
+>>   - document QEMU_PLUGIN env var
+>>
+>> ----------------------------------------------------------------
 >
---------------np8wgDX73REE2FByDsoX0vWE
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+> Is there anything in here that would affect s390 host? The
+> s390 job seems to be consistently timing out, eg:
+> https://gitlab.com/qemu-project/qemu/-/jobs/2241445160
+> but I have a feeling this is a pre-existing intermittent
+> hang on that host...
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre>
-</pre>
-    <div class="moz-cite-prefix">
-      <pre>On 3/23/22 16:57, Vladimir Sementsov-Ogievskiy wrote:</pre>
-    </div>
-    <blockquote type="cite"
-      cite="mid:48f06c75-de34-ade1-afa4-bcac105e4520@mail.ru">
-      <pre>23.03.2022 13:53, Nikita Lapshin wrote:
-</pre>
-      <blockquote type="cite">
-        <pre>From: Nikita Lapshin <a class="moz-txt-link-rfc2396E" href="mailto:nikita.lapshin@virtuozzo.com">&lt;nikita.lapshin@virtuozzo.com&gt;</a>
-</pre>
-        <pre>
-</pre>
-        <pre>This script is used for RAM capabilities test. But it cannot work
-</pre>
-        <pre>in case of no vm description in migration stream.
-</pre>
-        <pre>So new flag is added to allow work this script with ram-only
-</pre>
-        <pre>migration stream.
-</pre>
-        <pre>
-</pre>
-        <pre>Signed-off-by: Nikita Lapshin <a class="moz-txt-link-rfc2396E" href="mailto:nikita.lapshin@openvz.org">&lt;nikita.lapshin@openvz.org&gt;</a>
-</pre>
-        <pre>---
-</pre>
-        <pre>  scripts/analyze-migration.py | 19 ++++++++++++-------
-</pre>
-        <pre>  1 file changed, 12 insertions(+), 7 deletions(-)
-</pre>
-        <pre>
-</pre>
-        <pre>diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
-</pre>
-        <pre>index b82a1b0c58..80077a09bc 100755
-</pre>
-        <pre>--- a/scripts/analyze-migration.py
-</pre>
-        <pre>+++ b/scripts/analyze-migration.py
-</pre>
-        <pre>@@ -495,7 +495,7 @@ def __init__(self, filename):
-</pre>
-        <pre>          self.filename = filename
-</pre>
-        <pre>          self.vmsd_desc = None
-</pre>
-        <pre>  
--    def read(self, desc_only = False, dump_memory = False, write_memory = False):
-</pre>
-        <pre>+    def read(self, ram_only, desc_only = False, dump_memory = False, write_memory = False):
-</pre>
-        <pre>          # Read in the whole file
-</pre>
-        <pre>          file = MigrationFile(self.filename)
-</pre>
-        <pre>  
-@@ -509,7 +509,8 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
-</pre>
-        <pre>          if data != self.QEMU_VM_FILE_VERSION:
-</pre>
-        <pre>              raise Exception("Invalid version number %d" % data)
-</pre>
-        <pre>  
--        self.load_vmsd_json(file)
-</pre>
-        <pre>+        if not ram_only:
-</pre>
-        <pre>+            self.load_vmsd_json(file)
-</pre>
-        <pre>  
-          # Read sections
-</pre>
-        <pre>          self.sections = collections.OrderedDict()
-</pre>
-        <pre>@@ -518,7 +519,10 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
-</pre>
-        <pre>              return
-</pre>
-        <pre>  
-          ramargs = {}
-</pre>
-        <pre>-        ramargs['page_size'] = self.vmsd_desc['page_size']
-</pre>
-        <pre>+        if ram_only:
-</pre>
-        <pre>+            ramargs['page_size'] = 4096
-</pre>
-        <pre>+        else:
-</pre>
-        <pre>+            ramargs['page_size'] = self.vmsd_desc['page_size']
-</pre>
-        <pre>          ramargs['dump_memory'] = dump_memory
-</pre>
-        <pre>          ramargs['write_memory'] = write_memory
-</pre>
-        <pre>          self.section_classes[('ram',0)][1] = ramargs
-</pre>
-        <pre>@@ -579,6 +583,7 @@ def default(self, o):
-</pre>
-        <pre>  parser.add_argument("-m", "--memory", help='dump RAM contents as well', action='store_true')
-</pre>
-        <pre>  parser.add_argument("-d", "--dump", help='what to dump ("state" or "desc")', default='state')
-</pre>
-        <pre>  parser.add_argument("-x", "--extract", help='extract contents into individual files', action='store_true')
-</pre>
-        <pre>+parser.add_argument("--ram-only", help='parse migration dump containing only RAM', action='store_true')
-</pre>
-        <pre>  args = parser.parse_args()
-</pre>
-        <pre>  
-  jsonenc = JSONEncoder(indent=4, separators=(',', ': '))
-</pre>
-        <pre>@@ -586,14 +591,14 @@ def default(self, o):
-</pre>
-        <pre>  if args.extract:
-</pre>
-        <pre>      dump = MigrationDump(args.file)
-</pre>
-      </blockquote>
-      <pre>
-could this ram_only instead be stored into object, so that we do
-</pre>
-      <pre>
-dump = MigrationDump(args.file, ram_only=args.ram_only)
-</pre>
-      <pre>
-and don't update each read call?
-</pre>
-      <pre>
-</pre>
-    </blockquote>
-    <br>
-    <pre>Yes, it could, don't see any problem with this.
+Nope - but I can see the tasks that are locked up:
 
-</pre>
-    <blockquote type="cite"
-      cite="mid:48f06c75-de34-ade1-afa4-bcac105e4520@mail.ru">
-      <blockquote type="cite">
-        <pre>  
--    dump.read(desc_only = True)
-</pre>
-        <pre>+    dump.read(desc_only = True, ram_only = args.ram_only)
-</pre>
-        <pre>      print("desc.json")
-</pre>
-        <pre>      f = open("desc.json", "w")
-</pre>
-        <pre>      f.truncate()
-</pre>
-        <pre>      f.write(jsonenc.encode(dump.vmsd_desc))
-</pre>
-        <pre>      f.close()
-</pre>
-        <pre>  
--    dump.read(write_memory = True)
-</pre>
-        <pre>+    dump.read(write_memory = True, ram_only = args.ram_only)
-</pre>
-        <pre>      dict = dump.getDict()
-</pre>
-        <pre>      print("state.json")
-</pre>
-        <pre>      f = open("state.json", "w")
-</pre>
-        <pre>@@ -602,12 +607,12 @@ def default(self, o):
-</pre>
-        <pre>      f.close()
-</pre>
-        <pre>  elif args.dump == "state":
-</pre>
-        <pre>      dump = MigrationDump(args.file)
-</pre>
-        <pre>-    dump.read(dump_memory = args.memory)
-</pre>
-        <pre>+    dump.read(dump_memory = args.memory, ram_only = args.ram_only)
-</pre>
-        <pre>      dict = dump.getDict()
-</pre>
-        <pre>      print(jsonenc.encode(dict))
-</pre>
-        <pre>  elif args.dump == "desc":
-</pre>
-        <pre>      dump = MigrationDump(args.file)
-</pre>
-        <pre>-    dump.read(desc_only = True)
-</pre>
-        <pre>+    dump.read(desc_only = True, ram_only = args.ram_only)
-</pre>
-        <pre>      print(jsonenc.encode(dump.vmsd_desc))
-</pre>
-        <pre>  else:
-</pre>
-        <pre>      raise Exception("Please specify either -x, -d state or -d desc")
-</pre>
-      </blockquote>
-      <pre>
-</pre>
-      <br>
-    </blockquote>
-  </body>
-</html>
+2769105 gitlab-ru  20   0 11816  8092  2112 S  0.0  0.0  0:00.03 =E2=94=82 =
+ =E2=94=94=E2=94=80 make --output-sync -j4 check V=3D1=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20
+2769521 gitlab-ru  20   0  533M  168M  8964 S  0.0  1.0  0:22.79 =E2=94=82 =
+    =E2=94=94=E2=94=80 /usr/bin/python3 -B /home/gitlab-runner/builds/-LCfc=
+J2T/0/qemu-project/qemu/meson/meson.py test --n
+2771499 gitlab-ru  20   0  533M  168M  8964 S  0.0  1.0  0:00.00 =E2=94=82 =
+       =E2=94=9C=E2=94=80 /usr/bin/python3 -B /home/gitlab-runner/builds/-L=
+CfcJ2T/0/qemu-project/qemu/meson/meson.py test=20
+2771497 gitlab-ru  20   0 78740  3284  2924 S 10.5  0.0  9:44.54 =E2=94=82 =
+       =E2=94=94=E2=94=80 /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-projec=
+t/qemu/build/tests/qtest/migration-test --tap -
+2773014 gitlab-ru  20   0 1762M 54716 36780 S  0.0  0.3  0:00.31 =E2=94=82 =
+          =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp/qtest-2771=
+497.sock -qtest-log /dev/null -chardev socket,p
+2773019 gitlab-ru  20   0 1762M 54716 36780 S  0.0  0.3  0:00.00 =E2=94=82 =
+          =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
+/qtest-2771497.sock -qtest-log /dev/null -chardev socke
+2773018 gitlab-ru  20   0 1762M 54716 36780 S  0.0  0.3  0:00.00 =E2=94=82 =
+          =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
+/qtest-2771497.sock -qtest-log /dev/null -chardev socke
+2773017 gitlab-ru  20   0 1762M 54716 36780 S  0.0  0.3  0:00.00 =E2=94=82 =
+          =E2=94=82  =E2=94=94=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
+/qtest-2771497.sock -qtest-log /dev/null -chardev socke
+2772869 gitlab-ru  20   0     0     0     0 Z  0.0  0.0  0:00.11 =E2=94=82 =
+          =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp/qtest-2771=
+497.sock -qtest-log /dev/null -chardev socket,p
+2772862 gitlab-ru  20   0 2987M  162M 36972 S 107.  1.0  1h44:46 =E2=94=82 =
+          =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp/qtest-2771=
+497.sock -qtest-log /dev/null -chardev socket,p
+2772915 gitlab-ru  20   0 2987M  162M 36972 S  0.0  1.0  0:00.01 =E2=94=82 =
+          =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
+/qtest-2771497.sock -qtest-log /dev/null -chardev socke
+2772867 gitlab-ru  20   0 2987M  162M 36972 R 99.6  1.0  1h37:41 =E2=94=82 =
+          =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
+/qtest-2771497.sock -qtest-log /dev/null -chardev socke
+2772866 gitlab-ru  20   0 2987M  162M 36972 S  4.2  1.0  4:18.71 =E2=94=82 =
+          =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
+/qtest-2771497.sock -qtest-log /dev/null -chardev socke
+2772864 gitlab-ru  20   0 2987M  162M 36972 S  0.0  1.0  0:00.00 =E2=94=82 =
+          =E2=94=82  =E2=94=94=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
+/qtest-2771497.sock -qtest-log /dev/null -chardev socke
+2771498 gitlab-ru  20   0 78740  3284  2924 S  0.0  0.0  0:00.00 =E2=94=82 =
+          =E2=94=94=E2=94=80 /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-pro=
+ject/qemu/build/tests/qtest/migration-test --ta
+2646940 gitlab-ru  20   0  7152  2556  1852 S  0.0  0.0  0:00.00 =E2=94=9C=
+=E2=94=80 bash --login=20=20=20=20=20=20=20
+2691489 gitlab-ru  20   0 11820  7896  1912 S  0.0  0.0  0:00.04 =E2=94=82 =
+ =E2=94=94=E2=94=80 make --output-sync -j4 check V=3D1
+2691914 gitlab-ru  20   0  533M  167M  8720 S  0.0  1.0  0:22.20 =E2=94=82 =
+    =E2=94=94=E2=94=80 /usr/bin/python3 -B /home/gitlab-runner/builds/-LCfc=
+J2T/0/qemu-project/qemu/meson/meson.py test --n2706323 gitlab-ru  20   0  5=
+33M  167M  8720 S  0.0  1.0  0:00.00 =E2=94=82        =E2=94=9C=E2=94=80 /u=
+sr/bin/python3 -B /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/m=
+eson/meson.py test 2706321 gitlab-ru  20   0 78944  3500  2924 S 48.9  0.0 =
+ 1h30:10 =E2=94=82        =E2=94=94=E2=94=80 /home/gitlab-runner/builds/-LC=
+fcJ2T/0/qemu-project/qemu/build/tests/qtest/virtio-net-failover --2706783 g=
+itlab-ru  20   0  695M 55164 36636 S 34.6  0.3  1h04:59 =E2=94=82          =
+ =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp/qtest-2706321.sock =
+-qtest-log /dev/null -chardev socket,p2706797 gitlab-ru  20   0  695M 55164=
+ 36636 S  0.0  0.3  0:00.00 =E2=94=82           =E2=94=82  =E2=94=9C=E2=94=
+=80 ./qemu-system-i386 -qtest unix:/tmp/qtest-2706321.sock -qtest-log /dev/=
+null -chardev socke2706796 gitlab-ru  20   0  695M 55164 36636 R 22.4  0.3 =
+41:24.24 =E2=94=82           =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i3=
+86 -qtest unix:/tmp/qtest-2706321.sock -qtest-log /dev/null -chardev socke2=
+706795 gitlab-ru  20   0  695M 55164 36636 S  0.0  0.3  0:00.00 =E2=94=82  =
+         =E2=94=82  =E2=94=94=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp/=
+qtest-2706321.sock -qtest-log /dev/null -chardev socke2706322 gitlab-ru  20=
+   0 78944  3500  2924 S  0.0  0.0  0:00.00 =E2=94=82           =E2=94=94=
+=E2=94=80 /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/build/tes=
+ts/qtest/virtio-net-failover
 
---------------np8wgDX73REE2FByDsoX0vWE--
+>
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
 
