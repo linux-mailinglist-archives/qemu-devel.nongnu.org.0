@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A4A4E4D72
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 08:36:59 +0100 (CET)
-Received: from localhost ([::1]:55432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27594E4D79
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 08:38:14 +0100 (CET)
+Received: from localhost ([::1]:58354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWvYA-0000sY-Ad
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 03:36:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42532)
+	id 1nWvZN-00031X-7S
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 03:38:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nWvQf-00005e-Ob; Wed, 23 Mar 2022 03:29:13 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64574
- helo=mx0a-001b2d01.pphosted.com)
+ id 1nWvQb-0008Jw-Iw; Wed, 23 Mar 2022 03:29:09 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nWvQe-0001N4-3I; Wed, 23 Mar 2022 03:29:13 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22N5ftOr002834; 
- Wed, 23 Mar 2022 07:28:55 GMT
+ id 1nWvQZ-0001Mc-PV; Wed, 23 Mar 2022 03:29:09 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22N6d1pr003143; 
+ Wed, 23 Mar 2022 07:28:57 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3eywmn1ndg-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3eytj254nt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Mar 2022 07:28:55 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22N7FT9F001209;
- Wed, 23 Mar 2022 07:28:55 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3eywmn1ncy-1
+ Wed, 23 Mar 2022 07:28:56 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22N62QoK012457;
+ Wed, 23 Mar 2022 07:28:56 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3eytj254nb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Mar 2022 07:28:55 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22N794A3015228;
- Wed, 23 Mar 2022 07:28:53 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma01fra.de.ibm.com with ESMTP id 3ew6t8psbb-1
+ Wed, 23 Mar 2022 07:28:56 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22N7Rqro018252;
+ Wed, 23 Mar 2022 07:28:54 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma05fra.de.ibm.com with ESMTP id 3ew6t9eskv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 23 Mar 2022 07:28:53 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22N7SoBx49676752
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 22N7H8mc47251760
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Mar 2022 07:28:51 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E35F65204E;
- Wed, 23 Mar 2022 07:28:50 +0000 (GMT)
+ Wed, 23 Mar 2022 07:17:08 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 97BBEA404D;
+ Wed, 23 Mar 2022 07:28:51 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5B9D4A4040;
+ Wed, 23 Mar 2022 07:28:51 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id A9E6C5204F;
- Wed, 23 Mar 2022 07:28:50 +0000 (GMT)
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed, 23 Mar 2022 07:28:51 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.50.222])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 13141220121;
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id A3D82220294;
  Wed, 23 Mar 2022 08:28:50 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 4/5] ppc/pnv: Remove PnvPsiClas::irq_set
-Date: Wed, 23 Mar 2022 08:28:45 +0100
-Message-Id: <20220323072846.1780212-5-clg@kaod.org>
+Subject: [PATCH 5/5] ppc/pnv: Remove usless checks in set_irq handlers
+Date: Wed, 23 Mar 2022 08:28:46 +0100
+Message-Id: <20220323072846.1780212-6-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220323072846.1780212-1-clg@kaod.org>
 References: <20220323072846.1780212-1-clg@kaod.org>
@@ -68,25 +70,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: fchCHfYPZGXvzgCV89x-7IhiL_IWz7Fe
-X-Proofpoint-GUID: g53e5UpZus-ef1an3fbLrQkLziG04ZMg
+X-Proofpoint-ORIG-GUID: -zwfVPpainPdVe8_bHXi9H1sUhf_K42s
+X-Proofpoint-GUID: oF8qIDCljvn0yfrdgKcBmZiuYIJLSxy_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-22_08,2022-03-22_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- lowpriorityscore=0 phishscore=0 clxscore=1034 mlxscore=0 spamscore=0
- impostorscore=0 priorityscore=1501 mlxlogscore=700 malwarescore=0
- suspectscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203230040
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ malwarescore=0 phishscore=0
+ clxscore=1034 lowpriorityscore=0 impostorscore=0 suspectscore=0 mlxscore=0
+ mlxlogscore=548 adultscore=0 bulkscore=0 priorityscore=1501 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203230040
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.187,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,117 +107,45 @@ Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All devices raising PSI interrupts are now converted to use GPIO lines
-and the pnv_psi_irq_set() routines have become useless. Drop them.
-
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/pnv_psi.h |  4 ----
- hw/ppc/pnv_psi.c         | 23 ++++++-----------------
- 2 files changed, 6 insertions(+), 21 deletions(-)
+ hw/ppc/pnv_psi.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/include/hw/ppc/pnv_psi.h b/include/hw/ppc/pnv_psi.h
-index 6d9f8ce7c031..8253469b8fee 100644
---- a/include/hw/ppc/pnv_psi.h
-+++ b/include/hw/ppc/pnv_psi.h
-@@ -79,8 +79,6 @@ struct PnvPsiClass {
-     uint64_t bar_mask;
-     const char *compat;
-     int compat_size;
--
--    void (*irq_set)(PnvPsi *psi, int, bool state);
- };
-=20
- /* The PSI and FSP interrupts are muxed on the same IRQ number */
-@@ -95,8 +93,6 @@ typedef enum PnvPsiIrq {
-=20
- #define PSI_NUM_INTERRUPTS 6
-=20
--void pnv_psi_irq_set(PnvPsi *psi, int irq, bool state);
--
- /* P9 PSI Interrupts */
- #define PSIHB9_IRQ_PSI          0
- #define PSIHB9_IRQ_OCC          1
 diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-index 8b6298d4bd96..950ecca40573 100644
+index 950ecca40573..98045ed3d249 100644
 --- a/hw/ppc/pnv_psi.c
 +++ b/hw/ppc/pnv_psi.c
-@@ -211,19 +211,9 @@ static const uint64_t stat_bits[PSI_NUM_INTERRUPTS] =
-=3D {
-     [PSIHB_IRQ_EXTERNAL]  =3D PSIHB_IRQ_STAT_EXT,
- };
-=20
--void pnv_psi_irq_set(PnvPsi *psi, int irq, bool state)
--{
--    PNV_PSI_GET_CLASS(psi)->irq_set(psi, irq, state);
--}
--
--static void __pnv_psi_irq_set(void *opaque, int irq, int state)
--{
--    PnvPsi *psi =3D (PnvPsi *) opaque;
--    PNV_PSI_GET_CLASS(psi)->irq_set(psi, irq, state);
--}
--
--static void pnv_psi_power8_irq_set(PnvPsi *psi, int irq, bool state)
-+static void pnv_psi_power8_set_irq(void *opaque, int irq, int state)
- {
-+    PnvPsi *psi =3D opaque;
-     uint32_t xivr_reg;
-     uint32_t stat_reg;
+@@ -219,11 +219,6 @@ static void pnv_psi_power8_set_irq(void *opaque, int=
+ irq, int state)
      uint32_t src;
-@@ -518,7 +508,7 @@ static void pnv_psi_power8_realize(DeviceState *dev, =
-Error **errp)
-         ics_set_irq_type(ics, i, true);
-     }
+     bool masked;
 =20
--    qdev_init_gpio_in(dev, __pnv_psi_irq_set, ics->nr_irqs);
-+    qdev_init_gpio_in(dev, pnv_psi_power8_set_irq, ics->nr_irqs);
+-    if (irq > PSIHB_IRQ_EXTERNAL) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "PSI: Unsupported irq %d\n", irq)=
+;
+-        return;
+-    }
+-
+     xivr_reg =3D xivr_regs[irq];
+     stat_reg =3D stat_regs[irq];
 =20
-     psi->qirqs =3D qemu_allocate_irqs(ics_set_irq, ics, ics->nr_irqs);
-=20
-@@ -581,7 +571,6 @@ static void pnv_psi_power8_class_init(ObjectClass *kl=
-ass, void *data)
-     ppc->xscom_pcba =3D PNV_XSCOM_PSIHB_BASE;
-     ppc->xscom_size =3D PNV_XSCOM_PSIHB_SIZE;
-     ppc->bar_mask   =3D PSIHB_BAR_MASK;
--    ppc->irq_set    =3D pnv_psi_power8_irq_set;
-     ppc->compat     =3D compat;
-     ppc->compat_size =3D sizeof(compat);
- }
-@@ -819,8 +808,9 @@ static const MemoryRegionOps pnv_psi_p9_xscom_ops =3D=
- {
-     }
- };
-=20
--static void pnv_psi_power9_irq_set(PnvPsi *psi, int irq, bool state)
-+static void pnv_psi_power9_set_irq(void *opaque, int irq, int state)
- {
-+    PnvPsi *psi =3D opaque;
+@@ -813,11 +808,6 @@ static void pnv_psi_power9_set_irq(void *opaque, int=
+ irq, int state)
+     PnvPsi *psi =3D opaque;
      uint64_t irq_method =3D psi->regs[PSIHB_REG(PSIHB9_INTERRUPT_CONTROL=
 )];
 =20
-     if (irq > PSIHB9_NUM_IRQS) {
-@@ -881,7 +871,7 @@ static void pnv_psi_power9_realize(DeviceState *dev, =
-Error **errp)
-=20
-     psi->qirqs =3D qemu_allocate_irqs(xive_source_set_irq, xsrc, xsrc->n=
-r_irqs);
-=20
--    qdev_init_gpio_in(dev, __pnv_psi_irq_set, xsrc->nr_irqs);
-+    qdev_init_gpio_in(dev, pnv_psi_power9_set_irq, xsrc->nr_irqs);
-=20
-     /* XSCOM region for PSI registers */
-     pnv_xscom_region_init(&psi->xscom_regs, OBJECT(dev), &pnv_psi_p9_xsc=
-om_ops,
-@@ -908,7 +898,6 @@ static void pnv_psi_power9_class_init(ObjectClass *kl=
-ass, void *data)
-     ppc->xscom_pcba =3D PNV9_XSCOM_PSIHB_BASE;
-     ppc->xscom_size =3D PNV9_XSCOM_PSIHB_SIZE;
-     ppc->bar_mask   =3D PSIHB9_BAR_MASK;
--    ppc->irq_set    =3D pnv_psi_power9_irq_set;
-     ppc->compat     =3D compat;
-     ppc->compat_size =3D sizeof(compat);
-=20
+-    if (irq > PSIHB9_NUM_IRQS) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "PSI: Unsupported irq %d\n", irq)=
+;
+-        return;
+-    }
+-
+     if (irq_method & PSIHB9_IRQ_METHOD) {
+         qemu_log_mask(LOG_GUEST_ERROR, "PSI: LSI IRQ method no supported=
+\n");
+         return;
 --=20
 2.34.1
 
