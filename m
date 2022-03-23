@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE4C4E5B1B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 23:13:03 +0100 (CET)
-Received: from localhost ([::1]:47768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C83974E5B2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 23:18:56 +0100 (CET)
+Received: from localhost ([::1]:50900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX9Dw-0007lN-M1
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 18:13:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33958)
+	id 1nX9Jf-0001hd-Nd
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 18:18:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX9CV-00075t-QM
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:11:31 -0400
-Received: from [2607:f8b0:4864:20::102b] (port=40646
- helo=mail-pj1-x102b.google.com)
+ id 1nX9Gu-0000ck-QH
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:16:07 -0400
+Received: from [2607:f8b0:4864:20::102f] (port=41652
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX9CU-0001dh-7x
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:11:31 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- mp6-20020a17090b190600b001c6841b8a52so7700429pjb.5
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 15:11:29 -0700 (PDT)
+ id 1nX9Gq-0002rM-0R
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:16:01 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ l4-20020a17090a49c400b001c6840df4a3so3273075pjm.0
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 15:15:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=esFUJWf7ldAEhfJTBezNz/hjbVE2fKtiiGEis1U1jUA=;
- b=wiC+oQ7qthUpbLAA43HnaBjqu3Zxrb7QaY6AUeXCowUUTk71BFRogU74N9j3Kh1I07
- L8ilmu5Q620k6L+lC6bVob9VBdnrjhdz9GWLSpfT45/jWMQIbAS35GxbbhGhGPq1A4br
- avCqD78IC2krCQR75ek2tqV7ubomk5h6KmG2wlFmL+j6fXZ1Gl1J6qBVPgnGwmJWzgXo
- boVMDqdbfSAmMyZa+/W5hfEbm4IfkueafV1UatlD0MzvA5dTtC4hKgTEcJCZmuI5BNGu
- JxkfUzaY94bpj0LDvhjAupGoP89aGMCX0kEVEyV1MZv1k8iN8w33uoeTzthX1YR/gdpn
- 5+qQ==
+ bh=CH8Fewifvhgyj4ZMmX1qunmVfTc6kRbpuPgKu+oDPhw=;
+ b=hDu9K6CUAH+EKnxSBvDZ0igN+YI5IoVX+S8joMjLqhLOML7W8WCiEHvBv0rEUhJfcc
+ mb9yDIJrufaTwLGuSq5/Js79JkPCAL9LFPz+ukmGnBsm82p1LR23QPZalhzQkwORMOnD
+ w8n8RU0yJqjO3DOfSAcc4p3XXdE125Qx1H5Ox0APgpphWi1lwlk+T2n79YMJY5xcg27M
+ zCdSWjm13xgUM/VpTuO8Au59QEu6k5sL31QjIIHkaoYnVaQTvg6vKGTT3vyZk7IbphBf
+ xxKofrWdghJGv0dn/RMH4bHdNOA6d5lSQBIl3T9oBzDs9l2pdkvaeGZYUfQAGtfbaNG/
+ dLzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=esFUJWf7ldAEhfJTBezNz/hjbVE2fKtiiGEis1U1jUA=;
- b=Gd6tey4LM9tPRO//yPWrM7C9/nkJbg+rArnJg9/lewlREKRay30WXsPjUA8yNN1xfZ
- ePd2eHjDpaharpYwusKfbDCvzsAG7xd4ZzoTJ07Lmw4ToSxSTgbmUY78uhilQYrA0QJV
- LiRPMo6nKS7GzA4D5eKmmQnOaiBWeXXPBbxQWj+NrX/2tKyvhSeSUZfZe/dtFiuFlPjW
- AYq+ALYAGSmj/c3GupjNGQCBeuK/UtXNlBBlsV1HW/XijLz0CVwL3DfxGCgTwwvazWH5
- ZxO+o4aR8DVi5T5DVIsILBNmEH5VHhKOPpU2D97GnzkWYIbG7HuxrJn+85+y+eQ5Gbk0
- T24g==
-X-Gm-Message-State: AOAM533pm9Wr6IRtU458iLVDJMmXUxrL3x32WL1jNQ/eN+bt8GrAAg+w
- 34Dag6kmOpLCN8lQY0joCoIgMV4m3N5Rsg==
-X-Google-Smtp-Source: ABdhPJy900RqKCIIb/ualeVyoRgK2HZRYv2WBgUNobfy8YA7SFpxOD13lvLm6GH88L2QHHx2jXXuyg==
-X-Received: by 2002:a17:902:b614:b0:153:82b2:2c8a with SMTP id
- b20-20020a170902b61400b0015382b22c8amr2312135pls.17.1648073488802; 
- Wed, 23 Mar 2022 15:11:28 -0700 (PDT)
+ bh=CH8Fewifvhgyj4ZMmX1qunmVfTc6kRbpuPgKu+oDPhw=;
+ b=sjrP6007DZBL/l4wo+FarIKkjukjqZ2vJr2dCZ0mLStTg+YG9PDyKuB5wZ0aojwB+k
+ giw3nBSHDKWw35wMeYAYUw4J04W4gq5Hie11h/4/YNuFMCvYHFGivDjj2dpeiWzgVhzc
+ UtzAc+pz28OmWeNwcLMUdpO4E8LF5dKsxgCEhY0VfEuOhBX+S+EQcgTEqQLfRsKhWSmN
+ xeMg4JF8bTuoQdIHoNlOGzeUnv47PRlVQ2Yd+7gmy/ri4lcFU30bYEeh8KyQkYHOn7Ca
+ jvQIaZJrM8SV4PdllJaRJYmTifMvsBDkh3XA/SwL+cDYrTW/NNS60Ow+KPUaN+AYm/G2
+ fDsQ==
+X-Gm-Message-State: AOAM531HI6EPkHuqSAdYrcnj4NFhv8HGAlASw1g9ARaalj/OMVpmEdeK
+ QkSQkvENROfK0nWMuuvYpchKdQ==
+X-Google-Smtp-Source: ABdhPJxTIRxJtkMmBMSPom3upuzKPhvwdO7q7INxnut1yGPMybZ3kIH9UYGTT+Slcwiwi6a+xybj7A==
+X-Received: by 2002:a17:90b:3447:b0:1c6:fe01:675c with SMTP id
+ lj7-20020a17090b344700b001c6fe01675cmr14089880pjb.59.1648073758540; 
+ Wed, 23 Mar 2022 15:15:58 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- g1-20020a17090adac100b001c67cedd84esm590515pjx.42.2022.03.23.15.11.27
+ e10-20020a17090a630a00b001c685cfd9d1sm645682pjj.20.2022.03.23.15.15.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 15:11:27 -0700 (PDT)
-Message-ID: <63f0eec4-d9fe-65d1-b8d2-a2c188905485@linaro.org>
-Date: Wed, 23 Mar 2022 15:11:26 -0700
+ Wed, 23 Mar 2022 15:15:58 -0700 (PDT)
+Message-ID: <c9bb65cb-f439-e0bc-d2cd-b631e6831673@linaro.org>
+Date: Wed, 23 Mar 2022 15:15:56 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
@@ -71,10 +71,10 @@ From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <20220323171751.78612-10-philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,62 +99,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/23/22 10:17, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> All accelerators implement a very similar create_vcpu_thread()
-> handler. Extract the common part as common_vcpu_thread_create(),
-> which only requires the AccelOpsClass::vcpu_thread_fn() routine
-> and the accelerator AccelOpsClass::thread_name for debugging
-> purpose.
-> 
-> The single exception is TCG/RR which re-use a single vCPU. Have
-> it use the same logic by using the .precheck/.postcheck handlers.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Too much all at once.
-But I see now why you moved code in the direction you did in patch 5.
-
-> @@ -279,28 +279,13 @@ bool rr_create_vcpu_thread_precheck(CPUState *cpu)
->       return !single_tcg_cpu_thread;
->   }
->   
-> -void rr_start_vcpu_thread(CPUState *cpu)
 > +void rr_create_vcpu_thread_postcheck(CPUState *cpu)
 >   {
 > -    char thread_name[VCPU_THREAD_NAME_SIZE];
 >       static QemuCond *single_tcg_halt_cond;
 > -    static QemuThread *single_tcg_cpu_thread;
-
-Patch 8 is not really standalone, since you didn't move this variable.
-I think it's probably a mistake to split out precheck and postcheck separately.
-
 > -
 > -    if (!single_tcg_cpu_thread) {
+> -        cpu->thread = g_new0(QemuThread, 1);
+> -        cpu->halt_cond = g_new0(QemuCond, 1);
+> -        qemu_cond_init(cpu->halt_cond);
+> -
+> -        /* share a single thread for all cpus with TCG */
+> -        snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
+> -        qemu_thread_create(cpu->thread, thread_name,
+> -                           rr_cpu_thread_fn,
+> -                           cpu, QEMU_THREAD_JOINABLE);
+>   
 > +    if (! single_tcg_cpu_thread) {
+>           single_tcg_halt_cond = cpu->halt_cond;
+>           single_tcg_cpu_thread = cpu->thread;
+> -#ifdef _WIN32
+> -        cpu->hThread = qemu_thread_get_handle(cpu->thread);
+> -#endif
+>       } else {
+>           /* we share the thread */
+>           cpu->thread = single_tcg_cpu_thread;
 
-Extraneous whitespace.
-
-> @@ -30,7 +30,8 @@ struct AccelOpsClass {
->   
->       bool (*cpus_are_resettable)(void);
->   
-> -    void (*create_vcpu_thread)(CPUState *cpu); /* MANDATORY NON-NULL */
-> +    const char *thread_name;
-
-Why don't we just get this name from the AccelClass?
-
-> +static void common_vcpu_thread_create(CPUState *cpu)
-> +{
-> +    char thread_name[VCPU_THREAD_NAME_SIZE];
-> +
-> +    cpu->thread = g_new0(QemuThread, 1);
-> +    cpu->halt_cond = g_new0(QemuCond, 1);
-> +    qemu_cond_init(cpu->halt_cond);
-> +    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/%s",
-> +             cpu->cpu_index, cpus_accel->thread_name ?: "DUMMY");
-
-Surely g_strdup_printf is better than the static size buffer.
+This doesn't treat cpu->halt_cond correctly for other than the first cpu.
 
 
 r~
