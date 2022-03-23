@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492E04E564B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:24:39 +0100 (CET)
-Received: from localhost ([::1]:42668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140AC4E56A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:39:30 +0100 (CET)
+Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX3mo-0004Cj-5L
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:24:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39372)
+	id 1nX41B-0004qW-5U
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:39:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3Qe-000671-9W
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:01:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49716)
+ id 1nX3Qn-0006AM-Tf
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:01:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3Qc-0005hw-Fg
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:01:43 -0400
+ id 1nX3Qk-0005iq-8t
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:01:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648051301;
+ s=mimecast20190719; t=1648051309;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q2VF0MnA2bWxVx4BcilexJJEaPYA0K1w/lOJdWLhBsc=;
- b=dr3leEd9KTt4TEwknMQjsJUSRRgeJF+GonvIdstLrBqX6YOlp/m8YscdWXCGznJRffbUaw
- 0qGEUaom05mIyg+bgiFp312CFrHAcVc1fdYJxPzbbxIe/DGLyq9VHDG9+v0kTs0f1B62gD
- ApzEjigZ8U3ECYtQWi9AFWHp2bcegok=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vW+cmibmwtlJMSAg7mhqsrsTo57gGCekMPZJbQthKcE=;
+ b=Xs7ijUzSTEEpj38uWVbyE2BE3IgaHgwvez0szGkgEnoqDoc2GXn8rb7of0xpwSolBTR8kB
+ KwW0c7nssf9Mj49y2HBW9i96u5zOEyi3gvkir/E0bh0cg2R7zj81w+bQkCcHBJIw6j6Rrd
+ 8AU8qMRgUF+OZd5FdSowOIJQe8sa3P0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-NRV9V-5-PW2pmTUjVrBBWQ-1; Wed, 23 Mar 2022 12:01:40 -0400
-X-MC-Unique: NRV9V-5-PW2pmTUjVrBBWQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-265-hrTyeIXRNfijpnCwrgl3Bg-1; Wed, 23 Mar 2022 12:01:44 -0400
+X-MC-Unique: hrTyeIXRNfijpnCwrgl3Bg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6562C811E81;
- Wed, 23 Mar 2022 16:01:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6635C3801ECC;
+ Wed, 23 Mar 2022 16:01:44 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 756C5469A51;
- Wed, 23 Mar 2022 16:01:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D66A401E36;
+ Wed, 23 Mar 2022 16:01:42 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 30/32] qga: remove explicit environ argument from exec/spawn
-Date: Wed, 23 Mar 2022 19:57:41 +0400
-Message-Id: <20220323155743.1585078-31-marcandre.lureau@redhat.com>
+Subject: [PATCH 31/32] RFC: Simplify softmmu/main.c
+Date: Wed, 23 Mar 2022 19:57:42 +0400
+Message-Id: <20220323155743.1585078-32-marcandre.lureau@redhat.com>
 In-Reply-To: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
 References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,106 +81,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Michael Roth <michael.roth@amd.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Environment is implicitly inherited from the current process "environ"
-variable for execl() or g_spawn_sync(), no need to be explicit about it.
+Move qemu_main() declaration to a new header.
+
+Simplify main.c since both cocoa & sdl cannot be enabled together.
+
+(there might be some small conflict with the RFC patch "cocoa: run qemu_init
+in the main thread", but the two look like they could be used together
+to improve the code)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- meson.build          |  2 --
- qga/commands-posix.c | 24 +++++++-----------------
- 2 files changed, 7 insertions(+), 19 deletions(-)
+ include/qemu-common.h |  5 -----
+ include/qemu-main.h   |  6 ++++++
+ softmmu/main.c        | 25 +++++++++----------------
+ ui/cocoa.m            |  1 +
+ 4 files changed, 16 insertions(+), 21 deletions(-)
+ create mode 100644 include/qemu-main.h
 
-diff --git a/meson.build b/meson.build
-index e03a1b50cc11..c06fe5e02737 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1654,8 +1654,6 @@ config_host_data.set('CONFIG_BYTESWAP_H',
-                      cc.has_header_symbol('byteswap.h', 'bswap_32'))
- config_host_data.set('CONFIG_EPOLL_CREATE1',
-                      cc.has_header_symbol('sys/epoll.h', 'epoll_create1'))
--config_host_data.set('CONFIG_HAS_ENVIRON',
--                     cc.has_header_symbol('unistd.h', 'environ', prefix: gnu_source_prefix))
- config_host_data.set('CONFIG_FALLOCATE_PUNCH_HOLE',
-                      cc.has_header_symbol('linux/falloc.h', 'FALLOC_FL_PUNCH_HOLE') and
-                      cc.has_header_symbol('linux/falloc.h', 'FALLOC_FL_KEEP_SIZE'))
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 75dbaab68ea9..4d7a2392c097 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -32,15 +32,6 @@
- #include <utmpx.h>
- #endif
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index 65483f70d4fe..0498acd16b78 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -19,9 +19,4 @@
+     "See <https://qemu.org/contribute/report-a-bug> for how to report bugs.\n" \
+     "More information on the QEMU project at <https://qemu.org>."
  
--#ifndef CONFIG_HAS_ENVIRON
--#ifdef __APPLE__
--#include <crt_externs.h>
--#define environ (*_NSGetEnviron())
--#else
--extern char **environ;
--#endif
+-/* main function, renamed */
+-#if defined(CONFIG_COCOA)
+-int qemu_main(int argc, char **argv, char **envp);
 -#endif
 -
- #if defined(__linux__)
- #include <mntent.h>
- #include <linux/fs.h>
-@@ -109,8 +100,8 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
-         reopen_fd_to_null(1);
-         reopen_fd_to_null(2);
+ #endif
+diff --git a/include/qemu-main.h b/include/qemu-main.h
+new file mode 100644
+index 000000000000..74d670bbf9a7
+--- /dev/null
++++ b/include/qemu-main.h
+@@ -0,0 +1,6 @@
++#ifndef QEMU_MAIN_H
++#define QEMU_MAIN_H
++
++int qemu_main(int argc, char **argv, char **envp);
++
++#endif /* QEMU_MAIN_H */
+diff --git a/softmmu/main.c b/softmmu/main.c
+index 639c67ff4893..c00432ff098e 100644
+--- a/softmmu/main.c
++++ b/softmmu/main.c
+@@ -23,28 +23,14 @@
+  */
  
--        execle("/sbin/shutdown", "shutdown", "-h", shutdown_flag, "+0",
--               "hypervisor initiated shutdown", (char *)NULL, environ);
-+        execl("/sbin/shutdown", "shutdown", "-h", shutdown_flag, "+0",
-+               "hypervisor initiated shutdown", (char *)NULL);
-         _exit(EXIT_FAILURE);
-     } else if (pid < 0) {
-         error_setg_errno(errp, errno, "failed to create child process");
-@@ -207,8 +198,7 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
+ #include "qemu/osdep.h"
+-#include "qemu-common.h"
++#include "qemu-main.h"
+ #include "sysemu/sysemu.h"
  
-         /* Use '/sbin/hwclock -w' to set RTC from the system time,
-          * or '/sbin/hwclock -s' to set the system time from RTC. */
--        execle(hwclock_path, "hwclock", has_time ? "-w" : "-s",
--               NULL, environ);
-+        execl(hwclock_path, "hwclock", has_time ? "-w" : "-s", NULL);
-         _exit(EXIT_FAILURE);
-     } else if (pid < 0) {
-         error_setg_errno(errp, errno, "failed to create child process");
-@@ -1574,7 +1564,7 @@ static void execute_fsfreeze_hook(FsfreezeHookArg arg, Error **errp)
-         reopen_fd_to_null(1);
-         reopen_fd_to_null(2);
+ #ifdef CONFIG_SDL
+-#if defined(__APPLE__) || defined(main)
+ #include <SDL.h>
+-static int qemu_main(int argc, char **argv, char **envp);
+-int main(int argc, char **argv)
+-{
+-    return qemu_main(argc, argv, NULL);
+-}
+-#undef main
+-#define main qemu_main
+ #endif
+-#endif /* CONFIG_SDL */
+-
+-#ifdef CONFIG_COCOA
+-#undef main
+-#define main qemu_main
+-#endif /* CONFIG_COCOA */
  
--        execle(hook, hook, arg_str, NULL, environ);
-+        execl(hook, hook, arg_str, NULL);
-         _exit(EXIT_FAILURE);
-     } else if (pid < 0) {
-         error_setg_errno(errp, errno, "failed to create child process");
-@@ -1888,7 +1878,7 @@ static int run_process_child(const char *command[], Error **errp)
-     spawn_flag = G_SPAWN_SEARCH_PATH | G_SPAWN_STDOUT_TO_DEV_NULL |
-                  G_SPAWN_STDERR_TO_DEV_NULL;
+-int main(int argc, char **argv, char **envp)
++int qemu_main(int argc, char **argv, char **envp)
+ {
+     qemu_init(argc, argv, envp);
+     qemu_main_loop();
+@@ -52,3 +38,10 @@ int main(int argc, char **argv, char **envp)
  
--    success =  g_spawn_sync(NULL, (char **)command, environ, spawn_flag,
-+    success =  g_spawn_sync(NULL, (char **)command, NULL, spawn_flag,
-                             NULL, NULL, NULL, NULL,
-                             &exit_status, &g_err);
+     return 0;
+ }
++
++#ifndef CONFIG_COCOA
++int main(int argc, char **argv)
++{
++    return qemu_main(argc, argv, NULL);
++}
++#endif
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index cb6e7c41dc6f..e566372b8f73 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -28,6 +28,7 @@
+ #include <crt_externs.h>
  
-@@ -2569,9 +2559,9 @@ void qmp_guest_set_user_password(const char *username,
-         reopen_fd_to_null(2);
- 
-         if (crypted) {
--            execle(passwd_path, "chpasswd", "-e", NULL, environ);
-+            execl(passwd_path, "chpasswd", "-e", NULL);
-         } else {
--            execle(passwd_path, "chpasswd", NULL, environ);
-+            execl(passwd_path, "chpasswd", NULL);
-         }
-         _exit(EXIT_FAILURE);
-     } else if (pid < 0) {
+ #include "qemu-common.h"
++#include "qemu-main.h"
+ #include "ui/clipboard.h"
+ #include "ui/console.h"
+ #include "ui/input.h"
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
