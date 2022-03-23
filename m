@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0904E5844
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:17:37 +0100 (CET)
-Received: from localhost ([::1]:44250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7334E584A
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:20:45 +0100 (CET)
+Received: from localhost ([::1]:50036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX5Y8-0001ca-Fp
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:17:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60636)
+	id 1nX5bB-0005V9-2D
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:20:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nX5Vk-0000HU-5C
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:15:09 -0400
-Received: from [2607:f8b0:4864:20::112c] (port=35463
- helo=mail-yw1-x112c.google.com)
+ id 1nX5WP-0000hy-0n
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:15:56 -0400
+Received: from [2607:f8b0:4864:20::1133] (port=38303
+ helo=mail-yw1-x1133.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nX5Vi-00085q-9S
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:15:07 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2d07ae0b1c0so27030797b3.2
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:15:04 -0700 (PDT)
+ id 1nX5WL-0000Db-WC
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:15:48 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-2e592e700acso26995537b3.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:15:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mfCHr43bU4sI6seQUAYYKwl71D3g54GkYfS2nXMELEg=;
- b=n2+XAnStYiTkXLFELT18Q1U9dj2Q2b1L+PE+E4IHrbbPgl6Xjchw5ju2s9QFVd7fZf
- V48zzW30IuiIBZa0AFajE19WrUE4Kdd5bTeaX+AVy1qv8GZ6XB8DXOuh3qkG34XWRSjQ
- GRigvvDwkyaODhamD613Fi7NTXhbRWcJMKu1PcOmzUETWnA4MoqvZLsJiq2UoeqOuk3n
- xTlq1ZooXA3V/uI6VW4QArO+CKjHPMZBCkplOure8NOTCW4UNFkpNEJ5o+djVRgRRyW8
- T4wTzq0j8SSKYGfwcYwVjo9jQSw3uYtygbN6kpE5yl8A+9bafdoE3ruGJsocJm+iYW0I
- yaQQ==
+ :cc; bh=sfEZUcS/C98xKrVfhmHvgZOLayihYr0E27aKEaFeNsg=;
+ b=W8I0tiiE+WkttuKYh53KNcYX2/hAMtf/pYq+R6P8hbI8KRwsvnl5ozUQa65AZYlZqC
+ 8UjeQ6Afpxg3+FMax5++tTdvVr3Oh0Nk3WMKou9VKSGTE0CJCZY0zEjNgDGznS0ClX5U
+ S5XUwgnU4+WzUoHeV1XFF6ISkhplgGpomtJwm0qk7ncyP3BVksBkvfVXd+zMIhXyyO+q
+ DWHCSFl5GM4MUL2heh2CuBm1Q8zaspw2po6OkyRERN4zmNHtoXwPrzrdmNqenhnpxHnX
+ lE33QCaZ451/G3YCERq8+zWzBlaNqh0Mn3yOoMiYSvzrpHLA2Kc9l+xoofLkW0O7pQkx
+ xTxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mfCHr43bU4sI6seQUAYYKwl71D3g54GkYfS2nXMELEg=;
- b=dNClYPckO/p7rECgH8ojVqj7P8xCtN7f9Em9LU53znJhCRw8ZKRdGVXT/JCkmO1Q10
- +Wz0XAKQKcf1hKEwVhTeKsTOXhmuC1/zRoveSa67knQKUmCEUlQBCMwsYcpCeGkRaEgQ
- 5J8aQLoOXivnbK6oGWwd+rHagMTJxciLmrALtxGsUJJJ7VdYdKc51jdieeUic+YpUMO1
- aNRvKCeR4qfVdTDYS7j+Z2N9DJ3MhY0vFCSUw7pKpLIpYUPoTepRjCmy7YA1KAwv/uTX
- jGtzQ7TqaiM4bNeHNXu6Gdoj4cdkx7xduk1GsGk/NCaB87liJ0X1oQ05GxRauHliOFxn
- ckkg==
-X-Gm-Message-State: AOAM532ou0/yXVF20tscgyFZ2zNCatFr5GqeGt+dwxs3xCGE6e/IT6p7
- ASqOdooPaoctiZMlCzs0xDe9FmjBVhp9W1taG9P9gA==
-X-Google-Smtp-Source: ABdhPJxwWc4/Roy6hUMVqe2YeS8kr8WOpUXZD7R8RYBqggqU1kVv7PJEOqhHwWZ+2cxjmktfTvh4+fIAZguYkD5CI2g=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr1245661ywb.257.1648059303475; Wed, 23 Mar
- 2022 11:15:03 -0700 (PDT)
+ bh=sfEZUcS/C98xKrVfhmHvgZOLayihYr0E27aKEaFeNsg=;
+ b=yZ/fM/DLH5pbv39SHhA/IQXafQHBauZpUPe0X1ERFwW5t1krdNVRggReIA7+ZAlkJ0
+ Pv9J3TA0OEhbaLCm9Q22pP19rgyLgiKmbptou620b72EObWvDnTDLouP6sj1fTCOlMjQ
+ MqVpDvzWFcaAM7/7TKmfhKL+L5Dx8LTujXisCN+8Sox3KGugbUhsQH5hokMRg2I4BeKG
+ J3PsE4nqpWFvHBJJxGKsLtjnZ6BbJ2UExdzw2YpRJ7cuUPyCWb5N+SeHJ5mb8+QXwJ3e
+ Pw0hfKrtXiB4gMhQH6B5qrMSN+H40LSLA89qXIYMtDBIPiGEfUwicqinXfZY4LkSy2at
+ 2h0A==
+X-Gm-Message-State: AOAM533pCwlmE8X/9J6zx3uioZHJi5Elsn5yWxBLZhX2Bc326wtu5jAY
+ aZluM6nkgBrCWfCMHJnwOhTZBZuP20MCDX4QFaxCDg==
+X-Google-Smtp-Source: ABdhPJxKx4405NRNhGDEZ2/t8sOPbK4BsJF62pHIDh6cnS2ztCyUTxEqEKIreirtM6EqzdAuHSPGaP/x3NQWC0oS1hM=
+X-Received: by 2002:a81:a4e:0:b0:2e5:9946:525a with SMTP id
+ 75-20020a810a4e000000b002e59946525amr1226782ywk.455.1648059344289; Wed, 23
+ Mar 2022 11:15:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220323173543.146442-1-zongyuan.li@smartx.com>
- <20220323173543.146442-4-zongyuan.li@smartx.com>
-In-Reply-To: <20220323173543.146442-4-zongyuan.li@smartx.com>
+ <20220323173543.146442-5-zongyuan.li@smartx.com>
+In-Reply-To: <20220323173543.146442-5-zongyuan.li@smartx.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 23 Mar 2022 18:14:50 +0000
-Message-ID: <CAFEAcA-xyfQBi+pSbYGWO1u9hKK9pT3jKmKPbXtocv81SGF=jg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] hw/intc/exynos4210_combiner: replace
- 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+Date: Wed, 23 Mar 2022 18:15:31 +0000
+Message-ID: <CAFEAcA-kwPQj8bzfuW8D3-Omd79bL8HD6NtsjsPUYCcjRdXhEQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] hw/intc/exynos4210_gic: replace 'qemu_split_irq'
+ with 'TYPE_SPLIT_IRQ'
 To: Zongyuan Li <zongyuan.li@smartx.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1133
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,53 +93,12 @@ On Wed, 23 Mar 2022 at 17:36, Zongyuan Li <zongyuan.li@smartx.com> wrote:
 >
 > Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
 > ---
->  hw/intc/exynos4210_combiner.c | 32 +++++++++++++++++++++++++-------
->  1 file changed, 25 insertions(+), 7 deletions(-)
+>  hw/intc/exynos4210_gic.c | 25 ++++++++++++++++++++++---
+>  1 file changed, 22 insertions(+), 3 deletions(-)
 >
-> diff --git a/hw/intc/exynos4210_combiner.c b/hw/intc/exynos4210_combiner.c
-> index 4534ee248d..18dade35d3 100644
-> --- a/hw/intc/exynos4210_combiner.c
-> +++ b/hw/intc/exynos4210_combiner.c
-> @@ -31,10 +31,12 @@
->  #include "hw/sysbus.h"
->  #include "migration/vmstate.h"
->  #include "qemu/module.h"
-> +#include "qapi/error.h"
->
->  #include "hw/arm/exynos4210.h"
->  #include "hw/hw.h"
->  #include "hw/irq.h"
-> +#include "hw/core/split-irq.h"
->  #include "hw/qdev-properties.h"
->  #include "qom/object.h"
->
-> @@ -105,6 +107,22 @@ static const VMStateDescription vmstate_exynos4210_combiner = {
->      }
->  };
->
-> +static qemu_irq split_irq(qemu_irq out1, qemu_irq out2) {
-> +    DeviceState *splitter = qdev_new(TYPE_SPLIT_IRQ);
-> +
-> +    qdev_prop_set_uint32(splitter, "num-lines", 2);
-> +
-> +    if (!qdev_realize_and_unref(splitter, NULL, &error_fatal)) {
-> +        hw_error("exynos4210.combiner: unable to realize split irq device");
-> +        return NULL;
-> +    }
-> +
-> +    qdev_connect_gpio_out(splitter, 0, out1);
-> +    qdev_connect_gpio_out(splitter, 1, out2);
-> +
-> +    return qdev_get_gpio_in(splitter, 0);
-> +}
 
-This is an device object, so it needs to handle the splitter device
-differently to how board code does it. The splitters should be struct
-fields in the device's state struct. The device instance init
-method should initialize the devices with object_initialize_child().
-The realize method should call qdev_realize() (not _realize_and_undef)
-and wire up the gpio lines. There's an example in hw/arm/armsse.c.
+Same comments apply here as for patch 3 -- this is a device,
+so it needs to handle the sub-devices differently from board code.
 
-thanks
 -- PMM
 
