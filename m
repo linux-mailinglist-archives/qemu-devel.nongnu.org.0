@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C924E5AE2
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 22:49:39 +0100 (CET)
-Received: from localhost ([::1]:34304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C4C4E5AE0
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 22:49:32 +0100 (CET)
+Received: from localhost ([::1]:34294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX8rK-0004nk-2q
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 17:49:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55832)
+	id 1nX8rD-0004nS-5B
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 17:49:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nX8pu-0003Jf-RP
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:48:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25763)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nX8ps-0005yX-AJ
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:48:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648072084;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I8yjyFAC6ZJ2FdL3pF43fXg7uCXfqhTfupPfV/ziaE4=;
- b=RjvIHqN5jshttkjdo7ZhQUMR+K+/+F6NSPZ1J5F0iq7vRTA/5dRXFQmQtoXCalmzpxd7Rr
- vQ6CIlIpZn3NqLpeGI/CjziZ6dLqoa3lPWlFw9n7eezBMZMWBaVY5MVulkjWvaloLi6wje
- mQ+b/ExhDHHul6mO1kONHiHBbSOdOtc=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-127-Bxtu6WiHPXCvufVMgMV2Fg-1; Wed, 23 Mar 2022 17:48:00 -0400
-X-MC-Unique: Bxtu6WiHPXCvufVMgMV2Fg-1
-Received: by mail-vs1-f70.google.com with SMTP id
- e9-20020a67c509000000b003255c4cf120so73874vsk.6
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 14:48:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nX8pv-0003Jw-C8; Wed, 23 Mar 2022 17:48:11 -0400
+Received: from [2001:4860:4864:20::35] (port=41479
+ helo=mail-oa1-x35.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nX8ps-0005y6-Kc; Wed, 23 Mar 2022 17:48:11 -0400
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-dd9d3e7901so3110252fac.8; 
+ Wed, 23 Mar 2022 14:47:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=BVEd7obbmlFjVY+qTNZgC5w59DppQBSiV5o/Yn+7Xvg=;
+ b=qso3xBLjXf+k0i1nlAt5xajJ2XwGNsEkN6N9D5ww2FTo2ypSeblS2zSsBM2HulIeWF
+ ugxSDQMZEN5k18tJAQomjlfILb1GyjdZxHY28YKblCLvtNr2swUYlk3f9JDOnGD3/xVS
+ 7Gqa6JP6eSbHko11GWLlEeFRTx3y3YEWCn2ykLk6ooua/bOKbAMa6mTZt4bKlxRoOPTY
+ xscl3lXfSyQjuUytpK+FH3WZAFldrHrtgPkk2fwgRT8MbUtH7zzt83w7KEjNWBwegCkc
+ RodaReUjFEMmQtLk7lCOI114vWnS50Az1VX3o0+GVqxvE6xYMzklUD6fKMd9utsvdIBR
+ 0AUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=I8yjyFAC6ZJ2FdL3pF43fXg7uCXfqhTfupPfV/ziaE4=;
- b=AejnIoKZ7phoAWANvO3cJFa8UG7HY1RyA7ITsoNqR1g4FE7HMJt0QFG4O/McA6iU3w
- d8ji8jBO+KPWdpvfBHw4yjYvdlExdlpCLB50K8SmKJHjBjXOeNepXr4yVl2ZRU4bkqdj
- jQV7G+n/WW2p4sja6R3ikuv4GqWhFEtWFFdP9UNPWkh14JSVBcfx6Jbr5Z/qQT+7wxv3
- W3v3nA3L21AEbWXmlqMWJ4ouFSh5iPlJOXq+JnYow7AGOCw+Vb8SZbrZJ2Uk8NKKmeTw
- xZdXuLGpVRQpXjMOeIQveK8hZF7RMJX7Qo7i/x+eS/PcUyFtIKONR8CzVbzkCiXV23DL
- 8A1w==
-X-Gm-Message-State: AOAM531kLZnv5Vriu2JY59N/ZiDLow7Tpsyr1moRGvgCZkDa+JxLBk3I
- dTwnzKy9pB6Kki21a20Wrvw3Vy88z89w8wMyzdFTplImQoxmG7Yc+MKVZ3UY7ozoGuxPYQNK4XM
- HecYUY4h0nN3FoA6KfizFRyK4xealSsM=
-X-Received: by 2002:ab0:7c4d:0:b0:34f:3fc0:9b05 with SMTP id
- d13-20020ab07c4d000000b0034f3fc09b05mr1052238uaw.103.1648072079524; 
- Wed, 23 Mar 2022 14:47:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqdUVWuS/nZiQ4ydqJIQet2UOX6BFn+bbsQLdskMNJtETo4NtSn0C0RDp5dlwdrnYWZ6C9U24QJKO2+7B6KCE=
-X-Received: by 2002:ab0:7c4d:0:b0:34f:3fc0:9b05 with SMTP id
- d13-20020ab07c4d000000b0034f3fc09b05mr1052221uaw.103.1648072079319; Wed, 23
- Mar 2022 14:47:59 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BVEd7obbmlFjVY+qTNZgC5w59DppQBSiV5o/Yn+7Xvg=;
+ b=K8V2J81EvhE2hKgexEAG3m9uo/nQ8E+2LuSKHLHlXipjVraoPFJ1Zvwf6iVYGWxW4Y
+ ZajYt0HEAvqnUUz8jazK7VGRHS29hZW9b5QBoGVFYcyzWZtsid5trBcQAQ/pLqjmXfGE
+ 0xEcxCzVSY2KZ39EYTpJF0lDA6aLWn/3inQ2B6tATK4MznCAlbyB+Sw/y2hcSYFhsAfk
+ 7uBMKg7Nxa/T1go1bXEdm/j/9AlPG4pHOGVP0+5PEhQ70+PNLwteqnKk94skbyXzwtzS
+ 1p0CLD88w7DUygSAlLA8JdlWLCYwSWSpHoKbp+F7bWjK1hD50PSSkMi3MDYsypd8iTK1
+ 55Nw==
+X-Gm-Message-State: AOAM533gLgiHTSPnwRmoFQmmeA5LbNJ3OhaAgKJah0T2heXo2xVzreuU
+ JGx9wiJeyiND3gTxGSsuLs0=
+X-Google-Smtp-Source: ABdhPJzTBfK1iznesjjNo0+FzHvSyvgjB9/BrbaKf9pAQvh8YqYDj5PzaWVL57q1lSMyWShqjoYgGg==
+X-Received: by 2002:a05:6870:4341:b0:d3:1412:8ecb with SMTP id
+ x1-20020a056870434100b000d314128ecbmr1079992oah.36.1648072077736; 
+ Wed, 23 Mar 2022 14:47:57 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96?
+ ([2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96])
+ by smtp.gmail.com with ESMTPSA id
+ fw15-20020a056870080f00b000ddc3ec2533sm488249oab.9.2022.03.23.14.47.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Mar 2022 14:47:57 -0700 (PDT)
+Message-ID: <eedf6fa4-b3cc-2849-45cf-1addf6f9ded6@gmail.com>
+Date: Wed, 23 Mar 2022 18:47:54 -0300
 MIME-Version: 1.0
-References: <20220321210847.914787-1-jsnow@redhat.com>
- <20220321210847.914787-2-jsnow@redhat.com>
-In-Reply-To: <20220321210847.914787-2-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 23 Mar 2022 17:47:48 -0400
-Message-ID: <CAFn=p-YM8VoXLMBz4nmkvkAMH8SHa+uT=Wx9F77Q-xKrea9GLg@mail.gmail.com>
-Subject: Re: [PATCH 01/10] python/aqmp: add explicit GPLv2 license to legacy.py
-To: qemu-devel <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH for-7.1 0/4] use dc->vmsd with spapr devices vmstate
+Content-Language: en-US
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20220322183854.196063-1-danielhb413@gmail.com>
+ <Yjp8uQECaWzan3bS@yekko>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <Yjp8uQECaWzan3bS@yekko>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::35
+ (failed)
+Received-SPF: pass client-ip=2001:4860:4864:20::35;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x35.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,74 +93,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Luiz Capitulino <lcapitulino@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 21, 2022 at 5:08 PM John Snow <jsnow@redhat.com> wrote:
->
-> The legacy.py module is heavily based on the QMP module by Luiz
-> Capitulino (et al) which is licensed as explicit GPLv2-only. The async
-> QMP package is currently licensed similarly, but I intend to relicense
-> the async package to the more flexible GPLv2+.
->
-> In preparation for that change, make the license on legacy.py explicit.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/qemu/aqmp/legacy.py | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
-> index 46026e9fdc..f86cb29804 100644
-> --- a/python/qemu/aqmp/legacy.py
-> +++ b/python/qemu/aqmp/legacy.py
-> @@ -4,6 +4,17 @@
->  This class pretends to be qemu.qmp.QEMUMonitorProtocol.
->  """
->
-> +#
-> +# Copyright (C) 2009-2022 Red Hat Inc.
-> +#
-> +# Authors:
-> +#  Luiz Capitulino <lcapitulino@redhat.com>
-> +#  John Snow <jsnow@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2.  See
-> +# the COPYING file in the top-level directory.
-> +#
-> +
->  import asyncio
->  from typing import (
->      Any,
-> --
-> 2.34.1
->
 
-Anyone have any strong feelings on me doing this? CC'ing people with
-known strong feelings on licenses.
 
-I'm:
+On 3/22/22 22:49, David Gibson wrote:
+> On Tue, Mar 22, 2022 at 03:38:50PM -0300, Daniel Henrique Barboza wrote:
+>> Hi,
+>>
+>> This short series converts some spapr devices to use the dc->vmsd
+>> interface to register the vmstate. For most of them it was needed
+>> to use qdev_set_legacy_instance_id() to keep compatibility with the
+>> instance_id being used for awhile.
+>>
+>> Although no functional changes were made the resulting code is a bit
+>> shorter and maintainable. After these patches there are only 3 places
+>> where vmstate_register() APIs are being used.
+>>
+>> No behavior changes were detected when testing migration scenarios with
+>> hotplug/unplug of devices.
+> 
+> Looks good tome.
 
-(1) Re-affirming that the legacy interface for async QMP is GPLv2
-(like the classic QMP library is), because the interface and
-docstrings here are largely copy-pasted from that library. It's
-heavily remixed and modified, but it is undeniably derivative. (This
-patch)
+It looked good to me until, after further testing, I noticed that patch 03
+breaks backward migration:
 
-(2) Re-licensing async QMP as GPLv2+. (Next patch)
+qemu_loadvm_state_section_startfull 560 (spapr_iommu) 0 2
+qemu-system-ppc64: Unknown savevm section or instance 'spapr_iommu' 0. Make sure
+that your current VM setup matches your saved VM setup, including any hotplugged devices
 
-(3) Someday, eventually, adding a different sync interface that
-doesn't re-mix this specific compatibility interface and will provide
-better event-waiting primitives and so on. legacy.py will get dropped
-at that point and the sub-project will become wholly GPLv2+. Until
-then, it will be mixed.
+qemu-system-ppc64: load of migration failed: Invalid argument
 
---js
+I made a follow-up in the instance_id discussion [1] about it. For now patches 1-3 are
+compromised. Only patch 04 is worth considering because the spapr_nvdimm device isn't
+setting a custom instance_id.
 
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg05942.html
+
+
+
+Thanks,
+
+
+Daniel
+
+> 
 
