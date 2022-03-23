@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C114E4DB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 08:58:39 +0100 (CET)
-Received: from localhost ([::1]:54994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2684E4DD3
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 09:10:40 +0100 (CET)
+Received: from localhost ([::1]:59824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWvt8-0004HP-B3
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 03:58:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49366)
+	id 1nWw4l-00085L-NL
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 04:10:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nWvrk-0002bo-21; Wed, 23 Mar 2022 03:57:12 -0400
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:45167)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nWw1S-0006DW-0T
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 04:07:14 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:59057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nWvrg-000336-FV; Wed, 23 Mar 2022 03:57:11 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.228])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 914DCEE312EE;
- Wed, 23 Mar 2022 08:57:04 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nWw1P-0004fi-Oj
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 04:07:13 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.7])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 33810EE3292C;
+ Wed, 23 Mar 2022 09:07:09 +0100 (CET)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 23 Mar
- 2022 08:57:01 +0100
+ 2022 09:07:08 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-104R00514cd788c-133e-4059-b27b-a10963b27a9c,
- 9C9C6126E18DA7AF5E5B176B1987E0DDA6397198) smtp.auth=clg@kaod.org
+ (GARM-96R001e5f199b1-21b7-407d-9bd5-20564261d9db,
+ 6259E11BD0CF39FA32E4FBD571F84D370B3A9A5D) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <a35fa8ab-83c7-f013-4757-e30685cbf6b3@kaod.org>
-Date: Wed, 23 Mar 2022 08:57:00 +0100
+Message-ID: <f2101faa-3b58-ad8a-5bdc-9476ad7e1c99@kaod.org>
+Date: Wed, 23 Mar 2022 09:07:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.2
-Subject: Re: [PATCH v1 2/9] aspeed/smc: Add AST1030 support
+Subject: Re: [PATCH v1 6/9] aspeed/scu: Add AST1030 support
 Content-Language: en-US
 To: Jamin Lin <jamin_lin@aspeedtech.com>, Alistair Francis
  <alistair@alistair23.me>, Peter Maydell <peter.maydell@linaro.org>, Andrew
@@ -43,28 +43,28 @@ To: Jamin Lin <jamin_lin@aspeedtech.com>, Alistair Francis
  Leal <bleal@redhat.com>, "open list:STM32F205" <qemu-arm@nongnu.org>, "open
  list:All patches CC here" <qemu-devel@nongnu.org>
 References: <20220322025154.3989-1-jamin_lin@aspeedtech.com>
- <20220322025154.3989-3-jamin_lin@aspeedtech.com>
+ <20220322025154.3989-7-jamin_lin@aspeedtech.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220322025154.3989-3-jamin_lin@aspeedtech.com>
+In-Reply-To: <20220322025154.3989-7-jamin_lin@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: b5e15ef2-7a44-4e84-be2d-c101803eabe8
-X-Ovh-Tracer-Id: 15190641546350398395
+X-Ovh-Tracer-GUID: 6421c46e-305e-47ed-8848-0b0e4b1952a8
+X-Ovh-Tracer-Id: 15360933904224848827
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudegiedgudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhm
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudegiedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepthhrohihpghlvggvsegrshhpvggvughtvggthhdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,213 +84,165 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 3/22/22 03:51, Jamin Lin wrote:
 > From: Steven Lee <steven_lee@aspeedtech.com>
 > 
-> AST1030 spi controller's address decoding unit is 1MB that is identical
-> to ast2600, but fmc address decoding unit is 512kb.
-> Introduce seg_to_reg and reg_to_seg handlers for ast1030 fmc controller.
-> In addition, add ast1030 fmc, spi1, and spi2 class init handler.
+> Per ast1030_v07.pdf, AST1030 SOC doesn't have SCU300, the pclk divider
+> selection is defined in SCU310[11:8].
+> Add a get_apb_freq function and a class init handler for ast1030.
 > 
 > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
 > Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
 > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
 
-LGTM,
-
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-One comment below,
-
-
-
-> ---
->   hw/ssi/aspeed_smc.c | 160 ++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 160 insertions(+)
-> 
-> diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-> index 48305e1574..81af783729 100644
-> --- a/hw/ssi/aspeed_smc.c
-> +++ b/hw/ssi/aspeed_smc.c
-> @@ -1696,6 +1696,163 @@ static const TypeInfo aspeed_2600_spi2_info = {
->       .class_init = aspeed_2600_spi2_class_init,
->   };
->   
-> +/*
-> + * The FMC Segment Registers of the AST1030 have a 512KB unit.
-> + * Only bits [27:19] are used for decoding.
-> + */
-> +#define AST1030_SEG_ADDR_MASK 0x0ff80000
-> +
-> +static uint32_t aspeed_1030_smc_segment_to_reg(const AspeedSMCState *s,
-> +        const AspeedSegments *seg)
-> +{
-> +    uint32_t reg = 0;
-> +
-> +    /* Disabled segments have a nil register */
-> +    if (!seg->size) {
-> +        return 0;
-> +    }
-> +
-> +    reg |= (seg->addr & AST1030_SEG_ADDR_MASK) >> 16; /* start offset */
-> +    reg |= (seg->addr + seg->size - 1) & AST1030_SEG_ADDR_MASK; /* end offset */
-> +    return reg;
-> +}
-> +
-> +static void aspeed_1030_smc_reg_to_segment(const AspeedSMCState *s,
-> +        uint32_t reg, AspeedSegments *seg)
-> +{
-> +    uint32_t start_offset = (reg << 16) & AST1030_SEG_ADDR_MASK;
-> +    uint32_t end_offset = reg & AST1030_SEG_ADDR_MASK;
-> +    AspeedSMCClass *asc = ASPEED_SMC_GET_CLASS(s);
-> +
-> +    if (reg) {
-> +        seg->addr = asc->flash_window_base + start_offset;
-> +        seg->size = end_offset + (512 * KiB) - start_offset;
-> +    } else {
-> +        seg->addr = asc->flash_window_base;
-> +        seg->size = 0;
-> +    }
-> +}
-> +
-> +static const uint32_t aspeed_1030_fmc_resets[ASPEED_SMC_R_MAX] = {
-> +    [R_CONF] = (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE0 |
-> +                            CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE1),
-> +};
-> +
-> +static const AspeedSegments aspeed_1030_fmc_segments[] = {
-> +    { 0x0, 128 * MiB }, /* start address is readonly */
-> +    { 128 * MiB, 128 * MiB }, /* default is disabled but needed for -kernel */
-> +    { 0x0, 0 }, /* disabled */
-> +};
-> +
-> +static void aspeed_1030_fmc_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    AspeedSMCClass *asc = ASPEED_SMC_CLASS(klass);
-> +
-> +    dc->desc               = "Aspeed 1030 FMC Controller";
-> +    asc->r_conf            = R_CONF;
-> +    asc->r_ce_ctrl         = R_CE_CTRL;
-> +    asc->r_ctrl0           = R_CTRL0;
-> +    asc->r_timings         = R_TIMINGS;
-> +    asc->nregs_timings     = 2;
-> +    asc->conf_enable_w0    = CONF_ENABLE_W0;
-> +    asc->cs_num_max        = 2;
-> +    asc->segments          = aspeed_1030_fmc_segments;
-> +    asc->segment_addr_mask = 0x0ff80ff8;
-> +    asc->resets            = aspeed_1030_fmc_resets;
-> +    asc->flash_window_base = 0x80000000;
-> +    asc->flash_window_size = 0x10000000;
-> +    asc->features          = ASPEED_SMC_FEATURE_DMA |
-> +                             ASPEED_SMC_FEATURE_WDT_CONTROL;
-
-The FMC watchdog model is not upstream. I removed the feature from the
-patches for now.
 
 Thanks,
 
 C.
 
-
-> +    asc->dma_flash_mask    = 0x0FFFFFFC;
-> +    asc->dma_dram_mask     = 0x000BFFFC;
-> +    asc->nregs             = ASPEED_SMC_R_MAX;
-> +    asc->segment_to_reg    = aspeed_1030_smc_segment_to_reg;
-> +    asc->reg_to_segment    = aspeed_1030_smc_reg_to_segment;
-> +    asc->dma_ctrl          = aspeed_2600_smc_dma_ctrl;
-> +}
-> +
-> +static const TypeInfo aspeed_1030_fmc_info = {
-> +    .name =  "aspeed.fmc-ast1030",
-> +    .parent = TYPE_ASPEED_SMC,
-> +    .class_init = aspeed_1030_fmc_class_init,
-> +};
-> +
-> +static const AspeedSegments aspeed_1030_spi1_segments[] = {
-> +    { 0x0, 128 * MiB }, /* start address is readonly */
-> +    { 0x0, 0 }, /* disabled */
-> +};
-> +
-> +static void aspeed_1030_spi1_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    AspeedSMCClass *asc = ASPEED_SMC_CLASS(klass);
-> +
-> +    dc->desc               = "Aspeed 1030 SPI1 Controller";
-> +    asc->r_conf            = R_CONF;
-> +    asc->r_ce_ctrl         = R_CE_CTRL;
-> +    asc->r_ctrl0           = R_CTRL0;
-> +    asc->r_timings         = R_TIMINGS;
-> +    asc->nregs_timings     = 2;
-> +    asc->conf_enable_w0    = CONF_ENABLE_W0;
-> +    asc->cs_num_max        = 2;
-> +    asc->segments          = aspeed_1030_spi1_segments;
-> +    asc->segment_addr_mask = 0x0ff00ff0;
-> +    asc->flash_window_base = 0x90000000;
-> +    asc->flash_window_size = 0x10000000;
-> +    asc->features          = ASPEED_SMC_FEATURE_DMA |
-> +                             ASPEED_SMC_FEATURE_WDT_CONTROL;
-> +    asc->dma_flash_mask    = 0x0FFFFFFC;
-> +    asc->dma_dram_mask     = 0x000BFFFC;
-> +    asc->nregs             = ASPEED_SMC_R_MAX;
-> +    asc->segment_to_reg    = aspeed_2600_smc_segment_to_reg;
-> +    asc->reg_to_segment    = aspeed_2600_smc_reg_to_segment;
-> +    asc->dma_ctrl          = aspeed_2600_smc_dma_ctrl;
-> +}
-> +
-> +static const TypeInfo aspeed_1030_spi1_info = {
-> +    .name =  "aspeed.spi1-ast1030",
-> +    .parent = TYPE_ASPEED_SMC,
-> +    .class_init = aspeed_1030_spi1_class_init,
-> +};
-> +static const AspeedSegments aspeed_1030_spi2_segments[] = {
-> +    { 0x0, 128 * MiB }, /* start address is readonly */
-> +    { 0x0, 0 }, /* disabled */
-> +};
-> +
-> +static void aspeed_1030_spi2_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    AspeedSMCClass *asc = ASPEED_SMC_CLASS(klass);
-> +
-> +    dc->desc               = "Aspeed 1030 SPI2 Controller";
-> +    asc->r_conf            = R_CONF;
-> +    asc->r_ce_ctrl         = R_CE_CTRL;
-> +    asc->r_ctrl0           = R_CTRL0;
-> +    asc->r_timings         = R_TIMINGS;
-> +    asc->nregs_timings     = 2;
-> +    asc->conf_enable_w0    = CONF_ENABLE_W0;
-> +    asc->cs_num_max        = 2;
-> +    asc->segments          = aspeed_1030_spi2_segments;
-> +    asc->segment_addr_mask = 0x0ff00ff0;
-> +    asc->flash_window_base = 0xb0000000;
-> +    asc->flash_window_size = 0x10000000;
-> +    asc->features          = ASPEED_SMC_FEATURE_DMA |
-> +                             ASPEED_SMC_FEATURE_WDT_CONTROL;
-> +    asc->dma_flash_mask    = 0x0FFFFFFC;
-> +    asc->dma_dram_mask     = 0x000BFFFC;
-> +    asc->nregs             = ASPEED_SMC_R_MAX;
-> +    asc->segment_to_reg    = aspeed_2600_smc_segment_to_reg;
-> +    asc->reg_to_segment    = aspeed_2600_smc_reg_to_segment;
-> +    asc->dma_ctrl          = aspeed_2600_smc_dma_ctrl;
-> +}
-> +
-> +static const TypeInfo aspeed_1030_spi2_info = {
-> +    .name =  "aspeed.spi2-ast1030",
-> +    .parent = TYPE_ASPEED_SMC,
-> +    .class_init = aspeed_1030_spi2_class_init,
-> +};
-> +
->   static void aspeed_smc_register_types(void)
->   {
->       type_register_static(&aspeed_smc_flash_info);
-> @@ -1709,6 +1866,9 @@ static void aspeed_smc_register_types(void)
->       type_register_static(&aspeed_2600_fmc_info);
->       type_register_static(&aspeed_2600_spi1_info);
->       type_register_static(&aspeed_2600_spi2_info);
-> +    type_register_static(&aspeed_1030_fmc_info);
-> +    type_register_static(&aspeed_1030_spi1_info);
-> +    type_register_static(&aspeed_1030_spi2_info);
+> ---
+>   hw/misc/aspeed_scu.c         | 63 ++++++++++++++++++++++++++++++++++++
+>   include/hw/misc/aspeed_scu.h | 24 ++++++++++++++
+>   2 files changed, 87 insertions(+)
+> 
+> diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+> index 150567f98a..19b03471fc 100644
+> --- a/hw/misc/aspeed_scu.c
+> +++ b/hw/misc/aspeed_scu.c
+> @@ -235,6 +235,15 @@ static uint32_t aspeed_2600_scu_get_apb_freq(AspeedSCUState *s)
+>           / asc->apb_divider;
 >   }
 >   
->   type_init(aspeed_smc_register_types)
+> +static uint32_t aspeed_1030_scu_get_apb_freq(AspeedSCUState *s)
+> +{
+> +    AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(s);
+> +    uint32_t hpll = asc->calc_hpll(s, s->regs[AST2600_HPLL_PARAM]);
+> +
+> +    return hpll / (SCU_AST1030_CLK_GET_PCLK_DIV(s->regs[AST2600_CLK_SEL4]) + 1)
+> +        / asc->apb_divider;
+> +}
+> +
+>   static uint64_t aspeed_scu_read(void *opaque, hwaddr offset, unsigned size)
+>   {
+>       AspeedSCUState *s = ASPEED_SCU(opaque);
+> @@ -482,6 +491,8 @@ static uint32_t aspeed_silicon_revs[] = {
+>       AST2600_A1_SILICON_REV,
+>       AST2600_A2_SILICON_REV,
+>       AST2600_A3_SILICON_REV,
+> +    AST1030_A0_SILICON_REV,
+> +    AST1030_A1_SILICON_REV,
+>   };
+>   
+>   bool is_supported_silicon_rev(uint32_t silicon_rev)
+> @@ -770,12 +781,64 @@ static const TypeInfo aspeed_2600_scu_info = {
+>       .class_init = aspeed_2600_scu_class_init,
+>   };
+>   
+> +static const uint32_t ast1030_a1_resets[ASPEED_AST2600_SCU_NR_REGS] = {
+> +    [AST2600_SYS_RST_CTRL]      = 0xFFC3FED8,
+> +    [AST2600_SYS_RST_CTRL2]     = 0x09FFFFFC,
+> +    [AST2600_CLK_STOP_CTRL]     = 0xFFFF7F8A,
+> +    [AST2600_CLK_STOP_CTRL2]    = 0xFFF0FFF0,
+> +    [AST2600_DEBUG_CTRL2]       = 0x00000000,
+> +    [AST2600_HPLL_PARAM]        = 0x10004077,
+> +    [AST2600_HPLL_EXT]          = 0x00000031,
+> +    [AST2600_CLK_SEL4]          = 0x43F90900,
+> +    [AST2600_CLK_SEL5]          = 0x40000000,
+> +    [AST2600_CHIP_ID0]          = 0xDEADBEEF,
+> +    [AST2600_CHIP_ID1]          = 0x0BADCAFE,
+> +};
+> +
+> +static void aspeed_ast1030_scu_reset(DeviceState *dev)
+> +{
+> +    AspeedSCUState *s = ASPEED_SCU(dev);
+> +    AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(dev);
+> +
+> +    memcpy(s->regs, asc->resets, asc->nr_regs * 4);
+> +
+> +    s->regs[AST2600_SILICON_REV] = AST1030_A1_SILICON_REV;
+> +    s->regs[AST2600_SILICON_REV2] = s->silicon_rev;
+> +    s->regs[AST2600_HW_STRAP1] = s->hw_strap1;
+> +    s->regs[AST2600_HW_STRAP2] = s->hw_strap2;
+> +    s->regs[PROT_KEY] = s->hw_prot_key;
+> +}
+> +
+> +static void aspeed_1030_scu_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    AspeedSCUClass *asc = ASPEED_SCU_CLASS(klass);
+> +
+> +    dc->desc = "ASPEED 1030 System Control Unit";
+> +    dc->reset = aspeed_ast1030_scu_reset;
+> +    asc->resets = ast1030_a1_resets;
+> +    asc->calc_hpll = aspeed_2600_scu_calc_hpll;
+> +    asc->get_apb = aspeed_1030_scu_get_apb_freq;
+> +    asc->apb_divider = 2;
+> +    asc->nr_regs = ASPEED_AST2600_SCU_NR_REGS;
+> +    asc->clkin_25Mhz = true;
+> +    asc->ops = &aspeed_ast2600_scu_ops;
+> +}
+> +
+> +static const TypeInfo aspeed_1030_scu_info = {
+> +    .name = TYPE_ASPEED_1030_SCU,
+> +    .parent = TYPE_ASPEED_SCU,
+> +    .instance_size = sizeof(AspeedSCUState),
+> +    .class_init = aspeed_1030_scu_class_init,
+> +};
+> +
+>   static void aspeed_scu_register_types(void)
+>   {
+>       type_register_static(&aspeed_scu_info);
+>       type_register_static(&aspeed_2400_scu_info);
+>       type_register_static(&aspeed_2500_scu_info);
+>       type_register_static(&aspeed_2600_scu_info);
+> +    type_register_static(&aspeed_1030_scu_info);
+>   }
+>   
+>   type_init(aspeed_scu_register_types);
+> diff --git a/include/hw/misc/aspeed_scu.h b/include/hw/misc/aspeed_scu.h
+> index fdc721846c..d2c485c8f6 100644
+> --- a/include/hw/misc/aspeed_scu.h
+> +++ b/include/hw/misc/aspeed_scu.h
+> @@ -19,6 +19,7 @@ OBJECT_DECLARE_TYPE(AspeedSCUState, AspeedSCUClass, ASPEED_SCU)
+>   #define TYPE_ASPEED_2400_SCU TYPE_ASPEED_SCU "-ast2400"
+>   #define TYPE_ASPEED_2500_SCU TYPE_ASPEED_SCU "-ast2500"
+>   #define TYPE_ASPEED_2600_SCU TYPE_ASPEED_SCU "-ast2600"
+> +#define TYPE_ASPEED_1030_SCU TYPE_ASPEED_SCU "-ast1030"
+>   
+>   #define ASPEED_SCU_NR_REGS (0x1A8 >> 2)
+>   #define ASPEED_AST2600_SCU_NR_REGS (0xE20 >> 2)
+> @@ -45,6 +46,8 @@ struct AspeedSCUState {
+>   #define AST2600_A1_SILICON_REV   0x05010303U
+>   #define AST2600_A2_SILICON_REV   0x05020303U
+>   #define AST2600_A3_SILICON_REV   0x05030303U
+> +#define AST1030_A0_SILICON_REV   0x80000000U
+> +#define AST1030_A1_SILICON_REV   0x80010000U
+>   
+>   #define ASPEED_IS_AST2500(si_rev)     ((((si_rev) >> 24) & 0xff) == 0x04)
+>   
+> @@ -335,4 +338,25 @@ uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s);
+>   #define SCU_AST2600_H_PLL_BYPASS_EN                        (0x1 << 24)
+>   #define SCU_AST2600_H_PLL_OFF                              (0x1 << 23)
+>   
+> +/* SCU310   Clock Selection Register Set 4 (for Aspeed AST1030 SOC)
+> + *
+> + *  31     I3C Clock Source selection
+> + *  30:28  I3C clock divider selection
+> + *  26:24  MAC AHB clock divider selection
+> + *  22:20  RGMII 125MHz clock divider ration
+> + *  19:16  RGMII 50MHz clock divider ration
+> + *  15     LHCLK clock generation/output enable control
+> + *  14:12  LHCLK divider selection
+> + *  11:8   APB Bus PCLK divider selection
+> + *  7      Select PECI clock source
+> + *  6      Select UART debug port clock source
+> + *  5      Select UART6 clock source
+> + *  4      Select UART5 clock source
+> + *  3      Select UART4 clock source
+> + *  2      Select UART3 clock source
+> + *  1      Select UART2 clock source
+> + *  0      Select UART1 clock source
+> + */
+> +#define SCU_AST1030_CLK_GET_PCLK_DIV(x)                    (((x) >> 8) & 0xf)
+> +
+>   #endif /* ASPEED_SCU_H */
 
 
