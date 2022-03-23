@@ -2,85 +2,167 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4847A4E58E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 20:06:45 +0100 (CET)
-Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1FA54E5909
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 20:17:54 +0100 (CET)
+Received: from localhost ([::1]:43354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX6Jf-0007kv-Ut
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 15:06:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49054)
+	id 1nX6UT-00024a-Eb
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 15:17:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nX6IB-0006zF-P0
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 15:05:15 -0400
-Received: from [2a00:1450:4864:20::62a] (port=46595
- helo=mail-ej1-x62a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nX6I9-0008Dd-5r
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 15:05:10 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id qx21so4731659ejb.13
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 12:05:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Tae71RGe+fh0Ov4UK2RctqokSFvBA6nwM22GTqzv8Fk=;
- b=jUNjVogYnEJXTrw1R69IX0rawnTZh4VHs3xC6+DoIVgwvGu7Gq6d0SDVLPtkeFdJnn
- 0AjbmLFGM/2Cs1g5UprYxxtfiA+HoCeG2R/VtfOjcbNP2XWskVuwadbi3n1lj7L1hXtu
- KVqXcIpsaPNJ+8dk/m+l62g9HuBGoEcTTCW62Cip92tYS7B03CU9a7MD4HD+UEO6+5u9
- ogwYltVW2NZo+TOhEKN9revGM+jBlFj8MMtn2sM+9EfxOiZc26z6kbFf6fbqjVPdwhhl
- 2/7bzdj31hZFyGdNIlYBnjfXkv8jZNbxhG9yQ2fJbnZyR9SsRz+Y/q59afGjTDh1p2Up
- DxnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Tae71RGe+fh0Ov4UK2RctqokSFvBA6nwM22GTqzv8Fk=;
- b=dsyn+pgW1MQsdIZlR9ojg4DO/PNdSk/1UpiUPcaVXdFpfK7xWkT2y7G0lTNBvqhW6A
- E07KPl8qH/020EN0P/bn9QjKlwkiRf/NDVCBhav1mE6/GSsuADSm2r9NKNEDxZpmH5TV
- TeSmamh54bTETXBv08+rrpI7lSlYp1nJsQVafZ+lSyVvrxZaSl6/7WZNr4um3/n01QkM
- WtZ1UC6RuyqAqju2XotB7JaCExTiKjg0rHrZ27T4oJimwzmYpyCJapwKJISL/VGz1rTK
- SchKA+8pdhf1rnSwIHMkEoIyZvxYpXrO52lBE7Uhtje6h8jew8MV4Za1yU0EqRHOlkIo
- JQXg==
-X-Gm-Message-State: AOAM5319Ikg4dcRqqIWWhBvxK/a/4wZusQet6IELM7Dn0hBbhAcYzrJh
- Qa3tLPh7W2zuBvc1QVYY61IkKFKfvEcZGw==
-X-Google-Smtp-Source: ABdhPJzRGePr2s3RxUMSzBSlx9rm8ubUV0Rf6OCD4qOTWHqf2+j0vlFdTHk2b9tWbhr1GezpWfnenQ==
-X-Received: by 2002:a17:906:9746:b0:6e0:5c9a:1a20 with SMTP id
- o6-20020a170906974600b006e05c9a1a20mr1732625ejy.714.1648062301988; 
- Wed, 23 Mar 2022 12:05:01 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- gt34-20020a1709072da200b006df6bb3db69sm266246ejc.158.2022.03.23.12.05.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 12:05:00 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B759A1FFB7;
- Wed, 23 Mar 2022 19:04:59 +0000 (GMT)
-References: <20220323112711.440376-1-alex.bennee@linaro.org>
- <CAFEAcA-Eua8V0L1bKRf1C5F7-cVyfcJ+EEnidaj90L+E86FHJg@mail.gmail.com>
-User-agent: mu4e 1.7.10; emacs 28.0.92
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL for 7.0 0/8] i386, docs, gitlab fixes
-Date: Wed, 23 Mar 2022 19:04:04 +0000
-In-reply-to: <CAFEAcA-Eua8V0L1bKRf1C5F7-cVyfcJ+EEnidaj90L+E86FHJg@mail.gmail.com>
-Message-ID: <871qys4hic.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
+ id 1nX6S0-0001Gx-8w
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 15:15:20 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:8568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
+ id 1nX6Rx-0001QA-4f
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 15:15:19 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22NHlABA004029; 
+ Wed, 23 Mar 2022 19:14:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=k4LsBQm/8CG/kqiiX0Cl/adEd8+Ge8cskvfAqhu+hwo=;
+ b=DlUHesHrYu25e8DS4v6V9ocjZeEKP5b0o2Dm7uC6QW+Nh5yNYvanTgF+8wPEYjsGAMlz
+ GKIRqjkQfpApgtm+qRuJTMjVZoJs8TbI7P/vHHV9G5GrggZH3rz0rVjcaSAWxwqfzUQU
+ GkBAZdfOSlZgEk9iC5BHQfjK1iGmKWvTCLINe6iFJxQNdgtSSlp81k5OGDLZjUK+U0hr
+ kUzS15/YqwSJMcE/NRrK5OddQCFiB5jbkIG5JFJkEk2qVJofuhfqnkNPIiq0cFF9hsa/
+ 2vmB/l0QpzK5XsprLMKuteF1glV91uvACZOYP/NME+WD4qCDKkawZanrDHcIHrLLZTR1 Ug== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ew5y22htd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 23 Mar 2022 19:14:47 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22NJCqh6022790;
+ Wed, 23 Mar 2022 19:14:46 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
+ by aserp3020.oracle.com with ESMTP id 3ew701pymq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 23 Mar 2022 19:14:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NbMh5fSobTPiX1Qt3aYfVvL03iP2D2IhPNAbz44jg8QXJLwYw3idBTRBVET2A9s2chRRgIQoad6oaeQQQDcQhrsfQjUDEnqaQD+oz0HrqXLyTt/9zHpwLhNNaxX/H5Gh+8pNbBksi/A+pmUNh6dDkQvJaShfYbpcFtRu7TH3GcSVMrxNxuCcAp5qb3NBp/KpZotJKVoZOCNTrBYBK73avEC5Rx+7gLvEmwnvTMd8HPHPiWWW9U8Q2RQQ2f01LAfSC3Q/OSVwd/nk+Y16J7NjjP6X0diSZmWCR8hHg7KKcFkQ12HuqE6TseyppNFbCA65UPjbURx6v/bHwXzm+FmeHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k4LsBQm/8CG/kqiiX0Cl/adEd8+Ge8cskvfAqhu+hwo=;
+ b=h8oDV/muitEuwif571WZcmyBjVMKMHuu60wd1awUQ98NJal7cYSPOEYNIwHTVY/N4I5FUc8HE/Por0ONG8JELp3cXgDosAadSdvkH3gnBfhOj8P9FdSX49cj3DCJgFrUTRdgxaiNtTbnUG/22kbuurkiogMzD5HckiG3WxNW9tAtchHZFNJkpl3vwnCuw/kaVHt+fvjKGx1Eor1SZ0PcI8fV+tLMRL8KwaYwaWah4nez36XDcIwpcdcHMNzHXP+9UCxYL5gVMrRSPzsZvAdMhPiEs9HlgnnOGNoNV2KRQqJCg2TQYlcrL+xmmliA3jmZJ0RuqSQZuUXwA1qwtMzr3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k4LsBQm/8CG/kqiiX0Cl/adEd8+Ge8cskvfAqhu+hwo=;
+ b=PenXgNb22915caKQju5nKpH20Q1leYbVkTbGM5MVFDrpWC3cFsv3UgkQUcPP87i1VNhW+Ai+sbAukMPktBkdm8L3nCi1O/dX9gzbnAfdRC+Cb1Is/VlzgogsPyxYK9tworGUQZxBmyOjf7RPxAL2lwSgSNe9fA6zF3Pb5AQf4wQ=
+Received: from SA1PR10MB5841.namprd10.prod.outlook.com (2603:10b6:806:22b::16)
+ by DM6PR10MB2844.namprd10.prod.outlook.com (2603:10b6:5:65::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.17; Wed, 23 Mar
+ 2022 19:14:42 +0000
+Received: from SA1PR10MB5841.namprd10.prod.outlook.com
+ ([fe80::85a0:903e:852d:6c15]) by SA1PR10MB5841.namprd10.prod.outlook.com
+ ([fe80::85a0:903e:852d:6c15%5]) with mapi id 15.20.5081.018; Wed, 23 Mar 2022
+ 19:14:42 +0000
+Message-ID: <85ea473f-453e-4513-b4cf-4c8c7b7c2bde@oracle.com>
+Date: Wed, 23 Mar 2022 14:14:36 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v4 01/13] cpu: Free cpu->cpu_ases in
+ cpu_address_space_destroy()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ qemu-devel@nongnu.org
+References: <20220323171751.78612-1-philippe.mathieu.daude@gmail.com>
+ <20220323171751.78612-2-philippe.mathieu.daude@gmail.com>
+ <06217ec6-bd2a-6fd1-b2ff-1704b073456f@gmail.com>
+From: Mark Kanda <mark.kanda@oracle.com>
+In-Reply-To: <06217ec6-bd2a-6fd1-b2ff-1704b073456f@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN1PR12CA0062.namprd12.prod.outlook.com
+ (2603:10b6:802:20::33) To SA1PR10MB5841.namprd10.prod.outlook.com
+ (2603:10b6:806:22b::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8c5d2c83-1471-441a-4a9a-08da0d01620c
+X-MS-TrafficTypeDiagnostic: DM6PR10MB2844:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR10MB2844BB4AFF112D72DD51944FF9189@DM6PR10MB2844.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dIb5atGQxvDsFxJYNjn9pvB4JpkQDnN+qN7gXHdGN+9Dhcr58iFlo7GkN7yv5s3D7C2gBB+Lze3hnPNnegzov8VJVRY/Qp9yigOdl2szlgFarudW+Zgi+NQupVgxRJfEvSvrXw8Hqga/wqsULQapNmN5K10t1MptDFmh1Q5HoXdXEkSqFfmxH6D8ru8X1f/wN4wjRa0ok7c3FlfMqlGeTb4gf1RTLJ6ReWeiT0sEzz/xwo+GEUE2vqv9V+wunMnKHvsW80ZaLySmpQsNK7yB4L8V+jZTLN4DKUAtpv9sJTaJk0bfqiOqClS51yGVbrjlxEtwCmwoZIlYqrhjLb91BwDTLyQygxlfQozN1fBejOOEVup1mJ977wBIVf0jQzthBkdY/gm9p8YN8t+ObQ/Oiz5iQvWywymMik3ffnuogwKL85wLT6ZbvmsIIBrs31RTF+xxTSL1f9NbnzjICiKi0/P9AJrA3S+bVn83nP5ssYiR7dBy+RKOgJ+xdijX7TRg8Wbu7oLFwC0vAN8KfVs57uWNX3nADulfFQ3ykVPDFpQtRAKQtgMrZa08pLJurt15eFtF9siAoLgcKIqWxlnLttf/ZVbHP+QExJomb3DhRkn5yReceBWm2FrGY6RNkquoRU9krFLGTnQV3iYHl3Ki7lFjqJcMciV+bObVPrpABKrU2D9tuNp5cyCG8C4KIsPGHQS092LmHPD0RFG6h/5087V7W7+lacKP4HDHakJ93Xo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR10MB5841.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(26005)(2616005)(31696002)(5660300002)(6512007)(54906003)(508600001)(86362001)(2906002)(186003)(44832011)(6666004)(7416002)(8936002)(53546011)(6506007)(38100700002)(83380400001)(8676002)(6486002)(66946007)(316002)(31686004)(4326008)(36756003)(66476007)(66556008)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZngwZHBER0gyT1hld1V2SkErcU5DdEtpNVVvNUF6WDFhYzQ3OW1jL3NiNjBa?=
+ =?utf-8?B?d3pxRWVNOFdtTTJ6M1ZWQk1YZGk2Yi9sblo4VFVPQmsyTG8vVnNJYWJqNWJ2?=
+ =?utf-8?B?OWFITzFWZmZFQXd6eFprcklTWDdiK1ExWk1Db3VSYm5pdkZ6bmltZXh4VzFz?=
+ =?utf-8?B?OTJtQTRLemNJMTVCdStYaFUrZ1BZWUJsd3B1WG81YVJ2V1pzTytncm1rQUlj?=
+ =?utf-8?B?SUlhRVp2RzdRbk91RjdXQjR2ank3ZnNBdkNzNTA4dCtybFFqeUZsd1o3TE94?=
+ =?utf-8?B?amhyU0o4dWJ0QnNITmVmMnRkY3JEREhIUEVZU0hxZW5SckZKbmVpU0dTVXhk?=
+ =?utf-8?B?QnN1RFJUbmNPOUt4TlJvcUx0M1RMR3B2ZVp3VTVSTzRzRGo2cktWVDBDNGxj?=
+ =?utf-8?B?SS9NMlBIVEtER055OXAzazVsNWEyYW1UN1hOcUw0NXJkZk5JcFUvTUUyTHFY?=
+ =?utf-8?B?dXBHNkdhZ2tZdVc4SE8vTjllZGk0VFB1NHBrSXZrYVFKVUtKT2lxOERZVVVY?=
+ =?utf-8?B?N01MV1plc0IzRnF1K0RQQ0JtWEE4cTZDOGwwRUxONGp6TnBhWklTTWVPWEUw?=
+ =?utf-8?B?aXlUcWRPZ0QvZmpDMTJZYlVId1lzTDFyMFp3NjNha0FDZG1wanIvUGJMUDVw?=
+ =?utf-8?B?M1ZPNFcweEd1ZFZNcUZJcWVraVZVY1VBVnB3cFBua2Y3cHFNZm1ZaFFPL1N6?=
+ =?utf-8?B?UG5aRGtzVFZZR3EzMnhWdVhjOXlmUnVwOWZlQjUvdVN1OWg1VkJiOXpVemdW?=
+ =?utf-8?B?endOU3ltZVZDOTlkRHNsK0RRYk9VWDFFYnJ1bTU5V1crMWxSR1djZzlpRTB4?=
+ =?utf-8?B?Q2VmbVpCclFEK2xxTGtkQWhWS0RBZW5XVXI5Nm1VeXFGV0w3MUwwbm0yOGVM?=
+ =?utf-8?B?Qy9EVWhjbFJPaXdFRWdKQTdtU21ycElPZzM2M251WHMwdGpIeG1ocG9yWmRR?=
+ =?utf-8?B?U09GS2x6NHFPZktSZ2RSbVVyN0VHVWRuTm1VbE9tUUhkN2tZNEE1cCtDY2Yr?=
+ =?utf-8?B?K3VweTRMd3doQ0p1aUhxZXpHdGNoNTFRNWFqR0luVXpnYXlhMGhLQ3dDNGli?=
+ =?utf-8?B?djVuNFl4VkRyazc2M01ibFluR3JFakgrNnREL2pOTG5xL2QxVzhvVWtkTVlp?=
+ =?utf-8?B?SFcwS0NvbUo3R3poRkVwOEt0YkNLdDk4RnpTSWg1N3RIeUNPNTRkOUNycDls?=
+ =?utf-8?B?L1hmZVJ5L0kyT2ppUkdHSHlEU1psaTl1ODNlMzFJd3REOTQ2WlNIdHpUSWNr?=
+ =?utf-8?B?dXFFV08rLzdSZFJrd0pDRHlhRWFLWHIyQTFsc3FNTVVERFJKRWF3T1JJSzV2?=
+ =?utf-8?B?bmp4dmxkQkdPUDhpOHh6L2xTQ0Z3cWdxU0VCR05kNTV2dEdxbTBZV0VQdnRm?=
+ =?utf-8?B?L0NrRUVQRFU4U2hWUlZ1KzJ0ZGI5ZThMUzd5ekljTkpGeUVpRkRGendqRS8x?=
+ =?utf-8?B?bzBsdEFheWVrUVYvNDNqSGx2Z1dPcUdBSzZrVitpTU5xRXhzRXdzbTM2UGxD?=
+ =?utf-8?B?djU0SW1sZHZpTk9mSzBDQ3grNGFnZExIZGc5ODJGTTc4MVFDQ1RPL1Bmemow?=
+ =?utf-8?B?QUpJc0txd01ZWDJTQ0ZrbTVsaU1vckkwNHZpWTJ4cmNMWTRZUFhkZlFDa25y?=
+ =?utf-8?B?Vy8xbFVtOXZqRkJSdmdyaTVRaitDZFZmSVFMRk1tZnZaREZzMVdFZnVGaGpQ?=
+ =?utf-8?B?MnBIMVI2RzNYakhmSWVQNEhpQTI3OGJleFoyMVVHcnFqM3RiTUIxbS9TWUpy?=
+ =?utf-8?B?akFtVDVrS2preFpZM0dVNUpTdVM4THZSenJ4UnZNdXRwdlBLdzdnTjFJVHJx?=
+ =?utf-8?B?KzIwNlVyNnh6VnZzWlhnSVdxcFlnNi8yNTkxY2dwd1pVcCtldmlkanpRMXB2?=
+ =?utf-8?B?Tnpra1NZNVBxc3dZM3FpYmtudFhlcW1Zd3kwNHhxcWIwL3lUQ2VsWnRJY09S?=
+ =?utf-8?Q?DKi9cvRp9uSXJmTP2WBL9Bx0R0u1YfW+?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c5d2c83-1471-441a-4a9a-08da0d01620c
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR10MB5841.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2022 19:14:41.9634 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DH6t5t+MdJR++yxRNJN5w5Rpbc9wXz1+qvdXddfvbwZRdMa4LTeGJKTiVH0TRgJ/wQk+IVei4bSdh1v6pmxeEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB2844
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10295
+ signatures=694973
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=999 bulkscore=0 phishscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203230100
+X-Proofpoint-GUID: t_UTRWQVraX34GUlamYHoybIFY8zhy0i
+X-Proofpoint-ORIG-GUID: t_UTRWQVraX34GUlamYHoybIFY8zhy0i
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=mark.kanda@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,130 +175,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paul Durrant <paul@xen.org>, Peter Xu <peterx@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ David Hildenbrand <david@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Marcelo Tosatti <mtosatti@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wenchao Wang <wenchao.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Wed, 23 Mar 2022 at 11:27, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+On 3/23/2022 1:56 PM, Philippe Mathieu-Daudé wrote:
+> On 23/3/22 18:17, Philippe Mathieu-Daudé wrote:
+>> From: Mark Kanda <mark.kanda@oracle.com>
 >>
->> The following changes since commit 15ef89d2a1a7b93845a6b09c2ee8e1979f6eb=
-30b:
->>
->>   Update version for v7.0.0-rc1 release (2022-03-22 22:58:44 +0000)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/stsquad/qemu.git tags/pull-fixes-for-7.0-230322-1
->>
->> for you to fetch changes up to 0f37cf2f71f764c5649e149c774172df7ab187c7:
->>
->>   docs/tcg-plugins: document QEMU_PLUGIN behaviour (2022-03-23 10:38:09 =
-+0000)
->>
->> ----------------------------------------------------------------
->> Various fixes for 7.0
->>
->>   - make clean also cleans tcg tests
->>   - fix rounding error in i386 fildl[l]
->>   - more clean-ups to gitdm/mailmap metadata
->>   - apply some organisation to docs/devel
->>   - clean-up semihosting argv handling
->>   - add custom runner for aarch32
->>   - remove old qemu_logo.pdf
->>   - document QEMU_PLUGIN env var
->>
->> ----------------------------------------------------------------
+>> Create cpu_address_space_destroy() to free a CPU's cpu_ases list.
 >
-> Is there anything in here that would affect s390 host? The
-> s390 job seems to be consistently timing out, eg:
-> https://gitlab.com/qemu-project/qemu/-/jobs/2241445160
-> but I have a feeling this is a pre-existing intermittent
-> hang on that host...
-
-Nope - but I can see the tasks that are locked up:
-
-2769105 gitlab-ru  20   0 11816  8092  2112 S  0.0  0.0  0:00.03 =E2=94=82 =
- =E2=94=94=E2=94=80 make --output-sync -j4 check V=3D1=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20
-2769521 gitlab-ru  20   0  533M  168M  8964 S  0.0  1.0  0:22.79 =E2=94=82 =
-    =E2=94=94=E2=94=80 /usr/bin/python3 -B /home/gitlab-runner/builds/-LCfc=
-J2T/0/qemu-project/qemu/meson/meson.py test --n
-2771499 gitlab-ru  20   0  533M  168M  8964 S  0.0  1.0  0:00.00 =E2=94=82 =
-       =E2=94=9C=E2=94=80 /usr/bin/python3 -B /home/gitlab-runner/builds/-L=
-CfcJ2T/0/qemu-project/qemu/meson/meson.py test=20
-2771497 gitlab-ru  20   0 78740  3284  2924 S 10.5  0.0  9:44.54 =E2=94=82 =
-       =E2=94=94=E2=94=80 /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-projec=
-t/qemu/build/tests/qtest/migration-test --tap -
-2773014 gitlab-ru  20   0 1762M 54716 36780 S  0.0  0.3  0:00.31 =E2=94=82 =
-          =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp/qtest-2771=
-497.sock -qtest-log /dev/null -chardev socket,p
-2773019 gitlab-ru  20   0 1762M 54716 36780 S  0.0  0.3  0:00.00 =E2=94=82 =
-          =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
-/qtest-2771497.sock -qtest-log /dev/null -chardev socke
-2773018 gitlab-ru  20   0 1762M 54716 36780 S  0.0  0.3  0:00.00 =E2=94=82 =
-          =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
-/qtest-2771497.sock -qtest-log /dev/null -chardev socke
-2773017 gitlab-ru  20   0 1762M 54716 36780 S  0.0  0.3  0:00.00 =E2=94=82 =
-          =E2=94=82  =E2=94=94=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
-/qtest-2771497.sock -qtest-log /dev/null -chardev socke
-2772869 gitlab-ru  20   0     0     0     0 Z  0.0  0.0  0:00.11 =E2=94=82 =
-          =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp/qtest-2771=
-497.sock -qtest-log /dev/null -chardev socket,p
-2772862 gitlab-ru  20   0 2987M  162M 36972 S 107.  1.0  1h44:46 =E2=94=82 =
-          =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp/qtest-2771=
-497.sock -qtest-log /dev/null -chardev socket,p
-2772915 gitlab-ru  20   0 2987M  162M 36972 S  0.0  1.0  0:00.01 =E2=94=82 =
-          =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
-/qtest-2771497.sock -qtest-log /dev/null -chardev socke
-2772867 gitlab-ru  20   0 2987M  162M 36972 R 99.6  1.0  1h37:41 =E2=94=82 =
-          =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
-/qtest-2771497.sock -qtest-log /dev/null -chardev socke
-2772866 gitlab-ru  20   0 2987M  162M 36972 S  4.2  1.0  4:18.71 =E2=94=82 =
-          =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
-/qtest-2771497.sock -qtest-log /dev/null -chardev socke
-2772864 gitlab-ru  20   0 2987M  162M 36972 S  0.0  1.0  0:00.00 =E2=94=82 =
-          =E2=94=82  =E2=94=94=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp=
-/qtest-2771497.sock -qtest-log /dev/null -chardev socke
-2771498 gitlab-ru  20   0 78740  3284  2924 S  0.0  0.0  0:00.00 =E2=94=82 =
-          =E2=94=94=E2=94=80 /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-pro=
-ject/qemu/build/tests/qtest/migration-test --ta
-2646940 gitlab-ru  20   0  7152  2556  1852 S  0.0  0.0  0:00.00 =E2=94=9C=
-=E2=94=80 bash --login=20=20=20=20=20=20=20
-2691489 gitlab-ru  20   0 11820  7896  1912 S  0.0  0.0  0:00.04 =E2=94=82 =
- =E2=94=94=E2=94=80 make --output-sync -j4 check V=3D1
-2691914 gitlab-ru  20   0  533M  167M  8720 S  0.0  1.0  0:22.20 =E2=94=82 =
-    =E2=94=94=E2=94=80 /usr/bin/python3 -B /home/gitlab-runner/builds/-LCfc=
-J2T/0/qemu-project/qemu/meson/meson.py test --n2706323 gitlab-ru  20   0  5=
-33M  167M  8720 S  0.0  1.0  0:00.00 =E2=94=82        =E2=94=9C=E2=94=80 /u=
-sr/bin/python3 -B /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/m=
-eson/meson.py test 2706321 gitlab-ru  20   0 78944  3500  2924 S 48.9  0.0 =
- 1h30:10 =E2=94=82        =E2=94=94=E2=94=80 /home/gitlab-runner/builds/-LC=
-fcJ2T/0/qemu-project/qemu/build/tests/qtest/virtio-net-failover --2706783 g=
-itlab-ru  20   0  695M 55164 36636 S 34.6  0.3  1h04:59 =E2=94=82          =
- =E2=94=9C=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp/qtest-2706321.sock =
--qtest-log /dev/null -chardev socket,p2706797 gitlab-ru  20   0  695M 55164=
- 36636 S  0.0  0.3  0:00.00 =E2=94=82           =E2=94=82  =E2=94=9C=E2=94=
-=80 ./qemu-system-i386 -qtest unix:/tmp/qtest-2706321.sock -qtest-log /dev/=
-null -chardev socke2706796 gitlab-ru  20   0  695M 55164 36636 R 22.4  0.3 =
-41:24.24 =E2=94=82           =E2=94=82  =E2=94=9C=E2=94=80 ./qemu-system-i3=
-86 -qtest unix:/tmp/qtest-2706321.sock -qtest-log /dev/null -chardev socke2=
-706795 gitlab-ru  20   0  695M 55164 36636 S  0.0  0.3  0:00.00 =E2=94=82  =
-         =E2=94=82  =E2=94=94=E2=94=80 ./qemu-system-i386 -qtest unix:/tmp/=
-qtest-2706321.sock -qtest-log /dev/null -chardev socke2706322 gitlab-ru  20=
-   0 78944  3500  2924 S  0.0  0.0  0:00.00 =E2=94=82           =E2=94=94=
-=E2=94=80 /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/build/tes=
-ts/qtest/virtio-net-failover
-
+> This seems incorrect...
 >
-> -- PMM
+>> vCPU hotunplug related leak reported by Valgrind:
+>>
+>> ==132362== 216 bytes in 1 blocks are definitely lost in loss record 7,119 of 
+>> 8,549
+>> ==132362==    at 0x4C3ADBB: calloc (vg_replace_malloc.c:1117)
+>> ==132362==    by 0x69EE4CD: g_malloc0 (in /usr/lib64/libglib-2.0.so.0.5600.4)
+>> ==132362==    by 0x7E34AF: cpu_address_space_init (physmem.c:751)
+>> ==132362==    by 0x45053E: qemu_init_vcpu (cpus.c:635)
+>> ==132362==    by 0x76B4A7: x86_cpu_realizefn (cpu.c:6520)
+>> ==132362==    by 0x9343ED: device_set_realized (qdev.c:531)
+>> ==132362==    by 0x93E26F: property_set_bool (object.c:2273)
+>> ==132362==    by 0x93C23E: object_property_set (object.c:1408)
+>> ==132362==    by 0x9406DC: object_property_set_qobject (qom-qobject.c:28)
+>> ==132362==    by 0x93C5A9: object_property_set_bool (object.c:1477)
+>> ==132362==    by 0x933C81: qdev_realize (qdev.c:333)
+>> ==132362==    by 0x455E9A: qdev_device_add_from_qdict (qdev-monitor.c:713)
+>>
+>> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+>> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Message-Id: <20220321141409.3112932-5-mark.kanda@oracle.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   cpu.c                     | 1 +
+>>   include/exec/cpu-common.h | 7 +++++++
+>>   softmmu/physmem.c         | 5 +++++
+>>   3 files changed, 13 insertions(+)
+>>
+>> diff --git a/cpu.c b/cpu.c
+>> index be1f8b074c..59352a1487 100644
+>> --- a/cpu.c
+>> +++ b/cpu.c
+>> @@ -174,6 +174,7 @@ void cpu_exec_unrealizefn(CPUState *cpu)
+>>           tcg_exec_unrealizefn(cpu);
+>>       }
+>>   +    cpu_address_space_destroy(cpu);
+>>       cpu_list_remove(cpu);
+>>   }
+>>   diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+>> index 50a7d2912e..b17ad61ae4 100644
+>> --- a/include/exec/cpu-common.h
+>> +++ b/include/exec/cpu-common.h
+>> @@ -111,6 +111,13 @@ size_t qemu_ram_pagesize_largest(void);
+>>    */
+>>   void cpu_address_space_init(CPUState *cpu, int asidx,
+>>                               const char *prefix, MemoryRegion *mr);
+>
+> ... cpu_address_space_init() creates a single AS, ...
+>
+>> +/**
+>> + * cpu_address_space_destroy:
+>> + * @cpu: CPU for this address space
+>> + *
+>> + * Cleanup CPU's cpu_ases list.
+>> + */
+>> +void cpu_address_space_destroy(CPUState *cpu);
+>>     void cpu_physical_memory_rw(hwaddr addr, void *buf,
+>>                               hwaddr len, bool is_write);
+>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+>> index 43ae70fbe2..aec61ca07a 100644
+>> --- a/softmmu/physmem.c
+>> +++ b/softmmu/physmem.c
+>> @@ -762,6 +762,11 @@ void cpu_address_space_init(CPUState *cpu, int asidx,
+>>       }
+>>   }
+>>   +void cpu_address_space_destroy(CPUState *cpu)
+>> +{
+>> +    g_free(cpu->cpu_ases);
+>
+> ... but here you destroy all the ASes.
 
+I was thinking the whole ASes list should be freed because the CPU is going away...
 
---=20
-Alex Benn=C3=A9e
+Thanks/regards,
+-Mark
 
