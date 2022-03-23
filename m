@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD844E5882
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:36:17 +0100 (CET)
-Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F10484E5883
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:36:41 +0100 (CET)
+Received: from localhost ([::1]:45490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX5qC-0004YK-1J
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:36:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36904)
+	id 1nX5qb-0005Yh-2Q
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:36:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX5kZ-00079D-Tj
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:30:27 -0400
-Received: from [2607:f8b0:4864:20::52a] (port=36669
- helo=mail-pg1-x52a.google.com)
+ id 1nX5m3-0000tH-Cs
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:32:00 -0400
+Received: from [2607:f8b0:4864:20::1029] (port=46757
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX5kU-0003cO-5p
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:30:27 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id t14so1836846pgr.3
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:30:18 -0700 (PDT)
+ id 1nX5ly-0003zZ-R5
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:31:59 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ bx24-20020a17090af49800b001c6872a9e4eso2684590pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:31:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=7NkIskxhjyK/IrNVXYcRxW1RZghULoNclzQ99g4R/+M=;
- b=ngEAOYnU8+BnC9KBEayFU0InCCFGWb5zlyLSvADRa8Nl99u9ZA4FIsKdscthQkdR68
- weZkYgbzTv7wQIGlgynWF2e4RDNs5SvsDfpPbEyChtP83B17W7YUxMv/UDik/gV0rmfl
- BtDKO6DguGvlyYwC/+sqtJEFRJx7KPKcWoRSk0Bd0lLS5FkV6LRx1cr8f93BN3FhQkH8
- 0btyhCppaWeaIrck1cpKAbxXVIy/UH5pKaH+BNftkABC6PYGLR8CVTbN5tEMq2nkPV9k
- NSF2gzyvscafShjp87UdmII/zRWn93VETOVtuCD+9xZbQXoYtNpAlMmQUa7N9HTaYRxi
- 09nw==
+ bh=eEzIKaC43fMLDfhmRqwIQWG1WCohVC0yvcmARYrVDMQ=;
+ b=ciHDSpUASKVJTbqNOe9AW9y/QufjzCaduEQrTEOdxSxiy52OMJekwgIf7UErCycJzf
+ EPA5Ou1ouIIEQ05scxXpyXvyVGqZWPQHIHqZA1hjaBOnqN1mVqZ2MfxHhPXpAZgciQ2M
+ tNMz1P2SHD0bpvWV4sw5xl7PaXiMo53Kxpx12jF7I5cFqxmQQjJeVsF6z0N/tYW/tis+
+ sOiGNxVHDT9WuKjoCfxsErE3i+Ok8fiDZHKcaR0ZsySiuq1vcgYSHEnsR9Ar6YM2+UCn
+ Rgc+nOQ697SEGvtql2iplS5Nl2qNFSFRLDyvZ/gavKMur70cKj455DVuQykZdmVoc6Ke
+ 50oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=7NkIskxhjyK/IrNVXYcRxW1RZghULoNclzQ99g4R/+M=;
- b=n209mx2siTABWuthIaitPzPhHfDdhgaa0fKQWQ/85PoxihzEE44w+LlIkFSKOVQh60
- yqfodCwVlwkp/kFUHLdT0+96R5133MSH7CNdT8/lGlqEyZRleWyEVakG4QVBoq09eQj5
- X6tM12duiAfdDtY5dHUP71q5UV9cKRcwqOOTRGAEV70RpgOUGDdDR0M1mrQNC2WXJv8C
- Fk33Ej3LNsJHoXF3Xn8nBiB++UAYE9APruWjPMWCTN1K3kSpY6LWvqsB+7JXhKuoF3P6
- PZDLddOG8jQKJwEWIGQt7N4+8ajNcTxLz/Lm44EmoCoQZziWp6VONg1/H/Lhxg7N/EFK
- nfpA==
-X-Gm-Message-State: AOAM533PxZ+7SPgZsUIZ6glBk/ymqAEaXDLyqGbviPca4//xctKjTvpo
- P6u3Xz7WTUTUOpY6mRylzFpZ8g==
-X-Google-Smtp-Source: ABdhPJzuZk4i+dHu4kNkV/IjK9a/iHnZQMFqaNDdQQ8VhQxgkoJ5XZVYAXAggAZT7fRd7vurvJA4Cw==
-X-Received: by 2002:a63:445d:0:b0:382:6cc2:5ca7 with SMTP id
- t29-20020a63445d000000b003826cc25ca7mr903456pgk.295.1648060218006; 
- Wed, 23 Mar 2022 11:30:18 -0700 (PDT)
+ bh=eEzIKaC43fMLDfhmRqwIQWG1WCohVC0yvcmARYrVDMQ=;
+ b=yxw+pKs4anqqoNHIFDpwEcPZVw6R2T0oazyh0ZKicd7n0jgsPt1g2UN9kISYBQv7HM
+ 4p177tv432OPNRIRWMznbFG35l3C1W3JnBIEgSGL2orpQQ21WZIiPivSvw8ZFEoV/krC
+ g1+ix3/GItNJ7wq9gHWDa7/AG8bpLqpbSxHrkSFaOyrQdtTYYnI3LczrV8LhznzCNVYt
+ TX9YGKCqCJU3MO9RI8YwVUE/DpY456PLvv4Z6+1dhBeXHJojA7fGaY9ukz/SjFPmOsvI
+ myVhSA2kSbNhN9IOdSAIxCLSXaxuRHkULm9PpfepeTgLcQ3uX/fwgfyEc/sIzTVtWRjv
+ cM8Q==
+X-Gm-Message-State: AOAM531kjZCkLAoVT8sVo/hj1VnjHENXVu4/SD4PfILisHS6VDtLq8ab
+ Lbet0U4l6CRL2a/5PuLhX2J3vA==
+X-Google-Smtp-Source: ABdhPJxfrA3bfTtMgoWjJR3DAQEkHgj3bhn/MIKPjml1X8PAvFf7buwsz5AMhQE78ctl/n/xgu4Pwg==
+X-Received: by 2002:a17:90a:ba10:b0:1bf:6900:2c5d with SMTP id
+ s16-20020a17090aba1000b001bf69002c5dmr13504256pjr.36.1648060313355; 
+ Wed, 23 Mar 2022 11:31:53 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- g14-20020a63be4e000000b00382800d1528sm452568pgo.21.2022.03.23.11.30.16
+ p11-20020a17090a4f0b00b001c6e4898a36sm6995073pjh.28.2022.03.23.11.31.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 11:30:17 -0700 (PDT)
-Message-ID: <27c90acc-4e53-1340-b1b7-22ee9720e9f3@linaro.org>
-Date: Wed, 23 Mar 2022 11:30:15 -0700
+ Wed, 23 Mar 2022 11:31:52 -0700 (PDT)
+Message-ID: <bb47ac2f-33c2-73fc-1c91-b61531134325@linaro.org>
+Date: Wed, 23 Mar 2022 11:31:50 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 24/32] include: move progress API to qemu-progress.h
+Subject: Re: [PATCH 26/32] include: move os_*() to os-foo.h
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
- <20220323155743.1585078-25-marcandre.lureau@redhat.com>
+ <20220323155743.1585078-27-marcandre.lureau@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220323155743.1585078-25-marcandre.lureau@redhat.com>
+In-Reply-To: <20220323155743.1585078-27-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,17 +94,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>
+Cc: Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/23/22 08:57, marcandre.lureau@redhat.com wrote:
-> +++ b/include/qemu/qemu-progress.h
-> @@ -0,0 +1,8 @@
-> +#ifndef QEMU_PROGRESS_H
+> From: Marc-André Lureau<marcandre.lureau@redhat.com>
+> 
+> For consistency with other os_ functions that do not have POSIX
+> implementation, declare an inline function for the stub in os-win32.h.
+> 
+> Signed-off-by: Marc-André Lureau<marcandre.lureau@redhat.com>
+> ---
+>   include/qemu-common.h     | 4 ----
+>   include/sysemu/os-posix.h | 2 ++
+>   include/sysemu/os-win32.h | 4 +++-
+>   os-win32.c                | 9 ---------
+>   4 files changed, 5 insertions(+), 14 deletions(-)
 
-All files must have copyright header.
+This does two things, and should be split.
 
 r~
 
