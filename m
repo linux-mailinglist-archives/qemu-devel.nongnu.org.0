@@ -2,54 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC814E4B66
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 04:23:17 +0100 (CET)
-Received: from localhost ([::1]:54838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F416A4E4B77
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 04:30:12 +0100 (CET)
+Received: from localhost ([::1]:41862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWrae-0000YQ-Dg
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 23:23:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50552)
+	id 1nWrhL-0002Rc-NM
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 23:30:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wucy11@chinatelecom.cn>)
- id 1nWrWr-0003JJ-DG
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:19:21 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:48755
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wucy11@chinatelecom.cn>) id 1nWrWo-0006hq-HJ
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:19:21 -0400
-HMM_SOURCE_IP: 172.18.0.218:52666.2058481772
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-36.111.64.85 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 0BD61280492;
- Wed, 23 Mar 2022 11:19:11 +0800 (CST)
-X-189-SAVE-TO-SEND: +wucy11@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 793f379a50204ba0ae3b94601b8d2412 for
- qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:19:17 CST
-X-Transaction-ID: 793f379a50204ba0ae3b94601b8d2412
-X-Real-From: wucy11@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-From: wucy11@chinatelecom.cn
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 5/5] migration: Calculate the appropriate throttle for
- autoconverge
-Date: Wed, 23 Mar 2022 11:18:38 +0800
-Message-Id: <d6ff957111a74e2d69b52836af182811a0ade9a5.1648002360.git.wucy11@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1648002359.git.wucy11@chinatelecom.cn>
-References: <cover.1648002359.git.wucy11@chinatelecom.cn>
-In-Reply-To: <cover.1648002359.git.wucy11@chinatelecom.cn>
-References: <cover.1648002359.git.wucy11@chinatelecom.cn>
-Received-SPF: pass client-ip=42.123.76.222;
- envelope-from=wucy11@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nWrdz-0008Lu-Bc
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:26:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32245)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nWrdv-0003R3-JV
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 23:26:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648005999;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vCiZ43v27uzAWVcOukl0ep+Hq/ITY1CMRj61K83M+hc=;
+ b=ZzH9ZrdLoIFsVaGR7YsdpFeFr4pm3KFKsXRtcaMf7cid/dmG5m6IOZV3R59jVtI1LTcQ6y
+ oXc3U4hDle1bz2LpjGad96H+FdfreoGRdSQM/a1Ht03pMFBOmXLQOBJ1CX3OdNNuMWJn8k
+ wYtutdgovpvmJ43ZP1n+Q93rJfOIKes=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-648-aNSh1I4IONKQ6XaGHy2usA-1; Tue, 22 Mar 2022 23:26:35 -0400
+X-MC-Unique: aNSh1I4IONKQ6XaGHy2usA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0FA4811E75;
+ Wed, 23 Mar 2022 03:26:34 +0000 (UTC)
+Received: from [10.72.12.33] (ovpn-12-33.pek2.redhat.com [10.72.12.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F8CB2166B2D;
+ Wed, 23 Mar 2022 03:26:29 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] hw/arm/virt: Fix CPU's default NUMA node ID
+To: "wangyanan (Y)" <wangyanan55@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>
+References: <20220303031152.145960-1-gshan@redhat.com>
+ <20220303031152.145960-2-gshan@redhat.com>
+ <e894fe3a-a50e-f47f-773d-d859bc240923@huawei.com>
+ <20220318105656.67696eb8@redhat.com>
+ <5aea5611-0987-68cd-58d3-8ae53ec641e8@huawei.com>
+ <20220318142723.142157c3@redhat.com>
+ <e6efb1ca-08bb-fce5-de58-b8e2079880ca@huawei.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <477808a7-beec-2607-10f9-cb1bc8035467@redhat.com>
+Date: Wed, 23 Mar 2022 11:26:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
+MIME-Version: 1.0
+In-Reply-To: <e6efb1ca-08bb-fce5-de58-b8e2079880ca@huawei.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,322 +89,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: baiyw2@chinatelecom.cn, yuanmh12@chinatelecom.cn, tugy@chinatelecom.cn,
- David Hildenbrand <david@redhat.com>, huangy81@chinatelecom.cn,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- yubin1@chinatelecom.cn, dengpc12@chinatelecom.cn,
- Paolo Bonzini <pbonzini@redhat.com>, wucy11@chinatelecom.cn
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, zhenyzha@redhat.com, qemu-arm@nongnu.org,
+ shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chongyun Wu <wucy11@chinatelecom.cn>
+Hi Yanan and Igor,
 
-The current autoconverge algorithm does not obtain the threshold
-that currently requires the CPU to limit the speed through
-calculation, but limits the speed of the CPU through continuous
-attempts. Start from an initial value to limit the speed. If the
-migration can not be completed for two consecutive rounds, increase
-the limit threshold and continue to try until the limit threshold
-reaches 99%. If the memory pressure is high or the migration
-bandwidth is low, then it will gradually increase from the initial
-20% to 99%, which will be a long and time-consuming process.
+On 3/21/22 10:28 AM, wangyanan (Y) wrote:
+> On 2022/3/18 21:27, Igor Mammedov wrote:
+>> On Fri, 18 Mar 2022 21:00:35 +0800
+>> "wangyanan (Y)" <wangyanan55@huawei.com> wrote:
+>>> On 2022/3/18 17:56, Igor Mammedov wrote:
+>>>> On Fri, 18 Mar 2022 14:23:34 +0800
+>>>> "wangyanan (Y)" <wangyanan55@huawei.com> wrote:
+>>>>> On 2022/3/3 11:11, Gavin Shan wrote:
+>>>>>> The default CPU-to-NUMA association is given by mc->get_default_cpu_node_id()
+>>>>>> when it isn't provided explicitly. However, the CPU topology isn't fully
+>>>>>> considered in the default association and it causes CPU topology broken
+>>>>>> warnings on booting Linux guest.
+>>>>>>
+>>>>>> For example, the following warning messages are observed when the Linux guest
+>>>>>> is booted with the following command lines.
+>>>>>>
+>>>>>>      /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
+>>>>>>      -accel kvm -machine virt,gic-version=host               \
+>>>>>>      -cpu host                                               \
+>>>>>>      -smp 6,sockets=2,cores=3,threads=1                      \
+>>>>>>      -m 1024M,slots=16,maxmem=64G                            \
+>>>>>>      -object memory-backend-ram,id=mem0,size=128M            \
+>>>>>>      -object memory-backend-ram,id=mem1,size=128M            \
+>>>>>>      -object memory-backend-ram,id=mem2,size=128M            \
+>>>>>>      -object memory-backend-ram,id=mem3,size=128M            \
+>>>>>>      -object memory-backend-ram,id=mem4,size=128M            \
+>>>>>>      -object memory-backend-ram,id=mem4,size=384M            \
+>>>>>>      -numa node,nodeid=0,memdev=mem0                         \
+>>>>>>      -numa node,nodeid=1,memdev=mem1                         \
+>>>>>>      -numa node,nodeid=2,memdev=mem2                         \
+>>>>>>      -numa node,nodeid=3,memdev=mem3                         \
+>>>>>>      -numa node,nodeid=4,memdev=mem4                         \
+>>>>>>      -numa node,nodeid=5,memdev=mem5
+>>>>>>             :
+>>>>>>      alternatives: patching kernel code
+>>>>>>      BUG: arch topology borken
+>>>>>>      the CLS domain not a subset of the MC domain
+>>>>>>      <the above error log repeats>
+>>>>>>      BUG: arch topology borken
+>>>>>>      the DIE domain not a subset of the NODE domain
+>>>>>>
+>>>>>> With current implementation of mc->get_default_cpu_node_id(), CPU#0 to CPU#5
+>>>>>> are associated with NODE#0 to NODE#5 separately. That's incorrect because
+>>>>>> CPU#0/1/2 should be associated with same NUMA node because they're seated
+>>>>>> in same socket.
+>>>>>>
+>>>>>> This fixes the issue by populating the CPU topology in virt_possible_cpu_arch_ids()
+>>>>>> and considering the socket index when default CPU-to-NUMA association is given
+>>>>>> in virt_possible_cpu_arch_ids(). With this applied, no more CPU topology broken
+>>>>>> warnings are seen from the Linux guest. The 6 CPUs are associated with NODE#0/1,
+>>>>>> but there are no CPUs associated with NODE#2/3/4/5.
+>>>>> It may be better to split this patch into two. One extends
+>>>>> virt_possible_cpu_arch_ids,
+>>>>> and the other fixes the numa node ID issue.
+>>>>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>>>>> ---
+>>>>>>     hw/arm/virt.c | 17 ++++++++++++++++-
+>>>>>>     1 file changed, 16 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>>>>>> index 46bf7ceddf..dee02b60fc 100644
+>>>>>> --- a/hw/arm/virt.c
+>>>>>> +++ b/hw/arm/virt.c
+>>>>>> @@ -2488,7 +2488,9 @@ virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
+>>>>>>     static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
+>>>>>>     {
+>>>>>> -    return idx % ms->numa_state->num_nodes;
+>>>>>> +    int64_t socket_id = ms->possible_cpus->cpus[idx].props.socket_id;
+>>>>>> +
+>>>>>> +    return socket_id % ms->numa_state->num_nodes;
+>>>>>>     }
+>>>>>>     static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>>>>>> @@ -2496,6 +2498,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>>>>>>         int n;
+>>>>>>         unsigned int max_cpus = ms->smp.max_cpus;
+>>>>>>         VirtMachineState *vms = VIRT_MACHINE(ms);
+>>>>>> +    MachineClass *mc = MACHINE_GET_CLASS(vms);
+>>>>>>         if (ms->possible_cpus) {
+>>>>>>             assert(ms->possible_cpus->len == max_cpus);
+>>>>>> @@ -2509,6 +2512,18 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>>>>>>             ms->possible_cpus->cpus[n].type = ms->cpu_type;
+>>>>>>             ms->possible_cpus->cpus[n].arch_id =
+>>>>>>                 virt_cpu_mp_affinity(vms, n);
+>>>>>> +
+>>>>>> +        ms->possible_cpus->cpus[n].props.has_socket_id = true;
+>>>>>> +        ms->possible_cpus->cpus[n].props.socket_id =
+>>>>>> +            n / (ms->smp.dies * ms->smp.clusters *
+>>>>>> +                ms->smp.cores * ms->smp.threads);
+>>>>>> +        if (mc->smp_props.dies_supported) {
+>>>>>> +            ms->possible_cpus->cpus[n].props.has_die_id = true;
+>>>>>> +            ms->possible_cpus->cpus[n].props.die_id =
+>>>>>> +                n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
+>>>>>> +        }
+>>>>> I still don't think we need to consider dies if it's certainly not
+>>>>> supported yet, IOW, we will never come into the if-branch.
+>>>>> We are populating arm-specific topo info instead of the generic,
+>>>>> we can probably uniformly update this part together with other
+>>>>> necessary places when we decide to support dies for arm virt
+>>>>> machine in the future. :)
+>>>> it seems we do support dies and they are supposed to be numa boundary too,
+>>>> so perhaps we should account for it when generating node-id.
+>>> Sorry, I actually meant that we currently don't support dies for arm, so
+>>> that
+>>> we will always have "mc->smp_props.dies_supported == False" here, which
+>>> makes the code a bit unnecessary.  dies are only supported for x86 for
+>>> now. :)
+>>>
+>> then perhaps add an assert() here, so that we would notice and fix this
+>> place when dies_supported becomes true.
+> A simple assert() works here, I think.
+> 
 
-This optimization method calculates a matching rate limit
-threshold according to the current migration bandwidth and the
-rate of current dirty page generation. When the memory pressure
-is high, this optimization can reduce the unnecessary and
-time-consuming process of constantly trying to increase the
-limit, and significantly improve the efficiency of migration.
+Ok. I will have the changes in v3. ms->smp.dies won't be included in
+the calculation and assert(!mc->smp_props.clusters_supported) will be
+added.
 
-Test results after optimization(VM 8C32G, qemu stress tool):
-mem_stress  caculated_auto_converge_throttle  bandwidth(MiB/s)
-300M               0                          1000M
-400M               0                          1000M
-1G                50                          1000M
-2G                80                          1000M
-3G                90                          1000M
-4G                90                          1000M
-5G                90                          1000M
-6G                99                          1000M
-10G               99                          1000M
-20G               99                          1000M
-30G               99                          1000M
+>>>>>> +        ms->possible_cpus->cpus[n].props.has_core_id = true;
+>>>>>> +        ms->possible_cpus->cpus[n].props.core_id = n / ms->smp.threads;
+>>>>>>             ms->possible_cpus->cpus[n].props.has_thread_id = true;
+>>>>>>             ms->possible_cpus->cpus[n].props.thread_id = n;
+>>>>>>         }
+>>>>> Maybe we should use the same algorithm in x86_topo_ids_from_idx
+>>>>> to populate the IDs, so that scope of socket-id will be [0, total_sockets),
+>>>>> scope of thread-id is [0, threads_per_core), and so on. Then with a
+>>>>> group of socket/cluster/core/thread-id, we determine a CPU.
+>>>>>
+>>>>> Suggestion: For the long term, is it necessary now to add similar topo
+>>>>> info infrastructure for ARM, such as X86 TopoInfo, X86CPUTopoIDs,
+>>>>> x86_topo_ids_from_idx?
+>>>>>
 
-Series optimization summary:
-Related Patch Series:
-[1]kvm,memory: Optimize dirty page collection for dirty ring
-[2]kvm: Dynamically control the load of the reaper thread
-[3]kvm: Dirty ring autoconverge optmization for kvm_cpu_
-synchronize_kick_all
-[4]kvm: Introduce a dirty rate calculation method based on dirty
-ring
-[5]migration: Calculate the appropriate throttle for autoconverge
+It's a good idea, but I think it's something for future. Once
+the die is supported, we may have generic mechanism to generate
+the CPU topology based on its index or thread ID. It would be
+nice if the mechanism can be shared by various architectures.
 
-Test environment:
-Host: 64 cpus(Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz),
-      512G memory,
-      10G NIC
-VM: 2 cpus,4G memory and 8 cpus, 32G memory
-memory stress: run stress(qemu) in VM to generates memory stress
+In the guest, which is booted with the given command lines in
+the commit log, CPUs are associated with NUMA node#0/1 and
+no CPUs are associated with node#2/3/4/5 after the patch is
+applied on arm/virt machine. x86 has same behavior.
 
-Test1: Massive online migration(Run each test item 50 to 200 times)
-Test command: virsh -t migrate $vm --live --p2p --unsafe
---undefinesource --persistent --auto-converge  --migrateuri
-tcp://${data_ip_remote}
-*********** Use optimized dirtry ring  ***********
-ring_size  mem_stress VM   average_migration_time(ms)
-4096      1G       2C4G     15888
-4096      3G       2C4G     13320
-65536     1G       2C4G     10036
-65536     3G       2C4G     12132
-4096      4G       8C32G    53629
-4096      8G       8C32G    62474
-4096      30G      8C32G    99025
-65536     4G       8C32G    45563
-65536     8G       8C32G    61114
-65536     30G      8C32G    102087
-*********** Use Unoptimized dirtry ring ***********
-ring_size  mem_stress VM   average_migration_time(ms)
-4096      1G       2C4G     23992
-4096      3G       2C4G     44234
-65536     1G       2C4G     24546
-65536     3G       2C4G     44939
-4096      4G       8C32G    88441
-4096      8G       8C32G    may not complete
-4096      30G      8C32G    602884
-65536     4G       8C32G    335535
-65536     8G       8C32G    1249232
-65536     30G      8C32G    616939
-*********** Use bitmap dirty tracking  ***********
-ring_size  mem_stress VM   average_migration_time(ms)
-0         1G       2C4G     24597
-0         3G       2C4G     45254
-0         4G       8C32G    103773
-0         8G       8C32G    129626
-0         30G      8C32G    588212
-Compared with the old bitmap method and the unoptimized dirty ring,
-the migration time of the optimized dirty ring from the sorted data
-is greatly improved, especially when the virtual machine memory is
-large and the memory pressure is high, the effect is more obvious,
-can achieve five to six times the migration acceleration effect.
-
-And during the test, it was found that the dirty ring could not be
-completed for a long time after adding certain memory pressure.
-The optimized dirty ring did not encounter such a problem.
-
-Test2: qemu guestperf test
-Test ommand parameters:  --auto-converge  --stress-mem XX
---downtime 300 --bandwidth 10000
-*********** Use optimized dirtry ring  ***********
-ring_size stress VM    Significant_perf  max_memory_update cost_time(s)
-                       _drop_duration(s) speed(ms/GB)
-4096       3G    2C4G        5.5           2962             23.5
-65536      3G    2C4G        6             3160             25
-4096       3G    8C32G       13            7921             38
-4096       6G    8C32G       16            11.6K            46
-4096       10G   8C32G       12.1          11.2K            47.6
-4096       20G   8C32G       20            20.2K            71
-4096       30G   8C32G       29.5          29K              94.5
-65536      3G    8C32G       14            8700             40
-65536      6G    8C32G       15            12K              46
-65536      10G   8C32G       11.5          11.1k            47.5
-65536      20G   8C32G       21            20.9K            72
-65536      30G   8C32G       29.5          29.1K            94.5
-*********** Use Unoptimized dirtry ring ***********
-ring_size stress VM    Significant_perf  max_memory_update cost_time(s)
-                       _drop_duration(s) speed(ms/GB)
-4096        3G    2C4G        23            2766            46
-65536       3G    2C4G        22.2          3283            46
-4096        3G    8C32G       62            48.8K           106
-4096        6G    8C32G       68            23.87K          124
-4096        10G   8C32G       91            16.87K          190
-4096        20G   8C32G       152.8         28.65K          336.8
-4096        30G   8C32G       187           41.19K          502
-65536       3G    8C32G       71            12.7K           67
-65536       6G    8C32G       63            12K             46
-65536       10G   8C32G       88            25.3k           120
-65536       20G   8C32G       157.3         25K             391
-65536       30G   8C32G       171           30.8K           487
-*********** Use bitmap dirty tracking  ***********
-ring_size stress VM    Significant_perf  max_memory_update cost_time(s)
-                       _drop_duration(s) speed(ms/GB)
-0           3G    2C4G        18             3300            38
-0           3G    8C32G       38             7571            66
-0           6G    8C32G       61.5           10.5K           115.5
-0           10G   8C32G       110            13.68k          180
-0           20G   8C32G       161.6          24.4K           280
-0           30G   8C32G       221.5          28.4K           337.5
-
-The above test data shows that the guestperf performance of the
-optimized dirty ring during the migration process is significantly
-better than that of the unoptimized dirty ring, and slightly better
-than the bitmap method.
-
-During the migration process of the optimized dirty ring, the migration
-time is greatly reduced, and the time in the period of significant
-memory performance degradation is  significantly shorter than that of
-the bitmap mode and the unoptimized dirty ring mode. Therefore, the
-optimized ditry ring can better reduce the impact on guests accessing
-memory resources during the migration process.
-
-Signed-off-by: Chongyun Wu <wucy11@chinatelecom.cn>
----
- accel/kvm/kvm-all.c   |  7 ++++--
- migration/migration.c |  1 +
- migration/migration.h |  2 ++
- migration/ram.c       | 64 ++++++++++++++++++++++++++++++++++++++++++++++++---
- 4 files changed, 69 insertions(+), 5 deletions(-)
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index a158b1c..57126f1 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -800,7 +800,11 @@ int64_t kvm_dirty_ring_get_rate(void)
- 
- int64_t kvm_dirty_ring_get_peak_rate(void)
- {
--    return kvm_state->reaper.counter.dirty_pages_period_peak_rate;
-+    int64_t rate = kvm_state->reaper.counter.dirty_pages_period_peak_rate;
-+    /* Reset the peak rate to calculate a new peak rate after this moment */
-+    kvm_state->reaper.counter.dirty_pages_period_peak_rate = 0;
-+
-+    return rate;
- }
- 
- static void kvm_dirty_ring_reap_count(KVMState *s)
-@@ -836,7 +840,6 @@ static void kvm_dirty_ring_reap_count(KVMState *s)
-             s->reaper.counter.dirty_pages_period_peak_rate =
-                 s->reaper.counter.dirty_pages_rate;
-         }
--
-         /* Reset counters */
-         s->reaper.counter.dirty_pages_period = 0;
-         s->reaper.counter.time_last_count = 0;
-diff --git a/migration/migration.c b/migration/migration.c
-index ca1db88..78ecf8c 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2070,6 +2070,7 @@ void migrate_init(MigrationState *s)
-     s->vm_was_running = false;
-     s->iteration_initial_bytes = 0;
-     s->threshold_size = 0;
-+    s->have_caculated_throttle_pct = false;
- }
- 
- int migrate_add_blocker_internal(Error *reason, Error **errp)
-diff --git a/migration/migration.h b/migration/migration.h
-index 2de861d..7c525c9 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -333,6 +333,8 @@ struct MigrationState {
-      * This save hostname when out-going migration starts
-      */
-     char *hostname;
-+    /* If already caculated the throttle percentage for migration */
-+    bool have_caculated_throttle_pct;
- };
- 
- void migrate_set_state(int *state, int old_state, int new_state);
-diff --git a/migration/ram.c b/migration/ram.c
-index 170e522..21642eb 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -63,6 +63,7 @@
- #include "qemu/userfaultfd.h"
- #endif /* defined(__linux__) */
- 
-+#include "sysemu/kvm.h"
- /***********************************************************/
- /* ram save/restore */
- 
-@@ -617,6 +618,64 @@ static size_t save_page_header(RAMState *rs, QEMUFile *f,  RAMBlock *block,
- }
- 
- /**
-+ * Calculate the matched speed limit threshold according to
-+ * the current migration bandwidth and the current rate of
-+ * dirty pages to aviod time-consuming and pointless attempt.
-+ */
-+static int calculate_throttle_pct(void)
-+{
-+    MigrationState *s = migrate_get_current();
-+    uint64_t threshold = s->parameters.throttle_trigger_threshold;
-+    uint64_t pct_initial = s->parameters.cpu_throttle_initial;
-+    uint64_t pct_icrement = s->parameters.cpu_throttle_increment;
-+    int pct_max = s->parameters.max_cpu_throttle;
-+
-+    int matched_pct = 0;
-+    float facter1 = 0.0;
-+    float facter2 = 0.0;
-+    int64_t dirty_pages_rate = 0;
-+    double bandwith_expect = 0.0;
-+    double dirty_pages_rate_expect = 0.0;
-+    double bandwith = (s->mbps / 8) * 1024 * 1024;
-+
-+    if (kvm_dirty_ring_enabled()) {
-+        dirty_pages_rate = kvm_dirty_ring_get_peak_rate() *
-+            qemu_target_page_size();
-+    } else {
-+        dirty_pages_rate = ram_counters.dirty_pages_rate *
-+            qemu_target_page_size();
-+    }
-+
-+    if (dirty_pages_rate) {
-+        facter1 = (float)threshold / 100;
-+        bandwith_expect = bandwith * facter1;
-+
-+        for (uint64_t i = pct_initial; i <= pct_max;) {
-+            facter2 = 1 - (float)i / 100;
-+            dirty_pages_rate_expect = dirty_pages_rate * facter2;
-+
-+            if (bandwith_expect > dirty_pages_rate_expect) {
-+                matched_pct = i;
-+                break;
-+            }
-+            i += pct_icrement;
-+        }
-+
-+        if (!matched_pct) {
-+            info_report("Not find matched throttle pct, "
-+                        "maybe pressure too high, use max");
-+            matched_pct = pct_max;
-+        }
-+    } else {
-+        matched_pct = pct_initial;
-+    }
-+
-+    s->have_caculated_throttle_pct = true;
-+
-+    return matched_pct;
-+}
-+
-+/**
-  * mig_throttle_guest_down: throttle down the guest
-  *
-  * Reduce amount of guest cpu execution to hopefully slow down memory
-@@ -629,7 +688,6 @@ static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
-                                     uint64_t bytes_dirty_threshold)
- {
-     MigrationState *s = migrate_get_current();
--    uint64_t pct_initial = s->parameters.cpu_throttle_initial;
-     uint64_t pct_increment = s->parameters.cpu_throttle_increment;
-     bool pct_tailslow = s->parameters.cpu_throttle_tailslow;
-     int pct_max = s->parameters.max_cpu_throttle;
-@@ -638,8 +696,8 @@ static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
-     uint64_t cpu_now, cpu_ideal, throttle_inc;
- 
-     /* We have not started throttling yet. Let's start it. */
--    if (!cpu_throttle_active()) {
--        cpu_throttle_set(pct_initial);
-+    if (!s->have_caculated_throttle_pct) {
-+        cpu_throttle_set(MIN(calculate_throttle_pct(), pct_max));
-     } else {
-         /* Throttling already on, just increase the rate */
-         if (!pct_tailslow) {
--- 
-1.8.3.1
+Thanks,
+Gavin
 
 
