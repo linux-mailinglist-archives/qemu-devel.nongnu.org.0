@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663CB4E561A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:10:52 +0100 (CET)
-Received: from localhost ([::1]:36614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DCF4E5628
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:17:09 +0100 (CET)
+Received: from localhost ([::1]:52986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX3ZT-0006AD-GD
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:10:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38198)
+	id 1nX3fY-0000T3-Lb
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:17:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3OP-000421-Ru
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:59:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37917)
+ id 1nX3OV-00044B-6Q
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:59:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3OO-0004tu-8H
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:59:25 -0400
+ id 1nX3OT-0004wR-Gp
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:59:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648051163;
+ s=mimecast20190719; t=1648051169;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lv/XVA0HM0Ke8tNM31mqsj8fu6Wq2HzcEz6kqkgzAv4=;
- b=XA56F8+0+syLN4qHskNzjuCqPCgfaKZk/aDTwhSgUgHbzLb2Zt/1aESpfNHf99G84Gzdn1
- sR9D8TV0yd4MhilKAracLFF97uTJBMk6mFxOEo1JBUB+NaJyNr0FjUslufGilO7RcaTp4N
- Iw4II5gBZSjggxYgnX8bOdK+Su9PMtg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=g2wl/WON0DnlIUHcKBeft4l6C8oe3AH31RxJEpQWvms=;
+ b=U0D0yoTdpftfpm7RIwD6EP5ozm8xkx8OIMzyptCZREKAx/yO3HmOGEXLGTyUpW69Y/NnzX
+ 09szpSBd1QuYvVtx3vH1oh94H4DtwQaNcjCmBiWp/Kfl6RswBKQxO1L3Wdsy4/2KW8XYLu
+ hoZYU5iwqwcNjiQ4sdMlFAhPiTP88jo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-0rive4STM0CpVLe6ACX8cQ-1; Wed, 23 Mar 2022 11:59:22 -0400
-X-MC-Unique: 0rive4STM0CpVLe6ACX8cQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-539--6dQW6_TNd2NzrNX4dO5ZQ-1; Wed, 23 Mar 2022 11:59:28 -0400
+X-MC-Unique: -6dQW6_TNd2NzrNX4dO5ZQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CA643C01B8B
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 15:59:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F7F818E0042
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 15:59:27 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 30EBF2026D60;
- Wed, 23 Mar 2022 15:58:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4ABE1469A51;
+ Wed, 23 Mar 2022 15:59:25 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/32] include/qapi: add g_autoptr support for qobject types
-Date: Wed, 23 Mar 2022 19:57:20 +0400
-Message-Id: <20220323155743.1585078-10-marcandre.lureau@redhat.com>
+Subject: [PATCH 10/32] tests: replace free_all() usage with g_auto
+Date: Wed, 23 Mar 2022 19:57:21 +0400
+Message-Id: <20220323155743.1585078-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
 References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,190 +88,215 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Need wrappers for qobject_unref() calls, which is a macro.
+Use more idiomatic glib/auto-style code.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/qapi/qmp/qbool.h   | 4 ++++
- include/qapi/qmp/qdict.h   | 4 ++++
- include/qapi/qmp/qlist.h   | 4 ++++
- include/qapi/qmp/qnull.h   | 4 ++++
- include/qapi/qmp/qnum.h    | 4 ++++
- include/qapi/qmp/qstring.h | 4 ++++
- qobject/qbool.c            | 5 +++++
- qobject/qdict.c            | 5 +++++
- qobject/qlist.c            | 5 +++++
- qobject/qnull.c            | 5 +++++
- qobject/qnum.c             | 5 +++++
- qobject/qstring.c          | 5 +++++
- 12 files changed, 54 insertions(+)
+ tests/unit/check-qobject.c | 127 ++++++++++++-------------------------
+ 1 file changed, 40 insertions(+), 87 deletions(-)
 
-diff --git a/include/qapi/qmp/qbool.h b/include/qapi/qmp/qbool.h
-index 2f888d10573f..0d09726939b9 100644
---- a/include/qapi/qmp/qbool.h
-+++ b/include/qapi/qmp/qbool.h
-@@ -21,6 +21,10 @@ struct QBool {
-     bool value;
- };
+diff --git a/tests/unit/check-qobject.c b/tests/unit/check-qobject.c
+index c3d50e99949a..7903ebf4cf80 100644
+--- a/tests/unit/check-qobject.c
++++ b/tests/unit/check-qobject.c
+@@ -74,21 +74,6 @@ static void do_test_equality(bool expected, int _, ...)
+ #define check_unequal(...) \
+     do_test_equality(false, 0, __VA_ARGS__, &test_equality_end_of_arguments)
  
-+void qbool_unref(QBool *q);
-+
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(QBool, qbool_unref)
-+
- QBool *qbool_from_bool(bool value);
- bool qbool_get_bool(const QBool *qb);
- 
-diff --git a/include/qapi/qmp/qdict.h b/include/qapi/qmp/qdict.h
-index d5b5430e21a9..882d950bde89 100644
---- a/include/qapi/qmp/qdict.h
-+++ b/include/qapi/qmp/qdict.h
-@@ -30,6 +30,10 @@ struct QDict {
-     QLIST_HEAD(,QDictEntry) table[QDICT_BUCKET_MAX];
- };
- 
-+void qdict_unref(QDict *q);
-+
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(QDict, qdict_unref)
-+
- /* Object API */
- QDict *qdict_new(void);
- const char *qdict_entry_key(const QDictEntry *entry);
-diff --git a/include/qapi/qmp/qlist.h b/include/qapi/qmp/qlist.h
-index 06e98ad5f498..e4e985d4356d 100644
---- a/include/qapi/qmp/qlist.h
-+++ b/include/qapi/qmp/qlist.h
-@@ -26,6 +26,10 @@ struct QList {
-     QTAILQ_HEAD(,QListEntry) head;
- };
- 
-+void qlist_unref(QList *q);
-+
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(QList, qlist_unref)
-+
- #define qlist_append(qlist, obj) \
-         qlist_append_obj(qlist, QOBJECT(obj))
- 
-diff --git a/include/qapi/qmp/qnull.h b/include/qapi/qmp/qnull.h
-index e84ecceedbcb..7feb7c7d830d 100644
---- a/include/qapi/qmp/qnull.h
-+++ b/include/qapi/qmp/qnull.h
-@@ -26,4 +26,8 @@ static inline QNull *qnull(void)
-     return qobject_ref(&qnull_);
- }
- 
-+void qnull_unref(QNull *q);
-+
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(QNull, qnull_unref)
-+
- #endif /* QNULL_H */
-diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
-index 7f84e20bfb2c..e86788dd2e3a 100644
---- a/include/qapi/qmp/qnum.h
-+++ b/include/qapi/qmp/qnum.h
-@@ -54,6 +54,10 @@ struct QNum {
-     } u;
- };
- 
-+void qnum_unref(QNum *q);
-+
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(QNum, qnum_unref)
-+
- QNum *qnum_from_int(int64_t value);
- QNum *qnum_from_uint(uint64_t value);
- QNum *qnum_from_double(double value);
-diff --git a/include/qapi/qmp/qstring.h b/include/qapi/qmp/qstring.h
-index 1d8ba469368f..318d815d6a43 100644
---- a/include/qapi/qmp/qstring.h
-+++ b/include/qapi/qmp/qstring.h
-@@ -20,6 +20,10 @@ struct QString {
-     const char *string;
- };
- 
-+void qstring_unref(QString *q);
-+
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(QString, qstring_unref)
-+
- QString *qstring_new(void);
- QString *qstring_from_str(const char *str);
- QString *qstring_from_substr(const char *str, size_t start, size_t end);
-diff --git a/qobject/qbool.c b/qobject/qbool.c
-index 16a600abb93f..c7049c0c501b 100644
---- a/qobject/qbool.c
-+++ b/qobject/qbool.c
-@@ -56,3 +56,8 @@ void qbool_destroy_obj(QObject *obj)
-     assert(obj != NULL);
-     g_free(qobject_to(QBool, obj));
- }
-+
-+void qbool_unref(QBool *q)
-+{
-+    qobject_unref(q);
-+}
-diff --git a/qobject/qdict.c b/qobject/qdict.c
-index 0216ca7ac168..8faff230d391 100644
---- a/qobject/qdict.c
-+++ b/qobject/qdict.c
-@@ -442,3 +442,8 @@ void qdict_destroy_obj(QObject *obj)
- 
-     g_free(qdict);
- }
-+
-+void qdict_unref(QDict *q)
-+{
-+    qobject_unref(q);
-+}
-diff --git a/qobject/qlist.c b/qobject/qlist.c
-index 60562a1f5269..356ad946b00c 100644
---- a/qobject/qlist.c
-+++ b/qobject/qlist.c
-@@ -182,3 +182,8 @@ void qlist_destroy_obj(QObject *obj)
- 
-     g_free(qlist);
- }
-+
-+void qlist_unref(QList *q)
-+{
-+    qobject_unref(q);
-+}
-diff --git a/qobject/qnull.c b/qobject/qnull.c
-index b26b36821905..445a5db7f36f 100644
---- a/qobject/qnull.c
-+++ b/qobject/qnull.c
-@@ -29,3 +29,8 @@ bool qnull_is_equal(const QObject *x, const QObject *y)
+-static void do_free_all(int _, ...)
+-{
+-    va_list ap;
+-    QObject *obj;
+-
+-    va_start(ap, _);
+-    while ((obj = va_arg(ap, QObject *)) != NULL) {
+-        qobject_unref(obj);
+-    }
+-    va_end(ap);
+-}
+-
+-#define free_all(...) \
+-    do_free_all(0, __VA_ARGS__, NULL)
+-
+ static void qobject_is_equal_null_test(void)
  {
-     return true;
+     check_unequal(qnull(), NULL);
+@@ -96,15 +81,14 @@ static void qobject_is_equal_null_test(void)
+ 
+ static void qobject_is_equal_num_test(void)
+ {
+-    QNum *u0, *i0, *d0, *dnan, *um42, *im42, *dm42;
++    g_autoptr(QNum) u0 = qnum_from_uint(0u);
++    g_autoptr(QNum) i0 = qnum_from_int(0);
++    g_autoptr(QNum) d0 = qnum_from_double(0.0);
++    g_autoptr(QNum) dnan = qnum_from_double(NAN);
++    g_autoptr(QNum) um42 = qnum_from_uint((uint64_t)-42);
++    g_autoptr(QNum) im42 = qnum_from_int(-42);
++    g_autoptr(QNum) dm42 = qnum_from_double(-42.0);
+ 
+-    u0 = qnum_from_uint(0u);
+-    i0 = qnum_from_int(0);
+-    d0 = qnum_from_double(0.0);
+-    dnan = qnum_from_double(NAN);
+-    um42 = qnum_from_uint((uint64_t)-42);
+-    im42 = qnum_from_int(-42);
+-    dm42 = qnum_from_double(-42.0);
+ 
+     /* Integers representing a mathematically equal number should
+      * compare equal */
+@@ -121,60 +105,45 @@ static void qobject_is_equal_num_test(void)
+     check_unequal(um42, im42);
+     check_unequal(um42, dm42);
+     check_unequal(im42, dm42);
+-
+-    free_all(u0, i0, d0, dnan, um42, im42, dm42);
  }
-+
-+void qnull_unref(QNull *q)
-+{
-+    qobject_unref(q);
-+}
-diff --git a/qobject/qnum.c b/qobject/qnum.c
-index 5dd66938dd84..2bbeaedc7b44 100644
---- a/qobject/qnum.c
-+++ b/qobject/qnum.c
-@@ -239,3 +239,8 @@ void qnum_destroy_obj(QObject *obj)
-     assert(obj != NULL);
-     g_free(qobject_to(QNum, obj));
+ 
+ static void qobject_is_equal_bool_test(void)
+ {
+-    QBool *btrue_0, *btrue_1, *bfalse_0, *bfalse_1;
+-
+-    btrue_0 = qbool_from_bool(true);
+-    btrue_1 = qbool_from_bool(true);
+-    bfalse_0 = qbool_from_bool(false);
+-    bfalse_1 = qbool_from_bool(false);
++    g_autoptr(QBool) btrue_0 = qbool_from_bool(true);
++    g_autoptr(QBool) btrue_1 = qbool_from_bool(true);
++    g_autoptr(QBool) bfalse_0 = qbool_from_bool(false);
++    g_autoptr(QBool) bfalse_1 = qbool_from_bool(false);
+ 
+     check_equal(btrue_0, btrue_1);
+     check_equal(bfalse_0, bfalse_1);
+     check_unequal(btrue_0, bfalse_0);
+-
+-    free_all(btrue_0, btrue_1, bfalse_0, bfalse_1);
  }
-+
-+void qnum_unref(QNum *q)
-+{
-+    qobject_unref(q);
-+}
-diff --git a/qobject/qstring.c b/qobject/qstring.c
-index b4613899b979..794f8c93578a 100644
---- a/qobject/qstring.c
-+++ b/qobject/qstring.c
-@@ -100,3 +100,8 @@ void qstring_destroy_obj(QObject *obj)
-     g_free((char *)qs->string);
-     g_free(qs);
+ 
+ static void qobject_is_equal_string_test(void)
+ {
+-    QString *str_base, *str_whitespace_0, *str_whitespace_1, *str_whitespace_2;
+-    QString *str_whitespace_3, *str_case, *str_built;
+-
+-    str_base = qstring_from_str("foo");
+-    str_whitespace_0 = qstring_from_str(" foo");
+-    str_whitespace_1 = qstring_from_str("foo ");
+-    str_whitespace_2 = qstring_from_str("foo\b");
+-    str_whitespace_3 = qstring_from_str("fooo\b");
+-    str_case = qstring_from_str("Foo");
+-
++    g_autoptr(QString) str_base = qstring_from_str("foo");
++    g_autoptr(QString) str_whitespace_0 = qstring_from_str(" foo");
++    g_autoptr(QString) str_whitespace_1 = qstring_from_str("foo ");
++    g_autoptr(QString) str_whitespace_2 = qstring_from_str("foo\b");
++    g_autoptr(QString) str_whitespace_3 = qstring_from_str("fooo\b");
++    g_autoptr(QString) str_case = qstring_from_str("Foo");
+     /* Should yield "foo" */
+-    str_built = qstring_from_substr("buffoon", 3, 6);
++    g_autoptr(QString) str_built = qstring_from_substr("buffoon", 3, 6);
+ 
+     check_unequal(str_base, str_whitespace_0, str_whitespace_1,
+                   str_whitespace_2, str_whitespace_3, str_case);
+ 
+     check_equal(str_base, str_built);
+-
+-    free_all(str_base, str_whitespace_0, str_whitespace_1, str_whitespace_2,
+-             str_whitespace_3, str_case, str_built);
  }
-+
-+void qstring_unref(QString *q)
-+{
-+    qobject_unref(q);
-+}
+ 
+ static void qobject_is_equal_list_test(void)
+ {
+-    QList *list_0, *list_1, *list_cloned;
+-    QList *list_reordered, *list_longer, *list_shorter;
+-
+-    list_0 = qlist_new();
+-    list_1 = qlist_new();
+-    list_reordered = qlist_new();
+-    list_longer = qlist_new();
+-    list_shorter = qlist_new();
++    g_autoptr(QList) list_0 = qlist_new();
++    g_autoptr(QList) list_1 = qlist_new();
++    g_autoptr(QList) list_reordered = qlist_new();
++    g_autoptr(QList) list_longer = qlist_new();
++    g_autoptr(QList) list_shorter = qlist_new();
++    g_autoptr(QList) list_cloned = NULL;
+ 
+     qlist_append_int(list_0, 1);
+     qlist_append_int(list_0, 2);
+@@ -205,26 +174,20 @@ static void qobject_is_equal_list_test(void)
+      * itself */
+     qlist_append(list_0, qnum_from_double(NAN));
+     g_assert(qobject_is_equal(QOBJECT(list_0), QOBJECT(list_0)) == false);
+-
+-    free_all(list_0, list_1, list_cloned, list_reordered, list_longer,
+-             list_shorter);
+ }
+ 
+ static void qobject_is_equal_dict_test(void)
+ {
+-    QDict *dict_0, *dict_1, *dict_cloned;
+-    QDict *dict_different_key, *dict_different_value, *dict_different_null_key;
+-    QDict *dict_longer, *dict_shorter, *dict_nested;
+-    QDict *dict_crumpled;
+-
+-    dict_0 = qdict_new();
+-    dict_1 = qdict_new();
+-    dict_different_key = qdict_new();
+-    dict_different_value = qdict_new();
+-    dict_different_null_key = qdict_new();
+-    dict_longer = qdict_new();
+-    dict_shorter = qdict_new();
+-    dict_nested = qdict_new();
++    g_autoptr(QDict) dict_cloned = NULL;
++    g_autoptr(QDict) dict_crumpled = NULL;
++    g_autoptr(QDict) dict_0 = qdict_new();
++    g_autoptr(QDict) dict_1 = qdict_new();
++    g_autoptr(QDict) dict_different_key = qdict_new();
++    g_autoptr(QDict) dict_different_value = qdict_new();
++    g_autoptr(QDict) dict_different_null_key = qdict_new();
++    g_autoptr(QDict) dict_longer = qdict_new();
++    g_autoptr(QDict) dict_shorter = qdict_new();
++    g_autoptr(QDict) dict_nested = qdict_new();
+ 
+     qdict_put_int(dict_0, "f.o", 1);
+     qdict_put_int(dict_0, "bar", 2);
+@@ -284,31 +247,21 @@ static void qobject_is_equal_dict_test(void)
+      * itself */
+     qdict_put(dict_0, "NaN", qnum_from_double(NAN));
+     g_assert(qobject_is_equal(QOBJECT(dict_0), QOBJECT(dict_0)) == false);
+-
+-    free_all(dict_0, dict_1, dict_cloned, dict_different_key,
+-             dict_different_value, dict_different_null_key, dict_longer,
+-             dict_shorter, dict_nested, dict_crumpled);
+ }
+ 
+ static void qobject_is_equal_conversion_test(void)
+ {
+-    QNum *u0, *i0, *d0;
+-    QString *s0, *s_empty;
+-    QBool *bfalse;
+-
+-    u0 = qnum_from_uint(0u);
+-    i0 = qnum_from_int(0);
+-    d0 = qnum_from_double(0.0);
+-    s0 = qstring_from_str("0");
+-    s_empty = qstring_new();
+-    bfalse = qbool_from_bool(false);
++    g_autoptr(QNum) u0 = qnum_from_uint(0u);
++    g_autoptr(QNum) i0 = qnum_from_int(0);
++    g_autoptr(QNum) d0 = qnum_from_double(0.0);
++    g_autoptr(QString) s0 = qstring_from_str("0");
++    g_autoptr(QString) s_empty = qstring_new();
++    g_autoptr(QBool) bfalse = qbool_from_bool(false);
+ 
+     /* No automatic type conversion */
+     check_unequal(u0, s0, s_empty, bfalse, qnull(), NULL);
+     check_unequal(i0, s0, s_empty, bfalse, qnull(), NULL);
+     check_unequal(d0, s0, s_empty, bfalse, qnull(), NULL);
+-
+-    free_all(u0, i0, d0, s0, s_empty, bfalse);
+ }
+ 
+ int main(int argc, char **argv)
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
