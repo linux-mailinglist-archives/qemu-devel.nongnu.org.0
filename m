@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 421494E5624
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:16:25 +0100 (CET)
-Received: from localhost ([::1]:50348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F954E5634
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:19:57 +0100 (CET)
+Received: from localhost ([::1]:59102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX3eq-00075Q-Ar
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:16:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38480)
+	id 1nX3iG-0004Wr-Os
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:19:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3P1-0004sV-Be
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:00:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27634)
+ id 1nX3P3-0004wX-0T
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:00:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3Ow-000562-5m
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:00:03 -0400
+ id 1nX3P1-00057d-2L
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:00:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648051197;
+ s=mimecast20190719; t=1648051202;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yyI9SfewY6WIzZXt86EzMxc5Y3s+H8W05dmiQig6CQM=;
- b=hPR0uJL86RSjPtUoIS5SGG7lqfLyaXjyUiKDN11+jCK62jXmdK5PC+p2G+H9GdwleXmS7R
- qa+tWbeFgmXGxrf1fxUTaVlMaj9yEOHvEgQDGxVZC+1jlFBMDKkjZW3+3dUdrR9rk44rkj
- aAVIXgsBQa5buE4WciyuNwIUe2E+AlY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FeTKXxoCA4TmzkCaXdTiX57mus9QuNuqMjq6Lg0jkVc=;
+ b=gm2+JfYyZOAY8ODwiWzG/nCrH6dd4NOk7Rsf3e54RwC/eWi2C0fKnoknvNU9YL9t/sgrXz
+ y1pGEyk/Jbu1/BMzpiPzP4sbgiRc94FvXyc4PKpMv0uUXIJUWVVOnakwxXwl0xhfbEAq+5
+ dmH5Kzruk+vOPWQdEoSWwR5XG98K1sg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-iPeEKIyBPj-SNRbumSp5lA-1; Wed, 23 Mar 2022 11:59:56 -0400
-X-MC-Unique: iPeEKIyBPj-SNRbumSp5lA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-617-2ehL_WU-MyOkVMMAGOJs8g-1; Wed, 23 Mar 2022 12:00:00 -0400
+X-MC-Unique: 2ehL_WU-MyOkVMMAGOJs8g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3DF461044561
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 15:59:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B6213C01B97
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 16:00:00 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C45B58059A;
- Wed, 23 Mar 2022 15:59:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9103E400F737;
+ Wed, 23 Mar 2022 15:59:59 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/32] error-report: use error_printf() for program prefix
-Date: Wed, 23 Mar 2022 19:57:26 +0400
-Message-Id: <20220323155743.1585078-16-marcandre.lureau@redhat.com>
+Subject: [PATCH 16/32] include: move TFR to osdep.h
+Date: Wed, 23 Mar 2022 19:57:27 +0400
+Message-Id: <20220323155743.1585078-17-marcandre.lureau@redhat.com>
 In-Reply-To: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
 References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,27 +87,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-For consistency with other calls in the function, let's use
-error_printf(). (it will use stderr since !monitor_cur())
+The macro requires EINTR, which has its header included in osdep.h.
+
+(Not sure what TFR stands for, perhaps "Test For Retry". Rename it ?)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- util/error-report.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qemu-common.h | 2 --
+ include/qemu/osdep.h  | 2 ++
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/util/error-report.c b/util/error-report.c
-index 4ea380dd4169..3a1d4923d620 100644
---- a/util/error-report.c
-+++ b/util/error-report.c
-@@ -156,7 +156,7 @@ static void print_loc(void)
-     const char *const *argp;
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index f9b3f85b8124..db8b03be51f3 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -10,8 +10,6 @@
+ #ifndef QEMU_COMMON_H
+ #define QEMU_COMMON_H
  
-     if (!monitor_cur() && g_get_prgname()) {
--        fprintf(stderr, "%s:", g_get_prgname());
-+        error_printf("%s:", g_get_prgname());
-         sep = " ";
-     }
-     switch (cur_loc->kind) {
+-#define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
+-
+ /* Copyright string for -version arguments, About dialogs, etc */
+ #define QEMU_COPYRIGHT "Copyright (c) 2003-2022 " \
+     "Fabrice Bellard and the QEMU Project developers"
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 240b48707ecc..489a5d1aad5f 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -226,6 +226,8 @@ extern "C" {
+ #define ESHUTDOWN 4099
+ #endif
+ 
++#define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
++
+ /* time_t may be either 32 or 64 bits depending on the host OS, and
+  * can be either signed or unsigned, so we can't just hardcode a
+  * specific maximum value. This is not a C preprocessor constant,
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
