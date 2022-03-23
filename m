@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3BF4E50B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 11:54:52 +0100 (CET)
-Received: from localhost ([::1]:54618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531374E50BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 11:56:19 +0100 (CET)
+Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWydf-0002GL-47
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 06:54:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58464)
+	id 1nWyf3-0003dv-Q9
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 06:56:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWyc4-0001XR-8z
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:53:12 -0400
-Received: from [2a00:1450:4864:20::432] (port=44926
- helo=mail-wr1-x432.google.com)
+ id 1nWyd5-0002DO-Le
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:54:15 -0400
+Received: from [2a00:1450:4864:20::436] (port=46674
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWyc2-00019Y-T5
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:53:12 -0400
-Received: by mail-wr1-x432.google.com with SMTP id b19so1496062wrh.11
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 03:53:10 -0700 (PDT)
+ id 1nWyd2-0001gW-Kt
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:54:13 -0400
+Received: by mail-wr1-x436.google.com with SMTP id h4so1490936wrc.13
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 03:54:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=HRWHRz9qLKN4dI20DsaD2QwZ/seYLTnt4Z5R/kgcG24=;
- b=phpx8Qk4N3fwTmVIl41zrPWsr5FlLb8nGG0rTcJKW8HumQ6ZMvE9aEyi4h7xmTiz11
- Is6RLNRNge5CcmN/UBYIxroyxqKv0KDM7zqRXaLrvNkYAL2to9RH2PZypbLwrCWEqH0c
- SXTNd9ci4pTxWRB3C0HRn1vdK0Dw5Yfc9tmRScV3GmKe+S2lusNAGIGOHbjqjvVAJ/zi
- 6nRXAcH74BEyHiSZpl46lRDqDJB37l/7/eSqxHrkHyVX+vQ9SS+GzPduWpXVs4uHRXmJ
- VtuFg0twnpIFuBW7R3WUM3+sb5uxfUhdntBjFW7GHWeszaMk/OLfwIiAHRKA2JnbJs/f
- 0/HQ==
+ bh=IAzkeNY7jUEo/Y2L7S1wlNMSFHvN1JWMv2nLni1VMis=;
+ b=DaaEkr7InfErj/sbXwmVfmeNHuthCPw6Rk13qvdwkH3Uw5pFucmQLFjiJyaZXs9cY7
+ SuMpjYQtYEbhmfAvRfEjH8xK/EqNDi79/JZR4ODKHFlRawuUDY8bs/na2Cx3wb3q90Dp
+ DsfKz6+HneLF3MKBCK0k/XxRn66/wpENLtej4WMJMlipIvH+Lk5D9TAMs7fh77pVBqV9
+ Llm8yRkAS/r3vISODYUXMz90r26Nc6qAOBvCh6xRirvPGjl/N6vrhxHIsKAS2oaECoD7
+ A3EOla+gsj2byo/OkvKtyThpqXxixqwtI48USwCpSVZ81ZI40QiSXGl2oeiDjDEjGQ9z
+ cyuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=HRWHRz9qLKN4dI20DsaD2QwZ/seYLTnt4Z5R/kgcG24=;
- b=oMFEAp6JTALBryn4tQAsy15gVZIOtuetLrHnbPEKZdKHOhWG1AN+KqUHJLTwEkmcCG
- 5YUHyXCssjcw5BNT37K0cAvMFRXyRDxIxRmblyjRDFc3FiA97QT0UFTHjme23Hz75JGz
- TlBsxv+z8fAnrXCsOZ1deatiembkgOjhtrj3ALcpeuuPujhRCH0iqPEi4KxQbbEU1mN0
- yiF5tiYKDsIfSgpZa9yydR6lOPckK5c593XzZWl6TitDRfsZvstv9sTSjJgfI34eeOMT
- oNOKpMbQx17VsUm/xZjTS9xjXuTy7fqeG/mJhi4wpPWQXcx497X4GMATyPx1eEdl3xhQ
- Xjhg==
-X-Gm-Message-State: AOAM531CXt9NejyhmxHA8k0D7w6/jEUdKb2AYRVDjGOVj28QdFwDNxce
- WXXmib3B6hHmTFfwt4PYIBc=
-X-Google-Smtp-Source: ABdhPJytFvscrEN4APpyDBen2luTTBFvU3dWycq/7YErj3QBYWThaLmNhgv313uyu/PHxTMc4xrAtg==
-X-Received: by 2002:adf:f2c6:0:b0:203:f0ba:424c with SMTP id
- d6-20020adff2c6000000b00203f0ba424cmr23429625wrp.663.1648032788806; 
- Wed, 23 Mar 2022 03:53:08 -0700 (PDT)
+ bh=IAzkeNY7jUEo/Y2L7S1wlNMSFHvN1JWMv2nLni1VMis=;
+ b=ZHnw61uptTs+4XVcAuAFx11XQhln6AfyKKsVkTijfxZZ+8xkmHkVSI/ccNQIov2uh6
+ 4vIQwjLSwblOwJDXcfKLQOigOZxOQWc4nN9dl90M17dvgCAk9nErgccM2A6L4PzJYY1E
+ qRd2aBRLy4j51NjgNGIsxTuRdHEtiYcsPLhMFjITrpchJdN7cGyTd9/du4djeuMiTWHH
+ LJXOJcaLMgIbyY42r5qVo2pZaTsep2JwKZnJ7OvqhgcYfgEMegD7JLt9SP0kaSBkACyU
+ F+GBOU+G+R5sCET2ggd0saNEsOi1TGPsb3jNOjYvg5BL5faS32MwKrM2/vHy7BFjB5QL
+ kRyA==
+X-Gm-Message-State: AOAM533JqgB1qn4Ew+U37/VlDOZeDUPG9Lo0+DDALfS5y95wk2XhOFbO
+ zbvI23nLTxiMQW7WXWVnKIw=
+X-Google-Smtp-Source: ABdhPJyGppXP5Ukgdf+bldGhQxRNNXjNoiNgPDRnXY7siI5sogZ4zz+FSBv+MtiNwjYerVIUES67cA==
+X-Received: by 2002:adf:fb90:0:b0:203:b456:c71e with SMTP id
+ a16-20020adffb90000000b00203b456c71emr26748519wrr.244.1648032851440; 
+ Wed, 23 Mar 2022 03:54:11 -0700 (PDT)
 Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
  [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- c4-20020a056000184400b0020584c40778sm1468069wri.103.2022.03.23.03.53.07
+ z13-20020a5d440d000000b00203f2b010b1sm13204024wrq.44.2022.03.23.03.54.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 03:53:08 -0700 (PDT)
-Message-ID: <d1a01b0c-732d-9808-1a96-80a97fa27e30@gmail.com>
-Date: Wed, 23 Mar 2022 11:53:07 +0100
+ Wed, 23 Mar 2022 03:54:10 -0700 (PDT)
+Message-ID: <7f4e9d3a-78fd-4b48-56c6-418d8516a0df@gmail.com>
+Date: Wed, 23 Mar 2022 11:54:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [RESEND 1/2] qga: Introduce NVMe disk bus type
+Subject: Re: [PATCH-for-7.0] build: disable fcf-protection on -march=486 -m16
 Content-Language: en-US
-To: zhenwei pi <pizhenwei@bytedance.com>, armbru@redhat.com,
- michael.roth@amd.com
-References: <20220323101958.300848-1-pizhenwei@bytedance.com>
- <20220323101958.300848-2-pizhenwei@bytedance.com>
+To: christian.ehrhardt@canonical.com, qemu-devel <qemu-devel@nongnu.org>
+References: <20220323090713.1002588-1-christian.ehrhardt@canonical.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220323101958.300848-2-pizhenwei@bytedance.com>
+In-Reply-To: <20220323090713.1002588-1-christian.ehrhardt@canonical.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,56 +93,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/3/22 11:19, zhenwei pi wrote:
-> Assigning a NVMe disk by VFIO or emulating a NVMe controller by QEMU,
-> a NVMe disk get exposed in guest side. Support NVMe disk bus type and
-> implement posix version.
+On 23/3/22 10:07, christian.ehrhardt@canonical.com wrote:
+> From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
 > 
-> Test PCI passthrough case:
-> ~#virsh qemu-agent-command buster '{"execute":"guest-get-disks"}' | jq
->    ...
->      {
->        "name": "/dev/nvme0n1",
->        "dependencies": [],
->        "partition": false,
->        "address": {
->          "serial": "SAMSUNG MZQL23T8HCLS-00A07_S64HNE0N500076",
->          "bus-type": "nvme",
->          "bus": 0,
->          "unit": 0,
->          "pci-controller": {
->            "bus": 0,
->            "slot": 22,
->            "domain": 0,
->            "function": 0
->          },
->          "dev": "/dev/nvme0n1",
->          "target": 0
->        }
->    ...
+> Some of the roms build with -march=i486 -m16 which is incompatible
+> with -fcf-protection. That in turn is can be set by default, for
+> example in Ubuntu [1].
+> That causes:
+>   cc1: error: ‘-fcf-protection’ is not compatible with this target
 > 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> This won't work on -march=i486 -m16 and no matter if set or not we can
+> override it to "none" if the option is known to the compiler to be
+> able to build reliably.
+> 
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/889
+> 
+> [1]: https://wiki.ubuntu.com/ToolChain/CompilerFlags#A-fcf-protection
+> 
+> Signed-off-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
 > ---
->   qga/commands-posix.c | 5 ++++-
->   qga/qapi-schema.json | 3 ++-
->   2 files changed, 6 insertions(+), 2 deletions(-)
+>   pc-bios/optionrom/Makefile | 4 ++++
+>   1 file changed, 4 insertions(+)
 
-> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> index 94e4aacdcc..4ea2a50228 100644
-> --- a/qga/qapi-schema.json
-> +++ b/qga/qapi-schema.json
-> @@ -827,13 +827,14 @@
->   # @mmc: Win multimedia card (MMC) bus type
->   # @virtual: Win virtual bus type
->   # @file-backed-virtual: Win file-backed bus type
-> +# @nvme: NVMe disks (since 7.0)
-
-If this patch isn't merged soon, this will need to be updated.
-
-BTW I think I already review this patch, anyhow:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
