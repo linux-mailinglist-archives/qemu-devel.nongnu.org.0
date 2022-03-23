@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A3F4E53EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 15:04:21 +0100 (CET)
-Received: from localhost ([::1]:58630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 520D94E53F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 15:07:22 +0100 (CET)
+Received: from localhost ([::1]:38750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX1b2-00081h-Lm
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 10:04:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54700)
+	id 1nX1dx-0005Wu-E7
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 10:07:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nX1Um-0007WG-Ia; Wed, 23 Mar 2022 09:57:52 -0400
-Received: from [2607:f8b0:4864:20::f30] (port=36553
- helo=mail-qv1-xf30.google.com)
+ id 1nX1Um-0007WH-KC; Wed, 23 Mar 2022 09:57:52 -0400
+Received: from [2607:f8b0:4864:20::f2b] (port=45975
+ helo=mail-qv1-xf2b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nX1Uj-0000wm-0l; Wed, 23 Mar 2022 09:57:51 -0400
-Received: by mail-qv1-xf30.google.com with SMTP id kc20so1244925qvb.3;
- Wed, 23 Mar 2022 06:57:48 -0700 (PDT)
+ id 1nX1Uj-0000x6-N2; Wed, 23 Mar 2022 09:57:51 -0400
+Received: by mail-qv1-xf2b.google.com with SMTP id r1so1218022qvr.12;
+ Wed, 23 Mar 2022 06:57:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bw4y2Y3zTMXWRApI3mQMDrboc18J6hAVyliFuHK7eCA=;
- b=EjLtl0Xhf+7cSG5UtlQG/rAmMGZsXxYhllRkqkfxxwO0exfTLrhbTbevf3ICPPViza
- x+S18pM9TgYyU5xn7PwgWBB/MSJ1L8/19Ki3ExYQCDzzYQbxdISYTWCrKFJv7Alkl18V
- ZnyBx+TeMafzumIE7cXvZWBwS5E/IuX67CWsMmvldrzyHIy9OuaPIToGFXe609WdOCAm
- 5bLGxWR9KRC3FkoUhioW9zA6MJ34IKti0/rFMJKZLy6rHzDS7I0KrZezf6DVMZnxizWk
- wwHxJ2FzajuIFGCatZfZVL+RIn47QmlO+L5Xr1PIWCBWJSGL8B5dCSWqOEoJwHEnSN2R
- r3vQ==
+ bh=OTfdWEeO7UkuiZBNMdlAE3Mf1b3IlIIqRvP07nFA/Ow=;
+ b=o0XGcoPL1KIfCgnU2sr/y9EyaXmc3cNOXdey6C7+TBG3xPlIkl+LaI431snebT9oqz
+ cGpCQLokdzHJq14pg0/bQdBNjkRtBN2kaLfF/91EDdY18mFea8oGS5y0NDspSjG2Oin3
+ ZwrD7VdAfkzARsa3EPKpA+3DUdpEhfPU32oJRled9+cqhx6oFkeOEkryykvvkkFK/dsS
+ 9GQl+Z7TsZbVtDVEYqYR6O8IBtJkI+YOe3XiJPqmtA1CjC5A3ezw/D7JZnARgP2fQPcE
+ fUz3/hNAxGOFfu4vBRuCGj0nn9M0MF+tq0S1h1kgjsTxVRpHKaJ0UHPqf8jvvSU2Cl+w
+ pFcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Bw4y2Y3zTMXWRApI3mQMDrboc18J6hAVyliFuHK7eCA=;
- b=htRa5KFlg2db92MNadPsFKgDMRoizVikveB6rdLPo0NmpUtF4vCBU4cFLF/Couoy/q
- n2QwW0+7lkejmNzOx8jgksfTiQX0rpSxPIWiUFemQKCy+cOxdfXzUlw3NzTL/1bH94hR
- cll96vcZW6yVyxP4La7OPeEhjy7wM8WHOZFboVvZ2sg/ECBxNNaUQexlwDraIzaVp19d
- WKh4FgSIq3u4BnWFJ4QJobEv4eqCs4wsfIsgW6mjPpZLY3YBhfC+uNFNQfTlbxaKCb0B
- kn9qpSelejbNa2l9jxwE3Yy/am0fQ0+hd4QL3EMpTIpidf4FJt5wb5WaVzWDr+zCYd35
- cg9w==
-X-Gm-Message-State: AOAM533P3OdlLqOVAtuloKc7AJBG81OSHkZ/Ks41UsAzajOFxDF1B+T+
- dT5/cLh1vlF3+9Nw/b/T+kERsOlc6o9A+A==
-X-Google-Smtp-Source: ABdhPJwlGFLkRw8RWV23QM0AgYqd7D8wVlw20QRyrhD8NZkyQ9z41XVvyLHo+Oj+Akg1bCKjoLS49w==
-X-Received: by 2002:a05:6214:5008:b0:441:547c:e75e with SMTP id
- jo8-20020a056214500800b00441547ce75emr4519880qvb.128.1648043867429; 
- Wed, 23 Mar 2022 06:57:47 -0700 (PDT)
+ bh=OTfdWEeO7UkuiZBNMdlAE3Mf1b3IlIIqRvP07nFA/Ow=;
+ b=KVCMLTy1mSIm8Va7ZPWaiYoCCGBxEN5EZJj/GsCtmpBhY8MwxwnGHPDxJpB34VcagJ
+ TCOTrfRKGk1TNJWd9Ls3ehpn2RO0E6l1Ld4L4CjbWta5Q2cUAAUKrz42FebZds3L5ugL
+ 1ij/jxMqqjbgN7V2aodVDWC4Ntfm6aVyQIrr2W+/LhWbiAtxV7Iyn1DsexCtKwtuEizd
+ lJ71RWVQuXboHcF9useWoZxkAeGqjxlErPduK0yKrLINBC836Z564Lf+NJpfV7xR0Dei
+ TtB5N8btcp60xcsOoISUpw/aKJpbU3396yHmk8POSYaW2DATyE0QZMexPXoeCvMpg+L+
+ Uz7g==
+X-Gm-Message-State: AOAM530qkCHqTCkCT5VRThi7QBSul9f0k89Ou2cwnb9gr+JpuZdW7hDt
+ VJJrMUxPlpKKW+cJOQB1YzDfK7RJv/PxiA==
+X-Google-Smtp-Source: ABdhPJwrYd/nNaIxz+zDE//RBbGZ1K/DaYvpYGni2s0yfZkAgZRkTKltgL7T+aEcWknWFUvpA1Lxsg==
+X-Received: by 2002:a05:6214:2a49:b0:440:c955:347f with SMTP id
+ jf9-20020a0562142a4900b00440c955347fmr23641902qvb.84.1648043868422; 
+ Wed, 23 Mar 2022 06:57:48 -0700 (PDT)
 Received: from localhost.localdomain (mont-dyn-146-104.pwrtc.com.
  [205.174.146.104]) by smtp.gmail.com with ESMTPSA id
- t128-20020a37aa86000000b0060ddf2dc3ecsm20907qke.104.2022.03.23.06.57.46
+ t128-20020a37aa86000000b0060ddf2dc3ecsm20907qke.104.2022.03.23.06.57.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 06:57:47 -0700 (PDT)
+ Wed, 23 Mar 2022 06:57:48 -0700 (PDT)
 From: David Miller <dmiller423@gmail.com>
 To: qemu-s390x@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v5 08/11] target/s390x: vxeh2: vector {load,
- store} byte reversed element
-Date: Wed, 23 Mar 2022 09:57:19 -0400
-Message-Id: <20220323135722.1623-9-dmiller423@gmail.com>
+Subject: [PATCH v5 09/11] target/s390x: add S390_FEAT_VECTOR_ENH2 to qemu CPU
+ model
+Date: Wed, 23 Mar 2022 09:57:20 -0400
+Message-Id: <20220323135722.1623-10-dmiller423@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220323135722.1623-1-dmiller423@gmail.com>
 References: <20220323135722.1623-1-dmiller423@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f30
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
- envelope-from=dmiller423@gmail.com; helo=mail-qv1-xf30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=dmiller423@gmail.com; helo=mail-qv1-xf2b.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -97,145 +97,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: David Miller <dmiller423@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/tcg/insn-data.def      | 12 ++++
- target/s390x/tcg/translate_vx.c.inc | 85 +++++++++++++++++++++++++++++
- 2 files changed, 97 insertions(+)
+ target/s390x/gen-features.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
-index ee6e1dc9e5..5e448bb2c4 100644
---- a/target/s390x/tcg/insn-data.def
-+++ b/target/s390x/tcg/insn-data.def
-@@ -1027,6 +1027,14 @@
-     F(0xe756, VLR,     VRR_a, V,   0, 0, 0, 0, vlr, 0, IF_VEC)
- /* VECTOR LOAD AND REPLICATE */
-     F(0xe705, VLREP,   VRX,   V,   la2, 0, 0, 0, vlrep, 0, IF_VEC)
-+/* VECTOR LOAD BYTE REVERSED ELEMENT */
-+    E(0xe601, VLEBRH,  VRX,   VE2, la2, 0, 0, 0, vlebr, 0, ES_16, IF_VEC)
-+    E(0xe603, VLEBRF,  VRX,   VE2, la2, 0, 0, 0, vlebr, 0, ES_32, IF_VEC)
-+    E(0xe602, VLEBRG,  VRX,   VE2, la2, 0, 0, 0, vlebr, 0, ES_64, IF_VEC)
-+/* VECTOR LOAD BYTE REVERSED ELEMENT AND REPLICATE */
-+    F(0xe605, VLBRREP, VRX,   VE2, la2, 0, 0, 0, vlbrrep, 0, IF_VEC)
-+/* VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO */
-+    F(0xe604, VLLEBRZ, VRX,   VE2, la2, 0, 0, 0, vllebrz, 0, IF_VEC)
- /* VECTOR LOAD BYTE REVERSED ELEMENTS */
-     F(0xe606, VLBR,    VRX,   VE2, la2, 0, 0, 0, vlbr, 0, IF_VEC)
- /* VECTOR LOAD ELEMENT */
-@@ -1081,6 +1089,10 @@
-     F(0xe75f, VSEG,    VRR_a, V,   0, 0, 0, 0, vseg, 0, IF_VEC)
- /* VECTOR STORE */
-     F(0xe70e, VST,     VRX,   V,   la2, 0, 0, 0, vst, 0, IF_VEC)
-+/* VECTOR STORE BYTE REVERSED ELEMENT */
-+    E(0xe609, VSTEBRH,  VRX,   VE2, la2, 0, 0, 0, vstebr, 0, ES_16, IF_VEC)
-+    E(0xe60b, VSTEBRF,  VRX,   VE2, la2, 0, 0, 0, vstebr, 0, ES_32, IF_VEC)
-+    E(0xe60a, VSTEBRG,  VRX,   VE2, la2, 0, 0, 0, vstebr, 0, ES_64, IF_VEC)
- /* VECTOR STORE BYTE REVERSED ELEMENTS */
-     F(0xe60e, VSTBR,    VRX,   VE2, la2, 0, 0, 0, vstbr, 0, IF_VEC)
- /* VECTOR STORE ELEMENT */
-diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
-index c0b4a5b9ed..e57d0395db 100644
---- a/target/s390x/tcg/translate_vx.c.inc
-+++ b/target/s390x/tcg/translate_vx.c.inc
-@@ -457,6 +457,73 @@ static DisasJumpType op_vlrep(DisasContext *s, DisasOps *o)
-     return DISAS_NEXT;
- }
+diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+index 22846121c4..499a3b10a8 100644
+--- a/target/s390x/gen-features.c
++++ b/target/s390x/gen-features.c
+@@ -740,7 +740,9 @@ static uint16_t qemu_V6_2[] = {
  
-+static DisasJumpType op_vlebr(DisasContext *s, DisasOps *o)
-+{
-+    const uint8_t es = s->insn->data;
-+    const uint8_t enr = get_field(s, m3);
-+    TCGv_i64 tmp;
+ static uint16_t qemu_LATEST[] = {
+     S390_FEAT_MISC_INSTRUCTION_EXT3,
++    S390_FEAT_VECTOR_ENH2,
+ };
 +
-+    if (!valid_vec_element(enr, es)) {
-+        gen_program_exception(s, PGM_SPECIFICATION);
-+        return DISAS_NORETURN;
-+    }
-+
-+    tmp = tcg_temp_new_i64();
-+    tcg_gen_qemu_ld_i64(tmp, o->addr1, get_mem_index(s), MO_LE | es);
-+    write_vec_element_i64(tmp, get_field(s, v1), enr, es);
-+    tcg_temp_free_i64(tmp);
-+    return DISAS_NEXT;
-+}
-+
-+static DisasJumpType op_vlbrrep(DisasContext *s, DisasOps *o)
-+{
-+    const uint8_t es = get_field(s, m3);
-+    TCGv_i64 tmp;
-+
-+    if (es < ES_16 || es > ES_64) {
-+        gen_program_exception(s, PGM_SPECIFICATION);
-+        return DISAS_NORETURN;
-+    }
-+
-+    tmp = tcg_temp_new_i64();
-+    tcg_gen_qemu_ld_i64(tmp, o->addr1, get_mem_index(s), MO_LE | es);
-+    gen_gvec_dup_i64(es, get_field(s, v1), tmp);
-+    tcg_temp_free_i64(tmp);
-+    return DISAS_NEXT;
-+}
-+
-+static DisasJumpType op_vllebrz(DisasContext *s, DisasOps *o)
-+{
-+    const uint8_t m3 = get_field(s, m3);
-+    TCGv_i64 tmp;
-+    int es, lshift;
-+
-+    switch (m3) {
-+    case ES_16:
-+    case ES_32:
-+    case ES_64:
-+        es = m3;
-+        lshift = 0;
-+        break;
-+    case 6:
-+        es = ES_32;
-+        lshift = 32;
-+        break;
-+    default:
-+        gen_program_exception(s, PGM_SPECIFICATION);
-+        return DISAS_NORETURN;
-+    }
-+
-+    tmp = tcg_temp_new_i64();
-+    tcg_gen_qemu_ld_i64(tmp, o->addr1, get_mem_index(s), MO_LE | es);
-+    tcg_gen_shli_i64(tmp, tmp, lshift);
-+
-+    write_vec_element_i64(tmp, get_field(s, v1), 0, ES_64);
-+    write_vec_element_i64(tcg_constant_i64(0), get_field(s, v1), 1, ES_64);
-+    tcg_temp_free_i64(tmp);
-+    return DISAS_NEXT;
-+}
-+
- static DisasJumpType op_vlbr(DisasContext *s, DisasOps *o)
- {
-     const uint8_t es = get_field(s, m3);
-@@ -1054,6 +1121,24 @@ static DisasJumpType op_vst(DisasContext *s, DisasOps *o)
-     return DISAS_NEXT;
- }
- 
-+static DisasJumpType op_vstebr(DisasContext *s, DisasOps *o)
-+{
-+    const uint8_t es = s->insn->data;
-+    const uint8_t enr = get_field(s, m3);
-+    TCGv_i64 tmp;
-+
-+    if (!valid_vec_element(enr, es)) {
-+        gen_program_exception(s, PGM_SPECIFICATION);
-+        return DISAS_NORETURN;
-+    }
-+
-+    tmp = tcg_temp_new_i64();
-+    read_vec_element_i64(tmp, get_field(s, v1), enr, es);
-+    tcg_gen_qemu_st_i64(tmp, o->addr1, get_mem_index(s), MO_LE | es);
-+    tcg_temp_free_i64(tmp);
-+    return DISAS_NEXT;
-+}
-+
- static DisasJumpType op_vstbr(DisasContext *s, DisasOps *o)
- {
-     const uint8_t es = get_field(s, m3);
+ /* add all new definitions before this point */
+ static uint16_t qemu_MAX[] = {
+     /* generates a dependency warning, leave it out for now */
 -- 
 2.34.1
 
