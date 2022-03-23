@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997324E5487
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 15:48:34 +0100 (CET)
-Received: from localhost ([::1]:36382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65E04E5486
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 15:48:29 +0100 (CET)
+Received: from localhost ([::1]:36064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX2Hp-0004Pq-CB
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 10:48:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41884)
+	id 1nX2Hk-0004Cz-5j
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 10:48:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1nX2Ev-0001M0-6a
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 10:45:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45241)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1nX2BS-0005uu-6U
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 10:41:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648046513;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2Chyzq+wrxljD6EgN1jPXpIFUiTmuQ68WGf05XEGrFw=;
- b=DgO5hsWnzNaLUgDDzMl4h0jBYjlmhKzbX5b4IC5KwuWWGtR1jcj9jRTNE5EhJ5egp1KxW6
- jnCmmvd8WfgPs5S26YsjJ5YXLSilcAOdk6dNB7gJzRaxBFQcGRl84+X3Ca6qaWsewCMhRC
- 98cLzGPWGwWwQdR73I9PJXSxQck8DDA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-147-F9bVVr0rOgyZQzlE6vA0zw-1; Wed, 23 Mar 2022 10:41:50 -0400
-X-MC-Unique: F9bVVr0rOgyZQzlE6vA0zw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BBD8E1044568;
- Wed, 23 Mar 2022 14:41:48 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0D42409B3E1;
- Wed, 23 Mar 2022 14:41:47 +0000 (UTC)
-Date: Wed, 23 Mar 2022 15:41:44 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] KVM: x86: workaround invalid CPUID[0xD, 9] info on some
- AMD processors
-Message-ID: <YjsxqPDhGVZVYKEc@angien.pipo.sk>
-References: <20220323114315.22594-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nX2Eg-0001Iv-Jz
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 10:45:19 -0400
+Received: from [2a00:1450:4864:20::530] (port=40777
+ helo=mail-ed1-x530.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nX2Cq-0006Bf-0B
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 10:43:25 -0400
+Received: by mail-ed1-x530.google.com with SMTP id y10so2103025edv.7
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 07:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=siOkAmgFRaFnDpm0K2D3dUueuFRJOUHBT0v1MfBo/zM=;
+ b=Wv+pDyxqTnNv7rZALXb0/X8p4e/5+RJz3WaCB3KoSxu6zd5elE9OzITSRbnzpdjTAI
+ WxvbFudPFq4OwIVqEawonMSBIXlTQNZWP/wgY8Iat8wHZvf3CJvMFbjW2v6IucLuA7a8
+ zrtkGysgPtPTt/3DA1G9oZoUcvRprkdXdMBIK+2BJowtyOydmo9TkKMWOe1ghcRle3T/
+ YfA/1Hxofjs3mDtlWv/Ht8CqGIcVUc0X1/zNi9x4bv0EGUA7f6srhlr61SJFsewWxXW8
+ zAlzwttxQHAyuHyu5QzeuAvH19BIRJiQFXMTWQSVwcRSAfPRkyh9phTET3dUpk9qtAEQ
+ F1FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=siOkAmgFRaFnDpm0K2D3dUueuFRJOUHBT0v1MfBo/zM=;
+ b=Nn8D4ZfAz4fhtljzOhJbEAIZUebaid4VFhf3S6Ztuuq5JBwfkRbUy5XGHJ6oB/FZtc
+ WemRzQrTGV9Mr8IplUX2YuwqUtXPPyiTXyV8g8iVfVS592gq/8mhs8pHtyTva2SEdw8E
+ yH48y6LjPvWzuSphr+CmXRhtO4e6mr9ZkFdpo3LoifQPs8rqoC66uG9IfTLihsNyTFi3
+ s9cLZqVhyGyYs44HpBTIIdrzK1WVm9KR8YDQH1lBy1HPpSn9/O4xZvjX2NPfj2uzojAu
+ Yg/PGVFBudFUFj3DlJYDdbQa0tbk1l7t4JzxEbhzoIMJYFFNbJLnkBlKwoZIsmd/QI+8
+ 6dNA==
+X-Gm-Message-State: AOAM533JUCZjXPHHSwq7xZwH/IzfKnjwC93DJ8It4wtsN+ual80NjOD5
+ JTp4ofFcgdyohVSS9BFKG3c=
+X-Google-Smtp-Source: ABdhPJzEcHpvukbGPgo8j4tgdXR1zqL4+CN0THz0nYpXS+hKz3UEiGqxISuUzbiEGNbBZs5LLkhm2Q==
+X-Received: by 2002:a05:6402:1912:b0:418:cd23:3742 with SMTP id
+ e18-20020a056402191200b00418cd233742mr470882edz.412.1648046602576; 
+ Wed, 23 Mar 2022 07:43:22 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ z23-20020a170906435700b006b0e62bee84sm26457ejm.115.2022.03.23.07.43.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Mar 2022 07:43:22 -0700 (PDT)
+Message-ID: <265f6824-7db4-8fda-f0b8-424b38e3e74f@redhat.com>
+Date: Wed, 23 Mar 2022 15:43:21 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220323114315.22594-1-pbonzini@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 2/5] softmmu/cpus: Free cpu->thread in
+ generic_destroy_vcpu_thread()
+Content-Language: en-US
+To: Mark Kanda <mark.kanda@oracle.com>, qemu-devel@nongnu.org
+References: <20220321141409.3112932-1-mark.kanda@oracle.com>
+ <20220321141409.3112932-3-mark.kanda@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220321141409.3112932-3-mark.kanda@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,41 +97,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 23, 2022 at 12:43:15 +0100, Paolo Bonzini wrote:
-> Some AMD processors expose the PKRU extended save state even if they do not have
-> the related PKU feature in CPUID.  Worse, when they do they report a size of
-> 64, whereas the expected size of the PKRU extended save state is 8, therefore
-> the esa->size == eax assertion does not hold.
-> 
-> The state is already ignored by KVM_GET_SUPPORTED_CPUID because it
-> was not enabled in the host XCR0.  However, QEMU kvm_cpu_xsave_init()
-> runs before QEMU invokes arch_prctl() to enable dynamically-enabled
-> save states such as XTILEDATA, and KVM_GET_SUPPORTED_CPUID hides save
-> states that have yet to be enabled.  Therefore, kvm_cpu_xsave_init()
-> needs to consult the host CPUID instead of KVM_GET_SUPPORTED_CPUID,
-> and dies with an assertion failure.
-> 
-> When setting up the ExtSaveArea array to match the host, ignore features that
-> KVM does not report as supported.  This will cause QEMU to skip the incorrect
-> CPUID leaf instead of tripping the assertion.
-> 
-> Reported-by: Daniel P. Berrangé <berrange@redhat.com>
-> Analyzed-by: Yang Zhong <yang.zhong@intel.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  target/i386/cpu.c         |  4 ++--
->  target/i386/cpu.h         |  2 ++
->  target/i386/kvm/kvm-cpu.c | 19 ++++++++++++-------
->  3 files changed, 16 insertions(+), 9 deletions(-)
+On 3/21/22 15:14, Mark Kanda wrote:
+> diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
+> index ea7dcad674..527592c4d7 100644
+> --- a/accel/tcg/tcg-accel-ops.c
+> +++ b/accel/tcg/tcg-accel-ops.c
+> @@ -94,6 +94,7 @@ void tcg_handle_interrupt(CPUState *cpu, int mask)
+>   
+>   static void tcg_accel_ops_init(AccelOpsClass *ops)
+>   {
+> +    ops->destroy_vcpu_thread = generic_destroy_vcpu_thread;
+>       if (qemu_tcg_mttcg_enabled()) {
+>           ops->create_vcpu_thread = mttcg_start_vcpu_thread;
+>           ops->kick_vcpu_thread = mttcg_kick_vcpu_thread;
 
-Tested-by: Peter Krempa <pkrempa@redhat.com>
+This should not be done for the icount case, where there is only one thread.
 
-With this patch it no longer abort()s on my Ryzen 3900X
-
+Paolo
 
