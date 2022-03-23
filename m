@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3424E53B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:58:23 +0100 (CET)
-Received: from localhost ([::1]:45140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B71424E53C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:59:49 +0100 (CET)
+Received: from localhost ([::1]:49580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX1VG-00070X-Jg
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:58:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54280)
+	id 1nX1We-0001h2-PF
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:59:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nX1TQ-0004yc-IG
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 09:56:28 -0400
-Received: from [2a00:1450:4864:20::433] (port=38720
- helo=mail-wr1-x433.google.com)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nX1Uc-0007Fd-JV; Wed, 23 Mar 2022 09:57:42 -0400
+Received: from [2607:f8b0:4864:20::733] (port=40959
+ helo=mail-qk1-x733.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nX1TP-0000im-6g
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 09:56:28 -0400
-Received: by mail-wr1-x433.google.com with SMTP id t11so2261821wrm.5
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 06:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=wRwP4sjDw97Fv/34WbcUSyHzEgbaPbsdazuytrYReew=;
- b=hKdLFC9WZD0T1Ix3mBOf+PP/QhwACps/XDGV/2zVJavMsSUEd74F4CQN/SCq5KHmXO
- +fPvuTFWbFEPQbAdej0cIMsffI4qwhec+BINKXSHPAZjqxl3a7GTqp3XWursB0mb/B3j
- I/qrlcJc3YcVWBcIx2ns2R2mzn/q2Ky9MnAGnYEGNnbxblOPcEh3vF1UZXaxttHOCHb5
- bTbKQHaDo2eDDO8p/3YF1M8bu+6gCVW3Y51K+aHb1PyhC9iFr0XfPVhdBHOo7922vyWQ
- tHjUdcpK8JWroxgqVjwhe/u8MfwrC0xTx2QDgQ81uB/hw/VemWAkftAer0OVZaNn6EQ7
- xyiw==
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nX1Ua-0000uj-OW; Wed, 23 Mar 2022 09:57:42 -0400
+Received: by mail-qk1-x733.google.com with SMTP id i65so1056349qkd.7;
+ Wed, 23 Mar 2022 06:57:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uIGBsGtLSPpyCjv0ibIyWfovpD5vIyzKLnmhlUbCU/8=;
+ b=VoA/JtWh1I7Nm3TBDsj+Z6g6ZHG7piiXDJOq2y2hGAzerLRaBBGOAemfiSvbP2TyfL
+ MmAK/7uvDUWBzpCU/99DIkFcVZJsY3FLIGLvuIM9KaOl3yKHAWJgsMLy1aEQNrgc0slq
+ zHMeA/7CSp0ub7v172OJF3xAB3k2beQa28ZGh1Tyv6XLBGwUsCnuWMPqWtGPrpD+xs8h
+ QBJeEUdgn0jKBhKyX9ubv2Dg+KFTJI1H63eG51PNgiRgBsxFimSjwn7X33vETK2g5Hgs
+ i7h/DkKU2bmLWdqKf3kWprvx18n5Y0a4DfV3mdRV9YFfLOBqRDICAprb30BWMyYG0Gkt
+ gCZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=wRwP4sjDw97Fv/34WbcUSyHzEgbaPbsdazuytrYReew=;
- b=I8I/OOqLt3gh38T9rOm65Fae71+lmuFJSVcEg/wNOcUQu3RyTz84hmrpLxKUsqwPWd
- qnVLR8fGzucFR3OhrBfnRRXfyDGh0kobnZhzxKq38YbbYAHo4SsjGdI1uZiY8J2kHKAf
- 4gcRoB9X9U9CDVJwg+VuTgfZTrBymUptd27JsqyMSQY9ccWgl65H9CqgYYB0B7LIzAb8
- VmFutH0Sg4FkKFQiWqwUS3JuD3fu2Z3fozBaBsLF5uU900XOdffGjJm29XeuDFoVK0wj
- Alp7sPosvIFWYqYh96jYpf85AwjFSrnBEocql76tBNZj052eQTXPcwPzSJCWWfdGZe9Q
- muzA==
-X-Gm-Message-State: AOAM530Jv7i/LLAjZx2cAPMuZN3jzUT5b41RIIPgjDp+v7vIuUfAAVGT
- 8wZJQzfwC4YUj0cSNhbj3Un+KQ==
-X-Google-Smtp-Source: ABdhPJy8vfe95XMOrYLZEYB0M6hIy90Hp8A4qA38JqOpJeAN/o1k72AlDq3CWavZ3T/cUisbZDqBLA==
-X-Received: by 2002:a5d:5512:0:b0:1ef:5f08:29fb with SMTP id
- b18-20020a5d5512000000b001ef5f0829fbmr27330940wrv.653.1648043785760; 
- Wed, 23 Mar 2022 06:56:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- g6-20020adfd1e6000000b0020581602ddesm2885625wrd.67.2022.03.23.06.56.24
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uIGBsGtLSPpyCjv0ibIyWfovpD5vIyzKLnmhlUbCU/8=;
+ b=BlljCzDVE2umyFArJaQX+khMzPb/wfgXD6IqPmcI8e9lM6qK9oUsBrpfnO9SY1LwZA
+ UYNaSBtrvHJ8vXcjNlPn+3pCK1Ttpkbz7IC9zYINispG5nCMI6ZOGooSKu3R3jlDc/Va
+ /VHP8z/AQHCvnInBeg/EljajEAtocam59sGresdfWWFi31Ka3oKDpRpjAvPwPWEbPTls
+ pHliCokc3dPvB+uSpIF4O1ByCExD5WzgKHHsH8SSc1AzceBF+QZsTIf0eSOe81eohrVn
+ D/ozlR7dlMtnVmSTVjg2hfV/QjnawODyxfkdwdtyeiUbggSthXpwSlbsiqWa8SG+Aebr
+ vPfg==
+X-Gm-Message-State: AOAM531+xaHortk9dojmjrfFZ0J8F0n81XbAUjkyIeez2eCuwBofBi3A
+ nkD0C21RfRSyABDJoacLcMrKmdfnCBJCiw==
+X-Google-Smtp-Source: ABdhPJwLBudjW7LbwkmcAu/k0nJkwZ2CZjokt7TiC9E813CufX3QccxK764McwxTUTk9lgFKSJKrGw==
+X-Received: by 2002:a05:620a:371d:b0:67d:4f5c:119b with SMTP id
+ de29-20020a05620a371d00b0067d4f5c119bmr17855726qkb.75.1648043859014; 
+ Wed, 23 Mar 2022 06:57:39 -0700 (PDT)
+Received: from localhost.localdomain (mont-dyn-146-104.pwrtc.com.
+ [205.174.146.104]) by smtp.gmail.com with ESMTPSA id
+ t128-20020a37aa86000000b0060ddf2dc3ecsm20907qke.104.2022.03.23.06.57.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 06:56:24 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 232F21FFB7;
- Wed, 23 Mar 2022 13:56:24 +0000 (GMT)
-References: <20220320171135.2704502-1-richard.henderson@linaro.org>
- <20220320171135.2704502-3-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.10; emacs 28.0.92
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PULL for-7.1 02/36] target/hexagon: Remove qemu_set_log in
- hexagon_translate_init
-Date: Wed, 23 Mar 2022 13:56:19 +0000
-In-reply-to: <20220320171135.2704502-3-richard.henderson@linaro.org>
-Message-ID: <8735j86ad3.fsf@linaro.org>
+ Wed, 23 Mar 2022 06:57:38 -0700 (PDT)
+From: David Miller <dmiller423@gmail.com>
+To: qemu-s390x@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v5 00/11] s390x/tcg: Implement Vector-Enhancements Facility 2
+Date: Wed, 23 Mar 2022 09:57:11 -0400
+Message-Id: <20220323135722.1623-1-dmiller423@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::733
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=dmiller423@gmail.com; helo=mail-qk1-x733.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,22 +85,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, farman@linux.ibm.com,
+ David Miller <dmiller423@gmail.com>, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Implement Vector-Enhancements Facility 2 for s390x
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
 
-> This code appears to be trying to make sure there is a logfile.
-> But that's already true -- the logfile will either be set by -D,
-> or will be stderr.  In either case, not appropriate here.
->
-> Cc: Taylor Simpson <tsimpson@quicinc.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+implements:
+    VECTOR LOAD ELEMENTS REVERSED               (VLER)
+    VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
+    VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
+    VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
+    VECTOR LOAD BYTE REVERSED ELEMENT AND REPLICATE (VLBRREP)
+    VECTOR STORE ELEMENTS REVERSED              (VSTER)
+    VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
+    VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
+    VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
+    VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
+    VECTOR STRING SEARCH                        (VSTRS)
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+    modifies:
+    VECTOR FP CONVERT FROM FIXED                (VCFPS)
+    VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
+    VECTOR FP CONVERT TO FIXED                  (VCSFP)
+    VECTOR FP CONVERT TO LOGICAL                (VCLFP)
+    VECTOR SHIFT LEFT                           (VSL)
+    VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
+    VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
 
---=20
-Alex Benn=C3=A9e
+
+David Miller (9):
+  tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+  target/s390x: vxeh2: vector convert short/32b
+  target/s390x: vxeh2: vector string search
+  target/s390x: vxeh2: Update for changes to vector shifts
+  target/s390x: vxeh2: vector shift double by bit
+  target/s390x: vxeh2: vector {load, store} elements reversed
+  target/s390x: vxeh2: vector {load, store} byte reversed elements
+  target/s390x: vxeh2: vector {load, store} byte reversed element
+  target/s390x: add S390_FEAT_VECTOR_ENH2 to qemu CPU model
+  tests/tcg/s390x: Tests for Vector Enhancements Facility 2
+  target/s390x: Fix writeback to v1 in helper_vstl
+
+Richard Henderson (2):
+  tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+  target/s390x: Fix writeback to v1 in helper_vstl
+
+ include/tcg/tcg-op.h                 |   6 +
+ target/s390x/gen-features.c          |   2 +
+ target/s390x/helper.h                |  13 +
+ target/s390x/tcg/insn-data.def       |  40 ++-
+ target/s390x/tcg/translate.c         |   3 +-
+ target/s390x/tcg/translate_vx.c.inc  | 461 ++++++++++++++++++++++++---
+ target/s390x/tcg/vec_fpu_helper.c    |  31 ++
+ target/s390x/tcg/vec_helper.c        |   2 -
+ target/s390x/tcg/vec_int_helper.c    |  55 ++++
+ target/s390x/tcg/vec_string_helper.c |  99 ++++++
+ tcg/tcg-op.c                         |  30 ++
+ tests/tcg/s390x/Makefile.target      |   8 +
+ tests/tcg/s390x/vx.h                 |  19 ++
+ tests/tcg/s390x/vxeh2_vcvt.c         |  88 +++++
+ tests/tcg/s390x/vxeh2_vlstr.c        | 139 ++++++++
+ tests/tcg/s390x/vxeh2_vs.c           |  93 ++++++
+ 16 files changed, 1034 insertions(+), 55 deletions(-)
+ create mode 100644 tests/tcg/s390x/vx.h
+ create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c
+ create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c
+ create mode 100644 tests/tcg/s390x/vxeh2_vs.c
+
+-- 
+2.34.1
+
 
