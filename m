@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F1C4E4F3C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 10:24:16 +0100 (CET)
-Received: from localhost ([::1]:43700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80D34E4F8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 10:37:17 +0100 (CET)
+Received: from localhost ([::1]:48164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWxDz-0004bF-T6
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 05:24:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40468)
+	id 1nWxQZ-0008GP-US
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 05:37:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nWxAp-0001uS-Ex
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 05:20:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54974)
+ id 1nWxMs-00073D-1k
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 05:33:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nWxAm-0005Jo-9n
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 05:20:57 -0400
+ id 1nWxMq-0000L6-13
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 05:33:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648027255;
+ s=mimecast20190719; t=1648028002;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=w7TEpjQKYSCXMz48wbrgY5NgH8cUGKONZMTPXgO23rU=;
- b=QA2tSfFIAh+Jj3FW42rVobc0nKTtePVtruEa+QRMFjn3HEHVlHD7pDCeF3AIpfvExw6lcE
- ikslDl3UgSKBb50uMYF4qVFmUUYN1vvr86zfDFrZ8iVupvGUe8dwLwyTUwrl6ptVX2r7nZ
- DKLzWTCNMwaEBCRFBmsohl88Wg8beuQ=
+ bh=iDr1Y3Y0CPwodEjqgMCkwFp5iws893Micv1Z0sNo5JA=;
+ b=emyly5ff9QExri51G8MmQUnRX7Yqxs1B4bAPyeL0UD3MC8f58BYLhosFU9vZqXGuST/3bj
+ NMPt47t7ioTTsC4kMtjdWW9kYwrAjJxxozeWkxc8nmhdVQq68EmU+Y7rnOoC6S6O+8uDsO
+ hvhNau62/4iIlkMtA1L3NtiVS1oAsMY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-scYdeBRfMOq_C1XkP4dkzA-1; Wed, 23 Mar 2022 05:20:53 -0400
-X-MC-Unique: scYdeBRfMOq_C1XkP4dkzA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-119-zhqjMjShMlGM8bkyRw8Mzw-1; Wed, 23 Mar 2022 05:33:19 -0400
+X-MC-Unique: zhqjMjShMlGM8bkyRw8Mzw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1C4918E0042;
- Wed, 23 Mar 2022 09:20:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F02C811E76;
+ Wed, 23 Mar 2022 09:33:19 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 29FA62166B2D;
- Wed, 23 Mar 2022 09:20:20 +0000 (UTC)
-Date: Wed, 23 Mar 2022 09:20:17 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E56CDC27D86;
+ Wed, 23 Mar 2022 09:33:17 +0000 (UTC)
+Date: Wed, 23 Mar 2022 09:33:15 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH v2 1/2] ci: Add github workflow for getting cirrus
- working properly
-Message-ID: <YjrmUStDoWnk/t4A@redhat.com>
-References: <20220322191409.1330-1-luoyonggang@gmail.com>
- <20220322191409.1330-2-luoyonggang@gmail.com>
+Subject: Re: [PATCH v3 2/3] ci: Add empty github workflow for reporting
+ historical cirrus result at github
+Message-ID: <YjrpW2O8HqOT2PXN@redhat.com>
+References: <20220323080755.156-1-luoyonggang@gmail.com>
+ <20220323080755.156-3-luoyonggang@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220322191409.1330-2-luoyonggang@gmail.com>
+In-Reply-To: <20220323080755.156-3-luoyonggang@gmail.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,20 +92,22 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 23, 2022 at 03:14:08AM +0800, Yonggang Luo wrote:
+On Wed, Mar 23, 2022 at 04:07:54PM +0800, Yonggang Luo wrote:
+> Looks like https://github.com/lygstate/qemu/actions does
+> 
 > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 > ---
->  .github/workflows/main.yml | 29 +++++++++++++++++++++++++++++
->  MAINTAINERS                |  4 +++-
->  2 files changed, 32 insertions(+), 1 deletion(-)
+>  .github/workflows/main.yml | 24 ++++++++++++++++++++++++
+>  MAINTAINERS                |  1 +
+>  2 files changed, 25 insertions(+)
 >  create mode 100644 .github/workflows/main.yml
 > 
 > diff --git a/.github/workflows/main.yml b/.github/workflows/main.yml
 > new file mode 100644
-> index 0000000000..85a392b962
+> index 0000000000..71f5fbd556
 > --- /dev/null
 > +++ b/.github/workflows/main.yml
-> @@ -0,0 +1,29 @@
+> @@ -0,0 +1,24 @@
 > +# This is a basic workflow to help you get started with Actions
 > +
 > +name: CI
@@ -129,17 +131,20 @@ On Wed, Mar 23, 2022 at 03:14:08AM +0800, Yonggang Luo wrote:
 > +        with:
 > +          fetch-depth: 0
 > +      - name: Install dependent packages
-> +        run: sudo apt install perl
-> +      - name: Checkpatch
-> +        run: |
-> +          git fetch https://git.qemu.org/git/qemu.git master
-> +          git tag base_tag_to_rebase FETCH_HEAD --force
-> +          ./scripts/checkpatch.pl --mailback base_tag_to_rebase..
+> +        run: echo "Empty action"
 
-I really don't think we want to start duplicating our CI efforts into
-GitHub. We are using GitLab as our primary hosting platform for QEMU,
-and have standardized on using GitLab for CI, only using Cirrus CI
-and Travis for specific non-x86 or non-Linux tasks. 
+I really rather we just integrated the Cirrus CI windows job into our GitLab
+pipeline using cirrus-run, as we did for the other Cirrus jobs.
+
+We've also already got some native msys jobs under GitLab that test some
+combinations, but not all since they're somewhat slow. So we still need
+to take advantage of Cirrus for some msys testing, but we can likely
+reduce the overlap.
+
+I definitely don't want to see us increasing our use of GitHub, as having
+multiple places to look at for CI results is a really bad thing. We want
+todo what is possible to make GitLab the single dashboard for all CI info.
+
 
 With regards,
 Daniel
