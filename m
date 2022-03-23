@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1094E5B45
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 23:34:47 +0100 (CET)
-Received: from localhost ([::1]:60596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 418DB4E5B46
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 23:34:52 +0100 (CET)
+Received: from localhost ([::1]:60726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX9Z0-0000q5-Ih
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 18:34:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38188)
+	id 1nX9Z5-0000v5-Ch
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 18:34:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX9Vn-0006uE-Hv
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:31:32 -0400
-Received: from [2607:f8b0:4864:20::1035] (port=55065
- helo=mail-pj1-x1035.google.com)
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nX9Vx-0006wH-Gx
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:31:37 -0400
+Received: from mta01.hs-regensburg.de ([194.95.104.11]:39794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX9Vl-0006V6-8O
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:31:26 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id b8so3085706pjb.4
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 15:31:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=aNYEnkC9YyVO7rg4EH6SG6ODjxjozU+7Jj/i0vJhb2g=;
- b=X2Eq5qqriaIwoN/ySyny+VKQsJ7K7N/t14bR2hKwi8X4K1rvSACnkL7TGjvdA2L6iK
- iQlZDFvWva0Nk2S7RRvgFJ3pYCn9ThIs0CeItQ1eRUGqBQnW8dWI9xXLA2bw7VWr9e5T
- DNw9kq7D0daSgQua1yIuvu9rvsnEqll5CWDOmlJF98librj1QI1bSoLvDCxPWHksPY1c
- uEw2sbH6iJPmn7JMD7P6jysuQSspDSsGJLdrfaWStA7/eA3a1V1jNrAxnHI+XGLdoPyA
- auKy8gKUTYbrc9dTC+m+WTJrqG1VaIYgfb2UHheJ2Vnp/hlkspFvyHfm2bxis4euJJLf
- 00Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=aNYEnkC9YyVO7rg4EH6SG6ODjxjozU+7Jj/i0vJhb2g=;
- b=k6dQSWuMhex3/52jBuTvjmWSX7/PWk+resSnwKR4Pbh0aLY/ZVfDwf0v7ePnQ9bZ0L
- aNMU5f5zm/YA8nwDd7q5BRqdUPQNMrhW/TbwesOGD7s5E9cxlXrfVwnsicBUl5vs2gDk
- HShXVQk0lq/dDez7xsz8gSFmJNQvteE/p/ZwrpefwWNYTheyO8C8GCNlZSiwhL4BXxRx
- mhMhT+iMf2uxyHVxxUSj49oZVSnNAqHxmHn58qey3/Q77UOMa86fniCcOGJzf6tbEcys
- SvAkK3FlqKJRcAZrIYpsuRp9T1C7CvNsMmS3ZaVLZW9Huo2/VsDtP7tRGB+SYdCp/CQX
- xRaA==
-X-Gm-Message-State: AOAM530wMidLNxlelFcLjaaPACV/P1fNS4Xo9chaXuzeCwQh8bvfwqaq
- j9aG+THxM6ZxF/MevDjQBmxxWQ==
-X-Google-Smtp-Source: ABdhPJzf2YoGY0jP95+ApLB0c3diCc0DnCO9oDCsYXGkN9ZPbRBk2xdjfAIyVDaVEiG8WHdVldRYEA==
-X-Received: by 2002:a17:902:8203:b0:153:2e8:aaae with SMTP id
- x3-20020a170902820300b0015302e8aaaemr2304400pln.14.1648074683518; 
- Wed, 23 Mar 2022 15:31:23 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- h12-20020a056a00170c00b004fab8f3244esm856984pfc.28.2022.03.23.15.31.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 15:31:23 -0700 (PDT)
-Message-ID: <77ae091a-094a-1ddc-4e1e-9bd61b7fc86e@linaro.org>
-Date: Wed, 23 Mar 2022 15:31:21 -0700
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nX9Vt-0006Wh-H1
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:31:36 -0400
+Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
+ [IPv6:2001:638:a01:8013::93])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "E16S03", Issuer "E16S03" (not verified))
+ by mta01.hs-regensburg.de (Postfix) with ESMTPS id 4KP34168M7zy8q;
+ Wed, 23 Mar 2022 23:31:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
+ s=mta01-20211122; t=1648074689;
+ bh=qJ1k9Zw5p1j/IBVD0xcUKiPRx5j6BnR6yLuhQMz+N+k=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To:From;
+ b=BlDr6qykAyYsyf/gSTDxtl2ZHD12aK7XMLPyheuS5iifVx0Zelw8qSCakWMlTHUKY
+ PLYrj3O+6LuHZUaQPljLJUe1+llxY7jEKjWZ9ZcyEekhGo8xIdhwVTrzCr0/G0niFE
+ RBN6Jflz2MYVbeZqIF+gMLALhymj3t9kxzLLdmhlzKeNO1uWHsDwZ++guaCuVIsc7l
+ Mp8YBjnK/rBh5MjFSvBfYZ92bYjz25M61u+kJwRLn7wJCzCFVC94WLR47En0L0MjE6
+ m3T6Jn9gscUedx1ZfvWGki4rKvb/zDzVoOwkIUmAWQ9N/SQjD0EYyyso05p2Qp44xz
+ 7khj4bKCJG91A==
+Received: from [IPV6:2001:678:ddc:11:17a4:3bb5:620b:1dcb]
+ (2001:638:a01:8013::138) by E16S03.hs-regensburg.de (2001:638:a01:8013::93)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 23 Mar
+ 2022 23:31:29 +0100
+Message-ID: <f479be4c-6308-aee3-29eb-b5f26397e296@oth-regensburg.de>
+Date: Wed, 23 Mar 2022 23:31:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 10/13] accel-ops: Introduce
- common_vcpu_thread_destroy() and .precheck handler
+ Thunderbird/91.7.0
+Subject: Re: [EXT] Re: [PATCH] hw/riscv: virt: Warn the user if -bios is
+ provided when using KVM
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-References: <20220323171751.78612-1-philippe.mathieu.daude@gmail.com>
- <20220323171751.78612-11-philippe.mathieu.daude@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220323171751.78612-11-philippe.mathieu.daude@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+To: Alistair Francis <alistair23@gmail.com>
+References: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
+ <CAKmqyKP8Nf5X7-X8Y+-xdczn2nauzhh1GEwj77_S6GFTMGmPTQ@mail.gmail.com>
+From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+In-Reply-To: <CAKmqyKP8Nf5X7-X8Y+-xdczn2nauzhh1GEwj77_S6GFTMGmPTQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [2001:638:a01:8013::138]
+X-ClientProxiedBy: E16S01.hs-regensburg.de (2001:638:a01:8013::91) To
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93)
+Received-SPF: pass client-ip=194.95.104.11;
+ envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta01.hs-regensburg.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,26 +80,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Anup Patel <apatel@ventanamicro.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Stefan Huber <stefan.huber@oth-regensburg.de>,
+ Jiangyifei <jiangyifei@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/22 10:17, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+
+On 23/03/2022 22:05, Alistair Francis wrote:
+> On Thu, Mar 24, 2022 at 3:13 AM Ralf Ramsauer
+> <ralf.ramsauer@oth-regensburg.de> wrote:
+>>
+>> The -bios option is silently ignored if used in combination with -enable-kvm.
+>> The reason is that the machine starts in S-Mode, and the bios typically runs in
+>> M-Mode.
+>>
+>> Warn the user that the bios won't be loaded.
+>>
+>> Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
 > 
-> Introduce an empty common_vcpu_thread_destroy() function, and
-> provide a AccelOpsClass::destroy_vcpu_thread_precheck() callback
-> so accelerators can choose whether to call common_vcpu_thread_destroy.
+> Thanks for the patch.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   include/sysemu/accel-ops.h | 2 ++
->   softmmu/cpus.c             | 9 +++++++++
->   2 files changed, 11 insertions(+)
+>> ---
+>>   hw/riscv/virt.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+>> index 4496a15346..a4d13114ee 100644
+>> --- a/hw/riscv/virt.c
+>> +++ b/hw/riscv/virt.c
+>> @@ -1312,6 +1312,9 @@ static void virt_machine_init(MachineState *machine)
+>>        * when KVM is enabled.
+>>        */
+>>       if (kvm_enabled()) {
+>> +        if (machine->firmware && strcmp(machine->firmware, "none"))
+> 
+> You need curly braces around the if statement. You can run checkpatch
+> on the patch to catch issues like this with:
+> 
+> git show | ./scripts/checkpatch.pl -
 
-My comments here are similar to the create precheck hook.
-Do not add a "precheck" hook, but simply a hook to perform the whole job.
+total: 0 errors, 0 warnings, 9 lines checked
 
+Your patch has no obvious style problems and is ready for submission.
 
+> 
+>> +            warn_report("BIOS is not supported in combination with KVM. "
+>> +                        "Ignoring BIOS.");
+> 
+> Maybe say
+> 
+> "Machine mode firmware is not supported in combination with KVM. Ignoring -bios"
 
-r~
+Anyway, will provide a V2 with an improved warning message.
+
+Thanks
+   Ralf
+
+> 
+> Alistair
+> 
+>>           g_free(machine->firmware);
+>>           machine->firmware = g_strdup("none");
+>>       }
+>> --
+>> 2.32.0
+>>
 
