@@ -2,144 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042F84E537B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:46:18 +0100 (CET)
-Received: from localhost ([::1]:59992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F385E4E52C7
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:07:45 +0100 (CET)
+Received: from localhost ([::1]:39868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX1JY-0005fg-9o
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:46:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51376)
+	id 1nX0iG-0003G6-Km
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:07:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1nX1HW-0004jY-T0; Wed, 23 Mar 2022 09:44:12 -0400
-Received: from [2a01:111:f400:7e1a::70d] (port=13248
- helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nX0Hm-00052p-T5
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 08:40:24 -0400
+Received: from smtp32.i.mail.ru ([94.100.177.92]:55822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1nX1HU-0002vt-Mz; Wed, 23 Mar 2022 09:44:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dozHrJtkz0vqyAXdJjowwcrCwxYRJa3SuYndp9BlyfvASxgzp0+gdiIcKfRbX7jM9/OFkeIgJLqNp+UEHw2Ii3hOzZf9Jfy97b6ugOmz5rw80zTZYIRbpLF781euNOpimpgSK8/HM7Xlb0lbWh/RULXZL3QIqV9r81Zaf4Flfb9+z0I9FHywxPibGTPkMnRWz3o2/uJQ3TGppB8Rp+pTHjV2+r8yQ9zwjDrZs2i1920JeNkiPUgJybspsoZLMej4LYU+UojrvdrqPL1+5GgSZ02RFMNE8tviWV9/wQhFgc/MDAgYy7teZBAXm3Zvy5WVidGbnAtXRAXpsQ8HZlu+Ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a25IEtsTya85TC3wYeB2LvV4OsjwG9EcyxmcZjE5eqo=;
- b=EqaMZW5ZdkgnGp0zc8Vob62foNeduDUgZg3g3pDLVcr9+85hXcstBlC7GXFuhJ/jmg3IgPEnHn8X250OLFsjMLJbHuW6JWteFffqDSLoKf6npXPGjFU5DThqF0SdIkbRUazV/7B6Vp3Pxf47E1ew2Y1QcK+ltHFWbcjJFeUdwg0NW1rO2GVDn3n+iuxwnQOHFIi6HyS7gZsZL86w8DKMvE1jI81wgtej3IxV9l+M6qJTQQQUZlivLdV+CtZC868Dn1mm2+X3da24bNNBmfT99dw1OGlpV2U9omJQWXSZ+jhk97xLh8jc3AkV4dAUpzZVR5yVadJWmAAHbkYq+0UZrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a25IEtsTya85TC3wYeB2LvV4OsjwG9EcyxmcZjE5eqo=;
- b=dNUgYluMuXR2O057TSyiokmOwijqilXWjJYRderJdUC9nViE7YnlrukLwgbzlizres5eWMzI3gzX+iUrTyx8/X4tPWOv4HKSWXB9wARf+9DNfknRhsJllru9Zf2ExxykWEzPIYewjxcv5H2+diXm2bpsTwx5bk4EOLRmR3LSxJY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AS8PR08MB6946.eurprd08.prod.outlook.com (2603:10a6:20b:345::17)
- by AM6PR08MB3014.eurprd08.prod.outlook.com (2603:10a6:209:47::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.17; Wed, 23 Mar
- 2022 12:12:41 +0000
-Received: from AS8PR08MB6946.eurprd08.prod.outlook.com
- ([fe80::b94b:97a0:971f:bdd5]) by AS8PR08MB6946.eurprd08.prod.outlook.com
- ([fe80::b94b:97a0:971f:bdd5%7]) with mapi id 15.20.5081.023; Wed, 23 Mar 2022
- 12:12:41 +0000
-Message-ID: <99437393-2970-71cd-d922-bc3b985b611a@virtuozzo.com>
-Date: Wed, 23 Mar 2022 15:12:38 +0300
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nX0Ha-00045h-Ur
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 08:40:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+ s=mail4; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=7piyTjFZyBn56Ki8xyYnHT32oXvqYXuhfJ5764r/87w=; 
+ t=1648039211;x=1648644611; 
+ b=cJhypxY6nMBu7uj46VqJnSmQVYldUy6Cf1NYkj8Ad6ssC2x9zo8/+lwCEZs3uwjdsKCsL+0UBaU9F95M/Oqcil5cMFsSLkXyn3w+kXey73MfdCrR89eQirRcatCrlyI2aXxngT2dij9s41Gb0vCK1vjAW9N9IC/P/NkpGoD8+CY9W8qNZ59YIvBhiQHh/4s5GJldNDiT3z7ew5e7Mef+78nS6PTyOt97VxO5Qv1MHC2RFVYo0g736AAxnbHkUrlgFQSPJwahD6HlSJjUAtuY4aC76Flaf0MgxU4L2/BNZ2LTJxmVOWYIt9hjMAcuWBmKmPF7KYNt0Jd+LsjkCNpmxA==;
+Received: by smtp32.i.mail.ru with esmtpa (envelope-from
+ <v.sementsov-og@mail.ru>)
+ id 1nX0HW-0005Xm-EW; Wed, 23 Mar 2022 15:40:06 +0300
+Message-ID: <b59272e8-08e6-4de0-c7f7-f153f1d014c7@mail.ru>
+Date: Wed, 23 Mar 2022 15:40:02 +0300
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH-for-7.0 1/2] block: Fix misleading hexadecimal format
+Subject: Re: [PATCH v1 3/8] migration: Add vmstate part of migration stream
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-Cc: Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Hanna Reitz <hreitz@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220323114718.58714-1-philippe.mathieu.daude@gmail.com>
- <20220323114718.58714-2-philippe.mathieu.daude@gmail.com>
-From: "Denis V. Lunev" <den@virtuozzo.com>
-In-Reply-To: <20220323114718.58714-2-philippe.mathieu.daude@gmail.com>
+To: Nikita Lapshin <nikita.lapshin@openvz.org>, qemu-devel@nongnu.org
+Cc: den@openvz.org, Nikita Lapshin <nikita.lapshin@virtuozzo.com>
+References: <20220323105400.17649-1-nikita.lapshin@openvz.org>
+ <20220323105400.17649-4-nikita.lapshin@openvz.org>
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+In-Reply-To: <20220323105400.17649-4-nikita.lapshin@openvz.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR06CA0205.eurprd06.prod.outlook.com
- (2603:10a6:20b:45d::31) To AS8PR08MB6946.eurprd08.prod.outlook.com
- (2603:10a6:20b:345::17)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2b7b4de9-f164-45ae-80b3-08da0cc66da4
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3014:EE_
-X-Microsoft-Antispam-PRVS: <AM6PR08MB30149870780A5E560BB8742BB6189@AM6PR08MB3014.eurprd08.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: apfBhoWEO9RQFVBIX8pS5v1SgiPjh1OB9OeyxVy5QkLZix/Tbuz/4wdpYyA0eyDoHFq79wo/mAItJThcsAB4sAGr9n2/zB8HhnTsH2Xn4xCHEWVCEwPPTRggeuW7pCrBn34KBOK8cxnKda8lxmLJDDz+xGdPRdT6LgxS0+T3T9gAWcbDrmNH9a1AoN2U8icuHvaBodL4/549Zuq12Lbrnxvun+vx0d50NkW9w8C6wFHJx0xvJ037WoPzh1GWLs8ksiNvn/9ZwUH40qdbmR/XsQWHCRaS0hfiP3Y783DinjtUw/RYAUSIA4paUSsHs7srCOnCGilkKp0fm88XdE1H1DOhteUVCsTp5zBRYiAL/3V6JIyZLW/TQdlxzBXO+iKLzmyjHFckiuaZW04AVv7vutjIp9Rpm3Xz2+DRXhzeXYs+9/HKMXMvnOiJPwmMrMq0MvQXO1lgpQEX+ydrbTdkM9VDNGVE9QjXdv/iBCCZN5wwNl+VxWJZ6Zyunh+vZp+okL6M+mK2j+DGGrYPh1GylkBBMdNlnLhT9VdI/jWMJ1IudBF34uYMOgr6mvGG/CxZY0HGiBjIkBjBlvlTZgAUDEe35DnV7YbRPLrHICZTU2G8sWEgsROq1R08rmdv6A5go9xvP9rArhay06LpH61L+VTm/TeC0o6o6DEKbEcfL8iofx23LuUXxwHnEWBVlHM/n/OZ3+qT5nB3YflepjH6F1wJO9hxPhqEoqPiIA90ZCxYFpv10COtinSOD+2/CjfcSoVo8xQK7srsUJJETO1pnA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS8PR08MB6946.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(2906002)(4744005)(31686004)(31696002)(26005)(186003)(5660300002)(7416002)(8936002)(38350700002)(86362001)(38100700002)(4326008)(66556008)(66476007)(6666004)(8676002)(66946007)(36756003)(316002)(54906003)(508600001)(83380400001)(2616005)(6506007)(6486002)(52116002)(6512007)(53546011)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NzJqTkxXWUV0bjc4VnB4c1MwQndvSGRSaHZaOWtKdlg2dFVST0dHdTh3azVn?=
- =?utf-8?B?QlR4SWdubk8zNG84TFJ6d1JBZjJkSmpCYTVYS0pLN05LdWRmOGMxSk5vU1FI?=
- =?utf-8?B?VlJ5dkp0em1zY2xXTllsb0I2MERVZXJFSlpOZzE3cXcwMXpQRmphZ3h2Rk9U?=
- =?utf-8?B?b2dnRWsxZVBYeDhhcldpLzhzaTZ6a2R5VHloSkF3RURxREFwUEljWlo4dEgw?=
- =?utf-8?B?TEo4NTY5VnJXb0pZUnpVZUZWSnM4Tm1LeTNEaXk1MzkrQ1g0dTJOdkZqZlBw?=
- =?utf-8?B?TDc1QW9iU2xSTFFjbWNsaHYza25XRkU0TlIvclFncGt2VkcrTGk5OEpQVytW?=
- =?utf-8?B?cEpOV0s4U2Z3Q3ZsS2E4bVlabGJiY2wzVHdWbllwVFN5WHJoL0xKQ3lMSERm?=
- =?utf-8?B?NTg0R1BZQjdFYWVOYlJwZmNIaWk3YndJeU1oSDNmRkd5bTVocHl5YS9paWs0?=
- =?utf-8?B?UVFEa2hVNnhONUZITlJOaURkeEltRTdoU3V3enV6cURkdFhiMEZ0NDQwNmRv?=
- =?utf-8?B?MWI3R0UyRVp3bThmNGhkOWJEWEhuUFhkWnE2QnVYV0RQRC96aE5GTVE2RTFq?=
- =?utf-8?B?SE5DTSthV2lyZWF4eDNIeHJPZTVVNHBNZCtVWExtLzQzQnI5STkyZnJMMVBn?=
- =?utf-8?B?Um1WbHlKOGFrVU5yZEZ6UnZzMU1QeGdnbzRGV3ZrSG9PMnFxZEVGMTdxbnhI?=
- =?utf-8?B?YXVZbVlJU3hWMHJlK1d6MFFSTDVrcnRGN1NDeXpiRHdpbmtDcWprTENkVWVW?=
- =?utf-8?B?YVZKQWNGL2xmdmZKSHpSUnRPcVdYZUJDRFVsSXd6RzR1dloxd3JOUzVZQUs2?=
- =?utf-8?B?NW54NkNFOS95cDMxS1BISjFwTkR6TCtHZnltWWpaTGFwMkVPVHB0cW5JUFVG?=
- =?utf-8?B?Mk5tdWl3UVVkZmlhNXNnSHJ1S04zREUvRHUyeWN5WWh2WkVhZVlnRGJEa2Q4?=
- =?utf-8?B?eFBBbCtuSHEvY014NWlkYVRreEVHQ3NPcy9kUDUwUnQ1Y2ROZW9RNU1zQXNa?=
- =?utf-8?B?eGFLL3RSdW43Y29jL09KU3ZicG1maVVHSGgzTmdhbnhtNVlNLy94L1k1RWRJ?=
- =?utf-8?B?Y3k0RS9BRmw0YWlrZ2tldnRjQVcvVk1SRnBvbGUrT1B1L3Vsalp0Q1lmMVdH?=
- =?utf-8?B?Sk9oanl5L2diVEsyVDhXNkhjd0d1SDFzYmJVY3JnYWpZeXJ3WUpaOFc5NXVi?=
- =?utf-8?B?c3NQS1lGNFRvM3g0VU40S1NnMEZjbWtqcTB3Y3Z1VHRLd0VjN2c0MWpNazdC?=
- =?utf-8?B?MUZpTXVxTlFKaXFMbFJPV09EaDVrbHczQk5IZ2krejh0MUhjUlJRZXAxU3F5?=
- =?utf-8?B?YlJmdU1FQklDOXpZenhhRlFtcVJlVkhoWHF6dGp0dW5SOXNPZ3lVdWdNUUZo?=
- =?utf-8?B?azJhSEpUZ2poMEo1ZjFVSHNuOXlrOWMyNVV1eXF5d3pXdmZxMm5BRFZKZnI1?=
- =?utf-8?B?VG5meFcrbVdpVTNoU3JaNnM1OW03TTJZdHVLZFVJNi9lb0J0bVMrN1V1TG1o?=
- =?utf-8?B?NXplMXJKMU5PdnBaNHlTdm5oU01ZaWRhUStEbmxpT0ExRWJ4V0djQjJpbm9m?=
- =?utf-8?B?a0ZvdzdPSVYrdmprb285R2ZWbmhmclB3MlJVd3p0Rjg3N3A3MEJwcWhNWVJj?=
- =?utf-8?B?TS8zcjZDUCt5Ykw3SHZRSFoyaDZ2UmRRWFVHUEZ1WW1tbkJETjVzSFAzWFg4?=
- =?utf-8?B?THBDdi9wY21rWTlqNHNJeGpleEtiOWFmYUV3SCs4YUMwYWxiOWMxb2g3QmJT?=
- =?utf-8?B?MzNiNnBaZFB1SXVVcTRGV3hXam1BK3hTOWFiZmUyQTBjMS93NFFTZU41M2FE?=
- =?utf-8?B?NWFFdytYRXI0WVd3SmlIOFVDbzBoWWRvaVRhT2tGMHZtbkZ5LzVqNG9FdUFk?=
- =?utf-8?B?dXI5RmQzZE5hV3pJb2M2djQraDlJc3l2ZDVWaU5xVEc2VlRyb3kyZWxUc3Vi?=
- =?utf-8?Q?wWSrCV7Mjb/ytCsi4T1NzJk0FCpQG4AY?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b7b4de9-f164-45ae-80b3-08da0cc66da4
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB6946.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2022 12:12:41.0932 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P+YK0nLv/5k+6x71rKEi7Tf3ZWIHnyGlaJpq6oQkDRUc/3UXcqyD3/Tevndomzq0MnWLBIGZGkIVUdd5C1Cl8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3014
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e1a::70d
- (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7e1a::70d;
- envelope-from=den@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp32.i.mail.ru;
+ auth=pass smtp.auth=v.sementsov-og@mail.ru
+ smtp.mailfrom=v.sementsov-og@mail.ru
+X-4EC0790: 10
+X-7564579A: B8F34718100C35BD
+X-77F55803: 4F1203BC0FB41BD95983D7D89D92196D8CF2CFB95539D9144AAA932A5836E553182A05F538085040FD3F7C5A4405DBECB648D03E21DCD1216AC4C39031233FCFD393F41D69A43AAA
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE73870E1FF9A049D91EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637FF37B1FF54E2C7C48638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8E77E06B9970DFE6CFE88346F18FD65816F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE75A64D9A1E9CA65708941B15DA834481FA18204E546F3947C21E93C0F2A571C7BF6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F790063706C07FE7DDBB4AB7389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F79006374FDF5742F3EC5011D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE70D66F1D77A79F9A7EC76A7562686271EEC990983EF5C03292E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C34B556A7116F344E835872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-8FC586DF: 6EFBBC1D9D64D975
+X-C1DE0DAB: 0D63561A33F958A58F4241E72346E9B7CD0A69BA70F13EE12A5724E0A8A8FE74D59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA75040BF32255FAA22B410CA545F18667F91A7EA1CDA0B5A7A0
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34AC6E62257D6CD1C98D56CE90EC973DAF57C347792C4768663306111D2626B16D936958C82F20AE4B1D7E09C32AA3244CC8D909F2AB7622DCEBCBE7353B0715A4E646F07CC2D4F3D8927AC6DF5659F194
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojVRXGxxa4QmANw54pic25xw==
+X-Mailru-Sender: 6C3E74F07C41AE94BE5520CD20DE4F15E95DE0FCF0D321F149C676CC4147AD64DD52A0D2DD5064E3E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+Received-SPF: pass client-ip=94.100.177.92;
+ envelope-from=v.sementsov-og@mail.ru; helo=smtp32.i.mail.ru
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -155,33 +80,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.03.2022 14:47, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->
-> "0x%u" format is very misleading, replace by "0x%x".
->
-> Found running:
->
->    $ git grep -E '0x%[0-9]*([lL]*|" ?PRI)[dDuU]' block/
->
-> Inspired-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+23.03.2022 13:53, Nikita Lapshin wrote:
+> From: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
+> 
+> Now we can disable and enable vmstate part by stream_content parameter.
+> 
+> Signed-off-by: Nikita Lapshin <nikita.lapshin@openvz.org>
 > ---
->   block/parallels-ext.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/block/parallels-ext.c b/block/parallels-ext.c
-> index cb22a427d7..5122f67ac2 100644
-> --- a/block/parallels-ext.c
-> +++ b/block/parallels-ext.c
-> @@ -261,7 +261,7 @@ static int parallels_parse_format_extension(BlockDriverState *bs,
->               break;
+>   migration/migration.c | 10 ++++++++--
+>   migration/savevm.c    | 13 +++++++++++++
+>   2 files changed, 21 insertions(+), 2 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 4adcc87d1d..bbf9b6aad1 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1334,9 +1334,15 @@ void qmp_migrate_set_capabilities(MigrationCapabilityStatusList *params,
+>       }
+>   }
 >   
->           default:
-> -            error_setg(errp, "Unknown feature: 0x%" PRIu64, fh.magic);
-> +            error_setg(errp, "Unknown feature: 0x%" PRIx64, fh.magic);
->               goto fail;
->           }
+> -static bool check_stream_parts(strList *stream_content_list)
+> +static bool check_stream_parts(strList *stream_list)
+>   {
+> -    /* To be implemented in ext commits */
+> +    for (; stream_list; stream_list = stream_list->next) {
+> +        if (!strcmp(stream_list->value, "vmstate")) {
+> +            continue;
+> +        }
+> +
+> +        return false;
+> +    }
+>       return true;
+>   }
+
+When you move to enum for list elements in QAPI, this thing would be checked automatically, you will not have to check it by hand.
+
 >   
-Reviewed-by: Denis V. Lunev <den@openvz.org>
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index c68f187ef7..8f35c0c81e 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -949,6 +949,19 @@ static bool should_skip(SaveStateEntry *se)
+>           return true;
+>       }
+>   
+> +    /*
+> +     * Assume that any SaveStateEntry with non-null vmsd is
+> +     * part of vmstate.
+> +     * Vmstate is included by default so firstly check if
+> +     * stream-content-list is enabled.
+> +     */
+> +
+> +    if (se->vmsd &&
+> +        migrate_get_current()->parameters.has_stream_content_list &&
+> +        !migrate_find_stream_content("vmstate")) {
+
+And in migrate_find_stream_content you do
+     if (!s->parameters.has_stream_content_list) {
+         return false;
+     }
+
+Seems better to do
+     if (!s->parameters.has_stream_content_list) {
+         return true;
+     }
+
+in migrate_find_stream_content(), and rename it to something like should_migrate_content() or just migrate_content().
+
+Then here you don't need to check .has_stream_content_list.
+
+> +        return true;
+> +    }
+> +
+>       return false;
+>   }
+>   
+
+
+-- 
+Best regards,
+Vladimir
 
