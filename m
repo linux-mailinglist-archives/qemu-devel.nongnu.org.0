@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA4F4E55E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:03:40 +0100 (CET)
-Received: from localhost ([::1]:52732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7724E560A
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:08:48 +0100 (CET)
+Received: from localhost ([::1]:60676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX3SU-0005Pw-V6
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:03:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37842)
+	id 1nX3XU-0003Os-1x
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:08:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3NW-0002ej-6l
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:58:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58888)
+ id 1nX3Nb-0002tT-IO
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:58:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3NU-0004mq-S2
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:58:29 -0400
+ id 1nX3NZ-0004nI-T9
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:58:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648051108;
+ s=mimecast20190719; t=1648051112;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=04ADMvoinojRQ7rQGEpEiUuh/+45xT8fCinDKshrMEs=;
- b=Oyva/RBzvxsZXhWgfvb1M9eg4WDLIQyYUU2PcBZWj2mkF0EnXEWXGYdMsA8AcdOOI11DzU
- sPJct1xBbT1OizwWQfzysp/Bauf9ltvQJzUJ2+rRsGwL+VxHFsVBtTQBQ6IkBdNjRI5zmW
- pu39/x5k9SNxMd8DbjfJfgwsCI8SRr8=
+ bh=STuqLLUhJptJ/2QIHf/6JSF4QdDzi1fwexL97j77lxw=;
+ b=NtETmf/T698GXYXtEPy72WXtqFmEWSZ597GXBPZ1A1I8SgUmFF/79NxePUz0LQk05DhQRa
+ evWSNCniptc235XOFkO8Wl93EJ8LXxmOIcCokoAQJhzHDXGeuuHQQPn1/PolEupp56P6LS
+ Aj1f0VmFHAPtDe3fjtuF8WoW0/3SPLk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-bA96X65LPeGxDhsAQkeHlw-1; Wed, 23 Mar 2022 11:58:27 -0400
-X-MC-Unique: bA96X65LPeGxDhsAQkeHlw-1
+ us-mta-484-42DLKRXXOma5vUjMAnrnMQ-1; Wed, 23 Mar 2022 11:58:31 -0400
+X-MC-Unique: 42DLKRXXOma5vUjMAnrnMQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA6F81044561
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 15:58:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 746DC811E75
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 15:58:31 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCB54140265A;
- Wed, 23 Mar 2022 15:58:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7DCF4141DED9;
+ Wed, 23 Mar 2022 15:58:30 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/32] meson: remove unneeded py3
-Date: Wed, 23 Mar 2022 19:57:14 +0400
-Message-Id: <20220323155743.1585078-4-marcandre.lureau@redhat.com>
+Subject: [PATCH 04/32] meson: remove test-qdev-global-props dependency on
+ testqapi
+Date: Wed, 23 Mar 2022 19:57:15 +0400
+Message-Id: <20220323155743.1585078-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
 References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -89,19 +90,22 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- tests/meson.build | 2 --
- 1 file changed, 2 deletions(-)
+ tests/unit/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/meson.build b/tests/meson.build
-index 1d05109eb43c..4f691e84655a 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -1,5 +1,3 @@
--py3 = import('python').find_installation()
--
- subdir('bench')
- subdir('qemu-iotests')
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index 96b295263ea9..026e39f52025 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -148,7 +148,7 @@ if have_system
+     endif
  
+     tests += {
+-      'test-qdev-global-props': [qom, hwcore, testqapi]
++      'test-qdev-global-props': [qom, hwcore]
+     }
+   endif
+ endif
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
