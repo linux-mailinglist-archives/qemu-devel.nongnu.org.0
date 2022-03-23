@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D7F4E5845
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:18:12 +0100 (CET)
-Received: from localhost ([::1]:46418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F7D84E584B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:21:07 +0100 (CET)
+Received: from localhost ([::1]:50326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX5Yh-00034J-2X
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:18:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32956)
+	id 1nX5bU-0005hJ-U3
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:21:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nX5Wy-0001Jr-VT
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:16:24 -0400
-Received: from [2607:f8b0:4864:20::b32] (port=41951
- helo=mail-yb1-xb32.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nX5Wx-0000Ky-JE
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:16:24 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id y38so1565290ybi.8
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:16:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mHqPOd69yQ53GZ01PqXjCLD1WAOCktnvZg4jcLbliLE=;
- b=eymrb4BloSnPvpGCeEJjxs/Shsjm7grjxql+re/Ts1mEiNVr6vuZVOzhYtOiLco96B
- 2M4Eg/p3R6+aK9TFrUVHoNu704AZUBnlJja6+7b48cJvy8eEmW3fQSHg39pP3fSaXUFH
- NMfMMPxRlXyxUaGuLw/7j6pHy/U53s4J+3TuljkfjNQm99lbCweVmXULlddSS/ecouUE
- vrNH51jGkU6OezDkLAs6aDsa6UPlUgumyz1QDPb62z19454X/QHoic2lxdMtNcgvJvUU
- opbtQDRVywz+WmayCnrWSGldQdNhvTnjJVA0pm5RT9/jyVBTjQmgf1zphiKh3evJ6Gcx
- JJvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mHqPOd69yQ53GZ01PqXjCLD1WAOCktnvZg4jcLbliLE=;
- b=cJ5nvYDbK6EUN/XWm/IE0C4AFSb/kiwEWsrGwkJt8YYIGrJs6dXT9HT6DTSobOTQYY
- qKGAjSbvEtZl4Oz72PTEzS63Do1NVxf+X6adSNM5SjxsyKeNt1iqO611feAWcMniTxRE
- 4StR+oAz8jcRoPOIqcQT16Tuw+Rcjdem+5+cBWTDoN/kqQMg8y6OXxjzNtMA5+HIbl5T
- 3Lv3VyoNenI92hEOGcTroSvYBItPIW58DST+PfpamCAGlyqXUWcJpkVaHgQB/p9NwuCV
- vCmtWlWW0RUw16+RzwxSIBTsA3uyDyPJZD1EMt+cCnJHFeAHuD7oiNLqS+dpeOw4IVLU
- HFqg==
-X-Gm-Message-State: AOAM5320fDYlYvqzIaGLELm9feyeNy6Z7+tNOJCYGHDwKskmOQgRaTGj
- E2Vz2MqJuinD3OHrLk3ILeEX1jIkpeb/T4k63SU9cA==
-X-Google-Smtp-Source: ABdhPJxYMGYDgTuFBKfn6azNcrG+t7z9JD5IjAMkXzJAB0WzWKyWr9IgHtS3251eQj4MI9GxpeV9l9sG8Nvk/YuHm2s=
-X-Received: by 2002:a25:cdc8:0:b0:633:8aa6:6a3 with SMTP id
- d191-20020a25cdc8000000b006338aa606a3mr1273911ybf.288.1648059382648; Wed, 23
- Mar 2022 11:16:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nX5Yg-00044J-2C
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:18:10 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2458)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nX5Yd-0000oO-BZ
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:18:09 -0400
+Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KNxPd3yy4z67L3x;
+ Thu, 24 Mar 2022 02:16:21 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 23 Mar 2022 19:18:04 +0100
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Wed, 23 Mar
+ 2022 18:18:03 +0000
+Date: Wed, 23 Mar 2022 18:18:00 +0000
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+CC: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Be?=
+ =?ISO-8859-1?Q?nn=E9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
+ <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
+ <shameerali.kolothum.thodi@huawei.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
+ =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, 
+ Chris Browy <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, 
+ Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v8 17/46] hw/cxl/device: Add a memory device (8.2.8.5)
+Message-ID: <20220323181800.0000404d@huawei.com>
+In-Reply-To: <b61e4534-988c-14b6-b21b-4040ee72475b@ilande.co.uk>
+References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
+ <20220318150635.24600-18-Jonathan.Cameron@huawei.com>
+ <b61e4534-988c-14b6-b21b-4040ee72475b@ilande.co.uk>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-References: <20220323173543.146442-1-zongyuan.li@smartx.com>
- <20220323173543.146442-6-zongyuan.li@smartx.com>
-In-Reply-To: <20220323173543.146442-6-zongyuan.li@smartx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 23 Mar 2022 18:16:09 +0000
-Message-ID: <CAFEAcA8OCBd+y9a=p2kDzNiTsczuPWX_gAutSe6xrNA4DavhQg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] hw/core/irq: remove unused 'qemu_irq_split'
- function
-To: Zongyuan Li <zongyuan.li@smartx.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml745-chm.china.huawei.com (10.201.108.195) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,17 +79,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, 23 Mar 2022 at 17:37, Zongyuan Li <zongyuan.li@smartx.com> wrote:
->
-> Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/811
+On Sat, 19 Mar 2022 08:32:29 +0000
+Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> wrote:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> On 18/03/2022 15:06, Jonathan Cameron via wrote:
+> 
+> > From: Ben Widawsky <ben.widawsky@intel.com>
+> > 
+> > A CXL memory device (AKA Type 3) is a CXL component that contains some
+> > combination of volatile and persistent memory. It also implements the
+> > previously defined mailbox interface as well as the memory device
+> > firmware interface.
+> > 
+> > Although the memory device is configured like a normal PCIe device, the
+> > memory traffic is on an entirely separate bus conceptually (using the
+> > same physical wires as PCIe, but different protocol).
+> > 
+> > Once the CXL topology is fully configure and address decoders committed,
+> > the guest physical address for the memory device is part of a larger
+> > window which is owned by the platform.  The creation of these windows
+> > is later in this series.
+> > 
+> > The following example will create a 256M device in a 512M window:
+> > -object "memory-backend-file,id=cxl-mem1,share,mem-path=cxl-type3,size=512M"
+> > -device "cxl-type3,bus=rp0,memdev=cxl-mem1,id=cxl-pmem0"
+> > 
+> > Note: Dropped PCDIMM info interfaces for now.  They can be added if
+> > appropriate at a later date.
+> > 
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
 
-thanks
--- PMM
+...
+
+> > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> > new file mode 100644
+> > index 0000000000..a8d7cfcc81
+> > --- /dev/null
+> > +++ b/hw/mem/cxl_type3.c
+> > @@ -0,0 +1,153 @@
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/units.h"
+> > +#include "qemu/error-report.h"
+> > +#include "hw/mem/memory-device.h"
+> > +#include "hw/mem/pc-dimm.h"
+> > +#include "hw/pci/pci.h"
+> > +#include "hw/qdev-properties.h"
+> > +#include "qapi/error.h"
+> > +#include "qemu/log.h"
+> > +#include "qemu/module.h"
+> > +#include "qemu/range.h"
+> > +#include "qemu/rcu.h"
+> > +#include "sysemu/hostmem.h"
+> > +#include "hw/cxl/cxl.h"
+> > +
+> > +static void build_dvsecs(CXLType3Dev *ct3d)
+> > +{
+> > +    CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
+> > +    uint8_t *dvsec;
+> > +
+> > +    dvsec = (uint8_t *)&(struct cxl_dvsec_device){
+> > +        .cap = 0x1e,
+> > +        .ctrl = 0x6,
+> > +        .status2 = 0x2,
+> > +        .range1_size_hi = 0,
+> > +#ifdef SET_PMEM_PADDR
+> > +        .range1_size_lo = (2 << 5) | (2 << 2) | 0x3 | ct3d->size,
+> > +#else
+> > +        .range1_size_lo = 0x3,
+> > +#endif  
+> 
+> Generally you don't want #ifdefs like this to control functionality: it should either 
+> be removed if it is for unimplemented features, or controlled via a qdev property in 
+> ct3_props below.
+
+Oops. That should have been long gone. It's a leftover from a much earlier
+attempt to handle the memory address spaces.
+The size property of a type3 devices is also not used for anything worthwhile
+any more as there seems little reason to not just use the hostmem region size
+instead.
+So I'll drop that whilst tidying this up which also involves a bunch of
+changes to tests and docs.
+
+> 
+> > +        .range1_base_hi = 0,
+> > +        .range1_base_lo = 0,
+> > +    };
+> > +    cxl_component_create_dvsec(cxl_cstate, PCIE_CXL_DEVICE_DVSEC_LENGTH,
+> > +                               PCIE_CXL_DEVICE_DVSEC,
+> > +                               PCIE_CXL2_DEVICE_DVSEC_REVID, dvsec);
+> > +
+> > +    dvsec = (uint8_t *)&(struct cxl_dvsec_register_locator){
+> > +        .rsvd         = 0,
+> > +        .reg0_base_lo = RBI_COMPONENT_REG | CXL_COMPONENT_REG_BAR_IDX,
+> > +        .reg0_base_hi = 0,
+> > +        .reg1_base_lo = RBI_CXL_DEVICE_REG | CXL_DEVICE_REG_BAR_IDX,
+> > +        .reg1_base_hi = 0,
+> > +    };
+> > +    cxl_component_create_dvsec(cxl_cstate, REG_LOC_DVSEC_LENGTH, REG_LOC_DVSEC,
+> > +                               REG_LOC_DVSEC_REVID, dvsec);
+> > +}
+> > +
+
+...
+
+> > diff --git a/hw/mem/meson.build b/hw/mem/meson.build
+> > index 82f86d117e..609b2b36fc 100644
+> > --- a/hw/mem/meson.build
+> > +++ b/hw/mem/meson.build
+> > @@ -3,6 +3,7 @@ mem_ss.add(files('memory-device.c'))
+> >   mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
+> >   mem_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_mc.c'))
+> >   mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
+> > +mem_ss.add(when: 'CONFIG_CXL_MEM_DEVICE', if_true: files('cxl_type3.c'))
+> >   
+> >   softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
+> >   
+> > diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+> > index 8102d2a813..72da811c52 100644
+> > --- a/include/hw/cxl/cxl_device.h
+> > +++ b/include/hw/cxl/cxl_device.h
+> > @@ -230,4 +230,21 @@ REG64(CXL_MEM_DEV_STS, 0)
+> >       FIELD(CXL_MEM_DEV_STS, MBOX_READY, 4, 1)
+> >       FIELD(CXL_MEM_DEV_STS, RESET_NEEDED, 5, 3)
+> >   
+> > +typedef struct cxl_type3_dev {
+> > +    /* Private */
+> > +    PCIDevice parent_obj;
+> > +
+> > +    /* Properties */
+> > +    uint64_t size;
+> > +    HostMemoryBackend *hostmem;
+> > +
+> > +    /* State */
+> > +    CXLComponentState cxl_cstate;
+> > +    CXLDeviceState cxl_dstate;
+> > +} CXLType3Dev;
+> > +
+> > +#define TYPE_CXL_TYPE3_DEV "cxl-type3"
+> > +
+> > +#define CT3(obj) OBJECT_CHECK(CXLType3Dev, (obj), TYPE_CXL_TYPE3_DEV)
+> > +  
+> 
+> Ah okay this is an old style initialiser, and new code shouldn't be using them 
+> anymore (I believe there should be no remaining instances in git master). Drop the 
+> typedef from struct cxl_type3_dev and replace with:
+> 
+> #define TYPE_CXL_TYPE3_DEV "cxl-type3"
+> OBJECT_DECLARE_SIMPLE_TYPE(CXLType3Dev, CXL_TYPE3_DEV))
+> 
+> Note this will alter the generated QOM CAST from CT3() to CXL_TYPE3_DEV(): I would 
+> argue that the _DEV suffix is QOM legacy naming and recommend removing it from both 
+> of the above to give you TYPE_CXL_TYPE3 and CXL_TYPE3 respectively.
+
+Code has been around a while and being out of tree this sort of stuff is only
+likely to get picked up by reviewers (thanks!)
+Now updated to this newer approach - this code mostly went away in patch 20
+where a class is introduced, but I've switched to your new suggested naming
+and gotten rid of CT3() which was left behind.
+
+Thanks,
+
+Jonathan
+
+
 
