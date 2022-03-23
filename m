@@ -2,92 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B087E4E4E65
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 09:41:35 +0100 (CET)
-Received: from localhost ([::1]:43818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F055B4E4ED0
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 10:00:55 +0100 (CET)
+Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWwYg-0002Hn-6l
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 04:41:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59862)
+	id 1nWwrN-00032p-Ux
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 05:00:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWwXH-0001QX-0k
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 04:40:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59152)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWwXD-0006kK-72
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 04:40:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648024802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M5d4C6CQYpVgLYmfYzXTqUtCSh0UHpqS3hC9VG4/K8Q=;
- b=OLTEA0RXg4+tEJ4lEg0DGYBh4EHMPGgH9vYrkdGzqiA72A9OqLZXS01rzFlnrMOtigHTYS
- KHlxDYhR4aSD1bFhz1EHQWUVZGwLYQhyzVqFG7D8HOCV3Pu78LPZioQ3xLhuklYkgC9Emn
- 71NzSf6kgranVa2zM/bFc8JREp+lwhY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-IT-hDL6sMvayUGIvybS9ag-1; Wed, 23 Mar 2022 04:40:01 -0400
-X-MC-Unique: IT-hDL6sMvayUGIvybS9ag-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p9-20020adf9589000000b001e333885ac1so261394wrp.10
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 01:40:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=M5d4C6CQYpVgLYmfYzXTqUtCSh0UHpqS3hC9VG4/K8Q=;
- b=eclyCObfTcngwsu1Bo4vsGIVjOhLSJ6/vhO1m1Yw1adjXwJOD9/V+tz6qSidpW7qGI
- /7rl+09iB152v3OIxM+h9Mha8BLtllUcSu5z//hb3V4w+jRVFoAfYy+IBpsPbvqF3kWB
- 3QA76Gn0Uy3A2nchT7CM5OLsjnUYFd03DrwadszFZaYiItbP7XmPoteW+NRxmQtXvRj4
- f9N10j0+QDxULoKGq3APyXAUI1IQXQbBZlUhw/Kl2UmyOq5mV0/UFSZDVIsuG3R/MxQ6
- SG1DgasIbSHCcYlhb/wOUePgtfpuuX51i78xiGsKsprgzjqgpodEypGnaCbtoQsGSFxk
- 7/qw==
-X-Gm-Message-State: AOAM533kU1/JGu5RXCHjup/9di+Vx9Oz/gPpCrJWfvH/8jiERYkfwOOa
- xZ3vj2Gejt0GD2CWCd1oLvcbG/EBLfsn2WDFN7nOsIXlezHu/v9733OXR+zSvfqBQaHjNMJQ9tH
- v3CBoomlvAhedrqA=
-X-Received: by 2002:a05:6000:1a88:b0:204:1f4f:1c2 with SMTP id
- f8-20020a0560001a8800b002041f4f01c2mr8293814wry.642.1648024799612; 
- Wed, 23 Mar 2022 01:39:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxK9Uh75Liwko+++GHQB8MsrSrZY+rIu0Uhr1w1zZBU1A8HTpwUOtH+l1ZrNcRcb9XaLlHsfg==
-X-Received: by 2002:a05:6000:1a88:b0:204:1f4f:1c2 with SMTP id
- f8-20020a0560001a8800b002041f4f01c2mr8293783wry.642.1648024799335; 
- Wed, 23 Mar 2022 01:39:59 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
- [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
- p14-20020a5d59ae000000b00203dcc87d39sm28213803wrr.54.2022.03.23.01.39.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 01:39:58 -0700 (PDT)
-Message-ID: <51806099-c55d-ce5e-ae3f-e1609c8a92e5@redhat.com>
-Date: Wed, 23 Mar 2022 09:39:57 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] iotests: update test owner contact information
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20220322174212.1169630-1-jsnow@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220322174212.1169630-1-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <08005325@163.com>) id 1nWwox-0002JV-E9
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 04:58:23 -0400
+Received: from m12-14.163.com ([220.181.12.14]:17610)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <08005325@163.com>) id 1nWwor-0006WV-Ol
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 04:58:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=SxoiB44t7WESaK2cTs
+ 3HAZxhzsgbfVqNLKtQ02sN8UM=; b=jv4GbnVEz7a23cz8G03c17WKqIbd47MsPL
+ +o+tCgWzm4OO22DL73cMwFiiXxmNKonHwfg+KPq8fjepkDrBoyIPQYx9gJbxRcDh
+ /332L5hoH9t2nJ4iGRJLvzNsB8gS6vbjknD/dA1bdcDj/ETAnWz4XULzg8vLcNhm
+ 4b2TbGpn0=
+Received: from localhost.localdomain.localdomain (unknown [116.228.45.98])
+ by smtp10 (Coremail) with SMTP id DsCowADnLoKI3Tpi7p9dCQ--.17066S2;
+ Wed, 23 Mar 2022 16:42:48 +0800 (CST)
+From: 08005325@163.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] vdpa: Avoid reset when stop device
+Date: Wed, 23 Mar 2022 04:42:46 -0400
+Message-Id: <1648024966-5170-1-git-send-email-08005325@163.com>
+X-Mailer: git-send-email 1.8.3.1
+X-CM-TRANSID: DsCowADnLoKI3Tpi7p9dCQ--.17066S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7CryDGF48WFyDCrW8XrWUurg_yoW8tw1rpr
+ Z7K3WrKr4DJr4xtrs7CF1ku3s8G3s3t397Ga97Wa129F1UJrWkZ390gayjyry7tFWrAF12
+ vF42gr4ru398Zw7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jYBT5UUUUU=
+X-Originating-IP: [116.228.45.98]
+X-CM-SenderInfo: qqyqikqtsvqiywtou0bp/1tbivwjMrFWByUi48gAAsI
+Received-SPF: pass client-ip=220.181.12.14; envelope-from=08005325@163.com;
+ helo=m12-14.163.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,111 +62,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org
+Cc: jasowang@redhat.com, Michael Qiu <qiudayu@archeros.com>, lulu@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/03/2022 18.42, John Snow wrote:
-> Quite a few of these tests have stale contact information. This patch
-> updates the stale ones that I happen to be aware of at the moment.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/025 | 2 +-
->   tests/qemu-iotests/027 | 2 +-
->   tests/qemu-iotests/028 | 2 +-
->   tests/qemu-iotests/036 | 2 +-
->   tests/qemu-iotests/039 | 2 +-
->   tests/qemu-iotests/059 | 2 +-
->   tests/qemu-iotests/060 | 2 +-
->   tests/qemu-iotests/061 | 2 +-
->   tests/qemu-iotests/062 | 2 +-
->   tests/qemu-iotests/064 | 2 +-
->   tests/qemu-iotests/066 | 2 +-
->   tests/qemu-iotests/068 | 2 +-
->   tests/qemu-iotests/069 | 2 +-
->   tests/qemu-iotests/070 | 2 +-
->   tests/qemu-iotests/071 | 2 +-
->   tests/qemu-iotests/072 | 2 +-
->   tests/qemu-iotests/074 | 2 +-
->   tests/qemu-iotests/084 | 2 +-
->   tests/qemu-iotests/085 | 2 +-
->   tests/qemu-iotests/089 | 2 +-
->   tests/qemu-iotests/090 | 2 +-
->   tests/qemu-iotests/091 | 2 +-
->   tests/qemu-iotests/094 | 2 +-
->   tests/qemu-iotests/095 | 2 +-
->   tests/qemu-iotests/097 | 2 +-
->   tests/qemu-iotests/098 | 2 +-
->   tests/qemu-iotests/099 | 2 +-
->   tests/qemu-iotests/102 | 2 +-
->   tests/qemu-iotests/103 | 2 +-
->   tests/qemu-iotests/105 | 2 +-
->   tests/qemu-iotests/106 | 2 +-
->   tests/qemu-iotests/107 | 2 +-
->   tests/qemu-iotests/108 | 2 +-
->   tests/qemu-iotests/110 | 2 +-
->   tests/qemu-iotests/111 | 2 +-
->   tests/qemu-iotests/112 | 2 +-
->   tests/qemu-iotests/113 | 2 +-
->   tests/qemu-iotests/115 | 2 +-
->   tests/qemu-iotests/117 | 2 +-
->   tests/qemu-iotests/119 | 2 +-
->   tests/qemu-iotests/120 | 2 +-
->   tests/qemu-iotests/121 | 2 +-
->   tests/qemu-iotests/123 | 2 +-
->   tests/qemu-iotests/125 | 2 +-
->   tests/qemu-iotests/126 | 2 +-
->   tests/qemu-iotests/127 | 2 +-
->   tests/qemu-iotests/135 | 2 +-
->   tests/qemu-iotests/138 | 2 +-
->   tests/qemu-iotests/140 | 2 +-
->   tests/qemu-iotests/141 | 2 +-
->   tests/qemu-iotests/143 | 2 +-
->   tests/qemu-iotests/144 | 2 +-
->   tests/qemu-iotests/146 | 2 +-
->   tests/qemu-iotests/150 | 2 +-
->   tests/qemu-iotests/153 | 2 +-
->   tests/qemu-iotests/156 | 2 +-
->   tests/qemu-iotests/162 | 2 +-
->   tests/qemu-iotests/173 | 2 +-
->   tests/qemu-iotests/176 | 2 +-
->   tests/qemu-iotests/182 | 2 +-
->   tests/qemu-iotests/192 | 2 +-
->   tests/qemu-iotests/200 | 2 +-
->   tests/qemu-iotests/216 | 2 +-
->   tests/qemu-iotests/218 | 2 +-
->   tests/qemu-iotests/224 | 2 +-
->   tests/qemu-iotests/225 | 2 +-
->   tests/qemu-iotests/228 | 2 +-
->   tests/qemu-iotests/229 | 2 +-
->   tests/qemu-iotests/231 | 2 +-
->   tests/qemu-iotests/250 | 2 +-
->   tests/qemu-iotests/251 | 2 +-
->   tests/qemu-iotests/252 | 2 +-
->   tests/qemu-iotests/258 | 2 +-
->   tests/qemu-iotests/259 | 2 +-
->   tests/qemu-iotests/261 | 2 +-
->   tests/qemu-iotests/310 | 2 +-
->   76 files changed, 76 insertions(+), 76 deletions(-)
-> 
-> diff --git a/tests/qemu-iotests/025 b/tests/qemu-iotests/025
-> index 80686a30d5..5771ea9200 100755
-> --- a/tests/qemu-iotests/025
-> +++ b/tests/qemu-iotests/025
-> @@ -20,7 +20,7 @@
->   #
->   
->   # creator
-> -owner=stefanha@linux.vnet.ibm.com
-> +owner=stefanha@redhat.com
+From: Michael Qiu <qiudayu@archeros.com>
 
-Wow, these were really old ones ... I wonder whether these "owner" lines 
-really still make that much sense if they are neglected that much, or 
-whether the information should maybe rather be captured in MAINTAINERS instead?
+Currently, when VM poweroff, it will trigger vdpa
+device(such as mlx bluefield2 VF) reset twice, this leads
+to below issue:
 
-Anyway:
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+vhost VQ 2 ring restore failed: -22: Invalid argument (22)
+
+This because in vhost_dev_stop(), qemu tries to stop the device,
+then stop the queue: vhost_virtqueue_stop().
+In vhost_dev_stop(), it resets the device, which clear some flags
+in low level driver, and the driver finds
+that the VQ is invalied, this is the root cause.
+
+Actually, device reset will be called within func release()
+
+To solve the issue, vdpa should set vring unready, and
+remove reset ops in device stop: vhost_dev_start(hdev, false).
+
+Signed-off-by: Michael Qiu<qiudayu@archeros.com>
+---
+ hw/virtio/vhost-vdpa.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index c5ed7a3..d858b4f 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -719,14 +719,14 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
+     return idx;
+ }
+ 
+-static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
++static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev, unsigned int ready)
+ {
+     int i;
+     trace_vhost_vdpa_set_vring_ready(dev);
+     for (i = 0; i < dev->nvqs; ++i) {
+         struct vhost_vring_state state = {
+             .index = dev->vq_index + i,
+-            .num = 1,
++            .num = ready,
+         };
+         vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
+     }
+@@ -1088,8 +1088,9 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+         if (unlikely(!ok)) {
+             return -1;
+         }
+-        vhost_vdpa_set_vring_ready(dev);
++        vhost_vdpa_set_vring_ready(dev, 1);
+     } else {
++        vhost_vdpa_set_vring_ready(dev, 0);
+         ok = vhost_vdpa_svqs_stop(dev);
+         if (unlikely(!ok)) {
+             return -1;
+@@ -1105,7 +1106,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+         memory_listener_register(&v->listener, &address_space_memory);
+         return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+     } else {
+-        vhost_vdpa_reset_device(dev);
+         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+                                    VIRTIO_CONFIG_S_DRIVER);
+         memory_listener_unregister(&v->listener);
+-- 
+1.8.3.1
 
 
