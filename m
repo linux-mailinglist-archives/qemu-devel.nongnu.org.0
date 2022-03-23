@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E047A4E5A80
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 22:12:56 +0100 (CET)
-Received: from localhost ([::1]:38336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5204E5A86
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 22:17:23 +0100 (CET)
+Received: from localhost ([::1]:40642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX8Hn-0002yy-Iq
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 17:12:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49232)
+	id 1nX8M6-0004jg-FB
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 17:17:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nX8Gy-0002Iq-5C
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:12:04 -0400
-Received: from [2607:f8b0:4864:20::102a] (port=35356
- helo=mail-pj1-x102a.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nX8Kg-0003yP-67
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:15:54 -0400
+Received: from [2607:f8b0:4864:20::634] (port=43007
+ helo=mail-pl1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nX8Gw-0001q1-Hz
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:12:03 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- mj15-20020a17090b368f00b001c637aa358eso7639044pjb.0
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 14:12:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nX8Ke-00037A-GV
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 17:15:53 -0400
+Received: by mail-pl1-x634.google.com with SMTP id p17so2774396plo.9
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 14:15:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=x7XuOxtxUFegqKS/fRJPhw+dRsNHRbfBZ5omnv76mAw=;
- b=dA9QpeBlFWBtLbEClT73VHd8JVok9mosvk/NCa2iAs4ZKNJ1xkfBCrNr0/msmTmflD
- OPM0DGY9o8MbNw9EfBzKHVHPq37in7fId4dFk9iK565Ipi9YBba6jA8VcJrXUelaZtuJ
- O2DPBfrm/F+NUymkSqHy75GN8jnR4zBsThsaBNmMW1zeKiHjDNms7dOJZnzrOsNwDKD4
- QbfwuhsLfOOajrwTvapxGLF4RZCI1f1g+Rztr/Qw0T6Rv5XG9fwvyeB6yXUTv3mz8qzl
- OO/IhM04CrAJO2AHDvt4FrhwSDAEESw1cNRC7t7e1Mp9YE9ys8QsAAvsmZGJ+CzIus2W
- mdSg==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=JvNtrTWPQVfMQlzO5BRx4OuM/FwkGGLAvET7OKGXWAY=;
+ b=GLTu43C1mN1sOKveuLnlW0iaTrQ0JoVUD1wjVJvmEWfBuge/oAQETZoBxf2HWsWNuF
+ L3Xe4lG7MsXpHq4YmN7s46xy+F/PjLVDUUwk8yhcX8lk8L14hQamEhz77F1SGOFySY5A
+ zcgL7rFXht830j5Pg4OC/8vGM+B1vIGe1F6D/KsfUC+ylKuanxWZcPdA4sSHcCwsRCN1
+ 6bSbyMnI1eZuJRomsVm6dNdkNAtfWxmUpCylCcwumsRQeOoLYLicLqtTiW9TQy3YcoCR
+ 2KbZosr16RvpO6biJEtRjybsTOPjudwEQ1Xqy3Tpv2JSsA49a8EmTdpt0jm2ty4ZlK42
+ WwvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=x7XuOxtxUFegqKS/fRJPhw+dRsNHRbfBZ5omnv76mAw=;
- b=qjq75K4QghEZ70YMARlDx/X7HpfdrrPBjZR3ZHKglTEWbTzJ8is4F+hEhZSoVvqXxA
- m6fSwn3tQ/+gvxJQKHYVTgqBC28k9S38I/zmd7usrWxu6wo2R7V8JAcToi9USTDf1cdx
- ZotkMHb/mIjgAwG/8YGzBvBZenUed/95+vKnQ3lEdgKfqUJD0DEVXXApP06TyrvhCBGh
- YoF/TfmXRLXwQ8sefrDODNWhKkQcnH1mXDoH6VW20pvYQNv6FG1WHMEqbSZgIIHy4gnA
- DeibE7dv3BejDNUyQ2iBXC06km+d2ocUis7JenyECecySg3OE6LWAwZCxuUC71EftZQw
- LP1Q==
-X-Gm-Message-State: AOAM533cDwarPREPNDkDYP7LZ5+sG/YhO2yYH2T3AR8RJQgkY0ZH7wS6
- DmBeAc8NRG1YmA7VSSsD/Ug=
-X-Google-Smtp-Source: ABdhPJwR5z/W8bsN+RBWCAzZVlgahqNvWkGoDh65/mT4/CPGj6HHV7KSP3UDbImaDz1Up5/8iVctnQ==
-X-Received: by 2002:a17:90b:4f8c:b0:1c7:2217:e980 with SMTP id
- qe12-20020a17090b4f8c00b001c72217e980mr1874430pjb.17.1648069921057; 
- Wed, 23 Mar 2022 14:12:01 -0700 (PDT)
-Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
- [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- gk13-20020a17090b118d00b001c6b2472576sm561669pjb.19.2022.03.23.14.11.59
+ bh=JvNtrTWPQVfMQlzO5BRx4OuM/FwkGGLAvET7OKGXWAY=;
+ b=w6yRSmUeE1QAxozsi8Cqjh3yLGh6tXF/AKGkltAezwyuukcr9vdNNOgVIO6wrbC+M1
+ tG3Y4CVtjpKhiLQNT/a2rgk6xXRC8uf7p19NodG1A24GKL7QsCv+WDsJ9n6HIz7qQ19x
+ DK7MgLHbv1vqc+2ruHE108lpbT4BahhXt8RtA2PE9P28zO+6WJ7gdrDlqPrQqupRKvp3
+ 30NBjBdG3KFTqLu3SrKcur8guvO4SZbvvqpsPg7J7TfFST7ogk+3eUXtm2AtJpIgfUZj
+ sAi+pa9fl0/IFAg15LTBK0JvEN3uq/tIdCT63ykfAHyAni63izzJ8S0ZdFlN8VIXbDUw
+ Ak3Q==
+X-Gm-Message-State: AOAM532IyPwAfXLYgDnjY1v3zmBS6xVFoiIUhSryZQ5P1PWmBkdrm9yD
+ PpQxAiDEYHTWbUjWs1WJmlVa0K5G5qIrVA==
+X-Google-Smtp-Source: ABdhPJxqXxHmR+Cr8W6plwTU7tuwrDJo76+LoRxl0vi/k9FaGtH1XPgn9IWciu85tD9SKADEwMZDiA==
+X-Received: by 2002:a17:90b:3909:b0:1c7:9bc:a735 with SMTP id
+ ob9-20020a17090b390900b001c709bca735mr14320821pjb.151.1648070151090; 
+ Wed, 23 Mar 2022 14:15:51 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ d11-20020a056a0010cb00b004e1b76b09c0sm761239pfu.74.2022.03.23.14.15.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 14:12:00 -0700 (PDT)
-Message-ID: <20ea5898-1531-8238-0fbf-35cbf6647f10@gmail.com>
-Date: Wed, 23 Mar 2022 22:11:57 +0100
+ Wed, 23 Mar 2022 14:15:50 -0700 (PDT)
+Message-ID: <c1c51547-2be3-57fa-b34e-0ae02d718bde@linaro.org>
+Date: Wed, 23 Mar 2022 14:15:48 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 26/32] include: move os_*() to os-foo.h
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 02/13] target/i386/kvm: Free xsave_buf when destroying
+ vCPU
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
- <20220323155743.1585078-27-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220323155743.1585078-27-marcandre.lureau@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
+References: <20220323171751.78612-1-philippe.mathieu.daude@gmail.com>
+ <20220323171751.78612-3-philippe.mathieu.daude@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220323171751.78612-3-philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,67 +95,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/3/22 16:57, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 3/23/22 10:17, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > 
-> For consistency with other os_ functions that do not have POSIX
-> implementation, declare an inline function for the stub in os-win32.h.
+> Fix vCPU hot-unplug related leak reported by Valgrind:
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>    ==132362== 4,096 bytes in 1 blocks are definitely lost in loss record 8,440 of 8,549
+>    ==132362==    at 0x4C3B15F: memalign (vg_replace_malloc.c:1265)
+>    ==132362==    by 0x4C3B288: posix_memalign (vg_replace_malloc.c:1429)
+>    ==132362==    by 0xB41195: qemu_try_memalign (memalign.c:53)
+>    ==132362==    by 0xB41204: qemu_memalign (memalign.c:73)
+>    ==132362==    by 0x7131CB: kvm_init_xsave (kvm.c:1601)
+>    ==132362==    by 0x7148ED: kvm_arch_init_vcpu (kvm.c:2031)
+>    ==132362==    by 0x91D224: kvm_init_vcpu (kvm-all.c:516)
+>    ==132362==    by 0x9242C9: kvm_vcpu_thread_fn (kvm-accel-ops.c:40)
+>    ==132362==    by 0xB2EB26: qemu_thread_start (qemu-thread-posix.c:556)
+>    ==132362==    by 0x7EB2159: start_thread (in /usr/lib64/libpthread-2.28.so)
+>    ==132362==    by 0x9D45DD2: clone (in /usr/lib64/libc-2.28.so)
+> 
+> Reported-by: Mark Kanda<mark.kanda@oracle.com>
+> Tested-by: Mark Kanda<mark.kanda@oracle.com>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   include/qemu-common.h     | 4 ----
->   include/sysemu/os-posix.h | 2 ++
->   include/sysemu/os-win32.h | 4 +++-
->   os-win32.c                | 9 ---------
->   4 files changed, 5 insertions(+), 14 deletions(-)
-> 
-> diff --git a/include/qemu-common.h b/include/qemu-common.h
-> index 1fbc20e4bcf7..a271cac66a1b 100644
-> --- a/include/qemu-common.h
-> +++ b/include/qemu-common.h
-> @@ -24,10 +24,6 @@
->   int qemu_main(int argc, char **argv, char **envp);
->   #endif
->   
-> -/* OS specific functions */
-> -void os_setup_early_signal_handling(void);
-> -int os_parse_cmd_args(int index, const char *optarg);
-> -
->   void page_size_init(void);
->   
->   #endif
-> diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
-> index dd64fb401dfb..a49c6848ff1a 100644
-> --- a/include/sysemu/os-posix.h
-> +++ b/include/sysemu/os-posix.h
-> @@ -42,7 +42,9 @@
->   extern "C" {
->   #endif
->   
-> +int os_parse_cmd_args(int index, const char *optarg);
->   void os_set_line_buffering(void);
-> +void os_setup_early_signal_handling(void);
->   void os_set_proc_name(const char *s);
->   void os_setup_signal_handling(void);
->   void os_daemonize(void);
-> diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-> index 770752222ae3..c0ba65389986 100644
-> --- a/include/sysemu/os-win32.h
-> +++ b/include/sysemu/os-win32.h
-> @@ -62,8 +62,10 @@ struct tm *localtime_r(const time_t *timep, struct tm *result);
->   static inline void os_setup_signal_handling(void) {}
->   static inline void os_daemonize(void) {}
->   static inline void os_setup_post(void) {}
-> -void os_set_line_buffering(void);
->   static inline void os_set_proc_name(const char *dummy) {}
-> +static inline int os_parse_cmd_args(int index, const char *optarg) { return -1; }
-> +void os_set_line_buffering(void);
-> +void os_setup_early_signal_handling(void);
+>   target/i386/kvm/kvm.c | 2 ++
+>   1 file changed, 2 insertions(+)
 
-By declaring the same prototype in various headers, we risk someone
-update only one implementation. Maybe we need a "os-common.h" header?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
