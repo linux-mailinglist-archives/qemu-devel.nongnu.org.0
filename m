@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEDC54E55D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 16:59:03 +0100 (CET)
-Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 492E04E564B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:24:39 +0100 (CET)
+Received: from localhost ([::1]:42668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX3O2-0002MR-6X
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 11:59:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37694)
+	id 1nX3mo-0004Cj-5L
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:24:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nX3Mr-0001fP-SI
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:57:49 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2457)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nX3Qe-000671-9W
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:01:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nX3Mo-0004hs-NJ
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:57:49 -0400
-Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KNtH51cCDz67MK3;
- Wed, 23 Mar 2022 23:55:29 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 23 Mar 2022 16:57:43 +0100
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Wed, 23 Mar
- 2022 15:57:42 +0000
-Date: Wed, 23 Mar 2022 15:57:41 +0000
-To: Alison Schofield <alison.schofield@intel.com>
-CC: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Benn?=
- =?ISO-8859-1?Q?=E9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
- <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
- <shameerali.kolothum.thodi@huawei.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
- =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, 
- Chris Browy <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, 
- Dan Williams <dan.j.williams@intel.com>, Mark Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v8 19/46] hw/cxl/device: Add some trivial commands
-Message-ID: <20220323155741.00005f1e@huawei.com>
-In-Reply-To: <20220318165622.GA1119244@alison-desk>
-References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
- <20220318150635.24600-20-Jonathan.Cameron@huawei.com>
- <20220318165622.GA1119244@alison-desk>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nX3Qc-0005hw-Fg
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:01:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648051301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q2VF0MnA2bWxVx4BcilexJJEaPYA0K1w/lOJdWLhBsc=;
+ b=dr3leEd9KTt4TEwknMQjsJUSRRgeJF+GonvIdstLrBqX6YOlp/m8YscdWXCGznJRffbUaw
+ 0qGEUaom05mIyg+bgiFp312CFrHAcVc1fdYJxPzbbxIe/DGLyq9VHDG9+v0kTs0f1B62gD
+ ApzEjigZ8U3ECYtQWi9AFWHp2bcegok=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-523-NRV9V-5-PW2pmTUjVrBBWQ-1; Wed, 23 Mar 2022 12:01:40 -0400
+X-MC-Unique: NRV9V-5-PW2pmTUjVrBBWQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6562C811E81;
+ Wed, 23 Mar 2022 16:01:39 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 756C5469A51;
+ Wed, 23 Mar 2022 16:01:38 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH 30/32] qga: remove explicit environ argument from exec/spawn
+Date: Wed, 23 Mar 2022 19:57:41 +0400
+Message-Id: <20220323155743.1585078-31-marcandre.lureau@redhat.com>
+In-Reply-To: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
+References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml745-chm.china.huawei.com (10.201.108.195) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,118 +81,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Fri, 18 Mar 2022 09:56:22 -0700
-Alison Schofield <alison.schofield@intel.com> wrote:
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-> On Fri, Mar 18, 2022 at 03:06:08PM +0000, Jonathan Cameron wrote:
-> > From: Ben Widawsky <ben.widawsky@intel.com>
-> > 
-> > GET_FW_INFO and GET_PARTITION_INFO, for this emulation, is equivalent to
-> > info already returned in the IDENTIFY command. To have a more robust
-> > implementation, add those.
-> > 
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > ---
-> >  hw/cxl/cxl-mailbox-utils.c | 69 ++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 69 insertions(+)
-> >   
-> 
-> snip
-> 
-> >  
-> > +static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
-> > +                                           CXLDeviceState *cxl_dstate,
-> > +                                           uint16_t *len)
-> > +{
-> > +    struct {
-> > +        uint64_t active_vmem;
-> > +        uint64_t active_pmem;
-> > +        uint64_t next_vmem;
-> > +        uint64_t next_pmem;
-> > +    } QEMU_PACKED *part_info = (void *)cmd->payload;
-> > +    QEMU_BUILD_BUG_ON(sizeof(*part_info) != 0x20);
-> > +    uint64_t size = cxl_dstate->pmem_size;
-> > +
-> > +    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
-> > +        return CXL_MBOX_INTERNAL_ERROR;
-> > +    }
-> > +
-> > +    /* PMEM only */
-> > +    part_info->active_vmem = 0;
-> > +    part_info->next_vmem = 0;
-> > +    part_info->active_pmem = size / (256 << 20);
-> > +    part_info->next_pmem = part_info->active_pmem;  
-> 
-> Setting next like this is logical, but it's not per the CXL spec:
-> 
-> 8.2.9.5.2.1
-> "Next Persistent Capacity: If non-zero, this value shall become the
-> Active Persistent Capacity on the next cold reset. If both this field and the
-> Next Volatile Capacity field are zero, there is no pending change to the
-> partitioning."
-> 
-> next_(vmem|pmem) should start as zero and only change as the result
-> of a successful set_partition_info command.
+Environment is implicitly inherited from the current process "environ"
+variable for execl() or g_spawn_sync(), no need to be explicit about it.
 
-Ah.  Good point and now fixed up.
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ meson.build          |  2 --
+ qga/commands-posix.c | 24 +++++++-----------------
+ 2 files changed, 7 insertions(+), 19 deletions(-)
 
-> 
-> From your cover letter:
-> * Volatile memory devices (easy but it's more code so left for now).
-> Wondering if this is something I could do, and follow that with
-> set_partition support. Does that sound reasonable?
-
-Sure, that would be great.
-
-It raises an interesting question for what the volatile / non volatile
-backend will look like.  So what is the command line?
-
-So far I'd been assuming we'd do it as separate memdev devices
-for volatile from those for non volatile because chances are
-someone testing would back the volatile with RAM the non volatile with
-a file.  If we enable the partitioning control that approach won't
-make much sense.  Various options come to mind.
-1) Just back with one memdev and present that as persistent or not
-   but actually always have it persistent under the hood.
-2) Allow backing with 2 memdevs and don't support the set_partition
-   command. Lazy approach I was planing on doing eventualy.
-3) Support 3 memdevs.  The middle one of which is the part we
-   allow to be repartitioned if it is provided
-
-Also, to actually enable this we'd probably want more HDM decoders
-than currently supported and flags for CFMWS which aren't there
-yet (Ben asked for them but I've left it for a future patch set).
-
-Lots still to do once the initial patch set is moving forwards.
-I don't mind queuing stuff up it gitlab though and then we can
-send suitable series to the list once the earlier part has been
-applied.  In the meantime we would have a moderately stable
-based to build on top of.
-
-Thanks,
-
-Jonathan
-
-
-
+diff --git a/meson.build b/meson.build
+index e03a1b50cc11..c06fe5e02737 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1654,8 +1654,6 @@ config_host_data.set('CONFIG_BYTESWAP_H',
+                      cc.has_header_symbol('byteswap.h', 'bswap_32'))
+ config_host_data.set('CONFIG_EPOLL_CREATE1',
+                      cc.has_header_symbol('sys/epoll.h', 'epoll_create1'))
+-config_host_data.set('CONFIG_HAS_ENVIRON',
+-                     cc.has_header_symbol('unistd.h', 'environ', prefix: gnu_source_prefix))
+ config_host_data.set('CONFIG_FALLOCATE_PUNCH_HOLE',
+                      cc.has_header_symbol('linux/falloc.h', 'FALLOC_FL_PUNCH_HOLE') and
+                      cc.has_header_symbol('linux/falloc.h', 'FALLOC_FL_KEEP_SIZE'))
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 75dbaab68ea9..4d7a2392c097 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -32,15 +32,6 @@
+ #include <utmpx.h>
+ #endif
  
-> 
-> Alison
-> 
-> > +
-> > +    *len = sizeof(*part_info);
-> > +    return CXL_MBOX_SUCCESS;
-> > +}
-> > +  
-> 
-> snip
-> 
-> 
+-#ifndef CONFIG_HAS_ENVIRON
+-#ifdef __APPLE__
+-#include <crt_externs.h>
+-#define environ (*_NSGetEnviron())
+-#else
+-extern char **environ;
+-#endif
+-#endif
+-
+ #if defined(__linux__)
+ #include <mntent.h>
+ #include <linux/fs.h>
+@@ -109,8 +100,8 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
+         reopen_fd_to_null(1);
+         reopen_fd_to_null(2);
+ 
+-        execle("/sbin/shutdown", "shutdown", "-h", shutdown_flag, "+0",
+-               "hypervisor initiated shutdown", (char *)NULL, environ);
++        execl("/sbin/shutdown", "shutdown", "-h", shutdown_flag, "+0",
++               "hypervisor initiated shutdown", (char *)NULL);
+         _exit(EXIT_FAILURE);
+     } else if (pid < 0) {
+         error_setg_errno(errp, errno, "failed to create child process");
+@@ -207,8 +198,7 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
+ 
+         /* Use '/sbin/hwclock -w' to set RTC from the system time,
+          * or '/sbin/hwclock -s' to set the system time from RTC. */
+-        execle(hwclock_path, "hwclock", has_time ? "-w" : "-s",
+-               NULL, environ);
++        execl(hwclock_path, "hwclock", has_time ? "-w" : "-s", NULL);
+         _exit(EXIT_FAILURE);
+     } else if (pid < 0) {
+         error_setg_errno(errp, errno, "failed to create child process");
+@@ -1574,7 +1564,7 @@ static void execute_fsfreeze_hook(FsfreezeHookArg arg, Error **errp)
+         reopen_fd_to_null(1);
+         reopen_fd_to_null(2);
+ 
+-        execle(hook, hook, arg_str, NULL, environ);
++        execl(hook, hook, arg_str, NULL);
+         _exit(EXIT_FAILURE);
+     } else if (pid < 0) {
+         error_setg_errno(errp, errno, "failed to create child process");
+@@ -1888,7 +1878,7 @@ static int run_process_child(const char *command[], Error **errp)
+     spawn_flag = G_SPAWN_SEARCH_PATH | G_SPAWN_STDOUT_TO_DEV_NULL |
+                  G_SPAWN_STDERR_TO_DEV_NULL;
+ 
+-    success =  g_spawn_sync(NULL, (char **)command, environ, spawn_flag,
++    success =  g_spawn_sync(NULL, (char **)command, NULL, spawn_flag,
+                             NULL, NULL, NULL, NULL,
+                             &exit_status, &g_err);
+ 
+@@ -2569,9 +2559,9 @@ void qmp_guest_set_user_password(const char *username,
+         reopen_fd_to_null(2);
+ 
+         if (crypted) {
+-            execle(passwd_path, "chpasswd", "-e", NULL, environ);
++            execl(passwd_path, "chpasswd", "-e", NULL);
+         } else {
+-            execle(passwd_path, "chpasswd", NULL, environ);
++            execl(passwd_path, "chpasswd", NULL);
+         }
+         _exit(EXIT_FAILURE);
+     } else if (pid < 0) {
+-- 
+2.35.1.273.ge6ebfd0e8cbb
 
 
