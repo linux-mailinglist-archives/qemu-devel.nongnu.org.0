@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145A04E576A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 18:26:13 +0100 (CET)
-Received: from localhost ([::1]:43048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D7E4E578A
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 18:32:49 +0100 (CET)
+Received: from localhost ([::1]:59432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX4kO-00008b-4Y
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 13:26:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39270)
+	id 1nX4qm-0003Wn-Oz
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 13:32:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nX4eR-0006dF-P3
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:20:03 -0400
-Received: from [2607:f8b0:4864:20::1031] (port=53029
+ id 1nX4ed-00078G-AG
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:20:15 -0400
+Received: from [2607:f8b0:4864:20::1031] (port=54111
  helo=mail-pj1-x1031.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nX4eQ-0004lI-3J
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:20:03 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id v4so2381164pjh.2
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 10:20:01 -0700 (PDT)
+ id 1nX4eb-000595-RZ
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:20:14 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id bx5so2371181pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 10:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f+HL4Abo/9emIoVYr4nPcZWANTfk8HbxwtFhwWh4T4E=;
- b=R38CVVHJgH8kHmGn0ZOyhoWZ33CV6mzkknIiqbfMkEd3nlYmXum5LYE5EuR9nOh5dV
- 4p+1F+9RocXuE6X/etkgzAlBdiSWWmatjKQnx2IG0DXq/5XQUfkek0cJmgKz3CvRAv+Q
- ZEQD4UjM+CuFPFnvkD7N3P9I3mXgm6KY1NLl24qU0ZpnRER1x6XTt68YoiVIlyjwivDY
- O6oJvDcjzbgtgV5VVYi1YxOK5p8sfe9NSUl24zEhnSJ+u/RzIPghmhV5VRqXDLHTZfDz
- 1fSHXii1iS47EJJoenarBJh84GnRVtK24aTa2pye2VI1SSKFMWmBWKuqZTE/MxejwKcS
- YLCQ==
+ bh=MsX1ZkecFTiI7JDWgHH13CsFxdulVP/faYY6Ho3L9NU=;
+ b=WiW4MrCr//Z88g+PXSFrPmTGMoceaVHESi73affp7lvaELZrmIQzuoUOKQHWdxEGR1
+ NO8SV9ARJQk3egmkmUIPnlIThomv8Lit2KqxTc39Z2U2FpA9dGoRpDFaiV7jNk13qUza
+ 7zTfMC78Yc9mIXAGObaiUFBGpvB4UERocSaZSl7rhPntj8Gi1+FoC3nfqPiNjeGgZmPh
+ TRMYKUG2CwwJHNw1Jqgv/qe0wIDn26xQq8oJkIoqzDAj6WG0NmljbJFdXSn/JSJOqJKV
+ ad67bhyOCOEqsfPGFGJ1vRiL63Vd3PXt65wKeeSdZ40GLF1FXc9OTqtSP/xBz7j9+tjc
+ hyJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=f+HL4Abo/9emIoVYr4nPcZWANTfk8HbxwtFhwWh4T4E=;
- b=EtPb4GFcQd+5imaEc+xD2zLhMxfutPm06udDGP83WVqhwnfYUV2l2KkCa4Sf5Vzm8G
- kGJwtH/vNhOpqyTq7H/aUbpbD4YCvgX5fhJLNbqeoWzNNm2ExCAJxtCXnwTeTglR6IZC
- 7bknDQobLxyPKe7hbjd1VMuRSMaeTmCI+BSPFlRtvH+k6WYbAU3mwKA/F2AN6FIeH01r
- CKUGySIB6OqncdMNI2swedOLyJW99niZXHy4oWMCmBB8HMwedkyZ2w3EMvN93849Yh6t
- TlCF3uPADFGQlkql7F9/hJLPdpK05N+KcgXDnroGIcwvsBgAJiUAX0RwjqHWwcLy8XpG
- vZHA==
-X-Gm-Message-State: AOAM533TbjOB8Snh1HSkQ1/p+sJoOTwBXRRZ2gh0XBdZ57oton52wpKH
- 0JqT7woU7APhSZn2xKtE19zq3n0TUko=
-X-Google-Smtp-Source: ABdhPJwUGIANIvoDBDf1d6wuhMbglFjfjHX2yL7VBu0eJlXm38w4pEE/zj+JRqSDdW4aqPv9Y3LI/A==
-X-Received: by 2002:a17:90a:8d85:b0:1b8:a215:e3e4 with SMTP id
- d5-20020a17090a8d8500b001b8a215e3e4mr12881119pjo.175.1648056000652; 
- Wed, 23 Mar 2022 10:20:00 -0700 (PDT)
+ bh=MsX1ZkecFTiI7JDWgHH13CsFxdulVP/faYY6Ho3L9NU=;
+ b=EFYepmxq4mZwIfegN6HqTRjHc08lW7PUk51XYcjB0CTDH1nNwqUU2AmUoLdMS0fkM+
+ ts8qM5mNYaNFBfve3WK6vh7apVwU7D2qIIFT5fEitjlewNMiKJjwVeK/hI4MWiN2DCCW
+ KqPjdiWk73qIxdnoynjjFISYU3Ng7VMSrtsHLnWeth8IsGil9Zufs/q8YMmi3gw5ydEZ
+ t6nfvjFjIhZZI/AfY+QKbaftgMMyWYT3vvdHJ63k0pkCHnDdW3Ip8sOGC/ll9EJJxFdE
+ DDA8ZWApf0rLkZc0Yr6mvJb96c3gsiPO8+jQg5vW748WUD6waA3HAz7g1x25T9gdo2e/
+ mlzg==
+X-Gm-Message-State: AOAM532CE2328nl5rngJVMVhkNkj9ToWuUkGsB3szlh+/8RJUOVZ8dE7
+ K4MhR4h/EFUZH6bmWU7nSLRzCvDFenM=
+X-Google-Smtp-Source: ABdhPJyjcb2sZqeH87rq3zUZWSVN13XuvvacgYKtkqz+CZvHLPq51GDtssoIVmULExUOmBBtc3gkrA==
+X-Received: by 2002:a17:90a:5291:b0:1bb:ef4d:947d with SMTP id
+ w17-20020a17090a529100b001bbef4d947dmr12885297pjh.243.1648056012464; 
+ Wed, 23 Mar 2022 10:20:12 -0700 (PDT)
 Received: from localhost.localdomain (198.red-83-50-65.dynamicip.rima-tde.net.
  [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- oo17-20020a17090b1c9100b001bf0ccc59c2sm7189967pjb.16.2022.03.23.10.19.54
+ d24-20020a637358000000b003823aefde04sm336971pgn.86.2022.03.23.10.20.06
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 23 Mar 2022 10:20:00 -0700 (PDT)
+ Wed, 23 Mar 2022 10:20:12 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/13] accel-ops: Introduce common_vcpu_thread_destroy()
- and .precheck handler
-Date: Wed, 23 Mar 2022 18:17:48 +0100
-Message-Id: <20220323171751.78612-11-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH v4 11/13] accel/tcg: Add rr_destroy_vcpu_thread_precheck()
+Date: Wed, 23 Mar 2022 18:17:49 +0100
+Message-Id: <20220323171751.78612-12-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220323171751.78612-1-philippe.mathieu.daude@gmail.com>
 References: <20220323171751.78612-1-philippe.mathieu.daude@gmail.com>
@@ -109,56 +108,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Introduce an empty common_vcpu_thread_destroy() function, and
-provide a AccelOpsClass::destroy_vcpu_thread_precheck() callback
-so accelerators can choose whether to call common_vcpu_thread_destroy.
+TCG/RR is special and creates a single vCPU. It only have
+to release its resources once. Implement the .precheck()
+for that purpose.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/sysemu/accel-ops.h | 2 ++
- softmmu/cpus.c             | 9 +++++++++
- 2 files changed, 11 insertions(+)
+ accel/tcg/tcg-accel-ops-rr.c | 9 +++++++++
+ accel/tcg/tcg-accel-ops.c    | 1 +
+ 2 files changed, 10 insertions(+)
 
-diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-index caf337f61f..b47f6de3f9 100644
---- a/include/sysemu/accel-ops.h
-+++ b/include/sysemu/accel-ops.h
-@@ -35,6 +35,8 @@ struct AccelOpsClass {
-     /* If non-NULL, return whether common vCPU thread must be created */
-     bool (*create_vcpu_thread_precheck)(CPUState *cpu);
-     void (*create_vcpu_thread_postcheck)(CPUState *cpu);
-+    /* If non-NULL, return whether common vCPU thread must be destroyed */
-+    bool (*destroy_vcpu_thread_precheck)(CPUState *cpu);
- 
-     void (*kick_vcpu_thread)(CPUState *cpu);
-     bool (*cpu_thread_is_idle)(CPUState *cpu);
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index cf430ac486..37325b3b8d 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -617,6 +617,10 @@ static void common_vcpu_thread_create(CPUState *cpu)
- #endif
+diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
+index 006b787289..6fe8e20356 100644
+--- a/accel/tcg/tcg-accel-ops-rr.c
++++ b/accel/tcg/tcg-accel-ops-rr.c
+@@ -295,3 +295,12 @@ void rr_create_vcpu_thread_postcheck(CPUState *cpu)
+         cpu->created = true;
+     }
  }
- 
-+static void common_vcpu_thread_destroy(CPUState *cpu)
++
++bool rr_destroy_vcpu_thread_precheck(CPUState *cpu)
 +{
-+}
-+
- void cpu_remove_sync(CPUState *cpu)
- {
-     cpu->stop = true;
-@@ -625,6 +629,11 @@ void cpu_remove_sync(CPUState *cpu)
-     qemu_mutex_unlock_iothread();
-     qemu_thread_join(cpu->thread);
-     qemu_mutex_lock_iothread();
-+
-+    if (cpus_accel->destroy_vcpu_thread_precheck == NULL
-+            || cpus_accel->destroy_vcpu_thread_precheck(cpu)) {
-+        common_vcpu_thread_destroy(cpu);
++    if (single_tcg_cpu_thread) {
++        single_tcg_cpu_thread = NULL;
++        return true;
 +    }
- }
++    return false;
++}
+diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
+index 127dd6fee5..0b0dbcc47a 100644
+--- a/accel/tcg/tcg-accel-ops.c
++++ b/accel/tcg/tcg-accel-ops.c
+@@ -102,6 +102,7 @@ static void tcg_accel_ops_init(AccelOpsClass *ops)
+         ops->vcpu_thread_fn = rr_vcpu_thread_fn;
+         ops->create_vcpu_thread_precheck = rr_create_vcpu_thread_precheck;
+         ops->create_vcpu_thread_postcheck = rr_create_vcpu_thread_postcheck;
++        ops->destroy_vcpu_thread_precheck = rr_destroy_vcpu_thread_precheck;
+         ops->kick_vcpu_thread = rr_kick_vcpu_thread;
  
- void cpus_register_accel(const AccelOpsClass *ops)
+         if (icount_enabled()) {
 -- 
 2.35.1
 
