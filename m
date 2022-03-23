@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9D04E50D7
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 11:58:56 +0100 (CET)
-Received: from localhost ([::1]:33808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312494E50D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 11:58:50 +0100 (CET)
+Received: from localhost ([::1]:33220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWyhb-0007Xu-T3
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 06:58:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59288)
+	id 1nWyhV-0007AC-9G
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 06:58:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWyeJ-00042w-7Z
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:55:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30196)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWyeL-00043Q-8t
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:55:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWyeH-00026L-6L
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:55:30 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWyeI-00026u-Vd
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:55:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648032928;
+ s=mimecast20190719; t=1648032930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rg/O0JqzJP4qAmCIkxmC5p4YO/1sEThHgg6yLdu0SbE=;
- b=Y6fC2RAQSGLrT7/0HOPpdcTKkYy7aFzO/F5MWVp5mCfUPoLAhba8PD+7JxvZp2vHExlM4s
- P5A3P5I+3UJ8oSLS7nj1lRjIYoW9faPuobOVPR80/5yvgAOXcAaiYZBI+m6vE5gRh8lVWT
- Iyd+jHS97X+EIei/OSiln7aaI3tTur4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MLRw/ypMBLIUO7Ubyf8p14rwt3IXObDz9fr79CRGGgw=;
+ b=afd+6KbBm4leaSjDGaHT5SBzqmML1H7Y6LqNDcdlHqQyvIrgFE7Y7R+IshPk7j6XjkwMRt
+ gNnkxxuG/ZIYi8+NQQ7xDGxIPsASWEVRyuIUk103HWqiwbN9XoqSq3RQRa9yyT1B8AD7qp
+ +JsqqBkGVlGdeNqtHdFR45I8Ne6A+Jk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-106-GcI-TyjHOh6z61olD8EhhA-1; Wed, 23 Mar 2022 06:55:26 -0400
-X-MC-Unique: GcI-TyjHOh6z61olD8EhhA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-14-EVdLlZt5MZa2BMwuK6zJHw-1; Wed, 23 Mar 2022 06:55:28 -0400
+X-MC-Unique: EVdLlZt5MZa2BMwuK6zJHw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D2421C07823;
- Wed, 23 Mar 2022 10:55:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D4D6D866DF8;
+ Wed, 23 Mar 2022 10:55:27 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D98F953D8;
- Wed, 23 Mar 2022 10:55:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A793400F72A;
+ Wed, 23 Mar 2022 10:55:27 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 1/3] iotests.py: Add supports_qcow2_zstd_compression()
-Date: Wed, 23 Mar 2022 11:55:20 +0100
-Message-Id: <20220323105522.53660-2-hreitz@redhat.com>
+Subject: [PATCH v3 2/3] iotests/065: Check for zstd support
+Date: Wed, 23 Mar 2022 11:55:21 +0100
+Message-Id: <20220323105522.53660-3-hreitz@redhat.com>
 In-Reply-To: <20220323105522.53660-1-hreitz@redhat.com>
 References: <20220323105522.53660-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,43 +84,71 @@ Cc: Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Some test cases run in iotest 065 want to run with zstd compression just
+for added coverage.  Run them with zlib if there is no zstd support
+compiled in.
+
+Reported-by: Thomas Huth <thuth@redhat.com>
+Fixes: 12a936171d71f839dc907ff ("iotest 065: explicit compression type")
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ tests/qemu-iotests/065 | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index fcec3e51e5..fe10a6cf05 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -1471,6 +1471,26 @@ def verify_working_luks():
-     if not working:
-         notrun(reason)
+diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
+index ba94e19349..b724c89c7c 100755
+--- a/tests/qemu-iotests/065
++++ b/tests/qemu-iotests/065
+@@ -24,7 +24,7 @@ import os
+ import re
+ import json
+ import iotests
+-from iotests import qemu_img, qemu_img_info
++from iotests import qemu_img, qemu_img_info, supports_qcow2_zstd_compression
+ import unittest
  
-+def supports_qcow2_zstd_compression() -> bool:
-+    img_file = f'{test_dir}/qcow2-zstd-test.qcow2'
-+    res = qemu_img('create', '-f', 'qcow2', '-o', 'compression_type=zstd',
-+                   img_file, '0',
-+                   check=False)
-+    try:
-+        os.remove(img_file)
-+    except OSError:
-+        pass
-+
-+    if res.returncode == 1 and \
-+            "'compression-type' does not accept value 'zstd'" in res.stdout:
-+        return False
+ test_img = os.path.join(iotests.test_dir, 'test.img')
+@@ -95,11 +95,17 @@ class TestQCow2(TestQemuImgInfo):
+ 
+ class TestQCow3NotLazy(TestQemuImgInfo):
+     '''Testing a qcow2 version 3 image with lazy refcounts disabled'''
+-    img_options = 'compat=1.1,lazy_refcounts=off,compression_type=zstd'
++    if supports_qcow2_zstd_compression():
++        compression_type = 'zstd'
 +    else:
-+        return True
++        compression_type = 'zlib'
 +
-+def verify_qcow2_zstd_compression():
-+    if not supports_qcow2_zstd_compression():
-+        notrun('zstd compression not supported')
++    img_options = 'compat=1.1,lazy_refcounts=off'
++    img_options += f',compression_type={compression_type}'
+     json_compare = { 'compat': '1.1', 'lazy-refcounts': False,
+                      'refcount-bits': 16, 'corrupt': False,
+-                     'compression-type': 'zstd', 'extended-l2': False }
+-    human_compare = [ 'compat: 1.1', 'compression type: zstd',
++                     'compression-type': compression_type, 'extended-l2': False }
++    human_compare = [ 'compat: 1.1', f'compression type: {compression_type}',
+                       'lazy refcounts: false', 'refcount bits: 16',
+                       'corrupt: false', 'extended l2: false' ]
+ 
+@@ -126,11 +132,17 @@ class TestQCow3NotLazyQMP(TestQMP):
+ class TestQCow3LazyQMP(TestQMP):
+     '''Testing a qcow2 version 3 image with lazy refcounts enabled, opening
+        with lazy refcounts disabled'''
+-    img_options = 'compat=1.1,lazy_refcounts=on,compression_type=zstd'
++    if supports_qcow2_zstd_compression():
++        compression_type = 'zstd'
++    else:
++        compression_type = 'zlib'
 +
- def qemu_pipe(*args: str) -> str:
-     """
-     Run qemu with an option to print something and exit (e.g. a help option).
++    img_options = 'compat=1.1,lazy_refcounts=on'
++    img_options += f',compression_type={compression_type}'
+     qemu_options = 'lazy-refcounts=off'
+     compare = { 'compat': '1.1', 'lazy-refcounts': True,
+                 'refcount-bits': 16, 'corrupt': False,
+-                'compression-type': 'zstd', 'extended-l2': False }
++                'compression-type': compression_type, 'extended-l2': False }
+ 
+ TestImageInfoSpecific = None
+ TestQemuImgInfo = None
 -- 
 2.35.1
 
