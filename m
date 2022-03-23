@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531374E50BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 11:56:19 +0100 (CET)
-Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07CD64E50D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 11:58:49 +0100 (CET)
+Received: from localhost ([::1]:33104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWyf3-0003dv-Q9
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 06:56:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58856)
+	id 1nWyhU-00075P-0r
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 06:58:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWyd5-0002DO-Le
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:54:15 -0400
-Received: from [2a00:1450:4864:20::436] (port=46674
- helo=mail-wr1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nWyd2-0001gW-Kt
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:54:13 -0400
-Received: by mail-wr1-x436.google.com with SMTP id h4so1490936wrc.13
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 03:54:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=IAzkeNY7jUEo/Y2L7S1wlNMSFHvN1JWMv2nLni1VMis=;
- b=DaaEkr7InfErj/sbXwmVfmeNHuthCPw6Rk13qvdwkH3Uw5pFucmQLFjiJyaZXs9cY7
- SuMpjYQtYEbhmfAvRfEjH8xK/EqNDi79/JZR4ODKHFlRawuUDY8bs/na2Cx3wb3q90Dp
- DsfKz6+HneLF3MKBCK0k/XxRn66/wpENLtej4WMJMlipIvH+Lk5D9TAMs7fh77pVBqV9
- Llm8yRkAS/r3vISODYUXMz90r26Nc6qAOBvCh6xRirvPGjl/N6vrhxHIsKAS2oaECoD7
- A3EOla+gsj2byo/OkvKtyThpqXxixqwtI48USwCpSVZ81ZI40QiSXGl2oeiDjDEjGQ9z
- cyuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IAzkeNY7jUEo/Y2L7S1wlNMSFHvN1JWMv2nLni1VMis=;
- b=ZHnw61uptTs+4XVcAuAFx11XQhln6AfyKKsVkTijfxZZ+8xkmHkVSI/ccNQIov2uh6
- 4vIQwjLSwblOwJDXcfKLQOigOZxOQWc4nN9dl90M17dvgCAk9nErgccM2A6L4PzJYY1E
- qRd2aBRLy4j51NjgNGIsxTuRdHEtiYcsPLhMFjITrpchJdN7cGyTd9/du4djeuMiTWHH
- LJXOJcaLMgIbyY42r5qVo2pZaTsep2JwKZnJ7OvqhgcYfgEMegD7JLt9SP0kaSBkACyU
- F+GBOU+G+R5sCET2ggd0saNEsOi1TGPsb3jNOjYvg5BL5faS32MwKrM2/vHy7BFjB5QL
- kRyA==
-X-Gm-Message-State: AOAM533JqgB1qn4Ew+U37/VlDOZeDUPG9Lo0+DDALfS5y95wk2XhOFbO
- zbvI23nLTxiMQW7WXWVnKIw=
-X-Google-Smtp-Source: ABdhPJyGppXP5Ukgdf+bldGhQxRNNXjNoiNgPDRnXY7siI5sogZ4zz+FSBv+MtiNwjYerVIUES67cA==
-X-Received: by 2002:adf:fb90:0:b0:203:b456:c71e with SMTP id
- a16-20020adffb90000000b00203b456c71emr26748519wrr.244.1648032851440; 
- Wed, 23 Mar 2022 03:54:11 -0700 (PDT)
-Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
- [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- z13-20020a5d440d000000b00203f2b010b1sm13204024wrq.44.2022.03.23.03.54.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 03:54:10 -0700 (PDT)
-Message-ID: <7f4e9d3a-78fd-4b48-56c6-418d8516a0df@gmail.com>
-Date: Wed, 23 Mar 2022 11:54:09 +0100
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWyeJ-00042M-0Q
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:55:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39477)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nWyeG-00025l-Ht
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 06:55:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648032927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tjBiS/Xy1q5D36qmztgR/uoqewnki6ErKWi/0ewv0XA=;
+ b=aIPbwlA1qIWcn8JH8mptAOegnBL8JB27csUrRMxM8Nh88BG/tROQlW1wpi97zolQN6nbKC
+ JRbhywOX/xiDZqe1QOeNOr5/VnlI56JkhkzmVXTaueRHqn4dFUbuaYMJpITMVbXigpiIv3
+ y9Jw34LC4j4zwJxwW1UuoWsp7fAUK2c=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-413-pHrWgBRdMNOF-9XIAXtFlw-1; Wed, 23 Mar 2022 06:55:24 -0400
+X-MC-Unique: pHrWgBRdMNOF-9XIAXtFlw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7200883395F;
+ Wed, 23 Mar 2022 10:55:24 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 26F747774;
+ Wed, 23 Mar 2022 10:55:24 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v3 0/3] iotests: Check for zstd support
+Date: Wed, 23 Mar 2022 11:55:19 +0100
+Message-Id: <20220323105522.53660-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH-for-7.0] build: disable fcf-protection on -march=486 -m16
-Content-Language: en-US
-To: christian.ehrhardt@canonical.com, qemu-devel <qemu-devel@nongnu.org>
-References: <20220323090713.1002588-1-christian.ehrhardt@canonical.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220323090713.1002588-1-christian.ehrhardt@canonical.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,31 +75,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/3/22 10:07, christian.ehrhardt@canonical.com wrote:
-> From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-> 
-> Some of the roms build with -march=i486 -m16 which is incompatible
-> with -fcf-protection. That in turn is can be set by default, for
-> example in Ubuntu [1].
-> That causes:
->   cc1: error: ‘-fcf-protection’ is not compatible with this target
-> 
-> This won't work on -march=i486 -m16 and no matter if set or not we can
-> override it to "none" if the option is known to the compiler to be
-> able to build reliably.
-> 
-> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/889
-> 
-> [1]: https://wiki.ubuntu.com/ToolChain/CompilerFlags#A-fcf-protection
-> 
-> Signed-off-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-> ---
->   pc-bios/optionrom/Makefile | 4 ++++
->   1 file changed, 4 insertions(+)
+Hi,
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+v1 cover letter:
+https://lists.nongnu.org/archive/html/qemu-devel/2022-02/msg04592.html
+
+v2 cover letter:
+https://lists.nongnu.org/archive/html/qemu-block/2022-03/msg00041.html
+
+Thanks a lot for the review and testing on v2; but I missed that I’d
+have to send v3 because qemu_img_pipe_and_status() has just been
+removed, which was used in patch 1 of v2. :/
+
+
+v3:
+- Patch 1: Use qemu_img(check=False) instead of
+           qemu_img_pipe_and_status()
+- Patch 2: Rebase-caused import conflict
+
+
+git backport-diff against v2:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+
+001/3:[0011] [FC] 'iotests.py: Add supports_qcow2_zstd_compression()'
+002/3:[0004] [FC] 'iotests/065: Check for zstd support'
+003/3:[----] [--] 'iotests/303: Check for zstd support'
+
+
+Hanna Reitz (3):
+  iotests.py: Add supports_qcow2_zstd_compression()
+  iotests/065: Check for zstd support
+  iotests/303: Check for zstd support
+
+ tests/qemu-iotests/065        | 24 ++++++++++++++++++------
+ tests/qemu-iotests/303        |  4 +++-
+ tests/qemu-iotests/iotests.py | 20 ++++++++++++++++++++
+ 3 files changed, 41 insertions(+), 7 deletions(-)
+
+-- 
+2.35.1
+
 
