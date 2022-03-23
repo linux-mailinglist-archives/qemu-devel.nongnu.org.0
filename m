@@ -2,76 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 237F24E5857
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:24:32 +0100 (CET)
-Received: from localhost ([::1]:55856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CAFE4E5851
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:22:59 +0100 (CET)
+Received: from localhost ([::1]:54366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX5ep-00016Z-8h
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:24:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34412)
+	id 1nX5dK-00005a-5W
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:22:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nX5aa-00061B-TN
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:20:09 -0400
-Received: from [2607:f8b0:4864:20::1130] (port=38325
- helo=mail-yw1-x1130.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nX5aW-0001EM-O4
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:20:06 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-2e592e700acso27129387b3.5
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:20:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lFXlvf1PHn3Qyz28ksEvdnfuTCsA6m7TFmb6oPkshyA=;
- b=XXFgoc3QL5zCe5WRdRYpyo0uA9Z02iuu+frTQWdRQhaxxA5wUHgD8JB6UJmK78L6UO
- G7gpsbTfR0f9KT7/cGfsGDS1P86Tv4RBDm7tSg3A/MGzV069BDOepG/wzpBhWoddwijs
- +aEycu+Vk+IwiTK3aQBOdGOlXEtM97GGsfpsIeG9x1OUETFHg3s9VQQzc6+TZbsHdHib
- HkZmYDKgvilNu2dYImmvwM0TrFULw06krpRRuYwJnCl4DEyjWJiHWaIIzbVSN4WuTsvC
- mTh4IkVSPPwgSw0o7W/kxCVyZ4dsfavlNJfqFg53AjJVtQ0+5tV24pCPsY+5GIfap7FZ
- jQ4g==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nX5ac-00061D-Li
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:20:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20797)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nX5aX-0001Eg-So
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:20:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648059604;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wBKZAvECGUFkMeG5wM0Jly6UeGm3B5V9H7bsrwXsao8=;
+ b=eAIiPTatkywDpTssbJsv5mLCNDb7RtQrB3EwvYw0zF2JWRJg5alr9mcnmUpojolD/4Zdoa
+ aEJb/L/39JxjzyZXpruJ21oEYIHw9cWrAysAWUtBoHjP0elA3vkwTcFZRXqj4uu266BSWO
+ XdtACCL+tEYGIM9REXJgbkz0GHdR0Sg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-373-6kdNEdmgMOaHl2XbRxEpFg-1; Wed, 23 Mar 2022 14:20:02 -0400
+X-MC-Unique: 6kdNEdmgMOaHl2XbRxEpFg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ b10-20020a50e38a000000b00418cd24fd27so1532547edm.8
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:20:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lFXlvf1PHn3Qyz28ksEvdnfuTCsA6m7TFmb6oPkshyA=;
- b=bs1RToHmwLQO4SZPy6soVxziKWg22vbYZF8yMcEqxNOCZECpjvi8/7pBXHCbyrLLmN
- bHwGVoQbhKruiYP/MFmdkEKjmWCf49WQrutnNp9C7M8aRApzEbAuJGVCjwE6SXb8VJxK
- +EK0Z0GHZVyVqXfpAKcRPWqNQVgHfQrc15yOCWt0guZ+ABSUU300RKmeWAaEc0951/yO
- WnjJhgl5bLOAxt+RyFmIBDgYoYM9y1ER/ssMxjYwdQ1Jl9tfVwgOx/WIUddqQmcTGFH6
- W+rrju/yqN4TWdl97++O3Ak16fb1JZsnRav6ddY5TWxua30dGsQGUUkCtEtLQTkkOEPy
- QRQQ==
-X-Gm-Message-State: AOAM531jKVkuTSlmQbZ7eLTjmTS0/U9EOhiE1uPGs6/GYqjxL1Kd/ReQ
- fgy1/H8IfvKGgBZa80EdZOjwBRKa13BEX3RfXRJMOg==
-X-Google-Smtp-Source: ABdhPJy3USXpM3DTeb2WZXNtVnlopwGUV80Pipw+UjKj4EdF4p06z/8jCBjCcaC2a7qLCANk9+rahV3xbAGI/zYwv/g=
-X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
- e69-20020a81a748000000b002d61f8b23a9mr1243580ywh.329.1648059603715; Wed, 23
- Mar 2022 11:20:03 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wBKZAvECGUFkMeG5wM0Jly6UeGm3B5V9H7bsrwXsao8=;
+ b=mgfI3YLbVtsQup7i0HaoF4FEXCFZcOJ7ypTRGDya7JviTgQQK7NNzdOTXIQCR64A5p
+ Xz6fszW4ltWasmQDZcZOB2Z93y+ydnMKG3dDT5eZZoCKtjUTjedr7fHTJw62wHD4D5Ul
+ RmsiiQhf3gAcd2xMSFArlWfiYIoudzyzbZRVfH+cH47mS0c2gvouTAbCcdmKXAvOeTun
+ GwW+AoMFgj0Zxd+mGafZ5WqZh7M13YB9j9UOIp8G/+ylOezMdJ5KfAW4Z6ygqAum/674
+ DR+F67H4VOkAnyCzi1JKirhfzon1UtqyxHJJSBQZEPOdK1CqhFPSZbipAFWbLIZPLzEp
+ bXhQ==
+X-Gm-Message-State: AOAM533z3guWMBB77uFhQo377BEP9ogMQgsiw/fKNQJt+TCWfW2t1feY
+ +MGv7WnhSxWiDuQyALfb3FJWYQRa5P2e0X3BZBxJRqksGcUx3VZDChVujJGvI+l2ECwXntl11uB
+ ozU2KsKcqlx6AjuA=
+X-Received: by 2002:a17:907:7f0a:b0:6e0:3aec:345a with SMTP id
+ qf10-20020a1709077f0a00b006e03aec345amr1425279ejc.313.1648059600816; 
+ Wed, 23 Mar 2022 11:20:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx0mS6U9LK3O5FkgmODxczrqRTRFaqUiCsCRQGAXj6GQlldPjnGRO5pPAwDcqVIUgaLJlLnLA==
+X-Received: by 2002:a17:907:7f0a:b0:6e0:3aec:345a with SMTP id
+ qf10-20020a1709077f0a00b006e03aec345amr1425233ejc.313.1648059600405; 
+ Wed, 23 Mar 2022 11:20:00 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ f4-20020a170906738400b006df8b6787afsm244875ejl.13.2022.03.23.11.19.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Mar 2022 11:19:59 -0700 (PDT)
+Message-ID: <072109ff-8c30-e1cf-d979-d75c682d5385@redhat.com>
+Date: Wed, 23 Mar 2022 19:19:58 +0100
 MIME-Version: 1.0
-References: <20220323173543.146442-1-zongyuan.li@smartx.com>
- <20220323173543.146442-3-zongyuan.li@smartx.com>
-In-Reply-To: <20220323173543.146442-3-zongyuan.li@smartx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 23 Mar 2022 18:19:50 +0000
-Message-ID: <CAFEAcA-m2F2fn77=3fz_pfteiPaHmUuGEbsCpYG-gnJSQ2or9Q@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] hw/arm/stellaris: replace 'qemu_split_irq' with
- 'TYPE_SPLIT_IRQ'
-To: Zongyuan Li <zongyuan.li@smartx.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1130
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 09/10] python: rename qemu.aqmp to qemu.qmp
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20220321210847.914787-1-jsnow@redhat.com>
+ <20220321210847.914787-10-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220321210847.914787-10-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,70 +103,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:Stellaris" <qemu-arm@nongnu.org>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Mar 2022 at 17:36, Zongyuan Li <zongyuan.li@smartx.com> wrote:
+On 21.03.22 22:08, John Snow wrote:
+> Now that we are fully switched over to the new QMP library, move it back
+> over the old namespace. This is being done primarily so that we may
+> upload this package simply as "qemu.qmp" without introducing confusion
+> over whether or not "aqmp" is a new protocol or not.
 >
-> Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
+> The trade-off is increased confusion inside the QEMU developer
+> tree. Sorry!
+>
+> Note: the 'private' member "_aqmp" in legacy.py also changes to "_qmp";
+> not out of necessity, but just to remove any traces of the "aqmp"
+> name.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Beraldo Leal <bleal@redhat.com>
 > ---
->  hw/arm/stellaris.c | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-> index b6c8a5d609..ccc2d5def2 100644
-> --- a/hw/arm/stellaris.c
-> +++ b/hw/arm/stellaris.c
-> @@ -9,6 +9,7 @@
->
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
-> +#include "hw/core/split-irq.h"
->  #include "hw/sysbus.h"
->  #include "hw/sd/sd.h"
->  #include "hw/ssi/ssi.h"
-> @@ -1023,6 +1024,7 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
->      I2CBus *i2c;
->      DeviceState *dev;
->      DeviceState *ssys_dev;
-> +       DeviceState *gpio_d_splitter;
 
-Indentation seems to be off here. Also since we only use this
-in one place you can put the new variable declaration in the
-narrower scope that starts "if (board->peripherals & BP_OLED_SSI) {".
+I guess this is the one for which I’m CC-ed?
 
->      int i;
->      int j;
->      const uint8_t *macaddr;
-> @@ -1237,9 +1239,20 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
->                                     &error_fatal);
->
->              ssddev = ssi_create_peripheral(bus, "ssd0323");
-> -            gpio_out[GPIO_D][0] = qemu_irq_split(
-> -                    qdev_get_gpio_in_named(sddev, SSI_GPIO_CS, 0),
-> +
-> +            gpio_d_splitter = qdev_new(TYPE_SPLIT_IRQ);
-> +            qdev_prop_set_uint32(gpio_d_splitter, "num-lines", 2);
-> +            if (!qdev_realize_and_unref(gpio_d_splitter, NULL, &error_fatal)) {
-> +                return;
-> +            }
+[...]
 
-If you're passing &error_fatal to a function, it will never return
-on errors, it will exit. So you don't need to have the if() here.
+> diff --git a/scripts/render_block_graph.py b/scripts/render_block_graph.py
+> index b33fb70d5e..8f731a5cfe 100755
+> --- a/scripts/render_block_graph.py
+> +++ b/scripts/render_block_graph.py
+> @@ -25,8 +25,8 @@
+>   from graphviz import Digraph
+>   
+>   sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'python'))
+> -from qemu.aqmp import QMPError
+> -from qemu.aqmp.legacy import QEMUMonitorProtocol
+> +from qemu.qmp import QMPError
+> +from qemu.qmp.legacy import QEMUMonitorProtocol
+>   
+>   
+>   def perm(arr):
+> diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/bench_block_job.py
+> index af9d1646a4..56191db44b 100755
+> --- a/scripts/simplebench/bench_block_job.py
+> +++ b/scripts/simplebench/bench_block_job.py
+> @@ -27,7 +27,7 @@
+>   
+>   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+>   from qemu.machine import QEMUMachine
+> -from qemu.aqmp import ConnectError
+> +from qemu.qmp import ConnectError
+>   
+>   
+>   def bench_block_job(cmd, cmd_args, qemu_args):
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 8760e2c310..9563749709 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -38,7 +38,7 @@
+>   from contextlib import contextmanager
+>   
+>   from qemu.machine import qtest
+> -from qemu.aqmp.legacy import QMPMessage, QEMUMonitorProtocol
+> +from qemu.qmp.legacy import QMPMessage, QEMUMonitorProtocol
 
-> +            qdev_connect_gpio_out(
-> +                    gpio_d_splitter, 0,
-> +                    qdev_get_gpio_in_named(sddev, SSI_GPIO_CS, 0));
-> +            qdev_connect_gpio_out(
-> +                    gpio_d_splitter, 1,
->                      qdev_get_gpio_in_named(ssddev, SSI_GPIO_CS, 0));
-> +            gpio_out[GPIO_D][0] = qdev_get_gpio_in(gpio_d_splitter, 0);
-> +
->              gpio_out[GPIO_C][7] = qdev_get_gpio_in(ssddev, 0);
+(Rebasing will change the order of imports; you fixed the (alphabetic) 
+ordering in 2882ccf86a9, now you’re going to have to restore the 
+original ordering here :))
 
-Otherwise this looks OK.
+>   # Use this logger for logging messages directly from the iotests module
+>   logger = logging.getLogger('qemu.iotests')
+> diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
+> index 223f3c1620..d538579961 100755
+> --- a/tests/qemu-iotests/tests/mirror-top-perms
+> +++ b/tests/qemu-iotests/tests/mirror-top-perms
+> @@ -99,7 +99,7 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
+>           self.vm_b.add_device('virtio-blk,drive=drive0,share-rw=on')
+>           try:
+>               # Silence AQMP logging errors temporarily.
 
-thanks
--- PMM
+Probably should just be “QMP” now, too.  Anyway:
+
+Acked-by: Hanna Reitz <hreitz@redhat.com>
+
+> -            with change_log_level('qemu.aqmp'):
+> +            with change_log_level('qemu.qmp'):
+>                   self.vm_b.launch()
+>                   print('ERROR: VM B launched successfully, '
+>                         'this should not have happened')
+
 
