@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5BD4E5317
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:24:41 +0100 (CET)
-Received: from localhost ([::1]:38756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300B64E52E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:19:05 +0100 (CET)
+Received: from localhost ([::1]:55752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX0ye-0006IJ-EU
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:24:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40652)
+	id 1nX0tD-0006zM-P2
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:19:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nX0iz-0006EB-3a
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 09:08:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55666)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nX0iw-000775-F9
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 09:08:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648040905;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=70BVFp/ay2GtzV9l/8pyutFT6h5mVJO5vmRO+wXGVxo=;
- b=A+2wORLWua9ujo08E2gKeVTN37PQzvbcV31/Ke/d4iIn3aY2ZQGqqbQUTxATpaWDukZ1uJ
- A6souul3uiqnW4o/ujjEcBPcg/nKvN4FLzQ/1Z8tDPx6wedQYObHodQ+0006rj4V3uLTRV
- iRbgmBnOELyvKEgovlWuOQWqgM69Rmc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-NABzQSV7NqqciiVi62vQng-1; Wed, 23 Mar 2022 09:08:22 -0400
-X-MC-Unique: NABzQSV7NqqciiVi62vQng-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8FAD29ABA29;
- Wed, 23 Mar 2022 13:08:21 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A93B1400E70;
- Wed, 23 Mar 2022 13:08:19 +0000 (UTC)
-Date: Wed, 23 Mar 2022 13:08:16 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: zhenwei pi <pizhenwei@bytedance.com>
-Subject: Re: [PATCH v3 2/6] crypto-akcipher: Introduce akcipher types to qapi
-Message-ID: <YjsbwNhayhkVJ9G0@redhat.com>
-References: <20220323024912.249789-1-pizhenwei@bytedance.com>
- <20220323024912.249789-3-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nX0o4-0003uc-Jr; Wed, 23 Mar 2022 09:13:46 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:49796 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nX0o1-0000dB-PR; Wed, 23 Mar 2022 09:13:44 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-01 (Coremail) with SMTP id qwCowACXnvr8HDtilKgaBQ--.17455S2;
+ Wed, 23 Mar 2022 21:13:32 +0800 (CST)
+Subject: Re: [RFC PATCH v2 4/4] target/riscv: smstateen check for AIA/IMSIC
+To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20220323111309.9109-1-mchitale@ventanamicro.com>
+ <20220323111309.9109-5-mchitale@ventanamicro.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <c0920f62-46fa-46db-84ba-cade2dc4d565@iscas.ac.cn>
+Date: Wed, 23 Mar 2022 21:13:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220323024912.249789-3-pizhenwei@bytedance.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220323111309.9109-5-mchitale@ventanamicro.com>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: qwCowACXnvr8HDtilKgaBQ--.17455S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXr1kCrWrXrWDGFy3ZryUGFg_yoW7JF1Upw
+ 4DArZxWrWxtFy2v3ZIgFs8JF15J3Z7K3y7u3s3Ww4kWFs8GF95Jr1kXrWavFWUCF95Wr47
+ Wa1ak3ZYkr42vFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9014x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+ WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+ 67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+ IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1U
+ MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
+ VFxhVjvjDU0xZFpf9x0pR_pnkUUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,163 +75,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: herbert@gondor.apana.org.au, mst@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
- arei.gonglei@huawei.com, linux-crypto@vger.kernel.org,
- Lei He <helei.sig11@bytedance.com>
+Cc: alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 23, 2022 at 10:49:08AM +0800, zhenwei pi wrote:
-> From: Lei He <helei.sig11@bytedance.com>
-> 
-> Introduce akcipher types, also include RSA & ECDSA related types.
-> 
-> Signed-off-by: Lei He <helei.sig11@bytedance.com>
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+
+ÔÚ 2022/3/23 ÏÂÎç7:13, Mayuresh Chitale Ð´µÀ:
+> If smstateen is implemented then accesses to AIA
+> registers CSRS, IMSIC CSRs and other IMSIC registers
+> is controlled by setting of corresponding bits in
+> mstateen/hstateen registers. Otherwise an illegal
+> instruction trap or virtual instruction trap is
+> generated.
+>
+> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
 > ---
->  qapi/crypto.json | 86 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 86 insertions(+)
-> 
-> diff --git a/qapi/crypto.json b/qapi/crypto.json
-> index 1ec54c15ca..d44c38e3b1 100644
-> --- a/qapi/crypto.json
-> +++ b/qapi/crypto.json
-> @@ -540,3 +540,89 @@
->    'data': { '*loaded': { 'type': 'bool', 'features': ['deprecated'] },
->              '*sanity-check': 'bool',
->              '*passwordid': 'str' } }
-> +##
-> +# @QCryptoAkcipherAlgorithm:
-
-Should be named  QCryptoAkCipherAlgorithm
-
-> +#
-> +# The supported algorithms for asymmetric encryption ciphers
-> +#
-> +# @rsa: RSA algorithm
-> +# @ecdsa: ECDSA algorithm
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'enum': 'QCryptoAkcipherAlgorithm',
-> +  'prefix': 'QCRYPTO_AKCIPHER_ALG',
-> +  'data': ['rsa', 'ecdsa']}
+>   target/riscv/csr.c | 248 ++++++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 246 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 5959adc9b3..cfdda8dc2b 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -68,6 +68,53 @@ static RISCVException smstateen_acc_ok(CPURISCVState *env, int mode, int bit)
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+> +static RISCVException smstateen_aia_acc_ok(CPURISCVState *env, int csrno)
+> +{
+> +    int bit, mode;
 > +
-> +##
-> +# @QCryptoAkcipherKeyType:
-
-Should be named  QCryptoAkCipherKeyType
-
-> +#
-> +# The type of asymmetric keys.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'enum': 'QCryptoAkcipherKeyType',
-> +  'prefix': 'QCRYPTO_AKCIPHER_KEY_TYPE',
-> +  'data': ['public', 'private']}
+> +    switch (csrno) {
+> +    case CSR_SSETEIPNUM:
+> +    case CSR_SCLREIPNUM:
+> +    case CSR_SSETEIENUM:
+> +    case CSR_SCLREIENUM:
+> +    case CSR_STOPEI:
+> +    case CSR_VSSETEIPNUM:
+> +    case CSR_VSCLREIPNUM:
+> +    case CSR_VSSETEIENUM:
+> +    case CSR_VSCLREIENUM:
+> +    case CSR_VSTOPEI:
+> +    case CSR_HSTATUS:
+> +        mode = PRV_S;
+> +        bit = SMSTATEEN0_IMSIC;
+> +        break;
 > +
-> +##
-> +# @QCryptoRsaHashAlgorithm:
-> +#
-> +# The hash algorithm for RSA pkcs1 padding algothrim
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'enum': 'QCryptoRsaHashAlgorithm',
-> +  'prefix': 'QCRYPTO_RSA_HASH_ALG',
-> +  'data': [ 'md2', 'md3', 'md4', 'md5', 'sha1', 'sha256', 'sha384', 'sha512', 'sha224' ]}
-
-We already have QCryptoHashAlgorithm and I don't see the
-benefit in duplicating it here.
-
-We don't have md2, md3, and md4 in QCryptoHashAlgorithm, but
-that doesn't look like a real negative as I can't imagine
-those should be used today.
-
-> +##
-> +# @QCryptoRsaPaddingAlgorithm:
-> +#
-> +# The padding algorithm for RSA.
-> +#
-> +# @raw: no padding used
-> +# @pkcs1: pkcs1#v1.5
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'enum': 'QCryptoRsaPaddingAlgorithm',
-> +  'prefix': 'QCRYPTO_RSA_PADDING_ALG',
-> +  'data': ['raw', 'pkcs1']}
+> +    case CSR_SIEH:
+> +    case CSR_SIPH:
+> +    case CSR_HVIPH:
+> +    case CSR_HVICTL:
+> +    case CSR_HVIPRIO1:
+> +    case CSR_HVIPRIO2:
+> +    case CSR_HVIPRIO1H:
+> +    case CSR_HVIPRIO2H:
+> +    case CSR_VSIEH:
+> +    case CSR_VSIPH:
+> +        mode = PRV_S;
+> +        bit = SMSTATEEN0_AIA;
+> +        break;
 > +
-> +##
-> +# @QCryptoCurveId:
-
-Should be named  QCryptoCurveID
-
-> +#
-> +# The well-known curves, referenced from https://csrc.nist.gov/csrc/media/publications/fips/186/3/archive/2009-06-25/documents/fips_186-3.pdf
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'enum': 'QCryptoCurveId',
-> +  'prefix': 'QCRYPTO_CURVE_ID',
-> +  'data': ['nist-p192', 'nist-p224', 'nist-p256', 'nist-p384', 'nist-p521']}
-
-
+> +    case CSR_SISELECT:
+> +    case CSR_VSISELECT:
+> +        mode = PRV_S;
+> +        bit = SMSTATEEN0_SVSLCT;
+> +        break;
 > +
-> +##
-> +# @QCryptoRsaOptions:
-
-This should be named  QCryptoAkCipherOptionsRSA
-
-> +#
-> +# Specific parameters for RSA algorithm.
-> +#
-> +# @hash-algo: QCryptoRsaHashAlgorithm
-> +# @padding-algo: QCryptoRsaPaddingAlgorithm
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'QCryptoRsaOptions',
-> +  'data': { 'hash-algo':'QCryptoRsaHashAlgorithm',
-> +            'padding-algo': 'QCryptoRsaPaddingAlgorithm'}}
-
-Our naming convention is  'XXX-alg' rather than 'XXX-algo'.
-
+> +    default:
+> +        return RISCV_EXCP_NONE;
+> +    }
 > +
-> +##
-> +# @QCryptoEcdsaOptions:
+> +    return smstateen_acc_ok(env, mode, bit);
+> +}
+> +
+>   static RISCVException fs(CPURISCVState *env, int csrno)
+>   {
+>   #if !defined(CONFIG_USER_ONLY)
+> @@ -1402,6 +1449,13 @@ static int rmw_xiselect(CPURISCVState *env, int csrno, target_ulong *val,
+>                           target_ulong new_val, target_ulong wr_mask)
+>   {
+>       target_ulong *iselect;
+> +    RISCVException ret;
+> +
+> +    /* Check if smstateen is enabled and this access is allowed */
+> +    ret = smstateen_aia_acc_ok(env, csrno);
+> +    if (ret != RISCV_EXCP_NONE) {
+> +        return ret;
+> +    }
+>   
+>       /* Translate CSR number for VS-mode */
+>       csrno = aia_xlate_vs_csrno(env, csrno);
+> @@ -1484,7 +1538,9 @@ static int rmw_xireg(CPURISCVState *env, int csrno, target_ulong *val,
+>       bool virt;
+>       uint8_t *iprio;
+>       int ret = -EINVAL;
+> -    target_ulong priv, isel, vgein;
+> +    target_ulong priv, isel, vgein = 0;
+> +    CPUState *cs = env_cpu(env);
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+>   
+>       /* Translate CSR number for VS-mode */
+>       csrno = aia_xlate_vs_csrno(env, csrno);
+> @@ -1513,11 +1569,20 @@ static int rmw_xireg(CPURISCVState *env, int csrno, target_ulong *val,
+>       };
+>   
+>       /* Find the selected guest interrupt file */
+> -    vgein = (virt) ? get_field(env->hstatus, HSTATUS_VGEIN) : 0;
+> +    if (virt) {
+> +        if (!cpu->cfg.ext_smstateen ||
+> +                (env->hstateen[0] & 1UL << SMSTATEEN0_IMSIC)) {
+It seems better that '(' aligned with '!'.
+> +            vgein = get_field(env->hstatus, HSTATUS_VGEIN);
+> +        }
+> +    }
+>   
+>       if (ISELECT_IPRIO0 <= isel && isel <= ISELECT_IPRIO15) {
+>           /* Local interrupt priority registers not available for VS-mode */
+>           if (!virt) {
+> +            if (priv == PRV_S && cpu->cfg.ext_smstateen &&
+> +                !(env->hstateen[0] & 1UL << SMSTATEEN0_AIA)) {
+> +                goto done;
+> +            }
+>               ret = rmw_iprio(riscv_cpu_mxl_bits(env),
+>                               isel, iprio, val, new_val, wr_mask,
+>                               (priv == PRV_M) ? IRQ_M_EXT : IRQ_S_EXT);
+> @@ -1551,6 +1616,13 @@ static int rmw_xsetclreinum(CPURISCVState *env, int csrno, target_ulong *val,
+>       int ret = -EINVAL;
+>       bool set, pend, virt;
+>       target_ulong priv, isel, vgein, xlen, nval, wmask;
+> +    RISCVException excp;
+> +
+> +    /* Check if smstateen is enabled and this access is allowed */
+> +    excp = smstateen_aia_acc_ok(env, csrno);
+> +    if (excp != RISCV_EXCP_NONE) {
+> +        return excp;
+> +    }
+>   
+>       /* Translate CSR number for VS-mode */
+>       csrno = aia_xlate_vs_csrno(env, csrno);
+> @@ -1669,6 +1741,13 @@ static int rmw_xtopei(CPURISCVState *env, int csrno, target_ulong *val,
+>       bool virt;
+>       int ret = -EINVAL;
+>       target_ulong priv, vgein;
+> +    RISCVException excp;
+> +
+> +    /* Check if smstateen is enabled and this access is allowed */
+> +    excp = smstateen_aia_acc_ok(env, csrno);
+> +    if (excp != RISCV_EXCP_NONE) {
+> +        return excp;
+> +    }
+>   
+>       /* Translate CSR number for VS-mode */
+>       csrno = aia_xlate_vs_csrno(env, csrno);
+> @@ -2014,6 +2093,12 @@ static RISCVException write_mstateen(CPURISCVState *env, int csrno,
+>           wr_mask |= 1UL << SMSTATEEN0_FCSR;
+>       }
+>   
+> +    if (riscv_feature(env, RISCV_FEATURE_AIA)) {
+> +        wr_mask |= (1UL << SMSTATEEN0_IMSIC)
+> +                | (1UL << SMSTATEEN0_AIA)
+> +                | (1UL << SMSTATEEN0_SVSLCT);
 
-This should be named  QCryptoAkCipherOptionsECDSA
+I think it's better as follows:
 
-> +#
-> +# Specific parameter for ECDSA algorithm.
-> +#
-> +# @curve-id: QCryptoCurveId
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'QCryptoEcdsaOptions',
-> +  'data': { 'curve-id': 'QCryptoCurveId' }}
++        wr_mask |= (1UL << SMSTATEEN0_IMSIC) |
++                   (1UL << SMSTATEEN0_AIA) |
++                   (1UL << SMSTATEEN0_SVSLCT);
 
-Having these two structs standalone looks wrong to me. I suspect that
-callers will need to be able to conditionally pass in either one, and
-so require the API to use a discriminated union
+Regards,
 
-  { 'union': 'QCryptoAkCipherOptions'
-    'base': { 'algorithm': 'QCryptoAkCipherAlgorithm' },
-    'discriminator': 'algorithm',
-    'data': { 'rsa': 'QCryptoAkCipherOptionsRSA' ,
-              'ecdsa': 'QCryptoAkCipherOptionsECDSA' } }
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Weiwei Li
 
 
