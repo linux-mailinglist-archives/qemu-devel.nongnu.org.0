@@ -2,88 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3A54E58CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:59:28 +0100 (CET)
-Received: from localhost ([::1]:35854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8554E595F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 20:48:15 +0100 (CET)
+Received: from localhost ([::1]:57320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX6Cd-0003E6-5K
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:59:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46366)
+	id 1nX6xq-0004hM-0N
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 15:48:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nX6AG-00022i-1r
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:57:00 -0400
-Received: from [2607:f8b0:4864:20::833] (port=46057
- helo=mail-qt1-x833.google.com)
+ (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
+ id 1nX2F5-0001Iv-GY
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 10:45:44 -0400
+Received: from [2a00:1450:4864:20::144] (port=45644
+ helo=mail-lf1-x144.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nX6AB-0006n3-KX
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:56:57 -0400
-Received: by mail-qt1-x833.google.com with SMTP id a11so1972909qtb.12
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:56:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
+ id 1nX27u-0005G4-6D
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 10:38:20 -0400
+Received: by mail-lf1-x144.google.com with SMTP id l20so3025561lfg.12
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 07:38:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5eVbw0nx8xg2wrymdgy7rIBO9Z2Z1ybMaOCic40tRX8=;
- b=pINxR8DJ/dnErtsZYHLcjm3xLVqJFIx1fMZNHtFehMtqd8aGXnSl54CT4YCi0RLQF1
- H9kc4Fd7rO9qljLBdTA4RxkI2f7FzHEvejLR/IrVv3ShAVJLFaJwsVQfOkLIRbusOioH
- LfbzI6BuvUyV0CU2sjYFvVtrZg9SOin6Ov/isa+XzSYhHwAHIO99eVmW79gYKjwiD5db
- 157eGbN9NADA4/5cI5kFhkeT9C0pk178OKQI8l5wT8ovbXUnRHdyBEZAMvCvZ/4Ra2fE
- IJEPWagNz/x8+yoWrbByo2K5dgojkE1HzMlryp40yl7F8BrPdBpzDOhxibrbqDs8AVLS
- JZng==
+ :cc:references:from:in-reply-to;
+ bh=lxjxwKVE1uHYC7yyCF0JjiUo9WYCK3PX3Mlr+nK/65o=;
+ b=2oTLInQJFacYBAdWV6UxtMWN5Sx8Nc9u1FCifXtroDUIYoF2GKkrH0m90NIPyzQriY
+ zQ+pugPh4NQCRE+7piw6v4SmVyOaii9lv7KyE8bTkwfp9MiYN5aIcRHNPPkFcD5c6+v0
+ 5CcNUQBeZczQ4tDa84wEFWpghx/GKquFbwUPKLvgojy7O86Zu85X7g8CkhEw7pNjsS52
+ ji7tOlcf/IfWKwqfdEdZr6KipC6lYwMYSpUM7q1ekNORyuvVkTbDhqBSpXbUu4YeQrX2
+ 0y8BB/mld1ISRMElweaMGA6X+RukCcpeUW+6W1jVxcvYlxigwuGXHmjQYyGlTekGRI5M
+ wyiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5eVbw0nx8xg2wrymdgy7rIBO9Z2Z1ybMaOCic40tRX8=;
- b=4X2/yesQTFG60bm7qmsnQNBFsqOa4ygmWPRPHs2v8p+F46fySGX5Ywh8D5cZJHxhgV
- 5A7M0cKeeekwiBVNNi4FtP+A/awoGV77bAflgTKoeUsfgJe735aKNAEfGyHrDR1W1I8W
- WVc9YLWuPRlBzAtugMqTBNKhla6h4XNUixxVXJxKVp1K36Ms2SrxWp8+7YWftaDcYnyN
- eA7rzJoAewvN+HoytaBiMLbgyoh2u6nPyLnea5XbYuiGpfNUC9wZNGTR5RGJpIKcx5yh
- XpSgTnQ8fC0JLofnftH/A3gqJb7nhhW6rZa0n9i7YkHuo0DW0Ml4mH2c9uMEsr+dMCfY
- HIWg==
-X-Gm-Message-State: AOAM532hf7+0tsUVCXJwD5leWp4Bv5uO1AICtMh6kc4yCN/AvCjxiSpl
- xpoR9Gf9dSQQ7SWRylBaPkaRVbjV+2g=
-X-Google-Smtp-Source: ABdhPJwKXR1brQUncQYlgUOu7VO+BDgmnuJ6K6yvnXsMlACxq1xjWW0DRh2aVZuhQlVnRO+8VmthaA==
-X-Received: by 2002:ac8:59c8:0:b0:2e0:6ae2:eb6f with SMTP id
- f8-20020ac859c8000000b002e06ae2eb6fmr1175396qtf.580.1648061814387; 
- Wed, 23 Mar 2022 11:56:54 -0700 (PDT)
-Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
- [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- 20-20020ac84e94000000b002e1d5505fb6sm693231qtp.63.2022.03.23.11.56.49
+ :content-language:to:cc:references:from:in-reply-to;
+ bh=lxjxwKVE1uHYC7yyCF0JjiUo9WYCK3PX3Mlr+nK/65o=;
+ b=JOcCeJAEDiUkLSKiiGgf4MZwrxvbB5uDSkIgvfrz3wdwcpS5FUJJ3SdKXi8goZS5cN
+ MEjpFc2vTO2b5Qgwl9V7L0gJvfijMgdVyBoK9EXN+of6xv3sLs+f3+RZSeP24ancs9Ve
+ RdsotgCTCXs8Sp6EtkSPLU0rmWD5aH/TjGiTKv+nPpFM3CUM65RgQGeS6gfDAtS7Uoh9
+ nMGsQRuk21eJYErJT+ufQ/Ygbml1Id3wQgw6a9+Nz52qIk7hJ2KiDEgZzr3/uXB4eh7o
+ DBpOBsf8/n2QvNn5M6nmXyrpUh//5ilfwy5P9lOeALSGX4NcuZfesiFsAhKVryZ/wsfL
+ vufQ==
+X-Gm-Message-State: AOAM530bAHMiDmcMhUMnPQ/XKcrNigOw5tA3ROVFFAHcLU/IsHsRo8ng
+ lGgyrLw6JOzuOBZiYZeGAt/DxA==
+X-Google-Smtp-Source: ABdhPJxMFlzQR5xtc5w16WYBUNWxIGbErZl67dttNVKdeiNUgoJ7HKWV65kpAnnw+E0zpRmsXf7EJg==
+X-Received: by 2002:a05:6512:3056:b0:44a:5117:2b2b with SMTP id
+ b22-20020a056512305600b0044a51172b2bmr132345lfb.275.1648046295960; 
+ Wed, 23 Mar 2022 07:38:15 -0700 (PDT)
+Received: from [192.168.0.105] ([93.175.28.51])
+ by smtp.gmail.com with ESMTPSA id
+ t19-20020a195f13000000b0044a49618534sm9491lfb.132.2022.03.23.07.38.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 11:56:53 -0700 (PDT)
-Message-ID: <06217ec6-bd2a-6fd1-b2ff-1704b073456f@gmail.com>
-Date: Wed, 23 Mar 2022 19:56:47 +0100
+ Wed, 23 Mar 2022 07:38:15 -0700 (PDT)
+Content-Type: multipart/alternative;
+ boundary="------------np8wgDX73REE2FByDsoX0vWE"
+Message-ID: <59ced950-3748-5b19-9fa0-f276336b06a8@openvz.org>
+Date: Wed, 23 Mar 2022 17:38:14 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v4 01/13] cpu: Free cpu->cpu_ases in
- cpu_address_space_destroy()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v1 7/8] migration: analyze-migration script changed
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-References: <20220323171751.78612-1-philippe.mathieu.daude@gmail.com>
- <20220323171751.78612-2-philippe.mathieu.daude@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220323171751.78612-2-philippe.mathieu.daude@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::833
+To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ qemu-devel@nongnu.org
+References: <20220323105400.17649-1-nikita.lapshin@openvz.org>
+ <20220323105400.17649-8-nikita.lapshin@openvz.org>
+ <48f06c75-de34-ade1-afa4-bcac105e4520@mail.ru>
+From: Nikita Lapshin <nikita.lapshin@openvz.org>
+In-Reply-To: <48f06c75-de34-ade1-afa4-bcac105e4520@mail.ru>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::144
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: permerror client-ip=2a00:1450:4864:20::144;
+ envelope-from=nikita.lapshin@openvz.org; helo=mail-lf1-x144.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 23 Mar 2022 15:46:39 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,106 +96,321 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Peter Xu <peterx@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Stefano Stabellini <sstabellini@kernel.org>,
- David Hildenbrand <david@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Eduardo Habkost <eduardo@habkost.net>, Marcelo Tosatti <mtosatti@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wenchao Wang <wenchao.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: den@openvz.org, Nikita Lapshin <nikita.lapshin@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/3/22 18:17, Philippe Mathieu-Daudé wrote:
-> From: Mark Kanda <mark.kanda@oracle.com>
-> 
-> Create cpu_address_space_destroy() to free a CPU's cpu_ases list.
+This is a multi-part message in MIME format.
+--------------np8wgDX73REE2FByDsoX0vWE
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This seems incorrect...
+On 3/23/22 16:57, Vladimir Sementsov-Ogievskiy wrote:
 
-> vCPU hotunplug related leak reported by Valgrind:
-> 
-> ==132362== 216 bytes in 1 blocks are definitely lost in loss record 7,119 of 8,549
-> ==132362==    at 0x4C3ADBB: calloc (vg_replace_malloc.c:1117)
-> ==132362==    by 0x69EE4CD: g_malloc0 (in /usr/lib64/libglib-2.0.so.0.5600.4)
-> ==132362==    by 0x7E34AF: cpu_address_space_init (physmem.c:751)
-> ==132362==    by 0x45053E: qemu_init_vcpu (cpus.c:635)
-> ==132362==    by 0x76B4A7: x86_cpu_realizefn (cpu.c:6520)
-> ==132362==    by 0x9343ED: device_set_realized (qdev.c:531)
-> ==132362==    by 0x93E26F: property_set_bool (object.c:2273)
-> ==132362==    by 0x93C23E: object_property_set (object.c:1408)
-> ==132362==    by 0x9406DC: object_property_set_qobject (qom-qobject.c:28)
-> ==132362==    by 0x93C5A9: object_property_set_bool (object.c:1477)
-> ==132362==    by 0x933C81: qdev_realize (qdev.c:333)
-> ==132362==    by 0x455E9A: qdev_device_add_from_qdict (qdev-monitor.c:713)
-> 
-> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
-> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Message-Id: <20220321141409.3112932-5-mark.kanda@oracle.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   cpu.c                     | 1 +
->   include/exec/cpu-common.h | 7 +++++++
->   softmmu/physmem.c         | 5 +++++
->   3 files changed, 13 insertions(+)
-> 
-> diff --git a/cpu.c b/cpu.c
-> index be1f8b074c..59352a1487 100644
-> --- a/cpu.c
-> +++ b/cpu.c
-> @@ -174,6 +174,7 @@ void cpu_exec_unrealizefn(CPUState *cpu)
->           tcg_exec_unrealizefn(cpu);
->       }
->   
-> +    cpu_address_space_destroy(cpu);
->       cpu_list_remove(cpu);
->   }
->   
-> diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-> index 50a7d2912e..b17ad61ae4 100644
-> --- a/include/exec/cpu-common.h
-> +++ b/include/exec/cpu-common.h
-> @@ -111,6 +111,13 @@ size_t qemu_ram_pagesize_largest(void);
->    */
->   void cpu_address_space_init(CPUState *cpu, int asidx,
->                               const char *prefix, MemoryRegion *mr);
+> 23.03.2022 13:53, Nikita Lapshin wrote:
+>> From: Nikita Lapshin<nikita.lapshin@virtuozzo.com>
+>> This script is used for RAM capabilities test. But it cannot work
+>> in case of no vm description in migration stream.
+>> So new flag is added to allow work this script with ram-only
+>> migration stream.
+>> Signed-off-by: Nikita Lapshin<nikita.lapshin@openvz.org>
+>> ---
+>>    scripts/analyze-migration.py | 19 ++++++++++++-------
+>>    1 file changed, 12 insertions(+), 7 deletions(-)
+>> diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
+>> index b82a1b0c58..80077a09bc 100755
+>> --- a/scripts/analyze-migration.py
+>> +++ b/scripts/analyze-migration.py
+>> @@ -495,7 +495,7 @@ def __init__(self, filename):
+>>            self.filename = filename
+>>            self.vmsd_desc = None
+>>    
+>> -    def read(self, desc_only = False, dump_memory = False, write_memory = False):
+>> +    def read(self, ram_only, desc_only = False, dump_memory = False, write_memory = False):
+>>            # Read in the whole file
+>>            file = MigrationFile(self.filename)
+>>    
+>> @@ -509,7 +509,8 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
+>>            if data != self.QEMU_VM_FILE_VERSION:
+>>                raise Exception("Invalid version number %d" % data)
+>>    
+>> -        self.load_vmsd_json(file)
+>> +        if not ram_only:
+>> +            self.load_vmsd_json(file)
+>>    
+>>            # Read sections
+>>            self.sections = collections.OrderedDict()
+>> @@ -518,7 +519,10 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
+>>                return
+>>    
+>>            ramargs = {}
+>> -        ramargs['page_size'] = self.vmsd_desc['page_size']
+>> +        if ram_only:
+>> +            ramargs['page_size'] = 4096
+>> +        else:
+>> +            ramargs['page_size'] = self.vmsd_desc['page_size']
+>>            ramargs['dump_memory'] = dump_memory
+>>            ramargs['write_memory'] = write_memory
+>>            self.section_classes[('ram',0)][1] = ramargs
+>> @@ -579,6 +583,7 @@ def default(self, o):
+>>    parser.add_argument("-m", "--memory", help='dump RAM contents as well', action='store_true')
+>>    parser.add_argument("-d", "--dump", help='what to dump ("state" or "desc")', default='state')
+>>    parser.add_argument("-x", "--extract", help='extract contents into individual files', action='store_true')
+>> +parser.add_argument("--ram-only", help='parse migration dump containing only RAM', action='store_true')
+>>    args = parser.parse_args()
+>>    
+>>    jsonenc = JSONEncoder(indent=4, separators=(',', ': '))
+>> @@ -586,14 +591,14 @@ def default(self, o):
+>>    if args.extract:
+>>        dump = MigrationDump(args.file)
+> could this ram_only instead be stored into object, so that we do
+> dump = MigrationDump(args.file, ram_only=args.ram_only)
+> and don't update each read call?
 
-... cpu_address_space_init() creates a single AS, ...
+Yes, it could, don't see any problem with this.
 
-> +/**
-> + * cpu_address_space_destroy:
-> + * @cpu: CPU for this address space
-> + *
-> + * Cleanup CPU's cpu_ases list.
-> + */
-> +void cpu_address_space_destroy(CPUState *cpu);
->   
->   void cpu_physical_memory_rw(hwaddr addr, void *buf,
->                               hwaddr len, bool is_write);
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 43ae70fbe2..aec61ca07a 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -762,6 +762,11 @@ void cpu_address_space_init(CPUState *cpu, int asidx,
->       }
->   }
->   
-> +void cpu_address_space_destroy(CPUState *cpu)
-> +{
-> +    g_free(cpu->cpu_ases);
+>>    
+>> -    dump.read(desc_only = True)
+>> +    dump.read(desc_only = True, ram_only = args.ram_only)
+>>        print("desc.json")
+>>        f = open("desc.json", "w")
+>>        f.truncate()
+>>        f.write(jsonenc.encode(dump.vmsd_desc))
+>>        f.close()
+>>    
+>> -    dump.read(write_memory = True)
+>> +    dump.read(write_memory = True, ram_only = args.ram_only)
+>>        dict = dump.getDict()
+>>        print("state.json")
+>>        f = open("state.json", "w")
+>> @@ -602,12 +607,12 @@ def default(self, o):
+>>        f.close()
+>>    elif args.dump == "state":
+>>        dump = MigrationDump(args.file)
+>> -    dump.read(dump_memory = args.memory)
+>> +    dump.read(dump_memory = args.memory, ram_only = args.ram_only)
+>>        dict = dump.getDict()
+>>        print(jsonenc.encode(dict))
+>>    elif args.dump == "desc":
+>>        dump = MigrationDump(args.file)
+>> -    dump.read(desc_only = True)
+>> +    dump.read(desc_only = True, ram_only = args.ram_only)
+>>        print(jsonenc.encode(dump.vmsd_desc))
+>>    else:
+>>        raise Exception("Please specify either -x, -d state or -d desc")
+>
+--------------np8wgDX73REE2FByDsoX0vWE
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-... but here you destroy all the ASes.
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <pre>
+</pre>
+    <div class="moz-cite-prefix">
+      <pre>On 3/23/22 16:57, Vladimir Sementsov-Ogievskiy wrote:</pre>
+    </div>
+    <blockquote type="cite"
+      cite="mid:48f06c75-de34-ade1-afa4-bcac105e4520@mail.ru">
+      <pre>23.03.2022 13:53, Nikita Lapshin wrote:
+</pre>
+      <blockquote type="cite">
+        <pre>From: Nikita Lapshin <a class="moz-txt-link-rfc2396E" href="mailto:nikita.lapshin@virtuozzo.com">&lt;nikita.lapshin@virtuozzo.com&gt;</a>
+</pre>
+        <pre>
+</pre>
+        <pre>This script is used for RAM capabilities test. But it cannot work
+</pre>
+        <pre>in case of no vm description in migration stream.
+</pre>
+        <pre>So new flag is added to allow work this script with ram-only
+</pre>
+        <pre>migration stream.
+</pre>
+        <pre>
+</pre>
+        <pre>Signed-off-by: Nikita Lapshin <a class="moz-txt-link-rfc2396E" href="mailto:nikita.lapshin@openvz.org">&lt;nikita.lapshin@openvz.org&gt;</a>
+</pre>
+        <pre>---
+</pre>
+        <pre>  scripts/analyze-migration.py | 19 ++++++++++++-------
+</pre>
+        <pre>  1 file changed, 12 insertions(+), 7 deletions(-)
+</pre>
+        <pre>
+</pre>
+        <pre>diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
+</pre>
+        <pre>index b82a1b0c58..80077a09bc 100755
+</pre>
+        <pre>--- a/scripts/analyze-migration.py
+</pre>
+        <pre>+++ b/scripts/analyze-migration.py
+</pre>
+        <pre>@@ -495,7 +495,7 @@ def __init__(self, filename):
+</pre>
+        <pre>          self.filename = filename
+</pre>
+        <pre>          self.vmsd_desc = None
+</pre>
+        <pre>  
+-    def read(self, desc_only = False, dump_memory = False, write_memory = False):
+</pre>
+        <pre>+    def read(self, ram_only, desc_only = False, dump_memory = False, write_memory = False):
+</pre>
+        <pre>          # Read in the whole file
+</pre>
+        <pre>          file = MigrationFile(self.filename)
+</pre>
+        <pre>  
+@@ -509,7 +509,8 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
+</pre>
+        <pre>          if data != self.QEMU_VM_FILE_VERSION:
+</pre>
+        <pre>              raise Exception("Invalid version number %d" % data)
+</pre>
+        <pre>  
+-        self.load_vmsd_json(file)
+</pre>
+        <pre>+        if not ram_only:
+</pre>
+        <pre>+            self.load_vmsd_json(file)
+</pre>
+        <pre>  
+          # Read sections
+</pre>
+        <pre>          self.sections = collections.OrderedDict()
+</pre>
+        <pre>@@ -518,7 +519,10 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
+</pre>
+        <pre>              return
+</pre>
+        <pre>  
+          ramargs = {}
+</pre>
+        <pre>-        ramargs['page_size'] = self.vmsd_desc['page_size']
+</pre>
+        <pre>+        if ram_only:
+</pre>
+        <pre>+            ramargs['page_size'] = 4096
+</pre>
+        <pre>+        else:
+</pre>
+        <pre>+            ramargs['page_size'] = self.vmsd_desc['page_size']
+</pre>
+        <pre>          ramargs['dump_memory'] = dump_memory
+</pre>
+        <pre>          ramargs['write_memory'] = write_memory
+</pre>
+        <pre>          self.section_classes[('ram',0)][1] = ramargs
+</pre>
+        <pre>@@ -579,6 +583,7 @@ def default(self, o):
+</pre>
+        <pre>  parser.add_argument("-m", "--memory", help='dump RAM contents as well', action='store_true')
+</pre>
+        <pre>  parser.add_argument("-d", "--dump", help='what to dump ("state" or "desc")', default='state')
+</pre>
+        <pre>  parser.add_argument("-x", "--extract", help='extract contents into individual files', action='store_true')
+</pre>
+        <pre>+parser.add_argument("--ram-only", help='parse migration dump containing only RAM', action='store_true')
+</pre>
+        <pre>  args = parser.parse_args()
+</pre>
+        <pre>  
+  jsonenc = JSONEncoder(indent=4, separators=(',', ': '))
+</pre>
+        <pre>@@ -586,14 +591,14 @@ def default(self, o):
+</pre>
+        <pre>  if args.extract:
+</pre>
+        <pre>      dump = MigrationDump(args.file)
+</pre>
+      </blockquote>
+      <pre>
+could this ram_only instead be stored into object, so that we do
+</pre>
+      <pre>
+dump = MigrationDump(args.file, ram_only=args.ram_only)
+</pre>
+      <pre>
+and don't update each read call?
+</pre>
+      <pre>
+</pre>
+    </blockquote>
+    <br>
+    <pre>Yes, it could, don't see any problem with this.
 
-> +}
-> +
->   AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx)
->   {
->       /* Return the AddressSpace corresponding to the specified index */
+</pre>
+    <blockquote type="cite"
+      cite="mid:48f06c75-de34-ade1-afa4-bcac105e4520@mail.ru">
+      <blockquote type="cite">
+        <pre>  
+-    dump.read(desc_only = True)
+</pre>
+        <pre>+    dump.read(desc_only = True, ram_only = args.ram_only)
+</pre>
+        <pre>      print("desc.json")
+</pre>
+        <pre>      f = open("desc.json", "w")
+</pre>
+        <pre>      f.truncate()
+</pre>
+        <pre>      f.write(jsonenc.encode(dump.vmsd_desc))
+</pre>
+        <pre>      f.close()
+</pre>
+        <pre>  
+-    dump.read(write_memory = True)
+</pre>
+        <pre>+    dump.read(write_memory = True, ram_only = args.ram_only)
+</pre>
+        <pre>      dict = dump.getDict()
+</pre>
+        <pre>      print("state.json")
+</pre>
+        <pre>      f = open("state.json", "w")
+</pre>
+        <pre>@@ -602,12 +607,12 @@ def default(self, o):
+</pre>
+        <pre>      f.close()
+</pre>
+        <pre>  elif args.dump == "state":
+</pre>
+        <pre>      dump = MigrationDump(args.file)
+</pre>
+        <pre>-    dump.read(dump_memory = args.memory)
+</pre>
+        <pre>+    dump.read(dump_memory = args.memory, ram_only = args.ram_only)
+</pre>
+        <pre>      dict = dump.getDict()
+</pre>
+        <pre>      print(jsonenc.encode(dict))
+</pre>
+        <pre>  elif args.dump == "desc":
+</pre>
+        <pre>      dump = MigrationDump(args.file)
+</pre>
+        <pre>-    dump.read(desc_only = True)
+</pre>
+        <pre>+    dump.read(desc_only = True, ram_only = args.ram_only)
+</pre>
+        <pre>      print(jsonenc.encode(dump.vmsd_desc))
+</pre>
+        <pre>  else:
+</pre>
+        <pre>      raise Exception("Please specify either -x, -d state or -d desc")
+</pre>
+      </blockquote>
+      <pre>
+</pre>
+      <br>
+    </blockquote>
+  </body>
+</html>
 
+--------------np8wgDX73REE2FByDsoX0vWE--
 
