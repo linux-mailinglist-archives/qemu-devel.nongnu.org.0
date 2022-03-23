@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B41C4E51A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 12:54:31 +0100 (CET)
-Received: from localhost ([::1]:54936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C58BA4E51B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 12:58:59 +0100 (CET)
+Received: from localhost ([::1]:33982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWzZO-0005gY-6S
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 07:54:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42302)
+	id 1nWzdi-0002LZ-T3
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 07:58:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nWzOe-0000UB-Ay
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:43:26 -0400
-Received: from [2a00:1450:4864:20::633] (port=44778
- helo=mail-ej1-x633.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nWzOc-0001D9-34
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:43:23 -0400
-Received: by mail-ej1-x633.google.com with SMTP id r22so2228287ejs.11
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 04:43:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NXBftiV6s8HuLt4je98lM8SPphqtzzoXIWEbFS2bKSc=;
- b=N569PxRZni+IKqfP3Epu6t2AcMeqbHyIdowfaJvFplCVB71XJF8fAoFvipMF8Rh5JG
- 5uyj1GstKbTlOF6gPyvsvxlOAixDEXWQC+KYgpy4XfoxEi2+pW06MlaXsQJyPnwdXIh/
- J2A+FXYrr1/2e/dTPFZeVBBAX1a2SYuciFEC7+1ph2244w+KasmdWt84Mhyo+F5WY9y4
- ZROkHYIZAMW2rES/LuVVPd8zbbJXSIjviQTEr7DGR5n/b0JOKtWmKr8faL+xOKgVK5GM
- fyStJBx482Jg4ZquR/qQ0Scv9w+o3k2lpIEIHCEkUkLEDebkO9yLB6uS2GqTO8LvvmyZ
- IOrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=NXBftiV6s8HuLt4je98lM8SPphqtzzoXIWEbFS2bKSc=;
- b=DnOnDWYh/jHdm6dgJy8GhzrleouLu5TSRqybR5TdDTSzrg0GEg00m5angosxDlRhwr
- mCY3lO2eOVbsJXF4VtDlKLZdz6ttyV+svDpjXdMSgDgFC+ttimcjAKAkWZjwY3ETKN64
- ltofLDihpvOO8zCmHqqshhi3RYQtCJsB+lNW2MJ4PUmOqD9IttLY0P3HaEAPG6r9C5k2
- VH8CC90dLhWmwfTMtW0sSC5/wF8XGTR93OBU8k+ltvY8RRQ2sj5vRAz9yjKzKPdGEhmM
- zgcl8LNHc3nTOqb1pofbgvf5sFnMO4Yob2TxGL00e57+ImxgR4k3f3vPNzsWCC8b82UC
- +f+g==
-X-Gm-Message-State: AOAM531HYAyjxzUIsvR4OIz6uWtOqt+s3+sT3F4VOaxy4akZUVrU5w6P
- nJTKfoxT1Wo8Ngt5/yTkiQfnMhqUfds=
-X-Google-Smtp-Source: ABdhPJwmmcOJ+QuHJ3iC5lMgBZWjJ6cV74EfYoiYwLHc8KAsKPKRhAIOlmV7hqiVH2C5QIc6YcpqIw==
-X-Received: by 2002:a17:906:1e94:b0:6b9:6fcc:53fd with SMTP id
- e20-20020a1709061e9400b006b96fcc53fdmr31175819ejj.450.1648035800112; 
- Wed, 23 Mar 2022 04:43:20 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- d1-20020a50fe81000000b004197f2ecdc2sm519690edt.89.2022.03.23.04.43.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 04:43:19 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nWzQc-0001ZH-TX
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:45:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24855)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nWzQZ-0001Xi-Lt
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:45:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648035921;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=c6RwEIOWd9gK8K79DEKR8TjUkF5ZTHVyUmaos++ns38=;
+ b=YewTodxjJzFR/F7tildp5yXepHmJIk3QyPlb4PEUhBAE+Djk58JxkX7vWNJGWViFMRZlhQ
+ Ii7KioXicX1xNYXdag07ve/s6xoL3e0BQ+r3y/rs1g1Fv7n/2plFyGp6Cavvg1oSthUtK0
+ JZAusx5gfLIVPcUh7Yd+kEYGNNj4Ma0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-135-epMc09eEPICsQyJBvbQyHQ-1; Wed, 23 Mar 2022 07:45:18 -0400
+X-MC-Unique: epMc09eEPICsQyJBvbQyHQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A232D85A5A8
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:45:18 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.36.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0942279A9;
+ Wed, 23 Mar 2022 11:45:17 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] KVM: x86: workaround invalid CPUID[0xD,
- 9] info on some AMD processors
-Date: Wed, 23 Mar 2022 12:43:15 +0100
-Message-Id: <20220323114315.22594-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
+Subject: [PATCH] github: fix config mistake preventing repo lockdown commenting
+Date: Wed, 23 Mar 2022 11:45:16 +0000
+Message-Id: <20220323114516.4163532-1-berrange@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,96 +77,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some AMD processors expose the PKRU extended save state even if they do not have
-the related PKU feature in CPUID.  Worse, when they do they report a size of
-64, whereas the expected size of the PKRU extended save state is 8, therefore
-the esa->size == eax assertion does not hold.
+The config key names were all wrong, resulting in the repo lockdown
+throwing warnings:
 
-The state is already ignored by KVM_GET_SUPPORTED_CPUID because it
-was not enabled in the host XCR0.  However, QEMU kvm_cpu_xsave_init()
-runs before QEMU invokes arch_prctl() to enable dynamically-enabled
-save states such as XTILEDATA, and KVM_GET_SUPPORTED_CPUID hides save
-states that have yet to be enabled.  Therefore, kvm_cpu_xsave_init()
-needs to consult the host CPUID instead of KVM_GET_SUPPORTED_CPUID,
-and dies with an assertion failure.
+  Unexpected input(s) 'pull-comment', 'lock-pull', 'close-pull',
+  valid inputs are ['github-token', 'exclude-issue-created-before',
+  'exclude-issue-labels', 'issue-labels', 'issue-comment',
+  'skip-closed-issue-comment', 'close-issue', 'lock-issue',
+  'issue-lock-reason', 'exclude-pr-created-before', 'exclude-pr-labels',
+  'pr-labels', 'pr-comment', 'skip-closed-pr-comment', 'close-pr',
+  'lock-pr', 'pr-lock-reason', 'process-only', 'log-output']
 
-When setting up the ExtSaveArea array to match the host, ignore features that
-KVM does not report as supported.  This will cause QEMU to skip the incorrect
-CPUID leaf instead of tripping the assertion.
+It still locked down the pull requests, due to its default config,
+but didn't leave the friendly message explaining why.
 
-Reported-by: Daniel P. Berrangé <berrange@redhat.com>
-Analyzed-by: Yang Zhong <yang.zhong@intel.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- target/i386/cpu.c         |  4 ++--
- target/i386/cpu.h         |  2 ++
- target/i386/kvm/kvm-cpu.c | 19 ++++++++++++-------
- 3 files changed, 16 insertions(+), 9 deletions(-)
+ .github/workflows/lockdown.yml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index a88d6554c8..ec3b50bf6e 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4981,8 +4981,8 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-     return cpu_list;
- }
+diff --git a/.github/workflows/lockdown.yml b/.github/workflows/lockdown.yml
+index ad8b8f7e30..d5e1265cff 100644
+--- a/.github/workflows/lockdown.yml
++++ b/.github/workflows/lockdown.yml
+@@ -15,7 +15,7 @@ jobs:
+     steps:
+       - uses: dessant/repo-lockdown@v2
+         with:
+-          pull-comment: |
++          pr-comment: |
+             Thank you for your interest in the QEMU project.
  
--static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
--                                                   bool migratable_only)
-+uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
-+                                            bool migratable_only)
- {
-     FeatureWordInfo *wi = &feature_word_info[w];
-     uint64_t r = 0;
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 5e406088a9..e31e6bd8b8 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -606,6 +606,8 @@ typedef enum FeatureWord {
- } FeatureWord;
- 
- typedef uint64_t FeatureWordArray[FEATURE_WORDS];
-+uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
-+                                            bool migratable_only);
- 
- /* cpuid_features bits */
- #define CPUID_FP87 (1U << 0)
-diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index a35a1bf9fe..5eb955ce9a 100644
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -99,13 +99,18 @@ static void kvm_cpu_xsave_init(void)
-     for (i = XSTATE_SSE_BIT + 1; i < XSAVE_STATE_AREA_COUNT; i++) {
-         ExtSaveArea *esa = &x86_ext_save_areas[i];
- 
--        if (esa->size) {
--            host_cpuid(0xd, i, &eax, &ebx, &ecx, &edx);
--            if (eax != 0) {
--                assert(esa->size == eax);
--                esa->offset = ebx;
--                esa->ecx = ecx;
--            }
-+        if (!esa->size) {
-+            continue;
-+        }
-+        if ((x86_cpu_get_supported_feature_word(esa->feature, false) & esa->bits)
-+            != esa->bits) {
-+            continue;
-+        }
-+        host_cpuid(0xd, i, &eax, &ebx, &ecx, &edx);
-+        if (eax != 0) {
-+            assert(esa->size == eax);
-+            esa->offset = ebx;
-+            esa->ecx = ecx;
-         }
-     }
- }
+             This repository is a read-only mirror of the project's repostories hosted
+@@ -26,5 +26,5 @@ jobs:
+             functionality). However, we get a lot of patches, and so we have some
+             guidelines about contributing on the project website:
+             https://www.qemu.org/contribute/
+-          lock-pull: true
+-          close-pull: true
++          lock-pr: true
++          close-pr: true
 -- 
-2.35.1
+2.34.1
 
 
