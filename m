@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7334E584A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:20:45 +0100 (CET)
-Received: from localhost ([::1]:50036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D7F4E5845
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:18:12 +0100 (CET)
+Received: from localhost ([::1]:46418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX5bB-0005V9-2D
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:20:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60972)
+	id 1nX5Yh-00034J-2X
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:18:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nX5WP-0000hy-0n
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:15:56 -0400
-Received: from [2607:f8b0:4864:20::1133] (port=38303
- helo=mail-yw1-x1133.google.com)
+ id 1nX5Wy-0001Jr-VT
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:16:24 -0400
+Received: from [2607:f8b0:4864:20::b32] (port=41951
+ helo=mail-yb1-xb32.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nX5WL-0000Db-WC
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:15:48 -0400
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-2e592e700acso26995537b3.5
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:15:45 -0700 (PDT)
+ id 1nX5Wx-0000Ky-JE
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:16:24 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id y38so1565290ybi.8
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:16:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sfEZUcS/C98xKrVfhmHvgZOLayihYr0E27aKEaFeNsg=;
- b=W8I0tiiE+WkttuKYh53KNcYX2/hAMtf/pYq+R6P8hbI8KRwsvnl5ozUQa65AZYlZqC
- 8UjeQ6Afpxg3+FMax5++tTdvVr3Oh0Nk3WMKou9VKSGTE0CJCZY0zEjNgDGznS0ClX5U
- S5XUwgnU4+WzUoHeV1XFF6ISkhplgGpomtJwm0qk7ncyP3BVksBkvfVXd+zMIhXyyO+q
- DWHCSFl5GM4MUL2heh2CuBm1Q8zaspw2po6OkyRERN4zmNHtoXwPrzrdmNqenhnpxHnX
- lE33QCaZ451/G3YCERq8+zWzBlaNqh0Mn3yOoMiYSvzrpHLA2Kc9l+xoofLkW0O7pQkx
- xTxQ==
+ :cc; bh=mHqPOd69yQ53GZ01PqXjCLD1WAOCktnvZg4jcLbliLE=;
+ b=eymrb4BloSnPvpGCeEJjxs/Shsjm7grjxql+re/Ts1mEiNVr6vuZVOzhYtOiLco96B
+ 2M4Eg/p3R6+aK9TFrUVHoNu704AZUBnlJja6+7b48cJvy8eEmW3fQSHg39pP3fSaXUFH
+ NMfMMPxRlXyxUaGuLw/7j6pHy/U53s4J+3TuljkfjNQm99lbCweVmXULlddSS/ecouUE
+ vrNH51jGkU6OezDkLAs6aDsa6UPlUgumyz1QDPb62z19454X/QHoic2lxdMtNcgvJvUU
+ opbtQDRVywz+WmayCnrWSGldQdNhvTnjJVA0pm5RT9/jyVBTjQmgf1zphiKh3evJ6Gcx
+ JJvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=sfEZUcS/C98xKrVfhmHvgZOLayihYr0E27aKEaFeNsg=;
- b=yZ/fM/DLH5pbv39SHhA/IQXafQHBauZpUPe0X1ERFwW5t1krdNVRggReIA7+ZAlkJ0
- Pv9J3TA0OEhbaLCm9Q22pP19rgyLgiKmbptou620b72EObWvDnTDLouP6sj1fTCOlMjQ
- MqVpDvzWFcaAM7/7TKmfhKL+L5Dx8LTujXisCN+8Sox3KGugbUhsQH5hokMRg2I4BeKG
- J3PsE4nqpWFvHBJJxGKsLtjnZ6BbJ2UExdzw2YpRJ7cuUPyCWb5N+SeHJ5mb8+QXwJ3e
- Pw0hfKrtXiB4gMhQH6B5qrMSN+H40LSLA89qXIYMtDBIPiGEfUwicqinXfZY4LkSy2at
- 2h0A==
-X-Gm-Message-State: AOAM533pCwlmE8X/9J6zx3uioZHJi5Elsn5yWxBLZhX2Bc326wtu5jAY
- aZluM6nkgBrCWfCMHJnwOhTZBZuP20MCDX4QFaxCDg==
-X-Google-Smtp-Source: ABdhPJxKx4405NRNhGDEZ2/t8sOPbK4BsJF62pHIDh6cnS2ztCyUTxEqEKIreirtM6EqzdAuHSPGaP/x3NQWC0oS1hM=
-X-Received: by 2002:a81:a4e:0:b0:2e5:9946:525a with SMTP id
- 75-20020a810a4e000000b002e59946525amr1226782ywk.455.1648059344289; Wed, 23
- Mar 2022 11:15:44 -0700 (PDT)
+ bh=mHqPOd69yQ53GZ01PqXjCLD1WAOCktnvZg4jcLbliLE=;
+ b=cJ5nvYDbK6EUN/XWm/IE0C4AFSb/kiwEWsrGwkJt8YYIGrJs6dXT9HT6DTSobOTQYY
+ qKGAjSbvEtZl4Oz72PTEzS63Do1NVxf+X6adSNM5SjxsyKeNt1iqO611feAWcMniTxRE
+ 4StR+oAz8jcRoPOIqcQT16Tuw+Rcjdem+5+cBWTDoN/kqQMg8y6OXxjzNtMA5+HIbl5T
+ 3Lv3VyoNenI92hEOGcTroSvYBItPIW58DST+PfpamCAGlyqXUWcJpkVaHgQB/p9NwuCV
+ vCmtWlWW0RUw16+RzwxSIBTsA3uyDyPJZD1EMt+cCnJHFeAHuD7oiNLqS+dpeOw4IVLU
+ HFqg==
+X-Gm-Message-State: AOAM5320fDYlYvqzIaGLELm9feyeNy6Z7+tNOJCYGHDwKskmOQgRaTGj
+ E2Vz2MqJuinD3OHrLk3ILeEX1jIkpeb/T4k63SU9cA==
+X-Google-Smtp-Source: ABdhPJxYMGYDgTuFBKfn6azNcrG+t7z9JD5IjAMkXzJAB0WzWKyWr9IgHtS3251eQj4MI9GxpeV9l9sG8Nvk/YuHm2s=
+X-Received: by 2002:a25:cdc8:0:b0:633:8aa6:6a3 with SMTP id
+ d191-20020a25cdc8000000b006338aa606a3mr1273911ybf.288.1648059382648; Wed, 23
+ Mar 2022 11:16:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220323173543.146442-1-zongyuan.li@smartx.com>
- <20220323173543.146442-5-zongyuan.li@smartx.com>
-In-Reply-To: <20220323173543.146442-5-zongyuan.li@smartx.com>
+ <20220323173543.146442-6-zongyuan.li@smartx.com>
+In-Reply-To: <20220323173543.146442-6-zongyuan.li@smartx.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 23 Mar 2022 18:15:31 +0000
-Message-ID: <CAFEAcA-kwPQj8bzfuW8D3-Omd79bL8HD6NtsjsPUYCcjRdXhEQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] hw/intc/exynos4210_gic: replace 'qemu_split_irq'
- with 'TYPE_SPLIT_IRQ'
+Date: Wed, 23 Mar 2022 18:16:09 +0000
+Message-ID: <CAFEAcA8OCBd+y9a=p2kDzNiTsczuPWX_gAutSe6xrNA4DavhQg@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] hw/core/irq: remove unused 'qemu_irq_split'
+ function
 To: Zongyuan Li <zongyuan.li@smartx.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1133
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -84,21 +83,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
- "open list:Exynos" <qemu-arm@nongnu.org>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Mar 2022 at 17:36, Zongyuan Li <zongyuan.li@smartx.com> wrote:
+On Wed, 23 Mar 2022 at 17:37, Zongyuan Li <zongyuan.li@smartx.com> wrote:
 >
 > Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
-> ---
->  hw/intc/exynos4210_gic.c | 25 ++++++++++++++++++++++---
->  1 file changed, 22 insertions(+), 3 deletions(-)
->
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/811
 
-Same comments apply here as for patch 3 -- this is a device,
-so it needs to handle the sub-devices differently from board code.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
 -- PMM
 
