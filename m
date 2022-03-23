@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8594E53C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:59:55 +0100 (CET)
-Received: from localhost ([::1]:50058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CA24E53C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:59:52 +0100 (CET)
+Received: from localhost ([::1]:49796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX1Wk-00023F-BL
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:59:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54548)
+	id 1nX1Wh-0001sR-Dn
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:59:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nX1Ud-0007Gg-42; Wed, 23 Mar 2022 09:57:43 -0400
-Received: from [2607:f8b0:4864:20::735] (port=33287
- helo=mail-qk1-x735.google.com)
+ id 1nX1Ue-0007IO-61; Wed, 23 Mar 2022 09:57:44 -0400
+Received: from [2607:f8b0:4864:20::82e] (port=45715
+ helo=mail-qt1-x82e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nX1Ub-0000up-EY; Wed, 23 Mar 2022 09:57:42 -0400
-Received: by mail-qk1-x735.google.com with SMTP id k125so1090847qkf.0;
- Wed, 23 Mar 2022 06:57:40 -0700 (PDT)
+ id 1nX1Uc-0000v5-JE; Wed, 23 Mar 2022 09:57:43 -0400
+Received: by mail-qt1-x82e.google.com with SMTP id a11so1148431qtb.12;
+ Wed, 23 Mar 2022 06:57:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YI3G43DEooYXj0cStPID1IbX8K+nJHWH4oT4vvHDMRc=;
- b=Kk/R/1IZUIHM/Lhlkii9qnxoqI3ZDL78J4TAjKJXRGQdarRJI6/Ig2CbH4ge7MSvDg
- pA8YTzeFriKhZCocqV3gEesX9yC1xz4jOnQJ4p1O4OYwXHQdS6Uo0zkUGt7cJNLLTXnt
- 9MD6KJt6OkXTiibbBGhRQfhnEjavxnaMQqEKf1EVsy5iHzUOhuvAIpLDqSmOYDCw7ROt
- iSI1W5gbA8lq6vhUjd/Ih2SGm1vxqfHzOw0zMDB6irnkPwoBjkdQVLdK8nDakxe3iCzz
- XU8oiqUEMNWvffJbhRDDV8KY0oMLoKoRTl2D6jZkUN7md271U+tb9oLxMv0KhxsnrZ6K
- DEHw==
+ bh=+kiuMWegOQeAEXRfhHDxakzWQQXpYxd7TYYQ9elZfdQ=;
+ b=BT89bbL0p/fsTzqxw4l5H5Vr0txTwTR1w6h7qtAzk9MDINV6S3uNLTeF+Z/S0Q0np5
+ RdIyeKIZyETn9gZxJiWKyXk2jt7WSvgqIt4gx3LTJj6FhTPu0loaph5TxYpRXZ2DHMLD
+ Zz79QVHwSYtXTfYWR3BD79qsAej7IuYVDgZ5fgFIVp3wfiFEFRfBKwHrx1PrWBEkBC8k
+ SqvGTE/UXGWaTB61TxyTknjbpRrMXg3QaXqPkK6bYNytFm7wvh9TZ6mwi5aegAx8noeH
+ UxdtOoys7OTG6v8TtT3jIuaVYrlcVY+8PuPfuZrRpYOZ69fY3ttJICA8BEYr5ogKBJf5
+ mNMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YI3G43DEooYXj0cStPID1IbX8K+nJHWH4oT4vvHDMRc=;
- b=DCJybd3UoCdzBbXRrgXSr24OYLvgxxK2fHvMr+U0t7LccBfAE4Q13YCTFZ9N0TaBNK
- 5hl6bDz3Qfrrc5pU8cTjGRzrCdQWPPZBlK9yu8tcH0TWvCPK9bSw1nxdoZFoCOtDgtQ+
- 5Hc34qaX8pgk9hXbone/l5dt+MWB0CMtkdtGIcm1dFlY4pJWeC9YByqKLZot2JWoffrX
- MatwFNX+eQ5A3TVEkOg716O+xpziRy/JnNE7TlL02u2TeaOtvRGjjinmeBO1EyUjpLM3
- 5R4mQ1jKr3cDZXXUY3g14Pat9WhDsHzNT3oFLjo4uBo0q5h6MDUfz5Zjzo50qQ6g6VMT
- rgSg==
-X-Gm-Message-State: AOAM532oaMjgDEXZ+ZxizgFjVv9HQuCAwqSxo43rxkRh8FS2cGZ8GOhg
- YI3rUM4nH4eGALpVYsFEns06nz+2Zxo63Q==
-X-Google-Smtp-Source: ABdhPJwQj0WGVrd+gnEmD+uUAQgA0WgMSW0YlFnNNNVecvzbkFpLkd0JYrpK7/M+lAFMvQp71fKAZw==
-X-Received: by 2002:a05:620a:29d0:b0:680:9c1a:557a with SMTP id
- s16-20020a05620a29d000b006809c1a557amr197936qkp.646.1648043860105; 
- Wed, 23 Mar 2022 06:57:40 -0700 (PDT)
+ bh=+kiuMWegOQeAEXRfhHDxakzWQQXpYxd7TYYQ9elZfdQ=;
+ b=fI0EyWdZ6u52SyM7lHeI8Jq3FRSPaTpNTlt+lPt0AQtM/wW1FPao9gS2wriRZhDpRk
+ vuHQD2j/KVz9vmCEvYXtQNNrw1k9kUr5MnvA/qVevSGQaKaLbINZG0AzkiYv2C7YhEGO
+ fRF/M6JSg0ntD7KrPWSGhrSRwZo8nUcigyQRwiC/wNEVZHFXpMmPlxWDMEMFplV3/HOl
+ Zeg8PTL9ySafcNZHrJQtVddffUa2HpeH29vGV3MDKypmMKQKS2mJ/fW/IcDW+TGxDqlx
+ Q9mCH8WniG1o2qCxgCH/MkEqrQQsMPJQVRdMmjYlc2kRvLb+zxLnLSFdmBs4xF5N5vVz
+ oOcA==
+X-Gm-Message-State: AOAM531NvYqQYnvyZ/VCBnc04mnxbGjx/DStXRngMfS2vvDm1dNtk4NR
+ xdo1vXJNTWmm0KWTanTZg5zHmZrosF699w==
+X-Google-Smtp-Source: ABdhPJw80VRybHzeoxBf+kcCjzG9MAhSbMRCs/Wp5HiSfyKSsirUNsvIBzvuOPLdCFgmTvEUnc3XLA==
+X-Received: by 2002:a05:622a:11c7:b0:2e1:b594:cb1d with SMTP id
+ n7-20020a05622a11c700b002e1b594cb1dmr24210021qtk.59.1648043861125; 
+ Wed, 23 Mar 2022 06:57:41 -0700 (PDT)
 Received: from localhost.localdomain (mont-dyn-146-104.pwrtc.com.
  [205.174.146.104]) by smtp.gmail.com with ESMTPSA id
- t128-20020a37aa86000000b0060ddf2dc3ecsm20907qke.104.2022.03.23.06.57.39
+ t128-20020a37aa86000000b0060ddf2dc3ecsm20907qke.104.2022.03.23.06.57.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 06:57:39 -0700 (PDT)
+ Wed, 23 Mar 2022 06:57:40 -0700 (PDT)
 From: David Miller <dmiller423@gmail.com>
 To: qemu-s390x@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v5 01/11] tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
-Date: Wed, 23 Mar 2022 09:57:12 -0400
-Message-Id: <20220323135722.1623-2-dmiller423@gmail.com>
+Subject: [PATCH v5 02/11] target/s390x: vxeh2: vector convert short/32b
+Date: Wed, 23 Mar 2022 09:57:13 -0400
+Message-Id: <20220323135722.1623-3-dmiller423@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220323135722.1623-1-dmiller423@gmail.com>
 References: <20220323135722.1623-1-dmiller423@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::735
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=dmiller423@gmail.com; helo=mail-qk1-x735.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
+ envelope-from=dmiller423@gmail.com; helo=mail-qt1-x82e.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -94,105 +94,154 @@ Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
-
-Swap half-words (16-bit) and words (32-bit) within a larger value.
-Mirrors functions of the same names within include/qemu/bitops.h.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Miller <dmiller423@gmail.com>
+Signed-off-by: David Miller <dmiller423@gmail.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op.h |  6 ++++++
- tcg/tcg-op.c         | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
+ target/s390x/helper.h               |  4 +++
+ target/s390x/tcg/translate_vx.c.inc | 44 ++++++++++++++++++++++++++---
+ target/s390x/tcg/vec_fpu_helper.c   | 31 ++++++++++++++++++++
+ 3 files changed, 75 insertions(+), 4 deletions(-)
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index caa0a63612..b09b8b4a05 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -332,6 +332,7 @@ void tcg_gen_ext8u_i32(TCGv_i32 ret, TCGv_i32 arg);
- void tcg_gen_ext16u_i32(TCGv_i32 ret, TCGv_i32 arg);
- void tcg_gen_bswap16_i32(TCGv_i32 ret, TCGv_i32 arg, int flags);
- void tcg_gen_bswap32_i32(TCGv_i32 ret, TCGv_i32 arg);
-+void tcg_gen_hswap_i32(TCGv_i32 ret, TCGv_i32 arg);
- void tcg_gen_smin_i32(TCGv_i32, TCGv_i32 arg1, TCGv_i32 arg2);
- void tcg_gen_smax_i32(TCGv_i32, TCGv_i32 arg1, TCGv_i32 arg2);
- void tcg_gen_umin_i32(TCGv_i32, TCGv_i32 arg1, TCGv_i32 arg2);
-@@ -531,6 +532,8 @@ void tcg_gen_ext32u_i64(TCGv_i64 ret, TCGv_i64 arg);
- void tcg_gen_bswap16_i64(TCGv_i64 ret, TCGv_i64 arg, int flags);
- void tcg_gen_bswap32_i64(TCGv_i64 ret, TCGv_i64 arg, int flags);
- void tcg_gen_bswap64_i64(TCGv_i64 ret, TCGv_i64 arg);
-+void tcg_gen_hswap_i64(TCGv_i64 ret, TCGv_i64 arg);
-+void tcg_gen_wswap_i64(TCGv_i64 ret, TCGv_i64 arg);
- void tcg_gen_smin_i64(TCGv_i64, TCGv_i64 arg1, TCGv_i64 arg2);
- void tcg_gen_smax_i64(TCGv_i64, TCGv_i64 arg1, TCGv_i64 arg2);
- void tcg_gen_umin_i64(TCGv_i64, TCGv_i64 arg1, TCGv_i64 arg2);
-@@ -1077,6 +1080,8 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr base, TCGArg offset, TCGType t);
- #define tcg_gen_bswap32_tl tcg_gen_bswap32_i64
- #define tcg_gen_bswap64_tl tcg_gen_bswap64_i64
- #define tcg_gen_bswap_tl tcg_gen_bswap64_i64
-+#define tcg_gen_hswap_tl tcg_gen_hswap_i64
-+#define tcg_gen_wswap_tl tcg_gen_wswap_i64
- #define tcg_gen_concat_tl_i64 tcg_gen_concat32_i64
- #define tcg_gen_extr_i64_tl tcg_gen_extr32_i64
- #define tcg_gen_andc_tl tcg_gen_andc_i64
-@@ -1192,6 +1197,7 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr base, TCGArg offset, TCGType t);
- #define tcg_gen_bswap16_tl tcg_gen_bswap16_i32
- #define tcg_gen_bswap32_tl(D, S, F) tcg_gen_bswap32_i32(D, S)
- #define tcg_gen_bswap_tl tcg_gen_bswap32_i32
-+#define tcg_gen_hswap_tl tcg_gen_hswap_i32
- #define tcg_gen_concat_tl_i64 tcg_gen_concat_i32_i64
- #define tcg_gen_extr_i64_tl tcg_gen_extr_i64_i32
- #define tcg_gen_andc_tl tcg_gen_andc_i32
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 65e1c94c2d..ae336ff6c2 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -1056,6 +1056,12 @@ void tcg_gen_bswap32_i32(TCGv_i32 ret, TCGv_i32 arg)
-     }
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index 69f69cf718..7cbcbd7f0b 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -275,6 +275,10 @@ DEF_HELPER_FLAGS_5(gvec_vfche64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32
+ DEF_HELPER_5(gvec_vfche64_cc, void, ptr, cptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_5(gvec_vfche128, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
+ DEF_HELPER_5(gvec_vfche128_cc, void, ptr, cptr, cptr, env, i32)
++DEF_HELPER_FLAGS_4(gvec_vcdg32, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
++DEF_HELPER_FLAGS_4(gvec_vcdlg32, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
++DEF_HELPER_FLAGS_4(gvec_vcgd32, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
++DEF_HELPER_FLAGS_4(gvec_vclgd32, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vcdg64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vcdlg64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+ DEF_HELPER_FLAGS_4(gvec_vcgd64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
+diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
+index 98eb7710a4..ea28e40d4f 100644
+--- a/target/s390x/tcg/translate_vx.c.inc
++++ b/target/s390x/tcg/translate_vx.c.inc
+@@ -2720,23 +2720,59 @@ static DisasJumpType op_vcdg(DisasContext *s, DisasOps *o)
+ 
+     switch (s->fields.op2) {
+     case 0xc3:
+-        if (fpf == FPF_LONG) {
++        switch (fpf) {
++        case FPF_LONG:
+             fn = gen_helper_gvec_vcdg64;
++            break;
++        case FPF_SHORT:
++            if (s390_has_feat(S390_FEAT_VECTOR_ENH2)) {
++                fn = gen_helper_gvec_vcdg32;
++            }
++            break;
++        default:
++            break;
+         }
+         break;
+     case 0xc1:
+-        if (fpf == FPF_LONG) {
++        switch (fpf) {
++        case FPF_LONG:
+             fn = gen_helper_gvec_vcdlg64;
++            break;
++        case FPF_SHORT:
++            if (s390_has_feat(S390_FEAT_VECTOR_ENH2)) {
++                fn = gen_helper_gvec_vcdlg32;
++            }
++            break;
++        default:
++            break;
+         }
+         break;
+     case 0xc2:
+-        if (fpf == FPF_LONG) {
++        switch (fpf) {
++        case FPF_LONG:
+             fn = gen_helper_gvec_vcgd64;
++            break;
++        case FPF_SHORT:
++            if (s390_has_feat(S390_FEAT_VECTOR_ENH2)) {
++                fn = gen_helper_gvec_vcgd32;
++            }
++            break;
++        default:
++            break;
+         }
+         break;
+     case 0xc0:
+-        if (fpf == FPF_LONG) {
++        switch (fpf) {
++        case FPF_LONG:
+             fn = gen_helper_gvec_vclgd64;
++            break;
++        case FPF_SHORT:
++            if (s390_has_feat(S390_FEAT_VECTOR_ENH2)) {
++                fn = gen_helper_gvec_vclgd32;
++            }
++            break;
++        default:
++            break;
+         }
+         break;
+     case 0xc7:
+diff --git a/target/s390x/tcg/vec_fpu_helper.c b/target/s390x/tcg/vec_fpu_helper.c
+index 1a77993471..6834dbc540 100644
+--- a/target/s390x/tcg/vec_fpu_helper.c
++++ b/target/s390x/tcg/vec_fpu_helper.c
+@@ -176,6 +176,30 @@ static void vop128_2(S390Vector *v1, const S390Vector *v2, CPUS390XState *env,
+     *v1 = tmp;
  }
  
-+void tcg_gen_hswap_i32(TCGv_i32 ret, TCGv_i32 arg)
++static float32 vcdg32(float32 a, float_status *s)
 +{
-+    /* Swapping 2 16-bit elements is a rotate. */
-+    tcg_gen_rotli_i32(ret, arg, 16);
++    return int32_to_float32(a, s);
 +}
 +
- void tcg_gen_smin_i32(TCGv_i32 ret, TCGv_i32 a, TCGv_i32 b)
++static float32 vcdlg32(float32 a, float_status *s)
++{
++    return uint32_to_float32(a, s);
++}
++
++static float32 vcgd32(float32 a, float_status *s)
++{
++    const float32 tmp = float32_to_int32(a, s);
++
++    return float32_is_any_nan(a) ? INT32_MIN : tmp;
++}
++
++static float32 vclgd32(float32 a, float_status *s)
++{
++    const float32 tmp = float32_to_uint32(a, s);
++
++    return float32_is_any_nan(a) ? 0 : tmp;
++}
++
+ static float64 vcdg64(float64 a, float_status *s)
  {
-     tcg_gen_movcond_i32(TCG_COND_LT, ret, a, b, a, b);
-@@ -1792,6 +1798,30 @@ void tcg_gen_bswap64_i64(TCGv_i64 ret, TCGv_i64 arg)
-     }
+     return int64_to_float64(a, s);
+@@ -211,6 +235,9 @@ void HELPER(gvec_##NAME##BITS)(void *v1, const void *v2, CPUS390XState *env,   \
+     vop##BITS##_2(v1, v2, env, se, XxC, erm, FN, GETPC());                     \
  }
  
-+void tcg_gen_hswap_i64(TCGv_i64 ret, TCGv_i64 arg)
-+{
-+    uint64_t m = 0x0000ffff0000ffffull;
-+    TCGv_i64 t0 = tcg_temp_new_i64();
-+    TCGv_i64 t1 = tcg_temp_new_i64();
++#define DEF_GVEC_VOP2_32(NAME)                                                 \
++DEF_GVEC_VOP2_FN(NAME, NAME##32, 32)
 +
-+    /* See include/qemu/bitops.h, hswap64. */
-+    tcg_gen_rotli_i64(t1, arg, 32);
-+    tcg_gen_andi_i64(t0, t1, m);
-+    tcg_gen_shli_i64(t0, t0, 16);
-+    tcg_gen_shri_i64(t1, t1, 16);
-+    tcg_gen_andi_i64(t1, t1, m);
-+    tcg_gen_or_i64(ret, t0, t1);
-+
-+    tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
-+}
-+
-+void tcg_gen_wswap_i64(TCGv_i64 ret, TCGv_i64 arg)
-+{
-+    /* Swapping 2 32-bit elements is a rotate. */
-+    tcg_gen_rotli_i64(ret, arg, 32);
-+}
-+
- void tcg_gen_not_i64(TCGv_i64 ret, TCGv_i64 arg)
- {
-     if (TCG_TARGET_REG_BITS == 32) {
+ #define DEF_GVEC_VOP2_64(NAME)                                                 \
+ DEF_GVEC_VOP2_FN(NAME, NAME##64, 64)
+ 
+@@ -219,6 +246,10 @@ DEF_GVEC_VOP2_FN(NAME, float32_##OP, 32)                                       \
+ DEF_GVEC_VOP2_FN(NAME, float64_##OP, 64)                                       \
+ DEF_GVEC_VOP2_FN(NAME, float128_##OP, 128)
+ 
++DEF_GVEC_VOP2_32(vcdg)
++DEF_GVEC_VOP2_32(vcdlg)
++DEF_GVEC_VOP2_32(vcgd)
++DEF_GVEC_VOP2_32(vclgd)
+ DEF_GVEC_VOP2_64(vcdg)
+ DEF_GVEC_VOP2_64(vcdlg)
+ DEF_GVEC_VOP2_64(vcgd)
 -- 
 2.34.1
 
