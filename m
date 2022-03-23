@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D4B4E53AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:57:07 +0100 (CET)
-Received: from localhost ([::1]:42054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3424E53B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:58:23 +0100 (CET)
+Received: from localhost ([::1]:45140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX1U2-0004xV-Vr
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:57:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53896)
+	id 1nX1VG-00070X-Jg
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:58:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nX1S2-0003Tt-JN
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 09:55:02 -0400
-Received: from [2a00:1450:4864:20::436] (port=34521
- helo=mail-wr1-x436.google.com)
+ id 1nX1TQ-0004yc-IG
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 09:56:28 -0400
+Received: from [2a00:1450:4864:20::433] (port=38720
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nX1S0-0000Db-Q7
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 09:55:02 -0400
-Received: by mail-wr1-x436.google.com with SMTP id m30so2277846wrb.1
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 06:55:00 -0700 (PDT)
+ id 1nX1TP-0000im-6g
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 09:56:28 -0400
+Received: by mail-wr1-x433.google.com with SMTP id t11so2261821wrm.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 06:56:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=kJbAVtWFgZLsd05ZvfCXU/u+IoTc87o28Xij3zY0wmg=;
- b=rTeEzvKvrdD/N+ELvIcUJR36p+TWEPoeCZD7tIBwZutrXKdq7E2l6wB/jwPkveDO90
- tncn24ATpDoVN+3zAqu3uYnNxuz2C7kQJURCORSZp3Jt5kOrvWaYmIq/VroZprDP4XlD
- fDMZuKjH7M3hZ9zxVSGKb2OivuLFOQtOdaCmjXmsFAIxYYT56BwdWwBxMziVrAT94WTu
- BKXYadYpnSXnrZ4FUIy1FUYiqayuwgSeNMxRhwvcFj87yBLTX4OSj+B+KNvsKzidrAXG
- LQSTDDvS6dBcQLECCVtoblcYFWYuELLJuchJQjaZpR5e/+2Luu+R0Uwk2WPHiH30aXcO
- cddg==
+ bh=wRwP4sjDw97Fv/34WbcUSyHzEgbaPbsdazuytrYReew=;
+ b=hKdLFC9WZD0T1Ix3mBOf+PP/QhwACps/XDGV/2zVJavMsSUEd74F4CQN/SCq5KHmXO
+ +fPvuTFWbFEPQbAdej0cIMsffI4qwhec+BINKXSHPAZjqxl3a7GTqp3XWursB0mb/B3j
+ I/qrlcJc3YcVWBcIx2ns2R2mzn/q2Ky9MnAGnYEGNnbxblOPcEh3vF1UZXaxttHOCHb5
+ bTbKQHaDo2eDDO8p/3YF1M8bu+6gCVW3Y51K+aHb1PyhC9iFr0XfPVhdBHOo7922vyWQ
+ tHjUdcpK8JWroxgqVjwhe/u8MfwrC0xTx2QDgQ81uB/hw/VemWAkftAer0OVZaNn6EQ7
+ xyiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=kJbAVtWFgZLsd05ZvfCXU/u+IoTc87o28Xij3zY0wmg=;
- b=DWDeq/VhswMWESV512Pej6hRY7f0mtEeXWTXd2+CKlXOzLoi9O2BROcmVCAADURVIw
- 7Lhvs3ZUuydr2JKz4ya311t3/XWhUeV4oxjDoJWjEqfRNsBJAa9vtouqhgse4cs6HV5q
- 08ZSAWTuqAUAuHh5SQJPStw/Ucxm9QsOrCDwstfeZKyC/sUUp4VLOeimCWtAqSbJpp4c
- UVFgmCeBgbKTD6RhysCiVZIhxoVmKMD+qWReZPKY0a8iOwKbVmlADMcpq8Ae/E/42Y3K
- aeyLLpEKcON7gaIvnSN9uilVYIzl8pHR52EbPRnSJ+WxiGGeuXiiQk8qYbnZlfjgYiYw
- ZnyA==
-X-Gm-Message-State: AOAM532uRtz3NzatpM4EV8MfOzBNtYF9BLdeilfcH4YkYTOdv4BNhkgN
- TVQWQRFmy1d7BBNyzOtYkzsKPQ==
-X-Google-Smtp-Source: ABdhPJw/xjy0OYEAMpw3bAEAQl9XJNLWUxAABMI8zCVvPOGgecOX2a6a1ISCTQJ1u2jOifZTGEkuoQ==
-X-Received: by 2002:a5d:584f:0:b0:204:1749:2ce7 with SMTP id
- i15-20020a5d584f000000b0020417492ce7mr11378484wrf.584.1648043699183; 
- Wed, 23 Mar 2022 06:54:59 -0700 (PDT)
+ bh=wRwP4sjDw97Fv/34WbcUSyHzEgbaPbsdazuytrYReew=;
+ b=I8I/OOqLt3gh38T9rOm65Fae71+lmuFJSVcEg/wNOcUQu3RyTz84hmrpLxKUsqwPWd
+ qnVLR8fGzucFR3OhrBfnRRXfyDGh0kobnZhzxKq38YbbYAHo4SsjGdI1uZiY8J2kHKAf
+ 4gcRoB9X9U9CDVJwg+VuTgfZTrBymUptd27JsqyMSQY9ccWgl65H9CqgYYB0B7LIzAb8
+ VmFutH0Sg4FkKFQiWqwUS3JuD3fu2Z3fozBaBsLF5uU900XOdffGjJm29XeuDFoVK0wj
+ Alp7sPosvIFWYqYh96jYpf85AwjFSrnBEocql76tBNZj052eQTXPcwPzSJCWWfdGZe9Q
+ muzA==
+X-Gm-Message-State: AOAM530Jv7i/LLAjZx2cAPMuZN3jzUT5b41RIIPgjDp+v7vIuUfAAVGT
+ 8wZJQzfwC4YUj0cSNhbj3Un+KQ==
+X-Google-Smtp-Source: ABdhPJy8vfe95XMOrYLZEYB0M6hIy90Hp8A4qA38JqOpJeAN/o1k72AlDq3CWavZ3T/cUisbZDqBLA==
+X-Received: by 2002:a5d:5512:0:b0:1ef:5f08:29fb with SMTP id
+ b18-20020a5d5512000000b001ef5f0829fbmr27330940wrv.653.1648043785760; 
+ Wed, 23 Mar 2022 06:56:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- o6-20020a05600002c600b002057f1738fcsm3267061wry.110.2022.03.23.06.54.58
+ g6-20020adfd1e6000000b0020581602ddesm2885625wrd.67.2022.03.23.06.56.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 06:54:58 -0700 (PDT)
+ Wed, 23 Mar 2022 06:56:24 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 500AE1FFB7;
- Wed, 23 Mar 2022 13:54:57 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 232F21FFB7;
+ Wed, 23 Mar 2022 13:56:24 +0000 (GMT)
 References: <20220320171135.2704502-1-richard.henderson@linaro.org>
- <20220320171135.2704502-2-richard.henderson@linaro.org>
+ <20220320171135.2704502-3-richard.henderson@linaro.org>
 User-agent: mu4e 1.7.10; emacs 28.0.92
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PULL for-7.1 01/36] util/log: Drop manual log buffering
-Date: Wed, 23 Mar 2022 13:54:52 +0000
-In-reply-to: <20220320171135.2704502-2-richard.henderson@linaro.org>
-Message-ID: <877d8k6afi.fsf@linaro.org>
+Subject: Re: [PULL for-7.1 02/36] target/hexagon: Remove qemu_set_log in
+ hexagon_translate_init
+Date: Wed, 23 Mar 2022 13:56:19 +0000
+In-reply-to: <20220320171135.2704502-3-richard.henderson@linaro.org>
+Message-ID: <8735j86ad3.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,21 +94,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> This buffering was introduced during the Paleozoic: 9fa3e853531.
+> This code appears to be trying to make sure there is a logfile.
+> But that's already true -- the logfile will either be set by -D,
+> or will be stderr.  In either case, not appropriate here.
 >
-> There has never been an explanation as to why we may not allow
-> glibc to allocate the file buffer itself.  We certainly have
-> many other uses of mmap and malloc during user-only startup,
-> so presumably whatever the issue was, it has been fixed during
-> the preceeding 18 years.
->
+> Cc: Taylor Simpson <tsimpson@quicinc.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
