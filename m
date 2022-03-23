@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4DA4E5693
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:36:39 +0100 (CET)
-Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDC54E55D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 16:59:03 +0100 (CET)
+Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX3yP-0007D8-M4
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:36:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39342)
+	id 1nX3O2-0002MR-6X
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 11:59:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3Qa-00064Z-Tm
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:01:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58305)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nX3Mr-0001fP-SI
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:57:49 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3QZ-0005h7-AS
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:01:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648051297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4ITM/VQzJOjyxTy3ox9hS/WybioJOSsiqi7yexnEiSo=;
- b=cPwr+rvR3n06yGlXePEHEEop/ezy2HdWdyqp8cAlOx/IxtT8CWBuST5S2u5cNoYD+g+Sdu
- A4FPzWKhbnURuO1I1G3ZdO95BRnrZSotTu+7LxgqwFeJrhz27Z8Hry7epAEq3Z3QmUi0Ms
- 62dayFQcqepxy0M84iZw0u2tSOwW6HQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-G4EQRINlP1KSQhO9WqNVwA-1; Wed, 23 Mar 2022 12:01:36 -0400
-X-MC-Unique: G4EQRINlP1KSQhO9WqNVwA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ACEDF1C09046
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 16:01:35 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE99C4B8D43;
- Wed, 23 Mar 2022 16:01:34 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 29/32] Move fcntl_setfl() to oslib-posix
-Date: Wed, 23 Mar 2022 19:57:40 +0400
-Message-Id: <20220323155743.1585078-30-marcandre.lureau@redhat.com>
-In-Reply-To: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
-References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nX3Mo-0004hs-NJ
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 11:57:49 -0400
+Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KNtH51cCDz67MK3;
+ Wed, 23 Mar 2022 23:55:29 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 23 Mar 2022 16:57:43 +0100
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Wed, 23 Mar
+ 2022 15:57:42 +0000
+Date: Wed, 23 Mar 2022 15:57:41 +0000
+To: Alison Schofield <alison.schofield@intel.com>
+CC: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Benn?=
+ =?ISO-8859-1?Q?=E9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
+ <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
+ <shameerali.kolothum.thodi@huawei.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
+ =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, 
+ Chris Browy <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, 
+ Dan Williams <dan.j.williams@intel.com>, Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v8 19/46] hw/cxl/device: Add some trivial commands
+Message-ID: <20220323155741.00005f1e@huawei.com>
+In-Reply-To: <20220318165622.GA1119244@alison-desk>
+References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
+ <20220318150635.24600-20-Jonathan.Cameron@huawei.com>
+ <20220318165622.GA1119244@alison-desk>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml745-chm.china.huawei.com (10.201.108.195) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,100 +80,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Fri, 18 Mar 2022 09:56:22 -0700
+Alison Schofield <alison.schofield@intel.com> wrote:
 
-It is only implemented for POSIX anyway.
+> On Fri, Mar 18, 2022 at 03:06:08PM +0000, Jonathan Cameron wrote:
+> > From: Ben Widawsky <ben.widawsky@intel.com>
+> > 
+> > GET_FW_INFO and GET_PARTITION_INFO, for this emulation, is equivalent to
+> > info already returned in the IDENTIFY command. To have a more robust
+> > implementation, add those.
+> > 
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
+> >  hw/cxl/cxl-mailbox-utils.c | 69 ++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 69 insertions(+)
+> >   
+> 
+> snip
+> 
+> >  
+> > +static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
+> > +                                           CXLDeviceState *cxl_dstate,
+> > +                                           uint16_t *len)
+> > +{
+> > +    struct {
+> > +        uint64_t active_vmem;
+> > +        uint64_t active_pmem;
+> > +        uint64_t next_vmem;
+> > +        uint64_t next_pmem;
+> > +    } QEMU_PACKED *part_info = (void *)cmd->payload;
+> > +    QEMU_BUILD_BUG_ON(sizeof(*part_info) != 0x20);
+> > +    uint64_t size = cxl_dstate->pmem_size;
+> > +
+> > +    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
+> > +        return CXL_MBOX_INTERNAL_ERROR;
+> > +    }
+> > +
+> > +    /* PMEM only */
+> > +    part_info->active_vmem = 0;
+> > +    part_info->next_vmem = 0;
+> > +    part_info->active_pmem = size / (256 << 20);
+> > +    part_info->next_pmem = part_info->active_pmem;  
+> 
+> Setting next like this is logical, but it's not per the CXL spec:
+> 
+> 8.2.9.5.2.1
+> "Next Persistent Capacity: If non-zero, this value shall become the
+> Active Persistent Capacity on the next cold reset. If both this field and the
+> Next Volatile Capacity field are zero, there is no pending change to the
+> partitioning."
+> 
+> next_(vmem|pmem) should start as zero and only change as the result
+> of a successful set_partition_info command.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- include/qemu/cutils.h     |  1 -
- include/sysemu/os-posix.h |  2 ++
- util/cutils.c             | 17 -----------------
- util/oslib-posix.c        | 15 +++++++++++++++
- 4 files changed, 17 insertions(+), 18 deletions(-)
+Ah.  Good point and now fixed up.
 
-diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
-index 2137e6526087..e873bad36674 100644
---- a/include/qemu/cutils.h
-+++ b/include/qemu/cutils.h
-@@ -131,7 +131,6 @@ const char *qemu_strchrnul(const char *s, int c);
- time_t mktimegm(struct tm *tm);
- int qemu_fdatasync(int fd);
- int qemu_msync(void *addr, size_t length, int fd);
--int fcntl_setfl(int fd, int flag);
- int qemu_parse_fd(const char *param);
- int qemu_strtoi(const char *nptr, const char **endptr, int base,
-                 int *result);
-diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
-index a49c6848ff1a..e9deb9b0c4b6 100644
---- a/include/sysemu/os-posix.h
-+++ b/include/sysemu/os-posix.h
-@@ -99,6 +99,8 @@ static inline void qemu_funlockfile(FILE *f)
-     funlockfile(f);
- }
+> 
+> From your cover letter:
+> * Volatile memory devices (easy but it's more code so left for now).
+> Wondering if this is something I could do, and follow that with
+> set_partition support. Does that sound reasonable?
+
+Sure, that would be great.
+
+It raises an interesting question for what the volatile / non volatile
+backend will look like.  So what is the command line?
+
+So far I'd been assuming we'd do it as separate memdev devices
+for volatile from those for non volatile because chances are
+someone testing would back the volatile with RAM the non volatile with
+a file.  If we enable the partitioning control that approach won't
+make much sense.  Various options come to mind.
+1) Just back with one memdev and present that as persistent or not
+   but actually always have it persistent under the hood.
+2) Allow backing with 2 memdevs and don't support the set_partition
+   command. Lazy approach I was planing on doing eventualy.
+3) Support 3 memdevs.  The middle one of which is the part we
+   allow to be repartitioned if it is provided
+
+Also, to actually enable this we'd probably want more HDM decoders
+than currently supported and flags for CFMWS which aren't there
+yet (Ben asked for them but I've left it for a future patch set).
+
+Lots still to do once the initial patch set is moving forwards.
+I don't mind queuing stuff up it gitlab though and then we can
+send suitable series to the list once the earlier part has been
+applied.  In the meantime we would have a moderately stable
+based to build on top of.
+
+Thanks,
+
+Jonathan
+
+
+
  
-+int fcntl_setfl(int fd, int flag);
-+
- #ifdef __cplusplus
- }
- #endif
-diff --git a/util/cutils.c b/util/cutils.c
-index 1173ce3b88f3..aaf2ced29142 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -199,23 +199,6 @@ int qemu_msync(void *addr, size_t length, int fd)
- #endif /* CONFIG_POSIX */
- }
- 
--#ifndef _WIN32
--/* Sets a specific flag */
--int fcntl_setfl(int fd, int flag)
--{
--    int flags;
--
--    flags = fcntl(fd, F_GETFL);
--    if (flags == -1)
--        return -errno;
--
--    if (fcntl(fd, F_SETFL, flags | flag) == -1)
--        return -errno;
--
--    return 0;
--}
--#endif
--
- static int64_t suffix_mul(char suffix, int64_t unit)
- {
-     switch (qemu_toupper(suffix)) {
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 577c855612cb..fae25be3e779 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -936,3 +936,18 @@ size_t qemu_get_host_physmem(void)
- #endif
-     return 0;
- }
-+
-+/* Sets a specific flag */
-+int fcntl_setfl(int fd, int flag)
-+{
-+    int flags;
-+
-+    flags = fcntl(fd, F_GETFL);
-+    if (flags == -1)
-+        return -errno;
-+
-+    if (fcntl(fd, F_SETFL, flags | flag) == -1)
-+        return -errno;
-+
-+    return 0;
-+}
--- 
-2.35.1.273.ge6ebfd0e8cbb
+> 
+> Alison
+> 
+> > +
+> > +    *len = sizeof(*part_info);
+> > +    return CXL_MBOX_SUCCESS;
+> > +}
+> > +  
+> 
+> snip
+> 
+> 
 
 
