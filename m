@@ -2,90 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E0B4E4AE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 03:26:57 +0100 (CET)
-Received: from localhost ([::1]:51934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263394E4B21
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 03:54:28 +0100 (CET)
+Received: from localhost ([::1]:60118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWqi8-0007Jc-5z
-	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 22:26:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42610)
+	id 1nWr8k-0006Y0-PH
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 22:54:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWqh3-0006Pk-NB
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 22:25:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51540)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nWqh1-0007mx-8I
- for qemu-devel@nongnu.org; Tue, 22 Mar 2022 22:25:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648002346;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D/AGFPtnUU5j2DDAcw4+UympW6ICv7i7lt3T5r1hiOU=;
- b=FNSJseyWsZ9SiLe6S0aP63t1OkYPsV62IxjumNOsWf5OAYA+lfffKXLUcbgjcFeNFYi59q
- 9F5KCEeXWaDrnB269OdxYRAZFzDYa5rH+kJjm2GJwX46NLgu+04/bKL94amoV4tz2f9H2b
- pr6AAEj0Jz3qvfL0SI52l7Qy+6Z8rPQ=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-373-zAKhiilBP_KuLxU4VIkySw-1; Tue, 22 Mar 2022 22:25:45 -0400
-X-MC-Unique: zAKhiilBP_KuLxU4VIkySw-1
-Received: by mail-vk1-f199.google.com with SMTP id
- d127-20020a1fe685000000b0033e7682a9c0so58148vkh.3
- for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 19:25:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nWr7M-0004zi-VU
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 22:53:00 -0400
+Received: from [2607:f8b0:4864:20::630] (port=34658
+ helo=mail-pl1-x630.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nWr7I-0005ji-44
+ for qemu-devel@nongnu.org; Tue, 22 Mar 2022 22:52:58 -0400
+Received: by mail-pl1-x630.google.com with SMTP id i11so330443plr.1
+ for <qemu-devel@nongnu.org>; Tue, 22 Mar 2022 19:52:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g0D/WBKifaDu0QJZs9LIL569qdjw+FHM82ekkuU6fuM=;
+ b=KoN+nML2TonJR5xMgMr2gMwkQES9A1FLa7BAlsvaQ9f1w5K4h4DgAyB0dhKwP7wtiG
+ HrCJDRQiUP8skWsJMTV+GJZkwIt4iOMdNEwvFBPHsZHzRukCNGcKlfxbmWcQ2qjS+UsN
+ IzLXJ65q/j5ijvMs3h+fZX+VBNaPgkKPagKLxCglfYX6TEPjEiCrxGfsMWXg/DOer4cs
+ Q1K77VSirNxaSNNvcmonpH5NyriNtv5/A1M35DA2w2rKjth/kpjiNHeycdqEAvVDbbCg
+ 8FI3Dr6WXU9WPceBfJvv20+zLz7mfPZ5WF7EQNMe9fV7igx6VkBrN8WrNtev+T/69JHp
+ ryeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=D/AGFPtnUU5j2DDAcw4+UympW6ICv7i7lt3T5r1hiOU=;
- b=O20wciD7r9qEPXcZWIJXmoYnkIIRtoDsYmLoviWSqjlFzzzpqqAgc8+FtPGY9SYLMk
- oolB+EUk4vaVx3RUksdGXpTgMAaad8Msz/49of3JXQsl5HFboYdM58j7qLw1lr25Yyjp
- eIGfVyNSmLUDuRwmP+VniO46Ip+Ge53i90aCkGcbCCTIlB0ACtZrqJniBNGWggjDGLvE
- aVRcb6ctwxz1dmRPYl7Y4bGU3WokvV5j30CfHMb3fHK7Std5epep5Wkn8bXNpFLZeVIy
- Q7FVZqQclUMzzLAnNL8AdnHRuR2QMKY+Mf2zbYKXJb1MZJOfmuR7jGAaJqJaPDey78Yd
- wqLw==
-X-Gm-Message-State: AOAM530uqfDlfFvZ5K+mgD70sd/kWZQXKMHOcMXb2f4NpTiLMLbdnefP
- Khz3IlO8p5PtTp7DXFUtf39lW+6AquzFBmqaU8yUtVp9CCmQ/Vg5RI6pcQ3olQUJMLGaVdwvclb
- 3OxeCEiZqRHcyvJ8h+craOh8d7nNdLno=
-X-Received: by 2002:a1f:3244:0:b0:332:2037:83b1 with SMTP id
- y65-20020a1f3244000000b00332203783b1mr11925194vky.24.1648002344623; 
- Tue, 22 Mar 2022 19:25:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyOhrOGK2Ch3hCq3aK+VPKbbYQEdgvQdfJIzZuvHXOVn4BZnModGvH2t3Z57U9WutkvEXv6avQ6boM9D2CbJBs=
-X-Received: by 2002:a1f:3244:0:b0:332:2037:83b1 with SMTP id
- y65-20020a1f3244000000b00332203783b1mr11925183vky.24.1648002344441; Tue, 22
- Mar 2022 19:25:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g0D/WBKifaDu0QJZs9LIL569qdjw+FHM82ekkuU6fuM=;
+ b=rjJ9IccyUQ7Re9Lp8QUWDu0hMXJ6UK33gMt19ZKP2qFVp8BfiUY9f9nuE83VN1Pzvt
+ Uw7lX3NutslKUPO0xce8YlwQ65A8nf33hbgP8cvBghtXXeAzQrbd12mDzvV8Oi9fh3ma
+ WarAEq7QxQFe5gZFteA9BzZng6Mo66JEJSsxbaAgpJxC3dvOcdAbnBpi5kUbOQZ9029d
+ +E3+3w3+sxvqJdGM29eMnWngJkSlxitHp8C+emXy6QtNO0zsmT1hlVHjoDmUPtrDQQVv
+ lxr2moZfWfqQLrLze3aF6Yocxk7os0XMj6+FXM3q1WbXeCGGto2JsBxqhck91jwYGMWd
+ 6bag==
+X-Gm-Message-State: AOAM532ijVpVXUQiOekkt7WvQSaU14z8R7kSeb9/P/QJ3656ivju0zh+
+ wEPKHIQ6G4ptjZStA7RTjHoJuA==
+X-Google-Smtp-Source: ABdhPJxYBmxv6gXRXs+b+cxGIwP3jmoRCvK74xS07EPSxgN90S1/2mQYEwexyNb2ELj/F4UwKJNm3A==
+X-Received: by 2002:a17:902:6845:b0:153:9af1:3134 with SMTP id
+ f5-20020a170902684500b001539af13134mr21522767pln.169.1648003973459; 
+ Tue, 22 Mar 2022 19:52:53 -0700 (PDT)
+Received: from always-x1.www.tendawifi.com ([139.177.225.224])
+ by smtp.gmail.com with ESMTPSA id
+ t2-20020a63a602000000b0038062a0bc6fsm18104869pge.67.2022.03.22.19.52.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Mar 2022 19:52:52 -0700 (PDT)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: arei.gonglei@huawei.com,
+	mst@redhat.com
+Subject: [PATCH v3 0/6] Support akcipher for virtio-crypto
+Date: Wed, 23 Mar 2022 10:49:06 +0800
+Message-Id: <20220323024912.249789-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211118115733.4038610-1-philmd@redhat.com>
- <7153eadf-3c43-b62c-aaa1-919abf0634ca@redhat.com>
- <1c5dfae3-1c3c-bd2f-d2b5-06dbe75c04c8@redhat.com>
- <4df33af0-0a28-2e20-1909-25baf87d0565@redhat.com>
- <01a68a16-fa01-e7f3-4248-fdec6595cf74@redhat.com>
- <38386efc-1e83-63d4-703d-10c7650e7829@redhat.com>
- <0656151f-a76d-bdd2-cdc9-ea0d1543b0f9@redhat.com>
-In-Reply-To: <0656151f-a76d-bdd2-cdc9-ea0d1543b0f9@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 22 Mar 2022 22:25:33 -0400
-Message-ID: <CAFn=p-bwpT7MRhC5xVcsDHnfGfFzKDeu_H5+DZ4irvLUQaOP_A@mail.gmail.com>
-Subject: Re: [PATCH-for-6.2 0/2] hw/block/fdc: Fix CVE-2021-3507
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,74 +87,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>, Qemu-block <qemu-block@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>, qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Jon Maloy <jmaloy@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: herbert@gondor.apana.org.au, jasowang@redhat.com, qemu-devel@nongnu.org,
+ zhenwei pi <pizhenwei@bytedance.com>,
+ virtualization@lists.linux-foundation.org, linux-crypto@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 18, 2022 at 2:50 PM Thomas Huth <thuth@redhat.com> wrote:
->
-> On 10/03/2022 18.53, Jon Maloy wrote:
-> >
-> > On 3/10/22 12:14, Thomas Huth wrote:
-> >> On 06/02/2022 20.19, Jon Maloy wrote:
-> >>> Trying again with correct email address.
-> >>> ///jon
-> >>>
-> >>> On 2/6/22 14:15, Jon Maloy wrote:
-> >>>>
-> >>>>
-> >>>> On 1/27/22 15:14, Jon Maloy wrote:
-> >>>>>
-> >>>>> On 11/18/21 06:57, Philippe Mathieu-Daud=C3=A9 wrote:
-> >>>>>> Trivial fix for CVE-2021-3507.
-> >>>>>>
-> >>>>>> Philippe Mathieu-Daud=C3=A9 (2):
-> >>>>>>    hw/block/fdc: Prevent end-of-track overrun (CVE-2021-3507)
-> >>>>>>    tests/qtest/fdc-test: Add a regression test for CVE-2021-3507
-> >>>>>>
-> >>>>>>   hw/block/fdc.c         |  8 ++++++++
-> >>>>>>   tests/qtest/fdc-test.c | 20 ++++++++++++++++++++
-> >>>>>>   2 files changed, 28 insertions(+)
-> >>>>>>
-> >>>>> Series
-> >>>>> Acked-by: Jon Maloy <jmaloy@redhat.com>
-> >>>>
-> >>>> Philippe,
-> >>>> I hear from other sources that you earlier have qualified this one a=
-s
-> >>>> "incomplete".
-> >>>> I am of course aware that this one, just like my own patch, is just =
-a
-> >>>> mitigation and not a complete correction of the erroneous calculatio=
-n.
-> >>>> Or did you have anything else in mind?
-> >>
-> >> Any news on this one? It would be nice to get the CVE fixed for 7.0 ?
-> >>
-> >>  Thomas
-> >>
-> > The ball is currently with John Snow, as I understand it.
-> > The concern is that this fix may not take the driver back to a consiste=
-nt
-> > state, so that we may have other problems later.
-> > Maybe Philippe can chip in with a comment here?
->
-> John, Philippe, any ideas how to move this forward?
->
->   Thomas
->
+v2 -> v3:
+- Introduce akcipher types to qapi
+- Add test/benchmark suite for akcipher class
+- Seperate 'virtio_crypto: Support virtio crypto asym operation' into:
+  - crypto: Introduce akcipher crypto class
+  - virtio-crypto: Introduce RSA algorithm
 
-The ball is indeed in my court. I need to audit this properly and get
-the patch re-applied, and get tests passing.
+v1 -> v2:
+- Update virtio_crypto.h from v2 version of related kernel patch.
 
-As a personal favor: Could you please ping me on IRC tomorrow about
-this? (Well, later today, for you.)
+v1:
+- Support akcipher for virtio-crypto.
+- Introduce akcipher class.
+- Introduce ASN1 decoder into QEMU.
+- Implement RSA backend by nettle/hogweed.
+
+Lei He (3):
+  crypto-akcipher: Introduce akcipher types to qapi
+  crypto: Implement RSA algorithm by hogweed
+  tests/crypto: Add test suite for crypto akcipher
+
+Zhenwei Pi (3):
+  virtio-crypto: header update
+  crypto: Introduce akcipher crypto class
+  virtio-crypto: Introduce RSA algorithm
+
+ backends/cryptodev-builtin.c                  | 319 +++++++-
+ backends/cryptodev-vhost-user.c               |  34 +-
+ backends/cryptodev.c                          |  32 +-
+ crypto/akcipher-nettle.c                      | 523 +++++++++++++
+ crypto/akcipher.c                             |  81 ++
+ crypto/asn1_decoder.c                         | 185 +++++
+ crypto/asn1_decoder.h                         |  42 +
+ crypto/meson.build                            |   4 +
+ hw/virtio/virtio-crypto.c                     | 326 ++++++--
+ include/crypto/akcipher.h                     | 155 ++++
+ include/hw/virtio/virtio-crypto.h             |   5 +-
+ .../standard-headers/linux/virtio_crypto.h    |  82 +-
+ include/sysemu/cryptodev.h                    |  88 ++-
+ meson.build                                   |  11 +
+ qapi/crypto.json                              |  86 +++
+ tests/bench/benchmark-crypto-akcipher.c       | 163 ++++
+ tests/bench/meson.build                       |   6 +
+ tests/bench/test_akcipher_keys.inc            | 277 +++++++
+ tests/unit/meson.build                        |   1 +
+ tests/unit/test-crypto-akcipher.c             | 715 ++++++++++++++++++
+ 20 files changed, 2990 insertions(+), 145 deletions(-)
+ create mode 100644 crypto/akcipher-nettle.c
+ create mode 100644 crypto/akcipher.c
+ create mode 100644 crypto/asn1_decoder.c
+ create mode 100644 crypto/asn1_decoder.h
+ create mode 100644 include/crypto/akcipher.h
+ create mode 100644 tests/bench/benchmark-crypto-akcipher.c
+ create mode 100644 tests/bench/test_akcipher_keys.inc
+ create mode 100644 tests/unit/test-crypto-akcipher.c
+
+-- 
+2.25.1
 
 
