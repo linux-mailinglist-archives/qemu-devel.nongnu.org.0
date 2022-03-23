@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CED4E576C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 18:26:32 +0100 (CET)
-Received: from localhost ([::1]:43908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1FB4E575E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 18:23:16 +0100 (CET)
+Received: from localhost ([::1]:35322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX4kh-0000lk-3I
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 13:26:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39062)
+	id 1nX4hX-0003Gw-Ez
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 13:23:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nX4ds-00058X-7g
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:19:28 -0400
-Received: from [2607:f8b0:4864:20::433] (port=42877
- helo=mail-pf1-x433.google.com)
+ id 1nX4e4-0005I2-HQ
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:19:40 -0400
+Received: from [2607:f8b0:4864:20::62c] (port=40889
+ helo=mail-pl1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nX4dq-0004gL-PC
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:19:27 -0400
-Received: by mail-pf1-x433.google.com with SMTP id g19so1969161pfc.9
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 10:19:26 -0700 (PDT)
+ id 1nX4e2-0004in-Av
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:19:39 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id x2so2151046plm.7
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 10:19:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qDaNpZGuS1pck7ljrYFEMbUPV6qyv4FTweWO+b6dthQ=;
- b=T/qLqQeIJbWYsc9iaC9cBJMrxMVXpFG/QUiJyPoZd2LdVpzgu4IXrjsjtgh7JucAvy
- K7XpwsgzEr4aysFsdfXZmw3r4NYiJ3DWcc8JZSOA6Tl3BokPzJQNj2so5OQV1hh6HwEd
- K1QxKLSW49T2dyO8ay7JL+g882pp7zrdo93r7w/Lf9Ytie2vCQEYjBetUSMwG2E36vDl
- O1T8FHb+t6UP2pO29Px3c/CN3Z5Qpup501aDNB/0R3S7yzRNJBBBqU6RsNi2V43JnUir
- +2yzv/A6XJFzT3jeRvNmug8zR6Gv0G3QKmEJL2xM7jyr2axrPlstTpbbBI6cVPxAa6d7
- uTWA==
+ bh=hGzoIEiqotEx27Bg+Z4eL5zpKSfKxDxE5VGRYeUpF1U=;
+ b=YN2nPW6qFv/FXMaZbHoge7dvyFY38/0TL7t4FHhvZ3ROq4ndXz7aVe/WYlNC1die01
+ TcD+kFy/xidXVPGx7gpqZ75SywkLL2EYPJoDBotF8TIRl44RYN5JTM1qKjZv3d6GIfqU
+ jWotsaKHFfCdSkhPSpjxx+SuvENG8Rj/Mv3l0DwhQfohsPpFU6t73UPPj8CSrbQfuBkd
+ 9Z/VXAQWYd7J2zxrjtJ/gWD5iowxhsrQ7vwQGuFXZNP0fMUeSz4fBHXmC/cKAe6dYlVs
+ NCh7inykD23K3nAQkmHK7E/YkkRS5g4L8ZmGYcKNVOwgDWWwZ2QenCCnu2L1vwreGob1
+ 13sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qDaNpZGuS1pck7ljrYFEMbUPV6qyv4FTweWO+b6dthQ=;
- b=3qO3MJ/KyoinwAf1Juwz4OV/whm+MCYfi9iXrZL5ksyICBbEjaQoOVS6FRSgtEvQtH
- 1KaJGXWQg5+TuP5m7jvfZ9nwBTsPSymMj1HU+PMcGcuJ1kPaXqT4qxB/lGg7HMSRffqy
- WI2Oacont+7TML3ioXHI+H6O1EdksNXEEj/eozpHbGWJOXLMMxZN3Ay+1ZaDKW4lF2YM
- 5k01xT2ZIu+SBU9V9gXM+HE+Vn68l/gReLt86QCw3UYHWjjvO16MblWyAlMr4mTemm06
- dUZCjt2Y1gFxF92X1d+Tvzkmk+pSiieO4UHo9W5wP75HXPPCAn6kTiyxmoAGZUavbGyV
- XFQg==
-X-Gm-Message-State: AOAM532XeuoSjH4Qf2DgGpwfMB/TX8xeTfrJidNtL5JzYiPpfOyuIiB9
- Nk1lQJNHuLyQNs4qOXg6cO7ljTQ7Ru8=
-X-Google-Smtp-Source: ABdhPJysELA1SacEi6NLWr6VDuEztyIdr+gkkW330J+PSAAiBOd3a1EdmuP7lIO3WbruDTaR69cscQ==
-X-Received: by 2002:a63:cf09:0:b0:372:d564:8024 with SMTP id
- j9-20020a63cf09000000b00372d5648024mr705074pgg.251.1648055965298; 
- Wed, 23 Mar 2022 10:19:25 -0700 (PDT)
+ bh=hGzoIEiqotEx27Bg+Z4eL5zpKSfKxDxE5VGRYeUpF1U=;
+ b=q+cKOcBHtQ55vZzG3Asl4QVWUeFx74DvFA549DH0sSELfYvT8aXPItO38BBmOtC176
+ 6q1Z63SxeXCZVyuu8HunIuSv7WN74ejHXycJTNqiCkEqFT3B4qlDB3GUSyvfR88/csym
+ hQ8sjn7ESd/qlApfhWT01vNLjNm2rX0xwGnJHP5ABfQeNU7zLxazgPxKRgZ8a2Am8FtF
+ 0kWss5NB2PNnG/w+c/7ALa/htanrToXaJNPalZN2CxW8nWaItX8vtvFI9Lm8hrT6rDt5
+ 0lCrAZq+WIwfL12IXXvb5PfxAq8sMketPbMJLhV67igtcYMPL4Pu0ToJwHySMzMDS59E
+ v3LA==
+X-Gm-Message-State: AOAM5328SpwNR0WJ+d+qasiufw4H0YfXeJUj0vUlFNYTCmhm+9iVKMi7
+ zPdyhFbjJZVvI+d1qbIEADP8B2ltSzg=
+X-Google-Smtp-Source: ABdhPJypHL2FuS5xBRJ7IZra6e8WHCycd0JJ50I5gNrC37pYhlUHgXYCXbDEv97OJjTv0XckGdi+gQ==
+X-Received: by 2002:a17:902:8543:b0:154:9588:52ab with SMTP id
+ d3-20020a170902854300b00154958852abmr1177032plo.50.1648055976951; 
+ Wed, 23 Mar 2022 10:19:36 -0700 (PDT)
 Received: from localhost.localdomain (198.red-83-50-65.dynamicip.rima-tde.net.
  [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- a24-20020a637f18000000b003821e17819csm354438pgd.61.2022.03.23.10.19.19
+ d25-20020a639919000000b00364f999aed5sm349409pge.20.2022.03.23.10.19.31
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 23 Mar 2022 10:19:24 -0700 (PDT)
+ Wed, 23 Mar 2022 10:19:36 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/13] accel-ops: Introduce create_vcpu_thread_precheck /
- postcheck handlers
-Date: Wed, 23 Mar 2022 18:17:45 +0100
-Message-Id: <20220323171751.78612-8-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH v4 08/13] accel/tcg: Extract rr_create_vcpu_thread_precheck()
+Date: Wed, 23 Mar 2022 18:17:46 +0100
+Message-Id: <20220323171751.78612-9-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220323171751.78612-1-philippe.mathieu.daude@gmail.com>
 References: <20220323171751.78612-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -109,50 +108,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Introduce precheck/postcheck handlers which will help to
-refactor code common to the various create_vcpu_thread()
-implementations.
+We are going to extract common pattern from rr_start_vcpu_thread().
+First extract the rr_create_vcpu_thread_precheck() helper.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/sysemu/accel-ops.h | 4 ++++
- softmmu/cpus.c             | 8 +++++++-
- 2 files changed, 11 insertions(+), 1 deletion(-)
+ accel/tcg/tcg-accel-ops-rr.c | 7 +++++++
+ accel/tcg/tcg-accel-ops-rr.h | 1 +
+ 2 files changed, 8 insertions(+)
 
-diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-index 6013c9444c..26b542d35c 100644
---- a/include/sysemu/accel-ops.h
-+++ b/include/sysemu/accel-ops.h
-@@ -31,6 +31,10 @@ struct AccelOpsClass {
-     bool (*cpus_are_resettable)(void);
+diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
+index de8af32af7..3da684b8e6 100644
+--- a/accel/tcg/tcg-accel-ops-rr.c
++++ b/accel/tcg/tcg-accel-ops-rr.c
+@@ -272,6 +272,13 @@ static void *rr_cpu_thread_fn(void *arg)
+     return NULL;
+ }
  
-     void (*create_vcpu_thread)(CPUState *cpu); /* MANDATORY NON-NULL */
-+    /* If non-NULL, return whether common vCPU thread must be created */
-+    bool (*create_vcpu_thread_precheck)(CPUState *cpu);
-+    void (*create_vcpu_thread_postcheck)(CPUState *cpu);
++static QemuThread *single_tcg_cpu_thread;
 +
-     void (*kick_vcpu_thread)(CPUState *cpu);
-     bool (*cpu_thread_is_idle)(CPUState *cpu);
++bool rr_create_vcpu_thread_precheck(CPUState *cpu)
++{
++    return !single_tcg_cpu_thread;
++}
++
+ void rr_start_vcpu_thread(CPUState *cpu)
+ {
+     char thread_name[VCPU_THREAD_NAME_SIZE];
+diff --git a/accel/tcg/tcg-accel-ops-rr.h b/accel/tcg/tcg-accel-ops-rr.h
+index 54f6ae6e86..e2273b66d4 100644
+--- a/accel/tcg/tcg-accel-ops-rr.h
++++ b/accel/tcg/tcg-accel-ops-rr.h
+@@ -15,6 +15,7 @@
+ /* Kick all RR vCPUs. */
+ void rr_kick_vcpu_thread(CPUState *unused);
  
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 7b75bb66d5..857e2081ba 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -637,7 +637,13 @@ void qemu_init_vcpu(CPUState *cpu)
++bool rr_create_vcpu_thread_precheck(CPUState *cpu);
+ /* start the round robin vcpu thread */
+ void rr_start_vcpu_thread(CPUState *cpu);
  
-     /* accelerators all implement the AccelOpsClass */
-     g_assert(cpus_accel != NULL && cpus_accel->create_vcpu_thread != NULL);
--    cpus_accel->create_vcpu_thread(cpu);
-+    if (cpus_accel->create_vcpu_thread_precheck == NULL
-+            || cpus_accel->create_vcpu_thread_precheck(cpu)) {
-+        cpus_accel->create_vcpu_thread(cpu);
-+    }
-+    if (cpus_accel->create_vcpu_thread_postcheck) {
-+        cpus_accel->create_vcpu_thread_postcheck(cpu);
-+    }
- 
-     while (!cpu->created) {
-         qemu_cond_wait(&qemu_cpu_cond, &qemu_global_mutex);
 -- 
 2.35.1
 
