@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2151B4E5782
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 18:29:34 +0100 (CET)
-Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CE04E577D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 18:29:11 +0100 (CET)
+Received: from localhost ([::1]:50440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX4nd-0006L0-6D
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 13:29:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40242)
+	id 1nX4nG-0005af-If
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 13:29:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nX4gE-0001Uf-RV
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:21:55 -0400
-Received: from [2a00:1450:4864:20::636] (port=43931
- helo=mail-ej1-x636.google.com)
+ id 1nX4km-0002hH-Vu
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:26:37 -0400
+Received: from [2a00:1450:4864:20::635] (port=34358
+ helo=mail-ej1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nX4gC-00072w-9e
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:21:54 -0400
-Received: by mail-ej1-x636.google.com with SMTP id d10so4211283eje.10
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 10:21:51 -0700 (PDT)
+ id 1nX4kk-0000sW-Ng
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:26:36 -0400
+Received: by mail-ej1-x635.google.com with SMTP id o10so4296648ejd.1
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 10:26:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=KrmpP4HlcXEr2d4/dEiciNJi4N7ZSDHoIGWUfG0Es9I=;
- b=nrmzAOmDBDFARLrjv35B+zUWgJBPd0Jit8QgREzYWRT234/iPfmqxFPngM+MMilXCQ
- O3mB3U6h/G0ICbnBLl/yLk7xQkufWXmNpn/faUbUOWXmPeABX8FapqlePGdPS9Y+R3Z1
- Er+UaHtaKlLiYtASbhfPWpozGRCoFgjDDUaa5DiK/eDpuF46EabwhPN2XSHxLDXy2qbv
- Ls7TylNFKrRp65Sx3jCgn81ohs3c4Ksy+Qb1ErTIkSxzDKjqdBL2qMW6QuDUbKK6ACP/
- YXotIcPGc0YnR5f1X+GKHq4y1PygZ6liQO4+jSNl8qC6N4swDUhbp92ZNMsf58ISUpcK
- hAMw==
+ bh=Xk/TUN9irrkMqAph6HJQhaW0CKcZafmrdjU8NrcW5+E=;
+ b=CRBX5SITHhTu7uFsN+LdOB3cNdvX8+iz1ACksrxak5/fatAlgWEVKt1hRN5I1SCJJk
+ rJk0xsCDL/M6ybDcLiN6SxuiuxT4GLuwFLwvgaOf8kL+kG1Au3tkZY4DSFI/ysF7gZNI
+ rHwItp5Ye8ulCCHSqg3GJD/MH4PTLkf5DJYbazHSJWcnpTKMJua3w9BUisPB4lcMUZuw
+ vgjlPKJxtcbQ0o9B6XooqHAStxJh7l0csDwFVmpqr06qYECqEPdPQyfMTSS+dfDmYBZp
+ /GBVhfnMlMLjif//vADkXYHqP3JVdqUzNRfhuamQo5dblXE9itnacYJo/WkOQJwNDvgB
+ qKNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=KrmpP4HlcXEr2d4/dEiciNJi4N7ZSDHoIGWUfG0Es9I=;
- b=3IU+MQ6GVKIYkqgEcY3ciQrcGxzZqwHQpsulZK5EK/sRV9UIuot7HBVh/LYDIsf77a
- 8ovaFI8zzQwGHEUJuvF3RJi5qXr7A4P9KBHA3+YyZ4GOpaH3bpYkKRtUAKdimzNUjxKa
- 2eZi8a0vPuO9GO+aEtLONce76qsq8g+YkvzVU6VPm3Q82yiZL5Np0xFLjytLbquYB3lo
- LZ36IjzGH51GOOgbWqnfyBi721DRyD7KgfPCwubtJ2e5cuUB2RfVYA0P0QGdpS/f20WB
- W7/f+VY5RY9C2QARQUM8MjEBGq4rLnsX5SQB9AbdSfNXLSDI6wJdnXeXvIem2+CzDa4t
- cnLg==
-X-Gm-Message-State: AOAM531W+R6w7Hw91zHQX/GVgQP3PVhsfGz9a7z/5ZvV35O8womBEU9C
- 54cb9TN3C5vXJtjn3aZKuL5gNw==
-X-Google-Smtp-Source: ABdhPJwVvPdIya5eXZ8z789V8imM198+GcZauyoDeY99DRBdD24Gur4p32uxyqi9HzmYTlog7vESMQ==
-X-Received: by 2002:a17:906:a08b:b0:6cf:65bc:e7de with SMTP id
- q11-20020a170906a08b00b006cf65bce7demr1217769ejy.220.1648056110134; 
- Wed, 23 Mar 2022 10:21:50 -0700 (PDT)
+ bh=Xk/TUN9irrkMqAph6HJQhaW0CKcZafmrdjU8NrcW5+E=;
+ b=48zUbHY/3yEMJJkcXItyrDkF67S8LXvbF7TWHv6DbgaUo6oOpanDOA3oeXLXQ/BISe
+ QmmccjKT5nssYIk4r3WTqo9Lo6V3C3m8LOR/H/rNec9QyEbLU3sHaaBdmf6A8o9QzmWr
+ MR3CdAlR70fX0arGj4lyf+ScfJp9cMWfnVXK7YiZn+oaO3iNnpj2KQNDmkJC7hy/Zm1W
+ 01jre8bHyvBfdB+S0WQ5EDzLwSRE/WjUCD1EcBVJrebxG/xLULon9AoE/8C+pylCVuoi
+ oeVdj0jpMBkvDtxy7izwUsSye1xsjpNbwBkZT6ZEIEs7gL7Pd9oujGq8ZCAE4teCVy/K
+ 2f4Q==
+X-Gm-Message-State: AOAM5331IK/tcMa1lYPK++IHVWWmclSM3ImjNkBA0oOq0GAw3RjciBrF
+ Q/oa+2BLoy9Z6TdEHhyowAkFqw==
+X-Google-Smtp-Source: ABdhPJyrAdfWagF6kmA2N8MyJzBxrxbL1FS1uxKgiLr0vZ+LRBPn343TIqOtFq9b9WgSSRVnqsjnPg==
+X-Received: by 2002:a17:906:3109:b0:6cc:7a1:8db0 with SMTP id
+ 9-20020a170906310900b006cc07a18db0mr1236129ejx.266.1648056393153; 
+ Wed, 23 Mar 2022 10:26:33 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- da19-20020a056402177300b00413583e0996sm244663edb.14.2022.03.23.10.21.48
+ y14-20020a056402440e00b00416046b623csm289715eda.2.2022.03.23.10.26.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 10:21:48 -0700 (PDT)
+ Wed, 23 Mar 2022 10:26:32 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9CD5B1FFB7;
- Wed, 23 Mar 2022 17:21:47 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 023CE1FFB7;
+ Wed, 23 Mar 2022 17:26:31 +0000 (GMT)
 References: <20220320171135.2704502-1-richard.henderson@linaro.org>
- <20220320171135.2704502-8-richard.henderson@linaro.org>
+ <20220320171135.2704502-9-richard.henderson@linaro.org>
 User-agent: mu4e 1.7.10; emacs 28.0.92
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PULL for-7.1 07/36] hw/xen: Split out xen_pv_output_msg
-Date: Wed, 23 Mar 2022 17:19:46 +0000
-In-reply-to: <20220320171135.2704502-8-richard.henderson@linaro.org>
-Message-ID: <87ee2s4mac.fsf@linaro.org>
+Subject: Re: [PULL for-7.1 08/36] *: Use fprintf between qemu_log_lock/unlock
+Date: Wed, 23 Mar 2022 17:22:41 +0000
+In-reply-to: <20220320171135.2704502-9-richard.henderson@linaro.org>
+Message-ID: <87a6dg4m2h.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,17 +100,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Do not replicate the individual logging statements.
-> Use qemu_log_lock/unlock instead of qemu_log directly.
+> Inside qemu_log, we perform qemu_log_lock/unlock, which need
+> not be done if we have already performed the lock beforehand.
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Always check the result of qemu_log_lock -- only checking
+> qemu_loglevel_mask races with the acquisition of the lock
+> on the logfile.
 
-I don't know why Xen wants to have it's own special handling for errors.
-It seems a lot of the xen_pv_printf's of level 0 should probably be
-using qemu's report_err infrastructure. But this change itself seems
-sane:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+I'm not sure I like introducing all these raw fprintfs over introducing
+a function like qemu_log__locked().
 
 --=20
 Alex Benn=C3=A9e
