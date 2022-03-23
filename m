@@ -2,97 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4129F4E5740
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 18:16:52 +0100 (CET)
-Received: from localhost ([::1]:45256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FAE14E573C
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 18:16:36 +0100 (CET)
+Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX4bL-00075q-Bj
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 13:16:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36634)
+	id 1nX4b5-0006SN-2G
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 13:16:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nX4YO-0004cz-Nz
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:13:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nX4YL-0001dd-O7
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:13:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648055624;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Bd5WQ+R+378RYxGbzMXEZrz2tanG/zdpXYYmEwsqE/s=;
- b=M3h/1Ov6RcwM3NRlf/EGtgjYY10uxotsETnZ3eciN6EVd8lWtdB22IlMwX3/B4wx+vd1eI
- 7nEIyvMEByZ62rHol3RXu4r6QCl57JyBFyrshHT+XhOgvjugxXuv/bWr7KvzH98oXXTpTe
- sxCNsqc17xsn407FGSk6jUJGX1D9tws=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-FVIbrG3qNfqJvQHX1EchRQ-1; Wed, 23 Mar 2022 13:13:42 -0400
-X-MC-Unique: FVIbrG3qNfqJvQHX1EchRQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p16-20020adfc390000000b00204006989c2so722125wrf.5
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 10:13:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=Bd5WQ+R+378RYxGbzMXEZrz2tanG/zdpXYYmEwsqE/s=;
- b=rNgKhCS0PwdtToTEppIBtfWdUfHEvGoPOp1Bsxnmjvn2h+RvRejSFIsE4XiCxVFHDk
- mdyE+2r4wLOaoT4q5eNbG2pTJ4bvX3xtiKnsRzVYMm1ldSjQcpGT2GAue/67IeOlV9F6
- s9vTIGKYgG89fd6niBDszyDTtyLBkCbJJOqH/Yi5uK01YpnLusg+5mY0+oen52UgXwYl
- d7byZ3OIzCDJrePmz6OW78MJAXTcYocsTWesGZHh3RWHxpp7mLJWbSmjtEa2oQAUYx6Z
- YsMfuA/u114kjlMvXSBqkeL9QEflywqGWNhByO7BaKZOF/5qFpE5at7Bw1Q5H3T7p7kC
- 9f6g==
-X-Gm-Message-State: AOAM530Xq2118s55uB3A9k0x38R84xBi4k0gVb8rLq3WteWUp9bDMCyU
- zcidKfsAlMW8QjukSOgONHtr9xvUxvrCHPjvsycQEsGEqPn8zthWh/OsGJpYDKv+r085pNzuFOB
- 4/uEuuXFRiBK+/Zc=
-X-Received: by 2002:a05:6000:22a:b0:203:f7f8:e006 with SMTP id
- l10-20020a056000022a00b00203f7f8e006mr807998wrz.175.1648055621390; 
- Wed, 23 Mar 2022 10:13:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx2tA5nSv8ZnoG/xzhIghxbm8ciLSwQO/KY82WMS+dBnestShsVTE1OtVXH0ZieMHoSYoZdfA==
-X-Received: by 2002:a05:6000:22a:b0:203:f7f8:e006 with SMTP id
- l10-20020a056000022a00b00203f7f8e006mr807959wrz.175.1648055620982; 
- Wed, 23 Mar 2022 10:13:40 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
- [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
- e12-20020a5d6d0c000000b001a65e479d20sm469367wrq.83.2022.03.23.10.13.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 10:13:40 -0700 (PDT)
-Message-ID: <95ad366c-509d-d41f-209b-dc66054de4b8@redhat.com>
-Date: Wed, 23 Mar 2022 18:13:38 +0100
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nX4Ye-0004xP-29
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:14:04 -0400
+Received: from mta01.hs-regensburg.de ([194.95.104.11]:56548)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nX4Yb-0001sf-IA
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:14:03 -0400
+Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
+ [IPv6:2001:638:a01:8013::93])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "E16S03", Issuer "E16S03" (not verified))
+ by mta01.hs-regensburg.de (Postfix) with ESMTPS id 4KNw1f2yKszy8x;
+ Wed, 23 Mar 2022 18:13:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
+ s=mta01-20211122; t=1648055638;
+ bh=U3w4YF0J3dvc5FiRY3oR2/+oKUHSaqB0waogch7JaBU=;
+ h=From:To:CC:Subject:Date:From;
+ b=iT/EjSILm7+kT5E802lBANb7F3uhIik22CfaZaQHvbvd0cRD9+o5AWr8oN13z0puh
+ 6ugx/g5FMKFFF8OaAGlcd9T6ZApxme5KvALiMKOtChUDOPHm4/Ji6MaxV7xGkN5/w8
+ 4qakbX52KvlQvl/nE5QI7ADEWZlJDw4p7XdnMBtNftbB9aBQbWI3W7GL6LdSZkQ4Tv
+ zjMB8gKf+uDT9+SY1Cv1Kz7LvWrZkylZ7m9Utmq5aModbUieaCEy9IqlfS12SU7tyj
+ sYy2iUYrwsQKFoWFeYiPDs8GsBYsXPw6sL/DYKXbzu8tObeQFmvlU5eJ4AAhSflUok
+ vWhsQe1bXu6rA==
+Received: from atlantis.hs-regensburg.de (2001:638:a01:8013::138) by
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 23 Mar 2022 18:13:58 +0100
+From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] hw/riscv: virt: Warn the user if -bios is provided when using
+ KVM
+Date: Wed, 23 Mar 2022 18:13:46 +0100
+Message-ID: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v4 10/11] tests/tcg/s390x: Tests for Vector Enhancements
- Facility 2
-From: Thomas Huth <thuth@redhat.com>
-To: David Hildenbrand <david@redhat.com>, David Miller
- <dmiller423@gmail.com>, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-References: <20220322000441.26495-1-dmiller423@gmail.com>
- <20220322000441.26495-11-dmiller423@gmail.com>
- <c3bb72da-c390-f9b5-5254-f8c16df21427@redhat.com>
- <6409f049-d938-0e06-3cea-5877b31fce00@redhat.com>
-In-Reply-To: <6409f049-d938-0e06-3cea-5877b31fce00@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-Originating-IP: [2001:638:a01:8013::138]
+X-ClientProxiedBy: E16S04.hs-regensburg.de (2001:638:a01:8013::94) To
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93)
+Received-SPF: pass client-ip=194.95.104.11;
+ envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta01.hs-regensburg.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,55 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
- pasic@linux.ibm.com, borntraeger@linux.ibm.com,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: apatel@ventanamicro.com, Peter Maydell <peter.maydell@linaro.org>,
+ anup@brainfault.org, Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+ Palmer Dabbelt <palmer@dabbelt.com>, stefan.huber@oth-regensburg.de,
+ alistair23@gmail.com, jiangyifei@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/03/2022 11.31, Thomas Huth wrote:
-> On 22/03/2022 09.53, David Hildenbrand wrote:
->> On 22.03.22 01:04, David Miller wrote:
-> [...]
->>> diff --git a/tests/tcg/s390x/Makefile.target 
->>> b/tests/tcg/s390x/Makefile.target
->>> index 8c9b6a13ce..921a056dd1 100644
->>> --- a/tests/tcg/s390x/Makefile.target
->>> +++ b/tests/tcg/s390x/Makefile.target
->>> @@ -16,6 +16,14 @@ TESTS+=shift
->>>   TESTS+=trap
->>>   TESTS+=signals-s390x
->>> +VECTOR_TESTS=vxeh2_vs
->>> +VECTOR_TESTS+=vxeh2_vcvt
->>> +VECTOR_TESTS+=vxeh2_vlstr
->>> +
->>> +TESTS+=$(VECTOR_TESTS)
->>> +
->>> +$(VECTOR_TESTS): CFLAGS+=-march=z15 -O2
->>
->> @Thomas, will that survive our test framework already, or do we have to
->> wait for the debain11 changes?
-> 
-> Alex' update to the container has already been merged:
-> 
-> https://gitlab.com/qemu-project/qemu/-/commit/89767579cad2e371b
-> 
-> ... and seems like it's working in Travis on s390x, too:
-> 
-> https://app.travis-ci.com/github/huth/qemu/jobs/564188977#L12797
-> 
-> ... so it seems like it should be OK now (considering that we drop support 
-> for the old Ubuntu version 18.04 in QEMU 7.1, too).
+The -bios option is silently ignored if used in combination with -enable-kvm.
+The reason is that the machine starts in S-Mode, and the bios typically runs in
+M-Mode.
 
-Looks like I spoke a little bit too soon - some of the CI pipelines are 
-still using Debian 10 for running the TCG tests, and they are failing with 
-these patches applied:
+Warn the user that the bios won't be loaded.
 
-https://gitlab.com/thuth/qemu/-/jobs/2238422870#L3499
+Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+---
+ hw/riscv/virt.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thus we either need to update the CI jobs to use Debian 11, or use 
-handcrafted instruction opcodes here again...
-
-  Thomas
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 4496a15346..a4d13114ee 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -1312,6 +1312,9 @@ static void virt_machine_init(MachineState *machine)
+      * when KVM is enabled.
+      */
+     if (kvm_enabled()) {
++        if (machine->firmware && strcmp(machine->firmware, "none"))
++            warn_report("BIOS is not supported in combination with KVM. "
++                        "Ignoring BIOS.");
+         g_free(machine->firmware);
+         machine->firmware = g_strdup("none");
+     }
+-- 
+2.32.0
 
 
