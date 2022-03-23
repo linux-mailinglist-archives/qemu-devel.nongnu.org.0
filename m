@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F954E5634
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:19:57 +0100 (CET)
-Received: from localhost ([::1]:59102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830DB4E5678
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 17:29:51 +0100 (CET)
+Received: from localhost ([::1]:52108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX3iG-0004Wr-Os
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:19:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38516)
+	id 1nX3rq-0002N7-KQ
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 12:29:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3P3-0004wX-0T
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:00:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45177)
+ id 1nX3PG-0005Ec-5o
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:00:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nX3P1-00057d-2L
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:00:04 -0400
+ id 1nX3P6-0005JR-0n
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 12:00:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648051202;
+ s=mimecast20190719; t=1648051207;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FeTKXxoCA4TmzkCaXdTiX57mus9QuNuqMjq6Lg0jkVc=;
- b=gm2+JfYyZOAY8ODwiWzG/nCrH6dd4NOk7Rsf3e54RwC/eWi2C0fKnoknvNU9YL9t/sgrXz
- y1pGEyk/Jbu1/BMzpiPzP4sbgiRc94FvXyc4PKpMv0uUXIJUWVVOnakwxXwl0xhfbEAq+5
- dmH5Kzruk+vOPWQdEoSWwR5XG98K1sg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UOvlJCsG6dBJzWOBTNIBuvjZfE/VEE/t1LVfmKFYSks=;
+ b=BQtWMT39jn/NXRwEDs//VHExHeGfAsURVs8ta2xEIQi/jyKVkBit2lj7L8vpI4/fCxfhtq
+ WZcP9738IfbKenV1OiNYLuGi6x35GvrXBLPh5ebvdeKmKn1aT/LWwfkZPkJAUMTzTXHm2A
+ ZPLamDiMkKtwhWEXTezXNGAZ5MPp9I0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-2ehL_WU-MyOkVMMAGOJs8g-1; Wed, 23 Mar 2022 12:00:00 -0400
-X-MC-Unique: 2ehL_WU-MyOkVMMAGOJs8g-1
+ us-mta-120-zlrLqx3FNruarD_5-8Jm5g-1; Wed, 23 Mar 2022 12:00:06 -0400
+X-MC-Unique: zlrLqx3FNruarD_5-8Jm5g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B6213C01B97
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 16:00:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A62F81044561
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 16:00:05 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9103E400F737;
- Wed, 23 Mar 2022 15:59:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1EB440CF919;
+ Wed, 23 Mar 2022 16:00:04 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/32] include: move TFR to osdep.h
-Date: Wed, 23 Mar 2022 19:57:27 +0400
-Message-Id: <20220323155743.1585078-17-marcandre.lureau@redhat.com>
+Subject: [PATCH 17/32] include: move qemu_write_full() declaration to osdep.h
+Date: Wed, 23 Mar 2022 19:57:28 +0400
+Message-Id: <20220323155743.1585078-18-marcandre.lureau@redhat.com>
 In-Reply-To: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
 References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -66,7 +66,7 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,42 +87,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The macro requires EINTR, which has its header included in osdep.h.
-
-(Not sure what TFR stands for, perhaps "Test For Retry". Rename it ?)
+Closer to other IO functions.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/qemu-common.h | 2 --
- include/qemu/osdep.h  | 2 ++
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ include/qemu-common.h | 3 ---
+ include/qemu/osdep.h  | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/include/qemu-common.h b/include/qemu-common.h
-index f9b3f85b8124..db8b03be51f3 100644
+index db8b03be51f3..c6f3ed94bc7e 100644
 --- a/include/qemu-common.h
 +++ b/include/qemu-common.h
-@@ -10,8 +10,6 @@
- #ifndef QEMU_COMMON_H
- #define QEMU_COMMON_H
- 
--#define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
--
- /* Copyright string for -version arguments, About dialogs, etc */
- #define QEMU_COPYRIGHT "Copyright (c) 2003-2022 " \
-     "Fabrice Bellard and the QEMU Project developers"
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 240b48707ecc..489a5d1aad5f 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -226,6 +226,8 @@ extern "C" {
- #define ESHUTDOWN 4099
+@@ -24,9 +24,6 @@
+ int qemu_main(int argc, char **argv, char **envp);
  #endif
  
-+#define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
+-ssize_t qemu_write_full(int fd, const void *buf, size_t count)
+-    G_GNUC_WARN_UNUSED_RESULT;
+-
+ #ifndef _WIN32
+ int qemu_pipe(int pipefd[2]);
+ #endif
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 489a5d1aad5f..259436ff5371 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -527,6 +527,9 @@ static inline void qemu_timersub(const struct timeval *val1,
+ #define qemu_timersub timersub
+ #endif
+ 
++ssize_t qemu_write_full(int fd, const void *buf, size_t count)
++    G_GNUC_WARN_UNUSED_RESULT;
 +
- /* time_t may be either 32 or 64 bits depending on the host OS, and
-  * can be either signed or unsigned, so we can't just hardcode a
-  * specific maximum value. This is not a C preprocessor constant,
+ void qemu_set_cloexec(int fd);
+ 
+ void fips_set_state(bool requested);
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
