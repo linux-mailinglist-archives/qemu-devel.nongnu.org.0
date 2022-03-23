@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3964E5217
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 13:19:48 +0100 (CET)
-Received: from localhost ([::1]:54934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6204E5226
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 13:29:07 +0100 (CET)
+Received: from localhost ([::1]:35698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWzxr-0001DD-HF
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 08:19:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46512)
+	id 1nX06s-0007se-8v
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 08:29:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nWzhe-0007FB-8w
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 08:03:03 -0400
-Received: from [2607:f8b0:4864:20::535] (port=37787
- helo=mail-pg1-x535.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nWzhU-0006Sr-TU
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 08:02:59 -0400
-Received: by mail-pg1-x535.google.com with SMTP id bc27so937617pgb.4
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 05:02:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Cnwy7YkS16AX3papsisjAr2v4JbQ9Ju+S5vXD4BQkNY=;
- b=C6RWTfUAleZEzdAq8Xx0ieJFLbhT3U7x86lSoWH9pfr/eUGmPaBPq/ymqNBGcAk7sc
- eoPa6zoPAx2ay2jslutV3KF61l/Wrn5capBgm60m1bogXzoarObQRoOuDF/XTT2PgM3q
- OT/fzQSmQaesV4h8BysH5rrVN/243uFbAtEDoNQ70OiL6Rp01uVDgs9crWef88cx6uM+
- 6jPlUOgsbxjkhWPwDA0Uk55rARXY33DMz1pDOlXDOZrO2GLPSlKDh9Cc4zifH2FC+F5t
- /LrR9WD8AYMvkGhNgBkVN27e73l5bKxEU2EhIwJ9dWhmyvervUPEWKF4VPp/jUVns+8D
- rX9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Cnwy7YkS16AX3papsisjAr2v4JbQ9Ju+S5vXD4BQkNY=;
- b=Oe1J1OlSpEr7DyVv8U6MEH3Cdm054BaLqJ0BP2982g5kO6VWjTAVECOyjdWXdFMV25
- IFSMNcuPzU6d0SN2L8SkS3L+kcKO2HxE0u9Br4+ZmbkKnoaHwvzVBHL5ORxSA5PN/nCg
- ZmzhxbPQ3VKJnw99KoJ0q+jYKZoHPPvi9xABeYIeWFR/5lPFE8rWVOGvqeAvThZacM0X
- 32gpVd1T58ZccHSQKTnfx8/R9TXjV3QNXK3Yg48ovFRB8vGQoqtT5EMbI7S60a4J2JNj
- 6A8kz8MZYGbUbcdQBZvcfnV6xgvaBUeONLRm4p+PNEOuDxJacJ6Qnwm8BX7JABZ34fG9
- fxrQ==
-X-Gm-Message-State: AOAM532B0jEqoDlpq6dKQhOuqSNsf4lQ8mJdO2JHSB3aSn4h+Hesl3UH
- rNXiO62Su2axGC1CuUZFEnAblw==
-X-Google-Smtp-Source: ABdhPJwzWPqJyMXkKxqJAZUuX9PpZbxcvgx6Mn6IAqlBSB5i3iZOF/ysZZZhLHXg0bpjfSK85QZ/Vw==
-X-Received: by 2002:a05:6a00:2349:b0:4fa:934f:f6db with SMTP id
- j9-20020a056a00234900b004fa934ff6dbmr17601375pfj.44.1648036970868; 
- Wed, 23 Mar 2022 05:02:50 -0700 (PDT)
-Received: from [10.255.146.117] ([139.177.225.224])
- by smtp.gmail.com with ESMTPSA id
- s14-20020a056a0008ce00b004f66dcd4f1csm29187971pfu.32.2022.03.23.05.02.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 05:02:50 -0700 (PDT)
-Message-ID: <47a85d1b-f1ed-bc93-2a6e-a0b9cb69d216@bytedance.com>
-Date: Wed, 23 Mar 2022 19:59:25 +0800
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nWzkH-00081A-Uy
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 08:05:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nWzk7-0007Iw-9w
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 08:05:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648037133;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bO5LgByNTOVfvHalmYU0LO3RGjy+oK6CQZ08fMTCNBU=;
+ b=cIJq/04DyZFZA6qoJ2mg95DdGYE7OIndyXPHDwDv/uluLtg8/zuU1IfIBQtAYWF8x9exwo
+ SVdIbaIM+kvzAHkwuDJ35dK6V8MvTwmonoLKFuA1ws6TvBhLP9MhekGNW/+3XtfAiwfhso
+ 8LPibdaTe9E0Qyo3DMNBp5hOqxl7PD4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-199-6xeBFFAjNvOfAbh8eWpUUQ-1; Wed, 23 Mar 2022 08:05:30 -0400
+X-MC-Unique: 6xeBFFAjNvOfAbh8eWpUUQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7071A899ECD;
+ Wed, 23 Mar 2022 12:05:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 719B756D1E1;
+ Wed, 23 Mar 2022 12:05:24 +0000 (UTC)
+Date: Wed, 23 Mar 2022 12:05:20 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Subject: Re: [PATCH-for-7.0 1/2] block: Fix misleading hexadecimal format
+Message-ID: <YjsNACUBXeTPNKYT@redhat.com>
+References: <20220323114718.58714-1-philippe.mathieu.daude@gmail.com>
+ <20220323114718.58714-2-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: Re: [RESEND 1/2] qga: Introduce NVMe disk bus type
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, armbru@redhat.com, michael.roth@amd.com
-References: <20220323101958.300848-1-pizhenwei@bytedance.com>
- <20220323101958.300848-2-pizhenwei@bytedance.com>
- <d1a01b0c-732d-9808-1a96-80a97fa27e30@gmail.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <d1a01b0c-732d-9808-1a96-80a97fa27e30@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20220323114718.58714-2-philippe.mathieu.daude@gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::535
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,64 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 3/23/22 18:53, Philippe Mathieu-Daudé wrote:
-> On 23/3/22 11:19, zhenwei pi wrote:
->> Assigning a NVMe disk by VFIO or emulating a NVMe controller by QEMU,
->> a NVMe disk get exposed in guest side. Support NVMe disk bus type and
->> implement posix version.
->>
->> Test PCI passthrough case:
->> ~#virsh qemu-agent-command buster '{"execute":"guest-get-disks"}' | jq
->>    ...
->>      {
->>        "name": "/dev/nvme0n1",
->>        "dependencies": [],
->>        "partition": false,
->>        "address": {
->>          "serial": "SAMSUNG MZQL23T8HCLS-00A07_S64HNE0N500076",
->>          "bus-type": "nvme",
->>          "bus": 0,
->>          "unit": 0,
->>          "pci-controller": {
->>            "bus": 0,
->>            "slot": 22,
->>            "domain": 0,
->>            "function": 0
->>          },
->>          "dev": "/dev/nvme0n1",
->>          "target": 0
->>        }
->>    ...
->>
->> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->> ---
->>   qga/commands-posix.c | 5 ++++-
->>   qga/qapi-schema.json | 3 ++-
->>   2 files changed, 6 insertions(+), 2 deletions(-)
+On Wed, Mar 23, 2022 at 12:47:17PM +0100, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
->> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
->> index 94e4aacdcc..4ea2a50228 100644
->> --- a/qga/qapi-schema.json
->> +++ b/qga/qapi-schema.json
->> @@ -827,13 +827,14 @@
->>   # @mmc: Win multimedia card (MMC) bus type
->>   # @virtual: Win virtual bus type
->>   # @file-backed-virtual: Win file-backed bus type
->> +# @nvme: NVMe disks (since 7.0)
+> "0x%u" format is very misleading, replace by "0x%x".
 > 
-> If this patch isn't merged soon, this will need to be updated.
+> Found running:
 > 
-> BTW I think I already review this patch, anyhow:
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>   $ git grep -E '0x%[0-9]*([lL]*|" ?PRI)[dDuU]' block/
+> 
+> Inspired-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  block/parallels-ext.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks a lot! I'll update the version info if this patch is deferred.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
+
+With regards,
+Daniel
 -- 
-zhenwei pi
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
