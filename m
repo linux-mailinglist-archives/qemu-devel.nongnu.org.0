@@ -2,53 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F055B4E4ED0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 10:00:55 +0100 (CET)
-Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFAB44E4E78
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 09:45:10 +0100 (CET)
+Received: from localhost ([::1]:46078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWwrN-00032p-Ux
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 05:00:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35222)
+	id 1nWwc9-0003w1-Qy
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 04:45:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <08005325@163.com>) id 1nWwox-0002JV-E9
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 04:58:23 -0400
-Received: from m12-14.163.com ([220.181.12.14]:17610)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <08005325@163.com>) id 1nWwor-0006WV-Ol
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 04:58:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=SxoiB44t7WESaK2cTs
- 3HAZxhzsgbfVqNLKtQ02sN8UM=; b=jv4GbnVEz7a23cz8G03c17WKqIbd47MsPL
- +o+tCgWzm4OO22DL73cMwFiiXxmNKonHwfg+KPq8fjepkDrBoyIPQYx9gJbxRcDh
- /332L5hoH9t2nJ4iGRJLvzNsB8gS6vbjknD/dA1bdcDj/ETAnWz4XULzg8vLcNhm
- 4b2TbGpn0=
-Received: from localhost.localdomain.localdomain (unknown [116.228.45.98])
- by smtp10 (Coremail) with SMTP id DsCowADnLoKI3Tpi7p9dCQ--.17066S2;
- Wed, 23 Mar 2022 16:42:48 +0800 (CST)
-From: 08005325@163.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] vdpa: Avoid reset when stop device
-Date: Wed, 23 Mar 2022 04:42:46 -0400
-Message-Id: <1648024966-5170-1-git-send-email-08005325@163.com>
-X-Mailer: git-send-email 1.8.3.1
-X-CM-TRANSID: DsCowADnLoKI3Tpi7p9dCQ--.17066S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7CryDGF48WFyDCrW8XrWUurg_yoW8tw1rpr
- Z7K3WrKr4DJr4xtrs7CF1ku3s8G3s3t397Ga97Wa129F1UJrWkZ390gayjyry7tFWrAF12
- vF42gr4ru398Zw7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jYBT5UUUUU=
-X-Originating-IP: [116.228.45.98]
-X-CM-SenderInfo: qqyqikqtsvqiywtou0bp/1tbivwjMrFWByUi48gAAsI
-Received-SPF: pass client-ip=220.181.12.14; envelope-from=08005325@163.com;
- helo=m12-14.163.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWway-0003EO-G6
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 04:43:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nWwav-0000CP-LV
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 04:43:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648025031;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=maJaflA9QLOpFneetN2cxuhdPk8DzhvOBWR8t+czQro=;
+ b=FWj1F7aPv8p8ff0csyDM7thORNaFZPbnBTlG4hMiBWCMQQlkATRA5Iqd6haDXvHZlOex39
+ nKtkffKYuedQn0msHcLj+z7fvOCM+ZRTchTjOxKVTH3+23FMDL6PrMooHeknoN6cA58MXX
+ eil5UfCh7El/1JhFkqJHR/eYwzFg98s=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-17-EDOIwJG2PyKHe6QAVB7nVA-1; Wed, 23 Mar 2022 04:43:50 -0400
+X-MC-Unique: EDOIwJG2PyKHe6QAVB7nVA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bg28-20020a05600c3c9c00b0038c8da4d9b3so2529625wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 01:43:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=maJaflA9QLOpFneetN2cxuhdPk8DzhvOBWR8t+czQro=;
+ b=mIRwG1BIcNgGWiRRjgUeg4r2qluxrxJL8BdsWxLDDD1cGybvF2vwNVUSnLaVIwrkuX
+ 2WT2e6/gQ8qlIxatAGIH6Bvf1vMlFwKcwOqJ/N5bahBwcr/sN/TybZp41pdHzPcJed2/
+ WDJH3zmPWoRlZkUXbh1N1D3PLAKS6X9CXJUPR9+pPTR9tQa54DTIbIwg2NoaYLtiZk6G
+ rfpad9+Mm7cZ+9d4xhSYuhMU0A8ibdXGaa+8wL4a5C1yUkDwXSXO52KBLJGzSvQicW1D
+ 5vsr/BLcNefaGh/DrOsTaYCSF/T3hqD3NRT86ev/U/MNwfp1uF8dFEiTUyHuQS5lE3GO
+ r+Yg==
+X-Gm-Message-State: AOAM531zHrgysq7ko91CMkduDpvLKqMGGf3FSOnWEl0XpPzxDNhQoCL6
+ O9Su3sNXlk9wpbkluvYOOewXEd/aq/hVGbfaVIblqy216cof4U+5gmX8ORJjN+dQzZhMBFMiNY7
+ msj0MvVXt2WjViiY=
+X-Received: by 2002:a05:6000:1a85:b0:203:86bc:9816 with SMTP id
+ f5-20020a0560001a8500b0020386bc9816mr25547073wry.67.1648025029187; 
+ Wed, 23 Mar 2022 01:43:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/UTUINmcwJVWqnvI2nNfXjgz9auuZwlxI80zqwHWZ6dk0T9zCn9aC2aUXnroLSMzyV8CS1g==
+X-Received: by 2002:a05:6000:1a85:b0:203:86bc:9816 with SMTP id
+ f5-20020a0560001a8500b0020386bc9816mr25547062wry.67.1648025029021; 
+ Wed, 23 Mar 2022 01:43:49 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ l19-20020a05600c4f1300b0038cb924c3d7sm3096622wmq.45.2022.03.23.01.43.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Mar 2022 01:43:48 -0700 (PDT)
+Message-ID: <80b5df42-bf9f-8d3b-b6f4-7392e51fa35b@redhat.com>
+Date: Wed, 23 Mar 2022 09:43:47 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: Problem to compile on windows 10
+To: "axe.test2" <axe.test2@gmail.com>, qemu-devel@nongnu.org
+References: <0d641a95-d222-cb39-4587-953c760ac7ac@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <0d641a95-d222-cb39-4587-953c760ac7ac@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,75 +101,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, Michael Qiu <qiudayu@archeros.com>, lulu@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Qiu <qiudayu@archeros.com>
+On 22/03/2022 23.00, axe.test2 wrote:
+> Hi,
+> 
+> 
+> i would to compile QEMU with a 3DFX-Patch but i have problems to do it. I 
+> tested to compile QEMU alone and i have the same problems.
+> First after compiling it will ask for libzstd.dll, i found the github 
+> project and downloaded the dll... but there is another problems.
+> 
+> I don't know where to ask help this is why i use your mail, i'm sorry for 
+> that. I'm French, most of people i know on forums, don't use it with windows 
+> i followed the tutorial on the wiki page.
 
-Currently, when VM poweroff, it will trigger vdpa
-device(such as mlx bluefield2 VF) reset twice, this leads
-to below issue:
+That missing "g_spawn_async_with_fds" indicates that you're missing the 
+right version of the "glib" DLL ... you need at least version 2.58 of that 
+library, I think.
 
-vhost VQ 2 ring restore failed: -22: Invalid argument (22)
-
-This because in vhost_dev_stop(), qemu tries to stop the device,
-then stop the queue: vhost_virtqueue_stop().
-In vhost_dev_stop(), it resets the device, which clear some flags
-in low level driver, and the driver finds
-that the VQ is invalied, this is the root cause.
-
-Actually, device reset will be called within func release()
-
-To solve the issue, vdpa should set vring unready, and
-remove reset ops in device stop: vhost_dev_start(hdev, false).
-
-Signed-off-by: Michael Qiu<qiudayu@archeros.com>
----
- hw/virtio/vhost-vdpa.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index c5ed7a3..d858b4f 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -719,14 +719,14 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
-     return idx;
- }
- 
--static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
-+static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev, unsigned int ready)
- {
-     int i;
-     trace_vhost_vdpa_set_vring_ready(dev);
-     for (i = 0; i < dev->nvqs; ++i) {
-         struct vhost_vring_state state = {
-             .index = dev->vq_index + i,
--            .num = 1,
-+            .num = ready,
-         };
-         vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
-     }
-@@ -1088,8 +1088,9 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-         if (unlikely(!ok)) {
-             return -1;
-         }
--        vhost_vdpa_set_vring_ready(dev);
-+        vhost_vdpa_set_vring_ready(dev, 1);
-     } else {
-+        vhost_vdpa_set_vring_ready(dev, 0);
-         ok = vhost_vdpa_svqs_stop(dev);
-         if (unlikely(!ok)) {
-             return -1;
-@@ -1105,7 +1106,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-         memory_listener_register(&v->listener, &address_space_memory);
-         return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-     } else {
--        vhost_vdpa_reset_device(dev);
-         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-                                    VIRTIO_CONFIG_S_DRIVER);
-         memory_listener_unregister(&v->listener);
--- 
-1.8.3.1
+  HTH,
+   Thomas
 
 
