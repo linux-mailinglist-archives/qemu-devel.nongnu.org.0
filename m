@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A4B4E4D56
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 08:29:21 +0100 (CET)
-Received: from localhost ([::1]:40102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7856A4E4D76
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 08:37:13 +0100 (CET)
+Received: from localhost ([::1]:56088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWvQm-0006sz-UR
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 03:29:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41872)
+	id 1nWvYO-0001Jb-IB
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 03:37:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nWvNK-0004PP-KV
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 03:25:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27108)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nWvNI-0000w1-TJ
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 03:25:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648020344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5Ul8oWuvUeDzNfHlnwEYmiKJujaeZ1hRs0XrndxwX2o=;
- b=D/R9Dh8oi4FfpSbD31vhr2QLLgHYsjv8TNzWrgas122gDmeOrlwjy2gOMQgAE8I6GbiKWg
- 2wHNN6BR2fxr+izxzffNksBsEACooy3GWEf3dyaupXis3lQ1F5QFhjgnthDX49KFbB9asl
- akBft1xPdqTfUXEDLQBgYE5WPNROOV0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-fd0OouEMMs6H0iyM-dk5Ow-1; Wed, 23 Mar 2022 03:25:40 -0400
-X-MC-Unique: fd0OouEMMs6H0iyM-dk5Ow-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 63CFA185A79C;
- Wed, 23 Mar 2022 07:25:40 +0000 (UTC)
-Received: from gshan.redhat.com (ovpn-12-33.pek2.redhat.com [10.72.12.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7C6B2166B2D;
- Wed, 23 Mar 2022 07:25:35 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Subject: [PATCH v3 4/4] hw/arm/virt: Unify ACPI processor ID in MADT and SRAT
- table
-Date: Wed, 23 Mar 2022 15:24:38 +0800
-Message-Id: <20220323072438.71815-5-gshan@redhat.com>
-In-Reply-To: <20220323072438.71815-1-gshan@redhat.com>
-References: <20220323072438.71815-1-gshan@redhat.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nWvPm-0006vm-84; Wed, 23 Mar 2022 03:28:18 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:43204 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nWvPj-0001IB-0i; Wed, 23 Mar 2022 03:28:18 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowAAH6vIDzDpiKqoCBQ--.46949S2;
+ Wed, 23 Mar 2022 15:28:04 +0800 (CST)
+Subject: Re: [PATCH qemu v3 04/14] target/riscv: rvv: Add tail agnostic for vv
+ instructions
+To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <164800788276.12449.15168787569124374586-4@git.sr.ht>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <145ed096-a2fb-7dd3-c60b-d93055869ea8@iscas.ac.cn>
+Date: Wed, 23 Mar 2022 15:28:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <164800788276.12449.15168787569124374586-4@git.sr.ht>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: zQCowAAH6vIDzDpiKqoCBQ--.46949S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxuFW5Cr4fZF48trWkArykGrg_yoW3ZryrpF
+ 48KFW2g395KFyxZ3WftF4UAr1rZrs8Gw40kw1kWr1kAan8XrWDWF1qk3W7CF17GFyUur1Y
+ 9a1qyrWY9a95XFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+ 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
+ bIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+ rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+ v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWU
+ JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUF9
+ a9DUUUU
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,75 +74,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, zhenyzha@redhat.com, wangyanan55@huawei.com,
- shan.gavin@gmail.com, imammedo@redhat.com
+Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ eop Chen <eop.chen@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The value of the following field has been used in ACPI PPTT table
-to identify the corresponding processor. This takes the same field
-as the ACPI processor ID in MADT and SRAT tables.
 
-  ms->possible_cpus->cpus[i].props.thread_id
+在 2022/3/1 下午5:07, ~eopxd 写道:
+> From: eopXD <eop.chen@sifive.com>
+>
+> This is the first commit regarding the tail agnostic behavior.
+> Added option 'rvv_ta_all_1s' to enable the behavior, the option
+> is default to false.
+>
+> Signed-off-by: eop Chen <eop.chen@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>   target/riscv/cpu.c                      |   1 +
+>   target/riscv/cpu.h                      |   2 +
+>   target/riscv/cpu_helper.c               |   2 +
+>   target/riscv/insn_trans/trans_rvv.c.inc |   1 +
+>   target/riscv/internals.h                |   5 +-
+>   target/riscv/translate.c                |   2 +
+>   target/riscv/vector_helper.c            | 315 ++++++++++++++----------
+>   7 files changed, 197 insertions(+), 131 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index ddda4906ff..cd4cf4b41e 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -810,6 +810,7 @@ static Property riscv_cpu_properties[] = {
+>       DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
+>   
+>       DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
+> +    DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index c069fe85fa..8c4a79b5a0 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -369,6 +369,7 @@ struct RISCVCPUConfig {
+>       bool ext_zhinxmin;
+>       bool ext_zve32f;
+>       bool ext_zve64f;
+> +    bool rvv_ta_all_1s;
+>   
+>       /* Vendor-specific custom extensions */
+>       bool ext_XVentanaCondOps;
+> @@ -516,6 +517,7 @@ FIELD(TB_FLAGS, XL, 20, 2)
+>   /* If PointerMasking should be applied */
+>   FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
+>   FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
+> +FIELD(TB_FLAGS, VTA, 24, 1)
+>   
+>   #ifdef TARGET_RISCV32
+>   #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 1c60fb2e80..2941c88c31 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -65,6 +65,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>           flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
+>                       FIELD_EX64(env->vtype, VTYPE, VLMUL));
+>           flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
+> +        flags = FIELD_DP32(flags, TB_FLAGS, VTA,
+> +                    FIELD_EX64(env->vtype, VTYPE, VTA));
+>       } else {
+>           flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+>       }
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 1e51a3e79c..603abe0e9f 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -1231,6 +1231,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn *gvec_fn,
+>   
+>           data = FIELD_DP32(data, VDATA, VM, a->vm);
+>           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+>                              vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),
+>                              cpu_env, s->cfg_ptr->vlen / 8,
+> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+> index dbb322bfa7..512c6c30cf 100644
+> --- a/target/riscv/internals.h
+> +++ b/target/riscv/internals.h
+> @@ -24,8 +24,9 @@
+>   /* share data between vector helpers and decode code */
+>   FIELD(VDATA, VM, 0, 1)
+>   FIELD(VDATA, LMUL, 1, 3)
+> -FIELD(VDATA, NF, 4, 4)
+> -FIELD(VDATA, WD, 4, 1)
+> +FIELD(VDATA, VTA, 4, 1)
+> +FIELD(VDATA, NF, 5, 4)
+> +FIELD(VDATA, WD, 5, 1)
+>   
+>   /* float point classify helpers */
+>   target_ulong fclass_h(uint64_t frs1);
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index fac998a6b5..7775dade26 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -94,6 +94,7 @@ typedef struct DisasContext {
+>        */
+>       int8_t lmul;
+>       uint8_t sew;
+> +    uint8_t vta;
+>       target_ulong vstart;
+>       bool vl_eq_vlmax;
+>       uint8_t ntemp;
+> @@ -1083,6 +1084,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       ctx->vill = FIELD_EX32(tb_flags, TB_FLAGS, VILL);
+>       ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
+>       ctx->lmul = sextract32(FIELD_EX32(tb_flags, TB_FLAGS, LMUL), 0, 3);
+> +    ctx->vta = FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_1s;
+>       ctx->vstart = env->vstart;
+>       ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+>       ctx->misa_mxl_max = env->misa_mxl_max;
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index d0452a7756..6c47d39251 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -122,6 +122,11 @@ static inline int32_t vext_lmul(uint32_t desc)
+>       return sextract32(FIELD_EX32(simd_data(desc), VDATA, LMUL), 0, 3);
+>   }
+>   
+> +static inline uint32_t vext_vta(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, VTA);
+> +}
+> +
+>   /*
+>    * Get the maximum number of elements can be operated.
+>    *
+> @@ -140,6 +145,20 @@ static inline uint32_t vext_max_elems(uint32_t desc, uint32_t log2_esz)
+>       return scale < 0 ? vlenb >> -scale : vlenb << scale;
+>   }
+>   
+> +/*
+> + * Get number of total elements, including prestart, body and tail elements.
+> + * Note that when LMUL < 1, the tail includes the elements past VLMAX that
+> + * are held in the same vector register.
+> + */
+> +static inline uint32_t vext_get_total_elem(RISCVCPU *cpu, target_ulong vtype)
+> +{
+> +    uint8_t sew = FIELD_EX64(vtype, VTYPE, VSEW);
+> +    int8_t lmul = sextract32(FIELD_EX64(vtype, VTYPE, VLMUL), 0, 3) < 0 ?
+> +                  0 : sextract32(FIELD_EX64(vtype, VTYPE, VLMUL), 0, 3);
+> +    return cpu->cfg.vlen >> (sew + 3 - lmul);
+> +}
+> +
+> +
+>   static inline target_ulong adjust_addr(CPURISCVState *env, target_ulong addr)
+>   {
+>       return (addr & env->cur_pmmask) | env->cur_pmbase;
+> @@ -172,6 +191,32 @@ static void probe_pages(CPURISCVState *env, target_ulong addr,
+>       }
+>   }
+>   
+> +static void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
+> +                              uint32_t tot)
+> +{
+> +    if (is_agnostic == 0) {
+> +        /* policy undisturbed */
+> +        return;
+> +    }
+> +    if (tot - cnt == 0) {
+> +        return ;
+> +    }
+> +    memset(base, -1, tot - cnt);
+> +}
+> +
+> +/* Set agnostic elements to 1s */
+> +#define GEN_SET_ELEMS_1S(SET_ELEMS_1S_FN, ETYPE, H)                            \
+> +static void SET_ELEMS_1S_FN(void *vd, uint32_t is_agnostic, uint32_t idx,      \
+> +                            uint32_t cnt, uint32_t tot)                        \
+> +{                                                                              \
+> +    ETYPE *cur = ((ETYPE *)vd + H(idx));                                       \
+> +    vext_set_elems_1s(cur, is_agnostic, cnt, tot);                             \
+> +}
+> +GEN_SET_ELEMS_1S(vext_set_elems_1s_b, int8_t, H1)
+> +GEN_SET_ELEMS_1S(vext_set_elems_1s_h, int16_t, H2)
+> +GEN_SET_ELEMS_1S(vext_set_elems_1s_w, int32_t, H4)
+> +GEN_SET_ELEMS_1S(vext_set_elems_1s_d, int64_t, H8)
+> +
+>   static inline void vext_set_elem_mask(void *v0, int index,
+>                                         uint8_t value)
+>   {
+> @@ -197,6 +242,14 @@ static inline int vext_elem_mask(void *v0, int index)
+>   typedef void vext_ldst_elem_fn(CPURISCVState *env, target_ulong addr,
+>                                  uint32_t idx, void *vd, uintptr_t retaddr);
+>   
+> +/* set bytes to all 1s for agnostic elements */
+> +typedef void vext_set_elems_1s_fn(void *vd, uint32_t vta, uint32_t idx,
+> +                                  uint32_t cnt, uint32_t tot);
+> +static vext_set_elems_1s_fn *vext_set_elems_1s_fns[4] = {
+> +    vext_set_elems_1s_b, vext_set_elems_1s_h,
+> +    vext_set_elems_1s_w, vext_set_elems_1s_d
+> +};
+> +
+>   #define GEN_VEXT_LD_ELEM(NAME, ETYPE, H, LDSUF)            \
+>   static void NAME(CPURISCVState *env, abi_ptr addr,         \
+>                    uint32_t idx, void *vd, uintptr_t retaddr)\
+> @@ -710,10 +763,12 @@ RVVCALL(OPIVV2, vsub_vv_d, OP_SSS_D, H8, H8, H8, DO_SUB)
+>   
+>   static void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
+>                          CPURISCVState *env, uint32_t desc,
+> -                       opivv2_fn *fn)
+> +                       opivv2_fn *fn, uint32_t esz)
+>   {
+>       uint32_t vm = vext_vm(desc);
+>       uint32_t vl = env->vl;
+> +    uint32_t vlmax = vext_get_total_elem(env_archcpu(env), env->vtype);
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
----
- hw/arm/virt-acpi-build.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+'vlmax' seems a bit confusing here. Maybe can use 'total' or 'max' ...
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 449fab0080..7fedb56eea 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -534,13 +534,16 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
- 
-     for (i = 0; i < cpu_list->len; ++i) {
-         uint32_t nodeid = cpu_list->cpus[i].props.node_id;
-+        uint32_t thread_id = cpu_list->cpus[i].props.thread_id;
-+
-         /*
-          * 5.2.16.4 GICC Affinity Structure
-          */
-         build_append_int_noprefix(table_data, 3, 1);      /* Type */
-         build_append_int_noprefix(table_data, 18, 1);     /* Length */
-         build_append_int_noprefix(table_data, nodeid, 4); /* Proximity Domain */
--        build_append_int_noprefix(table_data, i, 4); /* ACPI Processor UID */
-+        build_append_int_noprefix(table_data,
-+                                  thread_id, 4); /* ACPI Processor UID */
-         /* Flags, Table 5-76 */
-         build_append_int_noprefix(table_data, 1 /* Enabled */, 4);
-         build_append_int_noprefix(table_data, 0, 4); /* Clock Domain */
-@@ -704,6 +707,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
- {
-     int i;
-     VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-+    MachineState *ms = MACHINE(vms);
-     const MemMapEntry *memmap = vms->memmap;
-     AcpiTable table = { .sig = "APIC", .rev = 3, .oem_id = vms->oem_id,
-                         .oem_table_id = vms->oem_table_id };
-@@ -725,8 +729,9 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     build_append_int_noprefix(table_data, vms->gic_version, 1);
-     build_append_int_noprefix(table_data, 0, 3);   /* Reserved */
- 
--    for (i = 0; i < MACHINE(vms)->smp.cpus; i++) {
-+    for (i = 0; i < ms->smp.cpus; i++) {
-         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(i));
-+        uint32_t thread_id = ms->possible_cpus->cpus[i].props.thread_id;
-         uint64_t physical_base_address = 0, gich = 0, gicv = 0;
-         uint32_t vgic_interrupt = vms->virt ? PPI(ARCH_GIC_MAINT_IRQ) : 0;
-         uint32_t pmu_interrupt = arm_feature(&armcpu->env, ARM_FEATURE_PMU) ?
-@@ -743,7 +748,8 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-         build_append_int_noprefix(table_data, 76, 1);   /* Length */
-         build_append_int_noprefix(table_data, 0, 2);    /* Reserved */
-         build_append_int_noprefix(table_data, i, 4);    /* GIC ID */
--        build_append_int_noprefix(table_data, i, 4);    /* ACPI Processor UID */
-+        build_append_int_noprefix(table_data,
-+                                  thread_id, 4);        /* ACPI Processor UID */
-         /* Flags */
-         build_append_int_noprefix(table_data, 1, 4);    /* Enabled */
-         /* Parking Protocol Version */
--- 
-2.23.0
+Regards,
+
+Weiwei Li
 
 
