@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71BF24E5833
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:13:58 +0100 (CET)
-Received: from localhost ([::1]:39414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35AD44E5836
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 19:14:51 +0100 (CET)
+Received: from localhost ([::1]:41198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX5Ub-0006fO-Bi
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:13:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59552)
+	id 1nX5VS-0007pH-8A
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 14:14:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX5SQ-0005oh-M2
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:11:42 -0400
-Received: from [2607:f8b0:4864:20::1030] (port=39490
- helo=mail-pj1-x1030.google.com)
+ id 1nX5Tv-0006Tj-8z
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:13:15 -0400
+Received: from [2607:f8b0:4864:20::52b] (port=47057
+ helo=mail-pg1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX5SP-0007MH-1j
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:11:42 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- mr5-20020a17090b238500b001c67366ae93so7190538pjb.4
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:11:40 -0700 (PDT)
+ id 1nX5Ts-0007bz-MT
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 14:13:14 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id b130so374702pga.13
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 11:13:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=cAV67Kzzzz+0RrzBHHffepxqQjurRkNRf10KxFwW294=;
- b=JzBi3AZbh8gICTo9AtGTcnHh9HNLJBk24pXelXgLPnqcMloXkEQkf2sV+Ioa5uyfZG
- xXfcuNPJvjwMCl3jDryW0uCQYp0WRuYBUL9CDaarTiCdoXT8jUc/RSZxOlR2viKZLtcn
- SrJQB8CGhYdHGHfKNAtDATgHFdm3r26mw12/O/78TVSJLj7ghkt+dEP0nZdadSsZUTHV
- F2HRxuzqBqxt8TdulHlWPIQ73j6Anp0Mj3ZS6KacH1qjrZ74DtoI4aR9qcqcWw+sOAaJ
- 1t1+687Om5CblolN7IEbcs4b7cnKYx7v8V0Wf1HY56+cAFbXWDNWeLzQukSiIu3eAr6A
- BUBA==
+ bh=sL1AwgKgCC1bCzdNuU6lhBErhd3xUsSe76D0MQW8D5c=;
+ b=eV+p4KaciG4oYZ0aG04Ob09yQGoCKu7R5YxwTsW7V+6ZRgHSYAUpGrHfhtaPegqBxu
+ vU6rcckcyuJK7QQaq2Q4WPtEW92EmTw8/CVVaaLohbnIeJqOM6Apk/zaPZKDEgw8WdfF
+ FmoE+kXYt5h1FniTDGHIXPfWnlIzi0sy3l+Oa0MpCB0xLc9m2VLNfUjNpn8S42Vjqax0
+ ROxHOe5JgQq09vyuWKSkM3sTh6voj/ZyKMFdWVw+pvfYpPg8uJybRPl6LrdkbEnre59F
+ 21K81cGF41/qtOmUpEHaXY0dH3a+0hxI0Pq5DD3swYyZcfG4Z9gpJGmAIrojUzcACW+M
+ 7ljA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cAV67Kzzzz+0RrzBHHffepxqQjurRkNRf10KxFwW294=;
- b=xzI3l3Ijub3Rh3r+uZ4pZF6h26JnKMZGrIdcTFJOPxK0DrCxdVI1tGasBteRS/KZY+
- FgztNCQ2uiceAhPxnvjRU0V1W2XCZwvXPr4rjJSQttyiGmYywVZBaqySYl7iruS+ykfW
- NayoCzS2AJWH0e6AFUarDMylb7DI9VTCN8p1Cs5QpgnHU8AsO8eYfcM4zINVvgX5A8TE
- DdCexh+Xu/j1A+nutMMBJ5ifmy+9nJnVcKXAKcMfe+22SGCBhnN8rg3qFe+TngisiW8W
- Ca7LR/0VkFqXjoPqhczUIqDtALxXRHDw5oRo2Bp2SF2fsdDRHrT5SiGvdtgrppaRDVxa
- Mu2g==
-X-Gm-Message-State: AOAM533tBlUkDYdxFQ/f/PhEi94p7zI22MqJjaYyRIpkXyW+A+oQ2JhA
- XE4zQdLqb/yvNQAK/fwCXWM4ig==
-X-Google-Smtp-Source: ABdhPJzK6W7V18yJGfw/4upzfqqFZsCAfNjbOLD9+uMNYSGuZW6awTzPzsyBKdcIimkuBDRG2MSJBw==
-X-Received: by 2002:a17:902:728d:b0:151:dcc8:9f86 with SMTP id
- d13-20020a170902728d00b00151dcc89f86mr1370764pll.76.1648059099418; 
- Wed, 23 Mar 2022 11:11:39 -0700 (PDT)
+ bh=sL1AwgKgCC1bCzdNuU6lhBErhd3xUsSe76D0MQW8D5c=;
+ b=WmO0NYJdTJZGwCL0kDvUxd2P1cp9x0UTAQwVv3DWJ88wxB7od3LPn+mkwkuGQXSW7y
+ i4fiTNFoBJfeyzohCQtl1iQlKWY4IDp8ztls77Sz+KD4/TQeJMlEv1VUJTLjUH1w4qKl
+ GCRi4t6XWgKyhx17f/pnAhjyVp23tDzmtONb7vieGdv7LzBggTfwk/TRz7OK5q3Xb306
+ 1rofkha4uSK3mKRT8G5LrkIDF+TpFgN3aRuS0qEOj8OSlRKzC81oKdqEHDRymzAUaTAg
+ JK1zT4s/cVtf6S4MQrsCwWzjiyNdMiHjfJk4qCQirXI+Hoq8xPfb4bCBWCRC76W0wN4a
+ jE9Q==
+X-Gm-Message-State: AOAM531rzqH6YxT4yiVvwy7xJLmfqE9qfroEeoDfCMr48ceXELnKCsa/
+ kAMDZMKmBJOzBBikLsHOdcYanQ==
+X-Google-Smtp-Source: ABdhPJxcimbJ+VBC427O5CybaUqVcN+71Ou3qoREh62ICL/w6FkqI0U90yR7ke2cX1MqEOiS/X6c6w==
+X-Received: by 2002:a65:550a:0:b0:374:5324:c32d with SMTP id
+ f10-20020a65550a000000b003745324c32dmr873784pgr.61.1648059191147; 
+ Wed, 23 Mar 2022 11:13:11 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- v24-20020a634818000000b0036407db4728sm401753pga.26.2022.03.23.11.11.38
+ x29-20020aa79a5d000000b004f0ef1822d3sm549972pfj.128.2022.03.23.11.13.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 11:11:38 -0700 (PDT)
-Message-ID: <7676118b-ba72-6efb-fcaf-2b9019066a54@linaro.org>
-Date: Wed, 23 Mar 2022 11:11:36 -0700
+ Wed, 23 Mar 2022 11:13:10 -0700 (PDT)
+Message-ID: <558ea087-b788-a72b-8167-eaacf8bd0816@linaro.org>
+Date: Wed, 23 Mar 2022 11:13:09 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 09/32] include/qapi: add g_autoptr support for qobject
- types
+Subject: Re: [PATCH 10/32] tests: replace free_all() usage with g_auto
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
- <20220323155743.1585078-10-marcandre.lureau@redhat.com>
+ <20220323155743.1585078-11-marcandre.lureau@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220323155743.1585078-10-marcandre.lureau@redhat.com>
+In-Reply-To: <20220323155743.1585078-11-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -102,23 +100,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 3/23/22 08:57, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau<marcandre.lureau@redhat.com>
 > 
-> Need wrappers for qobject_unref() calls, which is a macro.
+> Use more idiomatic glib/auto-style code.
 > 
 > Signed-off-by: Marc-André Lureau<marcandre.lureau@redhat.com>
 > ---
->   include/qapi/qmp/qbool.h   | 4 ++++
->   include/qapi/qmp/qdict.h   | 4 ++++
->   include/qapi/qmp/qlist.h   | 4 ++++
->   include/qapi/qmp/qnull.h   | 4 ++++
->   include/qapi/qmp/qnum.h    | 4 ++++
->   include/qapi/qmp/qstring.h | 4 ++++
->   qobject/qbool.c            | 5 +++++
->   qobject/qdict.c            | 5 +++++
->   qobject/qlist.c            | 5 +++++
->   qobject/qnull.c            | 5 +++++
->   qobject/qnum.c             | 5 +++++
->   qobject/qstring.c          | 5 +++++
->   12 files changed, 54 insertions(+)
+>   tests/unit/check-qobject.c | 127 ++++++++++++-------------------------
+>   1 file changed, 40 insertions(+), 87 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
