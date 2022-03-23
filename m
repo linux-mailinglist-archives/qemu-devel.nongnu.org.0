@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192154E51E0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 13:09:28 +0100 (CET)
-Received: from localhost ([::1]:42674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B41C4E51A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 12:54:31 +0100 (CET)
+Received: from localhost ([::1]:54936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWznq-0000t3-Ns
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 08:09:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40842)
+	id 1nWzZO-0005gY-6S
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 07:54:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1nWzHs-000424-Sd; Wed, 23 Mar 2022 07:36:25 -0400
-Received: from [2a00:1450:4864:20::62a] (port=41706
- helo=mail-ej1-x62a.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nWzOe-0000UB-Ay
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:43:26 -0400
+Received: from [2a00:1450:4864:20::633] (port=44778
+ helo=mail-ej1-x633.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1nWzHp-000881-G4; Wed, 23 Mar 2022 07:36:24 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id a8so2204519ejc.8;
- Wed, 23 Mar 2022 04:35:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nWzOc-0001D9-34
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:43:23 -0400
+Received: by mail-ej1-x633.google.com with SMTP id r22so2228287ejs.11
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 04:43:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=MtlW6xouBq7U9a9mWHnPCh013FJzep//D/yBhZkelHE=;
- b=OGAdb09SekqTflcR5hg+xYw41ZZB9H939DDTCcSrDiO37B/hjcy9BT/aQZsEsf8MvI
- Lo8TGuR2R/0Nv+aVGj95oQDXltRhO/JtYtve/iILaJ8GjwFYnDUxZlae0YhSyelTve+T
- uAcKp88ClMi2fE4Xsfwu4BaoZik6pDEarNgoat6tRDl0XHGzVnl48gzuB2+ZV4MaUdSZ
- boh3T46/bRFmg/QrT2ihahZmFarnMxIS+FfjVDGniCdV+c7iYsFZ9+6S0rFypsCfox11
- bI+gQ21H+ufEa2+w5XlpKhbeT5CJvwoIdIlcGkh4FKD9nL53gUY5b9Btpt9P7GkGnxrK
- qoew==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NXBftiV6s8HuLt4je98lM8SPphqtzzoXIWEbFS2bKSc=;
+ b=N569PxRZni+IKqfP3Epu6t2AcMeqbHyIdowfaJvFplCVB71XJF8fAoFvipMF8Rh5JG
+ 5uyj1GstKbTlOF6gPyvsvxlOAixDEXWQC+KYgpy4XfoxEi2+pW06MlaXsQJyPnwdXIh/
+ J2A+FXYrr1/2e/dTPFZeVBBAX1a2SYuciFEC7+1ph2244w+KasmdWt84Mhyo+F5WY9y4
+ ZROkHYIZAMW2rES/LuVVPd8zbbJXSIjviQTEr7DGR5n/b0JOKtWmKr8faL+xOKgVK5GM
+ fyStJBx482Jg4ZquR/qQ0Scv9w+o3k2lpIEIHCEkUkLEDebkO9yLB6uS2GqTO8LvvmyZ
+ IOrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=MtlW6xouBq7U9a9mWHnPCh013FJzep//D/yBhZkelHE=;
- b=SgTniyPkA0IzPjpwThq/bQdQmKAIclYaxqTXBx5Qox0/egs7vYG8nWWHRnAnHMVytJ
- 1IliA5zAczhZBwTdSslUXlltuelpEGsU6wTTRYUxjLqAxvv0ypH6BkuqUHFR3VU80FTH
- FZP1fVFiJgb8kVGQgi+OfrpEWZ+rXEPR/f4U7KX38eaG76CyIten0yzaKELJCFQpsTZ2
- FiRAyyVs2eiW+qyWLFnqRfdTHeH81Nr3CEiq0c1r/8P01aQriO0qNAfCVqwYgnDMXkTM
- HUfi7RzaNOX/vkJFB0ECv0xJnUCbLSf35xO/edICXiG5nU0o9tOAyoVYEqBGrBRj9ad7
- 2TPg==
-X-Gm-Message-State: AOAM530aaSyi9wrBFmnz+Hzm07SfqdeWlfRce+eatpB3PjEIERMCSfr0
- d1KJvjTKojMCf/2XsZAtPSvsYqMHi8B/oe4M+/BCsxG6gR4=
-X-Google-Smtp-Source: ABdhPJxXP68wFQjBb7u5dC4c3POsUbhorBayqPoXAZANZt4WKBuCRTflPm0A+ehmn43xwFowJ12l1IuzOzHvvulftPQ=
-X-Received: by 2002:a17:907:97c9:b0:6db:ab53:1fdf with SMTP id
- js9-20020a17090797c900b006dbab531fdfmr31559514ejc.406.1648035348482; Wed, 23
- Mar 2022 04:35:48 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=NXBftiV6s8HuLt4je98lM8SPphqtzzoXIWEbFS2bKSc=;
+ b=DnOnDWYh/jHdm6dgJy8GhzrleouLu5TSRqybR5TdDTSzrg0GEg00m5angosxDlRhwr
+ mCY3lO2eOVbsJXF4VtDlKLZdz6ttyV+svDpjXdMSgDgFC+ttimcjAKAkWZjwY3ETKN64
+ ltofLDihpvOO8zCmHqqshhi3RYQtCJsB+lNW2MJ4PUmOqD9IttLY0P3HaEAPG6r9C5k2
+ VH8CC90dLhWmwfTMtW0sSC5/wF8XGTR93OBU8k+ltvY8RRQ2sj5vRAz9yjKzKPdGEhmM
+ zgcl8LNHc3nTOqb1pofbgvf5sFnMO4Yob2TxGL00e57+ImxgR4k3f3vPNzsWCC8b82UC
+ +f+g==
+X-Gm-Message-State: AOAM531HYAyjxzUIsvR4OIz6uWtOqt+s3+sT3F4VOaxy4akZUVrU5w6P
+ nJTKfoxT1Wo8Ngt5/yTkiQfnMhqUfds=
+X-Google-Smtp-Source: ABdhPJwmmcOJ+QuHJ3iC5lMgBZWjJ6cV74EfYoiYwLHc8KAsKPKRhAIOlmV7hqiVH2C5QIc6YcpqIw==
+X-Received: by 2002:a17:906:1e94:b0:6b9:6fcc:53fd with SMTP id
+ e20-20020a1709061e9400b006b96fcc53fdmr31175819ejj.450.1648035800112; 
+ Wed, 23 Mar 2022 04:43:20 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.gmail.com with ESMTPSA id
+ d1-20020a50fe81000000b004197f2ecdc2sm519690edt.89.2022.03.23.04.43.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Mar 2022 04:43:19 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] KVM: x86: workaround invalid CPUID[0xD,
+ 9] info on some AMD processors
+Date: Wed, 23 Mar 2022 12:43:15 +0100
+Message-Id: <20220323114315.22594-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220323080755.156-1-luoyonggang@gmail.com>
- <20220323080755.156-3-luoyonggang@gmail.com>
- <YjrpW2O8HqOT2PXN@redhat.com>
-In-Reply-To: <YjrpW2O8HqOT2PXN@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Wed, 23 Mar 2022 19:35:35 +0800
-Message-ID: <CAE2XoE9ez2WgdViMxCPbon8GNPbwvte6R9N6O=VbiU2=1G=7pw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] ci: Add empty github workflow for reporting
- historical cirrus result at github
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000860f8905dae12110"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=luoyonggang@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,169 +89,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=D0=B8=D0=B6?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5u0LjQtmU=?= <alex.bennee@linaro.org>
+Cc: Yang Zhong <yang.zhong@intel.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000860f8905dae12110
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Some AMD processors expose the PKRU extended save state even if they do not have
+the related PKU feature in CPUID.  Worse, when they do they report a size of
+64, whereas the expected size of the PKRU extended save state is 8, therefore
+the esa->size == eax assertion does not hold.
 
-On Wed, Mar 23, 2022 at 5:33 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
->
-> On Wed, Mar 23, 2022 at 04:07:54PM +0800, Yonggang Luo wrote:
-> > Looks like https://github.com/lygstate/qemu/actions does
-> >
-> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> > ---
-> >  .github/workflows/main.yml | 24 ++++++++++++++++++++++++
-> >  MAINTAINERS                |  1 +
-> >  2 files changed, 25 insertions(+)
-> >  create mode 100644 .github/workflows/main.yml
-> >
-> > diff --git a/.github/workflows/main.yml b/.github/workflows/main.yml
-> > new file mode 100644
-> > index 0000000000..71f5fbd556
-> > --- /dev/null
-> > +++ b/.github/workflows/main.yml
-> > @@ -0,0 +1,24 @@
-> > +# This is a basic workflow to help you get started with Actions
-> > +
-> > +name: CI
-> > +
-> > +# Controls when the action will run. Triggers the workflow on push or
-pull request
-> > +# events but only for the master branch
-> > +on:
-> > +  push:
-> > +    branches: [ master ]
-> > +  pull_request:
-> > +    branches: [ master ]
-> > +
-> > +# A workflow run is made up of one or more jobs that can run
-sequentially or in parallel
-> > +jobs:
-> > +  check-patch:
-> > +    name: Check Patch
-> > +    runs-on: ubuntu-latest
-> > +    steps:
-> > +      # Checks-out your repository under $GITHUB_WORKSPACE, so your
-job can access it
-> > +      - uses: actions/checkout@v2
-> > +        with:
-> > +          fetch-depth: 0
-> > +      - name: Install dependent packages
-> > +        run: echo "Empty action"
->
-> I really rather we just integrated the Cirrus CI windows job into our
-GitLab
-> pipeline using cirrus-run, as we did for the other Cirrus jobs.
->
-> We've also already got some native msys jobs under GitLab that test some
-> combinations, but not all since they're somewhat slow. So we still need
-> to take advantage of Cirrus for some msys testing, but we can likely
-> reduce the overlap.
->
-> I definitely don't want to see us increasing our use of GitHub, as having
-> multiple places to look at for CI results is a really bad thing. We want
-> todo what is possible to make GitLab the single dashboard for all CI info=
-.
+The state is already ignored by KVM_GET_SUPPORTED_CPUID because it
+was not enabled in the host XCR0.  However, QEMU kvm_cpu_xsave_init()
+runs before QEMU invokes arch_prctl() to enable dynamically-enabled
+save states such as XTILEDATA, and KVM_GET_SUPPORTED_CPUID hides save
+states that have yet to be enabled.  Therefore, kvm_cpu_xsave_init()
+needs to consult the host CPUID instead of KVM_GET_SUPPORTED_CPUID,
+and dies with an assertion failure.
 
-Agreed a single dashboard is meaningfull, I'll try that. other than that, a
-empty
-github actions can give better experience with qemu, there is 3.9k for at
-github,
-and 5.9k star at github
+When setting up the ExtSaveArea array to match the host, ignore features that
+KVM does not report as supported.  This will cause QEMU to skip the incorrect
+CPUID leaf instead of tripping the assertion.
 
->
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-https://www.instagram.com/dberrange :|
->
+Reported-by: Daniel P. Berrangé <berrange@redhat.com>
+Analyzed-by: Yang Zhong <yang.zhong@intel.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/cpu.c         |  4 ++--
+ target/i386/cpu.h         |  2 ++
+ target/i386/kvm/kvm-cpu.c | 19 ++++++++++++-------
+ 3 files changed, 16 insertions(+), 9 deletions(-)
 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index a88d6554c8..ec3b50bf6e 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4981,8 +4981,8 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
+     return cpu_list;
+ }
+ 
+-static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+-                                                   bool migratable_only)
++uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
++                                            bool migratable_only)
+ {
+     FeatureWordInfo *wi = &feature_word_info[w];
+     uint64_t r = 0;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 5e406088a9..e31e6bd8b8 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -606,6 +606,8 @@ typedef enum FeatureWord {
+ } FeatureWord;
+ 
+ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
++uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
++                                            bool migratable_only);
+ 
+ /* cpuid_features bits */
+ #define CPUID_FP87 (1U << 0)
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index a35a1bf9fe..5eb955ce9a 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -99,13 +99,18 @@ static void kvm_cpu_xsave_init(void)
+     for (i = XSTATE_SSE_BIT + 1; i < XSAVE_STATE_AREA_COUNT; i++) {
+         ExtSaveArea *esa = &x86_ext_save_areas[i];
+ 
+-        if (esa->size) {
+-            host_cpuid(0xd, i, &eax, &ebx, &ecx, &edx);
+-            if (eax != 0) {
+-                assert(esa->size == eax);
+-                esa->offset = ebx;
+-                esa->ecx = ecx;
+-            }
++        if (!esa->size) {
++            continue;
++        }
++        if ((x86_cpu_get_supported_feature_word(esa->feature, false) & esa->bits)
++            != esa->bits) {
++            continue;
++        }
++        host_cpuid(0xd, i, &eax, &ebx, &ecx, &edx);
++        if (eax != 0) {
++            assert(esa->size == eax);
++            esa->offset = ebx;
++            esa->ecx = ecx;
+         }
+     }
+ }
+-- 
+2.35.1
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---000000000000860f8905dae12110
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br>On Wed, Mar 23, 2022 at 5:33 PM Daniel P. Berrang=
-=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&g=
-t; wrote:<br>&gt;<br>&gt; On Wed, Mar 23, 2022 at 04:07:54PM +0800, Yonggan=
-g Luo wrote:<br>&gt; &gt; Looks like <a href=3D"https://github.com/lygstate=
-/qemu/actions">https://github.com/lygstate/qemu/actions</a> does<br>&gt; &g=
-t;<br>&gt; &gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyongga=
-ng@gmail.com">luoyonggang@gmail.com</a>&gt;<br>&gt; &gt; ---<br>&gt; &gt; =
-=C2=A0.github/workflows/main.yml | 24 ++++++++++++++++++++++++<br>&gt; &gt;=
- =C2=A0MAINTAINERS =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
- =C2=A01 +<br>&gt; &gt; =C2=A02 files changed, 25 insertions(+)<br>&gt; &gt=
-; =C2=A0create mode 100644 .github/workflows/main.yml<br>&gt; &gt;<br>&gt; =
-&gt; diff --git a/.github/workflows/main.yml b/.github/workflows/main.yml<b=
-r>&gt; &gt; new file mode 100644<br>&gt; &gt; index 0000000000..71f5fbd556<=
-br>&gt; &gt; --- /dev/null<br>&gt; &gt; +++ b/.github/workflows/main.yml<br=
->&gt; &gt; @@ -0,0 +1,24 @@<br>&gt; &gt; +# This is a basic workflow to hel=
-p you get started with Actions<br>&gt; &gt; +<br>&gt; &gt; +name: CI<br>&gt=
-; &gt; +<br>&gt; &gt; +# Controls when the action will run. Triggers the wo=
-rkflow on push or pull request<br>&gt; &gt; +# events but only for the mast=
-er branch<br>&gt; &gt; +on:<br>&gt; &gt; + =C2=A0push:<br>&gt; &gt; + =C2=
-=A0 =C2=A0branches: [ master ]<br>&gt; &gt; + =C2=A0pull_request:<br>&gt; &=
-gt; + =C2=A0 =C2=A0branches: [ master ]<br>&gt; &gt; +<br>&gt; &gt; +# A wo=
-rkflow run is made up of one or more jobs that can run sequentially or in p=
-arallel<br>&gt; &gt; +jobs:<br>&gt; &gt; + =C2=A0check-patch:<br>&gt; &gt; =
-+ =C2=A0 =C2=A0name: Check Patch<br>&gt; &gt; + =C2=A0 =C2=A0runs-on: ubunt=
-u-latest<br>&gt; &gt; + =C2=A0 =C2=A0steps:<br>&gt; &gt; + =C2=A0 =C2=A0 =
-=C2=A0# Checks-out your repository under $GITHUB_WORKSPACE, so your job can=
- access it<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0- uses: actions/checkout@v2<b=
-r>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0with:<br>&gt; &gt; + =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0fetch-depth: 0<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0- na=
-me: Install dependent packages<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0ru=
-n: echo &quot;Empty action&quot;<br>&gt;<br>&gt; I really rather we just in=
-tegrated the Cirrus CI windows job into our GitLab<br>&gt; pipeline using c=
-irrus-run, as we did for the other Cirrus jobs.<br>&gt;<br>&gt; We&#39;ve a=
-lso already got some native msys jobs under GitLab that test some<br>&gt; c=
-ombinations, but not all since they&#39;re somewhat slow. So we still need<=
-br>&gt; to take advantage of Cirrus for some msys testing, but we can likel=
-y<br>&gt; reduce the overlap.<br>&gt;<br>&gt; I definitely don&#39;t want t=
-o see us increasing our use of GitHub, as having<br>&gt; multiple places to=
- look at for CI results is a really bad thing. We want<div>&gt; todo what i=
-s possible to make GitLab the single dashboard for all CI info.</div><div><=
-br></div><div>Agreed a single dashboard is meaningfull, I&#39;ll try that. =
-other than that, a empty</div><div>github actions can give better experienc=
-e with qemu, there is 3.9k for at github,</div><div>and 5.9k star at github=
-=C2=A0</div><div><br>&gt;<br>&gt;<br>&gt; With regards,<br>&gt; Daniel<br>&=
-gt; --<br>&gt; |: <a href=3D"https://berrange.com">https://berrange.com</a>=
- =C2=A0 =C2=A0 =C2=A0-o- =C2=A0 =C2=A0<a href=3D"https://www.flickr.com/pho=
-tos/dberrange">https://www.flickr.com/photos/dberrange</a> :|<br>&gt; |: <a=
- href=3D"https://libvirt.org">https://libvirt.org</a> =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 -o- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://fsto=
-p138.berrange.com">https://fstop138.berrange.com</a> :|<br>&gt; |: <a href=
-=3D"https://entangle-photo.org">https://entangle-photo.org</a> =C2=A0 =C2=
-=A0-o- =C2=A0 =C2=A0<a href=3D"https://www.instagram.com/dberrange">https:/=
-/www.instagram.com/dberrange</a> :|<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=
-=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
-
---000000000000860f8905dae12110--
 
