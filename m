@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7286B4E5B6D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 23:45:34 +0100 (CET)
-Received: from localhost ([::1]:47348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4965A4E5B8D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 23:54:34 +0100 (CET)
+Received: from localhost ([::1]:58178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX9jR-0003g3-GT
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 18:45:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41268)
+	id 1nX9s8-0002v2-U9
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 18:54:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX9he-0001ny-12
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:43:42 -0400
-Received: from [2607:f8b0:4864:20::635] (port=39761
- helo=mail-pl1-x635.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nX9r8-0002Ei-Q6; Wed, 23 Mar 2022 18:53:30 -0400
+Received: from [2a00:1450:4864:20::632] (port=33627
+ helo=mail-ej1-x632.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX9hc-00029O-Ez
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 18:43:41 -0400
-Received: by mail-pl1-x635.google.com with SMTP id g3so2957872plo.6
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 15:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=LsT0hUKegNoojtechGs52TAAeG5khct1Z8vtYDf02VA=;
- b=u//SzkIxLte+1OM6kWHLrerbTwO9rKui5uBOsBryPUNSecOHFtmqYH0L9OOzs5RN/K
- UlgfgRgMtFvJCtvZFmrj0BsZmCdn4LwQbCNAo1qWlKzCZuH3Y6NEzU5gVZZO0WZdlRIx
- BQz3gpcTe0y4fpdB5EkEzjaIfVEIn+7LL0K6Dr6fgNcJdHNVxQ67dS0cyFoQXaHzqYlJ
- kk2hRG3aUQsFxdw8K2JIl2xTSw5S3I6pk2iMyDP0fZAYLw+vb/XHji8FkWXr/XzIm2qx
- OxwzPfCc/TKhAe1jd5Ggtwj2fWSC/eHJQfrHV3T518OLqRJq4SgJI4gM3V/1UqSOyfwi
- 2UKg==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nX9r7-0006t8-2u; Wed, 23 Mar 2022 18:53:30 -0400
+Received: by mail-ej1-x632.google.com with SMTP id pv16so5844097ejb.0;
+ Wed, 23 Mar 2022 15:53:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:in-reply-to:references:message-id
+ :mime-version:content-transfer-encoding;
+ bh=kwDcV/aaDREP7n8UpzMyhaBgd10MXyYr+I9Fbl5j6hI=;
+ b=pOkjAm1oPzfrm43bAqoes9r/9K7DyTrezieX7ardfytZjK9U2jXbqlLHlLzDjm7ssq
+ jmPDeTAziptcXm2ffL91+Mb4/5lf7HM0E7qr8CPkpVaLM0mik6quCayWqORXWC15F746
+ e4on3FIBkeDoxLMHF/GGudyY7hinyXLnnmkFUcPM24kPOljwABTaICzlwOT28fvR4etB
+ hFuQwZsImz3g/h8b6OCrKHSrDcejJtOCPH8yFuzMsL8lBVNTDk9W7H/josFLD6M+9EcU
+ 5jtyS7D4hvpIS2MxmDPfY8IWliN6EHW7tJpgEg1GVmCwl4Tbu0J7JiFjb6nyBqKb/Mhl
+ UYkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LsT0hUKegNoojtechGs52TAAeG5khct1Z8vtYDf02VA=;
- b=yz80utTO3tu51DvJJS56WlFy8roWUGtRvVwyZpzz8ntjMI4ET9RvZKXbCr03rd37BI
- Yaza/udvoXmqRQeBng2dzZFPxKip8xm3glMNlcT9CX6CHv5SBXSZ7RBYNfMjkM0t+4At
- NRsdAGVDMpKspxUIZ4pqEp4sjB26NRs/p2U3k1KhctvMiMP2VOyy3k2ufxeIVb1tN2ae
- i/PsMWnz7mVF5S35MLnMjdasW+Zjo4ei3vyrqTEA28Perunshn1qT525sI1AA0cU770f
- QkJJtskeN4/B9C++xQ4KV/R2GGP9hUvMgnwiSjZqM+sNdhnC/915Eh00yNS7FA9cdRaJ
- l7Sg==
-X-Gm-Message-State: AOAM533YNLBUj4ya580oFrd8pQXCce6Ix8l2yLxJBH7kOubb/t7AFu3o
- vtDjbTjEE8QAbb1YVEt2WcwgmA==
-X-Google-Smtp-Source: ABdhPJxJ1cZwnReUs0W+n96F25uMBYvXAV069inSQBFMc1iP4qRwOIzyV4Ggvg+9C1A849eat96n4A==
-X-Received: by 2002:a17:902:b097:b0:154:2bda:bd38 with SMTP id
- p23-20020a170902b09700b001542bdabd38mr2523773plr.155.1648075419091; 
- Wed, 23 Mar 2022 15:43:39 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- o27-20020a63731b000000b0038232af858esm648652pgc.65.2022.03.23.15.43.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 15:43:38 -0700 (PDT)
-Message-ID: <392247bb-a33f-a4b6-1855-1a479ed381d7@linaro.org>
-Date: Wed, 23 Mar 2022 15:43:36 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=kwDcV/aaDREP7n8UpzMyhaBgd10MXyYr+I9Fbl5j6hI=;
+ b=7Jrn6L6ieWgqZ4afn9b5RdNRELWZ49HTJfbriovJK/kjh9niwTztukkW9MjdKem5rF
+ lEOeYrAi+E73AuGZFlTaTOfJLvAVG6JryXuw6BhkXuofYcyG/jjGX0mkDaB80B6B4+Mc
+ wMS03S+dnfwOs2ZkYaJngqb9rQTvfp8I7X04mf0N+u4KYkrN+BQKzwGekxE84h71v7Bk
+ BQ2HSzYpKMaOomjLiulFbpsbUeE4ND8UPol25eXzAKLxzSCAzZwfWZeDIkZB8LMLp3sa
+ eWpmq9Wgf6wBDIzCm3eutNreSHlDFStxvmQivkPZRCVxp4hH6DGgneRoi317G2DXq+KN
+ 1VJA==
+X-Gm-Message-State: AOAM530W4one4axarEAAEXcRwVhNv53aU7OH1tLzHNRZnNtF+aGhJ9Zr
+ LAoWoc2iNIGm5d33crA23gI=
+X-Google-Smtp-Source: ABdhPJzWhQOzpHFFO/Us3bFXcJx21uEbTWNWlPZx7XHnfrpp/SSQr+U0j7WVUnc1upPlOh5l6p5rgg==
+X-Received: by 2002:a17:907:8a09:b0:6df:f1c6:bfc4 with SMTP id
+ sc9-20020a1709078a0900b006dff1c6bfc4mr2667728ejc.550.1648076006720; 
+ Wed, 23 Mar 2022 15:53:26 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-011-006-205.77.11.pool.telefonica.de.
+ [77.11.6.205]) by smtp.gmail.com with ESMTPSA id
+ u3-20020a17090657c300b006d01de78926sm441307ejr.22.2022.03.23.15.53.26
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 23 Mar 2022 15:53:26 -0700 (PDT)
+Date: Wed, 23 Mar 2022 22:53:24 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?ISO-8859-1?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+Subject: Re: Memory leak in via_isa_realize()
+In-Reply-To: <4bd52c83-a4c8-ead6-1210-a5e464c32196@ilande.co.uk>
+References: <d60cb762-40a5-f918-02aa-463758205af5@redhat.com>
+ <89a014e0-8850-e628-dea5-76999513a18e@gmail.com>
+ <067ebb15-593b-4b9e-26d6-a4d98db4fd5c@kaod.org>
+ <CAFEAcA-hQt7fGU7Lm=N+jkXunsekJy15s=xVWBBnoEuDDM30yg@mail.gmail.com>
+ <4bd52c83-a4c8-ead6-1210-a5e464c32196@ilande.co.uk>
+Message-ID: <32991126-8264-43B9-9707-E79DAAAF65D0@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 13/13] softmmu/cpus: Free cpu->halt_cond in
- generic_destroy_vcpu_thread()
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-References: <20220323171751.78612-1-philippe.mathieu.daude@gmail.com>
- <20220323171751.78612-14-philippe.mathieu.daude@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220323171751.78612-14-philippe.mathieu.daude@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -95,37 +93,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philippe.mathieu.daude@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/22 10:17, Philippe Mathieu-Daudé wrote:
-> From: Mark Kanda<mark.kanda@oracle.com>
-> 
-> vCPU hotunplug related leak reported by Valgrind:
-> 
->    ==102631== 56 bytes in 1 blocks are definitely lost in loss record 5,089 of 8,555
->    ==102631==    at 0x4C3ADBB: calloc (vg_replace_malloc.c:1117)
->    ==102631==    by 0x69EE4CD: g_malloc0 (in /usr/lib64/libglib-2.0.so.0.5600.4)
->    ==102631==    by 0x924452: kvm_start_vcpu_thread (kvm-accel-ops.c:69)
->    ==102631==    by 0x4505C2: qemu_init_vcpu (cpus.c:643)
->    ==102631==    by 0x76B4D1: x86_cpu_realizefn (cpu.c:6520)
->    ==102631==    by 0x9344A7: device_set_realized (qdev.c:531)
->    ==102631==    by 0x93E329: property_set_bool (object.c:2273)
->    ==102631==    by 0x93C2F8: object_property_set (object.c:1408)
->    ==102631==    by 0x940796: object_property_set_qobject (qom-qobject.c:28)
->    ==102631==    by 0x93C663: object_property_set_bool (object.c:1477)
->    ==102631==    by 0x933D3B: qdev_realize (qdev.c:333)
->    ==102631==    by 0x455EC4: qdev_device_add_from_qdict (qdev-monitor.c:713)
-> 
-> Signed-off-by: Mark Kanda<mark.kanda@oracle.com>
-> Message-Id:<20220321141409.3112932-4-mark.kanda@oracle.com>
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   softmmu/cpus.c | 1 +
->   1 file changed, 1 insertion(+)
+Am 22=2E M=C3=A4rz 2022 08:23:09 UTC schrieb Mark Cave-Ayland <mark=2Ecave-=
+ayland@ilande=2Eco=2Euk>:
+>On 21/03/2022 20:35, Peter Maydell wrote:
+>
+>> On Mon, 21 Mar 2022 at 18:55, C=C3=A9dric Le Goater <clg@kaod=2Eorg> wr=
+ote:
+>>> I introduced quite a few of these calls,
+>>>
+>>>     hw/ppc/pnv_lpc=2Ec:    irqs =3D qemu_allocate_irqs(handler, lpc, I=
+SA_NUM_IRQS);
+>>>     hw/ppc/pnv_psi=2Ec:    psi->qirqs =3D qemu_allocate_irqs(ics_set_i=
+rq, ics, ics->nr_irqs);
+>>>     hw/ppc/pnv_psi=2Ec:    psi->qirqs =3D qemu_allocate_irqs(xive_sour=
+ce_set_irq, xsrc, xsrc->nr_irqs);
+>>>     hw/ppc/ppc=2Ec:    env->irq_inputs =3D (void **)qemu_allocate_irqs=
+(&ppc6xx_set_irq, cpu,
+>>>     hw/ppc/ppc=2Ec:    env->irq_inputs =3D (void **)qemu_allocate_irqs=
+(&ppc970_set_irq, cpu,
+>>>     hw/ppc/ppc=2Ec:    env->irq_inputs =3D (void **)qemu_allocate_irqs=
+(&power7_set_irq, cpu,
+>>>     hw/ppc/ppc=2Ec:    env->irq_inputs =3D (void **)qemu_allocate_irqs=
+(&power9_set_irq, cpu,
+>>>     hw/ppc/ppc=2Ec:    env->irq_inputs =3D (void **)qemu_allocate_irqs=
+(&ppc40x_set_irq,
+>>>     hw/ppc/ppc=2Ec:    env->irq_inputs =3D (void **)qemu_allocate_irqs=
+(&ppce500_set_irq,
+>>>     hw/ppc/spapr_irq=2Ec:    spapr->qirqs =3D qemu_allocate_irqs(spapr=
+_set_irq, spapr,
+>>>
+>>> and may be I can remove some=2E What's the best practice ?
+>>=20
+>> The 'best practice' is that if you have an irq line it should be
+>> because it is the input (gpio or sysbus irq) or output (gpio) of
+>> some device, ie something that is a subtype of TYPE_DEVICE=2E
+>>=20
+>> For the ones in hw/ppc/ppc=2Ec: we used to need to write code like that
+>> because CPU objects weren't TYPE_DEVICE; now they are, and so you
+>> can give them inbound gpio lines using qdev_init_gpio_in(), typically
+>> in the cpu initfn=2E (See target/riscv for an example, or grep for
+>> that function name in target/ for others=2E) Then the board code
+>> needs to wire up to those IRQs in the usual way for GPIO lines,
+>> ie using qdev_get_gpio_in(cpudev, =2E=2E=2E), instead of directly
+>> reaching into the CPU struct env->irq_inputs=2E (There's probably
+>> a way to structure this change to avoid having to change the CPU
+>> and all the board code at once, but I haven't thought it through=2E)
+>>=20
+>> For the spapr one: this is in machine model code, and currently machine=
+s
+>> aren't subtypes of TYPE_DEVICE=2E I'd leave this one alone for now;
+>> we can come back and think about it later=2E
+>>=20
+>> For pnv_psi=2Ec: these appear to be because the PnvPsi device is
+>> allocating irq lines which really should belong to the ICSState
+>> object (and as a result the ICSState code is having to expose
+>> ics->nr_irqs and the ics_set_irq function when they could be
+>> internal to the ICSState code)=2E The ICSState's init function
+>> should be creating these as qdev gpio lines=2E
+>>=20
+>> pnv_lpc=2Ec seems to be ISA related=2E hw/isa/lpc_ich9=2Ec is an
+>> example of setting up IRQs for isa_bus_irqs() without using
+>> qemu_allocate_irqs(), but there may be some more generalised
+>> ISA cleanup possible here=2E
+>
+>The issue with PPC IRQs also affects the OpenPIC implementation: when I l=
+ast looked a=20
+>while back I didn't see any obvious issues against using gpio IRQs, but t=
+he main=20
+>blocker for me was not being able to test all the different PPC machine c=
+onfigurations=2E
+>
+>Out of curiosity does anyone know how to test the KVM in-kernel OpenPIC=
+=20
+>implementation in hw/intc/openpic_kvm=2Ec? It seems to be used for e500 o=
+nly=2E
+>
+>I think there is some good work to be done converting ISA devices over to=
+ using GPIOs=20
+>and improving the interaction with PCI, but it's something that still rem=
+ains on my=20
+>TODO list=2E Again the changes would be mostly mechanical with the main c=
+oncern being=20
+>over testing to ensure that there are no regressions=2E
 
-Eh.  Merge with previous.
+If the changes would be mostly mechanical: wouldn't they make for some goo=
+d, bite-sized junior jobs? That way, progress could also be stretched over =
+time, allowing potential regressions to be ascribed more easily=2E
 
+Moreover, I would be interested in converting hw/ide/piix=2Ec=2E AFAICS it=
+ contains the only invocation of isa_get_irq() where NULL is passed for *de=
+v=2E If this invocation could be moved and a meaningful non-NULL value be p=
+assed, I think it'd be possible to remove the isabus global=2E This means t=
+hat - in theory - we could create as many ISABuses as we'd like! Testing wo=
+uld be easy, too, because the Malta board seems to use this code path (at l=
+east it crashes when isa_get_irq() asserts dev !=3D NULL)=2E
 
-r~
+Best regards,
+Bernhard
+>
+>
+>ATB,
+>
+>Mark=2E
+
 
