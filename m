@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934824E5141
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 12:23:51 +0100 (CET)
-Received: from localhost ([::1]:43118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B270B4E514A
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 12:27:00 +0100 (CET)
+Received: from localhost ([::1]:52460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWz5i-0001YW-LK
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 07:23:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35708)
+	id 1nWz8l-0007y1-QW
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 07:26:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1nWyw0-0005CH-IW
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:13:50 -0400
-Received: from [2607:f8b0:4864:20::62e] (port=45845
- helo=mail-pl1-x62e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1nWyvy-0007ms-7j
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:13:48 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id k6so1173115plg.12
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 04:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=kv18HE4X/ytZ3EFkK1RN6LsKO/HJwj+GsN1n2H+zSX0=;
- b=A93G/0t+gtwlS6ElA2T4CTJNxGicVR3EvYM6VBzJp07otN4mzVaYEPse8YBYwUmhG+
- ptn59qCN3J/DleMDes3sRhaMyg7FLN+LIiEYD0sjIPHABtI5ZC5VH4f/Lcu9zcU2/6TX
- LwzD4UuJ9sRmwT1XVHuKxSAO0kr++XPLWJmGM/+7Kg/AT5ZCFBAtNFqm/lgV1Ac6xCE3
- dEhAp+ZWkVU0/BT3P1ub2g65+MO59sK1TIz/4cE/59Y7cVOXPBc5TPujvvLadOr54a0S
- MVVdEepuM+ET2zHFG854W3L210pumDn6wmvB48cGXz0oGGaY3oWeEqSUcCsCpDdmeOvv
- 8C4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=kv18HE4X/ytZ3EFkK1RN6LsKO/HJwj+GsN1n2H+zSX0=;
- b=sckoK4DMpyK+d0niwQZXA/dnEv3PFoXEPFaFvByTIhJLxWc9QDlE+gRKHtB0U9givv
- bg+q2sAY69ofFq32D7b+YDSrKt6UjQBrtc056r5U9b09UlGPWx68Wr3di4P58iGvoKB4
- BwHd3euzklJ3IlgzFCiqvwogzgATfzhPH0pRTr+TafI4sAqrTwDQJyt6ButtQURYy0C5
- fvB/mRKow2DKx/dJXYnJeyEYXKXTsPXdZELzJTTKv159a3/nxHjHgSdocqvyV/vqUeaq
- WqfT/OZz2dEfDARpAAYOnTA+KXMaKImIh/bWYx0VhtBgbXdB8X1sxxdia0dgIN0z7oR/
- XUZQ==
-X-Gm-Message-State: AOAM532vaTmT6C/I3PBpSPndHoosYZaHNxR9d5Ta0UBx5PBh09Ob2pY9
- ZLYs9BriQp7K9Kww3vClOS3wG2tkru/EvIwG
-X-Google-Smtp-Source: ABdhPJw2eebFZRs8fvs6eRM++kfjoYlYC+F7iftUj0mki2WXexaIwYJCl1VYmcJakYzbpkARk2u74Q==
-X-Received: by 2002:a17:902:c949:b0:154:5215:1db1 with SMTP id
- i9-20020a170902c94900b0015452151db1mr16005176pla.163.1648034014177; 
- Wed, 23 Mar 2022 04:13:34 -0700 (PDT)
-Received: from ThinkPad-T490.dc1.ventanamicro.com ([171.50.204.174])
- by smtp.googlemail.com with ESMTPSA id
- f31-20020a631f1f000000b003742e45f7d7sm19798002pgf.32.2022.03.23.04.13.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 04:13:33 -0700 (PDT)
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC PATCH v2 4/4] target/riscv: smstateen check for AIA/IMSIC
-Date: Wed, 23 Mar 2022 16:43:09 +0530
-Message-Id: <20220323111309.9109-5-mchitale@ventanamicro.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220323111309.9109-1-mchitale@ventanamicro.com>
-References: <20220323111309.9109-1-mchitale@ventanamicro.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=mchitale@ventanamicro.com; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nWyzk-0000xC-LP
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:17:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nWyzg-0001y9-5g
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:17:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648034255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NIQs0Vn+o54YCTaFg7TkwcKnH78BjgfLP+ZWiUp915k=;
+ b=VAmr3Oh6LN6OvvOuwltQJJ8PugPZrGUUSAfznPiW0RnWUilt5Xqwu2GqYidj/bwsAHJHdR
+ CEvXMN8s5tm26ntrMnCrhSL7WS3wFS2FaRbGsp+KMDSM+Ahu0No48KDymZNUdUJoEG/6hH
+ KS5ImF8aTnjX2+yomaVV9k8QZLV/7uM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-46-qJEnyVptMVCrbSLldMBBDA-1; Wed, 23 Mar 2022 07:17:29 -0400
+X-MC-Unique: qJEnyVptMVCrbSLldMBBDA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2970829AA389;
+ Wed, 23 Mar 2022 11:17:29 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 822A1401E64;
+ Wed, 23 Mar 2022 11:17:28 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC 0/8] blkio: add libblkio BlockDriver
+Date: Wed, 23 Mar 2022 11:17:19 +0000
+Message-Id: <20220323111727.1100209-1-stefanha@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,474 +77,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mayuresh Chitale <mchitale@ventanamicro.com>, alistair.francis@wdc.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alberto Faria <afaria@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Eric Blake <eblake@redhat.com>, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If smstateen is implemented then accesses to AIA
-registers CSRS, IMSIC CSRs and other IMSIC registers
-is controlled by setting of corresponding bits in
-mstateen/hstateen registers. Otherwise an illegal
-instruction trap or virtual instruction trap is
-generated.
-
-Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
----
- target/riscv/csr.c | 248 ++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 246 insertions(+), 2 deletions(-)
-
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 5959adc9b3..cfdda8dc2b 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -68,6 +68,53 @@ static RISCVException smstateen_acc_ok(CPURISCVState *env, int mode, int bit)
-     return RISCV_EXCP_NONE;
- }
- 
-+static RISCVException smstateen_aia_acc_ok(CPURISCVState *env, int csrno)
-+{
-+    int bit, mode;
-+
-+    switch (csrno) {
-+    case CSR_SSETEIPNUM:
-+    case CSR_SCLREIPNUM:
-+    case CSR_SSETEIENUM:
-+    case CSR_SCLREIENUM:
-+    case CSR_STOPEI:
-+    case CSR_VSSETEIPNUM:
-+    case CSR_VSCLREIPNUM:
-+    case CSR_VSSETEIENUM:
-+    case CSR_VSCLREIENUM:
-+    case CSR_VSTOPEI:
-+    case CSR_HSTATUS:
-+        mode = PRV_S;
-+        bit = SMSTATEEN0_IMSIC;
-+        break;
-+
-+    case CSR_SIEH:
-+    case CSR_SIPH:
-+    case CSR_HVIPH:
-+    case CSR_HVICTL:
-+    case CSR_HVIPRIO1:
-+    case CSR_HVIPRIO2:
-+    case CSR_HVIPRIO1H:
-+    case CSR_HVIPRIO2H:
-+    case CSR_VSIEH:
-+    case CSR_VSIPH:
-+        mode = PRV_S;
-+        bit = SMSTATEEN0_AIA;
-+        break;
-+
-+    case CSR_SISELECT:
-+    case CSR_VSISELECT:
-+        mode = PRV_S;
-+        bit = SMSTATEEN0_SVSLCT;
-+        break;
-+
-+    default:
-+        return RISCV_EXCP_NONE;
-+    }
-+
-+    return smstateen_acc_ok(env, mode, bit);
-+}
-+
- static RISCVException fs(CPURISCVState *env, int csrno)
- {
- #if !defined(CONFIG_USER_ONLY)
-@@ -1402,6 +1449,13 @@ static int rmw_xiselect(CPURISCVState *env, int csrno, target_ulong *val,
-                         target_ulong new_val, target_ulong wr_mask)
- {
-     target_ulong *iselect;
-+    RISCVException ret;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
- 
-     /* Translate CSR number for VS-mode */
-     csrno = aia_xlate_vs_csrno(env, csrno);
-@@ -1484,7 +1538,9 @@ static int rmw_xireg(CPURISCVState *env, int csrno, target_ulong *val,
-     bool virt;
-     uint8_t *iprio;
-     int ret = -EINVAL;
--    target_ulong priv, isel, vgein;
-+    target_ulong priv, isel, vgein = 0;
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
- 
-     /* Translate CSR number for VS-mode */
-     csrno = aia_xlate_vs_csrno(env, csrno);
-@@ -1513,11 +1569,20 @@ static int rmw_xireg(CPURISCVState *env, int csrno, target_ulong *val,
-     };
- 
-     /* Find the selected guest interrupt file */
--    vgein = (virt) ? get_field(env->hstatus, HSTATUS_VGEIN) : 0;
-+    if (virt) {
-+        if (!cpu->cfg.ext_smstateen ||
-+                (env->hstateen[0] & 1UL << SMSTATEEN0_IMSIC)) {
-+            vgein = get_field(env->hstatus, HSTATUS_VGEIN);
-+        }
-+    }
- 
-     if (ISELECT_IPRIO0 <= isel && isel <= ISELECT_IPRIO15) {
-         /* Local interrupt priority registers not available for VS-mode */
-         if (!virt) {
-+            if (priv == PRV_S && cpu->cfg.ext_smstateen &&
-+                !(env->hstateen[0] & 1UL << SMSTATEEN0_AIA)) {
-+                goto done;
-+            }
-             ret = rmw_iprio(riscv_cpu_mxl_bits(env),
-                             isel, iprio, val, new_val, wr_mask,
-                             (priv == PRV_M) ? IRQ_M_EXT : IRQ_S_EXT);
-@@ -1551,6 +1616,13 @@ static int rmw_xsetclreinum(CPURISCVState *env, int csrno, target_ulong *val,
-     int ret = -EINVAL;
-     bool set, pend, virt;
-     target_ulong priv, isel, vgein, xlen, nval, wmask;
-+    RISCVException excp;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    excp = smstateen_aia_acc_ok(env, csrno);
-+    if (excp != RISCV_EXCP_NONE) {
-+        return excp;
-+    }
- 
-     /* Translate CSR number for VS-mode */
-     csrno = aia_xlate_vs_csrno(env, csrno);
-@@ -1669,6 +1741,13 @@ static int rmw_xtopei(CPURISCVState *env, int csrno, target_ulong *val,
-     bool virt;
-     int ret = -EINVAL;
-     target_ulong priv, vgein;
-+    RISCVException excp;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    excp = smstateen_aia_acc_ok(env, csrno);
-+    if (excp != RISCV_EXCP_NONE) {
-+        return excp;
-+    }
- 
-     /* Translate CSR number for VS-mode */
-     csrno = aia_xlate_vs_csrno(env, csrno);
-@@ -2014,6 +2093,12 @@ static RISCVException write_mstateen(CPURISCVState *env, int csrno,
-         wr_mask |= 1UL << SMSTATEEN0_FCSR;
-     }
- 
-+    if (riscv_feature(env, RISCV_FEATURE_AIA)) {
-+        wr_mask |= (1UL << SMSTATEEN0_IMSIC)
-+                | (1UL << SMSTATEEN0_AIA)
-+                | (1UL << SMSTATEEN0_SVSLCT);
-+    }
-+
-     write_smstateen(env, reg, wr_mask, new_val);
- 
-     return RISCV_EXCP_NONE;
-@@ -2042,6 +2127,12 @@ static RISCVException write_mstateenh(CPURISCVState *env, int csrno,
-         wr_mask |= 1UL << SMSTATEEN0_FCSR;
-     }
- 
-+    if (riscv_feature(env, RISCV_FEATURE_AIA)) {
-+        wr_mask |= (1UL << SMSTATEEN0_IMSIC)
-+                | (1UL << SMSTATEEN0_AIA)
-+                | (1UL << SMSTATEEN0_SVSLCT);
-+    }
-+
-     write_smstateen(env, reg, wr_mask, val);
- 
-     return RISCV_EXCP_NONE;
-@@ -2067,6 +2158,12 @@ static RISCVException write_hstateen(CPURISCVState *env, int csrno,
-         wr_mask |= 1UL << SMSTATEEN0_FCSR;
-     }
- 
-+    if (riscv_feature(env, RISCV_FEATURE_AIA)) {
-+        wr_mask |= (1UL << SMSTATEEN0_IMSIC)
-+                | (1UL << SMSTATEEN0_AIA)
-+                | (1UL << SMSTATEEN0_SVSLCT);
-+    }
-+
-     reg = &env->hstateen[index];
-     wr_mask &= env->mstateen[index];
-     write_smstateen(env, reg, wr_mask, new_val);
-@@ -2095,6 +2192,12 @@ static RISCVException write_hstateenh(CPURISCVState *env, int csrno,
-         wr_mask |= 1UL << SMSTATEEN0_FCSR;
-     }
- 
-+    if (riscv_feature(env, RISCV_FEATURE_AIA)) {
-+        wr_mask |= (1UL << SMSTATEEN0_IMSIC)
-+                | (1UL << SMSTATEEN0_AIA)
-+                | (1UL << SMSTATEEN0_SVSLCT);
-+    }
-+
-     reg = &env->hstateen[index];
-     val = (uint64_t)new_val << 32;
-     val |= *reg & 0xFFFFFFFF;
-@@ -2288,6 +2391,12 @@ static RISCVException rmw_vsieh(CPURISCVState *env, int csrno,
-     uint64_t rval;
-     RISCVException ret;
- 
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     ret = rmw_vsie64(env, csrno, &rval,
-         ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-     if (ret_val) {
-@@ -2342,6 +2451,12 @@ static RISCVException rmw_sieh(CPURISCVState *env, int csrno,
-     uint64_t rval;
-     RISCVException ret;
- 
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     ret = rmw_sie64(env, csrno, &rval,
-         ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-     if (ret_val) {
-@@ -2504,6 +2619,12 @@ static RISCVException rmw_vsiph(CPURISCVState *env, int csrno,
-     uint64_t rval;
-     RISCVException ret;
- 
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     ret = rmw_vsip64(env, csrno, &rval,
-         ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-     if (ret_val) {
-@@ -2558,6 +2679,12 @@ static RISCVException rmw_siph(CPURISCVState *env, int csrno,
-     uint64_t rval;
-     RISCVException ret;
- 
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     ret = rmw_sip64(env, csrno, &rval,
-         ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-     if (ret_val) {
-@@ -2748,6 +2875,10 @@ static RISCVException read_hstatus(CPURISCVState *env, int csrno,
- static RISCVException write_hstatus(CPURISCVState *env, int csrno,
-                                     target_ulong val)
- {
-+    if (smstateen_aia_acc_ok(env, csrno) != RISCV_EXCP_NONE) {
-+        val &= ~HSTATUS_VGEIN;
-+    }
-+
-     env->hstatus = val;
-     if (riscv_cpu_mxl(env) != MXL_RV32 && get_field(val, HSTATUS_VSXL) != 2) {
-         qemu_log_mask(LOG_UNIMP, "QEMU does not support mixed HSXLEN options.");
-@@ -2808,6 +2939,12 @@ static RISCVException rmw_hidelegh(CPURISCVState *env, int csrno,
-     uint64_t rval;
-     RISCVException ret;
- 
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     ret = rmw_hideleg64(env, csrno, &rval,
-         ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-     if (ret_val) {
-@@ -2854,6 +2991,12 @@ static RISCVException rmw_hviph(CPURISCVState *env, int csrno,
-     uint64_t rval;
-     RISCVException ret;
- 
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     ret = rmw_hvip64(env, csrno, &rval,
-         ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-     if (ret_val) {
-@@ -2908,6 +3051,13 @@ static RISCVException write_hcounteren(CPURISCVState *env, int csrno,
- static RISCVException read_hgeie(CPURISCVState *env, int csrno,
-                                  target_ulong *val)
- {
-+    RISCVException ret;
-+
-+    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_IMSIC);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     if (val) {
-         *val = env->hgeie;
-     }
-@@ -2917,6 +3067,13 @@ static RISCVException read_hgeie(CPURISCVState *env, int csrno,
- static RISCVException write_hgeie(CPURISCVState *env, int csrno,
-                                   target_ulong val)
- {
-+    RISCVException ret;
-+
-+    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_IMSIC);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     /* Only GEILEN:1 bits implemented and BIT0 is never implemented */
-     val &= ((((target_ulong)1) << env->geilen) - 1) << 1;
-     env->hgeie = val;
-@@ -2956,6 +3113,13 @@ static RISCVException write_htinst(CPURISCVState *env, int csrno,
- static RISCVException read_hgeip(CPURISCVState *env, int csrno,
-                                  target_ulong *val)
- {
-+    RISCVException ret;
-+
-+    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_IMSIC);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     if (val) {
-         *val = env->hgeip;
-     }
-@@ -3026,12 +3190,28 @@ static RISCVException write_htimedeltah(CPURISCVState *env, int csrno,
- 
- static int read_hvictl(CPURISCVState *env, int csrno, target_ulong *val)
- {
-+    RISCVException ret;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     *val = env->hvictl;
-     return RISCV_EXCP_NONE;
- }
- 
- static int write_hvictl(CPURISCVState *env, int csrno, target_ulong val)
- {
-+    RISCVException ret = RISCV_EXCP_NONE;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     env->hvictl = val & HVICTL_VALID_MASK;
-     return RISCV_EXCP_NONE;
- }
-@@ -3090,41 +3270,105 @@ static int write_hvipriox(CPURISCVState *env, int first_index,
- 
- static int read_hviprio1(CPURISCVState *env, int csrno, target_ulong *val)
- {
-+    RISCVException ret;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     return read_hvipriox(env, 0, env->hviprio, val);
- }
- 
- static int write_hviprio1(CPURISCVState *env, int csrno, target_ulong val)
- {
-+    RISCVException ret;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     return write_hvipriox(env, 0, env->hviprio, val);
- }
- 
- static int read_hviprio1h(CPURISCVState *env, int csrno, target_ulong *val)
- {
-+    RISCVException ret;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     return read_hvipriox(env, 4, env->hviprio, val);
- }
- 
- static int write_hviprio1h(CPURISCVState *env, int csrno, target_ulong val)
- {
-+    RISCVException ret;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     return write_hvipriox(env, 4, env->hviprio, val);
- }
- 
- static int read_hviprio2(CPURISCVState *env, int csrno, target_ulong *val)
- {
-+    RISCVException ret;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     return read_hvipriox(env, 8, env->hviprio, val);
- }
- 
- static int write_hviprio2(CPURISCVState *env, int csrno, target_ulong val)
- {
-+    RISCVException ret;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     return write_hvipriox(env, 8, env->hviprio, val);
- }
- 
- static int read_hviprio2h(CPURISCVState *env, int csrno, target_ulong *val)
- {
-+    RISCVException ret;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     return read_hvipriox(env, 12, env->hviprio, val);
- }
- 
- static int write_hviprio2h(CPURISCVState *env, int csrno, target_ulong val)
- {
-+    RISCVException ret;
-+
-+    /* Check if smstateen is enabled and this access is allowed */
-+    ret = smstateen_aia_acc_ok(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-     return write_hvipriox(env, 12, env->hviprio, val);
- }
- 
--- 
-2.17.1
+This patch series adds a QEMU BlockDriver for libblkio=0D
+(https://gitlab.com/libblkio/libblkio/), a library for high-performance blo=
+ck=0D
+device I/O. Currently libblkio has basic io_uring support with additional=
+=0D
+drivers in development.=0D
+=0D
+The first patch adds the core BlockDriver and most of the libblkio API usag=
+e.=0D
+The remainder of the patch series reworks the existing QEMU bdrv_register_b=
+uf()=0D
+API so virtio-blk emulation efficiently map guest RAM for libblkio - some=
+=0D
+libblkio drivers require that I/O buffer memory is pre-registered (think VF=
+IO,=0D
+vhost, etc).=0D
+=0D
+This block driver is incomplete because bdrv_refresh_limits() and several o=
+ther=0D
+APIs are not yet implemented. You can already boot a guest though. Once the=
+=0D
+missing gaps have been filled in I will send a non-RFC patch series.=0D
+=0D
+Regarding the design: each libblkio driver is a separately named BlockDrive=
+r.=0D
+That means there is an "io_uring" BlockDriver and not a generic "libblkio"=
+=0D
+BlockDriver. In the future there will be additional BlockDrivers, all defin=
+ed=0D
+in block/blkio.c. This way QAPI and open parameters are type-safe and manda=
+tory=0D
+parameters can be checked by QEMU.=0D
+=0D
+Stefan Hajnoczi (8):=0D
+  blkio: add io_uring block driver using libblkio=0D
+  numa: call ->ram_block_removed() in ram_block_notifer_remove()=0D
+  block: pass size to bdrv_unregister_buf()=0D
+  block: add BDRV_REQ_REGISTERED_BUF request flag=0D
+  block: add BlockRAMRegistrar=0D
+  stubs: add memory_region_from_host() and memory_region_get_fd()=0D
+  blkio: implement BDRV_REQ_REGISTERED_BUF optimization=0D
+  virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization hint=0D
+=0D
+ MAINTAINERS                                 |   7 +=0D
+ meson_options.txt                           |   2 +=0D
+ qapi/block-core.json                        |  18 +-=0D
+ meson.build                                 |   9 +=0D
+ include/block/block-common.h                |   9 +=0D
+ include/block/block-global-state.h          |   5 +-=0D
+ include/block/block_int-common.h            |   2 +-=0D
+ include/hw/virtio/virtio-blk.h              |   2 +=0D
+ include/sysemu/block-backend-global-state.h |   2 +-=0D
+ include/sysemu/block-ram-registrar.h        |  30 ++=0D
+ block/blkio.c                               | 560 ++++++++++++++++++++=0D
+ block/blkverify.c                           |   4 +-=0D
+ block/block-backend.c                       |   4 +-=0D
+ block/block-ram-registrar.c                 |  39 ++=0D
+ block/crypto.c                              |   2 +=0D
+ block/io.c                                  |  36 +-=0D
+ block/mirror.c                              |   2 +=0D
+ block/nvme.c                                |   2 +-=0D
+ block/raw-format.c                          |   2 +=0D
+ hw/block/virtio-blk.c                       |  13 +-=0D
+ hw/core/numa.c                              |  17 +=0D
+ qemu-img.c                                  |   4 +-=0D
+ stubs/memory.c                              |  13 +=0D
+ tests/qtest/modules-test.c                  |   3 +=0D
+ util/vfio-helpers.c                         |   5 +-=0D
+ block/meson.build                           |   2 +=0D
+ scripts/meson-buildoptions.sh               |   3 +=0D
+ stubs/meson.build                           |   1 +=0D
+ 28 files changed, 772 insertions(+), 26 deletions(-)=0D
+ create mode 100644 include/sysemu/block-ram-registrar.h=0D
+ create mode 100644 block/blkio.c=0D
+ create mode 100644 block/block-ram-registrar.c=0D
+ create mode 100644 stubs/memory.c=0D
+=0D
+--=20=0D
+2.35.1=0D
+=0D
 
 
