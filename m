@@ -2,86 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA904E5737
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 18:14:10 +0100 (CET)
-Received: from localhost ([::1]:41490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4129F4E5740
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 18:16:52 +0100 (CET)
+Received: from localhost ([::1]:45256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX4Yj-0004RH-CT
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 13:14:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36424)
+	id 1nX4bL-00075q-Bj
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 13:16:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX4Xf-0003kn-W4
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:13:04 -0400
-Received: from [2607:f8b0:4864:20::1033] (port=40726
- helo=mail-pj1-x1033.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nX4Xd-00015S-Cs
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:13:03 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- mp6-20020a17090b190600b001c6841b8a52so7013692pjb.5
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 10:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=ldSXnFcVfVQaoM7nn43elUT/DMMs/WoQBDFZKx9l79A=;
- b=T1F7BMHq7jxHl5wl/KXNJ9dSqjoj7Z6pJx4MMBCcwXjBvvx+pSfT5dUl0WaPrC3QQx
- MHflv4pwSPxcG+9CqUCnd5EPILbsOR6e/EMlEn3Gw+ViKfOxqdYedxLiy83g/LXqbdUS
- Kv9VTdQImpKtX1J7ggzA4VHTLyMo0FZfZJ5kS+FDqg2fvw/ORAD9vlAsbmfq4SNbFTGk
- 1ujAnWBN9/EW7cs6taZQ+xHteIlFkZMS6ouRWeSrBprIApoOBDI/gFzVPo5ODRaC+J4a
- BiTr9WE5LCXb5XWdP0GFpaG3CJzBZqrRcIKmDt1TCf/ZE1OeYxlUOyZ7W1LqvfuKrZ8p
- Rbxg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nX4YO-0004cz-Nz
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:13:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21818)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nX4YL-0001dd-O7
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 13:13:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648055624;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Bd5WQ+R+378RYxGbzMXEZrz2tanG/zdpXYYmEwsqE/s=;
+ b=M3h/1Ov6RcwM3NRlf/EGtgjYY10uxotsETnZ3eciN6EVd8lWtdB22IlMwX3/B4wx+vd1eI
+ 7nEIyvMEByZ62rHol3RXu4r6QCl57JyBFyrshHT+XhOgvjugxXuv/bWr7KvzH98oXXTpTe
+ sxCNsqc17xsn407FGSk6jUJGX1D9tws=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-461-FVIbrG3qNfqJvQHX1EchRQ-1; Wed, 23 Mar 2022 13:13:42 -0400
+X-MC-Unique: FVIbrG3qNfqJvQHX1EchRQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ p16-20020adfc390000000b00204006989c2so722125wrf.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 10:13:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:from:to:cc:references:in-reply-to
  :content-transfer-encoding;
- bh=ldSXnFcVfVQaoM7nn43elUT/DMMs/WoQBDFZKx9l79A=;
- b=qqJFozzf8aESajgmrLdriWYmRXEUKXXtA00vv7azGUZhhtcFiU/HI1dxrE1BShVY3Y
- kxLuU5qkpBeL8vZ7PWaUIrBBhYHoKiLnsL7D6Bzg9tQOd1AhQs3nrvtFyXgsMQffK1nL
- /Liy5XE9K/NK0ABoNiXoYCrX7dPNUjc5XkrvgBt01rH9a5HQjxNnqBmvXKq+OWcLxfUW
- tmSE+B8hcALbMS1S62psfmWBJWaYolwvHJpBdCq9is4rqXFA6lobb2vBFpEP8hhvuSHR
- ah/zkONAVGC63pkfI8z1r/NWtlxh80fvP79n8yvVbKlvIdqGhmaT3kRN3dx/VRjFgzOz
- iXjw==
-X-Gm-Message-State: AOAM531Mggx2sHNn0gHpHCaXV+VBSuoaRAD8n2p6/Jq0kqO4JQBErdJF
- GDt6k1CJM5mMrw5uqv/iDz9EyA==
-X-Google-Smtp-Source: ABdhPJx9zIy+zf1WU4W68QbEo2skuxwY5aDFbP0E5W0VAVjSHnNY9cGvlxxzi88loi9kEdIVHa2Vmg==
-X-Received: by 2002:a17:90b:1a89:b0:1c6:4398:673 with SMTP id
- ng9-20020a17090b1a8900b001c643980673mr12932642pjb.40.1648055578754; 
- Wed, 23 Mar 2022 10:12:58 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- x7-20020a056a00188700b004fae6f0d3e5sm310097pfh.175.2022.03.23.10.12.57
+ bh=Bd5WQ+R+378RYxGbzMXEZrz2tanG/zdpXYYmEwsqE/s=;
+ b=rNgKhCS0PwdtToTEppIBtfWdUfHEvGoPOp1Bsxnmjvn2h+RvRejSFIsE4XiCxVFHDk
+ mdyE+2r4wLOaoT4q5eNbG2pTJ4bvX3xtiKnsRzVYMm1ldSjQcpGT2GAue/67IeOlV9F6
+ s9vTIGKYgG89fd6niBDszyDTtyLBkCbJJOqH/Yi5uK01YpnLusg+5mY0+oen52UgXwYl
+ d7byZ3OIzCDJrePmz6OW78MJAXTcYocsTWesGZHh3RWHxpp7mLJWbSmjtEa2oQAUYx6Z
+ YsMfuA/u114kjlMvXSBqkeL9QEflywqGWNhByO7BaKZOF/5qFpE5at7Bw1Q5H3T7p7kC
+ 9f6g==
+X-Gm-Message-State: AOAM530Xq2118s55uB3A9k0x38R84xBi4k0gVb8rLq3WteWUp9bDMCyU
+ zcidKfsAlMW8QjukSOgONHtr9xvUxvrCHPjvsycQEsGEqPn8zthWh/OsGJpYDKv+r085pNzuFOB
+ 4/uEuuXFRiBK+/Zc=
+X-Received: by 2002:a05:6000:22a:b0:203:f7f8:e006 with SMTP id
+ l10-20020a056000022a00b00203f7f8e006mr807998wrz.175.1648055621390; 
+ Wed, 23 Mar 2022 10:13:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx2tA5nSv8ZnoG/xzhIghxbm8ciLSwQO/KY82WMS+dBnestShsVTE1OtVXH0ZieMHoSYoZdfA==
+X-Received: by 2002:a05:6000:22a:b0:203:f7f8:e006 with SMTP id
+ l10-20020a056000022a00b00203f7f8e006mr807959wrz.175.1648055620982; 
+ Wed, 23 Mar 2022 10:13:40 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ e12-20020a5d6d0c000000b001a65e479d20sm469367wrq.83.2022.03.23.10.13.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 10:12:58 -0700 (PDT)
-Message-ID: <194c1ddf-041d-802a-f1e9-e31834f218b1@linaro.org>
-Date: Wed, 23 Mar 2022 10:12:56 -0700
+ Wed, 23 Mar 2022 10:13:40 -0700 (PDT)
+Message-ID: <95ad366c-509d-d41f-209b-dc66054de4b8@redhat.com>
+Date: Wed, 23 Mar 2022 18:13:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 07/32] Replace TARGET_WORDS_BIGENDIAN
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 10/11] tests/tcg/s390x: Tests for Vector Enhancements
+ Facility 2
+From: Thomas Huth <thuth@redhat.com>
+To: David Hildenbrand <david@redhat.com>, David Miller
+ <dmiller423@gmail.com>, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+References: <20220322000441.26495-1-dmiller423@gmail.com>
+ <20220322000441.26495-11-dmiller423@gmail.com>
+ <c3bb72da-c390-f9b5-5254-f8c16df21427@redhat.com>
+ <6409f049-d938-0e06-3cea-5877b31fce00@redhat.com>
+In-Reply-To: <6409f049-d938-0e06-3cea-5877b31fce00@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
- <20220323155743.1585078-8-marcandre.lureau@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220323155743.1585078-8-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,26 +106,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: farman@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ pasic@linux.ibm.com, borntraeger@linux.ibm.com,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/22 08:57, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau<marcandre.lureau@redhat.com>
+On 22/03/2022 11.31, Thomas Huth wrote:
+> On 22/03/2022 09.53, David Hildenbrand wrote:
+>> On 22.03.22 01:04, David Miller wrote:
+> [...]
+>>> diff --git a/tests/tcg/s390x/Makefile.target 
+>>> b/tests/tcg/s390x/Makefile.target
+>>> index 8c9b6a13ce..921a056dd1 100644
+>>> --- a/tests/tcg/s390x/Makefile.target
+>>> +++ b/tests/tcg/s390x/Makefile.target
+>>> @@ -16,6 +16,14 @@ TESTS+=shift
+>>>   TESTS+=trap
+>>>   TESTS+=signals-s390x
+>>> +VECTOR_TESTS=vxeh2_vs
+>>> +VECTOR_TESTS+=vxeh2_vcvt
+>>> +VECTOR_TESTS+=vxeh2_vlstr
+>>> +
+>>> +TESTS+=$(VECTOR_TESTS)
+>>> +
+>>> +$(VECTOR_TESTS): CFLAGS+=-march=z15 -O2
+>>
+>> @Thomas, will that survive our test framework already, or do we have to
+>> wait for the debain11 changes?
 > 
-> Convert the TARGET_WORDS_BIGENDIAN macro, similarly to what was done
-> with HOST_BIG_ENDIAN. The new TARGET_BIG_ENDIAN macro is either 0 or 1,
-> and thus should always be defined to prevent misuse.
+> Alex' update to the container has already been merged:
 > 
-> Signed-off-by: Marc-André Lureau<marcandre.lureau@redhat.com>
-> Suggested-by: Halil Pasic<pasic@linux.ibm.com>
-> ---
+> https://gitlab.com/qemu-project/qemu/-/commit/89767579cad2e371b
+> 
+> ... and seems like it's working in Travis on s390x, too:
+> 
+> https://app.travis-ci.com/github/huth/qemu/jobs/564188977#L12797
+> 
+> ... so it seems like it should be OK now (considering that we drop support 
+> for the old Ubuntu version 18.04 in QEMU 7.1, too).
 
-Ah, poison in here, so perhaps I had asked for it wrt target not host.
-But still HOST_WORDS_BIGENDIAN needs poisoning.
+Looks like I spoke a little bit too soon - some of the CI pipelines are 
+still using Debian 10 for running the TCG tests, and they are failing with 
+these patches applied:
 
-Anyway, for this one,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+https://gitlab.com/thuth/qemu/-/jobs/2238422870#L3499
 
+Thus we either need to update the CI jobs to use Debian 11, or use 
+handcrafted instruction opcodes here again...
 
-r~
+  Thomas
+
 
