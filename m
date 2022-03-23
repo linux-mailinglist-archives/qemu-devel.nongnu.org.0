@@ -2,93 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27594E4D79
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 08:38:14 +0100 (CET)
-Received: from localhost ([::1]:58354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63EF24E4D86
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 08:44:50 +0100 (CET)
+Received: from localhost ([::1]:43500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWvZN-00031X-7S
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 03:38:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42466)
+	id 1nWvfl-00048z-Fs
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 03:44:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nWvQb-0008Jw-Iw; Wed, 23 Mar 2022 03:29:09 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50580)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nWvQZ-0001Mc-PV; Wed, 23 Mar 2022 03:29:09 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22N6d1pr003143; 
- Wed, 23 Mar 2022 07:28:57 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eytj254nt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Mar 2022 07:28:56 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22N62QoK012457;
- Wed, 23 Mar 2022 07:28:56 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eytj254nb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Mar 2022 07:28:56 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22N7Rqro018252;
- Wed, 23 Mar 2022 07:28:54 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma05fra.de.ibm.com with ESMTP id 3ew6t9eskv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Mar 2022 07:28:53 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 22N7H8mc47251760
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Mar 2022 07:17:08 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 97BBEA404D;
- Wed, 23 Mar 2022 07:28:51 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5B9D4A4040;
- Wed, 23 Mar 2022 07:28:51 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed, 23 Mar 2022 07:28:51 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.50.222])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id A3D82220294;
- Wed, 23 Mar 2022 08:28:50 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 5/5] ppc/pnv: Remove usless checks in set_irq handlers
-Date: Wed, 23 Mar 2022 08:28:46 +0100
-Message-Id: <20220323072846.1780212-6-clg@kaod.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220323072846.1780212-1-clg@kaod.org>
-References: <20220323072846.1780212-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nWvXQ-0002iO-GF
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 03:36:16 -0400
+Received: from [2607:f8b0:4864:20::102d] (port=56137
+ helo=mail-pj1-x102d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nWvXJ-0002cm-RO
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 03:36:10 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id jx9so859086pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 00:36:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=zvylfPpDD9P7LaVoOftyiAyZ4rjtzB+zBl0Umv/tVM8=;
+ b=DRpcKWazqF/j9WlI8wmS2svwLYoi3ZrvlWHtWFCRpaYYQad4aGM5+KqGDh3unwJKNO
+ nCeZrxwS//AlUXG0MZGTCWTc4MzpKlyri/EZR9aT7g3aCDodJUtmoGKvkeVOhaojjptD
+ qaQ8/hZO2wpgYFHGvwBzmYLTwT9+opQ/Xo8maJo6ZJGGYb2OsGEVYcWY9hOdRDGwtTyg
+ 299GeeOXfEOrc5ZO6Ho/0skuS/yEe19FHUJcd/9qxKH1j92hWH7vNqgg/nGTjini/NkZ
+ fRLTFYZuk4xfRIYoel7PdNUz1GXEGZkwUtiOl/CyTIBv2TW8tTATGeNYaKUkmgqejH/U
+ qz3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=zvylfPpDD9P7LaVoOftyiAyZ4rjtzB+zBl0Umv/tVM8=;
+ b=0luRQhE+9vZG0LdhKDAFS29piU0D+Ir9AE5w/3snP5torGll7ClDAVzxQQVRF4I9J9
+ OfXyJvWCMBUGqQ2X/zMpg62GNU0G/tl70dsHJ9luzAN7HroEse91i6vRwobooquziDQE
+ pE+ykGFIGoWMEYR8dNhrY62iStkCGh6UR8nS3Gc/nV1JQ1mGGIiL/E2Mg8tIUy03dhhG
+ k3yJpqV02aa2N6fuD8wnxxXbVStYxuwMDfYbYVJK1OkWpzD0Sm3lx0vpnd377yREj+we
+ DCUCipXwHa1YFlOBiGRVuL9F1Imgel/4tuXYhmc7cYVzC8zwjUCrB40eB/Lilr4ffHKf
+ T9Jw==
+X-Gm-Message-State: AOAM531iu6BaBso4SU4fEmAa80ebzMOoPC61Cov+0nr63ukRjeRa29ht
+ 0w2ryX3lUe5ihtOQahTcSArwTw==
+X-Google-Smtp-Source: ABdhPJyiRm/ds9KsWZNW+LTcMfpWdOU27E0yNqDGEitACnD7dqxgZWBF8j1F3DZKQNh5UngmIs8tgw==
+X-Received: by 2002:a17:90a:4581:b0:1bc:d215:8722 with SMTP id
+ v1-20020a17090a458100b001bcd2158722mr9837129pjg.149.1648020964224; 
+ Wed, 23 Mar 2022 00:36:04 -0700 (PDT)
+Received: from [10.255.146.117] ([139.177.225.224])
+ by smtp.gmail.com with ESMTPSA id
+ il3-20020a17090b164300b001c6d5ed3cacsm5713618pjb.1.2022.03.23.00.36.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Mar 2022 00:36:03 -0700 (PDT)
+Message-ID: <f806c17c-cc7e-e2eb-e187-e83148160322@bytedance.com>
+Date: Wed, 23 Mar 2022 15:32:37 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -zwfVPpainPdVe8_bHXi9H1sUhf_K42s
-X-Proofpoint-GUID: oF8qIDCljvn0yfrdgKcBmZiuYIJLSxy_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-22_08,2022-03-22_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- clxscore=1034 lowpriorityscore=0 impostorscore=0 suspectscore=0 mlxscore=0
- mlxlogscore=548 adultscore=0 bulkscore=0 priorityscore=1501 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203230040
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Re: [PATCH v3 0/6] Support akcipher for virtio-crypto
+Content-Language: en-US
+To: Eric Biggers <ebiggers@kernel.org>
+References: <20220323024912.249789-1-pizhenwei@bytedance.com>
+ <YjqtXFvfDq0kELl7@sol.localdomain>
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <YjqtXFvfDq0kELl7@sol.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,52 +93,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: herbert@gondor.apana.org.au, mst@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
+ arei.gonglei@huawei.com, linux-crypto@vger.kernel.org,
+ "helei.sig11@bytedance.com" <helei.sig11@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/ppc/pnv_psi.c | 10 ----------
- 1 file changed, 10 deletions(-)
 
-diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-index 950ecca40573..98045ed3d249 100644
---- a/hw/ppc/pnv_psi.c
-+++ b/hw/ppc/pnv_psi.c
-@@ -219,11 +219,6 @@ static void pnv_psi_power8_set_irq(void *opaque, int=
- irq, int state)
-     uint32_t src;
-     bool masked;
-=20
--    if (irq > PSIHB_IRQ_EXTERNAL) {
--        qemu_log_mask(LOG_GUEST_ERROR, "PSI: Unsupported irq %d\n", irq)=
-;
--        return;
--    }
--
-     xivr_reg =3D xivr_regs[irq];
-     stat_reg =3D stat_regs[irq];
-=20
-@@ -813,11 +808,6 @@ static void pnv_psi_power9_set_irq(void *opaque, int=
- irq, int state)
-     PnvPsi *psi =3D opaque;
-     uint64_t irq_method =3D psi->regs[PSIHB_REG(PSIHB9_INTERRUPT_CONTROL=
-)];
-=20
--    if (irq > PSIHB9_NUM_IRQS) {
--        qemu_log_mask(LOG_GUEST_ERROR, "PSI: Unsupported irq %d\n", irq)=
-;
--        return;
--    }
--
-     if (irq_method & PSIHB9_IRQ_METHOD) {
-         qemu_log_mask(LOG_GUEST_ERROR, "PSI: LSI IRQ method no supported=
-\n");
-         return;
---=20
-2.34.1
+On 3/23/22 13:17, Eric Biggers wrote:
+> On Wed, Mar 23, 2022 at 10:49:06AM +0800, zhenwei pi wrote:
+>> v2 -> v3:
+>> - Introduce akcipher types to qapi
+>> - Add test/benchmark suite for akcipher class
+>> - Seperate 'virtio_crypto: Support virtio crypto asym operation' into:
+>>    - crypto: Introduce akcipher crypto class
+>>    - virtio-crypto: Introduce RSA algorithm
+>>
+>> v1 -> v2:
+>> - Update virtio_crypto.h from v2 version of related kernel patch.
+>>
+>> v1:
+>> - Support akcipher for virtio-crypto.
+>> - Introduce akcipher class.
+>> - Introduce ASN1 decoder into QEMU.
+>> - Implement RSA backend by nettle/hogweed.
+>>
+>> Lei He (3):
+>>    crypto-akcipher: Introduce akcipher types to qapi
+>>    crypto: Implement RSA algorithm by hogweed
+>>    tests/crypto: Add test suite for crypto akcipher
+>>
+>> Zhenwei Pi (3):
+>>    virtio-crypto: header update
+>>    crypto: Introduce akcipher crypto class
+>>    virtio-crypto: Introduce RSA algorithm
+> 
+> You forgot to describe the point of this patchset and what its use case is.
+> Like any other Linux kernel patchset, that needs to be in the cover letter.
+> 
+> - Eric
+Thanks Eric for pointing this missing part.
 
+This feature provides akcipher service offloading capability. QEMU side 
+handles asymmetric requests via virtio-crypto devices from guest side, 
+do encrypt/decrypt/sign/verify operations on host side, and return the 
+result to guest.
+
+This patchset implements a RSA backend by hogweed from nettle, it works 
+together with guest patch:
+https://lkml.org/lkml/2022/3/1/1425
+
+-- 
+zhenwei pi
 
