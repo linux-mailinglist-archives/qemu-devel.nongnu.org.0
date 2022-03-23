@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300B64E52E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:19:05 +0100 (CET)
-Received: from localhost ([::1]:55752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DB24E5320
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 14:28:27 +0100 (CET)
+Received: from localhost ([::1]:46558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX0tD-0006zM-P2
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:19:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42464)
+	id 1nX12I-0003Hi-Ju
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 09:28:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nX0o4-0003uc-Jr; Wed, 23 Mar 2022 09:13:46 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:49796 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nX0o1-0000dB-PR; Wed, 23 Mar 2022 09:13:44 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowACXnvr8HDtilKgaBQ--.17455S2;
- Wed, 23 Mar 2022 21:13:32 +0800 (CST)
-Subject: Re: [RFC PATCH v2 4/4] target/riscv: smstateen check for AIA/IMSIC
-To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20220323111309.9109-1-mchitale@ventanamicro.com>
- <20220323111309.9109-5-mchitale@ventanamicro.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <c0920f62-46fa-46db-84ba-cade2dc4d565@iscas.ac.cn>
-Date: Wed, 23 Mar 2022 21:13:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nX0vK-0001y9-6v
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 09:21:14 -0400
+Received: from [2a00:1450:4864:20::335] (port=39550
+ helo=mail-wm1-x335.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nX0vD-0006R1-Vz
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 09:21:12 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ bi13-20020a05600c3d8d00b0038c2c33d8f3so5302633wmb.4
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 06:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gY/zMi6zAju7yUc0nP8zN1HiT/DfIco8fDCixv5yZzY=;
+ b=gEYX+hDLIIUDbCGCyrEUPxohG3UqYfyvkQjD73CqXci5DG4GSwaAs+bj6aFKS+C/Od
+ 2Uzs+/Kqsy0EOZHZBWco/LS4Q+/zURPh2oO9weeIoO4METiTi213BOr1Ks7n9DK9VyTV
+ lGVM5ZnUfFV2rN8AF7GQfkhDU/iKOWO0MTV96TpGmqm82UQryJ9Qv8rFdYF5RY981slm
+ Jaz+cCPiJeFBAj/hf6yanl1XHCfHNF+P9zTFruESeeMRqdo6e8Tcp7TQCd/9MrjBM/v6
+ rnuBg99U1cMg9fF3XrVxvHXvVqZRSAM2S+tnSUs54VWCrAoFF0x+nweoif3DUiTZjD+S
+ OIZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gY/zMi6zAju7yUc0nP8zN1HiT/DfIco8fDCixv5yZzY=;
+ b=cxqABNf9k2wZGhVQPITXuPDFbMirLDGsarcwBwechhNvSPpRPsoRpojDFwq/uByu+m
+ H5wllA4XPEIZ2UDDlTzNiJm3dwTgx5kM3gPcDkzenZhKrhVW2LRoMlTod66eL0CaGYRL
+ 6/s6Yg3J27KWMXyLVrFuHQPD1KSSz9NeZhNl2g0ygbZjROaciAgxbRVHYWPu18BhyTx8
+ chiuXaNDPTiBSqToL4XivRZ+YRT2cS7i1arkMdeg+3GN2gfpZ+wBA0ScN/sJ+yPllgD2
+ 5Tu5RLopX9DjKYLTH3NBVyGusvDFfqy+4+guqSGKRV6x32Sd7ZUuoqa6YPz6GFDcoTCT
+ 42lA==
+X-Gm-Message-State: AOAM5332AOD+u/oTPYK3JAUh0BoZCW7pXJ6yRsSLcaDXqoNsXVZzzA59
+ BdwGEChutcGLG643Sah/qGe/Ag==
+X-Google-Smtp-Source: ABdhPJzZ1hmKv28iii4Wj7j0JF5buETG8lRKGP8SUdDEm5kG+c5QYSpYiype6wBpuItQwo9/a1Q8Jw==
+X-Received: by 2002:a1c:7517:0:b0:38c:8722:9bc6 with SMTP id
+ o23-20020a1c7517000000b0038c87229bc6mr9470803wmc.2.1648041661638; 
+ Wed, 23 Mar 2022 06:21:01 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ g6-20020adfd1e6000000b0020581602ddfsm4233757wrd.90.2022.03.23.06.21.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Mar 2022 06:21:00 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8302C1FFB7;
+ Wed, 23 Mar 2022 13:20:59 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] tests/avocado: update aarch64_virt test to exercise -cpu
+ max
+Date: Wed, 23 Mar 2022 13:20:53 +0000
+Message-Id: <20220323132053.505201-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20220323111309.9109-5-mchitale@ventanamicro.com>
-Content-Type: text/plain; charset=gbk; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: qwCowACXnvr8HDtilKgaBQ--.17455S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXr1kCrWrXrWDGFy3ZryUGFg_yoW7JF1Upw
- 4DArZxWrWxtFy2v3ZIgFs8JF15J3Z7K3y7u3s3Ww4kWFs8GF95Jr1kXrWavFWUCF95Wr47
- Wa1ak3ZYkr42vFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9014x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1U
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
- VFxhVjvjDU0xZFpf9x0pR_pnkUUUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,175 +92,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ "open list:Virt" <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The Fedora 29 kernel is quite old and importantly fails when running
+in LPA2 scenarios. As it's not really exercising much of the CPU space
+replace it with a custom 5.16.12 kernel with all the architecture
+options turned on. There is a minimal buildroot initramfs included in
+the kernel which has a few tools for stress testing the memory
+subsystem. The userspace also targets the Neoverse N1 processor so
+will fail without additional v8.x+ features.
 
-‘⁄ 2022/3/23 œ¬ŒÁ7:13, Mayuresh Chitale –¥µ¿:
-> If smstateen is implemented then accesses to AIA
-> registers CSRS, IMSIC CSRs and other IMSIC registers
-> is controlled by setting of corresponding bits in
-> mstateen/hstateen registers. Otherwise an illegal
-> instruction trap or virtual instruction trap is
-> generated.
->
-> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> ---
->   target/riscv/csr.c | 248 ++++++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 246 insertions(+), 2 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 5959adc9b3..cfdda8dc2b 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -68,6 +68,53 @@ static RISCVException smstateen_acc_ok(CPURISCVState *env, int mode, int bit)
->       return RISCV_EXCP_NONE;
->   }
->   
-> +static RISCVException smstateen_aia_acc_ok(CPURISCVState *env, int csrno)
-> +{
-> +    int bit, mode;
-> +
-> +    switch (csrno) {
-> +    case CSR_SSETEIPNUM:
-> +    case CSR_SCLREIPNUM:
-> +    case CSR_SSETEIENUM:
-> +    case CSR_SCLREIENUM:
-> +    case CSR_STOPEI:
-> +    case CSR_VSSETEIPNUM:
-> +    case CSR_VSCLREIPNUM:
-> +    case CSR_VSSETEIENUM:
-> +    case CSR_VSCLREIENUM:
-> +    case CSR_VSTOPEI:
-> +    case CSR_HSTATUS:
-> +        mode = PRV_S;
-> +        bit = SMSTATEEN0_IMSIC;
-> +        break;
-> +
-> +    case CSR_SIEH:
-> +    case CSR_SIPH:
-> +    case CSR_HVIPH:
-> +    case CSR_HVICTL:
-> +    case CSR_HVIPRIO1:
-> +    case CSR_HVIPRIO2:
-> +    case CSR_HVIPRIO1H:
-> +    case CSR_HVIPRIO2H:
-> +    case CSR_VSIEH:
-> +    case CSR_VSIPH:
-> +        mode = PRV_S;
-> +        bit = SMSTATEEN0_AIA;
-> +        break;
-> +
-> +    case CSR_SISELECT:
-> +    case CSR_VSISELECT:
-> +        mode = PRV_S;
-> +        bit = SMSTATEEN0_SVSLCT;
-> +        break;
-> +
-> +    default:
-> +        return RISCV_EXCP_NONE;
-> +    }
-> +
-> +    return smstateen_acc_ok(env, mode, bit);
-> +}
-> +
->   static RISCVException fs(CPURISCVState *env, int csrno)
->   {
->   #if !defined(CONFIG_USER_ONLY)
-> @@ -1402,6 +1449,13 @@ static int rmw_xiselect(CPURISCVState *env, int csrno, target_ulong *val,
->                           target_ulong new_val, target_ulong wr_mask)
->   {
->       target_ulong *iselect;
-> +    RISCVException ret;
-> +
-> +    /* Check if smstateen is enabled and this access is allowed */
-> +    ret = smstateen_aia_acc_ok(env, csrno);
-> +    if (ret != RISCV_EXCP_NONE) {
-> +        return ret;
-> +    }
->   
->       /* Translate CSR number for VS-mode */
->       csrno = aia_xlate_vs_csrno(env, csrno);
-> @@ -1484,7 +1538,9 @@ static int rmw_xireg(CPURISCVState *env, int csrno, target_ulong *val,
->       bool virt;
->       uint8_t *iprio;
->       int ret = -EINVAL;
-> -    target_ulong priv, isel, vgein;
-> +    target_ulong priv, isel, vgein = 0;
-> +    CPUState *cs = env_cpu(env);
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
->   
->       /* Translate CSR number for VS-mode */
->       csrno = aia_xlate_vs_csrno(env, csrno);
-> @@ -1513,11 +1569,20 @@ static int rmw_xireg(CPURISCVState *env, int csrno, target_ulong *val,
->       };
->   
->       /* Find the selected guest interrupt file */
-> -    vgein = (virt) ? get_field(env->hstatus, HSTATUS_VGEIN) : 0;
-> +    if (virt) {
-> +        if (!cpu->cfg.ext_smstateen ||
-> +                (env->hstateen[0] & 1UL << SMSTATEEN0_IMSIC)) {
-It seems better that '(' aligned with '!'.
-> +            vgein = get_field(env->hstatus, HSTATUS_VGEIN);
-> +        }
-> +    }
->   
->       if (ISELECT_IPRIO0 <= isel && isel <= ISELECT_IPRIO15) {
->           /* Local interrupt priority registers not available for VS-mode */
->           if (!virt) {
-> +            if (priv == PRV_S && cpu->cfg.ext_smstateen &&
-> +                !(env->hstateen[0] & 1UL << SMSTATEEN0_AIA)) {
-> +                goto done;
-> +            }
->               ret = rmw_iprio(riscv_cpu_mxl_bits(env),
->                               isel, iprio, val, new_val, wr_mask,
->                               (priv == PRV_M) ? IRQ_M_EXT : IRQ_S_EXT);
-> @@ -1551,6 +1616,13 @@ static int rmw_xsetclreinum(CPURISCVState *env, int csrno, target_ulong *val,
->       int ret = -EINVAL;
->       bool set, pend, virt;
->       target_ulong priv, isel, vgein, xlen, nval, wmask;
-> +    RISCVException excp;
-> +
-> +    /* Check if smstateen is enabled and this access is allowed */
-> +    excp = smstateen_aia_acc_ok(env, csrno);
-> +    if (excp != RISCV_EXCP_NONE) {
-> +        return excp;
-> +    }
->   
->       /* Translate CSR number for VS-mode */
->       csrno = aia_xlate_vs_csrno(env, csrno);
-> @@ -1669,6 +1741,13 @@ static int rmw_xtopei(CPURISCVState *env, int csrno, target_ulong *val,
->       bool virt;
->       int ret = -EINVAL;
->       target_ulong priv, vgein;
-> +    RISCVException excp;
-> +
-> +    /* Check if smstateen is enabled and this access is allowed */
-> +    excp = smstateen_aia_acc_ok(env, csrno);
-> +    if (excp != RISCV_EXCP_NONE) {
-> +        return excp;
-> +    }
->   
->       /* Translate CSR number for VS-mode */
->       csrno = aia_xlate_vs_csrno(env, csrno);
-> @@ -2014,6 +2093,12 @@ static RISCVException write_mstateen(CPURISCVState *env, int csrno,
->           wr_mask |= 1UL << SMSTATEEN0_FCSR;
->       }
->   
-> +    if (riscv_feature(env, RISCV_FEATURE_AIA)) {
-> +        wr_mask |= (1UL << SMSTATEEN0_IMSIC)
-> +                | (1UL << SMSTATEEN0_AIA)
-> +                | (1UL << SMSTATEEN0_SVSLCT);
+While we are at it move the test into it's own file so it can have an
+assigned maintainer.
 
-I think it's better as follows:
+Signed-off-by: Alex Benn√©e <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220315121251.2280317-3-alex.bennee@linaro.org>
 
-+        wr_mask |= (1UL << SMSTATEEN0_IMSIC) |
-+                   (1UL << SMSTATEEN0_AIA) |
-+                   (1UL << SMSTATEEN0_SVSLCT);
+---
+v2
+  - move test into own machine file
+---
+ MAINTAINERS                           |  1 +
+ tests/avocado/boot_linux_console.py   | 25 -------------
+ tests/avocado/machine_aarch64_virt.py | 51 +++++++++++++++++++++++++++
+ 3 files changed, 52 insertions(+), 25 deletions(-)
+ create mode 100644 tests/avocado/machine_aarch64_virt.py
 
-Regards,
-
-Weiwei Li
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc364afef7..4fd1c2c955 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -942,6 +942,7 @@ S: Maintained
+ F: hw/arm/virt*
+ F: include/hw/arm/virt.h
+ F: docs/system/arm/virt.rst
++F: tests/avocado/machine_aarch64_virt.py
+ 
+ Xilinx Zynq
+ M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index b40a3abc81..45a2ceda22 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -325,31 +325,6 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
+         kernel_hash = '18d1c68f2e23429e266ca39ba5349ccd0aeb7180'
+         self.do_test_mips_malta32el_nanomips(kernel_url, kernel_hash)
+ 
+-    def test_aarch64_virt(self):
+-        """
+-        :avocado: tags=arch:aarch64
+-        :avocado: tags=machine:virt
+-        :avocado: tags=accel:tcg
+-        :avocado: tags=cpu:cortex-a53
+-        """
+-        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+-                      '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
+-                      '/vmlinuz')
+-        kernel_hash = '8c73e469fc6ea06a58dc83a628fc695b693b8493'
+-        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+-
+-        self.vm.set_console()
+-        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+-                               'console=ttyAMA0')
+-        self.require_accelerator("tcg")
+-        self.vm.add_args('-cpu', 'cortex-a53',
+-                         '-accel', 'tcg',
+-                         '-kernel', kernel_path,
+-                         '-append', kernel_command_line)
+-        self.vm.launch()
+-        console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.wait_for_console_pattern(console_pattern)
+-
+     def test_aarch64_xlnx_versal_virt(self):
+         """
+         :avocado: tags=arch:aarch64
+diff --git a/tests/avocado/machine_aarch64_virt.py b/tests/avocado/machine_aarch64_virt.py
+new file mode 100644
+index 0000000000..21848cba70
+--- /dev/null
++++ b/tests/avocado/machine_aarch64_virt.py
+@@ -0,0 +1,51 @@
++# Functional test that boots a Linux kernel and checks the console
++#
++# Copyright (c) 2022 Linaro Ltd.
++#
++# Author:
++#  Alex Benn√©e <alex.bennee@linaro.org>
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++import time
++
++from avocado_qemu import QemuSystemTest
++from avocado_qemu import wait_for_console_pattern
++from avocado_qemu import exec_command
++
++class Aarch64VirtMachine(QemuSystemTest):
++    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
++
++    def wait_for_console_pattern(self, success_message, vm=None):
++        wait_for_console_pattern(self, success_message,
++                                 failure_message='Kernel panic - not syncing',
++                                 vm=vm)
++
++    def test_aarch64_virt(self):
++        """
++        :avocado: tags=arch:aarch64
++        :avocado: tags=machine:virt
++        :avocado: tags=accel:tcg
++        :avocado: tags=cpu:max
++        """
++        kernel_url = ('https://fileserver.linaro.org/s/'
++                      'z6B2ARM7DQT3HWN/download')
++
++        kernel_hash = 'ed11daab50c151dde0e1e9c9cb8b2d9bd3215347'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++
++        self.vm.set_console()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyAMA0')
++        self.require_accelerator("tcg")
++        self.vm.add_args('-cpu', 'max,pauth-impdef=on',
++                         '-accel', 'tcg',
++                         '-kernel', kernel_path,
++                         '-append', kernel_command_line)
++        self.vm.launch()
++        self.wait_for_console_pattern('Welcome to Buildroot')
++        time.sleep(0.1)
++        exec_command(self, 'root')
++        time.sleep(0.1)
++        exec_command(self, 'cat /proc/self/maps')
++        time.sleep(0.1)
+-- 
+2.30.2
 
 
