@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520D94E53F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 15:07:22 +0100 (CET)
-Received: from localhost ([::1]:38750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893C44E53F8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 15:07:27 +0100 (CET)
+Received: from localhost ([::1]:38936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX1dx-0005Wu-E7
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 10:07:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54702)
+	id 1nX1e2-0005iL-JT
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 10:07:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nX1Um-0007WH-KC; Wed, 23 Mar 2022 09:57:52 -0400
-Received: from [2607:f8b0:4864:20::f2b] (port=45975
- helo=mail-qv1-xf2b.google.com)
+ id 1nX1Uo-0007XX-FK; Wed, 23 Mar 2022 09:57:56 -0400
+Received: from [2607:f8b0:4864:20::f2d] (port=44822
+ helo=mail-qv1-xf2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nX1Uj-0000x6-N2; Wed, 23 Mar 2022 09:57:51 -0400
-Received: by mail-qv1-xf2b.google.com with SMTP id r1so1218022qvr.12;
- Wed, 23 Mar 2022 06:57:49 -0700 (PDT)
+ id 1nX1Uk-0000xa-TR; Wed, 23 Mar 2022 09:57:53 -0400
+Received: by mail-qv1-xf2d.google.com with SMTP id ke15so1217226qvb.11;
+ Wed, 23 Mar 2022 06:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OTfdWEeO7UkuiZBNMdlAE3Mf1b3IlIIqRvP07nFA/Ow=;
- b=o0XGcoPL1KIfCgnU2sr/y9EyaXmc3cNOXdey6C7+TBG3xPlIkl+LaI431snebT9oqz
- cGpCQLokdzHJq14pg0/bQdBNjkRtBN2kaLfF/91EDdY18mFea8oGS5y0NDspSjG2Oin3
- ZwrD7VdAfkzARsa3EPKpA+3DUdpEhfPU32oJRled9+cqhx6oFkeOEkryykvvkkFK/dsS
- 9GQl+Z7TsZbVtDVEYqYR6O8IBtJkI+YOe3XiJPqmtA1CjC5A3ezw/D7JZnARgP2fQPcE
- fUz3/hNAxGOFfu4vBRuCGj0nn9M0MF+tq0S1h1kgjsTxVRpHKaJ0UHPqf8jvvSU2Cl+w
- pFcA==
+ bh=ZXUE88pvIH0NoI+C8Ferp7KJUPPEDur7NtEs3aeqGpI=;
+ b=qa52Z4UweY9HzIx39heT6B5JKIk2Mssoc53SXtvpIk//wTYQXX/EWR4VFN+LL8LxNv
+ eSDmPn5cTHCDyh6XWEbJZo5hYO7emGc3k91Th6OkbF/J4Vhe8ic8Pu4cVxxTX2NxsW4+
+ ndrMml+oCF0dpEZA1Y1hufLKWlBagSAb8DO1mNVxTdiSz3+uWVGBUf3/m0BXQ+VSq7I+
+ Dr4kFxbIDxTrcXvqrgaRtwDIBwhUyLKXiK4um8EqkADAnPF61hCS8+0kxzRN2TIqXIUU
+ UFi/d4xYaweO2XO6jO1GA8vCHQsyzXf6ugoujvb3gaHfRMG2YOikVYuDaQhfjYXzkelC
+ 7rag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OTfdWEeO7UkuiZBNMdlAE3Mf1b3IlIIqRvP07nFA/Ow=;
- b=KVCMLTy1mSIm8Va7ZPWaiYoCCGBxEN5EZJj/GsCtmpBhY8MwxwnGHPDxJpB34VcagJ
- TCOTrfRKGk1TNJWd9Ls3ehpn2RO0E6l1Ld4L4CjbWta5Q2cUAAUKrz42FebZds3L5ugL
- 1ij/jxMqqjbgN7V2aodVDWC4Ntfm6aVyQIrr2W+/LhWbiAtxV7Iyn1DsexCtKwtuEizd
- lJ71RWVQuXboHcF9useWoZxkAeGqjxlErPduK0yKrLINBC836Z564Lf+NJpfV7xR0Dei
- TtB5N8btcp60xcsOoISUpw/aKJpbU3396yHmk8POSYaW2DATyE0QZMexPXoeCvMpg+L+
- Uz7g==
-X-Gm-Message-State: AOAM530qkCHqTCkCT5VRThi7QBSul9f0k89Ou2cwnb9gr+JpuZdW7hDt
- VJJrMUxPlpKKW+cJOQB1YzDfK7RJv/PxiA==
-X-Google-Smtp-Source: ABdhPJwrYd/nNaIxz+zDE//RBbGZ1K/DaYvpYGni2s0yfZkAgZRkTKltgL7T+aEcWknWFUvpA1Lxsg==
-X-Received: by 2002:a05:6214:2a49:b0:440:c955:347f with SMTP id
- jf9-20020a0562142a4900b00440c955347fmr23641902qvb.84.1648043868422; 
- Wed, 23 Mar 2022 06:57:48 -0700 (PDT)
+ bh=ZXUE88pvIH0NoI+C8Ferp7KJUPPEDur7NtEs3aeqGpI=;
+ b=u7L05w1jvfHkBsP00h5GXRI/VYYuBilZUjUDe5Fw9WCLCJZhZ/jyEHFQj5witH7tBh
+ 6qc6ZjiqaDyiwuXcB5IXdTh3uJQSts6jqiD0amzqv3h33BO5TqsRX7ClbYpuifgi409L
+ hMh98eXmL6gnKJ9qxZ+V/Sd+fPv3Rg3eEEkWS8NZBM/C23HLidU/Hzt1Q9c3pI7TwhoE
+ ogF/vmWLISTXOa9ItF1ZdVt3KGJ7YXkmFvG+d9fiBQt19nsoFvPqZyonI64xUi/Qi8eR
+ PttmE8yreY4VvMghunS4gHz4oLjNkjfiY5BVqGq+ffLeKw6FUCmoa2CG7kRq9ZmjDDxl
+ FFhQ==
+X-Gm-Message-State: AOAM5313mAlSNqHh8k2LHl+UM3TC0e169HvyeujDIv49C4HmqKLVAi4U
+ j/iYcJPEzoeQo8pOsm49kqhC/rWQnmbrcA==
+X-Google-Smtp-Source: ABdhPJwVjC1DTaxE8VIVFtAwVNyda6J8fFAnAeSEgm3aY5YdxwBrPS7r6axDELawROwyLGM3TgUEYg==
+X-Received: by 2002:a05:6214:2509:b0:435:7443:2dad with SMTP id
+ gf9-20020a056214250900b0043574432dadmr23688654qvb.47.1648043869410; 
+ Wed, 23 Mar 2022 06:57:49 -0700 (PDT)
 Received: from localhost.localdomain (mont-dyn-146-104.pwrtc.com.
  [205.174.146.104]) by smtp.gmail.com with ESMTPSA id
- t128-20020a37aa86000000b0060ddf2dc3ecsm20907qke.104.2022.03.23.06.57.47
+ t128-20020a37aa86000000b0060ddf2dc3ecsm20907qke.104.2022.03.23.06.57.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 06:57:48 -0700 (PDT)
+ Wed, 23 Mar 2022 06:57:49 -0700 (PDT)
 From: David Miller <dmiller423@gmail.com>
 To: qemu-s390x@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v5 09/11] target/s390x: add S390_FEAT_VECTOR_ENH2 to qemu CPU
- model
-Date: Wed, 23 Mar 2022 09:57:20 -0400
-Message-Id: <20220323135722.1623-10-dmiller423@gmail.com>
+Subject: [PATCH v5 10/11] tests/tcg/s390x: Tests for Vector Enhancements
+ Facility 2
+Date: Wed, 23 Mar 2022 09:57:21 -0400
+Message-Id: <20220323135722.1623-11-dmiller423@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220323135722.1623-1-dmiller423@gmail.com>
 References: <20220323135722.1623-1-dmiller423@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
- envelope-from=dmiller423@gmail.com; helo=mail-qv1-xf2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
+ envelope-from=dmiller423@gmail.com; helo=mail-qv1-xf2d.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -98,23 +98,400 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: David Miller <dmiller423@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/gen-features.c | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/tcg/s390x/Makefile.target |   8 ++
+ tests/tcg/s390x/vx.h            |  19 +++++
+ tests/tcg/s390x/vxeh2_vcvt.c    |  88 ++++++++++++++++++++
+ tests/tcg/s390x/vxeh2_vlstr.c   | 139 ++++++++++++++++++++++++++++++++
+ tests/tcg/s390x/vxeh2_vs.c      |  93 +++++++++++++++++++++
+ 5 files changed, 347 insertions(+)
+ create mode 100644 tests/tcg/s390x/vx.h
+ create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c
+ create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c
+ create mode 100644 tests/tcg/s390x/vxeh2_vs.c
 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 22846121c4..499a3b10a8 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -740,7 +740,9 @@ static uint16_t qemu_V6_2[] = {
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 8c9b6a13ce..921a056dd1 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -16,6 +16,14 @@ TESTS+=shift
+ TESTS+=trap
+ TESTS+=signals-s390x
  
- static uint16_t qemu_LATEST[] = {
-     S390_FEAT_MISC_INSTRUCTION_EXT3,
-+    S390_FEAT_VECTOR_ENH2,
- };
++VECTOR_TESTS=vxeh2_vs
++VECTOR_TESTS+=vxeh2_vcvt
++VECTOR_TESTS+=vxeh2_vlstr
 +
- /* add all new definitions before this point */
- static uint16_t qemu_MAX[] = {
-     /* generates a dependency warning, leave it out for now */
++TESTS+=$(VECTOR_TESTS)
++
++$(VECTOR_TESTS): CFLAGS+=-march=z15 -O2
++
+ ifneq ($(HAVE_GDB_BIN),)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+ 
+diff --git a/tests/tcg/s390x/vx.h b/tests/tcg/s390x/vx.h
+new file mode 100644
+index 0000000000..2e66f8b714
+--- /dev/null
++++ b/tests/tcg/s390x/vx.h
+@@ -0,0 +1,19 @@
++#ifndef QEMU_TESTS_S390X_VX_H
++#define QEMU_TESTS_S390X_VX_H
++
++typedef union S390Vector {
++    uint64_t d[2];  /* doubleword */
++    uint32_t w[4];  /* word */
++    uint16_t h[8];  /* halfword */
++    uint8_t  b[16]; /* byte */
++    float    f[4];  /* float32 */
++    double   fd[2]; /* float64 */
++    __uint128_t v;
++} S390Vector;
++
++#define ES8  0
++#define ES16 1
++#define ES32 2
++#define ES64 3
++
++#endif
+\ No newline at end of file
+diff --git a/tests/tcg/s390x/vxeh2_vcvt.c b/tests/tcg/s390x/vxeh2_vcvt.c
+new file mode 100644
+index 0000000000..d6e551c16e
+--- /dev/null
++++ b/tests/tcg/s390x/vxeh2_vcvt.c
+@@ -0,0 +1,88 @@
++/*
++ * vxeh2_vcvt: vector-enhancements facility 2 vector convert *
++ */
++#include <stdint.h>
++#include "vx.h"
++
++#define M_S 8
++#define M4_XxC 4
++#define M4_def M4_XxC
++
++static inline void vcfps(S390Vector *v1, S390Vector *v2,
++    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
++{
++    asm volatile("vcfps %[v1], %[v2], %[m3], %[m4], %[m5]\n"
++                : [v1] "=v" (v1->v)
++                : [v2]  "v" (v2->v)
++                , [m3]  "i" (m3)
++                , [m4]  "i" (m4)
++                , [m5]  "i" (m5));
++}
++
++static inline void vcfpl(S390Vector *v1, S390Vector *v2,
++    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
++{
++    asm volatile("vcfpl %[v1], %[v2], %[m3], %[m4], %[m5]\n"
++                : [v1] "=v" (v1->v)
++                : [v2]  "v" (v2->v)
++                , [m3]  "i" (m3)
++                , [m4]  "i" (m4)
++                , [m5]  "i" (m5));
++}
++
++static inline void vcsfp(S390Vector *v1, S390Vector *v2,
++    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
++{
++    asm volatile("vcsfp %[v1], %[v2], %[m3], %[m4], %[m5]\n"
++                : [v1] "=v" (v1->v)
++                : [v2]  "v" (v2->v)
++                , [m3]  "i" (m3)
++                , [m4]  "i" (m4)
++                , [m5]  "i" (m5));
++}
++
++static inline void vclfp(S390Vector *v1, S390Vector *v2,
++    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
++{
++    asm volatile("vclfp %[v1], %[v2], %[m3], %[m4], %[m5]\n"
++                : [v1] "=v" (v1->v)
++                : [v2]  "v" (v2->v)
++                , [m3]  "i" (m3)
++                , [m4]  "i" (m4)
++                , [m5]  "i" (m5));
++}
++
++int main(int argc, char *argv[])
++{
++    S390Vector vd;
++    S390Vector vs_i32 = { .w[0] = 1, .w[1] = 64, .w[2] = 1024, .w[3] = -10 };
++    S390Vector vs_u32 = { .w[0] = 2, .w[1] = 32, .w[2] = 4096, .w[3] = 8888 };
++    S390Vector vs_f32 = { .f[0] = 3.987, .f[1] = 5.123,
++                          .f[2] = 4.499, .f[3] = 0.512 };
++
++    vd.d[0] = vd.d[1] = 0;
++    vcfps(&vd, &vs_i32, 2, M4_def, 0);
++    if (1 != vd.f[0] || 1024 != vd.f[2] || 64 != vd.f[1] || -10 != vd.f[3]) {
++        return 1;
++    }
++
++    vd.d[0] = vd.d[1] = 0;
++    vcfpl(&vd, &vs_u32, 2, M4_def, 0);
++    if (2 != vd.f[0] || 4096 != vd.f[2] || 32 != vd.f[1] || 8888 != vd.f[3]) {
++        return 1;
++    }
++
++    vd.d[0] = vd.d[1] = 0;
++    vcsfp(&vd, &vs_f32, 2, M4_def, 0);
++    if (4 != vd.w[0] || 4 != vd.w[2] || 5 != vd.w[1] || 1 != vd.w[3]) {
++        return 1;
++    }
++
++    vd.d[0] = vd.d[1] = 0;
++    vclfp(&vd, &vs_f32, 2, M4_def, 0);
++    if (4 != vd.w[0] || 4 != vd.w[2] || 5 != vd.w[1] || 1 != vd.w[3]) {
++        return 1;
++    }
++
++    return 0;
++}
+diff --git a/tests/tcg/s390x/vxeh2_vlstr.c b/tests/tcg/s390x/vxeh2_vlstr.c
+new file mode 100644
+index 0000000000..5677bf7c29
+--- /dev/null
++++ b/tests/tcg/s390x/vxeh2_vlstr.c
+@@ -0,0 +1,139 @@
++/*
++ * vxeh2_vlstr: vector-enhancements facility 2 vector load/store reversed *
++ */
++#include <stdint.h>
++#include "vx.h"
++
++#define vtst(v1, v2) \
++    if (v1.d[0] != v2.d[0] || v1.d[1] != v2.d[1]) { \
++        return 1;     \
++    }
++
++static inline void vler(S390Vector *v1, const void *va, uint8_t m3)
++{
++    asm volatile("vler %[v1], 0(%[va]), %[m3]\n"
++                : [v1] "+v" (v1->v)
++                : [va]  "d" (va)
++                , [m3]  "i" (m3)
++                : "memory");
++}
++
++static inline void vster(S390Vector *v1, const void *va, uint8_t m3)
++{
++    asm volatile("vster %[v1], 0(%[va]), %[m3]\n"
++                : [va] "+d" (va)
++                : [v1]  "v" (v1->v)
++                , [m3]  "i" (m3)
++                : "memory");
++}
++
++static inline void vlbr(S390Vector *v1, void *va, const uint8_t m3)
++{
++    asm volatile("vlbr %[v1], 0(%[va]), %[m3]\n"
++                : [v1] "+v" (v1->v)
++                : [va]  "d" (va)
++                , [m3]  "i" (m3)
++                : "memory");
++}
++
++static inline void vstbr(S390Vector *v1, void *va, const uint8_t m3)
++{
++    asm volatile("vstbr %[v1], 0(%[va]), %[m3]\n"
++                : [va] "+d" (va)
++                : [v1]  "v" (v1->v)
++                , [m3]  "i" (m3)
++                : "memory");
++}
++
++
++static inline void vlebrh(S390Vector *v1, void *va, const uint8_t m3)
++{
++    asm volatile("vlebrh %[v1], 0(%[va]), %[m3]\n"
++                : [v1] "+v" (v1->v)
++                : [va]  "d" (va)
++                , [m3]  "i" (m3)
++                : "memory");
++}
++
++static inline void vstebrh(S390Vector *v1, void *va, const uint8_t m3)
++{
++    asm volatile("vstebrh %[v1], 0(%[va]), %[m3]\n"
++                : [va] "+d" (va)
++                : [v1]  "v" (v1->v)
++                , [m3]  "i" (m3)
++                : "memory");
++}
++
++static inline void vllebrz(S390Vector *v1, void *va, const uint8_t m3)
++{
++    asm volatile("vllebrz %[v1], 0(%[va]), %[m3]\n"
++                : [v1] "+v" (v1->v)
++                : [va]  "d" (va)
++                , [m3]  "i" (m3)
++                : "memory");
++}
++
++static inline void vlbrrep(S390Vector *v1, void *va, const uint8_t m3)
++{
++    asm volatile("vlbrrep %[v1], 0(%[va]), %[m3]\n"
++                : [v1] "+v" (v1->v)
++                : [va]  "d" (va)
++                , [m3]  "i" (m3)
++                : "memory");
++}
++
++int main(int argc, char *argv[])
++{
++    S390Vector vd = { .d[0] = 0, .d[1] = 0 };
++    S390Vector vs = { .d[0] = 0x8FEEDDCCBBAA9988ull,
++                      .d[1] = 0x7766554433221107ull };
++
++    const S390Vector vt_v_er16 = {
++        .h[0] = 0x1107, .h[1] = 0x3322, .h[2] = 0x5544, .h[3] = 0x7766,
++        .h[4] = 0x9988, .h[5] = 0xBBAA, .h[6] = 0xDDCC, .h[7] = 0x8FEE };
++
++    const S390Vector vt_v_br16 = {
++        .h[0] = 0xEE8F, .h[1] = 0xCCDD, .h[2] = 0xAABB, .h[3] = 0x8899,
++        .h[4] = 0x6677, .h[5] = 0x4455, .h[6] = 0x2233, .h[7] = 0x0711 };
++
++    int ix;
++    uint64_t ss64 = 0xFEEDFACE0BADBEEFull, sd64 = 0;
++
++    vler(&vd, &vs, ES16);
++    vtst(vd, vt_v_er16);
++
++    vster(&vs, &vd, ES16);
++    vtst(vd, vt_v_er16);
++
++    vlbr(&vd, &vs, ES16);
++    vtst(vd, vt_v_br16);
++
++    vstbr(&vs, &vd, ES16);
++    vtst(vd, vt_v_br16);
++
++    vlebrh(&vd, &ss64, 5);
++    if (0xEDFE != vd.h[5]) {
++        return 1;
++    }
++
++    vstebrh(&vs, (uint8_t *)&sd64 + 4, 7);
++    if (0x0000000007110000ull != sd64) {
++        return 1;
++    }
++
++    vllebrz(&vd, (uint8_t *)&ss64 + 3, 2);
++    for (ix = 0; ix < 4; ix++) {
++        if (vd.w[ix] != (ix != 1 ? 0 : 0xBEAD0BCE)) {
++            return 1;
++        }
++    }
++
++    vlbrrep(&vd, (uint8_t *)&ss64 + 4, 1);
++    for (ix = 0; ix < 8; ix++) {
++        if (0xAD0B != vd.h[ix]) {
++            return 1;
++        }
++    }
++
++    return 0;
++}
+diff --git a/tests/tcg/s390x/vxeh2_vs.c b/tests/tcg/s390x/vxeh2_vs.c
+new file mode 100644
+index 0000000000..b7ef419d79
+--- /dev/null
++++ b/tests/tcg/s390x/vxeh2_vs.c
+@@ -0,0 +1,93 @@
++/*
++ * vxeh2_vs: vector-enhancements facility 2 vector shift
++ */
++#include <stdint.h>
++#include "vx.h"
++
++#define vtst(v1, v2) \
++    if (v1.d[0] != v2.d[0] || v1.d[1] != v2.d[1]) { \
++        return 1;     \
++    }
++
++static inline void vsl(S390Vector *v1, S390Vector *v2, S390Vector *v3)
++{
++    asm volatile("vsl %[v1], %[v2], %[v3]\n"
++                : [v1] "=v" (v1->v)
++                : [v2]  "v" (v2->v)
++                , [v3]  "v" (v3->v));
++}
++
++static inline void vsra(S390Vector *v1, S390Vector *v2, S390Vector *v3)
++{
++    asm volatile("vsra %[v1], %[v2], %[v3]\n"
++                : [v1] "=v" (v1->v)
++                : [v2]  "v" (v2->v)
++                , [v3]  "v" (v3->v));
++}
++
++static inline void vsrl(S390Vector *v1, S390Vector *v2, S390Vector *v3)
++{
++    asm volatile("vsrl %[v1], %[v2], %[v3]\n"
++                : [v1] "=v" (v1->v)
++                : [v2]  "v" (v2->v)
++                , [v3]  "v" (v3->v));
++}
++
++static inline void vsld(S390Vector *v1, S390Vector *v2,
++    S390Vector *v3, const uint8_t I)
++{
++    asm volatile("vsld %[v1], %[v2], %[v3], %[I]\n"
++                : [v1] "=v" (v1->v)
++                : [v2]  "v" (v2->v)
++                , [v3]  "v" (v3->v)
++                , [I]   "i" (I & 7));
++}
++
++static inline void vsrd(S390Vector *v1, S390Vector *v2,
++    S390Vector *v3, const uint8_t I)
++{
++    asm volatile("vsrd %[v1], %[v2], %[v3], %[I]\n"
++                : [v1] "=v" (v1->v)
++                : [v2]  "v" (v2->v)
++                , [v3]  "v" (v3->v)
++                , [I]   "i" (I & 7));
++}
++
++int main(int argc, char *argv[])
++{
++    const S390Vector vt_vsl  = { .d[0] = 0x7FEDBB32D5AA311Dull,
++                                 .d[1] = 0xBB65AA10912220C0ull };
++    const S390Vector vt_vsra = { .d[0] = 0xF1FE6E7399AA5466ull,
++                                 .d[1] = 0x0E762A5188221044ull };
++    const S390Vector vt_vsrl = { .d[0] = 0x11FE6E7399AA5466ull,
++                                 .d[1] = 0x0E762A5188221044ull };
++    const S390Vector vt_vsld = { .d[0] = 0x7F76EE65DD54CC43ull,
++                                 .d[1] = 0xBB32AA2199108838ull };
++    const S390Vector vt_vsrd = { .d[0] = 0x0E060802040E000Aull,
++                                 .d[1] = 0x0C060802040E000Aull };
++    S390Vector vs  = { .d[0] = 0x8FEEDDCCBBAA9988ull,
++                       .d[1] = 0x7766554433221107ull };
++    S390Vector  vd = { .d[0] = 0, .d[1] = 0 };
++    S390Vector vsi = { .d[0] = 0, .d[1] = 0 };
++
++    for (int ix = 0; ix < 16; ix++) {
++        vsi.b[ix] = (1 + (5 ^ ~ix)) & 7;
++    }
++
++    vsl(&vd, &vs, &vsi);
++    vtst(vd, vt_vsl);
++
++    vsra(&vd, &vs, &vsi);
++    vtst(vd, vt_vsra);
++
++    vsrl(&vd, &vs, &vsi);
++    vtst(vd, vt_vsrl);
++
++    vsld(&vd, &vs, &vsi, 3);
++    vtst(vd, vt_vsld);
++
++    vsrd(&vd, &vs, &vsi, 15);
++    vtst(vd, vt_vsrd);
++
++    return 0;
++}
 -- 
 2.34.1
 
