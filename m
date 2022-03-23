@@ -2,59 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C384E510B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 12:11:02 +0100 (CET)
-Received: from localhost ([::1]:46002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9234C4E5120
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 12:17:13 +0100 (CET)
+Received: from localhost ([::1]:55178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWytJ-0008T0-T7
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 07:11:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34266)
+	id 1nWyzI-00079x-4K
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 07:17:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wucy11@chinatelecom.cn>)
- id 1nWypR-0006EU-T7
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:07:01 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:56538
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wucy11@chinatelecom.cn>) id 1nWypP-0005dF-EU
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:07:01 -0400
-HMM_SOURCE_IP: 172.18.0.218:55646.146915449
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-36.111.64.85 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 9A17D28009D;
- Wed, 23 Mar 2022 19:06:41 +0800 (CST)
-X-189-SAVE-TO-SEND: wucy11@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id a1175b1a11db47b8b858be0c412eab10 for
- huangy81@chinatelecom.cn; Wed, 23 Mar 2022 19:06:46 CST
-X-Transaction-ID: a1175b1a11db47b8b858be0c412eab10
-X-Real-From: wucy11@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-Message-ID: <f7b468f9-5e7a-fc56-49b0-2b571ac14fbb@chinatelecom.cn>
-Date: Wed, 23 Mar 2022 19:06:39 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v1 1/5] kvm,memory: Optimize dirty page collection for
- dirty ring
-To: Hyman Huang <huangy81@chinatelecom.cn>, qemu-devel@nongnu.org
-References: <cover.1648002359.git.wucy11@chinatelecom.cn>
- <1c2c18ab43ec43959c3464d216e6a3144b802a53.1648002360.git.wucy11@chinatelecom.cn>
- <70f26e05-1db7-2bb4-9b8d-8dc6869c7256@chinatelecom.cn>
-From: Chongyun Wu <wucy11@chinatelecom.cn>
-In-Reply-To: <70f26e05-1db7-2bb4-9b8d-8dc6869c7256@chinatelecom.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.226;
- envelope-from=wucy11@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1nWyvf-00053A-2G
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:13:27 -0400
+Received: from [2607:f8b0:4864:20::102b] (port=53792
+ helo=mail-pj1-x102b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1nWyva-0007Iw-JU
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:13:26 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id bx5so1330962pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 04:13:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=/nBwTzZoAqfE2DaZUbpvgceUUYSjkvKzw2P86oSeMZ4=;
+ b=cQNhQ81gA++kRISqEBu60YYymNy0woUIuvGT4yXUKLpQ7NTgmdwoQNoSklNWtB9crX
+ RIF8VgUE/DDeF1ma/IlIavHRJmBn9ev6FF0V+u3l1jqHA5DBkYL+drFujmMh7xhKWVy9
+ CNWpY0qqCoLIwc8V7vJYl6vd4Xhyb9u57Xsg4H2+8xHz8UMyYfbzs5K4JeQmpTnObwJi
+ FM4APTmpNSaY1H4iESV4ye9QgarJJjBLJVEJdRKH/ZdcdGLxAnLDqsB2ml88XP2wJgSa
+ rJLEErD+3oqLy7/tsyHISX0vc7/sPO8EnaC2bnxtCXAAU7FuEQjadTJGNN/NB07GIZ31
+ QS3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=/nBwTzZoAqfE2DaZUbpvgceUUYSjkvKzw2P86oSeMZ4=;
+ b=AF38pxXuleEdocggbveZXiwfKDusvHv51nNxmRKIHiACBhNZ4ICRZPeIrirkvtK66D
+ AbCVO6/nImgFd3BzfqfufwQx+CR7H92NCYvnyJuF5Ee2sJ8rMNPBNQ362ofHxvAyid6/
+ E9c/k5niH7bRNdn78G/ZXU3/nwb8ye+XdOfn4G7cdkOhWHc/YgBwKuePhKUyZHqeAjYr
+ 1kFHYh1eiAo/ctV8VpRG7XVZibAfBu5rlCxv3nIt4b3twWLdwBJw+NpdYS1+bHjW0OOo
+ 2G96ivdAFDC5HBNvIWDerYrG9GozBmHjXQ99Y7/Gc4+6W/MGzA+AgZW/gyw/UWb7k9ep
+ eg0Q==
+X-Gm-Message-State: AOAM531F03n7A4frMi8WTxfbYNlSestNOT8eR8JU0Zt8YO7q57X0ubl/
+ yshlNavneBADDyKhJ6p6ks2BdR/q5R69dkz/
+X-Google-Smtp-Source: ABdhPJxzz9F5SbCoXFjLn752LZXmJqFbpOEZodCa1JewesU8fMpFRY8T1fBGyLQF6JUqh+nwXV0D8g==
+X-Received: by 2002:a17:90b:4b8b:b0:1c6:452c:f76f with SMTP id
+ lr11-20020a17090b4b8b00b001c6452cf76fmr11016063pjb.28.1648034000496; 
+ Wed, 23 Mar 2022 04:13:20 -0700 (PDT)
+Received: from ThinkPad-T490.dc1.ventanamicro.com ([171.50.204.174])
+ by smtp.googlemail.com with ESMTPSA id
+ f31-20020a631f1f000000b003742e45f7d7sm19798002pgf.32.2022.03.23.04.13.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Mar 2022 04:13:19 -0700 (PDT)
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [RFC PATCH v2 0/4] RISC-V Smstateen support
+Date: Wed, 23 Mar 2022 16:43:05 +0530
+Message-Id: <20220323111309.9109-1-mchitale@ventanamicro.com>
+X-Mailer: git-send-email 2.17.1
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,69 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tugy@chinatelecom.cn, David Hildenbrand <david@redhat.com>,
- yuanmh12@chinatelecom.cn, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- yubin1@chinatelecom.cn, dengpc12@chinatelecom.cn,
- Paolo Bonzini <pbonzini@redhat.com>, baiyw2@chinatelecom.cn
+Cc: Mayuresh Chitale <mchitale@ventanamicro.com>, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you very much for your review comments.
+This series adds support for the Smstateen specification which provides
+a mechanism plug potential covert channels which are opened by extensions
+that add to processor state that may not get context-switched. Currently
+access to AIA registers, *envcfg registers and floating point(fcsr) is
+controlled via smstateen.
 
-on 3/23/2022 12:59 PM, Hyman Huang wrote:
-> 
-> 
-> 在 2022/3/23 11:18, wucy11@chinatelecom.cn 写道:
->> From: Chongyun Wu <wucy11@chinatelecom.cn>
->>
->> When log_sync_global of dirty ring is called, it will collect
->> dirty pages on all cpus, including all dirty pages on memslot,
->> so when memory_region_sync_dirty_bitmap collects dirty pages
->> from KVM, this interface needs to be called once, instead of
->> traversing every dirty page. Each memslot is called once,
->> which is meaningless and time-consuming. So only need to call
->> log_sync_global once in memory_region_sync_dirty_bitmap.
->>
->> Signed-off-by: Chongyun Wu <wucy11@chinatelecom.cn>
->> ---
->>   softmmu/memory.c | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/softmmu/memory.c b/softmmu/memory.c
->> index 8060c6d..46c3ff9 100644
->> --- a/softmmu/memory.c
->> +++ b/softmmu/memory.c
->> @@ -2184,6 +2184,12 @@ static void 
->> memory_region_sync_dirty_bitmap(MemoryRegion *mr)
->>                */
->>               listener->log_sync_global(listener);
->>               trace_memory_region_sync_dirty(mr ? mr->name : "(all)", 
->> listener->name, 1);
->> +            /*
->> +             * The log_sync_global of the dirty ring will collect the dirty
->> +             * pages of all memslots at one time, so there is no need to
->> +             * call log_sync_global once when traversing each memslot.
->> +             */
->> +            break;
-> To the code logic itself, if a listener does not implement the log_sync_global 
-> callback, it never go there. If not, it should not break because we never know 
-> which callback is what dirty ring want.
-> IMHO, maybe the modification should remove from the common logic and implemented 
-> somewhere else, i havn't think it through yet.
-Yes, you are right. It may be more reasonable to move the modification to 
-kvm_set_phys_mem. In kvm_set_phys_mem, kvm_dirty_ring_reap_locked is called once 
-for all memslots marked with dirty pages. This interface will collect dirty 
-pages of all memslots, so there is a problem of repeated calls, so it is may be 
-more reasonable to optimize them here. I will modify it in the next version.
->>           }
->>       }
->>   }
-> 
+This series depends on the following series from Atish Patra:
+
+https://lists.nongnu.org/archive/html/qemu-riscv/2022-03/msg00031.html
+https://lists.nongnu.org/archive/html/qemu-riscv/2022-03/msg00142.html
+
+
+Changes in v2:
+- Make h/s/envcfg bits in m/h/stateen registers as writeable by default.
+
+Mayuresh Chitale (4):
+  target/riscv: Add smstateen support
+  target/riscv: smstateen check for h/senvcfg
+  target/riscv: smstateen check for fcsr
+  target/riscv: smstateen check for AIA/IMSIC
+
+ target/riscv/cpu.c      |   2 +
+ target/riscv/cpu.h      |   4 +
+ target/riscv/cpu_bits.h |  36 +++
+ target/riscv/csr.c      | 554 +++++++++++++++++++++++++++++++++++++++-
+ target/riscv/machine.c  |  22 +-
+ 5 files changed, 614 insertions(+), 4 deletions(-)
 
 -- 
-Best Regard,
-Chongyun Wu
+2.17.1
+
 
