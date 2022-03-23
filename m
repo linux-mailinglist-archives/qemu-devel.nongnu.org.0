@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0314E515D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 12:37:01 +0100 (CET)
-Received: from localhost ([::1]:40322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967F04E51F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 13:13:57 +0100 (CET)
+Received: from localhost ([::1]:48370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWzIS-0002PF-8q
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 07:37:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39122)
+	id 1nWzsC-0004w7-Fc
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 08:13:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nWz9C-00023q-FJ
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:27:26 -0400
-Received: from [2a00:1450:4864:20::335] (port=41817
- helo=mail-wm1-x335.google.com)
+ id 1nWz9A-000200-QM
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:27:25 -0400
+Received: from [2a00:1450:4864:20::42e] (port=34711
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nWz9A-00065B-DK
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:27:26 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- k124-20020a1ca182000000b0038c9cf6e2a6so770372wme.0
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 04:27:24 -0700 (PDT)
+ id 1nWz99-000650-Cd
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 07:27:24 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id m30so1676820wrb.1
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 04:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5yKohARcQ84BvWhP2X+WunVOj5TFSn0mNfTp4luf3Os=;
- b=Z5D1fHQPjyuR+jx6SX9HCmxRfCRrvyYj+uJGpCIBzfVkVlCq4RyS5ZyRi1hVeCj/+V
- B9+XSaxsiYOfaxpdGdY5fe42o8TfHmo6b36etCKxj1vUwX37uFHUSxfq8jVOdiGwbEH8
- vy0wJ276QIEWBzgqwifMkX0M19tiRJsbI7jvn0HSUkeCqCk5HQeGLS5bUFoEK8RdOvZp
- mJjK8paRj+cbgR6FakC3M/j7FbeHf2MCJEkprr7MkZfmSsCnkQo0NWbVEWzEpBeeT4ei
- an+A8NHmgdd8+1aCLjEDc+TCHinaGjsgS6+umOn8xdIfA6j1xLPKNpsbdzvHbNLKuTBs
- 407A==
+ bh=VGuGTUMcrHWD5fZbjeenyrXuekOw3qU1F/rK5dradzM=;
+ b=EYZBL5OZnfr+PQrwx7hUyiL5F3cEDKc9ejGFzlOemnngW3aFKqdbaJTpi/szUjHywk
+ hkIqP50nYLlcNL6RNE6xTNRjOtQz2G5Cezxlu1we4SDqEAjdJ7WyOHTy1KBFtxTPEc5d
+ 3PLW4TVh4rbW75Exork1AXadnixPZNHv8y7J46J/eugeoQG8b3BX8gZA3oKRS4iuHtf1
+ LhqSkRg0xGSMGyOA/gEIZcwyhPX8HmZLqMLIg6CwDdQYVVz6pB+NwnrR0nf4bu1soTBl
+ 5QDqiXGbsURGwnzLSqCIPj/Rr+VPZA/VqxEyzBlZe//H9/VLqmSLlrOdzCWPM9AxxzO8
+ +9/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5yKohARcQ84BvWhP2X+WunVOj5TFSn0mNfTp4luf3Os=;
- b=5U4Aw3/NX3LVDDJIhgXZ4G9e0hh7ILgtTb0ARh8rRHPpgJdy/hPYlpTGRHXQZ4uMjt
- GFrpo4KYoXpJ05SwFOFtqSbFERt1AVk0TLu+i+8GbHvs+daEZ0ZYe23sP1a0dDSjG/2T
- g156noCw9wirlrLZJchEe6TjjzyQQeVqUQefTzk2YHJHw2cGv1VTcyPjVs0nwkgD1jJc
- jW9fJDiYSZLx3K4zOrJE2ucOSEYcsSUsGu7ZkyKA0//tshtrs1pq6X85myBq9wqNKDiD
- 9HWcpm2iBvyFe3WWATikY31k0ahClA1Unx2MhVyvBQsjb+ap1Yg0i7hLagZOJqFrGzt/
- hwdA==
-X-Gm-Message-State: AOAM533dqVYR1KXPHOXyQwn2Z2GEslaou6BV1Au3ljUl3dGDulfVdv8o
- SCltnNwFwUb2WLkqt61n0yRkkw==
-X-Google-Smtp-Source: ABdhPJxH7et0NwVX6bpJ0PoJL8mZbdwFyD9fDBohOyyOSiADaHKMwuO5iJVb+o3x79MFYJUTZ3eCQA==
-X-Received: by 2002:a7b:c30d:0:b0:381:4bb9:eede with SMTP id
- k13-20020a7bc30d000000b003814bb9eedemr8663903wmj.74.1648034842916; 
+ bh=VGuGTUMcrHWD5fZbjeenyrXuekOw3qU1F/rK5dradzM=;
+ b=T1EbJprycrBm5ulKdb/o8ekDhy1phWOrkR4w5ypm0EGL7RCx+uT3iXeOciU+EzOw+O
+ DTM+t+YUBLf0hk2glCoWMFtO2kYyQQzH9ECUB5XYMNYAP2e7MC4aHk/lYCdYLnWprHNb
+ //WSnM4IWyVny2mf66JhacYSCfAX1OMf4q9UqcTC0j/i6rd2BauZ7HyhVX0Fw5eAdgap
+ 64xlfmNBFF+CVb/kX8TyPNV1xD6pnjoafCTfrMwol4xkMfVmhegaZVYxW70h+nRNRcfL
+ AZJ4Wqxelx4jfAWsIuzE66Txywhx9FJjgKYalWzClw/5fXDzjWGpMsaHQKb3+GDqZt0g
+ c0ug==
+X-Gm-Message-State: AOAM532qVRpo1+xyNhAsTc51e93+WOPCbyJvX6F+R8Scc201KXsZ81CM
+ lKwdCfYnEfGs1sJ7zHQilglJag==
+X-Google-Smtp-Source: ABdhPJxHWxLmJnvL48Ar6DJBceQ026TP4P6GEdYKggBv4qQubIiMIZdPKB3Z5h2TNKYfx8VFTSlUOQ==
+X-Received: by 2002:a5d:40c8:0:b0:205:2a3b:c2c with SMTP id
+ b8-20020a5d40c8000000b002052a3b0c2cmr6692149wrq.13.1648034842126; 
  Wed, 23 Mar 2022 04:27:22 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- c12-20020a05600c0a4c00b00381141f4967sm4729183wmq.35.2022.03.23.04.27.14
+ r15-20020a5d6c6f000000b002040552e88esm11655757wrz.29.2022.03.23.04.27.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 23 Mar 2022 04:27:17 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1039B1FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id 1BA711FFC0;
  Wed, 23 Mar 2022 11:27:12 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 7/8] docs: remove qemu_logo.pdf
-Date: Wed, 23 Mar 2022 11:27:10 +0000
-Message-Id: <20220323112711.440376-8-alex.bennee@linaro.org>
+Subject: [PULL 8/8] docs/tcg-plugins: document QEMU_PLUGIN behaviour
+Date: Wed, 23 Mar 2022 11:27:11 +0000
+Message-Id: <20220323112711.440376-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220323112711.440376-1-alex.bennee@linaro.org>
 References: <20220323112711.440376-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, LOTS_OF_MONEY=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -93,148 +92,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Christoph Muellner <cmuellner@linux.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Alexandre Iooss <erdnaxe@crans.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As far as I can tell nothing in the source tree uses this file. The
-original comment mentions texi2pdf and I think that was all culled
-when we switched to our rst documentation pipeline.
+From: Christoph Muellner <cmuellner@linux.com>
 
-Fixes: 4ac2ee194b ("docs/interop: Convert qemu-qmp-ref to rST")
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+QEMU plugins can be loaded via command line arguments or via
+the QEMU_PLUGIN environment variable. Currently, only the first method
+is documented. Let's document QEMU_PLUGIN.
+
+As drive-by cleanup, this patch fixes the path to the plugins
+in the same section of the documentation.
+
+Signed-off-by: Christoph Muellner <cmuellner@linux.com>
+Message-Id: <20220316181412.1550044-1-cmuellner@linux.com>
+[AJB: fixed some minor typos]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220316161038.3033723-1-alex.bennee@linaro.org>
 
-diff --git a/docs/qemu_logo.pdf b/docs/qemu_logo.pdf
-deleted file mode 100644
-index 294cb7dec50de73c786925671300fb0abdf9d641..0000000000000000000000000000000000000000
-GIT binary patch
-literal 0
-HcmV?d00001
-
-literal 9117
-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
-
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index f93ef4fe52..a7cc44aa20 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -27,13 +27,18 @@ Once built a program can be run with multiple plugins loaded each with
+ their own arguments::
+ 
+   $QEMU $OTHER_QEMU_ARGS \
+-      -plugin tests/plugin/libhowvec.so,inline=on,count=hint \
+-      -plugin tests/plugin/libhotblocks.so
++      -plugin contrib/plugin/libhowvec.so,inline=on,count=hint \
++      -plugin contrib/plugin/libhotblocks.so
+ 
+ Arguments are plugin specific and can be used to modify their
+ behaviour. In this case the howvec plugin is being asked to use inline
+ ops to count and break down the hint instructions by type.
+ 
++Linux user-mode emulation also evaluates the environment variable
++``QEMU_PLUGIN``::
++
++  QEMU_PLUGIN="file=contrib/plugins/libhowvec.so,inline=on,count=hint" $QEMU
++
+ Writing plugins
+ ---------------
+ 
 -- 
 2.30.2
 
