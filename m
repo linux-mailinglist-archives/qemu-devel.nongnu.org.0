@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0774E53F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 15:07:36 +0100 (CET)
-Received: from localhost ([::1]:39708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADCB04E53EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 15:04:47 +0100 (CET)
+Received: from localhost ([::1]:59500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nX1eB-0006LV-GC
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 10:07:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54640)
+	id 1nX1bS-0000AJ-PM
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 10:04:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nX1Ui-0007R9-Sj; Wed, 23 Mar 2022 09:57:48 -0400
-Received: from [2607:f8b0:4864:20::82c] (port=33567
- helo=mail-qt1-x82c.google.com)
+ id 1nX1Ui-0007RA-TE; Wed, 23 Mar 2022 09:57:48 -0400
+Received: from [2607:f8b0:4864:20::f30] (port=45979
+ helo=mail-qv1-xf30.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nX1Uf-0000vy-RT; Wed, 23 Mar 2022 09:57:47 -0400
-Received: by mail-qt1-x82c.google.com with SMTP id j21so1194593qta.0;
- Wed, 23 Mar 2022 06:57:45 -0700 (PDT)
+ id 1nX1Ug-0000wM-W9; Wed, 23 Mar 2022 09:57:48 -0400
+Received: by mail-qv1-xf30.google.com with SMTP id r1so1217911qvr.12;
+ Wed, 23 Mar 2022 06:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/GQ8FvNYLm1fOKSnKsYAEezojvG5B51ZIHJE+t/9hR0=;
- b=QIAofO4++rr0DsEMlQQZaJOFIIvoHqiOviwrE0iKzoPYf47YvNM8YAND+Q6jKwfXJT
- EGuOYy7JhtLH/E8X7z8N2urx4Eoabvq0tv+XRwvflpDUuwsKPID18lw0O4ZBbpNKPrOq
- nxnW6Ox2TjbHGP83dIhtNBXeQufX8bd7WzXTkiUUNbA0QdRKtHP09rYuWuMi1ckU9JBi
- 15wFZegXr0jeq2+VvP8g03XVYDJH1q0ZpIxwadHAM4aevpWP8klEYNr/xwPuI3EWwN6w
- vh6hjzQw5oqVvIXcNFiczDZ/Dv0cQJg+rdWIRn7zQEA/xUFdPHoKfO7l2UDvk2EXevsN
- 6V+Q==
+ bh=xAsrJdH5wVxsvwaUl1sx59FAbfmf8Xp9Oz5I4KZ1vWo=;
+ b=ZtnR/b4CYY4JqnmcTlKxNsjXe1yeHPyAUnjf2cCuYCpWnIxDhtLu1CSnKXQv55BCzP
+ RIm6X0fbCTj9A1yruopDXUvfdxp19pY4eTgxyMxNpqCrGwMAZcyX1YM5uoXzce1wCE84
+ 5OZQVN9enZdddJ+SGpXzmlX0Fo5AxvOzxgBhfuLC5PMV5yB6YDk6u6KuOHsD63dr18fx
+ uqOlt2DK+bFYnAqoMW0AUBHM63qsTKL2Ijzaayl2lKv5m5N0jLiyiBVx/arFpDlIEGXC
+ /Q+S6+3IayRpIFpaqfd77fqolBr/F39HxjH6M8ThpU7pRSnlhLZ9l5Zh1xF/LwB4/vgg
+ 2LXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/GQ8FvNYLm1fOKSnKsYAEezojvG5B51ZIHJE+t/9hR0=;
- b=j9JMIqyQ0hijidvBaiF5rKgzkHS0WToKjuMwiTM89PUD/ruE1CudempAmRNd/83SPi
- 3wf7sbP4sK9inQ7M9INaoYFRde47Gdrscs3Up/2Q2A6oxe84n7zrLee/f89p0AtYZZDj
- rSnRKikQcqDPwvWBtCjh+nirq+FDruNn2m0WDYMa3uLJRTIx8Nc8kyxHgts8082N8lUV
- M4IlO5shcYyb3JCEr5lEbOSLRRL4eDzgp3nMHB+Wnh48giGougYZs1yZdrrGqrde4GjQ
- hG2bgbR8Zl5hYsRrRslvDUt+U1B9UsLXHyKoA0F6Y/a/dz4ImyrtR2oEyTYTvrg/D+rX
- 2vfw==
-X-Gm-Message-State: AOAM530sjG0/iL3idiQ4vGV7KF1fI7vvYYR+/DmHZlnTsmdHzdb4MRwl
- +CzvD4UBrMOhHtjxUp9s2PQYnx/7MRMQng==
-X-Google-Smtp-Source: ABdhPJw/kmGIAN9NeEl9OxAjl1rEPz2byeDSxuYrzKXMJxb+96yes4XW7giLlmz3qCpYyEjwgvu/Kg==
-X-Received: by 2002:ac8:5fd2:0:b0:2e1:b346:7505 with SMTP id
- k18-20020ac85fd2000000b002e1b3467505mr24159172qta.94.1648043864417; 
- Wed, 23 Mar 2022 06:57:44 -0700 (PDT)
+ bh=xAsrJdH5wVxsvwaUl1sx59FAbfmf8Xp9Oz5I4KZ1vWo=;
+ b=mR+9Lh+8EwdqwsbgiBeSsgWVvigIhrkxder6MaDljMvy71VOdROH0v3hSzYXRIgpW7
+ sg4t2ykQRsjKJDt8lPQnIZWuOWn8zZTnolC2bY6jGp9MJNN3YqnRsS4jpGHAE5hZ2mUg
+ OvMraYVlCKxmABCifYSjB5w7O1jMbQJb19woQ+owG1MF9vgfN09i4LAYbJGOl0ZLBfqq
+ XZkfdYLQ/zW+WNo0AT3Kq3t9BCcBmU+p57rFepdj6foxEorr/q43DSXqXDe6kQuGAI2q
+ or+UqAZ3SGT6qVKJiWtrM8brMxLutYr+SqGwmySqWA9IZsoyI5NZu3S53oy4Am75vQMN
+ ghCw==
+X-Gm-Message-State: AOAM530Wx4Fsov3laPZRgyvNotLqfhdMa85/Dyvaw5UUEveRrE6M+NUn
+ zIgTMdtmXK6d7NTCCrSHBoQq+wAHj96USg==
+X-Google-Smtp-Source: ABdhPJwrBtD+zxKxkSWkdYTdW68rF9XUALgNKYzuoowJsw/GhDhNzgy3s5671EkdozVpaDbvTAM6gA==
+X-Received: by 2002:a05:6214:21eb:b0:440:e76:5841 with SMTP id
+ p11-20020a05621421eb00b004400e765841mr24088205qvj.95.1648043865429; 
+ Wed, 23 Mar 2022 06:57:45 -0700 (PDT)
 Received: from localhost.localdomain (mont-dyn-146-104.pwrtc.com.
  [205.174.146.104]) by smtp.gmail.com with ESMTPSA id
- t128-20020a37aa86000000b0060ddf2dc3ecsm20907qke.104.2022.03.23.06.57.43
+ t128-20020a37aa86000000b0060ddf2dc3ecsm20907qke.104.2022.03.23.06.57.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 06:57:43 -0700 (PDT)
+ Wed, 23 Mar 2022 06:57:45 -0700 (PDT)
 From: David Miller <dmiller423@gmail.com>
 To: qemu-s390x@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v5 05/11] target/s390x: vxeh2: vector shift double by bit
-Date: Wed, 23 Mar 2022 09:57:16 -0400
-Message-Id: <20220323135722.1623-6-dmiller423@gmail.com>
+Subject: [PATCH v5 06/11] target/s390x: vxeh2: vector {load,
+ store} elements reversed
+Date: Wed, 23 Mar 2022 09:57:17 -0400
+Message-Id: <20220323135722.1623-7-dmiller423@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220323135722.1623-1-dmiller423@gmail.com>
 References: <20220323135722.1623-1-dmiller423@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f30
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=dmiller423@gmail.com; helo=mail-qt1-x82c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
+ envelope-from=dmiller423@gmail.com; helo=mail-qv1-xf30.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -96,109 +97,136 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: David Miller <dmiller423@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/tcg/insn-data.def      |  6 +++-
- target/s390x/tcg/translate_vx.c.inc | 55 +++++++++++++++++++++++++----
- 2 files changed, 53 insertions(+), 8 deletions(-)
+ target/s390x/tcg/insn-data.def      |  4 ++
+ target/s390x/tcg/translate_vx.c.inc | 84 +++++++++++++++++++++++++++++
+ 2 files changed, 88 insertions(+)
 
 diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
-index f487a64abf..98a31a557d 100644
+index 98a31a557d..b524541a7d 100644
 --- a/target/s390x/tcg/insn-data.def
 +++ b/target/s390x/tcg/insn-data.def
-@@ -1207,12 +1207,16 @@
-     E(0xe774, VSL,     VRR_c, V,   0, 0, 0, 0, vsl, 0, 0, IF_VEC)
- /* VECTOR SHIFT LEFT BY BYTE */
-     E(0xe775, VSLB,    VRR_c, V,   0, 0, 0, 0, vsl, 0, 1, IF_VEC)
-+/* VECTOR SHIFT LEFT DOUBLE BY BIT */
-+    E(0xe786, VSLD,    VRI_d, VE2, 0, 0, 0, 0, vsld, 0, 0, IF_VEC)
- /* VECTOR SHIFT LEFT DOUBLE BY BYTE */
--    F(0xe777, VSLDB,   VRI_d, V,   0, 0, 0, 0, vsldb, 0, IF_VEC)
-+    E(0xe777, VSLDB,   VRI_d, V,   0, 0, 0, 0, vsld, 0, 1, IF_VEC)
- /* VECTOR SHIFT RIGHT ARITHMETIC */
-     E(0xe77e, VSRA,    VRR_c, V,   0, 0, 0, 0, vsra, 0, 0, IF_VEC)
- /* VECTOR SHIFT RIGHT ARITHMETIC BY BYTE */
-     E(0xe77f, VSRAB,   VRR_c, V,   0, 0, 0, 0, vsra, 0, 1, IF_VEC)
-+/* VECTOR SHIFT RIGHT DOUBLE BY BIT */
-+    F(0xe787, VSRD,    VRI_d, VE2, 0, 0, 0, 0, vsrd, 0, IF_VEC)
- /* VECTOR SHIFT RIGHT LOGICAL */
-     E(0xe77c, VSRL,    VRR_c, V,   0, 0, 0, 0, vsrl, 0, 0, IF_VEC)
- /* VECTOR SHIFT RIGHT LOGICAL BY BYTE */
+@@ -1037,6 +1037,8 @@
+     E(0xe741, VLEIH,   VRI_a, V,   0, 0, 0, 0, vlei, 0, ES_16, IF_VEC)
+     E(0xe743, VLEIF,   VRI_a, V,   0, 0, 0, 0, vlei, 0, ES_32, IF_VEC)
+     E(0xe742, VLEIG,   VRI_a, V,   0, 0, 0, 0, vlei, 0, ES_64, IF_VEC)
++/* VECTOR LOAD ELEMENTS REVERSED */
++    F(0xe607, VLER,    VRX,   VE2, la2, 0, 0, 0, vler, 0, IF_VEC)
+ /* VECTOR LOAD GR FROM VR ELEMENT */
+     F(0xe721, VLGV,    VRS_c, V,   la2, 0, r1, 0, vlgv, 0, IF_VEC)
+ /* VECTOR LOAD LOGICAL ELEMENT AND ZERO */
+@@ -1082,6 +1084,8 @@
+     E(0xe709, VSTEH,   VRX,   V,   la2, 0, 0, 0, vste, 0, ES_16, IF_VEC)
+     E(0xe70b, VSTEF,   VRX,   V,   la2, 0, 0, 0, vste, 0, ES_32, IF_VEC)
+     E(0xe70a, VSTEG,   VRX,   V,   la2, 0, 0, 0, vste, 0, ES_64, IF_VEC)
++/* VECTOR STORE ELEMENTS REVERSED */
++    F(0xe60f, VSTER,   VRX,   VE2, la2, 0, 0, 0, vster, 0, IF_VEC)
+ /* VECTOR STORE MULTIPLE */
+     F(0xe73e, VSTM,    VRS_a, V,   la2, 0, 0, 0, vstm, 0, IF_VEC)
+ /* VECTOR STORE WITH LENGTH */
 diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
-index fd53ddafef..bb997de794 100644
+index bb997de794..0bef1200e3 100644
 --- a/target/s390x/tcg/translate_vx.c.inc
 +++ b/target/s390x/tcg/translate_vx.c.inc
-@@ -2056,14 +2056,23 @@ static DisasJumpType op_vsrl(DisasContext *s, DisasOps *o)
-                             gen_helper_gvec_vsrl_ve2);
+@@ -492,6 +492,46 @@ static DisasJumpType op_vlei(DisasContext *s, DisasOps *o)
+     return DISAS_NEXT;
  }
  
--static DisasJumpType op_vsldb(DisasContext *s, DisasOps *o)
-+static DisasJumpType op_vsld(DisasContext *s, DisasOps *o)
- {
--    const uint8_t i4 = get_field(s, i4) & 0xf;
--    const int left_shift = (i4 & 7) * 8;
--    const int right_shift = 64 - left_shift;
--    TCGv_i64 t0 = tcg_temp_new_i64();
--    TCGv_i64 t1 = tcg_temp_new_i64();
--    TCGv_i64 t2 = tcg_temp_new_i64();
-+    const bool byte = s->insn->data;
-+    const uint8_t mask = byte ? 15 : 7;
-+    const uint8_t mul  = byte ?  8 : 1;
-+    const uint8_t i4   = get_field(s, i4);
-+    const int right_shift = 64 - (i4 & 7) * mul;
-+    TCGv_i64 t0, t1, t2;
++static DisasJumpType op_vler(DisasContext *s, DisasOps *o)
++{
++    const uint8_t es = get_field(s, m3);
 +
-+    if (i4 & ~mask) {
++    if (es < ES_16 || es > ES_64) {
 +        gen_program_exception(s, PGM_SPECIFICATION);
 +        return DISAS_NORETURN;
 +    }
 +
-+    t0 = tcg_temp_new_i64();
-+    t1 = tcg_temp_new_i64();
-+    t2 = tcg_temp_new_i64();
- 
-     if ((i4 & 8) == 0) {
-         read_vec_element_i64(t0, get_field(s, v2), 0, ES_64);
-@@ -2074,8 +2083,40 @@ static DisasJumpType op_vsldb(DisasContext *s, DisasOps *o)
-         read_vec_element_i64(t1, get_field(s, v3), 0, ES_64);
-         read_vec_element_i64(t2, get_field(s, v3), 1, ES_64);
-     }
++    TCGv_i64 t0 = tcg_temp_new_i64();
++    TCGv_i64 t1 = tcg_temp_new_i64();
 +
-     tcg_gen_extract2_i64(t0, t1, t0, right_shift);
-     tcg_gen_extract2_i64(t1, t2, t1, right_shift);
++    /* Begin with the two doublewords swapped... */
++    tcg_gen_qemu_ld_i64(t1, o->addr1, get_mem_index(s), MO_TEUQ);
++    gen_addi_and_wrap_i64(s, o->addr1, o->addr1, 8);
++    tcg_gen_qemu_ld_i64(t0, o->addr1, get_mem_index(s), MO_TEUQ);
++
++    /* ... then swap smaller elements within the doublewords as required. */
++    switch (es) {
++    case MO_16:
++        tcg_gen_hswap_i64(t1, t1);
++        tcg_gen_hswap_i64(t0, t0);
++        break;
++    case MO_32:
++        tcg_gen_wswap_i64(t1, t1);
++        tcg_gen_wswap_i64(t0, t0);
++        break;
++    case MO_64:
++        break;
++    default:
++        g_assert_not_reached();
++    }
 +
 +    write_vec_element_i64(t0, get_field(s, v1), 0, ES_64);
 +    write_vec_element_i64(t1, get_field(s, v1), 1, ES_64);
-+
 +    tcg_temp_free(t0);
 +    tcg_temp_free(t1);
-+    tcg_temp_free(t2);
 +    return DISAS_NEXT;
 +}
 +
-+static DisasJumpType op_vsrd(DisasContext *s, DisasOps *o)
+ static DisasJumpType op_vlgv(DisasContext *s, DisasOps *o)
+ {
+     const uint8_t es = get_field(s, m4);
+@@ -976,6 +1016,50 @@ static DisasJumpType op_vste(DisasContext *s, DisasOps *o)
+     return DISAS_NEXT;
+ }
+ 
++static DisasJumpType op_vster(DisasContext *s, DisasOps *o)
 +{
-+    const uint8_t i4 = get_field(s, i4);
-+    TCGv_i64 t0, t1, t2;
++    const uint8_t es = get_field(s, m3);
++    TCGv_i64 t0, t1;
 +
-+    if (i4 & ~7) {
++    if (es < ES_16 || es > ES_64) {
 +        gen_program_exception(s, PGM_SPECIFICATION);
 +        return DISAS_NORETURN;
 +    }
 +
++    /* Probe write access before actually modifying memory */
++    gen_helper_probe_write_access(cpu_env, o->addr1, tcg_constant_i64(16));
++
++    /* Begin with the two doublewords swapped... */
 +    t0 = tcg_temp_new_i64();
 +    t1 = tcg_temp_new_i64();
-+    t2 = tcg_temp_new_i64();
++    read_vec_element_i64(t1,  get_field(s, v1), 0, ES_64);
++    read_vec_element_i64(t0,  get_field(s, v1), 1, ES_64);
 +
-+    read_vec_element_i64(t0, get_field(s, v2), 1, ES_64);
-+    read_vec_element_i64(t1, get_field(s, v3), 0, ES_64);
-+    read_vec_element_i64(t2, get_field(s, v3), 1, ES_64);
++    /* ... then swap smaller elements within the doublewords as required. */
++    switch (es) {
++    case MO_16:
++        tcg_gen_hswap_i64(t1, t1);
++        tcg_gen_hswap_i64(t0, t0);
++        break;
++    case MO_32:
++        tcg_gen_wswap_i64(t1, t1);
++        tcg_gen_wswap_i64(t0, t0);
++        break;
++    case MO_64:
++        break;
++    default:
++        g_assert_not_reached();
++    }
 +
-+    tcg_gen_extract2_i64(t0, t1, t0, i4);
-+    tcg_gen_extract2_i64(t1, t2, t1, i4);
++    tcg_gen_qemu_st_i64(t0, o->addr1, get_mem_index(s), MO_TEUQ);
++    gen_addi_and_wrap_i64(s, o->addr1, o->addr1, 8);
++    tcg_gen_qemu_st_i64(t1, o->addr1, get_mem_index(s), MO_TEUQ);
 +
-     write_vec_element_i64(t0, get_field(s, v1), 0, ES_64);
-     write_vec_element_i64(t1, get_field(s, v1), 1, ES_64);
- 
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++    return DISAS_NEXT;
++}
++
+ static DisasJumpType op_vstm(DisasContext *s, DisasOps *o)
+ {
+     const uint8_t v3 = get_field(s, v3);
 -- 
 2.34.1
 
