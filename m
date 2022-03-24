@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1FE4E6A10
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 21:58:23 +0100 (CET)
-Received: from localhost ([::1]:49828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8C44E6A13
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:03:44 +0100 (CET)
+Received: from localhost ([::1]:52300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXUXG-0006JW-Um
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 16:58:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38476)
+	id 1nXUcR-0008Fz-KB
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:03:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUWB-0005en-Cu
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:57:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23871)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUay-0007PV-Ak
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:02:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUWA-0000RR-0u
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:57:15 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUav-0001NB-FV
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:02:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648155433;
+ s=mimecast20190719; t=1648155728;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=++uY/vSxRBw7kiUaIsN/kAPJf2lQeFLEucwPRRgqBd0=;
- b=HN9vUW4sFeUcKKL6YFhsJania2UsjZlAGV/jhuEziI4hv7DKoRAzpBRQMJGyGnZfG4lEj9
- 6/if9dOruDLR29xe7n6iBxQI9h3MMoXi0N1qCKCXt/6z+k5SWp9XdkmgWPKMblWNj6NeTD
- Z6Y4AVitKd77Yixdoca6yV6Jq2pCnvQ=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JWlpziWNcfqbnuOYcxq9JMswpMf9lr0nFKUg5+Nnqpg=;
+ b=X24irxosEn3a6RD+XIG/zwfnPxgHuIBqwakjV7AW6vwvCxCaWS+KWLDMTW4169+FzrNo9r
+ 2/5BCKvpanjvs5Oj/L5UWa+yRvkDFh5JmZuH7RqJ24Hcodq+9xd0nqdWSNJDFF/jlWysml
+ BSqUGYNdNCqNeFW0cgAN6WVoZWLE7o8=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-3-KyZx7DQEMQuJiVnQ-KZfow-1; Thu, 24 Mar 2022 16:57:11 -0400
-X-MC-Unique: KyZx7DQEMQuJiVnQ-KZfow-1
-Received: by mail-vs1-f72.google.com with SMTP id
- h14-20020a67c58e000000b003253d4b7fa6so1227453vsk.17
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 13:57:11 -0700 (PDT)
+ us-mta-193-Hb9_iVpBOjCs_1iRI31blQ-1; Thu, 24 Mar 2022 17:02:07 -0400
+X-MC-Unique: Hb9_iVpBOjCs_1iRI31blQ-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ x3-20020a056130008300b003536b7123b0so1585067uaf.22
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:02:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=++uY/vSxRBw7kiUaIsN/kAPJf2lQeFLEucwPRRgqBd0=;
- b=AYXAHrbdRMNQcRqofZTXHPYgCXmHWIU+3bdnx0kiN8fFbCotxF9QW1mEBF1VXRZsJu
- 4hqlVmRmfPQklNwkzYDQmqghxq/GbvsGoqe0T2A4+Hi73aN2ntTTekN3R9lmTs3p7Iwj
- 7Dvugodx1Wz7A4kagMArUfe/dJ2/wPdVpEiRa/HRJgHJ7U5FdwYgXvp3gCzHyqeMOrwA
- Dx52xTsxSEuJ5LLdIMATJcsZbF7190f/V3+SUQKGgPJnvfWoz/OY//Qfgxlj/fDYxKbF
- /5n3GRnunFMKQlA3V+zvuIdi6BBC6FO/ntU1s5dVkaBpmQNxdm+HEnjgDEbFiUx2u50w
- Py/Q==
-X-Gm-Message-State: AOAM530C0e4+2dHUVWemV1ZBtXNiSwSLkuhGCoQZTCXtZ56iYIKOkymS
- 1a7N2Dp9vRFm+wO9mLf5v698EpfJOh0C6pXOC5W9V5qzm2uSwtxTvr8ZrwuU3+Yktc0HgZ7MOTC
- 8xrSXjcQXrcUqXScJSD3eQcTVueSo+rk=
+ :message-id:subject:to:cc;
+ bh=JWlpziWNcfqbnuOYcxq9JMswpMf9lr0nFKUg5+Nnqpg=;
+ b=kI2FMH6QvLvXZK2Jddp2S3xKSGvzgfQVMktHGrc5XZuUcAPo972bZXFb9zZKX+RACr
+ QPknZFNGlpZfhpbhBhU7NyV+GdlVhRn8vc63ZkCEMSLdYdqeRdoYSOUR5P2kFDowJGfK
+ GanlrhfmITG9n0LrkS+W+sYKZfXyq4gcML39nWurvVFu5Pn8f60yTJ+k1DcnuaTrogi0
+ aT8fXjU9oZf+AQw5hYN/6ifcn9A3fTAK6ugHmM/EdNkYYxqdGPRH6l0vp78NjtaDnU9y
+ VdhOyfHW+UsPoUlSgqgTfVczdXcLNuB2lEadWWQssxBElUsrosWnW+Ma5S8hv2yQet4Y
+ nJQw==
+X-Gm-Message-State: AOAM530tgLHTX0DhbSEgc+GBZfzE/EDZN6abIgP5LoySfA7XVJPFk1fm
+ CCaNoM8/3YIiwA9xD4y10a1OLxtg3IA5mWpM6f9skEiVPQtIZ1mX8LR2NUJ6bYAtl2RrDUTMSAP
+ SheltUNF2M9yLxVtjtuajO75t3i5sDrs=
 X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
- 187-20020a6717c4000000b00322cfd815a1mr3388158vsx.61.1648155431068; 
- Thu, 24 Mar 2022 13:57:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzb+P3mxZt3SQO/1azXhoOqZBeUSMT7QwvWZkLVZXCLFHUZTtbB2i6DoulAzhI6dS9F4DW5aELDHSAXiLDredg=
+ 187-20020a6717c4000000b00322cfd815a1mr3396422vsx.61.1648155725745; 
+ Thu, 24 Mar 2022 14:02:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxRbdVhLHXBrTYWyQURdjcolKxvNzSggYWD3A8jNlB+++BDj+msmZv3vH3R+QWrZ9KsXBX/nqjaJQ/ThJ2d+Bw=
 X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
- 187-20020a6717c4000000b00322cfd815a1mr3388153vsx.61.1648155430897; Thu, 24
- Mar 2022 13:57:10 -0700 (PDT)
+ 187-20020a6717c4000000b00322cfd815a1mr3396417vsx.61.1648155725573; Thu, 24
+ Mar 2022 14:02:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220324175015.232794-1-victortoso@redhat.com>
- <20220324175015.232794-7-victortoso@redhat.com>
-In-Reply-To: <20220324175015.232794-7-victortoso@redhat.com>
+ <20220324175015.232794-8-victortoso@redhat.com>
+In-Reply-To: <20220324175015.232794-8-victortoso@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Thu, 24 Mar 2022 16:57:00 -0400
-Message-ID: <CAFn=p-Y3Jywf45CyaxwQ+SP6+_ToFJoZ1Lr=8tNQdNLQQaESCg@mail.gmail.com>
-Subject: Re: [PATCH 06/14] qapi: fix example of MEMORY_DEVICE_SIZE_CHANGE event
+Date: Thu, 24 Mar 2022 17:01:54 -0400
+Message-ID: <CAFn=p-an=vdcpbY=8eHq2af5XMRhu25G5w350YqWECDATPmtNw@mail.gmail.com>
+Subject: Re: [PATCH 07/14] qapi: fix example of UNPLUG_PRIMARY event
 To: Victor Toso <victortoso@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -100,33 +98,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
 >
-> * qom-path is not optional
+> * Timestamp is not optional, let's add for completeness.
+> * Add '<-' to signalize it is receiving the data
+> * Break likes like most of examples do
+
+Oh, I think you meant "break lines like". That took a long minute to parse.
+
 >
 > Signed-off-by: Victor Toso <victortoso@redhat.com>
 > ---
->  qapi/machine.json | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  qapi/migration.json | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 42fc68403d..9c460ec450 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1356,7 +1356,8 @@
->  # Example:
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 18e2610e88..092a63354b 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1736,7 +1736,9 @@
+>  # Since: 4.2
 >  #
->  # <- { "event": "MEMORY_DEVICE_SIZE_CHANGE",
-> -#      "data": { "id": "vm0", "size": 1073741824},
-> +#      "data": { "id": "vm0", "size": 1073741824,
-> +#                "qom-path": "/machine/unattached/device[2]" },
->  #      "timestamp": { "seconds": 1588168529, "microseconds": 201316 } }
+>  # Example:
+> -#   {"event": "UNPLUG_PRIMARY", "data": {"device-id": "hostdev0"} }
+> +# <- { "event": "UNPLUG_PRIMARY",
+> +#      "data": { "device-id": "hostdev0" },
+> +#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
 >  #
 >  ##
+>  { 'event': 'UNPLUG_PRIMARY',
 > --
 > 2.35.1
 >
 
-I'll just assume this is a realistic qom-path and not actually try to check=
- =F0=9F=98=85
+With commit message amended:
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 
