@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5304E67A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 18:18:36 +0100 (CET)
-Received: from localhost ([::1]:39158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54ADA4E67B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 18:22:39 +0100 (CET)
+Received: from localhost ([::1]:44580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXR6Z-0004sQ-7f
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 13:18:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44638)
+	id 1nXRAT-0000Gd-Eo
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 13:22:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nXR3k-0002dF-Do
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:15:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50975)
+ id 1nXR3l-0002dN-GG
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:15:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nXR3e-0007M3-8Y
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:15:36 -0400
+ id 1nXR3g-0007NL-Si
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:15:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648142131;
+ s=mimecast20190719; t=1648142134;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ngNj5Z+a8xPN+Lnv4z3qqKxu8TylSFYh7C5Ibh34B2c=;
- b=a7vN+SxO7mChQY42pwENyVyFKgA9IGy2EW9J04CdU7AxJXCBB9ljZ6sOmn3GjX/uqBWtQC
- 7mEpfO96TILWUrKOAJtOoOQy+T4dSxlAZa53Fi1MGEj+PSeGPzv9HPftLoba3BlXdpBvtB
- 0bIOj9iGfGviGnsnne2H2zqeEk7thFQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Wmo9H9BkKbHuA5SYjyvivPTWynA+2KUslQ161QLJVjA=;
+ b=f6VXO7bu4TDuAxWsi5W1632bY5jgFp7DyF2v5J9UKBGDDlMoHeKNSl+MgmuMnJcG1f53kl
+ 4IMRtwHN+Hj0xfWvRhPq6z4jZJjV79wVTO2/A8//29/+OboRbx9Rvk5638Iw3gRiRuCJ/p
+ gDWjU0ztkAYJxy6pKKDdUGlglC9h2Aw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-38-IhotfNfbP4-UW0SHdKYofg-1; Thu, 24 Mar 2022 13:15:29 -0400
-X-MC-Unique: IhotfNfbP4-UW0SHdKYofg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-152-V9s0-TyqOYemH9CS2g8zlQ-1; Thu, 24 Mar 2022 13:15:31 -0400
+X-MC-Unique: V9s0-TyqOYemH9CS2g8zlQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 514AB89C7DB;
- Thu, 24 Mar 2022 17:15:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BACEF2800F6D;
+ Thu, 24 Mar 2022 17:15:30 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B59031454535;
- Thu, 24 Mar 2022 17:15:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69AF34010A3C;
+ Thu, 24 Mar 2022 17:15:30 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL for-7.0 0/2] Block patches
-Date: Thu, 24 Mar 2022 17:15:25 +0000
-Message-Id: <20220324171527.1256604-1-stefanha@redhat.com>
+Subject: [PULL for-7.0 1/2] block: Fix misleading hexadecimal format
+Date: Thu, 24 Mar 2022 17:15:26 +0000
+Message-Id: <20220324171527.1256604-2-stefanha@redhat.com>
+In-Reply-To: <20220324171527.1256604-1-stefanha@redhat.com>
+References: <20220324171527.1256604-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -65,7 +68,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,51 +82,50 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Eduardo Habkost <eduardo@habkost.net>, Hanna Reitz <hreitz@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 15ef89d2a1a7b93845a6b09c2ee8e1979f6eb30b=
-:=0D
-=0D
-  Update version for v7.0.0-rc1 release (2022-03-22 22:58:44 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/stefanha/qemu.git tags/block-pull-request=0D
-=0D
-for you to fetch changes up to 2539eade4f689eda7e9fe45486f18334bfbafaf0:=0D
-=0D
-  hw: Fix misleading hexadecimal format (2022-03-24 10:38:42 +0000)=0D
-=0D
-----------------------------------------------------------------=0D
-Pull request=0D
-=0D
-Philippe found cases where the 0x%d format string was used, leading to=0D
-misleading output. The patches look harmless and could save people time, so=
- I=0D
-think it's worth including them in 7.0.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  block: Fix misleading hexadecimal format=0D
-  hw: Fix misleading hexadecimal format=0D
-=0D
- block/parallels-ext.c | 2 +-=0D
- hw/i386/sgx.c         | 2 +-=0D
- hw/i386/trace-events  | 6 +++---=0D
- hw/misc/trace-events  | 4 ++--=0D
- hw/scsi/trace-events  | 4 ++--=0D
- 5 files changed, 9 insertions(+), 9 deletions(-)=0D
-=0D
---=20=0D
-2.35.1=0D
-=0D
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+"0x%u" format is very misleading, replace by "0x%x".
+
+Found running:
+
+  $ git grep -E '0x%[0-9]*([lL]*|" ?PRI)[dDuU]' block/
+
+Inspired-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Denis V. Lunev <den@openvz.org>
+Message-id: 20220323114718.58714-2-philippe.mathieu.daude@gmail.com
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ block/parallels-ext.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/block/parallels-ext.c b/block/parallels-ext.c
+index cb22a427d7..5122f67ac2 100644
+--- a/block/parallels-ext.c
++++ b/block/parallels-ext.c
+@@ -261,7 +261,7 @@ static int parallels_parse_format_extension(BlockDriverState *bs,
+             break;
+ 
+         default:
+-            error_setg(errp, "Unknown feature: 0x%" PRIu64, fh.magic);
++            error_setg(errp, "Unknown feature: 0x%" PRIx64, fh.magic);
+             goto fail;
+         }
+ 
+-- 
+2.35.1
 
 
