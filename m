@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 198114E69F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 21:49:30 +0100 (CET)
-Received: from localhost ([::1]:40894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426E74E6A01
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 21:51:59 +0100 (CET)
+Received: from localhost ([::1]:43318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXUOe-00083P-LY
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 16:49:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36054)
+	id 1nXUR4-0001ao-9r
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 16:51:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUN0-000791-Rg
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:47:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50372)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUP8-0000m0-2b
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:49:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUMx-0006kT-PX
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:47:45 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUP6-0006yg-G9
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:49:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648154862;
+ s=mimecast20190719; t=1648154995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=D0ZaUN+3J94e4vFDL9k7Gy4WAqVkhMjIyZhQ6EGMZtE=;
- b=NKm651hB+14jYS0rtIq69+qx76c6hITfWsn46SRva6dof2MtM+tj48CVekxJSf7fodYXyP
- uZGmrXOCM3IMiH+z7uhOuiZL6f8wuPoVDva8o/+aN9mhOFllxZYyu7qoB4CZfZSfwW8n3N
- u9UsOKMoYKXtB70upr2IjJ2nXOkZwYo=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yYeKXwFMf0JKme00Uu1Ea9X1/schybPG2ezIP832Ing=;
+ b=N3zlg8lhiMpjb7zDK6bRGiZnrGTdXlOoSsmpMtbSju7MoAT7iihVSP26Oj487NZlzLNT6X
+ SDosnGL908yKVBXnZ3I9otUv+Sy4L1WgxiMjqhuYrUjfv6k/5U6YcWmguDVzg8ApFy+/uO
+ bHghOS1p0nVGj2ZD7ntjNjf/Qrvwwak=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-536-DMbhpw-7MciXXlt48zv58A-1; Thu, 24 Mar 2022 16:47:41 -0400
-X-MC-Unique: DMbhpw-7MciXXlt48zv58A-1
-Received: by mail-vs1-f71.google.com with SMTP id
- 64-20020a670343000000b00320d34b992eso1234904vsd.1
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 13:47:41 -0700 (PDT)
+ us-mta-228-MJJHKm6fNAmBXA_Wr14CBA-1; Thu, 24 Mar 2022 16:49:54 -0400
+X-MC-Unique: MJJHKm6fNAmBXA_Wr14CBA-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ d3-20020a67c483000000b0032562b5ff34so592252vsk.12
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 13:49:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=D0ZaUN+3J94e4vFDL9k7Gy4WAqVkhMjIyZhQ6EGMZtE=;
- b=l6Jw8X7mGkLFKVMqDFisRH1NAnrzsfMqMWhPwFOqjHBsOjARLKUtgXHcbK4YEkAtdu
- kEo85v7gutACo3yaD1g0wMlcPxsp3rBaN9DAmP6o2ZEZsX6eYpa3yoTKb1gbkEoY1WTn
- ckzWHWhOxkns2ruPvnofNUQu7tKeJ06pN/3y2P3EnhufvIT8ELj6CX/lTR11lgswW5AV
- I1JJ077DGD869yMbpbxbqmel9s/mqP73wW0Cb/eP9TG7vSt4ChW6Nd9hOk4WvQ8WCOZ2
- bchVd5U5OfF1yNseDtnQseqAG3wSSmeI0frko+ADD6/jxEjzDo7ARjwbzBL4Zkcb76I3
- pgTg==
-X-Gm-Message-State: AOAM531doV9m9h6WnXOzyTHi1hWTZRxpR4phHvahOohzXDJUGDwEuaYK
- 8MxB2S59K0Swyu/lI4n7vjIVX0vN0/jpLPyfByzfqaFnm6U744OhaURCEJyZOX6Q9N/i7IaH091
- aFaX4pQpaeZw772hYs+J2rAU5KCz+EwA=
-X-Received: by 2002:a67:4c3:0:b0:324:ddd7:70d3 with SMTP id
- 186-20020a6704c3000000b00324ddd770d3mr3655653vse.61.1648154861173; 
- Thu, 24 Mar 2022 13:47:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzMMdx/odUsud4GcahR58zgD9+oWJRyfVwhglvsIm6k6PFhmqDp75ORGLqUUWsp6dZeI65DIxvBC65M5QXlv4=
-X-Received: by 2002:a67:4c3:0:b0:324:ddd7:70d3 with SMTP id
- 186-20020a6704c3000000b00324ddd770d3mr3655648vse.61.1648154860955; Thu, 24
- Mar 2022 13:47:40 -0700 (PDT)
+ bh=yYeKXwFMf0JKme00Uu1Ea9X1/schybPG2ezIP832Ing=;
+ b=KgZac9SJOg67r++F1kZv01YysTXdvFHkC2cEd3d+yfE1SOWV+mXEVLDhJUcBBbzvQ3
+ nq++Be/obQ2F+Z8L8ffNO4i35oPP71vwbVsLedK4araJ+OFSAI0lL59IrQTIFcFiESfA
+ qKz+0zCrkgdMxzKZJYiacYDn90aDxLOpHdQTKMj9v2MWvosBqLSqr34rNTkCkVd8G00N
+ 2wT6bFb3/OipGCr32jfnf8koOXAbnhKFi7Q0T3Sl0p1OesOlVLXzIGcfBTgXF3RGfw1t
+ vcHlqAKeog7LTZv/MonvAvGOaoBM7ZcFXaOrv3CZE4YcNhB5Ao2o0icrbBuqzVx3M3/Q
+ GSmA==
+X-Gm-Message-State: AOAM533u0ZHaoWE1DzOLDFDb+iblQm5u8iTOnalOfdtiAs3vmHN8vHp9
+ EFUfyCXIwkBxsVJDaLqHqqFM8p7ZsYlyy0K3HSnZxGKtXSWyOC3fEydV4n6MHOvd9c2zU7XL3qa
+ l/qTadRjfLBc91uOal0WBanP95O1h7p8=
+X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
+ 7-20020a056122088700b00332699e7e67mr3461510vkf.35.1648154993882; 
+ Thu, 24 Mar 2022 13:49:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+PaPbLObOFWHtC09GOfnON01/1DA10xztQAf8NhWSxS2qqdmK5MZrAR2IN/KjdifCX2EtdYwrUlTh6JYHkBY=
+X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
+ 7-20020a056122088700b00332699e7e67mr3461498vkf.35.1648154993657; Thu, 24 Mar
+ 2022 13:49:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220324175015.232794-1-victortoso@redhat.com>
- <20220324175015.232794-4-victortoso@redhat.com>
-In-Reply-To: <20220324175015.232794-4-victortoso@redhat.com>
+ <20220324175015.232794-5-victortoso@redhat.com>
+In-Reply-To: <20220324175015.232794-5-victortoso@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Thu, 24 Mar 2022 16:47:30 -0400
-Message-ID: <CAFn=p-ZAc3xB49KEYf2LOvUKFNVWq3C8EU-vbVpc9QdgAuMqqA@mail.gmail.com>
-Subject: Re: [PATCH 03/14] qapi: fix example of BLOCK_IO_ERROR event
+Date: Thu, 24 Mar 2022 16:49:42 -0400
+Message-ID: <CAFn=p-bJ-220xBnyayYspQsf-h_mOH3PV8W6W_vUXOkFW=LZsA@mail.gmail.com>
+Subject: Re: [PATCH 04/14] qapi: fix example of BLOCK_JOB_PENDING event
 To: Victor Toso <victortoso@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/alternative; boundary="000000000000eea45c05dafcfcc8"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -76,8 +76,8 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,26 +96,31 @@ Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
->
-> Reason is not optional.
+--000000000000eea45c05dafcfcc8
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, Mar 24, 2022, 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
+
+> * Event's name: BLOCK_JOB_WAITING -> BLOCK_JOB_PENDING
+> * Argument device -> id
 >
 > Signed-off-by: Victor Toso <victortoso@redhat.com>
 > ---
->  qapi/block-core.json | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  qapi/block-core.json | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
 > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 585a9e020e..5b6c069dd9 100644
+> index 5b6c069dd9..ea96e1b009 100644
 > --- a/qapi/block-core.json
 > +++ b/qapi/block-core.json
-> @@ -5059,7 +5059,8 @@
->  #      "data": { "device": "ide0-hd1",
->  #                "node-name": "#block212",
->  #                "operation": "write",
-> -#                "action": "stop" },
-> +#                "action": "stop",
-> +#                "reason": "Driver requires too large request alignment" },
+> @@ -5226,8 +5226,8 @@
+>  #
+>  # Example:
+>  #
+> -# <- { "event": "BLOCK_JOB_WAITING",
+> -#      "data": { "device": "drive0", "type": "mirror" },
+> +# <- { "event": "BLOCK_JOB_PENDING",
+> +#      "data": { "type": "mirror", "id": "backup_1" },
 >  #      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
 >  #
 >  ##
@@ -123,28 +128,64 @@ On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
 > 2.35.1
 >
 
-We discourage people using the reason programmatically, but there will
-indeed be one. Where'd you pull the message out from?
+Ow, how'd I get away with this? It was just always wrong and we never
+noticed?
 
-I see this:
+Cool.
 
-static void send_qmp_error_event(BlockBackend *blk,
-                                 BlockErrorAction action,
-                                 bool is_read, int error)
-{
-    IoOperationType optype;
-    BlockDriverState *bs = blk_bs(blk);
+Reviewed-by: John Snow <jsnow@redhat.com>
 
-    optype = is_read ? IO_OPERATION_TYPE_READ : IO_OPERATION_TYPE_WRITE;
-    qapi_event_send_block_io_error(blk_name(blk), !!bs,
-                                   bs ? bdrv_get_node_name(bs) : NULL, optype,
-                                   action, blk_iostatus_is_enabled(blk),
-                                   error == ENOSPC, strerror(error));
-}
+(Whoa, this is from 2018? It feels like it was from way before then.)
 
+>
 
-so it should be one of the "standard" strerror messages, right?
+--000000000000eea45c05dafcfcc8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---js
+<div dir=3D"ltr"><div dir=3D"auto"><div><br><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 24, 2022, 1:50 PM Victor =
+Toso &lt;<a href=3D"mailto:victortoso@redhat.com" target=3D"_blank">victort=
+oso@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">* Eve=
+nt&#39;s name: BLOCK_JOB_WAITING -&gt; BLOCK_JOB_PENDING<br>
+* Argument device -&gt; id<br>
+<br>
+Signed-off-by: Victor Toso &lt;<a href=3D"mailto:victortoso@redhat.com" rel=
+=3D"noreferrer" target=3D"_blank">victortoso@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0qapi/block-core.json | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/qapi/block-core.json b/qapi/block-core.json<br>
+index 5b6c069dd9..ea96e1b009 100644<br>
+--- a/qapi/block-core.json<br>
++++ b/qapi/block-core.json<br>
+@@ -5226,8 +5226,8 @@<br>
+=C2=A0#<br>
+=C2=A0# Example:<br>
+=C2=A0#<br>
+-# &lt;- { &quot;event&quot;: &quot;BLOCK_JOB_WAITING&quot;,<br>
+-#=C2=A0 =C2=A0 =C2=A0 &quot;data&quot;: { &quot;device&quot;: &quot;drive0=
+&quot;, &quot;type&quot;: &quot;mirror&quot; },<br>
++# &lt;- { &quot;event&quot;: &quot;BLOCK_JOB_PENDING&quot;,<br>
++#=C2=A0 =C2=A0 =C2=A0 &quot;data&quot;: { &quot;type&quot;: &quot;mirror&q=
+uot;, &quot;id&quot;: &quot;backup_1&quot; },<br>
+=C2=A0#=C2=A0 =C2=A0 =C2=A0 &quot;timestamp&quot;: { &quot;seconds&quot;: 1=
+265044230, &quot;microseconds&quot;: 450486 } }<br>
+=C2=A0#<br>
+=C2=A0##<br>
+-- <br>
+2.35.1<br></blockquote></div></div><div dir=3D"auto"><br></div><div>Ow, how=
+&#39;d I get away with this? It was just always wrong and we never noticed?=
+</div><div><br></div><div>Cool.</div><div><br></div><div>Reviewed-by: John =
+Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt;</div>=
+<div><br></div><div>(Whoa, this is from 2018? It feels like it was from way=
+ before then.)<br></div><div dir=3D"auto"><div class=3D"gmail_quote"><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex"></blockquote></div></div></div>
+</div>
+
+--000000000000eea45c05dafcfcc8--
 
 
