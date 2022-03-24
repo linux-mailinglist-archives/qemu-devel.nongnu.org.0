@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 774F14E6A28
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:18:30 +0100 (CET)
-Received: from localhost ([::1]:37274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E5A4E6A31
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:23:36 +0100 (CET)
+Received: from localhost ([::1]:41166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXUqj-0001SN-9Z
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:18:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42482)
+	id 1nXUve-0004QU-T7
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:23:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUoj-0008DO-RK
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:16:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22070)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUud-0003lX-Ve
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:22:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUoh-0003jV-8n
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:16:24 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUua-0004wV-4x
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:22:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648156581;
+ s=mimecast20190719; t=1648156946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tmYuhQsz8vM0BCkfjXRED2kBoVtno5AkZYGlL/CkPLc=;
- b=cr/ZjU4ITXFYgSqoE021sBWhItmLyJX578j1uf6qAIh36ofrdfjau15jVXHehbD1iAEjNd
- iTlGl3Z8e66+fFtdm5vRPCUZE44EKXhhdMwnkU6HkphICv8DZDetpt7LCVG7dTSS/gmh+o
- Far7lB//00D7vd4tmfy0p4+1cww51lw=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4lAMy8w6VA3HG9tcZoh8pLrOpOy5jr7qQzO6RFr9CmM=;
+ b=BK9L0/jJJREsATC+6XrHsL+2O3R5t7fXX+W7L/+ZScH4T/uiJgC29tH/fK8qKmd4jYtFnZ
+ RsxA/wVg5m6W/lUbQKu01KxwsGOsB4PHoAXgPEVc7RrGzAy6NB2px7f8SgRieOcLo49Nm/
+ 2hD1nWeYR/tzWslAt926f+xUthUl7Lg=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-139-LpEHU6v_NnWLfaGqyQoAjg-1; Thu, 24 Mar 2022 17:16:20 -0400
-X-MC-Unique: LpEHU6v_NnWLfaGqyQoAjg-1
-Received: by mail-vs1-f70.google.com with SMTP id
- c64-20020a671c43000000b00320a49afe2dso1232628vsc.22
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:16:20 -0700 (PDT)
+ us-mta-523-d53_k5QJNAOD1he4l6ymgw-1; Thu, 24 Mar 2022 17:22:25 -0400
+X-MC-Unique: d53_k5QJNAOD1he4l6ymgw-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ e14-20020ac5c14e000000b0033ef6f852dcso1148551vkk.19
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:22:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tmYuhQsz8vM0BCkfjXRED2kBoVtno5AkZYGlL/CkPLc=;
- b=FHGMtRugz9gKymyIuiEoUwFyi0bPzBEZkk9oeOXGo5QaJPxA+JbuOCf7eRAFioZVU6
- qYHegp/+1AeY9ly3DP6MBjjcXUbiQme0tSmtPI1KhUW942GXh9lxnF6mJ/BPLhv771R3
- Hq/590EVMdRLlpYgYTKxaGo34JJFTryMVi9IOzUz2PWgiOu+h4+7A5KvmWkBJylC94ni
- eE9UdVDMg+5y3we4DMaxJxUYSFHzfVVBgWIpfZQ5ln8aeQkJh4e1bkhaG7moMK9AkvYe
- EXQpDtbucj5jQpgmurnok2HHicUzJqYZ1Vf/MtZYlO/Okpu8M+vF5ot/ykC+7EHHt8nh
- Kvlg==
-X-Gm-Message-State: AOAM53275aOzMhV9s7q2qYAqypvXhXj/uP1CB/mIlmmq5ghjJazuejR+
- vRBCw/hDasDcE6WiKvCxaE5rMpo7gXiRuJ0nk3jZvNvr5ojRtJLcQ2fA6G9bd0x9DpKkTmZgawi
- 6FO6w2GvQi1iE/GrpMsRkYomuqHiiTWc=
-X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
- 187-20020a6717c4000000b00322cfd815a1mr3421214vsx.61.1648156580014; 
- Thu, 24 Mar 2022 14:16:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwbMGMiLiO8hroOWUFG0Y3bHKJZD1K27dpAw2K7jUX+wjp6VsSZyGqSRsGW1PYJTClX2CFD88hr8YzBk5m14ww=
-X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
- 187-20020a6717c4000000b00322cfd815a1mr3421207vsx.61.1648156579816; Thu, 24
- Mar 2022 14:16:19 -0700 (PDT)
+ bh=4lAMy8w6VA3HG9tcZoh8pLrOpOy5jr7qQzO6RFr9CmM=;
+ b=ZuTi6YJz+i1TaoNi5yoD7QFrVO9zYzzUnqYUcL7RaLVAV+GDvzW7ywZoP1N98RQeE1
+ ABCZuisM48wz7Oq5IIRmFr8NhVdn2tFTNNk+t8U0crZh1ky1uLqT7Pzg082A95bgFQvp
+ 4rTWk9wGDg8cwVabYnAiuBdAKu78Puc9H9KPNwn9CQd3myOZ8eOcC6p996WjExt4xWAB
+ goPw/1FnA+odH9fbwsn6fGLPOK2s5HQi5uF9VymqnhyuIGtBDWaP0bOYmL2Az74zzcjC
+ X1klZWrMKGJPNKp3gVU+z4inFc7FKSpvELvbYoePq35Bj5/Wg0kbGZdNZLKynprszrqr
+ jgfA==
+X-Gm-Message-State: AOAM533lGcOraWHVjDnu0Fev8aJ099x7PL+oFEG+3uXjVwTGU07cCV/R
+ EoCUnhBRKDQJzFh9py3JrC/ahWn/paZypEQmQazGI7HDoHugSXAEE+BXKSDO/1ictbfTGSw8gC5
+ uVTpmWD/ljwIZmmD9txj9qjp3PDUs8yM=
+X-Received: by 2002:a1f:3244:0:b0:332:2037:83b1 with SMTP id
+ y65-20020a1f3244000000b00332203783b1mr3801227vky.24.1648156944645; 
+ Thu, 24 Mar 2022 14:22:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhWGRvzzCj2hJtqr1fNqywdgLY2z/iR9qN5/Sda6uflENuuwqKeWj2TOwUSkXJ7Mg/qP7LLEMRG2ofGVRs6lU=
+X-Received: by 2002:a1f:3244:0:b0:332:2037:83b1 with SMTP id
+ y65-20020a1f3244000000b00332203783b1mr3801220vky.24.1648156944389; Thu, 24
+ Mar 2022 14:22:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220324175015.232794-1-victortoso@redhat.com>
- <20220324175015.232794-11-victortoso@redhat.com>
-In-Reply-To: <20220324175015.232794-11-victortoso@redhat.com>
+ <20220324175015.232794-13-victortoso@redhat.com>
+In-Reply-To: <20220324175015.232794-13-victortoso@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Thu, 24 Mar 2022 17:16:09 -0400
-Message-ID: <CAFn=p-aKJfgrSBSQaB6fn9kNQzGHwfP-JkTyBktkPB_LASpE=Q@mail.gmail.com>
-Subject: Re: [PATCH 10/14] qapi: run-state examples: add missing timestamp
+Date: Thu, 24 Mar 2022 17:22:13 -0400
+Message-ID: <CAFn=p-ZmsmnMC3fC9cdnZ=2t41ti5aoFzuxu0k_7NhcwBvzmLQ@mail.gmail.com>
+Subject: Re: [PATCH 12/14] qapi: ui examples: add missing websocket member
 To: Victor Toso <victortoso@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
@@ -98,45 +98,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
 >
+> As the websocket is not optional in VncBasicInfo.
+>
 > Signed-off-by: Victor Toso <victortoso@redhat.com>
 > ---
->  qapi/run-state.json | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  qapi/ui.json | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 >
-> diff --git a/qapi/run-state.json b/qapi/run-state.json
-> index 1b9f64c9cd..f87b9378ac 100644
-> --- a/qapi/run-state.json
-> +++ b/qapi/run-state.json
-> @@ -426,7 +426,8 @@
->  # Example:
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 664da9e462..a810ed680c 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -710,10 +710,10 @@
 >  #
->  # <- { "event": "GUEST_PANICKED",
-> -#      "data": { "action": "pause" } }
-> +#      "data": { "action": "pause" },
-> +#      "timestamp": { "seconds": 1267061043, "microseconds": 959568 } }
->  #
->  ##
->  { 'event': 'GUEST_PANICKED',
-> @@ -446,7 +447,8 @@
->  # Example:
->  #
->  # <- { "event": "GUEST_CRASHLOADED",
-> -#      "data": { "action": "run" } }
-> +#      "data": { "action": "run" },
-> +#      "timestamp": { "seconds": 1267061043, "microseconds": 959568 } }
+>  # <- { "event": "VNC_CONNECTED",
+>  #      "data": {
+> -#            "server": { "auth": "sasl", "family": "ipv4",
+> +#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
+>  #                        "service": "5901", "host": "0.0.0.0" },
+>  #            "client": { "family": "ipv4", "service": "58425",
+> -#                        "host": "127.0.0.1" } },
+> +#                        "host": "127.0.0.1", "websocket": false } },
+>  #      "timestamp": { "seconds": 1262976601, "microseconds": 975795 } }
 >  #
 >  ##
->  { 'event': 'GUEST_CRASHLOADED',
+> @@ -738,9 +738,9 @@
+>  #
+>  # <-  { "event": "VNC_INITIALIZED",
+>  #       "data": {
+> -#            "server": { "auth": "sasl", "family": "ipv4",
+> +#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
+>  #                        "service": "5901", "host": "0.0.0.0"},
+> -#            "client": { "family": "ipv4", "service": "46089",
+> +#            "client": { "family": "ipv4", "service": "46089", "websocket": false,
+>  #                        "host": "127.0.0.1", "sasl_username": "luiz" } },
+>  #       "timestamp": { "seconds": 1263475302, "microseconds": 150772 } }
+>  #
+> @@ -765,9 +765,9 @@
+>  #
+>  # <- { "event": "VNC_DISCONNECTED",
+>  #      "data": {
+> -#            "server": { "auth": "sasl", "family": "ipv4",
+> +#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
+>  #                        "service": "5901", "host": "0.0.0.0" },
+> -#            "client": { "family": "ipv4", "service": "58425",
+> +#            "client": { "family": "ipv4", "service": "58425", "websocket": false,
+>  #                        "host": "127.0.0.1", "sasl_username": "luiz" } },
+>  #      "timestamp": { "seconds": 1262976601, "microseconds": 975795 } }
+>  #
 > --
 > 2.35.1
 >
 
-Someone once reviewed my documentation and noted that the timestamps
-were correctly chronological.
-
-... I feel like I have been *hurt* somehow.
-
-Anyway:
+Okie-dokey.
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 
