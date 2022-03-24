@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A0A4E6065
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:34:17 +0100 (CET)
-Received: from localhost ([::1]:49868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962D34E6048
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:25:02 +0100 (CET)
+Received: from localhost ([::1]:60966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXIvA-0003qs-1u
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:34:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52262)
+	id 1nXImD-0000LT-LB
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:25:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhq-00060d-Q7
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:30 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:42445)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhn-0005xg-SP
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:39315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhp-0003RZ-53
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:30 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhl-0003Ps-Qv
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:27 -0400
 Received: from quad ([82.142.12.150]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MZCrZ-1nc1f40q2b-00VCV1; Thu, 24
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MyK1E-1oGcGZ3Ji0-00yjHa; Thu, 24
  Mar 2022 09:20:23 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/10] linux-user: Fix missing space in error message
-Date: Thu, 24 Mar 2022 09:20:13 +0100
-Message-Id: <20220324082016.3463521-8-laurent@vivier.eu>
+Subject: [PULL 08/10] linux-user/arm: Implement __kernel_memory_barrier
+Date: Thu, 24 Mar 2022 09:20:14 +0100
+Message-Id: <20220324082016.3463521-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220324082016.3463521-1-laurent@vivier.eu>
 References: <20220324082016.3463521-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bPz0y/RG92IsAAKj0NqSt4bsoIEWFQO4M+8uFIYnLxN+Uuht/n9
- S8hm6gDChgWL7qwySTryBXf83rQoxKK7WetuK2mAv9Qk8SK8TMJJdQv1Uf/X2kRCKmhQCMN
- 4l9YmA2bpjdWFU3/z34IdfPcfjR25uWMbvqqYlNuJCgqsG9dCa8t9P6ZWVi/YDIFAXiu1ua
- NlGa1tQQJLW0cKdghpfRw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:z48gS2SW2bE=:lyA3pvYCBAqjZMi6nfItoQ
- 7UzwqBnzNO8tLmGYVkDgQsNr+rHMZEOM7IgFq7T0hu+L89O8DMHeuxFZzcx5p+1VxQnIqcXBC
- bhdOTRgNAWQ9EeAtoL6QAPPqhWTvoWGfu5V2bXDIWy1V86d/s3SXPzUqOoCJMkYskEk1jDnCV
- oGLQowI70UJ7L23hh997yXHiEpdlbbYTVykoFmdG4HxmU8wwSrMql7TwEEEz59XTOjWGvKAgj
- onA7gbqpQ2XEBOeqSOVAlzced18v8kf+aXtkns+XViCBiDYvgepvEgIky2zkh7IueGh2PpPat
- IoHkkAPEynwYCbY/lOlOm9a/6Ufv3ubsJnTHaB0vNniyy3ZYRN0d/kwyisO/V3FJorxckKCJR
- C3aulLR1xb/sakYPlMVzl5U09gw1WckcXqSQS22CZxassEJSzHILkx53Fx8tAWU5OXtZ+V03J
- bTRfCiTcQkdik4Hlym+saDTI4TfgCuoKVYMknN9enq55K6jC/Dvk5HhrUmnv3rS1H569Sz6Nc
- soAsq5hq1VPRoiCjmGsR7wuuoQeCUtOSOAqx9+610srYL7iXXtm/jgt8uzudYzt2hdO6GfAN2
- NNpzs0IwAPpmFpt9fZFUpoSN/aPzDmZpA3T6JY4SNnOVcyjsRmdxg9DIRj0X7f32yCM8mNUiE
- TsOYlIoCC7rCwVs1TJ962ar10Qm9AeO5svMwUaeVJulUpPjvTxAPKrFN34vfVg2JelUo=
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Z/NlUyply1+7e9wKf2c6YVxP2JU/sJwneqMS8vQBL2bQbEIfwk6
+ pgUQ8zs5Hs5gdCuZT3iPrwKRuxHd5JIxHvZtkU7mOVrdO2K+xA02QA/AC2Ku2doUEWj4o8S
+ rQijBXVyNebwx7Y7gxMVMGxnH1ritZipLKvPZhnd3VGK7QTZt0n1QHkyCbEDFElyxZNemuG
+ WGW4T1Tj87OZNIb99BUoA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:d4ljv/EYbSw=:W04w696d/mx9U0qugvLbPC
+ BhAhjaIeIC1LcKaRAgC7t+PJh0WRbAKLzibTB5UAaUD1ckGRg5EUAM9vW6JzGIGKwqa9lO404
+ YEh/2FZFei7BC7jWN9RGMfTgD5AZHGgyI155QzzEFg844/xp+Gg89r79eDIc8DTT9RMFwi3vM
+ gHdKZR3oHbYA+7fMGHeKzQrVgfh8xAEg9RTeL7qWD022WnEOayWuzFDu/lGQSdsGDU71Hz7xh
+ o8UmjFjDiZYnvtO8YFx2jMVxk0zfv9p6hl7UMLCzd7IMtlmzVuUDVrtD2DsaCZpCt7a4M3aCK
+ eKvl+SWmhLr+5s9EamzNNyjlYrPLb7s6mHyx6XZJhgdLiwcQyL/Vka+oakHIb6tN4/BGG1NxW
+ t073OkpcvAQWGuz30nvSrNxWT70BtuXDZFuJDNOFDguWrKbcbbq+14pmtjr+gTs7q4P55zO9O
+ 5WEBdgGJYYGFthr3rytPU4Ckoe75JnAsHtUUa1MwadRmd6sPf2iRpdMDy/x68bl095VEdCOKb
+ TQqrdxgzWRS1ImkGj17dprCOfRqgOJfCEUgkpr99HIAdDC+hM1Fhy1T3GKleRmiyIwfw2pSc7
+ 5GzPRsCYh2vGa8WKEpWAf6qF86FU0NdFxE0Sh5rOLxvUpfjS3qG8tcjBcGZuy6+kvJtvttFGa
+ xrCJ7sdrmvpiWR7ShRELhsgKx/bf6IWBasEICeuZdGyEclDtJS4iu0yjcC+92t72+Nsw=
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,38 +65,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Patrick Venture <venture@google.com>, Fergus Henderson <fergus@google.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Fergus Henderson <fergus@google.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Fergus Henderson <fergus@google.com>
-Signed-off-by: Patrick Venture <venture@google.com>
+This fallback syscall was stubbed out.
+It would only matter for emulating pre-armv6.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220310192148.1696486-1-venture@google.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220323005839.94327-2-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 2 +-
+ linux-user/arm/cpu_loop.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 9628a38361cb..c45da4d63375 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2504,7 +2504,7 @@ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
-     addr = mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
-     if (addr == MAP_FAILED || addr != test) {
-         error_report("Unable to reserve 0x%lx bytes of virtual address "
--                     "space at %p (%s) for use as guest address space (check your"
-+                     "space at %p (%s) for use as guest address space (check your "
-                      "virtual memory ulimit setting, min_mmap_addr or reserve less "
-                      "using -R option)", reserved_va, test, strerror(errno));
-         exit(EXIT_FAILURE);
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index 032e1ffddfbd..a0e43b261c7b 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -158,7 +158,7 @@ do_kernel_trap(CPUARMState *env)
+ 
+     switch (env->regs[15]) {
+     case 0xffff0fa0: /* __kernel_memory_barrier */
+-        /* ??? No-op. Will need to do better for SMP.  */
++        smp_mb();
+         break;
+     case 0xffff0fc0: /* __kernel_cmpxchg */
+          /* XXX: This only works between threads, not between processes.
 -- 
 2.35.1
 
