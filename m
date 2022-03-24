@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25CD4E61D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 11:34:34 +0100 (CET)
-Received: from localhost ([::1]:36150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE724E61DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 11:38:01 +0100 (CET)
+Received: from localhost ([::1]:39384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXKnZ-0001YD-HQ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 06:34:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36710)
+	id 1nXKqu-0004Ct-2T
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 06:38:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nXKmV-0000rO-8p
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 06:33:27 -0400
-Received: from [2a00:1450:4864:20::631] (port=38724
- helo=mail-ej1-x631.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nXKmT-0004KT-G0
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 06:33:26 -0400
-Received: by mail-ej1-x631.google.com with SMTP id r13so8227968ejd.5
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 03:33:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=s9Vz/jqonCk+mtpj2Crv26JYFjKQXeIrY1foRlaHIuE=;
- b=XfYFtkYQZQcpTq1j2dmN/lBsF78VeZy8NG7wtiB2mw15OKK2HyyGalICna2SOdcsuJ
- oXzK/VDme4RUkNA4xSpdiqAAW6Wukzni8meSktkM9mKf8vR5+I+J3gz++VAOhFEAJWTM
- khQkoSI1JGXmgNvDyuZWOAlRTYmwp8EizvOmIE+alczxuQRcBwCHCe/Qd2nldMr79Ygj
- HLVxNQacVTXlOQMDsAwGqEVYxd1AVvL8B66ytbLZsHzUe6qyTPVpf+x4Sp2Cv0HWdMr7
- 3OdHvxcLUdCnhTDJes3CNKbj+MI6VmcVBnJQNWrud7a52YLXGi5SEfqHJIV0nXC71HbU
- OTZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=s9Vz/jqonCk+mtpj2Crv26JYFjKQXeIrY1foRlaHIuE=;
- b=v1tOrG40jU9Lh7Ba0Svq4E6JbDwnXfa+2Tl0OE3Lj44VY0woWIQtJEHWUy+nQwmD7H
- zLWTQmC+EjH7C5z7xEgDogvUdw1Xf84GT7kBpf6FcnQWrEl+VC/c3plYaagnYjchUwYK
- nclE2RTL/z8ULTYu+CaHiL68FQHpAKl4Y8FIkyOJSMQHKBwpJyxssbpGAl3vYpdwoksw
- NJBr4LDGACIZ45N69M5ROW0HorlzHuo22Ok97HC3y8a0K9nwPRKzMEMBm8H1xrGH6vq1
- mabYi/p1HZ2ExPnhDQKGLQNX6Xi2glopXbKBWhcPzdpJG7OBPvC5fVgRjP90afmJQ2vI
- mHvg==
-X-Gm-Message-State: AOAM533o6w3Cz5ssKm0HkkqM3gs5iy1KIcptTN0gkAe2F4tpARnZwBoN
- F/uzZTn3MTr3UGU1fET7JbAzWg==
-X-Google-Smtp-Source: ABdhPJzQli7JLN+7+41Z76S1BfddpZ1Dw4qCGpbxGKOxNJ1oIUT62DmEs93K1X8jwrRRI1ZIWC274Q==
-X-Received: by 2002:a17:907:1ca3:b0:6e0:5a9:37a1 with SMTP id
- nb35-20020a1709071ca300b006e005a937a1mr4895072ejc.651.1648118003692; 
- Thu, 24 Mar 2022 03:33:23 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- b25-20020a056402139900b0041904036ab1sm1230270edv.5.2022.03.24.03.33.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Mar 2022 03:33:22 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D3E021FFB7;
- Thu, 24 Mar 2022 10:33:21 +0000 (GMT)
-References: <20220322154213.86475-1-bmeng.cn@gmail.com>
- <CAFEAcA8RdqQ5fzoZtb5SaYe41FA=oKo21veergqhMgo=eFmB6Q@mail.gmail.com>
- <CAEUhbmVXiB+mbbjhy0sT2PhQHNJgdHmehXfcE18g=E3SPffndQ@mail.gmail.com>
-User-agent: mu4e 1.7.10; emacs 28.0.92
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH 1/2] gdbstub: Set current_cpu for memory read write
-Date: Thu, 24 Mar 2022 10:27:54 +0000
-In-reply-to: <CAEUhbmVXiB+mbbjhy0sT2PhQHNJgdHmehXfcE18g=E3SPffndQ@mail.gmail.com>
-Message-ID: <87wngj3aj2.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nXKph-0002zH-Nr
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 06:36:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21080)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nXKpd-0004x2-Mu
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 06:36:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648118199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DCqxtDediRkkAWSJ9dKag2mNYtiWsoQURqRxIjk2268=;
+ b=IxwgqwQ532ijQwqTO8snsvP9AcNimMVBdUSLqAGRtGv8OgsjwA34CtJd8by9FYtjnEonRz
+ RILmpKqMzxIuU7ABUAdzv4HgpFtBalAwKRckYo1chp/OLmr5/6/GK57ARqpNkEY6w/fvWZ
+ 1zRqHZd0XW9V2RVYSD89yR6HZJjBirs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-662-ueXMDlDfMl2gJcpmGXfDcw-1; Thu, 24 Mar 2022 06:36:35 -0400
+X-MC-Unique: ueXMDlDfMl2gJcpmGXfDcw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 704961C068EE;
+ Thu, 24 Mar 2022 10:36:35 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 06CDE401E70;
+ Thu, 24 Mar 2022 10:36:34 +0000 (UTC)
+Date: Thu, 24 Mar 2022 10:36:33 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH] iotests: update test owner contact information
+Message-ID: <YjxJsSRRk1kBzwz9@stefanha-x1.localdomain>
+References: <20220322174212.1169630-1-jsnow@redhat.com>
+ <51806099-c55d-ce5e-ae3f-e1609c8a92e5@redhat.com>
+ <993fb20b-0445-037b-e6a5-f13a48f9db4f@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="kQMjRa0SD2aoBwvH"
+Content-Disposition: inline
+In-Reply-To: <993fb20b-0445-037b-e6a5-f13a48f9db4f@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,50 +78,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-D?= =?utf-8?Q?aud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Bin Meng <bmeng.cn@gmail.com> writes:
+--kQMjRa0SD2aoBwvH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Tue, Mar 22, 2022 at 11:56 PM Peter Maydell <peter.maydell@linaro.org>=
- wrote:
->>
->> On Tue, 22 Mar 2022 at 15:43, Bin Meng <bmeng.cn@gmail.com> wrote:
->> >
->> > When accessing the per-CPU register bank of some devices (e.g.: GIC)
->> > from the GDB stub context, a segfault occurs. This is due to current_c=
-pu
->> > is not set, as the contect is not a guest CPU.
->> >
->> > Let's set current_cpu before doing the acutal memory read write.
->> >
->> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/124
->> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
->> > ---
->>
->> This works, but I worry a bit that it might have unexpected
->> side effects, and setting globals (even if thread-local) to
->> cause side-effects elsewhere isn't ideal...
->>
->
-> The functions modified are local to the gdbstub or monitor thread, so
-> modifying the thread-local variable should have no side-effects.
+On Wed, Mar 23, 2022 at 01:10:19PM +0100, Hanna Reitz wrote:
+> On 23.03.22 09:39, Thomas Huth wrote:
+> > On 22/03/2022 18.42, John Snow wrote:
+> > > Quite a few of these tests have stale contact information. This patch
+> > > updates the stale ones that I happen to be aware of at the moment.
+> > >=20
+> > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > ---
+> > > =C2=A0 tests/qemu-iotests/025 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/027 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/028 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/036 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/039 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/059 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/060 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/061 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/062 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/064 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/066 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/068 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/069 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/070 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/071 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/072 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/074 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/084 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/085 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/089 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/090 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/091 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/094 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/095 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/097 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/098 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/099 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/102 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/103 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/105 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/106 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/107 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/108 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/110 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/111 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/112 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/113 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/115 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/117 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/119 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/120 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/121 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/123 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/125 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/126 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/127 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/135 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/138 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/140 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/141 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/143 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/144 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/146 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/150 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/153 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/156 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/162 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/173 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/176 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/182 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/192 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/200 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/216 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/218 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/224 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/225 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/228 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/229 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/231 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/250 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/251 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/252 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/258 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/259 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/261 | 2 +-
+> > > =C2=A0 tests/qemu-iotests/310 | 2 +-
+> > > =C2=A0 76 files changed, 76 insertions(+), 76 deletions(-)
+> > >=20
+> > > diff --git a/tests/qemu-iotests/025 b/tests/qemu-iotests/025
+> > > index 80686a30d5..5771ea9200 100755
+> > > --- a/tests/qemu-iotests/025
+> > > +++ b/tests/qemu-iotests/025
+> > > @@ -20,7 +20,7 @@
+> > > =C2=A0 #
+> > > =C2=A0 =C2=A0 # creator
+> > > -owner=3Dstefanha@linux.vnet.ibm.com
+> > > +owner=3Dstefanha@redhat.com
+> >=20
+> > Wow, these were really old ones ... I wonder whether these "owner" lines
+> > really still make that much sense if they are neglected that much, or
+> > whether the information should maybe rather be captured in MAINTAINERS
+> > instead?
+>=20
+> Or maybe we should just drop the whole concept of ownership in the iotests
+> altogether, I can=E2=80=99t remember it ever coming up.=C2=A0 If a test f=
+ails, it never
+> mattered to me who the =E2=80=9Cowner=E2=80=9D is, I just did my best to =
+fix it myself,
+> usually.=C2=A0 If I couldn=E2=80=99t, I used git-blame to figure out who =
+to ask, because
+> tests tend to be written by multiple people anyway.
+>=20
+> Anyway, that=E2=80=99d be more difficult, I suppose, because dropping own=
+ership
+> information would (I guess) require consent from everyone, so this is
+> simpler for now.
+>=20
+> Thanks for the patch, I=E2=80=99ve applied it to my block branch:
+>=20
+> https://gitlab.com/hreitz/qemu/-/commits/block
 
-The functions may be but current_cpu isn't as evidenced by the fact you
-set it despite passing cpu down the call chain. We have places in the
-code that assert(current_cpu) because they absolutely be only called in
-a real vCPU thread and not elsewhere. This loosens that guarantee.
+For the record:
+I'm happy fro my @linux.vnet.ibm.com email address to be removed or
+replaced since the address is no longer in use. IBM copyright needs to
+be kept.
 
-I think we need to not use cpu_physical_memory_write (which is
-explicitly the system address space) but have a function that takes cpu
-so it can work out the correct address space to you
-address_space_read/write. If null we could probably reasonably use
-first_cpu as an approximation.
+Thanks,
+Stefan
 
---=20
-Alex Benn=C3=A9e
+--kQMjRa0SD2aoBwvH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmI8SbEACgkQnKSrs4Gr
+c8i72Af+Lu7vq2ICr3+XUPhVBgiu6vyaTdy62CXU9yJbTud8+2UeXnRWfRb+Qiwf
+p64avGxzMVudNLyFZYm96e/tjwaw0uLHAwpQEvYzr+Mepv4xAobydUhyOn6qXQZ+
+dn3WSmt/EjL28ptZazddFnxj99kvCjyX7HQoDIWr0/jPWo4pHOTJy8oLRfEXxwPo
++w2BJBO9Qy4saom/gUsGtYosXqFErpjKUiWm72kHrc6H19T7hpXdJtgAwv3qBKLp
+Rrf0kVeRJr5OGix5Tc6ACXKw09nW7WTG3nryuM6JOW+3HNRLWZYKJPl6g4VDwslT
+esa87nR8po5ZErQkTDsGW+KN9qyO+A==
+=0UUs
+-----END PGP SIGNATURE-----
+
+--kQMjRa0SD2aoBwvH--
+
 
