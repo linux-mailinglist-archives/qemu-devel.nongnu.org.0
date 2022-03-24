@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D574E6A38
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:27:12 +0100 (CET)
-Received: from localhost ([::1]:43444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BFA34E6A3B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:29:35 +0100 (CET)
+Received: from localhost ([::1]:45610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXUz9-0006DA-CH
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:27:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44566)
+	id 1nXV1S-0007iL-LZ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:29:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXUxX-0005Qy-Ga
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:25:31 -0400
-Received: from [2607:f8b0:4864:20::1129] (port=43956
- helo=mail-yw1-x1129.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXUxW-0005TD-10
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:25:31 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2e5e31c34bfso64783977b3.10
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:25:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ZtEU/O+vNZH6paWpI6vm1B3u+2Zz5VH5xF/54Jc03eA=;
- b=PNCBFVnEHQnGfeHR+TMmMJwVU+EdfJj/QQrb44TgC4+4Im5ipzMTHPwzg/LlwurIBt
- 4ZBs6k6uZuYkra7J1YYHVoyqB31xdM1g+tGhKc/LkaDWaE3Q4WVJivzoP/wpBGIGbLGB
- 0wKRm+D25LMQ0zOk8DODTv1a64snM5BGaQ1VSL7q0cOvd+pQWus8gL+stZSS7Cbp9M7r
- pps/iwHh+eSU1jCHVgT1fVBN3jJ71h4whOO0+6Am+DWB4pt3ewZDzQ0BleY9aeqcUzRd
- YTZDe6YUwdHQbfcXQW1x3oke2NMQ5ZT+gVGXAzRlAOl+DWG30CeIjiB9hRMyE5YxUiiZ
- TgVw==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXV0L-000731-7O
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:28:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34577)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXV0I-0005nO-CI
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:28:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648157301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=avEPN6TTqye3WjedNiw8vbyYA478Xm7GUHXci8kCmYE=;
+ b=GY/Q7RwsBJawoQl5iyArZ3A06UTsxWS+KP0B4TbC16CX2Qra39+h1+PplmcfhCbDdtLQ6U
+ ZOcZei2pCLUktAKp29e6TXZCQ694D7U7eRU/i9XIUHjjWldP3Wk8dIUrIvp278s5YUGdqD
+ Pe9Q753Dxa8R4d17epgk56WuiYyZshg=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-80-dGVCfWZlOGKdIER2JEJpwg-1; Thu, 24 Mar 2022 17:28:20 -0400
+X-MC-Unique: dGVCfWZlOGKdIER2JEJpwg-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ g20-20020a67dc94000000b003253f7908dbso1243671vsk.13
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:28:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ZtEU/O+vNZH6paWpI6vm1B3u+2Zz5VH5xF/54Jc03eA=;
- b=v2q6rgHpql9BTn4uFAJTxb2qXKrj1dYaX/GMF2ZmxwmdFSNNYU9ADr2QgDjTiyDrzz
- ug7yMXyfN7DWACNtbwm3mDFd6k/TRO1dyT+YZdFAmUzUr9unlLhA5g7RUgJC1VVk7Er3
- JjJARLgqXeDsAIIS5kfXMt++LG03uyc8aD6rRYtWjjfQOC6HGQ0ozraIfg0L3izbvJK+
- lxCsB6T+40hRqD0TSPfDdOQ+uo8xeWBrKNO0SpkAp4WnHStPgzl68xPm9tlsfO5Av1ub
- gWc9UYw5jDU/EF4LXLfE/uU4XIyBnUfDTbGRE7e5WrIgIcFbC7IufbNJ5yGzNw+fxnAt
- K9GQ==
-X-Gm-Message-State: AOAM531fD5D3DWqJnyP+iibeFjaaXZRrCohTaPSLj0Ca70GQ0JB/pmi8
- DCqg3Jx4fpkjQrY3BKAPCnZffcJD8DzCYAMwGL2EzA==
-X-Google-Smtp-Source: ABdhPJweTDTkAi0YnLrZmexXO4PgsjGsL9yJfiqvfpn/Lxwzuyg33YC8EW4nHpSDXPWXPQREkXmY+TTxK4xrxA0RKQc=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr7217970ywb.257.1648157128978; Thu, 24 Mar
- 2022 14:25:28 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=avEPN6TTqye3WjedNiw8vbyYA478Xm7GUHXci8kCmYE=;
+ b=pZKpqICHgjqi/BlqkNHzOrOCM+papgZzr+HrddNQAF/VpytilMQn+48bFPo5gcbx+u
+ rGijSn+BeI0mEl6QchNvNNr+snIKxhdduoSXfOjV/Qp0TnxbsmGiRMwXxXHQu9jHbA+A
+ xV7XZsaHRxYrC8STAkNKWF7nDZ402Vs/U+juibOKEiYn0m6zoRt402DxZuH2x4fGKZMt
+ d1d/Ton8gjOb+AInLCw1vCLJyA5Q4g9/ejhMvAZvX8a3SiDngV7V8kUDqdyCPSOr8qOq
+ tBZaXWdMPLpAvzFxNZ0pzejXGDLAyck06CY8zpUV/rIMHGYk6C2xl6Kk91yzDWdR6Fy4
+ Y/2g==
+X-Gm-Message-State: AOAM532lNEFZ9/cDHcP6w5YzWM8D819hHxLmPzaohBO76u+MT+axtxek
+ B7CIbVC1JZjJ8XYXjoHW+d1Nkh9wsWkBIBl9bRTgRvRa+9mobye59RDRy4D2dJDjBKxW/oW7j4g
+ FgJ/QvwkOgd/KhZeGa1vGB4l6qBXwIDA=
+X-Received: by 2002:a05:6122:1da:b0:33f:c6b3:ac58 with SMTP id
+ h26-20020a05612201da00b0033fc6b3ac58mr2212328vko.1.1648157299829; 
+ Thu, 24 Mar 2022 14:28:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzxngD9E9qqFBIFJSARnVxw7lGljWgyWBSN2xfGlG26NrpTn9JR8to4cIL/h1RsVKyJJna32ZjekEhs7rLtSZ4=
+X-Received: by 2002:a05:6122:1da:b0:33f:c6b3:ac58 with SMTP id
+ h26-20020a05612201da00b0033fc6b3ac58mr2212318vko.1.1648157299594; Thu, 24 Mar
+ 2022 14:28:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAEekfLZ2iJKTZoqDCusrn+Hvcdxxe9TpyshkU9VvrLAVREBWdA@mail.gmail.com>
- <87fsn72hx9.fsf@linaro.org>
-In-Reply-To: <87fsn72hx9.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 24 Mar 2022 21:25:16 +0000
-Message-ID: <CAFEAcA9hfT8CD+2-6rjzPskwbFd6wUabxp-VdNVPSyJEMDjdbg@mail.gmail.com>
-Subject: Re: Device driver api
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+References: <20220324175015.232794-1-victortoso@redhat.com>
+ <20220324175015.232794-12-victortoso@redhat.com>
+In-Reply-To: <20220324175015.232794-12-victortoso@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 24 Mar 2022 17:28:08 -0400
+Message-ID: <CAFn=p-b-SZ7+SLK7a9Ui7sXV9CsZB2RxA4=E75RZ8GFO6ZixpA@mail.gmail.com>
+Subject: Re: [PATCH 11/14] qapi: fix example of MEMORY_FAILURE
+To: Victor Toso <victortoso@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,20 +91,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Sam Price <thesamprice@gmail.com>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Mar 2022 at 20:53, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-> The upstream community isn't really motivated to maintain an API for
-> external device models because ultimately we believe they are best
-> placed in the QEMU code, if not upstream in a fork. There are some forks
-> of QEMU which support things like SystemC models but so far none of that
-> has been submitted for upstream.
+On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
+>
+> Minor issues found and fixed with the example:
+> * The JSON object of EVENT was not closed
+> * Missing timestamp
+> * Flags are optional but if defined then all members should be
+>   include so we add "recursive" member.
 
-The SystemC stuff wasn't submitted upstream because we (upstream) decided
-we didn't want it, incidentally.
+Oh, yeah. Good call.
 
--- PMM
+> * Changed string from '' to "" in action-required member.
+>
+> Signed-off-by: Victor Toso <victortoso@redhat.com>
+> ---
+>  qapi/run-state.json | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/qapi/run-state.json b/qapi/run-state.json
+> index f87b9378ac..ee21decdec 100644
+> --- a/qapi/run-state.json
+> +++ b/qapi/run-state.json
+> @@ -571,7 +571,9 @@
+>  # <- { "event": "MEMORY_FAILURE",
+>  #      "data": { "recipient": "hypervisor",
+>  #                "action": "fatal",
+> -#                "flags": { 'action-required': false } }
+> +#                "flags": { "action-required": false,
+> +#                           "recursive": false } },
+> +#      "timestamp": { "seconds": 1267061043, "microseconds": 959568 } }
+>  #
+>  ##
+>  { 'event': 'MEMORY_FAILURE',
+> --
+> 2.35.1
+>
+
+Reviewed-by: John Snow <jsnow@redhat.com>
+
 
