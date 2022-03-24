@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE77B4E6A40
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:32:15 +0100 (CET)
-Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 464DD4E6A42
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:33:07 +0100 (CET)
+Received: from localhost ([::1]:49980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXV42-0000wl-Vx
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:32:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45538)
+	id 1nXV4s-0002Pm-Cu
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:33:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXV3A-0000BV-GL
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:31:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32154)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXV42-0001V3-W8
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:32:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXV38-0006Mm-6V
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:31:19 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXV41-0006VU-Ik
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:32:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648157477;
+ s=mimecast20190719; t=1648157532;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iKD5dMCYGGIupsMv3MMz9uGr/oVtKCar3qVpb4aOqL8=;
- b=WI4M6/vKVSikpb+vohD8DyqOCyddAktShAeCdH+tJc4FeeH4kXuJOT7C+sHNkm/aU0tMVM
- OvcHvkneigEcgk5Vz1Rhhn3c2FOgpqg2+WIS7kf0Wvs/ruu4znpk8e+L3QU2qOV5Iid+pO
- 9L735yrJPQXYo7E8S+j24jfdAaBFkXc=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JZAK0+fVi8xDb2e2b6GksKw4kE5wjCBmsssRswPhhso=;
+ b=W8HREYjRcbxQRGzv7+gtfjZaVlsnq8uYfdHQVEdauMmknPq6aDRlV1bTeOnmvlzvCHiWAt
+ 8DP+Xn8QoK6ClO+edKBt4NEnx0d+nTJLUxy4m/L2h/pwI3zPg1kl2kpKjhbpEI/pfFyGea
+ LrsZvfe8Lp87tiv8KUiW7XmkGNL5Sqk=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-zpycGGN6PzuulgvjkTCwrQ-1; Thu, 24 Mar 2022 17:31:16 -0400
-X-MC-Unique: zpycGGN6PzuulgvjkTCwrQ-1
-Received: by mail-ua1-f70.google.com with SMTP id
- o25-20020ab008d9000000b0034c03fd28b8so1613322uaf.14
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:31:16 -0700 (PDT)
+ us-mta-323-j4KNNqG2P0aLCtB5s8_JEw-1; Thu, 24 Mar 2022 17:32:11 -0400
+X-MC-Unique: j4KNNqG2P0aLCtB5s8_JEw-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ s13-20020a056130020d00b0034dfb85694dso1622812uac.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:32:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iKD5dMCYGGIupsMv3MMz9uGr/oVtKCar3qVpb4aOqL8=;
- b=onlOZX+VAYIyqqbGAjOoibum6khsCVp+f6mlW6r/hCXcbWNeb8gkSeESaIK4AQxe1k
- L46dCYmzkyTZDRNvPKJMAJBt/XWAVhhNHGGd3w8BfEQwJQ9Es2mNPMI+vhNMTgT15WlG
- gIAw76xFHJQf5HIBWze1XjidOPXUrKyXTr+GW4WGqIdrtlXueFnZOSU138lUP/AeIrXj
- z7ZZ5V5T+LfeqWCZZueD5wkBwyxoRYoUa2G/DZcIBjOkcZR42MAuA8XTnD0LQwVwKYJW
- aamNmJWr3eLL3eGIH828/o1J5bb7iYDzzoSvc9ETIv6KyzKFhcbPQbM3pRd0SJ0rBKug
- gqKA==
-X-Gm-Message-State: AOAM533PJwLElRG468tN18yY1TDh3E1MsefzcNQ0SfcJ1hv7rTm24TbN
- 8V2eREkWgEXg0rnA66NRZcMEKZEfoUWezSIRsbTgsP2w/XNIhTDnOc7hrMa69/vzmtIl/TStEMw
- omN38nJ8EINEGTX7osXSpuurL2wbYalg=
-X-Received: by 2002:a05:6102:c8e:b0:321:7348:6c2a with SMTP id
- f14-20020a0561020c8e00b0032173486c2amr3701632vst.11.1648157475903; 
- Thu, 24 Mar 2022 14:31:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzdOqKuQZln5Gq4pLzS/EbOP3mzfQrOcTEJECyAajDnjhfHn8bJ2XiOJBJrXJmiDlZr1KUhXFG5hNqkuYhTfGk=
-X-Received: by 2002:a05:6102:c8e:b0:321:7348:6c2a with SMTP id
- f14-20020a0561020c8e00b0032173486c2amr3701622vst.11.1648157475686; Thu, 24
- Mar 2022 14:31:15 -0700 (PDT)
+ bh=JZAK0+fVi8xDb2e2b6GksKw4kE5wjCBmsssRswPhhso=;
+ b=t01sNAvsSCWBJ9VSjd+Xw+SWVNIJLb53/nIO/qaeAqSVVjKOKe3/SLZIDUOQO8b7X7
+ woRCNEZFfTZBQr4OsOzJ1aN33Itdk+IvVuat4uueFCIt0+5+ahbZBgrnnlh3jl+EEN/q
+ AgE9M3mxn2Rh9Fa8qYQ6B0qQTPpVEK5tTjTUHijsNCowWe6SaRTKMfJSEJXuE52115cE
+ gPxkWzPAG1PKacELXLanPf5FsG0OXd2reX9kKG1KGe3/kNqX+nmOlr3uK08HGOpOHTlm
+ yeyyiROBKR21l0OCpT2XzbO7Co+qSjrUO62qtg2r0Dgz7RogLJ72wHdnhBkUaS2eDC3N
+ H8fA==
+X-Gm-Message-State: AOAM532dZukFMb2REBiB8VMXZk6vYk+UYgu4dqJWrtnbPp30umDXg/Z9
+ PCEEiFy52Z5fb5CeHlJUJzDIgclO7ZgyegNw0zWfEIhi1D7SSXi3wsrW0Za1yH0LI+hnci00EUb
+ xgcbQQnh7pwlebwEs0ZZj5f7nEdxxOLk=
+X-Received: by 2002:ab0:5bc7:0:b0:351:aa7c:95d5 with SMTP id
+ z7-20020ab05bc7000000b00351aa7c95d5mr3682091uae.42.1648157530685; 
+ Thu, 24 Mar 2022 14:32:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxBpWnVEEK5u+GR4zU214Uc5q439SAkjHaJZ5gNCpL9IaQWevPbUS/U1OvjT1lbB3llvaDkuEFxqbUj4XiI0Zo=
+X-Received: by 2002:ab0:5bc7:0:b0:351:aa7c:95d5 with SMTP id
+ z7-20020ab05bc7000000b00351aa7c95d5mr3682079uae.42.1648157530546; Thu, 24 Mar
+ 2022 14:32:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220324175015.232794-1-victortoso@redhat.com>
- <20220324175015.232794-14-victortoso@redhat.com>
-In-Reply-To: <20220324175015.232794-14-victortoso@redhat.com>
+ <20220324175015.232794-15-victortoso@redhat.com>
+In-Reply-To: <20220324175015.232794-15-victortoso@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Thu, 24 Mar 2022 17:31:05 -0400
-Message-ID: <CAFn=p-ZdG1PTd6s1tgYv66zWp4NZqWA2pTo3cvNNEsrwUoBdHg@mail.gmail.com>
-Subject: Re: [PATCH 13/14] qapi: fix example of ACPI_DEVICE_OST event
+Date: Thu, 24 Mar 2022 17:31:59 -0400
+Message-ID: <CAFn=p-ZJa5MBATOyzrnxXHcZ=qAV7HR09NVuuu7PKAFebcvutQ@mail.gmail.com>
+Subject: Re: [PATCH 14/14] qapi: fix example of dump-guest-memory
 To: Victor Toso <victortoso@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
@@ -98,35 +98,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
 >
-> * Missing the timestamp
-> * Missing the "info" object in the "data" member
+> The member "paging" is not optional
 >
 > Signed-off-by: Victor Toso <victortoso@redhat.com>
 > ---
->  qapi/acpi.json | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  qapi/dump.json | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/qapi/acpi.json b/qapi/acpi.json
-> index 51f0d55db7..d148f6db9f 100644
-> --- a/qapi/acpi.json
-> +++ b/qapi/acpi.json
-> @@ -133,8 +133,9 @@
+> diff --git a/qapi/dump.json b/qapi/dump.json
+> index d3ed79e8cd..0873f16e5c 100644
+> --- a/qapi/dump.json
+> +++ b/qapi/dump.json
+> @@ -83,7 +83,7 @@
 >  # Example:
 >  #
->  # <- { "event": "ACPI_DEVICE_OST",
-> -#      "data": { "device": "d1", "slot": "0",
-> -#                "slot-type": "DIMM", "source": 1, "status": 0 } }
-> +#      "data": { "info": { "device": "d1", "slot": "0",
-> +#                          "slot-type": "DIMM", "source": 1, "status": 0 } },
-> +#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+>  # -> { "execute": "dump-guest-memory",
+> -#      "arguments": { "protocol": "fd:dump" } }
+> +#      "arguments": { "paging": false, "protocol": "fd:dump" } }
+>  # <- { "return": {} }
 >  #
 >  ##
->  { 'event': 'ACPI_DEVICE_OST',
 > --
 > 2.35.1
 >
 
-Oh, good spot.
+Assuming this is a feasible example.
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 
