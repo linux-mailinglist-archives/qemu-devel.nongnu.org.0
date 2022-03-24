@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F4F4E6898
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:22:53 +0100 (CET)
-Received: from localhost ([::1]:60658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2814E6896
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:22:19 +0100 (CET)
+Received: from localhost ([::1]:58946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXS6m-0000r2-Kf
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:22:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55664)
+	id 1nXS6E-00087G-Gz
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:22:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nXRnY-0005N0-Ia; Thu, 24 Mar 2022 14:03:00 -0400
-Received: from [2607:f8b0:4864:20::c2d] (port=45724
- helo=mail-oo1-xc2d.google.com)
+ (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
+ id 1nXS0J-0005qd-7v
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:16:12 -0400
+Received: from [2607:f8b0:4864:20::530] (port=41628
+ helo=mail-pg1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nXRnW-0000dN-Qw; Thu, 24 Mar 2022 14:03:00 -0400
-Received: by mail-oo1-xc2d.google.com with SMTP id
- u30-20020a4a6c5e000000b00320d8dc2438so901974oof.12; 
- Thu, 24 Mar 2022 11:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=eIXl971ltfr4gU3bYFd/Lyjp7tVb4akwRoT48cZAicA=;
- b=MBR10WHLLH21u2TuZbaUKitri/uubCfdS+99iZL288Tmo/333MHSecyC1W451ySvgb
- T92eLbcweMbrvvISB6bv4bVIWsLC9N05z+ZHTMxhT1WtG2pjAuDUrXKALxfsSB1n9IgY
- 4Rp4DcBXWKODtTqWf0f4yrYqNoqYFYktRqItzzsM5Jkecyl0jcO0OR3geDh1PF+wVb1M
- mmpzm5gRr/p5tZ+8iE31zoA5fxLAlD8R+PhQVlY6VWR7cuueitZG3P+OQ0h1tdx8/pzo
- JYePTDL9ggCZvzAg7hJatpyoeSW4X/NntpGwZCxe2/VIt90vKhCNkDk9T16tIv/5Kq9d
- NhPw==
+ (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
+ id 1nXS0D-00032n-Bj
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:16:10 -0400
+Received: by mail-pg1-x530.google.com with SMTP id t13so3234130pgn.8
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 11:16:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=smartx-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lz2iZCindmNGBgTpaEDXEWro/Uln/h07YBEqsYXSHCM=;
+ b=nLx1I0rH1nXOTf7t/5rtSdKNeKF2/NJ5ecZB/B7Yr/6Tlw0zHbU+sGDpNd449Vjlo/
+ RRMwkizz1GaIM2MFcbWddNk15cnYw4qN5nQag9eKOjksk6PrUCPUoZSrdVUw14pCbM6s
+ PlUlQrnLn9kCIO0UaDqfN0cRTx9cOurgN9PF6iyUcNKTe0Q1Jf2S5Guhz9Ar7zNvQKLg
+ ir1vem40pXOribNqr404mP2edtuLLfUVlOq8moBWkkylYghgB7e+Y9v5JYxlTWQYZDBB
+ MSXVHlo64mHEM1ZHtKX5gGMqdcnU0ukvFSzNAfHBvX1FWc6YMg0G83qE9nKb+SALz2VW
+ P+jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=eIXl971ltfr4gU3bYFd/Lyjp7tVb4akwRoT48cZAicA=;
- b=0LUeICGELF8V4pfKSK/7mhnWkcWhMB4Ym9BpkQjCEijlOEB8QTYqGDgh56UjYxtUXC
- Mmt79Sa3qNCc7GwB8rX4aMIGiEgJezDrcVVX6oMyWoT1vv6o5M0z5f2LVvFj4+5/Zv1a
- Hbnx+P4KzRX3I6pEBo6BsOQ1vMUS+v35vQFi+vJYi1aYZwosg76mB62F8gMnnnF1A+jz
- fnwNI/0gUT5mONhBgtLN7bREdkQG/5jScUu4hqS9XfTW3gkA+FnvUBIHdj/xdHxHLrxQ
- YCb/sYttkAqoQeI+mJH5GNwdoEIkbQ1iJjM0S+VhUMIVVKQwDPat9Ci/CBUeHFac7Z6F
- LIOw==
-X-Gm-Message-State: AOAM533Q/nQAFuHDSUipAvns7u93jMZxHVDBZBfmOJEAdIZjXcoNciB8
- zVl1CVR2ovyeZiHtslwX+NOemlH/AF0=
-X-Google-Smtp-Source: ABdhPJydBH/SDNZJpFXGHkij5d6S2Ha3dpaCpPNMTed4Ft9tzibCrtMD6/0DzdBf9Ls83CYMmT/e9g==
-X-Received: by 2002:a4a:2556:0:b0:324:bd36:f020 with SMTP id
- v22-20020a4a2556000000b00324bd36f020mr1919700ooe.13.1648144977297; 
- Thu, 24 Mar 2022 11:02:57 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96?
- ([2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96])
+ bh=lz2iZCindmNGBgTpaEDXEWro/Uln/h07YBEqsYXSHCM=;
+ b=IxK1QPDJf5QHaGK3fHcrMSZ68YUpHgQNf/rY+McKfngr8+f1Pva1iDM0ZHTt5NUFT1
+ if0UYooNub7g7QaMgZ1bIQB8HvrNgDuNA5A5aPqRorDzmOyMgFgmOk9vD0cG6qg3T6oG
+ ziFnI/e7ZZHc2iMgWuE4+UHsWv0sRpZ2qLFV+56aQCOeHoYwWq1GXT+RAd/FWjuusOg9
+ H3P6lKc1/ElbAo7rrByY8Y566zyWW7qXo6BwSknrqvLQ1SQg9T2hIUez6ahCoHVf+8Me
+ yMeCPY+fl6IvUB67u66CTul/balOK7V4nJnC51fNyH7o7Gv2mGwKKIEgOJFoJ0MT4cbA
+ V6bg==
+X-Gm-Message-State: AOAM530iQXJ+MGXBw/6Byq2tDPA7TeNAZ8joYrg/nURok8QG2GStwlCh
+ oiuG/whvjC3Wl8RnuC0Ir6LqIR9tltj79Q==
+X-Google-Smtp-Source: ABdhPJwB0ZDTDmj3cOKDVQ+GxIIs0Hy+7wsOdK8JjXXcLzLh3XKs0Gk7jd+uAMoXV7+XUuGpxO/XIA==
+X-Received: by 2002:a05:6a00:1488:b0:4fa:ac61:8b11 with SMTP id
+ v8-20020a056a00148800b004faac618b11mr6564208pfu.58.1648145761468; 
+ Thu, 24 Mar 2022 11:16:01 -0700 (PDT)
+Received: from dev.lizongyuan.local ([103.177.44.101])
  by smtp.gmail.com with ESMTPSA id
- 20-20020a05687010d400b000de9c6d81e3sm449132oar.58.2022.03.24.11.02.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Mar 2022 11:02:56 -0700 (PDT)
-Message-ID: <1d9769e6-91a9-93ea-8a0c-916015a09364@gmail.com>
-Date: Thu, 24 Mar 2022 15:02:54 -0300
+ u10-20020a17090a2b8a00b001c6594e5ddcsm3577725pjd.15.2022.03.24.11.15.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Mar 2022 11:16:00 -0700 (PDT)
+From: Zongyuan Li <zongyuan.li@smartx.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/4] Replace 'qemu_irq_split' with 'TYPE_SPLIT_IRQ'
+Date: Fri, 25 Mar 2022 02:15:53 +0800
+Message-Id: <20220324181557.203805-1-zongyuan.li@smartx.com>
+X-Mailer: git-send-email 2.34.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 0/5] ppc/pnv: Introduce GPIO lines to drive the PSIHB
- device
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220323072846.1780212-1-clg@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220323072846.1780212-1-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::530
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2d;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2d.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: none client-ip=2607:f8b0:4864:20::530;
+ envelope-from=zongyuan.li@smartx.com; helo=mail-pg1-x530.google.com
+X-Spam_score_int: 29
+X-Spam_score: 2.9
+X-Spam_bar: ++
+X-Spam_report: (2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,50 +86,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>
+Cc: Zongyuan Li <zongyuan.li@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch set tries to replace 'qemu_irq_split' function with QOM
+object 'TYPE_SPLIT_IRQ' and totally remove this call.
 
+If this patch set is applied, issue:
 
-On 3/23/22 04:28, Cédric Le Goater wrote:
-> Hello,
-> 
-> The PSIHB OCC and LPC interrupts are driven by a complex framework
-> using Object links and class handlers. Simplify the whole with GPIO
-> lines.
+https://gitlab.com/qemu-project/qemu/-/issues/811
 
+can be closed.
 
-Series LGTM. All patches:
+Changes since v3:
 
+1. Squash Patch 3 & 4 into one, since they would affect each other.
+2. Use `object_initialize_with_child` and `qdev_realize` for device code.
+3. Code style fixes.
+4. Remove unnecessary `if` statement used with `qdev_realize_and_unref.
+5. Narrow scope of some variables.
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Changes since v4
 
+1. Code style fixes.
 
+Zongyuan Li (4):
+  hw/arm/realview: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+  hw/arm/stellaris: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+  hw/intc/exynos4210: replace 'qemu_split_irq' in combiner and gic
+  hw/core/irq: remove unused 'qemu_irq_split' function
 
+ hw/arm/exynos4210.c           | 26 +++++++++++
+ hw/arm/realview.c             | 33 ++++++++++----
+ hw/arm/stellaris.c            | 15 ++++++-
+ hw/core/irq.c                 | 15 -------
+ hw/intc/exynos4210_combiner.c | 81 +++++++++++++++++++++++++++--------
+ hw/intc/exynos4210_gic.c      | 36 +++++++++++++---
+ include/hw/arm/exynos4210.h   | 11 ++---
+ include/hw/core/split-irq.h   |  5 +--
+ include/hw/irq.h              |  5 ---
+ 9 files changed, 163 insertions(+), 64 deletions(-)
 
-Daniel
+-- 
+2.34.0
 
-
-> 
-> Thanks,
-> 
-> C.
-> 
-> Cédric Le Goater (5):
->    ppc/pnv: Fix PSI IRQ definition
->    ppc/pnv: Remove PnvLpcController::psi link
->    ppc/pnv: Remove PnvOCC::psi link
->    ppc/pnv: Remove PnvPsiClas::irq_set
->    ppc/pnv: Remove usless checks in set_irq handlers
-> 
->   include/hw/ppc/pnv_lpc.h |  8 ++------
->   include/hw/ppc/pnv_occ.h |  7 ++-----
->   include/hw/ppc/pnv_psi.h |  7 +------
->   hw/ppc/pnv.c             | 30 ++++++++++++++++++------------
->   hw/ppc/pnv_lpc.c         | 19 ++++---------------
->   hw/ppc/pnv_occ.c         | 16 ++++------------
->   hw/ppc/pnv_psi.c         | 36 +++++++++++-------------------------
->   7 files changed, 42 insertions(+), 81 deletions(-)
-> 
 
