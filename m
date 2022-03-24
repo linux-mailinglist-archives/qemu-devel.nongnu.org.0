@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CA74E6211
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 12:05:54 +0100 (CET)
-Received: from localhost ([::1]:53592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C2E4E621F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 12:07:54 +0100 (CET)
+Received: from localhost ([::1]:57142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXLHs-0006lE-Nh
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 07:05:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43070)
+	id 1nXLJp-0000yG-Np
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 07:07:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXLCn-0004x9-NI
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:00:46 -0400
-Received: from [2607:f8b0:4864:20::112f] (port=44811
- helo=mail-yw1-x112f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXLCk-0002wd-Ns
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:00:36 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-2d07ae0b1c4so46307947b3.11
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 04:00:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DLzcI8vZmLrJvLGmlHlzGdaoF71YkMF+dyBNil2cdMI=;
- b=YY8bK0eWL9mQE4WYuBz5NFM13QHsBHJYinM1oLz1PUOCt8wmkyKdW4r39QNNKDS5Mb
- N+WW+v4eLzKbZNUof9GykXNVtRUaxVfQHByuPZmJRC0s/tBOPueXT+kDLTotCIecZPaF
- 7lmSb1cmD5qQaAbDuiIwVWXKzMdR4Be152ua0+pN4A55j7JAAlB6Ac+SqOQGXQ5EQwqv
- hbu/ib7l7YiIUSBxqr87JyaBxhTxBLU+aMmlTc1uLaluYKAiXLOOKUfH1LvXVT8ogj1B
- Or5eB5unS8sLT4sYPqEqI2EVuN38tSblGhuCySRCH2joCI67+EVVg45NEZPqeY3vfZSH
- vkrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DLzcI8vZmLrJvLGmlHlzGdaoF71YkMF+dyBNil2cdMI=;
- b=7uLxsvH0zk6uQxNX6lT0gfhfC57gXSC2ekQ0iTFYY2q6vSnK5nWN9lpLDSrZxsQ+MW
- CSHQtu+KBy+wigOjVdAJB0xOXze9bGzxxFaNe3dFmwa6W1Jdv1OlwrOMqS4QuMtyypLQ
- Qhaf3MABFarUQlMWGGWr+cs14LUxEMblG638HJxWREyzSA2EpyDsauKRzbWXoJSEZdEf
- 3LwYlc42XKC08C6xEHvtVNC3uZfr73yLvAThWP49sXu0kEkGJ6VqjdQSPLFthM1wIppn
- 0A6ZezpWmdgDQNDBWr7ImuaSIelrzC5hA7Rw3RkJU96Q+ZYUhMmgIxFmNHbaTEKz2fAH
- CHxA==
-X-Gm-Message-State: AOAM5311d1OBtP45cQMupa4NP8Ap4MOhoBwJw7BWXhW+Cj7UoETsXuRH
- yKTkHDXMPGZe5nYWCvRykxUBm8wwOHTEj4GF/0hRuA==
-X-Google-Smtp-Source: ABdhPJxDj/Je9ZCm6RV1HjQ2ayyoOhuRGV7z/czFxPz8vOxtvYft18SWzD4+lith/e4ldakBzz3nR9sb1PhJfXVt8I0=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr4105844ywb.257.1648119633751; Thu, 24 Mar
- 2022 04:00:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nXLFn-0006Al-Hq
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:03:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24037)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nXLFi-0003Pb-QB
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:03:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648119817;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F+vhL8XIczR8uVxFV5D9KXa5kEeZB7H2SYajjpHoEgA=;
+ b=cGzP592rY/5rWROKD6yuMMgtyCXntqDKt2U5UVLT0511ypeM24yVHr2trGFMEUawyC3arH
+ 7DfgLTg5DY3iEejF+wPZbsoJzlo2/UCoUan9rKmHuQP5kx3trduyBojPt9g0uwlIrEoKVH
+ CvE1CtF/m8K5VWHgLLLQs8rmmVg7doo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-461-RSK46vnJNvKQl8DRlz6JTQ-1; Thu, 24 Mar 2022 07:03:32 -0400
+X-MC-Unique: RSK46vnJNvKQl8DRlz6JTQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37C6E3C02199
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 11:03:32 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 64F26402D8F;
+ Thu, 24 Mar 2022 11:03:31 +0000 (UTC)
+Date: Thu, 24 Mar 2022 11:03:28 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] target/i386: introduce CPU property to work around
+ Windows reset bug
+Message-ID: <YjxQAKKKBR3oHdRN@redhat.com>
+References: <20220324082346.72180-1-pbonzini@redhat.com>
+ <Yjw2KG4y8fK5Dw4F@redhat.com> <Yjw2yvN1OHkmBb2X@redhat.com>
+ <e0a39a1e-abef-722b-eed7-8bb79e7c151d@redhat.com>
 MIME-Version: 1.0
-References: <20220323112711.440376-1-alex.bennee@linaro.org>
- <CAFEAcA-Eua8V0L1bKRf1C5F7-cVyfcJ+EEnidaj90L+E86FHJg@mail.gmail.com>
- <871qys4hic.fsf@linaro.org>
-In-Reply-To: <871qys4hic.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 24 Mar 2022 11:00:20 +0000
-Message-ID: <CAFEAcA__QoKC+dUCH93bFb0eSLbMhhQqxfR+DRihxRRfS8eEug@mail.gmail.com>
-Subject: Re: [PULL for 7.0 0/8] i386, docs, gitlab fixes
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <e0a39a1e-abef-722b-eed7-8bb79e7c151d@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,26 +86,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Vadim Rozenfeld <vrozenfe@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Mar 2022 at 19:05, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > Is there anything in here that would affect s390 host? The
-> > s390 job seems to be consistently timing out, eg:
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2241445160
-> > but I have a feeling this is a pre-existing intermittent
-> > hang on that host...
->
-> Nope - but I can see the tasks that are locked up:
+On Thu, Mar 24, 2022 at 10:42:22AM +0100, Paolo Bonzini wrote:
+> On 3/24/22 10:15, Daniel P. Berrangé wrote:
+> > On Thu, Mar 24, 2022 at 09:13:12AM +0000, Daniel P. Berrangé wrote:
+> > > On Thu, Mar 24, 2022 at 09:23:46AM +0100, Paolo Bonzini wrote:
+> > > > Some versions of Windows hang on reboot if their TSC value is greater
+> > > > than 2^54.  The calibration of the Hyper-V reference time overflows
+> > > > and fails; as a result the processors' clock sources are out of sync.
+> > > > As a workaround, reset the TSC to a small value.  Do not do this
+> > > > unconditionally and require a special property to be set.
+> > > 
+> > > What's the problem with doing it unconditionally ?
+> > > 
+> > > Requiring this special niche property means that it'll have to be
+> > > enabled by management apps. Most will never learn it exists, and
+> > > of those that do, many will take years to get this enabled and
+> > > into usage by users, and many won't even bother.
+> > > 
+> > > IMHO, this is the kind of situation where we need the fix to be
+> > > enabled by default, or we might as well not bother.
+> > 
+> > Sigh, hit send too soon. I see the property is actually turned
+> > on in the defaults below, so effectively it will always be on
+> > unconditionally as no one will bother to add support for turning
+> > it off.
+> 
+> Well, I have a patch to turn it on/off in Libvirt and I also planned to
+> leave it off by default in RHEL patch updates (I'm not tying it to the
+> machine type because it's not a guest ABI change).
+> 
+> I am myself conflicted on whether to leave it on or off in QEMU.  For
+> example you could use the TSC to measure how long the VM has been up, but
+> this patch makes that not work anymore.  Considering that the bug requires
+> literally 2-3 months of VM uptime to manifest itself, it might be better to
+> set up the property in libosinfo and only for Windows guests.
+> 
+> Also, since it is a bug in Windows, it will hopefully be fixed sooner or
+> later.
 
-We definitely seem to have a problem where the runner is
-not correctly killing processes it has started when a
-job hits the 1 hour timeout.
+In the libvirt patches you mentioned VMWare has the same workaround
+available, and not enabled by default. I looked up this VMWare setting
+and it is interesting reading:
 
--- PMM
+  https://kb.vmware.com/s/article/2092807
+
+Of particular note
+
+  "This only applies to virtual machine hardware version 10 as Windows
+   resets the TSC on all CPUs on virtual machines with older hardware
+   versions (which do not support hypervisor.cpuid.v2)."
+
+do you know what they mean when they refer to 'hypervisor.cpuid.v2'
+here ? I wonder if it gives any hints as to a root cause that could
+be fixed ?
+
+This hardware version 10 is well old - their current hardware version
+is 19, so it seems to show the implemented some built-in fix in newer
+hardware versions (their equiv of machine types). The vmware setting
+dates from 2013, and if I read that kbase correctly isn't needed on
+their modern hardware versions. Or maybe monitor_control.enable_softResetClearTSC
+became the default in newer hardware versions ?
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
