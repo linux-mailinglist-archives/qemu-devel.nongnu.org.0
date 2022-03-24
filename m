@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B37F4E60E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 10:11:38 +0100 (CET)
-Received: from localhost ([::1]:45402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 903B64E60F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 10:15:34 +0100 (CET)
+Received: from localhost ([::1]:51752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXJVJ-0006t8-F7
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 05:11:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35180)
+	id 1nXJZ7-0002uj-Ao
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 05:15:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nXJSH-0004rT-KA
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:08:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49382)
+ id 1nXJX1-00025r-6s
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:13:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nXJSD-0006hT-GG
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:08:28 -0400
+ id 1nXJWx-0007fo-6m
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:13:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648112904;
+ s=mimecast20190719; t=1648113197;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=G0M7wtHPTa1OLiyLpzclxr4Vv/5PWruo5QNVOKsm6kw=;
- b=a9WoZ9//3LdxdPTC6re1iHGut2TZRtlrl/YbnELGgJhyWxlC+dMyU5KP3ups1uhfyPKdA6
- BQmuEc1z36CrEX+6vNo9bN75SDZY463zr7Zr5B+4l7ctxv4t9nBphRKK19QW3cSaFhWesS
- 3Em7glbsVps0shggor2G9DVptEIj11c=
+ bh=zSbR2A9iVUhydJj8RIeOuBxFFNZ15r0M8y7EQnzB6Ik=;
+ b=MlYXizzlkGP/4+mNcjTMg+LVl7OgDeTCmGb9f2ibcSWB8HLWSjw5Jc41E9L8SHfBn0RUMc
+ ZhnvyK8KsU2ob2edZdGbm2XqnGW8bZCXSOh6k171mB3MJpX5pG2gLfmVQU/jk2RjUU3FJu
+ 6qIFkrmtWrsNt1uGHdz0/QS4OAs2aQY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-I0KoeGPBN2KcFB7mXuevpA-1; Thu, 24 Mar 2022 05:08:22 -0400
-X-MC-Unique: I0KoeGPBN2KcFB7mXuevpA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-502-5UYmMxrYPeGxuQ8DT8fdpg-1; Thu, 24 Mar 2022 05:13:16 -0400
+X-MC-Unique: 5UYmMxrYPeGxuQ8DT8fdpg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D60A811E78;
- Thu, 24 Mar 2022 09:08:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3430C18E531C
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 09:13:16 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B66B4010A39;
- Thu, 24 Mar 2022 09:08:20 +0000 (UTC)
-Date: Thu, 24 Mar 2022 09:08:18 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 90BD6C27D86;
+ Thu, 24 Mar 2022 09:13:15 +0000 (UTC)
+Date: Thu, 24 Mar 2022 09:13:12 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-Subject: Re: [PATCH] hw/riscv: virt: Warn the user if -bios is provided when
- using KVM
-Message-ID: <Yjw1At8ig+UzFKXn@redhat.com>
-References: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] target/i386: introduce CPU property to work around
+ Windows reset bug
+Message-ID: <Yjw2KG4y8fK5Dw4F@redhat.com>
+References: <20220324082346.72180-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
+In-Reply-To: <20220324082346.72180-1-pbonzini@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,51 +82,79 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: apatel@ventanamicro.com, Peter Maydell <peter.maydell@linaro.org>,
- anup@brainfault.org, qemu-devel@nongnu.org,
- Palmer Dabbelt <palmer@dabbelt.com>, stefan.huber@oth-regensburg.de,
- alistair23@gmail.com, jiangyifei@huawei.com
+Cc: qemu-devel@nongnu.org, Vadim Rozenfeld <vrozenfe@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 23, 2022 at 06:13:46PM +0100, Ralf Ramsauer wrote:
-> The -bios option is silently ignored if used in combination with -enable-kvm.
-> The reason is that the machine starts in S-Mode, and the bios typically runs in
-> M-Mode.
+On Thu, Mar 24, 2022 at 09:23:46AM +0100, Paolo Bonzini wrote:
+> Some versions of Windows hang on reboot if their TSC value is greater
+> than 2^54.  The calibration of the Hyper-V reference time overflows
+> and fails; as a result the processors' clock sources are out of sync.
+> As a workaround, reset the TSC to a small value.  Do not do this
+> unconditionally and require a special property to be set.
+
+What's the problem with doing it unconditionally ?
+
+Requiring this special niche property means that it'll have to be
+enabled by management apps. Most will never learn it exists, and
+of those that do, many will take years to get this enabled and
+into usage by users, and many won't even bother.
+
+IMHO, this is the kind of situation where we need the fix to be
+enabled by default, or we might as well not bother.
+
 > 
-> Warn the user that the bios won't be loaded.
-> 
-> Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+> Reported-by: Vadim Rozenfeld <vrozenfe@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  hw/riscv/virt.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  target/i386/cpu.c | 10 ++++++++++
+>  target/i386/cpu.h |  3 +++
+>  2 files changed, 13 insertions(+)
 > 
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 4496a15346..a4d13114ee 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -1312,6 +1312,9 @@ static void virt_machine_init(MachineState *machine)
->       * when KVM is enabled.
->       */
->      if (kvm_enabled()) {
-> +        if (machine->firmware && strcmp(machine->firmware, "none"))
-> +            warn_report("BIOS is not supported in combination with KVM. "
-> +                        "Ignoring BIOS.");
-
-If the usage scenario isn't supportable, then ultimately we should be
-raising an error and immediately exiting.
-
-If you know of common usage that is already mistakenly passing -bios,
-then we could start with a warning and list it as deprecated, then
-change to an error_report 2 releases later. If we don't thing people
-are often mistakenly passing -bios, then go straight for error_report
-and exit.
-
->          g_free(machine->firmware);
->          machine->firmware = g_strdup("none");
->      }
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index ec3b50bf6e..9b29cea8c4 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -5931,6 +5931,15 @@ static void x86_cpu_reset(DeviceState *dev)
+>      env->xstate_bv = 0;
+>  
+>      env->pat = 0x0007040600070406ULL;
+> +
+> +    /*
+> +     * Some versions of Windows hang on reboot if their TSC value is greater
+> +     * than 2^54.  As a workaround, reset the TSC to a small value.  Do not use
+> +     * zero, KVM applies special heuristics for CPU startup when TSC is cleared.
+> +     */
+> +    if (cpu->tsc_clear_on_reset) {
+> +        env->tsc = 1;
+> +    }
+>      env->msr_ia32_misc_enable = MSR_IA32_MISC_ENABLE_DEFAULT;
+>      if (env->features[FEAT_1_ECX] & CPUID_EXT_MONITOR) {
+>          env->msr_ia32_misc_enable |= MSR_IA32_MISC_ENABLE_MWAIT;
+> @@ -6957,6 +6966,7 @@ static Property x86_cpu_properties[] = {
+>                       false),
+>      DEFINE_PROP_BOOL("vmware-cpuid-freq", X86CPU, vmware_cpuid_freq, true),
+>      DEFINE_PROP_BOOL("tcg-cpuid", X86CPU, expose_tcg, true),
+> +    DEFINE_PROP_BOOL("tsc-clear-on-reset", X86CPU, tsc_clear_on_reset, true),
+>      DEFINE_PROP_BOOL("x-migrate-smi-count", X86CPU, migrate_smi_count,
+>                       true),
+>      /*
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index e31e6bd8b8..66f7901729 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1864,6 +1864,9 @@ struct ArchCPU {
+>      /* Forcefully disable KVM PV features not exposed in guest CPUIDs */
+>      bool kvm_pv_enforce_cpuid;
+>  
+> +    /* Clear TSC on reset */
+> +    bool tsc_clear_on_reset;
+> +
+>      /* Number of physical address bits supported */
+>      uint32_t phys_bits;
+>  
 > -- 
-> 2.32.0
+> 2.35.1
 > 
 > 
 
