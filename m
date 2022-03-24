@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D4C4E6063
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:34:12 +0100 (CET)
-Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A0A4E6065
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:34:17 +0100 (CET)
+Received: from localhost ([::1]:49868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXIv5-0003c3-PS
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:34:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52216)
+	id 1nXIvA-0003qs-1u
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:34:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhm-0005wp-Us
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:52963)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhq-00060d-Q7
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:30 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:42445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhk-0003P6-Nl
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:26 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhp-0003RZ-53
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:30 -0400
 Received: from quad ([82.142.12.150]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MYedH-1ncZtN2BQB-00VkSn; Thu, 24
- Mar 2022 09:20:22 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MZCrZ-1nc1f40q2b-00VCV1; Thu, 24
+ Mar 2022 09:20:23 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/10] linux-user: Properly handle sigset arg to ppoll
-Date: Thu, 24 Mar 2022 09:20:12 +0100
-Message-Id: <20220324082016.3463521-7-laurent@vivier.eu>
+Subject: [PULL 07/10] linux-user: Fix missing space in error message
+Date: Thu, 24 Mar 2022 09:20:13 +0100
+Message-Id: <20220324082016.3463521-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220324082016.3463521-1-laurent@vivier.eu>
 References: <20220324082016.3463521-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MQj22sMYeCS9DSnLGnftAziUQubUY1cVCcQYrGZ/TXFuChSRtpp
- MBqTNR7JVpT/DmGopMRWVlAOtLxQKeUwBUlIplTmo7cxhH9hL2aeTrXDkPngF/vQoZDQPz7
- dFtA7j9AOQ9Mj+2CJDiJKg8V2WQSVCjcZnKnij0UoimmIlvpOa5n4qSARTYdzFGBiKrmMEn
- PXWGmiQYq+Y/QRZ4WQNVw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Ok2kemLSHks=:xJFPqQEB73fSWlGhuF1DmZ
- oRp29qwRfb2PFvt+8d4NsZzw1+4MdBHV5rb3Kp1/Y53L/a+DNdKpjTHSSUHqrbnX2DnupuNY8
- sgJ/8XzRSzU6ZaN9tPj7eO33sy1+94zM5Jf0D4tpmKwc3UirQNmaNp/AjIQdgJ6+OnjAIJyCr
- lPANd25mJL1cGIpiCuCPWru1ogcM3QiQYvNp8OPrCyB/tjKrvSh6edq1jzXYKCiKabTP0dYvJ
- Y4H/N/d92w9chuMfWH+090RZ7ICIWVSiwk4thYT7ClpvXYTKcAqUkbOMMASnbcA7KYkgTIq4X
- 9P1boUDdfMdpQKqFT31UfjHujHTYqflAHOODWoaV3Q2N3xhm7y6IhmE9MTfpclw8JZWEjNMsg
- nxdvhY7mlDkRHIS8Hu9m9yRMvoeKgpz3j9FLJRHYbbxKLVMJhdGjqr2FWfv0cpKtOEDwMeWZC
- XBIoMAVu15xohtAga5hwPGbFAjXC6fRXdEpNsTEPNMrj01qv70X9atPiHiV/zxaCv3wezVsUE
- +aidZ9gwdQ8xCX1deD/5gA9ZUi2Ts04lsjCys3HZYZlFm8a3Czxh7XgAYcDJbEpcCFeHljWoX
- VLpzeVxUJ+tdIyGVLPyCiAzbpntVxIOxNJIfpgtWB0JpSajz0PKqCdSaTKK3oVvaF4wxStam+
- XCSHCQQR2ujYy6blO5kAo22SJixXhNUBkr+fwqlJ+D4u6Bz57tlConu50sUOYsUdGjWk=
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:bPz0y/RG92IsAAKj0NqSt4bsoIEWFQO4M+8uFIYnLxN+Uuht/n9
+ S8hm6gDChgWL7qwySTryBXf83rQoxKK7WetuK2mAv9Qk8SK8TMJJdQv1Uf/X2kRCKmhQCMN
+ 4l9YmA2bpjdWFU3/z34IdfPcfjR25uWMbvqqYlNuJCgqsG9dCa8t9P6ZWVi/YDIFAXiu1ua
+ NlGa1tQQJLW0cKdghpfRw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:z48gS2SW2bE=:lyA3pvYCBAqjZMi6nfItoQ
+ 7UzwqBnzNO8tLmGYVkDgQsNr+rHMZEOM7IgFq7T0hu+L89O8DMHeuxFZzcx5p+1VxQnIqcXBC
+ bhdOTRgNAWQ9EeAtoL6QAPPqhWTvoWGfu5V2bXDIWy1V86d/s3SXPzUqOoCJMkYskEk1jDnCV
+ oGLQowI70UJ7L23hh997yXHiEpdlbbYTVykoFmdG4HxmU8wwSrMql7TwEEEz59XTOjWGvKAgj
+ onA7gbqpQ2XEBOeqSOVAlzced18v8kf+aXtkns+XViCBiDYvgepvEgIky2zkh7IueGh2PpPat
+ IoHkkAPEynwYCbY/lOlOm9a/6Ufv3ubsJnTHaB0vNniyy3ZYRN0d/kwyisO/V3FJorxckKCJR
+ C3aulLR1xb/sakYPlMVzl5U09gw1WckcXqSQS22CZxassEJSzHILkx53Fx8tAWU5OXtZ+V03J
+ bTRfCiTcQkdik4Hlym+saDTI4TfgCuoKVYMknN9enq55K6jC/Dvk5HhrUmnv3rS1H569Sz6Nc
+ soAsq5hq1VPRoiCjmGsR7wuuoQeCUtOSOAqx9+610srYL7iXXtm/jgt8uzudYzt2hdO6GfAN2
+ NNpzs0IwAPpmFpt9fZFUpoSN/aPzDmZpA3T6JY4SNnOVcyjsRmdxg9DIRj0X7f32yCM8mNUiE
+ TsOYlIoCC7rCwVs1TJ962ar10Qm9AeO5svMwUaeVJulUpPjvTxAPKrFN34vfVg2JelUo=
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -65,81 +66,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Patrick Venture <venture@google.com>, Fergus Henderson <fergus@google.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Fergus Henderson <fergus@google.com>
 
-Unblocked signals are never delivered, because we
-didn't record the new mask for process_pending_signals.
-Handle this with the same mechanism as sigsuspend.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220315084308.433109-6-richard.henderson@linaro.org>
+Signed-off-by: Fergus Henderson <fergus@google.com>
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220310192148.1696486-1-venture@google.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 24 +++++++-----------------
- 1 file changed, 7 insertions(+), 17 deletions(-)
+ linux-user/elfload.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 67af40deac07..f65045efe6a2 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -1519,8 +1519,7 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
-     }
-     if (ppoll) {
-         struct timespec _timeout_ts, *timeout_ts = &_timeout_ts;
--        target_sigset_t *target_set;
--        sigset_t _set, *set = &_set;
-+        sigset_t *set = NULL;
- 
-         if (arg3) {
-             if (time64) {
-@@ -1539,25 +1538,19 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
-         }
- 
-         if (arg4) {
--            if (arg5 != sizeof(target_sigset_t)) {
--                unlock_user(target_pfd, arg1, 0);
--                return -TARGET_EINVAL;
--            }
--
--            target_set = lock_user(VERIFY_READ, arg4,
--                                   sizeof(target_sigset_t), 1);
--            if (!target_set) {
-+            ret = process_sigsuspend_mask(&set, arg4, arg5);
-+            if (ret != 0) {
-                 unlock_user(target_pfd, arg1, 0);
--                return -TARGET_EFAULT;
-+                return ret;
-             }
--            target_to_host_sigset(set, target_set);
--        } else {
--            set = NULL;
-         }
- 
-         ret = get_errno(safe_ppoll(pfd, nfds, timeout_ts,
-                                    set, SIGSET_T_SIZE));
- 
-+        if (set) {
-+            finish_sigsuspend_mask(ret);
-+        }
-         if (!is_error(ret) && arg3) {
-             if (time64) {
-                 if (host_to_target_timespec64(arg3, timeout_ts)) {
-@@ -1569,9 +1562,6 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
-                 }
-             }
-         }
--        if (arg4) {
--            unlock_user(target_set, arg4, 0);
--        }
-     } else {
-           struct timespec ts, *pts;
- 
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 9628a38361cb..c45da4d63375 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2504,7 +2504,7 @@ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
+     addr = mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
+     if (addr == MAP_FAILED || addr != test) {
+         error_report("Unable to reserve 0x%lx bytes of virtual address "
+-                     "space at %p (%s) for use as guest address space (check your"
++                     "space at %p (%s) for use as guest address space (check your "
+                      "virtual memory ulimit setting, min_mmap_addr or reserve less "
+                      "using -R option)", reserved_va, test, strerror(errno));
+         exit(EXIT_FAILURE);
 -- 
 2.35.1
 
