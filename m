@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478744E681D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 18:53:59 +0100 (CET)
-Received: from localhost ([::1]:44688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E664E683E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:00:02 +0100 (CET)
+Received: from localhost ([::1]:35588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXReo-0003w6-4N
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 13:53:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51334)
+	id 1nXRkf-0008MT-Ah
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:00:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nXRVW-0000WV-27
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:44:22 -0400
-Received: from [2a00:1450:4864:20::52e] (port=44791
- helo=mail-ed1-x52e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nXRVU-0004GF-JP
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:44:21 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id w25so6469533edi.11
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 10:44:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=nNvYDzB3U0aWjom8ijzuddT82GeZydSx7uuT0XcQE+jiGHuxicRTXleJthKc8/yzr1
- T5kzweUb2TNyTdTE7o5hFTgXMaTxD11gA6vU3fHXLvYSogjkep2D6g8v9cZIgwcgSSub
- nb+UQregk/+B2jIqfbxUfiZXsOrWGm/M+E196kr/dhCXUZjb85ikUFkAYJkuwXHv32yb
- xlxEBxOwPW3KmRo70C8tYpJPPx+LO8Q0ruRyu1taO1IntTfRu9WUpP+wr3Um4gooSRue
- pIUXpX71QiVve5yGErhGve+fQeAJ1SBGrC96jKL7r//oNamkWEuLFW+lpTk/MSVHKEtA
- AD1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=0weZo9N+875AIpHZZKrbOoVkXgR1mrCUuY9S5TcFDgieKgISI1U0SjMepPpa5LO4HT
- WcG8+WSaH+LTP+iVKN1C8PlWDnP6TFThqc9l7u6tfChotdhjTQHwRbCua0IA2h/fwj9G
- b2MW1186iIuc8DZgQDeAFrbnTBspobKJWJ+iykjo3rW8nb+ehywRKqAFWISu3rcBt2vQ
- buDm0kEM+qLUPaKhagZlQmgD0EJ0HYwu4jjoOL3PfLXizNR4noZV2y16ZvuPkJch+ahC
- vDgx13eLCLgj3matW02UiLrAHO9HPuS83l0+1R43HcWWD1URv2M5PPAAdaLlqXHoqV8X
- r/Mg==
-X-Gm-Message-State: AOAM530r5QsGzBlhvc+8nt4ECW8ouevVxl4XX0cErNVp5s/dmqVaMJID
- GWfm2GJJzBQBTCquPzLw+Qg=
-X-Google-Smtp-Source: ABdhPJz4ZVU3E4ByMUtoHvGd8VX83eXmF70UA9uDnuHA1KxFM5/NVYqIiLLN71v7ktrC4/868s8pcA==
-X-Received: by 2002:a05:6402:909:b0:415:cdbf:4748 with SMTP id
- g9-20020a056402090900b00415cdbf4748mr7919740edz.395.1648143858796; 
- Thu, 24 Mar 2022 10:44:18 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- r16-20020a056402019000b00418ed60c332sm1720820edv.65.2022.03.24.10.44.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Mar 2022 10:44:18 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: christian.ehrhardt@canonical.com
-Subject: Re: [PATCH] build: disable fcf-protection on -march=486 -m16
-Date: Thu, 24 Mar 2022 18:44:13 +0100
-Message-Id: <20220324174413.224219-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220323090713.1002588-1-christian.ehrhardt@canonical.com>
-References: 
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1nXRcW-0002Vs-D1
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:51:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23032)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1nXRcU-0006YI-61
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:51:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648144293;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SlW70ZOXtPHPbTL7NM+plL1aLUDYXDvw1ntyMzuFqoc=;
+ b=FJuW4/ZcIHfUBZ8310NpMEGpIm7x0pJc96YZ6YZe6pQ8B7gfQsPAZ2QNVCaoz+Y4HsfKJ5
+ bRiYooFfpjvVOO83GXUW/o0CZya5Jwi7J3IenpiS64w/GrYpnRt9Soc1WkEa/yic+7tX+I
+ HnFnAMfisz18Bilfs/aMrXTtGGFvdBQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-65-ndk3vCCDNpCCCh1KkEvPIQ-1; Thu, 24 Mar 2022 13:50:17 -0400
+X-MC-Unique: ndk3vCCDNpCCCh1KkEvPIQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F81C811E75
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 17:50:17 +0000 (UTC)
+Received: from tapioca.redhat.com (unknown [10.40.195.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 649B4417E40;
+ Thu, 24 Mar 2022 17:50:16 +0000 (UTC)
+From: Victor Toso <victortoso@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/14] Fix some qapi examples and a TODO section
+Date: Thu, 24 Mar 2022 18:50:01 +0100
+Message-Id: <20220324175015.232794-1-victortoso@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=victortoso@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,13 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
+Hi,
 
-Paolo
+I've being using the examples as unit tests and found a few that
+doesn't work out-of-the-box, might be inteded in order to be less
+verbose in the qapi documentation but nevertheless I'm sending this
+out in case you want to cherry-pick them.
 
+Cheers,
+
+Victor Toso (14):
+  qapi: BlockExportRemoveMode: move comments to TODO
+  qapi: fix example of BLOCK_IMAGE_CORRUPTED event
+  qapi: fix example of BLOCK_IO_ERROR event
+  qapi: fix example of BLOCK_JOB_PENDING event
+  qapi: fix example of DUMP_COMPLETED event
+  qapi: fix example of MEMORY_DEVICE_SIZE_CHANGE event
+  qapi: fix example of UNPLUG_PRIMARY event
+  qapi: fix example of FAILOVER_NEGOTIATED event
+  qapi: run-state examples: add missing member
+  qapi: run-state examples: add missing timestamp
+  qapi: fix example of MEMORY_FAILURE
+  qapi: ui examples: add missing websocket member
+  qapi: fix example of ACPI_DEVICE_OST event
+  qapi: fix example of dump-guest-memory
+
+ qapi/acpi.json         |  5 +++--
+ qapi/block-core.json   |  9 +++++----
+ qapi/block-export.json | 10 +++++-----
+ qapi/dump.json         |  9 +++++----
+ qapi/machine.json      |  3 ++-
+ qapi/migration.json    |  4 +++-
+ qapi/net.json          |  3 ++-
+ qapi/run-state.json    | 16 +++++++++++-----
+ qapi/ui.json           | 12 ++++++------
+ 9 files changed, 42 insertions(+), 29 deletions(-)
+
+-- 
+2.35.1
 
 
