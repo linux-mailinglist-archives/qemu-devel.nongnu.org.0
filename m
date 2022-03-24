@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008E74E69E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 21:36:47 +0100 (CET)
-Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B993B4E69E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 21:38:08 +0100 (CET)
+Received: from localhost ([::1]:35592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXUCL-0001Vh-QH
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 16:36:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33266)
+	id 1nXUDf-0003jh-Nx
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 16:38:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUAd-0000mu-Jt
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:34:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42483)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUAa-00047Y-7i
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:34:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648154094;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xbuAq0sYdo5EJ17WvkFIqOnyI4JQoT+jiOpxN4dxNfU=;
- b=DnjbG6DB0I1S71yxSHmOXIvJGHYYLGxPBQPCc/+G7sTWO+oo/XG3F6S+hh4+5W1J9aW58p
- EHr9ycvIlPBhU5eMFr/uBYorduUhmu+6rohN3+OAr1DeEO618Bpipx2/pi3F7igr7LI8Xe
- Uo69ziZwbvf+b6+ROMgX5zP4HouiiHg=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-510-v862BnRXMFSPPuLLAOa2mw-1; Thu, 24 Mar 2022 16:34:53 -0400
-X-MC-Unique: v862BnRXMFSPPuLLAOa2mw-1
-Received: by mail-ua1-f72.google.com with SMTP id
- a19-20020ab04953000000b0035957a2a58dso1581341uad.12
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 13:34:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nXUBi-0001e8-Nc
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:36:06 -0400
+Received: from [2a00:1450:4864:20::62a] (port=38829
+ helo=mail-ej1-x62a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nXUBh-0004Vh-1S
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:36:06 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id r13so11519757ejd.5
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 13:36:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=nGPO4jBgeP+CZKgeUlzXQTcaxdR//bSdmnlXMZVWT1w=;
+ b=WUfEzWtz8QECE6mlLYWra6zXgIsDJF1X5hYT7TNTa/ZInqixPHmUwTgBascquTJvNh
+ 8pt4eBZ50zJ/ZM8+9TyJFkD+6QpoPwPB6gSJvKJ35qOWdaah7lWuoTM/aVArE1nRvnCd
+ QqNnFU2vkDWT0cHBoGJVRRdZJF8TTGX7t/pN+ywL+mn9DaWI1a7LlvXfUJ6H+KNOR3nV
+ oLuA0bKuGfs0Dd0MtPwTppJayXRtpTLKvz/kGx+KSVa+jPYCWG3YeqJmYSkufOZQzte/
+ HQKHkPA2pCZ0G50isgOCaoovBf/d57E99+tpw+9btf809SR2a4QYY2JPPk/7IgWjdXTC
+ O2zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xbuAq0sYdo5EJ17WvkFIqOnyI4JQoT+jiOpxN4dxNfU=;
- b=i8LkU35nILUC4Jd78UN4OUCYiQtb8COzIa2G21Io0cwf3OY6fTqrLynRG73eqypcsm
- 37Fh4dAHsMkx1000wGN3xM8ZqFD6C/IBeof/inCks2+xY45H27bFAzsKDCdwCUMX9Kk2
- HN4d1T9Kjg82jUytY42YjVoJMubHfBAyeVg42/Ls+sG0A02mhT44/pkiFQNsX2pOa1ES
- ea0aS3H1EeeUcZMQbjc541vBiGHRnk7/4fiWPr2NWSOBXr7UmsteolkTcL+6wM8tEzAn
- p8OuEi4cMdPMka8oygIFR9h1T8TVRSYnUS2s4fNvRnXFYs2Qlm+eIgHUEEnln6IQ6ytP
- I6ag==
-X-Gm-Message-State: AOAM531AeVzN3thOjYGR2Zb7RCJw2l4o2Y46LoOyDWNSPlJ8XuQ6YMvB
- W0GF28MPN9VFtR4YdSw0MwMlKMHqhQ2VBFQN9XG4hyMcnuHDuy8nFmvwdaTM4tIV517hUyOF2Vv
- tOt2NXBTo4KS6Fg0PLc2MHXbroyR6vhk=
-X-Received: by 2002:a05:6122:2186:b0:33f:c30b:9b46 with SMTP id
- j6-20020a056122218600b0033fc30b9b46mr2142506vkd.26.1648154092916; 
- Thu, 24 Mar 2022 13:34:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwdMBCPReTrqbhbcvm2ti1fGvnQmZhVv1Ze2LOXN0IYcY5PBWMR1HuvjVOCZ209izi0Ejd1XAGskTSWs7KZ1CU=
-X-Received: by 2002:a05:6122:2186:b0:33f:c30b:9b46 with SMTP id
- j6-20020a056122218600b0033fc30b9b46mr2142497vkd.26.1648154092736; Thu, 24 Mar
- 2022 13:34:52 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=nGPO4jBgeP+CZKgeUlzXQTcaxdR//bSdmnlXMZVWT1w=;
+ b=GdiP+N4J0DmYwFD1ERn4p6F8XDxhqkPJDltyqWErDMTI2fFI/32uedWBJnH3HBnMSj
+ anB2D2yNvjUrBp4nMTl/vevlC6NTu5mV1b3EQU9ROGuYz9U+XLGg/X4stC171tuQMjR4
+ gqyysLB0DXhOkaSvmXHNL2pn7e0CfUqGBvzOg/f8J1yMaNITbjPX8FgxO3pbQET17DpF
+ 1aYZrm2afr7AJAm2Eqwhzunr4RCJaeE/RzBeQl2S5qj5F+bcnnRCTx9hAapY1MiW7e58
+ fRcqK/GBU3QwY57nnStSno1DcIWGpi+gVxtLNrIE1OZjiMmTXLp2F54wbSEeLD6/29Wq
+ tyiA==
+X-Gm-Message-State: AOAM532lOUcOd+uhj7y6mAQjpGrh4yRjnZ9qLWWSsTHypIxp5ltlW7B4
+ eL+JzOu5a23A7Q5lVNU23pZK7Q==
+X-Google-Smtp-Source: ABdhPJytcRJw7iHP+N2MoDdDsGUPUsExSn5UPPYLeXNHs32kp3LYrJ2ckxC79jK0RgIOtZ6LsZ57KQ==
+X-Received: by 2002:a17:907:96ab:b0:6d7:1720:15d6 with SMTP id
+ hd43-20020a17090796ab00b006d7172015d6mr7906244ejc.322.1648154162830; 
+ Thu, 24 Mar 2022 13:36:02 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ gq12-20020a170906e24c00b006e067c93e1bsm1561471ejb.39.2022.03.24.13.36.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Mar 2022 13:36:01 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 50ED81FFB7;
+ Thu, 24 Mar 2022 20:36:00 +0000 (GMT)
+References: <20220324190854.156898-1-leandro.lupori@eldorado.org.br>
+ <20220324190854.156898-5-leandro.lupori@eldorado.org.br>
+User-agent: mu4e 1.7.10; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Subject: Re: [RFC PATCH 4/6] tests/tcg: add support for ppc64le softmmu tests
+Date: Thu, 24 Mar 2022 20:34:59 +0000
+In-reply-to: <20220324190854.156898-5-leandro.lupori@eldorado.org.br>
+Message-ID: <87k0cj2imn.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220324175015.232794-1-victortoso@redhat.com>
- <20220324175015.232794-2-victortoso@redhat.com>
-In-Reply-To: <20220324175015.232794-2-victortoso@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 24 Mar 2022 16:34:42 -0400
-Message-ID: <CAFn=p-aMfoxMn7ZUT1ZK4ifP6J-1PB4nj+74BM2OwAxnWKWX7Q@mail.gmail.com>
-Subject: Re: [PATCH 01/14] qapi: BlockExportRemoveMode: move comments to TODO
-To: Victor Toso <victortoso@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,53 +93,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, pbonzini@redhat.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
+
+Leandro Lupori <leandro.lupori@eldorado.org.br> writes:
+
+> Adding a new, "virtual" TCG test target, ppc64le-softmmu, seems to
+> be the cleanest way to support both BE and LE tests for
+> ppc64-softmmu.
 >
-> @hide and @soft are potential additions which fits the TODO section
-> perfectly.
->
-> The main motivation is to avoid this whole block of comment entering
-> the wrong section in the python parser.
->
-> Signed-off-by: Victor Toso <victortoso@redhat.com>
+> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
 > ---
->  qapi/block-export.json | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  tests/Makefile.include                    |  7 ++++---
+>  tests/tcg/configure.sh                    | 11 ++++++++++-
+>  tests/tcg/ppc64/Makefile.softmmu-target   |  2 ++
+>  tests/tcg/ppc64le/Makefile.softmmu-target |  7 +++++++
+>  4 files changed, 23 insertions(+), 4 deletions(-)
+>  create mode 100644 tests/tcg/ppc64le/Makefile.softmmu-target
 >
-> diff --git a/qapi/block-export.json b/qapi/block-export.json
-> index f183522d0d..1e34927f85 100644
-> --- a/qapi/block-export.json
-> +++ b/qapi/block-export.json
-> @@ -219,13 +219,13 @@
->  #
->  # @hard: Drop all connections immediately and remove export.
->  #
-> -# Potential additional modes to be added in the future:
-> +# TODO: Potential additional modes to be added in the future:
->  #
-> -# hide: Just hide export from new clients, leave existing connections as is.
-> -# Remove export after all clients are disconnected.
-> +#       hide: Just hide export from new clients, leave existing connections as is.
-> +#       Remove export after all clients are disconnected.
->  #
-> -# soft: Hide export from new clients, answer with ESHUTDOWN for all further
-> -# requests from existing clients.
-> +#       soft: Hide export from new clients, answer with ESHUTDOWN for all further
-> +#       requests from existing clients.
->  #
->  # Since: 2.12
->  ##
-> --
-> 2.35.1
->
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index e7153c8e91..4001fedbc3 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -40,9 +40,10 @@ SPEED =3D quick
+>  TARGETS=3D$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-tar=
+gets)))
+>=20=20
+>  # Per guest TCG tests
+> -BUILD_TCG_TARGET_RULES=3D$(patsubst %,build-tcg-tests-%, $(TARGETS))
+> -CLEAN_TCG_TARGET_RULES=3D$(patsubst %,clean-tcg-tests-%, $(TARGETS))
+> -RUN_TCG_TARGET_RULES=3D$(patsubst %,run-tcg-tests-%, $(TARGETS))
+> +TCG_TARGETS=3D$(patsubst tests/tcg/config-%.mak, %, $(wildcard tests/tcg=
+/config-*.mak))
+> +BUILD_TCG_TARGET_RULES=3D$(patsubst %,build-tcg-tests-%, $(TCG_TARGETS))
+> +CLEAN_TCG_TARGET_RULES=3D$(patsubst %,clean-tcg-tests-%, $(TCG_TARGETS))
+> +RUN_TCG_TARGET_RULES=3D$(patsubst %,run-tcg-tests-%, $(TCG_TARGETS))
 
-Does this help with something in particular? (Got an example for me?)
+I'm not following what is going on here. Are we creating a new target
+type? Is this just to avoid duplication in tests/tcg subdirs?
 
---js
+>=20=20
+>  # Probe for the Docker Builds needed for each build
+>  $(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
+> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+> index ed4b5ccb1f..a4ac7a4e44 100755
+> --- a/tests/tcg/configure.sh
+> +++ b/tests/tcg/configure.sh
+> @@ -80,6 +80,10 @@ fi
+>  : ${cross_as_tricore=3D"tricore-as"}
+>  : ${cross_ld_tricore=3D"tricore-ld"}
+>=20=20
+> +# If target ppc64-softmmu is configured, also include the virtual test t=
+arget
+> +# ppc64le-softmmu
+> +target_list=3D`echo $target_list | sed 's/ppc64-softmmu/& ppc64le-softmm=
+u/'`
+> +
+>  for target in $target_list; do
+>    arch=3D${target%%-*}
+>=20=20
+> @@ -237,7 +241,12 @@ for target in $target_list; do
+>        ;;
+>      *-softmmu)
+>        echo "CONFIG_SOFTMMU=3Dy" >> $config_target_mak
+> -      echo "QEMU=3D$PWD/qemu-system-$arch" >> $config_target_mak
+> +      if test $arch =3D "ppc64le"; then
+> +        sys_arch=3Dppc64
+> +      else
+> +        sys_arch=3D$arch
+> +      fi
+> +      echo "QEMU=3D$PWD/qemu-system-$sys_arch" >> $config_target_mak
+>        ;;
+>    esac
+>=20=20
+> diff --git a/tests/tcg/ppc64/Makefile.softmmu-target b/tests/tcg/ppc64/Ma=
+kefile.softmmu-target
+> index 8f9925ca5a..511b6322df 100644
+> --- a/tests/tcg/ppc64/Makefile.softmmu-target
+> +++ b/tests/tcg/ppc64/Makefile.softmmu-target
+> @@ -2,6 +2,8 @@
+>  # PowerPC64 system tests
+>  #
+>=20=20
+> +BIG_ENDIAN ?=3D 1
+> +
+>  # For now, disable tests that are failing
+>  DISABLED_TESTS :=3D memory
+>  DISABLED_EXTRA_RUNS :=3D run-gdbstub-memory
+> diff --git a/tests/tcg/ppc64le/Makefile.softmmu-target b/tests/tcg/ppc64l=
+e/Makefile.softmmu-target
+> new file mode 100644
+> index 0000000000..d4162160ee
+> --- /dev/null
+> +++ b/tests/tcg/ppc64le/Makefile.softmmu-target
+> @@ -0,0 +1,7 @@
+> +#
+> +# PowerPC64 LE system tests
+> +#
+> +
+> +BIG_ENDIAN =3D 0
+> +
+> +include $(SRC_PATH)/tests/tcg/ppc64/Makefile.softmmu-target
 
+
+--=20
+Alex Benn=C3=A9e
 
