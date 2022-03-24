@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E2B4E67DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 18:34:25 +0100 (CET)
-Received: from localhost ([::1]:34498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 687074E6801
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 18:44:40 +0100 (CET)
+Received: from localhost ([::1]:38962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXRLs-0004Pl-Ag
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 13:34:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48922)
+	id 1nXRVn-0007rT-8f
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 13:44:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <w@uter.be>)
- id 1nXRJr-0002nM-Ml; Thu, 24 Mar 2022 13:32:21 -0400
-Received: from lounge.grep.be ([144.76.219.42]:32857)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nXRPA-0005pd-4J
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:37:48 -0400
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:59787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <w@uter.be>)
- id 1nXRJp-0002Ek-7Q; Thu, 24 Mar 2022 13:32:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=uter.be;
- s=2021.lounge; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=u5sPssR6LFWnK8abW58smZkWt9oyANLFAfbGfMaOlfY=; b=dHezyUlaBK99GqS+jl+cUQL/ie
- Q+rpSoDYwquBEuYRQaT897LCB6l6juGtkXVnQPhHzNhglhhIa8DqoH8Gp6n+GQqpo313+eDJfVyuH
- mPMiAswRg6r1W/RPcFVlCPMWzu9z1Dlf1Lj5u73rTvveSwUSG1pLBvm9sOf5lqvqFX92O/w7WunPm
- b8w0RKsdBIBP+/nwyDhW4NqP3QHuhdMlK+5OiyLMK3x9UAEP/lCQ0fTgQbMcIJkRBEPvRjFs881sO
- PypvwRn5hbmoEapjBTVYtAW+8zxGspQ6gjYaXWwpmT9JNsd1iX14cO5tTMkDyffizq7BQoN3yLaeZ
- N+tQ6BhQ==;
-Received: from [197.245.197.46] (helo=pc181009)
- by lounge.grep.be with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <w@uter.be>)
- id 1nXRJZ-009awk-73; Thu, 24 Mar 2022 18:32:01 +0100
-Received: from wouter by pc181009 with local (Exim 4.95)
- (envelope-from <w@uter.be>) id 1nXRJM-0002by-Ah;
- Thu, 24 Mar 2022 19:31:48 +0200
-Date: Thu, 24 Mar 2022 19:31:48 +0200
-From: Wouter Verhelst <w@uter.be>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH] spec: Add NBD_OPT_EXTENDED_HEADERS
-Message-ID: <YjyrBLhG5ph6UA/E@pc181009.grep.be>
-References: <20211203231307.wmtbw7r72tyzkkax@redhat.com>
- <20211203231434.3900824-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nXRP7-0003GO-DV
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:37:47 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.132])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 9D0361FF32;
+ Thu, 24 Mar 2022 17:37:42 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 24 Mar
+ 2022 18:37:40 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004a48bd5c6-ac11-430b-bdcb-3940fc868ed7,
+ 8921D6D4056377124FF518EF6C5C68266D051705) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 86.195.214.108
+Message-ID: <f6460683-4c73-538a-5f5c-8746b4062912@kaod.org>
+Date: Thu, 24 Mar 2022 18:37:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211203231434.3900824-1-eblake@redhat.com>
-X-Speed: Gates' Law: Every 18 months, the speed of software halves.
-Organization: none
-Received-SPF: pass client-ip=144.76.219.42; envelope-from=w@uter.be;
- helo=lounge.grep.be
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v1 7/9] aspeed/soc : Add AST1030 support
+Content-Language: en-US
+To: Jamin Lin <jamin_lin@aspeedtech.com>, Alistair Francis
+ <alistair@alistair23.me>, Peter Maydell <peter.maydell@linaro.org>, Andrew
+ Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, Cleber Rosa
+ <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo
+ Leal <bleal@redhat.com>, "open list:STM32F205" <qemu-arm@nongnu.org>, "open
+ list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20220322025154.3989-1-jamin_lin@aspeedtech.com>
+ <20220322025154.3989-8-jamin_lin@aspeedtech.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220322025154.3989-8-jamin_lin@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 0c550d57-e1a2-4bb9-a782-7484b5adecfe
+X-Ovh-Tracer-Id: 12422616622719404987
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudegledgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepthhrohihpghlvggvsegrshhpvggvughtvggthhdrtghomh
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,141 +76,403 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- nbd@other.debian.org, nsoffer@redhat.com, libguestfs@redhat.com
+Cc: troy_lee@aspeedtech.com, steven_lee@aspeedtech.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
-
-Thanks for the ping; it had slipped my mind.
-
-On Fri, Dec 03, 2021 at 05:14:34PM -0600, Eric Blake wrote:
->  #### Request message
+On 3/22/22 03:51, Jamin Lin wrote:
+> From: Steven Lee <steven_lee@aspeedtech.com>
 > 
-> -The request message, sent by the client, looks as follows:
-> +The compact request message, sent by the client when extended
-> +transactions are not negotiated using `NBD_OPT_EXTENDED_HEADERS`,
-> +looks as follows:
+> The embeded core of AST1030 SoC is ARM Coretex M4.
+
+embedded
+
+> It is hard to be integrated in the common Aspeed Soc framework.
+
+Can you explain the difficulties ? It would require certainly
+adjustements of the ast2600 SoC model but from what I am seeing
+it is very similar, a part from the CPU.
+
+> We introduce a new ast1030 class with instance_init and realize
+> handlers.
+
+Do you have other device models in plan for this new SoC ? or do you
+want to keep it simple compared to the AST2600 ?
+
+  
+> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+> Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> ---
+>   hw/arm/aspeed_ast1030.c     | 301 ++++++++++++++++++++++++++++++++++++
+>   hw/arm/meson.build          |   7 +-
+>   include/hw/arm/aspeed_soc.h |   3 +
+>   3 files changed, 310 insertions(+), 1 deletion(-)
+>   create mode 100644 hw/arm/aspeed_ast1030.c
 > 
->  C: 32 bits, 0x25609513, magic (`NBD_REQUEST_MAGIC`)  
->  C: 16 bits, command flags  
-> @@ -353,14 +370,26 @@ C: 64 bits, offset (unsigned)
->  C: 32 bits, length (unsigned)  
->  C: (*length* bytes of data if the request is of type `NBD_CMD_WRITE`)  
-> 
-> +If negotiation agreed on extended transactions with
-> +`NBD_OPT_EXTENDED_HEADERS`, the client instead uses extended requests:
+> diff --git a/hw/arm/aspeed_ast1030.c b/hw/arm/aspeed_ast1030.c
+> new file mode 100644
+> index 0000000000..fe700d922f
+> --- /dev/null
+> +++ b/hw/arm/aspeed_ast1030.c
+> @@ -0,0 +1,301 @@
+> +/*
+> + * ASPEED AST1030 SoC
+> + *
+> + * Copyright (C) 2022 ASPEED Technology Inc.
+
+Since this is largely copied from the AST2600, you should add a
+"based on ..." statement.
+
+  
+> + *
+> + * This code is licensed under the GPL version 2 or later.  See
+> + * the COPYING file in the top-level directory.
+> + */
 > +
-> +C: 32 bits, 0x21e41c71, magic (`NBD_REQUEST_EXT_MAGIC`)  
-> +C: 16 bits, command flags  
-> +C: 16 bits, type  
-> +C: 64 bits, handle  
-> +C: 64 bits, offset (unsigned)  
-> +C: 64 bits, length (unsigned)  
-> +C: (*length* bytes of data if the request is of type `NBD_CMD_WRITE`)  
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "exec/address-spaces.h"
+> +#include "sysemu/sysemu.h"
+> +#include "hw/qdev-clock.h"
+> +#include "hw/misc/unimp.h"
+> +#include "hw/char/serial.h"
 > +
-
-Perhaps we should decouple the ideas of "effect length" and "payload
-length"? As in,
-
-C: 32 bits, 0x21e41c71, magic (`NBD_REQUEST_EXT_MAGIC`)
-C: 16 bits, command flags
-C: 16 bits, type
-C: 64 bits, handle
-C: 64 bits, offset
-C: 64 bits, effect length
-C: 64 bits, payload length
-C: (*payload length* bytes of data)
-
-This makes the protocol more context free. With the current set of
-commands, only NBD_CMD_WRITE would have payload length be nonzero, but
-that doesn't have to remain the case forever; e.g., we could have a
-command that extends NBD_CMD_BLOCK_STATUS to only query a subset of the
-metadata contexts that we declared (if that is wanted, of course).
-
-Of course, that does have the annoying side effect of no longer fitting
-in 32 bytes, requiring a 40-byte header instead. I think it would be
-worth it though.
-
-(This is obviously not relevant for reply messages, only for request
-messages)
-
->  #### Simple reply message
-> 
->  The simple reply message MUST be sent by the server in response to all
->  requests if structured replies have not been negotiated using
-> -`NBD_OPT_STRUCTURED_REPLY`. If structured replies have been negotiated, a simple
-> -reply MAY be used as a reply to any request other than `NBD_CMD_READ`,
-> -but only if the reply has no data payload.  The message looks as
-> -follows:
-> +`NBD_OPT_STRUCTURED_REPLY`. If structured replies have been
-> +negotiated, a simple reply MAY be used as a reply to any request other
-> +than `NBD_CMD_READ`, but only if the reply has no data payload.  If
-> +extended headers were not negotiated using `NBD_OPT_EXTENDED_HEADERS`,
-> +the message looks as follows:
-> 
->  S: 32 bits, 0x67446698, magic (`NBD_SIMPLE_REPLY_MAGIC`; used to be
->     `NBD_REPLY_MAGIC`)  
-> @@ -369,6 +398,16 @@ S: 64 bits, handle
->  S: (*length* bytes of data if the request is of type `NBD_CMD_READ` and
->      *error* is zero)  
-> 
-> +If extended headers were negotiated using `NBD_OPT_EXTENDED_HEADERS`,
-> +the message looks like:
+> +#include "hw/arm/aspeed_soc.h"
 > +
-> +S: 32 bits, 0x60d12fd6, magic (`NBD_SIMPLE_REPLY_EXT_MAGIC`)  
-> +S: 32 bits, error (MAY be zero)  
-> +S: 64 bits, handle  
-> +S: 128 bits, padding (MUST be zero)  
-
-Should all these requirements about padding not be a SHOULD rather than
-a MUST?
-
-[...]
-> +* `NBD_OPT_EXTENDED_HEADERS` (11)
+> +#define ASPEED_SOC_IOMEM_SIZE 0x00200000
 > +
-> +    The client wishes to use extended headers during the transmission
-> +    phase.  The client MUST NOT send any additional data with the
-> +    option, and the server SHOULD reject a request that includes data
-> +    with `NBD_REP_ERR_INVALID`.
+> +static const hwaddr aspeed_soc_ast1030_memmap[] = {
+> +    [ASPEED_DEV_SRAM]      = 0x00000000,
+> +    [ASPEED_DEV_SBC]       = 0x79000000,
+> +    [ASPEED_DEV_IOMEM]     = 0x7E600000,
+> +    [ASPEED_DEV_PWM]       = 0x7E610000,
+> +    [ASPEED_DEV_FMC]       = 0x7E620000,
+> +    [ASPEED_DEV_SPI1]      = 0x7E630000,
+> +    [ASPEED_DEV_SPI2]      = 0x7E640000,
+> +    [ASPEED_DEV_SCU]       = 0x7E6E2000,
+> +    [ASPEED_DEV_ADC]       = 0x7E6E9000,
+> +    [ASPEED_DEV_SBC]       = 0x7E6F2000,
+> +    [ASPEED_DEV_GPIO]      = 0x7E780000,
+> +    [ASPEED_DEV_TIMER1]    = 0x7E782000,
+> +    [ASPEED_DEV_UART5]     = 0x7E784000,
+> +    [ASPEED_DEV_WDT]       = 0x7E785000,
+> +    [ASPEED_DEV_LPC]       = 0x7E789000,
+> +    [ASPEED_DEV_I2C]       = 0x7E7B0000,
+> +};
 > +
-> +    The server replies with the following, or with an error permitted
-> +    elsewhere in this document:
+> +static const int aspeed_soc_ast1030_irqmap[] = {
+> +    [ASPEED_DEV_UART5]     = 8,
+> +    [ASPEED_DEV_GPIO]      = 11,
+> +    [ASPEED_DEV_TIMER1]    = 16,
+> +    [ASPEED_DEV_TIMER2]    = 17,
+> +    [ASPEED_DEV_TIMER3]    = 18,
+> +    [ASPEED_DEV_TIMER4]    = 19,
+> +    [ASPEED_DEV_TIMER5]    = 20,
+> +    [ASPEED_DEV_TIMER6]    = 21,
+> +    [ASPEED_DEV_TIMER7]    = 22,
+> +    [ASPEED_DEV_TIMER8]    = 23,
+> +    [ASPEED_DEV_WDT]       = 24,
+> +    [ASPEED_DEV_LPC]       = 35,
+> +    [ASPEED_DEV_FMC]       = 39,
+> +    [ASPEED_DEV_PWM]       = 44,
+> +    [ASPEED_DEV_ADC]       = 46,
+> +    [ASPEED_DEV_SPI1]      = 65,
+> +    [ASPEED_DEV_SPI2]      = 66,
+> +    [ASPEED_DEV_I2C]       = 110, /* 110 ~ 123 */
+> +    [ASPEED_DEV_KCS]       = 138, /* 138 -> 142 */
+> +};
 > +
-> +    - `NBD_REP_ACK`: Extended headers have been negotiated; the client
-> +      MUST use the 32-byte extended request header, and the server
-> +      MUST use the 32-byte extended reply header.
-> +    - For backwards compatibility, clients SHOULD be prepared to also
-> +      handle `NBD_REP_ERR_UNSUP`; in this case, only the compact
-> +      transmission headers will be used.
+> +static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
+> +{
+> +    AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
 > +
-> +    If the client requests `NBD_OPT_STARTTLS` after this option, it
-> +    MUST renegotiate extended headers.
+> +    return qdev_get_gpio_in(DEVICE(&s->armv7m), sc->irqmap[ctrl]);
+> +}
 > +
+> +
+> +static void aspeed_soc_ast1030_init(Object *obj)
+> +{
+> +    AspeedSoCState *s = ASPEED_SOC(obj);
+> +    AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+> +    char socname[8];
+> +    char typename[64];
+> +    int i;
+> +
+> +    if (sscanf(sc->name, "%7s", socname) != 1) {
+> +        g_assert_not_reached();
+> +    }
+> +
+> +    object_initialize_child(obj, "armv7m", &s->armv7m, TYPE_ARMV7M);
+> +
+> +    s->sysclk = qdev_init_clock_in(DEVICE(s), "sysclk", NULL, NULL, 0);
+> +
+> +
+> +    snprintf(typename, sizeof(typename), "aspeed.scu-%s", socname);
+> +    object_initialize_child(obj, "scu", &s->scu, typename);
+> +    qdev_prop_set_uint32(DEVICE(&s->scu), "silicon-rev", sc->silicon_rev);
+> +
+> +    object_property_add_alias(obj, "hw-strap1", OBJECT(&s->scu), "hw-strap1");
+> +    object_property_add_alias(obj, "hw-strap2", OBJECT(&s->scu), "hw-strap2");
+> +
+> +    snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
+> +    object_initialize_child(obj, "timerctrl", &s->timerctrl, typename);
+> +
+> +    snprintf(typename, sizeof(typename), "aspeed.adc-%s", socname);
+> +    object_initialize_child(obj, "adc", &s->adc, typename);
+> +
+> +    snprintf(typename, sizeof(typename), "aspeed.fmc-%s", socname);
+> +    object_initialize_child(obj, "fmc", &s->fmc, typename);
+> +
+> +    for (i = 0; i < sc->spis_num; i++) {
+> +        snprintf(typename, sizeof(typename), "aspeed.spi%d-%s", i + 1, socname);
+> +        object_initialize_child(obj, "spi[*]", &s->spi[i], typename);
+> +    }
+> +
+> +    object_initialize_child(obj, "lpc", &s->lpc, TYPE_ASPEED_LPC);
+> +
+> +    object_initialize_child(obj, "sbc", &s->sbc, TYPE_ASPEED_SBC);
+> +
+> +    for (i = 0; i < sc->wdts_num; i++) {
+> +        snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
+> +        object_initialize_child(obj, "wdt[*]", &s->wdt[i], typename);
+> +    }
+> +}
+> +
+> +static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+> +{
+> +    AspeedSoCState *s = ASPEED_SOC(dev_soc);
+> +    AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+> +    MemoryRegion *system_memory = get_system_memory();
+> +    DeviceState *armv7m;
+> +    Error *err = NULL;
+> +    int i;
+> +
+> +    if (!clock_has_source(s->sysclk)) {
+> +        error_setg(errp, "sysclk clock must be wired up by the board code");
+> +        return;
+> +    }
 
-Two thoughts here:
+Nice ! we should work on clock modeling for the other Aspeed SoC also.
 
-- We should probably allow NBD_REP_ERR_BLOCK_SIZE_REQD as a reply to
-  this message; I could imagine a server might not want to talk 64-bit
-  lengths if it doesn't know that block sizes are going to be
-  reasonable.
-- In the same vein, should we perhaps also add an error message for when
-  extended headers are negotiated without structured replies? Perhaps a
-  server implementation might not want to implement the "extended
-  headers but no structured replies" message format.
+Thanks,
 
-On that note, while I know I had said earlier that I would prefer not
-making this new extension depend on structured replies, in hindsight
-perhaps it *is* a good idea to add that dependency; otherwise we create
-an extra message format that is really a degenerate case of "we want to
-be modern in one way but not in another", and that screams out to me
-"I'm not going to be used much, look at me for security issues!"
+C.
 
-Which perhaps is not a very good idea.
+> +    /* General I/O memory space to catch all unimplemented device */
+> +    create_unimplemented_device("aspeed.sbc",
+> +                                sc->memmap[ASPEED_DEV_SBC],
+> +                                0x40000);
+> +    create_unimplemented_device("aspeed.io",
+> +                                sc->memmap[ASPEED_DEV_IOMEM],
+> +                                ASPEED_SOC_IOMEM_SIZE);
+> +
+> +    /* AST1030 CPU Core */
+> +    armv7m = DEVICE(&s->armv7m);
+> +    qdev_prop_set_uint32(armv7m, "num-irq", 256);
+> +    qdev_prop_set_string(armv7m, "cpu-type", sc->cpu_type);
+> +    qdev_connect_clock_in(armv7m, "cpuclk", s->sysclk);
+> +    object_property_set_link(OBJECT(&s->armv7m), "memory",
+> +                             OBJECT(system_memory), &error_abort);
+> +    sysbus_realize(SYS_BUS_DEVICE(&s->armv7m), &error_abort);
+> +
+> +    /* Internal SRAM */
+> +    memory_region_init_ram(&s->sram, NULL, "aspeed.sram", sc->sram_size, &err);
+> +    if (err != NULL) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +    memory_region_add_subregion(system_memory,
+> +                                sc->memmap[ASPEED_DEV_SRAM],
+> +                                &s->sram);
+> +
+> +    /* SCU */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->scu), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->scu), 0, sc->memmap[ASPEED_DEV_SCU]);
+> +
+> +    /* LPC */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->lpc), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->lpc), 0, sc->memmap[ASPEED_DEV_LPC]);
+> +
+> +    /* Connect the LPC IRQ to the GIC. It is otherwise unused. */
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->lpc), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_DEV_LPC));
+> +
+> +    /*
+> +     * On the AST1030 LPC subdevice IRQs are connected straight to the GIC.
+> +     */
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->lpc), 1 + aspeed_lpc_kcs_1,
+> +                       qdev_get_gpio_in(DEVICE(&s->armv7m),
+> +                                sc->irqmap[ASPEED_DEV_KCS] + aspeed_lpc_kcs_1));
+> +
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->lpc), 1 + aspeed_lpc_kcs_2,
+> +                       qdev_get_gpio_in(DEVICE(&s->armv7m),
+> +                                sc->irqmap[ASPEED_DEV_KCS] + aspeed_lpc_kcs_2));
+> +
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->lpc), 1 + aspeed_lpc_kcs_3,
+> +                       qdev_get_gpio_in(DEVICE(&s->armv7m),
+> +                                sc->irqmap[ASPEED_DEV_KCS] + aspeed_lpc_kcs_3));
+> +
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->lpc), 1 + aspeed_lpc_kcs_4,
+> +                       qdev_get_gpio_in(DEVICE(&s->armv7m),
+> +                                sc->irqmap[ASPEED_DEV_KCS] + aspeed_lpc_kcs_4));
+> +
+> +    /* UART5 - attach an 8250 to the IO space as our UART */
+> +    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+> +                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
+> +                   38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+> +
+> +    /* Timer */
+> +    object_property_set_link(OBJECT(&s->timerctrl), "scu", OBJECT(&s->scu),
+> +                             &error_abort);
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->timerctrl), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->timerctrl), 0,
+> +                    sc->memmap[ASPEED_DEV_TIMER1]);
+> +    for (i = 0; i < ASPEED_TIMER_NR_TIMERS; i++) {
+> +        qemu_irq irq = aspeed_soc_get_irq(s, ASPEED_DEV_TIMER1 + i);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+> +    }
+> +
+> +    /* ADC */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->adc), errp)) {
+> +        return;
+> +    }
+> +
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->adc), 0, sc->memmap[ASPEED_DEV_ADC]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->adc), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_DEV_ADC));
+> +
+> +    /* FMC, The number of CS is set at the board level */
+> +    object_property_set_link(OBJECT(&s->fmc), "dram", OBJECT(&s->sram),
+> +            &error_abort);
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->fmc), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->fmc), 0, sc->memmap[ASPEED_DEV_FMC]);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->fmc), 1,
+> +                    ASPEED_SMC_GET_CLASS(&s->fmc)->flash_window_base);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->fmc), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_DEV_FMC));
+> +
+> +    /* SPI */
+> +    for (i = 0; i < sc->spis_num; i++) {
+> +        object_property_set_link(OBJECT(&s->spi[i]), "dram",
+> +                                 OBJECT(&s->sram), &error_abort);
+> +        if (!sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), errp)) {
+> +            return;
+> +        }
+> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->spi[i]), 0,
+> +                        sc->memmap[ASPEED_DEV_SPI1 + i]);
+> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->spi[i]), 1,
+> +                        ASPEED_SMC_GET_CLASS(&s->spi[i])->flash_window_base);
+> +    }
+> +
+> +    /* Secure Boot Controller */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->sbc), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sbc), 0, sc->memmap[ASPEED_DEV_SBC]);
+> +
+> +    /* Watch dog */
+> +    for (i = 0; i < sc->wdts_num; i++) {
+> +        AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(&s->wdt[i]);
+> +
+> +        object_property_set_link(OBJECT(&s->wdt[i]), "scu", OBJECT(&s->scu),
+> +                                 &error_abort);
+> +        if (!sysbus_realize(SYS_BUS_DEVICE(&s->wdt[i]), errp)) {
+> +            return;
+> +        }
+> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0,
+> +                        sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
+> +    }
+> +}
+> +
+> +static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    AspeedSoCClass *sc = ASPEED_SOC_CLASS(dc);
+> +
+> +    dc->realize = aspeed_soc_ast1030_realize;
+> +
+> +    sc->name = "ast1030-a1";
+> +    sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
+> +    sc->silicon_rev = AST1030_A1_SILICON_REV;
+> +    sc->sram_size = 0xc0000;
+> +    sc->spis_num = 2;
+> +    sc->ehcis_num = 0;
+> +    sc->wdts_num = 4;
+> +    sc->macs_num = 1;
+> +    sc->irqmap = aspeed_soc_ast1030_irqmap;
+> +    sc->memmap = aspeed_soc_ast1030_memmap;
+> +    sc->num_cpus = 1;
+> +}
+> +
+> +static const TypeInfo aspeed_soc_ast1030_type_info = {
+> +    .name          = "ast1030-a1",
+> +    .parent        = TYPE_ASPEED_SOC,
+> +    .instance_size = sizeof(AspeedSoCState),
+> +    .instance_init = aspeed_soc_ast1030_init,
+> +    .class_init    = aspeed_soc_ast1030_class_init,
+> +    .class_size    = sizeof(AspeedSoCClass),
+> +};
+> +
+> +static void aspeed_soc_register_types(void)
+> +{
+> +    type_register_static(&aspeed_soc_ast1030_type_info);
+> +};
+> +
+> +type_init(aspeed_soc_register_types)
+> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
+> index 721a8eb8be..362868c1a0 100644
+> --- a/hw/arm/meson.build
+> +++ b/hw/arm/meson.build
+> @@ -48,7 +48,12 @@ arm_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal.c', 'xlnx-ver
+>   arm_ss.add(when: 'CONFIG_FSL_IMX25', if_true: files('fsl-imx25.c', 'imx25_pdk.c'))
+>   arm_ss.add(when: 'CONFIG_FSL_IMX31', if_true: files('fsl-imx31.c', 'kzm.c'))
+>   arm_ss.add(when: 'CONFIG_FSL_IMX6', if_true: files('fsl-imx6.c'))
+> -arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_soc.c', 'aspeed.c', 'aspeed_ast2600.c'))
+> +arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
+> +  'aspeed_soc.c',
+> +  'aspeed.c',
+> +  'aspeed_ast2600.c',
+> +  'aspeed_ast1030.c'
+> +))
+>   arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
+>   arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
+>   arm_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-soc.c'))
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index da043dcb45..645d2dc83b 100644
+> --- a/include/hw/arm/aspeed_soc.h
+> +++ b/include/hw/arm/aspeed_soc.h
+> @@ -13,6 +13,7 @@
+>   #define ASPEED_SOC_H
+>   
+>   #include "hw/cpu/a15mpcore.h"
+> +#include "hw/arm/armv7m.h"
+>   #include "hw/intc/aspeed_vic.h"
+>   #include "hw/misc/aspeed_scu.h"
+>   #include "hw/adc/aspeed_adc.h"
+> @@ -47,6 +48,7 @@ struct AspeedSoCState {
+>       /*< public >*/
+>       ARMCPU cpu[ASPEED_CPUS_NUM];
+>       A15MPPrivState     a7mpcore;
+> +    ARMv7MState        armv7m;
+>       MemoryRegion *dram_mr;
+>       MemoryRegion sram;
+>       AspeedVICState vic;
+> @@ -72,6 +74,7 @@ struct AspeedSoCState {
+>       AspeedSDHCIState emmc;
+>       AspeedLPCState lpc;
+>       uint32_t uart_default;
+> +    Clock *sysclk;
+>   };
+>   
+>   #define TYPE_ASPEED_SOC "aspeed-soc"
 
-[...]
--- 
-     w@uter.{be,co.za}
-wouter@{grep.be,fosdem.org,debian.org}
 
