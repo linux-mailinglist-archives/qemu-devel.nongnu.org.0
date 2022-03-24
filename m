@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513254E5DD5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 05:29:16 +0100 (CET)
-Received: from localhost ([::1]:40454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB0B4E5E88
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 07:15:38 +0100 (CET)
+Received: from localhost ([::1]:50706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXF63-000537-0A
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 00:29:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41410)
+	id 1nXGkz-0001bK-Aa
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 02:15:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nXF4w-0004Na-5g
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 00:28:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37601)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nXGjb-0000ts-Pl
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 02:14:13 -0400
+Received: from mga06.intel.com ([134.134.136.31]:13462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nXF4s-00087k-Jn
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 00:28:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648096080;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BgJHsoBEbYP9Sk60StyXxDbi0rAYw+JaLNNTZeMmUPY=;
- b=dES7NTtu7CTiD8YI1gSm6Ub3N14m/1NXPcb4PRl2qd4nBQaNp3v6eU6zP9XLU14Ixql6Lt
- ZguCcdhJzivoOU1q0YXsEM7PIGWV4JgtKRGAeg3roJ7VcolDbwUya2CnOb3uMEa+GhK2Xo
- YkAkD/K9s5VzSi4rTEtEi8i6jHSozJQ=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-137-9Z2BVORmMxG4K1EH6iBKaw-1; Thu, 24 Mar 2022 00:27:59 -0400
-X-MC-Unique: 9Z2BVORmMxG4K1EH6iBKaw-1
-Received: by mail-lj1-f200.google.com with SMTP id
- v2-20020a2e9f42000000b00247e9c3f0e1so1356882ljk.1
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 21:27:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BgJHsoBEbYP9Sk60StyXxDbi0rAYw+JaLNNTZeMmUPY=;
- b=bC3mAO74RYLT+Jd210+oaI1xwy19Nk3OwRaxCdvvbz9qc2JKbuhEEMOTWwuvf0nsGD
- MWCuCMCiaN1g6ntXPoSJ3bmKwVABz3OV70yFUA5Hf5sImMwTafIJDDis+0eRK2SxBAUp
- OGvYkmfBzDyQNthG0wdpHDSS/qut1cFqu/tY2EQ8vkyd2enr509VWD4Cbw9kEXY6g/AW
- 2plOUq4y6Jb0LzGlVi0E1OaWAMoj6CYokys9x3uUEaqhME7rETsXxAddTt8A+cpXiGvS
- 8KGhxWhL5OBgQKnvPRnYcch/GWTN5OpCynoPJZafPKs62wKSJ8gHjgqOjEH583XDc8MY
- IanA==
-X-Gm-Message-State: AOAM531ELc7GxEko6BcLmIBjm8YDRGU1GMcykJB8pU3rOj2bB9xDHicg
- uwGRvrvwLDnIcA+UKEiFTHFHk1BAXVhG+gYizH1jB4AxqN+Oej+Ny2efLJha4u2CfW5O+8zrX1k
- pzJvMi7ZMxzIZ+JVYJsUso+aC+RKFFAk=
-X-Received: by 2002:a05:6512:108a:b0:448:756a:f5fb with SMTP id
- j10-20020a056512108a00b00448756af5fbmr2433380lfg.587.1648096077926; 
- Wed, 23 Mar 2022 21:27:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFl0csHR9s60y6LQlUeExxtnjB82AgXsaK4rDwHSMEoHO/JNt9HgaM+NHWD/hVEK+573ZDbCma6ZcpjqyAzWM=
-X-Received: by 2002:a05:6512:108a:b0:448:756a:f5fb with SMTP id
- j10-20020a056512108a00b00448756af5fbmr2433367lfg.587.1648096077669; Wed, 23
- Mar 2022 21:27:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nXGjZ-00075m-G3
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 02:14:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648102449; x=1679638449;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=UOpTd7StGhej4ruU8H47HWJvgta4QrBbISqx81PRTkk=;
+ b=cH3N7O1KWqW7u8MgotO8UwyEikpB85LclVlsqNGkFCQ/9k6k8R9vUyQ7
+ WTEJrwtzOfzxKKVvuscZ7ibPvaADdh2KLFFibRovHvvAMkWmmYL1+cSFm
+ QpKJ7OKeKYr/RrkBSSeN2Fi5CsRstnF6nyBxG0sz0rgsEg6LObaju1aT0
+ 7GM9k9cyBcMIWNRdNmIN7ruRAygbZq61X/8kKfr5WQBYKLRukjzxFz0qc
+ UHxqL7d6trWnnZTpBsxSkt1uPYeU80/yeQRUVvlcv6J+P4vA71t9u7zfO
+ jpfkEsnboXjzsALFkHC57y/BVH1PO1Bc7hoIWpGZ/ufimYLhitHxebcz+ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="319006853"
+X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="319006853"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2022 23:14:01 -0700
+X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="561229879"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.201.150])
+ ([10.249.201.150])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2022 23:13:56 -0700
+Message-ID: <e7fb2eab-b2b1-dd0e-4821-4cca40751d15@intel.com>
+Date: Thu, 24 Mar 2022 14:13:53 +0800
 MIME-Version: 1.0
-References: <155d85bb.2709.17fba1369b0.Coremail.leohou163@163.com>
-In-Reply-To: <155d85bb.2709.17fba1369b0.Coremail.leohou163@163.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 24 Mar 2022 12:27:46 +0800
-Message-ID: <CACGkMEvcVGvB2ZEes20cVBA1_8TWdDo1o-jPw07R4TOEXNi0kQ@mail.gmail.com>
-Subject: Re: Address mapping for vIOMMU
-To: leohou <leohou163@163.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.6.1
+Subject: Re: [RFC PATCH v3 17/36] pflash_cfi01/tdx: Introduce ram_mode of
+ pflash for TDVF
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
+ <20220317135913.2166202-18-xiaoyao.li@intel.com>
+ <f418548e-c24c-1bc3-4e16-d7a775298a18@gmail.com>
+ <7a8233e4-0cae-b05a-7931-695a7ee87fc9@intel.com>
+ <20220322092141.qsgv3pqlvlemgrgw@sirius.home.kraxel.org>
+ <YjmXFZRCbKXTkAhN@redhat.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <YjmXFZRCbKXTkAhN@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=xiaoyao.li@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,36 +83,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ seanjc@google.com, erdemaktas@google.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 12:15 PM leohou <leohou163@163.com> wrote:
->
-> hi all,
-> When I use DPDK in guestOS  and  configering the VM with vIOMMU, I found that  sending the gVA to the hardware device , the hardware device can't  find the real data.
-> But sending the gPA to the hardware device, the hardware device can  find the real data.
->
-> Environment:
-> OS: Linux version 5.4.0-104-generic (buildd@ubuntu) (gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04)) #118-Ubuntu SMP Wed Mar 2 19:02:41 UTC 2022
-> QEMU: QEMU emulator version 4.2.1 (Debian 1:4.2-3ubuntu6.21)
-> Device: virtio-net
->
-> Question:
-> The vIOMMU doesn't work?
-> I know virtio-net does not have DMA, so when virtio-net and DPDK are combined, IOMMU is not needed?
+On 3/22/2022 5:29 PM, Daniel P. Berrangé wrote:
+> On Tue, Mar 22, 2022 at 10:21:41AM +0100, Gerd Hoffmann wrote:
+>>    Hi,
+>>
+>>>> If you don't need a pflash device, don't use it: simply map your nvram
+>>>> region as ram in your machine. No need to clutter the pflash model like
+>>>> that.
+>>
+>> Using the pflash device for something which isn't actually flash looks a
+>> bit silly indeed.
+>>
+>>>
+>>> I know it's dirty to hack the pflash device. The purpose is to make the user
+>>> interface unchanged that people can still use
+>>>
+>>> 	-drive if=pflash,format=raw,unit=0,file=/path/to/OVMF_CODE.fd
+>>>          -drive if=pflash,format=raw,unit=1,file=/path/to/OVMF_VARS.fd
+>>>
+>>> to create TD guest.
+>>
+>> Well, if persistent vars are not supported anyway there is little reason
+>> to split the firmware into CODE and VARS files.  You can use just use
+>> OVMF.fd with a single pflash device.  libvirt recently got support for
+>> that.
+> 
+> Agreed.
 
-vIOMMU + virtio-net works for me like a charm.
+The purpose of using split firmware is that people can share the same 
+code.fd while using different vars.fd
 
-DPDK supported vIOMMU long ago with virtio-net.
 
-Make sure you vIOMMU is enabled in the guest (intel_iommu=on in guest
-kernel command line, and enable_unsafe_noiommu_mode is *not* 1)
-
-Thanks
-
->
->
->
 
 
