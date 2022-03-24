@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82574E68DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:51:57 +0100 (CET)
-Received: from localhost ([::1]:50332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5274E68F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:58:46 +0100 (CET)
+Received: from localhost ([::1]:35830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXSYu-0007tA-QY
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:51:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34044)
+	id 1nXSfV-0000ge-Ue
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:58:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSEm-0000NQ-AA
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:31:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33396)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSEc-0005pb-VC
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:31:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648146655;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5jpEJrK7nT8EZveZ7BbmepXMy6N57yFI9GAA6yaaIrg=;
- b=byPayquYOmK4VbTx54cLlbWR0itACkegS/fGLp+ilI2UN/2+1Rn2/ZxhMvIe42kvUyhn51
- SE72fVFnEhDcpXxfKne/+To2ezoJjLBx54T/dF4fywYtLJHTTXDYZgMMxgFKpRlfrHwT4X
- mzzIt0xrqx+5r1C8CWGaHSfzMpwpDKU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-190-GAzG6w_1OIyg5I7zAH4lZw-1; Thu, 24 Mar 2022 14:30:52 -0400
-X-MC-Unique: GAzG6w_1OIyg5I7zAH4lZw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF6353801ECA;
- Thu, 24 Mar 2022 18:30:51 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.33.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE3E9C27D8A;
- Thu, 24 Mar 2022 18:30:50 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/17] iotests: make qemu_io_log() check return codes by
- default
-Date: Thu, 24 Mar 2022 14:30:18 -0400
-Message-Id: <20220324183018.2476551-18-jsnow@redhat.com>
-In-Reply-To: <20220324183018.2476551-1-jsnow@redhat.com>
-References: <20220324183018.2476551-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXSdU-0007Wr-Im
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:56:40 -0400
+Received: from [2607:f8b0:4864:20::1130] (port=43269
+ helo=mail-yw1-x1130.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXSdS-00028t-UM
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:56:40 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-2e5e31c34bfso60896177b3.10
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 11:56:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+nNX5PVqUaKMriNKsqTEKDYcnWC9Um6fex5Z0ZRMg2Q=;
+ b=xavnYDu30MNPMdj6EEhrKMXaP2Y5nOgAW8sbnBO4x1/YHa/CUAdIWDqXmub6+LZ7en
+ 1HHytxfr/1sNdSMeTinM0DdLw1P7Yo7jnF7LgDULuz6f4sLn84NhkkdPolFCUkzFxXvs
+ /cEBtMECIF6v3kuHiuDUHocFCSa3HJ3wnDhoEcb08msf8AAb8hfk2SyJhgsojhbUKFEb
+ NSvqRwNzKo0GRzzjzRDynTisvRo4oeEsCqonh9lcxPUhR0SYMfabJv0zLCVmfDxwQeWp
+ eEHon+wzAW3JU18MrPWaxb9USKFlk97Bgr+iP2fwP8xwXd7teT5SRjZ3CKVqZ/EcHaC1
+ gQXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+nNX5PVqUaKMriNKsqTEKDYcnWC9Um6fex5Z0ZRMg2Q=;
+ b=Dk8x1+ZW6eGfu8jGCPF6XCOBMam6VckJowg6pWoAI/G7IE3fI1jjUmAm+rjWMASqAH
+ 2veaJhAxZWTiitD+u1umVyykMOl6Yc/DKLlOTOS+fQD2qxGf8+W19h6BgroluHAHEBvJ
+ QMVB+6TbH56AxYzrl+uE7Dhnku9KarfB6rCU9BObB3sUH54tDq67LcCkKSxuZxjj4MZn
+ itMtffN2Hunatq5XaLr3vOAHVxuOek5sv9TZAlisfUp4xxz9lJ9mcf3odrDvaVvtVclt
+ R0VeIcljIvEZjp1rN/bTEcWuHVBoRa5ORp7vGxoSL/zAPMWgjx8NV3sjFAQomtaltz+n
+ KD/w==
+X-Gm-Message-State: AOAM530E3m2t/SJG3+WW462XhK2eyg9GzWXbwXnQYoUZ+gXOBj9ZaLdJ
+ xtlYZ9N0Uuucdbcq9dDOpRHZsldv0tM1DgIK8xaN8Q==
+X-Google-Smtp-Source: ABdhPJyEWos9n8tdxBSG2mwQgtEdBaB9vFf3y/zjF30ck6ZLj8eFpHpw3Eqg2P6MhjqeI7R4tMmEalctyxtxnSOPN6k=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr6496469ywb.257.1648148197651; Thu, 24 Mar
+ 2022 11:56:37 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220324171756.196654-1-zongyuan.li@smartx.com>
+ <20220324171756.196654-4-zongyuan.li@smartx.com>
+In-Reply-To: <20220324171756.196654-4-zongyuan.li@smartx.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Mar 2022 18:56:24 +0000
+Message-ID: <CAFEAcA9GA79yUQj3i5MdLWK6+r3bDObKQS+8_bfx=47TKbLHJQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] hw/intc/exynos4210: replace 'qemu_split_irq' in
+ combiner and gic
+To: Zongyuan Li <zongyuan.li@smartx.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1130
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,55 +84,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ "open list:Exynos" <qemu-arm@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just like qemu_img_log(), upgrade qemu_io_log() to enforce a return code
-of zero by default.
+On Thu, 24 Mar 2022 at 17:18, Zongyuan Li <zongyuan.li@smartx.com> wrote:
+>
+> Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
+> ---
+>  hw/arm/exynos4210.c           | 26 ++++++++++++
+>  hw/intc/exynos4210_combiner.c | 79 +++++++++++++++++++++++++++--------
+>  hw/intc/exynos4210_gic.c      | 36 ++++++++++++----
+>  include/hw/arm/exynos4210.h   | 11 ++---
+>  include/hw/core/split-irq.h   |  5 +--
+>  5 files changed, 124 insertions(+), 33 deletions(-)
+>
+> diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+> index 0299e81f85..10826706b2 100644
+> --- a/hw/arm/exynos4210.c
+> +++ b/hw/arm/exynos4210.c
+> @@ -288,6 +288,7 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+>      for (n = 0; n < EXYNOS4210_MAX_INT_COMBINER_OUT_IRQ; n++) {
+>          sysbus_connect_irq(busdev, n, s->irqs.int_gic_irq[n]);
+>      }
+> +    // SplitIRQ for internal irq realized here
+>      exynos4210_combiner_get_gpioin(&s->irqs, dev, 0);
+>      sysbus_mmio_map(busdev, 0, EXYNOS4210_INT_COMBINER_BASE_ADDR);
+>
+> @@ -299,6 +300,7 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+>      for (n = 0; n < EXYNOS4210_MAX_INT_COMBINER_OUT_IRQ; n++) {
+>          sysbus_connect_irq(busdev, n, s->irqs.ext_gic_irq[n]);
+>      }
+> +    // SplitIRQ for external irq realized here
+>      exynos4210_combiner_get_gpioin(&s->irqs, dev, 1);
+>      sysbus_mmio_map(busdev, 0, EXYNOS4210_EXT_COMBINER_BASE_ADDR);
 
-Tests that use qemu_io_log(): 242 245 255 274 303 307 nbd-reconnect-on-open
+This all looks very odd. I'll have a closer look at it later.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
----
- tests/qemu-iotests/iotests.py                  | 5 +++--
- tests/qemu-iotests/tests/nbd-reconnect-on-open | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+> diff --git a/include/hw/core/split-irq.h b/include/hw/core/split-irq.h
+> index ff8852f407..eb485dd7a6 100644
+> --- a/include/hw/core/split-irq.h
+> +++ b/include/hw/core/split-irq.h
+> @@ -42,9 +42,6 @@
+>
+>  #define MAX_SPLIT_LINES 16
+>
+> -
+> -OBJECT_DECLARE_SIMPLE_TYPE(SplitIRQ, SPLIT_IRQ)
+> -
+>  struct SplitIRQ {
+>      DeviceState parent_obj;
+>
+> @@ -52,4 +49,6 @@ struct SplitIRQ {
+>      uint16_t num_lines;
+>  };
+>
+> +OBJECT_DECLARE_SIMPLE_TYPE(SplitIRQ, SPLIT_IRQ)
+> +
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 1d103a3872..1a3662db0b 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -365,8 +365,9 @@ def qemu_io(*args: str, check: bool = True, combine_stdio: bool = True
-     return qemu_tool(*qemu_io_wrap_args(args),
-                      check=check, combine_stdio=combine_stdio)
- 
--def qemu_io_log(*args: str) -> 'subprocess.CompletedProcess[str]':
--    result = qemu_io(*args, check=False)
-+def qemu_io_log(*args: str, check: bool = True
-+                ) -> 'subprocess.CompletedProcess[str]':
-+    result = qemu_io(*args, check=check)
-     log(result.stdout, filters=[filter_testfiles, filter_qemu_io])
-     return result
- 
-diff --git a/tests/qemu-iotests/tests/nbd-reconnect-on-open b/tests/qemu-iotests/tests/nbd-reconnect-on-open
-index 8be721a24f..d0b401b060 100755
---- a/tests/qemu-iotests/tests/nbd-reconnect-on-open
-+++ b/tests/qemu-iotests/tests/nbd-reconnect-on-open
-@@ -39,7 +39,7 @@ def check_fail_to_connect(open_timeout):
-     log(f'Check fail to connect with {open_timeout} seconds of timeout')
- 
-     start_t = time.time()
--    qemu_io_log(*create_args(open_timeout))
-+    qemu_io_log(*create_args(open_timeout), check=False)
-     delta_t = time.time() - start_t
- 
-     max_delta = open_timeout + 0.2
--- 
-2.34.1
+What's this change for ?
 
+thanks
+-- PMM
 
