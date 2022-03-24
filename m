@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9CCD4E61FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 11:52:09 +0100 (CET)
-Received: from localhost ([::1]:48892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CA74E6211
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 12:05:54 +0100 (CET)
+Received: from localhost ([::1]:53592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXL4a-0002ld-Sj
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 06:52:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40844)
+	id 1nXLHs-0006lE-Nh
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 07:05:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nXL1p-0001uW-Af
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 06:49:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28213)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nXL1n-0000d4-2Y
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 06:49:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648118954;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MuGyHZaZbgrU9BlfbYH/MFdUdQ8wkHLkaGFWP8ehtac=;
- b=GSO4yB/XQEXykfaGEnRIykhvydSCp0UY+89x3pIz7WwImq1O6cxTqa/pB1Uy2v3iImA+TM
- /4NGcG0fHd777Bp2Ydv6fVo/LVWVH3Y573Jn0vlKnxFiaefkFqN2gSz0BVJF816S97fIU+
- fE6aNBRm6G/qL1zlJmfY4YxbsozbM2w=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-365-GtS2CI1TPRqZ3Mx9YEd0-A-1; Thu, 24 Mar 2022 06:49:10 -0400
-X-MC-Unique: GtS2CI1TPRqZ3Mx9YEd0-A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8F681C06911;
- Thu, 24 Mar 2022 10:49:09 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 24D35C27E95;
- Thu, 24 Mar 2022 10:49:09 +0000 (UTC)
-Date: Thu, 24 Mar 2022 10:49:08 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?=
- <philippe.mathieu.daude@gmail.com>
-Subject: Re: [PATCH-for-7.0 0/2] misc: Fix misleading hexadecimal format
-Message-ID: <YjxMpJuuGTuHrSZw@stefanha-x1.localdomain>
-References: <20220323114718.58714-1-philippe.mathieu.daude@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXLCn-0004x9-NI
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:00:46 -0400
+Received: from [2607:f8b0:4864:20::112f] (port=44811
+ helo=mail-yw1-x112f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXLCk-0002wd-Ns
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:00:36 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c4so46307947b3.11
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 04:00:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=DLzcI8vZmLrJvLGmlHlzGdaoF71YkMF+dyBNil2cdMI=;
+ b=YY8bK0eWL9mQE4WYuBz5NFM13QHsBHJYinM1oLz1PUOCt8wmkyKdW4r39QNNKDS5Mb
+ N+WW+v4eLzKbZNUof9GykXNVtRUaxVfQHByuPZmJRC0s/tBOPueXT+kDLTotCIecZPaF
+ 7lmSb1cmD5qQaAbDuiIwVWXKzMdR4Be152ua0+pN4A55j7JAAlB6Ac+SqOQGXQ5EQwqv
+ hbu/ib7l7YiIUSBxqr87JyaBxhTxBLU+aMmlTc1uLaluYKAiXLOOKUfH1LvXVT8ogj1B
+ Or5eB5unS8sLT4sYPqEqI2EVuN38tSblGhuCySRCH2joCI67+EVVg45NEZPqeY3vfZSH
+ vkrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DLzcI8vZmLrJvLGmlHlzGdaoF71YkMF+dyBNil2cdMI=;
+ b=7uLxsvH0zk6uQxNX6lT0gfhfC57gXSC2ekQ0iTFYY2q6vSnK5nWN9lpLDSrZxsQ+MW
+ CSHQtu+KBy+wigOjVdAJB0xOXze9bGzxxFaNe3dFmwa6W1Jdv1OlwrOMqS4QuMtyypLQ
+ Qhaf3MABFarUQlMWGGWr+cs14LUxEMblG638HJxWREyzSA2EpyDsauKRzbWXoJSEZdEf
+ 3LwYlc42XKC08C6xEHvtVNC3uZfr73yLvAThWP49sXu0kEkGJ6VqjdQSPLFthM1wIppn
+ 0A6ZezpWmdgDQNDBWr7ImuaSIelrzC5hA7Rw3RkJU96Q+ZYUhMmgIxFmNHbaTEKz2fAH
+ CHxA==
+X-Gm-Message-State: AOAM5311d1OBtP45cQMupa4NP8Ap4MOhoBwJw7BWXhW+Cj7UoETsXuRH
+ yKTkHDXMPGZe5nYWCvRykxUBm8wwOHTEj4GF/0hRuA==
+X-Google-Smtp-Source: ABdhPJxDj/Je9ZCm6RV1HjQ2ayyoOhuRGV7z/czFxPz8vOxtvYft18SWzD4+lith/e4ldakBzz3nR9sb1PhJfXVt8I0=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr4105844ywb.257.1648119633751; Thu, 24 Mar
+ 2022 04:00:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iC0pKhxs9KLiHW1Q"
-Content-Disposition: inline
-In-Reply-To: <20220323114718.58714-1-philippe.mathieu.daude@gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220323112711.440376-1-alex.bennee@linaro.org>
+ <CAFEAcA-Eua8V0L1bKRf1C5F7-cVyfcJ+EEnidaj90L+E86FHJg@mail.gmail.com>
+ <871qys4hic.fsf@linaro.org>
+In-Reply-To: <871qys4hic.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Mar 2022 11:00:20 +0000
+Message-ID: <CAFEAcA__QoKC+dUCH93bFb0eSLbMhhQqxfR+DRihxRRfS8eEug@mail.gmail.com>
+Subject: Re: [PULL for 7.0 0/8] i386, docs, gitlab fixes
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,66 +86,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Eduardo Habkost <eduardo@habkost.net>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Denis V. Lunev" <den@openvz.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 23 Mar 2022 at 19:05, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> > Is there anything in here that would affect s390 host? The
+> > s390 job seems to be consistently timing out, eg:
+> > https://gitlab.com/qemu-project/qemu/-/jobs/2241445160
+> > but I have a feeling this is a pre-existing intermittent
+> > hang on that host...
+>
+> Nope - but I can see the tasks that are locked up:
 
---iC0pKhxs9KLiHW1Q
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We definitely seem to have a problem where the runner is
+not correctly killing processes it has started when a
+job hits the 1 hour timeout.
 
-On Wed, Mar 23, 2022 at 12:47:16PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
->=20
-> Fix 0x%d misleading format reported here:
-> https://lore.kernel.org/qemu-devel/dab530d9-53d2-3d7d-c9ac-44906ba9b386@l=
-inaro.org/
->=20
-> Philippe Mathieu-Daud=E9 (2):
->   block: Fix misleading hexadecimal format
->   hw: Fix misleading hexadecimal format
->=20
->  block/parallels-ext.c | 2 +-
->  hw/i386/sgx.c         | 2 +-
->  hw/i386/trace-events  | 6 +++---
->  hw/misc/trace-events  | 4 ++--
->  hw/scsi/trace-events  | 4 ++--
->  5 files changed, 9 insertions(+), 9 deletions(-)
->=20
-> --=20
-> 2.35.1
->=20
-
-Nice fix, thank you!
-
-Applied to my block tree:
-https://gitlab.com/stefanha/qemu/commits/block
-
-Stefan
-
---iC0pKhxs9KLiHW1Q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmI8TKQACgkQnKSrs4Gr
-c8gsEggAwX6Z8VvJfi/k06sL4ClnP8mcsmMn0vtaByI362gISfQJgsMbL4K17Ce8
-BvzmRxtEA5kb/GB3YulbUdybqk0ib6hWj8RxVGD0Pls/E6Cfr/nveJA7O3L86jiN
-OX8ZNk24vSpheLsRK2ILWz+8g0qPs/5IhHqlcTAJ4SSNOwuqlmU7KlRo2tW+VEJb
-cNOdUR8dEFa+8kIJf+xp7VzF7EkAXGCF2RF5UWxYcN43ZctJjjajMfOgWWIEmwUf
-LzeplWz9aR5mMG79hjz6/OS4jAxWwK1gwwaNl2WWhr05v/cjyG+Bfe7+FhdnqeiF
-ZW62J9N0w3Q1SCF1uOhl4xObOTs5ig==
-=45Yj
------END PGP SIGNATURE-----
-
---iC0pKhxs9KLiHW1Q--
-
+-- PMM
 
