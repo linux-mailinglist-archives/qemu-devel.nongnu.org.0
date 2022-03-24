@@ -2,89 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419414E64A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 15:05:07 +0100 (CET)
-Received: from localhost ([::1]:55410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59364E64BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 15:11:26 +0100 (CET)
+Received: from localhost ([::1]:58048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXO5K-00013z-3n
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 10:05:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58840)
+	id 1nXOBQ-0003EL-Ns
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 10:11:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nXO3D-0008Nl-50; Thu, 24 Mar 2022 10:02:56 -0400
-Received: from [2607:f8b0:4864:20::c35] (port=38657
- helo=mail-oo1-xc35.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nXO3A-0002eC-Px; Thu, 24 Mar 2022 10:02:54 -0400
-Received: by mail-oo1-xc35.google.com with SMTP id
- v19-20020a056820101300b0032488bb70f5so788359oor.5; 
- Thu, 24 Mar 2022 07:02:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=2AdRPwz4EgffdjtBBqWogMQekHk3SpUIvOSAl94V04o=;
- b=IJlW/m7CKNNABwSvgAFeoIzV6MKPODTt+S6UB/9ZBmD932dcK2fkuDyQP+YWvwb+55
- O7/Csu6rD19ct7iSlu0pb3tOvbNha+VUvX5zIg93s3P3NEssDTNGnopBxKuPChjxG4Cy
- ogYqB1qImMmVPXqKQf2Hg+CIMwjh617JprTVKe/7znrKFCtfmaA2oZCAXBrf588ldGBT
- oIKbiqF40SS//rq06SDXIdC9bgBLUCPhsSqd3DKBMwW2sMDxaoh5O85OCZyaRVABAhIL
- /B3r5QrhItg8utzWPi6/auHngogRsFGSUOFJvX9Q1ppr2xh8VqJufXebetOuCOtyY0+u
- 5uQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2AdRPwz4EgffdjtBBqWogMQekHk3SpUIvOSAl94V04o=;
- b=4a/yQdzEctAgtx8ZG5Fhxg+lJ1VXcBHey76ATKPAewzTgyr5jE6O3QcYtnnSs3CQcJ
- aUCGFu6eFXrWkmhC+Cp4zLCDBIwsefosic7lEuANmN3UIka3yi9TzGybSZtkjm4dhbHF
- vNxruKhxikU7+lADr1VvFCpYhW5PSTX2AC/5uTP7+J8vKTFu8mnGSt5xeLMG31tk4Skb
- E0sIV/v4vSi/lm5LKdrzr5BYJM8KnYpUcLi3gthRDCU2Joj9btbjqzBcCZ+m7DZRM4iZ
- CBQEVUF+zn/zS2NuBg2pJOQfWqtHdFeHL8LQJSiGsr2O/hwCL+IzGGPSoPaQQg05z99a
- q/Wg==
-X-Gm-Message-State: AOAM530ohFXM9LSe2Hpjh1ifs0TE+H1k3rzQqgfx/Ru53/1CjcDIqPzS
- EUmjaq6fQzpbKTB+uA+o/+k=
-X-Google-Smtp-Source: ABdhPJwVYqdwRwMeVQWZUXX53NB/pQntxliMP2OG1XvmTWZw1kYdOS+9FO1V9Ao3DmEd9Ezwt+dYwg==
-X-Received: by 2002:a4a:5b83:0:b0:324:4866:4f6e with SMTP id
- g125-20020a4a5b83000000b0032448664f6emr1998596oob.61.1648130571249; 
- Thu, 24 Mar 2022 07:02:51 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96?
- ([2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96])
- by smtp.gmail.com with ESMTPSA id
- y67-20020a4a4546000000b0032476e1cb40sm1317857ooa.25.2022.03.24.07.02.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Mar 2022 07:02:51 -0700 (PDT)
-Message-ID: <f3efd672-3d8e-8533-4aff-720c32d5800c@gmail.com>
-Date: Thu, 24 Mar 2022 11:02:48 -0300
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nXO9K-00028Y-Ky
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 10:09:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38395)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nXO9J-0003fJ-0e
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 10:09:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648130952;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kFfphvI3cJALga6FlLXZqQ7xSv7Vo7PkVa+TsbjIYZA=;
+ b=XvEUfZf8Z/jCzVbr3EzRLVbUNtgLZ4L/114lBa/IDyRJy2VSUUd/Mh3p14ru+PNverBj/Z
+ E9MPDCr+tIXl2bM8wLbSoMNvVYACmom/RtjvJataRHje5AKUtbrWxYS2AhT+jrUfLbNQe6
+ v4UWt8oTod11ahMFgVwnQgcbK01L200=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-502-I350ybtxMVCdE-TYLuPqbg-1; Thu, 24 Mar 2022 10:09:09 -0400
+X-MC-Unique: I350ybtxMVCdE-TYLuPqbg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E476C833959;
+ Thu, 24 Mar 2022 14:09:08 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D84D40D0166;
+ Thu, 24 Mar 2022 14:09:08 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2] block/stream: Drain subtree around graph change
+Date: Thu, 24 Mar 2022 15:09:07 +0100
+Message-Id: <20220324140907.17192-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/2] pcie: Don't try triggering a LSI when not defined
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org, mst@redhat.com,
- marcel.apfelbaum@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <20220321153357.165775-1-fbarrat@linux.ibm.com>
- <20220321153357.165775-2-fbarrat@linux.ibm.com>
- <d0eaf24b-9eff-cfd4-4827-c738e238b5e6@gmail.com>
- <5a482e34-cadc-571a-360a-fb5ede7d8a2d@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <5a482e34-cadc-571a-360a-fb5ede7d8a2d@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c35
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc35.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,143 +75,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When the stream block job cuts out the nodes between top and base in
+stream_prepare(), it does not drain the subtree manually; it fetches the
+base node, and tries to insert it as the top node's backing node with
+bdrv_set_backing_hd().  bdrv_set_backing_hd() however will drain, and so
+the actual base node might change (because the base node is actually not
+part of the stream job) before the old base node passed to
+bdrv_set_backing_hd() is installed.
 
+This has two implications:
 
-On 3/24/22 10:47, Frederic Barrat wrote:
-> 
-> 
-> On 24/03/2022 14:07, Daniel Henrique Barboza wrote:
->>
->>
->> On 3/21/22 12:33, Frederic Barrat wrote:
->>> This patch skips [de]asserting a LSI interrupt if the device doesn't
->>> have any LSI defined. Doing so would trigger an assert in
->>> pci_irq_handler().
->>>
->>> The PCIE root port implementation in qemu requests a LSI (INTA), but a
->>> subclass may want to change that behavior since it's a valid
->>> configuration. For example on the POWER8/POWER9/POWER10 systems, the
->>> root bridge doesn't request any LSI.
->>>
->>> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
->>> ---
->>
->> I assume that it's easier to handle just the codepaths that powernv PHBs uses
->> rather than handling all instances where pci_irq_handler() would be asserting
->> without LSIs.
-> 
-> 
-> The real reason is that the LSI is added when we realize the TYPE_PCIE_ROOT_PORT object. See rp_realize(). So I'm only trying to fix the code paths that can be called from a subclass of TYPE_PCIE_ROOT_PORT which would choose to override the "interrupt pin" setting in the config space. I believe they are all covered by this patch.
-> The assert() in pci_irq_handler() is there for a reason and I don't want to mess with that.
+First, the stream job does not keep a strong reference to the base node.
+Therefore, if it is deleted in bdrv_set_backing_hd()'s drain (e.g.
+because some other block job is drained to finish), we will get a
+use-after-free.  We should keep a strong reference to that node.
 
+Second, even with such a strong reference, the problem remains that the
+base node might change before bdrv_set_backing_hd() actually runs and as
+a result the wrong base node is installed.
 
-Yes, handling this situation inside pci_irq_handler() would require changing the
-"assert(0 <= irq_num && irq_num < PCI_NUM_PINS)" assert or doing some sanity before
-it to avoid the trigger.
+Both effects can be seen in 030's TestParallelOps.test_overlapping_5()
+case, which has five nodes, and simultaneously streams from the middle
+node to the top node, and commits the middle node down to the base node.
+As it is, this will sometimes crash, namely when we encounter the
+above-described use-after-free.
 
-Since this is a common code used everywhere we're better of doing minimalist changes
-as you're doing. We can reevaluate this design if more machines/devices start to get
-in the same situation we have now with powernv PHBs.
+Taking a strong reference to the base node, we no longer get a crash,
+but the resuling block graph is less than ideal: The expected result is
+obviously that all middle nodes are cut out and the base node is the
+immediate backing child of the top node.  However, if stream_prepare()
+takes a strong reference to its base node (the middle node), and then
+the commit job finishes in bdrv_set_backing_hd(), supposedly dropping
+that middle node, the stream job will just reinstall it again.
 
+Therefore, we need to keep the whole subtree drained in
+stream_prepare(), so that the graph modification it performs is
+effectively atomic, i.e. that the base node it fetches is still the base
+node when bdrv_set_backing_hd() sets it as the top node's backing node.
 
-Daniel
+Verify this by asserting in said 030's test case that the base node is
+always the top node's immediate backing child when both jobs are done.
 
-> 
->    Fred
-> 
-> 
->>
->>
->> Patch LGTM. Small nits below:
->>
->>>   hw/pci/pcie.c     | 8 ++++++--
->>>   hw/pci/pcie_aer.c | 4 +++-
->>>   2 files changed, 9 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
->>> index 67a5d67372..71c5194b80 100644
->>> --- a/hw/pci/pcie.c
->>> +++ b/hw/pci/pcie.c
->>> @@ -354,7 +354,9 @@ static void hotplug_event_notify(PCIDevice *dev)
->>>       } else if (msi_enabled(dev)) {
->>>           msi_notify(dev, pcie_cap_flags_get_vector(dev));
->>>       } else {
->>> -        pci_set_irq(dev, dev->exp.hpev_notified);
->>> +        if (pci_intx(dev) != -1) {
->>> +            pci_set_irq(dev, dev->exp.hpev_notified);
->>> +        }
->>
->>
->> Since you're not doing anything unless the condition is met, you can use 'else if'
->> like it's done in the other conditionals:
->>
->>
->>      if (msix_enabled(dev)) {
->>          msix_notify(dev, pcie_cap_flags_get_vector(dev));
->>      } else if (msi_enabled(dev)) {
->>          msi_notify(dev, pcie_cap_flags_get_vector(dev));
->>      } else if (pci_intx(dev) != -1) {
->>          pci_set_irq(dev, dev->exp.hpev_notified);
->>      }
->>
->>
->>
->>>       }
->>>   }
->>> @@ -362,7 +364,9 @@ static void hotplug_event_clear(PCIDevice *dev)
->>>   {
->>>       hotplug_event_update_event_status(dev);
->>>       if (!msix_enabled(dev) && !msi_enabled(dev) && !dev->exp.hpev_notified) {
->>> -        pci_irq_deassert(dev);
->>> +        if (pci_intx(dev) != -1) {
->>> +            pci_irq_deassert(dev);
->>> +        }
->>>       }
->>
->> Similar comment here:
->>
->>      if (!msix_enabled(dev) && !msi_enabled(dev) && !dev->exp.hpev_notified &&
->>          pci_intx(dev) != -1) {
->>          pci_irq_deassert(dev);
->>      }
->>
->>
->>
->>>   }
->>> diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
->>> index e1a8a88c8c..d936bfca20 100644
->>> --- a/hw/pci/pcie_aer.c
->>> +++ b/hw/pci/pcie_aer.c
->>> @@ -291,7 +291,9 @@ static void pcie_aer_root_notify(PCIDevice *dev)
->>>       } else if (msi_enabled(dev)) {
->>>           msi_notify(dev, pcie_aer_root_get_vector(dev));
->>>       } else {
->>> -        pci_irq_assert(dev);
->>> +        if (pci_intx(dev) != -1) {
->>> +            pci_irq_assert(dev);
->>> +        }
->>
->>
->> And here:
->>
->>      if (msix_enabled(dev)) {
->>          msix_notify(dev, pcie_aer_root_get_vector(dev));
->>      } else if (msi_enabled(dev)) {
->>          msi_notify(dev, pcie_aer_root_get_vector(dev));
->>      } else if (pci_intx(dev) != -1) {
->>          pci_irq_assert(dev);
->>      }
->>
->>
->>
->> Thanks,
->>
->>
->> Daniel
->>
->>>       }
->>>   }
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+---
+v2:
+- Oops, the base can be NULL.  Would have noticed if I had ran all test
+  cases from 030, and not just test_overlapping_5()...
+  That means that keeping a strong reference to the base node must be
+  conditional, based on whether there even is a base node or not.
+  (I mean, technically we do not even need to keep a strong reference to
+  that node, given that we are in a drained section, but I believe it is
+  better style to do it anyway.)
+---
+ block/stream.c         | 15 ++++++++++++++-
+ tests/qemu-iotests/030 |  5 +++++
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/block/stream.c b/block/stream.c
+index 3acb59fe6a..694709bd25 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -64,7 +64,13 @@ static int stream_prepare(Job *job)
+     bdrv_cor_filter_drop(s->cor_filter_bs);
+     s->cor_filter_bs = NULL;
+ 
++    bdrv_subtree_drained_begin(s->above_base);
++
+     base = bdrv_filter_or_cow_bs(s->above_base);
++    if (base) {
++        bdrv_ref(base);
++    }
++
+     unfiltered_base = bdrv_skip_filters(base);
+ 
+     if (bdrv_cow_child(unfiltered_bs)) {
+@@ -75,14 +81,21 @@ static int stream_prepare(Job *job)
+                 base_fmt = unfiltered_base->drv->format_name;
+             }
+         }
++
+         bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
+         ret = bdrv_change_backing_file(unfiltered_bs, base_id, base_fmt, false);
+         if (local_err) {
+             error_report_err(local_err);
+-            return -EPERM;
++            ret = -EPERM;
++            goto out;
+         }
+     }
+ 
++out:
++    if (base) {
++        bdrv_unref(base);
++    }
++    bdrv_subtree_drained_end(s->above_base);
+     return ret;
+ }
+ 
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index 567bf1da67..14112835ed 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -436,6 +436,11 @@ class TestParallelOps(iotests.QMPTestCase):
+         self.vm.run_job(job='node4', auto_dismiss=True)
+         self.assert_no_active_block_jobs()
+ 
++        # Assert that node0 is now the backing node of node4
++        result = self.vm.qmp('query-named-block-nodes')
++        node4 = next(node for node in result['return'] if node['node-name'] == 'node4')
++        self.assertEqual(node4['image']['backing-image']['filename'], self.imgs[0])
++
+     # Test a block-stream and a block-commit job in parallel
+     # Here the stream job is supposed to finish quickly in order to reproduce
+     # the scenario that triggers the bug fixed in 3d5d319e1221 and 1a63a907507
+-- 
+2.35.1
+
 
