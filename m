@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2884E63D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 14:03:36 +0100 (CET)
-Received: from localhost ([::1]:39608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82CDE4E63DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 14:06:34 +0100 (CET)
+Received: from localhost ([::1]:42806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXN7n-0001JX-FV
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 09:03:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44396)
+	id 1nXNAf-0003ZN-LJ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 09:06:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXN5s-0008M1-6F
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 09:01:36 -0400
-Received: from [2607:f8b0:4864:20::112b] (port=43053
- helo=mail-yw1-x112b.google.com)
+ id 1nXN7x-00022t-Nm
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 09:03:47 -0400
+Received: from [2607:f8b0:4864:20::b2d] (port=40708
+ helo=mail-yb1-xb2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXN5q-0005pz-Cg
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 09:01:35 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2e5e31c34bfso49794317b3.10
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 06:01:33 -0700 (PDT)
+ id 1nXN7w-0006A7-AK
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 09:03:45 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id z8so8315039ybh.7
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 06:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k0X4V8WlQkL4pJt2RA4dW7APuHUR9hwzivB1IL3XsEs=;
- b=nLHLiP4p3djmq/Tv/HpDMhpBDEmHoxGaQQJ2VATWKzPk8ktQZTLqLuyLcluGxWuxsF
- vSu1fZI69zA8FPEr8+8ASUwiSYNSIDZOJCT25KTmKY3cAqNhFgVDvwklCmnpK+RQl+UK
- +iiEXZ9mdT7XYxiUQJwZbORud1pwzw8DSIrxy9HCz9poJgaa++lEQWd4yYy4LPnoHLlL
- xeGHqAJQsQch0SZJTp3U07dvlnEYgI1W1KJ/0LujWlLUIhig6WCQQvwN8CHoY6ml7tUl
- zriVQXd7k8LxHMRf2wkplyYMom24XASr0n98jIaHkplcUE8T0oKjRvE5poIpJFCsk4s3
- eFSQ==
+ :cc; bh=XdZRhVRUyp6X1hpBeoRwGfPzE9bWpBJxxnd4ATxRzq8=;
+ b=HmR0RuOCQcDkpSOCpcvJxmLmldJT/l5xoskIWnbkfnAkyKJ8n74t1UG8rxu/4lAGuV
+ TZE3m6oNBQJkz/UYCavADmNXAqKM9vdLNHRmeoShZJrV01KXvXPa/JE1e1U/EEl2leBw
+ ikDxQpWpMtKq7J3eA7vAIfcfXBdmRpZvkm2bqnii++Kbm4It0FvKz/wljG/krqsyaeUc
+ Hf6sg9yi7cs90TroZtfI7y5s8OCM+sh17oH1YKBPcJtpJ6oUizBJePCpPjwLUA9vO9Kp
+ IB+lmBfj13ZswsHlBcGaN1TOrA7QBeRss+EFDrvmABDBuqTxI5G4CD5ITUczEtB9yctf
+ 31yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=k0X4V8WlQkL4pJt2RA4dW7APuHUR9hwzivB1IL3XsEs=;
- b=A6iluF3ku2+FtXSv0M/3oO1/MHQgrOdmzDaTOsIeLMN7KlHquyuvCpsZCQ1UlR7a5m
- yLZn29Vv08Jj44cx6DBYnMKI2ESHn+94a72yRaZP1Sxy4gK2JT4vVMRJ+eEMIQIh/iGu
- /KqMPLFOPoVdX28llhtI59YEXuUdKgp0u0YoFnmoD4WzUwxZX1vHk2crRhZcVdERBNvL
- nXlSmLwxMEXyUquRDwT6COSqqPktdQGceRWJrvqYaEPNhz6JX2a4IEqYzTagl5J+9YmW
- 4insou2A1u/IJQFT6jajmE+tpi06j+KL3IZwCe2Hnf+H/QMm/21SRILJX4RJ3UELGkf3
- +UpQ==
-X-Gm-Message-State: AOAM531ctsmuBEv+JxsddGzI4Ie72jfvKuAe45zxGDUIu+xKgRa18kOW
- gow1+WAJdqSuD4WNq5YQAHtJ5my8C/gNNjJgXt5C7w==
-X-Google-Smtp-Source: ABdhPJwiZZS7Y3KccWAGKIT6Ebq9baYMgYcx7uTWbog4z0/N2K72aKxENnIR9jRZP+c4I72e9zINSAcFRuohWzTNrEM=
-X-Received: by 2002:a81:ac15:0:b0:2e6:d7e3:c4ba with SMTP id
- k21-20020a81ac15000000b002e6d7e3c4bamr294690ywh.10.1648126892686; Thu, 24 Mar
- 2022 06:01:32 -0700 (PDT)
+ bh=XdZRhVRUyp6X1hpBeoRwGfPzE9bWpBJxxnd4ATxRzq8=;
+ b=UOHuGytF3RvRZ8/Chbsyq52NVowcmCjRCYGYiLlYPTbD+gwiYb1sD770weWhcrwLQ3
+ UJL+LKwyQHIAdq5HR0LP4F+QTp3nvYGmIImrTVLQ21/SmrjojBn5o9eM8jdQpPlpXSta
+ o46wUhgkbefgas+HWgdXxNVGK2M3nd8b13i4GiohMbV0mUgwLiVFnMjIaovQjNJ+w+3M
+ 8nOt4kyAP9cMstZmBNuZvlmb2MLC+J8mdzU/7IcoMvxXqAmwucIiRzcLbHLyLhPJvHx5
+ Fr26vrB6VTT2OBoigoXxUeYitSqkFkdkAaPJI2nuDxIRp5ifXCA5pl+4MJzPKAVWYOxI
+ Nx1g==
+X-Gm-Message-State: AOAM532UXOr53pWcbYIOtnTkxu66zelWGHOS2CcNHJaVuALK7+Vx3wno
+ JQvG5JSI+/703l3OUZ9msxfqPbFIBVV99XSaQMrEcg==
+X-Google-Smtp-Source: ABdhPJz/2Ncz+M5ygbWJNBDzvPIBhaNdHGqtOJj4DOYSYRm4P6Y2jNnB+iVLvtUthbka2OquggAULIoCpDUGJofwbVI=
+X-Received: by 2002:a25:cdc8:0:b0:633:8aa6:6a3 with SMTP id
+ d191-20020a25cdc8000000b006338aa606a3mr4291052ybf.288.1648127021873; Thu, 24
+ Mar 2022 06:03:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAFEAcA9PDWf+NDajMMTE5svM9mUTOOrWXj+O2wn7Sd8=RZDgaw@mail.gmail.com>
- <6ca237e2-0ab8-242c-69b3-e628ba698f68@redhat.com>
-In-Reply-To: <6ca237e2-0ab8-242c-69b3-e628ba698f68@redhat.com>
+References: <CAFEAcA_X7d9-e+u3UpB5WvJrmJhhRKdw8EhUzCdFDNVfhFF8mg@mail.gmail.com>
+ <2d9e3abd-99de-dc56-c6bd-93e54cd22b8e@redhat.com>
+In-Reply-To: <2d9e3abd-99de-dc56-c6bd-93e54cd22b8e@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 24 Mar 2022 13:01:19 +0000
-Message-ID: <CAFEAcA-JpnZF4qxLk=RmXxAd9vx0Stgzo9ypSgwF7HA15rgmHg@mail.gmail.com>
-Subject: Re: hang in virtio-failover-test (s390 host)
+Date: Thu, 24 Mar 2022 13:03:29 +0000
+Message-ID: <CAFEAcA8TaE9cpioPPmmxvJ-LhofiOZZynbfHmTkoKuRnTEZGHA@mail.gmail.com>
+Subject: Re: hang in migration-test (s390 host)
 To: Laurent Vivier <lvivier@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -83,70 +82,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+Cc: Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
  QEMU Developers <qemu-devel@nongnu.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Mar 2022 at 11:53, Laurent Vivier <lvivier@redhat.com> wrote:
+On Thu, 24 Mar 2022 at 12:59, Laurent Vivier <lvivier@redhat.com> wrote:
 >
-> On 24/03/2022 12:11, Peter Maydell wrote:
-> > This is a backtrace from virtio-failover-test, which had hung
-> > on the s390 gitlab CI runner. Both processes were using CPU,
-> > so this is some kind of livelock, not a deadlock.
-> >
-> > Looking more closely at the virtio-net-failover process, in the function
-> > test_migrate_off_abort() we have executed 'migrate_cancel' and then go
-> > into a loop waiting for 'status' to be "cancelled", with aborts if
-> > it is either "failed" or "active". But the status the QEMU process
-> > returns is "completed", so we loop forever waiting for a status change
-> > that will never come (I assume).
-> >
+> Perhaps Juan or Thomas can help too (added to cc)
 >
-> It means the migration has been completed before we tried to cancel it.
-> The test doesn't fail but is not valid.
->
-> Could you try this:
->
-> diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-> index 80292eecf65f..80cda4ca28ce 100644
-> --- a/tests/qtest/virtio-net-failover.c
-> +++ b/tests/qtest/virtio-net-failover.c
-> @@ -1425,6 +1425,11 @@ static void test_migrate_off_abort(gconstpointer opaque)
->           ret = migrate_status(qts);
->
->           status = qdict_get_str(ret, "status");
-> +        if (strcmp(status, "completed") == 0) {
-> +            g_test_skip("Failed to cancel the migration");
-> +            qobject_unref(ret);
-> +            goto out;
-> +        }
->           if (strcmp(status, "cancelled") == 0) {
->               qobject_unref(ret);
->               break;
-> @@ -1437,6 +1442,7 @@ static void test_migrate_off_abort(gconstpointer opaque)
->       check_one_card(qts, true, "standby0", MAC_STANDBY0);
->       check_one_card(qts, true, "primary0", MAC_PRIMARY0);
->
-> +out:
->       qos_object_destroy((QOSGraphObject *)vdev);
->       machine_stop(qts);
->   }
+> Is this a regression?
+> It looks like a bug in QEMU as it doesn't move from cancelling to cancelled.
 
-Looks plausible, but I can't currently get this hang to reproduce
-(it's probably a fairly rare intermittent) so I can't really
-test a fix in any meaningful way.
+This test has had intermittent hangs, especially but not exclusively
+on s390, for a very very long time, so I don't think I'd call it
+a regression. (I've also seen it hang occasionally on x86 macos host.)
 
-It looks like there are several other loops in other tests in
-this file which also need to check for "completed".
-
-I would suggest maybe using check_migration_status() instead
-of hand-rolling loops here, except that that function seems
-to assert on an unexpected "completed" status whereas we want
-the test to skip. It could probably be improved to be usable
-here, though.
-
-thanks
 -- PMM
 
