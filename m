@@ -2,78 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FE4A4E62D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 12:56:16 +0100 (CET)
-Received: from localhost ([::1]:40484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6092C4E62D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 12:57:53 +0100 (CET)
+Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXM4d-0004du-Nd
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 07:56:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56270)
+	id 1nXM6C-000732-Gl
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 07:57:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXM11-0000XS-8k
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:52:31 -0400
-Received: from [2607:f8b0:4864:20::b32] (port=38515
- helo=mail-yb1-xb32.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXM0z-0006cD-Jv
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:52:30 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id x20so7866101ybi.5
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 04:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eJhsTQe8P2eeU4B8Z/55Bgfo8Y2lVoNalAMF6mPudeE=;
- b=tflwB+rOs4HlbuoTLW9q6KXf/+i9WwOHAqRx2TBWZ3BMRmk4+x3bmbcJF8QpM/N6Q4
- wbjIzJJBcVnlOafs7egP3aCKdBWwwqLVA3omGpgSWPuYnyCcuDTXRDqg2rUD/lrAcHSj
- vWyLpMZsw15tLxm4idy1//4MUGjs0UD71idKs5VaPKZuP8jizuQtOQnJ33JXSdxUc4Ks
- FO6SLGsJqkP1Rj2n6wNg3o+xYaFLHfjeXQKduKgQ5ThTzhkevNw0JZvf+6RUhgwupqKS
- Cd4Fi79HskcbvSm7/QFL5iHsbdSeG3pb0RzkS9QwR7q2m0/peSYjMxz6yuGsqn3MkEH7
- UOdQ==
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1nXM1o-0002DS-Vg
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:53:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1nXM1n-0006vz-GI
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:53:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648122798;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G3fiIDHNcMFn8LKIMte6x/6zGhMvbGYWUWws0CvU5Ts=;
+ b=LHy0QRlnIc1QYoVqmI9Icyhm8RgVGQroysnJ8hqCa7WeHR3PETs0a+r1zffSYNI3lryDAK
+ 0q8X96LUx/jq2Da2BhZ8sPaGsWZEsTuH8wldZZp+PsxDzNtLJs/RpxE6wPbB1bkj1vooCw
+ 3ibu1qK+N9b37b/3epXVqWLJxSnq78I=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-21-yjIKkhTqNKCnVG56F8YpOg-1; Thu, 24 Mar 2022 07:53:17 -0400
+X-MC-Unique: yjIKkhTqNKCnVG56F8YpOg-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ i2-20020a05620a248200b0067b51fa1269so2852868qkn.19
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 04:53:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eJhsTQe8P2eeU4B8Z/55Bgfo8Y2lVoNalAMF6mPudeE=;
- b=Tke9mc1fjgh6f8WyLU4YNwSsK5FBcjGXbO8NxMSa5ijQ3gD+CgPLCz32R5caMJBsTx
- VwsOGrHz8unu0iiXJT0UH690woa/Ou9MrbOFztpuPVZ6cCIRUUcbsJHxChsXlFYPFI+c
- s7YBtzA/xEqjYSIlwW3GOdscF5Q3OXCQ4dUyx6sRlG4jbndxphlt2/wI7RcLeqqZfdHC
- jcgfl/jKxgMPwVOZy052HRwgGo/gAi/cTYvS1rdT9I0BP9PfrM+sZ23oeQ8AaBDyAoVu
- jyr/n9cRs/6zSxLk3el9A5Un+tVMekGUz9duCJGfzpdLhaw9AXm//Ps77SKINc8rBq7n
- 2vlA==
-X-Gm-Message-State: AOAM530Xee4ZwLR9tlFgNGggPBDD9sXhNKiuxii1Qm1OpBC5/c0k0EZe
- ym9M9M4WiYrE1eg0xfDiBX03FLUDaaZycshpMQ+s9w==
-X-Google-Smtp-Source: ABdhPJzkTDhHFyKjF8q4WOprld5zsZJXqLKUlj8+qxso5n4q7FJ3Sg9g/q9oi+qXLxvWlIMVwvc2nZBqhWfY1EZZdGo=
-X-Received: by 2002:a25:7443:0:b0:637:18d3:eea5 with SMTP id
- p64-20020a257443000000b0063718d3eea5mr3336054ybc.39.1648122748561; Thu, 24
- Mar 2022 04:52:28 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=G3fiIDHNcMFn8LKIMte6x/6zGhMvbGYWUWws0CvU5Ts=;
+ b=gAh/mJKocKhtx1t4WUd16WkiumbUKAb5ZcpE2Z3A08rBs+Vqm0KNhXPjPTnpGCzc8m
+ oZrh/q41h4m0NsOpjGoEB0txeO5GQk/Kf7/CQRQXye8I932Shosyn5HUXt1l4x1XQexW
+ ESHg+4vBdZIT1CriTkCVd7nUJrM0MTPzUDFZsZuqpFOB0Ejf88ZQ1jqBc/u2f/BPyKxs
+ lDx7wKloiYPlWgLcQtId8oGzAReW18Cwd6tXSFIczBRO7d+ORqmReU094j1jxJLL+tnN
+ OTsynNt0i/LLJ5ktwgJR2DSBy+eMN69xU0HarEEpFXoVTVh3zADxwyf77ScU8ZAqYCyi
+ dNWg==
+X-Gm-Message-State: AOAM530LmPuInRosml32SPwCvLEOepz/1oE3FgNBOEa8pvbiu1X3TzyC
+ YRrYbE7QUKnVExweJxecrVcR0Adog6OsikR5A+YFt1jMNqrNY9fs0Ty+0Jo7EdVYb2+beAlX3YJ
+ RkFh8MMLP1tZL+lc=
+X-Received: by 2002:a05:622a:1389:b0:2e1:cd3f:a0ff with SMTP id
+ o9-20020a05622a138900b002e1cd3fa0ffmr3999191qtk.218.1648122796926; 
+ Thu, 24 Mar 2022 04:53:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw55gc9AijXuIri1KQOkPsXdazD83APGiqMQUNivv4snnpnkQFNfsodSaonHIR+KpHcJq1WAQ==
+X-Received: by 2002:a05:622a:1389:b0:2e1:cd3f:a0ff with SMTP id
+ o9-20020a05622a138900b002e1cd3fa0ffmr3999176qtk.218.1648122796664; 
+ Thu, 24 Mar 2022 04:53:16 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.12.150])
+ by smtp.gmail.com with ESMTPSA id
+ b202-20020ae9ebd3000000b0067b11d53365sm1428933qkg.47.2022.03.24.04.53.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Mar 2022 04:53:16 -0700 (PDT)
+Message-ID: <6ca237e2-0ab8-242c-69b3-e628ba698f68@redhat.com>
+Date: Thu, 24 Mar 2022 12:53:14 +0100
 MIME-Version: 1.0
-References: <20220322154213.86475-1-bmeng.cn@gmail.com>
- <CAFEAcA8RdqQ5fzoZtb5SaYe41FA=oKo21veergqhMgo=eFmB6Q@mail.gmail.com>
- <CAEUhbmVXiB+mbbjhy0sT2PhQHNJgdHmehXfcE18g=E3SPffndQ@mail.gmail.com>
- <87wngj3aj2.fsf@linaro.org>
-In-Reply-To: <87wngj3aj2.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 24 Mar 2022 11:52:15 +0000
-Message-ID: <CAFEAcA_O8=0KZ=sjzP7GZ=ytSQm0P+zB_t=jQ2nZnw6b721Yxw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] gdbstub: Set current_cpu for memory read write
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: hang in virtio-failover-test (s390 host)
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAFEAcA9PDWf+NDajMMTE5svM9mUTOOrWXj+O2wn7Sd8=RZDgaw@mail.gmail.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <CAFEAcA9PDWf+NDajMMTE5svM9mUTOOrWXj+O2wn7Sd8=RZDgaw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,53 +104,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Mar 2022 at 10:33, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-> I think we need to not use cpu_physical_memory_write (which is
-> explicitly the system address space) but have a function that takes cpu
-> so it can work out the correct address space to you
-> address_space_read/write. If null we could probably reasonably use
-> first_cpu as an approximation.
+On 24/03/2022 12:11, Peter Maydell wrote:
+> This is a backtrace from virtio-failover-test, which had hung
+> on the s390 gitlab CI runner. Both processes were using CPU,
+> so this is some kind of livelock, not a deadlock.
+> 
+> Looking more closely at the virtio-net-failover process, in the function
+> test_migrate_off_abort() we have executed 'migrate_cancel' and then go
+> into a loop waiting for 'status' to be "cancelled", with aborts if
+> it is either "failed" or "active". But the status the QEMU process
+> returns is "completed", so we loop forever waiting for a status change
+> that will never come (I assume).
+>
 
-It's not sufficient to use address_space_read/write, because the
-devices in question are written to figure out the accessing CPU
-using current_cpu, not by having different MemoryRegions in the
-different per-CPU AddressSpaces. (You can see this because the bug
-is present in the common "gdb gives us a virtual address" case which
-goes via cpu_memory_rw_debug() and does thus use address_space_read(),
-not only in the oddball 'treat addresses from gdb as physaddrs' case.)
+It means the migration has been completed before we tried to cancel it.
+The test doesn't fail but is not valid.
 
-If we want to fix this without setting current_cpu, then we need to
-rewrite these devices not to be accessing it, which we could do
-in one of two ways:
- * have the devices arrange to put different MRs in the ASes
-   for each CPU (this is possible today but a massive pain as
-   it would likely involve restructuring a lot of board and
-   SoC level code)
- * have the MemTxAttrs tell the device what the accessing CPU is
-   (probably by extending the requester_id field); this is
-   somewhat analogous to how it happens in some cases on real
-   hardware, where the AXI bus signals include an ID field
-   indicating what initiated the transaction. This feels neater,
-   but it's still quite a bit of work for such an unimportant
-   corner case.
+Could you try this:
 
-Or we could work around things, by requiring that devices that
-access current_cpu cope with it being NULL in some vaguely
-plausible way. This means that even when you tell gdb or the
-monitor "access this address using this CPU" you'll get CPU0's
-view, of course. Some devices like hw/intc/openpic.c do this already.
+diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
+index 80292eecf65f..80cda4ca28ce 100644
+--- a/tests/qtest/virtio-net-failover.c
++++ b/tests/qtest/virtio-net-failover.c
+@@ -1425,6 +1425,11 @@ static void test_migrate_off_abort(gconstpointer opaque)
+          ret = migrate_status(qts);
 
-Or we could continue to ignore the bug, like we've done for the
-past six years, on the basis that you only hit it if you've
-done something slightly silly in gdb or the monitor in
-the first place :-)
+          status = qdict_get_str(ret, "status");
++        if (strcmp(status, "completed") == 0) {
++            g_test_skip("Failed to cancel the migration");
++            qobject_unref(ret);
++            goto out;
++        }
+          if (strcmp(status, "cancelled") == 0) {
+              qobject_unref(ret);
+              break;
+@@ -1437,6 +1442,7 @@ static void test_migrate_off_abort(gconstpointer opaque)
+      check_one_card(qts, true, "standby0", MAC_STANDBY0);
+      check_one_card(qts, true, "primary0", MAC_PRIMARY0);
 
--- PMM
++out:
+      qos_object_destroy((QOSGraphObject *)vdev);
+      machine_stop(qts);
+  }
+
+Thanks,
+Laurent
+
 
