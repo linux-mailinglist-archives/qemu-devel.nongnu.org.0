@@ -2,76 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77BE4E603F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:20:46 +0100 (CET)
-Received: from localhost ([::1]:56266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 104A94E6055
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:28:58 +0100 (CET)
+Received: from localhost ([::1]:41076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXIi5-0005W9-2O
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:20:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51636)
+	id 1nXIq1-000667-2c
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:28:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nXIfz-0004nX-Br
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:18:35 -0400
-Received: from mga03.intel.com ([134.134.136.65]:17036)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhl-0005wI-8j
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:26 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:33155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nXIfw-0002wu-Tq
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:18:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648109912; x=1679645912;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=SFCP+FN92bSkd2t6kU2XW/ohSbmfvTSxmWku8wbVy/k=;
- b=X2Z3BcjJbHeORhq0UN6SAskhwcwyYinC3iWOV968vjHXxUpEWsjIvtZE
- bgEZnh4b78alXClT48mwZ9fyrcpC6bWL3zLuEPvqnS4igLsWIHIsR0/pz
- RaRuKp/EH930G1/skfEJeU7QwTvCI0phJ+qg6rTkmK05WrSwgVw3PLiEs
- KReEl3Fqax2gf0DZYgnuv5zXN2q16ykVLaw6ZaE/hcJSq86Zjlp354Yhg
- iXCNEePQsmcj7xOdmvAWbgxUetiJuv1jr32epu6xKYjRhvM1wmIHrPnjl
- 3w+tvYP1kknJExwLdzVbKLsz3rKFMojSi1kdNBzBVnq2K/fuiFVBOLYjo A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="258268733"
-X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="258268733"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 01:18:29 -0700
-X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="561274077"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.201.150])
- ([10.249.201.150])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 01:18:24 -0700
-Message-ID: <8537b667-67c0-7880-f9fd-ed7b7154c190@intel.com>
-Date: Thu, 24 Mar 2022 16:18:22 +0800
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhi-0003MC-Uc
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:24 -0400
+Received: from quad ([82.142.12.150]) by mrelayeu.kundenserver.de (mreue011
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MkHd3-1nvrpK0SDJ-00kewd; Thu, 24
+ Mar 2022 09:20:19 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/10] Linux user for 7.0 patches
+Date: Thu, 24 Mar 2022 09:20:06 +0100
+Message-Id: <20220324082016.3463521-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [RFC PATCH v3 17/36] pflash_cfi01/tdx: Introduce ram_mode of
- pflash for TDVF
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
- <20220317135913.2166202-18-xiaoyao.li@intel.com>
- <f418548e-c24c-1bc3-4e16-d7a775298a18@gmail.com>
- <7a8233e4-0cae-b05a-7931-695a7ee87fc9@intel.com>
- <20220322092141.qsgv3pqlvlemgrgw@sirius.home.kraxel.org>
- <YjmXFZRCbKXTkAhN@redhat.com>
- <e7fb2eab-b2b1-dd0e-4821-4cca40751d15@intel.com>
- <20220324075841.6ywj6eboeyep2sz2@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220324075841.6ywj6eboeyep2sz2@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=xiaoyao.li@intel.com;
- helo=mga03.intel.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:SpwYUK+BoUZYy1poxdDSau6tVGfYh2ndpVTX33IYbOJwOSlQu4Z
+ TS6H/PZS5rwFVJKMhZsETz4vI/GIwPu1z6LwAPlZFgu9XqohFZ205Xn6Ky678Hj38yucODD
+ u0y+acm4wy9znJNAVcSr9C2qjxM2WjuXAP6kM6j0cP2k63kOWXIaPUl9J3szHFjKSHCvucQ
+ EGq5jUcz35akk6K/N6odA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:m55+vPNvbMc=:8n0VtI55vrHrrqEx0dmczi
+ x+5xRFAbg1mhOuvN6tWldlPo2ATlcDvsMoCfIGG4aW6aZLwFeaJ8O5v19pFGP0+QYiPcwf5/+
+ Aa7q5fQmkSqLxab8ElvtjD/fAns2LwkXgX83CUspYhDdb2Ia90m1IUxgAbewbVPurJxJGWnEh
+ djFmiz039zncUjrqQpONuBzhqAOJkT4sA+Zmr++EUD+F0w/jpxl5mtdTp2vML34ueQ7HYFAYr
+ tR7gqwrPGe1FW5jmnZMUu5htmKf7rQC6DIYbt1pOzyqR1shFGZ9stBsd/igqPwo4S3NQzScEc
+ s7cdIGcKZbeaXlWFlp7Tfcgtk0LoX+NCeuryvtdHyBqC9mvDz2dPFOnBH3QWYOPr4u2k//xPM
+ 63PbeMdzJ4wwMfwgXlfeHGVyEZhGmkpMciUhZ/lb+9+M2fwYjE26TwSsC82PVed8QZLlueAbg
+ ijxT92a2tDQoS/HksjGhC+irLBN27zkggFHtTZlULVdjrnr0QNTkNg0pTLWIMSVfwGRv9Hxvv
+ WDDogvyHjEBEKzUnWjmk8GmCx3ylMPLBPSkbzGLSNCL9Lc4UaWaHLR3CmmG9frEf0cBZsc6uS
+ 7E9xyTD12IKmW0pHaKk+2GJocaR0RDpwVbF5CkoDaMUK+osJvQFbW3NJi739RJBBYlhiMaEdj
+ 3dClG38S+meiJcGNlvZHGmishhRMC1LQrgbbjVcI24O+apoCONEjTDWslpFumsqi+ebQ=
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,47 +64,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Eric Blake <eblake@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
- seanjc@google.com, erdemaktas@google.com, Paolo Bonzini <pbonzini@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/2022 3:58 PM, Gerd Hoffmann wrote:
->    Hi,
-> 
->>>> Well, if persistent vars are not supported anyway there is little reason
->>>> to split the firmware into CODE and VARS files.  You can use just use
->>>> OVMF.fd with a single pflash device.  libvirt recently got support for
->>>> that.
->>>
->>> Agreed.
->>
->> The purpose of using split firmware is that people can share the same
->> code.fd while using different vars.fd
-> 
-> Using different vars.fd files is pointless though when changes are never
-> written back ...
-
-Yes, I agree on this.
-
-Off the topic. If we really want to NVRAM capability to TDX guest, 1) we 
-can use the PV interface issue MMIO write in OVMF, like what SEV does in 
-OVMF. 2) map OVMF as shared, thus existing pflash works well.
-
-However, both options will expose the content to VMM, which loses 
-confidentiality.
-
-> take care,
->    Gerd
-> 
-
+The following changes since commit 48fb0a826eea2e7b0135f49e7fa63e7efe2b7677=
+:=0D
+=0D
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging =
+(2022-03-21 21:27:14 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.0-pull-r=
+equest=0D
+=0D
+for you to fetch changes up to 330ea9d1d819680ac7501457220b8cd1c29f9d2f:=0D
+=0D
+  linux-user/arm: Implement __kernel_cmpxchg64 with host atomics (2022-03-2=
+3 16:53:17 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+linux-user pull request 20220324=0D
+=0D
+Fix MIPS n32=0D
+Fix ppoll, epoll_wait, pselect=0D
+Fix error message in elfload.c=0D
+Implement ARM __kernel_memory_barrier/__kernel_cmpxchg/__kernel_cmpxchg64=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Fergus Henderson (1):=0D
+  linux-user: Fix missing space in error message=0D
+=0D
+Richard Henderson (8):=0D
+  linux-user/alpha: Fix sigsuspend for big-endian hosts=0D
+  linux-user: Split out helpers for sigsuspend=0D
+  linux-user: Properly handle sigset arg to pselect=0D
+  linux-user: Properly handle sigset arg to epoll_pwait=0D
+  linux-user: Properly handle sigset arg to ppoll=0D
+  linux-user/arm: Implement __kernel_memory_barrier=0D
+  linux-user/arm: Implement __kernel_cmpxchg with host atomics=0D
+  linux-user/arm: Implement __kernel_cmpxchg64 with host atomics=0D
+=0D
+WANG Xuerui (1):=0D
+  linux-user: Fix syscall parameter handling for MIPS n32=0D
+=0D
+ linux-user/arm/cpu_loop.c   | 164 ++++++++++++++++++++++--------------=0D
+ linux-user/elfload.c        |   2 +-=0D
+ linux-user/signal-common.h  |  26 ++++++=0D
+ linux-user/signal.c         |  23 +++++=0D
+ linux-user/syscall.c        | 119 ++++++++++----------------=0D
+ linux-user/user-internals.h |   6 +-=0D
+ 6 files changed, 195 insertions(+), 145 deletions(-)=0D
+=0D
+-- =0D
+2.35.1=0D
+=0D
 
