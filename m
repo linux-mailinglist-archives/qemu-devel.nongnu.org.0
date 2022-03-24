@@ -2,163 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119C44E6090
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:44:58 +0100 (CET)
-Received: from localhost ([::1]:38982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214E94E60BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:57:41 +0100 (CET)
+Received: from localhost ([::1]:54922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXJ5T-0007bC-9a
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:44:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53514)
+	id 1nXJHl-0001oO-H2
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:57:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin.tian@intel.com>)
- id 1nXIoD-0005Yj-0T
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:27:05 -0400
-Received: from mga14.intel.com ([192.55.52.115]:26827)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin.tian@intel.com>)
- id 1nXIoB-0005e5-35
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:27:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648110423; x=1679646423;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=y7LQhPhqQuNHjEYMaAOGYo6Wn7OJrGU2D4iHTgZMSec=;
- b=VsWb/Qt1lXPqLofFeO6LKtlJxR/DL3ZaazeE2zbA7e5vu5S/Wzb8eodG
- uVtJyLhcIvVANjKWLJLYUal2OYkXYJ/lZjEzAMmcr9ahxewNAW++uGxsS
- QrcZq+zYDATFAbKgBfU1NLJwv1ltdYo6ddlWpJWLuD99YT4vUE7Q5epSJ
- R+a5VN87vR3IhkERrGmRhGlcCk8NYD8uBS/ZBfFgELVEzRmF4Ijfip8yt
- HlZ7Ms8DGGJQD/rkUrIUWQmiFjGhDK2COAARlzhAsPeyoBR3f55QsRV/C
- 51ijt4WKKhIUwxPyalil67xjevvnlD/kSt2MAaC55LVVaUZojRk8WNek/ Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="258505612"
-X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="258505612"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 01:27:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="637770936"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by FMSMGA003.fm.intel.com with ESMTP; 24 Mar 2022 01:27:01 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 24 Mar 2022 01:27:00 -0700
-Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 24 Mar 2022 01:27:00 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Thu, 24 Mar 2022 01:27:00 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Thu, 24 Mar 2022 01:26:59 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MsjNhYi16J2NNdy8v9kI7E6OERIxqD1SNWwGkHSRbuvjBfoO3vpSsUDS5nZI4tuZDOwZI1M2zVGgR0OdLgLVoGT25DZF5aOOM15xBLYBzB9lCLfCF0RYVxLokKn9WGM2afGzdB2KTkma/r5xNsyjxowqS3OAFEGz101DuXVtwfvLeKMNf+L22qxciAwhXcS9IJAUcKHpw6CGd0UIw6yo+v63gXCbQXYq+83ldvlEgJA+yyvO0MuD41Uy5pcn/EqHszf/CLF4q5FPMg1W0R2MaymhONy6/KhWGVHGV77giSYYN0BauBjteuGmQKS+uZV1Z01TdQ0HretE+ZHxz5xMdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ETeI6IJzeWXET/bGP2ttftmwChKEjGOBOOVbYR3CbLY=;
- b=J/aCY2ejltf/7UbYIWM3Uiq4bscCZQUr/yXAH6xCK1RWyik8J6JvkV0lMj0nQWVHh5dlt8/NOflN6qpfRse92JA3/zEMVAcWVkUJy8vWt2nZ97J2W4ag52CAPwfjNClOjF6laaHg1kk2r/0M341Mxqkkyfg9TD5HOALtP0rU0mknnqHEy6jUrjLcl3tjbID0Y5ZfyCM2HQV7+u2JGENboyVn+voUb1nury1lelmfg3BHQ5TeQJQdRoFdNTJuBLFEt/7MIIW/IEt2vtWYTBBoBBS9gHdH5lL+xJ074Ex9zowcDZIt7YL3ajSixbkKv7Qckzx0TOhCz/fN63LJU6wYew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by DM6PR11MB4625.namprd11.prod.outlook.com (2603:10b6:5:2a8::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.16; Thu, 24 Mar
- 2022 08:26:58 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::4df7:2fc6:c7cf:ffa0]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::4df7:2fc6:c7cf:ffa0%4]) with mapi id 15.20.5102.018; Thu, 24 Mar 2022
- 08:26:58 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Jason Wang <jasowang@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "peterx@redhat.com" <peterx@redhat.com>
-Subject: RE: [PATCH V2 3/4] intel-iommu: convert VTD_PE_GET_FPD_ERR() to be a
- function
-Thread-Topic: [PATCH V2 3/4] intel-iommu: convert VTD_PE_GET_FPD_ERR() to be a
- function
-Thread-Index: AQHYPOjF4Qi0+yMY2Uep5+tIMIe5IqzON8sg
-Date: Thu, 24 Mar 2022 08:26:58 +0000
-Message-ID: <BN9PR11MB52767BEBCF2C191614FD68588C199@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20220321055429.10260-1-jasowang@redhat.com>
- <20220321055429.10260-4-jasowang@redhat.com>
-In-Reply-To: <20220321055429.10260-4-jasowang@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3c4018c9-7325-4e68-dd0b-08da0d701009
-x-ms-traffictypediagnostic: DM6PR11MB4625:EE_
-x-microsoft-antispam-prvs: <DM6PR11MB4625D0F2384ED99C7CC2A7A08C199@DM6PR11MB4625.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4tCEEjbD2d9WCrFIBXJDdLAebagzc+v7uXwaYDFnoFgiD4zebmWqiv2jfoN4lJRWs9ROgB6u6ofRCBXbDX0EG4W0vdSVsvF1k3i1VC8I3Sa2DSInd06G8OD+ftOYzyn2QAaCa7agD2aOkG0rJkPadpMJugQPQ7U9OuhT09iUr3frqueGOSn58gvko92QpIMQhlDJH65maCxnyjMUyQZnDdDv8368oaEpUUHBb+/PSodoIidmnzHImUPYHb4W3oQ0oD72vYN+BTdBLVfJxsNRIza9wgn8+CvBs2k4ieDpa+vtcax7+YoCkQ08l1aPbf111NS3UbKW3/xutRca7ojfFuhSpDo6bm/olDUUm3WirSoQOOty7RXMQZhgy+GWoKHX4qfjDCR+ewtswttelMC85ie/1nkjtt86ofz+dwtkXAlOcXimDnrBQ2swPNhlf7Ofx2CLJMEoTtXTlwLt7Rn+N2yP6UGfTBfR6onWTyWyW0yf/AvYoJErAgPXdCGd4Ucgha6shchl0vW7tDgHPdxcdgp2WBMc5AKV+Uxvoiy9kxyovQiqIIfrwAdLXCo/mUGhLxsm47zESlxRJEmmobnu+9wu7ezMHrkm5m6Rd5GaEq5qxnbSt0zbcJeRMF2xrnLhl7wR5dbfygvi0t3JkwopNvIHhptL7S22GN87o2Md0F2dRCUf7awtNCe1QBrOc7ZEboIfq1G/l/yn9abcI+FCwg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(86362001)(52536014)(33656002)(8936002)(4744005)(5660300002)(508600001)(9686003)(6506007)(7696005)(2906002)(55016003)(38100700002)(82960400001)(122000001)(26005)(186003)(83380400001)(38070700005)(8676002)(71200400001)(66946007)(4326008)(66556008)(66476007)(66446008)(64756008)(110136005)(316002)(54906003)(76116006);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?L+nyEyXh5nOp9IcunWNukHZIvLkAY5Sz9dGO4aFtdEUlIuwwgQ5h5x9n9T7M?=
- =?us-ascii?Q?8ArSm8KEqTtQT/pBYtg2j+E7+MPQCWxFzGHy4JvEc+uR6uqQJz3mv9rEZbh2?=
- =?us-ascii?Q?Bp7XdQ4Iu2Okm41bzttZRqHpF+Vj+Rx//nad2quEpGL/IIsFPsU1nvQA00Uz?=
- =?us-ascii?Q?E41/NMVoKPL1UGHHm6S8IGmf6AfNh0YXFhmks3QTutoJD7bhTK84Lp+wDTZN?=
- =?us-ascii?Q?bPwRYJERB6WwWYbknePBOMdTjz/7dbsQ2UFnlObzhMODZEyjIj5hJy3Dv9Ig?=
- =?us-ascii?Q?HDJG/PhpJDA8W6Pclq/jVcJFQ7STc2WMiZHRtDofT6JYUxQ/8s5jErSwbpIn?=
- =?us-ascii?Q?ECR6mEKUBvco2ZwnB3HLVZMHsaSpIUVPhUQ7ybf/I+3yR6/EWvciS/JIz1Qw?=
- =?us-ascii?Q?DbYHsojmKk26aSi1am4FYAtinxZnVhR2Gqi87ZQzrQ1H7sUfhGAld7UtQcOG?=
- =?us-ascii?Q?hbCmQwTLyqFfRwTFu53YCxFk59YDcjGlO74LLJpIp9SZvRAlX3/cG96mf8nl?=
- =?us-ascii?Q?sKrfUhwIsephKWURiTv8EbS4m1lRfMNIN7D99ZMceKuPmJNXbbrWrlLZ3CXY?=
- =?us-ascii?Q?wnh4GL4fzGYcl03WcogYCPMS0s6NUN579e+TWF7BBNXkuFpqpggch6vkBkoe?=
- =?us-ascii?Q?67DRT5gsO/fPxRz3AUGqwcr5fx1MM3mvxIpcqakTd6eKZFejI8hreqTP1orn?=
- =?us-ascii?Q?FDInfbqAWYxkZmnIC7phk8eQN3SboMr/wpyD11xxFHkkCs7avrC8F3RvyLkb?=
- =?us-ascii?Q?JgiOkQBDFfveNTBTAA9mY3YMAyvAQGlU93e/0U0fj7UkreAWOKooLrt2FBUH?=
- =?us-ascii?Q?bPL/sITf+SdfoSJl4PlWIf3BeIw+V2WRCxKsPhO57v8pbtEDlCpZRB9WGPbf?=
- =?us-ascii?Q?wrvQGUOoBZ/pER4N5axOjlGIRMbZGb2SMFdKRAVHy4aonqwvAxIuz+zC+trP?=
- =?us-ascii?Q?iVFagGZtRoexH3a41lSi8iEk/ocyktUApflQ9sOLGCnkMGYiMOrgrJSzsF9X?=
- =?us-ascii?Q?kxPr7qTWzdDSjbpGSHVOeA4/J+8JrgBnEwGb5lfFKuqOVK/ON0OUdY+pRYIC?=
- =?us-ascii?Q?ERgXmo7Z9WpcRbyBEH5NxKbBQstZ7XKXX/X7uStZX/aHFh/HmWGQ2NzBAOjj?=
- =?us-ascii?Q?3D5jPmbMfypZ6rGoQqGRw2+Jb6n0VsTVo2bO2C6PaCdQDLAMHd4tFtZiYFkx?=
- =?us-ascii?Q?s9UKcU7A2x5pNtFB1ylvGDNO4zwn0L1FQP91SdzSIhxjMv/EZzWj+7Nm3DEq?=
- =?us-ascii?Q?UvE/EOAwfC0rWVBGk7cI+JEurLF3zjdyyIALm6eAXjTLcbIkMjLwrfwinI7f?=
- =?us-ascii?Q?zrcRFQTpGTfR/6oHxSWLF15yc7n7XKb/L0sByqPrc2+nYwFW29mvzHlAGZ1h?=
- =?us-ascii?Q?E0f3GJwWEpbudTLA3JQ39jpY2ux0DAn0GxnrNwA1zg1Xn+PBJOF3oorOkci7?=
- =?us-ascii?Q?HDGL5InwUU/7S/wyDLUZiLO4dR1KcJNMiWKDK57qnhdd+WB0DgJQuxPYBmNl?=
- =?us-ascii?Q?qjdslm/mLCarhLsDdW858TEIyx1suuridV/YgDnhx2rgg/Z519hliYDvfUNt?=
- =?us-ascii?Q?cronrdzuQFQu3kENnwT8+67mn44RUpTcS+8U73alX6rf7cXK/3wANR+cz3ub?=
- =?us-ascii?Q?nsReJKw4QIwN5AE4T/4EsC1+2HqIUQTQLSFuSGBQbeSV9khg/MwF/WfFaOFA?=
- =?us-ascii?Q?/iCmPW7lcCVv68TFaRa/PKhQm8bpeYmiGmJ7pjwCVwl3DS0r64AZdIfa0Wai?=
- =?us-ascii?Q?zkfAOKRkxg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1nXIqI-0000dt-P4
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:29:14 -0400
+Received: from [2a00:1450:4864:20::12e] (port=43692
+ helo=mail-lf1-x12e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1nXIqG-0005yy-IX
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:29:14 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id a26so6739691lfg.10
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 01:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7tFhCa/ufv2yy7i3LWMValrcFlu2RkTEzIHyPZuvxtQ=;
+ b=YvV7Uh4rgYYQOB/WXLIcEGdGrhQ8+ECXrobMLm8X5/Qlyl52HWw89knp8Kfs/qslpd
+ aShY9GboYIazainksH589l5qKEPAmYGjPJb2wFUpW+fY1Yt0R+E0J0iUBpdG477Rfnaq
+ cIWJ1y6E8mQoBEhCs9mB6rFrLZbBG0ASx7a6l7pIxvuN28RLB4HZBGLglmh7FmUP5J6j
+ TmT1F8TjDFlW3C3i4+A+3ZjIAWsD8Zk3uE674zpT3Sn/6WyybOCVRRy3rbk6BG4ELhej
+ VZQsRxxToiposjLIcmbwNau+Oj16KeMhJTcO5CiH2MZ3MbLZZdjvIdubdAR2CgQ8AQaa
+ s0TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7tFhCa/ufv2yy7i3LWMValrcFlu2RkTEzIHyPZuvxtQ=;
+ b=4KSg58Pt3lmMPW3+KRskFKXTW8KIlpWxdzYVLdlADvKuVtoVCKo70tNo2lgqU0wTFF
+ l19K7MvkYkH+yKWeYHJ3kqHgDsYWJ+fMOVbTdP1Ba0zTZiL/7rlerOYWc63qnD+lASu7
+ uvpxRAn9LVy2DStX4MQVhrOdl2Vh6Lv0HkdIYoMMaP+Kqlgqi98UI85EDS4St6qRD/v5
+ KfM8qg8Q8g8v5U/MXd3enKrKyGLtijKOEGiY5iwynF8fRqOi+P/nOAtRrZpQNpntWT/e
+ 7//+1BBpxkWFItzJerx+za/mQR39SWifx5ECBCdyfGi8Nqq60zsNsdUEpMj6sYrwrFWG
+ lR3w==
+X-Gm-Message-State: AOAM532+xUazd9UM2Sz/XUYYhdPeorZgXba0hcrStbis/F4xollOmebJ
+ aNVQPH66SmA7Lp3FwEk8PmwCOG3IyRLDArX7BXgnKQ==
+X-Google-Smtp-Source: ABdhPJx5FhXzMzBzsnY47TJ/7GZ/P6Me1d4R5+OAhG++a58tGXN+vbqrgQSn2jZlre4lgY3FrWIpPVBmqEVZdikz8Hk=
+X-Received: by 2002:a05:6512:1112:b0:44a:4096:39b0 with SMTP id
+ l18-20020a056512111200b0044a409639b0mr3076046lfg.35.1648110550662; Thu, 24
+ Mar 2022 01:29:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c4018c9-7325-4e68-dd0b-08da0d701009
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2022 08:26:58.1833 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UpUiBz5PllGPrj+XaQS/X/pJo7q51oZaaxv7gZ39P828kZ9csNWRhaQOxgCz+qwZczmxdtqlosOKDtQnjDv/2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4625
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=kevin.tian@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220323111309.9109-1-mchitale@ventanamicro.com>
+ <20220323111309.9109-5-mchitale@ventanamicro.com>
+ <c0920f62-46fa-46db-84ba-cade2dc4d565@iscas.ac.cn>
+In-Reply-To: <c0920f62-46fa-46db-84ba-cade2dc4d565@iscas.ac.cn>
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+Date: Thu, 24 Mar 2022 13:58:34 +0530
+Message-ID: <CAN37VV6kQqqSAycfzGnS_dZ0OSxGL0veqQ6F5xFFr2KmMZG-Gg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 4/4] target/riscv: smstateen check for AIA/IMSIC
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -171,36 +86,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>,
- "yi.y.sun@linux.intel.com" <yi.y.sun@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Jason Wang
-> Sent: Monday, March 21, 2022 1:54 PM
-> @@ -1724,6 +1713,19 @@ out:
->      trace_vtd_pt_enable_fast_path(source_id, success);
->  }
->=20
-> +static void vtd_qualify_report_fault(IntelIOMMUState *s,
-> +                                     int err, bool is_fpd_set,
-> +                                     uint16_t source_id,
-> +                                     hwaddr addr,
-> +                                     bool is_write)
+On Wed, Mar 23, 2022 at 6:43 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>
+>
+> =E5=9C=A8 2022/3/23 =E4=B8=8B=E5=8D=887:13, Mayuresh Chitale =E5=86=99=E9=
+=81=93:
+> > If smstateen is implemented then accesses to AIA
+> > registers CSRS, IMSIC CSRs and other IMSIC registers
+> > is controlled by setting of corresponding bits in
+> > mstateen/hstateen registers. Otherwise an illegal
+> > instruction trap or virtual instruction trap is
+> > generated.
+> >
+> > Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> > ---
+> >   target/riscv/csr.c | 248 ++++++++++++++++++++++++++++++++++++++++++++=
+-
+> >   1 file changed, 246 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index 5959adc9b3..cfdda8dc2b 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -68,6 +68,53 @@ static RISCVException smstateen_acc_ok(CPURISCVState=
+ *env, int mode, int bit)
+> >       return RISCV_EXCP_NONE;
+> >   }
+> >
+> > +static RISCVException smstateen_aia_acc_ok(CPURISCVState *env, int csr=
+no)
+> > +{
+> > +    int bit, mode;
+> > +
+> > +    switch (csrno) {
+> > +    case CSR_SSETEIPNUM:
+> > +    case CSR_SCLREIPNUM:
+> > +    case CSR_SSETEIENUM:
+> > +    case CSR_SCLREIENUM:
+> > +    case CSR_STOPEI:
+> > +    case CSR_VSSETEIPNUM:
+> > +    case CSR_VSCLREIPNUM:
+> > +    case CSR_VSSETEIENUM:
+> > +    case CSR_VSCLREIENUM:
+> > +    case CSR_VSTOPEI:
+> > +    case CSR_HSTATUS:
+> > +        mode =3D PRV_S;
+> > +        bit =3D SMSTATEEN0_IMSIC;
+> > +        break;
+> > +
+> > +    case CSR_SIEH:
+> > +    case CSR_SIPH:
+> > +    case CSR_HVIPH:
+> > +    case CSR_HVICTL:
+> > +    case CSR_HVIPRIO1:
+> > +    case CSR_HVIPRIO2:
+> > +    case CSR_HVIPRIO1H:
+> > +    case CSR_HVIPRIO2H:
+> > +    case CSR_VSIEH:
+> > +    case CSR_VSIPH:
+> > +        mode =3D PRV_S;
+> > +        bit =3D SMSTATEEN0_AIA;
+> > +        break;
+> > +
+> > +    case CSR_SISELECT:
+> > +    case CSR_VSISELECT:
+> > +        mode =3D PRV_S;
+> > +        bit =3D SMSTATEEN0_SVSLCT;
+> > +        break;
+> > +
+> > +    default:
+> > +        return RISCV_EXCP_NONE;
+> > +    }
+> > +
+> > +    return smstateen_acc_ok(env, mode, bit);
+> > +}
+> > +
+> >   static RISCVException fs(CPURISCVState *env, int csrno)
+> >   {
+> >   #if !defined(CONFIG_USER_ONLY)
+> > @@ -1402,6 +1449,13 @@ static int rmw_xiselect(CPURISCVState *env, int =
+csrno, target_ulong *val,
+> >                           target_ulong new_val, target_ulong wr_mask)
+> >   {
+> >       target_ulong *iselect;
+> > +    RISCVException ret;
+> > +
+> > +    /* Check if smstateen is enabled and this access is allowed */
+> > +    ret =3D smstateen_aia_acc_ok(env, csrno);
+> > +    if (ret !=3D RISCV_EXCP_NONE) {
+> > +        return ret;
+> > +    }
+> >
+> >       /* Translate CSR number for VS-mode */
+> >       csrno =3D aia_xlate_vs_csrno(env, csrno);
+> > @@ -1484,7 +1538,9 @@ static int rmw_xireg(CPURISCVState *env, int csrn=
+o, target_ulong *val,
+> >       bool virt;
+> >       uint8_t *iprio;
+> >       int ret =3D -EINVAL;
+> > -    target_ulong priv, isel, vgein;
+> > +    target_ulong priv, isel, vgein =3D 0;
+> > +    CPUState *cs =3D env_cpu(env);
+> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
+> >
+> >       /* Translate CSR number for VS-mode */
+> >       csrno =3D aia_xlate_vs_csrno(env, csrno);
+> > @@ -1513,11 +1569,20 @@ static int rmw_xireg(CPURISCVState *env, int cs=
+rno, target_ulong *val,
+> >       };
+> >
+> >       /* Find the selected guest interrupt file */
+> > -    vgein =3D (virt) ? get_field(env->hstatus, HSTATUS_VGEIN) : 0;
+> > +    if (virt) {
+> > +        if (!cpu->cfg.ext_smstateen ||
+> > +                (env->hstateen[0] & 1UL << SMSTATEEN0_IMSIC)) {
+> It seems better that '(' aligned with '!'.
+> > +            vgein =3D get_field(env->hstatus, HSTATUS_VGEIN);
+> > +        }
+> > +    }
+> >
+> >       if (ISELECT_IPRIO0 <=3D isel && isel <=3D ISELECT_IPRIO15) {
+> >           /* Local interrupt priority registers not available for VS-mo=
+de */
+> >           if (!virt) {
+> > +            if (priv =3D=3D PRV_S && cpu->cfg.ext_smstateen &&
+> > +                !(env->hstateen[0] & 1UL << SMSTATEEN0_AIA)) {
+> > +                goto done;
+> > +            }
+> >               ret =3D rmw_iprio(riscv_cpu_mxl_bits(env),
+> >                               isel, iprio, val, new_val, wr_mask,
+> >                               (priv =3D=3D PRV_M) ? IRQ_M_EXT : IRQ_S_E=
+XT);
+> > @@ -1551,6 +1616,13 @@ static int rmw_xsetclreinum(CPURISCVState *env, =
+int csrno, target_ulong *val,
+> >       int ret =3D -EINVAL;
+> >       bool set, pend, virt;
+> >       target_ulong priv, isel, vgein, xlen, nval, wmask;
+> > +    RISCVException excp;
+> > +
+> > +    /* Check if smstateen is enabled and this access is allowed */
+> > +    excp =3D smstateen_aia_acc_ok(env, csrno);
+> > +    if (excp !=3D RISCV_EXCP_NONE) {
+> > +        return excp;
+> > +    }
+> >
+> >       /* Translate CSR number for VS-mode */
+> >       csrno =3D aia_xlate_vs_csrno(env, csrno);
+> > @@ -1669,6 +1741,13 @@ static int rmw_xtopei(CPURISCVState *env, int cs=
+rno, target_ulong *val,
+> >       bool virt;
+> >       int ret =3D -EINVAL;
+> >       target_ulong priv, vgein;
+> > +    RISCVException excp;
+> > +
+> > +    /* Check if smstateen is enabled and this access is allowed */
+> > +    excp =3D smstateen_aia_acc_ok(env, csrno);
+> > +    if (excp !=3D RISCV_EXCP_NONE) {
+> > +        return excp;
+> > +    }
+> >
+> >       /* Translate CSR number for VS-mode */
+> >       csrno =3D aia_xlate_vs_csrno(env, csrno);
+> > @@ -2014,6 +2093,12 @@ static RISCVException write_mstateen(CPURISCVSta=
+te *env, int csrno,
+> >           wr_mask |=3D 1UL << SMSTATEEN0_FCSR;
+> >       }
+> >
+> > +    if (riscv_feature(env, RISCV_FEATURE_AIA)) {
+> > +        wr_mask |=3D (1UL << SMSTATEEN0_IMSIC)
+> > +                | (1UL << SMSTATEEN0_AIA)
+> > +                | (1UL << SMSTATEEN0_SVSLCT);
+>
+> I think it's better as follows:
 
-vtd_report_qualified_fault() is clearer.
-
-> +{
-> +    if (is_fpd_set && vtd_is_qualified_fault(err)) {
-> +        trace_vtd_fault_disabled();
-> +    } else {
-> +        vtd_report_dmar_fault(s, source_id, addr, err, is_write);
-> +    }
-> +}
-> +
->  /* Map dev to context-entry then do a paging-structures walk to do a iom=
-mu
->   * translation.
->   *
+Ok. Will fix it in the next version.
+>
+> +        wr_mask |=3D (1UL << SMSTATEEN0_IMSIC) |
+> +                   (1UL << SMSTATEEN0_AIA) |
+> +                   (1UL << SMSTATEEN0_SVSLCT);
+>
+> Regards,
+>
+> Weiwei Li
+>
 
