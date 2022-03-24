@@ -2,158 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56884E607B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:39:19 +0100 (CET)
-Received: from localhost ([::1]:58332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E291D4E608C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:44:52 +0100 (CET)
+Received: from localhost ([::1]:38848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXJ02-0001W5-Om
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:39:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52568)
+	id 1nXJ5P-0007Ve-Uw
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:44:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin.tian@intel.com>)
- id 1nXIj9-0008Pd-AE
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:21:51 -0400
-Received: from mga05.intel.com ([192.55.52.43]:60255)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin.tian@intel.com>)
- id 1nXIj6-00041x-Dy
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:21:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648110108; x=1679646108;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=yV0zlTqpRVz3A8zAFonAfNq+gyraQieFlALV+fTGLuA=;
- b=A+iJFoSh912WdTbT5Vnf4ncOyCQ3kGwem+Ntryy8zE0xb88deXC07kz4
- kt0ZX9FU9LA+CDNGxh2AqBpUkxUmAOB6PAW6j6NDo8e1WvaNBGWlpyncS
- KTDTvRZa+TAeR83hMni6kZJC/OqhJxREhRdxdVUciNdovcXoZQgsEkwMP
- y3U0Xz/2BGquvidfESJFPB8b7BBg4UDLE2rFekCJKt+DTrXAJIgZY/Hqu
- dAOn3i3ky8FEkRmG7JmdhSwEOqCt/qhQN/acMWzU4WPWIqzL/SisRsJ8w
- RxRRYPN7Pp4vu1IgtyGyc8d6ydv6WudqppkDtTebQSwWwbwpqFxGm+/DY w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="344749004"
-X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="344749004"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 01:21:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="601610043"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by fmsmga008.fm.intel.com with ESMTP; 24 Mar 2022 01:21:42 -0700
-Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 24 Mar 2022 01:21:42 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 24 Mar 2022 01:21:42 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Thu, 24 Mar 2022 01:21:42 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.174)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Thu, 24 Mar 2022 01:21:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Enn2fLb3+aBbl1up8muP26bRcOEw9yFcw1zKkBUivQO7yErojLxwEFMpCNF2GooC0URvnHttvCmONQdpF+U+/OnbMAIjrrKC8ERszug6ceItBYqqY+jDL0ZKxobnRCMUu1ZNgsCUTE5+5pmo4JIjzl98OMQ0YpnUsSYtmOlJRXcDLrl9P5Owqse/amZwZmk1mY8BXEpPEQXcGlq5dUCWgQi1QT9Zq4khPPr1/Cv97SiKVsMGToI0YmiSiRXG1gDNYzgwSFz2g32DKpbGcw3Iy7UHAhMli1bU2iZ2KwnW3MAyqutFXAHsUJpEoM9z636MWMYxcjXAN+IEmuI/dnMWgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nReDYt8jFaKKWE246KCZ5SARzAONbPijjx7LSdC/c10=;
- b=Aav3hFyDuCKXIPM3tsteA9k0SGOtmpKrX4CZkwiVIGJ3O7V8W6aw0plcpnJ7zrnHoGGqavjxg80Xk8JcmEo3N/K7gt4qdFR1N2+01hPc75xb1Id1BBJajZRm4pU3I7iAybdn7MOQYRc2+vMtOJr84iJYBorVLOxtuOtF2n/y8yPhYbH0BcCbrNCuD7zffCsY/uDxs44WOeI4rQ58XYRsdpGyEgLaumHo8FdcgRS82lW4Oy4CRPFKfwsA0pyNU4JH2W2ZbYvLy48L8nPETtfCFow8cNFwzbQSY0JGNsUTZNR2mJ/XkHiDHfHLijpVPUGscEBwpFLOanmNhXugVnJw9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by DM6PR11MB3529.namprd11.prod.outlook.com (2603:10b6:5:63::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.17; Thu, 24 Mar
- 2022 08:21:40 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::4df7:2fc6:c7cf:ffa0]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::4df7:2fc6:c7cf:ffa0%4]) with mapi id 15.20.5102.018; Thu, 24 Mar 2022
- 08:21:40 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Jason Wang <jasowang@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "peterx@redhat.com" <peterx@redhat.com>
-Subject: RE: [PATCH V2 1/4] intel-iommu: don't warn guest errors when getting
- rid2pasid entry
-Thread-Topic: [PATCH V2 1/4] intel-iommu: don't warn guest errors when getting
- rid2pasid entry
-Thread-Index: AQHYPOo/2I7lnnOXbUWYdLsoevjaqqzOM3AA
-Date: Thu, 24 Mar 2022 08:21:40 +0000
-Message-ID: <BN9PR11MB52769DCA64DCF7B107FD244B8C199@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20220321055429.10260-1-jasowang@redhat.com>
- <20220321055429.10260-2-jasowang@redhat.com>
-In-Reply-To: <20220321055429.10260-2-jasowang@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 35909205-cbdc-4fed-7c14-08da0d6f5271
-x-ms-traffictypediagnostic: DM6PR11MB3529:EE_
-x-microsoft-antispam-prvs: <DM6PR11MB35292807EC24849381381E678C199@DM6PR11MB3529.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8K2qhJuIx252LSmcFYt82zsHrNcETFtdGx9ZT/9s51SFuEr0boB6nbFhJh3LfDxRSedItSWRSKv2+pWiKD4BGjt3ryvq6hbMb4sitKcU0+J+MF5r+no6U5jyvN4d4Iyf5nu8avx85vrlGtS3RYYuwToEqD7T54KHdH4WX9i3C19fTG/P7axFHDFAJB2c3C/u1rcB53IIa0HBMz8qRxClshU+RB3ZQmsdkMMUM/c7HrdcI+6VQkt5YOu1l5/c3eaZXVYP5Eiz1rBeQ8dDwAFxaP3ncmy4OT6YVo3pVCyIeFT0O0ON2ZHV2GMrDwD43qXXJAIzG3MAZIB5Ls1m5r/2eu3IixDFGY2lJiRfkETosOK1HOyWzV9Fh5hlwSoZ1+I8JRe8fmkO2SMdpEr4TTLiAo789A8zPfGWSV5zBwTl0tRGtwi0UNbvy6BfMqcmGjzpkIQkT3mYV+N15yXNXhU+4SPrOTKEX8K5vZPGUFiMBBk4B9a6r+9otXLT4o+cMUmfCGixMIhwVkX8+n9Sx0RtJP2GdFbXj5WZ0Uz0I9NEOxsvVTytt4ruyI/Cy2qnRh7MqAjCJThqN4MCCA/anJq2YlBrbdaI/CM2a8RoYJ4XhHm82MwLVkOgjPfHcBDaSELKCJ/pMtNidPM35KcwUeFlfF4KT0dCXzZl4Ma4sBnEP3muwF5zXuxtgacTBb+RboPK+rms7nYbc0ySUNduc/tvxw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(122000001)(66446008)(5660300002)(110136005)(54906003)(316002)(9686003)(7696005)(6506007)(2906002)(71200400001)(508600001)(83380400001)(52536014)(186003)(26005)(4326008)(82960400001)(8676002)(86362001)(38070700005)(33656002)(66556008)(66476007)(76116006)(38100700002)(66946007)(55016003)(64756008)(8936002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?oo+kRsV/QX6k3jSUIwSzp17aPXVeB2LbShfPNQsV7PUgVbuEu+eQAXHcZYT3?=
- =?us-ascii?Q?+NTHYZX6AUqkbgmfXwXWCejYIx/pTG/6L39eKFdFrMkZqRkQ0tauAK4nNgwl?=
- =?us-ascii?Q?iYTSm8zCfF4o3F+OL0VBakdfuunNyYw8uxCfh/cRATY+GWAKrn+XIeXPpMhN?=
- =?us-ascii?Q?I0J/BjGOK7gbAac3MbAqKETE2yNDZI57hnJVh4PwKWxr1KQGsuL8ysfdmSn5?=
- =?us-ascii?Q?aqBn00rIHGEAfcq18q6cFgrJd2O95wwx7r447EkhTscpRjT3D4ISzegNpVej?=
- =?us-ascii?Q?YvCplCMxhqBSRHz6IS6ZmdpP2XJkJW6CBBOA4QdSfB51b+6Y4+Ivp5paylTf?=
- =?us-ascii?Q?qXWAmzmJE+Rjw6e/jau74tnewiT4XqIt93Snwy0qfoc6wBp4dhudCExM5YTX?=
- =?us-ascii?Q?Lu1EajnTsJV02jnToIqe/RqmsqxWiimexc3PxOi9AjfUgyoB01p2ic/MMK4f?=
- =?us-ascii?Q?6EyfAQX15N91dF+IboOR7CsoBaf32QW58Y8MabsHZUK6KiWcw8H1b0pKSXhV?=
- =?us-ascii?Q?MbpmEPrt58Hm/CYVltdsopQ+juk4sLmXYsjsD/zFButpct/wuSn0alCJXCHB?=
- =?us-ascii?Q?TskMbNGyR6A7WpZVz3YJmq5geUOcnIeiFdhIGEpDgg9EYqk2zdMvbe7NKKWQ?=
- =?us-ascii?Q?LMIGHP5XnjAlmttQoL9kMFsrct6hNxauvlw6nNPjMX3+W6lAy9a8VZoHVH4a?=
- =?us-ascii?Q?c4ZzLWwO4n8gMxEScny6IaQvLpjf1zReW6w7gJcl/zGGmYPBIZkZpeiEJSUl?=
- =?us-ascii?Q?Hy1qpGhHWC6EACHGsPajdnC1z+xbQw+G4HaPDtIbPa+/McMf8xL9jpTCEg7s?=
- =?us-ascii?Q?9M8cv05rcEBKu5zlMjZ1PSe/+ItSzGZXTXKzJabBzyb6GqtdTxFE+W2/xBtP?=
- =?us-ascii?Q?ZpSkNyq0PPdxC4Wxv/rorfgdAswFofDqOoZHjHH7R+EArqMbtbExD3kW7eM2?=
- =?us-ascii?Q?Dvb/u3N8jup9yBuSZ+fExbx4AkTab+PU3N3e/riyvLGhDgqNiPDtkNFy7fCx?=
- =?us-ascii?Q?QgPxtZjZqAEAzye1kpLp8K6f2453BAnoRGD9InAHYkMHnIhd6/QmMGhRo6mY?=
- =?us-ascii?Q?adrM2H0QTSM3T49e90tA3z0abo0XAkAWpWggp3+E5hpH/XYkCXRKTuNB1sPE?=
- =?us-ascii?Q?ZWh4cnCrftKBCEjB1NWrClOc8Ut788SlIGA9OEFRyKbA7g6USenYAeBH+ZHd?=
- =?us-ascii?Q?tFDoBEYFQslSseuj67TyYU4EujVR//t7RiTIAuf7znQuiucOgHMNA+jOaeyd?=
- =?us-ascii?Q?t/26QI3qjeO1l31SVHDzpJigBNwty/WsmPccGetsJVjCa5SiF8OWaLUlced6?=
- =?us-ascii?Q?ZwV/xzAPPZK50ENYu14/TUahBAs716f8gZnjBFZlpIVSVpbMlNcqeCbi5sFd?=
- =?us-ascii?Q?L4iL9XGX1wk//4V8QfcScSlyI0OfhDy3n4gZmW0lPo+9gTmi3K/GfBBjbFRS?=
- =?us-ascii?Q?2jmOERXonCbPGtk/E1R1pYp7TTTO/UYb?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nXIkP-0001Rn-00
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:23:12 -0400
+Received: from [2607:f8b0:4864:20::62a] (port=42506
+ helo=mail-pl1-x62a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nXIkL-0004D3-8E
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:23:08 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id p17so3967379plo.9
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 01:23:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZtHAdjlHlNcu/J5I86GhzMM6Y9/nMZHiPKInXDjIEoo=;
+ b=piazE/1MyCaEYE91tYgn5edoiHezRoODRG0jCFWWpAIPivU/k2YHIPkwMc2ak69oA5
+ 7R5Yi2heV/6osuzy0aiYFCy8QxkTJ9uHF54iA7BM8KdfMz5YKzuWFwZH60cZWxAXyTno
+ LR6yaAdszUONn/aFIXd6NOurQu/dk1SRtK54vAxOybEXxqOtlj01wa4TX+6bIUNB1BjD
+ bvmjqulFyI1JvTFbWukD9acVyOq4/aA8TWYBrETvOhq4Sw13zr01XSR3YZ8154JZ6Y8h
+ YaFhjIRBgn53SNQKOTeQhS8ajvMzueGZRnAfyQrJGwj98dRF/W+F3+Gb6Rzbt1l8sJOY
+ pTOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZtHAdjlHlNcu/J5I86GhzMM6Y9/nMZHiPKInXDjIEoo=;
+ b=o6E6BrGzF5sCyahAm4+ZwfJOaVcUpL7xAVlrunEgpETsCoMgMZxluId+eM2zfmGlzY
+ QBDZ3KgqT19K4u5+TkTipWUqE/LOAA6lL23Zi/r7YC9YfqJIEcIIdBvDx/R+vqI3VV+t
+ 0ov9aULUF/TeIn1hvJ2NbM01qpN7Vq/A+wyepZtIbB6dm9Ifi7EeoqiH4YdKUzFhYp80
+ ZFfWzWnXUEkgIzrOnVwYrpmaSnwV2Pf04+LyYBJimoq9xokLUOEXdnW/JR2DjTxrCRmD
+ thywvh4GS77pGVvM9smreLxJjd6MTt2lLGPqVduimmP2YnK/0xQMP0nsi5pEPUndMloR
+ tYZw==
+X-Gm-Message-State: AOAM532GJwH8OnuJRysBc6zgcTEPy2swVcQWEPyAqeS+4xgr3lpo9hFo
+ zar5WdvOCqmqwtwc0kjaqv8oCyAHSo4Nmg==
+X-Google-Smtp-Source: ABdhPJxmDfYmDfo6hpJkOO26gcmss0bU21IuC6D1HLkk/kQ2JSMPrIp3MxqozkHSCj8Q5BRUxwPqRg==
+X-Received: by 2002:a17:902:c949:b0:154:5215:1db1 with SMTP id
+ i9-20020a170902c94900b0015452151db1mr4427572pla.163.1648110183415; 
+ Thu, 24 Mar 2022 01:23:03 -0700 (PDT)
+Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
+ [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
+ me5-20020a17090b17c500b001c63699ff60sm9237395pjb.57.2022.03.24.01.23.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Mar 2022 01:23:03 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] hw/core: Sync uboot_image.h from U-Boot v2022.01
+Date: Thu, 24 Mar 2022 16:22:42 +0800
+Message-Id: <20220324082243.451107-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35909205-cbdc-4fed-7c14-08da0d6f5271
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2022 08:21:40.1265 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SNPT+Pu456YzpoD9QWx2JGUN9eWlK0oGtYhYD/ZMTET6dynnd/rhN8WRRWpZBKv816dCt2bUn9tV8bsV2U7yvA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3529
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=kevin.tian@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -166,63 +86,278 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>,
- "yi.y.sun@linux.intel.com" <yi.y.sun@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Jason Wang
-> Sent: Monday, March 21, 2022 1:54 PM
->=20
-> We use to warn on wrong rid2pasid entry. But this error could be
-> triggered by the guest and could happens during initialization. So
-> let's don't warn in this case.
->=20
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> ---
->  hw/i386/intel_iommu.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index 874d01c162..90964b201c 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -1554,8 +1554,10 @@ static bool vtd_dev_pt_enabled(IntelIOMMUState
-> *s, VTDContextEntry *ce)
->      if (s->root_scalable) {
->          ret =3D vtd_ce_get_rid2pasid_entry(s, ce, &pe);
->          if (ret) {
-> -            error_report_once("%s: vtd_ce_get_rid2pasid_entry error: %"P=
-RId32,
-> -                              __func__, ret);
-> +            /*
-> +             * This error is guest triggerable. We should assumt PT
-> +             * not enabled for safety.
-> +             */
+From: Bin Meng <bin.meng@windriver.com>
 
-suppose a VT-d fault should be queued in this case besides returning false:
+Sync uboot_image.h from upstream U-Boot v2022.01 release [1].
 
-SPD.1: A hardware attempt to access the scalable-mode PASID-directory=20
-entry referenced through the PASIDDIRPTR field in scalable-mode=20
-context-entry resulted in an error
+[1] https://source.denx.de/u-boot/u-boot/-/blob/v2022.01/include/image.h
 
-SPT.1: A hardware attempt to access a scalable-mode PASID-table entry
-referenced through the SMPTBLPTR field in a scalable-mode PASID-directory
-entry resulted in an error.
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-Currently the implementation of vtd_ce_get_rid2pasid_entry() is also
-problematic. According to VT-d spec, RID2PASID field is effective only
-when ecap.rps is true otherwise PASID#0 is used for RID2PASID. I didn't
-see ecap.rps is set, neither is it checked in that function. It works possi=
-bly
-just because Linux currently programs 0 to RID2PASID...
+ hw/core/uboot_image.h | 213 ++++++++++++++++++++++++++++--------------
+ 1 file changed, 142 insertions(+), 71 deletions(-)
 
->              return false;
->          }
->          return (VTD_PE_GET_TYPE(&pe) =3D=3D VTD_SM_PASID_ENTRY_PT);
-> --
-> 2.25.1
->=20
+diff --git a/hw/core/uboot_image.h b/hw/core/uboot_image.h
+index 608022de6e..18ac293359 100644
+--- a/hw/core/uboot_image.h
++++ b/hw/core/uboot_image.h
+@@ -1,23 +1,9 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
+ /*
++ * (C) Copyright 2008 Semihalf
++ *
+  * (C) Copyright 2000-2005
+  * Wolfgang Denk, DENX Software Engineering, wd@denx.de.
+- *
+- * See file CREDITS for list of people who contributed to this
+- * project.
+- *
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU General Public License as
+- * published by the Free Software Foundation; either version 2 of
+- * the License, or (at your option) any later version.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
+- * GNU General Public License for more details.
+- *
+- * You should have received a copy of the GNU General Public License along
+- * with this program; if not, see <http://www.gnu.org/licenses/>.
+- *
+  ********************************************************************
+  * NOTE: This header file defines an interface to U-Boot. Including
+  * this (unmodified) header file in another file is considered normal
+@@ -31,50 +17,83 @@
+ 
+ /*
+  * Operating System Codes
++ *
++ * The following are exposed to uImage header.
++ * New IDs *MUST* be appended at the end of the list and *NEVER*
++ * inserted for backward compatibility.
+  */
+-#define IH_OS_INVALID		0	/* Invalid OS	*/
+-#define IH_OS_OPENBSD		1	/* OpenBSD	*/
+-#define IH_OS_NETBSD		2	/* NetBSD	*/
+-#define IH_OS_FREEBSD		3	/* FreeBSD	*/
+-#define IH_OS_4_4BSD		4	/* 4.4BSD	*/
+-#define IH_OS_LINUX		5	/* Linux	*/
+-#define IH_OS_SVR4		6	/* SVR4		*/
+-#define IH_OS_ESIX		7	/* Esix		*/
+-#define IH_OS_SOLARIS		8	/* Solaris	*/
+-#define IH_OS_IRIX		9	/* Irix		*/
+-#define IH_OS_SCO		10	/* SCO		*/
+-#define IH_OS_DELL		11	/* Dell		*/
+-#define IH_OS_NCR		12	/* NCR		*/
+-#define IH_OS_LYNXOS		13	/* LynxOS	*/
+-#define IH_OS_VXWORKS		14	/* VxWorks	*/
+-#define IH_OS_PSOS		15	/* pSOS		*/
+-#define IH_OS_QNX		16	/* QNX		*/
+-#define IH_OS_U_BOOT		17	/* Firmware	*/
+-#define IH_OS_RTEMS		18	/* RTEMS	*/
+-#define IH_OS_ARTOS		19	/* ARTOS	*/
+-#define IH_OS_UNITY		20	/* Unity OS	*/
++enum {
++	IH_OS_INVALID		= 0,	/* Invalid OS	*/
++	IH_OS_OPENBSD,			/* OpenBSD	*/
++	IH_OS_NETBSD,			/* NetBSD	*/
++	IH_OS_FREEBSD,			/* FreeBSD	*/
++	IH_OS_4_4BSD,			/* 4.4BSD	*/
++	IH_OS_LINUX,			/* Linux	*/
++	IH_OS_SVR4,			/* SVR4		*/
++	IH_OS_ESIX,			/* Esix		*/
++	IH_OS_SOLARIS,			/* Solaris	*/
++	IH_OS_IRIX,			/* Irix		*/
++	IH_OS_SCO,			/* SCO		*/
++	IH_OS_DELL,			/* Dell		*/
++	IH_OS_NCR,			/* NCR		*/
++	IH_OS_LYNXOS,			/* LynxOS	*/
++	IH_OS_VXWORKS,			/* VxWorks	*/
++	IH_OS_PSOS,			/* pSOS		*/
++	IH_OS_QNX,			/* QNX		*/
++	IH_OS_U_BOOT,			/* Firmware	*/
++	IH_OS_RTEMS,			/* RTEMS	*/
++	IH_OS_ARTOS,			/* ARTOS	*/
++	IH_OS_UNITY,			/* Unity OS	*/
++	IH_OS_INTEGRITY,		/* INTEGRITY	*/
++	IH_OS_OSE,			/* OSE		*/
++	IH_OS_PLAN9,			/* Plan 9	*/
++	IH_OS_OPENRTOS,		/* OpenRTOS	*/
++	IH_OS_ARM_TRUSTED_FIRMWARE,     /* ARM Trusted Firmware */
++	IH_OS_TEE,			/* Trusted Execution Environment */
++	IH_OS_OPENSBI,			/* RISC-V OpenSBI */
++	IH_OS_EFI,			/* EFI Firmware (e.g. GRUB2) */
++
++	IH_OS_COUNT,
++};
+ 
+ /*
+  * CPU Architecture Codes (supported by Linux)
++ *
++ * The following are exposed to uImage header.
++ * New IDs *MUST* be appended at the end of the list and *NEVER*
++ * inserted for backward compatibility.
+  */
+-#define IH_CPU_INVALID		0	/* Invalid CPU	*/
+-#define IH_CPU_ALPHA		1	/* Alpha	*/
+-#define IH_CPU_ARM		2	/* ARM		*/
+-#define IH_CPU_I386		3	/* Intel x86	*/
+-#define IH_CPU_IA64		4	/* IA64		*/
+-#define IH_CPU_MIPS		5	/* MIPS		*/
+-#define IH_CPU_MIPS64		6	/* MIPS	 64 Bit */
+-#define IH_CPU_PPC		7	/* PowerPC	*/
+-#define IH_CPU_S390		8	/* IBM S390	*/
+-#define IH_CPU_SH		9	/* SuperH	*/
+-#define IH_CPU_SPARC		10	/* Sparc	*/
+-#define IH_CPU_SPARC64		11	/* Sparc 64 Bit */
+-#define IH_CPU_M68K		12	/* M68K		*/
+-#define IH_CPU_NIOS		13	/* Nios-32	*/
+-#define IH_CPU_MICROBLAZE	14	/* MicroBlaze   */
+-#define IH_CPU_NIOS2		15	/* Nios-II	*/
+-#define IH_CPU_BLACKFIN		16	/* Blackfin	*/
+-#define IH_CPU_AVR32		17	/* AVR32	*/
++enum {
++	IH_ARCH_INVALID		= 0,	/* Invalid CPU	*/
++	IH_ARCH_ALPHA,			/* Alpha	*/
++	IH_ARCH_ARM,			/* ARM		*/
++	IH_ARCH_I386,			/* Intel x86	*/
++	IH_ARCH_IA64,			/* IA64		*/
++	IH_ARCH_MIPS,			/* MIPS		*/
++	IH_ARCH_MIPS64,			/* MIPS	 64 Bit */
++	IH_ARCH_PPC,			/* PowerPC	*/
++	IH_ARCH_S390,			/* IBM S390	*/
++	IH_ARCH_SH,			/* SuperH	*/
++	IH_ARCH_SPARC,			/* Sparc	*/
++	IH_ARCH_SPARC64,		/* Sparc 64 Bit */
++	IH_ARCH_M68K,			/* M68K		*/
++	IH_ARCH_NIOS,			/* Nios-32	*/
++	IH_ARCH_MICROBLAZE,		/* MicroBlaze   */
++	IH_ARCH_NIOS2,			/* Nios-II	*/
++	IH_ARCH_BLACKFIN,		/* Blackfin	*/
++	IH_ARCH_AVR32,			/* AVR32	*/
++	IH_ARCH_ST200,			/* STMicroelectronics ST200  */
++	IH_ARCH_SANDBOX,		/* Sandbox architecture (test only) */
++	IH_ARCH_NDS32,			/* ANDES Technology - NDS32  */
++	IH_ARCH_OPENRISC,		/* OpenRISC 1000  */
++	IH_ARCH_ARM64,			/* ARM64	*/
++	IH_ARCH_ARC,			/* Synopsys DesignWare ARC */
++	IH_ARCH_X86_64,			/* AMD x86_64, Intel and Via */
++	IH_ARCH_XTENSA,			/* Xtensa	*/
++	IH_ARCH_RISCV,			/* RISC-V */
++
++	IH_ARCH_COUNT,
++};
+ 
+ /*
+  * Image Types
+@@ -113,33 +132,85 @@
+  *	U-Boot's command interpreter; this feature is especially
+  *	useful when you configure U-Boot to use a real shell (hush)
+  *	as command interpreter (=> Shell Scripts).
++ *
++ * The following are exposed to uImage header.
++ * New IDs *MUST* be appended at the end of the list and *NEVER*
++ * inserted for backward compatibility.
+  */
+ 
+-#define IH_TYPE_INVALID		0	/* Invalid Image		*/
+-#define IH_TYPE_STANDALONE	1	/* Standalone Program		*/
+-#define IH_TYPE_KERNEL		2	/* OS Kernel Image		*/
+-#define IH_TYPE_RAMDISK		3	/* RAMDisk Image		*/
+-#define IH_TYPE_MULTI		4	/* Multi-File Image		*/
+-#define IH_TYPE_FIRMWARE	5	/* Firmware Image		*/
+-#define IH_TYPE_SCRIPT		6	/* Script file			*/
+-#define IH_TYPE_FILESYSTEM	7	/* Filesystem Image (any type)	*/
+-#define IH_TYPE_FLATDT		8	/* Binary Flat Device Tree Blob	*/
+-#define IH_TYPE_KERNEL_NOLOAD  14	/* OS Kernel Image (noload)	*/
++enum {
++	IH_TYPE_INVALID		= 0,	/* Invalid Image		*/
++	IH_TYPE_STANDALONE,		/* Standalone Program		*/
++	IH_TYPE_KERNEL,			/* OS Kernel Image		*/
++	IH_TYPE_RAMDISK,		/* RAMDisk Image		*/
++	IH_TYPE_MULTI,			/* Multi-File Image		*/
++	IH_TYPE_FIRMWARE,		/* Firmware Image		*/
++	IH_TYPE_SCRIPT,			/* Script file			*/
++	IH_TYPE_FILESYSTEM,		/* Filesystem Image (any type)	*/
++	IH_TYPE_FLATDT,			/* Binary Flat Device Tree Blob	*/
++	IH_TYPE_KWBIMAGE,		/* Kirkwood Boot Image		*/
++	IH_TYPE_IMXIMAGE,		/* Freescale IMXBoot Image	*/
++	IH_TYPE_UBLIMAGE,		/* Davinci UBL Image		*/
++	IH_TYPE_OMAPIMAGE,		/* TI OMAP Config Header Image	*/
++	IH_TYPE_AISIMAGE,		/* TI Davinci AIS Image		*/
++	/* OS Kernel Image, can run from any load address */
++	IH_TYPE_KERNEL_NOLOAD,
++	IH_TYPE_PBLIMAGE,		/* Freescale PBL Boot Image	*/
++	IH_TYPE_MXSIMAGE,		/* Freescale MXSBoot Image	*/
++	IH_TYPE_GPIMAGE,		/* TI Keystone GPHeader Image	*/
++	IH_TYPE_ATMELIMAGE,		/* ATMEL ROM bootable Image	*/
++	IH_TYPE_SOCFPGAIMAGE,		/* Altera SOCFPGA CV/AV Preloader */
++	IH_TYPE_X86_SETUP,		/* x86 setup.bin Image		*/
++	IH_TYPE_LPC32XXIMAGE,		/* x86 setup.bin Image		*/
++	IH_TYPE_LOADABLE,		/* A list of typeless images	*/
++	IH_TYPE_RKIMAGE,		/* Rockchip Boot Image		*/
++	IH_TYPE_RKSD,			/* Rockchip SD card		*/
++	IH_TYPE_RKSPI,			/* Rockchip SPI image		*/
++	IH_TYPE_ZYNQIMAGE,		/* Xilinx Zynq Boot Image */
++	IH_TYPE_ZYNQMPIMAGE,		/* Xilinx ZynqMP Boot Image */
++	IH_TYPE_ZYNQMPBIF,		/* Xilinx ZynqMP Boot Image (bif) */
++	IH_TYPE_FPGA,			/* FPGA Image */
++	IH_TYPE_VYBRIDIMAGE,	/* VYBRID .vyb Image */
++	IH_TYPE_TEE,            /* Trusted Execution Environment OS Image */
++	IH_TYPE_FIRMWARE_IVT,		/* Firmware Image with HABv4 IVT */
++	IH_TYPE_PMMC,            /* TI Power Management Micro-Controller Firmware */
++	IH_TYPE_STM32IMAGE,		/* STMicroelectronics STM32 Image */
++	IH_TYPE_SOCFPGAIMAGE_V1,	/* Altera SOCFPGA A10 Preloader	*/
++	IH_TYPE_MTKIMAGE,		/* MediaTek BootROM loadable Image */
++	IH_TYPE_IMX8MIMAGE,		/* Freescale IMX8MBoot Image	*/
++	IH_TYPE_IMX8IMAGE,		/* Freescale IMX8Boot Image	*/
++	IH_TYPE_COPRO,			/* Coprocessor Image for remoteproc*/
++	IH_TYPE_SUNXI_EGON,		/* Allwinner eGON Boot Image */
++
++	IH_TYPE_COUNT,			/* Number of image types */
++};
+ 
+ /*
+  * Compression Types
++ *
++ * The following are exposed to uImage header.
++ * New IDs *MUST* be appended at the end of the list and *NEVER*
++ * inserted for backward compatibility.
+  */
+-#define IH_COMP_NONE		0	/*  No	 Compression Used	*/
+-#define IH_COMP_GZIP		1	/* gzip	 Compression Used	*/
+-#define IH_COMP_BZIP2		2	/* bzip2 Compression Used	*/
++enum {
++	IH_COMP_NONE		= 0,	/*  No	 Compression Used	*/
++	IH_COMP_GZIP,			/* gzip	 Compression Used	*/
++	IH_COMP_BZIP2,			/* bzip2 Compression Used	*/
++	IH_COMP_LZMA,			/* lzma  Compression Used	*/
++	IH_COMP_LZO,			/* lzo   Compression Used	*/
++	IH_COMP_LZ4,			/* lz4   Compression Used	*/
++	IH_COMP_ZSTD,			/* zstd   Compression Used	*/
++
++	IH_COMP_COUNT,
++};
+ 
+ #define IH_MAGIC	0x27051956	/* Image Magic Number		*/
+ #define IH_NMLEN		32	/* Image Name Length		*/
+ 
+ /*
+- * all data in network byte order (aka natural aka bigendian)
++ * Legacy format image header,
++ * all data in network byte order (aka natural aka bigendian).
+  */
+-
+ typedef struct uboot_image_header {
+ 	uint32_t	ih_magic;	/* Image Header Magic Number	*/
+ 	uint32_t	ih_hcrc;	/* Image Header CRC Checksum	*/
+-- 
+2.25.1
 
 
