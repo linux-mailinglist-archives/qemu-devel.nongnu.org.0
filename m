@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BEA74E683D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:00:01 +0100 (CET)
-Received: from localhost ([::1]:35578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA704E6833
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 18:58:06 +0100 (CET)
+Received: from localhost ([::1]:55486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXRke-0008MB-6X
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:00:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53322)
+	id 1nXRin-0002q9-Vf
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 13:58:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nXRce-0002XS-Tp
+ id 1nXRcf-0002XU-34
  for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:51:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46723)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nXRcd-0006ZU-51
+ id 1nXRcd-0006Zg-Bl
  for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:51:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1648144302;
@@ -25,29 +25,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f+wbxsYJB5dDYGRE/nr3UaNLxm0jHeTUELROzfvNCB0=;
- b=Sq9em1NuFOleLSjhqxnSjVFFnToqTnY7uiL/f4RfTMuBL4Bt05H9XIfsMAOeUSjwogXIOf
- 3lKOCT2hbZQEA/RRuQxHguQukyI6yKEVXR/mPefCoa2/N7h5yYcjmLWO5OWuFEY5bBUVGC
- WdEvg1s95Gx98pQRkM0v9LTVNHv3NKc=
+ bh=hPo/eMCa+nbvp/EXalDw2NAMdcuJOEpQFJoCJ0kf/rw=;
+ b=LWSyIvaiz18W4BEgYNfEXqkxUdplOkjB1eu+48xFkbVqkT+FC+yMDrItkf/OC/2LSE4G/6
+ lCTzjtfWx1J07HjUkiMPGRklmKaKLwIH8/Lwdjp5amEusvpld3mmITUZWyNdkAC1aPuyJ+
+ +2riQpxNzDjiH6F5iLpRJL4N4eh9ZIc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-sLY8wuqRORKCusoG9UuwYw-1; Thu, 24 Mar 2022 13:50:36 -0400
-X-MC-Unique: sLY8wuqRORKCusoG9UuwYw-1
+ us-mta-606-neKQBKg6OQajSTDjAmEnPA-1; Thu, 24 Mar 2022 13:50:38 -0400
+X-MC-Unique: neKQBKg6OQajSTDjAmEnPA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 927B48039D7
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 17:50:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2E5E801E80
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 17:50:37 +0000 (UTC)
 Received: from tapioca.redhat.com (unknown [10.40.195.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 50DC3401E89;
- Thu, 24 Mar 2022 17:50:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC4C2400DC9;
+ Thu, 24 Mar 2022 17:50:36 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/14] qapi: fix example of ACPI_DEVICE_OST event
-Date: Thu, 24 Mar 2022 18:50:14 +0100
-Message-Id: <20220324175015.232794-14-victortoso@redhat.com>
+Subject: [PATCH 14/14] qapi: fix example of dump-guest-memory
+Date: Thu, 24 Mar 2022 18:50:15 +0100
+Message-Id: <20220324175015.232794-15-victortoso@redhat.com>
 In-Reply-To: <20220324175015.232794-1-victortoso@redhat.com>
 References: <20220324175015.232794-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -85,30 +85,26 @@ Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Missing the timestamp
-* Missing the "info" object in the "data" member
+The member "paging" is not optional
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 ---
- qapi/acpi.json | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ qapi/dump.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/acpi.json b/qapi/acpi.json
-index 51f0d55db7..d148f6db9f 100644
---- a/qapi/acpi.json
-+++ b/qapi/acpi.json
-@@ -133,8 +133,9 @@
+diff --git a/qapi/dump.json b/qapi/dump.json
+index d3ed79e8cd..0873f16e5c 100644
+--- a/qapi/dump.json
++++ b/qapi/dump.json
+@@ -83,7 +83,7 @@
  # Example:
  #
- # <- { "event": "ACPI_DEVICE_OST",
--#      "data": { "device": "d1", "slot": "0",
--#                "slot-type": "DIMM", "source": 1, "status": 0 } }
-+#      "data": { "info": { "device": "d1", "slot": "0",
-+#                          "slot-type": "DIMM", "source": 1, "status": 0 } },
-+#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+ # -> { "execute": "dump-guest-memory",
+-#      "arguments": { "protocol": "fd:dump" } }
++#      "arguments": { "paging": false, "protocol": "fd:dump" } }
+ # <- { "return": {} }
  #
  ##
- { 'event': 'ACPI_DEVICE_OST',
 -- 
 2.35.1
 
