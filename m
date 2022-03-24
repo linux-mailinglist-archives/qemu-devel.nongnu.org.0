@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424924E60C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:58:00 +0100 (CET)
-Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D66E4E60AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:52:23 +0100 (CET)
+Received: from localhost ([::1]:48096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXJI7-0002Jl-4Y
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:57:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56872)
+	id 1nXJCg-0005TP-2h
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:52:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leohou163@163.com>) id 1nXJ4a-0000KP-OG
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:44:00 -0400
-Received: from m13123.mail.163.com ([220.181.13.123]:24051)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <leohou163@163.com>) id 1nXJ4V-0000X3-Bc
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:43:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=s0t4H
- j/L52vjeuFj5yYC0ZhBcdNe4v6RzR77/am25Ck=; b=Y+oKu9PFiuRefkHQf3qpa
- Et6qyISWzqXPPWiqfVE6eE7njzI3vkX60nb4Hxh7q4ya2gImLp7jT/7DtPc7Uxjh
- lge8IPPc9ogdwPae4NuafhNNX0SacOCCCCJvXDbmFvu1IgRHjom8ccV8jKyl3/iD
- uz/b38jsK0m26ewbiS0qME=
-Received: from leohou163$163.com ( [114.249.224.138] ) by
- ajax-webmail-wmsvr123 (Coremail) ; Thu, 24 Mar 2022 16:43:48 +0800 (CST)
-X-Originating-IP: [114.249.224.138]
-Date: Thu, 24 Mar 2022 16:43:48 +0800 (CST)
-From: leohou  <leohou163@163.com>
-To: "Jason Wang" <jasowang@redhat.com>
-Subject: Re:Re: Address mapping for vIOMMU
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210622(1d4788a8)
- Copyright (c) 2002-2022 www.mailtech.cn 163com
-In-Reply-To: <CACGkMEvcVGvB2ZEes20cVBA1_8TWdDo1o-jPw07R4TOEXNi0kQ@mail.gmail.com>
-References: <155d85bb.2709.17fba1369b0.Coremail.leohou163@163.com>
- <CACGkMEvcVGvB2ZEes20cVBA1_8TWdDo1o-jPw07R4TOEXNi0kQ@mail.gmail.com>
-X-CM-CTRLDATA: Ycct/mZvb3Rlcl9odG09MTgzMDo1Ng==
-Content-Type: multipart/alternative; 
- boundary="----=_Part_76607_634717223.1648111428155"
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1nXJ7U-0002cB-6q
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:47:00 -0400
+Received: from [2a00:1450:4864:20::12f] (port=39694
+ helo=mail-lf1-x12f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1nXJ7R-0001Hg-NA
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:46:59 -0400
+Received: by mail-lf1-x12f.google.com with SMTP id w7so6830858lfd.6
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 01:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=BQiyIslLq3E90bdrVOTzKhGW/chrmrz2mLNk3C0Pxu4=;
+ b=X9Mr7orV1azARJCeI1wlRuM7FJdC4N7V/AhTpeRqnG2iZDqSaJoVKCbdobeN7Lk+rM
+ dZR6zpVaHbOVXz2XzQk2Bz5iAXxiXrLTW7EaXL1xZuBs3GtSxYwOfxvxmcFJNmgn0BCv
+ gtnw8oXevDgTvot9BiGhId8fJhMu/TPDgvJp2b6kWfOIpHVjmvghIN0kghI/B2O80Sra
+ QoWqSg+0EWaJw+MO/wdhsq0XSpLx/SJUkIo5Zo8ciu0LWouOWHC6FwzRhdA88upSSRfH
+ DoyUCYfrO/0MHA5lRAt2FjHRop3kAtj8CTV6ES7OW0D1WQjO7xb1g0MSZfiCnzzMFdU+
+ xOWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BQiyIslLq3E90bdrVOTzKhGW/chrmrz2mLNk3C0Pxu4=;
+ b=rxWXnfbQCaPafob+EfJtJ60RdUw6lNyk5DSKAwfgOU6M174MF1lvD2OdLxuSCFzjF5
+ ujZnndOrzUfGM/ONd1RiBsUYfLa+Ii5sMU/6eLT/g6EpNJJIKqM4QykTpN+c9HCPJ8ma
+ PwJ0BQy8eOmVJOxWaz6Uj6xnl4Jr0MMFuPox2EGtMV67y5X+kAEml7WFnp8oerGHv/Xk
+ Ko9HQdH74Xw81LRF9HywrFTF5C53ptnjFfGBUygXj/C7t9+rbBDagkfOPsOTNit1Pfgp
+ WBEFn8lJDqvZYqkn+FvNt7A3SQLCOzClBLQSZvptssIhnbuXksRiGmKfD3ieDVWhQng4
+ RbCQ==
+X-Gm-Message-State: AOAM531E5oVb7KRVfm+cu7xWV61vEreuAY0H+JmbJDcItpBZZH3n5SE6
+ 415GE4+nmlFGvySdo3jOezzCEYPMgyK7K+nOk6WoCA==
+X-Google-Smtp-Source: ABdhPJy2euMEvP8DRO3S2ip7B4Y8Js66MkFYlsVtLEp4yW4MUpo78SYbUvPSnBCle72LAjw75c6egNIM/d+yT82HqKY=
+X-Received: by 2002:ac2:5d67:0:b0:442:f135:3bcc with SMTP id
+ h7-20020ac25d67000000b00442f1353bccmr3035325lft.452.1648111613442; Thu, 24
+ Mar 2022 01:46:53 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <441d80cf.51b7.17fbb18a23b.Coremail.leohou163@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: e8GowACHEARELzxiY6MMAA--.16074W
-X-CM-SenderInfo: xohrx0jxrwjqqrwthudrp/1tbiDwTNPlUMcQj02wACs1
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-Received-SPF: pass client-ip=220.181.13.123; envelope-from=leohou163@163.com;
- helo=m13123.mail.163.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20220323111309.9109-1-mchitale@ventanamicro.com>
+ <20220323111309.9109-2-mchitale@ventanamicro.com>
+ <44dd2668-dfb6-d065-b826-ce83d725a11d@iscas.ac.cn>
+In-Reply-To: <44dd2668-dfb6-d065-b826-ce83d725a11d@iscas.ac.cn>
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+Date: Thu, 24 Mar 2022 14:16:16 +0530
+Message-ID: <CAN37VV4Wzi1oTgQxpDLsrJPtAqxWmAYc+4Z3qM88arn3q1HFZQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/4] target/riscv: Add smstateen support
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-lf1-x12f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,79 +86,481 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_76607_634717223.1648111428155
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
+On Wed, Mar 23, 2022 at 6:31 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>
+>
+> =E5=9C=A8 2022/3/23 =E4=B8=8B=E5=8D=887:13, Mayuresh Chitale =E5=86=99=E9=
+=81=93:
+> > Smstateen extension specifies a mechanism to close
+> > the potential covert channels that could cause security issues.
+> >
+> > This patch adds the CSRs defined in the specification and
+> > the corresponding predicates and read/write functions.
+> >
+> > Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> > ---
+> >   target/riscv/cpu.c      |   2 +
+> >   target/riscv/cpu.h      |   4 +
+> >   target/riscv/cpu_bits.h |  36 +++++++
+> >   target/riscv/csr.c      | 210 +++++++++++++++++++++++++++++++++++++++=
++
+> >   target/riscv/machine.c  |  22 ++++-
+> >   5 files changed, 273 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index 8e338daf72..832602d91f 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -807,6 +807,7 @@ static Property riscv_cpu_properties[] =3D {
+> >       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+> >       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+> >       DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
+> > +    DEFINE_PROP_BOOL("smstateen", RISCVCPU, cfg.ext_smstateen, true),
+> >
+> >       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+> >       DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+> > @@ -970,6 +971,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, cha=
+r **isa_str, int max_str_len)
+> >           ISA_EDATA_ENTRY(svinval, ext_svinval),
+> >           ISA_EDATA_ENTRY(svnapot, ext_svnapot),
+> >           ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
+> > +        ISA_EDATA_ENTRY(smstateen, ext_smstateen),
+> >       };
+> >
+> >       for (i =3D 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index ea23666e8e..8e61edca6f 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -338,6 +338,9 @@ struct CPURISCVState {
+> >
+> >       /* CSRs for execution enviornment configuration */
+> >       uint64_t menvcfg;
+> > +    uint64_t mstateen[SMSTATEEN_MAX_COUNT];
+> > +    uint64_t hstateen[SMSTATEEN_MAX_COUNT];
+> > +    uint64_t sstateen[SMSTATEEN_MAX_COUNT];
+> >       target_ulong senvcfg;
+> >       uint64_t henvcfg;
+> >   #endif
+> > @@ -416,6 +419,7 @@ struct RISCVCPUConfig {
+> >       bool ext_zve32f;
+> >       bool ext_zve64f;
+> >       bool ext_sscofpmf;
+> > +    bool ext_smstateen;
+> >
+> >       /* Vendor-specific custom extensions */
+> >       bool ext_XVentanaCondOps;
+> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> > index 7454f4087f..66edb26686 100644
+> > --- a/target/riscv/cpu_bits.h
+> > +++ b/target/riscv/cpu_bits.h
+> > @@ -205,6 +205,12 @@
+> >   /* Supervisor Configuration CSRs */
+> >   #define CSR_SENVCFG         0x10A
+> >
+> > +/* Supervisor state CSRs */
+> > +#define CSR_SSTATEEN0       0x10C
+> > +#define CSR_SSTATEEN1       0x10D
+> > +#define CSR_SSTATEEN2       0x10E
+> > +#define CSR_SSTATEEN3       0x10F
+> > +
+> >   /* Supervisor Trap Handling */
+> >   #define CSR_SSCRATCH        0x140
+> >   #define CSR_SEPC            0x141
+> > @@ -258,6 +264,16 @@
+> >   #define CSR_HENVCFG         0x60A
+> >   #define CSR_HENVCFGH        0x61A
+> >
+> > +/* Hypervisor state CSRs */
+> > +#define CSR_HSTATEEN0       0x60C
+> > +#define CSR_HSTATEEN0H      0x61C
+> > +#define CSR_HSTATEEN1       0x60D
+> > +#define CSR_HSTATEEN1H      0x61D
+> > +#define CSR_HSTATEEN2       0x60E
+> > +#define CSR_HSTATEEN2H      0x61E
+> > +#define CSR_HSTATEEN3       0x60F
+> > +#define CSR_HSTATEEN3H      0x61F
+> > +
+> >   /* Virtual CSRs */
+> >   #define CSR_VSSTATUS        0x200
+> >   #define CSR_VSIE            0x204
+> > @@ -309,6 +325,26 @@
+> >   #define CSR_MENVCFG         0x30A
+> >   #define CSR_MENVCFGH        0x31A
+> >
+> > +/* Machine state CSRs */
+> > +#define CSR_MSTATEEN0       0x30C
+> > +#define CSR_MSTATEEN0H      0x31C
+> > +#define CSR_MSTATEEN1       0x30D
+> > +#define CSR_MSTATEEN1H      0x31D
+> > +#define CSR_MSTATEEN2       0x30E
+> > +#define CSR_MSTATEEN2H      0x31E
+> > +#define CSR_MSTATEEN3       0x30F
+> > +#define CSR_MSTATEEN3H      0x31F
+> > +
+> > +/* Common defines for all smstateen */
+> > +#define SMSTATEEN_MAX_COUNT 4
+> > +#define SMSTATEEN0_CS       0
+> > +#define SMSTATEEN0_FCSR     0
+> > +#define SMSTATEEN0_IMSIC    58
+> > +#define SMSTATEEN0_AIA      59
+> > +#define SMSTATEEN0_SVSLCT   60
+> > +#define SMSTATEEN0_HSENVCFG 62
+> > +#define SMSTATEEN_STATEN    63
+> > +
+> >   /* Enhanced Physical Memory Protection (ePMP) */
+> >   #define CSR_MSECCFG         0x747
+> >   #define CSR_MSECCFGH        0x757
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index d3d16d71de..215c8ecef1 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -265,6 +265,42 @@ static RISCVException hmode32(CPURISCVState *env, =
+int csrno)
+> >
+> >   }
+> >
+> > +static RISCVException mstateen(CPURISCVState *env, int csrno)
+> > +{
+> > +    CPUState *cs =3D env_cpu(env);
+> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
+> > +
+> > +    if (!cpu->cfg.ext_smstateen) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+> > +    return any(env, csrno);
+> > +}
+> > +
+> > +static RISCVException hstateen(CPURISCVState *env, int csrno)
+> > +{
+> > +    CPUState *cs =3D env_cpu(env);
+> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
+> > +
+> > +    if (!cpu->cfg.ext_smstateen) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+> > +    return hmode(env, csrno);
+> > +}
+> > +
+> > +static RISCVException sstateen(CPURISCVState *env, int csrno)
+> > +{
+> > +    CPUState *cs =3D env_cpu(env);
+> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
+> > +
+> > +    if (!cpu->cfg.ext_smstateen) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+> > +    return smode(env, csrno);
+> > +}
+> > +
+> >   /* Checks if PointerMasking registers could be accessed */
+> >   static RISCVException pointer_masking(CPURISCVState *env, int csrno)
+> >   {
+> > @@ -1882,6 +1918,129 @@ static RISCVException write_henvcfgh(CPURISCVSt=
+ate *env, int csrno,
+> >       return RISCV_EXCP_NONE;
+> >   }
+> >
+> > +static inline void write_smstateen(CPURISCVState *env, uint64_t *reg,
+> > +        uint64_t wr_mask, uint64_t new_val)
+>
+> It's better that 'uint64_t' is aligned with 'CPURISCVState' here.  The
+> same to following similar cases.
 
-QXQgMjAyMi0wMy0yNCAxMjoyNzo0NiwgIkphc29uIFdhbmciIDxqYXNvd2FuZ0ByZWRoYXQuY29t
-PiB3cm90ZToKPk9uIFRodSwgTWFyIDI0LCAyMDIyIGF0IDEyOjE1IFBNIGxlb2hvdSA8bGVvaG91
-MTYzQDE2My5jb20+IHdyb3RlOgo+Pgo+PiBoaSBhbGwsCj4+IFdoZW4gSSB1c2UgRFBESyBpbiBn
-dWVzdE9TICBhbmQgIGNvbmZpZ2VyaW5nIHRoZSBWTSB3aXRoIHZJT01NVSwgSSBmb3VuZCB0aGF0
-ICBzZW5kaW5nIHRoZSBnVkEgdG8gdGhlIGhhcmR3YXJlIGRldmljZSAsIHRoZSBoYXJkd2FyZSBk
-ZXZpY2UgY2FuJ3QgIGZpbmQgdGhlIHJlYWwgZGF0YS4KPj4gQnV0IHNlbmRpbmcgdGhlIGdQQSB0
-byB0aGUgaGFyZHdhcmUgZGV2aWNlLCB0aGUgaGFyZHdhcmUgZGV2aWNlIGNhbiAgZmluZCB0aGUg
-cmVhbCBkYXRhLgo+Pgo+PiBFbnZpcm9ubWVudDoKPj4gT1M6IExpbnV4IHZlcnNpb24gNS40LjAt
-MTA0LWdlbmVyaWMgKGJ1aWxkZEB1YnVudHUpIChnY2MgdmVyc2lvbiA5LjMuMCAoVWJ1bnR1IDku
-My4wLTE3dWJ1bnR1MX4yMC4wNCkpICMxMTgtVWJ1bnR1IFNNUCBXZWQgTWFyIDIgMTk6MDI6NDEg
-VVRDIDIwMjIKPj4gUUVNVTogUUVNVSBlbXVsYXRvciB2ZXJzaW9uIDQuMi4xIChEZWJpYW4gMTo0
-LjItM3VidW50dTYuMjEpCj4+IERldmljZTogdmlydGlvLW5ldAo+Pgo+PiBRdWVzdGlvbjoKPj4g
-VGhlIHZJT01NVSBkb2Vzbid0IHdvcms/Cj4+IEkga25vdyB2aXJ0aW8tbmV0IGRvZXMgbm90IGhh
-dmUgRE1BLCBzbyB3aGVuIHZpcnRpby1uZXQgYW5kIERQREsgYXJlIGNvbWJpbmVkLCBJT01NVSBp
-cyBub3QgbmVlZGVkPwo+Cj52SU9NTVUgKyB2aXJ0aW8tbmV0IHdvcmtzIGZvciBtZSBsaWtlIGEg
-Y2hhcm0uCj4KPkRQREsgc3VwcG9ydGVkIHZJT01NVSBsb25nIGFnbyB3aXRoIHZpcnRpby1uZXQu
-Cj4KPk1ha2Ugc3VyZSB5b3UgdklPTU1VIGlzIGVuYWJsZWQgaW4gdGhlIGd1ZXN0IChpbnRlbF9p
-b21tdT1vbiBpbiBndWVzdAo+a2VybmVsIGNvbW1hbmQgbGluZSwgYW5kIGVuYWJsZV91bnNhZmVf
-bm9pb21tdV9tb2RlIGlzICpub3QqIDEpCj4KPlRoYW5rcwo+Cj4+Cj4+Cj4+Cgo+CmhpLCBqYXNv
-bgpJJ20gc3VyZSBteSB2SU9NTVUgaXMgZW5hYmxlZCBpbiB0aGUgZ3Vlc3RPUyhpbnRlbF9pb21t
-dT1vbiBpbiBndWVzdCAga2VybmVsIGNvbW1hbmQgbGluZSwgYW5kIGVuYWJsZV91bnNhZmVfbm9p
-b21tdV9tb2RlIGlzICIwIiksCmJ1dCBpdCBvbmx5IHdvcmsgd2hlbiBJIGNvbmZpZyB0aGUgRFBE
-SyBpbiBwYXNzaW5nIHBoeXNpY2FsIGFkZHJlc3NlcyBtb2RlbC4KU28sIEkgdGhpbmsgcUVNVSBl
-bXVsYXRpb24gb2YgVmlydGlvLW5ldCBoYXMgbm8gRE1BLCBzbyB2aXJ0IHF1ZXVlIHJlZ2lzdGVy
-IGluIFBDSWUgc3BhY2Ugb2YgVmlydGlvLU5FVCBjYW4gb25seSBjb25maWd1cmUgdGhlIHBoeXNp
-Y2FsIGFkZHJlc3Mgb2YgdmlydCBxdWV1ZS4KCgpDYW4gSSB0YWtlIGl0IHRoaXMgd2F5PwoKClRo
-YW5rcyEK
-------=_Part_76607_634717223.1648111428155
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
-
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPkF0IDIwMjItMDMtMjQgMTI6Mjc6NDYsICJKYXNvbiBXYW5nIiAm
-bHQ7amFzb3dhbmdAcmVkaGF0LmNvbSZndDsgd3JvdGU6CjxwcmU+Jmd0O09uIFRodSwgTWFyIDI0
-LCAyMDIyIGF0IDEyOjE1IFBNIGxlb2hvdSAmbHQ7bGVvaG91MTYzQDE2My5jb20mZ3Q7IHdyb3Rl
-OgomZ3Q7Jmd0OwomZ3Q7Jmd0OyBoaSBhbGwsCiZndDsmZ3Q7IFdoZW4gSSB1c2UgRFBESyBpbiBn
-dWVzdE9TICBhbmQgIGNvbmZpZ2VyaW5nIHRoZSBWTSB3aXRoIHZJT01NVSwgSSBmb3VuZCB0aGF0
-ICBzZW5kaW5nIHRoZSBnVkEgdG8gdGhlIGhhcmR3YXJlIGRldmljZSAsIHRoZSBoYXJkd2FyZSBk
-ZXZpY2UgY2FuJ3QgIGZpbmQgdGhlIHJlYWwgZGF0YS4KJmd0OyZndDsgQnV0IHNlbmRpbmcgdGhl
-IGdQQSB0byB0aGUgaGFyZHdhcmUgZGV2aWNlLCB0aGUgaGFyZHdhcmUgZGV2aWNlIGNhbiAgZmlu
-ZCB0aGUgcmVhbCBkYXRhLgomZ3Q7Jmd0OwomZ3Q7Jmd0OyBFbnZpcm9ubWVudDoKJmd0OyZndDsg
-T1M6IExpbnV4IHZlcnNpb24gNS40LjAtMTA0LWdlbmVyaWMgKGJ1aWxkZEB1YnVudHUpIChnY2Mg
-dmVyc2lvbiA5LjMuMCAoVWJ1bnR1IDkuMy4wLTE3dWJ1bnR1MX4yMC4wNCkpICMxMTgtVWJ1bnR1
-IFNNUCBXZWQgTWFyIDIgMTk6MDI6NDEgVVRDIDIwMjIKJmd0OyZndDsgUUVNVTogUUVNVSBlbXVs
-YXRvciB2ZXJzaW9uIDQuMi4xIChEZWJpYW4gMTo0LjItM3VidW50dTYuMjEpCiZndDsmZ3Q7IERl
-dmljZTogdmlydGlvLW5ldAomZ3Q7Jmd0OwomZ3Q7Jmd0OyBRdWVzdGlvbjoKJmd0OyZndDsgVGhl
-IHZJT01NVSBkb2Vzbid0IHdvcms/CiZndDsmZ3Q7IEkga25vdyB2aXJ0aW8tbmV0IGRvZXMgbm90
-IGhhdmUgRE1BLCBzbyB3aGVuIHZpcnRpby1uZXQgYW5kIERQREsgYXJlIGNvbWJpbmVkLCBJT01N
-VSBpcyBub3QgbmVlZGVkPwomZ3Q7CiZndDt2SU9NTVUgKyB2aXJ0aW8tbmV0IHdvcmtzIGZvciBt
-ZSBsaWtlIGEgY2hhcm0uCiZndDsKJmd0O0RQREsgc3VwcG9ydGVkIHZJT01NVSBsb25nIGFnbyB3
-aXRoIHZpcnRpby1uZXQuCiZndDsKJmd0O01ha2Ugc3VyZSB5b3UgdklPTU1VIGlzIGVuYWJsZWQg
-aW4gdGhlIGd1ZXN0IChpbnRlbF9pb21tdT1vbiBpbiBndWVzdAomZ3Q7a2VybmVsIGNvbW1hbmQg
-bGluZSwgYW5kIGVuYWJsZV91bnNhZmVfbm9pb21tdV9tb2RlIGlzICpub3QqIDEpCiZndDsKJmd0
-O1RoYW5rcwomZ3Q7CiZndDsmZ3Q7CiZndDsmZ3Q7CiZndDsmZ3Q7CjwvcHJlPjxkaXY+Jmd0Ozwv
-ZGl2PjxkaXY+aGksIGphc29uPC9kaXY+PGRpdj5JJ20gc3VyZSBteSB2SU9NTVUgaXMgZW5hYmxl
-ZCBpbiB0aGUgZ3Vlc3RPUyhpbnRlbF9pb21tdT1vbiBpbiBndWVzdCZuYnNwOyBrZXJuZWwgY29t
-bWFuZCBsaW5lLCBhbmQgZW5hYmxlX3Vuc2FmZV9ub2lvbW11X21vZGUgaXMgIjAiKSw8L2Rpdj48
-ZGl2PmJ1dCBpdCBvbmx5IHdvcmsgd2hlbiBJIGNvbmZpZyB0aGUgRFBESyBpbiBwYXNzaW5nIHBo
-eXNpY2FsIGFkZHJlc3NlcyBtb2RlbC48L2Rpdj48ZGl2PlNvLCBJIHRoaW5rIHFFTVUgZW11bGF0
-aW9uIG9mIFZpcnRpby1uZXQgaGFzIG5vIERNQSwgc28gdmlydCBxdWV1ZSByZWdpc3RlciBpbiBQ
-Q0llIHNwYWNlIG9mIFZpcnRpby1ORVQgY2FuIG9ubHkgY29uZmlndXJlIHRoZSBwaHlzaWNhbCBh
-ZGRyZXNzIG9mIHZpcnQgcXVldWUuPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5DYW4gSSB0YWtl
-IGl0IHRoaXMgd2F5PzwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+VGhhbmtzITxicj4KPC9kaXY+
-PC9kaXY+PGJyPjxicj48c3BhbiB0aXRsZT0ibmV0ZWFzZWZvb3RlciI+PHA+Jm5ic3A7PC9wPjwv
-c3Bhbj4=
-------=_Part_76607_634717223.1648111428155--
-
+Ok. Will fix it in the next version.
+>
+> > +{
+> > +    *reg =3D (*reg & ~wr_mask) | (new_val & wr_mask);
+> > +}
+> > +
+> > +static RISCVException read_mstateen(CPURISCVState *env, int csrno,
+> > +                                 target_ulong *val)
+> > +{
+> > +    *val =3D env->mstateen[csrno - CSR_MSTATEEN0];
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException write_mstateen(CPURISCVState *env, int csrno,
+> > +                                  target_ulong new_val)
+> > +{
+> > +    uint64_t *reg;
+> > +    uint64_t wr_mask =3D 1UL << SMSTATEEN_STATEN;
+> > +
+> > +    reg =3D &env->mstateen[csrno - CSR_MSTATEEN0];
+> > +    write_smstateen(env, reg, wr_mask, new_val);
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException read_mstateenh(CPURISCVState *env, int csrno,
+> > +                                 target_ulong *val)
+> > +{
+> > +    *val =3D env->mstateen[csrno - CSR_MSTATEEN0H - 0x10] >> 32;
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+>
+> Why minus 0x10 here?
+>
+> when read CSR_MSTATEEN0H, the csrno should be CSR_MSTATEEN0H, and the
+> expected result is  mstateen[0] >> 32.
+>
+> So, minus 0x10 seems unnecessary.
+>
+> The same to following similar cases.
+Correct. I will fix in the next version.
+>
+> > +
+> > +static RISCVException write_mstateenh(CPURISCVState *env, int csrno,
+> > +                                  target_ulong new_val)
+> > +{
+> > +    uint64_t *reg;
+> > +    uint64_t val;
+> > +    uint64_t wr_mask =3D 1UL << SMSTATEEN_STATEN;
+> > +
+> > +    reg =3D &env->mstateen[csrno - CSR_MSTATEEN0H - 0x10];
+> > +    val =3D (uint64_t)new_val << 32;
+> > +    val |=3D *reg & 0xFFFFFFFF;
+> > +    write_smstateen(env, reg, wr_mask, val);
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException read_hstateen(CPURISCVState *env, int csrno,
+> > +                                 target_ulong *val)
+> > +{
+> > +    *val =3D env->hstateen[csrno - CSR_HSTATEEN0];
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException write_hstateen(CPURISCVState *env, int csrno,
+> > +                                  target_ulong new_val)
+> > +{
+> > +    uint64_t *reg;
+> > +    uint64_t wr_mask =3D 1UL << SMSTATEEN_STATEN;
+> > +    int index =3D csrno - CSR_HSTATEEN0;
+> > +
+> > +    reg =3D &env->hstateen[index];
+> > +    wr_mask &=3D env->mstateen[index];
+> > +    write_smstateen(env, reg, wr_mask, new_val);
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException read_hstateenh(CPURISCVState *env, int csrno,
+> > +                                 target_ulong *val)
+> > +{
+> > +    *val =3D env->hstateen[csrno - CSR_HSTATEEN0H - 0x10] >> 32;
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException write_hstateenh(CPURISCVState *env, int csrno,
+> > +                                  target_ulong new_val)
+> > +{
+> > +    uint64_t *reg;
+> > +    uint64_t val;
+> > +    uint64_t wr_mask =3D 1UL << SMSTATEEN_STATEN;
+> > +    int index =3D csrno - CSR_HSTATEEN0H - 0x10;
+> > +
+> > +    reg =3D &env->hstateen[index];
+> > +    val =3D (uint64_t)new_val << 32;
+> > +    val |=3D *reg & 0xFFFFFFFF;
+> > +    wr_mask &=3D env->mstateen[index];
+> > +
+> > +    write_smstateen(env, reg, wr_mask, val);
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException read_sstateen(CPURISCVState *env, int csrno,
+> > +                                 target_ulong *val)
+> > +{
+> > +    *val =3D env->sstateen[csrno - CSR_SSTATEEN0];
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException write_sstateen(CPURISCVState *env, int csrno,
+> > +                                  target_ulong new_val)
+> > +{
+> > +    uint64_t *reg;
+> > +    uint64_t wr_mask =3D 0;
+> > +    int index =3D csrno - CSR_SSTATEEN0;
+> > +    bool virt =3D riscv_cpu_virt_enabled(env);
+> > +
+> > +    reg =3D &env->sstateen[index];
+> > +    if (virt) {
+> > +        wr_mask &=3D env->mstateen[index];
+> > +    } else {
+> > +        wr_mask &=3D env->hstateen[index];
+> > +    }
+> > +    write_smstateen(env, reg, wr_mask, new_val);
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> >   static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
+> >                                   uint64_t *ret_val,
+> >                                   uint64_t new_val, uint64_t wr_mask)
+> > @@ -3664,6 +3823,57 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D=
+ {
+> >       [CSR_HENVCFGH] =3D { "henvcfgh", hmode32, read_henvcfgh, write_he=
+nvcfgh,
+> >                                             .min_priv_ver =3D PRIV_VERS=
+ION_1_12_0 },
+> >
+> > +    /* Smstateen extension CSRs */
+> > +    [CSR_MSTATEEN0] =3D { "mstateen0", mstateen, read_mstateen, write_=
+mstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_MSTATEEN0H] =3D { "mstateen0h", mstateen, read_mstateenh,
+> > +                                          write_mstateenh,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+>
+> It' better to aligned with CSR_MSTATEEN0 here.
+>
+> Regards,
+>
+> Weiwei Li
+>
+> > +    [CSR_MSTATEEN1] =3D { "mstateen1", mstateen, read_mstateen, write_=
+mstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_MSTATEEN1H] =3D { "mstateen1h", mstateen, read_mstateenh,
+> > +                                          write_mstateenh,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_MSTATEEN2] =3D { "mstateen2", mstateen, read_mstateen, write_=
+mstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_MSTATEEN2H] =3D { "mstateen2h", mstateen, read_mstateenh,
+> > +                                          write_mstateenh,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_MSTATEEN3] =3D { "mstateen3", mstateen, read_mstateen, write_=
+mstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_MSTATEEN3H] =3D { "mstateen3h", mstateen, read_mstateenh,
+> > +                                          write_mstateenh,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +
+> > +    [CSR_HSTATEEN0] =3D { "hstateen0", hstateen, read_hstateen, write_=
+hstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_HSTATEEN0H] =3D { "hstateen0h", hstateen, read_hstateenh,
+> > +                                          write_hstateenh,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_HSTATEEN1] =3D { "hstateen1", hstateen, read_hstateen, write_=
+hstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_HSTATEEN1H] =3D { "hstateen1h", hstateen, read_hstateenh,
+> > +                                          write_hstateenh,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_HSTATEEN2] =3D { "hstateen2", hstateen, read_hstateen, write_=
+hstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_HSTATEEN2H] =3D { "hstateen2h", hstateen, read_hstateenh,
+> > +                                          write_hstateenh,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_HSTATEEN3] =3D { "hstateen3", hstateen, read_hstateen, write_=
+hstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_HSTATEEN3H] =3D { "hstateen3h", hstateen, read_hstateenh,
+> > +                                          write_hstateenh,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +
+> > +    [CSR_SSTATEEN0] =3D { "sstateen0", sstateen, read_sstateen, write_=
+sstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_SSTATEEN1] =3D { "sstateen1", sstateen, read_sstateen, write_=
+sstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_SSTATEEN2] =3D { "sstateen2", sstateen, read_sstateen, write_=
+sstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> > +    [CSR_SSTATEEN3] =3D { "sstateen3", sstateen, read_sstateen, write_=
+sstateen,
+> > +                                          .min_priv_ver =3D PRIV_VERSI=
+ON_1_12_0 },
+> >       /* Supervisor Trap Setup */
+> >       [CSR_SSTATUS]    =3D { "sstatus",    smode, read_sstatus,    writ=
+e_sstatus, NULL,
+> >                                                 read_sstatus_i128      =
+           },
+> > diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> > index aa968dc29c..e376f82ca0 100644
+> > --- a/target/riscv/machine.c
+> > +++ b/target/riscv/machine.c
+> > @@ -232,6 +232,26 @@ static int riscv_cpu_post_load(void *opaque, int v=
+ersion_id)
+> >       return 0;
+> >   }
+> >
+> > +static bool smstateen_needed(void *opaque)
+> > +{
+> > +    RISCVCPU *cpu =3D opaque;
+> > +
+> > +    return cpu->cfg.ext_smstateen;
+> > +}
+> > +
+> > +static const VMStateDescription vmstate_smstateen =3D {
+> > +    .name =3D "cpu/smtateen",
+> > +    .version_id =3D 1,
+> > +    .minimum_version_id =3D 1,
+> > +    .needed =3D smstateen_needed,
+> > +    .fields =3D (VMStateField[]) {
+> > +        VMSTATE_UINT64_ARRAY(env.mstateen, RISCVCPU, 4),
+> > +        VMSTATE_UINT64_ARRAY(env.hstateen, RISCVCPU, 4),
+> > +        VMSTATE_UINT64_ARRAY(env.sstateen, RISCVCPU, 4),
+> > +        VMSTATE_END_OF_LIST()
+> > +    }
+> > +};
+> > +
+> >   static bool envcfg_needed(void *opaque)
+> >   {
+> >       RISCVCPU *cpu =3D opaque;
+> > @@ -331,7 +351,6 @@ const VMStateDescription vmstate_riscv_cpu =3D {
+> >           VMSTATE_UINT64(env.mtohost, RISCVCPU),
+> >           VMSTATE_UINT64(env.mtimecmp, RISCVCPU),
+> >           VMSTATE_UINT64(env.stimecmp, RISCVCPU),
+> > -
+> >           VMSTATE_END_OF_LIST()
+> >       },
+> >       .subsections =3D (const VMStateDescription * []) {
+> > @@ -342,6 +361,7 @@ const VMStateDescription vmstate_riscv_cpu =3D {
+> >           &vmstate_rv128,
+> >           &vmstate_kvmtimer,
+> >           &vmstate_envcfg,
+> > +        &vmstate_smstateen,
+> >           NULL
+> >       }
+> >   };
+>
 
