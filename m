@@ -2,49 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92C84E6177
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 11:06:09 +0100 (CET)
-Received: from localhost ([::1]:44462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8B64E6183
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 11:08:44 +0100 (CET)
+Received: from localhost ([::1]:48922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXKM2-0002xt-IC
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 06:06:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51498)
+	id 1nXKOZ-0006cJ-In
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 06:08:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dylan@andestech.com>)
- id 1nXKH5-0001d7-G3
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 06:00:59 -0400
-Received: from exmail.andestech.com ([60.248.187.195]:29901
- helo=Atcsqr.andestech.com)
+ (Exim 4.90_1) (envelope-from <troy_lee@aspeedtech.com>)
+ id 1nXKLa-0004Ks-Gb; Thu, 24 Mar 2022 06:05:39 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:2433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dylan@andestech.com>)
- id 1nXKGy-0003sN-5s
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 06:00:58 -0400
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
- by Atcsqr.andestech.com with ESMTP id 22OA0chc053247;
- Thu, 24 Mar 2022 18:00:38 +0800 (+08)
- (envelope-from dylan@andestech.com)
-Received: from atcsi01 (10.0.15.167) by ATCPCS16.andestech.com (10.0.1.222)
- with Microsoft SMTP Server id 14.3.498.0; Thu, 24 Mar 2022 18:00:34 +0800
-Date: Thu, 24 Mar 2022 18:00:34 +0800
-From: Dylan Jhong <dylan@andestech.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/char/serial: Support serial_mm_init() with wakeup
- event.
-Message-ID: <YjxBQqnpAbeX/h0Y@atcsi01>
-References: <20220323091637.5609-1-dylan@andestech.com>
- <CAFEAcA-iYmzGg4aqW6qPhiGhbWtp+kY06pGsPHgDiOyyn6YpUQ@mail.gmail.com>
- <YjwUXU0+0xSCjfpN@atcsi01>
+ (Exim 4.90_1) (envelope-from <troy_lee@aspeedtech.com>)
+ id 1nXKLW-0004gh-Rc; Thu, 24 Mar 2022 06:05:38 -0400
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 22O9s6XU008967;
+ Thu, 24 Mar 2022 17:54:06 +0800 (GMT-8)
+ (envelope-from troy_lee@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 24 Mar
+ 2022 18:04:40 +0800
+From: Troy Lee <troy_lee@aspeedtech.com>
+To: <leetroy@gmail.com>
+Subject: [PATCH v1 1/2] aspeed/i2c: Add new register mode for ast2600/1030
+Date: Thu, 24 Mar 2022 18:04:38 +0800
+Message-ID: <20220324100439.478317-2-troy_lee@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220324100439.478317-1-troy_lee@aspeedtech.com>
+References: <20220324100439.478317-1-troy_lee@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <YjwUXU0+0xSCjfpN@atcsi01>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Originating-IP: [10.0.15.167]
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: Atcsqr.andestech.com 22OA0chc053247
-Received-SPF: pass client-ip=60.248.187.195; envelope-from=dylan@andestech.com;
- helo=Atcsqr.andestech.com
+X-MAIL: twspam01.aspeedtech.com 22O9s6XU008967
+Received-SPF: pass client-ip=211.20.114.71;
+ envelope-from=troy_lee@aspeedtech.com; helo=twspam01.aspeedtech.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -62,49 +59,692 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mst@redhat.com" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Jamin Lin <jamin_lin@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Steven Lee <steven_lee@aspeedtech.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 23, 2022 at 05:37:10PM +0800, Peter Maydell wrote:
-> On Wed, 23 Mar 2022 at 09:20, Dylan Jhong <dylan@andestech.com> wrote:
-> >
-> > Although the "wakeup" parameter is declared in SerialState,
-> > but there is no function actually setting it up.
-> > Support "wakeup" as parameter in serial_mm_init().
-> 
-> This patch seems to provide a new argument which every
-> caller passes the same value for, unless I missed one
-> somewhere. What's the reason for this change?
-> 
-> thanks
-> -- PMM
+AST2600/1030 provides a new register mode which is controlled by
+I2CG0C[2]. If the I2CG0C[2] = 1, then I2C will switch to a new set of
+register.
 
-Hi PMM,
+This commit supports new register mode with packet operation and DMA
+enabled. Byte/buffer mode is not implemented.
 
-First of all, thank you for your review.
-The purpose of this variable is to allow users to specify their own wakeup reason id.
+Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+---
+ hw/i2c/aspeed_i2c.c         | 490 ++++++++++++++++++++++++++++++++++--
+ hw/i2c/trace-events         |   7 +-
+ include/hw/i2c/aspeed_i2c.h |   8 +
+ 3 files changed, 487 insertions(+), 18 deletions(-)
 
-At present, there are only 4 wakeup reasons provided by QEMU[*1].
-Take uart as an example, which are classified as QEMU_WAKEUP_REASON_OTHER,
-so there is no way to distinguish the source of the wakeup reason when designing a custom power manager device.
+diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+index 03a4f5a910..f571c8bbca 100644
+--- a/hw/i2c/aspeed_i2c.c
++++ b/hw/i2c/aspeed_i2c.c
+@@ -37,6 +37,8 @@
+                                                Assignment */
+ #define I2C_CTRL_GLOBAL         0x0C        /* Global Control Register */
+ #define   I2C_CTRL_SRAM_EN                 BIT(0)
++#define   I2C_CTRL_NEW_REG_MODE            BIT(2)
++#define I2C_NEW_DIV_GLOBAL      0x10
+ 
+ /* I2C Device (Bus) Register */
+ 
+@@ -145,6 +147,102 @@
+ #define I2CD_DMA_ADDR           0x24       /* DMA Buffer Address */
+ #define I2CD_DMA_LEN            0x28       /* DMA Transfer Length < 4KB */
+ 
++/* New register mode */
++#define I2CC_M_S_FUNC_CTRL_REG  0x00
++#define   I2CC_SLAVE_ADDR_RX_EN     BIT(20)
++#define   I2CC_MASTER_RETRY_MASK    (0x3 << 18)
++#define   I2CC_MASTER_RETRY(x)      ((x & 0x3) << 18)
++#define   I2CC_BUS_AUTO_RELEASE     BIT(17)
++#define   I2CC_M_SDA_LOCK_EN        BIT(16)
++#define   I2CC_MULTI_MASTER_DIS     BIT(15)
++#define   I2CC_M_SCL_DRIVE_EN       BIT(14)
++#define   I2CC_MSB_STS              BIT(9)
++#define   I2CC_SDA_DRIVE_1T_EN      BIT(8)
++#define   I2CC_M_SDA_DRIVE_1T_EN    BIT(7)
++#define   I2CC_M_HIGH_SPEED_EN      BIT(6)
++#define   I2CC_SLAVE_EN             BIT(1)
++#define   I2CC_MASTER_EN            BIT(0)
++
++#define I2CC_M_S_CLK_AC_TIMING_REG 0x04
++#define I2CC_M_S_TX_RX_BUF_REG  0x08
++#define I2CC_M_X_POOL_BUF_CTRL_REG 0x0c
++#define I2CM_INT_CTRL_REG     0x10
++#define I2CM_INT_STS_REG      0x14
++#define   I2CM_PKT_OP_SM_SHIFT      28
++#define   I2CM_PKT_OP_SM_IDLE       0x0
++#define   I2CM_PKT_OP_SM_STARTH     0x1
++#define   I2CM_PKT_OP_SM_STARTW     0x2
++#define   I2CM_PKT_OP_SM_STARTR     0x3
++#define   I2CM_PKT_OP_SM_TXMCODE    0x4
++#define   I2CM_PKT_OP_SM_TXAW       0x5
++#define   I2CM_PKT_OP_SM_INIT       0x8
++#define   I2CM_PKT_OP_SM_TXD        0x9
++#define   I2CM_PKT_OP_SM_RXD        0xa
++#define   I2CM_PKT_OP_SM_STOP       0xb
++#define   I2CM_PKT_OP_SM_RETRY      0xc
++#define   I2CM_PKT_OP_SM_FAIL       0xd
++#define   I2CM_PKT_OP_SM_WAIT       0xe
++#define   I2CM_PKT_OP_SM_PASS       0xf
++#define   I2CM_PKT_TIMEOUT          BIT(18)
++#define   I2CM_PKT_ERROR            BIT(17)
++#define   I2CM_PKT_DONE             BIT(16)
++#define   I2CM_BUS_RECOVER_FAIL     BIT(15)
++#define   I2CM_SDA_DL_TO            BIT(14)
++#define   I2CM_BUS_RECOVER          BIT(13)
++#define   I2CM_SMBUS_ALT            BIT(12)
++#define   I2CM_SCL_LOW_TO           BIT(6)
++#define   I2CM_ABNORMAL             BIT(5)
++#define   I2CM_NORMAL_STOP          BIT(4)
++#define   I2CM_ARBIT_LOSS           BIT(3)
++#define   I2CM_RX_DONE              BIT(2)
++#define   I2CM_TX_NAK               BIT(1)
++#define   I2CM_TX_ACK               BIT(0)
++#define I2CM_CMD_STS_REG      0x18
++#define   I2CM_CMD_PKT_MODE           (1 << 16)
++
++#define   I2CM_PKT_EN               BIT(16)
++#define   I2CM_SDA_OE_OUT_DIR       BIT(15)
++#define   I2CM_SDA_O_OUT_DIR        BIT(14)
++#define   I2CM_SCL_OE_OUT_DIR       BIT(13)
++#define   I2CM_SCL_O_OUT_DIR        BIT(12)
++#define   I2CM_RECOVER_CMD_EN       BIT(11)
++#define   I2CM_RX_DMA_EN            BIT(9)
++#define   I2CM_TX_DMA_EN            BIT(8)
++/* Command Bit */
++#define   I2CM_RX_BUFF_EN           BIT(7)
++#define   I2CM_TX_BUFF_EN           BIT(6)
++#define   I2CM_STOP_CMD             BIT(5)
++#define   I2CM_RX_CMD_LAST          BIT(4)
++#define   I2CM_RX_CMD               BIT(3)
++#define   I2CM_TX_CMD               BIT(1)
++#define   I2CM_START_CMD            BIT(0)
++#define   I2CM_PKT_ADDR(x)          ((x & 0x7f) << 24)
++
++#define I2CM_DMA_LEN          0x1c
++#define I2CS_INT_CTRL_REG     0x20
++#define I2CS_INT_STS_REG      0x24
++#define I2CS_CMD_STS_REG      0x28
++#define I2CS_DMA_LEN          0x2c
++#define I2CM_DMA_TX_BUF       0x30
++#define I2CM_DMA_RX_BUF       0x34
++#define I2CS_DMA_TX_BUF       0x38
++#define I2CS_DMA_RX_BUF       0x3c
++#define I2CS_SA_REG           0x40
++#define I2CM_DMA_LEN_STS_REG  0x48
++#define I2CS_DMA_LEN_STS_REG  0x4c
++#define I2CC_DMA_OP_ADDR_REG  0x50
++#define I2CC_DMA_OP_LEN_REG   0x54
++
++static inline bool aspeed_i2c_ctrl_is_new_mode(AspeedI2CState *controller)
++{
++    return (controller->ctrl_global & I2C_CTRL_NEW_REG_MODE) == I2C_CTRL_NEW_REG_MODE;
++}
++
++static inline bool aspeed_i2c_bus_is_new_mode(AspeedI2CBus *bus)
++{
++    return aspeed_i2c_ctrl_is_new_mode(bus->controller);
++}
++
+ static inline bool aspeed_i2c_bus_is_master(AspeedI2CBus *bus)
+ {
+     return bus->ctrl & I2CD_MASTER_EN;
+@@ -155,6 +253,24 @@ static inline bool aspeed_i2c_bus_is_enabled(AspeedI2CBus *bus)
+     return bus->ctrl & (I2CD_MASTER_EN | I2CD_SLAVE_EN);
+ }
+ 
++static inline void aspeed_i2c_bus_raise_interrupt_new(AspeedI2CBus *bus)
++{
++    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
++
++    trace_aspeed_i2c_bus_raise_interrupt_new(bus->intr_status,
++          bus->intr_status & I2CM_TX_NAK ? "nak|" : "",
++          bus->intr_status & I2CM_TX_ACK ? "ack|" : "",
++          bus->intr_status & I2CM_RX_DONE ? "done|" : "",
++          bus->intr_status & I2CM_NORMAL_STOP ? "normal|" : "",
++          bus->intr_status & I2CM_ABNORMAL ? "abnormal|" : "",
++          bus->intr_status & I2CM_PKT_DONE ? "pkt" : "");
++
++    if (bus->intr_status) {
++        bus->controller->intr_status |= 1 << bus->id;
++        qemu_irq_raise(aic->bus_get_irq(bus));
++    }
++}
++
+ static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
+ {
+     AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
+@@ -173,7 +289,68 @@ static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
+     }
+ }
+ 
+-static uint64_t aspeed_i2c_bus_read(void *opaque, hwaddr offset,
++static uint64_t aspeed_i2c_bus_read_new(void *opaque, hwaddr offset,
++                                    unsigned size)
++{
++    AspeedI2CBus *bus = opaque;
++    uint64_t value = -1;
++
++    switch (offset) {
++    case I2CC_M_S_FUNC_CTRL_REG:
++        value = bus->ctrl;
++        break;
++    case I2CC_M_S_CLK_AC_TIMING_REG:
++        value = ((bus->timing[1] & 0x1F) << 24) | (bus->timing[1] & 0xFFFFF);
++        break;
++    case I2CM_INT_CTRL_REG:
++        value = bus->intr_ctrl;
++        break;
++    case I2CM_INT_STS_REG:
++        value = bus->intr_status;
++        break;
++    case I2CM_CMD_STS_REG:
++        value = bus->cmd;
++        break;
++    case I2CM_DMA_LEN:
++        value = bus->dma_len & 0x0fff;
++        break;
++    case I2CM_DMA_TX_BUF: case I2CM_DMA_RX_BUF:
++        value = bus->dma_addr;
++        break;
++    case I2CM_DMA_LEN_STS_REG:
++        value = bus->dma_len_tx | (bus->dma_len_rx << 16);
++        break;
++    case I2CC_M_S_TX_RX_BUF_REG:
++        /*
++         * TODO:
++         * [31:16] RO  Same as I2CD14[31:16]
++         * [15: 0] RW  Same as I2CD20[15: 0]
++         */
++        value = (i2c_bus_busy(bus->bus) << 16);
++        break;
++    case I2CC_M_X_POOL_BUF_CTRL_REG:
++    case I2CS_INT_CTRL_REG:
++    case I2CS_INT_STS_REG:
++    case I2CS_CMD_STS_REG:
++    case I2CS_DMA_LEN:
++    case I2CS_DMA_TX_BUF:
++    case I2CS_DMA_RX_BUF:
++    case I2CS_SA_REG:
++    case I2CS_DMA_LEN_STS_REG:
++    case I2CC_DMA_OP_ADDR_REG:
++    case I2CC_DMA_OP_LEN_REG:
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad offset 0x%" HWADDR_PRIx "\n", __func__, offset);
++        value = -1;
++        break;
++    }
++
++    trace_aspeed_i2c_bus_read_new(bus->id, offset, size, value);
++    return value;
++}
++
++static uint64_t aspeed_i2c_bus_read_old(void *opaque, hwaddr offset,
+                                     unsigned size)
+ {
+     AspeedI2CBus *bus = opaque;
+@@ -227,19 +404,38 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, hwaddr offset,
+         break;
+     }
+ 
+-    trace_aspeed_i2c_bus_read(bus->id, offset, size, value);
++    trace_aspeed_i2c_bus_read_old(bus->id, offset, size, value);
+     return value;
+ }
+ 
++static uint64_t aspeed_i2c_bus_read(void *opaque, hwaddr offset,
++                                    unsigned size)
++{
++    AspeedI2CBus *bus = opaque;
++    if (aspeed_i2c_bus_is_new_mode(bus)) {
++        return aspeed_i2c_bus_read_new(opaque, offset, size);
++    } else {
++        return aspeed_i2c_bus_read_old(opaque, offset, size);
++    }
++}
++
+ static void aspeed_i2c_set_state(AspeedI2CBus *bus, uint8_t state)
+ {
+-    bus->cmd &= ~(I2CD_TX_STATE_MASK << I2CD_TX_STATE_SHIFT);
+-    bus->cmd |= (state & I2CD_TX_STATE_MASK) << I2CD_TX_STATE_SHIFT;
++    if (aspeed_i2c_bus_is_new_mode(bus)) {
++        bus->tx_state_machine = state;
++    } else {
++        bus->cmd &= ~(I2CD_TX_STATE_MASK << I2CD_TX_STATE_SHIFT);
++        bus->cmd |= (state & I2CD_TX_STATE_MASK) << I2CD_TX_STATE_SHIFT;
++    }
+ }
+ 
+ static uint8_t aspeed_i2c_get_state(AspeedI2CBus *bus)
+ {
+-    return (bus->cmd >> I2CD_TX_STATE_SHIFT) & I2CD_TX_STATE_MASK;
++    if (aspeed_i2c_bus_is_new_mode(bus)) {
++        return bus->tx_state_machine;
++    } else {
++        return (bus->cmd >> I2CD_TX_STATE_SHIFT) & I2CD_TX_STATE_MASK;
++    }
+ }
+ 
+ static int aspeed_i2c_dma_read(AspeedI2CBus *bus, uint8_t *data)
+@@ -257,6 +453,27 @@ static int aspeed_i2c_dma_read(AspeedI2CBus *bus, uint8_t *data)
+ 
+     bus->dma_addr++;
+     bus->dma_len--;
++    bus->dma_len_tx++;
++    return 0;
++}
++
++static int aspeed_i2c_dma_write(AspeedI2CBus *bus, uint8_t *data)
++{
++    MemTxResult result;
++    AspeedI2CState *s = bus->controller;
++
++    result = address_space_write(&s->dram_as, bus->dma_addr,
++                                 MEMTXATTRS_UNSPECIFIED, data, 1);
++
++    if (result != MEMTX_OK) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: DRAM read failed @%08x\n",
++                      __func__, bus->dma_addr);
++        return -1;
++    }
++
++    bus->dma_addr++;
++    bus->dma_len--;
++    bus->dma_len_rx++;
+     return 0;
+ }
+ 
+@@ -361,17 +578,29 @@ static uint8_t aspeed_i2c_get_addr(AspeedI2CBus *bus)
+ {
+     AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
+ 
+-    if (bus->cmd & I2CD_TX_BUFF_ENABLE) {
+-        uint8_t *pool_base = aic->bus_pool_base(bus);
++    if (aspeed_i2c_bus_is_new_mode(bus)) {
++        if (bus->cmd & I2CM_CMD_PKT_MODE) {
++            return (bus->cmd & 0x7F000000) >> 23 |
++                   (bus->cmd & I2CM_RX_CMD ? 0x01 : 0x00);
++        } else {
++            /* TODO: Support other mode */
++            qemu_log_mask(LOG_UNIMP, "%s: New register mode with cmd=%08x\n",
++                          __func__, bus->cmd);
++            return 0xFF;
++        }
++    } else {
++        if (bus->cmd & I2CD_TX_BUFF_ENABLE) {
++            uint8_t *pool_base = aic->bus_pool_base(bus);
+ 
+-        return pool_base[0];
+-    } else if (bus->cmd & I2CD_TX_DMA_ENABLE) {
+-        uint8_t data;
++            return pool_base[0];
++        } else if (bus->cmd & I2CD_TX_DMA_ENABLE) {
++            uint8_t data;
+ 
+-        aspeed_i2c_dma_read(bus, &data);
+-        return data;
+-    } else {
+-        return bus->buf;
++            aspeed_i2c_dma_read(bus, &data);
++            return data;
++        } else {
++            return bus->buf;
++        }
+     }
+ }
+ 
+@@ -425,6 +654,106 @@ static void aspeed_i2c_bus_cmd_dump(AspeedI2CBus *bus)
+     trace_aspeed_i2c_bus_cmd(bus->cmd, cmd_flags, count, bus->intr_status);
+ }
+ 
++/*
++ * This cmd handler only process new register set with packet mode
++ */
++static void aspeed_i2c_bus_handle_cmd_new(AspeedI2CBus *bus, uint64_t value)
++{
++    uint32_t cmd_done = 0;
++
++    if (bus->cmd & I2CM_CMD_PKT_MODE) {
++        bus->intr_status |= I2CM_PKT_DONE;
++        bus->dma_len_tx = 0;
++        bus->dma_len_rx = 0;
++    }
++
++    if (bus->cmd & I2CM_START_CMD) {
++        /* Send I2C_START event */
++        uint8_t addr = aspeed_i2c_get_addr(bus);
++        if (aspeed_i2c_get_state(bus) == I2CM_PKT_OP_SM_IDLE) {
++            if (i2c_start_transfer(bus->bus, extract32(addr, 1, 7),
++                                   extract32(addr, 0, 1))) {
++                bus->intr_status |= I2CM_TX_NAK | I2CM_PKT_ERROR;
++            }
++
++            if (addr & 0x01) {
++                aspeed_i2c_set_state(bus, I2CM_PKT_OP_SM_STARTR);
++            } else {
++                aspeed_i2c_set_state(bus, I2CM_PKT_OP_SM_STARTW);
++            }
++        }
++        cmd_done |= I2CM_START_CMD;
++    }
++
++    if (bus->cmd & I2CM_TX_CMD) {
++        /* Send through DMA */
++        if (bus->cmd & I2CM_TX_DMA_EN) {
++            while (bus->dma_len) {
++                uint8_t data;
++                int ret;
++                aspeed_i2c_dma_read(bus, &data);
++                trace_aspeed_i2c_bus_send("DMA", bus->dma_len, bus->dma_len, data);
++                ret = i2c_send(bus->bus, data);
++                if (ret) {
++                    break;
++                }
++            }
++            bus->intr_status |= I2CM_TX_ACK;
++            cmd_done |= I2CM_TX_DMA_EN;
++        } else {
++            /* TODO: Support Byte/Buffer mode */
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: Only support DMA\n",  __func__);
++        }
++        aspeed_i2c_set_state(bus, I2CM_PKT_OP_SM_TXD);
++        cmd_done |= I2CM_TX_CMD;
++    }
++
++    if (bus->cmd & I2CM_RX_CMD) {
++        uint8_t addr = aspeed_i2c_get_addr(bus);
++        if (bus->cmd & I2CM_START_CMD &&
++            aspeed_i2c_get_state(bus) != I2CM_PKT_OP_SM_STARTR) {
++            /* Repeated Start */
++            i2c_start_transfer(bus->bus, extract32(addr, 1, 7), extract32(addr, 0, 1));
++            aspeed_i2c_set_state(bus, I2CM_PKT_OP_SM_STARTR);
++        }
++        if (bus->cmd & I2CM_RX_DMA_EN) {
++            /* Write to DMA */
++            while (bus->dma_len) {
++                uint8_t data;
++                data = i2c_recv(bus->bus);
++                if (aspeed_i2c_dma_write(bus, &data)) {
++                    break;
++                }
++            }
++            cmd_done |= I2CM_RX_DMA_EN;
++        }
++        aspeed_i2c_set_state(bus, I2CM_PKT_OP_SM_RXD);
++        cmd_done |= I2CM_RX_CMD;
++    }
++
++    if (bus->cmd & I2CM_RX_CMD_LAST) {
++        i2c_nack(bus->bus);
++        bus->intr_status |= I2CM_RX_DONE;
++        cmd_done |= I2CM_RX_CMD_LAST;
++    }
++
++    if (bus->cmd & I2CM_STOP_CMD) {
++        aspeed_i2c_set_state(bus, I2CM_PKT_OP_SM_STOP);
++        /* Send I2C_END Event */
++        i2c_end_transfer(bus->bus);
++        aspeed_i2c_set_state(bus, I2CM_PKT_OP_SM_IDLE);
++        bus->intr_status |= I2CM_NORMAL_STOP;
++        cmd_done |= I2CM_STOP_CMD;
++    }
++
++    if (bus->cmd & I2CM_CMD_PKT_MODE) {
++        bus->intr_status |= I2CM_PKT_DONE;
++        cmd_done |= 0x7F000000 | I2CM_CMD_PKT_MODE;
++    }
++
++    bus->cmd &= ~cmd_done;
++}
++
+ /*
+  * The state machine needs some refinement. It is only used to track
+  * invalid STOP commands for the moment.
+@@ -523,14 +852,103 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+     }
+ }
+ 
+-static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
++static void aspeed_i2c_bus_write_new(void *opaque, hwaddr offset,
++                                 uint64_t value, unsigned size)
++{
++    AspeedI2CBus *bus = opaque;
++    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
++    trace_aspeed_i2c_bus_write_new(bus->id, offset, size, value);
++
++    switch (offset) {
++    case I2CC_M_S_FUNC_CTRL_REG:
++        if (value & I2CD_SLAVE_EN) {
++            qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
++                          __func__);
++            break;
++        }
++        bus->ctrl = value & 0x007FFFFF;
++        break;
++    case I2CC_M_S_CLK_AC_TIMING_REG:
++        bus->timing[0] = value & 0x000FFF0F;
++        bus->timing[1] = (value & 0x1F000000) >> 24;
++        break;
++    case I2CC_M_S_TX_RX_BUF_REG:
++        bus->buf = value & 0xFF;
++        break;
++    case I2CM_INT_CTRL_REG:
++        bus->intr_ctrl = value & 0x77FFF;
++        break;
++    case I2CM_INT_STS_REG:
++        if (value & I2CM_PKT_DONE) {
++            bus->intr_status &= ~(0x7E07F);
++        } else {
++            bus->intr_status &= ~(value & 0x7F07F);
++        }
++        if (1 || !(bus->intr_status & 0x7F07F)) {
++            bus->controller->intr_status &= ~(1 << bus->id);
++            qemu_irq_lower(aic->bus_get_irq(bus));
++        }
++        break;
++    case I2CM_CMD_STS_REG:
++        if (!aspeed_i2c_bus_is_enabled(bus)) {
++            break;
++        }
++        if (!aspeed_i2c_bus_is_master(bus)) {
++            qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
++                            __func__);
++            break;
++        }
++        bus->cmd = value;
++        aspeed_i2c_bus_handle_cmd_new(bus, value);
++        aspeed_i2c_bus_raise_interrupt_new(bus);
++        break;
++    case I2CM_DMA_LEN:
++        if (!aic->has_dma) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __func__);
++            break;
++        }
++        /* 0 = 1 byte, 1 = 2 bytes, 4095 = 4096 bytes */
++        if (value & 0x00008000) {
++            bus->dma_len = (value & 0xfff) + 1;
++        } else if (value & 0x80000000) {
++            bus->dma_len = ((value >> 16) & 0xfff) + 1;
++        }
++        break;
++    case I2CM_DMA_TX_BUF: case I2CM_DMA_RX_BUF:
++        if (!aic->has_dma) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __func__);
++            break;
++        }
++        bus->dma_addr = value & 0x7fffffff;
++        break;
++    case I2CM_DMA_LEN_STS_REG:
++        bus->dma_len_tx = 0;
++        bus->dma_len_rx = 0;
++        break;
++    case I2CC_M_X_POOL_BUF_CTRL_REG:
++    case I2CS_INT_CTRL_REG:
++    case I2CS_INT_STS_REG:
++    case I2CS_CMD_STS_REG:
++    case I2CS_DMA_LEN:
++    case I2CS_DMA_TX_BUF:
++    case I2CS_DMA_RX_BUF:
++    case I2CS_SA_REG:
++    case I2CS_DMA_LEN_STS_REG:
++    case I2CC_DMA_OP_ADDR_REG:
++    case I2CC_DMA_OP_LEN_REG:
++    default:
++        break;
++    }
++}
++
++static void aspeed_i2c_bus_write_old(void *opaque, hwaddr offset,
+                                  uint64_t value, unsigned size)
+ {
+     AspeedI2CBus *bus = opaque;
+     AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
+     bool handle_rx;
+ 
+-    trace_aspeed_i2c_bus_write(bus->id, offset, size, value);
++    trace_aspeed_i2c_bus_write_old(bus->id, offset, size, value);
+ 
+     switch (offset) {
+     case I2CD_FUN_CTRL_REG:
+@@ -622,6 +1040,17 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
+     }
+ }
+ 
++static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
++                                 uint64_t value, unsigned size)
++{
++    AspeedI2CBus *bus = opaque;
++    if (aspeed_i2c_bus_is_new_mode(bus)) {
++        return aspeed_i2c_bus_write_new(opaque, offset, value, size);
++    } else {
++        return aspeed_i2c_bus_write_old(opaque, offset, value, size);
++    }
++}
++
+ static uint64_t aspeed_i2c_ctrl_read(void *opaque, hwaddr offset,
+                                    unsigned size)
+ {
+@@ -632,6 +1061,8 @@ static uint64_t aspeed_i2c_ctrl_read(void *opaque, hwaddr offset,
+         return s->intr_status;
+     case I2C_CTRL_GLOBAL:
+         return s->ctrl_global;
++    case I2C_NEW_DIV_GLOBAL:
++        return s->new_divider;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
+                       __func__, offset);
+@@ -650,6 +1081,9 @@ static void aspeed_i2c_ctrl_write(void *opaque, hwaddr offset,
+     case I2C_CTRL_GLOBAL:
+         s->ctrl_global = value;
+         break;
++    case I2C_NEW_DIV_GLOBAL:
++        s->new_divider = value;
++        break;
+     case I2C_CTRL_STATUS:
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
+@@ -1013,6 +1447,29 @@ static const TypeInfo aspeed_2600_i2c_info = {
+     .class_init = aspeed_2600_i2c_class_init,
+ };
+ 
++static void aspeed_1030_i2c_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedI2CClass *aic = ASPEED_I2C_CLASS(klass);
++
++    dc->desc = "ASPEED 1030 I2C Controller";
++
++    aic->num_busses = 14;
++    aic->reg_size = 0x80;
++    aic->gap = -1; /* no gap */
++    aic->bus_get_irq = aspeed_2600_i2c_bus_get_irq;
++    aic->pool_size = 0x200;
++    aic->pool_base = 0xC00;
++    aic->bus_pool_base = aspeed_2600_i2c_bus_pool_base;
++    aic->has_dma = true;
++}
++
++static const TypeInfo aspeed_1030_i2c_info = {
++    .name = TYPE_ASPEED_1030_I2C,
++    .parent = TYPE_ASPEED_I2C,
++    .class_init = aspeed_1030_i2c_class_init,
++};
++
+ static void aspeed_i2c_register_types(void)
+ {
+     type_register_static(&aspeed_i2c_bus_info);
+@@ -1020,6 +1477,7 @@ static void aspeed_i2c_register_types(void)
+     type_register_static(&aspeed_2400_i2c_info);
+     type_register_static(&aspeed_2500_i2c_info);
+     type_register_static(&aspeed_2600_i2c_info);
++    type_register_static(&aspeed_1030_i2c_info);
+ }
+ 
+ type_init(aspeed_i2c_register_types)
+diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
+index 7d8907c1ee..eec3568082 100644
+--- a/hw/i2c/trace-events
++++ b/hw/i2c/trace-events
+@@ -10,8 +10,11 @@ i2c_recv(uint8_t address, uint8_t data) "recv(addr:0x%02x) data:0x%02x"
+ 
+ aspeed_i2c_bus_cmd(uint32_t cmd, const char *cmd_flags, uint32_t count, uint32_t intr_status) "handling cmd=0x%x %s count=%d intr=0x%x"
+ aspeed_i2c_bus_raise_interrupt(uint32_t intr_status, const char *str1, const char *str2, const char *str3, const char *str4, const char *str5) "handled intr=0x%x %s%s%s%s%s"
+-aspeed_i2c_bus_read(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
+-aspeed_i2c_bus_write(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
++aspeed_i2c_bus_raise_interrupt_new(uint32_t intr_status, const char *str1, const char *str2, const char *str3, const char *str4, const char *str5, const char *str6) "handled intr=0x%x %s%s%s%s%s%s"
++aspeed_i2c_bus_read_old(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
++aspeed_i2c_bus_read_new(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
++aspeed_i2c_bus_write_old(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
++aspeed_i2c_bus_write_new(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
+ aspeed_i2c_bus_send(const char *mode, int i, int count, uint8_t byte) "%s send %d/%d 0x%02x"
+ aspeed_i2c_bus_recv(const char *mode, int i, int count, uint8_t byte) "%s recv %d/%d 0x%02x"
+ 
+diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+index 4b9be09274..bcd15850d0 100644
+--- a/include/hw/i2c/aspeed_i2c.h
++++ b/include/hw/i2c/aspeed_i2c.h
+@@ -29,6 +29,7 @@
+ #define TYPE_ASPEED_2400_I2C TYPE_ASPEED_I2C "-ast2400"
+ #define TYPE_ASPEED_2500_I2C TYPE_ASPEED_I2C "-ast2500"
+ #define TYPE_ASPEED_2600_I2C TYPE_ASPEED_I2C "-ast2600"
++#define TYPE_ASPEED_1030_I2C TYPE_ASPEED_I2C "-ast1030"
+ OBJECT_DECLARE_TYPE(AspeedI2CState, AspeedI2CClass, ASPEED_I2C)
+ 
+ #define ASPEED_I2C_NR_BUSSES 16
+@@ -58,6 +59,12 @@ struct AspeedI2CBus {
+     uint32_t pool_ctrl;
+     uint32_t dma_addr;
+     uint32_t dma_len;
++
++    uint8_t tx_state_machine;
++    uint32_t intr_ctrl_slave;
++    uint32_t intr_status_slave;
++    uint32_t dma_len_tx;
++    uint32_t dma_len_rx;
+ };
+ 
+ struct AspeedI2CState {
+@@ -68,6 +75,7 @@ struct AspeedI2CState {
+ 
+     uint32_t intr_status;
+     uint32_t ctrl_global;
++    uint32_t new_divider;
+     MemoryRegion pool_iomem;
+     uint8_t pool[ASPEED_I2C_MAX_POOL_SIZE];
+ 
+-- 
+2.25.1
 
-Indeed, as you can see, currently there is no device that supports the use of "wakeup_reason".
-But it will be used on the board we are going to upstream later.
-
-The goal of this patch is to make the "wakeup" feature support more complete.
-
-[*1] include/sysemu/runstate.h:42
-typedef enum WakeupReason {
-    /* Always keep QEMU_WAKEUP_REASON_NONE = 0 */
-    QEMU_WAKEUP_REASON_NONE = 0,
-    QEMU_WAKEUP_REASON_RTC,
-    QEMU_WAKEUP_REASON_PMTIMER,
-    QEMU_WAKEUP_REASON_OTHER,
-} WakeupReason;
-
-Thanks,
-Dylan
 
