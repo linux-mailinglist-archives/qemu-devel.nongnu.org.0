@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF45C4E68F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:57:06 +0100 (CET)
-Received: from localhost ([::1]:33100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7864E68F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:59:16 +0100 (CET)
+Received: from localhost ([::1]:37212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXSdt-0007Es-Vl
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:57:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34018)
+	id 1nXSfz-0001dB-L3
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:59:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSEm-0000NM-8n
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:31:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59106)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSEm-0000NP-7t
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:31:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSEZ-0005p0-SI
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:30:59 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSEb-0005pT-7B
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:31:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648146650;
+ s=mimecast20190719; t=1648146654;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=khy+4G3HsiLnaqW0agf1pKJyrY17+WgvdAZNlltzGdQ=;
- b=ciHI60kmDFRVYoVfrOED/+aaIZmR3AYkuQTJWNyass3G0OsGRjXWjmp18p8a4XUfnlt2jX
- U/HUZ1fe4MG+j/XOGxWUw+l6ipDhjuqAhD/aQ/QFTFIZuZrgycFlZqPhJ4M+c7KCwsLN+W
- QmYMKy1eUUYA9pzvxcXllsSY/em9vac=
+ bh=4UgJZgdz0pR2v8ooyS8d7QJHYonTAI2y4GNbYYcvc+8=;
+ b=RQ1y8jhfjmaD8fpzhReyn09+FOPPZiOrMSaY52OTBhAKgyI5v/UTTkHTgKLXVU9igJ5KWf
+ L1nIO89maZoO2zuw6nWqCJ26MRXjQgg990E3GxMFaQr1TrSTh15dAtHpzco84TyqnevPHM
+ t2RiKR/tVKb36PBCYs+2Ct12+uqMaJM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-fhVOKWyEOiC-RDpxUqGYHg-1; Thu, 24 Mar 2022 14:30:47 -0400
-X-MC-Unique: fhVOKWyEOiC-RDpxUqGYHg-1
+ us-mta-263-IkaX0mAXMpu3Ge12Ax-gfw-1; Thu, 24 Mar 2022 14:30:50 -0400
+X-MC-Unique: IkaX0mAXMpu3Ge12Ax-gfw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1FC1C85A5BE;
- Thu, 24 Mar 2022 18:30:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A271899EC1;
+ Thu, 24 Mar 2022 18:30:50 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.33.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B51F8C27D8A;
- Thu, 24 Mar 2022 18:30:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CAED5C26EA0;
+ Thu, 24 Mar 2022 18:30:47 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/17] iotests: remove qemu_io_pipe_and_status()
-Date: Thu, 24 Mar 2022 14:30:16 -0400
-Message-Id: <20220324183018.2476551-16-jsnow@redhat.com>
+Subject: [PATCH v2 16/17] iotests: remove qemu_io_silent() and
+ qemu_io_silent_check().
+Date: Thu, 24 Mar 2022 14:30:17 -0400
+Message-Id: <20220324183018.2476551-17-jsnow@redhat.com>
 In-Reply-To: <20220324183018.2476551-1-jsnow@redhat.com>
 References: <20220324183018.2476551-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -78,34 +79,312 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I know we just added it, sorry. This is done in favor of qemu_io() which
-*also* returns the console output and status, but with more robust error
-handling on failure.
+Like qemu-img, qemu-io returning 0 should be the norm and not the
+exception. Remove all calls to qemu_io_silent that just assert the
+return code is zero (That's every last call, as it turns out), and
+replace them with a normal qemu_io() call.
+
+qemu_io_silent_check() appeared to have been unused already.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 3 ---
- 1 file changed, 3 deletions(-)
+ tests/qemu-iotests/216                        | 12 +++++-----
+ tests/qemu-iotests/218                        |  5 ++---
+ tests/qemu-iotests/224                        |  4 ++--
+ tests/qemu-iotests/258                        | 11 +++++-----
+ tests/qemu-iotests/298                        | 15 +++++--------
+ tests/qemu-iotests/310                        | 22 +++++++++----------
+ tests/qemu-iotests/iotests.py                 | 16 --------------
+ tests/qemu-iotests/tests/image-fleecing       |  4 ++--
+ .../tests/mirror-ready-cancel-error           |  2 +-
+ .../qemu-iotests/tests/stream-error-on-reset  |  4 ++--
+ 10 files changed, 37 insertions(+), 58 deletions(-)
 
+diff --git a/tests/qemu-iotests/216 b/tests/qemu-iotests/216
+index 88b385afa3..97de1cda61 100755
+--- a/tests/qemu-iotests/216
++++ b/tests/qemu-iotests/216
+@@ -21,7 +21,7 @@
+ # Creator/Owner: Max Reitz <mreitz@redhat.com>
+ 
+ import iotests
+-from iotests import log, qemu_img, qemu_io_silent
++from iotests import log, qemu_img, qemu_io
+ 
+ # Need backing file support
+ iotests.script_initialize(supported_fmts=['qcow2', 'qcow', 'qed', 'vmdk'],
+@@ -52,10 +52,10 @@ with iotests.FilePath('base.img') as base_img_path, \
+     log('')
+ 
+     qemu_img('create', '-f', iotests.imgfmt, base_img_path, '64M')
+-    assert qemu_io_silent(base_img_path, '-c', 'write -P 1 0M 1M') == 0
++    qemu_io(base_img_path, '-c', 'write -P 1 0M 1M')
+     qemu_img('create', '-f', iotests.imgfmt, '-b', base_img_path,
+              '-F', iotests.imgfmt, top_img_path)
+-    assert qemu_io_silent(top_img_path,  '-c', 'write -P 2 1M 1M') == 0
++    qemu_io(top_img_path,  '-c', 'write -P 2 1M 1M')
+ 
+     log('Done')
+ 
+@@ -110,8 +110,8 @@ with iotests.FilePath('base.img') as base_img_path, \
+     log('--- Checking COR result ---')
+     log('')
+ 
+-    assert qemu_io_silent(base_img_path, '-c', 'discard 0 64M') == 0
+-    assert qemu_io_silent(top_img_path,  '-c', 'read -P 1 0M 1M') == 0
+-    assert qemu_io_silent(top_img_path,  '-c', 'read -P 2 1M 1M') == 0
++    qemu_io(base_img_path, '-c', 'discard 0 64M')
++    qemu_io(top_img_path,  '-c', 'read -P 1 0M 1M')
++    qemu_io(top_img_path,  '-c', 'read -P 2 1M 1M')
+ 
+     log('Done')
+diff --git a/tests/qemu-iotests/218 b/tests/qemu-iotests/218
+index 853ed52b34..0c717c9b7f 100755
+--- a/tests/qemu-iotests/218
++++ b/tests/qemu-iotests/218
+@@ -28,7 +28,7 @@
+ # Creator/Owner: Max Reitz <mreitz@redhat.com>
+ 
+ import iotests
+-from iotests import log, qemu_img, qemu_io_silent
++from iotests import log, qemu_img, qemu_io
+ 
+ iotests.script_initialize(supported_fmts=['qcow2', 'raw'])
+ 
+@@ -146,8 +146,7 @@ with iotests.VM() as vm, \
+      iotests.FilePath('src.img') as src_img_path:
+ 
+     qemu_img('create', '-f', iotests.imgfmt, src_img_path, '64M')
+-    assert qemu_io_silent('-f', iotests.imgfmt, src_img_path,
+-                          '-c', 'write -P 42 0M 64M') == 0
++    qemu_io('-f', iotests.imgfmt, src_img_path, '-c', 'write -P 42 0M 64M')
+ 
+     vm.launch()
+ 
+diff --git a/tests/qemu-iotests/224 b/tests/qemu-iotests/224
+index c31c55b49d..8eb3ceb8d1 100755
+--- a/tests/qemu-iotests/224
++++ b/tests/qemu-iotests/224
+@@ -22,7 +22,7 @@
+ # Creator/Owner: Max Reitz <mreitz@redhat.com>
+ 
+ import iotests
+-from iotests import log, qemu_img, qemu_io_silent, filter_qmp_testfiles, \
++from iotests import log, qemu_img, qemu_io, filter_qmp_testfiles, \
+                     filter_qmp_imgfmt
+ import json
+ 
+@@ -54,7 +54,7 @@ for filter_node_name in False, True:
+                  '-F', iotests.imgfmt, top_img_path)
+ 
+         # Something to commit
+-        assert qemu_io_silent(mid_img_path, '-c', 'write -P 1 0 1M') == 0
++        qemu_io(mid_img_path, '-c', 'write -P 1 0 1M')
+ 
+         vm.launch()
+ 
+diff --git a/tests/qemu-iotests/258 b/tests/qemu-iotests/258
+index 7798a04d7d..35286216d3 100755
+--- a/tests/qemu-iotests/258
++++ b/tests/qemu-iotests/258
+@@ -21,7 +21,7 @@
+ # Creator/Owner: Max Reitz <mreitz@redhat.com>
+ 
+ import iotests
+-from iotests import log, qemu_img, qemu_io_silent, \
++from iotests import log, qemu_img, qemu_io, \
+         filter_qmp_testfiles, filter_qmp_imgfmt
+ 
+ # Returns a node for blockdev-add
+@@ -86,15 +86,14 @@ def test_concurrent_finish(write_to_stream_node):
+         if write_to_stream_node:
+             # This is what (most of the time) makes commit finish
+             # earlier and then pull in stream
+-            assert qemu_io_silent(node2_path,
+-                                  '-c', 'write %iK 64K' % (65536 - 192),
+-                                  '-c', 'write %iK 64K' % (65536 -  64)) == 0
++            qemu_io(node2_path,
++                    '-c', 'write %iK 64K' % (65536 - 192),
++                    '-c', 'write %iK 64K' % (65536 -  64))
+ 
+             stream_throttle='tg'
+         else:
+             # And this makes stream finish earlier
+-            assert qemu_io_silent(node1_path,
+-                                  '-c', 'write %iK 64K' % (65536 - 64)) == 0
++            qemu_io(node1_path, '-c', 'write %iK 64K' % (65536 - 64))
+ 
+             commit_throttle='tg'
+ 
+diff --git a/tests/qemu-iotests/298 b/tests/qemu-iotests/298
+index fae72211b1..ad560e2941 100755
+--- a/tests/qemu-iotests/298
++++ b/tests/qemu-iotests/298
+@@ -129,16 +129,13 @@ class TestTruncate(iotests.QMPTestCase):
+         os.remove(refdisk)
+ 
+     def do_test(self, prealloc_mode, new_size):
+-        ret = iotests.qemu_io_silent('--image-opts', '-c', 'write 0 10M', '-c',
+-                                     f'truncate -m {prealloc_mode} {new_size}',
+-                                     drive_opts)
+-        self.assertEqual(ret, 0)
++        iotests.qemu_io('--image-opts', '-c', 'write 0 10M', '-c',
++                        f'truncate -m {prealloc_mode} {new_size}',
++                        drive_opts)
+ 
+-        ret = iotests.qemu_io_silent('-f', iotests.imgfmt, '-c', 'write 0 10M',
+-                                     '-c',
+-                                     f'truncate -m {prealloc_mode} {new_size}',
+-                                     refdisk)
+-        self.assertEqual(ret, 0)
++        iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write 0 10M',
++                        '-c', f'truncate -m {prealloc_mode} {new_size}',
++                        refdisk)
+ 
+         stat = os.stat(disk)
+         refstat = os.stat(refdisk)
+diff --git a/tests/qemu-iotests/310 b/tests/qemu-iotests/310
+index e3bfedc7fd..2496495f50 100755
+--- a/tests/qemu-iotests/310
++++ b/tests/qemu-iotests/310
+@@ -21,7 +21,7 @@
+ #
+ 
+ import iotests
+-from iotests import log, qemu_img, qemu_io_silent
++from iotests import log, qemu_img, qemu_io
+ 
+ # Need backing file support
+ iotests.script_initialize(supported_fmts=['qcow2'],
+@@ -44,15 +44,15 @@ with iotests.FilePath('base.img') as base_img_path, \
+     log('')
+ 
+     qemu_img('create', '-f', iotests.imgfmt, base_img_path, '64M')
+-    assert qemu_io_silent(base_img_path, '-c', 'write -P 1 0M 1M') == 0
+-    assert qemu_io_silent(base_img_path, '-c', 'write -P 1 3M 1M') == 0
++    qemu_io(base_img_path, '-c', 'write -P 1 0M 1M')
++    qemu_io(base_img_path, '-c', 'write -P 1 3M 1M')
+     qemu_img('create', '-f', iotests.imgfmt, '-b', base_img_path,
+              '-F', iotests.imgfmt, mid_img_path)
+-    assert qemu_io_silent(mid_img_path, '-c', 'write -P 3 2M 1M') == 0
+-    assert qemu_io_silent(mid_img_path, '-c', 'write -P 3 4M 1M') == 0
++    qemu_io(mid_img_path, '-c', 'write -P 3 2M 1M')
++    qemu_io(mid_img_path, '-c', 'write -P 3 4M 1M')
+     qemu_img('create', '-f', iotests.imgfmt, '-b', mid_img_path,
+              '-F', iotests.imgfmt, top_img_path)
+-    assert qemu_io_silent(top_img_path, '-c', 'write -P 2 1M 1M') == 0
++    qemu_io(top_img_path, '-c', 'write -P 2 1M 1M')
+ 
+ #      0 1 2 3 4
+ # top    2
+@@ -107,10 +107,10 @@ with iotests.FilePath('base.img') as base_img_path, \
+     # Detach backing to check that we can read the data from the top level now
+     qemu_img('rebase', '-u', '-b', '', '-f', iotests.imgfmt, top_img_path)
+ 
+-    assert qemu_io_silent(top_img_path, '-c', 'read -P 0 0 1M') == 0
+-    assert qemu_io_silent(top_img_path, '-c', 'read -P 2 1M 1M') == 0
+-    assert qemu_io_silent(top_img_path, '-c', 'read -P 3 2M 1M') == 0
+-    assert qemu_io_silent(top_img_path, '-c', 'read -P 0 3M 1M') == 0
+-    assert qemu_io_silent(top_img_path, '-c', 'read -P 3 4M 1M') == 0
++    qemu_io(top_img_path, '-c', 'read -P 0 0 1M')
++    qemu_io(top_img_path, '-c', 'read -P 2 1M 1M')
++    qemu_io(top_img_path, '-c', 'read -P 3 2M 1M')
++    qemu_io(top_img_path, '-c', 'read -P 0 3M 1M')
++    qemu_io(top_img_path, '-c', 'read -P 3 4M 1M')
+ 
+     log('Done')
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index baf4995089..e903c8ede0 100644
+index e903c8ede0..1d103a3872 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -365,9 +365,6 @@ def qemu_io(*args: str, check: bool = True, combine_stdio: bool = True
-     return qemu_tool(*qemu_io_wrap_args(args),
-                      check=check, combine_stdio=combine_stdio)
- 
--def qemu_io_pipe_and_status(*args):
--    return qemu_tool_pipe_and_status('qemu-io', qemu_io_wrap_args(args))
--
- def qemu_io_log(*args: str) -> 'subprocess.CompletedProcess[str]':
-     result = qemu_io(*args, check=False)
+@@ -370,22 +370,6 @@ def qemu_io_log(*args: str) -> 'subprocess.CompletedProcess[str]':
      log(result.stdout, filters=[filter_testfiles, filter_qemu_io])
+     return result
+ 
+-def qemu_io_silent(*args):
+-    '''Run qemu-io and return the exit code, suppressing stdout'''
+-    args = qemu_io_wrap_args(args)
+-    result = subprocess.run(args, stdout=subprocess.DEVNULL, check=False)
+-    if result.returncode < 0:
+-        sys.stderr.write('qemu-io received signal %i: %s\n' %
+-                         (-result.returncode, ' '.join(args)))
+-    return result.returncode
+-
+-def qemu_io_silent_check(*args):
+-    '''Run qemu-io and return the true if subprocess returned 0'''
+-    args = qemu_io_wrap_args(args)
+-    result = subprocess.run(args, stdout=subprocess.DEVNULL,
+-                            stderr=subprocess.STDOUT, check=False)
+-    return result.returncode == 0
+-
+ class QemuIoInteractive:
+     def __init__(self, *args):
+         self.args = qemu_io_wrap_args(args)
+diff --git a/tests/qemu-iotests/tests/image-fleecing b/tests/qemu-iotests/tests/image-fleecing
+index ac749702f8..f6e449d071 100755
+--- a/tests/qemu-iotests/tests/image-fleecing
++++ b/tests/qemu-iotests/tests/image-fleecing
+@@ -25,7 +25,7 @@
+ from subprocess import CalledProcessError
+ 
+ import iotests
+-from iotests import log, qemu_img, qemu_io, qemu_io_silent
++from iotests import log, qemu_img, qemu_io
+ 
+ iotests.script_initialize(
+     supported_fmts=['qcow2'],
+@@ -270,7 +270,7 @@ def do_test(vm, use_cbw, use_snapshot_access_filter, base_img_path,
+     for p in overwrite + remainder:
+         cmd = 'read -P%s %s %s' % p
+         log(cmd)
+-        assert qemu_io_silent(base_img_path, '-c', cmd) == 0
++        qemu_io(base_img_path, '-c', cmd)
+ 
+     log('')
+     log('Done')
+diff --git a/tests/qemu-iotests/tests/mirror-ready-cancel-error b/tests/qemu-iotests/tests/mirror-ready-cancel-error
+index 1d0e333b5e..01217459b9 100755
+--- a/tests/qemu-iotests/tests/mirror-ready-cancel-error
++++ b/tests/qemu-iotests/tests/mirror-ready-cancel-error
+@@ -37,7 +37,7 @@ class TestMirrorReadyCancelError(iotests.QMPTestCase):
+         # Ensure that mirror will copy something before READY so the
+         # target format layer will forward the pre-READY flush to its
+         # file child
+-        assert iotests.qemu_io_silent('-c', 'write -P 1 0 64k', source) == 0
++        iotests.qemu_io('-c', 'write -P 1 0 64k', source)
+ 
+         self.vm = iotests.VM()
+         self.vm.launch()
+diff --git a/tests/qemu-iotests/tests/stream-error-on-reset b/tests/qemu-iotests/tests/stream-error-on-reset
+index 389ae822b8..5a8c3a9e8d 100755
+--- a/tests/qemu-iotests/tests/stream-error-on-reset
++++ b/tests/qemu-iotests/tests/stream-error-on-reset
+@@ -21,7 +21,7 @@
+ 
+ import os
+ import iotests
+-from iotests import imgfmt, qemu_img_create, qemu_io_silent, QMPTestCase
++from iotests import imgfmt, qemu_img_create, qemu_io, QMPTestCase
+ 
+ 
+ image_size = 1 * 1024 * 1024
+@@ -55,7 +55,7 @@ class TestStreamErrorOnReset(QMPTestCase):
+         - top image is attached to a virtio-scsi device
+         """
+         qemu_img_create('-f', imgfmt, base, str(image_size))
+-        assert qemu_io_silent('-c', f'write 0 {data_size}', base) == 0
++        qemu_io('-c', f'write 0 {data_size}', base)
+         qemu_img_create('-f', imgfmt, top, str(image_size))
+ 
+         self.vm = iotests.VM()
 -- 
 2.34.1
 
