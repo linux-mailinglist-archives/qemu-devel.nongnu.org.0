@@ -2,49 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962D34E6048
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:25:02 +0100 (CET)
-Received: from localhost ([::1]:60966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2835D4E6056
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:29:01 +0100 (CET)
+Received: from localhost ([::1]:41222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXImD-0000LT-LB
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:25:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52232)
+	id 1nXIq4-0006CI-7i
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:29:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhn-0005xg-SP
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:28 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:39315)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhp-0005yo-6I
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:29 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:33031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhl-0003Ps-Qv
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:27 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhn-0003Qp-DU
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:28 -0400
 Received: from quad ([82.142.12.150]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MyK1E-1oGcGZ3Ji0-00yjHa; Thu, 24
- Mar 2022 09:20:23 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MYedH-1ncZtT1JD9-00VkSn; Thu, 24
+ Mar 2022 09:20:24 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/10] linux-user/arm: Implement __kernel_memory_barrier
-Date: Thu, 24 Mar 2022 09:20:14 +0100
-Message-Id: <20220324082016.3463521-9-laurent@vivier.eu>
+Subject: [PULL 09/10] linux-user/arm: Implement __kernel_cmpxchg with host
+ atomics
+Date: Thu, 24 Mar 2022 09:20:15 +0100
+Message-Id: <20220324082016.3463521-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220324082016.3463521-1-laurent@vivier.eu>
 References: <20220324082016.3463521-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Z/NlUyply1+7e9wKf2c6YVxP2JU/sJwneqMS8vQBL2bQbEIfwk6
- pgUQ8zs5Hs5gdCuZT3iPrwKRuxHd5JIxHvZtkU7mOVrdO2K+xA02QA/AC2Ku2doUEWj4o8S
- rQijBXVyNebwx7Y7gxMVMGxnH1ritZipLKvPZhnd3VGK7QTZt0n1QHkyCbEDFElyxZNemuG
- WGW4T1Tj87OZNIb99BUoA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:d4ljv/EYbSw=:W04w696d/mx9U0qugvLbPC
- BhAhjaIeIC1LcKaRAgC7t+PJh0WRbAKLzibTB5UAaUD1ckGRg5EUAM9vW6JzGIGKwqa9lO404
- YEh/2FZFei7BC7jWN9RGMfTgD5AZHGgyI155QzzEFg844/xp+Gg89r79eDIc8DTT9RMFwi3vM
- gHdKZR3oHbYA+7fMGHeKzQrVgfh8xAEg9RTeL7qWD022WnEOayWuzFDu/lGQSdsGDU71Hz7xh
- o8UmjFjDiZYnvtO8YFx2jMVxk0zfv9p6hl7UMLCzd7IMtlmzVuUDVrtD2DsaCZpCt7a4M3aCK
- eKvl+SWmhLr+5s9EamzNNyjlYrPLb7s6mHyx6XZJhgdLiwcQyL/Vka+oakHIb6tN4/BGG1NxW
- t073OkpcvAQWGuz30nvSrNxWT70BtuXDZFuJDNOFDguWrKbcbbq+14pmtjr+gTs7q4P55zO9O
- 5WEBdgGJYYGFthr3rytPU4Ckoe75JnAsHtUUa1MwadRmd6sPf2iRpdMDy/x68bl095VEdCOKb
- TQqrdxgzWRS1ImkGj17dprCOfRqgOJfCEUgkpr99HIAdDC+hM1Fhy1T3GKleRmiyIwfw2pSc7
- 5GzPRsCYh2vGa8WKEpWAf6qF86FU0NdFxE0Sh5rOLxvUpfjS3qG8tcjBcGZuy6+kvJtvttFGa
- xrCJ7sdrmvpiWR7ShRELhsgKx/bf6IWBasEICeuZdGyEclDtJS4iu0yjcC+92t72+Nsw=
+X-Provags-ID: V03:K1:PM1c+FKR++/Uae2Fa016VcrHdR7QtG0yRnAg9ZqGXtdGzepLS1i
+ n8wsx7TAczq1BQXTqCbFGZWSnYxXpdOl90/+53ZhjD5eJAzX4q/LCEHYaBu7oj6BvuRK0lz
+ Q8y4c0bAWFOBQJtGronPa1o1Tt75OETsHvsvxc6UyAyulwWhEX+5QCc13lqGhO883YgcYnB
+ KRKKuFiiGN1zmH5HU/fjg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lxw+9ObZsSc=:AWvURXGJUxCERWDAHhBQKz
+ nI1NOWYymFxiWWVYZFrnV2Lq+6FXcdrbiEXlMroQY2KRLi2uYfit3Vp19+x+ZtzVLdee194OZ
+ HR5WwetbKKyLNm4drU++j2DIKu9oP5yDFwQHQiGLwSaZxbCJDK1J60q/4UJxwcWLp5+spX4h6
+ 8EmCFWm2PAfzIyzYwa8KEdqfGIeq0LdocXxfc9Ki6sMpBFykazxtpuvBU79RfEB7tgsI0Ed6N
+ ohc043DULcgr9+HbkqaVvbIjkvfV4Qd6HVBc/TkKrZKw+q9dAAjrv6Vk5PW5NJdJSSx1ybLPz
+ KLr73E8X9TWm2hZbEiP/UD4m+CefYqaOEqZX+R+F+SS6DtXZaLlGeHcYKQMdEkWi/4e8jFj1E
+ XfRwUB9il431aO3fS+ObxgBXIDFDvJktZ/IFI5/YSOxegDg8c5yaXjp1NuKp9K0PQRxEVEx7x
+ vtVWan/fn7qgZW0HM+8KemsJmq3eQf4=
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -73,30 +71,128 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This fallback syscall was stubbed out.
-It would only matter for emulating pre-armv6.
+The existing implementation using start/end_exclusive
+does not provide atomicity across processes.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220323005839.94327-2-richard.henderson@linaro.org>
+Message-Id: <20220323005839.94327-3-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/arm/cpu_loop.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/arm/cpu_loop.c | 87 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 62 insertions(+), 25 deletions(-)
 
 diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-index 032e1ffddfbd..a0e43b261c7b 100644
+index a0e43b261c7b..aa2d777bf449 100644
 --- a/linux-user/arm/cpu_loop.c
 +++ b/linux-user/arm/cpu_loop.c
-@@ -158,7 +158,7 @@ do_kernel_trap(CPUARMState *env)
+@@ -75,7 +75,67 @@
+         put_user_u16(__x, (gaddr));                     \
+     })
+ 
+-/* Commpage handling -- there is no commpage for AArch64 */
++/*
++ * Similar to code in accel/tcg/user-exec.c, but outside the execution loop.
++ * Must be called with mmap_lock.
++ * We get the PC of the entry address - which is as good as anything,
++ * on a real kernel what you get depends on which mode it uses.
++ */
++static void *atomic_mmu_lookup(CPUArchState *env, uint32_t addr, int size)
++{
++    int need_flags = PAGE_READ | PAGE_WRITE_ORG | PAGE_VALID;
++    int page_flags;
++
++    /* Enforce guest required alignment.  */
++    if (unlikely(addr & (size - 1))) {
++        force_sig_fault(TARGET_SIGBUS, TARGET_BUS_ADRALN, addr);
++        return NULL;
++    }
++
++    page_flags = page_get_flags(addr);
++    if (unlikely((page_flags & need_flags) != need_flags)) {
++        force_sig_fault(TARGET_SIGSEGV,
++                        page_flags & PAGE_VALID ?
++                        TARGET_SEGV_ACCERR : TARGET_SEGV_MAPERR, addr);
++        return NULL;
++    }
++
++    return g2h(env_cpu(env), addr);
++}
++
++/*
++ * See the Linux kernel's Documentation/arm/kernel_user_helpers.rst
++ * Input:
++ * r0 = oldval
++ * r1 = newval
++ * r2 = pointer to target value
++ *
++ * Output:
++ * r0 = 0 if *ptr was changed, non-0 if no exchange happened
++ * C set if *ptr was changed, clear if no exchange happened
++ */
++static void arm_kernel_cmpxchg32_helper(CPUARMState *env)
++{
++    uint32_t oldval, newval, val, addr, cpsr, *host_addr;
++
++    oldval = env->regs[0];
++    newval = env->regs[1];
++    addr = env->regs[2];
++
++    mmap_lock();
++    host_addr = atomic_mmu_lookup(env, addr, 4);
++    if (!host_addr) {
++        mmap_unlock();
++        return;
++    }
++
++    val = qatomic_cmpxchg__nocheck(host_addr, oldval, newval);
++    mmap_unlock();
++
++    cpsr = (val == oldval) * CPSR_C;
++    cpsr_write(env, cpsr, CPSR_C, CPSRWriteByInstr);
++    env->regs[0] = cpsr ? 0 : -1;
++}
+ 
+ /*
+  * See the Linux kernel's Documentation/arm/kernel_user_helpers.txt
+@@ -153,36 +213,13 @@ static int
+ do_kernel_trap(CPUARMState *env)
+ {
+     uint32_t addr;
+-    uint32_t cpsr;
+-    uint32_t val;
  
      switch (env->regs[15]) {
      case 0xffff0fa0: /* __kernel_memory_barrier */
--        /* ??? No-op. Will need to do better for SMP.  */
-+        smp_mb();
+         smp_mb();
          break;
      case 0xffff0fc0: /* __kernel_cmpxchg */
-          /* XXX: This only works between threads, not between processes.
+-         /* XXX: This only works between threads, not between processes.
+-            It's probably possible to implement this with native host
+-            operations. However things like ldrex/strex are much harder so
+-            there's not much point trying.  */
+-        start_exclusive();
+-        cpsr = cpsr_read(env);
+-        addr = env->regs[2];
+-        /* FIXME: This should SEGV if the access fails.  */
+-        if (get_user_u32(val, addr))
+-            val = ~env->regs[0];
+-        if (val == env->regs[0]) {
+-            val = env->regs[1];
+-            /* FIXME: Check for segfaults.  */
+-            put_user_u32(val, addr);
+-            env->regs[0] = 0;
+-            cpsr |= CPSR_C;
+-        } else {
+-            env->regs[0] = -1;
+-            cpsr &= ~CPSR_C;
+-        }
+-        cpsr_write(env, cpsr, CPSR_C, CPSRWriteByInstr);
+-        end_exclusive();
++        arm_kernel_cmpxchg32_helper(env);
+         break;
+     case 0xffff0fe0: /* __kernel_get_tls */
+         env->regs[0] = cpu_get_tls(env);
 -- 
 2.35.1
 
