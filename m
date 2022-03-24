@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561C04E6A0F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 21:56:05 +0100 (CET)
-Received: from localhost ([::1]:47638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC1FE4E6A10
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 21:58:23 +0100 (CET)
+Received: from localhost ([::1]:49828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXUV2-0004iP-Eu
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 16:56:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37682)
+	id 1nXUXG-0006JW-Um
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 16:58:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUTB-000405-1L
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:54:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23523)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUWB-0005en-Cu
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:57:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUT7-0007s9-BO
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:54:06 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUWA-0000RR-0u
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:57:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648155244;
+ s=mimecast20190719; t=1648155433;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=szIcK8Q/EhyupLYlFmcyrJqD5lCl33IwG4CNIbcqEqw=;
- b=B77acUpxTcHy1MZDi8AFRz7Yefh8hH6E7xTa279Zv2WG7bdczTmDzWsiAoMjBIXSiKV1Vb
- 5SiNnwa+WY4bZcBgSMzDTmnNX7sEh2yIVjEOitYhC8eWvj2+iE5DJUVaz0c6dBJlGbvjPW
- 6anys5pOmnTiEvWiAXqL1esJL1751uI=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=++uY/vSxRBw7kiUaIsN/kAPJf2lQeFLEucwPRRgqBd0=;
+ b=HN9vUW4sFeUcKKL6YFhsJania2UsjZlAGV/jhuEziI4hv7DKoRAzpBRQMJGyGnZfG4lEj9
+ 6/if9dOruDLR29xe7n6iBxQI9h3MMoXi0N1qCKCXt/6z+k5SWp9XdkmgWPKMblWNj6NeTD
+ Z6Y4AVitKd77Yixdoca6yV6Jq2pCnvQ=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-604-XLiDqTcEPfeCc9S7cpjnNQ-1; Thu, 24 Mar 2022 16:54:03 -0400
-X-MC-Unique: XLiDqTcEPfeCc9S7cpjnNQ-1
-Received: by mail-vs1-f70.google.com with SMTP id
- y10-20020a67c98a000000b00322deefc0d2so1235959vsk.0
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 13:54:03 -0700 (PDT)
+ us-mta-3-KyZx7DQEMQuJiVnQ-KZfow-1; Thu, 24 Mar 2022 16:57:11 -0400
+X-MC-Unique: KyZx7DQEMQuJiVnQ-KZfow-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ h14-20020a67c58e000000b003253d4b7fa6so1227453vsk.17
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 13:57:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=szIcK8Q/EhyupLYlFmcyrJqD5lCl33IwG4CNIbcqEqw=;
- b=jucS/LrqL9sLup/NnWiHPWg3diJ4Q3puSd0onvRNPOUv/I55RWfMLwMMghBtDBiEWU
- 1PBZLP2uYY4qXCCJmFCWBRhKfiAeEOFJNkyh0tGQkggQwFGjsTVOYrH49py114RKKNsP
- kKWqbDeHrLeTjuzeyInGsaL5OMqpZlDGuzHq3TQlPnkPe8dJZFzqAEMm35hCP62GVAAP
- eNVz9sygedzcCkASrNh5KJqNBVZ92TUp/VSfqihecSlcU1X0OFv/phh5kIQipIaBFlPb
- C+uzeEujl0M6oVDYCn6/tOWDwTxQu30SFtS0TVdpxJxDQ+xK5byyR4IEEsGzjJVhiSTs
- yLPw==
-X-Gm-Message-State: AOAM5300XSiUqthrf/l6tHEcuhXcBVJt55oZPq9NIqmgWCQ9hgF7rt8R
- sFHDYUo+mb/Fz4gktBOHTAQ5c1JQ0htlCUA42mLcgfrLlTwqzRur6SIrIKwhU0Cjrm58dIw3smq
- xYCpELLfNc39bRM25lB2FB3rGqE5a/Do=
-X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
- 7-20020a056122088700b00332699e7e67mr3467498vkf.35.1648155242766; 
- Thu, 24 Mar 2022 13:54:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyWM1HyG+7tGswN4QKYdBiGby9rDsLZS6Svk3us2hhBWUPU0gMWkzQbf/sCjc/HepyiAHSKdQUFnDQyzxPqrCc=
-X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
- 7-20020a056122088700b00332699e7e67mr3467494vkf.35.1648155242602; Thu, 24 Mar
- 2022 13:54:02 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=++uY/vSxRBw7kiUaIsN/kAPJf2lQeFLEucwPRRgqBd0=;
+ b=AYXAHrbdRMNQcRqofZTXHPYgCXmHWIU+3bdnx0kiN8fFbCotxF9QW1mEBF1VXRZsJu
+ 4hqlVmRmfPQklNwkzYDQmqghxq/GbvsGoqe0T2A4+Hi73aN2ntTTekN3R9lmTs3p7Iwj
+ 7Dvugodx1Wz7A4kagMArUfe/dJ2/wPdVpEiRa/HRJgHJ7U5FdwYgXvp3gCzHyqeMOrwA
+ Dx52xTsxSEuJ5LLdIMATJcsZbF7190f/V3+SUQKGgPJnvfWoz/OY//Qfgxlj/fDYxKbF
+ /5n3GRnunFMKQlA3V+zvuIdi6BBC6FO/ntU1s5dVkaBpmQNxdm+HEnjgDEbFiUx2u50w
+ Py/Q==
+X-Gm-Message-State: AOAM530C0e4+2dHUVWemV1ZBtXNiSwSLkuhGCoQZTCXtZ56iYIKOkymS
+ 1a7N2Dp9vRFm+wO9mLf5v698EpfJOh0C6pXOC5W9V5qzm2uSwtxTvr8ZrwuU3+Yktc0HgZ7MOTC
+ 8xrSXjcQXrcUqXScJSD3eQcTVueSo+rk=
+X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
+ 187-20020a6717c4000000b00322cfd815a1mr3388158vsx.61.1648155431068; 
+ Thu, 24 Mar 2022 13:57:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzb+P3mxZt3SQO/1azXhoOqZBeUSMT7QwvWZkLVZXCLFHUZTtbB2i6DoulAzhI6dS9F4DW5aELDHSAXiLDredg=
+X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
+ 187-20020a6717c4000000b00322cfd815a1mr3388153vsx.61.1648155430897; Thu, 24
+ Mar 2022 13:57:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220324175015.232794-1-victortoso@redhat.com>
- <20220324175015.232794-6-victortoso@redhat.com>
-In-Reply-To: <20220324175015.232794-6-victortoso@redhat.com>
+ <20220324175015.232794-7-victortoso@redhat.com>
+In-Reply-To: <20220324175015.232794-7-victortoso@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Thu, 24 Mar 2022 16:53:51 -0400
-Message-ID: <CAFn=p-bO0Q7466J7SRyDd6eTM_6N8UKLZK38PrucAZqXUxgYeQ@mail.gmail.com>
-Subject: Re: [PATCH 05/14] qapi: fix example of DUMP_COMPLETED event
+Date: Thu, 24 Mar 2022 16:57:00 -0400
+Message-ID: <CAFn=p-Y3Jywf45CyaxwQ+SP6+_ToFJoZ1Lr=8tNQdNLQQaESCg@mail.gmail.com>
+Subject: Re: [PATCH 06/14] qapi: fix example of MEMORY_DEVICE_SIZE_CHANGE event
 To: Victor Toso <victortoso@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,42 +100,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
 >
-> * Timestamp is not optional, let's add for completeness.
-> * Add '<-' to signalize it is receiving the data
-> * While at it, add extra space before "result" and "total"
+> * qom-path is not optional
 >
 > Signed-off-by: Victor Toso <victortoso@redhat.com>
 > ---
->  qapi/dump.json | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  qapi/machine.json | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/qapi/dump.json b/qapi/dump.json
-> index f7c4267e3f..d3ed79e8cd 100644
-> --- a/qapi/dump.json
-> +++ b/qapi/dump.json
-> @@ -161,9 +161,10 @@
->  #
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 42fc68403d..9c460ec450 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1356,7 +1356,8 @@
 >  # Example:
 >  #
-> -# { "event": "DUMP_COMPLETED",
-> -#   "data": {"result": {"total": 1090650112, "status": "completed",
-> -#                       "completed": 1090650112} } }
-> +# <- { "event": "DUMP_COMPLETED",
-> +#      "data": { "result": { "total": 1090650112, "status": "completed",
-> +#                            "completed": 1090650112} },
-> +#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+>  # <- { "event": "MEMORY_DEVICE_SIZE_CHANGE",
+> -#      "data": { "id": "vm0", "size": 1073741824},
+> +#      "data": { "id": "vm0", "size": 1073741824,
+> +#                "qom-path": "/machine/unattached/device[2]" },
+>  #      "timestamp": { "seconds": 1588168529, "microseconds": 201316 } }
 >  #
 >  ##
->  { 'event': 'DUMP_COMPLETED' ,
 > --
 > 2.35.1
 >
 
-Other events seem to use the timestamp as well, so go for it. I agree
-that being able to programmatically verify docstrings is pretty
-valuable in an API test suite.
-
-(What date did you choose? Does it mean anything to you? :p)
+I'll just assume this is a realistic qom-path and not actually try to check=
+ =F0=9F=98=85
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 
