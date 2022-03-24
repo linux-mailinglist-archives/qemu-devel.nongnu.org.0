@@ -2,78 +2,159 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D66E4E60AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:52:23 +0100 (CET)
-Received: from localhost ([::1]:48096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3114A4E60C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:58:55 +0100 (CET)
+Received: from localhost ([::1]:57616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXJCg-0005TP-2h
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:52:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57626)
+	id 1nXJJ0-0003jO-7G
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:58:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1nXJ7U-0002cB-6q
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:47:00 -0400
-Received: from [2a00:1450:4864:20::12f] (port=39694
- helo=mail-lf1-x12f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1nXJ7R-0001Hg-NA
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:46:59 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id w7so6830858lfd.6
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 01:46:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BQiyIslLq3E90bdrVOTzKhGW/chrmrz2mLNk3C0Pxu4=;
- b=X9Mr7orV1azARJCeI1wlRuM7FJdC4N7V/AhTpeRqnG2iZDqSaJoVKCbdobeN7Lk+rM
- dZR6zpVaHbOVXz2XzQk2Bz5iAXxiXrLTW7EaXL1xZuBs3GtSxYwOfxvxmcFJNmgn0BCv
- gtnw8oXevDgTvot9BiGhId8fJhMu/TPDgvJp2b6kWfOIpHVjmvghIN0kghI/B2O80Sra
- QoWqSg+0EWaJw+MO/wdhsq0XSpLx/SJUkIo5Zo8ciu0LWouOWHC6FwzRhdA88upSSRfH
- DoyUCYfrO/0MHA5lRAt2FjHRop3kAtj8CTV6ES7OW0D1WQjO7xb1g0MSZfiCnzzMFdU+
- xOWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BQiyIslLq3E90bdrVOTzKhGW/chrmrz2mLNk3C0Pxu4=;
- b=rxWXnfbQCaPafob+EfJtJ60RdUw6lNyk5DSKAwfgOU6M174MF1lvD2OdLxuSCFzjF5
- ujZnndOrzUfGM/ONd1RiBsUYfLa+Ii5sMU/6eLT/g6EpNJJIKqM4QykTpN+c9HCPJ8ma
- PwJ0BQy8eOmVJOxWaz6Uj6xnl4Jr0MMFuPox2EGtMV67y5X+kAEml7WFnp8oerGHv/Xk
- Ko9HQdH74Xw81LRF9HywrFTF5C53ptnjFfGBUygXj/C7t9+rbBDagkfOPsOTNit1Pfgp
- WBEFn8lJDqvZYqkn+FvNt7A3SQLCOzClBLQSZvptssIhnbuXksRiGmKfD3ieDVWhQng4
- RbCQ==
-X-Gm-Message-State: AOAM531E5oVb7KRVfm+cu7xWV61vEreuAY0H+JmbJDcItpBZZH3n5SE6
- 415GE4+nmlFGvySdo3jOezzCEYPMgyK7K+nOk6WoCA==
-X-Google-Smtp-Source: ABdhPJy2euMEvP8DRO3S2ip7B4Y8Js66MkFYlsVtLEp4yW4MUpo78SYbUvPSnBCle72LAjw75c6egNIM/d+yT82HqKY=
-X-Received: by 2002:ac2:5d67:0:b0:442:f135:3bcc with SMTP id
- h7-20020ac25d67000000b00442f1353bccmr3035325lft.452.1648111613442; Thu, 24
- Mar 2022 01:46:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220323111309.9109-1-mchitale@ventanamicro.com>
- <20220323111309.9109-2-mchitale@ventanamicro.com>
- <44dd2668-dfb6-d065-b826-ce83d725a11d@iscas.ac.cn>
-In-Reply-To: <44dd2668-dfb6-d065-b826-ce83d725a11d@iscas.ac.cn>
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-Date: Thu, 24 Mar 2022 14:16:16 +0530
-Message-ID: <CAN37VV4Wzi1oTgQxpDLsrJPtAqxWmAYc+4Z3qM88arn3q1HFZQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/4] target/riscv: Add smstateen support
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <kevin.tian@intel.com>)
+ id 1nXJEG-0000jW-04
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:54:00 -0400
+Received: from mga06.intel.com ([134.134.136.31]:24491)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kevin.tian@intel.com>)
+ id 1nXJED-0003uu-DT
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:53:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648112037; x=1679648037;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=MZcnXwPNOJc47Vwt77Jl66SY4nMwM/lxiHs1tB2XFxc=;
+ b=mioV5D+l186iu3pIXUdj3JpkCqO9x29itdABbKf3PjU+gf/l0dqzXLjc
+ uUltFqrv0ulhtqjv2N+JmkdkwEFCsrdbHsHiNN+srCuIuLJCni0hJNgOH
+ I/vQjk6vOWaxkl31iyaFdcsfoRwchROeNnxLeXlc9w1LRFL8i0cW1N9g0
+ PnP6nbhKwNMwkzC93I9kqhaxX44KefzvnFy8pSPXnGsklFydjEV3wwckZ
+ Urfbe4V14jyjN234g0LUHyik0GwgjA0IbQyv1Q0geG+dbmUe2wnRFYz6n
+ k6JIf12yKqsuSSVl2C2xsk+QdqnOloJBtvloTzs0bsD8mrU1geTPtozC+ A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="319032533"
+X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="319032533"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2022 01:53:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="519700361"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga006.jf.intel.com with ESMTP; 24 Mar 2022 01:53:54 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Thu, 24 Mar 2022 01:53:54 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Thu, 24 Mar 2022 01:53:53 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Thu, 24 Mar 2022 01:53:53 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.177)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.21; Thu, 24 Mar 2022 01:53:53 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eFZLiN6kV6mYl8LQx5MYLrO9rYkYKAYqwU0XWFRVd3429y5zkmsGR7qB50HLSDpAltftJJMAUkXjJx3iBMVMoVpQAoBSLi1GKyJIwGulfoxJT4Te5hTbkwdEScH672YGqcvh4+8pnNIJX5LLWImq6vKeYF/krakSDgtGOKm0CQztJl12zXukwlE4pXlDpwhvsHuo3lqsr04QadNBslMhnF5DFQb3eNinNAGrOPsn9mBApgF5iPDBd0CsmNSEE6qGquADN4blI197H50hmaLgYD6xidbB1WtiicQu8tlEOhulGki/BFqZC94I/4viCF6EgHgWknT+YpRTJXIoCq1Vlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OWE5GD+2lTcEt5uXU3CkpsChWSpTZf6QxO78xLM94nk=;
+ b=LZkUKe/itioHOOD8kljOf6c+YjLdC6OiEP1T9fUHhzUjQY2fdKWcqQ80+1sbHL1NDsS8gfhfQ3iicDDn7veB8+63WcbU/LWEc7tD1yk8E7BtkIZt4prlck9ggwH/QIZ8cZDGGCfpSvx4EEBJMvK2O9qlKxzoUkfZRRzal+2qugkVtFk2BIiOXv1qxUd6ZQcbJ998GHrrZzco/MTa8T9PHGGVqjWwE7qw+Rx/EdNUDxUqCvirqGx6uFut5Iq7exV+pMMosekcAQHe3ro42eKAWqr6HZl1toZcMwOPPL+PfI698eMU8HFjDLsa4E2YVYO3y9hmLD/WeoiZzZqVhppFMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by PH0PR11MB4901.namprd11.prod.outlook.com (2603:10b6:510:3a::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.17; Thu, 24 Mar
+ 2022 08:53:51 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::4df7:2fc6:c7cf:ffa0]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::4df7:2fc6:c7cf:ffa0%4]) with mapi id 15.20.5102.018; Thu, 24 Mar 2022
+ 08:53:51 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jason Wang <jasowang@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ "peterx@redhat.com" <peterx@redhat.com>
+Subject: RE: [PATCH V2 4/4] intel-iommu: PASID support
+Thread-Topic: [PATCH V2 4/4] intel-iommu: PASID support
+Thread-Index: AQHYPOjLkFETw43vekSHA4amP0dz7KzOPTaQ
+Date: Thu, 24 Mar 2022 08:53:51 +0000
+Message-ID: <BN9PR11MB52762D1CDE8F5417370762CE8C199@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <20220321055429.10260-1-jasowang@redhat.com>
+ <20220321055429.10260-5-jasowang@redhat.com>
+In-Reply-To: <20220321055429.10260-5-jasowang@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.6.401.20
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0db889fa-7104-4463-b7ec-08da0d73d1bd
+x-ms-traffictypediagnostic: PH0PR11MB4901:EE_
+x-microsoft-antispam-prvs: <PH0PR11MB490183B6C2E0F28C0DB882048C199@PH0PR11MB4901.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: U1VaZfWQriPEhgkG3Y1OECaD25M82hACvhWyBLD8/npqpshdl8BekmbciOImMFmbdZPVGWzUt/zkEjVqTuHRka2AmeDo+0qQTwqdG6u1mZIXQG3yHtwTLvv+9HxaTCRKnOKfouZJOtIbN4wOQggC9P3Tfw8bIzXrYg9oXM7rNKj6QXhPUA9UM3Yh62RYvJ2x4mcmnGLsZqueGfA1abohB//eY7MVk6Hjtl0iJuTAUXo78bcud6nlGOg8nAaOFCGH4ASNffQnnacaYsSZ/FNODiwC5nmPkYjzaC6Oi8BvP5tCcyVQMGvnO5+WvFqEpeep5q3a+EiHzXoyFz/QdPUYPrG845rxayMcraDT+4MdV8aWLacFgnxsRLULyrKNopSDMB9yyJL6fvaM6Ef8jtZS/AYslDR/T90BgSR5iFwpmMKDKgvCSWJLyTTm3ZESAymJrBvLFZSxavVIUNQaVKxYjNyTI6KgjkniyNkeNfGOcVGYhdqZD9VWaMOc/K/8EpArbERjFqA4m4WrNCYfGY1NBE8i1Jrcpmpf2s8SCAsZIaY3OuZqZRy/D+eKHAMlIYf7s7WfV5Iu87qf3FfGr8qKkFsbCpWo4RdMc36QDM3Mafnh4alNZAG3iSiDa5gvBVM55fnaFGhtXbdBfSWpQY6wzCN7W/XJ8NE9bIMNUNo9FbPN7NyVx5cSjXle97itIYhvN/MsGBcTgW15v8om4LHfyQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(9686003)(76116006)(5660300002)(6506007)(7696005)(186003)(66946007)(64756008)(26005)(4326008)(66476007)(8676002)(66556008)(66446008)(82960400001)(122000001)(316002)(508600001)(38070700005)(83380400001)(71200400001)(2906002)(33656002)(8936002)(55016003)(86362001)(38100700002)(52536014)(54906003)(110136005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?uOMhOy2nUVZoCh4fBzi56VKZsgbg9fCbQvV9XchkmfHNpHn1hY4Nnw1gxFea?=
+ =?us-ascii?Q?ox/xamz7r/gZuObWqhoMUbwT9wzJ0mWPs55XU+ptcy88EFMwTYHGDDAwu/Or?=
+ =?us-ascii?Q?qoitYvrpVCjFS+wsWhL8c5uIuyFZ/BRJcgoq7rekbH22I3Efyp/SRdF3Uj+6?=
+ =?us-ascii?Q?NjCT6QoDAvDVpauW5EkojLiguYrXTkeC6X3wnMBphJhAQziM7b/Nhxhe7g9L?=
+ =?us-ascii?Q?6/fePSd0zJGoxWeoqr2K9Hheh7Rc3lasJDhaDNEzOGFP33AQqq7UEMlvt+w6?=
+ =?us-ascii?Q?65ptl5ZTXM4J6oo/VSzCL9xGiowh7NIoGBUbz5ueMFYPu/eMhBUJxvJzFv7H?=
+ =?us-ascii?Q?RD9i5PkItokaOgZuVbbXKVRKb080QL/gS9e4SqywWuwtk7GQ9vjyLmN/x7li?=
+ =?us-ascii?Q?O3Hs7+VIs6Z96Uz9oKpoSLOdiTfXI1flcTPXrt5ouIAwZ4qYNjTa6VbIftpw?=
+ =?us-ascii?Q?dEXoFiBKcO9fC5SMXKnKNPzfhFi0pgQK3oees/Lp1ox7hUXwYeC2SETlaB4k?=
+ =?us-ascii?Q?qVzJqGUny15Esffrh6AdW1rcT9ZSsnTLBA3PyzJcv4lMMeC5jYtxeZlZTpqw?=
+ =?us-ascii?Q?FsvC0fsn+ByEOpeZRJChjUO2YDtqU/radYRSBHQSBoxkKZtlVJ+zgWfhyoLx?=
+ =?us-ascii?Q?bW4K4wuDmj2roUKt6UWNY5ecbvF2ihvMkKDc4Nn7M6xjDUqxjqFiYGGSt/3z?=
+ =?us-ascii?Q?9oS3kfdQkxGwHFZZOOwl5jFxrmoA+LcXvnV7rZpWaSP93umsr3WAR+ahEizW?=
+ =?us-ascii?Q?xEBZFH89UcKPnEE72dgozOEA4PvmOgiHknivqmDRQb8SUA+SpiqpHlWl9Pq2?=
+ =?us-ascii?Q?DURh91YuLm82S+5UH6GwL+2BAApKLTtR0WTBER4U42KUBMoskenlwp3YpyYd?=
+ =?us-ascii?Q?hARWLPp8k6r/aQ3n7zooyEc6HLsssbSzT/phnsu942wl/QegdhiQ5x/vfnYv?=
+ =?us-ascii?Q?jdz19EQ7kssbUP2/2YUcJcGxo5E0brfpkBI1moUV0bUikLGNZNg7qTw7mZTh?=
+ =?us-ascii?Q?K9OJAmfQdwedCAEFZezi660I2lKttl9Y1NCHICi9+iVDwukogpGmvNVwzcY4?=
+ =?us-ascii?Q?sPAQf3vw6NTSEtUj/xHtB9Qcdl5N2zjGVu5RHNNQg+7SrURVZwZJhH0Rx4qj?=
+ =?us-ascii?Q?rBd0pYw3v71t0tCvDUKGyJt6tQsbBOs3ew8eWPcm1l+LumMHFrmrxCfASs+n?=
+ =?us-ascii?Q?kIa1blHEeSjUhZXVM2oUfKfDwbXXhngiud8+7VjQCNDH9Vp9krudIg8vP+dc?=
+ =?us-ascii?Q?TztBMWZBViekt4AbhdqnXegkCW3NatSF/VtoZon+Zzq4yiohWTWrAU3+DIL8?=
+ =?us-ascii?Q?veyDlMw6YfuBuO6oiPyE1p3COgGQpk4TvC/uCrHhks+PvgPvL0uFoIvHUI5i?=
+ =?us-ascii?Q?SjTAC2o2Fg1WkgU4ymQ2zcpb8bicNPxEdTjffLY/R+xr38E81VPs0QgT3YRt?=
+ =?us-ascii?Q?yWIvfy9Lm92ZoYVDiVmvU+XdkLYPLZ2U?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=mchitale@ventanamicro.com; helo=mail-lf1-x12f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0db889fa-7104-4463-b7ec-08da0d73d1bd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2022 08:53:51.6368 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FOiqd9ma6aCb2ge1fIsMrA4ocWqJwJoi6e3SePPRDEF87zmiCyh4uTWMu6fJmho2yFb/jNBl4t7Ex+YtsOSI+g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4901
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=kevin.tian@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,481 +167,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
+Cc: "Liu, Yi L" <yi.l.liu@intel.com>,
+ "yi.y.sun@linux.intel.com" <yi.y.sun@linux.intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 23, 2022 at 6:31 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
->
-> =E5=9C=A8 2022/3/23 =E4=B8=8B=E5=8D=887:13, Mayuresh Chitale =E5=86=99=E9=
-=81=93:
-> > Smstateen extension specifies a mechanism to close
-> > the potential covert channels that could cause security issues.
-> >
-> > This patch adds the CSRs defined in the specification and
-> > the corresponding predicates and read/write functions.
-> >
-> > Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> > ---
-> >   target/riscv/cpu.c      |   2 +
-> >   target/riscv/cpu.h      |   4 +
-> >   target/riscv/cpu_bits.h |  36 +++++++
-> >   target/riscv/csr.c      | 210 +++++++++++++++++++++++++++++++++++++++=
-+
-> >   target/riscv/machine.c  |  22 ++++-
-> >   5 files changed, 273 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 8e338daf72..832602d91f 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -807,6 +807,7 @@ static Property riscv_cpu_properties[] =3D {
-> >       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-> >       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-> >       DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
-> > +    DEFINE_PROP_BOOL("smstateen", RISCVCPU, cfg.ext_smstateen, true),
-> >
-> >       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-> >       DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-> > @@ -970,6 +971,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, cha=
-r **isa_str, int max_str_len)
-> >           ISA_EDATA_ENTRY(svinval, ext_svinval),
-> >           ISA_EDATA_ENTRY(svnapot, ext_svnapot),
-> >           ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
-> > +        ISA_EDATA_ENTRY(smstateen, ext_smstateen),
-> >       };
-> >
-> >       for (i =3D 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index ea23666e8e..8e61edca6f 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -338,6 +338,9 @@ struct CPURISCVState {
-> >
-> >       /* CSRs for execution enviornment configuration */
-> >       uint64_t menvcfg;
-> > +    uint64_t mstateen[SMSTATEEN_MAX_COUNT];
-> > +    uint64_t hstateen[SMSTATEEN_MAX_COUNT];
-> > +    uint64_t sstateen[SMSTATEEN_MAX_COUNT];
-> >       target_ulong senvcfg;
-> >       uint64_t henvcfg;
-> >   #endif
-> > @@ -416,6 +419,7 @@ struct RISCVCPUConfig {
-> >       bool ext_zve32f;
-> >       bool ext_zve64f;
-> >       bool ext_sscofpmf;
-> > +    bool ext_smstateen;
-> >
-> >       /* Vendor-specific custom extensions */
-> >       bool ext_XVentanaCondOps;
-> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > index 7454f4087f..66edb26686 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
-> > @@ -205,6 +205,12 @@
-> >   /* Supervisor Configuration CSRs */
-> >   #define CSR_SENVCFG         0x10A
-> >
-> > +/* Supervisor state CSRs */
-> > +#define CSR_SSTATEEN0       0x10C
-> > +#define CSR_SSTATEEN1       0x10D
-> > +#define CSR_SSTATEEN2       0x10E
-> > +#define CSR_SSTATEEN3       0x10F
-> > +
-> >   /* Supervisor Trap Handling */
-> >   #define CSR_SSCRATCH        0x140
-> >   #define CSR_SEPC            0x141
-> > @@ -258,6 +264,16 @@
-> >   #define CSR_HENVCFG         0x60A
-> >   #define CSR_HENVCFGH        0x61A
-> >
-> > +/* Hypervisor state CSRs */
-> > +#define CSR_HSTATEEN0       0x60C
-> > +#define CSR_HSTATEEN0H      0x61C
-> > +#define CSR_HSTATEEN1       0x60D
-> > +#define CSR_HSTATEEN1H      0x61D
-> > +#define CSR_HSTATEEN2       0x60E
-> > +#define CSR_HSTATEEN2H      0x61E
-> > +#define CSR_HSTATEEN3       0x60F
-> > +#define CSR_HSTATEEN3H      0x61F
-> > +
-> >   /* Virtual CSRs */
-> >   #define CSR_VSSTATUS        0x200
-> >   #define CSR_VSIE            0x204
-> > @@ -309,6 +325,26 @@
-> >   #define CSR_MENVCFG         0x30A
-> >   #define CSR_MENVCFGH        0x31A
-> >
-> > +/* Machine state CSRs */
-> > +#define CSR_MSTATEEN0       0x30C
-> > +#define CSR_MSTATEEN0H      0x31C
-> > +#define CSR_MSTATEEN1       0x30D
-> > +#define CSR_MSTATEEN1H      0x31D
-> > +#define CSR_MSTATEEN2       0x30E
-> > +#define CSR_MSTATEEN2H      0x31E
-> > +#define CSR_MSTATEEN3       0x30F
-> > +#define CSR_MSTATEEN3H      0x31F
-> > +
-> > +/* Common defines for all smstateen */
-> > +#define SMSTATEEN_MAX_COUNT 4
-> > +#define SMSTATEEN0_CS       0
-> > +#define SMSTATEEN0_FCSR     0
-> > +#define SMSTATEEN0_IMSIC    58
-> > +#define SMSTATEEN0_AIA      59
-> > +#define SMSTATEEN0_SVSLCT   60
-> > +#define SMSTATEEN0_HSENVCFG 62
-> > +#define SMSTATEEN_STATEN    63
-> > +
-> >   /* Enhanced Physical Memory Protection (ePMP) */
-> >   #define CSR_MSECCFG         0x747
-> >   #define CSR_MSECCFGH        0x757
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index d3d16d71de..215c8ecef1 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -265,6 +265,42 @@ static RISCVException hmode32(CPURISCVState *env, =
-int csrno)
-> >
-> >   }
-> >
-> > +static RISCVException mstateen(CPURISCVState *env, int csrno)
-> > +{
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> > +
-> > +    if (!cpu->cfg.ext_smstateen) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    return any(env, csrno);
-> > +}
-> > +
-> > +static RISCVException hstateen(CPURISCVState *env, int csrno)
-> > +{
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> > +
-> > +    if (!cpu->cfg.ext_smstateen) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    return hmode(env, csrno);
-> > +}
-> > +
-> > +static RISCVException sstateen(CPURISCVState *env, int csrno)
-> > +{
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> > +
-> > +    if (!cpu->cfg.ext_smstateen) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    return smode(env, csrno);
-> > +}
-> > +
-> >   /* Checks if PointerMasking registers could be accessed */
-> >   static RISCVException pointer_masking(CPURISCVState *env, int csrno)
-> >   {
-> > @@ -1882,6 +1918,129 @@ static RISCVException write_henvcfgh(CPURISCVSt=
-ate *env, int csrno,
-> >       return RISCV_EXCP_NONE;
-> >   }
-> >
-> > +static inline void write_smstateen(CPURISCVState *env, uint64_t *reg,
-> > +        uint64_t wr_mask, uint64_t new_val)
->
-> It's better that 'uint64_t' is aligned with 'CPURISCVState' here.  The
-> same to following similar cases.
+> From: Jason Wang
+> Sent: Monday, March 21, 2022 1:54 PM
+>=20
+> This patch introduce ECAP_PASID via "x-pasid-mode". Based on the
+> existing support for scalable mode, we need to implement the following
+> missing parts:
+>=20
+> 1) tag VTDAddressSpace with PASID and support IOMMU/DMA translation
+>    with PASID
+> 2) tag IOTLB with PASID
 
-Ok. Will fix it in the next version.
->
-> > +{
-> > +    *reg =3D (*reg & ~wr_mask) | (new_val & wr_mask);
-> > +}
-> > +
-> > +static RISCVException read_mstateen(CPURISCVState *env, int csrno,
-> > +                                 target_ulong *val)
-> > +{
-> > +    *val =3D env->mstateen[csrno - CSR_MSTATEEN0];
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException write_mstateen(CPURISCVState *env, int csrno,
-> > +                                  target_ulong new_val)
-> > +{
-> > +    uint64_t *reg;
-> > +    uint64_t wr_mask =3D 1UL << SMSTATEEN_STATEN;
-> > +
-> > +    reg =3D &env->mstateen[csrno - CSR_MSTATEEN0];
-> > +    write_smstateen(env, reg, wr_mask, new_val);
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException read_mstateenh(CPURISCVState *env, int csrno,
-> > +                                 target_ulong *val)
-> > +{
-> > +    *val =3D env->mstateen[csrno - CSR_MSTATEEN0H - 0x10] >> 32;
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
->
-> Why minus 0x10 here?
->
-> when read CSR_MSTATEEN0H, the csrno should be CSR_MSTATEEN0H, and the
-> expected result is  mstateen[0] >> 32.
->
-> So, minus 0x10 seems unnecessary.
->
-> The same to following similar cases.
-Correct. I will fix in the next version.
->
-> > +
-> > +static RISCVException write_mstateenh(CPURISCVState *env, int csrno,
-> > +                                  target_ulong new_val)
-> > +{
-> > +    uint64_t *reg;
-> > +    uint64_t val;
-> > +    uint64_t wr_mask =3D 1UL << SMSTATEEN_STATEN;
-> > +
-> > +    reg =3D &env->mstateen[csrno - CSR_MSTATEEN0H - 0x10];
-> > +    val =3D (uint64_t)new_val << 32;
-> > +    val |=3D *reg & 0xFFFFFFFF;
-> > +    write_smstateen(env, reg, wr_mask, val);
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException read_hstateen(CPURISCVState *env, int csrno,
-> > +                                 target_ulong *val)
-> > +{
-> > +    *val =3D env->hstateen[csrno - CSR_HSTATEEN0];
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException write_hstateen(CPURISCVState *env, int csrno,
-> > +                                  target_ulong new_val)
-> > +{
-> > +    uint64_t *reg;
-> > +    uint64_t wr_mask =3D 1UL << SMSTATEEN_STATEN;
-> > +    int index =3D csrno - CSR_HSTATEEN0;
-> > +
-> > +    reg =3D &env->hstateen[index];
-> > +    wr_mask &=3D env->mstateen[index];
-> > +    write_smstateen(env, reg, wr_mask, new_val);
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException read_hstateenh(CPURISCVState *env, int csrno,
-> > +                                 target_ulong *val)
-> > +{
-> > +    *val =3D env->hstateen[csrno - CSR_HSTATEEN0H - 0x10] >> 32;
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException write_hstateenh(CPURISCVState *env, int csrno,
-> > +                                  target_ulong new_val)
-> > +{
-> > +    uint64_t *reg;
-> > +    uint64_t val;
-> > +    uint64_t wr_mask =3D 1UL << SMSTATEEN_STATEN;
-> > +    int index =3D csrno - CSR_HSTATEEN0H - 0x10;
-> > +
-> > +    reg =3D &env->hstateen[index];
-> > +    val =3D (uint64_t)new_val << 32;
-> > +    val |=3D *reg & 0xFFFFFFFF;
-> > +    wr_mask &=3D env->mstateen[index];
-> > +
-> > +    write_smstateen(env, reg, wr_mask, val);
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException read_sstateen(CPURISCVState *env, int csrno,
-> > +                                 target_ulong *val)
-> > +{
-> > +    *val =3D env->sstateen[csrno - CSR_SSTATEEN0];
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException write_sstateen(CPURISCVState *env, int csrno,
-> > +                                  target_ulong new_val)
-> > +{
-> > +    uint64_t *reg;
-> > +    uint64_t wr_mask =3D 0;
-> > +    int index =3D csrno - CSR_SSTATEEN0;
-> > +    bool virt =3D riscv_cpu_virt_enabled(env);
-> > +
-> > +    reg =3D &env->sstateen[index];
-> > +    if (virt) {
-> > +        wr_mask &=3D env->mstateen[index];
-> > +    } else {
-> > +        wr_mask &=3D env->hstateen[index];
-> > +    }
-> > +    write_smstateen(env, reg, wr_mask, new_val);
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> >   static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
-> >                                   uint64_t *ret_val,
-> >                                   uint64_t new_val, uint64_t wr_mask)
-> > @@ -3664,6 +3823,57 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D=
- {
-> >       [CSR_HENVCFGH] =3D { "henvcfgh", hmode32, read_henvcfgh, write_he=
-nvcfgh,
-> >                                             .min_priv_ver =3D PRIV_VERS=
-ION_1_12_0 },
-> >
-> > +    /* Smstateen extension CSRs */
-> > +    [CSR_MSTATEEN0] =3D { "mstateen0", mstateen, read_mstateen, write_=
-mstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_MSTATEEN0H] =3D { "mstateen0h", mstateen, read_mstateenh,
-> > +                                          write_mstateenh,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
->
-> It' better to aligned with CSR_MSTATEEN0 here.
->
-> Regards,
->
-> Weiwei Li
->
-> > +    [CSR_MSTATEEN1] =3D { "mstateen1", mstateen, read_mstateen, write_=
-mstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_MSTATEEN1H] =3D { "mstateen1h", mstateen, read_mstateenh,
-> > +                                          write_mstateenh,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_MSTATEEN2] =3D { "mstateen2", mstateen, read_mstateen, write_=
-mstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_MSTATEEN2H] =3D { "mstateen2h", mstateen, read_mstateenh,
-> > +                                          write_mstateenh,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_MSTATEEN3] =3D { "mstateen3", mstateen, read_mstateen, write_=
-mstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_MSTATEEN3H] =3D { "mstateen3h", mstateen, read_mstateenh,
-> > +                                          write_mstateenh,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +
-> > +    [CSR_HSTATEEN0] =3D { "hstateen0", hstateen, read_hstateen, write_=
-hstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_HSTATEEN0H] =3D { "hstateen0h", hstateen, read_hstateenh,
-> > +                                          write_hstateenh,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_HSTATEEN1] =3D { "hstateen1", hstateen, read_hstateen, write_=
-hstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_HSTATEEN1H] =3D { "hstateen1h", hstateen, read_hstateenh,
-> > +                                          write_hstateenh,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_HSTATEEN2] =3D { "hstateen2", hstateen, read_hstateen, write_=
-hstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_HSTATEEN2H] =3D { "hstateen2h", hstateen, read_hstateenh,
-> > +                                          write_hstateenh,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_HSTATEEN3] =3D { "hstateen3", hstateen, read_hstateen, write_=
-hstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_HSTATEEN3H] =3D { "hstateen3h", hstateen, read_hstateenh,
-> > +                                          write_hstateenh,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +
-> > +    [CSR_SSTATEEN0] =3D { "sstateen0", sstateen, read_sstateen, write_=
-sstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_SSTATEEN1] =3D { "sstateen1", sstateen, read_sstateen, write_=
-sstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_SSTATEEN2] =3D { "sstateen2", sstateen, read_sstateen, write_=
-sstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> > +    [CSR_SSTATEEN3] =3D { "sstateen3", sstateen, read_sstateen, write_=
-sstateen,
-> > +                                          .min_priv_ver =3D PRIV_VERSI=
-ON_1_12_0 },
-> >       /* Supervisor Trap Setup */
-> >       [CSR_SSTATUS]    =3D { "sstatus",    smode, read_sstatus,    writ=
-e_sstatus, NULL,
-> >                                                 read_sstatus_i128      =
-           },
-> > diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> > index aa968dc29c..e376f82ca0 100644
-> > --- a/target/riscv/machine.c
-> > +++ b/target/riscv/machine.c
-> > @@ -232,6 +232,26 @@ static int riscv_cpu_post_load(void *opaque, int v=
-ersion_id)
-> >       return 0;
-> >   }
-> >
-> > +static bool smstateen_needed(void *opaque)
-> > +{
-> > +    RISCVCPU *cpu =3D opaque;
-> > +
-> > +    return cpu->cfg.ext_smstateen;
-> > +}
-> > +
-> > +static const VMStateDescription vmstate_smstateen =3D {
-> > +    .name =3D "cpu/smtateen",
-> > +    .version_id =3D 1,
-> > +    .minimum_version_id =3D 1,
-> > +    .needed =3D smstateen_needed,
-> > +    .fields =3D (VMStateField[]) {
-> > +        VMSTATE_UINT64_ARRAY(env.mstateen, RISCVCPU, 4),
-> > +        VMSTATE_UINT64_ARRAY(env.hstateen, RISCVCPU, 4),
-> > +        VMSTATE_UINT64_ARRAY(env.sstateen, RISCVCPU, 4),
-> > +        VMSTATE_END_OF_LIST()
-> > +    }
-> > +};
-> > +
-> >   static bool envcfg_needed(void *opaque)
-> >   {
-> >       RISCVCPU *cpu =3D opaque;
-> > @@ -331,7 +351,6 @@ const VMStateDescription vmstate_riscv_cpu =3D {
-> >           VMSTATE_UINT64(env.mtohost, RISCVCPU),
-> >           VMSTATE_UINT64(env.mtimecmp, RISCVCPU),
-> >           VMSTATE_UINT64(env.stimecmp, RISCVCPU),
-> > -
-> >           VMSTATE_END_OF_LIST()
-> >       },
-> >       .subsections =3D (const VMStateDescription * []) {
-> > @@ -342,6 +361,7 @@ const VMStateDescription vmstate_riscv_cpu =3D {
-> >           &vmstate_rv128,
-> >           &vmstate_kvmtimer,
-> >           &vmstate_envcfg,
-> > +        &vmstate_smstateen,
-> >           NULL
-> >       }
-> >   };
->
+and invalidate desc to flush PASID iotlb, which seems missing in this patch=
+.
+
+> 3) PASID cache and its flush
+> 4) Fault recording with PASID
+>=20
+> For simplicity:
+>=20
+> 1) PASID cache is not implemented so we can simply implement the PASID
+> cache flush as a nop.
+> 2) Fault recording with PASID is not supported, NFR is not changed.
+>=20
+> All of the above is not mandatory and could be implemented in the
+> future.
+
+PASID cache is optional, but fault recording with PASID is required.
+I'm fine with adding it incrementally but want to clarify the concept first=
+.
+
+>=20
+> Note that though PASID based IOMMU translation is ready but no device
+> can issue PASID DMA right now. In this case, PCI_NO_PASID is used as
+> PASID to identify the address w/ PASID. vtd_find_add_as() has been
+> extended to provision address space with PASID which could be utilized
+> by the future extension of PCI core to allow device model to use PASID
+> based DMA translation.
+
+I didn't get the point of PCI_NO_PASID. How is it different from RID_PASID?
+Can you enlighten?
+
+>=20
+> This feature would be useful for:
+>=20
+> 1) prototyping PASID support for devices like virtio
+> 2) future vPASID work
+> 3) future PRS and vSVA work
+
+Haven't got time to look at the code in detail. stop here.=20
+
+Thanks
+Kevin
 
