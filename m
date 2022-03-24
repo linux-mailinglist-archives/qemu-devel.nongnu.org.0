@@ -2,93 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967EC4E607C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:39:20 +0100 (CET)
-Received: from localhost ([::1]:58516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF5A4E609C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:48:01 +0100 (CET)
+Received: from localhost ([::1]:42732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXJ03-0001dZ-FP
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:39:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53262)
+	id 1nXJ8S-0001jz-M9
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:48:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nXImw-0003Dx-6l
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:25:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49531)
+ (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1nXIoE-0005ZW-4j
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:27:07 -0400
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:32780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nXIms-00052X-43
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:25:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648110341;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oNJ7K95CKwldTHLAMYbgKFSp7RsP0JL6EbNUFXPbc3k=;
- b=eQoqRhgN+FVYS0m87UPKRsJ0p/z3+6e2qw/QgC7SMKLhsMItrl2IS1s0bQnORupTrXxk4i
- 2MP26vaDj1KR8Vtu87i5KAGIzoJuTRV8aeRZJP0NdQlwb1EdqzKarVUn6J9qIVhBtefxog
- 7KPzzC5/gYsb79K/amfRBJjeYlJoS5Y=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-98-vVnJ5t0xNI6Iavn_fWVlSg-1; Thu, 24 Mar 2022 04:25:40 -0400
-X-MC-Unique: vVnJ5t0xNI6Iavn_fWVlSg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- hg13-20020a1709072ccd00b006dfa484ec23so2072396ejc.8
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 01:25:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1nXIoC-0005e7-1T
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:27:05 -0400
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 506383F17A
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 08:26:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1648110416;
+ bh=BEFjFwdyZ+juzcTNBKdWVSKt7IAvgYfjXetEuCbPO0k=;
+ h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+ To:Cc:Content-Type;
+ b=K6OFJpZJeWr/7hNID9w7476JqqSVJzfGX6EZGMu4Dh4pLia24M8evCjxAqON9XW4K
+ Iu/nEMD+0fFCcw2v6hHNGUNjgu8DpF6MkRsz+45OIjeJNxDNrTK1lPh6BFFjzbYOzx
+ IH5iRWZhqPrRbAJsZN5SReBY+RSw/v0vkAegymz455M9Ey9KP7mlGqhxgL9a4UOUmm
+ 1itSGah/Ku1SVfi66odFSWBSbAGSHOTQk6QkpFGZoIsiyJ407sti8lNy+zIB5SzvUh
+ j4Cq1kQfX7E/JU24p63pOL2tnj9nBxcNGZH5HDEOkHtVyWhpM+btN7m5N/KmhhqHNt
+ Y8kJCR00LjTMw==
+Received: by mail-qt1-f197.google.com with SMTP id
+ z18-20020ac84552000000b002e201c79cd4so3173347qtn.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 01:26:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oNJ7K95CKwldTHLAMYbgKFSp7RsP0JL6EbNUFXPbc3k=;
- b=zxvBg646+D80ki0J9/xJNWq5HryqpEVrRXyRG/e1N9bhTFWEVjITEZTkPxr1KfUIJ6
- x+BMoGZgUpQIHVwIv6O0Wgcm5NjwbKd8kI0OfGIt2jJ+B5YJCF/Brg73WmGccc0ooKMd
- 2ODCW+G2LyKQt8mOul1xt0jLmLSR25YF38TfTSfFMc0EySkdu8ZMikzNHe+Ma8ByfTsD
- bFWssYMOAmYFCLz4dEPoCczQCyOorLv7rkdIFZpI9vMcE0TdxtRAjMM9lG3UsuCf8KjA
- NbV7W5QL2pOW43l+7yIJX5q2RtNAyos/9Uhs4SEmcOPvok1Ix4Le6q0itt1dCPIYBYKF
- 6baQ==
-X-Gm-Message-State: AOAM532DzRbmRPXLlNtjPp0vDTCBmsooGN/YhfQXCIqmXhJ06okHhW+7
- beJc2HYRjxiJ2NwVo4KjRPTM5tVD/1vr6XWbsZ0jBdxiiVBhLqWZ6XhGTEB0Bu6wzW1HJAN7iM7
- yAge64cFWQ5W/qa4=
-X-Received: by 2002:a05:6402:42c2:b0:419:1997:62b9 with SMTP id
- i2-20020a05640242c200b00419199762b9mr5332149edc.97.1648110338939; 
- Thu, 24 Mar 2022 01:25:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4/eFZMfJhD/OuzBKDe/pYnOJJwQ4wjDmLuEm2RRhsXA2HDovextukrx8DjoyAizfq9UW+FQ==
-X-Received: by 2002:a05:6402:42c2:b0:419:1997:62b9 with SMTP id
- i2-20020a05640242c200b00419199762b9mr5332134edc.97.1648110338790; 
- Thu, 24 Mar 2022 01:25:38 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- b19-20020aa7dc13000000b00418eef0a019sm1067661edu.34.2022.03.24.01.25.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Mar 2022 01:25:38 -0700 (PDT)
-Date: Thu, 24 Mar 2022 09:25:37 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
- <philippe.mathieu.daude@gmail.com>
-Subject: Re: [PATCH-for-7.0] target/i386/hvf: Free ressources when vCPU is
- destroyed
-Message-ID: <20220324092537.63991c50@redhat.com>
-In-Reply-To: <20220322190745.37727-1-philippe.mathieu.daude@gmail.com>
-References: <20220322190745.37727-1-philippe.mathieu.daude@gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BEFjFwdyZ+juzcTNBKdWVSKt7IAvgYfjXetEuCbPO0k=;
+ b=1a+f0FWK4Hb5uWLVit+isP6oPkomE3EY2joV/ZECzoZI76HpHlqanrcE7EbFe4L7jG
+ pgmxIDWCFZhUrEj2MqxtPpehoZaxbcl1dSMN/DTXxKSlXrzwdIcfyGsq+7lGPDes/DYJ
+ 7Ytm3csZZa26EyP5ZjztCxRDzEdq7hBVm6ZiWeMpPBTWx7idfdXrweiEb8m+1xO61fPa
+ M9b6+9UzxR6Uugr7OWw2WY2RoPkObT4i9LFDiLLdlMRfsl3XIEZQmzykhqDdzIxrlD+r
+ qPTe2cUuxmp43ItUC33FEDzRw37e4ffXqVjTzVix6FOr+055WijEmz6mqI6u3S80tJK9
+ GDTQ==
+X-Gm-Message-State: AOAM532GdYiYxpxeh+voUlk7btmMyQ8fPWdgX3HrWrAhVlA8K6I7jvkZ
+ SphcwLk6SHkIiSisq/Qe371MsS3xX+Om6WDhcnRWRLCs7H5dNZPO2lBb2tpd71C4dANih0snutR
+ VnQbX86G+Fz7YQ9U5/Wj1nIpk9kIT5OlVS3ozY+ItbVZs8W4I
+X-Received: by 2002:a05:6214:2b07:b0:432:f7e6:e443 with SMTP id
+ jx7-20020a0562142b0700b00432f7e6e443mr3126456qvb.125.1648110415343; 
+ Thu, 24 Mar 2022 01:26:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPqonh0666Z6+zXddgsZGkRRl9Ni3JQxR3fbgNFO7OwSZk8j7a7ekPiEUCoxMy1fbFwI5BwhD4cMs2x8uadZg=
+X-Received: by 2002:a05:6214:2b07:b0:432:f7e6:e443 with SMTP id
+ jx7-20020a0562142b0700b00432f7e6e443mr3126447qvb.125.1648110415142; Thu, 24
+ Mar 2022 01:26:55 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+References: <20220323090713.1002588-1-christian.ehrhardt@canonical.com>
+ <7f4e9d3a-78fd-4b48-56c6-418d8516a0df@gmail.com>
+In-Reply-To: <7f4e9d3a-78fd-4b48-56c6-418d8516a0df@gmail.com>
+From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Date: Thu, 24 Mar 2022 09:26:28 +0100
+Message-ID: <CAATJJ0KOyvHMhRSHJSf3x_5KmGGxHxRa9twR9tA15_SD-a6c_w@mail.gmail.com>
+Subject: Re: [PATCH-for-7.0] build: disable fcf-protection on -march=486 -m16
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Received-SPF: pass client-ip=185.125.188.123;
+ envelope-from=christian.ehrhardt@canonical.com;
+ helo=smtp-relay-internal-1.canonical.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,43 +95,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Mar 2022 20:07:45 +0100
-Philippe Mathieu-Daud=C3=A9 <philippe.mathieu.daude@gmail.com> wrote:
+On Wed, Mar 23, 2022 at 11:54 AM Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
+>
+> On 23/3/22 10:07, christian.ehrhardt@canonical.com wrote:
+> > From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+> >
+> > Some of the roms build with -march=3Di486 -m16 which is incompatible
+> > with -fcf-protection. That in turn is can be set by default, for
+> > example in Ubuntu [1].
+> > That causes:
+> >   cc1: error: =E2=80=98-fcf-protection=E2=80=99 is not compatible with =
+this target
+> >
+> > This won't work on -march=3Di486 -m16 and no matter if set or not we ca=
+n
+> > override it to "none" if the option is known to the compiler to be
+> > able to build reliably.
+> >
+> > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/889
+> >
+> > [1]: https://wiki.ubuntu.com/ToolChain/CompilerFlags#A-fcf-protection
+> >
+> > Signed-off-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+> > ---
+> >   pc-bios/optionrom/Makefile | 4 ++++
+> >   1 file changed, 4 insertions(+)
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->=20
-> Both xsave_buf and hvf_caps are allocated in hvf_arch_init_vcpu(),
-> free them in hvf_arch_vcpu_destroy().
->=20
-> Reported-by: Mark Kanda <mark.kanda@oracle.com>
-> Suggested-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Thank you for the review Thomas and Philippe!
+For the sake of testing other than my local build checks, the CI jobs
+on [1] on gitlab also all passed for this.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+[1]: https://gitlab.com/paelzer/qemu/-/pipelines/498917375
 
-> ---
->  target/i386/hvf/hvf.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-> index fc12c02fb2..39fa4641b9 100644
-> --- a/target/i386/hvf/hvf.c
-> +++ b/target/i386/hvf/hvf.c
-> @@ -163,7 +163,9 @@ void hvf_arch_vcpu_destroy(CPUState *cpu)
->      X86CPU *x86_cpu =3D X86_CPU(cpu);
->      CPUX86State *env =3D &x86_cpu->env;
-> =20
-> +    g_free(env->xsave_buf);
->      g_free(env->hvf_mmio_buf);
-> +    g_free(hvf_state->hvf_caps);
->  }
-> =20
->  static void init_tsc_freq(CPUX86State *env)
-
+--=20
+Christian Ehrhardt
+Staff Engineer, Ubuntu Server
+Canonical Ltd
 
