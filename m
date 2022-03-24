@@ -2,75 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E744E5D71
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 04:11:39 +0100 (CET)
-Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CB874E5D7B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 04:19:52 +0100 (CET)
+Received: from localhost ([::1]:53802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXDsw-0005Ki-Hq
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 23:11:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56598)
+	id 1nXE0t-00078p-1Z
+	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 23:19:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nXDre-0004YS-TL
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 23:10:18 -0400
-Received: from [2607:f8b0:4864:20::112a] (port=35381
- helo=mail-yw1-x112a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nXDrd-0004Hq-CG
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 23:10:18 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-2d07ae0b1c0so38151437b3.2
- for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 20:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iQZm9K9yJpGKJ0AS8Ixo1ACzQs/GYP8RmUiPpn/2Ffs=;
- b=Do6c3eEosMj2JjNHrPeJQ/NgxUyxExIy6F4YB3PLNfUcCRbunskXvlDsLh1LAzMxuw
- 0wUoEDhWE4BUxQhWK/DlOmPC3bJqW9XC2U/UC8XHKqLah9oHrGzlYeodOngC6/xCEmii
- CO2PTYOk7BAny6+OtpsFOBHIuRVnd25Tz7YqR7BRhAMoYUHdDM0w4Mi74cHxTjg9lRz0
- EB/FAUCeQOGQmk55/vsd7HjlnVi2Q+oeS8fpYCJt4gyMfSJQme3KBgp+WNNxQkBjnSKt
- kk+8s3PPQv6O2hYLRXgQiUXsWpzP5ZpWE23WAsEZ24TXg2rU9+DpMxhMA8Yl+obu819x
- fw5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iQZm9K9yJpGKJ0AS8Ixo1ACzQs/GYP8RmUiPpn/2Ffs=;
- b=uTsC6a5XXXV2XmOpFln3Rthqc0moX6wJ3KjuchRrGTxDHb5LtatG0a3Ls/LnrxWWIR
- Ii5nnkw2GfgDEosuiYEZ8KaA0cul6pBQLGjR+w3WmOVM9MqvMAo66UgEPPU1M8WIVdF3
- fxbKfIQOwHZLQkhs8/I1e2tfa+3r5W03aDu3N+1Ify+s97CXU9YmaZEg03crDuQNw1z0
- dspIyEOqr2++C1vPWa0f5FhfNQM5DYULMTdYnn7BUI5jTRFMo/lazwuN87KJc7mS++ma
- tEDhZWR7CC1nPRyFUc2CP3pswFX/svd7syZFrlrsxxZNJPCezy7Wr6R/zyKZDsWlUP3o
- MRnQ==
-X-Gm-Message-State: AOAM532lw8G7gp6hwoXKSlloTVepAcxLeqzK3aMKD5nBi/8EiV/IDWiA
- Q89A++UYXl/sOwaXsiObgJ90hPjIbFNyKi9ig3c=
-X-Google-Smtp-Source: ABdhPJzT1jONuxSOapXcu11kZS6zL8S+PJDyD5UHAyst74cPQjz5OeekE+VXCCLWI3KRSkBPZmQcd22bZNvc2mN+crs=
-X-Received: by 2002:a81:8343:0:b0:2e5:b43c:86eb with SMTP id
- t64-20020a818343000000b002e5b43c86ebmr2891032ywf.153.1648091416188; Wed, 23
- Mar 2022 20:10:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nXDzv-0006U5-LG
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 23:18:51 -0400
+Received: from mga05.intel.com ([192.55.52.43]:40448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nXDzs-0008OE-NX
+ for qemu-devel@nongnu.org; Wed, 23 Mar 2022 23:18:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648091928; x=1679627928;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/rU1uI93CBSJVQAQGW/ZcoBCvdHn8Z7Lu+IhyBlTNGw=;
+ b=aM12g91mAfm1zIx4XIc3qSVp7GUA/CbhoJU8v2qtQX/HYCC/vzAF0MVw
+ 885MFyCzwyxpqW5asZR4p92NpwnTFS6oFV2IAPfVKe5B+1Hv9cmtbrtIh
+ t+bexr/pdhPpcesWCZg7LIvi85Cn5N+ac0ixt6X1Ly6+xqNeKijVPgCnA
+ 1u6mME/GgMYSLCAB7pc6Vi/33Jbc+c1mYuwc8TNSrj6+TTtghFQDKJWO/
+ vSb4Yw1nv7/lBuKd9UM5iTDlcP2tq9fuDskNyIfVdhI3pWVf9NiHVzYBr
+ 7O/spD+JWJuUbZjmE4l4MEfXhYrCEKzQX3s0oy2ZXwCQWEiBmEM8ASemX Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="344709237"
+X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="344709237"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2022 20:18:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="616635511"
+Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
+ by fmsmga004.fm.intel.com with ESMTP; 23 Mar 2022 20:18:46 -0700
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/i386: Return right size value after dynamic xfeature
+ enabled
+Date: Wed, 23 Mar 2022 20:18:46 -0700
+Message-Id: <20220324031846.11943-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220322154213.86475-1-bmeng.cn@gmail.com>
- <CAFEAcA8RdqQ5fzoZtb5SaYe41FA=oKo21veergqhMgo=eFmB6Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA8RdqQ5fzoZtb5SaYe41FA=oKo21veergqhMgo=eFmB6Q@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 24 Mar 2022 11:10:04 +0800
-Message-ID: <CAEUhbmVXiB+mbbjhy0sT2PhQHNJgdHmehXfcE18g=E3SPffndQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] gdbstub: Set current_cpu for memory read write
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yw1-x112a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=yang.zhong@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,34 +70,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: yang.zhong@intel.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 22, 2022 at 11:56 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 22 Mar 2022 at 15:43, Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > When accessing the per-CPU register bank of some devices (e.g.: GIC)
-> > from the GDB stub context, a segfault occurs. This is due to current_cpu
-> > is not set, as the contect is not a guest CPU.
-> >
-> > Let's set current_cpu before doing the acutal memory read write.
-> >
-> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/124
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > ---
->
-> This works, but I worry a bit that it might have unexpected
-> side effects, and setting globals (even if thread-local) to
-> cause side-effects elsewhere isn't ideal...
->
+The kvm_arch_get_supported_cpuid() only call KVM_GET_SUPPORTED_CPUID one
+time, so the cpuid buffer information still keep older value. Once Qemu
+enable new dynamic xfeature, like XTILEDATA, the cpuid[0D,0].{EBX,ECX}
+still return older value.
 
-The functions modified are local to the gdbstub or monitor thread, so
-modifying the thread-local variable should have no side-effects.
+This patch can return right size value in kvm_init_xsave() if XTILEDATA
+has been enabled by arch_prctl.
 
-Regards,
-Bin
+assert(kvm_arch_get_supported_cpuid(kvm_state, 0xd, 0, R_ECX) <=
+           env->xsave_buf_len);
+
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+---
+ target/i386/cpu.h     |  3 +++
+ target/i386/kvm/kvm.c | 15 +++++++++++++--
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 5e406088a9..814ba4020b 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -565,6 +565,9 @@ typedef enum X86Seg {
+ #define ESA_FEATURE_ALIGN64_MASK        (1U << ESA_FEATURE_ALIGN64_BIT)
+ #define ESA_FEATURE_XFD_MASK            (1U << ESA_FEATURE_XFD_BIT)
+ 
++#define ARCH_GET_XCOMP_GUEST_PERM       0x1024
++#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
++
+ 
+ /* CPUID feature words */
+ typedef enum FeatureWord {
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 06901c2a43..312d4fccf8 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -46,6 +46,7 @@
+ #include "hw/i386/intel_iommu.h"
+ #include "hw/i386/x86-iommu.h"
+ #include "hw/i386/e820_memory_layout.h"
++#include "target/i386/cpu.h"
+ 
+ #include "hw/pci/pci.h"
+ #include "hw/pci/msi.h"
+@@ -437,6 +438,18 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+             return ret;
+         }
+         ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
++    } else if (function == 0xd && index == 0 &&
++               (reg == R_EBX || reg == R_ECX)) {
++        /*
++         * The value returned by KVM_GET_SUPPORTED_CPUID does not include
++         * features that already be enabled with the arch_prctl system call.
++         */
++        int rc = syscall(SYS_arch_prctl, ARCH_GET_XCOMP_GUEST_PERM, &bitmask);
++        if (rc) {
++            warn_report("prctl(ARCH_GET_XCOMP_GUEST_PERM) error: %d", rc);
++        } else if (bitmask & XSTATE_XTILE_DATA_MASK) {
++            ret += sizeof(XSaveXTILEDATA);
++        }
+     } else if (function == 0x80000001 && reg == R_ECX) {
+         /*
+          * It's safe to enable TOPOEXT even if it's not returned by
+@@ -5214,8 +5227,6 @@ bool kvm_arch_cpu_check_are_resettable(void)
+     return !sev_es_enabled();
+ }
+ 
+-#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
+-
+ void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
+ {
+     KVMState *s = kvm_state;
 
