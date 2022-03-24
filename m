@@ -2,91 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A74A4E6535
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 15:32:45 +0100 (CET)
-Received: from localhost ([::1]:36274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 062774E6562
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 15:36:16 +0100 (CET)
+Received: from localhost ([::1]:39442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXOW2-0000Av-Ew
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 10:32:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37010)
+	id 1nXOZT-0002g5-4q
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 10:36:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nXOT0-0007lZ-18
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 10:29:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nXOSw-0000Iz-LT
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 10:29:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648132169;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y0j55qHPKd+csN1w7AUAhUqYcLNBLgDvOAFZ5Cvk32M=;
- b=DKBM+NT3fbMcn5dj+zwfQvtnZQxXeFgWXtH0FcMMihih5Gycc0PNsZDccSQguOPYSEsxx+
- 1gQ81zxdAtCZTR+4f7uEgqMicyuzAWcVy87utHj8He/PyhVWyBkmOiod5ibmfjCXspfPYf
- 7sJj4CCBtCGnTrS74+weoYIriEPP4AE=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-497-JQaWuty1PYqB0CnAbWnIkQ-1; Thu, 24 Mar 2022 10:29:26 -0400
-X-MC-Unique: JQaWuty1PYqB0CnAbWnIkQ-1
-Received: by mail-yb1-f198.google.com with SMTP id
- w1-20020a5b08c1000000b00633be107f28so3702144ybq.4
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 07:29:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nXOXo-00020K-0R
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 10:34:32 -0400
+Received: from [2a00:1450:4864:20::434] (port=34485
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nXOXm-0001AN-AF
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 10:34:31 -0400
+Received: by mail-wr1-x434.google.com with SMTP id m30so6940058wrb.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 07:34:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=N4Zc3pWy/c5LD7OtNPFcCbfctP0uBPQQTBHUXEIaVCA=;
+ b=zG2ndXeSzrxeeI4DEYMoC4gHnLw6+W+jh9chcd7KDtfdL2iNLwj94DHw3OxUBfTwUr
+ lIne/rFDA6DSaIKbVtHPV8nCd/r5f1ARkCF1z6adV9eTG6SQthvbFby1Gi8PZfrijzno
+ jxOmzep6idPwfeQLbOQCtVWYewFOfjhnnkFtSfF9a+UTaWggh18RrUyW6BvzioxUUczY
+ Ep/DEOxbQ2NO0dgmL1reWXeRKG0nHpqooRdzBTIri5wb9f+QqK/ZFhT08R7Ew7K6pA2b
+ EgAyPvv5wK9pG8dILaq5MX+UnL8nt3jmescxhLk8zUw/q960rD+E+76yNjFytIbISPEe
+ s2Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:references:mime-version:in-reply-to:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=y0j55qHPKd+csN1w7AUAhUqYcLNBLgDvOAFZ5Cvk32M=;
- b=U+efci/pO8IWPtcY2Q5NCJ9fdgh4pWPgXs0ISZZLEGc9hp6rPRJ2786D/wroioCU0r
- j1d7GiWp75gSujvBuE3kSl0x0tgEeMuFnwGW2xbVnBeg3z5CTqLbxTOAQucBm+W6ZcU/
- PgDUAk2E7FtYUFCGkySKMcKt1i9yJ8A5JrNB3Kn649doP1VIJq3fy5GdrcvbOzkQPZl4
- UQE+uyKloxDoBG/r2ep+0GYurXM4vSBe45uKbIwWvHfAVSwH15jg34xAl01/bIsDxIIo
- Sv/6nclwxK+cKxMNQlfAFc4nFaWpjMRvkld+v7KUtCKEB4Adfaijbi2Tz+oEqYFHkrAL
- i4SA==
-X-Gm-Message-State: AOAM5326XwGg/BdM4izLTU41t53xODyqum86Ux1Wa3BDqXS3EVVhCSgL
- gMyhvnqGBm9iATfN13Qldp46wG8Lm3VASJJv9KFdtbzgFz/YrDvyF8vZh3rJ9TN1IFinxcOLKxu
- uTL6WnMX+nz9swexZyN6vCQ7C66dKuYw=
-X-Received: by 2002:a25:d008:0:b0:633:c639:88c8 with SMTP id
- h8-20020a25d008000000b00633c63988c8mr4882951ybg.547.1648132166075; 
- Thu, 24 Mar 2022 07:29:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwRWl/CqtZQSo1FQQQti78eFohh3wpDvXwrBah+2g6g/Nm1iL32uryPbhjiczCs8FV/Wbi42xvZOMTjxrxuIy4=
-X-Received: by 2002:a25:d008:0:b0:633:c639:88c8 with SMTP id
- h8-20020a25d008000000b00633c63988c8mr4882929ybg.547.1648132165889; Thu, 24
- Mar 2022 07:29:25 -0700 (PDT)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 24 Mar 2022 14:29:25 +0000
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20220321210847.914787-1-jsnow@redhat.com>
- <20220321210847.914787-2-jsnow@redhat.com>
- <CAFn=p-YM8VoXLMBz4nmkvkAMH8SHa+uT=Wx9F77Q-xKrea9GLg@mail.gmail.com>
- <YjwzCM3/wZ4S2fxf@redhat.com> <Yjwzy97JAHKhvCHn@redhat.com>
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=N4Zc3pWy/c5LD7OtNPFcCbfctP0uBPQQTBHUXEIaVCA=;
+ b=6N/rrlR0HCCeceOjHRy1oNAOJK8JfnHmMSEPElZ+aeKnZmSHIz2hR5oWXFsQ7AyHZA
+ Tv35klpq/fnTadeOMWmCz7k0cdxSv0Rm4py3ZhAyrUP0Z+eq1wA1zRw9lGBFMg+/x0Bb
+ dL9PqyiZ8QqSG9xcDWJBi0hY65vx8L/Q/2d/rg8JAKPEYws6LueeXIiK3Grpod7N0kGd
+ fop9nGtME9ng7X8xdNFnd8fMu8gSKRuQ1HkalNn3Rc/tZbKVTIOmH2Wy+bU3W55yziOe
+ NOD/VrIKUiizvnH7whpO1FxpquN87+fiKFG89kqlIG+ntFJq5Hus49/mjWF+2COgwZ1L
+ FYpA==
+X-Gm-Message-State: AOAM531RaeD7Y8cB+T40aXNtUn/ngsdCzyUrg8Gf7zaZ4+q8vPb4AA1/
+ h0Grv6c+g/RjqUZ9JlRA5sTKUw==
+X-Google-Smtp-Source: ABdhPJxLcMpsnprJS9GzgCZmAD2KbPvkAlTBd8z3PZXDwoPuLCR7bG2RsOVLpkyCqrpTd8NkxwOIkw==
+X-Received: by 2002:adf:e987:0:b0:203:d6f6:71f3 with SMTP id
+ h7-20020adfe987000000b00203d6f671f3mr5189242wrm.82.1648132468127; 
+ Thu, 24 Mar 2022 07:34:28 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ bg18-20020a05600c3c9200b0037c2ef07493sm2750231wmb.3.2022.03.24.07.34.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Mar 2022 07:34:27 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 287571FFB7;
+ Thu, 24 Mar 2022 14:34:26 +0000 (GMT)
+References: <20220320171135.2704502-1-richard.henderson@linaro.org>
+ <20220320171135.2704502-9-richard.henderson@linaro.org>
+ <87a6dg4m2h.fsf@linaro.org>
+ <3df76126-e4ab-7821-831a-c1a21e31fbc5@linaro.org>
+User-agent: mu4e 1.7.10; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PULL for-7.1 08/36] *: Use fprintf between qemu_log_lock/unlock
+Date: Thu, 24 Mar 2022 14:30:00 +0000
+In-reply-to: <3df76126-e4ab-7821-831a-c1a21e31fbc5@linaro.org>
+Message-ID: <87sfr72zd9.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <Yjwzy97JAHKhvCHn@redhat.com>
-Date: Thu, 24 Mar 2022 14:29:25 +0000
-Message-ID: <CABJz62N52DA8P9EweUnqgO6-Yy6-e8in2PDyjqcE_kbhWh7kvA@mail.gmail.com>
-Subject: Re: [PATCH 01/10] python/aqmp: add explicit GPLv2 license to legacy.py
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,34 +95,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Luiz Capitulino <lcapitulino@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 09:03:07AM +0000, Daniel P. Berrang=C3=A9 wrote:
-> > Overall making it *all* GPLv2+ compat is going to be important if you
-> > want people to be comfortable using it. If it has a mix of GPLv2+
-> > and GPLv2-only code in the source tarball, then the overall combined
-> > work will have to be considered GPLv2-only and that will put people
-> > off using it. Even if they could theoreticallly restrict their usage
-> > to only the GPLv2+ parts, many won't get that far before moving on.
 
-Agreed.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Actually I'll go furthuer and suggest that if we're going to do a
-> relicensing at all, and your goal is to encourage usage, then GPLv2+
-> is the wrong choice. Use LGPLv2+ if you want to facilitate usage, while
-> retaining a copyleft license.
+> On 3/23/22 10:22, Alex Benn=C3=A9e wrote:
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>=20
+>>> Inside qemu_log, we perform qemu_log_lock/unlock, which need
+>>> not be done if we have already performed the lock beforehand.
+>>>
+>>> Always check the result of qemu_log_lock -- only checking
+>>> qemu_loglevel_mask races with the acquisition of the lock
+>>> on the logfile.
+>> I'm not sure I like introducing all these raw fprintfs over
+>> introducing
+>> a function like qemu_log__locked().
+>
+> There's no way to implement qemu_log__locked with rcu.  The lookup
+> itself is what needs the locking; the return value of the FILE* is
+> then valid until the unlock.  To lookup the FILE* again would require
+> more atomic operations.
 
-Does LGPL make sense in the context of Python, where there is no
-linking?
+That's not what I'm suggesting. qemu_log__locked would be a fairly
+simple wrapper around the fprintf:
+
+modified   include/qemu/log.h
+@@ -70,6 +70,25 @@ void qemu_log_unlock(FILE *fd);
+         }                                               \
+     } while (0)
+=20
++/**
++ * qemu_log__locked() - log to a locked file
++ * @logfile: FILE handle from qemu_log_lock()
++ * @fmt: printf format
++ * ...: varargs
++ */
++static inline void G_GNUC_PRINTF(2, 3)
++    qemu_log__locked(FILE *logfile, const char *fmt, ...)
++{
++    if (logfile) {
++        va_list ap;
++
++        va_start(ap, fmt);
++        vfprintf(logfile, fmt, ap);
++        va_end(ap);
++    }
++}
++
++
+ /* Maintenance: */
+=20
+ /* define log items */
+modified   accel/tcg/translate-all.c
+@@ -1546,10 +1546,10 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+             }
+=20
+             /* Dump header and the first instruction */
+-            fprintf(logfile, "OUT: [size=3D%d]\n", gen_code_size);
+-            fprintf(logfile,
+-                    "  -- guest addr 0x" TARGET_FMT_lx " + tb prologue\n",
+-                    tcg_ctx->gen_insn_data[insn][0]);
++            qemu_log__locked(logfile, "OUT: [size=3D%d]\n", gen_code_size);
++            qemu_log__locked(logfile,
++                             "  -- guest addr 0x" TARGET_FMT_lx " + tb pro=
+logue\n",
++                             tcg_ctx->gen_insn_data[insn][0]);
+             chunk_start =3D tcg_ctx->gen_insn_end_off[insn];
+             disas(logfile, tb->tc.ptr, chunk_start);
+=20
+@@ -1561,8 +1561,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+             while (insn < tb->icount) {
+                 size_t chunk_end =3D tcg_ctx->gen_insn_end_off[insn];
+                 if (chunk_end > chunk_start) {
+-                    fprintf(logfile, "  -- guest addr 0x" TARGET_FMT_lx "\=
+n",
+-                            tcg_ctx->gen_insn_data[insn][0]);
++                    qemu_log__locked(logfile, "  -- guest addr 0x" TARGET_=
+FMT_lx "\n",
++                                     tcg_ctx->gen_insn_data[insn][0]);
+                     disas(logfile, tb->tc.ptr + chunk_start,
+                           chunk_end - chunk_start);
+
+I would home the inline would mean the compiler could do a semi-decent
+job of eliding the multiple logfile checks. The _locked suffix is simply
+to indicate it expects a pre-locked file.
+
+> And I do prefer the printfs over repeated qemu_log.
+
+The main benefit from my point of view is it keeps qemu_log operations
+grouped together and easier to fix if we for example want to tweak how
+we deal with log files in the future.
+
+>
+>
+> r~
+
 
 --=20
-Andrea Bolognani / Red Hat / Virtualization
-
+Alex Benn=C3=A9e
 
