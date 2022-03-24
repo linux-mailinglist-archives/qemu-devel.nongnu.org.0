@@ -2,55 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30834E5DCC
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 05:16:15 +0100 (CET)
-Received: from localhost ([::1]:37700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 513254E5DD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 05:29:16 +0100 (CET)
+Received: from localhost ([::1]:40454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXEtS-0002cg-KA
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 00:16:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39476)
+	id 1nXF63-000537-0A
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 00:29:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leohou163@163.com>) id 1nXErZ-0001uL-C2
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 00:14:17 -0400
-Received: from m1346.mail.163.com ([220.181.13.46]:5823)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <leohou163@163.com>) id 1nXErP-0003Xs-Gs
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 00:14:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=P5LiF
- 3CDAwcutgLtonRmdYksbgzrPmogsxt/tjTDsUA=; b=lk0z8stYjKlLrfw3pjLqT
- EeGZBH0+juAQ7kAE+ofMDPZcfSubbZzYfVOMyGf5thcs/JrjxcvfmRLS0hufd90n
- 3WB8YOpbIoatvSPTH9iOdnCYnOnV1QxAX0ZXeL5fOcH/+bjbvPCnRKCDhcU9pi9S
- U2XyBskDOJQTlktjn4oAMI=
-Received: from leohou163$163.com ( [114.249.224.138] ) by
- ajax-webmail-wmsvr46 (Coremail) ; Thu, 24 Mar 2022 11:58:28 +0800 (CST)
-X-Originating-IP: [114.249.224.138]
-Date: Thu, 24 Mar 2022 11:58:28 +0800 (CST)
-From: leohou <leohou163@163.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: Address mapping for vIOMMU
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210622(1d4788a8)
- Copyright (c) 2002-2022 www.mailtech.cn 163com
-X-CM-CTRLDATA: Qz8U5WZvb3Rlcl9odG09MTYzNzo1Ng==
-Content-Type: multipart/alternative; 
- boundary="----=_Part_36697_1111223167.1648094308784"
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nXF4w-0004Na-5g
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 00:28:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37601)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nXF4s-00087k-Jn
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 00:28:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648096080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BgJHsoBEbYP9Sk60StyXxDbi0rAYw+JaLNNTZeMmUPY=;
+ b=dES7NTtu7CTiD8YI1gSm6Ub3N14m/1NXPcb4PRl2qd4nBQaNp3v6eU6zP9XLU14Ixql6Lt
+ ZguCcdhJzivoOU1q0YXsEM7PIGWV4JgtKRGAeg3roJ7VcolDbwUya2CnOb3uMEa+GhK2Xo
+ YkAkD/K9s5VzSi4rTEtEi8i6jHSozJQ=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-137-9Z2BVORmMxG4K1EH6iBKaw-1; Thu, 24 Mar 2022 00:27:59 -0400
+X-MC-Unique: 9Z2BVORmMxG4K1EH6iBKaw-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ v2-20020a2e9f42000000b00247e9c3f0e1so1356882ljk.1
+ for <qemu-devel@nongnu.org>; Wed, 23 Mar 2022 21:27:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BgJHsoBEbYP9Sk60StyXxDbi0rAYw+JaLNNTZeMmUPY=;
+ b=bC3mAO74RYLT+Jd210+oaI1xwy19Nk3OwRaxCdvvbz9qc2JKbuhEEMOTWwuvf0nsGD
+ MWCuCMCiaN1g6ntXPoSJ3bmKwVABz3OV70yFUA5Hf5sImMwTafIJDDis+0eRK2SxBAUp
+ OGvYkmfBzDyQNthG0wdpHDSS/qut1cFqu/tY2EQ8vkyd2enr509VWD4Cbw9kEXY6g/AW
+ 2plOUq4y6Jb0LzGlVi0E1OaWAMoj6CYokys9x3uUEaqhME7rETsXxAddTt8A+cpXiGvS
+ 8KGhxWhL5OBgQKnvPRnYcch/GWTN5OpCynoPJZafPKs62wKSJ8gHjgqOjEH583XDc8MY
+ IanA==
+X-Gm-Message-State: AOAM531ELc7GxEko6BcLmIBjm8YDRGU1GMcykJB8pU3rOj2bB9xDHicg
+ uwGRvrvwLDnIcA+UKEiFTHFHk1BAXVhG+gYizH1jB4AxqN+Oej+Ny2efLJha4u2CfW5O+8zrX1k
+ pzJvMi7ZMxzIZ+JVYJsUso+aC+RKFFAk=
+X-Received: by 2002:a05:6512:108a:b0:448:756a:f5fb with SMTP id
+ j10-20020a056512108a00b00448756af5fbmr2433380lfg.587.1648096077926; 
+ Wed, 23 Mar 2022 21:27:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFl0csHR9s60y6LQlUeExxtnjB82AgXsaK4rDwHSMEoHO/JNt9HgaM+NHWD/hVEK+573ZDbCma6ZcpjqyAzWM=
+X-Received: by 2002:a05:6512:108a:b0:448:756a:f5fb with SMTP id
+ j10-20020a056512108a00b00448756af5fbmr2433367lfg.587.1648096077669; Wed, 23
+ Mar 2022 21:27:57 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <155d85bb.2709.17fba1369b0.Coremail.leohou163@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: LsGowADnm+xl7DtiOukNAA--.62098W
-X-CM-SenderInfo: xohrx0jxrwjqqrwthudrp/xtbBOQTNPl-PMC4YnQAAsF
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-Received-SPF: pass client-ip=220.181.13.46; envelope-from=leohou163@163.com;
- helo=m1346.mail.163.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <155d85bb.2709.17fba1369b0.Coremail.leohou163@163.com>
+In-Reply-To: <155d85bb.2709.17fba1369b0.Coremail.leohou163@163.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 24 Mar 2022 12:27:46 +0800
+Message-ID: <CACGkMEvcVGvB2ZEes20cVBA1_8TWdDo1o-jPw07R4TOEXNi0kQ@mail.gmail.com>
+Subject: Re: Address mapping for vIOMMU
+To: leohou <leohou163@163.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,59 +92,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_36697_1111223167.1648094308784
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
+On Thu, Mar 24, 2022 at 12:15 PM leohou <leohou163@163.com> wrote:
+>
+> hi all,
+> When I use DPDK in guestOS  and  configering the VM with vIOMMU, I found that  sending the gVA to the hardware device , the hardware device can't  find the real data.
+> But sending the gPA to the hardware device, the hardware device can  find the real data.
+>
+> Environment:
+> OS: Linux version 5.4.0-104-generic (buildd@ubuntu) (gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04)) #118-Ubuntu SMP Wed Mar 2 19:02:41 UTC 2022
+> QEMU: QEMU emulator version 4.2.1 (Debian 1:4.2-3ubuntu6.21)
+> Device: virtio-net
+>
+> Question:
+> The vIOMMU doesn't work?
+> I know virtio-net does not have DMA, so when virtio-net and DPDK are combined, IOMMU is not needed?
 
-aGkgYWxsLApXaGVuIEkgdXNlIERQREsgaW4gZ3Vlc3RPUyAgYW5kICBjb25maWdlcmluZyB0aGUg
-Vk0gd2l0aCB2SU9NTVUsIEkgZm91bmQgdGhhdCAgc2VuZGluZyB0aGUgZ1ZBIHRvIHRoZSBoYXJk
-d2FyZSBkZXZpY2UgLCB0aGUgaGFyZHdhcmUgZGV2aWNlIGNhbid0ICBmaW5kIHRoZSByZWFsIGRh
-dGEuCkJ1dCBzZW5kaW5nIHRoZSBnUEEgdG8gdGhlIGhhcmR3YXJlIGRldmljZSwgdGhlIGhhcmR3
-YXJlIGRldmljZSBjYW4gIGZpbmQgdGhlIHJlYWwgZGF0YS4KCgpFbnZpcm9ubWVudDoKT1M6IExp
-bnV4IHZlcnNpb24gNS40LjAtMTA0LWdlbmVyaWMgKGJ1aWxkZEB1YnVudHUpIChnY2MgdmVyc2lv
-biA5LjMuMCAoVWJ1bnR1IDkuMy4wLTE3dWJ1bnR1MX4yMC4wNCkpICMxMTgtVWJ1bnR1IFNNUCBX
-ZWQgTWFyIDIgMTk6MDI6NDEgVVRDIDIwMjIKUUVNVTogUUVNVSBlbXVsYXRvciB2ZXJzaW9uIDQu
-Mi4xIChEZWJpYW4gMTo0LjItM3VidW50dTYuMjEpCkRldmljZTogdmlydGlvLW5ldAoKCgpRdWVz
-dGlvbjoKClRoZSB2SU9NTVUgZG9lc24ndCB3b3JrPyAKCkkga25vdyB2aXJ0aW8tbmV0IGRvZXMg
-bm90IGhhdmUgRE1BLCBzbyB3aGVuIHZpcnRpby1uZXQgYW5kIERQREsgYXJlIGNvbWJpbmVkLCBJ
-T01NVSBpcyBub3QgbmVlZGVkPwo=
-------=_Part_36697_1111223167.1648094308784
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
+vIOMMU + virtio-net works for me like a charm.
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+aGkgYWxsLDwvZGl2Pjxk
-aXYgc3R5bGU9Im1hcmdpbjowOyI+V2hlbiBJIHVzZSBEUERLIGluIGd1ZXN0T1MmbmJzcDsgYW5k
-Jm5ic3A7IGNvbmZpZ2VyaW5nIHRoZSBWTSB3aXRoIHZJT01NVSwgSSBmb3VuZCB0aGF0Jm5ic3A7
-IHNlbmRpbmcgdGhlIGdWQSB0byB0aGUgaGFyZHdhcmUgZGV2aWNlICwgdGhlIGhhcmR3YXJlIGRl
-dmljZSBjYW4ndCZuYnNwOyBmaW5kIHRoZSByZWFsIGRhdGEuPC9kaXY+PGRpdiBzdHlsZT0ibWFy
-Z2luOjA7Ij5CdXQgIHNlbmRpbmcgdGhlIGdQQSB0byB0aGUgaGFyZHdhcmUgZGV2aWNlLCB0aGUg
-aGFyZHdhcmUgZGV2aWNlIGNhbiZuYnNwOyBmaW5kIHRoZSByZWFsIGRhdGEuPC9kaXY+PGRpdiBz
-dHlsZT0ibWFyZ2luOjA7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij5FbnZpcm9u
-bWVudDo8L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46MDsiPk9TOiBMaW51eCB2ZXJzaW9uIDUuNC4w
-LTEwNC1nZW5lcmljIChidWlsZGRAdWJ1bnR1KSAoZ2NjIHZlcnNpb24gOS4zLjAgKFVidW50dSA5
-LjMuMC0xN3VidW50dTF+MjAuMDQpKSAjMTE4LVVidW50dSBTTVAgV2VkIE1hciAyIDE5OjAyOjQx
-IFVUQyAyMDIyPC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij5RRU1VOiBRRU1VIGVtdWxhdG9y
-IHZlcnNpb24gNC4yLjEgKERlYmlhbiAxOjQuMi0zdWJ1bnR1Ni4yMSk8L2Rpdj48ZGl2IHN0eWxl
-PSJtYXJnaW46MDsiPkRldmljZTogdmlydGlvLW5ldDxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJn
-aW46MDsiPjxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46MDsiPlF1ZXN0aW9uOiA8YnI+PC9k
-aXY+PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij5UaGUgdklPTU1VIGRvZXNuJ3Qgd29yaz8mbmJzcDsg
-PGJyPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+SSBrbm93IHZpcnRpby1uZXQgZG9lcyBu
-b3QgaGF2ZSBETUEsIHNvIHdoZW4gdmlydGlvLW5ldCBhbmQgRFBESyBhcmUgY29tYmluZWQsIElP
-TU1VIGlzIG5vdCBuZWVkZWQ/PGJyPjxzcGFuIHN0eWxlPSJjb2xvcjogcmdiKDUxLCA1MSwgNTEp
-OyBmb250LWZhbWlseTogdGFob21hLCAnTWljcm9zb2Z0IFlhSGVpJywgzqLI7dHFutosIMvOzOUs
-ICdNYWxndW4gR290aGljJywgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMy42MDAwMDEzMzUxNDQw
-NDNweDsgZm9udC1zdHlsZTogbm9ybWFsOyBmb250LXZhcmlhbnQ6IG5vcm1hbDsgZm9udC13ZWln
-aHQ6IG5vcm1hbDsgbGV0dGVyLXNwYWNpbmc6IG5vcm1hbDsgbGluZS1oZWlnaHQ6IDI1Ljk4NzUw
-MzA1MTc1NzgxM3B4OyBvcnBoYW5zOiBhdXRvOyB0ZXh0LWFsaWduOiBqdXN0aWZ5OyB0ZXh0LWlu
-ZGVudDogMHB4OyB0ZXh0LXRyYW5zZm9ybTogbm9uZTsgd2hpdGUtc3BhY2U6IG5vcm1hbDsgd2lk
-b3dzOiBhdXRvOyB3b3JkLXNwYWNpbmc6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDog
-MHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjQ3LCAyNDgsIDI1MCk7IGRpc3BsYXk6IGlubGlu
-ZSAhaW1wb3J0YW50OyBmbG9hdDogbm9uZTsiPjwvc3Bhbj48L2Rpdj48L2Rpdj48YnI+PGJyPjxz
-cGFuIHRpdGxlPSJuZXRlYXNlZm9vdGVyIj48cD4mbmJzcDs8L3A+PC9zcGFuPg==
-------=_Part_36697_1111223167.1648094308784--
+DPDK supported vIOMMU long ago with virtio-net.
+
+Make sure you vIOMMU is enabled in the guest (intel_iommu=on in guest
+kernel command line, and enable_unsafe_noiommu_mode is *not* 1)
+
+Thanks
+
+>
+>
+>
 
 
