@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFA34E6A3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:29:35 +0100 (CET)
-Received: from localhost ([::1]:45610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE77B4E6A40
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:32:15 +0100 (CET)
+Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXV1S-0007iL-LZ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:29:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45058)
+	id 1nXV42-0000wl-Vx
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:32:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXV0L-000731-7O
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:28:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34577)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXV3A-0000BV-GL
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:31:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXV0I-0005nO-CI
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:28:23 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXV38-0006Mm-6V
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:31:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648157301;
+ s=mimecast20190719; t=1648157477;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=avEPN6TTqye3WjedNiw8vbyYA478Xm7GUHXci8kCmYE=;
- b=GY/Q7RwsBJawoQl5iyArZ3A06UTsxWS+KP0B4TbC16CX2Qra39+h1+PplmcfhCbDdtLQ6U
- ZOcZei2pCLUktAKp29e6TXZCQ694D7U7eRU/i9XIUHjjWldP3Wk8dIUrIvp278s5YUGdqD
- Pe9Q753Dxa8R4d17epgk56WuiYyZshg=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iKD5dMCYGGIupsMv3MMz9uGr/oVtKCar3qVpb4aOqL8=;
+ b=WI4M6/vKVSikpb+vohD8DyqOCyddAktShAeCdH+tJc4FeeH4kXuJOT7C+sHNkm/aU0tMVM
+ OvcHvkneigEcgk5Vz1Rhhn3c2FOgpqg2+WIS7kf0Wvs/ruu4znpk8e+L3QU2qOV5Iid+pO
+ 9L735yrJPQXYo7E8S+j24jfdAaBFkXc=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-80-dGVCfWZlOGKdIER2JEJpwg-1; Thu, 24 Mar 2022 17:28:20 -0400
-X-MC-Unique: dGVCfWZlOGKdIER2JEJpwg-1
-Received: by mail-vs1-f70.google.com with SMTP id
- g20-20020a67dc94000000b003253f7908dbso1243671vsk.13
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:28:20 -0700 (PDT)
+ us-mta-597-zpycGGN6PzuulgvjkTCwrQ-1; Thu, 24 Mar 2022 17:31:16 -0400
+X-MC-Unique: zpycGGN6PzuulgvjkTCwrQ-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ o25-20020ab008d9000000b0034c03fd28b8so1613322uaf.14
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:31:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=avEPN6TTqye3WjedNiw8vbyYA478Xm7GUHXci8kCmYE=;
- b=pZKpqICHgjqi/BlqkNHzOrOCM+papgZzr+HrddNQAF/VpytilMQn+48bFPo5gcbx+u
- rGijSn+BeI0mEl6QchNvNNr+snIKxhdduoSXfOjV/Qp0TnxbsmGiRMwXxXHQu9jHbA+A
- xV7XZsaHRxYrC8STAkNKWF7nDZ402Vs/U+juibOKEiYn0m6zoRt402DxZuH2x4fGKZMt
- d1d/Ton8gjOb+AInLCw1vCLJyA5Q4g9/ejhMvAZvX8a3SiDngV7V8kUDqdyCPSOr8qOq
- tBZaXWdMPLpAvzFxNZ0pzejXGDLAyck06CY8zpUV/rIMHGYk6C2xl6Kk91yzDWdR6Fy4
- Y/2g==
-X-Gm-Message-State: AOAM532lNEFZ9/cDHcP6w5YzWM8D819hHxLmPzaohBO76u+MT+axtxek
- B7CIbVC1JZjJ8XYXjoHW+d1Nkh9wsWkBIBl9bRTgRvRa+9mobye59RDRy4D2dJDjBKxW/oW7j4g
- FgJ/QvwkOgd/KhZeGa1vGB4l6qBXwIDA=
-X-Received: by 2002:a05:6122:1da:b0:33f:c6b3:ac58 with SMTP id
- h26-20020a05612201da00b0033fc6b3ac58mr2212328vko.1.1648157299829; 
- Thu, 24 Mar 2022 14:28:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzxngD9E9qqFBIFJSARnVxw7lGljWgyWBSN2xfGlG26NrpTn9JR8to4cIL/h1RsVKyJJna32ZjekEhs7rLtSZ4=
-X-Received: by 2002:a05:6122:1da:b0:33f:c6b3:ac58 with SMTP id
- h26-20020a05612201da00b0033fc6b3ac58mr2212318vko.1.1648157299594; Thu, 24 Mar
- 2022 14:28:19 -0700 (PDT)
+ bh=iKD5dMCYGGIupsMv3MMz9uGr/oVtKCar3qVpb4aOqL8=;
+ b=onlOZX+VAYIyqqbGAjOoibum6khsCVp+f6mlW6r/hCXcbWNeb8gkSeESaIK4AQxe1k
+ L46dCYmzkyTZDRNvPKJMAJBt/XWAVhhNHGGd3w8BfEQwJQ9Es2mNPMI+vhNMTgT15WlG
+ gIAw76xFHJQf5HIBWze1XjidOPXUrKyXTr+GW4WGqIdrtlXueFnZOSU138lUP/AeIrXj
+ z7ZZ5V5T+LfeqWCZZueD5wkBwyxoRYoUa2G/DZcIBjOkcZR42MAuA8XTnD0LQwVwKYJW
+ aamNmJWr3eLL3eGIH828/o1J5bb7iYDzzoSvc9ETIv6KyzKFhcbPQbM3pRd0SJ0rBKug
+ gqKA==
+X-Gm-Message-State: AOAM533PJwLElRG468tN18yY1TDh3E1MsefzcNQ0SfcJ1hv7rTm24TbN
+ 8V2eREkWgEXg0rnA66NRZcMEKZEfoUWezSIRsbTgsP2w/XNIhTDnOc7hrMa69/vzmtIl/TStEMw
+ omN38nJ8EINEGTX7osXSpuurL2wbYalg=
+X-Received: by 2002:a05:6102:c8e:b0:321:7348:6c2a with SMTP id
+ f14-20020a0561020c8e00b0032173486c2amr3701632vst.11.1648157475903; 
+ Thu, 24 Mar 2022 14:31:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzdOqKuQZln5Gq4pLzS/EbOP3mzfQrOcTEJECyAajDnjhfHn8bJ2XiOJBJrXJmiDlZr1KUhXFG5hNqkuYhTfGk=
+X-Received: by 2002:a05:6102:c8e:b0:321:7348:6c2a with SMTP id
+ f14-20020a0561020c8e00b0032173486c2amr3701622vst.11.1648157475686; Thu, 24
+ Mar 2022 14:31:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220324175015.232794-1-victortoso@redhat.com>
- <20220324175015.232794-12-victortoso@redhat.com>
-In-Reply-To: <20220324175015.232794-12-victortoso@redhat.com>
+ <20220324175015.232794-14-victortoso@redhat.com>
+In-Reply-To: <20220324175015.232794-14-victortoso@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Thu, 24 Mar 2022 17:28:08 -0400
-Message-ID: <CAFn=p-b-SZ7+SLK7a9Ui7sXV9CsZB2RxA4=E75RZ8GFO6ZixpA@mail.gmail.com>
-Subject: Re: [PATCH 11/14] qapi: fix example of MEMORY_FAILURE
+Date: Thu, 24 Mar 2022 17:31:05 -0400
+Message-ID: <CAFn=p-ZdG1PTd6s1tgYv66zWp4NZqWA2pTo3cvNNEsrwUoBdHg@mail.gmail.com>
+Subject: Re: [PATCH 13/14] qapi: fix example of ACPI_DEVICE_OST event
 To: Victor Toso <victortoso@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,39 +98,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
 >
-> Minor issues found and fixed with the example:
-> * The JSON object of EVENT was not closed
-> * Missing timestamp
-> * Flags are optional but if defined then all members should be
->   include so we add "recursive" member.
-
-Oh, yeah. Good call.
-
-> * Changed string from '' to "" in action-required member.
+> * Missing the timestamp
+> * Missing the "info" object in the "data" member
 >
 > Signed-off-by: Victor Toso <victortoso@redhat.com>
 > ---
->  qapi/run-state.json | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  qapi/acpi.json | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> diff --git a/qapi/run-state.json b/qapi/run-state.json
-> index f87b9378ac..ee21decdec 100644
-> --- a/qapi/run-state.json
-> +++ b/qapi/run-state.json
-> @@ -571,7 +571,9 @@
->  # <- { "event": "MEMORY_FAILURE",
->  #      "data": { "recipient": "hypervisor",
->  #                "action": "fatal",
-> -#                "flags": { 'action-required': false } }
-> +#                "flags": { "action-required": false,
-> +#                           "recursive": false } },
-> +#      "timestamp": { "seconds": 1267061043, "microseconds": 959568 } }
+> diff --git a/qapi/acpi.json b/qapi/acpi.json
+> index 51f0d55db7..d148f6db9f 100644
+> --- a/qapi/acpi.json
+> +++ b/qapi/acpi.json
+> @@ -133,8 +133,9 @@
+>  # Example:
+>  #
+>  # <- { "event": "ACPI_DEVICE_OST",
+> -#      "data": { "device": "d1", "slot": "0",
+> -#                "slot-type": "DIMM", "source": 1, "status": 0 } }
+> +#      "data": { "info": { "device": "d1", "slot": "0",
+> +#                          "slot-type": "DIMM", "source": 1, "status": 0 } },
+> +#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
 >  #
 >  ##
->  { 'event': 'MEMORY_FAILURE',
+>  { 'event': 'ACPI_DEVICE_OST',
 > --
 > 2.35.1
 >
+
+Oh, good spot.
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 
