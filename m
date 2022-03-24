@@ -2,39 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3004E6937
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 20:21:05 +0100 (CET)
-Received: from localhost ([::1]:56584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D70B4E6930
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 20:18:27 +0100 (CET)
+Received: from localhost ([::1]:48632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXT16-00010T-3J
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 15:21:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45318)
+	id 1nXSyX-0003xn-T2
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 15:18:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1nXSpX-0000PD-3f; Thu, 24 Mar 2022 15:09:10 -0400
+ id 1nXSpZ-0000SO-9c; Thu, 24 Mar 2022 15:09:10 -0400
 Received: from [187.72.171.209] (port=22421 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1nXSpU-00053C-Ta; Thu, 24 Mar 2022 15:09:06 -0400
+ id 1nXSpX-00053C-Hr; Thu, 24 Mar 2022 15:09:08 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 24 Mar 2022 16:08:57 -0300
+ Thu, 24 Mar 2022 16:09:06 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id ADE7B8001D4;
- Thu, 24 Mar 2022 16:08:56 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 94D3A8001D4;
+ Thu, 24 Mar 2022 16:09:05 -0300 (-03)
 From: Leandro Lupori <leandro.lupori@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [RFC PATCH 0/6] Port PPC64/PowerNV MMU tests to QEMU
-Date: Thu, 24 Mar 2022 16:08:48 -0300
-Message-Id: <20220324190854.156898-1-leandro.lupori@eldorado.org.br>
+Subject: [RFC PATCH 1/6] target/ppc: Add support for the Processor Attention
+ instruction
+Date: Thu, 24 Mar 2022 16:08:49 -0300
+Message-Id: <20220324190854.156898-2-leandro.lupori@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220324190854.156898-1-leandro.lupori@eldorado.org.br>
+References: <20220324190854.156898-1-leandro.lupori@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 24 Mar 2022 19:08:57.0402 (UTC)
- FILETIME=[9CC081A0:01D83FB2]
+X-OriginalArrivalTime: 24 Mar 2022 19:09:06.0030 (UTC)
+ FILETIME=[A1E508E0:01D83FB2]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -62,66 +65,136 @@ Cc: Leandro Lupori <leandro.lupori@eldorado.org.br>, danielhb413@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support to run softmmu tests for ppc64 and ppc64le.
-To make it possible, a new "virtual" TCG test target,
-ppc64le-softmmu, was created.
+From: Cédric Le Goater <clg@kaod.org>
 
-Also add the MMU tests from
-https://github.com/legoater/pnv-test, that are the Microwatt
-tests adapted to use a PowerNV console and to better integrate
-with QEMU test infrastructure.
+Check the HID0 bit to send signal, currently modeled as a checkstop.
+The QEMU implementation adds an exit using the GPR[3] value (that's a
+hack for tests)
 
-To be able to finish the test and return an exit code to the
-calling process, the Processor Attention instruction is used.
-As its behavior is implementation dependent, in QEMU PowerNV
-it just calls exit with GPR[3] value, truncated to an uint8_t.
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+---
+ target/ppc/cpu.h         |  8 ++++++++
+ target/ppc/excp_helper.c | 27 +++++++++++++++++++++++++++
+ target/ppc/helper.h      |  1 +
+ target/ppc/translate.c   | 14 ++++++++++++++
+ 4 files changed, 50 insertions(+)
 
-Cédric Le Goater (2):
-  target/ppc: Add support for the Processor Attention instruction
-  ppc/pnv: Activate support for the Processor Attention instruction
-
-Leandro Lupori (4):
-  tests/tcg/ppc64: add basic softmmu test support
-  tests/tcg: add support for ppc64le softmmu tests
-  tests/tcg/ppc64: add MMU test sources
-  tests/tcg/ppc64: add rules to build PowerNV tests
-
- hw/ppc/pnv_core.c                         |   6 +
- include/hw/ppc/pnv_core.h                 |   1 +
- target/ppc/cpu.h                          |   8 +
- target/ppc/excp_helper.c                  |  27 +
- target/ppc/helper.h                       |   1 +
- target/ppc/translate.c                    |  14 +
- tests/Makefile.include                    |   7 +-
- tests/tcg/configure.sh                    |  11 +-
- tests/tcg/ppc64/Makefile.softmmu-target   |  80 +++
- tests/tcg/ppc64/system/include/asm.h      |  62 ++
- tests/tcg/ppc64/system/include/console.h  |  15 +
- tests/tcg/ppc64/system/include/io.h       |  61 ++
- tests/tcg/ppc64/system/include/pnv.h      |  21 +
- tests/tcg/ppc64/system/include/uart.h     |  54 ++
- tests/tcg/ppc64/system/lib/boot.S         |  68 ++
- tests/tcg/ppc64/system/lib/console.c      | 173 +++++
- tests/tcg/ppc64/system/lib/powerpc.lds    |  27 +
- tests/tcg/ppc64/system/mmu-head.S         | 142 ++++
- tests/tcg/ppc64/system/mmu.c              | 764 ++++++++++++++++++++++
- tests/tcg/ppc64/system/mmu.h              |   9 +
- tests/tcg/ppc64le/Makefile.softmmu-target |   7 +
- 21 files changed, 1554 insertions(+), 4 deletions(-)
- create mode 100644 tests/tcg/ppc64/Makefile.softmmu-target
- create mode 100644 tests/tcg/ppc64/system/include/asm.h
- create mode 100644 tests/tcg/ppc64/system/include/console.h
- create mode 100644 tests/tcg/ppc64/system/include/io.h
- create mode 100644 tests/tcg/ppc64/system/include/pnv.h
- create mode 100644 tests/tcg/ppc64/system/include/uart.h
- create mode 100644 tests/tcg/ppc64/system/lib/boot.S
- create mode 100644 tests/tcg/ppc64/system/lib/console.c
- create mode 100644 tests/tcg/ppc64/system/lib/powerpc.lds
- create mode 100644 tests/tcg/ppc64/system/mmu-head.S
- create mode 100644 tests/tcg/ppc64/system/mmu.c
- create mode 100644 tests/tcg/ppc64/system/mmu.h
- create mode 100644 tests/tcg/ppc64le/Makefile.softmmu-target
-
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 047b24ba50..12f9f3a880 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -173,6 +173,12 @@ enum {
+     POWERPC_EXCP_PRIV_REG      = 0x02,  /* Privileged register exception     */
+     /* Trap                                                                  */
+     POWERPC_EXCP_TRAP          = 0x40,
++    /* Processor Attention                                                   */
++    POWERPC_EXCP_ATTN          = 0x100,
++    /*
++     * NOTE: POWERPC_EXCP_ATTN uses values from 0x100 to 0x1ff to return
++     *       error codes.
++     */
+ };
+ 
+ #define PPC_INPUT(env) ((env)->bus_model)
+@@ -2089,6 +2095,8 @@ void ppc_compat_add_property(Object *obj, const char *name,
+ #define HID0_DOZE           (1 << 23)           /* pre-2.06 */
+ #define HID0_NAP            (1 << 22)           /* pre-2.06 */
+ #define HID0_HILE           PPC_BIT(19) /* POWER8 */
++#define HID0_ATTN           PPC_BIT(31) /* Processor Attention */
++#define HID0_POWER9_ATTN    PPC_BIT(3)
+ #define HID0_POWER9_HILE    PPC_BIT(4)
+ 
+ /*****************************************************************************/
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index d3e2cfcd71..b0c629905c 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -1379,6 +1379,9 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+             }
+             cs->halted = 1;
+             cpu_interrupt_exittb(cs);
++            if ((env->error_code & ~0xff) == POWERPC_EXCP_ATTN) {
++                exit(env->error_code & 0xff);
++            }
+         }
+         if (env->msr_mask & MSR_HVB) {
+             /*
+@@ -1971,6 +1974,30 @@ void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
+     env->resume_as_sreset = (insn != PPC_PM_STOP) ||
+         (env->spr[SPR_PSSCR] & PSSCR_EC);
+ }
++
++/*
++ * Processor Attention instruction (Implementation dependent)
++ */
++void helper_attn(CPUPPCState *env, target_ulong r3)
++{
++    bool attn = false;
++
++    if (env->excp_model == POWERPC_EXCP_POWER8) {
++        attn = !!(env->spr[SPR_HID0] & HID0_ATTN);
++    } else if (env->excp_model == POWERPC_EXCP_POWER9 ||
++               env->excp_model == POWERPC_EXCP_POWER10) {
++        attn = !!(env->spr[SPR_HID0] & HID0_POWER9_ATTN);
++    }
++
++    if (attn) {
++        raise_exception_err(env, POWERPC_EXCP_MCHECK,
++                            POWERPC_EXCP_ATTN | (r3 & 0xff));
++    } else {
++        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
++                               POWERPC_EXCP_INVAL |
++                               POWERPC_EXCP_INVAL_INVAL, GETPC());
++    }
++}
+ #endif /* defined(TARGET_PPC64) */
+ 
+ static void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr)
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 57da11c77e..9a2497569b 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -14,6 +14,7 @@ DEF_HELPER_1(rfmci, void, env)
+ #if defined(TARGET_PPC64)
+ DEF_HELPER_2(scv, noreturn, env, i32)
+ DEF_HELPER_2(pminsn, void, env, i32)
++DEF_HELPER_2(attn, void, env, tl)
+ DEF_HELPER_1(rfid, void, env)
+ DEF_HELPER_1(rfscv, void, env)
+ DEF_HELPER_1(hrfid, void, env)
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 408ae26173..5ace6f3a29 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -4123,6 +4123,19 @@ static void gen_rvwinkle(DisasContext *ctx)
+     gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
+ #endif /* defined(CONFIG_USER_ONLY) */
+ }
++
++static void gen_attn(DisasContext *ctx)
++{
++ #if defined(CONFIG_USER_ONLY)
++    GEN_PRIV;
++#else
++    CHK_SV;
++
++    gen_helper_attn(cpu_env, cpu_gpr[3]);
++    ctx->base.is_jmp = DISAS_NORETURN;
++#endif
++}
++
+ #endif /* #if defined(TARGET_PPC64) */
+ 
+ static inline void gen_update_cfar(DisasContext *ctx, target_ulong nip)
+@@ -6844,6 +6857,7 @@ GEN_HANDLER_E(nap, 0x13, 0x12, 0x0d, 0x03FFF801, PPC_NONE, PPC2_PM_ISA206),
+ GEN_HANDLER_E(sleep, 0x13, 0x12, 0x0e, 0x03FFF801, PPC_NONE, PPC2_PM_ISA206),
+ GEN_HANDLER_E(rvwinkle, 0x13, 0x12, 0x0f, 0x03FFF801, PPC_NONE, PPC2_PM_ISA206),
+ GEN_HANDLER(hrfid, 0x13, 0x12, 0x08, 0x03FF8001, PPC_64H),
++GEN_HANDLER(attn, 0x0, 0x00, 0x8, 0xfffffdff, PPC_FLOW),
+ #endif
+ /* Top bit of opc2 corresponds with low bit of LEV, so use two handlers */
+ GEN_HANDLER(sc, 0x11, 0x11, 0xFF, 0x03FFF01D, PPC_FLOW),
 -- 
 2.25.1
 
