@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C660C4E68D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:47:01 +0100 (CET)
-Received: from localhost ([::1]:38920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6CE54E68CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:42:42 +0100 (CET)
+Received: from localhost ([::1]:58568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXSU8-0008WS-Qp
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:47:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33524)
+	id 1nXSPx-0002bL-PI
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:42:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSED-0000Dd-W1
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSED-0000Dh-7S
  for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:30:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29871)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSE8-0005b6-8V
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:30:30 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSE8-0005dS-90
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:30:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648146624;
+ s=mimecast20190719; t=1648146626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ujNBzYeM06P8DwrtucEd2RrdFtL6/O4aD8QYIlm6Oog=;
- b=Ohee1zmpbxpol4ccqqgbh3Jevfkoij7hqNSEt1ke2Uielbr+OwPgoCU/M1kNUhv9D5Xvmh
- QUiT3MJwlS/ByY0gAJaG64I+ALSekd8NcUtcfAqqUcP5ywYHVwAuBGdOQgYUNQOFcMdLic
- Xg54ISC4umytpRPz0GAFwmSR+3u02mM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7GGrkTKfqYd+1jFxiYFBuJMTzDmrOxFlv8f3cfLKoOk=;
+ b=jPXoR4vrlOHbxkcEuHTepaoVsao4chauVZoFGxIW9tNEHdkPKLgahNIV0O0l94drmg8zfN
+ TfP1fOqpWTEWhAMIfgVI6WVUntw6Fm7ccoaL3DbjyHQ4XgIQpudTrTUWjJJvVgiv+Eowh5
+ RTUTY2Qi8F3IGH4+tJY4gz5hggMY53c=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-252-8m2Xny6rMcq5zCYvXGoZNA-1; Thu, 24 Mar 2022 14:30:20 -0400
-X-MC-Unique: 8m2Xny6rMcq5zCYvXGoZNA-1
+ us-mta-402-zWbOa-9xPC2-Wa5kMVxPIw-1; Thu, 24 Mar 2022 14:30:23 -0400
+X-MC-Unique: zWbOa-9xPC2-Wa5kMVxPIw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 877763801ED2;
- Thu, 24 Mar 2022 18:30:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A863802803;
+ Thu, 24 Mar 2022 18:30:23 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.33.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93C9DC26EA0;
- Thu, 24 Mar 2022 18:30:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B4E0C26EA0;
+ Thu, 24 Mar 2022 18:30:20 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/17] iotests: add enhanced debugging info to qemu-io
- failures
-Date: Thu, 24 Mar 2022 14:30:01 -0400
-Message-Id: <20220324183018.2476551-1-jsnow@redhat.com>
+Subject: [PATCH v2 01/17] iotests: replace calls to log(qemu_io(...)) with
+ qemu_io_log()
+Date: Thu, 24 Mar 2022 14:30:02 -0400
+Message-Id: <20220324183018.2476551-2-jsnow@redhat.com>
+In-Reply-To: <20220324183018.2476551-1-jsnow@redhat.com>
+References: <20220324183018.2476551-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -76,143 +79,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GitLab: https://gitlab.com/jsnow/qemu/-/commits/iotests_qemu_io_diagnostics=
-=0D
-CI: https://gitlab.com/jsnow/qemu/-/pipelines/499624472=0D
-=0D
-Howdy,=0D
-=0D
-This series does for qemu_io() what we've done for qemu_img() and makes=0D
-it a function that checks the return code by default and raises an=0D
-Exception when things do not go according to plan.=0D
-=0D
-This series removes qemu_io_pipe_and_status(), qemu_io_silent(), and=0D
-qemu_io_silent_check() in favor of just qemu_io().=0D
-=0D
-V2:=0D
-=0D
-- Fixed 040=0D
-- Fixed 245 on tmpfs=0D
-- Fixed tests/image-fleecing=0D
-=0D
-- I expect to respin a v3 to:=0D
-  (A) Fix the commit message on the 040 fix=0D
-  (B) Squash patches 7-12.=0D
-=0D
-001/17:[0004] [FC] 'iotests: replace calls to log(qemu_io(...)) with qemu_i=
-o_log()'=0D
-  rebased on master, changed imports.=0D
-  Kept RB from Eric.=0D
-=0D
-005/17:[down] 'iotests/040: Fix TestCommitWithFilters test'=0D
-  New patch, based on feedback from hreitz. Thank you ;_;=0D
-=0D
-006/17:[0013] [FC] 'iotests: create generic qemu_tool() function'=0D
-  Quoted return types (Needed for older Python versions)=0D
-  Changed phrasing of "args" param docstring (Hanna)=0D
-  Removed docstring reflow (It's upstream already)=0D
-  Kept RBs.=0D
-=0D
-007/17:[0004] [FC] 'iotests: rebase qemu_io() on top of qemu_tool()'=0D
-  Quoted return types (Needed for older Python versions)=0D
-=0D
-011/17:[0019] [FC] 'iotests/245: fixup'=0D
-  Rewrite to fix this test on tmpfs (Hanna)=0D
-=0D
-014/17:[down] 'iotests/image-fleecing: switch to qemu_io()'=0D
-  New, this test needed to be explicitly migrated away from pipe_and_status=
-.=0D
-=0D
-015/17:[0012] [FC] 'iotests: remove qemu_io_pipe_and_status()'=0D
-  This patch is basically empty after the new 014.=0D
-=0D
-016/17:[0006] [FC] 'iotests: remove qemu_io_silent() and qemu_io_silent_che=
-ck().'=0D
-  Reflow some lines (Eric)=0D
-  Added RBs.=0D
-=0D
-017/17:[0004] [FC] 'iotests: make qemu_io_log() check return codes by defau=
-lt'=0D
-  Changed commit message phrasing (Hanna, IIRC)=0D
-  Added RBs.=0D
-=0D
-Notes:=0D
-=0D
-- There are a few remaining uses of qemu-io that don't go through qemu_io;=
-=0D
-QemuIoInteractive is a user that is used in 205, 298, 299, and 307. It=0D
-... did not appear worth it to morph qemu_tool_popen into something that=0D
-could be used by both QemuIoInteractive *and* qemu_io(), so I left it=0D
-alone. It's probably fine for now. (But it does bother me, a little.)=0D
-=0D
-- qemu_io_popen itself is used by the nbd-reconnect-on-open test, and it=0D
-seems like a legitimate use -- it wants concurrency. Like the above=0D
-problem, I couldn't find a way to bring it into the fold, so I=0D
-didn't. (Meh.) I eventually plan to add asyncio subprocess management to=0D
-machine.py, and I could tackle stuff like this then. It's not worth it=0D
-now.=0D
-=0D
-(Maybe I'll bring these in under the fold the next time I get bored, but=0D
-I think it's not worth the trouble right now, there are very few=0D
-users. I did try, but the benefit to VerboseProcessError is that it=0D
-includes stdout/stderr. When using Popen with pipes you lose access to=0D
-that information in the management context. Popen does not natively=0D
-buffer stdout/stderr, so we'd have to fall back to just using a regular=0D
-CalledProcessError. I think I'd have to extend Popen and add=0D
-buffering. I think that's something for later. Anyway, that's my=0D
-story. How are you today? I hope you are well.)=0D
-=0D
-John Snow (17):=0D
-  iotests: replace calls to log(qemu_io(...)) with qemu_io_log()=0D
-  iotests/163: Fix broken qemu-io invocation=0D
-  iotests: Don't check qemu_io() output for specific error strings=0D
-  iotests/040: Don't check image pattern on zero-length image=0D
-  iotests/040: Fix TestCommitWithFilters test=0D
-  iotests: create generic qemu_tool() function=0D
-  iotests: rebase qemu_io() on top of qemu_tool()=0D
-  iotests/030: fixup=0D
-  iotests/149: fixup=0D
-  iotests/205: fixup=0D
-  iotests/245: fixup=0D
-  iotests/migration-permissions: fixup=0D
-  iotests/migration-permissions: use assertRaises() for qemu_io()=0D
-    negative test=0D
-  iotests/image-fleecing: switch to qemu_io()=0D
-  iotests: remove qemu_io_pipe_and_status()=0D
-  iotests: remove qemu_io_silent() and qemu_io_silent_check().=0D
-  iotests: make qemu_io_log() check return codes by default=0D
-=0D
- tests/qemu-iotests/030                        | 85 +++++++++++--------=0D
- tests/qemu-iotests/040                        | 53 +++++++-----=0D
- tests/qemu-iotests/056                        |  2 +-=0D
- tests/qemu-iotests/149                        |  6 +-=0D
- tests/qemu-iotests/163                        |  5 +-=0D
- tests/qemu-iotests/205                        |  4 +-=0D
- tests/qemu-iotests/216                        | 12 +--=0D
- tests/qemu-iotests/218                        |  5 +-=0D
- tests/qemu-iotests/224                        |  4 +-=0D
- tests/qemu-iotests/242                        |  6 +-=0D
- tests/qemu-iotests/245                        | 17 ++--=0D
- tests/qemu-iotests/255                        |  4 +-=0D
- tests/qemu-iotests/258                        | 11 ++-=0D
- tests/qemu-iotests/298                        | 15 ++--=0D
- tests/qemu-iotests/303                        |  4 +-=0D
- tests/qemu-iotests/310                        | 22 ++---=0D
- tests/qemu-iotests/iotests.py                 | 69 ++++++++-------=0D
- tests/qemu-iotests/tests/image-fleecing       | 30 ++++---=0D
- .../qemu-iotests/tests/migration-permissions  | 28 +++---=0D
- .../tests/mirror-ready-cancel-error           |  2 +-=0D
- .../qemu-iotests/tests/nbd-reconnect-on-open  |  2 +-=0D
- .../qemu-iotests/tests/stream-error-on-reset  |  4 +-=0D
- 22 files changed, 210 insertions(+), 180 deletions(-)=0D
-=0D
---=20=0D
-2.34.1=0D
-=0D
+This makes these callsites a little simpler, but the real motivation is
+a forthcoming commit will change the return type of qemu_io(), so removing
+users of the return value now is helpful.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ tests/qemu-iotests/242 | 6 +++---
+ tests/qemu-iotests/255 | 4 +---
+ tests/qemu-iotests/303 | 4 ++--
+ 3 files changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242
+index b3afd36d72..c89f0c6cb3 100755
+--- a/tests/qemu-iotests/242
++++ b/tests/qemu-iotests/242
+@@ -22,8 +22,8 @@
+ import iotests
+ import json
+ import struct
+-from iotests import qemu_img_create, qemu_io, qemu_img_info, \
+-    file_path, img_info_log, log, filter_qemu_io
++from iotests import qemu_img_create, qemu_io_log, qemu_img_info, \
++    file_path, img_info_log, log
+ 
+ iotests.script_initialize(supported_fmts=['qcow2'],
+                           supported_protocols=['file'],
+@@ -61,7 +61,7 @@ def add_bitmap(bitmap_number, persistent, disabled):
+ 
+ def write_to_disk(offset, size):
+     write = 'write {} {}'.format(offset, size)
+-    log(qemu_io('-c', write, disk), filters=[filter_qemu_io])
++    qemu_io_log('-c', write, disk)
+ 
+ 
+ def toggle_flag(offset):
+diff --git a/tests/qemu-iotests/255 b/tests/qemu-iotests/255
+index f86fa851b6..88b29d64b4 100755
+--- a/tests/qemu-iotests/255
++++ b/tests/qemu-iotests/255
+@@ -95,9 +95,7 @@ with iotests.FilePath('src.qcow2') as src_path, \
+     iotests.qemu_img_create('-f', iotests.imgfmt, src_path, size_str)
+     iotests.qemu_img_create('-f', iotests.imgfmt, dst_path, size_str)
+ 
+-    iotests.log(iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write 0 1M',
+-                                src_path),
+-                filters=[iotests.filter_test_dir, iotests.filter_qemu_io])
++    iotests.qemu_io_log('-f', iotests.imgfmt, '-c', 'write 0 1M', src_path),
+ 
+     vm.add_object('throttle-group,x-bps-read=4096,id=throttle0')
+ 
+diff --git a/tests/qemu-iotests/303 b/tests/qemu-iotests/303
+index 93aa5ce9b7..32128b1d32 100755
+--- a/tests/qemu-iotests/303
++++ b/tests/qemu-iotests/303
+@@ -21,7 +21,7 @@
+ 
+ import iotests
+ import subprocess
+-from iotests import qemu_img_create, qemu_io, file_path, log, filter_qemu_io
++from iotests import qemu_img_create, qemu_io_log, file_path, log
+ 
+ iotests.script_initialize(supported_fmts=['qcow2'],
+                           unsupported_imgopts=['refcount_bits', 'compat'])
+@@ -43,7 +43,7 @@ def create_bitmap(bitmap_number, disabled):
+ 
+ def write_to_disk(offset, size):
+     write = f'write {offset} {size}'
+-    log(qemu_io('-c', write, disk), filters=[filter_qemu_io])
++    qemu_io_log('-c', write, disk)
+ 
+ 
+ def add_bitmap(num, begin, end, disabled):
+-- 
+2.34.1
 
 
