@@ -2,62 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6CC34E648F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 14:59:56 +0100 (CET)
-Received: from localhost ([::1]:52380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 419414E64A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 15:05:07 +0100 (CET)
+Received: from localhost ([::1]:55410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXO0K-0006n7-2W
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 09:59:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55756)
+	id 1nXO5K-00013z-3n
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 10:05:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nXNpL-0005oi-UL
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 09:48:35 -0400
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:48939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nXNpJ-0007je-My
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 09:48:35 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.15])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id B661620C3C;
- Thu, 24 Mar 2022 13:48:22 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 24 Mar
- 2022 14:48:21 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002408dcf82-5571-4cbd-ac50-bbae085143f8,
- 8921D6D4056377124FF518EF6C5C68266D051705) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 86.195.214.108
-Message-ID: <71a8086b-882e-58ee-ce34-363eb8fffb54@kaod.org>
-Date: Thu, 24 Mar 2022 14:48:20 +0100
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nXO3D-0008Nl-50; Thu, 24 Mar 2022 10:02:56 -0400
+Received: from [2607:f8b0:4864:20::c35] (port=38657
+ helo=mail-oo1-xc35.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nXO3A-0002eC-Px; Thu, 24 Mar 2022 10:02:54 -0400
+Received: by mail-oo1-xc35.google.com with SMTP id
+ v19-20020a056820101300b0032488bb70f5so788359oor.5; 
+ Thu, 24 Mar 2022 07:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=2AdRPwz4EgffdjtBBqWogMQekHk3SpUIvOSAl94V04o=;
+ b=IJlW/m7CKNNABwSvgAFeoIzV6MKPODTt+S6UB/9ZBmD932dcK2fkuDyQP+YWvwb+55
+ O7/Csu6rD19ct7iSlu0pb3tOvbNha+VUvX5zIg93s3P3NEssDTNGnopBxKuPChjxG4Cy
+ ogYqB1qImMmVPXqKQf2Hg+CIMwjh617JprTVKe/7znrKFCtfmaA2oZCAXBrf588ldGBT
+ oIKbiqF40SS//rq06SDXIdC9bgBLUCPhsSqd3DKBMwW2sMDxaoh5O85OCZyaRVABAhIL
+ /B3r5QrhItg8utzWPi6/auHngogRsFGSUOFJvX9Q1ppr2xh8VqJufXebetOuCOtyY0+u
+ 5uQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2AdRPwz4EgffdjtBBqWogMQekHk3SpUIvOSAl94V04o=;
+ b=4a/yQdzEctAgtx8ZG5Fhxg+lJ1VXcBHey76ATKPAewzTgyr5jE6O3QcYtnnSs3CQcJ
+ aUCGFu6eFXrWkmhC+Cp4zLCDBIwsefosic7lEuANmN3UIka3yi9TzGybSZtkjm4dhbHF
+ vNxruKhxikU7+lADr1VvFCpYhW5PSTX2AC/5uTP7+J8vKTFu8mnGSt5xeLMG31tk4Skb
+ E0sIV/v4vSi/lm5LKdrzr5BYJM8KnYpUcLi3gthRDCU2Joj9btbjqzBcCZ+m7DZRM4iZ
+ CBQEVUF+zn/zS2NuBg2pJOQfWqtHdFeHL8LQJSiGsr2O/hwCL+IzGGPSoPaQQg05z99a
+ q/Wg==
+X-Gm-Message-State: AOAM530ohFXM9LSe2Hpjh1ifs0TE+H1k3rzQqgfx/Ru53/1CjcDIqPzS
+ EUmjaq6fQzpbKTB+uA+o/+k=
+X-Google-Smtp-Source: ABdhPJwVYqdwRwMeVQWZUXX53NB/pQntxliMP2OG1XvmTWZw1kYdOS+9FO1V9Ao3DmEd9Ezwt+dYwg==
+X-Received: by 2002:a4a:5b83:0:b0:324:4866:4f6e with SMTP id
+ g125-20020a4a5b83000000b0032448664f6emr1998596oob.61.1648130571249; 
+ Thu, 24 Mar 2022 07:02:51 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96?
+ ([2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96])
+ by smtp.gmail.com with ESMTPSA id
+ y67-20020a4a4546000000b0032476e1cb40sm1317857ooa.25.2022.03.24.07.02.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Mar 2022 07:02:51 -0700 (PDT)
+Message-ID: <f3efd672-3d8e-8533-4aff-720c32d5800c@gmail.com>
+Date: Thu, 24 Mar 2022 11:02:48 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v1 2/2] aspeed: Add I2C buses to AST1030 model
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/2] pcie: Don't try triggering a LSI when not defined
 Content-Language: en-US
-To: Troy Lee <troy_lee@aspeedtech.com>, <leetroy@gmail.com>
-References: <20220324100439.478317-1-troy_lee@aspeedtech.com>
- <20220324100439.478317-3-troy_lee@aspeedtech.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220324100439.478317-3-troy_lee@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org, mst@redhat.com,
+ marcel.apfelbaum@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20220321153357.165775-1-fbarrat@linux.ibm.com>
+ <20220321153357.165775-2-fbarrat@linux.ibm.com>
+ <d0eaf24b-9eff-cfd4-4827-c738e238b5e6@gmail.com>
+ <5a482e34-cadc-571a-360a-fb5ede7d8a2d@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <5a482e34-cadc-571a-360a-fb5ede7d8a2d@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 59aaf7e6-a316-445d-8de6-2c322860a898
-X-Ovh-Tracer-Id: 8549520945358277423
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudegledgheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c35
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc35.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,99 +97,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jamin Lin <jamin_lin@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>,
- Steven Lee <steven_lee@aspeedtech.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>, "open list:ASPEED
- BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/22 11:04, Troy Lee wrote:
-> Instanitate the I2C buses in AST1030 model and create two slave device
-> for ast1030-evb.
+
+
+On 3/24/22 10:47, Frederic Barrat wrote:
 > 
-> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
-> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-
-> ---
->   hw/arm/aspeed_ast1030.c | 17 +++++++++++++++++
->   hw/arm/aspeed_minibmc.c | 13 +++++++++++++
->   2 files changed, 30 insertions(+)
 > 
-> diff --git a/hw/arm/aspeed_ast1030.c b/hw/arm/aspeed_ast1030.c
-> index fe700d922f..c16bcba7c9 100644
-> --- a/hw/arm/aspeed_ast1030.c
-> +++ b/hw/arm/aspeed_ast1030.c
-> @@ -92,6 +92,9 @@ static void aspeed_soc_ast1030_init(Object *obj)
->       object_property_add_alias(obj, "hw-strap1", OBJECT(&s->scu), "hw-strap1");
->       object_property_add_alias(obj, "hw-strap2", OBJECT(&s->scu), "hw-strap2");
->   
-> +    snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
-> +    object_initialize_child(obj, "i2c", &s->i2c, typename);
-> +
->       snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
->       object_initialize_child(obj, "timerctrl", &s->timerctrl, typename);
->   
-> @@ -163,6 +166,20 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
->       }
->       sysbus_mmio_map(SYS_BUS_DEVICE(&s->scu), 0, sc->memmap[ASPEED_DEV_SCU]);
->   
-> +    /* I2C */
-> +    object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(&s->sram),
-> +                             &error_abort);
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i2c), errp)) {
-> +        return;
-> +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c), 0, sc->memmap[ASPEED_DEV_I2C]);
-> +    for (i = 0; i < ASPEED_I2C_GET_CLASS(&s->i2c)->num_busses; i++) {
-> +        qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->armv7m),
-> +                                        sc->irqmap[ASPEED_DEV_I2C] + i);
-> +        /* The AST2600 I2C controller has one IRQ per bus. */
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c.busses[i]), 0, irq);
-> +    }
-> +
->       /* LPC */
->       if (!sysbus_realize(SYS_BUS_DEVICE(&s->lpc), errp)) {
->           return;
-> diff --git a/hw/arm/aspeed_minibmc.c b/hw/arm/aspeed_minibmc.c
-> index 6a29475919..764df92f65 100644
-> --- a/hw/arm/aspeed_minibmc.c
-> +++ b/hw/arm/aspeed_minibmc.c
-> @@ -37,6 +37,18 @@ struct AspeedMiniBmcMachineState {
->   /* Main SYSCLK frequency in Hz (200MHz) */
->   #define SYSCLK_FRQ 200000000ULL
->   
-> +static void ast1030_evb_i2c_init(AspeedMiniBmcMachineState *bmc)
-> +{
-> +    AspeedSoCState *soc = &bmc->soc;
-> +
-> +    /* U10 24C08 connects to SDA/SCL Groupt 1 by default */
-> +    uint8_t *eeprom_buf = g_malloc0(32 * 1024);
-> +    smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 0), 0x50, eeprom_buf);
-> +
-> +    /* U11 LM75 connects to SDA/SCL Group 2 by default */
-> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 1), "tmp105", 0x4d);
-> +}
-> +
->   static void aspeed_minibmc_machine_ast1030_evb_class_init(ObjectClass *oc,
->                                                             void *data)
->   {
-> @@ -47,6 +59,7 @@ static void aspeed_minibmc_machine_ast1030_evb_class_init(ObjectClass *oc,
->       amc->soc_name = "ast1030-a1";
->       amc->hw_strap1 = 0;
->       amc->hw_strap2 = 0;
-> +    amc->i2c_init = ast1030_evb_i2c_init;
->       mc->default_ram_size = 0;
->       mc->default_cpus = mc->min_cpus = mc->max_cpus = 1;
->       amc->fmc_model = "sst25vf032b";
+> On 24/03/2022 14:07, Daniel Henrique Barboza wrote:
+>>
+>>
+>> On 3/21/22 12:33, Frederic Barrat wrote:
+>>> This patch skips [de]asserting a LSI interrupt if the device doesn't
+>>> have any LSI defined. Doing so would trigger an assert in
+>>> pci_irq_handler().
+>>>
+>>> The PCIE root port implementation in qemu requests a LSI (INTA), but a
+>>> subclass may want to change that behavior since it's a valid
+>>> configuration. For example on the POWER8/POWER9/POWER10 systems, the
+>>> root bridge doesn't request any LSI.
+>>>
+>>> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+>>> ---
+>>
+>> I assume that it's easier to handle just the codepaths that powernv PHBs uses
+>> rather than handling all instances where pci_irq_handler() would be asserting
+>> without LSIs.
+> 
+> 
+> The real reason is that the LSI is added when we realize the TYPE_PCIE_ROOT_PORT object. See rp_realize(). So I'm only trying to fix the code paths that can be called from a subclass of TYPE_PCIE_ROOT_PORT which would choose to override the "interrupt pin" setting in the config space. I believe they are all covered by this patch.
+> The assert() in pci_irq_handler() is there for a reason and I don't want to mess with that.
 
+
+Yes, handling this situation inside pci_irq_handler() would require changing the
+"assert(0 <= irq_num && irq_num < PCI_NUM_PINS)" assert or doing some sanity before
+it to avoid the trigger.
+
+Since this is a common code used everywhere we're better of doing minimalist changes
+as you're doing. We can reevaluate this design if more machines/devices start to get
+in the same situation we have now with powernv PHBs.
+
+
+Daniel
+
+> 
+>    Fred
+> 
+> 
+>>
+>>
+>> Patch LGTM. Small nits below:
+>>
+>>>   hw/pci/pcie.c     | 8 ++++++--
+>>>   hw/pci/pcie_aer.c | 4 +++-
+>>>   2 files changed, 9 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+>>> index 67a5d67372..71c5194b80 100644
+>>> --- a/hw/pci/pcie.c
+>>> +++ b/hw/pci/pcie.c
+>>> @@ -354,7 +354,9 @@ static void hotplug_event_notify(PCIDevice *dev)
+>>>       } else if (msi_enabled(dev)) {
+>>>           msi_notify(dev, pcie_cap_flags_get_vector(dev));
+>>>       } else {
+>>> -        pci_set_irq(dev, dev->exp.hpev_notified);
+>>> +        if (pci_intx(dev) != -1) {
+>>> +            pci_set_irq(dev, dev->exp.hpev_notified);
+>>> +        }
+>>
+>>
+>> Since you're not doing anything unless the condition is met, you can use 'else if'
+>> like it's done in the other conditionals:
+>>
+>>
+>>      if (msix_enabled(dev)) {
+>>          msix_notify(dev, pcie_cap_flags_get_vector(dev));
+>>      } else if (msi_enabled(dev)) {
+>>          msi_notify(dev, pcie_cap_flags_get_vector(dev));
+>>      } else if (pci_intx(dev) != -1) {
+>>          pci_set_irq(dev, dev->exp.hpev_notified);
+>>      }
+>>
+>>
+>>
+>>>       }
+>>>   }
+>>> @@ -362,7 +364,9 @@ static void hotplug_event_clear(PCIDevice *dev)
+>>>   {
+>>>       hotplug_event_update_event_status(dev);
+>>>       if (!msix_enabled(dev) && !msi_enabled(dev) && !dev->exp.hpev_notified) {
+>>> -        pci_irq_deassert(dev);
+>>> +        if (pci_intx(dev) != -1) {
+>>> +            pci_irq_deassert(dev);
+>>> +        }
+>>>       }
+>>
+>> Similar comment here:
+>>
+>>      if (!msix_enabled(dev) && !msi_enabled(dev) && !dev->exp.hpev_notified &&
+>>          pci_intx(dev) != -1) {
+>>          pci_irq_deassert(dev);
+>>      }
+>>
+>>
+>>
+>>>   }
+>>> diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+>>> index e1a8a88c8c..d936bfca20 100644
+>>> --- a/hw/pci/pcie_aer.c
+>>> +++ b/hw/pci/pcie_aer.c
+>>> @@ -291,7 +291,9 @@ static void pcie_aer_root_notify(PCIDevice *dev)
+>>>       } else if (msi_enabled(dev)) {
+>>>           msi_notify(dev, pcie_aer_root_get_vector(dev));
+>>>       } else {
+>>> -        pci_irq_assert(dev);
+>>> +        if (pci_intx(dev) != -1) {
+>>> +            pci_irq_assert(dev);
+>>> +        }
+>>
+>>
+>> And here:
+>>
+>>      if (msix_enabled(dev)) {
+>>          msix_notify(dev, pcie_aer_root_get_vector(dev));
+>>      } else if (msi_enabled(dev)) {
+>>          msi_notify(dev, pcie_aer_root_get_vector(dev));
+>>      } else if (pci_intx(dev) != -1) {
+>>          pci_irq_assert(dev);
+>>      }
+>>
+>>
+>>
+>> Thanks,
+>>
+>>
+>> Daniel
+>>
+>>>       }
+>>>   }
 
