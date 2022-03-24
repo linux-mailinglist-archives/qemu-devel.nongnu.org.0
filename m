@@ -2,61 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB874E5D7B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 04:19:52 +0100 (CET)
-Received: from localhost ([::1]:53802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E30834E5DCC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 05:16:15 +0100 (CET)
+Received: from localhost ([::1]:37700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXE0t-00078p-1Z
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 23:19:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57838)
+	id 1nXEtS-0002cg-KA
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 00:16:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nXDzv-0006U5-LG
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 23:18:51 -0400
-Received: from mga05.intel.com ([192.55.52.43]:40448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nXDzs-0008OE-NX
- for qemu-devel@nongnu.org; Wed, 23 Mar 2022 23:18:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648091928; x=1679627928;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=/rU1uI93CBSJVQAQGW/ZcoBCvdHn8Z7Lu+IhyBlTNGw=;
- b=aM12g91mAfm1zIx4XIc3qSVp7GUA/CbhoJU8v2qtQX/HYCC/vzAF0MVw
- 885MFyCzwyxpqW5asZR4p92NpwnTFS6oFV2IAPfVKe5B+1Hv9cmtbrtIh
- t+bexr/pdhPpcesWCZg7LIvi85Cn5N+ac0ixt6X1Ly6+xqNeKijVPgCnA
- 1u6mME/GgMYSLCAB7pc6Vi/33Jbc+c1mYuwc8TNSrj6+TTtghFQDKJWO/
- vSb4Yw1nv7/lBuKd9UM5iTDlcP2tq9fuDskNyIfVdhI3pWVf9NiHVzYBr
- 7O/spD+JWJuUbZjmE4l4MEfXhYrCEKzQX3s0oy2ZXwCQWEiBmEM8ASemX Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="344709237"
-X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="344709237"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2022 20:18:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="616635511"
-Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
- by fmsmga004.fm.intel.com with ESMTP; 23 Mar 2022 20:18:46 -0700
-From: Yang Zhong <yang.zhong@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/i386: Return right size value after dynamic xfeature
- enabled
-Date: Wed, 23 Mar 2022 20:18:46 -0700
-Message-Id: <20220324031846.11943-1-yang.zhong@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <leohou163@163.com>) id 1nXErZ-0001uL-C2
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 00:14:17 -0400
+Received: from m1346.mail.163.com ([220.181.13.46]:5823)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <leohou163@163.com>) id 1nXErP-0003Xs-Gs
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 00:14:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=P5LiF
+ 3CDAwcutgLtonRmdYksbgzrPmogsxt/tjTDsUA=; b=lk0z8stYjKlLrfw3pjLqT
+ EeGZBH0+juAQ7kAE+ofMDPZcfSubbZzYfVOMyGf5thcs/JrjxcvfmRLS0hufd90n
+ 3WB8YOpbIoatvSPTH9iOdnCYnOnV1QxAX0ZXeL5fOcH/+bjbvPCnRKCDhcU9pi9S
+ U2XyBskDOJQTlktjn4oAMI=
+Received: from leohou163$163.com ( [114.249.224.138] ) by
+ ajax-webmail-wmsvr46 (Coremail) ; Thu, 24 Mar 2022 11:58:28 +0800 (CST)
+X-Originating-IP: [114.249.224.138]
+Date: Thu, 24 Mar 2022 11:58:28 +0800 (CST)
+From: leohou <leohou163@163.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: Address mapping for vIOMMU
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210622(1d4788a8)
+ Copyright (c) 2002-2022 www.mailtech.cn 163com
+X-CM-CTRLDATA: Qz8U5WZvb3Rlcl9odG09MTYzNzo1Ng==
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_36697_1111223167.1648094308784"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=yang.zhong@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Message-ID: <155d85bb.2709.17fba1369b0.Coremail.leohou163@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: LsGowADnm+xl7DtiOukNAA--.62098W
+X-CM-SenderInfo: xohrx0jxrwjqqrwthudrp/xtbBOQTNPl-PMC4YnQAAsF
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.13.46; envelope-from=leohou163@163.com;
+ helo=m1346.mail.163.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,79 +64,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The kvm_arch_get_supported_cpuid() only call KVM_GET_SUPPORTED_CPUID one
-time, so the cpuid buffer information still keep older value. Once Qemu
-enable new dynamic xfeature, like XTILEDATA, the cpuid[0D,0].{EBX,ECX}
-still return older value.
+------=_Part_36697_1111223167.1648094308784
+Content-Type: text/plain; charset=GBK
+Content-Transfer-Encoding: base64
 
-This patch can return right size value in kvm_init_xsave() if XTILEDATA
-has been enabled by arch_prctl.
+aGkgYWxsLApXaGVuIEkgdXNlIERQREsgaW4gZ3Vlc3RPUyAgYW5kICBjb25maWdlcmluZyB0aGUg
+Vk0gd2l0aCB2SU9NTVUsIEkgZm91bmQgdGhhdCAgc2VuZGluZyB0aGUgZ1ZBIHRvIHRoZSBoYXJk
+d2FyZSBkZXZpY2UgLCB0aGUgaGFyZHdhcmUgZGV2aWNlIGNhbid0ICBmaW5kIHRoZSByZWFsIGRh
+dGEuCkJ1dCBzZW5kaW5nIHRoZSBnUEEgdG8gdGhlIGhhcmR3YXJlIGRldmljZSwgdGhlIGhhcmR3
+YXJlIGRldmljZSBjYW4gIGZpbmQgdGhlIHJlYWwgZGF0YS4KCgpFbnZpcm9ubWVudDoKT1M6IExp
+bnV4IHZlcnNpb24gNS40LjAtMTA0LWdlbmVyaWMgKGJ1aWxkZEB1YnVudHUpIChnY2MgdmVyc2lv
+biA5LjMuMCAoVWJ1bnR1IDkuMy4wLTE3dWJ1bnR1MX4yMC4wNCkpICMxMTgtVWJ1bnR1IFNNUCBX
+ZWQgTWFyIDIgMTk6MDI6NDEgVVRDIDIwMjIKUUVNVTogUUVNVSBlbXVsYXRvciB2ZXJzaW9uIDQu
+Mi4xIChEZWJpYW4gMTo0LjItM3VidW50dTYuMjEpCkRldmljZTogdmlydGlvLW5ldAoKCgpRdWVz
+dGlvbjoKClRoZSB2SU9NTVUgZG9lc24ndCB3b3JrPyAKCkkga25vdyB2aXJ0aW8tbmV0IGRvZXMg
+bm90IGhhdmUgRE1BLCBzbyB3aGVuIHZpcnRpby1uZXQgYW5kIERQREsgYXJlIGNvbWJpbmVkLCBJ
+T01NVSBpcyBub3QgbmVlZGVkPwo=
+------=_Part_36697_1111223167.1648094308784
+Content-Type: text/html; charset=GBK
+Content-Transfer-Encoding: base64
 
-assert(kvm_arch_get_supported_cpuid(kvm_state, 0xd, 0, R_ECX) <=
-           env->xsave_buf_len);
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+aGkgYWxsLDwvZGl2Pjxk
+aXYgc3R5bGU9Im1hcmdpbjowOyI+V2hlbiBJIHVzZSBEUERLIGluIGd1ZXN0T1MmbmJzcDsgYW5k
+Jm5ic3A7IGNvbmZpZ2VyaW5nIHRoZSBWTSB3aXRoIHZJT01NVSwgSSBmb3VuZCB0aGF0Jm5ic3A7
+IHNlbmRpbmcgdGhlIGdWQSB0byB0aGUgaGFyZHdhcmUgZGV2aWNlICwgdGhlIGhhcmR3YXJlIGRl
+dmljZSBjYW4ndCZuYnNwOyBmaW5kIHRoZSByZWFsIGRhdGEuPC9kaXY+PGRpdiBzdHlsZT0ibWFy
+Z2luOjA7Ij5CdXQgIHNlbmRpbmcgdGhlIGdQQSB0byB0aGUgaGFyZHdhcmUgZGV2aWNlLCB0aGUg
+aGFyZHdhcmUgZGV2aWNlIGNhbiZuYnNwOyBmaW5kIHRoZSByZWFsIGRhdGEuPC9kaXY+PGRpdiBz
+dHlsZT0ibWFyZ2luOjA7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij5FbnZpcm9u
+bWVudDo8L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46MDsiPk9TOiBMaW51eCB2ZXJzaW9uIDUuNC4w
+LTEwNC1nZW5lcmljIChidWlsZGRAdWJ1bnR1KSAoZ2NjIHZlcnNpb24gOS4zLjAgKFVidW50dSA5
+LjMuMC0xN3VidW50dTF+MjAuMDQpKSAjMTE4LVVidW50dSBTTVAgV2VkIE1hciAyIDE5OjAyOjQx
+IFVUQyAyMDIyPC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij5RRU1VOiBRRU1VIGVtdWxhdG9y
+IHZlcnNpb24gNC4yLjEgKERlYmlhbiAxOjQuMi0zdWJ1bnR1Ni4yMSk8L2Rpdj48ZGl2IHN0eWxl
+PSJtYXJnaW46MDsiPkRldmljZTogdmlydGlvLW5ldDxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJn
+aW46MDsiPjxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46MDsiPlF1ZXN0aW9uOiA8YnI+PC9k
+aXY+PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij5UaGUgdklPTU1VIGRvZXNuJ3Qgd29yaz8mbmJzcDsg
+PGJyPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+SSBrbm93IHZpcnRpby1uZXQgZG9lcyBu
+b3QgaGF2ZSBETUEsIHNvIHdoZW4gdmlydGlvLW5ldCBhbmQgRFBESyBhcmUgY29tYmluZWQsIElP
+TU1VIGlzIG5vdCBuZWVkZWQ/PGJyPjxzcGFuIHN0eWxlPSJjb2xvcjogcmdiKDUxLCA1MSwgNTEp
+OyBmb250LWZhbWlseTogdGFob21hLCAnTWljcm9zb2Z0IFlhSGVpJywgzqLI7dHFutosIMvOzOUs
+ICdNYWxndW4gR290aGljJywgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMy42MDAwMDEzMzUxNDQw
+NDNweDsgZm9udC1zdHlsZTogbm9ybWFsOyBmb250LXZhcmlhbnQ6IG5vcm1hbDsgZm9udC13ZWln
+aHQ6IG5vcm1hbDsgbGV0dGVyLXNwYWNpbmc6IG5vcm1hbDsgbGluZS1oZWlnaHQ6IDI1Ljk4NzUw
+MzA1MTc1NzgxM3B4OyBvcnBoYW5zOiBhdXRvOyB0ZXh0LWFsaWduOiBqdXN0aWZ5OyB0ZXh0LWlu
+ZGVudDogMHB4OyB0ZXh0LXRyYW5zZm9ybTogbm9uZTsgd2hpdGUtc3BhY2U6IG5vcm1hbDsgd2lk
+b3dzOiBhdXRvOyB3b3JkLXNwYWNpbmc6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDog
+MHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjQ3LCAyNDgsIDI1MCk7IGRpc3BsYXk6IGlubGlu
+ZSAhaW1wb3J0YW50OyBmbG9hdDogbm9uZTsiPjwvc3Bhbj48L2Rpdj48L2Rpdj48YnI+PGJyPjxz
+cGFuIHRpdGxlPSJuZXRlYXNlZm9vdGVyIj48cD4mbmJzcDs8L3A+PC9zcGFuPg==
+------=_Part_36697_1111223167.1648094308784--
 
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
----
- target/i386/cpu.h     |  3 +++
- target/i386/kvm/kvm.c | 15 +++++++++++++--
- 2 files changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 5e406088a9..814ba4020b 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -565,6 +565,9 @@ typedef enum X86Seg {
- #define ESA_FEATURE_ALIGN64_MASK        (1U << ESA_FEATURE_ALIGN64_BIT)
- #define ESA_FEATURE_XFD_MASK            (1U << ESA_FEATURE_XFD_BIT)
- 
-+#define ARCH_GET_XCOMP_GUEST_PERM       0x1024
-+#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
-+
- 
- /* CPUID feature words */
- typedef enum FeatureWord {
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 06901c2a43..312d4fccf8 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -46,6 +46,7 @@
- #include "hw/i386/intel_iommu.h"
- #include "hw/i386/x86-iommu.h"
- #include "hw/i386/e820_memory_layout.h"
-+#include "target/i386/cpu.h"
- 
- #include "hw/pci/pci.h"
- #include "hw/pci/msi.h"
-@@ -437,6 +438,18 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-             return ret;
-         }
-         ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
-+    } else if (function == 0xd && index == 0 &&
-+               (reg == R_EBX || reg == R_ECX)) {
-+        /*
-+         * The value returned by KVM_GET_SUPPORTED_CPUID does not include
-+         * features that already be enabled with the arch_prctl system call.
-+         */
-+        int rc = syscall(SYS_arch_prctl, ARCH_GET_XCOMP_GUEST_PERM, &bitmask);
-+        if (rc) {
-+            warn_report("prctl(ARCH_GET_XCOMP_GUEST_PERM) error: %d", rc);
-+        } else if (bitmask & XSTATE_XTILE_DATA_MASK) {
-+            ret += sizeof(XSaveXTILEDATA);
-+        }
-     } else if (function == 0x80000001 && reg == R_ECX) {
-         /*
-          * It's safe to enable TOPOEXT even if it's not returned by
-@@ -5214,8 +5227,6 @@ bool kvm_arch_cpu_check_are_resettable(void)
-     return !sev_es_enabled();
- }
- 
--#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
--
- void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
- {
-     KVMState *s = kvm_state;
 
