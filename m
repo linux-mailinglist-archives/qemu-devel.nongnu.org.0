@@ -2,122 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0094E69DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 21:33:59 +0100 (CET)
-Received: from localhost ([::1]:57482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008E74E69E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 21:36:47 +0100 (CET)
+Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXU9e-0007qT-F1
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 16:33:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32890)
+	id 1nXUCL-0001Vh-QH
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 16:36:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1nXU8T-0006at-Se; Thu, 24 Mar 2022 16:32:45 -0400
-Received: from [2a01:111:f400:7e8a::71d] (port=38105
- helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUAd-0000mu-Jt
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:34:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1nXU8R-0003sk-Me; Thu, 24 Mar 2022 16:32:45 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HW+pvxoJBHy6h0Jv9PWe49POCrxjuJtB+ShDpdbnWUEeDY9JwtkviCh88rmapE2DLuEpnT/8DPqQZ549gpQR32udgz2E6OvoKHMce2nAKT2FpPUhvrkBGwYvJtgQ2LiRT+AUEN0feVdNtQqjZtQbvhBHBXTwUah5auJh8Giw6K3Y7YTKgcHkOilFNc4p+5s6nhEnXSXHVrN0c6eujfSXFGGnlGH59etgSQOkgC9dsH1XXrLE6tpwoc579CDpb1Qc+jnITcwhFuJFuXgkcH8JFRPO+6EJePNZNfC9wWLJKkk/y6zqqHAIbGzyjiFi4w17SUnpL3kINOu+/kW4pdL7Uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lWe6esMvTDxcpELgUOaYb8647pSWKmvWH7iWh5IKyJc=;
- b=M7P1IgOVA05aikVQ49lSpDNHjful7y7ExHHyMBHD7//9xOapNl4dxv/spu7ATWuRP1pBr9/4AgKvItEv0Pce4VcDHmADWqXvKPg7mO8aKMx/ekFVGOvpxCUzEZs1nf2uYJivOVHCcg8nyECpACFjWp7KV+uLtfzxAUveVp31J1BmUIqkeSiKGaNe/P4KIYfdSAn2TiKNKMl8NbwQPMwFArsPWvZyuxV24OA0meM5RDtsu4hhdAlcD6Nn8+4wPo9BzzHc4ugq2WGX0+x2IsSekUIQFgsRQW59bVKWyis+xE1RX3wkbbLaN77F9pfB7ND2ZKOWBsmdS6hn+I6CmtBLiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lWe6esMvTDxcpELgUOaYb8647pSWKmvWH7iWh5IKyJc=;
- b=qSq10VuukfmMaphbLqr9YAywSIfCoW/rt/hNVoqcvzJkZvtprN7lPEtKouM/74WqaLPfJVP5qnUHQ7uR1tV5u5/6XJeY5Az3L6A7uGvmCBOM/nT9VibIXGaBOelFWCWILgErV64tdnalrOyNFDaiNEELT1XueySLMT0YkQIjIdk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from CH0PR01MB7124.prod.exchangelabs.com (2603:10b6:610:f3::20) by
- DM6PR01MB5545.prod.exchangelabs.com (2603:10b6:5:17c::23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5081.16; Thu, 24 Mar 2022 20:17:46 +0000
-Received: from CH0PR01MB7124.prod.exchangelabs.com
- ([fe80::fc95:d5f4:a26a:423d]) by CH0PR01MB7124.prod.exchangelabs.com
- ([fe80::fc95:d5f4:a26a:423d%8]) with mapi id 15.20.5102.017; Thu, 24 Mar 2022
- 20:17:46 +0000
-Date: Thu, 24 Mar 2022 16:17:33 -0400
-From: Aaron Lindsay <aaron@os.amperecomputing.com>
-To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, robhenry@microsoft.com
-Subject: Plugins Not Reporting AArch64 SVE Memory Operations
-Message-ID: <YjzR3erB5ZhkAI2A@strawberry.localdomain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: CH0PR03CA0224.namprd03.prod.outlook.com
- (2603:10b6:610:e7::19) To CH0PR01MB7124.prod.exchangelabs.com
- (2603:10b6:610:f3::20)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUAa-00047Y-7i
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:34:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648154094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xbuAq0sYdo5EJ17WvkFIqOnyI4JQoT+jiOpxN4dxNfU=;
+ b=DnjbG6DB0I1S71yxSHmOXIvJGHYYLGxPBQPCc/+G7sTWO+oo/XG3F6S+hh4+5W1J9aW58p
+ EHr9ycvIlPBhU5eMFr/uBYorduUhmu+6rohN3+OAr1DeEO618Bpipx2/pi3F7igr7LI8Xe
+ Uo69ziZwbvf+b6+ROMgX5zP4HouiiHg=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-510-v862BnRXMFSPPuLLAOa2mw-1; Thu, 24 Mar 2022 16:34:53 -0400
+X-MC-Unique: v862BnRXMFSPPuLLAOa2mw-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ a19-20020ab04953000000b0035957a2a58dso1581341uad.12
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 13:34:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xbuAq0sYdo5EJ17WvkFIqOnyI4JQoT+jiOpxN4dxNfU=;
+ b=i8LkU35nILUC4Jd78UN4OUCYiQtb8COzIa2G21Io0cwf3OY6fTqrLynRG73eqypcsm
+ 37Fh4dAHsMkx1000wGN3xM8ZqFD6C/IBeof/inCks2+xY45H27bFAzsKDCdwCUMX9Kk2
+ HN4d1T9Kjg82jUytY42YjVoJMubHfBAyeVg42/Ls+sG0A02mhT44/pkiFQNsX2pOa1ES
+ ea0aS3H1EeeUcZMQbjc541vBiGHRnk7/4fiWPr2NWSOBXr7UmsteolkTcL+6wM8tEzAn
+ p8OuEi4cMdPMka8oygIFR9h1T8TVRSYnUS2s4fNvRnXFYs2Qlm+eIgHUEEnln6IQ6ytP
+ I6ag==
+X-Gm-Message-State: AOAM531AeVzN3thOjYGR2Zb7RCJw2l4o2Y46LoOyDWNSPlJ8XuQ6YMvB
+ W0GF28MPN9VFtR4YdSw0MwMlKMHqhQ2VBFQN9XG4hyMcnuHDuy8nFmvwdaTM4tIV517hUyOF2Vv
+ tOt2NXBTo4KS6Fg0PLc2MHXbroyR6vhk=
+X-Received: by 2002:a05:6122:2186:b0:33f:c30b:9b46 with SMTP id
+ j6-20020a056122218600b0033fc30b9b46mr2142506vkd.26.1648154092916; 
+ Thu, 24 Mar 2022 13:34:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwdMBCPReTrqbhbcvm2ti1fGvnQmZhVv1Ze2LOXN0IYcY5PBWMR1HuvjVOCZ209izi0Ejd1XAGskTSWs7KZ1CU=
+X-Received: by 2002:a05:6122:2186:b0:33f:c30b:9b46 with SMTP id
+ j6-20020a056122218600b0033fc30b9b46mr2142497vkd.26.1648154092736; Thu, 24 Mar
+ 2022 13:34:52 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 05dbf9cb-5718-4da1-d253-08da0dd35c6f
-X-MS-TrafficTypeDiagnostic: DM6PR01MB5545:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR01MB5545D0C7594BD067FBA0FACC8A199@DM6PR01MB5545.prod.exchangelabs.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rHTUNI14ePcdQ2bVOq6/8W5+RO9YkWSjJPHk5suw9oc6RCwy+2/4eKzIJJm5TemCKnjObo+xfFhsGsJO1FfJhqE6zltHHSR7j8xJUiTZ5nRRjhsnxTVh+k4QYNc4+LMCnqNgsGKsXF1yXNp845eV4wpKv9uZnrZpZvJnuKVEDvkJ/EJjyFvzuicA/cnnswR4YOTWWckjmkeeym7hVYuaGQ/ABwACHnfl37p6AWCYvtRlZJ4mrwJVLDplJpkkR61LiueBy0lt5hS048u71ZKBvCNdzOjjkUali8iYEFmFWome8X+hp50040ZSF66QilpZs89I6ZtoNbbufY90lFeHUl4/pxdbe6y4JKY/yD1fLYoF2yJzDk0vHpm8MThMswJ+keN0zNOQy11ItIUIEcDxmidaffYUeYlbVq0moxFC228KBYnDtJoJDH4n850K7mOMEGzlKHKamH/DIkwAOtTxvdc9n60cuXUUI7fclDeWSESNIapA2DkYkATBBOTYRUK4TlYda3Veq2ZnfC6C2KlGIGGC3O+WJL7ZUOndF18FlXQdfMVgEArHg9CsWfgDOUz10vHRcBywbpxmce2kCuu5TDhqLKHpGcbEwcRDUcN11HaoYs38hJ8MziaAyek9pS3xWIOL+xv5RnUrJ6ZEvNx1MlS1HLwXGJOUsdnW9rT+M+xoA2cw8+uld28hGm5K9y1cN980rRQEJxzE44CIpS9vGmEIN3kgAmvzVPCa5xzdeew=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR01MB7124.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(26005)(2906002)(9686003)(5660300002)(186003)(6512007)(8936002)(66556008)(6666004)(38100700002)(966005)(316002)(86362001)(6486002)(508600001)(8676002)(6506007)(4326008)(66476007)(83380400001)(66946007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zpQ5dawV5JP1T+VhHGu7Qva685sBvmTizRIH03LA4J1ZabGpgovtO3XF66uM?=
- =?us-ascii?Q?lsYzr/K2wZLSJuTpT7tPbjHbjb1nbelwFMl46o9fW8rPWH7xkrDrLgi8GAbC?=
- =?us-ascii?Q?8c6i1Oxx7c5piDwA5pYDiJblmSuL+1fwgyTBvUWieG4pbhhbaFlGJZznyWkY?=
- =?us-ascii?Q?TQ1DoOI+p5L562nYNPYV7Xxc3fIyNWnb5iZwDU1f9Bvk7Xa2mEJqN2IaPnPI?=
- =?us-ascii?Q?54joqDO7fyJrizk+rpBMTdKsXbI2i9PFxTWJbd+EGjoaF/6K6pu7O7nvHCgF?=
- =?us-ascii?Q?6q3Xf2zaYjGkRGi9lyiwg3dMAR95dBBm86qNtNnbdl9Zg0hIk91axG8xMWPn?=
- =?us-ascii?Q?zLMZbUtHbkkCjxogTtxRiX1LyJSy1NfjrzioiJb/XNtOU+g4DY3X4lih0+WH?=
- =?us-ascii?Q?mm8G8EfYw61KO+FcGwDQSeeEersA8cnG/nKldwUT17RRQxY3dBB61j8cQgqq?=
- =?us-ascii?Q?MNiXUgaw556vopSoclRXEcOBUDicC2Z/C16Hd3/r57zH83sDh9kvwC9kbYqU?=
- =?us-ascii?Q?oAK/fK4qqMefayd6u68OrHpVHRvZBBJGdRV1J3/Kw+l+8vPRZCPsOhnFxDHM?=
- =?us-ascii?Q?f++50W2M/1fF8xqW7yeIixUVxZtTmZbNYAXPzLxEp6tpWprUCOeeeEmTxT1J?=
- =?us-ascii?Q?17SDrmKeXTqdanv2schXEOvFMo1zadtyXXOiAwvOYn3pDvxdxi8rfc5WWIZh?=
- =?us-ascii?Q?LkouBAycndyQ9TAcPl7YLQyzXg1Lt0kn+PLCZe4ECF4RFSXFi7lC7oFPgxuF?=
- =?us-ascii?Q?gncVANE0TehKZ5+5L9N3xiG5lwd829A7ymWVqrGoMbxpTS1jqiFDFoZ87oJ7?=
- =?us-ascii?Q?rxtMaObK9LectAD3jgiDskRZMlPrqdeUT0lkB5FtMVKrNd/Qg9e/1TNU6TKF?=
- =?us-ascii?Q?mok8D+B49RjaqMK331zFOI7PGymzevWdDJl9y9nEh3BWTlSmnpnNL4lXrDyi?=
- =?us-ascii?Q?GakMzyR0PQV4Z+ifZaRwjQ1fJ2LDWbRYLMe++PZCJCZ4IXnab2Zhzt67pl42?=
- =?us-ascii?Q?iBwDIvpISxY4bJIrcW9lJVzREjIbTW67fKSc/HP8DaN0WjluLcI/fSmwi1lN?=
- =?us-ascii?Q?WtSxYZaxVmBFxYqS+sRezR7+rXknHaUr72HFxBj9+b0Ky3HUNMOgndHN3n5c?=
- =?us-ascii?Q?wU73gW27Km57gmC3//dTkMailP3N2WOx487w9Zngho6IAu56tNZydju3GP+T?=
- =?us-ascii?Q?1vtRYE0+f6bTv4I07vj/8Scw3WDvm9GjUtk2DM3E4IGI/YTWh7vpMGNxmJA+?=
- =?us-ascii?Q?oOJgRy4BQg5rHGo6/zBjtvBN7SHnC2VKMgpmIx3ymUQxpBS3fPYT9wDNc/gY?=
- =?us-ascii?Q?IYPYQ/r0oEyOWLybQfnjvaGSiyDt46MV8L0mjqLuIoT2i4uV6GaEzYtMC1t8?=
- =?us-ascii?Q?KwXd3N25gzqKHdmXWVMhGYhfvVaWEllztRl8HhiLJILsGEs3b7j8j25gNCUK?=
- =?us-ascii?Q?d0U7EHXbpKGSYYlLYaEPK8y3wiufw9sJ9hmzGB7FGmOltCrTLLBXKu7NhUbG?=
- =?us-ascii?Q?DfL/DjuqMyQBWV4=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05dbf9cb-5718-4da1-d253-08da0dd35c6f
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR01MB7124.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2022 20:17:46.8313 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SfaF6AIkvOu0dsvWFLbmWhJFJn0gv6PJN/mnwfsbvFsLhzYRA0ywaI3nHOt69xm0TKjNwfcejpAdQRq8EeOa/lf7eLaCUlG8OuX6TEMY79NHZ1A7FykfT6Nz8eJb7o59
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR01MB5545
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e8a::71d
- (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7e8a::71d;
- envelope-from=aaron@os.amperecomputing.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220324175015.232794-1-victortoso@redhat.com>
+ <20220324175015.232794-2-victortoso@redhat.com>
+In-Reply-To: <20220324175015.232794-2-victortoso@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 24 Mar 2022 16:34:42 -0400
+Message-ID: <CAFn=p-aMfoxMn7ZUT1ZK4ifP6J-1PB4nj+74BM2OwAxnWKWX7Q@mail.gmail.com>
+Subject: Re: [PATCH 01/14] qapi: BlockExportRemoveMode: move comments to TODO
+To: Victor Toso <victortoso@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -130,45 +91,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi folks,
+On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
+>
+> @hide and @soft are potential additions which fits the TODO section
+> perfectly.
+>
+> The main motivation is to avoid this whole block of comment entering
+> the wrong section in the python parser.
+>
+> Signed-off-by: Victor Toso <victortoso@redhat.com>
+> ---
+>  qapi/block-export.json | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/qapi/block-export.json b/qapi/block-export.json
+> index f183522d0d..1e34927f85 100644
+> --- a/qapi/block-export.json
+> +++ b/qapi/block-export.json
+> @@ -219,13 +219,13 @@
+>  #
+>  # @hard: Drop all connections immediately and remove export.
+>  #
+> -# Potential additional modes to be added in the future:
+> +# TODO: Potential additional modes to be added in the future:
+>  #
+> -# hide: Just hide export from new clients, leave existing connections as is.
+> -# Remove export after all clients are disconnected.
+> +#       hide: Just hide export from new clients, leave existing connections as is.
+> +#       Remove export after all clients are disconnected.
+>  #
+> -# soft: Hide export from new clients, answer with ESHUTDOWN for all further
+> -# requests from existing clients.
+> +#       soft: Hide export from new clients, answer with ESHUTDOWN for all further
+> +#       requests from existing clients.
+>  #
+>  # Since: 2.12
+>  ##
+> --
+> 2.35.1
+>
 
-I see there has been some previous discussion [1] about 1.5 years ago
-around the fact that AArch64 SVE instructions do not emit any memory
-operations via the plugin interface, as one might expect them to.
+Does this help with something in particular? (Got an example for me?)
 
-I am interested in being able to more accurately trace the memory
-operations of SVE instructions using the plugin interface - has there
-been any further discussion or work on this topic off-list (or that
-escaped my searching)?
+--js
 
-In the previous discussion [1], Richard raised some interesting
-questions:
-
-> The plugin interface needs extension for this.  How should I signal that 256
-> consecutive byte loads have occurred?  How should I signal that the controlling
-> predicate was not all true, so only 250 of those 256 were actually active?  How
-> should I signal 59 non-consecutive (gather) loads have occurred?
-> 
-> If the answer is simply that you want 256 or 250 or 59 plugin callbacks
-> respectively, then we might be able to force the memory operations into the
-> slow path, and hook the operation there.  As if it were an i/o operation.
-
-My initial reaction is that simply sending individual callbacks for each
-access (only the ones which were active, in the case of predication)
-seems to fit reasonably well with the existing plugin interface. For
-instance, I think we already receive two callbacks for each AArch64
-`LDP` instruction, right?
-
-If this is an agreeable solution that wouldn't take too much effort to
-implement (and no one else is doing it), would someone mind pointing me
-in the right direction to get started?
-
-Thanks!
-
--Aaron
-
-[1] https://lists.nongnu.org/archive/html/qemu-discuss/2020-12/msg00015.html
 
