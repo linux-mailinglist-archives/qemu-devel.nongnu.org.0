@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B993B4E69E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 21:38:08 +0100 (CET)
-Received: from localhost ([::1]:35592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 450664E69ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 21:42:17 +0100 (CET)
+Received: from localhost ([::1]:38398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXUDf-0003jh-Nx
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 16:38:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33648)
+	id 1nXUHg-00062L-4n
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 16:42:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nXUBi-0001e8-Nc
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:36:06 -0400
-Received: from [2a00:1450:4864:20::62a] (port=38829
- helo=mail-ej1-x62a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nXUBh-0004Vh-1S
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:36:06 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id r13so11519757ejd.5
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 13:36:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=nGPO4jBgeP+CZKgeUlzXQTcaxdR//bSdmnlXMZVWT1w=;
- b=WUfEzWtz8QECE6mlLYWra6zXgIsDJF1X5hYT7TNTa/ZInqixPHmUwTgBascquTJvNh
- 8pt4eBZ50zJ/ZM8+9TyJFkD+6QpoPwPB6gSJvKJ35qOWdaah7lWuoTM/aVArE1nRvnCd
- QqNnFU2vkDWT0cHBoGJVRRdZJF8TTGX7t/pN+ywL+mn9DaWI1a7LlvXfUJ6H+KNOR3nV
- oLuA0bKuGfs0Dd0MtPwTppJayXRtpTLKvz/kGx+KSVa+jPYCWG3YeqJmYSkufOZQzte/
- HQKHkPA2pCZ0G50isgOCaoovBf/d57E99+tpw+9btf809SR2a4QYY2JPPk/7IgWjdXTC
- O2zA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUFs-0005Fd-96
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:40:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUFp-0005OS-J7
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 16:40:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648154419;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9f0UxGtZleLCYEszBE1VHQGMtjvW8dQd/8JsSR+sX30=;
+ b=AtQ3wkKkY8beakoPDmDfYNAeIwV68FvrY7t9PViclCLUHEI5KZ7E8ZenYzsj1ONsXuOqSv
+ XFl0EmkCf0rvRaFA8gZz4CaVp0IO9TwOtT0DJRifesqF2GlkHktjld6tByn8GIs9OLy+S0
+ 0H6tbGgxB1GDxfoszazsuRgiObeLLgU=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-3-59HKYTxmO--WlBYp2Nvb9A-1; Thu, 24 Mar 2022 16:40:18 -0400
+X-MC-Unique: 59HKYTxmO--WlBYp2Nvb9A-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ w5-20020a67c905000000b00324c7bafd3aso1221978vsk.16
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 13:40:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=nGPO4jBgeP+CZKgeUlzXQTcaxdR//bSdmnlXMZVWT1w=;
- b=GdiP+N4J0DmYwFD1ERn4p6F8XDxhqkPJDltyqWErDMTI2fFI/32uedWBJnH3HBnMSj
- anB2D2yNvjUrBp4nMTl/vevlC6NTu5mV1b3EQU9ROGuYz9U+XLGg/X4stC171tuQMjR4
- gqyysLB0DXhOkaSvmXHNL2pn7e0CfUqGBvzOg/f8J1yMaNITbjPX8FgxO3pbQET17DpF
- 1aYZrm2afr7AJAm2Eqwhzunr4RCJaeE/RzBeQl2S5qj5F+bcnnRCTx9hAapY1MiW7e58
- fRcqK/GBU3QwY57nnStSno1DcIWGpi+gVxtLNrIE1OZjiMmTXLp2F54wbSEeLD6/29Wq
- tyiA==
-X-Gm-Message-State: AOAM532lOUcOd+uhj7y6mAQjpGrh4yRjnZ9qLWWSsTHypIxp5ltlW7B4
- eL+JzOu5a23A7Q5lVNU23pZK7Q==
-X-Google-Smtp-Source: ABdhPJytcRJw7iHP+N2MoDdDsGUPUsExSn5UPPYLeXNHs32kp3LYrJ2ckxC79jK0RgIOtZ6LsZ57KQ==
-X-Received: by 2002:a17:907:96ab:b0:6d7:1720:15d6 with SMTP id
- hd43-20020a17090796ab00b006d7172015d6mr7906244ejc.322.1648154162830; 
- Thu, 24 Mar 2022 13:36:02 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- gq12-20020a170906e24c00b006e067c93e1bsm1561471ejb.39.2022.03.24.13.36.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Mar 2022 13:36:01 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 50ED81FFB7;
- Thu, 24 Mar 2022 20:36:00 +0000 (GMT)
-References: <20220324190854.156898-1-leandro.lupori@eldorado.org.br>
- <20220324190854.156898-5-leandro.lupori@eldorado.org.br>
-User-agent: mu4e 1.7.10; emacs 28.0.92
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: Re: [RFC PATCH 4/6] tests/tcg: add support for ppc64le softmmu tests
-Date: Thu, 24 Mar 2022 20:34:59 +0000
-In-reply-to: <20220324190854.156898-5-leandro.lupori@eldorado.org.br>
-Message-ID: <87k0cj2imn.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9f0UxGtZleLCYEszBE1VHQGMtjvW8dQd/8JsSR+sX30=;
+ b=jicfpPbnuft6EW5F73X/dHe5pAwN1/nuVuL2OV1kXFaByPULeQccwtpPle/dtCdM4w
+ ekvKzldXjK+KMjn9iOEEUNVoHN0+BfHOVK9xrzyZDbr9TD827ZWDaf6vNTbGp9NdY+as
+ eawhK2DElp3l/czNFh+xjGeh/sWsc072Jv2gXMuHyW5o7laZcwMDXioz1h1Rlfx+1MG2
+ ySjQyW6KG8eOswWWNgZBEtjKxBw4k1MM1FGvRLWoNmJt/EVrfdX4LEnAd5dmQzFb7eUr
+ 7M24GnLs9hkNTNKOgUK1+qAT/vMeuspnbvNh35uxgmTzf7BV6/bjboYBxLdbGgCN2gtU
+ BSMQ==
+X-Gm-Message-State: AOAM532x9EQMRQU/hV4Lscq6/BzDk/9cqNhzb+gBc1bb+GDYZR8KeDhf
+ tPRP8McLK/3z73CozFhuq5pEtomLSrjtyCMaCZqptRkZ8sKxdkZ0zuTo80PlRQhkM52jALLsZuv
+ 5lzazSus+p9YZ30cNV3lE0hx3gaih9fY=
+X-Received: by 2002:a05:6122:9a6:b0:33f:f23e:bde9 with SMTP id
+ g38-20020a05612209a600b0033ff23ebde9mr419426vkd.3.1648154417489; 
+ Thu, 24 Mar 2022 13:40:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2UNAfH/9D/Nr54a0qKuk28BA2ZXQPCYjkM5fUsxWCz6YdUfT8gsI7zarH+yf52GE/8hw5eyflFRZI86hqk6A=
+X-Received: by 2002:a05:6122:9a6:b0:33f:f23e:bde9 with SMTP id
+ g38-20020a05612209a600b0033ff23ebde9mr419416vkd.3.1648154417321; Thu, 24 Mar
+ 2022 13:40:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+References: <20220324175015.232794-1-victortoso@redhat.com>
+ <20220324175015.232794-3-victortoso@redhat.com>
+ <CAFn=p-bXtNoJ=WpYk6s3Wkkq6QCoQ4YjbLKegAB6xgMxCO+CDg@mail.gmail.com>
+In-Reply-To: <CAFn=p-bXtNoJ=WpYk6s3Wkkq6QCoQ4YjbLKegAB6xgMxCO+CDg@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 24 Mar 2022 16:40:06 -0400
+Message-ID: <CAFn=p-bMTFpikwR5JMQWCP1rPSnn55JPpfy-QuREO91MD6jKmg@mail.gmail.com>
+Subject: Re: [PATCH 02/14] qapi: fix example of BLOCK_IMAGE_CORRUPTED event
+To: Victor Toso <victortoso@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,113 +92,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, pbonzini@redhat.com,
- david@gibson.dropbear.id.au
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Leandro Lupori <leandro.lupori@eldorado.org.br> writes:
-
-> Adding a new, "virtual" TCG test target, ppc64le-softmmu, seems to
-> be the cleanest way to support both BE and LE tests for
-> ppc64-softmmu.
+On Thu, Mar 24, 2022 at 3:15 PM John Snow <jsnow@redhat.com> wrote:
 >
-> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
-> ---
->  tests/Makefile.include                    |  7 ++++---
->  tests/tcg/configure.sh                    | 11 ++++++++++-
->  tests/tcg/ppc64/Makefile.softmmu-target   |  2 ++
->  tests/tcg/ppc64le/Makefile.softmmu-target |  7 +++++++
->  4 files changed, 23 insertions(+), 4 deletions(-)
->  create mode 100644 tests/tcg/ppc64le/Makefile.softmmu-target
 >
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index e7153c8e91..4001fedbc3 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -40,9 +40,10 @@ SPEED =3D quick
->  TARGETS=3D$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-tar=
-gets)))
->=20=20
->  # Per guest TCG tests
-> -BUILD_TCG_TARGET_RULES=3D$(patsubst %,build-tcg-tests-%, $(TARGETS))
-> -CLEAN_TCG_TARGET_RULES=3D$(patsubst %,clean-tcg-tests-%, $(TARGETS))
-> -RUN_TCG_TARGET_RULES=3D$(patsubst %,run-tcg-tests-%, $(TARGETS))
-> +TCG_TARGETS=3D$(patsubst tests/tcg/config-%.mak, %, $(wildcard tests/tcg=
-/config-*.mak))
-> +BUILD_TCG_TARGET_RULES=3D$(patsubst %,build-tcg-tests-%, $(TCG_TARGETS))
-> +CLEAN_TCG_TARGET_RULES=3D$(patsubst %,clean-tcg-tests-%, $(TCG_TARGETS))
-> +RUN_TCG_TARGET_RULES=3D$(patsubst %,run-tcg-tests-%, $(TCG_TARGETS))
+>
+> On Thu, Mar 24, 2022, 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
+>>
+>> Fatal is not optional.
+>>
+>> Signed-off-by: Victor Toso <victortoso@redhat.com>
+>> ---
+>>  qapi/block-core.json | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/qapi/block-core.json b/qapi/block-core.json
+>> index e89f2dfb5b..585a9e020e 100644
+>> --- a/qapi/block-core.json
+>> +++ b/qapi/block-core.json
+>> @@ -5008,7 +5008,7 @@
+>>  # <- { "event": "BLOCK_IMAGE_CORRUPTED",
+>>  #      "data": { "device": "ide0-hd0", "node-name": "node0",
+>>  #                "msg": "Prevented active L1 table overwrite", "offset": 196608,
+>> -#                "size": 65536 },
+>> +#                "size": 65536, "fatal": false },
+>>  #      "timestamp": { "seconds": 1378126126, "microseconds": 966463 } }
+>>  #
+>>  # Since: 1.7
+>> --
+>> 2.35.1
+>
+>
+> Is this the correct fatality setting for this particular case? Default is implied to be true.
 
-I'm not following what is going on here. Are we creating a new target
-type? Is this just to avoid duplication in tests/tcg subdirs?
+(1) We don't seem to actually emit this particular message anymore. I
+don't think it exists in the tree.
 
->=20=20
->  # Probe for the Docker Builds needed for each build
->  $(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
-> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-> index ed4b5ccb1f..a4ac7a4e44 100755
-> --- a/tests/tcg/configure.sh
-> +++ b/tests/tcg/configure.sh
-> @@ -80,6 +80,10 @@ fi
->  : ${cross_as_tricore=3D"tricore-as"}
->  : ${cross_ld_tricore=3D"tricore-ld"}
->=20=20
-> +# If target ppc64-softmmu is configured, also include the virtual test t=
-arget
-> +# ppc64le-softmmu
-> +target_list=3D`echo $target_list | sed 's/ppc64-softmmu/& ppc64le-softmm=
-u/'`
-> +
->  for target in $target_list; do
->    arch=3D${target%%-*}
->=20=20
-> @@ -237,7 +241,12 @@ for target in $target_list; do
->        ;;
->      *-softmmu)
->        echo "CONFIG_SOFTMMU=3Dy" >> $config_target_mak
-> -      echo "QEMU=3D$PWD/qemu-system-$arch" >> $config_target_mak
-> +      if test $arch =3D "ppc64le"; then
-> +        sys_arch=3Dppc64
-> +      else
-> +        sys_arch=3D$arch
-> +      fi
-> +      echo "QEMU=3D$PWD/qemu-system-$sys_arch" >> $config_target_mak
->        ;;
->    esac
->=20=20
-> diff --git a/tests/tcg/ppc64/Makefile.softmmu-target b/tests/tcg/ppc64/Ma=
-kefile.softmmu-target
-> index 8f9925ca5a..511b6322df 100644
-> --- a/tests/tcg/ppc64/Makefile.softmmu-target
-> +++ b/tests/tcg/ppc64/Makefile.softmmu-target
-> @@ -2,6 +2,8 @@
->  # PowerPC64 system tests
->  #
->=20=20
-> +BIG_ENDIAN ?=3D 1
-> +
->  # For now, disable tests that are failing
->  DISABLED_TESTS :=3D memory
->  DISABLED_EXTRA_RUNS :=3D run-gdbstub-memory
-> diff --git a/tests/tcg/ppc64le/Makefile.softmmu-target b/tests/tcg/ppc64l=
-e/Makefile.softmmu-target
-> new file mode 100644
-> index 0000000000..d4162160ee
-> --- /dev/null
-> +++ b/tests/tcg/ppc64le/Makefile.softmmu-target
-> @@ -0,0 +1,7 @@
-> +#
-> +# PowerPC64 LE system tests
-> +#
-> +
-> +BIG_ENDIAN =3D 0
-> +
-> +include $(SRC_PATH)/tests/tcg/ppc64/Makefile.softmmu-target
+(2) The only fatal=False messages I can see is
+"Cannot free unaligned cluster %#llx"
 
+(Try grepping for qcow2_signal_corruption)
 
---=20
-Alex Benn=C3=A9e
+so maybe we should pick a new example that might really exist. iotest
+060 seems to test this, so that can be used as a guide.
+
+--js
+
 
