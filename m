@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142C24E62BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 12:52:47 +0100 (CET)
-Received: from localhost ([::1]:33504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE444E62BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 12:54:29 +0100 (CET)
+Received: from localhost ([::1]:38036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXM1F-0008Pt-MF
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 07:52:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55848)
+	id 1nXM2t-00030U-UG
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 07:54:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nXLyl-0006rj-I9
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:50:12 -0400
-Received: from [2607:f8b0:4864:20::62d] (port=33284
- helo=mail-pl1-x62d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nXLyi-0006EH-RP
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:50:10 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id c23so4483328plo.0
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 04:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=zG09sR9flztmHWWDPRlzaIeMg9o9lfzgsi0KIJZZjQs=;
- b=XOFMSG+QUR3tPoz3CNBQpglsKqvlZk2bjsnI1yACxXWpkma4uO6VK+y+89TZ4q76Ew
- I/dY9wQYTkfQeN6LtlxevYsiFjzcHvNdMojkki0TTYzPkoBeCbvbtm9VlO7B3e5C3klD
- Ti7aBx4ZwnqFcs4Ow9tBth6Sf2podf1qmy+F0hj+vuS4BF9Dfj1jy2c6E1OnayfkuucD
- GVQ3vnWtRTA8i7766rq4T7DxQr8gKf8m/0+zCOJOWRZH95QJZxkUNIN0sqeBdY7aJdJC
- zMSSACRD9Rt8qA6iCLujm8fwfxH9nOsKVEFolDsnBsGYDZvGYHiXzAFrCtdzkXKnOWpm
- UBtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=zG09sR9flztmHWWDPRlzaIeMg9o9lfzgsi0KIJZZjQs=;
- b=WSKrCExCdrut964DNqWphVUXMQYeVtxGgd0iqGRNVz7uGi5wa8JbK5MqLen5ZgTp6F
- premUov3J1TnXBEhaPClwmr953pMCyKLtSzTU1EPiviPmMSYftNx/c2hz97oCKTE05bz
- Ykk5vHYtab/82GviuIxCEEC6QGNThL1BjMo4mPjU5cAOoruyOvqME9plKVvHt1b72gyY
- cL4cupdxum9S1Ng5OjSGl1cc23iwTrMi6ebBnJRy46cnPjaXtgkWtkDgQwr23qVnLL1s
- RHGX/tTBKZ77jMaJf05VCNFzZS9WEj+uTSZH4jBJqGWik/7i4Z5EPHGusqVjFcRyKQQZ
- Z3Rw==
-X-Gm-Message-State: AOAM531YV/T/5Z7wJk70F4udiRJh0DnaBrzww94LCtDHEAVhX1xQti/b
- yF4fq/0MnXSLlyBFUrwUOTo=
-X-Google-Smtp-Source: ABdhPJzWtLD+wURj0iDJolhr8k/VmF2cZJLlaRriGG3mq/tBgyqjFaWo5Bn33s5VwUvSTa0q8Cc1WA==
-X-Received: by 2002:a17:902:d64e:b0:154:bc8f:b6c5 with SMTP id
- y14-20020a170902d64e00b00154bc8fb6c5mr5170234plh.157.1648122606956; 
- Thu, 24 Mar 2022 04:50:06 -0700 (PDT)
-Received: from [192.168.1.33] (198.red-83-50-65.dynamicip.rima-tde.net.
- [83.50.65.198]) by smtp.gmail.com with ESMTPSA id
- d9-20020a056a00198900b004fafdb88076sm653844pfl.117.2022.03.24.04.50.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Mar 2022 04:50:06 -0700 (PDT)
-Message-ID: <04d9cb7b-6dab-74af-0136-0b045512605b@gmail.com>
-Date: Thu, 24 Mar 2022 12:50:03 +0100
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nXLzT-000740-4w
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:50:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60977)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nXLzQ-0006O7-7W
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:50:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648122651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ikmm8oTSlHgIN8D0zynBS296nFSB92ZEnd6obthxwEI=;
+ b=ihgxLs64xj7WKA9XZ7B3Vl/gwTVHS5C9o6u9Rvv+0LfuJq76UFYN+YzXiYEhnozXDcK12z
+ umzafPu0ondKs0amdOJarLJE5FuZCAIS+DbTsiIlLJYCC6I2EuyoplbmFYCN7CLeXKwP5O
+ H5N/unaZWgv2jszXXXz7J/h6lXLMpHw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-507-3wrbgOYYM4WhwdhN0UjF9w-1; Thu, 24 Mar 2022 07:50:48 -0400
+X-MC-Unique: 3wrbgOYYM4WhwdhN0UjF9w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86D153800E8A;
+ Thu, 24 Mar 2022 11:50:47 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0365D413701;
+ Thu, 24 Mar 2022 11:50:46 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ eric.auger@redhat.com, qemu-devel@nongnu.org, alex.williamson@redhat.com
+Subject: Re: [PATCH v3 for-7.1] vfio/common: remove spurious tpm-crb-cmd
+ misalignment warning
+In-Reply-To: <20220323203119.360894-1-eric.auger@redhat.com>
+Organization: Red Hat GmbH
+References: <20220323203119.360894-1-eric.auger@redhat.com>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date: Thu, 24 Mar 2022 12:50:45 +0100
+Message-ID: <87tubn602y.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 2/2] hw/core: loader: Setting is_linux to true for VxWorks
- uImage
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-References: <20220324082243.451107-1-bmeng.cn@gmail.com>
- <20220324082243.451107-2-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220324082243.451107-2-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,23 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: peter.maydell@linaro.org, david@gibson.dropbear.id.au,
+ stefanb@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/3/22 09:22, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> VxWorks 7 now uses the same boot interface as the Linux kernel on
-> Arm64, PowerPC and RISC-V architectures, except Arm. Add logic to
-> set is_linux to true for VxWorks uImage for these architectures in
-> load_uboot_image().
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
->   hw/core/loader.c | 15 +++++++++++++++
->   1 file changed, 15 insertions(+)
+On Wed, Mar 23 2022, Eric Auger <eric.auger@redhat.com> wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> The CRB command buffer currently is a RAM MemoryRegion and given
+> its base address alignment, it causes an error report on
+> vfio_listener_region_add(). This region could have been a RAM device
+> region, easing the detection of such safe situation but this option
+> was not well received. So let's add a helper function that uses the
+> memory region owner type to detect the situation is safe wrt
+> the assignment. Other device types can be checked here if such kind
+> of problem occurs again.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> ---
+>
+> v2 -> v3:
+> - Use TPM_IS_CRB()
+>
+> v1 -> v2:
+> - do not check the MR name but rather the owner type
+> ---
+>  hw/vfio/common.c     | 27 ++++++++++++++++++++++++++-
+>  hw/vfio/trace-events |  1 +
+>  2 files changed, 27 insertions(+), 1 deletion(-)
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
 
