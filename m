@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0E34E68A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:27:30 +0100 (CET)
-Received: from localhost ([::1]:37852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C660C4E68D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:47:01 +0100 (CET)
+Received: from localhost ([::1]:38920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXSBC-0004eL-WD
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:27:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58918)
+	id 1nXSU8-0008WS-Qp
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:47:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
- id 1nXS0Z-00062G-BT
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:16:27 -0400
-Received: from [2607:f8b0:4864:20::42f] (port=47046
- helo=mail-pf1-x42f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
- id 1nXS0X-00036C-Rt
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:16:27 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id s11so4564409pfu.13
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 11:16:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Z8/3sggV+dBbiO1PXwaQwIz5VINnWuh2AxxWFR/Xqcs=;
- b=n74/903K9K91arDavIWSUjrmzgHmJcYhR9NuK+0bYhjBSeppUF+hdchUvL80I7WSBh
- 1NwamyFVC3C3Qm3wRy3SKG2DyKpb+eDmZGqSShKQ7t5tdnP/g6IS5Xp7wHFZUlegnxqA
- 9vUdH97SF9wL1phB5QxyadvvZd2LMnhsleF443yvD1YOA9RHYaoUJk3fQF6aDY2+nE4d
- 4Xo/xa0fh1cf/Ec88ey3mNKl6f9rA4SElcjDYebwqYdWjlG7soHXvR5RxBhRRdQ88azI
- YGBnIAKc6DU94HNCwdu+vnPlJmqA9xVNlIqK2uU7A1KSUcjFkgSz7bpQU24zi0QxPPWt
- /ebA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Z8/3sggV+dBbiO1PXwaQwIz5VINnWuh2AxxWFR/Xqcs=;
- b=cp/oeCjrGPvfvsd6I8lfz7tnRmjH3LYHk/toKzpc0tJfAwYj6uPUwPprdnifUxsH0h
- lLlH3AMNamUCqyg+jWJY5WEOv0MLeiWxurWX5YwssIuzgbE3kjePyHN743UihqJvDzYQ
- Gl9MV8EiEYasep1zI4lUAR1W82OxIE1+CTebxmLJjlulDwEnZM4IO71Xquq/FkgrCnda
- Wr90WQU2l0A6AXmcbPp8xzXkWdFUlL1q+iP4HxzVv2xIim+Q1TnDwcLaP/PfL3GVZkVK
- i0/gdhcbOALZzhp6QxEljzmOIG8mQWGYp/E3qgQNChXgEdgBe5NfB8HZAMdx0COSyMLx
- cCuw==
-X-Gm-Message-State: AOAM532NBGzfVeva9UFXAWZL6OBqW5tQOwpVB8q5es0fj61pRKMdS3a4
- jArZwM7ywNxuuQ9OdtgJUTQ5FxVYpj29Yg==
-X-Google-Smtp-Source: ABdhPJwZpdY2shn5imVKbiEbaYKx/g5YfcokJBKH/RNAgd0cxXmBUnFjy+hdJNTRySSZfL9JU/Q6LQ==
-X-Received: by 2002:a05:6a00:16c7:b0:4f7:e497:69b8 with SMTP id
- l7-20020a056a0016c700b004f7e49769b8mr6427731pfc.6.1648145784468; 
- Thu, 24 Mar 2022 11:16:24 -0700 (PDT)
-Received: from dev.lizongyuan.local ([103.177.44.101])
- by smtp.gmail.com with ESMTPSA id
- u10-20020a17090a2b8a00b001c6594e5ddcsm3577725pjd.15.2022.03.24.11.16.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Mar 2022 11:16:24 -0700 (PDT)
-From: Zongyuan Li <zongyuan.li@smartx.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSED-0000Dd-W1
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:30:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXSE8-0005b6-8V
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:30:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648146624;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ujNBzYeM06P8DwrtucEd2RrdFtL6/O4aD8QYIlm6Oog=;
+ b=Ohee1zmpbxpol4ccqqgbh3Jevfkoij7hqNSEt1ke2Uielbr+OwPgoCU/M1kNUhv9D5Xvmh
+ QUiT3MJwlS/ByY0gAJaG64I+ALSekd8NcUtcfAqqUcP5ywYHVwAuBGdOQgYUNQOFcMdLic
+ Xg54ISC4umytpRPz0GAFwmSR+3u02mM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-252-8m2Xny6rMcq5zCYvXGoZNA-1; Thu, 24 Mar 2022 14:30:20 -0400
+X-MC-Unique: 8m2Xny6rMcq5zCYvXGoZNA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 877763801ED2;
+ Thu, 24 Mar 2022 18:30:20 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.33.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93C9DC26EA0;
+ Thu, 24 Mar 2022 18:30:19 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 4/4] hw/core/irq: remove unused 'qemu_irq_split' function
-Date: Fri, 25 Mar 2022 02:15:57 +0800
-Message-Id: <20220324181557.203805-5-zongyuan.li@smartx.com>
-X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20220324181557.203805-1-zongyuan.li@smartx.com>
-References: <20220324181557.203805-1-zongyuan.li@smartx.com>
+Subject: [PATCH v2 00/17] iotests: add enhanced debugging info to qemu-io
+ failures
+Date: Thu, 24 Mar 2022 14:30:01 -0400
+Message-Id: <20220324183018.2476551-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::42f;
- envelope-from=zongyuan.li@smartx.com; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: 29
-X-Spam_score: 2.9
-X-Spam_bar: ++
-X-Spam_report: (2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,62 +76,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Zongyuan Li <zongyuan.li@smartx.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/811
----
- hw/core/irq.c    | 15 ---------------
- include/hw/irq.h |  5 -----
- 2 files changed, 20 deletions(-)
-
-diff --git a/hw/core/irq.c b/hw/core/irq.c
-index 741219277b..3623f711fe 100644
---- a/hw/core/irq.c
-+++ b/hw/core/irq.c
-@@ -106,21 +106,6 @@ qemu_irq qemu_irq_invert(qemu_irq irq)
-     return qemu_allocate_irq(qemu_notirq, irq, 0);
- }
- 
--static void qemu_splitirq(void *opaque, int line, int level)
--{
--    struct IRQState **irq = opaque;
--    irq[0]->handler(irq[0]->opaque, irq[0]->n, level);
--    irq[1]->handler(irq[1]->opaque, irq[1]->n, level);
--}
--
--qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2)
--{
--    qemu_irq *s = g_new0(qemu_irq, 2);
--    s[0] = irq1;
--    s[1] = irq2;
--    return qemu_allocate_irq(qemu_splitirq, s, 0);
--}
--
- void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler, int n)
- {
-     int i;
-diff --git a/include/hw/irq.h b/include/hw/irq.h
-index dc7abf199e..645b73d251 100644
---- a/include/hw/irq.h
-+++ b/include/hw/irq.h
-@@ -46,11 +46,6 @@ void qemu_free_irq(qemu_irq irq);
- /* Returns a new IRQ with opposite polarity.  */
- qemu_irq qemu_irq_invert(qemu_irq irq);
- 
--/* Returns a new IRQ which feeds into both the passed IRQs.
-- * It's probably better to use the TYPE_SPLIT_IRQ device instead.
-- */
--qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2);
--
- /* For internal use in qtest.  Similar to qemu_irq_split, but operating
-    on an existing vector of qemu_irq.  */
- void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler, int n);
--- 
-2.34.0
+GitLab: https://gitlab.com/jsnow/qemu/-/commits/iotests_qemu_io_diagnostics=
+=0D
+CI: https://gitlab.com/jsnow/qemu/-/pipelines/499624472=0D
+=0D
+Howdy,=0D
+=0D
+This series does for qemu_io() what we've done for qemu_img() and makes=0D
+it a function that checks the return code by default and raises an=0D
+Exception when things do not go according to plan.=0D
+=0D
+This series removes qemu_io_pipe_and_status(), qemu_io_silent(), and=0D
+qemu_io_silent_check() in favor of just qemu_io().=0D
+=0D
+V2:=0D
+=0D
+- Fixed 040=0D
+- Fixed 245 on tmpfs=0D
+- Fixed tests/image-fleecing=0D
+=0D
+- I expect to respin a v3 to:=0D
+  (A) Fix the commit message on the 040 fix=0D
+  (B) Squash patches 7-12.=0D
+=0D
+001/17:[0004] [FC] 'iotests: replace calls to log(qemu_io(...)) with qemu_i=
+o_log()'=0D
+  rebased on master, changed imports.=0D
+  Kept RB from Eric.=0D
+=0D
+005/17:[down] 'iotests/040: Fix TestCommitWithFilters test'=0D
+  New patch, based on feedback from hreitz. Thank you ;_;=0D
+=0D
+006/17:[0013] [FC] 'iotests: create generic qemu_tool() function'=0D
+  Quoted return types (Needed for older Python versions)=0D
+  Changed phrasing of "args" param docstring (Hanna)=0D
+  Removed docstring reflow (It's upstream already)=0D
+  Kept RBs.=0D
+=0D
+007/17:[0004] [FC] 'iotests: rebase qemu_io() on top of qemu_tool()'=0D
+  Quoted return types (Needed for older Python versions)=0D
+=0D
+011/17:[0019] [FC] 'iotests/245: fixup'=0D
+  Rewrite to fix this test on tmpfs (Hanna)=0D
+=0D
+014/17:[down] 'iotests/image-fleecing: switch to qemu_io()'=0D
+  New, this test needed to be explicitly migrated away from pipe_and_status=
+.=0D
+=0D
+015/17:[0012] [FC] 'iotests: remove qemu_io_pipe_and_status()'=0D
+  This patch is basically empty after the new 014.=0D
+=0D
+016/17:[0006] [FC] 'iotests: remove qemu_io_silent() and qemu_io_silent_che=
+ck().'=0D
+  Reflow some lines (Eric)=0D
+  Added RBs.=0D
+=0D
+017/17:[0004] [FC] 'iotests: make qemu_io_log() check return codes by defau=
+lt'=0D
+  Changed commit message phrasing (Hanna, IIRC)=0D
+  Added RBs.=0D
+=0D
+Notes:=0D
+=0D
+- There are a few remaining uses of qemu-io that don't go through qemu_io;=
+=0D
+QemuIoInteractive is a user that is used in 205, 298, 299, and 307. It=0D
+... did not appear worth it to morph qemu_tool_popen into something that=0D
+could be used by both QemuIoInteractive *and* qemu_io(), so I left it=0D
+alone. It's probably fine for now. (But it does bother me, a little.)=0D
+=0D
+- qemu_io_popen itself is used by the nbd-reconnect-on-open test, and it=0D
+seems like a legitimate use -- it wants concurrency. Like the above=0D
+problem, I couldn't find a way to bring it into the fold, so I=0D
+didn't. (Meh.) I eventually plan to add asyncio subprocess management to=0D
+machine.py, and I could tackle stuff like this then. It's not worth it=0D
+now.=0D
+=0D
+(Maybe I'll bring these in under the fold the next time I get bored, but=0D
+I think it's not worth the trouble right now, there are very few=0D
+users. I did try, but the benefit to VerboseProcessError is that it=0D
+includes stdout/stderr. When using Popen with pipes you lose access to=0D
+that information in the management context. Popen does not natively=0D
+buffer stdout/stderr, so we'd have to fall back to just using a regular=0D
+CalledProcessError. I think I'd have to extend Popen and add=0D
+buffering. I think that's something for later. Anyway, that's my=0D
+story. How are you today? I hope you are well.)=0D
+=0D
+John Snow (17):=0D
+  iotests: replace calls to log(qemu_io(...)) with qemu_io_log()=0D
+  iotests/163: Fix broken qemu-io invocation=0D
+  iotests: Don't check qemu_io() output for specific error strings=0D
+  iotests/040: Don't check image pattern on zero-length image=0D
+  iotests/040: Fix TestCommitWithFilters test=0D
+  iotests: create generic qemu_tool() function=0D
+  iotests: rebase qemu_io() on top of qemu_tool()=0D
+  iotests/030: fixup=0D
+  iotests/149: fixup=0D
+  iotests/205: fixup=0D
+  iotests/245: fixup=0D
+  iotests/migration-permissions: fixup=0D
+  iotests/migration-permissions: use assertRaises() for qemu_io()=0D
+    negative test=0D
+  iotests/image-fleecing: switch to qemu_io()=0D
+  iotests: remove qemu_io_pipe_and_status()=0D
+  iotests: remove qemu_io_silent() and qemu_io_silent_check().=0D
+  iotests: make qemu_io_log() check return codes by default=0D
+=0D
+ tests/qemu-iotests/030                        | 85 +++++++++++--------=0D
+ tests/qemu-iotests/040                        | 53 +++++++-----=0D
+ tests/qemu-iotests/056                        |  2 +-=0D
+ tests/qemu-iotests/149                        |  6 +-=0D
+ tests/qemu-iotests/163                        |  5 +-=0D
+ tests/qemu-iotests/205                        |  4 +-=0D
+ tests/qemu-iotests/216                        | 12 +--=0D
+ tests/qemu-iotests/218                        |  5 +-=0D
+ tests/qemu-iotests/224                        |  4 +-=0D
+ tests/qemu-iotests/242                        |  6 +-=0D
+ tests/qemu-iotests/245                        | 17 ++--=0D
+ tests/qemu-iotests/255                        |  4 +-=0D
+ tests/qemu-iotests/258                        | 11 ++-=0D
+ tests/qemu-iotests/298                        | 15 ++--=0D
+ tests/qemu-iotests/303                        |  4 +-=0D
+ tests/qemu-iotests/310                        | 22 ++---=0D
+ tests/qemu-iotests/iotests.py                 | 69 ++++++++-------=0D
+ tests/qemu-iotests/tests/image-fleecing       | 30 ++++---=0D
+ .../qemu-iotests/tests/migration-permissions  | 28 +++---=0D
+ .../tests/mirror-ready-cancel-error           |  2 +-=0D
+ .../qemu-iotests/tests/nbd-reconnect-on-open  |  2 +-=0D
+ .../qemu-iotests/tests/stream-error-on-reset  |  4 +-=0D
+ 22 files changed, 210 insertions(+), 180 deletions(-)=0D
+=0D
+--=20=0D
+2.34.1=0D
+=0D
 
 
