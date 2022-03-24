@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A2814E6896
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CD84E6897
 	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:22:19 +0100 (CET)
-Received: from localhost ([::1]:58946 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:58978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXS6E-00087G-Gz
+	id 1nXS6E-00088R-O2
 	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:22:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58770)
+Received: from eggs.gnu.org ([209.51.188.92]:58798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
- id 1nXS0J-0005qd-7v
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:16:12 -0400
-Received: from [2607:f8b0:4864:20::530] (port=41628
- helo=mail-pg1-x530.google.com)
+ id 1nXS0M-0005ql-2N
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:16:14 -0400
+Received: from [2607:f8b0:4864:20::431] (port=34455
+ helo=mail-pf1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
- id 1nXS0D-00032n-Bj
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:16:10 -0400
-Received: by mail-pg1-x530.google.com with SMTP id t13so3234130pgn.8
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 11:16:02 -0700 (PDT)
+ id 1nXS0K-00033E-KL
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:16:13 -0400
+Received: by mail-pf1-x431.google.com with SMTP id h19so3602945pfv.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 11:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=smartx-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lz2iZCindmNGBgTpaEDXEWro/Uln/h07YBEqsYXSHCM=;
- b=nLx1I0rH1nXOTf7t/5rtSdKNeKF2/NJ5ecZB/B7Yr/6Tlw0zHbU+sGDpNd449Vjlo/
- RRMwkizz1GaIM2MFcbWddNk15cnYw4qN5nQag9eKOjksk6PrUCPUoZSrdVUw14pCbM6s
- PlUlQrnLn9kCIO0UaDqfN0cRTx9cOurgN9PF6iyUcNKTe0Q1Jf2S5Guhz9Ar7zNvQKLg
- ir1vem40pXOribNqr404mP2edtuLLfUVlOq8moBWkkylYghgB7e+Y9v5JYxlTWQYZDBB
- MSXVHlo64mHEM1ZHtKX5gGMqdcnU0ukvFSzNAfHBvX1FWc6YMg0G83qE9nKb+SALz2VW
- P+jA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5SrYGGx56D5KZCgDRAE+ARenQHiw5A2xBeYHRC7blJI=;
+ b=rDHG9AqpGCyEQHWiSxi8VCe4kJs2bIUZHzrzyG/78OW+dLVWl7qmiBYd5d2/Cz7xwP
+ 57KwaiNe7DdQDwMOG4GWWnZeG4QE+bsAsaSRMKqpiAD4+3e4MH+FMkNbvAZgTP/QU2oE
+ SvoXiNPFK81biDCvluJvePFLmKa+kjfo5yTm0nI5I3BdR5XDCtMQSjYoEvtad3fem9EC
+ 8yxpX5myPgo1EyE6AInA1jw4xxBhvK4m1lujj+WEy837dNszGND1rhNhpjBVt0kjANea
+ 7LCNTA5dfntHwXgEkISSyCRDGDV0ZhXHLayp+Tr22GDfZaAdIL3Lyaa4dKAq4mLzshxL
+ tf0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lz2iZCindmNGBgTpaEDXEWro/Uln/h07YBEqsYXSHCM=;
- b=IxK1QPDJf5QHaGK3fHcrMSZ68YUpHgQNf/rY+McKfngr8+f1Pva1iDM0ZHTt5NUFT1
- if0UYooNub7g7QaMgZ1bIQB8HvrNgDuNA5A5aPqRorDzmOyMgFgmOk9vD0cG6qg3T6oG
- ziFnI/e7ZZHc2iMgWuE4+UHsWv0sRpZ2qLFV+56aQCOeHoYwWq1GXT+RAd/FWjuusOg9
- H3P6lKc1/ElbAo7rrByY8Y566zyWW7qXo6BwSknrqvLQ1SQg9T2hIUez6ahCoHVf+8Me
- yMeCPY+fl6IvUB67u66CTul/balOK7V4nJnC51fNyH7o7Gv2mGwKKIEgOJFoJ0MT4cbA
- V6bg==
-X-Gm-Message-State: AOAM530iQXJ+MGXBw/6Byq2tDPA7TeNAZ8joYrg/nURok8QG2GStwlCh
- oiuG/whvjC3Wl8RnuC0Ir6LqIR9tltj79Q==
-X-Google-Smtp-Source: ABdhPJwB0ZDTDmj3cOKDVQ+GxIIs0Hy+7wsOdK8JjXXcLzLh3XKs0Gk7jd+uAMoXV7+XUuGpxO/XIA==
-X-Received: by 2002:a05:6a00:1488:b0:4fa:ac61:8b11 with SMTP id
- v8-20020a056a00148800b004faac618b11mr6564208pfu.58.1648145761468; 
- Thu, 24 Mar 2022 11:16:01 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=5SrYGGx56D5KZCgDRAE+ARenQHiw5A2xBeYHRC7blJI=;
+ b=nUaj1Kn8ta7olWLO8/URF6zSqIaLJAGR2KHn/trBUjaBgcRL1YPyayyrkFuY9zh5Di
+ 4tyrYD/ExvjhhsoPeLtFAZisKhSVy8fnvQhfi5D27uxMCo2wgrfho+d8nXfNII3ZxrWk
+ 9FLzEx235DgdgelaTOxy5cTtzHLEj66q8KroHYaitMDxjsJydJdxI1SNpBXDWqzx0Njp
+ EqQPDZ0jNsWlly2EQDAqkLIFofErjDqsnsEH3BV2Yd/CvNIzTIIk02/6okLCj6JPntIa
+ YBzaOH+1zmWHL7Q/WaJyylAIw0oa5LlcmyNkA4Fk+qhOsGJxON4hAX5UnihhcfuXVhcD
+ 5a1A==
+X-Gm-Message-State: AOAM530ZgYEw6Lh7L5e3W/J7IBtLjmdU4i7U7S5OmxGNnI9x+yT6P8y4
+ zuwQ/ImP2eaVHCpmNOaiUgsx0tBeIQUaag==
+X-Google-Smtp-Source: ABdhPJwpSz3xLGe3oOZ0PZsFrh+ZXI+QqWL0xL8vit6tT7rD0dKLyHEruJHVF9VB2HbN6lSeoaUJmQ==
+X-Received: by 2002:a65:424a:0:b0:375:6d8b:8d44 with SMTP id
+ d10-20020a65424a000000b003756d8b8d44mr5055867pgq.170.1648145770176; 
+ Thu, 24 Mar 2022 11:16:10 -0700 (PDT)
 Received: from dev.lizongyuan.local ([103.177.44.101])
  by smtp.gmail.com with ESMTPSA id
- u10-20020a17090a2b8a00b001c6594e5ddcsm3577725pjd.15.2022.03.24.11.15.59
+ u10-20020a17090a2b8a00b001c6594e5ddcsm3577725pjd.15.2022.03.24.11.16.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Mar 2022 11:16:00 -0700 (PDT)
+ Thu, 24 Mar 2022 11:16:09 -0700 (PDT)
 From: Zongyuan Li <zongyuan.li@smartx.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 0/4] Replace 'qemu_irq_split' with 'TYPE_SPLIT_IRQ'
-Date: Fri, 25 Mar 2022 02:15:53 +0800
-Message-Id: <20220324181557.203805-1-zongyuan.li@smartx.com>
+Subject: [PATCH v5 1/4] hw/arm/realview: replace 'qemu_split_irq' with
+ 'TYPE_SPLIT_IRQ'
+Date: Fri, 25 Mar 2022 02:15:54 +0800
+Message-Id: <20220324181557.203805-2-zongyuan.li@smartx.com>
 X-Mailer: git-send-email 2.34.0
+In-Reply-To: <20220324181557.203805-1-zongyuan.li@smartx.com>
+References: <20220324181557.203805-1-zongyuan.li@smartx.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::530
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::530;
- envelope-from=zongyuan.li@smartx.com; helo=mail-pg1-x530.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::431;
+ envelope-from=zongyuan.li@smartx.com; helo=mail-pf1-x431.google.com
 X-Spam_score_int: 29
 X-Spam_score: 2.9
 X-Spam_bar: ++
@@ -86,48 +89,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zongyuan Li <zongyuan.li@smartx.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:Real View" <qemu-arm@nongnu.org>,
+ Zongyuan Li <zongyuan.li@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch set tries to replace 'qemu_irq_split' function with QOM
-object 'TYPE_SPLIT_IRQ' and totally remove this call.
+Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
+---
+ hw/arm/realview.c | 33 ++++++++++++++++++++++++---------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
 
-If this patch set is applied, issue:
-
-https://gitlab.com/qemu-project/qemu/-/issues/811
-
-can be closed.
-
-Changes since v3:
-
-1. Squash Patch 3 & 4 into one, since they would affect each other.
-2. Use `object_initialize_with_child` and `qdev_realize` for device code.
-3. Code style fixes.
-4. Remove unnecessary `if` statement used with `qdev_realize_and_unref.
-5. Narrow scope of some variables.
-
-Changes since v4
-
-1. Code style fixes.
-
-Zongyuan Li (4):
-  hw/arm/realview: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
-  hw/arm/stellaris: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
-  hw/intc/exynos4210: replace 'qemu_split_irq' in combiner and gic
-  hw/core/irq: remove unused 'qemu_irq_split' function
-
- hw/arm/exynos4210.c           | 26 +++++++++++
- hw/arm/realview.c             | 33 ++++++++++----
- hw/arm/stellaris.c            | 15 ++++++-
- hw/core/irq.c                 | 15 -------
- hw/intc/exynos4210_combiner.c | 81 +++++++++++++++++++++++++++--------
- hw/intc/exynos4210_gic.c      | 36 +++++++++++++---
- include/hw/arm/exynos4210.h   | 11 ++---
- include/hw/core/split-irq.h   |  5 +--
- include/hw/irq.h              |  5 ---
- 9 files changed, 163 insertions(+), 64 deletions(-)
-
+diff --git a/hw/arm/realview.c b/hw/arm/realview.c
+index 7b424e94a5..d2dc8a8952 100644
+--- a/hw/arm/realview.c
++++ b/hw/arm/realview.c
+@@ -13,9 +13,11 @@
+ #include "hw/sysbus.h"
+ #include "hw/arm/boot.h"
+ #include "hw/arm/primecell.h"
++#include "hw/core/split-irq.h"
+ #include "hw/net/lan9118.h"
+ #include "hw/net/smc91c111.h"
+ #include "hw/pci/pci.h"
++#include "hw/qdev-core.h"
+ #include "net/net.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/boards.h"
+@@ -53,6 +55,20 @@ static const int realview_board_id[] = {
+     0x76d
+ };
+ 
++static void split_irq_from_named(DeviceState *src, const char* outname,
++                                 qemu_irq out1, qemu_irq out2) {
++    DeviceState *splitter = qdev_new(TYPE_SPLIT_IRQ);
++
++    qdev_prop_set_uint32(splitter, "num-lines", 2);
++
++    qdev_realize_and_unref(splitter, NULL, &error_fatal);
++
++    qdev_connect_gpio_out(splitter, 0, out1);
++    qdev_connect_gpio_out(splitter, 1, out2);
++    qdev_connect_gpio_out_named(src, outname, 0,
++                                qdev_get_gpio_in(splitter, 0));
++}
++
+ static void realview_init(MachineState *machine,
+                           enum realview_board_type board_type)
+ {
+@@ -66,7 +82,6 @@ static void realview_init(MachineState *machine,
+     DeviceState *dev, *sysctl, *gpio2, *pl041;
+     SysBusDevice *busdev;
+     qemu_irq pic[64];
+-    qemu_irq mmc_irq[2];
+     PCIBus *pci_bus = NULL;
+     NICInfo *nd;
+     DriveInfo *dinfo;
+@@ -229,14 +244,14 @@ static void realview_init(MachineState *machine,
+      * and the PL061 has them the other way about. Also the card
+      * detect line is inverted.
+      */
+-    mmc_irq[0] = qemu_irq_split(
+-        qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_WPROT),
+-        qdev_get_gpio_in(gpio2, 1));
+-    mmc_irq[1] = qemu_irq_split(
+-        qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_CARDIN),
+-        qemu_irq_invert(qdev_get_gpio_in(gpio2, 0)));
+-    qdev_connect_gpio_out_named(dev, "card-read-only", 0, mmc_irq[0]);
+-    qdev_connect_gpio_out_named(dev, "card-inserted", 0, mmc_irq[1]);
++    split_irq_from_named(dev, "card-read-only",
++                   qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_WPROT),
++                   qdev_get_gpio_in(gpio2, 1));
++
++    split_irq_from_named(dev, "card-inserted",
++                   qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_CARDIN),
++                   qemu_irq_invert(qdev_get_gpio_in(gpio2, 0)));
++
+     dinfo = drive_get(IF_SD, 0, 0);
+     if (dinfo) {
+         DeviceState *card;
 -- 
 2.34.0
 
