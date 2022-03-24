@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 380574E6006
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:11:45 +0100 (CET)
-Received: from localhost ([::1]:48940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B54C4E6009
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:12:00 +0100 (CET)
+Received: from localhost ([::1]:49794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXIZL-0008Nd-Dn
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:11:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49394)
+	id 1nXIZb-0000bi-C8
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:11:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nXIWF-0007B9-5M
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:08:31 -0400
-Received: from mga14.intel.com ([192.55.52.115]:25338)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nXIWC-0000dP-R5
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:08:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648109308; x=1679645308;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=uPTzAkK8QVodgv3adJZUTJY9obszEJVCmExS1Li424A=;
- b=RsrtDg/GwIFVp/Rk2n4VV5DQ+M5MHfgB0yh/2fU2z2Wsa+Mw8+pqfL+c
- RTFSFqoSp3ZuULzbyKTdR/JyslEYYm9QswPvejSLk/Q91YGstNUff7s3D
- fjac3bAsZDKY80vEeKLFYV8q3dVtcHYRK/792dG/grNz0yGjQcwe+sh0r
- i2rHQuTp06sCseZXkBWUTeCW0iTEDeH54gmPtQ1rva7ouxf8/gXy+8QOc
- IMgsw6nZYyw+UlcOxFA6aYFz6yyFXvnJ95HnomGXZHj8KDd8Wwen6n09T
- V1PCJJTrsuCCcJ26azBj1hpWUgG5cnhOr+XKTgOlupXOagJuScalpmdkS g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="258502148"
-X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="258502148"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 01:08:24 -0700
-X-IronPort-AV: E=Sophos;i="5.90,206,1643702400"; d="scan'208";a="561270484"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.201.150])
- ([10.249.201.150])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 01:08:19 -0700
-Message-ID: <4fc788e8-1805-c7cd-243d-ccd2a6314a68@intel.com>
-Date: Thu, 24 Mar 2022 16:08:17 +0800
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nXIWg-0007P4-4x
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:08:58 -0400
+Received: from [2a00:1450:4864:20::634] (port=35599
+ helo=mail-ej1-x634.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nXIWe-0000fm-E4
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:08:57 -0400
+Received: by mail-ej1-x634.google.com with SMTP id yy13so7533550ejb.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 01:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gGwR00G2oPsV6CI+SY2f6JpoisnJnzXQj8p1weGDL4c=;
+ b=XGkO8H1cAoU6XBLTBnBm5B4LLjdj7ByLEXMIdq4x0G2griFzpvnWiglLiSJtJdHl01
+ vHsz7CyGtNjbOe2rFz6liqVSX88XRvAkP9vaaz1bRL6Dd9FeTF/T8yDgZO9dsULxf8d6
+ G0BlIw4Aa0+00T932MhIVrCQBZBc85rgqvhn7w6lUuMpFHSohLShpupb9l60knhMjgG0
+ cD7Vq7TYhVorSTN1E3lV0yWiWc5pZIaNGKwFuGma395M079rjYNZTiEoNmI3pd0kxRUY
+ wvcfoxqGOl/2v6sARXuOoBj1fU0cdeO54NIrbO3cJDRFIzlr1fceYkwUXik7n3iiuJA6
+ 1hBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=gGwR00G2oPsV6CI+SY2f6JpoisnJnzXQj8p1weGDL4c=;
+ b=M154PRfxP41Po3126Th33lWCU4Eors8IjmMD/Xy2Qqo4m0K8Xdt650KdKZ8CAF1Iga
+ ybJOP6N46NX2fxgi2Eia/w2gGhdWhNWO7168T++/9tK3yIzXofhTyaKHoIzdhlgOJArq
+ shxrug2zMLqTeGygGLu9uo0Uc+PfNq9FAciLIZ1+45Hw900JKHWsXgLcA3dELNA7sfx/
+ hSrA7b4vfs4cpjXdQCG34t/XGHK7bXyYl9OtlCucfPe9XierVnbso6zfZlJug7pl9yj9
+ YorOmdQ4tZ54lBja7zSlTThftI8TIFoXNt+Na7kilQ0GkbvydFP1tIKQ4InCaznCVfXN
+ qYOg==
+X-Gm-Message-State: AOAM530ivpJa47VRSEE9Vn824eaAjXlLFXOgKvnY/0jxOQvK95yRA40W
+ xjmxiw3h/mgLBK2XcgxmSaKzYA5B4DQ=
+X-Google-Smtp-Source: ABdhPJy6xLXOKmRHMQ9RdtI0uVnYfH1udoAxS51Av9Kr/wqMeFcj8K6FExaQFuwEEYfJvs4bcr92bg==
+X-Received: by 2002:a17:906:a046:b0:6b9:20c:47c1 with SMTP id
+ bg6-20020a170906a04600b006b9020c47c1mr4341277ejb.615.1648109334981; 
+ Thu, 24 Mar 2022 01:08:54 -0700 (PDT)
+Received: from localhost.localdomain ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.gmail.com with ESMTPSA id
+ p12-20020a17090635cc00b006e055c9c91esm800699ejb.101.2022.03.24.01.08.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Mar 2022 01:08:54 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/i386: tcg: high bits SSE cmp operation must be ignored
+Date: Thu, 24 Mar 2022 09:08:47 +0100
+Message-Id: <20220324080847.69459-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [RFC PATCH v3 12/36] i386/tdx: Add property sept-ve-disable for
- tdx-guest object
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
- <20220317135913.2166202-13-xiaoyao.li@intel.com>
- <20220322090238.6job2whybu6ntor7@sirius.home.kraxel.org>
- <b452d357-8fc2-c49c-8c19-a57b1ff287e8@intel.com>
- <20220324075703.7ha44rd463uwnl55@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220324075703.7ha44rd463uwnl55@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=xiaoyao.li@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,53 +87,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Eric Blake <eblake@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, seanjc@google.com, erdemaktas@google.com,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: sonicadvance1@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/2022 3:57 PM, Gerd Hoffmann wrote:
-> On Thu, Mar 24, 2022 at 02:52:10PM +0800, Xiaoyao Li wrote:
->> On 3/22/2022 5:02 PM, Gerd Hoffmann wrote:
->>> On Thu, Mar 17, 2022 at 09:58:49PM +0800, Xiaoyao Li wrote:
->>>> Add sept-ve-disable property for tdx-guest object. It's used to
->>>> configure bit 28 of TD attributes.
->>>
->>> What is this?
->>
->> It seems this bit doesn't show up in the public spec yet.
->>
->> Bit 28 (SEPT_VE_DISABLE): Disable EPT violation conversion to #VE ON guest
->> TD ACCESS of PENDING pages.
->>
->> The TDX architecture requires a private page to be accepted before using. If
->> guest accesses a not-accepted (pending) page it will get #VE.
->>
->> For some OS, e.g., Linux TD guest, it doesn't want the #VE on pending page
->> so it will set this bit.
-> 
-> Hmm.  That looks rather pointless to me.  The TDX patches for OVMF add a
-> #VE handler, so I suspect every guest wants #VE exceptions if even the
-> firmware cares to install a handler ...
+High bits in the immediate operand of SSE comparisons are ignored, they
+do not result in an undefined opcode exception.  This is mentioned
+explicitly in the Intel documentation.
 
-#VE can be triggered in various situations. e.g., CPUID on some leaves, 
-and RD/WRMSR on some MSRs. #VE on pending page is just one of the 
-sources, Linux just wants to disable this kind of #VE since it wants to 
-prevent unexpected #VE during SYSCALL gap.
+Reported-by: sonicadvance1@gmail.com
+Closes: https://gitlab.com/qemu-project/qemu/-/issues/184
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/tcg/translate.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-> Also: What will happen instead? EPT fault delivered to the host?
-
-Yes.
-
-> take care,
->    Gerd
-> 
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 2a94d33742..c393913fe0 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -4509,10 +4509,8 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+             sse_fn_ppi(s->ptr0, s->ptr1, tcg_const_i32(val));
+             break;
+         case 0xc2:
+-            /* compare insns */
+-            val = x86_ldub_code(env, s);
+-            if (val >= 8)
+-                goto unknown_op;
++            /* compare insns, bits 7:3 (7:5 for AVX) are ignored */
++            val = x86_ldub_code(env, s) & 7;
+             sse_fn_epp = sse_op_table4[val][b1];
+ 
+             tcg_gen_addi_ptr(s->ptr0, cpu_env, op1_offset);
+-- 
+2.35.1
 
 
