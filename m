@@ -2,83 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CFF4E6A1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:07:34 +0100 (CET)
-Received: from localhost ([::1]:54720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D7E4E6A20
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:14:10 +0100 (CET)
+Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXUg9-0001gO-2R
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:07:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40506)
+	id 1nXUmW-0004Z4-MO
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:14:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUee-0000y4-FR
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:06:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47191)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUec-00021O-8s
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:05:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648155957;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=m5syJ4mAWHRFSYvvoedcfzHSSZNm30U11nan4bSw5uw=;
- b=XmrG5M1/A7alZmRI0UnBMjhr8DeyfuZar4HGruymOmOzQ8y3aUMTsIZmWPb+rnAEqO+Mdz
- ul7m5RV+fVC91y63TOFPReYiAxd7SfnCz+oCj0ypJAvQf73jPrQvnN0DDtXP+RsGJwqKiX
- FWCs5y8xzmC/drJCaA7s1738sHtCKRI=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-ZjTj9N-7PQue7DBTYUmHaw-1; Thu, 24 Mar 2022 17:05:56 -0400
-X-MC-Unique: ZjTj9N-7PQue7DBTYUmHaw-1
-Received: by mail-vs1-f69.google.com with SMTP id
- x4-20020a67b404000000b0031bf0c6cff4so1230786vsl.21
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:05:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m5syJ4mAWHRFSYvvoedcfzHSSZNm30U11nan4bSw5uw=;
- b=NtPikzgsAArbEPwrbvGsLenKHv+RYsE1R8dKOFR+x7DBrSnPiauuEbYDvAByFa1m+y
- cg/zkKB8JkKH1uHQcgufWMffLe9T6NuCHPo+z/eHstlzoQvWZQhZDUHgCMR8JP5xF2JU
- xjzv0cqLzhPYoSBrV32kkSq2acShAbtd7IIGzAMH1EijE596EaeJ4SVaTl9qfTpWBwPN
- rvTi6yyXThZQ5QUk/c0IDvbG+zniqddTvoWE1/3QyOpmOh73raa589Hg3SlLPnLJM2ot
- +qyQfGG3MEHOzB2TVDtX2ntZr9hKIsfTUVbntm71TPgAdsd1FCqFeEKn98/xeau+kIzI
- 7JiQ==
-X-Gm-Message-State: AOAM531hs1pJHOLtXblRUah/Qf8DwfL6h+qWwaRmbEgAXpN/I3g8uSEx
- OqeiJvQgZ8b8/bYfCrjYi/FBojXhFRtOGrOUDP+EZwNZcSR72vR+0l68acjkGoz4QfNn9w8G94T
- u5ENYQcnhaAheyZq1za/+oJQ7QZTwnrA=
-X-Received: by 2002:a05:6102:c8e:b0:321:7348:6c2a with SMTP id
- f14-20020a0561020c8e00b0032173486c2amr3662677vst.11.1648155955331; 
- Thu, 24 Mar 2022 14:05:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxI/pR3SlCXOqxX5vB0fsk/Wk1f3X/NUqtQH4gopUZpbs+xWLSpY9U9Aj11UzqQoF4HOxMiSKFtLEhjOLOTE6s=
-X-Received: by 2002:a05:6102:c8e:b0:321:7348:6c2a with SMTP id
- f14-20020a0561020c8e00b0032173486c2amr3662669vst.11.1648155955096; Thu, 24
- Mar 2022 14:05:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1nXUjt-0003Bt-C0; Thu, 24 Mar 2022 17:11:25 -0400
+Received: from [187.72.171.209] (port=22511 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1nXUjr-0002r5-1s; Thu, 24 Mar 2022 17:11:24 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 24 Mar 2022 18:11:19 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 6F5618001D4;
+ Thu, 24 Mar 2022 18:11:19 -0300 (-03)
+Message-ID: <50ab5422-d294-dc8f-44bc-ece42473141d@eldorado.org.br>
+Date: Thu, 24 Mar 2022 18:11:19 -0300
 MIME-Version: 1.0
-References: <20220324175015.232794-1-victortoso@redhat.com>
- <20220324175015.232794-9-victortoso@redhat.com>
-In-Reply-To: <20220324175015.232794-9-victortoso@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 24 Mar 2022 17:05:44 -0400
-Message-ID: <CAFn=p-ZPk1pKWs_b+i3Sdo1v85TaaxYGrFGCRMif=wi2beY_Qg@mail.gmail.com>
-Subject: Re: [PATCH 08/14] qapi: fix example of FAILOVER_NEGOTIATED event
-To: Victor Toso <victortoso@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH 4/6] tests/tcg: add support for ppc64le softmmu tests
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20220324190854.156898-1-leandro.lupori@eldorado.org.br>
+ <20220324190854.156898-5-leandro.lupori@eldorado.org.br>
+ <87k0cj2imn.fsf@linaro.org>
+From: Leandro Lupori <leandro.lupori@eldorado.org.br>
+In-Reply-To: <87k0cj2imn.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 24 Mar 2022 21:11:19.0973 (UTC)
+ FILETIME=[B543ED50:01D83FC3]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,44 +61,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, pbonzini@redhat.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
->
-> * Data is an object, not a string. It generates a qdict.
-> * Timestamp is not optional, let's add for completeness.
->
-> Signed-off-by: Victor Toso <victortoso@redhat.com>
-> ---
->  qapi/net.json | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/qapi/net.json b/qapi/net.json
-> index 7fab2e7cd8..82c0d9e778 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -691,7 +691,8 @@
->  # Example:
->  #
->  # <- { "event": "FAILOVER_NEGOTIATED",
-> -#      "data": "net1" }
-> +#      "data": { "device-id": "net1" },
-> +#      "timestamp": { "seconds": 1368697518, "microseconds": 326866 } }
->  #
->  ##
->  { 'event': 'FAILOVER_NEGOTIATED',
+On 24/03/2022 17:34, Alex Bennée wrote:
+> Leandro Lupori <leandro.lupori@eldorado.org.br> writes:
+> 
+>> Adding a new, "virtual" TCG test target, ppc64le-softmmu, seems to
+>> be the cleanest way to support both BE and LE tests for
+>> ppc64-softmmu.
+>>
+>> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+>> ---
+>>   tests/Makefile.include                    |  7 ++++---
+>>   tests/tcg/configure.sh                    | 11 ++++++++++-
+>>   tests/tcg/ppc64/Makefile.softmmu-target   |  2 ++
+>>   tests/tcg/ppc64le/Makefile.softmmu-target |  7 +++++++
+>>   4 files changed, 23 insertions(+), 4 deletions(-)
+>>   create mode 100644 tests/tcg/ppc64le/Makefile.softmmu-target
+>>
+>> diff --git a/tests/Makefile.include b/tests/Makefile.include
+>> index e7153c8e91..4001fedbc3 100644
+>> --- a/tests/Makefile.include
+>> +++ b/tests/Makefile.include
+>> @@ -40,9 +40,10 @@ SPEED = quick
+>>   TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
+>>
+>>   # Per guest TCG tests
+>> -BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGETS))
+>> -CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TARGETS))
+>> -RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGETS))
+>> +TCG_TARGETS=$(patsubst tests/tcg/config-%.mak, %, $(wildcard tests/tcg/config-*.mak))
+>> +BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TCG_TARGETS))
+>> +CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TCG_TARGETS))
+>> +RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TCG_TARGETS))
+> 
+> I'm not following what is going on here. Are we creating a new target
+> type? Is this just to avoid duplication in tests/tcg subdirs?
+> 
+Yes, together with the change in test/tcg/configure.sh, a new 
+ppc64le-softmmu target is created, in the context of TCG tests only.
+But it isn't just to avoid duplication in tests/tcg subdirs.
+
+Without a ppc64le-softmmu target, the tcg tests' makefiles will only 
+include tests/tcg/ppc64/Makefile.softmmu-target file. They won't try to 
+include tests/tcg/ppc64le/Makefile.softmmu-target, because there is no 
+ppc64le-softmmu target.
+
+I've actually tried to do everything in 
+tests/tcg/ppc64/Makefile.softmmu-target. But when it is included, 
+everything is already setup to build for ppc64 (BE), such as CC, 
+EXTRA_CFLAGS and other variables. So it seems that, to be able to also 
+build and run the same tests for ppc64le, I would need to somehow change 
+CC, EXTRA_CFLAGS, etc, to setup them for a ppc64le build and write 
+another set of rules for the LE tests. Then I would also need to handle 
+output file conflicts, to be able have both BE and LE binaries 
+coexisting in the same ppc64-softmmu output directory.
+
+So that's why I've added this new target, only for TCG tests, to avoid 
+the issues above.
+
+>>
+>>   # Probe for the Docker Builds needed for each build
+>>   $(foreach PROBE_TARGET,$(TARGET_DIRS),                               \
+>> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+>> index ed4b5ccb1f..a4ac7a4e44 100755
+>> --- a/tests/tcg/configure.sh
+>> +++ b/tests/tcg/configure.sh
+>> @@ -80,6 +80,10 @@ fi
+>>   : ${cross_as_tricore="tricore-as"}
+>>   : ${cross_ld_tricore="tricore-ld"}
+>>
+>> +# If target ppc64-softmmu is configured, also include the virtual test target
+>> +# ppc64le-softmmu
+>> +target_list=`echo $target_list | sed 's/ppc64-softmmu/& ppc64le-softmmu/'`
+>> +
+>>   for target in $target_list; do
+>>     arch=${target%%-*}
+>>
+>> @@ -237,7 +241,12 @@ for target in $target_list; do
+>>         ;;
+>>       *-softmmu)
+>>         echo "CONFIG_SOFTMMU=y" >> $config_target_mak
+>> -      echo "QEMU=$PWD/qemu-system-$arch" >> $config_target_mak
+>> +      if test $arch = "ppc64le"; then
+>> +        sys_arch=ppc64
+>> +      else
+>> +        sys_arch=$arch
+>> +      fi
+>> +      echo "QEMU=$PWD/qemu-system-$sys_arch" >> $config_target_mak
+>>         ;;
+>>     esac
+>>
+>> diff --git a/tests/tcg/ppc64/Makefile.softmmu-target b/tests/tcg/ppc64/Makefile.softmmu-target
+>> index 8f9925ca5a..511b6322df 100644
+>> --- a/tests/tcg/ppc64/Makefile.softmmu-target
+>> +++ b/tests/tcg/ppc64/Makefile.softmmu-target
+>> @@ -2,6 +2,8 @@
+>>   # PowerPC64 system tests
+>>   #
+>>
+>> +BIG_ENDIAN ?= 1
+>> +
+>>   # For now, disable tests that are failing
+>>   DISABLED_TESTS := memory
+>>   DISABLED_EXTRA_RUNS := run-gdbstub-memory
+>> diff --git a/tests/tcg/ppc64le/Makefile.softmmu-target b/tests/tcg/ppc64le/Makefile.softmmu-target
+>> new file mode 100644
+>> index 0000000000..d4162160ee
+>> --- /dev/null
+>> +++ b/tests/tcg/ppc64le/Makefile.softmmu-target
+>> @@ -0,0 +1,7 @@
+>> +#
+>> +# PowerPC64 LE system tests
+>> +#
+>> +
+>> +BIG_ENDIAN = 0
+>> +
+>> +include $(SRC_PATH)/tests/tcg/ppc64/Makefile.softmmu-target
+> 
+> 
 > --
-> 2.35.1
->
-
-Oh, this one is all messed up to hell. We're not documenting the
-device-id properly, either. Can that be fixed as well?
-
-Your patch ain't wrong, though:
-
-Reviewed-by: John Snow <jsnow@redhat.com>
+> Alex Bennée
 
 
