@@ -2,52 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 909584E61E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 11:45:02 +0100 (CET)
-Received: from localhost ([::1]:44676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B744E61EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 11:46:07 +0100 (CET)
+Received: from localhost ([::1]:45882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXKxh-00087A-Ix
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 06:45:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38760)
+	id 1nXKyk-0000VE-TH
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 06:46:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1nXKvQ-0006xu-77; Thu, 24 Mar 2022 06:42:40 -0400
-Received: from kerio.kamp.de ([195.62.97.192]:59830)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXKvy-0007VJ-Qs
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 06:43:14 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:34351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1nXKvN-00065J-Qv; Thu, 24 Mar 2022 06:42:39 -0400
-X-Footer: a2FtcC5kZQ==
-Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
- by kerio.kamp.de with ESMTPSA
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
- Thu, 24 Mar 2022 11:42:32 +0100
-Message-ID: <2a2c06b1-1ff9-6038-00dc-21b138119843@kamp.de>
-Date: Thu, 24 Mar 2022 11:42:32 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXKvx-0006Qo-4A
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 06:43:14 -0400
+Received: from [192.168.100.1] ([82.142.12.150]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MGQSj-1nH9tg2Wz7-00GqEK; Thu, 24 Mar 2022 11:43:01 +0100
+Message-ID: <0e9f8e81-7a73-60cf-4154-aa075a068852@vivier.eu>
+Date: Thu, 24 Mar 2022 11:43:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] block/rbd: fix write zeroes with growing images
-Content-Language: en-US
-To: Stefano Garzarella <sgarzare@redhat.com>
-References: <20220318164743.vgkbcoeok2e4r6pa@sgarzare-redhat>
- <40388E21-4608-4815-B332-C6173412B6C3@kamp.de>
- <20220321083137.rtwh6gretloaipwk@sgarzare-redhat>
- <a12f9b05-1b10-02a6-111c-674d8b36df81@redhat.com>
- <02086768-ff74-e927-a691-7adf1c3b4459@kamp.de>
- <20220324104027.decsksvjgj6a6ghv@sgarzare-redhat>
-From: Peter Lieven <pl@kamp.de>
-In-Reply-To: <20220324104027.decsksvjgj6a6ghv@sgarzare-redhat>
+Subject: Re: qemu-binfmt-conf.sh: improvements for mips
+Content-Language: fr
+To: philippe.mathieu.daude@gmail.com
+References: <20220323230559.656291-1-dilfridge@gentoo.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220323230559.656291-1-dilfridge@gentoo.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
+X-Provags-ID: V03:K1:e7UPX8NR3zeiz4QuS/pZQoKkOZGEy66BIBEg5Ab1Vv9WpYKujQM
+ 8Nid60g8233Zs4sRp/QbOqr9LV0mDMkwca9aAT/YBk1bS4jS4DkE89zZ5JGhbVjhsRGI6Ir
+ vZan4WtGSq3HHx9XMiJuwo3F9U8u5tpaPTe5rICgMH8uHm+CCyDjBuPgFDpiRt9Lwa9grQM
+ OD9JtU+DB6cq76mto7Kmg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gPUfuoBtYMs=:/f+mJpeGlMUo5ItCnFOhG3
+ QTeuvHahD8cTYrY3hfarK5a3HS46LVMmSN0Ojv8PNua4Yfk97l2UiREUbUuNgWlBSDCjdUqIU
+ k3wv70llzSsZbaYc6ufcuXEkCoAFORM6jpSLGlzoLCsD5HIdksTK9MH9pMsp2bxFFR8R0n6oz
+ pYOMJWcIEA4Ld+sqT5w/nEysenf1yN1vv3EUy34wG4+IWSFNZoKmVfcgUr9mweZsly6KcqBWi
+ 72J1yBH/Fy2R2528tGvIDIt4sesZUZ34B9MZUIfRY+rbVSAd3AzAkPM8ENzBto5Ed1QjSh+KA
+ 585L890FOn3iR0ZkpRxarbToOfdmh7DG/hxlHUXtWRGCo3P8V4r2UJyAaYNMmf8XKv6+bAayO
+ jFhbJ0g41+u9dWXPbC2HN+JfT99A7P6DOHDS4faMKzdSxvH2H/pD7Y7mh6RcZY8eueqmhzV2B
+ HW10OvO/zqmmnV5uNlAXIpJ1O2HzxEqLHl83JkKzjjJJgPGgfNroPIdTCO7fYlxpt/d0WtsP7
+ 5EPGLpdqkKeNbE4/zAXyhFMtM/PgDT38D/KMoBIFLENf2kVk9DXG0mI6JDly8dWc9MHFfvBVk
+ bUmtivQ8QGtJM0PCaSvRJ6Z5seUCor2WgzBG7Izbmc84aD43/akjIyGClYHmAl4i3J3ivkJwq
+ MIWn+wfHWiBFmcqh7F8r50TLl/MFWGNbffBtftBSZCchfS8v3G7TNjf+lJbSCJW3az8c=
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,147 +68,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Ilya Dryomov <idryomov@gmail.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: alex.bennee@linaro.org, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Andreas_K=2e_H=c3=bcttel?= <dilfridge@gentoo.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 24.03.22 um 11:40 schrieb Stefano Garzarella:
-> On Thu, Mar 24, 2022 at 10:52:04AM +0100, Peter Lieven wrote:
->> Am 22.03.22 um 10:38 schrieb Hanna Reitz:
->>> On 21.03.22 09:31, Stefano Garzarella wrote:
->>>> On Sat, Mar 19, 2022 at 04:15:33PM +0100, Peter Lieven wrote:
->>>>>
->>>>>
->>>>>> Am 18.03.2022 um 17:47 schrieb Stefano Garzarella <sgarzare@redhat.com>:
->>>>>>
->>>>>> ﻿On Fri, Mar 18, 2022 at 04:48:18PM +0100, Peter Lieven wrote:
->>>>>>>
->>>>>>>
->>>>>>>>> Am 18.03.2022 um 09:25 schrieb Stefano Garzarella <sgarzare@redhat.com>:
->>>>>>>>
->>>>>>>> ﻿On Thu, Mar 17, 2022 at 07:27:05PM +0100, Peter Lieven wrote:
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>>> Am 17.03.2022 um 17:26 schrieb Stefano Garzarella <sgarzare@redhat.com>:
->>>>>>>>>>
->>>>>>>>>> ﻿Commit d24f80234b ("block/rbd: increase dynamically the image size")
->>>>>>>>>> added a workaround to support growing images (eg. qcow2), resizing
->>>>>>>>>> the image before write operations that exceed the current size.
->>>>>>>>>>
->>>>>>>>>> We recently added support for write zeroes and without the
->>>>>>>>>> workaround we can have problems with qcow2.
->>>>>>>>>>
->>>>>>>>>> So let's move the resize into qemu_rbd_start_co() and do it when
->>>>>>>>>> the command is RBD_AIO_WRITE or RBD_AIO_WRITE_ZEROES.
->>>>>>>>>>
->>>>>>>>>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2020993
->>>>>>>>>> Fixes: c56ac27d2a ("block/rbd: add write zeroes support")
->>>>>>>>>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
->>>>>>>>>> ---
->>>>>>>>>> block/rbd.c | 26 ++++++++++++++------------
->>>>>>>>>> 1 file changed, 14 insertions(+), 12 deletions(-)
->>>>>>>>>>
->>>>>>>>>> diff --git a/block/rbd.c b/block/rbd.c
->>>>>>>>>> index 8f183eba2a..6caf35cbba 100644
->>>>>>>>>> --- a/block/rbd.c
->>>>>>>>>> +++ b/block/rbd.c
->>>>>>>>>> @@ -1107,6 +1107,20 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
->>>>>>>>>>
->>>>>>>>>>   assert(!qiov || qiov->size == bytes);
->>>>>>>>>>
->>>>>>>>>> +    if (cmd == RBD_AIO_WRITE || cmd == RBD_AIO_WRITE_ZEROES) {
->>>>>>>>>> +        /*
->>>>>>>>>> +         * RBD APIs don't allow us to write more than actual size, so in order
->>>>>>>>>> +         * to support growing images, we resize the image before write
->>>>>>>>>> +         * operations that exceed the current size.
->>>>>>>>>> +         */
->>>>>>>>>> +        if (offset + bytes > s->image_size) {
->>>>>>>>>> +            int r = qemu_rbd_resize(bs, offset + bytes);
->>>>>>>>>> +            if (r < 0) {
->>>>>>>>>> +                return r;
->>>>>>>>>> +            }
->>>>>>>>>> +        }
->>>>>>>>>> +    }
->>>>>>>>>> +
->>>>>>>>>>   r = rbd_aio_create_completion(&task,
->>>>>>>>>>                                 (rbd_callback_t) qemu_rbd_completion_cb, &c);
->>>>>>>>>>   if (r < 0) {
->>>>>>>>>> @@ -1182,18 +1196,6 @@ coroutine_fn qemu_rbd_co_pwritev(BlockDriverState *bs, int64_t offset,
->>>>>>>>>>                                int64_t bytes, QEMUIOVector *qiov,
->>>>>>>>>>                                BdrvRequestFlags flags)
->>>>>>>>>> {
->>>>>>>>>> -    BDRVRBDState *s = bs->opaque;
->>>>>>>>>> -    /*
->>>>>>>>>> -     * RBD APIs don't allow us to write more than actual size, so in order
->>>>>>>>>> -     * to support growing images, we resize the image before write
->>>>>>>>>> -     * operations that exceed the current size.
->>>>>>>>>> -     */
->>>>>>>>>> -    if (offset + bytes > s->image_size) {
->>>>>>>>>> -        int r = qemu_rbd_resize(bs, offset + bytes);
->>>>>>>>>> -        if (r < 0) {
->>>>>>>>>> -            return r;
->>>>>>>>>> -        }
->>>>>>>>>> -    }
->>>>>>>>>>   return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_WRITE);
->>>>>>>>>> }
->>>>>>>>>>
->>>>>>>>>> -- 2.35.1
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> Do we really have a use case for growing rbd images?
->>>>>>>>
->>>>>>>> The use case is to have a qcow2 image on rbd.
->>>>>>>> I don't think it's very common, but some people use it and here [1] we had a little discussion about features that could be interesting (e.g.  persistent dirty bitmaps for incremental backup).
->>>>>>>>
->>>>>>>> In any case the support is quite simple and does not affect other use cases since we only increase the size when we go beyond the current size.
->>>>>>>>
->>>>>>>> IMHO we can have it in :-)
->>>>>>>>
->>>>>>>
->>>>>>> The QCOW2 alone doesn’t make much sense, but additional metadata might be a use case.
->>>>>>
->>>>>> Yep.
->>>>>>
->>>>>>> Be aware that the current approach will serialize requests. If there is a real use case, we might think of a better solution.
->>>>>>
->>>>>> Good point, but it only happens when we have to resize, so maybe it's okay for now, but I agree we could do better ;-)
->>>>>
->>>>> There might also be a problem if a write for a higher offset past eof will be executed shortly before a write to a slightly lower offset past eof. The second resize will fail as it would shrink the image. We would need proper locking to avoid this. 
->>>>> Maybe we need to check if we write past eof. If yes, take a lock around the resize op and then check again if it’s still eof and only resize if true.
->>>>
->>>> I thought rbd_resize() was synchronous. Indeed when you said this could serialize writes it sounded like confirmation to me.
->>>>
->>>> Since we call rbd_resize() before rbd_aio_writev(), I thought this case could not occur.
->>>>
->>>> Can you please elaborate?
->>>
->>> Seconding this request, because if rbd_resize() is allowed to shrink data, it being asynchronous might cause data corruption.
->>>
->>> I’ll keep your patch because I find this highly unlikely, though: qemu_rbd_resize() itself is definitely synchronous, it can’t invoke qemu_coroutine_yield().
->>>
->>> The only other possibility that comes to my mind is that rbd_resize() might delay the actual resize operation, but I would still expect consecutive resize requests to be executed in order, and since we call rbd_aio_writev()/rbd_aio_write_zeroes() 
->>> immediately after the rbd_resize() (with no yielding in between), everything should be executed in the order that we expect.
->>
->>
->> Maybe my assumption of parallelism here was wrong. I was thinking of:
->>
->>
->> Request A: write at offset (EOL + 4k).
->>
->> Request A: rbd_resize is invoked (size EOL + 4k)
->
-> IIUC Request B can't start until Request A calls qemu_coroutine_yield(), but I'm waiting for a confirmation from Hanna :-)
+Le 24/03/2022 à 00:05, Andreas K. Hüttel a écrit :
+> Re-sending v3 unchanged as requested.
+> 
+> The first patch has already been submitted earlier and is unchanged from v2.
+> The second patch extends it and resolves issue 843, "duplicate magic mips patterns".
+> Tested with various self-bootstrapped Gentoo chroots and in production on
+> the Gentoo release engineering stage builder.
+> 
+> 
 
+Philippe,
 
-Yes, and I would be interested if this is also true if coroutines are implemented as threads.
+could you review this version (v4) and I will try to push this in 7.0
 
-And, of course, that should read EOF and not EOL. Too much vim today ;-)
-
-
-Peter
-
-
-
+Thanks,
+Laurent
 
