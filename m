@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FFD4E6116
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 10:28:55 +0100 (CET)
-Received: from localhost ([::1]:57238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25464E6133
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 10:39:56 +0100 (CET)
+Received: from localhost ([::1]:60878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXJm2-0007Dn-Nh
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 05:28:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40254)
+	id 1nXJwh-0002AO-JO
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 05:39:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nXJkF-0006VG-Im
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:27:03 -0400
-Received: from [2a00:1450:4864:20::435] (port=41770
- helo=mail-wr1-x435.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nXJkD-0003lu-Sk
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:27:03 -0400
-Received: by mail-wr1-x435.google.com with SMTP id h23so5688582wrb.8
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 02:27:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=DbbKVfSG+W+UUvPvAfEPWBHgigTrCBH7QRFrDAx4YvM=;
- b=FWvzN4ZIzl8P+HNpIeB7yIJ7DR3ThCMmWSt1ZmUBjHGCLvicI3ImCADL9Sjx+aajcq
- KGIUvtZWtKJPt7mz41pVEXVX8GGvj7EZpG7YIHUWi9m/KK417h9ky0+PwQKrxMzuTrRF
- okO/ceBy8p3eIq37+c5szLhMLBuGawHBezcuy3U7GtP2kJPDmkPKf6YIJlJj5wawZjuT
- DxGhV9rKdZvfZyMSD/nE7ohPZnM9IpWdXbXgtXgBdlj+XX9GXfu8ubNcpm0Zmf4UZWaL
- uwR3yR2B6cPcDDZSWT9VzZx+vHycS6k2oLn8Mrg+m2bFWF8v3vUD+lVJpv+aLlxphBxH
- itxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DbbKVfSG+W+UUvPvAfEPWBHgigTrCBH7QRFrDAx4YvM=;
- b=nVprREgeyl56DeEPWrwN0X2Xq+g8N1Lr4GlRd1VRsEi6kZWkIHzy3rJhWnyD0NeZVC
- +VuytRbLjGKxBLl2iaree8+KDfV6KxvUyhB/gXNFAWzZqt8x47YT9ohLVowmRgJUEu1f
- UC/w3MAHYh+srN7GdtXqNVp6ZGTs1rh3DI1sy4UciLd3YAhf3QSez4qPGIvQfkpb2+c+
- WmI8/2hrTUClFAJbWN8F2nQo2lmNEKZTTMSJIzeY7wWeo/o+KReBfv8yD2UVqcAu75Ha
- /vunCTYRWsh1Jy22f2AOGEWnEfjsAEOPqntYR705/Yd7dD7L8+EBdfM8b3tjWGxtBizQ
- pUcw==
-X-Gm-Message-State: AOAM532YVZkC7kNXFM4b7Crb24g+UzHGpgj9C60sGimHKTgQWF08feuV
- h6EmOirRhgkWrbGezQ8BXdQ=
-X-Google-Smtp-Source: ABdhPJyE/H0mLTiagSEFajJZuJSAD/KoZJSCNPvT/ph493KQ+PwH8vozGIL+bI6frQdHD9Mh9cnAcA==
-X-Received: by 2002:a05:6000:384:b0:203:ed51:8ab3 with SMTP id
- u4-20020a056000038400b00203ed518ab3mr3684557wrf.211.1648114020015; 
- Thu, 24 Mar 2022 02:27:00 -0700 (PDT)
-Received: from localhost (109.9.90.146.dyn.plus.net. [146.90.9.109])
- by smtp.gmail.com with ESMTPSA id
- p125-20020a1c2983000000b00389cc36a3bfsm5957166wmp.6.2022.03.24.02.26.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Mar 2022 02:26:59 -0700 (PDT)
-Date: Thu, 24 Mar 2022 09:26:58 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH 00/32] Misc cleanups
-Message-ID: <Yjw5Yp+/4RHqZf8K@stefanha-x1.localdomain>
-References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nXJuP-00010j-Ut
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:37:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59210)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nXJuM-0005SE-MN
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:37:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648114648;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=z13C+cFsOjA9oyUdtfruMEl5Jb9AVjMyAZ5/T/RGscA=;
+ b=cDBf29kW2wFeT31SQE83NvWxJ+zouZRQpZIfjPEBgZ9vpfKmQvJw/ysrFt7mrpRGnMyhxs
+ U/uKB7Mb22sm+IwrgQxXXBjzXMGvqnyB1rxFoMl87OdoD5skoOpN6IeLRvEPsev+fUaP5c
+ /tza+8GhYR7dMIyqtV63a/b2ElzF2YE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-261-iG0TfI8gMdKrSU85ZQ0etQ-1; Thu, 24 Mar 2022 05:37:27 -0400
+X-MC-Unique: iG0TfI8gMdKrSU85ZQ0etQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED8DE296A610;
+ Thu, 24 Mar 2022 09:37:26 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.196.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1CF2C27D86;
+ Thu, 24 Mar 2022 09:37:26 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 37BC518000AA; Thu, 24 Mar 2022 10:37:25 +0100 (CET)
+Date: Thu, 24 Mar 2022 10:37:25 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: Re: [RFC PATCH v3 12/36] i386/tdx: Add property sept-ve-disable for
+ tdx-guest object
+Message-ID: <20220324093725.hs3kpcehsbklacnj@sirius.home.kraxel.org>
+References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
+ <20220317135913.2166202-13-xiaoyao.li@intel.com>
+ <20220322090238.6job2whybu6ntor7@sirius.home.kraxel.org>
+ <b452d357-8fc2-c49c-8c19-a57b1ff287e8@intel.com>
+ <20220324075703.7ha44rd463uwnl55@sirius.home.kraxel.org>
+ <4fc788e8-1805-c7cd-243d-ccd2a6314a68@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MVbhhHfjRINAFom5"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <4fc788e8-1805-c7cd-243d-ccd2a6314a68@intel.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,38 +81,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, seanjc@google.com, erdemaktas@google.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  Hi,
 
---MVbhhHfjRINAFom5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> #VE can be triggered in various situations. e.g., CPUID on some leaves, and
+> RD/WRMSR on some MSRs. #VE on pending page is just one of the sources, Linux
+> just wants to disable this kind of #VE since it wants to prevent unexpected
+> #VE during SYSCALL gap.
 
-On Wed, Mar 23, 2022 at 07:57:11PM +0400, marcandre.lureau@redhat.com wrote:
-> Various cleanup patches gleaned while working on different things. A good half
-> of them are realted to cleaning up qemu-common.h.
+Linux guests can't disable those on their own?  Requiring this being
+configured on the host looks rather fragile to me ...
 
-I didn't review the patches in detail but have no concerns in the areas
-that I maintain:
+take care,
+  Gerd
 
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---MVbhhHfjRINAFom5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmI8OWIACgkQnKSrs4Gr
-c8jwjgf+PwQHS6+EKp+lh0TiqVvTlLJQB9LZcCVRb2wXurZ1dplUMYAv3NxgW0Pz
-Ehq6aq2zKmScEiu0JtVw8Wje34DnkveRJhTjvLHk/kNk9pGo8fPhpqnYiqNXIRXH
-Df23xDkImWx5rilvDqx0enT56f/pF6vCVk1VCpHDJyaza4QHsdAVUfkmUSgyaHEV
-furP5jAqSTcLZIOSL5csNR/em3kFSZHcoEzhjd+P18E5Oe1d4pHUgo0kE2EgYlvu
-aZA95JtxCYaYftBv8IUr7s4AtJ+FBEV7pw0EOPpniEWUKvxVJEIUNmzr9x4hc1du
-WX6E3fIJD7rovTDV6ZL5/vKWAfsb/Q==
-=ffhV
------END PGP SIGNATURE-----
-
---MVbhhHfjRINAFom5--
 
