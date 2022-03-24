@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C872F4E608A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:43:41 +0100 (CET)
-Received: from localhost ([::1]:36586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424924E60C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:58:00 +0100 (CET)
+Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXJ4G-0005yj-La
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:43:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55120)
+	id 1nXJI7-0002Jl-4Y
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:57:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nXIwT-0007kI-I6
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:35:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37078)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nXIwR-0007Ip-Gq
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:35:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648110934;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5AYiOg0g6VI/yAB3L4J0toc2fwKBeYoB1YDFnmEmPSY=;
- b=SdyYfUK/JMNNZfrRR1XUuog0XBz7VsO5SHivJiPGAjX+WNHWapHtMu2gQguyRswILYjrxP
- emeI/d/qborlMw1iQ62eheiLwkIDpSaZJrAYRv38moJPe+SNzRt0RTvd2DgjPFKs4Hm9lG
- FxkYPYU1dB8h48rNo5ISKHRmzDorRe0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-199-44gU_I5ONXODwUpkr3D2fA-1; Thu, 24 Mar 2022 04:35:31 -0400
-X-MC-Unique: 44gU_I5ONXODwUpkr3D2fA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AAFFF1C09405;
- Thu, 24 Mar 2022 08:35:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.196.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 70736401E29;
- Thu, 24 Mar 2022 08:35:30 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D0DB018000AA; Thu, 24 Mar 2022 09:35:28 +0100 (CET)
-Date: Thu, 24 Mar 2022 09:35:28 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [RFC PATCH v3 17/36] pflash_cfi01/tdx: Introduce ram_mode of
- pflash for TDVF
-Message-ID: <20220324083528.deoh77e77swf67gb@sirius.home.kraxel.org>
-References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
- <20220317135913.2166202-18-xiaoyao.li@intel.com>
- <f418548e-c24c-1bc3-4e16-d7a775298a18@gmail.com>
- <7a8233e4-0cae-b05a-7931-695a7ee87fc9@intel.com>
- <20220322092141.qsgv3pqlvlemgrgw@sirius.home.kraxel.org>
- <YjmXFZRCbKXTkAhN@redhat.com>
- <20220322103518.ljbi4pvghbgjxm7k@sirius.home.kraxel.org>
- <YjmqOolbafWkMEHN@redhat.com>
- <20220322122024.blyut6mnszhyw6hz@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <leohou163@163.com>) id 1nXJ4a-0000KP-OG
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:44:00 -0400
+Received: from m13123.mail.163.com ([220.181.13.123]:24051)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <leohou163@163.com>) id 1nXJ4V-0000X3-Bc
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:43:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=s0t4H
+ j/L52vjeuFj5yYC0ZhBcdNe4v6RzR77/am25Ck=; b=Y+oKu9PFiuRefkHQf3qpa
+ Et6qyISWzqXPPWiqfVE6eE7njzI3vkX60nb4Hxh7q4ya2gImLp7jT/7DtPc7Uxjh
+ lge8IPPc9ogdwPae4NuafhNNX0SacOCCCCJvXDbmFvu1IgRHjom8ccV8jKyl3/iD
+ uz/b38jsK0m26ewbiS0qME=
+Received: from leohou163$163.com ( [114.249.224.138] ) by
+ ajax-webmail-wmsvr123 (Coremail) ; Thu, 24 Mar 2022 16:43:48 +0800 (CST)
+X-Originating-IP: [114.249.224.138]
+Date: Thu, 24 Mar 2022 16:43:48 +0800 (CST)
+From: leohou  <leohou163@163.com>
+To: "Jason Wang" <jasowang@redhat.com>
+Subject: Re:Re: Address mapping for vIOMMU
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210622(1d4788a8)
+ Copyright (c) 2002-2022 www.mailtech.cn 163com
+In-Reply-To: <CACGkMEvcVGvB2ZEes20cVBA1_8TWdDo1o-jPw07R4TOEXNi0kQ@mail.gmail.com>
+References: <155d85bb.2709.17fba1369b0.Coremail.leohou163@163.com>
+ <CACGkMEvcVGvB2ZEes20cVBA1_8TWdDo1o-jPw07R4TOEXNi0kQ@mail.gmail.com>
+X-CM-CTRLDATA: Ycct/mZvb3Rlcl9odG09MTgzMDo1Ng==
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_76607_634717223.1648111428155"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220322122024.blyut6mnszhyw6hz@sirius.home.kraxel.org>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Message-ID: <441d80cf.51b7.17fbb18a23b.Coremail.leohou163@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: e8GowACHEARELzxiY6MMAA--.16074W
+X-CM-SenderInfo: xohrx0jxrwjqqrwthudrp/1tbiDwTNPlUMcQj02wACs1
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.13.123; envelope-from=leohou163@163.com;
+ helo=m13123.mail.163.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,36 +67,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- seanjc@google.com, erdemaktas@google.com, Paolo Bonzini <pbonzini@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 22, 2022 at 01:20:24PM +0100, Gerd Hoffmann wrote:
->   Hi,
-> 
-> > At the time I did try a gross hack that (IIRC) disabled the
-> > rom_reset logic, and munged x86_bios_rom_init so that it would
-> > force load it straight at the RAM location.
-> 
-> Sounds reasonable.  The whole rom logic exists to handle resets,
-> but with confidential guests we don't need that, we can't change
-> guest state to perform a reset anyway ...
+------=_Part_76607_634717223.1648111428155
+Content-Type: text/plain; charset=GBK
+Content-Transfer-Encoding: base64
 
-Completed, cleaned up a bit, but untested:
-  https://git.kraxel.org/cgit/qemu/log/?h=sirius/cc
+QXQgMjAyMi0wMy0yNCAxMjoyNzo0NiwgIkphc29uIFdhbmciIDxqYXNvd2FuZ0ByZWRoYXQuY29t
+PiB3cm90ZToKPk9uIFRodSwgTWFyIDI0LCAyMDIyIGF0IDEyOjE1IFBNIGxlb2hvdSA8bGVvaG91
+MTYzQDE2My5jb20+IHdyb3RlOgo+Pgo+PiBoaSBhbGwsCj4+IFdoZW4gSSB1c2UgRFBESyBpbiBn
+dWVzdE9TICBhbmQgIGNvbmZpZ2VyaW5nIHRoZSBWTSB3aXRoIHZJT01NVSwgSSBmb3VuZCB0aGF0
+ICBzZW5kaW5nIHRoZSBnVkEgdG8gdGhlIGhhcmR3YXJlIGRldmljZSAsIHRoZSBoYXJkd2FyZSBk
+ZXZpY2UgY2FuJ3QgIGZpbmQgdGhlIHJlYWwgZGF0YS4KPj4gQnV0IHNlbmRpbmcgdGhlIGdQQSB0
+byB0aGUgaGFyZHdhcmUgZGV2aWNlLCB0aGUgaGFyZHdhcmUgZGV2aWNlIGNhbiAgZmluZCB0aGUg
+cmVhbCBkYXRhLgo+Pgo+PiBFbnZpcm9ubWVudDoKPj4gT1M6IExpbnV4IHZlcnNpb24gNS40LjAt
+MTA0LWdlbmVyaWMgKGJ1aWxkZEB1YnVudHUpIChnY2MgdmVyc2lvbiA5LjMuMCAoVWJ1bnR1IDku
+My4wLTE3dWJ1bnR1MX4yMC4wNCkpICMxMTgtVWJ1bnR1IFNNUCBXZWQgTWFyIDIgMTk6MDI6NDEg
+VVRDIDIwMjIKPj4gUUVNVTogUUVNVSBlbXVsYXRvciB2ZXJzaW9uIDQuMi4xIChEZWJpYW4gMTo0
+LjItM3VidW50dTYuMjEpCj4+IERldmljZTogdmlydGlvLW5ldAo+Pgo+PiBRdWVzdGlvbjoKPj4g
+VGhlIHZJT01NVSBkb2Vzbid0IHdvcms/Cj4+IEkga25vdyB2aXJ0aW8tbmV0IGRvZXMgbm90IGhh
+dmUgRE1BLCBzbyB3aGVuIHZpcnRpby1uZXQgYW5kIERQREsgYXJlIGNvbWJpbmVkLCBJT01NVSBp
+cyBub3QgbmVlZGVkPwo+Cj52SU9NTVUgKyB2aXJ0aW8tbmV0IHdvcmtzIGZvciBtZSBsaWtlIGEg
+Y2hhcm0uCj4KPkRQREsgc3VwcG9ydGVkIHZJT01NVSBsb25nIGFnbyB3aXRoIHZpcnRpby1uZXQu
+Cj4KPk1ha2Ugc3VyZSB5b3UgdklPTU1VIGlzIGVuYWJsZWQgaW4gdGhlIGd1ZXN0IChpbnRlbF9p
+b21tdT1vbiBpbiBndWVzdAo+a2VybmVsIGNvbW1hbmQgbGluZSwgYW5kIGVuYWJsZV91bnNhZmVf
+bm9pb21tdV9tb2RlIGlzICpub3QqIDEpCj4KPlRoYW5rcwo+Cj4+Cj4+Cj4+Cgo+CmhpLCBqYXNv
+bgpJJ20gc3VyZSBteSB2SU9NTVUgaXMgZW5hYmxlZCBpbiB0aGUgZ3Vlc3RPUyhpbnRlbF9pb21t
+dT1vbiBpbiBndWVzdCAga2VybmVsIGNvbW1hbmQgbGluZSwgYW5kIGVuYWJsZV91bnNhZmVfbm9p
+b21tdV9tb2RlIGlzICIwIiksCmJ1dCBpdCBvbmx5IHdvcmsgd2hlbiBJIGNvbmZpZyB0aGUgRFBE
+SyBpbiBwYXNzaW5nIHBoeXNpY2FsIGFkZHJlc3NlcyBtb2RlbC4KU28sIEkgdGhpbmsgcUVNVSBl
+bXVsYXRpb24gb2YgVmlydGlvLW5ldCBoYXMgbm8gRE1BLCBzbyB2aXJ0IHF1ZXVlIHJlZ2lzdGVy
+IGluIFBDSWUgc3BhY2Ugb2YgVmlydGlvLU5FVCBjYW4gb25seSBjb25maWd1cmUgdGhlIHBoeXNp
+Y2FsIGFkZHJlc3Mgb2YgdmlydCBxdWV1ZS4KCgpDYW4gSSB0YWtlIGl0IHRoaXMgd2F5PwoKClRo
+YW5rcyEK
+------=_Part_76607_634717223.1648111428155
+Content-Type: text/html; charset=GBK
+Content-Transfer-Encoding: base64
 
-Any chance you can give this a try?
-
-thanks,
-  Gerd
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPkF0IDIwMjItMDMtMjQgMTI6Mjc6NDYsICJKYXNvbiBXYW5nIiAm
+bHQ7amFzb3dhbmdAcmVkaGF0LmNvbSZndDsgd3JvdGU6CjxwcmU+Jmd0O09uIFRodSwgTWFyIDI0
+LCAyMDIyIGF0IDEyOjE1IFBNIGxlb2hvdSAmbHQ7bGVvaG91MTYzQDE2My5jb20mZ3Q7IHdyb3Rl
+OgomZ3Q7Jmd0OwomZ3Q7Jmd0OyBoaSBhbGwsCiZndDsmZ3Q7IFdoZW4gSSB1c2UgRFBESyBpbiBn
+dWVzdE9TICBhbmQgIGNvbmZpZ2VyaW5nIHRoZSBWTSB3aXRoIHZJT01NVSwgSSBmb3VuZCB0aGF0
+ICBzZW5kaW5nIHRoZSBnVkEgdG8gdGhlIGhhcmR3YXJlIGRldmljZSAsIHRoZSBoYXJkd2FyZSBk
+ZXZpY2UgY2FuJ3QgIGZpbmQgdGhlIHJlYWwgZGF0YS4KJmd0OyZndDsgQnV0IHNlbmRpbmcgdGhl
+IGdQQSB0byB0aGUgaGFyZHdhcmUgZGV2aWNlLCB0aGUgaGFyZHdhcmUgZGV2aWNlIGNhbiAgZmlu
+ZCB0aGUgcmVhbCBkYXRhLgomZ3Q7Jmd0OwomZ3Q7Jmd0OyBFbnZpcm9ubWVudDoKJmd0OyZndDsg
+T1M6IExpbnV4IHZlcnNpb24gNS40LjAtMTA0LWdlbmVyaWMgKGJ1aWxkZEB1YnVudHUpIChnY2Mg
+dmVyc2lvbiA5LjMuMCAoVWJ1bnR1IDkuMy4wLTE3dWJ1bnR1MX4yMC4wNCkpICMxMTgtVWJ1bnR1
+IFNNUCBXZWQgTWFyIDIgMTk6MDI6NDEgVVRDIDIwMjIKJmd0OyZndDsgUUVNVTogUUVNVSBlbXVs
+YXRvciB2ZXJzaW9uIDQuMi4xIChEZWJpYW4gMTo0LjItM3VidW50dTYuMjEpCiZndDsmZ3Q7IERl
+dmljZTogdmlydGlvLW5ldAomZ3Q7Jmd0OwomZ3Q7Jmd0OyBRdWVzdGlvbjoKJmd0OyZndDsgVGhl
+IHZJT01NVSBkb2Vzbid0IHdvcms/CiZndDsmZ3Q7IEkga25vdyB2aXJ0aW8tbmV0IGRvZXMgbm90
+IGhhdmUgRE1BLCBzbyB3aGVuIHZpcnRpby1uZXQgYW5kIERQREsgYXJlIGNvbWJpbmVkLCBJT01N
+VSBpcyBub3QgbmVlZGVkPwomZ3Q7CiZndDt2SU9NTVUgKyB2aXJ0aW8tbmV0IHdvcmtzIGZvciBt
+ZSBsaWtlIGEgY2hhcm0uCiZndDsKJmd0O0RQREsgc3VwcG9ydGVkIHZJT01NVSBsb25nIGFnbyB3
+aXRoIHZpcnRpby1uZXQuCiZndDsKJmd0O01ha2Ugc3VyZSB5b3UgdklPTU1VIGlzIGVuYWJsZWQg
+aW4gdGhlIGd1ZXN0IChpbnRlbF9pb21tdT1vbiBpbiBndWVzdAomZ3Q7a2VybmVsIGNvbW1hbmQg
+bGluZSwgYW5kIGVuYWJsZV91bnNhZmVfbm9pb21tdV9tb2RlIGlzICpub3QqIDEpCiZndDsKJmd0
+O1RoYW5rcwomZ3Q7CiZndDsmZ3Q7CiZndDsmZ3Q7CiZndDsmZ3Q7CjwvcHJlPjxkaXY+Jmd0Ozwv
+ZGl2PjxkaXY+aGksIGphc29uPC9kaXY+PGRpdj5JJ20gc3VyZSBteSB2SU9NTVUgaXMgZW5hYmxl
+ZCBpbiB0aGUgZ3Vlc3RPUyhpbnRlbF9pb21tdT1vbiBpbiBndWVzdCZuYnNwOyBrZXJuZWwgY29t
+bWFuZCBsaW5lLCBhbmQgZW5hYmxlX3Vuc2FmZV9ub2lvbW11X21vZGUgaXMgIjAiKSw8L2Rpdj48
+ZGl2PmJ1dCBpdCBvbmx5IHdvcmsgd2hlbiBJIGNvbmZpZyB0aGUgRFBESyBpbiBwYXNzaW5nIHBo
+eXNpY2FsIGFkZHJlc3NlcyBtb2RlbC48L2Rpdj48ZGl2PlNvLCBJIHRoaW5rIHFFTVUgZW11bGF0
+aW9uIG9mIFZpcnRpby1uZXQgaGFzIG5vIERNQSwgc28gdmlydCBxdWV1ZSByZWdpc3RlciBpbiBQ
+Q0llIHNwYWNlIG9mIFZpcnRpby1ORVQgY2FuIG9ubHkgY29uZmlndXJlIHRoZSBwaHlzaWNhbCBh
+ZGRyZXNzIG9mIHZpcnQgcXVldWUuPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5DYW4gSSB0YWtl
+IGl0IHRoaXMgd2F5PzwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+VGhhbmtzITxicj4KPC9kaXY+
+PC9kaXY+PGJyPjxicj48c3BhbiB0aXRsZT0ibmV0ZWFzZWZvb3RlciI+PHA+Jm5ic3A7PC9wPjwv
+c3Bhbj4=
+------=_Part_76607_634717223.1648111428155--
 
 
