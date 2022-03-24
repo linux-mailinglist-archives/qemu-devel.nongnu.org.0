@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF5A4E609C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:48:01 +0100 (CET)
-Received: from localhost ([::1]:42732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B55EF4E60A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:51:35 +0100 (CET)
+Received: from localhost ([::1]:46688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXJ8S-0001jz-M9
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:48:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53526)
+	id 1nXJBu-0004X2-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:51:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1nXIoE-0005ZW-4j
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:27:07 -0400
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:32780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1nXIoC-0005e7-1T
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:27:05 -0400
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 506383F17A
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 08:26:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1648110416;
- bh=BEFjFwdyZ+juzcTNBKdWVSKt7IAvgYfjXetEuCbPO0k=;
- h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
- To:Cc:Content-Type;
- b=K6OFJpZJeWr/7hNID9w7476JqqSVJzfGX6EZGMu4Dh4pLia24M8evCjxAqON9XW4K
- Iu/nEMD+0fFCcw2v6hHNGUNjgu8DpF6MkRsz+45OIjeJNxDNrTK1lPh6BFFjzbYOzx
- IH5iRWZhqPrRbAJsZN5SReBY+RSw/v0vkAegymz455M9Ey9KP7mlGqhxgL9a4UOUmm
- 1itSGah/Ku1SVfi66odFSWBSbAGSHOTQk6QkpFGZoIsiyJ407sti8lNy+zIB5SzvUh
- j4Cq1kQfX7E/JU24p63pOL2tnj9nBxcNGZH5HDEOkHtVyWhpM+btN7m5N/KmhhqHNt
- Y8kJCR00LjTMw==
-Received: by mail-qt1-f197.google.com with SMTP id
- z18-20020ac84552000000b002e201c79cd4so3173347qtn.2
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 01:26:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1nXIok-0006Lz-Me
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:27:40 -0400
+Received: from [2a00:1450:4864:20::234] (port=33514
+ helo=mail-lj1-x234.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1nXIoi-0005hf-Tu
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:27:38 -0400
+Received: by mail-lj1-x234.google.com with SMTP id u3so5163046ljd.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 01:27:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OARvDCW2c6AaFORAEuaRRit5JsuU0D4SdeA//MCto2M=;
+ b=l5TErsgsi1N5YeK0C8hzuamwK2R3d9RXYf888Jpbx9qDSUVr8KYVpQ/ZLGQzm+KFYK
+ OaikFmrLTsV14NMsN+eQKDP2jxY6YOkm8BmSgPXjZPQ3P+uYjPD+rVi/G8LlvgQK1FA1
+ tQXHGvZZWH1FSqRJxaKcZ2+bKTVA6BuM1PXqk5eKHnI99WZNBtY+EW5e+BPE+NluJgVA
+ ROLMS5vuYqoJDyy9q5uc0iA2u/RgnH7TKe56cV8J02jPj9+pirni3f7AmVCc4+bzWGKR
+ afZ2Ohv7AqfsTGnPitUKoF2hP85WJcvk2v3Yds2daLl7GemEe1Y5vx1pIbv6cyKLPiot
+ tjyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=BEFjFwdyZ+juzcTNBKdWVSKt7IAvgYfjXetEuCbPO0k=;
- b=1a+f0FWK4Hb5uWLVit+isP6oPkomE3EY2joV/ZECzoZI76HpHlqanrcE7EbFe4L7jG
- pgmxIDWCFZhUrEj2MqxtPpehoZaxbcl1dSMN/DTXxKSlXrzwdIcfyGsq+7lGPDes/DYJ
- 7Ytm3csZZa26EyP5ZjztCxRDzEdq7hBVm6ZiWeMpPBTWx7idfdXrweiEb8m+1xO61fPa
- M9b6+9UzxR6Uugr7OWw2WY2RoPkObT4i9LFDiLLdlMRfsl3XIEZQmzykhqDdzIxrlD+r
- qPTe2cUuxmp43ItUC33FEDzRw37e4ffXqVjTzVix6FOr+055WijEmz6mqI6u3S80tJK9
- GDTQ==
-X-Gm-Message-State: AOAM532GdYiYxpxeh+voUlk7btmMyQ8fPWdgX3HrWrAhVlA8K6I7jvkZ
- SphcwLk6SHkIiSisq/Qe371MsS3xX+Om6WDhcnRWRLCs7H5dNZPO2lBb2tpd71C4dANih0snutR
- VnQbX86G+Fz7YQ9U5/Wj1nIpk9kIT5OlVS3ozY+ItbVZs8W4I
-X-Received: by 2002:a05:6214:2b07:b0:432:f7e6:e443 with SMTP id
- jx7-20020a0562142b0700b00432f7e6e443mr3126456qvb.125.1648110415343; 
- Thu, 24 Mar 2022 01:26:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyPqonh0666Z6+zXddgsZGkRRl9Ni3JQxR3fbgNFO7OwSZk8j7a7ekPiEUCoxMy1fbFwI5BwhD4cMs2x8uadZg=
-X-Received: by 2002:a05:6214:2b07:b0:432:f7e6:e443 with SMTP id
- jx7-20020a0562142b0700b00432f7e6e443mr3126447qvb.125.1648110415142; Thu, 24
- Mar 2022 01:26:55 -0700 (PDT)
+ bh=OARvDCW2c6AaFORAEuaRRit5JsuU0D4SdeA//MCto2M=;
+ b=3gaU0Nr5tWDd7nzvHD8uJQoU008PgNwt6P6+UmuanZ0WwedcuTFBtQmsrr8IYfBvr5
+ lw8EplH95IrCAFHWlYMD9eN3ork1R3KZAFCp/jrUMvtd8EBNUMkSVb8HmXe1ruTnVIa5
+ SesfS/TaCGkqFSgaCFy8E5XOdk78b7SarVE1CMflcGN/fuTXOCJ1IrRiGKl7eRdiK56J
+ cTxtcBD5Akw/k50xJAQ/ZHFi+5hEtmrrZNmtfbU5jDYGDkyyUjNFmXBk7vcU3UacZgNQ
+ el9iN73rerfErqgZIeKCVsRIGs7vZxztNgAj5/gqrJHdsgjjyq3Xoz9e1mnmcEsQWt3a
+ vRgA==
+X-Gm-Message-State: AOAM531OGMAtvLDcaurY7bm0YuT8///iPBgGWsFVHxGW/Myh4P1jwqor
+ WHH5LhfaMKMJKbeCUFTkZhx749hY46d8EecEUIVRxA==
+X-Google-Smtp-Source: ABdhPJxpRbq0/aYjuEFpUwLPaZHjuFVBc4M6670y0d9QTDfnSyOQB3+KXDNBQqIu13Z/wqkiP36a1MK8fcZ2/KeTkQQ=
+X-Received: by 2002:a2e:8244:0:b0:249:4180:7b15 with SMTP id
+ j4-20020a2e8244000000b0024941807b15mr3351452ljh.123.1648110453614; Thu, 24
+ Mar 2022 01:27:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220323090713.1002588-1-christian.ehrhardt@canonical.com>
- <7f4e9d3a-78fd-4b48-56c6-418d8516a0df@gmail.com>
-In-Reply-To: <7f4e9d3a-78fd-4b48-56c6-418d8516a0df@gmail.com>
-From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Date: Thu, 24 Mar 2022 09:26:28 +0100
-Message-ID: <CAATJJ0KOyvHMhRSHJSf3x_5KmGGxHxRa9twR9tA15_SD-a6c_w@mail.gmail.com>
-Subject: Re: [PATCH-for-7.0] build: disable fcf-protection on -march=486 -m16
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
+References: <20220323111309.9109-1-mchitale@ventanamicro.com>
+ <20220323111309.9109-3-mchitale@ventanamicro.com>
+ <472dfd4e-099f-97e0-ba16-561df8ddeef1@iscas.ac.cn>
+In-Reply-To: <472dfd4e-099f-97e0-ba16-561df8ddeef1@iscas.ac.cn>
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+Date: Thu, 24 Mar 2022 13:56:57 +0530
+Message-ID: <CAN37VV7wwwTWH+OiuR0n-Sp17R0MMjQAAEpyEz5fW6t=3EFBaA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/4] target/riscv: smstateen check for h/senvcfg
+To: Weiwei Li <liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=185.125.188.123;
- envelope-from=christian.ehrhardt@canonical.com;
- helo=smtp-relay-internal-1.canonical.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::234
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::234;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-lj1-x234.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,47 +86,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 23, 2022 at 11:54 AM Philippe Mathieu-Daud=C3=A9
-<philippe.mathieu.daude@gmail.com> wrote:
+On Wed, Mar 23, 2022 at 6:22 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
 >
-> On 23/3/22 10:07, christian.ehrhardt@canonical.com wrote:
-> > From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+>
+> =E5=9C=A8 2022/3/23 =E4=B8=8B=E5=8D=887:13, Mayuresh Chitale =E5=86=99=E9=
+=81=93:
+> > Accesses to henvcfg, henvcfgh and senvcfg are allowed
+> > only if corresponding bit in mstateen0/hstateen0 is
+> > enabled. Otherwise an illegal instruction trap is
+> > generated.
 > >
-> > Some of the roms build with -march=3Di486 -m16 which is incompatible
-> > with -fcf-protection. That in turn is can be set by default, for
-> > example in Ubuntu [1].
-> > That causes:
-> >   cc1: error: =E2=80=98-fcf-protection=E2=80=99 is not compatible with =
-this target
-> >
-> > This won't work on -march=3Di486 -m16 and no matter if set or not we ca=
-n
-> > override it to "none" if the option is known to the compiler to be
-> > able to build reliably.
-> >
-> > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/889
-> >
-> > [1]: https://wiki.ubuntu.com/ToolChain/CompilerFlags#A-fcf-protection
-> >
-> > Signed-off-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+> > Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
 > > ---
-> >   pc-bios/optionrom/Makefile | 4 ++++
-> >   1 file changed, 4 insertions(+)
+> >   target/riscv/csr.c | 82 ++++++++++++++++++++++++++++++++++++++++++---=
+-
+> >   1 file changed, 76 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index 215c8ecef1..2388f0226f 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -39,6 +39,35 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operatio=
+ns *ops)
+> >   }
+> >
+> >   /* Predicates */
+> > +static RISCVException smstateen_acc_ok(CPURISCVState *env, int mode, i=
+nt bit)
+> > +{
+> > +    CPUState *cs =3D env_cpu(env);
+> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
+> > +    bool virt =3D riscv_cpu_virt_enabled(env);
+> > +
+> > +    if (!cpu->cfg.ext_smstateen) {
+> > +        return RISCV_EXCP_NONE;
+> > +    }
+> > +
+> > +    if (!(env->mstateen[0] & 1UL << bit)) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
 >
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> I think here should be " & (1UL << bit) " . The same for following
+> similar cases.
 
-Thank you for the review Thomas and Philippe!
-For the sake of testing other than my local build checks, the CI jobs
-on [1] on gitlab also all passed for this.
-
-[1]: https://gitlab.com/paelzer/qemu/-/pipelines/498917375
-
---=20
-Christian Ehrhardt
-Staff Engineer, Ubuntu Server
-Canonical Ltd
+Ok. Will fix it in the next version.
+>
+> Regards,
+>
+> Weiwei Li
+>
 
