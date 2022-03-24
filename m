@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E5A4E6A31
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:23:36 +0100 (CET)
-Received: from localhost ([::1]:41166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D574E6A38
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 22:27:12 +0100 (CET)
+Received: from localhost ([::1]:43444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXUve-0004QU-T7
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:23:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44022)
+	id 1nXUz9-0006DA-CH
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 17:27:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUud-0003lX-Ve
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:22:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nXUua-0004wV-4x
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:22:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648156946;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4lAMy8w6VA3HG9tcZoh8pLrOpOy5jr7qQzO6RFr9CmM=;
- b=BK9L0/jJJREsATC+6XrHsL+2O3R5t7fXX+W7L/+ZScH4T/uiJgC29tH/fK8qKmd4jYtFnZ
- RsxA/wVg5m6W/lUbQKu01KxwsGOsB4PHoAXgPEVc7RrGzAy6NB2px7f8SgRieOcLo49Nm/
- 2hD1nWeYR/tzWslAt926f+xUthUl7Lg=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-d53_k5QJNAOD1he4l6ymgw-1; Thu, 24 Mar 2022 17:22:25 -0400
-X-MC-Unique: d53_k5QJNAOD1he4l6ymgw-1
-Received: by mail-vk1-f197.google.com with SMTP id
- e14-20020ac5c14e000000b0033ef6f852dcso1148551vkk.19
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:22:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXUxX-0005Qy-Ga
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:25:31 -0400
+Received: from [2607:f8b0:4864:20::1129] (port=43956
+ helo=mail-yw1-x1129.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXUxW-0005TD-10
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 17:25:31 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-2e5e31c34bfso64783977b3.10
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 14:25:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZtEU/O+vNZH6paWpI6vm1B3u+2Zz5VH5xF/54Jc03eA=;
+ b=PNCBFVnEHQnGfeHR+TMmMJwVU+EdfJj/QQrb44TgC4+4Im5ipzMTHPwzg/LlwurIBt
+ 4ZBs6k6uZuYkra7J1YYHVoyqB31xdM1g+tGhKc/LkaDWaE3Q4WVJivzoP/wpBGIGbLGB
+ 0wKRm+D25LMQ0zOk8DODTv1a64snM5BGaQ1VSL7q0cOvd+pQWus8gL+stZSS7Cbp9M7r
+ pps/iwHh+eSU1jCHVgT1fVBN3jJ71h4whOO0+6Am+DWB4pt3ewZDzQ0BleY9aeqcUzRd
+ YTZDe6YUwdHQbfcXQW1x3oke2NMQ5ZT+gVGXAzRlAOl+DWG30CeIjiB9hRMyE5YxUiiZ
+ TgVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4lAMy8w6VA3HG9tcZoh8pLrOpOy5jr7qQzO6RFr9CmM=;
- b=ZuTi6YJz+i1TaoNi5yoD7QFrVO9zYzzUnqYUcL7RaLVAV+GDvzW7ywZoP1N98RQeE1
- ABCZuisM48wz7Oq5IIRmFr8NhVdn2tFTNNk+t8U0crZh1ky1uLqT7Pzg082A95bgFQvp
- 4rTWk9wGDg8cwVabYnAiuBdAKu78Puc9H9KPNwn9CQd3myOZ8eOcC6p996WjExt4xWAB
- goPw/1FnA+odH9fbwsn6fGLPOK2s5HQi5uF9VymqnhyuIGtBDWaP0bOYmL2Az74zzcjC
- X1klZWrMKGJPNKp3gVU+z4inFc7FKSpvELvbYoePq35Bj5/Wg0kbGZdNZLKynprszrqr
- jgfA==
-X-Gm-Message-State: AOAM533lGcOraWHVjDnu0Fev8aJ099x7PL+oFEG+3uXjVwTGU07cCV/R
- EoCUnhBRKDQJzFh9py3JrC/ahWn/paZypEQmQazGI7HDoHugSXAEE+BXKSDO/1ictbfTGSw8gC5
- uVTpmWD/ljwIZmmD9txj9qjp3PDUs8yM=
-X-Received: by 2002:a1f:3244:0:b0:332:2037:83b1 with SMTP id
- y65-20020a1f3244000000b00332203783b1mr3801227vky.24.1648156944645; 
- Thu, 24 Mar 2022 14:22:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzhWGRvzzCj2hJtqr1fNqywdgLY2z/iR9qN5/Sda6uflENuuwqKeWj2TOwUSkXJ7Mg/qP7LLEMRG2ofGVRs6lU=
-X-Received: by 2002:a1f:3244:0:b0:332:2037:83b1 with SMTP id
- y65-20020a1f3244000000b00332203783b1mr3801220vky.24.1648156944389; Thu, 24
- Mar 2022 14:22:24 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZtEU/O+vNZH6paWpI6vm1B3u+2Zz5VH5xF/54Jc03eA=;
+ b=v2q6rgHpql9BTn4uFAJTxb2qXKrj1dYaX/GMF2ZmxwmdFSNNYU9ADr2QgDjTiyDrzz
+ ug7yMXyfN7DWACNtbwm3mDFd6k/TRO1dyT+YZdFAmUzUr9unlLhA5g7RUgJC1VVk7Er3
+ JjJARLgqXeDsAIIS5kfXMt++LG03uyc8aD6rRYtWjjfQOC6HGQ0ozraIfg0L3izbvJK+
+ lxCsB6T+40hRqD0TSPfDdOQ+uo8xeWBrKNO0SpkAp4WnHStPgzl68xPm9tlsfO5Av1ub
+ gWc9UYw5jDU/EF4LXLfE/uU4XIyBnUfDTbGRE7e5WrIgIcFbC7IufbNJ5yGzNw+fxnAt
+ K9GQ==
+X-Gm-Message-State: AOAM531fD5D3DWqJnyP+iibeFjaaXZRrCohTaPSLj0Ca70GQ0JB/pmi8
+ DCqg3Jx4fpkjQrY3BKAPCnZffcJD8DzCYAMwGL2EzA==
+X-Google-Smtp-Source: ABdhPJweTDTkAi0YnLrZmexXO4PgsjGsL9yJfiqvfpn/Lxwzuyg33YC8EW4nHpSDXPWXPQREkXmY+TTxK4xrxA0RKQc=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr7217970ywb.257.1648157128978; Thu, 24 Mar
+ 2022 14:25:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220324175015.232794-1-victortoso@redhat.com>
- <20220324175015.232794-13-victortoso@redhat.com>
-In-Reply-To: <20220324175015.232794-13-victortoso@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 24 Mar 2022 17:22:13 -0400
-Message-ID: <CAFn=p-ZmsmnMC3fC9cdnZ=2t41ti5aoFzuxu0k_7NhcwBvzmLQ@mail.gmail.com>
-Subject: Re: [PATCH 12/14] qapi: ui examples: add missing websocket member
-To: Victor Toso <victortoso@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <CAEekfLZ2iJKTZoqDCusrn+Hvcdxxe9TpyshkU9VvrLAVREBWdA@mail.gmail.com>
+ <87fsn72hx9.fsf@linaro.org>
+In-Reply-To: <87fsn72hx9.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Mar 2022 21:25:16 +0000
+Message-ID: <CAFEAcA9hfT8CD+2-6rjzPskwbFd6wUabxp-VdNVPSyJEMDjdbg@mail.gmail.com>
+Subject: Re: Device driver api
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,67 +85,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Sam Price <thesamprice@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
->
-> As the websocket is not optional in VncBasicInfo.
->
-> Signed-off-by: Victor Toso <victortoso@redhat.com>
-> ---
->  qapi/ui.json | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 664da9e462..a810ed680c 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -710,10 +710,10 @@
->  #
->  # <- { "event": "VNC_CONNECTED",
->  #      "data": {
-> -#            "server": { "auth": "sasl", "family": "ipv4",
-> +#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
->  #                        "service": "5901", "host": "0.0.0.0" },
->  #            "client": { "family": "ipv4", "service": "58425",
-> -#                        "host": "127.0.0.1" } },
-> +#                        "host": "127.0.0.1", "websocket": false } },
->  #      "timestamp": { "seconds": 1262976601, "microseconds": 975795 } }
->  #
->  ##
-> @@ -738,9 +738,9 @@
->  #
->  # <-  { "event": "VNC_INITIALIZED",
->  #       "data": {
-> -#            "server": { "auth": "sasl", "family": "ipv4",
-> +#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
->  #                        "service": "5901", "host": "0.0.0.0"},
-> -#            "client": { "family": "ipv4", "service": "46089",
-> +#            "client": { "family": "ipv4", "service": "46089", "websocket": false,
->  #                        "host": "127.0.0.1", "sasl_username": "luiz" } },
->  #       "timestamp": { "seconds": 1263475302, "microseconds": 150772 } }
->  #
-> @@ -765,9 +765,9 @@
->  #
->  # <- { "event": "VNC_DISCONNECTED",
->  #      "data": {
-> -#            "server": { "auth": "sasl", "family": "ipv4",
-> +#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
->  #                        "service": "5901", "host": "0.0.0.0" },
-> -#            "client": { "family": "ipv4", "service": "58425",
-> +#            "client": { "family": "ipv4", "service": "58425", "websocket": false,
->  #                        "host": "127.0.0.1", "sasl_username": "luiz" } },
->  #      "timestamp": { "seconds": 1262976601, "microseconds": 975795 } }
->  #
-> --
-> 2.35.1
->
+On Thu, 24 Mar 2022 at 20:53, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+> The upstream community isn't really motivated to maintain an API for
+> external device models because ultimately we believe they are best
+> placed in the QEMU code, if not upstream in a fork. There are some forks
+> of QEMU which support things like SystemC models but so far none of that
+> has been submitted for upstream.
 
-Okie-dokey.
+The SystemC stuff wasn't submitted upstream because we (upstream) decided
+we didn't want it, incidentally.
 
-Reviewed-by: John Snow <jsnow@redhat.com>
-
+-- PMM
 
