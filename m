@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CAD44E686C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:12:47 +0100 (CET)
-Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A16D4E687D
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 19:16:51 +0100 (CET)
+Received: from localhost ([::1]:55140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXRx0-0003ii-7t
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:12:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55458)
+	id 1nXS0w-0005E2-Ev
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 14:16:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nXRmw-0004Si-HN; Thu, 24 Mar 2022 14:02:24 -0400
-Received: from [2607:f8b0:4864:20::22e] (port=35359
- helo=mail-oi1-x22e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nXRmv-0000YD-30; Thu, 24 Mar 2022 14:02:22 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id e4so5693753oif.2;
- Thu, 24 Mar 2022 11:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=SZ5BgcW6RgAQBulhzXrKyhGUdetHzVTXyYna8+0mn8I=;
- b=IOyAnhvaS93uL73S3/sT/Lg1h+Ptjydu3Bk1rsHLMpaQ2HSkupuZ+GDxnYowvhhVns
- HNHVdep1LqdugplK+dMItnkejy1NdmyJxx7TAlNLinVqTunm6A8RZFBBKzKdbmf6KHn1
- +qaMCE7FpVlRNrLrpG9/ADtg56O3sWMpj8jN1BQTXrJrHM8FDfWLamL7h04bKddUvi30
- uM3o40jif/PvXX+xFAM9bplpKYWZR6RPrJCDJK6BrN2CLAqaTJXw3ujsQ6QyFAm1iiMR
- Hg2ULds0prsqn0S93Hw9jj0cceJd+cmxClSOSiAjKpiUSWi1f7lSIrfAwdd/As7ckiUo
- jhLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=SZ5BgcW6RgAQBulhzXrKyhGUdetHzVTXyYna8+0mn8I=;
- b=4iFTIvEcZnIqHYtfWNJrd66U4V12OfhIBw1TVP4SfZWXH9QL7Xsqd25wpFKU/Jm1ds
- /4Tf/KRzAigTnSLcIpWGaT4wzknLH8QfBzzb4JPeIMhDgic1PSRmWedT7WcgA2H0zf7W
- QDgWTwzNv3qxfUUWwUc32U1AIpZxme7Ix36lEezSZ54Ee48392XlgKR9JPVoo7CBE2j7
- x5ire1r8ShYzcx1Z3UPKWMOLnZKgiID7Zi96Mgx6WxCZ5qetJg13ZYeqV2K7TYl/2GkN
- zuBl78tjZAJDyyxxe+6oVFg3A20xQJdL/gOV9GawkCakvuMes3X6tXyT2TCTg2HHOdK/
- WiQg==
-X-Gm-Message-State: AOAM530MlhABHRiPcyZyyqHeMboUwUHvR4nGwHF3A+V6AJPxRCso3W6J
- 8upfxUOA2W6wGrAw5prmmPk=
-X-Google-Smtp-Source: ABdhPJwLxeKS1p2/SBpUGZqQxH9wrUUS67zYsRBCpCpVnP/nyojqrwbUyUJsJAyQjBft9/d9n/B5Vg==
-X-Received: by 2002:a05:6808:f8a:b0:2da:1e9b:e85d with SMTP id
- o10-20020a0568080f8a00b002da1e9be85dmr3355050oiw.111.1648144939031; 
- Thu, 24 Mar 2022 11:02:19 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96?
- ([2804:431:c7c6:daa8:ba9e:6f18:bac1:8a96])
- by smtp.gmail.com with ESMTPSA id
- j25-20020a4ad199000000b003171dfeb5bfsm1521711oor.15.2022.03.24.11.02.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Mar 2022 11:02:18 -0700 (PDT)
-Message-ID: <801271a9-06bd-1ebb-5d95-2fea76f95ae3@gmail.com>
-Date: Thu, 24 Mar 2022 15:02:15 -0300
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nXRn5-0004Uh-2U
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:02:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nXRn2-0000a4-Fn
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 14:02:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648144946;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DkEh+afqnG1w93W2irJ8xgOhmxM9jCx+2sVbMkXj5DQ=;
+ b=bgQuzEDaJ8Vs3vsZy7ORkwL6eZITlPHfbVSXaY6DhlMoVdFwg6fcYii8SdRF1Dkj66b0Yd
+ LmHqBqmc06KeowacmTqiaEs+1S0UewjTxdptRfP56y+BY7iMLtPUno+wuFq6j3eNUu2CMU
+ HH0NOtrEcDlTxtNKbnPijoRP6KqAetM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-551-mXYE_HB7NwuuWA1-gzqw7A-1; Thu, 24 Mar 2022 14:02:23 -0400
+X-MC-Unique: mXYE_HB7NwuuWA1-gzqw7A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 24CC5811E78;
+ Thu, 24 Mar 2022 18:02:23 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B5DF940CFD08;
+ Thu, 24 Mar 2022 18:02:22 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] iotests: Fix status checks
+Date: Thu, 24 Mar 2022 19:02:21 +0100
+Message-Id: <20220324180221.24508-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 5/5] ppc/pnv: Remove usless checks in set_irq handlers
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220323072846.1780212-1-clg@kaod.org>
- <20220323072846.1780212-6-clg@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220323072846.1780212-6-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22e.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,47 +75,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Typo in the commit title: s/usless/useless
+An iotest's 'paused' condition is fickle; it will be reported as true
+whenever the job is drained, for example, or when it is in the process
+of completing.
 
+030 and 041 contain such checks, we should replace them by checking the
+job status instead.  (As was done for 129 in commit f9a6256b48f29c2816
+for the 'busy' condition.)
 
+Additionally, when we want to test that a job is paused on error, we
+might want to give it some time to actually switch to the paused state.
+Do that by waiting on the corresponding JOB_STATUS_CHANGE event.  (But
+only if they are not already paused; the loops these places are in fetch
+all VM events, so they may have already fetched that event from the
+queue.)
 
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+---
+ tests/qemu-iotests/030 | 25 ++++++++++++++++++++-----
+ tests/qemu-iotests/041 | 26 +++++++++++++++++++-------
+ 2 files changed, 39 insertions(+), 12 deletions(-)
 
-On 3/23/22 04:28, Cédric Le Goater wrote:
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   hw/ppc/pnv_psi.c | 10 ----------
->   1 file changed, 10 deletions(-)
-> 
-> diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-> index 950ecca40573..98045ed3d249 100644
-> --- a/hw/ppc/pnv_psi.c
-> +++ b/hw/ppc/pnv_psi.c
-> @@ -219,11 +219,6 @@ static void pnv_psi_power8_set_irq(void *opaque, int irq, int state)
->       uint32_t src;
->       bool masked;
->   
-> -    if (irq > PSIHB_IRQ_EXTERNAL) {
-> -        qemu_log_mask(LOG_GUEST_ERROR, "PSI: Unsupported irq %d\n", irq);
-> -        return;
-> -    }
-> -
->       xivr_reg = xivr_regs[irq];
->       stat_reg = stat_regs[irq];
->   
-> @@ -813,11 +808,6 @@ static void pnv_psi_power9_set_irq(void *opaque, int irq, int state)
->       PnvPsi *psi = opaque;
->       uint64_t irq_method = psi->regs[PSIHB_REG(PSIHB9_INTERRUPT_CONTROL)];
->   
-> -    if (irq > PSIHB9_NUM_IRQS) {
-> -        qemu_log_mask(LOG_GUEST_ERROR, "PSI: Unsupported irq %d\n", irq);
-> -        return;
-> -    }
-> -
->       if (irq_method & PSIHB9_IRQ_METHOD) {
->           qemu_log_mask(LOG_GUEST_ERROR, "PSI: LSI IRQ method no supported\n");
->           return;
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index 14112835ed..18eddcc734 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -724,7 +724,8 @@ class TestEIO(TestErrors):
+                     if result == {'return': []}:
+                         # Job finished too quickly
+                         continue
+-                    self.assert_qmp(result, 'return[0]/paused', False)
++                    self.assertIn(result['return'][0]['status'],
++                                  ['running', 'pending', 'aborting', 'concluded'])
+                 elif event['event'] == 'BLOCK_JOB_COMPLETED':
+                     self.assertTrue(error, 'job completed unexpectedly')
+                     self.assert_qmp(event, 'data/type', 'stream')
+@@ -754,8 +755,14 @@ class TestEIO(TestErrors):
+                     self.assert_qmp(event, 'data/device', 'drive0')
+                     self.assert_qmp(event, 'data/operation', 'read')
+ 
++                    if self.vm.qmp('query-block-jobs')['return'][0]['status'] != 'paused':
++                        self.vm.events_wait([(
++                            'JOB_STATUS_CHANGE',
++                            {'data': {'id': 'drive0', 'status': 'paused'}}
++                        )])
++
+                     result = self.vm.qmp('query-block-jobs')
+-                    self.assert_qmp(result, 'return[0]/paused', True)
++                    self.assert_qmp(result, 'return[0]/status', 'paused')
+                     self.assert_qmp(result, 'return[0]/offset', self.STREAM_BUFFER_SIZE)
+                     self.assert_qmp(result, 'return[0]/io-status', 'failed')
+ 
+@@ -766,7 +773,8 @@ class TestEIO(TestErrors):
+                     if result == {'return': []}:
+                         # Race; likely already finished. Check.
+                         continue
+-                    self.assert_qmp(result, 'return[0]/paused', False)
++                    self.assertIn(result['return'][0]['status'],
++                                  ['running', 'pending', 'aborting', 'concluded'])
+                     self.assert_qmp(result, 'return[0]/io-status', 'ok')
+                 elif event['event'] == 'BLOCK_JOB_COMPLETED':
+                     self.assertTrue(error, 'job completed unexpectedly')
+@@ -843,8 +851,14 @@ class TestENOSPC(TestErrors):
+                     self.assert_qmp(event, 'data/operation', 'read')
+                     error = True
+ 
++                    if self.vm.qmp('query-block-jobs')['return'][0]['status'] != 'paused':
++                        self.vm.events_wait([(
++                            'JOB_STATUS_CHANGE',
++                            {'data': {'id': 'drive0', 'status': 'paused'}}
++                        )])
++
+                     result = self.vm.qmp('query-block-jobs')
+-                    self.assert_qmp(result, 'return[0]/paused', True)
++                    self.assert_qmp(result, 'return[0]/status', 'paused')
+                     self.assert_qmp(result, 'return[0]/offset', self.STREAM_BUFFER_SIZE)
+                     self.assert_qmp(result, 'return[0]/io-status', 'nospace')
+ 
+@@ -855,7 +869,8 @@ class TestENOSPC(TestErrors):
+                     if result == {'return': []}:
+                         # Race; likely already finished. Check.
+                         continue
+-                    self.assert_qmp(result, 'return[0]/paused', False)
++                    self.assertIn(result['return'][0]['status'],
++                                  ['running', 'pending', 'aborting', 'concluded'])
+                     self.assert_qmp(result, 'return[0]/io-status', 'ok')
+                 elif event['event'] == 'BLOCK_JOB_COMPLETED':
+                     self.assertTrue(error, 'job completed unexpectedly')
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index 3e16acee56..8429958bf0 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -529,7 +529,7 @@ new_state = "1"
+         self.assert_qmp(event, 'data/device', 'drive0')
+         self.assert_qmp(event, 'data/operation', 'read')
+         result = self.vm.qmp('query-block-jobs')
+-        self.assert_qmp(result, 'return[0]/paused', False)
++        self.assertIn(result['return'][0]['status'], ['running', 'ready'])
+         self.complete_and_wait()
+ 
+     def test_large_cluster(self):
+@@ -555,7 +555,7 @@ new_state = "1"
+         self.assert_qmp(event, 'data/device', 'drive0')
+         self.assert_qmp(event, 'data/operation', 'read')
+         result = self.vm.qmp('query-block-jobs')
+-        self.assert_qmp(result, 'return[0]/paused', False)
++        self.assertIn(result['return'][0]['status'], ['running', 'ready'])
+         self.complete_and_wait()
+         self.vm.shutdown()
+ 
+@@ -580,8 +580,14 @@ new_state = "1"
+                     self.assert_qmp(event, 'data/device', 'drive0')
+                     self.assert_qmp(event, 'data/operation', 'read')
+ 
++                    if self.vm.qmp('query-block-jobs')['return'][0]['status'] != 'paused':
++                        self.vm.events_wait([(
++                            'JOB_STATUS_CHANGE',
++                            {'data': {'id': 'drive0', 'status': 'paused'}}
++                        )])
++
+                     result = self.vm.qmp('query-block-jobs')
+-                    self.assert_qmp(result, 'return[0]/paused', True)
++                    self.assert_qmp(result, 'return[0]/status', 'paused')
+                     self.assert_qmp(result, 'return[0]/io-status', 'failed')
+ 
+                     result = self.vm.qmp('block-job-resume', device='drive0')
+@@ -593,7 +599,7 @@ new_state = "1"
+                     ready = True
+ 
+         result = self.vm.qmp('query-block-jobs')
+-        self.assert_qmp(result, 'return[0]/paused', False)
++        self.assert_qmp(result, 'return[0]/status', 'ready')
+         self.assert_qmp(result, 'return[0]/io-status', 'ok')
+ 
+         self.complete_and_wait(wait_ready=False)
+@@ -686,7 +692,7 @@ new_state = "1"
+         self.assert_qmp(event, 'data/device', 'drive0')
+         self.assert_qmp(event, 'data/operation', 'write')
+         result = self.vm.qmp('query-block-jobs')
+-        self.assert_qmp(result, 'return[0]/paused', False)
++        self.assertIn(result['return'][0]['status'], ['running', 'ready'])
+         self.complete_and_wait()
+ 
+     def test_stop_write(self):
+@@ -705,15 +711,21 @@ new_state = "1"
+                     self.assert_qmp(event, 'data/device', 'drive0')
+                     self.assert_qmp(event, 'data/operation', 'write')
+ 
++                    if self.vm.qmp('query-block-jobs')['return'][0]['status'] != 'paused':
++                        self.vm.events_wait([(
++                            'JOB_STATUS_CHANGE',
++                            {'data': {'id': 'drive0', 'status': 'paused'}}
++                        )])
++
+                     result = self.vm.qmp('query-block-jobs')
+-                    self.assert_qmp(result, 'return[0]/paused', True)
++                    self.assert_qmp(result, 'return[0]/status', 'paused')
+                     self.assert_qmp(result, 'return[0]/io-status', 'failed')
+ 
+                     result = self.vm.qmp('block-job-resume', device='drive0')
+                     self.assert_qmp(result, 'return', {})
+ 
+                     result = self.vm.qmp('query-block-jobs')
+-                    self.assert_qmp(result, 'return[0]/paused', False)
++                    self.assertIn(result['return'][0]['status'], ['running', 'ready'])
+                     self.assert_qmp(result, 'return[0]/io-status', 'ok')
+                     error = True
+                 elif event['event'] == 'BLOCK_JOB_READY':
+-- 
+2.35.1
+
 
