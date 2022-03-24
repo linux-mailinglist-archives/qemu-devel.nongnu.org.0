@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E044F4E6054
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:28:57 +0100 (CET)
-Received: from localhost ([::1]:41090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D4C4E6063
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 09:34:12 +0100 (CET)
+Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXIq0-00066h-Tt
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:28:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52214)
+	id 1nXIv5-0003c3-PS
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 04:34:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhm-0005wo-UL
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhm-0005wp-Us
  for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:42009)
+Received: from mout.kundenserver.de ([212.227.126.133]:52963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhk-0003Ov-D5
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nXIhk-0003P6-Nl
  for qemu-devel@nongnu.org; Thu, 24 Mar 2022 04:20:26 -0400
 Received: from quad ([82.142.12.150]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MTi9N-1nd6WR0H8v-00U5V1; Thu, 24
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MYedH-1ncZtN2BQB-00VkSn; Thu, 24
  Mar 2022 09:20:22 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/10] linux-user: Properly handle sigset arg to epoll_pwait
-Date: Thu, 24 Mar 2022 09:20:11 +0100
-Message-Id: <20220324082016.3463521-6-laurent@vivier.eu>
+Subject: [PULL 06/10] linux-user: Properly handle sigset arg to ppoll
+Date: Thu, 24 Mar 2022 09:20:12 +0100
+Message-Id: <20220324082016.3463521-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220324082016.3463521-1-laurent@vivier.eu>
 References: <20220324082016.3463521-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:v2D7+tvf13oh60xk8WP5a54Aq2Ag0XesnjnpCQnlE84OKqPPW2P
- Z9oOu5HCdhO33syVBaDqaiLIEPt6tvxefn75XXxfp2uvQm5DjYb7UBwJt4o4H6Qi7hnzGHh
- RUJlpHP1zhH/YUF5zV3mv+turQpE4kHov+wjQbFQoXKjRCjHoIftsgb8nDLYaqxoSgqeVNc
- ryBGzUWWilo2FfMbFoPxA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2mnjocTbFFw=:JdZptCg3aeanSe9c6vNYX8
- oj2PXYKQ997yF4dVBzFauOnSxL4enzx1zjIQM/vNq8y7uVO+Fl1CllTaXJdMf62yZdD8Dx44S
- Uzzklkd/9m5l6fnZVhYbv/i3KAz7VV1xJIzrGNGfDd4P6tvkU8ofHq3zhV9/APM2dDPayUfr2
- bLVmwEJ+Sf8EbGZVXDFHq1Ucil3gXcvGFN01vE82y+PjonK5xgj4hUog5mtuLDuKddg+Dsgl8
- QReoVM4ECc5N2HHZpVQt7z/CEGY3KFESXDGx3LNXBY6h5fpZ8Vr9hoNkFXoloM1PDtFHxTYr4
- cDQihkO6hyJgYF5ip099OQJ6h1anwgdPKlhiu4JoTImwFHrrdyMeidauU4WFevaKij4FePk5L
- kaEePSXhoKTQqpZZWrAwRlxzqpJG4WKwSk5c1aqd5q98u5HqDD7pqg//VsB88TAuYi+F2ADyE
- iS1WaYZoZAVO6KQTbvpHy3h/S5e0ZY/qvlTf7AgH5PUReja0c/kPpMGvjEX3spNaB8gPKOVY0
- nzzpqr7IrwyvMbEDY6PPScFhA3R0/9ZIPUdfpKd+RJV9WcPaYpsh9pIvLGaJPEToBXsPKiIVf
- wR31wfqm9pp9LesExumhCzapIlzm+b14+K4B8LGd1Ah8KN0bVn7fcp9i7Y8r50vG7taMF26fS
- yVptMAjTomlvnrQI6QG1E73Urei+/hv2E8LTxlA9TgIjwIJ3ntlF2dIrf8bWbIJDi134=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:MQj22sMYeCS9DSnLGnftAziUQubUY1cVCcQYrGZ/TXFuChSRtpp
+ MBqTNR7JVpT/DmGopMRWVlAOtLxQKeUwBUlIplTmo7cxhH9hL2aeTrXDkPngF/vQoZDQPz7
+ dFtA7j9AOQ9Mj+2CJDiJKg8V2WQSVCjcZnKnij0UoimmIlvpOa5n4qSARTYdzFGBiKrmMEn
+ PXWGmiQYq+Y/QRZ4WQNVw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ok2kemLSHks=:xJFPqQEB73fSWlGhuF1DmZ
+ oRp29qwRfb2PFvt+8d4NsZzw1+4MdBHV5rb3Kp1/Y53L/a+DNdKpjTHSSUHqrbnX2DnupuNY8
+ sgJ/8XzRSzU6ZaN9tPj7eO33sy1+94zM5Jf0D4tpmKwc3UirQNmaNp/AjIQdgJ6+OnjAIJyCr
+ lPANd25mJL1cGIpiCuCPWru1ogcM3QiQYvNp8OPrCyB/tjKrvSh6edq1jzXYKCiKabTP0dYvJ
+ Y4H/N/d92w9chuMfWH+090RZ7ICIWVSiwk4thYT7ClpvXYTKcAqUkbOMMASnbcA7KYkgTIq4X
+ 9P1boUDdfMdpQKqFT31UfjHujHTYqflAHOODWoaV3Q2N3xhm7y6IhmE9MTfpclw8JZWEjNMsg
+ nxdvhY7mlDkRHIS8Hu9m9yRMvoeKgpz3j9FLJRHYbbxKLVMJhdGjqr2FWfv0cpKtOEDwMeWZC
+ XBIoMAVu15xohtAga5hwPGbFAjXC6fRXdEpNsTEPNMrj01qv70X9atPiHiV/zxaCv3wezVsUE
+ +aidZ9gwdQ8xCX1deD/5gA9ZUi2Ts04lsjCys3HZYZlFm8a3Czxh7XgAYcDJbEpcCFeHljWoX
+ VLpzeVxUJ+tdIyGVLPyCiAzbpntVxIOxNJIfpgtWB0JpSajz0PKqCdSaTKK3oVvaF4wxStam+
+ XCSHCQQR2ujYy6blO5kAo22SJixXhNUBkr+fwqlJ+D4u6Bz57tlConu50sUOYsUdGjWk=
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,53 +78,68 @@ Handle this with the same mechanism as sigsuspend.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220315084308.433109-5-richard.henderson@linaro.org>
+Message-Id: <20220315084308.433109-6-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+ linux-user/syscall.c | 24 +++++++-----------------
+ 1 file changed, 7 insertions(+), 17 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ffd4cefc8b7a..67af40deac07 100644
+index 67af40deac07..f65045efe6a2 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -12694,29 +12694,21 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #if defined(TARGET_NR_epoll_pwait)
-         case TARGET_NR_epoll_pwait:
-         {
--            target_sigset_t *target_set;
--            sigset_t _set, *set = &_set;
-+            sigset_t *set = NULL;
+@@ -1519,8 +1519,7 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+     }
+     if (ppoll) {
+         struct timespec _timeout_ts, *timeout_ts = &_timeout_ts;
+-        target_sigset_t *target_set;
+-        sigset_t _set, *set = &_set;
++        sigset_t *set = NULL;
  
-             if (arg5) {
--                if (arg6 != sizeof(target_sigset_t)) {
--                    ret = -TARGET_EINVAL;
--                    break;
--                }
--
--                target_set = lock_user(VERIFY_READ, arg5,
--                                       sizeof(target_sigset_t), 1);
--                if (!target_set) {
--                    ret = -TARGET_EFAULT;
-+                ret = process_sigsuspend_mask(&set, arg5, arg6);
-+                if (ret != 0) {
-                     break;
-                 }
--                target_to_host_sigset(set, target_set);
--                unlock_user(target_set, arg5, 0);
--            } else {
--                set = NULL;
-             }
- 
-             ret = get_errno(safe_epoll_pwait(epfd, ep, maxevents, timeout,
-                                              set, SIGSET_T_SIZE));
-+
-+            if (set) {
-+                finish_sigsuspend_mask(ret);
-+            }
-             break;
+         if (arg3) {
+             if (time64) {
+@@ -1539,25 +1538,19 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
          }
- #endif
+ 
+         if (arg4) {
+-            if (arg5 != sizeof(target_sigset_t)) {
+-                unlock_user(target_pfd, arg1, 0);
+-                return -TARGET_EINVAL;
+-            }
+-
+-            target_set = lock_user(VERIFY_READ, arg4,
+-                                   sizeof(target_sigset_t), 1);
+-            if (!target_set) {
++            ret = process_sigsuspend_mask(&set, arg4, arg5);
++            if (ret != 0) {
+                 unlock_user(target_pfd, arg1, 0);
+-                return -TARGET_EFAULT;
++                return ret;
+             }
+-            target_to_host_sigset(set, target_set);
+-        } else {
+-            set = NULL;
+         }
+ 
+         ret = get_errno(safe_ppoll(pfd, nfds, timeout_ts,
+                                    set, SIGSET_T_SIZE));
+ 
++        if (set) {
++            finish_sigsuspend_mask(ret);
++        }
+         if (!is_error(ret) && arg3) {
+             if (time64) {
+                 if (host_to_target_timespec64(arg3, timeout_ts)) {
+@@ -1569,9 +1562,6 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+                 }
+             }
+         }
+-        if (arg4) {
+-            unlock_user(target_set, arg4, 0);
+-        }
+     } else {
+           struct timespec ts, *pts;
+ 
 -- 
 2.35.1
 
