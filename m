@@ -2,74 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08AB4E60DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 10:07:05 +0100 (CET)
-Received: from localhost ([::1]:39480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B37F4E60E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 10:11:38 +0100 (CET)
+Received: from localhost ([::1]:45402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXJQu-0002m6-GS
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 05:07:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33716)
+	id 1nXJVJ-0006t8-F7
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 05:11:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nXJNF-0000tR-Ep
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:03:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41715)
+ id 1nXJSH-0004rT-KA
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:08:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nXJND-0005nC-EF
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:03:17 -0400
+ id 1nXJSD-0006hT-GG
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 05:08:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648112594;
+ s=mimecast20190719; t=1648112904;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=27Qca326sVP3pkgl4TLqiZbmMp7d49HLROrc94Aa7aA=;
- b=bsBR1qH4em5gHyY9m1+pL9XS51Z3BfO9kHcubA20//gQZovXcyidJd/2tCreGsoYGNv6D5
- 9/mFEGRy7zdz8doefliLaCtqC0QsFYAvy/x+SG5gVLmDso2WvGOuTkRe8VaiRqgd4ehClw
- aF4sbvpBfnLMfp+/XhOgd0o+sKoz/Mo=
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=G0M7wtHPTa1OLiyLpzclxr4Vv/5PWruo5QNVOKsm6kw=;
+ b=a9WoZ9//3LdxdPTC6re1iHGut2TZRtlrl/YbnELGgJhyWxlC+dMyU5KP3ups1uhfyPKdA6
+ BQmuEc1z36CrEX+6vNo9bN75SDZY463zr7Zr5B+4l7ctxv4t9nBphRKK19QW3cSaFhWesS
+ 3Em7glbsVps0shggor2G9DVptEIj11c=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-MHWdWVzGM2GU-eybEgJEMQ-1; Thu, 24 Mar 2022 05:03:11 -0400
-X-MC-Unique: MHWdWVzGM2GU-eybEgJEMQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-294-I0KoeGPBN2KcFB7mXuevpA-1; Thu, 24 Mar 2022 05:08:22 -0400
+X-MC-Unique: I0KoeGPBN2KcFB7mXuevpA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10135803524;
- Thu, 24 Mar 2022 09:03:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D60A811E78;
+ Thu, 24 Mar 2022 09:08:22 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 73240C27D86;
- Thu, 24 Mar 2022 09:03:09 +0000 (UTC)
-Date: Thu, 24 Mar 2022 09:03:07 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B66B4010A39;
+ Thu, 24 Mar 2022 09:08:20 +0000 (UTC)
+Date: Thu, 24 Mar 2022 09:08:18 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Qemu-block <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>,
- Luiz Capitulino <lcapitulino@redhat.com>
-Subject: Re: [PATCH 01/10] python/aqmp: add explicit GPLv2 license to legacy.py
-Message-ID: <Yjwzy97JAHKhvCHn@redhat.com>
-References: <20220321210847.914787-1-jsnow@redhat.com>
- <20220321210847.914787-2-jsnow@redhat.com>
- <CAFn=p-YM8VoXLMBz4nmkvkAMH8SHa+uT=Wx9F77Q-xKrea9GLg@mail.gmail.com>
- <YjwzCM3/wZ4S2fxf@redhat.com>
+To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+Subject: Re: [PATCH] hw/riscv: virt: Warn the user if -bios is provided when
+ using KVM
+Message-ID: <Yjw1At8ig+UzFKXn@redhat.com>
+References: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
 MIME-Version: 1.0
-In-Reply-To: <YjwzCM3/wZ4S2fxf@redhat.com>
+In-Reply-To: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -79,7 +68,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,93 +82,53 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: apatel@ventanamicro.com, Peter Maydell <peter.maydell@linaro.org>,
+ anup@brainfault.org, qemu-devel@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, stefan.huber@oth-regensburg.de,
+ alistair23@gmail.com, jiangyifei@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 09:00:05AM +0000, Daniel P. Berrangé wrote:
-> On Wed, Mar 23, 2022 at 05:47:48PM -0400, John Snow wrote:
-> > On Mon, Mar 21, 2022 at 5:08 PM John Snow <jsnow@redhat.com> wrote:
-> > >
-> > > The legacy.py module is heavily based on the QMP module by Luiz
-> > > Capitulino (et al) which is licensed as explicit GPLv2-only. The async
-> > > QMP package is currently licensed similarly, but I intend to relicense
-> > > the async package to the more flexible GPLv2+.
-> > >
-> > > In preparation for that change, make the license on legacy.py explicit.
-> > >
-> > > Signed-off-by: John Snow <jsnow@redhat.com>
-> > > ---
-> > >  python/qemu/aqmp/legacy.py | 11 +++++++++++
-> > >  1 file changed, 11 insertions(+)
-> > >
-> > > diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
-> > > index 46026e9fdc..f86cb29804 100644
-> > > --- a/python/qemu/aqmp/legacy.py
-> > > +++ b/python/qemu/aqmp/legacy.py
-> > > @@ -4,6 +4,17 @@
-> > >  This class pretends to be qemu.qmp.QEMUMonitorProtocol.
-> > >  """
-> > >
-> > > +#
-> > > +# Copyright (C) 2009-2022 Red Hat Inc.
-> > > +#
-> > > +# Authors:
-> > > +#  Luiz Capitulino <lcapitulino@redhat.com>
-> > > +#  John Snow <jsnow@redhat.com>
-> > > +#
-> > > +# This work is licensed under the terms of the GNU GPL, version 2.  See
-> > > +# the COPYING file in the top-level directory.
-> > > +#
-> > > +
-> > >  import asyncio
-> > >  from typing import (
-> > >      Any,
-> > > --
-> > > 2.34.1
-> > >
-> > 
-> > Anyone have any strong feelings on me doing this? CC'ing people with
-> > known strong feelings on licenses.
-> > 
-> > I'm:
-> > 
-> > (1) Re-affirming that the legacy interface for async QMP is GPLv2
-> > (like the classic QMP library is), because the interface and
-> > docstrings here are largely copy-pasted from that library. It's
-> > heavily remixed and modified, but it is undeniably derivative. (This
-> > patch)
+On Wed, Mar 23, 2022 at 06:13:46PM +0100, Ralf Ramsauer wrote:
+> The -bios option is silently ignored if used in combination with -enable-kvm.
+> The reason is that the machine starts in S-Mode, and the bios typically runs in
+> M-Mode.
 > 
-> If this is going to live for any length of time it is desirable to
-> relience the legacy code to GPLv2+ too.
+> Warn the user that the bios won't be loaded.
 > 
-> I've not fully audited the git history, but what little I've looked
-> at, the relicensing doesn't look too hard. The overwhealming majority
-> of code was by @redhat.com authors, so we can cope with that fairly
-> easily. There are a handful of other contributors still around in
-> QEMU, and some of the patches are so trivial you couldn't claim
-> copyright on them ie where adding 1 parameter to a method call is 
-> literally the only possible way you could implmenent the change.
-> It is never fun to contact everyone, but it looks viable.
+> Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+> ---
+>  hw/riscv/virt.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> > (2) Re-licensing async QMP as GPLv2+. (Next patch)
-> > 
-> > (3) Someday, eventually, adding a different sync interface that
-> > doesn't re-mix this specific compatibility interface and will provide
-> > better event-waiting primitives and so on. legacy.py will get dropped
-> > at that point and the sub-project will become wholly GPLv2+. Until
-> > then, it will be mixed.
-> 
-> Overall making it *all* GPLv2+ compat is going to be important if you
-> want people to be comfortable using it. If it has a mix of GPLv2+
-> and GPLv2-only code in the source tarball, then the overall combined
-> work will have to be considered GPLv2-only and that will put people
-> off using it. Even if they could theoreticallly restrict their usage
-> to only the GPLv2+ parts, many won't get that far before moving on.
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 4496a15346..a4d13114ee 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1312,6 +1312,9 @@ static void virt_machine_init(MachineState *machine)
+>       * when KVM is enabled.
+>       */
+>      if (kvm_enabled()) {
+> +        if (machine->firmware && strcmp(machine->firmware, "none"))
+> +            warn_report("BIOS is not supported in combination with KVM. "
+> +                        "Ignoring BIOS.");
 
-Actually I'll go furthuer and suggest that if we're going to do a
-relicensing at all, and your goal is to encourage usage, then GPLv2+
-is the wrong choice. Use LGPLv2+ if you want to facilitate usage, while
-retaining a copyleft license.
+If the usage scenario isn't supportable, then ultimately we should be
+raising an error and immediately exiting.
+
+If you know of common usage that is already mistakenly passing -bios,
+then we could start with a warning and list it as deprecated, then
+change to an error_report 2 releases later. If we don't thing people
+are often mistakenly passing -bios, then go straight for error_report
+and exit.
+
+>          g_free(machine->firmware);
+>          machine->firmware = g_strdup("none");
+>      }
+> -- 
+> 2.32.0
+> 
+> 
 
 With regards,
 Daniel
