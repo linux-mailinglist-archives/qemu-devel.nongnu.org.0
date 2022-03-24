@@ -2,96 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6092C4E62D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 12:57:53 +0100 (CET)
-Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D364E6381
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 13:43:38 +0100 (CET)
+Received: from localhost ([::1]:57664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXM6C-000732-Gl
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 07:57:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56466)
+	id 1nXMoT-0001zk-5s
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 08:43:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1nXM1o-0002DS-Vg
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:53:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51226)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1nXMm6-0001IT-SL
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 08:41:11 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1nXM1n-0006vz-GI
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:53:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648122798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G3fiIDHNcMFn8LKIMte6x/6zGhMvbGYWUWws0CvU5Ts=;
- b=LHy0QRlnIc1QYoVqmI9Icyhm8RgVGQroysnJ8hqCa7WeHR3PETs0a+r1zffSYNI3lryDAK
- 0q8X96LUx/jq2Da2BhZ8sPaGsWZEsTuH8wldZZp+PsxDzNtLJs/RpxE6wPbB1bkj1vooCw
- 3ibu1qK+N9b37b/3epXVqWLJxSnq78I=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-yjIKkhTqNKCnVG56F8YpOg-1; Thu, 24 Mar 2022 07:53:17 -0400
-X-MC-Unique: yjIKkhTqNKCnVG56F8YpOg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- i2-20020a05620a248200b0067b51fa1269so2852868qkn.19
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 04:53:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=G3fiIDHNcMFn8LKIMte6x/6zGhMvbGYWUWws0CvU5Ts=;
- b=gAh/mJKocKhtx1t4WUd16WkiumbUKAb5ZcpE2Z3A08rBs+Vqm0KNhXPjPTnpGCzc8m
- oZrh/q41h4m0NsOpjGoEB0txeO5GQk/Kf7/CQRQXye8I932Shosyn5HUXt1l4x1XQexW
- ESHg+4vBdZIT1CriTkCVd7nUJrM0MTPzUDFZsZuqpFOB0Ejf88ZQ1jqBc/u2f/BPyKxs
- lDx7wKloiYPlWgLcQtId8oGzAReW18Cwd6tXSFIczBRO7d+ORqmReU094j1jxJLL+tnN
- OTsynNt0i/LLJ5ktwgJR2DSBy+eMN69xU0HarEEpFXoVTVh3zADxwyf77ScU8ZAqYCyi
- dNWg==
-X-Gm-Message-State: AOAM530LmPuInRosml32SPwCvLEOepz/1oE3FgNBOEa8pvbiu1X3TzyC
- YRrYbE7QUKnVExweJxecrVcR0Adog6OsikR5A+YFt1jMNqrNY9fs0Ty+0Jo7EdVYb2+beAlX3YJ
- RkFh8MMLP1tZL+lc=
-X-Received: by 2002:a05:622a:1389:b0:2e1:cd3f:a0ff with SMTP id
- o9-20020a05622a138900b002e1cd3fa0ffmr3999191qtk.218.1648122796926; 
- Thu, 24 Mar 2022 04:53:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw55gc9AijXuIri1KQOkPsXdazD83APGiqMQUNivv4snnpnkQFNfsodSaonHIR+KpHcJq1WAQ==
-X-Received: by 2002:a05:622a:1389:b0:2e1:cd3f:a0ff with SMTP id
- o9-20020a05622a138900b002e1cd3fa0ffmr3999176qtk.218.1648122796664; 
- Thu, 24 Mar 2022 04:53:16 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.12.150])
- by smtp.gmail.com with ESMTPSA id
- b202-20020ae9ebd3000000b0067b11d53365sm1428933qkg.47.2022.03.24.04.53.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Mar 2022 04:53:16 -0700 (PDT)
-Message-ID: <6ca237e2-0ab8-242c-69b3-e628ba698f68@redhat.com>
-Date: Thu, 24 Mar 2022 12:53:14 +0100
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1nXMlz-00011F-1D
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 08:41:07 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22OA9f1W027713; 
+ Thu, 24 Mar 2022 12:40:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=hC8guCLXHtlvET1F6MdmvzVbdS9IHpmX5NCYiorTjrc=;
+ b=QS7Ij+EmKD2FoOr+kEpVsAIiYP+reFxYpvaGJIVFHeqIvfQTyg5ulAQaKd0boVfwi50b
+ kuX3/+M42//OKsIHqjheySuOs2Z+yfBYnTzSRZ9I1vCudVQya/0kodqM4LZ78irIrsAq
+ 3UWd8+uzSNZWdgCUAqu8rFHWf3ulVoN3XzJLZGlI/d5ecPs8riDRO2dx9GtN33U4xkv0
+ YbPucKIMMHnOzo0XGsIQPM3OCmDYgI89q5IimuIG8NUaaQlAU2/gDSLbBHYpc1Zt4v/W
+ Emz8d1o/a+9ZaqezRFJdRQUWwEylctHkc3tmWxmb8vrlCp2gScYqxgPclhaLYPO404QA bA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f0c6y6hff-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 24 Mar 2022 12:40:54 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22OBcSqB014987;
+ Thu, 24 Mar 2022 12:40:54 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f0c6y6hen-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 24 Mar 2022 12:40:54 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22OCbj5n014228;
+ Thu, 24 Mar 2022 12:40:53 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma04dal.us.ibm.com with ESMTP id 3ew6taamqn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 24 Mar 2022 12:40:53 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22OCepAB13959548
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 24 Mar 2022 12:40:51 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CFC18BE056;
+ Thu, 24 Mar 2022 12:40:51 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B39B9BE05A;
+ Thu, 24 Mar 2022 12:40:50 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 24 Mar 2022 12:40:50 +0000 (GMT)
+Message-ID: <7a6e50a6-8bb7-0dd1-4429-0e9217d4a547@linux.ibm.com>
+Date: Thu, 24 Mar 2022 08:40:50 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: hang in virtio-failover-test (s390 host)
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA9PDWf+NDajMMTE5svM9mUTOOrWXj+O2wn7Sd8=RZDgaw@mail.gmail.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <CAFEAcA9PDWf+NDajMMTE5svM9mUTOOrWXj+O2wn7Sd8=RZDgaw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v3 for-7.1] vfio/common: remove spurious tpm-crb-cmd
+ misalignment warning
 Content-Language: en-US
+To: Cornelia Huck <cohuck@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ eric.auger.pro@gmail.com, qemu-devel@nongnu.org, alex.williamson@redhat.com
+References: <20220323203119.360894-1-eric.auger@redhat.com>
+ <87tubn602y.fsf@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <87tubn602y.fsf@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ZtoZpHmxqB969qDjzMMyjDboYrpDNsoJ
+X-Proofpoint-ORIG-GUID: AKBoxcevrPtQ-IDKTeOuYvLlacIBb5--
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-24_03,2022-03-24_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ lowpriorityscore=0 bulkscore=0 phishscore=0 clxscore=1011 malwarescore=0
+ impostorscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203240071
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,55 +116,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: peter.maydell@linaro.org, stefanb@linux.vnet.ibm.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/03/2022 12:11, Peter Maydell wrote:
-> This is a backtrace from virtio-failover-test, which had hung
-> on the s390 gitlab CI runner. Both processes were using CPU,
-> so this is some kind of livelock, not a deadlock.
+
+
+On 3/24/22 07:50, Cornelia Huck wrote:
+> On Wed, Mar 23 2022, Eric Auger <eric.auger@redhat.com> wrote:
 > 
-> Looking more closely at the virtio-net-failover process, in the function
-> test_migrate_off_abort() we have executed 'migrate_cancel' and then go
-> into a loop waiting for 'status' to be "cancelled", with aborts if
-> it is either "failed" or "active". But the status the QEMU process
-> returns is "completed", so we loop forever waiting for a status change
-> that will never come (I assume).
->
-
-It means the migration has been completed before we tried to cancel it.
-The test doesn't fail but is not valid.
-
-Could you try this:
-
-diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-index 80292eecf65f..80cda4ca28ce 100644
---- a/tests/qtest/virtio-net-failover.c
-+++ b/tests/qtest/virtio-net-failover.c
-@@ -1425,6 +1425,11 @@ static void test_migrate_off_abort(gconstpointer opaque)
-          ret = migrate_status(qts);
-
-          status = qdict_get_str(ret, "status");
-+        if (strcmp(status, "completed") == 0) {
-+            g_test_skip("Failed to cancel the migration");
-+            qobject_unref(ret);
-+            goto out;
-+        }
-          if (strcmp(status, "cancelled") == 0) {
-              qobject_unref(ret);
-              break;
-@@ -1437,6 +1442,7 @@ static void test_migrate_off_abort(gconstpointer opaque)
-      check_one_card(qts, true, "standby0", MAC_STANDBY0);
-      check_one_card(qts, true, "primary0", MAC_PRIMARY0);
-
-+out:
-      qos_object_destroy((QOSGraphObject *)vdev);
-      machine_stop(qts);
-  }
-
-Thanks,
-Laurent
-
+>> The CRB command buffer currently is a RAM MemoryRegion and given
+>> its base address alignment, it causes an error report on
+>> vfio_listener_region_add(). This region could have been a RAM device
+>> region, easing the detection of such safe situation but this option
+>> was not well received. So let's add a helper function that uses the
+>> memory region owner type to detect the situation is safe wrt
+>> the assignment. Other device types can be checked here if such kind
+>> of problem occurs again.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>> ---
+>>
+>> v2 -> v3:
+>> - Use TPM_IS_CRB()
+>>
+>> v1 -> v2:
+>> - do not check the MR name but rather the owner type
+>> ---
+>>   hw/vfio/common.c     | 27 ++++++++++++++++++++++++++-
+>>   hw/vfio/trace-events |  1 +
+>>   2 files changed, 27 insertions(+), 1 deletion(-)
+> 
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> 
+Acked-by: Stefan Berger <stefanb@linux.ibm.com>
 
