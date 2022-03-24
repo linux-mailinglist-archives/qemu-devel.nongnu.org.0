@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9B74E6832
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 18:58:06 +0100 (CET)
-Received: from localhost ([::1]:55366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4414E6821
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 18:54:37 +0100 (CET)
+Received: from localhost ([::1]:46828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXRim-0002l4-SA
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 13:58:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53194)
+	id 1nXRfQ-0005NG-41
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 13:54:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nXRcV-0002Vq-FL
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:51:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45571)
+ id 1nXRcX-0002Vw-Ia
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:51:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nXRcU-0006YK-6L
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:51:35 -0400
+ id 1nXRcU-0006YM-9u
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 13:51:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1648144293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ddfITHt2XBGIrZKnv5oVGdrSZIq/OigF3Ff+nX6l2SY=;
- b=P3H4suFLioy8CcSI9Qmds4liw5T9uwMu5Vi5n9nF/yKg3BExM6OMTe8TXJvnlSeRZp96SC
- L2l2QKhoa57LbUsrHZr1JMluIHcuxnaqhmq6oWVDtWcq0TR7zR4zgldD41ok6c2b/99yiY
- omnjnItqqIqPvN0ApIQCZ0iOO6NtkMU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=x4z70FRKTarV3jQDHa1LDBZ8QN3de5hm5tiSw1Led2g=;
+ b=IQh+nmW816ocUBzlGD2tOSyk+gBGmplr7wyoz/yUgGT+6xmG7Jc98gwRDiAUhgUfpVSt0d
+ 2ZVjuHM4Xv82swxIiIwHfMgQjryaUru9Rcn9Xw7dgSzcde4uY/hgKdzqbDEPUe+LRY3lDq
+ 2JoICxXI3INId5QIuIAjRRzOBGffees=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-147-kdBrkOhGNXiS_QBp1GUWMQ-1; Thu, 24 Mar 2022 13:50:23 -0400
-X-MC-Unique: kdBrkOhGNXiS_QBp1GUWMQ-1
+ us-mta-55-1GR9MZqNNbCB_-2-mCXylA-1; Thu, 24 Mar 2022 13:50:24 -0400
+X-MC-Unique: 1GR9MZqNNbCB_-2-mCXylA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2A7985A5BE
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 17:50:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34CB83C163E1
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 17:50:24 +0000 (UTC)
 Received: from tapioca.redhat.com (unknown [10.40.195.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F9E1401E89;
- Thu, 24 Mar 2022 17:50:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 10A1D401E89;
+ Thu, 24 Mar 2022 17:50:22 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/14] qapi: fix example of BLOCK_IO_ERROR event
-Date: Thu, 24 Mar 2022 18:50:04 +0100
-Message-Id: <20220324175015.232794-4-victortoso@redhat.com>
+Subject: [PATCH 04/14] qapi: fix example of BLOCK_JOB_PENDING event
+Date: Thu, 24 Mar 2022 18:50:05 +0100
+Message-Id: <20220324175015.232794-5-victortoso@redhat.com>
 In-Reply-To: <20220324175015.232794-1-victortoso@redhat.com>
 References: <20220324175015.232794-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -85,24 +85,26 @@ Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reason is not optional.
+* Event's name: BLOCK_JOB_WAITING -> BLOCK_JOB_PENDING
+* Argument device -> id
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 ---
- qapi/block-core.json | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ qapi/block-core.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 585a9e020e..5b6c069dd9 100644
+index 5b6c069dd9..ea96e1b009 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -5059,7 +5059,8 @@
- #      "data": { "device": "ide0-hd1",
- #                "node-name": "#block212",
- #                "operation": "write",
--#                "action": "stop" },
-+#                "action": "stop",
-+#                "reason": "Driver requires too large request alignment" },
+@@ -5226,8 +5226,8 @@
+ #
+ # Example:
+ #
+-# <- { "event": "BLOCK_JOB_WAITING",
+-#      "data": { "device": "drive0", "type": "mirror" },
++# <- { "event": "BLOCK_JOB_PENDING",
++#      "data": { "type": "mirror", "id": "backup_1" },
  #      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
  #
  ##
