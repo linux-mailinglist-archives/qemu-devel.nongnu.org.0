@@ -2,97 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4174E6237
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 12:15:48 +0100 (CET)
-Received: from localhost ([::1]:39658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE8D4E6266
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Mar 2022 12:23:28 +0100 (CET)
+Received: from localhost ([::1]:48358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXLRS-0000ZH-U6
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 07:15:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45218)
+	id 1nXLYt-0006gq-9t
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 07:23:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nXLKP-0002S7-VA
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:08:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30931)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nXLKL-0004cs-34
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:08:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648120104;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nZQzhddaE32qt9kQq99vv4hZPeqpTTs4EM24kZ6tX1k=;
- b=eSUbare4UErHFh2iHe6g/SUkGkySVtb+y7q4Kh7cdYJCv1PPZc4Sx3qihBE1MSRa1x3wT+
- llECMld7sSrDGHb3wI9e2Kd8ZGivkoqJ6V4rw+XAWwBR9g2cTajHkGMxRr0vRhfsSHIQc4
- sX6XE6whMUWGS4xbF1N1soeQsktYK58=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-151-Ie6BND22P4mAy9qQy8eAEg-1; Thu, 24 Mar 2022 07:08:23 -0400
-X-MC-Unique: Ie6BND22P4mAy9qQy8eAEg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- x1-20020a50f181000000b00418f6d4bccbso2821158edl.12
- for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 04:08:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXLUY-0003u7-IO
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:19:00 -0400
+Received: from [2607:f8b0:4864:20::92d] (port=39585
+ helo=mail-ua1-x92d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXLUW-0007Pq-9c
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 07:18:58 -0400
+Received: by mail-ua1-x92d.google.com with SMTP id i26so1904687uap.6
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 04:18:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=PbvdPUtLPSEAYg2V0AsPSnq6eBMtXX9aphtDeBJQX3c=;
+ b=Wy7YrWEmUAHtqXCKKCm+tqmx5P+jFgRWTBbnrXUOL5Rj7r8JS0FukdiY2sfaFIXkJD
+ Yq+vICQT7AiJ90ec8boebitI4JhV0jVvJnw4cU4Z6SS3VQL/VJ820vzyA7m8+8EwPJrl
+ wZ1uNSVQkuKML/ZadyFpEJq11InatX3Hv4cuMqnozZgr5jYmtEWM4i53/Rh7H3Bh0AiG
+ vtqz0oFq91nV9ugxaly3VEYTXzEDSQusg7qesPz3w0pujAsQ/4NifluVk7Knk/UN2Opr
+ njT9FYDxJl4gDneg5P51ofJtVBIcYEQoYcHkDNVlEiUNKUHawzFCcTtqkwh3XU+LYzrQ
+ Z/2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
  :content-transfer-encoding;
- bh=nZQzhddaE32qt9kQq99vv4hZPeqpTTs4EM24kZ6tX1k=;
- b=sqya5+OoVDgnmAguRnB0frUpEKoCtgKEdNjr1UUaMeI05S2hoToDfvZzOqASWecGDW
- b1Pq1VrMe7ZZxMZiKNBotjbeSUZaEB1OJPTn1H2Xu9l4Pr/1yYTcidIPHbBmi+eFazUF
- vD7dJfA0/eptsDtyLWViYnYZyYxEI5Mb0R+lalGKy7TSWwJlBzF38tzA9jilEbc5b+Bf
- sMUhCp6IQbjMImVx6qiT3tmBVrL/fus9TgClw51WlGThFZ8UYYVP6srHCavnvtdEXvR+
- GMA3SiHzMMznuEGKFuA5XkIZGVSPRH08+HLSIuA6zHXciV32a67ht2N9Z0E4Y9+olHkO
- xceQ==
-X-Gm-Message-State: AOAM530sqfcAODgzNF9B/8DSPXZW/Xyv9aDARl95cQ7ZfVp7G0m7xlT/
- oNKPKyLfYx9iiAh0/+hEwYIfAhqgRf/z7/cEVmkRn4CtAKuJOQC0PqtKFc4iSRL+drg9nb9aSbA
- zyqFqBgyQCLJRIek=
-X-Received: by 2002:a17:906:4987:b0:6ce:88fc:3c88 with SMTP id
- p7-20020a170906498700b006ce88fc3c88mr4840310eju.608.1648120101729; 
- Thu, 24 Mar 2022 04:08:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxuB9mkiW9NunLVetx4lu3MPD/Fl4pGRRPczHDhpftbiQE4jFYO8IWm4Ywai/hI/XYho+hlWg==
-X-Received: by 2002:a17:906:4987:b0:6ce:88fc:3c88 with SMTP id
- p7-20020a170906498700b006ce88fc3c88mr4840286eju.608.1648120101517; 
- Thu, 24 Mar 2022 04:08:21 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- ga5-20020a1709070c0500b006de43e9605asm986888ejc.181.2022.03.24.04.08.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Mar 2022 04:08:21 -0700 (PDT)
-Message-ID: <f0727d57-74e2-31b3-a89e-20ee636cfa0a@redhat.com>
-Date: Thu, 24 Mar 2022 12:08:20 +0100
+ bh=PbvdPUtLPSEAYg2V0AsPSnq6eBMtXX9aphtDeBJQX3c=;
+ b=Qo3QqiD+NflDOuIAncCVnckrOYmaAJqmcpOGK2gE1ZXKr1ipFT3MibNhb6s8wKiDDQ
+ QcuIObXG3Nd9CmVlUDLE5JbLGyVEyHog8uyMHLn/fYEQFjaxhGlQ4W/ilIFLeIG9E0jV
+ YiGmdBC2XGHdgogHNj+LKti+VTyRllKzWns87fkZmF3KGyk0AQbTJFmWdti9QLou+uIJ
+ YebmEZBSPbGDjOODtNJG+cpoxQDw8dOctS1xtGz7M5DeW90aOOsKVXkLbzFWYJ4vCGNG
+ y+y8Z9Bq+KGkEXgPnVUx6pfcCyFt1M0skRrv3qrxpUIc3i02n7KDVeOoQt2nWmmi/sVS
+ obOA==
+X-Gm-Message-State: AOAM530adfWsQ5eIk1ZqxAqtNIACjTsydvXEJMempdFmd81ivAMtTK9l
+ NnKuN0w7rM6C70h15td+Rbo+qYVU4XFCvEL6YL1EdZA/UZJJDP89
+X-Google-Smtp-Source: ABdhPJymny4r0U8Z2+6RSQDgNb+jGOg8xsFJ++jih7YOzJUBdEBTJhTWOsOyAz61yq3IdUMIzRAca8aMc0+1ns2aOuQ=
+X-Received: by 2002:a25:cdc8:0:b0:633:8aa6:6a3 with SMTP id
+ d191-20020a25cdc8000000b006338aa606a3mr3868684ybf.288.1648120289739; Thu, 24
+ Mar 2022 04:11:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] iotests: update test owner contact information
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220322174212.1169630-1-jsnow@redhat.com>
- <51806099-c55d-ce5e-ae3f-e1609c8a92e5@redhat.com>
- <993fb20b-0445-037b-e6a5-f13a48f9db4f@redhat.com>
- <YjxJsSRRk1kBzwz9@stefanha-x1.localdomain>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <YjxJsSRRk1kBzwz9@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Mar 2022 11:11:17 +0000
+Message-ID: <CAFEAcA9PDWf+NDajMMTE5svM9mUTOOrWXj+O2wn7Sd8=RZDgaw@mail.gmail.com>
+Subject: hang in virtio-failover-test (s390 host)
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ua1-x92d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,133 +81,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.03.22 11:36, Stefan Hajnoczi wrote:
-> On Wed, Mar 23, 2022 at 01:10:19PM +0100, Hanna Reitz wrote:
->> On 23.03.22 09:39, Thomas Huth wrote:
->>> On 22/03/2022 18.42, John Snow wrote:
->>>> Quite a few of these tests have stale contact information. This patch
->>>> updates the stale ones that I happen to be aware of at the moment.
->>>>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>> ---
->>>>    tests/qemu-iotests/025 | 2 +-
->>>>    tests/qemu-iotests/027 | 2 +-
->>>>    tests/qemu-iotests/028 | 2 +-
->>>>    tests/qemu-iotests/036 | 2 +-
->>>>    tests/qemu-iotests/039 | 2 +-
->>>>    tests/qemu-iotests/059 | 2 +-
->>>>    tests/qemu-iotests/060 | 2 +-
->>>>    tests/qemu-iotests/061 | 2 +-
->>>>    tests/qemu-iotests/062 | 2 +-
->>>>    tests/qemu-iotests/064 | 2 +-
->>>>    tests/qemu-iotests/066 | 2 +-
->>>>    tests/qemu-iotests/068 | 2 +-
->>>>    tests/qemu-iotests/069 | 2 +-
->>>>    tests/qemu-iotests/070 | 2 +-
->>>>    tests/qemu-iotests/071 | 2 +-
->>>>    tests/qemu-iotests/072 | 2 +-
->>>>    tests/qemu-iotests/074 | 2 +-
->>>>    tests/qemu-iotests/084 | 2 +-
->>>>    tests/qemu-iotests/085 | 2 +-
->>>>    tests/qemu-iotests/089 | 2 +-
->>>>    tests/qemu-iotests/090 | 2 +-
->>>>    tests/qemu-iotests/091 | 2 +-
->>>>    tests/qemu-iotests/094 | 2 +-
->>>>    tests/qemu-iotests/095 | 2 +-
->>>>    tests/qemu-iotests/097 | 2 +-
->>>>    tests/qemu-iotests/098 | 2 +-
->>>>    tests/qemu-iotests/099 | 2 +-
->>>>    tests/qemu-iotests/102 | 2 +-
->>>>    tests/qemu-iotests/103 | 2 +-
->>>>    tests/qemu-iotests/105 | 2 +-
->>>>    tests/qemu-iotests/106 | 2 +-
->>>>    tests/qemu-iotests/107 | 2 +-
->>>>    tests/qemu-iotests/108 | 2 +-
->>>>    tests/qemu-iotests/110 | 2 +-
->>>>    tests/qemu-iotests/111 | 2 +-
->>>>    tests/qemu-iotests/112 | 2 +-
->>>>    tests/qemu-iotests/113 | 2 +-
->>>>    tests/qemu-iotests/115 | 2 +-
->>>>    tests/qemu-iotests/117 | 2 +-
->>>>    tests/qemu-iotests/119 | 2 +-
->>>>    tests/qemu-iotests/120 | 2 +-
->>>>    tests/qemu-iotests/121 | 2 +-
->>>>    tests/qemu-iotests/123 | 2 +-
->>>>    tests/qemu-iotests/125 | 2 +-
->>>>    tests/qemu-iotests/126 | 2 +-
->>>>    tests/qemu-iotests/127 | 2 +-
->>>>    tests/qemu-iotests/135 | 2 +-
->>>>    tests/qemu-iotests/138 | 2 +-
->>>>    tests/qemu-iotests/140 | 2 +-
->>>>    tests/qemu-iotests/141 | 2 +-
->>>>    tests/qemu-iotests/143 | 2 +-
->>>>    tests/qemu-iotests/144 | 2 +-
->>>>    tests/qemu-iotests/146 | 2 +-
->>>>    tests/qemu-iotests/150 | 2 +-
->>>>    tests/qemu-iotests/153 | 2 +-
->>>>    tests/qemu-iotests/156 | 2 +-
->>>>    tests/qemu-iotests/162 | 2 +-
->>>>    tests/qemu-iotests/173 | 2 +-
->>>>    tests/qemu-iotests/176 | 2 +-
->>>>    tests/qemu-iotests/182 | 2 +-
->>>>    tests/qemu-iotests/192 | 2 +-
->>>>    tests/qemu-iotests/200 | 2 +-
->>>>    tests/qemu-iotests/216 | 2 +-
->>>>    tests/qemu-iotests/218 | 2 +-
->>>>    tests/qemu-iotests/224 | 2 +-
->>>>    tests/qemu-iotests/225 | 2 +-
->>>>    tests/qemu-iotests/228 | 2 +-
->>>>    tests/qemu-iotests/229 | 2 +-
->>>>    tests/qemu-iotests/231 | 2 +-
->>>>    tests/qemu-iotests/250 | 2 +-
->>>>    tests/qemu-iotests/251 | 2 +-
->>>>    tests/qemu-iotests/252 | 2 +-
->>>>    tests/qemu-iotests/258 | 2 +-
->>>>    tests/qemu-iotests/259 | 2 +-
->>>>    tests/qemu-iotests/261 | 2 +-
->>>>    tests/qemu-iotests/310 | 2 +-
->>>>    76 files changed, 76 insertions(+), 76 deletions(-)
->>>>
->>>> diff --git a/tests/qemu-iotests/025 b/tests/qemu-iotests/025
->>>> index 80686a30d5..5771ea9200 100755
->>>> --- a/tests/qemu-iotests/025
->>>> +++ b/tests/qemu-iotests/025
->>>> @@ -20,7 +20,7 @@
->>>>    #
->>>>      # creator
->>>> -owner=stefanha@linux.vnet.ibm.com
->>>> +owner=stefanha@redhat.com
->>> Wow, these were really old ones ... I wonder whether these "owner" lines
->>> really still make that much sense if they are neglected that much, or
->>> whether the information should maybe rather be captured in MAINTAINERS
->>> instead?
->> Or maybe we should just drop the whole concept of ownership in the iotests
->> altogether, I can’t remember it ever coming up.  If a test fails, it never
->> mattered to me who the “owner” is, I just did my best to fix it myself,
->> usually.  If I couldn’t, I used git-blame to figure out who to ask, because
->> tests tend to be written by multiple people anyway.
->>
->> Anyway, that’d be more difficult, I suppose, because dropping ownership
->> information would (I guess) require consent from everyone, so this is
->> simpler for now.
->>
->> Thanks for the patch, I’ve applied it to my block branch:
->>
->> https://gitlab.com/hreitz/qemu/-/commits/block
-> For the record:
-> I'm happy fro my @linux.vnet.ibm.com email address to be removed or
-> replaced since the address is no longer in use. IBM copyright needs to
-> be kept.
+This is a backtrace from virtio-failover-test, which had hung
+on the s390 gitlab CI runner. Both processes were using CPU,
+so this is some kind of livelock, not a deadlock.
 
-Absolutely.  I just don’t think putting actual contact info into each 
-test is helpful; or at least less helpful then what git-blame + .mailmap 
-provides.
+Looking more closely at the virtio-net-failover process, in the function
+test_migrate_off_abort() we have executed 'migrate_cancel' and then go
+into a loop waiting for 'status' to be "cancelled", with aborts if
+it is either "failed" or "active". But the status the QEMU process
+returns is "completed", so we loop forever waiting for a status change
+that will never come (I assume).
 
-Hanna
+I also have a hang in migration-test on this system, which I'll
+send a separate email about.
 
+-- PMM
+
+virtio-net-fail(2706321)=E2=94=80=E2=94=80=E2=94=80qemu-system-i38(2706783)
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+PROCESS: 2706321
+gitlab-+ 2706321 2691914 46 Mar23 ?        08:49:56
+/home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/build/tests/qtest/v=
+irtio-net-failover
+--tap -k
+[New LWP 2706322]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+__libc_read (nbytes=3D1, buf=3D0x3ffe6bfa4d7, fd=3D3) at
+../sysdeps/unix/sysv/linux/read.c:26
+26      ../sysdeps/unix/sysv/linux/read.c: No such file or directory.
+
+Thread 2 (Thread 0x3ff8617f900 (LWP 2706322)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+#1  0x000002aa3f8bb334 in qemu_futex_wait (val=3D<optimized out>,
+f=3D<optimized out>) at
+/home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/futex.=
+h:29
+#2  qemu_event_wait (ev=3Dev@entry=3D0x2aa3f8f6ce8 <rcu_call_ready_event>)
+at ../util/qemu-thread-posix.c:481
+#3  0x000002aa3f8c5a2a in call_rcu_thread (opaque=3Dopaque@entry=3D0x0) at
+../util/rcu.c:261
+#4  0x000002aa3f8ba32a in qemu_thread_start (args=3D<optimized out>) at
+../util/qemu-thread-posix.c:556
+#5  0x000003ff86407e66 in start_thread (arg=3D0x3ff8617f900) at
+pthread_create.c:477
+#6  0x000003ff862fcbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 1 (Thread 0x3ff867f5430 (LWP 2706321)):
+#0  __libc_read (nbytes=3D1, buf=3D0x3ffe6bfa4d7, fd=3D3) at
+../sysdeps/unix/sysv/linux/read.c:26
+#1  __libc_read (fd=3Dfd@entry=3D3, buf=3Dbuf@entry=3D0x3ffe6bfa4d7,
+nbytes=3Dnbytes@entry=3D1) at ../sysdeps/unix/sysv/linux/read.c:24
+#2  0x000002aa3f89d4f4 in read (__nbytes=3D1, __buf=3D0x3ffe6bfa4d7,
+__fd=3D3) at /usr/include/s390x-linux-gnu/bits/unistd.h:44
+#3  qmp_fd_receive (fd=3D<optimized out>) at ../tests/qtest/libqtest.c:613
+#4  0x000002aa3f89d59a in qtest_qmp_receive_dict (s=3D0x2aa401fcc50) at
+../tests/qtest/libqtest.c:648
+#5  qtest_qmp_receive (s=3D0x2aa401fcc50) at ../tests/qtest/libqtest.c:636
+#6  0x000002aa3f89de84 in qtest_vqmp (s=3D<optimized out>,
+fmt=3D<optimized out>, ap=3Dap@entry=3D0x3ffe6bfa680) at
+../tests/qtest/libqtest.c:749
+#7  0x000002aa3f89e0aa in qtest_qmp (s=3D<optimized out>, fmt=3D<optimized
+out>) at ../tests/qtest/libqtest.c:790
+#8  0x000002aa3f88cc88 in migrate_status (qts=3D<optimized out>) at
+../tests/qtest/virtio-net-failover.c:595
+#9  0x000002aa3f892fcc in test_migrate_off_abort (opaque=3D<optimized
+out>) at ../tests/qtest/virtio-net-failover.c:1425
+#10 0x000003ff865fe608 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#11 0x000003ff865fe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#12 0x000003ff865fe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#13 0x000003ff865fe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#14 0x000003ff865fe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#15 0x000003ff865feada in g_test_run_suite () from
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#16 0x000003ff865feb10 in g_test_run () from
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#17 0x000002aa3f88c43a in main (argc=3D<optimized out>, argv=3D<optimized
+out>) at ../tests/qtest/virtio-net-failover.c:1869
+[Inferior 1 (process 2706321) detached]
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+PROCESS: 2706783
+gitlab-+ 2706783 2706321 33 Mar23 ?        06:19:26 ./qemu-system-i386
+-qtest unix:/tmp/qtest-2706321.sock -qtest-log /dev/null -chardev
+socket,path=3D/tmp/qtest-2706321.qmp,id=3Dchar0 -mon
+chardev=3Dchar0,mode=3Dcontrol -display none -M q35 -nodefaults -device
+pcie-root-port,id=3Droot0,addr=3D0x1,bus=3Dpcie.0,chassis=3D1 -device
+pcie-root-port,id=3Droot1,addr=3D0x2,bus=3Dpcie.0,chassis=3D2 -netdev
+user,id=3Dhs0 -netdev user,id=3Dhs1 -accel qtest
+[New LWP 2706795]
+[New LWP 2706796]
+[New LWP 2706797]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+0x000003ffa5cf1c9c in __ppoll (fds=3D0x2aa22222600, nfds=3D5,
+timeout=3D<optimized out>, timeout@entry=3D0x3ffca97b438,
+sigmask=3Dsigmask@entry=3D0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+44      ../sysdeps/unix/sysv/linux/ppoll.c: No such file or directory.
+
+Thread 4 (Thread 0x3ff95ca1900 (LWP 2706797)):
+#0  futex_wait_cancelable (private=3D0, expected=3D0,
+futex_word=3D0x2aa214a5dd8) at ../sysdeps/nptl/futex-internal.h:183
+#1  __pthread_cond_wait_common (abstime=3D0x0, clockid=3D0,
+mutex=3D0x2aa1f426f10 <qemu_global_mutex>, cond=3D0x2aa214a5db0) at
+pthread_cond_wait.c:508
+#2  __pthread_cond_wait (cond=3Dcond@entry=3D0x2aa214a5db0,
+mutex=3Dmutex@entry=3D0x2aa1f426f10 <qemu_global_mutex>) at
+pthread_cond_wait.c:638
+#3  0x000002aa1eab0e56 in qemu_cond_wait_impl (cond=3D0x2aa214a5db0,
+mutex=3D0x2aa1f426f10 <qemu_global_mutex>, file=3D0x2aa1eb2e3fc
+"../softmmu/cpus.c", line=3D<optimized out>) at
+../util/qemu-thread-posix.c:195
+#4  0x000002aa1e4f4436 in qemu_wait_io_event
+(cpu=3Dcpu@entry=3D0x2aa214993b0) at ../softmmu/cpus.c:424
+#5  0x000002aa1e882f22 in dummy_cpu_thread_fn
+(arg=3Darg@entry=3D0x2aa214993b0) at ../accel/dummy-cpus.c:53
+#6  0x000002aa1eab05c2 in qemu_thread_start (args=3D<optimized out>) at
+../util/qemu-thread-posix.c:556
+#7  0x000003ffa5e07e66 in start_thread (arg=3D0x3ff95ca1900) at
+pthread_create.c:477
+#8  0x000003ffa5cfcbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 3 (Thread 0x3ff964a2900 (LWP 2706796)):
+#0  0x000003ffa5cf1b42 in __GI___poll (fds=3D0x3ff88003250, nfds=3D3,
+timeout=3D<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:29
+#1  0x000003ffa83d4386 in  () at /lib/s390x-linux-gnu/libglib-2.0.so.0
+#2  0x000003ffa83d4790 in g_main_loop_run () at
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#3  0x000002aa1e8bfa4e in iothread_run
+(opaque=3Dopaque@entry=3D0x2aa212f3400) at ../iothread.c:73
+#4  0x000002aa1eab05c2 in qemu_thread_start (args=3D<optimized out>) at
+../util/qemu-thread-posix.c:556
+#5  0x000003ffa5e07e66 in start_thread (arg=3D0x3ff964a2900) at
+pthread_create.c:477
+#6  0x000003ffa5cfcbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 2 (Thread 0x3ff96da4900 (LWP 2706795)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+#1  0x000002aa1eab15cc in qemu_futex_wait (val=3D<optimized out>,
+f=3D<optimized out>) at
+/home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/futex.=
+h:29
+#2  qemu_event_wait (ev=3Dev@entry=3D0x2aa1f457e60 <rcu_call_ready_event>)
+at ../util/qemu-thread-posix.c:481
+#3  0x000002aa1eab9e42 in call_rcu_thread (opaque=3Dopaque@entry=3D0x0) at
+../util/rcu.c:261
+#4  0x000002aa1eab05c2 in qemu_thread_start (args=3D<optimized out>) at
+../util/qemu-thread-posix.c:556
+#5  0x000003ffa5e07e66 in start_thread (arg=3D0x3ff96da4900) at
+pthread_create.c:477
+#6  0x000003ffa5cfcbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 1 (Thread 0x3ffa91fe440 (LWP 2706783)):
+#0  0x000003ffa5cf1c9c in __ppoll (fds=3D0x2aa22222600, nfds=3D5,
+timeout=3D<optimized out>, timeout@entry=3D0x3ffca97b438,
+sigmask=3Dsigmask@entry=3D0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+#1  0x000002aa1ead154a in ppoll (__ss=3D0x0, __timeout=3D0x3ffca97b438,
+__nfds=3D<optimized out>, __fds=3D<optimized out>) at
+/usr/include/s390x-linux-gnu/bits/poll2.h:77
+#2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
+timeout=3Dtimeout@entry=3D1000000000) at ../util/qemu-timer.c:348
+#3  0x000002aa1eacd768 in os_host_main_loop_wait (timeout=3D1000000000)
+at ../util/main-loop.c:250
+#4  main_loop_wait (nonblocking=3Dnonblocking@entry=3D0) at ../util/main-lo=
+op.c:531
+#5  0x000002aa1e4faa94 in qemu_main_loop () at ../softmmu/runstate.c:727
+#6  0x000002aa1e4ae7a0 in main (argc=3D<optimized out>, argv=3D<optimized
+out>, envp=3D<optimized out>) at ../softmmu/main.c:50
+[Inferior 1 (process 2706783) detached]
+
+thanks
+-- PMM
 
