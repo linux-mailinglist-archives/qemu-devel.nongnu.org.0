@@ -2,70 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1546C4E75A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 16:02:16 +0100 (CET)
-Received: from localhost ([::1]:49746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFE54E75A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 16:04:20 +0100 (CET)
+Received: from localhost ([::1]:54526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXlSA-0000tz-Qb
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 11:02:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37582)
+	id 1nXlUB-00046s-43
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 11:04:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nXlPp-00072y-KC
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:59:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45476)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nXlPm-0004TH-N9
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:59:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648220377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v2PH3o6qNorTEFNQpI+HXFAjPb88kgiHnMGZj9ELo1E=;
- b=djv6w9C/dXhWNKxEHcqmPpkNSK8UME4WYkHHVgy95E1ECR9W6KreE08TUPB7d0NWt+P1kO
- NJv+wumRJ+sFT/1nbfbEGdaCkiy/CKDeE+KgO8GC6+tabsPuXNYMhpTTd4NztCC8CQYvpH
- vsNoMPCf1lBwvnqREi9W/z1/+bIOdIE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-skCsTSuVP8a3anR2pQXwzA-1; Fri, 25 Mar 2022 10:59:34 -0400
-X-MC-Unique: skCsTSuVP8a3anR2pQXwzA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EAA5F101AA42;
- Fri, 25 Mar 2022 14:59:33 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.192])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 88BCF111F3D9;
- Fri, 25 Mar 2022 14:59:33 +0000 (UTC)
-Date: Fri, 25 Mar 2022 09:59:31 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH] iotests: Fix status checks
-Message-ID: <20220325145931.3gh4254v7lj7wf7g@redhat.com>
-References: <20220324180221.24508-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nXlQh-0008JP-2I
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 11:00:45 -0400
+Received: from [2607:f8b0:4864:20::232] (port=43878
+ helo=mail-oi1-x232.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nXlQf-0004ps-Dh
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 11:00:42 -0400
+Received: by mail-oi1-x232.google.com with SMTP id w127so8394620oig.10
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 08:00:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=21WrEwm+iKPvZqfL+OFo5clmBf0Fq8epx3HlOXKEQxM=;
+ b=E13CJ/NKu6ue0c8bFoJKuvxLuLjW3ZUJHWxCao2ELA0XvA4J+nLrtxBFknGlVRBl4e
+ r1dDddN8a4SXmseSP4l2PUQ8Ze1hwhD/cwklQDUnGFv/15/UUXmbXcyLppOlqKOJvgay
+ S4Mop4/xva51q9rJg6SYkLb1tvRbzgvvG9lP7yryt1gxycQPajnvN2JOQm2pL/wEIyTW
+ L+aPV18oEvMQAaufhBaK71/cgVWoE1nR4yvSG7/A/LaFq7cWFAruIoYjh/AuolI+05SS
+ Dry7IsuIuS7/SZKajlIrVlGXeLxzAvwlQJfTVKxOzurfykaT4nw983pcDR8SWuAIv+cw
+ bgQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=21WrEwm+iKPvZqfL+OFo5clmBf0Fq8epx3HlOXKEQxM=;
+ b=WlABhXowkBhapaaYw0UtTkY6/yNHTr93FqsBoZ4YCkc7q0tXnQ1YHclAfkEQtY3TGk
+ 6t20RVCRIG3OUh5SJsdlrzTu8fU1p9na+JmoOGmUa5woK+yhBz0Fn/LmfJsPbvoks7Wt
+ fUg9a7RnjUOtuOCYMRudTnad3xuem7jbWux0JXeydV3vwPXbgwOvw5aOjpeu4gTYd+U3
+ ZstDZtLhMsTEz15TNl6t/GBkNxxmHAHlVOM11cWHsE8BWv3itjyMHQly/QzSlmttxxtb
+ CrErLqfxjRTkXLEHWNNL9rQ1hyEyAyY9FF11H55LsR3IukzJb3tiDLDgpWD/fn0R3F69
+ 7RCQ==
+X-Gm-Message-State: AOAM53049bSErggUhpzZaZWd8fI1B7cnrb9vRY36qYtbNo/xgWKHRivE
+ D+lB+o3O07PLnIznxR3ZXJOvdhFS0tfnsCoXvNQ=
+X-Google-Smtp-Source: ABdhPJwM9p3U8I5XtSAayEXULyIk5h6l1QaOIM1cn67gWT8jYOuH8QFQajP/xNBJ/efwRChlS/TB/Q==
+X-Received: by 2002:a05:6808:2004:b0:2da:cf4:feb with SMTP id
+ q4-20020a056808200400b002da0cf40febmr5397165oiw.50.1648220440151; 
+ Fri, 25 Mar 2022 08:00:40 -0700 (PDT)
+Received: from [172.24.8.129] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+ i4-20020a4addc4000000b00324bd261e5fsm2255039oov.11.2022.03.25.08.00.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Mar 2022 08:00:39 -0700 (PDT)
+Message-ID: <731db1db-50e1-cd10-7e70-fe0d37afac07@linaro.org>
+Date: Fri, 25 Mar 2022 09:00:28 -0600
 MIME-Version: 1.0
-In-Reply-To: <20220324180221.24508-1-hreitz@redhat.com>
-User-Agent: NeoMutt/20211029-512-43304b
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PULL for-7.1 08/36] *: Use fprintf between qemu_log_lock/unlock
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20220320171135.2704502-1-richard.henderson@linaro.org>
+ <20220320171135.2704502-9-richard.henderson@linaro.org>
+ <87a6dg4m2h.fsf@linaro.org> <3df76126-e4ab-7821-831a-c1a21e31fbc5@linaro.org>
+ <87sfr72zd9.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87sfr72zd9.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::232
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x232.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,37 +95,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 07:02:21PM +0100, Hanna Reitz wrote:
-> An iotest's 'paused' condition is fickle; it will be reported as true
-> whenever the job is drained, for example, or when it is in the process
-> of completing.
+On 3/24/22 08:30, Alex Bennée wrote:
 > 
-> 030 and 041 contain such checks, we should replace them by checking the
-> job status instead.  (As was done for 129 in commit f9a6256b48f29c2816
-> for the 'busy' condition.)
+> Richard Henderson <richard.henderson@linaro.org> writes:
 > 
-> Additionally, when we want to test that a job is paused on error, we
-> might want to give it some time to actually switch to the paused state.
-> Do that by waiting on the corresponding JOB_STATUS_CHANGE event.  (But
-> only if they are not already paused; the loops these places are in fetch
-> all VM events, so they may have already fetched that event from the
-> queue.)
+>> On 3/23/22 10:22, Alex Bennée wrote:
+>>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>>
+>>>> Inside qemu_log, we perform qemu_log_lock/unlock, which need
+>>>> not be done if we have already performed the lock beforehand.
+>>>>
+>>>> Always check the result of qemu_log_lock -- only checking
+>>>> qemu_loglevel_mask races with the acquisition of the lock
+>>>> on the logfile.
+>>> I'm not sure I like introducing all these raw fprintfs over
+>>> introducing
+>>> a function like qemu_log__locked().
+>>
+>> There's no way to implement qemu_log__locked with rcu.  The lookup
+>> itself is what needs the locking; the return value of the FILE* is
+>> then valid until the unlock.  To lookup the FILE* again would require
+>> more atomic operations.
 > 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
->  tests/qemu-iotests/030 | 25 ++++++++++++++++++++-----
->  tests/qemu-iotests/041 | 26 +++++++++++++++++++-------
->  2 files changed, 39 insertions(+), 12 deletions(-)
+> That's not what I'm suggesting. qemu_log__locked would be a fairly
+> simple wrapper around the fprintf:
+> 
+> modified   include/qemu/log.h
+> @@ -70,6 +70,25 @@ void qemu_log_unlock(FILE *fd);
+>           }                                               \
+>       } while (0)
+>   
+> +/**
+> + * qemu_log__locked() - log to a locked file
+> + * @logfile: FILE handle from qemu_log_lock()
+> + * @fmt: printf format
+> + * ...: varargs
+> + */
+> +static inline void G_GNUC_PRINTF(2, 3)
+> +    qemu_log__locked(FILE *logfile, const char *fmt, ...)
+> +{
+> +    if (logfile) {
+> +        va_list ap;
+> +
+> +        va_start(ap, fmt);
+> +        vfprintf(logfile, fmt, ap);
+> +        va_end(ap);
+> +    }
+> +}
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+If the lock succeeded, then we *know* that logfile != NULL -- indeed, that is exactly the 
+test that is required following qemu_log_lock().  There is no point in structuring the 
+code otherwise.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+If you remove that, then you're left with
 
+#define qemu_log__locked  fprintf
+
+Can you tell me that's really an improvement?
+
+>> And I do prefer the printfs over repeated qemu_log.
+> 
+> The main benefit from my point of view is it keeps qemu_log operations
+> grouped together and easier to fix if we for example want to tweak how
+> we deal with log files in the future.
+
+I can't see that.  If we have a radical adjustment to logfiles that requires something 
+other than fprintf, then we're probably going to change the type of logfile too.  At which 
+point all of the other existing places that we pass the FILE*, e.g. cpu_dump_state are 
+also affected.
+
+
+r~
 
