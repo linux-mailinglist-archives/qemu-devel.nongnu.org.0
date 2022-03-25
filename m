@@ -2,156 +2,156 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8736C4E6E3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 07:37:25 +0100 (CET)
-Received: from localhost ([::1]:47798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF9C4E6E7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 08:05:14 +0100 (CET)
+Received: from localhost ([::1]:33024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXdZb-0004wM-9F
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 02:37:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45694)
+	id 1nXe0X-0006GA-1I
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 03:05:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1nXdVN-0003l9-Aq
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 02:33:01 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:54572)
+ id 1nXdxL-00052q-QS
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 03:01:56 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:27954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1nXdV5-0003z8-02
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 02:32:45 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22P0xDBP007577; 
- Fri, 25 Mar 2022 06:32:20 GMT
+ id 1nXdxI-0008C9-2d
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 03:01:54 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22P01a4f031953; 
+ Fri, 25 Mar 2022 07:01:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=12WLk2pUVfHtIUeJPi33EQXprkYThFD41IG9rHbbLA4=;
- b=qkz/G9sfZXvyPRMcxzKJV1Oj+1z3Rzp1b0aqhJtfuoFPlOGVk3aV/ctrS+UpgRHKwaG6
- 1mQaEba+2YtR4IJLuk6heswVxZZ4Wkp/SoBiPCKZlFJRRiStLjNdww0yzORPxOOjR3EW
- /gmycbK614NAeQjWXC6HpbwD5cdhvwbaBqLxn+mlKiUV8csLsKZa/YHojHAECYlJYeUs
- LgNKhZxKKSCNwIL9CgtFLfa2CfE86wBqRvSX5SMshsr0sj3qXDtj1m48gVpXYLAFRHFu
- LIkgETQnE4b6B33cbxP7iNU2l+2aqTTp2QD5ltnd3O1W86UvTEUn83mBQEOITo9y6Gkm ew== 
-Received: from aserp3030.oracle.com ([141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3ew5kcx3ec-1
+ bh=jv4ibiEEm66A/b/O7HFYXZi1c59UGv4iaFr75ab+0A4=;
+ b=UTju39FhhIuMDqT54bkesQJCslHGMCYomIa0Ms5hcrlNKwqaJTJTSmaj+P14z3DBLzcF
+ MeXuSt8HFuwMTzGJfh/dComHdV1SDSjMphuSiYNpYyZfCMdS2i6Lo0IxOb5hrdlnk1Li
+ SRoRgW2V0ZGJKredSSf2dmHdCAEIQpOQzwMjK1R62sfYSMcRFILMl3p3SxO02xzGI7yJ
+ gYhLqw97epEmw1M+Jhl+kJc/R9OngOrVfFkLoKC8yN/zY9PN9Ag3WwFs5A2Qg0Own9uP
+ 7c0i0Z/cJf4J2FVBomWo5YcsR8lD0jMvnqE5YEaZrRzCzkXLF67R8MJQT7FKQnr9aqJ+ OA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ew5y26hs7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 25 Mar 2022 06:32:19 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22P6WJNL054218;
- Fri, 25 Mar 2022 06:32:19 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
- by aserp3030.oracle.com with ESMTP id 3ew5792eda-1
+ Fri, 25 Mar 2022 07:01:47 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22P6uCCR029283;
+ Fri, 25 Mar 2022 07:01:46 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
+ by userp3020.oracle.com with ESMTP id 3exawjg205-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 25 Mar 2022 06:32:18 +0000
+ Fri, 25 Mar 2022 07:01:45 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g2Jd/yjDd/YvRXmatiN/iJ6npeROnJ8kCbExs2Eg6Jm72kMj5YshYaEb9K7wIW4td26ClpkiywJmKSwNNUVB5soW+hyCkEXEpdK8KP7yXfMnns+C/VfgfxQI/MoWZcEGnwosJuvBYgsGX5ra3dXzUI9XNUe9pvcfvK3me6I8EAMGGWioTKrnVQ8rR4j65fpXla51jClF/SF1qtQG/iAXik+lpwKByEOuaGot0fUdY5Ww9UnnWhuUNMawW7RTPUbUVc+sP4cza9sodWYiZW87vbv8RDz8MP/2F217l9OampQ0yTdkCgVE0EUnSn9/MAhlX1ZwmkXTRBcF87MXTvtogQ==
+ b=L62fwCrsfGvvDPRVciJDy6xxMUAfLC6hTDY7rnrBxCvK3pWnb5OmDhakvj77bZoqXwCOsQhAJi4/WeIKAbr5JEaUzGJLLXFnfbrrpScpwS5uqcTxThcLxf4GLxTYRfKUuaxLgb17y1bRSorWOzsSaOjxh0h7CLbaHrtLhvR4hPWERZgSJzlrAa0TX/VsJJXPlqQN7a9CLmgB1+WP3B//rdNSDxKm5s4HvztzkHiqrwaflfCglhLEvy4BY1StwfDM4Jh4FASIoJpHH1B4ZcwGh1H8YYlElhB52MjeO2vKpHKwnAXqL/7nhT4WeZATkyQWKF6BTZkj8PgbIpbWVjSxKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=12WLk2pUVfHtIUeJPi33EQXprkYThFD41IG9rHbbLA4=;
- b=iY1oNbLyowIaRkjBRnPU7zAeBHbmvlQewTL0TkuZxHSr9YhSUAxAxanOs3UhaAML9pm5kOM1N8VX+OxunLwpaLEps5an3P6J78OCYgblGL5EkvUKnP2c/qWDHeTpLFKLESxcDrhcvl7WB0XYQJzObBJTqSBzDb5uW7c03s2/xkuvcL42nw5B7zag4kdcRYD1UKjXgERYq7yHPG3nShlL1hTDnbtk32CCFG+CMuHcFznFjV5BYzyKEOTI6Hhk7QwGtnFZgDAmZYvbTbJZo7Ev5lw4TpU6yTQt6IGUwi+fRRDymSB7WB1Vefe580wKMtc0vSTGtmuB9oZgN1fKfn1JUw==
+ bh=jv4ibiEEm66A/b/O7HFYXZi1c59UGv4iaFr75ab+0A4=;
+ b=O2g2ENZYcX4yag/qF9OElg+wJaPakbF1jCJ7GQwtFUqtXIMYQcIHvUXGXKtMv9Wu+KzdRW8xOJD1nS36YhXZa3WGM9flTGiQlfjqOq1wCyiZSdmX3FNIyPaD3DRnfB2ZRnuSArbWwCjKOlscZYXHIpvN34GShFogAgRWBjjtOk7z5bqeRlyyT804Irz5IDqGXcXnvyuhhZHV61MkakiFo0orqKlIobYAogkzgOpaIQrzXy/43yEapGMc5g+obKbRj25n68Yr+zGeLGBpecAKu3ETejrXiN7ZrKOB4Y1kTrHlyemeQc1QOaHf/o4ko48afXKdBVoCnR1GySzeJUU99Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=12WLk2pUVfHtIUeJPi33EQXprkYThFD41IG9rHbbLA4=;
- b=C36XyFh0jaXibhE24mKQ7AG0H3ZReFLGHb2YZtiwC4UK8dvjp2Xtym3ye2+sMUohIEUCnRXw241e+Nfm6QLK6cUQl3KsAPOXfCNYGFEYcvRVuapj0gXpuUXa5o6oP0lnTG0JiYffkSRXNSPp4czZWTi5Z4IbndFN7e4RXDHUbj8=
+ bh=jv4ibiEEm66A/b/O7HFYXZi1c59UGv4iaFr75ab+0A4=;
+ b=eH+yn6CJuRRwKAP1KlMyJQDHwEUzzT7E6Qh9K6vyWsFfHEkthOF1gDJ2hixp1akX0O0UUMD4el1SQh7VC8q0cV48X1TAnt8PNxgO9BP2hdz40rfQWbPFhSXlWMXToqOCjpF9UdbZVVhe69nozUkLSpZKVaxkacyR28A/fZILLYc=
 Received: from BYAPR10MB3287.namprd10.prod.outlook.com (2603:10b6:a03:15c::11)
- by CY4PR1001MB2053.namprd10.prod.outlook.com (2603:10b6:910:3f::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.18; Fri, 25 Mar
- 2022 06:32:17 +0000
+ by DM6PR10MB3499.namprd10.prod.outlook.com (2603:10b6:5:178::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.15; Fri, 25 Mar
+ 2022 07:01:43 +0000
 Received: from BYAPR10MB3287.namprd10.prod.outlook.com
  ([fe80::e478:4b5e:50a8:7f96]) by BYAPR10MB3287.namprd10.prod.outlook.com
  ([fe80::e478:4b5e:50a8:7f96%6]) with mapi id 15.20.5102.018; Fri, 25 Mar 2022
- 06:32:16 +0000
-Message-ID: <df7c9a87-b2bd-7758-a6b6-bd834a7336fe@oracle.com>
-Date: Thu, 24 Mar 2022 23:32:10 -0700
+ 07:01:42 +0000
+Message-ID: <c3e931ee-1a1b-9c2f-2f59-cb4395c230f9@oracle.com>
+Date: Fri, 25 Mar 2022 00:01:38 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
-Subject: Re: [PATCH] vdpa: Avoid reset when stop device
+Subject: Re: [RFC PATCH] vhost_net: should not use max_queue_pairs for non-mq
+ guest
 Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>, 08005325@163.com,
- Eugenio Perez Martin <eperezma@redhat.com>
-References: <1648024966-5170-1-git-send-email-08005325@163.com>
- <CACGkMEsjQp+gjHV23ntJ2oTBCdt-1TT0GGn-PFDjOvETz6sQ7A@mail.gmail.com>
+To: Jason Wang <jasowang@redhat.com>
+References: <1647663216-11260-1-git-send-email-si-wei.liu@oracle.com>
+ <CACGkMEucw7GASmZwYEwwTYtNw3Bup_0huaDtoV5_FdSfW_4Cuw@mail.gmail.com>
 From: Si-Wei Liu <si-wei.liu@oracle.com>
 Organization: Oracle Corporation
-In-Reply-To: <CACGkMEsjQp+gjHV23ntJ2oTBCdt-1TT0GGn-PFDjOvETz6sQ7A@mail.gmail.com>
+In-Reply-To: <CACGkMEucw7GASmZwYEwwTYtNw3Bup_0huaDtoV5_FdSfW_4Cuw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DS7PR03CA0021.namprd03.prod.outlook.com
- (2603:10b6:5:3b8::26) To BYAPR10MB3287.namprd10.prod.outlook.com
+X-ClientProxiedBy: SJ0PR13CA0143.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::28) To BYAPR10MB3287.namprd10.prod.outlook.com
  (2603:10b6:a03:15c::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2a27bfbb-66fc-43fd-45e8-08da0e2934ae
-X-MS-TrafficTypeDiagnostic: CY4PR1001MB2053:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR1001MB2053EFFF68702389758632EFB11A9@CY4PR1001MB2053.namprd10.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 4208b4e1-4626-4988-8ad9-08da0e2d5157
+X-MS-TrafficTypeDiagnostic: DM6PR10MB3499:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR10MB349948EDFD248279A4C33C32B11A9@DM6PR10MB3499.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mq/kFAW3G5n/1AJjyR/TTUN0v+eM53p/GoHk9Lr5jKYyI21PWikNJq0hhiFGLA6VdWslbOG0V8rMhoT8PUa3GNIthUnNDCvrMU9SzL8UnzDjExRs9I04XOVA8pemR7qRyGjMUFB+YJCFG2Vbks2wHJ3H/8y3Cl33fSHyr9moIJffgQQRItVNNgYQp8iDGWLBo7Xywxiyaa4q0A052ROoLX5daFQw7WE0y+dMubbeq6j+ZoslSJBu1eE2Nle9fLdXd78wYNKRuVPpIdcmTDLcOR9ZrqNPYzIoAUZw+WAMoLpl5nSoAtCASuQz47V6V+rXAGMBC0sEJnYSSN1aI6v2b4PgMh4uNuCgp2i0OVb3qJb9jWzftSszV8zVWoZ3lGH2s8heeubqxcbKZI20zYq4zl+E8N511RLNOnZXBCif/Abbwy1h3kBT4wxRUhVrn7QJukDWauuN1XbjZlkFBxG8hAwX89TnLBZYhP+tOCeOwYSGgYHpQKqcE0hzY6l8lwDxDs84/3ihqUF4JFafwwQxmbbah9OC9dzaorNHblHeKA/UI1UlIlQcN2xO5Ky7aN+1jISw3OwRty0VT6eSnTzdK6ZPkHOm0gR7DPqnXXqIWLwVDdzuIdZwiRza1KlIWfF/i6dJus/Yto4yo/8OvmkjkAHScyy4kjWk+BWfl8j2hES/9JGVfJBlJ9lhfCfQ9nK4YqGmf5DZI7E5niQrPfnR/G57Qc7YzEVeP2oVRi9YwX0=
+X-Microsoft-Antispam-Message-Info: 9BYyPeAnqrurIUCzL908lmYTbyXO0GKD/krAHO9b/XRawZrw01mfcq7tfgMUyJ75QhSK4CWpQ6cNeRhT2qMfb4GTXvC4dz37n5EBr+XoFfaPbORSJiWzXNCH8ha4CANMzs/a51f1xBTSUiskqsQeOkaa202FThWX9INF5FWo/5e67qr6lESrMFR3BVxHA1wHAc0o7xeY93YetEPmnvtn13SZ2ob0I8IC3rTpoTpvFO1+HB/zEJvGQ/Dm3BBf/1XzbfC+bM82Jvi7Vm/VA/DvTeik7mSkeRbDaFEoHHReVJRrU/2D8NiwycWF/+uXECVxznmIT/9/XppihK/ImjJok1TiZWggb6jfMMJ9lnLJy1rWDrNqF10g0NRzHqPPMxZU7DLUFrzLmPNteaIwvF5P/GVVcefs5cQV139U7r2aQonnZ1tdEHOZ8gV/r13bzRrysCSm0FELbDZDGfnzsXRJS4P8xX/xxIO6Md7w3IfaVKWMOC8fYh/q29q/EiWsPxk84kiwj1HcOq07nymbNqvgq4radbmZB11G1jjq0cohKlsOH+xqVlRH04bv9EtutbT4MsGzGfRKmJA5On0N6r5uDBYWH9GNNGbUXmgS35gyGTrT55Y5M6yOpUiAM5gtFpirXBpZeNtXStPEMdaUOhNTeyPWZvTk5S9mCKIiGqeG3pdAWglmxkZrmE1idFa4DRgqBa1u9yukuMJMEfdF0eB2wVtrcWLi/Gx+uPsuT6BEigM=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3287.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(110136005)(8936002)(5660300002)(66556008)(83380400001)(54906003)(66946007)(316002)(8676002)(2906002)(66476007)(86362001)(6506007)(31696002)(4326008)(36756003)(38100700002)(6666004)(36916002)(53546011)(6486002)(6512007)(26005)(186003)(31686004)(508600001)(2616005)(43740500002)(45980500001);
+ SFS:(13230001)(366004)(86362001)(31686004)(31696002)(6486002)(83380400001)(36916002)(38100700002)(6666004)(6506007)(6512007)(2906002)(53546011)(508600001)(66946007)(5660300002)(4326008)(66476007)(66556008)(8676002)(8936002)(2616005)(30864003)(6916009)(26005)(186003)(54906003)(316002)(36756003)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blEwN0FuQ2N3R1JIdmtJaU5keTJ1QlVEaU5FeWpxeHJaVE1oYytsUkJ6ZDIr?=
- =?utf-8?B?SFdiVFhoRkxudXFnNlFjeDgzdURkNFF3WE9kM0lvbnhHbTBQR2pEQ1JxVUFp?=
- =?utf-8?B?YXNNczJJZlVyWDlmVHZnbFlOaHFqTTAyTGd6T256UnA3S1ZldUhmeWh6Y3lE?=
- =?utf-8?B?REUzTEFsUnZFWUF3OERuYTRoYS9CQ2MwYmk5Z09rdld2a0pVMW1IRElJenps?=
- =?utf-8?B?K2tOVk1aYzNFM3cyVEtOV1JHYlF5WnkvNzFWNVBjSldTdHVVTXhNSDZ5a0RJ?=
- =?utf-8?B?RUhnUExudnZFTVZNM01FZzc4OHduWW9lWld0d3d5aVk3dlpLcE5UNHRVUWM2?=
- =?utf-8?B?RVFraWhWYXRoMHF4MmJlMGdra2RVUkJCQjI1UHFSa3BONTY4OEdVZy9ZWk5X?=
- =?utf-8?B?Y2x3eDRETGpmYmFpa1dxbEZCSWI5T0czRGVGR0Y3R0ZhYlYyNFYzTFQwOTlP?=
- =?utf-8?B?dUkwdm9uOU5hRnFBVGkvY09VdHNMb2l1TTdkbjYzREpZanFrN1hDL1hHL0No?=
- =?utf-8?B?Z29pMTRKeHJRa2NHSHpnTFByM2V6UlRCM1V3ZGxpSFdvNFpmNG1VK1ByNlF2?=
- =?utf-8?B?YUNKb3JOVHpPSnRCYVZxeE5nWGdXV0lYQ3U3L01HZHpRbUZzSzNydkp5N2Q5?=
- =?utf-8?B?ZWtBM1BtSGp0VUk3akxVZjdZVUNoRlhubmNoSlNlVWZtZ3Y5cEcvRURuaTl3?=
- =?utf-8?B?TFJ3a2RXZERoTGpMTmtDY0thMGJjREFVd0MvT3BaMDNIZ2xZY3pGTHQ5YTFM?=
- =?utf-8?B?R1JwWlFmWElFTU5YcjZEeVBjTUJIVk04OS9QQWxDSC9hU1A5NkpwQThKWitk?=
- =?utf-8?B?SUxSR0hyajlkSXhFRjlhdFdnTVFNT2dJNDhYbis3TnZqTnlvU0trNDBlNmlh?=
- =?utf-8?B?U2RRUTRNdzNYdnZnT1RwUXMrOVE1UC9xdldtdkgwem1hZUd4S1RBVW1DQjVm?=
- =?utf-8?B?YVpVQXRmM0ZuNXlsY2xwYTlKK2RlYnFWRk1lMTd1RnJyTHk0WDRvNFd0bk5M?=
- =?utf-8?B?V1FUemxUNzNORFY5Rkw3SnY5WWNqNEJaUkx2U0w4UVpVZ0ZrVGJmaE9JVDNs?=
- =?utf-8?B?aDEwQ010amttdVlBZlMyYldtTlpMcDcxYmk2QlVUNm5qVXFnNlBkYkdVWE5S?=
- =?utf-8?B?WXlBYTIzYzRUS1gwWW5YU3hGcmpjYUlIRXRrRXRqb2lVay9UTTA3bzNGbjM2?=
- =?utf-8?B?WUF6bTVLRWo1ekNZVUlvNWN2U2V2Z0ZPNmJFUFdSdEF0dUhneDJsM2dJWmZG?=
- =?utf-8?B?K0t0VUM1M0MzSnBCUkR2a2lrNTIxTnVONDBadEQ3OXY0MldhV0x5Sm1MRndI?=
- =?utf-8?B?Rk5COXRJR2JHZ1pEUVc4elNseXZXWEdZTjkxWHhsb2xlR0VDRmgwcjdaZU0y?=
- =?utf-8?B?VHhTaFdqSlRiWDVZZ1BLRmpLOWNoaHd4SklEdTZxeFVSaHJUTXprMGltdWl2?=
- =?utf-8?B?ZUhrM0JCaU9FaWtha3JpeVp2QzEzZ25ySzhVZU1iTWdXeWlhUkJSVWZGM3dF?=
- =?utf-8?B?T3NVZDJzbVdYeFRKQytpTFh6aHgvYlYvR2lzRDh6UXNlUzBSdTJBVTFoZ1FB?=
- =?utf-8?B?bkJuWE02akd3V3RxNWN6Wk9vNTNaK0VGaGkzUjl6ZG04U0loUzhFWkUwK0xP?=
- =?utf-8?B?T3kzN3NjQjIrOGlsL2lkbU4yS0wvaDJjTWRiY0E1dU9kbzFvdFNQMGZMYjlX?=
- =?utf-8?B?T0J1QXIrQnU5d05WVjNpL2NmdTBqTTdmUkZ6ZWFHcjR1U1ZqRXBEOVQycSs3?=
- =?utf-8?B?djVxc0NyL3BjeUtobFBqTWkzeHFhVE5rdmpGcVNjTGp2M0NOeTE5QnpQUUFo?=
- =?utf-8?B?TU5MdUNIL1d0b0ErN3E1NFB5U0tKZDJXMWcxbEhhRkVvV2FGMnNWZkNiSUh4?=
- =?utf-8?B?OVp4Q1VTbTJQUHA4S1lNd1ZSSHMxTGFaTDdSeWhublJpRXdpREh5eVYxd3Ev?=
- =?utf-8?Q?ULR9x28um4uDdyMkbHjjhx09/1bdDCPV?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djcrUWQ4OXFIU0hORXhBUnhPMWZ5Y28raGlMeFEvQ2JsL3BFRDdFZDBVKzBR?=
+ =?utf-8?B?LzlvNGIrc050VG81clg0dnRzUEVEYnVhR3hGdUkzU011bTA5Unh4cWhtTC9m?=
+ =?utf-8?B?NWpvWlV2TnpPSHByQmRISmtmZ0psN0NRMENrQ3k2WTdPWDcxczB5OGFRS3p4?=
+ =?utf-8?B?b1oxa2NkeVY5VkpNd0l0SC9hNy92TUg1RTcwSlpjdVNqWlVKb3k5eVV4L2F6?=
+ =?utf-8?B?M1ZkemkrWmNzU3krZVk1M29ycnN5VDUwQ1lkNzVrMEQwMFE2ckNCWlFhcG1y?=
+ =?utf-8?B?eTRQU2F2MnBHcndEWkY5TFlVaXhtQ2phY2NrTkhoWDR3T09zamhjd3EzNVRp?=
+ =?utf-8?B?bklnMXFqQ1gwVHNOTzFSL3d5TGc0SVlLZU4walY1WVo1NGxLRVlSd29XeDNT?=
+ =?utf-8?B?dWVyWVQ4ekw2dlpaTEdOZWRCeXpUWHZBeXg2NnU0cFVobnFiTEw4eTNzUFlF?=
+ =?utf-8?B?RXVHNE1zRFlkRUd1K0Q4T0k3eFU3dmgrU3ZJcEpLVk5aM0M1TndjS0JRNzNO?=
+ =?utf-8?B?b2JFSzhPdG5MZ2Izb01NNms2RHhlZ1hyZ0lKU3ZVSW5iMW1sZFlLOXJKRXZC?=
+ =?utf-8?B?QkNSbDhEYzFvZkk0WkJoNWJ6emc3bmhwaERjcXRtU0VrMThuZSs3QXpnZUwy?=
+ =?utf-8?B?V2NPN0Jzdlp2cW1FQkJiZWFWb0RJSEdBNExySUZoZHMvWDNJVVdIREJZMURC?=
+ =?utf-8?B?Y2s1aVZZemg0Tno0Zk0wekdKbEwrZDRWSUpaaGlSZ1ZaaWk1dHlXSkNsbmh3?=
+ =?utf-8?B?dHRkV2JZa21KTmlCRGlKRUFVNDJnU01TSERBRnBXM3A1MkhxWmQxTldqSWpU?=
+ =?utf-8?B?c01aTFdvbFJXMy9ITlpXLzQ1bk96a09DLy9KY0hreVRNaVZxVFYwSC9KL00w?=
+ =?utf-8?B?ekJmRHRHaUZrRTh5eGxpUEZnOXI0MlJCRTErWWFDSmxuaWh6a0RLdktxd2l1?=
+ =?utf-8?B?V3didFRiaEcyV1ZyRjBZWG0wOXJxNG1nRURSMzdrcnVQU24wNjlmY1NTQTNk?=
+ =?utf-8?B?b2tmYUw0QjgvSk5zbDU3MmVHQnlIUXF5QTVmcWhNdWdZZnZHWk91NnV4NjZP?=
+ =?utf-8?B?Y2ZtOWVhZys1ZWR2SGo3MFgySnVmRFlubzNGMHgxWjV0cU9mcUtGSDh4VEY4?=
+ =?utf-8?B?RGM2OUgrYVBDT0xac3NVSWR0d1duTjh4dHVTZHAwTlZkck1jTjJOZ0lVeTU4?=
+ =?utf-8?B?cGUwWUgrbWxBMityTjJJUnNMT2hjUEJvRVhhNFFFeDlJYVcxbVhMQWJveEdW?=
+ =?utf-8?B?YmI0WGpycThzSHhNaElyZmltaDVvQzlVYVdzOXU2OVlyU0xCMVpQc05yb2c0?=
+ =?utf-8?B?WFc2UDlDVXlubVBZcHhOcHJzMk5JbTN3MjJ3WE03bVpiYU1KY085N3IxL1Vv?=
+ =?utf-8?B?dmd0RUN5WUVwaGowUGJjdDdBbG5UWldwL09rVUlRY1RUamYxZnNGa0RGTUJk?=
+ =?utf-8?B?aUN1TXFTbUVNbExtMG5wS3BicU9EUEpBNkMvZnVyekN0TDNIZ1U2c3JyN3Bw?=
+ =?utf-8?B?dWtTS0VseVEwV0EwT09EejVGRUZUV0F5T1dnN2gxMmc3blh0VjE4YnZnRmx5?=
+ =?utf-8?B?SHY1UE5rMjlrTlU5a0l0MTYrenM0N21raCtmd0R2YXcwYkdjUEc0amhNUzh0?=
+ =?utf-8?B?ZDc0TG9xRFQ0cmZtSVJFQXJEN1Q1NHpmM0w1VFRUZTF0bVdLcVZpUUptbExW?=
+ =?utf-8?B?Q0dVMmVET1BvNWZRdWEyQ016c0FhejUzczZma1lsS0lOdExYMnRreGFJbGo1?=
+ =?utf-8?B?VEd6NExmSk02QTArbG1vaVVZMVpFdi94aC9hdzU2WXprVnpoVWxUR1l6eFkv?=
+ =?utf-8?B?VWVmR1pvUG1mMjNSenRaN0ZnQmZqclc0STAvaG5VSG1OYjRHMXYvVVQ3bVdK?=
+ =?utf-8?B?amgxcHFQTnIvbmRlTnZ5aE9oa0FyZEVrZng4ZGtrR0tEU2RrUXlRbEt2cFlL?=
+ =?utf-8?Q?WrJUpeZNsg7+lcNNwMEZfoHSnh6or39W?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a27bfbb-66fc-43fd-45e8-08da0e2934ae
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4208b4e1-4626-4988-8ad9-08da0e2d5157
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2022 06:32:16.8974 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2022 07:01:42.8761 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OooNQIr5itxSX9qEeuoAq3V2uzY8vLnTgRvJOh538xMb7sBOpXgeurhIDH2NhvWUl7mDgmPPLyQzjbDCudqR0A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1001MB2053
+X-MS-Exchange-CrossTenant-UserPrincipalName: lQkK+bni0Sqh4+Npz8aCNsjy2ywquYbvOKf4ODJ7b28VZoC6/+3iG6yQIbInTbleipJJP4JiliBxiztfE42i5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3499
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10296
  signatures=694973
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0 spamscore=0
- mlxlogscore=999 phishscore=0 bulkscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203250034
-X-Proofpoint-GUID: IgMqLHOOUr5Uu3kttc1VdHGlhxpHBkBk
-X-Proofpoint-ORIG-GUID: IgMqLHOOUr5Uu3kttc1VdHGlhxpHBkBk
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0
+ mlxlogscore=999 adultscore=0 suspectscore=0 malwarescore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203250037
+X-Proofpoint-GUID: fYjGZMIau2-0k3S8aFXsH_oKDuZbOeV4
+X-Proofpoint-ORIG-GUID: fYjGZMIau2-0k3S8aFXsH_oKDuZbOeV4
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=si-wei.liu@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -174,196 +174,287 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhu Lingshan <lingshan.zhu@intel.com>, Michael Qiu <qiudayu@archeros.com>,
- Cindy Lu <lulu@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: eperezma <eperezma@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 3/23/2022 2:20 AM, Jason Wang wrote:
-> Adding Eugenio,  and Ling Shan.
->
-> On Wed, Mar 23, 2022 at 4:58 PM <08005325@163.com> wrote:
->> From: Michael Qiu <qiudayu@archeros.com>
+On 3/21/2022 8:47 PM, Jason Wang wrote:
+> On Sat, Mar 19, 2022 at 12:14 PM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+>> With MQ enabled vdpa device and non-MQ supporting guest e.g.
+>> booting vdpa with mq=on over OVMF of single vqp, it's easy
+>> to hit assert failure as the following:
 >>
->> Currently, when VM poweroff, it will trigger vdpa
->> device(such as mlx bluefield2 VF) reset twice, this leads
->> to below issue:
+>> ../hw/virtio/vhost-vdpa.c:560: vhost_vdpa_get_vq_index: Assertion `idx >= dev->vq_index && idx < dev->vq_index + dev->nvqs' failed.
 >>
->> vhost VQ 2 ring restore failed: -22: Invalid argument (22)
+>> 0  0x00007f8ce3ff3387 in raise () at /lib64/libc.so.6
+>> 1  0x00007f8ce3ff4a78 in abort () at /lib64/libc.so.6
+>> 2  0x00007f8ce3fec1a6 in __assert_fail_base () at /lib64/libc.so.6
+>> 3  0x00007f8ce3fec252 in  () at /lib64/libc.so.6
+>> 4  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=<optimized out>, idx=<optimized out>) at ../hw/virtio/vhost-vdpa.c:563
+>> 5  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=<optimized out>, idx=<optimized out>) at ../hw/virtio/vhost-vdpa.c:558
+>> 6  0x0000558f52d7329a in vhost_virtqueue_mask (hdev=0x558f55c01800, vdev=0x558f568f91f0, n=2, mask=<optimized out>) at ../hw/virtio/vhost.c:1557
+>> 7  0x0000558f52c6b89a in virtio_pci_set_guest_notifier (d=d@entry=0x558f568f0f60, n=n@entry=2, assign=assign@entry=true, with_irqfd=with_irqfd@entry=false)
+>>     at ../hw/virtio/virtio-pci.c:974
+>> 8  0x0000558f52c6c0d8 in virtio_pci_set_guest_notifiers (d=0x558f568f0f60, nvqs=3, assign=true) at ../hw/virtio/virtio-pci.c:1019
+>> 9  0x0000558f52bf091d in vhost_net_start (dev=dev@entry=0x558f568f91f0, ncs=0x558f56937cd0, data_queue_pairs=data_queue_pairs@entry=1, cvq=cvq@entry=1)
+>>     at ../hw/net/vhost_net.c:361
+>> 10 0x0000558f52d4e5e7 in virtio_net_set_status (status=<optimized out>, n=0x558f568f91f0) at ../hw/net/virtio-net.c:289
+>> 11 0x0000558f52d4e5e7 in virtio_net_set_status (vdev=0x558f568f91f0, status=15 '\017') at ../hw/net/virtio-net.c:370
+>> 12 0x0000558f52d6c4b2 in virtio_set_status (vdev=vdev@entry=0x558f568f91f0, val=val@entry=15 '\017') at ../hw/virtio/virtio.c:1945
+>> 13 0x0000558f52c69eff in virtio_pci_common_write (opaque=0x558f568f0f60, addr=<optimized out>, val=<optimized out>, size=<optimized out>) at ../hw/virtio/virtio-pci.c:1292
+>> 14 0x0000558f52d15d6e in memory_region_write_accessor (mr=0x558f568f19d0, addr=20, value=<optimized out>, size=1, shift=<optimized out>, mask=<optimized out>, attrs=...)
+>>     at ../softmmu/memory.c:492
+>> 15 0x0000558f52d127de in access_with_adjusted_size (addr=addr@entry=20, value=value@entry=0x7f8cdbffe748, size=size@entry=1, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=0x558f52d15cf0 <memory_region_write_accessor>, mr=0x558f568f19d0, attrs=...) at ../softmmu/memory.c:554
+>> 16 0x0000558f52d157ef in memory_region_dispatch_write (mr=mr@entry=0x558f568f19d0, addr=20, data=<optimized out>, op=<optimized out>, attrs=attrs@entry=...)
+>>     at ../softmmu/memory.c:1504
+>> 17 0x0000558f52d078e7 in flatview_write_continue (fv=fv@entry=0x7f8accbc3b90, addr=addr@entry=103079215124, attrs=..., ptr=ptr@entry=0x7f8ce6300028, len=len@entry=1, addr1=<optimized out>, l=<optimized out>, mr=0x558f568f19d0) at /home/opc/qemu-upstream/include/qemu/host-utils.h:165
+>> 18 0x0000558f52d07b06 in flatview_write (fv=0x7f8accbc3b90, addr=103079215124, attrs=..., buf=0x7f8ce6300028, len=1) at ../softmmu/physmem.c:2822
+>> 19 0x0000558f52d0b36b in address_space_write (as=<optimized out>, addr=<optimized out>, attrs=..., buf=buf@entry=0x7f8ce6300028, len=<optimized out>)
+>>     at ../softmmu/physmem.c:2914
+>> 20 0x0000558f52d0b3da in address_space_rw (as=<optimized out>, addr=<optimized out>, attrs=...,
+>>     attrs@entry=..., buf=buf@entry=0x7f8ce6300028, len=<optimized out>, is_write=<optimized out>) at ../softmmu/physmem.c:2924
+>> 21 0x0000558f52dced09 in kvm_cpu_exec (cpu=cpu@entry=0x558f55c2da60) at ../accel/kvm/kvm-all.c:2903
+>> 22 0x0000558f52dcfabd in kvm_vcpu_thread_fn (arg=arg@entry=0x558f55c2da60) at ../accel/kvm/kvm-accel-ops.c:49
+>> 23 0x0000558f52f9f04a in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:556
+>> 24 0x00007f8ce4392ea5 in start_thread () at /lib64/libpthread.so.0
+>> 25 0x00007f8ce40bb9fd in clone () at /lib64/libc.so.6
 >>
->> This because in vhost_dev_stop(), qemu tries to stop the device,
->> then stop the queue: vhost_virtqueue_stop().
->> In vhost_dev_stop(), it resets the device, which clear some flags
->> in low level driver, and the driver finds
->> that the VQ is invalied, this is the root cause.
+>> The cause for the assert failure is due to that the vhost_dev index
+>> for the ctrl vq was not aligned with actual one in use by the guest.
+>> Upon multiqueue feature negotiation in virtio_net_set_multiqueue(),
+>> if guest doesn't support multiqueue, the guest vq layout would shrink
+>> to single queue pair of 3 vqs in total (rx, tx and ctrl). This results
+>> in ctrl_vq taking a different vhost_dev group index than the default
+>> n->max_queue_pairs, the latter of which is only valid for multiqueue
+>> guest. While on those additional vqs not exposed to the guest,
+>> vhost_net_set_vq_index() never populated vq_index properly, hence
+>> getting the assert failure.
 >>
->> Actually, device reset will be called within func release()
+>> A possible fix is to pick the correct vhost_dev group for the control
+>> vq according to this table [*]:
 >>
->> To solve the issue, vdpa should set vring unready, and
->> remove reset ops in device stop: vhost_dev_start(hdev, false).
-> This is an interesting issue. Do you see a real issue except for the
-> above warnings.
->
-> The reason we "abuse" reset is that we don't have a stop uAPI for
-> vhost. We plan to add a status bit to stop the whole device in the
-> virtio spec, but considering it may take a while maybe we can first
-> introduce a new uAPI/ioctl for that.
-Yep. What was missing here is a vdpa specific uAPI for per-virtqueue 
-stop/suspend rather than spec level amendment to stop the whole device 
-(including both vq and config space). For now we can have vDPA specific 
-means to control the vq, something vDPA hardware vendor must support for 
-live migration, e.g. datapath switching to shadow vq. I believe the spec 
-amendment may follow to define a bit for virtio feature negotiation 
-later on if needed (FWIW virtio-vdpa already does set_vq_ready(..., 0) 
-to stop the vq).
-
-However, there's a flaw in this patch, see below.
->
-> Note that the stop doesn't just work for virtqueue but others like,
-> e.g config space. But considering we don't have config interrupt
-> support right now, we're probably fine.
->
-> Checking the driver, it looks to me only the IFCVF's set_vq_ready() is
-> problematic, Ling Shan, please have a check. And we probably need a
-> workaround for vp_vdpa as well.
->
-> Anyhow, this seems to be better than reset. So for 7.1:
->
-> Acked-by: Jason Wang <jasowang@redhat.com>
->
->> Signed-off-by: Michael Qiu<qiudayu@archeros.com>
+>> vdpa tool / QEMU arg / guest config    / ctrl_vq group index
+>> ----------------------------------------------------------------
+>> max_vqp 8 / mq=on    / mq=off  (UEFI) => data_queue_pairs
+>> max_vqp 8 / mq=on    / mq=on  (Linux) => n->max_queue_pairs(>1)
+>> max_vqp 8 / mq=off   / mq=on  (Linux) => n->max_queue_pairs(=1)
+>>
+>> [*] Please see FIXME in the code for open question and discussion
+>>
+>> Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
 >> ---
->>   hw/virtio/vhost-vdpa.c | 8 ++++----
->>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>   hw/net/vhost_net.c     | 13 +++++++++----
+>>   hw/virtio/vhost-vdpa.c | 25 ++++++++++++++++++++++++-
+>>   2 files changed, 33 insertions(+), 5 deletions(-)
 >>
+>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>> index 30379d2..9a4479b 100644
+>> --- a/hw/net/vhost_net.c
+>> +++ b/hw/net/vhost_net.c
+>> @@ -322,6 +322,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>>       BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(dev)));
+>>       VirtioBusState *vbus = VIRTIO_BUS(qbus);
+>>       VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(vbus);
+>> +    bool mq = virtio_host_has_feature(dev, VIRTIO_NET_F_MQ);
+>>       int total_notifiers = data_queue_pairs * 2 + cvq;
+>>       VirtIONet *n = VIRTIO_NET(dev);
+>>       int nvhosts = data_queue_pairs + cvq;
+>> @@ -343,7 +344,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>>           if (i < data_queue_pairs) {
+>>               peer = qemu_get_peer(ncs, i);
+>>           } else { /* Control Virtqueue */
+>> -            peer = qemu_get_peer(ncs, n->max_queue_pairs);
+>> +            peer = qemu_get_peer(ncs, mq ? data_queue_pairs : n->max_queue_pairs);
+>>           }
+>>
+>>           net = get_vhost_net(peer);
+>> @@ -368,7 +369,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>>           if (i < data_queue_pairs) {
+>>               peer = qemu_get_peer(ncs, i);
+>>           } else {
+>> -            peer = qemu_get_peer(ncs, n->max_queue_pairs);
+>> +            peer = qemu_get_peer(ncs, mq ? data_queue_pairs : n->max_queue_pairs);
+>>           }
+>>           r = vhost_net_start_one(get_vhost_net(peer), dev);
+>>
+>> @@ -390,7 +391,10 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>>
+>>   err_start:
+>>       while (--i >= 0) {
+>> -        peer = qemu_get_peer(ncs , i);
+>> +        if (mq)
+>> +            peer = qemu_get_peer(ncs, i < data_queue_pairs ? i : data_queue_pairs);
+>> +        else
+>> +            peer = qemu_get_peer(ncs, i < data_queue_pairs ? i : n->max_queue_pairs);
+>>           vhost_net_stop_one(get_vhost_net(peer), dev);
+>>       }
+>>       e = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
+>> @@ -409,6 +413,7 @@ void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
+>>       VirtioBusState *vbus = VIRTIO_BUS(qbus);
+>>       VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(vbus);
+>>       VirtIONet *n = VIRTIO_NET(dev);
+>> +    bool mq = virtio_host_has_feature(dev, VIRTIO_NET_F_MQ);
+>>       NetClientState *peer;
+>>       int total_notifiers = data_queue_pairs * 2 + cvq;
+>>       int nvhosts = data_queue_pairs + cvq;
+>> @@ -418,7 +423,7 @@ void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
+>>           if (i < data_queue_pairs) {
+>>               peer = qemu_get_peer(ncs, i);
+>>           } else {
+>> -            peer = qemu_get_peer(ncs, n->max_queue_pairs);
+>> +            peer = qemu_get_peer(ncs, mq ? data_queue_pairs : n->max_queue_pairs);
+>>           }
+>>           vhost_net_stop_one(get_vhost_net(peer), dev);
+>>       }
 >> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->> index c5ed7a3..d858b4f 100644
+>> index 27ea706..623476e 100644
 >> --- a/hw/virtio/vhost-vdpa.c
 >> +++ b/hw/virtio/vhost-vdpa.c
->> @@ -719,14 +719,14 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
->>       return idx;
->>   }
->>
->> -static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
->> +static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev, unsigned int ready)
->>   {
->>       int i;
->>       trace_vhost_vdpa_set_vring_ready(dev);
->>       for (i = 0; i < dev->nvqs; ++i) {
->>           struct vhost_vring_state state = {
->>               .index = dev->vq_index + i,
->> -            .num = 1,
->> +            .num = ready,
->>           };
->>           vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
+>> @@ -1097,7 +1097,30 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+>>           vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
 >>       }
->> @@ -1088,8 +1088,9 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->>           if (unlikely(!ok)) {
->>               return -1;
->>           }
->> -        vhost_vdpa_set_vring_ready(dev);
->> +        vhost_vdpa_set_vring_ready(dev, 1);
->>       } else {
->> +        vhost_vdpa_set_vring_ready(dev, 0);
->>           ok = vhost_vdpa_svqs_stop(dev);
->>           if (unlikely(!ok)) {
->>               return -1;
->> @@ -1105,7 +1106,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->>           memory_listener_register(&v->listener, &address_space_memory);
->>           return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
->>       } else {
->> -        vhost_vdpa_reset_device(dev);
-Unfortunately, the reset can't be be removed from here as this code path 
-usually involves virtio reset or status change for e.g. invoked via 
-virtio_net_set_status(... , 0). Ideally we should use the 
-VhostOps.vhost_reset_device() to reset the vhost-vdpa device where 
-status change is involved after vhost_dev_stop() is done, but this 
-distinction is not there yet as of today in all of the virtio devices 
-except vhost_user_scsi.
+>>
+>> -    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
+>> +    /* FIXME the vhost_dev group for the control vq may have bogus nvqs=2
+>> +     * value rather than nvqs=1. This can happen in case the guest doesn't
+>> +     * support multiqueue, as a result of virtio_net_change_num_queue_pairs()
+>> +     * destroying and rebuilding all the vqs, the guest index for control vq
+>> +     * will no longer align with the host's. Currently net_init_vhost_vdpa()
+>> +     * only initializes all vhost_dev's and net_clients once during
+>> +     * net_client_init1() time, way earlier before multiqueue feature
+>> +     * negotiation can kick in.
+> See below, it looks like the code doesn't find the correct vhost_dev.
+>
+>> +     *
+>> +     * Discussion - some possible fixes so far I can think of:
+>> +     *
+>> +     * option 1: fix vhost_net->dev.nvqs and nc->is_datapath in place for
+>> +     * vdpa's ctrl vq, or rebuild all vdpa's vhost_dev groups and the
+>> +     * net_client array, in the virtio_net_set_multiqueue() path;
+>> +     *
+>> +     * option 2: fix vhost_dev->nvqs in place at vhost_vdpa_set_features()
+>> +     * before coming down to vhost_vdpa_dev_start() (Q: nc->is_datapath
+>> +     * seems only used in virtio_net_device_realize, is it relevant?);
+> Relevant but not directly related, for the vhost_dev where
+> nc->is_datapath is false, it will assume it is backed by a single
+> queue not a queue pair.
+>
+>> +     *
+>> +     * option 3: use host queue index all along in vhost-vdpa ioctls instead
+>> +     * of using guest vq index, so that vhost_net_start/stop() can remain
+>> +     * as-is today
+>> +     */
+> Note that the vq_index of each vhost_dev is assigned during
+> vhost_net_start() according to whether or not the MQ or CVQ is
+> negotiated in vhost_net_start()
+>
+>      for (i = 0; i < nvhosts; i++) {
+>
+>          if (i < data_queue_pairs) {
+>              peer = qemu_get_peer(ncs, i);
+>          } else { /* Control Virtqueue */
+>              peer = qemu_get_peer(ncs, n->max_queue_pairs);
+>          }
+>
+>          net = get_vhost_net(peer);
+>          vhost_net_set_vq_index(net, i * 2, index_end);
+>
+> It means some of the peers won't be used when MQ is not negotiated. So
+> it looks to me the evil came from virtio_net_get_notifier_mask().
+Yes, there it is. Where the control virtqueue first ever needs a 
+guest_notifier for vhost_dev.
+> Where it doesn't mask the correct vhost dev when the guest doesn't
+> support MQ but the host does. So we had option 4:
+>
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 2087516253..5e9ac019cd 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -3179,7 +3179,13 @@ static void
+> virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+>                                              bool mask)
+>   {
+>       VirtIONet *n = VIRTIO_NET(vdev);
+> -    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
+> +    NetClientState *nc;
+> +
+> +    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx == 2) {
+Hmmm, I thought it would be more natural to align the layout of 
+vhost_dev's with that of virtqueue's, not the other way around. Not sure 
+how this vhost_dev selection scheme may work with additional queues 
+discovered through transport specific mechanism, such as the admin 
+virtqueue, but I can live with it for now:
 
-Alternatively we may be able to do something like below, stop the 
-virtqueue in vhost_vdpa_get_vring_base() in the vhost_virtqueue_stop() 
-context. Only until the hardware vq is stopped, svq can stop and unmap 
-then vhost-vdpa would reset the device status. It kinda works, but not 
-in a perfect way...
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -244,7 +244,8 @@ static void virtio_net_vhost_status(VirtIONet *n, 
+uint8_t status)
+      VirtIODevice *vdev = VIRTIO_DEVICE(n);
+      NetClientState *nc = qemu_get_queue(n->nic);
+      int queue_pairs = n->multiqueue ? n->max_queue_pairs : 1;
+-    int cvq = n->max_ncs - n->max_queue_pairs;
++    int cvq = virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
++              n->max_ncs - n->max_queue_pairs : 0;
 
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -564,14 +564,14 @@ static int vhost_vdpa_get_vq_index(struct 
-vhost_dev *dev, int idx)
-      return idx;
+      if (!get_vhost_net(nc->peer)) {
+          return;
+@@ -3161,8 +3162,14 @@ static NetClientInfo net_virtio_info = {
+  static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
+  {
+      VirtIONet *n = VIRTIO_NET(vdev);
+-    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
++    NetClientState *nc;
+      assert(n->vhost_started);
++    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx == 2) {
++        assert(virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ));
++        nc = qemu_get_subqueue(n->nic, n->max_queue_pairs);
++    } else {
++        nc = qemu_get_subqueue(n->nic, vq2q(idx));
++    }
+      return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
   }
 
--static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
-+static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev, int enable)
+@@ -3170,8 +3177,14 @@ static void 
+virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+                                             bool mask)
   {
-      int i;
-      trace_vhost_vdpa_set_vring_ready(dev);
-      for (i = 0; i < dev->nvqs; ++i) {
-          struct vhost_vring_state state = {
-              .index = dev->vq_index + i,
--            .num = 1,
-+            .num = enable,
-          };
-          vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
-      }
-@@ -641,7 +641,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev 
-*dev, bool started)
-
-      if (started) {
-          vhost_vdpa_host_notifiers_init(dev);
--        vhost_vdpa_set_vring_ready(dev);
-+        vhost_vdpa_set_vring_ready(dev, 1);
-      } else {
-          vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
-      }
-@@ -708,6 +708,9 @@ static int vhost_vdpa_get_vring_base(struct 
-vhost_dev *dev,
-  {
-      int ret;
-
-+    /* Deactivate the queue (best effort) */
-+    vhost_vdpa_set_vring_ready(dev, 0);
-+
-      ret = vhost_vdpa_call(dev, VHOST_GET_VRING_BASE, ring);
-      trace_vhost_vdpa_get_vring_base(dev, ring->index, ring->num);
-      return ret;
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 437347a..2e917d8 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1832,15 +1832,15 @@ void vhost_dev_stop(struct vhost_dev *hdev, 
-VirtIODevice *vdev)
-      /* should only be called after backend is connected */
-      assert(hdev->vhost_ops);
-
--    if (hdev->vhost_ops->vhost_dev_start) {
--        hdev->vhost_ops->vhost_dev_start(hdev, false);
--    }
-      for (i = 0; i < hdev->nvqs; ++i) {
-          vhost_virtqueue_stop(hdev,
-                               vdev,
-                               hdev->vqs + i,
-                               hdev->vq_index + i);
-      }
-+    if (hdev->vhost_ops->vhost_dev_start) {
-+        hdev->vhost_ops->vhost_dev_start(hdev, false);
+      VirtIONet *n = VIRTIO_NET(vdev);
+-    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
++    NetClientState *nc;
+      assert(n->vhost_started);
++    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx == 2) {
++        assert(virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ));
++        nc = qemu_get_subqueue(n->nic, n->max_queue_pairs);
++    } else {
++        nc = qemu_get_subqueue(n->nic, vq2q(idx));
 +    }
+      vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
+                               vdev, idx, mask);
+  }
 
-      if (vhost_dev_has_iommu(hdev)) {
-          if (hdev->vhost_ops->vhost_set_iotlb_callback) {
 
-Regards,
+Thanks,
 -Siwei
 
->>           vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->>                                      VIRTIO_CONFIG_S_DRIVER);
->>           memory_listener_unregister(&v->listener);
+> +        nc = qemu_get_subqueue(n->nic, n->max_queue_pairs);
+> +    } else {
+> +        nc = qemu_get_subqueue(n->nic, vq2q(idx));
+> +    }
+>       assert(n->vhost_started);
+>       vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
+>                                vdev, idx, mask);
+>
+> Thanks
+>
+>> +    if (dev->vq_index + dev->nvqs < dev->vq_index_end) {
+>>           return 0;
+>>       }
+>>
 >> --
 >> 1.8.3.1
 >>
->
 
 
