@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1024E708C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 11:07:31 +0100 (CET)
-Received: from localhost ([::1]:39352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C3B4E70FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 11:16:41 +0100 (CET)
+Received: from localhost ([::1]:44112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXgqu-0000dV-2j
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 06:07:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52840)
+	id 1nXgzn-0004DU-Nn
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 06:16:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXgnG-0007JI-67
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:03:42 -0400
-Received: from [2607:f8b0:4864:20::b30] (port=34629
- helo=mail-yb1-xb30.google.com)
+ id 1nXgxy-0003N8-NJ
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:14:46 -0400
+Received: from [2607:f8b0:4864:20::b2a] (port=44757
+ helo=mail-yb1-xb2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXgnA-0001b7-73
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:03:38 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id g9so10716126ybf.1
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 03:03:35 -0700 (PDT)
+ id 1nXgxx-000374-2f
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:14:46 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id y142so13166981ybe.11
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 03:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SODTzq0RawXAwhsgPmnKlSH28MCktGReHipSx31pDIY=;
- b=MebPpb+Az3YZcT3Rr4+KSv+r5ytwLV4Zwdd9sSIH+tNXPc2kfFDHL4KdU6a7ggeIox
- sR+c7FtnmGOWRhmvEfawwywH2GTSjh1J3fiYs3N4IJDWKXGCAR6YrrQ26AiKYNilH0JB
- ab6Au8VUqlos7PgXVPF7bhA4jo7uN0+7hGXGwVTa6Cux16ScU/F9vqbesOnCchlAjFud
- redRwdhn8Yk37GIz6K0SmrKtW/uV8tNSGTMTyogxC9dJgH5ZbtDxYvVjO9uxTxg66RBZ
- g2cLzxClcsVTVXb//H8slGZ/I22RM3CAAU6MPN8r4+FpEG2s3bS4Ss22MmQY2HAV3axU
- l8xw==
+ :cc; bh=0eLR7MRU0I0fxKjpoLhUFgasjpDQNAdJghDhTNtJIc0=;
+ b=v0aZFACw8onmM0ME76J0yApABxjWaiQh4EBh0M5hb9BhLWV0m9Itpzt+QqhCYI17gL
+ wxkCEImCT5o07AFKEm3SJ513IpBFWsSM2fVZoKQwNLyh3Z773oDXFy64hKCzMkbAhCa+
+ 1nRD4kdEwjJ0expMwmtb9uPv+lC1H36zdVgqVD9voIIb+iKWDza/wuYXDFTI6PisI1QD
+ cwoINldtH3mKuQcMH6TWV4L7pjIkKgOQHdUK+X/CjrjRF7Q0YPYUewxwAwV+Z91k+SEp
+ 6yY5pQKg3USTqqNVUIWgzRAyJdEriVkWdcvYvnga5IV395jvfNgiTf/EnlG50LTG3LPz
+ N1aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SODTzq0RawXAwhsgPmnKlSH28MCktGReHipSx31pDIY=;
- b=DybTyKohX6jC0GFH3DIyMjuETQIl/bITsyroPvM5t/bDqX98rHRFIdccCJvwNG5cr8
- XLrp70DqKdD2IDcVRzPwwYUkN5VzqLX93pIn/vYl+BbaoX8NU14UUzJ7kuiThKsXG2kI
- LyIYrYo+Bx/ky4yaVCfeAaAJsB24NwCKmMhf0BuU04ROPRcBe+L0M8Eeh7PBW+fxXTDC
- Adm8k9lymJtdE6ymu2T9O1P0bUM52YT/TWI55xp9sU+xG9DLGOCN2CLRA1b+JcErrRhI
- wnyVnRdJB7WQyZflQUtMQUX7RTxyK8QyJCQB2sln/G84KfNsonKdT1wE14Z3X+iDY7/J
- 7oaw==
-X-Gm-Message-State: AOAM5311A64yePdGel3xrav05HAybE6kTrGdUt8Lo32bJXQ1Yw84N0SL
- FkMTmvqRAPoxzAt2OMDlPjf7LhJa2SFziA9cQEa1cg==
-X-Google-Smtp-Source: ABdhPJzKm2oKYsOTY/ObMJskb+3voW5tMlACzHjcslk3epkfqZcVtRD8bUJOQCeGjp0bjHSYNdDwW9qxevZdfP7l3es=
-X-Received: by 2002:a05:6902:701:b0:638:9404:baff with SMTP id
- k1-20020a056902070100b006389404baffmr6117296ybt.479.1648202615254; Fri, 25
- Mar 2022 03:03:35 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=0eLR7MRU0I0fxKjpoLhUFgasjpDQNAdJghDhTNtJIc0=;
+ b=8Q1ad89TeA3zjGnuyD/c0zy8YAgHLGRwMt0QdPTuKYa0cerpJknULiH3sgR+KvoMVJ
+ yXZh38XeULVsxzIaW92QfWVEU/Yk6D/vCFAhVJiB+EG08+3MzB4ArquRk62vF+gxFth7
+ oiR43yn1sfnqUdfNKa20NDQPxkCwr/VbuhQeZM60PdkZYaIHHceEYcqPLXpfxq+wOmjg
+ i7e/P4AqBC5pBAAsJ82IadZgjXjzmM4g00ep/FBu/bTvwCd0FciiOmgkJeIaQZNT9i5e
+ 4hiv3VH5H2DECp4Lb2Hd8wdGVOnE5+S34lST5qyWpcCqt98LutgPfiQ175bMY3ExTfoY
+ Bhaw==
+X-Gm-Message-State: AOAM531hlx5aWonh+6nk9WGtWfCH3/3JT3w43rhh6jowcaUOrs4mHEMF
+ mMI3jkPhYL1xjG0kmAY0jCnaFazjnom3cg616/of7g==
+X-Google-Smtp-Source: ABdhPJxVnE5wi0G5bK3oOsKqRNrHjYK3DLigz4SPBEUXqMK5HO0CMxR+VbGvIbx7xv9ngx4VEZU0L4d99YkMGS1CxRY=
+X-Received: by 2002:a05:6902:1147:b0:634:6e83:70b4 with SMTP id
+ p7-20020a056902114700b006346e8370b4mr9359458ybu.85.1648203283989; Fri, 25 Mar
+ 2022 03:14:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220322075400.8627-1-philippe.mathieu.daude@gmail.com>
- <7230eb78-0d9c-b636-f412-328b874280b3@redhat.com>
- <7ae621b5-7451-4a70-d109-f1adbcdaac68@gmail.com>
-In-Reply-To: <7ae621b5-7451-4a70-d109-f1adbcdaac68@gmail.com>
+References: <20220324171527.1256604-1-stefanha@redhat.com>
+In-Reply-To: <20220324171527.1256604-1-stefanha@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Mar 2022 10:03:21 +0000
-Message-ID: <CAFEAcA-t0YUmggDSKNG1ArRcSKta9siQz700C3zG5JzY0wkDjg@mail.gmail.com>
-Subject: Re: [PATCH-for-7.0 v2] qemu/main-loop: Disable block backend global
- state assertion on Cocoa
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
+Date: Fri, 25 Mar 2022 10:14:30 +0000
+Message-ID: <CAFEAcA9EzczgoGKLhEn-wkd+Rt+sqpt-6diQvJp3LVy_KS-LXQ@mail.gmail.com>
+Subject: Re: [PULL for-7.0 0/2] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b30
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,25 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>, Hanna Reitz <hreitz@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Mar 2022 at 09:35, Philippe Mathieu-Daud=C3=A9
-<philippe.mathieu.daude@gmail.com> wrote:
+On Thu, 24 Mar 2022 at 17:15, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> What is preferred between #2 and #3? I don't have enough knowledge to
-> take the decision, which is why I suggested the chicken-hearted "disable
-> assert" option #1.
+> The following changes since commit 15ef89d2a1a7b93845a6b09c2ee8e1979f6eb30b:
+>
+>   Update version for v7.0.0-rc1 release (2022-03-22 22:58:44 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to 2539eade4f689eda7e9fe45486f18334bfbafaf0:
+>
+>   hw: Fix misleading hexadecimal format (2022-03-24 10:38:42 +0000)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> Philippe found cases where the 0x%d format string was used, leading to
+> misleading output. The patches look harmless and could save people time, so I
+> think it's worth including them in 7.0.
+>
 
-I don't have a strong opinion, but I do strongly think we need
-to get a fix of some kind into the tree before rc2, and we
-are rapidly running out of time for that. Pick something,
-and send patches/pullreq as appropriate, please.
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
 -- PMM
 
