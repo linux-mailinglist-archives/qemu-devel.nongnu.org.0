@@ -2,75 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CEE4E7451
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 14:38:53 +0100 (CET)
-Received: from localhost ([::1]:49788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4784E7460
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 14:43:11 +0100 (CET)
+Received: from localhost ([::1]:52214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXk9T-0006zs-F3
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 09:38:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46102)
+	id 1nXkDe-0000OA-0y
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 09:43:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXk8N-0006Jo-Ez
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 09:37:43 -0400
-Received: from [2607:f8b0:4864:20::b2c] (port=39926
- helo=mail-yb1-xb2c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXk8L-0006NA-VE
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 09:37:43 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id t11so14098856ybi.6
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 06:37:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tMyLEv3+olXGQ2ARfz+7T5YR2k+ttPfPwqMm++Ulipc=;
- b=ArsTmtBB+hj4kyaKaZTgUiDDIGUVb8f/2I/kqLFOVQL38Ww4QIrkIhHl5U/Olsr73+
- okVvaZU12gVhBS7vx3bp7sVTpsAFFS4f2fEL5Xkc4GSqr9Mz07ewzzUqXxiEIbVUAbK/
- iv7wSMxjHWz8dR5B8640DLgyaV4qgJ5emP4R76fN3X6KUrPTim26IjXe81TbM9r8InUd
- E4trVTovigubKukgVepc0OvwA5lzSFpyKMi+EoB2uav3NEUs6mcsa+ClTtp/P6G90Q5E
- PS2XeeXoTDy/OTWaz6Zcsn3TuMb/2vnPEzNVd+jNj9XaP/nZEDP6pJGotPDq7V7fZkOL
- srrA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nXkB8-0007ub-9Z
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 09:40:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48377)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nXkB1-0006kf-8f
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 09:40:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648215624;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l/ODWplp8gzwsWgBSKhKG9qV3Azy7mFMsOhPBarZZ5Q=;
+ b=ZUHNVck4p+xgBahvjEuet6XSZ9Zn3WbcuHNWSuT0mHK5qFfHB+a2UhYMHYfA58MTnlKrBW
+ 9a3hUjGLwA0VnohdZZVnb/Dj7VkuLxPB6eN7TvrHlqKJyAz69F5x4T9dvBgGMM2DP22cnz
+ Rvsx1ptuXIrKgNS93ynU6YAjz15lBUs=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-3--zbL9GEeNp2VXu0cjXMtAA-1; Fri, 25 Mar 2022 09:40:23 -0400
+X-MC-Unique: -zbL9GEeNp2VXu0cjXMtAA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ hr26-20020a1709073f9a00b006d6d1ee8cf8so4084938ejc.19
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 06:40:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tMyLEv3+olXGQ2ARfz+7T5YR2k+ttPfPwqMm++Ulipc=;
- b=fSU+qhUQEfOAYLA5Q6Ck8a6qBENhzp8kvMqyq8Ogza3lPGK3mW+Dlm7cnSOp4yovNV
- Dspi+JpV3Gt2PgcKB1DKdYE2nyCRairq0QW4caMwWHRROvQpDsiwH+4Pj0mcIlo0ZI5S
- qplZ02Z3WN+0oASuJPfqAilCQ9y0VOVT0wHh5BIYbLSovxKKv7c4elCkXBW5gctOClA7
- LKV01F3gdct/34S8sgW23uUoWPaZrjaNrlIwQWyBM5TIuk4Tr1bv6e7azv8XcJ/EoPtd
- /DlVC4AjpNvi3I8g5L1uaKVI+vXbWPvbBD42piLdTavYfXGFQmU9yHQUG4UURAsCUztM
- QXEA==
-X-Gm-Message-State: AOAM530/Opq4kyji+gAt36oxPfBBorM6htQ8j5XYTplGHmJ6CddXM9hv
- FxNrBTrR1U7h0e+uitxpsrCjs89H6pREuFR6qsRYWw==
-X-Google-Smtp-Source: ABdhPJxsBNna0NoVxsyDIiNsQuDaKKyXvJuccfSpzuF/8gQbv4NdyClje0Aa9vPEwQqXdDHhjgGII/1SobyItoMwP60=
-X-Received: by 2002:a05:6902:150d:b0:634:5046:d294 with SMTP id
- q13-20020a056902150d00b006345046d294mr9791318ybu.140.1648215460994; Fri, 25
- Mar 2022 06:37:40 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=l/ODWplp8gzwsWgBSKhKG9qV3Azy7mFMsOhPBarZZ5Q=;
+ b=tRKEg4FDl/wYdgwHiivpf/cR1lLI19/NYeoa0EXAVHiADMOhSSoZuelmisA6MsYVb1
+ 8qcNAl8134Szcvd6cZ/yB5fljC4AZ7oORmmm2Oz3PM5N98ZMYT2UdoxWQ7DWOEP22srE
+ En8P0vJt72dn9MtVjrYONR/8jwtGYF0fX5iL0FWeuCSK9vL+rQwaqMfu42OENZkOKuiC
+ YXR04LZVMvIMDcB1CISxYw6h+ZIwPXe5mBPFzeVIjPUrqBoYckJnVyRMioBkjlGDF9iu
+ K2MR4snr2JGLvZ5PW+vxI23rbPjGnZ5KEBAAcfzU3vqs7L/HkXwfGRga+oPVxdGhBrrU
+ 2qlA==
+X-Gm-Message-State: AOAM530fUR2CNTrnDYWCaPk64yKeYkCCu7FT8MvOVJJg6F1szB8a3dcf
+ ziWf46IvCf9nLJZhzM87kInZjT75uNSyfwQ3McgMo92YhUKxrdAztsUpB+l2m1s7WO6xNBFyJFp
+ sbFq5i6Z635WdVRo=
+X-Received: by 2002:aa7:cb8b:0:b0:410:9aaf:2974 with SMTP id
+ r11-20020aa7cb8b000000b004109aaf2974mr13102237edt.173.1648215622044; 
+ Fri, 25 Mar 2022 06:40:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXRACJqRkqk2AmA75KXAIqpIpzwaeo6zNCe3axg2oNS4vKZvVz7Y0F0+bcIIdLLsRcBymtJA==
+X-Received: by 2002:aa7:cb8b:0:b0:410:9aaf:2974 with SMTP id
+ r11-20020aa7cb8b000000b004109aaf2974mr13102215edt.173.1648215621742; 
+ Fri, 25 Mar 2022 06:40:21 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ z5-20020a1709063a0500b006da8fa9526esm2357571eje.178.2022.03.25.06.40.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Mar 2022 06:40:21 -0700 (PDT)
+Message-ID: <4682fc7e-bfe5-1ab3-bc0f-650fd981ea2f@redhat.com>
+Date: Fri, 25 Mar 2022 14:40:20 +0100
 MIME-Version: 1.0
-References: <20220320160009.2665152-1-richard.henderson@linaro.org>
- <20220320160009.2665152-4-richard.henderson@linaro.org>
- <CAFEAcA-RSLe-fF+EcuoOfXnOynz8zc7_N_AnNt3uRx5PZTvq9A@mail.gmail.com>
-In-Reply-To: <CAFEAcA-RSLe-fF+EcuoOfXnOynz8zc7_N_AnNt3uRx5PZTvq9A@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Mar 2022 13:37:27 +0000
-Message-ID: <CAFEAcA9fDkVZB5StxGBp=7cy02zQwtZ+ZLVzxQcH3-bJ8hv51Q@mail.gmail.com>
-Subject: Re: [PATCH 3/7] linux-user/nios2: Adjust error return
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 05/17] iotests/040: Fix TestCommitWithFilters test
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20220324183018.2476551-1-jsnow@redhat.com>
+ <20220324183018.2476551-6-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220324183018.2476551-6-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,65 +103,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org, Laurent@vivier.eu
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Mar 2022 at 12:12, Peter Maydell <peter.maydell@linaro.org> wrote:
+On 24.03.22 19:30, John Snow wrote:
+> Without this change, asserting that qemu_io always returns 0 causes this
+> test to fail in a way we happened not to be catching previously:
 >
-> On Sun, 20 Mar 2022 at 16:06, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> >
-> > Follow syscall_set_return_value rather than the kernel assembly
-> > in setting the syscall return values.  Only negate ret on error.
-> >
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > ---
-> >  linux-user/nios2/cpu_loop.c | 15 ++++++++++++---
-> >  1 file changed, 12 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-> > index ac71f4ee47..2ae94f4a95 100644
-> > --- a/linux-user/nios2/cpu_loop.c
-> > +++ b/linux-user/nios2/cpu_loop.c
-> > @@ -48,9 +48,18 @@ void cpu_loop(CPUNios2State *env)
-> >                                   env->regs[7], env->regs[8], env->regs[9],
-> >                                   0, 0);
-> >
-> > -                env->regs[2] = abs(ret);
-> > -                /* Return value is 0..4096 */
-> > -                env->regs[7] = ret > 0xfffff000u;
-> > +                /*
-> > +                 * See syscall_set_return_value.
-> > +                 * Use the QEMU traditional -515 error indication in
-> > +                 * preference to the < 0 indication used in entry.S.
-> > +                 */
+>   qemu.utils.VerboseProcessError: Command
+>    '('/home/jsnow/src/qemu/bin/git/tests/qemu-iotests/../../qemu-io',
+>    '--cache', 'writeback', '--aio', 'threads', '-f', 'qcow2', '-c',
+>    'read -P 4 3M 1M',
+>    '/home/jsnow/src/qemu/bin/git/tests/qemu-iotests/scratch/3.img')'
+>    returned non-zero exit status 1.
+>    ┏━ output ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+>    ┃ qemu-io: can't open device
+>    ┃ /home/jsnow/src/qemu/bin/git/tests/qemu-iotests/scratch/3.img:
+>    ┃ Could not open backing file: Could not open backing file: Throttle
+>    ┃ group 'tg' does not exist
+>    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 >
-> Well, it is traditional, in that we've used it for sparc for
-> instance right back to commit 060366c5ad18b3e in 2004, and
-> even earlier for ppc since commit 678673089d1b.
-> probably for about as long for ppc. But *why* do we use this?
-> Well, 516 is ERESTART_RESTARTBLOCK, and that's what the
-> arch/sparc/kernel/entry.S code is comparing against (it does a
-> greater-than-or-equal check, I think, hence 516, not 515).
+> Explicitly provide the backing file so that opening the file outside of
+> QEMU (Where we will not have throttle groups) will succeed.
 >
-> For powerpc, however, the kernel handles setting the CCR
-> bit in syscall_exit_prepare(), and there it checks against
-> -MAX_ERRNO.
+> [Patch entirely written by Hanna but I don't have her S-o-B]
 
-This turns out to be because in 2015 kernel commit c3525940cca5
-switched powerpc from checking against 515/516 and instead made
-them check MAX_ERRNO (4095).
+Er, well, not sure if this even meets the necessary threshold of 
+originality, so a Proposed-by would’ve been fine.
 
-(If anybody cared about seccomp on sparc hosts they'd probably
-want to fix the sparc kernel similarly, but presumably nobody
-does :-))
+Anyway, here you go:
 
-The kernel commit message mentions some infrastructure in
-the form of force_successful_syscall_return() where syscall
-implementations can force that a value above -MAX_ERRNO
-is still treated as "success". In theory perhaps we should
-have something similar...
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 
--- PMM
+> [My commit message is probably also garbage, sorry]
+
+I don’t find it too bad, but a paragraph describing the actual problem 
+might improve it.  E.g. (below the exception output):
+
+The commit jobs changes the backing file string stored in the image file 
+header belonging to the node above the commit’s top node to point to the 
+commit target (the base node).  QEMU tries to be as accurate as 
+possible, and so in these test cases will include the filter that is 
+part of the block graph in that backing file string (by virtue of making 
+it a json:{} description of the post-commit subgraph).  This makes 
+little sense outside of QEMU, though: Specifically, the throttle node in 
+that subgraph will dearly miss its supposedly associated throttle group 
+object.
+
+When starting the commit job, we can specify a custom backing file 
+string to write into said image file, so let’s use that feature to write 
+the plain filename of the backing chain’s next actual image file there.
+
+> [Feel free to suggest a better one]
+> [I hope your day is going well]
+
+Fridays tend to be on the better side of days.
+
+Hanna
+
+> Signed-off-by: John Snow <jsnow@redhat.com>
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   tests/qemu-iotests/040 | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
+> index c4a90937dc..30eb97829e 100755
+> --- a/tests/qemu-iotests/040
+> +++ b/tests/qemu-iotests/040
+> @@ -836,7 +836,8 @@ class TestCommitWithFilters(iotests.QMPTestCase):
+>                                job_id='commit',
+>                                device='top-filter',
+>                                top_node='cow-2',
+> -                             base_node='cow-1')
+> +                             base_node='cow-1',
+> +                             backing_file=self.img1)
+>           self.assert_qmp(result, 'return', {})
+>           self.wait_until_completed(drive='commit')
+>   
+> @@ -852,7 +853,8 @@ class TestCommitWithFilters(iotests.QMPTestCase):
+>                                job_id='commit',
+>                                device='top-filter',
+>                                top_node='cow-1',
+> -                             base_node='cow-0')
+> +                             base_node='cow-0',
+> +                             backing_file=self.img0)
+>           self.assert_qmp(result, 'return', {})
+>           self.wait_until_completed(drive='commit')
+>   
+
 
