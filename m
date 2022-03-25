@@ -2,65 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2074E71AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 11:53:24 +0100 (CET)
-Received: from localhost ([::1]:46618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B4C4E71B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 11:57:43 +0100 (CET)
+Received: from localhost ([::1]:49496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXhZL-0001mC-U6
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 06:53:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34040)
+	id 1nXhdW-0003x4-BE
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 06:57:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nXhXg-0000st-KB; Fri, 25 Mar 2022 06:51:40 -0400
-Received: from smtp23.cstnet.cn ([159.226.251.23]:40908 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nXhXd-0000yA-JH; Fri, 25 Mar 2022 06:51:39 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowABXeJmznj1iMAGbBA--.43542S2;
- Fri, 25 Mar 2022 18:51:32 +0800 (CST)
-Subject: Re: [PATCH qemu v4 14/14] target/riscv: rvv: Add tail agnostic for
- vector permutation instructions
-To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <164814860220.28290.11643334198417094464-14@git.sr.ht>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <fc5d83fe-3fe1-7c7a-a384-ef76d2fbed21@iscas.ac.cn>
-Date: Fri, 25 Mar 2022 18:51:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nXhce-0003IY-T2
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:56:48 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:54230)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nXhcc-0001rW-Qp
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:56:48 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1C780210EF;
+ Fri, 25 Mar 2022 10:56:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1648205805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xXVq4QHke5wF6AZBabLQEa2XRp+G4Tn/zs77IlhkMHs=;
+ b=MGvm6sXRLJQ5Q+YonhloaMJV+jRo48zgF35Q/xTsNEAigC87iekMr/6C8l7V5X+3fWhEtD
+ PE+NdZxCUjpwSGUOAEVDuNbwcju1APOLFkQrsaWvhbu/nLF31p1vURf/6FXqPPyZoF6DHi
+ aDGfJq6FE6W3R/stPjTqFFXboIL9e7o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1648205805;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xXVq4QHke5wF6AZBabLQEa2XRp+G4Tn/zs77IlhkMHs=;
+ b=rWA6Y1k+DgaFWntlB0cCwzWl331EMGixPJY/OKdagCHPNLQmzIpb4HdA9ZUiG3Yf7lZxvp
+ JkoQd381SdiPlYCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BC6811332D;
+ Fri, 25 Mar 2022 10:56:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Uy+mK+yfPWJWLQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 25 Mar 2022 10:56:44 +0000
+Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
+ performance
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <Yi94mQUfrxMVbiLM@redhat.com>
+ <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de> <Yi+ACeaZ+oXTVYjc@redhat.com>
+ <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
+ <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
+ <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
+ <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de> <YjNNqzb7eBBwMFJN@work-vm>
+ <737974fa-905c-d171-05b0-ec4df42bc762@suse.de> <Yj2aa9OXv2CTQi/j@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <da4a4121-7be9-26ff-5b7f-244b124ef0fd@suse.de>
+Date: Fri, 25 Mar 2022 11:56:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <164814860220.28290.11643334198417094464-14@git.sr.ht>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yj2aa9OXv2CTQi/j@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-CM-TRANSID: rQCowABXeJmznj1iMAGbBA--.43542S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Wr1UJryrWF43WFWUGF45KFg_yoWxGF4rp3
- W8KFWfGrs3tFWxZw1fuF4UZF1UZFn8Gr1vkwn2q3WrCay5GrZ5XF1DKa12kr1UKF9ruF1F
- v3WkZa1a9ay0vFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Zr0_Wr1UMIIF0xvEx4A2jsIE14v26r1j6r4U
- MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUybyZUUU
- UU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,184 +91,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- eop Chen <eop.chen@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: libvir-list@redhat.com, andrea.righi@canonical.com,
+ Jiri Denemark <jdenemar@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Thanks Daniel,
 
-在 2022/3/7 下午11:59, ~eopxd 写道:
-> From: eopXD <eop.chen@sifive.com>
->
-> Signed-off-by: eop Chen <eop.chen@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> ---
->   target/riscv/insn_trans/trans_rvv.c.inc | 20 ++++++++
->   target/riscv/vector_helper.c            | 68 ++++++++++++++++++++++---
->   2 files changed, 82 insertions(+), 6 deletions(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 8b24570e22..f037d1875c 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -3724,6 +3724,15 @@ static bool trans_vrgather_vx(DisasContext *s, arg_rmrr *a)
->       }
->   
->       if (a->vm && s->vl_eq_vlmax) {
-> +        if (s->vta && s->lmul < 0) {
-> +            /* tail elements may pass vlmax when lmul < 0
-> +             * set tail elements to 1s
-> +             */
-> +            uint32_t vlenb = s->cfg_ptr->vlen >> 3;
-> +            tcg_gen_gvec_ori(s->sew, vreg_ofs(s, a->rd),
-> +                             vreg_ofs(s, a->rd), -1,
-> +                             vlenb, vlenb);
-> +        }
->           int scale = s->lmul - (s->sew + 3);
->           int vlmax = scale < 0 ?
->                          s->cfg_ptr->vlen >> -scale : s->cfg_ptr->vlen << scale;
-> @@ -3757,6 +3766,15 @@ static bool trans_vrgather_vi(DisasContext *s, arg_rmrr *a)
->       }
->   
->       if (a->vm && s->vl_eq_vlmax) {
-> +        if (s->vta && s->lmul < 0) {
-> +            /* tail elements may pass vlmax when lmul < 0
-> +             * set tail elements to 1s
-> +             */
-> +            uint32_t vlenb = s->cfg_ptr->vlen >> 3;
-> +            tcg_gen_gvec_ori(s->sew, vreg_ofs(s, a->rd),
-> +                             vreg_ofs(s, a->rd), -1,
-> +                             vlenb, vlenb);
-> +        }
->           int scale = s->lmul - (s->sew + 3);
->           int vlmax = scale < 0 ?
->                          s->cfg_ptr->vlen >> -scale : s->cfg_ptr->vlen << scale;
-> @@ -3809,6 +3827,7 @@ static bool trans_vcompress_vm(DisasContext *s, arg_r *a)
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
->   
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);
->           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
->                              vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),
->                              cpu_env, s->cfg_ptr->vlen / 8,
-> @@ -3914,6 +3933,7 @@ static bool int_ext_op(DisasContext *s, arg_rmr *a, uint8_t seq)
->       }
->   
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
-> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
->   
->       tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
->                          vreg_ofs(s, a->rs2), cpu_env,
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 0670489679..6e13d6bdcf 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -4944,6 +4944,10 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
->   {                                                                         \
->       uint32_t vm = vext_vm(desc);                                          \
->       uint32_t vl = env->vl;                                                \
-> +    uint32_t esz = sizeof(ETYPE);                                         \
-> +    uint32_t total_elems =                                                \
-> +        vext_get_total_elems(env_archcpu(env), env->vtype);               \
-> +    uint32_t vta = vext_vta(desc);                                        \
->       target_ulong offset = s1, i_min, i;                                   \
->                                                                             \
->       i_min = MAX(env->vstart, offset);                                     \
-> @@ -4953,6 +4957,9 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
->           }                                                                 \
->           *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i - offset));          \
->       }                                                                     \
-> +    /* set tail elements to 1s */                                         \
-> +    vext_set_elems_1s_fns[ctzl(esz)](vd, vta, vl, vl * esz,               \
-> +                                     total_elems * esz);                  \
->   }
->   
->   /* vslideup.vx vd, vs2, rs1, vm # vd[i+rs1] = vs2[i] */
-> @@ -4965,12 +4972,16 @@ GEN_VEXT_VSLIDEUP_VX(vslideup_vx_d, uint64_t, H8)
->   void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
->                     CPURISCVState *env, uint32_t desc)                      \
->   {                                                                         \
-> -    uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(ETYPE)));           \
-> +    uint32_t max_elem = vext_max_elems(desc, ctzl(sizeof(ETYPE)));        \
+On 3/25/22 11:33 AM, Daniel P. Berrangé wrote:
+> On Fri, Mar 18, 2022 at 02:34:29PM +0100, Claudio Fontana wrote:
+>> On 3/17/22 4:03 PM, Dr. David Alan Gilbert wrote:
+>>> * Claudio Fontana (cfontana@suse.de) wrote:
+>>>> On 3/17/22 2:41 PM, Claudio Fontana wrote:
+>>>>> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
+>>>>>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
+>>>>>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
+>>>>>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
+>>>>>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
+>>>>>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
+>>>>>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
+>>>>>>>>>>>> the first user is the qemu driver,
+>>>>>>>>>>>>
+>>>>>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
+>>>>>>>>>>>>
+>>>>>>>>>>>> This improves the situation by 400%.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
+>>>>>>>>>>>> compared with direct qemu migration to a nc socket to a file.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>>>>>>>>>> ---
+>>>>>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
+>>>>>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
+>>>>>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
+>>>>>>>>>>>>  src/util/virfile.h        |  1 +
+>>>>>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
+>>>>>>>>>>>>
+>>>>>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
+>>>>>>>>>>>> so you can find the discussion about this in qemu-devel:
+>>>>>>>>>>>>
+>>>>>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
+>>>>>>>>>>>>
+>>>>>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
+>>>>>>
+>>>>>>
+>>>>>>> Current results show these experimental averages maximum throughput
+>>>>>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
+>>>>>>> "query-migrate", tests repeated 5 times for each).
+>>>>>>> VM Size is 60G, most of the memory effectively touched before migration,
+>>>>>>> through user application allocating and touching all memory with
+>>>>>>> pseudorandom data.
+>>>>>>>
+>>>>>>> 64K:     5200 Mbps (current situation)
+>>>>>>> 128K:    5800 Mbps
+>>>>>>> 256K:   20900 Mbps
+>>>>>>> 512K:   21600 Mbps
+>>>>>>> 1M:     22800 Mbps
+>>>>>>> 2M:     22800 Mbps
+>>>>>>> 4M:     22400 Mbps
+>>>>>>> 8M:     22500 Mbps
+>>>>>>> 16M:    22800 Mbps
+>>>>>>> 32M:    22900 Mbps
+>>>>>>> 64M:    22900 Mbps
+>>>>>>> 128M:   22800 Mbps
+>>>>>>>
+>>>>>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
+>>>>>>
+>>>>>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
+>>>>>> libvirt attempt to raise the pipe limit to 1 MB by default, but
+>>>>>> not try to go higher.
+>>>>>>
+>>>>>>> As for the theoretical limit for the libvirt architecture,
+>>>>>>> I ran a qemu migration directly issuing the appropriate QMP
+>>>>>>> commands, setting the same migration parameters as per libvirt,
+>>>>>>> and then migrating to a socket netcatted to /dev/null via
+>>>>>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
+>>>>>>>
+>>>>>>> QMP:    37000 Mbps
+>>>>>>
+>>>>>>> So although the Pipe size improves things (in particular the
+>>>>>>> large jump is for the 256K size, although 1M seems a very good value),
+>>>>>>> there is still a second bottleneck in there somewhere that
+>>>>>>> accounts for a loss of ~14200 Mbps in throughput.
+>>>>
+>>>>
+>>>> Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
+>>>> and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
+>>>>
+>>>> ~50000 mbps qemu to netcat socket to /dev/null
+>>>> ~35500 mbps virsh save to /dev/null
+>>>>
+>>>> Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
+>>>
+>>> It might be closer to RAM or cache bandwidth limited though; for an extra copy.
+>>
+>> I was thinking about sendfile(2) in iohelper, but that probably can't work as the input fd is a socket, I am getting EINVAL.
+>>
+>> One thing that I noticed is:
+>>
+>> ommit afe6e58aedcd5e27ea16184fed90b338569bd042
+>> Author: Jiri Denemark <jdenemar@redhat.com>
+>> Date:   Mon Feb 6 14:40:48 2012 +0100
+>>
+>>     util: Generalize virFileDirectFd
+>>     
+>>     virFileDirectFd was used for accessing files opened with O_DIRECT using
+>>     libvirt_iohelper. We will want to use the helper for accessing files
+>>     regardless on O_DIRECT and thus virFileDirectFd was generalized and
+>>     renamed to virFileWrapperFd.
+>>
+>>
+>> And in particular the comment in src/util/virFile.c:
+>>
+>>     /* XXX support posix_fadvise rather than O_DIRECT, if the kernel support                                                                                                 
+>>      * for that is decent enough. In that case, we will also need to                                                                                                         
+>>      * explicitly support VIR_FILE_WRAPPER_NON_BLOCKING since                                                                                                                
+>>      * VIR_FILE_WRAPPER_BYPASS_CACHE alone will no longer require spawning                                                                                                   
+>>      * iohelper.                                                                                                                                                             
+>>      */
+>>
+>> by Jiri Denemark.
+>>
+>> I have lots of questions here, and I tried to involve Jiri and Andrea Righi here, who a long time ago proposed a POSIX_FADV_NOREUSE implementation.
+>>
+>> 1) What is the reason iohelper was introduced?
+> 
+> With POSIX you can't get sensible results from poll() on FDs associated with
+> plain files. It will always report the file as readable/writable, and the
+> userspace caller will get blocked any time the I/O operation causes the
+> kernel to read/write from the underlying (potentially very slow) storage.
+> 
+> IOW if you give QEMU an FD associated with a plain file and tell it to
+> migrate to that, the guest OS will get stalled.
 
-This change seems unnecessary. It's truely vlmax here.
+we send a stop command to qemu just before migrating to a file in virsh save though right?
+With virsh restore we also first load the VM, and only then start executing it.
 
->       uint32_t vm = vext_vm(desc);                                          \
->       uint32_t vl = env->vl;                                                \
-> +    uint32_t esz = sizeof(ETYPE);                                         \
-> +    uint32_t total_elems =                                                \
-> +        vext_get_total_elems(env_archcpu(env), env->vtype);               \
-> +    uint32_t vta = vext_vta(desc);                                        \
->       target_ulong i_max, i;                                                \
->                                                                             \
-> -    i_max = MAX(MIN(s1 < vlmax ? vlmax - s1 : 0, vl), env->vstart);       \
-> +    i_max = MAX(MIN(s1 < max_elem ? max_elem - s1 : 0, vl), env->vstart); \
->       for (i = env->vstart; i < i_max; ++i) {                               \
->           if (vm || vext_elem_mask(v0, i)) {                                \
->               *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i + s1));          \
-> @@ -4984,6 +4995,9 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
->       }                                                                     \
->                                                                             \
->       env->vstart = 0;                                                      \
-> +    /* set tail elements to 1s */                                         \
-> +    vext_set_elems_1s_fns[ctzl(esz)](vd, vta, vl, vl * esz,               \
-> +                                     total_elems * esz);                  \
->   }
->   
->   /* vslidedown.vx vd, vs2, rs1, vm # vd[i] = vs2[i+rs1] */
-> @@ -4999,6 +5013,10 @@ static void vslide1up_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
->       typedef uint##BITWIDTH##_t ETYPE;                                       \
->       uint32_t vm = vext_vm(desc);                                            \
->       uint32_t vl = env->vl;                                                  \
-> +    uint32_t esz = sizeof(ETYPE);                                           \
-> +    uint32_t total_elems =                                                  \
-> +        vext_get_total_elems(env_archcpu(env), env->vtype);                 \
-> +    uint32_t vta = vext_vta(desc);                                          \
->       uint32_t i;                                                             \
->                                                                               \
->       for (i = env->vstart; i < vl; i++) {                                    \
-> @@ -5012,6 +5030,9 @@ static void vslide1up_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
->           }                                                                   \
->       }                                                                       \
->       env->vstart = 0;                                                        \
-> +    /* set tail elements to 1s */                                           \
-> +    vext_set_elems_1s_fns[ctzl(esz)](vd, vta, vl, vl * esz,                 \
-> +                                     total_elems * esz);                    \
->   }
->   
->   GEN_VEXT_VSLIE1UP(8,  H1)
-> @@ -5039,6 +5060,10 @@ static void vslide1down_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
->       typedef uint##BITWIDTH##_t ETYPE;                                         \
->       uint32_t vm = vext_vm(desc);                                              \
->       uint32_t vl = env->vl;                                                    \
-> +    uint32_t esz = sizeof(ETYPE);                                             \
-> +    uint32_t total_elems =                                                    \
-> +        vext_get_total_elems(env_archcpu(env), env->vtype);                   \
-> +    uint32_t vta = vext_vta(desc);                                            \
->       uint32_t i;                                                               \
->                                                                                 \
->       for (i = env->vstart; i < vl; i++) {                                      \
-> @@ -5052,6 +5077,9 @@ static void vslide1down_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
->           }                                                                     \
->       }                                                                         \
->       env->vstart = 0;                                                          \
-> +    /* set tail elements to 1s */                                             \
-> +    vext_set_elems_1s_fns[ctzl(esz)](vd, vta, vl, vl * esz,                   \
-> +                                     total_elems * esz);                      \
->   }
->   
->   GEN_VEXT_VSLIDE1DOWN(8,  H1)
-> @@ -5102,9 +5130,13 @@ GEN_VEXT_VFSLIDE1DOWN_VF(vfslide1down_vf_d, 64)
->   void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
->                     CPURISCVState *env, uint32_t desc)                      \
->   {                                                                         \
-> -    uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(TS2)));             \
-> +    uint32_t max_elem = vext_max_elems(desc, ctzl(sizeof(TS2)));          \
-similar to above.
+So for virsh save and virsh restore, this should not be a problem? Still we need the iohelper?
 
-Regards,
+> 
+> To avoid this we have to give QEMU an FD that is NOT a plain file, but
+> rather something on which poll() works correctly to avoid blocking. This
+> essentially means a socket or pipe FD.
+> 
+> Here enters the iohelper - we give QEMU a pipe whose other end is the
+> iohelper. The iohelper suffers from blocking on read/write but that
+> doesn't matter, because QEMU is isolated from this via the pipe.
+> 
+> In theory we could just spawn a thread inside libvirtd todo the same
+> as the iohelper, but using a separate helper process is more robust
+> 
+> If not using libvirt, you would use QEMU's 'exec:' migration protocol
+> with 'dd' or 'cat' for the same reasons. Libvirt provides the iohelper
+> so we don't have to deal with portibility questions around 'dd' syntax
+> and can add features like O_DIRECT that cat lacks.
 
-Weiwei Li
+Thanks, I'll try this as well!
+
+Claudio
+
+> 
+>> 2) Was Jiri's comment about the missing linux implementation of POSIX_FADV_NOREUSE?
+>>
+>> 3) if using O_DIRECT is the only reason for iohelper to exist (...?), would replacing it with posix_fadvise remove the need for iohelper?
+> 
+> We can't remove the iohelper for the reason above.> 
+>> 4) What has stopped Andreas' or another POSIX_FADV_NOREUSE implementation in the kernel?
+> 
+> With regards,
+> Daniel
+> 
 
 
