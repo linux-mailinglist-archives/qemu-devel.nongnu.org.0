@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644B34E7A43
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 19:38:33 +0100 (CET)
-Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8A04E7A51
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 19:52:53 +0100 (CET)
+Received: from localhost ([::1]:36310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXopU-00044w-0c
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 14:38:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53740)
+	id 1nXp3M-00078w-DK
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 14:52:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nXooD-0003OM-OB
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 14:37:13 -0400
-Received: from [2a00:1450:4864:20::434] (port=43774
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nXooC-0004tc-04
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 14:37:13 -0400
-Received: by mail-wr1-x434.google.com with SMTP id a1so11988194wrh.10
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 11:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tEYgL40T/x7kdwY4gJR3FCxQe1fbvY3IMliaqBix/wY=;
- b=o7ijrHzQDzB6YXbxMfL3hDagOLKDa3WIR/c8sQBcbYwZ0Tmy9mE90pz6i1NNxDxtBj
- 7DMAWWiwDnGvYyktPTiZQf+cRsJ23DgXV3mSUSFAifP7x3E4WLtHnTOc/5LMvamkzU+g
- iNX/QM9u5muqnLuTMcGfqQ+MDDTW6UjxUIFfjObDYFX+GWu/Husohfii/9Rv6KKDppCi
- gayhnEYDYJkAULgRF5EFrmi3u2OQoi3DL6GTMEVd+p2JhgjQIVQo1SXOajvDZPu3bK2Y
- Rg2IzkquQ+WDIBSwJCIEn+iZml8KYuSfY+7bsAdEOnNhpVVHF66DOVOcjgRwx5xIHHud
- ouRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tEYgL40T/x7kdwY4gJR3FCxQe1fbvY3IMliaqBix/wY=;
- b=7isK0XNiajWbBWjMpixVRmzV/zNa97A3s6cWhSfKjO3Ki45GMTd+5vMl6sF8pfJk45
- PluV+q5cnAp99+D22a+IIZlZoZHwqMxaLfG92suBCjuTtrCqfFhlaGFN91UWIOQvgqmn
- KcGJWklOMRP6qSMkq21GR9HgLuWzP/6mtsvbx8gbOvYREpMl2BigCqXiiHWp6W4JY0T8
- fNuQWwtDQSptR9PC2d3gAeLQzrxca0OEBHDvJOpe9l4x5kvlRRQtanwAOxUpjlK2hV95
- DrKhrZ6SFz6z9Clz51QQy7j7ip9C/7TO1QBd+wRijjQKfA9/2TUQUXJKOEY43owIxfaB
- 7boQ==
-X-Gm-Message-State: AOAM533J5kWufJ5b4BlILKp3mKca7JmMpMsLyYjpOd+MZ/e8HMjAuVzD
- gRsIaCKOc6niD0GIUIC3zuqYzjOtK20=
-X-Google-Smtp-Source: ABdhPJx6m7eaWC8zdJY02cLUxK4yBBbXv9HF22BY5eM9abPPPYwQQ6OpzpYeLeklRRBIhdRm8iRiUw==
-X-Received: by 2002:a05:6000:1704:b0:203:d857:aa7a with SMTP id
- n4-20020a056000170400b00203d857aa7amr9920040wrc.513.1648233430361; 
- Fri, 25 Mar 2022 11:37:10 -0700 (PDT)
-Received: from localhost.localdomain (120.net-94.228.4.isbl.embou.net.
- [94.228.4.120]) by smtp.gmail.com with ESMTPSA id
- m13-20020a05600c3b0d00b0038cda9f92fasm3899739wms.0.2022.03.25.11.37.09
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 25 Mar 2022 11:37:09 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-7.0 v3] qemu/main-loop: Disable block backend global state
- assertion on Cocoa
-Date: Fri, 25 Mar 2022 19:37:07 +0100
-Message-Id: <20220325183707.85733-1-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nXp0y-00068O-D6
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 14:50:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26990)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nXp0t-0006kU-7e
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 14:50:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648234214;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jcR+7NT/Lx0742AAvj6wG6FV4c+l9IB4ARNUoQ2U4n4=;
+ b=EXZFYFi+cWHdOJgjfT2FXGmpGlrE0DxiLMoWAM6k6ZS049176nyNKdyKjztwTFqxKeDPlj
+ rDkHV9IXWfWdj2GMiwD4jB3oYWz3hS3wst0gISgTI+mRoathKHv8eZ2/LBao3XHLewRJWW
+ 0a/ri6XAxLhzmqOeWT/YGLuiz+RWLPk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-444-KAyHncZWOeuiR4fq9Pz9gA-1; Fri, 25 Mar 2022 14:50:13 -0400
+X-MC-Unique: KAyHncZWOeuiR4fq9Pz9gA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 81796185A7A4;
+ Fri, 25 Mar 2022 18:50:12 +0000 (UTC)
+Received: from [10.72.12.33] (ovpn-12-33.pek2.redhat.com [10.72.12.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C3D0E53C6;
+ Fri, 25 Mar 2022 18:50:07 +0000 (UTC)
+Subject: Re: [PATCH v3 1/4] hw/arm/virt: Consider SMP configuration in CPU
+ topology
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20220323072438.71815-1-gshan@redhat.com>
+ <20220323072438.71815-2-gshan@redhat.com>
+ <20220325141949.66fc0083@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <e46061b3-cebf-c4be-758e-c465cf7879c1@redhat.com>
+Date: Sat, 26 Mar 2022 02:49:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
+In-Reply-To: <20220325141949.66fc0083@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,100 +85,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, zhenyzha@redhat.com, wangyanan55@huawei.com,
+ qemu-arm@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Hi Igor,
 
-Since commit 0439c5a462 ("block/block-backend.c: assertions for
-block-backend") QEMU crashes when using Cocoa on Darwin hosts.
+On 3/25/22 9:19 PM, Igor Mammedov wrote:
+> On Wed, 23 Mar 2022 15:24:35 +0800
+> Gavin Shan <gshan@redhat.com> wrote:
+>> Currently, the SMP configuration isn't considered when the CPU
+>> topology is populated. In this case, it's impossible to provide
+>> the default CPU-to-NUMA mapping or association based on the socket
+>> ID of the given CPU.
+>>
+>> This takes account of SMP configuration when the CPU topology
+>> is populated. The die ID for the given CPU isn't assigned since
+>> it's not supported on arm/virt machine yet. Besides, the cluster
+>> ID for the given CPU is assigned because it has been supported
+>> on arm/virt machine.
+>>
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> ---
+>>   hw/arm/virt.c     | 11 +++++++++++
+>>   qapi/machine.json |  6 ++++--
+>>   2 files changed, 15 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>> index d2e5ecd234..064eac42f7 100644
+>> --- a/hw/arm/virt.c
+>> +++ b/hw/arm/virt.c
+>> @@ -2505,6 +2505,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>>       int n;
+>>       unsigned int max_cpus = ms->smp.max_cpus;
+>>       VirtMachineState *vms = VIRT_MACHINE(ms);
+>> +    MachineClass *mc = MACHINE_GET_CLASS(vms);
+>>   
+>>       if (ms->possible_cpus) {
+>>           assert(ms->possible_cpus->len == max_cpus);
+>> @@ -2518,6 +2519,16 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>>           ms->possible_cpus->cpus[n].type = ms->cpu_type;
+>>           ms->possible_cpus->cpus[n].arch_id =
+>>               virt_cpu_mp_affinity(vms, n);
+>> +
+>> +        assert(!mc->smp_props.dies_supported);
+>> +        ms->possible_cpus->cpus[n].props.has_socket_id = true;
+>> +        ms->possible_cpus->cpus[n].props.socket_id =
+>> +            n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
+>> +        ms->possible_cpus->cpus[n].props.has_cluster_id = true;
+>> +        ms->possible_cpus->cpus[n].props.cluster_id =
+>> +            n / (ms->smp.cores * ms->smp.threads);
+> 
+> are there any relation cluster values here and number of clusters with
+> what virt_cpu_mp_affinity() calculates?
+> 
 
-Example on macOS:
+They're different clusters. The cluster returned by virt_cpu_mp_affinity()
+is reflected to MPIDR_EL1 system register, which is mainly used by VGIC2/3
+interrupt controller to send send group interrupts to the CPU cluster. It's
+notable that the value returned from virt_cpu_mp_affinity() is always
+overrided by KVM. It means this value is only used by TCG for the emulated
+GIC2/GIC3.
 
-  $ qemu-system-i386
-  Assertion failed: (qemu_in_main_thread()), function blk_all_next, file block-backend.c, line 552.
-  Abort trap: 6
+The cluster in 'ms->possible_cpus' is passed to ACPI PPTT table to populate
+the CPU topology.
 
-Looking with lldb:
 
-  Assertion failed: (qemu_in_main_thread()), function blk_all_next, file block-backend.c, line 552.
-  Process 76914 stopped
-  * thread #1, queue = 'com.apple.main-thread', stop reason = hit program assert
-     frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1
-  at block-backend.c:552:5 [opt]
-      549    */
-      550   BlockBackend *blk_all_next(BlockBackend *blk)
-      551   {
-  --> 552       GLOBAL_STATE_CODE();
-      553       return blk ? QTAILQ_NEXT(blk, link)
-      554                  : QTAILQ_FIRST(&block_backends);
-      555   }
-  Target 1: (qemu-system-i386) stopped.
+>> +        ms->possible_cpus->cpus[n].props.has_core_id = true;
+>> +        ms->possible_cpus->cpus[n].props.core_id = n / ms->smp.threads;
+> 
+>>           ms->possible_cpus->cpus[n].props.has_thread_id = true;
+>>           ms->possible_cpus->cpus[n].props.thread_id = n;
+> of cause target has the right to decide how to allocate IDs, and mgmt
+> is supposed to query these IDs before using them.
+> But:
+>   * IDs within 'props' are supposed to be arch defined.
+>     (on x86 IDs in range [0-smp.foo_id), on ppc it something different)
+>     Question is what real hardware does here in ARM case (i.e.
+>     how .../cores/threads are described on bare-metal)?
+>  
 
-  (lldb) bt
-  * thread #1, queue = 'com.apple.main-thread', stop reason = hit program assert
-     frame #0: 0x00000001908c99b8 libsystem_kernel.dylib`__pthread_kill + 8
-     frame #1: 0x00000001908fceb0 libsystem_pthread.dylib`pthread_kill + 288
-     frame #2: 0x000000019083a314 libsystem_c.dylib`abort + 164
-     frame #3: 0x000000019083972c libsystem_c.dylib`__assert_rtn + 300
-   * frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1 at block-backend.c:552:5 [opt]
-     frame #5: 0x00000001003c00b4 qemu-system-i386`blk_all_next(blk=<unavailable>) at block-backend.c:552:5 [opt]
-     frame #6: 0x00000001003d8f04 qemu-system-i386`qmp_query_block(errp=0x0000000000000000) at qapi.c:591:16 [opt]
-     frame #7: 0x000000010003ab0c qemu-system-i386`main [inlined] addRemovableDevicesMenuItems at cocoa.m:1756:21 [opt]
-     frame #8: 0x000000010003ab04 qemu-system-i386`main(argc=<unavailable>, argv=<unavailable>) at cocoa.m:1980:5 [opt]
-     frame #9: 0x00000001012690f4 dyld`start + 520
+On ARM64 bare-metal machine, the core/cluster ID assignment is pretty arbitrary.
+I checked the CPU topology on my bare-metal machine, which has following SMP
+configurations.
 
-As we are in passed release 7.0 hard freeze, disable the block
-backend assertion which, while being valuable during development,
-is not helpful to users. We'll restore this assertion immediately
-once 7.0 is released and work on a fix.
+     # lscpu
+       :
+     Thread(s) per core: 4
+     Core(s) per socket: 28
+     Socket(s):          2
 
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Suggested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v3: Reword (Akihiko)
----
- include/qemu/main-loop.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+     smp.sockets  = 2
+     smp.clusters = 1
+     smp.cores    = 56   (28 per socket)
+     smp.threads  = 4
 
-diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index 7a4d6a0920..89bd9edefb 100644
---- a/include/qemu/main-loop.h
-+++ b/include/qemu/main-loop.h
-@@ -270,10 +270,23 @@ bool qemu_mutex_iothread_locked(void);
- bool qemu_in_main_thread(void);
- 
- /* Mark and check that the function is part of the global state API. */
-+#ifdef CONFIG_COCOA
-+/*
-+ * When using the Cocoa UI, addRemovableDevicesMenuItems() is called from
-+ * a thread different from the QEMU main thread and can not take the BQL,
-+ * triggering this assertions in the block layer (commit 0439c5a462).
-+ * As the Cocoa fix is not trivial, disable this assertion for the v7.0.0
-+ * release (when using Cocoa); we will restore it immediately after the
-+ * release.
-+ * This issue is tracked as https://gitlab.com/qemu-project/qemu/-/issues/926
-+ */
-+#define GLOBAL_STATE_CODE()
-+#else
- #define GLOBAL_STATE_CODE()                                         \
-     do {                                                            \
-         assert(qemu_in_main_thread());                              \
-     } while (0)
-+#endif /* CONFIG_COCOA */
- 
- /* Mark and check that the function is part of the I/O API. */
- #define IO_CODE()                                                   \
--- 
-2.35.1
+     // CPU0-111 belongs to socket0 or package0
+     // CPU112-223 belongs to socket1 or package1
+     # cat /sys/devices/system/cpu/cpu0/topology/package_cpus
+     00000000,00000000,00000000,0000ffff,ffffffff,ffffffff,ffffffff
+     # cat /sys/devices/system/cpu/cpu111/topology/package_cpus
+     00000000,00000000,00000000,0000ffff,ffffffff,ffffffff,ffffffff
+     # cat /sys/devices/system/cpu/cpu112/topology/package_cpus
+     ffffffff,ffffffff,ffffffff,ffff0000,00000000,00000000,00000000
+     # cat /sys/devices/system/cpu/cpu223/topology/package_cpus
+     ffffffff,ffffffff,ffffffff,ffff0000,00000000,00000000,00000000
+
+     // core/cluster ID spans from 0 to 27 on socket0
+     # for i in `seq 0 27`; do cat /sys/devices/system/cpu/cpu$i/topology/core_id; done
+     0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+     # for i in `seq 28 55`; do cat /sys/devices/system/cpu/cpu$i/topology/core_id; done
+     0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+     # for i in `seq 0 27`; do cat /sys/devices/system/cpu/cpu$i/topology/cluster_id; done
+     0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+     # for i in `seq 28 55`; do cat /sys/devices/system/cpu/cpu$i/topology/cluster_id; done
+     0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+     
+     // However, core/cluster ID starts from 256 on socket1
+     # for i in `seq 112 139`; do cat /sys/devices/system/cpu/cpu$i/topology/core_id; done
+     256 257 258 259 260 261 262 263 264 265 266 267 268 269
+     270 271 272 273 274 275 276 277 278 279 280 281 282 283
+     # for i in `seq 140 167`; do cat /sys/devices/system/cpu/cpu$i/topology/core_id; done
+     256 257 258 259 260 261 262 263 264 265 266 267 268 269
+     270 271 272 273 274 275 276 277 278 279 280 281 282 283
+     # for i in `seq 112 139`; do cat /sys/devices/system/cpu/cpu$i/topology/cluster_id; done
+     256 257 258 259 260 261 262 263 264 265 266 267 268 269
+     270 271 272 273 274 275 276 277 278 279 280 281 282 283
+     # for i in `seq 140 167`; do cat /sys/devices/system/cpu/cpu$i/topology/cluster_id; done
+     256 257 258 259 260 261 262 263 264 265 266 267 268 269
+     270 271 272 273 274 275 276 277 278 279 280 281 282 283
+    
+>   * maybe related: looks like build_pptt() and build_madt() diverge on
+>     the meaning of 'ACPI Processor ID' and how it's generated.
+>     My understanding of 'ACPI Processor ID' is that it should match
+>     across all tables. So UIDs generated in build_pptt() look wrong to me.
+> 
+>   * maybe related: build_pptt() looks broken wrt core/thread where it
+>     may create at the same time a  leaf core with a leaf thread underneath it,
+>     is such description actually valid?
+> 
+
+Yes, the UIDs in MADT/PPTT should match. I'm not sure if I missed anything here.
+I don't see how the UID in MADT and PPTT table are diverged. In both functions,
+'thread_id' is taken as UID.
+
+In build_pptt(), when the entries for the cores becomes leaf, nothing will be
+pushed into @list, @length becomes zero for the loop to create entries for
+the threads. In this case, we won't have any entries created for threads.
+
+> 
+>>       }
+>> diff --git a/qapi/machine.json b/qapi/machine.json
+>> index 42fc68403d..99c945f258 100644
+>> --- a/qapi/machine.json
+>> +++ b/qapi/machine.json
+>> @@ -868,10 +868,11 @@
+>>   # @node-id: NUMA node ID the CPU belongs to
+>>   # @socket-id: socket number within node/board the CPU belongs to
+>>   # @die-id: die number within socket the CPU belongs to (since 4.1)
+>> -# @core-id: core number within die the CPU belongs to
+>> +# @cluster-id: cluster number within die the CPU belongs to
+>> +# @core-id: core number within cluster the CPU belongs to
+> 
+> s:cluster:cluster/die:
+> 
+
+Ok. I will amend it like below in next respin:
+
+     # @core-id: core number within cluster/die the CPU belongs to
+
+I'm not sure if we need make similar changes for 'cluster_id' like below?
+
+    # @cluster-id: cluster number within die/socket the CPU belongs to
+                                         ^^^^^^^^^^
+
+>>   # @thread-id: thread number within core the CPU belongs to
+>>   #
+>> -# Note: currently there are 5 properties that could be present
+>> +# Note: currently there are 6 properties that could be present
+>>   #       but management should be prepared to pass through other
+>>   #       properties with device_add command to allow for future
+>>   #       interface extension. This also requires the filed names to be kept in
+>> @@ -883,6 +884,7 @@
+>>     'data': { '*node-id': 'int',
+>>               '*socket-id': 'int',
+>>               '*die-id': 'int',
+>> +            '*cluster-id': 'int',
+>>               '*core-id': 'int',
+>>               '*thread-id': 'int'
+>>     }
+
+Thanks,
+Gavin
 
 
