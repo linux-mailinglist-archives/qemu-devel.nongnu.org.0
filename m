@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0E464E6C0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 02:34:44 +0100 (CET)
-Received: from localhost ([::1]:40460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E483E4E6C15
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 02:36:31 +0100 (CET)
+Received: from localhost ([::1]:42634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXYqh-0005ip-Jt
-	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 21:34:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39780)
+	id 1nXYsQ-0007Gj-Nk
+	for lists+qemu-devel@lfdr.de; Thu, 24 Mar 2022 21:36:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nXYpS-0004uX-6j
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 21:33:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45425)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nXYpP-0004aN-CN
- for qemu-devel@nongnu.org; Thu, 24 Mar 2022 21:33:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648172001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gV3qYGUuAONjDan5xqtXdyN2RVcv7jBUCYtbHF1vOWU=;
- b=Yj4bPsPRQIM+VFjXVAe/7+8WJnJO0CI9qwxIXRFgITlMzk9nVX998jCkOiTz+GD9vJMQkO
- 1IgQ+hv+SsknosI6G5ukqcFaL0UMSYVBOiTdgNUNbWuohQvd8heqityck3FWu06emHJ1KA
- r0ynmcqbB6f8XfensMVlk1+go+A77c0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-272-c300APfWNE69TCoLmpnfnA-1; Thu, 24 Mar 2022 21:33:18 -0400
-X-MC-Unique: c300APfWNE69TCoLmpnfnA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 24DF485A5A8;
- Fri, 25 Mar 2022 01:33:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.192])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 90BBA4010A3C;
- Fri, 25 Mar 2022 01:33:17 +0000 (UTC)
-Date: Thu, 24 Mar 2022 20:33:15 -0500
-From: Eric Blake <eblake@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 05/17] iotests/040: Fix TestCommitWithFilters test
-Message-ID: <20220325013315.draawyxysnfmgejr@redhat.com>
-References: <20220324183018.2476551-1-jsnow@redhat.com>
- <20220324183018.2476551-6-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1nXYre-0006bD-Au
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 21:35:42 -0400
+Received: from [2607:f8b0:4864:20::636] (port=42905
+ helo=mail-pl1-x636.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1nXYrc-0004sK-VM
+ for qemu-devel@nongnu.org; Thu, 24 Mar 2022 21:35:41 -0400
+Received: by mail-pl1-x636.google.com with SMTP id p17so6587389plo.9
+ for <qemu-devel@nongnu.org>; Thu, 24 Mar 2022 18:35:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=rCO5xCPhDILvckAs1DWy7jjaavYTT5p+k0wQ03BON1s=;
+ b=jJxzoyGo/jbSrD3YG2JjZXPep7kMLHmxwW6vSfAXfHLVteVWPtNXhIGQNkEG/V4PGX
+ T9gTyNQFtZxoNXDu7zp+myJxPpyaCxekqpU67HPonBLL2h7XS4sNRnziOFMvtRVofxmo
+ 5boBhKOfowBY8xZ/ItCWRu4l6uii4ZfC/+jYwYFTp3tNeW2mpWfC5/evH9pf6H9EwMLl
+ gkjPvPzZKpn+Skj9TKMS+yj3yN3mj2kRTT5qymlrEJfi8Smy2GMvLce0i/JLDir5B2dT
+ yiHAmPbXb4K3ljPe7va5an5TTsrqe1SrRTqiDtbxi0u5h8P0RLHNEutM4ZReEd5wQ48W
+ rKjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rCO5xCPhDILvckAs1DWy7jjaavYTT5p+k0wQ03BON1s=;
+ b=P2bqczhiQ6IpS/q6OsFaTp/T+VO5Lr16rI3fGy0CE6aOpntIB/qgP7znspxBKmzMDk
+ DIXwIDOOYKp/b6sThV79ghSO6XduXzV35lWc7hYERlgq2seU9Iq8Avtyws5PbeG4pBhM
+ s1a3vMNOP4UI2bzNB7B08uFWLjf19w26d5cQCgHq2Tm1EXmVJqCtzdBZP4y3vE3eP7BX
+ I2Px0SJPauCnCNNdhZkmpJRDDOml8xryXPtJCL0XMiNTV2pMBDN2XO0bJ2eOZYpH1a4Z
+ nLCDq8D47lm6mgPWp67LKu3sye8pMgHH3hFaRkehGm11FBX20QJnk4SlJmZyi5O3Wy/8
+ 6aQw==
+X-Gm-Message-State: AOAM532SQtKdmVJ9Ond6XtIpfBP6Ab2lZ2p4ntmcND0TluIASNihBJMC
+ 8DdwfsF71KO5lSIJfn7ESiU=
+X-Google-Smtp-Source: ABdhPJzV8t3K39iGcanesqu8Uhy9Iu/kxOvIrFqahEV1vqUxabyoGzYMlPJ/9ugwu1+oeLpXn2bniA==
+X-Received: by 2002:a17:90a:1a:b0:1c6:c1ee:c3fb with SMTP id
+ 26-20020a17090a001a00b001c6c1eec3fbmr22086302pja.50.1648172136859; 
+ Thu, 24 Mar 2022 18:35:36 -0700 (PDT)
+Received: from localhost ([192.55.54.52]) by smtp.gmail.com with ESMTPSA id
+ u9-20020a056a00158900b004faad3ae570sm5036781pfk.189.2022.03.24.18.35.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Mar 2022 18:35:36 -0700 (PDT)
+Date: Thu, 24 Mar 2022 18:35:34 -0700
+From: Isaku Yamahata <isaku.yamahata@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [RFC PATCH v3 12/36] i386/tdx: Add property sept-ve-disable for
+ tdx-guest object
+Message-ID: <20220325013534.GA1229975@ls.amr.corp.intel.com>
+References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
+ <20220317135913.2166202-13-xiaoyao.li@intel.com>
+ <20220322090238.6job2whybu6ntor7@sirius.home.kraxel.org>
+ <b452d357-8fc2-c49c-8c19-a57b1ff287e8@intel.com>
+ <20220324075703.7ha44rd463uwnl55@sirius.home.kraxel.org>
+ <4fc788e8-1805-c7cd-243d-ccd2a6314a68@intel.com>
+ <20220324093725.hs3kpcehsbklacnj@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <20220324183018.2476551-6-jsnow@redhat.com>
-User-Agent: NeoMutt/20211029-512-43304b
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20220324093725.hs3kpcehsbklacnj@sirius.home.kraxel.org>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=isaku.yamahata@gmail.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,55 +94,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: isaku.yamahata@intel.com, Cornelia Huck <cohuck@redhat.com>,
+ "Daniel P. Berrang???" <berrange@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
+ Philippe Mathieu-Daud??? <f4bug@amsat.org>, qemu-devel@nongnu.org,
+ seanjc@google.com, erdemaktas@google.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>, isaku.yamahata@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 02:30:06PM -0400, John Snow wrote:
-> Without this change, asserting that qemu_io always returns 0 causes this
-> test to fail in a way we happened not to be catching previously:
+On Thu, Mar 24, 2022 at 10:37:25AM +0100,
+Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+> > #VE can be triggered in various situations. e.g., CPUID on some leaves, and
+> > RD/WRMSR on some MSRs. #VE on pending page is just one of the sources, Linux
+> > just wants to disable this kind of #VE since it wants to prevent unexpected
+> > #VE during SYSCALL gap.
 > 
->  qemu.utils.VerboseProcessError: Command
->   '('/home/jsnow/src/qemu/bin/git/tests/qemu-iotests/../../qemu-io',
->   '--cache', 'writeback', '--aio', 'threads', '-f', 'qcow2', '-c',
->   'read -P 4 3M 1M',
->   '/home/jsnow/src/qemu/bin/git/tests/qemu-iotests/scratch/3.img')'
->   returned non-zero exit status 1.
->   ┏━ output ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
->   ┃ qemu-io: can't open device
->   ┃ /home/jsnow/src/qemu/bin/git/tests/qemu-iotests/scratch/3.img:
->   ┃ Could not open backing file: Could not open backing file: Throttle
->   ┃ group 'tg' does not exist
->   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-> 
-> Explicitly provide the backing file so that opening the file outside of
-> QEMU (Where we will not have throttle groups) will succeed.
-> 
-> [Patch entirely written by Hanna but I don't have her S-o-B]
+> Linux guests can't disable those on their own?  Requiring this being
+> configured on the host looks rather fragile to me ...
 
-Yeah, you'll want that.
-
-> [My commit message is probably also garbage, sorry]
-
-No, it was actually decent.
-
-> [Feel free to suggest a better one]
-> [I hope your day is going well]
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-
-So giving your S-o-b twice makes up for it, right ;)
-
-Well, you did say v3 would fix this.  But while you're having fun
-fixing it, you can add:
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
+Guest can get the attributes. (But can't change it).  If the attributes isn't
+what the guest expects, the guest can stop working itself.
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Isaku Yamahata <isaku.yamahata@gmail.com>
 
