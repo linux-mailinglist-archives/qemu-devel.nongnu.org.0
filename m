@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951CB4E6E8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 08:12:32 +0100 (CET)
-Received: from localhost ([::1]:39462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B412F4E6E8C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 08:12:31 +0100 (CET)
+Received: from localhost ([::1]:39398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXe7b-0002OZ-Lg
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 03:12:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50102)
+	id 1nXe7a-0002MP-Bo
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 03:12:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nXe2T-0007ze-EQ
+ id 1nXe2U-000805-1s
  for qemu-devel@nongnu.org; Fri, 25 Mar 2022 03:07:14 -0400
-Received: from [2a00:1450:4864:20::529] (port=36479
+Received: from [2a00:1450:4864:20::529] (port=41911
  helo=mail-ed1-x529.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nXe2Q-0000XU-TB
+ id 1nXe2S-0000Xc-2n
  for qemu-devel@nongnu.org; Fri, 25 Mar 2022 03:07:13 -0400
-Received: by mail-ed1-x529.google.com with SMTP id h4so395365edr.3
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 00:07:10 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id x34so8151507ede.8
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 00:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dXYrp3td8hLF+Y2fCpcA9uLAXTP3QpyuvMkFSnX6eDU=;
- b=TAyV2mRJdINJRclR3WyGrKaZtvNmbz7zrqyRp0Fpltyumbgn4HCgHNb+zweA5dhBCf
- RWqcmMuSAnUgQUHwwYx23JjEOd1GzOyXWEAXtIxKbw6qOidYgSXrmK6Uk3ouGmyNWkDF
- JdCeX3R10QZghAV3faOJGaNxZhDOUlRXykqhG9CI+bHlOh9vizPyu/t7a0Pv6ph6VfUb
- KYGgWJ1vxJ9/1IAwM799Wg1lAyw6E573im6W0rIRJJN5rTqLTSSSoWF1yqf34E9p7q4T
- sdnjqbmT6gJrttzUxWsKtTS5jbQm6JCFZSuFsHj8SflFk/zOmBbJk6ko3tNuZiF4Vkz6
- pgJw==
+ bh=PRxGaWhCzQyFXNi/mB/7cW8H0Wd6692mLro8T5+Gheg=;
+ b=Sfg11RpesBbVdIdvjQz33hR5914JfYcRQamndkAj5y/v3l89DCyoZEd1/ncJIEsQ6c
+ EakdUWchbvVPDFDFOHv3eGYMN0S8/Qxyi3ATNqYij5tgyXCDbZdKglsmpD4e5CqbriYo
+ U896qesgCaaibnPwystMTNgaevyGHoiDJbZlzHPqGC+xRqF2C/EMZ1tpF75mR2ihAJNe
+ OwYZeILOr9072TXwsObz92+WUvfid3mAbX2GnXF1T9FSkiXqtqMtxdPwi/IlhKamkHw5
+ zbehGAcOdZc2vbYAjzvVCXZvd/YY/bVm5vgyvR5yoEu7pD/bDOUMcW0Ml9E97SzGDV5s
+ 2fog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dXYrp3td8hLF+Y2fCpcA9uLAXTP3QpyuvMkFSnX6eDU=;
- b=K59HeeGFenficoCQ7ioO2U6izieHOGa0EpACS0FzsYIpNvHL1TsNf26AunlkFARLVM
- 5BHSK+wKb7St5APvZYJqnhs/WoA/YAai4RNb1EgwKdUThLQLuRm+GACSAqpEwzjl86nz
- lsXnsdfb7sZHAWr7Ryudih876eVTd9eRoyLnrhx+igYw+/JjPfwvxGSttuH/uXWepVlX
- JmRjzYx7rYLjK7pMOpEXvzp4JUwL/PhzSAdftXcDt8S4eYc52et9NdgGsGe0v1N4aBTJ
- WYnAvWvIa6iqxJ4auBw+gf3Yjp/qtX8+BR35vztEN4vKeeExwSRti2wmWAtaOg9FSCIa
- LHBg==
-X-Gm-Message-State: AOAM531aF8OKOjd2LiYXkHfCACgRaG7CFRUcORs7b/nbAacyUjgukIuc
- caFN7m72KHSeX0BGarLFIbWOty9xKK4=
-X-Google-Smtp-Source: ABdhPJxh5N6DAZeZbvdyxCb0YCRwqNpf24vPLz7UaTxAuphwytbUJyb3gL9nb1qqFzPLQwCIXuSGZg==
-X-Received: by 2002:a05:6402:528e:b0:407:80ff:6eed with SMTP id
- en14-20020a056402528e00b0040780ff6eedmr11370517edb.165.1648192029626; 
- Fri, 25 Mar 2022 00:07:09 -0700 (PDT)
+ bh=PRxGaWhCzQyFXNi/mB/7cW8H0Wd6692mLro8T5+Gheg=;
+ b=lZpWKTue4qV0XrbNFlrNszKvd8GzWpvlMEQp775SG5JM53Qpy4uBtqMGht1iBTTxol
+ 2PLTmK1/3tJJCRkvAz8FZ92I1cnKuudtibMMtIyuSrdpufrnJqKGudgPdFyAJ8R00ns8
+ RK0CKopezuLDVxijkn4+/u5BrZEYEhjQsSWUVX85rYjQlk/cWB1HdD5BixUrF0bMyHLL
+ +8FgAwgKCjMfkPe9pHGSJQS/poLj3ojuj0fTbS3h6203FrpeiTcOfgxRIfWwySLNCRnK
+ NMr0DdAlBHSMY1ronhwT3Yx2QH7lxfGbZuj8NQbdxbQE8f1uRLWczzVBQO4434sR8TJi
+ iCow==
+X-Gm-Message-State: AOAM5319L2fqdq4hHI6O7Ca9NDLUjCmQj45TVABJl2xBWMgDDlUFftRI
+ 2WZDDToQt+vLieiyydXxrLSftDvrpu0=
+X-Google-Smtp-Source: ABdhPJwRxGa6AQdsT2uyy2qpuxSIpZh/ln9ftLMDwr/cdi/1L8dLDgHu9uy07NfcR8HGfxIVH49wdA==
+X-Received: by 2002:a05:6402:4402:b0:418:ff4c:f102 with SMTP id
+ y2-20020a056402440200b00418ff4cf102mr11299451eda.365.1648192030485; 
+ Fri, 25 Mar 2022 00:07:10 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- ka6-20020a170907990600b006ce54c95e3csm2011497ejc.161.2022.03.25.00.07.08
+ ka6-20020a170907990600b006ce54c95e3csm2011497ejc.161.2022.03.25.00.07.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Mar 2022 00:07:09 -0700 (PDT)
+ Fri, 25 Mar 2022 00:07:10 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/7] i386: Set MCG_STATUS_RIPV bit for mce SRAR error
-Date: Fri, 25 Mar 2022 08:07:01 +0100
-Message-Id: <20220325070706.271291-3-pbonzini@redhat.com>
+Subject: [PULL 3/7] KVM: x86: workaround invalid CPUID[0xD,
+ 9] info on some AMD processors
+Date: Fri, 25 Mar 2022 08:07:02 +0100
+Message-Id: <20220325070706.271291-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220325070706.271291-1-pbonzini@redhat.com>
 References: <20220325070706.271291-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
  (failed)
@@ -89,41 +91,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luofei <luofei@unicloud.com>
+Cc: Yang Zhong <yang.zhong@intel.com>, Peter Krempa <pkrempa@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: luofei <luofei@unicloud.com>
+Some AMD processors expose the PKRU extended save state even if they do not have
+the related PKU feature in CPUID.  Worse, when they do they report a size of
+64, whereas the expected size of the PKRU extended save state is 8, therefore
+the esa->size == eax assertion does not hold.
 
-In the physical machine environment, when a SRAR error occurs,
-the IA32_MCG_STATUS RIPV bit is set, but qemu does not set this
-bit. When qemu injects an SRAR error into virtual machine, the
-virtual machine kernel just call do_machine_check() to kill the
-current task, but not call memory_failure() to isolate the faulty
-page, which will cause the faulty page to be allocated and used
-repeatedly. If used by the virtual machine kernel, it will cause
-the virtual machine to crash
+The state is already ignored by KVM_GET_SUPPORTED_CPUID because it
+was not enabled in the host XCR0.  However, QEMU kvm_cpu_xsave_init()
+runs before QEMU invokes arch_prctl() to enable dynamically-enabled
+save states such as XTILEDATA, and KVM_GET_SUPPORTED_CPUID hides save
+states that have yet to be enabled.  Therefore, kvm_cpu_xsave_init()
+needs to consult the host CPUID instead of KVM_GET_SUPPORTED_CPUID,
+and dies with an assertion failure.
 
-Signed-off-by: luofei <luofei@unicloud.com>
-Message-Id: <20220120084634.131450-1-luofei@unicloud.com>
+When setting up the ExtSaveArea array to match the host, ignore features that
+KVM does not report as supported.  This will cause QEMU to skip the incorrect
+CPUID leaf instead of tripping the assertion.
+
+Closes: https://gitlab.com/qemu-project/qemu/-/issues/916
+Reported-by: Daniel P. Berrangé <berrange@redhat.com>
+Analyzed-by: Yang Zhong <yang.zhong@intel.com>
+Reported-by: Peter Krempa <pkrempa@redhat.com>
+Tested-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm/kvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/i386/cpu.c         |  4 ++--
+ target/i386/cpu.h         |  2 ++
+ target/i386/kvm/kvm-cpu.c | 19 ++++++++++++-------
+ 3 files changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 7396b430d7..9cf8e03669 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -569,7 +569,7 @@ static void kvm_mce_inject(X86CPU *cpu, hwaddr paddr, int code)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index a88d6554c8..ec3b50bf6e 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4981,8 +4981,8 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
+     return cpu_list;
+ }
  
-     if (code == BUS_MCEERR_AR) {
-         status |= MCI_STATUS_AR | 0x134;
--        mcg_status |= MCG_STATUS_EIPV;
-+        mcg_status |= MCG_STATUS_RIPV | MCG_STATUS_EIPV;
-     } else {
-         status |= 0xc0;
-         mcg_status |= MCG_STATUS_RIPV;
+-static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+-                                                   bool migratable_only)
++uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
++                                            bool migratable_only)
+ {
+     FeatureWordInfo *wi = &feature_word_info[w];
+     uint64_t r = 0;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 5e406088a9..e31e6bd8b8 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -606,6 +606,8 @@ typedef enum FeatureWord {
+ } FeatureWord;
+ 
+ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
++uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
++                                            bool migratable_only);
+ 
+ /* cpuid_features bits */
+ #define CPUID_FP87 (1U << 0)
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index a35a1bf9fe..5eb955ce9a 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -99,13 +99,18 @@ static void kvm_cpu_xsave_init(void)
+     for (i = XSTATE_SSE_BIT + 1; i < XSAVE_STATE_AREA_COUNT; i++) {
+         ExtSaveArea *esa = &x86_ext_save_areas[i];
+ 
+-        if (esa->size) {
+-            host_cpuid(0xd, i, &eax, &ebx, &ecx, &edx);
+-            if (eax != 0) {
+-                assert(esa->size == eax);
+-                esa->offset = ebx;
+-                esa->ecx = ecx;
+-            }
++        if (!esa->size) {
++            continue;
++        }
++        if ((x86_cpu_get_supported_feature_word(esa->feature, false) & esa->bits)
++            != esa->bits) {
++            continue;
++        }
++        host_cpuid(0xd, i, &eax, &ebx, &ecx, &edx);
++        if (eax != 0) {
++            assert(esa->size == eax);
++            esa->offset = ebx;
++            esa->ecx = ecx;
+         }
+     }
+ }
 -- 
 2.35.1
 
