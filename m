@@ -2,87 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4881F4E6F3A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 09:01:33 +0100 (CET)
-Received: from localhost ([::1]:41410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C055B4E6F4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 09:08:41 +0100 (CET)
+Received: from localhost ([::1]:44330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXet0-0007VO-Ul
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 04:01:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56868)
+	id 1nXezw-0001YZ-JI
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 04:08:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nXerM-0006n0-12
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 03:59:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46806)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nXevX-0000eQ-LI
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 04:04:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nXerI-0007uz-0H
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 03:59:46 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nXevU-0000A5-Az
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 04:04:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648195182;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qCbiipYJvBV1Ekd6KtAyxvXYojV0u8Wsd5Wfakc9rC4=;
- b=g/LrLE3MThZdCFXktv6HeB/B55CiGCbkiKBT9GiEj1GoHqmKm4hvbETrviLcie86et5at8
- hNuT2e5ZezFQtdS4zMGMuK10bGhJZITjCG3UZSBknVgueGrQyo66deI03zPWfcnv2Gsgr9
- VxtLlpc/uo+od/ok0ghyryyEnz+J2O4=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1648195443;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=4pztfmDTLgoCOjKDqaVKsBU95A1sQxw9eIp8muBuVnA=;
+ b=fiZHvBuGxgVVW6fVjOaiwC2b1DBk3ZpkSKplz5QQ14TQtw0ML4Pfl3uubpPoNgQhT+AKoB
+ 5pVM/M2v2NTZ2x4vgl9N+GJB8Cq3Of5PwDXKMgaELo7TaBrcYPToF/M+8xxaITah10y+Vm
+ 9oNEQF9U3MmPSYYKNdHND1uw4gRHOXg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-204-a3JixhdHMlKDG2YfZ5bdrg-1; Fri, 25 Mar 2022 03:59:40 -0400
-X-MC-Unique: a3JixhdHMlKDG2YfZ5bdrg-1
-Received: by mail-lj1-f198.google.com with SMTP id
- 76-20020a2e054f000000b00249606fea4fso2683742ljf.19
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 00:59:40 -0700 (PDT)
+ us-mta-625-TvK_CVyENmCfaRo0cfDI0g-1; Fri, 25 Mar 2022 04:04:02 -0400
+X-MC-Unique: TvK_CVyENmCfaRo0cfDI0g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n19-20020a7bcbd3000000b0038c94b86258so2427258wmi.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 01:04:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qCbiipYJvBV1Ekd6KtAyxvXYojV0u8Wsd5Wfakc9rC4=;
- b=GfRJ44Nh6rUy7Uz5+TdZ7h2Fzeo4aqRLkBK56tXI+k3SA1/DFN04xIsK7u0bdYX+6Z
- Juno6We5ZaguYiFEvHhH0RMPZBF9Q1yfTmBj0188zMyLu6o/q7wquTW8Opcuc8bIMctm
- 0yaBx1GUrCiaOy2VnAmDxGnquQgJNfRWG5fabEJzmD5IaxIQn8vCYFPvEUCza5b0bjAk
- D4azP5pY52MKClnK1fQfAMLNNHjdO+YF6LEQRQBVG4RnV866Zhu+Xbf1f8yWdMAW2Kaw
- R03MJ1VDV6HzIxC/iLlT0yepqhKwsvM4RMF4KO1CEHtwUgzHkPfNZUofu0/woMOoEQxq
- ychQ==
-X-Gm-Message-State: AOAM531kA+J30dgh080jnYYT7zK2uNI733ZJsB/z3+hRKNhb6If0RRYi
- OcuikW7MWGA+5kz7rnpOpVVSyjTCU9vdPtumUBrvsIWe38V9s5P4RIsarvMo7MhzZk0ZF4WjTYi
- okJvV3SpRUx87S5NwiGaBdjxt7oHe0lA=
-X-Received: by 2002:a2e:54d:0:b0:249:8213:f970 with SMTP id
- 74-20020a2e054d000000b002498213f970mr7243983ljf.315.1648195178811; 
- Fri, 25 Mar 2022 00:59:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy4EXhCQAi2pjfWZ8glWRyp19nHptJpq5eLuqghd+pwZD0uhlQwgvRqtwD/v918GZG/xx/bXhKWfqD10gISjIg=
-X-Received: by 2002:a2e:54d:0:b0:249:8213:f970 with SMTP id
- 74-20020a2e054d000000b002498213f970mr7243955ljf.315.1648195178285; Fri, 25
- Mar 2022 00:59:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=4pztfmDTLgoCOjKDqaVKsBU95A1sQxw9eIp8muBuVnA=;
+ b=adD1mFSiy7GF/ClBSZ73+PYr5X8bQKsAfR4nsghTbm+fnJnAsDJb+FCVCb27payiDx
+ qYwRSYh/hNhxDCR4axCGrXQ4ZhZzaTaMnETeOwYvs9w+hCXjfVd+2iYlMkqrk6exJZeE
+ iKXUx0FV3F5Ib84npbUVkE1WDggUOZn2PBrGGAhExuOpfjCgXdirYXIZUQ6GypqmfcLf
+ 5Hzjpluc9+EjYrXhYscDUJVZ5X2Y4r/LjjkzPhGPRdpevRaa2UZlwhFyYQKuYahNzivc
+ wtX9/Vm/6d7TYGcZKkhZ5UYJJ9BexMzBdFflzifjSjDTYay1DnDDFwTr/b6T3ZEXUivI
+ oe6A==
+X-Gm-Message-State: AOAM533AIvp7tPn8MqTTP9bYWQPlGoZmHQESLJlXnayctIAHep/g5ywV
+ ghiGr9lAvGP0wu4dbu99EHci6599T1lGzRq1rd45hYy04aeJU56AhEbQfqVFDP0VoHVV8o6MFI7
+ lrW3sdNJqR4INaQE=
+X-Received: by 2002:a05:6000:22a:b0:203:f7f8:e006 with SMTP id
+ l10-20020a056000022a00b00203f7f8e006mr7951431wrz.175.1648195439649; 
+ Fri, 25 Mar 2022 01:03:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyiETj0X5vy7pL4nKKII5AClu8ftpsTKV7wKkcT9igXvg4TFVDXot38fh12VjMoFCQudL4c7g==
+X-Received: by 2002:a05:6000:22a:b0:203:f7f8:e006 with SMTP id
+ l10-20020a056000022a00b00203f7f8e006mr7951379wrz.175.1648195439005; 
+ Fri, 25 Mar 2022 01:03:59 -0700 (PDT)
+Received: from localhost ([47.63.10.52]) by smtp.gmail.com with ESMTPSA id
+ p2-20020a5d4582000000b00203f51aa12asm4445732wrq.55.2022.03.25.01.03.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Mar 2022 01:03:58 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: hang in migration-test (s390 host)
+In-Reply-To: <2d9e3abd-99de-dc56-c6bd-93e54cd22b8e@redhat.com> (Laurent
+ Vivier's message of "Thu, 24 Mar 2022 13:59:16 +0100")
+References: <CAFEAcA_X7d9-e+u3UpB5WvJrmJhhRKdw8EhUzCdFDNVfhFF8mg@mail.gmail.com>
+ <2d9e3abd-99de-dc56-c6bd-93e54cd22b8e@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Fri, 25 Mar 2022 09:03:56 +0100
+Message-ID: <87zglee9w3.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <1647663216-11260-1-git-send-email-si-wei.liu@oracle.com>
- <CACGkMEucw7GASmZwYEwwTYtNw3Bup_0huaDtoV5_FdSfW_4Cuw@mail.gmail.com>
- <c3e931ee-1a1b-9c2f-2f59-cb4395c230f9@oracle.com>
-In-Reply-To: <c3e931ee-1a1b-9c2f-2f59-cb4395c230f9@oracle.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 25 Mar 2022 15:59:26 +0800
-Message-ID: <CACGkMEuh8S3ShJZRtDkjvykHMNSi4A1pO0PRJPuEKJL=uAhX9Q@mail.gmail.com>
-Subject: Re: [RFC PATCH] vhost_net: should not use max_queue_pairs for non-mq
- guest
-To: Si-Wei Liu <si-wei.liu@oracle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,368 +99,413 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma <eperezma@redhat.com>, Eli Cohen <eli@mellanox.com>,
- qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
+Reply-To: quintela@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 25, 2022 at 3:02 PM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+Laurent Vivier <lvivier@redhat.com> wrote:
+> Perhaps Juan or Thomas can help too (added to cc)
 >
->
->
-> On 3/21/2022 8:47 PM, Jason Wang wrote:
-> > On Sat, Mar 19, 2022 at 12:14 PM Si-Wei Liu <si-wei.liu@oracle.com> wro=
-te:
-> >> With MQ enabled vdpa device and non-MQ supporting guest e.g.
-> >> booting vdpa with mq=3Don over OVMF of single vqp, it's easy
-> >> to hit assert failure as the following:
-> >>
-> >> ../hw/virtio/vhost-vdpa.c:560: vhost_vdpa_get_vq_index: Assertion `idx=
- >=3D dev->vq_index && idx < dev->vq_index + dev->nvqs' failed.
-> >>
-> >> 0  0x00007f8ce3ff3387 in raise () at /lib64/libc.so.6
-> >> 1  0x00007f8ce3ff4a78 in abort () at /lib64/libc.so.6
-> >> 2  0x00007f8ce3fec1a6 in __assert_fail_base () at /lib64/libc.so.6
-> >> 3  0x00007f8ce3fec252 in  () at /lib64/libc.so.6
-> >> 4  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=3D<optimized out=
->, idx=3D<optimized out>) at ../hw/virtio/vhost-vdpa.c:563
-> >> 5  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=3D<optimized out=
->, idx=3D<optimized out>) at ../hw/virtio/vhost-vdpa.c:558
-> >> 6  0x0000558f52d7329a in vhost_virtqueue_mask (hdev=3D0x558f55c01800, =
-vdev=3D0x558f568f91f0, n=3D2, mask=3D<optimized out>) at ../hw/virtio/vhost=
-.c:1557
-> >> 7  0x0000558f52c6b89a in virtio_pci_set_guest_notifier (d=3Dd@entry=3D=
-0x558f568f0f60, n=3Dn@entry=3D2, assign=3Dassign@entry=3Dtrue, with_irqfd=
-=3Dwith_irqfd@entry=3Dfalse)
-> >>     at ../hw/virtio/virtio-pci.c:974
-> >> 8  0x0000558f52c6c0d8 in virtio_pci_set_guest_notifiers (d=3D0x558f568=
-f0f60, nvqs=3D3, assign=3Dtrue) at ../hw/virtio/virtio-pci.c:1019
-> >> 9  0x0000558f52bf091d in vhost_net_start (dev=3Ddev@entry=3D0x558f568f=
-91f0, ncs=3D0x558f56937cd0, data_queue_pairs=3Ddata_queue_pairs@entry=3D1, =
-cvq=3Dcvq@entry=3D1)
-> >>     at ../hw/net/vhost_net.c:361
-> >> 10 0x0000558f52d4e5e7 in virtio_net_set_status (status=3D<optimized ou=
-t>, n=3D0x558f568f91f0) at ../hw/net/virtio-net.c:289
-> >> 11 0x0000558f52d4e5e7 in virtio_net_set_status (vdev=3D0x558f568f91f0,=
- status=3D15 '\017') at ../hw/net/virtio-net.c:370
-> >> 12 0x0000558f52d6c4b2 in virtio_set_status (vdev=3Dvdev@entry=3D0x558f=
-568f91f0, val=3Dval@entry=3D15 '\017') at ../hw/virtio/virtio.c:1945
-> >> 13 0x0000558f52c69eff in virtio_pci_common_write (opaque=3D0x558f568f0=
-f60, addr=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>)=
- at ../hw/virtio/virtio-pci.c:1292
-> >> 14 0x0000558f52d15d6e in memory_region_write_accessor (mr=3D0x558f568f=
-19d0, addr=3D20, value=3D<optimized out>, size=3D1, shift=3D<optimized out>=
-, mask=3D<optimized out>, attrs=3D...)
-> >>     at ../softmmu/memory.c:492
-> >> 15 0x0000558f52d127de in access_with_adjusted_size (addr=3Daddr@entry=
-=3D20, value=3Dvalue@entry=3D0x7f8cdbffe748, size=3Dsize@entry=3D1, access_=
-size_min=3D<optimized out>, access_size_max=3D<optimized out>, access_fn=3D=
-0x558f52d15cf0 <memory_region_write_accessor>, mr=3D0x558f568f19d0, attrs=
-=3D...) at ../softmmu/memory.c:554
-> >> 16 0x0000558f52d157ef in memory_region_dispatch_write (mr=3Dmr@entry=
-=3D0x558f568f19d0, addr=3D20, data=3D<optimized out>, op=3D<optimized out>,=
- attrs=3Dattrs@entry=3D...)
-> >>     at ../softmmu/memory.c:1504
-> >> 17 0x0000558f52d078e7 in flatview_write_continue (fv=3Dfv@entry=3D0x7f=
-8accbc3b90, addr=3Daddr@entry=3D103079215124, attrs=3D..., ptr=3Dptr@entry=
-=3D0x7f8ce6300028, len=3Dlen@entry=3D1, addr1=3D<optimized out>, l=3D<optim=
-ized out>, mr=3D0x558f568f19d0) at /home/opc/qemu-upstream/include/qemu/hos=
-t-utils.h:165
-> >> 18 0x0000558f52d07b06 in flatview_write (fv=3D0x7f8accbc3b90, addr=3D1=
-03079215124, attrs=3D..., buf=3D0x7f8ce6300028, len=3D1) at ../softmmu/phys=
-mem.c:2822
-> >> 19 0x0000558f52d0b36b in address_space_write (as=3D<optimized out>, ad=
-dr=3D<optimized out>, attrs=3D..., buf=3Dbuf@entry=3D0x7f8ce6300028, len=3D=
-<optimized out>)
-> >>     at ../softmmu/physmem.c:2914
-> >> 20 0x0000558f52d0b3da in address_space_rw (as=3D<optimized out>, addr=
-=3D<optimized out>, attrs=3D...,
-> >>     attrs@entry=3D..., buf=3Dbuf@entry=3D0x7f8ce6300028, len=3D<optimi=
-zed out>, is_write=3D<optimized out>) at ../softmmu/physmem.c:2924
-> >> 21 0x0000558f52dced09 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x558f55c2da6=
-0) at ../accel/kvm/kvm-all.c:2903
-> >> 22 0x0000558f52dcfabd in kvm_vcpu_thread_fn (arg=3Darg@entry=3D0x558f5=
-5c2da60) at ../accel/kvm/kvm-accel-ops.c:49
-> >> 23 0x0000558f52f9f04a in qemu_thread_start (args=3D<optimized out>) at=
- ../util/qemu-thread-posix.c:556
-> >> 24 0x00007f8ce4392ea5 in start_thread () at /lib64/libpthread.so.0
-> >> 25 0x00007f8ce40bb9fd in clone () at /lib64/libc.so.6
-> >>
-> >> The cause for the assert failure is due to that the vhost_dev index
-> >> for the ctrl vq was not aligned with actual one in use by the guest.
-> >> Upon multiqueue feature negotiation in virtio_net_set_multiqueue(),
-> >> if guest doesn't support multiqueue, the guest vq layout would shrink
-> >> to single queue pair of 3 vqs in total (rx, tx and ctrl). This results
-> >> in ctrl_vq taking a different vhost_dev group index than the default
-> >> n->max_queue_pairs, the latter of which is only valid for multiqueue
-> >> guest. While on those additional vqs not exposed to the guest,
-> >> vhost_net_set_vq_index() never populated vq_index properly, hence
-> >> getting the assert failure.
-> >>
-> >> A possible fix is to pick the correct vhost_dev group for the control
-> >> vq according to this table [*]:
-> >>
-> >> vdpa tool / QEMU arg / guest config    / ctrl_vq group index
-> >> ----------------------------------------------------------------
-> >> max_vqp 8 / mq=3Don    / mq=3Doff  (UEFI) =3D> data_queue_pairs
-> >> max_vqp 8 / mq=3Don    / mq=3Don  (Linux) =3D> n->max_queue_pairs(>1)
-> >> max_vqp 8 / mq=3Doff   / mq=3Don  (Linux) =3D> n->max_queue_pairs(=3D1=
-)
-> >>
-> >> [*] Please see FIXME in the code for open question and discussion
-> >>
-> >> Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
-> >> ---
-> >>   hw/net/vhost_net.c     | 13 +++++++++----
-> >>   hw/virtio/vhost-vdpa.c | 25 ++++++++++++++++++++++++-
-> >>   2 files changed, 33 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> >> index 30379d2..9a4479b 100644
-> >> --- a/hw/net/vhost_net.c
-> >> +++ b/hw/net/vhost_net.c
-> >> @@ -322,6 +322,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientSt=
-ate *ncs,
-> >>       BusState *qbus =3D BUS(qdev_get_parent_bus(DEVICE(dev)));
-> >>       VirtioBusState *vbus =3D VIRTIO_BUS(qbus);
-> >>       VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(vbus);
-> >> +    bool mq =3D virtio_host_has_feature(dev, VIRTIO_NET_F_MQ);
-> >>       int total_notifiers =3D data_queue_pairs * 2 + cvq;
-> >>       VirtIONet *n =3D VIRTIO_NET(dev);
-> >>       int nvhosts =3D data_queue_pairs + cvq;
-> >> @@ -343,7 +344,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientSt=
-ate *ncs,
-> >>           if (i < data_queue_pairs) {
-> >>               peer =3D qemu_get_peer(ncs, i);
-> >>           } else { /* Control Virtqueue */
-> >> -            peer =3D qemu_get_peer(ncs, n->max_queue_pairs);
-> >> +            peer =3D qemu_get_peer(ncs, mq ? data_queue_pairs : n->ma=
-x_queue_pairs);
-> >>           }
-> >>
-> >>           net =3D get_vhost_net(peer);
-> >> @@ -368,7 +369,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientSt=
-ate *ncs,
-> >>           if (i < data_queue_pairs) {
-> >>               peer =3D qemu_get_peer(ncs, i);
-> >>           } else {
-> >> -            peer =3D qemu_get_peer(ncs, n->max_queue_pairs);
-> >> +            peer =3D qemu_get_peer(ncs, mq ? data_queue_pairs : n->ma=
-x_queue_pairs);
-> >>           }
-> >>           r =3D vhost_net_start_one(get_vhost_net(peer), dev);
-> >>
-> >> @@ -390,7 +391,10 @@ int vhost_net_start(VirtIODevice *dev, NetClientS=
-tate *ncs,
-> >>
-> >>   err_start:
-> >>       while (--i >=3D 0) {
-> >> -        peer =3D qemu_get_peer(ncs , i);
-> >> +        if (mq)
-> >> +            peer =3D qemu_get_peer(ncs, i < data_queue_pairs ? i : da=
-ta_queue_pairs);
-> >> +        else
-> >> +            peer =3D qemu_get_peer(ncs, i < data_queue_pairs ? i : n-=
->max_queue_pairs);
-> >>           vhost_net_stop_one(get_vhost_net(peer), dev);
-> >>       }
-> >>       e =3D k->set_guest_notifiers(qbus->parent, total_notifiers, fals=
-e);
-> >> @@ -409,6 +413,7 @@ void vhost_net_stop(VirtIODevice *dev, NetClientSt=
-ate *ncs,
-> >>       VirtioBusState *vbus =3D VIRTIO_BUS(qbus);
-> >>       VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(vbus);
-> >>       VirtIONet *n =3D VIRTIO_NET(dev);
-> >> +    bool mq =3D virtio_host_has_feature(dev, VIRTIO_NET_F_MQ);
-> >>       NetClientState *peer;
-> >>       int total_notifiers =3D data_queue_pairs * 2 + cvq;
-> >>       int nvhosts =3D data_queue_pairs + cvq;
-> >> @@ -418,7 +423,7 @@ void vhost_net_stop(VirtIODevice *dev, NetClientSt=
-ate *ncs,
-> >>           if (i < data_queue_pairs) {
-> >>               peer =3D qemu_get_peer(ncs, i);
-> >>           } else {
-> >> -            peer =3D qemu_get_peer(ncs, n->max_queue_pairs);
-> >> +            peer =3D qemu_get_peer(ncs, mq ? data_queue_pairs : n->ma=
-x_queue_pairs);
-> >>           }
-> >>           vhost_net_stop_one(get_vhost_net(peer), dev);
-> >>       }
-> >> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> >> index 27ea706..623476e 100644
-> >> --- a/hw/virtio/vhost-vdpa.c
-> >> +++ b/hw/virtio/vhost-vdpa.c
-> >> @@ -1097,7 +1097,30 @@ static int vhost_vdpa_dev_start(struct vhost_de=
-v *dev, bool started)
-> >>           vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
-> >>       }
-> >>
-> >> -    if (dev->vq_index + dev->nvqs !=3D dev->vq_index_end) {
-> >> +    /* FIXME the vhost_dev group for the control vq may have bogus nv=
-qs=3D2
-> >> +     * value rather than nvqs=3D1. This can happen in case the guest =
-doesn't
-> >> +     * support multiqueue, as a result of virtio_net_change_num_queue=
-_pairs()
-> >> +     * destroying and rebuilding all the vqs, the guest index for con=
-trol vq
-> >> +     * will no longer align with the host's. Currently net_init_vhost=
-_vdpa()
-> >> +     * only initializes all vhost_dev's and net_clients once during
-> >> +     * net_client_init1() time, way earlier before multiqueue feature
-> >> +     * negotiation can kick in.
-> > See below, it looks like the code doesn't find the correct vhost_dev.
-> >
-> >> +     *
-> >> +     * Discussion - some possible fixes so far I can think of:
-> >> +     *
-> >> +     * option 1: fix vhost_net->dev.nvqs and nc->is_datapath in place=
- for
-> >> +     * vdpa's ctrl vq, or rebuild all vdpa's vhost_dev groups and the
-> >> +     * net_client array, in the virtio_net_set_multiqueue() path;
-> >> +     *
-> >> +     * option 2: fix vhost_dev->nvqs in place at vhost_vdpa_set_featu=
-res()
-> >> +     * before coming down to vhost_vdpa_dev_start() (Q: nc->is_datapa=
-th
-> >> +     * seems only used in virtio_net_device_realize, is it relevant?)=
-;
-> > Relevant but not directly related, for the vhost_dev where
-> > nc->is_datapath is false, it will assume it is backed by a single
-> > queue not a queue pair.
-> >
-> >> +     *
-> >> +     * option 3: use host queue index all along in vhost-vdpa ioctls =
-instead
-> >> +     * of using guest vq index, so that vhost_net_start/stop() can re=
-main
-> >> +     * as-is today
-> >> +     */
-> > Note that the vq_index of each vhost_dev is assigned during
-> > vhost_net_start() according to whether or not the MQ or CVQ is
-> > negotiated in vhost_net_start()
-> >
-> >      for (i =3D 0; i < nvhosts; i++) {
-> >
-> >          if (i < data_queue_pairs) {
-> >              peer =3D qemu_get_peer(ncs, i);
-> >          } else { /* Control Virtqueue */
-> >              peer =3D qemu_get_peer(ncs, n->max_queue_pairs);
-> >          }
-> >
-> >          net =3D get_vhost_net(peer);
-> >          vhost_net_set_vq_index(net, i * 2, index_end);
-> >
-> > It means some of the peers won't be used when MQ is not negotiated. So
-> > it looks to me the evil came from virtio_net_get_notifier_mask().
-> Yes, there it is. Where the control virtqueue first ever needs a
-> guest_notifier for vhost_dev.
-> > Where it doesn't mask the correct vhost dev when the guest doesn't
-> > support MQ but the host does. So we had option 4:
-> >
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index 2087516253..5e9ac019cd 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -3179,7 +3179,13 @@ static void
-> > virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
-> >                                              bool mask)
-> >   {
-> >       VirtIONet *n =3D VIRTIO_NET(vdev);
-> > -    NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
-> > +    NetClientState *nc;
-> > +
-> > +    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx =3D=3D =
-2) {
-> Hmmm, I thought it would be more natural to align the layout of
-> vhost_dev's with that of virtqueue's, not the other way around.
+> Is this a regression?
+> It looks like a bug in QEMU as it doesn't move from cancelling to cancelled.
 
-The problem is that we need to make sure it works for vhost_net as
-well where it doesn't support cvq.
+Hi
 
-> Not sure
-> how this vhost_dev selection scheme may work with additional queues
-> discovered through transport specific mechanism, such as the admin
-> virtqueue, but I can live with it for now:
->
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -244,7 +244,8 @@ static void virtio_net_vhost_status(VirtIONet *n,
-> uint8_t status)
->       VirtIODevice *vdev =3D VIRTIO_DEVICE(n);
->       NetClientState *nc =3D qemu_get_queue(n->nic);
->       int queue_pairs =3D n->multiqueue ? n->max_queue_pairs : 1;
-> -    int cvq =3D n->max_ncs - n->max_queue_pairs;
-> +    int cvq =3D virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
-> +              n->max_ncs - n->max_queue_pairs : 0;
+TCG never stops given.  And s390 makes things even more interesting.
+First of all, it is a pity that glib debug symbols are not loaded.
 
-Any reason for this line?
+>> PROCESS: 2771497
+>> gitlab-+ 2771497 2769521 10 Mar23 ?        01:51:09
+>> /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/build/tests/qtest/migration-test
+>> --tap -k
+>> [New LWP 2771498]
+>> [Thread debugging using libthread_db enabled]
+>> Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+>> __libc_read (nbytes=1, buf=0x3ffd577abd7, fd=4) at
+>> ../sysdeps/unix/sysv/linux/read.c:26
+>> 26      ../sysdeps/unix/sysv/linux/read.c: No such file or directory.
+>> Thread 2 (Thread 0x3ffb197f900 (LWP 2771498)):
+>> #0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+>> #1  0x000002aa00535c14 in qemu_futex_wait (val=<optimized out>,
+>> f=<optimized out>) at
+>> /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/futex.h:29
+>> #2  qemu_event_wait (ev=ev@entry=0x2aa0056eb50 <rcu_call_ready_event>)
+>> at ../util/qemu-thread-posix.c:481
+>> #3  0x000002aa00541aca in call_rcu_thread (opaque=opaque@entry=0x0) at
+>> ../util/rcu.c:261
+>> #4  0x000002aa00534c0a in qemu_thread_start (args=<optimized out>) at
+>> ../util/qemu-thread-posix.c:556
+>> #5  0x000003ffb1c07e66 in start_thread (arg=0x3ffb197f900) at
+>> pthread_create.c:477
+>> #6  0x000003ffb1afcbf6 in thread_start () at
+>> ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
-Btw, would you mind to post a formal patch for this?
+Starting rcu thread.
 
-Thanks
+>> Thread 1 (Thread 0x3ffb1ff5430 (LWP 2771497)):
+>> #0  __libc_read (nbytes=1, buf=0x3ffd577abd7, fd=4) at
+>> ../sysdeps/unix/sysv/linux/read.c:26
+>> #1  __libc_read (fd=fd@entry=4, buf=buf@entry=0x3ffd577abd7,
+>> nbytes=nbytes@entry=1) at ../sysdeps/unix/sysv/linux/read.c:24
+>> #2  0x000002aa00511bc4 in read (__nbytes=1, __buf=0x3ffd577abd7,
+>> __fd=4) at /usr/include/s390x-linux-gnu/bits/unistd.h:44
+>> #3  qmp_fd_receive (fd=<optimized out>) at ../tests/qtest/libqtest.c:613
+>> #4  0x000002aa00511c6a in qtest_qmp_receive_dict (s=0x2aa00ea3110) at
+>> ../tests/qtest/libqtest.c:648
+>> #5  qtest_qmp_receive (s=s@entry=0x2aa00ea3110) at ../tests/qtest/libqtest.c:636
+>> #6  0x000002aa00512554 in qtest_vqmp (s=s@entry=0x2aa00ea3110,
+>> fmt=fmt@entry=0x2aa00548098 "{ 'execute': 'query-migrate' }",
+>> ap=ap@entry=0x3ffd577ad80) at ../tests/qtest/libqtest.c:749
+>> #7  0x000002aa00510386 in wait_command (who=who@entry=0x2aa00ea3110,
+>> command=command@entry=0x2aa00548098 "{ 'execute': 'query-migrate' }")
+>> at ../tests/qtest/migration-helpers.c:63
+>> #8  0x000002aa00510498 in migrate_query (who=who@entry=0x2aa00ea3110)
+>> at ../tests/qtest/migration-helpers.c:116
+>> #9  migrate_query_status (who=who@entry=0x2aa00ea3110) at
+>> ../tests/qtest/migration-helpers.c:116
+>> #10 0x000002aa005106ac in check_migration_status (ungoals=0x0,
+>> goal=0x2aa00547a10 "cancelled", who=0x2aa00ea3110) at
+>> ../tests/qtest/migration-helpers.c:156
+>> #11 wait_for_migration_status (who=0x2aa00ea3110, goal=<optimized
+>> out>, ungoals=0x0) at ../tests/qtest/migration-helpers.c:156
+>> #12 0x000002aa0050fbc2 in test_multifd_tcp_cancel () at
+>> ../tests/qtest/migration-test.c:1379
+>> #13 0x000003ffb1dfe608 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+>> #14 0x000003ffb1dfe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+>> #15 0x000003ffb1dfe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+>> #16 0x000003ffb1dfe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+>> #17 0x000003ffb1dfe392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+>> #18 0x000003ffb1dfeada in g_test_run_suite () from
+>> /lib/s390x-linux-gnu/libglib-2.0.so.0
+>> #19 0x000003ffb1dfeb10 in g_test_run () from
+>> /lib/s390x-linux-gnu/libglib-2.0.so.0
+>> #20 0x000002aa0050cea8 in main (argc=<optimized out>, argv=<optimized
+>> out>) at ../tests/qtest/migration-test.c:1491
 
->
->       if (!get_vhost_net(nc->peer)) {
->           return;
-> @@ -3161,8 +3162,14 @@ static NetClientInfo net_virtio_info =3D {
->   static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int i=
-dx)
->   {
->       VirtIONet *n =3D VIRTIO_NET(vdev);
-> -    NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
-> +    NetClientState *nc;
->       assert(n->vhost_started);
-> +    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx =3D=3D 2)=
- {
-> +        assert(virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ));
-> +        nc =3D qemu_get_subqueue(n->nic, n->max_queue_pairs);
-> +    } else {
-> +        nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
-> +    }
->       return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
->   }
->
-> @@ -3170,8 +3177,14 @@ static void
-> virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
->                                              bool mask)
->   {
->       VirtIONet *n =3D VIRTIO_NET(vdev);
-> -    NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
-> +    NetClientState *nc;
->       assert(n->vhost_started);
-> +    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx =3D=3D 2)=
- {
-> +        assert(virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ));
-> +        nc =3D qemu_get_subqueue(n->nic, n->max_queue_pairs);
-> +    } else {
-> +        nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
-> +    }
->       vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
->                                vdev, idx, mask);
->   }
->
->
-> Thanks,
-> -Siwei
->
-> > +        nc =3D qemu_get_subqueue(n->nic, n->max_queue_pairs);
-> > +    } else {
-> > +        nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
-> > +    }
-> >       assert(n->vhost_started);
-> >       vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
-> >                                vdev, idx, mask);
-> >
-> > Thanks
-> >
-> >> +    if (dev->vq_index + dev->nvqs < dev->vq_index_end) {
-> >>           return 0;
-> >>       }
-> >>
-> >> --
-> >> 1.8.3.1
-> >>
->
+This is the main process that is waiting for qemu.  I was not even aware
+that we used threads on this program.  Anyways, if the problem is here,
+the probem is on the test harness code, not in qemu.
+
+>> [Inferior 1 (process 2771497) detached]
+>> ===========================================================
+>> PROCESS: 2772862
+>> gitlab-+ 2772862 2771497 99 Mar23 ?        18:45:28 ./qemu-system-i386
+>> -qtest unix:/tmp/qtest-2771497.sock -qtest-log /dev/null -chardev
+>> socket,path=/tmp/qtest-2771497.qmp,id=char0 -mon
+>> chardev=char0,mode=control -display none -accel kvm -accel tcg -name
+>> source,debug-threads=on -m 150M -serial
+>> file:/tmp/migration-test-f6G71L/src_serial -drive
+>> file=/tmp/migration-test-f6G71L/bootsect,format=raw -accel qtest
+
+Source of migration thread.
+
+>> [New LWP 2772864]
+>> [New LWP 2772866]
+>> [New LWP 2772867]
+>> [New LWP 2772915]
+>> [Thread debugging using libthread_db enabled]
+>> Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+>> 0x000003ff94ef1c9c in __ppoll (fds=0x2aa179a6f30, nfds=5,
+>> timeout=<optimized out>, timeout@entry=0x3fff557b588,
+>> sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+>> 44      ../sysdeps/unix/sysv/linux/ppoll.c: No such file or directory.
+>> Thread 5 (Thread 0x3ff1b7f6900 (LWP 2772915)):
+>> #0  futex_abstimed_wait_cancelable (private=0, abstime=0x0, clockid=0,
+>> expected=0, futex_word=0x2aa1881f634) at
+>> ../sysdeps/nptl/futex-internal.h:320
+>> #1  do_futex_wait (sem=sem@entry=0x2aa1881f630, abstime=0x0,
+>> clockid=0) at sem_waitcommon.c:112
+>> #2  0x000003ff95011870 in __new_sem_wait_slow
+>> (sem=sem@entry=0x2aa1881f630, abstime=0x0, clockid=0) at
+>> sem_waitcommon.c:184
+>> #3  0x000003ff9501190e in __new_sem_wait (sem=sem@entry=0x2aa1881f630)
+>> at sem_wait.c:42
+>> #4  0x000002aa165b1416 in qemu_sem_wait (sem=sem@entry=0x2aa1881f630)
+>> at ../util/qemu-thread-posix.c:358
+>> #5  0x000002aa16023434 in multifd_send_sync_main (f=0x2aa17993760) at
+>> ../migration/multifd.c:610
+>> #6  0x000002aa162a8f18 in ram_save_iterate (f=0x2aa17993760,
+>> opaque=<optimized out>) at ../migration/ram.c:3049
+>> #7  0x000002aa1602bafc in qemu_savevm_state_iterate (f=0x2aa17993760,
+>> postcopy=<optimized out>) at ../migration/savevm.c:1296
+>> #8  0x000002aa1601fe4e in migration_iteration_run (s=0x2aa17748010) at
+>> ../migration/migration.c:3607
+>> #9  migration_thread (opaque=opaque@entry=0x2aa17748010) at
+>> ../migration/migration.c:3838
+>> #10 0x000002aa165b05c2 in qemu_thread_start (args=<optimized out>) at
+>> ../util/qemu-thread-posix.c:556
+>> #11 0x000003ff95007e66 in start_thread (arg=0x3ff1b7f6900) at
+>> pthread_create.c:477
+>> #12 0x000003ff94efcbf6 in thread_start () at
+>> ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Migration main thread in multifd_send_sync_main(), waiting for the
+semaphore in
+
+    for (i = 0; i < migrate_multifd_channels(); i++) {
+        MultiFDSendParams *p = &multifd_send_state->params[i];
+
+        trace_multifd_send_sync_main_wait(p->id);
+        qemu_sem_wait(&p->sem_sync);
+    }
+
+Knowing the value of i would be great.  See the end of the email, I
+think it is going to be 0.
+
+>> Thread 4 (Thread 0x3ff84d2f900 (LWP 2772867)):
+>> #0  rcu_read_lock () at
+>> /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/rcu.h:87
+>> #1  rcu_read_auto_lock () at
+>> /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/rcu.h:170
+>> #2  memory_region_get_ram_ptr (mr=0x2aa17612220) at ../softmmu/memory.c:2319
+>> #3  0x000002aa1637abf0 in tlb_set_page_with_attrs
+>> (cpu=cpu@entry=0x2aa179860a0, vaddr=vaddr@entry=52445184,
+>> paddr=<optimized out>, attrs=..., prot=<optimized out>, prot@entry=7,
+>> mmu_idx=2, size=4096) at ../accel/tcg/cputlb.c:1157
+>> #4  0x000002aa1620465e in handle_mmu_fault (size=<optimized out>,
+>> mmu_idx=<optimized out>, is_write1=<optimized out>, addr=<optimized
+>> out>, cs=0x2aa179860a0) at ../target/i386/cpu.h:2157
+>> #5  x86_cpu_tlb_fill (cs=0x2aa179860a0, addr=<optimized out>,
+>> size=<optimized out>, access_type=<optimized out>, mmu_idx=<optimized
+>> out>, probe=false, retaddr=4394827381568) at
+>> ../target/i386/tcg/sysemu/excp_helper.c:432
+>> #6  0x000002aa16375cea in tlb_fill (cpu=0x2aa179860a0, addr=<optimized
+>> out>, size=<optimized out>, access_type=<optimized out>,
+>> mmu_idx=<optimized out>, retaddr=4394827381568) at
+>> ../accel/tcg/cputlb.c:1313
+>> #7  0x000002aa16376cd6 in load_helper (full_load=<optimized out>,
+>> code_read=false, op=MO_8, retaddr=<optimized out>, oi=<optimized out>,
+>> addr=52445184, env=0x2aa1798e970) at
+>> /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/exec/cpu-all.h:467
+>> #8  full_ldub_mmu (env=0x2aa1798e970, addr=<optimized out>,
+>> oi=<optimized out>, retaddr=<optimized out>) at
+>> ../accel/tcg/cputlb.c:2025
+>> #9  0x000003ff401ffbfa in code_gen_buffer ()
+>> #10 0x000002aa16369d0e in cpu_tb_exec (tb_exit=<synthetic pointer>,
+>> itb=<optimized out>, cpu=<optimized out>) at
+>> ../accel/tcg/cpu-exec.c:357
+>> #11 cpu_loop_exec_tb (tb_exit=<synthetic pointer>, last_tb=<synthetic
+>> pointer>, tb=<optimized out>, cpu=<optimized out>) at
+>> ../accel/tcg/cpu-exec.c:847
+>> #12 cpu_exec (cpu=<optimized out>) at ../accel/tcg/cpu-exec.c:1006
+>> #13 0x0000000000007000 in  ()
+
+vcpu running thread, rcu_read_lock()
+
+    if (p_rcu_reader->depth++ > 0) {
+        return;
+    }
+
+If we are looking the same code, this thread is running normally in the
+if line.
+
+>> Thread 3 (Thread 0x3ff85621900 (LWP 2772866)):
+>> #0  0x000003ff94ef1b42 in __GI___poll (fds=0x3ff380032a0, nfds=3,
+>> timeout=<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:29
+>> #1  0x000003ff975d4386 in  () at /lib/s390x-linux-gnu/libglib-2.0.so.0
+>> #2  0x000003ff975d4790 in g_main_loop_run () at
+>> /lib/s390x-linux-gnu/libglib-2.0.so.0
+>> #3  0x000002aa163bfa4e in iothread_run
+>> (opaque=opaque@entry=0x2aa176ad000) at ../iothread.c:73
+>> #4  0x000002aa165b05c2 in qemu_thread_start (args=<optimized out>) at
+>> ../util/qemu-thread-posix.c:556
+>> #5  0x000003ff95007e66 in start_thread (arg=0x3ff85621900) at
+>> pthread_create.c:477
+>> #6  0x000003ff94efcbf6 in thread_start () at
+>> ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+iothread on poll, nothing fishy here.
+
+>> Thread 2 (Thread 0x3ff85fa4900 (LWP 2772864)):
+>> #0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+>> #1  0x000002aa165b15cc in qemu_futex_wait (val=<optimized out>,
+>> f=<optimized out>) at
+>> /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/futex.h:29
+>> #2  qemu_event_wait (ev=ev@entry=0x2aa16f57e60 <rcu_call_ready_event>)
+>> at ../util/qemu-thread-posix.c:481
+>> #3  0x000002aa165b9e42 in call_rcu_thread (opaque=opaque@entry=0x0) at
+>> ../util/rcu.c:261
+>> #4  0x000002aa165b05c2 in qemu_thread_start (args=<optimized out>) at
+>> ../util/qemu-thread-posix.c:556
+>> #5  0x000003ff95007e66 in start_thread (arg=0x3ff85fa4900) at
+>> pthread_create.c:477
+>> #6  0x000003ff94efcbf6 in thread_start () at
+>> ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Calling the rcu thread here.
+
+>> Thread 1 (Thread 0x3ff983fe440 (LWP 2772862)):
+>> #0  0x000003ff94ef1c9c in __ppoll (fds=0x2aa179a6f30, nfds=5,
+>> timeout=<optimized out>, timeout@entry=0x3fff557b588,
+>> sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+>> #1  0x000002aa165d154a in ppoll (__ss=0x0, __timeout=0x3fff557b588,
+>> __nfds=<optimized out>, __fds=<optimized out>) at
+>> /usr/include/s390x-linux-gnu/bits/poll2.h:77
+>> #2  qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>,
+>> timeout=timeout@entry=6543045) at ../util/qemu-timer.c:348
+>> #3  0x000002aa165cd768 in os_host_main_loop_wait (timeout=6543045) at
+>> ../util/main-loop.c:250
+>> #4  main_loop_wait (nonblocking=nonblocking@entry=0) at ../util/main-loop.c:531
+>> #5  0x000002aa15ffaa94 in qemu_main_loop () at ../softmmu/runstate.c:727
+>> #6  0x000002aa15fae7a0 in main (argc=<optimized out>, argv=<optimized
+>> out>, envp=<optimized out>) at ../softmmu/main.c:50
+
+
+Man thread also calling poll().  Nothing unusual here.
+
+But where are the multifd channel threads, nowhere to be seen.
+
+>> [Inferior 1 (process 2772862) detached]
+>> ===========================================================
+>> PROCESS: 2772869
+>> gitlab-+ 2772869 2771497  0 Mar23 ?        00:00:00 [qemu-system-i38] <defunct>
+>> /proc/2772869/exe: No such file or directory.
+>> Could not attach to process.  If your uid matches the uid of the target
+>> process, check the setting of /proc/sys/kernel/yama/ptrace_scope, or try
+>> again as the root user.  For more details, see /etc/sysctl.d/10-ptrace.conf
+>> warning: process 2772869 is a zombie - the process has already terminated
+>> ptrace: Operation not permitted.
+>> /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/build/2772869:
+>> No such file or directory.
+
+I have no clue what is this process and what this have to do with this
+run, what can it be?  We already have two qemu's and a test harness
+programm.  Can this be from a previous test case that we are still
+waiting for?
+
+
+>> ===========================================================
+>> PROCESS: 2773014
+>> gitlab-+ 2773014 2771497  0 Mar23 ?        00:00:02 ./qemu-system-i386
+>> -qtest unix:/tmp/qtest-2771497.sock -qtest-log /dev/null -chardev
+>> socket,path=/tmp/qtest-2771497.qmp,id=char0 -mon
+>> chardev=char0,mode=control -display none -accel kvm -accel tcg -name
+>> target,debug-threads=on -m 150M -serial
+>> file:/tmp/migration-test-f6G71L/dest_serial -incoming defer -drive
+>> file=/tmp/migration-test-f6G71L/bootsect,format=raw -accel qtest
+>> [New LWP 2773017]
+>> [New LWP 2773018]
+>> [New LWP 2773019]
+
+Note to myself, we should name the qemu process "somehow" to know at
+what test they belong.
+
+This is the destination migration process.
+
+>> [Thread debugging using libthread_db enabled]
+>> Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+>> 0x000003ffa4671c9c in __ppoll (fds=0x2aa0333c020, nfds=6,
+>> timeout=<optimized out>, timeout@entry=0x3ffedefb228,
+>> sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+>> 44      ../sysdeps/unix/sysv/linux/ppoll.c: No such file or directory.
+>> Thread 4 (Thread 0x3ff4ffff900 (LWP 2773019)):
+>> #0  futex_wait_cancelable (private=0, expected=0,
+>> futex_word=0x2aa0333af7c) at ../sysdeps/nptl/futex-internal.h:183
+>> #1  __pthread_cond_wait_common (abstime=0x0, clockid=0,
+>> mutex=0x2aa01f26f10 <qemu_global_mutex>, cond=0x2aa0333af50) at
+>> pthread_cond_wait.c:508
+>> #2  __pthread_cond_wait (cond=cond@entry=0x2aa0333af50,
+>> mutex=mutex@entry=0x2aa01f26f10 <qemu_global_mutex>) at
+>> pthread_cond_wait.c:638
+>> #3  0x000002aa015b0e56 in qemu_cond_wait_impl (cond=0x2aa0333af50,
+>> mutex=0x2aa01f26f10 <qemu_global_mutex>, file=0x2aa0162e3fc
+>> "../softmmu/cpus.c", line=<optimized out>) at
+>> ../util/qemu-thread-posix.c:195
+>> #4  0x000002aa00ff4436 in qemu_wait_io_event
+>> (cpu=cpu@entry=0x2aa0331b0a0) at ../softmmu/cpus.c:424
+>> #5  0x000002aa013852e0 in mttcg_cpu_thread_fn
+>> (arg=arg@entry=0x2aa0331b0a0) at
+>> ../accel/tcg/tcg-accel-ops-mttcg.c:124
+>> #6  0x000002aa015b05c2 in qemu_thread_start (args=<optimized out>) at
+>> ../util/qemu-thread-posix.c:556
+>> #7  0x000003ffa4787e66 in start_thread (arg=0x3ff4ffff900) at
+>> pthread_create.c:477
+>> #8  0x000003ffa467cbf6 in thread_start () at
+>> ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+mttcg_cpu_thread.  No clue what it does, but it shouldn't be related to
+migration (famous last words).
+
+>> Thread 3 (Thread 0x3ff54da1900 (LWP 2773018)):
+>> #0  0x000003ffa4671b42 in __GI___poll (fds=0x3ff48003250, nfds=3,
+>> timeout=<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:29
+>> #1  0x000003ffa6d54386 in  () at /lib/s390x-linux-gnu/libglib-2.0.so.0
+>> #2  0x000003ffa6d54790 in g_main_loop_run () at
+>> /lib/s390x-linux-gnu/libglib-2.0.so.0
+>> #3  0x000002aa013bfa4e in iothread_run
+>> (opaque=opaque@entry=0x2aa03042000) at ../iothread.c:73
+>> #4  0x000002aa015b05c2 in qemu_thread_start (args=<optimized out>) at
+>> ../util/qemu-thread-posix.c:556
+>> #5  0x000003ffa4787e66 in start_thread (arg=0x3ff54da1900) at
+>> pthread_create.c:477
+>> #6  0x000003ffa467cbf6 in thread_start () at
+>> ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+iothread in poll(), nothing interesting here.
+
+>> Thread 2 (Thread 0x3ff95724900 (LWP 2773017)):
+>> #0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+>> #1  0x000002aa015b15cc in qemu_futex_wait (val=<optimized out>,
+>> f=<optimized out>) at
+>> /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/futex.h:29
+>> #2  qemu_event_wait (ev=ev@entry=0x2aa01f57e60 <rcu_call_ready_event>)
+>> at ../util/qemu-thread-posix.c:481
+>> #3  0x000002aa015b9e42 in call_rcu_thread (opaque=opaque@entry=0x0) at
+>> ../util/rcu.c:261
+>> #4  0x000002aa015b05c2 in qemu_thread_start (args=<optimized out>) at
+>> ../util/qemu-thread-posix.c:556
+>> #5  0x000003ffa4787e66 in start_thread (arg=0x3ff95724900) at
+>> pthread_create.c:477
+>> #6  0x000003ffa467cbf6 in thread_start () at
+>> ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+rthu thread again.
+
+>> Thread 1 (Thread 0x3ffa7b7e440 (LWP 2773014)):
+>> #0  0x000003ffa4671c9c in __ppoll (fds=0x2aa0333c020, nfds=6,
+>> timeout=<optimized out>, timeout@entry=0x3ffedefb228,
+>> sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+>> #1  0x000002aa015d154a in ppoll (__ss=0x0, __timeout=0x3ffedefb228,
+>> __nfds=<optimized out>, __fds=<optimized out>) at
+>> /usr/include/s390x-linux-gnu/bits/poll2.h:77
+>> #2  qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>,
+>> timeout=timeout@entry=1000000000) at ../util/qemu-timer.c:348
+>> #3  0x000002aa015cd768 in os_host_main_loop_wait (timeout=1000000000)
+>> at ../util/main-loop.c:250
+>> #4  main_loop_wait (nonblocking=nonblocking@entry=0) at ../util/main-loop.c:531
+>> #5  0x000002aa00ffaa94 in qemu_main_loop () at ../softmmu/runstate.c:727
+>> #6  0x000002aa00fae7a0 in main (argc=<optimized out>, argv=<optimized
+>> out>, envp=<optimized out>) at ../softmmu/main.c:50
+>> [Inferior 1 (process 2773014) detached]
+
+main thread here calling poll,  Nothing unusual here.
+
+But I don't see any multifd threads here.  Can it be that the migration
+hasn't yet started here, but then how are the source side already on the sync_main?
+
+Only real explanation that I can think for this behaviour is if we
+called migration_cancel() before we even got the oportunity of creating
+the multifd channels, and we are waiting for them.  The only thing that
+cames to mind here is change the code to something like this:
+
+    for (i = 0; i < migrate_multifd_channels(); i++) {
+        MultiFDSendParams *p = &multifd_send_state->params[i];
+
+        trace_multifd_send_sync_main_wait(p->id);
+        qemu_mutex_lock(&p->mutex);
+        if (p->running)
+            qemu_sem_wait(&p->sem_sync);
+        qemu_mutex_unlock(&p->mutex);
+    }
+
+But notice that we have another loop just before this one that already
+loops through the same threads, so I have to think more how this can
+even happen.
+
+Later, Juan.
 
 
