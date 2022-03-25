@@ -2,96 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9644E7431
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 14:28:04 +0100 (CET)
-Received: from localhost ([::1]:39636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CEE4E7451
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 14:38:53 +0100 (CET)
+Received: from localhost ([::1]:49788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXjz0-00080j-Qa
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 09:28:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42992)
+	id 1nXk9T-0006zs-F3
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 09:38:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nXjwi-0005yu-Ed
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 09:25:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34138)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nXjwa-0004BU-U8
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 09:25:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648214730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yMlLto1o94vT3p8b/mteuRJaQfKtLPpa++nNIFDbj58=;
- b=OR5G9uG573N5JZPFu+9Aa106hds6hyMwTz0efg7BTpUU4MW5VFbT7E6E7bgT1JMoTrWA8Z
- yFNn3GRmDq3MtMxz2yeULVZ0acUtyIDZEFbh6ASzfb+SkuuVMrKh/7u5wCBSJR2MXDedKQ
- QeXfHLi4fh6VtY/naTuQGc+gh5G1BsU=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-306-yeouxURRMKGVx9e4k_Kwxw-1; Fri, 25 Mar 2022 09:25:29 -0400
-X-MC-Unique: yeouxURRMKGVx9e4k_Kwxw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- ml20-20020a170906cc1400b006df8c9357efso4100242ejb.21
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 06:25:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXk8N-0006Jo-Ez
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 09:37:43 -0400
+Received: from [2607:f8b0:4864:20::b2c] (port=39926
+ helo=mail-yb1-xb2c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXk8L-0006NA-VE
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 09:37:43 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id t11so14098856ybi.6
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 06:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tMyLEv3+olXGQ2ARfz+7T5YR2k+ttPfPwqMm++Ulipc=;
+ b=ArsTmtBB+hj4kyaKaZTgUiDDIGUVb8f/2I/kqLFOVQL38Ww4QIrkIhHl5U/Olsr73+
+ okVvaZU12gVhBS7vx3bp7sVTpsAFFS4f2fEL5Xkc4GSqr9Mz07ewzzUqXxiEIbVUAbK/
+ iv7wSMxjHWz8dR5B8640DLgyaV4qgJ5emP4R76fN3X6KUrPTim26IjXe81TbM9r8InUd
+ E4trVTovigubKukgVepc0OvwA5lzSFpyKMi+EoB2uav3NEUs6mcsa+ClTtp/P6G90Q5E
+ PS2XeeXoTDy/OTWaz6Zcsn3TuMb/2vnPEzNVd+jNj9XaP/nZEDP6pJGotPDq7V7fZkOL
+ srrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=yMlLto1o94vT3p8b/mteuRJaQfKtLPpa++nNIFDbj58=;
- b=j+nI3u+E3iDnibPMkriObCh4nBf1Gb95Yv0hLoQsl1Ca5Zb/2AelnpXhPmuVrABfNM
- qn8y6LCgik6lBfHwj5YN0eUnX43qNJY64YuBQ0k0NZOCLBbzLaJkJqPUK0SmmHFMwajV
- gjRB15k+yacNsNWssaF7ET8Jx5wrSzaGQRvO7jN9ZMCRjDAzypawbGHU4MU5YvR6sa6w
- J9UH/5GiOSonNeW3uhIzFWqkctY/b11T8urHlulz+Yulr7mtz1gderpglzNY9K2mP/KO
- npB8AqQsDGizEGmCkFiRt2vCekqyXbkV3DnE4TtxHS9D4XXHjJCTF2PTLFIVzhMD6eBy
- DVjQ==
-X-Gm-Message-State: AOAM530TCSNWrawi4RrOKG+nrjl9NqQgrJVe0ue/cfI2cO/0u+FrP25C
- MaaFLyPZAiwQT4A2LB2ATTJJA14JZGzTS7HyC/sdWld+nv33uDJOHfw+TuKV3OU8njRMndM2L4x
- +TTEn9+kYOmiBdKU=
-X-Received: by 2002:a17:906:6a19:b0:6e0:aa9a:dbc8 with SMTP id
- qw25-20020a1709066a1900b006e0aa9adbc8mr2561208ejc.15.1648214728278; 
- Fri, 25 Mar 2022 06:25:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyMeQFLO+N8ro1sNtJlEj5vQ8dVI4hw0NQ9wdcbidQjFRolsadx9kODDvf3306KlZtvYQ8AJA==
-X-Received: by 2002:a17:906:6a19:b0:6e0:aa9a:dbc8 with SMTP id
- qw25-20020a1709066a1900b006e0aa9adbc8mr2561188ejc.15.1648214728059; 
- Fri, 25 Mar 2022 06:25:28 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- n2-20020a17090673c200b006db8ec59b30sm2271215ejl.136.2022.03.25.06.25.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Mar 2022 06:25:27 -0700 (PDT)
-Message-ID: <74c1af31-78de-87a1-cad1-54e1622b9632@redhat.com>
-Date: Fri, 25 Mar 2022 14:25:26 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tMyLEv3+olXGQ2ARfz+7T5YR2k+ttPfPwqMm++Ulipc=;
+ b=fSU+qhUQEfOAYLA5Q6Ck8a6qBENhzp8kvMqyq8Ogza3lPGK3mW+Dlm7cnSOp4yovNV
+ Dspi+JpV3Gt2PgcKB1DKdYE2nyCRairq0QW4caMwWHRROvQpDsiwH+4Pj0mcIlo0ZI5S
+ qplZ02Z3WN+0oASuJPfqAilCQ9y0VOVT0wHh5BIYbLSovxKKv7c4elCkXBW5gctOClA7
+ LKV01F3gdct/34S8sgW23uUoWPaZrjaNrlIwQWyBM5TIuk4Tr1bv6e7azv8XcJ/EoPtd
+ /DlVC4AjpNvi3I8g5L1uaKVI+vXbWPvbBD42piLdTavYfXGFQmU9yHQUG4UURAsCUztM
+ QXEA==
+X-Gm-Message-State: AOAM530/Opq4kyji+gAt36oxPfBBorM6htQ8j5XYTplGHmJ6CddXM9hv
+ FxNrBTrR1U7h0e+uitxpsrCjs89H6pREuFR6qsRYWw==
+X-Google-Smtp-Source: ABdhPJxsBNna0NoVxsyDIiNsQuDaKKyXvJuccfSpzuF/8gQbv4NdyClje0Aa9vPEwQqXdDHhjgGII/1SobyItoMwP60=
+X-Received: by 2002:a05:6902:150d:b0:634:5046:d294 with SMTP id
+ q13-20020a056902150d00b006345046d294mr9791318ybu.140.1648215460994; Fri, 25
+ Mar 2022 06:37:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 01/17] iotests: replace calls to log(qemu_io(...)) with
- qemu_io_log()
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20220324183018.2476551-1-jsnow@redhat.com>
- <20220324183018.2476551-2-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220324183018.2476551-2-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220320160009.2665152-1-richard.henderson@linaro.org>
+ <20220320160009.2665152-4-richard.henderson@linaro.org>
+ <CAFEAcA-RSLe-fF+EcuoOfXnOynz8zc7_N_AnNt3uRx5PZTvq9A@mail.gmail.com>
+In-Reply-To: <CAFEAcA-RSLe-fF+EcuoOfXnOynz8zc7_N_AnNt3uRx5PZTvq9A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Mar 2022 13:37:27 +0000
+Message-ID: <CAFEAcA9fDkVZB5StxGBp=7cy02zQwtZ+ZLVzxQcH3-bJ8hv51Q@mail.gmail.com>
+Subject: Re: [PATCH 3/7] linux-user/nios2: Adjust error return
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,24 +83,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.03.22 19:30, John Snow wrote:
-> This makes these callsites a little simpler, but the real motivation is
-> a forthcoming commit will change the return type of qemu_io(), so removing
-> users of the return value now is helpful.
+On Fri, 25 Mar 2022 at 12:12, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> ---
->   tests/qemu-iotests/242 | 6 +++---
->   tests/qemu-iotests/255 | 4 +---
->   tests/qemu-iotests/303 | 4 ++--
->   3 files changed, 6 insertions(+), 8 deletions(-)
+> On Sun, 20 Mar 2022 at 16:06, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > Follow syscall_set_return_value rather than the kernel assembly
+> > in setting the syscall return values.  Only negate ret on error.
+> >
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> >  linux-user/nios2/cpu_loop.c | 15 ++++++++++++---
+> >  1 file changed, 12 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
+> > index ac71f4ee47..2ae94f4a95 100644
+> > --- a/linux-user/nios2/cpu_loop.c
+> > +++ b/linux-user/nios2/cpu_loop.c
+> > @@ -48,9 +48,18 @@ void cpu_loop(CPUNios2State *env)
+> >                                   env->regs[7], env->regs[8], env->regs[9],
+> >                                   0, 0);
+> >
+> > -                env->regs[2] = abs(ret);
+> > -                /* Return value is 0..4096 */
+> > -                env->regs[7] = ret > 0xfffff000u;
+> > +                /*
+> > +                 * See syscall_set_return_value.
+> > +                 * Use the QEMU traditional -515 error indication in
+> > +                 * preference to the < 0 indication used in entry.S.
+> > +                 */
+>
+> Well, it is traditional, in that we've used it for sparc for
+> instance right back to commit 060366c5ad18b3e in 2004, and
+> even earlier for ppc since commit 678673089d1b.
+> probably for about as long for ppc. But *why* do we use this?
+> Well, 516 is ERESTART_RESTARTBLOCK, and that's what the
+> arch/sparc/kernel/entry.S code is comparing against (it does a
+> greater-than-or-equal check, I think, hence 516, not 515).
+>
+> For powerpc, however, the kernel handles setting the CCR
+> bit in syscall_exit_prepare(), and there it checks against
+> -MAX_ERRNO.
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+This turns out to be because in 2015 kernel commit c3525940cca5
+switched powerpc from checking against 515/516 and instead made
+them check MAX_ERRNO (4095).
 
+(If anybody cared about seccomp on sparc hosts they'd probably
+want to fix the sparc kernel similarly, but presumably nobody
+does :-))
+
+The kernel commit message mentions some infrastructure in
+the form of force_successful_syscall_return() where syscall
+implementations can force that a value above -MAX_ERRNO
+is still treated as "success". In theory perhaps we should
+have something similar...
+
+-- PMM
 
