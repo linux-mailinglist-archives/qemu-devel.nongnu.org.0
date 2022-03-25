@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79564E7590
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 16:01:05 +0100 (CET)
-Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831924E7591
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 16:01:06 +0100 (CET)
+Received: from localhost ([::1]:46458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXlR2-0006zK-Lk
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 11:01:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37232)
+	id 1nXlR3-000721-Jg
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 11:01:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXlNb-0004rC-6o
+ id 1nXlNb-0004s4-N7
  for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:57:31 -0400
-Received: from [2a00:1450:4864:20::32c] (port=51994
- helo=mail-wm1-x32c.google.com)
+Received: from [2a00:1450:4864:20::333] (port=53861
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXlNZ-0004D3-Em
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:57:30 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id q20so4608129wmq.1
+ id 1nXlNa-0004D5-1Q
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:57:31 -0400
+Received: by mail-wm1-x333.google.com with SMTP id p189so4605155wmp.3
  for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 07:57:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ycuaiNbW6tDaoW3cd7YbsF+JC6c2NbwVdMgvtLk/lhc=;
- b=ALRsgkwqzuVwuFf1niCb+01F7EKhOAvH6FXxebrGpe3GCHMUG4uuNrjfCb6BzJVney
- 2fOEvRNuXIXipnBzwqFof9nhCA6gZyVPGFJAQlHnqxavt1vpSdGlN0RLYI8oO+NFfEtq
- gb16CVCbo694AnDgI7BxNO5DBvsbQKmZL5XEV0Q1DWbsiPCWbma89Y22JVZwPui1Q+ta
- MJgX7Otr5vp9ljB7cNqZyU/GFs2lnyjXsM5b/ZkBG+OysTu5wd72yooDvg94UpfyuKGg
- f9RQzTFIIAgWgLu/sUd2QyIttNOQ8+4ed0INON2JJ0w8OPH0ZioHhdsDlHGZZoMzyl13
- /syQ==
+ bh=TWtmfgvwYkUX9wcjAyTXXtbd5s1CzMoUdTQHNvNTkV0=;
+ b=rt7SQHtn5jkymSs/aVCTYbI4/EyyvxWwpCgO2Mb4bqdgxCorMSWaTMFcXvm1ZiTXkv
+ ldcFZlvPGZLrG0pi4d/vDfGgAT6SiX2DRZx95X0EYaAW06Gy4Dh3Ms0lu4koRaizCEDk
+ D10Ouk/GgpS1UWNbVu+WQAoPyVa0W0WEFTigK4JyDyKHnhp9gHIyegBpGITMGFInSdk9
+ DrTm6oypNtypGzAank0jZDCtJI3gre+GRHJz7GmQibuNNG8ONrazvk32fsKEDyrYmPLu
+ BMmjwCNhw6n0nm/N7Dt2qBR6C1NTaTQ/SzS56Ve5KxfcsBu7OJKEs0Ly2bc7npwID7jO
+ bYtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ycuaiNbW6tDaoW3cd7YbsF+JC6c2NbwVdMgvtLk/lhc=;
- b=R3zK8JzKgz7GZ++g+TklCyWDv+5AlAwTKRJim7M8NIHp4dHpzgxxFP+7JTzImIRnUA
- MFFNMPDxEc8bfMrRfhwCxhLNlflGq34yvLQjUlNcA9Le5wGD9KR48It76qIKszYoebxt
- W5oQeQ2iYMCtn4ayYnMDKc3A6gNAh8R3tJNekCTmY2FdSmrK5XTgzqr6mvpsa7YUCPY7
- GBXD2Xjebq76+dYOgPrgh1pIIwUrd5LoBvGgzpRgFgCZKoBlaMUENt8KYgV8Q38/6Pyc
- 8FUvRfIszUKKHQ8/cQi+0xa2/5pK5ymqyNKBlvyzi75W9GVLs/0Vdz6bRY3OTxL6dKvw
- VTIA==
-X-Gm-Message-State: AOAM533+6rlTixR0xO4LCtN2RE0qEt09S0O8yBIxxtsDgqsvya8T6Cj3
- uF4CBsK2JbAn1sPJwaCiFMI7pCoNyVHJMA==
-X-Google-Smtp-Source: ABdhPJw30TA37XwJmvSxCA1H9BbZr+s3up9WmOoYAeqTLh6yDhOBD3u+CiCf/K92iO21K56o1cIYCA==
-X-Received: by 2002:a05:600c:1c84:b0:38c:abf0:c1c8 with SMTP id
- k4-20020a05600c1c8400b0038cabf0c1c8mr10186396wms.111.1648220247569; 
- Fri, 25 Mar 2022 07:57:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TWtmfgvwYkUX9wcjAyTXXtbd5s1CzMoUdTQHNvNTkV0=;
+ b=J0tVNlaoqcdx2FtNPaxpDy6TPv0GauCiwohzYJ+Bop7L31EL4/3YQE+sTPkleoTzYw
+ O9N93ucevX1IQlH3/aYCWOWa/vRR1e9qt+nsH3BEWIZ3rd0eeF+1f0Ps5gjaOqRDKl5N
+ l5cps8CXZ3C/mGGQ2HRo7CyKF/4XSYYqKhtt5dkts0j7a8WINyWTmh0Ex6NnbmQv1pMH
+ WH45hMOGSqnbXnX2175ia9RzOE4C457FUkPZ/6MIywnYUDG5iMxscpkEVinIjwpo14O1
+ fffqUl7dVWLgVAGFEeZvUzNphg9k2LY+1q5TsYtfPL+fO1BuaysNavrcUqw/i7nyqsMI
+ MgNQ==
+X-Gm-Message-State: AOAM532H7nY9qs+BEYykPpGBRiRLbCcd5r1gtf/6vmriHu4CHLY1r4o1
+ iDQVUbP/UlhDSTLNf8fbdSdbXVOJfcqejQ==
+X-Google-Smtp-Source: ABdhPJwXLGP8hzyRoBZkzB26ZMfknEaTucbyT3FAc7BFPiqDU7300Xc7AFr1BEtHr73BEDAE04EcuQ==
+X-Received: by 2002:a1c:3bd5:0:b0:38c:9b9f:1b24 with SMTP id
+ i204-20020a1c3bd5000000b0038c9b9f1b24mr19883235wma.129.1648220248502; 
+ Fri, 25 Mar 2022 07:57:28 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c7-20020a5d4f07000000b00203db8f13c6sm5200583wru.75.2022.03.25.07.57.26
+ c7-20020a5d4f07000000b00203db8f13c6sm5200583wru.75.2022.03.25.07.57.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Mar 2022 07:57:26 -0700 (PDT)
+ Fri, 25 Mar 2022 07:57:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] target-arm queue
-Date: Fri, 25 Mar 2022 14:57:23 +0000
-Message-Id: <20220325145725.3891659-1-peter.maydell@linaro.org>
+Subject: [PULL 1/2] target/arm: Fix sve_ld1_z and sve_st1_z vs MMIO
+Date: Fri, 25 Mar 2022 14:57:24 +0000
+Message-Id: <20220325145725.3891659-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220325145725.3891659-1-peter.maydell@linaro.org>
+References: <20220325145725.3891659-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,33 +92,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just two small bug fixes for the next rc.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The following changes since commit f345abe36527a8b575482bb5a0616f43952bf1f4:
+Both of these functions missed handling the TLB_MMIO flag
+during the conversion to handle MTE.
 
-  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-03-25 10:14:47 +0000)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220325
-
-for you to fetch changes up to c7ca3ad5e756e263daf082c315e311593ccec3d1:
-
-  hw/intc/arm_gicv3_its: Add missing newlines to process_mapc() logging (2022-03-25 14:41:06 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * hw/intc/arm_gicv3_its: Add missing newlines to process_mapc() logging
- * target/arm: Fix sve_ld1_z and sve_st1_z vs MMIO
-
-----------------------------------------------------------------
-Peter Maydell (1):
-      hw/intc/arm_gicv3_its: Add missing newlines to process_mapc() logging
-
-Richard Henderson (1):
-      target/arm: Fix sve_ld1_z and sve_st1_z vs MMIO
-
- hw/intc/arm_gicv3_its.c |  4 ++--
+Fixes: 10a85e2c8ab6 ("target/arm: Reuse sve_probe_page for gather loads")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/925
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220324010932.190428-1-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
  target/arm/sve_helper.c | 10 ++++++++--
- 2 files changed, 10 insertions(+), 4 deletions(-)
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 07be55b7e1a..d45d0886159 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -6734,7 +6734,11 @@ void sve_ld1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
+                     if (mtedesc && arm_tlb_mte_tagged(&info.attrs)) {
+                         mte_check(env, mtedesc, addr, retaddr);
+                     }
+-                    host_fn(&scratch, reg_off, info.host);
++                    if (unlikely(info.flags & TLB_MMIO)) {
++                        tlb_fn(env, &scratch, reg_off, addr, retaddr);
++                    } else {
++                        host_fn(&scratch, reg_off, info.host);
++                    }
+                 } else {
+                     /* Element crosses the page boundary. */
+                     sve_probe_page(&info2, false, env, addr + in_page, 0,
+@@ -7112,7 +7116,9 @@ void sve_st1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
+                 if (likely(in_page >= msize)) {
+                     sve_probe_page(&info, false, env, addr, 0, MMU_DATA_STORE,
+                                    mmu_idx, retaddr);
+-                    host[i] = info.host;
++                    if (!(info.flags & TLB_MMIO)) {
++                        host[i] = info.host;
++                    }
+                 } else {
+                     /*
+                      * Element crosses the page boundary.
+-- 
+2.25.1
+
 
