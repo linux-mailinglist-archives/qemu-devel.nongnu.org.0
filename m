@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7924E7AB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 21:48:39 +0100 (CET)
-Received: from localhost ([::1]:35830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1F74E7AB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 21:53:15 +0100 (CET)
+Received: from localhost ([::1]:38354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXqrO-0004Ce-5D
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 16:48:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51920)
+	id 1nXqvq-0006Bg-DM
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 16:53:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nXqqL-0003UD-6a
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 16:47:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23156)
+ id 1nXqum-0005UR-TV
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 16:52:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nXqqI-0007wl-6J
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 16:47:31 -0400
+ id 1nXquk-0000GP-8Z
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 16:52:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648241248;
+ s=mimecast20190719; t=1648241525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3GRUYVcKnSolHWumEhkuKl70P3FXVixU1PqpXMAXXbI=;
- b=B/8WzLiOCUgjRGzWpctFHRrolPD8G1tYlMw9/HZCT7f9FY+TyaG9diWyqI2iPb+MfivhTU
- SHTUlONRwdxU/mtaWt+UDwSco4ugYpK/8K0NOzyAyhT8q2FjIFW49UXyNxsvY9aDx8OGLM
- OEWkucTZt8owNG3S8Mqqi4i9yU6eCs4=
+ bh=AauODokgmOf5ymr4ZGcBKjRnQ//b7Nm378ZqP4/bXU4=;
+ b=SXq83b9Zf/KLqHwoTcBNaaTii/VUPxLFCKUxrOyvSc4kb1d4ZRdGyHMK38B7jblZIBeHIt
+ BfrCbnXIa5QkdixwxQvCmAbKd7y4PZleMfiVTsydMJJdMXi1TJU1jVWVfR3+qsWa7+1WId
+ +y7HPPqRYLSKSYqk/dUUHAS8iqJS6vU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-568-eu3PWsFAOn66Y4CBKzoZGg-1; Fri, 25 Mar 2022 16:47:26 -0400
-X-MC-Unique: eu3PWsFAOn66Y4CBKzoZGg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-18-SDXiLGYqPCWMPrzQFSBIUA-1; Fri, 25 Mar 2022 16:52:03 -0400
+X-MC-Unique: SDXiLGYqPCWMPrzQFSBIUA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A256899EC2
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 20:47:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 487049219A2
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 20:52:03 +0000 (UTC)
 Received: from localhost (unknown [10.40.192.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC14F40C1438;
- Fri, 25 Mar 2022 20:47:25 +0000 (UTC)
-Date: Fri, 25 Mar 2022 21:47:24 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C7228C27D8A;
+ Fri, 25 Mar 2022 20:52:01 +0000 (UTC)
+Date: Fri, 25 Mar 2022 21:52:00 +0100
 From: Victor Toso <victortoso@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 01/14] qapi: BlockExportRemoveMode: move comments to TODO
-Message-ID: <20220325204724.g4utzgpmqk4skgm6@tapioca>
+Subject: Re: [PATCH 03/14] qapi: fix example of BLOCK_IO_ERROR event
+Message-ID: <20220325205200.cvaufycz4qvviuuf@tapioca>
 References: <20220324175015.232794-1-victortoso@redhat.com>
- <20220324175015.232794-2-victortoso@redhat.com>
- <87tubmnrde.fsf@pond.sub.org>
- <CAFn=p-bS-at1xvCok2LZzXhgFtc14E-2GfTCZf6Se2Fm6Q6PWA@mail.gmail.com>
+ <20220324175015.232794-4-victortoso@redhat.com>
+ <CAFn=p-ZAc3xB49KEYf2LOvUKFNVWq3C8EU-vbVpc9QdgAuMqqA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3os2c27jzfjrwce3"
+ protocol="application/pgp-signature"; boundary="giiwsenl2vxp7qnn"
 Content-Disposition: inline
-In-Reply-To: <CAFn=p-bS-at1xvCok2LZzXhgFtc14E-2GfTCZf6Se2Fm6Q6PWA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+In-Reply-To: <CAFn=p-ZAc3xB49KEYf2LOvUKFNVWq3C8EU-vbVpc9QdgAuMqqA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -79,133 +78,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---3os2c27jzfjrwce3
+--giiwsenl2vxp7qnn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Fri, Mar 25, 2022 at 11:11:23AM -0400, John Snow wrote:
-> On Fri, Mar 25, 2022, 8:33 AM Markus Armbruster <armbru@redhat.com> wrote:
->=20
-> > Victor Toso <victortoso@redhat.com> writes:
+On Thu, Mar 24, 2022 at 04:47:30PM -0400, John Snow wrote:
+> On Thu, Mar 24, 2022 at 1:50 PM Victor Toso <victortoso@redhat.com> wrote:
 > >
-> > > @hide and @soft are potential additions which fits the TODO section
-> > > perfectly.
-> > >
-> > > The main motivation is to avoid this whole block of comment entering
-> > > the wrong section in the python parser.
-> > >
-> > > Signed-off-by: Victor Toso <victortoso@redhat.com>
-> > > ---
-> > >  qapi/block-export.json | 10 +++++-----
-> > >  1 file changed, 5 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/qapi/block-export.json b/qapi/block-export.json
-> > > index f183522d0d..1e34927f85 100644
-> > > --- a/qapi/block-export.json
-> > > +++ b/qapi/block-export.json
-> > > @@ -219,13 +219,13 @@
-> > >  #
-> > >  # @hard: Drop all connections immediately and remove export.
-> > >  #
-> > > -# Potential additional modes to be added in the future:
-> > > +# TODO: Potential additional modes to be added in the future:
-> > >  #
-> > > -# hide: Just hide export from new clients, leave existing connections
-> > as is.
-> > > -# Remove export after all clients are disconnected.
-> > > +#       hide: Just hide export from new clients, leave existing
-> > connections as is.
-> > > +#       Remove export after all clients are disconnected.
-> > >  #
-> > > -# soft: Hide export from new clients, answer with ESHUTDOWN for all
-> > further
-> > > -# requests from existing clients.
-> > > +#       soft: Hide export from new clients, answer with ESHUTDOWN for
-> > all further
-> > > +#       requests from existing clients.
-> > >  #
-> > >  # Since: 2.12
-> > >  ##
+> > Reason is not optional.
 > >
-> > Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
-Thanks,
-
-> > Doc comments embed user documentation in the source code.  The doc
-> > generator extracts it.
+> > Signed-off-by: Victor Toso <victortoso@redhat.com>
+> > ---
+> >  qapi/block-core.json | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
 > >
-> > TODOs are generally for developers.  Should the doc generator suppress
-> > TODO sections?
+> > diff --git a/qapi/block-core.json b/qapi/block-core.json
+> > index 585a9e020e..5b6c069dd9 100644
+> > --- a/qapi/block-core.json
+> > +++ b/qapi/block-core.json
+> > @@ -5059,7 +5059,8 @@
+> >  #      "data": { "device": "ide0-hd1",
+> >  #                "node-name": "#block212",
+> >  #                "operation": "write",
+> > -#                "action": "stop" },
+> > +#                "action": "stop",
+> > +#                "reason": "Driver requires too large request alignmen=
+t" },
+> >  #      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+> >  #
+> >  ##
+> > --
+> > 2.35.1
+> >
 >=20
-> Needs an audit to make sure we're using it consistently with
-> that semantic, but broadly it's probably a good idea to squelch
-> "internal" todos, yes.
+> We discourage people using the reason programmatically, but
+> there will indeed be one. Where'd you pull the message out
+> from?
+
+I was looking into the block related errors and pick a string. It
+wasn't a real error that I had.
+
+> I see this:
 >=20
-> Things like "Watch out, were definitely gonna deprecate this
-> soon probably maybe!" can stay outside of the TODO section.
-> (Sometimes heads up are legitimate, even if most won't read
-> them. the faithful and diligent will be rewarded with painless
-> upgrades.)
-
-There are 5 TODO sections in QAPI (including this patch):
-
- qapi/block-export.json:222:# TODO: Potential additional modes to be added =
-in the future:
- qapi/introspect.json:300:# TODO: @success-response (currently irrelevant, =
-because it's QGA, not QMP)
- qapi/machine.json:913:# TODO: Better documentation; currently there is non=
-e.
- qapi/migration.json:933:# TODO either fuse back into MigrationParameters, =
-or make
- qapi/qdev.json:70:# TODO: This command effectively bypasses QAPI completel=
-y due to its
-
-I think their usage is a bit broad but helpful.
-
-> Anyway, if Markus is happy with this change, I am too, I was
-> just curious to know if there were bigger cleanups to do here
-> and what the impact was.
-
-I'll let you know if I find more :)
-
-> Anyway:
+> static void send_qmp_error_event(BlockBackend *blk,
+>                                  BlockErrorAction action,
+>                                  bool is_read, int error)
+> {
+>     IoOperationType optype;
+>     BlockDriverState *bs =3D blk_bs(blk);
 >=20
-> Reviewed-by: John Snow <jsnow@redhat.com>
+>     optype =3D is_read ? IO_OPERATION_TYPE_READ : IO_OPERATION_TYPE_WRITE;
+>     qapi_event_send_block_io_error(blk_name(blk), !!bs,
+>                                    bs ? bdrv_get_node_name(bs) : NULL, op=
+type,
+>                                    action, blk_iostatus_is_enabled(blk),
+>                                    error =3D=3D ENOSPC, strerror(error));
+> }
+>=20
+>=20
+> so it should be one of the "standard" strerror messages, right?
 
-Thanks! I'll send a v2 later with all suggestions.
+Yep. I'll pick that one and use 'No space left on device'
 
 Cheers,
-Victor
 
---3os2c27jzfjrwce3
+--giiwsenl2vxp7qnn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmI+KlwACgkQl9kSPeN6
-SE9wFRAAt1un+svSOPMucg9UOKS8a1WLBcXF/qemcKR6OkpnfTPrirV9/5myJAcQ
-hlym7/3c2d6aurHj/YK0CRilKQCAO/a81RdAMXw3EbDy3DKHDN3FLW30UEUd39s8
-XAFyRYcrjcUTYEC8Z7UZLr4hF9/9pZ23C48MO7haRcBWk3TPN2FXhQiAU+MSKMZ1
-kiONvt0xB64C7hrt3deXX4/67ysAm2tff5Y4oqCTrfwTyRFR/mt8Guc6McfvMr+9
-AdzxaV8RuchISpy/VJATfqBye9URBJUv4jp7aFqGu+6+VCwy51iXNWBkbBxooFm3
-r6a7ffax1UiTlr/n5Jo+Wu57FAIlBU9UbJDZw1v8LGyc59vo4SHk3/93vvpT5bFe
-Vn6iABg9qPbqvQ4nsDsesy5D+U4DYGXdhI8HWriKZmAuPxOKRAf7/wUauoCHdQAz
-YOe496bRHA72fQZTSEC/JozI+k/Pvpf7peipBGtGslLMx/q9I8n3C1mRLxi3IGyJ
-zxw8pDfwd9ztP3IlxgIx8ZM10BMYMwsGMkOGXJO1Frl6CU4eXqUZwKhEF5/L1F9m
-oP9/kDxthF5oCtkWuE4oFL/tOhs8tBYceK7i6mshGr+Z3Cs6Ks7tdZbK+QeEEK9E
-kaV0qJfRta79w/g6yhzWqcF+9saICqeP4VmSP3pNrzRIvalob/o=
-=5rm8
+iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmI+K3AACgkQl9kSPeN6
+SE87fg//ZabzAEf6EG42UzevcwRemfRBY5u753AKZRhVHccwVFwvYFrWr/vtVYCC
+J4sP/3Pa0owOtteq3tUF5VWzJIVA8oTtGHGM2uVlSfQbgAh1cLDUj+Dq9tRdJsjo
+DZmQKb9nrYc4PJPWTQcfrxDABvZJdNQtrw0MBfDbdPcb4uD60W/072xee6uy/yvc
+TEgVuEpZCbaJgTLOvc35osK40mvy4+TbVtPbO+B4SPdHxHg6yqq1G1dYlOwzkfWN
+Oa7ZT9RzZ7m8NxoCXLYwG34usuNX1cizfs/EKoVyRMtS+uGqWOtD1KxaPxVBE02x
+k8QWRo8EXeHK0YoIRma+RLN6w3gtCqCXtG7fs29zGBWdbuvpQ8vug4eywOCTt8zH
+BIWHruANDtVoy56FTRHCIHGCf+2go6N2IlH9LOaFpimvK65gl2T+QcDv5Pj24Yli
+jk/UVoKj3MS1FD1HDis0Fo7r8eGY6kY9eg+zeEd2verML2zTkY3bHURAhWRjS8SH
+aHjlGzvHcwbHbyphVL5mw//+C4TWzckLRemd25YwlNtMWQwnsIpEsms65Qz/ZkzQ
+nVBZRL4e7R4cGKRkoGjFW+0pgsatI5wGtlXvVaR/RwZGayUctogQAdUQy6j8Uutw
+3MXcOPslpSLq0zVUIp8nupYAUlsfhz9ZOOLU1dTC4RNyddm74io=
+=Czx2
 -----END PGP SIGNATURE-----
 
---3os2c27jzfjrwce3--
+--giiwsenl2vxp7qnn--
 
 
