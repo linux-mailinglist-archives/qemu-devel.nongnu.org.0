@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318B44E6E8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 08:12:32 +0100 (CET)
-Received: from localhost ([::1]:39384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F17584E6EB7
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 08:17:08 +0100 (CET)
+Received: from localhost ([::1]:48004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXe7b-0002Lo-85
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 03:12:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50054)
+	id 1nXeC3-0008K0-QJ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 03:17:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nXe2S-0007zC-01
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 03:07:12 -0400
-Received: from [2a00:1450:4864:20::534] (port=33331
- helo=mail-ed1-x534.google.com)
+ id 1nXe2T-0007zc-4J
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 03:07:14 -0400
+Received: from [2a00:1450:4864:20::52b] (port=46729
+ helo=mail-ed1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nXe2P-0000XO-Vq
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 03:07:11 -0400
-Received: by mail-ed1-x534.google.com with SMTP id r23so8205675edb.0
+ id 1nXe2Q-0000XQ-8t
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 03:07:12 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id z92so8132075ede.13
  for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 00:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XzTvH2o6xZOBNz5JvOhSjrJLnI1BDwX/0YybgWLPmX0=;
- b=hZkKFK8uLLDaZk+3fBV16F6x6ESnbDin0IALmmkWZ+Kf8fwCsMOx8VEJY3C+ZOBHbe
- XDFE+MstW7lSffpaoTZBtjfSIDmASfWzTC0pIIWOtYP1ep8ZPAQgVA5jqsX4kMtMRexA
- IkaBsSrblvny3qZqMfCP3Y913WlFO96tq0DIOqzEJMvqcik5RAHSywJ9YPB8dB17317r
- Q4d+fzKEthG+p6eQCdE5rEehwf1ekuIjmunEtW9WVuwv8GrG/jkDwa+dulMwhxFQxTZl
- JIps3DRtRWcWmE28UcHN739Ukp9bX4rOsgmloJCpcWlOZ8bSqcvjfr6pTgrkUp1tga55
- dmRA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2MTfTM5YhwEohgITY6SYuE6xcO+g6Qsatyh2PCd2K4s=;
+ b=WjPc7X+tvMG6aDnvS0Rwr6lgh+cSW+N/pF7/ZNS27Zu61U65tZX3LS16hpJk7zQ/ib
+ g7kH3RX5iAQzyAG4LnLhVIhiB6in2XjokWuj6f0fpAAeuBrp31ZtwzK426aup7WPIWXg
+ 5K1f0OHK4Hp+qn5Y8zBrr7vUPpajJuLwTPdgk8ho9Wml3wW+5lmmaDlvNenI5ZA3RYQL
+ XbAf7e+kUay0YtV4NZFNVXQgDspZVrYa8KIs5CtUpRSNhu3pyYM/9ELFqa4LMsdzy52B
+ YSRH0KKRAtbfz4xQzpv3SI+U9D8ZUdLEx4tbokuWWLHp1pdOdx8GSZMdsVfyCy3ncv8i
+ Sm6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=XzTvH2o6xZOBNz5JvOhSjrJLnI1BDwX/0YybgWLPmX0=;
- b=cWDkmC6Hw/EmenQU5/hVTec5snm/qk+86grzqGCa5pzAdMzrvgQ/guePoO084uL82F
- +MR38x6rCaoCU/DbOf7zJyzBikgi+O8Bh+LWmlsSlgqgmThOV7BOY34YsIcoUSJDqecN
- JqA6bvs39UaWrTQ4z2wcdz6WgIl626gKpW6LSEjbm5/YgD0GlzAJz54KT9QpbjmF+484
- A8Fd8wgg5k8I1God552ODb7BHB+o3xbmzmTE9IjW7LpDvogBf3QOUqo0jSx2dqay6zCr
- eCQAWT0qJT6NeSvQE1J0Goav9joIgn2JdXX+lG94g9lesOk/ByG0PUNuQWQe+eMfNN+J
- CPvg==
-X-Gm-Message-State: AOAM533DDzrwtFZ1LLwGqxYXYccyzUodHwxikoF9oO/VMfgVa7JcS7aO
- TCC4q1bdGaBXxJIW4hrnJvlLN1/Cpy8=
-X-Google-Smtp-Source: ABdhPJz5xwfds4D8ZoGuyEbIXgOV+kiU32ZiBmIR9xtte5CRcnoXhkkfTopMfLz7ii4LhTnNGFKdWg==
-X-Received: by 2002:a50:d64f:0:b0:418:f142:5d1c with SMTP id
- c15-20020a50d64f000000b00418f1425d1cmr11273253edj.192.1648192028044; 
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=2MTfTM5YhwEohgITY6SYuE6xcO+g6Qsatyh2PCd2K4s=;
+ b=twBFk3YdwuhVKhBmHMqo3oIqGj8srpVFxXwH5n1OcWk3nPcFwqxkYJRdHxMXPOG+n2
+ 9jFkJlNFt92XVRKClRUTWMUx8+WxZUTj9M2Kaz33kzqtmWBueiynL3gmpVan4SIrwmQg
+ ZT+8VGIBfgoxrPPIEbQ0RYGhNOaRbexSRtbG3JMewn8s0HFvJRfHdhzuIou3L9k2kQeN
+ qsS4H55mB2wzxUK+8WPhRzhXDJei8VSJr8CskZxie3lIoKyCD+DydoAqhX7YX9VHqzRQ
+ fw/xy1N1MOkbskyu1UPvwe6s1BgzBqAim0qL4+TRf09/MCH3Mt5Pra1vfNhQqvL0OhJU
+ um9w==
+X-Gm-Message-State: AOAM5302IX8ZzxX0vtOao3LTc2eRQubvcf3YfWXGjiCrs85Nm5r5s1f8
+ YNh2ugondpIUwJ9FU9bjeHnVkk13v6s=
+X-Google-Smtp-Source: ABdhPJwazMQQ0SKXFHaTDksvYrhYe/Z0+YtZFxg82jSgT/q3byW/9cLGTkmbeP9dZ8oGbJ56HfTmUQ==
+X-Received: by 2002:aa7:c755:0:b0:419:2f66:e22c with SMTP id
+ c21-20020aa7c755000000b004192f66e22cmr10906888eds.381.1648192028850; 
  Fri, 25 Mar 2022 00:07:08 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- ka6-20020a170907990600b006ce54c95e3csm2011497ejc.161.2022.03.25.00.07.07
- for <qemu-devel@nongnu.org>
+ ka6-20020a170907990600b006ce54c95e3csm2011497ejc.161.2022.03.25.00.07.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Mar 2022 00:07:07 -0700 (PDT)
+ Fri, 25 Mar 2022 00:07:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/7] (Mostly) x86 fixes for QEMU 7.0.0-rc2
-Date: Fri, 25 Mar 2022 08:06:59 +0100
-Message-Id: <20220325070706.271291-1-pbonzini@redhat.com>
+Subject: [PULL 1/7] target/i386/kvm: Free xsave_buf when destroying vCPU
+Date: Fri, 25 Mar 2022 08:07:00 +0100
+Message-Id: <20220325070706.271291-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220325070706.271291-1-pbonzini@redhat.com>
+References: <20220325070706.271291-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -89,49 +90,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 15ef89d2a1a7b93845a6b09c2ee8e1979f6eb30b:
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-  Update version for v7.0.0-rc1 release (2022-03-22 22:58:44 +0000)
+Fix vCPU hot-unplug related leak reported by Valgrind:
 
-are available in the Git repository at:
+  ==132362== 4,096 bytes in 1 blocks are definitely lost in loss record 8,440 of 8,549
+  ==132362==    at 0x4C3B15F: memalign (vg_replace_malloc.c:1265)
+  ==132362==    by 0x4C3B288: posix_memalign (vg_replace_malloc.c:1429)
+  ==132362==    by 0xB41195: qemu_try_memalign (memalign.c:53)
+  ==132362==    by 0xB41204: qemu_memalign (memalign.c:73)
+  ==132362==    by 0x7131CB: kvm_init_xsave (kvm.c:1601)
+  ==132362==    by 0x7148ED: kvm_arch_init_vcpu (kvm.c:2031)
+  ==132362==    by 0x91D224: kvm_init_vcpu (kvm-all.c:516)
+  ==132362==    by 0x9242C9: kvm_vcpu_thread_fn (kvm-accel-ops.c:40)
+  ==132362==    by 0xB2EB26: qemu_thread_start (qemu-thread-posix.c:556)
+  ==132362==    by 0x7EB2159: start_thread (in /usr/lib64/libpthread-2.28.so)
+  ==132362==    by 0x9D45DD2: clone (in /usr/lib64/libc-2.28.so)
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+Reported-by: Mark Kanda <mark.kanda@oracle.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Mark Kanda <mark.kanda@oracle.com>
+Message-Id: <20220322120522.26200-1-philippe.mathieu.daude@gmail.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/kvm/kvm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-for you to fetch changes up to 9584d3d00a454f47b0341465142bcf0735d734ae:
-
-  build: disable fcf-protection on -march=486 -m16 (2022-03-24 18:44:07 +0100)
-
-----------------------------------------------------------------
-Bugfixes.
-
-----------------------------------------------------------------
-Christian Ehrhardt (1):
-      build: disable fcf-protection on -march=486 -m16
-
-Paolo Bonzini (4):
-      KVM: x86: workaround invalid CPUID[0xD,9] info on some AMD processors
-      configure: remove dead int128 test
-      target/i386: tcg: high bits SSE cmp operation must be ignored
-      target/i386: properly reset TSC on reset
-
-Philippe Mathieu-Daudé (1):
-      target/i386/kvm: Free xsave_buf when destroying vCPU
-
-luofei (1):
-      i386: Set MCG_STATUS_RIPV bit for mce SRAR error
-
- configure                   | 18 ------------------
- pc-bios/optionrom/Makefile  |  4 ++++
- target/i386/cpu.c           | 17 +++++++++++++++--
- target/i386/cpu.h           |  4 +++-
- target/i386/kvm/kvm-cpu.c   | 19 ++++++++++++-------
- target/i386/kvm/kvm.c       |  4 +++-
- target/i386/tcg/translate.c |  6 ++----
- 7 files changed, 39 insertions(+), 33 deletions(-)
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 06901c2a43..7396b430d7 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -2081,6 +2081,8 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *env = &cpu->env;
+ 
++    g_free(env->xsave_buf);
++
+     if (cpu->kvm_msr_buf) {
+         g_free(cpu->kvm_msr_buf);
+         cpu->kvm_msr_buf = NULL;
 -- 
 2.35.1
+
 
 
