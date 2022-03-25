@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361B64E7348
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 13:24:27 +0100 (CET)
-Received: from localhost ([::1]:41724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1434E7399
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 13:36:43 +0100 (CET)
+Received: from localhost ([::1]:54630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXizS-0008OO-A9
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 08:24:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50542)
+	id 1nXjBJ-0000kv-Rc
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 08:36:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXisD-0003xT-Gh
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 08:16:57 -0400
-Received: from [2607:f8b0:4864:20::1130] (port=46589
- helo=mail-yw1-x1130.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXisA-0007DW-Ur
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 08:16:56 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-2e5e176e1b6so80740727b3.13
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 05:16:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xx1Clygi4T+OeBUvtZ39GpyQk6v+E7nZmHCU0gmtMEw=;
- b=Ns9De7nEGDoJksZP2oBNX4SIulnC4AoZtCEwfBWYXabg8gmIYVrDxP+TvY4yO1Xh+v
- 1FTUALFIGu5iqwihSKBi2R2zOaLDuZVC3XjqbYvjM5XixDTnpgtHISBSLWF8fXPE48y4
- LpYPJ//pzGAt0p15TbftozI7OkVjg+kxgKIGQs0lj8IhyRVkzfML+lf3/vOJtahe7B0Q
- eNhwvj89XBj5ymB01pcGsQQeGbi17KwnSnHlN+MjeGHgoFEHo0Uzq8q/hfYCe4nNHGwK
- hnmLd/s0ua/NNl7UxsvD72BblpF9EDPhCKIcj2Kr/tqH+Wvjv/WmppYjTrYnfeTLm0Lg
- Ug8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xx1Clygi4T+OeBUvtZ39GpyQk6v+E7nZmHCU0gmtMEw=;
- b=sF2tglON2MGbORH+vSZaGAZ/FsQVgV40MrIJ3HfP3YvHyV5Vnb+LmRE7Di6eFHL3jc
- 4Ky9jk9+V36tddRGSIkePvtceVSiJleNg0K44esxTS7sTQe5Efc0gRSKwlN/b71r/zvM
- Tg7TuF7qM+8oZXTfBEBFCTlMwg96ZZBCJdakxEh2L0iOAYCeAzQA8tlCon4UqM0YKKN+
- Tikftze39QIgNp1gnf+24BlL3LWHI2AUf/JQADfYnacASEhuq7R/fKwmZZ3OyVprt6Ws
- 8BdCPDB+ykKLIOIUvyLl6T8FGMQWFNxdBRuySB9Mv1mdietqUMWdO/H4+336fEr4/Clz
- Qo6w==
-X-Gm-Message-State: AOAM530Uw/+JWI0qdSvhH4AAQ/inuXhnLPOTHMyqeUUmdbxtxBcBUp4i
- LUYCpkmN2jgles61Z6+G93vl1QzBABVKLyyGXS8ksA==
-X-Google-Smtp-Source: ABdhPJwiO+Cfl+oyUTxlFFthvebIMr4NvSn1iezMUBYc4oXok4oOdD8rVzqozSNhU0FlG2jHf+GqxSqPlFdoTU0okUI=
-X-Received: by 2002:a81:a4e:0:b0:2e5:9946:525a with SMTP id
- 75-20020a810a4e000000b002e59946525amr10018652ywk.455.1648210613994; Fri, 25
- Mar 2022 05:16:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nXj8i-0007GR-GV
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 08:34:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47883)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nXj8e-0001fG-7M
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 08:33:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648211634;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MLsXEGXToUU5yAA1XvjLf1hsVODqJ8rgc5NVb1vwHgg=;
+ b=hO9U77MQN8+7peAgcJcF6kq2ylN1E7ItPKh9Phyb1PSyJVOAa8YsUXjamWRhpFvJIdvhAr
+ Of9HR0JcAkMPBqcvxB0cXF742vyDTHoVFdBLAOCrSJvmnwlk3R3OVjco0Ffa+OUCJRpkA7
+ BwOxXTCu7+JVuQ64g8qtJKByiipqLnI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-332-VYKIUlq7Nk6o2x2SRxqsHQ-1; Fri, 25 Mar 2022 08:33:51 -0400
+X-MC-Unique: VYKIUlq7Nk6o2x2SRxqsHQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 182BB85A5A8
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 12:33:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E82094010E5D;
+ Fri, 25 Mar 2022 12:33:50 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A129D21E6742; Fri, 25 Mar 2022 13:33:49 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Victor Toso <victortoso@redhat.com>
+Subject: Re: [PATCH 01/14] qapi: BlockExportRemoveMode: move comments to TODO
+References: <20220324175015.232794-1-victortoso@redhat.com>
+ <20220324175015.232794-2-victortoso@redhat.com>
+Date: Fri, 25 Mar 2022 13:33:49 +0100
+In-Reply-To: <20220324175015.232794-2-victortoso@redhat.com> (Victor Toso's
+ message of "Thu, 24 Mar 2022 18:50:02 +0100")
+Message-ID: <87tubmnrde.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220320160009.2665152-1-richard.henderson@linaro.org>
- <20220320160009.2665152-8-richard.henderson@linaro.org>
-In-Reply-To: <20220320160009.2665152-8-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Mar 2022 12:16:41 +0000
-Message-ID: <CAFEAcA99Z1Ku0f31fM+RsOzyjJxU6bytU7SwFTs7ZDfoRXAsfg@mail.gmail.com>
-Subject: Re: [PATCH 7/7] tests/tcg/nios2: Re-enable linux-user tests
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1130
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,23 +81,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org, Laurent@vivier.eu
+Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 20 Mar 2022 at 16:14, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+Victor Toso <victortoso@redhat.com> writes:
+
+> @hide and @soft are potential additions which fits the TODO section
+> perfectly.
 >
-> Now that signal handling has been fixed, re-enable tests.
+> The main motivation is to avoid this whole block of comment entering
+> the wrong section in the python parser.
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Victor Toso <victortoso@redhat.com>
 > ---
->  tests/tcg/nios2/Makefile.target | 11 -----------
->  1 file changed, 11 deletions(-)
->  delete mode 100644 tests/tcg/nios2/Makefile.target
+>  qapi/block-export.json | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/qapi/block-export.json b/qapi/block-export.json
+> index f183522d0d..1e34927f85 100644
+> --- a/qapi/block-export.json
+> +++ b/qapi/block-export.json
+> @@ -219,13 +219,13 @@
+>  #
+>  # @hard: Drop all connections immediately and remove export.
+>  #
+> -# Potential additional modes to be added in the future:
+> +# TODO: Potential additional modes to be added in the future:
+>  #
+> -# hide: Just hide export from new clients, leave existing connections as is.
+> -# Remove export after all clients are disconnected.
+> +#       hide: Just hide export from new clients, leave existing connections as is.
+> +#       Remove export after all clients are disconnected.
+>  #
+> -# soft: Hide export from new clients, answer with ESHUTDOWN for all further
+> -# requests from existing clients.
+> +#       soft: Hide export from new clients, answer with ESHUTDOWN for all further
+> +#       requests from existing clients.
+>  #
+>  # Since: 2.12
+>  ##
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-thanks
--- PMM
+Doc comments embed user documentation in the source code.  The doc
+generator extracts it.
+
+TODOs are generally for developers.  Should the doc generator suppress
+TODO sections?
+
 
