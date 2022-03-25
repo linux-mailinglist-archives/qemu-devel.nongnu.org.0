@@ -2,79 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE504E7A38
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 19:26:13 +0100 (CET)
-Received: from localhost ([::1]:55036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84DC84E7A39
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 19:31:15 +0100 (CET)
+Received: from localhost ([::1]:57346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXodY-0007a6-1K
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 14:26:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51024)
+	id 1nXoiQ-0000tR-AE
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 14:31:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nXobi-0006pn-2z
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 14:24:18 -0400
-Received: from [2607:f8b0:4864:20::635] (port=45802
- helo=mail-pl1-x635.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nXofz-0000Ap-SH
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 14:28:43 -0400
+Received: from [2a00:1450:4864:20::436] (port=33289
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nXobg-0002sM-K7
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 14:24:17 -0400
-Received: by mail-pl1-x635.google.com with SMTP id k6so8928134plg.12
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 11:24:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nXofy-0003bT-8t
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 14:28:43 -0400
+Received: by mail-wr1-x436.google.com with SMTP id r7so10862162wrc.0
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 11:28:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cP1IyIcL9YwJud5iDxCE0fvjEYIWyEZ7UQllFEjGvs0=;
- b=chdCBa0Xb8fKiatImCfDk0/CaM10i8nkjym3ZFXin5EQY/xqAKk6A9zRllY8ydCPmA
- hXWkWYc/N/DvViOFZgdqTi0DkgdQsMGNva2gtz0vEjW+Usem9SAn8JNgNAKLtLlZPMIe
- UVG3OwQS8sVzXSUv9JbKrH9Do1roZAYSCeBaUEdy2oKemSVyJNtH/i1vZfDXXHmTMoZZ
- BwcbCcCjrnJ8JSsHDIBstHtxaZJt9ECnWrjfMKtWLlCPmsnZRIumVYQLh5Sw/0tilFcw
- BfEKEPED358RKObW07bNIhNKCykI2D30iB5l1wFc3Glsy0CYloYo6aoCQNXH6JvRNVxy
- SZ7A==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=OxIENoSZ/qMSwpei1UrgyHSUM9mjrF/0WibM68qFank=;
+ b=A6uF8KcpT6HeSpb8jT0ae8PVp5XhhnGnRCbxyO6ET0c7vC41BEeD2Sg4XCDZtfh8qe
+ f7ejYdn/jaIrwkIPQsUX3cN4ny5RFD0NCP0KQcn2GEEKuZQb91hKpcJmsLKdO410lLWc
+ rgYFCCJsdu39h+6tuB58TrMqVKXHs3H9WLsB49tiukxzejcpUBa9zLB7ipUG5SoOKJAb
+ nFdpV+eSDh05f0TMvOY5ZA9ZEZxkggT/Zau6qihJE1BcaMedrk+TOZokijdqDAXTB36/
+ PE4B0qSAy4Jpccx8HJgYlz5l4LO/9hAWVVGcFWKS2DPKgg6uMtOPI2Bn27jU0ENvqqi7
+ pdxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cP1IyIcL9YwJud5iDxCE0fvjEYIWyEZ7UQllFEjGvs0=;
- b=32LVRNhHXdjmkQjemQn+TiyqEtsfKX5f6biEOIPpqmNrAJshCASjcit8JLXOVoUCtY
- H/cV0QYGkfgu2sBV/7Fmg0s0XCn8HJXFbrLYKTcbjBjxX1M6+59wEVB96FcjNNwktcrm
- u/SH7g8oearrfYsZjurXCrf8n92YPFRbSNOi2rth91PJx+pFzuKmummydCUBgynCzfG/
- aDgwOW+Cn2QLQrkAcgyxrrFbrOQTv4MePLS2O05KixGmzCYUec16sPygYX4u8pqSnQw3
- tnecnzmsHExQUgWCtPJpbN8GFSul8pAWJ8jBvHUd6CGOFSVA2k1OKFybujF010FNTZzC
- Kfng==
-X-Gm-Message-State: AOAM530pppIRnlNIySHpSUY7EOiCLOFu35KagzXOYTidEyKRMs6LDjXj
- NhkmCIJAH965fKxlb0QV7jTJgAifrKAtMQ==
-X-Google-Smtp-Source: ABdhPJyJ5A7J6dpXxjUeuoYj7eXCB9tiv65rXj62DR6qv1c6vxvF3Fr1iOMov+aQc10Gq6kwuCBd+w==
-X-Received: by 2002:a17:902:e742:b0:154:3e6a:21c0 with SMTP id
- p2-20020a170902e74200b001543e6a21c0mr13145386plf.117.1648232654604; 
- Fri, 25 Mar 2022 11:24:14 -0700 (PDT)
-Received: from octofox.hsd1.ca.comcast.net
- ([2601:641:401:1d20:7734:79fa:d15c:6089])
- by smtp.gmail.com with ESMTPSA id
- h10-20020a056a001a4a00b004f7c76f29c3sm7750529pfv.24.2022.03.25.11.24.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Mar 2022 11:24:13 -0700 (PDT)
-From: Max Filippov <jcmvbkbc@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/tcg/xtensa: allow testing big-endian cores
-Date: Fri, 25 Mar 2022 11:23:52 -0700
-Message-Id: <20220325182352.113975-1-jcmvbkbc@gmail.com>
-X-Mailer: git-send-email 2.30.2
+ bh=OxIENoSZ/qMSwpei1UrgyHSUM9mjrF/0WibM68qFank=;
+ b=WgZ2tBHTSjbJNkFFE3xVxzVMwkwsYjY3LiIvZSaE7XQWz/HV+rZIMF5sc1TtxlH8gQ
+ 6vwnSrC/9D5oRgayZZgGfrQXDul1G7mpuCzp9YB1EVgSUc0ki/XaoJkD/JUC52uVXLdx
+ r3kEVzzCnWhafMbyMwe62KQcw5/bB24iEYHBOL1Rfj6ZVtj6HyR5DiDMD8oF7cO+8vQ5
+ Mg4cVttIBofEeDoPNWNG+ARdh9GVYVlmCEf95PlfyilcwPoSIZR85Br5+Lj7p3RP0Ev9
+ vM4wa4MdGq7MUUmngutcXe6EOa0YSz5Lxy6fER0avfwO9/d0jPO2XxzGRkRYOB1LKC95
+ BdJQ==
+X-Gm-Message-State: AOAM531KtnzAiESW1gxqt2UzSsFsKGLEHCHA0tIbAx/O1oIT6RXLXEb1
+ 9UuM/gzJ49CF0ImrnrrX3hc=
+X-Google-Smtp-Source: ABdhPJzcb+BGslsSbfhakV+xInwBGtQDB2nKurBei89S3MmqaV01HCuF7lHHOMbNkEeJaVGRZO+D0w==
+X-Received: by 2002:a5d:414b:0:b0:205:89b7:91bf with SMTP id
+ c11-20020a5d414b000000b0020589b791bfmr10203594wrq.217.1648232919320; 
+ Fri, 25 Mar 2022 11:28:39 -0700 (PDT)
+Received: from [192.168.2.115] (120.net-94.228.4.isbl.embou.net.
+ [94.228.4.120]) by smtp.gmail.com with ESMTPSA id
+ r4-20020a05600c35c400b0038cbd8c41e9sm7791234wmq.12.2022.03.25.11.28.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Mar 2022 11:28:38 -0700 (PDT)
+Message-ID: <2c0dc3e6-0a3f-edba-888c-040c441ce359@gmail.com>
+Date: Fri, 25 Mar 2022 19:28:37 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH RESEND v1 0/2] i386: Make PIT and PIC the property of
+ common x86 base machine type
+Content-Language: en-US
+To: Xiaoyao Li <xiaoyao.li@intel.com>, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220310122811.807794-1-xiaoyao.li@intel.com>
+ <20220310080630-mutt-send-email-mst@kernel.org>
+ <a0c367ee-360e-6907-d4bb-3e1c865cc640@intel.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <a0c367ee-360e-6907-d4bb-3e1c865cc640@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x635.google.com
-X-Spam_score_int: 18
-X-Spam_score: 1.8
-X-Spam_bar: +
-X-Spam_report: (1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,68 +96,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't disable all big-endian tests, instead check whether $(CORE) is
-supported by the configured $(QEMU) and enable tests if it is.
+On 25/3/22 04:45, Xiaoyao Li wrote:
+> On 3/10/2022 9:07 PM, Michael S. Tsirkin wrote:
+>> On Thu, Mar 10, 2022 at 08:28:09PM +0800, Xiaoyao Li wrote:
+>>> For PIT, it's straightforward to merge microvm::pit and
+>>> pc_machine::pit_enabled into x86ms::pit
+>>>
+>>> For PIC, move microvm::pic to x86ms:pic, which gives PC machine the
+>>> ability to dis-/en-able PIC and it's the preparation for future TDX
+>>> support.
+>>
+>>
+>> Looks ok but we are in freeze. I will tag this but pls do ping me
+>> after the release to make sure it's not lost. Thanks!
+> 
+> Michael,
+> 
+> Do we need to wait until final 7.0.0 release, or rc1 is enough?
 
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
----
- MAINTAINERS                                | 1 +
- tests/tcg/xtensa/Makefile.softmmu-target   | 4 ++--
- tests/tcg/xtensaeb/Makefile.softmmu-target | 5 +++++
- 3 files changed, 8 insertions(+), 2 deletions(-)
- create mode 100644 tests/tcg/xtensaeb/Makefile.softmmu-target
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9aed5f3e04e4..e16585b073a3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -347,6 +347,7 @@ S: Maintained
- F: target/xtensa/
- F: hw/xtensa/
- F: tests/tcg/xtensa/
-+F: tests/tcg/xtensaeb/
- F: disas/xtensa.c
- F: include/hw/xtensa/xtensa-isa.h
- F: configs/devices/xtensa*/default.mak
-diff --git a/tests/tcg/xtensa/Makefile.softmmu-target b/tests/tcg/xtensa/Makefile.softmmu-target
-index 9530cac2ad95..f1cf2a6496d2 100644
---- a/tests/tcg/xtensa/Makefile.softmmu-target
-+++ b/tests/tcg/xtensa/Makefile.softmmu-target
-@@ -2,7 +2,8 @@
- # Xtensa softmmu tests
- #
- 
--ifneq ($(TARGET_WORDS_BIGENDIAN),y)
-+CORE=dc232b
-+ifneq ($(shell $(QEMU) -cpu help | grep -w $(CORE)),)
- 
- XTENSA_SRC = $(SRC_PATH)/tests/tcg/xtensa
- XTENSA_ALL = $(filter-out $(XTENSA_SRC)/linker.ld.S,$(wildcard $(XTENSA_SRC)/*.S))
-@@ -15,7 +16,6 @@ XTENSA_USABLE_TESTS = $(filter-out $(XTENSA_BROKEN_TESTS), $(XTENSA_TESTS))
- TESTS += $(XTENSA_USABLE_TESTS)
- VPATH += $(XTENSA_SRC)
- 
--CORE=dc232b
- QEMU_OPTS+=-M sim -cpu $(CORE) -nographic -semihosting -icount 6 $(EXTFLAGS) -kernel
- 
- INCLUDE_DIRS = $(SRC_PATH)/target/xtensa/core-$(CORE)
-diff --git a/tests/tcg/xtensaeb/Makefile.softmmu-target b/tests/tcg/xtensaeb/Makefile.softmmu-target
-new file mode 100644
-index 000000000000..4204a96d53c0
---- /dev/null
-+++ b/tests/tcg/xtensaeb/Makefile.softmmu-target
-@@ -0,0 +1,5 @@
-+#
-+# Xtensa softmmu tests
-+#
-+
-+include $(SRC_PATH)/tests/tcg/xtensa/Makefile.softmmu-target
--- 
-2.30.2
-
+We only accept bugfixes until the release, and your series is not fixing
+a bug, so yes, until the "final" (non-candidate) release tag.
 
