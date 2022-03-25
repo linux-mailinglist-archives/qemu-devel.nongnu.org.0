@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0119F4E75A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 16:03:12 +0100 (CET)
-Received: from localhost ([::1]:52208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1546C4E75A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 16:02:16 +0100 (CET)
+Received: from localhost ([::1]:49746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXlT5-0002ZE-3j
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 11:03:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37250)
+	id 1nXlSA-0000tz-Qb
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 11:02:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXlNc-0004tc-HF
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:57:32 -0400
-Received: from [2a00:1450:4864:20::32f] (port=44597
- helo=mail-wm1-x32f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXlNb-0004DW-3r
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:57:32 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- bg31-20020a05600c3c9f00b00381590dbb33so4548392wmb.3
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 07:57:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=4MlN/pySNODv55bFqFVfLg38b7ly0tYbAzl8thuVo7U=;
- b=mUbMwdrEqErii+hjQPzmiOjB5JYSQHIpv5KF4PniNEyWteBcKnmn98erfsKBuWpoOw
- 5p6qgiRD55W7p3W7w9hLTGud+EuvyhqUDVMV2u34O5bVIgi5Mp8yXazohkfr9Bcxn0hW
- pMajTO8HmV20WZFRmYL/neLgI+IAZVGtSg3p/4IRNndYoW6g+8oR7+S8zfwPbkHoqhGt
- wT+NK9mAnGWnrLfF545XzCO1TPYBJr7dfWt+em+NBP9SyliS1alorLrWFDYu72kjLFGc
- Hg4ldGVe4tcPtcsw3+PWuca2Ish+bhQgFj3mZ4FmruEpVxY7Il9utOXi9g/emiU13NqU
- InmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4MlN/pySNODv55bFqFVfLg38b7ly0tYbAzl8thuVo7U=;
- b=meXTf+xiqEXJmFVTRxlpCG4kris5q2VKddYsbmRmXhX8BEX2pKRrL7pRjpBadTS4eV
- unhFHlFTovhbKyehhxfaAzYOnq1H4Pq4bCHpIgDPv6PWVTcUERKE6OdgP11Zcajxh/9Q
- 9eWXbLx/NJq8GtFqFaNzQY+tnVpGSE2JyvtrmQhjzTeKwf9ouenqbPLqW8UxxgIF69Gg
- iC3UzvqyiW0dbfr2qzg0u1YIN4KqmPHsHSma7QeuEooK7Usk20HksBUwdjlag1jAIlGc
- 3OVsFb9Tyqi/SzKlSkDww7R0aIPSyRMZ3/VMvuZfErkHvGWb0TTz/5GR6vll4rlp/wN3
- 8jnA==
-X-Gm-Message-State: AOAM531sqKiZn8YdaoRp6K3kgYT0MZ7QCnXtrHO69s7ybJkkytabQ2AF
- P0WzqQUE9HcwjDaKq6ciqK8noeTF4qpjTA==
-X-Google-Smtp-Source: ABdhPJyKuepYDGEkEsVZsvmMeITNDdg764cgjI7t8ZRyYLviR7TzKS+D/rPuaZ/jUUIjB8mO3YrGpg==
-X-Received: by 2002:a7b:c2aa:0:b0:389:891f:1fd1 with SMTP id
- c10-20020a7bc2aa000000b00389891f1fd1mr19626594wmk.138.1648220249687; 
- Fri, 25 Mar 2022 07:57:29 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- c7-20020a5d4f07000000b00203db8f13c6sm5200583wru.75.2022.03.25.07.57.28
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Mar 2022 07:57:28 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] hw/intc/arm_gicv3_its: Add missing newlines to
- process_mapc() logging
-Date: Fri, 25 Mar 2022 14:57:25 +0000
-Message-Id: <20220325145725.3891659-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220325145725.3891659-1-peter.maydell@linaro.org>
-References: <20220325145725.3891659-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nXlPp-00072y-KC
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:59:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45476)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nXlPm-0004TH-N9
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:59:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648220377;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=v2PH3o6qNorTEFNQpI+HXFAjPb88kgiHnMGZj9ELo1E=;
+ b=djv6w9C/dXhWNKxEHcqmPpkNSK8UME4WYkHHVgy95E1ECR9W6KreE08TUPB7d0NWt+P1kO
+ NJv+wumRJ+sFT/1nbfbEGdaCkiy/CKDeE+KgO8GC6+tabsPuXNYMhpTTd4NztCC8CQYvpH
+ vsNoMPCf1lBwvnqREi9W/z1/+bIOdIE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-433-skCsTSuVP8a3anR2pQXwzA-1; Fri, 25 Mar 2022 10:59:34 -0400
+X-MC-Unique: skCsTSuVP8a3anR2pQXwzA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EAA5F101AA42;
+ Fri, 25 Mar 2022 14:59:33 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 88BCF111F3D9;
+ Fri, 25 Mar 2022 14:59:33 +0000 (UTC)
+Date: Fri, 25 Mar 2022 09:59:31 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH] iotests: Fix status checks
+Message-ID: <20220325145931.3gh4254v7lj7wf7g@redhat.com>
+References: <20220324180221.24508-1-hreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220324180221.24508-1-hreitz@redhat.com>
+User-Agent: NeoMutt/20211029-512-43304b
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,44 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 84d43d2e82da we rearranged the logging of errors in
-process_mapc(), and inadvertently dropped the trailing newlines
-from the log messages. Restore them. The same commit also
-attempted to switch the ICID printing to hex (which is how we
-print ICIDs elsewhere) but only did half the job, adding the
-0x prefix but leaving the format string at %d; correct to %x.
+On Thu, Mar 24, 2022 at 07:02:21PM +0100, Hanna Reitz wrote:
+> An iotest's 'paused' condition is fickle; it will be reported as true
+> whenever the job is drained, for example, or when it is in the process
+> of completing.
+> 
+> 030 and 041 contain such checks, we should replace them by checking the
+> job status instead.  (As was done for 129 in commit f9a6256b48f29c2816
+> for the 'busy' condition.)
+> 
+> Additionally, when we want to test that a job is paused on error, we
+> might want to give it some time to actually switch to the paused state.
+> Do that by waiting on the corresponding JOB_STATUS_CHANGE event.  (But
+> only if they are not already paused; the loops these places are in fetch
+> all VM events, so they may have already fetched that event from the
+> queue.)
+> 
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/030 | 25 ++++++++++++++++++++-----
+>  tests/qemu-iotests/041 | 26 +++++++++++++++++++-------
+>  2 files changed, 39 insertions(+), 12 deletions(-)
 
-Fixes: 84d43d2e82da ("hw/intc/arm_gicv3_its: In MAPC with V=0, don't check rdbase field")
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/intc/arm_gicv3_its.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index b96b874afdf..87466732139 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -524,12 +524,12 @@ static ItsCmdResult process_mapc(GICv3ITSState *s, const uint64_t *cmdpkt)
-     trace_gicv3_its_cmd_mapc(icid, cte.rdbase, cte.valid);
- 
-     if (icid >= s->ct.num_entries) {
--        qemu_log_mask(LOG_GUEST_ERROR, "ITS MAPC: invalid ICID 0x%d", icid);
-+        qemu_log_mask(LOG_GUEST_ERROR, "ITS MAPC: invalid ICID 0x%x\n", icid);
-         return CMD_CONTINUE;
-     }
-     if (cte.valid && cte.rdbase >= s->gicv3->num_cpu) {
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "ITS MAPC: invalid RDBASE %u ", cte.rdbase);
-+                      "ITS MAPC: invalid RDBASE %u\n", cte.rdbase);
-         return CMD_CONTINUE;
-     }
- 
 -- 
-2.25.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
