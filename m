@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BC74E710E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 11:19:31 +0100 (CET)
-Received: from localhost ([::1]:47768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3250D4E716C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 11:42:07 +0100 (CET)
+Received: from localhost ([::1]:38038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXh2Y-0006pi-4o
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 06:19:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55866)
+	id 1nXhOQ-0003z3-8r
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 06:42:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nXh0Q-0005Xo-I1
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:17:20 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:45276)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nXhMM-0002Lr-9V
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:39:58 -0400
+Received: from [2a00:1450:4864:20::42d] (port=40731
+ helo=mail-wr1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nXh0N-0003lh-Vq
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:17:17 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DF7D0210DD;
- Fri, 25 Mar 2022 10:17:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1648203428; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VDaTF01GvoK3OwsX6oerSVKX3cZ2MPyCatWKeKzjJnI=;
- b=uYCEI11yn+ALDLSMUDNQEn8X3tBie8HDnVJyaOcnHna29C50bLOZ/Nclz/zFIuQYiuNk6e
- 14FJL8KgqUaaAdtmfuxc/IWvt/l4h7V4dLoa3c4dVfvwuFQH12y/016/imlaetHnO+CNWp
- vFVRrpGEduhaqEOQ2KsrHdfNsFUNcmw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1648203428;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VDaTF01GvoK3OwsX6oerSVKX3cZ2MPyCatWKeKzjJnI=;
- b=JGRtA1naeERJzAK12tA2Sty7oQhEmHqNPHfaOFX7Xpkn5MEjVgCsUhEFezzXxGuecNlYXA
- nOoao1JFrvr5iEDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 835ED13A30;
- Fri, 25 Mar 2022 10:17:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id okhoG6SWPWK6FwAAMHmgww
- (envelope-from <lizhang@suse.de>); Fri, 25 Mar 2022 10:17:08 +0000
-Message-ID: <32ff3a63-fb50-8038-3f2e-5bfd70b01344@suse.de>
-Date: Fri, 25 Mar 2022 11:17:07 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nXhMK-0007WD-B9
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:39:57 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id d7so10271494wrb.7
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 03:39:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=hOIMqoJFdXp7xWR2zpny2V06Vyv43g+vRng6G3Fav6o=;
+ b=NJerOdEDgIm+cT3HLSSpuXvGxsB7XZwH8Dy8vt74ecb5Gnvs4A6MDmvihYi0A4Pqvg
+ 88AOA6bhUDfUFR8cMgjqmM1Q8JoWhCfZwp5cdwRTFO1LJFn9NtF4jv8a1FNDpFLCMMB6
+ hgSeSAA9VXUQ7F/73xiyAcgUecyGWUk0WL8M4/qQA2UKkKH8ZAyEX9sIZJDTm7uhHoou
+ 8dTMzR8QvjDCoop/JMdOkL3HvY8kVRpkZHBgaURPHMmSdyYIM3azCuagyxn4PF9eA2Gf
+ dcUS191SvGuMYqubwn47gBUBtStSJRw2ojeQAZVdDBG613C4XyyFV9pDytiaGYnPElEf
+ aKfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=hOIMqoJFdXp7xWR2zpny2V06Vyv43g+vRng6G3Fav6o=;
+ b=n2qBc/WEqlNyznMB886j5DCw15vF27ITYYWFr74BT2avKyP9GW5SdRY0aGIlAq/++u
+ p1Kz/90pd/N0khp3oHS2pF5RPexByejYMNUcBuxqxfmKIUcZlMIU1mI75fyS/9BYfA8i
+ twf/m/HsCMi52liiRVqS2XJXGtu57pDu2GgGSE6VtTleeAOVbxMlAYOXUI1Jzw3GuSDE
+ dyBmtLJ38La221U2IaRVobJ3lweOcJhrY6JwxnSc4TeHNYbjTzZD00CPnPKH1PcQpUSK
+ Sx3JqWJUn6tllSv70dTe6rw2ZkyI0WobyLY6BGu3PIvQXO26F5RIisTSF/SbjoH5S/aw
+ 7m+w==
+X-Gm-Message-State: AOAM530MjHbm/qJgdiQ3xK7tulzLO4JSI7/wopomOq4SNrSYzW/kr7n9
+ errTNNJy1A0LTWlZ7cBdqLUbZA==
+X-Google-Smtp-Source: ABdhPJw2EBtdVT3sqo9slR9RgddDKnCHi2HBeRzJr6V8WnCIRm9AKGFVKDzNQdiO/EnuOZBk7jprWQ==
+X-Received: by 2002:a5d:59a3:0:b0:203:d9fa:6968 with SMTP id
+ p3-20020a5d59a3000000b00203d9fa6968mr8704799wrr.585.1648204788644; 
+ Fri, 25 Mar 2022 03:39:48 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ g10-20020a5d46ca000000b00203fd86e198sm4653261wrs.96.2022.03.25.03.39.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Mar 2022 03:39:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C57721FFB7;
+ Fri, 25 Mar 2022 10:39:46 +0000 (GMT)
+References: <YjzR3erB5ZhkAI2A@strawberry.localdomain>
+User-agent: mu4e 1.7.10; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: Re: Plugins Not Reporting AArch64 SVE Memory Operations
+Date: Fri, 25 Mar 2022 10:19:59 +0000
+In-reply-to: <YjzR3erB5ZhkAI2A@strawberry.localdomain>
+Message-ID: <874k3m2u4t.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: iotest40 problem
-Content-Language: en-US
-From: Li Zhang <lizhang@suse.de>
-To: QEMU Developers <qemu-devel@nongnu.org>, kwolf@redhat.com,
- Hanna Reitz <hreitz@redhat.com>
-References: <1c4fd757-5d08-0099-b842-4295c430a176@suse.de>
-In-Reply-To: <1c4fd757-5d08-0099-b842-4295c430a176@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,132 +92,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm@nongnu.org, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ robhenry@microsoft.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-I backport some iotests patches to the tree and change timeout.
-It doesn't work.
+Aaron Lindsay <aaron@os.amperecomputing.com> writes:
 
-Sometimes, iotest41 also reports the errors.
-[ 1347s] 
-+======================================================================
-[ 1347s] +ERROR: test_top_node_in_wrong_chain (__main__.TestSingleDrive)
-[ 1347s] 
-+----------------------------------------------------------------------
-[ 1347s] +Traceback (most recent call last):
-[ 1347s] +  File 
-"/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py", 
-line 399, in launch
-[ 1347s] +    self._launch()
-[ 1347s] +  File 
-"/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py", 
-line 434, in _launch
-[ 1347s] +    self._post_launch()
-[ 1347s] +  File 
-"/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/qtest.py", 
-line 147, in _post_launch
-[ 1347s] +    super()._post_launch()
-[ 1347s] +  File 
-"/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py", 
-line 340, in _post_launch
-[ 1347s] +    self._qmp.accept(self._qmp_timer)
-[ 1347s] +  File 
-"/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py", 
-line 69, in accept
-[ 1347s] +    timeout
-[ 1347s] +  File 
-"/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py", 
-line 42, in _sync
-[ 1347s] +    asyncio.wait_for(future, timeout=timeout)
-[ 1347s] +  File "/usr/lib64/python3.6/asyncio/base_events.py", line 
-488, in run_until_complete
-[ 1347s] +    return future.result()
-[ 1347s] +  File "/usr/lib64/python3.6/asyncio/tasks.py", line 362, in 
-wait_for
-[ 1347s] +    raise futures.TimeoutError()
-[ 1347s] +concurrent.futures._base.TimeoutError
+> Hi folks,
+>
+> I see there has been some previous discussion [1] about 1.5 years ago
+> around the fact that AArch64 SVE instructions do not emit any memory
+> operations via the plugin interface, as one might expect them to.
+>
+> I am interested in being able to more accurately trace the memory
+> operations of SVE instructions using the plugin interface - has there
+> been any further discussion or work on this topic off-list (or that
+> escaped my searching)?
+>
+> In the previous discussion [1], Richard raised some interesting
+> questions:
+>
+>> The plugin interface needs extension for this.  How should I signal that=
+ 256
+>> consecutive byte loads have occurred?  How should I signal that the cont=
+rolling
+>> predicate was not all true, so only 250 of those 256 were actually activ=
+e?  How
+>> should I signal 59 non-consecutive (gather) loads have occurred?
+>>=20
+>> If the answer is simply that you want 256 or 250 or 59 plugin callbacks
+>> respectively, then we might be able to force the memory operations into =
+the
+>> slow path, and hook the operation there.  As if it were an i/o operation.
+>
+> My initial reaction is that simply sending individual callbacks for each
+> access (only the ones which were active, in the case of predication)
+> seems to fit reasonably well with the existing plugin interface. For
+> instance, I think we already receive two callbacks for each AArch64
+> `LDP` instruction, right?
 
+This seems the simplest solution. I think what you need to look at is
+how the sve_ldst1_host_fn and sve_ldst1_tlb_fn functions eventually
+emerge out of the macro expansion (having a -E copy of the compiled
+source might be helpful here).
 
-I can see other errors like this, it's the problem of the socket.
+That said I'm confused that softmmu isn't already hooked into by virtue
+of using the softmmu slowpath (cpu_[ld|st]_*). However user space
+emulation which typically directly accesses a final host address will
+need to be fixed.
 
-[ 1535s] socket_accept failed: Resource temporarily unavailable
-[ 1535s] **
-[ 1535s] 
-ERROR:../tests/qtest/libqtest.c:321:qtest_init_without_qmp_handshake: 
-assertion failed: (s->fd >= 0 && s->qmp_fd >= 0)
+> If this is an agreeable solution that wouldn't take too much effort to
+> implement (and no one else is doing it), would someone mind pointing me
+> in the right direction to get started?
 
+Richard, anything to add?
 
-The script is running the command as this:
-/usr/bin/make -O -j4 check-block V=1
-
-I can see the errors on ppc, arm or x86.
-But I couldn't reproduce it when I run it manually.
-
-It will be appreciated if any suggestions. Thanks.
+>
+> Thanks!
+>
+> -Aaron
+>
+> [1] https://lists.nongnu.org/archive/html/qemu-discuss/2020-12/msg00015.h=
+tml
 
 
-On 3/24/22 14:47, Li Zhang wrote:
-> Hi,
-> 
-> When I run the testsuit on our buidling system, it reports a timeout 
-> sometimes not always as the following.
-> It couldn't connect qmp socket. Any ideas about this problem?
-> 
-> 
-> [ 1989s] --- 
-> /home/abuild/rpmbuild/BUILD/qemu-6.2.0/tests/qemu-iotests/040.out
-> [ 1989s] +++ 040.out.bad
-> [ 1989s] @@ -1,5 +1,55 @@
-> [ 1989s] -.................................................................
-> [ 1989s] +....ERROR:qemu.aqmp.qmp_client.qemu-6471:Failed to establish 
-> connection: asyncio.exceptions.CancelledError
-> [ 1989s] 
-> +E..................................ERROR:qemu.aqmp.qmp_client.qemu-6471:Failed 
-> to establish connection: asyncio.exceptions.CancelledError
-> [ 1989s] +E.........................
-> [ 1989s] 
-> +======================================================================
-> [ 1989s] +ERROR: test_commit_node (__main__.TestActiveZeroLengthImage)
-> [ 1989s] 
-> +----------------------------------------------------------------------
-> [ 1989s] +Traceback (most recent call last):
-> [ 1989s] +  File 
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/tests/qemu-iotests/040", line 
-> 94, in setUp
-> [ 1989s] +    self.vm.launch()
-> [ 1989s] +  File 
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py", 
-> line 399, in launch
-> [ 1989s] +    self._launch()
-> [ 1989s] +  File 
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py", 
-> line 434, in _launch
-> [ 1989s] +    self._post_launch()
-> [ 1989s] +  File 
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/qtest.py", 
-> line 147, in _post_launch
-> [ 1989s] +    super()._post_launch()
-> [ 1989s] +  File 
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py", 
-> line 340, in _post_launch
-> [ 1989s] +    self._qmp.accept(self._qmp_timer)
-> [ 1989s] +  File 
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py", 
-> line 67, in accept
-> [ 1989s] +    self._sync(
-> [ 1989s] +  File 
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py", 
-> line 41, in _sync
-> [ 1989s] +    return self._aloop.run_until_complete(
-> [ 1989s] +  File "/usr/lib64/python3.8/asyncio/base_events.py", line 
-> 616, in run_until_complete
-> [ 1989s] +    return future.result()
-> [ 1989s] +  File "/usr/lib64/python3.8/asyncio/tasks.py", line 501, in 
-> wait_for
-> [ 1989s] +    raise exceptions.TimeoutError()
-> [ 1989s] +asyncio.exceptions.TimeoutError
-> 
-
+--=20
+Alex Benn=C3=A9e
 
