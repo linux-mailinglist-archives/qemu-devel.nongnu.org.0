@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0254E757F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 15:56:51 +0100 (CET)
-Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA004E7573
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 15:53:14 +0100 (CET)
+Received: from localhost ([::1]:34908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXlMw-0002Yq-QJ
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 10:56:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36300)
+	id 1nXlJQ-0007M3-UG
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 10:53:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lw945lw945@yahoo.com>)
- id 1nXlGo-0005ql-Uy
+ id 1nXlGp-0005qo-8k
  for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:50:32 -0400
-Received: from sonic304-24.consmr.mail.gq1.yahoo.com ([98.137.68.205]:37344)
+Received: from sonic304-24.consmr.mail.gq1.yahoo.com ([98.137.68.205]:34881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <lw945lw945@yahoo.com>)
- id 1nXlGk-0003ED-Tv
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:50:29 -0400
+ id 1nXlGm-0003Gx-FX
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:50:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1648219818; bh=1ylJPZ+GOVnhJabmDjoLu2f3XSqU9cA4kEKGlxeL3Bs=;
+ t=1648219823; bh=f9ggRuwkHzUb+Qux8UDA3BgyZdP4SEcyeFAcOqRmhzI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=tltWaP3s9a0l/b+2EFBnhhHH4xU0/h+nVvHVsidzA0lQWV9viVWEU0dHeTg+VdMzg/ZVu3sxtTGUdN2C9V6lg4pTKdRsK0BEhZ/0COsWMXTFzNXT/9IkntFISeTRaCficOE1cz+PTmz9pGXaSP1/9MPGhgiTWTljMUNOTNlzTfWE8rHTxgtozSkq2vC9wuGTqX/TbsO+5T0u0q5Jh+/WAYSLzqp3UxlxHrsPMyrHVzs5Y/mIARDMsBCK3a694OuhhqrozxRHb9bAcMa9hxvnDxJdG6P+Dpb7J3UDaG+juM/UQAGC7YtdmHiq8GCEiF9M2q45eR5rAO4VFTZww03A+w==
+ b=Gam5OuwP4wmvYsU5umEheyxx6icCg6LZtt5fFJHGJTkcCI6OS0WUERC4tIJlIakdReCLyNM6K14diUUuhMuooshZn2GwdklzfTB21R4DKbsGK9T0nSOHyFcLBpce9oF29fOYXBIGFkKvuGUT/Y/PC3efpOmyCphIeYArCUqs24fKSsVbHegQ3od2Bz/u7GRMgHvWXoakz2Br+49lPh/wCY85iLavEQEK88FET7dEarKSFVHNHvYn8uU3/AF0602bxT67Zl0PSXaX94bFXnhZcCnr+Dr9jZIWhJB5MTOScINaD2B5zpNvyDqqNhwG4ZrUJfVs0EfaaagGkUQWwwcMcw==
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1648219818; bh=dy9dfoj0H5femrC84BvHTmOPyTFN9Rptezjhg+jaX/A=;
+ t=1648219823; bh=OHlP3OS5ZSaK163VHbbVigHXFV7UvjqtY84kQZEVvxq=;
  h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=ahYw5L74+wyQTcnXn1mdu07SvyJMEGnNBUhERek4ecUt89SMvC/uZZG0maeR2xvhwcKbD5pK+4lanSyH2OF2v2K7e9Y/nixmRnMxhBBsR9tQUV8VoqLZqy0NCdGax6DjnsecwMGJVvg5Neoz/55pkWFrAg1lL4hof0HB6hDAy0g/elHM+N210icwk/ox8cQ9wlfUUVMu3NqYaWZZE+XgbnvoHlIxhAbssCh42VW/64lcQ7hvY6w3z6NF3OW45AUB/NfuKDAQKlLDKUBoEI8trGxOEn8JyJqb0zwdVo30HFeTXmpisI3nWInpKxMCcwM/6saO/Z2Nl4BtRLSi7vCokQ==
-X-YMail-OSG: Njt22Y0VM1kFM0WdkIgfcW3pGR2bLQt8dAQ7BUE9ckxVB3W84iwhVJlT8qxaB5z
- 11OXIQzbslYLE5n9JqzxgZ4mf9EUlZem17lmnVPSwoqfi_0ysYCDwPCvuYYDJAEiSYhn1sySAGgW
- YB4sG9qElSSXaCFZEsXp9LQDKcbbcM5sqULMhN9idvUZaYILp0aNMVMGbAtMQE3aGOjue864YGxw
- _begfkyrHTA__M2BVjU.tCVT4DADlj9eVvv37LgUpJ9OkuZ49AUrxjx1Qm322QRgWuvi7DbHmjpc
- Qxyipw30cP1cU4FIY9kU8Wq9PXkbcFpKaqaF9pNjTLaKLJ_GxPB9SA_6Y3grGa4zVX76YC5iLUpH
- .IKTeXA6AB4tkCGSeACdLpRc4Th7Frz96nzeeSq22PjrvABMD4TdTBkyonWHDfugZR9qzuom6F4r
- 5lT.CeU_8LxvLXyOKiy7lgWfNsq0h79W0jP.lKDVenBy.5U2GVdyqEDg2y5bUG.Srf4W5bVGwY_Y
- cceXQWW8nzC0L_s2NGNgqe9YxbJMykPyb1WxjK.APABHFvT.8SzyhG0P5zP0xe0bOZOWqK8CNnI2
- RH8ueqcVjxj_Cwig072OyglIhkJbY08acDs_qIlqpuVn5ofETu5kRukO9vaGmXVLgIXWnwZQIRQG
- sARfQHj8as_yyiPnd_rhlMRiLxRVbBlws6HbeVDyC2sId26XdxL.ePbj4Sd3T0.qKN8wx3dnhhLH
- tn2kE4Qx_340Jz.Hb9lWOFUzeRj6CHOgYg.0Eb6OSP1GfzSWO0F35XVPN9j6QpjqwIhV8RFNQFwr
- w7.Eyou87gXliHnDc2r8R6WrYgmxChBNQ.f2SZ9hT7XPfUKbeFYOHG0lpqcr.6sl0cRUn4IqRrKM
- lvF4iY7Hv3mYyUg1s.3Taql4tN0xVho35lzLTTdEPqya9Wa9jVxKtbX2VXoPaMth9hHASjqGKPfh
- voQ2sCDsQzp_hNdTWuxVMFx1tENQOICTu_sTJeyKtGo0iVgmMXdPvk1zwAJcCwmEjROOv4QBTXH1
- 1nvpqmk6oZYhLFOH2Aex9lWe9rLUcU2uRK5G2hFWjRSJ29c.foBGgSZg6UgSGrvFvkkE5tikiw9u
- kUD9EZxIEX3NurkNqVQEXNApJ_YrESW96Mtp5sNP8RvXc3W4f7Dkt_JJ3oB1.uSAnpI_OtBQJ4zR
- kKtZ1xd_3NEBCeoRdYRuJl7WOb6xNAuATg1t4.co0kF0MbC9M0ToKjNTvN2kfmaiI7HoY1RMVuAe
- TX5w664udmyrErWyK3NP2sk9_DBXht5S18K1o1nI6pLqiIxDTz9qXUCCvWk8tMQnuVDkNSjs9tVu
- RNq12zbRR_lPbyeEUooKcCFt180Wr8mClNNTlcbFAPpXOWEMAiBJbVZXHXFvIgylJ9DGTvD5B0Du
- WN6kiMob0_2T8Obi..Gzz0aqmA6kpNA0hofxaIpDq8vd8aaNtnTPXIyUqxAhgadBzdNk.Pg72kXw
- QqgvJUSK1Dz3FlSM4jtzuEPVqU1OR1x3G5sDFfn8WRE11ZWlhfhJ112pDuVmjhvmFEfgAyA3GNFH
- wgj.Y_idVO8xmPcSQkVX5oJgqhq0zroWCEl4cCv03k2u6rywWRRpFpSh.7bTGCQiqlVRT1tkz5aG
- poeXZ33JUPapdEI5oQwj4bKqkhrbLTEFB0OXN1oWIg6xM9Wcg5N3lxeBaW0BumQFMBq2LhPjlwzz
- IoZSFMcSpaqzw5aNEly9vzWxNQqtCKWapCdEzx6fomNW7FDRJ9cOfIl0bu7AN3jQoLdhh0UVHkDb
- HsQGxcb7ncAqpBipzrvI2aOylTES7NDWNe7ZN70g6NRNgi30YvXN9a72pnADVlhXb2sukBwlhq8l
- DWqcDYGwl4Oz9SEGlarmbJDPxMIKF_y8cPMkW689yUfLbrDHDiZAtewGhKbuaBej8OKMLJZx7ete
- kRQFJjPPf7ShLcCYOe80s23Br_j9SxzAdQlN1S4GcLjUfXHUwWVHcCxh447X7UfzFaMFrarM1jCf
- 8l..0VabX82yfzspGBfyjxyAY3mJ1.9hbKKufoKkbgNXdql5LjjaOAVQ_thvWRSEd8M9l0PjmVmM
- yV7vBwRAWfSXNfHL2V0TBnGHjrLaI_z3cgKuslRkSA91enydpPLPgz9dH9gUWyrEJ_I.BrJDTZu8
- D1I2JISGPoB.eYpgGs6KMNn6gphqV4oWvm3YeE9RWuZsU70bbDc8gWEDTxQgohTp2d7BjipXjt1U
- uB5iAEbRJoYwah1ZvNT4IqCSyAw3zcMddYzhMD3S7LYWpVfNgah6j0msyfrXRa6aTCEzhIY9Vkt.
- cXrjwZrt4DeU-
+ b=LVnGfi1PiiahOv67ck4qnu+ilvVJsm9yfgc5U9ZVw6JNJIQzkmjvEr0pVkczxi8KfIXVPK5TEBN9zx23vE9YjRhifoQqRTi3QwYHoPTP3rjwUbyEs9KqifDqm1lqJv1a3ikHOjgaz8GnEhj4KaN60edkVSgr6j60Kl2hRw3GLwKY12OBmxY74mf0X0g1O63neeS7hQ0+ipvi5iASw2jfdnvCok8TO39umTqqxiMfcWB2yLKmh1zvvAuUlfq4yyRM65qHWcdjaskNIQopoQhuVSTf7OGGETVAQjrEc/oLupsGAngh/c1l3zDjI1OJsoAgHfFIV+yh5/8eBNQEXoL6tg==
+X-YMail-OSG: MSVT6dUVM1mEBDIMEs6d1XjiaVdLpTNgZv9j5FapF_qfdTOQBlRzhO3xFZ2qSq2
+ VmWx4aAAkUsLesq_Tu5pURzrOHFYOPPwCJA0RKh5.r9FI7EXaNcqNiMgh9AjfG1crO4uJBHt1LWy
+ OFUImPbrD_KFN3hRuAjq9Bv13v0aRjVZDM8wHvenRk8wIDJICNw17p7rTWtLZOfIh8FXK2rXeF5e
+ 2L2oACAGwDhURt221KACm0GwHJz6R45TDjGhgJTwxUzzGUyvuhl6FdgFbSewQR.d8Ec2KNjI7VUH
+ yPLyYuiuizyySAcM9HvdC3.Ux4x6lEzr1kfSuAb1XH8hb8F.S02Gi_fCN2LmLanlxmeOBv41fXBO
+ EUgcrwRn3FHHuC.aUX7zbBtXpGszBgB0QSsJ4j8hic6_3lMTNo8x_9OjcQfNVX8LvD6erhQf4R8N
+ sr0RaAlJCtbXmPLAr2Z4mtr9wtQc0b3jZsvsleo2B0PlPJF4Pw9StN5eIH2m0pW21rYQ9uqcUhfu
+ K.zXpUmVO0HjW5OP.OSb95qg8Bdz2497VdpJh21RX3oLYBue_sLuE4UwKxF.M_UxthYfpUbs_fDC
+ PClCrA4wibmmZyoC4Gea2JqTqoYgCPi3NcSgdnaf93.5isKlq2ze2A5MmCi6kVSusw.3d15ig7S9
+ nM3ssfNqGWe4YlU5LnFR6YMTtddPhTeoDB5udJuJsiEyzS_uvZLApWbytGa7Cmxb2l1I5YXMMSWv
+ k38EDbAqcUapkVSff2FdOi9N1bgivzp4Kfi2tw8NKizU68C7030DMOBNS7FkEOJe5Im917FZ8gOT
+ wlckqN9__NgRuTVeojxzOWYf46gSU9BHzJAhYYfHpcZ1kvAeSSN.t116evQuE5G4HLgUmideiuSW
+ u_VTa6PdLULWQJge5CWpqGbWBde3vf4QHHdrNa7KZyvY12ImHSpQO9YBH4CvQk5LvRgZJHmPJe2Q
+ 7Pa07IZqf.W9OgC1ZxlC8v0z9EAUzriIUj7myhQdQk7OfIc6oePSgfJpD9TpqDnDLH3spQKjzpiA
+ KI.KGSk2F58O1LYABL8d9WU7_JhLGIgs6Ny16rU6P5vCzspKxgSswdkNwuHDoYqQbTd_8CIUZvuW
+ 92m0REGXd2.FNy9vs9iNJ77.G4rEVW61PWmJI1og600YS1hhxKlU9JBxeggqZRAQJe3XU3jrbaDo
+ MeP5St13MlitVikETIXi2tXTjAkU6hljjsm1Uj9rF9R.WvNWbOZJwW3Yo2UXz6MPjjY9BHqAtfTP
+ Z1EWFR3gHogHjR43EMkqQKPAPXDWAjBTOxXWlJBtu7eLaS7_DrRCfQNAt__0tsf.X809xGiq1._O
+ MH4GzWeyXryvH3W308dy9o0IjaJqHvR9smcNf40._CW75hHYjZwM.xYTaoS_mfRonriQELcdGTza
+ MFyI5OxJ1Vn5I55EAZWVDHiqIaqbwr04ecgi1z76Peh6kQIU.KQPHzmvGojEkyJZDWmiqmG3cEcI
+ KdTId96zWWWkhVkKeMNMjyvMpKGdnIGROYjGwjf2ha5ttkhCWlWL5yIKMaCDa0yc3n6ZrjWH6mp8
+ CBoABv.aRr836jsqpGPkzWgpPfPX1fDz2j6K1l0xDAcZqFgnaS_siWRLRbZnQWGi3UbTv3X1OSCc
+ kIewyTgM3sv9aHlk6PXJyuaf5pgT7MvKlpSVt48Pnk5kHIO1Qo8ITbq.cRmDxAbffPE7OmKnLdEC
+ 8zfgVizr0cCtI2NSNCC.468no8U2FpGrzdDFIfPbWOuHO1QtISKdqoVCSqyqDMUjHFFW08N_rT00
+ FZW2fmuwyOAeWLO8zx5PidFUXw4rEnda9dBQMU.AgbDMX8VapCUwZo3AFFuYc.pv9Q6AbWQ20BBz
+ zcjDHY.rwNWEcpMDIRyClnwbI7wKLfkYB7PUV.pDrtbQ4xBfP46m2MfqORixl1DdyHnfMuX.I5FH
+ oVXQd5awmewKl5KRuNoUhdYGp9K11U64SxzPxs1BneXHVB_bP1d2rveS9W0CSvOc34BuC9o9BZSV
+ wojP55LzOL5hBEi3PnBlYDspk10n5b_9yGE4.rqzhOtwUuP8SBAiX2dckS8g37LAPWDc61X9bC1o
+ IXSn6H2lp_8wPBL9kT1E9yUHOxGiXy4xsmaaMNkK7otOF0PfADD1qecjfk1wcwkF3tnmNHgmS2oW
+ eIPnKh8GA9D8wzkLHfXzYQg4SU0ttuXiO6qWp3CVs9raDuDq8xkX97QOvQJ58_Mb5fKUiQcxO96c
+ 6Gxcq57P3AYSF3IAVjwEZ34k4b1w6agUcvCRKcVe4nv.g9RrkrKrVaDaleEG5b1uyLhWPLFDG3YO
+ aD3BPj2aBJzA-
 X-Sonic-MF: <lw945lw945@yahoo.com>
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic304.consmr.mail.gq1.yahoo.com with HTTP; Fri, 25 Mar 2022 14:50:18 +0000
+ sonic304.consmr.mail.gq1.yahoo.com with HTTP; Fri, 25 Mar 2022 14:50:23 +0000
 Received: by kubenode516.mail-prod1.omega.sg3.yahoo.com (VZM Hermes SMTP
  Server) with ESMTPA ID ee9c67d9044eb9cc3a7d6349bbd1d60e; 
- Fri, 25 Mar 2022 14:50:14 +0000 (UTC)
+ Fri, 25 Mar 2022 14:50:17 +0000 (UTC)
 From: Wei Li <lw945lw945@yahoo.com>
 To: pbonzini@redhat.com,
 	richard.henderson@linaro.org,
 	eduardo@habkost.net
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] Move EMMS and FEMMS instructions out of gen_sse
-Date: Fri, 25 Mar 2022 22:50:06 +0800
-Message-Id: <20220325145007.448948-2-lw945lw945@yahoo.com>
+Subject: [PATCH 2/2] Some mmx/sse instructions in 'gen_sse' don't require
+ CRO.TS=0
+Date: Fri, 25 Mar 2022 22:50:07 +0800
+Message-Id: <20220325145007.448948-3-lw945lw945@yahoo.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220325145007.448948-1-lw945lw945@yahoo.com>
 References: <20220325145007.448948-1-lw945lw945@yahoo.com>
@@ -103,66 +104,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move EMMS and FEMMS instructions out of gen_sse to avoid the requirement
-of CR0.TS and get a better code readability.
+Some instructions in 'gen_sse' don't require CRO.TS=0 and the opcode of them are
+0F38F[0-F], 0F3AF[0-F].
 
 Signed-off-by: Wei Li <lw945lw945@yahoo.com>
 ---
- target/i386/tcg/translate.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ target/i386/tcg/translate.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 2a94d33742..fe9fcdae96 100644
+index fe9fcdae96..14cf11771c 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -3154,20 +3154,6 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-         && (b != 0x38 && b != 0x3a)) {
-         goto unknown_op;
+@@ -3139,8 +3139,16 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+             is_xmm = 1;
+         }
      }
--    if (b == 0x0e) {
--        if (!(s->cpuid_ext2_features & CPUID_EXT2_3DNOW)) {
--            /* If we were fully decoding this we might use illegal_op.  */
--            goto unknown_op;
--        }
--        /* femms */
--        gen_helper_emms(cpu_env);
--        return;
--    }
--    if (b == 0x77) {
--        /* emms */
--        gen_helper_emms(cpu_env);
--        return;
--    }
-     /* prepare MMX state (XXX: optimize by storing fptt and fptags in
-        the static cpu state) */
++
++    modrm = x86_ldub_code(env, s);
++    reg = ((modrm >> 3) & 7);
++    if (is_xmm) {
++        reg |= REX_R(s);
++    }
++    mod = (modrm >> 6) & 3;
+     /* simple MMX/SSE operation */
+-    if (s->flags & HF_TS_MASK) {
++    if ((s->flags & HF_TS_MASK)
++        && (!(modrm & 0xF0))) {
+         gen_exception(s, EXCP07_PREX, pc_start - s->cs_base);
+         return;
+     }
+@@ -3159,13 +3167,6 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
      if (!is_xmm) {
-@@ -8451,14 +8437,24 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
- 
-         set_cc_op(s, CC_OP_POPCNT);
-         break;
--    case 0x10e ... 0x10f:
-+    case 0x10e: /* femms */
-+        if (!(s->cpuid_ext2_features & CPUID_EXT2_3DNOW)) {
-+            /* If we were fully decoding this we might use illegal_op.  */
-+            goto unknown_op;
-+        }
-+        /* fall through */
-+    case 0x177: /* emms */
-+        gen_helper_emms(cpu_env);
-+        break;
-+    case 0x10f:
-         /* 3DNow! instructions, ignore prefixes */
-         s->prefix &= ~(PREFIX_REPZ | PREFIX_REPNZ | PREFIX_DATA);
-         /* fall through */
-     case 0x110 ... 0x117:
-     case 0x128 ... 0x12f:
-     case 0x138 ... 0x13a:
--    case 0x150 ... 0x179:
-+    case 0x150 ... 0x176:
-+    case 0x178 ... 0x179:
-     case 0x17c ... 0x17f:
-     case 0x1c2:
-     case 0x1c4 ... 0x1c6:
+         gen_helper_enter_mmx(cpu_env);
+     }
+-
+-    modrm = x86_ldub_code(env, s);
+-    reg = ((modrm >> 3) & 7);
+-    if (is_xmm) {
+-        reg |= REX_R(s);
+-    }
+-    mod = (modrm >> 6) & 3;
+     if (sse_fn_epp == SSE_SPECIAL) {
+         b |= (b1 << 8);
+         switch(b) {
 -- 
 2.30.2
 
