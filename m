@@ -2,155 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BCAA4E7A61
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 20:21:40 +0100 (CET)
-Received: from localhost ([::1]:49086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A7D4E7A62
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 20:22:38 +0100 (CET)
+Received: from localhost ([::1]:51378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXpVD-0000Lj-2n
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 15:21:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33202)
+	id 1nXpW9-0001sO-27
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 15:22:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1nXpTQ-0006sE-4h
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 15:19:48 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:1644)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nXpTm-0007KY-BP
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 15:20:10 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:20090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1nXpTK-0002jH-7m
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 15:19:45 -0400
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22PHEpxb031408; 
- Fri, 25 Mar 2022 19:19:29 GMT
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nXpTj-00033X-8M
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 15:20:09 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22PHMHaY031945; 
+ Fri, 25 Mar 2022 19:19:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=UYRxq4EeZvhESrwroCLsbsMgbgnqgnPs/ivwBL2nStA=;
- b=kg5NxUC5YJxZ0VZ/m/SEim4nMXiH7tpFh+tX36yoLp2/8jlm9ZadXtxZqThVORdDUwQR
- C4zh3yBkpSLrhbTCnPTIT69V1q5cx6ssUXmMa/mq1CL4VTM/h65loXvX57mnAeYu8FH1
- 7Ykm7kAOIJl5MARcnsMxIYV6iDDAtvakrDUuMmKFnTXreVx83EVdPmfis+cNG3c6Fi7M
- 5aAkIFg1kVNOAGeg9up9nJRXvT/lzmqlVT1BhJ0OynO47au9kpNc6Kqz+jmIaYGIxNG0
- PdPORmu8ySTS000BS+8NiRxEjUPYhFIHsRbqCOPU46peIalDJ4Czb7ydRhOnyYapknrY Eg== 
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=corp-2021-07-09;
+ bh=Yt9sf+8d0fvplRO+dyCK0MaSwMdvMBjW0vGx56suLHg=;
+ b=SkrroF1NrN6cOvii4GpQANPu1KTBMe2mtrH+LEBBHL1ihvZoHR0S1p9Fj+K0rr4gimel
+ DXxMLPEN1F4avP1c5MfC9OMEYrNcIB/VacSFnQ5xW3OuF/RcFblCvr3GeZ/KjHxM9ljp
+ k1lQI8u3jWrfpe8Ul/VS8uwlKITppiI+ej2E0UUdQ8RTJTx3QyVEUGlmPs8zjHrlvHkH
+ iGmFvCgeaZWbW5Eychlax09AecAgb+R+82/lUzguBg7tz5R8yNvJTJhAsLprWuHDPbq6
+ Erk9tDVobYDyulemdOQpVjHKW6+/50082r0jHpgUXrnk+4evk+1/mmSy4lfiKorX4Ojw Qw== 
 Received: from aserp3030.oracle.com ([141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3ew7qtgb0g-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ew5y287g0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 25 Mar 2022 19:19:28 +0000
+ Fri, 25 Mar 2022 19:19:55 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22PJGRbJ013941;
- Fri, 25 Mar 2022 19:19:27 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
- by aserp3030.oracle.com with ESMTP id 3ew5793uy3-1
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22PJHl2l014815;
+ Fri, 25 Mar 2022 19:19:54 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07lp2048.outbound.protection.outlook.com [104.47.56.48])
+ by aserp3030.oracle.com with ESMTP id 3ew5793v04-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 25 Mar 2022 19:19:27 +0000
+ Fri, 25 Mar 2022 19:19:54 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QHcHQtKz1Y4X84bdAZHZotQEGqSBjOVMaw0cM+zRx1bi6sgcbMThQQj1+kORT/kK14Lv8DmRTnldaH8sTcGe0Jezyqs+7czgAWHxpjrHg7B24pBnTOZgHkKikDoKhNL4hq8TtY9d1uzq/ZNczHzmBkp0OnrXVnZax8xBFYPLbeNI9y7/wu2Y+uYtqnpCJBoP923a85vAfoj7KBPNPIKbKaXMTDBPcuAF6kir/wy0PfpepkSn/6VTZgbExEEpPU0/xH+bCmJ+kpmg1rTcf5Q7r2AQMEKodo5+xw0q17cava9Gts+oUP7JpJ7596JxiD7/iVwQZUazpBlmTQYJPACvRg==
+ b=Xwt82ON1onmi/87rVgBE4JOaIC+ieIQgXL/QZ7PWKgJXR1/2TId7DioMZjcK/AlBlNKnb8a4IDPykwoeyMZxJRoqddNG4pjTgAPKndRAgdLHFJKG8niTKoRU6WHn+MHGCUWystmVeY69Sy3VGRN1ZmyyON2INOjOG/04LXrpS1ZsHLrJTmjSa6/zZrtF2tNImnaWSVMhBjGa4Lk/xTVlhwpDXN9s5XtxpmK0eG/s48UZq8V/qzMvHeZ4JrCwIVfXxdhooYyC7aPj47I2XTS3oBJf0OAa1Ejd8kB3TatgTbkAvMuuLtX3yaEZA7x/Qbq+oXY9G6xusTlpzcP+ai6PBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UYRxq4EeZvhESrwroCLsbsMgbgnqgnPs/ivwBL2nStA=;
- b=Zlz1fG5rFLkzCwWZy/dgDnBBEuSAUOvBZCwhHPYvUN+/QY2KiCvDIzT9/sJjVkMwtaOfbKBQ4E4N6COLKmiAkRE4BQDSEV+cS2g9gk6+zPDAu9hnIN4DqWPvbEkZz6Q3E5H0jzYD631TJ12MB4+NtwhwPGutB6bEKlFjCb53CrSuNRmc9MU7Hm8ZipIh5aztC73AjQkIlK+U6bDOOTdGtE1chp3P27oRem+89AaZ01C0m+xtbfkBIqk38yfo2J7V/V4lTwysTA+D4+d4jeYWzew1pn9iqTiu80TwhFzzO0u1oP8VyXNqeR9u+D27ZiKB7CVPZcHuSdx/5uh3jxWEOQ==
+ bh=Yt9sf+8d0fvplRO+dyCK0MaSwMdvMBjW0vGx56suLHg=;
+ b=g3js1Pp1uA/B337muLZhNrOhZzXyzgjxTeqEM+Dj3qDtJruwi7H2dFULRhgl0ZwPS80b6c8bULvnTYuMZrZDzG/jhWsE7B37u9SfSBXXng3rCQPcHTBWC2ydG23W4Bx7SnO1f7M0O61ruutPzkokA4+E8+E3NAB+yTxg4lZpx6H2BqYWTXzJUhKAwfVKv+QG2GY4D6e2KtEhZVcZqyyks39qU34HJO/klpq36vg7Pe/vhic5JoHLwS71tU2P3f8VZUNTVaH6LYDcGKH8o7E3hqb8MUKoYClGI9/6gZwTxoKUvqV9mW5SnoIrkMD+g1/45T4HNwTE+GcAEyNFlckXoQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UYRxq4EeZvhESrwroCLsbsMgbgnqgnPs/ivwBL2nStA=;
- b=UlSLb4gtgYDyTFEJUx4C4dPKu2zm4ZivHz+rrUslr+RO2zVSNIsXlHL4C0Jz5HIu4Xc5dijE7EWrFJ7XIjBmJA462T01yDIMtdfFy8UpEV2Lcir1he+Gp5Dm/6f9TWYKA+5Tqcv3Rt3wRCMyDMP9NlzVS+bOyhZnfqYdpmHCllw=
-Received: from BYAPR10MB3287.namprd10.prod.outlook.com (2603:10b6:a03:15c::11)
- by BN6PR10MB1284.namprd10.prod.outlook.com (2603:10b6:404:40::19)
+ bh=Yt9sf+8d0fvplRO+dyCK0MaSwMdvMBjW0vGx56suLHg=;
+ b=bVmYwbeO5Ht3um+cHqQqkaf3EqpoL+O/QB0XUPCowVlZZsmX6+FBRDm0r2AYVgn4hJSDx6teCP52IoFejE+bw/qgsLexMR6KPgXFpuxr+6levFM4vex1yWg+FxX/lLNyz4m8FmhbJjBys5yfyDwDENeKzLjMgzKHyPry7tz2G/8=
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
+ by BN0PR10MB5206.namprd10.prod.outlook.com (2603:10b6:408:127::8)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.16; Fri, 25 Mar
- 2022 19:19:25 +0000
-Received: from BYAPR10MB3287.namprd10.prod.outlook.com
- ([fe80::e478:4b5e:50a8:7f96]) by BYAPR10MB3287.namprd10.prod.outlook.com
- ([fe80::e478:4b5e:50a8:7f96%6]) with mapi id 15.20.5102.018; Fri, 25 Mar 2022
- 19:19:24 +0000
-Message-ID: <147f9a71-4ad8-5fc1-b2c0-4ea7072f3174@oracle.com>
-Date: Fri, 25 Mar 2022 12:19:21 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH] vdpa: Avoid reset when stop device
-Content-Language: en-US
-To: Michael Qiu <qiudayu@archeros.com>, Jason Wang <jasowang@redhat.com>,
- 08005325@163.com, Eugenio Perez Martin <eperezma@redhat.com>
-References: <1648024966-5170-1-git-send-email-08005325@163.com>
- <CACGkMEsjQp+gjHV23ntJ2oTBCdt-1TT0GGn-PFDjOvETz6sQ7A@mail.gmail.com>
- <df7c9a87-b2bd-7758-a6b6-bd834a7336fe@oracle.com>
- <fe13304f-0a18-639e-580d-ce6eb7daecab@archeros.com>
-From: Si-Wei Liu <si-wei.liu@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <fe13304f-0a18-639e-580d-ce6eb7daecab@archeros.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.18; Fri, 25 Mar
+ 2022 19:19:52 +0000
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::508e:7f79:394:563a]) by MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::508e:7f79:394:563a%5]) with mapi id 15.20.5102.019; Fri, 25 Mar 2022
+ 19:19:52 +0000
+From: Jagannathan Raman <jag.raman@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 00/17] vfio-user server in QEMU
+Date: Fri, 25 Mar 2022 15:19:29 -0400
+Message-Id: <cover.1648234157.git.jag.raman@oracle.com>
+X-Mailer: git-send-email 2.20.1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0202.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::27) To BYAPR10MB3287.namprd10.prod.outlook.com
- (2603:10b6:a03:15c::11)
+X-ClientProxiedBy: SN6PR2101CA0024.namprd21.prod.outlook.com
+ (2603:10b6:805:106::34) To MN2PR10MB4013.namprd10.prod.outlook.com
+ (2603:10b6:208:185::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6dd66e3c-fe45-4957-fe5b-08da0e945f7f
-X-MS-TrafficTypeDiagnostic: BN6PR10MB1284:EE_
-X-Microsoft-Antispam-PRVS: <BN6PR10MB1284427E7C025BB2BEE40B87B11A9@BN6PR10MB1284.namprd10.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: cc867499-03b4-4552-eb37-08da0e946fb3
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5206:EE_
+X-Microsoft-Antispam-PRVS: <BN0PR10MB5206087AB30129C93DF49E84901A9@BN0PR10MB5206.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gS3ldFFMlyniYiktVY1H0tvPxW79qL6AL28XhIjZvKXRxyt3Gf6QRUfIz2x9alFGpsk5A3MExr8FCOZUhvidbgZApttnQfyQFs/yEW61FFqb25KhqGu3gLKtoTJI3Vk1TBbzqPK+fnxhkfOSkKUSMnB2C8NfqaN2dMZNx73J4tzF8D1IV9ta2C79Va2BH2i/GnpZ1RFOH+tJ9vCz8/H7L5wGE6mdPLZFIDJgvKo7fp1ubj4Vz8a6T1qwtkCRGR9g8LElzeocx0yQVGrMGdTpb/Vo9YTBg4New5nIE1+ixJYaGVU8d2JSTZ2z8KBRuUctMlKSXs1DEG9PawyOSVSvzOCmykET/8HuNsx2l72dMlzD7LvLD0vkjltCB1x6CXXTj7c4yLN16fR+d+j8dMllfz2dXoeSN8CD9DzPYFKqoeVxI18CmcKHzWYVSGejI1xNCCvKSYVzeuQ4WAp3kPmR/yAVBy6gsqDlXRCvSs636N0che3+nzcZT+cZOe3GXiQnpY1D1EXMkZ89H73hWaneA/nr2MKdve5TxoO2j1YpCLmYTgbXlxUV+pUby6vQW8Ru9vUAduzzIm4XFLgYu+x0IzTa4aHZAKl9WUSN/fSb4sYOLdtV55E84RLqPllmzLRaOvAy84eNqxCadMb23fhKboclMP/KZ6EntkbFWz6jzZeZ70ZbGe5OqWlOiBIYgF8ziKN4otPWDycKBz7m2QQ5oQIQrNCllJKHFMPBjbmUMqk=
+X-Microsoft-Antispam-Message-Info: DiKvx4N5tKZniBMCRYkKBNYnJoWNt10JOUTaYhx7eM/3paUp1spOTnkdxcJtIlMDlMYEcJ2xYC7X0/QhUyYPoUuOzMLqDo+/2fLKSb2wEnLPVRDupvIaIJTifqSpskHGQ4YcAshKWFZgUm6HmycXWsZ22El9xsz+wEgDUahucVuz60cKgXW5EgwQYr0rdsjzL596Y7v5Ymnvduv3U+VQfqzyzabp6jigyIm+zk/ZWaz00XtvBv5ZoLkiBk0fWtSR6bDayIV4pS1j0wTU+PlRB0sqh/4Kvu1jtmTsPHlHysq8as9Hys0dPXKWJSwqaLJn6x51gpune51RCKzzFNjfap43lxowAT1tBnM+mvcyzbVv9xQ8X1QvVQOBC4YGJDTLXSgmNogzsMFvXTgkDleYWb3T9hCcBaC9mt2C3vMhfIkU8buHx1RZKjpC9W8fHCM0Ym5fmxOZbrIH2joho6OsCPKdaQxAplkkakKieqhq3U3A874rZ1zSNscPLOQVfCw5D8v6QvjPpmnLMtpHH1wp9qT2xGkbLRyKVgu13odokimmvUxIqYtmvLBAjqtShr4QAwnAttKOHUmGh1LejP7aAixJrZiQZcgiEoH4WcE1/vdGXdpOeGG/TQWGUopnItvIBBXecmu0oCPLp20TEj/vmu6aAcKnz1e30lyj9NxPWS9921cGf1b1ScjT4fA1Jci10uSrmVdKl8vzs8chtS2fOHaIrM8+d/NDEtWxSwkwvi0tPlrMR6wfd71OHQL7t9Tz24ukPWrxIatjKdZ2Wgs3Y16t6swdKVwus+b54YPNXYjY60ksT5TXs8qcfuXxDYB8qFx0A0Znog/TuAucjMWfLw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB3287.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(36916002)(6506007)(53546011)(2616005)(6512007)(186003)(508600001)(26005)(83380400001)(4326008)(5660300002)(8936002)(8676002)(6666004)(110136005)(66556008)(66946007)(66476007)(6486002)(54906003)(38100700002)(316002)(31686004)(31696002)(86362001)(36756003)(2906002)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(186003)(107886003)(316002)(2616005)(26005)(83380400001)(6486002)(36756003)(6666004)(6512007)(6506007)(52116002)(66946007)(2906002)(86362001)(508600001)(966005)(38100700002)(38350700002)(6916009)(66476007)(8936002)(7416002)(5660300002)(66556008)(8676002)(4326008);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWQwTGNnSTJmN3MzMU1YT2lya1ROV0JtR0xzSkJnbUEyTTBzdzY3NWxUbDZi?=
- =?utf-8?B?U0prMi8wZ1JCSXJzU3NPdlBMK2U3N3dvNVRKN05WSXJPbXJ2UkFhZjJVd0pP?=
- =?utf-8?B?N1RqR0ZkN0twVk1Uc1d3TUNRNHpMQmx1S09PSTVKTUdDcXpTSjdjb1FFQk0x?=
- =?utf-8?B?Z1VKNFdiREZCOENSQThiTjB1bUFXalNsT29UZDNUM0w3SHcxR21YTS9SUkFR?=
- =?utf-8?B?RmlMUnZqYVU5WEIzczhvaFJic0hSMnJIcGFvZ25hWnBSRW91MkFuUFAyR01W?=
- =?utf-8?B?Q0l2ZktVck5QZkc5TGZEMUQ4Z1cxODRsSHFHVFlxd1VVdmQwK0F4Y1pTemRm?=
- =?utf-8?B?emNpOWE4QU5WQ2ZnMFdrVVVjM2FSeXNyZmhWN0xINVlXNmUzVy9QNlVJQ3F5?=
- =?utf-8?B?cWc5cVF2bzNLaUhyRW1aNnJveDRtemQvczVxejNxUWNSR2NJRHlhREhUQ1dJ?=
- =?utf-8?B?ZzFnOVU5OHhsRFFjK255ZWxCTmljWW5PM1lTRy9lOC8xc2RYZGtndUFZZVdU?=
- =?utf-8?B?ejd2QmJMT05KdnJMc3FDbjB0Q1NGaGRIVkE3WHZPZW5OZ2ZodjRMTjQ2NmFI?=
- =?utf-8?B?ZG9SbTZHQ0cvcUpoY2JzMUk4cVk2Q2VBc1dIUjRFNm5iSHlsZzV5ZW5GZGJo?=
- =?utf-8?B?eE4rUnNHQjNVQUk1WVNqRktUb2p4MVh6c2krSHBwN0NHOHBSWVFtZ09QZEYz?=
- =?utf-8?B?U1B0L0lPUjlUcjBoSzBEMDEyWmVDOXA0TFkyNnZGeHRrR2I3enJ3OTN3R1F5?=
- =?utf-8?B?Q082L1JacnRISjNEU1dBZlJJdUdibnBnRFFsMm9ndXV5V01pMGk0bFVCek8x?=
- =?utf-8?B?OUpQUFpYbW8yZkYxaHIzSmJRblFQNkNucDZMWHVNQVZXdjlVcDhUMlpRRHhj?=
- =?utf-8?B?amg3M2gwUmF0c0tGazdPMEg3dHIwaGxBc2ZPdHBqQ3VPdG5LbDRHUTYxNFZE?=
- =?utf-8?B?TzNPMW12aUxyQ04xUytrK0srbWR4TEpRMWZFT2FCQzlkSGs2bU16SXMrVnNS?=
- =?utf-8?B?TmlwaVlYUkhNb0llRU05Tndoc1p2QnZYQUNkc2NJcWszRUg4bkNDaXVYcFRT?=
- =?utf-8?B?aGFmakEydjlsWXZrbXgzMG85V1hlTlVVTkEyd1dJRmtVOHlNMEhZdytqQTky?=
- =?utf-8?B?bTVxK0NNc0EycGF5OXM1TFZnWERqYjY1ZmRTR25mbHZVVDlTVVB0dld5cTdt?=
- =?utf-8?B?bVhWdkRDYUVacXRxTk9waUF6NTA2a2RtalhHTE1oMzhBd3o0YzlSV2FLeFNS?=
- =?utf-8?B?d0thT0c5bUZ3ek8zKy9OKzgxQkpkK3NzUSt2TnZqQkxkcjVYeDBWZGV4Tnpl?=
- =?utf-8?B?eitXd2VoOFgraDdFSU9JNHpoemZaanlrakFObWxYaG5YSEx4ek43eDhGNThI?=
- =?utf-8?B?Qlh1RDF3V0FQUEdSdUJ4YXNqZUJJTVA0WklmaCtEZUlzNFRVU1d3ZTdIc0Jw?=
- =?utf-8?B?TXEreUQ1NS9yN1ZDQ2Z1Q3hyRDNrY2hVRUxKNmlRYVFtVVhxUno5NVd1SERt?=
- =?utf-8?B?TkdUR3ZDQTU3bEFFTFNFUm5OdkpNRDdKdDR3YWxFWFJwbGR6RXB6bjNDQ2dZ?=
- =?utf-8?B?ZlRrZXB4N21vZzhOT3k5b3R5LzBLWHJTbTY5Lzk3ZDZyeHVzOHlhVG92cDVt?=
- =?utf-8?B?a0FJNkVoUlppTWx3dngyRUpOWUQvNnZyR2FsdVJ0V29WZ1UwMVVGaWc1UDFJ?=
- =?utf-8?B?RUgzanRrUi9rZ3gwc1UrTXBzN241L3dhcHkxUWR1WkJ2NEJIMElsV1hHeExM?=
- =?utf-8?B?QzlWV0JhckZ1bXVrbFR1d2d3MzZEbjRqYkZOM0V1YkNqanZIMXZjSUhwaWI1?=
- =?utf-8?B?eWtIVWFJa0Z6aEN3M0wyUXhxRGJ5eStoRkltL0RrU1pLMjZsVE9ob0J5elgx?=
- =?utf-8?B?YlhYSEg0OG1IdkluKzdSUGRnVGFhQTB3b0lwVDYyZHBrY21mV05Idk40TkZY?=
- =?utf-8?B?aGJtNzdNMldUYmFFbDlNSUJVV0hNSVg2RW5TL2lUb2NxTlZSM2orZ3gzODJ3?=
- =?utf-8?B?QUFMVnhyYXFZVWNibVZSR2VtQk10KzFKbUEvb2I2dFlqWHVCR0owYXVqSVMy?=
- =?utf-8?B?cGtydkhZNjV5UmZWWjNQNHMySHhPN0ZxNjVhZzA2elNSeXAzcGhwMzd6Nkho?=
- =?utf-8?B?MmszaWxPT0dwN3ZRS2dNWkgwUVpEd09YQ0pLdXBuN05jMDU5VjJmSWVQSXZZ?=
- =?utf-8?B?cU0yTk53aWllVVFRUUhYdVU1T3dUK0FFbkdwREhwcnMrMmswNFBNOC9DOVoy?=
- =?utf-8?B?K2w2TGs4eCtWS2lvZmd3ZXcyVzZpUEpyQm03TnI3T1BMdXN6Ylk5Uk5zOWNU?=
- =?utf-8?B?azBhZVVNUG5FQUUrbDU5b2pPamlmZFUvNmhQRk9Jd3N3TVRyV2pYdz09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?LzZwR3NmR1lPRHVTQzZtMnJ1Yk1ZSVpLTW9BSEdVdkRUWG9veGZ6VmNIMjFn?=
+ =?utf-8?B?N2xHbW8rL0JMcnlKN2NpRnp6QVFCNnFsVzBKT3V6cXkyT0FXQkV5aktSd0lh?=
+ =?utf-8?B?dk52V3EyUkdqa2dIenJzZGg1MDU1YmpIWHpVV3piT3Z0UGx3eVY4cDJGUkgv?=
+ =?utf-8?B?Y1grY2phQldOY2s4OHFpMjN0S2Q5a3Rma1d0OXJKbnRsV1FQNjhCOG85LzVj?=
+ =?utf-8?B?SHFiczgrbXh4YzNpSjV6c1RFOXljN1hhS09YQU0raTBHUVVmNFdXbk5VNzho?=
+ =?utf-8?B?RG1iNkJqeHFEaDdRQS9rNTJEYnRBb1pZMmthVFNtMWlzK2ErQnBmcFVRaTJ1?=
+ =?utf-8?B?SkttMjhXRzRFWHdKK3grekpzSEpVY2tjUStPeXk5dEpWcjV3MTJjUmxoM01v?=
+ =?utf-8?B?bVJkcUJ1RUxEdy9yMUJTVFBZcWVvM2hGV2xPM3FROEVpbHhVVWhDMHFxTG5m?=
+ =?utf-8?B?WEJjUnh4ZnJTUUl4SmJHeEJrblRRSDdReTdRZXRjdkVQUEVtZjNiak5BYjBx?=
+ =?utf-8?B?Q3d3UVUrdHltYWk3R1ZlSk1aT0d5ZFZjY3J1RjBNNHFuUlRJNmlzZnRTekNS?=
+ =?utf-8?B?RWhaU0thTTRQc1ZCNHZsUGpNeGpVRmp4ZE1JaDA4UDBndHowYk1Hc2dNRDcr?=
+ =?utf-8?B?cHBWUDc2a1B4SyswY2xtWlR3WUU3ajlUMldZdzlxa0xwRDFrS1dJUFJmVGhS?=
+ =?utf-8?B?ekVmV1dNU2xyb0NXNGhiaFNzZHN4K2JId1NTR29TRUxVeWwvTHhkT0JVL2tU?=
+ =?utf-8?B?d0ZjdmkrWFdzbHJMYm9CcjR5VStickpKcWxCTCtTQkorVzJjcXE5Q0pwN3Mv?=
+ =?utf-8?B?bDl6RDVmeElHeWRtWC9TL1czbWZacVM4ZjFidFQ5TjdlQUlOaVdSZWt2N1RD?=
+ =?utf-8?B?eFRCL1c4dktWbExoalFhd08rTWtCLy9teTIvRWtDcjhaQTRxYjFraVorUk54?=
+ =?utf-8?B?OUhRd0ZybU9qcGNhWDh4TUVyV3N3RDJEN1hEOGpuZXZJN1c1L2daQzRzVnky?=
+ =?utf-8?B?c1BFdEJLNjduMGt5dUU2Z09nbWRTbTIzTVNZSVU0WmNuc3p2WDg5eTBDakpB?=
+ =?utf-8?B?VnIvRnBOeW0vK3I4WCtKdkUzSm9FZ09iM3lWMXk3K2VBSWRYY1JpVmlHSVNh?=
+ =?utf-8?B?K1RoS2l2NkxZOHEwaHcycG44U2tmVnF3NDQ1anJ1VEh2aC8wV0F6cmFDZlIw?=
+ =?utf-8?B?ZEVaUWxwdXFGSFVjUndPa3gxY0YxT1BMK2UzWmFxd2JodjdkdkZ2NHNmek5F?=
+ =?utf-8?B?UTVrcUU2MlUybU1UaWdMZElzYTN3N0tnWVNLOVZyeHVXUU5xeFM0bXo1amFr?=
+ =?utf-8?B?dHpNV21rRTh3L3FvREZPOGcrSkRGRHVqM3NKWE4rSDBobEIvRXpjMG8xUkFG?=
+ =?utf-8?B?SkZscHpZcUtSdlRzMkdkQm0wWFdGY0swZXJDQzFGU24xWGgvbHllV1QwRW12?=
+ =?utf-8?B?R2xWb256QWp0Y0xhbzZ1MjBuKzAwOTQ3T3o2UFRGUDZaVFErSm1IVWpNSEZu?=
+ =?utf-8?B?dDNxSVdVOUxCcjBXVGlEOFBrWVBUQjRiSmV6L0Y3MGZwN215QngvVzZjZE0y?=
+ =?utf-8?B?Mk5hcWJRV3RFZllPNTg2dVpiamZIdlpoTkM2WXN0WFhBMVdwd2JNYzdyWWRD?=
+ =?utf-8?B?dGw0UmU0MXRCUHpYVnM1cWRrcWZxczlxUjh6Nm1MTlpKaURTRytvREYzZlQw?=
+ =?utf-8?B?RWg0WWFIdElaVG9SbVBNQkhzVjg5aVZWQUZXMUVoQjVQcTZIbDBYaUZKRzNE?=
+ =?utf-8?B?SXptTTBpYkNQVUFJNFlLcE9xUHo0NlV6ajI5U1lHbVllbUk1QzE0akVpYXRI?=
+ =?utf-8?B?bUNJWTJQaWx2RC9oSGpIdmluRDRBYnUrK3ZWQ2toTnVWZkpYYnBQeTJ5bTJB?=
+ =?utf-8?B?b0JSSTdURzB5NzE2QitkRENmOHBYVmRqd25aMVRVNUdrSFdLblphMWJQMnFO?=
+ =?utf-8?B?MGg4T0N6MHdzZ0JiQTg0U0J3bVArUWl0WmpKZlBjSThrL3JJeFhSc3dsdnN4?=
+ =?utf-8?B?THVYNWRFL3RQd1BHOERTb0hlR1E1ajVGOVFkYVE5NUdFRkR1aEFRbEdPbkZB?=
+ =?utf-8?B?MjRneXFueTBjUytJT2dSRFRCSTNIbk0rQnE5QktmNWRLdXM2MFRFSGJucjAx?=
+ =?utf-8?B?SWJqV203enJkSHpYUUxTbVhtOWhaY0NoKzJFdVdMTkJyNWYrcytueVh5bWZB?=
+ =?utf-8?B?dHVpYWozbVNIbEhqc2ZmUlNTTHZtSEFRQVNyblVLeXF4Mm41dEphNTdWemR2?=
+ =?utf-8?B?dFc3cWxjRVRwYUFVUkJLNUpVeGhVSDh5eUN6WjFSTzJ5dXg0MjlibWNiTVdK?=
+ =?utf-8?B?YnNZRldENE9YK1NqcWdva2I4VU1JeEk4ZXNlNTZlZDRUYVpxQ3JmZz09?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6dd66e3c-fe45-4957-fe5b-08da0e945f7f
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3287.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc867499-03b4-4552-eb37-08da0e946fb3
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2022 19:19:24.8237 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2022 19:19:52.0544 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +EKquNhGg5AT4Ga0RPj3/SBVhrAxnpopnwCiycC3eTgYBP76D4/0d/iNJdcnSejpbjM2KpkhWHhWtjNKR9U37A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR10MB1284
+X-MS-Exchange-CrossTenant-UserPrincipalName: L/jG3fcrs8N4thwFB9B8gmJkMLgGQWo+7g0Ze8pKivyBvXpdGvbQDEMPcXePJ9tZq8ZVlHYiZ6sxXkD39+CA7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5206
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10297
  signatures=694973
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
@@ -158,15 +149,15 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
  mlxlogscore=999 phishscore=0 bulkscore=0 malwarescore=0 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
  definitions=main-2203250106
-X-Proofpoint-GUID: ZEjHbSYZvYhxyhbYeiCMSsmcKfsDgj5g
-X-Proofpoint-ORIG-GUID: ZEjHbSYZvYhxyhbYeiCMSsmcKfsDgj5g
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=si-wei.liu@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-GUID: CLjJNs-_ybdIJSNOCfR1Lu4Vu3OBqGet
+X-Proofpoint-ORIG-GUID: CLjJNs-_ybdIJSNOCfR1Lu4Vu3OBqGet
+Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
+ helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
@@ -182,264 +173,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhu Lingshan <lingshan.zhu@intel.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cindy Lu <lulu@redhat.com>
+Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
+ berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
+ armbru@redhat.com, quintela@redhat.com, f4bug@amsat.org,
+ alex.williamson@redhat.com, kanth.ghatraju@oracle.com, stefanha@redhat.com,
+ thanos.makatos@nutanix.com, pbonzini@redhat.com, jag.raman@oracle.com,
+ eblake@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
+This is v7 of the server side changes to enable vfio-user in QEMU.
 
-On 3/25/2022 2:00 AM, Michael Qiu wrote:
->
->
-> On 2022/3/25 14:32, Si-Wei Liu wrote:
->>
->>
->> On 3/23/2022 2:20 AM, Jason Wang wrote:
->>> Adding Eugenio,  and Ling Shan.
->>>
->>> On Wed, Mar 23, 2022 at 4:58 PM <08005325@163.com> wrote:
->>>> From: Michael Qiu <qiudayu@archeros.com>
->>>>
->>>> Currently, when VM poweroff, it will trigger vdpa
->>>> device(such as mlx bluefield2 VF) reset twice, this leads
->>>> to below issue:
->>>>
->>>> vhost VQ 2 ring restore failed: -22: Invalid argument (22)
->>>>
->>>> This because in vhost_dev_stop(), qemu tries to stop the device,
->>>> then stop the queue: vhost_virtqueue_stop().
->>>> In vhost_dev_stop(), it resets the device, which clear some flags
->>>> in low level driver, and the driver finds
->>>> that the VQ is invalied, this is the root cause.
->>>>
->>>> Actually, device reset will be called within func release()
->>>>
->>>> To solve the issue, vdpa should set vring unready, and
->>>> remove reset ops in device stop: vhost_dev_start(hdev, false).
->>> This is an interesting issue. Do you see a real issue except for the
->>> above warnings.
->>>
->>> The reason we "abuse" reset is that we don't have a stop uAPI for
->>> vhost. We plan to add a status bit to stop the whole device in the
->>> virtio spec, but considering it may take a while maybe we can first
->>> introduce a new uAPI/ioctl for that.
->> Yep. What was missing here is a vdpa specific uAPI for per-virtqueue 
->> stop/suspend rather than spec level amendment to stop the whole 
->> device (including both vq and config space). For now we can have vDPA 
->> specific means to control the vq, something vDPA hardware vendor must 
->> support for live migration, e.g. datapath switching to shadow vq. I 
->> believe the spec amendment may follow to define a bit for virtio 
->> feature negotiation later on if needed (FWIW virtio-vdpa already does 
->> set_vq_ready(..., 0) to stop the vq).
->>
->> However, there's a flaw in this patch, see below.
->>>
->>> Note that the stop doesn't just work for virtqueue but others like,
->>> e.g config space. But considering we don't have config interrupt
->>> support right now, we're probably fine.
->>>
->>> Checking the driver, it looks to me only the IFCVF's set_vq_ready() is
->>> problematic, Ling Shan, please have a check. And we probably need a
->>> workaround for vp_vdpa as well.
->>>
->>> Anyhow, this seems to be better than reset. So for 7.1:
->>>
->>> Acked-by: Jason Wang <jasowang@redhat.com>
->>>
->>>> Signed-off-by: Michael Qiu<qiudayu@archeros.com>
->>>> ---
->>>>   hw/virtio/vhost-vdpa.c | 8 ++++----
->>>>   1 file changed, 4 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->>>> index c5ed7a3..d858b4f 100644
->>>> --- a/hw/virtio/vhost-vdpa.c
->>>> +++ b/hw/virtio/vhost-vdpa.c
->>>> @@ -719,14 +719,14 @@ static int vhost_vdpa_get_vq_index(struct 
->>>> vhost_dev *dev, int idx)
->>>>       return idx;
->>>>   }
->>>>
->>>> -static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
->>>> +static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev, 
->>>> unsigned int ready)
->>>>   {
->>>>       int i;
->>>>       trace_vhost_vdpa_set_vring_ready(dev);
->>>>       for (i = 0; i < dev->nvqs; ++i) {
->>>>           struct vhost_vring_state state = {
->>>>               .index = dev->vq_index + i,
->>>> -            .num = 1,
->>>> +            .num = ready,
->>>>           };
->>>>           vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
->>>>       }
->>>> @@ -1088,8 +1088,9 @@ static int vhost_vdpa_dev_start(struct 
->>>> vhost_dev *dev, bool started)
->>>>           if (unlikely(!ok)) {
->>>>               return -1;
->>>>           }
->>>> -        vhost_vdpa_set_vring_ready(dev);
->>>> +        vhost_vdpa_set_vring_ready(dev, 1);
->>>>       } else {
->>>> +        vhost_vdpa_set_vring_ready(dev, 0);
->>>>           ok = vhost_vdpa_svqs_stop(dev);
->>>>           if (unlikely(!ok)) {
->>>>               return -1;
->>>> @@ -1105,7 +1106,6 @@ static int vhost_vdpa_dev_start(struct 
->>>> vhost_dev *dev, bool started)
->>>>           memory_listener_register(&v->listener, 
->>>> &address_space_memory);
->>>>           return vhost_vdpa_add_status(dev, 
->>>> VIRTIO_CONFIG_S_DRIVER_OK);
->>>>       } else {
->>>> -        vhost_vdpa_reset_device(dev);
->> Unfortunately, the reset can't be be removed from here as this code 
->> path usually involves virtio reset or status change for e.g. invoked 
->> via virtio_net_set_status(... , 0). Ideally we should use the 
->> VhostOps.vhost_reset_device() to reset the vhost-vdpa device where 
->> status change is involved after vhost_dev_stop() is done, but this 
->> distinction is not there yet as of today in all of the virtio devices 
->> except vhost_user_scsi.
->>
->
-> Actually, we may not care about virtio_net_set_status(... , 0), 
-> because in virtio_net_device_unrealize() will finnally call 
-> qemu_del_nic(),
-The reset is needed because guest can write 0 to the device status 
-register to initiate device reset while VM is running, that's a very 
-common scenario where virtio_net_set_status(... , 0) has to be invoked. 
-Quoting the spec:
+Thank you very much for reviewing the last revision of this series!
 
------------------%<-----------------
+In this revision, we've dropped the patches concerning migration
+due to a major changes in the VFIO PCI protocol. We are changing the
+client, library and server to conform with the updated spec, and
+will send the migration patches for review separately.
 
-2.1.2 Device Requirements: Device Status Field
-The device MUST initialize device status to 0 upon reset.
-...
-device_status
-The driver writes the device status here (see 2.1). Writing 0 into this 
-field resets the device.
+The review of client side changes are happening parallelly [1]. The
+avocado test in Patch 17 of this series depends on the client, as
+such it has to wait until client changes are available. However,
+we run the avocado test, among others, to confirm that the server
+is working as expected - we do it before submitting patches for
+review each time. The following repo applies this series on the
+latest client, in case anyone would like to run vfio-user.
+repo: https://github.com/oracle/qemu
+branch: vfio-user-client-v7server
+launcher: scripts/vfiouser-launcher.py
+[1]: https://lore.kernel.org/all/6d8ae21cbade8f4bb7eaca4da29e57f0cb1a03f3.1641584317.git.john.g.johnson@oracle.com/T/
 
------------------%<-----------------
+We've made the following changes in this revision:
 
-That being said, remove vhost_vdpa_reset_device() will introduce severe 
-regression to vdpa functionality, for e.g. you may see weird error or 
-panic once guest is rebooted as the device state may have been messed 
-up. As indicated earlier, to fix it in a clean way it would need to 
-involve serious code refactoring to all callers of vhost_dev_stop, and 
-converting those which require device reset to explicitly call 
-VhostOps.vhost_reset_device().
+[PATCH v7 02/17] qdev: unplug blocker for devices
+  - corrects comments to prevent creation of new section for
+    unplug blocker
+  - adds an assert to device_finalize() to confirm that device
+    does not have unplug blockers
+  - moves the unplug blocker functions to hw/core/qdev.c
+  - moves test for unplug blocker to qdev_unplug() from qmp_device_del()
 
-> see below:
->
-> qemu_del_nic()
->     -->qemu_cleanup_net_client()
->         -->cleanup/vhost_vdpa_cleanup()
->             -->qemu_close(s->vhost_vdpa.device_fd)
->
-> In kernel space, close() action triggered release(),
-> release()/vhost_vdpa_release()
->     --> vhost_vdpa_reset()
->
-> So it will finnally do vdpa_reset, that's why I said reset will be 
-> called twice in current qemu code.
+[PATCH v7 05/17] configure: require cmake 3.19 or newer
+  - new in this series
 
-That's a minor problem as nobody cares about the extra reset while guest 
-is being shut off.
+[PATCH v7 06/17] vfio-user: build library
+  - configure script sets cmake_required flag for vfio user
 
+[PATCH v7 07/17] vfio-user: define vfio-user-server object
+  - adds auto-shutdown sub-option to the remote machine
+  - adds boolean auto_shutdown to TYPE_REMOTE_MACHINE's class
+  - adds vfu_object_auto_shutdown() helper function to
+    vfio-user-obj.c to query the auto-shutdown property
+    from the machine
+  - reworks VFU_OBJECT_ERROR() & vfu_object_finalize() to use
+    the helper function above.
+  - updates QEMU version to 7.1 in commentary for VfioUserServerProperties
 
-Regards,
--Siwei
->
-> Thanks,
-> Michael
->
->> Alternatively we may be able to do something like below, stop the 
->> virtqueue in vhost_vdpa_get_vring_base() in the 
->> vhost_virtqueue_stop() context. Only until the hardware vq is 
->> stopped, svq can stop and unmap then vhost-vdpa would reset the 
->> device status. It kinda works, but not in a perfect way...
->>
->> --- a/hw/virtio/vhost-vdpa.c
->> +++ b/hw/virtio/vhost-vdpa.c
->> @@ -564,14 +564,14 @@ static int vhost_vdpa_get_vq_index(struct 
->> vhost_dev *dev, int idx)
->>       return idx;
->>   }
->>
->> -static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
->> +static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev, int 
->> enable)
->>   {
->>       int i;
->>       trace_vhost_vdpa_set_vring_ready(dev);
->>       for (i = 0; i < dev->nvqs; ++i) {
->>           struct vhost_vring_state state = {
->>               .index = dev->vq_index + i,
->> -            .num = 1,
->> +            .num = enable,
->>           };
->>           vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
->>       }
->> @@ -641,7 +641,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev 
->> *dev, bool started)
->>
->>       if (started) {
->>           vhost_vdpa_host_notifiers_init(dev);
->> -        vhost_vdpa_set_vring_ready(dev);
->> +        vhost_vdpa_set_vring_ready(dev, 1);
->>       } else {
->>           vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
->>       }
->> @@ -708,6 +708,9 @@ static int vhost_vdpa_get_vring_base(struct 
->> vhost_dev *dev,
->>   {
->>       int ret;
->>
->> +    /* Deactivate the queue (best effort) */
->> +    vhost_vdpa_set_vring_ready(dev, 0);
->> +
->>       ret = vhost_vdpa_call(dev, VHOST_GET_VRING_BASE, ring);
->>       trace_vhost_vdpa_get_vring_base(dev, ring->index, ring->num);
->>       return ret;
->> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->> index 437347a..2e917d8 100644
->> --- a/hw/virtio/vhost.c
->> +++ b/hw/virtio/vhost.c
->> @@ -1832,15 +1832,15 @@ void vhost_dev_stop(struct vhost_dev *hdev, 
->> VirtIODevice *vdev)
->>       /* should only be called after backend is connected */
->>       assert(hdev->vhost_ops);
->>
->> -    if (hdev->vhost_ops->vhost_dev_start) {
->> -        hdev->vhost_ops->vhost_dev_start(hdev, false);
->> -    }
->>       for (i = 0; i < hdev->nvqs; ++i) {
->>           vhost_virtqueue_stop(hdev,
->>                                vdev,
->>                                hdev->vqs + i,
->>                                hdev->vq_index + i);
->>       }
->> +    if (hdev->vhost_ops->vhost_dev_start) {
->> +        hdev->vhost_ops->vhost_dev_start(hdev, false);
->> +    }
->>
->>       if (vhost_dev_has_iommu(hdev)) {
->>           if (hdev->vhost_ops->vhost_set_iotlb_callback) {
->>
->> Regards,
->> -Siwei
->>
->>>>           vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->>>> VIRTIO_CONFIG_S_DRIVER);
->>>>           memory_listener_unregister(&v->listener);
->>>> -- 
->>>> 1.8.3.1
->>>>
->>>
->>
->>
->
+[PATCH v7 08/17] vfio-user: instantiate vfio-user context
+  - moves phase_check() after the check for machine type
+    in vfu_object_init()
+  - sets o->vfu_ctx to NULL in vfu_object_finalize()
+
+[PATCH v7 09/17] vfio-user: find and init PCI device
+  - holds a reference to attached device in the server,
+    and unrefs it during cleanup
+
+[PATCH v7 10/17] vfio-user: run vfio-user context
+  - updates QEMU version to 7.1 in commentary for VFU_CLIENT_HANGUP
+
+[PATCH v7 11/17] vfio-user: handle PCI config space accesses
+  - adds a comment explaining that writes to BAR register in
+    config space doesn't create conflicting memory regions
+
+[PATCH v7 12/17] vfio-user: IOMMU support for remote device
+  - passes IOMMU table as an opaque data to pci_setup_iommu()
+  - adds locking to access the table to enable concurrent access
+  - retains the global data structure as remote_iommu_del_device()
+    needs it because it doesn't have access to the opaque data
+  - removes redundant check to confirm if hash table is present
+    in remote_iommu_find_add_as()
+  - adds remote_iommu_del_elem() to free IOMMU entry when it
+    is removed from the table
+
+[PATCH v7 14/17] vfio-user: handle PCI BAR accesses
+  - adjusts the 'offset' in vfu_object_bar_rw() - MemoryRegion
+    returned by memory_region_find() could be a subregion of the
+    root memory region referenced by pci_dev->io_regions[pci_bar].memory.
+    'offset' input argument is relative to the root region, whereas it
+    must be relative to the subregion before access.
+  - adds warning for out-of-range access
+
+[PATCH v7 15/17] vfio-user: handle device interrupts
+  - moves msi_nonbroken initialization to hw/remote/machine.c
+  - adds irq_opaque to PCIDevice which the interrupt notification
+    could use; drops global hash table which map device to
+    vfio-user context
+  - removes NULL function pointer test in msi_notify and msix_notify
+  - vfu_object_msi_notify() asserts that IRQ vector is allocated
+
+[PATCH v7 16/17] vfio-user: handle reset of remote device
+  - adds comment to explain lost connection handling
+
+[PATCH v7 17/17] vfio-user: avocado tests for vfio-user
+  - drops the migration test
+
+Dropped the following patches:
+configure, meson: override C compiler for cmake
+softmmu/vl: defer backend init
+vfio-user: register handlers to facilitate migration
+
+We are looking forward to your comments.
+
+Thank you very much!
+
+Jagannathan Raman (17):
+  tests/avocado: Specify target VM argument to helper routines
+  qdev: unplug blocker for devices
+  remote/machine: add HotplugHandler for remote machine
+  remote/machine: add vfio-user property
+  configure: require cmake 3.19 or newer
+  vfio-user: build library
+  vfio-user: define vfio-user-server object
+  vfio-user: instantiate vfio-user context
+  vfio-user: find and init PCI device
+  vfio-user: run vfio-user context
+  vfio-user: handle PCI config space accesses
+  vfio-user: IOMMU support for remote device
+  vfio-user: handle DMA mappings
+  vfio-user: handle PCI BAR accesses
+  vfio-user: handle device interrupts
+  vfio-user: handle reset of remote device
+  vfio-user: avocado tests for vfio-user
+
+ configure                                  |  36 +-
+ meson.build                                |  44 +-
+ qapi/misc.json                             |  23 +
+ qapi/qom.json                              |  20 +-
+ include/exec/memory.h                      |   3 +
+ include/hw/pci/pci.h                       |  10 +
+ include/hw/qdev-core.h                     |  29 +
+ include/hw/remote/iommu.h                  |  18 +
+ include/hw/remote/machine.h                |  10 +-
+ include/hw/remote/vfio-user-obj.h          |   6 +
+ hw/core/qdev.c                             |  24 +
+ hw/pci/msi.c                               |  11 +-
+ hw/pci/msix.c                              |  10 +-
+ hw/remote/iommu.c                          |  95 +++
+ hw/remote/machine.c                        |  73 +-
+ hw/remote/vfio-user-obj.c                  | 847 +++++++++++++++++++++
+ softmmu/physmem.c                          |   4 +-
+ softmmu/qdev-monitor.c                     |   4 +
+ stubs/vfio-user-obj.c                      |   6 +
+ tests/qtest/fuzz/generic_fuzz.c            |   9 +-
+ .gitlab-ci.d/buildtest.yml                 |   2 +
+ .gitmodules                                |   3 +
+ Kconfig.host                               |   4 +
+ MAINTAINERS                                |   6 +
+ hw/remote/Kconfig                          |   4 +
+ hw/remote/meson.build                      |   4 +
+ hw/remote/trace-events                     |  11 +
+ meson_options.txt                          |   3 +
+ stubs/meson.build                          |   1 +
+ subprojects/libvfio-user                   |   1 +
+ tests/avocado/avocado_qemu/__init__.py     |  14 +-
+ tests/avocado/vfio-user.py                 | 164 ++++
+ tests/docker/dockerfiles/centos8.docker    |   2 +
+ tests/docker/dockerfiles/ubuntu2004.docker |   2 +
+ 34 files changed, 1483 insertions(+), 20 deletions(-)
+ create mode 100644 include/hw/remote/iommu.h
+ create mode 100644 include/hw/remote/vfio-user-obj.h
+ create mode 100644 hw/remote/iommu.c
+ create mode 100644 hw/remote/vfio-user-obj.c
+ create mode 100644 stubs/vfio-user-obj.c
+ create mode 160000 subprojects/libvfio-user
+ create mode 100644 tests/avocado/vfio-user.py
+
+-- 
+2.20.1
 
 
