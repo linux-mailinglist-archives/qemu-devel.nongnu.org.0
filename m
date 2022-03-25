@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831924E7591
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 16:01:06 +0100 (CET)
-Received: from localhost ([::1]:46458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0119F4E75A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 16:03:12 +0100 (CET)
+Received: from localhost ([::1]:52208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXlR3-000721-Jg
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 11:01:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37242)
+	id 1nXlT5-0002ZE-3j
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 11:03:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXlNb-0004s4-N7
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:57:31 -0400
-Received: from [2a00:1450:4864:20::333] (port=53861
- helo=mail-wm1-x333.google.com)
+ id 1nXlNc-0004tc-HF
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:57:32 -0400
+Received: from [2a00:1450:4864:20::32f] (port=44597
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nXlNa-0004D5-1Q
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:57:31 -0400
-Received: by mail-wm1-x333.google.com with SMTP id p189so4605155wmp.3
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 07:57:29 -0700 (PDT)
+ id 1nXlNb-0004DW-3r
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 10:57:32 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ bg31-20020a05600c3c9f00b00381590dbb33so4548392wmb.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 07:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=TWtmfgvwYkUX9wcjAyTXXtbd5s1CzMoUdTQHNvNTkV0=;
- b=rt7SQHtn5jkymSs/aVCTYbI4/EyyvxWwpCgO2Mb4bqdgxCorMSWaTMFcXvm1ZiTXkv
- ldcFZlvPGZLrG0pi4d/vDfGgAT6SiX2DRZx95X0EYaAW06Gy4Dh3Ms0lu4koRaizCEDk
- D10Ouk/GgpS1UWNbVu+WQAoPyVa0W0WEFTigK4JyDyKHnhp9gHIyegBpGITMGFInSdk9
- DrTm6oypNtypGzAank0jZDCtJI3gre+GRHJz7GmQibuNNG8ONrazvk32fsKEDyrYmPLu
- BMmjwCNhw6n0nm/N7Dt2qBR6C1NTaTQ/SzS56Ve5KxfcsBu7OJKEs0Ly2bc7npwID7jO
- bYtQ==
+ bh=4MlN/pySNODv55bFqFVfLg38b7ly0tYbAzl8thuVo7U=;
+ b=mUbMwdrEqErii+hjQPzmiOjB5JYSQHIpv5KF4PniNEyWteBcKnmn98erfsKBuWpoOw
+ 5p6qgiRD55W7p3W7w9hLTGud+EuvyhqUDVMV2u34O5bVIgi5Mp8yXazohkfr9Bcxn0hW
+ pMajTO8HmV20WZFRmYL/neLgI+IAZVGtSg3p/4IRNndYoW6g+8oR7+S8zfwPbkHoqhGt
+ wT+NK9mAnGWnrLfF545XzCO1TPYBJr7dfWt+em+NBP9SyliS1alorLrWFDYu72kjLFGc
+ Hg4ldGVe4tcPtcsw3+PWuca2Ish+bhQgFj3mZ4FmruEpVxY7Il9utOXi9g/emiU13NqU
+ InmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TWtmfgvwYkUX9wcjAyTXXtbd5s1CzMoUdTQHNvNTkV0=;
- b=J0tVNlaoqcdx2FtNPaxpDy6TPv0GauCiwohzYJ+Bop7L31EL4/3YQE+sTPkleoTzYw
- O9N93ucevX1IQlH3/aYCWOWa/vRR1e9qt+nsH3BEWIZ3rd0eeF+1f0Ps5gjaOqRDKl5N
- l5cps8CXZ3C/mGGQ2HRo7CyKF/4XSYYqKhtt5dkts0j7a8WINyWTmh0Ex6NnbmQv1pMH
- WH45hMOGSqnbXnX2175ia9RzOE4C457FUkPZ/6MIywnYUDG5iMxscpkEVinIjwpo14O1
- fffqUl7dVWLgVAGFEeZvUzNphg9k2LY+1q5TsYtfPL+fO1BuaysNavrcUqw/i7nyqsMI
- MgNQ==
-X-Gm-Message-State: AOAM532H7nY9qs+BEYykPpGBRiRLbCcd5r1gtf/6vmriHu4CHLY1r4o1
- iDQVUbP/UlhDSTLNf8fbdSdbXVOJfcqejQ==
-X-Google-Smtp-Source: ABdhPJwXLGP8hzyRoBZkzB26ZMfknEaTucbyT3FAc7BFPiqDU7300Xc7AFr1BEtHr73BEDAE04EcuQ==
-X-Received: by 2002:a1c:3bd5:0:b0:38c:9b9f:1b24 with SMTP id
- i204-20020a1c3bd5000000b0038c9b9f1b24mr19883235wma.129.1648220248502; 
- Fri, 25 Mar 2022 07:57:28 -0700 (PDT)
+ bh=4MlN/pySNODv55bFqFVfLg38b7ly0tYbAzl8thuVo7U=;
+ b=meXTf+xiqEXJmFVTRxlpCG4kris5q2VKddYsbmRmXhX8BEX2pKRrL7pRjpBadTS4eV
+ unhFHlFTovhbKyehhxfaAzYOnq1H4Pq4bCHpIgDPv6PWVTcUERKE6OdgP11Zcajxh/9Q
+ 9eWXbLx/NJq8GtFqFaNzQY+tnVpGSE2JyvtrmQhjzTeKwf9ouenqbPLqW8UxxgIF69Gg
+ iC3UzvqyiW0dbfr2qzg0u1YIN4KqmPHsHSma7QeuEooK7Usk20HksBUwdjlag1jAIlGc
+ 3OVsFb9Tyqi/SzKlSkDww7R0aIPSyRMZ3/VMvuZfErkHvGWb0TTz/5GR6vll4rlp/wN3
+ 8jnA==
+X-Gm-Message-State: AOAM531sqKiZn8YdaoRp6K3kgYT0MZ7QCnXtrHO69s7ybJkkytabQ2AF
+ P0WzqQUE9HcwjDaKq6ciqK8noeTF4qpjTA==
+X-Google-Smtp-Source: ABdhPJyKuepYDGEkEsVZsvmMeITNDdg764cgjI7t8ZRyYLviR7TzKS+D/rPuaZ/jUUIjB8mO3YrGpg==
+X-Received: by 2002:a7b:c2aa:0:b0:389:891f:1fd1 with SMTP id
+ c10-20020a7bc2aa000000b00389891f1fd1mr19626594wmk.138.1648220249687; 
+ Fri, 25 Mar 2022 07:57:29 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c7-20020a5d4f07000000b00203db8f13c6sm5200583wru.75.2022.03.25.07.57.27
+ c7-20020a5d4f07000000b00203db8f13c6sm5200583wru.75.2022.03.25.07.57.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Mar 2022 07:57:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/2] target/arm: Fix sve_ld1_z and sve_st1_z vs MMIO
-Date: Fri, 25 Mar 2022 14:57:24 +0000
-Message-Id: <20220325145725.3891659-2-peter.maydell@linaro.org>
+Subject: [PULL 2/2] hw/intc/arm_gicv3_its: Add missing newlines to
+ process_mapc() logging
+Date: Fri, 25 Mar 2022 14:57:25 +0000
+Message-Id: <20220325145725.3891659-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220325145725.3891659-1-peter.maydell@linaro.org>
 References: <20220325145725.3891659-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,49 +95,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+In commit 84d43d2e82da we rearranged the logging of errors in
+process_mapc(), and inadvertently dropped the trailing newlines
+from the log messages. Restore them. The same commit also
+attempted to switch the ICID printing to hex (which is how we
+print ICIDs elsewhere) but only did half the job, adding the
+0x prefix but leaving the format string at %d; correct to %x.
 
-Both of these functions missed handling the TLB_MMIO flag
-during the conversion to handle MTE.
-
-Fixes: 10a85e2c8ab6 ("target/arm: Reuse sve_probe_page for gather loads")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/925
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220324010932.190428-1-richard.henderson@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: 84d43d2e82da ("hw/intc/arm_gicv3_its: In MAPC with V=0, don't check rdbase field")
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/sve_helper.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ hw/intc/arm_gicv3_its.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 07be55b7e1a..d45d0886159 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -6734,7 +6734,11 @@ void sve_ld1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
-                     if (mtedesc && arm_tlb_mte_tagged(&info.attrs)) {
-                         mte_check(env, mtedesc, addr, retaddr);
-                     }
--                    host_fn(&scratch, reg_off, info.host);
-+                    if (unlikely(info.flags & TLB_MMIO)) {
-+                        tlb_fn(env, &scratch, reg_off, addr, retaddr);
-+                    } else {
-+                        host_fn(&scratch, reg_off, info.host);
-+                    }
-                 } else {
-                     /* Element crosses the page boundary. */
-                     sve_probe_page(&info2, false, env, addr + in_page, 0,
-@@ -7112,7 +7116,9 @@ void sve_st1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
-                 if (likely(in_page >= msize)) {
-                     sve_probe_page(&info, false, env, addr, 0, MMU_DATA_STORE,
-                                    mmu_idx, retaddr);
--                    host[i] = info.host;
-+                    if (!(info.flags & TLB_MMIO)) {
-+                        host[i] = info.host;
-+                    }
-                 } else {
-                     /*
-                      * Element crosses the page boundary.
+diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+index b96b874afdf..87466732139 100644
+--- a/hw/intc/arm_gicv3_its.c
++++ b/hw/intc/arm_gicv3_its.c
+@@ -524,12 +524,12 @@ static ItsCmdResult process_mapc(GICv3ITSState *s, const uint64_t *cmdpkt)
+     trace_gicv3_its_cmd_mapc(icid, cte.rdbase, cte.valid);
+ 
+     if (icid >= s->ct.num_entries) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "ITS MAPC: invalid ICID 0x%d", icid);
++        qemu_log_mask(LOG_GUEST_ERROR, "ITS MAPC: invalid ICID 0x%x\n", icid);
+         return CMD_CONTINUE;
+     }
+     if (cte.valid && cte.rdbase >= s->gicv3->num_cpu) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "ITS MAPC: invalid RDBASE %u ", cte.rdbase);
++                      "ITS MAPC: invalid RDBASE %u\n", cte.rdbase);
+         return CMD_CONTINUE;
+     }
+ 
 -- 
 2.25.1
 
