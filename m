@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0214E7002
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 10:28:59 +0100 (CET)
-Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2EF44E708F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 11:07:51 +0100 (CET)
+Received: from localhost ([::1]:40230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXgFe-0005RS-JB
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 05:28:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44990)
+	id 1nXgrG-0001Dq-RT
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 06:07:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nXgDn-0003tw-LN
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 05:27:03 -0400
-Received: from [2607:f8b0:4864:20::632] (port=38467
- helo=mail-pl1-x632.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nXgne-0007rV-MM
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:04:06 -0400
+Received: from [2a00:1450:4864:20::433] (port=44772
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nXgDm-0004a0-3D
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 05:27:03 -0400
-Received: by mail-pl1-x632.google.com with SMTP id n18so7417914plg.5
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 02:27:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ENQeEzKipR32iSVnpoLguB1f+/Jsx8Ew2YSBbNagJBM=;
- b=Ty9nDaPiJ3oAb2Js4ww6sBuWpfzY2sl2sv89cd2GwSEKTVgjIA7AvDwm68RJC8bZgM
- gRB+jveQgVNYTsgH7aqa266CVQejblLWDBuyqvvu6P18V+ctwkpYzZ+uZVmG+N9YXQSh
- wCYVIcu50dAUz8xqu7UZpheb2bjK0x+vnRGONgPbtpBs8rCU9eowFgUU+GpG8jNzOrsV
- rV98Dmy+fq6QO8lmg48guM80imMRCYchluh2QDgheQlb/mqigDwlkx3TF33zjX+8jQvB
- 5OpWUO5E4X99FZeJYAKbc214qaZ4nEmK1GkMDasWADfAiLJiElzg8q5LIGYL29fbbeVR
- 5JEg==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nXgnc-0001dm-Rp
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:04:06 -0400
+Received: by mail-wr1-x433.google.com with SMTP id b19so10116670wrh.11
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 03:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=uf03P2QNRo1L3cdWjJlHAEcWGzO1FcwSuK2DhjQjEx4=;
+ b=n92LeZz7OzQSxoE5v2fourXbsFyXOFcN1IvHakPoahFjTbls7I8h0fHuC7PsfE4NaA
+ dQeQt888zAfH7TkUuOL9jXmgMh6njCYVPz2ZdTJMkNBqwmzX79dlEXrDLZIz0nLDDVp4
+ ixbW65+aOI1K0vWrEKHgQfiDB9By5859vq53NAvoVO84nqqJX/VCiffslCVGcaRpLlUl
+ iVbPrv+yd/6z8i7xfx/rZZ15VlGEND3LwjlcWYp3RLuzMl32b3+7FFyfp++St962ZHEd
+ 79RKhEwqTEfBauJXm8Qopw8M/1LeL3ijQAMgjEfaEGFo8u6w2FddWKUIv0805xsy75ji
+ SH5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ENQeEzKipR32iSVnpoLguB1f+/Jsx8Ew2YSBbNagJBM=;
- b=VOULx7XvGeusuls8irkkPMJ4KYV8tcHbBEHpBBgOVgH0qrSDZC5xZuXkIpn5ALv2jg
- 6bQc1xlo2uvGhAMQRR9Pt5fKDMODmItUlAsuhqSu1BgnDglqhv5DrkNTf40C5JuoO3Qc
- Tjq7WIPOnpJhutstJQU6Vdim5Mhh8U6z2bRxSpkUIGYxalenYKolUY7eklg5PJce2aH4
- XRpssOWF7ww5gWo/vxLtNILTePkJpaDCoEIYGQrJahFKFrVSATT9Nhl5fb6RIipfhTF2
- sS8LpJS1UjuefnswkIKIeoYcnLsQtHt5at1H95wAYAXc7xPdia+aH3hrYmp8TEcYXXBD
- m/vQ==
-X-Gm-Message-State: AOAM5309UmW8bJao+m7DI1WEJEuOdWW0i8MeE/C7SyZFlVkvgzSk3Vcu
- 4KjE/lJ+/rS3lo6yuoUn4ahbyzGMloDYOmqK
-X-Google-Smtp-Source: ABdhPJyEcRLRw/QWInB8yb69JLd/Xy+kRUtxNrf9t7Q/XmOLmLeQsly4/yJuY9fiCQUUDvCrXwOVHQ==
-X-Received: by 2002:a17:902:864b:b0:14c:d45e:a77b with SMTP id
- y11-20020a170902864b00b0014cd45ea77bmr10683087plt.143.1648200420786; 
- Fri, 25 Mar 2022 02:27:00 -0700 (PDT)
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com.
- [209.85.215.178]) by smtp.gmail.com with ESMTPSA id
- e10-20020a17090a630a00b001c685cfd9d1sm5402698pjj.20.2022.03.25.02.26.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Mar 2022 02:26:59 -0700 (PDT)
-Received: by mail-pg1-f178.google.com with SMTP id t4so2907006pgc.1;
- Fri, 25 Mar 2022 02:26:59 -0700 (PDT)
-X-Received: by 2002:a63:d23:0:b0:382:70fa:2f0 with SMTP id
- c35-20020a630d23000000b0038270fa02f0mr7149762pgl.181.1648200419210; 
- Fri, 25 Mar 2022 02:26:59 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=uf03P2QNRo1L3cdWjJlHAEcWGzO1FcwSuK2DhjQjEx4=;
+ b=ROBptBU+8LlFvNq895ypXQVPk9foWcDYiHHX9+cznmKgi7Tc8BZo0A2l7nVVFwcxnI
+ VfFMz3P9bVhUDUSjYuSV1VqD98nRoyWwalG/xXcK7cGElAtIQwUA+qRMc1lVj80kTwav
+ M6walna9Gr9hFDpb1iNHnL6cN3V6jcAPrUu11Prr8Z1xkJtS2/GVGty2CEsIEL93Zyw5
+ bLJerNRgGiHFZycscuC4A/huTUs5Wupc/A6g+Y0QSrtFsSZ4Az2Vs3eRhcEjLhji06s7
+ jzn63WDSUvZuzlZOEb2rV3/gDo1ohCwkLlRAuInqXEfhWgEbXofJPcl1wfIzSO95xx6+
+ QCog==
+X-Gm-Message-State: AOAM53129gXG6hJsCPN4ywO6oED9OoAd32oSOGyJzXFk5p9Vin7NeiIy
+ +APRH6GJgslbeDuRrnkLOLo9Jg==
+X-Google-Smtp-Source: ABdhPJwFyf80MgwhLO+2a7DriVXvzCUVNzCCN3wCNIfus3zTd3pKKAZCFK4o1z/+VEMLrXkX6RAFfw==
+X-Received: by 2002:adf:e241:0:b0:203:f56e:51e3 with SMTP id
+ bl1-20020adfe241000000b00203f56e51e3mr8302007wrb.473.1648202641629; 
+ Fri, 25 Mar 2022 03:04:01 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ m10-20020adfe94a000000b002059e530da1sm2086693wrn.1.2022.03.25.03.03.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Mar 2022 03:04:00 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2DB7C1FFB7;
+ Fri, 25 Mar 2022 10:03:59 +0000 (GMT)
+References: <20220324190854.156898-1-leandro.lupori@eldorado.org.br>
+ <20220324190854.156898-5-leandro.lupori@eldorado.org.br>
+ <87k0cj2imn.fsf@linaro.org>
+ <50ab5422-d294-dc8f-44bc-ece42473141d@eldorado.org.br>
+User-agent: mu4e 1.7.10; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Subject: Re: [RFC PATCH 4/6] tests/tcg: add support for ppc64le softmmu tests
+Date: Fri, 25 Mar 2022 09:50:25 +0000
+In-reply-to: <50ab5422-d294-dc8f-44bc-ece42473141d@eldorado.org.br>
+Message-ID: <87bkxu2vsg.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220325085902.29500-1-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220325085902.29500-1-liweiwei@iscas.ac.cn>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Fri, 25 Mar 2022 17:26:47 +0800
-X-Gmail-Original-Message-ID: <CANzO1D1UUacJ=aTYTWxX9TCGwFhCeY1u6WMwvL6J3nfOA7eK=Q@mail.gmail.com>
-Message-ID: <CANzO1D1UUacJ=aTYTWxX9TCGwFhCeY1u6WMwvL6J3nfOA7eK=Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] target/riscv: optimize condition assign for scale < 0
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: multipart/alternative; boundary="000000000000817ef705db079063"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -92,149 +95,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lazyparser@gmail.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- wangjunqiang@iscas.ac.cn, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, pbonzini@redhat.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000817ef705db079063
-Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Leandro Lupori <leandro.lupori@eldorado.org.br> writes:
 
-On Fri, Mar 25, 2022 at 5:00 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+> On 24/03/2022 17:34, Alex Benn=C3=A9e wrote:
+>> Leandro Lupori <leandro.lupori@eldorado.org.br> writes:
+>>=20
+>>> Adding a new, "virtual" TCG test target, ppc64le-softmmu, seems to
+>>> be the cleanest way to support both BE and LE tests for
+>>> ppc64-softmmu.
+>>>
+>>> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+>>> ---
+>>>   tests/Makefile.include                    |  7 ++++---
+>>>   tests/tcg/configure.sh                    | 11 ++++++++++-
+>>>   tests/tcg/ppc64/Makefile.softmmu-target   |  2 ++
+>>>   tests/tcg/ppc64le/Makefile.softmmu-target |  7 +++++++
 
-> for some cases, scale is always equal or less than 0, since lmul is not
-> larger than 3
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
->  target/riscv/insn_trans/trans_rvv.c.inc | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc
-> b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 4ea7e41e1a..2878ca3132 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -1198,7 +1198,7 @@ GEN_LDST_WHOLE_TRANS(vs8r_v, 8, true)
->  static inline uint32_t MAXSZ(DisasContext *s)
->  {
->      int scale = s->lmul - 3;
-> -    return scale < 0 ? s->cfg_ptr->vlen >> -scale : s->cfg_ptr->vlen <<
-> scale;
-> +    return s->cfg_ptr->vlen >> -scale;
->  }
->
->  static bool opivv_check(DisasContext *s, arg_rmrr *a)
-> @@ -3597,8 +3597,7 @@ static bool trans_vrgather_vx(DisasContext *s,
-> arg_rmrr *a)
->
->      if (a->vm && s->vl_eq_vlmax) {
->          int scale = s->lmul - (s->sew + 3);
-> -        int vlmax = scale < 0 ?
-> -                       s->cfg_ptr->vlen >> -scale : s->cfg_ptr->vlen <<
-> scale;
-> +        int vlmax = s->cfg_ptr->vlen >> -scale;
->          TCGv_i64 dest = tcg_temp_new_i64();
->
->          if (a->rs1 == 0) {
-> @@ -3630,8 +3629,7 @@ static bool trans_vrgather_vi(DisasContext *s,
-> arg_rmrr *a)
->
->      if (a->vm && s->vl_eq_vlmax) {
->          int scale = s->lmul - (s->sew + 3);
-> -        int vlmax = scale < 0 ?
-> -                       s->cfg_ptr->vlen >> -scale : s->cfg_ptr->vlen <<
-> scale;
-> +        int vlmax = s->cfg_ptr->vlen >> -scale;
->          if (a->rs1 >= vlmax) {
->              tcg_gen_gvec_dup_imm(MO_64, vreg_ofs(s, a->rd),
->                                   MAXSZ(s), MAXSZ(s), 0);
-> --
-> 2.17.1
->
->
->
+Don't forget to add new files to MAINTAINERS by the way ;-)
 
---000000000000817ef705db079063
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>>>   4 files changed, 23 insertions(+), 4 deletions(-)
+>>>   create mode 100644 tests/tcg/ppc64le/Makefile.softmmu-target
+>>>
+>>> diff --git a/tests/Makefile.include b/tests/Makefile.include
+>>> index e7153c8e91..4001fedbc3 100644
+>>> --- a/tests/Makefile.include
+>>> +++ b/tests/Makefile.include
+>>> @@ -40,9 +40,10 @@ SPEED =3D quick
+>>>   TARGETS=3D$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-=
+targets)))
+>>>
+>>>   # Per guest TCG tests
+>>> -BUILD_TCG_TARGET_RULES=3D$(patsubst %,build-tcg-tests-%, $(TARGETS))
+>>> -CLEAN_TCG_TARGET_RULES=3D$(patsubst %,clean-tcg-tests-%, $(TARGETS))
+>>> -RUN_TCG_TARGET_RULES=3D$(patsubst %,run-tcg-tests-%, $(TARGETS))
+>>> +TCG_TARGETS=3D$(patsubst tests/tcg/config-%.mak, %, $(wildcard tests/t=
+cg/config-*.mak))
+>>> +BUILD_TCG_TARGET_RULES=3D$(patsubst %,build-tcg-tests-%, $(TCG_TARGETS=
+))
+>>> +CLEAN_TCG_TARGET_RULES=3D$(patsubst %,clean-tcg-tests-%, $(TCG_TARGETS=
+))
+>>> +RUN_TCG_TARGET_RULES=3D$(patsubst %,run-tcg-tests-%, $(TCG_TARGETS))
+>> I'm not following what is going on here. Are we creating a new
+>> target
+>> type? Is this just to avoid duplication in tests/tcg subdirs?
+>>=20
+> Yes, together with the change in test/tcg/configure.sh, a new
+> ppc64le-softmmu target is created, in the context of TCG tests only.
+> But it isn't just to avoid duplication in tests/tcg subdirs.
+>
+> Without a ppc64le-softmmu target, the tcg tests' makefiles will only
+> include tests/tcg/ppc64/Makefile.softmmu-target file. They won't try
+> to include tests/tcg/ppc64le/Makefile.softmmu-target, because there is
+> no ppc64le-softmmu target.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Reviewed-by: Frank Chang &lt;<a href=3D"m=
-ailto:frank.chang@sifive.com">frank.chang@sifive.com</a>&gt;<br></div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar=
- 25, 2022 at 5:00 PM Weiwei Li &lt;<a href=3D"mailto:liweiwei@iscas.ac.cn">=
-liweiwei@iscas.ac.cn</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">for some cases, scale is always equal or less than 0, s=
-ince lmul is not larger than 3<br>
-<br>
-Signed-off-by: Weiwei Li &lt;<a href=3D"mailto:liweiwei@iscas.ac.cn" target=
-=3D"_blank">liweiwei@iscas.ac.cn</a>&gt;<br>
-Signed-off-by: Junqiang Wang &lt;<a href=3D"mailto:wangjunqiang@iscas.ac.cn=
-" target=3D"_blank">wangjunqiang@iscas.ac.cn</a>&gt;<br>
----<br>
-=C2=A0target/riscv/insn_trans/trans_rvv.c.inc | 8 +++-----<br>
-=C2=A01 file changed, 3 insertions(+), 5 deletions(-)<br>
-<br>
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_tr=
-ans/trans_rvv.c.inc<br>
-index 4ea7e41e1a..2878ca3132 100644<br>
---- a/target/riscv/insn_trans/trans_rvv.c.inc<br>
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc<br>
-@@ -1198,7 +1198,7 @@ GEN_LDST_WHOLE_TRANS(vs8r_v, 8, true)<br>
-=C2=A0static inline uint32_t MAXSZ(DisasContext *s)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0int scale =3D s-&gt;lmul - 3;<br>
--=C2=A0 =C2=A0 return scale &lt; 0 ? s-&gt;cfg_ptr-&gt;vlen &gt;&gt; -scale=
- : s-&gt;cfg_ptr-&gt;vlen &lt;&lt; scale;<br>
-+=C2=A0 =C2=A0 return s-&gt;cfg_ptr-&gt;vlen &gt;&gt; -scale;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static bool opivv_check(DisasContext *s, arg_rmrr *a)<br>
-@@ -3597,8 +3597,7 @@ static bool trans_vrgather_vx(DisasContext *s, arg_rm=
-rr *a)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (a-&gt;vm &amp;&amp; s-&gt;vl_eq_vlmax) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int scale =3D s-&gt;lmul - (s-&gt;sew + 3=
-);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 int vlmax =3D scale &lt; 0 ?<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0s-&gt;cfg_ptr-&gt;vlen &gt;&gt; -scale : s-&gt;cfg_ptr-&gt;vlen &=
-lt;&lt; scale;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int vlmax =3D s-&gt;cfg_ptr-&gt;vlen &gt;&gt; =
--scale;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TCGv_i64 dest =3D tcg_temp_new_i64();<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (a-&gt;rs1 =3D=3D 0) {<br>
-@@ -3630,8 +3629,7 @@ static bool trans_vrgather_vi(DisasContext *s, arg_rm=
-rr *a)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (a-&gt;vm &amp;&amp; s-&gt;vl_eq_vlmax) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int scale =3D s-&gt;lmul - (s-&gt;sew + 3=
-);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 int vlmax =3D scale &lt; 0 ?<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0s-&gt;cfg_ptr-&gt;vlen &gt;&gt; -scale : s-&gt;cfg_ptr-&gt;vlen &=
-lt;&lt; scale;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int vlmax =3D s-&gt;cfg_ptr-&gt;vlen &gt;&gt; =
--scale;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (a-&gt;rs1 &gt;=3D vlmax) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_gvec_dup_imm(MO_64,=
- vreg_ofs(s, a-&gt;rd),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MAXSZ(s), MAXSZ(s), 0);<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
-</blockquote></div></div>
+So according to IRC this is because the ppc64-softmmu target can support
+dynamically switching between BE/LE modes so there is only needs to be
+one 64 bit ppc system binary.
 
---000000000000817ef705db079063--
+> I've actually tried to do everything in
+> tests/tcg/ppc64/Makefile.softmmu-target. But when it is included,
+> everything is already setup to build for ppc64 (BE), such as CC,
+> EXTRA_CFLAGS and other variables. So it seems that, to be able to also
+> build and run the same tests for ppc64le, I would need to somehow
+> change CC, EXTRA_CFLAGS, etc, to setup them for a ppc64le build and
+> write another set of rules for the LE tests. Then I would also need to
+> handle output file conflicts, to be able have both BE and LE binaries
+> coexisting in the same ppc64-softmmu output directory.
+
+There is another approach you can take which is to generate alternative
+binaries from the same sources in the build. For example we build the
+sha512 test with a couple of different compiler options and run with
+slightly different QEMU_OPTS:
+
+  sha512-vector: CFLAGS +=3D-mcpu=3Dpower10 -O3
+  sha512-vector: sha512.c
+          $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+
+  run-sha512-vector: QEMU_OPTS+=3D-cpu POWER10
+  run-plugin-sha512-vector-with-%: QEMU_OPTS+=3D-cpu POWER10
+
+  PPC64LE_TESTS +=3D sha512-vector
+
+So you could do something similar for le versions of the tests.
+
+I'm ambivalent to which makes the best approach. I only worry the
+"pseudo target" approach might break something else down the line.
+However as long as the ppc maintainers are happy with the tests you can
+have my:
+
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+for the check-tcg plumbing changes.
+
+>
+> So that's why I've added this new target, only for TCG tests, to avoid
+> the issues above.
+>
+>>>
+>>>   # Probe for the Docker Builds needed for each build
+>>>   $(foreach PROBE_TARGET,$(TARGET_DIRS),                               \
+>>> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+>>> index ed4b5ccb1f..a4ac7a4e44 100755
+>>> --- a/tests/tcg/configure.sh
+>>> +++ b/tests/tcg/configure.sh
+>>> @@ -80,6 +80,10 @@ fi
+>>>   : ${cross_as_tricore=3D"tricore-as"}
+>>>   : ${cross_ld_tricore=3D"tricore-ld"}
+>>>
+>>> +# If target ppc64-softmmu is configured, also include the virtual test=
+ target
+>>> +# ppc64le-softmmu
+>>> +target_list=3D`echo $target_list | sed 's/ppc64-softmmu/& ppc64le-soft=
+mmu/'`
+>>> +
+>>>   for target in $target_list; do
+>>>     arch=3D${target%%-*}
+>>>
+>>> @@ -237,7 +241,12 @@ for target in $target_list; do
+>>>         ;;
+>>>       *-softmmu)
+>>>         echo "CONFIG_SOFTMMU=3Dy" >> $config_target_mak
+>>> -      echo "QEMU=3D$PWD/qemu-system-$arch" >> $config_target_mak
+>>> +      if test $arch =3D "ppc64le"; then
+>>> +        sys_arch=3Dppc64
+>>> +      else
+>>> +        sys_arch=3D$arch
+>>> +      fi
+>>> +      echo "QEMU=3D$PWD/qemu-system-$sys_arch" >> $config_target_mak
+>>>         ;;
+>>>     esac
+>>>
+>>> diff --git a/tests/tcg/ppc64/Makefile.softmmu-target b/tests/tcg/ppc64/=
+Makefile.softmmu-target
+>>> index 8f9925ca5a..511b6322df 100644
+>>> --- a/tests/tcg/ppc64/Makefile.softmmu-target
+>>> +++ b/tests/tcg/ppc64/Makefile.softmmu-target
+>>> @@ -2,6 +2,8 @@
+>>>   # PowerPC64 system tests
+>>>   #
+>>>
+>>> +BIG_ENDIAN ?=3D 1
+>>> +
+>>>   # For now, disable tests that are failing
+>>>   DISABLED_TESTS :=3D memory
+>>>   DISABLED_EXTRA_RUNS :=3D run-gdbstub-memory
+>>> diff --git a/tests/tcg/ppc64le/Makefile.softmmu-target b/tests/tcg/ppc6=
+4le/Makefile.softmmu-target
+>>> new file mode 100644
+>>> index 0000000000..d4162160ee
+>>> --- /dev/null
+>>> +++ b/tests/tcg/ppc64le/Makefile.softmmu-target
+>>> @@ -0,0 +1,7 @@
+>>> +#
+>>> +# PowerPC64 LE system tests
+>>> +#
+>>> +
+>>> +BIG_ENDIAN =3D 0
+>>> +
+>>> +include $(SRC_PATH)/tests/tcg/ppc64/Makefile.softmmu-target
+>> --
+>> Alex Benn=C3=A9e
+
+
+--=20
+Alex Benn=C3=A9e
 
