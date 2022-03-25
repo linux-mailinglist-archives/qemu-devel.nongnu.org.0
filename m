@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3250D4E716C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 11:42:07 +0100 (CET)
-Received: from localhost ([::1]:38038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A2A4E7155
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 11:35:02 +0100 (CET)
+Received: from localhost ([::1]:57370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXhOQ-0003z3-8r
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 06:42:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60358)
+	id 1nXhHY-0005vv-UM
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 06:35:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nXhMM-0002Lr-9V
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:39:58 -0400
-Received: from [2a00:1450:4864:20::42d] (port=40731
- helo=mail-wr1-x42d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nXhMK-0007WD-B9
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:39:57 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id d7so10271494wrb.7
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 03:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=hOIMqoJFdXp7xWR2zpny2V06Vyv43g+vRng6G3Fav6o=;
- b=NJerOdEDgIm+cT3HLSSpuXvGxsB7XZwH8Dy8vt74ecb5Gnvs4A6MDmvihYi0A4Pqvg
- 88AOA6bhUDfUFR8cMgjqmM1Q8JoWhCfZwp5cdwRTFO1LJFn9NtF4jv8a1FNDpFLCMMB6
- hgSeSAA9VXUQ7F/73xiyAcgUecyGWUk0WL8M4/qQA2UKkKH8ZAyEX9sIZJDTm7uhHoou
- 8dTMzR8QvjDCoop/JMdOkL3HvY8kVRpkZHBgaURPHMmSdyYIM3azCuagyxn4PF9eA2Gf
- dcUS191SvGuMYqubwn47gBUBtStSJRw2ojeQAZVdDBG613C4XyyFV9pDytiaGYnPElEf
- aKfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=hOIMqoJFdXp7xWR2zpny2V06Vyv43g+vRng6G3Fav6o=;
- b=n2qBc/WEqlNyznMB886j5DCw15vF27ITYYWFr74BT2avKyP9GW5SdRY0aGIlAq/++u
- p1Kz/90pd/N0khp3oHS2pF5RPexByejYMNUcBuxqxfmKIUcZlMIU1mI75fyS/9BYfA8i
- twf/m/HsCMi52liiRVqS2XJXGtu57pDu2GgGSE6VtTleeAOVbxMlAYOXUI1Jzw3GuSDE
- dyBmtLJ38La221U2IaRVobJ3lweOcJhrY6JwxnSc4TeHNYbjTzZD00CPnPKH1PcQpUSK
- Sx3JqWJUn6tllSv70dTe6rw2ZkyI0WobyLY6BGu3PIvQXO26F5RIisTSF/SbjoH5S/aw
- 7m+w==
-X-Gm-Message-State: AOAM530MjHbm/qJgdiQ3xK7tulzLO4JSI7/wopomOq4SNrSYzW/kr7n9
- errTNNJy1A0LTWlZ7cBdqLUbZA==
-X-Google-Smtp-Source: ABdhPJw2EBtdVT3sqo9slR9RgddDKnCHi2HBeRzJr6V8WnCIRm9AKGFVKDzNQdiO/EnuOZBk7jprWQ==
-X-Received: by 2002:a5d:59a3:0:b0:203:d9fa:6968 with SMTP id
- p3-20020a5d59a3000000b00203d9fa6968mr8704799wrr.585.1648204788644; 
- Fri, 25 Mar 2022 03:39:48 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- g10-20020a5d46ca000000b00203fd86e198sm4653261wrs.96.2022.03.25.03.39.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Mar 2022 03:39:47 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C57721FFB7;
- Fri, 25 Mar 2022 10:39:46 +0000 (GMT)
-References: <YjzR3erB5ZhkAI2A@strawberry.localdomain>
-User-agent: mu4e 1.7.10; emacs 28.0.92
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: Re: Plugins Not Reporting AArch64 SVE Memory Operations
-Date: Fri, 25 Mar 2022 10:19:59 +0000
-In-reply-to: <YjzR3erB5ZhkAI2A@strawberry.localdomain>
-Message-ID: <874k3m2u4t.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nXhFI-0004B7-Rl; Fri, 25 Mar 2022 06:32:41 -0400
+Received: from smtp23.cstnet.cn ([159.226.251.23]:38774 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nXhFE-0006ak-Ae; Fri, 25 Mar 2022 06:32:39 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-03 (Coremail) with SMTP id rQCowACHiMA6mj1iRl2aBA--.7135S2;
+ Fri, 25 Mar 2022 18:32:27 +0800 (CST)
+Subject: Re: [PATCH qemu v4 06/14] target/riscv: rvv: Add tail agnostic for
+ vx, vvm, vxm instructions
+To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <164814860220.28290.11643334198417094464-6@git.sr.ht>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <9690e084-77aa-4331-012f-72549252efc0@iscas.ac.cn>
+Date: Fri, 25 Mar 2022 18:32:26 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <164814860220.28290.11643334198417094464-6@git.sr.ht>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: rQCowACHiMA6mj1iRl2aBA--.7135S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFW5GFW7Zw4xtryUAw1xGrg_yoW8Gr43pr
+ saka129r95JFyxuw1fZF4UAry5ZF4Fkw1jk3Wvvwn5Xa98JrZ5tF4Dtw1Ikr9xtry5ur10
+ k3WjyFW3uwsYyFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUF9a9DU
+ UUU
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,72 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- robhenry@microsoft.com
+Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ eop Chen <eop.chen@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Aaron Lindsay <aaron@os.amperecomputing.com> writes:
-
-> Hi folks,
+在 2022/3/7 下午3:32, ~eopxd 写道:
+> From: eopXD <eop.chen@sifive.com>
 >
-> I see there has been some previous discussion [1] about 1.5 years ago
-> around the fact that AArch64 SVE instructions do not emit any memory
-> operations via the plugin interface, as one might expect them to.
+> Signed-off-by: eop Chen <eop.chen@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>   target/riscv/insn_trans/trans_rvv.c.inc |  23 ++
+>   target/riscv/vector_helper.c            | 312 +++++++++++++-----------
+>   2 files changed, 197 insertions(+), 138 deletions(-)
 >
-> I am interested in being able to more accurately trace the memory
-> operations of SVE instructions using the plugin interface - has there
-> been any further discussion or work on this topic off-list (or that
-> escaped my searching)?
->
-> In the previous discussion [1], Richard raised some interesting
-> questions:
->
->> The plugin interface needs extension for this.  How should I signal that=
- 256
->> consecutive byte loads have occurred?  How should I signal that the cont=
-rolling
->> predicate was not all true, so only 250 of those 256 were actually activ=
-e?  How
->> should I signal 59 non-consecutive (gather) loads have occurred?
->>=20
->> If the answer is simply that you want 256 or 250 or 59 plugin callbacks
->> respectively, then we might be able to force the memory operations into =
-the
->> slow path, and hook the operation there.  As if it were an i/o operation.
->
-> My initial reaction is that simply sending individual callbacks for each
-> access (only the ones which were active, in the case of predication)
-> seems to fit reasonably well with the existing plugin interface. For
-> instance, I think we already receive two callbacks for each AArch64
-> `LDP` instruction, right?
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index fee616ef38..e8ef5b1e0e 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -1296,6 +1296,7 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
+>   
+>       data = FIELD_DP32(data, VDATA, VM, vm);
+>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data = FIELD_DP32(data, VDATA, VTA, s->vta);
+>       desc = tcg_constant_i32(simd_desc(s->cfg_ptr->vlen / 8,
+>                                         s->cfg_ptr->vlen / 8, data));
+>   
+> @@ -1332,6 +1333,15 @@ do_opivx_gvec(DisasContext *s, arg_rmrr *a, GVecGen2sFn *gvec_fn,
+>       }
+>   
+>       if (a->vm && s->vl_eq_vlmax) {
+> +        if (s->vta && s->lmul < 0) {
+> +            /* tail elements may pass vlmax when lmul < 0
+> +             * set tail elements to 1s
+> +             */
 
-This seems the simplest solution. I think what you need to look at is
-how the sve_ldst1_host_fn and sve_ldst1_tlb_fn functions eventually
-emerge out of the macro expansion (having a -E copy of the compiled
-source might be helpful here).
+It seems better to as follows:
 
-That said I'm confused that softmmu isn't already hooked into by virtue
-of using the softmmu slowpath (cpu_[ld|st]_*). However user space
-emulation which typically directly accesses a final host address will
-need to be fixed.
++            /*
++             * tail elements may pass vlmax when lmul < 0
++             * set tail elements to 1s
++             */
+Regards,
+Weiwei Li
 
-> If this is an agreeable solution that wouldn't take too much effort to
-> implement (and no one else is doing it), would someone mind pointing me
-> in the right direction to get started?
-
-Richard, anything to add?
-
->
-> Thanks!
->
-> -Aaron
->
-> [1] https://lists.nongnu.org/archive/html/qemu-discuss/2020-12/msg00015.h=
-tml
-
-
---=20
-Alex Benn=C3=A9e
 
