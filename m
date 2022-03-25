@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B4C4E71B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 11:57:43 +0100 (CET)
-Received: from localhost ([::1]:49496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E624E7209
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 12:10:00 +0100 (CET)
+Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXhdW-0003x4-BE
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 06:57:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34924)
+	id 1nXhpP-0007b1-6K
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 07:09:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nXhce-0003IY-T2
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:56:48 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:54230)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXho3-0006nY-Gq
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 07:08:35 -0400
+Received: from [2607:f8b0:4864:20::1129] (port=36842
+ helo=mail-yw1-x1129.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nXhcc-0001rW-Qp
- for qemu-devel@nongnu.org; Fri, 25 Mar 2022 06:56:48 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1C780210EF;
- Fri, 25 Mar 2022 10:56:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1648205805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xXVq4QHke5wF6AZBabLQEa2XRp+G4Tn/zs77IlhkMHs=;
- b=MGvm6sXRLJQ5Q+YonhloaMJV+jRo48zgF35Q/xTsNEAigC87iekMr/6C8l7V5X+3fWhEtD
- PE+NdZxCUjpwSGUOAEVDuNbwcju1APOLFkQrsaWvhbu/nLF31p1vURf/6FXqPPyZoF6DHi
- aDGfJq6FE6W3R/stPjTqFFXboIL9e7o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1648205805;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xXVq4QHke5wF6AZBabLQEa2XRp+G4Tn/zs77IlhkMHs=;
- b=rWA6Y1k+DgaFWntlB0cCwzWl331EMGixPJY/OKdagCHPNLQmzIpb4HdA9ZUiG3Yf7lZxvp
- JkoQd381SdiPlYCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BC6811332D;
- Fri, 25 Mar 2022 10:56:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Uy+mK+yfPWJWLQAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 25 Mar 2022 10:56:44 +0000
-Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
- performance
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <Yi94mQUfrxMVbiLM@redhat.com>
- <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de> <Yi+ACeaZ+oXTVYjc@redhat.com>
- <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
- <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
- <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
- <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de> <YjNNqzb7eBBwMFJN@work-vm>
- <737974fa-905c-d171-05b0-ec4df42bc762@suse.de> <Yj2aa9OXv2CTQi/j@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <da4a4121-7be9-26ff-5b7f-244b124ef0fd@suse.de>
-Date: Fri, 25 Mar 2022 11:56:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nXhny-0003ux-5v
+ for qemu-devel@nongnu.org; Fri, 25 Mar 2022 07:08:31 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-2e64a6b20eeso79064177b3.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 04:08:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7GcXP47iwFO4z+o8orIr2MsoX04s4jcIl3r+WcNBbmE=;
+ b=GitBdFRtYZlsK7ACMZW+QDyCEn7gKVpXFoGCm0h4SGKIaAUuzv1rg2wnXzw1A26ry+
+ J8D24KV//QA6HS+IL0UK84vMhHs8hJl1Hww2Ug1L6g4PDjo18imxCKMEvjymrhxyfthF
+ ztdQDwhjuNlS+CfHeRjhNH/RVnl9j6K1A0QJdLcdLmRzZeWXY+oi7XeVtYVAbC8cojlF
+ ENU6vyhwgTb8cT9lbxJz9GXEacj6T7VRY/GJJVX4QnE7IIxdUt3S4ca5EqTxVMoNhWs8
+ 15+h+z3NVCNxAw0fM8iYV4yZ1W2nV1MhBt4zqGzjapeSHBo0Oq7afiQyUL05/zAvf/1y
+ 7oEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7GcXP47iwFO4z+o8orIr2MsoX04s4jcIl3r+WcNBbmE=;
+ b=Vt8MPfnCLG7iGmPxrhkr0tExoBEyNxDrKOM3jnq//RV7kNi1fO0aelWxqVimgENBEp
+ biFtNxu10hbtCVHeeU7YUzOQoxuhAffc3ZCQpQsELLTpPDKIRgtl2w0zAGD+i3Y5DEqY
+ /10tvFKh1EvgMqGNvAv48mvRn+9hFHKDUcNrTkeKT7icpZr4ImZ1clu+Uud0IjrPUtvf
+ /hozN43nJNNoN3Lvssk1medwvaBSGnNLVwluWEvuVdT5x5T/4/uctECBn8+Xa7Lp4fba
+ 428/IfYqqrYP2TMqhhJnK/xRxSsCnsxGkyHpDT5NRp/pfyXOuSTSVjJcAauHZDOQ5c8C
+ hZ5w==
+X-Gm-Message-State: AOAM5330+vnd39VWJw5gH61QtlWPIcHC3dspMj4FTRzD0V6vqeqV/3I+
+ 2sfxjH2kyUYIeMwKp+NIfsnbNKxzOx8zZph0e02HEQ==
+X-Google-Smtp-Source: ABdhPJyiDjTX5uFFa4ETdAfRoCtpCqLEUeXjlE4gz1r25uwAa/9esQsMkXBPkWJF+YK7+Yl0OJvlOk1VxZWfFJwNIaY=
+X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
+ e69-20020a81a748000000b002d61f8b23a9mr9625524ywh.329.1648206509100; Fri, 25
+ Mar 2022 04:08:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <Yj2aa9OXv2CTQi/j@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <CAFEAcA_X7d9-e+u3UpB5WvJrmJhhRKdw8EhUzCdFDNVfhFF8mg@mail.gmail.com>
+ <2d9e3abd-99de-dc56-c6bd-93e54cd22b8e@redhat.com>
+ <87zglee9w3.fsf@secure.mitica>
+In-Reply-To: <87zglee9w3.fsf@secure.mitica>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Mar 2022 11:08:15 +0000
+Message-ID: <CAFEAcA_SbVX+uwThSC=UqTOr-Aqu-DmUJch=0vYTT01ctqTmcQ@mail.gmail.com>
+Subject: Re: hang in migration-test (s390 host)
+To: quintela@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,177 +84,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, andrea.righi@canonical.com,
- Jiri Denemark <jdenemar@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks Daniel,
+On Fri, 25 Mar 2022 at 08:04, Juan Quintela <quintela@redhat.com> wrote:
+> Laurent Vivier <lvivier@redhat.com> wrote:
+> > Perhaps Juan or Thomas can help too (added to cc)
+> >
+> > Is this a regression?
+> > It looks like a bug in QEMU as it doesn't move from cancelling to cancelled.
+>
+> Hi
+>
+> TCG never stops given.  And s390 makes things even more interesting.
+> First of all, it is a pity that glib debug symbols are not loaded.
 
-On 3/25/22 11:33 AM, Daniel P. Berrangé wrote:
-> On Fri, Mar 18, 2022 at 02:34:29PM +0100, Claudio Fontana wrote:
->> On 3/17/22 4:03 PM, Dr. David Alan Gilbert wrote:
->>> * Claudio Fontana (cfontana@suse.de) wrote:
->>>> On 3/17/22 2:41 PM, Claudio Fontana wrote:
->>>>> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
->>>>>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
->>>>>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
->>>>>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
->>>>>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
->>>>>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
->>>>>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
->>>>>>>>>>>> the first user is the qemu driver,
->>>>>>>>>>>>
->>>>>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
->>>>>>>>>>>>
->>>>>>>>>>>> This improves the situation by 400%.
->>>>>>>>>>>>
->>>>>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
->>>>>>>>>>>> compared with direct qemu migration to a nc socket to a file.
->>>>>>>>>>>>
->>>>>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>>>>>>>>>> ---
->>>>>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
->>>>>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
->>>>>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
->>>>>>>>>>>>  src/util/virfile.h        |  1 +
->>>>>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
->>>>>>>>>>>>
->>>>>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
->>>>>>>>>>>> so you can find the discussion about this in qemu-devel:
->>>>>>>>>>>>
->>>>>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
->>>>>>>>>>>>
->>>>>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
->>>>>>
->>>>>>
->>>>>>> Current results show these experimental averages maximum throughput
->>>>>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
->>>>>>> "query-migrate", tests repeated 5 times for each).
->>>>>>> VM Size is 60G, most of the memory effectively touched before migration,
->>>>>>> through user application allocating and touching all memory with
->>>>>>> pseudorandom data.
->>>>>>>
->>>>>>> 64K:     5200 Mbps (current situation)
->>>>>>> 128K:    5800 Mbps
->>>>>>> 256K:   20900 Mbps
->>>>>>> 512K:   21600 Mbps
->>>>>>> 1M:     22800 Mbps
->>>>>>> 2M:     22800 Mbps
->>>>>>> 4M:     22400 Mbps
->>>>>>> 8M:     22500 Mbps
->>>>>>> 16M:    22800 Mbps
->>>>>>> 32M:    22900 Mbps
->>>>>>> 64M:    22900 Mbps
->>>>>>> 128M:   22800 Mbps
->>>>>>>
->>>>>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
->>>>>>
->>>>>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
->>>>>> libvirt attempt to raise the pipe limit to 1 MB by default, but
->>>>>> not try to go higher.
->>>>>>
->>>>>>> As for the theoretical limit for the libvirt architecture,
->>>>>>> I ran a qemu migration directly issuing the appropriate QMP
->>>>>>> commands, setting the same migration parameters as per libvirt,
->>>>>>> and then migrating to a socket netcatted to /dev/null via
->>>>>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
->>>>>>>
->>>>>>> QMP:    37000 Mbps
->>>>>>
->>>>>>> So although the Pipe size improves things (in particular the
->>>>>>> large jump is for the 256K size, although 1M seems a very good value),
->>>>>>> there is still a second bottleneck in there somewhere that
->>>>>>> accounts for a loss of ~14200 Mbps in throughput.
->>>>
->>>>
->>>> Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
->>>> and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
->>>>
->>>> ~50000 mbps qemu to netcat socket to /dev/null
->>>> ~35500 mbps virsh save to /dev/null
->>>>
->>>> Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
->>>
->>> It might be closer to RAM or cache bandwidth limited though; for an extra copy.
->>
->> I was thinking about sendfile(2) in iohelper, but that probably can't work as the input fd is a socket, I am getting EINVAL.
->>
->> One thing that I noticed is:
->>
->> ommit afe6e58aedcd5e27ea16184fed90b338569bd042
->> Author: Jiri Denemark <jdenemar@redhat.com>
->> Date:   Mon Feb 6 14:40:48 2012 +0100
->>
->>     util: Generalize virFileDirectFd
->>     
->>     virFileDirectFd was used for accessing files opened with O_DIRECT using
->>     libvirt_iohelper. We will want to use the helper for accessing files
->>     regardless on O_DIRECT and thus virFileDirectFd was generalized and
->>     renamed to virFileWrapperFd.
->>
->>
->> And in particular the comment in src/util/virFile.c:
->>
->>     /* XXX support posix_fadvise rather than O_DIRECT, if the kernel support                                                                                                 
->>      * for that is decent enough. In that case, we will also need to                                                                                                         
->>      * explicitly support VIR_FILE_WRAPPER_NON_BLOCKING since                                                                                                                
->>      * VIR_FILE_WRAPPER_BYPASS_CACHE alone will no longer require spawning                                                                                                   
->>      * iohelper.                                                                                                                                                             
->>      */
->>
->> by Jiri Denemark.
->>
->> I have lots of questions here, and I tried to involve Jiri and Andrea Righi here, who a long time ago proposed a POSIX_FADV_NOREUSE implementation.
->>
->> 1) What is the reason iohelper was introduced?
-> 
-> With POSIX you can't get sensible results from poll() on FDs associated with
-> plain files. It will always report the file as readable/writable, and the
-> userspace caller will get blocked any time the I/O operation causes the
-> kernel to read/write from the underlying (potentially very slow) storage.
-> 
-> IOW if you give QEMU an FD associated with a plain file and tell it to
-> migrate to that, the guest OS will get stalled.
 
-we send a stop command to qemu just before migrating to a file in virsh save though right?
-With virsh restore we also first load the VM, and only then start executing it.
+> Migration main thread in multifd_send_sync_main(), waiting for the
+> semaphore in
+>
+>     for (i = 0; i < migrate_multifd_channels(); i++) {
+>         MultiFDSendParams *p = &multifd_send_state->params[i];
+>
+>         trace_multifd_send_sync_main_wait(p->id);
+>         qemu_sem_wait(&p->sem_sync);
+>     }
+>
+> Knowing the value of i would be great.  See the end of the email, I
+> think it is going to be 0.
 
-So for virsh save and virsh restore, this should not be a problem? Still we need the iohelper?
+Unfortunately something went wrong in my attempt to attach gdb
+to the process, and the process got killed, so I no longer have
+it to answer this question :-(
 
-> 
-> To avoid this we have to give QEMU an FD that is NOT a plain file, but
-> rather something on which poll() works correctly to avoid blocking. This
-> essentially means a socket or pipe FD.
-> 
-> Here enters the iohelper - we give QEMU a pipe whose other end is the
-> iohelper. The iohelper suffers from blocking on read/write but that
-> doesn't matter, because QEMU is isolated from this via the pipe.
-> 
-> In theory we could just spawn a thread inside libvirtd todo the same
-> as the iohelper, but using a separate helper process is more robust
-> 
-> If not using libvirt, you would use QEMU's 'exec:' migration protocol
-> with 'dd' or 'cat' for the same reasons. Libvirt provides the iohelper
-> so we don't have to deal with portibility questions around 'dd' syntax
-> and can add features like O_DIRECT that cat lacks.
+> >> [Inferior 1 (process 2772862) detached]
+> >> ===========================================================
+> >> PROCESS: 2772869
+> >> gitlab-+ 2772869 2771497  0 Mar23 ?        00:00:00 [qemu-system-i38] <defunct>
+> >> /proc/2772869/exe: No such file or directory.
+> >> Could not attach to process.  If your uid matches the uid of the target
+> >> process, check the setting of /proc/sys/kernel/yama/ptrace_scope, or try
+> >> again as the root user.  For more details, see /etc/sysctl.d/10-ptrace.conf
+> >> warning: process 2772869 is a zombie - the process has already terminated
+> >> ptrace: Operation not permitted.
+> >> /home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/build/2772869:
+> >> No such file or directory.
+>
+> I have no clue what is this process and what this have to do with this
+> run, what can it be?  We already have two qemu's and a test harness
+> programm.  Can this be from a previous test case that we are still
+> waiting for?
 
-Thanks, I'll try this as well!
+Your guess is as good as mine. I do note that when I've seen this
+hang before it has always been with a zombie process in the
+process tree.
 
-Claudio
-
-> 
->> 2) Was Jiri's comment about the missing linux implementation of POSIX_FADV_NOREUSE?
->>
->> 3) if using O_DIRECT is the only reason for iohelper to exist (...?), would replacing it with posix_fadvise remove the need for iohelper?
-> 
-> We can't remove the iohelper for the reason above.> 
->> 4) What has stopped Andreas' or another POSIX_FADV_NOREUSE implementation in the kernel?
-> 
-> With regards,
-> Daniel
-> 
-
+-- PMM
 
