@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684A24E7AF7
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 23:14:33 +0100 (CET)
-Received: from localhost ([::1]:59694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF604E7AED
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Mar 2022 23:09:41 +0100 (CET)
+Received: from localhost ([::1]:42786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nXsCW-00025v-FS
-	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 18:14:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35506)
+	id 1nXs7o-0007Re-5s
+	for lists+qemu-devel@lfdr.de; Fri, 25 Mar 2022 18:09:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nXs5h-0004cv-1z
+ id 1nXs5h-0004cs-1f
  for qemu-devel@nongnu.org; Fri, 25 Mar 2022 18:07:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41946)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nXs5f-0002lZ-05
+ id 1nXs5f-0002ld-32
  for qemu-devel@nongnu.org; Fri, 25 Mar 2022 18:07:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648246038;
+ s=mimecast20190719; t=1648246039;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nVZ2WY4c561Tl/PZUI3ZnvwntUTj+V+eBf9RGKeuzPI=;
- b=iijB2NAMmfSlSvtERYca8qU5X40tYwGDwMIVnNGRAQ7+b5vSZz4G0b5m0XsQm+aJ/QKi5g
- a+GIhHr4J86FxVtzWZOfLqXMfW9p3MRwc7M1VwCWyjD42ybzP9RhrcwlQN4AS3c0t9R4dX
- x9FOFk8UgBcb4/6ztBfI+1DBOdQCLrE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GaAbKcRlgHNCUO2E8Bt8QiiL2zx8UnILoxweGHI8Xw8=;
+ b=OYko6GuuRNtrfxGiAFj3HCFWnctFP12FJ0UT04ks2wKEf1tTq530hpSFFigQZErjygEulV
+ QQrDmOFE4JSJKnaj6JRpmE/EgT94O/yR6BXFUzN3ykIA5D/MrQXieV6zQDgj6c4u7PVyWZ
+ 3YyEgk9Ahov64OjXCRZpp4R/lHnGCsU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-1fXb4aRXNbic2PF_lkEkKQ-1; Fri, 25 Mar 2022 18:07:16 -0400
-X-MC-Unique: 1fXb4aRXNbic2PF_lkEkKQ-1
+ us-mta-546-Mn3BvJWyN62Ju4_vDBARcg-1; Fri, 25 Mar 2022 18:07:18 -0400
+X-MC-Unique: Mn3BvJWyN62Ju4_vDBARcg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 945612999B20
- for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 22:07:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 12A38811E78
+ for <qemu-devel@nongnu.org>; Fri, 25 Mar 2022 22:07:18 +0000 (UTC)
 Received: from tapioca.redhat.com (unknown [10.40.192.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 729B4400F8C2;
- Fri, 25 Mar 2022 22:07:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0048F400F8C2;
+ Fri, 25 Mar 2022 22:07:16 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/14] qapi: fix example of BLOCK_JOB_PENDING event
-Date: Fri, 25 Mar 2022 23:06:57 +0100
-Message-Id: <20220325220707.52118-5-victortoso@redhat.com>
+Subject: [PATCH v2 05/14] qapi: fix example of DUMP_COMPLETED event
+Date: Fri, 25 Mar 2022 23:06:58 +0100
+Message-Id: <20220325220707.52118-6-victortoso@redhat.com>
 In-Reply-To: <20220325220707.52118-1-victortoso@redhat.com>
 References: <20220325220707.52118-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -85,31 +85,36 @@ Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Event's name: BLOCK_JOB_WAITING -> BLOCK_JOB_PENDING
-* Argument device -> id
+* Timestamp is not optional, let's add for completeness.
+* Add '<-' to signalize it is receiving the data
+* While at it, add extra space before "result" and "total"
+  and after "completed" value.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- qapi/block-core.json | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ qapi/dump.json | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 46580ac551..4a7a6940a3 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -5225,8 +5225,8 @@
+diff --git a/qapi/dump.json b/qapi/dump.json
+index f7c4267e3f..9119c82b14 100644
+--- a/qapi/dump.json
++++ b/qapi/dump.json
+@@ -161,9 +161,10 @@
  #
  # Example:
  #
--# <- { "event": "BLOCK_JOB_WAITING",
--#      "data": { "device": "drive0", "type": "mirror" },
-+# <- { "event": "BLOCK_JOB_PENDING",
-+#      "data": { "type": "mirror", "id": "backup_1" },
- #      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+-# { "event": "DUMP_COMPLETED",
+-#   "data": {"result": {"total": 1090650112, "status": "completed",
+-#                       "completed": 1090650112} } }
++# <- { "event": "DUMP_COMPLETED",
++#      "data": { "result": { "total": 1090650112, "status": "completed",
++#                            "completed": 1090650112 } },
++#      "timestamp": { "seconds": 1648244171, "microseconds": 950316 } }
  #
  ##
+ { 'event': 'DUMP_COMPLETED' ,
 -- 
 2.35.1
 
