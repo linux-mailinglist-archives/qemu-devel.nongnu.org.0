@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 041914E815D
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 15:14:07 +0100 (CET)
-Received: from localhost ([::1]:50520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 227E14E815B
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 15:12:44 +0100 (CET)
+Received: from localhost ([::1]:46356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nY7B8-0000bD-2x
-	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 10:14:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34404)
+	id 1nY79n-0006Ck-69
+	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 10:12:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nY6RA-0007dE-Cw
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:26:40 -0400
-Received: from [2001:4860:4864:20::36] (port=45864
- helo=mail-oa1-x36.google.com)
+ id 1nY6Ra-0007sC-Cu
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:27:02 -0400
+Received: from [2001:4860:4864:20::2b] (port=45854
+ helo=mail-oa1-x2b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nY6R7-0005Y3-OH
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:26:35 -0400
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-d6ca46da48so10699744fac.12
- for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 06:26:33 -0700 (PDT)
+ id 1nY6RS-0005YH-QE
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:26:56 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-d6ca46da48so10699819fac.12
+ for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 06:26:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jlMPZ5+ciovunZH+v/owH8Odf5O35GcMQuqFyPTC+AM=;
- b=XfnJR1AFNM+2CYc0XgXZ/qDrYf7l8Y5TX8rNg11+KAsASBSycNgeCmeXZEfBejPF9n
- 2DExRC6Di2Op4ZlwIRsalqnb9WKq5sPvey9wmRq8yQ0MQwrrVsKxL0MjTaD7Rug5pXDw
- zhIkfXTqiQjQCMj3YiGSUEBC3Arf5jyiiN6VTKzNQ30JoKFGzjIk+lQRHJqGHgGlHaPJ
- eOfn81QApvnAQ5dNUcCTQL7MDHdxW1AhDHaNS1AurynO8HTuPBAeIaPbvgG/Z5NXuQOd
- Ts/wuBu1Bn87jb/S7iFK1AdBMV8tGt+p//PE01w1b9g5xx/4/i0zn0VgaU69OXbiFb0o
- jquA==
+ bh=lb1+Il1eKojAxX+nWwkLAHUYjVhh/WZK+1C1/5aXdGI=;
+ b=ntkMSatQNWi3Iw6d9a742+4oLl0NPa/m6t0X6VAgU+/za/OGHh5/ThztlcIj2w5Qhm
+ w9JIKTPe9yoqEqcz6jVH0XQUjapx2/OKb/bda4VVx+OJ+CX9zrDvHUp/HrGFc0aLaML8
+ GbSfX+fWpKm7Mmxrc8Pw0N1RTkJGKOFb1TGNHUixs1w1Rq1JwyiigKgcTA2J7Cu3MM+L
+ rGotRTOvQlX+sUGJsSBFdHWAHrSubqwTKxTfzFxjdWSd/B6YGWZQhunpCd80xhE2aY+o
+ 8xGb+Kf6CbRotUwluGMtiZuPt+6OHQyzAGsAtoQNiLck2FpAMfnuKzcdWDwN3B1peQ/p
+ rE2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jlMPZ5+ciovunZH+v/owH8Odf5O35GcMQuqFyPTC+AM=;
- b=GW0RGMXlDqPJenZtly2lvUrjI7TAsnoImgpPn8GDv59p4xeZaVP32VMOhLNR/Ukfgw
- savTD+gvLHCvfGS9kaqByzt7w+NfxibhyFZfJX14iG6W/YPEC8qkBXKbiPzDkIX0pbzj
- 1w0HsMu1olTlXoSRJS7um8Pu/4Qs5FIJp40VXl2lKJ/CPrwRgkRGCC3XMDTai0Ml9By3
- hGS/EyhWFj9cgE/rHMzZfSb7bExhKOe2R34PEAPwTw9PWTv1b/Ir7b3jifvneNPIexex
- KPBFKb5xNWrRl53TWfx5R/MtqyLMHPsHOVI+1I5mhwFN6/QikLiHk96ClMT1umgiHvHF
- WE2A==
-X-Gm-Message-State: AOAM530p+CkjWbyjyJMy8P84l2VNuqpzPSZXaRrC7qGCAGv8UfSlyL90
- bl+NcpRWXXMqaWhhxMtItRaFZN4hcOKIyarz
-X-Google-Smtp-Source: ABdhPJzS2TOO6FYWmebKr9JVg7ljGj94mnF3SjbRdZ4uauu5Ym5ymUuBpWXkfP2zVARPoJRJtWFsuA==
-X-Received: by 2002:a05:6870:3394:b0:dd:cfdd:34c9 with SMTP id
- w20-20020a056870339400b000ddcfdd34c9mr11507614oae.31.1648301192843; 
- Sat, 26 Mar 2022 06:26:32 -0700 (PDT)
+ bh=lb1+Il1eKojAxX+nWwkLAHUYjVhh/WZK+1C1/5aXdGI=;
+ b=kZ8bdYhqiT3P6+CjgJDkxMLxaLcVLcGSFn1Pj24ygFMsA4f/gmWzoHd5y7J6aYLbTY
+ pKq3eaWrhC9aSyEeHlGVy1E31/4RHNIVcdAVRCGIyKEou0ETD++hPe2o+sZCKVk2nFV3
+ OsA4i0P5I/7Pa71PSZD0zmTwf5aicCMq+NFVrfysU0+DnLs6zJ/WQwHBk9gEL8snySdM
+ O/6nnAHHkV7bBdrsOna/rcO2bsPHLpxhlFk4vi+9VIJrr84MzEy8QT2AwThjKt1/s8CV
+ xnDFXELr0HalxsoaFAQiBLipELej4NUxaSaMBG2rwNB4wrXq/H2K41T5RHR8RC3Bo1v8
+ JpFA==
+X-Gm-Message-State: AOAM533JlCpf1QEoZA7VheleCRjxQmamTxJ/0jTvp1BTZvIrGoEKpQrL
+ vF4522DMW4SvVUALokWAYuhTwIAUPjyexoda
+X-Google-Smtp-Source: ABdhPJyQVUsU3E010BP8lQmQ+9U85ZzRL+dDaLgU1LMXrBTmsIGe2n1ECuFg/KGlD73Rw6MX00/LRQ==
+X-Received: by 2002:a05:6870:601b:b0:de:c5bd:e36b with SMTP id
+ t27-20020a056870601b00b000dec5bde36bmr1946038oaa.89.1648301194946; 
+ Sat, 26 Mar 2022 06:26:34 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- n62-20020acaef41000000b002ef646e6690sm4610331oih.53.2022.03.26.06.26.31
+ n62-20020acaef41000000b002ef646e6690sm4610331oih.53.2022.03.26.06.26.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Mar 2022 06:26:32 -0700 (PDT)
+ Sat, 26 Mar 2022 06:26:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 28/39] bsd-user: Use qemu_set_log_filename_flags
-Date: Sat, 26 Mar 2022 07:25:23 -0600
-Message-Id: <20220326132534.543738-37-richard.henderson@linaro.org>
+Subject: [PATCH v2 29/39] linux-user: Use qemu_set_log_filename_flags
+Date: Sat, 26 Mar 2022 07:25:24 -0600
+Message-Id: <20220326132534.543738-38-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220326132534.543738-1-richard.henderson@linaro.org>
 References: <20220326132534.543738-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::36
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2b
  (failed)
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x36.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,39 +96,52 @@ Perform all logfile setup in one step.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/main.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ linux-user/main.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index ed26fc5acb..aa13eae7f3 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -405,16 +405,16 @@ int main(int argc, char **argv)
-     }
+diff --git a/linux-user/main.c b/linux-user/main.c
+index d263b2a669..0297ae8321 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -85,6 +85,7 @@ static bool enable_strace;
+  * Used to support command line arguments overriding environment variables.
+  */
+ static int last_log_mask;
++static const char *last_log_filename;
  
-     /* init debug */
--    qemu_set_log_filename(log_file, &error_fatal);
+ /*
+  * When running 32-on-64 we should make sure we can fit all of the possible
+@@ -257,7 +258,7 @@ static void handle_arg_dfilter(const char *arg)
+ 
+ static void handle_arg_log_filename(const char *arg)
+ {
+-    qemu_set_log_filename(arg, &error_fatal);
++    last_log_filename = arg;
+ }
+ 
+ static void handle_arg_set_env(const char *arg)
+@@ -643,7 +644,6 @@ int main(int argc, char **argv, char **envp)
+     int i;
+     int ret;
+     int execfd;
+-    int log_mask;
+     unsigned long max_reserved_va;
+     bool preserve_argv0;
+ 
+@@ -677,10 +677,9 @@ int main(int argc, char **argv, char **envp)
+ 
+     optind = parse_args(argc, argv);
+ 
+-    log_mask = last_log_mask | (enable_strace ? LOG_STRACE : 0);
 -    if (log_mask) {
--        int mask;
--
--        mask = qemu_str_to_log_mask(log_mask);
--        if (!mask) {
--            qemu_print_log_usage(stdout);
--            exit(1);
-+    {
-+        int mask = 0;
-+        if (log_mask) {
-+            mask = qemu_str_to_log_mask(log_mask);
-+            if (!mask) {
-+                qemu_print_log_usage(stdout);
-+                exit(1);
-+            }
-         }
--        qemu_set_log(mask, &error_fatal);
-+        qemu_set_log_filename_flags(log_file, mask, &error_fatal);
-     }
+-        qemu_set_log(log_mask, &error_fatal);
+-    }
++    qemu_set_log_filename_flags(last_log_filename,
++                                last_log_mask | (enable_strace * LOG_STRACE),
++                                &error_fatal);
  
-     if (optind >= argc) {
+     if (!trace_init_backends()) {
+         exit(1);
 -- 
 2.25.1
 
