@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374624E8245
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 18:02:27 +0100 (CET)
-Received: from localhost ([::1]:34514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DD34E828F
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 18:04:14 +0100 (CET)
+Received: from localhost ([::1]:37974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nY9o2-0005bV-26
-	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 13:02:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35740)
+	id 1nY9pl-00083K-Pn
+	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 13:04:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nY9kl-0003s7-9I; Sat, 26 Mar 2022 12:59:03 -0400
-Received: from [2a00:1450:4864:20::52d] (port=43838
- helo=mail-ed1-x52d.google.com)
+ id 1nY9kl-0003tn-U1; Sat, 26 Mar 2022 12:59:03 -0400
+Received: from [2a00:1450:4864:20::632] (port=46747
+ helo=mail-ej1-x632.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nY9kj-0001u3-83; Sat, 26 Mar 2022 12:59:02 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id b24so12413104edu.10;
- Sat, 26 Mar 2022 09:59:00 -0700 (PDT)
+ id 1nY9kk-0001uH-EI; Sat, 26 Mar 2022 12:59:03 -0400
+Received: by mail-ej1-x632.google.com with SMTP id c10so2457203ejs.13;
+ Sat, 26 Mar 2022 09:59:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=C41s8dXYetIXRFUN79C7BELr5tThcFLwr+w3sJfI9HA=;
- b=GMLKj7Zbq/beiCnU/2Xo968GQ5Cv5ktuGHq/3BWJxE6ljArddc1wpG4isEeCjDkbMQ
- 1/ukK8Bvz7Qdxa7nXdTzuI+UxeXuBS6yHl+MrX9jMCLsOuYSShdho9k5xZUh23a1s2pX
- LyoE70ECd01RrPOEAuG3X74rp1bHJA+5JRqrWqPbCDY8FmoliQ9ZOYNktTJqv1qbBuSP
- ivxP1WzBJoSIFA8rvj3ujiBpUNkWxzgprBSKnPN8+mpXepNcTMGH1hVHUkIAtkWgLDdv
- 2Xh/HODwnSz+ufrafHl+u51VqQe5CNjHm1pztZRjK5ptA9iE/3xeq86HogrNnUydCqn7
- qp0w==
+ bh=LkZ15wJd+LFpAdx6Z7RYH7A3b7bWmA7jprwHFNQo/OI=;
+ b=aVO5+9ALXYQ2+LvXDMxIdtX5vgsMUD3RKGLQ5rKAkXg3AWbqFEkLAXQAzueihImtnQ
+ l5jnGHJIGeRmY9NfJptFUkenke1t9lzmhk7WLvXi6YeTrXc44ssdXq8jOSk3NX4P4uwb
+ YIQNe62roU6/GS7vqIi/T4QnrOEuDiVpW4ilV5qrIUNbPWBX7dVgZelHHmF0awHWC6Oa
+ 7kGIam6rXJQTJFOEmJQVuzICDsiXv6+vu/s1nQhkZ1eh/UUdqb0a8n3HbwIfckG5BVyp
+ GBYO16X2OKQcP8z1M4h+RRnrOZjwjULYC1BBZ5ivOMYzR+KtErsr1WaavJoKmGQsb7ar
+ tWHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=C41s8dXYetIXRFUN79C7BELr5tThcFLwr+w3sJfI9HA=;
- b=0anxqKYLVYGYZ5TXEv3FeOtaHOUjd+7T+W7dhyybVpO1RsRpd8OkA82PsfZgFTSPvp
- GPE99JLL7jzRglCFH5wLg6cVU9ZfljqHiAC1YhrXaGLbWxRjE+w2wNJKhqO1rBOVMhia
- SBwULPC8enEkT7wiGKGgaKXjHtXQ/3pln+G5JaZpkkiYaQp9XPqRWXQQRm8W6rJI3W8N
- gKdxLca9F0o5pE18QShVdEQNYPfkTfXwJC8kzju7rWDPnAhOIEy9a4k4BrWN5kuVtUh7
- vHGuLINXgowzXyIllryUSmRIqL4QvlgEmaccshu7QDn7eIx5SBHjddn55e0XiB71XNTY
- R5lQ==
-X-Gm-Message-State: AOAM5320yFVsMe1L1dGCzKNeAi9TAWyqUr4Qk7s++cZh8NjSIWwxYHPN
- ihMyjT41QeRAepWviMj0uo3aQpSYH1k=
-X-Google-Smtp-Source: ABdhPJy6Aqj5FTWdQ+G+AWgjELFEvqpgoJbqa2BpHLgNArFWAXPcO5a+isreLt8QnClISXqIMadRyA==
-X-Received: by 2002:a50:9fa5:0:b0:418:e7c4:cf96 with SMTP id
- c34-20020a509fa5000000b00418e7c4cf96mr5612764edf.30.1648313939404; 
- Sat, 26 Mar 2022 09:58:59 -0700 (PDT)
+ bh=LkZ15wJd+LFpAdx6Z7RYH7A3b7bWmA7jprwHFNQo/OI=;
+ b=4NkzoH6BlwKaWpskoxjOyYC5VGb2Yd8e4GyJBU9idZYl7oZdP6usgU2oCZxMKuaUp3
+ Op0ErcJg+dqPI1i7UleVXkZ8rxN/I2ZGm8x6Cqsghmhb4S7Pou1S9Y/Ejy/hl3uYBV+/
+ R+Vlx3rDPyaYf2eRz3If37+7Y8Y7x7xUyKO1lMH1fpwwueTJ3kb2Ry52Zk3XpoghQa0G
+ cOQU9mKwqLglT30JiAdOabjsvM6VrW5QJ2l4ia3w6AWwM9I2grTBs7MJFPjJAXIrd5NX
+ rW91zOTLM3lPULCPLcSbU7dnE6lJgTqO48cK2HH0LgWkQxCb67gfvIdzNsCdIA4hKb/1
+ FqBA==
+X-Gm-Message-State: AOAM5323KV/9V9xZCRLRgHya0xes9xjzUHy7CreWeRiX+92mxnL0tign
+ p7njl9BSdZHO7SXiDRprlXcKcmws5Zw=
+X-Google-Smtp-Source: ABdhPJzYO2gb06syFIc8TRb0WdtWjgdYrAposyrJYvIapzWbj5+wwbunnqa50xyfLwrcULPoYggIGA==
+X-Received: by 2002:a17:907:7f21:b0:6e0:355f:805e with SMTP id
+ qf33-20020a1709077f2100b006e0355f805emr18792587ejc.752.1648313940656; 
+ Sat, 26 Mar 2022 09:59:00 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-089-012-231-111.89.12.pool.telefonica.de. [89.12.231.111])
  by smtp.gmail.com with ESMTPSA id
- x12-20020a50d9cc000000b0040f70fe78f3sm4515930edj.36.2022.03.26.09.58.58
+ x12-20020a50d9cc000000b0040f70fe78f3sm4515930edj.36.2022.03.26.09.58.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Mar 2022 09:58:59 -0700 (PDT)
+ Sat, 26 Mar 2022 09:59:00 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/xen/xen_pt: Confine igd-passthrough-isa-bridge to XEN
-Date: Sat, 26 Mar 2022 17:58:23 +0100
-Message-Id: <20220326165825.30794-2-shentey@gmail.com>
+Subject: [PATCH 2/2] hw/xen/xen_pt: Resolve
+ igd_passthrough_isa_bridge_create() indirection
+Date: Sat, 26 Mar 2022 17:58:24 +0100
+Message-Id: <20220326165825.30794-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220326165825.30794-1-shentey@gmail.com>
 References: <20220326165825.30794-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,319 +88,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Paul Durrant <paul@xen.org>, Richard Henderson <richard.henderson@linaro.org>,
+Cc: Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ qemu-trivial@nongnu.org, Anthony Perard <anthony.perard@citrix.com>,
  "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>
+ Bernhard Beschow <shentey@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-igd-passthrough-isa-bridge is only requested in xen_pt but was
-implemented in pc_piix.c. This caused xen_pt to dependend on i386/pc
-which is hereby resolved.
+Now that igd_passthrough_isa_bridge_create() is implemented within the
+xen context it may use Xen* data types directly and become
+xen_igd_passthrough_isa_bridge_create(). This resolves an indirection.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/i386/pc_piix.c        | 118 --------------------------------------
- hw/xen/xen_pt.c          |   1 -
- hw/xen/xen_pt.h          |   1 +
- hw/xen/xen_pt_graphics.c | 119 +++++++++++++++++++++++++++++++++++++++
- include/hw/i386/pc.h     |   1 -
- 5 files changed, 120 insertions(+), 120 deletions(-)
+ hw/xen/xen_pt.c          | 11 -----------
+ hw/xen/xen_pt.h          |  3 ++-
+ hw/xen/xen_pt_graphics.c |  5 ++++-
+ 3 files changed, 6 insertions(+), 13 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index b72c03d0a6..6ad5c02f07 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -801,124 +801,6 @@ static void pc_i440fx_1_4_machine_options(MachineClass *m)
- DEFINE_I440FX_MACHINE(v1_4, "pc-i440fx-1.4", pc_compat_1_4_fn,
-                       pc_i440fx_1_4_machine_options);
- 
--typedef struct {
--    uint16_t gpu_device_id;
--    uint16_t pch_device_id;
--    uint8_t pch_revision_id;
--} IGDDeviceIDInfo;
--
--/* In real world different GPU should have different PCH. But actually
-- * the different PCH DIDs likely map to different PCH SKUs. We do the
-- * same thing for the GPU. For PCH, the different SKUs are going to be
-- * all the same silicon design and implementation, just different
-- * features turn on and off with fuses. The SW interfaces should be
-- * consistent across all SKUs in a given family (eg LPT). But just same
-- * features may not be supported.
-- *
-- * Most of these different PCH features probably don't matter to the
-- * Gfx driver, but obviously any difference in display port connections
-- * will so it should be fine with any PCH in case of passthrough.
-- *
-- * So currently use one PCH version, 0x8c4e, to cover all HSW(Haswell)
-- * scenarios, 0x9cc3 for BDW(Broadwell).
-- */
--static const IGDDeviceIDInfo igd_combo_id_infos[] = {
--    /* HSW Classic */
--    {0x0402, 0x8c4e, 0x04}, /* HSWGT1D, HSWD_w7 */
--    {0x0406, 0x8c4e, 0x04}, /* HSWGT1M, HSWM_w7 */
--    {0x0412, 0x8c4e, 0x04}, /* HSWGT2D, HSWD_w7 */
--    {0x0416, 0x8c4e, 0x04}, /* HSWGT2M, HSWM_w7 */
--    {0x041E, 0x8c4e, 0x04}, /* HSWGT15D, HSWD_w7 */
--    /* HSW ULT */
--    {0x0A06, 0x8c4e, 0x04}, /* HSWGT1UT, HSWM_w7 */
--    {0x0A16, 0x8c4e, 0x04}, /* HSWGT2UT, HSWM_w7 */
--    {0x0A26, 0x8c4e, 0x06}, /* HSWGT3UT, HSWM_w7 */
--    {0x0A2E, 0x8c4e, 0x04}, /* HSWGT3UT28W, HSWM_w7 */
--    {0x0A1E, 0x8c4e, 0x04}, /* HSWGT2UX, HSWM_w7 */
--    {0x0A0E, 0x8c4e, 0x04}, /* HSWGT1ULX, HSWM_w7 */
--    /* HSW CRW */
--    {0x0D26, 0x8c4e, 0x04}, /* HSWGT3CW, HSWM_w7 */
--    {0x0D22, 0x8c4e, 0x04}, /* HSWGT3CWDT, HSWD_w7 */
--    /* HSW Server */
--    {0x041A, 0x8c4e, 0x04}, /* HSWSVGT2, HSWD_w7 */
--    /* HSW SRVR */
--    {0x040A, 0x8c4e, 0x04}, /* HSWSVGT1, HSWD_w7 */
--    /* BSW */
--    {0x1606, 0x9cc3, 0x03}, /* BDWULTGT1, BDWM_w7 */
--    {0x1616, 0x9cc3, 0x03}, /* BDWULTGT2, BDWM_w7 */
--    {0x1626, 0x9cc3, 0x03}, /* BDWULTGT3, BDWM_w7 */
--    {0x160E, 0x9cc3, 0x03}, /* BDWULXGT1, BDWM_w7 */
--    {0x161E, 0x9cc3, 0x03}, /* BDWULXGT2, BDWM_w7 */
--    {0x1602, 0x9cc3, 0x03}, /* BDWHALOGT1, BDWM_w7 */
--    {0x1612, 0x9cc3, 0x03}, /* BDWHALOGT2, BDWM_w7 */
--    {0x1622, 0x9cc3, 0x03}, /* BDWHALOGT3, BDWM_w7 */
--    {0x162B, 0x9cc3, 0x03}, /* BDWHALO28W, BDWM_w7 */
--    {0x162A, 0x9cc3, 0x03}, /* BDWGT3WRKS, BDWM_w7 */
--    {0x162D, 0x9cc3, 0x03}, /* BDWGT3SRVR, BDWM_w7 */
--};
--
--static void isa_bridge_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
--
--    dc->desc        = "ISA bridge faked to support IGD PT";
--    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
--    k->vendor_id    = PCI_VENDOR_ID_INTEL;
--    k->class_id     = PCI_CLASS_BRIDGE_ISA;
--};
--
--static const TypeInfo isa_bridge_info = {
--    .name          = "igd-passthrough-isa-bridge",
--    .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(PCIDevice),
--    .class_init = isa_bridge_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
--        { },
--    },
--};
--
--static void pt_graphics_register_types(void)
--{
--    type_register_static(&isa_bridge_info);
--}
--type_init(pt_graphics_register_types)
--
--void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id)
--{
--    struct PCIDevice *bridge_dev;
--    int i, num;
--    uint16_t pch_dev_id = 0xffff;
--    uint8_t pch_rev_id = 0;
--
--    num = ARRAY_SIZE(igd_combo_id_infos);
--    for (i = 0; i < num; i++) {
--        if (gpu_dev_id == igd_combo_id_infos[i].gpu_device_id) {
--            pch_dev_id = igd_combo_id_infos[i].pch_device_id;
--            pch_rev_id = igd_combo_id_infos[i].pch_revision_id;
--        }
--    }
--
--    if (pch_dev_id == 0xffff) {
--        return;
--    }
--
--    /* Currently IGD drivers always need to access PCH by 1f.0. */
--    bridge_dev = pci_create_simple(bus, PCI_DEVFN(0x1f, 0),
--                                   "igd-passthrough-isa-bridge");
--
--    /*
--     * Note that vendor id is always PCI_VENDOR_ID_INTEL.
--     */
--    if (!bridge_dev) {
--        fprintf(stderr, "set igd-passthrough-isa-bridge failed!\n");
--        return;
--    }
--    pci_config_set_device_id(bridge_dev->config, pch_dev_id);
--    pci_config_set_revision(bridge_dev->config, pch_rev_id);
--}
--
- #ifdef CONFIG_ISAPC
- static void isapc_machine_options(MachineClass *m)
- {
 diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index 027190fa44..829ea9985f 100644
+index 829ea9985f..0ec7e52183 100644
 --- a/hw/xen/xen_pt.c
 +++ b/hw/xen/xen_pt.c
-@@ -60,7 +60,6 @@
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
- #include "hw/xen/xen.h"
--#include "hw/i386/pc.h"
- #include "hw/xen/xen-legacy-backend.h"
- #include "xen_pt.h"
- #include "qemu/range.h"
+@@ -701,17 +701,6 @@ static const MemoryListener xen_pt_io_listener = {
+     .priority = 10,
+ };
+ 
+-static void
+-xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *s,
+-                                      XenHostPCIDevice *dev)
+-{
+-    uint16_t gpu_dev_id;
+-    PCIDevice *d = &s->dev;
+-
+-    gpu_dev_id = dev->device_id;
+-    igd_passthrough_isa_bridge_create(pci_get_bus(d), gpu_dev_id);
+-}
+-
+ /* destroy. */
+ static void xen_pt_destroy(PCIDevice *d) {
+ 
 diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
-index 6b8e13cdee..806d832c94 100644
+index 806d832c94..e7c4316a7d 100644
 --- a/hw/xen/xen_pt.h
 +++ b/hw/xen/xen_pt.h
-@@ -43,6 +43,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XenPCIPassthroughState, XEN_PT_DEVICE)
+@@ -43,7 +43,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(XenPCIPassthroughState, XEN_PT_DEVICE)
  
  uint32_t igd_read_opregion(XenPCIPassthroughState *s);
  void igd_write_opregion(XenPCIPassthroughState *s, uint32_t val);
-+void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id);
+-void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id);
++void xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *s,
++                                           XenHostPCIDevice *dev);
  
  /* function type for config reg */
  typedef int (*xen_pt_conf_reg_init)
 diff --git a/hw/xen/xen_pt_graphics.c b/hw/xen/xen_pt_graphics.c
-index a3bc7e3921..f1fbb98912 100644
+index f1fbb98912..f303f67c9c 100644
 --- a/hw/xen/xen_pt_graphics.c
 +++ b/hw/xen/xen_pt_graphics.c
-@@ -289,3 +289,122 @@ void igd_write_opregion(XenPCIPassthroughState *s, uint32_t val)
-                     (unsigned long)(igd_host_opregion >> XC_PAGE_SHIFT),
-                     (unsigned long)(igd_guest_opregion >> XC_PAGE_SHIFT));
+@@ -375,10 +375,13 @@ static void pt_graphics_register_types(void)
  }
-+
-+typedef struct {
-+    uint16_t gpu_device_id;
-+    uint16_t pch_device_id;
-+    uint8_t pch_revision_id;
-+} IGDDeviceIDInfo;
-+
-+/*
-+ * In real world different GPU should have different PCH. But actually
-+ * the different PCH DIDs likely map to different PCH SKUs. We do the
-+ * same thing for the GPU. For PCH, the different SKUs are going to be
-+ * all the same silicon design and implementation, just different
-+ * features turn on and off with fuses. The SW interfaces should be
-+ * consistent across all SKUs in a given family (eg LPT). But just same
-+ * features may not be supported.
-+ *
-+ * Most of these different PCH features probably don't matter to the
-+ * Gfx driver, but obviously any difference in display port connections
-+ * will so it should be fine with any PCH in case of passthrough.
-+ *
-+ * So currently use one PCH version, 0x8c4e, to cover all HSW(Haswell)
-+ * scenarios, 0x9cc3 for BDW(Broadwell).
-+ */
-+static const IGDDeviceIDInfo igd_combo_id_infos[] = {
-+    /* HSW Classic */
-+    {0x0402, 0x8c4e, 0x04}, /* HSWGT1D, HSWD_w7 */
-+    {0x0406, 0x8c4e, 0x04}, /* HSWGT1M, HSWM_w7 */
-+    {0x0412, 0x8c4e, 0x04}, /* HSWGT2D, HSWD_w7 */
-+    {0x0416, 0x8c4e, 0x04}, /* HSWGT2M, HSWM_w7 */
-+    {0x041E, 0x8c4e, 0x04}, /* HSWGT15D, HSWD_w7 */
-+    /* HSW ULT */
-+    {0x0A06, 0x8c4e, 0x04}, /* HSWGT1UT, HSWM_w7 */
-+    {0x0A16, 0x8c4e, 0x04}, /* HSWGT2UT, HSWM_w7 */
-+    {0x0A26, 0x8c4e, 0x06}, /* HSWGT3UT, HSWM_w7 */
-+    {0x0A2E, 0x8c4e, 0x04}, /* HSWGT3UT28W, HSWM_w7 */
-+    {0x0A1E, 0x8c4e, 0x04}, /* HSWGT2UX, HSWM_w7 */
-+    {0x0A0E, 0x8c4e, 0x04}, /* HSWGT1ULX, HSWM_w7 */
-+    /* HSW CRW */
-+    {0x0D26, 0x8c4e, 0x04}, /* HSWGT3CW, HSWM_w7 */
-+    {0x0D22, 0x8c4e, 0x04}, /* HSWGT3CWDT, HSWD_w7 */
-+    /* HSW Server */
-+    {0x041A, 0x8c4e, 0x04}, /* HSWSVGT2, HSWD_w7 */
-+    /* HSW SRVR */
-+    {0x040A, 0x8c4e, 0x04}, /* HSWSVGT1, HSWD_w7 */
-+    /* BSW */
-+    {0x1606, 0x9cc3, 0x03}, /* BDWULTGT1, BDWM_w7 */
-+    {0x1616, 0x9cc3, 0x03}, /* BDWULTGT2, BDWM_w7 */
-+    {0x1626, 0x9cc3, 0x03}, /* BDWULTGT3, BDWM_w7 */
-+    {0x160E, 0x9cc3, 0x03}, /* BDWULXGT1, BDWM_w7 */
-+    {0x161E, 0x9cc3, 0x03}, /* BDWULXGT2, BDWM_w7 */
-+    {0x1602, 0x9cc3, 0x03}, /* BDWHALOGT1, BDWM_w7 */
-+    {0x1612, 0x9cc3, 0x03}, /* BDWHALOGT2, BDWM_w7 */
-+    {0x1622, 0x9cc3, 0x03}, /* BDWHALOGT3, BDWM_w7 */
-+    {0x162B, 0x9cc3, 0x03}, /* BDWHALO28W, BDWM_w7 */
-+    {0x162A, 0x9cc3, 0x03}, /* BDWGT3WRKS, BDWM_w7 */
-+    {0x162D, 0x9cc3, 0x03}, /* BDWGT3SRVR, BDWM_w7 */
-+};
-+
-+static void isa_bridge_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+
-+    dc->desc        = "ISA bridge faked to support IGD PT";
-+    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+    k->vendor_id    = PCI_VENDOR_ID_INTEL;
-+    k->class_id     = PCI_CLASS_BRIDGE_ISA;
-+};
-+
-+static const TypeInfo isa_bridge_info = {
-+    .name          = "igd-passthrough-isa-bridge",
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(PCIDevice),
-+    .class_init = isa_bridge_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { },
-+    },
-+};
-+
-+static void pt_graphics_register_types(void)
-+{
-+    type_register_static(&isa_bridge_info);
-+}
-+type_init(pt_graphics_register_types)
-+
-+void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id)
-+{
-+    struct PCIDevice *bridge_dev;
-+    int i, num;
-+    uint16_t pch_dev_id = 0xffff;
-+    uint8_t pch_rev_id = 0;
-+
-+    num = ARRAY_SIZE(igd_combo_id_infos);
-+    for (i = 0; i < num; i++) {
-+        if (gpu_dev_id == igd_combo_id_infos[i].gpu_device_id) {
-+            pch_dev_id = igd_combo_id_infos[i].pch_device_id;
-+            pch_rev_id = igd_combo_id_infos[i].pch_revision_id;
-+        }
-+    }
-+
-+    if (pch_dev_id == 0xffff) {
-+        return;
-+    }
-+
-+    /* Currently IGD drivers always need to access PCH by 1f.0. */
-+    bridge_dev = pci_create_simple(bus, PCI_DEVFN(0x1f, 0),
-+                                   "igd-passthrough-isa-bridge");
-+
-+    /*
-+     * Note that vendor id is always PCI_VENDOR_ID_INTEL.
-+     */
-+    if (!bridge_dev) {
-+        fprintf(stderr, "set igd-passthrough-isa-bridge failed!\n");
-+        return;
-+    }
-+    pci_config_set_device_id(bridge_dev->config, pch_dev_id);
-+    pci_config_set_revision(bridge_dev->config, pch_rev_id);
-+}
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 1a27de9c8b..926a507a0c 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -312,5 +312,4 @@ extern const size_t pc_compat_1_4_len;
-     } \
-     type_init(pc_machine_init_##suffix)
+ type_init(pt_graphics_register_types)
  
--extern void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id);
- #endif
+-void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id)
++void xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *s,
++                                           XenHostPCIDevice *dev)
+ {
++    PCIBus *bus = pci_get_bus(&s->dev);
+     struct PCIDevice *bridge_dev;
+     int i, num;
++    const uint16_t gpu_dev_id = dev->device_id;
+     uint16_t pch_dev_id = 0xffff;
+     uint8_t pch_rev_id = 0;
+ 
 -- 
 2.35.1
 
