@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CCE54E80F0
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 13:54:53 +0100 (CET)
-Received: from localhost ([::1]:43254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D16A4E80F1
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 13:56:01 +0100 (CET)
+Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nY5wR-0008Oh-Ti
-	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 08:54:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55872)
+	id 1nY5xY-0000rS-CS
+	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 08:56:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nY5sg-0007Ko-P6
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 08:50:58 -0400
-Received: from [2607:f8b0:4864:20::b2d] (port=39518
- helo=mail-yb1-xb2d.google.com)
+ id 1nY5tN-0007kD-Dl
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 08:51:42 -0400
+Received: from [2607:f8b0:4864:20::b2e] (port=45599
+ helo=mail-yb1-xb2e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nY5sf-0007XF-3N
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 08:50:58 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id t11so18443674ybi.6
- for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 05:50:56 -0700 (PDT)
+ id 1nY5tK-0007gQ-AA
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 08:51:40 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id e203so9602134ybc.12
+ for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 05:51:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/OGQcZXq5xuzAgBLIcnbDAoSTeOIqkXQp6iYjIXqXvo=;
- b=i4BZ+pY7p/l6tzcsdtdQnGxanz+O1Z6LQSUThFIg4x17Vd3Ea0d1SB55oUkJO2m54u
- 6IlbGwJiOWN/ZiEC4zyYFBcTd/QKe0N783SUDzI5oFRt9Ls0HAfwdb55MDZgMXlbn2qy
- fqKR5xi7De2GW2VkZ5+dGJAMrRmljISlWeb5uOWuLAG/c3NLE78YeqHRvhysPCud9Pec
- Ya9+UeR+fzHVBtSMuETdGnepr8vkqVmcS/W+2wwyTrXM3Zs/WVAkXDqOZSUw50MwwUWl
- wVkvlbvii3ICsUx40UQS95CBfJuoYy6smONWOtkA19gFCdR1t8qGlg6Nb6b/edawDCmr
- JPmQ==
+ :cc; bh=Aa8lph9Ec/8CdCXsT+Ypi+Lcycvx5qmjjBc7J7FRNRo=;
+ b=L6vO02Jq0A97GNnBcvX1TXEFXJiHx5RTru5zr1D592WiEvhNi+SQfMHRC+AJUiSCgL
+ R6ah/aOIGqo5BkL2StkZBapsVsozpCc9PkHqFXE0HxYEMFbi/M5GGzIKff1lLwls6BTS
+ EbUVLJ46z7p6Pg7U2ygHN8FCJg80QPiHuGn9UwUjiybj5FjHFmRhfwMwbmaaYjhnPA0Y
+ fb21a6xyeb5cgXUXKIjKfqW0OkGsvEzTvdjWysZDUOf7Rk8a9Dq3VdoUNclzTPjM/XMb
+ dN/ZZ+Qc+zT+AEcRsAL7zE0Uj+F0Cn2a9jU9oYIqZZsCcF9RLznKmbWFzWwvU58jiaLw
+ RTLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/OGQcZXq5xuzAgBLIcnbDAoSTeOIqkXQp6iYjIXqXvo=;
- b=260VyZGU99hlMKAyafPRm42D83/ZpcLw4h0CHlpVm+R3vnvfMY7ejNBQ5XpQKg96J7
- /7PHCE5bHfVTI2+R1BGgJgzKkou+8YcQx6NJKWVWS8nC3Y61rR0QZei3JoMV52xtSQ83
- qQbNHlerM/R/nvPKKOrLHn89e9mVP2jzRCJgeDdllGFUzZguVLKbuawfPQdsulWcUsr7
- 3i+k//Pg3erniaz4pOR7ayzaYyxxqxafV6cxwPHoBYgVhM19AetPf1Fesc9Sb05znuq3
- GoWY6ZV1hUjoaLsDElqtm0ANwBNY5MJHL6QylPj33ZjPWwbBi//OCX+oGH0B+0tcidEk
- rioA==
-X-Gm-Message-State: AOAM530QpnJ8cYAdu2D0F99zEjnt+EZpPZFwVhAPnMWKJHGzPgSOOdZD
- gO0a/zBBfVLRAth2R+px9uaIFLHP3j0ZURw7HQ7AHDI2DrC4k6YN
-X-Google-Smtp-Source: ABdhPJx7LeENToY4A1CAOzFKRtk3kP5e2w65JvLu8cwYEIfu7t8FtSAC7epH0R25jRwEKqQKbinWbjRSYILXIVO4JYY=
-X-Received: by 2002:a25:7443:0:b0:637:18d3:eea5 with SMTP id
- p64-20020a257443000000b0063718d3eea5mr13973074ybc.39.1648299055916; Sat, 26
- Mar 2022 05:50:55 -0700 (PDT)
+ bh=Aa8lph9Ec/8CdCXsT+Ypi+Lcycvx5qmjjBc7J7FRNRo=;
+ b=uftaVY/o4ol1PZc9Eq76vd8jvaYAqpIRMthm+xcciBELmgjH32TZpf5IGGKzazglkE
+ x1AZnYZASjQhRY66NE/xim8qGtp2xirINjLOt0ezyphtaOL2+LOtAqiSmJunIbOhyC7X
+ g8TNdRkIueu2cIBryRIWzcjrK3k+DNEtslxHnChoaFs56HI13enJoRUDB5Yp42flAMVv
+ ed4tbaxfucYkmsS1dDcRMwy8/WS/xBW3W8zH1FLLC10hvqrabzUyZ2ZUcVIGVzLDfTjk
+ hqfPSX0bXcMn8oyiZeJ/rzt8CvWN5gFeNwyLiALKquzvezL4WcOL7qWGiFSIw8n5Kysp
+ 1xxQ==
+X-Gm-Message-State: AOAM5323FneYMDvHfzQslFLPUSdbe50eCxRJE9lcecpF0tHkJizOEnl/
+ DnM0EqkFwVPTVOFLQyVnSVDbG9yd0+DHX6KYo8MlLA==
+X-Google-Smtp-Source: ABdhPJxqUIczm7Vt7v6mIY7oI8PjNkJlN+qraOj9LlSthNLoaCNtSqXrltwEGCD8EumAqhmlUIHD7yUQL6F9boyH46c=
+X-Received: by 2002:a25:d8c3:0:b0:633:c81f:737d with SMTP id
+ p186-20020a25d8c3000000b00633c81f737dmr14127175ybg.193.1648299097316; Sat, 26
+ Mar 2022 05:51:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220325195250.386071-1-richard.henderson@linaro.org>
- <20220325195250.386071-2-richard.henderson@linaro.org>
-In-Reply-To: <20220325195250.386071-2-richard.henderson@linaro.org>
+ <20220325195250.386071-5-richard.henderson@linaro.org>
+In-Reply-To: <20220325195250.386071-5-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 26 Mar 2022 12:50:42 +0000
-Message-ID: <CAFEAcA8gOoqMqQKMSVJsK5b1LB-5XMWYcyMfLtePK1TGnDkf2g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/8] linux-user/nios2: Hoist pc advance to the top of
- EXCP_TRAP
+Date: Sat, 26 Mar 2022 12:51:24 +0000
+Message-ID: <CAFEAcA8A7THKZhkxNVtYkQJW=EPn0=Y4b-78XOiuN1xtu+0mTA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] linux-user/nios2: Adjust error return
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,37 +89,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, 25 Mar 2022 at 19:52, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Note that this advance *should* be done by the translator, as
-> that's the pc value that's supposed to be generated by hardware.
-> However, that's a much larger change across sysemu as well.
->
-> In the meantime, produce the correct PC for any signals raised
-> by the trap instruction.
+> Follow the kernel assembly, which considers all negative
+> return values to be errors.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/nios2/cpu_loop.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-> index 1e93ef34e6..2768ae61dd 100644
-> --- a/linux-user/nios2/cpu_loop.c
-> +++ b/linux-user/nios2/cpu_loop.c
-> @@ -40,6 +40,12 @@ void cpu_loop(CPUNios2State *env)
->              break;
->
->          case EXCP_TRAP:
-> +            /*
-> +             * TODO: This advance should be done in the translator, as
-> +             * hardware produces an advanced pc as part of all exceptions.
-> +             */
-> +            env->regs[R_PC] += 4;
-> +
+>  linux-user/nios2/cpu_loop.c | 9 +++++++--
 
-You need to rewind again for the TRAP_BRKPT case, as the
-kernel does fp->ea -= 4 in breakpoint_c().
-
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
