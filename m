@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366F74E8165
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 15:20:05 +0100 (CET)
-Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027B04E813E
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 14:59:31 +0100 (CET)
+Received: from localhost ([::1]:43470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nY7Gu-0000oC-AR
-	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 10:20:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34888)
+	id 1nY6x0-0001r5-2i
+	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 09:59:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nY6UF-0002yS-GT
+ id 1nY6UG-0002yt-Ev
  for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:29:49 -0400
-Received: from [2607:f8b0:4864:20::22c] (port=33769
- helo=mail-oi1-x22c.google.com)
+Received: from [2001:4860:4864:20::2b] (port=43761
+ helo=mail-oa1-x2b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nY6UD-0005zH-VU
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:29:47 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id k10so11121997oia.0
- for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 06:29:45 -0700 (PDT)
+ id 1nY6UE-0005zS-TC
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:29:48 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-de2cb87f6aso10708639fac.10
+ for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 06:29:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7gCOVHpiUyMRDpJzcLkdT+SsxIqZ0YBDWLphLP/PUG0=;
- b=peStyffkPKLqPkMkPjdm7qjkhZ7J5paLvW4tPuX1EREkbJUD+JMsMPFc+S2ENBlV52
- TZCuTfPo+s7u2d8vlTtuVKQzgmxibuX1Ma6i2nk3Ss9PaBzfr6gJXsKkqRZyx+ssWWDw
- kZb23B3o851ZuDV1aiA9dHwzh3I2O9o5zYnRHPTqDee/yo9S6+DyZ0LNFF230dmGhAwL
- 8jggsj3d7FxWAqwVBaiyhZANgyu/NX7rZcrEurcjgEApDCFrgmmhf/SRATxhheoX2vAP
- AqJljjcKTZl/SkKp4dc9EpTRY+9kpJup9Bb2BORF8Zvtnp+ZDVceHpbVIpgcRLZRSR7o
- L2xA==
+ bh=aXHC8lLdzIN7Te/CRAft3NVYbrUQIuuG52xMXpJ9gWU=;
+ b=LunsatfujAtg43ZGgevckQNX/CqHKuYL6aBGWGKcvEyz+MoX5JaM7kUf+WTkIj5gx2
+ PE55uFgHMsL81mjt34cdgzxKJobhvCrDo0qUwjDMdPXG+MHW+gkVQintXOCF4eM7X8Rx
+ VE/WJ84uGfAtPG92LUqP2+P59n33MgcyKIy45jfQn02ITZMQ6/BiEtbE79uorvH1r7CV
+ naxJDtz78LKu+ksFWSWB5T7AeULZ++LgEfw3hkOKnbpoil6yarqW0KbhRcci1VsP1fI/
+ /oLHLAOqhjjZqvAWbta8A0tInF191bcnOva7lT03gawAWwJt9sjzDExj1lFMh0Sqo6r7
+ w5Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7gCOVHpiUyMRDpJzcLkdT+SsxIqZ0YBDWLphLP/PUG0=;
- b=YnDMs+x04XLFYeAuJobb8J7kJH4JrhY6SeRxtnXY51BC1ejdPb+fEwAr0gS1nM5oLz
- p1pRwnVrQ7bSz04XwYzoayzPYs9e3mlpg2rh6nJuAxj6RaWz8sbHtszKUGmWgYRcwIdd
- xSp0aDc86ld2Bq5TJrzmwNkzHPqWpZ2wPwqPvaf5uZuEPqwO0WGVLA+n8nm/3C0Xz3c5
- fGvOJ9Gn2qgiIFwnH15UhxE/xXUgeBvcs0SBmhzNT9luysuC8obO7CDKmwm0n0dClzxF
- HgHKDR3NJDc8K2algOf7K6wOUxemXQg8XHTP7dkDix8fuZ3UOwAu4lFIWv6OrLIzkyoU
- Yw4g==
-X-Gm-Message-State: AOAM5319VoWEL0Xa+Cp2nTDjYv+aAi/DwYPr1gNvEWxVPHyfFnpBvSdl
- bW/J6100pkdB+JZTsx+0dc61peW7EjBw4442
-X-Google-Smtp-Source: ABdhPJwadsXK3+gHo992BQ3PcIOtFkoxWSqWP2PYNS8rNaDK1CiqPs13cb72yudgvnvmtk9qE6wQmA==
-X-Received: by 2002:aca:aa55:0:b0:2ee:e8e8:cf80 with SMTP id
- t82-20020acaaa55000000b002eee8e8cf80mr12641473oie.64.1648301384947; 
- Sat, 26 Mar 2022 06:29:44 -0700 (PDT)
+ bh=aXHC8lLdzIN7Te/CRAft3NVYbrUQIuuG52xMXpJ9gWU=;
+ b=5aH8eP0frvlQytiAA8Vgoe0z69PJ0EW6NxJufK8egGDpdqbimf7rlezH9PP9hla2cg
+ SSy9ZVXvnOqFvNHjwvR0e4T4EwrMfRaUITgNW6MBSV/pxxV/9IKrkkauCSvDnyLKuCeK
+ aMZGyYaIHxa/OgC4Cs5IyobHcwFnGFMgJfVfyYs8f8WE48wVlwx/Fy1ORvNOzNLoPUmS
+ YXALvbQw84bwrj9WOZcSipnxyLx0JsGhl3ARmU3+JsqVhaA3Rh3xt9cNv1CFcypFj5ps
+ Uu99ZzmESL7dpMWWOeEvTnXGYTZJgzGP45ObcBAfweYliygT0/aI4bJUpahYBImwhVTX
+ zkrg==
+X-Gm-Message-State: AOAM532dYJ8F+xjm3PEkFenP54FkRlBXNPIacp2wmZGM2BSVTdSBINpe
+ 82N26aQ99063HfAs0NxPSyMF5tV4LZ2KrB2m
+X-Google-Smtp-Source: ABdhPJzRXnYZCQO403uBAwAvgNUDwavbMMWRN+XU4VSKbFiJW+brE2v834P4tWZuLd7cQS+BklUraw==
+X-Received: by 2002:a05:6871:28b:b0:de:282:34ef with SMTP id
+ i11-20020a056871028b00b000de028234efmr7076648oae.287.1648301385957; 
+ Sat, 26 Mar 2022 06:29:45 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- s24-20020a056808209800b002da3b9bf8e0sm4394509oiw.32.2022.03.26.06.29.44
+ s24-20020a056808209800b002da3b9bf8e0sm4394509oiw.32.2022.03.26.06.29.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Mar 2022 06:29:44 -0700 (PDT)
+ Sat, 26 Mar 2022 06:29:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 37/39] util/log: Rename QemuLogFile to RCUCloseFILE
-Date: Sat, 26 Mar 2022 07:25:32 -0600
-Message-Id: <20220326132534.543738-46-richard.henderson@linaro.org>
+Subject: [PATCH v2 38/39] util/log: Limit RCUCloseFILE to file closing
+Date: Sat, 26 Mar 2022 07:25:33 -0600
+Message-Id: <20220326132534.543738-47-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220326132534.543738-1-richard.henderson@linaro.org>
 References: <20220326132534.543738-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22c.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,119 +88,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s/QemuLogFile/RCUCloseFILE/
-s/qemu_logfile_free/rcu_close_file/
+Use FILE* for global_file.  We can perform an rcu_read on that
+just as easily as RCUCloseFILE*.  This simplifies a couple of
+places, where previously we required taking the rcu_read_lock
+simply to avoid racing to dereference RCUCloseFile->fd.
 
-Emphasize that this is only a carrier for passing a pointer
-to call_rcu for closing, and not the real logfile.
+Only allocate the RCUCloseFile prior to call_rcu.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- util/log.c | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+v2: Work around problem with qatomic_rcu_read vs struct _IO_FILE on musl.
+---
+ util/log.c | 68 +++++++++++++++++++++++++-----------------------------
+ 1 file changed, 32 insertions(+), 36 deletions(-)
 
 diff --git a/util/log.c b/util/log.c
-index 21da961d8d..eb6e85b2f0 100644
+index eb6e85b2f0..df0710720f 100644
 --- a/util/log.c
 +++ b/util/log.c
-@@ -29,15 +29,15 @@
- #include "qemu/rcu.h"
- 
- 
--typedef struct QemuLogFile {
-+typedef struct RCUCloseFILE {
-     struct rcu_head rcu;
-     FILE *fd;
--} QemuLogFile;
-+} RCUCloseFILE;
- 
+@@ -37,7 +37,7 @@ typedef struct RCUCloseFILE {
  /* Mutex covering the other global_* variables. */
  static QemuMutex global_mutex;
  static char *global_filename;
--static QemuLogFile *global_file;
-+static RCUCloseFILE *global_file;
+-static RCUCloseFILE *global_file;
++static FILE *global_file;
  
  int qemu_loglevel;
  static int log_append = 0;
-@@ -52,7 +52,7 @@ bool qemu_log_enabled(void)
+@@ -46,46 +46,44 @@ static GArray *debug_regions;
+ /* Returns true if qemu_log() will really write somewhere. */
+ bool qemu_log_enabled(void)
+ {
+-    return global_file != NULL;
++    return qatomic_read(&global_file) != NULL;
+ }
+ 
  /* Returns true if qemu_log() will write somewhere other than stderr. */
  bool qemu_log_separate(void)
  {
--    QemuLogFile *logfile;
-+    RCUCloseFILE *logfile;
-     bool res = false;
+-    RCUCloseFILE *logfile;
+-    bool res = false;
+-
+-    rcu_read_lock();
+-    logfile = qatomic_rcu_read(&global_file);
+-    if (logfile && logfile->fd != stderr) {
+-        res = true;
+-    }
+-    rcu_read_unlock();
+-    return res;
++    FILE *logfile = qatomic_read(&global_file);
++    return logfile && logfile != stderr;
+ }
  
-     rcu_read_lock();
-@@ -68,7 +68,7 @@ bool qemu_log_separate(void)
+ /* Lock/unlock output. */
  
  FILE *qemu_log_trylock(void)
  {
--    QemuLogFile *logfile;
-+    RCUCloseFILE *logfile;
+-    RCUCloseFILE *logfile;
++    FILE *logfile;
  
      rcu_read_lock();
-     logfile = qatomic_rcu_read(&global_file);
-@@ -108,14 +108,12 @@ static void __attribute__((__constructor__)) startup(void)
-     qemu_mutex_init(&global_mutex);
- }
- 
--static void qemu_logfile_free(QemuLogFile *logfile)
-+static void rcu_close_file(RCUCloseFILE *r)
- {
--    g_assert(logfile);
--
--    if (logfile->fd != stderr) {
--        fclose(logfile->fd);
-+    if (r->fd != stderr) {
-+        fclose(r->fd);
+-    logfile = qatomic_rcu_read(&global_file);
++    /*
++     * FIXME: typeof_strip_qual, as used by qatomic_rcu_read,
++     * does not work with pointers to undefined structures,
++     * such as we have with struct _IO_FILE and musl libc.
++     * Since all we want is a read of a pointer, cast to void**,
++     * which does work with typeof_strip_qual.
++     */
++    logfile = qatomic_rcu_read((void **)&global_file);
+     if (logfile) {
+-        qemu_flockfile(logfile->fd);
+-        return logfile->fd;
++        qemu_flockfile(logfile);
+     } else {
+         rcu_read_unlock();
+-        return NULL;
      }
--    g_free(logfile);
-+    g_free(r);
++    return logfile;
  }
  
- /* enable or disable low levels log */
-@@ -124,7 +122,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+-void qemu_log_unlock(FILE *fd)
++void qemu_log_unlock(FILE *logfile)
+ {
+-    if (fd) {
+-        fflush(fd);
+-        qemu_funlockfile(fd);
++    if (logfile) {
++        fflush(logfile);
++        qemu_funlockfile(logfile);
+         rcu_read_unlock();
+     }
+ }
+@@ -110,9 +108,7 @@ static void __attribute__((__constructor__)) startup(void)
+ 
+ static void rcu_close_file(RCUCloseFILE *r)
+ {
+-    if (r->fd != stderr) {
+-        fclose(r->fd);
+-    }
++    fclose(r->fd);
+     g_free(r);
+ }
+ 
+@@ -122,7 +118,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
  {
      bool need_to_open_file;
      bool daemonized;
--    QemuLogFile *logfile;
-+    RCUCloseFILE *logfile;
+-    RCUCloseFILE *logfile;
++    FILE *logfile;
  
      QEMU_LOCK_GUARD(&global_mutex);
      logfile = global_file;
-@@ -178,7 +176,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+@@ -176,37 +172,37 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
  
      if (logfile && (!need_to_open_file || changed_name)) {
          qatomic_rcu_set(&global_file, NULL);
--        call_rcu(logfile, qemu_logfile_free, rcu);
-+        call_rcu(logfile, rcu_close_file, rcu);
+-        call_rcu(logfile, rcu_close_file, rcu);
++        if (logfile != stderr) {
++            RCUCloseFILE *r = g_new0(RCUCloseFILE, 1);
++            r->fd = logfile;
++            call_rcu(r, rcu_close_file, rcu);
++        }
          logfile = NULL;
      }
  
-@@ -196,7 +194,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+     if (!logfile && need_to_open_file) {
+-        FILE *fd;
+-
+         if (filename) {
+-            fd = fopen(filename, log_append ? "a" : "w");
+-            if (!fd) {
++            logfile = fopen(filename, log_append ? "a" : "w");
++            if (!logfile) {
+                 error_setg_errno(errp, errno, "Error opening logfile %s",
+                                  filename);
+                 return false;
+             }
+             /* In case we are a daemon redirect stderr to logfile */
              if (daemonized) {
-                 dup2(fileno(fd), STDERR_FILENO);
-                 fclose(fd);
--                /* This will skip closing logfile in qemu_logfile_free. */
-+                /* This will skip closing logfile in rcu_close_file. */
-                 fd = stderr;
+-                dup2(fileno(fd), STDERR_FILENO);
+-                fclose(fd);
++                dup2(fileno(logfile), STDERR_FILENO);
++                fclose(logfile);
+                 /* This will skip closing logfile in rcu_close_file. */
+-                fd = stderr;
++                logfile = stderr;
              }
          } else {
-@@ -207,7 +205,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+             /* Default to stderr if no log file specified */
+             assert(!daemonized);
+-            fd = stderr;
++            logfile = stderr;
+         }
  
          log_append = 1;
  
--        logfile = g_new0(QemuLogFile, 1);
-+        logfile = g_new0(RCUCloseFILE, 1);
-         logfile->fd = fd;
+-        logfile = g_new0(RCUCloseFILE, 1);
+-        logfile->fd = fd;
          qatomic_rcu_set(&global_file, logfile);
      }
+     return true;
 -- 
 2.25.1
 
