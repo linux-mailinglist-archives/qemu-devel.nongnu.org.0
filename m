@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77D04E81C6
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 16:29:29 +0100 (CET)
-Received: from localhost ([::1]:59922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91AD94E81CF
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 16:51:00 +0100 (CET)
+Received: from localhost ([::1]:35530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nY8M4-0005FH-5v
-	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 11:29:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49754)
+	id 1nY8gr-0000Sq-FE
+	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 11:50:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1nY8KS-0004Xs-9X
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 11:27:48 -0400
-Received: from [2607:f8b0:4864:20::62e] (port=44677
- helo=mail-pl1-x62e.google.com)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nY8fp-00089J-6W
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 11:49:53 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:45262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1nY8KQ-0006Wr-Is
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 11:27:47 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id j8so874846pll.11
- for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 08:27:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=c7mBq2i1euwpzc6xB1zm4mME//EFOh6WPDYVo5Lq6HE=;
- b=CTlYC8x4wWFfBxlZazt0ia6v0cPHSwmIyrXETelsnldbAMEmjkSddgdm/stLZRTUlK
- vkNLu4yi+ub1W8xlMLgU4TWTchFxoVpfuPdUFy64q9jZeQ4+UVeLPPJyV5sRyipmkjFH
- kX9y9ioHMBThFFK+pBBAATwhlLmNFCS22EkkqzJwOIrOjFx8Zbii9EseyJifwa3+fs0x
- oaHnhbFnazQBlos26BU/FNRVkkCCJi9kjjeY8h+EiIS97KnAWoh4Lz0tXg23jBj5abbQ
- cMR8rmc/NNXB55fZvk+PdI4HebIcBW9D6eLolGqZmsgciNsgtWbxO78ouf831z7iXjSR
- o/aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=c7mBq2i1euwpzc6xB1zm4mME//EFOh6WPDYVo5Lq6HE=;
- b=Df8t2TD3tfYZ0v/qBwFLxk71aXGJKx+HhlGOyOhCl5ibc3zi0SJrYPEJjCwX4bV6na
- Bwz8B6nck+1S63N1cmOUCHBNMJ9RbGSRKFbtAjqXS0vgEi4r4hUhlsiC2XGjZDxj7zj3
- ZlWj0+sXJDEt0RFPfDzVyKviD3cPJI0s1QZQ7CbjvrR1qA//BWfPF0FYtrj4qb+Nm/7+
- 9xqoTaRWCjQE0uVNRrP/ScFJ3A4GKChPjOSURKHiFKG4jqUzRcxPhQCOkZ2MIbQUkF73
- qQ4KYICok2Pnc5/F583oqqqJr1HQrAqPQD/e2Sw528xGjEKlpNJjIBV019IpBo9gNz6+
- lPXA==
-X-Gm-Message-State: AOAM533dGZZmISAhWSp+13nn7bnHnpm2NTiFzpcQcmWFChCJkQTWE2JY
- rBBmb9LOSYV+sdgXvswuYL7lo1mp2knB8QPgInE=
-X-Google-Smtp-Source: ABdhPJxOQCEpj9afiW6E9GGxoPIQ/GD+a92C15VubWZ1rSkQh6thNNaLLxWhE/+uoG+NL1+KI440I2jxzgt/qOJ+qzU=
-X-Received: by 2002:a17:902:ccd1:b0:154:359:7e17 with SMTP id
- z17-20020a170902ccd100b0015403597e17mr17374071ple.42.1648308464723; Sat, 26
- Mar 2022 08:27:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nY8fn-00010T-An
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 11:49:52 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 762D0210DD;
+ Sat, 26 Mar 2022 15:49:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1648309787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rhk7287wKomC14IsDB4OEKvj55Uqal5J+f3dCUal/Hw=;
+ b=iJM2LnzCd/bc3yUjA2w+cTDD14mIpcOOnbsTUCH6q/RorvTLWVElljU9oN5tPbd+icq/hK
+ 0XWwD2/qOb0uW1TPo1ET4FJ+3flPbuCWjOtcQwKGSKzjXdg84OXjSQIbp8J5C3S1U9v+xU
+ VHlaG3BgaRwsStdm5z9Aej2h8Jlc9Og=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1648309787;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rhk7287wKomC14IsDB4OEKvj55Uqal5J+f3dCUal/Hw=;
+ b=UG7QBSuXtWhKoX3Q29QNhKHN0ygQHZ9T9+vruoyk2JjnupwojFwiqP1uK2VKtpUHqUFZHC
+ 5MV6fNv5oT6HzXDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 26F88139F9;
+ Sat, 26 Mar 2022 15:49:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id PigfBxs2P2IyFwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Sat, 26 Mar 2022 15:49:47 +0000
+Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
+ performance
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <Yi94mQUfrxMVbiLM@redhat.com>
+ <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de> <Yi+ACeaZ+oXTVYjc@redhat.com>
+ <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
+ <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
+ <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
+ <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de> <YjNNqzb7eBBwMFJN@work-vm>
+ <737974fa-905c-d171-05b0-ec4df42bc762@suse.de> <Yj2nh1LRZ54BXuds@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <47af35ec-2ca8-26ae-f4e4-d81f18f2a05b@suse.de>
+Date: Sat, 26 Mar 2022 16:49:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20220325200438.2556381-1-jsnow@redhat.com>
- <20220325200438.2556381-5-jsnow@redhat.com>
-In-Reply-To: <20220325200438.2556381-5-jsnow@redhat.com>
-From: "Niteesh G. S." <niteesh.gs@gmail.com>
-Date: Sat, 26 Mar 2022 20:57:21 +0530
-Message-ID: <CAN6ztm9yTfAeM+2ZR3jVQu7LbX7_2ybQQfViYtN7oXcHtbsyhQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] python/aqmp-tui: relicense as LGPLv2+
-To: John Snow <jsnow@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000008528fe05db20b8c9"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=niteesh.gs@gmail.com; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <Yj2nh1LRZ54BXuds@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,154 +91,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: libvir-list@redhat.com, andrea.righi@canonical.com,
+ Jiri Denemark <jdenemar@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008528fe05db20b8c9
-Content-Type: text/plain; charset="UTF-8"
+On 3/25/22 12:29 PM, Daniel P. Berrangé wrote:
+> On Fri, Mar 18, 2022 at 02:34:29PM +0100, Claudio Fontana wrote:
+>> On 3/17/22 4:03 PM, Dr. David Alan Gilbert wrote:
+>>> * Claudio Fontana (cfontana@suse.de) wrote:
+>>>> On 3/17/22 2:41 PM, Claudio Fontana wrote:
+>>>>> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
+>>>>>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
+>>>>>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
+>>>>>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
+>>>>>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
+>>>>>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
+>>>>>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
+>>>>>>>>>>>> the first user is the qemu driver,
+>>>>>>>>>>>>
+>>>>>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
+>>>>>>>>>>>>
+>>>>>>>>>>>> This improves the situation by 400%.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
+>>>>>>>>>>>> compared with direct qemu migration to a nc socket to a file.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>>>>>>>>>> ---
+>>>>>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
+>>>>>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
+>>>>>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
+>>>>>>>>>>>>  src/util/virfile.h        |  1 +
+>>>>>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
+>>>>>>>>>>>>
+>>>>>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
+>>>>>>>>>>>> so you can find the discussion about this in qemu-devel:
+>>>>>>>>>>>>
+>>>>>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
+>>>>>>>>>>>>
+>>>>>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
+>>>>>>
+>>>>>>
+>>>>>>> Current results show these experimental averages maximum throughput
+>>>>>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
+>>>>>>> "query-migrate", tests repeated 5 times for each).
+>>>>>>> VM Size is 60G, most of the memory effectively touched before migration,
+>>>>>>> through user application allocating and touching all memory with
+>>>>>>> pseudorandom data.
+>>>>>>>
+>>>>>>> 64K:     5200 Mbps (current situation)
+>>>>>>> 128K:    5800 Mbps
+>>>>>>> 256K:   20900 Mbps
+>>>>>>> 512K:   21600 Mbps
+>>>>>>> 1M:     22800 Mbps
+>>>>>>> 2M:     22800 Mbps
+>>>>>>> 4M:     22400 Mbps
+>>>>>>> 8M:     22500 Mbps
+>>>>>>> 16M:    22800 Mbps
+>>>>>>> 32M:    22900 Mbps
+>>>>>>> 64M:    22900 Mbps
+>>>>>>> 128M:   22800 Mbps
+>>>>>>>
+>>>>>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
+>>>>>>
+>>>>>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
+>>>>>> libvirt attempt to raise the pipe limit to 1 MB by default, but
+>>>>>> not try to go higher.
+>>>>>>
+>>>>>>> As for the theoretical limit for the libvirt architecture,
+>>>>>>> I ran a qemu migration directly issuing the appropriate QMP
+>>>>>>> commands, setting the same migration parameters as per libvirt,
+>>>>>>> and then migrating to a socket netcatted to /dev/null via
+>>>>>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
+>>>>>>>
+>>>>>>> QMP:    37000 Mbps
+>>>>>>
+>>>>>>> So although the Pipe size improves things (in particular the
+>>>>>>> large jump is for the 256K size, although 1M seems a very good value),
+>>>>>>> there is still a second bottleneck in there somewhere that
+>>>>>>> accounts for a loss of ~14200 Mbps in throughput.
+>>>>
+>>>>
+>>>> Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
+>>>> and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
+>>>>
+>>>> ~50000 mbps qemu to netcat socket to /dev/null
+>>>> ~35500 mbps virsh save to /dev/null
+>>>>
+>>>> Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
+>>>
+>>> It might be closer to RAM or cache bandwidth limited though; for an extra copy.
+>>
+>> I was thinking about sendfile(2) in iohelper, but that probably
+>> can't work as the input fd is a socket, I am getting EINVAL.
+> 
+> Yep, sendfile() requires the input to be a mmapable FD,
+> and the output to be a socket.
+> 
+> Try splice() instead  which merely requires 1 end to be a
+> pipe, and the other end can be any FD afaik.
+> 
+> With regards,
+> Daniel
+> 
 
-Hii John,
+I did try splice(), but performance is worse by around 500%.
 
-On Sat, Mar 26, 2022 at 1:34 AM John Snow <jsnow@redhat.com> wrote:
+It also fails with EINVAL when trying to use it in combination with O_DIRECT.
 
-> aqmp-tui, the async QMP text user interface tool, is presently licensed
-> as GPLv2+. I intend to include this tool as an add-on to an LGPLv2+
-> library package hosted on PyPI.org. I've selected LGPLv2+ to maximize
-> compatibility with other licenses while retaining a copyleft license.
->
-> To keep licensing matters simple, I'd like to relicense this tool as
-> LGPLv2+ as well in order to keep the resultant license of the hosted
-> release files simple -- even if library users won't "link against" this
-> command line tool.
->
-> Therefore, I am asking permission to loosen the license.
->
-> Niteesh is effectively the sole author of this code, with scattered
-> lines from myself.
->
-> CC: G S Niteesh Babu <niteesh.gs@gmail.com>
-> Signed-off-by: John Snow <jsnow@redhat.com>
->
-   Reviewed-by: G S Niteesh Babu <niteesh.gs@gmail.com>
+Tried larger and smaller buffers, flags like SPLICE_F_MORE an SPLICE_F_MOVE in any combination; no change, just awful performance.
 
->
-> ---
->
-> Niteesh, if you agree to loosening the license on your work, you can
-> reply with a Reviewed-by line to let us know that you agree to the
-> change. If you disagree, an explicit 'nack' would be helpful.
->
-> There is no obligation for you to agree to this change, but it'd make
-> things easier for me if you did.
->
+Here is the code:
+
+#ifdef __linux__
++static ssize_t safesplice(int fdin, int fdout, size_t todo)
++{
++    unsigned int flags = SPLICE_F_MOVE | SPLICE_F_MORE;
++    ssize_t ncopied = 0;
++
++    while (todo > 0) {
++        ssize_t r = splice(fdin, NULL, fdout, NULL, todo, flags);
++        if (r < 0 && errno == EINTR)
++            continue;
++        if (r < 0)
++            return r;
++        if (r == 0)
++            return ncopied;
++        todo -= r;
++        ncopied += r;
++    }
++    return ncopied;
++}
++
++static ssize_t runIOCopy(const struct runIOParams p)
++{
++    size_t len = 1024 * 1024;
++    ssize_t total = 0;
++
++    while (1) {
++        ssize_t got = safesplice(p.fdin, p.fdout, len);
++        if (got < 0)
++            return -1;
++        if (got == 0)
++            break;
++
++        total += got;
++
++        /* handle last write truncate in direct case */
++        if (got < len && p.isDirect && p.isWrite && !p.isBlockDev) {
++            if (ftruncate(p.fdout, total) < 0) {
++                return -4;
++            }
++            break;
++        }
++    }
++    return total;
++}
++
++#endif
 
 
-> Thanks,
-> --js
->
-> ---
->  python/qemu/aqmp/aqmp_tui.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
-> index f1e926dd75..946ba9af24 100644
-> --- a/python/qemu/aqmp/aqmp_tui.py
-> +++ b/python/qemu/aqmp/aqmp_tui.py
-> @@ -3,7 +3,7 @@
->  # Authors:
->  #  Niteesh Babu G S <niteesh.gs@gmail.com>
->  #
-> -# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# This work is licensed under the terms of the GNU LGPL, version 2 or
->  # later.  See the COPYING file in the top-level directory.
->  """
->  AQMP TUI
-> --
-> 2.34.1
->
->
+Any ideas welcome,
 
---0000000000008528fe05db20b8c9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Claudio
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">Hii John,<br></div></div><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">On Sat, Mar 26, 2022 at 1:34 AM John Snow =
-&lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">aqmp-tui, the async=
- QMP text user interface tool, is presently licensed<br>
-as GPLv2+. I intend to include this tool as an add-on to an LGPLv2+<br>
-library package hosted on PyPI.org. I&#39;ve selected LGPLv2+ to maximize<b=
-r>
-compatibility with other licenses while retaining a copyleft license.<br>
-<br>
-To keep licensing matters simple, I&#39;d like to relicense this tool as<br=
->
-LGPLv2+ as well in order to keep the resultant license of the hosted<br>
-release files simple -- even if library users won&#39;t &quot;link against&=
-quot; this<br>
-command line tool.<br>
-<br>
-Therefore, I am asking permission to loosen the license.<br>
-<br>
-Niteesh is effectively the sole author of this code, with scattered<br>
-lines from myself.<br>
-<br>
-CC: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com" target=3D"=
-_blank">niteesh.gs@gmail.com</a>&gt;<br>
-Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"=
-_blank">jsnow@redhat.com</a>&gt;<br></blockquote><div><span class=3D"gmail_=
-default" style=3D"font-size:small">=C2=A0=C2=A0 <span class=3D"gmail_defaul=
-t" style=3D"font-size:small"></span>Reviewed-by: G S Niteesh</span><span cl=
-ass=3D"gmail_default" style=3D"font-size:small"></span><span class=3D"gmail=
-_default" style=3D"font-size:small"> Babu &lt;<a href=3D"mailto:niteesh.gs@=
-gmail.com">niteesh.gs@gmail.com</a>&gt;</span>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
----<br>
-<br>
-Niteesh, if you agree to loosening the license on your work, you can<br>
-reply with a <span class=3D"gmail_default" style=3D"font-size:small"></span=
->Reviewed-by line to let us know that you agree to the<br>
-change. If you disagree, an explicit &#39;nack&#39; would be helpful.<br>
-<br>
-There is no obligation for you to agree to this change, but it&#39;d make<b=
-r>
-things easier for me if you did.<br></blockquote><div>=C2=A0</div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">
-Thanks,<br>
---js<br>
-<br>
----<br>
-=C2=A0python/qemu/aqmp/aqmp_tui.py | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py<br=
->
-index f1e926dd75..946ba9af24 100644<br>
---- a/python/qemu/aqmp/aqmp_tui.py<br>
-+++ b/python/qemu/aqmp/aqmp_tui.py<br>
-@@ -3,7 +3,7 @@<br>
-=C2=A0# Authors:<br>
-=C2=A0#=C2=A0 Niteesh Babu G S &lt;<a href=3D"mailto:niteesh.gs@gmail.com" =
-target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
-=C2=A0#<br>
--# This work is licensed under the terms of the GNU GPL, version 2 or<br>
-+# This work is licensed under the terms of the GNU LGPL, version 2 or<br>
-=C2=A0# later.=C2=A0 See the COPYING file in the top-level directory.<br>
-=C2=A0&quot;&quot;&quot;<br>
-=C2=A0AQMP TUI<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div></div>
-
---0000000000008528fe05db20b8c9--
 
