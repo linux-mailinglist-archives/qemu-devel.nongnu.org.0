@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91AD94E81CF
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 16:51:00 +0100 (CET)
-Received: from localhost ([::1]:35530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E58F4E8244
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 18:02:24 +0100 (CET)
+Received: from localhost ([::1]:34404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nY8gr-0000Sq-FE
-	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 11:50:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52732)
+	id 1nY9ny-0005X0-UJ
+	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 13:02:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nY8fp-00089J-6W
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 11:49:53 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:45262)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nY9kj-0003ra-NK; Sat, 26 Mar 2022 12:59:01 -0400
+Received: from [2a00:1450:4864:20::52c] (port=46997
+ helo=mail-ed1-x52c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nY8fn-00010T-An
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 11:49:52 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 762D0210DD;
- Sat, 26 Mar 2022 15:49:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1648309787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rhk7287wKomC14IsDB4OEKvj55Uqal5J+f3dCUal/Hw=;
- b=iJM2LnzCd/bc3yUjA2w+cTDD14mIpcOOnbsTUCH6q/RorvTLWVElljU9oN5tPbd+icq/hK
- 0XWwD2/qOb0uW1TPo1ET4FJ+3flPbuCWjOtcQwKGSKzjXdg84OXjSQIbp8J5C3S1U9v+xU
- VHlaG3BgaRwsStdm5z9Aej2h8Jlc9Og=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1648309787;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rhk7287wKomC14IsDB4OEKvj55Uqal5J+f3dCUal/Hw=;
- b=UG7QBSuXtWhKoX3Q29QNhKHN0ygQHZ9T9+vruoyk2JjnupwojFwiqP1uK2VKtpUHqUFZHC
- 5MV6fNv5oT6HzXDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 26F88139F9;
- Sat, 26 Mar 2022 15:49:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id PigfBxs2P2IyFwAAMHmgww
- (envelope-from <cfontana@suse.de>); Sat, 26 Mar 2022 15:49:47 +0000
-Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
- performance
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <Yi94mQUfrxMVbiLM@redhat.com>
- <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de> <Yi+ACeaZ+oXTVYjc@redhat.com>
- <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
- <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
- <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
- <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de> <YjNNqzb7eBBwMFJN@work-vm>
- <737974fa-905c-d171-05b0-ec4df42bc762@suse.de> <Yj2nh1LRZ54BXuds@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <47af35ec-2ca8-26ae-f4e4-d81f18f2a05b@suse.de>
-Date: Sat, 26 Mar 2022 16:49:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nY9ki-0001tv-9s; Sat, 26 Mar 2022 12:59:01 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id z92so12403847ede.13;
+ Sat, 26 Mar 2022 09:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mj8A0RLRNIdvAuF8hgtnInpYRyCPwexDk40qwfPOsBQ=;
+ b=VudIedkzcmZpCKFNPLWeC9meXXGEiW8avS4VNLX8jIVMq6xJDK47smSxPdh7j1zXKa
+ aE8u3AMTLoygZbgNVKE7RRWsBh28Afpn/qsozjTQosph9P1r1uFeMtXmNnlXjdJv3eGV
+ qAWGYjTrg5KKGMxgZXQaSYn9FPoqA6svm8HJp8Qd2hTulf30q++vJQ7xfxz8MuU3Y8mE
+ vXMVhAwxhhx8xB+7LcWh+DEAdj4myHRulQv1PyP1VdLRdWvn+aWphw/xBXmJ5NFmT9NX
+ W/sDySyaTmaoUgty/l9xmyEK1S//42X60Ni/3TrLwwoU34EwKNaSARtCtO/eN1vqoi6V
+ /UEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mj8A0RLRNIdvAuF8hgtnInpYRyCPwexDk40qwfPOsBQ=;
+ b=cnxqLuvbXKtJko16a64L/r3VY4bYRGSjc9Nu37ODPhbKJZ93GqAaYfJCkaT5L6I5dH
+ +Qy0RxwG9vxJTEvllrWZxcZQMF2yReGQev6Mn2agI8bW7x2Fc0I0G0ZGs82XRaEf6b1u
+ FYtA0a8ODGPGquIFWe0y6clo4znsTzDj3p/Lc+l36vAQuXGuk2zClJOWZnj/AFRqP9Qs
+ 2G3qW+aZn4moSqEu8d6cfaFzv46rf/Ui477TtnIEXxNCUq70Nw3b0a7j9qngsJgJZNA8
+ ffvpVu1Z8+de7j9QedP+NHKkoSdIkuFNPvVcKnX4MNFFr42unMHvd+DWf+phGQG6N6VO
+ L2dA==
+X-Gm-Message-State: AOAM531BM2fqsPmeJPU29RLy7vVdax24H2xLgQkRbugggmLPYSCEdzoQ
+ UY8kjl9YBi+TFv3nwR+8aP+Y5Eoox2w=
+X-Google-Smtp-Source: ABdhPJwpaKpN2SLviNqSkrKGGaoo27iFbtmd02Z+9nBx9SBKgvE51utb8uiM2TLaZgy5tGSyyJNNOQ==
+X-Received: by 2002:a05:6402:1906:b0:418:ff14:62b8 with SMTP id
+ e6-20020a056402190600b00418ff1462b8mr5616206edz.40.1648313937680; 
+ Sat, 26 Mar 2022 09:58:57 -0700 (PDT)
+Received: from localhost.localdomain
+ (dynamic-089-012-231-111.89.12.pool.telefonica.de. [89.12.231.111])
+ by smtp.gmail.com with ESMTPSA id
+ x12-20020a50d9cc000000b0040f70fe78f3sm4515930edj.36.2022.03.26.09.58.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Mar 2022 09:58:57 -0700 (PDT)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] Confine igd-passthrough-isa-bridge to XEN
+Date: Sat, 26 Mar 2022 17:58:22 +0100
+Message-Id: <20220326165825.30794-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <Yj2nh1LRZ54BXuds@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,171 +85,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, andrea.righi@canonical.com,
- Jiri Denemark <jdenemar@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/22 12:29 PM, Daniel P. Berrangé wrote:
-> On Fri, Mar 18, 2022 at 02:34:29PM +0100, Claudio Fontana wrote:
->> On 3/17/22 4:03 PM, Dr. David Alan Gilbert wrote:
->>> * Claudio Fontana (cfontana@suse.de) wrote:
->>>> On 3/17/22 2:41 PM, Claudio Fontana wrote:
->>>>> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
->>>>>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
->>>>>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
->>>>>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
->>>>>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
->>>>>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
->>>>>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
->>>>>>>>>>>> the first user is the qemu driver,
->>>>>>>>>>>>
->>>>>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
->>>>>>>>>>>>
->>>>>>>>>>>> This improves the situation by 400%.
->>>>>>>>>>>>
->>>>>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
->>>>>>>>>>>> compared with direct qemu migration to a nc socket to a file.
->>>>>>>>>>>>
->>>>>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>>>>>>>>>> ---
->>>>>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
->>>>>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
->>>>>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
->>>>>>>>>>>>  src/util/virfile.h        |  1 +
->>>>>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
->>>>>>>>>>>>
->>>>>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
->>>>>>>>>>>> so you can find the discussion about this in qemu-devel:
->>>>>>>>>>>>
->>>>>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
->>>>>>>>>>>>
->>>>>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
->>>>>>
->>>>>>
->>>>>>> Current results show these experimental averages maximum throughput
->>>>>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
->>>>>>> "query-migrate", tests repeated 5 times for each).
->>>>>>> VM Size is 60G, most of the memory effectively touched before migration,
->>>>>>> through user application allocating and touching all memory with
->>>>>>> pseudorandom data.
->>>>>>>
->>>>>>> 64K:     5200 Mbps (current situation)
->>>>>>> 128K:    5800 Mbps
->>>>>>> 256K:   20900 Mbps
->>>>>>> 512K:   21600 Mbps
->>>>>>> 1M:     22800 Mbps
->>>>>>> 2M:     22800 Mbps
->>>>>>> 4M:     22400 Mbps
->>>>>>> 8M:     22500 Mbps
->>>>>>> 16M:    22800 Mbps
->>>>>>> 32M:    22900 Mbps
->>>>>>> 64M:    22900 Mbps
->>>>>>> 128M:   22800 Mbps
->>>>>>>
->>>>>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
->>>>>>
->>>>>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
->>>>>> libvirt attempt to raise the pipe limit to 1 MB by default, but
->>>>>> not try to go higher.
->>>>>>
->>>>>>> As for the theoretical limit for the libvirt architecture,
->>>>>>> I ran a qemu migration directly issuing the appropriate QMP
->>>>>>> commands, setting the same migration parameters as per libvirt,
->>>>>>> and then migrating to a socket netcatted to /dev/null via
->>>>>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
->>>>>>>
->>>>>>> QMP:    37000 Mbps
->>>>>>
->>>>>>> So although the Pipe size improves things (in particular the
->>>>>>> large jump is for the 256K size, although 1M seems a very good value),
->>>>>>> there is still a second bottleneck in there somewhere that
->>>>>>> accounts for a loss of ~14200 Mbps in throughput.
->>>>
->>>>
->>>> Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
->>>> and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
->>>>
->>>> ~50000 mbps qemu to netcat socket to /dev/null
->>>> ~35500 mbps virsh save to /dev/null
->>>>
->>>> Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
->>>
->>> It might be closer to RAM or cache bandwidth limited though; for an extra copy.
->>
->> I was thinking about sendfile(2) in iohelper, but that probably
->> can't work as the input fd is a socket, I am getting EINVAL.
-> 
-> Yep, sendfile() requires the input to be a mmapable FD,
-> and the output to be a socket.
-> 
-> Try splice() instead  which merely requires 1 end to be a
-> pipe, and the other end can be any FD afaik.
-> 
-> With regards,
-> Daniel
-> 
+This patch series changes the "igd-passthrough-isa-bridge" device only to be
+provided if CONFIG_XEN_PCI_PASSTHROUGH is true. With it xen_pt gets decoupled
+from i386/pc.
 
-I did try splice(), but performance is worse by around 500%.
+Bernhard Beschow (2):
+  hw/xen/xen_pt: Confine igd-passthrough-isa-bridge to XEN
+  hw/xen/xen_pt: Resolve igd_passthrough_isa_bridge_create() indirection
 
-It also fails with EINVAL when trying to use it in combination with O_DIRECT.
+ hw/i386/pc_piix.c        | 118 -------------------------------------
+ hw/xen/xen_pt.c          |  12 ----
+ hw/xen/xen_pt.h          |   2 +
+ hw/xen/xen_pt_graphics.c | 122 +++++++++++++++++++++++++++++++++++++++
+ include/hw/i386/pc.h     |   1 -
+ 5 files changed, 124 insertions(+), 131 deletions(-)
 
-Tried larger and smaller buffers, flags like SPLICE_F_MORE an SPLICE_F_MOVE in any combination; no change, just awful performance.
-
-Here is the code:
-
-#ifdef __linux__
-+static ssize_t safesplice(int fdin, int fdout, size_t todo)
-+{
-+    unsigned int flags = SPLICE_F_MOVE | SPLICE_F_MORE;
-+    ssize_t ncopied = 0;
-+
-+    while (todo > 0) {
-+        ssize_t r = splice(fdin, NULL, fdout, NULL, todo, flags);
-+        if (r < 0 && errno == EINTR)
-+            continue;
-+        if (r < 0)
-+            return r;
-+        if (r == 0)
-+            return ncopied;
-+        todo -= r;
-+        ncopied += r;
-+    }
-+    return ncopied;
-+}
-+
-+static ssize_t runIOCopy(const struct runIOParams p)
-+{
-+    size_t len = 1024 * 1024;
-+    ssize_t total = 0;
-+
-+    while (1) {
-+        ssize_t got = safesplice(p.fdin, p.fdout, len);
-+        if (got < 0)
-+            return -1;
-+        if (got == 0)
-+            break;
-+
-+        total += got;
-+
-+        /* handle last write truncate in direct case */
-+        if (got < len && p.isDirect && p.isWrite && !p.isBlockDev) {
-+            if (ftruncate(p.fdout, total) < 0) {
-+                return -4;
-+            }
-+            break;
-+        }
-+    }
-+    return total;
-+}
-+
-+#endif
-
-
-Any ideas welcome,
-
-Claudio
+-- 
+2.35.1
 
 
