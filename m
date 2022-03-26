@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206364E811D
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 14:36:06 +0100 (CET)
-Received: from localhost ([::1]:54672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F338D4E8114
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 14:31:50 +0100 (CET)
+Received: from localhost ([::1]:40902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nY6aL-0004Um-7D
-	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 09:36:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33760)
+	id 1nY6WE-0003jH-0F
+	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 09:31:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nY6QN-0006ka-6a
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:25:47 -0400
-Received: from [2001:4860:4864:20::2e] (port=39772
- helo=mail-oa1-x2e.google.com)
+ id 1nY6QS-0006oA-8s
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:25:52 -0400
+Received: from [2001:4860:4864:20::2a] (port=40494
+ helo=mail-oa1-x2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nY6QL-0005Kk-Kz
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:25:46 -0400
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-deb9295679so3475175fac.6
- for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 06:25:45 -0700 (PDT)
+ id 1nY6QM-0005Ky-TZ
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:25:48 -0400
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-d6e29fb3d7so10738185fac.7
+ for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 06:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Pd5+yLliVhBXIEFxiOo2I5aLF4BKy2rSqhZkhW/VVIE=;
- b=NwZVntCms6Y0SeW9amg3ctADWKd0YF/hKhl4W/6Y2id4PRaMkkBk9u/YgXLSBkJYaF
- LulxTIVoeHeIDr1fZO+nyaCnxtoB5G0A8GgxZgChl184+jZeS6U0202Qh/PiZQszM8DV
- UFCwUnHRIk8taYfEzNJmicPBZGkO7zzCUpS3O/m3vFYhO7mGpRDXToOlUcPy8uYllTDb
- inbOS9BJjqBe8J7rjw/3S5FakdwzpzAd6g5y/4w2bQaN12wMFFXxcaVrOW5LwyuiZ4tF
- JRXZrfDZybTqy7+KYpAr+lD/8KnceqT9QHA+M746JFv429nFn5ZC14VrdpNNt9SgvNeq
- cPCg==
+ bh=gySRxuYYwrwZO32brZVPz3NY1et5tLsOdakLrHT0vtA=;
+ b=Y/wzKajXr3cj1SxddHduccwLyYID/tL3C4uIlWReUbPpz7UExtCrJXQ33nFWzuhZaC
+ +kcrDYW3EQhCHTWuN0qyv26YR8LvByAarhvXWyI8a0s46dVcv/Ybxp6v0y86Id60PSlV
+ RMFpT8YkkwUA1q+t9OB3Cn+AIrbd7NBm5YNzvBKXFj3Z/T+z8e6v/s3wlShM7aoZknig
+ F0HFs7OdhapA6/6aWrI3CnT7tLNYs4CUHaWGtrGKC+FqxgbUmFc9yHrQSA9XSWzyB1dp
+ 5UNSdBcbuvSmWj9smosJ84hiqECy4k7APgzmC4HdWglmxhtaF0PXFP41voatzW4mrveA
+ Q9tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Pd5+yLliVhBXIEFxiOo2I5aLF4BKy2rSqhZkhW/VVIE=;
- b=OCsg9AaKpyDV39r9D+xqfjgQDagdtiLOxlRs7h9dzB1yatJ7F6wzC9SoWImLIkI8Ut
- ZUwgMIrAqLvupqdwSs7eq2ItBLA1l8dyMp5FjYVO1dZjCjN/ZFJBQuAi0c4Ir0zEHXS/
- Ue8BrrXpWGKyTrljOsecWVzVDH6zQsAceOeOp0MCGDlmOO1iMIvx2xZUiYjMXyUMp/Oh
- 0g+RIhUjbUpva5f3LSmZEMEaZ9kA10qwFyJX2MWPG+taT1HfTQplsxEHbAuftToQSNTZ
- TwIc24khbAK8cUg13NSn01gbDwgB+jy54FJaynghJ5vLnXjnMrKoqcg2BbRxPjuj41LB
- Ulsg==
-X-Gm-Message-State: AOAM530cIL4xVlwtfjul6nqDZ9mMDIEdLe9eIOL4w0IWbgV12cHQMux5
- 1W5/My0e4UxHrXcsY0/mUx7xUsOfBb9WUS0W
-X-Google-Smtp-Source: ABdhPJw57EEAaGAoIO348alh84Jrms1TYZyhBpM6Gs7zeHsO7T5i2zoTSGNAos4ZepDhdo7utYkISQ==
-X-Received: by 2002:a05:6870:9720:b0:de:8a16:e27 with SMTP id
- n32-20020a056870972000b000de8a160e27mr6927734oaq.292.1648301144527; 
- Sat, 26 Mar 2022 06:25:44 -0700 (PDT)
+ bh=gySRxuYYwrwZO32brZVPz3NY1et5tLsOdakLrHT0vtA=;
+ b=iSc+y+3w+SD/UlxgxPxv1XerMsRH5hPLSpxtbX+j8zJ1hdjjtcazTFwCgWP46HBtlS
+ QYPFlNczL8UHbLD3xEa76HfmYyNIpF5lTJ98tnEHy4yHYiN2mPV3jExosMMCV1eo8bLx
+ t4W0Nb6VuZe2LMFNcMyUXhipXiQudVEJraDjabdOaBFMIUbMydgFypHmfbmh5RP3AbuP
+ GC3e7w6b3gCpKR/AKiLFbsJf44Q2BnlMqdTr0B08VxrzK8aVfG6yB0MINPDUd9Fx3MxS
+ 8ieQsE0+QP64A8m2Xg9csUY2f8X5HuTV+O8p6F8CYGFwN27TQmUwd7q46YwMVFjxrE2i
+ cvxw==
+X-Gm-Message-State: AOAM533lB0As2sdkhudekOq4Ssaui1aXcLbAcisL16PBlxkoxCC6mfzW
+ xiWm9QfI5bl09OXp2t98hwJcTLx13YdGQefD
+X-Google-Smtp-Source: ABdhPJyqGPD2KVxxU4I9vmUpQHpx7sEDkOEhyHsKHcmIQBefpkQUZXpCivxnAQ2EfhM9d1Geee5M6Q==
+X-Received: by 2002:a05:6870:785:b0:da:ac31:3e04 with SMTP id
+ en5-20020a056870078500b000daac313e04mr10690591oab.270.1648301145853; 
+ Sat, 26 Mar 2022 06:25:45 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- n62-20020acaef41000000b002ef646e6690sm4610331oih.53.2022.03.26.06.25.43
+ n62-20020acaef41000000b002ef646e6690sm4610331oih.53.2022.03.26.06.25.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Mar 2022 06:25:43 -0700 (PDT)
+ Sat, 26 Mar 2022 06:25:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/8] linux-user/nios2: Drop syscall 0 "workaround"
-Date: Sat, 26 Mar 2022 07:24:52 -0600
-Message-Id: <20220326132534.543738-6-richard.henderson@linaro.org>
+Subject: [PATCH v2 03/39] util/log: Return bool from qemu_set_log_filename
+Date: Sat, 26 Mar 2022 07:24:53 -0600
+Message-Id: <20220326132534.543738-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220326132534.543738-1-richard.henderson@linaro.org>
 References: <20220326132534.543738-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2a
  (failed)
-Received-SPF: pass client-ip=2001:4860:4864:20::2e;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2e.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,35 +88,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, alex.bennee@linaro.org
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Syscall 0 is __NR_io_setup for this target; there is nothing
-to work around.
+Per the recommendations in qapi/error.h, return false on failure.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Fixes: a0a839b65b6 ("nios2: Add usermode binaries emulation")
+Use the return value in the monitor, the only place we aren't
+already passing error_fatal or error_abort.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/nios2/cpu_loop.c | 4 ----
- 1 file changed, 4 deletions(-)
+ include/qemu/log.h | 2 +-
+ monitor/misc.c     | 3 +--
+ util/log.c         | 5 +++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index 2768ae61dd..a285781fc5 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -55,10 +55,6 @@ void cpu_loop(CPUNios2State *env)
-                                  env->regs[7], env->regs[8], env->regs[9],
-                                  0, 0);
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index ed59ebd4a2..fabfbe41da 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -148,7 +148,7 @@ typedef struct QEMULogItem {
+ extern const QEMULogItem qemu_log_items[];
  
--                if (env->regs[2] == 0) {    /* FIXME: syscall 0 workaround */
--                    ret = 0;
--                }
--
-                 env->regs[2] = abs(ret);
-                 /* Return value is 0..4096 */
-                 env->regs[7] = ret > 0xfffff000u;
+ void qemu_set_log(int log_flags);
+-void qemu_set_log_filename(const char *filename, Error **errp);
++bool qemu_set_log_filename(const char *filename, Error **errp);
+ void qemu_set_dfilter_ranges(const char *ranges, Error **errp);
+ bool qemu_log_in_addr_range(uint64_t addr);
+ int qemu_str_to_log_mask(const char *str);
+diff --git a/monitor/misc.c b/monitor/misc.c
+index a756dbd6db..04ec0711da 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -419,8 +419,7 @@ static void hmp_logfile(Monitor *mon, const QDict *qdict)
+ {
+     Error *err = NULL;
+ 
+-    qemu_set_log_filename(qdict_get_str(qdict, "filename"), &err);
+-    if (err) {
++    if (!qemu_set_log_filename(qdict_get_str(qdict, "filename"), &err)) {
+         error_report_err(err);
+     }
+ }
+diff --git a/util/log.c b/util/log.c
+index ffa66a267e..a838686a18 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -138,7 +138,7 @@ void qemu_set_log(int log_flags)
+  *
+  * filename may be NULL. In that case, log output is sent to stderr
+  */
+-void qemu_set_log_filename(const char *filename, Error **errp)
++bool qemu_set_log_filename(const char *filename, Error **errp)
+ {
+     g_free(logfilename);
+     logfilename = NULL;
+@@ -149,7 +149,7 @@ void qemu_set_log_filename(const char *filename, Error **errp)
+                 /* We only accept one %d, no other format strings */
+                 if (pidstr[1] != 'd' || strchr(pidstr + 2, '%')) {
+                     error_setg(errp, "Bad logfile format: %s", filename);
+-                    return;
++                    return false;
+                 } else {
+                     logfilename = g_strdup_printf(filename, getpid());
+                 }
+@@ -160,6 +160,7 @@ void qemu_set_log_filename(const char *filename, Error **errp)
+ 
+     qemu_log_close();
+     qemu_set_log(qemu_loglevel);
++    return true;
+ }
+ 
+ /* Returns true if addr is in our debug filter or no filter defined
 -- 
 2.25.1
 
