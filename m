@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461024E8153
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 15:07:12 +0100 (CET)
-Received: from localhost ([::1]:60872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 041914E815D
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 15:14:07 +0100 (CET)
+Received: from localhost ([::1]:50520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nY74R-0005Rm-96
-	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 10:07:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34392)
+	id 1nY7B8-0000bD-2x
+	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 10:14:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nY6R8-0007cj-Ii
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:26:39 -0400
-Received: from [2001:4860:4864:20::36] (port=42193
+ id 1nY6RA-0007dE-Cw
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:26:40 -0400
+Received: from [2001:4860:4864:20::36] (port=45864
  helo=mail-oa1-x36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nY6R6-0005Xt-OB
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:26:34 -0400
+ id 1nY6R7-0005Y3-OH
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 09:26:35 -0400
 Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-de3ca1efbaso10717206fac.9
- for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 06:26:32 -0700 (PDT)
+ 586e51a60fabf-d6ca46da48so10699744fac.12
+ for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 06:26:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=weAzEbOYWT6pn/rsG4fbAVbqxomesdIK5x2EPw6yBPM=;
- b=bgVWVn6ltPSxghTpyzxRfQz3NDuoCM8EYLaToOhKzB7mDUAlos29tDqNayXj9wwySG
- 6fAKq0cDOQKd0uV+oed+OEbM4w+YtA0M8g/BnxlSgId9B2Y1GWVWB3Hi4m7vPD6sYFX/
- VLyJWw40D6YechiQ+v7yrADrivyjB4Lq3oD0JoENDjOI+mTtsEEK6bZow9YcNr1uyxk4
- 0N3HOtMO0tnz8FSY/uNWDzgY+fiG6Hqjw1FYFQx6MDcbL31Yemo2sC3qgmmNLTh68mSv
- GOrCiH90Agqkp3xbuyfwYW3m0i5ALZjLDl6IjsCW4FqA+PBkZZJ89s9cEEPghbDczGRx
- BVRQ==
+ bh=jlMPZ5+ciovunZH+v/owH8Odf5O35GcMQuqFyPTC+AM=;
+ b=XfnJR1AFNM+2CYc0XgXZ/qDrYf7l8Y5TX8rNg11+KAsASBSycNgeCmeXZEfBejPF9n
+ 2DExRC6Di2Op4ZlwIRsalqnb9WKq5sPvey9wmRq8yQ0MQwrrVsKxL0MjTaD7Rug5pXDw
+ zhIkfXTqiQjQCMj3YiGSUEBC3Arf5jyiiN6VTKzNQ30JoKFGzjIk+lQRHJqGHgGlHaPJ
+ eOfn81QApvnAQ5dNUcCTQL7MDHdxW1AhDHaNS1AurynO8HTuPBAeIaPbvgG/Z5NXuQOd
+ Ts/wuBu1Bn87jb/S7iFK1AdBMV8tGt+p//PE01w1b9g5xx/4/i0zn0VgaU69OXbiFb0o
+ jquA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=weAzEbOYWT6pn/rsG4fbAVbqxomesdIK5x2EPw6yBPM=;
- b=Qg+wpZ1EPPQmy/1W9MBUyqcfJOVOsryhDrUKEt4BqqouZDchHhr8t/IsAeERtrntDZ
- +M3sqkFMCoLvwnwuUDxvjuTuIfbGl2B9JB3/dPwrwrLeI36ZCLtO8C1XRk9QHSuFDywv
- iB/71Y92RzGBJixUF4+nGp3Kx7ZM+53vvKN4W9LVjEOZOusWmp1XqdBmJObrIPianR1P
- MbXkhEm0vyqnQ5MVyex5fhcAmSnPSMZ+x8jNhW4oPsmBJfWHp+YbMRBmgjG/VlDKNhwG
- xL67CC6CLNeYLtvCUrvub539I858cCVMb3BBC8VAK4R+aKHsnImJaeyobai4ZVWvaeAS
- paqA==
-X-Gm-Message-State: AOAM530ZSgKEa72q1CRsfotHPScMs0OQ8vZuUEpACujpLc8cK5tLAe1t
- nte6zPjWm+I/BBTFfYQYHAQolhAKHpqg9ybc
-X-Google-Smtp-Source: ABdhPJzIVDdhwlSLsuB71cnCkK5GczcFjsVPqewnJuuyBa+/KavpVnuGtOaC9pPVaGLyCIX6Lkl/OA==
-X-Received: by 2002:a05:6870:785:b0:da:ac31:3e04 with SMTP id
- en5-20020a056870078500b000daac313e04mr10691756oab.270.1648301191725; 
- Sat, 26 Mar 2022 06:26:31 -0700 (PDT)
+ bh=jlMPZ5+ciovunZH+v/owH8Odf5O35GcMQuqFyPTC+AM=;
+ b=GW0RGMXlDqPJenZtly2lvUrjI7TAsnoImgpPn8GDv59p4xeZaVP32VMOhLNR/Ukfgw
+ savTD+gvLHCvfGS9kaqByzt7w+NfxibhyFZfJX14iG6W/YPEC8qkBXKbiPzDkIX0pbzj
+ 1w0HsMu1olTlXoSRJS7um8Pu/4Qs5FIJp40VXl2lKJ/CPrwRgkRGCC3XMDTai0Ml9By3
+ hGS/EyhWFj9cgE/rHMzZfSb7bExhKOe2R34PEAPwTw9PWTv1b/Ir7b3jifvneNPIexex
+ KPBFKb5xNWrRl53TWfx5R/MtqyLMHPsHOVI+1I5mhwFN6/QikLiHk96ClMT1umgiHvHF
+ WE2A==
+X-Gm-Message-State: AOAM530p+CkjWbyjyJMy8P84l2VNuqpzPSZXaRrC7qGCAGv8UfSlyL90
+ bl+NcpRWXXMqaWhhxMtItRaFZN4hcOKIyarz
+X-Google-Smtp-Source: ABdhPJzS2TOO6FYWmebKr9JVg7ljGj94mnF3SjbRdZ4uauu5Ym5ymUuBpWXkfP2zVARPoJRJtWFsuA==
+X-Received: by 2002:a05:6870:3394:b0:dd:cfdd:34c9 with SMTP id
+ w20-20020a056870339400b000ddcfdd34c9mr11507614oae.31.1648301192843; 
+ Sat, 26 Mar 2022 06:26:32 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- n62-20020acaef41000000b002ef646e6690sm4610331oih.53.2022.03.26.06.26.30
+ n62-20020acaef41000000b002ef646e6690sm4610331oih.53.2022.03.26.06.26.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Mar 2022 06:26:31 -0700 (PDT)
+ Sat, 26 Mar 2022 06:26:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 27/39] util/log: Introduce qemu_set_log_filename_flags
-Date: Sat, 26 Mar 2022 07:25:22 -0600
-Message-Id: <20220326132534.543738-36-richard.henderson@linaro.org>
+Subject: [PATCH v2 28/39] bsd-user: Use qemu_set_log_filename_flags
+Date: Sat, 26 Mar 2022 07:25:23 -0600
+Message-Id: <20220326132534.543738-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220326132534.543738-1-richard.henderson@linaro.org>
 References: <20220326132534.543738-1-richard.henderson@linaro.org>
@@ -92,197 +92,43 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide a function to set both filename and flags at
-the same time.  This is the common case at startup.
+Perform all logfile setup in one step.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Return bool, per recommendations in qapi/error.h (phil).
----
- include/qemu/log.h |   1 +
- util/log.c         | 122 ++++++++++++++++++++++++++++-----------------
- 2 files changed, 77 insertions(+), 46 deletions(-)
+ bsd-user/main.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/include/qemu/log.h b/include/qemu/log.h
-index 42d545f77a..b6c73376b5 100644
---- a/include/qemu/log.h
-+++ b/include/qemu/log.h
-@@ -82,6 +82,7 @@ extern const QEMULogItem qemu_log_items[];
- 
- bool qemu_set_log(int log_flags, Error **errp);
- bool qemu_set_log_filename(const char *filename, Error **errp);
-+bool qemu_set_log_filename_flags(const char *name, int flags, Error **errp);
- void qemu_set_dfilter_ranges(const char *ranges, Error **errp);
- bool qemu_log_in_addr_range(uint64_t addr);
- int qemu_str_to_log_mask(const char *str);
-diff --git a/util/log.c b/util/log.c
-index 8b8b6a5d83..2152d5591e 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -117,15 +117,58 @@ static void qemu_logfile_free(QemuLogFile *logfile)
- }
- 
- /* enable or disable low levels log */
--bool qemu_set_log(int log_flags, Error **errp)
-+static bool qemu_set_log_internal(const char *filename, bool changed_name,
-+                                  int log_flags, Error **errp)
- {
--    bool need_to_open_file = false;
-+    bool need_to_open_file;
-     QemuLogFile *logfile;
- 
--    qemu_loglevel = log_flags;
-+    QEMU_LOCK_GUARD(&qemu_logfile_mutex);
-+    logfile = qemu_logfile;
-+
-+    if (changed_name) {
-+        char *newname = NULL;
-+
-+        /*
-+         * Allow the user to include %d in their logfile which will be
-+         * substituted with the current PID. This is useful for debugging many
-+         * nested linux-user tasks but will result in lots of logs.
-+         *
-+         * filename may be NULL. In that case, log output is sent to stderr
-+         */
-+        if (filename) {
-+            char *pidstr = strstr(filename, "%");
-+
-+            if (pidstr) {
-+                /* We only accept one %d, no other format strings */
-+                if (pidstr[1] != 'd' || strchr(pidstr + 2, '%')) {
-+                    error_setg(errp, "Bad logfile format: %s", filename);
-+                    return false;
-+                }
-+                newname = g_strdup_printf(filename, getpid());
-+            } else {
-+                newname = g_strdup(filename);
-+            }
-+        }
-+
-+        g_free(logfilename);
-+        logfilename = newname;
-+        filename = newname;
-+
-+        if (logfile) {
-+            qatomic_rcu_set(&qemu_logfile, NULL);
-+            call_rcu(logfile, qemu_logfile_free, rcu);
-+            logfile = NULL;
-+        }
-+    } else {
-+        filename = logfilename;
-+    }
-+
- #ifdef CONFIG_TRACE_LOG
--    qemu_loglevel |= LOG_TRACE;
-+    log_flags |= LOG_TRACE;
- #endif
-+    qemu_loglevel = log_flags;
-+
-     /*
-      * In all cases we only log if qemu_loglevel is set.
-      * Also:
-@@ -134,71 +177,58 @@ bool qemu_set_log(int log_flags, Error **errp)
-      *   If we are daemonized,
-      *     we will only log if there is a logfilename.
-      */
--    if (qemu_loglevel && (!is_daemonized() || logfilename)) {
--        need_to_open_file = true;
--    }
--    QEMU_LOCK_GUARD(&qemu_logfile_mutex);
--    if (qemu_logfile && !need_to_open_file) {
--        logfile = qemu_logfile;
-+    need_to_open_file = log_flags && (!is_daemonized() || filename);
-+
-+    if (logfile && !need_to_open_file) {
-         qatomic_rcu_set(&qemu_logfile, NULL);
-         call_rcu(logfile, qemu_logfile_free, rcu);
--    } else if (!qemu_logfile && need_to_open_file) {
--        logfile = g_new0(QemuLogFile, 1);
--        if (logfilename) {
--            logfile->fd = fopen(logfilename, log_append ? "a" : "w");
--            if (!logfile->fd) {
-+        return true;
-+    }
-+    if (!logfile && need_to_open_file) {
-+        FILE *fd;
-+
-+        if (filename) {
-+            fd = fopen(filename, log_append ? "a" : "w");
-+            if (!fd) {
-                 error_setg_errno(errp, errno, "Error opening logfile %s",
--                                 logfilename);
-+                                 filename);
-                 return false;
-             }
-             /* In case we are a daemon redirect stderr to logfile */
-             if (is_daemonized()) {
--                dup2(fileno(logfile->fd), STDERR_FILENO);
--                fclose(logfile->fd);
-+                dup2(fileno(fd), STDERR_FILENO);
-+                fclose(fd);
-                 /* This will skip closing logfile in qemu_log_close() */
--                logfile->fd = stderr;
-+                fd = stderr;
-             }
-         } else {
-             /* Default to stderr if no log file specified */
-             assert(!is_daemonized());
--            logfile->fd = stderr;
-+            fd = stderr;
-         }
- 
-         log_append = 1;
-+
-+        logfile = g_new0(QemuLogFile, 1);
-+        logfile->fd = fd;
-         qatomic_rcu_set(&qemu_logfile, logfile);
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index ed26fc5acb..aa13eae7f3 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -405,16 +405,16 @@ int main(int argc, char **argv)
      }
-     return true;
- }
  
--/*
-- * Allow the user to include %d in their logfile which will be
-- * substituted with the current PID. This is useful for debugging many
-- * nested linux-user tasks but will result in lots of logs.
-- *
-- * filename may be NULL. In that case, log output is sent to stderr
-- */
-+bool qemu_set_log(int log_flags, Error **errp)
-+{
-+    return qemu_set_log_internal(NULL, false, log_flags, errp);
-+}
-+
- bool qemu_set_log_filename(const char *filename, Error **errp)
- {
--    g_free(logfilename);
--    logfilename = NULL;
-+    return qemu_set_log_internal(filename, true, qemu_loglevel, errp);
-+}
- 
--    if (filename) {
--            char *pidstr = strstr(filename, "%");
--            if (pidstr) {
--                /* We only accept one %d, no other format strings */
--                if (pidstr[1] != 'd' || strchr(pidstr + 2, '%')) {
--                    error_setg(errp, "Bad logfile format: %s", filename);
--                    return false;
--                } else {
--                    logfilename = g_strdup_printf(filename, getpid());
--                }
--            } else {
--                logfilename = g_strdup(filename);
--            }
--    }
+     /* init debug */
+-    qemu_set_log_filename(log_file, &error_fatal);
+-    if (log_mask) {
+-        int mask;
 -
--    qemu_log_close();
--    return qemu_set_log(qemu_loglevel, errp);
-+bool qemu_set_log_filename_flags(const char *name, int flags, Error **errp)
-+{
-+    return qemu_set_log_internal(name, true, flags, errp);
- }
+-        mask = qemu_str_to_log_mask(log_mask);
+-        if (!mask) {
+-            qemu_print_log_usage(stdout);
+-            exit(1);
++    {
++        int mask = 0;
++        if (log_mask) {
++            mask = qemu_str_to_log_mask(log_mask);
++            if (!mask) {
++                qemu_print_log_usage(stdout);
++                exit(1);
++            }
+         }
+-        qemu_set_log(mask, &error_fatal);
++        qemu_set_log_filename_flags(log_file, mask, &error_fatal);
+     }
  
- /* Returns true if addr is in our debug filter or no filter defined
+     if (optind >= argc) {
 -- 
 2.25.1
 
