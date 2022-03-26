@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D16A4E80F1
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 13:56:01 +0100 (CET)
-Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5F94E80F5
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Mar 2022 13:57:10 +0100 (CET)
+Received: from localhost ([::1]:47082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nY5xY-0000rS-CS
-	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 08:56:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55966)
+	id 1nY5yf-0002yY-PA
+	for lists+qemu-devel@lfdr.de; Sat, 26 Mar 2022 08:57:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nY5tN-0007kD-Dl
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 08:51:42 -0400
-Received: from [2607:f8b0:4864:20::b2e] (port=45599
- helo=mail-yb1-xb2e.google.com)
+ id 1nY5uH-0008Gz-AK
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 08:52:37 -0400
+Received: from [2607:f8b0:4864:20::1135] (port=32946
+ helo=mail-yw1-x1135.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nY5tK-0007gQ-AA
- for qemu-devel@nongnu.org; Sat, 26 Mar 2022 08:51:40 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id e203so9602134ybc.12
- for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 05:51:37 -0700 (PDT)
+ id 1nY5uF-0007kx-VH
+ for qemu-devel@nongnu.org; Sat, 26 Mar 2022 08:52:37 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-2e68c95e0f9so107791547b3.0
+ for <qemu-devel@nongnu.org>; Sat, 26 Mar 2022 05:52:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Aa8lph9Ec/8CdCXsT+Ypi+Lcycvx5qmjjBc7J7FRNRo=;
- b=L6vO02Jq0A97GNnBcvX1TXEFXJiHx5RTru5zr1D592WiEvhNi+SQfMHRC+AJUiSCgL
- R6ah/aOIGqo5BkL2StkZBapsVsozpCc9PkHqFXE0HxYEMFbi/M5GGzIKff1lLwls6BTS
- EbUVLJ46z7p6Pg7U2ygHN8FCJg80QPiHuGn9UwUjiybj5FjHFmRhfwMwbmaaYjhnPA0Y
- fb21a6xyeb5cgXUXKIjKfqW0OkGsvEzTvdjWysZDUOf7Rk8a9Dq3VdoUNclzTPjM/XMb
- dN/ZZ+Qc+zT+AEcRsAL7zE0Uj+F0Cn2a9jU9oYIqZZsCcF9RLznKmbWFzWwvU58jiaLw
- RTLw==
+ :cc; bh=XrPOpqoOcz6GH+UIfcJh+HaDjimc8MbJ1uDMT9c/Z6M=;
+ b=Vrq8fdB7M6V3CfwY5bhCZPzKW/oSIlc0Hvm+bktGck6MuDyrW9gBEyMFnQJBn+hNY0
+ tcL5+yLALnTK+Ax7gIO8eoFWyUpUiih7BZWU8xuUiKsvJXvGs+YyE6sGAUh2h5wsKIgJ
+ lUQcOof1lvIf1x6Cjz97yqpGSl0TFcOrrnpbRvFUb23cngepjfDFHfQFjONTx5J0DM1W
+ ozIxbXuQaE+fVzkOlReL4u0P2il0mImC4sI+ejNv+CSfvEus/Cnil3nhpGr0U01Jm5K5
+ 61Dzaf+mlaRe4pXw3quuVNTeXc5XLd/CAwzm5DEE5ZS+P3/eX+GVZcQeFbs7M8wDi04m
+ +s5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Aa8lph9Ec/8CdCXsT+Ypi+Lcycvx5qmjjBc7J7FRNRo=;
- b=uftaVY/o4ol1PZc9Eq76vd8jvaYAqpIRMthm+xcciBELmgjH32TZpf5IGGKzazglkE
- x1AZnYZASjQhRY66NE/xim8qGtp2xirINjLOt0ezyphtaOL2+LOtAqiSmJunIbOhyC7X
- g8TNdRkIueu2cIBryRIWzcjrK3k+DNEtslxHnChoaFs56HI13enJoRUDB5Yp42flAMVv
- ed4tbaxfucYkmsS1dDcRMwy8/WS/xBW3W8zH1FLLC10hvqrabzUyZ2ZUcVIGVzLDfTjk
- hqfPSX0bXcMn8oyiZeJ/rzt8CvWN5gFeNwyLiALKquzvezL4WcOL7qWGiFSIw8n5Kysp
- 1xxQ==
-X-Gm-Message-State: AOAM5323FneYMDvHfzQslFLPUSdbe50eCxRJE9lcecpF0tHkJizOEnl/
- DnM0EqkFwVPTVOFLQyVnSVDbG9yd0+DHX6KYo8MlLA==
-X-Google-Smtp-Source: ABdhPJxqUIczm7Vt7v6mIY7oI8PjNkJlN+qraOj9LlSthNLoaCNtSqXrltwEGCD8EumAqhmlUIHD7yUQL6F9boyH46c=
-X-Received: by 2002:a25:d8c3:0:b0:633:c81f:737d with SMTP id
- p186-20020a25d8c3000000b00633c81f737dmr14127175ybg.193.1648299097316; Sat, 26
- Mar 2022 05:51:37 -0700 (PDT)
+ bh=XrPOpqoOcz6GH+UIfcJh+HaDjimc8MbJ1uDMT9c/Z6M=;
+ b=OmsWFIkQleL/65PO0wg9i7Cs00aRwf3aUODEFkyjGNNBwR77acSlxwiBIjyPBO2fly
+ hD8gHkeOW4FGjvW6WpOrWtMr6Nwe2yg/sdYQ+SZ4md0USMmkpiODLppnuRRAgSrpBXHV
+ 5dr6WsqQGDU5Uqr5CESwke6OCxxnlVS96uqXGZJ0PSjq891kMJBUE0FOAR0J2KK2/UYO
+ mGWdNkLdAvjrizCkf9DiBIGp42HFVMJe2FxY3m9208rdkQ6dRN0tjT9nXHYCvkCQWN3j
+ QETHCROM2FWCplH8Ppz2bcL1uXK9uxlbL7DsowZZ+9qwhuXPp/5OqRdmsOGovC+8Gw+n
+ Tf8w==
+X-Gm-Message-State: AOAM533vbcHIgUB7t3GNSX3om8kNwttG7YNLl0QyF0mMHeJNZuDI5SDX
+ ng+nu2Hc5OvkDRv7mYhCx+1udVoR4s6vRmB59mDpXA==
+X-Google-Smtp-Source: ABdhPJyDj4AHn2F0VG7EQ/YGmm4snT2HetpPpMnaG+/dMhMh9a5HY7vFKSvPn5rdKQ6jKl5ihcnmAPZi49Nzf6og75I=
+X-Received: by 2002:a81:1151:0:b0:2e5:99ec:9933 with SMTP id
+ 78-20020a811151000000b002e599ec9933mr16112797ywr.64.1648299152784; Sat, 26
+ Mar 2022 05:52:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220325195250.386071-1-richard.henderson@linaro.org>
- <20220325195250.386071-5-richard.henderson@linaro.org>
-In-Reply-To: <20220325195250.386071-5-richard.henderson@linaro.org>
+ <20220325195250.386071-8-richard.henderson@linaro.org>
+In-Reply-To: <20220325195250.386071-8-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 26 Mar 2022 12:51:24 +0000
-Message-ID: <CAFEAcA8A7THKZhkxNVtYkQJW=EPn0=Y4b-78XOiuN1xtu+0mTA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] linux-user/nios2: Adjust error return
+Date: Sat, 26 Mar 2022 12:52:19 +0000
+Message-ID: <CAFEAcA_3pAAbmhzq93Qxth4wO4cVSucd3ZbkFxdqNb9AZUATFA@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] linux-user/nios2: Use QEMU_ESIGRETURN from
+ do_rt_sigreturn
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1135
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,15 +88,14 @@ Cc: qemu-devel@nongnu.org, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Mar 2022 at 19:52, Richard Henderson
+On Fri, 25 Mar 2022 at 19:53, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Follow the kernel assembly, which considers all negative
-> return values to be errors.
+> Drop the kernel-specific "pr2" code structure and use
+> the qemu-specific error return value.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/nios2/cpu_loop.c | 9 +++++++--
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
