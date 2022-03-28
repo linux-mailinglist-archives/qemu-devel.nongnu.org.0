@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09184EA19C
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 22:37:05 +0200 (CEST)
-Received: from localhost ([::1]:45466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44E1B4EA18C
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 22:33:43 +0200 (CEST)
+Received: from localhost ([::1]:39186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYw6r-0008Mm-0w
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 16:37:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36352)
+	id 1nYw3a-00049q-9t
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 16:33:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1nYvnd-0005aU-S9
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:17:14 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:41284)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1nYvnc-0003aF-6j
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:17:13 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5640661471
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 20:17:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B79DBC34100
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 20:17:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648498621;
- bh=F88P3EjB8xr5i+2/B7u8QJbACQEAp4uoybtn389DnK4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=XYn15NiWNNsF7dxAmFQbJtgtcNDJDT1dU7g8i6f+H1YquMPuC/7wmudwTz8JXxVDw
- SHZiugH6r4nSQuo3RkBaieTY7fR97IZs0RPXizfy333Z9GGrXu1z6Z0psQ/b5lig2B
- Nk8l7XdhZKirBEQjqrx7Ta1taqENR3RggObIixfMUryIvmPE2lv/NVgQndq2rcXbKJ
- U/RQWWCck4yiTEvHP8ESjKSoC3Y77Yp+jn7tsjMVJH6ag3b/+QIOAWkkyyv/FssBbZ
- +KUAQkh8KoLVEBMxjKObI5fCgpxW+OBlCxGTzwe57REk6eA82dh/taavMBJc4UsYnd
- ME0wTzjKdIZpw==
-Received: by mail-ej1-f47.google.com with SMTP id yy13so31018662ejb.2
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nYvnT-0005LI-Q0
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:17:03 -0400
+Received: from [2001:4860:4864:20::2b] (port=34885
+ helo=mail-oa1-x2b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nYvnS-0003Zk-70
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:17:03 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-de48295467so16498919fac.2
  for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 13:17:01 -0700 (PDT)
-X-Gm-Message-State: AOAM530zWvs1kE2Exj7BkA1kec6pGvoGnouugDhXBWQ5WdH1w8pF3aBk
- VjfXFGf7Uc3rlyudrLVH4krfOCYrpYl69pJv60kYYg==
-X-Google-Smtp-Source: ABdhPJyUCfqNMjY4j/zDrp5thzUNKGPE9xMYQkN6ReIG1dPzUmJOgX3w9dDbnVfGV3lDWzlxjIqdp/oS80009PSifH0=
-X-Received: by 2002:a17:906:c10d:b0:6e0:dc2a:338d with SMTP id
- do13-20020a170906c10d00b006e0dc2a338dmr14671860ejc.538.1648498620006; Mon, 28
- Mar 2022 13:17:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=1cwItfnSyUsGIh7YZWTkLSAmGgp+1d/ElsMGQM5mmlU=;
+ b=YZIxrWahZ1b9kL3XPRY10IcIsy1WtmRFbpRZD9nYjr2v5KmDP4/9Ek8hmf+Nsd0Xuc
+ GG7tp5vKkZqOLGtkX9o0Z2D5cKUagC10JiB6FjetehhZ3QzfaQN5EX+r3TikZHpR+JpO
+ hQPpLZSjXeaTBA8xp90N3hrxv/3JBo/0/JnAPOG/U79Rw6FR/Q64m9CL9N4+7uvd/Ucd
+ jx0XNEdipirXyA7WQX20AdnKPjXJKcRAW73lKnNyPseadE3QcshPfAJgnYLwqs/KbP8I
+ qcgdWoaLy+q1FeBdJmLfiBqwLtkGOYmNkzAzWNaLQHEamyS+wIA2599cWU5RhA39OMe8
+ Y7lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1cwItfnSyUsGIh7YZWTkLSAmGgp+1d/ElsMGQM5mmlU=;
+ b=1xhI/EGE9vVOF5HP2A1p5jtw17orbMxROq8rZmKOcQt+xbkGO3qaAUQh62diy7BdGF
+ 13/Ezyy+bBJCp+ApBdl7XHd7vSs6aOkU1X9iRoVIWYXnsTSdmUp/v/SNNJliTEvVDjRi
+ Zdzz9s7d/1r3hg1HwdZK1kIZWnEs5bTY6iMm3TJvQiU8l5kAfBGyrOtcw9ySz0HChfAO
+ tnmiRwaid6ofbKA+5o8uVrgVmq4oompr4lKfMMoBXihlC6+Da3zS9pI6VyGTvvmMXqK8
+ KSnIWaDjZzZADP8iM6oU6YizM1SYfHKEhKSgpPNbeB+gThdtxsfSCGWBO63TGXVbnuwJ
+ wSOQ==
+X-Gm-Message-State: AOAM532Q1ofJNRCAOXxH0aTfqT2iF7iuVrlgn8q8KNwGVDCLMw6OriQx
+ a6iufYnlmWk02746zp1ZjjmtwA==
+X-Google-Smtp-Source: ABdhPJxTIZIbHrN8A5w6Wn/D9HGN4HkTO+0Y34SgjER2kqh2OWUxqe2jz1BDiamPUg+Zm2FW4xPQ2Q==
+X-Received: by 2002:a05:6870:392b:b0:dd:9951:c90c with SMTP id
+ b43-20020a056870392b00b000dd9951c90cmr433410oap.33.1648498620619; 
+ Mon, 28 Mar 2022 13:17:00 -0700 (PDT)
+Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+ r35-20020a056870582300b000df0dc42ff5sm1061697oap.0.2022.03.28.13.16.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Mar 2022 13:16:59 -0700 (PDT)
+Message-ID: <a68c521c-75d2-cdbd-745c-d7c6b820bbdd@linaro.org>
+Date: Mon, 28 Mar 2022 14:16:57 -0600
 MIME-Version: 1.0
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Mon, 28 Mar 2022 13:16:48 -0700
-X-Gmail-Original-Message-ID: <CALCETrWk1Y47JQC=V028A7Tmc9776Oo4AjgwqRtd9K=XDh6=TA@mail.gmail.com>
-Message-ID: <CALCETrWk1Y47JQC=V028A7Tmc9776Oo4AjgwqRtd9K=XDh6=TA@mail.gmail.com>
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=luto@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH v7 10/29] target/loongarch: Add other core
+ instructions support
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
+ <20220328125749.2918087-11-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220328125749.2918087-11-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2b
+ (failed)
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,37 +94,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, linux-api@vger.kernel.org,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Cc: mark.cave-ayland@ilande.co.uk, Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 10, 2022 at 6:09 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> This is the v5 of this series which tries to implement the fd-based KVM
-> guest private memory. The patches are based on latest kvm/queue branch
-> commit:
->
->   d5089416b7fb KVM: x86: Introduce KVM_CAP_DISABLE_QUIRKS2
+On 3/28/22 06:57, Xiaojuan Yang wrote:
+> +void helper_idle(CPULoongArchState *env)
+> +{
+> +    CPUState *cs = env_cpu(env);
+> +
+> +    cs->halted = 1;
+> +    cpu_reset_interrupt(cs, CPU_INTERRUPT_WAKE);
+> +    do_raise_exception(env, EXCP_HLT, 0);
+> +}
 
-Can this series be run and a VM booted without TDX?  A feature like
-that might help push it forward.
+Why are you messing with CPU_INTERRUPT_WAKE?
+You only ever reset it, and never set it.
 
---Andy
+
+r~
 
