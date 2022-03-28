@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8D14E9951
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:22:28 +0200 (CEST)
-Received: from localhost ([::1]:38536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27D04E98F4
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:06:22 +0200 (CEST)
+Received: from localhost ([::1]:33368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYqGJ-0002ij-Hj
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:22:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40696)
+	id 1nYq0j-0004V0-9P
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:06:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nYpxM-0001o7-Jv
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:02:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45231)
+ id 1nYpxI-0001hY-5o
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:02:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nYpxI-0004kT-3t
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:02:52 -0400
+ id 1nYpxE-0004iF-RH
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:02:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648476167;
+ s=mimecast20190719; t=1648476162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4JLNIaw68sxhvcRreZgtfxXw4rRrgNFFCnhMpkj+8xI=;
- b=SgPD5ui1CMuaB/LkKAPHjUDGE0gZcSruXBCjTBroocZ3OsMJuzXPlJPlbSE9Cs1/6Uklhb
- tfhtU55xUru7sy1flPTVaj23bC0VzM6zOWI97BmZuPYqctbDDcGaXryIPUISp+w1utnyjp
- NjQwwttNcTFgBSPeqOwvKYy9L4gJIN8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8bPnvrORSI4rAUHPYKHYzTbIhSyn577ldJAgpwdsK+Y=;
+ b=EqMADer0bYu1+YF2pXyQ/2kqr5eHxwnTHRx72zyqgfhsUZLuu6CllspWTXAlvtPVcex8Ab
+ nbIJlmeUoCW3o4YsB3HHstWnQl391FaNkixUPqya4RXL5BBPsXFPhqhlfxAxHXZ6qKLg0a
+ 5bU/5X3hMbk3L/jZsGNbVeHBQ0PCJj0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-355-m1XAMPEdOvim6D5T35EA4Q-1; Mon, 28 Mar 2022 10:02:41 -0400
-X-MC-Unique: m1XAMPEdOvim6D5T35EA4Q-1
+ us-mta-620-b_upWJ0oM0e7eyyxJetH2w-1; Mon, 28 Mar 2022 10:02:41 -0400
+X-MC-Unique: b_upWJ0oM0e7eyyxJetH2w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C438D803D65;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2DE438008B7;
  Mon, 28 Mar 2022 14:02:40 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC3541121318;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB9371121318;
  Mon, 28 Mar 2022 14:02:40 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/15] tests/docker and tests/tcg cleanup and diet
-Date: Mon, 28 Mar 2022 10:02:25 -0400
-Message-Id: <20220328140240.40798-1-pbonzini@redhat.com>
+Subject: [PATCH 01/15] tests/docker: remove dead code
+Date: Mon, 28 Mar 2022 10:02:26 -0400
+Message-Id: <20220328140240.40798-2-pbonzini@redhat.com>
+In-Reply-To: <20220328140240.40798-1-pbonzini@redhat.com>
+References: <20220328140240.40798-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Authentication-Results: relay.mimecast.com;
@@ -56,14 +59,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,56 +85,47 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The first seven patches simplify and clean up a bit the
-tests/docker/Makefile.include file.
+debian-powerpc-user-cross was the only linux-user powered cross builder
+and it was removed in commit 80394ccf21 ("tests/docker: remove
+debian-powerpc-user-cross", 2019-09-26). Remove all the infrastructure
+around it since it is now unused.
 
-The rest adjust tests/Makefile.include to invoke the tests/tcg
-Makefiles directly, without going through Makefile.qemu and
-Makefile.prereqs.  All information is gathered at configure time,
-and the config*.mak files for each TCG test target includes
-the normal Makefile variables (AC, CC, LD, etc.).
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/docker/Makefile.include | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-This is also a first step towards moving the cross-compilation
-infrastructure from tests/tcg to all of QEMU, so that it can be
-used to build firmware binaries.
-
-Paolo
-
-Paolo Bonzini (15):
-  tests/docker: remove dead code
-  tests/docker: remove test targets
-  tests/docker: remove dead variable
-  tests/docker: remove unnecessary default definitions
-  tests/docker: inline variable definitions or move close to use
-  tests/docker: remove unnecessary filtering of $(DOCKER_IMAGES)
-  tests/docker: simplify docker-TEST@IMAGE targets
-  tests/tcg: add compiler tests when using containers
-  tests/tcg: remove CONFIG_LINUX_USER from config-target.mak
-  tests/tcg: remove CONFIG_USER_ONLY from config-target.mak
-  tests/tcg: prepare Makefile.prereqs at configure time
-  tests/tcg: list test targets in Makefile.prereqs
-  tests/tcg: invoke Makefile.target directly from QEMU's makefile
-  tests/docker: remove SKIP_DOCKER_BUILD
-  tests/tcg: fix non-static build
-
- tests/Makefile.include                    |  63 +++++------
- tests/docker/Makefile.include             |  89 ++++------------
- tests/tcg/Makefile.prereqs                |  18 ----
- tests/tcg/Makefile.qemu                   | 121 ----------------------
- tests/tcg/Makefile.target                 |  11 +-
- tests/tcg/aarch64/Makefile.softmmu-target |   2 +-
- tests/tcg/aarch64/Makefile.target         |  10 +-
- tests/tcg/configure.sh                    |  72 ++++++++-----
- tests/tcg/i386/Makefile.target            |   2 +-
- tests/tcg/multiarch/Makefile.target       |   2 +-
- tests/tcg/ppc64/Makefile.target           |   4 +-
- tests/tcg/ppc64le/Makefile.target         |   4 +-
- tests/tcg/x86_64/Makefile.target          |   2 +-
- 13 files changed, 116 insertions(+), 284 deletions(-)
- delete mode 100644 tests/tcg/Makefile.prereqs
- delete mode 100644 tests/tcg/Makefile.qemu
-
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index e495b163a0..a6a5a20949 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -229,12 +229,6 @@ DOCKER_PARTIAL_IMAGES += debian-tricore-cross
+ DOCKER_PARTIAL_IMAGES += debian-xtensa-cross
+ DOCKER_PARTIAL_IMAGES += fedora-cris-cross
+ 
+-# Rules for building linux-user powered images
+-#
+-# These are slower than using native cross compiler setups but can
+-# work around issues with poorly working multi-arch systems and broken
+-# packages.
+-
+ # Expand all the pre-requistes for each docker image and test combination
+ $(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES) $(DOCKER_VIRTUAL_IMAGES),$(DOCKER_IMAGES)), \
+ 	$(foreach t,$(DOCKER_TESTS), \
+@@ -266,11 +260,6 @@ docker:
+ 	@echo
+ 	@echo 'Available container images:'
+ 	@echo '    $(DOCKER_IMAGES)'
+-ifneq ($(DOCKER_USER_IMAGES),)
+-	@echo
+-	@echo 'Available linux-user images (docker-binfmt-image-debian-%):'
+-	@echo '    $(DOCKER_USER_IMAGES)'
+-endif
+ 	@echo
+ 	@echo 'Available tests:'
+ 	@echo '    $(DOCKER_TESTS)'
 -- 
 2.31.1
+
 
 
