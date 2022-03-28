@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF3C4EA34E
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 00:53:35 +0200 (CEST)
-Received: from localhost ([::1]:52302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E514EA349
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 00:51:07 +0200 (CEST)
+Received: from localhost ([::1]:46792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYyEw-0003Xy-FN
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 18:53:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38956)
+	id 1nYyCY-000806-G5
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 18:51:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nYy89-00028F-It
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:46:33 -0400
-Received: from [2001:4860:4864:20::2a] (port=34082
- helo=mail-oa1-x2a.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nYy9h-0004R2-5l
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:48:09 -0400
+Received: from [2607:f8b0:4864:20::1034] (port=42842
+ helo=mail-pj1-x1034.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nYy88-0008Uc-22
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:46:33 -0400
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-df088cb155so3501886fac.1
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 15:46:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nYy9f-0000UR-Lb
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:48:08 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ o3-20020a17090a3d4300b001c6bc749227so917015pjf.1
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 15:48:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Pzmq90fhGoXCePGhRj8xEHTF2oBrNX2n9H1nCZqzIFE=;
- b=cd3DT1OsDouE2iBmnGyp3ZS4MxGHGAxJGfoL/2KuyGz/DNHQvvkVMGB1SphczymNSV
- 3eP8359tHo4psB5dfRrt/GsQXiXTMDpGaPooTJns+AYqVj+bu31PW5muT3M4Vl+mQI96
- 7S8sFJLSXrCjmIW2jHydK9f8ztX0bUjEyO6fne8FUxydHmkBB9oGqwf4udWEsnmt7tAP
- ZoeMvpCoUolbg3bgvatoR1y+aaSMizgnXFx8dv5IXp8j2rgRIvlZovJJ9I4plV5UesYh
- 2g/bocpGMspFT/NedLJp/pir2nuUv7zaKEB3V0U2wbYHl0xqnjx3XsXNZzeexzW9ymGq
- 7u4Q==
+ bh=c+4kcRn0vdWfejQ5YCWICWWkqdMBeD9KvgFo40BooSI=;
+ b=OwVYJwLDlC+hzJAzy0mq6gpkWyBN69tmfmtKwx5tYfRIoItROCpruFtLGeaqxYMdPb
+ tssSZ/eqfIauRksKI288vmgRVleONPl5qqemOr1h5QmO4P+DNLcXt6uFkyJ68WNIVBKK
+ 3kWAv/kGszR6Jo9TFzX4qxIhjS3FHSpetnM1CI/u4bRApokXzeDYMLO1A7xHu+a3OUnx
+ QZYzTE4pDDr3RUOVypcHmdaKBzykFIXkhiZcSoQIshWhVcD9SXKxgkroWIHQ3A07MudN
+ JRNEpDSRvzXW1f1y9ld0xBDSckMxIEVhrLKeRheZYptAurbHK5YKDH88GF1xACKRfrZE
+ vkGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Pzmq90fhGoXCePGhRj8xEHTF2oBrNX2n9H1nCZqzIFE=;
- b=mO6yKbcsS0kyJreCn8ws5w3XUyc2Ok9sBYkwYPmrtmN5/fOr4IXtW1m3Y6AdeoNPKt
- p64np5iO29lzdOdsssYGGynaPkzUAA/j3Dw2Gc4Q6QTcFW2/n7jdC22Bo/ytWQzopSA6
- WMbzD/9Up2rKzwGj9rOgJVnB7S4bd3d3gc+0Qd763KHLFvJblPWB4uy+wxKNwQ3HgR3f
- jx+Zo5Gszr4fvpCyTwf3fRrjwKACgCARNAWjXqShZ2KRVL/UFADN+Hp6olSCnv79fKxr
- FvQaX1JI8t56doVbBAq0Nin7ul3F/UhNdxnYhsTbUvolfAD2p49NRFwrhjji43OkF04E
- TYfA==
-X-Gm-Message-State: AOAM532RQkWyGB0d2idSNSOgoO/dT0Ki64lC4W4r1wM71NIBykm4E6MT
- YdeCP6au3BSqNkN4HvC3nH+dJewbsgl2z+GV9bs=
-X-Google-Smtp-Source: ABdhPJwq6CJeDBlbICraMq44KDfuHIlL7I5lGQMT/s2N1m3Z7YMiN0AEt76EmeHDs86T0pN9JG1k8A==
-X-Received: by 2002:a05:6870:a70e:b0:da:31c6:1d20 with SMTP id
- g14-20020a056870a70e00b000da31c61d20mr691233oam.86.1648507590529; 
- Mon, 28 Mar 2022 15:46:30 -0700 (PDT)
-Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- e81-20020a9d01d7000000b005cdbabcbab0sm6536510ote.22.2022.03.28.15.46.29
+ bh=c+4kcRn0vdWfejQ5YCWICWWkqdMBeD9KvgFo40BooSI=;
+ b=qlW2prji3Uaey04JvhA/sacrUJ1/GIMJ6NogavP4gi/I9WebeMPdyko6ERK8zy5u2Z
+ zLhJ4DP5L1N1XYkYfRBAuy6ovEvNnydABTl53AiPn0BtI+YZ2VnZXg44H5ECXu/gCuBp
+ 1K0snQZXzk3AdoufAIQnznCYs/EosfhONQggW9Na4CW/A4ac4x0d8vjPga8riHDXYiMB
+ 8s8Z4RkXGH5fq8mjKDX1WLaiqcCZZno3Y60cDkBfv3tYx/3NlzCq54ogXSbM0IMnTxrL
+ WiTYBad6jQVJZhz6ljAzfVswsqzVXxeEKgw/EiYf5b48DIbeh2BfAw/b97scQftJDgaz
+ YM1Q==
+X-Gm-Message-State: AOAM5304VoIfqX6QTvLGk/zliKQXGeniKfkWyXio5ubuaQHHkeGbRmco
+ A/jH23xDnvUk0pkGlksr4V8=
+X-Google-Smtp-Source: ABdhPJzBoCRlHs3+cTSJczeigz2jabTtgn/G3ymeMGC+PFhcSTEZyaEPBZdeBAPzBk+OtBf6DJ0Wtw==
+X-Received: by 2002:a17:90b:1e47:b0:1c6:d5a9:b147 with SMTP id
+ pi7-20020a17090b1e4700b001c6d5a9b147mr1328004pjb.223.1648507685432; 
+ Mon, 28 Mar 2022 15:48:05 -0700 (PDT)
+Received: from ?IPV6:2600:70ff:f07f:0:3c84:1cd:456b:b750?
+ ([2600:70ff:f07f:0:3c84:1cd:456b:b750])
+ by smtp.gmail.com with ESMTPSA id
+ q22-20020a056a00085600b004fb249e5be4sm10575653pfk.181.2022.03.28.15.47.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Mar 2022 15:46:30 -0700 (PDT)
-Message-ID: <ee2833b5-7ec8-adca-f407-d5f788d791bf@linaro.org>
-Date: Mon, 28 Mar 2022 16:46:27 -0600
+ Mon, 28 Mar 2022 15:48:04 -0700 (PDT)
+Message-ID: <4c1a54bc-1600-7173-78fc-eb2cb98af2c2@gmail.com>
+Date: Tue, 29 Mar 2022 00:47:57 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH v7 19/29] hw/intc: Add LoongArch extioi interrupt
- controller(EIOINTC)
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH] memory: Make memory_region_readd_subregion() properly
+ handle mapped aliases
 Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
- <20220328125749.2918087-20-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220328125749.2918087-20-yangxiaojuan@loongson.cn>
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20220201100940.47788-1-david@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220201100940.47788-1-david@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2a
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
  (failed)
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,36 +96,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, Song Gao <gaosong@loongson.cn>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/28/22 06:57, Xiaojuan Yang wrote:
-> +static uint64_t extioi_ipmap_enable_read(void *opaque, hwaddr addr,
-> +                                         unsigned size)
-> +{
-> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
-> +    uint8_t ret;
-> +
-> +    switch (addr) {
-> +    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
-> +        ret = s->ipmap[addr];
-> +        break;
-> +    case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
-> +        addr -= EXTIOI_ENABLE_START;
-> +        ret = s->enable[addr];
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +
-> +    trace_loongarch_extioi_ipmap_enable_read((uint8_t)addr, ret);
-> +    return ret;
-> +}
+On 1/2/22 11:09, David Hildenbrand wrote:
+> memory_region_readd_subregion() wants to readd a region by first
+> removing it and then readding it. For readding, it doesn't use one of
+> the memory_region_add_*() variants, which is why fail to re-increment the
+> mr->mapped_via_alias counters, resulting in the
+> assert(alias->mapped_via_alias >= 0) in memory_region_del_subregion()
+> triggering the next time we call memory_region_readd_subregion().
+> 
+> Fix it by using memory_region_add_subregion_common() for readding the
+> region.
+> 
+> Reported-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> Fixes: 5ead62185d23 ("memory: Make memory_region_is_mapped() succeed when mapped via an alias")
+> Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: "Philippe Mathieu-Daudé" <f4bug@amsat.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>   softmmu/memory.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 
-There are at least 4 instances of uninitialized use of 'ret' in this file, and this is 
-one.  Are you compiling with --disable-werror?  You must not do that.
-
-
-r~
+Thanks, queued to mips-fixes.
 
