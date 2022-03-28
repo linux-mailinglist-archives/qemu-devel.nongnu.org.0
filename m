@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A9AB4E907E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 10:50:49 +0200 (CEST)
-Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619AF4E908B
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 10:52:42 +0200 (CEST)
+Received: from localhost ([::1]:34434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYl5L-0007Jr-Ef
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 04:50:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56302)
+	id 1nYl7B-00029R-Cj
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 04:52:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nYl2Z-0004ap-6d
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 04:47:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47191)
+ id 1nYl34-0005YB-Ew
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 04:48:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nYl2X-00039o-Lp
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 04:47:54 -0400
+ id 1nYl32-0003Cy-Od
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 04:48:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648457271;
+ s=mimecast20190719; t=1648457304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NNOAqmZ0Io3dxVmDHD7HGmIeEHwTMyIABLHjeEanwlw=;
- b=SjErLMkV8J4K0YHWWdByP6a8kvcgVtc8QL+3tL2IvejUDewpiqpuiX8KfcYITW7Z9aXezq
- eLVWdKiT3/Fe91tWp2Xm5n87g4xHIMpqF6YGHw4Ii4xAI75DCnGS5NuOSUZT3devhoauAA
- S8EJFtuAZ9q2mn3ljPFfPK2tv/CYDq0=
+ bh=eujZwt4/yILiTJ1fOKNt1mog524VZdoV9cyzR9MkdQw=;
+ b=WHbMxQg1zY99odWua0872juBJ08qHodjORG7mtjy0Hcb20T23QUgwRwvsYsLJzX49Zc6NU
+ 3yi6ZlklgCyEdreKLz1rS6aw/Keh5u6PORjZVYQpvzr3Vg3lEdDWmp98RKI/10ea3Te5CL
+ qwLQRhVzXywPJ8gUDdQ+E4FQwleviWo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-tJ8w74EIM0WnrF5eQnrNWA-1; Mon, 28 Mar 2022 04:47:48 -0400
-X-MC-Unique: tJ8w74EIM0WnrF5eQnrNWA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-624-JhEQ4isVODWi61Yz-wdwtw-1; Mon, 28 Mar 2022 04:48:19 -0400
+X-MC-Unique: JhEQ4isVODWi61Yz-wdwtw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9DEFE85A5A8;
- Mon, 28 Mar 2022 08:47:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82F70101161C;
+ Mon, 28 Mar 2022 08:48:07 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D6F340C1257;
- Mon, 28 Mar 2022 08:47:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48A9D7774;
+ Mon, 28 Mar 2022 08:47:50 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] arm/digic: fix format-truncation warning
-Date: Mon, 28 Mar 2022 12:47:14 +0400
-Message-Id: <20220328084717.367993-3-marcandre.lureau@redhat.com>
+Subject: [PATCH 3/5] arm/allwinner-a10: fix format-overflow warning
+Date: Mon, 28 Mar 2022 12:47:15 +0400
+Message-Id: <20220328084717.367993-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20220328084717.367993-1-marcandre.lureau@redhat.com>
 References: <20220328084717.367993-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -94,32 +94,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-../hw/arm/digic.c: In function ‘digic_init’:
-../hw/arm/digic.c:45:54: error: ‘%d’ directive output may be truncated writing between 1 and 11 bytes into a region of size 5 [-Werror=format-truncation=]
-   45 |         snprintf(name, DIGIC_TIMER_NAME_MLEN, "timer[%d]", i);
-      |                                                      ^~
+../hw/arm/allwinner-a10.c: In function ‘aw_a10_realize’:
+../hw/arm/allwinner-a10.c:135:35: error: ‘%d’ directive writing between 1 and 11 bytes into a region of size 8 [-Werror=format-overflow=]
+  135 |             sprintf(bus, "usb-bus.%d", i);
+      |                                   ^~
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/arm/digic.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ hw/arm/allwinner-a10.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/arm/digic.c b/hw/arm/digic.c
-index 614232165cdc..6df554797734 100644
---- a/hw/arm/digic.c
-+++ b/hw/arm/digic.c
-@@ -39,10 +39,7 @@ static void digic_init(Object *obj)
-     object_initialize_child(obj, "cpu", &s->cpu, ARM_CPU_TYPE_NAME("arm946"));
+diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+index 05e84728cb34..79082289ea5b 100644
+--- a/hw/arm/allwinner-a10.c
++++ b/hw/arm/allwinner-a10.c
+@@ -130,9 +130,7 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+         int i;
  
-     for (i = 0; i < DIGIC4_NB_TIMERS; i++) {
--#define DIGIC_TIMER_NAME_MLEN    11
--        char name[DIGIC_TIMER_NAME_MLEN];
+         for (i = 0; i < AW_A10_NUM_USB; i++) {
+-            char bus[16];
 -
--        snprintf(name, DIGIC_TIMER_NAME_MLEN, "timer[%d]", i);
-+        g_autofree char *name = g_strdup_printf("timer[%d]", i);
-         object_initialize_child(obj, name, &s->timer[i], TYPE_DIGIC_TIMER);
-     }
+-            sprintf(bus, "usb-bus.%d", i);
++            g_autofree char *bus = g_strdup_printf("usb-bus.%d", i);
  
+             object_property_set_bool(OBJECT(&s->ehci[i]), "companion-enable",
+                                      true, &error_fatal);
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
