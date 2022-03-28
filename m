@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30824E9105
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 11:18:33 +0200 (CEST)
-Received: from localhost ([::1]:37900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A064E9120
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 11:22:31 +0200 (CEST)
+Received: from localhost ([::1]:43498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYlWC-0007ZA-Ps
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 05:18:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33238)
+	id 1nYla1-0003CC-UX
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 05:22:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nYlTa-0005As-4N
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:15:50 -0400
-Received: from [2607:f8b0:4864:20::b2f] (port=45988
- helo=mail-yb1-xb2f.google.com)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nYlXH-0001ry-0g
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:19:39 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:55524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nYlTY-0007TR-0D
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:15:49 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id e203so16051665ybc.12
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 02:15:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=AFjPYOtBhBn/wLv9qKb5ww3IIl6i5H38HTopswr/NfQ=;
- b=JMz6XQdD4WPpWsUVegxLVrOLcZSeyq3BFPfi/ZO1vsece479jlLjqFCDRSds5a0CPS
- 50FeZMK6e/dIIhcc84Fl0brT3kfgBmP+QhaJLfDzDEtu4KELqwvi0hnmNuuCwiOpyduK
- a62HLg0LBNKDa18CRQQsBl9/GbgTggpB6hVg+U0ffL3OQlzRsTsLPkFZlcN09r/oGQVa
- i5gKbMeJwqPKmwzqM+DcLIxDkh2TIbvzMXiOcEDaJQ2+fbcPH5gvjw1hefB1gqhiRr9U
- iz5jyPY15BcYrJqEk0DkNQ8CfRrhwEPLCyuay8N2UGAV3w+x2s+iqGem37vgQhDupQoP
- OeGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=AFjPYOtBhBn/wLv9qKb5ww3IIl6i5H38HTopswr/NfQ=;
- b=KIQKB7G1NOukq9b4KOfpXTIYe/GtjkpU+kO1iBuWgOmn9RX0b9py8bySy5TF9HoO+0
- 6nnrgWis8tUOz4loWmCcpCXCoz/r7iCMl3rEf/2gi7ZwvuQd30PwgT8P8tY4eb1DVWxH
- sW7TEaljsVmiJcKfqpJJWti24mckn3tbV3cWmkrl3LWJ7fmkuklSOokXxYd4Ph9BIXsJ
- Lja2YYIHUgKGk/x3EgmiuAWvJ0EmdM4ClQTAlBLCTIjiMgL3l7f9t5tsfNYRcjUuUrZa
- f83N+3/LUZCVx9jIr8cSrG3bo9j6Be7dIWUHKSQ7HevQIVqekoeNUd4PG0k47IakFrYT
- L3Zg==
-X-Gm-Message-State: AOAM530Ut6sFc1MBKQZ4x6G1rjlCrifxObaYRoZ6FcbDcNJ0vMSpomdo
- 5Vl4ltVfjdf388L6ai37PSo4gWluA5dqJNR4y97XKw==
-X-Google-Smtp-Source: ABdhPJzLOIEhvsIqcRghMvr7TqqJJdWJPvWSm5RfCTgU0qtoEhxAELu+tf4Z9cPkzJPaDOnN71H8NM76A6QHcu+j7rI=
-X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
- r1-20020a5b06c1000000b00633b5c7b9b7mr21790735ybq.67.1648458947136; Mon, 28
- Mar 2022 02:15:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nYlXF-00089w-0l
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:19:38 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 85B2A210EA;
+ Mon, 28 Mar 2022 09:19:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1648459165; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IEsNC4jcPOFVt6hAI9YVS7qwjdXC8JTutMu/xh9yYMw=;
+ b=Liao5Rt+kW6x+b565kw831CQgyjIUwjLT4KKeFq7KB6Arj7hYKuzLVUvu92jt0d3qbvAAF
+ c814TMiq/tVjzO0Vqm6BMUZLRECbww6kp4vWE9EWspSn0I1Lh7agEWDQ+njX6Imwh9ZNii
+ S9Lam8DRx8GzEXkInhf4LiFttFVBKpU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1648459165;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IEsNC4jcPOFVt6hAI9YVS7qwjdXC8JTutMu/xh9yYMw=;
+ b=yyWaMQECSIC1fUtXsWG8d9UnnIMk0ZMKGP2Ba3sys50Lv2u1N5nlf/Z9Ry2kAFqpsK6s/D
+ 2CD2NBFJjNJKUJBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4349B13B08;
+ Mon, 28 Mar 2022 09:19:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id SY53Dp19QWIAJgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 28 Mar 2022 09:19:25 +0000
+Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
+ performance
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <Yi+ACeaZ+oXTVYjc@redhat.com>
+ <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
+ <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
+ <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
+ <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de> <YjNNqzb7eBBwMFJN@work-vm>
+ <737974fa-905c-d171-05b0-ec4df42bc762@suse.de> <Yj2nh1LRZ54BXuds@redhat.com>
+ <47af35ec-2ca8-26ae-f4e4-d81f18f2a05b@suse.de> <YkFycBMT0HsYUfJr@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <ae3eaab7-acd9-b3e7-238a-02d3fcc15c5a@suse.de>
+Date: Mon, 28 Mar 2022 11:19:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20220328084717.367993-1-marcandre.lureau@redhat.com>
- <20220328084717.367993-5-marcandre.lureau@redhat.com>
-In-Reply-To: <20220328084717.367993-5-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 28 Mar 2022 09:15:33 +0000
-Message-ID: <CAFEAcA-g=XaURutqWd6okRHb3-pz3SegaxRMG5j2s+PThQHdGQ@mail.gmail.com>
-Subject: Re: [PATCH 4/5] intc/exynos4210_gic: fix format-overflow warning
-To: marcandre.lureau@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <YkFycBMT0HsYUfJr@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,70 +91,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Antony Pavlov <antonynpavlov@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: libvir-list@redhat.com, andrea.righi@canonical.com,
+ Jiri Denemark <jdenemar@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Mar 2022 at 09:48, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  hw/intc/exynos4210_gic.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->
-> diff --git a/hw/intc/exynos4210_gic.c b/hw/intc/exynos4210_gic.c
-> index bc73d1f11524..5b6f4330a5f3 100644
-> --- a/hw/intc/exynos4210_gic.c
-> +++ b/hw/intc/exynos4210_gic.c
-> @@ -289,10 +289,6 @@ static void exynos4210_gic_realize(DeviceState *dev,=
- Error **errp)
->      Object *obj =3D OBJECT(dev);
->      Exynos4210GicState *s =3D EXYNOS4210_GIC(obj);
->      SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
-> -    const char cpu_prefix[] =3D "exynos4210-gic-alias_cpu";
-> -    const char dist_prefix[] =3D "exynos4210-gic-alias_dist";
-> -    char cpu_alias_name[sizeof(cpu_prefix) + 3];
-> -    char dist_alias_name[sizeof(cpu_prefix) + 3];
->      SysBusDevice *gicbusdev;
->      uint32_t n =3D s->num_cpu;
->      uint32_t i;
-> @@ -322,8 +318,10 @@ static void exynos4210_gic_realize(DeviceState *dev,=
- Error **errp)
->       */
->      assert(n <=3D EXYNOS4210_NCPUS);
->      for (i =3D 0; i < n; i++) {
-> +        g_autofree char *cpu_alias_name =3D g_strdup_printf("exynos4210-=
-gic-alias_cpu%x", i);
-> +        g_autofree char *dist_alias_name =3D g_strdup_printf("exynos4210=
--gic-alias_dist%x", i);
-> +
->          /* Map CPU interface per SMP Core */
-> -        sprintf(cpu_alias_name, "%s%x", cpu_prefix, i);
->          memory_region_init_alias(&s->cpu_alias[i], obj,
->                                   cpu_alias_name,
->                                   sysbus_mmio_get_region(gicbusdev, 1),
-> @@ -333,7 +331,6 @@ static void exynos4210_gic_realize(DeviceState *dev, =
-Error **errp)
->                  EXYNOS4210_EXT_GIC_CPU_GET_OFFSET(i), &s->cpu_alias[i]);
->
->          /* Map Distributor per SMP Core */
-> -        sprintf(dist_alias_name, "%s%x", dist_prefix, i);
->          memory_region_init_alias(&s->dist_alias[i], obj,
->                                   dist_alias_name,
->                                   sysbus_mmio_get_region(gicbusdev, 0),
-> --
+On 3/28/22 10:31 AM, Daniel P. Berrangé wrote:
+> On Sat, Mar 26, 2022 at 04:49:46PM +0100, Claudio Fontana wrote:
+>> On 3/25/22 12:29 PM, Daniel P. Berrangé wrote:
+>>> On Fri, Mar 18, 2022 at 02:34:29PM +0100, Claudio Fontana wrote:
+>>>> On 3/17/22 4:03 PM, Dr. David Alan Gilbert wrote:
+>>>>> * Claudio Fontana (cfontana@suse.de) wrote:
+>>>>>> On 3/17/22 2:41 PM, Claudio Fontana wrote:
+>>>>>>> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
+>>>>>>>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
+>>>>>>>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
+>>>>>>>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
+>>>>>>>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
+>>>>>>>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
+>>>>>>>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
+>>>>>>>>>>>>>> the first user is the qemu driver,
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> This improves the situation by 400%.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
+>>>>>>>>>>>>>> compared with direct qemu migration to a nc socket to a file.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>>>>>>>>>>>> ---
+>>>>>>>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
+>>>>>>>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
+>>>>>>>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
+>>>>>>>>>>>>>>  src/util/virfile.h        |  1 +
+>>>>>>>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
+>>>>>>>>>>>>>> so you can find the discussion about this in qemu-devel:
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>> Current results show these experimental averages maximum throughput
+>>>>>>>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
+>>>>>>>>> "query-migrate", tests repeated 5 times for each).
+>>>>>>>>> VM Size is 60G, most of the memory effectively touched before migration,
+>>>>>>>>> through user application allocating and touching all memory with
+>>>>>>>>> pseudorandom data.
+>>>>>>>>>
+>>>>>>>>> 64K:     5200 Mbps (current situation)
+>>>>>>>>> 128K:    5800 Mbps
+>>>>>>>>> 256K:   20900 Mbps
+>>>>>>>>> 512K:   21600 Mbps
+>>>>>>>>> 1M:     22800 Mbps
+>>>>>>>>> 2M:     22800 Mbps
+>>>>>>>>> 4M:     22400 Mbps
+>>>>>>>>> 8M:     22500 Mbps
+>>>>>>>>> 16M:    22800 Mbps
+>>>>>>>>> 32M:    22900 Mbps
+>>>>>>>>> 64M:    22900 Mbps
+>>>>>>>>> 128M:   22800 Mbps
+>>>>>>>>>
+>>>>>>>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
+>>>>>>>>
+>>>>>>>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
+>>>>>>>> libvirt attempt to raise the pipe limit to 1 MB by default, but
+>>>>>>>> not try to go higher.
+>>>>>>>>
+>>>>>>>>> As for the theoretical limit for the libvirt architecture,
+>>>>>>>>> I ran a qemu migration directly issuing the appropriate QMP
+>>>>>>>>> commands, setting the same migration parameters as per libvirt,
+>>>>>>>>> and then migrating to a socket netcatted to /dev/null via
+>>>>>>>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
+>>>>>>>>>
+>>>>>>>>> QMP:    37000 Mbps
+>>>>>>>>
+>>>>>>>>> So although the Pipe size improves things (in particular the
+>>>>>>>>> large jump is for the 256K size, although 1M seems a very good value),
+>>>>>>>>> there is still a second bottleneck in there somewhere that
+>>>>>>>>> accounts for a loss of ~14200 Mbps in throughput.
+>>>>>>
+>>>>>>
+>>>>>> Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
+>>>>>> and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
+>>>>>>
+>>>>>> ~50000 mbps qemu to netcat socket to /dev/null
+>>>>>> ~35500 mbps virsh save to /dev/null
+>>>>>>
+>>>>>> Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
+>>>>>
+>>>>> It might be closer to RAM or cache bandwidth limited though; for an extra copy.
+>>>>
+>>>> I was thinking about sendfile(2) in iohelper, but that probably
+>>>> can't work as the input fd is a socket, I am getting EINVAL.
+>>>
+>>> Yep, sendfile() requires the input to be a mmapable FD,
+>>> and the output to be a socket.
+>>>
+>>> Try splice() instead  which merely requires 1 end to be a
+>>> pipe, and the other end can be any FD afaik.
+>>>
+>>
+>> I did try splice(), but performance is worse by around 500%.
+> 
+> Hmm, that's certainly unexpected !
+> 
+>> Any ideas welcome,
+> 
+> I learnt there is also a newer  copy_file_range call, not sure if that's
+> any better.
+> 
+> You passed len as 1 MB, I wonder if passing MAXINT is viable ? We just
+> want to copy everything IIRC.
+> 
+> With regards,
+> Daniel
+> 
 
-More false positives, but here the new code is massively better than the ol=
-d.
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Hi Daniel, tried also up to 64MB, no improvement with splice.
 
-thanks
--- PMM
+I'll take a look at copy_file_range,
+
+Thanks!
+
+Claudio
 
