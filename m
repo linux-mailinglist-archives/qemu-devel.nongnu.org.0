@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 705654EA256
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:20:27 +0200 (CEST)
-Received: from localhost ([::1]:53856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE574EA257
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:20:31 +0200 (CEST)
+Received: from localhost ([::1]:53954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYwmo-0001Sx-FF
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:20:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49118)
+	id 1nYwms-0001XE-K8
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:20:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nYwiM-0001am-H3
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:50 -0400
-Received: from [2a00:1450:4864:20::12e] (port=46735
- helo=mail-lf1-x12e.google.com)
+ id 1nYwiO-0001gb-GR
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:52 -0400
+Received: from [2a00:1450:4864:20::12a] (port=40700
+ helo=mail-lf1-x12a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nYwiL-0003pI-05
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:50 -0400
-Received: by mail-lf1-x12e.google.com with SMTP id e16so26930749lfc.13
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:15:48 -0700 (PDT)
+ id 1nYwiN-0003rS-38
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:52 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id t25so26963357lfg.7
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:15:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fZKapn44JNSnvlOlsZjDBxj/jSMFPLsC8E1aDAQA7GM=;
- b=MQqdkG+IyOLTOI/nH3x5P0AbDBvI89sLmcA2WfyRqskzLkBfWQ95/ljbIKSRX4u15v
- ObeojMVEW/zwQpSZgJiIM1g7ICp8GMiqRWHOSIoVVps1CzljL33mpKegcJedXNbHzZhR
- vXPAIf7weziAhRJIwwuc1OOf1gwLFg2KOZ4yLocaFgQSiNxPs8So2t/CZtXb8otAEtI7
- Eb9vPG1IzgUPH/W61YiDqWQgeyJEeC+qHgYLyXsBmMq0L6wT2V8W1Kf2L5fLbvTuUI3R
- zYY7ygdLp2eB3SLuySncbazdnYoMDmnuXLdXwqSfU3PJINN71n8YnYO5RBISLR+OAFkK
- wXlQ==
+ bh=xJSmV3NZ+AOVy0EQfz+E+II5VBJktTYUyBL6qJb89d0=;
+ b=ZIJ4NMiTtIVgNAkkh1T3dFB0Al14YBtAUP/exbs6srLToI/1xiDJD2quQpk7TYU5W5
+ TUlSWHvq+pHsYcHEIB1t1pHlgmzZnmx/Ks81+g7snIB0KopvMqxO5zEi5d3u055JTg+0
+ C4pe/0ELnuopk3Z9kV3StLX29eA5r/FAaHFIOsSLeh4jMuQYD7XtS2p6xq3oIiojSPd5
+ 4sbe8NIlSeI1wU5e52JmD35vIxJKiN8FhwCyLpQ6pZQ5U98IyfR2fCgy1GTdFV1ZrKt6
+ yXnHItiVU7uZfL5PUALcOYmXg5id2BVWIp+wCltPTQWI52RUYHFRsVm0uPgJcPzecnx/
+ Q4Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fZKapn44JNSnvlOlsZjDBxj/jSMFPLsC8E1aDAQA7GM=;
- b=a3ypfTdTSRjMC7gweaIGaK86hzJxAD3U4FaLP02CzdaESkjkRbSNvPkR9hARpAoKAQ
- 1N44E/vTr6Q7hjhxxxjAB5c/7kh+u7oaHuXqS7MOoJpsKU/h/KbDyXNXI9fDNdL+dBrs
- 3BDLuMnS+P5jmc3Irfk5eCTdXDaHrFVGtG5KA2/nI/b8XdoGUmzz1w8Sn8Qi9v7VB+Er
- oz3pwIkhkGS+8Q9RUPOsAjAWNzP/ooi7SDjCnRV+tIMWXZWSCQvCqBre8NE+kOAMVFOl
- 8eTe6mwomnPy4iYlaZr9RWBzYt3sJeqh0grhXCkDH9WjbYcjvg2Us1zj73uK81pYmWrG
- qQ7Q==
-X-Gm-Message-State: AOAM531eqHkmfCmFl/FRwkUdkk8cu7mVzoCqO4F/RmPxAsqfdVIV6b1P
- PKkObpi3f/VsD61f2TrWbtEDHk2oyajjzw==
-X-Google-Smtp-Source: ABdhPJy6zsAMaM+lyFqDnpqftyaBL9IdNCdfmrljdSbTf4HZaVFEPjnX3bzRrkw3h8S8xkiajDsaVw==
-X-Received: by 2002:a05:6512:2214:b0:44a:348a:d6d with SMTP id
- h20-20020a056512221400b0044a348a0d6dmr21544010lfu.506.1648502147198; 
- Mon, 28 Mar 2022 14:15:47 -0700 (PDT)
+ bh=xJSmV3NZ+AOVy0EQfz+E+II5VBJktTYUyBL6qJb89d0=;
+ b=zkQSnurS8Z8Aksrnv67crLfExCfctSUIggcA5F3WE8Agk/jaovQsY19XvGGcLtiJuy
+ 0vCMr39S6Hv9H/LiifZDKnVDrH0oHIVkomB5f7brconxNXXw+iXkMyeYkKZZh9dOHaim
+ X20E287nRvInbTBvzHA75nrO3cVcTss9xM4unlIaCIHRXcwENSCw9X7R4lNn5oaGRdRq
+ sqaFXI4hVNoXk6biEsziClcntJEPkqAIVOJIkHuTAHzx55Muirpk8957um029tx9eFrj
+ FMo9pR7fZffzOOWGbirXnsvUSwcpj1Ue1Rf8ou+X2WauJMADEWkbp4bL06Ci/QYfjw99
+ vOIQ==
+X-Gm-Message-State: AOAM531jJaIEQNPwda2rlz7KiI42j54nQ9P6B2vNXduEvthuSPYs3X9H
+ SRw3SI+Zzi5NlOpB3vc7xCf9T7DMvgJqpg==
+X-Google-Smtp-Source: ABdhPJxcJt7FOl5RzSBCR+nTKQ8q4kKuJ0dmaGdN/lnOslPl5HjyGhngJS7JCb4l4r0MJ13kqNyP2g==
+X-Received: by 2002:a05:6512:2341:b0:448:2465:7cf with SMTP id
+ p1-20020a056512234100b00448246507cfmr20604947lfu.474.1648502148584; 
+ Mon, 28 Mar 2022 14:15:48 -0700 (PDT)
 Received: from localhost.localdomain ([93.175.1.181])
  by smtp.gmail.com with ESMTPSA id
- k15-20020a2e92cf000000b002493cc687f3sm1855827ljh.45.2022.03.28.14.15.46
+ k15-20020a2e92cf000000b002493cc687f3sm1855827ljh.45.2022.03.28.14.15.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Mar 2022 14:15:46 -0700 (PDT)
+ Mon, 28 Mar 2022 14:15:48 -0700 (PDT)
 From: Maxim Davydov <maxim.davydov@openvz.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 4/9] msmouse: add appropriate unregister handler
-Date: Tue, 29 Mar 2022 00:15:34 +0300
-Message-Id: <20220328211539.90170-5-maxim.davydov@openvz.org>
+Subject: [PATCH v1 5/9] wctablet: add appropriate unregister handler
+Date: Tue, 29 Mar 2022 00:15:35 +0300
+Message-Id: <20220328211539.90170-6-maxim.davydov@openvz.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220328211539.90170-1-maxim.davydov@openvz.org>
 References: <20220328211539.90170-1-maxim.davydov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
- envelope-from=maxim.davydov@openvz.org; helo=mail-lf1-x12e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=maxim.davydov@openvz.org; helo=mail-lf1-x12a.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -102,24 +102,24 @@ fault in QTAILQ_REMOVE.
 
 Signed-off-by: Maxim Davydov <maxim.davydov@openvz.org>
 ---
- chardev/msmouse.c | 4 +++-
+ chardev/wctablet.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/chardev/msmouse.c b/chardev/msmouse.c
-index eb9231dcdb..2cc1b16561 100644
---- a/chardev/msmouse.c
-+++ b/chardev/msmouse.c
-@@ -146,7 +146,9 @@ static void char_msmouse_finalize(Object *obj)
+diff --git a/chardev/wctablet.c b/chardev/wctablet.c
+index e8b292c43c..43bdf6b608 100644
+--- a/chardev/wctablet.c
++++ b/chardev/wctablet.c
+@@ -319,7 +319,9 @@ static void wctablet_chr_finalize(Object *obj)
  {
-     MouseChardev *mouse = MOUSE_CHARDEV(obj);
+     TabletChardev *tablet = WCTABLET_CHARDEV(obj);
  
--    qemu_input_handler_unregister(mouse->hs);
-+    if (mouse->hs) {
-+        qemu_input_handler_unregister(mouse->hs);
+-    qemu_input_handler_unregister(tablet->hs);
++    if (tablet->hs) {
++        qemu_input_handler_unregister(tablet->hs);
 +    }
  }
  
- static QemuInputHandler msmouse_handler = {
+ static void wctablet_chr_open(Chardev *chr,
 -- 
 2.31.1
 
