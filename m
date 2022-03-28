@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472314E98BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 15:51:43 +0200 (CEST)
-Received: from localhost ([::1]:47846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214A14E98C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 15:53:43 +0200 (CEST)
+Received: from localhost ([::1]:50200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYpmY-00033N-Cl
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 09:51:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57596)
+	id 1nYpoU-0004ke-8T
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 09:53:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYpLf-00056S-Pj
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 09:24:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYpKk-0006Uc-CZ
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 09:23:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648473777;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZLCHOkqL2zGGYLKsnuStLUOTwa+Gph0NyUDIBBi/a+M=;
- b=g/n0fLGwjY4bvPnzw6DnSb+muPjffpJ+4BJ+ULRxSXsjyJ5N9MwVuCRdcQpcO7tqRpaT5N
- du+tFZ5GnjkF7mTFPIGFOUDGTfkdNn/A1S4pOnGLNTCncMfW8905Fa/+TYJQCb3WXNvtPX
- jlHWH6X6z14U9kCbI2SWsHXyAIh1TrI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-84-_IqIoOVUPCyk6Gx0Vao4EQ-1; Mon, 28 Mar 2022 09:22:54 -0400
-X-MC-Unique: _IqIoOVUPCyk6Gx0Vao4EQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nYpQT-0002on-Vz
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 09:28:54 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:41576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nYpQP-0007RK-Hh
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 09:28:53 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47BDC185A7B2
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 13:22:54 +0000 (UTC)
-Received: from localhost (unknown [10.40.195.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA0FD76C4;
- Mon, 28 Mar 2022 13:22:53 +0000 (UTC)
-Date: Mon, 28 Mar 2022 15:22:52 +0200
-From: Victor Toso <victortoso@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 02/14] qapi: fix example of BLOCK_IMAGE_CORRUPTED event
-Message-ID: <20220328132252.teqjysvaw3t5holu@tapioca>
-References: <20220325220707.52118-1-victortoso@redhat.com>
- <20220325220707.52118-3-victortoso@redhat.com>
- <87czi6bgoe.fsf@pond.sub.org>
- <20220328090635.asa3jcwxdapt4f6s@tapioca>
- <87ilry9ve9.fsf@pond.sub.org>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 098101F37C;
+ Mon, 28 Mar 2022 13:28:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1648474119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=85KHe/yr+UuWdvTXBYDgnXPv2fkg/cs3R2O7XfYM1JE=;
+ b=SjAtlsfmGUbwNV8V8o4AF6R1KSDhvdAPP1bFnlRAZx2VIB/y9Yq6cXMhXb6YBSakzEC62W
+ py1nsJYH4mV0KThGqDLkFWzgf3Fd1OP8Ku37nEchGTjdEm6FGIA4Vp3mRdNqgeDhaCds4O
+ nmomNNIiuki6sMPQNRSPUeEWZT5E+sE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1648474119;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=85KHe/yr+UuWdvTXBYDgnXPv2fkg/cs3R2O7XfYM1JE=;
+ b=oYO5uLzntGOzFReuE6rGi70/06wwcv3SZODeBol050+Qs11vw2B/ECU8+SuAlsZIYu6ar3
+ Ur404BspR+9qkxBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C39A613215;
+ Mon, 28 Mar 2022 13:28:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id WwnVLQa4QWJbGAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 28 Mar 2022 13:28:38 +0000
+Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
+ performance
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <Yi94mQUfrxMVbiLM@redhat.com>
+ <34eb53b5-78f7-3814-b71e-aa7ac59f9d25@suse.de> <Yi+ACeaZ+oXTVYjc@redhat.com>
+ <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
+ <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
+ <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
+ <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de> <YjNNqzb7eBBwMFJN@work-vm>
+ <737974fa-905c-d171-05b0-ec4df42bc762@suse.de> <Yj2nh1LRZ54BXuds@redhat.com>
+ <47af35ec-2ca8-26ae-f4e4-d81f18f2a05b@suse.de>
+ <5cc269eb-7061-a6cd-2717-521e5d28e12b@suse.de>
+Message-ID: <d2ee583b-2280-8be8-824f-b3c2f30949fe@suse.de>
+Date: Mon, 28 Mar 2022 15:28:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="l3xcko4vtrnssvvo"
-Content-Disposition: inline
-In-Reply-To: <87ilry9ve9.fsf@pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <5cc269eb-7061-a6cd-2717-521e5d28e12b@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,117 +93,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel@nongnu.org
+Cc: libvir-list@redhat.com, andrea.righi@canonical.com,
+ Jiri Denemark <jdenemar@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/28/22 12:47 PM, Claudio Fontana wrote:
+> On 3/26/22 4:49 PM, Claudio Fontana wrote:
+>> On 3/25/22 12:29 PM, Daniel P. Berrangé wrote:
+>>> On Fri, Mar 18, 2022 at 02:34:29PM +0100, Claudio Fontana wrote:
+>>>> On 3/17/22 4:03 PM, Dr. David Alan Gilbert wrote:
+>>>>> * Claudio Fontana (cfontana@suse.de) wrote:
+>>>>>> On 3/17/22 2:41 PM, Claudio Fontana wrote:
+>>>>>>> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
+>>>>>>>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
+>>>>>>>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
+>>>>>>>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
+>>>>>>>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
+>>>>>>>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
+>>>>>>>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
+>>>>>>>>>>>>>> the first user is the qemu driver,
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> This improves the situation by 400%.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
+>>>>>>>>>>>>>> compared with direct qemu migration to a nc socket to a file.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>>>>>>>>>>>> ---
+>>>>>>>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
+>>>>>>>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
+>>>>>>>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
+>>>>>>>>>>>>>>  src/util/virfile.h        |  1 +
+>>>>>>>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
+>>>>>>>>>>>>>> so you can find the discussion about this in qemu-devel:
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>> Current results show these experimental averages maximum throughput
+>>>>>>>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
+>>>>>>>>> "query-migrate", tests repeated 5 times for each).
+>>>>>>>>> VM Size is 60G, most of the memory effectively touched before migration,
+>>>>>>>>> through user application allocating and touching all memory with
+>>>>>>>>> pseudorandom data.
+>>>>>>>>>
+>>>>>>>>> 64K:     5200 Mbps (current situation)
+>>>>>>>>> 128K:    5800 Mbps
+>>>>>>>>> 256K:   20900 Mbps
+>>>>>>>>> 512K:   21600 Mbps
+>>>>>>>>> 1M:     22800 Mbps
+>>>>>>>>> 2M:     22800 Mbps
+>>>>>>>>> 4M:     22400 Mbps
+>>>>>>>>> 8M:     22500 Mbps
+>>>>>>>>> 16M:    22800 Mbps
+>>>>>>>>> 32M:    22900 Mbps
+>>>>>>>>> 64M:    22900 Mbps
+>>>>>>>>> 128M:   22800 Mbps
+>>>>>>>>>
+>>>>>>>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
+>>>>>>>>
+>>>>>>>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
+>>>>>>>> libvirt attempt to raise the pipe limit to 1 MB by default, but
+>>>>>>>> not try to go higher.
+>>>>>>>>
+>>>>>>>>> As for the theoretical limit for the libvirt architecture,
+>>>>>>>>> I ran a qemu migration directly issuing the appropriate QMP
+>>>>>>>>> commands, setting the same migration parameters as per libvirt,
+>>>>>>>>> and then migrating to a socket netcatted to /dev/null via
+>>>>>>>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
+>>>>>>>>>
+>>>>>>>>> QMP:    37000 Mbps
+>>>>>>>>
+>>>>>>>>> So although the Pipe size improves things (in particular the
+>>>>>>>>> large jump is for the 256K size, although 1M seems a very good value),
+>>>>>>>>> there is still a second bottleneck in there somewhere that
+>>>>>>>>> accounts for a loss of ~14200 Mbps in throughput.
+>>>>>>
+>>>>>>
+>>>>>> Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
+>>>>>> and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
+>>>>>>
+>>>>>> ~50000 mbps qemu to netcat socket to /dev/null
+>>>>>> ~35500 mbps virsh save to /dev/null
+>>>>>>
+>>>>>> Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
+>>>>>
+>>>>> It might be closer to RAM or cache bandwidth limited though; for an extra copy.
+>>>>
+>>>> I was thinking about sendfile(2) in iohelper, but that probably
+>>>> can't work as the input fd is a socket, I am getting EINVAL.
+>>>
+>>> Yep, sendfile() requires the input to be a mmapable FD,
+>>> and the output to be a socket.
+>>>
+>>> Try splice() instead  which merely requires 1 end to be a
+>>> pipe, and the other end can be any FD afaik.
+>>>
+>>> With regards,
+>>> Daniel
+>>>
+>>
+>> I did try splice(), but performance is worse by around 500%.
+>>
+>> It also fails with EINVAL when trying to use it in combination with O_DIRECT.
+>>
+>> Tried larger and smaller buffers, flags like SPLICE_F_MORE an SPLICE_F_MOVE in any combination; no change, just awful performance.
+> 
+> 
+> Ok I found a case where splice actually helps: in the read case, without O_DIRECT, splice seems to actually outperform read/write
+> by _a lot_.
 
---l3xcko4vtrnssvvo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+I was just hit by a cache effect. No real improvements I could measure.
 
-On Mon, Mar 28, 2022 at 01:19:42PM +0200, Markus Armbruster wrote:
-> Victor Toso <victortoso@redhat.com> writes:
->=20
-> > Hi,
-> >
-> > On Mon, Mar 28, 2022 at 10:54:41AM +0200, Markus Armbruster wrote:
-> >> Victor Toso <victortoso@redhat.com> writes:
-> >>=20
-> >> > Fatal is not optional.
-> >>=20
-> >> Recognizing that "Fatal" refers to member "fatal" takes mental
-> >> effort.  Always use identifiers verbatim, including case.
-> >> Where that makes for confusing prose, prefix with a @ like
-> >> @fatal, or rephrase, like "The
-> >> member fatal".
-> >
-> > That's true.
-> >
-> >> >
-> >> > Signed-off-by: Victor Toso <victortoso@redhat.com>
-> >> > ---
-> >> >  qapi/block-core.json | 7 +++----
-> >> >  1 file changed, 3 insertions(+), 4 deletions(-)
-> >> >
-> >> > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> >> > index e89f2dfb5b..63c30a5378 100644
-> >> > --- a/qapi/block-core.json
-> >> > +++ b/qapi/block-core.json
-> >> > @@ -5006,10 +5006,9 @@
-> >> >  # Example:
-> >> >  #
-> >> >  # <- { "event": "BLOCK_IMAGE_CORRUPTED",
-> >> > -#      "data": { "device": "ide0-hd0", "node-name": "node0",
-> >> > -#                "msg": "Prevented active L1 table overwrite", "off=
-set": 196608,
-> >> > -#                "size": 65536 },
-> >> > -#      "timestamp": { "seconds": 1378126126, "microseconds": 966463=
- } }
-> >> > +#      "data": { "device": "", "node-name": "drive", "fatal": false,
-> >> > +#                "msg": "L2 table offset 0x2a2a2a00 unaligned (L1 i=
-ndex: 0)" },
-> >> > +#      "timestamp": { "seconds": 1648243240, "microseconds": 906060=
- } }
-> >> >  #
-> >> >  # Since: 1.7
-> >> >  ##
-> >>=20
-> >> Changing the value of @msg makes sense, but is worth a note in the
-> >> commit message.
-> >>=20
-> >> Here's my try:
-> >>=20
-> >>     qapi: fix example of BLOCK_IMAGE_CORRUPTED event
-> >>=20
-> >>     Example output lacks mandatory member @fatal.  Provide it.
-> >>=20
-> >>     Example output shows a value of @msg no version of the code
-> >>     produces.  No big deal, but replace it anyway by one that today's
-> >>     code does produce.
-> >>=20
-> >> How do you like it?
-> >
-> > I agree. I'll be more careful in near future. Thanks for the
-> > suggestion. I've submit a v2.1 of this patch.
->=20
-> That's okay.  Asking me to replace the commit message in my
-> tree is also okay.
->=20
-> PATCH 3's commit message could use the same treatment.  Would
-> you like to go over all of them and respin?  Should be quick,
-> no code changes.
-
-Sure, I'll be sending a v3 and amend the commit messages where
-your previous suggestions fits.  I'll add the changes in the
-cover-letter to help identify them.
-
-Cheers,
-
---l3xcko4vtrnssvvo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmJBtqwACgkQl9kSPeN6
-SE8Y4RAAiZJnx2PZ3FMX1LN8asg1xygJ7jrR5WbXvmPU+t+OjiOMbs6XJyjD096b
-wP7t4tfvtwgiMGHTwE0bB0XT/fTaysFp/fKMrhSP9SY3lywxGYR3zG9mWFznWT+/
-f3LMN43CDNjUecLeuPfT0eLraKD7nUEGI3Z6jnxtnljDq5twmHDW1UUtDbMKWJHz
-keMi20N1FiKsuCKxRh+U1jKmNTRqIUwyY/GkzrQ1r8a1dBIDCsJDjj8pO8J5QRRh
-UFi0wBUfQozgBuSXYjFA1XaIMd7TuH6Dp/0sIXbMrrwi2UOFPy6GnMUYVIMLVmft
-/cbQTo6WQaR9gsKPOBtGx5xgEPdbx4NeoPtpbUFx9hruTttV050sXmzssiKbk/yx
-zf9QKeqo7L3i038RX/74AI4QBtiVAhfnWFwC6f+MJ+hZ4IMRiST75QjpVXs/vWup
-3BcJahnOrY5Ft3zChnnDX2XQC6DNIREbZK44tMW2nGKFWJhdSP1Viq2uZwogm0de
-0ISU2h0GuGfHx/VHUtbF3Ctp/AoZ672Qf4lpyo68rKszBjqwWFp6SBsfANYQLbAL
-Jsupel7ktRMnfmWzgEAEY4dBMG+8fDNt+fCLeQhoNnsOpilEiorCHUW2aMQ9PDGO
-773e9LRa7ptbCdvlBb/kqGocWVSb5H604jWDuCywfHQV6O9U0Vo=
-=wIvT
------END PGP SIGNATURE-----
-
---l3xcko4vtrnssvvo--
+> 
+> I will code up the patch and start making more experiments with larger VM sizes etc.
+> 
+> Thanks!
+> 
+> Claudio
+> 
+> 
+>>
+>> Here is the code:
+>>
+>> #ifdef __linux__
+>> +static ssize_t safesplice(int fdin, int fdout, size_t todo)
+>> +{
+>> +    unsigned int flags = SPLICE_F_MOVE | SPLICE_F_MORE;
+>> +    ssize_t ncopied = 0;
+>> +
+>> +    while (todo > 0) {
+>> +        ssize_t r = splice(fdin, NULL, fdout, NULL, todo, flags);
+>> +        if (r < 0 && errno == EINTR)
+>> +            continue;
+>> +        if (r < 0)
+>> +            return r;
+>> +        if (r == 0)
+>> +            return ncopied;
+>> +        todo -= r;
+>> +        ncopied += r;
+>> +    }
+>> +    return ncopied;
+>> +}
+>> +
+>> +static ssize_t runIOCopy(const struct runIOParams p)
+>> +{
+>> +    size_t len = 1024 * 1024;
+>> +    ssize_t total = 0;
+>> +
+>> +    while (1) {
+>> +        ssize_t got = safesplice(p.fdin, p.fdout, len);
+>> +        if (got < 0)
+>> +            return -1;
+>> +        if (got == 0)
+>> +            break;
+>> +
+>> +        total += got;
+>> +
+>> +        /* handle last write truncate in direct case */
+>> +        if (got < len && p.isDirect && p.isWrite && !p.isBlockDev) {
+>> +            if (ftruncate(p.fdout, total) < 0) {
+>> +                return -4;
+>> +            }
+>> +            break;
+>> +        }
+>> +    }
+>> +    return total;
+>> +}
+>> +
+>> +#endif
+>>
+>>
+>> Any ideas welcome,
+>>
+>> Claudio
+>>
+> 
 
 
