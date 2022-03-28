@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C327F4E99AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:34:45 +0200 (CEST)
-Received: from localhost ([::1]:34202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 520B74E99F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:42:19 +0200 (CEST)
+Received: from localhost ([::1]:51050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYqS7-0002Xl-6S
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:34:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41720)
+	id 1nYqZW-0005l8-E3
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:42:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0r-0006x1-8C
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50405)
+ id 1nYq0t-0006zn-9Q
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0o-0005JC-69
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:27 -0400
+ id 1nYq0q-0005JQ-Tx
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648476385;
+ s=mimecast20190719; t=1648476387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UJGRHXb/SAOiBjCjDgHW1waiGvkuX5QVuHcHxUCxquI=;
- b=VKt2khgmvkxgkvSGXaJ+5eCDvy9SMOn9Cf4blRGFqoxuKCs5YF33p3fXP3yJw+pJ67bZW9
- RCTK+Ae5dnPjDNVHLyXvG/Wb4gJrpge1svuicRZPnckl3zh4qbhzlGf3if3XMMD7G+sY12
- IjdZmYNN5J7ySNgHCJCgOH9kNqPnex0=
+ bh=QxhRTGBKhMw2+7cpgg3oKH+o84eve0BuZ7N4wOpSK8I=;
+ b=QCq/fyrt1EPQ81Ajilq49IpLBjIfEqrazZEJdcfp4BXk0xGJMvZk9Q7oEZw/NYoeYjCTFS
+ 437GQJnwUVw8tgQ5xX3aHH1Nvi5GuZIXLmaOTHGZrpIeFIpkRm7+9462ArmguPVY8TGfix
+ CJVmNVdSWh1OHQ5FkiJeGgYegpy4b5k=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-zqcDYLT0NHCIdyIf49w-Ag-1; Mon, 28 Mar 2022 10:06:24 -0400
-X-MC-Unique: zqcDYLT0NHCIdyIf49w-Ag-1
+ us-mta-179-AEOcpkQ7NiqwPtgFxUiDgQ-1; Mon, 28 Mar 2022 10:06:25 -0400
+X-MC-Unique: AEOcpkQ7NiqwPtgFxUiDgQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA773833960
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 997E4899EC1
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:25 +0000 (UTC)
 Received: from tapioca.home (unknown [10.40.195.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D1701400B19;
- Mon, 28 Mar 2022 14:06:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5EA01140240A;
+ Mon, 28 Mar 2022 14:06:24 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/14] qapi: fix example of MEMORY_FAILURE
-Date: Mon, 28 Mar 2022 16:06:01 +0200
-Message-Id: <20220328140604.41484-12-victortoso@redhat.com>
+Subject: [PATCH v3 12/14] qapi: ui examples: add missing @websocket member
+Date: Mon, 28 Mar 2022 16:06:02 +0200
+Message-Id: <20220328140604.41484-13-victortoso@redhat.com>
 In-Reply-To: <20220328140604.41484-1-victortoso@redhat.com>
 References: <20220328140604.41484-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -85,34 +85,55 @@ Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example output lacks mandatory member @timestamp.  Provide it.
-
-While @flags is an optional member, if it is defined then all its
-members should be include. For that reason, we add @recursive member.
-
-Minor: Change quotes from '' to "" in @action-required member.
+The examples were missing mandatory member @websocket. Provide it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- qapi/run-state.json | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ qapi/ui.json | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index 7f1c788c4e..8124220bd9 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -571,7 +571,9 @@
- # <- { "event": "MEMORY_FAILURE",
- #      "data": { "recipient": "hypervisor",
- #                "action": "fatal",
--#                "flags": { 'action-required': false } }
-+#                "flags": { "action-required": false,
-+#                           "recursive": false } },
-+#      "timestamp": { "seconds": 1267061043, "microseconds": 959568 } }
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 664da9e462..a810ed680c 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -710,10 +710,10 @@
+ #
+ # <- { "event": "VNC_CONNECTED",
+ #      "data": {
+-#            "server": { "auth": "sasl", "family": "ipv4",
++#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
+ #                        "service": "5901", "host": "0.0.0.0" },
+ #            "client": { "family": "ipv4", "service": "58425",
+-#                        "host": "127.0.0.1" } },
++#                        "host": "127.0.0.1", "websocket": false } },
+ #      "timestamp": { "seconds": 1262976601, "microseconds": 975795 } }
  #
  ##
- { 'event': 'MEMORY_FAILURE',
+@@ -738,9 +738,9 @@
+ #
+ # <-  { "event": "VNC_INITIALIZED",
+ #       "data": {
+-#            "server": { "auth": "sasl", "family": "ipv4",
++#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
+ #                        "service": "5901", "host": "0.0.0.0"},
+-#            "client": { "family": "ipv4", "service": "46089",
++#            "client": { "family": "ipv4", "service": "46089", "websocket": false,
+ #                        "host": "127.0.0.1", "sasl_username": "luiz" } },
+ #       "timestamp": { "seconds": 1263475302, "microseconds": 150772 } }
+ #
+@@ -765,9 +765,9 @@
+ #
+ # <- { "event": "VNC_DISCONNECTED",
+ #      "data": {
+-#            "server": { "auth": "sasl", "family": "ipv4",
++#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
+ #                        "service": "5901", "host": "0.0.0.0" },
+-#            "client": { "family": "ipv4", "service": "58425",
++#            "client": { "family": "ipv4", "service": "58425", "websocket": false,
+ #                        "host": "127.0.0.1", "sasl_username": "luiz" } },
+ #      "timestamp": { "seconds": 1262976601, "microseconds": 975795 } }
+ #
 -- 
 2.35.1
 
