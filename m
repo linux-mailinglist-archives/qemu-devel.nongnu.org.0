@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979E74EA25D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:23:44 +0200 (CEST)
-Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 561904EA25C
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:23:43 +0200 (CEST)
+Received: from localhost ([::1]:32830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYwpz-0006aq-Nf
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:23:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49204)
+	id 1nYwpy-0006X7-Ea
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:23:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nYwiS-0001t5-R1
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:56 -0400
-Received: from [2a00:1450:4864:20::22a] (port=33533
+ id 1nYwiV-0001x2-Vq
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:16:03 -0400
+Received: from [2a00:1450:4864:20::22a] (port=36729
  helo=mail-lj1-x22a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nYwiQ-0003tN-HJ
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:56 -0400
-Received: by mail-lj1-x22a.google.com with SMTP id u3so21002253ljd.0
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:15:54 -0700 (PDT)
+ id 1nYwiS-0003u9-8L
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:58 -0400
+Received: by mail-lj1-x22a.google.com with SMTP id v12so8240207ljd.3
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:15:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uJ24/uglX+XJ03oQfE1/6Xqa97vS7/5YP2QV3HloPNE=;
- b=zodEdULpAD4gqkEAohBBwdu2vU4PULN4V/PWvr+ljHnQxdGXGeHZHUU6wkQU5VkNk3
- biAbiPlGQfjQSL4TVgjAfMGlle01GmBJ5ffaixoO48VhKtaYvlZlqwmG3M0rGDMUazBW
- AWl8PO4+2nani2lI3etIT8SKhTIjqGEc0l8D72hYbMiQbalB8dTQT9ahjrdQcvvlE9Jx
- H+jQOS8gLggl6i5GAwA6WOKoioSBrS6r2wTaJZbw1cqXNhpwJFHRAc2C31CUxsED3gSV
- t3W2ssLlU9cHJoXSROlAr8Jh+92cUeYQkCGpRNSgbBRmLmY9BXcKOamNhY6LAMrgXgIZ
- vXsw==
+ bh=TCG2xV4J5L+FOsAT2lTCWPztzU+XMKH5lpvmFE1VfAY=;
+ b=ihmWCE/wVZ1FiBkcU3I9XVikDWKgV90juttvyNO1UUBv4oO22gM674rmImRs4uCcpO
+ A5Wio6+OZcX3FhM+P6dFC8zZeaau0cA/QNlAbUPwZGheAaeMe8GFU1wkJ9CjskSD/BIK
+ EFWs/q4thFAoTggr2heced6LcixZkq+K0Q1tR6q0bXmitIQZ9cVSJrM3F/tjJsHqbNE+
+ LBd65IcXzLJCO3WyJKML30pwvtNESBfV8E1Q4U1mYgkqHmVaGUAkdZxCl89dN0T/uhur
+ qzUu8ZRzsinwypkN8mzEBVyngTWmjCNgfAUqaL6zEXKKjn0u8xasdqXEId0Dq1X0OehJ
+ rU+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uJ24/uglX+XJ03oQfE1/6Xqa97vS7/5YP2QV3HloPNE=;
- b=N5sibDeLSdv+DLkp7GvjVYt9XIz9eRN5ygubIJnB5/tjJ0hd023vyTE8S8Vr45L42Y
- kYT6TnvB7Vtp6f/nr1Dr7B+ehgH/g9leCIYTOM5gvTtupZacl8uovmAmSgAXI2iD/UVz
- kuYVne5Ow0ZGnaHz41zFqspq1zY5hwLiylMYnnAe+nfT8pc8XIpYsX5eG7eZMzlb4ZnA
- iv6wTFIaQA5uFanHHRnaRFmcz591nwnDdcawIXguSEIPWmUQsNa2IPVue2MMeLMvcGIG
- jSh4N6X7+1M1l0FaFWJF0cFt2ngGvF4NuoJEpDQU/t/jRvyKECGoOIz8WFvECvR95xqO
- 08KQ==
-X-Gm-Message-State: AOAM5314lIC4Dg42Y6f6JiyNBfHXrAgmgBv69n8a0cbhoeb+FBGvmoOv
- DnhbZoyDTdWn/K+To7iGMnwiItrjaXBUKQ==
-X-Google-Smtp-Source: ABdhPJzk3AvIq8LDJzhyAUEUlaH5/7lEouvnjFCpI5U7T7dSjrx0bYtxt6+fCCaZklCTFWRa/jHDnA==
-X-Received: by 2002:a05:651c:4c9:b0:249:afef:48a6 with SMTP id
- e9-20020a05651c04c900b00249afef48a6mr19144604lji.458.1648502152988; 
- Mon, 28 Mar 2022 14:15:52 -0700 (PDT)
+ bh=TCG2xV4J5L+FOsAT2lTCWPztzU+XMKH5lpvmFE1VfAY=;
+ b=TYZixpxqBk3pi3z/Bhl4dyd4L4BF84rYePXW3lKwQzBBdo6cj2J9bmev8OqTo7OJKs
+ wQk0MjzCpX+W2Kagh1ig4Pla1F+ET5uzxPwMnyo+Tr84ysQLzm8mnJczvwHThLj5U6pp
+ YeBZwex8UNaRCd2dhpsUGPuhFwl9GPg5AxTXs3g09dII/l/J3gPKtbz4cQWyUizs+qYb
+ dKxHLtvQf5wRLeG26t6pmEyFdkxUvJyDwPi2pNZfKgs7PS2HDmnxn3fFDOmqCr7uGmnj
+ PCGn4nqjAXhGaKAJKMFkv+IZGuQVqueubFfbfjF7uv+Ik5hXVNblpXGZG8qb82UVarux
+ CvwA==
+X-Gm-Message-State: AOAM532ZvCgHdeMuXzlwp32KmK6dOr2ChtJhBOrPoM7gWV+K/4ETFYcn
+ NN0vwO6UaNnC7X5MU11PfkQpgNDLF9pW1g==
+X-Google-Smtp-Source: ABdhPJzHr24Uqmnwnq1FmG0ep8ov7eVuoWxjbQnuFCGv/CCQkp/sBWvVPHfi6NHyW+BlwJfGQh5jLg==
+X-Received: by 2002:a2e:7c17:0:b0:249:8221:4c2a with SMTP id
+ x23-20020a2e7c17000000b0024982214c2amr22401084ljc.293.1648502154361; 
+ Mon, 28 Mar 2022 14:15:54 -0700 (PDT)
 Received: from localhost.localdomain ([93.175.1.181])
  by smtp.gmail.com with ESMTPSA id
- k15-20020a2e92cf000000b002493cc687f3sm1855827ljh.45.2022.03.28.14.15.51
+ k15-20020a2e92cf000000b002493cc687f3sm1855827ljh.45.2022.03.28.14.15.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Mar 2022 14:15:52 -0700 (PDT)
+ Mon, 28 Mar 2022 14:15:53 -0700 (PDT)
 From: Maxim Davydov <maxim.davydov@openvz.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 8/9] qom: add command to print initial properties
-Date: Tue, 29 Mar 2022 00:15:38 +0300
-Message-Id: <20220328211539.90170-9-maxim.davydov@openvz.org>
+Subject: [PATCH v1 9/9] scripts: printing machine type compat properties
+Date: Tue, 29 Mar 2022 00:15:39 +0300
+Message-Id: <20220328211539.90170-10-maxim.davydov@openvz.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220328211539.90170-1-maxim.davydov@openvz.org>
 References: <20220328211539.90170-1-maxim.davydov@openvz.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22a
  (failed)
@@ -97,232 +98,334 @@ Cc: eduardo@habkost.net, v.sementsov-og@mail.ru, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The command "query-init-properties" is needed to get values of properties
-after initialization (not only default value). It makes sense, for example,
-when working with x86_64-cpu.
-All machine types (and x-remote-object, because its init uses machime
-type's infrastructure) should be skipped, because only the one instance can
-be correctly initialized.
+This script makes the information that can be obtained from
+query-init-properties and query-machines easy to read.
+
+Note: some init values from the devices can't be available like properties
+from virtio-9p when configure has --disable-virtfs. Such values are
+replaced by "DEFAULT". Another exception is properties of abstract
+classes. The default value of the abstract class property is common
+value of all child classes. But if the values of the child classes are
+different the default value will be "BASED_ON_CHILD" (for example, old
+x86_64-cpu can have unsupported feature).
+
+Example:
+
+    1) virsh qemu-monitor-command VM --pretty \
+       '{"execute" : "query-init-properties"}' > init_props.json
+
+    2) virsh qemu-monitor-command VM --pretty \
+       '{"execute" : "query-machines", "arguments" : {"is-full" : true}}' \
+       > compat_props.json
+
+    3) scripts/print_MT.py --MT_compat_props compat_props.json\
+        --init_props init_props.json --mt pc-q35-7.0 pc-q35-6.1
+
+Output:
+╒═══════════════════════════════════╤══════════════╤══════════════╕
+│           property_name           │  pc-q35-7.0  │  pc-q35-6.1  │
+╞═══════════════════════════════════╪══════════════╪══════════════╡
+│   ICH9-LPC-x-keep-pci-slot-hpc    │     True     │    False     │
+├───────────────────────────────────┼──────────────┼──────────────┤
+│          nvme-ns-shared           │     True     │     off      │
+├───────────────────────────────────┼──────────────┼──────────────┤
+│ vhost-user-vsock-device-seqpacket │     auto     │     off      │
+├───────────────────────────────────┼──────────────┼──────────────┤
+│ virtio-mem-unplugged-inaccessible │     auto     │     off      │
+├───────────────────────────────────┼──────────────┼──────────────┤
+│  x86_64-cpu-hv-version-id-build   │    14393     │    0x1bbc    │
+├───────────────────────────────────┼──────────────┼──────────────┤
+│  x86_64-cpu-hv-version-id-major   │      10      │    0x0006    │
+├───────────────────────────────────┼──────────────┼──────────────┤
+│  x86_64-cpu-hv-version-id-minor   │      0       │    0x0001    │
+╘═══════════════════════════════════╧══════════════╧══════════════╛
 
 Signed-off-by: Maxim Davydov <maxim.davydov@openvz.org>
 ---
- qapi/qom.json      |  69 ++++++++++++++++++++++++++
- qom/qom-qmp-cmds.c | 121 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 190 insertions(+)
+ scripts/print_MT.py | 274 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 274 insertions(+)
+ create mode 100755 scripts/print_MT.py
 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index eeb5395ff3..1eedc441eb 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -949,3 +949,72 @@
- ##
- { 'command': 'object-del', 'data': {'id': 'str'},
-   'allow-preconfig': true }
-+
-+##
-+# @InitValue:
+diff --git a/scripts/print_MT.py b/scripts/print_MT.py
+new file mode 100755
+index 0000000000..8be13be8d7
+--- /dev/null
++++ b/scripts/print_MT.py
+@@ -0,0 +1,274 @@
++#! /usr/bin/python3
 +#
-+# Not all objects have default values but they have "initial" values.
++# Script for printing machine type compatible features. It uses two JSON files
++# that should be generated by qmp-init-properties and query-machines.
 +#
-+# @name: property name
++# Copyright (c) 2022 Maxim Davydov <maxim.davydov@openvz.org>
 +#
-+# @value: Current value (default or after initialization. It makes sence,
-+#         for example, for x86-cpus)
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
 +#
-+# Since: 7.0
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
 +#
-+##
-+{ 'struct': 'InitValue',
-+  'data': { 'name': 'str',
-+            '*value': 'any' } }
-+
-+##
-+# @ClassProperties:
++# You should have received a copy of the GNU General Public License
++# along with this program. If not, see <http://www.gnu.org/licenses/>.
 +#
-+# Initial values of properties that are owned by the class
-+#
-+# @classname: name of the class that owns appropriate properties
-+#
-+# @classprops: List of class properties
-+#
-+# Since: 7.0
-+#
-+##
-+{ 'struct': 'ClassProperties',
-+  'data': { 'classname': 'str',
-+            '*classprops': [ 'InitValue' ] } }
 +
-+##
-+# @InitProps:
-+#
-+# List of properties and their values that are available after class
-+# initialization. So it important to know default value of the property
-+# even if it doesn't have "QObject *defval"
-+#
-+# @name: Object name
-+#
-+# @props: List of properties
-+#
-+# Notes: a value in each property was defval if it's available
-+#        otherwise it's obtained via "(ObjectPropertyAccessor*) get"
-+#        immediately after initialization of device object.
-+#
-+# Since: 7.0
-+#
-+##
-+{ 'struct': 'InitProps',
-+  'data': { 'name': 'str',
-+            'props': [ 'ClassProperties' ] } }
++import pandas as pd
++import json
++from tabulate import tabulate
++from argparse import ArgumentParser
 +
-+##
-+# @query-init-properties:
-+#
-+# Returns list of all objects (except all types related with machine type)
-+# with all properties and their "default" values that  will be available
-+# after initialization. The main purpose of this command is to be used to
-+# build table with all machine-type-specific properties
-+#
-+# Since: 7.0
-+#
-+##
-+{ 'command': 'query-init-properties',
-+  'returns': [ 'InitProps' ] }
-diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
-index 2d6f41ecc7..c1bb3f1f8b 100644
---- a/qom/qom-qmp-cmds.c
-+++ b/qom/qom-qmp-cmds.c
-@@ -27,6 +27,7 @@
- #include "qemu/cutils.h"
- #include "qom/object_interfaces.h"
- #include "qom/qom-qobject.h"
-+#include "hw/boards.h"
- 
- ObjectPropertyInfoList *qmp_qom_list(const char *path, Error **errp)
- {
-@@ -235,3 +236,123 @@ void qmp_object_del(const char *id, Error **errp)
- {
-     user_creatable_del(id, errp);
- }
 +
-+static void query_object_prop(InitValueList **props_list, ObjectProperty *prop,
-+                              Object *obj, Error **errp)
-+{
-+    InitValue *prop_info = NULL;
++# used for aliases and other names that can be changed
++aliases = { "e1000-82540em": "e1000" }
 +
-+    /* Skip inconsiderable properties */
-+    if (strcmp(prop->name, "type") == 0 ||
-+        strcmp(prop->name, "realized") == 0 ||
-+        strcmp(prop->name, "hotpluggable") == 0 ||
-+        strcmp(prop->name, "hotplugged") == 0 ||
-+        strcmp(prop->name, "parent_bus") == 0) {
-+        return;
-+    }
 +
-+    prop_info = g_malloc0(sizeof(*prop_info));
-+    prop_info->name = g_strdup(prop->name);
-+    prop_info->value = NULL;
-+    if (prop->defval) {
-+        prop_info->value = qobject_ref(prop->defval);
-+    } else if (prop->get) {
-+        /*
-+         * crash-information in x86-cpu uses errp to return current state.
-+         * So, after requesting this property it returns  GenericError:
-+         * "No crash occured"
-+         */
-+        if (strcmp(prop->name, "crash-information") != 0) {
-+            prop_info->value = object_property_get_qobject(obj, prop->name,
-+                                                           errp);
-+        }
-+    }
-+    prop_info->has_value = !!prop_info->value;
++def get_major(mt):
++    splited = mt.split('.')
++    if (len(splited) >= 2):
++        return int(mt.split('.')[1])
++    else:
++        return 0
 +
-+    QAPI_LIST_PREPEND(*props_list, prop_info);
-+}
 +
-+typedef struct QIPData {
-+    InitPropsList **dev_list;
-+    Error **errp;
-+} QIPData;
++def get_prefix(mt):
++    splited = mt.split('.')
++    if (len(splited) >= 1):
++        return mt.split('.')[0]
++    else:
++        return mt
 +
-+static void query_init_properties_tramp(gpointer list_data, gpointer opaque)
-+{
-+    ObjectClass *k = list_data;
-+    Object *obj;
-+    ObjectClass *parent;
-+    GHashTableIter iter;
 +
-+    QIPData *data = opaque;
-+    ClassPropertiesList *class_props_list = NULL;
-+    InitProps *dev_info;
++def get_mt_sequence(mt_data):
++    mt_list = [mt['name'] for mt in mt_data['return']]
++    mt_list.remove('none')
 +
-+    /* Only one machine can be initialized correctly (it's already happened) */
-+    if (object_class_dynamic_cast(k, TYPE_MACHINE)) {
-+        return;
-+    }
++    mt_list.sort(key=get_major, reverse=True)
++    mt_list.sort(key=get_prefix, reverse=True)
 +
-+    const char *klass_name = object_class_get_name(k);
-+    /*
-+     * Uses machine type infrastructure with notifiers. It causes immediate
-+     * notify and SEGSEGV during remote_object_machine_done
-+     */
-+    if (strcmp(klass_name, "x-remote-object") == 0) {
-+        return;
-+    }
++    return mt_list
 +
-+    dev_info = g_malloc0(sizeof(*dev_info));
-+    dev_info->name = g_strdup(klass_name);
 +
-+    obj = object_new_with_class(k);
++def get_req_props(defval_data, prop_set, abstr_class_to_features):
++    req_prop_values = dict()
++    req_abstr_prop_values = dict()
 +
-+    /*
-+     * Part of ObjectPropertyIterator infrastructure, but we need more precise
-+     * control of current class to dump appropriate features
-+     * This part was taken out from loop because first initialization differ
-+     * from other reinitializations
-+     */
-+    parent = object_get_class(obj);
-+    g_hash_table_iter_init(&iter, obj->properties);
-+    const char *prop_owner_name = object_get_typename(obj);
-+    do {
-+        InitValueList *prop_list = NULL;
-+        ClassProperties *class_data;
++    for device in defval_data['return']:
++        # Skip cpu devices that will break all default values for cpus
++        if device['name'] == 'base-x86_64-cpu':
++            continue
++        if device['name'] == 'max-x86_64-cpu':
++            continue
 +
-+        gpointer key, val;
-+        while (g_hash_table_iter_next(&iter, &key, &val)) {
-+            query_object_prop(&prop_list, (ObjectProperty *)val, obj,
-+                              data->errp);
-+        }
-+        class_data = g_malloc0(sizeof(*class_data));
-+        class_data->classname = g_strdup(prop_owner_name);
-+        class_data->classprops = prop_list;
-+        class_data->has_classprops = !!prop_list;
++        # some features in mt set as one absract class
++        # but this features are owned by another class
++        device_props_owners = dict()
++        for props_class in device['props']:
++            if not 'classprops' in props_class: # for example, Object class
++                continue
 +
-+        QAPI_LIST_PREPEND(class_props_list, class_data);
++            for prop in props_class['classprops']:
++                if not 'value' in prop:
++                    continue
 +
-+        if (!parent) {
-+            break;
-+        }
-+        g_hash_table_iter_init(&iter, parent->properties);
-+        prop_owner_name = object_class_get_name(parent);
-+        parent = object_class_get_parent(parent);
-+    } while (true);
-+    dev_info->props = class_props_list;
-+    object_unref(OBJECT(obj));
++                prop_name = device['name'] + '-' + prop['name']
++                device_props_owners[prop['name']] = prop['value']
++                if prop_name in prop_set:
++                    req_prop_values[prop_name] = prop['value']
 +
-+    QAPI_LIST_PREPEND(*(data->dev_list), dev_info);
-+}
++        for props_class in device['props']:
++            if not props_class['classname'] in abstr_class_to_features:
++                continue
 +
-+InitPropsList *qmp_query_init_properties(Error **errp)
-+{
-+    GSList *typename_list = object_class_get_list(TYPE_OBJECT, false);
++            for req_prop in abstr_class_to_features[props_class['classname']]:
++                if not req_prop in device_props_owners:
++                    continue
 +
-+    InitPropsList *dev_list = NULL;
-+    QIPData data = { &dev_list, errp };
-+    g_slist_foreach(typename_list, query_init_properties_tramp, &data);
-+    g_slist_free(typename_list);
++                prop_value = device_props_owners[req_prop]
++                prop_name = props_class['classname'] + '-' + req_prop
++                if req_abstr_prop_values.setdefault(prop_name, prop_value) \
++                    != prop_value:
++                    req_abstr_prop_values[prop_name] = 'BASED_ON_CHILD'
 +
-+    return dev_list;
-+}
++    return req_prop_values, req_abstr_prop_values
++
++
++def make_definition_table(mt_to_compat_props, prop_set,
++                          req_props, req_abstr_props, is_full):
++    mt_table = dict()
++    for prop in sorted(prop_set):
++        if not is_full:
++            values = set()
++            for mt in mt_to_compat_props:
++                if prop in mt_to_compat_props[mt]:
++                    values.add(mt_to_compat_props[mt][prop])
++                else:
++                    if prop in req_props:
++                        values.add(req_props[prop])
++                    else:
++                        values.add('DEFAULT')
++            # Skip the property if its value is the same for
++            # all required machines
++            if len(values) == 1:
++                continue
++
++        mt_table.setdefault('property_name', []).append(prop)
++        for mt in mt_to_compat_props:
++            if prop in mt_to_compat_props[mt]:
++                value = mt_to_compat_props[mt][prop]
++                mt_table.setdefault(mt, []).append(value)
++            else:
++                if prop in req_props:
++                    mt_table.setdefault(mt, []).append(req_props[prop])
++                else:
++                    value = req_abstr_props.get(prop, 'DEFAULT')
++                    mt_table.setdefault(mt, []).append(value)
++
++    return mt_table
++
++
++def get_standard_form(value):
++    if type(value) is str:
++        out = value.upper()
++        if out.isnumeric():
++            return int(out)
++        if out == 'TRUE':
++            return True
++        if out == 'FALSE':
++            return False
++
++    return value
++
++
++def get_features(mt_data, defval_data, mts, is_full):
++    prop_set = set()
++    abstr_prop_set = set()
++    mt_to_compat_props = dict()
++    # It will be used for searching appropriate feature (sometimes class name
++    # in machine type definition and real class name are different)
++    abstr_class_to_features = dict()
++
++    for mt in mt_data['return']:
++        if mt['name'] == 'none':
++            continue
++
++        if not mt['name'] in mts:
++            continue
++
++        mt_to_compat_props[mt['name']] = dict()
++        for prop in mt['compat-props']:
++            driver_name = aliases.get(prop['driver'], prop['driver'])
++            prop_name = prop['driver'] + '-' + prop['property']
++            real_name = driver_name + '-' + prop['property']
++            # value is always string
++            prop_val  = get_standard_form(prop['value'])
++            if prop['abstract']:
++                mt_to_compat_props[mt['name']][real_name] = prop_val
++                abstr_prop_set.add(real_name)
++                abstr_class_to_features.setdefault(driver_name,
++                                                   set()).add(prop['property'])
++            else:
++                mt_to_compat_props[mt['name']][real_name] = prop_val
++                prop_set.add(real_name)
++
++    req_props, req_abstr_props = get_req_props(defval_data, prop_set,
++                                               abstr_class_to_features)
++
++    # join sets for global sorting by name
++    prop_set.update(abstr_prop_set)
++    mt_table = make_definition_table(mt_to_compat_props, prop_set, req_props,
++                                     req_abstr_props, is_full)
++    # to save mt sequence
++    df = pd.DataFrame({'property_name': mt_table['property_name']})
++    for mt in mts:
++        if not mt in mt_table:
++            print('Error: {0} no found'.format(mt))
++            continue
++        df[mt] = mt_table[mt]
++
++    return df
++
++
++def main():
++    parser = ArgumentParser(description='''Print definition of machine
++                                           type (compatible features)''')
++    parser.add_argument('--MT_compat_props', type=str, required=True,
++                        help='''Path to JSON file with current machine type
++                                definition. It must be generated via
++                                query-machines with is-full option.''')
++    parser.add_argument('--init_props', type=str, required=True,
++                        help='''Path to JSON file with initial features. It
++                                must be generated via
++                                query-init-properties.''')
++    parser.add_argument('--format', type=str,
++                        choices=['table', 'csv', 'html', 'json'],
++                        default='table', help='Format of the output file')
++    parser.add_argument('--file', type=str,
++                        help='''Path to output file. It must be set with csv
++                                and html formats.''')
++    parser.add_argument('--all', action='store_true',
++                        help='''Print all available machine types (list of
++                                machine types will be ignored''')
++    parser.add_argument('--mt', nargs="*", type=str,
++                        help='List of machine types that will be compared')
++    parser.add_argument('--full', action='store_true',
++                        help='''Print all defined properties (by default,
++                                only properties with different values are
++                                printed)''')
++
++    args = parser.parse_args()
++
++    if args.all == 0 and args.mt == None:
++        print('Enter the list of required machine types (list of all '\
++              'machine types : qemu-system-x86_64 --machine help)')
++        return
++
++    with open(args.MT_compat_props) as mt_json_file:
++        mt_data = json.load(mt_json_file)
++
++    with open(args.init_props) as defval_json_file:
++        defval_data = json.load(defval_json_file)
++
++    if args.all:
++        df = get_features(mt_data, defval_data, get_mt_sequence(mt_data),
++                          args.full)
++    else:
++        df = get_features(mt_data, defval_data, args.mt, args.full)
++
++    if args.format == 'csv':
++        if args.file == None:
++            print('Error: csv format requires path to output file')
++            return
++        df.to_csv(args.file)
++    elif args.format == 'html':
++        if args.file == None:
++            print('Error: html format requires path to output file')
++            return
++        with open(args.file, 'w') as output_html:
++            output_html.write(df.to_html(justify='center', col_space='400px',
++                                         index=False))
++    elif args.format == 'json':
++        json_table = df.to_json()
++        if args.file == None:
++            print(json_table)
++        else:
++            with open(args.file, 'w') as output_json:
++                output_json.write(json_table)
++    elif args.format == 'table':
++        table = tabulate(df, showindex=False, stralign='center',
++                         tablefmt='fancy_grid', headers='keys')
++        if args.file == None:
++            print(table)
++        else:
++            with open(args.file, 'w') as output_table:
++                output_table.write(table)
++
++
++if __name__ == '__main__':
++    main()
 -- 
 2.31.1
 
