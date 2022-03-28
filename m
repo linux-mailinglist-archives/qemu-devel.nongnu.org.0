@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A394EA174
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 22:26:14 +0200 (CEST)
-Received: from localhost ([::1]:56176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50AEF4EA18A
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 22:31:07 +0200 (CEST)
+Received: from localhost ([::1]:33334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYvwK-0004f3-64
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 16:26:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35976)
+	id 1nYw14-0008WJ-4k
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 16:31:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nYvlh-0003cu-Eo; Mon, 28 Mar 2022 16:15:13 -0400
+ id 1nYvlk-0003iO-7a; Mon, 28 Mar 2022 16:15:16 -0400
 Received: from [187.72.171.209] (port=39734 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nYvlf-00030r-OD; Mon, 28 Mar 2022 16:15:13 -0400
+ id 1nYvli-00030r-Df; Mon, 28 Mar 2022 16:15:15 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Mon, 28 Mar 2022 17:14:53 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 444A680060F;
+ by p9ibm (Postfix) with ESMTP id 9482B800094;
  Mon, 28 Mar 2022 17:14:53 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [RFC PATCH 5/6] target/ppc: implement xscv[su]qqp
-Date: Mon, 28 Mar 2022 17:14:41 -0300
-Message-Id: <20220328201442.175206-6-matheus.ferst@eldorado.org.br>
+Subject: [RFC PATCH 6/6] target/ppc: implement xscvqp[su]qz
+Date: Mon, 28 Mar 2022 17:14:42 -0300
+Message-Id: <20220328201442.175206-7-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220328201442.175206-1-matheus.ferst@eldorado.org.br>
 References: <20220328201442.175206-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 28 Mar 2022 20:14:53.0702 (UTC)
- FILETIME=[7C8AFA60:01D842E0]
+X-OriginalArrivalTime: 28 Mar 2022 20:14:53.0999 (UTC)
+ FILETIME=[7CB84BF0:01D842E0]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -66,108 +66,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-xscvsqqp: VSX Scalar Convert with round Signed Quadword to
-          Quad-Precision
-xscvuqqp: VSX Scalar Convert with round Unsigned Quadword to
-          Quad-Precision format
+xscvqpsqz: VSX Scalar Convert with round to zero Quad-Precision to
+           Signed Quadword
+xscvqpuqz: VSX Scalar Convert with round to zero Quad-Precision to
+           Unsigned Quadword
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/fpu_helper.c             | 11 +++++++++++
+ target/ppc/fpu_helper.c             | 23 +++++++++++++++++++++++
  target/ppc/helper.h                 |  2 ++
- target/ppc/insn32.decode            |  5 +++++
- target/ppc/translate/vsx-impl.c.inc | 20 ++++++++++++++++++++
- 4 files changed, 38 insertions(+)
+ target/ppc/insn32.decode            |  2 ++
+ target/ppc/translate/vsx-impl.c.inc |  2 ++
+ 4 files changed, 29 insertions(+)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 7e8be99cc0..5101ba92ae 100644
+index 5101ba92ae..712306b5a1 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -3058,6 +3058,17 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)        \
- VSX_CVT_INT_TO_FP2(xvcvsxdsp, int64, float32)
- VSX_CVT_INT_TO_FP2(xvcvuxdsp, uint64, float32)
+@@ -2925,6 +2925,29 @@ VSX_CVT_FP_TO_INT(xvcvspsxws, 4, float32, int32, VsrW(i), VsrW(i), 0x80000000U)
+ VSX_CVT_FP_TO_INT(xvcvspuxds, 2, float32, uint64, VsrW(2 * i), VsrD(i), 0ULL)
+ VSX_CVT_FP_TO_INT(xvcvspuxws, 4, float32, uint32, VsrW(i), VsrW(i), 0U)
  
-+#define VSX_CVT_INT128_TO_FP(op, tp)                                        \
++#define VSX_CVT_FP_TO_INT128(op, tp, rnan)                                  \
 +void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)            \
 +{                                                                           \
-+    xt->f128 = tp##_to_float128(xb->VsrD(0), xb->VsrD(1), &env->fp_status); \
-+    helper_compute_fprf_float128(env, xt->f128);                            \
++    ppc_vsr_t t;                                                            \
++    int flags;                                                              \
++                                                                            \
++    helper_reset_fpstatus(env);                                             \
++    t.VsrD(0) = float128_to_##tp##_round_to_zero(xb->f128, &env->fp_status, \
++                                                 &t.VsrD(1));               \
++    flags = get_float_exception_flags(&env->fp_status);                     \
++    if (unlikely(flags & float_flag_invalid)) {                             \
++        t.VsrD(0) = float_invalid_cvt(env, flags, t.VsrD(0), rnan, 0,       \
++                                                  GETPC());                 \
++        t.VsrD(1) = -(t.VsrD(0) & 1);                                       \
++    }                                                                       \
++                                                                            \
++    *xt = t;                                                                \
 +    do_float_check_status(env, GETPC());                                    \
 +}
 +
-+VSX_CVT_INT128_TO_FP(XSCVUQQP, uint128);
-+VSX_CVT_INT128_TO_FP(XSCVSQQP, int128);
++VSX_CVT_FP_TO_INT128(XSCVQPUQZ, uint128, 0)
++VSX_CVT_FP_TO_INT128(XSCVQPSQZ, int128, 0x8000000000000000ULL);
 +
  /*
-  * VSX_CVT_INT_TO_FP_VECTOR - VSX integer to floating point conversion
-  *   op    - instruction mnemonic
+  * Likewise, except that the result is duplicated into both subwords.
+  * Power ISA v3.1 has Programming Notes for these insns:
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 57da11c77e..7df0c01819 100644
+index 7df0c01819..aa6773c4a5 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
 @@ -388,6 +388,8 @@ DEF_HELPER_4(xscvqpsdz, void, env, i32, vsr, vsr)
  DEF_HELPER_4(xscvqpswz, void, env, i32, vsr, vsr)
  DEF_HELPER_4(xscvqpudz, void, env, i32, vsr, vsr)
  DEF_HELPER_4(xscvqpuwz, void, env, i32, vsr, vsr)
-+DEF_HELPER_3(XSCVUQQP, void, env, vsr, vsr)
-+DEF_HELPER_3(XSCVSQQP, void, env, vsr, vsr)
++DEF_HELPER_3(XSCVQPUQZ, void, env, vsr, vsr)
++DEF_HELPER_3(XSCVQPSQZ, void, env, vsr, vsr)
+ DEF_HELPER_3(XSCVUQQP, void, env, vsr, vsr)
+ DEF_HELPER_3(XSCVSQQP, void, env, vsr, vsr)
  DEF_HELPER_3(xscvhpdp, void, env, vsr, vsr)
- DEF_HELPER_4(xscvsdqp, void, env, i32, vsr, vsr)
- DEF_HELPER_3(xscvspdp, void, env, vsr, vsr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index ac2d3da9a7..6fb568c1fe 100644
+index 6fb568c1fe..39372fe673 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -91,6 +91,9 @@
- 
- @X_tp_a_bp_rc   ...... ....0 ra:5 ....0 .......... rc:1         &X_rc rt=%x_frtp rb=%x_frbp
- 
-+&X_tb           rt rb
-+@X_tb           ...... rt:5 ..... rb:5 .......... .             &X_tb
-+
- &X_tb_rc        rt rb rc:bool
- @X_tb_rc        ...... rt:5 ..... rb:5 .......... rc:1          &X_tb_rc
- 
-@@ -692,6 +695,8 @@ XSCMPGTQP       111111 ..... ..... ..... 0011100100 -   @X
+@@ -695,6 +695,8 @@ XSCMPGTQP       111111 ..... ..... ..... 0011100100 -   @X
  ## VSX Binary Floating-Point Convert Instructions
  
  XSCVQPDP        111111 ..... 10100 ..... 1101000100 .   @X_tb_rc
-+XSCVUQQP        111111 ..... 00011 ..... 1101000100 -   @X_tb
-+XSCVSQQP        111111 ..... 01011 ..... 1101000100 -   @X_tb
++XSCVQPUQZ       111111 ..... 00000 ..... 1101000100 -   @X_tb
++XSCVQPSQZ       111111 ..... 01000 ..... 1101000100 -   @X_tb
+ XSCVUQQP        111111 ..... 00011 ..... 1101000100 -   @X_tb
+ XSCVSQQP        111111 ..... 01011 ..... 1101000100 -   @X_tb
  XVCVBF16SPN     111100 ..... 10000 ..... 111011011 ..   @XX2
- XVCVSPBF16      111100 ..... 10001 ..... 111011011 ..   @XX2
- 
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index d1f6333314..a305579ecc 100644
+index a305579ecc..5cc006d715 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -838,6 +838,26 @@ static bool trans_XSCVQPDP(DisasContext *ctx, arg_X_tb_rc *a)
+@@ -855,6 +855,8 @@ static bool do_helper_env_X_tb(DisasContext *ctx, arg_X_tb *a,
      return true;
  }
  
-+static bool do_helper_env_X_tb(DisasContext *ctx, arg_X_tb *a,
-+                               void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr))
-+{
-+    TCGv_ptr xt, xb;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VSX(ctx);
-+
-+    xt = gen_avr_ptr(a->rt);
-+    xb = gen_avr_ptr(a->rb);
-+    gen_helper(cpu_env, xt, xb);
-+    tcg_temp_free_ptr(xt);
-+    tcg_temp_free_ptr(xb);
-+
-+    return true;
-+}
-+
-+TRANS(XSCVUQQP, do_helper_env_X_tb, gen_helper_XSCVUQQP)
-+TRANS(XSCVSQQP, do_helper_env_X_tb, gen_helper_XSCVSQQP)
-+
- #define GEN_VSX_HELPER_2(name, op1, op2, inval, type)                         \
- static void gen_##name(DisasContext *ctx)                                     \
- {                                                                             \
++TRANS(XSCVQPUQZ, do_helper_env_X_tb, gen_helper_XSCVQPUQZ)
++TRANS(XSCVQPSQZ, do_helper_env_X_tb, gen_helper_XSCVQPSQZ)
+ TRANS(XSCVUQQP, do_helper_env_X_tb, gen_helper_XSCVUQQP)
+ TRANS(XSCVSQQP, do_helper_env_X_tb, gen_helper_XSCVSQQP)
+ 
 -- 
 2.25.1
 
