@@ -2,101 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C7344E9A3D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:58:20 +0200 (CEST)
-Received: from localhost ([::1]:48184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64264E9A54
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 17:05:42 +0200 (CEST)
+Received: from localhost ([::1]:53518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYqp1-0006q1-5I
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:58:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52936)
+	id 1nYqw9-0002Ig-6m
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 11:05:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nYqmv-0005Hf-Jq; Mon, 28 Mar 2022 10:56:16 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12438)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nYqmp-00059B-RE; Mon, 28 Mar 2022 10:56:09 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22SDodrY024537; 
- Mon, 28 Mar 2022 14:55:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- mime-version; s=pp1; bh=zG2ocVOdM9PtZe/ZMM73Vk3RSlZpu73VzTP9pdKxDVs=;
- b=izSOnREWAmo9p0i6C+dyOVzBmolajeAdE+2G1aEk5gUNtKPQAixWPciA7l/AQmaF6129
- 2/QXhzcihQEVpYTHwYNHi0AfdynSH7x8lQ8cGnnV9aBqdREuUH6HVNBLjuzsEgOX8Qjt
- Qkdo3hZWuwVwvsi/ynW1CdDnNnCEurMCuFD3tWaDcIYm3N+6RfJp7XpAOGbAkAJMBHER
- +AaHLcbBGYHmQNjN20B4ED6vljiT59NunxRT8u2ZkT6lChbOl61O8rljw6O+BKHsQS9N
- Om2OyoS80LrLZP5fLDwGQfV3W5/pjVulLToLru31P+R28LgcMLQsWKfw9Fxob6YB7yEd FQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3f3e8u1f3s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Mar 2022 14:55:45 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22SELid4024964;
- Mon, 28 Mar 2022 14:55:44 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3f3e8u1f30-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Mar 2022 14:55:44 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22SErRvL009650;
- Mon, 28 Mar 2022 14:54:42 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma02wdc.us.ibm.com with ESMTP id 3f1tf95xc9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Mar 2022 14:54:42 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22SEsgA724510934
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 28 Mar 2022 14:54:42 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 795E7AC05E;
- Mon, 28 Mar 2022 14:54:42 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CA3F0AC059;
- Mon, 28 Mar 2022 14:54:41 +0000 (GMT)
-Received: from localhost (unknown [9.160.110.254])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Mon, 28 Mar 2022 14:54:41 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, Leandro Lupori
- <leandro.lupori@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nYqqQ-0008Gl-4o
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:59:52 -0400
+Received: from [2607:f8b0:4864:20::236] (port=43869
+ helo=mail-oi1-x236.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nYqqL-0005Zf-5r
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:59:45 -0400
+Received: by mail-oi1-x236.google.com with SMTP id w127so15835450oig.10
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 07:59:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=/XcCKoN3CK4YBwsdade6zuLIlr7rKJ+uddjOtd+ACyo=;
+ b=ZlCCztCOIlb95Rg2qX+vNhkmHBnzoHmBliEx4WJ9pCEtkL5YHlk6NOfegzYRgZjc1d
+ KeJo1vnZOgG1nJKg12z6OGCJs1B3dtfI0Ztr3ZeHBgQ/V/dIc3roEFKQJXFySk2xG5Te
+ EhCOQYqlBY/ztx0nrW3RySMCQg2lbfp2YKxV9NF/8PKVK1dbARt4zYgx5kUIyd8vfOsX
+ G/gb6ONAhv5dI0zEQj07rh0NI/rXt7UQZCfKzqmsIhyBZD3M8ENvmhQOp6kQtl/dcdoH
+ PC6YPjS062B8lYDX3AbE7ijvNaUYtN7DS2q+RgXbe50DjWV01FtmelBHU6zxLG55nxKj
+ cNAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/XcCKoN3CK4YBwsdade6zuLIlr7rKJ+uddjOtd+ACyo=;
+ b=W1tWA3tQFH2McbGK/K3DSy2JXt6tT/aPLFS9gjHw2ZEXIiN9uPNpkn+PB6fnrIa3bX
+ zrhdbtH2EJMhHN2ZCmEd3ZhXSm5NBITk3gZIWWKZkUCMTZyaae1vBZQ9YHL617AXUOu6
+ XYfXmh9w7dySdchuQ7PIApLxcQsEcQulExIRKguvjWoFkGggDOLqd3egd3phgmXjPEHl
+ shKXwd2hjnBLOrnZwyAHzkMsHwxL7sN9TCXzCfopFxdnDEyBLVFQM1+0GwrcUbHEel53
+ ZMeWNwmDFk/7kHjCz4XJFql6legK/1xOewy4iONGr5dNY7100t5M5ixUurNOC8XBULOX
+ G2OA==
+X-Gm-Message-State: AOAM533rbK2ZuRtZszPtwqsV/i2EMJJaj29YZ8MhKapUTKUSaQsOk5C4
+ wHBaqbySY8tIHewfo659NpIsMQ==
+X-Google-Smtp-Source: ABdhPJzRDPOHTmPFtFniEGAdHNhBv84rHL25LMsvxLl6vxgS7jGNfrUt3Erj3DAjCaTg51xkbO+etA==
+X-Received: by 2002:a05:6808:1a8f:b0:2ef:87cc:b1d1 with SMTP id
+ bm15-20020a0568081a8f00b002ef87ccb1d1mr15275430oib.25.1648479578755; 
+ Mon, 28 Mar 2022 07:59:38 -0700 (PDT)
+Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+ z26-20020a9d62da000000b005b23f5488cdsm7074501otk.52.2022.03.28.07.59.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Mar 2022 07:59:38 -0700 (PDT)
+Message-ID: <48040c30-a1f9-1b5e-ccbe-15c090393fcf@linaro.org>
+Date: Mon, 28 Mar 2022 08:59:35 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
 Subject: Re: [RFC PATCH 0/6] Port PPC64/PowerNV MMU tests to QEMU
-In-Reply-To: <b232c4e6-61ba-0dc9-e2d0-53b4ad7cc93a@linaro.org>
+Content-Language: en-US
+To: Fabiano Rosas <farosas@linux.ibm.com>,
+ Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
 References: <20220324190854.156898-1-leandro.lupori@eldorado.org.br>
  <b232c4e6-61ba-0dc9-e2d0-53b4ad7cc93a@linaro.org>
-Date: Mon, 28 Mar 2022 11:54:39 -0300
-Message-ID: <878rsuf7ps.fsf@linux.ibm.com>
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: vSEm6SHzATLKFNmZXS8R-lrQ0bYd_TQz
-X-Proofpoint-ORIG-GUID: luGM81W9H6gg1PNZaw2vmPOX_q9JRbnE
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-28_06,2022-03-28_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- adultscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0 phishscore=0
- mlxscore=0 spamscore=0 priorityscore=1501 clxscore=1015 mlxlogscore=888
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203280084
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ <878rsuf7ps.fsf@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <878rsuf7ps.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::236
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,24 +101,16 @@ Cc: danielhb413@gmail.com, groug@kaod.org, clg@kaod.org, pbonzini@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+On 3/28/22 08:54, Fabiano Rosas wrote:
+> I can't reach the semihosting docs at:
+> https://static.docs.arm.com/100863/0200/semihosting.pdf
+> 
+> Do we need to replace that URL with something else?
 
-> On 3/24/22 13:08, Leandro Lupori wrote:
->> To be able to finish the test and return an exit code to the
->> calling process, the Processor Attention instruction is used.
->> As its behavior is implementation dependent, in QEMU PowerNV
->> it just calls exit with GPR[3] value, truncated to an uint8_t.
->
-> I think you're simply thinking too small here, and should consider using the attn 
-> instruction to implement a full -semihosting interface.  You might as well join arm and 
-> riscv with CONFIG_ARM_COMPATIBLE_SEMIHOSTING.
+It has been moved to
 
-I can't reach the semihosting docs at:
-https://static.docs.arm.com/100863/0200/semihosting.pdf
+https://developer.arm.com/documentation/100863/latest
 
-Do we need to replace that URL with something else?
 
->
->
-> r~
+r~
 
