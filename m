@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83344E9952
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:22:28 +0200 (CEST)
-Received: from localhost ([::1]:38582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BB84E9953
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:22:30 +0200 (CEST)
+Received: from localhost ([::1]:38676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYqGJ-0002kZ-PI
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:22:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41556)
+	id 1nYqGM-0002o8-1w
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:22:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0e-0006PX-Ip
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33023)
+ id 1nYq0d-0006Mx-PQ
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0Z-0005GH-4w
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:16 -0400
+ id 1nYq0b-0005Gs-Uo
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648476370;
+ s=mimecast20190719; t=1648476373;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vcMYkzs+SdOWIAdNnYWwFluyta0X0IVzhusqVoPMs8I=;
- b=DP1fUh9FjB1ry2c6qLEqU1J3YshWCvKSJvw+wBmhOH7jKXGDe7AsohAeb8eHbDSThe6SAo
- cg9uIDCwLsfU3/MsmpzadmslxQqlINYw7qoER3xI0b/o25PY2KB8pzr5OV/ZG1xwMiB56e
- bq3w7hLVV7ShIj5OP2LVuYjUub0nLq4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=i8ZxgGDunzxBS4F+NM0V3NOsMIEu9B0ZSIFgzM0Q3zA=;
+ b=JvqearoQsaxuMgBoMAmRkZDIGnUpjsTCjj/dbL4KYnZruiVDY951+UQZmV2OKob0l2vSda
+ Qr2KbXNZzy1LxHG6FA/o6dCmaK6/Q6dt4edX1CurA4jYgmSFojANlGDi9sqYnh3DLhpe4u
+ oTWCrCGNkA01eEIQaIBJHK+PYOdjUf4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-4JzqZjRJNbG-m6QQPnrMZA-1; Mon, 28 Mar 2022 10:06:09 -0400
-X-MC-Unique: 4JzqZjRJNbG-m6QQPnrMZA-1
+ us-mta-115-BGEqMvsrN3-T_KCM9odLWw-1; Mon, 28 Mar 2022 10:06:12 -0400
+X-MC-Unique: BGEqMvsrN3-T_KCM9odLWw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 098A91C0E343
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2BC9185A7BA
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:10 +0000 (UTC)
 Received: from tapioca.home (unknown [10.40.195.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2D70140240A;
- Mon, 28 Mar 2022 14:06:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5998A140241F;
+ Mon, 28 Mar 2022 14:06:09 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/14] qapi: BlockExportRemoveMode: move comments to TODO
-Date: Mon, 28 Mar 2022 16:05:51 +0200
-Message-Id: <20220328140604.41484-2-victortoso@redhat.com>
+Subject: [PATCH v3 02/14] qapi: fix example of BLOCK_IMAGE_CORRUPTED event
+Date: Mon, 28 Mar 2022 16:05:52 +0200
+Message-Id: <20220328140604.41484-3-victortoso@redhat.com>
 In-Reply-To: <20220328140604.41484-1-victortoso@redhat.com>
 References: <20220328140604.41484-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -85,41 +85,34 @@ Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@hide and @soft are potential additions which fits the TODO section
-perfectly.
+Example output lacks mandatory member @fatal.  Provide it.
 
-The main motivation is to avoid this whole block of comment entering
-the wrong section in the python parser.
+Example output shows a value of @msg no version of the code
+produces.  No big deal, but replace it anyway by one that
+today's code does produce.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- qapi/block-export.json | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ qapi/block-core.json | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index f183522d0d..1e34927f85 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -219,13 +219,13 @@
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index e89f2dfb5b..63c30a5378 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -5006,10 +5006,9 @@
+ # Example:
  #
- # @hard: Drop all connections immediately and remove export.
+ # <- { "event": "BLOCK_IMAGE_CORRUPTED",
+-#      "data": { "device": "ide0-hd0", "node-name": "node0",
+-#                "msg": "Prevented active L1 table overwrite", "offset": 196608,
+-#                "size": 65536 },
+-#      "timestamp": { "seconds": 1378126126, "microseconds": 966463 } }
++#      "data": { "device": "", "node-name": "drive", "fatal": false,
++#                "msg": "L2 table offset 0x2a2a2a00 unaligned (L1 index: 0)" },
++#      "timestamp": { "seconds": 1648243240, "microseconds": 906060 } }
  #
--# Potential additional modes to be added in the future:
-+# TODO: Potential additional modes to be added in the future:
- #
--# hide: Just hide export from new clients, leave existing connections as is.
--# Remove export after all clients are disconnected.
-+#       hide: Just hide export from new clients, leave existing connections as is.
-+#       Remove export after all clients are disconnected.
- #
--# soft: Hide export from new clients, answer with ESHUTDOWN for all further
--# requests from existing clients.
-+#       soft: Hide export from new clients, answer with ESHUTDOWN for all further
-+#       requests from existing clients.
- #
- # Since: 2.12
+ # Since: 1.7
  ##
 -- 
 2.35.1
