@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C20A4EA249
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:18:09 +0200 (CEST)
-Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 705654EA256
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:20:27 +0200 (CEST)
+Received: from localhost ([::1]:53856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYwkZ-0004NT-Ue
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:18:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49102)
+	id 1nYwmo-0001Sx-FF
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:20:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nYwiL-0001XP-3V
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:49 -0400
-Received: from [2a00:1450:4864:20::22f] (port=40893
- helo=mail-lj1-x22f.google.com)
+ id 1nYwiM-0001am-H3
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:50 -0400
+Received: from [2a00:1450:4864:20::12e] (port=46735
+ helo=mail-lf1-x12e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nYwiJ-0003p5-94
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:48 -0400
-Received: by mail-lj1-x22f.google.com with SMTP id g24so20947069lja.7
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:15:46 -0700 (PDT)
+ id 1nYwiL-0003pI-05
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:50 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id e16so26930749lfc.13
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F/qWJafsiGLISrirR9TpiO6oI2wNp5jh8NKPrpO9D6Y=;
- b=RqN4tQztKbFzCIC6ZO3yl9XrwK4leQvHMyNb4Ie1wQp1MrIXdWkEqOKB1fTQTKNZkI
- DYkohGvtXLOD5pX8wqVJW9ksbP1PpA/aIdVFdLh0maSaoP2p7QWWb5R9f26C7/zNnGt9
- eAY6TBuTEOQvVj9S9sJCDiTneHlSyZZwj8ojGQsliPqqeIXEXGCTYN6w2SOZxHlJ8IXr
- X1H46Pv2yegFhWHEUVoAck0uCuwS2UkJ5tBWCbxOeCeFrrpmtVCrapexFIWiUB+s3evj
- HMsmVc4UTu95ZAo6LvukO10JFupuqm6o5aX0BO0rIa/P3bbMyTKy1ChnadYJSt7ePUi1
- PmQA==
+ bh=fZKapn44JNSnvlOlsZjDBxj/jSMFPLsC8E1aDAQA7GM=;
+ b=MQqdkG+IyOLTOI/nH3x5P0AbDBvI89sLmcA2WfyRqskzLkBfWQ95/ljbIKSRX4u15v
+ ObeojMVEW/zwQpSZgJiIM1g7ICp8GMiqRWHOSIoVVps1CzljL33mpKegcJedXNbHzZhR
+ vXPAIf7weziAhRJIwwuc1OOf1gwLFg2KOZ4yLocaFgQSiNxPs8So2t/CZtXb8otAEtI7
+ Eb9vPG1IzgUPH/W61YiDqWQgeyJEeC+qHgYLyXsBmMq0L6wT2V8W1Kf2L5fLbvTuUI3R
+ zYY7ygdLp2eB3SLuySncbazdnYoMDmnuXLdXwqSfU3PJINN71n8YnYO5RBISLR+OAFkK
+ wXlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F/qWJafsiGLISrirR9TpiO6oI2wNp5jh8NKPrpO9D6Y=;
- b=mtukv5BsmqNCCnGtAX7cyO/4aNkycum8r/AlHuTYD5uBSEH/bu7Bk5Lw+ICU0aA2Rq
- b+eOpVFY/HbnLq5VK6d5Ph0NOQ5xGBswYf1bOmed4Qtj26Exjy9KlyIRivxrZmTwgwWf
- 2J8PvaUXZdC6oxM0HdRTzwUvNHDBlWBczvEwPjJG6IbyD8b27M2ebgLK4HxmdEIAez74
- MXOTbnhEdM77BgpQ3MlvF5uTT8U7zcUi82EtIVIMH7ZNIsfQma1VBMVHtV5rnfIL20jK
- znyQcLKhLExCOOph4nq9nVomCcF05Ua9hAxXGvR80DoGXL74whEzerdCWUK+U4F1VPQq
- zfgg==
-X-Gm-Message-State: AOAM531P8jwOD/I3Mwm+j4waGytw+SJ2xdsn2FK7Ubepd2UNaaREr2mw
- mBF2bPNFJWxEMFWLyOy+g+kZI3Liqn76uA==
-X-Google-Smtp-Source: ABdhPJzUmT+E149adL/v7Zw6fNhchFirVLbFB51wklkrN3MRtV3N0kWH3U0r35lvAtFfPd92YuKxcQ==
-X-Received: by 2002:a05:651c:1699:b0:24a:d5a0:bfb2 with SMTP id
- bd25-20020a05651c169900b0024ad5a0bfb2mr1931657ljb.30.1648502145826; 
- Mon, 28 Mar 2022 14:15:45 -0700 (PDT)
+ bh=fZKapn44JNSnvlOlsZjDBxj/jSMFPLsC8E1aDAQA7GM=;
+ b=a3ypfTdTSRjMC7gweaIGaK86hzJxAD3U4FaLP02CzdaESkjkRbSNvPkR9hARpAoKAQ
+ 1N44E/vTr6Q7hjhxxxjAB5c/7kh+u7oaHuXqS7MOoJpsKU/h/KbDyXNXI9fDNdL+dBrs
+ 3BDLuMnS+P5jmc3Irfk5eCTdXDaHrFVGtG5KA2/nI/b8XdoGUmzz1w8Sn8Qi9v7VB+Er
+ oz3pwIkhkGS+8Q9RUPOsAjAWNzP/ooi7SDjCnRV+tIMWXZWSCQvCqBre8NE+kOAMVFOl
+ 8eTe6mwomnPy4iYlaZr9RWBzYt3sJeqh0grhXCkDH9WjbYcjvg2Us1zj73uK81pYmWrG
+ qQ7Q==
+X-Gm-Message-State: AOAM531eqHkmfCmFl/FRwkUdkk8cu7mVzoCqO4F/RmPxAsqfdVIV6b1P
+ PKkObpi3f/VsD61f2TrWbtEDHk2oyajjzw==
+X-Google-Smtp-Source: ABdhPJy6zsAMaM+lyFqDnpqftyaBL9IdNCdfmrljdSbTf4HZaVFEPjnX3bzRrkw3h8S8xkiajDsaVw==
+X-Received: by 2002:a05:6512:2214:b0:44a:348a:d6d with SMTP id
+ h20-20020a056512221400b0044a348a0d6dmr21544010lfu.506.1648502147198; 
+ Mon, 28 Mar 2022 14:15:47 -0700 (PDT)
 Received: from localhost.localdomain ([93.175.1.181])
  by smtp.gmail.com with ESMTPSA id
- k15-20020a2e92cf000000b002493cc687f3sm1855827ljh.45.2022.03.28.14.15.44
+ k15-20020a2e92cf000000b002493cc687f3sm1855827ljh.45.2022.03.28.14.15.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Mar 2022 14:15:45 -0700 (PDT)
+ Mon, 28 Mar 2022 14:15:46 -0700 (PDT)
 From: Maxim Davydov <maxim.davydov@openvz.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 3/9] mem: appropriate handling getting mem region
-Date: Tue, 29 Mar 2022 00:15:33 +0300
-Message-Id: <20220328211539.90170-4-maxim.davydov@openvz.org>
+Subject: [PATCH v1 4/9] msmouse: add appropriate unregister handler
+Date: Tue, 29 Mar 2022 00:15:34 +0300
+Message-Id: <20220328211539.90170-5-maxim.davydov@openvz.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220328211539.90170-1-maxim.davydov@openvz.org>
 References: <20220328211539.90170-1-maxim.davydov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
- envelope-from=maxim.davydov@openvz.org; helo=mail-lj1-x22f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=maxim.davydov@openvz.org; helo=mail-lf1-x12e.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -97,71 +97,29 @@ Cc: eduardo@habkost.net, v.sementsov-og@mail.ru, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Attempt to get memory region if the device doesn't have hostmem may not be
-an error. This can be happen immediately after initialization (getting
-value without default one).
+Attempt to finalize msmouse after initalization brings to segmentation
+fault in QTAILQ_REMOVE.
 
 Signed-off-by: Maxim Davydov <maxim.davydov@openvz.org>
 ---
- hw/i386/sgx-epc.c | 5 ++++-
- hw/mem/nvdimm.c   | 6 ++++++
- hw/mem/pc-dimm.c  | 5 +++++
- 3 files changed, 15 insertions(+), 1 deletion(-)
+ chardev/msmouse.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-index d664829d35..1a4c8acdcc 100644
---- a/hw/i386/sgx-epc.c
-+++ b/hw/i386/sgx-epc.c
-@@ -121,9 +121,12 @@ static MemoryRegion *sgx_epc_md_get_memory_region(MemoryDeviceState *md,
+diff --git a/chardev/msmouse.c b/chardev/msmouse.c
+index eb9231dcdb..2cc1b16561 100644
+--- a/chardev/msmouse.c
++++ b/chardev/msmouse.c
+@@ -146,7 +146,9 @@ static void char_msmouse_finalize(Object *obj)
  {
-     SGXEPCDevice *epc = SGX_EPC(md);
-     HostMemoryBackend *hostmem;
-+    DeviceState *dev = DEVICE(epc);
+     MouseChardev *mouse = MOUSE_CHARDEV(obj);
  
-     if (!epc->hostmem) {
--        error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property must be set");
-+        if (dev->realized) {
-+            error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property must be set");
-+        }
-         return NULL;
-     }
- 
-diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-index 7c7d777781..61e77e5476 100644
---- a/hw/mem/nvdimm.c
-+++ b/hw/mem/nvdimm.c
-@@ -166,9 +166,15 @@ static MemoryRegion *nvdimm_md_get_memory_region(MemoryDeviceState *md,
-                                                  Error **errp)
- {
-     NVDIMMDevice *nvdimm = NVDIMM(md);
-+    PCDIMMDevice *dimm = PC_DIMM(nvdimm);
-     Error *local_err = NULL;
- 
-     if (!nvdimm->nvdimm_mr) {
-+        /* Not error if we try get memory region after init */
-+        if (!dimm->hostmem) {
-+            return NULL;
-+        }
-+
-         nvdimm_prepare_memory_region(nvdimm, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index f27e1a11ba..6fd74de97f 100644
---- a/hw/mem/pc-dimm.c
-+++ b/hw/mem/pc-dimm.c
-@@ -240,6 +240,11 @@ static void pc_dimm_md_set_addr(MemoryDeviceState *md, uint64_t addr,
- static MemoryRegion *pc_dimm_md_get_memory_region(MemoryDeviceState *md,
-                                                   Error **errp)
- {
-+    PCDIMMDevice *dimm = PC_DIMM(md);
-+    /* Not error if we try get memory region after init */
-+    if (!dimm->hostmem) {
-+        return NULL;
+-    qemu_input_handler_unregister(mouse->hs);
++    if (mouse->hs) {
++        qemu_input_handler_unregister(mouse->hs);
 +    }
-     return pc_dimm_get_memory_region(PC_DIMM(md), errp);
  }
  
+ static QemuInputHandler msmouse_handler = {
 -- 
 2.31.1
 
