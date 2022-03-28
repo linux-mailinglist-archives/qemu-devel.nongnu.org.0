@@ -2,88 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C714D4EA3DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 01:44:23 +0200 (CEST)
-Received: from localhost ([::1]:46476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64DA14EA3E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 01:57:22 +0200 (CEST)
+Received: from localhost ([::1]:49782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYz26-0004wO-32
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 19:44:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46856)
+	id 1nYzEf-00085A-4V
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 19:57:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nYyxb-00045h-EN
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 19:39:45 -0400
-Received: from [2607:f8b0:4864:20::102c] (port=55938
- helo=mail-pj1-x102c.google.com)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nYzDa-0007NT-Pl
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 19:56:14 -0400
+Received: from [2607:f8b0:4864:20::634] (port=45764
+ helo=mail-pl1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nYyxY-0007GY-GU
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 19:39:42 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id jx9so15720531pjb.5
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 16:39:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=XqcDiMnOA9m+P9+2aeRCB6HhGp2WcuqSe1BUdOwAUUY=;
- b=T7QS6iaXOlCKh52K3diFXYxN8L2gUdjUue0+Dy1AVp/3NisD0p8niib3rsellWwq74
- LLy6PVMs6EEp29hOrrpEMRoy3V8EGMmD0WrOSkVGdeco0ob/DRnQQzfNsI845jBto4g8
- 7MFi8F3mNoPsGotjQecyfcKdZll4Vh3nciRsFqBy46U0+x6l0znU20lD2tl2c0luoL09
- 0+NqUlf65Yj4Logt/g8ih5M83Cj2/Hj+d0Ofp5bigVfmP8x4yRiWcZUCget5G6GzMF4t
- yzXxUAXGgHs98DeZgEjeiXbz4Deov+Of6YCsxU8tjFrOkAV/DO0Ei/pHqd5bjFP43kSg
- zw7g==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nYzDZ-0001Fd-3x
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 19:56:14 -0400
+Received: by mail-pl1-x634.google.com with SMTP id i11so4829546plg.12
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 16:56:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=R5oHCy312DV02dgL2mbxc6XsFyRp35/nzV9uAHuDVL8=;
+ b=VdeMGDhBvYtE+tVfMkspuND3/7DIoOMPUCVTDtTlEioK4Zp5hqbOfTFDiZt5K44ayS
+ fnvlBEdPsoSL7x/DbpE7cgK+SfpEKdBSB73Z0G459wlOPyvqyXpjszHn5jZxV954Y1m+
+ kGEdjSVuItAQwgX97aOEemfU1wnkxTdxglSoMzxoatlN8MoeBrVjAW62nJb0oTxRhDev
+ ZbdqY4WeMFHrp8BIIgBZ/dpZ8uGNofipq0r54d/7/2DNqRhUnOG6G0byQfKsrs8taS9d
+ UJB9bfRxpxBlPxluUE6silYECHfQnTGdtWDbmLuSXWXNy9ykNzkceeJBNRFaESkJx2jL
+ vn/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=XqcDiMnOA9m+P9+2aeRCB6HhGp2WcuqSe1BUdOwAUUY=;
- b=1o5BnBvWRrchf3InjFVzo2lrNEf2WKiru5JeWQv2nDhcehw5Hs5WVrDSP8FRIlFPil
- Hquc/4toMXjMEnW2F4tqLmWcMUwrE4pDavMCx33GSEO36kGzz1yeqd+YDxHUozRxkC6p
- oRsG22COQlmChHsVYEvT2fNxfspRjydM4w+aKBVxpYpDb42muI4MzCg5uif2ss0lKS6o
- Y2WjkYOOBLwIK3Eo1nWvNxjcw5ZNFKYjhHQOQiEXykF8B5aqC74mQ7IZ8w+fGjPnUb12
- dNTEUmza3HZayNwDTzl/S51F8tDMz1/3fl2oRsQYMpUWDbjHiEbSfR3rSexhOhbOLdC8
- D7Tg==
-X-Gm-Message-State: AOAM533CT87+wYpvk636PGpO5cyOPezzBhlNkM6bkiMoivKyVClTiPbq
- 7rus8b/+RSx+VVEkjT6qtYw=
-X-Google-Smtp-Source: ABdhPJwV+P+roSaegY8ZJ3baKDF9DHbzRXea9WyFwh2WA24RyCwL8ZcU96rb604dLYL+3pMCu/LZHA==
-X-Received: by 2002:a17:90b:1a8b:b0:1c7:386b:4811 with SMTP id
- ng11-20020a17090b1a8b00b001c7386b4811mr1593000pjb.4.1648510778702; 
- Mon, 28 Mar 2022 16:39:38 -0700 (PDT)
-Received: from ?IPV6:2600:70ff:f07f:0:3c84:1cd:456b:b750?
- ([2600:70ff:f07f:0:3c84:1cd:456b:b750])
- by smtp.gmail.com with ESMTPSA id
- w61-20020a17090a6bc300b001c7ca8a1467sm551305pjj.46.2022.03.28.16.39.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Mar 2022 16:39:38 -0700 (PDT)
-Message-ID: <e3a30b1a-69ab-9e69-4722-c8aa056a8c97@gmail.com>
-Date: Tue, 29 Mar 2022 01:39:33 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=R5oHCy312DV02dgL2mbxc6XsFyRp35/nzV9uAHuDVL8=;
+ b=RcHOQHRcnNga+YEW1fu/YNfs3YXiMZYnW/cE3y3f0x7Ijw2tZUaeIUhrLCObBSwoSu
+ RlAOL8PyCtPRANiTf93aJdFNGsJc9vfDHXZV8BswTYfpiMB+nIPNjxNCcqsAdMBq73E/
+ +kdt5MHyUDMbXj1XuthbRPthLjG1i81Hi/6XHSOSaplEOaEedObxBkviKcta0mXOykf5
+ sQSspxhT/fI1GUVpZsdA3wkajkM8nBkyssQedxF3LlVLMfS/RuCH9GrmLWWnHMF7Hw/2
+ nOHcU3YyZzTGdoOOaQctocda0Wibf1JxPRYwtkqTlCHxmC8VDsc6VEa8jbNbKVgh3Vlw
+ 9kzA==
+X-Gm-Message-State: AOAM532aKy+5O6PZojq3BU8g6lHUBu7O4Q0wSMyCIsUva+F2Ebe/31x5
+ I44W/5DxbS+1h0DW9hpJM1Dl/Q==
+X-Google-Smtp-Source: ABdhPJwWwKwcbx4mWnZcS0vNwCcr+CGjSoNFeM3hP68m739AGvq4ty6tV34XjWMljTYtL4iWZ09X6A==
+X-Received: by 2002:a17:90a:889:b0:1c9:8baa:3eeb with SMTP id
+ v9-20020a17090a088900b001c98baa3eebmr1612687pjc.44.1648511771099; 
+ Mon, 28 Mar 2022 16:56:11 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
+ p128-20020a625b86000000b004fa666a1327sm16920043pfb.102.2022.03.28.16.56.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Mar 2022 16:56:10 -0700 (PDT)
+Date: Mon, 28 Mar 2022 23:56:06 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com
+Subject: Re: [PATCH v5 08/13] KVM: Use memfile_pfn_ops to obtain pfn for
+ private pages
+Message-ID: <YkJLFu98hZOvTSrL@google.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-9-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH for-7.0 v5] qemu-binfmt-conf.sh: mips: allow nonzero
- EI_ABIVERSION, distinguish o32 and n32
-Content-Language: en-US
-To: =?UTF-8?Q?Andreas_K=2e_H=c3=bcttel?= <dilfridge@gentoo.org>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
-References: <20220328204900.3914990-1-dilfridge@gentoo.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220328204900.3914990-1-dilfridge@gentoo.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220310140911.50924-9-chao.p.peng@linux.intel.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=seanjc@google.com; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -161
+X-Spam_score: -16.2
+X-Spam_bar: ----------------
+X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,95 +108,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Bennee <alex.bennee@linaro.org>, WANG Xuerui <xen0n@gentoo.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/3/22 22:49, Andreas K. Hüttel wrote:
-> With the command line flag -mplt and a recent toolchain, ELF binaries
-> generated by gcc can obtain EI_ABIVERSION=1, which makes, e.g., gcc
-> three-stage bootstrap in a mips-unknown-linux-gnu qemu-user chroot
-> fail since the binfmt-misc magic does not match anymore. Also other
-> values are technically possible. qemu executes these binaries just
-> fine, so relax the mask for the EI_ABIVERSION byte at offset 0x08.
-> 
-> In addition, extend magic string to distinguish mips o32 and n32 ABI.
-> This information is given by the EF_MIPS_ABI2 (0x20) bit in the
-> e_flags field of the ELF header (a 4-byte value at offset 0x24 for
-> the here applicable ELFCLASS32).
-> 
-> See-also: ace3d65459
-> Signed-off-by: Andreas K. Hüttel <dilfridge@gentoo.org>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: WANG Xuerui <xen0n@gentoo.org>
+On Thu, Mar 10, 2022, Chao Peng wrote:
+> @@ -2217,4 +2220,34 @@ static inline void kvm_handle_signal_exit(struct kvm_vcpu *vcpu)
+>  /* Max number of entries allowed for each kvm dirty ring */
+>  #define  KVM_DIRTY_RING_MAX_ENTRIES  65536
+>  
+> +#ifdef CONFIG_MEMFILE_NOTIFIER
+> +static inline long kvm_memfile_get_pfn(struct kvm_memory_slot *slot, gfn_t gfn,
+> +				       int *order)
+> +{
+> +	pgoff_t index = gfn - slot->base_gfn +
+> +			(slot->private_offset >> PAGE_SHIFT);
 
-v5 changes are too different from v4 to keep these R-b tags IMO.
+This is broken for 32-bit kernels, where gfn_t is a 64-bit value but pgoff_t is a
+32-bit value.  There's no reason to support this for 32-bit kernels, so...
 
-LGTM but I'd like Xuerui to double-check the R-b stands,
-and an Acked-by from Laurent would make me feel safer ;)
+The easiest fix, and likely most maintainable for other code too, would be to
+add a dedicated CONFIG for private memory, and then have KVM check that for all
+the memfile stuff.  x86 can then select it only for 64-bit kernels, and in turn
+select MEMFILE_NOTIFIER iff private memory is supported.
 
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> Cc: WANG Xuerui <xen0n@gentoo.org>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Alex Bennee <alex.bennee@linaro.org>
-> Cc: Philippe Mathieu-Daudé <philippe.mathieu.daude@gmail.com>
-> Closes: https://gitlab.com/qemu-project/qemu/-/issues/843
-> ---
-> 
-> v5: Fully relax mask for EI_ABIVERSION for all of mips; squash patches
->      since they touch the same lines
-> v4: Unchanged repost of v3
-> v3: Add the magic extension to distinguish n32 and o32
-> v2: Add the same EI_ABIVERSION fix for little endian as for big endian
-> v1: Initial version, only handling EI_ABIVERSION=1 on BE
-> 
->   scripts/qemu-binfmt-conf.sh | 20 ++++++++++----------
->   1 file changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-> index e9bfeb94d3..9cb723f443 100755
-> --- a/scripts/qemu-binfmt-conf.sh
-> +++ b/scripts/qemu-binfmt-conf.sh
-> @@ -60,28 +60,28 @@ m68k_family=m68k
->   
->   # FIXME: We could use the other endianness on a MIPS host.
->   
-> -mips_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
-> -mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
-> +mips_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-> +mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
->   mips_family=mips
->   
-> -mipsel_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
-> -mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-> +mipsel_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-> +mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
->   mipsel_family=mips
->   
-> -mipsn32_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
-> -mipsn32_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
-> +mipsn32_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
-> +mipsn32_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
->   mipsn32_family=mips
->   
-> -mipsn32el_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
-> -mipsn32el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-> +mipsn32el_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
-> +mipsn32el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
->   mipsn32el_family=mips
->   
->   mips64_magic='\x7fELF\x02\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
-> -mips64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
-> +mips64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
->   mips64_family=mips
->   
->   mips64el_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
-> -mips64el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-> +mips64el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
->   mips64el_family=mips
->   
->   sh4_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x2a\x00'
+diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+index ca7b2a6a452a..ee9c8c155300 100644
+--- a/arch/x86/kvm/Kconfig
++++ b/arch/x86/kvm/Kconfig
+@@ -48,7 +48,9 @@ config KVM
+        select SRCU
+        select INTERVAL_TREE
+        select HAVE_KVM_PM_NOTIFIER if PM
+-       select MEMFILE_NOTIFIER
++       select HAVE_KVM_PRIVATE_MEM if X86_64
++       select MEMFILE_NOTIFIER if HAVE_KVM_PRIVATE_MEM
++
+        help
+          Support hosting fully virtualized guest machines using hardware
+          virtualization extensions.  You will need a fairly recent
 
+And in addition to replacing checks on CONFIG_MEMFILE_NOTIFIER, the probing of
+whether or not KVM_MEM_PRIVATE is allowed can be:
+
+@@ -1499,23 +1499,19 @@ static void kvm_replace_memslot(struct kvm *kvm,
+        }
+ }
+
+-bool __weak kvm_arch_private_memory_supported(struct kvm *kvm)
+-{
+-       return false;
+-}
+-
+ static int check_memory_region_flags(struct kvm *kvm,
+                                const struct kvm_userspace_memory_region *mem)
+ {
+        u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
+
+-       if (kvm_arch_private_memory_supported(kvm))
+-               valid_flags |= KVM_MEM_PRIVATE;
+-
+ #ifdef __KVM_HAVE_READONLY_MEM
+        valid_flags |= KVM_MEM_READONLY;
+ #endif
+
++#ifdef CONFIG_KVM_HAVE_PRIVATE_MEM
++       valid_flags |= KVM_MEM_PRIVATE;
++#endif
++
+        if (mem->flags & ~valid_flags)
+                return -EINVAL;
+
+> +
+> +	return slot->pfn_ops->get_lock_pfn(file_inode(slot->private_file),
+> +					   index, order);
+
+In a similar vein, get_locK_pfn() shouldn't return a "long".  KVM likely won't use
+these APIs on 32-bit kernels, but that may not hold true for other subsystems, and
+this code is confusing and technically wrong.  The pfns for struct page squeeze
+into an unsigned long because PAE support is capped at 64gb, but casting to a
+signed long could result in a pfn with bit 31 set being misinterpreted as an error.
+
+Even returning an "unsigned long" for the pfn is wrong.  It "works" for the shmem
+code because shmem deals only with struct page, but it's technically wrong, especially
+since one of the selling points of this approach is that it can work without struct
+page.
+
+OUT params suck, but I don't see a better option than having the return value be
+0/-errno, with "pfn_t *pfn" for the resolved pfn.
+
+> +}
+> +
+> +static inline void kvm_memfile_put_pfn(struct kvm_memory_slot *slot,
+> +				       kvm_pfn_t pfn)
+> +{
+> +	slot->pfn_ops->put_unlock_pfn(pfn);
+> +}
+> +
+> +#else
+> +static inline long kvm_memfile_get_pfn(struct kvm_memory_slot *slot, gfn_t gfn,
+> +				       int *order)
+> +{
+
+This should be a WARN_ON() as its usage should be guarded by a KVM_PRIVATE_MEM
+check, and private memslots should be disallowed in this case.
+
+Alternatively, it might be a good idea to #ifdef these out entirely and not provide
+stubs.  That'd likely require a stub or two in arch code, but overall it might be
+less painful in the long run, e.g. would force us to more carefully consider the
+touch points for private memory.  Definitely not a requirement, just an idea.
 
