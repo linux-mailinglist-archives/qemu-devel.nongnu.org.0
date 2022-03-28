@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6796B4E99BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:35:16 +0200 (CEST)
-Received: from localhost ([::1]:36198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB4F4E996F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:26:48 +0200 (CEST)
+Received: from localhost ([::1]:47274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYqSh-0003yZ-GQ
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:35:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41638)
+	id 1nYqKV-00005F-Nk
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:26:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0j-0006fx-P2
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49825)
+ id 1nYq0l-0006kk-Aj
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0i-0005IF-0Z
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:21 -0400
+ id 1nYq0j-0005IX-Ng
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648476379;
+ s=mimecast20190719; t=1648476381;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=87vN3ZxXxp5gsy94R/Q63nJ0ZJu0kNCU3acXv9UizRQ=;
- b=fUrzEh06qalGv9OKLj4Ml6eb7HT84L+LgZrOGV0e4mvWyD3yyA0fNESQI3B1yg5ZI4GI4c
- 8PTS2GH69xqmBRzI4HVY4DZfk3v/m0hpk7+Ln+7n58lYHvLgvkpyDklAyrPUut7vEZdw1v
- L0qS3Slwo6RwoTvYSjwiNLQDH1uIy+E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IPQgd+Dj3pVYdKgKRR+ErYN5s6FYEfNPg/vxvxQNJgw=;
+ b=GCO6ADrqYP83JBQLUPJ2YQUi8mPeXS3/yQJmg0AvEci+zQGCq3KVTBocgDP2zDsSnwFMw6
+ +6BKTQjOdXxcLLXwWLGf346a+HS3rex2IGAmbHk7XXMcXfgv/4XFVtaQmFHuSExrCoVZ+W
+ PQad/u9T2uPftdHTKxVV1MGMxXizNuY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-204-npd5KtodMe2ekFOHMFQpbg-1; Mon, 28 Mar 2022 10:06:18 -0400
-X-MC-Unique: npd5KtodMe2ekFOHMFQpbg-1
+ us-mta-491-gNpyVzWLM1eqvoZl5-kSlw-1; Mon, 28 Mar 2022 10:06:19 -0400
+X-MC-Unique: gNpyVzWLM1eqvoZl5-kSlw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C7B292A2AD51
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2BAD3811E83
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:19 +0000 (UTC)
 Received: from tapioca.home (unknown [10.40.195.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C769A1402642;
- Mon, 28 Mar 2022 14:06:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21AA31402642;
+ Mon, 28 Mar 2022 14:06:17 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/14] qapi: fix example of UNPLUG_PRIMARY event
-Date: Mon, 28 Mar 2022 16:05:57 +0200
-Message-Id: <20220328140604.41484-8-victortoso@redhat.com>
+Subject: [PATCH v3 08/14] qapi: fix example of FAILOVER_NEGOTIATED event
+Date: Mon, 28 Mar 2022 16:05:58 +0200
+Message-Id: <20220328140604.41484-9-victortoso@redhat.com>
 In-Reply-To: <20220328140604.41484-1-victortoso@redhat.com>
 References: <20220328140604.41484-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,31 +87,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Example output lacks mandatory member @timestamp.  Provide it.
 
-Example output is not properly formatted. Fixing it by:
-- Adding '<-' to signalize it is receiving the data;
-- Breaking lines similar to the other examples.
+Event's documentation is not properly formatted. Fix it by:
+- Adding @ to "device-id"
+- Adding extra line for "Since" section
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- qapi/migration.json | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ qapi/net.json | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 18e2610e88..092a63354b 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1736,7 +1736,9 @@
+diff --git a/qapi/net.json b/qapi/net.json
+index 7fab2e7cd8..0d4578bd07 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -685,13 +685,15 @@
+ # Failover primary devices which were hidden (not hotplugged when requested)
+ # before will now be hotplugged by the virtio-net standby device.
+ #
+-# device-id: QEMU device id of the unplugged device
++# @device-id: QEMU device id of the unplugged device
++#
  # Since: 4.2
  #
  # Example:
--#   {"event": "UNPLUG_PRIMARY", "data": {"device-id": "hostdev0"} }
-+# <- { "event": "UNPLUG_PRIMARY",
-+#      "data": { "device-id": "hostdev0" },
-+#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+ #
+ # <- { "event": "FAILOVER_NEGOTIATED",
+-#      "data": "net1" }
++#      "data": { "device-id": "net1" },
++#      "timestamp": { "seconds": 1368697518, "microseconds": 326866 } }
  #
  ##
- { 'event': 'UNPLUG_PRIMARY',
+ { 'event': 'FAILOVER_NEGOTIATED',
 -- 
 2.35.1
 
