@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537524E9970
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:26:49 +0200 (CEST)
-Received: from localhost ([::1]:47370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456E94E998B
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:30:19 +0200 (CEST)
+Received: from localhost ([::1]:53882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYqKW-0000Ak-CI
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:26:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41684)
+	id 1nYqNu-0004it-4Q
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:30:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0n-0006rE-EL
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27934)
+ id 1nYq0o-0006um-T7
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0l-0005It-RE
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:25 -0400
+ id 1nYq0m-0005J0-Jm
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648476383;
+ s=mimecast20190719; t=1648476384;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N83hhQ7B0IfZePi1X+O71YR3AsxmIX82lmxy7qxC/PU=;
- b=FggNhopMge/1vrxFSgAAoHHRhy+Lygqjxo66VucLdzyfuKn+QBLjPnCcni6CaFkQVUhkiv
- ky87oaL0wxkb8vbmEMIUYF3A4bMWkJ2i++ysdmuoD8lJGAr268JFKSaROEVzO+ggqcJWUX
- WVMyuhnYKBuuAVXmPEv/hbr39BQZaLI=
+ bh=h/lGreUdaPtAmH56gi46C/KXzFFw9GCJcVumtSRsGQs=;
+ b=L8cMWBwrUVe2BWIJ0rtP5zpy7XO6aYFZWpvnTarS+dxy6EErPgABL1djGHfyO97lCamIOD
+ SqkCHjRomkwJtSW3O7XYkVLZHB/lY/n2P4izVo279SpWC26abZuTrNu5RRC8Z1KcncYfjQ
+ kVcN5w95Ku3Jr9u3ozpPDBFqju3C8yw=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-IDwD-_9KP_uZumUG_HWpfg-1; Mon, 28 Mar 2022 10:06:20 -0400
-X-MC-Unique: IDwD-_9KP_uZumUG_HWpfg-1
+ us-mta-531-YoKWFupTMuSOGyvtH1iXMA-1; Mon, 28 Mar 2022 10:06:22 -0400
+X-MC-Unique: YoKWFupTMuSOGyvtH1iXMA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 961321C0E340
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CFC23803502
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:22 +0000 (UTC)
 Received: from tapioca.home (unknown [10.40.195.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A2161400B19;
- Mon, 28 Mar 2022 14:06:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 015951402642;
+ Mon, 28 Mar 2022 14:06:20 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/14] qapi: fix examples: SHUTDOWN and RESET events
-Date: Mon, 28 Mar 2022 16:05:59 +0200
-Message-Id: <20220328140604.41484-10-victortoso@redhat.com>
+Subject: [PATCH v3 10/14] qapi: run-state examples: add missing @timestamp
+Date: Mon, 28 Mar 2022 16:06:00 +0200
+Message-Id: <20220328140604.41484-11-victortoso@redhat.com>
 In-Reply-To: <20220328140604.41484-1-victortoso@redhat.com>
 References: <20220328140604.41484-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -85,7 +85,8 @@ Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example output lacks mandatory member @reason.  Provide it.
+The changed examples were lacking mandatory member @timestamp.
+Provide it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
@@ -94,29 +95,29 @@ Reviewed-by: John Snow <jsnow@redhat.com>
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/qapi/run-state.json b/qapi/run-state.json
-index 43d66d700f..1b9f64c9cd 100644
+index 1b9f64c9cd..7f1c788c4e 100644
 --- a/qapi/run-state.json
 +++ b/qapi/run-state.json
-@@ -150,7 +150,8 @@
- #
+@@ -426,7 +426,8 @@
  # Example:
  #
--# <- { "event": "SHUTDOWN", "data": { "guest": true },
-+# <- { "event": "SHUTDOWN",
-+#      "data": { "guest": true, "reason": "guest-shutdown" },
- #      "timestamp": { "seconds": 1267040730, "microseconds": 682951 } }
+ # <- { "event": "GUEST_PANICKED",
+-#      "data": { "action": "pause" } }
++#      "data": { "action": "pause" },
++#      "timestamp": { "seconds": 1648245231, "microseconds": 900001 } }
  #
  ##
-@@ -188,7 +189,8 @@
- #
+ { 'event': 'GUEST_PANICKED',
+@@ -446,7 +447,8 @@
  # Example:
  #
--# <- { "event": "RESET", "data": { "guest": false },
-+# <- { "event": "RESET",
-+#      "data": { "guest": false, "reason": "guest-reset" },
- #      "timestamp": { "seconds": 1267041653, "microseconds": 9518 } }
+ # <- { "event": "GUEST_CRASHLOADED",
+-#      "data": { "action": "run" } }
++#      "data": { "action": "run" },
++#      "timestamp": { "seconds": 1648245259, "microseconds": 893771 } }
  #
  ##
+ { 'event': 'GUEST_CRASHLOADED',
 -- 
 2.35.1
 
