@@ -2,101 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3965A4EA26D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:28:41 +0200 (CEST)
-Received: from localhost ([::1]:37890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712C14EA293
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:54:39 +0200 (CEST)
+Received: from localhost ([::1]:42902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYwum-00029A-BY
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:28:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51998)
+	id 1nYxJu-0006sb-2a
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:54:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nYwto-0001O6-Jl
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:27:40 -0400
-Received: from [2607:f8b0:4864:20::1035] (port=38564
- helo=mail-pj1-x1035.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nYxI2-0005wv-MG; Mon, 28 Mar 2022 17:52:42 -0400
+Received: from [2001:4860:4864:20::2c] (port=37470
+ helo=mail-oa1-x2c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nYwtm-0005u2-TK
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:27:40 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- gp15-20020a17090adf0f00b001c7cd11b0b3so421788pjb.3
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:27:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=WVVxBxlyVCxS7vEDq6k+BkZvn5usLnrTMDhIOyfoQRA=;
- b=F3l3l0SrNcazav4z9RryKfjHbpu2VZCStqEvabNnrpQsKduUOQ3GJ4YLD/Bnt3UC53
- 9gigw6DRFNxzp6Tn0uRX1OSxCzSfPN1szWmGrwz4vNHvV9VLYO4WmYDXdPaWdH8TblyA
- El5pN/YNKIMy+iw6lu+xed7E4QwRzAZ0FR3pSWjUWLUUPJwMVJMtE8E6wGN4E5LNs8u0
- yM55QJ2oVDQAWknXjyDPGA1Gh8t7X0l+yW2q0hEFkIUxZQxSu7VSEXhtFwFrkoLq0Y0h
- pW8wbdUJiuzKmB2oEiRn9NUOZIq9e6JfKX2gwfUvAStK/w8sCzYOPevQeMdOmxmqtm3Z
- UnEA==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nYxI0-0000ny-WF; Mon, 28 Mar 2022 17:52:42 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-dee0378ce7so6357709fac.4; 
+ Mon, 28 Mar 2022 14:52:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ag3g7NNsvxPGOkxkFKNj0ixxepcNDbKYQdvZegf/bKE=;
+ b=YbXjgVKzprcTYOxLr5u5vZmUEGShVBePIqqIIAVuSUve7QkY3mAb5oPgpMd5cG4H4b
+ 1ZZaHT3SzFxR1cdIhmZNB/5k5J4dvednn02h0l0KVunF1pT+YUOc6bZrSW6JRBsc6sa+
+ f+iu9tNDiXlI5XixxNc/nu9IQKUXq649hWGwAMn7e6y1qe04bsHtzPz5+On8cYVIEsun
+ 5VTee3X8JwfT1jNqN0h4lVYiDLlnXWWoLjn20Lg6KrvNlL8oFAurcqHBeji1HsuXL+GE
+ zlrCGrNH1HxunciylgrRWllXzAF/iCeeY+jCgdBI90ehWizcW0na6BINDXJ1LzuDrL5X
+ h6gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=WVVxBxlyVCxS7vEDq6k+BkZvn5usLnrTMDhIOyfoQRA=;
- b=2LBunZN6IiPXK3FFAbh64KlJ0pKkHi8acigjFWecTPClwegx2bIuID2fkQhq25rkz0
- IZy/kSyd64ziQ5hJAUw1lqH/pnhXApKmKJJ2Eaue2HaqOnaqJ7D9i5edK+8s52tmZL+d
- At/Vylx36MhRFzviUDeyBawBq1AMbCBjhi8wwauOd3UHuql8W1nKsk0IqivFuQcR+W4p
- jZsVkaXmXS5wo0g3elcOKCdnGhAkjfLHsSmk2VBu+um0WAxdER0rIP2w0aC0hsnqWoVo
- ffQCixD8X83FQ5KgMMpuRudK/STh5p+yvCZBxaqebeP0UT/f/TBh3d61W816BZrk/phe
- sO7w==
-X-Gm-Message-State: AOAM5326ZWCh8EdUZidKlXQRrOw4AB5L46qHsLFfOivmZk5Tk7v/bG7G
- LDFqbUKfKv8Jpsw92mSpf4tKoQ==
-X-Google-Smtp-Source: ABdhPJwWeZMb9Wt1LCrjPclYKOZxIau/iyRcg9FuFBqfs0Ro5aFT1BqcZ/SiNPFqKlNMwaMh8+jAOw==
-X-Received: by 2002:a17:903:2288:b0:153:bfbe:7354 with SMTP id
- b8-20020a170903228800b00153bfbe7354mr27601061plh.112.1648502856956; 
- Mon, 28 Mar 2022 14:27:36 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
- 22-20020a17090a019600b001c6457e1760sm410018pjc.21.2022.03.28.14.27.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Mar 2022 14:27:36 -0700 (PDT)
-Date: Mon, 28 Mar 2022 21:27:32 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com
-Subject: Re: [PATCH v5 05/13] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <YkIoRDNbwJH/IDeC@google.com>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-6-chao.p.peng@linux.intel.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ag3g7NNsvxPGOkxkFKNj0ixxepcNDbKYQdvZegf/bKE=;
+ b=AZZtewQ13nUj6xGKt8Snvt57j/Wp8JzrOc/1tt0cGpoKDGADTehljCqTZfEl6nKpif
+ AVX/aIGDtGB/vRt6BA1qbEhGkFHkB9nYHaXicYceRp5RgutSD+P8YOES1t2gGysruJVw
+ 0ggtdPRUTT0aEiRkDNKQqReIos2RnsyQUwDx8fTg1AZtc66YaZPEYI/meZ1eZHkYbUr2
+ LDmwQuyJeSRTvrzp4DulvOxfLU9OnYW0n2l//QuYKTszLBdoitSCo8pTRNZeh5++zbTs
+ PgZLvQE6ZVu/sUN09tI6d+eVhC7Go9hpPB6FZkp7kt1n/5V80HB6oSQhNbYnw462+Trp
+ KLuw==
+X-Gm-Message-State: AOAM533O02O4ADn+Er301QCM6OhTvyAHJL+4Zxyoq5TEKcsBpf4TNejz
+ TfK3JWe0SQ0T7XxceXTdPQE=
+X-Google-Smtp-Source: ABdhPJykkq9VmnjBhXbwEbJslfVKVsHgwfRAZvvOBsF+1Oke7nAXBARGbO7Go7tklDZXYw4ZRlU+9A==
+X-Received: by 2002:a05:6870:f6a8:b0:da:cf54:dc14 with SMTP id
+ el40-20020a056870f6a800b000dacf54dc14mr606549oab.43.1648504358965; 
+ Mon, 28 Mar 2022 14:52:38 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c6:abe8:ed:2c78:ab0c:7946?
+ ([2804:431:c7c6:abe8:ed:2c78:ab0c:7946])
+ by smtp.gmail.com with ESMTPSA id
+ 184-20020a4a03c1000000b003240492fc15sm7632624ooi.36.2022.03.28.14.52.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Mar 2022 14:52:38 -0700 (PDT)
+Message-ID: <581bf96b-9e45-fa46-1f5b-3e59455234b8@gmail.com>
+Date: Mon, 28 Mar 2022 18:52:35 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220310140911.50924-6-chao.p.peng@linux.intel.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] target/ppc: Improve KVM hypercall trace
+Content-Language: en-US
+To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20220325223316.276494-1-farosas@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220325223316.276494-1-farosas@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=seanjc@google.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -161
-X-Spam_score: -16.2
-X-Spam_bar: ----------------
-X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,79 +92,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 10, 2022, Chao Peng wrote:
-> Extend the memslot definition to provide fd-based private memory support
-> by adding two new fields (private_fd/private_offset). The memslot then
-> can maintain memory for both shared pages and private pages in a single
-> memslot. Shared pages are provided by existing userspace_addr(hva) field
-> and private pages are provided through the new private_fd/private_offset
-> fields.
-> 
-> Since there is no 'hva' concept anymore for private memory so we cannot
-> rely on get_user_pages() to get a pfn, instead we use the newly added
-> memfile_notifier to complete the same job.
-> 
-> This new extension is indicated by a new flag KVM_MEM_PRIVATE.
-> 
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 
-Needs a Co-developed-by: for Yu, or a From: if Yu is the sole author.
 
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+On 3/25/22 19:33, Fabiano Rosas wrote:
+> Before:
+> 
+>    kvm_handle_papr_hcall handle PAPR hypercall
+>    kvm_handle_papr_hcall handle PAPR hypercall
+>    kvm_handle_papr_hcall handle PAPR hypercall
+>    kvm_handle_papr_hcall handle PAPR hypercall
+>    kvm_handle_papr_hcall handle PAPR hypercall
+>    kvm_handle_papr_hcall handle PAPR hypercall
+> 
+> After:
+> 
+>    kvm_handle_papr_hcall 0x3a8
+>    kvm_handle_papr_hcall 0x3ac
+>    kvm_handle_papr_hcall 0x108
+>    kvm_handle_papr_hcall 0x104
+>    kvm_handle_papr_hcall 0x104
+>    kvm_handle_papr_hcall 0x108
+> 
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 > ---
->  Documentation/virt/kvm/api.rst | 37 +++++++++++++++++++++++++++-------
->  include/linux/kvm_host.h       |  7 +++++++
->  include/uapi/linux/kvm.h       |  8 ++++++++
->  3 files changed, 45 insertions(+), 7 deletions(-)
+
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+I believe this is benign enough to be taken in the next PR and it will help
+in the debugging right away.
+
+
+Daniel
+
+>   target/ppc/kvm.c        | 2 +-
+>   target/ppc/trace-events | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 3acbf4d263a5..f76ac598606c 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -1307,7 +1307,7 @@ yet and must be cleared on entry.
->  :Capability: KVM_CAP_USER_MEMORY
->  :Architectures: all
->  :Type: vm ioctl
-> -:Parameters: struct kvm_userspace_memory_region (in)
-> +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
->  :Returns: 0 on success, -1 on error
->  
->  ::
-> @@ -1320,9 +1320,17 @@ yet and must be cleared on entry.
->  	__u64 userspace_addr; /* start of the userspace allocated memory */
->    };
->  
-> +  struct kvm_userspace_memory_region_ext {
-> +	struct kvm_userspace_memory_region region;
-> +	__u64 private_offset;
-> +	__u32 private_fd;
-> +	__u32 padding[5];
-
-Uber nit, I'd prefer we pad u32 for private_fd separate from padding the size of
-the structure for future expansion.
-
-Regarding future expansion, any reason not to go crazy and pad like 128+ bytes?
-It'd be rather embarassing if the next memslot extension needs 3 u64s and we end
-up with region_ext2 :-)
-
-> +};
-> +
->    /* for kvm_memory_region::flags */
->    #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
->    #define KVM_MEM_READONLY	(1UL << 1)
-> +  #define KVM_MEM_PRIVATE		(1UL << 2)
->  
->  This ioctl allows the user to create, modify or delete a guest physical
->  memory slot.  Bits 0-15 of "slot" specify the slot id and this value
-
-...
-
-> +static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
-
-I 100% think we should usurp the name "private" for these memslots, but as prep
-work this series should first rename KVM_PRIVATE_MEM_SLOTS to avoid confusion.
-Maybe KVM_INTERNAL_MEM_SLOTS?
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index dc93b99189..a490e886ea 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -1681,7 +1681,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>           break;
+>   #if defined(TARGET_PPC64)
+>       case KVM_EXIT_PAPR_HCALL:
+> -        trace_kvm_handle_papr_hcall();
+> +        trace_kvm_handle_papr_hcall(run->papr_hcall.nr);
+>           run->papr_hcall.ret = spapr_hypercall(cpu,
+>                                                 run->papr_hcall.nr,
+>                                                 run->papr_hcall.args);
+> diff --git a/target/ppc/trace-events b/target/ppc/trace-events
+> index 53b107f56e..a79f1b4370 100644
+> --- a/target/ppc/trace-events
+> +++ b/target/ppc/trace-events
+> @@ -23,7 +23,7 @@ kvm_failed_get_vpa(void) "Warning: Unable to get VPA information from KVM"
+>   kvm_handle_dcr_write(void) "handle dcr write"
+>   kvm_handle_dcr_read(void) "handle dcr read"
+>   kvm_handle_halt(void) "handle halt"
+> -kvm_handle_papr_hcall(void) "handle PAPR hypercall"
+> +kvm_handle_papr_hcall(uint64_t hcall) "0x%" PRIx64
+>   kvm_handle_epr(void) "handle epr"
+>   kvm_handle_watchdog_expiry(void) "handle watchdog expiry"
+>   kvm_handle_debug_exception(void) "handle debug exception"
 
