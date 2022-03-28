@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167F24EA027
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 21:49:42 +0200 (CEST)
-Received: from localhost ([::1]:54550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4724C4EA123
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 22:08:20 +0200 (CEST)
+Received: from localhost ([::1]:34984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYvMy-0007nq-M2
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 15:49:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57672)
+	id 1nYvf0-0006Zw-Us
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 16:08:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nYvK6-0005pq-BS
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 15:46:42 -0400
-Received: from [2001:4860:4864:20::30] (port=41386
- helo=mail-oa1-x30.google.com)
+ id 1nYvdV-0005m6-Sy
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:06:45 -0400
+Received: from [2001:4860:4864:20::33] (port=36151
+ helo=mail-oa1-x33.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nYvK4-0007JG-Hh
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 15:46:41 -0400
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-df0940c4eeso2930003fac.8
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 12:46:40 -0700 (PDT)
+ id 1nYvdQ-0001zQ-Mk
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:06:41 -0400
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-df014ca245so4171772fac.3
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 13:06:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=hViZrpzgdGlti/Qsmwian/6J8HUaqkZSmIUySACJqLk=;
- b=tFSlR6lMfggWexLH0+8b33vZQ8CzX/MD0jyvZ0WvCj9LNGsw8i6XlhzLqWmdbPAq9w
- MeE2r1c1UJyzJShrkSJk/aeX8XMQzs9WxoeAXBVlm3OB+VPpoRI8Lk8+fLrbzyEoxCTd
- sBFOZl9SOXBQFNjzS4XU89PkGeSLtpVknbKBrEJPcc6wypP9wtyrhNTJd00D301vZVW+
- xnDIOiETzYWNsmqzBnrUqKXrcF0sEze6BBxzsnirCrrxU+d1Xx1SJWx2ZVlpOmr2kFFs
- mlrZcMW/Xgi4nrcMpzuRRvrK2D4I9hT333vddBfFewn975Qndvw12oTmLqIjmf90DeYG
- 8gpw==
+ bh=wmtkGd8UyNUOHflOjAtLDojVk0UfxY+2+20uUsi7KWE=;
+ b=iQBKg9XF9jbiVNyDgTLaIR671YihlIrFWgv4CwiIesiHyglxQNL9pVUU+dTp6swhWn
+ 7lkkntiga/jRApCteyRi32VB1poMewvx1QMjV+iMkJIKT+C7QUOX4SZBWbRZmmmgkUlL
+ CH3ayjX0QAcDB2jbqTxyVhadMd+2OLZjTUAOUMoUowO7UQ4zE5xjSnLDeTCiT5XBQwAr
+ ymPbK8dUedaXlcq3EbLkU3bWR02kXH/DMQnHYNt8EwRyT/iB+WioLHyhBRLC1iNfncne
+ 2UvOHnkXT71Ur+NbwyLwrblH8puvcaT6A5CrAoNXJGpsROOCc2T2Hyzp6adVAeR3bM7L
+ 8H9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hViZrpzgdGlti/Qsmwian/6J8HUaqkZSmIUySACJqLk=;
- b=317OLpWJa5X58QGH0rKYRGsfCR0R3AOPx9qGjcjgQlqINdyDteAvE+XSv1ObcLy+jv
- EHfBzL1iI2393aRB7hDgXnyM76BH9gJVs8sWvGWLYwMegplQMs3nW9Y8bbMKh+Sej/Zi
- V9dWIbqvo4ovM/FrdckxdXi8P4JHo3PSDCL+CDLNTLb7HsD2dJy/89ix7slFdkwBcuna
- VLkNo2WW1IUSsEeImPUDerYV0XEYZA1Ocl6dHbsegEDVh1VhOUep77x6Qp6e9I8tF6JO
- gFG+e1WOn4lG3x4R6Io5L5NeJbQ9TZ24qkbZZNRmzWsQX8y8mnUuaky5lRxKetypPrwh
- PKLg==
-X-Gm-Message-State: AOAM5310SJKbKVHR6t6nhgJx+n7hAZKdPl9yTH3cRMRf1Hu3ugOIl4W+
- Cr3jQ/F8eGGNS3GmAAdPcNfe0A==
-X-Google-Smtp-Source: ABdhPJwzgUbi+fEgLuh18pd/vcsZzxOpyk6aWMCda2pr0S2qUpaMipi4arALFQoOvQUh0ZmfxyJFqQ==
-X-Received: by 2002:a05:6870:785:b0:da:ac31:3e04 with SMTP id
- en5-20020a056870078500b000daac313e04mr388257oab.270.1648496798835; 
- Mon, 28 Mar 2022 12:46:38 -0700 (PDT)
+ bh=wmtkGd8UyNUOHflOjAtLDojVk0UfxY+2+20uUsi7KWE=;
+ b=hy8+7SILNmhIuouHW/P2GX/ZBZWr1DbvsXCC2wiVnvujpzPH3eEaViL/YCape+A/8y
+ Py52BCsY94uK4MBYgDJwxq3tSj8Fjcrud+WV0R/cJRl3zxcnP1qKJ/Vik79VUW+9sCnE
+ m9vIKK0Jpm2O7JESF0gh5lKoz7ct9UWAAaHHG9tGZCu/DG+SqhKqJGOElQnTSHz+K5uR
+ AsREwOkf9G6Rf9y8QEvlAmKUyKl1Xxu4EONhcpprAqu2K2wnIfjfLTnxDq+gnqm8nJY8
+ 9J08rWjXNV17jK3yA596X+jhCG4sG7ukGctG+DCqCZ8/jSbJ7WETjz7wPRRgP/w+uhmR
+ Mrdw==
+X-Gm-Message-State: AOAM532rYarV/WxQngONyxrBRvKf7VoMlub3T7FM0tjLdNdY2gsl5VR6
+ 0t7uNs2/NHjioSh3vkZpYvRQGQ==
+X-Google-Smtp-Source: ABdhPJyxZWpkdU7z7HCJdBVL4RHlwHuH5RH1XzHl3UeTI99Q7l/eckubzkLGFQcVzXT4fuv0xYoQOg==
+X-Received: by 2002:a05:6871:694:b0:dd:a43e:fc9f with SMTP id
+ l20-20020a056871069400b000dda43efc9fmr407831oao.225.1648497999197; 
+ Mon, 28 Mar 2022 13:06:39 -0700 (PDT)
 Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- he5-20020a056870798500b000ddf4f625easm6823071oab.18.2022.03.28.12.46.33
+ r3-20020aca4403000000b002ecf4d70c83sm7642346oia.27.2022.03.28.13.06.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Mar 2022 12:46:34 -0700 (PDT)
-Message-ID: <8a68b039-f34f-4ab3-746e-005663621791@linaro.org>
-Date: Mon, 28 Mar 2022 13:46:30 -0600
+ Mon, 28 Mar 2022 13:06:37 -0700 (PDT)
+Message-ID: <1590cdc6-5195-2dad-5e1f-ce6517c945ab@linaro.org>
+Date: Mon, 28 Mar 2022 14:06:34 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [RFC PATCH v7 05/29] target/loongarch: Add constant timer support
+Subject: Re: [RFC PATCH v7 06/29] target/loongarch: Add MMU support for
+ LoongArch CPU.
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
- <20220328125749.2918087-6-yangxiaojuan@loongson.cn>
+ <20220328125749.2918087-7-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220328125749.2918087-6-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220328125749.2918087-7-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::30
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::33
  (failed)
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x30.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::33;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x33.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,54 +99,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/28/22 06:57, Xiaojuan Yang wrote:
-> +void cpu_loongarch_store_constant_timer_config(LoongArchCPU *cpu,
-> +                                               uint64_t value)
+> +bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> +                            MMUAccessType access_type, int mmu_idx,
+> +                            bool probe, uintptr_t retaddr)
 > +{
+> +    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
 > +    CPULoongArchState *env = &cpu->env;
-> +    uint64_t now, next;
+> +    hwaddr physical;
+> +    int prot;
+> +    int ret = TLBRET_BADADDR;
 > +
-> +    env->CSR_TCFG = value;
-> +    if (value & CONSTANT_TIMER_ENABLE) {
-> +        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +        next = now + (value & CONSTANT_TIMER_TICK_MASK) * TIMER_PERIOD;
-> +        timer_mod(&cpu->timer, next);
-> +    }
-
-If CONSTANT_TIMER_ENABLE is not set, you need to use timer_del() to turn off any existing 
-timer.
-
-
-> +void loongarch_constant_timer_cb(void *opaque)
-> +{
-> +    LoongArchCPU *cpu  = opaque;
-> +    CPULoongArchState *env = &cpu->env;
-> +    uint64_t now, next;
+> +    /* Data access */
+> +    ret = get_physical_address(env, &physical, &prot, address,
+> +                               access_type, mmu_idx);
 > +
-> +    if (FIELD_EX64(env->CSR_TCFG, CSR_TCFG, PERIODIC)) {
-> +        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +        next = now + (env->CSR_TCFG & CONSTANT_TIMER_TICK_MASK) * TIMER_PERIOD;
-> +        timer_mod(&cpu->timer, next);
+> +    if (ret == TLBRET_MATCH) {
+> +        tlb_set_page(cs, address & TARGET_PAGE_MASK,
+> +                     physical & TARGET_PAGE_MASK, prot,
+> +                     mmu_idx, TARGET_PAGE_SIZE);
+> +        qemu_log_mask(CPU_LOG_MMU,
+> +                      "%s address=%" VADDR_PRIx " physical " TARGET_FMT_plx
+> +                      " prot %d\n", __func__, address, physical, prot);
+> +        return true;
 > +    } else {
-> +        env->CSR_TCFG = FIELD_DP64(env->CSR_TCFG, CSR_TCFG, EN, 0);
+> +        qemu_log_mask(CPU_LOG_MMU,
+> +                      "%s address=%" VADDR_PRIx " ret %d\n", __func__, address,
+> +                      ret);
 > +    }
-> +
-> +    env->CSR_ESTAT |= 1 << IRQ_TIMER;
-> +    cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HARD);
+> +    if (probe) {
+> +        return false;
+> +    } else {
 
-I think this is wrong and you should be using loongarch_cpu_set_irq (which is misplaced 
-for you to be able to do so).
+Drop the else and unindent.
 
-> @@ -297,4 +302,9 @@ enum {
->   #define LOONGARCH_CPU_TYPE_NAME(model) model LOONGARCH_CPU_TYPE_SUFFIX
->   #define CPU_RESOLVING_TYPE TYPE_LOONGARCH_CPU
->   
-> +void loongarch_constant_timer_cb(void *opaque);
-> +uint64_t cpu_loongarch_get_constant_timer_counter(LoongArchCPU *cpu);
-> +uint64_t cpu_loongarch_get_constant_timer_ticks(LoongArchCPU *cpu);
-> +void cpu_loongarch_store_constant_timer_config(LoongArchCPU *cpu,
-> +                                               uint64_t value);
+> +        raise_mmu_exception(env, address, access_type, ret);
+> +        do_raise_exception(env, cs->exception_index, retaddr);
 
-These can go in internals.h.
+You do not need do_raise_exception here, as you have already assigned to 
+cs->exception_index (obviously).  Just cpu_loop_exit_restore(cs, retaddr).
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
