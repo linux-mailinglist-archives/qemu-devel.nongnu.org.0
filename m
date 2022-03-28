@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB4F4E996F
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:26:48 +0200 (CEST)
-Received: from localhost ([::1]:47274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537524E9970
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:26:49 +0200 (CEST)
+Received: from localhost ([::1]:47370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYqKV-00005F-Nk
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:26:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41654)
+	id 1nYqKW-0000Ak-CI
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:26:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0l-0006kk-Aj
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39382)
+ id 1nYq0n-0006rE-EL
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0j-0005IX-Ng
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:22 -0400
+ id 1nYq0l-0005It-RE
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648476381;
+ s=mimecast20190719; t=1648476383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IPQgd+Dj3pVYdKgKRR+ErYN5s6FYEfNPg/vxvxQNJgw=;
- b=GCO6ADrqYP83JBQLUPJ2YQUi8mPeXS3/yQJmg0AvEci+zQGCq3KVTBocgDP2zDsSnwFMw6
- +6BKTQjOdXxcLLXwWLGf346a+HS3rex2IGAmbHk7XXMcXfgv/4XFVtaQmFHuSExrCoVZ+W
- PQad/u9T2uPftdHTKxVV1MGMxXizNuY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=N83hhQ7B0IfZePi1X+O71YR3AsxmIX82lmxy7qxC/PU=;
+ b=FggNhopMge/1vrxFSgAAoHHRhy+Lygqjxo66VucLdzyfuKn+QBLjPnCcni6CaFkQVUhkiv
+ ky87oaL0wxkb8vbmEMIUYF3A4bMWkJ2i++ysdmuoD8lJGAr268JFKSaROEVzO+ggqcJWUX
+ WVMyuhnYKBuuAVXmPEv/hbr39BQZaLI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-gNpyVzWLM1eqvoZl5-kSlw-1; Mon, 28 Mar 2022 10:06:19 -0400
-X-MC-Unique: gNpyVzWLM1eqvoZl5-kSlw-1
+ us-mta-553-IDwD-_9KP_uZumUG_HWpfg-1; Mon, 28 Mar 2022 10:06:20 -0400
+X-MC-Unique: IDwD-_9KP_uZumUG_HWpfg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2BAD3811E83
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 961321C0E340
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:20 +0000 (UTC)
 Received: from tapioca.home (unknown [10.40.195.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21AA31402642;
- Mon, 28 Mar 2022 14:06:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A2161400B19;
+ Mon, 28 Mar 2022 14:06:19 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/14] qapi: fix example of FAILOVER_NEGOTIATED event
-Date: Mon, 28 Mar 2022 16:05:58 +0200
-Message-Id: <20220328140604.41484-9-victortoso@redhat.com>
+Subject: [PATCH v3 09/14] qapi: fix examples: SHUTDOWN and RESET events
+Date: Mon, 28 Mar 2022 16:05:59 +0200
+Message-Id: <20220328140604.41484-10-victortoso@redhat.com>
 In-Reply-To: <20220328140604.41484-1-victortoso@redhat.com>
 References: <20220328140604.41484-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -85,40 +85,38 @@ Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example output lacks mandatory member @timestamp.  Provide it.
-
-Event's documentation is not properly formatted. Fix it by:
-- Adding @ to "device-id"
-- Adding extra line for "Since" section
+Example output lacks mandatory member @reason.  Provide it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- qapi/net.json | 6 ++++--
+ qapi/run-state.json | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 7fab2e7cd8..0d4578bd07 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -685,13 +685,15 @@
- # Failover primary devices which were hidden (not hotplugged when requested)
- # before will now be hotplugged by the virtio-net standby device.
- #
--# device-id: QEMU device id of the unplugged device
-+# @device-id: QEMU device id of the unplugged device
-+#
- # Since: 4.2
+diff --git a/qapi/run-state.json b/qapi/run-state.json
+index 43d66d700f..1b9f64c9cd 100644
+--- a/qapi/run-state.json
++++ b/qapi/run-state.json
+@@ -150,7 +150,8 @@
  #
  # Example:
  #
- # <- { "event": "FAILOVER_NEGOTIATED",
--#      "data": "net1" }
-+#      "data": { "device-id": "net1" },
-+#      "timestamp": { "seconds": 1368697518, "microseconds": 326866 } }
+-# <- { "event": "SHUTDOWN", "data": { "guest": true },
++# <- { "event": "SHUTDOWN",
++#      "data": { "guest": true, "reason": "guest-shutdown" },
+ #      "timestamp": { "seconds": 1267040730, "microseconds": 682951 } }
  #
  ##
- { 'event': 'FAILOVER_NEGOTIATED',
+@@ -188,7 +189,8 @@
+ #
+ # Example:
+ #
+-# <- { "event": "RESET", "data": { "guest": false },
++# <- { "event": "RESET",
++#      "data": { "guest": false, "reason": "guest-reset" },
+ #      "timestamp": { "seconds": 1267041653, "microseconds": 9518 } }
+ #
+ ##
 -- 
 2.35.1
 
