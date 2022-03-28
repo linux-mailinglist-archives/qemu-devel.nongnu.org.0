@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E95F4E8C36
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 04:33:12 +0200 (CEST)
-Received: from localhost ([::1]:51324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2290F4E8C3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 04:42:04 +0200 (CEST)
+Received: from localhost ([::1]:53728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYfBv-0004NO-Em
-	for lists+qemu-devel@lfdr.de; Sun, 27 Mar 2022 22:33:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42190)
+	id 1nYfKV-0006YE-8Q
+	for lists+qemu-devel@lfdr.de; Sun, 27 Mar 2022 22:42:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nYfAK-0003hD-1h
- for qemu-devel@nongnu.org; Sun, 27 Mar 2022 22:31:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24278)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nYfAI-0005M1-Ff
- for qemu-devel@nongnu.org; Sun, 27 Mar 2022 22:31:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648434688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qqUnf1P7XytgxBT1WsfoTD55cLQVPFJuYO5wZ/nwCdo=;
- b=Pljyvtj79GuQEkZV8YFPjG5BayEo5E5quC25D75XOJ+3IQafCGEXc/fFKUv2pwSgidIbiC
- mVxGCHhR9U9QlJ1kV5B4Fy3Zf9sE6zPi1ARnY+ba0OBkpxntNExMA2rkASEvZv+E0i+sBR
- tZNdkens3WbdYZ59SyJb2xse7h9NGI8=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-N10YW1l8N7GVtPviL3fI-g-1; Sun, 27 Mar 2022 22:31:27 -0400
-X-MC-Unique: N10YW1l8N7GVtPviL3fI-g-1
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-2e9e838590dso39928087b3.5
- for <qemu-devel@nongnu.org>; Sun, 27 Mar 2022 19:31:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nYfJJ-0005nv-I7
+ for qemu-devel@nongnu.org; Sun, 27 Mar 2022 22:40:49 -0400
+Received: from [2607:f8b0:4864:20::c2b] (port=34515
+ helo=mail-oo1-xc2b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nYfJH-0006ma-Ma
+ for qemu-devel@nongnu.org; Sun, 27 Mar 2022 22:40:49 -0400
+Received: by mail-oo1-xc2b.google.com with SMTP id
+ p34-20020a4a95e5000000b003248d73d460so2361618ooi.1
+ for <qemu-devel@nongnu.org>; Sun, 27 Mar 2022 19:40:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=pKj/LNWoxcRLRKk1fph/Ca9Q9/4SclgqCuenY2+y5mg=;
+ b=i7PptS7xAj1Ltcx+cW68Av96iGHiJHdHZ0+lCihUaJovBpcZ+URCMXqu+fOei9dCiN
+ W0QFif1ckb7aaVmCSOdrBZIA6KY58WzRL8gAGt8zkVHbZcfFnl0lUTfzImgZgc6Yx1k1
+ SXMdAGgabMJuwsBzFXJagxuLoZV8oGaQfwak+Mbg7OFa9aqGuMom9n4ahTYfRlKeum3h
+ 38N0mCuF19insHJmIaTnd9/SOC6s+i0hr3UmlWqcaT7bTFtDZZzIClEdaAoRh5GGbZIt
+ jFWtx3MtC3R9yPhJGnkRwjB7C8PwnQSdGfMtdLJBsNN5Cc1B3BOgzJmlIevqIiWSAIeg
+ 6kxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qqUnf1P7XytgxBT1WsfoTD55cLQVPFJuYO5wZ/nwCdo=;
- b=0AYnWeE6zf+qR4yM56rJFQzy24IKOFJSBG8i/dYnsuKAEYVL9Q0do+uaJdypZGy1XY
- SIpG6vSLg2OgwZttJUZFCjH9MLHNWIfwYGXSv3/MjhWdcF5wvJgdqQRWeFB3mx3O0UjM
- MnOwgVRktzBqfdMKcuOqT+mfcYeoZe8bRxRpduhW4SDcoEcphi8QrYD16wWZaEY+SMJj
- 0/Fh2dkHP8LgJ0qikrKRjVL0aNlCxLHXi7daj3bslcOOzBaPqPSIsoiSWHPe6bJFvh+Y
- /gyc0BR1X+YeIgQDCtQ3HByYyatCxP2yVD9+bTM7901wbHP2MqgDMmEcAJP6bDUb0TKc
- zc8Q==
-X-Gm-Message-State: AOAM533UpThVy2BoQdk9OefEnbpRqvWaFm3v3BZXEIWGvYDIALGD+6WV
- OF6PaA7aWw8t8jPme6/HBt5CMPs6QhdBkB5wVMMJp+HY4VTQ2ho2yd8fRA+FLlDduQuP7EnUXns
- koxO6k2Z1YgB9XS4gmAF1YhlcUBxDB0c=
-X-Received: by 2002:a81:d50c:0:b0:2e5:8836:fd3c with SMTP id
- i12-20020a81d50c000000b002e58836fd3cmr23365958ywj.152.1648434686947; 
- Sun, 27 Mar 2022 19:31:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzH4pCFojMhJ8hfyRgt0w6ko3yC1kwLjUsycMHA76Lq+nelCrp5gJ3R4ce0u0SgXQKtfidON+GHctBqsPLrTUw=
-X-Received: by 2002:a81:d50c:0:b0:2e5:8836:fd3c with SMTP id
- i12-20020a81d50c000000b002e58836fd3cmr23365945ywj.152.1648434686731; Sun, 27
- Mar 2022 19:31:26 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pKj/LNWoxcRLRKk1fph/Ca9Q9/4SclgqCuenY2+y5mg=;
+ b=clTPWEKSKJvtMzGhjyNIGh+O1GN2CqdCsggVODNTsT7K6lj4C4cN4K+29+gYgPXE7F
+ +MkGN6u0F+NvshrDDSveRJo36mNNbrXIUF26QWzN+dqfA+LBZyPye2f2vljtHYw3rptj
+ C0qt4WgcLBZKjOeHnHMmJ+KFUEmVLNnz/jsMiGD46m/XhdrA6kJN+FBocPKsU3ZgYfXd
+ pkYkSRQ7D291sbS6TckEs9ZkM75vC0w+7BZAAolUlj88GS/aC37gqEXan3m+BLGUsF5Z
+ AwD1070xL2nFvx4r4zhEC4ge2oZG9HAqYWUAHaVXk7Fkqax3jMSv3SMGFv7/qkKbwlGr
+ 0d6g==
+X-Gm-Message-State: AOAM5307S35xmwissYkcqk7LcNxny1jRZIR0ng2F6tAzlp/7NxwEYT/0
+ N3M9nHcR6kCE+oNl+0fNL/+ndg==
+X-Google-Smtp-Source: ABdhPJxH2rczEps5ccqWd3TLz9i/Hp4jVO/zgKXK7TjsWtBexXdqYai0KtXwqyzWKlnoOVvC1YmUlA==
+X-Received: by 2002:a4a:d5cc:0:b0:31c:36b:6338 with SMTP id
+ a12-20020a4ad5cc000000b0031c036b6338mr8234945oot.66.1648435245492; 
+ Sun, 27 Mar 2022 19:40:45 -0700 (PDT)
+Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+ m5-20020a056870194500b000d9a0818925sm5845403oak.25.2022.03.27.19.40.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 27 Mar 2022 19:40:43 -0700 (PDT)
+Message-ID: <d92dafb0-5a84-eff5-62fa-4fb7b10d0837@linaro.org>
+Date: Sun, 27 Mar 2022 20:40:40 -0600
 MIME-Version: 1.0
-References: <20220321055429.10260-1-jasowang@redhat.com>
- <20220321055429.10260-5-jasowang@redhat.com>
- <BN9PR11MB52762D1CDE8F5417370762CE8C199@BN9PR11MB5276.namprd11.prod.outlook.com>
-In-Reply-To: <BN9PR11MB52762D1CDE8F5417370762CE8C199@BN9PR11MB5276.namprd11.prod.outlook.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 28 Mar 2022 10:31:15 +0800
-Message-ID: <CACGkMEtr5byTaRFQT-ut6=ziyOTKBgne_Xa2qu4Nu9Z7sDDmBg@mail.gmail.com>
-Subject: Re: [PATCH V2 4/4] intel-iommu: PASID support
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] target/mips: Fix address space range declaration on n32
+Content-Language: en-US
+To: WANG Xuerui <xen0n@gentoo.org>, qemu-devel@nongnu.org
+References: <20220327053456.2552855-1-xen0n@gentoo.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220327053456.2552855-1-xen0n@gentoo.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,82 +93,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>,
- "yi.y.sun@linux.intel.com" <yi.y.sun@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "peterx@redhat.com" <peterx@redhat.com>, "mst@redhat.com" <mst@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?Q?Andreas_K_=2e_H=c3=bcttel?= <dilfridge@gentoo.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 4:54 PM Tian, Kevin <kevin.tian@intel.com> wrote:
->
-> > From: Jason Wang
-> > Sent: Monday, March 21, 2022 1:54 PM
-> >
-> > This patch introduce ECAP_PASID via "x-pasid-mode". Based on the
-> > existing support for scalable mode, we need to implement the following
-> > missing parts:
-> >
-> > 1) tag VTDAddressSpace with PASID and support IOMMU/DMA translation
-> >    with PASID
-> > 2) tag IOTLB with PASID
->
-> and invalidate desc to flush PASID iotlb, which seems missing in this patch.
+On 3/26/22 23:34, WANG Xuerui wrote:
+> This bug is probably lurking there for so long, I cannot even git-blame
+> my way to the commit first introducing it.
+> 
+> Anyway, because n32 is also TARGET_MIPS64, the address space range
+> cannot be determined by looking at TARGET_MIPS64 alone. Fix this by only
+> declaring 48-bit address spaces for n64, or the n32 user emulation will
+> happily hand out memory ranges beyond the 31-bit limit and crash.
+> 
+> Confirmed to make the minimal reproducing example in the linked issue
+> behave.
+> 
+> Closes:https://gitlab.com/qemu-project/qemu/-/issues/939
+> Signed-off-by: WANG Xuerui<xen0n@gentoo.org>
+> Cc: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> Cc: Aurelien Jarno<aurelien@aurel32.net>
+> Cc: Jiaxun Yang<jiaxun.yang@flygoat.com>
+> Cc: Aleksandar Rikalo<aleksandar.rikalo@syrmia.com>
+> Cc: Andreas K. Hüttel<dilfridge@gentoo.org>
+> ---
+>   target/mips/cpu-param.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-It existed in the previous version, but it looks like it will be used
-only for the first level page table which is not supported right now.
-So I deleted the codes.
+This is what I was expecting, when I read the issue report.
+Thanks,
 
->
-> > 3) PASID cache and its flush
-> > 4) Fault recording with PASID
-> >
-> > For simplicity:
-> >
-> > 1) PASID cache is not implemented so we can simply implement the PASID
-> > cache flush as a nop.
-> > 2) Fault recording with PASID is not supported, NFR is not changed.
-> >
-> > All of the above is not mandatory and could be implemented in the
-> > future.
->
-> PASID cache is optional, but fault recording with PASID is required.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Any pointer in the spec to say something like this? I think sticking
-to the NFR would be sufficient.
 
-> I'm fine with adding it incrementally but want to clarify the concept first.
-
-Yes, that's the plan.
-
->
-> >
-> > Note that though PASID based IOMMU translation is ready but no device
-> > can issue PASID DMA right now. In this case, PCI_NO_PASID is used as
-> > PASID to identify the address w/ PASID. vtd_find_add_as() has been
-> > extended to provision address space with PASID which could be utilized
-> > by the future extension of PCI core to allow device model to use PASID
-> > based DMA translation.
->
-> I didn't get the point of PCI_NO_PASID. How is it different from RID_PASID?
-> Can you enlighten?
->
-> >
-> > This feature would be useful for:
-> >
-> > 1) prototyping PASID support for devices like virtio
-> > 2) future vPASID work
-> > 3) future PRS and vSVA work
->
-> Haven't got time to look at the code in detail. stop here.
-
-Fine.
-
-Thanks
-
->
-> Thanks
-> Kevin
->
-
+r~
 
