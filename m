@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC5C4E9883
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 15:43:17 +0200 (CEST)
-Received: from localhost ([::1]:36530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C005E4E97BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 15:14:42 +0200 (CEST)
+Received: from localhost ([::1]:37162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYpeN-0003hk-Ue
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 09:43:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52366)
+	id 1nYpCj-0007NR-RY
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 09:14:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nYp4I-000347-Rx
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 09:06:00 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:37676 helo=loongson.cn)
+ id 1nYoxM-0003BQ-6z
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 08:58:48 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:35104 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nYp4F-0003gu-Lx
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 09:05:58 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nYoxG-0001Uf-7V
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 08:58:47 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxbxPOsEFih08RAA--.17957S25; 
- Mon, 28 Mar 2022 20:58:28 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxbxPOsEFih08RAA--.17957S26; 
+ Mon, 28 Mar 2022 20:58:29 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v7 23/29] hw/loongarch: Add LoongArch ls7a rtc device
- support
-Date: Mon, 28 Mar 2022 20:57:43 +0800
-Message-Id: <20220328125749.2918087-24-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v7 24/29] hw/loongarch: Add default bios startup support.
+Date: Mon, 28 Mar 2022 20:57:44 +0800
+Message-Id: <20220328125749.2918087-25-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
 References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxbxPOsEFih08RAA--.17957S25
-X-Coremail-Antispam: 1UD129KBjvAXoW3Cry5Kw47Gw4fuw43XF1kZrb_yoW8Jr18Wo
- WFqF1Ykw4xWryxCr4ruwnFkryUCrnF9r4DZa40qF4vga1fGrn8GF13K3s5ZryrJw1Igr95
- Zas8urZFva97Ar95n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
+X-CM-TRANSID: AQAAf9DxbxPOsEFih08RAA--.17957S26
+X-Coremail-Antispam: 1UD129KBjvJXoW3Gr1DKw4fXFW5Ww4fJw1kXwb_yoW3Kr4DpF
+ y3AF4kGr48JrnrJrZ3J34UWr1DJws7CFy7ua47Cr1FkrsrJr1UZw4vy39IqFyUt3ykZFyY
+ 9r9YkFWYvF48Jw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -62,422 +61,259 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add ls7a rtc device support.
-
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- MAINTAINERS                |   1 +
- hw/loongarch/Kconfig       |   1 +
- hw/loongarch/loongson3.c   |   4 +
- hw/rtc/Kconfig             |   3 +
- hw/rtc/ls7a_rtc.c          | 323 +++++++++++++++++++++++++++++++++++++
- hw/rtc/meson.build         |   1 +
- include/hw/pci-host/ls7a.h |   4 +
- 7 files changed, 337 insertions(+)
- create mode 100644 hw/rtc/ls7a_rtc.c
+ hw/loongarch/Kconfig             |  4 ++
+ hw/loongarch/fw_cfg.c            | 33 ++++++++++++++
+ hw/loongarch/fw_cfg.h            | 15 +++++++
+ hw/loongarch/loongson3.c         | 76 +++++++++++++++++++++++++++++++-
+ hw/loongarch/meson.build         |  1 +
+ include/hw/loongarch/loongarch.h |  8 ++++
+ 6 files changed, 135 insertions(+), 2 deletions(-)
+ create mode 100644 hw/loongarch/fw_cfg.c
+ create mode 100644 hw/loongarch/fw_cfg.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5683531367..d41a6f7044 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1136,6 +1136,7 @@ F: include/hw/loongarch/loongarch.h
- F: include/hw/intc/loongarch_*.h
- F: hw/intc/loongarch_*.c
- F: include/hw/pci-host/ls7a.h
-+F: hw/rtc/ls7a_rtc.c
- 
- M68K Machines
- -------------
 diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-index 8552ff4bee..35b6680772 100644
+index 35b6680772..33a9066586 100644
 --- a/hw/loongarch/Kconfig
 +++ b/hw/loongarch/Kconfig
-@@ -13,3 +13,4 @@ config LOONGARCH_VIRT
-     select LOONGARCH_PCH_PIC
+@@ -14,3 +14,7 @@ config LOONGARCH_VIRT
      select LOONGARCH_PCH_MSI
      select LOONGARCH_EXTIOI
-+    select LS7A_RTC
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index 2c96efece7..975e8f991b 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -217,6 +217,10 @@ static void loongarch_devices_init(DeviceState *pch_pic)
-      * Create some unimplemented devices to emulate this.
-      */
-     create_unimplemented_device("pci-dma-cfg", 0x1001041c, 0x4);
+     select LS7A_RTC
++    select FW_CFG_LOONGARCH
 +
-+    sysbus_create_simple("ls7a_rtc", LS7A_RTC_REG_BASE,
-+                         qdev_get_gpio_in(pch_pic,
-+                         LS7A_RTC_IRQ - PCH_PIC_IRQ_OFFSET));
- }
- 
- static void loongarch_irq_init(LoongArchMachineState *lams,
-diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
-index 730c272bc5..d0d8dda084 100644
---- a/hw/rtc/Kconfig
-+++ b/hw/rtc/Kconfig
-@@ -27,3 +27,6 @@ config SUN4V_RTC
- 
- config GOLDFISH_RTC
-     bool
-+
-+config LS7A_RTC
++config FW_CFG_LOONGARCH
 +    bool
-diff --git a/hw/rtc/ls7a_rtc.c b/hw/rtc/ls7a_rtc.c
+diff --git a/hw/loongarch/fw_cfg.c b/hw/loongarch/fw_cfg.c
 new file mode 100644
-index 0000000000..d4f30c0319
+index 0000000000..4cefffc896
 --- /dev/null
-+++ b/hw/rtc/ls7a_rtc.c
-@@ -0,0 +1,323 @@
++++ b/hw/loongarch/fw_cfg.c
+@@ -0,0 +1,33 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * Loongarch LS7A Real Time Clock emulation
++ * QEMU fw_cfg helpers (LoongArch specific)
 + *
 + * Copyright (C) 2021 Loongson Technology Corporation Limited
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "hw/sysbus.h"
-+#include "hw/irq.h"
-+#include "include/hw/register.h"
-+#include "qemu/timer.h"
++#include "hw/loongarch/fw_cfg.h"
++#include "hw/loongarch/loongarch.h"
++#include "hw/nvram/fw_cfg.h"
 +#include "sysemu/sysemu.h"
-+#include "qemu/cutils.h"
-+#include "qemu/log.h"
-+#include "migration/vmstate.h"
-+#include "hw/misc/unimp.h"
-+#include "sysemu/rtc.h"
 +
-+#define SYS_TOYTRIM        0x20
-+#define SYS_TOYWRITE0      0x24
-+#define SYS_TOYWRITE1      0x28
-+#define SYS_TOYREAD0       0x2C
-+#define SYS_TOYREAD1       0x30
-+#define SYS_TOYMATCH0      0x34
-+#define SYS_TOYMATCH1      0x38
-+#define SYS_TOYMATCH2      0x3C
-+#define SYS_RTCCTRL        0x40
-+#define SYS_RTCTRIM        0x60
-+#define SYS_RTCWRTIE0      0x64
-+#define SYS_RTCREAD0       0x68
-+#define SYS_RTCMATCH0      0x6C
-+#define SYS_RTCMATCH1      0x70
-+#define SYS_RTCMATCH2      0x74
++static void fw_cfg_boot_set(void *opaque, const char *boot_device,
++                            Error **errp)
++{
++    fw_cfg_modify_i16(opaque, FW_CFG_BOOT_DEVICE, boot_device[0]);
++}
 +
++FWCfgState *loongarch_fw_cfg_init(ram_addr_t ram_size, MachineState *ms)
++{
++    FWCfgState *fw_cfg;
++    int max_cpus = ms->smp.max_cpus;
++    int smp_cpus = ms->smp.cpus;
++
++    fw_cfg = fw_cfg_init_mem_wide(FW_CFG_ADDR + 8, FW_CFG_ADDR, 8, 0, NULL);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)max_cpus);
++    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)smp_cpus);
++
++    qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
++    return fw_cfg;
++}
+diff --git a/hw/loongarch/fw_cfg.h b/hw/loongarch/fw_cfg.h
+new file mode 100644
+index 0000000000..7c0de4db4a
+--- /dev/null
++++ b/hw/loongarch/fw_cfg.h
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * Shift bits and filed mask
++ * QEMU fw_cfg helpers (LoongArch specific)
++ *
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
 + */
-+#define TOY_MON_MASK   0x3f
-+#define TOY_DAY_MASK   0x1f
-+#define TOY_HOUR_MASK  0x1f
-+#define TOY_MIN_MASK   0x3f
-+#define TOY_SEC_MASK   0x3f
-+#define TOY_MSEC_MASK  0xf
 +
-+#define TOY_MON_SHIFT  26
-+#define TOY_DAY_SHIFT  21
-+#define TOY_HOUR_SHIFT 16
-+#define TOY_MIN_SHIFT  10
-+#define TOY_SEC_SHIFT  4
-+#define TOY_MSEC_SHIFT 0
++#ifndef HW_LOONGARCH_FW_CFG_H
++#define HW_LOONGARCH_FW_CFG_H
 +
-+#define TOY_MATCH_YEAR_MASK  0x3f
-+#define TOY_MATCH_MON_MASK   0xf
-+#define TOY_MATCH_DAY_MASK   0x1f
-+#define TOY_MATCH_HOUR_MASK  0x1f
-+#define TOY_MATCH_MIN_MASK   0x3f
-+#define TOY_MATCH_SEC_MASK   0x3f
++#include "hw/boards.h"
++#include "hw/nvram/fw_cfg.h"
 +
-+#define TOY_MATCH_YEAR_SHIFT 26
-+#define TOY_MATCH_MON_SHIFT  22
-+#define TOY_MATCH_DAY_SHIFT  17
-+#define TOY_MATCH_HOUR_SHIFT 12
-+#define TOY_MATCH_MIN_SHIFT  6
-+#define TOY_MATCH_SEC_SHIFT  0
-+
-+#define TOY_ENABLE_BIT (1U << 11)
-+
-+#define TYPE_LS7A_RTC "ls7a_rtc"
-+OBJECT_DECLARE_SIMPLE_TYPE(LS7ARtcState, LS7A_RTC)
-+
-+struct LS7ARtcState {
-+    SysBusDevice parent_obj;
-+
-+    MemoryRegion iomem;
-+    QEMUTimer *timer;
-+    /*
-+     * Needed to preserve the tick_count across migration, even if the
-+     * absolute value of the rtc_clock is different on the source and
-+     * destination.
-+     */
-+    int64_t offset;
-+    int64_t data;
-+    int64_t save_alarm_offset;
-+    int tidx;
-+    uint32_t toymatch[3];
-+    uint32_t toytrim;
-+    uint32_t cntrctl;
-+    uint32_t rtctrim;
-+    uint32_t rtccount;
-+    uint32_t rtcmatch[3];
-+    qemu_irq toy_irq;
-+};
-+
-+enum {
-+    TOYEN = 1UL << 11,
-+    RTCEN = 1UL << 13,
-+};
-+
-+static uint64_t ls7a_rtc_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    LS7ARtcState *s = LS7A_RTC(opaque);
-+    struct tm tm;
-+    unsigned int val;
-+
-+    val = 0;
-+
-+    switch (addr) {
-+    case SYS_TOYREAD0:
-+        qemu_get_timedate(&tm, s->offset);
-+        val = (((tm.tm_mon + 1) & TOY_MON_MASK) << TOY_MON_SHIFT)
-+        | (((tm.tm_mday) & TOY_DAY_MASK) << TOY_DAY_SHIFT)
-+        | (((tm.tm_hour) & TOY_HOUR_MASK) << TOY_HOUR_SHIFT)
-+        | (((tm.tm_min) & TOY_MIN_MASK) << TOY_MIN_SHIFT)
-+        | (((tm.tm_sec) & TOY_SEC_MASK) << TOY_SEC_SHIFT) | 0x0;
-+        break;
-+    case SYS_TOYREAD1:
-+        qemu_get_timedate(&tm, s->offset);
-+        val = tm.tm_year;
-+        break;
-+    case SYS_TOYMATCH0:
-+        val = s->toymatch[0];
-+        break;
-+    case SYS_TOYMATCH1:
-+        val = s->toymatch[1];
-+        break;
-+    case SYS_TOYMATCH2:
-+        val = s->toymatch[2];
-+        break;
-+    case SYS_RTCCTRL:
-+        val = s->cntrctl;
-+        break;
-+    case SYS_RTCREAD0:
-+        val = s->rtccount;
-+        break;
-+    case SYS_RTCMATCH0:
-+        val = s->rtcmatch[0];
-+        break;
-+    case SYS_RTCMATCH1:
-+        val = s->rtcmatch[1];
-+        break;
-+    case SYS_RTCMATCH2:
-+        val = s->rtcmatch[2];
-+        break;
-+    default:
-+        val = 0;
-+        break;
-+    }
-+    return val;
-+}
-+
-+static void ls7a_rtc_write(void *opaque, hwaddr addr,
-+                           uint64_t val, unsigned size)
-+{
-+    LS7ARtcState *s = LS7A_RTC(opaque);
-+    struct tm tm;
-+    int64_t alarm_offset, year_diff, expire_time;
-+
-+    switch (addr) {
-+    case SYS_TOYWRITE0:
-+        qemu_get_timedate(&tm, s->offset);
-+        tm.tm_sec = (val >> TOY_SEC_SHIFT) & TOY_SEC_MASK;
-+        tm.tm_min = (val >> TOY_MIN_SHIFT) & TOY_MIN_MASK;
-+        tm.tm_hour = (val >> TOY_HOUR_SHIFT) & TOY_HOUR_MASK;
-+        tm.tm_mday = ((val >> TOY_DAY_SHIFT) & TOY_DAY_MASK);
-+        tm.tm_mon = ((val >> TOY_MON_SHIFT) & TOY_MON_MASK) - 1;
-+        s->offset = qemu_timedate_diff(&tm);
-+    break;
-+    case SYS_TOYWRITE1:
-+        qemu_get_timedate(&tm, s->offset);
-+        tm.tm_year = val;
-+        s->offset = qemu_timedate_diff(&tm);
-+        break;
-+    case SYS_TOYMATCH0:
-+        s->toymatch[0] = val;
-+        qemu_get_timedate(&tm, s->offset);
-+        tm.tm_sec = (val >> TOY_MATCH_SEC_SHIFT) & TOY_MATCH_SEC_MASK;
-+        tm.tm_min = (val >> TOY_MATCH_MIN_SHIFT) & TOY_MATCH_MIN_MASK;
-+        tm.tm_hour = ((val >> TOY_MATCH_HOUR_SHIFT) & TOY_MATCH_HOUR_MASK);
-+        tm.tm_mday = ((val >> TOY_MATCH_DAY_SHIFT) & TOY_MATCH_DAY_MASK);
-+        tm.tm_mon = ((val >> TOY_MATCH_MON_SHIFT) & TOY_MATCH_MON_MASK) - 1;
-+        year_diff = ((val >> TOY_MATCH_YEAR_SHIFT) & TOY_MATCH_YEAR_MASK);
-+        year_diff = year_diff - (tm.tm_year & TOY_MATCH_YEAR_MASK);
-+        tm.tm_year = tm.tm_year + year_diff;
-+        alarm_offset = qemu_timedate_diff(&tm) - s->offset;
-+        if ((alarm_offset < 0) && (alarm_offset > -5)) {
-+            alarm_offset = 0;
-+        }
-+        expire_time = qemu_clock_get_ms(rtc_clock);
-+        expire_time += ((alarm_offset * 1000) + 100);
-+        timer_mod(s->timer, expire_time);
-+        break;
-+    case SYS_TOYMATCH1:
-+        s->toymatch[1] = val;
-+        break;
-+    case SYS_TOYMATCH2:
-+        s->toymatch[2] = val;
-+        break;
-+    case SYS_RTCCTRL:
-+        s->cntrctl = val;
-+        break;
-+    case SYS_RTCWRTIE0:
-+        s->rtccount = val;
-+        break;
-+    case SYS_RTCMATCH0:
-+        s->rtcmatch[0] = val;
-+        break;
-+    case SYS_RTCMATCH1:
-+        val = s->rtcmatch[1];
-+        break;
-+    case SYS_RTCMATCH2:
-+        val = s->rtcmatch[2];
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
-+static const MemoryRegionOps ls7a_rtc_ops = {
-+    .read = ls7a_rtc_read,
-+    .write = ls7a_rtc_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+    },
-+};
-+
-+static void toy_timer(void *opaque)
-+{
-+    LS7ARtcState *s = LS7A_RTC(opaque);
-+
-+    if (s->cntrctl & TOY_ENABLE_BIT) {
-+        qemu_irq_pulse(s->toy_irq);
-+    }
-+}
-+
-+static void ls7a_rtc_realize(DeviceState *dev, Error **errp)
-+{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+    LS7ARtcState *d = LS7A_RTC(sbd);
-+    memory_region_init_io(&d->iomem, NULL, &ls7a_rtc_ops,
-+                         (void *)d, "ls7a_rtc", 0x100);
-+
-+    sysbus_init_irq(sbd, &d->toy_irq);
-+
-+    sysbus_init_mmio(sbd, &d->iomem);
-+    d->timer = timer_new_ms(rtc_clock, toy_timer, d);
-+    timer_mod(d->timer, qemu_clock_get_ms(rtc_clock) + 100);
-+    d->offset = 0;
-+
-+    create_unimplemented_device("mmio fallback 1", 0x10013ffc, 0x4);
-+}
-+
-+static int ls7a_rtc_pre_save(void *opaque)
-+{
-+    LS7ARtcState *s = LS7A_RTC(opaque);
-+    struct tm tm;
-+    int64_t year_diff, value;
-+
-+    value = s->toymatch[0];
-+    qemu_get_timedate(&tm, s->offset);
-+    tm.tm_sec = (value >> TOY_MATCH_SEC_SHIFT) & TOY_MATCH_SEC_MASK;
-+    tm.tm_min = (value >> TOY_MATCH_MIN_SHIFT) & TOY_MATCH_MIN_MASK;
-+    tm.tm_hour = ((value >> TOY_MATCH_HOUR_SHIFT) & TOY_MATCH_HOUR_MASK);
-+    tm.tm_mday = ((value >> TOY_MATCH_DAY_SHIFT) & TOY_MATCH_DAY_MASK);
-+    tm.tm_mon = ((value >> TOY_MATCH_MON_SHIFT) & TOY_MATCH_MON_MASK) - 1;
-+    year_diff = ((value >> TOY_MATCH_YEAR_SHIFT) & TOY_MATCH_YEAR_MASK);
-+    year_diff = year_diff - (tm.tm_year & TOY_MATCH_YEAR_MASK);
-+    tm.tm_year = tm.tm_year + year_diff;
-+    s->save_alarm_offset = qemu_timedate_diff(&tm) - s->offset;
-+
-+    return 0;
-+}
-+
-+static int ls7a_rtc_post_load(void *opaque, int version_id)
-+{
-+    LS7ARtcState *s = LS7A_RTC(opaque);
-+    int64_t expire_time;
-+
-+    expire_time = qemu_clock_get_ms(rtc_clock) + (s->save_alarm_offset * 1000);
-+    timer_mod(s->timer, expire_time);
-+
-+    return 0;
-+}
-+
-+static const VMStateDescription vmstate_ls7a_rtc = {
-+    .name = "ls7a_rtc",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .pre_save = ls7a_rtc_pre_save,
-+    .post_load = ls7a_rtc_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_INT64(offset, LS7ARtcState),
-+        VMSTATE_INT64(save_alarm_offset, LS7ARtcState),
-+        VMSTATE_UINT32(toymatch[0], LS7ARtcState),
-+        VMSTATE_UINT32(cntrctl, LS7ARtcState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void ls7a_rtc_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    dc->vmsd = &vmstate_ls7a_rtc;
-+    dc->realize = ls7a_rtc_realize;
-+    dc->desc = "ls7a rtc";
-+}
-+
-+static const TypeInfo ls7a_rtc_info = {
-+    .name          = TYPE_LS7A_RTC,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(LS7ARtcState),
-+    .class_init    = ls7a_rtc_class_init,
-+};
-+
-+static void ls7a_rtc_register_types(void)
-+{
-+    type_register_static(&ls7a_rtc_info);
-+}
-+
-+type_init(ls7a_rtc_register_types)
-diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
-index 7cecdee5dd..dc33973384 100644
---- a/hw/rtc/meson.build
-+++ b/hw/rtc/meson.build
-@@ -11,6 +11,7 @@ softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_SUN4V_RTC', if_true: files('sun4v-rtc.c'))
- softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_GOLDFISH_RTC', if_true: files('goldfish_rtc.c'))
-+softmmu_ss.add(when: 'CONFIG_LS7A_RTC', if_true: files('ls7a_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-rtc.c'))
++FWCfgState *loongarch_fw_cfg_init(ram_addr_t ram_size, MachineState *ms);
++#endif
+diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+index 975e8f991b..2795fcc895 100644
+--- a/hw/loongarch/loongson3.c
++++ b/hw/loongarch/loongson3.c
+@@ -18,6 +18,8 @@
+ #include "sysemu/rtc.h"
+ #include "hw/irq.h"
+ #include "net/net.h"
++#include "hw/loader.h"
++#include "elf.h"
+ #include "hw/loongarch/loongarch.h"
+ #include "hw/intc/loongarch_ipi.h"
+ #include "hw/intc/loongarch_extioi.h"
+@@ -26,9 +28,44 @@
+ #include "hw/pci-host/ls7a.h"
+ #include "hw/pci-host/gpex.h"
+ #include "hw/misc/unimp.h"
++#include "hw/loongarch/fw_cfg.h"
  
- specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
-diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
-index f57417b096..1110d25306 100644
---- a/include/hw/pci-host/ls7a.h
-+++ b/include/hw/pci-host/ls7a.h
-@@ -35,4 +35,8 @@
- #define LS7A_PCI_IRQS           48
- #define LS7A_UART_IRQ           (PCH_PIC_IRQ_OFFSET + 2)
- #define LS7A_UART_BASE          0x1fe001e0
-+#define LS7A_RTC_IRQ            (PCH_PIC_IRQ_OFFSET + 3)
-+#define LS7A_MISC_REG_BASE      (LS7A_PCH_REG_BASE + 0x00080000)
-+#define LS7A_RTC_REG_BASE       (LS7A_MISC_REG_BASE + 0x00050100)
-+#define LS7A_RTC_LEN            0x100
- #endif
+ #include "target/loongarch/cpu.h"
+ 
++#define LOONGSON3_BIOSNAME "loongarch_bios.bin"
++
++struct la_memmap_entry {
++    uint64_t address;
++    uint64_t length;
++    uint32_t type;
++    uint32_t reserved;
++};
++
++static struct la_memmap_entry *la_memmap_table;
++static unsigned la_memmap_entries;
++
++static int la_memmap_add_entry(uint64_t address, uint64_t length, uint32_t type)
++{
++    int i;
++
++    for (i = 0; i < la_memmap_entries; i++) {
++        if (la_memmap_table[i].address == address) {
++            fprintf(stderr, "%s address:0x%lx length:0x%lx already exists\n",
++                     __func__, address, length);
++            return 0;
++        }
++    }
++
++    la_memmap_table = g_renew(struct la_memmap_entry, la_memmap_table,
++                                                      la_memmap_entries + 1);
++    la_memmap_table[la_memmap_entries].address = cpu_to_le64(address);
++    la_memmap_table[la_memmap_entries].length = cpu_to_le64(length);
++    la_memmap_table[la_memmap_entries].type = cpu_to_le32(type);
++    la_memmap_entries++;
++
++    return la_memmap_entries;
++}
++
+ static void loongarch_cpu_set_irq(void *opaque, int irq, int level)
+ {
+     LoongArchCPU *cpu = opaque;
+@@ -297,6 +334,8 @@ static void loongarch_init(MachineState *machine)
+     MemoryRegion *address_space_mem = get_system_memory();
+     LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+     int i;
++    int bios_size;
++    char *filename;
+ 
+     if (!cpu_model) {
+         cpu_model = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
+@@ -313,23 +352,55 @@ static void loongarch_init(MachineState *machine)
+         loongarch_cpu_init(la_cpu, i);
+     }
+ 
++    if (ram_size < 1 * GiB) {
++        error_report("ram_size must be greater than 1G.");
++        exit(1);
++    }
++
+     /* Add memory region */
+     memory_region_init_alias(&lams->lowmem, NULL, "loongarch.lowram",
+                              machine->ram, 0, 256 * MiB);
+     memory_region_add_subregion(address_space_mem, offset, &lams->lowmem);
+     offset += 256 * MiB;
+-
++    la_memmap_add_entry(0, 256 * MiB, 1);
+     highram_size = ram_size - 256 * MiB;
+     memory_region_init_alias(&lams->highmem, NULL, "loongarch.highmem",
+                              machine->ram, offset, highram_size);
+     memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
+     offset += highram_size;
+-
++    la_memmap_add_entry(0x90000000, highram_size, 1);
+     /* Add isa io region */
+     memory_region_init_alias(&lams->isa_io, NULL, "isa-io",
+                              get_system_io(), 0, LOONGARCH_ISA_IO_SIZE);
+     memory_region_add_subregion(address_space_mem, LOONGARCH_ISA_IO_BASE,
+                                 &lams->isa_io);
++    /* load the BIOS image. */
++    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
++                              machine->firmware ?: LOONGSON3_BIOSNAME);
++    if (filename) {
++        bios_size = load_image_targphys(filename, LA_BIOS_BASE, LA_BIOS_SIZE);
++        lams->fw_cfg = loongarch_fw_cfg_init(ram_size, machine);
++        rom_set_fw(lams->fw_cfg);
++        g_free(filename);
++    } else {
++        bios_size = -1;
++    }
++
++    if ((bios_size < 0 || bios_size > LA_BIOS_SIZE) && !qtest_enabled()) {
++        error_report("Could not load LOONGARCH bios '%s'", machine->firmware);
++        exit(1);
++    }
++
++    memory_region_init_ram(&lams->bios, NULL, "loongarch.bios",
++                           LA_BIOS_SIZE, &error_fatal);
++    memory_region_set_readonly(&lams->bios, true);
++    memory_region_add_subregion(get_system_memory(), LA_BIOS_BASE, &lams->bios);
++    if (lams->fw_cfg != NULL) {
++        fw_cfg_add_file(lams->fw_cfg, "etc/memmap",
++                        la_memmap_table,
++                        sizeof(struct la_memmap_entry) * (la_memmap_entries));
++    }
++
+     /* Initialize the IO interrupt subsystem */
+     loongarch_irq_init(lams, ipi, extioi);
+ }
+@@ -345,6 +416,7 @@ static void loongarch_class_init(ObjectClass *oc, void *data)
+     mc->default_ram_id = "loongarch.ram";
+     mc->max_cpus = LOONGARCH_MAX_VCPUS;
+     mc->is_default = 1;
++    mc->default_machine_opts = "firmware=loongarch_bios.bin";
+     mc->default_kernel_irqchip_split = false;
+     mc->block_default_type = IF_VIRTIO;
+     mc->default_boot_order = "c";
+diff --git a/hw/loongarch/meson.build b/hw/loongarch/meson.build
+index cecb1a5d65..2ce560f060 100644
+--- a/hw/loongarch/meson.build
++++ b/hw/loongarch/meson.build
+@@ -1,4 +1,5 @@
+ loongarch_ss = ss.source_set()
+ loongarch_ss.add(when: 'CONFIG_LOONGARCH_VIRT', if_true: files('loongson3.c'))
++loongarch_ss.add(when: 'CONFIG_FW_CFG_LOONGARCH', if_true: files('fw_cfg.c'))
+ 
+ hw_arch += {'loongarch': loongarch_ss}
+diff --git a/include/hw/loongarch/loongarch.h b/include/hw/loongarch/loongarch.h
+index ffe10edc65..4d5aa349b3 100644
+--- a/include/hw/loongarch/loongarch.h
++++ b/include/hw/loongarch/loongarch.h
+@@ -38,12 +38,20 @@
+ #define LOONGARCH_ISA_IO_SIZE   0x0004000
+ 
+ struct LoongArchMachineState {
++#define FW_CFG_ADDR             0x1e020000
++#define LA_BIOS_BASE            0x1c000000
++#define LA_BIOS_SIZE            (4 * 1024 * 1024)
++
+     /*< private >*/
+     MachineState parent_obj;
+ 
+     MemoryRegion lowmem;
+     MemoryRegion highmem;
+     MemoryRegion isa_io;
++    MemoryRegion bios;
++
++    /* State for other subsystems/APIs: */
++    FWCfgState  *fw_cfg;
+ };
+ 
+ #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
 -- 
 2.31.1
 
