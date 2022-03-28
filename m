@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2DA4E9080
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 10:50:52 +0200 (CEST)
-Received: from localhost ([::1]:58040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9AB4E907E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 10:50:49 +0200 (CEST)
+Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYl5P-0007UG-DK
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 04:50:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56246)
+	id 1nYl5L-0007Jr-Ef
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 04:50:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nYl2U-0004ZD-N0
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 04:47:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26711)
+ id 1nYl2Z-0004ap-6d
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 04:47:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nYl2R-00038S-SG
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 04:47:49 -0400
+ id 1nYl2X-00039o-Lp
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 04:47:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648457267;
+ s=mimecast20190719; t=1648457271;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PFmxfK1dtmfC7n8BRqsGrAduCwWJ+OITZGLzTsmcciY=;
- b=gl/vin1LqNPNsleUYoxcXPtGMHgyV6I9CisRPWJjZlHPJsje7RY+qeWn0LfzQpEpV7Qm9M
- tkaWmW0KgKfBj74POolDAfdRdPnMjH0tGklUWQV4kTYlae+xwpmTEhnO6YauGJOqhRoGe5
- x39V7fBOU53OP9Smlmu5fv4yKDicVGg=
+ bh=NNOAqmZ0Io3dxVmDHD7HGmIeEHwTMyIABLHjeEanwlw=;
+ b=SjErLMkV8J4K0YHWWdByP6a8kvcgVtc8QL+3tL2IvejUDewpiqpuiX8KfcYITW7Z9aXezq
+ eLVWdKiT3/Fe91tWp2Xm5n87g4xHIMpqF6YGHw4Ii4xAI75DCnGS5NuOSUZT3devhoauAA
+ S8EJFtuAZ9q2mn3ljPFfPK2tv/CYDq0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-65-ijKbtL6mPzuKxcsRObJIWg-1; Mon, 28 Mar 2022 04:47:43 -0400
-X-MC-Unique: ijKbtL6mPzuKxcsRObJIWg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-172-tJ8w74EIM0WnrF5eQnrNWA-1; Mon, 28 Mar 2022 04:47:48 -0400
+X-MC-Unique: tJ8w74EIM0WnrF5eQnrNWA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3BC27101A54C;
- Mon, 28 Mar 2022 08:47:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9DEFE85A5A8;
+ Mon, 28 Mar 2022 08:47:47 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5EDC8401E8D;
- Mon, 28 Mar 2022 08:47:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D6F340C1257;
+ Mon, 28 Mar 2022 08:47:46 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] trace: fix compilation with lttng-ust >= 2.13
-Date: Mon, 28 Mar 2022 12:47:13 +0400
-Message-Id: <20220328084717.367993-2-marcandre.lureau@redhat.com>
+Subject: [PATCH 2/5] arm/digic: fix format-truncation warning
+Date: Mon, 28 Mar 2022 12:47:14 +0400
+Message-Id: <20220328084717.367993-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20220328084717.367993-1-marcandre.lureau@redhat.com>
 References: <20220328084717.367993-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -66,7 +66,7 @@ X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -94,63 +94,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-On Fedora 36, with lttng-ust 2.13.1, compilation fails with:
-
-In file included from trace/trace-ust-all.h:49085,
-                 from trace/trace-ust-all.c:13:
-/usr/include/lttng/tracepoint-event.h:67:10: error: #include expects "FILENAME" or <FILENAME>
-   67 | #include LTTNG_UST_TRACEPOINT_INCLUDE
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In lttng-ust commit 41858e2b6e8 ("Fix: don't do macro expansion in
-tracepoint file name") from 2012, starting from lttng-ust 2.1, the API
-was changed to expect TRACEPOINT_INCLUDE to be defined as a string.
-
-In lttng-ust commit d2966b4b0b2 ("Remove TRACEPOINT_INCLUDE_FILE
-macro"), in 2021, the compatibility macro was removed.
-
-Use the "new" API from 2012, and bump the version requirement to 2.1 to
-fix compilation with >= 2.13.
-
-According to repology, all distributions we support have >= 2.1 (centos
-8 has oldest with 2.8.1 afaict)
+../hw/arm/digic.c: In function ‘digic_init’:
+../hw/arm/digic.c:45:54: error: ‘%d’ directive output may be truncated writing between 1 and 11 bytes into a region of size 5 [-Werror=format-truncation=]
+   45 |         snprintf(name, DIGIC_TIMER_NAME_MLEN, "timer[%d]", i);
+      |                                                      ^~
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- meson.build                              | 4 ++--
- scripts/tracetool/format/ust_events_h.py | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/arm/digic.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index aef724ad3c0e..13c8b01b2aec 100644
---- a/meson.build
-+++ b/meson.build
-@@ -455,8 +455,8 @@ if 'CONFIG_GIO' in config_host
- endif
- lttng = not_found
- if 'ust' in get_option('trace_backends')
--  lttng = dependency('lttng-ust', required: true, method: 'pkg-config',
--                     kwargs: static_kwargs)
-+  lttng = dependency('lttng-ust', required: true, version: '>= 2.1',
-+                     method: 'pkg-config', kwargs: static_kwargs)
- endif
- pixman = not_found
- if have_system or have_tools
-diff --git a/scripts/tracetool/format/ust_events_h.py b/scripts/tracetool/format/ust_events_h.py
-index 6ce559f6cc6e..b99fe6896baf 100644
---- a/scripts/tracetool/format/ust_events_h.py
-+++ b/scripts/tracetool/format/ust_events_h.py
-@@ -29,8 +29,8 @@ def generate(events, backend, group):
-         '#undef TRACEPOINT_PROVIDER',
-         '#define TRACEPOINT_PROVIDER qemu',
-         '',
--        '#undef TRACEPOINT_INCLUDE_FILE',
--        '#define TRACEPOINT_INCLUDE_FILE ./%s' % include,
-+        '#undef TRACEPOINT_INCLUDE',
-+        '#define TRACEPOINT_INCLUDE "./%s"' % include,
-         '',
-         '#if !defined (TRACE_%s_GENERATED_UST_H) || \\'  % group.upper(),
-         '     defined(TRACEPOINT_HEADER_MULTI_READ)',
+diff --git a/hw/arm/digic.c b/hw/arm/digic.c
+index 614232165cdc..6df554797734 100644
+--- a/hw/arm/digic.c
++++ b/hw/arm/digic.c
+@@ -39,10 +39,7 @@ static void digic_init(Object *obj)
+     object_initialize_child(obj, "cpu", &s->cpu, ARM_CPU_TYPE_NAME("arm946"));
+ 
+     for (i = 0; i < DIGIC4_NB_TIMERS; i++) {
+-#define DIGIC_TIMER_NAME_MLEN    11
+-        char name[DIGIC_TIMER_NAME_MLEN];
+-
+-        snprintf(name, DIGIC_TIMER_NAME_MLEN, "timer[%d]", i);
++        g_autofree char *name = g_strdup_printf("timer[%d]", i);
+         object_initialize_child(obj, name, &s->timer[i], TYPE_DIGIC_TIMER);
+     }
+ 
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
