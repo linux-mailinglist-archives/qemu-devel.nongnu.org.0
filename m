@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA64F4EA309
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 00:37:50 +0200 (CEST)
-Received: from localhost ([::1]:51448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BACD44EA30A
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 00:39:41 +0200 (CEST)
+Received: from localhost ([::1]:53558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYxzh-0008U2-Ss
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 18:37:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37438)
+	id 1nYy1U-0001bD-RN
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 18:39:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nYxxx-0006ZT-OL
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:36:01 -0400
-Received: from [2607:f8b0:4864:20::1035] (port=56192
- helo=mail-pj1-x1035.google.com)
+ id 1nYxzy-0000oR-G0
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:38:09 -0400
+Received: from [2607:f8b0:4864:20::102e] (port=37442
+ helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nYxxw-0007DG-8f
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:36:01 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id jx9so15598091pjb.5
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 15:35:59 -0700 (PDT)
+ id 1nYxzw-0007QE-Ut
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:38:06 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ g9-20020a17090ace8900b001c7cce3c0aeso562290pju.2
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 15:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=F4T4RN83CgCi1SS+ch9bm4LABcHjyFKSZJT/7SvpXN8=;
- b=H09alWDPpZbwF6G7VN+0muKCo5R3O5nfGvONNTxy9kjYU/eqaM4C451jsjh7wS3ulQ
- nPkC19ohrsDmF1QmdZwTZB5I3o8dgejmsFSKFNPUR/XeoakqMPW3npmrM12V125Av/1Q
- y4I9PPIQv7j6aMkryIAh6+aNFugQ2GWU+4Oe7RhP7+yDLLXy0RiiyuEGGOK54wz0Ervg
- czXRRZ2k0SbhFTUhEcvMka3cp0P4+mn6/MyjVUb0cBHjP23I7HUztdq/qUxsN17OI2uK
- O0tDH81Id9VaTeT0yYjtb4b/mhSf0PNeL/k8U3aUF1Ss3lBd+Ir8pTVAXZb8J2cmallX
- JCxQ==
+ bh=FSJJiFvPfwQULKnC4YTvVCXDPe/fMphxeI8keO/aFfI=;
+ b=ktIvLNEBS9V+VAtAzhxQrNlRq3XGKK7ug2iBOIPPmFWF+rGV5OpTASm5FHJhXPaeKk
+ OnyAo/JIaMkWjshwcl3etEq1wzS2A5MZ+WVVAvlC5DNz6LPY/NITfqSOPv8i88Lz0PNi
+ wRDKvZGRX3zZhKrZIE4tTI+KTiz9bVRyKQkBP6VLpx1VSRM3O6bgCEHdMH14qZhromRc
+ /z2bTWcG26BlD2l1ki8ikDTUueP8Sgb0rmqYNY3E64Nm0GzxGLL361FFwajb5AuTjZQP
+ Zm5vLgIxdrBlAuy5+cvl4TvrAhZNRVZ5bFW/gI8lftUgA05Nbg55XxcP+3J9jR/N+OCe
+ Vjsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=F4T4RN83CgCi1SS+ch9bm4LABcHjyFKSZJT/7SvpXN8=;
- b=1dj8DRwUlGMJUWfD/tR88KyRg5qKj6zF5xbh6lweHKzpsoD1acwo96ihyrYC+Zo2p/
- 0ZBSKbwOobeGQD4CzY6CSZ4u+UKOeqDpnlnP3Y5oU9QiW/43iqwn64keiUTHwebDofzv
- /yh56x4Ap+o3+oRkeBf4jkWlxo5MoWICKLA0XhLuQTEFAUMCfKYL8yg6q9l9nKfJHrOV
- t6WSeAg4g3N8pBajYpjrT6xu5yJS2q+t6I8efkcsxdA847bWaLXw5fywHenBR0/GDCCU
- J+IBUSv8Ra1hlLxxkUVbvDDHMrOPBP8mUav6ox1bKUl3AYD9PIaI00ElV5Pbl11oySdb
- +P2w==
-X-Gm-Message-State: AOAM532xyqVFDrTtIAScxJPvPelQaoyryMwqjMG+I2kH3VKH24rmZ8EQ
- Z+XD7/PCowT4yGq76UTKsUA=
-X-Google-Smtp-Source: ABdhPJzeunkDSXKT/Yd6VxV+A2oGoDmNBQinOSAn2jNDc0ZSosekRE7S3Wi3b7NkJ82ASKL/lRMg3Q==
-X-Received: by 2002:a17:903:28e:b0:156:1b99:f9d5 with SMTP id
- j14-20020a170903028e00b001561b99f9d5mr4107019plr.75.1648506959034; 
- Mon, 28 Mar 2022 15:35:59 -0700 (PDT)
+ bh=FSJJiFvPfwQULKnC4YTvVCXDPe/fMphxeI8keO/aFfI=;
+ b=1U6orzhz2AezIdbR/SfaKgOY4Ii8zOPOinbp5jWJSwVJ1ymo+LcKfoXAK7NcFVaAWG
+ hzLLmsJ7Mhl3wnYz+fVedZaK1JPrHP/CfnnEx162h4ORNknAdc36U/tzudbnEzJr4Bjx
+ fwSg+kurvMWqOLqQfClpG4fi6pKrrtQt8bDsshsIEJcoyaua/MHMV/ORDsfcEnuqOGo/
+ G4AmO2xu0pfz/I0Kw/70NBxNXSfPp8kBT4D7GX5KG/znmcgyESy4TzwCUfqVfIy7SzoE
+ grLvYa0GHCrJDS68oOoUUL7EtT6EcWPNS+EJTqAZ1m/gfMIK5EYn10oEEhzEgmFqdi1+
+ 7xGg==
+X-Gm-Message-State: AOAM533E3/d6kiSeoQ8prKMnfUyUB1QJvTDdyYgQKFyEAiVF4jyXo5Py
+ JgmQQXrZusDeUls3oKwApd8=
+X-Google-Smtp-Source: ABdhPJxSxLhw8M0OQUOUb0eBxEZtn6VMozE00k1YzFeNjoSCmw0yDiSgFAbepgy8jPsFwAPBp3jOhA==
+X-Received: by 2002:a17:902:d315:b0:156:1109:6e55 with SMTP id
+ b21-20020a170902d31500b0015611096e55mr6938566plc.130.1648507083653; 
+ Mon, 28 Mar 2022 15:38:03 -0700 (PDT)
 Received: from ?IPV6:2600:70ff:f07f:0:3c84:1cd:456b:b750?
  ([2600:70ff:f07f:0:3c84:1cd:456b:b750])
  by smtp.gmail.com with ESMTPSA id
- a7-20020a056a000c8700b004fb55798f64sm5998353pfv.90.2022.03.28.15.35.57
+ c21-20020a637255000000b003822e80f132sm13796023pgn.12.2022.03.28.15.38.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Mar 2022 15:35:58 -0700 (PDT)
-Message-ID: <faea0e0e-3659-6a6b-39d4-e77294a7a178@gmail.com>
-Date: Tue, 29 Mar 2022 00:35:55 +0200
+ Mon, 28 Mar 2022 15:38:03 -0700 (PDT)
+Message-ID: <5121832b-68c7-c8de-4099-d300f2d642b9@gmail.com>
+Date: Tue, 29 Mar 2022 00:37:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 09/15] tests/tcg: remove CONFIG_LINUX_USER from
+Subject: Re: [PATCH 10/15] tests/tcg: remove CONFIG_USER_ONLY from
  config-target.mak
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20220328140240.40798-1-pbonzini@redhat.com>
- <20220328140240.40798-10-pbonzini@redhat.com>
+ <20220328140240.40798-11-pbonzini@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220328140240.40798-10-pbonzini@redhat.com>
+In-Reply-To: <20220328140240.40798-11-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -105,10 +106,44 @@ On 28/3/22 16:02, Paolo Bonzini wrote:
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   tests/tcg/configure.sh              | 2 --
->   tests/tcg/multiarch/Makefile.target | 2 +-
->   tests/tcg/x86_64/Makefile.target    | 2 +-
->   3 files changed, 2 insertions(+), 4 deletions(-)
+>   tests/tcg/Makefile.target |  8 ++++----
+>   tests/tcg/configure.sh    | 12 +++---------
+>   2 files changed, 7 insertions(+), 13 deletions(-)
 
+> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+> index b09956c14d..a17db8ce64 100755
+> --- a/tests/tcg/configure.sh
+> +++ b/tests/tcg/configure.sh
+> @@ -225,18 +225,12 @@ for target in $target_list; do
+>     echo "TARGET_NAME=$arch" >> $config_target_mak
+>     echo "target=$target" >> $config_target_mak
+>     case $target in
+> -    *-linux-user)
+> -      echo "CONFIG_USER_ONLY=y" >> $config_target_mak
+> -      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
+> -      ;;
+> -    *-bsd-user)
+> -      echo "CONFIG_USER_ONLY=y" >> $config_target_mak
+> -      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
+> -      ;;
+>       *-softmmu)
+> -      echo "CONFIG_SOFTMMU=y" >> $config_target_mak
+>         echo "QEMU=$PWD/qemu-system-$arch" >> $config_target_mak
+>         ;;
+> +    *)
+
+Can we restrict to:
+
+        *-user)
+
+just in case?
+
+> +      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
+> +      ;;
+>     esac
+
+With '*-user':
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+
 
