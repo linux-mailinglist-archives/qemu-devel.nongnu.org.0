@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AAED4EA2A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 00:01:50 +0200 (CEST)
-Received: from localhost ([::1]:50388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA274EA2A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 00:02:16 +0200 (CEST)
+Received: from localhost ([::1]:50928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYxQr-0003rF-H6
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 18:01:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58484)
+	id 1nYxRH-0004DE-R8
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 18:02:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nYxO9-0002GL-WB
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:59:04 -0400
-Received: from [2607:f8b0:4864:20::1029] (port=40887
- helo=mail-pj1-x1029.google.com)
+ id 1nYxOj-0002fb-6M
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:59:37 -0400
+Received: from [2607:f8b0:4864:20::42a] (port=33506
+ helo=mail-pf1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nYxO8-0001w0-08
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:59:01 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- mp6-20020a17090b190600b001c6841b8a52so462201pjb.5
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:58:57 -0700 (PDT)
+ id 1nYxOh-0001zD-C8
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:59:36 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id b13so12196097pfv.0
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:59:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=NjrWVFmpvRPc8KTzto20IHd3KSR5quCuPvMhLulBLCo=;
- b=Cy4TcrpgVNivbK9UpJ464nJ9I8NzsSO5nBj56f+cnSBFyPvuuPkDukCNWZLHZrbQs4
- vLOc7fyoYfudTkUD4kgyuGnFiWvTqMLZAn3nP5W4ULaeBvss4rLkOkkTcVwWqRH3Hhbf
- TomtmOnQqYSuXMRijYPv5BTsePxlm4Mjmu9miVO5pOAsbLzupZU0clWaurjyS140mclG
- 3u3UZJNBQeXxBEHxX/slHvLmK/FaJDWxzqfpmMHtMg1Z9lPX3reqlK/DR6d8fbMQ13Tb
- nJgcSSSYEDmT5K9onWmg6DmC3SiPWaQCxvk787Cpi9wp1UbuAKwCMtE0Ui1k96KOjg21
- gvOg==
+ bh=5gDtd1NDwKlje79nWAScNLxoRXYKxA2zv0KAK+SBquI=;
+ b=VueFUnx8jjKcQ9Ko/E83yHwA+sWIBEUSNKR2M/pfQijLR25PUceZtGA/t+poxC6cju
+ pQUFnmIgmX8SK4aJ/KSeP1f9vvJg/1NUhXM9gO9leNuQe4S1KMe92QI174R/oogz3yaG
+ inZQDpuL3jXasTGf3FtMQlLsvF9eqNK/7OLPRyk+GiLsRvRrcYYwF/7cuSWqmWL7zxcF
+ 6oZyxP3FGoV3mEIBu9YxC9cfuaoLlJz+STCgGFtnzkjCPHhAAGt2ONYvpNGT1/srQuPo
+ L+4xwFU67mQSkwBQR5nMIIeSZ11ldvEp2cGiTgw8Obd1fQuwlQLD+euEJh271Sw7eAD2
+ +lqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NjrWVFmpvRPc8KTzto20IHd3KSR5quCuPvMhLulBLCo=;
- b=BlNR7coZLry8Znoj5FcSjYabmJHAlJaM6MtMXcjK/U5fA1L1punarj6WlHAyBHIqv5
- CAoHJfw8OBX0SpMuk4m7ULpaNmLU1HCnTTyKsVfugIp1qApH4SLpTn3nxBl0GZRv0GRr
- HTeYzDgnTVKgUD95f7LI+MbhFmmAu/eXHzle75jZ5rBk6TXHTwM0c7iCR4Ay9uQ9RadH
- LBpAhg4quHLoETiqgH3nwj6DUjzDIvNLU38gBx5vKmTIKWQr7XDlmVpP79nNRE5xyQqH
- GPUEQIMka+PrbiYcfcEMRdEUbjmEF4ZrE/8/VoUfN2ytMUVRSrBFDuZxcyg8vr5LM9PO
- zVNQ==
-X-Gm-Message-State: AOAM530zFhnBFHuSTqCYVmwV+TdNc9mJxWa6MEr2OyxjsoVJCVCcfgdW
- P5CmaY26FXskBw9wBq1lLRA=
-X-Google-Smtp-Source: ABdhPJyaCDVcUX4JFA9QXoZ+D/peAZUVb8/+vxpNACLzBaVtN5RzI8CkH2rzZ8hnn8fWSnc784Ld+g==
-X-Received: by 2002:a17:902:d2c1:b0:156:2e07:28d7 with SMTP id
- n1-20020a170902d2c100b001562e0728d7mr340471plc.39.1648504737032; 
- Mon, 28 Mar 2022 14:58:57 -0700 (PDT)
+ bh=5gDtd1NDwKlje79nWAScNLxoRXYKxA2zv0KAK+SBquI=;
+ b=JNtgXXmJp8r8dWszerZSKJDAwG3rg42wuW2V8Kw5iTYmVdzfLw/GjQtcwdNDHQt/DS
+ sK5K619ZsL8bEhKBZcyNJn3iyU0E7AVsoxQyw7QFabiYy1l6s7vhfXwBlzJl0GZDXhJM
+ Xy1LTTPIExhQmP6MeBTrtKTAriEacUbLMYqEFZbtszOhdMGZ+CmY7kkBOK238AHeq4fw
+ uGhjn0k0Q5WRZnVS2xxQZB7XGdwdXfS31E3p5UeixvRzT3kAqIlbYw5NshD9pkjVzjyg
+ Z+AWn1LVHgCkFLHIhBRYnGwFA8X3P/V5bkpjB+PZPeJjCOLXRkVQMb1NqZ5WMLO5w720
+ p7iA==
+X-Gm-Message-State: AOAM531z7x+sksh1AXFB0ei2/zOjeC2+Hfbcb0TyXdRcAvIIx3ORiBNJ
+ rXHVCCO+r1ewx82nzjbWNFoYwHX1kw4hqQ==
+X-Google-Smtp-Source: ABdhPJw96icALXZDcs6wczOzNEIu6d0s2/YZDoNeTT66ca75gwV9Nk4tWcceUkykopi+9VHS6UZkMQ==
+X-Received: by 2002:a63:5b63:0:b0:378:5645:90f6 with SMTP id
+ l35-20020a635b63000000b00378564590f6mr11497153pgm.505.1648504774122; 
+ Mon, 28 Mar 2022 14:59:34 -0700 (PDT)
 Received: from ?IPV6:2600:70ff:f07f:0:3c84:1cd:456b:b750?
  ([2600:70ff:f07f:0:3c84:1cd:456b:b750])
  by smtp.gmail.com with ESMTPSA id
- w13-20020a17090a5e0d00b001c7d4099670sm393136pjf.28.2022.03.28.14.58.55
+ x14-20020aa784ce000000b004fa79973c94sm16501664pfn.165.2022.03.28.14.59.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Mar 2022 14:58:56 -0700 (PDT)
-Message-ID: <472728e5-1ac8-5ff9-ebe2-f73082ddc82d@gmail.com>
-Date: Mon, 28 Mar 2022 23:58:52 +0200
+ Mon, 28 Mar 2022 14:59:33 -0700 (PDT)
+Message-ID: <7ea84c5b-2ffa-f702-d38b-aa0fef724400@gmail.com>
+Date: Mon, 28 Mar 2022 23:59:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH] tests/tcg/xtensa: allow testing big-endian cores
+Subject: Re: [PATCH v2] ui/console: Check console before emitting GL event
 Content-Language: en-US
-To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
-References: <20220325182352.113975-1-jcmvbkbc@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+References: <20220325161216.74582-1-akihiko.odaki@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220325182352.113975-1-jcmvbkbc@gmail.com>
+In-Reply-To: <20220325161216.74582-1-akihiko.odaki@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,22 +94,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/3/22 19:23, Max Filippov wrote:
-> Don't disable all big-endian tests, instead check whether $(CORE) is
-> supported by the configured $(QEMU) and enable tests if it is.
+On 25/3/22 17:12, Akihiko Odaki wrote:
+> Without this change, The GL output of a console overwrites the
+> other consoles and makes them unusable.
 > 
-> Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   MAINTAINERS                                | 1 +
->   tests/tcg/xtensa/Makefile.softmmu-target   | 4 ++--
->   tests/tcg/xtensaeb/Makefile.softmmu-target | 5 +++++
->   3 files changed, 8 insertions(+), 2 deletions(-)
->   create mode 100644 tests/tcg/xtensaeb/Makefile.softmmu-target
+>   ui/console.c | 21 +++++++++++++++++++++
+>   1 file changed, 21 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
