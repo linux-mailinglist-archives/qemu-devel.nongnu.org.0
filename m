@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3BAB4E9F34
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 20:54:13 +0200 (CEST)
-Received: from localhost ([::1]:56632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D804E9F3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 20:56:38 +0200 (CEST)
+Received: from localhost ([::1]:58834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYuVH-0003es-AU
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 14:54:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46450)
+	id 1nYuXc-0005Iz-Op
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 14:56:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nYuRb-0002pi-43
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 14:50:23 -0400
-Received: from [2a00:1450:4864:20::433] (port=38628
- helo=mail-wr1-x433.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nYuWb-0004VX-BN
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 14:55:33 -0400
+Received: from [2607:f8b0:4864:20::32a] (port=46045
+ helo=mail-ot1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nYuRZ-0007OW-GQ
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 14:50:22 -0400
-Received: by mail-wr1-x433.google.com with SMTP id i4so2847901wrb.5
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 11:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nYuWY-00088m-Nm
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 14:55:32 -0400
+Received: by mail-ot1-x32a.google.com with SMTP id
+ i11-20020a9d4a8b000000b005cda3b9754aso11291480otf.12
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 11:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ILbInULJzbNhnrPFBrP/UjuPoXL9yVv41KSvwsOfIW4=;
- b=Z3bpj1UlteS5vBRqsvofEPQwYD93ndbK4UPa1VrqrLWOuo+61+DSSDaVtS5b4aOtwg
- 50X4rAVaPMReU8HZ8x8lXdYEyOogkjcqglt5LvBMDrPOgEagwxKWE3aeFhEKVGHhyjuN
- sNNWRe1Uzu8Syyty5pOyCpBrr9+bPu2Xj2bcONRi3lFq9mSt161w0deU5CoFNlesMKKO
- NkrVGraj9BTS/9qWShe01NrjLdQqZEAvk81aZl9+KCUHwzCo7Rj84R1m7+I0H+jBbjMX
- qDNomtJV6TdBKvcB5JwWzr68ts1ugc9N07vwV4649ZPTnZ2cFQhO9zwTXk2ZRCXtINIB
- nWkA==
+ bh=p4JUa8oL3t3x6DvZp3qV+yS2dqmaqEdju7DDKzmuyO8=;
+ b=jbgdoRrEiIssshp66/INIaN59tjgtijF+p2N2jrdTK2USnjFkTJdF3dzfog3BJ1cCU
+ GQ5HkUj8N0JckJ2ZknWtw8QW/uFXYCLw5RQVA6z1b7vJqG0mlHLKs0YR7yg1hhtxDijc
+ shr6l2iAf1RfAwEBo+EiDhLXWrpSAPDHTNqjiOczZnjj8r0HJbG3n78UgJP2qeikiWEv
+ ICsBfU4FpcxxaJMYuRzq7VLe2x2yLdpkjNr+Z4zIQnb8PoJvjCy9lFzw6apmj9u1OpY0
+ paAbFP9qg1ozTW2TgkXHtsc+FTwH/o9S5VAUUvRL/mYTDrB4UqGuS7e8WzHrRtjN8Juy
+ bj+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ILbInULJzbNhnrPFBrP/UjuPoXL9yVv41KSvwsOfIW4=;
- b=lZtyclNAaAutKp9bDXbeQ/lYeniceZjdL4d+iKd3fiMIG8kCM/D/P4hnkfT4gdXd04
- 7YY65BmPvW7D0vqoGu7crmOsk4yKWULSNjdEgP7GjXJszOgrhRykuZBOGwUMJplyhLw/
- R850QoIvYmCBFptq7cIU3kMfbn43oZ61dcSDHlyqEg5nu3oFgxoxUmVNWtyVEbPrVCkS
- FaKF/Eo1gYty65fla/tObgT3xVig+hY7QjZ9bjmi2kDDH9Ma84lJS044A+eC82rlMYY9
- unbVevKwH2DDatcUn7d24eanp4PL23aniHcDwRITeGjLmSKD6sr334Ftnh4mG/QO0kwG
- DoEQ==
-X-Gm-Message-State: AOAM530St/b44ZQbBAoH55j3a+MUZkMIfhBH9bFhkLqsaXVkQJlNn5t5
- y30s6lRToxzYY2c+GTDfEbI=
-X-Google-Smtp-Source: ABdhPJxuJu9uw9ksyDuLJR+0xmkY+MT8DEHceX1teubOwpw2HDmBM5quWpZQSLvA41Dy23mfPRZLgA==
-X-Received: by 2002:adf:a41c:0:b0:203:daeb:165f with SMTP id
- d28-20020adfa41c000000b00203daeb165fmr26096291wra.188.1648493417712; 
- Mon, 28 Mar 2022 11:50:17 -0700 (PDT)
-Received: from ?IPV6:2600:70ff:f07f:0:3c84:1cd:456b:b750?
- ([2600:70ff:f07f:0:3c84:1cd:456b:b750])
- by smtp.gmail.com with ESMTPSA id
- f11-20020a7bcc0b000000b0037e0c362b6dsm249484wmh.31.2022.03.28.11.50.16
+ bh=p4JUa8oL3t3x6DvZp3qV+yS2dqmaqEdju7DDKzmuyO8=;
+ b=LOMEXeGcm5aJnasXX3Gg6ljdX0lfZnhc307bbgPc4PRhrOe/zk1KLUKXRxqgqZbeRO
+ pA8/iiYZBks0kUh6EbzWL8GikRCCjDr+Eig8WNkrrWKrzuoyYG0J8sQrbys6FFIXzsiy
+ 9RTI/o124cjBWIUCpdS9nagnPR0AnZiEAfDshS/XKiNTIHAV3GVzBFIPZsaNzndCYmba
+ /a2kprqZAa5k2Zt80Hz9fh9IaPgYt3ed4OlwUMmYL4KXBXB5g5fDDJZmQFa3hMNjQqyr
+ xgEpsRmwrakSAAvXTwjhXcu15VA+o2tyDcbD5GZgIOrtRr6sI+l8YZbQB3hquV+2aCGN
+ sBzQ==
+X-Gm-Message-State: AOAM533V+P33hLw+RPs/ThUMS7qYWKc+Z46yRh8wl3s8oY21IM/3fuLJ
+ F4E8cfqq2fpv4g4RtJWgtTMHqScBQVrwbmXFVnM=
+X-Google-Smtp-Source: ABdhPJxmwOVftvIG+Pit145vfVSO7gGLQfcM2Pjdk/Iq0uDfYwQryWBGk5m7xj9/E1GLSAh4w11uow==
+X-Received: by 2002:a05:6830:1018:b0:5b2:2cc8:4b0c with SMTP id
+ a24-20020a056830101800b005b22cc84b0cmr10447387otp.136.1648493727250; 
+ Mon, 28 Mar 2022 11:55:27 -0700 (PDT)
+Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+ c12-20020a9d75cc000000b005b24b061940sm7496749otl.33.2022.03.28.11.55.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Mar 2022 11:50:17 -0700 (PDT)
-Message-ID: <49ed4ad0-0b9a-79ae-2e6a-a534db10d106@gmail.com>
-Date: Mon, 28 Mar 2022 20:50:15 +0200
+ Mon, 28 Mar 2022 11:55:26 -0700 (PDT)
+Message-ID: <05fbe6bd-723e-5cb6-5dc7-b7def4df7ec1@linaro.org>
+Date: Mon, 28 Mar 2022 12:55:23 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v2] coreaudio: Notify error in coreaudio_init_out
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH v7 08/29] target/loongarch: Add LoongArch IOCSR
+ instruction
 Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-References: <20220226115953.60335-1-akihiko.odaki@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220226115953.60335-1-akihiko.odaki@gmail.com>
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
+ <20220328125749.2918087-9-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220328125749.2918087-9-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,35 +95,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: mark.cave-ayland@ilande.co.uk, Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/2/22 12:59, Akihiko Odaki wrote:
-> Otherwise, the audio subsystem tries to use the voice and
-> eventually aborts due to the maximum number of samples in the
-> buffer is not set.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
->   audio/coreaudio.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-> index d8a21d3e507..d7cfdcc4fc4 100644
-> --- a/audio/coreaudio.c
-> +++ b/audio/coreaudio.c
-> @@ -604,6 +604,8 @@ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
->               coreaudio_playback_logerr(status,
->                                         "Could not remove voice property change listener\n");
->           }
+On 3/28/22 06:57, Xiaojuan Yang wrote:
+> +uint64_t helper_iocsr_read(CPULoongArchState *env, target_ulong r_addr,
+> +                           uint32_t size)
+> +{
+> +    int cpuid = env_cpu(env)->cpu_index;
+> +    CPUState  *cs = qemu_get_cpu(cpuid);
+> +    env = cs->env_ptr;
+> +    uint64_t ret;
 > +
-> +        return -1;
->       }
->   
->       return 0;
+> +    /*
+> +     * Adjust the per core address such as 0x10xx(IPI)/0x18xx(EXTIOI)
+> +     */
+> +    if (((r_addr & 0xff00) == 0x1000) || ((r_addr & 0xff00) == 0x1800)) {
+> +        r_addr = r_addr + ((target_ulong)(cpuid & 0x3) << 8);
+> +    }
+> +
+> +    switch (size) {
+> +    case 1:
+> +        ret = address_space_ldub(&env->address_space_iocsr, r_addr,
+> +                                 MEMTXATTRS_UNSPECIFIED, NULL);
+> +        break;
+> +    case 2:
+> +        ret = address_space_lduw(&env->address_space_iocsr, r_addr,
+> +                                 MEMTXATTRS_UNSPECIFIED, NULL);
+> +        break;
+> +    case 4:
+> +        ret = address_space_ldl(&env->address_space_iocsr, r_addr,
+> +                                MEMTXATTRS_UNSPECIFIED, NULL);
+> +        break;
+> +    case 8:
+> +        ret = address_space_ldq(&env->address_space_iocsr, r_addr,
+> +                                MEMTXATTRS_UNSPECIFIED, NULL);
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    return ret;
+> +}
 
-Merged as commit bd7819de22.
+You should have seen an uninitialized use of 'ret' here.
+The default case should be g_assert_not_reached().
+And the same in helper_iocsr_write.
+
+
+r~
 
