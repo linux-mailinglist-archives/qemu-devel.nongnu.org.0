@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D864E9839
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 15:33:19 +0200 (CEST)
-Received: from localhost ([::1]:46114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C64D4E97FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 15:24:33 +0200 (CEST)
+Received: from localhost ([::1]:55544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYpUk-0007hz-3w
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 09:33:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49346)
+	id 1nYpMG-00038L-0W
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 09:24:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nYoy4-0005Gc-Al; Mon, 28 Mar 2022 08:59:34 -0400
-Received: from [2607:f8b0:4864:20::32b] (port=36863
- helo=mail-ot1-x32b.google.com)
+ id 1nYoyA-0005Jr-GY; Mon, 28 Mar 2022 08:59:40 -0400
+Received: from [2607:f8b0:4864:20::329] (port=40560
+ helo=mail-ot1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nYoy2-0001kl-Py; Mon, 28 Mar 2022 08:59:31 -0400
-Received: by mail-ot1-x32b.google.com with SMTP id
- y3-20020a056830070300b005cd9c4d03feso10612757ots.3; 
- Mon, 28 Mar 2022 05:59:29 -0700 (PDT)
+ id 1nYoy4-0001lJ-QU; Mon, 28 Mar 2022 08:59:36 -0400
+Received: by mail-ot1-x329.google.com with SMTP id
+ o20-20020a9d7194000000b005cb20cf4f1bso10597058otj.7; 
+ Mon, 28 Mar 2022 05:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OfYvORQRcelgzAlesGQLue5tF08UKLaOx9Jj6VSpm1g=;
- b=biGN/Jo9k2m+UnPwEJsE+EweVaznk/OOd8L6sU9blTIGSDRZ6xU9F0FXiny9IaZdC5
- nrn3QqW/aQj1I555lMi/5cVakCgHJY2PzLJw4x0bJXXdBAzmBvRIvdrCCyMNlHNP7nCL
- p5GlVkmXo1A5JCcP7rEXd8rvhZdNOJ081V+ofv9SUdD4un3MIS5i0H0+wc7e+/cVVOLw
- xkOLEifEwfXsMIwWzoNgeK9SsyXoPCitdMgUc4Sfsj/0o1umQedsvX4ECFFI3srGcDD8
- KdgfCRa7ssVt+26YpIRbooL3Xhw9x+uWOxMLEzBoBZD2LOHuCmH/JFWYxOrhqwP3mCpc
- gzGQ==
+ bh=c3GuDjYV8+CvKwjXT3Es7dS2kO+26fJurI7bCchoVSY=;
+ b=TUc3ptStE6Pa7KKOiV0x4x/abx7e6aEcRwdWpKdP64P39p6K1HyM3G+JfkwMw20EsJ
+ W6GoQ1Ji0wmLOoAuyG/zlgghzTxXuUJtNBp3LOoubqHOsTfl0Dl5oOCac711A1f2mZ9A
+ WwrZ4m4pB01/YR3G3DaMYdzHkDOMaVDOBgntiY3MOAkc5tNn2n6gkiH8yvAuKFLHMHZg
+ AX/4MdmcnIR3V10qqfMR2VF5Yp8hEEIDKJCQrwgIm7qn1+vatPhh5QpqfmomS0zkSi8B
+ V9KkJCUXZeeoy+IF2URezwN1mE1SDkk7noZeUCU62HfnCH5Vn2AjGNLgZdivTPyEK79x
+ l39w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OfYvORQRcelgzAlesGQLue5tF08UKLaOx9Jj6VSpm1g=;
- b=Glwbzqi48YFoKMwIwtgyaYWg0xY8YP7yLd9Xuo7tL7WTUxQ+DijJpUFzYsQGbj+DOR
- U7MPmrs66m6znsUXMMQXMzEQbtg/0jhveSeIpei7Tt60S6rtll1aUQ+tIsTVffvMLQyX
- w/8TyienqtG4kFlP1bIbjxNn+pgOtt9zpxMpyVO4J/N6uYxTSJHDIvNtSdYTcBNuC6H6
- ldhxMzyIWidOMD4d0MHxsOC6MrJgz3+OigoVkzxurNLHU/Y/8HS8Sk7scNK0IRpm8+mG
- M4d7TNEJOxN0dzMLpM/6C0/wZSZcQ7wxmzSl7OhNfjziR4xwzUP4q8lCw6jIZn2ndOXM
- 2zHw==
-X-Gm-Message-State: AOAM530NdhkIjptpRSQIXS+ixlfYdYfhIRqAmA/WC2jC4EmtL9ea3iY+
- U4E4XLgFU4FSyDda4uXoe4txdqsa2ZY=
-X-Google-Smtp-Source: ABdhPJzVKztPzorlrLCPPEeSkWl+XWOY3SQ12eniAYFAmHOFrjn/Fu7nAU5l/M4pzE3ljNMthzlexw==
-X-Received: by 2002:a9d:720d:0:b0:5cb:6545:57 with SMTP id
- u13-20020a9d720d000000b005cb65450057mr9787692otj.202.1648472368767; 
- Mon, 28 Mar 2022 05:59:28 -0700 (PDT)
+ bh=c3GuDjYV8+CvKwjXT3Es7dS2kO+26fJurI7bCchoVSY=;
+ b=BIKuX9ST/H5g4UxCI22pwaSCx2TJQTZY4i2pDZsn2ob70g6k82ei4bFSVP+0SYcvND
+ w4RpA8lLeoyvufgU71nfwpPmfkJHE9Pkr1JmLBBZHN9QWs3SPWxKwXCygXwYFcRxuTCF
+ YMb3I65hGman/dfTi2La5OjcplP/xQTwF7RW54GzY6aD6jfn+fo1UIOfXKbvMEAqP5lP
+ /jg44r3XH1oUsQXfU9bsNEauz8gVopq9iQs753jUecEOms4MEoJPb+OqwQwWnoQO5aL/
+ vxbQjT/W5wqb23cP6vEoTVwVzpDOrVG+FUudfIXxUocCPzGVpzOB9YvLcPtJ3Z0gYL5z
+ muUQ==
+X-Gm-Message-State: AOAM5303l0Wn/kNG8fe/Zsia26boYLfzzX4B0jargTYo4mTrMBqnom4V
+ 1okvkMOfnmtHHDwInDGhtV+V0iqvibU=
+X-Google-Smtp-Source: ABdhPJycnXNmTdcHlf6ZT49Tq3fNC7oJ5lhFcUeSthSjvP+4bM0TK795L+TFp0WhqvL5x7mrH+Omvw==
+X-Received: by 2002:a9d:5e15:0:b0:5b2:5125:fd09 with SMTP id
+ d21-20020a9d5e15000000b005b25125fd09mr9993915oti.129.1648472370757; 
+ Mon, 28 Mar 2022 05:59:30 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:8271:32d5:64c:7754:f033])
  by smtp.gmail.com with ESMTPSA id
- e9-20020a056820060900b003216277bfdasm6950698oow.19.2022.03.28.05.59.26
+ e9-20020a056820060900b003216277bfdasm6950698oow.19.2022.03.28.05.59.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Mar 2022 05:59:28 -0700 (PDT)
+ Mon, 28 Mar 2022 05:59:30 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/ppc/ppc.c: add cpu_ppc_tb_free()
-Date: Mon, 28 Mar 2022 09:59:17 -0300
-Message-Id: <20220328125918.494787-2-danielhb413@gmail.com>
+Subject: [PATCH 2/2] hw/ppc: free env->tb_env in spapr_unrealize_vcpu()
+Date: Mon, 28 Mar 2022 09:59:18 -0300
+Message-Id: <20220328125918.494787-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220328125918.494787-1-danielhb413@gmail.com>
 References: <20220328125918.494787-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x329.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -92,45 +92,51 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The timebase is created using cpu_ppc_tb_init(). At this moment we don't
-have a way to free it. Add cpu_ppc_tb_free() to allow env->tb_env to be
-freed.
+The timebase is allocated during spapr_realize_vcpu() and it's not
+freed. This results in memory leaks when doing vcpu unplugs:
 
+==636935==
+==636935== 144 (96 direct, 48 indirect) bytes in 1 blocks are definitely lost in loss record 6
+,461 of 8,135
+==636935==    at 0x4897468: calloc (vg_replace_malloc.c:760)
+==636935==    by 0x5077213: g_malloc0 (in /usr/lib64/libglib-2.0.so.0.6400.4)
+==636935==    by 0x507757F: g_malloc0_n (in /usr/lib64/libglib-2.0.so.0.6400.4)
+==636935==    by 0x93C3FB: cpu_ppc_tb_init (ppc.c:1066)
+==636935==    by 0x97BC2B: spapr_realize_vcpu (spapr_cpu_core.c:268)
+==636935==    by 0x97C01F: spapr_cpu_core_realize (spapr_cpu_core.c:337)
+==636935==    by 0xD4626F: device_set_realized (qdev.c:531)
+==636935==    by 0xD55273: property_set_bool (object.c:2273)
+==636935==    by 0xD523DF: object_property_set (object.c:1408)
+==636935==    by 0xD588B7: object_property_set_qobject (qom-qobject.c:28)
+==636935==    by 0xD52897: object_property_set_bool (object.c:1477)
+==636935==    by 0xD4579B: qdev_realize (qdev.c:333)
+==636935==
+
+Fix it by calling cpu_ppc_tb_free() in spapr_unrealize_vcpu().
+
+Fixes: 6f4b5c3ec590 ("spapr: CPU hot unplug support")
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc.c         | 7 +++++++
- include/hw/ppc/ppc.h | 1 +
- 2 files changed, 8 insertions(+)
+ hw/ppc/spapr_cpu_core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index faa02d6710..fea70df45e 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -1083,6 +1083,13 @@ clk_setup_cb cpu_ppc_tb_init (CPUPPCState *env, uint32_t freq)
-     return &cpu_ppc_set_tb_clk;
- }
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index ed84713960..8a4861f45a 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -189,10 +189,13 @@ static const VMStateDescription vmstate_spapr_cpu_state = {
  
-+void cpu_ppc_tb_free(CPUPPCState *env)
-+{
-+    timer_free(env->tb_env->decr_timer);
-+    timer_free(env->tb_env->hdecr_timer);
-+    g_free(env->tb_env);
-+}
-+
- /* cpu_ppc_hdecr_init may be used if the timer is not used by HDEC emulation */
- void cpu_ppc_hdecr_init(CPUPPCState *env)
+ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
  {
-diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
-index b0ba4bd6b9..364f165b4b 100644
---- a/include/hw/ppc/ppc.h
-+++ b/include/hw/ppc/ppc.h
-@@ -54,6 +54,7 @@ struct ppc_tb_t {
- 
- uint64_t cpu_ppc_get_tb(ppc_tb_t *tb_env, uint64_t vmclk, int64_t tb_offset);
- clk_setup_cb cpu_ppc_tb_init (CPUPPCState *env, uint32_t freq);
-+void cpu_ppc_tb_free(CPUPPCState *env);
- void cpu_ppc_hdecr_init(CPUPPCState *env);
- void cpu_ppc_hdecr_exit(CPUPPCState *env);
++    CPUPPCState *env = &cpu->env;
++
+     if (!sc->pre_3_0_migration) {
+         vmstate_unregister(NULL, &vmstate_spapr_cpu_state, cpu->machine_data);
+     }
+     spapr_irq_cpu_intc_destroy(SPAPR_MACHINE(qdev_get_machine()), cpu);
++    cpu_ppc_tb_free(env);
+     qdev_unrealize(DEVICE(cpu));
+ }
  
 -- 
 2.35.1
