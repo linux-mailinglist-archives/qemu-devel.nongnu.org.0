@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADFE44E9A10
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:46:22 +0200 (CEST)
-Received: from localhost ([::1]:58458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C104B4E99D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:36:30 +0200 (CEST)
+Received: from localhost ([::1]:37744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYqdR-0002k9-E7
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:46:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46792)
+	id 1nYqTt-00054T-Sl
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:36:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nYqO2-00079Z-5R
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:30:27 -0400
-Received: from [2a00:1450:4864:20::629] (port=37383
- helo=mail-ej1-x629.google.com)
+ id 1nYqO5-0007B2-9X; Mon, 28 Mar 2022 10:30:29 -0400
+Received: from [2a00:1450:4864:20::635] (port=33376
+ helo=mail-ej1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nYqO0-0000ss-Ji
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:30:25 -0400
-Received: by mail-ej1-x629.google.com with SMTP id bg10so29076091ejb.4;
- Mon, 28 Mar 2022 07:30:23 -0700 (PDT)
+ id 1nYqO2-0000uW-MZ; Mon, 28 Mar 2022 10:30:27 -0400
+Received: by mail-ej1-x635.google.com with SMTP id pv16so29141104ejb.0;
+ Mon, 28 Mar 2022 07:30:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/4YTodsodHz1thNfPxV6hRnseLXtZcAUR5m/BE97hU0=;
- b=S/a0Pso9h5r/xFPfs9c+M4R3Nrm/2CIy2BtNu7VmlQFV6xafeLc1Py5Vs0RVEp2lCl
- JljtcUhN4qtIhsxfoX+RTf7kPRubU3mK4CZRz3YSGZCFskW0OzDmNzkVfdyGDdogsacT
- J8DH6eYZ6Cmycki5pn9PhL/eXOjNVZ+bDFw65VCHFSKPz4fRo624GDtCSyoQT5HpjUqm
- MAmR4Zc9gxBNi/ufsjuUTIPG33OoXe7m9B8aGqgt3BsD45DZPzC2BMVTN6wDm8cymV/G
- m7sDZoi19Bl/rFLZLkpJ49oL5ppICfGsRmRfSULxVC7ySlEw1X8Zq9d5NpY+yvE/8ZFq
- yl3A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=j2ok0yF7eJVHzP1VeskyrGyUFS14B8x0AbHqrWAdE7U=;
+ b=C9mSbF9sou4+iNPXKrkNM8hQU817oLzFwl/6B0QRBVE8lX4TZptvc+B7jzCRIKDYhE
+ z7uQtwRK08zSLDGPkHx6RbfLsqxa8D7nSZeK/HQ+0sAl3NdPi4qBZ0fprrxQ4Rq7aEPG
+ 725xj7NG24iKXXIHefMrktTYLpa+6iS2haNV40/iOgh5BcKvEIhVX0E0XqpFi7QdsI2f
+ 4AXla1IxEtdYKbCDBr+TssVDRlcoM+sq7BJ4dhnczTK1woCVvgUbRpRb73PXbeIpAke3
+ m63yPabNf9bJV3/wtuSTFQaWFP1osfKCliSdwD+x0j75Em6eNOdGAXN2LrtxESgKeG84
+ Jaiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=/4YTodsodHz1thNfPxV6hRnseLXtZcAUR5m/BE97hU0=;
- b=TKo8Sibe6UJkQA4s0MdKZOhb3TP+Szi9j5Fh/P4y2nedDT61NMRmzf3uA1Wx2y4FO6
- 089ign23ANA08P1jsvWRpHcEN27vdUQrZc7zxU0Rmhcl22kkGFPILiMTCVn6d3KebPDM
- qovNHLayFJdyGJDt0SZRL2O+Ub/vwkbJpnfGb15uK3bo+CLt3V2TheDhZMwrc9fhHMM3
- DT42psXsCDP4S8SISQIMdmv/HV3299JNF7QiA+ECsU2vHlDYgTP+OL0D6ggb37Mj9yCE
- b59bG35gL7L5qecIsc8pVPt/TJvzqD5+kZQP56L4lIHgeqBN8lu799J1FKULGxDGmkxX
- N1bA==
-X-Gm-Message-State: AOAM533ADb69UOgd+AwxaqHZzFjctf3qubtF2cIY/KsWOI60tuIY9X6/
- rls6krpze+aTDPIvbse2GaFH3gC3J0E=
-X-Google-Smtp-Source: ABdhPJxxZ8cngNQVO8ZlVod1gdUb2JOSRVkUBWhZ0mAGmCRFmaqLy45B5KspCwkQiTXLmZt3JT4t5g==
-X-Received: by 2002:a17:907:971e:b0:6da:8221:c82f with SMTP id
- jg30-20020a170907971e00b006da8221c82fmr22432407ejc.443.1648477822412; 
- Mon, 28 Mar 2022 07:30:22 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=j2ok0yF7eJVHzP1VeskyrGyUFS14B8x0AbHqrWAdE7U=;
+ b=54aYXOYurH1Is+crA8scuCHsqTRAWcHkkqMrZcrqq1E1L3oMHQWrcFhWHK89+a3ZT8
+ xkjGEpeLAPYt7cEfD+aj1178OVmEYEMu3wZ7f7pe1VZnbcc8D11+5h9Ljg6vhanoZYLU
+ vYAYEhvFlMT4Z95VnmXMMuA8qsY+K+1AqTN1etrh2dzCnvAh0X2f1/JSZmsK3d7zlCr7
+ gRLHgQJF+OmCSpXug9h9QmWHT7WAlFHgZqgWF/ubTukbLHbNWnV/l87BRl6ziNGkF3UV
+ 6Btp7jYb6rrWUzTMZCrTOI4lxPOPcU9lNUfdQeBEzEFcVEw7MO0deg35+iVX7Qeogpiy
+ U+6w==
+X-Gm-Message-State: AOAM530RbSXxJ5XRwF7wVi7ayHFV/rOggxFGErZxE419P42BL/6l3L/E
+ pEiwUrujtHTLXhaWce8ijCoVjv4rFHs=
+X-Google-Smtp-Source: ABdhPJwhasLF/pktD6QDb15cCmg4sH9ai6pio2+fNsAN24CqZZYAqFM2k7CiY2982UsbxY21bMYZIA==
+X-Received: by 2002:a17:907:3eaa:b0:6df:b058:96a with SMTP id
+ hs42-20020a1709073eaa00b006dfb058096amr28077869ejc.368.1648477824892; 
+ Mon, 28 Mar 2022 07:30:24 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:8ca6:a836:a237:fed1])
  by smtp.gmail.com with ESMTPSA id
- b21-20020a1709062b5500b006e10152162asm1982310ejg.222.2022.03.28.07.30.21
+ b21-20020a1709062b5500b006e10152162asm1982310ejg.222.2022.03.28.07.30.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Mar 2022 07:30:21 -0700 (PDT)
+ Mon, 28 Mar 2022 07:30:24 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] virtio-ccw: remove device declarations from virtio-ccw.h
-Date: Mon, 28 Mar 2022 16:30:15 +0200
-Message-Id: <20220328143019.682245-1-pbonzini@redhat.com>
+Subject: [PATCH 1/4] s390x: follow qdev tree to detect SCSI device on a CCW bus
+Date: Mon, 28 Mar 2022 16:30:16 +0200
+Message-Id: <20220328143019.682245-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220328143019.682245-1-pbonzini@redhat.com>
+References: <20220328143019.682245-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -92,45 +92,50 @@ Cc: thuth@redhat.com, cohuck@redhat.com, farman@linux.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have looked recently at moving some of the vhost-user definitions
-from configure options to Kconfig symbols.  This made some of the vhost
-symbols target-dependent (and thus poisoned) where they used to be
-defined in config-host.h.
+Do not make assumptions on the parent type of the SCSIDevice, instead
+use object_dynamic_cast all the way up to the CcwDevice.  This is cleaner
+because there is no guarantee that the bus is on a virtio-scsi device;
+that is only the case for the default configuration of QEMU's s390x
+target.
 
-To fix this, this series removes these symbols (and all other code that
-is not needed outside individual virtio-ccw device implementations)
-from the virtio-ccw.h header.  I am sending it separately because I
-think it's a worthwhile cleanup on its own.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/s390x/ipl.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-Paolo
-
-Paolo Bonzini (4):
-  s390x: follow qdev tree to detect SCSI device on a CCW bus
-  virtio-ccw: move vhost_ccw_scsi to a separate file
-  virtio-ccw: move device type declarations to .c files
-  virtio-ccw: do not include headers for all virtio devices
-
- hw/s390x/ipl.c                |  23 ++++--
- hw/s390x/meson.build          |   1 +
- hw/s390x/s390-virtio-ccw.c    |   1 +
- hw/s390x/vhost-scsi-ccw.c     |  73 +++++++++++++++++
- hw/s390x/vhost-vsock-ccw.c    |   9 ++
- hw/s390x/virtio-ccw-9p.c      |   9 ++
- hw/s390x/virtio-ccw-balloon.c |   9 ++
- hw/s390x/virtio-ccw-blk.c     |   9 ++
- hw/s390x/virtio-ccw-crypto.c  |   9 ++
- hw/s390x/virtio-ccw-gpu.c     |   9 ++
- hw/s390x/virtio-ccw-input.c   |  20 +++++
- hw/s390x/virtio-ccw-net.c     |   9 ++
- hw/s390x/virtio-ccw-rng.c     |   9 ++
- hw/s390x/virtio-ccw-scsi.c    |  56 ++-----------
- hw/s390x/virtio-ccw-serial.c  |   9 ++
- hw/s390x/virtio-ccw.c         |   2 +
- hw/s390x/virtio-ccw.h         | 149 ----------------------------------
- 17 files changed, 202 insertions(+), 204 deletions(-)
- create mode 100644 hw/s390x/vhost-scsi-ccw.c
-
+diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
+index 84971e537b..e21776822a 100644
+--- a/hw/s390x/ipl.c
++++ b/hw/s390x/ipl.c
+@@ -375,14 +375,18 @@ static CcwDevice *s390_get_ccw_device(DeviceState *dev_st, int *devtype)
+                 object_dynamic_cast(OBJECT(dev_st),
+                                     TYPE_SCSI_DEVICE);
+             if (sd) {
+-                SCSIBus *bus = scsi_bus_from_device(sd);
+-                VirtIOSCSI *vdev = container_of(bus, VirtIOSCSI, bus);
+-                VirtIOSCSICcw *scsi_ccw = container_of(vdev, VirtIOSCSICcw,
+-                                                       vdev);
+-
+-                ccw_dev = (CcwDevice *)object_dynamic_cast(OBJECT(scsi_ccw),
+-                                                           TYPE_CCW_DEVICE);
+-                tmp_dt = CCW_DEVTYPE_SCSI;
++                SCSIBus *sbus = scsi_bus_from_device(sd);
++                VirtIODevice *vdev = (VirtIODevice *)
++                    object_dynamic_cast(OBJECT(sbus->qbus.parent),
++                                        TYPE_VIRTIO_DEVICE);
++		if (vdev) {
++                    ccw_dev = (CcwDevice *)
++                        object_dynamic_cast(OBJECT(qdev_get_parent_bus(DEVICE(vdev))->parent),
++                                            TYPE_CCW_DEVICE);
++                    if (ccw_dev) {
++                        tmp_dt = CCW_DEVTYPE_SCSI;
++                    }
++		}
+             }
+         }
+     }
 -- 
 2.35.1
+
 
 
