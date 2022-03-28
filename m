@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1BB84E9953
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:22:30 +0200 (CEST)
-Received: from localhost ([::1]:38676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC5F4E9957
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:23:13 +0200 (CEST)
+Received: from localhost ([::1]:42298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYqGM-0002o8-1w
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:22:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41534)
+	id 1nYqH2-0005CQ-DK
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:23:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0d-0006Mx-PQ
+ id 1nYq0d-0006NZ-Uf
  for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48617)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nYq0b-0005Gs-Uo
+ id 1nYq0c-0005H2-AK
  for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:06:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1648476373;
@@ -25,29 +25,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i8ZxgGDunzxBS4F+NM0V3NOsMIEu9B0ZSIFgzM0Q3zA=;
- b=JvqearoQsaxuMgBoMAmRkZDIGnUpjsTCjj/dbL4KYnZruiVDY951+UQZmV2OKob0l2vSda
- Qr2KbXNZzy1LxHG6FA/o6dCmaK6/Q6dt4edX1CurA4jYgmSFojANlGDi9sqYnh3DLhpe4u
- oTWCrCGNkA01eEIQaIBJHK+PYOdjUf4=
+ bh=LBV/5/+KKA5Pf8XW3eAch+0mC/EZFA9g03YwByB6VGQ=;
+ b=WtLKfPhi6xdXgfTb5GgotNQj/2zni6C388i0Z5IuoiW2OkZLeGjnc7dZ7NyaXYs9ITLbfd
+ 6TEfEnbr2OIyrvql+qsfRHdE53deiKuUcmxP+NIQESMbHO3IfqaKuXQ6YYLzVPff3zkyrz
+ BHzzwApFvnX7lEgi+E2ygszXMG7aWzw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-115-BGEqMvsrN3-T_KCM9odLWw-1; Mon, 28 Mar 2022 10:06:12 -0400
-X-MC-Unique: BGEqMvsrN3-T_KCM9odLWw-1
+ us-mta-313-ckgjYUTcMeCCpGvfQxbkpg-1; Mon, 28 Mar 2022 10:06:12 -0400
+X-MC-Unique: ckgjYUTcMeCCpGvfQxbkpg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2BC9185A7BA
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 21C27802E5B
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:06:12 +0000 (UTC)
 Received: from tapioca.home (unknown [10.40.195.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5998A140241F;
- Mon, 28 Mar 2022 14:06:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A5D51402642;
+ Mon, 28 Mar 2022 14:06:10 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/14] qapi: fix example of BLOCK_IMAGE_CORRUPTED event
-Date: Mon, 28 Mar 2022 16:05:52 +0200
-Message-Id: <20220328140604.41484-3-victortoso@redhat.com>
+Subject: [PATCH v3 03/14] qapi: fix example of BLOCK_IO_ERROR event
+Date: Mon, 28 Mar 2022 16:05:53 +0200
+Message-Id: <20220328140604.41484-4-victortoso@redhat.com>
 In-Reply-To: <20220328140604.41484-1-victortoso@redhat.com>
 References: <20220328140604.41484-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -85,34 +85,26 @@ Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example output lacks mandatory member @fatal.  Provide it.
-
-Example output shows a value of @msg no version of the code
-produces.  No big deal, but replace it anyway by one that
-today's code does produce.
+Example output lacks mandatory member @reason.  Provide it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 ---
- qapi/block-core.json | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ qapi/block-core.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index e89f2dfb5b..63c30a5378 100644
+index 63c30a5378..46580ac551 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -5006,10 +5006,9 @@
- # Example:
+@@ -5058,7 +5058,8 @@
+ #      "data": { "device": "ide0-hd1",
+ #                "node-name": "#block212",
+ #                "operation": "write",
+-#                "action": "stop" },
++#                "action": "stop",
++#                "reason": "No space left on device" },
+ #      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
  #
- # <- { "event": "BLOCK_IMAGE_CORRUPTED",
--#      "data": { "device": "ide0-hd0", "node-name": "node0",
--#                "msg": "Prevented active L1 table overwrite", "offset": 196608,
--#                "size": 65536 },
--#      "timestamp": { "seconds": 1378126126, "microseconds": 966463 } }
-+#      "data": { "device": "", "node-name": "drive", "fatal": false,
-+#                "msg": "L2 table offset 0x2a2a2a00 unaligned (L1 index: 0)" },
-+#      "timestamp": { "seconds": 1648243240, "microseconds": 906060 } }
- #
- # Since: 1.7
  ##
 -- 
 2.35.1
