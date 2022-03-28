@@ -2,52 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38FA4E9831
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 15:29:41 +0200 (CEST)
-Received: from localhost ([::1]:37534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07DE4E98A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 15:49:17 +0200 (CEST)
+Received: from localhost ([::1]:45546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYpRE-0001kR-JL
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 09:29:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53660)
+	id 1nYpkC-0001UN-UK
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 09:49:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1nYp9o-0003DV-MN; Mon, 28 Mar 2022 09:11:40 -0400
-Received: from mail-sender.a4lg.com ([153.120.152.154]:63828
- helo=mail-sender-0.a4lg.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1nYp9m-0004V5-Q5; Mon, 28 Mar 2022 09:11:40 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 61401300089;
- Mon, 28 Mar 2022 13:11:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1648473096;
- bh=kcy6GEq7QNynODPz1ApvBd8m9NHfvR1NF/yo9QPK0d4=;
- h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
- Mime-Version:Content-Transfer-Encoding;
- b=JjN9NH4NJicGT4S8PAjd0ff8+vHH9rbdkuL7+NfJHpusN/6eG3JVucbEgtL7Rk7pD
- TQqZqa2jNY2pP8NmfFK1LSl7gtp/e/HLr2pBMAVWvgTMVYDpbSBaqzEL/AHhx1MKnB
- MC9NI7LLjh7gK//1dBTRAJ7T6QHQ2efSRo0nvfbU=
-From: Tsukasa OI <research_trasio@irq.a4lg.com>
-To: Tsukasa OI <research_trasio@irq.a4lg.com>,
- Alistair Francis <alistair23@gmail.com>,
- Frank Chang <frank.chang@sifive.com>
-Subject: [PATCH v2 1/1] target/riscv: misa to ISA string conversion fix
-Date: Mon, 28 Mar 2022 22:11:23 +0900
-Message-Id: <4a4c11213a161a7eedabe46abe58b351bb0e2ef2.1648473008.git.research_trasio@irq.a4lg.com>
-In-Reply-To: <cover.1648473008.git.research_trasio@irq.a4lg.com>
-References: <cover.1648473008.git.research_trasio@irq.a4lg.com>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=153.120.152.154;
- envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nYpEk-00048V-Ii
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 09:16:47 -0400
+Received: from [2607:f8b0:4864:20::b2f] (port=43788
+ helo=mail-yb1-xb2f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nYpEi-0005Un-QO
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 09:16:46 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id v35so25909355ybi.10
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 06:16:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2DLkdz0V/hl7pCwokIEg7z7bgOwF2a/LFOZjgc0AZ2U=;
+ b=HVK6WA1zwxordU3dNjCxpMBwUYvKmUkBnJfhUrE4v8Ul8s9ju5E8mqzYDsSiS6B+4k
+ Armb7r5MbB6QqI5ioFOrYiE98zE/I3oGeTyJpO/Gb2Ql3fhEzokz4cELjRiFVqidVvQ2
+ 20bZ6XKK1XMyZgK8HgmXnqz1sFF3rozS6yg8YvsEU5qOs1NeaI1jXU2jwGA3KhMJ3+E+
+ 3HEyB6bBJHS+tPDH25JtPyMhZqOZd7fVO+HpEMz8LL/1wRidIJJF9brP1WXRb+kRyzem
+ ZbkZUDR/NOz36Wjwng2Bb/GU8h/eZBYUCgYccHwX3s+whITUVX+4gUGZWksQDeiQOba4
+ 4KGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2DLkdz0V/hl7pCwokIEg7z7bgOwF2a/LFOZjgc0AZ2U=;
+ b=Q2jgaoxUX7JSF4CzHcuCG8+XMtyLbx8pCp9zAU4keIPv9whDmnT3V1fucSAd8hNdw+
+ +SA3H/eBM6XRpAY0AtJfQeFTouXR6zceRKO3Ck9NortGCucXzA7PU4sZXlcM93YG8IPE
+ zWFn3LwK9k4tyhEUIPFdPoaZ+h6LL8gltedKNHbu6tOOgdPq6F5/sL/BAI0eWUwJsVaZ
+ DGGnW46gxB99CgDeJ47iKN/QK5OhCMb3cBhO5WAz+LCRSgoWj94VDD4kEm1yuj1UqZLn
+ EDeWscaPbLHIq5D1wtVaHoZq7Gp7djy1S+mb3u3fRuOMUQeLLJ7lbvZHcW1zDIH9bhtZ
+ DV+Q==
+X-Gm-Message-State: AOAM532uZ0ZIXePzYI/YMPd9xiGypYtSRG2uVH/hDWRZgB+lOCqDvZqK
+ nMd8gG5fO7gQg8LWPh1EgzV4umvzTOnrhDh0js/+iA==
+X-Google-Smtp-Source: ABdhPJwlO9YNLpniRSjIpUEMFfW/A5S71DBwalVJ9CX876ChT6kgAg6nGEVQIlVOwD8T90xI5NMOzSWI2OggaKyjinc=
+X-Received: by 2002:a05:6902:1147:b0:634:6e83:70b4 with SMTP id
+ p7-20020a056902114700b006346e8370b4mr23440871ybu.85.1648473403899; Mon, 28
+ Mar 2022 06:16:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <149i84ajr3d-149ji23ysx6@nsmail6.0>
+In-Reply-To: <149i84ajr3d-149ji23ysx6@nsmail6.0>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 28 Mar 2022 13:16:29 +0000
+Message-ID: <CAFEAcA_-ZtiJwO858DBXGw5iL_Cs1XKNUqQT0mKypDkYm_j4NQ@mail.gmail.com>
+Subject: Re: Re: [PATCH] kvm/arm64: Fix memory section did not set to kvm
+To: liucong2@kylinos.cn
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,64 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some bits in RISC-V `misa' CSR should not be reflected in the ISA
-string.  For instance, `S' and `U' (represents existence of supervisor
-and user mode, respectively) in `misa' CSR must not be copied since
-neither `S' nor `U' are valid single-letter extensions.
+On Mon, 28 Mar 2022 at 13:17, <liucong2@kylinos.cn> wrote:
+>
+> thanks for you explain, I will learn it later.
+>
+>
+> in the scenario of rom bar size 8k, page size 64k, the value of
+>
+> 'size = ROUND_UP(size, qemu_real_host_page_size)' is 64k, kvm_align_section
+>
+> also return 64k bytes.  just the same size as the size of RAMBlock. I still
+>
+> did not understand why it is wrong.
 
-This commit also removes all reserved/dropped single-letter "extensions"
-from the list.
+Because if the size of the memory region is 8K, not 64K, then
+we should not map into the guest 64K, but only 8K.
 
--   "B": Not going to be a single-letter extension (misa.B is reserved).
--   "J": Not going to be a single-letter extension (misa.J is reserved).
--   "K": Not going to be a single-letter extension (misa.K is reserved).
--   "L": Dropped.
--   "N": Dropped.
--   "T": Dropped.
+I'm still not sure what exactly you're trying to fix here.
+The specific case of the QXL ROM BAR we already have the fix for.
+Is there another specific case you are running into ?
 
-It also clarifies that the variable `riscv_single_letter_exts' is a
-single-letter extension order list.
-
-Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
----
- target/riscv/cpu.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index ddda4906ff..1f68c696eb 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -34,7 +34,7 @@
- 
- /* RISC-V CPU definitions */
- 
--static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
-+static const char riscv_single_letter_exts[] = "IEMAFDQCPVH";
- 
- const char * const riscv_int_regnames[] = {
-   "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
-@@ -901,12 +901,12 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
- char *riscv_isa_string(RISCVCPU *cpu)
- {
-     int i;
--    const size_t maxlen = sizeof("rv128") + sizeof(riscv_exts) + 1;
-+    const size_t maxlen = sizeof("rv128") + sizeof(riscv_single_letter_exts);
-     char *isa_str = g_new(char, maxlen);
-     char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
--    for (i = 0; i < sizeof(riscv_exts); i++) {
--        if (cpu->env.misa_ext & RV(riscv_exts[i])) {
--            *p++ = qemu_tolower(riscv_exts[i]);
-+    for (i = 0; i < sizeof(riscv_single_letter_exts) - 1; i++) {
-+        if (cpu->env.misa_ext & RV(riscv_single_letter_exts[i])) {
-+            *p++ = qemu_tolower(riscv_single_letter_exts[i]);
-         }
-     }
-     *p = '\0';
--- 
-2.32.0
-
+-- PMM
 
