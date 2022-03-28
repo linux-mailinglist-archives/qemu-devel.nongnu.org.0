@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D774E9719
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 14:53:46 +0200 (CEST)
-Received: from localhost ([::1]:59048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0A14E9658
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 14:14:19 +0200 (CEST)
+Received: from localhost ([::1]:34280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYosT-0006sd-Lw
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 08:53:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33032)
+	id 1nYoGH-0004gz-PO
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 08:14:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1nYlT2-0004tT-RI
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:15:17 -0400
-Received: from [2607:f8b0:4864:20::1030] (port=56150
- helo=mail-pj1-x1030.google.com)
+ (Exim 4.90_1) (envelope-from <jerome.forissier@linaro.org>)
+ id 1nYoDD-0003fa-CI
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 08:11:07 -0400
+Received: from [2a00:1450:4864:20::535] (port=42676
+ helo=mail-ed1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1nYlSw-0007Ld-Jw
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:15:14 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id jx9so13386828pjb.5
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 02:15:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=XjwdjpM5hizrcDlUajI8eDysocGXPt6/ewM91vYNjIE=;
- b=7MKpFE78gPJImqLvDWiQ3R3FBzymHMEcSc+yX+Ti/DsKb6r5FQScbn6grh76X1EX7p
- 07LS7Py8SWSG/i4SWNjm8roeInQ/7Rwvx37pGJzTK20ArrfuwHX8XyCwrBkTsW/NjxmV
- 1eTulvnrNlCovXMtEj3dmHCyDkpsPTJkq9867F7Aqpppm248taa6VZDk5iIKi/gG4K48
- +jWLuF5KuBUl/o2PZx6WP5QBZkvA004pNkxSK/1d3aW/MspivBbdI+Wb7EpMa7H+FNaj
- UtUPIe/Mba4XeXIz+Q5EqBbapNEfPc50ezkKFAoODTDzJwHI5QTjIkZA5YF0rM8jFiZ4
- VdbA==
+ (Exim 4.90_1) (envelope-from <jerome.forissier@linaro.org>)
+ id 1nYoD9-0001pN-0z
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 08:11:06 -0400
+Received: by mail-ed1-x535.google.com with SMTP id a17so16644987edm.9
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 05:11:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:from:subject:to:cc
+ :references:content-language:in-reply-to:content-transfer-encoding;
+ bh=Mz3Bk+dT5FwbimJT2UkMDrF4GuvCgciWCNtQbRXzpWw=;
+ b=gWzC+LhOVEzTmC3242y+2wgx4NjN2IB4HO4iRu+4qTVy8T6n4qK/tL+PfPz/Lk3avg
+ gFkvZOc0ADzijPsUoIDgzzIXNNG4BXSbLSDDfO12jBzhUGCRGFILr49srSqpSl5DHK6L
+ xK2I24a4wUhUZA756WYFFw8Obv1HaG8ZPqdpEbk64oUBJf0BljcKlVaPydHMmRa0/Wfc
+ pXO0dKvLelkTvzaLDk5AbuyZUYtwtdspzUYi356ECyDIKI6EDfofDRDbX6kcEBeKe3v7
+ I5SSgB1pdS5l+yxeB79s7h7ErSWNnAzwMBoptsT51d7bHoJy0GxufPppfSPDQGX/nI+z
+ Bmog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=XjwdjpM5hizrcDlUajI8eDysocGXPt6/ewM91vYNjIE=;
- b=KCe2v5usboPGpoVEdAttJqdjw6fYnLESR3U4nkBJIlg4pjpvqZoq1Y/kFX4WfHcbc8
- zxuLjoStpQitbssy/shRRQ87hTwC891icYmb++dzU4cQ6GwXOen9WUJRdblUpEmYFLa5
- YbBE28ZGbpt6cd12di73eGcqvX/S7FAQ7yem7ekHhIu/Y1i0tQswAgWmYxMBtfF52VyN
- 1sumY+jbBM1gU2lZgVmFHylgGxKfIQxkgxGNquZltAAKDSi4Z7rSg3/cMlxqFQXHyf78
- B65pqZfPDatxZxtctC1A0u+yTd0BEn2YDeb4+F5f1FQeftVAYC7b/7R7JZEeHVpgrnMb
- N0Eg==
-X-Gm-Message-State: AOAM53209wxn/OruaGIegyoErUAhvUVcaikzmk30zJBm/8+ktYtpPfLh
- x9AaLPBeNH4RlMZiXtyoYFjtRQ==
-X-Google-Smtp-Source: ABdhPJxTMGWyhAt7Gh4FnynWO3mwb2x9UPVerD+Si/9GVu+thp6L51XswAqtfUAb/154KeV/ws8JOQ==
-X-Received: by 2002:a17:90a:a78d:b0:1bc:d11c:ad40 with SMTP id
- f13-20020a17090aa78d00b001bcd11cad40mr27507567pjq.246.1648458906784; 
- Mon, 28 Mar 2022 02:15:06 -0700 (PDT)
-Received: from [10.254.225.118] ([139.177.225.240])
- by smtp.gmail.com with ESMTPSA id
- w8-20020a63a748000000b0038117e18f02sm12446072pgo.29.2022.03.28.02.15.03
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 28 Mar 2022 02:15:06 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: [External] [PATCH v3 4/6] crypto: Implement RSA algorithm by
- hogweed
-From: =?utf-8?B?5L2V56OK?= <helei.sig11@bytedance.com>
-In-Reply-To: <YjslpEGnzgnExDk+@redhat.com>
-Date: Mon, 28 Mar 2022 17:14:56 +0800
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C2A51F70-B35B-484E-A2AC-3289DD8D8D6B@bytedance.com>
-References: <20220323024912.249789-1-pizhenwei@bytedance.com>
- <20220323024912.249789-5-pizhenwei@bytedance.com>
- <YjslpEGnzgnExDk+@redhat.com>
-To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+ :subject:to:cc:references:content-language:in-reply-to
+ :content-transfer-encoding;
+ bh=Mz3Bk+dT5FwbimJT2UkMDrF4GuvCgciWCNtQbRXzpWw=;
+ b=KWOOF17H5U0cVX+P4pc1SRbRM4QIzPaOpEo39oF6aKRcE6LhThnW6pzbnKo1o7Pa3C
+ yK46MLn/+1kgYCkng2iJqgH4vP6P6c+IEMoRYa3wNc1YigLL5XlppNb6BOUueB9fpYjg
+ MW2l+9ihmtG4td+3h+lcUCAp4QUIMQBKgbQCOscEOhkjPgk8YnaSXMq/T3XLfWUr8dXC
+ cacD/OTj8WWqWorUBR/KToS+yffdtomKG26Jb73uHJplwsqVSeAyMnP48ZzyopcEoRE+
+ TTfZjci79wZcTfdCaK0to7aHyIuv26pE1oLcxJvonG3CqsSO6ChdmAdCrZRdEn7qkplT
+ pG4A==
+X-Gm-Message-State: AOAM532KfGvkkbql8dnFf1clGHvL1VvLvjHWBz8E4mans5w4ljnmKoLo
+ MwYyxANpZo8jrwz+aS1ii6HG6A==
+X-Google-Smtp-Source: ABdhPJyr8Xc6biFNaLv6ZN9s8koW/bvt56ypcYZaTP0YTJ6+z34HOa3Y88BiQ6wTQ6VHa6jXqne9Ow==
+X-Received: by 2002:a05:6402:280f:b0:419:4c6f:a91b with SMTP id
+ h15-20020a056402280f00b004194c6fa91bmr15615993ede.84.1648469461107; 
+ Mon, 28 Mar 2022 05:11:01 -0700 (PDT)
+Received: from [10.7.3.3] ([195.216.219.14]) by smtp.gmail.com with ESMTPSA id
+ f5-20020a1709067f8500b006da68bfdfc7sm5896853ejr.12.2022.03.28.05.10.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Mar 2022 05:11:00 -0700 (PDT)
+Message-ID: <4c2faa25-d7b3-1a69-587f-f93183327f91@linaro.org>
+Date: Mon, 28 Mar 2022 14:10:58 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+From: Jerome Forissier <jerome.forissier@linaro.org>
+Subject: Re: [RFC PATCH 11/17] hw/sd: Add eMMC support
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20220318132824.1134400-1-clg@kaod.org>
+ <20220318132824.1134400-12-clg@kaod.org>
+Content-Language: en-US
+In-Reply-To: <20220318132824.1134400-12-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=helei.sig11@bytedance.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=jerome.forissier@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 28 Mar 2022 08:50:54 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,952 +93,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: herbert@gondor.apana.org.au, "Michael S. Tsirkin" <mst@redhat.com>,
- jasowang@redhat.com, qemu-devel@nongnu.org,
- zhenwei pi <pizhenwei@bytedance.com>,
- virtualization@lists.linux-foundation.org, arei.gonglei@huawei.com,
- linux-crypto@vger.kernel.org, =?utf-8?B?5L2V56OK?= <helei.sig11@bytedance.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Vincent Palatin <vpalatin@chromium.org>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Cédric,
+
+On 3/18/22 14:28, Cédric Le Goater wrote:
+> The initial eMMC support from Vincent Palatin was largely reworked to
+> match the current SD framework. The parameters mimick a real 4GB eMMC,
+> but it can be set to various sizes.
+> 
+> This adds a new QOM object class for EMMC devices.
+
+That is interesting. Is RPMB emulation implemented? I doesn't look like
+so, although...
 
 
-> On Mar 23, 2022, at 9:50 PM, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->=20
-> On Wed, Mar 23, 2022 at 10:49:10AM +0800, zhenwei pi wrote:
->> From: Lei He <helei.sig11@bytedance.com>
->>=20
->> Introduce ASN.1 decoder, and implement RSA algorithm by hogweed
->> from nettle. Thus QEMU supports a 'real' RSA backend to handle
->> request from guest side. It's important to test RSA offload case
->> without OS & hardware requirement.
->>=20
->> Signed-off-by: lei he <helei.sig11@bytedance.com>
->> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->> ---
->> crypto/akcipher-nettle.c  | 523 =
-++++++++++++++++++++++++++++++++++++++
->> crypto/akcipher.c         |   3 +
->> crypto/asn1_decoder.c     | 185 ++++++++++++++
->> crypto/asn1_decoder.h     |  42 +++
->=20
-> Please introduce the asn1 files in a separate commit, and also
-> provide a unit test to validate them in the same commit.
->=20
->> diff --git a/crypto/akcipher-nettle.c b/crypto/akcipher-nettle.c
->> new file mode 100644
->> index 0000000000..45b93af772
->> --- /dev/null
->> +++ b/crypto/akcipher-nettle.c
->> @@ -0,0 +1,523 @@
->> +/*
->> + * QEMU Crypto akcipher algorithms
->> + *
->> + * Copyright (c) 2022 Bytedance
->> + * Author: lei he <helei.sig11@bytedance.com>
->> + *
->> + * This library is free software; you can redistribute it and/or
->> + * modify it under the terms of the GNU Lesser General Public
->> + * License as published by the Free Software Foundation; either
->> + * version 2.1 of the License, or (at your option) any later =
-version.
->> + *
->> + * This library is distributed in the hope that it will be useful,
->> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
->> + * Lesser General Public License for more details.
->> + *
->> + * You should have received a copy of the GNU Lesser General Public
->> + * License along with this library; if not, see =
-<http://www.gnu.org/licenses/>.
->> + *
->> + */
->> +
->> +#include <stdbool.h>
->> +
->> +#include <nettle/rsa.h>
->> +
->> +#include "qemu/osdep.h"
->> +#include "qemu/host-utils.h"
->> +#include "asn1_decoder.h"
->> +#include "crypto/akcipher.h"
->> +#include "crypto/random.h"
->> +#include "qapi/error.h"
->> +#include "sysemu/cryptodev.h"
->> +
->> +typedef struct QCryptoNettleRsa {
->> +    QCryptoAkcipher akcipher;
->> +    struct rsa_public_key pub;
->> +    struct rsa_private_key priv;
->> +    QCryptoRsaPaddingAlgorithm padding_algo;
->> +    QCryptoRsaHashAlgorithm hash_algo;
->> +} QCryptoNettleRsa;
->=20
-> Call this QCryptoAkCipherNettleRSA
->=20
->> +
->> +struct asn1_parse_ctx {
->> +    const uint8_t *data;
->> +    size_t dlen;
->> +};
->> +
->> +#define Octet 8
->> +
->> +static int extract_value(void *p, const uint8_t *data, size_t dlen)
->> +{
->> +    struct asn1_parse_ctx *ctx =3D (struct asn1_parse_ctx *)p;
->> +    ctx->data =3D (uint8_t *)data;
->> +    ctx->dlen =3D dlen;
->> +
->> +    return 0;
->> +}
->> +
->> +static int extract_mpi(void *p, const uint8_t *data, size_t dlen)
->> +{
->> +    mpz_t *target =3D (mpz_t *)p;
->> +    nettle_mpz_set_str_256_u(*target, dlen, data);
->> +
->> +    return 0;
->> +}
->> +
->> +static QCryptoNettleRsa *qcrypto_nettle_rsa_malloc(void);
->> +
->> +static void qcrypto_nettle_rsa_destroy(void *ptr)
->> +{
->> +    QCryptoNettleRsa *rsa =3D (QCryptoNettleRsa *)ptr;
->> +    if (!rsa) {
->> +        return;
->> +    }
->> +
->> +    rsa_public_key_clear(&rsa->pub);
->> +    rsa_private_key_clear(&rsa->priv);
->> +    g_free(rsa);
->> +}
->> +
->> +static QCryptoAkcipher *qcrypto_nettle_new_rsa(
->> +    QCryptoAkcipherKeyType type,
->> +    const uint8_t *key,  size_t keylen,
->> +    QCryptoRsaOptions *opt, Error **errp);
->> +
->> +QCryptoAkcipher =
-*qcrypto_akcipher_nettle_new(QCryptoAkcipherAlgorithm alg,
->> +                                             QCryptoAkcipherKeyType =
-type,
->> +                                             const uint8_t *key,
->> +                                             size_t keylen, void =
-*para,
->> +                                             Error **errp)
->> +{
->> +    switch (alg) {
->> +    case QCRYPTO_AKCIPHER_ALG_RSA:
->> +        return qcrypto_nettle_new_rsa(type, key, keylen,
->> +                                      (QCryptoRsaOptions *)para, =
-errp);
->> +    default:
->> +        error_setg(errp, "Unsupported algorithm: %u", alg);
->> +        return NULL;
->> +    }
->> +
->> +    return NULL;
->> +}
->> +
->> +/**
->> + * Parse ber encoded rsa private key, asn1 schema:
->> + *        RsaPrivKey ::=3D SEQUENCE {
->> + *             version     INTEGER
->> + *             n           INTEGER
->> + *             e           INTEGER
->> + *             d           INTEGER
->> + *             p           INTEGER
->> + *             q           INTEGER
->> + *             e1          INTEGER
->> + *             e2          INTEGER
->> + *             u           INTEGER
->> + *         }
->> + */
->> +static int parse_rsa_private_key(QCryptoNettleRsa *rsa,
->> +                                 const uint8_t *key, size_t keylen)
->> +{
->> +    struct asn1_parse_ctx ctx;
->> +
->> +    if (ber_decode_seq(&key, &keylen, extract_value, &ctx) !=3D 0 ||
->> +        keylen !=3D 0) {
->> +        return -1;
->> +    }
->> +
->> +    if (ber_decode_int(&ctx.data, &ctx.dlen, NULL, NULL) !=3D 0 ||
->> +        ber_decode_int(&ctx.data, &ctx.dlen, extract_mpi, =
-&rsa->pub.n) !=3D 0 ||
->> +        ber_decode_int(&ctx.data, &ctx.dlen, extract_mpi, =
-&rsa->pub.e) !=3D 0 ||
->> +        ber_decode_int(&ctx.data, &ctx.dlen, extract_mpi, =
-&rsa->priv.d) !=3D 0 ||
->> +        ber_decode_int(&ctx.data, &ctx.dlen, extract_mpi, =
-&rsa->priv.p) !=3D 0 ||
->> +        ber_decode_int(&ctx.data, &ctx.dlen, extract_mpi, =
-&rsa->priv.q) !=3D 0 ||
->> +        ber_decode_int(&ctx.data, &ctx.dlen, extract_mpi, =
-&rsa->priv.a) !=3D 0 ||
->> +        ber_decode_int(&ctx.data, &ctx.dlen, extract_mpi, =
-&rsa->priv.b) !=3D 0 ||
->> +        ber_decode_int(&ctx.data, &ctx.dlen, extract_mpi, =
-&rsa->priv.c) !=3D 0 ||
->> +        ctx.dlen !=3D 0) {
->> +        return -1;
->> +    }
->> +
->> +    if (!rsa_public_key_prepare(&rsa->pub)) {
->> +        return -1;
->> +    }
->> +
->> +    /**
->> +     * Since in the kernel's unit test, the p, q, a, b, c of some
->> +     * private keys is 0, only the simplest length check is done =
-here
->> +     */
->> +    rsa->priv.size =3D rsa->pub.size;
->> +
->> +    return 0;
->> +}
->> +
->> +/**
->> + * Parse ber encoded rsa pubkey, asn1 schema:
->> + *        RsaPrivKey ::=3D SEQUENCE {
->> + *             n           INTEGER
->> + *             e           INTEGER
->> + *         }
->> + */
->> +static int parse_rsa_public_key(QCryptoNettleRsa *rsa,
->> +                                const uint8_t *key,
->> +                                size_t keylen)
->> +{
->> +    struct asn1_parse_ctx ctx;
->> +
->> +    if (ber_decode_seq(&key, &keylen, extract_value, &ctx) !=3D 0 ||
->> +        keylen !=3D 0) {
->> +        return -1;
->> +    }
->> +
->> +    if (ber_decode_int(&ctx.data, &ctx.dlen, extract_mpi, =
-&rsa->pub.n) !=3D 0 ||
->> +        ber_decode_int(&ctx.data, &ctx.dlen, extract_mpi, =
-&rsa->pub.e) !=3D 0 ||
->> +        ctx.dlen !=3D 0) {
->> +        return -1;
->> +    }
->> +
->> +    if (!rsa_public_key_prepare(&rsa->pub)) {
->> +        return -1;
->> +    }
->> +
->> +    return 0;
->> +}
->=20
-> I'd like to see these APIs for parsing RSA keys split out into
-> a separate file, crypto/rsakey.{c,h}.  Define a struct to hold
-> the RSA key parameters so it isn't tied to nettle, allowing
-> its potential reuse with a gcrypt/gnutls impl of these APIs
+> +    sd->ext_csd[EXT_CSD_RPMB_MULT] = 0x1; /* RPMB size */
 
-So we should define the following structures to avoid tieing to nettle?
+...this indicates that the device has one block (128 KB) of RPMB if I'm
+not mistaken.
 
-struct QCryptoRSAParameter {
-	uint8_t *data;
-       size_t data_len;
-};
 
-struct QCryptoRSAKey {
-	QCryptoRSAParameter n;
-	QCryptoRSAParameter e;
-	QCryptoRSAParameter d;
-	QCryptoRSAParameter p;
-	QCryptoRSAParameter q;
-       ...
-};
+I would be quite interested in testing and possibly helping out
+implement RPMB, although I must admit don't know much about QEMU
+internals. I have written some quick & dirty emulation code for RPMB at
+the Linux ioctl() level, see [1]. This code is useful for CI testing of
+the OP-TEE OS project [2], but having a lower level emulation in QEMU
+would be much better since the Linux kernel would "see" the device and
+report it in sysfs etc.
 
->=20
->> +
->> +static void qcrypto_nettle_rsa_set_akcipher_size(QCryptoAkcipher =
-*akcipher,
->> +                                                 int key_size)
->> +{
->> +    akcipher->max_plaintext_len =3D key_size;
->> +    akcipher->max_ciphertext_len =3D key_size;
->> +    akcipher->max_signature_len =3D key_size;
->> +    akcipher->max_dgst_len =3D key_size;
->> +}
->> +
->> +static QCryptoAkcipher *qcrypto_nettle_new_rsa(
->> +    QCryptoAkcipherKeyType type,
->> +    const uint8_t *key, size_t keylen,
->> +    QCryptoRsaOptions *opt, Error **errp)
->> +{
->> +    QCryptoNettleRsa *rsa =3D qcrypto_nettle_rsa_malloc();
->> +    rsa->padding_algo =3D opt->padding_algo;
->> +    rsa->hash_algo =3D opt->hash_algo;
->> +
->> +    switch (type) {
->> +    case QCRYPTO_AKCIPHER_KEY_TYPE_PRIVATE:
->> +        if (parse_rsa_private_key(rsa, key, keylen) =3D=3D 0) {
->> +            qcrypto_nettle_rsa_set_akcipher_size(
->> +                (QCryptoAkcipher *)rsa, rsa->priv.size);
->> +            return (QCryptoAkcipher *)rsa;
->> +        }
->> +        error_setg(errp, "Failed to parse rsa private key");
->=20
-> This code pattern is back to front of what we would normally
-> do.  ie I'd expect it to look like this:
->=20
->         if (parse_rsa_private_key(rsa, key, keylen) !=3D 0) {
->             error_setg(errp, "Failed to parse rsa private key");
-> 	     goto error;
->         }
->=20
->         qcrypto_nettle_rsa_set_akcipher_size(
->                 (QCryptoAkcipher *)rsa, rsa->priv.size);
->         return (QCryptoAkcipher *)rsa;
->=20
->=20
->=20
->> +        break;
->> +
->> +    case QCRYPTO_AKCIPHER_KEY_TYPE_PUBLIC:
->> +        if (parse_rsa_public_key(rsa, key, keylen) =3D=3D 0) {
->> +            qcrypto_nettle_rsa_set_akcipher_size(
->> +                (QCryptoAkcipher *)rsa, rsa->pub.size);
->> +            return (QCryptoAkcipher *)rsa;
->> +        }
->> +        error_setg(errp, "Failed to parse rsa public rsa key");
->> +        break;
->> +
->> +    default:
->> +        error_setg(errp, "Unknown akcipher key type %d", type);
->> +    }
->> +
->> +    qcrypto_nettle_rsa_destroy(rsa);
->> +    return NULL;
->> +}
->> +
->> +
->> +/**
->> + * nettle does not provide RSA interfaces without padding,
->> + * here we implemented rsa algorithm with nettle/mpz.
->> + */
->=20
-> Urgh, this is really unpleasant. I don't want to see QEMU
-> implementing any further crypto algorithms directly, only
-> ever consume and wrap impls from external libraries. We've
-> got a few in QEMU for historical reasons, but don't want
-> to add more. There are too many ways to mess up crypto
-> opening the door to subtle timing / side channel attacks,
-> and crypto impls also cause distributors pain with export
-> compliance rules.
->=20
-> If nettle doesn't provide an impl without padding, then
-> simply don't implement it. Report an error if the caller
-> tries to enable it.
->=20
-> An alternate gcrypt impl of these APIs might allow for
-> an impl without padding.
->=20
->> +static int _rsa_enc_raw(QCryptoNettleRsa *rsa, const void *data,
->> +                        size_t data_len, void *enc,
->> +                        size_t enc_len, Error **errp)
->> +{
->> +    mpz_t m;
->> +    int ret;
->> +
->> +    nettle_mpz_init_set_str_256_u(m, data_len, data);
->> +    /* (1) Validate 0 <=3D m < n */
->> +    if (mpz_cmp_ui(m, 0) < 0 || mpz_cmp(m, rsa->pub.n) >=3D 0) {
->> +        error_setg(errp, "Failed to validate input data");
->> +        return -1;
->> +    }
->> +
->> +    /* (2) c =3D m ^ e mod n */
->> +    mpz_powm(m, m, rsa->pub.e, rsa->pub.n);
->> +    if ((mpz_sizeinbase(m, 2) + Octet - 1) / Octet > enc_len) {
->> +        ret =3D -1;
->> +    } else {
->> +        ret =3D enc_len;
->> +        nettle_mpz_get_str_256(enc_len, (uint8_t *)enc, m);
->> +    }
->> +
->> +    mpz_clear(m);
->> +
->> +    return ret;
->> +}
->> +
->> +static int _rsa_dec_raw(QCryptoNettleRsa *rsa,
->> +                        const void *enc,
->> +                        size_t enc_len,
->> +                        void *data,
->> +                        size_t data_len,
->> +                        Error **errp)
->> +{
->> +    mpz_t c;
->> +    int ret;
->> +    nettle_mpz_init_set_str_256_u(c, enc_len, enc);
->> +
->> +    /* (1) Validate 0 <=3D c < n */
->> +    if (mpz_cmp_ui(c, 0) < 0 || mpz_cmp(c, rsa->pub.n) >=3D 0) {
->> +        error_setg(errp, "Failed to validate input data");
->> +        return -1;
->> +    }
->> +
->> +    /* (2) m =3D c ^ d mod n */
->> +    mpz_powm(c, c, rsa->priv.d, rsa->pub.n);
->> +    if ((mpz_sizeinbase(c, 2) + Octet - 1) / Octet > data_len) {
->> +        ret =3D -1;
->> +    } else {
->> +        ret =3D data_len;
->> +        nettle_mpz_get_str_256(data_len, (uint8_t *)data, c);
->> +    }
->> +
->> +    mpz_clear(c);
->> +
->> +    return ret;
->> +}
->> +
->> +static void wrap_nettle_random_func(void *ctx, size_t len, uint8_t =
-*out)
->> +{
->> +    /* TODO: check result */
->> +    qcrypto_random_bytes(out, len, NULL);
->> +}
->> +
->> +static int qcrypto_nettle_rsa_encrypt(QCryptoAkcipher =
-*akcipher_driver,
->> +                                      const void *data, size_t =
-data_len,
->> +                                      void *enc, size_t enc_len,
->> +                                      Error **errp)
->> +{
->> +
->> +    QCryptoNettleRsa *rsa =3D
->> +        container_of(akcipher_driver, QCryptoNettleRsa, akcipher);
->> +    mpz_t c;
->> +    int enc_ret;
->> +
->> +    if (data_len > rsa->pub.size || enc_len !=3D rsa->pub.size) {
->> +        error_setg(errp, "Invalid buffer size");
->> +        return -1;
->> +    }
->> +
->> +    switch (rsa->padding_algo) {
->> +    case QCRYPTO_RSA_PADDING_ALG_RAW:
->> +        return _rsa_enc_raw(rsa, data, data_len, enc, enc_len, =
-errp);
->> +
->> +    case QCRYPTO_RSA_PADDING_ALG_PKCS1:
->> +        mpz_init(c);
->> +        enc_ret =3D rsa_encrypt(&rsa->pub, NULL, =
-wrap_nettle_random_func,
->> +                              data_len, (uint8_t *)data, c);
->> +        if (enc_ret !=3D 1) {
->> +            error_setg(errp, "Failed to encrypt");
->> +            enc_ret =3D -1;
->> +        } else {
->> +            nettle_mpz_get_str_256(enc_len, (uint8_t *)enc, c);
->> +            enc_ret =3D enc_len;
->> +        }
->> +        mpz_clear(c);
->> +        return enc_ret;
->> +
->> +    default:
->> +        error_setg(errp, "Unknown padding");
->> +        return -1;
->> +    }
->> +
->> +    return -1;
->> +}
->> +
->> +static int qcrypto_nettle_rsa_decrypt(QCryptoAkcipher *akcipher,
->> +                                      const void *enc, size_t =
-enc_len,
->> +                                      void *data, size_t data_len,
->> +                                      Error **errp)
->> +{
->> +    QCryptoNettleRsa *rsa =3D container_of(akcipher, =
-QCryptoNettleRsa, akcipher);
->> +    mpz_t c;
->> +    int ret;
->> +    if (enc_len > rsa->priv.size) {
->> +        error_setg(errp, "Invalid buffer size");
->> +        return -1;
->> +    }
->> +
->> +    switch (rsa->padding_algo) {
->> +    case QCRYPTO_RSA_PADDING_ALG_RAW:
->> +        ret =3D _rsa_dec_raw(rsa, enc, enc_len, data, data_len, =
-errp);
->> +        break;
->> +
->> +    case QCRYPTO_RSA_PADDING_ALG_PKCS1:
->> +        nettle_mpz_init_set_str_256_u(c, enc_len, enc);
->> +        if (!rsa_decrypt(&rsa->priv, &data_len, (uint8_t *)data, c)) =
-{
->> +            error_setg(errp, "Failed to decrypt");
->> +            ret =3D -1;
->> +        } else {
->> +            ret =3D data_len;
->> +        }
->> +
->> +        mpz_clear(c);
->> +        break;
->> +
->> +    default:
->> +        ret =3D -1;
->> +        error_setg(errp, "Unknown padding");
->> +    }
->> +
->> +    return ret;
->> +}
->> +
->> +static int qcrypto_nettle_rsa_sign(QCryptoAkcipher *akcipher,
->> +                                   const void *data, size_t =
-data_len,
->> +                                   void *sig, size_t sig_len, Error =
-**errp)
->> +{
->> +    QCryptoNettleRsa *rsa =3D container_of(akcipher, =
-QCryptoNettleRsa, akcipher);
->> +    int ret;
->> +    mpz_t s;
->> +
->> +    /**
->> +     * The RSA algorithm cannot be used for signature/verification
->> +     * without padding.
->> +     */
->> +    if (rsa->padding_algo =3D=3D QCRYPTO_RSA_PADDING_ALG_RAW) {
->> +        error_setg(errp, "Try to make signature without padding");
->> +        return -1;
->> +    }
->> +
->> +    if (data_len > rsa->priv.size || sig_len !=3D rsa->priv.size) {
->> +        error_setg(errp, "Invalid buffer size");
->> +        return -1;
->> +    }
->> +
->> +    mpz_init(s);
->> +    switch (rsa->hash_algo) {
->> +    case QCRYPTO_RSA_HASH_ALG_MD5:
->> +        ret =3D rsa_md5_sign_digest(&rsa->priv, data, s);
->> +        break;
->> +
->> +    case QCRYPTO_RSA_HASH_ALG_SHA1:
->> +        ret =3D rsa_sha1_sign_digest(&rsa->priv, data, s);
->> +        break;
->> +
->> +    case QCRYPTO_RSA_HASH_ALG_SHA256:
->> +        ret =3D rsa_sha256_sign_digest(&rsa->priv, data, s);
->> +        break;
->> +
->> +    case QCRYPTO_RSA_HASH_ALG_SHA512:
->> +        ret =3D rsa_sha512_sign_digest(&rsa->priv, data, s);
->> +        break;
->> +
->> +    default:
->> +        error_setg(errp, "Unknown hash algorithm");
->> +        ret =3D -1;
->> +        goto clear;
->> +    }
->> +
->> +    if (ret !=3D 1) {
->> +        error_setg(errp, "Failed to make signature");
->> +        ret =3D -1;
->> +        goto clear;
->> +    }
->> +    nettle_mpz_get_str_256(sig_len, (uint8_t *)sig, s);
->> +    ret =3D sig_len;
->> +
->> +clear:
->> +    mpz_clear(s);
->> +
->> +    return ret;
->> +}
->> +
->> +static int qcrypto_nettle_rsa_verify(QCryptoAkcipher *akcipher,
->> +                                     const void *sig, size_t =
-sig_len,
->> +                                     const void *data, size_t =
-data_len,
->> +                                     Error **errp)
->> +{
->> +    QCryptoNettleRsa *rsa =3D container_of(akcipher, =
-QCryptoNettleRsa, akcipher);
->> +
->> +    int ret;
->> +    mpz_t s;
->> +
->> +    /**
->> +     * The RSA algorithm cannot be used for signature/verification
->> +     * without padding.
->> +     */
->> +    if (rsa->padding_algo =3D=3D QCRYPTO_RSA_PADDING_ALG_RAW) {
->> +        error_setg(errp, "Operation not supported");
->> +        return -1;
->> +    }
->> +    if (data_len > rsa->pub.size || sig_len < rsa->pub.size) {
->> +        error_setg(errp, "Invalid buffer size");
->> +        return -1;
->> +    }
->> +
->> +    nettle_mpz_init_set_str_256_u(s, sig_len, sig);
->> +    switch (rsa->hash_algo) {
->> +    case QCRYPTO_RSA_HASH_ALG_MD5:
->> +        ret =3D rsa_md5_verify_digest(&rsa->pub, data, s);
->> +        break;
->> +
->> +    case QCRYPTO_RSA_HASH_ALG_SHA1:
->> +        ret =3D rsa_sha1_verify_digest(&rsa->pub, data, s);
->> +        break;
->> +
->> +    case QCRYPTO_RSA_HASH_ALG_SHA256:
->> +        ret =3D rsa_sha256_verify_digest(&rsa->pub, data, s);
->> +        break;
->> +
->> +    case QCRYPTO_RSA_HASH_ALG_SHA512:
->> +        ret =3D rsa_sha512_verify_digest(&rsa->pub, data, s);
->> +        break;
->> +
->> +    default:
->> +        error_setg(errp, "Unsupported hash algorithm");
->> +        ret =3D -1;
->> +        goto clear;
->> +    }
->> +
->> +    if (ret !=3D 1) {
->> +        error_setg(errp, "Failed to verify");
->> +        ret =3D -1;
->> +        goto clear;
->> +    }
->> +    ret =3D 0;
->> +
->> +clear:
->> +    mpz_clear(s);
->> +
->> +    return ret;
->> +}
->> +
->> +static int qcrypto_nettle_rsa_free(struct QCryptoAkcipher *akcipher,
->> +                                   Error **errp)
->> +{
->> +    qcrypto_nettle_rsa_destroy(akcipher);
->> +    return 0;
->> +}
->> +
->> +QCryptoAkcipherDriver nettle_rsa =3D {
->> +    .encrypt =3D qcrypto_nettle_rsa_encrypt,
->> +    .decrypt =3D qcrypto_nettle_rsa_decrypt,
->> +    .sign =3D qcrypto_nettle_rsa_sign,
->> +    .verify =3D qcrypto_nettle_rsa_verify,
->> +    .free =3D qcrypto_nettle_rsa_free,
->> +};
->> +
->> +static QCryptoNettleRsa *qcrypto_nettle_rsa_malloc(void)
->> +{
->> +    QCryptoNettleRsa *rsa =3D g_malloc0(sizeof(QCryptoNettleRsa));
->=20
-> s/g_mallo0/g_new0/
->=20
->> +    memset(rsa, 0, sizeof(QCryptoNettleRsa));
->=20
-> It is already initialized to zero by the allocator above.
->=20
->> +    rsa->akcipher.driver =3D &nettle_rsa;
->> +    rsa_public_key_init(&rsa->pub);
->> +    rsa_private_key_init(&rsa->priv);
->=20
-> I don't think this method should exist at all though. It only
-> has one caller, so just put the code inline there.
->=20
->> +
->> +    return rsa;
->> +}
->> diff --git a/crypto/akcipher.c b/crypto/akcipher.c
->> index 1e52f2fd76..b5c04e8424 100644
->> --- a/crypto/akcipher.c
->> +++ b/crypto/akcipher.c
->> @@ -31,6 +31,9 @@ QCryptoAkcipher =
-*qcrypto_akcipher_new(QCryptoAkcipherAlgorithm alg,
->> {
->>     QCryptoAkcipher *akcipher =3D NULL;
->>=20
->> +    akcipher =3D qcrypto_akcipher_nettle_new(alg, type, key, keylen,
->> +                                           para, errp);
->> +
->>     return akcipher;
->> }
->=20
-> Hard-wiring this to use the nettle impl is not at all desirable. It
-> needs to use a pluggable approach, with a strong preferance to match
-> the design of the crypto/cipher.c
->=20
->>=20
->> diff --git a/crypto/asn1_decoder.c b/crypto/asn1_decoder.c
->> new file mode 100644
->> index 0000000000..bfb145e84e
->> --- /dev/null
->> +++ b/crypto/asn1_decoder.c
->> @@ -0,0 +1,185 @@
->> +/*
->> + * QEMU Crypto akcipher algorithms
->=20
-> This comment is wrong
->=20
->> + *
->> + * Copyright (c) 2022 Bytedance
->> + * Author: lei he <helei.sig11@bytedance.com>
->> + *
->> + * This library is free software; you can redistribute it and/or
->> + * modify it under the terms of the GNU Lesser General Public
->> + * License as published by the Free Software Foundation; either
->> + * version 2.1 of the License, or (at your option) any later =
-version.
->> + *
->> + * This library is distributed in the hope that it will be useful,
->> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
->> + * Lesser General Public License for more details.
->> + *
->> + * You should have received a copy of the GNU Lesser General Public
->> + * License along with this library; if not, see =
-<http://www.gnu.org/licenses/>.
->> + *
->> + */
->> +
->> +#include <stdint.h>
->> +#include <stddef.h>
->> +
->> +#include "crypto/asn1_decoder.h"
->> +
->> +enum ber_type_tag {
->> +    ber_type_tag_bool =3D 0x1,
->> +    ber_type_tag_int =3D 0x2,
->> +    ber_type_tag_bit_str =3D 0x3,
->> +    ber_type_tag_oct_str =3D 0x4,
->> +    ber_type_tag_oct_null =3D 0x5,
->> +    ber_type_tag_oct_oid =3D 0x6,
->> +    ber_type_tag_seq =3D 0x10,
->> +    ber_type_tag_set =3D 0x11,
->> +};
->> +
->> +#define BER_CONSTRUCTED_MASK 0x20
->> +#define BER_SHORT_LEN_MASK 0x80
->> +
->> +static uint8_t ber_peek_byte(const uint8_t **data, size_t *dlen)
->> +{
->> +    return **data;
->> +}
->> +
->> +static int invoke_callback(BerDecodeCb cb, void *ctx,
->> +                           const uint8_t *value, size_t vlen)
->> +{
->> +    if (!cb) {
->> +        return 0;
->> +    }
->> +
->> +    return cb(ctx, value, vlen);
->> +}
->> +
->> +static void ber_cut_nbytes(const uint8_t **data, size_t *dlen,
->> +                           size_t nbytes)
->> +{
->> +    *data +=3D nbytes;
->> +    *dlen -=3D nbytes;
->> +}
->> +
->> +static uint8_t ber_cut_byte(const uint8_t **data, size_t *dlen)
->> +{
->> +    uint8_t val =3D ber_peek_byte(data, dlen);
->> +
->> +    ber_cut_nbytes(data, dlen, 1);
->> +
->> +    return val;
->> +}
->> +
->> +static int ber_extract_definite_data(const uint8_t **data, size_t =
-*dlen,
->> +                                     BerDecodeCb cb, void *ctx)
->> +{
->> +    const uint8_t *value;
->> +    size_t vlen =3D 0;
->> +    uint8_t byte_count =3D ber_cut_byte(data, dlen);
->> +
->> +    /* short format of definite-length */
->> +    if (!(byte_count & BER_SHORT_LEN_MASK)) {
->> +        if (byte_count > *dlen) {
->> +            return -1;
->> +        }
->> +
->> +        value =3D *data;
->> +        vlen =3D byte_count;
->> +        ber_cut_nbytes(data, dlen, vlen);
->> +
->> +        return invoke_callback(cb, ctx, value, vlen);
->> +    }
->> +
->> +    /* Ignore highest bit */
->> +    byte_count &=3D ~BER_SHORT_LEN_MASK;
->> +
->> +    /*
->> +     * size_t is enough to express the length, although the ber =
-encoding
->> +     * standard supports larger length.
->> +     */
->> +    if (byte_count > sizeof(size_t)) {
->> +        return -1;
->> +    }
->> +
->> +    while (byte_count--) {
->> +        vlen <<=3D 8;
->> +        vlen +=3D ber_cut_byte(data, dlen);
->> +    }
->> +
->> +    if (vlen > *dlen) {
->> +        return -1;
->> +    }
->> +
->> +    value =3D *data;
->> +    ber_cut_nbytes(data, dlen, vlen);
->> +
->> +    return invoke_callback(cb, ctx, value, vlen);
->> +}
->> +
->> +static int ber_extract_undefinite_data(const uint8_t **data, size_t =
-*dlen,
->> +                                       BerDecodeCb cb, void *ctx)
->> +{
->> +    size_t vlen =3D 0;
->> +    const uint8_t *value;
->> +
->> +    if (*dlen < 3) {
->> +        return -1;
->> +    }
->> +
->> +    /* skip undefinite-length-mask 0x80 */
->> +    ber_cut_nbytes(data, dlen, 1);
->> +
->> +    value =3D *data;
->> +    while (vlen < *dlen) {
->> +        if ((*data)[vlen] !=3D 0) {
->> +            vlen++;
->> +            continue;
->> +        }
->> +
->> +        if (vlen + 1 < *dlen && (*data[vlen + 1] =3D=3D 0)) {
->> +            ber_cut_nbytes(data, dlen, vlen + 2);
->> +            return invoke_callback(cb, ctx, value, vlen);
->> +        }
->> +
->> +        vlen +=3D 2;
->> +    }
->> +
->> +    return -1;
->> +}
->> +
->> +static int ber_extract_data(const uint8_t **data, size_t *dlen,
->> +                            BerDecodeCb cb, void *ctx)
->> +{
->> +    uint8_t val =3D ber_peek_byte(data, dlen);
->> +
->> +    if (val =3D=3D BER_SHORT_LEN_MASK) {
->> +        return ber_extract_undefinite_data(data, dlen, cb, ctx);
->> +    }
->> +
->> +    return ber_extract_definite_data(data, dlen, cb, ctx);
->> +}
->> +
->> +int ber_decode_int(const uint8_t **data, size_t *dlen,
->> +                   BerDecodeCb cb, void *ctx)
->> +{
->> +    uint8_t tag =3D ber_cut_byte(data, dlen);
->> +
->> +    /* INTEGER must encoded in primitive-form */
->> +    if (tag !=3D ber_type_tag_int) {
->> +        return -1;
->> +    }
->> +
->> +    return ber_extract_data(data, dlen, cb, ctx);
->> +}
->> +
->> +int ber_decode_seq(const uint8_t **data, size_t *dlen,
->> +                   BerDecodeCb cb, void *ctx)
->> +{
->> +    uint8_t val =3D ber_cut_byte(data, dlen);
->> +
->> +    /* SEQUENCE must use constructed form */
->> +    if (val !=3D (ber_type_tag_seq | BER_CONSTRUCTED_MASK)) {
->> +        return -1;
->> +    }
->> +
->> +    return ber_extract_data(data, dlen, cb, ctx);
->> +}
->=20
-> Nettle has some asn1 APIs - can we not use those instead of
-> implementing all it ourselves ?
->=20
+[1] https://github.com/OP-TEE/optee_client/blob/3.16.0/tee-supplicant/src/rpmb.c#L494-L571
+[2] https://github.com/OP-TEE/optee_os/
 
-Of course, we can use the API provided by nettle. There is a little =
-doubt=20
-here: If we use nettle's API directly, the implementation of rsakey.{hc} =
-will=20
-be tied to nettle, or we should define a new structure independent of=20
-nettle/mpz_t to save the parameters of RSA?
-
->=20
->> diff --git a/include/crypto/akcipher.h b/include/crypto/akcipher.h
->> index 03cc3bf46b..2ec7f0f8d7 100644
->> --- a/include/crypto/akcipher.h
->> +++ b/include/crypto/akcipher.h
->> @@ -135,5 +135,21 @@ int qcrypto_akcipher_verify(struct =
-QCryptoAkcipher *akcipher,
->>=20
->> int qcrypto_akcipher_free(struct QCryptoAkcipher *akcipher, Error =
-**errp);
->>=20
->> +#ifdef CONFIG_HOGWEED
->> +QCryptoAkcipher =
-*qcrypto_akcipher_nettle_new(QCryptoAkcipherAlgorithm alg,
->> +                                             QCryptoAkcipherKeyType =
-type,
->> +                                             const uint8_t *key, =
-size_t keylen,
->> +                                             void *para, Error =
-**errp);
->> +#else
->> +static inline QCryptoAkcipher *qcrypto_akcipher_nettle_new(
->> +                                             =
-QCryptoAkcipherAlgorithm alg,
->> +                                             QCryptoAkcipherKeyType =
-type,
->> +                                             const uint8_t *key, =
-size_t keylen,
->> +                                             void *para, Error =
-**errp)
->> +{
->> +    error_setg(errp, "qcrypto akcipher has no nettle/hogweed =
-support");
->> +    return NULL;
->> +}
->> +#endif
->=20
->=20
-> These methods are private impl details and should not be in the
-> akcipher.h public header. This ties back to my earlier comment
-> about making this akcipher impl pluggable in the same way as
-> the cipher impl is.
->=20
->=20
-> With regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    =
-https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            =
-https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    =
-https://www.instagram.com/dberrange :|
-
+Thanks,
+-- 
+Jerome
 
