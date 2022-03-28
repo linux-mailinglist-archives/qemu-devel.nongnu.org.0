@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26F914EA24A
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:18:10 +0200 (CEST)
-Received: from localhost ([::1]:45876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C20A4EA249
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:18:09 +0200 (CEST)
+Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYwkb-0004TU-7j
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:18:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49106)
+	id 1nYwkZ-0004NT-Ue
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:18:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nYwiL-0001XU-9m
+ id 1nYwiL-0001XP-3V
  for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:49 -0400
-Received: from [2a00:1450:4864:20::134] (port=36588
- helo=mail-lf1-x134.google.com)
+Received: from [2a00:1450:4864:20::22f] (port=40893
+ helo=mail-lj1-x22f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nYwiJ-0003p3-86
+ id 1nYwiJ-0003p5-94
  for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:48 -0400
-Received: by mail-lf1-x134.google.com with SMTP id bt26so26965278lfb.3
+Received: by mail-lj1-x22f.google.com with SMTP id g24so20947069lja.7
  for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:15:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3HqMSA/clTPoDdP4aVujnhVnvcdeuLUE6tAeAz9JVuU=;
- b=U6KwcpitTnJEmpICCxE8RxZKMC/V+mE9+UelVwsmhskRFAZtZOkY7CEeYjVea8bSY9
- lbxZnh/cWDpRyQ7PdRgO39GzYvazNzWUqby3EpCwJcKjxUzYndsN/2IMAvovxdH0uHJs
- RzgMgx8M43eSCaD9aNAu9blbkWHgMOLyM7UmXIIfaY1pX1R0W1DOaXGQ34YU6K2tNp4s
- QHueG8Ao7KfgkqQPGVH6Zu/f3xaVJBtXw++ScJw1hCdMNCpverL1l2x7P40egQxMlJtW
- ikZyb6GxonPdNVpGPD280sUPm6P0GKrsdD0YuAahSaF43fiY6HRrOjdK0IiVTP+bXNwg
- 7tTg==
+ bh=F/qWJafsiGLISrirR9TpiO6oI2wNp5jh8NKPrpO9D6Y=;
+ b=RqN4tQztKbFzCIC6ZO3yl9XrwK4leQvHMyNb4Ie1wQp1MrIXdWkEqOKB1fTQTKNZkI
+ DYkohGvtXLOD5pX8wqVJW9ksbP1PpA/aIdVFdLh0maSaoP2p7QWWb5R9f26C7/zNnGt9
+ eAY6TBuTEOQvVj9S9sJCDiTneHlSyZZwj8ojGQsliPqqeIXEXGCTYN6w2SOZxHlJ8IXr
+ X1H46Pv2yegFhWHEUVoAck0uCuwS2UkJ5tBWCbxOeCeFrrpmtVCrapexFIWiUB+s3evj
+ HMsmVc4UTu95ZAo6LvukO10JFupuqm6o5aX0BO0rIa/P3bbMyTKy1ChnadYJSt7ePUi1
+ PmQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3HqMSA/clTPoDdP4aVujnhVnvcdeuLUE6tAeAz9JVuU=;
- b=w3KtFaWzMgbuvbRfs2SYntVNdJWJ7gzTiaTZOTQHRjm000sDRtxyn6/YUpkuDZ7wf8
- GH3KZBdNMQAF4p981RHjP2rfNCBbmkVQE+TorFhAKJLVVplje7MIoovQuI/C7iECaQM/
- jNWLNY8Nw2QISyrOD4Zr/ZqhMO0Xjwtriv6i4s2SgS579XEfZaZEfwXcZ4qfgCfd+sQ3
- UFX50OrZrjjHfVRa2HLunDtrh80HMh1qdihBxTR6r0zYCGTNQSXPoS/dJAbGvU9E/RKa
- NYejOz9wITzjPKzlx7O/94k6hrmWrGh0ssVdIBPS73Ma15+gm9J3Y/QWAj0NRT3S4FP2
- uMMg==
-X-Gm-Message-State: AOAM5339EaDUnulTqoWhGsXzlNv3zDVAJ9BJKzIxrFIW+dlLK8nstcOr
- l+NtAbzCnKT794P7dSrpquK+rMEzwmzBoA==
-X-Google-Smtp-Source: ABdhPJyCpmZB7Ch4bAB17JknwzryvwUxDzNqWd2dptoppnJuRzncbpCAPJUrNYAn2OY2pDUaNn443A==
-X-Received: by 2002:a05:6512:c29:b0:44a:865e:19c4 with SMTP id
- z41-20020a0565120c2900b0044a865e19c4mr11389792lfu.306.1648502144416; 
- Mon, 28 Mar 2022 14:15:44 -0700 (PDT)
+ bh=F/qWJafsiGLISrirR9TpiO6oI2wNp5jh8NKPrpO9D6Y=;
+ b=mtukv5BsmqNCCnGtAX7cyO/4aNkycum8r/AlHuTYD5uBSEH/bu7Bk5Lw+ICU0aA2Rq
+ b+eOpVFY/HbnLq5VK6d5Ph0NOQ5xGBswYf1bOmed4Qtj26Exjy9KlyIRivxrZmTwgwWf
+ 2J8PvaUXZdC6oxM0HdRTzwUvNHDBlWBczvEwPjJG6IbyD8b27M2ebgLK4HxmdEIAez74
+ MXOTbnhEdM77BgpQ3MlvF5uTT8U7zcUi82EtIVIMH7ZNIsfQma1VBMVHtV5rnfIL20jK
+ znyQcLKhLExCOOph4nq9nVomCcF05Ua9hAxXGvR80DoGXL74whEzerdCWUK+U4F1VPQq
+ zfgg==
+X-Gm-Message-State: AOAM531P8jwOD/I3Mwm+j4waGytw+SJ2xdsn2FK7Ubepd2UNaaREr2mw
+ mBF2bPNFJWxEMFWLyOy+g+kZI3Liqn76uA==
+X-Google-Smtp-Source: ABdhPJzUmT+E149adL/v7Zw6fNhchFirVLbFB51wklkrN3MRtV3N0kWH3U0r35lvAtFfPd92YuKxcQ==
+X-Received: by 2002:a05:651c:1699:b0:24a:d5a0:bfb2 with SMTP id
+ bd25-20020a05651c169900b0024ad5a0bfb2mr1931657ljb.30.1648502145826; 
+ Mon, 28 Mar 2022 14:15:45 -0700 (PDT)
 Received: from localhost.localdomain ([93.175.1.181])
  by smtp.gmail.com with ESMTPSA id
- k15-20020a2e92cf000000b002493cc687f3sm1855827ljh.45.2022.03.28.14.15.43
+ k15-20020a2e92cf000000b002493cc687f3sm1855827ljh.45.2022.03.28.14.15.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Mar 2022 14:15:43 -0700 (PDT)
+ Mon, 28 Mar 2022 14:15:45 -0700 (PDT)
 From: Maxim Davydov <maxim.davydov@openvz.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/9] pci: add null-pointer check
-Date: Tue, 29 Mar 2022 00:15:32 +0300
-Message-Id: <20220328211539.90170-3-maxim.davydov@openvz.org>
+Subject: [PATCH v1 3/9] mem: appropriate handling getting mem region
+Date: Tue, 29 Mar 2022 00:15:33 +0300
+Message-Id: <20220328211539.90170-4-maxim.davydov@openvz.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220328211539.90170-1-maxim.davydov@openvz.org>
 References: <20220328211539.90170-1-maxim.davydov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::134
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=maxim.davydov@openvz.org; helo=mail-lf1-x134.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=maxim.davydov@openvz.org; helo=mail-lj1-x22f.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -97,90 +97,71 @@ Cc: eduardo@habkost.net, v.sementsov-og@mail.ru, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Call pci_bus_get_w64_range can fail with the segmentation fault. For
-example, this can happen during attempt to get pci-hole64-end immediately
-after initialization.
+Attempt to get memory region if the device doesn't have hostmem may not be
+an error. This can be happen immediately after initialization (getting
+value without default one).
 
 Signed-off-by: Maxim Davydov <maxim.davydov@openvz.org>
 ---
- hw/pci-host/i440fx.c | 17 +++++++++++------
- hw/pci-host/q35.c    | 17 +++++++++++------
- 2 files changed, 22 insertions(+), 12 deletions(-)
+ hw/i386/sgx-epc.c | 5 ++++-
+ hw/mem/nvdimm.c   | 6 ++++++
+ hw/mem/pc-dimm.c  | 5 +++++
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index e08716142b..71a114e551 100644
---- a/hw/pci-host/i440fx.c
-+++ b/hw/pci-host/i440fx.c
-@@ -158,10 +158,12 @@ static uint64_t i440fx_pcihost_get_pci_hole64_start_value(Object *obj)
-     PCIHostState *h = PCI_HOST_BRIDGE(obj);
-     I440FXState *s = I440FX_PCI_HOST_BRIDGE(obj);
-     Range w64;
--    uint64_t value;
-+    uint64_t value = 0;
+diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
+index d664829d35..1a4c8acdcc 100644
+--- a/hw/i386/sgx-epc.c
++++ b/hw/i386/sgx-epc.c
+@@ -121,9 +121,12 @@ static MemoryRegion *sgx_epc_md_get_memory_region(MemoryDeviceState *md,
+ {
+     SGXEPCDevice *epc = SGX_EPC(md);
+     HostMemoryBackend *hostmem;
++    DeviceState *dev = DEVICE(epc);
  
--    pci_bus_get_w64_range(h->bus, &w64);
--    value = range_is_empty(&w64) ? 0 : range_lob(&w64);
-+    if (h->bus) {
-+        pci_bus_get_w64_range(h->bus, &w64);
-+        value = range_is_empty(&w64) ? 0 : range_lob(&w64);
-+    }
-     if (!value && s->pci_hole64_fix) {
-         value = pc_pci_hole64_start();
+     if (!epc->hostmem) {
+-        error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property must be set");
++        if (dev->realized) {
++            error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property must be set");
++        }
+         return NULL;
      }
-@@ -191,10 +193,13 @@ static void i440fx_pcihost_get_pci_hole64_end(Object *obj, Visitor *v,
-     I440FXState *s = I440FX_PCI_HOST_BRIDGE(obj);
-     uint64_t hole64_start = i440fx_pcihost_get_pci_hole64_start_value(obj);
-     Range w64;
--    uint64_t value, hole64_end;
-+    uint64_t value = 0;
-+    uint64_t hole64_end;
  
--    pci_bus_get_w64_range(h->bus, &w64);
--    value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
-+    if (h->bus) {
-+        pci_bus_get_w64_range(h->bus, &w64);
-+        value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
-+    }
-     hole64_end = ROUND_UP(hole64_start + s->pci_hole64_size, 1ULL << 30);
-     if (s->pci_hole64_fix && value < hole64_end) {
-         value = hole64_end;
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index ab5a47aff5..d679fd85ef 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -124,10 +124,12 @@ static uint64_t q35_host_get_pci_hole64_start_value(Object *obj)
-     PCIHostState *h = PCI_HOST_BRIDGE(obj);
-     Q35PCIHost *s = Q35_HOST_DEVICE(obj);
-     Range w64;
--    uint64_t value;
-+    uint64_t value = 0;
+diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+index 7c7d777781..61e77e5476 100644
+--- a/hw/mem/nvdimm.c
++++ b/hw/mem/nvdimm.c
+@@ -166,9 +166,15 @@ static MemoryRegion *nvdimm_md_get_memory_region(MemoryDeviceState *md,
+                                                  Error **errp)
+ {
+     NVDIMMDevice *nvdimm = NVDIMM(md);
++    PCDIMMDevice *dimm = PC_DIMM(nvdimm);
+     Error *local_err = NULL;
  
--    pci_bus_get_w64_range(h->bus, &w64);
--    value = range_is_empty(&w64) ? 0 : range_lob(&w64);
-+    if (h->bus) {
-+        pci_bus_get_w64_range(h->bus, &w64);
-+        value = range_is_empty(&w64) ? 0 : range_lob(&w64);
+     if (!nvdimm->nvdimm_mr) {
++        /* Not error if we try get memory region after init */
++        if (!dimm->hostmem) {
++            return NULL;
++        }
++
+         nvdimm_prepare_memory_region(nvdimm, &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
+index f27e1a11ba..6fd74de97f 100644
+--- a/hw/mem/pc-dimm.c
++++ b/hw/mem/pc-dimm.c
+@@ -240,6 +240,11 @@ static void pc_dimm_md_set_addr(MemoryDeviceState *md, uint64_t addr,
+ static MemoryRegion *pc_dimm_md_get_memory_region(MemoryDeviceState *md,
+                                                   Error **errp)
+ {
++    PCDIMMDevice *dimm = PC_DIMM(md);
++    /* Not error if we try get memory region after init */
++    if (!dimm->hostmem) {
++        return NULL;
 +    }
-     if (!value && s->pci_hole64_fix) {
-         value = pc_pci_hole64_start();
-     }
-@@ -157,10 +159,13 @@ static void q35_host_get_pci_hole64_end(Object *obj, Visitor *v,
-     Q35PCIHost *s = Q35_HOST_DEVICE(obj);
-     uint64_t hole64_start = q35_host_get_pci_hole64_start_value(obj);
-     Range w64;
--    uint64_t value, hole64_end;
-+    uint64_t value = 0;
-+    uint64_t hole64_end;
+     return pc_dimm_get_memory_region(PC_DIMM(md), errp);
+ }
  
--    pci_bus_get_w64_range(h->bus, &w64);
--    value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
-+    if (h->bus) {
-+        pci_bus_get_w64_range(h->bus, &w64);
-+        value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
-+    }
-     hole64_end = ROUND_UP(hole64_start + s->mch.pci_hole64_size, 1ULL << 30);
-     if (s->pci_hole64_fix && value < hole64_end) {
-         value = hole64_end;
 -- 
 2.31.1
 
