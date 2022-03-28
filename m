@@ -2,81 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561904EA25C
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:23:43 +0200 (CEST)
-Received: from localhost ([::1]:32830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3965A4EA26D
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 23:28:41 +0200 (CEST)
+Received: from localhost ([::1]:37890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYwpy-0006X7-Ea
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:23:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49228)
+	id 1nYwum-00029A-BY
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 17:28:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nYwiV-0001x2-Vq
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:16:03 -0400
-Received: from [2a00:1450:4864:20::22a] (port=36729
- helo=mail-lj1-x22a.google.com)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nYwto-0001O6-Jl
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:27:40 -0400
+Received: from [2607:f8b0:4864:20::1035] (port=38564
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nYwiS-0003u9-8L
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:15:58 -0400
-Received: by mail-lj1-x22a.google.com with SMTP id v12so8240207ljd.3
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:15:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=openvz-org.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TCG2xV4J5L+FOsAT2lTCWPztzU+XMKH5lpvmFE1VfAY=;
- b=ihmWCE/wVZ1FiBkcU3I9XVikDWKgV90juttvyNO1UUBv4oO22gM674rmImRs4uCcpO
- A5Wio6+OZcX3FhM+P6dFC8zZeaau0cA/QNlAbUPwZGheAaeMe8GFU1wkJ9CjskSD/BIK
- EFWs/q4thFAoTggr2heced6LcixZkq+K0Q1tR6q0bXmitIQZ9cVSJrM3F/tjJsHqbNE+
- LBd65IcXzLJCO3WyJKML30pwvtNESBfV8E1Q4U1mYgkqHmVaGUAkdZxCl89dN0T/uhur
- qzUu8ZRzsinwypkN8mzEBVyngTWmjCNgfAUqaL6zEXKKjn0u8xasdqXEId0Dq1X0OehJ
- rU+Q==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nYwtm-0005u2-TK
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 17:27:40 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ gp15-20020a17090adf0f00b001c7cd11b0b3so421788pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 14:27:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=WVVxBxlyVCxS7vEDq6k+BkZvn5usLnrTMDhIOyfoQRA=;
+ b=F3l3l0SrNcazav4z9RryKfjHbpu2VZCStqEvabNnrpQsKduUOQ3GJ4YLD/Bnt3UC53
+ 9gigw6DRFNxzp6Tn0uRX1OSxCzSfPN1szWmGrwz4vNHvV9VLYO4WmYDXdPaWdH8TblyA
+ El5pN/YNKIMy+iw6lu+xed7E4QwRzAZ0FR3pSWjUWLUUPJwMVJMtE8E6wGN4E5LNs8u0
+ yM55QJ2oVDQAWknXjyDPGA1Gh8t7X0l+yW2q0hEFkIUxZQxSu7VSEXhtFwFrkoLq0Y0h
+ pW8wbdUJiuzKmB2oEiRn9NUOZIq9e6JfKX2gwfUvAStK/w8sCzYOPevQeMdOmxmqtm3Z
+ UnEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=TCG2xV4J5L+FOsAT2lTCWPztzU+XMKH5lpvmFE1VfAY=;
- b=TYZixpxqBk3pi3z/Bhl4dyd4L4BF84rYePXW3lKwQzBBdo6cj2J9bmev8OqTo7OJKs
- wQk0MjzCpX+W2Kagh1ig4Pla1F+ET5uzxPwMnyo+Tr84ysQLzm8mnJczvwHThLj5U6pp
- YeBZwex8UNaRCd2dhpsUGPuhFwl9GPg5AxTXs3g09dII/l/J3gPKtbz4cQWyUizs+qYb
- dKxHLtvQf5wRLeG26t6pmEyFdkxUvJyDwPi2pNZfKgs7PS2HDmnxn3fFDOmqCr7uGmnj
- PCGn4nqjAXhGaKAJKMFkv+IZGuQVqueubFfbfjF7uv+Ik5hXVNblpXGZG8qb82UVarux
- CvwA==
-X-Gm-Message-State: AOAM532ZvCgHdeMuXzlwp32KmK6dOr2ChtJhBOrPoM7gWV+K/4ETFYcn
- NN0vwO6UaNnC7X5MU11PfkQpgNDLF9pW1g==
-X-Google-Smtp-Source: ABdhPJzHr24Uqmnwnq1FmG0ep8ov7eVuoWxjbQnuFCGv/CCQkp/sBWvVPHfi6NHyW+BlwJfGQh5jLg==
-X-Received: by 2002:a2e:7c17:0:b0:249:8221:4c2a with SMTP id
- x23-20020a2e7c17000000b0024982214c2amr22401084ljc.293.1648502154361; 
- Mon, 28 Mar 2022 14:15:54 -0700 (PDT)
-Received: from localhost.localdomain ([93.175.1.181])
- by smtp.gmail.com with ESMTPSA id
- k15-20020a2e92cf000000b002493cc687f3sm1855827ljh.45.2022.03.28.14.15.53
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WVVxBxlyVCxS7vEDq6k+BkZvn5usLnrTMDhIOyfoQRA=;
+ b=2LBunZN6IiPXK3FFAbh64KlJ0pKkHi8acigjFWecTPClwegx2bIuID2fkQhq25rkz0
+ IZy/kSyd64ziQ5hJAUw1lqH/pnhXApKmKJJ2Eaue2HaqOnaqJ7D9i5edK+8s52tmZL+d
+ At/Vylx36MhRFzviUDeyBawBq1AMbCBjhi8wwauOd3UHuql8W1nKsk0IqivFuQcR+W4p
+ jZsVkaXmXS5wo0g3elcOKCdnGhAkjfLHsSmk2VBu+um0WAxdER0rIP2w0aC0hsnqWoVo
+ ffQCixD8X83FQ5KgMMpuRudK/STh5p+yvCZBxaqebeP0UT/f/TBh3d61W816BZrk/phe
+ sO7w==
+X-Gm-Message-State: AOAM5326ZWCh8EdUZidKlXQRrOw4AB5L46qHsLFfOivmZk5Tk7v/bG7G
+ LDFqbUKfKv8Jpsw92mSpf4tKoQ==
+X-Google-Smtp-Source: ABdhPJwWeZMb9Wt1LCrjPclYKOZxIau/iyRcg9FuFBqfs0Ro5aFT1BqcZ/SiNPFqKlNMwaMh8+jAOw==
+X-Received: by 2002:a17:903:2288:b0:153:bfbe:7354 with SMTP id
+ b8-20020a170903228800b00153bfbe7354mr27601061plh.112.1648502856956; 
+ Mon, 28 Mar 2022 14:27:36 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
+ 22-20020a17090a019600b001c6457e1760sm410018pjc.21.2022.03.28.14.27.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Mar 2022 14:15:53 -0700 (PDT)
-From: Maxim Davydov <maxim.davydov@openvz.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 9/9] scripts: printing machine type compat properties
-Date: Tue, 29 Mar 2022 00:15:39 +0300
-Message-Id: <20220328211539.90170-10-maxim.davydov@openvz.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220328211539.90170-1-maxim.davydov@openvz.org>
-References: <20220328211539.90170-1-maxim.davydov@openvz.org>
+ Mon, 28 Mar 2022 14:27:36 -0700 (PDT)
+Date: Mon, 28 Mar 2022 21:27:32 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com
+Subject: Re: [PATCH v5 05/13] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <YkIoRDNbwJH/IDeC@google.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-6-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220310140911.50924-6-chao.p.peng@linux.intel.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=maxim.davydov@openvz.org; helo=mail-lj1-x22a.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -161
+X-Spam_score: -16.2
+X-Spam_bar: ----------------
+X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,344 +109,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, v.sementsov-og@mail.ru, berrange@redhat.com,
- xiaoguangrong.eric@gmail.com, mst@redhat.com, jsnow@redhat.com,
- crosa@redhat.com, f4bug@amsat.org, chen.zhang@intel.com, armbru@redhat.com,
- wangyanan55@huawei.com, marcandre.lureau@redhat.com, imammedo@redhat.com,
- lizhijian@fujitsu.com, pbonzini@redhat.com, ani@anisinha.ca, den@openvz.org,
- maxim.davydov@openvz.org, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This script makes the information that can be obtained from
-query-init-properties and query-machines easy to read.
+On Thu, Mar 10, 2022, Chao Peng wrote:
+> Extend the memslot definition to provide fd-based private memory support
+> by adding two new fields (private_fd/private_offset). The memslot then
+> can maintain memory for both shared pages and private pages in a single
+> memslot. Shared pages are provided by existing userspace_addr(hva) field
+> and private pages are provided through the new private_fd/private_offset
+> fields.
+> 
+> Since there is no 'hva' concept anymore for private memory so we cannot
+> rely on get_user_pages() to get a pfn, instead we use the newly added
+> memfile_notifier to complete the same job.
+> 
+> This new extension is indicated by a new flag KVM_MEM_PRIVATE.
+> 
+> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 
-Note: some init values from the devices can't be available like properties
-from virtio-9p when configure has --disable-virtfs. Such values are
-replaced by "DEFAULT". Another exception is properties of abstract
-classes. The default value of the abstract class property is common
-value of all child classes. But if the values of the child classes are
-different the default value will be "BASED_ON_CHILD" (for example, old
-x86_64-cpu can have unsupported feature).
+Needs a Co-developed-by: for Yu, or a From: if Yu is the sole author.
 
-Example:
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  Documentation/virt/kvm/api.rst | 37 +++++++++++++++++++++++++++-------
+>  include/linux/kvm_host.h       |  7 +++++++
+>  include/uapi/linux/kvm.h       |  8 ++++++++
+>  3 files changed, 45 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 3acbf4d263a5..f76ac598606c 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -1307,7 +1307,7 @@ yet and must be cleared on entry.
+>  :Capability: KVM_CAP_USER_MEMORY
+>  :Architectures: all
+>  :Type: vm ioctl
+> -:Parameters: struct kvm_userspace_memory_region (in)
+> +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
+>  :Returns: 0 on success, -1 on error
+>  
+>  ::
+> @@ -1320,9 +1320,17 @@ yet and must be cleared on entry.
+>  	__u64 userspace_addr; /* start of the userspace allocated memory */
+>    };
+>  
+> +  struct kvm_userspace_memory_region_ext {
+> +	struct kvm_userspace_memory_region region;
+> +	__u64 private_offset;
+> +	__u32 private_fd;
+> +	__u32 padding[5];
 
-    1) virsh qemu-monitor-command VM --pretty \
-       '{"execute" : "query-init-properties"}' > init_props.json
+Uber nit, I'd prefer we pad u32 for private_fd separate from padding the size of
+the structure for future expansion.
 
-    2) virsh qemu-monitor-command VM --pretty \
-       '{"execute" : "query-machines", "arguments" : {"is-full" : true}}' \
-       > compat_props.json
+Regarding future expansion, any reason not to go crazy and pad like 128+ bytes?
+It'd be rather embarassing if the next memslot extension needs 3 u64s and we end
+up with region_ext2 :-)
 
-    3) scripts/print_MT.py --MT_compat_props compat_props.json\
-        --init_props init_props.json --mt pc-q35-7.0 pc-q35-6.1
+> +};
+> +
+>    /* for kvm_memory_region::flags */
+>    #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+>    #define KVM_MEM_READONLY	(1UL << 1)
+> +  #define KVM_MEM_PRIVATE		(1UL << 2)
+>  
+>  This ioctl allows the user to create, modify or delete a guest physical
+>  memory slot.  Bits 0-15 of "slot" specify the slot id and this value
 
-Output:
-╒═══════════════════════════════════╤══════════════╤══════════════╕
-│           property_name           │  pc-q35-7.0  │  pc-q35-6.1  │
-╞═══════════════════════════════════╪══════════════╪══════════════╡
-│   ICH9-LPC-x-keep-pci-slot-hpc    │     True     │    False     │
-├───────────────────────────────────┼──────────────┼──────────────┤
-│          nvme-ns-shared           │     True     │     off      │
-├───────────────────────────────────┼──────────────┼──────────────┤
-│ vhost-user-vsock-device-seqpacket │     auto     │     off      │
-├───────────────────────────────────┼──────────────┼──────────────┤
-│ virtio-mem-unplugged-inaccessible │     auto     │     off      │
-├───────────────────────────────────┼──────────────┼──────────────┤
-│  x86_64-cpu-hv-version-id-build   │    14393     │    0x1bbc    │
-├───────────────────────────────────┼──────────────┼──────────────┤
-│  x86_64-cpu-hv-version-id-major   │      10      │    0x0006    │
-├───────────────────────────────────┼──────────────┼──────────────┤
-│  x86_64-cpu-hv-version-id-minor   │      0       │    0x0001    │
-╘═══════════════════════════════════╧══════════════╧══════════════╛
+...
 
-Signed-off-by: Maxim Davydov <maxim.davydov@openvz.org>
----
- scripts/print_MT.py | 274 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 274 insertions(+)
- create mode 100755 scripts/print_MT.py
+> +static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
 
-diff --git a/scripts/print_MT.py b/scripts/print_MT.py
-new file mode 100755
-index 0000000000..8be13be8d7
---- /dev/null
-+++ b/scripts/print_MT.py
-@@ -0,0 +1,274 @@
-+#! /usr/bin/python3
-+#
-+# Script for printing machine type compatible features. It uses two JSON files
-+# that should be generated by qmp-init-properties and query-machines.
-+#
-+# Copyright (c) 2022 Maxim Davydov <maxim.davydov@openvz.org>
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program. If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import pandas as pd
-+import json
-+from tabulate import tabulate
-+from argparse import ArgumentParser
-+
-+
-+# used for aliases and other names that can be changed
-+aliases = { "e1000-82540em": "e1000" }
-+
-+
-+def get_major(mt):
-+    splited = mt.split('.')
-+    if (len(splited) >= 2):
-+        return int(mt.split('.')[1])
-+    else:
-+        return 0
-+
-+
-+def get_prefix(mt):
-+    splited = mt.split('.')
-+    if (len(splited) >= 1):
-+        return mt.split('.')[0]
-+    else:
-+        return mt
-+
-+
-+def get_mt_sequence(mt_data):
-+    mt_list = [mt['name'] for mt in mt_data['return']]
-+    mt_list.remove('none')
-+
-+    mt_list.sort(key=get_major, reverse=True)
-+    mt_list.sort(key=get_prefix, reverse=True)
-+
-+    return mt_list
-+
-+
-+def get_req_props(defval_data, prop_set, abstr_class_to_features):
-+    req_prop_values = dict()
-+    req_abstr_prop_values = dict()
-+
-+    for device in defval_data['return']:
-+        # Skip cpu devices that will break all default values for cpus
-+        if device['name'] == 'base-x86_64-cpu':
-+            continue
-+        if device['name'] == 'max-x86_64-cpu':
-+            continue
-+
-+        # some features in mt set as one absract class
-+        # but this features are owned by another class
-+        device_props_owners = dict()
-+        for props_class in device['props']:
-+            if not 'classprops' in props_class: # for example, Object class
-+                continue
-+
-+            for prop in props_class['classprops']:
-+                if not 'value' in prop:
-+                    continue
-+
-+                prop_name = device['name'] + '-' + prop['name']
-+                device_props_owners[prop['name']] = prop['value']
-+                if prop_name in prop_set:
-+                    req_prop_values[prop_name] = prop['value']
-+
-+        for props_class in device['props']:
-+            if not props_class['classname'] in abstr_class_to_features:
-+                continue
-+
-+            for req_prop in abstr_class_to_features[props_class['classname']]:
-+                if not req_prop in device_props_owners:
-+                    continue
-+
-+                prop_value = device_props_owners[req_prop]
-+                prop_name = props_class['classname'] + '-' + req_prop
-+                if req_abstr_prop_values.setdefault(prop_name, prop_value) \
-+                    != prop_value:
-+                    req_abstr_prop_values[prop_name] = 'BASED_ON_CHILD'
-+
-+    return req_prop_values, req_abstr_prop_values
-+
-+
-+def make_definition_table(mt_to_compat_props, prop_set,
-+                          req_props, req_abstr_props, is_full):
-+    mt_table = dict()
-+    for prop in sorted(prop_set):
-+        if not is_full:
-+            values = set()
-+            for mt in mt_to_compat_props:
-+                if prop in mt_to_compat_props[mt]:
-+                    values.add(mt_to_compat_props[mt][prop])
-+                else:
-+                    if prop in req_props:
-+                        values.add(req_props[prop])
-+                    else:
-+                        values.add('DEFAULT')
-+            # Skip the property if its value is the same for
-+            # all required machines
-+            if len(values) == 1:
-+                continue
-+
-+        mt_table.setdefault('property_name', []).append(prop)
-+        for mt in mt_to_compat_props:
-+            if prop in mt_to_compat_props[mt]:
-+                value = mt_to_compat_props[mt][prop]
-+                mt_table.setdefault(mt, []).append(value)
-+            else:
-+                if prop in req_props:
-+                    mt_table.setdefault(mt, []).append(req_props[prop])
-+                else:
-+                    value = req_abstr_props.get(prop, 'DEFAULT')
-+                    mt_table.setdefault(mt, []).append(value)
-+
-+    return mt_table
-+
-+
-+def get_standard_form(value):
-+    if type(value) is str:
-+        out = value.upper()
-+        if out.isnumeric():
-+            return int(out)
-+        if out == 'TRUE':
-+            return True
-+        if out == 'FALSE':
-+            return False
-+
-+    return value
-+
-+
-+def get_features(mt_data, defval_data, mts, is_full):
-+    prop_set = set()
-+    abstr_prop_set = set()
-+    mt_to_compat_props = dict()
-+    # It will be used for searching appropriate feature (sometimes class name
-+    # in machine type definition and real class name are different)
-+    abstr_class_to_features = dict()
-+
-+    for mt in mt_data['return']:
-+        if mt['name'] == 'none':
-+            continue
-+
-+        if not mt['name'] in mts:
-+            continue
-+
-+        mt_to_compat_props[mt['name']] = dict()
-+        for prop in mt['compat-props']:
-+            driver_name = aliases.get(prop['driver'], prop['driver'])
-+            prop_name = prop['driver'] + '-' + prop['property']
-+            real_name = driver_name + '-' + prop['property']
-+            # value is always string
-+            prop_val  = get_standard_form(prop['value'])
-+            if prop['abstract']:
-+                mt_to_compat_props[mt['name']][real_name] = prop_val
-+                abstr_prop_set.add(real_name)
-+                abstr_class_to_features.setdefault(driver_name,
-+                                                   set()).add(prop['property'])
-+            else:
-+                mt_to_compat_props[mt['name']][real_name] = prop_val
-+                prop_set.add(real_name)
-+
-+    req_props, req_abstr_props = get_req_props(defval_data, prop_set,
-+                                               abstr_class_to_features)
-+
-+    # join sets for global sorting by name
-+    prop_set.update(abstr_prop_set)
-+    mt_table = make_definition_table(mt_to_compat_props, prop_set, req_props,
-+                                     req_abstr_props, is_full)
-+    # to save mt sequence
-+    df = pd.DataFrame({'property_name': mt_table['property_name']})
-+    for mt in mts:
-+        if not mt in mt_table:
-+            print('Error: {0} no found'.format(mt))
-+            continue
-+        df[mt] = mt_table[mt]
-+
-+    return df
-+
-+
-+def main():
-+    parser = ArgumentParser(description='''Print definition of machine
-+                                           type (compatible features)''')
-+    parser.add_argument('--MT_compat_props', type=str, required=True,
-+                        help='''Path to JSON file with current machine type
-+                                definition. It must be generated via
-+                                query-machines with is-full option.''')
-+    parser.add_argument('--init_props', type=str, required=True,
-+                        help='''Path to JSON file with initial features. It
-+                                must be generated via
-+                                query-init-properties.''')
-+    parser.add_argument('--format', type=str,
-+                        choices=['table', 'csv', 'html', 'json'],
-+                        default='table', help='Format of the output file')
-+    parser.add_argument('--file', type=str,
-+                        help='''Path to output file. It must be set with csv
-+                                and html formats.''')
-+    parser.add_argument('--all', action='store_true',
-+                        help='''Print all available machine types (list of
-+                                machine types will be ignored''')
-+    parser.add_argument('--mt', nargs="*", type=str,
-+                        help='List of machine types that will be compared')
-+    parser.add_argument('--full', action='store_true',
-+                        help='''Print all defined properties (by default,
-+                                only properties with different values are
-+                                printed)''')
-+
-+    args = parser.parse_args()
-+
-+    if args.all == 0 and args.mt == None:
-+        print('Enter the list of required machine types (list of all '\
-+              'machine types : qemu-system-x86_64 --machine help)')
-+        return
-+
-+    with open(args.MT_compat_props) as mt_json_file:
-+        mt_data = json.load(mt_json_file)
-+
-+    with open(args.init_props) as defval_json_file:
-+        defval_data = json.load(defval_json_file)
-+
-+    if args.all:
-+        df = get_features(mt_data, defval_data, get_mt_sequence(mt_data),
-+                          args.full)
-+    else:
-+        df = get_features(mt_data, defval_data, args.mt, args.full)
-+
-+    if args.format == 'csv':
-+        if args.file == None:
-+            print('Error: csv format requires path to output file')
-+            return
-+        df.to_csv(args.file)
-+    elif args.format == 'html':
-+        if args.file == None:
-+            print('Error: html format requires path to output file')
-+            return
-+        with open(args.file, 'w') as output_html:
-+            output_html.write(df.to_html(justify='center', col_space='400px',
-+                                         index=False))
-+    elif args.format == 'json':
-+        json_table = df.to_json()
-+        if args.file == None:
-+            print(json_table)
-+        else:
-+            with open(args.file, 'w') as output_json:
-+                output_json.write(json_table)
-+    elif args.format == 'table':
-+        table = tabulate(df, showindex=False, stralign='center',
-+                         tablefmt='fancy_grid', headers='keys')
-+        if args.file == None:
-+            print(table)
-+        else:
-+            with open(args.file, 'w') as output_table:
-+                output_table.write(table)
-+
-+
-+if __name__ == '__main__':
-+    main()
--- 
-2.31.1
-
+I 100% think we should usurp the name "private" for these memslots, but as prep
+work this series should first rename KVM_PRIVATE_MEM_SLOTS to avoid confusion.
+Maybe KVM_INTERNAL_MEM_SLOTS?
 
