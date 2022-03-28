@@ -2,54 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312CD4E91CE
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 11:49:30 +0200 (CEST)
-Received: from localhost ([::1]:55704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE9E4E91A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 11:43:42 +0200 (CEST)
+Received: from localhost ([::1]:51650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYm09-0004Sg-1A
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 05:49:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39202)
+	id 1nYluV-0001UH-5j
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 05:43:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liucong2@kylinos.cn>)
- id 1nYlyv-0003bX-V1
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:48:15 -0400
-Received: from mailgw.kylinos.cn ([123.150.8.42]:65112 helo=nksmu.kylinos.cn)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liucong2@kylinos.cn>)
- id 1nYlys-0003kp-5k
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:48:13 -0400
-X-UUID: b6a0ff8252da446992cfca6a1374c7c5-20220328
-X-UUID: b6a0ff8252da446992cfca6a1374c7c5-20220328
-Received: from cs2c.com.cn [(172.17.111.24)] by nksmu.kylinos.cn
- (envelope-from <liucong2@kylinos.cn>) (Generic MTA)
- with ESMTP id 368360695; Mon, 28 Mar 2022 17:41:30 +0800
-X-ns-mid: postfix-624182FC-5984937277
-Received: from [172.20.12.219] (unknown [172.20.12.219])
- by cs2c.com.cn (NSMail) with ESMTPSA id 77B993848661;
- Mon, 28 Mar 2022 09:42:20 +0000 (UTC)
-Message-ID: <de27054a-900b-d1fc-69be-82cb6c893c44@kylinos.cn>
-Date: Mon, 28 Mar 2022 17:41:17 +0800
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nYlsM-0000Y8-9e
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:41:26 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:41236)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nYlsK-0002u3-Ab
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:41:26 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 95A9E1F380;
+ Mon, 28 Mar 2022 09:41:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1648460482; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L2Dq3X64GAzjaBBSD6H3/eVgOLhIAexzm5lrjJ12Lr4=;
+ b=10n1rk45cm+0jnLgqr37mooqdNF0xaoo8PCTmPItde6V8W1+8IprW6tcev3p1kKPYEn/FU
+ tP0slVIaKIg3PkkHG02zekarTM1Bj+sjFaOqSZvZLjl3kcmkZLJ8rA6PiHi8BjSoN2snAY
+ K2Iw1GmKrgjNT81hpeIvxhvv6BzCGMA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1648460482;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L2Dq3X64GAzjaBBSD6H3/eVgOLhIAexzm5lrjJ12Lr4=;
+ b=Yw7pfRmMbHpie9X139MYO/0UtwsPXDcBBtRloH7Myw0boY/ATqfdpDp+81L1g12mbtr+DL
+ 1YeSpXqTYb/NIwCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5FDA813B08;
+ Mon, 28 Mar 2022 09:41:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 52ukFcKCQWIQMAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 28 Mar 2022 09:41:22 +0000
+Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
+ performance
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <Yi+ACeaZ+oXTVYjc@redhat.com>
+ <2d1248d4-ebdf-43f9-e4a7-95f586aade8e@suse.de>
+ <7c641d9d-fffa-e21b-7ae2-12ad35c0c238@suse.de> <YjMMfnEjXsz3Vi8h@redhat.com>
+ <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
+ <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de> <YjNNqzb7eBBwMFJN@work-vm>
+ <737974fa-905c-d171-05b0-ec4df42bc762@suse.de> <Yj2nh1LRZ54BXuds@redhat.com>
+ <47af35ec-2ca8-26ae-f4e4-d81f18f2a05b@suse.de> <YkFycBMT0HsYUfJr@redhat.com>
+ <ae3eaab7-acd9-b3e7-238a-02d3fcc15c5a@suse.de>
+Message-ID: <43a4d7dd-4fd3-8863-8b50-e637222a41fd@suse.de>
+Date: Mon, 28 Mar 2022 11:41:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] kvm/arm64: Fix memory section did not set to kvm
+In-Reply-To: <ae3eaab7-acd9-b3e7-238a-02d3fcc15c5a@suse.de>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <mw2ty4ijin-mw2ty4ijio@nsmail6.0>
- <CAFEAcA_xpi2kCdHK-K=T3-pbHjWS47xyCzG47wg3HBSKFo4z8w@mail.gmail.com>
-From: Cong Liu <liucong2@kylinos.cn>
-In-Reply-To: <CAFEAcA_xpi2kCdHK-K=T3-pbHjWS47xyCzG47wg3HBSKFo4z8w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: permerror client-ip=123.150.8.42;
- envelope-from=liucong2@kylinos.cn; helo=nksmu.kylinos.cn
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.187,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,148 +92,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: libvir-list@redhat.com, andrea.righi@canonical.com,
+ Jiri Denemark <jdenemar@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 2022/3/25 23:00, Peter Maydell wrote:
-> On Fri, 25 Mar 2022 at 14:42, <liucong2@kylinos.cn> wrote:
->> I found this issue on qmeu 4.2 with host linux 4.19, I want to
->> use qxl on arm64. on arm64, default page size is 64k, and the
->> qxl_rom_size is fixed 8192.
-> 
-> OK, so the fix to this is "use a newer QEMU".
-> 
->> but when I read qxl_rom region in guest, guest os stopped and
->> I can see error message "load/store instruction decodeing not
->> implemented" in host side. it is because qxl rom bar memory
->> region didn't commit to kvm.
-> 
->> I only try qemu 6.0 rather than the latest version because
+On 3/28/22 11:19 AM, Claudio Fontana wrote:
+> On 3/28/22 10:31 AM, Daniel P. Berrangé wrote:
+>> On Sat, Mar 26, 2022 at 04:49:46PM +0100, Claudio Fontana wrote:
+>>> On 3/25/22 12:29 PM, Daniel P. Berrangé wrote:
+>>>> On Fri, Mar 18, 2022 at 02:34:29PM +0100, Claudio Fontana wrote:
+>>>>> On 3/17/22 4:03 PM, Dr. David Alan Gilbert wrote:
+>>>>>> * Claudio Fontana (cfontana@suse.de) wrote:
+>>>>>>> On 3/17/22 2:41 PM, Claudio Fontana wrote:
+>>>>>>>> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
+>>>>>>>>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
+>>>>>>>>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
+>>>>>>>>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
+>>>>>>>>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
+>>>>>>>>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
+>>>>>>>>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
+>>>>>>>>>>>>>>> the first user is the qemu driver,
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> This improves the situation by 400%.
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
+>>>>>>>>>>>>>>> compared with direct qemu migration to a nc socket to a file.
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>>>>>>>>>>>>> ---
+>>>>>>>>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
+>>>>>>>>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
+>>>>>>>>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
+>>>>>>>>>>>>>>>  src/util/virfile.h        |  1 +
+>>>>>>>>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
+>>>>>>>>>>>>>>> so you can find the discussion about this in qemu-devel:
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>> Current results show these experimental averages maximum throughput
+>>>>>>>>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
+>>>>>>>>>> "query-migrate", tests repeated 5 times for each).
+>>>>>>>>>> VM Size is 60G, most of the memory effectively touched before migration,
+>>>>>>>>>> through user application allocating and touching all memory with
+>>>>>>>>>> pseudorandom data.
+>>>>>>>>>>
+>>>>>>>>>> 64K:     5200 Mbps (current situation)
+>>>>>>>>>> 128K:    5800 Mbps
+>>>>>>>>>> 256K:   20900 Mbps
+>>>>>>>>>> 512K:   21600 Mbps
+>>>>>>>>>> 1M:     22800 Mbps
+>>>>>>>>>> 2M:     22800 Mbps
+>>>>>>>>>> 4M:     22400 Mbps
+>>>>>>>>>> 8M:     22500 Mbps
+>>>>>>>>>> 16M:    22800 Mbps
+>>>>>>>>>> 32M:    22900 Mbps
+>>>>>>>>>> 64M:    22900 Mbps
+>>>>>>>>>> 128M:   22800 Mbps
+>>>>>>>>>>
+>>>>>>>>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
+>>>>>>>>>
+>>>>>>>>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
+>>>>>>>>> libvirt attempt to raise the pipe limit to 1 MB by default, but
+>>>>>>>>> not try to go higher.
+>>>>>>>>>
+>>>>>>>>>> As for the theoretical limit for the libvirt architecture,
+>>>>>>>>>> I ran a qemu migration directly issuing the appropriate QMP
+>>>>>>>>>> commands, setting the same migration parameters as per libvirt,
+>>>>>>>>>> and then migrating to a socket netcatted to /dev/null via
+>>>>>>>>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
+>>>>>>>>>>
+>>>>>>>>>> QMP:    37000 Mbps
+>>>>>>>>>
+>>>>>>>>>> So although the Pipe size improves things (in particular the
+>>>>>>>>>> large jump is for the 256K size, although 1M seems a very good value),
+>>>>>>>>>> there is still a second bottleneck in there somewhere that
+>>>>>>>>>> accounts for a loss of ~14200 Mbps in throughput.
+>>>>>>>
+>>>>>>>
+>>>>>>> Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
+>>>>>>> and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
+>>>>>>>
+>>>>>>> ~50000 mbps qemu to netcat socket to /dev/null
+>>>>>>> ~35500 mbps virsh save to /dev/null
+>>>>>>>
+>>>>>>> Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
+>>>>>>
+>>>>>> It might be closer to RAM or cache bandwidth limited though; for an extra copy.
+>>>>>
+>>>>> I was thinking about sendfile(2) in iohelper, but that probably
+>>>>> can't work as the input fd is a socket, I am getting EINVAL.
+>>>>
+>>>> Yep, sendfile() requires the input to be a mmapable FD,
+>>>> and the output to be a socket.
+>>>>
+>>>> Try splice() instead  which merely requires 1 end to be a
+>>>> pipe, and the other end can be any FD afaik.
+>>>>
+>>>
+>>> I did try splice(), but performance is worse by around 500%.
 >>
->> I meet some compile issue. commit ce7015d9e8669e
+>> Hmm, that's certainly unexpected !
 >>
->> start v6.1.0-rc0, it will change the default qxl rom bar size
->> to 64k on my platform. then my problem disappear. but when
->> others create a memory region with the size less than one
->> page. when it run into kvm_align_section, it return 0
->> again.
+>>> Any ideas welcome,
+>>
+>> I learnt there is also a newer  copy_file_range call, not sure if that's
+>> any better.
+>>
+>> You passed len as 1 MB, I wonder if passing MAXINT is viable ? We just
+>> want to copy everything IIRC.
+>>
+>> With regards,
+>> Daniel
+>>
 > 
-> This is correct behaviour. If the memory region is less than
-> a complete host page then it is not possible for KVM to
-> map it into the guest as directly accessible memory,
-> because that can only be done in host-page sized chunks,
-> and if the MR is a RAM region smaller than the page then
-> there simply is not enough backing RAM there to map without
-> incorrectly exposing to the guest whatever comes after the
-> contents of the MR.
-
-actually, even with fixed 8192 qxl rom bar size, the RAMBlock
-size corresponding to MemoryRegion will also be 64k. so it can
-map into the guest as directly accessible memory. now it failed
-just because we use the wrong size. ROUND_UP(n, d) requires
-that d be a power of 2, it is faster than QEMU_ALIGN_UP().
-and the qemu_real_host_page_size should always a power of 2.
-seems we can use this patch and no need to fall back to "treat
-like MMIO device access".
-
+> Hi Daniel, tried also up to 64MB, no improvement with splice.
 > 
-> For memory regions smaller than a page, KVM and QEMU will
-> fall back to "treat like MMIO device access". As long as the
-I don't understand how it works, can you help explain or tell me
-which part of the code I should read to understand?
+> I'll take a look at copy_file_range,
 
-I add some test code on qemu 6.2.0, add a new bar(rom_test) in
-qxl with 2048 bytes. it followed with qxl rom bar. in the guest
-kernel, map rom_test bar and printf rom_test->magic and rom_test->id.
-this mr with size of 2048 bytes will not commit to kvm but I
-still read the content I write in qemu side. So it should be the 
-mechanism you mentioned that took effect.
+It fails with EINVAL, according to man pages it needs both fds to refer to regular files.
 
-the test code appended.
-it works with some differences between arm64 and x86. in x86, it
-printf rom_test->magic and rom_test->id correctly, but in arm64.
-it printf rom_test->magic correctly. when I try to print the
-rom_test->id. I get "load/store instruction decoding not
-implemented" error message.
+All these alternatives to read/write API seem very situational...
 
-> guest is using simple load/store instructions to access the
-> memory region (ie loading or storing a single general
-> purpose register with no writeback, no acquire/release
-> semantics, no load-store exclusives) this will work fine.
-> KVM will drop out to QEMU, which will do the load or store
-> and return the data to KVM, which will simulate the instruction
-> execution and resume the guest.
-> 
-> If you see the message about "load/store instruction
-> decoding not implemented", that means the guest was trying
-> to access the region with something other than a simple
-> load/store. In this case you need to either:
->   (1) change the device model to use a page-sized memory region
->   (2) change the guest to use a simple load/store instruction
->       to access it
->
-> Which of these is the right thing will depend on exactly
-> what the device and memory region is.
-> 
-> thanks
-> -- PMM
+would be cool if there was an API that does the best thing to minimize copies with the FDs it is passed, avoiding the need for userspace buffer
+whatever the FDs refer to, but seems like there isn't one?
 
+Ciao,
 
-+static void init_qxl_rom_test(PCIQXLDevice *d)
-+{
-+    QXLRom_test *rom = memory_region_get_ram_ptr(&d->rom_bar_test);
-+
-+    memset(rom, 0, 2048);
-+
-+    rom->magic      = cpu_to_le32(SPICE_MAGIC_CONST("abcd"));
-+    rom->id         = cpu_to_le32(SPICE_MAGIC_CONST("ABCD"));
-+}
-+
-  static void init_qxl_rom(PCIQXLDevice *d)
-  {
-      QXLRom *rom = memory_region_get_ram_ptr(&d->rom_bar);
-@@ -2113,7 +2123,10 @@ static void qxl_realize_common(PCIQXLDevice *qxl, 
-Error **errp)
-      qxl->rom_size = qxl_rom_size();
-      memory_region_init_rom(&qxl->rom_bar, OBJECT(qxl), "qxl.vrom",
-                             qxl->rom_size, &error_fatal);
-+    memory_region_init_rom(&qxl->rom_bar_test, OBJECT(qxl), 
-"qxl.vrom_test",
-+                           2048, &error_fatal);
-      init_qxl_rom(qxl);
-+    init_qxl_rom_test(qxl);
-      init_qxl_ram(qxl);
+Claudio
 
-      qxl->guest_surfaces.cmds = g_new0(QXLPHYSICAL, qxl->ssd.num_surfaces);
-@@ -2136,6 +2149,9 @@ static void qxl_realize_common(PCIQXLDevice *qxl, 
-Error **errp)
-      pci_register_bar(&qxl->pci, QXL_ROM_RANGE_INDEX,
-                       PCI_BASE_ADDRESS_SPACE_MEMORY, &qxl->rom_bar);
-
-+    pci_register_bar(&qxl->pci, 4,
-+                     PCI_BASE_ADDRESS_SPACE_MEMORY, &qxl->rom_bar_test);
-+
-      pci_register_bar(&qxl->pci, QXL_RAM_RANGE_INDEX,
-                       PCI_BASE_ADDRESS_SPACE_MEMORY, &qxl->vga.vram);
-
-diff --git a/hw/display/qxl.h b/hw/display/qxl.h
-index 30d21f4d0b..3690edf17b 100644
---- a/hw/display/qxl.h
-+++ b/hw/display/qxl.h
-@@ -100,6 +100,7 @@ struct PCIQXLDevice {
-      QXLModes           *modes;
-      uint32_t           rom_size;
-      MemoryRegion       rom_bar;
-+    MemoryRegion       rom_bar_test;
-  #if SPICE_SERVER_VERSION >= 0x000c06 /* release 0.12.6 */
-      uint16_t           max_outputs;
-  #endif
-
-
-
-Regards,
-Cong.
 
