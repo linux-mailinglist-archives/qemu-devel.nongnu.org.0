@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213374EA198
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 22:36:08 +0200 (CEST)
-Received: from localhost ([::1]:42920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4EF4EA1A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 22:38:15 +0200 (CEST)
+Received: from localhost ([::1]:48116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYw5v-0006ca-6K
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 16:36:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39432)
+	id 1nYw7y-0001mY-AJ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 16:38:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nYw3H-0004Yh-MT
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:33:23 -0400
-Received: from [2607:f8b0:4864:20::22e] (port=39720
- helo=mail-oi1-x22e.google.com)
+ id 1nYw5E-0007gf-Pw
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:35:24 -0400
+Received: from [2001:4860:4864:20::2a] (port=40197
+ helo=mail-oa1-x2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nYw3G-0005qG-32
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:33:23 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id j83so16921298oih.6
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 13:33:21 -0700 (PDT)
+ id 1nYw5D-0006EQ-6f
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:35:24 -0400
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-d6e29fb3d7so16546495fac.7
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 13:35:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=JIvXPoNh1q5FaW1B11KC02yHNiqG/qQI3SWJpX3peMA=;
- b=BjVVv4QmNkHTzFhhbYeVgeaxhGRRZDvYIzOjzawqWVswUjSEZBMMibWUVNpp95mg1O
- kfw4wtfAHTz5e9XdTtBOj5haL+G1tn94N6AKXatX5ZyUpChTkUHuaMj4Sh/JRhcK7drl
- j2YxEhThQhVVZJRCctKXFVZsahM+4FT2uaJymWQ8E9IPe9KFfGaCBlt9qiylkGvmx8ao
- 1CsMJM/LUEw4ZbmQPBq+MdX0g05ksIOYryh3wLoI5z3GxhtMDA/UQUlHrsXExqRXW7+e
- JC+I2WZFa95SZ0gj84hccnRx3j76lYjQmcPA3N16lPytGWfmIzhkCPNilWShA2pI4UWt
- nf9Q==
+ bh=pC3KAYqx4/pWTZmEZVXwW0JJjmhTPjb0N9WuTowOZIU=;
+ b=EX50myn3PUMQg/7sGYcqRdtE4rg0gez0D2JHE6IyLXHNLaKtEKagWNWDY/IwJRfjzd
+ uM3eYB7kxCC7eYBvvDkPJBBstULhVRcHkq+t3a+N7mLOZODB/JDxuJAsKGkQgaasSoIS
+ fDzOBJYHevE4PoAZHrPjaKD5zASk/oDvjm0iIF4qnlX6UvDYJjphRgRP7ne0oxw04vyx
+ 0bIthHdw3k1rCP1hgafdF5gSnKAnc5rwng9JSs3LNxNEIPFzU5ysiQx76dideLR/t9Gu
+ NIBJhSRVlLDoCk2OvorSGeus7Ht6WJlXOfaQbU14KCHMaYRacZzP40oRofIcy2EYs1WD
+ SyEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JIvXPoNh1q5FaW1B11KC02yHNiqG/qQI3SWJpX3peMA=;
- b=wX+FfjwQGQVX1hXqwW4FjA8Db1SC3L4MHYvNGLQTMTmzW3mF13JHGVRKgLB88K36qv
- 0IMPmTC0OgGT/QaTL5hvuKV63bsxNcppedRxhbgWR5KF/jIi5RLDHAFpTm5IG3CcRknJ
- 6ySQdGHT/SeBp8w6VYfs5fnAaeSdQUl+ZHIXqSwuw0f0EbcDPqwjgJWVrapxn3/aMK1O
- gDsnIpm3B3sdWRQ+PEOiaAfOaUmNVkVQBO7D+b5ujPTB8LfFKcjZRvD3rV0THRXq3ep4
- iJebdXdhfs+s+plhJAPh4qSt+qKJE6urdWiOV0B6QYHYTmJxB4dI/WfcPAfFdk0eN3mx
- /Dpg==
-X-Gm-Message-State: AOAM530LStFCYJF8lUrNKFlunTTS0tc+0y4qR/gHs1wHNzirWyT2I4or
- 7P9Vp0w61YM5GsFC1m+F7wM9bA==
-X-Google-Smtp-Source: ABdhPJxMi7zxymE5NbmH8JhEptMw/v/wPJ6WlZc3YJYJkv+QGFcltd2eteu389HiHMJsTK2hlwiE6g==
-X-Received: by 2002:aca:db03:0:b0:2da:363b:658b with SMTP id
- s3-20020acadb03000000b002da363b658bmr495449oig.173.1648499600806; 
- Mon, 28 Mar 2022 13:33:20 -0700 (PDT)
+ bh=pC3KAYqx4/pWTZmEZVXwW0JJjmhTPjb0N9WuTowOZIU=;
+ b=kVcpzcPPozNCzLQAGZGW2RhhkyYlHjDSAF2n9ybrza9CzixuSPEENyMJt9449RYni1
+ /zHGNHhTujavkURpIPhbNoZQMzP4q+pxfs49BLikzcJ3VS3sMpL4qufw7M0K+cboFZud
+ g2w/c0c0rUUhPpeFoYWmemIRhTXvRqOCAa1Z0b9YBw+ka/DNGCpDe4i6yBpSBJ4zBlUB
+ zWGQ1s9EWS+HSIf28jwlC4WJmTGOLic3xGD0/GH3u1Nz2UpVcNkGKBKr6E6Bdo3/W4eL
+ bHt2zorJ9SUJRbFgjZyRNEp7SvIUKLDCWnoOEEM5yARa57WdOtNkWS6EupM1jAwqpzSO
+ 51kA==
+X-Gm-Message-State: AOAM5319fTISUeWpesfPuZmKDJFKSvd1lVK0D8OYXquTMqPfyFC0w2gN
+ ncZk9QKASYUPtnOCMKZr3KZyuw==
+X-Google-Smtp-Source: ABdhPJxOkbXYCH4LWYqVvPNoVWMsgj8q6psV1eYABK8WfDIngouvDGkpeaaZ4czu8XGof5tDyLhI5Q==
+X-Received: by 2002:a05:6870:418a:b0:de:ecf4:e35d with SMTP id
+ y10-20020a056870418a00b000deecf4e35dmr491588oac.101.1648499721987; 
+ Mon, 28 Mar 2022 13:35:21 -0700 (PDT)
 Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- p66-20020aca4245000000b002ee110f182fsm7733458oia.37.2022.03.28.13.33.18
+ q6-20020a056870028600b000d9be0ee766sm7005443oaf.57.2022.03.28.13.35.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Mar 2022 13:33:19 -0700 (PDT)
-Message-ID: <1404dd20-43c3-c1bd-db72-0a6a10f4cd43@linaro.org>
-Date: Mon, 28 Mar 2022 14:33:16 -0600
+ Mon, 28 Mar 2022 13:35:21 -0700 (PDT)
+Message-ID: <da0c9544-3ffd-27ab-de80-4cdcda91596f@linaro.org>
+Date: Mon, 28 Mar 2022 14:35:18 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [RFC PATCH v7 12/29] target/loongarch: Add timer related
- instructions support.
+Subject: Re: [RFC PATCH v7 13/29] target/loongarch: Add gdb support.
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
- <20220328125749.2918087-13-yangxiaojuan@loongson.cn>
+ <20220328125749.2918087-14-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220328125749.2918087-13-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220328125749.2918087-14-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22e.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,51 +98,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/28/22 06:57, Xiaojuan Yang wrote:
-> +#ifndef CONFIG_USER_ONLY
-> +static bool gen_rdtime(DisasContext *ctx, arg_rr *a,
-> +                       bool word, bool high)
+> +int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
 > +{
-> +    TCGv dst1 = gpr_dst(ctx, a->rd, EXT_NONE);
-> +    TCGv dst2 = gpr_dst(ctx, a->rj, EXT_NONE);
+> +    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
+> +    CPULoongArchState *env = &cpu->env;
+> +    target_ulong tmp = ldtul_p(mem_buf);
 > +
-> +    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> +        gen_io_start();
-> +    }
-> +    gen_helper_rdtime_d(dst1, cpu_env);
-> +    if (word) {
-> +        tcg_gen_sextract_tl(dst1, dst1, high ? 32 : 0, 32);
-> +    }
-> +    tcg_gen_ld_i64(dst2, cpu_env, offsetof(CPULoongArchState, CSR_TID));
-> +
-> +    return true;
-> +}
+> +    if (0 <= n && n < 32) {
+> +        return env->gpr[n] = tmp, sizeof(target_ulong);
 
-Remove all of the ifdefs.
-
->   static bool trans_rdtimel_w(DisasContext *ctx, arg_rdtimel_w *a)
->   {
-> +#ifdef CONFIG_USER_ONLY
->       tcg_gen_movi_tl(cpu_gpr[a->rd], 0);
->       return true;
-
-This (and all of the others) turns out to be a bug, as it fails to write to rj at all.
-
-> +uint64_t helper_rdtime_d(CPULoongArchState *env)
-> +{
-> +     LoongArchCPU *cpu = LOONGARCH_CPU(env_cpu(env));
-> +     return cpu_loongarch_get_constant_timer_counter(cpu);
-> +}
-
-Here, you could have
-
-#ifdef CONFIG_USER_ONLY
-     return cpu_get_host_ticks();
-#else
-     ...
-
-which is the fallback we use for other targets in user-mode.
-
-You seem to be missing the checks on CSR.MISC.DRDTL* which would raise IPE.
+Ew.  Do not use the comma operator with return.
+Split these into two statements, all through this file.
 
 
 r~
