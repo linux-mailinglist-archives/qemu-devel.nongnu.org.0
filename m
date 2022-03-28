@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120B94E9B96
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 17:47:48 +0200 (CEST)
-Received: from localhost ([::1]:36410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779894E9BB4
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 17:55:03 +0200 (CEST)
+Received: from localhost ([::1]:39614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYras-0005np-I1
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 11:47:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37174)
+	id 1nYrht-0000Co-V2
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 11:55:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nYrZh-0004wb-Ur
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 11:46:33 -0400
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:34911)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nYrZf-00051i-Ro
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 11:46:33 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.250])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B6C99F089BA8;
- Mon, 28 Mar 2022 17:46:28 +0200 (CEST)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 28 Mar
- 2022 17:46:28 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006c807d495-0082-4c00-aa47-6276ba779434,
- CFE7A3AAE61928554BF17059C30BCFB3D76DD066) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <7c98d489-678e-5c4a-8c6a-d24fb9dc7e3f@kaod.org>
-Date: Mon, 28 Mar 2022 17:46:22 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nYrgN-0007WH-Kj
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 11:53:27 -0400
+Received: from [2001:4860:4864:20::2c] (port=33239
+ helo=mail-oa1-x2c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nYrgL-00068q-VA
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 11:53:27 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-de3eda6b5dso15701524fac.0
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 08:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=BmNGj/baLDgSMRZ5uyubaqpahfd/KgaIVO2gvHgwyU8=;
+ b=PtY0zV/3NPPi25tWa5SJNeYwDwzUt8mO3X1jhud5KpBhnGnfB/IV8U/D7docowHbzk
+ uynXbNpTmw3eeID4grvmraoX7QDxO5BOVDbipzCZLPh/efkpScixbPbN7A70ZXA0Iu7O
+ O4Fpve0WLE8wc6yAXuuFGuCilQFuboSP3voOVWFKOI+N3KcXFtlHGbMX6rNcB+uwXRxY
+ m8tsvQXIr0SZCSFFxJZ95EXHtxfs297c9K6gqU11RrrCL1288wtEemxUyrDY2Ve2zC4p
+ W0V76Y3ddEdBJXxb1Ahd8k3DbXoR2IpWZrZTnZtxL3qWxvhS8ctfKhhqx2wd4GggFZuY
+ sk4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BmNGj/baLDgSMRZ5uyubaqpahfd/KgaIVO2gvHgwyU8=;
+ b=4YQLURKKVPuwQqgrrfz83paeVDP5Y2LpBa5cWE8tvZ3NEZO8+M5SS3uKpktkKtRR5J
+ F1/3MVBXw/63axvmjTwQFaaqjV0mUugZriUDKB1lzrlCfOI31aVu6uwRB+zQki2ExTUl
+ mLIatoXcVaV/6htuwYfZdqQr4Se15ioh6P5i2PgbVEa549NmAitx8AUMbPwVVwA/h6kj
+ k7XLp9zd3adDgy43AJqciqEQjfBrErVVC2rpXgtplS9ukzPTvGuuWRn53Hwq0RXdRiVj
+ KdLc3u0Nf+kOpUnNy4YmFEsmDGyB73qJvNySTkxZaPlGhtX2h10IQBHnGx0yBjjuacT1
+ p75Q==
+X-Gm-Message-State: AOAM533pXutDtHqy1zMX1Kvh9ZNZHqF2lHxu/cEXgrDVToAhO1bJmAVl
+ t7hlolcBll04BPBBrmpIkOMt2g==
+X-Google-Smtp-Source: ABdhPJxtd21sr5tKjeOqRua4kUJU+sBnIUFHIR5ySsNH8XqoxmGT21sO7SC4AaCufBr4XEq52c/QrQ==
+X-Received: by 2002:a05:6870:c18d:b0:de:27ca:c657 with SMTP id
+ h13-20020a056870c18d00b000de27cac657mr10678501oad.258.1648482804756; 
+ Mon, 28 Mar 2022 08:53:24 -0700 (PDT)
+Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+ t15-20020a056808158f00b002e331356c87sm7165224oiw.39.2022.03.28.08.53.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Mar 2022 08:53:24 -0700 (PDT)
+Message-ID: <0f1e3a7a-291b-cb82-5385-28c5ab195406@linaro.org>
+Date: Mon, 28 Mar 2022 09:53:21 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 1/6] target/ppc: Add support for the Processor
- Attention instruction
+Subject: Re: [PATCH 00/15] tests/docker and tests/tcg cleanup and diet
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, Leandro Lupori
- <leandro.lupori@eldorado.org.br>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-References: <20220324190854.156898-1-leandro.lupori@eldorado.org.br>
- <20220324190854.156898-2-leandro.lupori@eldorado.org.br>
- <43660ac0-a920-0271-cd99-0100271f937d@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <43660ac0-a920-0271-cd99-0100271f937d@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 04f1a34e-5086-4270-8beb-80a615677160
-X-Ovh-Tracer-Id: 15588084213009779503
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudehjedgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220328140240.40798-1-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220328140240.40798-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2c
+ (failed)
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,110 +92,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, danielhb413@gmail.com, alex.bennee@linaro.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/22 14:04, Richard Henderson wrote:
-> On 3/24/22 13:08, Leandro Lupori wrote:
->> +    /* Processor Attention                                                   */
->> +    POWERPC_EXCP_ATTN          = 0x100,
->> +    /*
->> +     * NOTE: POWERPC_EXCP_ATTN uses values from 0x100 to 0x1ff to return
->> +     *       error codes.
->> +     */
-> 
-> As used below, this is not an exception -- the exception is POWERPC_EXCP_MCHECK.  This is something else, for env->error_code.  
+On 3/28/22 08:02, Paolo Bonzini wrote:
+> This is also a first step towards moving the cross-compilation
+> infrastructure from tests/tcg to all of QEMU, so that it can be
+> used to build firmware binaries.
 
-Yes. I hacked my way through.
+Yay!
 
-> You could probably come up with a better name, but see below.
-> 
->> +            if ((env->error_code & ~0xff) == POWERPC_EXCP_ATTN) {
->> +                exit(env->error_code & 0xff);
->> +            }
-> 
-> This will want gdb_exit(value) as well; see e.g. semihosting/arm-compat-semi.c.
-> 
-> In this and the next patch, I do not see anything that makes support for attn conditional, and importantly, off by default.  Otherwise this seems to have the potential for denial of service.
+However, the tricore special cases broke:
 
-Indeed.
+/home/rth/qemu/src/tests/docker/docker.py --engine auto build -t qemu/debian-tricore-cross 
+-f /home/rth/qemu/src/tests/docker/dockerfiles/debian-tricore-cross.docker   --registry 
+registry.gitlab.com/qemu-project/qemu --add-current-user
+Image is up to date.
+make -C tests/tcg/tricore-softmmu -f ../Makefile.target 
+DOCKER_SCRIPT="/home/rth/qemu/src/tests/docker/docker.py --engine auto" 
+TARGET="tricore-softmmu" SRC_PATH="/home/rth/qemu/src"
+make[1]: Entering directory '/home/rth/qemu/bld/tests/tcg/tricore-softmmu'
+cc -E -o test_abs.pS /home/rth/qemu/src/tests/tcg/tricore/test_abs.S
+/home/rth/qemu/src/tests/docker/docker.py --engine auto cc --cc  -i 
+qemu/debian-tricore-cross -s /home/rth/qemu/src --  -o test_abs.o test_abs.pS
+usage: docker.py <subcommand> ... cc [-h] [--quiet] --image IMAGE [--cc CC] [--source-path 
+[PATHS [PATHS ...]]]
+docker.py <subcommand> ... cc: error: argument --cc: expected one argument
+make[1]: *** [/home/rth/qemu/src/tests/tcg/tricore/Makefile.softmmu-target:23: test_abs.o] 
+Error 2
 
->> +void helper_attn(CPUPPCState *env, target_ulong r3)
->> +{
->> +    bool attn = false;
->> +
->> +    if (env->excp_model == POWERPC_EXCP_POWER8) {
->> +        attn = !!(env->spr[SPR_HID0] & HID0_ATTN);
->> +    } else if (env->excp_model == POWERPC_EXCP_POWER9 ||
->> +               env->excp_model == POWERPC_EXCP_POWER10) {
->> +        attn = !!(env->spr[SPR_HID0] & HID0_POWER9_ATTN);
->> +    }
->> +
->> +    if (attn) {
->> +        raise_exception_err(env, POWERPC_EXCP_MCHECK,
->> +                            POWERPC_EXCP_ATTN | (r3 & 0xff));
->> +    } else {
->> +        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
->> +                               POWERPC_EXCP_INVAL |
->> +                               POWERPC_EXCP_INVAL_INVAL, GETPC());
->> +    }
->> +}
-> 
-> Why did you decide to raise an exception instead of exiting right here?
 
-attn quiesce the thread/core but it can generate an 'host attn'
-interrupt event for the service processor, it behaves like a
-checkstop.
-
-I think my idea was to raise an interrupt in the instruction model,
-and then from the exception model, reach the machine through some
-QOM Interface to take action. pSeries would do nothing or exit
-depending on some machine option, PowerNV could raise a PSI IRQ
-line to signal the embedded BMC simulator to do poweroff
-
-I took a shortcut and introduced an exit() call when I saw the
-complexity increase.
-
-But really, the need in this series is to be able to exit from
-QEMU after some test has run.
-   
-> 
-> I suggest syncing env state before calling the helper, so that you don't need to unwind here, and so that state is up-to-date for the debugger before exiting.
-
-ok.
-
->> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
->> index 408ae26173..5ace6f3a29 100644
->> --- a/target/ppc/translate.c
->> +++ b/target/ppc/translate.c
->> @@ -4123,6 +4123,19 @@ static void gen_rvwinkle(DisasContext *ctx)
->>       gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
->>   #endif /* defined(CONFIG_USER_ONLY) */
->>   }
->> +
->> +static void gen_attn(DisasContext *ctx)
->> +{
->> + #if defined(CONFIG_USER_ONLY)
->> +    GEN_PRIV;
->> +#else
->> +    CHK_SV;
->> +
->> +    gen_helper_attn(cpu_env, cpu_gpr[3]);
->> +    ctx->base.is_jmp = DISAS_NORETURN;
->> +#endif
->> +}
-> 
-> You want gen_update_nip(ctx, ctx->cia) in there, like gen_exception_err.
-> 
-> 
->> +GEN_HANDLER(attn, 0x0, 0x00, 0x8, 0xfffffdff, PPC_FLOW),
-> 
-> New insns into insns32.decode, I would expect.
-> 
-
-Thanks,
-
-C.
+r~
 
