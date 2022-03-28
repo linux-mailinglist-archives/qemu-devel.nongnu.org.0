@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6BB04E9224
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 11:58:52 +0200 (CEST)
-Received: from localhost ([::1]:37926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FD34E926F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 12:23:49 +0200 (CEST)
+Received: from localhost ([::1]:47220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYm9D-0003P2-PI
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 05:58:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40626)
+	id 1nYmXL-0002A1-JZ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 06:23:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nYm7l-000248-BX
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:57:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58178)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nYmWB-0001Cf-Gg
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 06:22:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56292)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nYm7j-0005EX-MR
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 05:57:21 -0400
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nYmW6-0000uf-AI
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 06:22:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648461438;
+ s=mimecast20190719; t=1648462948;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AqNexRF2LwTZrwdIJ4GvKJ5EKJYre2EACu7Xb9UuK1A=;
- b=E/9M53JR2h5QAh9XOTN1vBxZLIJsbD1sU5gq1eekWItM4/yDoCXoZC7kQb2jjFcY946s79
- GbXsmTsPiCVNziJsMu32VtyKS2jPORE2cCSYYSDUkV0L9A0KVykWcjiQJPHNMyeHG+6ey6
- 2K1RmsRyJUZzu8cUR4jzAwD2a3bq2SY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=V4OCN1eOgrOy7ECoescUvMzt573CjARf4CVtS4ozLLQ=;
+ b=FJ8rRiPu6JGxFnMPVqA803VbgROG+LRWKAGm59sR2x3PoHf29YcKd480upINbtmWOcIaTm
+ Ezpnt7OUoyePuqaCZ9l0Gee3JElYkTazcNUI8TGXIwyUHNjKkT4eO+YJeXul7p5/CLbKyJ
+ BOzxGzh5cZURvJHSDQy1tOFb676AIHQ=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-212-TI2Z18h1N06zocpIBpuooQ-1; Mon, 28 Mar 2022 05:57:14 -0400
-X-MC-Unique: TI2Z18h1N06zocpIBpuooQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9CB3A2A59560;
- Mon, 28 Mar 2022 09:57:14 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3467D1410F3B;
- Mon, 28 Mar 2022 09:57:14 +0000 (UTC)
-Date: Mon, 28 Mar 2022 10:57:13 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>
-Subject: Re: Proposal for a regular upstream performance testing
-Message-ID: <YkGGefZCOVn8JIz0@stefanha-x1.localdomain>
-References: <3a664806-8aa3-feb4-fb30-303d303217a8@redhat.com>
- <a0f8c750-ed7b-908a-1a29-bf03004579e4@redhat.com>
- <YjhIddqwACSpoCfR@stefanha-x1.localdomain>
- <470cb0ab-137f-655c-9dcd-a480f66dac33@redhat.com>
- <Yjnlr67GOzii0Ead@stefanha-x1.localdomain>
- <f4514391-17cb-541b-a076-93fe2a95f8ab@redhat.com>
+ us-mta-154-2rGuEvItMeuVc4cxix2Y0A-1; Mon, 28 Mar 2022 06:22:25 -0400
+X-MC-Unique: 2rGuEvItMeuVc4cxix2Y0A-1
+Received: by mail-yw1-f198.google.com with SMTP id
+ 00721157ae682-2e643f85922so114534417b3.2
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 03:22:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=V4OCN1eOgrOy7ECoescUvMzt573CjARf4CVtS4ozLLQ=;
+ b=Dcik2fQ/Eymi6X8pIBJW68lKB1OrqpntleQtfQxN6JC82NZkgc4+abxI8QdBljhS0A
+ thQR1B5bgXdpLszpDXiuh4c+6aJWXNAm/3kt9MITCrfbXvWLP4Qkdvg52MusSqco7CZ0
+ WCRFxlCuZXlwYF5If85/aMb8mwV4di4W8KrysZmRIBVWou0q+PbhhyEMQDlBOi2QOXI/
+ W3cOvgWLqRQQfpg1EtS++ELEdpMvJUQo7YJXOpK/9gIRQt3UaB3Ncyk0f9mIS/LTKQfm
+ 3FMhv7aYgPxJvlkNzr86mEWXk8/H/ua/f97UWHFT0xTSqJYyuccZ4TBENFu8fX5MBPtq
+ BqWA==
+X-Gm-Message-State: AOAM530ox4BCIan6xHhc5wp1kdt7wQ4EyRf7/dd0j+c6iXdYebqCl3PE
+ UqLEIjanaF8pk2Z2Ftgs2i4Of2COurCOvwjJlBA+Iept7BpUbWB5Vt28OiKsAg40z0pSI9BcgLu
+ p6/I6EnIYBLPwmgWBvflUhe5yEABGgYU=
+X-Received: by 2002:a81:7bc6:0:b0:2e6:3a20:2e09 with SMTP id
+ w189-20020a817bc6000000b002e63a202e09mr24428890ywc.312.1648462943823; 
+ Mon, 28 Mar 2022 03:22:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwbUrB/Kh7+6jmErcBgV3urN7CJIrP/BIXsVdrwMQWf6V7AC+elqYXAHV/Sk3ZQKzsv9Wsu0kjb2hTQtKsEKEo=
+X-Received: by 2002:a81:7bc6:0:b0:2e6:3a20:2e09 with SMTP id
+ w189-20020a817bc6000000b002e63a202e09mr24428867ywc.312.1648462943615; Mon, 28
+ Mar 2022 03:22:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ln/CuGN1PhO/fJO0"
-Content-Disposition: inline
-In-Reply-To: <f4514391-17cb-541b-a076-93fe2a95f8ab@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+References: <20220328084717.367993-1-marcandre.lureau@redhat.com>
+ <20220328084717.367993-6-marcandre.lureau@redhat.com>
+ <ae138d83-d3b6-3fc0-4279-e804126b9ed4@redhat.com>
+In-Reply-To: <ae138d83-d3b6-3fc0-4279-e804126b9ed4@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 28 Mar 2022 14:22:12 +0400
+Message-ID: <CAMxuvaxHgVy-JA+XzAKJ4cjGYefpxyE_fmMLRqzPQPjVQKV8yg@mail.gmail.com>
+Subject: Re: [PATCH 5/5] s390x/tcg: fix format-truncation warning
+To: Thomas Huth <thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,79 +96,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Charles Shih <cheshi@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Beniamino Galvani <b.galvani@gmail.com>,
+ "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Antony Pavlov <antonynpavlov@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi
 
---ln/CuGN1PhO/fJO0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Mar 28, 2022 at 12:59 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 28/03/2022 10.47, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > ../target/s390x/tcg/translate.c: In function =E2=80=98s390x_translate_i=
+nit=E2=80=99:
+> > ../target/s390x/tcg/translate.c:224:64: error: =E2=80=98%d=E2=80=99 dir=
+ective output may be truncated writing between 1 and 11 bytes into a region=
+ of size 3 [-Werror=3Dformat-truncation=3D]
+> >    224 |         snprintf(cpu_reg_names[i], sizeof(cpu_reg_names[0]), "=
+r%d", i);
+> >        |                                                               =
+ ^~
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >   target/s390x/tcg/translate.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.=
+c
+> > index 5acfc0ff9b4e..a082342a0424 100644
+> > --- a/target/s390x/tcg/translate.c
+> > +++ b/target/s390x/tcg/translate.c
+> > @@ -199,7 +199,7 @@ static TCGv_i64 regs[16];
+> >
+> >   void s390x_translate_init(void)
+> >   {
+> > -    int i;
+> > +    size_t i;
+> >
+> >       psw_addr =3D tcg_global_mem_new_i64(cpu_env,
+> >                                         offsetof(CPUS390XState, psw.add=
+r),
+> > @@ -221,7 +221,7 @@ void s390x_translate_init(void)
+> >                                      "cc_vr");
+> >
+> >       for (i =3D 0; i < 16; i++) {
+> > -        snprintf(cpu_reg_names[i], sizeof(cpu_reg_names[0]), "r%d", i)=
+;
+> > +        snprintf(cpu_reg_names[i], sizeof(cpu_reg_names[0]), "r%zu", i=
+);
+>
+> The compiler is *really* too stupid to see that i is in the range between=
+ 0
+> and 16 here??? ... that rather sounds like a compiler bug to me than
+> something that we should work-around in the QEMU source code. Considering
+> that you're using a x.0 release of GCC, please file a bug against GCC
+> instead. If they refuse to fix it for GCC 12.1 or later, we can revisit t=
+his
+> patch, but currently, I really think this should be fixed in GCC instead.
+>
 
-On Mon, Mar 28, 2022 at 08:18:43AM +0200, Luk=C3=A1=C5=A1 Doktor wrote:
-> Hello Stefan, folks,
->=20
-> I seem to have another hit, an improvement actually and it seems to be bi=
-sected all the way to you, Stefan. Let me use this as another example of ho=
-w such process could look like and we can use this to hammer-out the detail=
-s like via what means to submit the request, whom to notify and how to proc=
-eed further.
->=20
-> ---
->=20
-> Last week I noticed an improvement in TunedLibvirt/fio-rot-Aj-8i/0000:./w=
-rite-4KiB/throughput/iops_sec.mean (<driver name=3D"qemu" type=3D"raw" io=
-=3D"native" cache=3D"none"/>, fio, rotationary disk, raw file on host xfs p=
-artition, jobs=3D#cpus, iodepth=3D8, 4k writes) check and bisected it to:
->=20
-> commit fc8796465c6cd4091efe6a2f8b353f07324f49c7
-> Author: Stefan Hajnoczi <stefanha@redhat.com>
-> Date:   Wed Feb 23 15:57:03 2022 +0000
->=20
->     aio-posix: fix spurious ->poll_ready() callbacks in main loop
->=20
-> Could you please confirm that it does make sense and that it is expected?=
- (looks like it from the description).
->=20
-> Note that this commit was pin pointed using 2 out of 3 commits result, th=
-ere were actually some little differences between commits fc8 and cc5. The =
-fc8 and 202 results scored similarly to both, good and bad commits with 2 b=
-eing closer to the bad one. Since cc5 they seem to stabilize further scorin=
-g slightly lower than the median fc8 result. Anyway I don't have enough dat=
-a to declare anything. I can bisect it further if needed.
+I opened: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D105080
 
-Yes, I can imagine that commit fc8796465c6c might improve non-IOThread
-performance!
-
-I don't know how to read the report:
-- What is the difference between "Group stats" and "Failures"?
-- Why are there 3 different means in "Group stats"?
-- Why are there 3 "fc8" columns in "Failures"?
-
-I don't feel confident searching git-log(1) output with 3-character
-commit IDs. git itself uses 12 characters for short commit IDs with a
-reasonably low chance of collisions.
-
-Stefan
-
---ln/CuGN1PhO/fJO0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJBhnkACgkQnKSrs4Gr
-c8hX+ggArAXGI+5LuOp3aABTgqIlZ+P8o5pYMF0NYsfxp4ZUgVRJss6PUkGzQ30X
-PN3Ez0eenXm/kxyKzYlMgX4/lxOm5qZMV7dZJLMLmOMHZ8/rYY2AKLsTHR7TvIXJ
-rRpptb0RZ6owjVMfHzs3EESRbTDlJ+my+7ZWzkw9hj0TwXFdQxkOaKIylYx6rjP2
-9ZPD3NhpzTZsMUyvoFczevpp2FjjU+M5hDMJ2W8WVhvzmm/48wJ3ZUl09vaMgW+5
-PImaK5bVTd5m03HTtGOpJV3vG0obZqnvgrhhZiUtQED+N/LDXFimBLTry1hSp3hj
-aFEXjXMf0/MKs82pLm5n2FLfC8tjgw==
-=3qKj
------END PGP SIGNATURE-----
-
---ln/CuGN1PhO/fJO0--
+Although I think the "workaround" is simple and would avoid users &
+distributions having to add --disable-werror, and possibly miss other
+issues.
 
 
