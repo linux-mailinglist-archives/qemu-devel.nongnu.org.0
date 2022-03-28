@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B783E4EA306
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 00:33:31 +0200 (CEST)
-Received: from localhost ([::1]:44032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DBD4EA305
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 00:33:09 +0200 (CEST)
+Received: from localhost ([::1]:43586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYxvW-0003H1-Mz
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 18:33:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36360)
+	id 1nYxvA-0002yp-Fv
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 18:33:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nYxrL-000052-LV
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:29:11 -0400
-Received: from [2607:f8b0:4864:20::1033] (port=46728
- helo=mail-pj1-x1033.google.com)
+ id 1nYxsz-0001Zq-Iv
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:30:53 -0400
+Received: from [2607:f8b0:4864:20::536] (port=42975
+ helo=mail-pg1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nYxrK-0006D2-80
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:29:11 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- bx24-20020a17090af49800b001c6872a9e4eso862272pjb.5
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 15:29:09 -0700 (PDT)
+ id 1nYxsy-0006at-8T
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 18:30:53 -0400
+Received: by mail-pg1-x536.google.com with SMTP id o8so13258307pgf.9
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 15:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=trel5C4fkT8T4EojKGjQLFq7MvLEOW9fAQhUcr6ZSZw=;
- b=Sm0xSaRRMR5FU65/lINJGJxM3RY6uTtAFhECFqFFYdaglp0J8G+CUscNdKlIqdspk1
- WPMIwnGIh5t5qzPvLN2nVoktxqV01t9JWUeUzYla3biyyS/WmkHZ3bTuF9u8a76eVcu5
- JGH8Klr6u8ySM+WmW8pIbnzF91jH5lNJFrdlMe0SZOTUKs79P1olsQPuX6S5bl2CgdRF
- fmsS3dOlIeSZLkilKis5oBSgOIuLl7ABqSFs02dqmHrWTl89iQip8sAwO2xJgO4o8QfT
- ACHn5CLzXqn/dea7uzl0R+tEfwGSW7tacr/dKBeL8C9sV8xs0FftPs5DuAp8lX12yCNd
- tpQA==
+ bh=p/FZSxnwO0t7mHDoyeBmv22yQnItvu7U4f0xPVLL29w=;
+ b=au6VC24T05E2lU3+6hazp13w2PHGX0pKaHKs1o3K0xRftuaH2A0BZv84ixk+AiWrCR
+ dK/wtHWbQAUJSHiq92tP94mEtynRICDudy1W1cxIwZDfRj9oXlzZVsxI294JOkvBkGO1
+ jUzEI6V3ltq5mdudF+rT5F0FenOP89jDBmroDT3auOelxapnr3Jhw0WBAw4lyZ5t+f10
+ MQB5OX+qKeVyZTkRwVSpEmeNNGBA6uEojnV2Nngyhuuu7VuBcrmziO1d8IuGJJcvYeSG
+ E/ZE5cF6OvNjZU/zCRLxN75HVJi+wqF10DOYqC+G7jq8WlizqgTV04m18zK43/Cu2iVN
+ mtqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=trel5C4fkT8T4EojKGjQLFq7MvLEOW9fAQhUcr6ZSZw=;
- b=UroqKDJf09HYutWKFmkeeODX9cuZKK7fYNTy3HTORMJihHnxmA6PpdnsQUveCjLJR9
- 0k3530xyfFVuLZfIJdc2HoeG2LxSb9qVDQQVrRI2R9jbP71C0CqfjDIsdkcmMebJ2aOa
- FnkVhJB1Qo8lv4S1wdzObidfCmByTGoMXHVJwj947of3JmbwNnF48UQ+VRbZZcGNgjgx
- RKeUgOUQ7NjmDnXyQhnusNfNSqDybluMpWmKlem7pKjB18qeidyFKzm29djBfjtadpF3
- hgs9h0bNtNyEyql0N7dzWcHIdoweSuVO4dOMxw5kLsg03dXVLH7mwQ5C+OAryqiwesTF
- W64A==
-X-Gm-Message-State: AOAM53172X7B4GgLyIDKjTCtkIEZ4ZuF1Ny36symYo/4WhtfLWrCQs5j
- ItLx/t1+4AmuWC1LMgET+8M=
-X-Google-Smtp-Source: ABdhPJyxLZnKpQ3FJZ1tUDW9ZEqMteyhPM+QNuIshr9Aqd5AyYl9L90lfJfKvgIvY8q06+RhEhMlRw==
-X-Received: by 2002:a17:902:7245:b0:156:20aa:1534 with SMTP id
- c5-20020a170902724500b0015620aa1534mr3228106pll.94.1648506548884; 
- Mon, 28 Mar 2022 15:29:08 -0700 (PDT)
+ bh=p/FZSxnwO0t7mHDoyeBmv22yQnItvu7U4f0xPVLL29w=;
+ b=BGoBSMNkdqfW7ign6W7+sVoietrnKv7O/gHmyNodCPjKq54Wqm1aSPZL8NULkbqsRG
+ v1YYeOCSCWe9H0OUkj9WJLqmCeaeeJkfYu8YiqFRXLsOvA/r2qmdeaJXW59avkLb1gTj
+ J21HRkyTSCOu82YsU8cWo0B2zqkFdgXPvN/4OyxSga8qDqj3fHCVCWfyVVtq/j9GPhXa
+ p4ZIAjArI7/EMzJi1unWYi3JuzFhSK4QdiquzJEr1vJMTWrZcUsoRuTjh0nZBjWZyf86
+ 0PyLBC1TCaJsleSpMhmJigXBzUS4TIlIEXuc7/B8msjYgeZbCrqwp1qH6yXsYtjrInxM
+ zpWw==
+X-Gm-Message-State: AOAM532cSedBIOpBtD70tcKbpLVXuTamlfIqAG/1YC+uVqgcCohjkHVb
+ ejNpKJatqFBNCHaeQc3hZEsiLXkwPayyNQ==
+X-Google-Smtp-Source: ABdhPJzOStiTfA1030UKFiaS0h9UluWMPPQ2lAyYH/itDTAEivULBgBPNVOr2v/OhnzxKvzlZUfsvQ==
+X-Received: by 2002:a63:ea45:0:b0:380:c32f:2a0d with SMTP id
+ l5-20020a63ea45000000b00380c32f2a0dmr11395850pgk.315.1648506650826; 
+ Mon, 28 Mar 2022 15:30:50 -0700 (PDT)
 Received: from ?IPV6:2600:70ff:f07f:0:3c84:1cd:456b:b750?
  ([2600:70ff:f07f:0:3c84:1cd:456b:b750])
  by smtp.gmail.com with ESMTPSA id
- 102-20020a17090a0fef00b001c7b8eea25asm463118pjz.31.2022.03.28.15.29.06
+ a71-20020a63904a000000b00398666dcf8esm2528103pge.40.2022.03.28.15.30.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Mar 2022 15:29:08 -0700 (PDT)
-Message-ID: <e3630a30-5c59-8fdb-d873-f19b88fa955a@gmail.com>
-Date: Tue, 29 Mar 2022 00:29:05 +0200
+ Mon, 28 Mar 2022 15:30:50 -0700 (PDT)
+Message-ID: <d8f897d2-cd3d-2129-e05d-3156967f61b7@gmail.com>
+Date: Tue, 29 Mar 2022 00:30:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v2] ui/console: Check console before emitting GL event
+Subject: Re: [PATCH] gitattributes: Cover Objective-C source files
 Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-References: <20220325161216.74582-1-akihiko.odaki@gmail.com>
+To: qemu-devel@nongnu.org
+References: <20220317130326.39188-1-philippe.mathieu.daude@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220325161216.74582-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20220317130326.39188-1-philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,21 +94,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/3/22 17:12, Akihiko Odaki wrote:
-> Without this change, The GL output of a console overwrites the
-> other consoles and makes them unusable.
+On 17/3/22 14:03, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> See comments in commit 29cf16db23 ("buildsys: Help git-diff
+> adding .gitattributes config file") for details.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   ui/console.c | 21 +++++++++++++++++++++
->   1 file changed, 21 insertions(+)
+>   .gitattributes | 1 +
+>   1 file changed, 1 insertion(+)
 
-Thanks, queued to darwin-fixes.
+Not a fix bug queued to darwin-fixes.
 
