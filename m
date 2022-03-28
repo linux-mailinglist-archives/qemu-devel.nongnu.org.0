@@ -2,85 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4EF4EA1A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 22:38:15 +0200 (CEST)
-Received: from localhost ([::1]:48116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE8F4EA201
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 22:52:08 +0200 (CEST)
+Received: from localhost ([::1]:56666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYw7y-0001mY-AJ
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 16:38:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39962)
+	id 1nYwLP-00085s-DF
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 16:52:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nYw5E-0007gf-Pw
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:35:24 -0400
-Received: from [2001:4860:4864:20::2a] (port=40197
- helo=mail-oa1-x2a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nYw5D-0006EQ-6f
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:35:24 -0400
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-d6e29fb3d7so16546495fac.7
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 13:35:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=pC3KAYqx4/pWTZmEZVXwW0JJjmhTPjb0N9WuTowOZIU=;
- b=EX50myn3PUMQg/7sGYcqRdtE4rg0gez0D2JHE6IyLXHNLaKtEKagWNWDY/IwJRfjzd
- uM3eYB7kxCC7eYBvvDkPJBBstULhVRcHkq+t3a+N7mLOZODB/JDxuJAsKGkQgaasSoIS
- fDzOBJYHevE4PoAZHrPjaKD5zASk/oDvjm0iIF4qnlX6UvDYJjphRgRP7ne0oxw04vyx
- 0bIthHdw3k1rCP1hgafdF5gSnKAnc5rwng9JSs3LNxNEIPFzU5ysiQx76dideLR/t9Gu
- NIBJhSRVlLDoCk2OvorSGeus7Ht6WJlXOfaQbU14KCHMaYRacZzP40oRofIcy2EYs1WD
- SyEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pC3KAYqx4/pWTZmEZVXwW0JJjmhTPjb0N9WuTowOZIU=;
- b=kVcpzcPPozNCzLQAGZGW2RhhkyYlHjDSAF2n9ybrza9CzixuSPEENyMJt9449RYni1
- /zHGNHhTujavkURpIPhbNoZQMzP4q+pxfs49BLikzcJ3VS3sMpL4qufw7M0K+cboFZud
- g2w/c0c0rUUhPpeFoYWmemIRhTXvRqOCAa1Z0b9YBw+ka/DNGCpDe4i6yBpSBJ4zBlUB
- zWGQ1s9EWS+HSIf28jwlC4WJmTGOLic3xGD0/GH3u1Nz2UpVcNkGKBKr6E6Bdo3/W4eL
- bHt2zorJ9SUJRbFgjZyRNEp7SvIUKLDCWnoOEEM5yARa57WdOtNkWS6EupM1jAwqpzSO
- 51kA==
-X-Gm-Message-State: AOAM5319fTISUeWpesfPuZmKDJFKSvd1lVK0D8OYXquTMqPfyFC0w2gN
- ncZk9QKASYUPtnOCMKZr3KZyuw==
-X-Google-Smtp-Source: ABdhPJxOkbXYCH4LWYqVvPNoVWMsgj8q6psV1eYABK8WfDIngouvDGkpeaaZ4czu8XGof5tDyLhI5Q==
-X-Received: by 2002:a05:6870:418a:b0:de:ecf4:e35d with SMTP id
- y10-20020a056870418a00b000deecf4e35dmr491588oac.101.1648499721987; 
- Mon, 28 Mar 2022 13:35:21 -0700 (PDT)
-Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- q6-20020a056870028600b000d9be0ee766sm7005443oaf.57.2022.03.28.13.35.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Mar 2022 13:35:21 -0700 (PDT)
-Message-ID: <da0c9544-3ffd-27ab-de80-4cdcda91596f@linaro.org>
-Date: Mon, 28 Mar 2022 14:35:18 -0600
+ (Exim 4.90_1) (envelope-from <huettel@www.akhuettel.de>)
+ id 1nYwJ2-0007LG-JH
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:49:40 -0400
+Received: from woodpecker.gentoo.org ([140.211.166.183]:51034
+ helo=smtp.gentoo.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <huettel@www.akhuettel.de>)
+ id 1nYwJ0-000877-8y
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 16:49:40 -0400
+Received: (nullmailer pid 3931522 invoked by uid 1000);
+ Mon, 28 Mar 2022 20:49:28 -0000
+From: =?UTF-8?q?Andreas=20K=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-7.0 v5] qemu-binfmt-conf.sh: mips: allow nonzero
+ EI_ABIVERSION, distinguish o32 and n32
+Date: Mon, 28 Mar 2022 22:49:01 +0200
+Message-Id: <20220328204900.3914990-1-dilfridge@gentoo.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH v7 13/29] target/loongarch: Add gdb support.
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
- <20220328125749.2918087-14-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220328125749.2918087-14-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2a
- (failed)
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=140.211.166.183;
+ envelope-from=huettel@www.akhuettel.de; helo=smtp.gentoo.org
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, FORGED_SPF_HELO=1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,23 +53,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, Song Gao <gaosong@loongson.cn>
+Cc: =?UTF-8?q?Andreas=20K=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ WANG Xuerui <xen0n@gentoo.org>, Alex Bennee <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/28/22 06:57, Xiaojuan Yang wrote:
-> +int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-> +{
-> +    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-> +    CPULoongArchState *env = &cpu->env;
-> +    target_ulong tmp = ldtul_p(mem_buf);
-> +
-> +    if (0 <= n && n < 32) {
-> +        return env->gpr[n] = tmp, sizeof(target_ulong);
+With the command line flag -mplt and a recent toolchain, ELF binaries
+generated by gcc can obtain EI_ABIVERSION=1, which makes, e.g., gcc
+three-stage bootstrap in a mips-unknown-linux-gnu qemu-user chroot
+fail since the binfmt-misc magic does not match anymore. Also other
+values are technically possible. qemu executes these binaries just
+fine, so relax the mask for the EI_ABIVERSION byte at offset 0x08.
 
-Ew.  Do not use the comma operator with return.
-Split these into two statements, all through this file.
+In addition, extend magic string to distinguish mips o32 and n32 ABI.
+This information is given by the EF_MIPS_ABI2 (0x20) bit in the
+e_flags field of the ELF header (a 4-byte value at offset 0x24 for
+the here applicable ELFCLASS32).
 
+See-also: ace3d65459
+Signed-off-by: Andreas K. Hüttel <dilfridge@gentoo.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: WANG Xuerui <xen0n@gentoo.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: WANG Xuerui <xen0n@gentoo.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Alex Bennee <alex.bennee@linaro.org>
+Cc: Philippe Mathieu-Daudé <philippe.mathieu.daude@gmail.com>
+Closes: https://gitlab.com/qemu-project/qemu/-/issues/843
+---
 
-r~
+v5: Fully relax mask for EI_ABIVERSION for all of mips; squash patches
+    since they touch the same lines
+v4: Unchanged repost of v3
+v3: Add the magic extension to distinguish n32 and o32
+v2: Add the same EI_ABIVERSION fix for little endian as for big endian
+v1: Initial version, only handling EI_ABIVERSION=1 on BE
+
+ scripts/qemu-binfmt-conf.sh | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index e9bfeb94d3..9cb723f443 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -60,28 +60,28 @@ m68k_family=m68k
+ 
+ # FIXME: We could use the other endianness on a MIPS host.
+ 
+-mips_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
+-mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
++mips_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
++mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
+ mips_family=mips
+ 
+-mipsel_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
+-mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
++mipsel_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
++mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
+ mipsel_family=mips
+ 
+-mipsn32_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
+-mipsn32_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
++mipsn32_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
++mipsn32_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
+ mipsn32_family=mips
+ 
+-mipsn32el_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
+-mipsn32el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
++mipsn32el_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
++mipsn32el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
+ mipsn32el_family=mips
+ 
+ mips64_magic='\x7fELF\x02\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
+-mips64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
++mips64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+ mips64_family=mips
+ 
+ mips64el_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
+-mips64el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
++mips64el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+ mips64el_family=mips
+ 
+ sh4_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x2a\x00'
+-- 
+2.34.1
+
 
