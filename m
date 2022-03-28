@@ -2,49 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189D34E9873
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 15:40:36 +0200 (CEST)
-Received: from localhost ([::1]:58534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3214E97E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 15:18:33 +0200 (CEST)
+Received: from localhost ([::1]:45804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYpbl-0007sZ-MZ
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 09:40:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52362)
+	id 1nYpGS-0004vD-28
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 09:18:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nYp4I-00033b-Bt
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 09:05:58 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:37682 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nYp4F-0003gr-M2
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 09:05:58 -0400
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxbxPOsEFih08RAA--.17957S31; 
- Mon, 28 Mar 2022 20:58:31 +0800 (CST)
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nYoy2-0005FD-Mu; Mon, 28 Mar 2022 08:59:32 -0400
+Received: from [2001:4860:4864:20::36] (port=37057
+ helo=mail-oa1-x36.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nYoy0-0001jO-Ep; Mon, 28 Mar 2022 08:59:29 -0400
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-dee0378ce7so4724638fac.4; 
+ Mon, 28 Mar 2022 05:59:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ur+azaCezNGCeJE/GZ3cVJ659jORLmTfJHKuGeLMWFc=;
+ b=KlTrIfFZS3840fNwtcy/nFpR47Z0Xklg5l2FI7lIAWekJiU4ZMruvwFNF/efE/6hBX
+ FC6A5A5MA1/r89jNmEBNG0DY+FfOYFtWuSMyv02HyhjlpU+yB4Ptl7FPPrXjseT7C/6D
+ ZtzG7CXwjDZjb2yaAj/74ea4Wu2efYvYyotoY3mfpl68iWTCFS07jKIeb0QOjFjA/iF0
+ F8pSU3guPa1cIeOis61hhALmaRfWLvO8zIA+dpVkENFqAuqbNXMslv/iVJAgR9MfDs0H
+ o6OQ4rF6uz+9nw6/ci3sYe1orD+DGIH/fPOi/O6AUMWV13ed78bvf5zk/F9Br1D4Buhb
+ NWOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ur+azaCezNGCeJE/GZ3cVJ659jORLmTfJHKuGeLMWFc=;
+ b=7Yfq39vH+6MYAQbzNPM/1A0QTJQSFTNChhrOyG8uOdEG2yw2bwFnqwA98cxMC9IJ92
+ emVcBf/mTGbQ5ri3JMnZwXZkCKB2NoKwTOX9YrfJjAaCFnsJ2WhV6u2OovYESTVjEq2s
+ c8rn4PzRObmm9iYxqaJLfrWj+fPpN+cGdI7cVRvYBt9lymxg9fY3z1TkWGEHIM6wH+nK
+ 4eBsqoy8sa5VCVd/OPsW72qF+cvoutpFH94d5XJkJ+nrJWOTDoLd7lhO9X3t5BSI55yg
+ jQGQJ8jVr8XPBvEhx3+w3sAbVdc8lT93bLcXedrq6h0RPakDREfI2MySTDSpymFzkgs8
+ 49pg==
+X-Gm-Message-State: AOAM533ePOXevMh8uK0BtzekNOLrDRc8xLLPkLwH3pHwb4hEH3i0rnkK
+ yG/aPUmq+jy4xw0ZsfefnNpQnqrRKyI=
+X-Google-Smtp-Source: ABdhPJx1syPqIhKpsrUj8b9yL+JdNgEUiY27KYsbweXfyHNVJ6kUvp6xsFNngGgWfVXQ74m0oJHYhw==
+X-Received: by 2002:a05:6870:e2d2:b0:dd:f8cc:3e5c with SMTP id
+ w18-20020a056870e2d200b000ddf8cc3e5cmr11081363oad.21.1648472366548; 
+ Mon, 28 Mar 2022 05:59:26 -0700 (PDT)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:8271:32d5:64c:7754:f033])
+ by smtp.gmail.com with ESMTPSA id
+ e9-20020a056820060900b003216277bfdasm6950698oow.19.2022.03.28.05.59.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Mar 2022 05:59:26 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v7 29/29] tests/tcg/loongarch64: Add hello/memory test in
- loongarch64 system
-Date: Mon, 28 Mar 2022 20:57:49 +0800
-Message-Id: <20220328125749.2918087-30-yangxiaojuan@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
-References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
+Subject: [PATCH 0/2] ppc: fix vcpu hotunplug leak in spapr_realize_vcpu
+Date: Mon, 28 Mar 2022 09:59:16 -0300
+Message-Id: <20220328125918.494787-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxbxPOsEFih08RAA--.17957S31
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jw43Kw4fAF48KrWxJr43KFg_yoWxGryDpw
- 4akFyrKrs7JFZrGw1xKF1rGF13Jry8CF1UuFyaqr40vFs7Ww1vqr1FgrW5JFy2q395GrWI
- v3ZYyw1Y9F97Ja7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::36
+ (failed)
+Received-SPF: pass client-ip=2001:4860:4864:20::36;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,271 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
- Song Gao <gaosong@loongson.cn>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- We write a very minimal softmmu harness.
-- This is a very simple smoke test with no need to run a full Linux/kernel.
-- The Makefile.softmmu-target record the rule to run.
+Hi,
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Signed-off-by: Song Gao <gaosong@loongson.cn>
----
- MAINTAINERS                                   |  1 +
- tests/tcg/loongarch64/Makefile.softmmu-target | 33 +++++++
- tests/tcg/loongarch64/system/boot.S           | 56 ++++++++++++
- tests/tcg/loongarch64/system/kernel.ld        | 30 +++++++
- tests/tcg/loongarch64/system/regdef.h         | 86 +++++++++++++++++++
- 5 files changed, 206 insertions(+)
- create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
- create mode 100644 tests/tcg/loongarch64/system/boot.S
- create mode 100644 tests/tcg/loongarch64/system/kernel.ld
- create mode 100644 tests/tcg/loongarch64/system/regdef.h
+This is a memory leak found by Valgrind when testing vcpu
+hotplug/unplug in pSeries guests.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b5ad2c7d2a..991172091a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -217,6 +217,7 @@ LoongArch TCG CPUs
- M: Song Gao <gaosong@loongson.cn>
- S: Maintained
- F: target/loongarch/
-+F: tests/tcg/loongarch64/
- 
- M68K TCG CPUs
- M: Laurent Vivier <laurent@vivier.eu>
-diff --git a/tests/tcg/loongarch64/Makefile.softmmu-target b/tests/tcg/loongarch64/Makefile.softmmu-target
-new file mode 100644
-index 0000000000..908f3a8c0f
---- /dev/null
-+++ b/tests/tcg/loongarch64/Makefile.softmmu-target
-@@ -0,0 +1,33 @@
-+#
-+# Loongarch64 system tests
-+#
-+
-+LOONGARCH64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/loongarch64/system
-+VPATH+=$(LOONGARCH64_SYSTEM_SRC)
-+
-+# These objects provide the basic boot code and helper functions for all tests
-+CRT_OBJS=boot.o
-+
-+LOONGARCH64_TEST_SRCS=$(wildcard $(LOONGARCH64_SYSTEM_SRC)/*.c)
-+LOONGARCH64_TESTS = $(patsubst $(LOONGARCH64_SYSTEM_SRC)/%.c, %, $(LOONGARCH64_TEST_SRCS))
-+
-+CRT_PATH=$(LOONGARCH64_SYSTEM_SRC)
-+LINK_SCRIPT=$(LOONGARCH64_SYSTEM_SRC)/kernel.ld
-+LDFLAGS=-Wl,-T$(LINK_SCRIPT)
-+TESTS+=$(LOONGARCH64_TESTS) $(MULTIARCH_TESTS)
-+CFLAGS+=-nostdlib -g -O1 -march=loongarch64 -mabi=lp64d $(MINILIB_INC)
-+LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
-+
-+# building head blobs
-+.PRECIOUS: $(CRT_OBJS)
-+
-+%.o: $(CRT_PATH)/%.S
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
-+
-+# Build and link the tests
-+%: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+memory: CFLAGS+=-DCHECK_UNALIGNED=0
-+# Running
-+QEMU_OPTS+=-serial chardev:output -kernel
-diff --git a/tests/tcg/loongarch64/system/boot.S b/tests/tcg/loongarch64/system/boot.S
-new file mode 100644
-index 0000000000..bf3622ed67
---- /dev/null
-+++ b/tests/tcg/loongarch64/system/boot.S
-@@ -0,0 +1,56 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Minimal LoongArch system boot code.
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+
-+#include "regdef.h"
-+
-+	.global _start
-+	.align 16
-+_start:
-+	bl main
-+
-+	.type _start 2
-+	.size _start, .-_start
-+
-+	.global _exit
-+	.align 16
-+_exit:
-+2:      /* QEMU ACPI poweroff */
-+	li.w  t0, 0x3c00
-+	li.w  t1, 0x100d0014
-+	st.w  t0, t1, 0
-+	idle  0
-+	bl    2b
-+
-+	.type _exit 2
-+	.size _exit, .-_exit
-+
-+	.global __sys_outc
-+__sys_outc:
-+	li.d t1, 1000000
-+loop:
-+	lu12i.w	t2, 0x1fe00
-+	ori	t0, t2, 0x1e5
-+	ld.bu	t0, t0, 0
-+	andi	t0, t0, 0x20
-+	ext.w.b	t0, t0
-+	bnez	t0, in
-+	addi.w	t1, t1, -1
-+	bnez	t1, loop
-+in:
-+	ext.w.b	a0, a0
-+	lu12i.w	t0, 0x1fe00
-+	ori	t0, t0, 0x1e0
-+	st.b	a0, t0, 0
-+	jirl	$r0, ra, 0
-+
-+	.data
-+	.align 4
-+stack:
-+	.skip	65536
-+$stack_end:
-+	.type	stack,@object
-+	.size	stack, . - stack
-diff --git a/tests/tcg/loongarch64/system/kernel.ld b/tests/tcg/loongarch64/system/kernel.ld
-new file mode 100644
-index 0000000000..f1a7c0168c
---- /dev/null
-+++ b/tests/tcg/loongarch64/system/kernel.ld
-@@ -0,0 +1,30 @@
-+ENTRY(_start)
-+
-+SECTIONS
-+{
-+    /* Linux kernel legacy start address.  */
-+    . = 0x9000000000200000;
-+    _text = .;
-+    .text : {
-+        *(.text)
-+    }
-+    .rodata : {
-+        *(.rodata)
-+    }
-+    _etext = .;
-+
-+    . = ALIGN(8192);
-+    _data = .;
-+    .got : {
-+        *(.got)
-+    }
-+    .data : {
-+	*(.sdata)
-+        *(.data)
-+    }
-+    _edata = .;
-+    .bss : {
-+        *(.bss)
-+    }
-+    _end = .;
-+}
-diff --git a/tests/tcg/loongarch64/system/regdef.h b/tests/tcg/loongarch64/system/regdef.h
-new file mode 100644
-index 0000000000..faa09b2377
---- /dev/null
-+++ b/tests/tcg/loongarch64/system/regdef.h
-@@ -0,0 +1,86 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+#ifndef _ASM_REGDEF_H
-+#define _ASM_REGDEF_H
-+
-+#define zero    $r0     /* wired zero */
-+#define ra      $r1     /* return address */
-+#define tp      $r2
-+#define sp      $r3     /* stack pointer */
-+#define v0      $r4     /* return value - caller saved */
-+#define v1      $r5
-+#define a0      $r4     /* argument registers */
-+#define a1      $r5
-+#define a2      $r6
-+#define a3      $r7
-+#define a4      $r8
-+#define a5      $r9
-+#define a6      $r10
-+#define a7      $r11
-+#define t0      $r12    /* caller saved */
-+#define t1      $r13
-+#define t2      $r14
-+#define t3      $r15
-+#define t4      $r16
-+#define t5      $r17
-+#define t6      $r18
-+#define t7      $r19
-+#define t8      $r20
-+                        /* $r21: Temporarily reserved */
-+#define fp      $r22    /* frame pointer */
-+#define s0      $r23    /* callee saved */
-+#define s1      $r24
-+#define s2      $r25
-+#define s3      $r26
-+#define s4      $r27
-+#define s5      $r28
-+#define s6      $r29
-+#define s7      $r30
-+#define s8      $r31
-+
-+#define gr0     $r0
-+#define gr1     $r1
-+#define gr2     $r2
-+#define gr3     $r3
-+#define gr4     $r4
-+#define gr5     $r5
-+#define gr6     $r6
-+#define gr7     $r7
-+#define gr8     $r8
-+#define gr9     $r9
-+#define gr10    $r10
-+#define gr11    $r11
-+#define gr12    $r12
-+#define gr13    $r13
-+#define gr14    $r14
-+#define gr15    $r15
-+#define gr16    $r16
-+#define gr17    $r17
-+#define gr18    $r18
-+#define gr19    $r19
-+#define gr20    $r20
-+#define gr21    $r21
-+#define gr22    $r22
-+#define gr23    $r23
-+#define gr24    $r24
-+#define gr25    $r25
-+#define gr26    $r26
-+#define gr27    $r27
-+#define gr28    $r28
-+#define gr29    $r29
-+#define gr30    $r30
-+#define gr31    $r31
-+
-+#define STT_NOTYPE  0
-+#define STT_OBJECT  1
-+#define STT_FUNC    2
-+#define STT_SECTION 3
-+#define STT_FILE    4
-+#define STT_COMMON  5
-+#define STT_TLS     6
-+
-+#define ASM_NL           ;
-+
-+#endif /* _ASM_REGDEF_H */
+Other vcpu hotplug/unplug leaks are still present in the common code
+(one in the KVM thread loop and another in cpu_address_space via
+cpu->cpu_ases) but these are already being handled by Mark Kanda and
+Phillipe.
+
+
+Daniel Henrique Barboza (2):
+  hw/ppc/ppc.c: add cpu_ppc_tb_free()
+  hw/ppc: free env->tb_env in spapr_unrealize_vcpu()
+
+ hw/ppc/ppc.c            | 7 +++++++
+ hw/ppc/spapr_cpu_core.c | 3 +++
+ include/hw/ppc/ppc.h    | 1 +
+ 3 files changed, 11 insertions(+)
+
 -- 
-2.31.1
+2.35.1
 
 
