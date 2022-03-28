@@ -2,42 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E394E8EE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 09:24:37 +0200 (CEST)
-Received: from localhost ([::1]:51626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C9744E8F45
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 09:47:00 +0200 (CEST)
+Received: from localhost ([::1]:60792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYjjw-0003V0-22
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 03:24:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39716)
+	id 1nYk5b-0003uC-3v
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 03:46:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nYjgE-0000eD-TR; Mon, 28 Mar 2022 03:20:46 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:36788)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nYjs8-0006A2-Ne; Mon, 28 Mar 2022 03:33:04 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13042
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nYjgD-0007EE-99; Mon, 28 Mar 2022 03:20:46 -0400
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id ACD7011EF1E;
- Mon, 28 Mar 2022 07:20:42 +0000 (UTC)
-From: ~eopxd <eopxd@git.sr.ht>
-Date: Mon, 28 Mar 2022 07:20:42 +0000
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nYjs6-0000KY-Rl; Mon, 28 Mar 2022 03:33:04 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22S7BEH0029994; 
+ Mon, 28 Mar 2022 07:32:46 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3f2c8j46f2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Mar 2022 07:32:46 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22S7JVsX006174;
+ Mon, 28 Mar 2022 07:32:44 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3f1tf8ucmn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Mar 2022 07:32:44 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 22S7Wldr30343476
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 28 Mar 2022 07:32:47 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9A2A911C050;
+ Mon, 28 Mar 2022 07:32:42 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 68F8F11C04C;
+ Mon, 28 Mar 2022 07:32:42 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon, 28 Mar 2022 07:32:42 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.26.144])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 86C9122002A;
+ Mon, 28 Mar 2022 09:32:41 +0200 (CEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PULL 0/1] ppc queue
+Date: Mon, 28 Mar 2022 09:32:38 +0200
+Message-Id: <20220328073239.281464-1-clg@kaod.org>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ZwWPfN5H0xdtalkf3MNwcANTFBK4QVb2
+X-Proofpoint-GUID: ZwWPfN5H0xdtalkf3MNwcANTFBK4QVb2
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Subject: [PATCH qemu v5 00/14] Add tail agnostic behavior for rvv instructions
-Message-ID: <164845204233.25323.14607469451359734000-0@git.sr.ht>
-X-Mailer: git.sr.ht
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-28_02,2022-03-28_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 spamscore=0 clxscore=1034
+ mlxlogscore=511 impostorscore=0 mlxscore=0 phishscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203280042
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.187,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -50,79 +94,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
-Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
- eop Chen <eop.chen@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to v-spec, tail agnostic behavior can be either kept as
-undisturbed or set elements' bits to all 1s. To distinguish the
-difference of tail policies, QEMU should be able to simulate the tail
-agnostic behavior as "set tail elements' bits to all 1s". An option
-'rvv_ta_all_1s' is added to enable the behavior, it is default as
-disabled.
+The following changes since commit 3d31fe4d662f13c70eb7e87f29513623ccd76322:
 
-There are multiple possibility for agnostic elements according to
-v-spec. The main intent of this patch-set tries to add option that
-can distinguish between tail policies. Setting agnostic elements to
-all 1s makes things simple and allow QEMU to express this.
+  Merge tag 'pull-target-arm-20220325' of https://git.linaro.org/people/pma=
+ydell/qemu-arm into staging (2022-03-25 15:02:39 +0000)
 
-We may explore other possibility of agnostic behavior by adding
-other options in the future. Please understand that this patch-set
-is limited.
+are available in the Git repository at:
 
-v2 updates:
-- Addressed comments from Weiwei Li
-- Added commit tail agnostic on load / store instructions (which
-   I forgot to include into the patch-set)
+  https://github.com/legoater/qemu/ tags/pull-ppc-20220326
 
-v3 updates:
-- Missed the very 1st commit, adding it back
+for you to fetch changes up to bc504838ff88b505421dd28841ee298d9cff31d0:
 
-v4 updates:
-- Renamed vlmax to total_elems
-- Deal with tail element when vl_eq_vlmax == true
+  target/ppc: fix helper_xvmadd* argument order (2022-03-26 13:52:37 +0100)
 
-v5 updates:
-- Let `vext_get_total_elems` take `desc` and `esz`
-- Utilize `simd_maxsz(desc)` to get `vlenb`
-- Fix alignments to code
+----------------------------------------------------------------
+ppc-7.0 queue:
 
-eopXD (14):
-  target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
-  target/riscv: rvv: Rename ambiguous esz
-  target/riscv: rvv: Early exit when vstart >= vl
-  target/riscv: rvv: Add tail agnostic for vv instructions
-  target/riscv: rvv: Add tail agnostic for vector load / store
-    instructions
-  target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
-  target/riscv: rvv: Add tail agnostic for vector integer shift
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector integer comparison
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector integer merge and move
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector floating-point
-    instructions
-  target/riscv: rvv: Add tail agnostic for vector reduction instructions
-  target/riscv: rvv: Add tail agnostic for vector mask instructions
-  target/riscv: rvv: Add tail agnostic for vector permutation
-    instructions
+* target/ppc: fix helper_xvmadd* argument order
 
- target/riscv/cpu.c                      |    1 +
- target/riscv/cpu.h                      |    2 +
- target/riscv/cpu_helper.c               |    2 +
- target/riscv/insn_trans/trans_rvv.c.inc |  164 +++
- target/riscv/internals.h                |    5 +-
- target/riscv/translate.c                |    2 +
- target/riscv/vector_helper.c            | 1566 ++++++++++++++---------
- 7 files changed, 1125 insertions(+), 617 deletions(-)
+----------------------------------------------------------------
+Matheus Ferst (1):
+      target/ppc: fix helper_xvmadd* argument order
 
--- 
-2.34.1
+ target/ppc/translate/vsx-impl.c.inc | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
