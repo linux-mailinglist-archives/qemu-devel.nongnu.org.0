@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F284E9938
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:19:39 +0200 (CEST)
-Received: from localhost ([::1]:58262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877484E9901
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 16:09:43 +0200 (CEST)
+Received: from localhost ([::1]:41784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYqDa-0005Cx-Er
-	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:19:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40710)
+	id 1nYq3y-00026L-Ka
+	for lists+qemu-devel@lfdr.de; Mon, 28 Mar 2022 10:09:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nYpxN-0001rk-Qr
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:02:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38745)
+ id 1nYpxH-0001hN-RS
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:02:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nYpxM-0004la-7R
- for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:02:53 -0400
+ id 1nYpxE-0004jJ-S3
+ for qemu-devel@nongnu.org; Mon, 28 Mar 2022 10:02:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648476171;
+ s=mimecast20190719; t=1648476163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T7pXCjF61d4XC92jWNBorLNqSfo7NsGlj19zgA73IhE=;
- b=BqAKTDnqAMRBI4M6ekeWndt9sCQ77aHF+5sHI8PpAnYdc5PXRynn3NGH1tmP6yZrgnv7HF
- bV/9ogVno+TEwDEZPuGaZy2CWvfSXrZ3fD0vAFqmhOGqdAUI5dZjWwJ6EiWDyvkCBEXa7l
- eSq15XcY8EDFzIfRj5HeMcxazqH3/aY=
+ bh=WbK8QjUPrfgHm0QyhWEuE6z/4sOVhMhCHwZYmGGLiAM=;
+ b=fJv9McQwbpmFLBixQJrmHYgSvuPeH0juXxjommmhgG63zxbhzSb/miBVmcEQ9dU54bOH60
+ 2mopT+saYG1ZbnX7KqXXPcEUScwxb24YEJvRHqonsnkNbriiI4/iz2E6EI1RCm2xHLOPqL
+ pBoCrGpPFI7OoO/ELKbpWANESGi8/9k=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-630-FKN0bHJTNDesy7twJbVo7g-1; Mon, 28 Mar 2022 10:02:42 -0400
-X-MC-Unique: FKN0bHJTNDesy7twJbVo7g-1
+ us-mta-674-n7UcMP5VNeq53QqjAg3IzQ-1; Mon, 28 Mar 2022 10:02:42 -0400
+X-MC-Unique: n7UcMP5VNeq53QqjAg3IzQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC73F38008BE;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBB8A3C01C1E;
  Mon, 28 Mar 2022 14:02:41 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94EF71121320;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4A2A1121320;
  Mon, 28 Mar 2022 14:02:41 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/15] tests/docker: simplify docker-TEST@IMAGE targets
-Date: Mon, 28 Mar 2022 10:02:32 -0400
-Message-Id: <20220328140240.40798-8-pbonzini@redhat.com>
+Subject: [PATCH 08/15] tests/tcg: add compiler test variables when using
+ containers
+Date: Mon, 28 Mar 2022 10:02:33 -0400
+Message-Id: <20220328140240.40798-9-pbonzini@redhat.com>
 In-Reply-To: <20220328140240.40798-1-pbonzini@redhat.com>
 References: <20220328140240.40798-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -85,44 +86,158 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No need to go through the shell when we already have the test and images at
-the point where the targets are declared.
+Even for container-based cross compilation use $(CROSS_CC_HAS_*) variables.
+This makes the TCG test makefiles oblivious of whether the compiler is
+invoked through a container or not.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/docker/Makefile.include | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ tests/tcg/aarch64/Makefile.softmmu-target |  2 +-
+ tests/tcg/aarch64/Makefile.target         | 10 +++++-----
+ tests/tcg/configure.sh                    | 16 ++++++++++++++++
+ tests/tcg/i386/Makefile.target            |  2 +-
+ tests/tcg/ppc64/Makefile.target           |  4 ++--
+ tests/tcg/ppc64le/Makefile.target         |  4 ++--
+ 6 files changed, 27 insertions(+), 11 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 5cadd1b53e..e1bea20451 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -204,7 +204,9 @@ DOCKER_TESTS := $(if $(TESTS), $(filter $(TESTS), $(__TESTS)), $(__TESTS))
- $(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)), \
- 	$(foreach t,$(DOCKER_TESTS), \
- 		$(eval .PHONY: docker-$t@$i) \
--		$(eval docker-$t@$i: docker-image-$i docker-run-$t@$i) \
-+		$(eval docker-$t@$i: TEST=$t) \
-+		$(eval docker-$t@$i: IMAGE=qemu/$i) \
-+		$(eval docker-$t@$i: docker-image-$i; @$(MAKE) docker-run) \
- 	) \
- 	$(foreach t,$(DOCKER_TESTS), \
- 		$(eval docker-all-tests: docker-$t@$i) \
-@@ -298,14 +300,6 @@ docker-run: docker-qemu-src
- 	$(call quiet-command, rm -r $(DOCKER_SRC_COPY), \
- 		"  CLEANUP $(DOCKER_SRC_COPY)")
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index a7286ac295..f6fcd4829e 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -64,7 +64,7 @@ run-memory-replay: memory-replay run-memory-record
  
--# Run targets:
--#
--# Of the form docker-TEST-FOO@IMAGE-BAR which will then be expanded into a call to "make docker-run"
--docker-run-%: CMD = $(shell echo '$@' | sed -e 's/docker-run-\([^@]*\)@\(.*\)/\1/')
--docker-run-%: IMAGE = $(shell echo '$@' | sed -e 's/docker-run-\([^@]*\)@\(.*\)/\2/')
--docker-run-%:
--	@$(MAKE) docker-run TEST=$(CMD) IMAGE=qemu/$(IMAGE)
--
- docker-image: ${DOCKER_IMAGES:%=docker-image-%}
+ EXTRA_RUNS+=run-memory-replay
  
- docker-clean:
+-ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_3),)
++ifneq ($(CROSS_CC_HAS_ARMV8_3),)
+ pauth-3: CFLAGS += -march=armv8.3-a
+ else
+ pauth-3:
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index f7121cb4d8..6ad0ad49f9 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -18,7 +18,7 @@ run-fcvt: fcvt
+ 	$(call diff-out,$<,$(AARCH64_SRC)/fcvt.ref)
+ 
+ # Pauth Tests
+-ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_3),)
++ifneq ($(CROSS_CC_HAS_ARMV8_3),)
+ AARCH64_TESTS += pauth-1 pauth-2 pauth-4 pauth-5
+ pauth-%: CFLAGS += -march=armv8.3-a
+ run-pauth-%: QEMU_OPTS += -cpu max
+@@ -27,7 +27,7 @@ endif
+ 
+ # BTI Tests
+ # bti-1 tests the elf notes, so we require special compiler support.
+-ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_BTI),)
++ifneq ($(CROSS_CC_HAS_ARMV8_BTI),)
+ AARCH64_TESTS += bti-1
+ bti-1: CFLAGS += -mbranch-protection=standard
+ bti-1: LDFLAGS += -nostdlib
+@@ -36,12 +36,12 @@ endif
+ AARCH64_TESTS += bti-2
+ 
+ # MTE Tests
+-ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_MTE),)
++ifneq ($(CROSS_CC_HAS_ARMV8_MTE),)
+ AARCH64_TESTS += mte-1 mte-2 mte-3 mte-4 mte-5 mte-6 mte-7
+ mte-%: CFLAGS += -march=armv8.5-a+memtag
+ endif
+ 
+-ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE),)
++ifneq ($(CROSS_CC_HAS_SVE),)
+ # System Registers Tests
+ AARCH64_TESTS += sysregs
+ sysregs: CFLAGS+=-march=armv8.1-a+sve
+@@ -88,7 +88,7 @@ EXTRA_RUNS += run-gdbstub-sysregs run-gdbstub-sve-ioctls
+ endif
+ endif
+ 
+-ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE2),)
++ifneq ($(CROSS_CC_HAS_SVE2),)
+ AARCH64_TESTS += test-826
+ test-826: CFLAGS+=-march=armv8.1-a+sve2
+ endif
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 84f928f7f8..0162b2f6c4 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -350,5 +350,21 @@ for target in $target_list; do
+               fi
+           fi
+       done
++      case $target in
++          aarch64-*)
++              echo "CROSS_CC_HAS_SVE=y" >> $config_target_mak
++              echo "CROSS_CC_HAS_SVE2=y" >> $config_target_mak
++              echo "CROSS_CC_HAS_ARMV8_3=y" >> $config_target_mak
++              echo "CROSS_CC_HAS_ARMV8_BTI=y" >> $config_target_mak
++              echo "CROSS_CC_HAS_ARMV8_MTE=y" >> $config_target_mak
++              ;;
++          ppc*)
++              echo "CROSS_CC_HAS_POWER8_VECTOR=y" >> $config_target_mak
++              echo "CROSS_CC_HAS_POWER10=y" >> $config_target_mak
++              ;;
++          i386-linux-user)
++              echo "CROSS_CC_HAS_I386_NOPIE=y" >> $config_target_mak
++              ;;
++      esac
+   fi
+ done
+diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
+index e1c0310be6..bd73c96d0d 100644
+--- a/tests/tcg/i386/Makefile.target
++++ b/tests/tcg/i386/Makefile.target
+@@ -30,7 +30,7 @@ hello-i386: LDFLAGS+=-nostdlib
+ # test-386 includes a couple of additional objects that need to be
+ # linked together, we also need a no-pie capable compiler due to the
+ # non-pic calls into 16-bit mode
+-ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_I386_NOPIE),)
++ifneq ($(CROSS_CC_HAS_I386_NOPIE),)
+ test-i386: CFLAGS += -fno-pie
+ 
+ test-i386: test-i386.c test-i386-code16.S test-i386-vm86.S test-i386.h test-i386-shift.h test-i386-muldiv.h
+diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
+index 8197c288a7..babd209573 100644
+--- a/tests/tcg/ppc64/Makefile.target
++++ b/tests/tcg/ppc64/Makefile.target
+@@ -5,14 +5,14 @@
+ VPATH += $(SRC_PATH)/tests/tcg/ppc64
+ VPATH += $(SRC_PATH)/tests/tcg/ppc64le
+ 
+-ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
++ifneq ($(CROSS_CC_HAS_POWER8_VECTOR),)
+ PPC64_TESTS=bcdsub non_signalling_xscv
+ endif
+ $(PPC64_TESTS): CFLAGS += -mpower8-vector
+ 
+ PPC64_TESTS += mtfsf
+ 
+-ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
++ifneq ($(CROSS_CC_HAS_POWER10),)
+ PPC64_TESTS += byte_reverse sha512-vector
+ endif
+ byte_reverse: CFLAGS += -mcpu=power10
+diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
+index 9624bb1e9c..5b0eb5e870 100644
+--- a/tests/tcg/ppc64le/Makefile.target
++++ b/tests/tcg/ppc64le/Makefile.target
+@@ -4,12 +4,12 @@
+ 
+ VPATH += $(SRC_PATH)/tests/tcg/ppc64le
+ 
+-ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
++ifneq ($(CROSS_CC_HAS_POWER8_VECTOR),)
+ PPC64LE_TESTS=bcdsub non_signalling_xscv
+ endif
+ $(PPC64LE_TESTS): CFLAGS += -mpower8-vector
+ 
+-ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
++ifneq ($(CROSS_CC_HAS_POWER10),)
+ PPC64LE_TESTS += byte_reverse sha512-vector
+ endif
+ byte_reverse: CFLAGS += -mcpu=power10
 -- 
 2.31.1
 
