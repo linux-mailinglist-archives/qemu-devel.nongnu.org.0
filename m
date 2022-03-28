@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08CA4E8B42
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 02:38:31 +0200 (CEST)
-Received: from localhost ([::1]:36160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A7E4E8B79
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Mar 2022 03:12:41 +0200 (CEST)
+Received: from localhost ([::1]:41704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nYdOw-0002JO-F3
-	for lists+qemu-devel@lfdr.de; Sun, 27 Mar 2022 20:38:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42606)
+	id 1nYdw0-0007vz-8z
+	for lists+qemu-devel@lfdr.de; Sun, 27 Mar 2022 21:12:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nYdNA-0001cC-C9
- for qemu-devel@nongnu.org; Sun, 27 Mar 2022 20:36:40 -0400
-Received: from [2607:f8b0:4864:20::d35] (port=42690
- helo=mail-io1-xd35.google.com)
+ id 1nYdv3-00078t-AH; Sun, 27 Mar 2022 21:11:41 -0400
+Received: from [2607:f8b0:4864:20::12d] (port=43902
+ helo=mail-il1-x12d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nYdN8-0003YT-4a
- for qemu-devel@nongnu.org; Sun, 27 Mar 2022 20:36:40 -0400
-Received: by mail-io1-xd35.google.com with SMTP id r2so15236606iod.9
- for <qemu-devel@nongnu.org>; Sun, 27 Mar 2022 17:36:37 -0700 (PDT)
+ id 1nYdv1-00008O-Ly; Sun, 27 Mar 2022 21:11:41 -0400
+Received: by mail-il1-x12d.google.com with SMTP id d3so8937246ilr.10;
+ Sun, 27 Mar 2022 18:11:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PpSLXbiuyBhhXBp2yrkVC8uPNthkIUnLGshV8PnJWFM=;
- b=U10H32XyCwx0+0avTOUBiM+5upLrgAzTiebwqbZ37nKACXgC/WfLNraRxZy//n0+NL
- GtDwMIaHv8zidur8iXgVytdCOmaWwIRmgDWSlgb8qOVIA+pW7zihfV93HggPzaoeGm5F
- SGJDug+8vD+C2uP6U7i29cV7h4hqnTqxXRvZJQgrENfnFEe2DdpJnG+JLzAXwwCTEqX6
- e9A4uiR2xJd0R6Glq3WGu60/keAemf9fgtWDCZ3ScMGe3bxo163Mt4ULg6fSlaaYIA5T
- VNvHmm1Jlr/bNQweb3WRQrxxHbLH+ZZ4/5xlsOU6Kcyps/NivAY7A4Nax62CmxvKfwvd
- IY5Q==
+ :cc; bh=WnPRm8LeSMCXxRdOBDwdcn6i2Dkrd2ics/7vBvBMYNM=;
+ b=Eyriib2sGLuGS9QWeDnGhlCevQ3yDdDbHJ5IIFhgPYh8xug/tW5FJc6CaVn8q9BMTk
+ P7xruwS0LP/4YDY3zca1xN9kfDjOrUqy8SXlc28BASLbe4JBEioSeRvzKzLycNSBZE5k
+ ExIoUiSCIO+3Ieai62CS7XH3MfMyk7sd5VAh27Z2SmG02tVDr27Dv4ZRHttp/7vwaA/0
+ K9+NghvrIPo5pu6P9nzBAzEQIxcbIeapCJkeaNy1b9GSukUF8nNTnChaCxM4qfprWCiW
+ LSFzU/+OerVooQCeuY+7K5BDpKt/1BjvyXY1wxyEPW75z22yZrI821avGnwh4LIN5bKe
+ pSGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=PpSLXbiuyBhhXBp2yrkVC8uPNthkIUnLGshV8PnJWFM=;
- b=WrG3sFlDDxyuiRY7NepKOsDz8rrPHbZstwiflKXMhbpgVei9qYmz0EJFo2botFooYo
- /o7DFAyvyphIsTfRT7onZq9fBRzb9+QBD0DFOsNPlHh2fwht0bKyQOO2lBtiCe2NWgrl
- axJFC6Q88wxZRtzzKCSJVpvtprfTyDFtrm9Mex1T4MyWrUyVulpTeAuwAbGEAEnduyrZ
- 1tcPlUXVRBvStun5qB4JmUC8lL5aHBXYa7GZec6G8DOmrU88rwj9QqPszOYb3Ah79qdB
- qz61PIIxdQmIjQzCXxDqev+9vCvnRJFQtfLJkGbj+p6GhNIt+4W+7FhvJagnheIcDS6c
- IRCg==
-X-Gm-Message-State: AOAM533gLHfGykM2B4TQlCzJwQPHE+n/47a39MQeNizMMutoIfxOqR1F
- dbffQzxYXmScx4WSyWh+1OlO6xVizJp2SIfb4J8=
-X-Google-Smtp-Source: ABdhPJywLWywWTQnwxNpswlqgl195/YDiklW+FZIue3/BkVpagEMLcMElObh05z57cxe3LIv0lw12ixs8VtO1uC1yUo=
-X-Received: by 2002:a05:6638:191d:b0:321:3acb:ac8a with SMTP id
- p29-20020a056638191d00b003213acbac8amr11122922jal.212.1648427796932; Sun, 27
- Mar 2022 17:36:36 -0700 (PDT)
+ bh=WnPRm8LeSMCXxRdOBDwdcn6i2Dkrd2ics/7vBvBMYNM=;
+ b=dyutmH8Hq539Xacez5pZHn0nh4Mnm1Hh2PtK+erXB3vokUXKge4Dd3r5X4re+kSwHO
+ nCdRDyjobXkM2AJBMnJ+VQ4+US1Ns3psoDVvoG8mim/3f8oODNfQwHDoUC+Be0QzExs6
+ JC9anmvelkjq7bhbL3xywR+DcUGzSgpj1T9mUd1djMt3lIGWBuHuflnnlkrfkMj0jTOw
+ pAWUofGU7kh8hdHWihsi83HeAme7eMvJTJ0hHO+MfS8H5c2mRCeb2b00RzO5xOcdW3R4
+ 9ij7jWfec5SkMh2OXx3t4FkFZu9whuhBzY//v0QiQa8sLySX4xLeWGe5WrQ9NqcRNA4m
+ DYJA==
+X-Gm-Message-State: AOAM533FYLuI7S5jw5Jrfm4O5vhRhRgcI+aqTlephJZ25Vcybv+rKoIw
+ gVKneL71M2GmyX1c/G20TbLJnolsU8/695JZ5Dw=
+X-Google-Smtp-Source: ABdhPJyHoTV2wSGgPw28ZXY6Eudwpf/p38PKIB+ZwttdFH53EeGrs1aNzT1WBJgdLGhd3nI2JKVEf0U6a2HqvQQlI5c=
+X-Received: by 2002:a05:6e02:219c:b0:2c9:a936:7a1 with SMTP id
+ j28-20020a056e02219c00b002c9a93607a1mr2939970ila.55.1648429898221; Sun, 27
+ Mar 2022 18:11:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220324082243.451107-1-bmeng.cn@gmail.com>
-In-Reply-To: <20220324082243.451107-1-bmeng.cn@gmail.com>
+References: <20220325085902.29500-1-liweiwei@iscas.ac.cn>
+ <20220325085902.29500-2-liweiwei@iscas.ac.cn>
+In-Reply-To: <20220325085902.29500-2-liweiwei@iscas.ac.cn>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 28 Mar 2022 10:36:11 +1000
-Message-ID: <CAKmqyKOg_PVwPS1_VOZxhr2DcB6AtSA6arPPkPVuay43uiaG9A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] hw/core: Sync uboot_image.h from U-Boot v2022.01
-To: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 28 Mar 2022 11:11:11 +1000
+Message-ID: <CAKmqyKOLdqCXc7TgS4Mnn1-Y231rRA8TuqffgfQThXDB5Yc8QA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/riscv: optimize helper for vmv<nr>r.v
+To: Weiwei Li <liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d35
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -81,287 +80,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 6:40 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Fri, Mar 25, 2022 at 7:01 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
 >
-> From: Bin Meng <bin.meng@windriver.com>
+> LEN is not used for GEN_VEXT_VMV_WHOLE macro, so vmv<nr>r.v can share
+> the same helper
 >
-> Sync uboot_image.h from upstream U-Boot v2022.01 release [1].
->
-> [1] https://source.denx.de/u-boot/u-boot/-/blob/v2022.01/include/image.h
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
+>  target/riscv/helper.h                   |  5 +----
+>  target/riscv/insn_trans/trans_rvv.c.inc | 17 +++++----------
+>  target/riscv/vector_helper.c            | 29 ++++++++++---------------
+>  3 files changed, 18 insertions(+), 33 deletions(-)
 >
->  hw/core/uboot_image.h | 213 ++++++++++++++++++++++++++++--------------
->  1 file changed, 142 insertions(+), 71 deletions(-)
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 26bbab2fab..a669d0187b 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -1086,10 +1086,7 @@ DEF_HELPER_6(vcompress_vm_h, void, ptr, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_6(vcompress_vm_w, void, ptr, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_6(vcompress_vm_d, void, ptr, ptr, ptr, ptr, env, i32)
 >
-> diff --git a/hw/core/uboot_image.h b/hw/core/uboot_image.h
-> index 608022de6e..18ac293359 100644
-> --- a/hw/core/uboot_image.h
-> +++ b/hw/core/uboot_image.h
-> @@ -1,23 +1,9 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
->  /*
-> + * (C) Copyright 2008 Semihalf
-> + *
->   * (C) Copyright 2000-2005
->   * Wolfgang Denk, DENX Software Engineering, wd@denx.de.
-> - *
-> - * See file CREDITS for list of people who contributed to this
-> - * project.
-> - *
-> - * This program is free software; you can redistribute it and/or
-> - * modify it under the terms of the GNU General Public License as
-> - * published by the Free Software Foundation; either version 2 of
-> - * the License, or (at your option) any later version.
-> - *
-> - * This program is distributed in the hope that it will be useful,
-> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.         See the
-> - * GNU General Public License for more details.
-> - *
-> - * You should have received a copy of the GNU General Public License along
-> - * with this program; if not, see <http://www.gnu.org/licenses/>.
-> - *
->   ********************************************************************
->   * NOTE: This header file defines an interface to U-Boot. Including
->   * this (unmodified) header file in another file is considered normal
-> @@ -31,50 +17,83 @@
+> -DEF_HELPER_4(vmv1r_v, void, ptr, ptr, env, i32)
+> -DEF_HELPER_4(vmv2r_v, void, ptr, ptr, env, i32)
+> -DEF_HELPER_4(vmv4r_v, void, ptr, ptr, env, i32)
+> -DEF_HELPER_4(vmv8r_v, void, ptr, ptr, env, i32)
+> +DEF_HELPER_4(vmvr_v, void, ptr, ptr, env, i32)
 >
->  /*
->   * Operating System Codes
-> + *
-> + * The following are exposed to uImage header.
-> + * New IDs *MUST* be appended at the end of the list and *NEVER*
-> + * inserted for backward compatibility.
+>  DEF_HELPER_5(vzext_vf2_h, void, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_5(vzext_vf2_w, void, ptr, ptr, ptr, env, i32)
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 2878ca3132..ec7c0e0d36 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -3695,7 +3695,7 @@ static bool trans_vcompress_vm(DisasContext *s, arg_r *a)
+>   * Whole Vector Register Move Instructions ignore vtype and vl setting.
+>   * Thus, we don't need to check vill bit. (Section 16.6)
 >   */
-> -#define IH_OS_INVALID          0       /* Invalid OS   */
-> -#define IH_OS_OPENBSD          1       /* OpenBSD      */
-> -#define IH_OS_NETBSD           2       /* NetBSD       */
-> -#define IH_OS_FREEBSD          3       /* FreeBSD      */
-> -#define IH_OS_4_4BSD           4       /* 4.4BSD       */
-> -#define IH_OS_LINUX            5       /* Linux        */
-> -#define IH_OS_SVR4             6       /* SVR4         */
-> -#define IH_OS_ESIX             7       /* Esix         */
-> -#define IH_OS_SOLARIS          8       /* Solaris      */
-> -#define IH_OS_IRIX             9       /* Irix         */
-> -#define IH_OS_SCO              10      /* SCO          */
-> -#define IH_OS_DELL             11      /* Dell         */
-> -#define IH_OS_NCR              12      /* NCR          */
-> -#define IH_OS_LYNXOS           13      /* LynxOS       */
-> -#define IH_OS_VXWORKS          14      /* VxWorks      */
-> -#define IH_OS_PSOS             15      /* pSOS         */
-> -#define IH_OS_QNX              16      /* QNX          */
-> -#define IH_OS_U_BOOT           17      /* Firmware     */
-> -#define IH_OS_RTEMS            18      /* RTEMS        */
-> -#define IH_OS_ARTOS            19      /* ARTOS        */
-> -#define IH_OS_UNITY            20      /* Unity OS     */
-> +enum {
-> +       IH_OS_INVALID           = 0,    /* Invalid OS   */
-> +       IH_OS_OPENBSD,                  /* OpenBSD      */
-> +       IH_OS_NETBSD,                   /* NetBSD       */
-> +       IH_OS_FREEBSD,                  /* FreeBSD      */
-> +       IH_OS_4_4BSD,                   /* 4.4BSD       */
-> +       IH_OS_LINUX,                    /* Linux        */
-> +       IH_OS_SVR4,                     /* SVR4         */
-> +       IH_OS_ESIX,                     /* Esix         */
-> +       IH_OS_SOLARIS,                  /* Solaris      */
-> +       IH_OS_IRIX,                     /* Irix         */
-> +       IH_OS_SCO,                      /* SCO          */
-> +       IH_OS_DELL,                     /* Dell         */
-> +       IH_OS_NCR,                      /* NCR          */
-> +       IH_OS_LYNXOS,                   /* LynxOS       */
-> +       IH_OS_VXWORKS,                  /* VxWorks      */
-> +       IH_OS_PSOS,                     /* pSOS         */
-> +       IH_OS_QNX,                      /* QNX          */
-> +       IH_OS_U_BOOT,                   /* Firmware     */
-> +       IH_OS_RTEMS,                    /* RTEMS        */
-> +       IH_OS_ARTOS,                    /* ARTOS        */
-> +       IH_OS_UNITY,                    /* Unity OS     */
-> +       IH_OS_INTEGRITY,                /* INTEGRITY    */
-> +       IH_OS_OSE,                      /* OSE          */
-> +       IH_OS_PLAN9,                    /* Plan 9       */
-> +       IH_OS_OPENRTOS,         /* OpenRTOS     */
-> +       IH_OS_ARM_TRUSTED_FIRMWARE,     /* ARM Trusted Firmware */
-> +       IH_OS_TEE,                      /* Trusted Execution Environment */
-> +       IH_OS_OPENSBI,                  /* RISC-V OpenSBI */
-> +       IH_OS_EFI,                      /* EFI Firmware (e.g. GRUB2) */
+> -#define GEN_VMV_WHOLE_TRANS(NAME, LEN, SEQ)                             \
+> +#define GEN_VMV_WHOLE_TRANS(NAME, LEN)                             \
+>  static bool trans_##NAME(DisasContext *s, arg_##NAME * a)               \
+>  {                                                                       \
+>      if (require_rvv(s) &&                                               \
+> @@ -3710,13 +3710,8 @@ static bool trans_##NAME(DisasContext *s, arg_##NAME * a)               \
+>          } else {                                                        \
+>              TCGLabel *over = gen_new_label();                           \
+>              tcg_gen_brcondi_tl(TCG_COND_GEU, cpu_vstart, maxsz, over);  \
+> -                                                                        \
+> -            static gen_helper_gvec_2_ptr * const fns[4] = {             \
+> -                gen_helper_vmv1r_v, gen_helper_vmv2r_v,                 \
+> -                gen_helper_vmv4r_v, gen_helper_vmv8r_v,                 \
+> -            };                                                          \
+>              tcg_gen_gvec_2_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, a->rs2), \
+> -                               cpu_env, maxsz, maxsz, 0, fns[SEQ]);     \
+> +                               cpu_env, maxsz, maxsz, 0, gen_helper_vmvr_v); \
+>              mark_vs_dirty(s);                                           \
+>              gen_set_label(over);                                        \
+>          }                                                               \
+> @@ -3725,10 +3720,10 @@ static bool trans_##NAME(DisasContext *s, arg_##NAME * a)               \
+>      return false;                                                       \
+>  }
+>
+> -GEN_VMV_WHOLE_TRANS(vmv1r_v, 1, 0)
+> -GEN_VMV_WHOLE_TRANS(vmv2r_v, 2, 1)
+> -GEN_VMV_WHOLE_TRANS(vmv4r_v, 4, 2)
+> -GEN_VMV_WHOLE_TRANS(vmv8r_v, 8, 3)
+> +GEN_VMV_WHOLE_TRANS(vmv1r_v, 1)
+> +GEN_VMV_WHOLE_TRANS(vmv2r_v, 2)
+> +GEN_VMV_WHOLE_TRANS(vmv4r_v, 4)
+> +GEN_VMV_WHOLE_TRANS(vmv8r_v, 8)
+>
+>  static bool int_ext_check(DisasContext *s, arg_rmr *a, uint8_t div)
+>  {
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 3bd4aac9c9..1d4982ef7f 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -4888,25 +4888,18 @@ GEN_VEXT_VCOMPRESS_VM(vcompress_vm_w, uint32_t, H4)
+>  GEN_VEXT_VCOMPRESS_VM(vcompress_vm_d, uint64_t, H8)
+>
+>  /* Vector Whole Register Move */
+> -#define GEN_VEXT_VMV_WHOLE(NAME, LEN)                      \
+> -void HELPER(NAME)(void *vd, void *vs2, CPURISCVState *env, \
+> -                  uint32_t desc)                           \
+> -{                                                          \
+> -    /* EEW = 8 */                                          \
+> -    uint32_t maxsz = simd_maxsz(desc);                     \
+> -    uint32_t i = env->vstart;                              \
+> -                                                           \
+> -    memcpy((uint8_t *)vd + H1(i),                          \
+> -           (uint8_t *)vs2 + H1(i),                         \
+> -           maxsz - env->vstart);                           \
+> -                                                           \
+> -    env->vstart = 0;                                       \
+> -}
+> +void HELPER(vmvr_v)(void *vd, void *vs2, CPURISCVState *env, uint32_t desc)
+> +{
+> +    /* EEW = 8 */
+> +    uint32_t maxsz = simd_maxsz(desc);
+> +    uint32_t i = env->vstart;
 > +
-> +       IH_OS_COUNT,
-> +};
+> +    memcpy((uint8_t *)vd + H1(i),
+> +           (uint8_t *)vs2 + H1(i),
+> +           maxsz - env->vstart);
 >
->  /*
->   * CPU Architecture Codes (supported by Linux)
-> + *
-> + * The following are exposed to uImage header.
-> + * New IDs *MUST* be appended at the end of the list and *NEVER*
-> + * inserted for backward compatibility.
->   */
-> -#define IH_CPU_INVALID         0       /* Invalid CPU  */
-> -#define IH_CPU_ALPHA           1       /* Alpha        */
-> -#define IH_CPU_ARM             2       /* ARM          */
-> -#define IH_CPU_I386            3       /* Intel x86    */
-> -#define IH_CPU_IA64            4       /* IA64         */
-> -#define IH_CPU_MIPS            5       /* MIPS         */
-> -#define IH_CPU_MIPS64          6       /* MIPS  64 Bit */
-> -#define IH_CPU_PPC             7       /* PowerPC      */
-> -#define IH_CPU_S390            8       /* IBM S390     */
-> -#define IH_CPU_SH              9       /* SuperH       */
-> -#define IH_CPU_SPARC           10      /* Sparc        */
-> -#define IH_CPU_SPARC64         11      /* Sparc 64 Bit */
-> -#define IH_CPU_M68K            12      /* M68K         */
-> -#define IH_CPU_NIOS            13      /* Nios-32      */
-> -#define IH_CPU_MICROBLAZE      14      /* MicroBlaze   */
-> -#define IH_CPU_NIOS2           15      /* Nios-II      */
-> -#define IH_CPU_BLACKFIN                16      /* Blackfin     */
-> -#define IH_CPU_AVR32           17      /* AVR32        */
-> +enum {
-> +       IH_ARCH_INVALID         = 0,    /* Invalid CPU  */
-> +       IH_ARCH_ALPHA,                  /* Alpha        */
-> +       IH_ARCH_ARM,                    /* ARM          */
-> +       IH_ARCH_I386,                   /* Intel x86    */
-> +       IH_ARCH_IA64,                   /* IA64         */
-> +       IH_ARCH_MIPS,                   /* MIPS         */
-> +       IH_ARCH_MIPS64,                 /* MIPS  64 Bit */
-> +       IH_ARCH_PPC,                    /* PowerPC      */
-> +       IH_ARCH_S390,                   /* IBM S390     */
-> +       IH_ARCH_SH,                     /* SuperH       */
-> +       IH_ARCH_SPARC,                  /* Sparc        */
-> +       IH_ARCH_SPARC64,                /* Sparc 64 Bit */
-> +       IH_ARCH_M68K,                   /* M68K         */
-> +       IH_ARCH_NIOS,                   /* Nios-32      */
-> +       IH_ARCH_MICROBLAZE,             /* MicroBlaze   */
-> +       IH_ARCH_NIOS2,                  /* Nios-II      */
-> +       IH_ARCH_BLACKFIN,               /* Blackfin     */
-> +       IH_ARCH_AVR32,                  /* AVR32        */
-> +       IH_ARCH_ST200,                  /* STMicroelectronics ST200  */
-> +       IH_ARCH_SANDBOX,                /* Sandbox architecture (test only) */
-> +       IH_ARCH_NDS32,                  /* ANDES Technology - NDS32  */
-> +       IH_ARCH_OPENRISC,               /* OpenRISC 1000  */
-> +       IH_ARCH_ARM64,                  /* ARM64        */
-> +       IH_ARCH_ARC,                    /* Synopsys DesignWare ARC */
-> +       IH_ARCH_X86_64,                 /* AMD x86_64, Intel and Via */
-> +       IH_ARCH_XTENSA,                 /* Xtensa       */
-> +       IH_ARCH_RISCV,                  /* RISC-V */
-> +
-> +       IH_ARCH_COUNT,
-> +};
+> -GEN_VEXT_VMV_WHOLE(vmv1r_v, 1)
+> -GEN_VEXT_VMV_WHOLE(vmv2r_v, 2)
+> -GEN_VEXT_VMV_WHOLE(vmv4r_v, 4)
+> -GEN_VEXT_VMV_WHOLE(vmv8r_v, 8)
+> +    env->vstart = 0;
+> +}
 >
->  /*
->   * Image Types
-> @@ -113,33 +132,85 @@
->   *     U-Boot's command interpreter; this feature is especially
->   *     useful when you configure U-Boot to use a real shell (hush)
->   *     as command interpreter (=> Shell Scripts).
-> + *
-> + * The following are exposed to uImage header.
-> + * New IDs *MUST* be appended at the end of the list and *NEVER*
-> + * inserted for backward compatibility.
->   */
->
-> -#define IH_TYPE_INVALID                0       /* Invalid Image                */
-> -#define IH_TYPE_STANDALONE     1       /* Standalone Program           */
-> -#define IH_TYPE_KERNEL         2       /* OS Kernel Image              */
-> -#define IH_TYPE_RAMDISK                3       /* RAMDisk Image                */
-> -#define IH_TYPE_MULTI          4       /* Multi-File Image             */
-> -#define IH_TYPE_FIRMWARE       5       /* Firmware Image               */
-> -#define IH_TYPE_SCRIPT         6       /* Script file                  */
-> -#define IH_TYPE_FILESYSTEM     7       /* Filesystem Image (any type)  */
-> -#define IH_TYPE_FLATDT         8       /* Binary Flat Device Tree Blob */
-> -#define IH_TYPE_KERNEL_NOLOAD  14      /* OS Kernel Image (noload)     */
-> +enum {
-> +       IH_TYPE_INVALID         = 0,    /* Invalid Image                */
-> +       IH_TYPE_STANDALONE,             /* Standalone Program           */
-> +       IH_TYPE_KERNEL,                 /* OS Kernel Image              */
-> +       IH_TYPE_RAMDISK,                /* RAMDisk Image                */
-> +       IH_TYPE_MULTI,                  /* Multi-File Image             */
-> +       IH_TYPE_FIRMWARE,               /* Firmware Image               */
-> +       IH_TYPE_SCRIPT,                 /* Script file                  */
-> +       IH_TYPE_FILESYSTEM,             /* Filesystem Image (any type)  */
-> +       IH_TYPE_FLATDT,                 /* Binary Flat Device Tree Blob */
-> +       IH_TYPE_KWBIMAGE,               /* Kirkwood Boot Image          */
-> +       IH_TYPE_IMXIMAGE,               /* Freescale IMXBoot Image      */
-> +       IH_TYPE_UBLIMAGE,               /* Davinci UBL Image            */
-> +       IH_TYPE_OMAPIMAGE,              /* TI OMAP Config Header Image  */
-> +       IH_TYPE_AISIMAGE,               /* TI Davinci AIS Image         */
-> +       /* OS Kernel Image, can run from any load address */
-> +       IH_TYPE_KERNEL_NOLOAD,
-> +       IH_TYPE_PBLIMAGE,               /* Freescale PBL Boot Image     */
-> +       IH_TYPE_MXSIMAGE,               /* Freescale MXSBoot Image      */
-> +       IH_TYPE_GPIMAGE,                /* TI Keystone GPHeader Image   */
-> +       IH_TYPE_ATMELIMAGE,             /* ATMEL ROM bootable Image     */
-> +       IH_TYPE_SOCFPGAIMAGE,           /* Altera SOCFPGA CV/AV Preloader */
-> +       IH_TYPE_X86_SETUP,              /* x86 setup.bin Image          */
-> +       IH_TYPE_LPC32XXIMAGE,           /* x86 setup.bin Image          */
-> +       IH_TYPE_LOADABLE,               /* A list of typeless images    */
-> +       IH_TYPE_RKIMAGE,                /* Rockchip Boot Image          */
-> +       IH_TYPE_RKSD,                   /* Rockchip SD card             */
-> +       IH_TYPE_RKSPI,                  /* Rockchip SPI image           */
-> +       IH_TYPE_ZYNQIMAGE,              /* Xilinx Zynq Boot Image */
-> +       IH_TYPE_ZYNQMPIMAGE,            /* Xilinx ZynqMP Boot Image */
-> +       IH_TYPE_ZYNQMPBIF,              /* Xilinx ZynqMP Boot Image (bif) */
-> +       IH_TYPE_FPGA,                   /* FPGA Image */
-> +       IH_TYPE_VYBRIDIMAGE,    /* VYBRID .vyb Image */
-> +       IH_TYPE_TEE,            /* Trusted Execution Environment OS Image */
-> +       IH_TYPE_FIRMWARE_IVT,           /* Firmware Image with HABv4 IVT */
-> +       IH_TYPE_PMMC,            /* TI Power Management Micro-Controller Firmware */
-> +       IH_TYPE_STM32IMAGE,             /* STMicroelectronics STM32 Image */
-> +       IH_TYPE_SOCFPGAIMAGE_V1,        /* Altera SOCFPGA A10 Preloader */
-> +       IH_TYPE_MTKIMAGE,               /* MediaTek BootROM loadable Image */
-> +       IH_TYPE_IMX8MIMAGE,             /* Freescale IMX8MBoot Image    */
-> +       IH_TYPE_IMX8IMAGE,              /* Freescale IMX8Boot Image     */
-> +       IH_TYPE_COPRO,                  /* Coprocessor Image for remoteproc*/
-> +       IH_TYPE_SUNXI_EGON,             /* Allwinner eGON Boot Image */
-> +
-> +       IH_TYPE_COUNT,                  /* Number of image types */
-> +};
->
->  /*
->   * Compression Types
-> + *
-> + * The following are exposed to uImage header.
-> + * New IDs *MUST* be appended at the end of the list and *NEVER*
-> + * inserted for backward compatibility.
->   */
-> -#define IH_COMP_NONE           0       /*  No   Compression Used       */
-> -#define IH_COMP_GZIP           1       /* gzip  Compression Used       */
-> -#define IH_COMP_BZIP2          2       /* bzip2 Compression Used       */
-> +enum {
-> +       IH_COMP_NONE            = 0,    /*  No   Compression Used       */
-> +       IH_COMP_GZIP,                   /* gzip  Compression Used       */
-> +       IH_COMP_BZIP2,                  /* bzip2 Compression Used       */
-> +       IH_COMP_LZMA,                   /* lzma  Compression Used       */
-> +       IH_COMP_LZO,                    /* lzo   Compression Used       */
-> +       IH_COMP_LZ4,                    /* lz4   Compression Used       */
-> +       IH_COMP_ZSTD,                   /* zstd   Compression Used      */
-> +
-> +       IH_COMP_COUNT,
-> +};
->
->  #define IH_MAGIC       0x27051956      /* Image Magic Number           */
->  #define IH_NMLEN               32      /* Image Name Length            */
->
->  /*
-> - * all data in network byte order (aka natural aka bigendian)
-> + * Legacy format image header,
-> + * all data in network byte order (aka natural aka bigendian).
->   */
-> -
->  typedef struct uboot_image_header {
->         uint32_t        ih_magic;       /* Image Header Magic Number    */
->         uint32_t        ih_hcrc;        /* Image Header CRC Checksum    */
+>  /* Vector Integer Extension */
+>  #define GEN_VEXT_INT_EXT(NAME, ETYPE, DTYPE, HD, HS1)            \
 > --
-> 2.25.1
+> 2.17.1
 >
 >
 
