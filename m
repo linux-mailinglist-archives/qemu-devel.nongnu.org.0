@@ -2,85 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B174EACEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 14:16:18 +0200 (CEST)
-Received: from localhost ([::1]:58222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE754EACF7
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 14:20:01 +0200 (CEST)
+Received: from localhost ([::1]:34078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZAle-0001hZ-0S
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 08:16:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37480)
+	id 1nZApM-0004lp-2C
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 08:20:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZAgf-0007Qj-Fm
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:11:03 -0400
-Received: from [2607:f8b0:4864:20::22f] (port=33517
- helo=mail-oi1-x22f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZAgc-00086Q-Sf
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:11:00 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id k10so18819812oia.0
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 05:10:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3BedTp6M5DvX8RHv4j4gdSvQ4etS1feh+PYdJfce63c=;
- b=VBzH4MlAixvUI7w+qpS2RuTv2Ndznxx660dgkq89cRmMBXEl7GLYgZ4aO7Be9aMSOB
- GD2SZ3R4n9gh6kh6MK7YkbnTtiszOwIIzZaTe3e721FyL3eWvCEITdVbRiOdMmoDhniO
- zjBpNbBwLtzv9BXoF1V+V7Z2+lEXVwuo0o+m2gJw8TY/5ppIiaQVbnSOt6TyRgXTl/9J
- qAbzOuUPUBPmZ9rXiSLx+RwzaycdoSOzdz1tD8E/cNXqP1T3jBVmK7bajaziOTAUiLr5
- QhY7mdA9B9fpXQDJXN4Clx34ICqjN8iJ2Kd0iJoxulV1dPyESRnZNDGxhNDNnPU4iKtJ
- 4wGA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZAlq-0002SF-My
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:16:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24684)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZAln-0000m3-Sh
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:16:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648556179;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TM1aY/oNwkluG3IGb+/jZs/qfwZFXG6mlukDMQJfqDU=;
+ b=fUgWcWWWRql1gGf7MjSiAy6whTAOJKaskbTjXjC7n5twYDVMQ5IA8/OJfyLHAkbRz0PVJ8
+ yqChu1f44ATmwM8OL5m+v9AQdMEvGFGkKz8xnDGCC0YV1kg2vHfz1Dt88ZGHLOR0TbESrx
+ PWZj+fZIGrU6J6COtJIxyYADucqQhRk=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-665-TKDad1RBOYa6BLRv-JCICA-1; Tue, 29 Mar 2022 08:16:01 -0400
+X-MC-Unique: TKDad1RBOYa6BLRv-JCICA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ m12-20020a1709062acc00b006cfc98179e2so8102641eje.6
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 05:16:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3BedTp6M5DvX8RHv4j4gdSvQ4etS1feh+PYdJfce63c=;
- b=GNsDsSIII3MBIwYJ1dFHyPZjTlvH2Ix85d4ixObrkSsRRxmlQpKCKXf784vE8wfr2R
- +/3nzfa9IU1GvwYM+ClfQL4OinhGQi4fUXdHBREmszadrmAVJQevkp5LP07fIMtzFwI2
- Gw9HKWi2h3oMKkjvuCVuDi2OXfZBSWEB65fdgCiPxHCTC5OUtvI3i+Tha2kkeRhIe/2t
- edFxksiEymDJt6UJodPY3pWKS+ReXLuJiYR2acuAlD8wQKQfYFqwyWpNSUoxLzXpDSUQ
- kdAQE6Lixh2kqusnZMQhJrIJyU8aLE3wxoi5bSkSZYcTVNvwc633hVFSfii70nTP6r4l
- EyqQ==
-X-Gm-Message-State: AOAM5335/o0ADS7BtCFhSwjMe137n8V/t1MaMFHaw9qPviZQ6Vrq6W0j
- ejEH4btA66hWv0EpkSyvwfCHNg==
-X-Google-Smtp-Source: ABdhPJznI53XgpX1qRFB/D4hSX2AZokdwqYJwrHrbbGxCQxrRw8P4EWimbhrWavswDAVw7674jzTxg==
-X-Received: by 2002:a54:4390:0:b0:2ec:e47e:95bf with SMTP id
- u16-20020a544390000000b002ece47e95bfmr1946747oiv.131.1648555857613; 
- Tue, 29 Mar 2022 05:10:57 -0700 (PDT)
-Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- s26-20020a4ac81a000000b00322a2b5d943sm8350633ooq.37.2022.03.29.05.10.55
+ bh=TM1aY/oNwkluG3IGb+/jZs/qfwZFXG6mlukDMQJfqDU=;
+ b=EX8nPA55rCpkga4FVGDP6zz9XneWJ2Qf8G6wZHsb0R6Di5UhubEnQhH8e0K5jC/wGQ
+ 4iyp8bjcddonomk49sfPGwlS+FkyY8GWCBpRj1nbJElc288bv6+vfqQbJhW29J+IgabT
+ 28KNn5oSHlRqDlApB94jUEWo1x4og8mzFkIuKuxxMDMzQAB3mt/SY0a6cdIisiObfaH9
+ d1kIoBmX9REhmmhN94egrqBnKyRhsYJlNhIzWJ0IMoT+p1oUaNYkXgJgnTuPwmf0hEDf
+ EQlWNkEgbiKDJjtVIzcFFcjMUeLUQn+SHr4ydICarGN2M+5k8VtAVZR9Fup/ijHvurhP
+ 9hvQ==
+X-Gm-Message-State: AOAM532MVJ62SFrJGaB35M/BQGt+k/8JHCEM/qhlBCTNTAfqjBFFRGWr
+ qsEmUghFpzluzrJ0EiVR6sbcfkYO/mc6aWaMOlWDDB/BUIotUTgRDLXJbmF5o5n/JZPJiTP+ATo
+ QIZbXNmjqQgBcjn0=
+X-Received: by 2002:a05:6402:209:b0:416:5211:841f with SMTP id
+ t9-20020a056402020900b004165211841fmr4214844edv.59.1648556159597; 
+ Tue, 29 Mar 2022 05:15:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+FZ3v9MX2E+VZjqum/9dPEdV7kwLu46TC0SfLYpXxi/JApJmbe+/AouwcdW15rGN7skTD6w==
+X-Received: by 2002:a05:6402:209:b0:416:5211:841f with SMTP id
+ t9-20020a056402020900b004165211841fmr4214787edv.59.1648556159120; 
+ Tue, 29 Mar 2022 05:15:59 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ ep16-20020a1709069b5000b006daa26de2fbsm6899861ejc.153.2022.03.29.05.15.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Mar 2022 05:10:56 -0700 (PDT)
-Message-ID: <753d2c93-329f-56c1-33e2-8a7fa6142ff9@linaro.org>
-Date: Tue, 29 Mar 2022 06:10:53 -0600
+ Tue, 29 Mar 2022 05:15:58 -0700 (PDT)
+Message-ID: <7c4aa4e1-4809-628b-1a4c-ccd5a8aa89ce@redhat.com>
+Date: Tue, 29 Mar 2022 14:15:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 4/6] softfloat: add float*_to_int128 conversion methods
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2] block/stream: Drain subtree around graph change
+To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ qemu-block@nongnu.org
+References: <20220324140907.17192-1-hreitz@redhat.com>
+ <7da3445c-7417-6329-c9e3-4488ab7a96ec@mail.ru>
+ <f4d5e653-9dea-539d-136d-1f36fec597f2@redhat.com>
+ <8e173cec-d3a1-f8a0-bc07-12b2cfd39d89@redhat.com>
+ <18f101ca-5536-644d-d79e-66f88f0328cc@mail.ru>
+ <3297c6f5-1093-e7cc-9449-dc3abd3511a0@redhat.com>
+ <cba4cda5-c70a-e2e3-9a10-a60b418e153a@mail.ru>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <cba4cda5-c70a-e2e3-9a10-a60b418e153a@mail.ru>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220328201442.175206-1-matheus.ferst@eldorado.org.br>
- <20220328201442.175206-5-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220328201442.175206-5-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,88 +109,313 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, danielhb413@gmail.com,
- groug@kaod.org, clg@kaod.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/28/22 14:14, matheus.ferst@eldorado.org.br wrote:
-> +static int64_t partsN(float_to_sint2)(FloatPartsN *p, FloatRoundMode rmode,
-> +                                      int scale, float_status *s, uint64_t *lo)
-> +{
-> +    int flags = 0;
-> +    uint64_t hi;
+On 29.03.22 11:55, Vladimir Sementsov-Ogievskiy wrote:
+> 29.03.2022 11:54, Hanna Reitz wrote:
+>> On 28.03.22 12:24, Vladimir Sementsov-Ogievskiy wrote:
+>>> 28.03.2022 11:09, Hanna Reitz wrote:
+>>>> On 28.03.22 09:44, Hanna Reitz wrote:
+>>>>> On 25.03.22 17:37, Vladimir Sementsov-Ogievskiy wrote:
+>>>>>> 24.03.2022 17:09, Hanna Reitz wrote:
+>>>>>>> When the stream block job cuts out the nodes between top and 
+>>>>>>> base in
+>>>>>>> stream_prepare(), it does not drain the subtree manually; it 
+>>>>>>> fetches the
+>>>>>>> base node, and tries to insert it as the top node's backing node 
+>>>>>>> with
+>>>>>>> bdrv_set_backing_hd().  bdrv_set_backing_hd() however will 
+>>>>>>> drain, and so
+>>>>>>> the actual base node might change (because the base node is 
+>>>>>>> actually not
+>>>>>>> part of the stream job) before the old base node passed to
+>>>>>>> bdrv_set_backing_hd() is installed.
+>>>>>>>
+>>>>>>> This has two implications:
+>>>>>>>
+>>>>>>> First, the stream job does not keep a strong reference to the 
+>>>>>>> base node.
+>>>>>>> Therefore, if it is deleted in bdrv_set_backing_hd()'s drain (e.g.
+>>>>>>> because some other block job is drained to finish), we will get a
+>>>>>>> use-after-free.  We should keep a strong reference to that node.
+>>>>>>>
+>>>>>>> Second, even with such a strong reference, the problem remains 
+>>>>>>> that the
+>>>>>>> base node might change before bdrv_set_backing_hd() actually 
+>>>>>>> runs and as
+>>>>>>> a result the wrong base node is installed.
+>>>>>>
+>>>>>> Hmm.
+>>>>>>
+>>>>>> So, we don't really need a strong reference, as if it helps to 
+>>>>>> avoid some use-after-free, it means that we'll finish up with 
+>>>>>> wrong block graph..
+>>>>>
+>>>>> Sure.  But I found it better style to strongly reference a node 
+>>>>> while it’s used.  I’d rather have an outdated block graph (as in: 
+>>>>> A node that was supposed to disappear would still be in use) than 
+>>>>> a use-after-free.
+>>>>>
+>>>>>> Graph modifying operations must be somehow isolated from each other.
+>>>>>>
+>>>>>>>
+>>>>>>> Both effects can be seen in 030's 
+>>>>>>> TestParallelOps.test_overlapping_5()
+>>>>>>> case, which has five nodes, and simultaneously streams from the 
+>>>>>>> middle
+>>>>>>> node to the top node, and commits the middle node down to the 
+>>>>>>> base node.
+>>>>>>> As it is, this will sometimes crash, namely when we encounter the
+>>>>>>> above-described use-after-free.
+>>>>>>>
+>>>>>>> Taking a strong reference to the base node, we no longer get a 
+>>>>>>> crash,
+>>>>>>> but the resuling block graph is less than ideal: The expected 
+>>>>>>> result is
+>>>>>>> obviously that all middle nodes are cut out and the base node is 
+>>>>>>> the
+>>>>>>> immediate backing child of the top node.  However, if 
+>>>>>>> stream_prepare()
+>>>>>>> takes a strong reference to its base node (the middle node), and 
+>>>>>>> then
+>>>>>>> the commit job finishes in bdrv_set_backing_hd(), supposedly 
+>>>>>>> dropping
+>>>>>>> that middle node, the stream job will just reinstall it again.
+>>>>>>>
+>>>>>>> Therefore, we need to keep the whole subtree drained in
+>>>>>>> stream_prepare(), so that the graph modification it performs is
+>>>>>>> effectively atomic, i.e. that the base node it fetches is still 
+>>>>>>> the base
+>>>>>>> node when bdrv_set_backing_hd() sets it as the top node's 
+>>>>>>> backing node.
+>>>>>>
+>>>>>> Emanuele has similar idea of isolating graph changes from each 
+>>>>>> other by subtree-drain.
+>>>>>>
+>>>>>> If I understand correctly the idea is that we'll drain all other 
+>>>>>> block jobs, so the wouldn't do their block-graph modification 
+>>>>>> during drained section. So, we can safely modify the graph.
+>>>>>>
+>>>>>> I don't like this idea:
+>>>>>>
+>>>>>> 1. drained section = stop IO. But we don't need to stop IO in the 
+>>>>>> whole subtree to do a needed block-graph modification.
+>>>>>
+>>>>> If you mean to say that draining just the single node should be 
+>>>>> sufficient, I’ll be happy to change it.
+>>>>>
+>>>>> Not sure which node, though, because I’d think it would be `base`, 
+>>>>> but to safely fetch it I’d need to drain it, which seems to bite 
+>>>>> itself in the tail.  That’s why I went for a subtree drain from 
+>>>>> `above_base`.
+>>>>>
+>>>>>> 2. Drained section is not a lock, several clients may drain same 
+>>>>>> set of nodes.. So we exploit the fact that concurrent clients 
+>>>>>> will be paused by drained section and don't proceed to 
+>>>>>> graph-modification code.. But are we sure that block-jobs are 
+>>>>>> (and will be?) the only concurrent block-graph modifying clients? 
+>>>>>> Can qmp commands interleave somehow?
+>>>>>
+>>>>> They can under very specific circumstances and that’s a bug. See 
+>>>>> https://lists.nongnu.org/archive/html/qemu-block/2022-03/msg00582.html 
+>>>>> .
+>>>>>
+>>>>>> Can some jobs from other subtree start a block-graph modification 
+>>>>>> that touches our subtree?
+>>>>>
+>>>>> That would be wrong.  A block job shouldn’t change nodes it 
+>>>>> doesn’t own; stream doesn’t own the base, but it also doesn’t 
+>>>>> change it, it only needs to have the top node point to it.
+>>>>>
+>>>>>> If go this way, that would be more safe to drain the whole 
+>>>>>> block-graph on any block-graph modification..
+>>>>>>
+>>>>>> I think we'd better have a separate global mechanism for 
+>>>>>> isolating graph modifications. Something like a global co-mutex 
+>>>>>> or queue, where clients waits for their turn in block graph 
+>>>>>> modifications.
+>>>>>>
+>>>>>> Here is my old proposal on that topic: 
+>>>>>> https://patchew.org/QEMU/20201120161622.1537-1-vsementsov@virtuozzo.com/ 
+>>>>>>
+>>>>>
+>>>>> That would only solve the very specific issue in 030, right?
+>>>
+>>> It should solve the same issue as your patch. You don't add 
+>>> subtree_drain around every graph modification.. Or we already have it?
+>>
+>> Well, I’m not saying it will solve every single bug, but draining in 
+>> stream_prepare() will at least mean that that is safe from basically 
+>> anything else, because it will prevent concurrent automatic graph 
+>> changes (e.g. because of jobs finishing), and QMP commands shouldn’t 
+>> be executed in drained sections either (when they do, it’s wrong, but 
+>> that seems to occur only extremely rarely).  Draining alone should 
+>> make a place safe, it isn’t a lock that all sides need to take.
+>>
+>>>>>   The stream job isn’t protected from any graph modifications but 
+>>>>> those coming from mirror.  Might be a solution going forward (I 
+>>>>> didn’t look closer at it at the time, given I saw you had a 
+>>>>> discussion with Kevin), if we lock every graph change operation 
+>>>>> (though a global lock honestly doesn’t sound strictly better than 
+>>>>> draining subsections of the graph, both have their drawbacks), but 
+>>>>> that doesn’t look like it’d be something for 7.1.
+>>>
+>>> Same way, with draining solution you should make a subtree-drain for 
+>>> every graph change operation.
+>>
+>> Since we don’t have any lock yet, draining is the de-facto way we use 
+>> to forbid concurrent graph modifications.  I’m not saying we use it 
+>> correctly and thoroughly, but it is what we do right now.
+>>
+>>>
+>>>>
+>>>> I wonder whether we could have a short-term version of 
+>>>> `BdrvChild.frozen` that’s a coroutine mutex.  If `.frozen` is set, 
+>>>> you just can’t change the graph, and you also can’t wait, so that’s 
+>>>> just an error.  But if `.frozen_lock` is set, you can wait on it. 
+>>>> Here, we’d keep `.frozen` set for all links between top and 
+>>>> above_base, and then in prepare() take `.frozen_lock` on the link 
+>>>> between above_base and base.
+>>>>
+>>>
+>>> Yes that's seems an alternative to global lock, that doesn't block 
+>>> the whole graph. Still, I don't think that is bad to lock the whole 
+>>> graph for graph modificaiton, as modification should be rare and fast.
+>>
+>> Fair enough.
+>>
+>>> Another thought: does subtree-drain really drain the whole 
+>>> connectivity component of the graph?
+>>>
+>>> imagine something like this:
+>>>
+>>> [A]  [   C  ]
+>>>  |    |    |
+>>>  v    v    v
+>>> [ B    ]  [ D ]
+>>>
+>>>
+>>> If we do subtree drain at node A, this will drain B and C, but not D..
+>>>
+>>> Imagine, some another job is attached to node D, and it will start 
+>>> drained section too. So, for example both jobs will share drained 
+>>> section on node C. That doesn't seem save, and draining is not a lock.
+>>>
+>>> So, if we are going to rely on drained section as on lock, that 
+>>> isolates graph modifications from each other, we should drain the 
+>>> whole connectivity component of the graph.
+>>
+>> The drained section is not a lock, but if the other job is only 
+>> attached to node D, it won’t change node C.  It might change the link 
+>> from C to D, but that doesn’t concern the job that is concerned about 
+>> A and B. Overlapping drains are fine.
+>
+> OK. Maybe it works. It's just not obvious to me that subtree_drain 
+> works good in all cases. And global graph-modification-lock should 
+> obviously work.
+>
+>>
+>>> Next, I'm not relly sure that two jobs can simultaneusly enter 
+>>> drained section and do graph modifications. What prevents this? 
+>>> Assume two block-stream jobs reaches their finish simultaneously and 
+>>> go to subtree-drain. That just means that job_pause will be called 
+>>> for both jobs.. But what that means for the block-stream jobs that 
+>>> is in bdrv_subtree_drained_beeing() call in stream_prepare()? Seems 
+>>> nothing? Then both jobs will start graph modification process 
+>>> simultaneously and can interleave on any yield point (for exmaple 
+>>> rewriting backing_file in qcow2 metadata).
+>>
+>> So I don’t think that scenario can really happen, because the stream 
+>> job freezes the chain between above_base and top, so you can’t really 
+>> have two simultaneous stream jobs that cause problems between each 
+>> other.
+>
+> They cause problem on the boundary, as base of one stream job may be 
+> top of another, and we have also a filter, that should be 
+> inserted/removed at some moment. As I remember, that's the problematic 
+> case in 030..
+>
+>>
+>> Furthermore, the prepare() functions are run in the main thread, so 
+>> the only real danger is actually that draining around the actual 
+>> graph modification (bdrv_set_backing_hd()) causes another block job 
+>> to finish, modifying the block graph.  But then that job will also 
+>> actually finish, because it’s all in the main thread.
+>>
+>> It is true that child_job_drained_poll() says that job that are about 
+>> to prepare() are quiesced, but I don’t think that’s a problem, given 
+>> that all jobs in that state run in the main thread.
+>>
+>>>
+>>> Another reason, why I think that subtree drain is a wrong tool, as I 
+>>> said, is extra IO-stop.
+>>
+>> I know and agree, but that’s an optimization question.
+>>
+>>> Imaging the following graph:
+>>>
+>>> [A]
+>>>  |
+>>>  v
+>>> [B] [C]
+>>>  |   |
+>>>  v   v
+>>> [base]
+>>>
+>>> If we want to rebase A onto base, we actually need only stop IO 
+>>> requests in A and B. Why C should suffer from this graph 
+>>> modification? IO requests produced by C, and that are living in C 
+>>> and in base don't intersect with rebasing A on base process in any way.
+>>>
+>>> ====
+>>>
+>>> Actually, I'm not strictly against your patch, and believe that it 
+>>> fixes the problem in most cases. And it's probably OK in short term. 
+>>> The only real doubt on including it now is that drained sections 
+>>> sometimes lead to dead locks, and is it possible that we now fix the 
+>>> bug that happens only in iotest 30 (or is it reported somewhere?) 
+>>> and risking to introduce some dead-lock?
+>>
+>> Saying that the example in 030 is contrived would mean we 
+>> could/should re-include the base into the list of nodes that belong 
+>> to the stream job, which would simply disallow the case in 030 that’s 
+>> being tested and fails.
+>>
+>> Then we don’t need a subtree drain, and the plain drain in 
+>> bdrv_set_backing_hd() would be fine.
+>>
+>>> Seems that if in some code it's safe to call drained_begin(), it 
+>>> should be safe to call subtree_drained_begin(). And if it trigger 
+>>> some deadlock, it just shows some another bug.. Is it worth fixing 
+>>> now, near to 7.0 release? We live with this bug for years.. Or 
+>>> something changed that I missed?
+>>
+>> I mean...  I can understand your concern that adding a subtree drain 
+>> has performance implications (when a stream job ends, which shouldn’t 
+>> be often).  But I’m not sure whether I should share the deadlock 
+>> concern. Sounds like a sad state of affairs if I can’t just drain 
+>> something when I need it to be drained.
+>>
+>> I wasn’t aware of this bug, actually.  Now I am, and I feel rather 
+>> uncomfortable living with a use-after-free bug, because that’s on the 
+>> worse end of the bug spectrum.
+>>
+>
+> OK, I don't know:) And others are silent. Agree that global-lock 
+> solution is not for 7.0 anyway. And this one is simple enough. So, 
+> take my
+>
+> Acked-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 
-Similar comment about 'lo' vs '*lo'.
+Thanks!
 
-> +        if (p->exp <= DECOMPOSED_BINARY_POINT) {
-> +            hi = 0;
-> +            *lo = p->frac_hi >> (DECOMPOSED_BINARY_POINT - p->exp);
-> +        } else if (p->exp <= 127) {
-> +            int shift = 127 - p->exp;
-> +            hi = shr_double(0, p->frac_hi, shift);
+A global lock solution sounds good to me for 7.1+, and it even provides 
+a solution to solving the problem with QMP commands being executed while 
+other main-thread code is running.  (I mean, the QMP command would still 
+be executed, but at least concurrent graph changes would be impossible.)
 
-Same comment about double-shift w/ 0.
-
-> +            if (N > 64) {
-> +                *lo = shr_double(p->frac_hi, p->frac_lo, shift);
-> +            } else {
-> +                *lo = shr_double(p->frac_hi, 0, shift);
-> +            }
-> +        } else {
-> +            hi = UINT64_MAX;
-> +            *lo = UINT64_MAX;
-> +        }
-> +        if (p->sign) {
-> +            if (hi < INT64_MIN || (hi == INT64_MIN && *lo == 0)) {
-> +                *lo = -*lo;
-> +                hi = ~hi + !*lo;
-> +            } else {
-> +                flags = float_flag_invalid | float_flag_invalid_cvti;
-> +                hi = INT64_MIN;
-> +                *lo = 0;
-> +            }
-> +        } else if (hi > INT64_MAX) {
-> +            flags = float_flag_invalid | float_flag_invalid_cvti;
-> +            hi = INT64_MAX;
-> +            *lo = UINT64_MAX;
-> +        }
-
-Hmm.  It seemed easy to arrange the code this way with just a uint64_t, but here I think 
-it might be worth detecting overflow earlier, via exp.
-
-     if (p->exp < 127) {
-         /* No overflow possible */
-         int shift = 127 - p->exp;
-         if (shift >= 64) {
-             hi = 0;
-             lo = p->frac_hi >> (shift - 64);
-         } else {
-             hi = p->frac_hi >> shift;
-             lo = shr_double(p->frac_hi, N > 64 ? p->frac_lo : 0, shift);
-         }
-         if (p->sign) {
-             lo = -lo;
-             hi = ~hi + !lo;
-         }
-         break;
-     }
-     /* The only valid 127-bit number is UINT128_MIN. */
-     if (p->exp == 127 &&
-         p->sign &&
-         p->frac_hi == DECOMPOSED_IMPLICIT_BIT &&
-         (N <= 64 || p->frac_lo == 0)) {
-         hi = INT64_MIN;
-         lo = 0;
-         break;
-     }
-     /* Overflow. */
-     flags = ...;
-     if (p->sign)
-         ...
-
-
-r~
 
