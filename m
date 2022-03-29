@@ -2,85 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A43F4EAD10
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 14:22:31 +0200 (CEST)
-Received: from localhost ([::1]:39322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4CF74EAD3A
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 14:35:13 +0200 (CEST)
+Received: from localhost ([::1]:44204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZArm-0008PK-Fs
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 08:22:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39058)
+	id 1nZB44-0003y1-D1
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 08:35:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZAoN-0004uU-De
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:19:00 -0400
-Received: from [2607:f8b0:4864:20::22a] (port=46041
- helo=mail-oi1-x22a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZAoL-0001Hv-Rd
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:18:59 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id 12so18798306oix.12
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 05:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=sUUZz9BIJssYk3im4uvhrU+3PfjQ5Eu20pmuKEzx2WI=;
- b=KpX4GVTyh08m1hi4pizkuhF95xw+hXRgAcjXmY0wM5J85xM0k2yDhgKe6v9owtd6co
- WIrjGzy/9phLB9Lb6zmcCBjNtP9sqKNzJEBhv7YvbOjZqzdtNTM5WtPH4yq7vViglzGq
- 1wdgeMvffI8IQd2C9lZVn5ogrX6l8v6BicqESOwc2Z1kczT00q91XcyqrS4n6aTD6Zgv
- 7q2MTtqrL6EkURL22MRQvKYnsYAho3IARMqZ682DvbTV17EM+9IRK2NLLnri8xfbHJ0Z
- RuGyqe9GVGLIWuM+SQqF4IpAHbgxOCvbE7i5/lWGmvIR8M4hyyfcjA8YAKvgKPHZElGv
- kEeA==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nZB2J-00038V-3o
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:33:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25166)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nZB2B-0003RW-Pv
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:33:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648557193;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XjjqqNMq68oKKhkCwEV6XTV7ryqIByfcCqnl/Lhg92Y=;
+ b=OsBDpovTnXLp0qV+kCrYFORFsv5LZS3ZdRG2NkkEqkuQM3Yd2fbXs5eiL7e74q6NPHuXkQ
+ vOywhGt6yGTZCzCYVQEAUjj67Fv0WakMesybSOH1Puu0jeyUpml5Lj91AFQj3ULBRkAeAz
+ 8UkUM2Bhu85wsrQ9u4aJ64BgSbYK6Es=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-515-YnJjCE25OZagZMsj1q3-Sg-1; Tue, 29 Mar 2022 08:33:12 -0400
+X-MC-Unique: YnJjCE25OZagZMsj1q3-Sg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c126-20020a1c3584000000b00380dee8a62cso6753306wma.8
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 05:33:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=sUUZz9BIJssYk3im4uvhrU+3PfjQ5Eu20pmuKEzx2WI=;
- b=cvNVX1MPD9TIwH7pLlOFCJ5OrvQ3Rc9BWULwN6qmoc4o9QJl5LhS3M3h8YB4Dz17O1
- Tkz+0jfh60dncsIrXBu4bNcDbGqOtxFYBd/36IEcPIc5Z+4ZeapD2C2AcU7FwpWbNeXX
- FdaF0hGrzmyTGghkU6wDE5KVD+GpnXi6HdxA7k4mD0xnpDpgvllX9owENsDXKpVuPL/s
- YkwpidDMu5D0JCsQ8gVmpRhglXwsDKBFFrdGmnzzOUpb/rK/Ov0OevmqTlKYFtBACYOS
- s66gGbufixr0Pd4xMIiH7/Kh0ibVDisT8n2f+F+T4xUsEUUJxeJ+hmtenh1w1bk3Tnfi
- gIfw==
-X-Gm-Message-State: AOAM531Gea/xm4/vf+/vTGbN/sSFamiUfh9E9cMcNyWNznrlIFgwe++w
- lcLWvhDd72nfdIVDpGlgDs19Cg==
-X-Google-Smtp-Source: ABdhPJyCVitN8YGT2BQelBYfH85QDcdAg/7+ODizXlvTmFnAPGMJCuekIbNRBnOXnhsSShujtwb3MQ==
-X-Received: by 2002:aca:f286:0:b0:2da:58ba:c578 with SMTP id
- q128-20020acaf286000000b002da58bac578mr1098157oih.127.1648556332792; 
- Tue, 29 Mar 2022 05:18:52 -0700 (PDT)
-Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- g25-20020a544f99000000b002da70c710b8sm8899329oiy.54.2022.03.29.05.18.49
+ bh=XjjqqNMq68oKKhkCwEV6XTV7ryqIByfcCqnl/Lhg92Y=;
+ b=RRopwHN+HfUF2eg3UgwoGDSjYOyEY7Z4sQ5Ja82iZ2mA4Cco4BB4kSvr8ni8A/wHp0
+ k6eymA8Tk7cTQ5GYzJadstC/YbdZ9csoMVepDHy7BTsGhyboXzzncCFFNNs0g5xP7Rz7
+ y6nwSWfLiY9Ml1KtESECqcXDfYWrLq3QnuxZF6p5CnCcjKqbKCc38Vjl7acsZpLJFGNN
+ rBfnrfcmH0NNK9yqjDSrLKLojL/XgCODLtAzLkNNEQCgaPDK3dZ7kiin+ot8mvAFhLG5
+ eOAd9mpfmDmyB/TjLBNyBp2WBOEZFL1bS+745rejsORERxr1jNFwV4ToJDaU1sFwty7z
+ HRpA==
+X-Gm-Message-State: AOAM530qKjY75+k4odvlb/BrQfsaBDdzOzJxto8HBthNz1/biM5yPZIl
+ 1HBsX9CIibk1XOxks4x7Sb3S3NsootRctFbutyw+ppcrvUqgfS1fFaBNdcIkbbT8Ep2uFuiJx+q
+ L9tHb64FmmvUuG8s=
+X-Received: by 2002:a1c:7302:0:b0:38c:bb21:faf7 with SMTP id
+ d2-20020a1c7302000000b0038cbb21faf7mr6577601wmb.31.1648557190894; 
+ Tue, 29 Mar 2022 05:33:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzcpHBXTEYWUAtDevceyNob+aTj+ssBzZ0YJ9WTFaVSrog7ZawitQDNrPB2tGJdM5+6mjAjRg==
+X-Received: by 2002:a1c:7302:0:b0:38c:bb21:faf7 with SMTP id
+ d2-20020a1c7302000000b0038cbb21faf7mr6577569wmb.31.1648557190618; 
+ Tue, 29 Mar 2022 05:33:10 -0700 (PDT)
+Received: from [192.168.149.116]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ i74-20020adf90d0000000b0020373ba7beesm21643331wri.0.2022.03.29.05.33.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Mar 2022 05:18:51 -0700 (PDT)
-Message-ID: <88d450a1-01a7-b02b-a207-9ac3f16547f3@linaro.org>
-Date: Tue, 29 Mar 2022 06:18:48 -0600
+ Tue, 29 Mar 2022 05:33:10 -0700 (PDT)
+Message-ID: <84e1a9b9-756f-696f-e34a-3f76362348b6@redhat.com>
+Date: Tue, 29 Mar 2022 14:33:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 6/6] target/ppc: implement xscvqp[su]qz
+ Thunderbird/91.2.0
+Subject: Re: [PATCH for-7.0] main-loop: Disable GLOBAL_STATE_CODE() assertions
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20220329093545.52114-1-hreitz@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <20220329093545.52114-1-hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220328201442.175206-1-matheus.ferst@eldorado.org.br>
- <20220328201442.175206-7-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220328201442.175206-7-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,29 +104,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/28/22 14:14, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
+
+
+Am 29/03/2022 um 11:35 schrieb Hanna Reitz:
+> These assertions are very useful for developers to find bugs, and so
+> they have indeed pointed us towards bugs already.  For users, it is not
+> so useful to find these bugs.  We should probably not enable them in
+> releases until we are sufficiently certain that they will not fire
+> during normal operation, unless something is going seriously wrong.
 > 
-> Implement the following PowerISA v3.1 instructions:
-> xscvqpsqz: VSX Scalar Convert with round to zero Quad-Precision to
->             Signed Quadword
-> xscvqpuqz: VSX Scalar Convert with round to zero Quad-Precision to
->             Unsigned Quadword
+> For example, we have received a bug report that you cannot add an NBD
+> server on a BDS in an I/O thread with `-incoming defer`.  I am sure this
+> is a real bug that needs investigation, but we do not really have that
+> time right now, so close to release, and so I would rather disable the
+> assertions to get time to investigate such reports.
 > 
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> (I am just putting the link as "buglink" below, not "closes", because
+> disabling the assertion will not fix the likely underlying bug.)
+> 
+> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/945
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 > ---
->   target/ppc/fpu_helper.c             | 23 +++++++++++++++++++++++
->   target/ppc/helper.h                 |  2 ++
->   target/ppc/insn32.decode            |  2 ++
->   target/ppc/translate/vsx-impl.c.inc |  2 ++
->   4 files changed, 29 insertions(+)
+>  include/qemu/main-loop.h | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+> index 7a4d6a0920..3bf8aeb3cd 100644
+> --- a/include/qemu/main-loop.h
+> +++ b/include/qemu/main-loop.h
+> @@ -272,7 +272,8 @@ bool qemu_in_main_thread(void);
+>  /* Mark and check that the function is part of the global state API. */
+>  #define GLOBAL_STATE_CODE()                                         \
+>      do {                                                            \
+> -        assert(qemu_in_main_thread());                              \
+> +        /* FIXME: Re-enable after 7.0 release */                    \
+> +        /* assert(qemu_in_main_thread()); */                        \
+>      } while (0)
+>  
+>  /* Mark and check that the function is part of the I/O API. */
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-r~
 
