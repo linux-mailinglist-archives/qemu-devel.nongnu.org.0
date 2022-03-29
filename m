@@ -2,87 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84D74EACB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 13:53:24 +0200 (CEST)
-Received: from localhost ([::1]:48444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31974EAE20
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 15:06:17 +0200 (CEST)
+Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZAPb-0002ba-UC
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 07:53:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60618)
+	id 1nZBY8-0001u0-Lm
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 09:06:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZALQ-0005nK-B6
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:49:04 -0400
-Received: from [2607:f8b0:4864:20::22c] (port=37408
- helo=mail-oi1-x22c.google.com)
+ (Exim 4.90_1) (envelope-from <fam.zheng@bytedance.com>)
+ id 1nZ9dU-0001t6-FX
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:03:41 -0400
+Received: from [2a00:1450:4864:20::32b] (port=55260
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZALO-0004cE-SI
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:49:04 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id q129so18756069oif.4
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 04:49:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=1gsALDJglMWr7pr/thyqJZVv1lrWHcMCMYjrdHVXuCU=;
- b=hANylQ71yNXQZ2JT0yhzRqCbTZ5QvAyVTMWyEeb80mQInLknA1YRxq58d0Ul5vieQt
- 23joIX0fgE3rZCzzKWHsPPMZJ7eDBgLsFUXsrbxlAHymwcOPJXQehOd/IUJs7Hl40agx
- bcvyOj1JnC7G7nQBv9PWSmMRoZhOQSbULdPVW/nx8UujMCshZ+KmPlIK6v29wvddmGgm
- SLcthR7CvswnPCloz4ZWz/xv6j/UpjSLTTsW7NEYWFcPmxmfh+KuaWK2DQ3Cn1ntnxH3
- xHz8J0k703fBvrA8wRvsCevUaq7bSqwLJJ72MpKoEuY5atrqor128/MhupAZ5RqleCwN
- AL0w==
+ (Exim 4.90_1) (envelope-from <fam.zheng@bytedance.com>)
+ id 1nZ9dL-0005LJ-Td
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:03:34 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id r64so10044936wmr.4
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 04:03:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=uwqzZ08WU8lx/IIQ7GU944+Hw852Wp++1nffUTAky2w=;
+ b=k2jLjaMbMKnrucOCOK9WLhJAYKjKbKQf+M1FkUxBEUIO/YT2jV2n1mg+DeShxVE/vG
+ W3swq8QwTs1jk8T9Ve6tzamxnFChCYC9RjHENXWziizRr1OLQ7EZohC17waMTZcL73ed
+ L9KB2K4eSBE0sDzAqamuUepgN2qImp1dtcrk99HNqTUEK5MSogWpYEC1sFhU6yDKdjMW
+ TOA6rYvcGTEtajHtDn+ccy3wk1RCQ5SR7Ju4sIyFPYQupWgfqy/feQDKveUo7L8OYizi
+ +dKQCXHx2BndYr+caoiHPsHXEJKuqlCaN8XTBM9zaAyk/BX8rshXl1d5Ep1MV0F2esDf
+ FpBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1gsALDJglMWr7pr/thyqJZVv1lrWHcMCMYjrdHVXuCU=;
- b=PF/43AQ/5/Js3cEADwAXin63fCWPUmBP3OeO7vCB7LMxifU8oJqUVN2Gcd27fvHuAg
- 4GUVDIISM2WFXBJyRFvfodjvTz8iiDX7+IVf99LaqJuFhYxpILQRssaHl1DdJGF8Dajz
- 0bNjOJhlgZTdfRN0hB/1qy5N9hC2Cx52/3+dFJHc7suruwMYxlBcjuwSdRAoMVGKu3eS
- ln0M0P8UXMWwpYZgdqTYq4YyTbF+S+tGOl8jpEjj6/vShuvvSpPRVKgjO/y5Uj69bQ5O
- Wk8m6Q0IJrpETHce0D/x5R+mv7yk4v9loVAE7l6cEDz+nRAFdLfsKL7O3CSx3Jb8/Bzs
- 3/Ig==
-X-Gm-Message-State: AOAM531d1c8V0levQ5rwhp5sKx1H0d+EmaelZYVx6Loc+X3e3GJ5OB5Y
- 8t0kV/ZHv5GLqRLP/4Cdh1THFg==
-X-Google-Smtp-Source: ABdhPJx2Qkt/tN+R6+w26bpULuubH+c2TIDw2Viu6ppO1AWLGF363hyFrjsSCnNuEwBzp6P9saVbRQ==
-X-Received: by 2002:a05:6808:2328:b0:2ef:9271:aa1c with SMTP id
- bn40-20020a056808232800b002ef9271aa1cmr1009073oib.273.1648554541560; 
- Tue, 29 Mar 2022 04:49:01 -0700 (PDT)
-Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- 89-20020a9d0be2000000b005ae194ec5absm8655990oth.15.2022.03.29.04.49.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Mar 2022 04:49:01 -0700 (PDT)
-Message-ID: <730f57d8-9743-e624-68c0-88580ae66e96@linaro.org>
-Date: Tue, 29 Mar 2022 05:48:58 -0600
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=uwqzZ08WU8lx/IIQ7GU944+Hw852Wp++1nffUTAky2w=;
+ b=e5bnsxM8bVRtRs7Lv4KbKep0ktdA83T53TZyTe0ab6v7jVOXNXxCM3BilCPNI/Hhhh
+ bXWPtcCraNv0omuXq4ol5Pb5BCWly7veHjROselkwB+kgA//JnF/FEmch82d1ZNMnfgF
+ kVfq9sp4g0uHGS1LnRjbC0R72q7GkD5TQDCLA9Nduoflpa5cOUSkZ+iUfv7fE0KyQ3Me
+ aQNvcLbMGZHh6ot8ukq1/4HNgvjlj1EgiNowT7QDhd4ibx+iaIO1cQK6YnoJYjgeybrG
+ KSbSCNeTjjy7XJGobo+ymJS5I/50mOJCfoycpMXgL/zDzOa5Jl3BCQH+DN6YMZoZHemC
+ lgVw==
+X-Gm-Message-State: AOAM533v8OdNoEDHE9NWqd9xKXEQWU8w9hnjFqen6GEzh4YEi0P9qGEQ
+ FMs5zO9pkaUglZfuoQxiJANZgQ==
+X-Google-Smtp-Source: ABdhPJxRtPzRkRQ+W2NuZuqo83PEa4S4Hu6TkGPD5KNOCtyQN0dXmfTSTLmJa/BT5XS5Z0N8keGyRA==
+X-Received: by 2002:a7b:ce1a:0:b0:38c:eb9c:d522 with SMTP id
+ m26-20020a7bce1a000000b0038ceb9cd522mr6042046wmc.113.1648551807494; 
+ Tue, 29 Mar 2022 04:03:27 -0700 (PDT)
+Received: from localhost ([91.110.139.125]) by smtp.gmail.com with ESMTPSA id
+ b8-20020a05600c4e0800b0038c6c37efc3sm1946642wmq.12.2022.03.29.04.03.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 04:03:27 -0700 (PDT)
+From: Fam Zheng <fam.zheng@bytedance.com>
+X-Google-Original-From: Fam Zheng <fam@euphon.net>
+Date: Tue, 29 Mar 2022 12:03:26 +0100
+To: Steve Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V6 21/27] vfio-pci: cpr part 3 (intx)
+Message-ID: <20220329110326.GA447081@fam-dell>
+References: <1628286241-217457-1-git-send-email-steven.sistare@oracle.com>
+ <1628286241-217457-22-git-send-email-steven.sistare@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 3/6] softfloat: add float*_to_uint128 conversion
- methods
-Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220328201442.175206-1-matheus.ferst@eldorado.org.br>
- <20220328201442.175206-4-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220328201442.175206-4-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1628286241-217457-22-git-send-email-steven.sistare@oracle.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=fam.zheng@bytedance.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 29 Mar 2022 09:00:23 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,26 +90,302 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, danielhb413@gmail.com,
- groug@kaod.org, clg@kaod.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, david@gibson.dropbear.id.au
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zheng Chuan <zhengchuan@huawei.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/28/22 14:14, matheus.ferst@eldorado.org.br wrote:
-> +static uint64_t partsN(float_to_uint2)(FloatPartsN *p, FloatRoundMode rmode,
-> +                                       int scale, float_status *s, uint64_t *lo)
-> +{
-> +    int flags = 0;
-> +    uint64_t hi;
+On 2021-08-06 14:43, Steve Sistare wrote:
+> Preserve vfio INTX state across cpr restart.  Preserve VFIOINTx fields as
+> follows:
+>   pin : Recover this from the vfio config in kernel space
+>   interrupt : Preserve its eventfd descriptor across exec.
+>   unmask : Ditto
+>   route.irq : This could perhaps be recovered in vfio_pci_post_load by
+>     calling pci_device_route_intx_to_irq(pin), whose implementation reads
+>     config space for a bridge device such as ich9.  However, there is no
+>     guarantee that the bridge vmstate is read before vfio vmstate.  Rather
+>     than fiddling with MigrationPriority for vmstate handlers, explicitly
+>     save route.irq in vfio vmstate.
+>   pending : save in vfio vmstate.
+>   mmap_timeout, mmap_timer : Re-initialize
+>   bool kvm_accel : Re-initialize
+> 
+> In vfio_realize, defer calling vfio_intx_enable until the vmstate
+> is available, in vfio_pci_post_load.  Modify vfio_intx_enable and
+> vfio_intx_kvm_enable to skip vfio initialization, but still perform
+> kvm initialization.
+> 
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 
-I think most of this would read cleaner with 'lo' as a local variable, assigned to *plo at 
-the end (or, at the end, combined into the Int128 return value).
+Hi Steve,
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Not directly related to this patch, but since the context is close: it looks
+like this series only takes care of exec restart mode of vfio-pci, have you had
+any thoughts on kexec reboot mode with vfio-pci?
+
+The general idea is if DMAR context is not lost during kexec, we should be able
+to set up irqfds again and things will just work?
+
+Fam
+
+--
+
+PS some more info below:
+
+I have some local kernel patches to kexec reboot most part of the host kernel
+while keeping IOMMU DMAR tables in a valid state; with that, not many extra
+things are needed in addition to restore it. A PoC is like below (I can share
+more details of the kernel changes if this patch makes any sense):
 
 
-r~
+commit f8951e58be86bd6e37f816394a9a73f28d8059fc
+Author: Fam Zheng <fam.zheng@bytedance.com>
+Date:   Mon Mar 21 13:19:49 2022 +0000
+
+    cpr: Add live-update support to vfio-pci devices
+    
+    In cpr-save, always serialize the vfio-pci states.
+    
+    In cpr-load, add a '-restore' mode that will do
+    VFIO_GROUP_GET_DEVICE_FD_INTACT and skip DMAR setup, somewhat similar to
+    the current cpr exec mode.
+    
+    Signed-off-by: Fam Zheng <fam.zheng@bytedance.com>
+
+diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+index 73f4259556..e36f0ef97d 100644
+--- a/hw/pci/msix.c
++++ b/hw/pci/msix.c
+@@ -584,10 +584,15 @@ void msix_init_vector_notifiers(PCIDevice *dev,
+                                 MSIVectorReleaseNotifier release_notifier,
+                                 MSIVectorPollNotifier poll_notifier)
+ {
++    int vector;
++
+     assert(use_notifier && release_notifier);
+     dev->msix_vector_use_notifier = use_notifier;
+     dev->msix_vector_release_notifier = release_notifier;
+     dev->msix_vector_poll_notifier = poll_notifier;
++    for (vector = 0; vector < dev->msix_entries_nr; ++vector) {
++        msix_handle_mask_update(dev, vector, true);
++    }
+ }
+ 
+ int msix_set_vector_notifiers(PCIDevice *dev,
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 605ffbb5d0..f1240410a8 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -2066,6 +2066,9 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+     bool reused;
+     VFIOAddressSpace *space;
+ 
++    if (restore) {
++        return 0;
++    }
+     space = vfio_get_address_space(as);
+     fd = cpr_find_fd("vfio_container_for_group", group->groupid);
+     reused = (fd > 0);
+@@ -2486,7 +2489,8 @@ int vfio_get_device(VFIOGroup *group, const char *name,
+     fd = cpr_find_fd(name, 0);
+     reused = (fd >= 0);
+     if (!reused) {
+-        fd = ioctl(group->fd, VFIO_GROUP_GET_DEVICE_FD, name);
++        int op = restore ? VFIO_GROUP_GET_DEVICE_FD_INTACT : VFIO_GROUP_GET_DEVICE_FD;
++        fd = ioctl(group->fd, op, name);
+     }
+ 
+     if (fd < 0) {
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index e32513c668..9da5f93228 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -361,7 +361,7 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
+      * Do not alter interrupt state during vfio_realize and cpr-load.  The
+      * reused flag is cleared thereafter.
+      */
+-    if (!vdev->pdev.reused) {
++    if (!vdev->pdev.reused && !restore) {
+         vfio_disable_interrupts(vdev);
+     }
+ 
+@@ -388,7 +388,7 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
+     fd = event_notifier_get_fd(&vdev->intx.interrupt);
+     qemu_set_fd_handler(fd, vfio_intx_interrupt, NULL, vdev);
+ 
+-    if (vdev->pdev.reused) {
++    if (vdev->pdev.reused && !restore) {
+         vfio_intx_reenable_kvm(vdev, &err);
+         goto finish;
+     }
+@@ -2326,6 +2326,9 @@ static int vfio_pci_hot_reset(VFIOPCIDevice *vdev, bool single)
+     int ret, i, count;
+     bool multi = false;
+ 
++    if (restore) {
++        return 0;
++    }
+     trace_vfio_pci_hot_reset(vdev->vbasedev.name, single ? "one" : "multi");
+ 
+     if (!single) {
+@@ -3185,7 +3188,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+         kvm_irqchip_add_change_notifier(&vdev->irqchip_change_notifier);
+ 
+         /* Wait until cpr-load reads intx routing data to enable */
+-        if (!pdev->reused) {
++        if (!pdev->reused && !restore) {
+             ret = vfio_intx_enable(vdev, errp);
+             if (ret) {
+                 goto out_deregister;
+@@ -3295,7 +3298,7 @@ static void vfio_pci_reset(DeviceState *dev)
+     VFIOPCIDevice *vdev = VFIO_PCI(dev);
+ 
+     /* Do not reset the device during qemu_system_reset prior to cpr-load */
+-    if (vdev->pdev.reused) {
++    if (vdev->pdev.reused || restore) {
+         return;
+     }
+ 
+@@ -3429,33 +3432,40 @@ static void vfio_merge_config(VFIOPCIDevice *vdev)
+ 
+ static void vfio_claim_vectors(VFIOPCIDevice *vdev, int nr_vectors, bool msix)
+ {
+-    int i, fd;
++    int i, fd, ret;
+     bool pending = false;
+     PCIDevice *pdev = &vdev->pdev;
+ 
++    pdev->msix_entries_nr = nr_vectors;
+     vdev->nr_vectors = nr_vectors;
+     vdev->msi_vectors = g_new0(VFIOMSIVector, nr_vectors);
+     vdev->interrupt = msix ? VFIO_INT_MSIX : VFIO_INT_MSI;
+ 
+-    for (i = 0; i < nr_vectors; i++) {
+-        VFIOMSIVector *vector = &vdev->msi_vectors[i];
+-
+-        fd = load_event_fd(vdev, "interrupt", i);
+-        if (fd >= 0) {
+-            vfio_vector_init(vdev, i);
+-            qemu_set_fd_handler(fd, vfio_msi_interrupt, NULL, vector);
++    if (restore) {
++        ret = vfio_enable_vectors(vdev, true);
++        if (ret) {
++            error_report("vfio: failed to enable vectors, %d", ret);
+         }
++    } else {
++        for (i = 0; i < nr_vectors; i++) {
++            VFIOMSIVector *vector = &vdev->msi_vectors[i];
+ 
+-        if (load_event_fd(vdev, "kvm_interrupt", i) >= 0) {
+-            vfio_add_kvm_msi_virq(vdev, vector, i, msix);
+-        }
++            fd = load_event_fd(vdev, "interrupt", i);
++            if (fd >= 0) {
++                vfio_vector_init(vdev, i);
++                qemu_set_fd_handler(fd, vfio_msi_interrupt, NULL, vector);
++            }
+ 
+-        if (msix && msix_is_pending(pdev, i) && msix_is_masked(pdev, i)) {
+-            set_bit(i, vdev->msix->pending);
+-            pending = true;
++            if (load_event_fd(vdev, "kvm_interrupt", i) >= 0) {
++                vfio_add_kvm_msi_virq(vdev, vector, i, msix);
++            }
++
++            if (msix && msix_is_pending(pdev, i) && msix_is_masked(pdev, i)) {
++                set_bit(i, vdev->msix->pending);
++                pending = true;
++            }
+         }
+     }
+-
+     if (msix) {
+         memory_region_set_enabled(&pdev->msix_pba_mmio, pending);
+     }
+@@ -3534,7 +3544,7 @@ static const VMStateDescription vfio_intx_vmstate = {
+ 
+ static bool vfio_pci_needed(void *opaque)
+ {
+-    return cpr_get_mode() == CPR_MODE_RESTART;
++    return 1;
+ }
+ 
+ static const VMStateDescription vfio_pci_vmstate = {
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 6241c20fb1..0179b0aa90 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -26,6 +26,7 @@ void configure_rtc(QemuOpts *opts);
+ void qemu_init_subsystems(void);
+ 
+ extern int autostart;
++extern int restore;
+ 
+ typedef enum {
+     VGA_NONE, VGA_STD, VGA_CIRRUS, VGA_VMWARE, VGA_XENFB, VGA_QXL,
+diff --git a/linux-headers/linux/vfio.h b/linux-headers/linux/vfio.h
+index e680594f27..65c3bab074 100644
+--- a/linux-headers/linux/vfio.h
++++ b/linux-headers/linux/vfio.h
+@@ -188,6 +188,8 @@ struct vfio_group_status {
+  */
+ #define VFIO_GROUP_GET_DEVICE_FD	_IO(VFIO_TYPE, VFIO_BASE + 6)
+ 
++#define VFIO_GROUP_GET_DEVICE_FD_INTACT	_IO(VFIO_TYPE, VFIO_BASE + 21)
++
+ /* --------------- IOCTLs for DEVICE file descriptors --------------- */
+ 
+ /**
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 8b90d04cb9..03666a59b3 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3984,6 +3984,10 @@ SRST
+     option is experimental.
+ ERST
+ 
++DEF("restore", 0, QEMU_OPTION_restore, \
++    "-restore              restore mode",
++    QEMU_ARCH_ALL)
++
+ DEF("S", 0, QEMU_OPTION_S, \
+     "-S              freeze CPU at startup (use 'c' to start execution)\n",
+     QEMU_ARCH_ALL)
+diff --git a/softmmu/globals.c b/softmmu/globals.c
+index a18fd8dcf3..6fcb5846b4 100644
+--- a/softmmu/globals.c
++++ b/softmmu/globals.c
+@@ -41,6 +41,7 @@ bool enable_cpu_pm;
+ int nb_nics;
+ NICInfo nd_table[MAX_NICS];
+ int autostart = 1;
++int restore;
+ int vga_interface_type = VGA_NONE;
+ Chardev *parallel_hds[MAX_PARALLEL_PORTS];
+ int win2k_install_hack;
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index f14e29e622..fba6b577cb 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3088,6 +3088,9 @@ void qemu_init(int argc, char **argv, char **envp)
+             case QEMU_OPTION_S:
+                 autostart = 0;
+                 break;
++            case QEMU_OPTION_restore:
++                restore = 1;
++                break;
+             case QEMU_OPTION_k:
+                 keyboard_layout = optarg;
+                 break;
 
