@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAFB4EAFC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:04:27 +0200 (CEST)
-Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B10EE4EAFD9
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:08:01 +0200 (CEST)
+Received: from localhost ([::1]:59298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZDOT-0003xO-Te
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:04:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46350)
+	id 1nZDRw-0001Lf-OV
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:08:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZDJz-0006du-0n
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:48 -0400
-Received: from [2607:f8b0:4864:20::22e] (port=36541
- helo=mail-oi1-x22e.google.com)
+ id 1nZDK9-0007AP-El
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:57 -0400
+Received: from [2607:f8b0:4864:20::235] (port=44812
+ helo=mail-oi1-x235.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZDJx-0003EF-Gt
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:46 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id z8so19287603oix.3
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 07:59:44 -0700 (PDT)
+ id 1nZDK8-0003F5-11
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:57 -0400
+Received: by mail-oi1-x235.google.com with SMTP id t21so14403930oie.11
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 07:59:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/u1YbhytL1Z+h05H+2dXpIQWkpWGoEktTYiMH5Y6Gy8=;
- b=GlxEYXeHkGr9L14dozdGPY1R1gc+OZ2QGxe8oa0yFecnZ6fvcN1WUie/WKKOMmjwPj
- 5pkQTgJyQOvOZjIfeQmGpOsgm3pJszlgsaLt/komGqFGsrFWaraGYifnV1RaSOdCtwvY
- o4HyN9P2JN+PRfCQas9AsmUqyIreL686SchD6AgtZcax5gFaxfJMUGSuLl7R5U3DTTUs
- olYh3PBJh9mcmnspLWMHdytmmrHmLO84sSGRrudllUvVGKdZyOxOnC13S0qMK30PWNGS
- D3zP8bObOzjaqAv4GXkjYU0s8iOOtxCRep45TJaSwtBVlj9YMseI9TUQ1YvsXUPWbgDe
- fvmw==
+ bh=dE5tLLBVFgZbThwadIZIcSS2yUL3LPYAA/dTI3BpbO8=;
+ b=mgugJ74jUveyyMd51hIW9qOEwRlMH78+maKJnNcrpFGsNaeLW8+a8cW0e27dh71deA
+ ETyyYMJAlYJrNCXbgRnSBK6nfI8O+SF65CiFJvOqwD6NdyC9+pnhiIYTbExWsK7i9czu
+ AzGUDm02D4vwaiHtoDzo3TsQloOvxIGwgkD4PhvpbVTdtFhXnTeNh6qcFy/K4qj11zlG
+ oeC5GBoXxvuJy7DPsXTl3L573COn7tgyRv0h46A6ejM1VpT8iG0vUC3Kh+wd9dDl1ofP
+ JjHGucN6goj00dr0kU4sLa6qT8n0QGW8i/6svuJJGEafJeg6JCs438v1BLoiPHxyzhEN
+ KJ9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/u1YbhytL1Z+h05H+2dXpIQWkpWGoEktTYiMH5Y6Gy8=;
- b=r8DtlI4BPYI/YZfqduzoX3V/WfDj1StIIExmNprTD/OvIgkPTajOHB4j4EriMptucC
- GkR8lq44zWe9cvnNAJOlQapGsw2QxF+1VoOswTLj9j2HWevzCzUIjbrFGRMGZthRpqJn
- pVsJt1qfyOTAYnIUL/aP/eiQJ3ivKbC0hZE4E8fyyWPVVbQXWHoKvwPtB2rpkugcr4hG
- fhZWajwelhMpnkBBqz6xkxCgZtJc0LpnRbRRcXlTb5ncFl4CRGCUaGQWUgFCXtmfsZk1
- cDwbRvN9n8QRXWxMXNg/bnhm1qHjIzuY321qYnpPxVdDF1T7gApYxpAyYyKFcBEI2VAn
- nzwA==
-X-Gm-Message-State: AOAM530q6/S+BM33bboOcQw1nVfDA/8bt0Q2mDP+CJskFiggz6Z3w0Cx
- 6SE6R5z0/xCLdjC0exuuYxgTnA==
-X-Google-Smtp-Source: ABdhPJyu6aigYuDgx3hdXxXSlw3LyDgwY46nLxIUDTDShfWi87ucVFhSYuuk98+9VgdOfSAixF77VQ==
-X-Received: by 2002:a54:4589:0:b0:2ec:d236:90d with SMTP id
- z9-20020a544589000000b002ecd236090dmr17224oib.55.1648565983615; 
- Tue, 29 Mar 2022 07:59:43 -0700 (PDT)
+ bh=dE5tLLBVFgZbThwadIZIcSS2yUL3LPYAA/dTI3BpbO8=;
+ b=fBFjdKEc8vIur1E5oXokieKAHl/Bk7/m9a6Jj0b4cv8YwGcdUttm3vhEFe53a1qHSJ
+ Z1fetAJifgSaE3b4JEFR7ms6yV3VOOS5tcrcbBOjgmssbcz0cJnXQFkyjZSEjW1kYShF
+ BBIOKG/Li4QB4+ksr5faEbBaKpnAaRP8XS4QFH6SFcknxlPn2v6LLsbxgM2nQcAs6jy6
+ 8bvqAcbEODzmZ+hNucL69cE8PXUmQ/cvWptwN5vHjTK26l2DRjcd9jLiRoh8wdUwUtnH
+ B8HavFXn/3MN0+saxEXe8cvKS6q/V05wbwcEdcMbH+ty3jwP4hW8gggAttY9vfR4RR0F
+ D/mQ==
+X-Gm-Message-State: AOAM5303VkV6kb3Kh1URP2LAMSBs2kjGITm+JU7M0ixkBnlECSUj04TZ
+ t9CheAqBZBmZeCVLsWdHo+CqYPqHhN47SxK8ex4=
+X-Google-Smtp-Source: ABdhPJwu5Qf97JzY50cfdmWmCkfb6jj451fcmRehVSfK/uTdjLJL0S15GMaVASFHAXcd7DAX1c0x9Q==
+X-Received: by 2002:aca:d0e:0:b0:2ef:4a47:63b9 with SMTP id
+ 14-20020aca0d0e000000b002ef4a4763b9mr11025oin.135.1648565994939; 
+ Tue, 29 Mar 2022 07:59:54 -0700 (PDT)
 Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- s42-20020a4a96ad000000b00324c54e9cf5sm7702994ooi.4.2022.03.29.07.59.42
+ ay5-20020a056820150500b00320f8a179d0sm7439712oob.30.2022.03.29.07.59.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Mar 2022 07:59:43 -0700 (PDT)
-Message-ID: <fab87e98-8708-53c9-96b1-0cf067f5dce4@linaro.org>
-Date: Tue, 29 Mar 2022 08:59:40 -0600
+ Tue, 29 Mar 2022 07:59:54 -0700 (PDT)
+Message-ID: <853eae1f-a1d1-8c25-9c5b-477a57b2df8e@linaro.org>
+Date: Tue, 29 Mar 2022 08:59:52 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
 Subject: Re: [PATCH 1/3] target/arm: Check VSTCR.SW when assigning the stage 2
  output PA space
 Content-Language: en-US
-To: =?UTF-8?Q?R=c3=a9mi_Denis-Courmont?= <remi@remlab.net>, qemu-arm@nongnu.org
+To: Idan Horowitz <idan.horowitz@gmail.com>, qemu-arm@nongnu.org
 References: <20220327093427.1548629-1-idan.horowitz@gmail.com>
  <20220327093427.1548629-2-idan.horowitz@gmail.com>
- <5551410.DvuYhMxLoT@basile.remlab.net>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <5551410.DvuYhMxLoT@basile.remlab.net>
+In-Reply-To: <20220327093427.1548629-2-idan.horowitz@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22e
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::235
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x235.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,44 +94,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Idan Horowitz <idan.horowitz@gmail.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/27/22 08:24, Rémi Denis-Courmont wrote:
-> Le sunnuntaina 27. maaliskuuta 2022, 12.34.26 EEST Idan Horowitz a écrit :
->> As per the AArch64.SS2OutputPASpace() psuedo-code in the ARMv8 ARM when the
->> PA space of the IPA is non secure, the output PA space is secure if and only
->> if all of the bits VTCR.<NSW, NSA>, VSTCR.<SW, SA> are not set.
->>
->> Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
->> ---
->>   target/arm/helper.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/target/arm/helper.c b/target/arm/helper.c
->> index 812ca591f4..d0265b760f 100644
->> --- a/target/arm/helper.c
->> +++ b/target/arm/helper.c
->> @@ -12697,7 +12697,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong
->> address, } else {
->>                       attrs->secure =
->>                           !((env->cp15.vtcr_el2.raw_tcr & (VTCR_NSA |
->> VTCR_NSW)) -                        || (env->cp15.vstcr_el2.raw_tcr &
->> VSTCR_SA)); +                        || (env->cp15.vstcr_el2.raw_tcr &
->> (VSTCR_SA | VSTCR_SW))); }
+On 3/27/22 03:34, Idan Horowitz wrote:
+> As per the AArch64.SS2OutputPASpace() psuedo-code in the ARMv8 ARM when the
+> PA space of the IPA is non secure, the output PA space is secure if and only
+> if all of the bits VTCR.<NSW, NSA>, VSTCR.<SW, SA> are not set.
 > 
-> The VTCR_EL2 specification says that the NSA bit "behaves as 1 for all purposes
-> other than reading back the value of the bit when one of the following is true
-> (...)
-> * The value of VTCR_EL2.NSW is 1.
-> * The value of VSTCR_EL2.SA is 1."
-> 
-> Sorry but I don't see any reason to check the SW bit here.
+> Signed-off-by: Idan Horowitz<idan.horowitz@gmail.com>
+> ---
+>   target/arm/helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Because the description of SA says that it behaves as 1 if SW is 1.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
