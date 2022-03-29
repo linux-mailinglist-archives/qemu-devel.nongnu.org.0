@@ -2,98 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260F84EB028
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:23:41 +0200 (CEST)
-Received: from localhost ([::1]:46186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557334EB052
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:27:21 +0200 (CEST)
+Received: from localhost ([::1]:53814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZDh6-0004Dg-59
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:23:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51774)
+	id 1nZDkd-0001V0-LK
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:27:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1nZDfA-0002iC-T2; Tue, 29 Mar 2022 11:21:42 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12352)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nZDiB-00083l-U8
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:24:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1nZDf8-0007PP-OT; Tue, 29 Mar 2022 11:21:40 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22TDNiSR029818; 
- Tue, 29 Mar 2022 15:21:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=njulgadCf93COGEPOIpjRLZQ6Tj62G3k54qMnmO2QnM=;
- b=a98s1imsUNHxAY4q+xBoL7NxemHEitnFlc6RzRqBuOXYp3vaXfmN5+qKiALA4X7g2mw3
- hR1qJpjmOMS8/x6OATt4XVng1GfcQn1pWh7cln2kSlplWCfMlRGblDrg9VpcQiyI/BSH
- FkTEtslpRBBXjM3nHbgOYYOKF8696ADyET0zldaSAC2k+tm1/dNS3bcBXw6GNpBez2Ud
- 4h810F0p+8MbzaM6a8tNchdsZd2AnRnEUid9vOlvZ5I+qoV3jGUxZOvule89tNzUZ7MK
- ljfUCLeVn985XKINwVU5K0O2p4bq2YOMqDgjU6UZGZ7KgdlDLtcGpyf37ocgFRyu/Qwf zA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3f409rpngh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Mar 2022 15:21:31 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22TFHQdM009052;
- Tue, 29 Mar 2022 15:21:31 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3f409rpnfg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Mar 2022 15:21:31 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22TFFJKU000988;
- Tue, 29 Mar 2022 15:21:28 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06ams.nl.ibm.com with ESMTP id 3f3rs3hg82-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Mar 2022 15:21:28 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22TFLPXw36372968
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 29 Mar 2022 15:21:25 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1467D11C050;
- Tue, 29 Mar 2022 15:21:25 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5528F11C058;
- Tue, 29 Mar 2022 15:21:24 +0000 (GMT)
-Received: from heavy.lan (unknown [9.171.51.38])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 29 Mar 2022 15:21:24 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH] multifd: Copy pages before compressing them with zlib
-Date: Tue, 29 Mar 2022 17:21:23 +0200
-Message-Id: <20220329152123.493731-1-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.35.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: WuG5saMTJlUmw2qxPdefWYpHmqub3zh6
-X-Proofpoint-ORIG-GUID: Pz0aN712Bj_elgVIZtf1RATYx1r_Bwfr
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nZDi9-0007l7-ET
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:24:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648567484;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=z90VZAC0ex5v9nfTHKXz1jjt+zgBYsAjAi/fK4NkeqM=;
+ b=ULTNhks4xgWNSS/MBLV8J1E60uG8wKiczsEuGh5+W2K/dDMjg+4RSdgha8I7DKUOdUGcls
+ I0AtpvcgQxPRuh7X2uI9Jq6F+WnxtTN5hid9dvatxRlKSnOHRwVuwyfPzY+2OHu7pSi+Uz
+ FmANt3CQ2ssr3BjqvkDVypyulZMGc54=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-497-M0qiwMvbM8iRKQ1xse5Esw-1; Tue, 29 Mar 2022 11:24:43 -0400
+X-MC-Unique: M0qiwMvbM8iRKQ1xse5Esw-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ q24-20020a05620a0c9800b0060d5d0b7a90so10694439qki.11
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 08:24:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=z90VZAC0ex5v9nfTHKXz1jjt+zgBYsAjAi/fK4NkeqM=;
+ b=NG3azow/dnhjOSMF4vk2qlfBI3Kqapw9Lqe6o9maidDJor/T2JxjGQ+VMhtKpsSc29
+ JIAaeTBcIK+woe4dbWToNOk8gPE9672V48aTQyfC+NtGgU1zfk/18tnTz0Hnzd/Bc3Ym
+ dveL8ekZGu+jpYzhdp2CcU7XWTcLZBJz9KREl7e7QtnZItXMvEOw5JMGI4q4JZjo/mzD
+ 9Fd8oA9k17SMSerTIkvzX3IMrKY9O3WYidxxqAkpf10ASdWDOhPM24F8kdIrqLbz5hX8
+ XytRJ3rxF9CKzsN+ZO3BIIeHZNaSB81cM/NH+4W/YyTOi1/T6yS75OC6EasRGaWKJ8F/
+ hyhg==
+X-Gm-Message-State: AOAM532g87yAsccazLHj/9jfsSzdHOB4kODhTmTLvp/GEhnOnpgYOHSL
+ Hrn9ukNzYVx8s1Xc7MUT1FJ83JEerbotA7EY9jBuFhI+V2ckqW32j3hhbSbbs+fsF24+ryX9kqP
+ ehtPguFWqS+xZ1v8=
+X-Received: by 2002:a05:6214:d07:b0:441:65d7:3a26 with SMTP id
+ 7-20020a0562140d0700b0044165d73a26mr26247009qvh.29.1648567482344; 
+ Tue, 29 Mar 2022 08:24:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzBFEEcuygwHo94rwFvZoBPf/5T3deNhzn5Ta2/f2v+3hQvUrciOUPHt9dUbY9gZ9uNO2BkcA==
+X-Received: by 2002:a05:6214:d07:b0:441:65d7:3a26 with SMTP id
+ 7-20020a0562140d0700b0044165d73a26mr26246950qvh.29.1648567481694; 
+ Tue, 29 Mar 2022 08:24:41 -0700 (PDT)
+Received: from sgarzare-redhat (host-79-46-200-67.retail.telecomitalia.it.
+ [79.46.200.67]) by smtp.gmail.com with ESMTPSA id
+ g9-20020a05620a108900b0067b13036bd5sm9454399qkk.52.2022.03.29.08.24.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 08:24:41 -0700 (PDT)
+Date: Tue, 29 Mar 2022 17:24:30 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC 7/8] blkio: implement BDRV_REQ_REGISTERED_BUF optimization
+Message-ID: <20220329152430.xhmhiq2l2cibzoio@sgarzare-redhat>
+References: <20220323111727.1100209-1-stefanha@redhat.com>
+ <20220323111727.1100209-8-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-29_05,2022-03-29_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- adultscore=0 mlxlogscore=999 clxscore=1011 priorityscore=1501
- impostorscore=0 suspectscore=0 spamscore=0 phishscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203290091
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <20220323111727.1100209-8-stefanha@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,131 +99,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, thuth@redhat.com,
- f.ebner@proxmox.com,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, s.reiter@proxmox.com,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, peterx@redhat.com,
- qemu-s390x@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- hreitz@redhat.com, Christian Borntraeger <borntraeger@linux.ibm.com>,
- jinpu.wang@ionos.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Alberto Faria <afaria@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-zlib_send_prepare() compresses pages of a running VM. zlib does not
-make any thread-safety guarantees with respect to changing deflate()
-input concurrently with deflate() [1].
+On Wed, Mar 23, 2022 at 11:17:26AM +0000, Stefan Hajnoczi wrote:
+>Avoid bounce buffers when QEMUIOVector elements are within previously
+>registered bdrv_register_buf() buffers.
+>
+>The idea is that emulated storage controllers will register guest RAM
+>using bdrv_register_buf() and set the BDRV_REQ_REGISTERED_BUF on I/O
+>requests. Therefore no blkio_add_mem_region() calls are necessary in the
+>performance-critical I/O code path.
+>
+>This optimization doesn't apply if the I/O buffer is internally
+>allocated by QEMU (e.g. qcow2 metadata). There we still take the slow
+>path because BDRV_REQ_REGISTERED_BUF is not set.
+>
+>Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>---
+> block/blkio.c | 108 ++++++++++++++++++++++++++++++++++++++++++++++++--
+> 1 file changed, 104 insertions(+), 4 deletions(-)
+>
+>diff --git a/block/blkio.c b/block/blkio.c
+>index dd2308b967..78f4ca5f49 100644
+>--- a/block/blkio.c
+>+++ b/block/blkio.c
+>@@ -1,7 +1,9 @@
+> #include "qemu/osdep.h"
+> #include <blkio.h>
+> #include "block/block_int.h"
+>+#include "exec/memory.h"
+> #include "qapi/error.h"
+>+#include "qemu/error-report.h"
+> #include "qapi/qmp/qdict.h"
+> #include "qemu/module.h"
+>
+>@@ -26,6 +28,9 @@ typedef struct {
+>     /* Can we skip adding/deleting blkio_mem_regions? */
+>     bool needs_mem_regions;
+>
+>+    /* Are file descriptors necessary for blkio_mem_regions? */
+>+    bool needs_mem_region_fd;
+>+
+>     /*
+>      * blkio_completion_fd_poll() stashes the next completion for
+>      * blkio_completion_fd_poll_ready().
+>@@ -170,6 +175,8 @@ static BlockAIOCB *blkio_aio_preadv(BlockDriverState *bs, int64_t offset,
+>         BlockCompletionFunc *cb, void *opaque)
+> {
+>     BDRVBlkioState *s = bs->opaque;
+>+    bool needs_mem_regions =
+>+        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
+>     struct iovec *iov = qiov->iov;
+>     int iovcnt = qiov->niov;
+>     BlkioAIOCB *acb;
+>@@ -179,7 +186,7 @@ static BlockAIOCB *blkio_aio_preadv(BlockDriverState *bs, int64_t offset,
+>
+>     acb = blkio_aiocb_get(bs, cb, opaque);
+>
+>-    if (s->needs_mem_regions) {
+>+    if (needs_mem_regions) {
+>         if (blkio_aiocb_init_mem_region_locked(acb, bytes) < 0) {
+>             qemu_aio_unref(&acb->common);
+>             return NULL;
+>@@ -194,7 +201,7 @@ static BlockAIOCB *blkio_aio_preadv(BlockDriverState *bs, int64_t offset,
+>
+>     ret = blkioq_readv(s->blkioq, offset, iov, iovcnt, acb, 0);
+>     if (ret < 0) {
+>-        if (s->needs_mem_regions) {
+>+        if (needs_mem_regions) {
+>             blkio_free_mem_region(s->blkio, &acb->mem_region);
+>             qemu_iovec_destroy(&acb->qiov);
+>         }
+>@@ -215,6 +222,8 @@ static BlockAIOCB *blkio_aio_pwritev(BlockDriverState *bs, int64_t offset,
+> {
+>     uint32_t blkio_flags = (flags & BDRV_REQ_FUA) ? BLKIO_REQ_FUA : 0;
+>     BDRVBlkioState *s = bs->opaque;
+>+    bool needs_mem_regions =
+>+        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
+>     struct iovec *iov = qiov->iov;
+>     int iovcnt = qiov->niov;
+>     BlkioAIOCB *acb;
+>@@ -224,7 +233,7 @@ static BlockAIOCB *blkio_aio_pwritev(BlockDriverState *bs, int64_t offset,
+>
+>     acb = blkio_aiocb_get(bs, cb, opaque);
+>
+>-    if (s->needs_mem_regions) {
+>+    if (needs_mem_regions) {
+>         if (blkio_aiocb_init_mem_region_locked(acb, bytes) < 0) {
+>             qemu_aio_unref(&acb->common);
+>             return NULL;
+>@@ -238,7 +247,7 @@ static BlockAIOCB *blkio_aio_pwritev(BlockDriverState *bs, int64_t offset,
+>
+>     ret = blkioq_writev(s->blkioq, offset, iov, iovcnt, acb, blkio_flags);
+>     if (ret < 0) {
+>-        if (s->needs_mem_regions) {
+>+        if (needs_mem_regions) {
+>             blkio_free_mem_region(s->blkio, &acb->mem_region);
+>         }
+>         qemu_aio_unref(&acb->common);
+>@@ -286,6 +295,83 @@ static void blkio_io_unplug(BlockDriverState *bs)
+>     }
+> }
+>
+>+static void blkio_register_buf(BlockDriverState *bs, void *host, size_t size)
+>+{
+>+    BDRVBlkioState *s = bs->opaque;
+>+    char *errmsg;
+>+    int ret;
+>+    struct blkio_mem_region region = (struct blkio_mem_region){
+>+        .addr = host,
+>+        .len = size,
+>+        .fd = -1,
+>+    };
+>+
+>+    if (((uintptr_t)host | size) % s->mem_region_alignment) {
+>+        error_report_once("%s: skipping unaligned buf %p with size %zu",
+>+                          __func__, host, size);
+>+        return; /* skip unaligned */
+>+    }
+>+
+>+    /* Attempt to find the fd for a MemoryRegion */
+>+    if (s->needs_mem_region_fd) {
+>+        int fd = -1;
+>+        ram_addr_t offset;
+>+        MemoryRegion *mr;
+>+
+>+        /*
+>+         * bdrv_register_buf() is called with the BQL held so mr lives at least
+>+         * until this function returns.
+>+         */
+>+        mr = memory_region_from_host(host, &offset);
+>+        if (mr) {
+>+            fd = memory_region_get_fd(mr);
+>+        }
+>+        if (fd == -1) {
+>+            error_report_once("%s: skipping fd-less buf %p with size %zu",
+>+                              __func__, host, size);
+>+            return; /* skip if there is no fd */
+>+        }
+>+
+>+        region.fd = fd;
+>+        region.fd_offset = offset;
+>+    }
+>+
+>+    WITH_QEMU_LOCK_GUARD(&s->lock) {
+>+        ret = blkio_add_mem_region(s->blkio, &region, &errmsg);
+>+    }
+>+
+>+    if (ret < 0) {
+>+        error_report_once("Failed to add blkio mem region %p with size %zu: %s",
+>+                          host, size, errmsg);
+>+        free(errmsg);
+>+    }
+>+}
+>+
+>+static void blkio_unregister_buf(BlockDriverState *bs, void *host, size_t size)
+>+{
+>+    BDRVBlkioState *s = bs->opaque;
+>+    char *errmsg;
+>+    int ret;
+>+    struct blkio_mem_region region = (struct blkio_mem_region){
+>+        .addr = host,
+>+        .len = size,
+>+    };
+>+
+>+    if (((uintptr_t)host | size) % s->mem_region_alignment) {
+>+        return; /* skip unaligned */
+>+    }
+>+
+>+    WITH_QEMU_LOCK_GUARD(&s->lock) {
+>+        ret = blkio_del_mem_region(s->blkio, &region, &errmsg);
+>+    }
+>+
+>+    if (ret < 0) {
+>+        error_report_once("Failed to delete blkio mem region %p with size %zu: %s",
+>+                          host, size, errmsg);
+>+        free(errmsg);
+>+    }
+>+}
+>+
+> static void blkio_parse_filename_io_uring(const char *filename, QDict *options,
+>                                           Error **errp)
+> {
+>@@ -356,6 +442,18 @@ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
+>         return ret;
+>     }
+>
+>+    ret = blkio_get_bool(s->blkio,
+>+                         "needs-mem-region-fd",
+>+                         &s->needs_mem_region_fd,
+>+                         &errmsg);
+>+    if (ret < 0) {
+>+        error_setg_errno(errp, -ret,
+>+                         "failed to get needs-mem-region-fd: %s", errmsg);
+>+        free(errmsg);
+>+        blkio_destroy(&s->blkio);
+>+        return ret;
+>+    }
+>+
+>     ret = blkio_get_uint64(s->blkio,
+>                            "mem-region-alignment",
+>                            &s->mem_region_alignment,
 
-One can observe problems due to this with the IBM zEnterprise Data
-Compression accelerator capable zlib [2]. When the hardware
-acceleration is enabled, migration/multifd/tcp/zlib test fails
-intermittently [3] due to sliding window corruption.
+I already mentioned on IRC while testing the series, but I'm writing it 
+here so we don't forget ;-)
 
-At the moment this problem occurs only with this accelerator, since
-its architecture explicitly discourages concurrent accesses [4]:
+To prevent bdrv_driver_pwritev() from removing the 
+BDRV_REQ_REGISTERED_BUF flag from requests, we should add this: 
 
-    Page 26-57, "Other Conditions":
+@@ -474,7 +474,7 @@ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
+          return ret;
+      }
 
-    As observed by this CPU, other CPUs, and channel
-    programs, references to the parameter block, first,
-    second, and third operands may be multiple-access
-    references, accesses to these storage locations are
-    not necessarily block-concurrent, and the sequence
-    of these accesses or references is undefined.
+-    bs->supported_write_flags = BDRV_REQ_FUA;
++    bs->supported_write_flags = BDRV_REQ_FUA | BDRV_REQ_REGISTERED_BUF;
 
-Still, it might affect other platforms due to a future zlib update.
-Therefore, copy the page being compressed into a private buffer before
-passing it to zlib.
+      qemu_mutex_init(&s->lock);
+      s->blkioq = blkio_get_queue(s->blkio, 0);
 
-[1] https://zlib.net/manual.html
-[2] https://github.com/madler/zlib/pull/410
-[3] https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03988.html
-[4] http://publibfp.dhe.ibm.com/epubs/pdf/a227832c.pdf
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- migration/multifd-zlib.c | 35 ++++++++++++++++++++++-------------
- 1 file changed, 22 insertions(+), 13 deletions(-)
-
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index 3a7ae44485..b6b22b7d1f 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -27,6 +27,8 @@ struct zlib_data {
-     uint8_t *zbuff;
-     /* size of compressed buffer */
-     uint32_t zbuff_len;
-+    /* uncompressed buffer */
-+    uint8_t buf[];
- };
- 
- /* Multifd zlib compression */
-@@ -43,9 +45,18 @@ struct zlib_data {
-  */
- static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
- {
--    struct zlib_data *z = g_new0(struct zlib_data, 1);
--    z_stream *zs = &z->zs;
-+    /* This is the maximum size of the compressed buffer */
-+    uint32_t zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
-+    size_t buf_len = qemu_target_page_size();
-+    struct zlib_data *z;
-+    z_stream *zs;
- 
-+    z = g_try_malloc0(sizeof(struct zlib_data) + buf_len + zbuff_len);
-+    if (!z) {
-+        error_setg(errp, "multifd %u: out of memory for zlib_data", p->id);
-+        return -1;
-+    }
-+    zs = &z->zs;
-     zs->zalloc = Z_NULL;
-     zs->zfree = Z_NULL;
-     zs->opaque = Z_NULL;
-@@ -54,15 +65,8 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
-         error_setg(errp, "multifd %u: deflate init failed", p->id);
-         return -1;
-     }
--    /* This is the maxium size of the compressed buffer */
--    z->zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
--    z->zbuff = g_try_malloc(z->zbuff_len);
--    if (!z->zbuff) {
--        deflateEnd(&z->zs);
--        g_free(z);
--        error_setg(errp, "multifd %u: out of memory for zbuff", p->id);
--        return -1;
--    }
-+    z->zbuff_len = zbuff_len;
-+    z->zbuff = z->buf + buf_len;
-     p->data = z;
-     return 0;
- }
-@@ -80,7 +84,6 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
-     struct zlib_data *z = p->data;
- 
-     deflateEnd(&z->zs);
--    g_free(z->zbuff);
-     z->zbuff = NULL;
-     g_free(p->data);
-     p->data = NULL;
-@@ -114,8 +117,14 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
-             flush = Z_SYNC_FLUSH;
-         }
- 
-+        /*
-+         * Since the VM might be running, the page may be changing concurrently
-+         * with compression. zlib does not guarantee that this is safe,
-+         * therefore copy the page before calling deflate().
-+         */
-+        memcpy(z->buf, p->pages->block->host + p->normal[i], page_size);
-         zs->avail_in = page_size;
--        zs->next_in = p->pages->block->host + p->normal[i];
-+        zs->next_in = z->buf;
- 
-         zs->avail_out = available;
-         zs->next_out = z->zbuff + out_size;
--- 
-2.35.1
+>@@ -436,6 +534,8 @@ static BlockDriver bdrv_io_uring = {
+>     .bdrv_aio_pwritev           = blkio_aio_pwritev,
+>     .bdrv_aio_flush             = blkio_aio_flush,
+>     .bdrv_io_unplug             = blkio_io_unplug,
+>+    .bdrv_register_buf          = blkio_register_buf,
+>+    .bdrv_unregister_buf        = blkio_unregister_buf,
+>
+>     /*
+>      * TODO
+>-- 
+>2.35.1
+>
 
 
