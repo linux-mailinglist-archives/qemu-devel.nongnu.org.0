@@ -2,53 +2,151 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3B04EA866
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 09:17:07 +0200 (CEST)
-Received: from localhost ([::1]:39498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C624EA86E
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 09:18:09 +0200 (CEST)
+Received: from localhost ([::1]:40960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZ66E-0000BY-7X
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 03:17:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57830)
+	id 1nZ67E-0001Bf-IH
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 03:18:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
- id 1nZ61U-0005Ve-3t; Tue, 29 Mar 2022 03:12:12 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:10661)
+ (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
+ id 1nZ62Z-0006ik-KB
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 03:13:19 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:13056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
- id 1nZ61P-00021w-Qf; Tue, 29 Mar 2022 03:12:11 -0400
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 22T70PTr036190;
- Tue, 29 Mar 2022 15:00:25 +0800 (GMT-8)
- (envelope-from steven_lee@aspeedtech.com)
-Received: from aspeedtech.com (192.168.70.100) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 29 Mar
- 2022 15:11:17 +0800
-Date: Tue, 29 Mar 2022 15:11:04 +0800
-From: Steven Lee <steven_lee@aspeedtech.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH v3 1/2] aspeed/hace: Support AST2600 HACE
-Message-ID: <20220329071102.GA4525@aspeedtech.com>
-References: <20220325035810.21420-1-steven_lee@aspeedtech.com>
- <20220325035810.21420-2-steven_lee@aspeedtech.com>
- <CACPK8XcswtC77H6h9dD_Y3p=sSZ2P00SJB+=z8habuCfHnurSA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
+ id 1nZ62X-0002CO-7l
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 03:13:19 -0400
+Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22T41koI004386;
+ Tue, 29 Mar 2022 00:13:15 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=proofpoint20171006;
+ bh=aWpq8ynHbMCTC5tG3JF67oR8pzzbwd8Jq4ZPLYpS9lI=;
+ b=aCgycyLyTnO/AN1k6Kkwsy2qX8LFkm12mhX52W5MCMaAT0LEETi7S49ceuJPV/amUQsW
+ Z50YaWdQXxsOtj+49WNbjaYzvAumwFsh5uTmyb6XrbAcoh5YUyUGjOUw661MGNVte9Sw
+ xxOqZrG4e5xOHMrguLyf+XPINIG06HV6d8b2eAJkiyDFCj972gS/Ystl80/TkTDwKBAL
+ JfiJzOjKYh9mdi/jr2D/u9d0I0+x2QbJFRs8rsJWSX5x4SWmooYyfcDYimNonaE+RQ9c
+ 3MUXHUbZ+tZ/bn0L3IIjtiRTTEsoQMvKjW6kMPbCAqVlqgt+yQ1v4JfAfuYQGm1Msr93 6w== 
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3f20c9dc9j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Mar 2022 00:13:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Eh90OopDDtfqP/w1eEg7rE2TKrCoWjZeCuezDX+bWG9LQ3ezTpcN6ewOBHHlK5DMdHfj0UcZi5Tldj+ahKA+SmNFF4yoLEXdolceZiExl6nP3ylI7PBmKd/NdgTLC7rPrhrY4ezI6MthdiFaEbqp4/CWGaaZYi8m4Gua6REfmt8mgopmDg7LAbek8FO9l9QZi5gJCQdAhSnaarzSr7h4v5MS1S/ONeDYkpY8ndR6PaWZZxD421TA9llj4TLuUvrG5lIO3GGNfdTEd1XkCC54Lhu3LVgDDc22+vAhf2KK9HUop49JTejUuf5cq66gPge+Op6o4NjrSk/zAXBNds4YZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aWpq8ynHbMCTC5tG3JF67oR8pzzbwd8Jq4ZPLYpS9lI=;
+ b=exT9UieEjhKXoBdtTILjVh7DLchy8BFkgR1JtRD7jC4WBRSXIgGht55UG6A9eu0+n8mZiolKx9R/NC10G8t9GvLDNo9uJ+P4SHLAYby7yK0vREHhy1QaBHD0y7Cdv9Lxjrm+OYkX3HXx+zR0ihEjU29kPKAALSP3R2mKkiJ0cfoPhMiW27VMEJ2TjU4hjHPDcaESpEShX+X0Yskly6pQu7YiIDMa/S0F7c46WfY9ovaZ306D8Ck35dUFau8DtlWNLGaJdiElvwFW8Ehu5UlPc/wmxDtVjI72Pw4aeO5i2noZ7oMihAlxshrndlBP67VsqzF10/pDrvLT/WiAdeCIsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BN7PR02MB4033.namprd02.prod.outlook.com (2603:10b6:406:f9::16)
+ by BN6PR02MB2820.namprd02.prod.outlook.com (2603:10b6:404:fa::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.18; Tue, 29 Mar
+ 2022 07:13:13 +0000
+Received: from BN7PR02MB4033.namprd02.prod.outlook.com
+ ([fe80::5d3d:384c:d914:b12d]) by BN7PR02MB4033.namprd02.prod.outlook.com
+ ([fe80::5d3d:384c:d914:b12d%6]) with mapi id 15.20.5102.023; Tue, 29 Mar 2022
+ 07:13:13 +0000
+From: Kshitij Suri <kshitij.suri@nutanix.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 1/2] Replacing CONFIG_VNC_PNG with CONFIG_PNG
+Date: Tue, 29 Mar 2022 07:13:07 +0000
+Message-Id: <20220329071308.200045-1-kshitij.suri@nutanix.com>
+X-Mailer: git-send-email 2.22.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR13CA0123.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::8) To BN7PR02MB4033.namprd02.prod.outlook.com
+ (2603:10b6:406:f9::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <CACPK8XcswtC77H6h9dD_Y3p=sSZ2P00SJB+=z8habuCfHnurSA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [192.168.70.100]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 22T70PTr036190
-Received-SPF: pass client-ip=211.20.114.71;
- envelope-from=steven_lee@aspeedtech.com; helo=twspam01.aspeedtech.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: adb359f4-b806-432b-a20e-08da1153969b
+X-MS-TrafficTypeDiagnostic: BN6PR02MB2820:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR02MB282067357C4323C9A700A1ED991E9@BN6PR02MB2820.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VHQEXG6c7KNXnnJ38WZ+ZC+PL4MnrA0tsNU6VfDqMJ6o2UTYwAhX14U1siqk3Y9mdn0nBDiJHGcWxPNSuJGHcfXBy2THwZm8OhHTFKn2oT2s9wWyFmGtM+4EH3UPL1TboNgQiUjfyak4foZ/BbW+3ab2U3/l9MnUbcEYOuVBvgF7rbwy4O8f/BNHL6YfKe81AF0IoEO64efhNqy5UUmEW3J8JejDSJhRRa9JA0AwOsuX03bW5qivifjhkmV6rjHnraOjPO37WYWd4ytAEXlcLaRzcvcoAPDO0TWmPVaMPXy9GcCiZEa9RTduRk7TWfp5zR+dR+93s7MHpd5TB0N6BTPTJHcWIJpnIZFdTjwYajp/9QvQAJ1OYK43I11UYWUgW6fQbQqS8hiZzZyUvlr8VMrFPEM8PdWxipp9TKyE6/4FR+oskGOo9VT2h+fxGdC+6+AMQzRwlfehpgEGIQGcCZpSS3XunvyegM1WIgozCknKYmZSTMx/bPsjdATf1yoz+JCenJltiZ2H2WJUO3jzZF5mhq6FlfCLEvzC0wIA4VeJXVzq+PyRt74yFGWliwQrm3UWPvlYtPiCTTazm+ybBBoD3pQ/bZSYxSUHPLKrKBnQ3Q+OvP+vDp/pCDro3/hcTqLqNThJl/8Bv1ZpkMv4a2Vzrkp7boPucsg0LB27CMY8x5QYtDkXNnyuhaFyO9DfhedgGLpNe5bghWcTtVa1eQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN7PR02MB4033.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(2906002)(5660300002)(38100700002)(6916009)(1076003)(44832011)(38350700002)(8936002)(86362001)(2616005)(186003)(107886003)(26005)(316002)(6486002)(6506007)(6512007)(52116002)(8676002)(4326008)(66946007)(66556008)(6666004)(508600001)(66476007)(36756003)(83380400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkZBcC9zL3lxMW9Jc2JPVnZobjBsL0hOWTVhR1cwbjlDRDBTcktScDB1ZlVI?=
+ =?utf-8?B?QUxuVmxzckdjYlJGdWp0RzRPejRpaTczSDNBVVYyUnAwckpPU2EwaUVQcFMv?=
+ =?utf-8?B?TzlEaEpIWWcwL3JmSElXV2tYV0h5ZkE4TFNkUWgrRjFNM2pieU5NbWRqSXJ4?=
+ =?utf-8?B?Rk1aVXFEbVNsdmhyZ2N0Njh1SkU2VFBKbUNnT05pOVR4R2RRNjJBVUJPSkFo?=
+ =?utf-8?B?dnhmZmt4LzZYS2RpcXVCQ2ZVQkpsS21MakNGMmdEeEp4TVJoSW5DNFJ3ajlT?=
+ =?utf-8?B?d0xuV2xiMGNwOWZ3ZWs0Z2NpUG9QUEVheFdmS2JiMjdaVmNMNy9xZmpjcW9z?=
+ =?utf-8?B?Q01kUTkxUDdpNkVweGdjUzloOVBMRlE0Z005YndHN0ZxRW52UkpqMHo3T3lB?=
+ =?utf-8?B?SjlPTzVJVWc5VjlGZmFabHluR2luYm1kYVh4SmZGam1xOTE2S1RQL1hlRG9u?=
+ =?utf-8?B?WW51ZXREVVhLbkdrNkZFV0xXbXRlR0o3RzVORVZsY3NLamNqU0NIVWN6Y2Ew?=
+ =?utf-8?B?ZTZ0OUUvZjBFTE1ha1pDR2g2MjIzeEp3a3FUa005SlJGR1VycnJCamM3aTBK?=
+ =?utf-8?B?KzhsL0pFNm00R28xanVHZk5jVklYUHc4T0hJSnVFN3ZLa0pxNTJjRmt1S1Bq?=
+ =?utf-8?B?SDl5Rmo5T3E0TDQxKzQzUk5iOEZxQXJMeGZ5a1ZxakxERTBRZTFoVTN5bVJB?=
+ =?utf-8?B?NlNSdzZQRGRTZ3NTTVZtOWVGVHBGN09GZGwzbE5CQVpyY2E0cEpmbEFwTy9H?=
+ =?utf-8?B?VzJmOFVsMzJtSzVQN2h4bjNlcW5aOGx0ZUtHcFZOYmo4cWFxVjQwVVNpTHBT?=
+ =?utf-8?B?WXZnSE1TcHNNMk9VTFBhUHk3NFNjaldvYlJyTFJoWXlCZ0JBSk4vME12RmRn?=
+ =?utf-8?B?dWdXOGMzaHF2cGZmWGxmZ0lDQkNobVMrY0hvTmNtVm1rZXZsMW0wV1VGbGhq?=
+ =?utf-8?B?SUliSXlZMFpublRRUGpYcThUY2x6RHd1RWdlMlIzdEZ6eU1PMDF5bklWd0F3?=
+ =?utf-8?B?RkxHSHJDRE04UTBHL3ZsNTFRWTgrOFU3U2Fvek9xYWRxUXA5aGluZG9QTWhW?=
+ =?utf-8?B?byt0emdFRGFJMnVra1ZxVXFwL0EveEF0dktLREVPV0hjZzhuWUNoVU1GVXNW?=
+ =?utf-8?B?UVR4RmJEN0x5bHZVZlZJL1RFRDFTWEZ1OTV4b3ZxeUsvUlg0U1hkbk9GY3RZ?=
+ =?utf-8?B?bGdOVFpzOTdaRHM3UzBXSnhLeDZVNmI5K1QrdUJCRGhtZUdueTh1QndDNnM0?=
+ =?utf-8?B?OUdub2kxSEhBd051cGpnVytlUWZRanBJeDZMNHc4c1J1cjFHc3dlelV3K0RI?=
+ =?utf-8?B?ZjlyS3BFcHl2ZEMwYllXL3ptSWJhWlBxQ3E2MWFjRzdjaWlMZDhJSWNjTW5B?=
+ =?utf-8?B?ZVhYY1YwQ1lIN2RJRk8zK2xJQklhdmMwZGFDbzNxN2tkeVRkU0wyWHdwYmNw?=
+ =?utf-8?B?Q0tHUnVwc3h3dStjdVM0c0xvM1VXUEVwcXdXcnJHcHFIK0YvaGpoY05GKzBI?=
+ =?utf-8?B?SnY1ckhkeTZXVWNxSFNBcFdFVS9GVTdmRHdhUGI4L2NIaWRtZTJzeHFkY3FK?=
+ =?utf-8?B?c1NXMy81NEdnbFlEYXNoM3cwVWVIbWh3L0VwS1QyWHJrR2NiU0l0OHVIcmJE?=
+ =?utf-8?B?UzZpM01DaFBVelFaL1NsL3pobDdWZkM4ei92clRoZVJ3NWRwQ2tkTFp3VUNz?=
+ =?utf-8?B?R1RZMWZmMmR4NGRTR1l4Y01tYnFRWndNWUZOSWJjenJsZHN1UzZrOHNTUFo2?=
+ =?utf-8?B?Y1J6QXhwSUhNUGFRaEJZZnVObTIwaHJ3VFRTN2FwbUorc2Z5Wi8ydlZBMnNR?=
+ =?utf-8?B?ZXNaN1h5QmlYbFdMbzl6d2NURjAwUGVmdG1ZYm5qZDNlOEZaR2JjZisvd0hE?=
+ =?utf-8?B?aWUzY3U2bDZEelZvVjhxWklLU1BHYzJwaCtqMDc3UHlwQVdpOWFqSmdKK0pT?=
+ =?utf-8?B?K1Y0SzZST1Fza3BJL280ODIwei9LWGZSRWVJaVlGeTZLQUZHM1ZHbEtDaFQ1?=
+ =?utf-8?B?djQ0OWhzOTQ0WnFGeUZTYy94a1ExaXdqVVMwaTF5K3orUnpGQVNONGRKVXYw?=
+ =?utf-8?B?S2Z0UkN3Q0VCeFhZUXI3UE9ISndXTEhCL0xxdU1WZWhMRUpiUG9GVXZGdk8r?=
+ =?utf-8?B?cDM0NkxIMnRKT2pHbmMzbDNyRWRSSDVTL3c3Sng5cUk3aXNMUitWMjdMaHhv?=
+ =?utf-8?B?VWJrRUU3NmNLaktRQ1ZQY2Nrd2FCWHFoMS9qcUZpVGVESzRONU85ZGswcWM5?=
+ =?utf-8?B?am9TdCtPL29YODQ0NE1VUkNDSW1VMlUwU2RIeERJenBvSDJWQ2xidXNKZVdT?=
+ =?utf-8?B?K0ZMRlg0ODgwSERqVjVlUjN6ZXNZMjBMUnRRaXd0MzdoQUhpaEI0WlN0ZTdp?=
+ =?utf-8?Q?FzNEaW7dkWJbcuD8=3D?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: adb359f4-b806-432b-a20e-08da1153969b
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR02MB4033.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 07:13:13.4179 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sBdcZXQx/CjO8zHvotptWfL8yG0wDdxPY3+J/xWa1sFZwwnnp4EQCU/zK3rteYcShi3P/0MOtiFEeGgDW1ycjyEzeJ50X6a5VaH8Y/897EA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2820
+X-Proofpoint-GUID: Mbx61ulgYfYsgtOLgDsyBFR7Q0h9aD0e
+X-Proofpoint-ORIG-GUID: Mbx61ulgYfYsgtOLgDsyBFR7Q0h9aD0e
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-29_02,2022-03-28_01,2022-02-23_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=kshitij.suri@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,443 +159,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Jamin Lin <jamin_lin@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>,
- Troy Lee <troy_lee@aspeedtech.com>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: soham.ghosh@nutanix.com, thuth@redhat.com, berrange@redhat.com,
+ prerna.saxena@nutanix.com, dgilbert@redhat.com, armbru@redhat.com,
+ Kshitij Suri <kshitij.suri@nutanix.com>, philippe.mathieu.daude@gmail.com,
+ kraxel@redhat.com, prachatos.mitra@nutanix.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 03/25/2022 15:08, Joel Stanley wrote:
-> Hi Steven,
-> 
-> I've pointed out some small things like spelling fixes, and made a
-> suggestion to split the change into multiple patches.
-> 
-> Aside from that, I need your help to understand what your change is
-> trying to do.
-> 
+Libpng is only detected if VNC is enabled currently. This patch adds a
+generalised png option in the meson build which is aimed to replace use of
+CONFIG_VNC_PNG with CONFIG_PNG.
 
-Hi Joel,
+Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
 
-Thanks for the review and sorry for late reply, I was taking Monday off.
-I added some examples to describe the driver behavior below, hope it helps.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ meson.build        |  9 ++++-----
+ meson_options.txt  |  4 ++--
+ ui/vnc-enc-tight.c | 18 +++++++++---------
+ ui/vnc.c           |  4 ++--
+ ui/vnc.h           |  2 +-
+ 5 files changed, 18 insertions(+), 19 deletions(-)
 
-> On Fri, 25 Mar 2022 at 03:58, Steven Lee <steven_lee@aspeedtech.com> wrote:
-> >
-> > The aspeed ast2600 acculumative mode is described in datasheet
-> 
-> accumulative
-> 
+diff --git a/meson.build b/meson.build
+index 282e7c4650..ccb6840a49 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1115,14 +1115,13 @@ if gtkx11.found()
+   x11 = dependency('x11', method: 'pkg-config', required: gtkx11.found(),
+                    kwargs: static_kwargs)
+ endif
++png = dependency('libpng', required: get_option('png'),
++                 method: 'pkg-config', kwargs: static_kwargs)
+ vnc = not_found
+-png = not_found
+ jpeg = not_found
+ sasl = not_found
+ if get_option('vnc').allowed() and have_system
+   vnc = declare_dependency() # dummy dependency
+-  png = dependency('libpng', required: get_option('vnc_png'),
+-                   method: 'pkg-config', kwargs: static_kwargs)
+   jpeg = dependency('libjpeg', required: get_option('vnc_jpeg'),
+                     method: 'pkg-config', kwargs: static_kwargs)
+   sasl = cc.find_library('sasl2', has_headers: ['sasl/sasl.h'],
+@@ -1554,9 +1553,9 @@ config_host_data.set('CONFIG_TPM', have_tpm)
+ config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
+ config_host_data.set('CONFIG_VDE', vde.found())
+ config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
++config_host_data.set('CONFIG_PNG', png.found())
+ config_host_data.set('CONFIG_VNC', vnc.found())
+ config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+-config_host_data.set('CONFIG_VNC_PNG', png.found())
+ config_host_data.set('CONFIG_VNC_SASL', sasl.found())
+ config_host_data.set('CONFIG_VIRTFS', have_virtfs)
+ config_host_data.set('CONFIG_VTE', vte.found())
+@@ -3638,11 +3637,11 @@ summary_info += {'curses support':    curses}
+ summary_info += {'virgl support':     virgl}
+ summary_info += {'curl support':      curl}
+ summary_info += {'Multipath support': mpathpersist}
++summary_info += {'PNG support':       png}
+ summary_info += {'VNC support':       vnc}
+ if vnc.found()
+   summary_info += {'VNC SASL support':  sasl}
+   summary_info += {'VNC JPEG support':  jpeg}
+-  summary_info += {'VNC PNG support':   png}
+ endif
+ if targetos not in ['darwin', 'haiku', 'windows']
+   summary_info += {'OSS support':     oss}
+diff --git a/meson_options.txt b/meson_options.txt
+index 52b11cead4..d85734f8e6 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -177,12 +177,12 @@ option('vde', type : 'feature', value : 'auto',
+        description: 'vde network backend support')
+ option('virglrenderer', type : 'feature', value : 'auto',
+        description: 'virgl rendering support')
++option('png', type : 'feature', value : 'auto',
++       description: 'PNG support with libpng')
+ option('vnc', type : 'feature', value : 'auto',
+        description: 'VNC server')
+ option('vnc_jpeg', type : 'feature', value : 'auto',
+        description: 'JPEG lossy compression for VNC server')
+-option('vnc_png', type : 'feature', value : 'auto',
+-       description: 'PNG compression for VNC server')
+ option('vnc_sasl', type : 'feature', value : 'auto',
+        description: 'SASL authentication for VNC server')
+ option('vte', type : 'feature', value : 'auto',
+diff --git a/ui/vnc-enc-tight.c b/ui/vnc-enc-tight.c
+index 7b86a4713d..e879cca7f5 100644
+--- a/ui/vnc-enc-tight.c
++++ b/ui/vnc-enc-tight.c
+@@ -32,7 +32,7 @@
+    INT32 definitions between jmorecfg.h (included by jpeglib.h) and
+    Win32 basetsd.h (included by windows.h). */
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ /* The following define is needed by pngconf.h. Otherwise it won't compile,
+    because setjmp.h was already included by qemu-common.h. */
+ #define PNG_SKIP_SETJMP_CHECK
+@@ -95,7 +95,7 @@ static const struct {
+ };
+ #endif
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ static const struct {
+     int png_zlib_level, png_filters;
+ } tight_png_conf[] = {
+@@ -919,7 +919,7 @@ static int send_full_color_rect(VncState *vs, int x, int y, int w, int h)
+     int stream = 0;
+     ssize_t bytes;
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         return send_png_rect(vs, x, y, w, h, NULL);
+     }
+@@ -966,7 +966,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
+     int stream = 1;
+     int level = tight_conf[vs->tight->compression].mono_zlib_level;
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         int ret;
+         int bpp = vs->client_pf.bytes_per_pixel * 8;
+@@ -1020,7 +1020,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
+ struct palette_cb_priv {
+     VncState *vs;
+     uint8_t *header;
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     png_colorp png_palette;
+ #endif
+ };
+@@ -1082,7 +1082,7 @@ static int send_palette_rect(VncState *vs, int x, int y,
+     int colors;
+     ssize_t bytes;
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         return send_png_rect(vs, x, y, w, h, palette);
+     }
+@@ -1233,7 +1233,7 @@ static int send_jpeg_rect(VncState *vs, int x, int y, int w, int h, int quality)
+ /*
+  * PNG compression stuff.
+  */
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ static void write_png_palette(int idx, uint32_t pix, void *opaque)
+ {
+     struct palette_cb_priv *priv = opaque;
+@@ -1379,7 +1379,7 @@ static int send_png_rect(VncState *vs, int x, int y, int w, int h,
+     buffer_reset(&vs->tight->png);
+     return 1;
+ }
+-#endif /* CONFIG_VNC_PNG */
++#endif /* CONFIG_PNG */
+ 
+ static void vnc_tight_start(VncState *vs)
+ {
+@@ -1706,7 +1706,7 @@ void vnc_tight_clear(VncState *vs)
+ #ifdef CONFIG_VNC_JPEG
+     buffer_free(&vs->tight->jpeg);
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     buffer_free(&vs->tight->png);
+ #endif
+ }
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 310a873c21..8376291b47 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -2165,7 +2165,7 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
+             vs->features |= VNC_FEATURE_TIGHT_MASK;
+             vs->vnc_encoding = enc;
+             break;
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+         case VNC_ENCODING_TIGHT_PNG:
+             vs->features |= VNC_FEATURE_TIGHT_PNG_MASK;
+             vs->vnc_encoding = enc;
+@@ -3256,7 +3256,7 @@ static void vnc_connect(VncDisplay *vd, QIOChannelSocket *sioc,
+ #ifdef CONFIG_VNC_JPEG
+     buffer_init(&vs->tight->jpeg,     "vnc-tight-jpeg/%p", sioc);
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     buffer_init(&vs->tight->png,      "vnc-tight-png/%p", sioc);
+ #endif
+     buffer_init(&vs->zlib.zlib,      "vnc-zlib/%p", sioc);
+diff --git a/ui/vnc.h b/ui/vnc.h
+index a7149831f9..a60fb13115 100644
+--- a/ui/vnc.h
++++ b/ui/vnc.h
+@@ -201,7 +201,7 @@ typedef struct VncTight {
+ #ifdef CONFIG_VNC_JPEG
+     Buffer jpeg;
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     Buffer png;
+ #endif
+     int levels[4];
+-- 
+2.22.3
 
-will fix it.
-
-> > ast2600v10.pdf section 25.6.4:
-> >  1. Allocationg and initiating accumulative hash digest write buffer
-> 
-> allocating
-> 
-
-will fix it.
-
-> >     with initial state.
-> >     * Since QEMU crypto/hash api doesn't provide the API to set initial
-> >       state of hash library, and the initial state is already setted by
-> >       crypto library (gcrypt/glib/...), so skip this step.
-> >  2. Calculating accumulative hash digest.
-> >     (a) When receiving the last accumulative data, software need to add
-> >         padding message at the end of the accumulative data. Padding
-> >         message described in specific of MD5, SHA-1, SHA224, SHA256,
-> >         SHA512, SHA512/224, SHA512/256.
-> >         * Since the crypto library (gcrypt/glib) already pad the
-> >           padding message internally.
-> >         * This patch is to remove the padding message which fed byguest
-> >           machine driver.
-> >
-> > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-> > ---
-> >  hw/misc/aspeed_hace.c         | 113 +++++++++++++++++++++++++++++++---
-> >  include/hw/misc/aspeed_hace.h |   1 +
-> >  2 files changed, 105 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-> > index 10f00e65f4..a883625e92 100644
-> > --- a/hw/misc/aspeed_hace.c
-> > +++ b/hw/misc/aspeed_hace.c
-> > @@ -11,6 +11,7 @@
-> >  #include "qemu/osdep.h"
-> >  #include "qemu/log.h"
-> >  #include "qemu/error-report.h"
-> > +#include "qemu/bswap.h"
-> >  #include "hw/misc/aspeed_hace.h"
-> >  #include "qapi/error.h"
-> >  #include "migration/vmstate.h"
-> > @@ -27,6 +28,7 @@
-> >
-> >  #define R_HASH_SRC      (0x20 / 4)
-> >  #define R_HASH_DEST     (0x24 / 4)
-> > +#define R_HASH_KEY_BUFF (0x28 / 4)
-> >  #define R_HASH_SRC_LEN  (0x2c / 4)
-> >
-> >  #define R_HASH_CMD      (0x30 / 4)
-> > @@ -94,12 +96,17 @@ static int hash_algo_lookup(uint32_t reg)
-> >      return -1;
-> >  }
-> >
-> > -static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
-> > +static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
-> > +                              bool acc_mode)
-> >  {
-> >      struct iovec iov[ASPEED_HACE_MAX_SG];
-> >      g_autofree uint8_t *digest_buf;
-> >      size_t digest_len = 0;
-> > -    int i;
-> > +    int i, j;
-> > +    static struct iovec iov_cache[ASPEED_HACE_MAX_SG];
-> > +    static int cnt;
-> 
-> Do you mean count? Please call it "count" if that's what you mean.
-> 
-
-Yes, I will rename it to "count".
-
-> > +    static bool has_cache;
-> > +    static uint32_t total_len;
-> >
-> >      if (sg_mode) {
-> >          uint32_t len = 0;
-> > @@ -123,12 +130,93 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
-> >                                          MEMTXATTRS_UNSPECIFIED, NULL);
-> >              addr &= SG_LIST_ADDR_MASK;
-> >
-> > -            iov[i].iov_len = len & SG_LIST_LEN_MASK;
-> > -            plen = iov[i].iov_len;
-> > +            plen = len & SG_LIST_LEN_MASK;
-> >              iov[i].iov_base = address_space_map(&s->dram_as, addr, &plen, false,
-> >                                                  MEMTXATTRS_UNSPECIFIED);
-> > +
-> > +            if (acc_mode) {
-> 
-> This function is getting large. We should try to refactor it, instead
-> of attempting to support all three cases in the one function.
-> 
-
-will refactor it.
-
-> > +                total_len += plen;
-> > +
-> > +                if (len & SG_LIST_LEN_LAST) {
-> > +                    /*
-> > +                     * In the padding message, the last 64/128 bit represents
-> > +                     * the total length of bitstream in big endian.
-> > +                     * SHA-224, SHA-256 are 64 bit
-> > +                     * SHA-384, SHA-512, SHA-512/224, SHA-512/256 are 128 bit
-> > +                     * However, we would not process such a huge bit stream.
-> > +                     */
-> > +                    uint8_t *padding = iov[i].iov_base;
-> > +                    uint32_t llen = (uint32_t)(ldq_be_p(iov[i].iov_base + plen - 8) / 8);
-> 
-> What is llen?
-> 
-
-message length in the last messge.
-Is rename "llen" to "message_len" ok?
-
-> > +                    uint32_t pad_start_off = 0;
-> > +
-> > +                    if (llen <= total_len) {
-> > +                        uint32_t padding_size = total_len - llen;
-> > +                        pad_start_off = plen - padding_size;
-> > +                    }
-> 
-> I find it hard to follow this code. I tried to look at the u-boot
-> driver to understand it, and it's equally hard to understand.
-> 
-> Can you try to provide an overview?
-> 
-
-aspeed_hace of aspeed u-boot and ast1030 zephyr sdk have the following behavior
-
-1. Driver calls hash_final() or sha_digest() to trigger 1 hash operation request.
-   the data is put in iov[0].iov_base.
-
-   Example 1-a. request is "abc", driver adds padding to make the
-   message length to be multiples of 64.
-
-       iov[0].iov_base =
-           61 62 63 80 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 18
-
-   padding start with 0x80, the last 8 bytes are length of request
-   length = 0x18 / 8 = 3
-
-   Example 1-b. request length is 56.
-   In this case, because of the minimum size of padding is 9(0x80(1 byte) + message_len(8 bytes)).
-   request size + minimum padding size = 56 + 9 = 65, it is not multiples of 64,
-   driver adds padding to make the size of message as 128.
-
-       iov[0].iov_base =
-           61 62 63 64 62 63 64 65 63 64 65 66 64 65 66 67
-           65 66 67 68 66 67 68 69 67 68 69 6a 68 69 6a 6b
-           69 6a 6b 6c 6a 6b 6c 6d 6b 6c 6d 6e 6c 6d 6e 6f
-           6d 6e 6f 70 6e 6f 70 71 80 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 c0
-
-   Example 1-c. Driver put all data in a request and trigger hash operation .
-   https://github.com/AspeedTech-BMC/u-boot/blob/v00.04.09/drivers/crypto/aspeed_hace.c#L273
-
-       iov[0].iov_base =
-           0e 02 a0 06 0d 02 f2 6c 88 cd 01 f0 4e 01 18 be
-           0f 02 7d 09 e4 13 93 1a 40 3b ba 0d 91 1a 0d 02
-	   ...
-
-       iov[1].iov_base =
-           80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 56 78
-
-2. Driver calls hash_update() to trigger one or multiple hash operation requests, then
-   call hash_final() to trigger the last hash operation request.
-
-   Example 2-a. Driver call hash_update() with the following request:
-
-       iov[0].iov_base =
-           41 42 43 44 45 46 47 48 49 4a 4b 4c 4d 4e 4f 50
-           51 52 53 54 55 56 57 58 59 5a 61 62 63 64 65 66
-           67 68 69 6a 6b 6c 6d 6e 6f 70 71 72 73 74 75 76
-           77 78 79 7a 30 31 32 33 34 35 36 37 38 39 2b 2d
-
-   Driver call hash_final() with padding as request length is multiples of 64:
-       iov[0].iov_base =
-           80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 02 00
-
-	length = 200 / 8 = 64
-
-   Example 2-b. Driver call hash_update() with the request that
-   length is not multiples of 64:
-
-       iov[0].iov_base =
-           08 9f 13 aa 41 d8 4c e3 7a 11 85 1c b3 27 be 55
-           ec 60 f7 8e 02 99 30 c7 3b d2 69 00 74 0b a2 16
-           ad 44 db 4f e6 7d 14 88 1f b6 2a c1 58 ef 63 fa
-           91 05 9c 33 ca 3e d5 6c 03 77 0e a5 19 b0 47 de
-           ...
-
-   Driver call hash_final() with the request data and padding
-       iov[0].iov_base =
-           0d a4 18 af 46 dd 51 e8 7f 16 8a 21 b8 2c c3 5a
-           f1 65 fc 93 07 9e 35 cc 40 d7 6e 05 79 10 a7 1b
-           b2 49 e0 54 eb 82 19 8d 24 bb 2f c6 5d f4 68 ff
-           96 0a a1 38 cf 43 da 71 08 7c 13 aa 1e b5 4c 80
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-           00 00 00 00 00 00 00 00 00 00 00 00 00 00 1f f8
-
-	length = 1ff8 / 8 = 1023
-
-> > +
-> > +                    /*
-> > +                     * FIXME:
-> > +                     * length with sg_last_bit doesn't mean the message
-> > +                     * contains padding.
-> > +                     * Need to find a better way to check whether the current payload
-> > +                     * contains padding message.
-> > +                     * Current solution is to check:
-> > +                     * - padding start byte is 0x80
-> > +                     * - message length should less than total length(msg + padding)
-> > +                     */
-> > +                    if (llen > total_len || padding[pad_start_off] != 0x80) {
-> > +                        has_cache = true;
-> > +                        iov_cache[cnt].iov_base = iov[i].iov_base;
-> > +                        iov_cache[cnt].iov_len = plen;
-> > +                        cnt++;
-> > +                    } else {
-> > +                        if (has_cache) {
-> > +                            has_cache = false;
-> > +                            if (pad_start_off != 0) {
-> > +                                iov_cache[cnt].iov_base = iov[i].iov_base;
-> > +                                iov_cache[cnt].iov_len = pad_start_off;
-> > +                                cnt++;
-> > +                            }
-> > +                            for (j = 0; j < cnt; j++) {
-> > +                                iov[j].iov_base = iov_cache[j].iov_base;
-> > +                                iov[j].iov_len = iov_cache[j].iov_len;
-> 
-> Can you explain why you've needed to add iov_cache?
-> 
-
-iov_cache is for example 2-a and 2-b mentioned above.
-
-> > +                            }
-> > +                            /*
-> > +                             * This should be the last message as it contains
-> > +                             * padding message.
-> > +                             * store cnt(count of iov), clear cache and break
-> > +                             * the loop.
-> > +                             */
-> > +                            i = cnt;
-> > +                            cnt = 0;
-> > +                            total_len = 0;
-> > +                            break;
-> > +                        }
-> > +                        plen -= total_len - llen;
-> > +                        cnt = 0;
-> > +                        total_len = 0;
-> > +                    }
-> > +                }
-> > +            }
-> > +            iov[i].iov_len = plen;
-> >          }
-> >      } else {
-> > +        /*
-> > +         * FIXME:
-> > +         * Driver sends hash_update() and hash_final() with
-> > +         * sg_mode enable in aspeed ast2600 u-boot and ast1030 zephyr sdk.
-> > +         * Clear cache if driver trigger hash_update() with sg_mode enable
-> > +         * but trigger hash_final() without sg mode for preventing iov_cache
-> > +         * overflow.
-> 
-> I don't follow your explanation. If we have sg_mode enabled then we
-> won't enter this condition.
-> 
-
-Yes, if driver enable sg_mode in both hash_update() and hash_final(), then the implementation
-is not necessary.
-
-For instance, aspeed u-boot stores sg_enable in ctx->method.
-https://github.com/AspeedTech-BMC/u-boot/blob/v00.04.09/drivers/crypto/aspeed_hace.c#L165
-
-hash_update() and hash_finish() pass the the same ctx to qemu aspeed
-hace model.
-https://github.com/AspeedTech-BMC/u-boot/blob/v00.04.09/drivers/crypto/aspeed_hace.c#L237
-https://github.com/AspeedTech-BMC/u-boot/blob/v00.04.09/drivers/crypto/aspeed_hace.c#L264
-
-However, I found aspeed kernel driver only enable sg_mode in hash_update.
-It enable sg_mode during hash_update()
-https://github.com/AspeedTech-BMC/linux/blob/v00.05.00/drivers/crypto/aspeed/aspeed-hace-hash.c#L369
-
-then clear sg_mode after trigger hash_update().
-https://github.com/AspeedTech-BMC/linux/blob/v00.05.00/drivers/crypto/aspeed/aspeed-hace-hash.c#L314
-
-It means sg_mode is not enable in hash_final() below.
-https://github.com/AspeedTech-BMC/linux/blob/v00.05.00/drivers/crypto/aspeed/aspeed-hace-hash.c#L377
-
-Thus if we don't clear the cache for this case, the next sg_en hash_update() will get
-wrong result as there is a previous request in the cache.
-
-> This looks like a fix for a separate issue. If it is, then put it in a
-> different patch so we can review it there.
-> 
-> 
-> 
-
-will fix it.
-
-> > +         */
-> > +        if (cnt || total_len) {
-> > +            cnt = 0;
-> > +            total_len = 0;
-> > +            qemu_log_mask(LOG_UNIMP,
-> > +                          "hash update with sg_mode and hash_final() without"
-> > +                          "sg mode is not yet implemented\n");
-> > +        }
-> > +
-> >          hwaddr len = s->regs[R_HASH_SRC_LEN];
-> >
-> >          iov[0].iov_len = len;
-> > @@ -210,6 +298,9 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
-> >      case R_HASH_DEST:
-> >          data &= ahc->dest_mask;
-> >          break;
-> > +    case R_HASH_KEY_BUFF:
-> > +        data &= ahc->key_mask;
-> > +        break;
-> 
-> You could make the key_mask/KEY_BUFF change a seperate patch.
-> 
-
-will fix it.
-
-> >      case R_HASH_SRC_LEN:
-> >          data &= 0x0FFFFFFF;
-> >          break;
-> > @@ -229,12 +320,13 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
-> >          }
-> >          algo = hash_algo_lookup(data);
-> >          if (algo < 0) {
-> > -                qemu_log_mask(LOG_GUEST_ERROR,
-> > -                        "%s: Invalid hash algorithm selection 0x%"PRIx64"\n",
-> > -                        __func__, data & ahc->hash_mask);
-> > -                break;
-> > +            qemu_log_mask(LOG_GUEST_ERROR,
-> > +                    "%s: Invalid hash algorithm selection 0x%"PRIx64"\n",
-> > +                    __func__, data & ahc->hash_mask);
-> > +            break;
-> 
-> This whitespace change looks unrelated.
-> 
-> >          }
-
-will fix it
-
-> > -        do_hash_operation(s, algo, data & HASH_SG_EN);
-> > +        do_hash_operation(s, algo, data & HASH_SG_EN,
-> > +                ((data & HASH_HMAC_MASK) == HASH_DIGEST_ACCUM));
-> >
-> >          if (data & HASH_IRQ_EN) {
-> >              qemu_irq_raise(s->irq);
-> > @@ -333,6 +425,7 @@ static void aspeed_ast2400_hace_class_init(ObjectClass *klass, void *data)
-> >
-> >      ahc->src_mask = 0x0FFFFFFF;
-> >      ahc->dest_mask = 0x0FFFFFF8;
-> > +    ahc->key_mask = 0x0FFFFFC0;
-> >      ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
-> >  }
-> >
-> > @@ -351,6 +444,7 @@ static void aspeed_ast2500_hace_class_init(ObjectClass *klass, void *data)
-> >
-> >      ahc->src_mask = 0x3fffffff;
-> >      ahc->dest_mask = 0x3ffffff8;
-> > +    ahc->key_mask = 0x3FFFFFC0;
-> >      ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
-> >  }
-> >
-> > @@ -369,6 +463,7 @@ static void aspeed_ast2600_hace_class_init(ObjectClass *klass, void *data)
-> >
-> >      ahc->src_mask = 0x7FFFFFFF;
-> >      ahc->dest_mask = 0x7FFFFFF8;
-> > +    ahc->key_mask = 0x7FFFFFF8;
-> >      ahc->hash_mask = 0x00147FFF;
-> >  }
-> >
-> > diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.h
-> > index 94d5ada95f..2242945eb4 100644
-> > --- a/include/hw/misc/aspeed_hace.h
-> > +++ b/include/hw/misc/aspeed_hace.h
-> > @@ -37,6 +37,7 @@ struct AspeedHACEClass {
-> >
-> >      uint32_t src_mask;
-> >      uint32_t dest_mask;
-> > +    uint32_t key_mask;
-> >      uint32_t hash_mask;
-> >  };
-> >
-> > --
-> > 2.17.1
-> >
 
