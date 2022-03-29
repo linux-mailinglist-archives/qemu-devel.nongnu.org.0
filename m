@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DC94EB51D
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 23:17:15 +0200 (CEST)
-Received: from localhost ([::1]:51088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24994EB511
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 23:12:45 +0200 (CEST)
+Received: from localhost ([::1]:42258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZJDG-0002nx-Ov
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 17:17:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42640)
+	id 1nZJ8u-0005Bl-My
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 17:12:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZIgS-0006Pc-6e; Tue, 29 Mar 2022 16:43:28 -0400
-Received: from smtp48.i.mail.ru ([94.100.177.108]:50474)
+ id 1nZIgY-0006Pm-Lw; Tue, 29 Mar 2022 16:43:28 -0400
+Received: from smtp48.i.mail.ru ([94.100.177.108]:52650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZIgQ-0006rB-94; Tue, 29 Mar 2022 16:43:19 -0400
+ id 1nZIgV-0006sh-Rd; Tue, 29 Mar 2022 16:43:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
  s=mail4; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=HPv0qqabGWiDsp0vwsKbvSbogI2fgLycRlgLZ57FzSk=; 
- t=1648586598;x=1649191998; 
- b=nOnl+14DbwGLR6L7Su/oTO++BKvqEW5x+HRbgVCc1Hev1LF594lhReB+dY5S0fYCJEGn8YwYQ+7qchAoO8/xVkqxOmh8PmYYCZwX93jUibDbtOYNJpwmZCT5dgfPJYI3FUJoljFehZamSH3ZBMtowwvuycjIknfp841bW3izxH8ha/YRjGifSlXzXVVZ29vLunMg9+EPSnBV4Ix/0xepnsXjprqRjYrTNde2mGtIDprdQ3u+0RFJrcs2b0FojY8iENPJ4TP8JE8PlEEFrjCWt9OOyhHCwLPy/WUjSh9fH+k8wnjSEYoM2VzqpKEbSNV4oj+EJ2JK5zGxW873SGw/6A==;
+ bh=ESEaNcxytDLZVQHAFaWxZhf+o7u9z3IFsM6tenQ79DI=; 
+ t=1648586603;x=1649192003; 
+ b=Sy5fpTqsl86OXLBsb2f3r9Z8g4aCWofwQIeNNJSBvfAXRq5TmjeELQvuJMLij2LjFoMYYXybx6ljozA1stPJQiH1ichi4qAcRwGUkHW/UUDvKv8xXv2hppw/TmewIqR/COuMFWUK+uJGnwxF+7pril20KWBFV9GsWuidRcxqb5EA0mMZr2IVmeZcn5VbWeJJnLjDgnFsOtVCGeTWE5gS4aHWZRWZnOER2/woQ7Ldw+l12S6XIWaczvUpk6PHsqZ5HxczFWwB5ahiHIm96ECRCWCvM+Hxjre8cu0YfRpowvPw7xcGOqDmPOCcrmQXZaXSAV3Hfn/mCOjrEriA3E84eA==;
 Received: by smtp48.i.mail.ru with esmtpa (envelope-from
  <v.sementsov-og@mail.ru>)
- id 1nZIg4-000374-5N; Tue, 29 Mar 2022 23:42:56 +0300
+ id 1nZIg9-000374-Kz; Tue, 29 Mar 2022 23:43:02 +0300
 From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- v.sementsov-og@mail.ru, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>
-Subject: [PATCH v4 28/45] qapi: block: add blockdev-del transaction action
-Date: Tue, 29 Mar 2022 23:40:50 +0300
-Message-Id: <20220329204107.411011-29-v.sementsov-og@mail.ru>
+ v.sementsov-og@mail.ru, Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH v4 29/45] block: introduce BDRV_O_NOPERM flag
+Date: Tue, 29 Mar 2022 23:40:51 +0300
+Message-Id: <20220329204107.411011-30-v.sementsov-og@mail.ru>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220329204107.411011-1-v.sementsov-og@mail.ru>
 References: <20220329204107.411011-1-v.sementsov-og@mail.ru>
@@ -42,14 +41,15 @@ Content-Transfer-Encoding: 8bit
 Authentication-Results: smtp48.i.mail.ru;
  auth=pass smtp.auth=v.sementsov-og@mail.ru
  smtp.mailfrom=v.sementsov-og@mail.ru
-X-7564579A: B8F34718100C35BD
-X-77F55803: 4F1203BC0FB41BD92B0439D57C14BB6155011D2176585D5E1D932C628789187E00894C459B0CD1B9527F6DEFF7C50462485F49AECE73078AC206EF2094F4D734A5CBAC82CA3D0FCF
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE72F22E6DC541F75D9EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637E1D2769089B3DFB28638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D80AF30562DE8523C2BFF9F9DBFA9097B96F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE7ABB305BD10C6E5099FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD18C26CFBAC0749D213D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B974A882099E279BDA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FCAAC0AB268FC727953AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F79006379B06BA6FE78CAE96D81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89F00AD5422731CA18CCE5475246E174218B5C8C57E37DE458BEDA766A37F9254B7
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD92B0439D57C14BB61E1FB8704E9CBF83467E8A25B5576996E00894C459B0CD1B94B6901CC6BB6874B130D35E636CA0121C206EF2094F4D7344C4DA9DF1BAA9670
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7B264C8851FD8E810EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637A164EE347039141E8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D88B967364EAE3E69EB841CED4F09CFE8D6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE74A95F4E53E8DCE969FA2833FD35BB23D9E625A9149C048EE9ECD01F8117BC8BEA471835C12D1D9774AD6D5ED66289B52BA9C0B312567BB23117882F44604297287769387670735209ECD01F8117BC8BEA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC041BD12FB6B479933AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F790063705D250BA6C9D3354EC76A7562686271EEC990983EF5C03292E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C328505141BAE32B3435872C767BF85DA2F004C90652538430E4A6367B16DE6309
 X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8183A4AFAF3EA6BDC446469D8A8717206BBF593E0A4FA3DD8F5269905D867A8EE2AF82984890642470D9C2B6934AE262D3EE7EAB7254005DCED7532B743992DF240BDC6A1CF3F042BAD6DF99611D93F60EFD07623A0E6354027699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D349A401E2B4D763A4AA06C54ACBD6243D3ED7CF2183860FD261859579C0484397F5678EE11908BF7E11D7E09C32AA3244C05A1288F47576C215CF4608A552B4E2E69B6CAE0477E908DDCA3B3C10BC03908
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojX92LdC94eGZxCeUomCivag==
-X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FE336C705384C87316DC0A873C2FFED379A69E3B846B6A5E16E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-B7AD71C0: 1B70FBA5C9BEEE72C9761FC34675ADEB871C96603B655635EE9D5CB6078CC77C9E00ECEA5EC58584EE319BF62A11F40A
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8183A4AFAF3EA6BDC44C234C8B12C006B7A09B9BA260DCCDBF003E05DD6FC679E84EC3A80B2A606EF86B1881A6453793CE9C32612AADDFBE061C61BE10805914D3804EBA3D8E7E5B87ABF8C51168CD8EBDBF77088377309FF52DC48ACC2A39D04F89CDFB48F4795C241BDAD6C7F3747799A
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D3441661D6226BE8C316F75A0442A35AF09521DCF413C9C883D290E4C810225CB77ED378BAD504FDCDF1D7E09C32AA3244C609BFD890B12D6CF9E8B5A2E110FB2A885803964308724808D5DD81C2BAB7D1D
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojX92LdC94eGb45ktudZikjQ==
+X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FE336C705384C87316A803D7067C248FB67DAF9310E7C83EE3E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
 X-Mras: Ok
 Received-SPF: pass client-ip=94.100.177.108;
  envelope-from=v.sementsov-og@mail.ru; helo=smtp48.i.mail.ru
@@ -76,241 +76,296 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support blockdev-del in a transaction.
+Now copy-before-write filter has weak permission model: when it has no
+parents, it share write permission on source. Otherwise we just can't
+blockdev-add it, when existing user of source has write permission.
 
-The tricky thing is how we update permissions: not after every
-blockdev-del operation, but after group of such operations. Soon we'll
-support blockdev-add and new blockdev-replace in the same manner, and
-we'll be able to do a wide range of block-graph modifying operation in
-a bunch, so that permissions are updated only after the whole group, to
-avoid intermediate permission conflicts.
+The situation is bad, it means that copy-before-write filter doesn't
+guarantee that all write goes through it. And a lot better is unshare
+write always. But how to insert the filter in this case?
+
+The solution is to do blockdev-add and blockdev-replace in one
+transaction, and more, update permissions only after both command.
+
+For now, let's create a possibility to not update permission on file
+child of copy-before-write filter at time of open.
+
+New interfaces are:
+
+- bds_tree_init() with flags argument, so that caller may pass
+  additional flags, for example the new BDRV_O_NOPERM.
+
+- bdrv_open_file_child_common() with boolean refresh_perms arguments.
+  Drivers may use this function with refresh_perms = true, if they want
+  to satisfy BDRV_O_NOPERM. No one such driver for now.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 ---
- blockdev.c            | 66 +++++++++++++++++++++++++++++++++++++++----
- qapi/block-core.json  | 11 ++++++--
- qapi/transaction.json | 12 ++++++++
- 3 files changed, 81 insertions(+), 8 deletions(-)
+ block.c                        | 84 ++++++++++++++++++++++++----------
+ block/monitor/block-hmp-cmds.c |  2 +-
+ blockdev.c                     | 13 +++---
+ include/block/block.h          | 14 ++++++
+ include/block/block_int.h      |  5 +-
+ 5 files changed, 85 insertions(+), 33 deletions(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index 30a5b27b28..517be48399 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2141,7 +2141,12 @@ static void abort_commit(void *opaque)
-     g_assert_not_reached(); /* this action never succeeds */
- }
- 
-+
-+static int blockdev_del(const char *node_name, GSList **detached,
-+                        Transaction *tran, Error **errp);
-+
- static void transaction_action(TransactionAction *act, JobTxn *block_job_txn,
-+                               GSList **refresh_list,
-                                Transaction *tran, Error **errp)
+diff --git a/block.c b/block.c
+index 7c22b31259..a3bc28cf32 100644
+--- a/block.c
++++ b/block.c
+@@ -3065,12 +3065,13 @@ out:
+  * If @parent_bs and @child_bs are in different AioContexts, the caller must
+  * hold the AioContext lock for @child_bs, but not for @parent_bs.
+  */
+-BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+-                             BlockDriverState *child_bs,
+-                             const char *child_name,
+-                             const BdrvChildClass *child_class,
+-                             BdrvChildRole child_role,
+-                             Error **errp)
++static BdrvChild *bdrv_do_attach_child(BlockDriverState *parent_bs,
++                                       BlockDriverState *child_bs,
++                                       const char *child_name,
++                                       const BdrvChildClass *child_class,
++                                       BdrvChildRole child_role,
++                                       bool refresh_perms,
++                                       Error **errp)
  {
-     switch (act->type) {
-@@ -2188,6 +2193,10 @@ static void transaction_action(TransactionAction *act, JobTxn *block_job_txn,
-         block_dirty_bitmap_remove_action(act->u.block_dirty_bitmap_remove.data,
-                                          tran, errp);
-         return;
-+    case TRANSACTION_ACTION_KIND_BLOCKDEV_DEL:
-+        blockdev_del(act->u.blockdev_del.data->node_name,
-+                     refresh_list, tran, errp);
-+        return;
-     /*
-      * Where are transactions for MIRROR, COMMIT and STREAM?
-      * Although these blockjobs use transaction callbacks like the backup job,
-@@ -2211,6 +2220,7 @@ void qmp_transaction(TransactionActionList *actions,
-                      struct TransactionProperties *properties,
-                      Error **errp)
- {
-+    int ret;
-     TransactionActionList *act;
-     JobTxn *block_job_txn = NULL;
-     Error *local_err = NULL;
-@@ -2218,6 +2228,7 @@ void qmp_transaction(TransactionActionList *actions,
-     ActionCompletionMode comp_mode =
-         has_properties ? properties->completion_mode :
-         ACTION_COMPLETION_MODE_INDIVIDUAL;
-+    g_autoptr(GSList) refresh_list = NULL;
+     int ret;
+     BdrvChild *child;
+@@ -3082,9 +3083,11 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+         goto out;
+     }
  
-     /* Does this transaction get canceled as a group on failure?
-      * If not, we don't really need to make a JobTxn.
-@@ -2246,13 +2257,32 @@ void qmp_transaction(TransactionActionList *actions,
- 
-     /* We don't do anything in this loop that commits us to the operations */
-     for (act = actions; act; act = act->next) {
--        transaction_action(act->value, block_job_txn, tran, &local_err);
-+        TransactionActionKind type = act->value->type;
-+
-+        if (refresh_list &&
-+            type != TRANSACTION_ACTION_KIND_BLOCKDEV_DEL)
-+        {
-+            ret = bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
-+            if (ret < 0) {
-+                goto delete_and_fail;
-+            }
-+            g_slist_free(refresh_list);
-+            refresh_list = NULL;
+-    ret = bdrv_refresh_perms(parent_bs, tran, errp);
+-    if (ret < 0) {
+-        goto out;
++    if (refresh_perms) {
++        ret = bdrv_refresh_perms(parent_bs, tran, errp);
++        if (ret < 0) {
++            goto out;
 +        }
-+
-+        transaction_action(act->value, block_job_txn, &refresh_list, tran,
-+                           &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             goto delete_and_fail;
-         }
      }
- 
-+    ret = bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
-+    if (ret < 0) {
-+        goto delete_and_fail;
-+    }
-+
-     tran_commit(tran);
- 
-     /* success */
-@@ -3486,19 +3516,22 @@ fail:
-     g_slist_free_full(drained, (GDestroyNotify) bdrv_subtree_drained_end);
- }
- 
--void qmp_blockdev_del(const char *node_name, Error **errp)
-+/* Function doesn't update permissions, it's a responsibility of caller. */
-+static int blockdev_del(const char *node_name, GSList **refresh_list,
-+                        Transaction *tran, Error **errp)
- {
-     AioContext *aio_context;
-     BlockDriverState *bs;
-+    int ret = -EINVAL;
- 
-     bs = bdrv_find_node(node_name);
-     if (!bs) {
-         error_setg(errp, "Failed to find node with node-name='%s'", node_name);
--        return;
-+        return ret;
-     }
-     if (bdrv_has_blk(bs)) {
-         error_setg(errp, "Node %s is in use", node_name);
--        return;
-+        return ret;
-     }
-     aio_context = bdrv_get_aio_context(bs);
-     aio_context_acquire(aio_context);
-@@ -3520,10 +3553,33 @@ void qmp_blockdev_del(const char *node_name, Error **errp)
-     }
- 
-     QTAILQ_REMOVE(&monitor_bdrv_states, bs, monitor_list);
--    bdrv_unref(bs);
-+    bdrv_unref_tran(bs, refresh_list, tran);
-+
-+    ret = 0;
  
  out:
-     aio_context_release(aio_context);
-+    return ret;
-+}
-+
-+void qmp_blockdev_del(const char *node_name, Error **errp)
-+{
-+    int ret;
-+    Transaction *tran = tran_new();
-+    g_autoptr(GSList) refresh_list = NULL;
-+
-+    ret = blockdev_del(node_name, &refresh_list, tran, errp);
-+    if (ret < 0) {
-+        goto out;
-+    }
-+
-+    ret = bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
-+    if (ret < 0) {
-+        goto out;
-+    }
-+
-+out:
-+    tran_finalize(tran, ret);
+@@ -3095,6 +3098,17 @@ out:
+     return ret < 0 ? NULL : child;
  }
  
- static BdrvChild *bdrv_find_child(BlockDriverState *parent_bs,
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 9a5a3641d0..c0d56b7128 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4394,6 +4394,13 @@
- { 'command': 'blockdev-reopen',
-   'data': { 'options': ['BlockdevOptions'] } }
- 
-+##
-+# @BlockdevDel:
-+#
-+# @node-name: Name of the graph node to delete.
-+##
-+{ 'struct': 'BlockdevDel', 'data': { 'node-name': 'str' } }
++BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
++                             BlockDriverState *child_bs,
++                             const char *child_name,
++                             const BdrvChildClass *child_class,
++                             BdrvChildRole child_role,
++                             Error **errp)
++{
++    return bdrv_do_attach_child(parent_bs, child_bs, child_name, child_class,
++                                child_role, true, errp);
++}
 +
- ##
- # @blockdev-del:
- #
-@@ -4401,8 +4408,6 @@
- # The command will fail if the node is attached to a device or is
- # otherwise being used.
- #
--# @node-name: Name of the graph node to delete.
--#
- # Since: 2.9
- #
- # Example:
-@@ -4425,7 +4430,7 @@
- # <- { "return": {} }
- #
- ##
--{ 'command': 'blockdev-del', 'data': { 'node-name': 'str' } }
-+{ 'command': 'blockdev-del', 'data': 'BlockdevDel' }
+ /* Caller is responsible to refresh permissions in @refresh_list */
+ static void bdrv_root_unref_child_tran(BdrvChild *child, GSList **refresh_list,
+                                        Transaction *tran)
+@@ -3556,12 +3570,13 @@ done:
+  *
+  * The BlockdevRef will be removed from the options QDict.
+  */
+-BdrvChild *bdrv_open_child(const char *filename,
+-                           QDict *options, const char *bdref_key,
+-                           BlockDriverState *parent,
+-                           const BdrvChildClass *child_class,
+-                           BdrvChildRole child_role,
+-                           bool allow_none, Error **errp)
++BdrvChild *bdrv_open_child_common(const char *filename,
++                                  QDict *options, const char *bdref_key,
++                                  BlockDriverState *parent,
++                                  const BdrvChildClass *child_class,
++                                  BdrvChildRole child_role,
++                                  bool allow_none, bool refresh_perms,
++                                  Error **errp)
+ {
+     BlockDriverState *bs;
  
- ##
- # @BlockdevCreateOptionsFile:
-diff --git a/qapi/transaction.json b/qapi/transaction.json
-index 381a2df782..ea20df770c 100644
---- a/qapi/transaction.json
-+++ b/qapi/transaction.json
-@@ -53,6 +53,7 @@
- # @blockdev-snapshot-internal-sync: Since 1.7
- # @blockdev-snapshot-sync: since 1.1
- # @drive-backup: Since 1.6
-+# @blockdev-del: since 7.1
- #
- # Features:
- # @deprecated: Member @drive-backup is deprecated.  Use member
-@@ -66,6 +67,7 @@
-             'block-dirty-bitmap-disable', 'block-dirty-bitmap-merge',
-             'blockdev-backup', 'blockdev-snapshot',
-             'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
-+            'blockdev-del',
-             { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
+@@ -3571,16 +3586,29 @@ BdrvChild *bdrv_open_child(const char *filename,
+         return NULL;
+     }
  
- ##
-@@ -140,6 +142,15 @@
- { 'struct': 'DriveBackupWrapper',
-   'data': { 'data': 'DriveBackup' } }
- 
-+##
-+# @BlockdevDelWrapper:
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'BlockdevDelWrapper',
-+  'data': { 'data': 'BlockdevDel' } }
+-    return bdrv_attach_child(parent, bs, bdref_key, child_class, child_role,
+-                             errp);
++    return bdrv_do_attach_child(parent, bs, bdref_key, child_class, child_role,
++                                refresh_perms, errp);
++}
 +
-+
- ##
- # @TransactionAction:
- #
-@@ -163,6 +174,7 @@
-        'blockdev-snapshot': 'BlockdevSnapshotWrapper',
-        'blockdev-snapshot-internal-sync': 'BlockdevSnapshotInternalWrapper',
-        'blockdev-snapshot-sync': 'BlockdevSnapshotSyncWrapper',
-+       'blockdev-del': 'BlockdevDelWrapper',
-        'drive-backup': 'DriveBackupWrapper'
-    } }
++BdrvChild *bdrv_open_child(const char *filename,
++                           QDict *options, const char *bdref_key,
++                           BlockDriverState *parent,
++                           const BdrvChildClass *child_class,
++                           BdrvChildRole child_role,
++                           bool allow_none, Error **errp)
++{
++    return bdrv_open_child_common(filename, options, bdref_key, parent,
++                                  child_class, child_role, allow_none, true,
++                                  errp);
+ }
  
+ /*
+  * Wrapper on bdrv_open_child() for most popular case: open primary child of bs.
+  */
+-int bdrv_open_file_child(const char *filename,
+-                         QDict *options, const char *bdref_key,
+-                         BlockDriverState *parent, Error **errp)
++int bdrv_open_file_child_common(const char *filename,
++                                QDict *options, const char *bdref_key,
++                                BlockDriverState *parent, bool refresh_perms,
++                                Error **errp)
+ {
+     BdrvChildRole role;
+ 
+@@ -3589,8 +3617,9 @@ int bdrv_open_file_child(const char *filename,
+     role = parent->drv->is_filter ?
+         (BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY) : BDRV_CHILD_IMAGE;
+ 
+-    if (!bdrv_open_child(filename, options, bdref_key, parent,
+-                         &child_of_bds, role, false, errp))
++    if (!bdrv_open_child_common(filename, options, bdref_key, parent,
++                                &child_of_bds, role, false, refresh_perms,
++                                errp))
+     {
+         return -EINVAL;
+     }
+@@ -3598,6 +3627,15 @@ int bdrv_open_file_child(const char *filename,
+     return 0;
+ }
+ 
++int bdrv_open_file_child(const char *filename,
++                         QDict *options, const char *bdref_key,
++                         BlockDriverState *parent,
++                         Error **errp)
++{
++    return bdrv_open_file_child_common(filename, options, bdref_key, parent,
++                                       true, errp);
++}
++
+ /*
+  * TODO Future callers may need to specify parent/child_class in order for
+  * option inheritance to work. Existing callers use it for the root node.
+@@ -6647,7 +6685,7 @@ void bdrv_unref_tran(BlockDriverState *bs, GSList **refresh_list,
+ 
+     tran_add(tran, &bdrv_unref_drv, bs);
+ 
+-    if (bs->drv && (!bs->drv->bdrv_close || bs->drv->indepenent_close) &&
++    if (bs->drv && (!bs->drv->bdrv_close || bs->drv->independent_close) &&
+         refresh_list && bs->refcnt == 0)
+     {
+         QLIST_FOREACH_SAFE(child, &bs->children, next, next) {
+diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
+index bfb3c043a0..9145ccfc46 100644
+--- a/block/monitor/block-hmp-cmds.c
++++ b/block/monitor/block-hmp-cmds.c
+@@ -76,7 +76,7 @@ static void hmp_drive_add_node(Monitor *mon, const char *optstr)
+         goto out;
+     }
+ 
+-    BlockDriverState *bs = bds_tree_init(qdict, &local_err);
++    BlockDriverState *bs = bds_tree_init(qdict, 0, &local_err);
+     if (!bs) {
+         error_report_err(local_err);
+         goto out;
+diff --git a/blockdev.c b/blockdev.c
+index 517be48399..3569b0e6ee 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -624,11 +624,10 @@ err_no_opts:
+ }
+ 
+ /* Takes the ownership of bs_opts */
+-BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp)
++BlockDriverState *bds_tree_init(QDict *bs_opts, BdrvRequestFlags flags,
++                                Error **errp)
+ {
+-    int bdrv_flags = 0;
+-
+-    /* bdrv_open() defaults to the values in bdrv_flags (for compatibility
++    /* bdrv_open() defaults to the values in flags (for compatibility
+      * with other callers) rather than what we want as the real defaults.
+      * Apply the defaults here instead. */
+     qdict_set_default_str(bs_opts, BDRV_OPT_CACHE_DIRECT, "off");
+@@ -636,10 +635,10 @@ BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp)
+     qdict_set_default_str(bs_opts, BDRV_OPT_READ_ONLY, "off");
+ 
+     if (runstate_check(RUN_STATE_INMIGRATE)) {
+-        bdrv_flags |= BDRV_O_INACTIVE;
++        flags |= BDRV_O_INACTIVE;
+     }
+ 
+-    return bdrv_open(NULL, NULL, bs_opts, bdrv_flags, errp);
++    return bdrv_open(NULL, NULL, bs_opts, flags, errp);
+ }
+ 
+ void blockdev_close_all_bdrv_states(void)
+@@ -3449,7 +3448,7 @@ void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
+         goto fail;
+     }
+ 
+-    bs = bds_tree_init(qdict, errp);
++    bs = bds_tree_init(qdict, 0, errp);
+     if (!bs) {
+         goto fail;
+     }
+diff --git a/include/block/block.h b/include/block/block.h
+index 92fe31bd13..017bf9b7c0 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -123,6 +123,9 @@ typedef struct HDGeometry {
+ #define BDRV_O_AUTO_RDONLY 0x20000 /* degrade to read-only if opening read-write fails */
+ #define BDRV_O_IO_URING    0x40000 /* use io_uring instead of the thread pool */
+ 
++#define BDRV_O_NOPERM      0x80000 /* Don't update permissions if possible,
++                                      open() caller will do that. */
++
+ #define BDRV_O_CACHE_MASK  (BDRV_O_NOCACHE | BDRV_O_NO_FLUSH)
+ 
+ 
+@@ -416,6 +419,17 @@ BdrvChild *bdrv_open_child(const char *filename,
+                            const BdrvChildClass *child_class,
+                            BdrvChildRole child_role,
+                            bool allow_none, Error **errp);
++BdrvChild *bdrv_open_child_common(const char *filename,
++                                  QDict *options, const char *bdref_key,
++                                  BlockDriverState *parent,
++                                  const BdrvChildClass *child_class,
++                                  BdrvChildRole child_role,
++                                  bool allow_none, bool refresh_perms,
++                                  Error **errp);
++int bdrv_open_file_child_common(const char *filename,
++                                QDict *options, const char *bdref_key,
++                                BlockDriverState *parent, bool refresh_perms,
++                                Error **errp);
+ int bdrv_open_file_child(const char *filename,
+                          QDict *options, const char *bdref_key,
+                          BlockDriverState *parent, Error **errp);
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index e2bb936451..f6deb89f23 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -178,7 +178,7 @@ struct BlockDriver {
+      * and is safe to be called in commit phase of block-graph modifying
+      * transaction.
+      */
+-    bool indepenent_close;
++    bool independent_close;
+ 
+     /* For handling image reopen for split or non-split files */
+     int (*bdrv_reopen_prepare)(BDRVReopenState *reopen_state,
+@@ -1436,7 +1436,8 @@ int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, int64_t src_offset,
+ int refresh_total_sectors(BlockDriverState *bs, int64_t hint);
+ 
+ void bdrv_set_monitor_owned(BlockDriverState *bs);
+-BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp);
++BlockDriverState *bds_tree_init(QDict *bs_opts, BdrvRequestFlags flags,
++                                Error **errp);
+ 
+ /**
+  * Simple implementation of bdrv_co_create_opts for protocol drivers
 -- 
 2.35.1
 
