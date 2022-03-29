@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A386D4EB4E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 22:54:10 +0200 (CEST)
-Received: from localhost ([::1]:59266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438ED4EB4D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 22:49:25 +0200 (CEST)
+Received: from localhost ([::1]:49896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZIqt-00030l-TO
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 16:54:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42072)
+	id 1nZImK-0004p9-AI
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 16:49:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZIf4-0003qq-QF; Tue, 29 Mar 2022 16:41:56 -0400
-Received: from smtp48.i.mail.ru ([94.100.177.108]:57088)
+ id 1nZIf8-0003rc-4c; Tue, 29 Mar 2022 16:41:59 -0400
+Received: from smtp48.i.mail.ru ([94.100.177.108]:57838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZIey-0006c3-Jf; Tue, 29 Mar 2022 16:41:50 -0400
+ id 1nZIf2-0006ek-6d; Tue, 29 Mar 2022 16:41:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
  s=mail4; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=lqTXm5R1XXeEJWrZX9n4yFOPzx2AU3dqCdoDOaRQclg=; 
- t=1648586508;x=1649191908; 
- b=O8zEJHcTQNbIXDZSfNR/y3+71S/MRtOY6WP5QfN8rb+IypJzP4OD5swgiy7k6Wjl+E9wd4DRHVGkVk9RvtaJ70JrCojxjOTWIaXXgYth4eVZ5NUzMA5BA7Eu6MICLFRcqZ+hgD+LJEEsDnp+EEmqA+UuLhq7EeFWk93hejFPD1NJGZCiJaE1gknoEuGnL8O1mwBDGpMj+D5HMdi3mWHJxtNeECmJmc6S662cXoWy/iyTLoZOEXBvWcHYQ0MPzZVsH0hhDNCKRQEdbQ0kL+hDwtSJ1/ti8eaDqfwnRNn3459tpKnXJRPEDl3O8qk9QEOT7dKrrNlHrJoRWWaXVVuSrA==;
+ bh=Qy+JX1wwfXY9XUBgXQOevxQ+hWwpCYIxDPIVoqHbiM4=; 
+ t=1648586512;x=1649191912; 
+ b=j9z1KKAcWS/t0CL81TIyN/fvgEqASYmGhSLDHlIVugxX8VGVSZdET36s5cJew8lvDBRSQNhrZC58+Mn5ee0omRYTTrADUIPRAFki0O1UyK740gRGRg7mQ9rSC6gkAEJiPdpsxC3GGsv0P4bz2jrQxKyRdpQAXAKd0LXRXMsGbF3rkGqophULNYApSbs/BlQwZoJmxtW5oa+9kV0PPgLz+XSceURP9e5+EiA1Gsp6/0zxQbPIvsJYeJWfnvKj8vQvFR3ZCcRkS7FSDRZkp2Jbg5VJJMBObgM7qOD2Z8jaXUhjLYyiuE9k3tqdDyXeD4Uu7uDayr3bghEy6XObaX3vRQ==;
 Received: by smtp48.i.mail.ru with esmtpa (envelope-from
  <v.sementsov-og@mail.ru>)
- id 1nZIew-000374-G4; Tue, 29 Mar 2022 23:41:46 +0300
+ id 1nZIey-000374-Fl; Tue, 29 Mar 2022 23:41:48 +0300
 From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
  v.sementsov-og@mail.ru
-Subject: [PATCH v4 07/45] block: document connection between child roles and
- bs->backing/bs->file
-Date: Tue, 29 Mar 2022 23:40:29 +0300
-Message-Id: <20220329204107.411011-8-v.sementsov-og@mail.ru>
+Subject: [PATCH v4 08/45] block/snapshot: stress that we fallback to primary
+ child
+Date: Tue, 29 Mar 2022 23:40:30 +0300
+Message-Id: <20220329204107.411011-9-v.sementsov-og@mail.ru>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220329204107.411011-1-v.sementsov-og@mail.ru>
 References: <20220329204107.411011-1-v.sementsov-og@mail.ru>
@@ -43,13 +43,13 @@ Authentication-Results: smtp48.i.mail.ru;
  auth=pass smtp.auth=v.sementsov-og@mail.ru
  smtp.mailfrom=v.sementsov-og@mail.ru
 X-7564579A: EEAE043A70213CC8
-X-77F55803: 4F1203BC0FB41BD9B83DD81DD066BE64A182F30D711DF321C3181FFB50202F95182A05F5380850404C228DA9ACA6FE27E505E6F939F6EBBEDE4143B5F91DE108561097D9C6D40B900E190F2235974A63
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE77BF46084C0059042EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063748E7A03516F25E8E8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D850A319BEF7FD09F54DA69BD0A3792F0A6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE7E4DF6D1C10F22F599FA2833FD35BB23D9E625A9149C048EECCD848CCB6FE560CBDFBBEFFF4125B51D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B4AFB60FD1831C04CA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC0D120E52B0EA0311D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE7F14938A4A9A7FB0CEC76A7562686271EEC990983EF5C03292E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C3BFED8EC40EBB00D735872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-77F55803: 4F1203BC0FB41BD92B0439D57C14BB617BAFEA8A05E639C3B4E0E7AAF66DFFB700894C459B0CD1B9C6EA9888AF679A41DEC1F315C35BD472C206EF2094F4D734EEE848E17894A636
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE70D278D70F8433719EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063752AC809489EC5B9C8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D85EC5A3A58751340F50B554A21EB1830F6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE747EEB2A63512ED089FA2833FD35BB23D9E625A9149C048EE0AC5B80A05675ACDCB629EEF1311BF91D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BCD50B4D329AF8BB7A471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC851EDB9C5A93305ED81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE766D1562891436030EC76A7562686271EEC990983EF5C03292E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C3D90E0058AC9F27DF35872C767BF85DA2F004C90652538430E4A6367B16DE6309
 X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CF593E0A4FA3DD8F532C55A9F3982E1032EFC514806A55B079C2B6934AE262D3EE7EAB7254005DCED7532B743992DF240BDC6A1CF3F042BAD6DF99611D93F60EFD07623A0E6354027699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34C1E32F4AD4B2486B26D5C59B0BA9D51821B17D419BAE9ADB2F8EFB9E21218FE61E2FFBFD5D6037401D7E09C32AA3244C5E72A7BD6C1FFEE7AFA3E7DB973FE1317101BF96129E401183B48618A63566E0
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojX92LdC94eGa82XpFw3gvpA==
-X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FE091173E07D01305619F0F8713184ADB6136C4C4BDE141158E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CF593E0A4FA3DD8F5BB8DFB9331D0C2A924B7649B1E49CC779C2B6934AE262D3EE7EAB7254005DCED7532B743992DF240BDC6A1CF3F042BAD6DF99611D93F60EFD07623A0E6354027699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34AAC3D1FDB34D048874522B2B3B0CBEF27B11D7B2F3B6E4F450C9191BC2BEEEE062EFE054AE2611101D7E09C32AA3244C3E6E1D49F7FD4CF66154F169FD49201D250262A5EE9971B083B48618A63566E0
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojX92LdC94eGatt83McpHQyg==
+X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FE091173E07D0130567D15532364D124EEEE0A58EA02FAC8BFE6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
 X-Mras: Ok
 Received-SPF: pass client-ip=94.100.177.108;
  envelope-from=v.sementsov-og@mail.ru; helo=smtp48.i.mail.ru
@@ -76,67 +76,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the informal rules formal. In further commit we'll add
-corresponding assertions.
+Actually what we chose is a primary child. Let's stress it in the code.
+
+We are going to drop indirect pointer logic here in future. Actually
+this commit simplifies the future work: we drop use of indirection in
+the assertion now.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 ---
- include/block/block.h | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ block/snapshot.c | 30 ++++++++++--------------------
+ 1 file changed, 10 insertions(+), 20 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 2783f77dc2..768273b2db 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -291,6 +291,48 @@ enum {
-  *
-  * At least one of DATA, METADATA, FILTERED, or COW must be set for
-  * every child.
-+ *
-+ *
-+ * = Connection with bs->children, bs->file and bs->backing fields =
-+ *
-+ * 1. Filters
-+ *
-+ * Filter drivers has drv->is_filter = true.
-+ *
-+ * Filter driver has exactly one FILTERED|PRIMARY child, any may have other
-+ * children which must not have these bits (the example is copy-before-write
-+ * filter that also has target DATA child).
-+ *
-+ * Filter driver never has COW children.
-+ *
-+ * For all filters except for mirror_top and commit_top, the filtered child is
-+ * linked in bs->file, bs->backing is NULL.
-+ *
-+ * For mirror_top and commit_top filtered child is linked in bs->backing and
-+ * their bs->file is NULL. These two filters has drv->filtered_child_is_backing
-+ * = true.
-+ *
-+ * 2. "raw" driver (block/raw-format.c)
-+ *
-+ * Formally it's not a filter (drv->is_filter = false)
-+ *
-+ * bs->backing is always NULL
-+ *
-+ * Only has one child, linked in bs->file. It's role is either FILTERED|PRIMARY
-+ * (like filter) either DATA|PRIMARY depending on options.
-+ *
-+ * 3. Other drivers
-+ *
-+ * Doesn't have any FILTERED children.
-+ *
-+ * May have at most one COW child. In this case it's linked in bs->backing.
-+ * Otherwise bs->backing is NULL. COW child is never PRIMARY.
-+ *
-+ * May have at most one PRIMARY child. In this case it's linked in bs->file.
-+ * Otherwise bs->file is NULL.
-+ *
-+ * May also have some other children that don't have neither PRIMARY nor COW
-+ * bits set.
-  */
- enum BdrvChildRoleBits {
+diff --git a/block/snapshot.c b/block/snapshot.c
+index ccacda8bd5..12fa0e3904 100644
+--- a/block/snapshot.c
++++ b/block/snapshot.c
+@@ -158,21 +158,14 @@ bool bdrv_snapshot_find_by_id_and_name(BlockDriverState *bs,
+ static BdrvChild **bdrv_snapshot_fallback_ptr(BlockDriverState *bs)
+ {
+     BdrvChild **fallback;
+-    BdrvChild *child;
++    BdrvChild *child = bdrv_primary_child(bs);
+ 
+-    /*
+-     * The only BdrvChild pointers that are safe to modify (and which
+-     * we can thus return a reference to) are bs->file and
+-     * bs->backing.
+-     */
+-    fallback = &bs->file;
+-    if (!*fallback && bs->drv && bs->drv->is_filter) {
+-        fallback = &bs->backing;
+-    }
+-
+-    if (!*fallback) {
++    /* We allow fallback only to primary child */
++    if (!child) {
+         return NULL;
+     }
++    fallback = (child == bs->file ? &bs->file : &bs->backing);
++    assert(*fallback == child);
+ 
      /*
+      * Check that there are no other children that would need to be
+@@ -300,15 +293,12 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
+         }
+ 
+         /*
+-         * fallback_ptr is &bs->file or &bs->backing.  *fallback_ptr
+-         * was closed above and set to NULL, but the .bdrv_open() call
+-         * has opened it again, because we set the respective option
+-         * (with the qdict_put_str() call above).
+-         * Assert that .bdrv_open() has attached some child on
+-         * *fallback_ptr, and that it has attached the one we wanted
+-         * it to (i.e., fallback_bs).
++         * fallback was a primary child. It was closed above and set to NULL,
++         * but the .bdrv_open() call has opened it again, because we set the
++         * respective option (with the qdict_put_str() call above).
++         * Assert that .bdrv_open() has attached some BDS as primary child.
+          */
+-        assert(*fallback_ptr && fallback_bs == (*fallback_ptr)->bs);
++        assert(bdrv_primary_bs(bs) == fallback_bs);
+         bdrv_unref(fallback_bs);
+         return ret;
+     }
 -- 
 2.35.1
 
