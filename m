@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3254EB0F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:48:11 +0200 (CEST)
-Received: from localhost ([::1]:49028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281074EB0F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:48:12 +0200 (CEST)
+Received: from localhost ([::1]:49056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZE4o-00022p-Lr
+	id 1nZE4o-00023f-SR
 	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:48:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56782)
+Received: from eggs.gnu.org ([209.51.188.92]:58016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZDyh-0004AM-JI
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:41:53 -0400
-Received: from [2607:f8b0:4864:20::b36] (port=36401
- helo=mail-yb1-xb36.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZDyb-0002Ed-S3
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:41:47 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id f38so32261306ybi.3
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 08:41:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=03ybgrX5WteLjC0iYEhC8Q4NWeO7R30zohy5xd/xiPc=;
- b=j5+nRr25tFdCFDyobBf9JiX4vPgz2u9x75O/Mm3XVdnPATXG30qrF67gWUcppA34Y5
- NefSz0UvE0870ZhCS4+Cj9ouvzF0p8yWev3+CPflnT/bgGF8MQ3lTE8mnMiHzrZ3MOze
- pI+5D3ZQaGrH24g8XKvB+ebiVpjS6oGu1uMJ6nA0PIAM9Buu0i9VOj1mGFTP3gzlA6FV
- mdFz9SAYoP+YSvzgttlnk3AfmSKUWmoXf7sSF8t4onCAz3oxU4Zvxo8uZlkUe4egnCh8
- HAzh3RwBh3HsFvy4EJYSN5H7d71/d8VV4p+8T3KTC+QKoBfoMnahX+kLyCcFl9Zio8W2
- qAeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=03ybgrX5WteLjC0iYEhC8Q4NWeO7R30zohy5xd/xiPc=;
- b=uw3I5czS2VjNd4/qBsaeOX05gPYaeDRhtRusq3VO7Xz/yYAghIcmeaAw0xODaacOPf
- AqXg/ENXNLDV78Ouhk7dL62Mt1I5nsr0yy9nULl2KSLUwEG9QlL8JUlfy5nQ6zCYQ/XX
- lHgU98fQsmzA/XgmRnghSgzUacjEauCbMoWDhNwHt2e2KAPdoaqKz6jWRSea6MJZoePb
- VGDJEzJsxOVmEgdp7dpCh0UxKHQYk3PfUhhG7Q0YCYzPP5bTtQrPvO70F4Y46FAINP6Q
- LFLDSyTLrNQQXnucFmh6vtc82JUCCeeS4tZplWQaD68Kw8/fVl0qDAMstyCIwIpC3DuF
- qAxQ==
-X-Gm-Message-State: AOAM530707KimifdRM87Gc07Rrz5B/whAkjJDh66wHTxTO2GgowZ8BQr
- +SVlyLqx+y4azWTJQ6XyVuCjjpvoQH5vkuEdChaqnw==
-X-Google-Smtp-Source: ABdhPJxdxaUV6zbJbW5EvvisXgF8/aOI6hoqZIg3Gn88NMk2u+P94cZEWHMle4/4lE8NdaOQml4HYGp6QrivNRlu26s=
-X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
- r1-20020a5b06c1000000b00633b5c7b9b7mr28681339ybq.67.1648568504014; Tue, 29
- Mar 2022 08:41:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZE2q-0000PH-V9
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:46:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZE2o-00038C-Gj
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:46:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648568764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TS4EZM3Rfoz6Bb7fkuA+Y4WqkBBCEey6tX4cuc+kwsM=;
+ b=InJX+Cy/VgpdZ9Xf0WE9/cOwIB0+tymEDzjGfdyWEsqLFalw+Pen1chu721OvubQI+k7Xw
+ gawXAPJPTjUEqlj1cmnX2d2sqNG3jZ4MDSAd773wJhBC/Yvbt9dL2H5oBVMhPzLJ+DE69l
+ VGdF2vyn7ZBtP8dJdOkrJYgEZySS4QM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-20-tsfspy4WMEax5qW5nXk48w-1; Tue, 29 Mar 2022 11:45:58 -0400
+X-MC-Unique: tsfspy4WMEax5qW5nXk48w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB6EE18E5341
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 15:45:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 37B4AC15E71;
+ Tue, 29 Mar 2022 15:45:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1874021E691D; Tue, 29 Mar 2022 17:45:56 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Victor Toso <victortoso@redhat.com>
+Subject: Re: [PATCH v3 09/14] qapi: fix examples: SHUTDOWN and RESET events
+References: <20220328140604.41484-1-victortoso@redhat.com>
+ <20220328140604.41484-10-victortoso@redhat.com>
+Date: Tue, 29 Mar 2022 17:45:56 +0200
+In-Reply-To: <20220328140604.41484-10-victortoso@redhat.com> (Victor Toso's
+ message of "Mon, 28 Mar 2022 16:05:59 +0200")
+Message-ID: <875ynw224r.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220329151955.472306-1-thuth@redhat.com>
-In-Reply-To: <20220329151955.472306-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 29 Mar 2022 15:41:30 +0000
-Message-ID: <CAFEAcA-VU+UiWt0D0u7rAzERSxy89FxT760nk7aL0pcNc5i+tg@mail.gmail.com>
-Subject: Re: [PATCH] target/sh4: Remove old README.sh4 file
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b36
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,26 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 29 Mar 2022 at 16:22, Thomas Huth <thuth@redhat.com> wrote:
+Victor Toso <victortoso@redhat.com> writes:
+
+> Example output lacks mandatory member @reason.  Provide it.
 >
-> This file didn't have any non-trivial update since it was initially
-> added in 2006, and looking at the content, it seems incredibly outdated,
-> saying e.g. "The sh4 target is not ready at all yet for integration in
-> qemu" or "A sh4 user-mode has also somewhat started but will be worked
-> on afterwards"... Sounds like nobody is interested in this README file
-> anymore, so let's simply remove it now.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Victor Toso <victortoso@redhat.com>
+> Reviewed-by: John Snow <jsnow@redhat.com>
 > ---
+>  qapi/run-state.json | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/qapi/run-state.json b/qapi/run-state.json
+> index 43d66d700f..1b9f64c9cd 100644
+> --- a/qapi/run-state.json
+> +++ b/qapi/run-state.json
+> @@ -150,7 +150,8 @@
+>  #
+>  # Example:
+>  #
+> -# <- { "event": "SHUTDOWN", "data": { "guest": true },
+> +# <- { "event": "SHUTDOWN",
+> +#      "data": { "guest": true, "reason": "guest-shutdown" },
+>  #      "timestamp": { "seconds": 1267040730, "microseconds": 682951 } }
+>  #
+>  ##
+> @@ -188,7 +189,8 @@
+>  #
+>  # Example:
+>  #
+> -# <- { "event": "RESET", "data": { "guest": false },
+> +# <- { "event": "RESET",
+> +#      "data": { "guest": false, "reason": "guest-reset" },
+>  #      "timestamp": { "seconds": 1267041653, "microseconds": 9518 } }
+>  #
+>  ##
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-thanks
--- PMM
 
