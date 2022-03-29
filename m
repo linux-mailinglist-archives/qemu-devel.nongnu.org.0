@@ -2,66 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263664EB021
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:22:19 +0200 (CEST)
-Received: from localhost ([::1]:44028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 260F84EB028
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:23:41 +0200 (CEST)
+Received: from localhost ([::1]:46186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZDfl-0002iy-PF
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:22:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51450)
+	id 1nZDh6-0004Dg-59
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:23:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZDdf-0001gk-B9
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:20:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22789)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nZDfA-0002iC-T2; Tue, 29 Mar 2022 11:21:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZDdc-0007A9-DH
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:20:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648567203;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=INrE5xLTyOMrrkEcGmzOTcgS3LoRt8ogcokSS7RXdFM=;
- b=E+UsgbvbiQYU67c/AG0LrfDuCqJRk5UOVG0yi42D3Y1PkFo5tXqy83IQVAkYH0aRhU4Noy
- Nhi2BJoBIJIgDyh/lQ3L1S5d0EOtLZqR9kuXLEiwsLz2Pbw8jUkWqkwCCIxABeugMbr/JG
- YREML29ZanwNR1g5OkbqGUWbE+M/UaY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-146-Zis201WfMESD3-MIYrYBgw-1; Tue, 29 Mar 2022 11:19:57 -0400
-X-MC-Unique: Zis201WfMESD3-MIYrYBgw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 78BD5899EE5;
- Tue, 29 Mar 2022 15:19:57 +0000 (UTC)
-Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 930AEC19149;
- Tue, 29 Mar 2022 15:19:56 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/sh4: Remove old README.sh4 file
-Date: Tue, 29 Mar 2022 17:19:55 +0200
-Message-Id: <20220329151955.472306-1-thuth@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nZDf8-0007PP-OT; Tue, 29 Mar 2022 11:21:40 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22TDNiSR029818; 
+ Tue, 29 Mar 2022 15:21:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=njulgadCf93COGEPOIpjRLZQ6Tj62G3k54qMnmO2QnM=;
+ b=a98s1imsUNHxAY4q+xBoL7NxemHEitnFlc6RzRqBuOXYp3vaXfmN5+qKiALA4X7g2mw3
+ hR1qJpjmOMS8/x6OATt4XVng1GfcQn1pWh7cln2kSlplWCfMlRGblDrg9VpcQiyI/BSH
+ FkTEtslpRBBXjM3nHbgOYYOKF8696ADyET0zldaSAC2k+tm1/dNS3bcBXw6GNpBez2Ud
+ 4h810F0p+8MbzaM6a8tNchdsZd2AnRnEUid9vOlvZ5I+qoV3jGUxZOvule89tNzUZ7MK
+ ljfUCLeVn985XKINwVU5K0O2p4bq2YOMqDgjU6UZGZ7KgdlDLtcGpyf37ocgFRyu/Qwf zA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f409rpngh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Mar 2022 15:21:31 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22TFHQdM009052;
+ Tue, 29 Mar 2022 15:21:31 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f409rpnfg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Mar 2022 15:21:31 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22TFFJKU000988;
+ Tue, 29 Mar 2022 15:21:28 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 3f3rs3hg82-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Mar 2022 15:21:28 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22TFLPXw36372968
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 29 Mar 2022 15:21:25 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1467D11C050;
+ Tue, 29 Mar 2022 15:21:25 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5528F11C058;
+ Tue, 29 Mar 2022 15:21:24 +0000 (GMT)
+Received: from heavy.lan (unknown [9.171.51.38])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 29 Mar 2022 15:21:24 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PATCH] multifd: Copy pages before compressing them with zlib
+Date: Tue, 29 Mar 2022 17:21:23 +0200
+Message-Id: <20220329152123.493731-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: WuG5saMTJlUmw2qxPdefWYpHmqub3zh6
+X-Proofpoint-ORIG-GUID: Pz0aN712Bj_elgVIZtf1RATYx1r_Bwfr
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-29_05,2022-03-29_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0
+ adultscore=0 mlxlogscore=999 clxscore=1011 priorityscore=1501
+ impostorscore=0 suspectscore=0 spamscore=0 phishscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203290091
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,182 +107,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Peter Maydell <peter.maydell@linaro.org>, thuth@redhat.com,
+ f.ebner@proxmox.com,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, s.reiter@proxmox.com,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, peterx@redhat.com,
+ qemu-s390x@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ hreitz@redhat.com, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ jinpu.wang@ionos.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This file didn't have any non-trivial update since it was initially
-added in 2006, and looking at the content, it seems incredibly outdated,
-saying e.g. "The sh4 target is not ready at all yet for integration in
-qemu" or "A sh4 user-mode has also somewhat started but will be worked
-on afterwards"... Sounds like nobody is interested in this README file
-anymore, so let's simply remove it now.
+zlib_send_prepare() compresses pages of a running VM. zlib does not
+make any thread-safety guarantees with respect to changing deflate()
+input concurrently with deflate() [1].
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+One can observe problems due to this with the IBM zEnterprise Data
+Compression accelerator capable zlib [2]. When the hardware
+acceleration is enabled, migration/multifd/tcp/zlib test fails
+intermittently [3] due to sliding window corruption.
+
+At the moment this problem occurs only with this accelerator, since
+its architecture explicitly discourages concurrent accesses [4]:
+
+    Page 26-57, "Other Conditions":
+
+    As observed by this CPU, other CPUs, and channel
+    programs, references to the parameter block, first,
+    second, and third operands may be multiple-access
+    references, accesses to these storage locations are
+    not necessarily block-concurrent, and the sequence
+    of these accesses or references is undefined.
+
+Still, it might affect other platforms due to a future zlib update.
+Therefore, copy the page being compressed into a private buffer before
+passing it to zlib.
+
+[1] https://zlib.net/manual.html
+[2] https://github.com/madler/zlib/pull/410
+[3] https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03988.html
+[4] http://publibfp.dhe.ibm.com/epubs/pdf/a227832c.pdf
+
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- target/sh4/README.sh4 | 150 ------------------------------------------
- 1 file changed, 150 deletions(-)
- delete mode 100644 target/sh4/README.sh4
+ migration/multifd-zlib.c | 35 ++++++++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 13 deletions(-)
 
-diff --git a/target/sh4/README.sh4 b/target/sh4/README.sh4
-deleted file mode 100644
-index a192ca7540..0000000000
---- a/target/sh4/README.sh4
-+++ /dev/null
-@@ -1,150 +0,0 @@
--qemu target:   sh4
--author:        Samuel Tardieu <sam@rfc1149.net>
--last modified: Tue Dec  6 07:22:44 CET 2005
--
--The sh4 target is not ready at all yet for integration in qemu. This
--file describes the current state of implementation.
--
--Most places requiring attention and/or modification can be detected by
--looking for "XXXXX" or "abort()".
--
--The sh4 core is located in target/sh4/*, while the 7750 peripheral
--features (IO ports for example) are located in hw/sh7750.[ch]. The
--main board description is in hw/shix.c, and the NAND flash in
--hw/tc58128.[ch].
--
--All the shortcomings indicated here will eventually be resolved. This
--is a work in progress. Features are added in a semi-random order: if a
--point is blocking to progress on booting the Linux kernel for the shix
--board, it is addressed first; if feedback is necessary and no progress
--can be made on blocking points until it is received, a random feature
--is worked on.
--
--Goals
-------
--
--The primary model being worked on is the soft MMU target to be able to
--emulate the Shix 2.0 board by Alexis Polti, described at
--https://web.archive.org/web/20070917001736/http://perso.enst.fr/~polti/realisations/shix20/
--
--Ultimately, qemu will be coupled with a system C or a verilog
--simulator to simulate the whole board functionalities.
--
--A sh4 user-mode has also somewhat started but will be worked on
--afterwards. The goal is to automate tests for GNAT (GNU Ada) compiler
--that I ported recently to the sh4-linux target.
--
--Registers
-----------
--
--16 general purpose registers are available at any time. The first 8
--registers are banked and the non-directly visible ones can be accessed
--by privileged instructions. In qemu, we define 24 general purpose
--registers and the code generation use either [0-7]+[8-15] or
--[16-23]+[8-15] depending on the MD and RB flags in the sr
--configuration register.
--
--Instructions
--------------
--
--Most sh4 instructions have been implemented. The missing ones at this
--time are:
--  - FPU related instructions
--  - LDTLB to load a new MMU entry
--  - SLEEP to put the processor in sleep mode
--
--Most instructions could be optimized a lot. This will be worked on
--after the current model is fully functional unless debugging
--convenience requires that it is done early.
--
--Many instructions did not have a chance to be tested yet. The plan is
--to implement unit and regression testing of those in the future.
--
--MMU
-----
--
--The MMU is implemented in the sh4 core. MMU management has not been
--tested at all yet. In the sh7750, it can be manipulated through memory
--mapped registers and this part has not yet been implemented.
--
--Exceptions
------------
--
--Exceptions are implemented as described in the sh4 reference manual
--but have not been tested yet. They do not use qemu EXCP_ features
--yet.
--
--IRQ
-----
--
--IRQ are not implemented yet.
--
--Peripheral features
---------------------
--
--  + Serial ports
--
--Configuration and use of the first serial port (SCI) without
--interrupts is supported. Input has not yet been tested.
--
--Configuration of the second serial port (SCIF) is supported. FIFO
--handling infrastructure has been started but is not completed yet.
--
--  + GPIO ports
--
--GPIO ports have been implemented. A registration function allows
--external modules to register interest in some port changes (see
--hw/tc58128.[ch] for an example) and will be called back. Interrupt
--generation is not yet supported but some infrastructure is in place
--for this purpose. Note that in the current model a peripheral module
--cannot directly simulate a H->L->H input port transition and have an
--interrupt generated on the low level.
--
--  + TC58128 NAND flash
--
--TC58128 NAND flash is partially implemented through GPIO ports. It
--supports reading from flash.
--
--GDB
-----
--
--GDB remote target support has been implemented and lightly tested.
--
--Files
-------
--
--File names are hardcoded at this time. The bootloader must be stored in
--shix_bios.bin in the current directory. The initial Linux image must
--be stored in shix_linux_nand.bin in the current directory in NAND
--format. Test files can be obtained from
--http://perso.enst.fr/~polti/robot/ as well as the various datasheets I
--use.
--
--qemu disk parameter on the command line is unused. You can supply any
--existing image and it will be ignored. As the goal is to simulate an
--embedded target, it is not clear how this parameter will be handled in
--the future.
--
--To build an ELF kernel image from the NAND image, 16 bytes have to be
--stripped off the end of every 528 bytes, keeping only 512 of them. The
--following Python code snippet does it:
--
--#! /usr/bin/python
--
--def denand (infd, outfd):
--    while True:
--        d = infd.read (528)
--        if not d: return
--        outfd.write (d[:512])
--
--if __name__ == '__main__':
--    import sys
--    denand (open (sys.argv[1], 'rb'),
--            open (sys.argv[2], 'wb'))
--
--Style isssues
---------------
--
--There is currently a mix between my style (space before opening
--parenthesis) and qemu style. This will be resolved before final
--integration is proposed.
+diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
+index 3a7ae44485..b6b22b7d1f 100644
+--- a/migration/multifd-zlib.c
++++ b/migration/multifd-zlib.c
+@@ -27,6 +27,8 @@ struct zlib_data {
+     uint8_t *zbuff;
+     /* size of compressed buffer */
+     uint32_t zbuff_len;
++    /* uncompressed buffer */
++    uint8_t buf[];
+ };
+ 
+ /* Multifd zlib compression */
+@@ -43,9 +45,18 @@ struct zlib_data {
+  */
+ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
+ {
+-    struct zlib_data *z = g_new0(struct zlib_data, 1);
+-    z_stream *zs = &z->zs;
++    /* This is the maximum size of the compressed buffer */
++    uint32_t zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
++    size_t buf_len = qemu_target_page_size();
++    struct zlib_data *z;
++    z_stream *zs;
+ 
++    z = g_try_malloc0(sizeof(struct zlib_data) + buf_len + zbuff_len);
++    if (!z) {
++        error_setg(errp, "multifd %u: out of memory for zlib_data", p->id);
++        return -1;
++    }
++    zs = &z->zs;
+     zs->zalloc = Z_NULL;
+     zs->zfree = Z_NULL;
+     zs->opaque = Z_NULL;
+@@ -54,15 +65,8 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
+         error_setg(errp, "multifd %u: deflate init failed", p->id);
+         return -1;
+     }
+-    /* This is the maxium size of the compressed buffer */
+-    z->zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
+-    z->zbuff = g_try_malloc(z->zbuff_len);
+-    if (!z->zbuff) {
+-        deflateEnd(&z->zs);
+-        g_free(z);
+-        error_setg(errp, "multifd %u: out of memory for zbuff", p->id);
+-        return -1;
+-    }
++    z->zbuff_len = zbuff_len;
++    z->zbuff = z->buf + buf_len;
+     p->data = z;
+     return 0;
+ }
+@@ -80,7 +84,6 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
+     struct zlib_data *z = p->data;
+ 
+     deflateEnd(&z->zs);
+-    g_free(z->zbuff);
+     z->zbuff = NULL;
+     g_free(p->data);
+     p->data = NULL;
+@@ -114,8 +117,14 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+             flush = Z_SYNC_FLUSH;
+         }
+ 
++        /*
++         * Since the VM might be running, the page may be changing concurrently
++         * with compression. zlib does not guarantee that this is safe,
++         * therefore copy the page before calling deflate().
++         */
++        memcpy(z->buf, p->pages->block->host + p->normal[i], page_size);
+         zs->avail_in = page_size;
+-        zs->next_in = p->pages->block->host + p->normal[i];
++        zs->next_in = z->buf;
+ 
+         zs->avail_out = available;
+         zs->next_out = z->zbuff + out_size;
 -- 
-2.27.0
+2.35.1
 
 
