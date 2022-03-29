@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4764EB175
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 18:09:12 +0200 (CEST)
-Received: from localhost ([::1]:53096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13434EB186
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 18:11:30 +0200 (CEST)
+Received: from localhost ([::1]:56728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZEP9-0007LC-BL
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 12:09:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34040)
+	id 1nZERN-0001Rr-PA
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 12:11:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEM9-0004mC-02
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:06:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28275)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEPf-0008LH-0z
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:09:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEM6-0006oW-Et
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:06:03 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEPb-0007HP-GB
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:09:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648569959;
+ s=mimecast20190719; t=1648570178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RakZ3Vw7Pe4rO4RO70MrHz/aRIGzV3i6cbG5BWyub60=;
- b=OmMQLmVvCzo8/he5o7e4hvhEYpTn8tJRUVDub8ohif3PxZb5QyYhuRGDfNrT//GHBE4Aft
- 8krPKPLQY3hue9V81S1Aw6MCNzEV3fYOGMRunWP7CexN/or5X6+h8RzkxkFLU4eR2P6toq
- wy4E2abkYmOi93UvGF8b1OnsARy1WRw=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DrJSQyp7FqFC0Qbvkf577YJMAeKa9lM+lS/uIulRARQ=;
+ b=TnMlyTxJ4heYZ60fJCZmasOceZm5QihhjzEbHCRgOzOe5evmW5bZkyyz16rGE+ZfESRJ2+
+ esKR2O8aVJu1CnOafOJ33zqeIZFITBBB9LuUjPIin8Dq/ewFMPrCQDRgpCbLKyehBHHaGB
+ qCthKa5dI2v9ADy+v4a0go3BFP+mPjA=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-168-Rk9oT-BQNBqWJT1aT3RLTQ-1; Tue, 29 Mar 2022 12:05:57 -0400
-X-MC-Unique: Rk9oT-BQNBqWJT1aT3RLTQ-1
-Received: by mail-vk1-f199.google.com with SMTP id
- v76-20020a1f2f4f000000b0033797bc3a1dso3493483vkv.2
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 09:05:57 -0700 (PDT)
+ us-mta-436-TxroTBHlMZuQvsDu7ayv3Q-1; Tue, 29 Mar 2022 12:09:35 -0400
+X-MC-Unique: TxroTBHlMZuQvsDu7ayv3Q-1
+Received: by mail-vk1-f198.google.com with SMTP id
+ u83-20020a1f2e56000000b0033e842c83f7so3499215vku.4
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 09:09:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RakZ3Vw7Pe4rO4RO70MrHz/aRIGzV3i6cbG5BWyub60=;
- b=tk/LhAp+n8hIDhHS+jJcaRbgoVuq6c/ZP3+tdVTusB+SHR7zokw2IgiTzzkNjDV/9f
- nKz/uru/53c1GUF1xJwQEebxbGz8oP3W41FMbZzwAlq9tUKngHKiMCDvx5zQZ2FhjYxH
- EQ8jxfb1Cb5t0Ez4CvCBIyS3OzSatZa8YFMbaP2CFb8ZBZatYwQx690/aDd0xuIGgKc1
- 41Ly51TxZyVQdJkdgLyDwpJwiJ5DEZ3UODj+ORsgypHjXBPDNBxwUDAZMpsmLIl9M6NJ
- AgplfDuwfuiqJ9uVebCx7ZY+RvzNU59gXliHUjAin5fl9OI+Esc96Lb8EM9zThNouU/9
- SO0Q==
-X-Gm-Message-State: AOAM530EFJZNffzTEixgdaAeuvs/k6db0JxpCGK+7UJ5TU2CVjVSD5XS
- 0dgrY+PUfZ+0SXdi0NKcZSrl31ULO/YU4CXz8TCSWW63Mn8h45m04SM+NcU6oCLnF7tk721V0+C
- JgR4NGd4DYok50/1A5CSI+pDENbwrNn0=
-X-Received: by 2002:a05:6102:c86:b0:325:a06f:653 with SMTP id
- f6-20020a0561020c8600b00325a06f0653mr9305410vst.35.1648569955434; 
- Tue, 29 Mar 2022 09:05:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxvOFcgT3xB1dH92xyyEKdtZ/gee8pOeb4ZLzAaEK7bMJFQPqW/WTlsNr9JlHXlw6+gRNIVeaGiwsE9WXwoWpM=
-X-Received: by 2002:a05:6102:c86:b0:325:a06f:653 with SMTP id
- f6-20020a0561020c8600b00325a06f0653mr9305355vst.35.1648569954785; Tue, 29 Mar
- 2022 09:05:54 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DrJSQyp7FqFC0Qbvkf577YJMAeKa9lM+lS/uIulRARQ=;
+ b=J5Eirch0YhM5NJWJRFZsggQg/HX1wf5/naDg1ZgHaisRyQCPvI/nzNgVDI0c9jBYk7
+ K7eABLGvT8AjkEzULPiJgAuiz4LMcTI9fIlZtlSOLw/P/oIB6nIp7Z9RucX3v2Ragk+y
+ K6KF0W2JT3ckd3DuBY/+jCFd2awwXqBegMVtXH3xXzVhlem0haZXzFEP3rKbdISDbdpo
+ ATAlt99C54iemus1Az+J1nvB42Ss2i32tZyiRyY/KZoFDfNp5IY6UiMyGbu/dTKbwLyx
+ LqSIzUzwx0Th3Ssu3KjTNGODkdktanJH4bi675mAVEiGzUeCEnfJSXf2+hDB9uqmPUdd
+ zWwQ==
+X-Gm-Message-State: AOAM530IXj7puAzxXW6/4jyfCv74IHv6ApW4ti4TKsVHeaJzQ++/n9kx
+ l8N7n2X+bhz07Q4UzhPguV116GFF8vXaXPkeTyy2Co5o17VAMw6hb+05KqfoxB9xy0+1zqPQ7JG
+ 51ENHFwMg3ZxSRuZ0Pp6JetL7j/0x5iU=
+X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
+ 187-20020a6717c4000000b00322cfd815a1mr16716554vsx.61.1648570174763; 
+ Tue, 29 Mar 2022 09:09:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzyjePfgAlSHf5zUuHrE/lJdRLGoej4Fm6L5Mu4gmy/Y+YJyzAsEFmfcsLleTCd7iRTSBlzA/NId7dslKBUBo=
+X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
+ 187-20020a6717c4000000b00322cfd815a1mr16716506vsx.61.1648570174407; Tue, 29
+ Mar 2022 09:09:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220325200438.2556381-1-jsnow@redhat.com>
- <20220325200438.2556381-5-jsnow@redhat.com>
- <CAN6ztm9yTfAeM+2ZR3jVQu7LbX7_2ybQQfViYtN7oXcHtbsyhQ@mail.gmail.com>
-In-Reply-To: <CAN6ztm9yTfAeM+2ZR3jVQu7LbX7_2ybQQfViYtN7oXcHtbsyhQ@mail.gmail.com>
+ <20220325200438.2556381-4-jsnow@redhat.com>
+ <20220329110802.GB447081@fam-dell>
+In-Reply-To: <20220329110802.GB447081@fam-dell>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 29 Mar 2022 12:05:44 -0400
-Message-ID: <CAFn=p-ZZ+XRe4hL9a+Mm+RQkuYXZXcBw3p6iLjgW9vSdKR8qoA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] python/aqmp-tui: relicense as LGPLv2+
-To: "Niteesh G. S." <niteesh.gs@gmail.com>
+Date: Tue, 29 Mar 2022 12:09:23 -0400
+Message-ID: <CAFn=p-aFhyn6DnnseJKbZvQWimW1JJVTXXxba8xUwiHOs18aLQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] python/qmp-shell: relicense as LGPLv2+
+To: Fam Zheng <fam.zheng@bytedance.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -92,74 +94,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Luiz Capitulino <lcapitulino@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <mlureau@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Eduardo Habkost <ehabkost@habkost.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Mar 26, 2022 at 11:28 AM Niteesh G. S. <niteesh.gs@gmail.com> wrote:
+On Tue, Mar 29, 2022 at 7:08 AM Fam Zheng <fam.zheng@bytedance.com> wrote:
 >
-> Hii John,
+> On 2022-03-25 16:04, John Snow wrote:
+> > qmp-shell is presently licensed as GPLv2 (only). I intend to include
+> > this tool as an add-on to an LGPLv2+ library package hosted on
+> > PyPI.org. I've selected LGPLv2+ to maximize compatibility with other
+> > licenses while retaining a copyleft license.
+> >
+> > To keep licensing matters simple, I'd like to relicense this tool as
+> > LGPLv2+ as well in order to keep the resultant license of the hosted
+> > release files simple -- even if library users won't "link against" this
+> > command line tool.
+> >
+> > Therefore, I am asking permission from the current authors of this
+> > tool to loosen the license. At present, those people are:
+> >
+> > - John Snow (me!), 411/609
+> > - Luiz Capitulino, Author, 97/609
+> > - Daniel Berrang=C3=A9, 81/609
+> > - Eduardo Habkost, 10/609
+> > - Marc-Andr=C3=A9 Lureau, 6/609
+> > - Fam Zheng, 3/609
+> > - Cleber Rosa, 1/609
+> >
+> > (All of which appear to have been written under redhat.com addresses.)
+> >
+> > Eduardo's fixes are largely automated from 2to3 conversion tools and ma=
+y
+> > not necessarily constitute authorship, but his signature would put to
+> > rest any questions.
+> >
+> > Cleber's changes concern a single import statement change. Also won't
+> > hurt to ask.
+> >
+> > CC: Luiz Capitulino <lcapitulino@redhat.com>
+> > CC: Daniel Berrange <berrange@redhat.com>
+> > CC: Eduardo Habkost <ehabkost@habkost.com>
+> > CC: Marc-Andr=C3=A9 Lureau <mlureau@redhat.com>
+> > CC: Fam Zheng <fam@euphon.net>
+> > CC: Cleber Rosa <crosa@redhat.com>
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
 >
-> On Sat, Mar 26, 2022 at 1:34 AM John Snow <jsnow@redhat.com> wrote:
->>
->> aqmp-tui, the async QMP text user interface tool, is presently licensed
->> as GPLv2+. I intend to include this tool as an add-on to an LGPLv2+
->> library package hosted on PyPI.org. I've selected LGPLv2+ to maximize
->> compatibility with other licenses while retaining a copyleft license.
->>
->> To keep licensing matters simple, I'd like to relicense this tool as
->> LGPLv2+ as well in order to keep the resultant license of the hosted
->> release files simple -- even if library users won't "link against" this
->> command line tool.
->>
->> Therefore, I am asking permission to loosen the license.
->>
->> Niteesh is effectively the sole author of this code, with scattered
->> lines from myself.
->>
->> CC: G S Niteesh Babu <niteesh.gs@gmail.com>
->> Signed-off-by: John Snow <jsnow@redhat.com>
+> No longer wearing that hat any more so maybe my reply doesn't matter, but=
+ since
+> I'm Cc'ed with my new address, I am personally happy with the re-licensin=
+g:
 >
->    Reviewed-by: G S Niteesh Babu <niteesh.gs@gmail.com>
->>
->>
->> ---
->>
->> Niteesh, if you agree to loosening the license on your work, you can
->> reply with a Reviewed-by line to let us know that you agree to the
->> change. If you disagree, an explicit 'nack' would be helpful.
->>
->> There is no obligation for you to agree to this change, but it'd make
->> things easier for me if you did.
->
->
->>
->> Thanks,
->> --js
->>
->> ---
->>  python/qemu/aqmp/aqmp_tui.py | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
->> index f1e926dd75..946ba9af24 100644
->> --- a/python/qemu/aqmp/aqmp_tui.py
->> +++ b/python/qemu/aqmp/aqmp_tui.py
->> @@ -3,7 +3,7 @@
->>  # Authors:
->>  #  Niteesh Babu G S <niteesh.gs@gmail.com>
->>  #
->> -# This work is licensed under the terms of the GNU GPL, version 2 or
->> +# This work is licensed under the terms of the GNU LGPL, version 2 or
->>  # later.  See the COPYING file in the top-level directory.
->>  """
->>  AQMP TUI
->> --
->> 2.34.1
->>
 
-Thanks Niteesh!
+I don't know either, but your ack is almost guaranteed to make things
+quite a lot simpler :)
+
+Hope you're doing well, Fam!
+
+> Acked-by: Fam Zheng <fam@euphon.net>
+
+Thanks!
+--js
 
 
