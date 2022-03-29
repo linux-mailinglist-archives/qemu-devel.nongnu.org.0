@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1234EAA40
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 11:14:42 +0200 (CEST)
-Received: from localhost ([::1]:48944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1C84EAA85
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 11:26:57 +0200 (CEST)
+Received: from localhost ([::1]:57576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZ7w1-0000Yo-Lw
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 05:14:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56440)
+	id 1nZ87s-00073c-Js
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 05:26:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZ7tw-0007rV-4Y
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:12:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32437)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZ811-00020z-Dm
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:19:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58609)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZ7tr-0004pG-TH
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:12:29 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZ80n-0005eH-VN
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:19:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648545145;
+ s=mimecast20190719; t=1648545577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X9Ovvbb/7HYqdMMAeDdPsYvFwyP61Wr5Uvo4m+npnv0=;
- b=Sw+wY4xlwrzCBMKjJQjGUK61REIRVxHRRfSuZhQFujKvEc1RpXMsitogWRBl8TPxnMLyuL
- p5r4Yjz2y4beqbpIbK9+kLSi3lneguDbAKO2nUWzBcRyY1LjWESA+mxuuOsZcP82Xw/wCB
- YDK4DIuPA2k11vQ8OgXMCwdRpKoqQ0o=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0zwpDrkpRV4hadvXBtab/BRhovZkqP2AR3fWJHVuU/c=;
+ b=MX6fA9MMkXX6TJiu2Le4zbY5tvJH2VUVfGEMUXQnpQlz5/SqKYyw2iT/d6+IHtMHTxvZQX
+ mY/hx3YiCW2V1s5iodxHvHvZtiXp5nQg0id1LqCI0eGg8gqeJkMAH5hrXo924l/zPgCdMh
+ 9sV7Ppu3qCMm1Pv7wj/xkuSO/xdwNFY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260-0aC7giIzOxyJ-M31lQSyHw-1; Tue, 29 Mar 2022 05:12:24 -0400
-X-MC-Unique: 0aC7giIzOxyJ-M31lQSyHw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bs8-20020a05620a470800b0067e383077adso10086743qkb.10
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 02:12:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=X9Ovvbb/7HYqdMMAeDdPsYvFwyP61Wr5Uvo4m+npnv0=;
- b=Ycyiuxl2o0NnD2RVCxSvRLBN1n3goNsmqQhje59ZxQ8XQX9129OGoXpJtLf/FF1TGq
- VUxvsTQOVtllCc8guFH4Y/ozlb4OPv/SP5a5p47cV/GcLrKo8TDwuAq4KxaPtIeghN8j
- Ftspqh0e6Qwq0j083cUquc+Gdk0LO5zn/0kV/158ndhqgPKlLRYlB/KtfVWmotvpKI3S
- a3OaKFRRGmfp7hJ3WmhXTa8g5lKAnRZf9J5hG1clsZKRz+Ev1+ZIb7qZTBEWnV1SQuJi
- nlSBEEAEZh7A44tOIEvNWWh+g2MxC9XohRzWn2/rF4RmkSjBCzYLGypYM9kdLQApmeK7
- 8vLg==
-X-Gm-Message-State: AOAM533G3C5KoTomWVVaKZzUR/TzC+8JHRiQZgSFDbL0Cn5vXrr4jK9p
- hkd4S1Kym06y5YSBMlNtcFPk5Uf3WObP/MgO+b6DHLyeMjnEXqVSZXMBJ62WrxU1lxvpz0/mk5x
- zIpZc0qnBCdtFhNz0ayRqyly7ep9WVEc=
-X-Received: by 2002:ac8:59c7:0:b0:2e1:a0d1:fc7b with SMTP id
- f7-20020ac859c7000000b002e1a0d1fc7bmr26414612qtf.320.1648545143594; 
- Tue, 29 Mar 2022 02:12:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzd7T2Ip6vSWA+jNJUleCZZii2fZTvqHVYjMMKX1zZS0kdduB6uc4p86lEexNu7PbL9Kgmhq7qT8D+7u0UiEDM=
-X-Received: by 2002:ac8:59c7:0:b0:2e1:a0d1:fc7b with SMTP id
- f7-20020ac859c7000000b002e1a0d1fc7bmr26414601qtf.320.1648545143378; Tue, 29
- Mar 2022 02:12:23 -0700 (PDT)
+ us-mta-137-9Qp7wJ5yOtuQq0s1OX6Kww-1; Tue, 29 Mar 2022 05:19:34 -0400
+X-MC-Unique: 9Qp7wJ5yOtuQq0s1OX6Kww-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AD5794C450;
+ Tue, 29 Mar 2022 09:19:18 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.242])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5711C40149B5;
+ Tue, 29 Mar 2022 09:19:18 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/2] qcow2: Improve refcount structure rebuilding
+Date: Tue, 29 Mar 2022 11:19:15 +0200
+Message-Id: <20220329091917.24512-1-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <20220329073602.754456-1-pbonzini@redhat.com>
-In-Reply-To: <20220329073602.754456-1-pbonzini@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 29 Mar 2022 11:11:47 +0200
-Message-ID: <CAJaqyWfGjdj_qhQQ9ZnFG=dodaj1Eonn1Btye1jxnW-+oXDKGw@mail.gmail.com>
-Subject: Re: [PATCH for-7.0] virtio: fix --enable-vhost-user build on non-Linux
-To: Paolo Bonzini <pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,52 +75,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-level <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 29, 2022 at 9:38 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The vhost-shadow-virtqueue.c build requires include files from
-> linux-headers/, so it cannot be built on non-Linux systems.
-> Fortunately it is only needed by vhost-vdpa, so move it there.
->
+Hi,
 
-Thanks for the catch!
+v1 cover letter:
+https://lists.nongnu.org/archive/html/qemu-block/2021-03/msg00651.html
 
-Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+Since it’s been a while since v1, let me reproduce parts from that cover
+letter here:
 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hw/virtio/meson.build | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-> index 6047670804..67dc77e00f 100644
-> --- a/hw/virtio/meson.build
-> +++ b/hw/virtio/meson.build
-> @@ -11,9 +11,9 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhos=
-t-stub.c'))
->
->  virtio_ss =3D ss.source_set()
->  virtio_ss.add(files('virtio.c'))
-> -virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-bac=
-kend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
-> +virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-bac=
-kend.c', 'vhost-iova-tree.c'))
->  virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
-> -virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
-> +virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-shadow-vi=
-rtqueue.c', 'vhost-vdpa.c'))
->  virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-ball=
-oon.c'))
->  virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypt=
-o.c'))
->  virtio_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VIRTIO_PCI'], if_tr=
-ue: files('virtio-crypto-pci.c'))
-> --
-> 2.35.1
->
->
+
+When the qcow2 refcount structure is broken to a point where we cannot
+rely on any information from it (because it shows clusters as free that
+are in use), “qemu-img check -r all” completely rewrites it.
+
+The new reftable is preferably written into the area covered by the last
+refblock for the image, but if that refblock is empty (e.g. because the
+image is on a block device and there is just nothing near the end of the
+block device), then the reftable will be put after the image’s end.
+Which is a problem on block devices, because they can’t easily be
+resized (also, resizing wouldn’t really help in this case, because the
+reftable would still be written past the new end).
+
+
+Effectively, this means you can’t run `qemu-img check -r all` on qcow2
+images that are on block devices when there are clusters that are in
+use, but not marked as allocated.
+
+
+I recommend reviewing patch 1 not based on the diff, but by applying it
+and reviewing the rebuild_refcount_structure() function (and its new
+rebuild_refcounts_write_refblocks() helper).
+
+
+v2:
+- Dropped patches 2 and 3 (not really necessary with QSD --daemonize),
+  which used to bring support for the QSD to _launch_qemu
+- Patch 1: Functionally the same (I hope), but I have added extensive
+  comments and put the `for ()` loop into its own dedicated function so
+  that we can get rid of the backwards-jumping goto
+- Patch 2: Changed to make do without _launch_qemu having QSD support
+
+
+git backport-diff against v1:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+
+001/2:[0370] [FC] 'qcow2: Improve refcount structure rebuilding'
+002/2:[0047] [FC] 'iotests/108: Test new refcount rebuild algorithm'
+
+
+Hanna Reitz (2):
+  qcow2: Improve refcount structure rebuilding
+  iotests/108: Test new refcount rebuild algorithm
+
+ block/qcow2-refcount.c     | 332 ++++++++++++++++++++++++++-----------
+ tests/qemu-iotests/108     | 259 ++++++++++++++++++++++++++++-
+ tests/qemu-iotests/108.out |  81 +++++++++
+ 3 files changed, 574 insertions(+), 98 deletions(-)
+
+-- 
+2.35.1
 
 
