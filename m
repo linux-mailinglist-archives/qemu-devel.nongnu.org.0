@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DFBC4EAFC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:02:28 +0200 (CEST)
-Received: from localhost ([::1]:44432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8689B4EAFCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:06:27 +0200 (CEST)
+Received: from localhost ([::1]:54480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZDMY-0007rV-Ob
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:02:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46082)
+	id 1nZDQQ-0006Ob-JX
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:06:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZDJE-0005C9-Py
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49769)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZDJa-0006Q8-Ae
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51609)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZDJB-000388-ND
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:58:59 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZDJW-0003BI-9L
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648565934;
+ s=mimecast20190719; t=1648565957;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=drwK0u3Jga9xcr7hq45ZoE88VaOqTTOl5EHFDWV2dY8=;
- b=GgN6ohwiMQDRAnxWMfmnL2oKpHhCuu0F2nIDZm4uRSEZENEhThsRMugMdWAhS1FZ3mz8PR
- 63KS4MVfPQuC3OULQfpQAmBqu/ICw3SyyhivygTAiqwLbJYMkWVDV84ZX4VPO7AjVBSgNP
- lrIyW6M2IzMmsAQvamUGpk/J8xYFOP4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=67DHkZKpdxC97xJ0B0eNoSXjl26Dx1AL8MUWg/F9wY4=;
+ b=iCWw+yKqDNNR0hc0y2NB+3NUJfpNddMHhT5cxf+LYfKpUA6vMu7s0qaOSmKMVpkVWmew4W
+ REZuwho4LpAxL33XQRBB2N0u1qdLGxGg40FYpsXZFcrQ8fSZ4Cj8PGvzzUhlmnv4aw6jgl
+ /QcsWXJ8+UdffIs9eJenoqhwDUiNjxk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-CTj0vxKTORyiTZxUUFHIoQ-1; Tue, 29 Mar 2022 10:58:51 -0400
-X-MC-Unique: CTj0vxKTORyiTZxUUFHIoQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-444-4tdCLt5ZOwau-3K2GJw36g-1; Tue, 29 Mar 2022 10:58:53 -0400
+X-MC-Unique: 4tdCLt5ZOwau-3K2GJw36g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9DB54108C1CB;
- Tue, 29 Mar 2022 14:58:50 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C96C1C0E34A;
+ Tue, 29 Mar 2022 14:58:52 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.242])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 599EF40D2822;
- Tue, 29 Mar 2022 14:58:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E26E3112132D;
+ Tue, 29 Mar 2022 14:58:51 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 0/4] Block patches for 7.0-rc2
-Date: Tue, 29 Mar 2022 16:58:45 +0200
-Message-Id: <20220329145849.121051-1-hreitz@redhat.com>
+Subject: [PULL 1/4] iotests: update test owner contact information
+Date: Tue, 29 Mar 2022 16:58:46 +0200
+Message-Id: <20220329145849.121051-2-hreitz@redhat.com>
+In-Reply-To: <20220329145849.121051-1-hreitz@redhat.com>
+References: <20220329145849.121051-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,120 +83,1082 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 44064550d98a680e2ff55fdd783ac19d850ac8ca:
+From: John Snow <jsnow@redhat.com>
 
-  Merge tag 'darwin-20220329' of https://github.com/philmd/qemu into staging (2022-03-29 15:17:53 +0100)
+Quite a few of these tests have stale contact information. This patch
+updates the stale ones that I happen to be aware of at the moment.
 
-are available in the Git repository at:
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-Id: <20220322174212.1169630-1-jsnow@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+---
+ tests/qemu-iotests/025 | 2 +-
+ tests/qemu-iotests/027 | 2 +-
+ tests/qemu-iotests/028 | 2 +-
+ tests/qemu-iotests/036 | 2 +-
+ tests/qemu-iotests/039 | 2 +-
+ tests/qemu-iotests/059 | 2 +-
+ tests/qemu-iotests/060 | 2 +-
+ tests/qemu-iotests/061 | 2 +-
+ tests/qemu-iotests/062 | 2 +-
+ tests/qemu-iotests/064 | 2 +-
+ tests/qemu-iotests/066 | 2 +-
+ tests/qemu-iotests/068 | 2 +-
+ tests/qemu-iotests/069 | 2 +-
+ tests/qemu-iotests/070 | 2 +-
+ tests/qemu-iotests/071 | 2 +-
+ tests/qemu-iotests/072 | 2 +-
+ tests/qemu-iotests/074 | 2 +-
+ tests/qemu-iotests/084 | 2 +-
+ tests/qemu-iotests/085 | 2 +-
+ tests/qemu-iotests/089 | 2 +-
+ tests/qemu-iotests/090 | 2 +-
+ tests/qemu-iotests/091 | 2 +-
+ tests/qemu-iotests/094 | 2 +-
+ tests/qemu-iotests/095 | 2 +-
+ tests/qemu-iotests/097 | 2 +-
+ tests/qemu-iotests/098 | 2 +-
+ tests/qemu-iotests/099 | 2 +-
+ tests/qemu-iotests/102 | 2 +-
+ tests/qemu-iotests/103 | 2 +-
+ tests/qemu-iotests/105 | 2 +-
+ tests/qemu-iotests/106 | 2 +-
+ tests/qemu-iotests/107 | 2 +-
+ tests/qemu-iotests/108 | 2 +-
+ tests/qemu-iotests/110 | 2 +-
+ tests/qemu-iotests/111 | 2 +-
+ tests/qemu-iotests/112 | 2 +-
+ tests/qemu-iotests/113 | 2 +-
+ tests/qemu-iotests/115 | 2 +-
+ tests/qemu-iotests/117 | 2 +-
+ tests/qemu-iotests/119 | 2 +-
+ tests/qemu-iotests/120 | 2 +-
+ tests/qemu-iotests/121 | 2 +-
+ tests/qemu-iotests/123 | 2 +-
+ tests/qemu-iotests/125 | 2 +-
+ tests/qemu-iotests/126 | 2 +-
+ tests/qemu-iotests/127 | 2 +-
+ tests/qemu-iotests/135 | 2 +-
+ tests/qemu-iotests/138 | 2 +-
+ tests/qemu-iotests/140 | 2 +-
+ tests/qemu-iotests/141 | 2 +-
+ tests/qemu-iotests/143 | 2 +-
+ tests/qemu-iotests/144 | 2 +-
+ tests/qemu-iotests/146 | 2 +-
+ tests/qemu-iotests/150 | 2 +-
+ tests/qemu-iotests/153 | 2 +-
+ tests/qemu-iotests/156 | 2 +-
+ tests/qemu-iotests/162 | 2 +-
+ tests/qemu-iotests/173 | 2 +-
+ tests/qemu-iotests/176 | 2 +-
+ tests/qemu-iotests/182 | 2 +-
+ tests/qemu-iotests/192 | 2 +-
+ tests/qemu-iotests/200 | 2 +-
+ tests/qemu-iotests/216 | 2 +-
+ tests/qemu-iotests/218 | 2 +-
+ tests/qemu-iotests/224 | 2 +-
+ tests/qemu-iotests/225 | 2 +-
+ tests/qemu-iotests/228 | 2 +-
+ tests/qemu-iotests/229 | 2 +-
+ tests/qemu-iotests/231 | 2 +-
+ tests/qemu-iotests/250 | 2 +-
+ tests/qemu-iotests/251 | 2 +-
+ tests/qemu-iotests/252 | 2 +-
+ tests/qemu-iotests/258 | 2 +-
+ tests/qemu-iotests/259 | 2 +-
+ tests/qemu-iotests/261 | 2 +-
+ tests/qemu-iotests/310 | 2 +-
+ 76 files changed, 76 insertions(+), 76 deletions(-)
 
-  https://gitlab.com/hreitz/qemu.git tags/pull-block-2022-03-29
-
-for you to fetch changes up to d5699c0d4b29e919b87049d948a30527897b7e8a:
-
-  iotests: Fix status checks (2022-03-29 16:30:55 +0200)
-
-----------------------------------------------------------------
-Block patches for 7.0-rc2:
-- Disable GLOBAL_STATE_CODE() assertion for the 7.0 release: We got
-  another bug report for this, and we do not have the time to
-  investigate before 7.0, so disable the assertion for the release, to
-  re-enable and continue investigation in the 7.1 cycle
-
-- stream job fix (regarding interaction with concurrent block jobs)
-
-- iotests fixes
-
-----------------------------------------------------------------
-Hanna Reitz (3):
-  main-loop: Disable GLOBAL_STATE_CODE() assertions
-  block/stream: Drain subtree around graph change
-  iotests: Fix status checks
-
-John Snow (1):
-  iotests: update test owner contact information
-
- include/qemu/main-loop.h |  3 ++-
- block/stream.c           | 15 ++++++++++++++-
- tests/qemu-iotests/025   |  2 +-
- tests/qemu-iotests/027   |  2 +-
- tests/qemu-iotests/028   |  2 +-
- tests/qemu-iotests/030   | 30 +++++++++++++++++++++++++-----
- tests/qemu-iotests/036   |  2 +-
- tests/qemu-iotests/039   |  2 +-
- tests/qemu-iotests/041   | 26 +++++++++++++++++++-------
- tests/qemu-iotests/059   |  2 +-
- tests/qemu-iotests/060   |  2 +-
- tests/qemu-iotests/061   |  2 +-
- tests/qemu-iotests/062   |  2 +-
- tests/qemu-iotests/064   |  2 +-
- tests/qemu-iotests/066   |  2 +-
- tests/qemu-iotests/068   |  2 +-
- tests/qemu-iotests/069   |  2 +-
- tests/qemu-iotests/070   |  2 +-
- tests/qemu-iotests/071   |  2 +-
- tests/qemu-iotests/072   |  2 +-
- tests/qemu-iotests/074   |  2 +-
- tests/qemu-iotests/084   |  2 +-
- tests/qemu-iotests/085   |  2 +-
- tests/qemu-iotests/089   |  2 +-
- tests/qemu-iotests/090   |  2 +-
- tests/qemu-iotests/091   |  2 +-
- tests/qemu-iotests/094   |  2 +-
- tests/qemu-iotests/095   |  2 +-
- tests/qemu-iotests/097   |  2 +-
- tests/qemu-iotests/098   |  2 +-
- tests/qemu-iotests/099   |  2 +-
- tests/qemu-iotests/102   |  2 +-
- tests/qemu-iotests/103   |  2 +-
- tests/qemu-iotests/105   |  2 +-
- tests/qemu-iotests/106   |  2 +-
- tests/qemu-iotests/107   |  2 +-
- tests/qemu-iotests/108   |  2 +-
- tests/qemu-iotests/110   |  2 +-
- tests/qemu-iotests/111   |  2 +-
- tests/qemu-iotests/112   |  2 +-
- tests/qemu-iotests/113   |  2 +-
- tests/qemu-iotests/115   |  2 +-
- tests/qemu-iotests/117   |  2 +-
- tests/qemu-iotests/119   |  2 +-
- tests/qemu-iotests/120   |  2 +-
- tests/qemu-iotests/121   |  2 +-
- tests/qemu-iotests/123   |  2 +-
- tests/qemu-iotests/125   |  2 +-
- tests/qemu-iotests/126   |  2 +-
- tests/qemu-iotests/127   |  2 +-
- tests/qemu-iotests/135   |  2 +-
- tests/qemu-iotests/138   |  2 +-
- tests/qemu-iotests/140   |  2 +-
- tests/qemu-iotests/141   |  2 +-
- tests/qemu-iotests/143   |  2 +-
- tests/qemu-iotests/144   |  2 +-
- tests/qemu-iotests/146   |  2 +-
- tests/qemu-iotests/150   |  2 +-
- tests/qemu-iotests/153   |  2 +-
- tests/qemu-iotests/156   |  2 +-
- tests/qemu-iotests/162   |  2 +-
- tests/qemu-iotests/173   |  2 +-
- tests/qemu-iotests/176   |  2 +-
- tests/qemu-iotests/182   |  2 +-
- tests/qemu-iotests/192   |  2 +-
- tests/qemu-iotests/200   |  2 +-
- tests/qemu-iotests/216   |  2 +-
- tests/qemu-iotests/218   |  2 +-
- tests/qemu-iotests/224   |  2 +-
- tests/qemu-iotests/225   |  2 +-
- tests/qemu-iotests/228   |  2 +-
- tests/qemu-iotests/229   |  2 +-
- tests/qemu-iotests/231   |  2 +-
- tests/qemu-iotests/250   |  2 +-
- tests/qemu-iotests/251   |  2 +-
- tests/qemu-iotests/252   |  2 +-
- tests/qemu-iotests/258   |  2 +-
- tests/qemu-iotests/259   |  2 +-
- tests/qemu-iotests/261   |  2 +-
- tests/qemu-iotests/310   |  2 +-
- 80 files changed, 136 insertions(+), 90 deletions(-)
-
+diff --git a/tests/qemu-iotests/025 b/tests/qemu-iotests/025
+index 80686a30d5..5771ea9200 100755
+--- a/tests/qemu-iotests/025
++++ b/tests/qemu-iotests/025
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=stefanha@linux.vnet.ibm.com
++owner=stefanha@redhat.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/027 b/tests/qemu-iotests/027
+index b279c88f33..24c93627bb 100755
+--- a/tests/qemu-iotests/027
++++ b/tests/qemu-iotests/027
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=stefanha@linux.vnet.ibm.com
++owner=stefanha@redhat.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/028 b/tests/qemu-iotests/028
+index 8c391f2adc..2b232c4614 100755
+--- a/tests/qemu-iotests/028
++++ b/tests/qemu-iotests/028
+@@ -23,7 +23,7 @@
+ #
+ 
+ # creator
+-owner=stefanha@linux.vnet.ibm.com
++owner=stefanha@redhat.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/036 b/tests/qemu-iotests/036
+index f703605e44..16a401985c 100755
+--- a/tests/qemu-iotests/036
++++ b/tests/qemu-iotests/036
+@@ -23,7 +23,7 @@
+ #
+ 
+ # creator
+-owner=stefanha@linux.vnet.ibm.com
++owner=stefanha@redhat.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/039 b/tests/qemu-iotests/039
+index 00d379cde2..e43e7026ce 100755
+--- a/tests/qemu-iotests/039
++++ b/tests/qemu-iotests/039
+@@ -23,7 +23,7 @@
+ #
+ 
+ # creator
+-owner=stefanha@linux.vnet.ibm.com
++owner=stefanha@redhat.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/059 b/tests/qemu-iotests/059
+index 65c0c32b26..e8be217e1f 100755
+--- a/tests/qemu-iotests/059
++++ b/tests/qemu-iotests/059
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=famz@redhat.com
++owner=fam@euphon.net
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/060 b/tests/qemu-iotests/060
+index df87d600f7..5cd21a6f68 100755
+--- a/tests/qemu-iotests/060
++++ b/tests/qemu-iotests/060
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/061 b/tests/qemu-iotests/061
+index 513fbec14c..509ad247cd 100755
+--- a/tests/qemu-iotests/061
++++ b/tests/qemu-iotests/061
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/062 b/tests/qemu-iotests/062
+index 321252298d..6a71bf1477 100755
+--- a/tests/qemu-iotests/062
++++ b/tests/qemu-iotests/062
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/064 b/tests/qemu-iotests/064
+index 71fc575b21..21e25cf39f 100755
+--- a/tests/qemu-iotests/064
++++ b/tests/qemu-iotests/064
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/066 b/tests/qemu-iotests/066
+index a780ed7ab5..cf63144cb9 100755
+--- a/tests/qemu-iotests/066
++++ b/tests/qemu-iotests/066
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/068 b/tests/qemu-iotests/068
+index 54e49c8ffa..7ecd247409 100755
+--- a/tests/qemu-iotests/068
++++ b/tests/qemu-iotests/068
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/069 b/tests/qemu-iotests/069
+index 222dcba741..6647e11861 100755
+--- a/tests/qemu-iotests/069
++++ b/tests/qemu-iotests/069
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/070 b/tests/qemu-iotests/070
+index b181e00f9b..edb71afbe3 100755
+--- a/tests/qemu-iotests/070
++++ b/tests/qemu-iotests/070
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/071 b/tests/qemu-iotests/071
+index d99cef5a42..27bc7305bf 100755
+--- a/tests/qemu-iotests/071
++++ b/tests/qemu-iotests/071
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/072 b/tests/qemu-iotests/072
+index c492ab8a78..662ede961c 100755
+--- a/tests/qemu-iotests/072
++++ b/tests/qemu-iotests/072
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/074 b/tests/qemu-iotests/074
+index c32c94b50d..ee73e636b2 100755
+--- a/tests/qemu-iotests/074
++++ b/tests/qemu-iotests/074
+@@ -21,7 +21,7 @@
+ ##
+ #
+ # creator
+-owner=famz@redhat.com
++owner=fam@euphon.net
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/084 b/tests/qemu-iotests/084
+index e51e91a7c8..1181cb7cd0 100755
+--- a/tests/qemu-iotests/084
++++ b/tests/qemu-iotests/084
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/085 b/tests/qemu-iotests/085
+index de74262a26..3fb7b0b5c8 100755
+--- a/tests/qemu-iotests/085
++++ b/tests/qemu-iotests/085
+@@ -25,7 +25,7 @@
+ #
+ 
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/089 b/tests/qemu-iotests/089
+index 48bdc42e42..c68c5a66b9 100755
+--- a/tests/qemu-iotests/089
++++ b/tests/qemu-iotests/089
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/090 b/tests/qemu-iotests/090
+index 2044c09e9b..8f88eea9aa 100755
+--- a/tests/qemu-iotests/090
++++ b/tests/qemu-iotests/090
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/091 b/tests/qemu-iotests/091
+index 9d144b9439..e396748a91 100755
+--- a/tests/qemu-iotests/091
++++ b/tests/qemu-iotests/091
+@@ -22,7 +22,7 @@
+ #
+ 
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/094 b/tests/qemu-iotests/094
+index a295fb20ef..4766e9a458 100755
+--- a/tests/qemu-iotests/094
++++ b/tests/qemu-iotests/094
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/095 b/tests/qemu-iotests/095
+index 20b5f9bf61..d1d347eb1f 100755
+--- a/tests/qemu-iotests/095
++++ b/tests/qemu-iotests/095
+@@ -23,7 +23,7 @@
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/097 b/tests/qemu-iotests/097
+index 30313f8867..93857f4fd0 100755
+--- a/tests/qemu-iotests/097
++++ b/tests/qemu-iotests/097
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/098 b/tests/qemu-iotests/098
+index 4c37eb0cf5..e3eadb3296 100755
+--- a/tests/qemu-iotests/098
++++ b/tests/qemu-iotests/098
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/099 b/tests/qemu-iotests/099
+index 2f1199ce04..a5d2d30931 100755
+--- a/tests/qemu-iotests/099
++++ b/tests/qemu-iotests/099
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/102 b/tests/qemu-iotests/102
+index 8b4c4c905f..141bfe1e90 100755
+--- a/tests/qemu-iotests/102
++++ b/tests/qemu-iotests/102
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=$(basename $0)
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/103 b/tests/qemu-iotests/103
+index 726f8313ef..bb9fd6f650 100755
+--- a/tests/qemu-iotests/103
++++ b/tests/qemu-iotests/103
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=$(basename $0)
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/105 b/tests/qemu-iotests/105
+index d804685110..b8f2029f62 100755
+--- a/tests/qemu-iotests/105
++++ b/tests/qemu-iotests/105
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=famz@redhat.com
++owner=fam@euphon.net
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/106 b/tests/qemu-iotests/106
+index 333144502c..9d6adb542d 100755
+--- a/tests/qemu-iotests/106
++++ b/tests/qemu-iotests/106
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=$(basename $0)
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/107 b/tests/qemu-iotests/107
+index e68f1e07c7..3fabff2791 100755
+--- a/tests/qemu-iotests/107
++++ b/tests/qemu-iotests/107
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/108 b/tests/qemu-iotests/108
+index 8eaef0b8bf..56339ab2c5 100755
+--- a/tests/qemu-iotests/108
++++ b/tests/qemu-iotests/108
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/110 b/tests/qemu-iotests/110
+index 1fa36ccdb7..91b15f7513 100755
+--- a/tests/qemu-iotests/110
++++ b/tests/qemu-iotests/110
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/111 b/tests/qemu-iotests/111
+index 3ba25f6161..382dbf0606 100755
+--- a/tests/qemu-iotests/111
++++ b/tests/qemu-iotests/111
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/112 b/tests/qemu-iotests/112
+index 5333212993..a2ffc96e60 100755
+--- a/tests/qemu-iotests/112
++++ b/tests/qemu-iotests/112
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/113 b/tests/qemu-iotests/113
+index ee59b9a4b8..a3ad208fd7 100755
+--- a/tests/qemu-iotests/113
++++ b/tests/qemu-iotests/113
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/115 b/tests/qemu-iotests/115
+index 26dd37dd6d..7a24070caa 100755
+--- a/tests/qemu-iotests/115
++++ b/tests/qemu-iotests/115
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/117 b/tests/qemu-iotests/117
+index 48ebc012b1..6081473584 100755
+--- a/tests/qemu-iotests/117
++++ b/tests/qemu-iotests/117
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/119 b/tests/qemu-iotests/119
+index 5770b50045..6cac8793ba 100755
+--- a/tests/qemu-iotests/119
++++ b/tests/qemu-iotests/119
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/120 b/tests/qemu-iotests/120
+index 7187731253..ac7bd8c4e3 100755
+--- a/tests/qemu-iotests/120
++++ b/tests/qemu-iotests/120
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/121 b/tests/qemu-iotests/121
+index ba3d8d9377..f0dd1d1114 100755
+--- a/tests/qemu-iotests/121
++++ b/tests/qemu-iotests/121
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/123 b/tests/qemu-iotests/123
+index e19111f70d..4d34a2ac49 100755
+--- a/tests/qemu-iotests/123
++++ b/tests/qemu-iotests/123
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/125 b/tests/qemu-iotests/125
+index bd390b3a99..46279d6b38 100755
+--- a/tests/qemu-iotests/125
++++ b/tests/qemu-iotests/125
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=$(basename $0)
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/126 b/tests/qemu-iotests/126
+index 92c0547746..d8d2d654f2 100755
+--- a/tests/qemu-iotests/126
++++ b/tests/qemu-iotests/126
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/127 b/tests/qemu-iotests/127
+index 32edc3b068..7cc3ce1d78 100755
+--- a/tests/qemu-iotests/127
++++ b/tests/qemu-iotests/127
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=$(basename $0)
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/135 b/tests/qemu-iotests/135
+index 299075b4c9..71125719ee 100755
+--- a/tests/qemu-iotests/135
++++ b/tests/qemu-iotests/135
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/138 b/tests/qemu-iotests/138
+index 951cfa67d4..76628adab7 100755
+--- a/tests/qemu-iotests/138
++++ b/tests/qemu-iotests/138
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/140 b/tests/qemu-iotests/140
+index 91e08c30d4..d923b777e2 100755
+--- a/tests/qemu-iotests/140
++++ b/tests/qemu-iotests/140
+@@ -24,7 +24,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/141 b/tests/qemu-iotests/141
+index 115cc1691e..a37030ee17 100755
+--- a/tests/qemu-iotests/141
++++ b/tests/qemu-iotests/141
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/143 b/tests/qemu-iotests/143
+index 72151acf27..92a081b79e 100755
+--- a/tests/qemu-iotests/143
++++ b/tests/qemu-iotests/143
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/144 b/tests/qemu-iotests/144
+index 60e9ddd75f..bdcc498fa2 100755
+--- a/tests/qemu-iotests/144
++++ b/tests/qemu-iotests/144
+@@ -22,7 +22,7 @@
+ #
+ 
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/146 b/tests/qemu-iotests/146
+index 98aca96732..661a9d2625 100755
+--- a/tests/qemu-iotests/146
++++ b/tests/qemu-iotests/146
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/150 b/tests/qemu-iotests/150
+index ac6930ae20..fab0faa389 100755
+--- a/tests/qemu-iotests/150
++++ b/tests/qemu-iotests/150
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/153 b/tests/qemu-iotests/153
+index 607af59091..9bc3be8f75 100755
+--- a/tests/qemu-iotests/153
++++ b/tests/qemu-iotests/153
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=famz@redhat.com
++owner=fam@euphon.net
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/156 b/tests/qemu-iotests/156
+index 65dcedd493..a9540bd80d 100755
+--- a/tests/qemu-iotests/156
++++ b/tests/qemu-iotests/156
+@@ -28,7 +28,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/162 b/tests/qemu-iotests/162
+index cf17f494d8..94dae60d30 100755
+--- a/tests/qemu-iotests/162
++++ b/tests/qemu-iotests/162
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/173 b/tests/qemu-iotests/173
+index 9594f3c5ea..217e55c168 100755
+--- a/tests/qemu-iotests/173
++++ b/tests/qemu-iotests/173
+@@ -20,7 +20,7 @@
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/176 b/tests/qemu-iotests/176
+index 27ac25467f..a6a2a4cd44 100755
+--- a/tests/qemu-iotests/176
++++ b/tests/qemu-iotests/176
+@@ -25,7 +25,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/182 b/tests/qemu-iotests/182
+index fcd1d796eb..bbd1132b05 100755
+--- a/tests/qemu-iotests/182
++++ b/tests/qemu-iotests/182
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=famz@redhat.com
++owner=fam@euphon.net
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/192 b/tests/qemu-iotests/192
+index d809187fca..e66e1a4f06 100755
+--- a/tests/qemu-iotests/192
++++ b/tests/qemu-iotests/192
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=famz@redhat.com
++owner=fam@euphon.net
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/200 b/tests/qemu-iotests/200
+index f80517e342..f66c571d24 100755
+--- a/tests/qemu-iotests/200
++++ b/tests/qemu-iotests/200
+@@ -22,7 +22,7 @@
+ #
+ 
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/216 b/tests/qemu-iotests/216
+index 88b385afa3..c531abfded 100755
+--- a/tests/qemu-iotests/216
++++ b/tests/qemu-iotests/216
+@@ -18,7 +18,7 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+-# Creator/Owner: Max Reitz <mreitz@redhat.com>
++# Creator/Owner: Hanna Reitz <hreitz@redhat.com>
+ 
+ import iotests
+ from iotests import log, qemu_img, qemu_io_silent
+diff --git a/tests/qemu-iotests/218 b/tests/qemu-iotests/218
+index 853ed52b34..8345793902 100755
+--- a/tests/qemu-iotests/218
++++ b/tests/qemu-iotests/218
+@@ -25,7 +25,7 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+-# Creator/Owner: Max Reitz <mreitz@redhat.com>
++# Creator/Owner: Hanna Reitz <hreitz@redhat.com>
+ 
+ import iotests
+ from iotests import log, qemu_img, qemu_io_silent
+diff --git a/tests/qemu-iotests/224 b/tests/qemu-iotests/224
+index c31c55b49d..4df5157e8d 100755
+--- a/tests/qemu-iotests/224
++++ b/tests/qemu-iotests/224
+@@ -19,7 +19,7 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+-# Creator/Owner: Max Reitz <mreitz@redhat.com>
++# Creator/Owner: Hanna Reitz <hreitz@redhat.com>
+ 
+ import iotests
+ from iotests import log, qemu_img, qemu_io_silent, filter_qmp_testfiles, \
+diff --git a/tests/qemu-iotests/225 b/tests/qemu-iotests/225
+index c0053790db..b5949fcb58 100755
+--- a/tests/qemu-iotests/225
++++ b/tests/qemu-iotests/225
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=$(basename $0)
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/228 b/tests/qemu-iotests/228
+index f79bae0267..7341777f9f 100755
+--- a/tests/qemu-iotests/228
++++ b/tests/qemu-iotests/228
+@@ -19,7 +19,7 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+-# Creator/Owner: Max Reitz <mreitz@redhat.com>
++# Creator/Owner: Hanna Reitz <hreitz@redhat.com>
+ 
+ import iotests
+ from iotests import log, qemu_img, filter_testfiles, filter_imgfmt, \
+diff --git a/tests/qemu-iotests/229 b/tests/qemu-iotests/229
+index 4bc99390b5..aaa6996ce3 100755
+--- a/tests/qemu-iotests/229
++++ b/tests/qemu-iotests/229
+@@ -21,7 +21,7 @@
+ #
+ 
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq="$(basename $0)"
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/231 b/tests/qemu-iotests/231
+index 8e6c6447c1..eddc8e9641 100755
+--- a/tests/qemu-iotests/231
++++ b/tests/qemu-iotests/231
+@@ -22,7 +22,7 @@
+ #
+ 
+ # creator
+-owner=jcody@redhat.com
++owner=codyprime@gmail.com
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/250 b/tests/qemu-iotests/250
+index f069ca1759..af48f83aba 100755
+--- a/tests/qemu-iotests/250
++++ b/tests/qemu-iotests/250
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=vsementsov@virtuozzo.com
++owner=v.sementsov-og@mail.ru
+ 
+ seq=`basename $0`
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/251 b/tests/qemu-iotests/251
+index 8bdec37d32..794cad58b2 100755
+--- a/tests/qemu-iotests/251
++++ b/tests/qemu-iotests/251
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=$(basename $0)
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/252 b/tests/qemu-iotests/252
+index 2134b9993a..522333cf1d 100755
+--- a/tests/qemu-iotests/252
++++ b/tests/qemu-iotests/252
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=$(basename $0)
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/258 b/tests/qemu-iotests/258
+index 7798a04d7d..cfd536d6dc 100755
+--- a/tests/qemu-iotests/258
++++ b/tests/qemu-iotests/258
+@@ -18,7 +18,7 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+-# Creator/Owner: Max Reitz <mreitz@redhat.com>
++# Creator/Owner: Hanna Reitz <hreitz@redhat.com>
+ 
+ import iotests
+ from iotests import log, qemu_img, qemu_io_silent, \
+diff --git a/tests/qemu-iotests/259 b/tests/qemu-iotests/259
+index 1b15e8fb48..82f5de4b34 100755
+--- a/tests/qemu-iotests/259
++++ b/tests/qemu-iotests/259
+@@ -20,7 +20,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=$(basename $0)
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/261 b/tests/qemu-iotests/261
+index d1c8037ab1..b73da565da 100755
+--- a/tests/qemu-iotests/261
++++ b/tests/qemu-iotests/261
+@@ -22,7 +22,7 @@
+ #
+ 
+ # creator
+-owner=mreitz@redhat.com
++owner=hreitz@redhat.com
+ 
+ seq=$(basename $0)
+ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/310 b/tests/qemu-iotests/310
+index e3bfedc7fd..00fc5618f6 100755
+--- a/tests/qemu-iotests/310
++++ b/tests/qemu-iotests/310
+@@ -31,7 +31,7 @@ log('')
+ log('=== Copy-on-read across nodes ===')
+ log('')
+ 
+-# This test is similar to the 216 one by Max Reitz <mreitz@redhat.com>
++# This test is similar to the 216 one by Hanna Reitz <hreitz@redhat.com>
+ # The difference is that this test case involves a bottom node to the
+ # COR filter driver.
+ 
 -- 
 2.35.1
 
