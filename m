@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65A34EAA28
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 11:09:47 +0200 (CEST)
-Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1234EAA40
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 11:14:42 +0200 (CEST)
+Received: from localhost ([::1]:48944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZ7rG-0005i6-PE
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 05:09:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54440)
+	id 1nZ7w1-0000Yo-Lw
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 05:14:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nZ7lw-0002Cx-RC
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:04:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38208)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nZ7tw-0007rV-4Y
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:12:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nZ7ls-0003S4-1d
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:04:14 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nZ7tr-0004pG-TH
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:12:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648544651;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1648545145;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J6gZ5GpHwaWai2W7OjxtCyqrDVVgn3mgFy2SEUtKfdE=;
- b=gHa/UDBxE2Yb9sciZdepca0Ly2Ha94wgrOKWv+FsEAE1XFojwpZpQUIYLWthtWQu+vkslA
- eZ1TVa3d/HkQRo0L1f1osV7QHtKWI3FWIqiS77hXpTSC6iW8BZZfc820C4xTt15tE86Odx
- oNzZ/bxTLir9fOCklV7FvbYJdcoRS48=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=X9Ovvbb/7HYqdMMAeDdPsYvFwyP61Wr5Uvo4m+npnv0=;
+ b=Sw+wY4xlwrzCBMKjJQjGUK61REIRVxHRRfSuZhQFujKvEc1RpXMsitogWRBl8TPxnMLyuL
+ p5r4Yjz2y4beqbpIbK9+kLSi3lneguDbAKO2nUWzBcRyY1LjWESA+mxuuOsZcP82Xw/wCB
+ YDK4DIuPA2k11vQ8OgXMCwdRpKoqQ0o=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-56-Jlup4F4_NkurngYsEBb1xg-1; Tue, 29 Mar 2022 05:04:07 -0400
-X-MC-Unique: Jlup4F4_NkurngYsEBb1xg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7A11418ABF8D;
- Tue, 29 Mar 2022 09:04:07 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.37.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F456400F8FD;
- Tue, 29 Mar 2022 09:04:06 +0000 (UTC)
-Date: Tue, 29 Mar 2022 10:04:04 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] tests/lcitool: Do not use a hard-coded /usr/bin/python3
- as python interpreter
-Message-ID: <YkLLhMkuVOFLjKT1@redhat.com>
-References: <20220329063958.262669-1-thuth@redhat.com>
+ us-mta-260-0aC7giIzOxyJ-M31lQSyHw-1; Tue, 29 Mar 2022 05:12:24 -0400
+X-MC-Unique: 0aC7giIzOxyJ-M31lQSyHw-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ bs8-20020a05620a470800b0067e383077adso10086743qkb.10
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 02:12:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=X9Ovvbb/7HYqdMMAeDdPsYvFwyP61Wr5Uvo4m+npnv0=;
+ b=Ycyiuxl2o0NnD2RVCxSvRLBN1n3goNsmqQhje59ZxQ8XQX9129OGoXpJtLf/FF1TGq
+ VUxvsTQOVtllCc8guFH4Y/ozlb4OPv/SP5a5p47cV/GcLrKo8TDwuAq4KxaPtIeghN8j
+ Ftspqh0e6Qwq0j083cUquc+Gdk0LO5zn/0kV/158ndhqgPKlLRYlB/KtfVWmotvpKI3S
+ a3OaKFRRGmfp7hJ3WmhXTa8g5lKAnRZf9J5hG1clsZKRz+Ev1+ZIb7qZTBEWnV1SQuJi
+ nlSBEEAEZh7A44tOIEvNWWh+g2MxC9XohRzWn2/rF4RmkSjBCzYLGypYM9kdLQApmeK7
+ 8vLg==
+X-Gm-Message-State: AOAM533G3C5KoTomWVVaKZzUR/TzC+8JHRiQZgSFDbL0Cn5vXrr4jK9p
+ hkd4S1Kym06y5YSBMlNtcFPk5Uf3WObP/MgO+b6DHLyeMjnEXqVSZXMBJ62WrxU1lxvpz0/mk5x
+ zIpZc0qnBCdtFhNz0ayRqyly7ep9WVEc=
+X-Received: by 2002:ac8:59c7:0:b0:2e1:a0d1:fc7b with SMTP id
+ f7-20020ac859c7000000b002e1a0d1fc7bmr26414612qtf.320.1648545143594; 
+ Tue, 29 Mar 2022 02:12:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzd7T2Ip6vSWA+jNJUleCZZii2fZTvqHVYjMMKX1zZS0kdduB6uc4p86lEexNu7PbL9Kgmhq7qT8D+7u0UiEDM=
+X-Received: by 2002:ac8:59c7:0:b0:2e1:a0d1:fc7b with SMTP id
+ f7-20020ac859c7000000b002e1a0d1fc7bmr26414601qtf.320.1648545143378; Tue, 29
+ Mar 2022 02:12:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220329063958.262669-1-thuth@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+References: <20220329073602.754456-1-pbonzini@redhat.com>
+In-Reply-To: <20220329073602.754456-1-pbonzini@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 29 Mar 2022 11:11:47 +0200
+Message-ID: <CAJaqyWfGjdj_qhQQ9ZnFG=dodaj1Eonn1Btye1jxnW-+oXDKGw@mail.gmail.com>
+Subject: Re: [PATCH for-7.0] virtio: fix --enable-vhost-user build on non-Linux
+To: Paolo Bonzini <pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,37 +94,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Beraldo Leal <bleal@redhat.com>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-level <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 29, 2022 at 08:39:58AM +0200, Thomas Huth wrote:
-> When running "make lcitool-refresh", this currently uses the hard-coded
-> /usr/bin/python3 from the script's shebang line for running Python.
-> That's bad, since neither /usr/bin/python3 is guaranteed to exist, nor
-> does it honor the python interpreter that the user might have chosen
-> while running the "configure" script. Thus let's rather use $(PYTHON)
-> in the Makefile, and improve the shebang line in the script in case
-> someone runs this directly.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On Tue, Mar 29, 2022 at 9:38 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The vhost-shadow-virtqueue.c build requires include files from
+> linux-headers/, so it cannot be built on non-Linux systems.
+> Fortunately it is only needed by vhost-vdpa, so move it there.
+>
+
+Thanks for the catch!
+
+Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  tests/lcitool/Makefile.include | 2 +-
->  tests/lcitool/refresh          | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>  hw/virtio/meson.build | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+> index 6047670804..67dc77e00f 100644
+> --- a/hw/virtio/meson.build
+> +++ b/hw/virtio/meson.build
+> @@ -11,9 +11,9 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhos=
+t-stub.c'))
+>
+>  virtio_ss =3D ss.source_set()
+>  virtio_ss.add(files('virtio.c'))
+> -virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-bac=
+kend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
+> +virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-bac=
+kend.c', 'vhost-iova-tree.c'))
+>  virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
+> -virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
+> +virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-shadow-vi=
+rtqueue.c', 'vhost-vdpa.c'))
+>  virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-ball=
+oon.c'))
+>  virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypt=
+o.c'))
+>  virtio_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VIRTIO_PCI'], if_tr=
+ue: files('virtio-crypto-pci.c'))
+> --
+> 2.35.1
+>
+>
 
 
