@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078214EAA1B
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 11:07:02 +0200 (CEST)
-Received: from localhost ([::1]:42118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65A34EAA28
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 11:09:47 +0200 (CEST)
+Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZ7oa-00045H-Ky
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 05:07:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53430)
+	id 1nZ7rG-0005i6-PE
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 05:09:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nZ7kA-0000ib-0n
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:02:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37460)
+ id 1nZ7lw-0002Cx-RC
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:04:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nZ7k4-0003C8-VT
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:02:25 -0400
+ id 1nZ7ls-0003S4-1d
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:04:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648544540;
+ s=mimecast20190719; t=1648544651;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=OoMJvwTDXknY2ET0RoOU/4BbjmHrPDepWmWfPYLGFEE=;
- b=E95r/V50SCYQEeHUNRzgaFDT781FcAuvfRCsx1nTDEEFxA1XWGlH+YRPU5kB0fu7NmAWZB
- qGG0ZrB3VhhndIjR2Ghxx/9PwsCiuoRZ8pVunFgiX6jFMAPII53uEay39vF8AXS1LcaA2n
- 3M/n36z77Q8rt0Go/YUuipP5XA0VnRE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J6gZ5GpHwaWai2W7OjxtCyqrDVVgn3mgFy2SEUtKfdE=;
+ b=gHa/UDBxE2Yb9sciZdepca0Ly2Ha94wgrOKWv+FsEAE1XFojwpZpQUIYLWthtWQu+vkslA
+ eZ1TVa3d/HkQRo0L1f1osV7QHtKWI3FWIqiS77hXpTSC6iW8BZZfc820C4xTt15tE86Odx
+ oNzZ/bxTLir9fOCklV7FvbYJdcoRS48=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-fU5f488rPSav1rJShnAHaA-1; Tue, 29 Mar 2022 05:02:11 -0400
-X-MC-Unique: fU5f488rPSav1rJShnAHaA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-56-Jlup4F4_NkurngYsEBb1xg-1; Tue, 29 Mar 2022 05:04:07 -0400
+X-MC-Unique: Jlup4F4_NkurngYsEBb1xg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 043AF3817480;
- Tue, 29 Mar 2022 09:02:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7A11418ABF8D;
+ Tue, 29 Mar 2022 09:04:07 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.37.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 27B95401E97;
- Tue, 29 Mar 2022 09:02:04 +0000 (UTC)
-Date: Tue, 29 Mar 2022 10:01:59 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F456400F8FD;
+ Tue, 29 Mar 2022 09:04:06 +0000 (UTC)
+Date: Tue, 29 Mar 2022 10:04:04 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: On patch series version tags, and also cover letters (was:
- [PATCH v2 2/2] Added parameter to take screenshot with screendump as PNG)
-Message-ID: <YkLLBymd9kCr9sLN@redhat.com>
-References: <20220328165415.2102-1-kshitij.suri@nutanix.com>
- <20220328165415.2102-2-kshitij.suri@nutanix.com>
- <87bkxp5kfo.fsf@pond.sub.org>
- <0705b49a-d4f6-f670-e26e-84d637c8071e@nutanix.com>
- <87a6d9429w.fsf_-_@pond.sub.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/lcitool: Do not use a hard-coded /usr/bin/python3
+ as python interpreter
+Message-ID: <YkLLhMkuVOFLjKT1@redhat.com>
+References: <20220329063958.262669-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87a6d9429w.fsf_-_@pond.sub.org>
+In-Reply-To: <20220329063958.262669-1-thuth@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -86,46 +85,30 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: soham.ghosh@nutanix.com, thuth@redhat.com, prerna.saxena@nutanix.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com,
- Kshitij Suri <kshitij.suri@nutanix.com>, philippe.mathieu.daude@gmail.com,
- kraxel@redhat.com, prachatos.mitra@nutanix.com, eblake@redhat.com
+Cc: Beraldo Leal <bleal@redhat.com>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 29, 2022 at 09:59:55AM +0200, Markus Armbruster wrote:
-> Kshitij Suri <kshitij.suri@nutanix.com> writes:
+On Tue, Mar 29, 2022 at 08:39:58AM +0200, Thomas Huth wrote:
+> When running "make lcitool-refresh", this currently uses the hard-coded
+> /usr/bin/python3 from the script's shebang line for running Python.
+> That's bad, since neither /usr/bin/python3 is guaranteed to exist, nor
+> does it honor the python interpreter that the user might have chosen
+> while running the "configure" script. Thus let's rather use $(PYTHON)
+> in the Makefile, and improve the shebang line in the script in case
+> someone runs this directly.
 > 
-> > On 29/03/22 12:12 pm, Markus Armbruster wrote:
-> >> If I count correctly, this is the fifth posting tagged "v2".  Don't do
-> >> that, please, as it's quite confusing.
-> >>
-> > Thank you for your review and I apologise for that since I am fairly
-> > new to upstreaming. As per what I read version updates should be done
-> > only when there are significant design changes to the patch which
-> > didn't happen in the v2 version. Will update it to v3 and send the
-> > patch.
-> 
-> We all make mistakes :)
-> 
-> The purpose of the version tag in the subject is to help humans with
-> keeping track of patch submissions.  Increment it for every submission.
-> 
-> If you need to resend a submission completely unchanged for some reason,
-> you may want to keep the tag and add "RESEND".
-> 
-> A cover letter (git format-patch --cover-letter) lets you write an
-> introduction to the whole series.  Simple series may not need an
-> introduction, but complex ones do.  I always use one except when the
-> "series" is a single patch.
-> 
-> Keeping a change log in the cover letter helps people who already
-> reviewed previous iterations.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/lcitool/Makefile.include | 2 +-
+>  tests/lcitool/refresh          | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-FYI, using the 'git-publish' tool instead of 'git send-email' or
-'git format-patch' helps you do all these things. It automatically
-sets & increments the version number, it prompts for a cover letter
-and remembers what you wrote next time. 
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
 
 With regards,
 Daniel
