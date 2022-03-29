@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B2FD4EB000
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:11:04 +0200 (CEST)
-Received: from localhost ([::1]:38190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568084EAFF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:08:52 +0200 (CEST)
+Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZDUs-00069c-Q8
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:11:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47260)
+	id 1nZDSl-0004HT-EM
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:08:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nZDN0-0002aX-Fs
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:02:54 -0400
-Received: from [2a00:1450:4864:20::52f] (port=43771
- helo=mail-ed1-x52f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nZDMv-0003vg-Fx
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:02:54 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id b24so21023910edu.10
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 08:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=cVvM6ObxdSiQS5p632Vjdts5EQffaPC0BoIqoTrkfncgVUHtAyidU181mtMUWT5ihq
- WjQB8Pf7y/UFmf6ntDoh1w4i1pR2TYpnvzpDNErwtuuPpmc/jWz11U0RtqgP8ZTtQWDq
- ynxecn0WSKaCbEtySDfRiqHspe/nOXAnyt06UwXaY/8IPUvFPyJTsp0QYOYKsBgfpsV5
- 3RWFIaRtlE0nTGqnf2sJHQU3P9prrwSpkr9xp7M8mHptcHfQg9IFrqAUc+IytW53po1M
- xm9gPznHLxb4B4xBxOuKHRI5wbaD2Guot3WskVQwgq7BMDu6wBmIeey4vAZ905f8QpMy
- 1Pwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=idQzmuldn167cO2fEljQcyDO9+PjlogPRcGc+LuA9ioYaLH1viKw7FHa8fJPNgp6fD
- tVS3IzQVO5rSNqXsvEKxLvDDQc1YkEgCRl0HC5RrkDSShBALQo/i0cDCye6IRs/zXbOd
- Gzv41AgbSt1UBRkOEA4tqhU28lfqJfnZ97/GkHBj8hq71Mm4fCpdDWEXJeAoujwRvp+Y
- xt45MNW4jg63RZ7USMa8nnABWboVle7Iz+2388oVN5hD2TCtlD3I0xA9YQsKRnPSen9J
- 9HbEVWC80KJY7AnQsmadE5mx3fYJoQ/yXM6U04aBfn3NFTlFacqckLWDVgJnwHCpElNh
- faWQ==
-X-Gm-Message-State: AOAM533tpuYHx01/m1V6QycXpdh1XRmGUGPEAiFviLkH4nMY5qrtvK41
- nW9W2xH5t5ZdUHcyT4noo0A=
-X-Google-Smtp-Source: ABdhPJxz8MtRk7buxATdYEhCv32HtLbYDqEHP4lDDOIW3Cv8uGFGIaX+DC7nLkkksNE9/9drc4L+kQ==
-X-Received: by 2002:a50:9fa5:0:b0:418:e7c4:cf96 with SMTP id
- c34-20020a509fa5000000b00418e7c4cf96mr5087483edf.30.1648566167826; 
- Tue, 29 Mar 2022 08:02:47 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:8ca6:a836:a237:fed1])
- by smtp.gmail.com with ESMTPSA id
- q15-20020a1709060e4f00b006cdf4535cf2sm7144778eji.67.2022.03.29.08.02.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 08:02:47 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Dov Murik <dovmurik@linux.ibm.com>
-Subject: Re: [PATCH v3] docs/system/i386: Add measurement calculation details
- to amd-memory-encryption
-Date: Tue, 29 Mar 2022 17:02:29 +0200
-Message-Id: <20220329150229.878490-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220217110059.2320497-1-dovmurik@linux.ibm.com>
-References: 
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nZDOG-0005Dk-2b
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:04:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nZDOD-00041S-Af
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:04:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648566248;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=roSG3ppPlmilQbgD6Mh2Cx1xoZd6KtaACPrA8M0x/mA=;
+ b=aY8+Mg6Fwzorn46g2nGKnmFlPlWkCVr4KdBt/Soz2wyF9Nrr1oUKeqh5uipg6hAt9ntHmX
+ aD/RqmTOWfFMcFcouDWzwhIt38oqSJ8JSNzegvKjNY8CkJQFg60r3rpHCRYKN6cPjJ5pBZ
+ v49dKufLutnruhAiRAFis9ZbcyKQMT4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-615-Q_nq8WI_P56A37E8dRyCKg-1; Tue, 29 Mar 2022 11:03:07 -0400
+X-MC-Unique: Q_nq8WI_P56A37E8dRyCKg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A409180138D;
+ Tue, 29 Mar 2022 15:03:07 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF1E81400C2B;
+ Tue, 29 Mar 2022 15:03:06 +0000 (UTC)
+Date: Tue, 29 Mar 2022 16:03:05 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH for-7.0] main-loop: Disable GLOBAL_STATE_CODE() assertions
+Message-ID: <YkMfqceHNgw3zN6G@stefanha-x1.localdomain>
+References: <20220329093545.52114-1-hreitz@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="d0GnKb4YaIu978o8"
+Content-Disposition: inline
+In-Reply-To: <20220329093545.52114-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,19 +76,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eric Blake <eblake@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
 
-Paolo
+--d0GnKb4YaIu978o8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Mar 29, 2022 at 11:35:45AM +0200, Hanna Reitz wrote:
+> These assertions are very useful for developers to find bugs, and so
+> they have indeed pointed us towards bugs already.  For users, it is not
+> so useful to find these bugs.  We should probably not enable them in
+> releases until we are sufficiently certain that they will not fire
+> during normal operation, unless something is going seriously wrong.
+>=20
+> For example, we have received a bug report that you cannot add an NBD
+> server on a BDS in an I/O thread with `-incoming defer`.  I am sure this
+> is a real bug that needs investigation, but we do not really have that
+> time right now, so close to release, and so I would rather disable the
+> assertions to get time to investigate such reports.
+>=20
+> (I am just putting the link as "buglink" below, not "closes", because
+> disabling the assertion will not fix the likely underlying bug.)
+>=20
+> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/945
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+>  include/qemu/main-loop.h | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+
+Sounds reasonable to me.
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--d0GnKb4YaIu978o8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJDH6kACgkQnKSrs4Gr
+c8jPAQf9E0vNXpyzSgCwuRYOF+bgo3phfoRXZO8FfqezxU4fxMzmdGCSSLCkpQb5
+yxfGp8TVYQUXoDYTogdsCPtj0rgdnDqPHlShegUwJ2csNc1UfBdaCNXGT5GbovRB
+iRNXvD0Am34Y67KUprtpPCABrlgOTeLUJ/UclQnGccu0kFm5Prc2ZUymQjueNEi2
+sGpjIHBOKFe0vQiH4g4YwuYzTREUXad2HBplWmDdrnAKy9alZrZLucub1viwRDeq
+Ch/7zOUJbQYiOk0JxMzxYzP7nTKICJeDFHE4BT/Zx4N6s4plTqvwv5pAnGz+ZtfS
+rQzZpO1ziP3XlpGWLu8174jDgQtMwg==
+=Xl2+
+-----END PGP SIGNATURE-----
+
+--d0GnKb4YaIu978o8--
 
 
