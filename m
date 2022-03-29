@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A054EAEFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 16:02:59 +0200 (CEST)
-Received: from localhost ([::1]:58214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F1E4EAF06
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 16:06:13 +0200 (CEST)
+Received: from localhost ([::1]:33698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZCR0-0006AM-6d
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 10:02:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33460)
+	id 1nZCU8-0000Mq-LH
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 10:06:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nZCOi-0004HG-Sa
+ id 1nZCOi-0004HE-DZ
  for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:00:38 -0400
-Received: from [2a00:1450:4864:20::532] (port=37431
- helo=mail-ed1-x532.google.com)
+Received: from [2a00:1450:4864:20::62b] (port=44832
+ helo=mail-ej1-x62b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nZCOh-0001bd-AY
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:00:36 -0400
-Received: by mail-ed1-x532.google.com with SMTP id b15so20831307edn.4
+ id 1nZCOg-0001ba-JR
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:00:35 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id lr4so26924372ejb.11
  for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 07:00:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Xq+csYMPSeBAQWu8555fZDjmWrN7KhSCIKwBmvXE5Ro=;
- b=kRg+fUcakYqrxPN7maTZ//0sA9zhTrDvAas0PaBDNAl0QWyL6utLCDULTeZJDUoXdU
- 4gKFS7vgVLtqsJ4nEc6iBa55l55+rn8a0bm5hVv4hFP9QM764B2g5Rebud59QfP7RwBg
- 4sIyuOp+x4ygFiwSKbwj3hmoKu6mnRymt6CCbsUY8LDOjjci7hW6f5386S+zXl/gNXHM
- 7m+SBewc6abR+2sIGWMgqPRGy/5YVyelQbW3Q6Vf3svhPE8HTATqazRpXUOAofymsAF/
- csMsFDPpr1vjdKQHbGhOPHU0blkxuRBAWKCf3xzNH2iORQOWCaKOiZroquws+wU5FkSg
- L+8g==
+ bh=392qi39pKaegU7AhHQ8M6RjycLzh3KMFd/WgeU21XDU=;
+ b=mDn2VfoxQVL3DnJw3iLpnKduNcPZa/f3lHNy3IyAgPtJyHeLGxBDuTW+D6tuZjAC3F
+ ZJSzU6KBVaMdnVHspXjMoMETVCErwdhj/TezPUopcf4/mRx2eRh+iyl2NXIUYN5/u0wU
+ OUb85SHF57nIh/JL4MH8tI2oHd6Fpx7PPA0BN6LEHT8mSrEhCMhJuDICOEKop1RWphNf
+ XwIRqiHWb64iVoToe0nAky6aZikB5R9P8AJcgZnZI+fExFk6pqZn2AszbRlZGpLCbY8F
+ YSmztVC/Wr57An2wSibi6sC93/ZfYc2/Aq/2/AVelNMcmU8Flu9acBE/DWlIGsO10qhH
+ lesQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Xq+csYMPSeBAQWu8555fZDjmWrN7KhSCIKwBmvXE5Ro=;
- b=QjilwIUiKxSSl5/prCL2+xDkraWT47bNfB2i6QzxQ92rhu4tydl7nGjBC9ZWuaOhQx
- TO7vVfVRueaQxLJ4kQ26f9AqwVun4cIFw6d5GqZtwYxjx0xLwmlKLDjtGPeVwwBclTIa
- i6vyG3LO3X2d9tyR0NeAniQbGIOxqykE+tlmHoDsMakexdUbV/dFCxJzsd68UydOBMoO
- CJ8cyvDS124h+bJtePX0tWWt+Y6msb+Ni+ce3zVCPs8dHmKFGd4kib5dU1r5beuYpvBB
- LoWix8Q9akQaHL6/T1kBtVbr0X19Lr0qO1xnf+bfmuB9WXrUBRpE0gqwJzYXQYakIEcH
- O4sw==
-X-Gm-Message-State: AOAM533aFG44UGrk0ZyINwnMxiVljxzVHpUk5MELQFVO5vukwYsDUPv2
- 6W8xMb0XT6tG4yrEc0fZ1IF4TwVNX4I=
-X-Google-Smtp-Source: ABdhPJy8I01bl2GQxG+j7VcumQUkibhnjH6I4O3izbmZza3qxwDbFgEpLXhlt1wTIOmw57QGPay/CQ==
-X-Received: by 2002:a05:6402:3548:b0:419:6a02:c5cd with SMTP id
- f8-20020a056402354800b004196a02c5cdmr4741803edd.290.1648562431670; 
- Tue, 29 Mar 2022 07:00:31 -0700 (PDT)
+ bh=392qi39pKaegU7AhHQ8M6RjycLzh3KMFd/WgeU21XDU=;
+ b=TClOn+FaT7Iz8TaG8s3ncER3IhlYX4FLXkxatXXtQCqx7pOOZqfrQKVMGyHe9Pad/o
+ pAPMkAFD4Yc91HfgjaCUfnM+zvT40rwK5qKItCJ10AeoQh1uXtS6l86QPzluc3G2mmvg
+ N4cZMvKql5mCZVb/Ms6q8UgG8z7On+TFxpdwOv0Ylw7KT/vRBjAOHYIr7uj2YGVc0RzD
+ x7G/k7qb8TG6qxj3oN/2g89H7FdcZcf/M4FvxbXu0+nEn7g2YP55a0NHpa18p0ZDiwpl
+ ZA2jPxTnMwFdHhunY24bxArnsHAtB9sZcbk0TLfx4t9LpbThJITcfos7Kdcmrbet6Hdc
+ c6qg==
+X-Gm-Message-State: AOAM533j+RWPfu1BxPkvC9cbA3qCgj2nBysSsbDfSelQmvIctJJBR3cl
+ NfAZd78jX89i5GEjUKP0jlPNX/uILbk=
+X-Google-Smtp-Source: ABdhPJwUM08xXrYi/aMlVoyx3HOBfzhMFZNYM/hMylh1+KcCJJgBoE9ckTYmQ2xu1L7ZL4d2GdGQbw==
+X-Received: by 2002:a17:907:7ba6:b0:6df:ee7d:10f2 with SMTP id
+ ne38-20020a1709077ba600b006dfee7d10f2mr35194448ejc.98.1648562433120; 
+ Tue, 29 Mar 2022 07:00:33 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:8ca6:a836:a237:fed1])
  by smtp.gmail.com with ESMTPSA id
- n19-20020a170906165300b006a625c583b9sm7117506ejd.155.2022.03.29.07.00.30
+ n19-20020a170906165300b006a625c583b9sm7117506ejd.155.2022.03.29.07.00.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 07:00:31 -0700 (PDT)
+ Tue, 29 Mar 2022 07:00:32 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/2] virtio: fix --enable-vhost-user build on non-Linux
-Date: Tue, 29 Mar 2022 16:00:26 +0200
-Message-Id: <20220329140027.869953-2-pbonzini@redhat.com>
+Subject: [PULL 2/2] tests/tcg: really fix path to target configuration
+Date: Tue, 29 Mar 2022 16:00:27 +0200
+Message-Id: <20220329140027.869953-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220329140027.869953-1-pbonzini@redhat.com>
 References: <20220329140027.869953-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -90,40 +90,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
- Jason Wang <jasowang@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The vhost-shadow-virtqueue.c build requires include files from
-linux-headers/, so it cannot be built on non-Linux systems.
-Fortunately it is only needed by vhost-vdpa, so move it there.
+This was attempted in commit 533b0a1a41 ("tests/tcg: Fix target-specific
+Makefile variables path for user-mode", 2022-01-12) but it also used the
+wrong path; default.mak is used for config/devices, not config/targets.
 
-Acked-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
+While at it, explain what the inclusion is about.
+
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/virtio/meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/tcg/Makefile.target | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 6047670804..67dc77e00f 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -11,9 +11,9 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index ae8004c76e..acda5bcec2 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -32,8 +32,10 @@
+ all:
+ -include ../../../config-host.mak
+ -include ../config-$(TARGET).mak
++
++# Get semihosting definitions for user-mode emulation
+ ifeq ($(CONFIG_USER_ONLY),y)
+--include $(SRC_PATH)/configs/targets/$(TARGET)/default.mak
++-include $(SRC_PATH)/configs/targets/$(TARGET).mak
+ endif
  
- virtio_ss = ss.source_set()
- virtio_ss.add(files('virtio.c'))
--virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
--virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-shadow-virtqueue.c', 'vhost-vdpa.c'))
- virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
- virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto.c'))
- virtio_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VIRTIO_PCI'], if_true: files('virtio-crypto-pci.c'))
+ # for including , in command strings
 -- 
 2.35.1
-
 
 
