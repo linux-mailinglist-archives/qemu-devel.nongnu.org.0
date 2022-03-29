@@ -2,82 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261754EA6AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 06:45:05 +0200 (CEST)
-Received: from localhost ([::1]:44170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 505FE4EA6B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 06:48:29 +0200 (CEST)
+Received: from localhost ([::1]:46442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZ3j5-0008R3-PE
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 00:45:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34408)
+	id 1nZ3mO-0001l4-Dh
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 00:48:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nZ3iB-0007lr-K9
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 00:44:07 -0400
-Received: from [2607:f8b0:4864:20::112d] (port=36568
- helo=mail-yw1-x112d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nZ3i9-0006j6-Vp
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 00:44:07 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2e64a6b20eeso170869207b3.3
- for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 21:44:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ckeZLTdHWZR9ZkDXC8YQFoG2v0G3o9meuHKC0+X096U=;
- b=B8RRRun9IbKK9XNOMLoayLsi3g1BKJwOuEYIteVRzAAj4ozOSqairkjWtAFGTdEaMo
- N0n81H7ZmsaGo4hElrX9RZ0F3GgwEiEVzTMNOSc7bgTZA63tJZf9okEPGRCniBchJagz
- 0+p06x873xQb37/t8GESprnAQhswIHrIVI9rxRlfkMEgRfsFXjEqZAlenHmi5PhCbwMV
- 7e4U0xfKbbqgUZAi9uAgSlKYg6OVGroUShzgwpRUuqa6FeBJshOa72AD9G3Bqf1sb+mE
- zc3ySfXgA25aCkMmLQrSqZvw60/o1K2F30ZWJ7pN02iFphkUGTc/7lO348OLahhpOa9T
- ZOjQ==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nZ3kt-0000y7-Pr
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 00:46:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57404)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nZ3kq-0007ID-2p
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 00:46:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648529210;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SBXDZ4fI/yy0Mb+caxztByH8H9mDOPS73xUpeybJxCk=;
+ b=esN9W5ka0/nfiXJ/WzpW57Ulod3Kaulx68mNUmDkJvQEkn7BQ7UDRC1XJEHLNFOGUzVA37
+ GTEILeh4xhdsk2bdpUwfuLIRH6/YP3VmTMdLNpEeWFvT+OJoCzmSdHLjvvVk+C4qCSqp3O
+ csVcPyF+6UCo+YDrmcwkyYmu+FO6nJ4=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-594-PVs22e-cMCWASdCIzDkrRg-1; Tue, 29 Mar 2022 00:46:47 -0400
+X-MC-Unique: PVs22e-cMCWASdCIzDkrRg-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ 11-20020a2e154b000000b0024967cd6752so6971597ljv.13
+ for <qemu-devel@nongnu.org>; Mon, 28 Mar 2022 21:46:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ckeZLTdHWZR9ZkDXC8YQFoG2v0G3o9meuHKC0+X096U=;
- b=aSXFBYDmiI0QNzxbHdXfuNUwrk7f5FQPWQdF7ySmQcVuWi5sv3AInswb3ODhTIhRgw
- 9GGg1kXFzoa6kmsfGK6miLksKhvmOoTaKrAT4CRM1eze9V/jwFl8yOcqZLDp4xi1dKFo
- slUFJpy45wDPloY4yNPUQIGLMuWekONqFmvNmrlZix54HwtC5OGixjS6PKbZt8ppe8Vw
- ATSn4lZoULygByCO0ZNEeHq4wCdzF7lEoH2uRmv6bIM8bpxVyxRNG2ekUQZWyLOqni6k
- d7QVMGFKcelWOrQVPLluSPFJe438jaVVT9MJGMV6g/PrOu0XHacyLZgMQY41CkKv+91H
- eGJg==
-X-Gm-Message-State: AOAM5322mcwD7fLpgHD2lPNpfeV0S/TKZ4pLRYAhyGN4yv0vbCmP8Fhy
- zBzi1Zq8Q2qiTMcaP6S87dQSGUzin2rs0wnI1i4=
-X-Google-Smtp-Source: ABdhPJxHOullBADNenJqPiVu2BvlLxlxNdTZpJA/WJG6KJ+l1jIHUmaJL6w/LOYtPJPmIPSalpcPB4XIEAhcPsp3lxs=
-X-Received: by 2002:a81:8343:0:b0:2e5:b43c:86eb with SMTP id
- t64-20020a818343000000b002e5b43c86ebmr28898080ywf.153.1648529044846; Mon, 28
- Mar 2022 21:44:04 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=SBXDZ4fI/yy0Mb+caxztByH8H9mDOPS73xUpeybJxCk=;
+ b=PlMzfrRemCRIOrstE1SvkHF5J1e6yMu5kUnJEkboBWyo3NvFiRWhaFK5m/zhDukDAe
+ n0B6IDP4Yf/OzsSZNpi8hu1muYLSJKbEvx79fyxt08+LRsBp9lrizenfrhCrfev42sPp
+ oaA/OIp/YX0VJ0YMrWqkkE8r+aM5tXUVtVQdSkVwlsEFDCXANT4eNTQRWkMQgAE9IQ/c
+ nvtOmsJbsGfMNtkdroBHB4zYCf30O8/iTNMJDnHyNqOgl/EpFzn6ddc7KCtEUf8pcM+W
+ +N20yG6oFsbYqn4htHm3S6cxYw++sjJ9AQfEFfWN7yt8jxQvbec7mOPelr72FN/Jr1aJ
+ BOtA==
+X-Gm-Message-State: AOAM531aUQmjFWDCf0N3zXcOjanarki751pKnBhnQXgAKNUROW9CkjV2
+ P2WRHHFSvueH0d9b+dH7g9UiG8r/ZiyMEPzLR2rvPpBxyV+GFXaIAgT1K+Sr0mOPl+V306+Qabs
+ vibJtzfmF1UMFJjPQep6IXZZHAqs/JEs=
+X-Received: by 2002:a2e:824e:0:b0:249:7e3d:c862 with SMTP id
+ j14-20020a2e824e000000b002497e3dc862mr929775ljh.97.1648529205927; 
+ Mon, 28 Mar 2022 21:46:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9ihs80yUwGiuOln4pvxjmAjgoB2T4BOK6LPSLcytLywGE10IZqUd/OmSneSNsNvAwssswbpQmftUe2OuJu4o=
+X-Received: by 2002:a2e:824e:0:b0:249:7e3d:c862 with SMTP id
+ j14-20020a2e824e000000b002497e3dc862mr929757ljh.97.1648529205623; Mon, 28 Mar
+ 2022 21:46:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220322154213.86475-1-bmeng.cn@gmail.com>
- <CAFEAcA8RdqQ5fzoZtb5SaYe41FA=oKo21veergqhMgo=eFmB6Q@mail.gmail.com>
- <CAEUhbmVXiB+mbbjhy0sT2PhQHNJgdHmehXfcE18g=E3SPffndQ@mail.gmail.com>
- <87wngj3aj2.fsf@linaro.org>
- <CAFEAcA_O8=0KZ=sjzP7GZ=ytSQm0P+zB_t=jQ2nZnw6b721Yxw@mail.gmail.com>
- <CAEUhbmWjjqihJb70x2k4+yf9dr8yh+_eMRu0MubofSbw+C9izQ@mail.gmail.com>
- <CAFEAcA_m0wUWqJQ2-n5bYZq=xPkUW+SOU2555-z=LMgzrm2W0Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA_m0wUWqJQ2-n5bYZq=xPkUW+SOU2555-z=LMgzrm2W0Q@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 29 Mar 2022 12:43:52 +0800
-Message-ID: <CAEUhbmV7BnHHAoY+jHAioiYo2Vz-2VJOpgcz7WRFx6+FGvaYxA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] gdbstub: Set current_cpu for memory read write
-To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220321055429.10260-1-jasowang@redhat.com>
+ <20220321055429.10260-5-jasowang@redhat.com>
+ <BN9PR11MB52762D1CDE8F5417370762CE8C199@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <CACGkMEtr5byTaRFQT-ut6=ziyOTKBgne_Xa2qu4Nu9Z7sDDmBg@mail.gmail.com>
+ <BN9PR11MB52767EA8BF5EA39488D149408C1D9@BN9PR11MB5276.namprd11.prod.outlook.com>
+In-Reply-To: <BN9PR11MB52767EA8BF5EA39488D149408C1D9@BN9PR11MB5276.namprd11.prod.outlook.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 29 Mar 2022 12:46:34 +0800
+Message-ID: <CACGkMEtCAra8SbubYbqMVO8E6MUwNUaJLM5bVJ32rA31uemVAA@mail.gmail.com>
+Subject: Re: [PATCH V2 4/4] intel-iommu: PASID support
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,81 +96,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "Liu, Yi L" <yi.l.liu@intel.com>,
+ "yi.y.sun@linux.intel.com" <yi.y.sun@linux.intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "peterx@redhat.com" <peterx@redhat.com>, "mst@redhat.com" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 28, 2022 at 5:10 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
+On Mon, Mar 28, 2022 at 2:47 PM Tian, Kevin <kevin.tian@intel.com> wrote:
 >
-> On Mon, 28 Mar 2022 at 03:10, Bin Meng <bmeng.cn@gmail.com> wrote:
-> > IMHO it's too bad to just ignore this bug forever.
+> > From: Jason Wang <jasowang@redhat.com>
+> > Sent: Monday, March 28, 2022 10:31 AM
 > >
-> > This is a valid use case. It's not about whether we intentionally want
-> > to inspect the GIC register value from gdb. The case is that when
-> > single stepping the source codes it triggers the core dump for no
-> > reason if the instructions involved contain load/store to any of the
-> > GIC registers.
+> > On Thu, Mar 24, 2022 at 4:54 PM Tian, Kevin <kevin.tian@intel.com> wrote:
+> > >
+> > > > From: Jason Wang
+> > > > Sent: Monday, March 21, 2022 1:54 PM
+> > > >
+> > > > This patch introduce ECAP_PASID via "x-pasid-mode". Based on the
+> > > > existing support for scalable mode, we need to implement the following
+> > > > missing parts:
+> > > >
+> > > > 1) tag VTDAddressSpace with PASID and support IOMMU/DMA
+> > translation
+> > > >    with PASID
+> > > > 2) tag IOTLB with PASID
+> > >
+> > > and invalidate desc to flush PASID iotlb, which seems missing in this patch.
+> >
+> > It existed in the previous version, but it looks like it will be used
+> > only for the first level page table which is not supported right now.
+> > So I deleted the codes.
 >
-> Huh? Single-stepping the instruction should execute it inside
-> QEMU, which will do the load in the usual way. That should not
-> be going via gdbstub reads and writes.
+> You are right. But there is also PASID-based device TLB invalidate descriptor
+> which is orthogonal to 1st vs. 2nd level thing. If we don't want to break the
+> spec with this series then there will need a way to prevent the user from
+> setting both "device-iotlb" and "x-pasid-mode" together.
 
-Yes, single-stepping the instruction is executed in the vCPU context,
-but a gdb client sends additional commands, more than just telling
-QEMU to execute a single instruction.
+Right, let me do it in the next version.
 
-For example, the following is the sequence a gdb client sent when doing a "=
-si":
 
-gdbstub_io_command Received: Z0,100000,4
-gdbstub_io_reply Sent: OK
-gdbstub_io_got_ack Got ACK
-gdbstub_io_command Received: m18c430,4
-gdbstub_io_reply Sent: ff430091
-gdbstub_io_got_ack Got ACK
-gdbstub_io_command Received: vCont;s:p1.1;c:p1.-1
-gdbstub_op_stepping Stepping CPU 0
-gdbstub_op_continue_cpu Continuing CPU 1
-gdbstub_op_continue_cpu Continuing CPU 2
-gdbstub_op_continue_cpu Continuing CPU 3
-gdbstub_hit_break RUN_STATE_DEBUG
-gdbstub_io_reply Sent: T05thread:p01.01;
-gdbstub_io_got_ack Got ACK
-gdbstub_io_command Received: g
-gdbstub_io_reply Sent:
-3848ed0000000000f08fa610000000000300000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000010000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000001f90000000030a5ec000000000034c4180000000=
-000c9030000
-gdbstub_io_got_ack Got ACK
-gdbstub_io_command Received: m18c434,4
-gdbstub_io_reply Sent: 00e004d1
-gdbstub_io_got_ack Got ACK
-gdbstub_io_command Received: m18c430,4
-gdbstub_io_reply Sent: ff430091
-gdbstub_io_got_ack Got ACK
-gdbstub_io_command Received: m18c434,4
-gdbstub_io_reply Sent: 00e004d1
-gdbstub_io_got_ack Got ACK
-gdbstub_io_command Received: m18c400,40
-gdbstub_io_reply Sent:
-ff4300d1e00300f980370058000040f900a00191000040f900b00091000040f900e004911e7=
-800f9fe0340f91e0000f9ff43009100e004d174390094bb390094
-gdbstub_io_got_ack Got ACK
-gdbstub_io_command Received: mf9010000,4
+>
+> >
+> > >
+> > > > 3) PASID cache and its flush
+> > > > 4) Fault recording with PASID
+> > > >
+> > > > For simplicity:
+> > > >
+> > > > 1) PASID cache is not implemented so we can simply implement the PASID
+> > > > cache flush as a nop.
+> > > > 2) Fault recording with PASID is not supported, NFR is not changed.
+> > > >
+> > > > All of the above is not mandatory and could be implemented in the
+> > > > future.
+> > >
+> > > PASID cache is optional, but fault recording with PASID is required.
+> >
+> > Any pointer in the spec to say something like this? I think sticking
+> > to the NFR would be sufficient.
+>
+> I didn't remember any place in spec saying that fault recording with PASID is
+> not required when PASID capability is exposed.
 
-Here "mf9010000,4" triggers the bug where 0xf9010000 is the GIC register.
+Ok, but as a spec it needs to clarify what is required for each capability.
 
-This is not something QEMU can ignore or control. The logic is inside
-the gdb client.
+> If there is certain fault
+> triggered by a request with PASID, we do want to report this information
+> upward.
 
-Regards,
-Bin
+I tend to do it increasingly on top of this series (anyhow at least
+RID2PASID is introduced before this series)
+
+>
+> btw can you elaborate why NFR matters to PASID? It is just about the
+> number of fault recording register...
+
+I might be wrong, but I thought without increasing NFR we may lack
+sufficient room for reporting PASID.
+
+>
+> >
+> > > I'm fine with adding it incrementally but want to clarify the concept first.
+> >
+> > Yes, that's the plan.
+> >
+>
+> I have one open which requires your input.
+>
+> While incrementally enabling things does be a common practice, one worry
+> is whether we want to create too many control knobs in the staging process
+> to cause confusion to the end user.
+
+It should be fine as long as we use the "x-" prefix which will be
+finally removed.
+
+>
+> Earlier when Yi proposed Qemu changes for guest SVA [1] he aimed for a
+> coarse-grained knob design:
+> --
+>   Intel VT-d 3.0 introduces scalable mode, and it has a bunch of capabilities
+>   related to scalable mode translation, thus there are multiple combinations.
+>   While this vIOMMU implementation wants simplify it for user by providing
+>   typical combinations. User could config it by "x-scalable-mode" option. The
+>   usage is as below:
+>     "-device intel-iommu,x-scalable-mode=["legacy"|"modern"]"
+>
+>     - "legacy": gives support for SL page table
+>     - "modern": gives support for FL page table, pasid, virtual command
+>     -  if not configured, means no scalable mode support, if not proper
+>        configured, will throw error
+> --
+>
+> Which way do you prefer to?
+>
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg02805.html
+
+My understanding is that, if we want to deploy Qemu in a production
+environment, we can't use the "x-" prefix. We need a full
+implementation of each cap.
+
+E.g
+-device intel-iommu,first-level=on,scalable-mode=on etc.
+
+Thanks
+
+>
+> Thanks
+> Kevin
+
 
