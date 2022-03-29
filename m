@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463054EAFC9
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:06:15 +0200 (CEST)
-Received: from localhost ([::1]:53570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 380524EAFC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:02:43 +0200 (CEST)
+Received: from localhost ([::1]:45016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZDQE-0005kK-AT
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:06:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46178)
+	id 1nZDMo-0008Fu-9J
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:02:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZDJJ-0005Ow-MP
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32403)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZDJI-0005Kn-H0
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZDJI-0003AO-2a
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:05 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZDJG-0003A8-7Z
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648565939;
+ s=mimecast20190719; t=1648565941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jBJkyd0V7is8jylgKvB5kl4q38L29cxJDQDVxs7pwkc=;
- b=MJm29Go4whc2i898yRdKWy8n4uj59v2B/kwlavZLGruf2rXI88R1TjlJpScJq9Ypr0wmZI
- ZB5yiy/nK7Zv7Ej1QWuu3d98yTYL578ZooJaIFxIxU8U6IjVA97t7Iny0gZUOBPgtZTBlU
- bQAmrcQ/mBnlCYzMfX5onf6vZoAqqI8=
+ bh=WgULD6CUf3kq7kPKHRhShmrY8+uZhRGJM9H7iexiocg=;
+ b=QDz4osXogQibGq7gQUJsxMwde1j0f+l8Gk2BUN5lZbV5OxwVqCfFB6lNSUL4p1woD4nOk+
+ 2o8D/J8vVQYeqvKXL4DckcR96z5sYNBEDgFS1A/NMVMCcyxcZ6SokxA8sKeVYbMh5McAmY
+ mstmzV3x7nzPEDaH4U0qLVlKBu5oCZ8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-316-Gb4JFULaPvqWaQuxkE-w8Q-1; Tue, 29 Mar 2022 10:58:56 -0400
-X-MC-Unique: Gb4JFULaPvqWaQuxkE-w8Q-1
+ us-mta-463-7J5bKbDvPcylm9v-OEKIGQ-1; Tue, 29 Mar 2022 10:58:58 -0400
+X-MC-Unique: 7J5bKbDvPcylm9v-OEKIGQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 60ADE805F6C;
- Tue, 29 Mar 2022 14:58:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 11DBA1802A1F;
+ Tue, 29 Mar 2022 14:58:58 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.242])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9567F40CF8ED;
- Tue, 29 Mar 2022 14:58:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3D1040CF8ED;
+ Tue, 29 Mar 2022 14:58:57 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 3/4] block/stream: Drain subtree around graph change
-Date: Tue, 29 Mar 2022 16:58:48 +0200
-Message-Id: <20220329145849.121051-4-hreitz@redhat.com>
+Subject: [PULL 4/4] iotests: Fix status checks
+Date: Tue, 29 Mar 2022 16:58:49 +0200
+Message-Id: <20220329145849.121051-5-hreitz@redhat.com>
 In-Reply-To: <20220329145849.121051-1-hreitz@redhat.com>
 References: <20220329145849.121051-1-hreitz@redhat.com>
 MIME-Version: 1.0
@@ -56,14 +56,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -83,113 +83,175 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the stream block job cuts out the nodes between top and base in
-stream_prepare(), it does not drain the subtree manually; it fetches the
-base node, and tries to insert it as the top node's backing node with
-bdrv_set_backing_hd().  bdrv_set_backing_hd() however will drain, and so
-the actual base node might change (because the base node is actually not
-part of the stream job) before the old base node passed to
-bdrv_set_backing_hd() is installed.
+An iotest's 'paused' condition is fickle; it will be reported as true
+whenever the job is drained, for example, or when it is in the process
+of completing.
 
-This has two implications:
+030 and 041 contain such checks, we should replace them by checking the
+job status instead.  (As was done for 129 in commit f9a6256b48f29c2816
+for the 'busy' condition.)
 
-First, the stream job does not keep a strong reference to the base node.
-Therefore, if it is deleted in bdrv_set_backing_hd()'s drain (e.g.
-because some other block job is drained to finish), we will get a
-use-after-free.  We should keep a strong reference to that node.
-
-Second, even with such a strong reference, the problem remains that the
-base node might change before bdrv_set_backing_hd() actually runs and as
-a result the wrong base node is installed.
-
-Both effects can be seen in 030's TestParallelOps.test_overlapping_5()
-case, which has five nodes, and simultaneously streams from the middle
-node to the top node, and commits the middle node down to the base node.
-As it is, this will sometimes crash, namely when we encounter the
-above-described use-after-free.
-
-Taking a strong reference to the base node, we no longer get a crash,
-but the resuling block graph is less than ideal: The expected result is
-obviously that all middle nodes are cut out and the base node is the
-immediate backing child of the top node.  However, if stream_prepare()
-takes a strong reference to its base node (the middle node), and then
-the commit job finishes in bdrv_set_backing_hd(), supposedly dropping
-that middle node, the stream job will just reinstall it again.
-
-Therefore, we need to keep the whole subtree drained in
-stream_prepare(), so that the graph modification it performs is
-effectively atomic, i.e. that the base node it fetches is still the base
-node when bdrv_set_backing_hd() sets it as the top node's backing node.
-
-Verify this by asserting in said 030's test case that the base node is
-always the top node's immediate backing child when both jobs are done.
+Additionally, when we want to test that a job is paused on error, we
+might want to give it some time to actually switch to the paused state.
+Do that by waiting on the corresponding JOB_STATUS_CHANGE event.  (But
+only if they are not already paused; the loops these places are in fetch
+all VM events, so they may have already fetched that event from the
+queue.)
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220324140907.17192-1-hreitz@redhat.com>
+Message-Id: <20220324180221.24508-1-hreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Acked-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 ---
- block/stream.c         | 15 ++++++++++++++-
- tests/qemu-iotests/030 |  5 +++++
- 2 files changed, 19 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/030 | 25 ++++++++++++++++++++-----
+ tests/qemu-iotests/041 | 26 +++++++++++++++++++-------
+ 2 files changed, 39 insertions(+), 12 deletions(-)
 
-diff --git a/block/stream.c b/block/stream.c
-index 3acb59fe6a..694709bd25 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -64,7 +64,13 @@ static int stream_prepare(Job *job)
-     bdrv_cor_filter_drop(s->cor_filter_bs);
-     s->cor_filter_bs = NULL;
- 
-+    bdrv_subtree_drained_begin(s->above_base);
-+
-     base = bdrv_filter_or_cow_bs(s->above_base);
-+    if (base) {
-+        bdrv_ref(base);
-+    }
-+
-     unfiltered_base = bdrv_skip_filters(base);
- 
-     if (bdrv_cow_child(unfiltered_bs)) {
-@@ -75,14 +81,21 @@ static int stream_prepare(Job *job)
-                 base_fmt = unfiltered_base->drv->format_name;
-             }
-         }
-+
-         bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
-         ret = bdrv_change_backing_file(unfiltered_bs, base_id, base_fmt, false);
-         if (local_err) {
-             error_report_err(local_err);
--            return -EPERM;
-+            ret = -EPERM;
-+            goto out;
-         }
-     }
- 
-+out:
-+    if (base) {
-+        bdrv_unref(base);
-+    }
-+    bdrv_subtree_drained_end(s->above_base);
-     return ret;
- }
- 
 diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index 567bf1da67..14112835ed 100755
+index 14112835ed..18eddcc734 100755
 --- a/tests/qemu-iotests/030
 +++ b/tests/qemu-iotests/030
-@@ -436,6 +436,11 @@ class TestParallelOps(iotests.QMPTestCase):
-         self.vm.run_job(job='node4', auto_dismiss=True)
-         self.assert_no_active_block_jobs()
+@@ -724,7 +724,8 @@ class TestEIO(TestErrors):
+                     if result == {'return': []}:
+                         # Job finished too quickly
+                         continue
+-                    self.assert_qmp(result, 'return[0]/paused', False)
++                    self.assertIn(result['return'][0]['status'],
++                                  ['running', 'pending', 'aborting', 'concluded'])
+                 elif event['event'] == 'BLOCK_JOB_COMPLETED':
+                     self.assertTrue(error, 'job completed unexpectedly')
+                     self.assert_qmp(event, 'data/type', 'stream')
+@@ -754,8 +755,14 @@ class TestEIO(TestErrors):
+                     self.assert_qmp(event, 'data/device', 'drive0')
+                     self.assert_qmp(event, 'data/operation', 'read')
  
-+        # Assert that node0 is now the backing node of node4
-+        result = self.vm.qmp('query-named-block-nodes')
-+        node4 = next(node for node in result['return'] if node['node-name'] == 'node4')
-+        self.assertEqual(node4['image']['backing-image']['filename'], self.imgs[0])
++                    if self.vm.qmp('query-block-jobs')['return'][0]['status'] != 'paused':
++                        self.vm.events_wait([(
++                            'JOB_STATUS_CHANGE',
++                            {'data': {'id': 'drive0', 'status': 'paused'}}
++                        )])
 +
-     # Test a block-stream and a block-commit job in parallel
-     # Here the stream job is supposed to finish quickly in order to reproduce
-     # the scenario that triggers the bug fixed in 3d5d319e1221 and 1a63a907507
+                     result = self.vm.qmp('query-block-jobs')
+-                    self.assert_qmp(result, 'return[0]/paused', True)
++                    self.assert_qmp(result, 'return[0]/status', 'paused')
+                     self.assert_qmp(result, 'return[0]/offset', self.STREAM_BUFFER_SIZE)
+                     self.assert_qmp(result, 'return[0]/io-status', 'failed')
+ 
+@@ -766,7 +773,8 @@ class TestEIO(TestErrors):
+                     if result == {'return': []}:
+                         # Race; likely already finished. Check.
+                         continue
+-                    self.assert_qmp(result, 'return[0]/paused', False)
++                    self.assertIn(result['return'][0]['status'],
++                                  ['running', 'pending', 'aborting', 'concluded'])
+                     self.assert_qmp(result, 'return[0]/io-status', 'ok')
+                 elif event['event'] == 'BLOCK_JOB_COMPLETED':
+                     self.assertTrue(error, 'job completed unexpectedly')
+@@ -843,8 +851,14 @@ class TestENOSPC(TestErrors):
+                     self.assert_qmp(event, 'data/operation', 'read')
+                     error = True
+ 
++                    if self.vm.qmp('query-block-jobs')['return'][0]['status'] != 'paused':
++                        self.vm.events_wait([(
++                            'JOB_STATUS_CHANGE',
++                            {'data': {'id': 'drive0', 'status': 'paused'}}
++                        )])
++
+                     result = self.vm.qmp('query-block-jobs')
+-                    self.assert_qmp(result, 'return[0]/paused', True)
++                    self.assert_qmp(result, 'return[0]/status', 'paused')
+                     self.assert_qmp(result, 'return[0]/offset', self.STREAM_BUFFER_SIZE)
+                     self.assert_qmp(result, 'return[0]/io-status', 'nospace')
+ 
+@@ -855,7 +869,8 @@ class TestENOSPC(TestErrors):
+                     if result == {'return': []}:
+                         # Race; likely already finished. Check.
+                         continue
+-                    self.assert_qmp(result, 'return[0]/paused', False)
++                    self.assertIn(result['return'][0]['status'],
++                                  ['running', 'pending', 'aborting', 'concluded'])
+                     self.assert_qmp(result, 'return[0]/io-status', 'ok')
+                 elif event['event'] == 'BLOCK_JOB_COMPLETED':
+                     self.assertTrue(error, 'job completed unexpectedly')
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index 3e16acee56..8429958bf0 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -529,7 +529,7 @@ new_state = "1"
+         self.assert_qmp(event, 'data/device', 'drive0')
+         self.assert_qmp(event, 'data/operation', 'read')
+         result = self.vm.qmp('query-block-jobs')
+-        self.assert_qmp(result, 'return[0]/paused', False)
++        self.assertIn(result['return'][0]['status'], ['running', 'ready'])
+         self.complete_and_wait()
+ 
+     def test_large_cluster(self):
+@@ -555,7 +555,7 @@ new_state = "1"
+         self.assert_qmp(event, 'data/device', 'drive0')
+         self.assert_qmp(event, 'data/operation', 'read')
+         result = self.vm.qmp('query-block-jobs')
+-        self.assert_qmp(result, 'return[0]/paused', False)
++        self.assertIn(result['return'][0]['status'], ['running', 'ready'])
+         self.complete_and_wait()
+         self.vm.shutdown()
+ 
+@@ -580,8 +580,14 @@ new_state = "1"
+                     self.assert_qmp(event, 'data/device', 'drive0')
+                     self.assert_qmp(event, 'data/operation', 'read')
+ 
++                    if self.vm.qmp('query-block-jobs')['return'][0]['status'] != 'paused':
++                        self.vm.events_wait([(
++                            'JOB_STATUS_CHANGE',
++                            {'data': {'id': 'drive0', 'status': 'paused'}}
++                        )])
++
+                     result = self.vm.qmp('query-block-jobs')
+-                    self.assert_qmp(result, 'return[0]/paused', True)
++                    self.assert_qmp(result, 'return[0]/status', 'paused')
+                     self.assert_qmp(result, 'return[0]/io-status', 'failed')
+ 
+                     result = self.vm.qmp('block-job-resume', device='drive0')
+@@ -593,7 +599,7 @@ new_state = "1"
+                     ready = True
+ 
+         result = self.vm.qmp('query-block-jobs')
+-        self.assert_qmp(result, 'return[0]/paused', False)
++        self.assert_qmp(result, 'return[0]/status', 'ready')
+         self.assert_qmp(result, 'return[0]/io-status', 'ok')
+ 
+         self.complete_and_wait(wait_ready=False)
+@@ -686,7 +692,7 @@ new_state = "1"
+         self.assert_qmp(event, 'data/device', 'drive0')
+         self.assert_qmp(event, 'data/operation', 'write')
+         result = self.vm.qmp('query-block-jobs')
+-        self.assert_qmp(result, 'return[0]/paused', False)
++        self.assertIn(result['return'][0]['status'], ['running', 'ready'])
+         self.complete_and_wait()
+ 
+     def test_stop_write(self):
+@@ -705,15 +711,21 @@ new_state = "1"
+                     self.assert_qmp(event, 'data/device', 'drive0')
+                     self.assert_qmp(event, 'data/operation', 'write')
+ 
++                    if self.vm.qmp('query-block-jobs')['return'][0]['status'] != 'paused':
++                        self.vm.events_wait([(
++                            'JOB_STATUS_CHANGE',
++                            {'data': {'id': 'drive0', 'status': 'paused'}}
++                        )])
++
+                     result = self.vm.qmp('query-block-jobs')
+-                    self.assert_qmp(result, 'return[0]/paused', True)
++                    self.assert_qmp(result, 'return[0]/status', 'paused')
+                     self.assert_qmp(result, 'return[0]/io-status', 'failed')
+ 
+                     result = self.vm.qmp('block-job-resume', device='drive0')
+                     self.assert_qmp(result, 'return', {})
+ 
+                     result = self.vm.qmp('query-block-jobs')
+-                    self.assert_qmp(result, 'return[0]/paused', False)
++                    self.assertIn(result['return'][0]['status'], ['running', 'ready'])
+                     self.assert_qmp(result, 'return[0]/io-status', 'ok')
+                     error = True
+                 elif event['event'] == 'BLOCK_JOB_READY':
 -- 
 2.35.1
 
