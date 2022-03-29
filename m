@@ -2,52 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361B34EA705
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 07:17:31 +0200 (CEST)
-Received: from localhost ([::1]:58400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8A84EA710
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 07:22:22 +0200 (CEST)
+Received: from localhost ([::1]:60582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZ4EU-0002bZ-2e
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 01:17:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38922)
+	id 1nZ4JA-0004A9-Nc
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 01:22:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nZ4D1-0001rD-4i
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 01:15:59 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:5138)
+ id 1nZ4HG-0003Ta-LQ
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 01:20:22 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:5139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nZ4Cw-0002cC-Ut
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 01:15:57 -0400
-Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KSHlg6yy1zCr8P;
- Tue, 29 Mar 2022 13:13:35 +0800 (CST)
-Received: from dggpeml100025.china.huawei.com (7.185.36.37) by
- dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 29 Mar 2022 13:15:48 +0800
+ id 1nZ4HE-00036J-Sm
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 01:20:22 -0400
+Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KSHrt3nS7zCr5f;
+ Tue, 29 Mar 2022 13:18:06 +0800 (CST)
 Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
- dggpeml100025.china.huawei.com (7.185.36.37) with Microsoft SMTP Server
+ dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 29 Mar 2022 13:15:47 +0800
+ 15.1.2308.21; Tue, 29 Mar 2022 13:20:18 +0800
 Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
  dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.021;
- Tue, 29 Mar 2022 13:15:47 +0800
+ Tue, 29 Mar 2022 13:20:18 +0800
 To: Stefano Garzarella <sgarzare@redhat.com>
-CC: Stefan Hajnoczi <stefanha@redhat.com>, Michael Tsirkin <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Yechuan <yechuan@huawei.com>,
- Huangzhichao <huangzhichao@huawei.com>, qemu devel list
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v3 05/10] vdpa-dev: implement the realize interface
-Thread-Topic: [PATCH v3 05/10] vdpa-dev: implement the realize interface
-Thread-Index: AQHYO2HKNbgiltRNH0mkEivgf5l+b6zUbBWAgAFxh3A=
-Date: Tue, 29 Mar 2022 05:15:47 +0000
-Message-ID: <2fd4698cd9a54e1a928e9e6aa18c1965@huawei.com>
+CC: "stefanha@redhat.com" <stefanha@redhat.com>, "mst@redhat.com"
+ <mst@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Gonglei (Arei)"
+ <arei.gonglei@huawei.com>, Yechuan <yechuan@huawei.com>, Huangzhichao
+ <huangzhichao@huawei.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v3 00/10] add generic vDPA device support
+Thread-Topic: [PATCH v3 00/10] add generic vDPA device support
+Thread-Index: AQHYO2HIELk+OCocVkyo/UOIXyon/qzUb3MAgAFyTbA=
+Date: Tue, 29 Mar 2022 05:20:18 +0000
+Message-ID: <376adc7b42cd4e14a2bcc4c9e70bd63d@huawei.com>
 References: <20220319072012.525-1-longpeng2@huawei.com>
- <20220319072012.525-6-longpeng2@huawei.com>
- <CAGxU2F5PTOdZtZPpb4q65=dh9omrAMridfOvpAEktBOF1EVnFA@mail.gmail.com>
-In-Reply-To: <CAGxU2F5PTOdZtZPpb4q65=dh9omrAMridfOvpAEktBOF1EVnFA@mail.gmail.com>
+ <20220328151156.gr6bzybthgs2kop6@sgarzare-redhat>
+In-Reply-To: <20220328151156.gr6bzybthgs2kop6@sgarzare-redhat>
 Accept-Language: zh-CN, en-US
 Content-Language: zh-CN
 X-MS-Has-Attach: 
@@ -87,74 +82,46 @@ From: longpeng2--- via <qemu-devel@nongnu.org>
 
 > -----Original Message-----
 > From: Stefano Garzarella [mailto:sgarzare@redhat.com]
-> Sent: Monday, March 28, 2022 11:00 PM
+> Sent: Monday, March 28, 2022 11:12 PM
 > To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
 > <longpeng2@huawei.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>; Michael Tsirkin <mst@redhat.co=
-m>;
-> Cornelia Huck <cohuck@redhat.com>; Paolo Bonzini <pbonzini@redhat.com>;
-> Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan <yechuan@huawei.com>;
-> Huangzhichao <huangzhichao@huawei.com>; qemu devel list <qemu-devel@nongn=
-u.org>
-> Subject: Re: [PATCH v3 05/10] vdpa-dev: implement the realize interface
+> Cc: stefanha@redhat.com; mst@redhat.com; cohuck@redhat.com;
+> pbonzini@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan
+> <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>;
+> qemu-devel@nongnu.org
+> Subject: Re: [PATCH v3 00/10] add generic vDPA device support
 >=20
-> On Sat, Mar 19, 2022 at 03:20:07PM +0800, Longpeng(Mike) wrote:
+> On Sat, Mar 19, 2022 at 03:20:02PM +0800, Longpeng(Mike) wrote:
 > >From: Longpeng <longpeng2@huawei.com>
 > >
-
-[snap]
-
-> > static void vhost_vdpa_device_unrealize(DeviceState *dev)
-> >@@ -66,6 +197,7 @@ static void vhost_vdpa_device_set_status(VirtIODevice=
- *vdev,
-> uint8_t status)
-> > static Property vhost_vdpa_device_properties[] =3D {
-> >     DEFINE_PROP_STRING("vdpa-dev", VhostVdpaDevice, vdpa_dev),
-> >     DEFINE_PROP_INT32("vdpa-dev-fd", VhostVdpaDevice, vdpa_dev_fd, -1),
+> >Hi guys,
+> >
+> >With the generic vDPA device, QEMU won't need to touch the device
+> >types any more, such like vfio.
+> >
+> >We can use the generic vDPA device as follow:
+> >  -device vhost-vdpa-device-pci,vdpa-dev=3D/dev/vhost-vdpa-X
+> >
+> >I've done some simple tests on Huawei's offloading card (net, 0.95)
+> >and vdpa_sim_blk (1.0);
 >=20
-> Other vhost devices use the `vhostfd` property, maybe we should use the
-> same name.
+> The whole seems almost okay, I left you some comments, but for the next
+> version maybe it's better to reorganize the series differently.
 >=20
-> If we go for this change, then maybe we also need to change `vdpa-dev`
-> to `vhostpath` or something like that
+> Instead of adding vdpa-dev and vdpa-dev-pci incrementally, with stub
+> functions and untestable parts, I would make a patch that adds vdpa-dev
+> in full and then one that adds vdpa-dev-pci.
+
+Ok, will do in next version.
+
+> The first 2 patches on the other hand are okay, maybe patch 2 won't be
+> needed since I think we will sync the headers after the 7.0 release, but
+> is better to keep it for now to simplify the review.
 >=20
 
-Make sense.
-
-I prefer to use 'vhostdev' for the file path, just like the usage in Netdev=
-:
-  -netdev type=3Dvhost-vdpa,vhostdev=3D/dev/vhost-vdpa-0,id=3Dvhostvdpa1
+Yes, that's also my original intent. Thanks.
 
 > Thanks,
 > Stefano
->=20
-> >+    DEFINE_PROP_UINT16("queue-size", VhostVdpaDevice, queue_size, 0),
-> >     DEFINE_PROP_END_OF_LIST(),
-> > };
-> >
-> >diff --git a/include/hw/virtio/vdpa-dev.h b/include/hw/virtio/vdpa-dev.h
-> >index 476bda0873..cf11abd0f7 100644
-> >--- a/include/hw/virtio/vdpa-dev.h
-> >+++ b/include/hw/virtio/vdpa-dev.h
-> >@@ -28,6 +28,16 @@ struct VhostVdpaDevice {
-> >     char *vdpa_dev;
-> >     int vdpa_dev_fd;
-> >     int32_t bootindex;
-> >+    uint32_t vdev_id;
-> >+    uint32_t num_queues;
-> >+    struct vhost_dev dev;
-> >+    struct vhost_vdpa vdpa;
-> >+    VirtQueue **virtqs;
-> >+    uint8_t *config;
-> >+    int config_size;
-> >+    uint16_t queue_size;
-> >+    bool started;
-> >+    int (*post_init)(VhostVdpaDevice *v, Error **errp);
-> > };
-> >
-> > #endif
-> >--
-> >2.23.0
-> >
 
 
