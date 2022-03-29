@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E554EAAC1
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 11:51:50 +0200 (CEST)
-Received: from localhost ([::1]:43924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD634EAAC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 11:53:33 +0200 (CEST)
+Received: from localhost ([::1]:46168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZ8Vw-0001A8-3H
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 05:51:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34984)
+	id 1nZ8Xb-0002gl-82
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 05:53:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZ8TF-00004q-51
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:49:01 -0400
-Received: from [2607:f8b0:4864:20::b33] (port=46944
- helo=mail-yb1-xb33.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nZ8V2-0001LR-Gj
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:50:52 -0400
+Received: from [2a00:1450:4864:20::62f] (port=38601
+ helo=mail-ej1-x62f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZ8TC-0001lP-8n
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:48:59 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id e81so1540633ybf.13
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 02:48:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nZ8Ux-0002BA-RH
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:50:51 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id r13so33936359ejd.5
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 02:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=djz4RYcGCYH5I8EGOpM4zzmLUMV4UcvScC5mP7r0Zdw=;
- b=nlZyHd+AuTwmf4aEoSou/XikL9NMkHH4gDGaGOA5OshZ45BSd+5HEjXbMBI0a8bhgy
- sR5EDl3tYluoe2pb2vdMdrdCCznmRJW1+mAfDlnnDblmeqAB0c5Exw3+suS5cLODCAhA
- pblUBPWxmcaMkKdaRXgqBvNvhDAeTQXm3eAiF5+AcP/5fIHkuCwgXcPi2PDTq5ZbtUkx
- r6fnoSGxsV3RFyN/qnCSWKiGHQt9BFsEoQszdG/lWYv4Bh98FRYZnYLKPEE2zTd6metf
- vUJNnydJvYAn5L6zCwEqMQmludgiWfI1IJIScCQtNfeKQArhLr3UYfmAoUbU58q1AlOV
- RMZg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0aMk137+frDiZ+7mw95lnzsIkSvSrqwQdVmUUgz2r2c=;
+ b=z4A8A/kNXSScMuGJsWkk4VuX+QdNSqugPdMpP1Opvd+VPoF8MdkSyveLaWCERe3Y0v
+ SZvBY3Rq9P/LFUsDmR5bm3a+eWXwyeLuiRaM16c0BEnls4eLvy2vZgEyVX9tDJz9+z3r
+ a9JVDJMhG6VA+/GpugY1Unq4rf7apcZibX3J83BokLPkhPZW0+dySko/8TuRqVMNo5NT
+ 6Sbeke1sX1N4TnmNf1rkdz0dAlXJJAx9XdU9oYlgJQsE4R6i1U0OmDt6s/1lxYZP021t
+ lx6RVR6FlLhGcKaGmR3AGfQ7jSvy4d5KG/kXkXeIsRHP5MrvCNMyBadjQPAOl6K9j6xK
+ yfGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=djz4RYcGCYH5I8EGOpM4zzmLUMV4UcvScC5mP7r0Zdw=;
- b=q9cDiYLbAePvc7sDJXhxzbyLGfmw43a/D+eEkmvw6Qk4XbRHZubS4qoThWLBZsO2yz
- zF5sqIOzI40sgHhgm08zDIZ1tpbNi2kEl8f3S+BhA3Bo4H2LLlIt/0wd6XtcHc53X/ju
- Vfywd33EAeozO84nSLqB4hQEQ9/CFjY4Vl/ZKRVOrMKAmBVlYM82CtzuhWzxee1+wKQo
- e4bMsguC8NSrhpLgVxbOHP+nDsKx/2fWeoEWTuVyjiLPpvkWxRZZ5zxWOhVWYk//tsEr
- bVeBYbKfuODrZALu3VpdWonh2rpnU0DBsj0vlCtfXun0I96InVyaaUU8jmjoLMAw+yM3
- igng==
-X-Gm-Message-State: AOAM532qa56Dr0cWXpk+SF+PdZPIuvvXNf1EBxmvgpWK0oLb5ZI//irr
- u1fB4h3pHzm1nNOouiuskXpP76zBwEIvJHWv44ojaw==
-X-Google-Smtp-Source: ABdhPJy9glpgtLUOarKCr5bi6HjAkKqQ4RpsFvRZHyTfeZrbFtuVtoycsq3DqtRThOgbMqMQMaAUUv1JfXkXB2WvVhw=
-X-Received: by 2002:a05:6902:701:b0:638:9404:baff with SMTP id
- k1-20020a056902070100b006389404baffmr24684167ybt.479.1648547334635; Tue, 29
- Mar 2022 02:48:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0aMk137+frDiZ+7mw95lnzsIkSvSrqwQdVmUUgz2r2c=;
+ b=AmYZNC3JFuHgzqFmhi7p3sxNPux9x1mWlWJYTyCI8MK1CkZNbAtn9WD94ccbq3oMIv
+ dxX+WnP8twdpLwHQrOXNSEKbgX5c6uocBfiGY8aO8YjkNs4jtRWzuDBTHDQ27V/cDmqq
+ /wBcgmzYRjtz8mgqki0bhJqlcoOu0rDCDheXttmCD/jIqT6E7Jc+I6/L4wsSYUI+J0+R
+ tqG9/M7MqsyALUgVSJDmOLRb/V79d0pcDffdH7XebEUVZX3TAurhHvSbq2adsCgr3pRz
+ gmpJq+95kDpnMkuuHrtWMDzBRiNIYKr8ePWAT9TizjSYSuT1FeNBDZfPOj7ARXPOQd4q
+ aFCw==
+X-Gm-Message-State: AOAM533EVF2eNc+D5Yj70o1TAhFODcPZIkowAGF3kVnKKlIZUGc2GAx1
+ UqcM0CmxWgltG8KVvdR3vhL3TQ==
+X-Google-Smtp-Source: ABdhPJwJFfmN4OmIE3gyagfIkP2IoNDpRDrKGJ2iEJHUVKOPTIp47/3FPMP2KZOCs7ZnWoZwco87yw==
+X-Received: by 2002:a17:906:6a11:b0:6d7:76cc:12f6 with SMTP id
+ qw17-20020a1709066a1100b006d776cc12f6mr33210069ejc.456.1648547446489; 
+ Tue, 29 Mar 2022 02:50:46 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ k19-20020a1709062a5300b006c75a94c587sm6854469eje.65.2022.03.29.02.50.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 02:50:45 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B3FB31FFB7;
+ Tue, 29 Mar 2022 10:50:44 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] docs/devel: add some notes on the binfmt-image-debian
+ targets
+Date: Tue, 29 Mar 2022 10:50:41 +0100
+Message-Id: <20220329095041.2758355-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220328165415.2102-1-kshitij.suri@nutanix.com>
- <20220328165415.2102-2-kshitij.suri@nutanix.com> <87bkxp5kfo.fsf@pond.sub.org>
- <0705b49a-d4f6-f670-e26e-84d637c8071e@nutanix.com>
- <87a6d9429w.fsf_-_@pond.sub.org>
-In-Reply-To: <87a6d9429w.fsf_-_@pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 29 Mar 2022 09:48:40 +0000
-Message-ID: <CAFEAcA8Lb0FFybmQCZdqD=o-Md=ZTGpTNtunkmd3moLzK7p=Zg@mail.gmail.com>
-Subject: Re: On patch series version tags, and also cover letters (was: [PATCH
- v2 2/2] Added parameter to take screenshot with screendump as PNG)
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b33
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -85,26 +91,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: soham.ghosh@nutanix.com, berrange@redhat.com, prerna.saxena@nutanix.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com,
- Kshitij Suri <kshitij.suri@nutanix.com>, philippe.mathieu.daude@gmail.com,
- kraxel@redhat.com, thuth@redhat.com, prachatos.mitra@nutanix.com,
- eblake@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 29 Mar 2022 at 09:03, Markus Armbruster <armbru@redhat.com> wrote:
-> A cover letter (git format-patch --cover-letter) lets you write an
-> introduction to the whole series.  Simple series may not need an
-> introduction, but complex ones do.  I always use one except when the
-> "series" is a single patch.
+We document some of this on the wiki but lets move it into our
+official developer notes documentation.
 
-Note that a multi-patch series always needs a cover letter,
-even if its contents are quite brief. Some of the automatic
-tooling gets confused by multi-patch series with no cover letter.
-Conversely, single patches shouldn't have a cover letter, although
-getting that one wrong doesn't really have much ill effect.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+---
+ docs/devel/testing.rst | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-thanks
--- PMM
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 92d40cdd19..c0b2a46e08 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -637,6 +637,44 @@ The full set of annotations can be found here:
+ 
+ https://github.com/llvm/llvm-project/blob/master/compiler-rt/lib/tsan/rtl/tsan_interface_ann.cpp
+ 
++docker-binfmt-image-debian-% targets
++------------------------------------
++
++It is possible to combine Debian's bootstrap scripts with a configured
++``binfmt_misc`` to bootstrap a number of Debian's distros including
++experimental ports not yet supported by a released OS. This can
++simplify setting up a rootfs by using docker to contain the foreign
++rootfs rather than manually invoking chroot. 
++
++Setting up ``binfmt_misc``
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++You can use the script ``qemu-binfmt-conf.sh`` to configure a QEMU
++user binary to automatically run binaries for the foreign
++architecture. While the scripts will try their best to work with
++dynamically linked QEMU's a statically linked one will present less
++potential complications when copying into the docker image. Modern
++kernels support the ``F`` (fix binary) flag which will open the QEMU
++executable on setup and avoids the need to find and re-open in the
++chroot environment. This is triggered with the ``--persistent`` flag.
++
++Example invocation
++~~~~~~~~~~~~~~~~~~
++
++For example to setup the HPPA ports builds of Debian::
++
++  make docker-binfmt-image-debian-sid-hppa \
++    DEB_TYPE=sid DEB_ARCH=hppa \
++    DEB_URL=http://ftp.ports.debian.org/debian-ports/ \
++    DEB_KEYRING=/usr/share/keyrings/debian-ports-archive-keyring.gpg \
++    EXECUTABLE=(pwd)/qemu-hppa V=1 
++
++The ``DEB_`` variables are substitutions used by
++``debian-boostrap.pre`` which is called to do the initial debootstrap
++of the rootfs before it is copied into the container. The second stage
++is run as part of the build. The final image will be tagged as
++``qemu/debian-sid-hppa``.
++
+ VM testing
+ ----------
+ 
+-- 
+2.30.2
+
 
