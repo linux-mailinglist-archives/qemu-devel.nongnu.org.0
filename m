@@ -2,86 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FE3F4EAC55
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 13:30:50 +0200 (CEST)
-Received: from localhost ([::1]:53282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BCA4EAC65
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 13:34:59 +0200 (CEST)
+Received: from localhost ([::1]:56630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZA3i-0002LA-Hq
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 07:30:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56066)
+	id 1nZA7m-0004jB-IY
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 07:34:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZA20-0001RA-Fn
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:29:00 -0400
-Received: from [2607:f8b0:4864:20::232] (port=42660
- helo=mail-oi1-x232.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZA1z-0001YE-3G
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:29:00 -0400
-Received: by mail-oi1-x232.google.com with SMTP id q189so18658559oia.9
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 04:28:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=dzZBNvhG4NJ0KKC4DM89hnpYWniQe9EIQ3RdMAbxW50=;
- b=pLJo8+oubgtelFsh5c7KCBLoBJKU+Q+KVCMNc2qI/8y6yH/j1Be9U/L8/I8HITyL+T
- H7DTV3wh/p5k1tUlOeCgcK90eUadZnF8JEbZGs10onSfrJzji8voD5O8p7Bb/kLLD9BE
- pylkVP2O/KPbw41PyZrvB5QEGOacfKLAb+2weGxWWrk7u/05Oam1vi73lfbvn5xzvthc
- aAezGzmwTLiyItONBgvZJHUH3ClsYJToAhOfAgUKS4n81iT1a10Vinowy0dxU/bpAylh
- Hjhn+h5BYDSJ/Js50U/g+4XFieR7AlvVU/wHP90z10ES5IN5Vtd5CQuNLnEnxh+zWgrW
- tbvw==
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nZA41-0003Gb-Ho
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:31:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nZA3y-00023z-Gk
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:31:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648553461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qDA0vtN1gsVFcdCar/RDCOGnQ+oBbRCL8Kvc2No9b+k=;
+ b=ijZEW4WV5SortaLg8rNTecO/hLg6U5dxZZ/2DuMZXzXzqsFcG024Vinj3CQ0R1EbGAhqu9
+ IomFOB7m9NVzQ5XcYT+wSdcjaHaC52ocVpz1pvg13FTNEzOx9Ul3amduWIAtEakuF3TWWA
+ yLUZ4EwWw+w/Z2yUDMaRsinHBZQKMWQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-384-xEb5z2giP-yc0bmVhgcFjQ-1; Tue, 29 Mar 2022 07:30:59 -0400
+X-MC-Unique: xEb5z2giP-yc0bmVhgcFjQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r9-20020a1c4409000000b0038c15a1ed8cso798388wma.7
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 04:30:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dzZBNvhG4NJ0KKC4DM89hnpYWniQe9EIQ3RdMAbxW50=;
- b=MaAhoVOcTVpDvyRpkZlP4Q0kyX/gLVi7TKX8Cegk/wMCPsdVfyiGoI9U11Rqy9CuVy
- zQT/THFVW7NpWDtsn94xOltmH3g3M1SPb5QN2c57u81Miy3AVQHe0G3Z3M+pDoIfUrHS
- 26h4cZWhtDGBHBVP1BTMjl0QJQoyd5FAHR77yyDKcQ3OfuBdYT2V6lIjxmj5TV0oZ2Bi
- Aalq6sx3Pw1DYXeiRhC8kKO2+E4lc3tHypDaTaFkjaIk4Q2vMsarPkG3cURRb+Jjckhp
- nLe6zlsxR68nzkErnONhW8EYMAK9gihzGOt91MtV7h9V7BKdGDbWxJ7vCv37O9EinSGC
- 0hMA==
-X-Gm-Message-State: AOAM533qwrqipZXNInbf+6cgK4q9litjwFZEG5d3LdmJdNGs8BgObtWU
- lJI5P6iHgIXrOKRgT1SNOwV8bw==
-X-Google-Smtp-Source: ABdhPJweZAslbNeaVIY40pZN+R5okTJ4dUqU6ov5BgJW2peJW6jwi1WL4fnVsFIHWgFtJQoVIg3VyA==
-X-Received: by 2002:a05:6808:118b:b0:2cf:761c:184d with SMTP id
- j11-20020a056808118b00b002cf761c184dmr961983oil.87.1648553336569; 
- Tue, 29 Mar 2022 04:28:56 -0700 (PDT)
-Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- c9-20020a4a8ec9000000b0032438ba79b0sm8301811ool.0.2022.03.29.04.28.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Mar 2022 04:28:55 -0700 (PDT)
-Message-ID: <50d7594c-f67b-14ac-7458-c0f69ac84546@linaro.org>
-Date: Tue, 29 Mar 2022 05:28:52 -0600
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=qDA0vtN1gsVFcdCar/RDCOGnQ+oBbRCL8Kvc2No9b+k=;
+ b=0ex7u73pMR4zwAkoZt+dzRYbDUMzNURGgaffQ/pUC+BEasZw4RLX7CLUeubhYYdtWm
+ 8uJm344/HnnZW2iGwLlgi02HJKJbvKkHNSY26Q+NFZgj9WLJZhiaHbc7MZoP7pOM4Wui
+ hXNKBjtF1q0sMSyW/r0BiMOnl7Ek3SgHCPUI8nAYvP2zgrXKGo7b3tKUKMZ1Q8kIsZoO
+ NPIvv15pfC8VZkHNP276UYFJA1P50GsOSA40850kg4KLJdkm9bZ923TO3jLt6bBoDYOf
+ mZMc7BgsZwB8UvW7nR8dzsP2BjkXBl5/VBo7G8vTu/n41L8gGuhyewK9RwpnLFFXHQyW
+ fGng==
+X-Gm-Message-State: AOAM532ZeRvyOXiueEZf9k4bhnQgnRcLzotySvCeQ98UyqcBFU3fDPk7
+ AsiLWLsHMThU88QGXMnLEf8YWwHIt+/1D7v0tbxoRi5fxTdsvXBjIBZmcFs10nT1gzH81H2DV2W
+ l3hBTVGjP1xWz80c=
+X-Received: by 2002:adf:82b2:0:b0:203:f34d:dff with SMTP id
+ 47-20020adf82b2000000b00203f34d0dffmr30070558wrc.661.1648553457841; 
+ Tue, 29 Mar 2022 04:30:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxfdJK8IhjBK0iihC3UuY5QNaJRIf0REwH1FPbrKAt1yMAe60s2ZE4gG1rEiTRZAaLlndn3Fg==
+X-Received: by 2002:adf:82b2:0:b0:203:f34d:dff with SMTP id
+ 47-20020adf82b2000000b00203f34d0dffmr30070530wrc.661.1648553457630; 
+ Tue, 29 Mar 2022 04:30:57 -0700 (PDT)
+Received: from ?IPv6:2a0c:5a80:3506:3400:69b5:c807:1d52:ff67?
+ ([2a0c:5a80:3506:3400:69b5:c807:1d52:ff67])
+ by smtp.gmail.com with ESMTPSA id
+ j16-20020a05600c191000b0038c9249ffdesm2227176wmq.9.2022.03.29.04.30.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 04:30:57 -0700 (PDT)
+Message-ID: <fb2014811c7c7c26c598f4144dc8bb97bbd80465.camel@redhat.com>
+Subject: Re: [PATCH v3 2/3] util/main-loop: Introduce the main loop into QOM
+From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Date: Tue, 29 Mar 2022 13:30:56 +0200
+In-Reply-To: <877d8uug2e.fsf@pond.sub.org>
+References: <20220316135321.142850-1-nsaenzju@redhat.com>
+ <20220316135321.142850-3-nsaenzju@redhat.com> <877d8uug2e.fsf@pond.sub.org>
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 1/6] softfloat: add uint128_to_float* conversion
- methods
-Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220328201442.175206-1-matheus.ferst@eldorado.org.br>
- <20220328201442.175206-2-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220328201442.175206-2-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::232
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x232.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsaenzju@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsaenzju@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,27 +102,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, danielhb413@gmail.com,
- groug@kaod.org, clg@kaod.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, david@gibson.dropbear.id.au
+Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com,
+ qemu-block@nongnu.org, michael.roth@amd.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, eduardo@habkost.net, hreitz@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/28/22 14:14, matheus.ferst@eldorado.org.br wrote:
-> +        p->frac_hi = shl_double(hi, lo, shift);
-> +        if (N > 64) {
-> +            p->frac_lo = shl_double(lo, 0, shift);
-> +        }
+Hi Markus,
 
-shl_double(x, 0, n) -> x << n.
+On Wed, 2022-03-16 at 15:28 +0100, Markus Armbruster wrote:
+> Nicolas Saenz Julienne <nsaenzju@redhat.com> writes:
+> 
+> > 'event-loop-base' provides basic property handling for all 'AioContext'
+> > based event loops. So let's define a new 'MainLoopClass' that inherits
+> > from it. This will permit tweaking the main loop's properties through
+> > qapi as well as through the command line using the '-object' keyword[1].
+> > Only one instance of 'MainLoopClass' might be created at any time.
+> > 
+> > 'EventLoopBaseClass' learns a new callback, 'can_be_deleted()' so as to
+> > mark 'MainLoop' as non-deletable.
+> > 
+> > [1] For example:
+> >       -object main-loop,id=main-loop,aio-max-batch=<value>
+> > 
+> > Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> 
+> [...]
+> 
+> > diff --git a/qapi/qom.json b/qapi/qom.json
+> > index eeb5395ff3..10800166e8 100644
+> > --- a/qapi/qom.json
+> > +++ b/qapi/qom.json
+> > @@ -528,6 +528,19 @@
+> >              '*poll-shrink': 'int',
+> >              '*aio-max-batch': 'int' } }
+> >  
+> > +##
+> > +# @MainLoopProperties:
+> > +#
+> > +# Properties for the main-loop object.
+> > +#
+> > +# @aio-max-batch: maximum number of requests in a batch for the AIO engine,
+> > +#                 0 means that the engine will use its default (default:0)
+> > +#
+> > +# Since: 7.1
+> > +##
+> > +{ 'struct': 'MainLoopProperties',
+> > +  'data': { '*aio-max-batch': 'int' } }
+> > +
+> 
+> IothreadProperties has the same member, with the same documentation.
+> 
+> Do main loop and iothreads have a common ancestor, conceptually?
+>
+> If yes, it might make sense for MainLoopProperties and
+> IothreadProperties to have a common base type, and put @aio-max-batch
+> there.  This is not a demand.
 
-You could also assign to frac_lo before frac_hi and drop the N > 64 test, though I'm not 
-sure if that reads better or not.
+Yes it could make sense, in terms of the QOM they both inherit from the same
+base abstract class, called EventLoopBase.
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On top of that, patch #3 adds two more common properties. So doing so would
+avoid some amount of duplication. I'll look into it and prepare a v4 of the
+series.
 
+Thanks!
 
-r~
+-- 
+Nicolás Sáenz
+
 
