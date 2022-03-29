@@ -2,93 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BCA4EAC65
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 13:34:59 +0200 (CEST)
-Received: from localhost ([::1]:56630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD4D4EAC78
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 13:39:32 +0200 (CEST)
+Received: from localhost ([::1]:33976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZA7m-0004jB-IY
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 07:34:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56626)
+	id 1nZACB-0000Hd-5c
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 07:39:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1nZA41-0003Gb-Ho
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:31:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23717)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nZA8V-0006q1-Jl
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:35:43 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:54933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1nZA3y-00023z-Gk
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:31:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648553461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qDA0vtN1gsVFcdCar/RDCOGnQ+oBbRCL8Kvc2No9b+k=;
- b=ijZEW4WV5SortaLg8rNTecO/hLg6U5dxZZ/2DuMZXzXzqsFcG024Vinj3CQ0R1EbGAhqu9
- IomFOB7m9NVzQ5XcYT+wSdcjaHaC52ocVpz1pvg13FTNEzOx9Ul3amduWIAtEakuF3TWWA
- yLUZ4EwWw+w/Z2yUDMaRsinHBZQKMWQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-384-xEb5z2giP-yc0bmVhgcFjQ-1; Tue, 29 Mar 2022 07:30:59 -0400
-X-MC-Unique: xEb5z2giP-yc0bmVhgcFjQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r9-20020a1c4409000000b0038c15a1ed8cso798388wma.7
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 04:30:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=qDA0vtN1gsVFcdCar/RDCOGnQ+oBbRCL8Kvc2No9b+k=;
- b=0ex7u73pMR4zwAkoZt+dzRYbDUMzNURGgaffQ/pUC+BEasZw4RLX7CLUeubhYYdtWm
- 8uJm344/HnnZW2iGwLlgi02HJKJbvKkHNSY26Q+NFZgj9WLJZhiaHbc7MZoP7pOM4Wui
- hXNKBjtF1q0sMSyW/r0BiMOnl7Ek3SgHCPUI8nAYvP2zgrXKGo7b3tKUKMZ1Q8kIsZoO
- NPIvv15pfC8VZkHNP276UYFJA1P50GsOSA40850kg4KLJdkm9bZ923TO3jLt6bBoDYOf
- mZMc7BgsZwB8UvW7nR8dzsP2BjkXBl5/VBo7G8vTu/n41L8gGuhyewK9RwpnLFFXHQyW
- fGng==
-X-Gm-Message-State: AOAM532ZeRvyOXiueEZf9k4bhnQgnRcLzotySvCeQ98UyqcBFU3fDPk7
- AsiLWLsHMThU88QGXMnLEf8YWwHIt+/1D7v0tbxoRi5fxTdsvXBjIBZmcFs10nT1gzH81H2DV2W
- l3hBTVGjP1xWz80c=
-X-Received: by 2002:adf:82b2:0:b0:203:f34d:dff with SMTP id
- 47-20020adf82b2000000b00203f34d0dffmr30070558wrc.661.1648553457841; 
- Tue, 29 Mar 2022 04:30:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxfdJK8IhjBK0iihC3UuY5QNaJRIf0REwH1FPbrKAt1yMAe60s2ZE4gG1rEiTRZAaLlndn3Fg==
-X-Received: by 2002:adf:82b2:0:b0:203:f34d:dff with SMTP id
- 47-20020adf82b2000000b00203f34d0dffmr30070530wrc.661.1648553457630; 
- Tue, 29 Mar 2022 04:30:57 -0700 (PDT)
-Received: from ?IPv6:2a0c:5a80:3506:3400:69b5:c807:1d52:ff67?
- ([2a0c:5a80:3506:3400:69b5:c807:1d52:ff67])
- by smtp.gmail.com with ESMTPSA id
- j16-20020a05600c191000b0038c9249ffdesm2227176wmq.9.2022.03.29.04.30.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 04:30:57 -0700 (PDT)
-Message-ID: <fb2014811c7c7c26c598f4144dc8bb97bbd80465.camel@redhat.com>
-Subject: Re: [PATCH v3 2/3] util/main-loop: Introduce the main loop into QOM
-From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Date: Tue, 29 Mar 2022 13:30:56 +0200
-In-Reply-To: <877d8uug2e.fsf@pond.sub.org>
-References: <20220316135321.142850-1-nsaenzju@redhat.com>
- <20220316135321.142850-3-nsaenzju@redhat.com> <877d8uug2e.fsf@pond.sub.org>
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nZA8S-0002kj-No
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 07:35:42 -0400
+Received: from [192.168.100.1] ([82.142.13.234]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MeTwY-1o9JlN1Eou-00aTk3; Tue, 29 Mar 2022 13:35:21 +0200
+Message-ID: <d9884a2e-8122-3863-3d13-4be2e5f6bc62@vivier.eu>
+Date: Tue, 29 Mar 2022 13:35:19 +0200
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsaenzju@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH for-7.0 v5] qemu-binfmt-conf.sh: mips: allow nonzero
+ EI_ABIVERSION, distinguish o32 and n32
+Content-Language: fr
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, =?UTF-8?Q?Andreas_K=2e_H=c3=bcttel?=
+ <dilfridge@gentoo.org>, qemu-devel@nongnu.org
+References: <20220328204900.3914990-1-dilfridge@gentoo.org>
+ <e3a30b1a-69ab-9e69-4722-c8aa056a8c97@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <e3a30b1a-69ab-9e69-4722-c8aa056a8c97@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsaenzju@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Provags-ID: V03:K1:NfHkpyPun85OPE7MPyqxBVBYFzwsMrogNHpqaZzkHfdfeHXq22X
+ WXIDzN0qFcebWFCHohxVNZi4NclZEprUT9FpqZSJTaNZSs3e0bguORWM2QnF1wnr4Xxf0zC
+ vu1Ur16N2sQD4bmYe6xGZCRM3tBUOySaErTr9Batyk6EpYVTLCE+sM1DMd4gIRJVhis2P1J
+ xj48fRqaptyY1k5YOVwIw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zk47haZmssE=:chPD25orgQmC+rsx3lQylR
+ n5swuyrh4WuiIeBtQkOcIJ04/d+TaAQtc1jTbSwEEjCN2FXyk3bprkc7hLAYALiF8BcE8MXmh
+ CbWMFhMZ1Nnb3/axnSTNyH6f7SduElFOdhGppwHnZDGVJem88fP60Jy3ByDEBBNBBodrODm99
+ 74miQ+UXRyCGAZcKGNkoTtPdcTmtaS+N+7JYa4o4g89tqKQV8GvIHJjWXTrz47AKWhFIG/XEo
+ kCYXutIrW7ozlYbs+TiId3Jmtuv7cZTTqaUAqw7dO706iWIT9PiwA1MqZfGgC7cGqLfioWQap
+ jA9tEBD+DP0ZhGau0+FANYGtIacM7PWkSLLD4maESkAuX+K8dyrm+lbxgiGqr/l5L3jPQU77Q
+ RdSc4SpUCUVowYJQffcUO2bSPES9dCrgH6e4Bs4eaYgDQmnVHCnRwaeIxGFmYli/QRieuyQyF
+ uKTmtzCxPAZTYb2qW7KBSAY6CRyDNI/4GwCnt3g+FASOZawXWEgM/h36hrgEu37+T/cx7+lvs
+ CSXN11BGySaap7VJN2M7Hp/8ywlwvk9KdH4fOndb/3fqRtNrmOw8EdOMiBG8mPfskqh289/Bk
+ XzY/yN4sp2KYEQ/exbTfzAuCAYzDM6Dh7VgV3OFVgK3nEo6Wj8r2OXxQBfha3e1YUevkO0Hvb
+ 7QuV6NKgQKKiUmDaeMLiHRNHQOTD0JFALfGv85m9bsd+A9jzpem95DXidpio6ErqLJAY=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,75 +72,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com,
- qemu-block@nongnu.org, michael.roth@amd.com, mtosatti@redhat.com,
- qemu-devel@nongnu.org, eduardo@habkost.net, hreitz@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, eblake@redhat.com
+Cc: Alex Bennee <alex.bennee@linaro.org>, WANG Xuerui <xen0n@gentoo.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus,
-
-On Wed, 2022-03-16 at 15:28 +0100, Markus Armbruster wrote:
-> Nicolas Saenz Julienne <nsaenzju@redhat.com> writes:
+Le 29/03/2022 à 01:39, Philippe Mathieu-Daudé a écrit :
+> On 28/3/22 22:49, Andreas K. Hüttel wrote:
+>> With the command line flag -mplt and a recent toolchain, ELF binaries
+>> generated by gcc can obtain EI_ABIVERSION=1, which makes, e.g., gcc
+>> three-stage bootstrap in a mips-unknown-linux-gnu qemu-user chroot
+>> fail since the binfmt-misc magic does not match anymore. Also other
+>> values are technically possible. qemu executes these binaries just
+>> fine, so relax the mask for the EI_ABIVERSION byte at offset 0x08.
+>>
+>> In addition, extend magic string to distinguish mips o32 and n32 ABI.
+>> This information is given by the EF_MIPS_ABI2 (0x20) bit in the
+>> e_flags field of the ELF header (a 4-byte value at offset 0x24 for
+>> the here applicable ELFCLASS32).
+>>
+>> See-also: ace3d65459
+>> Signed-off-by: Andreas K. Hüttel <dilfridge@gentoo.org>
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Reviewed-by: WANG Xuerui <xen0n@gentoo.org>
 > 
-> > 'event-loop-base' provides basic property handling for all 'AioContext'
-> > based event loops. So let's define a new 'MainLoopClass' that inherits
-> > from it. This will permit tweaking the main loop's properties through
-> > qapi as well as through the command line using the '-object' keyword[1].
-> > Only one instance of 'MainLoopClass' might be created at any time.
-> > 
-> > 'EventLoopBaseClass' learns a new callback, 'can_be_deleted()' so as to
-> > mark 'MainLoop' as non-deletable.
-> > 
-> > [1] For example:
-> >       -object main-loop,id=main-loop,aio-max-batch=<value>
-> > 
-> > Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> v5 changes are too different from v4 to keep these R-b tags IMO.
 > 
-> [...]
-> 
-> > diff --git a/qapi/qom.json b/qapi/qom.json
-> > index eeb5395ff3..10800166e8 100644
-> > --- a/qapi/qom.json
-> > +++ b/qapi/qom.json
-> > @@ -528,6 +528,19 @@
-> >              '*poll-shrink': 'int',
-> >              '*aio-max-batch': 'int' } }
-> >  
-> > +##
-> > +# @MainLoopProperties:
-> > +#
-> > +# Properties for the main-loop object.
-> > +#
-> > +# @aio-max-batch: maximum number of requests in a batch for the AIO engine,
-> > +#                 0 means that the engine will use its default (default:0)
-> > +#
-> > +# Since: 7.1
-> > +##
-> > +{ 'struct': 'MainLoopProperties',
-> > +  'data': { '*aio-max-batch': 'int' } }
-> > +
-> 
-> IothreadProperties has the same member, with the same documentation.
-> 
-> Do main loop and iothreads have a common ancestor, conceptually?
->
-> If yes, it might make sense for MainLoopProperties and
-> IothreadProperties to have a common base type, and put @aio-max-batch
-> there.  This is not a demand.
+> LGTM but I'd like Xuerui to double-check the R-b stands,
+> and an Acked-by from Laurent would make me feel safer ;)
 
-Yes it could make sense, in terms of the QOM they both inherit from the same
-base abstract class, called EventLoopBase.
+Sorry, I didn't see your email before.
+It's more mips than linux-user, so there is no problem for me.
 
-On top of that, patch #3 adds two more common properties. So doing so would
-avoid some amount of duplication. I'll look into it and prepare a v4 of the
-series.
-
-Thanks!
-
--- 
-Nicolás Sáenz
+Thanks,
+Laurent
 
 
