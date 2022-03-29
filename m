@@ -2,128 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2697E4EB337
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 20:17:13 +0200 (CEST)
-Received: from localhost ([::1]:51678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63734EB3AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 20:47:33 +0200 (CEST)
+Received: from localhost ([::1]:37470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZGP1-0003CJ-Ve
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 14:17:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35052)
+	id 1nZGsO-0006TN-Hw
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 14:47:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <a.manzanares@samsung.com>)
- id 1nZGM5-0001WI-Sj
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 14:14:13 -0400
-Received: from mailout1.w2.samsung.com ([211.189.100.11]:31448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <a.manzanares@samsung.com>)
- id 1nZGM3-0001ri-67
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 14:14:09 -0400
-Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
- by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
- 20220329181402usoutp0130f7cf50f610b057e6e88591072f3ceb~g7KGFeQvP0789207892usoutp01E;
- Tue, 29 Mar 2022 18:14:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
- 20220329181402usoutp0130f7cf50f610b057e6e88591072f3ceb~g7KGFeQvP0789207892usoutp01E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1648577642;
- bh=wPCdolKMzxdipJhRXDbJxj0vhU+yYmPd9EIJLEuMKxs=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=Ga+63xPsODIoGUgxKRlg2wlrXUMVxRYvTro1Yk9ICjG2PzshjoDv8zRDt4c0PuLwu
- 4hZ7yO+j7JqZRYmbiRhPNQYwlWCDeE1zQxTOg+aGPOmBJyitehbzVbpts2z5vBzfL7
- 8KyrhA8lPnDFly8Bm42QVmo6f613pVte4lWT9dGo=
-Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
- [203.254.195.111]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220329181401uscas1p144404e0070b810516abfad05aa57345b~g7KFoy4Qs2954629546uscas1p1Z;
- Tue, 29 Mar 2022 18:14:01 +0000 (GMT)
-Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
- ussmges2new.samsung.com (USCPEMTA) with SMTP id 80.A6.09642.96C43426; Tue,
- 29 Mar 2022 14:14:01 -0400 (EDT)
-Received: from ussmgxs3new.samsung.com (u92.gpu85.samsung.co.kr
- [203.254.195.92]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220329181401uscas1p2b229afdbb479a012e140f84367c35ccd~g7KFMQIjZ2124721247uscas1p29;
- Tue, 29 Mar 2022 18:14:01 +0000 (GMT)
-X-AuditID: cbfec36f-c15ff700000025aa-74-62434c69e3d4
-Received: from SSI-EX4.ssi.samsung.com ( [105.128.2.145]) by
- ussmgxs3new.samsung.com (USCPEXMTA) with SMTP id 6F.A6.09665.86C43426; Tue,
- 29 Mar 2022 14:14:00 -0400 (EDT)
-Received: from SSI-EX3.ssi.samsung.com (105.128.2.228) by
- SSI-EX4.ssi.samsung.com (105.128.2.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2242.4; Tue, 29 Mar 2022 11:14:00 -0700
-Received: from SSI-EX3.ssi.samsung.com ([fe80::8d80:5816:c578:8c36]) by
- SSI-EX3.ssi.samsung.com ([fe80::8d80:5816:c578:8c36%3]) with mapi id
- 15.01.2242.008; Tue, 29 Mar 2022 11:13:59 -0700
-From: Adam Manzanares <a.manzanares@samsung.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v8 04/46] hw/cxl/device: Introduce a CXL device (8.2.8)
-Thread-Topic: [PATCH v8 04/46] hw/cxl/device: Introduce a CXL device (8.2.8)
-Thread-Index: AQHYQ5jDAh0o55BFMkO81MsYMsoB9Q==
-Date: Tue, 29 Mar 2022 18:13:59 +0000
-Message-ID: <20220329181353.GA59203@bgt-140510-bm01>
-In-Reply-To: <20220318150635.24600-5-Jonathan.Cameron@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <80E657C1F441FF4FAD9F37A07E34D5BE@ssi.samsung.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nZGqp-0005cH-Te
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 14:45:56 -0400
+Received: from [2607:f8b0:4864:20::1035] (port=55055
+ helo=mail-pj1-x1035.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nZGqj-00071I-4r
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 14:45:55 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id y16so5596093pju.4
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 11:45:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=o1qcZR1LxJ/8GbkW+1o65vv0lkJ0fy//rk2/1UscmDw=;
+ b=dwjAFyr79FlAvZN4oVDM+cROGwXKgWD+GjzFyXRXAgE8FAWQh0f0I0kd8X5DA7Ic5Y
+ VwRjT+3EqrXkzzX/nA4ayJfSyv2gITG1hZSatG1ilG804HuNYYziRhjIGD8PzrzW2dTC
+ qt0ANVSElJX0JYkgUfFNeD60WWqInSK4r/B5RxaF5Zl5+LoHWKn0N40sfo5Ea2m3RSsS
+ Sxu4L76R4KPju1vfaBBeh6+oYASNnMU2wyIvIHabuxRCp2MOIvLjmk1Z8I5EaQodk5kP
+ ANAl4mN5q+r0q0fvNS/WILwuTETHBqUREYH8mUVFLgxLgkLiIpXMRtvAHqwl/fH3x5YO
+ W5fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=o1qcZR1LxJ/8GbkW+1o65vv0lkJ0fy//rk2/1UscmDw=;
+ b=5dYaC2u/6K++2oiKIogNrFKZi8Pcmu1IAiYvj51fL4IpJp/Y9tiyBoRGA3rDkiOgJE
+ laPdTl9yGKcmpJn9EWZu6yvFAsNDZAziRZl/8L91FK4ygdjDs/evawefiCZedgK3yaZZ
+ s+LifjXTSz62qUVl0oPq3LtP060yXUS89EWEDZHx+J5xMWVW4Nsxhy5DwBuC0fLaUBJU
+ piGFMvwTHppFHnj0rq2SgIxe4W+e/8R1+zbLzFc2YJYxj5RItUbBkiQjPGt4Wvzd90Se
+ PmNSZh8ocWp5ARKJC+Qa6ECcyE7izvsZc1a6QloDtsP0RHLoeetN+fZI8tF5mMJJWL4Z
+ ifgQ==
+X-Gm-Message-State: AOAM532UbLuWUSxiNqRSCwR2MvIliRDS6eMiKV0jj9BqxhtlzXfKTowk
+ QBy4ztFNDCvICt28WhTQMcEX6A==
+X-Google-Smtp-Source: ABdhPJyI/2yF5j0Y4c6Rg7cy0zvMkWFf2rvkH3lV+0xBToveJFcYf3GobqOkuMkXZjAqYWlysTz2jw==
+X-Received: by 2002:a17:902:d717:b0:156:20a9:d388 with SMTP id
+ w23-20020a170902d71700b0015620a9d388mr7038650ply.19.1648579521129; 
+ Tue, 29 Mar 2022 11:45:21 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
+ c5-20020a056a00248500b004f6b5ddcc65sm20916192pfv.199.2022.03.29.11.45.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 11:45:20 -0700 (PDT)
+Date: Tue, 29 Mar 2022 18:45:16 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com
+Subject: Re: [PATCH v5 02/13] mm: Introduce memfile_notifier
+Message-ID: <YkNTvFqWI5F5w+DW@google.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-3-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf1CTdRzH7/v82sNq9Ujc9hVa1qKrazZhZ/QVOgjrzqfU0ji4zv6oOZ+Q
- YkM3+WFdtQQUhpMZzZ0jA5Jh6tTxIyCOE2Us4ocBl0ywEZSgIQ2nQhw/whjPvOO/1+c+7/f3
- Xp+7L42HVlLhdJp2H6fTqtJllJCo/3m656W0La/vjOo8IkUFIwaAys4NE8h4sxhHRT1OgKyW
- XoDODjoAmr4wh6Nfai7jqMtdgKMzFR4K9dg6CeSq7sZQobuYRIYOLXowd5tELfWLJPq2e4RA
- dS3/ClC7qZFAvX1nCWT6Y4FADf0HSFRdb6Fek7CX/q4QsL0lZpJ1FE5gbKl/CmPz2nwkOzaU
- K2CtJxZw9mTzOMZ6Pc0UO+qpxdg7F/sp1lL6JXu/5qltoh3CV3dx6WlZnG5d/IfC3YOH28g9
- +dtyhouOkgZgjTGCEBoy62HD74O4EQjpUOY0gNOn+ih+yMfgbb8Bf5i6eiKP5BfnAJyxn8f4
- 4S6ARXUDwf4lAE2t4yBQoZgoON9evVwPY5RwcuBrEAjhTAsNT3vPL4eeYDbDkntlJB/aAj1t
- U8GCAubZfyKMgKYJ5jloMm4MoGhJ49hwdCARwiTCbl8RFWDAiOFMpwMLMM5I4PXRMoy3XgW/
- L20OXiCGi01/Ujw/A4dnxgV8XgEHLN9QPMfDXEMjzrMcVlVMLLNo6Z2O46ME310NL/8wQARO
- gcxBITRUDgn4xRvQZ3YBniOg1fFbMHQIQL/5IskPZgC9vtmgRhxcLPQIzCDStsLctsLKtsLK
- tsLKtsKqHJBngCRTr9ekcnqllstW6FUafaY2VaHO0NSApY/ctejKaATXrt9VtAKMBq0A0rgs
- TCS9krAzVLRLtf9TTpfxgS4zndO3ggiakElEVWlOVSiTqtrHfcJxezjdwy1Gh4QbMBiSUOHu
- OyRs2N72xYVjTWvejpSPh9M7rqDyd5617H8wJV93K5l0fjd/NUmWbdXegJv7Sq1/1W5Q/hO/
- 3pCE1Il7lagkaz7m0Y+N2hGvo6jLppbatz5/L8J51HTywFTv1rWMpU0SnehQ33/z/c/HbsbW
- StUjyVn4k1Gj3Sm2uLh8aPduGooUp0yumv0sVj47OHn8rXcTfk1a/YoazI9lR0d0+k2dM35D
- fW6xfuTHDdcicrL6ldKcl33I1d5wJ65g8ZGN/x3+Slx+65TGVdcst1cdfKwyZtb5wuNrqjj3
- WKOmK3cyLNPOxHRsX7DE3pCJU7gjH0UONe192u1KXlvz3sScjNDvVkW/iOv0qv8Buh4h4TcE
- AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLKsWRmVeSWpSXmKPExsWS2cA0UTfTxznJYGeKRceDBkaL+Wvvs1h0
- Petntug+v4HRYvrUC4wWq2+uYbT4uv4Xs8WJTQeZLU4f7WC2WLXwGpvF+VmnWCwObzzDZNF5
- tJ/VouFknsX/X69YLfZv+8dqMefMAxaLLfu/sVsc793BYnHh4moWi957f1gstl9tYrXYuG0q
- m4O4x4EXC9k9LkyewOqxpvM1k8fsD1+YPFqOvGX1eHq3md1j+tw/zB6L97xk8rhzbQ+bx5Nr
- m5k83u+7yuYxdXa9x+dNcgG8UVw2Kak5mWWpRfp2CVwZN3uOsBa0BlTc757I2sA43ayLkZND
- QsBE4srcFtYuRi4OIYHVjBKdp+4ygSSEBD4ySvw6GQ6ROMAoMaX9ITNIgk3AQOL38Y1gtoiA
- kcS7G5MYQYqYBfZzSKy8s44RJCEs4C0x+dN8VogiH4lrR75ANehJtCzdydLFyMHBIqAq0dvl
- BGLyAl0x7b4hxN5yidYpH9hBbE4BR4kzb7vZQGxGATGJ76fWgN3GLCAucevJfCaIBwQkluw5
- zwxhi0q8fPyPFcJWlLj//SU7RL2exI2pU9ggbDuJ5oYdzBC2tsSyha/BbF4BQYmTM5+wQPRK
- ShxccYNlAqPELCTrZiEZNQvJqFlIRs1CMmoBI+sqRvHS4uLc9Ipi47zUcr3ixNzi0rx0veT8
- 3E2MwBR2+t/hmB2M92591DvEyMTBeIhRgoNZSYRX9qx9khBvSmJlVWpRfnxRaU5q8SFGaQ4W
- JXFej9iJ8UIC6YklqdmpqQWpRTBZJg5OqQYmJ46pxVPvd6T8v7xh2qMH5wT9eMx7j/Ow6aou
- 4b5Q0ito9LbWSew3j/GffQqlz9N27LNwOHL5Vcs/9vSnBueaVvLMSZqr8FnWV/GD0Uzuv8X2
- TOuXq0wP5v68WTym1GGJgNnilSrZKVOkbr+y1eY8z3c+uM3owgY+zmyh9iBD1k3cUgFcl9Uj
- ataIO3sLb5S9dOXx5w8nfh5+vv1z1g+DY+Wuxz121rsb/DBV6P/v92n7vpyuRVtX/ysr5LGa
- f0Ji09Sm0t5/5w5Mfvz9wmSf9fVvZt4V7r6+QlzrweKm+8ujI8omnQ+Zo3H6dKy9GuPOFzLy
- G+/fbhJWn9LIrvbNqZhlUvCnkLL2dae2+gofVWIpzkg01GIuKk4EAF4arnTQAwAA
-X-CMS-MailID: 20220329181401uscas1p2b229afdbb479a012e140f84367c35ccd
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20220329181401uscas1p2b229afdbb479a012e140f84367c35ccd
-References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
- <20220318150635.24600-5-Jonathan.Cameron@huawei.com>
- <CGME20220329181401uscas1p2b229afdbb479a012e140f84367c35ccd@uscas1p2.samsung.com>
-Received-SPF: pass client-ip=211.189.100.11;
- envelope-from=a.manzanares@samsung.com; helo=mailout1.w2.samsung.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220310140911.50924-3-chao.p.peng@linux.intel.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -161
+X-Spam_score: -16.2
+X-Spam_bar: ----------------
+X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -136,303 +107,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "linuxarm@huawei.com" <linuxarm@huawei.com>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "dave@stgolabs.net" <dave@stgolabs.net>, David Hildenbrand <david@redhat.com>,
- Markus
- Armbruster <armbru@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
- Tong Zhang <t.zhang2@samsung.com>, Chris Browy <cbrowy@avery-design.com>,
- Saransh Gupta1 <saransh@ibm.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Peter Xu <peterx@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
- =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>,
- "k.jensen@samsung.com" <k.jensen@samsung.com>,
- =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 18, 2022 at 03:05:53PM +0000, Jonathan Cameron wrote:
-> From: Ben Widawsky <ben.widawsky@intel.com>
->=20
-> A CXL device is a type of CXL component. Conceptually, a CXL device
-> would be a leaf node in a CXL topology. From an emulation perspective,
-> CXL devices are the most complex and so the actual implementation is
-> reserved for discrete commits.
->=20
-> This new device type is specifically catered towards the eventual
-> implementation of a Type3 CXL.mem device, 8.2.8.5 in the CXL 2.0
-> specification.
->=20
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> ---
->  include/hw/cxl/cxl.h        |   1 +
->  include/hw/cxl/cxl_device.h | 165 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 166 insertions(+)
->=20
-> diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-> index 8c738c7a2b..b9d1ac3fad 100644
-> --- a/include/hw/cxl/cxl.h
-> +++ b/include/hw/cxl/cxl.h
-> @@ -12,5 +12,6 @@
-> =20
->  #include "cxl_pci.h"
->  #include "cxl_component.h"
-> +#include "cxl_device.h"
-> =20
->  #endif
-> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> new file mode 100644
-> index 0000000000..b2416e45bf
-> --- /dev/null
-> +++ b/include/hw/cxl/cxl_device.h
-> @@ -0,0 +1,165 @@
-> +/*
-> + * QEMU CXL Devices
-> + *
-> + * Copyright (c) 2020 Intel
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2. See =
-the
-> + * COPYING file in the top-level directory.
-> + */
+On Thu, Mar 10, 2022, Chao Peng wrote:
+> diff --git a/mm/Makefile b/mm/Makefile
+> index 70d4309c9ce3..f628256dce0d 100644
+> +void memfile_notifier_invalidate(struct memfile_notifier_list *list,
+> +				 pgoff_t start, pgoff_t end)
+> +{
+> +	struct memfile_notifier *notifier;
+> +	int id;
 > +
-> +#ifndef CXL_DEVICE_H
-> +#define CXL_DEVICE_H
+> +	id = srcu_read_lock(&srcu);
+> +	list_for_each_entry_srcu(notifier, &list->head, list,
+> +				 srcu_read_lock_held(&srcu)) {
+> +		if (notifier->ops && notifier->ops->invalidate)
+
+Any reason notifier->ops isn't mandatory?
+
+> +			notifier->ops->invalidate(notifier, start, end);
+> +	}
+> +	srcu_read_unlock(&srcu, id);
+> +}
 > +
-> +#include "hw/register.h"
+> +void memfile_notifier_fallocate(struct memfile_notifier_list *list,
+> +				pgoff_t start, pgoff_t end)
+> +{
+> +	struct memfile_notifier *notifier;
+> +	int id;
 > +
-> +/*
-> + * The following is how a CXL device's MMIO space is laid out. The only
-> + * requirement from the spec is that the capabilities array and the capa=
-bility
-> + * headers start at offset 0 and are contiguously packed. The headers th=
-emselves
-> + * provide offsets to the register fields. For this emulation, registers=
- will
-> + * start at offset 0x80 (m =3D=3D 0x80). No secondary mailbox is impleme=
-nted which
-> + * means that n =3D m + sizeof(mailbox registers) + sizeof(device regist=
-ers).
-
-What is n here, the start offset of the mailbox registers, this question is=
-=20
-based on the figure below?
-
-> + *
-> + * This is roughly described in 8.2.8 Figure 138 of the CXL 2.0 spec.
-> + *
-> + *                       +---------------------------------+
-> + *                       |                                 |
-> + *                       |    Memory Device Registers      |
-> + *                       |                                 |
-> + * n + PAYLOAD_SIZE_MAX  -----------------------------------
-> + *                  ^    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |         Mailbox Payload         |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    -----------------------------------
-> + *                  |    |       Mailbox Registers         |
-> + *                  |    |                                 |
-> + *                  n    -----------------------------------
-> + *                  ^    |                                 |
-> + *                  |    |        Device Registers         |
-> + *                  |    |                                 |
-> + *                  m    ---------------------------------->
-> + *                  ^    |  Memory Device Capability Header|
-> + *                  |    -----------------------------------
-> + *                  |    |     Mailbox Capability Header   |
-> + *                  |    -------------- --------------------
-> + *                  |    |     Device Capability Header    |
-> + *                  |    -----------------------------------
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                  |    |      Device Cap Array[0..n]     |
-> + *                  |    |                                 |
-> + *                  |    |                                 |
-> + *                       |                                 |
-> + *                  0    +---------------------------------+
-
-Would it make sense to add CXL cap header register to the diagram? n also=20
-seems to be the size of the cap array, but it is also an offset so that cou=
-ld
-be clarified.
-
-> + *
-> + */
+> +	id = srcu_read_lock(&srcu);
+> +	list_for_each_entry_srcu(notifier, &list->head, list,
+> +				 srcu_read_lock_held(&srcu)) {
+> +		if (notifier->ops && notifier->ops->fallocate)
+> +			notifier->ops->fallocate(notifier, start, end);
+> +	}
+> +	srcu_read_unlock(&srcu, id);
+> +}
 > +
-> +#define CXL_DEVICE_CAP_HDR1_OFFSET 0x10 /* Figure 138 */
-> +#define CXL_DEVICE_CAP_REG_SIZE 0x10 /* 8.2.8.2 */
-> +#define CXL_DEVICE_CAPS_MAX 4 /* 8.2.8.2.1 + 8.2.8.5 */
+> +void memfile_register_backing_store(struct memfile_backing_store *bs)
+> +{
+> +	BUG_ON(!bs || !bs->get_notifier_list);
 > +
-> +#define CXL_DEVICE_REGISTERS_OFFSET 0x80 /* Read comment above */
-
-Is this to plan for future capabilities? If we have CAPS MAX doesn't this=20
-allow us to remove the slack space.=20
-
-> +#define CXL_DEVICE_REGISTERS_LENGTH 0x8 /* 8.2.8.3.1 */
-
-Should we add status to the name here, or would it get too long?
-
+> +	list_add_tail(&bs->list, &backing_store_list);
+> +}
 > +
-> +#define CXL_MAILBOX_REGISTERS_OFFSET \
-> +    (CXL_DEVICE_REGISTERS_OFFSET + CXL_DEVICE_REGISTERS_LENGTH)
-> +#define CXL_MAILBOX_REGISTERS_SIZE 0x20 /* 8.2.8.4, Figure 139 */
-> +#define CXL_MAILBOX_PAYLOAD_SHIFT 11
+> +void memfile_unregister_backing_store(struct memfile_backing_store *bs)
+> +{
+> +	list_del(&bs->list);
 
-I see 20 in the spec.
+Allowing unregistration of a backing store is broken.  Using the _safe() variant
+is not sufficient to guard against concurrent modification.  I don't see any reason
+to support this out of the gate, the only reason to support unregistering a backing
+store is if the backing store is implemented as a module, and AFAIK none of the
+backing stores we plan on supporting initially support being built as a module.
+These aren't exported, so it's not like that's even possible.  Registration would
+also be broken if modules are allowed, I'm pretty sure module init doesn't run
+under a global lock.
 
-> +#define CXL_MAILBOX_MAX_PAYLOAD_SIZE (1 << CXL_MAILBOX_PAYLOAD_SHIFT)
-> +#define CXL_MAILBOX_REGISTERS_LENGTH \
-> +    (CXL_MAILBOX_REGISTERS_SIZE + CXL_MAILBOX_MAX_PAYLOAD_SIZE)
+We can always add this complexity if it's needed in the future, but for now the
+easiest thing would be to tag memfile_register_backing_store() with __init and
+make backing_store_list __ro_after_init.
+
+> +}
 > +
-> +typedef struct cxl_device_state {
-> +    MemoryRegion device_registers;
+> +static int memfile_get_notifier_info(struct inode *inode,
+> +				     struct memfile_notifier_list **list,
+> +				     struct memfile_pfn_ops **ops)
+> +{
+> +	struct memfile_backing_store *bs, *iter;
+> +	struct memfile_notifier_list *tmp;
 > +
-> +    /* mmio for device capabilities array - 8.2.8.2 */
-> +    MemoryRegion device;
-> +    MemoryRegion caps;
+> +	list_for_each_entry_safe(bs, iter, &backing_store_list, list) {
+> +		tmp = bs->get_notifier_list(inode);
+> +		if (tmp) {
+> +			*list = tmp;
+> +			if (ops)
+> +				*ops = &bs->pfn_ops;
+> +			return 0;
+> +		}
+> +	}
+> +	return -EOPNOTSUPP;
+> +}
 > +
-> +    /* mmio for the mailbox registers 8.2.8.4 */
-> +    MemoryRegion mailbox;
+> +int memfile_register_notifier(struct inode *inode,
+
+Taking an inode is a bit odd from a user perspective.  Any reason not to take a
+"struct file *" and get the inode here?  That would give callers a hint that they
+need to hold a reference to the file for the lifetime of the registration.
+
+> +			      struct memfile_notifier *notifier,
+> +			      struct memfile_pfn_ops **pfn_ops)
+> +{
+> +	struct memfile_notifier_list *list;
+> +	int ret;
 > +
-> +    /* memory region for persistent memory, HDM */
-> +    uint64_t pmem_size;
+> +	if (!inode || !notifier | !pfn_ops)
 
-Can we switch this to mem_size and drop the persistent comment? It is my=20
-understanding that HDM is independent of persistence.
+Bitwise | instead of logical ||.  But IMO taking in a pfn_ops pointer is silly.
+More below.
 
-> +} CXLDeviceState;
+> +		return -EINVAL;
 > +
-> +/* Initialize the register block for a device */
-> +void cxl_device_register_block_init(Object *obj, CXLDeviceState *dev);
+> +	ret = memfile_get_notifier_info(inode, &list, pfn_ops);
+> +	if (ret)
+> +		return ret;
 > +
-> +/* Set up default values for the register block */
-> +void cxl_device_register_init_common(CXLDeviceState *dev);
+> +	spin_lock(&list->lock);
+> +	list_add_rcu(&notifier->list, &list->head);
+> +	spin_unlock(&list->lock);
 > +
-> +/*
-> + * CXL 2.0 - 8.2.8.1 including errata F4
-> + * Documented as a 128 bit register, but 64 bit accesses and the second
-> + * 64 bits are currently reserved.
-> + */
-> +REG64(CXL_DEV_CAP_ARRAY, 0) /* Documented as 128 bit register but 64 byt=
-e accesses */
-> +    FIELD(CXL_DEV_CAP_ARRAY, CAP_ID, 0, 16)
-> +    FIELD(CXL_DEV_CAP_ARRAY, CAP_VERSION, 16, 8)
-> +    FIELD(CXL_DEV_CAP_ARRAY, CAP_COUNT, 32, 16)
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(memfile_register_notifier);
 > +
-> +/*
-> + * Helper macro to initialize capability headers for CXL devices.
-> + *
-> + * In the 8.2.8.2, this is listed as a 128b register, but in 8.2.8, it s=
-ays:
-> + * > No registers defined in Section 8.2.8 are larger than 64-bits wide =
-so that
-> + * > is the maximum access size allowed for these registers. If this rul=
-e is not
-> + * > followed, the behavior is undefined
-> + *
-> + * CXL 2.0 Errata F4 states futher that the layouts in the specification=
- are
-> + * shown as greater than 128 bits, but implementations are expected to
-> + * use any size of access up to 64 bits.
-> + *
-> + * Here we've chosen to make it 4 dwords. The spec allows any pow2 multi=
-ple
-> + * access to be used for a register up to 64 bits.
-> + */
-> +#define CXL_DEVICE_CAPABILITY_HEADER_REGISTER(n, offset)  \
-> +    REG32(CXL_DEV_##n##_CAP_HDR0, offset)                 \
-> +        FIELD(CXL_DEV_##n##_CAP_HDR0, CAP_ID, 0, 16)      \
-> +        FIELD(CXL_DEV_##n##_CAP_HDR0, CAP_VERSION, 16, 8) \
-> +    REG32(CXL_DEV_##n##_CAP_HDR1, offset + 4)             \
-> +        FIELD(CXL_DEV_##n##_CAP_HDR1, CAP_OFFSET, 0, 32)  \
-> +    REG32(CXL_DEV_##n##_CAP_HDR2, offset + 8)             \
-> +        FIELD(CXL_DEV_##n##_CAP_HDR2, CAP_LENGTH, 0, 32)
+> +void memfile_unregister_notifier(struct inode *inode,
+> +				 struct memfile_notifier *notifier)
+> +{
+> +	struct memfile_notifier_list *list;
 > +
-> +CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEVICE_CAP_HDR1_OFFSET=
-)
-> +CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSE=
-T + \
-> +                                               CXL_DEVICE_CAP_REG_SIZE)
+> +	if (!inode || !notifier)
+> +		return;
 > +
+> +	BUG_ON(memfile_get_notifier_info(inode, &list, NULL));
 
-Fig139 for the following registers.
+Eww.  Rather than force the caller to provide the inode/file and the notifier,
+what about grabbing the backing store itself in the notifier?
 
-8.2.8.4.3
-> +REG32(CXL_DEV_MAILBOX_CAP, 0)
-> +    FIELD(CXL_DEV_MAILBOX_CAP, PAYLOAD_SIZE, 0, 5)
-> +    FIELD(CXL_DEV_MAILBOX_CAP, INT_CAP, 5, 1)
-> +    FIELD(CXL_DEV_MAILBOX_CAP, BG_INT_CAP, 6, 1)
-> +    FIELD(CXL_DEV_MAILBOX_CAP, MSI_N, 7, 4)
-> +
+	struct memfile_notifier {
+		struct list_head list;
+		struct memfile_notifier_ops *ops;
 
-8.2.8.4.4=20
-> +REG32(CXL_DEV_MAILBOX_CTRL, 4)
-> +    FIELD(CXL_DEV_MAILBOX_CTRL, DOORBELL, 0, 1)
-> +    FIELD(CXL_DEV_MAILBOX_CTRL, INT_EN, 1, 1)
-> +    FIELD(CXL_DEV_MAILBOX_CTRL, BG_INT_EN, 2, 1)
-> +
+		struct memfile_backing_store *bs;
+	};
 
-8.2.8.4.5 + 8.2.9
-> +REG64(CXL_DEV_MAILBOX_CMD, 8)
-> +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND, 0, 8)
-> +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND_SET, 8, 8)
-> +    FIELD(CXL_DEV_MAILBOX_CMD, LENGTH, 16, 20)
-> +
+That also helps avoid confusing between "ops" and "pfn_ops".  IMO, exposing
+memfile_backing_store to the caller isn't a big deal, and is preferable to having
+to rewalk multiple lists just to delete a notifier.
 
-8.2.8.4.6
-> +REG64(CXL_DEV_MAILBOX_STS, 0x10)
-> +    FIELD(CXL_DEV_MAILBOX_STS, BG_OP, 0, 1)
-> +    FIELD(CXL_DEV_MAILBOX_STS, ERRNO, 32, 16)
-> +    FIELD(CXL_DEV_MAILBOX_STS, VENDOR_ERRNO, 48, 16)
-> +
+Then this can become:
 
-8.2.8.4.7
-> +REG64(CXL_DEV_BG_CMD_STS, 0x18)
-> +    FIELD(CXL_DEV_BG_CMD_STS, BG, 0, 16)
+  void memfile_unregister_notifier(struct memfile_notifier *notifier)
+  {
+	spin_lock(&notifier->bs->list->lock);
+	list_del_rcu(&notifier->list);
+	spin_unlock(&notifier->bs->list->lock);
 
-Should we call this OP since it is implied that we are BG given the registe=
-r?
+	synchronize_srcu(&srcu);
+  }
 
-> +    FIELD(CXL_DEV_BG_CMD_STS, DONE, 16, 7)
+and registration can be:
 
-NUM_DONE? since this is a percentage.
+  int memfile_register_notifier(const struct file *file,
+			      struct memfile_notifier *notifier)
+  {
+	struct memfile_notifier_list *list;
+	struct memfile_backing_store *bs;
+	int ret;
 
-> +    FIELD(CXL_DEV_BG_CMD_STS, ERRNO, 32, 16)
+	if (!file || !notifier)
+		return -EINVAL;
 
-Isn't this a RET_CODE since it is only valid if previous field is 100%
+	list_for_each_entry(bs, &backing_store_list, list) {
+		list = bs->get_notifier_list(file_inode(file));
+		if (list) {
+			notifier->bs = bs;
 
-> +    FIELD(CXL_DEV_BG_CMD_STS, VENDOR_ERRNO, 48, 16)
+			spin_lock(&list->lock);
+			list_add_rcu(&notifier->list, &list->head);
+			spin_unlock(&list->lock);
+			return 0;
+		}
+	}
 
-VENDOR_RET_CODE since the same rule for the previous field applies here.
-
-> +
-> +REG32(CXL_DEV_CMD_PAYLOAD, 0x20)
-> +
-> +#endif
-> --=20
-> 2.32.0
->=20
->=20
-
-+cc Dave, Klaus, Tong
-Other than the minor issues raised.
-
-Looks good.
-
-Reviewed by: Adam Manzanares <a.manzanares@samsung.com>=
+	return -EOPNOTSUPP;
+  }
 
