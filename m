@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893D54EB1A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 18:17:02 +0200 (CEST)
-Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B06C34EB1C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 18:23:12 +0200 (CEST)
+Received: from localhost ([::1]:38914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZEWj-0004qI-5E
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 12:17:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36172)
+	id 1nZEch-0000ux-EH
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 12:23:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEUL-0003HH-Dd
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:14:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38017)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEb1-000085-66
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:21:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEUJ-00083a-1h
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:14:32 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEaw-00012S-5V
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:21:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648570469;
+ s=mimecast20190719; t=1648570880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=E+7MF2TGyp3UclcVzInsc9+zY698udBmqnz/YlhvoXc=;
- b=Jphb5Id/lcN3hyRGi15WGqdBzAEe3s8qq8r7lI1tMZRG3KL7KvycimalJlUY7C5/toTmtT
- zE7lC3ctFjD0Vwz8rRwtXeqqGX7uhsynl0lJkzbbkVWOlqJrx8Rv766AOKzWQVW+RHeds6
- /23NZa1W5at2uZphuptDsek+1NlQwwI=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XZaBe7DiyRTLxzkky2IS+4I+/j/PcEf2CBZr7kL/gCg=;
+ b=MhfmqdLIVNnlJnVLJY8HE5EeHa+/FCNlbhorqpM42bJHdC4yr2e+dwwbCUX5qZDUpFC0G8
+ dmqJ5xTAv/9t0+w9sx/pQPiP5XxiXtB+Re2Dpt+53B+yNvjNLe0uxWk+6rUSKb+z1kh0DD
+ ZiEbfaR6lwyBm8tBHmyWOIE3gmy0sss=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-6ZH60-lsPPylVmR8asj8gQ-1; Tue, 29 Mar 2022 12:14:27 -0400
-X-MC-Unique: 6ZH60-lsPPylVmR8asj8gQ-1
-Received: by mail-vk1-f200.google.com with SMTP id
- l23-20020ac5cdb7000000b0033ffe029887so2337036vka.0
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 09:14:27 -0700 (PDT)
+ us-mta-256-Nh2Tv5j9MxS22luv_ysldQ-1; Tue, 29 Mar 2022 12:21:19 -0400
+X-MC-Unique: Nh2Tv5j9MxS22luv_ysldQ-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ i24-20020ab00d98000000b00355f6d91f0aso6441404uak.6
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 09:21:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=E+7MF2TGyp3UclcVzInsc9+zY698udBmqnz/YlhvoXc=;
- b=pCCZeUJJZm5CWPZdIkt6ezWXWTvV9hn3uGc3qqtLCyb9HB8DlqNTvjUf2KvM8xapfu
- be5oDbmq5wMOGN//vC/tBivKUzQ1M4oAqlZ6EzQniOTvLtRZaonPQV0pfg+SYunAUgXp
- xFYn63zDnTMiIL54UGv+9Bz/A0BxZf3NZ7sOq0VODVGKcwoayNYDClXBOcDm2VLxSd6x
- JzLu9qC0SxreQmhxl7J6mBIEgeO4wapVGTxnlRvUoL4NFxP8mT1iVBSWpQPQCiuwfyxW
- ZbW5wEQU9tmJyEXLmhFYHsyXBzjkaLngE0XkCqp9Jl/5SOD6HA5zbWfB0REPTe5Xcgk0
- MM9g==
-X-Gm-Message-State: AOAM530ewBSapBhyobcCMWmpj5gVvDLefAZfmZb05+T6SNbOYz7B0FeC
- UnucnTx27Fp/L8TteFwrgyCebyx1o2hNzYHn557ik1Lezywvhi+zYzXWRcSyrl/LwH2IxUH8S81
- yErJDPWRZFU7rXzs87FFlORHr2D2wGqc=
-X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
- a2-20020a671a02000000b00320a51f8067mr17816260vsa.38.1648570466916; 
- Tue, 29 Mar 2022 09:14:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXIyX0GvEXE5mUCC2VaX7Uh93JU5kid6MuMb2futtZQeaaqNHBkp02CqQoXZnvrpXp3AtIlFiEC51eo2tcyIA=
-X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
- a2-20020a671a02000000b00320a51f8067mr17816244vsa.38.1648570466768; Tue, 29
- Mar 2022 09:14:26 -0700 (PDT)
+ bh=XZaBe7DiyRTLxzkky2IS+4I+/j/PcEf2CBZr7kL/gCg=;
+ b=AytOUlQO32wlcBK6QmhTi1OjM2SP64HjM/LfkC5YyhxSNqOzp3JQHeI/kFWn044ipY
+ BiZK/qhM2GyfOU70d8Jg4DGqJZianJ/tV0iD/+0kVFE6Mt4nHK6eqIODbFlD+W5GZv1M
+ v4KEXef9RE3dmYFS+Y9mhDYG5nbnOgTzbnwPGRCwoblZDrt5K/EkZCjLSBBmqt0GQ08Z
+ sel+FFktnMt8g0hDQvTE4rfT7QOukSZUbH00tsgJHjIrhR85RIKMu9aPPI87hWT3z0Dt
+ rE8MwNMYokYaA+5252k49FVfNyr5RKVOQFSutO+FAo6wX9lgVASW8xnqv6L7EW6LVxvy
+ EAGw==
+X-Gm-Message-State: AOAM531qmjTbcWlCgxlgtxZ/K2ibMdVuvA4FhjOxtgKYDvSXBGUssI6T
+ G8f6vdy6cYDDu8mQ4UhsCL8Ggk1cblBw0TspmX+7fBlcqBjzvpdJzqjHbgJc2zZlvt45gBezvg3
+ 4UWS2R6xcyN5awTLESya5taKCCiYOOyk=
+X-Received: by 2002:a67:4c3:0:b0:324:ddd7:70d3 with SMTP id
+ 186-20020a6704c3000000b00324ddd770d3mr17104781vse.61.1648570878737; 
+ Tue, 29 Mar 2022 09:21:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwT/lMhN4n8crK8xE6Wz0uBc8Xkge3C/fqZETz6BYhb4RgXtHHg67YitcQgvqhVDfKbsPdcQUjMkksKucXzbaE=
+X-Received: by 2002:a67:4c3:0:b0:324:ddd7:70d3 with SMTP id
+ 186-20020a6704c3000000b00324ddd770d3mr17104765vse.61.1648570878590; Tue, 29
+ Mar 2022 09:21:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220328140604.41484-1-victortoso@redhat.com>
- <87ilrwycir.fsf@pond.sub.org>
-In-Reply-To: <87ilrwycir.fsf@pond.sub.org>
+References: <20220325221605.53995-1-victortoso@redhat.com>
+In-Reply-To: <20220325221605.53995-1-victortoso@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 29 Mar 2022 12:14:16 -0400
-Message-ID: <CAFn=p-bPhKciC+4XZXTyGnKLf3incOrJEgM0iZLht+QeuUqZ7A@mail.gmail.com>
-Subject: Re: [PATCH v3 00/14] Fix some qapi examples and a TODO section
-To: Markus Armbruster <armbru@redhat.com>
+Date: Tue, 29 Mar 2022 12:21:07 -0400
+Message-ID: <CAFn=p-ZNEffRWVh=gnP8f9mBTKq9Ug+ez67qovWZ2+i77fG_rQ@mail.gmail.com>
+Subject: Re: [PATCH] schemas: add missing vim modeline
+To: Victor Toso <victortoso@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,29 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, Victor Toso <victortoso@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 29, 2022 at 12:00 PM Markus Armbruster <armbru@redhat.com> wrote:
+On Fri, Mar 25, 2022 at 6:16 PM Victor Toso <victortoso@redhat.com> wrote:
 >
-> Victor Toso <victortoso@redhat.com> writes:
+> This is the last qapi schema that is missing the modeline.
+> Fixes 7e7237cd2b "schemas: add missing vim modeline"
 >
-> > Hi,
-> >
-> > I've being using the examples as unit tests and found a few that
-> > doesn't work out-of-the-box, might be inteded in order to be less
-> > verbose in the qapi documentation but nevertheless I'm sending this
-> > out in case you want to cherry-pick them.
+> Signed-off-by: Victor Toso <victortoso@redhat.com>
+> ---
+>  qapi/pragma.json | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> Lovely doc fixes.  I want them all.  Thanks!
+> diff --git a/qapi/pragma.json b/qapi/pragma.json
+> index 3bc0335d1f..e6a021c19c 100644
+> --- a/qapi/pragma.json
+> +++ b/qapi/pragma.json
+> @@ -1,3 +1,6 @@
+> +# -*- Mode: Python -*-
+> +# vim: filetype=python
+> +
+>  { 'pragma': { 'doc-required': true } }
 >
-
-Seconded.
+>  # Whitelists to permit QAPI rule violations; think twice before you
+> --
+> 2.35.1
+>
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 
-Thanks!
+thanks!
 
 
