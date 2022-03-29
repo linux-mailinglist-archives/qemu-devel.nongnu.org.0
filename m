@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2214EA910
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 10:16:55 +0200 (CEST)
-Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162754EA94C
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 10:32:26 +0200 (CEST)
+Received: from localhost ([::1]:46522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZ726-0002sQ-EL
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 04:16:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41310)
+	id 1nZ7H6-0002K7-Ko
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 04:32:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nZ6zE-0001RF-6x
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 04:13:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nZ6zC-0002UG-3m
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 04:13:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648541632;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wmqWdezH4Uu6L29Goar7BR47cEI3GgBJc1jHZo/cBeQ=;
- b=OI6pPHMXCGaf/DZ7WAlRd1qDSkJzhdhY/y1KJDYv7JCaDzlTAl5pUMixNRvXPIZSL0qMbu
- Yg4WnLFLRIfzdBCWRutQl+oERs6CzajJ2ZZ8f861XlLs/0EPiUgD5PYlTuuB+EA2mkNELT
- MbF5/hqN8u4DKK83wu9yTlxaAC3HAXs=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-39-k-r_-hGgNCG0juT8LbN9Ow-1; Tue, 29 Mar 2022 04:13:49 -0400
-X-MC-Unique: k-r_-hGgNCG0juT8LbN9Ow-1
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-2e5db04460cso138956647b3.17
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 01:13:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nZ79g-0006kz-C6; Tue, 29 Mar 2022 04:24:44 -0400
+Received: from [2607:f8b0:4864:20::102f] (port=42861
+ helo=mail-pj1-x102f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nZ79e-0004im-PP; Tue, 29 Mar 2022 04:24:44 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ o3-20020a17090a3d4300b001c6bc749227so2060206pjf.1; 
+ Tue, 29 Mar 2022 01:24:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:subject:to:cc:references:in-reply-to:mime-version
+ :message-id:content-transfer-encoding;
+ bh=FjVeE444Wd+FJKpQsPZ4+5iEa7UGAv9B/GS0RUlAX8E=;
+ b=EYMRBqx6jQB+30DstNRHeTPV/ftMT3Pwo/MbXGaicVn+ozbjGbN60LT9db6W0rWEye
+ VWCZTvoccqM1ylYEi0g6v9qIDJHkyhWKP0LGlSgCYi3ZZyFH2gOJcIG6/R5jf21uC8+W
+ sOmjb73+D3S1ekVF2/WQsK4/nP/CmCeqiPwEMlcH2Am/Apd+RWW8l1bR6IqbMxnN7MLH
+ a67z5zbyK6I6lQXF+PbaWfoPO0xZRQeIDr8iHJcSUF4DL8zkWom4wwc9Nf4EdRsoy4Ej
+ C/oHL3/e4DDCSvUbuEEzWRNxS0cqflfjP0rFlfNK0HL8zU9YdZKRW7cEbx873zz6/Baa
+ NyYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wmqWdezH4Uu6L29Goar7BR47cEI3GgBJc1jHZo/cBeQ=;
- b=a5k2xj7+/QzHMttygOSihomZFeb5GeOKlh0Sxrh/dYGCfu3Z4A7v9hkXBQWBouyDDk
- cTMFIk7mDtR9Cn1SasB8E5MQHH8pRICOf+yban0uK7+wjo3No4y3qV9giVRVuB0turWm
- xH2T5eAThcecLTTB8TEyYCCLuZuBUXK4ybVKI02y170cn2NyAIOpojj9Eq9iEJfWPi2K
- GyEK9zaFn4tT4kK4UcT4ZWoOSpYCStAxrQ8hUXpPKUVFrz+m4ylMSrOOjEoqoKLJXobw
- Njts3wYYel/+wiNXbWMbfOYxAvKwUMISbv4kDZ2HCuvwgJRtK4pVPREoGsuB+l0BK4HK
- v0xA==
-X-Gm-Message-State: AOAM533jV9Vp4NNgfWuIfABieR+nsYNtMahlltfMgH7s6ccgD0cuW/pI
- Lnfy+TS+0xyo4sv/LpmgPNnqgoWHpb31NDsSLrUVhq4fQ/BKf2tOlZBSmmlHcPsY6ahg9gsK9VC
- 12qjcJ2YnpBzV0SWg2XZYji1Jf8I1IPQ=
-X-Received: by 2002:a25:8c01:0:b0:634:712d:3def with SMTP id
- k1-20020a258c01000000b00634712d3defmr27008257ybl.343.1648541628555; 
- Tue, 29 Mar 2022 01:13:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyQDKWN0o3KoFzdoeBweTXtjrZfeRtvo7PXN3zncY31a451gQs6CCjk5RHAVl7luUvdrFL8CilulSn7KTcJAGI=
-X-Received: by 2002:a25:8c01:0:b0:634:712d:3def with SMTP id
- k1-20020a258c01000000b00634712d3defmr27008252ybl.343.1648541628410; Tue, 29
- Mar 2022 01:13:48 -0700 (PDT)
+ h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+ :mime-version:message-id:content-transfer-encoding;
+ bh=FjVeE444Wd+FJKpQsPZ4+5iEa7UGAv9B/GS0RUlAX8E=;
+ b=BTYCcgoJJkPRo2K0dcrMqFN7dQlITjx6lrxipCgdv+6wlFPqsC1uOX95K0fzDKwKkB
+ ZHLtkeoPXIq55t/eOBu2tUWoRsjwm0VNr5CJtZwjBCcMaKEkYd3tC39uAQgqp+cfLNbI
+ zL7gAeRg9/2bqEUwhjk7KeJLE5xaBHKbjUhG2U12FvsBdV0NOKYocVs55ctLWiizaULJ
+ niPz0jPiEeNjfCj1R8Gv1QLzsrwhDJpsBMfuWfCnN4NDLHzAgcwKOsJSFdcxMZj8HClq
+ s+uMaGeo5TJ3ZIgqrYfF9fyHNB2v1XuxjKknVqRjCklJlykTkfkmGu7S+aiq7aJoXsvn
+ Etbw==
+X-Gm-Message-State: AOAM533bheJN7UmWBEiP70IwQOZtZpbd5hUix71+285CajQppoF8spGn
+ W1dlr/9bwn9TdpQ3TJtFe+Q=
+X-Google-Smtp-Source: ABdhPJxEE3087bG/x0gf6NkCHwNwQ1922HHWje2mgqFvYCeM3/6yf1nA0jrnsQDUYuU1cEfTxt2jcg==
+X-Received: by 2002:a17:90a:e7ce:b0:1c7:bf82:27c0 with SMTP id
+ kb14-20020a17090ae7ce00b001c7bf8227c0mr3335938pjb.88.1648542280425; 
+ Tue, 29 Mar 2022 01:24:40 -0700 (PDT)
+Received: from localhost (58-6-255-110.tpgi.com.au. [58.6.255.110])
+ by smtp.gmail.com with ESMTPSA id
+ p10-20020a637f4a000000b00373a2760775sm15049274pgn.2.2022.03.29.01.24.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 01:24:40 -0700 (PDT)
+Date: Tue, 29 Mar 2022 18:24:30 +1000
+From: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v2 1/2] spapr: Move hypercall_register_softmmu
+To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20220325221113.255834-1-farosas@linux.ibm.com>
+ <20220325221113.255834-2-farosas@linux.ibm.com>
+In-Reply-To: <20220325221113.255834-2-farosas@linux.ibm.com>
 MIME-Version: 1.0
-References: <20220328211539.90170-1-maxim.davydov@openvz.org>
- <20220328211539.90170-5-maxim.davydov@openvz.org>
-In-Reply-To: <20220328211539.90170-5-maxim.davydov@openvz.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 29 Mar 2022 12:13:37 +0400
-Message-ID: <CAMxuvawN7QF6D_5mRphgv6=h0Yjmux3E5iQsT7ZTBj-OpH+WVg@mail.gmail.com>
-Subject: Re: [PATCH v1 4/9] msmouse: add appropriate unregister handler
-To: Maxim Davydov <maxim.davydov@openvz.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <1648542252.zlzp6n6wax.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,50 +88,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, v.sementsov-og@mail.ru, "P. Berrange,
- Daniel" <berrange@redhat.com>, Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Michael Tsirkin <mst@redhat.com>, "Armbruster, Markus" <armbru@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- lizhijian@fujitsu.com,
- =?UTF-8?B?TWF0aGlldS1EYXVkw6ksIFBoaWxpcHBl?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Zhang Chen <chen.zhang@intel.com>,
- Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>, "Bonzini,
- Paolo" <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>, den@openvz.org,
- "Blake, Eric" <eblake@redhat.com>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 29, 2022 at 1:15 AM Maxim Davydov <maxim.davydov@openvz.org> wr=
-ote:
->
-> Attempt to finalize msmouse after initalization brings to segmentation
-> fault in QTAILQ_REMOVE.
->
-> Signed-off-by: Maxim Davydov <maxim.davydov@openvz.org>
+Excerpts from Fabiano Rosas's message of March 26, 2022 8:11 am:
+> I'm moving this because next patch will add more code under the ifdef
+> and it will be cleaner if we keep them together.
+>=20
+> Also switch the ifdef branches to make it more convenient to add code
+> under CONFIG_TCG in the next patch.
+=20
+Reviewed-by: Nicholas Piggin <npiggin@gmail.com>
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
+>=20
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 > ---
->  chardev/msmouse.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/chardev/msmouse.c b/chardev/msmouse.c
-> index eb9231dcdb..2cc1b16561 100644
-> --- a/chardev/msmouse.c
-> +++ b/chardev/msmouse.c
-> @@ -146,7 +146,9 @@ static void char_msmouse_finalize(Object *obj)
->  {
->      MouseChardev *mouse =3D MOUSE_CHARDEV(obj);
->
-> -    qemu_input_handler_unregister(mouse->hs);
-> +    if (mouse->hs) {
-> +        qemu_input_handler_unregister(mouse->hs);
-> +    }
+>  hw/ppc/spapr_hcall.c | 50 ++++++++++++++++++++++----------------------
+>  1 file changed, 25 insertions(+), 25 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index f008290787..08b50590a8 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1473,31 +1473,6 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, targ=
+et_ulong opcode,
+>      return H_FUNCTION;
 >  }
->
->  static QemuInputHandler msmouse_handler =3D {
-> --
-> 2.31.1
->
-
+> =20
+> -#ifndef CONFIG_TCG
+> -static target_ulong h_softmmu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> -                            target_ulong opcode, target_ulong *args)
+> -{
+> -    g_assert_not_reached();
+> -}
+> -
+> -static void hypercall_register_softmmu(void)
+> -{
+> -    /* hcall-pft */
+> -    spapr_register_hypercall(H_ENTER, h_softmmu);
+> -    spapr_register_hypercall(H_REMOVE, h_softmmu);
+> -    spapr_register_hypercall(H_PROTECT, h_softmmu);
+> -    spapr_register_hypercall(H_READ, h_softmmu);
+> -
+> -    /* hcall-bulk */
+> -    spapr_register_hypercall(H_BULK_REMOVE, h_softmmu);
+> -}
+> -#else
+> -static void hypercall_register_softmmu(void)
+> -{
+> -    /* DO NOTHING */
+> -}
+> -#endif
+> -
+>  /* TCG only */
+>  #define PRTS_MASK      0x1f
+> =20
+> @@ -1825,6 +1800,31 @@ out_restore_l1:
+>      spapr_cpu->nested_host_state =3D NULL;
+>  }
+> =20
+> +#ifdef CONFIG_TCG
+> +static void hypercall_register_softmmu(void)
+> +{
+> +    /* DO NOTHING */
+> +}
+> +#else
+> +static target_ulong h_softmmu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +                            target_ulong opcode, target_ulong *args)
+> +{
+> +    g_assert_not_reached();
+> +}
+> +
+> +static void hypercall_register_softmmu(void)
+> +{
+> +    /* hcall-pft */
+> +    spapr_register_hypercall(H_ENTER, h_softmmu);
+> +    spapr_register_hypercall(H_REMOVE, h_softmmu);
+> +    spapr_register_hypercall(H_PROTECT, h_softmmu);
+> +    spapr_register_hypercall(H_READ, h_softmmu);
+> +
+> +    /* hcall-bulk */
+> +    spapr_register_hypercall(H_BULK_REMOVE, h_softmmu);
+> +}
+> +#endif
+> +
+>  static void hypercall_register_types(void)
+>  {
+>      hypercall_register_softmmu();
+> --=20
+> 2.35.1
+>=20
+>=20
 
