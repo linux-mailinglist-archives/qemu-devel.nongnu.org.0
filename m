@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10EE4EAFD9
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:08:01 +0200 (CEST)
-Received: from localhost ([::1]:59298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC574EAFCA
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:06:17 +0200 (CEST)
+Received: from localhost ([::1]:53794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZDRw-0001Lf-OV
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:08:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46404)
+	id 1nZDQG-0005v6-HU
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:06:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZDK9-0007AP-El
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:57 -0400
-Received: from [2607:f8b0:4864:20::235] (port=44812
- helo=mail-oi1-x235.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nZDMw-0002MA-26
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:02:50 -0400
+Received: from [2a00:1450:4864:20::529] (port=42607
+ helo=mail-ed1-x529.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZDK8-0003F5-11
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 10:59:57 -0400
-Received: by mail-oi1-x235.google.com with SMTP id t21so14403930oie.11
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 07:59:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=dE5tLLBVFgZbThwadIZIcSS2yUL3LPYAA/dTI3BpbO8=;
- b=mgugJ74jUveyyMd51hIW9qOEwRlMH78+maKJnNcrpFGsNaeLW8+a8cW0e27dh71deA
- ETyyYMJAlYJrNCXbgRnSBK6nfI8O+SF65CiFJvOqwD6NdyC9+pnhiIYTbExWsK7i9czu
- AzGUDm02D4vwaiHtoDzo3TsQloOvxIGwgkD4PhvpbVTdtFhXnTeNh6qcFy/K4qj11zlG
- oeC5GBoXxvuJy7DPsXTl3L573COn7tgyRv0h46A6ejM1VpT8iG0vUC3Kh+wd9dDl1ofP
- JjHGucN6goj00dr0kU4sLa6qT8n0QGW8i/6svuJJGEafJeg6JCs438v1BLoiPHxyzhEN
- KJ9g==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nZDMq-0003vO-OS
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:02:49 -0400
+Received: by mail-ed1-x529.google.com with SMTP id a17so21045611edm.9
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 08:02:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=EyGdIm9mA5hejPstR/qyEX3ZxkHZ6aIGc8L7MpnGRWWC3DxhDA8idz6OtuJX8ZmfGV
+ Q5su6tl3Tx5Hpx/dWHk0ukVVt/ejoRDKR/GnzA/igWC1f4wwzNZNEvLL1sLZDCAs/3nN
+ bmFTAO69wm5Q9zAhHtSnHR8aD45OzHUxiHxJP3o3okb3ZDaoVeXhh3oe26LLX4BKmDVV
+ r80kVQ2NJSQnZrQtK/dRFKpMLvYDAyajHcJBKkAfU/fY5xD2OHONqtv/pqvq8uFFWj5M
+ 7zOuWDvI+eE5+k7z5T4QDl2Yx4ILIF1XQX/47FeRiCRgVN0bRIOm/mTN23HdvtJpPfji
+ ZoXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dE5tLLBVFgZbThwadIZIcSS2yUL3LPYAA/dTI3BpbO8=;
- b=fBFjdKEc8vIur1E5oXokieKAHl/Bk7/m9a6Jj0b4cv8YwGcdUttm3vhEFe53a1qHSJ
- Z1fetAJifgSaE3b4JEFR7ms6yV3VOOS5tcrcbBOjgmssbcz0cJnXQFkyjZSEjW1kYShF
- BBIOKG/Li4QB4+ksr5faEbBaKpnAaRP8XS4QFH6SFcknxlPn2v6LLsbxgM2nQcAs6jy6
- 8bvqAcbEODzmZ+hNucL69cE8PXUmQ/cvWptwN5vHjTK26l2DRjcd9jLiRoh8wdUwUtnH
- B8HavFXn/3MN0+saxEXe8cvKS6q/V05wbwcEdcMbH+ty3jwP4hW8gggAttY9vfR4RR0F
- D/mQ==
-X-Gm-Message-State: AOAM5303VkV6kb3Kh1URP2LAMSBs2kjGITm+JU7M0ixkBnlECSUj04TZ
- t9CheAqBZBmZeCVLsWdHo+CqYPqHhN47SxK8ex4=
-X-Google-Smtp-Source: ABdhPJwu5Qf97JzY50cfdmWmCkfb6jj451fcmRehVSfK/uTdjLJL0S15GMaVASFHAXcd7DAX1c0x9Q==
-X-Received: by 2002:aca:d0e:0:b0:2ef:4a47:63b9 with SMTP id
- 14-20020aca0d0e000000b002ef4a4763b9mr11025oin.135.1648565994939; 
- Tue, 29 Mar 2022 07:59:54 -0700 (PDT)
-Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- ay5-20020a056820150500b00320f8a179d0sm7439712oob.30.2022.03.29.07.59.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Mar 2022 07:59:54 -0700 (PDT)
-Message-ID: <853eae1f-a1d1-8c25-9c5b-477a57b2df8e@linaro.org>
-Date: Tue, 29 Mar 2022 08:59:52 -0600
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=dK61UJsgeIwvzOMv4nFrjBZXSrP5vJkbyyrll9yy3lmkdeaAQlZvn4uxIeBcpvyPKn
+ JGXDRsRtPQiWFsyUnfYBMTig9M73Izp6LKex6vJ3jwWx7voDJbf8JZHamlnhFmxM3r4A
+ EdVvcumxeaQlP62FSZJ4JMDLj+DDfIfMwBz1QS4Da7dAa8JE8R/SR0jeGePSDDt6ZCPX
+ e0QWmg2T04hz24njWDJsaQgFLg3hXOw5M1epbRer8xlKoKdh2MwFmJPnX1mfZbtgcJDN
+ SlliEueXBw4rfuIkBCwCotwNodma42SzplTdoLGO+L01VMjgmu0MGcYh0NDOrRh6hN+N
+ bk2A==
+X-Gm-Message-State: AOAM530bgcuhldBZBN/g1a2RhVY8U3tsrYCpFBuPZ2CfXY9fGKzHjoiu
+ r/Ovnu3ukkZbiiMmGaAuJuI=
+X-Google-Smtp-Source: ABdhPJxOaZaxwusUvHAr1LwPXqE5u021cte94ikte051MILtRgxK/wIy8Oq14SmLpp0crPoigcHv7g==
+X-Received: by 2002:a05:6402:518e:b0:419:675b:abeb with SMTP id
+ q14-20020a056402518e00b00419675babebmr5041625edd.279.1648566162848; 
+ Tue, 29 Mar 2022 08:02:42 -0700 (PDT)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:8ca6:a836:a237:fed1])
+ by smtp.gmail.com with ESMTPSA id
+ q15-20020a1709060e4f00b006cdf4535cf2sm7144778eji.67.2022.03.29.08.02.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 08:02:42 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Dov Murik <dovmurik@linux.ibm.com>
+Subject: Re: [PATCH v3] qapi,
+ target/i386/sev: Add cpu0-id to query-sev-capabilities
+Date: Tue, 29 Mar 2022 17:02:28 +0200
+Message-Id: <20220329150229.878490-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220228093014.882288-1-dovmurik@linux.ibm.com>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/3] target/arm: Check VSTCR.SW when assigning the stage 2
- output PA space
-Content-Language: en-US
-To: Idan Horowitz <idan.horowitz@gmail.com>, qemu-arm@nongnu.org
-References: <20220327093427.1548629-1-idan.horowitz@gmail.com>
- <20220327093427.1548629-2-idan.horowitz@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220327093427.1548629-2-idan.horowitz@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::235
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x235.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -94,21 +90,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eric Blake <eblake@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/27/22 03:34, Idan Horowitz wrote:
-> As per the AArch64.SS2OutputPASpace() psuedo-code in the ARMv8 ARM when the
-> PA space of the IPA is non secure, the output PA space is secure if and only
-> if all of the bits VTCR.<NSW, NSA>, VSTCR.<SW, SA> are not set.
-> 
-> Signed-off-by: Idan Horowitz<idan.horowitz@gmail.com>
-> ---
->   target/arm/helper.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+Queued, thanks.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Paolo
 
-r~
 
