@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2653C4EB270
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 19:04:49 +0200 (CEST)
-Received: from localhost ([::1]:45342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F10A94EB27F
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 19:09:22 +0200 (CEST)
+Received: from localhost ([::1]:48054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZFGy-0000dS-08
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 13:04:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47196)
+	id 1nZFLO-0002go-2g
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 13:09:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZFFv-0007mn-Ok
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 13:03:43 -0400
-Received: from [2a00:1450:4864:20::331] (port=52860
- helo=mail-wm1-x331.google.com)
+ id 1nZFK9-0001ic-IL; Tue, 29 Mar 2022 13:08:05 -0400
+Received: from [2a00:1450:4864:20::434] (port=35453
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZFFu-0007VB-4X
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 13:03:43 -0400
-Received: by mail-wm1-x331.google.com with SMTP id r7so10723904wmq.2
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 10:03:38 -0700 (PDT)
+ id 1nZFK7-0008Bz-AI; Tue, 29 Mar 2022 13:08:05 -0400
+Received: by mail-wr1-x434.google.com with SMTP id w21so21215472wra.2;
+ Tue, 29 Mar 2022 10:08:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=6ZtcMZawI0x7va21I2YLUVS/GFmtNibrDwcDfbZTZRc=;
- b=csBFaWDg5i9OzVOKbGNn/BqrT3JV5UBzIuQGkjPgHXi2oilZVrBvzE0D62MO+g2j+y
- xEoraiqUXErL3Mr80Yk4Dt01fXBNfq4oXsSQnfKbIjMETIN2BDmatmfh8IxnSePcQ3vz
- vHIScuGiocOcNOTGCiesfLMqyIIjkRC/axeWpCYKijsCioex11OZCtCgPgZh336tTJ0F
- znfYwzleYrxtrcIyICvusqVY6Nw2BOtEVPgZd73x/MghQ+81pmkzioMT0hOEeldvY7p/
- k9cdByRlmhjwVIOhKBBurR+k9FMRcWqPnJD66mtsVR09G+X3lq95DNw1L2RtQ+7USsMp
- cdVA==
+ bh=SJBBF0TnBpbETSwq+FOJlCnJwivuZ+gZ5uXpl+U64bM=;
+ b=THiSH7KXSf6dCGjJSrSiCBHVIC3P5noRnN/sACH59ZdbsN9Qtl4Gge0gCBUoHGZiab
+ ez1tHVVUMWZMQTTq0EygtdGENraTV1WmfoN6JVc66ech/QRFSWbpIfGU5lH3BxnZFYdB
+ IH4f3iJDXtgXkJG5czizuOirYZ43s2ETncvJAJV0QGJp4rOqVAxYt18+3Xc6Pvg7Ec8F
+ 949zsM/+xbvypYtYpVUPHnMByhfiQQaEhC/g3LX5rvIQ0LEJzzq0OXZNy0IyrCR4H2gG
+ /5qgZWs/1/fGgOIm7Ys9xswVK2A/9rj8aJW1IYiZK5fSYpPq8hWZsQ9hpT0eY0JKIFgG
+ qB1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6ZtcMZawI0x7va21I2YLUVS/GFmtNibrDwcDfbZTZRc=;
- b=RfTdjYpqmBvCfJWlNI1SltqJ+WEKW8EhjRBv5OTldx5swm513dCnKEF+/4nNq2KMFM
- O6/sE85xIs+/gt9mLkZ1MhZIMaaNJZl6gdFS6YR2E4Dx0chln1gRMMzhbRDL38Xrus1Q
- culVv7he6JZF6PuK+cKLAF1KSkJdJ7t7SiSUIMJSEN1BtOe8ZP4dGbjub3WE60EYR4MJ
- jX4mlPBARNwWGMUwKghGpZARfiLMbIXly5bChJtkSBrYLt0+pSidHIKJi7/GQR2+j6Ky
- yOliLL1o+/shNUMuF8VbxX804BBbZ29s3azCilYB84MAUnpjwomdyTlvPHvAoAZC8MPO
- PGxw==
-X-Gm-Message-State: AOAM531O2ALjdv/+x4PMuQWzl39qZ4XGuxxhyZGedNsp64BWDMRy8LFL
- UmLD38YUgTOfSYklcSR3GXo=
-X-Google-Smtp-Source: ABdhPJy9OoeQMscm0Vmb0PlA7mUdv3cQXDKKl6vdobWyuD6kZC7hwDMGg9n6Njaf0+Z22pK64NRmgg==
-X-Received: by 2002:a1c:7517:0:b0:38c:8722:9bc6 with SMTP id
- o23-20020a1c7517000000b0038c87229bc6mr231212wmc.2.1648573413754; 
- Tue, 29 Mar 2022 10:03:33 -0700 (PDT)
+ bh=SJBBF0TnBpbETSwq+FOJlCnJwivuZ+gZ5uXpl+U64bM=;
+ b=VdKXqD2Eyn7yAnuzgATlsYrnmvgNhmQbBbHfOYUzkA6GCfOffwcKLDvmyJBRaxRZnh
+ vjmk7NKLCaQ2wy9jI3Q3xIGf7DWqazOU0NSWbPtD8QFQfLftF03QQbGt/GDgpAO404xB
+ JNoZER0aQoHwOZbgM5FrOGHOwN6nRzUmFp0mPfIEMosyPqHfP1X76uxXrJwnyckA3siP
+ NNA9vgEVdFmmMpxifpCdxIv/gRMJW/tsZSN0cAVPtjJRiZmLe8bjWOla1J1vrtqfXalz
+ uBhojS8fjbM+Phq46haMvDGo1QOoUzhNNKujs33uJJk4OBJNwg27rMxPUjHIKCdwXAV8
+ vxIQ==
+X-Gm-Message-State: AOAM531pLEagEjfEQoG6wUkJ3JV6L7IOxF6KEmmAZyOqzG+koGdi9BZq
+ cbGVhCFkVGh6GFEpqOMvCWk=
+X-Google-Smtp-Source: ABdhPJzyNHCa08I7kSzfQvVRcY9BIsjy/6LsuCWH1+jld0LmZC+RSjuH0vt+zgfpNU7MWns7WKTvig==
+X-Received: by 2002:adf:f881:0:b0:203:f9b1:a6ab with SMTP id
+ u1-20020adff881000000b00203f9b1a6abmr32237062wrp.410.1648573680990; 
+ Tue, 29 Mar 2022 10:08:00 -0700 (PDT)
 Received: from ?IPV6:2600:70ff:f07f:0:7175:c9f2:ce76:a519?
  ([2600:70ff:f07f:0:7175:c9f2:ce76:a519])
  by smtp.gmail.com with ESMTPSA id
- u13-20020a05600c19cd00b0038cb84f4218sm2823569wmq.27.2022.03.29.10.03.32
+ o19-20020a05600c511300b0038d0d8f67e5sm2604534wms.16.2022.03.29.10.07.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Mar 2022 10:03:33 -0700 (PDT)
-Message-ID: <9c553bff-1b1a-9251-c0cb-4d33bb4745a5@gmail.com>
-Date: Tue, 29 Mar 2022 19:03:31 +0200
+ Tue, 29 Mar 2022 10:08:00 -0700 (PDT)
+Message-ID: <fa67e24a-1e6c-a3b7-0db1-ea2be261dfa3@gmail.com>
+Date: Tue, 29 Mar 2022 19:07:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PULL 0/4] Darwin patches for 2022-03-29
+Subject: Re: [PATCH 4/5] intc/exynos4210_gic: fix format-overflow warning
 Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
-References: <20220328224012.32737-1-philippe.mathieu.daude@gmail.com>
- <db936fb1-268e-9486-b954-fc6cb7ef3c32@gmail.com>
- <d71bdcf6-d697-f667-e6c2-a02e6d73cb9f@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, marcandre.lureau@redhat.com
+References: <20220328084717.367993-1-marcandre.lureau@redhat.com>
+ <20220328084717.367993-5-marcandre.lureau@redhat.com>
+ <CAFEAcA-g=XaURutqWd6okRHb3-pz3SegaxRMG5j2s+PThQHdGQ@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <d71bdcf6-d697-f667-e6c2-a02e6d73cb9f@redhat.com>
+In-Reply-To: <CAFEAcA-g=XaURutqWd6okRHb3-pz3SegaxRMG5j2s+PThQHdGQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,61 +94,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Antony Pavlov <antonynpavlov@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/3/22 14:10, Hanna Reitz wrote:
-> On 29.03.22 12:27, Philippe Mathieu-Daudé wrote:
->> Hi Peter,
+On 28/3/22 11:15, Peter Maydell wrote:
+> On Mon, 28 Mar 2022 at 09:48, <marcandre.lureau@redhat.com> wrote:
 >>
->> On 29/3/22 00:40, Philippe Mathieu-Daudé wrote:
->>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>
->>> The following changes since commit 
->>> 27fc9f365d6f60ff86c2e2be57289bb47a2be882:
->>>
->>>    Merge tag 'pull-ppc-20220326' of https://github.com/legoater/qemu 
->>> into staging (2022-03-28 10:16:33 +0100)
->>>
->>> are available in the Git repository at:
->>>
->>>    https://github.com/philmd/qemu.git tags/darwin-20220329
->>>
->>> for you to fetch changes up to a4fd374364d4e23e0861273aaf7ff2ebddd57a17:
->>>
->>>    ui/console: Check console before emitting GL event (2022-03-29 
->>> 00:19:37 +0200)
->>>
->>> ----------------------------------------------------------------
->>> Darwin patches
->>>
->>> - UI fixes
->>>
->>> ----------------------------------------------------------------
->>>
->>> Akihiko Odaki (2):
->>>    ui/cocoa: Respect left-command-key option
->>>    ui/console: Check console before emitting GL event
->>>
->>> Philippe Mathieu-Daudé (2):
->>>    gitattributes: Cover Objective-C source files
->>>    qemu/main-loop: Disable block backend global state assertion on Cocoa
+>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 >>
->> Do you mind putting this PR on hold to see Hanna's answer whether we
->> take her patch instead:
->> https://lore.kernel.org/qemu-devel/dab63073-d532-2795-fce4-77bd0839f578@gmail.com/ 
+>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>> ---
+>>   hw/intc/exynos4210_gic.c | 9 +++------
+>>   1 file changed, 3 insertions(+), 6 deletions(-)
 >>
+>> diff --git a/hw/intc/exynos4210_gic.c b/hw/intc/exynos4210_gic.c
+>> index bc73d1f11524..5b6f4330a5f3 100644
+>> --- a/hw/intc/exynos4210_gic.c
+>> +++ b/hw/intc/exynos4210_gic.c
+>> @@ -289,10 +289,6 @@ static void exynos4210_gic_realize(DeviceState *dev, Error **errp)
+>>       Object *obj = OBJECT(dev);
+>>       Exynos4210GicState *s = EXYNOS4210_GIC(obj);
+>>       SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+>> -    const char cpu_prefix[] = "exynos4210-gic-alias_cpu";
+>> -    const char dist_prefix[] = "exynos4210-gic-alias_dist";
+>> -    char cpu_alias_name[sizeof(cpu_prefix) + 3];
+>> -    char dist_alias_name[sizeof(cpu_prefix) + 3];
+>>       SysBusDevice *gicbusdev;
+>>       uint32_t n = s->num_cpu;
+>>       uint32_t i;
+>> @@ -322,8 +318,10 @@ static void exynos4210_gic_realize(DeviceState *dev, Error **errp)
+>>        */
+>>       assert(n <= EXYNOS4210_NCPUS);
+>>       for (i = 0; i < n; i++) {
+>> +        g_autofree char *cpu_alias_name = g_strdup_printf("exynos4210-gic-alias_cpu%x", i);
+>> +        g_autofree char *dist_alias_name = g_strdup_printf("exynos4210-gic-alias_dist%x", i);
+
+Dubious '%x' format... Maybe change to '%u'?
+
+>>           /* Map CPU interface per SMP Core */
+>> -        sprintf(cpu_alias_name, "%s%x", cpu_prefix, i);
+>>           memory_region_init_alias(&s->cpu_alias[i], obj,
+>>                                    cpu_alias_name,
+>>                                    sysbus_mmio_get_region(gicbusdev, 1),
+>> @@ -333,7 +331,6 @@ static void exynos4210_gic_realize(DeviceState *dev, Error **errp)
+>>                   EXYNOS4210_EXT_GIC_CPU_GET_OFFSET(i), &s->cpu_alias[i]);
+>>
+>>           /* Map Distributor per SMP Core */
+>> -        sprintf(dist_alias_name, "%s%x", dist_prefix, i);
+>>           memory_region_init_alias(&s->dist_alias[i], obj,
+>>                                    dist_alias_name,
+>>                                    sysbus_mmio_get_region(gicbusdev, 0),
+>> --
 > 
-> To explicitly reply here (too): I would like to rebase my patch (and 
-> subsequent PR) on this PR here.  I’d therefore like this PR to proceed 
-> (if possible).
+> More false positives, but here the new code is massively better than the old.
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> thanks
+> -- PMM
+> 
 
-I couldn't update earlier due to a power outage...
-
-Thanks Hanna for following up, and Peter for merging!
-
-Phil.
 
