@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9FC4EADD9
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 14:52:11 +0200 (CEST)
-Received: from localhost ([::1]:34454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F7C4EADF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 14:55:57 +0200 (CEST)
+Received: from localhost ([::1]:38064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZBKU-0000IN-Ne
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 08:52:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45180)
+	id 1nZBO8-0002q9-JM
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 08:55:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZBGI-00057w-Td
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:47:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39960)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nZBJN-00005P-R4
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:51:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZBGH-0005fx-5N
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:47:50 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nZBJM-0006D6-9Z
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 08:51:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648558068;
+ s=mimecast20190719; t=1648558259;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3RjCal6qrJnWMNtTuMZmTMIroU1XKTsMTeIqHfyeywk=;
- b=bMKtfrQi0fQ8ZbPiD2zkarZmt+iscY1MXtZP7HqH2MuDBXwUQYjTOuOjj+ix4ySAK1k6PV
- sdqiLuxhuzgbojfcqfCDs+H0F2VgIaF2uNfx5RvmcFpizKuOlw1ahloyLpINTo3MhFQQuy
- sZt450tVqCmOOs/KPs9ps8jSgKOBadA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3lrrDN+RLqC1yS3zQkD+9uABP1XzZmEpR/XjooHrw24=;
+ b=Ng8Xr8IL59kuyz8WUQptt3wz6AV2Sapq96Sc/yCUzo8OJfBTryu10o7OvJnd245r+w5O2s
+ gsnSZlzavoEQf7ev5iusvtj74bcqU9/jOn9Fbmo1yADfVm5xMJmUuCYYpHuUFOGXcm89q+
+ ar2Vwre6WiBOnf/piq2XShHk875WtDQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-252-VNP5xgCePnSVsxzNcV2L7g-1; Tue, 29 Mar 2022 08:47:45 -0400
-X-MC-Unique: VNP5xgCePnSVsxzNcV2L7g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-407-sA0D8XQ-OmyzJETFyNx71g-1; Tue, 29 Mar 2022 08:50:56 -0400
+X-MC-Unique: sA0D8XQ-OmyzJETFyNx71g-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A44E028EA6E1;
- Tue, 29 Mar 2022 12:47:44 +0000 (UTC)
-Received: from [10.33.192.183] (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF9811400B1C;
- Tue, 29 Mar 2022 12:47:43 +0000 (UTC)
-Message-ID: <f329f744-e807-fc0c-69f6-52cc3d10ab9e@redhat.com>
-Date: Tue, 29 Mar 2022 14:47:43 +0200
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2DB77811E78;
+ Tue, 29 Mar 2022 12:50:55 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC037401E9D;
+ Tue, 29 Mar 2022 12:50:54 +0000 (UTC)
+Date: Tue, 29 Mar 2022 13:50:53 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v7 14/17] vfio-user: handle PCI BAR accesses
+Message-ID: <YkMArX56GKwOTsc0@stefanha-x1.localdomain>
+References: <cover.1648234157.git.jag.raman@oracle.com>
+ <1c2cc82cc72964216fb63270805fefb095f4d4a8.1648234157.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] tests/qtest: failover: fix infinite loop
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20220329124259.355995-1-lvivier@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220329124259.355995-1-lvivier@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="L52AFC1+c8ReFX/J"
+Content-Disposition: inline
+In-Reply-To: <1c2cc82cc72964216fb63270805fefb095f4d4a8.1648234157.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,132 +77,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
+ berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
+ armbru@redhat.com, quintela@redhat.com, f4bug@amsat.org, qemu-devel@nongnu.org,
+ alex.williamson@redhat.com, kanth.ghatraju@oracle.com,
+ thanos.makatos@nutanix.com, pbonzini@redhat.com, eblake@redhat.com,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/03/2022 14.42, Laurent Vivier wrote:
-> If the migration is over before we cancel it, we are
-> waiting in a loop a state that never comes because the state
-> is already "completed".
-> 
-> To avoid an infinite loop, skip the test if the migration
-> is "completed" before we were able to cancel it.
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
->   tests/qtest/virtio-net-failover.c | 29 +++++++++++++++++++++++++----
->   1 file changed, 25 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-> index 80292eecf65f..78811f1c9216 100644
-> --- a/tests/qtest/virtio-net-failover.c
-> +++ b/tests/qtest/virtio-net-failover.c
-> @@ -1141,6 +1141,11 @@ static void test_migrate_guest_off_abort(gconstpointer opaque)
->           ret = migrate_status(qts);
->   
->           status = qdict_get_str(ret, "status");
-> +        if (strcmp(status, "completed") == 0) {
-> +            g_test_skip("Failed to cancel the migration");
-> +            qobject_unref(ret);
-> +            goto out;
-> +        }
->           if (strcmp(status, "active") == 0) {
->               qobject_unref(ret);
->               break;
-> @@ -1155,8 +1160,12 @@ static void test_migrate_guest_off_abort(gconstpointer opaque)
->   
->       while (true) {
->           ret = migrate_status(qts);
-> -
->           status = qdict_get_str(ret, "status");
-> +        if (strcmp(status, "completed") == 0) {
-> +            g_test_skip("Failed to cancel the migration");
-> +            qobject_unref(ret);
-> +            goto out;
-> +        }
->           if (strcmp(status, "cancelled") == 0) {
->               qobject_unref(ret);
->               break;
-> @@ -1169,6 +1178,7 @@ static void test_migrate_guest_off_abort(gconstpointer opaque)
->       check_one_card(qts, true, "standby0", MAC_STANDBY0);
->       check_one_card(qts, false, "primary0", MAC_PRIMARY0);
->   
-> +out:
->       qos_object_destroy((QOSGraphObject *)vdev);
->       machine_stop(qts);
->   }
-> @@ -1251,8 +1261,7 @@ static void test_migrate_abort_wait_unplug(gconstpointer opaque)
->               qobject_unref(ret);
->               break;
->           }
-> -        g_assert_cmpstr(status, !=, "failed");
-> -        g_assert_cmpstr(status, !=, "active");
-> +        g_assert_cmpstr(status, ==, "cancelling");
->           qobject_unref(ret);
->       }
->   
-> @@ -1324,11 +1333,11 @@ static void test_migrate_abort_active(gconstpointer opaque)
->           ret = migrate_status(qts);
->   
->           status = qdict_get_str(ret, "status");
-> +        g_assert_cmpstr(status, !=, "failed");
->           if (strcmp(status, "wait-unplug") != 0) {
->               qobject_unref(ret);
->               break;
->           }
-> -        g_assert_cmpstr(status, !=, "failed");
->           qobject_unref(ret);
->       }
->   
-> @@ -1340,6 +1349,11 @@ static void test_migrate_abort_active(gconstpointer opaque)
->           ret = migrate_status(qts);
->   
->           status = qdict_get_str(ret, "status");
-> +        if (strcmp(status, "completed") == 0) {
-> +            g_test_skip("Failed to cancel the migration");
-> +            qobject_unref(ret);
-> +            goto out;
-> +        }
->           if (strcmp(status, "cancelled") == 0) {
->               qobject_unref(ret);
->               break;
-> @@ -1352,6 +1366,7 @@ static void test_migrate_abort_active(gconstpointer opaque)
->       check_one_card(qts, true, "standby0", MAC_STANDBY0);
->       check_one_card(qts, true, "primary0", MAC_PRIMARY0);
->   
-> +out:
->       qos_object_destroy((QOSGraphObject *)vdev);
->       machine_stop(qts);
->   }
-> @@ -1425,6 +1440,11 @@ static void test_migrate_off_abort(gconstpointer opaque)
->           ret = migrate_status(qts);
->   
->           status = qdict_get_str(ret, "status");
-> +        if (strcmp(status, "completed") == 0) {
-> +            g_test_skip("Failed to cancel the migration");
-> +            qobject_unref(ret);
-> +            goto out;
-> +        }
->           if (strcmp(status, "cancelled") == 0) {
->               qobject_unref(ret);
->               break;
-> @@ -1437,6 +1457,7 @@ static void test_migrate_off_abort(gconstpointer opaque)
->       check_one_card(qts, true, "standby0", MAC_STANDBY0);
->       check_one_card(qts, true, "primary0", MAC_PRIMARY0);
->   
-> +out:
->       qos_object_destroy((QOSGraphObject *)vdev);
->       machine_stop(qts);
->   }
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+--L52AFC1+c8ReFX/J
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Is this still urgent for 7.0, or can it wait for the 7.1 cycle?
+On Fri, Mar 25, 2022 at 03:19:43PM -0400, Jagannathan Raman wrote:
+> @@ -324,6 +325,170 @@ static void dma_unregister(vfu_ctx_t *vfu_ctx, vfu_=
+dma_info_t *info)
+>      trace_vfu_dma_unregister((uint64_t)info->iova.iov_base);
+>  }
+> =20
+> +static size_t vfu_object_bar_rw(PCIDevice *pci_dev, int pci_bar,
+> +                                hwaddr offset, char * const buf,
+> +                                hwaddr len, const bool is_write)
+> +{
+> +    uint8_t *ptr =3D (uint8_t *)buf;
+> +    uint8_t *ram_ptr =3D NULL;
+> +    bool release_lock =3D false;
+> +    MemoryRegionSection section =3D { 0 };
+> +    MemoryRegion *mr =3D NULL;
+> +    int access_size;
+> +    hwaddr size =3D 0;
+> +    MemTxResult result;
+> +    uint64_t val;
+> +
+> +    section =3D memory_region_find(pci_dev->io_regions[pci_bar].memory,
+> +                                 offset, len);
+> +
+> +    if (!section.mr) {
+> +        return 0;
+> +    }
+> +
+> +    mr =3D section.mr;
+> +    offset =3D section.offset_within_region;
+> +
+> +    if (is_write && mr->readonly) {
+> +        warn_report("vfu: attempting to write to readonly region in "
+> +                    "bar %d - [0x%"PRIx64" - 0x%"PRIx64"]",
+> +                    pci_bar, offset, (offset + len));
+> +        return 0;
 
-  Thomas
+A mr reference is leaked. The return statement can be replaced with goto
+exit.
+
+> +    }
+> +
+> +    if (memory_access_is_direct(mr, is_write)) {
+> +        /**
+> +         * Some devices expose a PCI expansion ROM, which could be buffer
+> +         * based as compared to other regions which are primarily based =
+on
+> +         * MemoryRegionOps. memory_region_find() would already check
+> +         * for buffer overflow, we don't need to repeat it here.
+> +         */
+> +        ram_ptr =3D memory_region_get_ram_ptr(mr);
+> +
+> +        size =3D len;
+
+This looks like it will access beyond the end of ram_ptr when
+section.size < len after memory_region_find() returns.
+
+> +
+> +        if (is_write) {
+> +            memcpy((ram_ptr + offset), buf, size);
+> +        } else {
+> +            memcpy(buf, (ram_ptr + offset), size);
+> +        }
+> +
+> +        goto exit;
+
+What happens when the access spans two adjacent MemoryRegions? I think
+the while (len > 0) loop is needed even in the memory_access_is_direct()
+case so we perform the full access instead of truncating it.
+
+> +    }
+> +
+> +    while (len > 0) {
+
+--L52AFC1+c8ReFX/J
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJDAK0ACgkQnKSrs4Gr
+c8g8vwf9HZiuWB/TBoxUWba0YGzUABKfCWT8CFn5bjNsm2Rz1YEzPO1nm2TaXBv9
+EH/ZeARljgEIseAnRyapyOk2a2LYDCiHF8tm5CBnCoKHJMDC4jWTZTi7eNeb2ztH
+mpGHxSySYVMzLIbnjqDScXAMr31C7II/5CAc4GiTy2LKuXOZkJhqTIHHQ+PQlFPg
+x/4gM6R5W8ZiUdHK8x43zXl5r/No7hrGgqNi5WFbHtKdU1urNsa76mpH81TbVjly
+kZTE611pbMQ4C2CbrmoIWf6s6kwhtlSeZTjgtMjNppQvtqoc1Q/TOn6C9Ilbv/cS
+LNVlKVfizM9tD3ivn9VlLgP/PRoU3g==
+=qx9K
+-----END PGP SIGNATURE-----
+
+--L52AFC1+c8ReFX/J--
 
 
