@@ -2,104 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AA34EB26F
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 19:04:13 +0200 (CEST)
-Received: from localhost ([::1]:43204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2653C4EB270
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 19:04:49 +0200 (CEST)
+Received: from localhost ([::1]:45342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZFGN-0007bY-UA
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 13:04:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46814)
+	id 1nZFGy-0000dS-08
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 13:04:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qperret@google.com>)
- id 1nZFE9-0006tO-2H
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 13:01:53 -0400
-Received: from [2a00:1450:4864:20::42c] (port=40490
- helo=mail-wr1-x42c.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nZFFv-0007mn-Ok
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 13:03:43 -0400
+Received: from [2a00:1450:4864:20::331] (port=52860
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <qperret@google.com>)
- id 1nZFE6-0007Md-DN
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 13:01:52 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id d7so25751654wrb.7
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 10:01:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=fDEbyTk5JLZwfzVmTiXkAAwM2SkhzM0CrjsBq6yV8uQ=;
- b=nFte+OoNNUDulAY71F/YaVEMwP4/fjEKZy3iAHaWKGtiq3jPM1hCXjv1oeE/PYW/Iu
- CaeCDlvm9ldzoOTxdf6mWH0kRtv0jXPkPuriZuGskn6zPN54Mtw8L5ZvIBbLXFPA9SEm
- FdEsg8IbYPk/oFSs1nqv1BhLVA3HEX43BHA3LQ+7hSkC44G2cnS9ziA+s/XAJ7fnhljy
- EpUuct+9uxfl3dFf+JF0V45IaRO1NzBz8J/iwEKvGZ0Dy3kJqKI6yvUlhtsCwTvQX7/4
- Qf7ABMTedmRqasdiJYqU+a+01g86eVnw4U2J2Y7iYT2ARpBS/p6MkLvOYf0754Xe/kip
- LlTg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nZFFu-0007VB-4X
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 13:03:43 -0400
+Received: by mail-wm1-x331.google.com with SMTP id r7so10723904wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 10:03:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=6ZtcMZawI0x7va21I2YLUVS/GFmtNibrDwcDfbZTZRc=;
+ b=csBFaWDg5i9OzVOKbGNn/BqrT3JV5UBzIuQGkjPgHXi2oilZVrBvzE0D62MO+g2j+y
+ xEoraiqUXErL3Mr80Yk4Dt01fXBNfq4oXsSQnfKbIjMETIN2BDmatmfh8IxnSePcQ3vz
+ vHIScuGiocOcNOTGCiesfLMqyIIjkRC/axeWpCYKijsCioex11OZCtCgPgZh336tTJ0F
+ znfYwzleYrxtrcIyICvusqVY6Nw2BOtEVPgZd73x/MghQ+81pmkzioMT0hOEeldvY7p/
+ k9cdByRlmhjwVIOhKBBurR+k9FMRcWqPnJD66mtsVR09G+X3lq95DNw1L2RtQ+7USsMp
+ cdVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fDEbyTk5JLZwfzVmTiXkAAwM2SkhzM0CrjsBq6yV8uQ=;
- b=tJNMgG55D8YzkkTqWlp92AOE6yDfRH+Bk7tApMLbHNbDvQG49+VMd5i8hy/dfEuRMj
- 1QwZZkpd3tnaKi61c0nDf46XRcZGB5R1fSmKpbCYtu5GzaQR/GizWiWZcqfrkxLeMc72
- cz4tglkKFUe3nHYfHbHnF5uQk7aRMR3LubKPvM4aBkFd6ryTMZDWBxKOmZKvb4S4GQVA
- YYPXXF/kaOdvAkuPavgzvvJ793AXblJY6cyxUyVlFiAnmyLa+hJ4ZA+u8JTPd6knGF4M
- cnQCOGuB3Am9vQkMugOrckuyi3DrB0Q7NvOwxYE/1XmRf3yzKMTJRGd6h0reAR9uwenv
- ugAA==
-X-Gm-Message-State: AOAM530xM2/2ksTAz+ATU0lnnikg/uXX+dINj8p9pxxJHH284z91YAn5
- ve7PHoGgG57DN+JHdMGuN/JUVQ==
-X-Google-Smtp-Source: ABdhPJxPse1UJFRu0iABOfDa+i1kx+YJuLeqO4wcBveYiTN5kWzxPsXAfC0C+zTPq81FovM+LAXOng==
-X-Received: by 2002:adf:c54c:0:b0:203:ed16:2570 with SMTP id
- s12-20020adfc54c000000b00203ed162570mr32914595wrf.646.1648573308184; 
- Tue, 29 Mar 2022 10:01:48 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:210:eb09:5f76:2b4a:9d88])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6ZtcMZawI0x7va21I2YLUVS/GFmtNibrDwcDfbZTZRc=;
+ b=RfTdjYpqmBvCfJWlNI1SltqJ+WEKW8EhjRBv5OTldx5swm513dCnKEF+/4nNq2KMFM
+ O6/sE85xIs+/gt9mLkZ1MhZIMaaNJZl6gdFS6YR2E4Dx0chln1gRMMzhbRDL38Xrus1Q
+ culVv7he6JZF6PuK+cKLAF1KSkJdJ7t7SiSUIMJSEN1BtOe8ZP4dGbjub3WE60EYR4MJ
+ jX4mlPBARNwWGMUwKghGpZARfiLMbIXly5bChJtkSBrYLt0+pSidHIKJi7/GQR2+j6Ky
+ yOliLL1o+/shNUMuF8VbxX804BBbZ29s3azCilYB84MAUnpjwomdyTlvPHvAoAZC8MPO
+ PGxw==
+X-Gm-Message-State: AOAM531O2ALjdv/+x4PMuQWzl39qZ4XGuxxhyZGedNsp64BWDMRy8LFL
+ UmLD38YUgTOfSYklcSR3GXo=
+X-Google-Smtp-Source: ABdhPJy9OoeQMscm0Vmb0PlA7mUdv3cQXDKKl6vdobWyuD6kZC7hwDMGg9n6Njaf0+Z22pK64NRmgg==
+X-Received: by 2002:a1c:7517:0:b0:38c:8722:9bc6 with SMTP id
+ o23-20020a1c7517000000b0038c87229bc6mr231212wmc.2.1648573413754; 
+ Tue, 29 Mar 2022 10:03:33 -0700 (PDT)
+Received: from ?IPV6:2600:70ff:f07f:0:7175:c9f2:ce76:a519?
+ ([2600:70ff:f07f:0:7175:c9f2:ce76:a519])
  by smtp.gmail.com with ESMTPSA id
- l20-20020a05600c1d1400b0038cba2f88c0sm3818702wms.26.2022.03.29.10.01.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 10:01:47 -0700 (PDT)
-Date: Tue, 29 Mar 2022 18:01:44 +0100
-From: Quentin Perret <qperret@google.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, maz@kernel.org, will@kernel.org
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YkM7eHCHEBe5NkNH@google.com>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <YjyS6A0o4JASQK+B@google.com> <YkHspg+YzOsbUaCf@google.com>
- <YkH32nx+YsJuUbmZ@google.com> <YkIFW25WgV2WIQHb@google.com>
+ u13-20020a05600c19cd00b0038cb84f4218sm2823569wmq.27.2022.03.29.10.03.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Mar 2022 10:03:33 -0700 (PDT)
+Message-ID: <9c553bff-1b1a-9251-c0cb-4d33bb4745a5@gmail.com>
+Date: Tue, 29 Mar 2022 19:03:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkIFW25WgV2WIQHb@google.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PULL 0/4] Darwin patches for 2022-03-29
+Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20220328224012.32737-1-philippe.mathieu.daude@gmail.com>
+ <db936fb1-268e-9486-b954-fc6cb7ef3c32@gmail.com>
+ <d71bdcf6-d697-f667-e6c2-a02e6d73cb9f@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <d71bdcf6-d697-f667-e6c2-a02e6d73cb9f@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=qperret@google.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -161
-X-Spam_score: -16.2
-X-Spam_bar: ----------------
-X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,172 +96,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Monday 28 Mar 2022 at 18:58:35 (+0000), Sean Christopherson wrote:
-> On Mon, Mar 28, 2022, Quentin Perret wrote:
-> > Hi Sean,
-> > 
-> > Thanks for the reply, this helps a lot.
-> > 
-> > On Monday 28 Mar 2022 at 17:13:10 (+0000), Sean Christopherson wrote:
-> > > On Thu, Mar 24, 2022, Quentin Perret wrote:
-> > > > For Protected KVM (and I suspect most other confidential computing
-> > > > solutions), guests have the ability to share some of their pages back
-> > > > with the host kernel using a dedicated hypercall. This is necessary
-> > > > for e.g. virtio communications, so these shared pages need to be mapped
-> > > > back into the VMM's address space. I'm a bit confused about how that
-> > > > would work with the approach proposed here. What is going to be the
-> > > > approach for TDX?
-> > > > 
-> > > > It feels like the most 'natural' thing would be to have a KVM exit
-> > > > reason describing which pages have been shared back by the guest, and to
-> > > > then allow the VMM to mmap those specific pages in response in the
-> > > > memfd. Is this something that has been discussed or considered?
-> > > 
-> > > The proposed solution is to exit to userspace with a new exit reason, KVM_EXIT_MEMORY_ERROR,
-> > > when the guest makes the hypercall to request conversion[1].  The private fd itself
-> > > will never allow mapping memory into userspace, instead userspace will need to punch
-> > > a hole in the private fd backing store.  The absense of a valid mapping in the private
-> > > fd is how KVM detects that a pfn is "shared" (memslots without a private fd are always
-> > > shared)[2].
-> > 
-> > Right. I'm still a bit confused about how the VMM is going to get the
-> > shared page mapped in its page-table. Once it has punched a hole into
-> > the private fd, how is it supposed to access the actual physical page
-> > that the guest shared?
+On 29/3/22 14:10, Hanna Reitz wrote:
+> On 29.03.22 12:27, Philippe Mathieu-Daudé wrote:
+>> Hi Peter,
+>>
+>> On 29/3/22 00:40, Philippe Mathieu-Daudé wrote:
+>>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>
+>>> The following changes since commit 
+>>> 27fc9f365d6f60ff86c2e2be57289bb47a2be882:
+>>>
+>>>    Merge tag 'pull-ppc-20220326' of https://github.com/legoater/qemu 
+>>> into staging (2022-03-28 10:16:33 +0100)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>    https://github.com/philmd/qemu.git tags/darwin-20220329
+>>>
+>>> for you to fetch changes up to a4fd374364d4e23e0861273aaf7ff2ebddd57a17:
+>>>
+>>>    ui/console: Check console before emitting GL event (2022-03-29 
+>>> 00:19:37 +0200)
+>>>
+>>> ----------------------------------------------------------------
+>>> Darwin patches
+>>>
+>>> - UI fixes
+>>>
+>>> ----------------------------------------------------------------
+>>>
+>>> Akihiko Odaki (2):
+>>>    ui/cocoa: Respect left-command-key option
+>>>    ui/console: Check console before emitting GL event
+>>>
+>>> Philippe Mathieu-Daudé (2):
+>>>    gitattributes: Cover Objective-C source files
+>>>    qemu/main-loop: Disable block backend global state assertion on Cocoa
+>>
+>> Do you mind putting this PR on hold to see Hanna's answer whether we
+>> take her patch instead:
+>> https://lore.kernel.org/qemu-devel/dab63073-d532-2795-fce4-77bd0839f578@gmail.com/ 
+>>
 > 
-> The guest doesn't share a _host_ physical page, the guest shares a _guest_ physical
-> page.  Until host userspace converts the gfn to shared and thus maps the gfn=>hva
-> via mmap(), the guest is blocked and can't read/write/exec the memory.  AFAIK, no
-> architecture allows in-place decryption of guest private memory.  s390 allows a
-> page to be "made accessible" to the host for the purposes of swap, and other
-> architectures will have similar behavior for migrating a protected VM, but those
-> scenarios are not sharing the page (and they also make the page inaccessible to
-> the guest).
+> To explicitly reply here (too): I would like to rebase my patch (and 
+> subsequent PR) on this PR here.  I’d therefore like this PR to proceed 
+> (if possible).
 
-I see. FWIW, since pKVM is entirely MMU-based, we are in fact capable of
-doing in-place sharing, which also means it can retain the content of
-the page as part of the conversion.
+I couldn't update earlier due to a power outage...
 
-Also, I'll ask the Arm CCA developers to correct me if this is wrong, but
-I _believe_ it should be technically possible to do in-place sharing for
-them too.
+Thanks Hanna for following up, and Peter for merging!
 
-> > Is there an assumption somewhere that the VMM should have this page mapped in
-> > via an alias that it can legally access only once it has punched a hole at
-> > the corresponding offset in the private fd or something along those lines?
-> 
-> Yes, the VMM must have a completely separate VMA.  The VMM doesn't haven't to
-> wait until the conversion to mmap() the shared variant, though obviously it will
-> potentially consume double the memory if the VMM actually populates both the
-> private and shared backing stores.
-
-Gotcha. This is what confused me I think -- in this approach private and
-shared pages are in fact entirely different.
-
-In which scenario could you end up with both the private and shared
-pages live at the same time? Would this be something like follows?
-
- - userspace creates a private fd, fallocates into it, and associates
-   the <fd, offset, size> tuple with a private memslot;
-
- - userspace then mmaps anonymous memory (for ex.), and associates it
-   with a standard memslot, which happens to be positioned at exactly
-   the right offset w.r.t to the private memslot (with this offset
-   defined by the bit that is set for the private addresses in the gpa
-   space);
-
- - the guest runs, and accesses both 'aliases' of the page without doing
-   an explicit share hypercall.
-
-Is there another option?
-
-Is implicit sharing a thing? E.g., if a guest makes a memory access in
-the shared gpa range at an address that doesn't have a backing memslot,
-will KVM check whether there is a corresponding private memslot at the
-right offset with a hole punched and report a KVM_EXIT_MEMORY_ERROR? Or
-would that just generate an MMIO exit as usual?
-
-> > > The key point is that KVM never decides to convert between shared and private, it's
-> > > always a userspace decision.  Like normal memslots, where userspace has full control
-> > > over what gfns are a valid, this gives userspace full control over whether a gfn is
-> > > shared or private at any given time.
-> > 
-> > I'm understanding this as 'the VMM is allowed to punch holes in the
-> > private fd whenever it wants'. Is this correct?
-> 
-> From the kernel's perspective, yes, the VMM can punch holes at any time.  From a
-> "do I want to DoS my guest" perspective, the VMM must honor its contract with the
-> guest and not spuriously unmap private memory.
-> 
-> > What happens if it does so for a page that a guest hasn't shared back?
-> 
-> When the hole is punched, KVM will unmap the corresponding private SPTEs.  If the
-> guest is still accessing the page as private, the next access will fault and KVM
-> will exit to userspace with KVM_EXIT_MEMORY_ERROR.  Of course the guest is probably
-> hosed if the hole punch was truly spurious, as at least hardware-based protected VMs
-> effectively destroy data when a private page is unmapped from the guest private SPTEs.
->
-> E.g. Linux guests for TDX and SNP will panic/terminate in such a scenario as they
-> will get a fault (injected by trusted hardware/firmware) saying that the guest is
-> trying to access an unaccepted/unvalidated page (TDX and SNP require the guest to
-> explicit accept all private pages that aren't part of the guest's initial pre-boot
-> image).
-
-I suppose this is necessary is to prevent the VMM from re-fallocating
-in a hole it previously punched and re-entering the guest without
-notifying it?
-
-> > > Another important detail is that this approach means the kernel and KVM treat the
-> > > shared backing store and private backing store as independent, albeit related,
-> > > entities.  This is very deliberate as it makes it easier to reason about what is
-> > > and isn't allowed/required.  E.g. the kernel only needs to handle freeing private
-> > > memory, there is no special handling for conversion to shared because no such path
-> > > exists as far as host pfns are concerned.  And userspace doesn't need any new "rules"
-> > > for protecting itself against a malicious guest, e.g. userspace already needs to
-> > > ensure that it has a valid mapping prior to accessing guest memory (or be able to
-> > > handle any resulting signals).  A malicious guest can DoS itself by instructing
-> > > userspace to communicate over memory that is currently mapped private, but there
-> > > are no new novel attack vectors from the host's perspective as coercing the host
-> > > into accessing an invalid mapping after shared=>private conversion is just a variant
-> > > of a use-after-free.
-> > 
-> > Interesting. I was (maybe incorrectly) assuming that it would be
-> > difficult to handle illegal host accesses w/ TDX. IOW, this would
-> > essentially crash the host. Is this remotely correct or did I get that
-> > wrong?
-> 
-> Handling illegal host kernel accesses for both TDX and SEV-SNP is extremely
-> difficult, bordering on impossible.  That's one of the biggest, if not _the_
-> biggest, motivations for the private fd approach.  On "conversion", the page that is
-> used to back the shared variant is a completely different, unrelated host physical
-> page.  Whether or not the private/shared backing page is freed is orthogonal to
-> what version is mapped into the guest.  E.g. if the guest converts a 4kb chunk of
-> a 2mb hugepage, the private backing store could keep the physical page on hole
-> punch (example only, I don't know if this is the actual proposed implementation).
-> 
-> The idea is that it'll be much, much more difficult for the host to perform an
-> illegal access if the actual private memory is not mapped anywhere (modulo the
-> kernel's direct map, which we may or may not leave intact).  The private backing
-> store just needs to ensure it properly sanitizing pages before freeing them.
-
-Understood.
-
-I'm overall inclined to think that while this abstraction works nicely
-for TDX and the likes, it might not suit pKVM all that well in the
-current form, but it's close.
-
-What do you think of extending the model proposed here to also address
-the needs of implementations that support in-place sharing? One option
-would be to have KVM notify the private-fd backing store when a page is
-shared back by a guest, which would then allow host userspace to mmap
-that particular page in the private fd instead of punching a hole.
-
-This should retain the main property you're after: private pages that
-are actually mapped in the guest SPTE aren't mmap-able, but all the
-others are fair game.
-
-Thoughts?
+Phil.
 
