@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570624EB115
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:54:01 +0200 (CEST)
-Received: from localhost ([::1]:58424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB034EB11C
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 17:57:13 +0200 (CEST)
+Received: from localhost ([::1]:33112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZEAS-0008Tz-Ey
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:54:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59456)
+	id 1nZEDY-00027h-9g
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 11:57:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZE9N-00076m-AK
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:52:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55164)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZEBa-00010U-CE
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:55:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43325)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZE9L-0004Jr-AP
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:52:52 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZEBY-0004cv-GV
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 11:55:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648569170;
+ s=mimecast20190719; t=1648569307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XGEt4wUVnMlKJKHzNP34QEKPd4p9iRz2O3yY3jV+UxE=;
- b=B+4Axe9q6dumpDAQvVQkmC5mFJkmSt6+1Jo3SH+aBZFGde6Lz/TnuKWJud3AjevZ+0FUN3
- 7idnu+EUgw8Z/w0Z6RVUELBzp/AbgrmTNUy/frTPM5GkANRPS2HackHBI6oPL7FygIamiA
- jKWpi7QFlsAIh8zzWqFN1D4MeRFgkOQ=
+ bh=xVrDcU7kpZNDlnArFr/AV+pv8bx/AeOo6pq8gF6Ckng=;
+ b=bcB8MFFGZum1w48YlDRIIqsomMWR1z2DAssL6V62YXyjr9mw73FKurcVrIZewdIIR3rEWW
+ 3WUb2H56BpcB8vEbvhIXB41UmmFSjBmEVlZJor2Cp1iCIQ1HTZlGnDVT78v7FCRiF/AnSB
+ TuNq02Q682Te+iwoXjT+edZCjjTE/9A=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-LHZWzCcqMz60AlU6pAZIEw-1; Tue, 29 Mar 2022 11:52:48 -0400
-X-MC-Unique: LHZWzCcqMz60AlU6pAZIEw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-611-kBvw22e9MWmtUKTjzsXIZg-1; Tue, 29 Mar 2022 11:55:05 -0400
+X-MC-Unique: kBvw22e9MWmtUKTjzsXIZg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 799491C05EC5
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 15:52:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 89D4F1C068C3
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 15:55:05 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5533B40149B2;
- Tue, 29 Mar 2022 15:52:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 64EDA464DE2;
+ Tue, 29 Mar 2022 15:55:05 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 48D9721E691D; Tue, 29 Mar 2022 17:52:47 +0200 (CEST)
+ id 44DEF21E691D; Tue, 29 Mar 2022 17:55:04 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Victor Toso <victortoso@redhat.com>
-Subject: Re: [PATCH v3 11/14] qapi: fix example of MEMORY_FAILURE
+Subject: Re: [PATCH v3 12/14] qapi: ui examples: add missing @websocket member
 References: <20220328140604.41484-1-victortoso@redhat.com>
- <20220328140604.41484-12-victortoso@redhat.com>
-Date: Tue, 29 Mar 2022 17:52:47 +0200
-In-Reply-To: <20220328140604.41484-12-victortoso@redhat.com> (Victor Toso's
- message of "Mon, 28 Mar 2022 16:06:01 +0200")
-Message-ID: <87wngczrg0.fsf@pond.sub.org>
+ <20220328140604.41484-13-victortoso@redhat.com>
+Date: Tue, 29 Mar 2022 17:55:04 +0200
+In-Reply-To: <20220328140604.41484-13-victortoso@redhat.com> (Victor Toso's
+ message of "Mon, 28 Mar 2022 16:06:02 +0200")
+Message-ID: <87sfr0zrc7.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,46 +88,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Victor Toso <victortoso@redhat.com> writes:
 
-> Example output lacks mandatory member @timestamp.  Provide it.
->
-> While @flags is an optional member,
-
-Uh, it isn't.
-
->                                     if it is defined then all its
-> members should be include. For that reason, we add @recursive member.
-
-Perhaps:
-
-  Example output lacks mandatory member flags.recursive.  Provide it.
-
-Happy to make such a change in my tree.
-
-> Minor: Change quotes from '' to "" in @action-required member.
+> The examples were missing mandatory member @websocket. Provide it.
 >
 > Signed-off-by: Victor Toso <victortoso@redhat.com>
 > Reviewed-by: John Snow <jsnow@redhat.com>
 > ---
->  qapi/run-state.json | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  qapi/ui.json | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 >
-> diff --git a/qapi/run-state.json b/qapi/run-state.json
-> index 7f1c788c4e..8124220bd9 100644
-> --- a/qapi/run-state.json
-> +++ b/qapi/run-state.json
-> @@ -571,7 +571,9 @@
->  # <- { "event": "MEMORY_FAILURE",
->  #      "data": { "recipient": "hypervisor",
->  #                "action": "fatal",
-> -#                "flags": { 'action-required': false } }
-> +#                "flags": { "action-required": false,
-> +#                           "recursive": false } },
-> +#      "timestamp": { "seconds": 1267061043, "microseconds": 959568 } }
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 664da9e462..a810ed680c 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -710,10 +710,10 @@
+>  #
+>  # <- { "event": "VNC_CONNECTED",
+>  #      "data": {
+> -#            "server": { "auth": "sasl", "family": "ipv4",
+> +#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
+>  #                        "service": "5901", "host": "0.0.0.0" },
+>  #            "client": { "family": "ipv4", "service": "58425",
+> -#                        "host": "127.0.0.1" } },
+> +#                        "host": "127.0.0.1", "websocket": false } },
+>  #      "timestamp": { "seconds": 1262976601, "microseconds": 975795 } }
 >  #
 >  ##
->  { 'event': 'MEMORY_FAILURE',
+> @@ -738,9 +738,9 @@
+>  #
+>  # <-  { "event": "VNC_INITIALIZED",
+>  #       "data": {
+> -#            "server": { "auth": "sasl", "family": "ipv4",
+> +#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
+>  #                        "service": "5901", "host": "0.0.0.0"},
+> -#            "client": { "family": "ipv4", "service": "46089",
+> +#            "client": { "family": "ipv4", "service": "46089", "websocket": false,
+>  #                        "host": "127.0.0.1", "sasl_username": "luiz" } },
+>  #       "timestamp": { "seconds": 1263475302, "microseconds": 150772 } }
+>  #
+> @@ -765,9 +765,9 @@
+>  #
+>  # <- { "event": "VNC_DISCONNECTED",
+>  #      "data": {
+> -#            "server": { "auth": "sasl", "family": "ipv4",
+> +#            "server": { "auth": "sasl", "family": "ipv4", "websocket": false,
+>  #                        "service": "5901", "host": "0.0.0.0" },
+> -#            "client": { "family": "ipv4", "service": "58425",
+> +#            "client": { "family": "ipv4", "service": "58425", "websocket": false,
+>  #                        "host": "127.0.0.1", "sasl_username": "luiz" } },
+>  #      "timestamp": { "seconds": 1262976601, "microseconds": 975795 } }
+>  #
 
-With the commit message fixed:
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
