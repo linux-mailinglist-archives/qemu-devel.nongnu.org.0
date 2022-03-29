@@ -2,75 +2,161 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959544EAADC
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 11:57:53 +0200 (CEST)
-Received: from localhost ([::1]:49346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296F24EAAE9
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 12:00:27 +0200 (CEST)
+Received: from localhost ([::1]:53622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZ8bo-0004z6-Mo
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 05:57:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36134)
+	id 1nZ8eH-0007u7-SB
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 06:00:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZ8Zf-0003wX-7k; Tue, 29 Mar 2022 05:55:39 -0400
-Received: from smtp55.i.mail.ru ([217.69.128.35]:40458)
+ (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
+ id 1nZ8a1-0004CL-37
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:56:01 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:14270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZ8Zb-0002re-TL; Tue, 29 Mar 2022 05:55:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
- s=mail4; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=CjC+NzuUyMgeTwUcLPW3/g/qgzObISHV+Y/9TzuTSys=; 
- t=1648547735;x=1649153135; 
- b=FGH5APd7hWvsJ6Wt9qlhEYdpCS3ajZC0Vz1UCinKSo77gLL3JTEB6jMKjsN5M9VDZq2WcoY5qBuCFJsxvcTEGySJrgBVk8KUZw4XfXewgVWRezDXCOMzdJnJprb9zDIbzX3S+2QLI4y9/wR5CWGAlancDYEhryGyeRqCUH1vN2Ey6iv70UHw3QCcYGcS8bNsLYQ303Gp3JwZTsFC7vQdiKJXPdWyX+l0NNW8DhN86/PBByk/fCUUOqx1XKJm3PfRo7RMMVsbnY1N01m12rX2587tQQCX6pxbBQxnebx+qny79TeX8x+Aiyu1uD/1LPGY0Mpj9A5msR9tNxqE2Xg7mw==;
-Received: by smtp55.i.mail.ru with esmtpa (envelope-from
- <v.sementsov-og@mail.ru>)
- id 1nZ8ZX-0005Dg-Qe; Tue, 29 Mar 2022 12:55:32 +0300
-Message-ID: <cba4cda5-c70a-e2e3-9a10-a60b418e153a@mail.ru>
-Date: Tue, 29 Mar 2022 12:55:31 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2] block/stream: Drain subtree around graph change
-Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220324140907.17192-1-hreitz@redhat.com>
- <7da3445c-7417-6329-c9e3-4488ab7a96ec@mail.ru>
- <f4d5e653-9dea-539d-136d-1f36fec597f2@redhat.com>
- <8e173cec-d3a1-f8a0-bc07-12b2cfd39d89@redhat.com>
- <18f101ca-5536-644d-d79e-66f88f0328cc@mail.ru>
- <3297c6f5-1093-e7cc-9449-dc3abd3511a0@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-In-Reply-To: <3297c6f5-1093-e7cc-9449-dc3abd3511a0@redhat.com>
+ (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
+ id 1nZ8Zy-0002vg-4C
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 05:56:00 -0400
+Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22T8t4TK011100;
+ Tue, 29 Mar 2022 02:55:54 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=vwH4WIhbPFSe768ajDxyUxje2jMTdNkfv8jXv8a83eI=;
+ b=cWa57o+1dLW64PIHAEEfsJGOcMA0y2LuAmBFCekoOfeOGivJNmVufL5uKBaXr819sk3C
+ NGJlLyKZ+QnnllqUV/R8oosOBnXYbJ5TAIkcBVJ5LyZUOIMnb5yNCFgy3RN4lolsNRvg
+ VS3wZy0Q6+oeGnn8S/ykRPCDsAneRnxO/yuVK38ezvXfa8zT6ter6KVL+VApx4UcWRRX
+ KvQVKqxG9dUYLPz6uDzNSlp50B6Vu3rqgxAHdOBS26E+NlKdJAJCI5sltS19Y0DjBPPp
+ Y7sSfFiARhXUII+peMzUcDg849Lq1BCWOlz6NyhnvlX4jZ0y/osZcLjWi5vghk5TYDHr HA== 
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3f22c0dhk9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Mar 2022 02:55:54 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OxRlEDYTFwpiG4Rp0BcskzZYHvIDX6hj8gK4chDebnUgvKPU1DFOp3D9aSHFX5Dj+8XpoR9Iy9Cw96R3CcCLC4Z+T5d8rQ7PiTAeeTNRf6sWnwWrF9jvq2obe+kM8/jkOrTdtC5kk5SId2DGTE2JHLWcde8KzIdEg2jDvy8JpsY/b3+WnW2Z7wB2RsZnc6cxY+CE/zcTAOyr923nba8A5Ltp85cuYH9+E1KVtCj76n+6YUKzBp5QQF5aiTd6KC3O6RdQ9pXUK3keHRAt7OGhjX/Tt9PW/+4K5DEyl0x7CC4Jo21AVhcHIxQimHj5S6FBlnVKqglJjo/PhgYihK1LLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vwH4WIhbPFSe768ajDxyUxje2jMTdNkfv8jXv8a83eI=;
+ b=HhqxeN0Ob21aUOJfBTJyNt3aCUJaEV8rvGN6MqzEkz1RFWdF/W8SAMG72SqN3N36zEGJNVM4F4M1TL2haHRRDitaI0kB6ghmQAOQD90wX5O++vgX6Ef5/wiSLLPyWJaMXMnyGAClo9T+JpvBcuwqRIR7OKAFyPNWTNPvHZIBOxaF6MRVsBP/SnyOh1L4porNMmqKvzbq4gvVvHlFjtg8+HdkjUC+Y+fwaHjLSVlJDcx8JNTWhUv/z0PCpUt4ukgVfUsChQQTV+P2jYJZJw30qj7s36NOX8zgB9B/X7Q5ElbSDz1fjtLRiGDCMT8XTqWdcuxp7c007Y8ohjmjC94i9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BN7PR02MB4033.namprd02.prod.outlook.com (2603:10b6:406:f9::16)
+ by BN6PR02MB2275.namprd02.prod.outlook.com (2603:10b6:404:32::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.19; Tue, 29 Mar
+ 2022 09:55:52 +0000
+Received: from BN7PR02MB4033.namprd02.prod.outlook.com
+ ([fe80::5d3d:384c:d914:b12d]) by BN7PR02MB4033.namprd02.prod.outlook.com
+ ([fe80::5d3d:384c:d914:b12d%6]) with mapi id 15.20.5102.023; Tue, 29 Mar 2022
+ 09:55:52 +0000
+Message-ID: <bf0a9075-e2f8-f4f0-b8dc-4b63c21100b6@nutanix.com>
+Date: Tue, 29 Mar 2022 15:25:39 +0530
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: On patch series version tags, and also cover letters (was: [PATCH
+ v2 2/2] Added parameter to take screenshot with screendump as PNG)
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20220328165415.2102-1-kshitij.suri@nutanix.com>
+ <20220328165415.2102-2-kshitij.suri@nutanix.com>
+ <87bkxp5kfo.fsf@pond.sub.org>
+ <0705b49a-d4f6-f670-e26e-84d637c8071e@nutanix.com>
+ <87a6d9429w.fsf_-_@pond.sub.org>
+ <CAFEAcA8Lb0FFybmQCZdqD=o-Md=ZTGpTNtunkmd3moLzK7p=Zg@mail.gmail.com>
+From: Kshitij Suri <kshitij.suri@nutanix.com>
+In-Reply-To: <CAFEAcA8Lb0FFybmQCZdqD=o-Md=ZTGpTNtunkmd3moLzK7p=Zg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp55.i.mail.ru;
- auth=pass smtp.auth=v.sementsov-og@mail.ru
- smtp.mailfrom=v.sementsov-og@mail.ru
-X-4EC0790: 10
-X-7564579A: EEAE043A70213CC8
-X-77F55803: 4F1203BC0FB41BD99E4E844CD0404D79B9F85D5ED3ED71CC11FF2F23F471849A182A05F5380850404C228DA9ACA6FE27685AE92E82B954BEF9478B8919D58B996A2B13C26C487CC63FD3F93050CCDD9B
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7BF27F4FA2823CCF0EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063725D748B084CAA27D8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8970C43AFC2E13ADB0D4FA25A186A0A636F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE744B19C781AFE7CF19FA2833FD35BB23D9E625A9149C048EE9ECD01F8117BC8BEA471835C12D1D9774AD6D5ED66289B52BA9C0B312567BB23117882F446042972877693876707352033AC447995A7AD18F04B652EEC242312D2E47CDBA5A96583BA9C0B312567BB2376E601842F6C81A19E625A9149C048EE652FD71AFB96DC7DD94E105876FE7799D8FC6C240DEA7642DBF02ECDB25306B2B78CF848AE20165D0A6AB1C7CE11FEE34E7D9683544204AF2D242C3BD2E3F4C6C4224003CC836476EA7A3FFF5B025636E2021AF6380DFAD1A18204E546F3947CB11811A4A51E3B096D1867E19FE1407959CC434672EE6371089D37D7C0E48F6C8AA50765F7900637D9F2C517E34CD691EFF80C71ABB335746BA297DBC24807EABDAD6C7F3747799A
-X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: 0D63561A33F958A5D89ED4A7901366DB8A73725CD985BE2B2A83C269AFDE6371D59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA75040BF32255FAA22B410CA545F18667F91A7EA1CDA0B5A7A0
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D342B94C1DAF75C4D228DCE76AFB0C1EA0B1E957220B96BEF0C35827C3B29EA9C3E54B59C8C3C9C78C91D7E09C32AA3244C1781D5B25DEEAC0FC710FA9A6FB918F6A995755A1445935EDCA3B3C10BC03908
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojX92LdC94eGamH334JNKAFw==
-X-Mailru-Sender: 6C3E74F07C41AE94BE5520CD20DE4F15C9FBBE67090049A2CA8E41ABDE9CF14B694D2F3C899FAFD5E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-Received-SPF: pass client-ip=217.69.128.35;
- envelope-from=v.sementsov-og@mail.ru; helo=smtp55.i.mail.ru
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_VALIDITY_RPBL=1.31,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0008.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:80::15) To BN7PR02MB4033.namprd02.prod.outlook.com
+ (2603:10b6:406:f9::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a29823af-539a-42e1-bcb4-08da116a4f18
+X-MS-TrafficTypeDiagnostic: BN6PR02MB2275:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR02MB2275799473C0E034CCD647ED991E9@BN6PR02MB2275.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fvxxMdINPHSVmCRq2ktYJDzZ2ksqdkHD66FnQraLjceU4q94UUSkE17BCW+dbnKxfLhjG+jYyfnoMCBZfO5vh/ZWL3KRJH7molV8XkZrxGMHx7gkPk6+B41qUSL1mBoHUrN5ltv/TcDE7C3Hm+ce6UEfXFPtCIWNZ9K1he5k1wu8m1klCCY7cWhF69QcNedy8B+GCODyqhwfifAATBwJ8ea1BEVA27FxmMeoAOCLwHSOevqTOWnsL5zTRtzM3odcChy93IXlcgIvmqJzbl2kCrf5D4lTEGEBe5rA25wEuQswTT+wfJWRlyhGRzcsJ19GiQpTEoGXhyc23QHZZaEoI1SGoOTQF39ZkhSiRqKd7wbGX6wxd9xYXs2GnvSsSHNOhhxn7pnYGH6tjC0AKhzp4EycnVkB/oHV4sGNLtl/yhP698Wir5mwX5a8lbFaZHMVZ5dUZ1W9iOCnkE+5MH3HlB5bi6E4utNnFc7UsPIXAZuzQ3wBK4mXJj9ohATiROzMr71Aj1Rdo4EVimvgKH285hqzY+Ojih3CHsPDbw6OLY6VlgBhbN1LZC//MgDqbeSXI7juAoJyt0VxY1+iCrEQv4lpdMgNbwoTotiR3SM5K0+qVWuvSEiQRyCweEPcgqleuqp2GWwUkr+cIgwCD1dUbyfZq67H/EU+N0Tn8XFNLwrw3hSgs+3lSu+pzpTeDusJ5jYaUO44+zi+DtgDFozRqybBk6JmW8TjoWQkNB5qwLcxgNYR+1GNuvySmKVT+Cq7z72qUIpwkJfLB35DwGW0LQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN7PR02MB4033.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(66476007)(66946007)(4326008)(66556008)(31696002)(316002)(86362001)(8676002)(6486002)(26005)(186003)(508600001)(2616005)(6512007)(44832011)(6506007)(4744005)(6666004)(38100700002)(38350700002)(52116002)(8936002)(53546011)(5660300002)(31686004)(110136005)(36756003)(2906002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZFVoNVhqVTNkTXJZK3pCcnZNa3hoOTgyMTJXNjJCbzlDR2x6VWg2N2JjSVZZ?=
+ =?utf-8?B?REc0Vi83SStoWUlGbjZiTC80b0J5TFhBUUVDWWxUelA3OHVHNEIvZlVJQkt1?=
+ =?utf-8?B?QUh4VExHS0tQMjFGMll2dDdwbkhuVTZManVXaGNWSTBhOFlhNzhsL3o0bXpU?=
+ =?utf-8?B?ZUVUTnF0cy9WNkpyZnIyN3JIWVluSU03RGxuMlo0VmJyVlBUd1RKT0tBSzdO?=
+ =?utf-8?B?b2FxVWtJYmJIRjRCemM0VUJrRkFKc1JjcURrS2U0Q05rampsYjE2d2xsd1R0?=
+ =?utf-8?B?SnRuNURBSGUvR0drZkZaYkdkenNUYUJPWlJEeXRCeHNETml3S1Rlc0w4V0lG?=
+ =?utf-8?B?RGRnMnMwVjBZLzA1cUdhcjlBVFZBM1dJWnljUUdRQ0xkMjJ0WFlqRFd5UXlO?=
+ =?utf-8?B?MGdsaGhGSjJFaVFIbm9FVHRNWFMrMkIrR2lFbTcxS3Uvc1RKSS9veXpScEd2?=
+ =?utf-8?B?SjRJd3dpT1lJdzIyNGpuclNVdTREUUJNREJXeVQwdVlqQkVHVDJoWDZ1WlhH?=
+ =?utf-8?B?WVlrc0NEVVFyeU9KQnY2R21xVzlJZTlCOWNXOTNPRXNpQU95UjdpU3FPRkFt?=
+ =?utf-8?B?UTAwUHhPSDBpaE1nVy85N2YvK1FJVHhteW02NVRiQ2o5aDBpbmtKMHFnK0NU?=
+ =?utf-8?B?OGdTVkpJa3pxbU9ua1pISTFwUlVUQUN6MXJWVEk5WHZoN0FCNDJMbitHN0F5?=
+ =?utf-8?B?b3FmWHJBc1NxUEEvMVhvMHRtUlpOUG15M2w4K0oyaEZ5YnpCTjlFanI1Z2NF?=
+ =?utf-8?B?TG9NNnVyMTlSVW50WmRscmJPL1J5WklzUlhXUm9rMjRYdEdBZGdsQ0VpSVN4?=
+ =?utf-8?B?bGRsaC9adUlKY1pFWmV0R0xIbFVwNldTOUk5aVQ5Y0p4Nk5RQjlWQzFPR0lk?=
+ =?utf-8?B?TmZDdXRTMk05VFJaajIvRWJWZkkvKzFuMzJDY2UzY2xYMGl6S0t0dzdoL0dE?=
+ =?utf-8?B?UDltZTFGVFZJZUNsSk1IUGh2Z21yL2lad0JZSDE2UVhrT1UzdnJaM2NLZUZS?=
+ =?utf-8?B?N0kvQTkxYzNEOVN4V3huTmlNR1RYeVFuTmZOa1dZT3llYmprVjk4S2tUUy9p?=
+ =?utf-8?B?K21WVU9JNHRJSUtNUGxSWUJ4YTBoejQ5RjNrUEpuOWhpSTgwSFBGdm1SRWcz?=
+ =?utf-8?B?WWM0dnl5Y1A0UHVMb2JYY0k3TUxxemFUdTloeVdKakZGalVZdnhBNFBZakRG?=
+ =?utf-8?B?V1UvSFdhN2lHR0JldjdaV3NWazRzemNMSzk0UDJ0MkEwNmlqWXBESzUvVmVW?=
+ =?utf-8?B?RzlSYWNwYlV5aGRPaVhZTW01NVpFU1MxNWoybzUvSXV3akZPWnl0ODFWVTkr?=
+ =?utf-8?B?M0JXUHNqekxjeThqakhYOEhrNlpDa1Rmd1ZDek0rOVhFL0FDNHhhMXNLSTJv?=
+ =?utf-8?B?UWFXRzVaNDlORWszRUt0NXlDdllneTlxWHBXUHJZbTFTU3FlZTVNMjBibHRh?=
+ =?utf-8?B?OGR2QThRUGF5MUZXVzY3NlJrOFB1M1BiMWhCaklCMmlta2Y2M2JNTFpWQXY5?=
+ =?utf-8?B?alhuSVhXQjhCYnk3WWNLUjltMmpPclRHblhNQ0Q3eUhrcER2RnV6bUJFNGNV?=
+ =?utf-8?B?KzNlZXdHVXIyMHdXMFkxeWRpOExiRlAzbmZDaC9EMCtBVkZLMHphRkZSait3?=
+ =?utf-8?B?VkoxdlZjakhRcjhqcXA4dUdqYjZpc0FERkZPVVJjWGVQNzVmUHNpOEhpUnFI?=
+ =?utf-8?B?YjU4ZUJvdXdDeW9XWlowSVl6cVdkMVBZVzFRL0owN1owOFhlL0d1RFVRZGx5?=
+ =?utf-8?B?dWFyZ0czdDdlTVd5QXFrTFNYKy9DSW51VHJIRkJzNGxRSWRvQjNyWlluWFNV?=
+ =?utf-8?B?eGtOY3ViNDNzVXNPWDI0TmFQc0d0MnYrdjBJUEhBcmpCSmF4OVV6QWh2VVpW?=
+ =?utf-8?B?dXQ1SHFVT205THhqekRvZEFjcGpUdFdnbGJxOWNxZThJTGFzdGlVUnRBZXlj?=
+ =?utf-8?B?eC9jalozRDQvd2E1NVIyY3hRVGpPUVgxamw0ZXBzTHJLVFQ3Z3NqV2FRcXlU?=
+ =?utf-8?B?Vnd3RHlEK2ZRR2pmaUl1TWsrMkpDRERGZ29QaWJYWWVycFlCNGlrN1RWZ0hI?=
+ =?utf-8?B?dVdqQU9hcFV6WEQvdXF5UTNlcS9SZEhFbTM0MkMrZ1dOdmU0bzBLM2dCa0E1?=
+ =?utf-8?B?VTkxeUNjQkp5L2diRzNQMzFzd2Erdm1vT0JaT0Vnd1pjMjZtUk9xeGsrbGps?=
+ =?utf-8?B?aVRYVTM5THhlR05kS09aaUhuOVcza20xdG8vU3pEU0hMUFBjWWdEb05lV3FS?=
+ =?utf-8?B?VmJJY2VqWlg3MWRFak5NcjRiM2xhMGZvL2hoTHRJenRISFZHNHpnODdHTTFF?=
+ =?utf-8?B?NlM2SlltVUxGaE4zb082ZVNmVUZOL2Noc2VwdXdBaTlPSW9aWHZEQ1pENlhD?=
+ =?utf-8?Q?sj6eiNO53vlqN+cI=3D?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a29823af-539a-42e1-bcb4-08da116a4f18
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR02MB4033.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 09:55:52.0854 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: J99SgNrwzTyRRXzLHmWRdoT4krTBiHBK6gkwgIBCv+/xTMa/ivVREuBWxOwX95uHtzdmkuvANN01RG/xdMyQwBVQqqPrfzzzUxVhSzgupSk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2275
+X-Proofpoint-GUID: qksozyw3_Vuh8jlwqFqc1FeCT8wCk25G
+X-Proofpoint-ORIG-GUID: qksozyw3_Vuh8jlwqFqc1FeCT8wCk25G
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-29_02,2022-03-28_01,2022-02-23_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=kshitij.suri@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,178 +169,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: soham.ghosh@nutanix.com, berrange@redhat.com, prerna.saxena@nutanix.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, philippe.mathieu.daude@gmail.com,
+ kraxel@redhat.com, thuth@redhat.com, prachatos.mitra@nutanix.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-29.03.2022 11:54, Hanna Reitz wrote:
-> On 28.03.22 12:24, Vladimir Sementsov-Ogievskiy wrote:
->> 28.03.2022 11:09, Hanna Reitz wrote:
->>> On 28.03.22 09:44, Hanna Reitz wrote:
->>>> On 25.03.22 17:37, Vladimir Sementsov-Ogievskiy wrote:
->>>>> 24.03.2022 17:09, Hanna Reitz wrote:
->>>>>> When the stream block job cuts out the nodes between top and base in
->>>>>> stream_prepare(), it does not drain the subtree manually; it fetches the
->>>>>> base node, and tries to insert it as the top node's backing node with
->>>>>> bdrv_set_backing_hd().  bdrv_set_backing_hd() however will drain, and so
->>>>>> the actual base node might change (because the base node is actually not
->>>>>> part of the stream job) before the old base node passed to
->>>>>> bdrv_set_backing_hd() is installed.
->>>>>>
->>>>>> This has two implications:
->>>>>>
->>>>>> First, the stream job does not keep a strong reference to the base node.
->>>>>> Therefore, if it is deleted in bdrv_set_backing_hd()'s drain (e.g.
->>>>>> because some other block job is drained to finish), we will get a
->>>>>> use-after-free.  We should keep a strong reference to that node.
->>>>>>
->>>>>> Second, even with such a strong reference, the problem remains that the
->>>>>> base node might change before bdrv_set_backing_hd() actually runs and as
->>>>>> a result the wrong base node is installed.
->>>>>
->>>>> Hmm.
->>>>>
->>>>> So, we don't really need a strong reference, as if it helps to avoid some use-after-free, it means that we'll finish up with wrong block graph..
->>>>
->>>> Sure.  But I found it better style to strongly reference a node while it’s used.  I’d rather have an outdated block graph (as in: A node that was supposed to disappear would still be in use) than a use-after-free.
->>>>
->>>>> Graph modifying operations must be somehow isolated from each other.
->>>>>
->>>>>>
->>>>>> Both effects can be seen in 030's TestParallelOps.test_overlapping_5()
->>>>>> case, which has five nodes, and simultaneously streams from the middle
->>>>>> node to the top node, and commits the middle node down to the base node.
->>>>>> As it is, this will sometimes crash, namely when we encounter the
->>>>>> above-described use-after-free.
->>>>>>
->>>>>> Taking a strong reference to the base node, we no longer get a crash,
->>>>>> but the resuling block graph is less than ideal: The expected result is
->>>>>> obviously that all middle nodes are cut out and the base node is the
->>>>>> immediate backing child of the top node.  However, if stream_prepare()
->>>>>> takes a strong reference to its base node (the middle node), and then
->>>>>> the commit job finishes in bdrv_set_backing_hd(), supposedly dropping
->>>>>> that middle node, the stream job will just reinstall it again.
->>>>>>
->>>>>> Therefore, we need to keep the whole subtree drained in
->>>>>> stream_prepare(), so that the graph modification it performs is
->>>>>> effectively atomic, i.e. that the base node it fetches is still the base
->>>>>> node when bdrv_set_backing_hd() sets it as the top node's backing node.
->>>>>
->>>>> Emanuele has similar idea of isolating graph changes from each other by subtree-drain.
->>>>>
->>>>> If I understand correctly the idea is that we'll drain all other block jobs, so the wouldn't do their block-graph modification during drained section. So, we can safely modify the graph.
->>>>>
->>>>> I don't like this idea:
->>>>>
->>>>> 1. drained section = stop IO. But we don't need to stop IO in the whole subtree to do a needed block-graph modification.
->>>>
->>>> If you mean to say that draining just the single node should be sufficient, I’ll be happy to change it.
->>>>
->>>> Not sure which node, though, because I’d think it would be `base`, but to safely fetch it I’d need to drain it, which seems to bite itself in the tail.  That’s why I went for a subtree drain from `above_base`.
->>>>
->>>>> 2. Drained section is not a lock, several clients may drain same set of nodes.. So we exploit the fact that concurrent clients will be paused by drained section and don't proceed to graph-modification code.. But are we sure that block-jobs are (and will be?) the only concurrent block-graph modifying clients? Can qmp commands interleave somehow?
->>>>
->>>> They can under very specific circumstances and that’s a bug. See https://lists.nongnu.org/archive/html/qemu-block/2022-03/msg00582.html .
->>>>
->>>>> Can some jobs from other subtree start a block-graph modification that touches our subtree?
->>>>
->>>> That would be wrong.  A block job shouldn’t change nodes it doesn’t own; stream doesn’t own the base, but it also doesn’t change it, it only needs to have the top node point to it.
->>>>
->>>>> If go this way, that would be more safe to drain the whole block-graph on any block-graph modification..
->>>>>
->>>>> I think we'd better have a separate global mechanism for isolating graph modifications. Something like a global co-mutex or queue, where clients waits for their turn in block graph modifications.
->>>>>
->>>>> Here is my old proposal on that topic: https://patchew.org/QEMU/20201120161622.1537-1-vsementsov@virtuozzo.com/
->>>>
->>>> That would only solve the very specific issue in 030, right?
->>
->> It should solve the same issue as your patch. You don't add subtree_drain around every graph modification.. Or we already have it?
-> 
-> Well, I’m not saying it will solve every single bug, but draining in stream_prepare() will at least mean that that is safe from basically anything else, because it will prevent concurrent automatic graph changes (e.g. because of jobs finishing), and QMP commands shouldn’t be executed in drained sections either (when they do, it’s wrong, but that seems to occur only extremely rarely).  Draining alone should make a place safe, it isn’t a lock that all sides need to take.
-> 
->>>>   The stream job isn’t protected from any graph modifications but those coming from mirror.  Might be a solution going forward (I didn’t look closer at it at the time, given I saw you had a discussion with Kevin), if we lock every graph change operation (though a global lock honestly doesn’t sound strictly better than draining subsections of the graph, both have their drawbacks), but that doesn’t look like it’d be something for 7.1.
->>
->> Same way, with draining solution you should make a subtree-drain for every graph change operation.
-> 
-> Since we don’t have any lock yet, draining is the de-facto way we use to forbid concurrent graph modifications.  I’m not saying we use it correctly and thoroughly, but it is what we do right now.
-> 
->>
->>>
->>> I wonder whether we could have a short-term version of `BdrvChild.frozen` that’s a coroutine mutex.  If `.frozen` is set, you just can’t change the graph, and you also can’t wait, so that’s just an error.  But if `.frozen_lock` is set, you can wait on it. Here, we’d keep `.frozen` set for all links between top and above_base, and then in prepare() take `.frozen_lock` on the link between above_base and base.
->>>
->>
->> Yes that's seems an alternative to global lock, that doesn't block the whole graph. Still, I don't think that is bad to lock the whole graph for graph modificaiton, as modification should be rare and fast.
-> 
-> Fair enough.
-> 
->> Another thought: does subtree-drain really drain the whole connectivity component of the graph?
->>
->> imagine something like this:
->>
->> [A]  [   C  ]
->>  |    |    |
->>  v    v    v
->> [ B    ]  [ D ]
->>
->>
->> If we do subtree drain at node A, this will drain B and C, but not D..
->>
->> Imagine, some another job is attached to node D, and it will start drained section too. So, for example both jobs will share drained section on node C. That doesn't seem save, and draining is not a lock.
->>
->> So, if we are going to rely on drained section as on lock, that isolates graph modifications from each other, we should drain the whole connectivity component of the graph.
-> 
-> The drained section is not a lock, but if the other job is only attached to node D, it won’t change node C.  It might change the link from C to D, but that doesn’t concern the job that is concerned about A and B. Overlapping drains are fine.
 
-OK. Maybe it works. It's just not obvious to me that subtree_drain works good in all cases. And global graph-modification-lock should obviously work.
+On 29/03/22 3:18 pm, Peter Maydell wrote:
+> On Tue, 29 Mar 2022 at 09:03, Markus Armbruster <armbru@redhat.com> wrote:
+>> A cover letter (git format-patch --cover-letter) lets you write an
+>> introduction to the whole series.  Simple series may not need an
+>> introduction, but complex ones do.  I always use one except when the
+>> "series" is a single patch.
+> Note that a multi-patch series always needs a cover letter,
+> even if its contents are quite brief. Some of the automatic
+> tooling gets confused by multi-patch series with no cover letter.
+> Conversely, single patches shouldn't have a cover letter, although
+> getting that one wrong doesn't really have much ill effect.
+>
+> thanks
+> -- PMM
+Oh so regarding this PNG issue which has 2 patches, one to phase out 
+VNC_PNG and one for core logic, should I send with a cover-letter?
 
-> 
->> Next, I'm not relly sure that two jobs can simultaneusly enter drained section and do graph modifications. What prevents this? Assume two block-stream jobs reaches their finish simultaneously and go to subtree-drain. That just means that job_pause will be called for both jobs.. But what that means for the block-stream jobs that is in bdrv_subtree_drained_beeing() call in stream_prepare()? Seems nothing? Then both jobs will start graph modification process simultaneously and can interleave on any yield point (for exmaple rewriting backing_file in qcow2 metadata).
-> 
-> So I don’t think that scenario can really happen, because the stream job freezes the chain between above_base and top, so you can’t really have two simultaneous stream jobs that cause problems between each other.
+Thank you for our advice!
 
-They cause problem on the boundary, as base of one stream job may be top of another, and we have also a filter, that should be inserted/removed at some moment. As I remember, that's the problematic case in 030..
+Regards,
 
-> 
-> Furthermore, the prepare() functions are run in the main thread, so the only real danger is actually that draining around the actual graph modification (bdrv_set_backing_hd()) causes another block job to finish, modifying the block graph.  But then that job will also actually finish, because it’s all in the main thread.
-> 
-> It is true that child_job_drained_poll() says that job that are about to prepare() are quiesced, but I don’t think that’s a problem, given that all jobs in that state run in the main thread.
-> 
->>
->> Another reason, why I think that subtree drain is a wrong tool, as I said, is extra IO-stop.
-> 
-> I know and agree, but that’s an optimization question.
-> 
->> Imaging the following graph:
->>
->> [A]
->>  |
->>  v
->> [B] [C]
->>  |   |
->>  v   v
->> [base]
->>
->> If we want to rebase A onto base, we actually need only stop IO requests in A and B. Why C should suffer from this graph modification? IO requests produced by C, and that are living in C and in base don't intersect with rebasing A on base process in any way.
->>
->> ====
->>
->> Actually, I'm not strictly against your patch, and believe that it fixes the problem in most cases. And it's probably OK in short term. The only real doubt on including it now is that drained sections sometimes lead to dead locks, and is it possible that we now fix the bug that happens only in iotest 30 (or is it reported somewhere?) and risking to introduce some dead-lock?
-> 
-> Saying that the example in 030 is contrived would mean we could/should re-include the base into the list of nodes that belong to the stream job, which would simply disallow the case in 030 that’s being tested and fails.
-> 
-> Then we don’t need a subtree drain, and the plain drain in bdrv_set_backing_hd() would be fine.
-> 
->> Seems that if in some code it's safe to call drained_begin(), it should be safe to call subtree_drained_begin(). And if it trigger some deadlock, it just shows some another bug.. Is it worth fixing now, near to 7.0 release? We live with this bug for years.. Or something changed that I missed?
-> 
-> I mean...  I can understand your concern that adding a subtree drain has performance implications (when a stream job ends, which shouldn’t be often).  But I’m not sure whether I should share the deadlock concern. Sounds like a sad state of affairs if I can’t just drain something when I need it to be drained.
-> 
-> I wasn’t aware of this bug, actually.  Now I am, and I feel rather uncomfortable living with a use-after-free bug, because that’s on the worse end of the bug spectrum.
-> 
+Kshitij Suri
 
-OK, I don't know:) And others are silent. Agree that global-lock solution is not for 7.0 anyway. And this one is simple enough. So, take my
-
-Acked-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-
--- 
-Best regards,
-Vladimir
 
