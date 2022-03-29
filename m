@@ -2,83 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4F34EAB8B
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 12:44:31 +0200 (CEST)
-Received: from localhost ([::1]:48204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6FF4EABAA
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 12:53:02 +0200 (CEST)
+Received: from localhost ([::1]:59606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZ9Kw-0001vy-5w
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 06:44:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46046)
+	id 1nZ9TB-0001TK-Nc
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 06:53:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZ9DA-0003q0-K0
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 06:36:28 -0400
-Received: from [2a00:1450:4864:20::42f] (port=36423
- helo=mail-wr1-x42f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZ9D8-0001A6-EO
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 06:36:27 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id u3so24171110wrg.3
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 03:36:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jn+w0GAcUlDgRGTG2s/c6dZzbEISAktahvM0Y42FQ7M=;
- b=Jnx2wDP+1ss0lptO7LCtAeUrUf0TAcT13xyeN4na/4eQMQILUJ+nvuOP6dp+2gHcaA
- K7S005zzcd8S4vyVlfLdpBNXnhAyTaYDPM9K8P7/2jRpqTGSZRU7/eE88nHY1Cp3+TZk
- 3lSXIZKBdB2Cb0pvWXhsTKMo39QxUHmQBiNNKSDRukxrSPdorVsCLOCbqyMfpPirmzWP
- VPs7VPPHk8l6mKiEOzcY1HpKCdJii77wIE656agF9RvkshgZ5bAabYJ0UXMd/NBego7/
- npta8NQ0BHuuayveuXNdV9IOvs2ZHNiP0PcMOIr7fudUNZ6ykovmJC5i86vJA/qOeyYy
- z6BQ==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZ9FI-0006M1-Ha
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 06:38:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44383)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nZ9FF-0001SC-1Z
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 06:38:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648550316;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GG9lc+/ucGvRb9YU5Gm3Gl2yHPuEzjJCaB7dIzXxcKo=;
+ b=M0DPrms1pmgtKrXD3UY5/n3+CA8metvngplNBxmuMlj0EIWeXXsIXnCBMERGx1vMffnuf1
+ ZnBbaZLLmnlvw16MDQpRNVgsommQsbE1341epuy/q3maOKZAC6Sp9V8pUS4ELWoBl34oCb
+ JNEzhDYuYD3ZD+4+SoqYX9hyzMC7oTg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-581-z2By-5V8MlmW6wIUG64sJQ-1; Tue, 29 Mar 2022 06:38:32 -0400
+X-MC-Unique: z2By-5V8MlmW6wIUG64sJQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ d28-20020a50f69c000000b00419125c67f4so10793882edn.17
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 03:38:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jn+w0GAcUlDgRGTG2s/c6dZzbEISAktahvM0Y42FQ7M=;
- b=4EQ2cI6AhAikp0Ja9XBd/h6iecdpAJqIybfLYeYiP56hqygMq4pv/V9ahbBNfhm1Qx
- I8xzbvJpCHiwgsl1K4CMob9Wt/iFWgJaZX8qiQmJxMFKKeCeodI+3XdpppykgQ3UcRzI
- Q71F7kb6gH21RlMVKZs/MrYa/t6gQ4d2+QA6CBXjYrhI0bo+h6cLGUJ+HI/LWVvP7Yfq
- m8pvM5ecULXTuaiZ4yzgNxB6D00nviyUMr/S6fFADWi6mZO8CLBii5AXZtCr9BiXHvFl
- dAbd5i0z+BwRWiiCsaaUsbfU6P/2tdkFriKGiinShF3SQXjogy7QXK6zSch8MYnXIVh3
- HU7Q==
-X-Gm-Message-State: AOAM532Fp4eLh2pmmFxa4OZTzijRU+xVz+xkxyIk0B6/M3kpFbRaGGJ/
- 1TrDtdoNoUKaHD8bdXu6RoQtF8cXGxAS4A==
-X-Google-Smtp-Source: ABdhPJy+Q1Nv+70lRUWFAZlf2RSF2SVRjhD3cuivjLgOcn3SJu+XRkbJ664KUqgzER3s+NM1qQjkPA==
-X-Received: by 2002:a5d:6a45:0:b0:204:597:2708 with SMTP id
- t5-20020a5d6a45000000b0020405972708mr31794837wrw.2.1648550183523; 
- Tue, 29 Mar 2022 03:36:23 -0700 (PDT)
-Received: from localhost.localdomain ([2600:70ff:f07f:0:d557:f3bb:5d8b:b5f3])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GG9lc+/ucGvRb9YU5Gm3Gl2yHPuEzjJCaB7dIzXxcKo=;
+ b=ubXSybDqdZj7KcUE8nCH2nMgR34quUjVnbf1UYrHNeoIsksMagJQkpHXiEjVrA5Ked
+ tz12AWX9eFMcIfx6mWtrM+qVLkFJ7wyhvoii16FkM2IqWSLUwYovjXyU3wR634lp8xyA
+ R+q6RudFyV+dq0oflHeCUp3ho20zl+VTG/O+JIU/enMdGJK1aZ54UZlTkX1rSJJugLqs
+ LZY1GOjjR4Xs1oEOA2wLzCRNZlMI3f/hVhkD2rOScsN5e6kBcjDH0ZMuoM8MkELU4qAJ
+ Y77FPeA+rUGmaCTPmL8caYsc6DrHcrKDjmdGFc8MehyLUT9abxI22iJg5t9flJLdulNM
+ nf5g==
+X-Gm-Message-State: AOAM532m6iSz7ahTZMi+vLxUuzOMAAIuz36b2UZjp5Bn8uW8KzZfO0YJ
+ S2RM7uLLcWAEnEb/Gu01PrOieY4aJfSwnIP67oJ/PolJgZZp3i4mOPddLWK/ZKw+ZX7vxY7VZvz
+ oTVnWN4iBZvgB5sY=
+X-Received: by 2002:a17:906:c145:b0:6da:aaaf:770c with SMTP id
+ dp5-20020a170906c14500b006daaaaf770cmr33457315ejc.504.1648550311389; 
+ Tue, 29 Mar 2022 03:38:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqPhbkByDaZkHj6tBEzkalh4vHm60LVaS3C+ZVRLb05eh8z2hpr6JweYkppnZONUHbX065mw==
+X-Received: by 2002:a17:906:c145:b0:6da:aaaf:770c with SMTP id
+ dp5-20020a170906c14500b006daaaaf770cmr33457296ejc.504.1648550311199; 
+ Tue, 29 Mar 2022 03:38:31 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
  by smtp.gmail.com with ESMTPSA id
- y13-20020adffa4d000000b00203e3ca2701sm19959244wrr.45.2022.03.29.03.36.21
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 29 Mar 2022 03:36:23 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] qemu-binfmt-conf.sh: mips: allow nonzero EI_ABIVERSION,
- distinguish o32 and n32
-Date: Tue, 29 Mar 2022 12:36:04 +0200
-Message-Id: <20220329103604.41208-4-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220329103604.41208-1-philippe.mathieu.daude@gmail.com>
-References: <20220329103604.41208-1-philippe.mathieu.daude@gmail.com>
+ y27-20020a170906519b00b006dfaf4466ebsm6950802ejk.116.2022.03.29.03.38.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Mar 2022 03:38:30 -0700 (PDT)
+Message-ID: <9c34125b-875f-e3b2-c0d4-2f6a283deb5a@redhat.com>
+Date: Tue, 29 Mar 2022 12:38:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH for-7.0] main-loop: Disable GLOBAL_STATE_CODE() assertions
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-block@nongnu.org
+References: <20220329093545.52114-1-hreitz@redhat.com>
+ <dab63073-d532-2795-fce4-77bd0839f578@gmail.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <dab63073-d532-2795-fce4-77bd0839f578@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,89 +104,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Andreas=20K=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, WANG Xuerui <xen0n@gentoo.org>,
- Alex Bennee <alex.bennee@linaro.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andreas K. Hüttel <dilfridge@gentoo.org>
+On 29.03.22 12:17, Philippe Mathieu-Daudé wrote:
+> On 29/3/22 11:35, Hanna Reitz wrote:
+>> These assertions are very useful for developers to find bugs, and so
+>> they have indeed pointed us towards bugs already.  For users, it is not
+>> so useful to find these bugs.  We should probably not enable them in
+>> releases until we are sufficiently certain that they will not fire
+>> during normal operation, unless something is going seriously wrong.
+>>
+>> For example, we have received a bug report that you cannot add an NBD
+>> server on a BDS in an I/O thread with `-incoming defer`.  I am sure this
+>> is a real bug that needs investigation, but we do not really have that
+>> time right now, so close to release, and so I would rather disable the
+>> assertions to get time to investigate such reports.
+>>
+>> (I am just putting the link as "buglink" below, not "closes", because
+>> disabling the assertion will not fix the likely underlying bug.)
+>>
+>> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/945
+>
+> Also helps:
+> https://gitlab.com/qemu-project/qemu/-/issues/926
+>
+>> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+>> ---
+>>   include/qemu/main-loop.h | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+>> index 7a4d6a0920..3bf8aeb3cd 100644
+>> --- a/include/qemu/main-loop.h
+>> +++ b/include/qemu/main-loop.h
+>> @@ -272,7 +272,8 @@ bool qemu_in_main_thread(void);
+>>   /* Mark and check that the function is part of the global state 
+>> API. */
+>>   #define GLOBAL_STATE_CODE()                                         \
+>>       do {                                                            \
+>> - assert(qemu_in_main_thread());                              \
+>> +        /* FIXME: Re-enable after 7.0 release */                    \
+>> +        /* assert(qemu_in_main_thread()); */                        \
+>>       } while (0)
+>>     /* Mark and check that the function is part of the I/O API. */
+>
+> Do you want me to cancel/repost my PR without this patch?
+>
+> https://lore.kernel.org/qemu-devel/20220328224012.32737-3-philippe.mathieu.daude@gmail.com/
 
-With the command line flag -mplt and a recent toolchain, ELF binaries
-generated by gcc can obtain EI_ABIVERSION=1, which makes, e.g., gcc
-three-stage bootstrap in a mips-unknown-linux-gnu qemu-user chroot
-fail since the binfmt-misc magic does not match anymore. Also other
-values are technically possible. qemu executes these binaries just
-fine, so relax the mask for the EI_ABIVERSION byte at offset 0x08.
+I think we should let Peter take your PR first, as long as the 
+discussion on this is still out.  I’d like to give it a couple more 
+hours, and as far as I understand, we definitely want yours.
 
-In addition, extend magic string to distinguish mips o32 and n32 ABI.
-This information is given by the EF_MIPS_ABI2 (0x20) bit in the
-e_flags field of the ELF header (a 4-byte value at offset 0x24 for
-the here applicable ELFCLASS32).
+(Taking mine will then cause me rebase conflicts and make it look weird, 
+but that’s not too bad for something that’s just a temporary band-aid 
+anyway.)
 
-See-also: ace3d65459
-Signed-off-by: Andreas K. Hüttel <dilfridge@gentoo.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: WANG Xuerui <xen0n@gentoo.org>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Cc: WANG Xuerui <xen0n@gentoo.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Alex Bennee <alex.bennee@linaro.org>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Closes: https://gitlab.com/qemu-project/qemu/-/issues/843
-Message-Id: <20220328204900.3914990-1-dilfridge@gentoo.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- scripts/qemu-binfmt-conf.sh | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index e9bfeb94d3..9cb723f443 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -60,28 +60,28 @@ m68k_family=m68k
- 
- # FIXME: We could use the other endianness on a MIPS host.
- 
--mips_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
--mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
-+mips_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-+mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
- mips_family=mips
- 
--mipsel_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
--mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-+mipsel_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-+mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
- mipsel_family=mips
- 
--mipsn32_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
--mipsn32_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
-+mipsn32_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
-+mipsn32_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
- mipsn32_family=mips
- 
--mipsn32el_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
--mipsn32el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-+mipsn32el_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
-+mipsn32el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
- mipsn32el_family=mips
- 
- mips64_magic='\x7fELF\x02\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
--mips64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
-+mips64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
- mips64_family=mips
- 
- mips64el_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
--mips64el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-+mips64el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
- mips64el_family=mips
- 
- sh4_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x2a\x00'
--- 
-2.35.1
+Hanna
 
 
