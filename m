@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A9E4EB4DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 22:51:02 +0200 (CEST)
-Received: from localhost ([::1]:52556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CB34EB504
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 23:05:11 +0200 (CEST)
+Received: from localhost ([::1]:56600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZInt-0006ar-CF
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 16:51:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42238)
+	id 1nZJ1a-0004CW-D9
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 17:05:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZIfY-00049y-Lh; Tue, 29 Mar 2022 16:42:24 -0400
-Received: from smtp48.i.mail.ru ([94.100.177.108]:37470)
+ id 1nZIfZ-0004E1-N4; Tue, 29 Mar 2022 16:42:25 -0400
+Received: from smtp48.i.mail.ru ([94.100.177.108]:38564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZIfV-0006iM-JV; Tue, 29 Mar 2022 16:42:24 -0400
+ id 1nZIfY-0006k3-03; Tue, 29 Mar 2022 16:42:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
  s=mail4; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=vsKfYfsRUJY0QSHyd5mDM/nbPv6mWhnZwxetoBJPs74=; 
- t=1648586541;x=1649191941; 
- b=e5HNYAh8K+XxCFiwDtWuXEQEXZ1pIOXVw0eZos1OLLOIjr5IMrgdOcfgUGGLNSBtLhccFwmEuUWWpKBlVFQDkZaJ4+EeClV5fHymDd60cLbLgxeDdYuPPhLgFbVRbwqlH9plghjSKwEqBI0SNR9lALOF1vldSLJGAYrY1ZlCkj1kuYNoOqWEWQqbk2SxT6+HzLKq83dtwPcwYZOGV2NLZca1M69zOLvoNJ6Mw9SKxNMhXU4dLDth0dRgcw13qTyBV0L6eS0ZpYQifv4mugPAqxn6QQ4oUPGw4xYgk98U2RZxrXNmY/LMJXKtgx4e9dXBlKKcZ/WfoPpXstp2uqYM7Q==;
+ bh=KBdTdd4EmSwY/bclzXaI/tIXzOLPvi9C9W3c3p1Mk20=; 
+ t=1648586544;x=1649191944; 
+ b=aalfc7KHh4qBbLTHBFsfa1QeeECPxpdzvfR2erHDMFuWjJro9vy6AilHAGKwNFn7TBr7FUsAqOyPMpZY202gjVKYRpTpAn9aSmdVicPSiD2Uaq/r9p0CcB8dlNjrR3Ycdms+/HdSS73KD7hil7ttk242kYRxgOJJTHw8sPiqg2Suds3peRpYfW6u/DnDuSrQXL4uBwDj3EaUPErLp3qCNBvtrGZmghKWtaasm/waOUyugbq0EUwaw2BoIBURw8cMbuvkNeHl+Axjtqfs22IgDx4U3hva0xdww31O7De0XkE1Y3kY9G/AfNDp+/NBElCtDhvBIAbd8tad8x9sdOQwpA==;
 Received: by smtp48.i.mail.ru with esmtpa (envelope-from
  <v.sementsov-og@mail.ru>)
- id 1nZIf9-000374-BE; Tue, 29 Mar 2022 23:41:59 +0300
+ id 1nZIfB-000374-OZ; Tue, 29 Mar 2022 23:42:02 +0300
 From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
  v.sementsov-og@mail.ru
-Subject: [PATCH v4 13/45] block: Manipulate bs->file / bs->backing pointers in
- .attach/.detach
-Date: Tue, 29 Mar 2022 23:40:35 +0300
-Message-Id: <20220329204107.411011-14-v.sementsov-og@mail.ru>
+Subject: [PATCH v4 14/45] block/snapshot: drop indirection around
+ bdrv_snapshot_fallback_ptr
+Date: Tue, 29 Mar 2022 23:40:36 +0300
+Message-Id: <20220329204107.411011-15-v.sementsov-og@mail.ru>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220329204107.411011-1-v.sementsov-og@mail.ru>
 References: <20220329204107.411011-1-v.sementsov-og@mail.ru>
@@ -42,14 +42,14 @@ Content-Transfer-Encoding: 8bit
 Authentication-Results: smtp48.i.mail.ru;
  auth=pass smtp.auth=v.sementsov-og@mail.ru
  smtp.mailfrom=v.sementsov-og@mail.ru
-X-7564579A: EEAE043A70213CC8
-X-77F55803: 4F1203BC0FB41BD92B0439D57C14BB61AD608933592879E20A8B16C77A2AB91B00894C459B0CD1B9451E129B51E5605A830D545152DEC33AC206EF2094F4D73484277DA9077149BA
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE749E89BD568380EECC2099A533E45F2D0395957E7521B51C2CFCAF695D4D8E9FCEA1F7E6F0F101C6778DA827A17800CE74B44AB1D52BB6B9B8F08D7030A58E5AD1A62830130A00468AEEEE3FBA3A834EE7353EFBB55337566F593E0A4FA3DD8F5765BA8CBFFFBB807EEB98E455A6BDA131DF9E95F17B0083B26EA987F6312C9ECCCD848CCB6FE560CF04B652EEC242312D2E47CDBA5A96583C09775C1D3CA48CFCA5A41EBD8A3A0199FA2833FD35BB23D2EF20D2F80756B5F868A13BD56FB6657A471835C12D1D977725E5C173C3A84C3CA5A41EBD8A3A0199FA2833FD35BB23DF004C90652538430302FCEF25BFAB3454AD6D5ED66289B5278DA827A17800CE7AD4D9D75FFE2C073D32BA5DBAC0009BE395957E7521B51C20BC6067A898B09E4090A508E0FED6299176DF2183F8FC7C09F804269016115C9B3661434B16C20AC78D18283394535A9E827F84554CEF5019E625A9149C048EE9ECD01F8117BC8BEE2021AF6380DFAD18AA50765F790063735872C767BF85DA227C277FBC8AE2E8BB6C9467CA1E38B7375ECD9A6C639B01B4E70A05D1297E1BBCB5012B2E24CD356
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD92B0439D57C14BB617AC1FE8603272810BF2FE6052598777800894C459B0CD1B93CB8D5F1E7D47238ACD63C725CCB8CC7C206EF2094F4D734D428EE335AABE4C5
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7D9C4478D0B876341EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637F1FEB73A813C0D3B8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8BC414BB026C2AF0E2FB7084C38F25CD76F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE7838080FD34C772219FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD18C26CFBAC0749D213D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B8C7ADC89C2F0B2A5A471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC88CDFDA7A42ACDBE3AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F790063790F4F714B18380CBD81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89FDD9D78FC36703085262FEC7FBD7D1F5BB5C8C57E37DE458BEDA766A37F9254B7
 X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8183A4AFAF3EA6BDC44C234C8B12C006B7A09B9BA260DCCDBF09694F9C9C4B5660FC4B5A092B067B528B1881A6453793CE9C32612AADDFBE061C61BE10805914D3804EBA3D8E7E5B87ABF8C51168CD8EBDBF77088377309FF52DC48ACC2A39D04F89CDFB48F4795C241BDAD6C7F3747799A
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34980A6B448CFD1B8ADF501C3E2A1B37D713B2EF7AE7D065459D96E029366C260C026C1169AC0AD8881D7E09C32AA3244C79F1EBA90B51821D80585AE5BE583142F522A1CF68F4BE0583B48618A63566E0
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojX92LdC94eGao4KaX0Uhh/Q==
-X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FE9A37DFE606991DEFA803D7067C248FB6F5D6EDA0DBF7CC7CE6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CF593E0A4FA3DD8F540216DE9CE75B192B0B93EECC210AC0B9C2B6934AE262D3EE7EAB7254005DCED7532B743992DF240BDC6A1CF3F042BAD6DF99611D93F60EFD07623A0E6354027699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D344A431191C56981FED71ADA80F5F2F1F0E00E752F838D79B212020E0B5DC283335694F68B5A82006D1D7E09C32AA3244C023299FF07F76E47ED4D66043F4C847263871F383B54D9B383B48618A63566E0
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojX92LdC94eGah2yAvQUEDsQ==
+X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FE9A37DFE606991DEFF4E156882881EC4451083A7F2437D892E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
 X-Mras: Ok
 Received-SPF: pass client-ip=94.100.177.108;
  envelope-from=v.sementsov-og@mail.ru; helo=smtp48.i.mail.ru
@@ -76,504 +76,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bs->file and bs->backing are a kind of duplication of part of
-bs->children. But very useful diplication, so let's not drop them at
-all:)
-
-We should manage bs->file and bs->backing in same place, where we
-manage bs->children, to keep them in sync.
-
-Moreover, generic io paths are unprepared to BdrvChild without a bs, so
-it's double good to clear bs->file / bs->backing when we detach the
-child.
-
-Detach is simple: if we detach bs->file or bs->backing child, just
-set corresponding field to NULL.
-
-Attach is a bit more complicated. But we still can precisely detect
-should we set one of bs->file / bs->backing or not:
-
-- if role is BDRV_CHILD_COW, we definitely deal with bs->backing
-- else, if role is BDRV_CHILD_FILTERED (it must be also
-  BDRV_CHILD_PRIMARY), it's a filtered child. Use
-  bs->drv->filtered_child_is_backing to chose the pointer field to
-  modify.
-- else, if role is BDRV_CHILD_PRIMARY, we deal with bs->file
-- in all other cases, it's neither bs->backing nor bs->file. It's some
-  other child and we shouldn't care
-
-OK. This change brings one more good thing: we can (and should) get rid
-of all indirect pointers in the block-graph-change transactions:
-
-bdrv_attach_child_common() stores BdrvChild** into transaction to clear
-it on abort.
-
-bdrv_attach_child_common() has two callers: bdrv_attach_child_noperm()
-just pass-through this feature, bdrv_root_attach_child() doesn't need
-the feature.
-
-Look at bdrv_attach_child_noperm() callers:
-  - bdrv_attach_child() doesn't need the feature
-  - bdrv_set_file_or_backing_noperm() uses the feature to manage
-    bs->file and bs->backing, we don't want it anymore
-  - bdrv_append() uses the feature to manage bs->backing, again we
-    don't want it anymore
-
-So, we should drop this stuff! Great!
-
-We still keep BdrvChild** argument to return the child and int return
-value, and not move to simply returning BdrvChild*, as we don't want to
-lose int return values.
-
-However we don't require *@child to be NULL anymore, and even allow
-@child to be NULL, if caller don't need the new child pointer.
-
-Finally, we now set .file / .backing automatically in generic code and
-want to restring setting them by hand outside of .attach/.detach.
-So, this patch cleanups all remaining places where they were set.
-To find such places I use:
-
-  git grep '\->file ='
-  git grep '\->backing ='
-  git grep '&.*\<backing\>'
-  git grep '&.*\<file\>'
+Now the indirection is not actually used, we can safely reduce it to
+simple pointer.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 ---
- block.c                      | 157 ++++++++++++++++-------------------
- block/raw-format.c           |   4 +-
- block/snapshot.c             |   1 -
- include/block/block_int.h    |  15 +++-
- tests/unit/test-bdrv-drain.c |  10 +--
- 5 files changed, 89 insertions(+), 98 deletions(-)
+ block/snapshot.c | 39 +++++++++++++++++----------------------
+ 1 file changed, 17 insertions(+), 22 deletions(-)
 
-diff --git a/block.c b/block.c
-index 65dfaba83b..0fddb57e78 100644
---- a/block.c
-+++ b/block.c
-@@ -1390,9 +1390,33 @@ static void bdrv_child_cb_attach(BdrvChild *child)
-     BlockDriverState *bs = child->opaque;
- 
-     QLIST_INSERT_HEAD(&bs->children, child, next);
--
--    if (child->role & BDRV_CHILD_COW) {
-+    if (bs->drv->is_filter | (child->role & BDRV_CHILD_FILTERED)) {
-+        /*
-+         * Here we handle filters and block/raw-format.c when it behave like
-+         * filter.
-+         */
-+        assert(!(child->role & BDRV_CHILD_COW));
-+        if (child->role & (BDRV_CHILD_PRIMARY | BDRV_CHILD_FILTERED)) {
-+            assert(child->role & BDRV_CHILD_PRIMARY);
-+            assert(child->role & BDRV_CHILD_FILTERED);
-+            assert(!bs->backing);
-+            assert(!bs->file);
-+
-+            if (bs->drv->filtered_child_is_backing) {
-+                bs->backing = child;
-+            } else {
-+                bs->file = child;
-+            }
-+        }
-+    } else if (child->role & BDRV_CHILD_COW) {
-+        assert(bs->drv->supports_backing);
-+        assert(!(child->role & BDRV_CHILD_PRIMARY));
-+        assert(!bs->backing);
-+        bs->backing = child;
-         bdrv_backing_attach(child);
-+    } else if (child->role & BDRV_CHILD_PRIMARY) {
-+        assert(!bs->file);
-+        bs->file = child;
-     }
- 
-     bdrv_apply_subtree_drain(child, bs);
-@@ -1409,6 +1433,12 @@ static void bdrv_child_cb_detach(BdrvChild *child)
-     bdrv_unapply_subtree_drain(child, bs);
- 
-     QLIST_REMOVE(child, next);
-+    if (child == bs->backing) {
-+        assert(child != bs->file);
-+        bs->backing = NULL;
-+    } else if (child == bs->file) {
-+        bs->file = NULL;
-+    }
- }
- 
- static int bdrv_child_cb_update_filename(BdrvChild *c, BlockDriverState *base,
-@@ -1606,7 +1636,7 @@ open_failed:
-     bs->drv = NULL;
-     if (bs->file != NULL) {
-         bdrv_unref_child(bs, bs->file);
--        bs->file = NULL;
-+        assert(!bs->file);
-     }
-     g_free(bs->opaque);
-     bs->opaque = NULL;
-@@ -2755,7 +2785,7 @@ static void bdrv_child_free(BdrvChild *child)
- }
- 
- typedef struct BdrvAttachChildCommonState {
--    BdrvChild **child;
-+    BdrvChild *child;
-     AioContext *old_parent_ctx;
-     AioContext *old_child_ctx;
- } BdrvAttachChildCommonState;
-@@ -2763,32 +2793,30 @@ typedef struct BdrvAttachChildCommonState {
- static void bdrv_attach_child_common_abort(void *opaque)
- {
-     BdrvAttachChildCommonState *s = opaque;
--    BdrvChild *child = *s->child;
--    BlockDriverState *bs = child->bs;
-+    BlockDriverState *bs = s->child->bs;
- 
--    bdrv_replace_child_noperm(child, NULL);
-+    bdrv_replace_child_noperm(s->child, NULL);
- 
-     if (bdrv_get_aio_context(bs) != s->old_child_ctx) {
-         bdrv_try_set_aio_context(bs, s->old_child_ctx, &error_abort);
-     }
- 
--    if (bdrv_child_get_parent_aio_context(child) != s->old_parent_ctx) {
-+    if (bdrv_child_get_parent_aio_context(s->child) != s->old_parent_ctx) {
-         GSList *ignore;
- 
-         /* No need to ignore `child`, because it has been detached already */
-         ignore = NULL;
--        child->klass->can_set_aio_ctx(child, s->old_parent_ctx, &ignore,
--                                      &error_abort);
-+        s->child->klass->can_set_aio_ctx(s->child, s->old_parent_ctx, &ignore,
-+                                         &error_abort);
-         g_slist_free(ignore);
- 
-         ignore = NULL;
--        child->klass->set_aio_ctx(child, s->old_parent_ctx, &ignore);
-+        s->child->klass->set_aio_ctx(s->child, s->old_parent_ctx, &ignore);
-         g_slist_free(ignore);
-     }
- 
-     bdrv_unref(bs);
--    bdrv_child_free(child);
--    *s->child = NULL;
-+    bdrv_child_free(s->child);
- }
- 
- static TransactionActionDrv bdrv_attach_child_common_drv = {
-@@ -2799,11 +2827,11 @@ static TransactionActionDrv bdrv_attach_child_common_drv = {
- /*
-  * Common part of attaching bdrv child to bs or to blk or to job
-  *
-- * Resulting new child is returned through @child.
-- * At start *@child must be NULL.
-- * @child is saved to a new entry of @tran, so that *@child could be reverted to
-- * NULL on abort(). So referenced variable must live at least until transaction
-- * end.
-+ * If @child is not NULL, it's set to new created child. Note, that @child
-+ * pointer is stored in the transaction and therefore not cleared on abort.
-+ * Consider @child as part of return value: we may change the return value of
-+ * the function to BdrvChild* and return child directly, but this way we lose
-+ * different return codes.
-  *
-  * Function doesn't update permissions, caller is responsible for this.
-  */
-@@ -2819,8 +2847,6 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
-     AioContext *parent_ctx;
-     AioContext *child_ctx = bdrv_get_aio_context(child_bs);
- 
--    assert(child);
--    assert(*child == NULL);
-     assert(child_class->get_parent_desc);
- 
-     new_child = g_new(BdrvChild, 1);
-@@ -2868,22 +2894,25 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
-     bdrv_ref(child_bs);
-     bdrv_replace_child_noperm(new_child, child_bs);
- 
--    *child = new_child;
--
-     BdrvAttachChildCommonState *s = g_new(BdrvAttachChildCommonState, 1);
-     *s = (BdrvAttachChildCommonState) {
--        .child = child,
-+        .child = new_child,
-         .old_parent_ctx = parent_ctx,
-         .old_child_ctx = child_ctx,
-     };
-     tran_add(tran, &bdrv_attach_child_common_drv, s);
- 
-+    if (child) {
-+        *child = new_child;
-+    }
-+
-     return 0;
- }
- 
- /*
-- * Variable referenced by @child must live at least until transaction end.
-- * (see bdrv_attach_child_common() doc for details)
-+ * If @child is not NULL, it's set to new created child. @child is a part of
-+ * return value, not a part of transaction (see bdrv_attach_child_common() doc
-+ * for details).
-  *
-  * Function doesn't update permissions, caller is responsible for this.
-  */
-@@ -2962,7 +2991,7 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
-                                   void *opaque, Error **errp)
- {
-     int ret;
--    BdrvChild *child = NULL;
-+    BdrvChild *child;
-     Transaction *tran = tran_new();
- 
-     ret = bdrv_attach_child_common(child_bs, child_name, child_class,
-@@ -2976,11 +3005,10 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
- 
- out:
-     tran_finalize(tran, ret);
--    /* child is unset on failure by bdrv_attach_child_common_abort() */
--    assert((ret < 0) == !child);
- 
-     bdrv_unref(child_bs);
--    return child;
-+
-+    return ret < 0 ? NULL : child;
- }
- 
- /*
-@@ -3002,7 +3030,7 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
-                              Error **errp)
- {
-     int ret;
--    BdrvChild *child = NULL;
-+    BdrvChild *child;
-     Transaction *tran = tran_new();
- 
-     ret = bdrv_attach_child_noperm(parent_bs, child_bs, child_name, child_class,
-@@ -3018,12 +3046,10 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
- 
- out:
-     tran_finalize(tran, ret);
--    /* child is unset on failure by bdrv_attach_child_common_abort() */
--    assert((ret < 0) == !child);
- 
-     bdrv_unref(child_bs);
- 
--    return child;
-+    return ret < 0 ? NULL : child;
- }
- 
- /* Callers must ensure that child->frozen is false. */
-@@ -3220,9 +3246,7 @@ static int bdrv_set_file_or_backing_noperm(BlockDriverState *parent_bs,
-     ret = bdrv_attach_child_noperm(parent_bs, child_bs,
-                                    is_backing ? "backing" : "file",
-                                    &child_of_bds, role,
--                                   is_backing ? &parent_bs->backing :
--                                                &parent_bs->file,
--                                   tran, errp);
-+                                   NULL, tran, errp);
-     if (ret < 0) {
-         return ret;
-     }
-@@ -3474,14 +3498,16 @@ int bdrv_open_file_child(const char *filename,
- 
-     /* commit_top and mirror_top don't use this function */
-     assert(!parent->drv->filtered_child_is_backing);
--
-     role = parent->drv->is_filter ?
-         (BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY) : BDRV_CHILD_IMAGE;
- 
--    parent->file = bdrv_open_child(filename, options, bdref_key, parent,
--                                   &child_of_bds, role, false, errp);
-+    if (!bdrv_open_child(filename, options, bdref_key, parent,
-+                         &child_of_bds, role, false, errp))
-+    {
-+        return -EINVAL;
-+    }
- 
--    return parent->file ? 0 : -EINVAL;
-+    return 0;
- }
- 
- /*
-@@ -4734,8 +4760,8 @@ static void bdrv_close(BlockDriverState *bs)
-         bdrv_unref_child(bs, child);
-     }
- 
--    bs->backing = NULL;
--    bs->file = NULL;
-+    assert(!bs->backing);
-+    assert(!bs->file);
-     g_free(bs->opaque);
-     bs->opaque = NULL;
-     qatomic_set(&bs->copy_on_read, 0);
-@@ -4865,41 +4891,13 @@ static bool should_update_child(BdrvChild *c, BlockDriverState *to)
-     return ret;
- }
- 
--typedef struct BdrvRemoveFilterOrCowChild {
--    BdrvChild *child;
--    bool is_backing;
--} BdrvRemoveFilterOrCowChild;
--
--static void bdrv_remove_filter_or_cow_child_abort(void *opaque)
--{
--    BdrvRemoveFilterOrCowChild *s = opaque;
--    BlockDriverState *parent_bs = s->child->opaque;
--
--    if (s->is_backing) {
--        parent_bs->backing = s->child;
--    } else {
--        parent_bs->file = s->child;
--    }
--
--    /*
--     * We don't have to restore child->bs here to undo bdrv_replace_child_tran()
--     * because that function is transactionable and it registered own completion
--     * entries in @tran, so .abort() for bdrv_replace_child_safe() will be
--     * called automatically.
--     */
--}
--
- static void bdrv_remove_filter_or_cow_child_commit(void *opaque)
- {
--    BdrvRemoveFilterOrCowChild *s = opaque;
--
--    bdrv_child_free(s->child);
-+    bdrv_child_free(opaque);
- }
- 
- static TransactionActionDrv bdrv_remove_filter_or_cow_child_drv = {
--    .abort = bdrv_remove_filter_or_cow_child_abort,
-     .commit = bdrv_remove_filter_or_cow_child_commit,
--    .clean = g_free,
- };
- 
- /*
-@@ -4910,8 +4908,6 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
-                                               BdrvChild *child,
-                                               Transaction *tran)
- {
--    BdrvRemoveFilterOrCowChild *s;
--
-     assert(child == bs->backing || child == bs->file);
- 
-     if (!child) {
-@@ -4922,18 +4918,7 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
-         bdrv_replace_child_tran(child, NULL, tran);
-     }
- 
--    s = g_new(BdrvRemoveFilterOrCowChild, 1);
--    *s = (BdrvRemoveFilterOrCowChild) {
--        .child = child,
--        .is_backing = (child == bs->backing),
--    };
--    tran_add(tran, &bdrv_remove_filter_or_cow_child_drv, s);
--
--    if (s->is_backing) {
--        bs->backing = NULL;
--    } else {
--        bs->file = NULL;
--    }
-+    tran_add(tran, &bdrv_remove_filter_or_cow_child_drv, child);
- }
- 
- /*
-@@ -5085,7 +5070,7 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
- 
-     ret = bdrv_attach_child_noperm(bs_new, bs_top, "backing",
-                                    &child_of_bds, bdrv_backing_role(bs_new),
--                                   &bs_new->backing, tran, errp);
-+                                   NULL, tran, errp);
-     if (ret < 0) {
-         goto out;
-     }
-diff --git a/block/raw-format.c b/block/raw-format.c
-index bda757fd19..29435d3ac4 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -456,8 +456,8 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-         file_role = BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY;
-     }
- 
--    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
--                               file_role, false, errp);
-+    bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-+                    file_role, false, errp);
-     if (!bs->file) {
-         return -EINVAL;
-     }
 diff --git a/block/snapshot.c b/block/snapshot.c
-index 12fa0e3904..cb184d70b4 100644
+index cb184d70b4..e32f9cb2ad 100644
 --- a/block/snapshot.c
 +++ b/block/snapshot.c
-@@ -279,7 +279,6 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
+@@ -148,34 +148,29 @@ bool bdrv_snapshot_find_by_id_and_name(BlockDriverState *bs,
+ }
+ 
+ /**
+- * Return a pointer to the child BDS pointer to which we can fall
++ * Return a pointer to child of given BDS to which we can fall
+  * back if the given BDS does not support snapshots.
+  * Return NULL if there is no BDS to (safely) fall back to.
+- *
+- * We need to return an indirect pointer because bdrv_snapshot_goto()
+- * has to modify the BdrvChild pointer.
+  */
+-static BdrvChild **bdrv_snapshot_fallback_ptr(BlockDriverState *bs)
++static BdrvChild *bdrv_snapshot_fallback_ptr(BlockDriverState *bs)
+ {
+-    BdrvChild **fallback;
+-    BdrvChild *child = bdrv_primary_child(bs);
++    BdrvChild *fallback = bdrv_primary_child(bs);
++    BdrvChild *child;
+ 
+     /* We allow fallback only to primary child */
+-    if (!child) {
++    if (!fallback) {
+         return NULL;
+     }
+-    fallback = (child == bs->file ? &bs->file : &bs->backing);
+-    assert(*fallback == child);
+ 
+     /*
+      * Check that there are no other children that would need to be
+      * snapshotted.  If there are, it is not safe to fall back to
+-     * *fallback.
++     * fallback.
+      */
+     QLIST_FOREACH(child, &bs->children, next) {
+         if (child->role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
+                            BDRV_CHILD_FILTERED) &&
+-            child != *fallback)
++            child != fallback)
+         {
+             return NULL;
+         }
+@@ -186,8 +181,8 @@ static BdrvChild **bdrv_snapshot_fallback_ptr(BlockDriverState *bs)
+ 
+ static BlockDriverState *bdrv_snapshot_fallback(BlockDriverState *bs)
+ {
+-    BdrvChild **child_ptr = bdrv_snapshot_fallback_ptr(bs);
+-    return child_ptr ? (*child_ptr)->bs : NULL;
++    BdrvChild *child_ptr = bdrv_snapshot_fallback_ptr(bs);
++    return child_ptr ? child_ptr->bs : NULL;
+ }
+ 
+ int bdrv_can_snapshot(BlockDriverState *bs)
+@@ -230,7 +225,7 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
+                        Error **errp)
+ {
+     BlockDriver *drv = bs->drv;
+-    BdrvChild **fallback_ptr;
++    BdrvChild *fallback;
+     int ret, open_ret;
+ 
+     if (!drv) {
+@@ -251,13 +246,13 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
+         return ret;
+     }
+ 
+-    fallback_ptr = bdrv_snapshot_fallback_ptr(bs);
+-    if (fallback_ptr) {
++    fallback = bdrv_snapshot_fallback_ptr(bs);
++    if (fallback) {
+         QDict *options;
+         QDict *file_options;
+         Error *local_err = NULL;
+-        BlockDriverState *fallback_bs = (*fallback_ptr)->bs;
+-        char *subqdict_prefix = g_strdup_printf("%s.", (*fallback_ptr)->name);
++        BlockDriverState *fallback_bs = fallback->bs;
++        char *subqdict_prefix = g_strdup_printf("%s.", fallback->name);
+ 
+         options = qdict_clone_shallow(bs->options);
+ 
+@@ -268,8 +263,8 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
+         qobject_unref(file_options);
+         g_free(subqdict_prefix);
+ 
+-        /* Force .bdrv_open() below to re-attach fallback_bs on *fallback_ptr */
+-        qdict_put_str(options, (*fallback_ptr)->name,
++        /* Force .bdrv_open() below to re-attach fallback_bs on fallback */
++        qdict_put_str(options, fallback->name,
+                       bdrv_get_node_name(fallback_bs));
+ 
+         /* Now close bs, apply the snapshot on fallback_bs, and re-open bs */
+@@ -278,7 +273,7 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
+         }
  
          /* .bdrv_open() will re-attach it */
-         bdrv_unref_child(bs, *fallback_ptr);
--        *fallback_ptr = NULL;
+-        bdrv_unref_child(bs, *fallback_ptr);
++        bdrv_unref_child(bs, fallback);
  
          ret = bdrv_snapshot_goto(fallback_bs, snapshot_id, errp);
          open_ret = drv->bdrv_open(bs, options, bs->open_flags, &local_err);
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 878ece76c7..767825aec4 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -937,9 +937,6 @@ struct BlockDriverState {
-     QDict *full_open_options;
-     char exact_filename[PATH_MAX];
- 
--    BdrvChild *backing;
--    BdrvChild *file;
--
-     /* I/O Limits */
-     BlockLimits bl;
- 
-@@ -992,7 +989,19 @@ struct BlockDriverState {
-      * which can affect this node by changing these defaults). This is always a
-      * parent node of this node. */
-     BlockDriverState *inherits_from;
-+
-+    /*
-+     * @backing and @file are some of @children or NULL. All these three fields
-+     * (@file, @backing and @children) are modified only in
-+     * bdrv_child_cb_attach() and bdrv_child_cb_detach().
-+     *
-+     * See also comment in include/block/block.h, to learn how backing and file
-+     * are connected with BdrvChildRole.
-+     */
-     QLIST_HEAD(, BdrvChild) children;
-+    BdrvChild *backing;
-+    BdrvChild *file;
-+
-     QLIST_HEAD(, BdrvChild) parents;
- 
-     QDict *options;
-diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-index 23d425a494..4cf99edf5b 100644
---- a/tests/unit/test-bdrv-drain.c
-+++ b/tests/unit/test-bdrv-drain.c
-@@ -1808,9 +1808,8 @@ static void test_drop_intermediate_poll(void)
-     for (i = 0; i < 3; i++) {
-         if (i) {
-             /* Takes the reference to chain[i - 1] */
--            chain[i]->backing = bdrv_attach_child(chain[i], chain[i - 1],
--                                                  "chain", &chain_child_class,
--                                                  BDRV_CHILD_COW, &error_abort);
-+            bdrv_attach_child(chain[i], chain[i - 1], "chain",
-+                              &chain_child_class, BDRV_CHILD_COW, &error_abort);
-         }
-     }
- 
-@@ -2028,9 +2027,8 @@ static void do_test_replace_child_mid_drain(int old_drain_count,
-     new_child_bs->total_sectors = 1;
- 
-     bdrv_ref(old_child_bs);
--    parent_bs->backing = bdrv_attach_child(parent_bs, old_child_bs, "child",
--                                           &child_of_bds, BDRV_CHILD_COW,
--                                           &error_abort);
-+    bdrv_attach_child(parent_bs, old_child_bs, "child", &child_of_bds,
-+                      BDRV_CHILD_COW, &error_abort);
- 
-     for (i = 0; i < old_drain_count; i++) {
-         bdrv_drained_begin(old_child_bs);
 -- 
 2.35.1
 
