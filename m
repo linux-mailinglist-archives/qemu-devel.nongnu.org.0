@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACAAB4EB4D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 22:45:46 +0200 (CEST)
-Received: from localhost ([::1]:40776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0F04EB4D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 22:45:51 +0200 (CEST)
+Received: from localhost ([::1]:40926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZIin-0006yR-6O
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 16:45:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41920)
+	id 1nZIis-000761-JW
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 16:45:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZIei-0003Th-4w; Tue, 29 Mar 2022 16:41:32 -0400
-Received: from smtp48.i.mail.ru ([94.100.177.108]:39502)
+ id 1nZIek-0003UP-Jk; Tue, 29 Mar 2022 16:41:34 -0400
+Received: from smtp48.i.mail.ru ([94.100.177.108]:43230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZIef-0006Xl-7v; Tue, 29 Mar 2022 16:41:31 -0400
+ id 1nZIei-0006YT-Pb; Tue, 29 Mar 2022 16:41:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
  s=mail4; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=ol9lhFFbz0C0HI1uiEtAMaWQDZUzCD6GbF0LHureAoA=; 
- t=1648586489;x=1649191889; 
- b=VB+BzVIf2jmic3ew9f8kjSSwUVQ2ObX+EouBbpOf/6vV2RAq/YFU2iIXv0EDHt0ZnPr86ODAI4a8i2kQgAOvvPp6CSvrPulekprmairW7eq7mv6uDJSJfTrE95jSaSx7zMLHwG5wYIbGgHdfPS0IqLQmqRrzSX/3a8/iqP5lj/9LSiZ55mlWvcbeLr2IXniIJiqZSybrfHL3NDZQyw6ztdiPp+dJTzyNVw0/6sQvRmH5boa6cRhmUbvlSXMLq/m/MP2wGllkhPR2Ompi+WhPNF/cMmvNXEMT8XUofIdaZTr7wjERsKotq9i8+FKbYoRdvh7v0f4BHefMCw+uCIbYUg==;
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=84L85vIWkkHJmUkmAtGcwU2r9aOqmmAWEEYXAesWkO4=; 
+ t=1648586492;x=1649191892; 
+ b=tGatJ6fuwcrHQwP/oZg4uXaoZABwrCJ5Hr6VgeYkVvmz/ucjCVNXxqnu6SmFYBT5u7sZ8gDa6S9I1X9/dP9Ce+GJvr3hDoWFY5gYYnpWUk+9Pm3U7WwM+zmXQVW1eIQ8r8X8Zq2Y/5ABNweuELSaTCDaCs/TI1UW89AH+qe27rwzUxdOePe29V0ZH3AhpAXyPa63uF8nfqcYHKSNW/gJvRx0KVZ5KjMeT1MsqWMpGAJdUYw+8G5q3X2lvq5OfDoZV3gC/mzden51Z4fNnWSlr7eDSFmN+i7j5b8sYNRBUthYKiigHKA9BqNurA7IGnvjJWOTI4Jp77vJKO4+n0qIvg==;
 Received: by smtp48.i.mail.ru with esmtpa (envelope-from
  <v.sementsov-og@mail.ru>)
- id 1nZIea-000374-DG; Tue, 29 Mar 2022 23:41:24 +0300
+ id 1nZIeg-000374-0o; Tue, 29 Mar 2022 23:41:30 +0300
 From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- v.sementsov-og@mail.ru
-Subject: [PATCH v4 00/45] Transactional block-graph modifying API
-Date: Tue, 29 Mar 2022 23:40:22 +0300
-Message-Id: <20220329204107.411011-1-v.sementsov-og@mail.ru>
+ v.sementsov-og@mail.ru, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: [PATCH v4 01/45] block: BlockDriver: add .filtered_child_is_backing
+ field
+Date: Tue, 29 Mar 2022 23:40:23 +0300
+Message-Id: <20220329204107.411011-2-v.sementsov-og@mail.ru>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220329204107.411011-1-v.sementsov-og@mail.ru>
+References: <20220329204107.411011-1-v.sementsov-og@mail.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Authentication-Results: smtp48.i.mail.ru;
  auth=pass smtp.auth=v.sementsov-og@mail.ru
  smtp.mailfrom=v.sementsov-og@mail.ru
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD92B0439D57C14BB6111D00391FF8D216C524AE3E2EB4979B500894C459B0CD1B929921177DFFAFE1EC2568E12C0F62BB9C206EF2094F4D7342D7423A3730B96E4
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE76D34FAA3D8B31588C2099A533E45F2D0395957E7521B51C2CFCAF695D4D8E9FCEA1F7E6F0F101C6778DA827A17800CE7DCDABBCBEAF682B1EA1F7E6F0F101C6723150C8DA25C47586E58E00D9D99D84E1BDDB23E98D2D38BEBC5CAB6D411FFA673D453368E803CF3151B8F806A73419020879F7C8C5043D14489FFFB0AA5F4BF176DF2183F8FC7C07E7E81EEA8A9722B8941B15DA834481FA18204E546F3947C1D471462564A2E19F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F79006372A3B24BF85B2E607389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F790063734032FEA597FA516D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE77E32032FFBECC12DEC76A7562686271EEC990983EF5C03292E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C3A8421AA044726D3235872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-7564579A: EEAE043A70213CC8
+X-77F55803: 4F1203BC0FB41BD9B83DD81DD066BE64A182F30D711DF321C3181FFB50202F95182A05F5380850404C228DA9ACA6FE27153E9284F104A1A4D918493AE196CEBAF8F22AA4F79052FFB646630209F37A7F
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE74B7EDB5828CF9C27EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006375769C641B9D7B8878638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D88D24631D13E1008143DCC0990AAFB3A26F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE7212612128AA291179FA2833FD35BB23D9E625A9149C048EE1E561CDFBCA1751FF04B652EEC242312D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B587F3D2152687E5CA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC42CE6FDBC42FF1EC3AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F7900637897F013DCFD1A724D81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89FCBE33A7817EDC1EF57739F23D657EF2BB5C8C57E37DE458BEDA766A37F9254B7
 X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8183A4AFAF3EA6BDC446469D8A8717206BBF593E0A4FA3DD8F536936F4E2FABAFCED7D99C6830690C4C9C2B6934AE262D3EE7EAB7254005DCED2A2FE3BEE621D36C9510FB958DCE06DB6ED91DBE5ABE359A3485EE9140A7D39D1B2EFE7B39F7738393EDB24507CE13387DFF0A840B692CF8
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34E54F8089C01448AAF3550AC89EF8E8E957FD08FBDC9DB70DFDB0389208321FB24EBF47B843A19C731D7E09C32AA3244CD1E1534FF49B71E09893DD767CC4B2B130363D8B7DA7DD4483B48618A63566E0
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojX92LdC94eGbsSphTL3p+5A==
-X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FE091173E07D013056BEF9CCAAB57D4E14343C227971916F22E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CF593E0A4FA3DD8F52F8809203CA790D90213485DC94F7C739C2B6934AE262D3EE7EAB7254005DCED7532B743992DF240BDC6A1CF3F042BAD6DF99611D93F60EFD07623A0E6354027699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D349EC559D073CA5B6800A0D2AEDC99F0328B648F7C1B477B99DB4F285E7E06FD6EC7DE6A326292F5601D7E09C32AA3244C9467422ADDB0B4A79D2641B17BA48B99C3B3ADDA61883BB5DCA3B3C10BC03908
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojX92LdC94eGZCcBn534MQKw==
+X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FE091173E07D0130562731BC14851E15D3EF5638EADA4E8A50E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
 X-Mras: Ok
 Received-SPF: pass client-ip=94.100.177.108;
  envelope-from=v.sementsov-og@mail.ru; helo=smtp48.i.mail.ru
@@ -73,167 +77,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Unfortunately not all filters use .file child as filtered child. Two
+exclusions are mirror_top and commit_top. Happily they both are private
+filters. Bad thing is that this inconsistency is observable through qmp
+commands query-block / query-named-block-nodes. So, could we just
+change mirror_top and commit_top to use file child as all other filter
+driver is an open question. Probably, we could do that with some kind
+of deprecation period, but how to warn users during it?
 
-That's a big series, which unites some of my previous ones, and
-completes them with necessary additions to finally implement block-graph
-modifying API. The series is called "v4" as it inherits
-"[PATCH v3 00/11] blockdev-replace" (among other things).
+For now, let's just add a field so we can distinguish them in generic
+code, it will be used in further commits.
 
-After this series, we have blockdev-add, blockdev-del and
-x-blockdev-replace transaction actions, which allows to insert and
-remove filters.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+---
+ block/commit.c            |  1 +
+ block/mirror.c            |  1 +
+ include/block/block_int.h | 14 ++++++++++++++
+ 3 files changed, 16 insertions(+)
 
-Additional challenge is to avoid intermediate permission update. That's
-and existing paradigm of block graph modifications: first do all the
-modifications and then refresh the permissions. Now we should bring this
-paradigm to block-graph modifying transactions: if several graph
-modifying commands are sequential in one transaction, permission are
-updated after the last of these commands. The application of this is
-possibility to correct copy-before-write filter permission requirements
-(see last patch).
-
-I now unite all these things into one series because:
- - they depend on each other and I have to rebase them together when
- something needs fix or refactoring
- - just to resend with my new email address
-If needed, parts may go in separate, and I can split them again if
-necessary.
-
-So, what is here:
-
-1. "[PATCH 00/14] block: cleanup backing and file handling" series,
-unchanged:
-
-  block: BlockDriver: add .filtered_child_is_backing field
-  block: introduce bdrv_open_file_child() helper
-  block/blklogwrites: don't care to remove bs->file child on failure
-  test-bdrv-graph-mod: update test_parallel_perm_update test case
-  tests-bdrv-drain: bdrv_replace_test driver: declare supports_backing
-  test-bdrv-graph-mod: fix filters to be filters
-  block: document connection between child roles and
-    bs->backing/bs->file
-  block/snapshot: stress that we fallback to primary child
-  Revert "block: Let replace_child_noperm free children"
-  Revert "block: Let replace_child_tran keep indirect pointer"
-  Revert "block: Restructure remove_file_or_backing_child()"
-  Revert "block: Pass BdrvChild ** to replace_child_noperm"
-  block: Manipulate bs->file / bs->backing pointers in .attach/.detach
-  block/snapshot: drop indirection around bdrv_snapshot_fallback_ptr
-
-2. implement bdrv_unref_tran() - the key thing to implement blockdev-del
-transaction action later.
-This part inherits from "[PATCH 00/14] block: blockdev-del force=false".
-Still force=false is not realized and qcow2 is untouched, as the target
-now is transactional removement.
-
-  block: refactor bdrv_remove_file_or_backing_child to bdrv_remove_child
-  block: drop bdrv_detach_child()
-  block: drop bdrv_remove_filter_or_cow_child
-  block: bdrv_refresh_perms(): allow external tran
-  block: refactor bdrv_list_refresh_perms to allow any list of nodes
-  block: make permission update functions public
-  block: add bdrv_try_set_aio_context_tran transaction action
-  block: implemet bdrv_unref_tran()
-
-3. Move blockdev.c transactions to util/transactions.c API.
-
-  blockdev: refactor transaction to use Transaction API
-  blockdev: transactions: rename some things
-  blockdev: qmp_transaction: refactor loop to classic for
-  blockdev: transaction: refactor handling transaction properties
-  blockdev: qmp_transaction: drop extra generic layer
-
-4. add blockdev-del transaction action
-
-  qapi: block: add blockdev-del transaction action
-
-5. add blockdev-add transaction action
-(inherits from "[PATCH 0/2] blockdev-add transaction")
-
-  block: introduce BDRV_O_NOPERM flag
-  block: bdrv_insert_node(): use BDRV_O_NOPERM
-  qapi: block: add blockdev-add transaction action
-  iotests: add blockdev-add-transaction
-
-6. add x-blockdev-replace command and transaction action
-(inherits from "[PATCH v3 00/11] blockdev-replace")
-
-  block-backend: blk_root(): drop const specifier on return type
-  block/export: add blk_by_export_id()
-  block: make bdrv_find_child() function public
-  block: bdrv_replace_child_bs(): move to external transaction
-  qapi: add x-blockdev-replace command
-  qapi: add x-blockdev-replace transaction action
-  block: bdrv_get_xdbg_block_graph(): report export ids
-  iotests.py: qemu_img_create: use imgfmt by default
-  iotests.py: introduce VM.assert_edges_list() method
-  iotests.py: add VM.qmp_check() helper
-  iotests: add filter-insertion
-
-7. Correct permission scheme of copy-before-write filter, with help of
-new design of graph-modifying API.
-
-  block: bdrv_open_inherit: create BlockBackend only when necessary
-  block/copy-before-write: correct permission scheme
-
- block.c                                       | 869 ++++++++++--------
- block/blkdebug.c                              |   9 +-
- block/blklogwrites.c                          |  11 +-
- block/blkreplay.c                             |   7 +-
- block/blkverify.c                             |   9 +-
- block/block-backend.c                         |  10 +-
- block/bochs.c                                 |   7 +-
- block/cloop.c                                 |   7 +-
- block/commit.c                                |   1 +
- block/copy-before-write.c                     |  24 +-
- block/copy-on-read.c                          |   9 +-
- block/crypto.c                                |  11 +-
- block/dmg.c                                   |   7 +-
- block/export/export.c                         |  31 +
- block/filter-compress.c                       |   6 +-
- block/mirror.c                                |   1 +
- block/monitor/block-hmp-cmds.c                |   2 +-
- block/parallels.c                             |   7 +-
- block/preallocate.c                           |   9 +-
- block/qcow.c                                  |   6 +-
- block/qcow2.c                                 |   8 +-
- block/qed.c                                   |   8 +-
- block/raw-format.c                            |   4 +-
- block/replication.c                           |   8 +-
- block/snapshot.c                              |  60 +-
- block/throttle.c                              |   8 +-
- block/vdi.c                                   |   7 +-
- block/vhdx.c                                  |   7 +-
- block/vmdk.c                                  |   7 +-
- block/vpc.c                                   |   7 +-
- blockdev.c                                    | 818 +++++++++--------
- include/block/block.h                         |  72 +-
- include/block/block_int.h                     |  41 +-
- include/block/export.h                        |   1 +
- include/sysemu/block-backend.h                |   3 +-
- qapi/block-core.json                          |  73 +-
- qapi/transaction.json                         |  35 +-
- stubs/blk-by-qdev-id.c                        |   9 +
- stubs/blk-exp-find-by-blk.c                   |   9 +
- stubs/meson.build                             |   2 +
- tests/qemu-iotests/iotests.py                 |  23 +
- .../tests/blockdev-add-transaction            |  52 ++
- .../tests/blockdev-add-transaction.out        |   6 +
- tests/qemu-iotests/tests/filter-insertion     | 253 +++++
- tests/qemu-iotests/tests/filter-insertion.out |   5 +
- tests/qemu-iotests/tests/image-fleecing       |  29 +-
- tests/qemu-iotests/tests/image-fleecing.out   |   2 -
- tests/unit/test-bdrv-drain.c                  |  11 +-
- tests/unit/test-bdrv-graph-mod.c              |  94 +-
- 49 files changed, 1715 insertions(+), 990 deletions(-)
- create mode 100644 stubs/blk-by-qdev-id.c
- create mode 100644 stubs/blk-exp-find-by-blk.c
- create mode 100755 tests/qemu-iotests/tests/blockdev-add-transaction
- create mode 100644 tests/qemu-iotests/tests/blockdev-add-transaction.out
- create mode 100755 tests/qemu-iotests/tests/filter-insertion
- create mode 100644 tests/qemu-iotests/tests/filter-insertion.out
-
+diff --git a/block/commit.c b/block/commit.c
+index b1fc7b908b..b2e7be0b1f 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -237,6 +237,7 @@ static BlockDriver bdrv_commit_top = {
+     .bdrv_child_perm            = bdrv_commit_top_child_perm,
+ 
+     .is_filter                  = true,
++    .filtered_child_is_backing  = true,
+ };
+ 
+ void commit_start(const char *job_id, BlockDriverState *bs,
+diff --git a/block/mirror.c b/block/mirror.c
+index 69b2c1c697..87f6a9dd8d 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1577,6 +1577,7 @@ static BlockDriver bdrv_mirror_top = {
+     .bdrv_child_perm            = bdrv_mirror_top_child_perm,
+ 
+     .is_filter                  = true,
++    .filtered_child_is_backing  = true,
+ };
+ 
+ static BlockJob *mirror_start_job(
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 27008cfb22..5ed61bb079 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -117,6 +117,20 @@ struct BlockDriver {
+      * (And this filtered child must then be bs->file or bs->backing.)
+      */
+     bool is_filter;
++
++    /*
++     * Only make sense for filter drivers, for others must be false.
++     * If true, filtered child is bs->backing. Otherwise it's bs->file.
++     * Only two internal filters use bs->backing as filtered child and has this
++     * field set to true: mirror_top and commit_top.
++     *
++     * Never create any more such filters!
++     *
++     * TODO: imagine how to deprecate this behavior and make all filters work
++     * similarly using bs->file as filtered child.
++     */
++    bool filtered_child_is_backing;
++
+     /*
+      * Set to true if the BlockDriver is a format driver.  Format nodes
+      * generally do not expect their children to be other format nodes
 -- 
 2.35.1
 
