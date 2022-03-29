@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13434EB186
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 18:11:30 +0200 (CEST)
-Received: from localhost ([::1]:56728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893D54EB1A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Mar 2022 18:17:02 +0200 (CEST)
+Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZERN-0001Rr-PA
-	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 12:11:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34910)
+	id 1nZEWj-0004qI-5E
+	for lists+qemu-devel@lfdr.de; Tue, 29 Mar 2022 12:17:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEPf-0008LH-0z
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:09:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47811)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEUL-0003HH-Dd
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:14:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEPb-0007HP-GB
- for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:09:41 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZEUJ-00083a-1h
+ for qemu-devel@nongnu.org; Tue, 29 Mar 2022 12:14:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648570178;
+ s=mimecast20190719; t=1648570469;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DrJSQyp7FqFC0Qbvkf577YJMAeKa9lM+lS/uIulRARQ=;
- b=TnMlyTxJ4heYZ60fJCZmasOceZm5QihhjzEbHCRgOzOe5evmW5bZkyyz16rGE+ZfESRJ2+
- esKR2O8aVJu1CnOafOJ33zqeIZFITBBB9LuUjPIin8Dq/ewFMPrCQDRgpCbLKyehBHHaGB
- qCthKa5dI2v9ADy+v4a0go3BFP+mPjA=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=E+7MF2TGyp3UclcVzInsc9+zY698udBmqnz/YlhvoXc=;
+ b=Jphb5Id/lcN3hyRGi15WGqdBzAEe3s8qq8r7lI1tMZRG3KL7KvycimalJlUY7C5/toTmtT
+ zE7lC3ctFjD0Vwz8rRwtXeqqGX7uhsynl0lJkzbbkVWOlqJrx8Rv766AOKzWQVW+RHeds6
+ /23NZa1W5at2uZphuptDsek+1NlQwwI=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-436-TxroTBHlMZuQvsDu7ayv3Q-1; Tue, 29 Mar 2022 12:09:35 -0400
-X-MC-Unique: TxroTBHlMZuQvsDu7ayv3Q-1
-Received: by mail-vk1-f198.google.com with SMTP id
- u83-20020a1f2e56000000b0033e842c83f7so3499215vku.4
- for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 09:09:35 -0700 (PDT)
+ us-mta-648-6ZH60-lsPPylVmR8asj8gQ-1; Tue, 29 Mar 2022 12:14:27 -0400
+X-MC-Unique: 6ZH60-lsPPylVmR8asj8gQ-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ l23-20020ac5cdb7000000b0033ffe029887so2337036vka.0
+ for <qemu-devel@nongnu.org>; Tue, 29 Mar 2022 09:14:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DrJSQyp7FqFC0Qbvkf577YJMAeKa9lM+lS/uIulRARQ=;
- b=J5Eirch0YhM5NJWJRFZsggQg/HX1wf5/naDg1ZgHaisRyQCPvI/nzNgVDI0c9jBYk7
- K7eABLGvT8AjkEzULPiJgAuiz4LMcTI9fIlZtlSOLw/P/oIB6nIp7Z9RucX3v2Ragk+y
- K6KF0W2JT3ckd3DuBY/+jCFd2awwXqBegMVtXH3xXzVhlem0haZXzFEP3rKbdISDbdpo
- ATAlt99C54iemus1Az+J1nvB42Ss2i32tZyiRyY/KZoFDfNp5IY6UiMyGbu/dTKbwLyx
- LqSIzUzwx0Th3Ssu3KjTNGODkdktanJH4bi675mAVEiGzUeCEnfJSXf2+hDB9uqmPUdd
- zWwQ==
-X-Gm-Message-State: AOAM530IXj7puAzxXW6/4jyfCv74IHv6ApW4ti4TKsVHeaJzQ++/n9kx
- l8N7n2X+bhz07Q4UzhPguV116GFF8vXaXPkeTyy2Co5o17VAMw6hb+05KqfoxB9xy0+1zqPQ7JG
- 51ENHFwMg3ZxSRuZ0Pp6JetL7j/0x5iU=
-X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
- 187-20020a6717c4000000b00322cfd815a1mr16716554vsx.61.1648570174763; 
- Tue, 29 Mar 2022 09:09:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzyjePfgAlSHf5zUuHrE/lJdRLGoej4Fm6L5Mu4gmy/Y+YJyzAsEFmfcsLleTCd7iRTSBlzA/NId7dslKBUBo=
-X-Received: by 2002:a67:17c4:0:b0:322:cfd8:15a1 with SMTP id
- 187-20020a6717c4000000b00322cfd815a1mr16716506vsx.61.1648570174407; Tue, 29
- Mar 2022 09:09:34 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=E+7MF2TGyp3UclcVzInsc9+zY698udBmqnz/YlhvoXc=;
+ b=pCCZeUJJZm5CWPZdIkt6ezWXWTvV9hn3uGc3qqtLCyb9HB8DlqNTvjUf2KvM8xapfu
+ be5oDbmq5wMOGN//vC/tBivKUzQ1M4oAqlZ6EzQniOTvLtRZaonPQV0pfg+SYunAUgXp
+ xFYn63zDnTMiIL54UGv+9Bz/A0BxZf3NZ7sOq0VODVGKcwoayNYDClXBOcDm2VLxSd6x
+ JzLu9qC0SxreQmhxl7J6mBIEgeO4wapVGTxnlRvUoL4NFxP8mT1iVBSWpQPQCiuwfyxW
+ ZbW5wEQU9tmJyEXLmhFYHsyXBzjkaLngE0XkCqp9Jl/5SOD6HA5zbWfB0REPTe5Xcgk0
+ MM9g==
+X-Gm-Message-State: AOAM530ewBSapBhyobcCMWmpj5gVvDLefAZfmZb05+T6SNbOYz7B0FeC
+ UnucnTx27Fp/L8TteFwrgyCebyx1o2hNzYHn557ik1Lezywvhi+zYzXWRcSyrl/LwH2IxUH8S81
+ yErJDPWRZFU7rXzs87FFlORHr2D2wGqc=
+X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
+ a2-20020a671a02000000b00320a51f8067mr17816260vsa.38.1648570466916; 
+ Tue, 29 Mar 2022 09:14:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXIyX0GvEXE5mUCC2VaX7Uh93JU5kid6MuMb2futtZQeaaqNHBkp02CqQoXZnvrpXp3AtIlFiEC51eo2tcyIA=
+X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
+ a2-20020a671a02000000b00320a51f8067mr17816244vsa.38.1648570466768; Tue, 29
+ Mar 2022 09:14:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220325200438.2556381-1-jsnow@redhat.com>
- <20220325200438.2556381-4-jsnow@redhat.com>
- <20220329110802.GB447081@fam-dell>
-In-Reply-To: <20220329110802.GB447081@fam-dell>
+References: <20220328140604.41484-1-victortoso@redhat.com>
+ <87ilrwycir.fsf@pond.sub.org>
+In-Reply-To: <87ilrwycir.fsf@pond.sub.org>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 29 Mar 2022 12:09:23 -0400
-Message-ID: <CAFn=p-aFhyn6DnnseJKbZvQWimW1JJVTXXxba8xUwiHOs18aLQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] python/qmp-shell: relicense as LGPLv2+
-To: Fam Zheng <fam.zheng@bytedance.com>
+Date: Tue, 29 Mar 2022 12:14:16 -0400
+Message-ID: <CAFn=p-bPhKciC+4XZXTyGnKLf3incOrJEgM0iZLht+QeuUqZ7A@mail.gmail.com>
+Subject: Re: [PATCH v3 00/14] Fix some qapi examples and a TODO section
+To: Markus Armbruster <armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -94,71 +91,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Luiz Capitulino <lcapitulino@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <mlureau@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>,
- Eduardo Habkost <ehabkost@habkost.com>
+Cc: Eric Blake <eblake@redhat.com>, Victor Toso <victortoso@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 29, 2022 at 7:08 AM Fam Zheng <fam.zheng@bytedance.com> wrote:
+On Tue, Mar 29, 2022 at 12:00 PM Markus Armbruster <armbru@redhat.com> wrote:
 >
-> On 2022-03-25 16:04, John Snow wrote:
-> > qmp-shell is presently licensed as GPLv2 (only). I intend to include
-> > this tool as an add-on to an LGPLv2+ library package hosted on
-> > PyPI.org. I've selected LGPLv2+ to maximize compatibility with other
-> > licenses while retaining a copyleft license.
-> >
-> > To keep licensing matters simple, I'd like to relicense this tool as
-> > LGPLv2+ as well in order to keep the resultant license of the hosted
-> > release files simple -- even if library users won't "link against" this
-> > command line tool.
-> >
-> > Therefore, I am asking permission from the current authors of this
-> > tool to loosen the license. At present, those people are:
-> >
-> > - John Snow (me!), 411/609
-> > - Luiz Capitulino, Author, 97/609
-> > - Daniel Berrang=C3=A9, 81/609
-> > - Eduardo Habkost, 10/609
-> > - Marc-Andr=C3=A9 Lureau, 6/609
-> > - Fam Zheng, 3/609
-> > - Cleber Rosa, 1/609
-> >
-> > (All of which appear to have been written under redhat.com addresses.)
-> >
-> > Eduardo's fixes are largely automated from 2to3 conversion tools and ma=
-y
-> > not necessarily constitute authorship, but his signature would put to
-> > rest any questions.
-> >
-> > Cleber's changes concern a single import statement change. Also won't
-> > hurt to ask.
-> >
-> > CC: Luiz Capitulino <lcapitulino@redhat.com>
-> > CC: Daniel Berrange <berrange@redhat.com>
-> > CC: Eduardo Habkost <ehabkost@habkost.com>
-> > CC: Marc-Andr=C3=A9 Lureau <mlureau@redhat.com>
-> > CC: Fam Zheng <fam@euphon.net>
-> > CC: Cleber Rosa <crosa@redhat.com>
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
+> Victor Toso <victortoso@redhat.com> writes:
 >
-> No longer wearing that hat any more so maybe my reply doesn't matter, but=
- since
-> I'm Cc'ed with my new address, I am personally happy with the re-licensin=
-g:
+> > Hi,
+> >
+> > I've being using the examples as unit tests and found a few that
+> > doesn't work out-of-the-box, might be inteded in order to be less
+> > verbose in the qapi documentation but nevertheless I'm sending this
+> > out in case you want to cherry-pick them.
+>
+> Lovely doc fixes.  I want them all.  Thanks!
 >
 
-I don't know either, but your ack is almost guaranteed to make things
-quite a lot simpler :)
+Seconded.
 
-Hope you're doing well, Fam!
-
-> Acked-by: Fam Zheng <fam@euphon.net>
+Reviewed-by: John Snow <jsnow@redhat.com>
 
 Thanks!
---js
 
 
