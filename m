@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39CA44ECC54
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:34:09 +0200 (CEST)
-Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BF94ECC69
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:37:38 +0200 (CEST)
+Received: from localhost ([::1]:43158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZd8y-0008Ms-9u
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:34:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47860)
+	id 1nZdCL-0003jO-KU
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:37:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZczg-0006TT-Jx
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZczg-0006Sb-J9
  for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:24:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23470)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZczd-0005EG-Ut
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:24:31 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZczc-0005E5-QI
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:24:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648664669;
+ s=mimecast20190719; t=1648664667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Puvfs8doKt2kgC4wdWs5YyryNMBmYfW6fo677X5V6Lw=;
- b=fc2ZP9gsMGGo5TrHHtN8eujMBOkuWb4JeqxNcHmUAIcMYyA4FCFQUnnK90rh2RtWVL8z7g
- tq9t646oWuysIWRQDQQ8g5xBwp5mUCNBTU/eMM6WdYl+yMXBzT5wrlJygNO03CN1pdiBeR
- FQFdt7C2rKlh+XwvBpzTRp5F/e8YNwE=
+ bh=j8zchmYZxKBbrts/vzQO6gAk+yiaWGf6gkizdl8qnFw=;
+ b=Uw5zlpXP6k82A5qUhvzfvq0yb6yZqurGd+GfPGOybKcdDE9EoY6wPn62nnlhJeXnAId3xs
+ 6ZRHyWxpLlodticbJbzSDSvdHid4/lRpiVxvFi7ZyKh0EZzrTp+5jE1SD/H9okvc3uXDsg
+ z14eKSX1hjYTyvFsP8GfBzgAK3sGkqg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-YmwsDw1LPYiYU2Ca9DqbJQ-1; Wed, 30 Mar 2022 14:24:26 -0400
-X-MC-Unique: YmwsDw1LPYiYU2Ca9DqbJQ-1
+ us-mta-636-M9-wjLI2MYS6nTLQgsbCNg-1; Wed, 30 Mar 2022 14:24:26 -0400
+X-MC-Unique: M9-wjLI2MYS6nTLQgsbCNg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9E2C11C02331
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 18:24:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 11F3D3820551
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 18:24:26 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.35.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D2992166B3F;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACD1E2166B3F;
  Wed, 30 Mar 2022 18:24:25 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [qemu.qmp PATCH 02/13] fork qemu.qmp from qemu.git
-Date: Wed, 30 Mar 2022 14:24:13 -0400
-Message-Id: <20220330182424.3438872-3-jsnow@redhat.com>
+Subject: [qemu.qmp PATCH 03/13] update VERSION to 0.0.0a1
+Date: Wed, 30 Mar 2022 14:24:14 -0400
+Message-Id: <20220330182424.3438872-4-jsnow@redhat.com>
 In-Reply-To: <20220330182424.3438872-1-jsnow@redhat.com>
 References: <20220330182424.3438872-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,14 +56,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,191 +85,31 @@ Cc: Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split python/ from qemu.git, using these commands:
+qemu.qmp will be independently versioned, without regard to QEMU
+version. While the repo is being established here, set the version to
+something impossibly low.
 
-> git subtree split -P python/ -b python-split-v3
-> mkdir ~/src/tmp
-> cd ~/src/tmp
-> git clone --no-local --branch python-split-v3 --single-branch ~/src/qemu
-> cd qemu
-> git filter-repo --path qemu/machine/           \
-                  --path qemu/utils/             \
-                  --path tests/iotests-mypy.sh   \
-                  --path tests/iotests-pylint.sh \
-                  --invert-paths
+Later, I intend to introduce automatic versioning based on git
+tags. While the repo is being established it's going to be
+easier to have a static version while we get bootstrapped.
 
-This commit, however, only performs some minimum cleanup to reflect the
-deletion of the other subpackages. It is not intended to be exhaustive,
-and further edits are made in forthcoming commits.
-
-These fixes are broken apart into micro-changes to facilitate mailing
-list review subject-by-subject. They *could* be squashed into a single
-larger commit on merge if desired, but due to the nature of the fork,
-bisectability across the fork boundary is going to be challenging
-anyway. It may be better value to just leave these initial commits
-as-is.
+(Note: PyPI already has a 0.0.0a0 version which I uploaded without prior
+review to aid in developing and testing this series. This version, and
+all alpha versions, will naturally be buried after the first real
+non-alpha release.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- .gitignore |  2 +-
- Makefile   | 16 ++++++++--------
- setup.cfg  | 24 +-----------------------
- setup.py   |  2 +-
- 4 files changed, 11 insertions(+), 33 deletions(-)
+ VERSION | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.gitignore b/.gitignore
-index 904f324..b071f02 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -5,7 +5,7 @@
- # python packaging
- build/
- dist/
--qemu.egg-info/
-+qemu.qmp.egg-info/
- 
- # editor config
- .idea/
-diff --git a/Makefile b/Makefile
-index 3334311..a2d2f2c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -30,7 +30,7 @@ help:
- 	@echo ""
- 	@echo "make develop:"
- 	@echo "    Install deps needed for for 'make check',"
--	@echo "    and install the qemu package in editable mode."
-+	@echo "    and install the qemu.qmp package in editable mode."
- 	@echo "    (Can be used in or outside of a venv.)"
- 	@echo ""
- 	@echo "make pipenv"
-@@ -43,7 +43,7 @@ help:
- 	@echo "    Remove package build output."
- 	@echo ""
- 	@echo "make distclean:"
--	@echo "    remove pipenv/venv files, qemu package forwarder,"
-+	@echo "    remove pipenv/venv files, qemu.qmp package forwarder,"
- 	@echo "    built distribution files, and everything from 'make clean'."
- 	@echo ""
- 	@echo -e "Have a nice day ^_^\n"
-@@ -64,11 +64,11 @@ dev-venv: $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate
- $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate: setup.cfg
- 	@echo "VENV $(QEMU_VENV_DIR)"
- 	@python3 -m venv $(QEMU_VENV_DIR)
--	@(							\
--		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
--		. $(QEMU_VENV_DIR)/bin/activate;		\
--		echo "INSTALL qemu[devel] $(QEMU_VENV_DIR)";	\
--		make develop 1>/dev/null;			\
-+	@(								\
-+		echo "ACTIVATE $(QEMU_VENV_DIR)";			\
-+		. $(QEMU_VENV_DIR)/bin/activate;			\
-+		echo "INSTALL qemu.qmp[devel] $(QEMU_VENV_DIR)";	\
-+		make develop 1>/dev/null;				\
- 	)
- 	@touch $(QEMU_VENV_DIR)
- 
-@@ -106,6 +106,6 @@ clean:
- 
- .PHONY: distclean
- distclean: clean
--	rm -rf qemu.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
-+	rm -rf qemu.qmp.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
- 	rm -f .coverage .coverage.*
- 	rm -rf htmlcov/
-diff --git a/setup.cfg b/setup.cfg
-index e877ea5..4ffab73 100644
---- a/setup.cfg
-+++ b/setup.cfg
-@@ -1,5 +1,5 @@
- [metadata]
--name = qemu
-+name = qemu.qmp
- version = file:VERSION
- maintainer = QEMU Developer Team
- maintainer_email = qemu-devel@nongnu.org
-@@ -25,8 +25,6 @@ classifiers =
- python_requires = >= 3.6
- packages =
-     qemu.qmp
--    qemu.machine
--    qemu.utils
- 
- [options.package_data]
- * = py.typed
-@@ -38,7 +36,6 @@ packages =
- devel =
-     avocado-framework >= 90.0
-     flake8 >= 3.6.0
--    fusepy >= 2.0.4
-     isort >= 5.1.2
-     mypy >= 0.780
-     pylint >= 2.8.0
-@@ -47,10 +44,6 @@ devel =
-     urwid-readline >= 0.13
-     Pygments >= 2.9.0
- 
--# Provides qom-fuse functionality
--fuse =
--    fusepy >= 2.0.4
--
- # QMP TUI dependencies
- tui =
-     urwid >= 2.1.2
-@@ -59,13 +52,6 @@ tui =
- 
- [options.entry_points]
- console_scripts =
--    qom = qemu.utils.qom:main
--    qom-set = qemu.utils.qom:QOMSet.entry_point
--    qom-get = qemu.utils.qom:QOMGet.entry_point
--    qom-list = qemu.utils.qom:QOMList.entry_point
--    qom-tree = qemu.utils.qom:QOMTree.entry_point
--    qom-fuse = qemu.utils.qom_fuse:QOMFuse.entry_point [fuse]
--    qemu-ga-client = qemu.utils.qemu_ga_client:main
-     qmp-shell = qemu.qmp.qmp_shell:main
-     qmp-shell-wrap = qemu.qmp.qmp_shell:main_wrap
-     qmp-tui = qemu.qmp.qmp_tui:main [tui]
-@@ -80,19 +66,12 @@ python_version = 3.6
- warn_unused_configs = True
- namespace_packages = True
- 
--[mypy-qemu.utils.qom_fuse]
--# fusepy has no type stubs:
--allow_subclassing_any = True
--
- [mypy-qemu.qmp.qmp_tui]
- # urwid and urwid_readline have no type stubs:
- allow_subclassing_any = True
- 
- # The following missing import directives are because these libraries do not
- # provide type stubs. Allow them on an as-needed basis for mypy.
--[mypy-fuse]
--ignore_missing_imports = True
--
- [mypy-urwid]
- ignore_missing_imports = True
- 
-@@ -164,7 +143,6 @@ skip_missing_interpreters = true
- allowlist_externals = make
- deps =
-     .[devel]
--    .[fuse]  # Workaround to trigger tox venv rebuild
-     .[tui]   # Workaround to trigger tox venv rebuild
- commands =
-     make check
-diff --git a/setup.py b/setup.py
-index c5bc459..aba951a 100755
---- a/setup.py
-+++ b/setup.py
-@@ -1,6 +1,6 @@
- #!/usr/bin/env python3
- """
--QEMU tooling installer script
-+QEMU QMP library installer script
- Copyright (c) 2020-2021 John Snow for Red Hat, Inc.
- """
- 
+diff --git a/VERSION b/VERSION
+index c19f3b8..7741e1a 100644
+--- a/VERSION
++++ b/VERSION
+@@ -1 +1 @@
+-0.6.1.0a1
++0.0.0a1
 -- 
 2.34.1
 
