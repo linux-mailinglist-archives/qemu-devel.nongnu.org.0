@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FE34EBE5C
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:07:33 +0200 (CEST)
-Received: from localhost ([::1]:42234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 465534EBE69
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:09:15 +0200 (CEST)
+Received: from localhost ([::1]:44974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZVEi-00045n-E6
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:07:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37724)
+	id 1nZVGM-0005xE-05
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:09:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nZV9v-0001A0-EH
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:02:35 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:48090 helo=loongson.cn)
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1nZVAD-0001sU-M6; Wed, 30 Mar 2022 06:02:53 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:53333)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nZV9t-00066V-EJ
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:02:35 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxisyxKkRiu+4SAA--.20945S3; 
- Wed, 30 Mar 2022 18:02:25 +0800 (CST)
-Subject: Re: [RFC PATCH v7 08/29] target/loongarch: Add LoongArch IOCSR
- instruction
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
- <20220328125749.2918087-9-yangxiaojuan@loongson.cn>
- <05fbe6bd-723e-5cb6-5dc7-b7def4df7ec1@linaro.org>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <70a6d078-deda-8e90-f95c-f83954f31427@loongson.cn>
-Date: Wed, 30 Mar 2022 18:02:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <05fbe6bd-723e-5cb6-5dc7-b7def4df7ec1@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9AxisyxKkRiu+4SAA--.20945S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zr18trWrJr4kGFy7XF17Awb_yoW8ZF4Dpr
- 1kJrWUJryUJrn5Jr1UJr1UJFyUAr1UJ3WDGr18ZF1UAr47Ar1jgr1UWr1qgr1UJr48Jr45
- Jr1UXrsrZF17XrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUva14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
- 026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
- JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
- vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6Fyj6rWUJwCI42IY6I8E87Iv
- 67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyT
- uYvjfUozVbDUUUU
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+ (envelope-from <ysato@users.sourceforge.jp>)
+ id 1nZVA7-00067i-9l; Wed, 30 Mar 2022 06:02:53 -0400
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 8E9592E4C6;
+ Wed, 30 Mar 2022 19:02:42 +0900 (JST)
+Received: from SIOS1075.ysato.ml (z215155.dynamic.ppp.asahi-net.or.jp
+ [110.4.215.155])
+ by sakura.ysato.name (Postfix) with ESMTPSA id DB34A1C03A6;
+ Wed, 30 Mar 2022 19:02:41 +0900 (JST)
+Date: Wed, 30 Mar 2022 19:02:39 +0900
+Message-ID: <87r16jn4g0.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] target/sh4: Remove old README.sh4 file
+In-Reply-To: <20220329151955.472306-1-thuth@redhat.com>
+References: <20220329151955.472306-1-thuth@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/27.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: softfail client-ip=202.224.55.15;
+ envelope-from=ysato@users.sourceforge.jp; helo=mail03.asahi-net.or.jp
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,62 +57,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, Song Gao <gaosong@loongson.cn>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 30 Mar 2022 00:19:55 +0900,
+Thomas Huth wrote:
+> 
+> This file didn't have any non-trivial update since it was initially
+> added in 2006, and looking at the content, it seems incredibly outdated,
+> saying e.g. "The sh4 target is not ready at all yet for integration in
+> qemu" or "A sh4 user-mode has also somewhat started but will be worked
+> on afterwards"... Sounds like nobody is interested in this README file
+> anymore, so let's simply remove it now.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  target/sh4/README.sh4 | 150 ------------------------------------------
+>  1 file changed, 150 deletions(-)
+>  delete mode 100644 target/sh4/README.sh4
+> 
+> diff --git a/target/sh4/README.sh4 b/target/sh4/README.sh4
+> deleted file mode 100644
+> index a192ca7540..0000000000
+> --- a/target/sh4/README.sh4
+> +++ /dev/null
+> @@ -1,150 +0,0 @@
+> -qemu target:   sh4
+> -author:        Samuel Tardieu <sam@rfc1149.net>
+> -last modified: Tue Dec  6 07:22:44 CET 2005
+> -
+> -The sh4 target is not ready at all yet for integration in qemu. This
+> -file describes the current state of implementation.
+> -
+> -Most places requiring attention and/or modification can be detected by
+> -looking for "XXXXX" or "abort()".
+> -
+> -The sh4 core is located in target/sh4/*, while the 7750 peripheral
+> -features (IO ports for example) are located in hw/sh7750.[ch]. The
+> -main board description is in hw/shix.c, and the NAND flash in
+> -hw/tc58128.[ch].
+> -
+> -All the shortcomings indicated here will eventually be resolved. This
+> -is a work in progress. Features are added in a semi-random order: if a
+> -point is blocking to progress on booting the Linux kernel for the shix
+> -board, it is addressed first; if feedback is necessary and no progress
+> -can be made on blocking points until it is received, a random feature
+> -is worked on.
+> -
+> -Goals
+> ------
+> -
+> -The primary model being worked on is the soft MMU target to be able to
+> -emulate the Shix 2.0 board by Alexis Polti, described at
+> -https://web.archive.org/web/20070917001736/http://perso.enst.fr/~polti/realisations/shix20/
+> -
+> -Ultimately, qemu will be coupled with a system C or a verilog
+> -simulator to simulate the whole board functionalities.
+> -
+> -A sh4 user-mode has also somewhat started but will be worked on
+> -afterwards. The goal is to automate tests for GNAT (GNU Ada) compiler
+> -that I ported recently to the sh4-linux target.
+> -
+> -Registers
+> ----------
+> -
+> -16 general purpose registers are available at any time. The first 8
+> -registers are banked and the non-directly visible ones can be accessed
+> -by privileged instructions. In qemu, we define 24 general purpose
+> -registers and the code generation use either [0-7]+[8-15] or
+> -[16-23]+[8-15] depending on the MD and RB flags in the sr
+> -configuration register.
+> -
+> -Instructions
+> -------------
+> -
+> -Most sh4 instructions have been implemented. The missing ones at this
+> -time are:
+> -  - FPU related instructions
+> -  - LDTLB to load a new MMU entry
+> -  - SLEEP to put the processor in sleep mode
+> -
+> -Most instructions could be optimized a lot. This will be worked on
+> -after the current model is fully functional unless debugging
+> -convenience requires that it is done early.
+> -
+> -Many instructions did not have a chance to be tested yet. The plan is
+> -to implement unit and regression testing of those in the future.
+> -
+> -MMU
+> ----
+> -
+> -The MMU is implemented in the sh4 core. MMU management has not been
+> -tested at all yet. In the sh7750, it can be manipulated through memory
+> -mapped registers and this part has not yet been implemented.
+> -
+> -Exceptions
+> -----------
+> -
+> -Exceptions are implemented as described in the sh4 reference manual
+> -but have not been tested yet. They do not use qemu EXCP_ features
+> -yet.
+> -
+> -IRQ
+> ----
+> -
+> -IRQ are not implemented yet.
+> -
+> -Peripheral features
+> --------------------
+> -
+> -  + Serial ports
+> -
+> -Configuration and use of the first serial port (SCI) without
+> -interrupts is supported. Input has not yet been tested.
+> -
+> -Configuration of the second serial port (SCIF) is supported. FIFO
+> -handling infrastructure has been started but is not completed yet.
+> -
+> -  + GPIO ports
+> -
+> -GPIO ports have been implemented. A registration function allows
+> -external modules to register interest in some port changes (see
+> -hw/tc58128.[ch] for an example) and will be called back. Interrupt
+> -generation is not yet supported but some infrastructure is in place
+> -for this purpose. Note that in the current model a peripheral module
+> -cannot directly simulate a H->L->H input port transition and have an
+> -interrupt generated on the low level.
+> -
+> -  + TC58128 NAND flash
+> -
+> -TC58128 NAND flash is partially implemented through GPIO ports. It
+> -supports reading from flash.
+> -
+> -GDB
+> ----
+> -
+> -GDB remote target support has been implemented and lightly tested.
+> -
+> -Files
+> ------
+> -
+> -File names are hardcoded at this time. The bootloader must be stored in
+> -shix_bios.bin in the current directory. The initial Linux image must
+> -be stored in shix_linux_nand.bin in the current directory in NAND
+> -format. Test files can be obtained from
+> -http://perso.enst.fr/~polti/robot/ as well as the various datasheets I
+> -use.
+> -
+> -qemu disk parameter on the command line is unused. You can supply any
+> -existing image and it will be ignored. As the goal is to simulate an
+> -embedded target, it is not clear how this parameter will be handled in
+> -the future.
+> -
+> -To build an ELF kernel image from the NAND image, 16 bytes have to be
+> -stripped off the end of every 528 bytes, keeping only 512 of them. The
+> -following Python code snippet does it:
+> -
+> -#! /usr/bin/python
+> -
+> -def denand (infd, outfd):
+> -    while True:
+> -        d = infd.read (528)
+> -        if not d: return
+> -        outfd.write (d[:512])
+> -
+> -if __name__ == '__main__':
+> -    import sys
+> -    denand (open (sys.argv[1], 'rb'),
+> -            open (sys.argv[2], 'wb'))
+> -
+> -Style isssues
+> --------------
+> -
+> -There is currently a mix between my style (space before opening
+> -parenthesis) and qemu style. This will be resolved before final
+> -integration is proposed.
+> -- 
+> 2.27.0
+> 
 
-On 2022/3/29 上午2:55, Richard Henderson wrote:
-> On 3/28/22 06:57, Xiaojuan Yang wrote:
->> +uint64_t helper_iocsr_read(CPULoongArchState *env, target_ulong r_addr,
->> +                           uint32_t size)
->> +{
->> +    int cpuid = env_cpu(env)->cpu_index;
->> +    CPUState  *cs = qemu_get_cpu(cpuid);
->> +    env = cs->env_ptr;
->> +    uint64_t ret;
->> +
->> +    /*
->> +     * Adjust the per core address such as 0x10xx(IPI)/0x18xx(EXTIOI)
->> +     */
->> +    if (((r_addr & 0xff00) == 0x1000) || ((r_addr & 0xff00) == 
->> 0x1800)) {
->> +        r_addr = r_addr + ((target_ulong)(cpuid & 0x3) << 8);
->> +    }
->> +
->> +    switch (size) {
->> +    case 1:
->> +        ret = address_space_ldub(&env->address_space_iocsr, r_addr,
->> +                                 MEMTXATTRS_UNSPECIFIED, NULL);
->> +        break;
->> +    case 2:
->> +        ret = address_space_lduw(&env->address_space_iocsr, r_addr,
->> +                                 MEMTXATTRS_UNSPECIFIED, NULL);
->> +        break;
->> +    case 4:
->> +        ret = address_space_ldl(&env->address_space_iocsr, r_addr,
->> +                                MEMTXATTRS_UNSPECIFIED, NULL);
->> +        break;
->> +    case 8:
->> +        ret = address_space_ldq(&env->address_space_iocsr, r_addr,
->> +                                MEMTXATTRS_UNSPECIFIED, NULL);
->> +        break;
->> +    default:
->> +        break;
->> +    }
->> +
->> +    return ret;
->> +}
->
-> You should have seen an uninitialized use of 'ret' here.
-> The default case should be g_assert_not_reached().
-> And the same in helper_iocsr_write.
->
-OK.
+Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-Thanks.
-Xiaojuan
->
-> r~
-
+-- 
+Yosinori Sato
 
