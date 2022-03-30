@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0F34ECCC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:56:48 +0200 (CEST)
-Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 956BF4ECCCA
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:59:32 +0200 (CEST)
+Received: from localhost ([::1]:36672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZdUt-0008IY-W9
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:56:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49642)
+	id 1nZdXX-0004mT-NJ
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:59:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZd7J-0006nz-Ev
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:32:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32050)
+ id 1nZd7N-0006qQ-8n
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:32:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZd7F-0006fV-QR
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:32:24 -0400
+ id 1nZd7J-0006fs-7r
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:32:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648665141;
+ s=mimecast20190719; t=1648665144;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mwMJrXbjBoQvBEMEY7wL0UMJ13pv00ab4vGSzMsAE6A=;
- b=MP1Au3FbrqK0Onfvx+FY6GkC7RwYZA9bRMwa7BGR5bQNpLeqx4QITExrZDJDibYNfMTlTh
- 0cgnx5PC7i9HIlq3n6GA7+ORoRGM54oL/9ZrzA/+3AME8ra/z1awXhhbQkoXKh2uPJUSyU
- Ep+DEosAoJXmoOPZcb/V1j+xKsWQLNM=
+ bh=at74jLvfPBplnvuRaQUgguMyDaRAte8OVbgQmgvjYoc=;
+ b=XOgaEqpWKssB0f+p54ILpmOcU/4z7rNMs1kRw/boZMeZ9GDoPgJ/6YIMLo2OYu7r/+P9Fr
+ JPagesKPX+bvCEPP8UGpoVh0AI7ASJ8JNhQBGoMVo35XNZtPULDQSVR/my/OBxgwGZcIwT
+ oNHq4FIn4/sdPck/FT+NnkoUqqrCcA0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-c8P2XyQ-Nn2PiEyOTPB8kg-1; Wed, 30 Mar 2022 14:32:17 -0400
-X-MC-Unique: c8P2XyQ-Nn2PiEyOTPB8kg-1
+ us-mta-663-b9MlvANcN1a0zeimvc__FQ-1; Wed, 30 Mar 2022 14:32:21 -0400
+X-MC-Unique: b9MlvANcN1a0zeimvc__FQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5DB54811E75;
- Wed, 30 Mar 2022 18:32:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5EE6C185A79C;
+ Wed, 30 Mar 2022 18:32:20 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.195.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A934C57ECE5;
- Wed, 30 Mar 2022 18:32:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A3B1D57ECED;
+ Wed, 30 Mar 2022 18:32:17 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 16/19] vdpa: Add vhost_vdpa_start_control_svq
-Date: Wed, 30 Mar 2022 20:31:13 +0200
-Message-Id: <20220330183116.358598-17-eperezma@redhat.com>
+Subject: [RFC PATCH v3 17/19] vhost: Update kernel headers
+Date: Wed, 30 Mar 2022 20:31:14 +0200
+Message-Id: <20220330183116.358598-18-eperezma@redhat.com>
 In-Reply-To: <20220330183116.358598-1-eperezma@redhat.com>
 References: <20220330183116.358598-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -91,92 +91,80 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will send CVQ commands in the destination machine, seting up
-everything o there is no guest-visible change.
-
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- net/vhost-vdpa.c | 63 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ include/standard-headers/linux/vhost_types.h | 11 ++++++++-
+ linux-headers/linux/vhost.h                  | 25 ++++++++++++++++----
+ 2 files changed, 30 insertions(+), 6 deletions(-)
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 585d2f60f8..6dc0ae8614 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -205,10 +205,73 @@ static ssize_t vhost_vdpa_receive(NetClientState *nc, const uint8_t *buf,
-     return 0;
- }
+diff --git a/include/standard-headers/linux/vhost_types.h b/include/standard-headers/linux/vhost_types.h
+index 0bd2684a2a..ce78551b0f 100644
+--- a/include/standard-headers/linux/vhost_types.h
++++ b/include/standard-headers/linux/vhost_types.h
+@@ -87,7 +87,7 @@ struct vhost_msg {
  
-+static bool vhost_vdpa_start_control_svq(VhostShadowVirtqueue *svq,
-+                                         VirtIODevice *vdev)
-+{
-+    VirtIONet *n = VIRTIO_NET(vdev);
-+    uint64_t features = vdev->host_features;
+ struct vhost_msg_v2 {
+ 	uint32_t type;
+-	uint32_t reserved;
++	uint32_t asid;
+ 	union {
+ 		struct vhost_iotlb_msg iotlb;
+ 		uint8_t padding[64];
+@@ -153,4 +153,13 @@ struct vhost_vdpa_iova_range {
+ /* vhost-net should add virtio_net_hdr for RX, and strip for TX packets. */
+ #define VHOST_NET_F_VIRTIO_NET_HDR 27
+ 
++/* Use message type V2 */
++#define VHOST_BACKEND_F_IOTLB_MSG_V2 0x1
++/* IOTLB can accept batching hints */
++#define VHOST_BACKEND_F_IOTLB_BATCH  0x2
++/* IOTLB can accept address space identifier through V2 type of IOTLB
++ * message
++ */
++#define VHOST_BACKEND_F_IOTLB_ASID  0x3
 +
-+    if (features & BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR)) {
-+        const struct virtio_net_ctrl_hdr ctrl = {
-+            .class = VIRTIO_NET_CTRL_MAC,
-+            .cmd = VIRTIO_NET_CTRL_MAC_ADDR_SET,
-+        };
-+        uint8_t mac[6];
-+        const struct iovec data[] = {
-+            {
-+                .iov_base = (void *)&ctrl,
-+                .iov_len = sizeof(ctrl),
-+            },{
-+                .iov_base = mac,
-+                .iov_len = sizeof(mac),
-+            },{
-+                .iov_base = NULL,
-+                .iov_len = sizeof(virtio_net_ctrl_ack),
-+            }
-+        };
-+        bool ret;
+ #endif
+diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost.h
+index c998860d7b..5e083490f1 100644
+--- a/linux-headers/linux/vhost.h
++++ b/linux-headers/linux/vhost.h
+@@ -89,11 +89,6 @@
+ 
+ /* Set or get vhost backend capability */
+ 
+-/* Use message type V2 */
+-#define VHOST_BACKEND_F_IOTLB_MSG_V2 0x1
+-/* IOTLB can accept batching hints */
+-#define VHOST_BACKEND_F_IOTLB_BATCH  0x2
+-
+ #define VHOST_SET_BACKEND_FEATURES _IOW(VHOST_VIRTIO, 0x25, __u64)
+ #define VHOST_GET_BACKEND_FEATURES _IOR(VHOST_VIRTIO, 0x26, __u64)
+ 
+@@ -150,4 +145,24 @@
+ /* Get the valid iova range */
+ #define VHOST_VDPA_GET_IOVA_RANGE	_IOR(VHOST_VIRTIO, 0x78, \
+ 					     struct vhost_vdpa_iova_range)
++/* Get the number of virtqueue groups. */
++#define VHOST_VDPA_GET_GROUP_NUM	_IOR(VHOST_VIRTIO, 0x79, unsigned int)
 +
-+        /* TODO: Only best effort? */
-+        memcpy(mac, n->mac, sizeof(mac));
-+        ret = vhost_svq_inject(svq, data, 2, 1);
-+        if (!ret) {
-+            return false;
-+        }
-+    }
++/* Get the number of address spaces. */
++#define VHOST_VDPA_GET_AS_NUM		_IOR(VHOST_VIRTIO, 0x7A, unsigned int)
 +
-+    return true;
-+}
++/* Get the group for a virtqueue: read index, write group in num,
++ * The virtqueue index is stored in the index field of
++ * vhost_vring_state. The group for this specific virtqueue is
++ * returned via num field of vhost_vring_state.
++ */
++#define VHOST_VDPA_GET_VRING_GROUP	_IOWR(VHOST_VIRTIO, 0x7B,	\
++					      struct vhost_vring_state)
++/* Set the ASID for a virtqueue group. The group index is stored in
++ * the index field of vhost_vring_state, the ASID associated with this
++ * group is stored at num field of vhost_vring_state.
++ */
++#define VHOST_VDPA_SET_GROUP_ASID	_IOW(VHOST_VIRTIO, 0x7C, \
++					     struct vhost_vring_state)
 +
-+static void vhost_vdpa_start(NetClientState *nc)
-+{
-+    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-+    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    struct vhost_vdpa *v = &s->vhost_vdpa;
-+    struct vhost_dev *dev = &s->vhost_net->dev;
-+    VhostShadowVirtqueue *svq;
-+
-+    if (nc->is_datapath) {
-+        /* This is not the cvq dev */
-+        return;
-+    }
-+
-+    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
-+        return;
-+    }
-+
-+    if (!v->shadow_vqs_enabled) {
-+        return;
-+    }
-+
-+    svq = g_ptr_array_index(v->shadow_vqs, 0);
-+    vhost_vdpa_start_control_svq(svq, dev->vdev);
-+}
-+
- static NetClientInfo net_vhost_vdpa_info = {
-         .type = NET_CLIENT_DRIVER_VHOST_VDPA,
-         .size = sizeof(VhostVDPAState),
-         .receive = vhost_vdpa_receive,
-+        .start = vhost_vdpa_start,
-         .cleanup = vhost_vdpa_cleanup,
-         .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
-         .has_ufo = vhost_vdpa_has_ufo,
+ #endif
 -- 
 2.27.0
 
