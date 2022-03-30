@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BCD4EC5B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:33:29 +0200 (CEST)
-Received: from localhost ([::1]:59404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21764EC5EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:47:11 +0200 (CEST)
+Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZYS0-00078j-AQ
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:33:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52062)
+	id 1nZYfG-00058L-QA
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:47:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXtC-00089G-El; Wed, 30 Mar 2022 08:57:30 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:41222)
+ id 1nZXtD-0008FX-U5; Wed, 30 Mar 2022 08:57:31 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:41240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXtA-0004bO-Ef; Wed, 30 Mar 2022 08:57:30 -0400
+ id 1nZXtC-0004bR-33; Wed, 30 Mar 2022 08:57:31 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 9E08721ED3;
- Wed, 30 Mar 2022 12:56:55 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 80A8E21EDA;
+ Wed, 30 Mar 2022 12:56:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  s=mail; t=1648645016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8X72RRBxN8aWz3GWD2e/RMhrzISf6w4fW3q1EpbSkOI=;
- b=y0yyh+R1V8Qxaln8Efr03CkPIx9L6fXXRXd5afrwCTPdNRlNLEJGSKMjuAECXeeqs9ns5y
- p6yHFJB6sseMS9+WA2Yx8pgMb2D3i9jiQC7+WfV4fUaS9dCTfOLmFeKTqzls5DxklUWJsk
- ZQrk8QMLB2Fsl0x17Km5hR5WUJEy1V4=
+ bh=U6XTnSySc1VPFdO0j6fRlkKZ8C5bePQAqffOUVTjrec=;
+ b=3N71HHKtlg8nGTnSpit5vmnXB+ZUX1rYBY5FFvQBXRZngq8R4AgyXeXumUScnOPY+CFHHQ
+ bQkbUOnkFEenTuo1KKFVNhtIn7W42HTzgcKOB3MM1jhLSt+3JQWzM31uFjUzgwVgioX6t8
+ qTyq9S08zoOG9N/bvoDM8y+LVtQrciY=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 15/18] hw/riscv/sifive_u&microchip_pfsoc: apply
+Subject: [RFC PATCH 16/18] hw/riscv: update remaining machines due to
  riscv_hart_array update
-Date: Wed, 30 Mar 2022 14:56:36 +0200
-Message-Id: <20220330125639.201937-16-damien.hedde@greensocs.com>
+Date: Wed, 30 Mar 2022 14:56:37 +0200
+Message-Id: <20220330125639.201937-17-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330125639.201937-1-damien.hedde@greensocs.com>
 References: <20220330125639.201937-1-damien.hedde@greensocs.com>
@@ -64,7 +64,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>,
  Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
  qemu-riscv@nongnu.org, Alistair Francis <alistair@alistair23.me>,
  mark.burton@greensocs.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -76,165 +76,118 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These machines were creating 2 explicit clusters of different cpus
-(a cluster of 1 cpu and a cluster of N cpus). These are removed as
-they are now embedded in the riscv array.
+virt & spike machines have multiple sockets (but they still put
+all cpus in the same default cluster). For these 2 machines
+we disable the clustering in the array in order to keep the
+behavior.
 
-Note: The qom-path of the riscv hart arrays are changed, the cluster
-level is removed:
-+ "/path/to/e-cluster/e-cpus" to "/path/to/e-cpus"
-+ "/path/to/u-cluster/u-cpus" to "/path/to/u-cpus"
+opentitan, sifive_e and shakti_c, were using the default cluster
+too. But we can use the embedded cluster as it is equivalent.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
+ hw/riscv/opentitan.c | 4 ++--
+ hw/riscv/shakti_c.c  | 4 ++--
+ hw/riscv/sifive_e.c  | 4 ++--
+ hw/riscv/spike.c     | 5 +++--
+ hw/riscv/virt.c      | 5 +++--
+ 5 files changed, 12 insertions(+), 10 deletions(-)
 
-If keeping the qom-paths is necessary we can add a container as
-a replacement of the cluster.
----
- include/hw/riscv/microchip_pfsoc.h |  2 --
- include/hw/riscv/sifive_u.h        |  2 --
- hw/riscv/microchip_pfsoc.c         | 28 ++++++----------------------
- hw/riscv/sifive_u.c                | 27 ++++++---------------------
- 4 files changed, 12 insertions(+), 47 deletions(-)
-
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index a0673f5f59..9101c94978 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -35,8 +35,6 @@ typedef struct MicrochipPFSoCState {
-     DeviceState parent_obj;
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 2eb7454d8a..4e90610f1d 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -132,10 +132,10 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
  
-     /*< public >*/
--    CPUClusterState e_cluster;
--    CPUClusterState u_cluster;
-     RISCVHartArrayState e_cpus;
-     RISCVHartArrayState u_cpus;
-     DeviceState *plic;
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 8f63a183c4..5439e0d0c3 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -38,8 +38,6 @@ typedef struct SiFiveUSoCState {
-     DeviceState parent_obj;
+     object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
+                             &error_abort);
+-    object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
++    object_property_set_int(OBJECT(&s->cpus), "num-cpus", ms->smp.cpus,
+                             &error_abort);
+     object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8080, &error_abort);
+-    riscv_hart_array_realize(&s->cpus, &error_abort);
++    qdev_realize(DEVICE(&s->cpus), NULL, &error_abort);
  
-     /*< public >*/
--    CPUClusterState e_cluster;
--    CPUClusterState u_cluster;
-     RISCVHartArrayState e_cpus;
-     RISCVHartArrayState u_cpus;
-     DeviceState *plic;
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 82547a53e6..f4b1400ba5 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -133,23 +133,15 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
-     MachineState *ms = MACHINE(qdev_get_machine());
-     MicrochipPFSoCState *s = MICROCHIP_PFSOC(obj);
+     /* Boot ROM */
+     memory_region_init_rom(&s->rom, OBJECT(dev_soc), "riscv.lowrisc.ibex.rom",
+diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
+index 93e0c8dd68..5158ea6e8b 100644
+--- a/hw/riscv/shakti_c.c
++++ b/hw/riscv/shakti_c.c
+@@ -108,7 +108,7 @@ static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp)
+     ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(dev);
+     MemoryRegion *system_memory = get_system_memory();
  
--    object_initialize_child(obj, "e-cluster", &s->e_cluster, TYPE_CPU_CLUSTER);
--    qdev_prop_set_uint32(DEVICE(&s->e_cluster), "cluster-id", 0);
--
--    object_initialize_child(OBJECT(&s->e_cluster), "e-cpus", &s->e_cpus,
--                            TYPE_RISCV_HART_ARRAY);
--    qdev_prop_set_uint32(DEVICE(&s->e_cpus), "num-harts", 1);
-+    object_initialize_child(obj, "e-cpus", &s->e_cpus, TYPE_RISCV_HART_ARRAY);
-+    qdev_prop_set_uint32(DEVICE(&s->e_cpus), "num-cpus", 1);
-     qdev_prop_set_uint32(DEVICE(&s->e_cpus), "hartid-base", 0);
-     qdev_prop_set_string(DEVICE(&s->e_cpus), "cpu-type",
-                          TYPE_RISCV_CPU_SIFIVE_E51);
-     qdev_prop_set_uint64(DEVICE(&s->e_cpus), "resetvec", RESET_VECTOR);
+-    riscv_hart_array_realize(&sss->cpus, &error_abort);
++    qdev_realize(DEVICE(&sss->cpus), NULL, &error_abort);
  
--    object_initialize_child(obj, "u-cluster", &s->u_cluster, TYPE_CPU_CLUSTER);
--    qdev_prop_set_uint32(DEVICE(&s->u_cluster), "cluster-id", 1);
--
--    object_initialize_child(OBJECT(&s->u_cluster), "u-cpus", &s->u_cpus,
--                            TYPE_RISCV_HART_ARRAY);
--    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
-+    object_initialize_child(obj, "u-cpus", &s->u_cpus, TYPE_RISCV_HART_ARRAY);
-+    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-cpus", ms->smp.cpus - 1);
-     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
-     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type",
-                          TYPE_RISCV_CPU_SIFIVE_U54);
-@@ -190,16 +182,8 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-     NICInfo *nd;
-     int i;
+     sss->plic = sifive_plic_create(shakti_c_memmap[SHAKTI_C_PLIC].base,
+         (char *)SHAKTI_C_PLIC_HART_CONFIG, ms->smp.cpus, 0,
+@@ -171,7 +171,7 @@ static void shakti_c_soc_instance_init(Object *obj)
+      */
+     object_property_set_str(OBJECT(&sss->cpus), "cpu-type",
+                             TYPE_RISCV_CPU_SHAKTI_C, &error_abort);
+-    object_property_set_int(OBJECT(&sss->cpus), "num-harts", 1,
++    object_property_set_int(OBJECT(&sss->cpus), "num-cpus", 1,
+                             &error_abort);
+ }
  
--    riscv_hart_array_realize(&s->e_cpus, &error_abort);
--    riscv_hart_array_realize(&s->u_cpus, &error_abort);
--    /*
--     * The cluster must be realized after the RISC-V hart array container,
--     * as the container's CPU object is only created on realize, and the
--     * CPU must exist and have been parented into the cluster before the
--     * cluster is realized.
--     */
--    qdev_realize(DEVICE(&s->e_cluster), NULL, &error_abort);
--    qdev_realize(DEVICE(&s->u_cluster), NULL, &error_abort);
-+    qdev_realize(DEVICE(&s->e_cpus), NULL, &error_abort);
-+    qdev_realize(DEVICE(&s->u_cpus), NULL, &error_abort);
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 25ba0a8c85..c1e67c0f78 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -179,7 +179,7 @@ static void sifive_e_soc_init(Object *obj)
+     SiFiveESoCState *s = RISCV_E_SOC(obj);
  
-     /* Reserved Memory at address 0 */
-     memory_region_init_ram(rsvd0_mem, NULL, "microchip.pfsoc.rsvd0_mem",
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index c99e92a7eb..1d9a7c5bf1 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -44,7 +44,6 @@
- #include "hw/loader.h"
- #include "hw/sysbus.h"
- #include "hw/char/serial.h"
--#include "hw/cpu/cluster.h"
- #include "hw/misc/unimp.h"
- #include "hw/sd/sd.h"
- #include "hw/ssi/ssi.h"
-@@ -786,20 +785,14 @@ static void sifive_u_soc_instance_init(Object *obj)
- {
-     SiFiveUSoCState *s = RISCV_U_SOC(obj);
+     object_initialize_child(obj, "cpus", &s->cpus, TYPE_RISCV_HART_ARRAY);
+-    object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
++    object_property_set_int(OBJECT(&s->cpus), "num-cpus", ms->smp.cpus,
+                             &error_abort);
+     object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x1004, &error_abort);
+     object_initialize_child(obj, "riscv.sifive.e.gpio0", &s->gpio,
+@@ -195,7 +195,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
  
--    object_initialize_child(obj, "e-cluster", &s->e_cluster, TYPE_CPU_CLUSTER);
--    qdev_prop_set_uint32(DEVICE(&s->e_cluster), "cluster-id", 0);
--
--    object_initialize_child(OBJECT(&s->e_cluster), "e-cpus", &s->e_cpus,
-+    object_initialize_child(obj, "e-cpus", &s->e_cpus,
-                             TYPE_RISCV_HART_ARRAY);
--    qdev_prop_set_uint32(DEVICE(&s->e_cpus), "num-harts", 1);
-+    qdev_prop_set_uint32(DEVICE(&s->e_cpus), "num-cpus", 1);
-     qdev_prop_set_uint32(DEVICE(&s->e_cpus), "hartid-base", 0);
-     qdev_prop_set_string(DEVICE(&s->e_cpus), "cpu-type", SIFIVE_E_CPU);
-     qdev_prop_set_uint64(DEVICE(&s->e_cpus), "resetvec", 0x1004);
+     object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
+                             &error_abort);
+-    riscv_hart_array_realize(&s->cpus, &error_abort);
++    qdev_realize(DEVICE(&s->cpus), NULL, &error_abort);
  
--    object_initialize_child(obj, "u-cluster", &s->u_cluster, TYPE_CPU_CLUSTER);
--    qdev_prop_set_uint32(DEVICE(&s->u_cluster), "cluster-id", 1);
--
--    object_initialize_child(OBJECT(&s->u_cluster), "u-cpus", &s->u_cpus,
-+    object_initialize_child(obj, "u-cpus", &s->u_cpus,
-                             TYPE_RISCV_HART_ARRAY);
+     /* Mask ROM */
+     memory_region_init_rom(&s->mask_rom, OBJECT(dev), "riscv.sifive.e.mrom",
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index b75e3656e1..17bba3c7fa 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -228,9 +228,10 @@ static void spike_board_init(MachineState *machine)
+                                 machine->cpu_type, &error_abort);
+         object_property_set_int(OBJECT(&s->soc[i]), "hartid-base",
+                                 base_hartid, &error_abort);
+-        object_property_set_int(OBJECT(&s->soc[i]), "num-harts",
++        object_property_set_int(OBJECT(&s->soc[i]), "num-cpus",
+                                 hart_count, &error_abort);
+-        riscv_hart_array_realize(&s->soc[i], &error_abort);
++        cpus_disable_clustering(CPUS(&s->soc[i]));
++        qdev_realize(DEVICE(&s->soc[i]), NULL, &error_abort);
  
-     object_initialize_child(obj, "prci", &s->prci, TYPE_SIFIVE_U_PRCI);
-@@ -825,21 +818,13 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     int i, j;
-     NICInfo *nd = &nd_table[0];
+         /* Core Local Interruptor (timer and IPI) for each socket */
+         riscv_aclint_swi_create(
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 12036aa95b..c51b124330 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -1221,9 +1221,10 @@ static void virt_machine_init(MachineState *machine)
+                                 machine->cpu_type, &error_abort);
+         object_property_set_int(OBJECT(&s->soc[i]), "hartid-base",
+                                 base_hartid, &error_abort);
+-        object_property_set_int(OBJECT(&s->soc[i]), "num-harts",
++        object_property_set_int(OBJECT(&s->soc[i]), "num-cpus",
+                                 hart_count, &error_abort);
+-        riscv_hart_array_realize(&s->soc[i], &error_abort);
++        cpus_disable_clustering(CPUS(&s->soc[i]));
++        qdev_realize(DEVICE(&s->soc[i]), NULL, &error_abort);
  
--    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
-+    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-cpus", ms->smp.cpus - 1);
-     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
-     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", s->cpu_type);
-     qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", 0x1004);
- 
--    riscv_hart_array_realize(&s->e_cpus, &error_abort);
--    riscv_hart_array_realize(&s->u_cpus, &error_abort);
--    /*
--     * The cluster must be realized after the RISC-V hart array container,
--     * as the container's CPU object is only created on realize, and the
--     * CPU must exist and have been parented into the cluster before the
--     * cluster is realized.
--     */
--    qdev_realize(DEVICE(&s->e_cluster), NULL, &error_abort);
--    qdev_realize(DEVICE(&s->u_cluster), NULL, &error_abort);
-+    qdev_realize(DEVICE(&s->e_cpus), NULL, &error_abort);
-+    qdev_realize(DEVICE(&s->u_cpus), NULL, &error_abort);
- 
-     /* boot rom */
-     memory_region_init_rom(mask_rom, OBJECT(dev), "riscv.sifive.u.mrom",
+         if (!kvm_enabled()) {
+             if (s->have_aclint) {
 -- 
 2.35.1
 
