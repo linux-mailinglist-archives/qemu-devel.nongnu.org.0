@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA094EC50B
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 14:58:19 +0200 (CEST)
-Received: from localhost ([::1]:41782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395194EC509
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 14:57:27 +0200 (CEST)
+Received: from localhost ([::1]:39386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZXty-0007Yz-Ls
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 08:58:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50968)
+	id 1nZXt8-0005dd-9m
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 08:57:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nZXo0-0000GZ-Hi
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:52:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36209)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZXpF-0002gm-KU
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:53:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40070)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nZXny-0003iG-Dv
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:52:07 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZXpA-0003v2-HX
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:53:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648644725;
+ s=mimecast20190719; t=1648644799;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ywbdNTgZ93pcEKTe8oCQKqoDojzMcXWJA9rZ1OaKiU4=;
- b=M/SbIDdJgAwh9jz2uQ/uDnVI5vsJzw9O0/qiaOc8RvGlqqaETyPTTIu4itGbqRBqFsthn7
- BFfgudKDrihRLu8i69mdvjBmycjckF2ZzciPFG6/aU7zmF6rQzwM9F/mSenYY6fUwdsa3M
- cQVjbAjpArTTHYrCuddaerufl1Y2BcE=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cqz1wM/eHmwo4ZsjupNK2GLqQ9tf8MZ6wU86LaznZLU=;
+ b=Khi72Og4aJBKhyKa6f4cRLGfX86+46jU5BRclcA7PKaiTlJI7GpdMD/QKaAVw8ChE33dEE
+ W4lg8ap0xH9hNLo+ev4P4xZpvALSdciPaa8tCuXJYeag/QHczLSOvaWm0+PstJIaINkynZ
+ S35E1WDPCqFzukYUSBeS0AoGnscHhfU=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-534-hDuj6zmhPgCT0or8mL0wMw-1; Wed, 30 Mar 2022 08:52:04 -0400
-X-MC-Unique: hDuj6zmhPgCT0or8mL0wMw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- gx12-20020a1709068a4c00b006df7e8181ceso9772544ejc.10
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 05:52:03 -0700 (PDT)
+ us-mta-360-m14LGG2XMdOmNbUf8CIwVw-1; Wed, 30 Mar 2022 08:53:18 -0400
+X-MC-Unique: m14LGG2XMdOmNbUf8CIwVw-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ d12-20020a379b0c000000b0067d8cda1aaaso12435478qke.8
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 05:53:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ywbdNTgZ93pcEKTe8oCQKqoDojzMcXWJA9rZ1OaKiU4=;
- b=E3/N3rQSNV5gXz7IIBr4ItISO2c4I3Qsrrbcq6zlOKXQJCHBjkQsxCYHceZHo6ifZQ
- NX/fbflUvDDNrYBDG41ShgmwjLaE4Bby0NJPPZcTVPpHghpicCsCqR9BCxYVIyDN8ZBG
- E3pn9SB0uhrDz6qs9vAhuDR2krjFG2/7N1JY57aoRGBJczXr9Ws34FduodZnPWT+o0Hp
- S/DdQA3lfJgl/0QhrXo+envT5Y70Yd3+v31FyohIeS+FC9ATIOCERX1DdhaAC1Q9zG0y
- lbvnGp75931j/PzudNDp1tWG0jliAGA9W8ZohigC5byk3hUZR4ngMIJY2fiQvsqZus9D
- CKtw==
-X-Gm-Message-State: AOAM531MIzYhENekAa4Z0Se1Dy9ZALHM6N4iv44ikNZf/JyCnQFuz5aZ
- pYUH4I0S7InmucmwMhvJjMtrE7oU4b8j6LT4h+nyx+KUuXsZeC2roiFtvfnCpFO7mMEmGSCKJfZ
- 7lKYofMQU/0zegbQ=
-X-Received: by 2002:a05:6402:51d2:b0:419:7d2e:9d0 with SMTP id
- r18-20020a05640251d200b004197d2e09d0mr10373755edd.82.1648644722853; 
- Wed, 30 Mar 2022 05:52:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwpnbKXECUJntcTieVSWOsGTHeH/9SBSsNMc4AMQDQaIeZwq96hKDB9JC2PPMd4qYquhWDq8A==
-X-Received: by 2002:a05:6402:51d2:b0:419:7d2e:9d0 with SMTP id
- r18-20020a05640251d200b004197d2e09d0mr10373721edd.82.1648644722544; 
- Wed, 30 Mar 2022 05:52:02 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cqz1wM/eHmwo4ZsjupNK2GLqQ9tf8MZ6wU86LaznZLU=;
+ b=3mQJ8iB9Qg43nmwG2mxzZbShDyYN/48P/Q59jcf0yhTa+b6A5OmGTBcoDQYzzl2tE+
+ TLL33VVqckiN1YBORGRfWrByxAmAoIFebivknRJW7hCmNTQwEPrco9JoAXJb/KIzFGUy
+ /v3K/4mLT3iseNneADM3LslEagvLSFUlgMAD9FYfzk+K2Y5gH0ChwtSWkJliw0kQM13y
+ YM9f9kj7X+kHOgy81BQlK2rKH1BClBUnCY9gBbtwYmUTKIIuz7CYn/5Id5gwTQcfb+LO
+ H9VXRBcSK0DGdl5o+lLWDmXuw5x413sriBDxuRIO2IucFk3TkwU6I7JExhnIIFmxRZu+
+ CMFA==
+X-Gm-Message-State: AOAM531/UIpOVEDb1UAaSpwijkyK+22xdF3N3Mx6lXu0YUEAnStJj23D
+ NQbyyiDpHq0Cj8HcOG2wES9c9wiF/hsEOYsHr1qUpHBWLcllrvaesXec/FWoi/rfvZwAz/VmZPW
+ T1VLTQJBz7xTV6yg=
+X-Received: by 2002:a0c:e0d1:0:b0:440:f87b:6da7 with SMTP id
+ x17-20020a0ce0d1000000b00440f87b6da7mr30618103qvk.111.1648644798427; 
+ Wed, 30 Mar 2022 05:53:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzx+rGaQVhujtDEpuSHkn+lGVdb7mGRll6nUQA0iAHimMfVpiw9Lj1kTY57sWBfSymvSzUrvw==
+X-Received: by 2002:a0c:e0d1:0:b0:440:f87b:6da7 with SMTP id
+ x17-20020a0ce0d1000000b00440f87b6da7mr30618086qvk.111.1648644798214; 
+ Wed, 30 Mar 2022 05:53:18 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- da19-20020a056402177300b00413583e0996sm9547746edb.14.2022.03.30.05.52.01
+ o14-20020a05622a138e00b002e1e78c899fsm17743043qtk.53.2022.03.30.05.53.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 05:52:02 -0700 (PDT)
-Date: Wed, 30 Mar 2022 14:52:01 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v3 4/4] hw/arm/virt: Unify ACPI processor ID in MADT and
- SRAT table
-Message-ID: <20220330145201.77bdcb6c@redhat.com>
-In-Reply-To: <5b7686b4-b0e1-a9ec-f546-2161baa0ed3e@redhat.com>
-References: <20220323072438.71815-1-gshan@redhat.com>
- <20220323072438.71815-5-gshan@redhat.com>
- <20220325150020.0063c782@redhat.com>
- <5b7686b4-b0e1-a9ec-f546-2161baa0ed3e@redhat.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ Wed, 30 Mar 2022 05:53:17 -0700 (PDT)
+Date: Wed, 30 Mar 2022 08:53:16 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v7 12/17] vfio-user: IOMMU support for remote device
+Message-ID: <YkRSvDscyY+c+9yM@xz-m1.local>
+References: <cover.1648234157.git.jag.raman@oracle.com>
+ <2fdb90acd40a1f79d571d4e68c56e6b08aded60d.1648234157.git.jag.raman@oracle.com>
+ <YkL9C+oMUSav9y95@stefanha-x1.localdomain>
+ <AC3FD7EB-773E-4684-9A86-176EDDAC135D@oracle.com>
+ <YkMcJDFVFu/fW/a5@stefanha-x1.localdomain>
+ <7022E4C4-D71A-4A6E-A5D8-222A9462654C@oracle.com>
+ <YkQrKI0Az/k8Hc8g@stefanha-x1.localdomain>
 MIME-Version: 1.0
+In-Reply-To: <YkQrKI0Az/k8Hc8g@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,109 +103,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, zhenyzha@redhat.com, wangyanan55@huawei.com,
- qemu-arm@nongnu.org, shan.gavin@gmail.com
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>, Jag Raman <jag.raman@oracle.com>,
+ "bleal@redhat.com" <bleal@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "quintela@redhat.com" <quintela@redhat.com>,
+ "f4bug@amsat.org" <f4bug@amsat.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "eblake@redhat.com" <eblake@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 26 Mar 2022 03:08:19 +0800
-Gavin Shan <gshan@redhat.com> wrote:
+On Wed, Mar 30, 2022 at 11:04:24AM +0100, Stefan Hajnoczi wrote:
+> This makes me wonder whether there is a deeper issue with the
+> pci_setup_iommu() API: the lack of per-device cleanup callbacks.
+> Per-device IOMMU resources should be freed when a device is hot
+> unplugged.
+> 
+> From what I can tell this is not the case today:
+> 
+> - hw/i386/intel_iommu.c:vtd_find_add_as() allocates and adds device
+>   address spaces but I can't find where they are removed and freed.
+>   VTDAddressSpace instances pointed to from vtd_bus->dev_as[] are leaked.
+> 
+> - hw/i386/amd_iommu.c has similar leaks.
 
-> Hi Igor,
-> 
-> On 3/25/22 10:00 PM, Igor Mammedov wrote:
-> > On Wed, 23 Mar 2022 15:24:38 +0800
-> > Gavin Shan <gshan@redhat.com> wrote:
-> >   
-> >> The value of the following field has been used in ACPI PPTT table
-> >> to identify the corresponding processor. This takes the same field
-> >> as the ACPI processor ID in MADT and SRAT tables.
-> >>
-> >>    ms->possible_cpus->cpus[i].props.thread_id  
-> > 
-> > thread-id could be something different than ACPI processor ID
-> > (to be discussed in the first patch).
-> > 
-> > I'd prefer to keep both decoupled, i.e. use [0 - possible_cpus->len)
-> > for ACPI processor ID as it's done with x86 madt/srat and ACPI CPU
-> > hotplug code. So we could reuse at least the later when implementing
-> > CPU hotplug for arm/virt and it's good from consistency point of view.
-> >   
-> 
-> Yeah, I think so, thread-id and ACPI processor UID could be different.
-> thread IDs could be overlapped on multiple CPUs, who belongs to different
-> socket/die/core. However, ACPI processor UID should be unique for the
-> CPU in the whole system.
-> 
-> If you agree, Lets use [0 - possible_cpus->len] in next respin.
+AFAICT it's because there's no device-specific data cached in the
+per-device IOMMU address space, at least so far.  IOW, all the data
+structures allocated here can be re-used when a new device is plugged in
+after the old device unplugged.
 
-Agreed.
+It's definitely not ideal since after unplug (and before a new device
+plugged in) the resource is not needed at all so it's kind of wasted, but
+it should work functionally.  If to achieve that, some iommu_unplug() or
+iommu_cleanup() hook sounds reasonable.
 
-> What I
-> need to do is dropping PATCH[4/4] and replacing @thread_id with @n in
-> build_pptt() of PATCH[3/4].
-> 
-> Thanks,
-> Gavin
-> 
-> >> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> >> ---
-> >>   hw/arm/virt-acpi-build.c | 12 +++++++++---
-> >>   1 file changed, 9 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> >> index 449fab0080..7fedb56eea 100644
-> >> --- a/hw/arm/virt-acpi-build.c
-> >> +++ b/hw/arm/virt-acpi-build.c
-> >> @@ -534,13 +534,16 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> >>   
-> >>       for (i = 0; i < cpu_list->len; ++i) {
-> >>           uint32_t nodeid = cpu_list->cpus[i].props.node_id;
-> >> +        uint32_t thread_id = cpu_list->cpus[i].props.thread_id;
-> >> +
-> >>           /*
-> >>            * 5.2.16.4 GICC Affinity Structure
-> >>            */
-> >>           build_append_int_noprefix(table_data, 3, 1);      /* Type */
-> >>           build_append_int_noprefix(table_data, 18, 1);     /* Length */
-> >>           build_append_int_noprefix(table_data, nodeid, 4); /* Proximity Domain */
-> >> -        build_append_int_noprefix(table_data, i, 4); /* ACPI Processor UID */
-> >> +        build_append_int_noprefix(table_data,
-> >> +                                  thread_id, 4); /* ACPI Processor UID */
-> >>           /* Flags, Table 5-76 */
-> >>           build_append_int_noprefix(table_data, 1 /* Enabled */, 4);
-> >>           build_append_int_noprefix(table_data, 0, 4); /* Clock Domain */
-> >> @@ -704,6 +707,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> >>   {
-> >>       int i;
-> >>       VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-> >> +    MachineState *ms = MACHINE(vms);
-> >>       const MemMapEntry *memmap = vms->memmap;
-> >>       AcpiTable table = { .sig = "APIC", .rev = 3, .oem_id = vms->oem_id,
-> >>                           .oem_table_id = vms->oem_table_id };
-> >> @@ -725,8 +729,9 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> >>       build_append_int_noprefix(table_data, vms->gic_version, 1);
-> >>       build_append_int_noprefix(table_data, 0, 3);   /* Reserved */
-> >>   
-> >> -    for (i = 0; i < MACHINE(vms)->smp.cpus; i++) {
-> >> +    for (i = 0; i < ms->smp.cpus; i++) {
-> >>           ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(i));
-> >> +        uint32_t thread_id = ms->possible_cpus->cpus[i].props.thread_id;
-> >>           uint64_t physical_base_address = 0, gich = 0, gicv = 0;
-> >>           uint32_t vgic_interrupt = vms->virt ? PPI(ARCH_GIC_MAINT_IRQ) : 0;
-> >>           uint32_t pmu_interrupt = arm_feature(&armcpu->env, ARM_FEATURE_PMU) ?
-> >> @@ -743,7 +748,8 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> >>           build_append_int_noprefix(table_data, 76, 1);   /* Length */
-> >>           build_append_int_noprefix(table_data, 0, 2);    /* Reserved */
-> >>           build_append_int_noprefix(table_data, i, 4);    /* GIC ID */
-> >> -        build_append_int_noprefix(table_data, i, 4);    /* ACPI Processor UID */
-> >> +        build_append_int_noprefix(table_data,
-> >> +                                  thread_id, 4);        /* ACPI Processor UID */
-> >>           /* Flags */
-> >>           build_append_int_noprefix(table_data, 1, 4);    /* Enabled */
-> >>           /* Parking Protocol Version */  
-> >   
-> 
+One thing I'm not sure is these iommu ops are per-bus not per-device.  So
+I'm not sure whether that's what we wanted here because remote device
+cleanup seems to be per-device only.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
