@@ -2,88 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C982F4ECF45
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 23:59:29 +0200 (CEST)
-Received: from localhost ([::1]:53088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F7B34ECF07
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 23:48:42 +0200 (CEST)
+Received: from localhost ([::1]:48794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZgLg-0001LU-M3
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 17:59:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38090)
+	id 1nZgBF-0004Oy-BZ
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 17:48:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZg2Z-0006A8-Bv; Wed, 30 Mar 2022 17:39:43 -0400
-Received: from [2a00:1450:4864:20::332] (port=40588
- helo=mail-wm1-x332.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nZg7z-0001bo-LO
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:45:19 -0400
+Received: from [2607:f8b0:4864:20::234] (port=41861
+ helo=mail-oi1-x234.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZg2V-0005JS-H0; Wed, 30 Mar 2022 17:39:41 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- v64-20020a1cac43000000b0038cfd1b3a6dso639908wme.5; 
- Wed, 30 Mar 2022 14:39:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=9CKXKnHqCzGr2/IrCZazDaHkbd30MJBbbTCrcp/8Lvo=;
- b=JP+LkCDYoExHkb7gpNHxKeNfWNTkp+IeeE1PKEo1VQxvkX0PnyrEAp88P+LoBz8QDz
- zJF9QTkbyQq4o/LGp7bk4Yh8O4wGxjd5kYAxVTlAFVRNFX6QzMt0zJ3Y2sbDMCyXffze
- lR8VSmTRwU2SZuBSbBSPTFnRjaPWh0t8Hjcqq1YwNf/OIyPSN6DiBFuxaumiz5UfR6nx
- pY8pILsROUL7y93B0GL5j8j0HxTntAZUq4CfkQt6Ga/EmliGhuVFTIbCFkO/rtLhS5Sv
- NoaXTKr6bqcGCSw5MInv+jsYJwlOWwqcH8vcr0NMaRiO8hB/2kku99YCqJ9N8oYLGGyC
- dv7Q==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nZg7y-0006Lf-0Y
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:45:19 -0400
+Received: by mail-oi1-x234.google.com with SMTP id e189so23439074oia.8
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:45:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=O4Ffq8w220/BtNIrqWXnIUrWDq/OEocKW6AvUv5xdwQ=;
+ b=wEnTFQBDyv3g1hY8wOHzB3BSmyyPvJdIe0k2acXt6jaiWsGREoSHy7DlKtz5BzgTjW
+ OnTD8ADkdmfRLx/g0rDGdp2RsBkyN6GVgYan9rzHOkfhnq/3n17d0GfHZsGI9sRl2TBB
+ NKRlSPTKqc6OiH4oqMymE29rMF+diCzrVY59v3h0yldzWkViLjAFJaJLPC1sGuzxOVNz
+ tvWiyVpSF5eGP6NJKmGhLb7CbnWnEGqFc9FUuPLWym82vpVvI5mmDSAW99zjmYaFoXlX
+ 3WG8Q8do3CTWv/+spvMe9Ju9KFPMbLuFCydBz6V9Y4qgZ+ExwaZeQn0sF6I6wvhTXOoL
+ YfMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9CKXKnHqCzGr2/IrCZazDaHkbd30MJBbbTCrcp/8Lvo=;
- b=mWdPsRbSpZMJGQwnfM7HIVq/yCGJUmvsv6Zrkce48k1eV5G9RwGTinDfU0vwp5D4Mz
- DzJA5ClWY2sGvuWRBFqOtD1zZNLblufDkS1IODWETPb5t18NetFphEYrHjRrTWCHYXfY
- pOxcXRP6vWhIW33jNnmvQU+ldxrvAx1QabgAvTNDE62xjikMjHn+JjX71cy4/gJUi/CR
- BICBmJoj4mNgM9xbA4G9xjJ4YXQ149RLzBV2n/cJItbSOVFCvm+dR6ZgRzorvPrwrc/z
- u862Wtt4eoHP048JozVeKiz370jMx7CDrbtmhXc6r9g1HBAAouX4I1tfXkBuhvUZOAym
- MHHA==
-X-Gm-Message-State: AOAM530gx6SETSZ9OnrtOyzC+f813BuNtobgmd3uD3PXwiK0yzuFC51C
- e7BBwVO9dJL+DKRni3ispYk=
-X-Google-Smtp-Source: ABdhPJyAMR65apVZMxHE0L52Jl63GyCVfdFdeKLf03eIzvABsYCQXqwc5EBGgkmlVZQjuUfQDCZpUA==
-X-Received: by 2002:a05:600c:b49:b0:38c:93ad:6d4c with SMTP id
- k9-20020a05600c0b4900b0038c93ad6d4cmr1536210wmr.53.1648676376734; 
- Wed, 30 Mar 2022 14:39:36 -0700 (PDT)
-Received: from ?IPV6:2600:70ff:f07f:0:403e:ab57:ee68:20ea?
- ([2600:70ff:f07f:0:403e:ab57:ee68:20ea])
- by smtp.gmail.com with ESMTPSA id
- j16-20020a05600c191000b0038c9249ffdesm6372330wmq.9.2022.03.30.14.39.35
+ bh=O4Ffq8w220/BtNIrqWXnIUrWDq/OEocKW6AvUv5xdwQ=;
+ b=vAVfhMoPRev9uzXi9l7m+Li+2/oBiXsAQsx5dTVqRdVTtV/QHW5NqvRpfi2qVpMxsO
+ 1NUvA7GdHVBNaOzP7SsVLZyYN+J5ENDRiRQN1KUCs3/7N02WLp4oqqijFkVqVJmv7JcX
+ G1Vqaj5Lh8WmmEuktZQ82lxHF2y6wDXkvZBkzdAH/pGBjo8AqFEGymgufUdkO9tK16Gv
+ kvySIEzwoWhb+EmHhA+u1UErjVTYBtEa8szc549zivDym+bWDSjoxAj+oy4BKNILaSh0
+ 3c60lRMiS9mf/fQ6Xu5TzT6ABcrGKziM+3J1ekr6a0rw9qCsgOfGKbCaFRfOZ3hkciiT
+ skjg==
+X-Gm-Message-State: AOAM531oyt9doWCNl4T7ynvIFdUtTGMvJcPwvB+weJKEdWq1jnAZXoMq
+ P7Gq2uoo37M7Y5lq2LFRlYbsGA==
+X-Google-Smtp-Source: ABdhPJwt+afrinkUkUzNQ8k3no3yhZw8IYojb5gebtfdQqzbQPkYKN6QT5/Hy7w5XILf8QGRQsqFww==
+X-Received: by 2002:a05:6808:302b:b0:2cb:2fea:cf9 with SMTP id
+ ay43-20020a056808302b00b002cb2fea0cf9mr1125485oib.117.1648676716707; 
+ Wed, 30 Mar 2022 14:45:16 -0700 (PDT)
+Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+ z82-20020aca3355000000b002ef73b018absm11185680oiz.9.2022.03.30.14.45.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 14:39:36 -0700 (PDT)
-Message-ID: <b55dc107-07ae-9aa5-b4a9-9c5b724e2dc5@gmail.com>
-Date: Wed, 30 Mar 2022 23:39:34 +0200
+ Wed, 30 Mar 2022 14:45:15 -0700 (PDT)
+Message-ID: <f31fdc26-868a-9fe6-ffbc-075c645da5bd@linaro.org>
+Date: Wed, 30 Mar 2022 15:45:13 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 1/4] target/ppc: initialize 'reg_val' in kvm_get_one_spr()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 07/10] Implemented signed 256-by-128 division
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20220330210443.597500-1-danielhb413@gmail.com>
- <20220330210443.597500-2-danielhb413@gmail.com>
- <a3211c13-cb5c-ff39-f424-f2efe8b4d706@gmail.com>
- <29927bdd-f236-8694-0426-546bbaa85eb1@gmail.com>
- <71449b19-88b7-0ce5-f963-15fe747d3700@gmail.com>
-In-Reply-To: <71449b19-88b7-0ce5-f963-15fe747d3700@gmail.com>
+To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220330202515.66554-1-lucas.araujo@eldorado.org.br>
+ <20220330202515.66554-8-lucas.araujo@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220330202515.66554-8-lucas.araujo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::234
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x234.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,97 +94,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <ehabkost@redhat.com>, danielhb413@gmail.com,
+ Luis Pires <luis.pires@eldorado.org.br>, clg@kaod.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/3/22 23:38, Philippe Mathieu-Daudé wrote:
-> On 30/3/22 23:34, Daniel Henrique Barboza wrote:
->> On 3/30/22 18:22, Philippe Mathieu-Daudé wrote:
->>> On 30/3/22 23:04, Daniel Henrique Barboza wrote:
->>>> Valgrind isn't convinced that we are initializing the values we assign
->>>> to env->spr[spr] because it doesn't understand that the 'reg_val' union
->>>> is being written by the kvm_vcpu_ioctl() that follows (via struct
->>>> kvm_one_reg).
->>>>
->>>> This results in Valgrind complaining about uninitialized values every
->>>> time we use env->spr in a conditional, like this instance:
->>>>
->>>> ==707578== Thread 1:
->>>> ==707578== Conditional jump or move depends on uninitialised value(s)
->>>> ==707578==    at 0xA10A40: hreg_compute_hflags_value 
->>>> (helper_regs.c:106)
->>>> ==707578==    by 0xA10C9F: hreg_compute_hflags (helper_regs.c:173)
->>>> ==707578==    by 0xA110F7: hreg_store_msr (helper_regs.c:262)
->>>> ==707578==    by 0xA051A3: ppc_cpu_reset (cpu_init.c:7168)
->>>> ==707578==    by 0xD4730F: device_transitional_reset (qdev.c:799)
->>>> ==707578==    by 0xD4A11B: resettable_phase_hold (resettable.c:182)
->>>> ==707578==    by 0xD49A77: resettable_assert_reset (resettable.c:60)
->>>> ==707578==    by 0xD4994B: resettable_reset (resettable.c:45)
->>>> ==707578==    by 0xD458BB: device_cold_reset (qdev.c:296)
->>>> ==707578==    by 0x48FBC7: cpu_reset (cpu-common.c:114)
->>>> ==707578==    by 0x97B5EB: spapr_reset_vcpu (spapr_cpu_core.c:38)
->>>> ==707578==    by 0x97BABB: spapr_cpu_core_reset (spapr_cpu_core.c:209)
->>>> ==707578==  Uninitialised value was created by a stack allocation
->>>> ==707578==    at 0xB11F08: kvm_get_one_spr (kvm.c:543)
->>>>
->>>> Initializing 'reg_val' has no impact in the logic and makes Valgrind
->>>> output more bearable.
->>>>
->>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>>> ---
->>>>   target/ppc/kvm.c | 6 ++++--
->>>>   1 file changed, 4 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
->>>> index dc93b99189..ce1b926e8c 100644
->>>> --- a/target/ppc/kvm.c
->>>> +++ b/target/ppc/kvm.c
->>>> @@ -543,10 +543,12 @@ static void kvm_get_one_spr(CPUState *cs, 
->>>> uint64_t id, int spr)
->>>>   {
->>>>       PowerPCCPU *cpu = POWERPC_CPU(cs);
->>>>       CPUPPCState *env = &cpu->env;
->>>> -    union {
->>>> +    union reg_val {
->>>>           uint32_t u32;
->>>>           uint64_t u64;
->>>> -    } val;
->>>> +    };
->>>> +    /* Init reg_val to avoid "uninitialised value" Valgrind 
->>>> warnings */
->>>> +    union reg_val val = {0};
->>>
->>> This should also work:
->>>
->>> -- >8 --
->>> @@ -546,7 +546,7 @@ static void kvm_get_one_spr(CPUState *cs, 
->>> uint64_t id, int spr)
->>>       union {
->>>           uint32_t u32;
->>>           uint64_t u64;
->>> -    } val;
->>> +    } val = { 0 };
->>
->> Apparently it does work. I'll make a few tests and re-send.
->>
->>
->> Also, do we have an official way of spelling this zeroed struct 
->> initialization? I
->> see several instances of {0} and { 0 } in the code. In this series I 
->> used {0}.
->> ./scripts/checkpatch.pl seems ok with both formats.
+On 3/30/22 14:25, Lucas Mateus Castro(alqotel) wrote:
+> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
 > 
-> $ git grep -F '= {0}' | wc -l
->        81
-> $ git grep -F '= { 0 }' | wc -l
->       112
-> $ git grep -F '= { }' | wc -l
->        61
-> $ git grep -F '= {}' | wc -l
->       368
+> Based on already existing QEMU implementation created a signed
+> 256 bit by 128 bit division needed to implement the vector divide
+> extended signed quadword instruction from PowerISA 3.1
 > 
-> I am not aware of an official way. Apparently '{ }' is the way to go.
+> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
+> ---
+>   include/qemu/host-utils.h |  1 +
+>   util/host-utils.c         | 51 +++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 52 insertions(+)
 
-I meant '{}' but personally I prefer '{ }' for readability.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
