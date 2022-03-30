@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAEE84ED070
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:53:27 +0200 (CEST)
-Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE534ED071
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:54:07 +0200 (CEST)
+Received: from localhost ([::1]:41790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZi7y-0000iB-Sg
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:53:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35502)
+	id 1nZi8d-0002NY-1A
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:54:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZft8-0008IE-Se
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:30:00 -0400
-Received: from [2a00:1450:4864:20::129] (port=35416
- helo=mail-lf1-x129.google.com)
+ id 1nZft7-0008HA-4e
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:58 -0400
+Received: from [2a00:1450:4864:20::12c] (port=42538
+ helo=mail-lf1-x12c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZft3-0003NZ-Rr
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:58 -0400
-Received: by mail-lf1-x129.google.com with SMTP id h7so38098258lfl.2
+ id 1nZft3-0003NQ-Ml
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:56 -0400
+Received: by mail-lf1-x12c.google.com with SMTP id d5so38070828lfj.9
  for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:29:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YgttVq7XsJvG6HYwqmkVhSUZyE4JOHmqbHIrKyk8iZY=;
- b=1tB9aVn4P7TBIdX1oe9uRO22zJrI06PievC8n456rtQCyxO0M1iAB2OslVrKB9NjoK
- PdYFvMPyTuk8Pa+uBK6bbzOx8DqpDk1O6tNi51SCeIbJK8H/jaA0Q/MQG3+WGYCsI2Er
- MJl0PaoIz/CejHW4rcRIum0yB1nkE0T/YCtvBhVr2U8rz7T9brsBFu0pIBaQ1XhGJgHv
- m2pLCKbuWYULRsLRQdwu1O7peKpfWkk6IIutMrAOh1tdKS4mU4kOzOTDLqfEUW1vv3Jh
- bFOMmYwdsM8/uhGelF7jI8HkVR3ItAj7AUhlV0Un3egadEX+sbY7ztkgQ2FqPaEC5mjB
- 0pZg==
+ bh=PYEWypywAd4uJaDSkR3S94BPshZVhwkXw90EpvCll0k=;
+ b=G4nobmCWAOhtg5is5Wp3ir+MH70+E95IgqOnHW2ght++jS1Ri4Jv3weYL8PCGzm2Bc
+ C8j8hOHk3LqULiQ9PalG7Z+r5eS9rOLTPMMqnKuOMd604tjF1KGTcG1p2KgQhN8gh1FH
+ f6SCJgnWNW1TtQ3OMWZr2wAbwKLy4CpFfkReLQx9LnWflBgUeF2U1TM9eUTFQytK+cP0
+ BgxBBDU8EBGdlN3apZWXVuienPIYCPOb1KicRadwcDyWyPsmrJOOnfb0WTYo1yZ4zWmI
+ OePBOr69s7tfsJaki+MWAqcWGMWlNjC36noA0zIHglWmf+FXzjPwKGmaKkOG0IxXyVzt
+ uqDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YgttVq7XsJvG6HYwqmkVhSUZyE4JOHmqbHIrKyk8iZY=;
- b=kjQ29AmNxdQt54dDaiEIv7sfo7ZpivVLm+mlaAKLwun1ca346SVJNl38L5HO2rOFWb
- 1t3DJYLhG5oEpos7jUJMFJZlnnsv+x8+jJqY9QXuWTrcN3U05+0ezujTDbeQU8dscy5e
- ctdGNVFVyIHqnC9Zm5XaOf5Ingt5S8jrM4EgpG37do3rAm6MlLQSE0oCF8DD23tIC+a+
- 3E6G6CADDQ/2JZxjQ3fLO4dBX3RNV9Of6gZhvSnekJQgJyYYVkKaHQMrifItFbZ7QNY5
- uNnYeFLzK5vPiQoVg1ePXqdGZZPaMPyDbbjBQ2y+mv1qTC43YWSv0wq1HAIFkaUIMfzU
- JoAw==
-X-Gm-Message-State: AOAM533aZtpJrl3gUzUuIcWxJfuWEwSi9fAaYISVaSrAjNNRhfrQHYuY
- Xiz51i6K1ooEc2iJz4ZVa8VKXQ==
-X-Google-Smtp-Source: ABdhPJzyS+aV4doppuCZPN5BMgVxVpldW9VbUkco0pCDDhBZ5EHEKvxrlAIDqD+FYo+Uvexzv7Hbew==
-X-Received: by 2002:a05:6512:25a:b0:44a:3f55:1746 with SMTP id
- b26-20020a056512025a00b0044a3f551746mr8245061lfo.122.1648675791455; 
- Wed, 30 Mar 2022 14:29:51 -0700 (PDT)
+ bh=PYEWypywAd4uJaDSkR3S94BPshZVhwkXw90EpvCll0k=;
+ b=1MHp7zBxb2hkErwIrHnBlCNSkwwAWNyyITDcMloiO0m/ygCmIlFWFmYHISAXpeC2Zh
+ jfkGmSMw/1vQhX+cnqj3nTaNzd96mZNPGBvXr+yiAfGAanaiZPPf+bQMiOq5YkaEbN4k
+ PazViMdVPnAAySWd6gu/Y3nw5ZVSJ/FsvI+4XdK2hpL6y/6mHGhWisu89EP550c874X0
+ lR+zhaQymO+WTG0i5MBzRsShxNAtnZLoWekus7tASLEcdccdn/FuNowDRffHa2ENb0iE
+ iy8EmomwTugrMfh79u0K6uiPZB454JqZy2l48SJX6gF874WWAIjGluwRyw5Wsyt/oL7E
+ 8d2Q==
+X-Gm-Message-State: AOAM532LvcikItJmePgaKe664lApKg/eZUZfEe3uqIukRb26x3Jv9wFf
+ xyT5DKvogeza9hC6B3FZgj9cbg==
+X-Google-Smtp-Source: ABdhPJxQ0ZdwAa7jHEldvWvcIVY11VNtShCb0ijeCrzlZEaSvveKOjSpsMizkr0NXHyuNugh63zN2Q==
+X-Received: by 2002:ac2:46e2:0:b0:44a:3e96:3a15 with SMTP id
+ q2-20020ac246e2000000b0044a3e963a15mr8414678lfo.336.1648675792067; 
+ Wed, 30 Mar 2022 14:29:52 -0700 (PDT)
 Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
- y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.50
+ y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 30 Mar 2022 14:29:51 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 32/45] iotests: add blockdev-add-transaction
-Date: Thu, 31 Mar 2022 00:28:49 +0300
-Message-Id: <20220330212902.590099-33-vsementsov@openvz.org>
+Subject: [PATCH v5 33/45] block-backend: blk_root(): drop const specifier on
+ return type
+Date: Thu, 31 Mar 2022 00:28:50 +0300
+Message-Id: <20220330212902.590099-34-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330212902.590099-1-vsementsov@openvz.org>
 References: <20220330212902.590099-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::129
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lf1-x129.google.com
+ helo=mail-lf1-x12c.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -97,88 +98,41 @@ Cc: kwolf@redhat.com, hreitz@redhat.com, vsementsov@openvz.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a test for transaction support of blockdev-add.
-
-Test is format-agnostic, so limit it to qcow2 to avoid extra test runs.
+We'll need get non-const child pointer for graph modifications in
+further commits.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 ---
- .../tests/blockdev-add-transaction            | 52 +++++++++++++++++++
- .../tests/blockdev-add-transaction.out        |  6 +++
- 2 files changed, 58 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/blockdev-add-transaction
- create mode 100644 tests/qemu-iotests/tests/blockdev-add-transaction.out
+ block/block-backend.c                       | 2 +-
+ include/sysemu/block-backend-global-state.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/tests/blockdev-add-transaction b/tests/qemu-iotests/tests/blockdev-add-transaction
-new file mode 100755
-index 0000000000..ce3c1c069b
---- /dev/null
-+++ b/tests/qemu-iotests/tests/blockdev-add-transaction
-@@ -0,0 +1,52 @@
-+#!/usr/bin/env python3
-+#
-+# Test blockdev-add transaction action
-+#
-+# Copyright (c) 2022 Virtuozzo International GmbH.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import iotests
-+from iotests import log
-+
-+iotests.script_initialize(supported_fmts=['qcow2'])
-+
-+with iotests.VM() as vm:
-+    vm.launch()
-+
-+    # Use same node-name for nodes, neither one should appear.
-+    vm.qmp_log('transaction', actions=[
-+        {'type': 'blockdev-add',
-+         'data': {'node-name': 'node0', 'driver': 'null-co',
-+                  'size': 1024 * 1024}},
-+        {'type': 'blockdev-add',
-+         'data': {'node-name': 'node0', 'driver': 'null-co',
-+                  'size': 1024 * 1024}}
-+    ])
-+
-+    n = len(vm.qmp('query-named-block-nodes')['return'])
-+    log(f'Created {n} nodes')
-+
-+    vm.qmp_log('transaction', actions=[
-+        {'type': 'blockdev-add',
-+         'data': {'node-name': 'node0', 'driver': 'null-co',
-+                  'size': 1024 * 1024}},
-+        {'type': 'blockdev-add',
-+         'data': {'node-name': 'node1', 'driver': 'null-co',
-+                  'size': 1024 * 1024}}
-+    ])
-+
-+    n = len(vm.qmp('query-named-block-nodes')['return'])
-+    log(f'Created {n} nodes')
-diff --git a/tests/qemu-iotests/tests/blockdev-add-transaction.out b/tests/qemu-iotests/tests/blockdev-add-transaction.out
-new file mode 100644
-index 0000000000..7e6cd5a9a3
---- /dev/null
-+++ b/tests/qemu-iotests/tests/blockdev-add-transaction.out
-@@ -0,0 +1,6 @@
-+{"execute": "transaction", "arguments": {"actions": [{"data": {"driver": "null-co", "node-name": "node0", "size": 1048576}, "type": "blockdev-add"}, {"data": {"driver": "null-co", "node-name": "node0", "size": 1048576}, "type": "blockdev-add"}]}}
-+{"error": {"class": "GenericError", "desc": "Duplicate nodes with node-name='node0'"}}
-+Created 0 nodes
-+{"execute": "transaction", "arguments": {"actions": [{"data": {"driver": "null-co", "node-name": "node0", "size": 1048576}, "type": "blockdev-add"}, {"data": {"driver": "null-co", "node-name": "node1", "size": 1048576}, "type": "blockdev-add"}]}}
-+{"return": {}}
-+Created 2 nodes
+diff --git a/block/block-backend.c b/block/block-backend.c
+index e0e1aff4b1..f5476bb9fc 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -2618,7 +2618,7 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
+                               bytes, read_flags, write_flags);
+ }
+ 
+-const BdrvChild *blk_root(BlockBackend *blk)
++BdrvChild *blk_root(BlockBackend *blk)
+ {
+     GLOBAL_STATE_CODE();
+     return blk->root;
+diff --git a/include/sysemu/block-backend-global-state.h b/include/sysemu/block-backend-global-state.h
+index 2e93a74679..0ee6dced99 100644
+--- a/include/sysemu/block-backend-global-state.h
++++ b/include/sysemu/block-backend-global-state.h
+@@ -109,7 +109,7 @@ void blk_set_force_allow_inactivate(BlockBackend *blk);
+ void blk_register_buf(BlockBackend *blk, void *host, size_t size);
+ void blk_unregister_buf(BlockBackend *blk, void *host);
+ 
+-const BdrvChild *blk_root(BlockBackend *blk);
++BdrvChild *blk_root(BlockBackend *blk);
+ 
+ int blk_make_empty(BlockBackend *blk, Error **errp);
+ 
 -- 
 2.35.1
 
