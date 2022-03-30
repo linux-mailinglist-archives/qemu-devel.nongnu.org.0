@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681194ED068
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:49:53 +0200 (CEST)
-Received: from localhost ([::1]:58108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2804ED075
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:55:25 +0200 (CEST)
+Received: from localhost ([::1]:47254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZi4W-0002kx-Cq
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:49:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35580)
+	id 1nZi9s-0005ws-Qx
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:55:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZftA-0008IN-6E
+ id 1nZftA-0008IO-8g
  for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:30:00 -0400
-Received: from [2a00:1450:4864:20::22d] (port=36668
- helo=mail-lj1-x22d.google.com)
+Received: from [2a00:1450:4864:20::131] (port=38558
+ helo=mail-lf1-x131.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZft6-0003Pk-Ov
+ id 1nZft6-0003QC-TD
  for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:59 -0400
-Received: by mail-lj1-x22d.google.com with SMTP id v12so16756536ljd.3
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:29:55 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id bq24so22131956lfb.5
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:29:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KurEVHXow2yH4y+d6s9f9y3Oj56lCs+gGDawVxW2VD0=;
- b=ObC+z1ROHIjBpEcEnh4MUjFxjR9BhJSF/YZTTE8d5P/aLuOhk9xb6BwZeyYf5jhTka
- ebJY+M1AjGfLUBnTBHBsR8t4cN5Ap20DIQue+sVxX0eDIOi5aOZ/yLpuaKCdFwQn5gJ1
- 1H+X2MSfDmKS1Zwsx3gbXw/cKFoRA0iJAoeyPMp0/tscLYEbxiw0mWIjymbcrznMFwXe
- JKZI5Cv+wl1HFypcgqrbGvd1+v5CQSb8gYeJoSSlGNZeWFl+KDJ5NSu9CJKtDo/KqxTU
- Xfj+30dKqRnkiRluK0G4V6Xa7AI2CHxUZzrZmCF/8fSSrgnJUHVX2Htv1fxfoc5X8VHn
- 9kxQ==
+ bh=eRcFZ8JsBZ9kpWAgM/aAMIUmqQs4ch467o2iNBnzs3k=;
+ b=sUEt9P9QatO9Bn3Y3mjhcEBvBlGTfUIGuusnZS15MdTF+R2kOYDL36UVpWSS7UzmAX
+ LbAMRkX/QiEtCgB+dRr9CNrDHWc1dveI5PFGasOgfke2bDRI9bIYIVqW8+mpydmOlh2m
+ pl0zRonKiRaNS/H3G1FhIx9GwOy9+gZqXO1XwqCvKi2n2k8xkxvBCTk0LjDLIoxGbeRH
+ 39Xr7hYyF8+EJAOoH4zMQQlrPFBETkYKGQWtnrUyTbFgkrN8JaBcbWMJHub4GkhLdY/I
+ GentwVriG6+exjsw7vkwdGsHRTUQfuuLPcXzgHbgbYt9TJHno/ML/2yUJd0BNhg/u1Zp
+ klkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KurEVHXow2yH4y+d6s9f9y3Oj56lCs+gGDawVxW2VD0=;
- b=i7Z3gwPERXQJ/eiJBN+TYK8Ydz9yieWmgCinEnex9EHCjHt3D80ZQoYExUO86b8X0Z
- JoJPWbTTmZ4QUe8D3xo6MVONalwyVPJW9fowERMQX5XtlcEl/AIejEdiSAw7nCzb/uNY
- DWa8RRSLnbX0DLURv/29DY48ynEX6BLSdm0GxoW8ysz35MgU032sxp/Uh6gRW+72AASI
- bOua6jpKYrDzaK/quzBR9emBTU110tWMIH56UIQgE2d9Yj8IsEHyrbATu467v/zh1ZKw
- v/Z6B81JRsVNeszo6ozXsTsQ/hoVq80ve+0zvU7kpdgHw9gK5u/DqNEyzPlrhBiaBCUI
- XAOQ==
-X-Gm-Message-State: AOAM5332dNbghsQOc5aqN2Pl/l/7QSzxoZP8wos2eBiKQsKe9fFYOBT0
- PHRCxqagj0A3MHrVbTu6K2qbRQ==
-X-Google-Smtp-Source: ABdhPJxq3SKodzL5vJ7qs1oYAlrm/U9z2KMOHdv3ca5K1CpKlg/r38paNAVTH/erkno2szCFdXrrPA==
-X-Received: by 2002:a05:651c:17a3:b0:245:f39e:f2d2 with SMTP id
- bn35-20020a05651c17a300b00245f39ef2d2mr8572189ljb.490.1648675794557; 
- Wed, 30 Mar 2022 14:29:54 -0700 (PDT)
+ bh=eRcFZ8JsBZ9kpWAgM/aAMIUmqQs4ch467o2iNBnzs3k=;
+ b=AQYLfsOSVt4kn3pIIcLSpB++V6EW19K5uFi7nV3wM58boGUqDwmt6ZjT7BdyA5aD0T
+ YWT0UMLbw09bbvUc89a4VxtVy1hAQUi6MOZIvxDBxJK8YEXeIx6EOS0KFJpuwjF24ejY
+ YuF24gpWKCrpKxtoZPcQ0yI0BSb6LvCm40PS9x8bdUqklCIJ3ve/G2yE/l0zi3cxzJQE
+ O+c8z30L9ipNHPKo5NxvYbAxNscvf3SeJmHbevy+DppPYw3Cup9zzivd2klUs2tnjfZt
+ 5e/9Oi+GXG/kN7UuqfkFlcQFFji6mY85jVnX0dNcytQ2VTaPIrT4M2hQEDNmXIHXJ1qt
+ lbiw==
+X-Gm-Message-State: AOAM5300dMSjltCG8JMBiN0QBzeTSjQAXJHGw77TGDgeI7koEs+x8579
+ rOAucLdddooPY6BtfZo94KpHqw==
+X-Google-Smtp-Source: ABdhPJyok+hEsXpFFgQ5CkuX5DBEsgatUMsFuz2/o612RZJz3rAKGsvzE3RxloP8SbtpWgclsS4WeQ==
+X-Received: by 2002:ac2:5d65:0:b0:44a:6d14:4ff8 with SMTP id
+ h5-20020ac25d65000000b0044a6d144ff8mr8662694lft.605.1648675795246; 
+ Wed, 30 Mar 2022 14:29:55 -0700 (PDT)
 Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
  y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 14:29:54 -0700 (PDT)
+ Wed, 30 Mar 2022 14:29:55 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 37/45] qapi: add x-blockdev-replace command
-Date: Thu, 31 Mar 2022 00:28:54 +0300
-Message-Id: <20220330212902.590099-38-vsementsov@openvz.org>
+Subject: [PATCH v5 38/45] qapi: add x-blockdev-replace transaction action
+Date: Thu, 31 Mar 2022 00:28:55 +0300
+Message-Id: <20220330212902.590099-39-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330212902.590099-1-vsementsov@openvz.org>
 References: <20220330212902.590099-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::131
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22d;
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lj1-x22d.google.com
+ helo=mail-lf1-x131.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -94,199 +94,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, qemu-devel@nongnu.org,
  Markus Armbruster <armbru@redhat.com>, hreitz@redhat.com,
- vsementsov@openvz.org, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+ vsementsov@openvz.org, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a command that can replace bs in following BdrvChild structures:
-
- - qdev blk root child
- - block-export blk root child
- - any child BlockDriverState selected by child-name
+Support blockdev-replace in a transaction.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 ---
- blockdev.c             | 65 ++++++++++++++++++++++++++++++++++++++++++
- qapi/block-core.json   | 62 ++++++++++++++++++++++++++++++++++++++++
- stubs/blk-by-qdev-id.c |  9 ++++++
- stubs/meson.build      |  1 +
- 4 files changed, 137 insertions(+)
- create mode 100644 stubs/blk-by-qdev-id.c
+ block.c                            |  4 ++--
+ blockdev.c                         | 29 ++++++++++++++++++++++++-----
+ include/block/block-global-state.h |  2 ++
+ qapi/transaction.json              | 15 ++++++++++++++-
+ 4 files changed, 42 insertions(+), 8 deletions(-)
 
+diff --git a/block.c b/block.c
+index 4b5b7d8794..efe0ec0f00 100644
+--- a/block.c
++++ b/block.c
+@@ -2381,8 +2381,8 @@ static TransactionActionDrv bdrv_replace_child_drv = {
+ };
+ 
+ /* Caller is responsible to refresh permissions in @refresh_list */
+-static void bdrv_replace_child_tran(BdrvChild *child, BlockDriverState *new_bs,
+-                                    GSList **refresh_list, Transaction *tran)
++void bdrv_replace_child_tran(BdrvChild *child, BlockDriverState *new_bs,
++                             GSList **refresh_list, Transaction *tran)
+ {
+     BdrvReplaceChildState *s = g_new(BdrvReplaceChildState, 1);
+     *s = (BdrvReplaceChildState) {
 diff --git a/blockdev.c b/blockdev.c
-index abd0600d15..3d84cb6f92 100644
+index 3d84cb6f92..89167fbc08 100644
 --- a/blockdev.c
 +++ b/blockdev.c
-@@ -2166,6 +2166,71 @@ static void abort_commit(void *opaque)
+@@ -2166,8 +2166,9 @@ static void abort_commit(void *opaque)
      g_assert_not_reached(); /* this action never succeeds */
  }
  
-+static int blockdev_replace(BlockdevReplace *repl, Transaction *tran,
-+                            Error **errp)
-+{
-+    BdrvChild *child = NULL;
-+    BlockDriverState *new_child_bs;
+-static int blockdev_replace(BlockdevReplace *repl, Transaction *tran,
+-                            Error **errp)
++/* Caller is responsible to update permission of nodes added to @update_list */
++static int blockdev_replace(BlockdevReplace *repl, GSList **refresh_list,
++                            Transaction *tran, Error **errp)
+ {
+     BdrvChild *child = NULL;
+     BlockDriverState *new_child_bs;
+@@ -2220,14 +2221,27 @@ static int blockdev_replace(BlockdevReplace *repl, Transaction *tran,
+         return -EINVAL;
+     }
+ 
+-    return bdrv_replace_child_bs(child, new_child_bs, tran, errp);
++    bdrv_replace_child_tran(child, new_child_bs, refresh_list, tran);
++    return 0;
+ }
+ 
+ void qmp_x_blockdev_replace(BlockdevReplace *repl, Error **errp)
+ {
++    int ret;
+     Transaction *tran = tran_new();
+-    int ret = blockdev_replace(repl, tran, errp);
++    g_autoptr(GSList) update_list = NULL;
 +
-+    if (repl->parent_type == BLOCK_PARENT_TYPE_DRIVER) {
-+        BlockDriverState *parent_bs;
-+
-+        parent_bs = bdrv_find_node(repl->u.driver.node_name);
-+        if (!parent_bs) {
-+            error_setg(errp, "Block driver node with node-name '%s' not "
-+                       "found", repl->u.driver.node_name);
-+            return -EINVAL;
-+        }
-+
-+        child = bdrv_find_child(parent_bs, repl->u.driver.child);
-+        if (!child) {
-+            error_setg(errp, "Block driver node '%s' doesn't have child "
-+                       "named '%s'", repl->u.driver.node_name,
-+                       repl->u.driver.child);
-+            return -EINVAL;
-+        }
-+    } else {
-+        /* Other types are similar, they work through blk */
-+        BlockBackend *blk;
-+        bool is_qdev = repl->parent_type == BLOCK_PARENT_TYPE_QDEV;
-+        const char *id =
-+            is_qdev ? repl->u.qdev.qdev_id : repl->u.export.export_id;
-+
-+        assert(is_qdev || repl->parent_type == BLOCK_PARENT_TYPE_EXPORT);
-+
-+        blk = is_qdev ? blk_by_qdev_id(id, errp) : blk_by_export_id(id, errp);
-+        if (!blk) {
-+            return -EINVAL;
-+        }
-+
-+        child = blk_root(blk);
-+        if (!child) {
-+            error_setg(errp, "%s '%s' is empty, nothing to replace",
-+                       is_qdev ? "Device" : "Export", id);
-+            return -EINVAL;
-+        }
++    ret = blockdev_replace(repl, &update_list, tran, errp);
++    if (ret < 0) {
++        goto out;
++    }
+ 
++    ret = bdrv_list_refresh_perms(update_list, NULL, tran, errp);
++    if (ret < 0) {
++        goto out;
 +    }
 +
-+    assert(child);
-+    assert(child->bs);
-+
-+    new_child_bs = bdrv_find_node(repl->new_child);
-+    if (!new_child_bs) {
-+        error_setg(errp, "Node '%s' not found", repl->new_child);
-+        return -EINVAL;
-+    }
-+
-+    return bdrv_replace_child_bs(child, new_child_bs, tran, errp);
-+}
-+
-+void qmp_x_blockdev_replace(BlockdevReplace *repl, Error **errp)
-+{
-+    Transaction *tran = tran_new();
-+    int ret = blockdev_replace(repl, tran, errp);
-+
-+    tran_finalize(tran, ret);
-+}
-+
- static void transaction_action(TransactionAction *act, JobTxn *block_job_txn,
-                                GSList **refresh_list,
-                                Transaction *tran, Error **errp)
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index d915cddde9..6e944e4f52 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -5592,3 +5592,65 @@
- { 'command': 'blockdev-snapshot-delete-internal-sync',
-   'data': { 'device': 'str', '*id': 'str', '*name': 'str'},
-   'returns': 'SnapshotInfo' }
-+
++out:
+     tran_finalize(tran, ret);
+ }
+ 
+@@ -2287,6 +2301,10 @@ static void transaction_action(TransactionAction *act, JobTxn *block_job_txn,
+         blockdev_add(act->u.blockdev_add.data,
+                      refresh_list, tran, errp);
+         return;
++    case TRANSACTION_ACTION_KIND_X_BLOCKDEV_REPLACE:
++        blockdev_replace(act->u.x_blockdev_replace.data,
++                         refresh_list, tran, errp);
++        return;
+     /*
+      * Where are transactions for MIRROR, COMMIT and STREAM?
+      * Although these blockjobs use transaction callbacks like the backup job,
+@@ -2355,7 +2373,8 @@ void qmp_transaction(TransactionActionList *actions,
+ 
+         if (refresh_list &&
+             type != TRANSACTION_ACTION_KIND_BLOCKDEV_DEL &&
+-            type != TRANSACTION_ACTION_KIND_BLOCKDEV_ADD)
++            type != TRANSACTION_ACTION_KIND_BLOCKDEV_ADD &&
++            type != TRANSACTION_ACTION_KIND_X_BLOCKDEV_REPLACE)
+         {
+             ret = bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
+             if (ret < 0) {
+diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
+index fa5f698228..253cc28a9a 100644
+--- a/include/block/block-global-state.h
++++ b/include/block/block-global-state.h
+@@ -66,6 +66,8 @@ int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
+                       Error **errp);
+ int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+                           Transaction *tran, Error **errp);
++void bdrv_replace_child_tran(BdrvChild *child, BlockDriverState *new_bs,
++                             GSList **refresh_list, Transaction *tran);
+ BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *node_options,
+                                    int flags, Error **errp);
+ int bdrv_drop_filter(BlockDriverState *bs, Error **errp);
+diff --git a/qapi/transaction.json b/qapi/transaction.json
+index 000dd16bb7..61cb2d2312 100644
+--- a/qapi/transaction.json
++++ b/qapi/transaction.json
+@@ -54,10 +54,13 @@
+ # @blockdev-snapshot-sync: since 1.1
+ # @drive-backup: Since 1.6
+ # @blockdev-del: since 7.1
++# @blockdev-add: since 7.1
++# @x-blockdev-replace: since 7.1
+ #
+ # Features:
+ # @deprecated: Member @drive-backup is deprecated.  Use member
+ #              @blockdev-backup instead.
++# @unstable: Member @x-blockdev-replace is experimental
+ #
+ # Since: 1.1
+ ##
+@@ -68,6 +71,7 @@
+             'blockdev-backup', 'blockdev-snapshot',
+             'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
+             'blockdev-del', 'blockdev-add',
++            { 'name': 'x-blockdev-replace', 'features': [ 'unstable' ] },
+             { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
+ 
+ ##
+@@ -158,6 +162,14 @@
+ { 'struct': 'BlockdevAddWrapper',
+   'data': { 'data': 'BlockdevOptions' } }
+ 
 +##
-+# @BlockParentType:
++# @BlockdevReplaceWrapper:
 +#
-+# Since 7.0
++# Since: 7.1
 +##
-+{ 'enum': 'BlockParentType',
-+  'data': ['qdev', 'driver', 'export'] }
++{ 'struct': 'BlockdevReplaceWrapper',
++  'data': { 'data': 'BlockdevReplace' } }
 +
-+##
-+# @BdrvChildRefQdev:
-+#
-+# Since 7.0
-+##
-+{ 'struct': 'BdrvChildRefQdev',
-+  'data': { 'qdev-id': 'str' } }
-+
-+##
-+# @BdrvChildRefExport:
-+#
-+# Since 7.0
-+##
-+{ 'struct': 'BdrvChildRefExport',
-+  'data': { 'export-id': 'str' } }
-+
-+##
-+# @BdrvChildRefDriver:
-+#
-+# Since 7.0
-+##
-+{ 'struct': 'BdrvChildRefDriver',
-+  'data': { 'node-name': 'str', 'child': 'str' } }
-+
-+##
-+# @BlockdevReplace:
-+#
-+# Since 7.0
-+##
-+{ 'union': 'BlockdevReplace',
-+  'base': {
-+      'parent-type': 'BlockParentType',
-+      'new-child': 'str'
-+  },
-+  'discriminator': 'parent-type',
-+  'data': {
-+      'qdev': 'BdrvChildRefQdev',
-+      'export': 'BdrvChildRefExport',
-+      'driver': 'BdrvChildRefDriver'
-+  } }
-+
-+##
-+# @x-blockdev-replace:
-+#
-+# Replace a block-node associated with device (selected by
-+# @qdev-id) or with block-export (selected by @export-id) or
-+# any child of block-node (selected by @node-name and @child)
-+# with @new-child block-node.
-+#
-+# Since 7.0
-+##
-+{ 'command': 'x-blockdev-replace', 'boxed': true,
-+  'data': 'BlockdevReplace' }
-diff --git a/stubs/blk-by-qdev-id.c b/stubs/blk-by-qdev-id.c
-new file mode 100644
-index 0000000000..0e751ce4f7
---- /dev/null
-+++ b/stubs/blk-by-qdev-id.c
-@@ -0,0 +1,9 @@
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "sysemu/block-backend.h"
-+
-+BlockBackend *blk_by_qdev_id(const char *id, Error **errp)
-+{
-+    error_setg(errp, "blk '%s' not found", id);
-+    return NULL;
-+}
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 6f80fec761..9924810a23 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -1,6 +1,7 @@
- stub_ss.add(files('bdrv-next-monitor-owned.c'))
- stub_ss.add(files('blk-commit-all.c'))
- stub_ss.add(files('blk-exp-close-all.c'))
-+stub_ss.add(files('blk-by-qdev-id.c'))
- stub_ss.add(files('blockdev-close-all-bdrv-states.c'))
- stub_ss.add(files('change-state-handler.c'))
- stub_ss.add(files('cmos.c'))
+ ##
+ # @TransactionAction:
+ #
+@@ -183,7 +195,8 @@
+        'blockdev-snapshot-sync': 'BlockdevSnapshotSyncWrapper',
+        'blockdev-del': 'BlockdevDelWrapper',
+        'blockdev-add': 'BlockdevAddWrapper',
+-       'drive-backup': 'DriveBackupWrapper'
++       'drive-backup': 'DriveBackupWrapper',
++       'x-blockdev-replace': 'BlockdevReplaceWrapper'
+    } }
+ 
+ ##
 -- 
 2.35.1
 
