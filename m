@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01DB04EC5ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:48:24 +0200 (CEST)
-Received: from localhost ([::1]:57174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B251A4EC60E
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:57:11 +0200 (CEST)
+Received: from localhost ([::1]:42340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZYgR-0001Rx-3U
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:48:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34190)
+	id 1nZYow-0002a7-Hu
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:57:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZYey-00081z-Oh
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 09:46:52 -0400
-Received: from [2607:f8b0:4864:20::332] (port=46911
- helo=mail-ot1-x332.google.com)
+ id 1nZYmd-0000Vh-6P
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 09:54:47 -0400
+Received: from [2001:4860:4864:20::2a] (port=45620
+ helo=mail-oa1-x2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZYex-0002g9-6b
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 09:46:52 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- z9-20020a05683020c900b005b22bf41872so14921013otq.13
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 06:46:50 -0700 (PDT)
+ id 1nZYmY-00089p-4e
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 09:54:43 -0400
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-d6ca46da48so22078877fac.12
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 06:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=4ilR6iQPXg1a15gkXIcu/maOlm3zoGqKdoy1Mm3rEj8=;
- b=fW0qTqAGpQd6i4u/eAI6xWN0GljZCFZiFoDApNBbrbYQCH9vZ4zqgeInrmZnsWKJ+J
- BZNZ4nAlJp0rpGf5ByIp+EA7f4LVjrPYtdjhqGebI6Up37yxxtoMjzbRekolS0dhkG52
- WsFsbLkhQWCN6Y8Fo3aiQyADmSQeS//K6su/4w0s5bWOoNNug/BSdvTNcakkvtdBxSC8
- p+wVCIqH8BJQNAbjJ+qidQVOrYU999GbdUVvf4vCGCHcxO/Z4whxhzKrQqh2S8/FGMtl
- /H9Ew8jRODhQccMXodWY2grX6TwCEY5C9GyfmJgCuxOPOHXTq+ob6uVH6Kng6uQTUYh1
- SXTw==
+ bh=tx1SwE4iNljeOcZpcrMgADhaavxCRvqXXqyh57t5650=;
+ b=nQL2X8oq9dLlfvtRe1jwwgSEeQk2AHon6tdxLn7wRqW9GRT+e1HY169vsATBloEH+I
+ UADr0E6x6FFBfyl5R02AxzTYPLemEaIgTjhwD/ISvzMhgSvYgVPhq7eefnBin6NKRzVj
+ nkPYpQy2QEtKb/5P20DkMoFNhhDbV2h5LfYzXtfdjNWWW0815HHWmqqqAVbePrOslgd3
+ zn2VAVnthx7MBX8pY05ZsJOih9nfw933N/jwQ/L0NxM3hacigH8WORvmX2hAYITop2DL
+ hY1ZeM1ALdQ5P86qZ51YPjKIO2FavWcJrIYnB4mCw1LZ0WnbY/fDFHK7DgnZVbthS5WD
+ 1acw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4ilR6iQPXg1a15gkXIcu/maOlm3zoGqKdoy1Mm3rEj8=;
- b=7bGz/U73DKif1HNHB+8H5wUDQrQ76HWh/rGHVgZQxpOCVZcYAO59qaPD15qZQpAX5k
- qzQ2MGyvroYuDDqW8fjfTNJc2VAhn4xMo/dB7jcDrThsHKLnz3PQgI0GnHn25teFedhj
- sJdetRB1itkBgv0SmDRawGgFRgE/YOtmdR8ZZLrH5FJnqTmcdfslNzrI4KYncZYPsiEU
- mGUjVtrU6NdAdInTtho2ZUQMnC8Q9UBKf3jGN2WGGRggen6OFYoVctPc8Z7lmgz6ZpWP
- XUyFhnuvnSv70Ov+qzVVcnh07tRa7EsozMXKJSsJcnvPVj2PZJvEWMuJwlEvnNNki1NV
- iXxQ==
-X-Gm-Message-State: AOAM533awoZ+wEF/0yok2NzsDTrxeFX//2sFXp0+C7uG56BzHUi9iyFR
- DRJE8D8Mb5Ff7DMw7T8sy5o04Q==
-X-Google-Smtp-Source: ABdhPJzKiD5ERh9NSsRTA/LpYMOwrDmYwVKAtDwlJHiY0cX/ZZwAQpEWEIAHn01v2lEgwbvgciAvuQ==
-X-Received: by 2002:a05:6830:1d70:b0:5b2:2c27:be29 with SMTP id
- l16-20020a0568301d7000b005b22c27be29mr3182479oti.89.1648648009405; 
- Wed, 30 Mar 2022 06:46:49 -0700 (PDT)
+ bh=tx1SwE4iNljeOcZpcrMgADhaavxCRvqXXqyh57t5650=;
+ b=mg+kJGrGAL966iXNdkn+pwIOeV76MdyqYX8odsysFj3hR/cDlkNEvBSOFmWeWv8Kb3
+ SSSaKvIBS9ud6z4xZJ0KgE39jW8jfZvk44AbLx91Ok41D4sHUSNDzW5SOboyKOX4/L8p
+ 0J8MrJhWIVCIJ/YawfLOJO84cRhPWnfLG5vzoi+D/J8mTiOZUu5M8A/bIKmX2uBkNT+E
+ 5IS/xpAnQD6E3uTpnr7GjP2FGkXDEmKaivoOUzcIBz9VVL0uq+wl3qgLSazgHbRFl12P
+ Dag/LxXaM8YxhyQQCm7Jm8Hosty6p6fqq9b9RggSYANakeP0UcxtheluK0NAfH5RPQb/
+ R9SA==
+X-Gm-Message-State: AOAM530D7Z5SnaENPZBA3E2HD1qmFkZp0M8CWXz3mUyAmv8rfSW56A5w
+ Ef5s3AXlKo5tBG7xPrRGMc0JyQ==
+X-Google-Smtp-Source: ABdhPJw6zH8VlfBreUxlqC12yemySZq9a/MlgGzWQVrXo011AVoNauBzktTdpa9eLsCPjJd8TRJqZg==
+X-Received: by 2002:a05:6870:e253:b0:dd:a40e:ae92 with SMTP id
+ d19-20020a056870e25300b000dda40eae92mr2206453oac.233.1648648480619; 
+ Wed, 30 Mar 2022 06:54:40 -0700 (PDT)
 Received: from [192.168.249.227] (172.189-204-159.bestelclientes.com.mx.
  [189.204.159.172]) by smtp.gmail.com with ESMTPSA id
- s26-20020a4ac81a000000b00322a2b5d943sm9962299ooq.37.2022.03.30.06.46.48
+ c3-20020a056808138300b002f76b9a9ef6sm2070342oiw.10.2022.03.30.06.54.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 06:46:48 -0700 (PDT)
-Message-ID: <b5f52d76-ae43-505d-489e-7a0c469be57a@linaro.org>
-Date: Wed, 30 Mar 2022 07:46:45 -0600
+ Wed, 30 Mar 2022 06:54:40 -0700 (PDT)
+Message-ID: <bab603b7-18d2-4a97-f426-6050211dbcc9@linaro.org>
+Date: Wed, 30 Mar 2022 07:54:35 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [RFC PATCH v7 07/29] target/loongarch: Add LoongArch CSR
- instruction
+Subject: Re: [PATCH] linux-user/sh4/termbits: Silence warning about
+ TIOCSER_TEMT double definition
 Content-Language: en-US
-To: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
- <20220328125749.2918087-8-yangxiaojuan@loongson.cn>
- <aa21e33f-6729-d148-96e6-1f0617ddbc39@linaro.org>
- <f3f98d53-5f6e-3971-e583-617858dbdf7d@loongson.cn>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20220330134302.979686-1-thuth@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <f3f98d53-5f6e-3971-e583-617858dbdf7d@loongson.cn>
+In-Reply-To: <20220330134302.979686-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::332
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x332.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,31 +95,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, Song Gao <gaosong@loongson.cn>
+Cc: qemu-trivial@nongnu.org, Magnus Damm <magnus.damm@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/30/22 04:01, yangxiaojuan wrote:
-> trans_csrrd {
-> ...
->      switch(a->csr) {
->      case LOONGARCH_CSR_PGD:
->          gen_helper_csrrd_pgd();
->          break;
->      case LOONGARCH_CSR_TVAL:
->          gen_helper_csrrd_tval();
->          break;
->      case LOONGARCH_CSR_CPUID:
->          ...
->      default:
->          ...
->      }
-> }
-> And the same in trans_csrwr, is this right?
+On 3/30/22 07:43, Thomas Huth wrote:
+> Seen while compiling on Alpine:
+> 
+>   In file included from ../linux-user/strace.c:17:
+>   In file included from ../linux-user/qemu.h:11:
+>   In file included from ../linux-user/syscall_defs.h:1247:
+>   ../linux-user/sh4/termbits.h:276:10: warning: 'TIOCSER_TEMT' macro redefined
+>    [-Wmacro-redefined]
+>   # define TIOCSER_TEMT    0x01   /* Transmitter physically empty */
+>            ^
+>   /usr/include/sys/ioctl.h:50:9: note: previous definition is here
+>   #define TIOCSER_TEMT 1
+>           ^
+>   1 warning generated.
+> 
+> Add the TARGET_ prefix here, too, like we do it on the other architectures.
+> 
+> Signed-off-by: Thomas Huth<thuth@redhat.com>
+> ---
+>   linux-user/sh4/termbits.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-That's the idea, yes.  However, you'll want to pull these switches out to helper functions 
-within trans_privileged.c.inc so that you may reuse them for trans_csrxchg.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
