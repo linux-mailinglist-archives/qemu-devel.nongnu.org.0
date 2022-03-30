@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52EEF4EC9C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 18:35:22 +0200 (CEST)
-Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD384EC9CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 18:41:52 +0200 (CEST)
+Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZbI0-0005hi-QO
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 12:35:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50076)
+	id 1nZbOI-0004H9-Vo
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 12:41:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nZbFl-0003mS-7i
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 12:33:01 -0400
-Received: from [2a00:1450:4864:20::633] (port=41643
- helo=mail-ej1-x633.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nZbFj-0001U8-Mn
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 12:33:00 -0400
-Received: by mail-ej1-x633.google.com with SMTP id bh17so3148255ejb.8
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 09:32:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=pmG9azyMV22RktcKgEbxIeezY+n2IZ5UMp4aEOGBSmo=;
- b=zkZHqKC3InWBAZxzPqIsIe7sqeM/FHhm0ZQJnS3I+BwuCCwVCqqx5CFfEEiqaMzpCT
- 9omSg10f5VIjulsX7BeX6U9RMjOf4pwh0FgzA6uscIm5Nopy1t7XFTHd8XHAjxmzK+Nj
- ROVvkhwJO4XdGvBVigo9aZgYMmdEtzUIe5CgVBPWamWX4cuqHHiGNwlq96Eg3o0WsCfz
- HNt/go0V+Rsz9/HbnSjCIw6F0fGATyqzidPLNPT1y0wUUofp8J56bOXVXxgnOVlRlQnp
- F/NaRj+u4bvYZVO/MLs5JpwtDw1EqxaxkgZhJCxM4g8sMEe/nMLNabCVnRbrZEms4mvH
- +sBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=pmG9azyMV22RktcKgEbxIeezY+n2IZ5UMp4aEOGBSmo=;
- b=fRNCx7MpmRmZBL+dEfADJooLh1p3ixM+TEIKedUgAcCmjJJ/k5bzNnIBptGmwN2sEu
- 998npjwNt0NQd4Np1TXz0vgbtO3vamfk8Ql/05I/ZdWToG15gRjSqApd845h8Wt+t8AT
- +qNzREeHdo/RmMt2DguQvFSwjj/Uvz+scuUlOSh7VfdCrG/cU2gNSWhhIeLHLGaDQsCv
- IHs96RVefizEOSUl61umUG17Zkt7r/1VWa6Kb+Q1gDernxVx9kIO9c0K8I2jliFjrXQb
- SQ0BWjkun2XJ6Utc9uJX/grWX0oJf7+l7ztJKoDY7CC78ip0UZq9Nq2R7N3ogMXFnlNy
- OBvA==
-X-Gm-Message-State: AOAM532VE/XP2Nf+NW+kbnGnj0Aw+ZEZcvAGcK9MFeGa0VFRC/huStJB
- HiWELDYQTJAZnrytcm0wkWdcycVtZBzvYA==
-X-Google-Smtp-Source: ABdhPJzBD2h9gCUUd/UobFZB0CY2ZmuxLB1opikXYZT7gfynIuWX1xbttUowghfDhlr8wNkNlX9UAg==
-X-Received: by 2002:a17:906:2b93:b0:6cf:bb48:5a80 with SMTP id
- m19-20020a1709062b9300b006cfbb485a80mr335989ejg.681.1648657975892; 
- Wed, 30 Mar 2022 09:32:55 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- 22-20020a17090600d600b006dfbc46efabsm8400434eji.126.2022.03.30.09.32.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 09:32:54 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 176851FFB7;
- Wed, 30 Mar 2022 17:32:54 +0100 (BST)
-References: <20220328140240.40798-1-pbonzini@redhat.com>
- <20220328140240.40798-5-pbonzini@redhat.com>
-User-agent: mu4e 1.7.11; emacs 28.0.92
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 04/15] tests/docker: remove unnecessary default definitions
-Date: Wed, 30 Mar 2022 17:32:49 +0100
-In-reply-to: <20220328140240.40798-5-pbonzini@redhat.com>
-Message-ID: <87v8vvwgcp.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nZbKZ-0001sf-Rm
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 12:37:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34877)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nZbKW-0002PX-AD
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 12:37:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648658274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K8k7npROK3iafK9dkdm22m/HbaNqyGXCEZDzBFcvdCQ=;
+ b=WuYaFE4/qmJQ8kwpfnnBinfGeldCHT9Ym3RVsiF0Lp1BT5S1rmt2Df0PYkkl1fMGebLw3D
+ OE4JjojATJAeZKq9VezjaHnbwXolqk/OjcFYq68Ng2hskSETnkrcVjVWOSm4HNRBMmV9IW
+ Eh3y2KJNEx/s6ooXOdn2s24WjbNNaWw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-302-soo10AWqO22GpzEcJY-sgg-1; Wed, 30 Mar 2022 12:37:51 -0400
+X-MC-Unique: soo10AWqO22GpzEcJY-sgg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D8EE80348D;
+ Wed, 30 Mar 2022 16:37:51 +0000 (UTC)
+Received: from p50.localhost.localdomain.some.host.somewhere.org (unknown
+ [10.22.18.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE221400F8FE;
+ Wed, 30 Mar 2022 16:37:50 +0000 (UTC)
+References: <20220325200438.2556381-1-jsnow@redhat.com>
+ <20220325200438.2556381-4-jsnow@redhat.com>
+User-agent: mu4e 1.6.6; emacs 27.2
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 3/4] python/qmp-shell: relicense as LGPLv2+
+Date: Wed, 30 Mar 2022 12:37:04 -0400
+In-reply-to: <20220325200438.2556381-4-jsnow@redhat.com>
+Message-ID: <87sfqz75wk.fsf@p50.localhost.localdomain>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,21 +81,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Daniel Berrange <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
+ Luiz Capitulino <lcapitulino@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <mlureau@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Eduardo Habkost <ehabkost@habkost.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+John Snow <jsnow@redhat.com> writes:
 
-> The definition of DOCKER_IMAGES and DOCKER_TESTS copes already with an
-> empty value of $(IMAGES) and $(TESTS), no need to force them to "%" if
-> undefined.
+> qmp-shell is presently licensed as GPLv2 (only). I intend to include
+> this tool as an add-on to an LGPLv2+ library package hosted on
+> PyPI.org. I've selected LGPLv2+ to maximize compatibility with other
+> licenses while retaining a copyleft license.
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> To keep licensing matters simple, I'd like to relicense this tool as
+> LGPLv2+ as well in order to keep the resultant license of the hosted
+> release files simple -- even if library users won't "link against" this
+> command line tool.
+>
+> Therefore, I am asking permission from the current authors of this
+> tool to loosen the license. At present, those people are:
+>
+> - John Snow (me!), 411/609
+> - Luiz Capitulino, Author, 97/609
+> - Daniel Berrang=C3=A9, 81/609
+> - Eduardo Habkost, 10/609
+> - Marc-Andr=C3=A9 Lureau, 6/609
+> - Fam Zheng, 3/609
+> - Cleber Rosa, 1/609
+>
+> (All of which appear to have been written under redhat.com addresses.)
+>
+> Eduardo's fixes are largely automated from 2to3 conversion tools and may
+> not necessarily constitute authorship, but his signature would put to
+> rest any questions.
+>
+> Cleber's changes concern a single import statement change. Also won't
+> hurt to ask.
+>
+> CC: Luiz Capitulino <lcapitulino@redhat.com>
+> CC: Daniel Berrange <berrange@redhat.com>
+> CC: Eduardo Habkost <ehabkost@habkost.com>
+> CC: Marc-Andr=C3=A9 Lureau <mlureau@redhat.com>
+> CC: Fam Zheng <fam@euphon.net>
+> CC: Cleber Rosa <crosa@redhat.com>
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/aqmp/qmp_shell.py | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Acked-by: Cleber Rosa <crosa@redhat.com>
 
---=20
-Alex Benn=C3=A9e
 
