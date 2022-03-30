@@ -2,81 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00EBE4ECD35
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 21:27:22 +0200 (CEST)
-Received: from localhost ([::1]:47590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D23524ECD61
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 21:42:03 +0200 (CEST)
+Received: from localhost ([::1]:53164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZdyT-0000cr-42
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 15:27:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34834)
+	id 1nZeCg-0006ag-C6
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 15:42:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZdxD-0007as-Qd
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 15:26:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35161)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nZeBW-0005jj-Vs
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 15:40:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZdxB-000871-8u
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 15:26:02 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nZeBT-0001sA-EL
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 15:40:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648668360;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1648669245;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DSEl25+RfU8O+A2XBUICQ6IevkDCGMu7zFaoHhEZKzQ=;
- b=USlFXjmBmscjtDMaBqkNBSZGDnu6EffcwhVlE/bsYRQmILShv8aLDRNgAvM+fMZVnfZLSe
- bJoUVrtjIUjnG+l4ql9ZmRNKLFh32WBl2nLWSddjk0rq8zCIdUquTRAw/UOwDO35BOOL4z
- 9cSrtGw/tjkcChTMZrqyB3YugGG+Kcg=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oq6ieihKLH/BVvQd0s1BP6aQgF/h3YLC8WStPfsI1BA=;
+ b=XQAx3KrBWq0qHkND9cpxj6JS4SmTvWExdhl56ni8jOLVxlZXV5UC0k0kKMH7jz7hW2dQvR
+ v0MMRlLj1ruqNJCceQu/+NwlGNJoaqiESIxTQeNBUmT1hBC14r+5sjua3ygPihRh633ohM
+ Vkfkn2iJwQ4lds2XAiQydFWZ9OzoMYs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-493-gDOWVyw-MeersuQPhJt0Yg-1; Wed, 30 Mar 2022 15:25:59 -0400
-X-MC-Unique: gDOWVyw-MeersuQPhJt0Yg-1
-Received: by mail-qt1-f197.google.com with SMTP id
- k11-20020ac8604b000000b002e1a4109edeso18158972qtm.15
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 12:25:59 -0700 (PDT)
+ us-mta-177-chTnNZLsNo2bufA2-Jz1SQ-1; Wed, 30 Mar 2022 15:40:44 -0400
+X-MC-Unique: chTnNZLsNo2bufA2-Jz1SQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ a17-20020a5d6cb1000000b00203f85a2ed9so6130868wra.7
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 12:40:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DSEl25+RfU8O+A2XBUICQ6IevkDCGMu7zFaoHhEZKzQ=;
- b=Q+D0lf4NrZjcUm41yqiaKitC2HxatK1N21hKCKU++Qm2eh19b1e/JUiqsheCFOeRXE
- Vt9DQC4DCmqIuXKR15JJ882ihvlmFDzuyVN6zoZcxCtOvOeY0AFdFmCPlq+hFgNlSmkq
- BpOKW+vGPsJFpuTJlWwhdF+D5YJZS1uY+ja5/cN7/grvno9KWDcsywowamK+u2npNR00
- ErexSKlLd/mSiVbz42Gt9M85KnbQgCvr/nN5eD6oa5cJXr53Twq8ko5okgnrgcWSNcbV
- IPu50TSt3mi1AOlbtq5cnXAFv7yh2yRjuOAoWrr4eDFkeltMkCFGdF9xw05oZ86cy7P5
- Fxgw==
-X-Gm-Message-State: AOAM5306DBVI4+tvf0j+Lq1z0qfFzGfGWblQtkljtQd4CJLEFNts+jou
- c26meOePwGSJumH6wN/FKYo/2Dm5d4R6mSHU2hYHJLTTUXrclMF3XufxVSXIDFjladk2OWFQcAx
- RqhoINfGMkcx8uVw=
-X-Received: by 2002:ac8:59d2:0:b0:2e1:f86d:b3d3 with SMTP id
- f18-20020ac859d2000000b002e1f86db3d3mr1105723qtf.276.1648668358594; 
- Wed, 30 Mar 2022 12:25:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzw/LP6ESpVZ+W+B8mE5yDDzkHVCaJpKMKAx+CqYb3NAcpYT0oHQFtqJPkKmI02yzVK45Z2UA==
-X-Received: by 2002:ac8:59d2:0:b0:2e1:f86d:b3d3 with SMTP id
- f18-20020ac859d2000000b002e1f86db3d3mr1105703qtf.276.1648668358346; 
- Wed, 30 Mar 2022 12:25:58 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- 3-20020a370503000000b0067b03f03589sm11230549qkf.53.2022.03.30.12.25.57
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oq6ieihKLH/BVvQd0s1BP6aQgF/h3YLC8WStPfsI1BA=;
+ b=Jxbftmd3l54vMUl7nkJIiq2UF4bEUyQ71+Bqna6j34EGD2/Bgn//knsV0MHhrRwwwi
+ 8AP+wwEitb6gYgF1xX7v+DFnGQW/C3eUx79GtdMzpmg92YNqhLK5Dw4Pg+RX4lgWPCtU
+ 47D0KkomLrgXyRMHGCfsda8PIBoWpl5VJ1T2g66omyYKk2mWUByT196w0I4M+hF/Qy0x
+ 3QOheZNIv7b9DgoTPNgthkjrCVabCC9ExGARGy4dQKHEfpZ/g2rA6M0x880CLmJBmt/l
+ NCWImZrGMSpIe4oip2Uadx1/JRAauc5ylvLGj/QrmWh0uWwXXcVZtnFAZcNBn4mWT8j2
+ jwhA==
+X-Gm-Message-State: AOAM533t9g2sjsiQtvMql7DeHQT0SjOAn+xZ6xczvFeiGMPVvGGcukON
+ e4182o806JRM8Mg4Djvcph63mbvAzDeakbB1LIMpbIbLxKZ2ZW9sdoz+66ZUioWoJObnYzrn7NJ
+ /OegrEv2oND4tcdI=
+X-Received: by 2002:a05:600c:1d9b:b0:38c:af70:9998 with SMTP id
+ p27-20020a05600c1d9b00b0038caf709998mr1040744wms.169.1648669243301; 
+ Wed, 30 Mar 2022 12:40:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyVr8i9RK2S9M2C75nAMB46wVpbbydY+eF+iKg4tsGzkmFpuBlADriJrOyhfSLlT/4QgTecMA==
+X-Received: by 2002:a05:600c:1d9b:b0:38c:af70:9998 with SMTP id
+ p27-20020a05600c1d9b00b0038caf709998mr1040725wms.169.1648669243049; 
+ Wed, 30 Mar 2022 12:40:43 -0700 (PDT)
+Received: from localhost (static-247-177-6-89.ipcom.comunitel.net.
+ [89.6.177.247]) by smtp.gmail.com with ESMTPSA id
+ k18-20020a5d6d52000000b00203da94cf01sm18016208wri.14.2022.03.30.12.40.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 12:25:57 -0700 (PDT)
-Date: Wed, 30 Mar 2022 15:25:56 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Andrey Ryabinin <arbn@yandex-team.com>
-Subject: Re: [PATCH 2/2] softmmu/physmem: fix dirty memory bitmap memleak
-Message-ID: <YkSuxObygiiPbXfo@xz-m1.local>
-References: <20220325154013.16809-1-arbn@yandex-team.com>
- <20220325154013.16809-2-arbn@yandex-team.com>
+ Wed, 30 Mar 2022 12:40:42 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 00/18] tests: introduce testing coverage for TLS with
+ migration
+In-Reply-To: <YkSQkIEgJhLxinjz@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Wed, 30 Mar 2022 18:17:04 +0100")
+References: <20220310171821.3724080-1-berrange@redhat.com>
+ <YiqswPa/VV/lY6yN@xz-m1.local> <YkSQkIEgJhLxinjz@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Wed, 30 Mar 2022 21:40:41 +0200
+Message-ID: <87czi3cjpi.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <20220325154013.16809-2-arbn@yandex-team.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,67 +106,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-stable@nongnu.org, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: quintela@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 25, 2022 at 06:40:13PM +0300, Andrey Ryabinin wrote:
-> The sequence of ram_block_add()/qemu_ram_free()/ram_block_add()
-> function calls leads to leaking some memory.
-> 
-> ram_block_add() calls dirty_memory_extend() to allocate bitmap blocks
-> for new memory. These blocks only grow but never shrink. So the
-> qemu_ram_free() restores RAM size back to it's original stat but
-> doesn't touch dirty memory bitmaps.
-> 
-> After qemu_ram_free() there is no way of knowing that we have
-> allocated dirty memory bitmaps beyond current RAM size.
-> So the next ram_block_add() will call dirty_memory_extend() again to
-> to allocate new bitmaps and rewrite pointers to bitmaps left after
-> the first ram_block_add()/dirty_memory_extend() calls.
-> 
-> Rework dirty_memory_extend() to be able to shrink dirty maps,
-> also rename it to dirty_memory_resize(). And fix the leak by
-> shrinking dirty memory maps on qemu_ram_free() if needed.
-> 
-> Fixes: 5b82b703b69a ("memory: RCU ram_list.dirty_memory[] for safe RAM hotplug")
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
-> ---
->  include/exec/ramlist.h |  2 ++
->  softmmu/physmem.c      | 38 ++++++++++++++++++++++++++++++++------
->  2 files changed, 34 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/exec/ramlist.h b/include/exec/ramlist.h
-> index 2ad2a81acc..019e238e7c 100644
-> --- a/include/exec/ramlist.h
-> +++ b/include/exec/ramlist.h
-> @@ -41,6 +41,8 @@ typedef struct RAMBlockNotifier RAMBlockNotifier;
->  #define DIRTY_MEMORY_BLOCK_SIZE ((ram_addr_t)256 * 1024 * 8)
->  typedef struct {
->      struct rcu_head rcu;
-> +    unsigned int nr_blocks;
-> +    unsigned int nr_blocks_inuse;
->      unsigned long *blocks[];
->  } DirtyMemoryBlocks;
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> Juan,
+>
+> would you be able to include at least patch 6 in a migration
+> pull before release ?
 
-The problem looks valid, but can we avoid introducing these variables at
-all?
+Yeap, will do tomorrow.
 
-IIUC what we miss here is the proper releasing of dirty blocks when ram is
-released.  IMHO as long as we properly release the extra dirty memory
-blocks in qemu_ram_free(), then last_ram_page() will reflect the existing
-dirty memory block size.  That looks simpler if I'm correct..
+Later, Juan.
 
-Side question: both of the patches are not regression introduced in this
-release, right?  So they are targeting for the next release?
-
-Thanks,
-
--- 
-Peter Xu
+> On Fri, Mar 11, 2022 at 09:58:24AM +0800, Peter Xu wrote:
+>> On Thu, Mar 10, 2022 at 05:18:03PM +0000, Daniel P. Berrang=C3=A9 wrote:
+>> > This significantly expands the migration test suite to cover testing
+>> > with TLS over TCP and UNIX sockets, with both PSK (pre shared keys)
+>> > and x509 credentials, and for both single and multifd scenarios.
+>> >=20
+>> > It identified one bug in handling PSK credentials with UNIX sockets,
+>> > but other than that everything was operating as expected.
+>> >=20
+>> > To minimize the impact on code duplication alopt of refactoring is
+>> > done of the migration tests to introduce a common helper for running
+>> > the migration process. The various tests mostly just have to provide
+>> > a callback to set a few parameters/capabilities before migration
+>> > starts, and sometimes a callback to cleanup or validate after
+>> > completion/failure.
+>> >=20
+>> > There is one functional bugfix in patch 6, I would like to see
+>> > in 7.0. The rest is all test suite additions, and I don't mind
+>> > if they are in 7.0 or 7.1
+>>=20
+>> At least patch 1-4, 6-10 look already good candidates for 7.0, imho, if =
+not
+>> all..
+>>=20
+>> Thanks for doing this, Daniel.
+>>=20
+>> --=20
+>> Peter Xu
+>>=20
+>
+> With regards,
+> Daniel
 
 
