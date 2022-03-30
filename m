@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DFD74ECB77
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:12:23 +0200 (CEST)
-Received: from localhost ([::1]:55330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A214ECB40
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:04:02 +0200 (CEST)
+Received: from localhost ([::1]:40300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZcnu-0006ne-3T
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:12:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41522)
+	id 1nZcfo-0003Zb-RU
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:04:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nZcbj-0000XK-NF; Wed, 30 Mar 2022 13:59:47 -0400
+ id 1nZcbm-0000dj-6a; Wed, 30 Mar 2022 13:59:50 -0400
 Received: from [187.72.171.209] (port=21948 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nZcbi-0004ik-2z; Wed, 30 Mar 2022 13:59:47 -0400
+ id 1nZcbk-0004ik-Ik; Wed, 30 Mar 2022 13:59:49 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Wed, 30 Mar 2022 14:59:35 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id D747580060F;
- Wed, 30 Mar 2022 14:59:34 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 47C408002AF;
+ Wed, 30 Mar 2022 14:59:35 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [RFC PATCH 4/8] softfloat: add int128_to_float128
-Date: Wed, 30 Mar 2022 14:59:28 -0300
-Message-Id: <20220330175932.6995-5-matheus.ferst@eldorado.org.br>
+Subject: [RFC PATCH 5/8] softfloat: add float128_to_uint128
+Date: Wed, 30 Mar 2022 14:59:29 -0300
+Message-Id: <20220330175932.6995-6-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
 References: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 30 Mar 2022 17:59:35.0309 (UTC)
- FILETIME=[EA6E03D0:01D8445F]
+X-OriginalArrivalTime: 30 Mar 2022 17:59:35.0763 (UTC)
+ FILETIME=[EAB34A30:01D8445F]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,67 +67,118 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Based on parts_sint_to_float, implements int128_to_float128 to convert a
-signed 128-bit value received through an Int128 argument.
+Implements float128_to_uint128 based on parts_float_to_uint logic.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- fpu/softfloat.c         | 29 +++++++++++++++++++++++++++++
- include/fpu/softfloat.h |  1 +
- 2 files changed, 30 insertions(+)
+ fpu/softfloat.c         | 65 +++++++++++++++++++++++++++++++++++++++++
+ include/fpu/softfloat.h |  2 ++
+ 2 files changed, 67 insertions(+)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 57445b36e7..60b4702945 100644
+index 60b4702945..ce21b64e4f 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -3780,6 +3780,35 @@ bfloat16 int16_to_bfloat16(int16_t a, float_status *status)
-     return int64_to_bfloat16_scalbn(a, 0, status);
+@@ -3480,6 +3480,61 @@ static uint64_t float128_to_uint64_scalbn(float128 a, FloatRoundMode rmode,
+     return parts_float_to_uint(&p, rmode, scale, UINT64_MAX, s);
  }
  
-+float128 int128_to_float128(Int128 a, float_status *status)
++static Int128 float128_to_uint128_scalbn(float128 a, FloatRoundMode rmode,
++                                         int scale, float_status *s)
 +{
-+    FloatParts128 p = { };
-+    int shift;
++    int flags = 0;
++    Int128 r;
++    FloatParts128 p;
 +
-+    if (int128_nz(a)) {
-+        p.cls = float_class_normal;
-+        if (!int128_nonneg(a)) {
-+            p.sign = true;
-+            a = int128_neg(a);
++    float128_unpack_canonical(&p, a, s);
++
++    switch (p.cls) {
++    case float_class_snan:
++        flags |= float_flag_invalid_snan;
++        /* fall through */
++    case float_class_qnan:
++        flags |= float_flag_invalid;
++        r = UINT128_MAX;
++        break;
++
++    case float_class_inf:
++        flags = float_flag_invalid | float_flag_invalid_cvti;
++        r = p.sign ? int128_zero() : UINT128_MAX;
++        break;
++
++    case float_class_zero:
++        return int128_zero();
++
++    case float_class_normal:
++        if (parts_round_to_int_normal(&p, rmode, scale, 128 - 2)) {
++            flags = float_flag_inexact;
++            if (p.cls == float_class_zero) {
++                r = int128_zero();
++                break;
++            }
 +        }
 +
-+        shift = clz64(int128_gethi(a));
-+        if (shift == 64) {
-+            shift += clz64(int128_getlo(a));
++        if (p.sign) {
++            flags = float_flag_invalid | float_flag_invalid_cvti;
++            r = int128_zero();
++        } else if (p.exp <= 127) {
++            int shift = 127 - p.exp;
++            r = int128_urshift(int128_make128(p.frac_lo, p.frac_hi), shift);
++        } else {
++            flags = float_flag_invalid | float_flag_invalid_cvti;
++            r = UINT128_MAX;
 +        }
++        break;
 +
-+        p.exp = 127 - shift;
-+        a = int128_lshift(a, shift);
-+
-+        p.frac_hi = int128_gethi(a);
-+        p.frac_lo = int128_getlo(a);
-+    } else {
-+        p.cls = float_class_zero;
++    default:
++        g_assert_not_reached();
 +    }
 +
-+    return float128_round_pack_canonical(&p, status);
++    float_raise(flags, s);
++    return r;
 +}
 +
- float128 int64_to_float128(int64_t a, float_status *status)
+ uint8_t float16_to_uint8(float16 a, float_status *s)
  {
-     FloatParts128 p;
+     return float16_to_uint8_scalbn(a, s->float_rounding_mode, 0, s);
+@@ -3540,6 +3595,11 @@ uint64_t float128_to_uint64(float128 a, float_status *s)
+     return float128_to_uint64_scalbn(a, s->float_rounding_mode, 0, s);
+ }
+ 
++Int128 float128_to_uint128(float128 a, float_status *s)
++{
++    return float128_to_uint128_scalbn(a, s->float_rounding_mode, 0, s);
++}
++
+ uint16_t float16_to_uint16_round_to_zero(float16 a, float_status *s)
+ {
+     return float16_to_uint16_scalbn(a, float_round_to_zero, 0, s);
+@@ -3595,6 +3655,11 @@ uint64_t float128_to_uint64_round_to_zero(float128 a, float_status *s)
+     return float128_to_uint64_scalbn(a, float_round_to_zero, 0, s);
+ }
+ 
++Int128 float128_to_uint128_round_to_zero(float128 a, float_status *s)
++{
++    return float128_to_uint128_scalbn(a, float_round_to_zero, 0, s);
++}
++
+ uint16_t bfloat16_to_uint16(bfloat16 a, float_status *s)
+ {
+     return bfloat16_to_uint16_scalbn(a, s->float_rounding_mode, 0, s);
 diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 8e026e5610..3994b7235d 100644
+index 3994b7235d..6cfe9ee474 100644
 --- a/include/fpu/softfloat.h
 +++ b/include/fpu/softfloat.h
-@@ -183,6 +183,7 @@ floatx80 int64_to_floatx80(int64_t, float_status *status);
- 
- float128 int32_to_float128(int32_t, float_status *status);
- float128 int64_to_float128(int64_t, float_status *status);
-+float128 int128_to_float128(Int128, float_status *status);
- float128 uint64_to_float128(uint64_t, float_status *status);
- float128 uint128_to_float128(Int128, float_status *status);
- 
+@@ -1206,7 +1206,9 @@ int32_t float128_to_int32_round_to_zero(float128, float_status *status);
+ int64_t float128_to_int64(float128, float_status *status);
+ int64_t float128_to_int64_round_to_zero(float128, float_status *status);
+ uint64_t float128_to_uint64(float128, float_status *status);
++Int128 float128_to_uint128(float128, float_status *status);
+ uint64_t float128_to_uint64_round_to_zero(float128, float_status *status);
++Int128 float128_to_uint128_round_to_zero(float128, float_status *status);
+ uint32_t float128_to_uint32(float128, float_status *status);
+ uint32_t float128_to_uint32_round_to_zero(float128, float_status *status);
+ float32 float128_to_float32(float128, float_status *status);
 -- 
 2.25.1
 
