@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453154EC95C
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 18:10:50 +0200 (CEST)
-Received: from localhost ([::1]:60064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05B54EC964
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 18:13:09 +0200 (CEST)
+Received: from localhost ([::1]:37080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZauH-0006qw-CX
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 12:10:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42182)
+	id 1nZawW-00027w-7t
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 12:13:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nZas5-00049l-Nj
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 12:08:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22950)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nZas3-0000Ds-Gm
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 12:08:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648656510;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tZ/r1cEkBYupR4ELzkLxjQUJhFO+z69OgCGLO7NVWP4=;
- b=Grc0EhwcJKeJwrAZ0LWkSFb3DtFJQdQ/EMeecVGCCvyLXjwoeKY4GcUKkSwBEO9o8VloUF
- Y99ArzMNQ9zn8S/7iR/eula/65sjRrGvIVipa2mIVsZDLlo44X7FogMgFn3Y1CdCACZPQ3
- TuYP5IWGvJ73CXQPe+FPegha7IOCx+4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-497-RuhuPItqPm2EYNxJwg9YuA-1; Wed, 30 Mar 2022 12:08:25 -0400
-X-MC-Unique: RuhuPItqPm2EYNxJwg9YuA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4013E811E80;
- Wed, 30 Mar 2022 16:08:25 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E73F8400E132;
- Wed, 30 Mar 2022 16:08:24 +0000 (UTC)
-Date: Wed, 30 Mar 2022 17:08:24 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v7 12/17] vfio-user: IOMMU support for remote device
-Message-ID: <YkSAeJTGAdYkYC09@stefanha-x1.localdomain>
-References: <cover.1648234157.git.jag.raman@oracle.com>
- <2fdb90acd40a1f79d571d4e68c56e6b08aded60d.1648234157.git.jag.raman@oracle.com>
- <YkL9C+oMUSav9y95@stefanha-x1.localdomain>
- <AC3FD7EB-773E-4684-9A86-176EDDAC135D@oracle.com>
- <YkMcJDFVFu/fW/a5@stefanha-x1.localdomain>
- <7022E4C4-D71A-4A6E-A5D8-222A9462654C@oracle.com>
- <YkQrKI0Az/k8Hc8g@stefanha-x1.localdomain>
- <YkRSvDscyY+c+9yM@xz-m1.local>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0pFDBdTY97nCGQHm"
-Content-Disposition: inline
-In-Reply-To: <YkRSvDscyY+c+9yM@xz-m1.local>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1nZaur-0000hN-42
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 12:11:26 -0400
+Received: from [2607:f8b0:4864:20::1029] (port=44583
+ helo=mail-pj1-x1029.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1nZauo-0000yY-4P
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 12:11:24 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ h23-20020a17090a051700b001c9c1dd3acbso461964pjh.3
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 09:11:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jw7wT6++jG0iz2NYVWCZLA1Um2pypbGlGwKkqDs58aU=;
+ b=0oWfoiUP44lDLbxEP3vCm2yZf+Femrimg3Hcnv0Zv3wsZPplKsf25BXDe5JQmtZkZ/
+ cMAmv7nzR+TsMDc8lxphKa3rrsj9qVRJf8x45+0Iv69svWD38tCCAL4hcxwD2ML0SYad
+ MFLYiLwUOz1yPeRL/0mbfzaQMZzhHefwMvcxgSJxra7QdBlklvszodbZqLw/c6NYwRz7
+ ycFHQy9yyNMXYcBY4wpsV7P3b8Crn8pYH4fD7wHYChEVCmwf5s4QN8wLpNqpTYB0qJZF
+ 4AGOnYhKuinCCLE9T9Tlt7pbzvD5fkISwLfAmsOmUNlXVf3xgCyArXRnDbCRCxjmUcAD
+ MzTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=jw7wT6++jG0iz2NYVWCZLA1Um2pypbGlGwKkqDs58aU=;
+ b=KLv1awcWU9jligCLKdnybaCthKj8Yv7ExIpxNPm0A7XGFdXbQS0/U0rgEN4s5MWAmP
+ YIstBLEMZmsF3s8B4zdBzY5zUpvGnkD75Gv4eKpvER+TpZigZ5CRiMvNI8fTAHXmZs39
+ 9Q28D389JbZz0o0s5ynxbzhy23HDW7bkBNBXHXlQkPm/vdDENbqnaRDDddRvYlbJV035
+ d4NKTbnoYxYamRAAjBC7QVb8K0+UL/mYe/mUpn/sZpNxP0aEpkN0Eku2IEOpNISbYgmS
+ nx6kGDyGfCZ9NjYf2qragXwOQQAACiUIK8UrPQRBLDBEv0s7rTinsAoAmXLbbC1F6Vui
+ Te9A==
+X-Gm-Message-State: AOAM531nOUMwKCaqJ6bXXUGjZZbiKusfepbaKBSbXdmkM82RnXRzB001
+ froeXBe79x9H5G+/JKN9CwR3xg==
+X-Google-Smtp-Source: ABdhPJwjLN1XHU4mev5VprJICApjc1bKOpgi66n37g9iNM0PrIs/f57WwIFPnyTpB+Wg+d7zJOU4hw==
+X-Received: by 2002:a17:902:a413:b0:156:15b:524a with SMTP id
+ p19-20020a170902a41300b00156015b524amr355671plq.106.1648656678681; 
+ Wed, 30 Mar 2022 09:11:18 -0700 (PDT)
+Received: from localhost ([12.3.194.138]) by smtp.gmail.com with ESMTPSA id
+ y14-20020a056a001c8e00b004fa829db45csm21273726pfw.218.2022.03.30.09.11.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Mar 2022 09:11:18 -0700 (PDT)
+Date: Wed, 30 Mar 2022 09:11:18 -0700 (PDT)
+X-Google-Original-Date: Wed, 30 Mar 2022 09:11:15 PDT (-0700)
+Subject: Re: Re: [PATCH] target/riscv: Exit current TB after an sfence.vma
+In-Reply-To: <621d67f0.257cf.17fdad5aa33.Coremail.phantom@zju.edu.cn>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: phantom@zju.edu.cn,         linux-riscv@lists.infradead.org
+Message-ID: <mhng-496f47ba-62ce-4d29-b75e-99410775b504@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=palmer@dabbelt.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,77 +88,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- "bleal@redhat.com" <bleal@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "quintela@redhat.com" <quintela@redhat.com>,
- "f4bug@amsat.org" <f4bug@amsat.org>, qemu-devel <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, idan.horowitz@gmail.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+[re-ordering the top post]
 
---0pFDBdTY97nCGQHm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
++linux-riscv, as this may very well be a kernel bug
 
-On Wed, Mar 30, 2022 at 08:53:16AM -0400, Peter Xu wrote:
-> On Wed, Mar 30, 2022 at 11:04:24AM +0100, Stefan Hajnoczi wrote:
-> > This makes me wonder whether there is a deeper issue with the
-> > pci_setup_iommu() API: the lack of per-device cleanup callbacks.
-> > Per-device IOMMU resources should be freed when a device is hot
-> > unplugged.
-> >=20
-> > From what I can tell this is not the case today:
-> >=20
-> > - hw/i386/intel_iommu.c:vtd_find_add_as() allocates and adds device
-> >   address spaces but I can't find where they are removed and freed.
-> >   VTDAddressSpace instances pointed to from vtd_bus->dev_as[] are leake=
-d.
-> >=20
-> > - hw/i386/amd_iommu.c has similar leaks.
->=20
-> AFAICT it's because there's no device-specific data cached in the
-> per-device IOMMU address space, at least so far.  IOW, all the data
-> structures allocated here can be re-used when a new device is plugged in
-> after the old device unplugged.
->=20
-> It's definitely not ideal since after unplug (and before a new device
-> plugged in) the resource is not needed at all so it's kind of wasted, but
-> it should work functionally.  If to achieve that, some iommu_unplug() or
-> iommu_cleanup() hook sounds reasonable.
+On Wed, 30 Mar 2022 05:38:30 PDT (-0700), phantom@zju.edu.cn wrote:
+>> -----Original Messages-----
+>> From: "Idan Horowitz" <idan.horowitz@gmail.com>
+>> Sent Time: 2022-03-30 15:35:19 (Wednesday)
+>> To: "Atish Patra" <atishp@atishpatra.org>
+>> Cc: phantom@zju.edu.cn, "open list:RISC-V" <qemu-riscv@nongnu.org>, "Alistair Francis" <Alistair.Francis@wdc.com>, "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+>> Subject: Re: [PATCH] target/riscv: Exit current TB after an sfence.vma
+>> 
+>> On Wed, 30 Mar 2022 at 10:28, Atish Patra <atishp@atishpatra.org> wrote:
+>> >
+>> > I tested on v5.17 built from defconfig for rv64.
+>> >
+>> > Here is the kernel code executing sfence.vma
+>> > https://elixir.bootlin.com/linux/v5.17/source/arch/riscv/kernel/head.S#L122
+>> >
+>> 
+>> I believe this is a kernel bug and not a QEMU one. They perform a
+>> write to the SATP with the same ASID as the one used before (0) and
 
-I guess the question is whether PCI busses can be hotplugged with
-IOMMUs. If yes, then there is a memory leak that matters for
-intel_iommu.c and amd_iommu.c.
+I seem to remember ASID 0 being a special one, with some global-ness, 
+but I couldn't find that in a quick poke into the spec.  As below, I'm 
+going to read through this a bit more...
 
-Stefan
+(Also, I haven't had any coffee yet)
 
---0pFDBdTY97nCGQHm
-Content-Type: application/pgp-signature; name="signature.asc"
+>> then expect it to be used, without performing an sfence.vma following
+>> it.
+>> This was exposed by my change, as previously the write to the satp was
+>> performed in the same TB block as the sfence.vma *before it*, which
+>> meant the TLB was not filled in between the previous sfence and the
+>> write to SATP following it.
+>> I was able to reproduce the issue with the Fedora Rawhide image in the
+>> wiki, and I was able to resolve it by artificially forcing a TLB flush
+>> following all writes to SATP.
+>> I think the correct course of action here is to:
+>> 1. Report the issue to the linux kernel mailing list and/or contribute
+>> a patch that adds said missing sfence.vma following the SATP write.
+>> (Atish: Are you able to test if adding an sfence.vma in your kernel
+>> build fixes the issue?)
 
------BEGIN PGP SIGNATURE-----
+If it's a kernel bug we should fix it, but I'm not entirely convinced 
+that's the case.  I can confirm that the following makes Linux boot 
+again
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJEgHgACgkQnKSrs4Gr
-c8iudwf9E7Bg+W3Xh3d0BdaQNaYh1T+/iq4Ygb0w9VBvKYqR+ZS6UtDv9N4lsj2+
-hsQAupTXEHPACDgg3tVH+Uq34XJQKor2B5irwtzmdEGOny7+F338KUMdxkB1iPiB
-BCl6ZZ8BkcWmkkrSX/RmXY0KQ2Y9BYbfzYfurYA3qD5edt4++b1NluVoczhpruUd
-MNaOdhhLByNJuIO85+kOSl8SbLQ8yUnCHhgFfZc0e9a+C9KtGQFbxKH3SDuCw9I1
-xgo/dSVfQTothLG9rjS4hAZdLU9duStSu6Si0lfOrkf+y8xo1Vc8rhWMxrAzASAs
-EbMg65inf+4wegXoS8otGgW+Cn+UIw==
-=vpwQ
------END PGP SIGNATURE-----
+diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+index ec07f991866a..83373c2bd7d0 100644
+--- a/arch/riscv/kernel/head.S
++++ b/arch/riscv/kernel/head.S
+@@ -121,6 +121,7 @@ relocate:
+        or a0, a0, a1
+        sfence.vma
+        csrw CSR_SATP, a0
++       sfence.vma
+ .align 2
+ 1:
+        /* Set trap vector to spin forever to help debug */
 
---0pFDBdTY97nCGQHm--
+It's been a while since I read through the rules here so I'm going to go 
+read them again, but IIRC that shouldn't be necessary: that first 
+sfence.vma should be sufficiently global to ensure all prior writes to 
+the page tables are visible, regardless of what's in SATP.  That said, I 
+remember there being a lot of subtly here in the spec wording so I'm 
+going to go read the spec again.
 
+>> 2. Restore the patch
+
+Presumably you mean "revert" here?  That might be the right way to go, 
+just to avoid breaking users (even if we fix the kernel bug, it'll take 
+a while to get everyone to update).  That said, this smells like the 
+sort of thing that's going to crop up at arbitrary times in dynamic 
+systems so while a revert looks like it'd work around the boot issue we 
+might be making more headaches for folks down the road.
+
+> I agree with you partly, my test case is actually from linux kernel, I notice 
+> the strange sfence.vma before write satp during write our teaching kernel.
+> I think, the strange code is used to bypass the qemu bug that Idan patched.
+> Because in hardware, if the stap is empty, sfence.vma will do nothing.
+> And that's why nobody report it.
+
+IIUC the sfence.vma before the SATP write is very explicitly necessary: 
+without that fence old mappings could be utilized directly after the 
+SATP write, so we might not even be able to fetch the next instruction.
+
+> Before patch, qemu won't end a BB after sfence (but jump and CSR write do).
+> So, the kernel author reodered write stap and sfence.vma to make sfence.vma 
+> place in the same BB with write satp, instead of the following write stvec.
+> (If don't reorder, sfence.vma will place in the same BB with write stvec,
+> that will crash kernel, see my origin analysis).
+>
+> However, in hardware, since tlb is empty, put the first sfence.vma before or 
+> after write satp is not really matters.
+> In qemu, as Atish's log shown, we should do a imply invisible sfence.vma after
+> write stap to invalid qemu's translation cache.
+
+The ISA manual is quite explicit about SATP not enforcing these 
+orderings.  If what I remember about ASID 0 is true then I do think we'd 
+need one, though, to avoid the aliasing -- hopefully I'll make a bit 
+more sense soon, though...
 
