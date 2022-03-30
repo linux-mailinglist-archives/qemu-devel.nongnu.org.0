@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 994834ECB3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:03:37 +0200 (CEST)
-Received: from localhost ([::1]:39514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F8A4ECB60
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:08:07 +0200 (CEST)
+Received: from localhost ([::1]:48936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZcfQ-00033W-LJ
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:03:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41456)
+	id 1nZcjm-0001Gc-8h
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:08:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nZcba-0000Au-31; Wed, 30 Mar 2022 13:59:38 -0400
+ id 1nZcbc-0000Fp-Av; Wed, 30 Mar 2022 13:59:40 -0400
 Received: from [187.72.171.209] (port=21948 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nZcbY-0004ik-B1; Wed, 30 Mar 2022 13:59:37 -0400
+ id 1nZcbb-0004ik-0M; Wed, 30 Mar 2022 13:59:40 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 30 Mar 2022 14:59:33 -0300
+ Wed, 30 Mar 2022 14:59:34 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 70C4D8002AF;
+ by p9ibm (Postfix) with ESMTP id BCDC180060F;
  Wed, 30 Mar 2022 14:59:33 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [RFC PATCH 0/8] Alternative softfloat 128-bit integer support
-Date: Wed, 30 Mar 2022 14:59:24 -0300
-Message-Id: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
+Subject: [RFC PATCH 1/8] qemu/int128: avoid undefined behavior in int128_lshift
+Date: Wed, 30 Mar 2022 14:59:25 -0300
+Message-Id: <20220330175932.6995-2-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
+References: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 30 Mar 2022 17:59:33.0824 (UTC)
- FILETIME=[E98B6C00:01D8445F]
+X-OriginalArrivalTime: 30 Mar 2022 17:59:34.0183 (UTC)
+ FILETIME=[E9C23370:01D8445F]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,41 +65,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-This RFC is an alternative to [1] using Int128 types to implement the
-128-bit integer conversion routines in softfloat required by the
-xscv[su]qqp and xscvqp[su]qz instructions of PowerISA v3.1.
+Avoid the left shift of negative values in int128_lshift by casting
+a/a.hi to unsigned.
 
-Some improvements to int128.h are made in patches 1 and 2. Patches 3-6
-implement the conversion routines, and patches 7 and 8 implement the new
-instructions.
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ include/qemu/int128.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-RFC: Int128 vs. pair of 64-bit values.
- - Returning unsigned values through Int128 is not ideal, but creating
-   an "UInt128" just for this case seems excessive.
- - OTOH, there are fewer cases to handle, especially in float->int.
-
-[1] https://lists.gnu.org/archive/html/qemu-ppc/2022-03/msg00520.html
-
-Matheus Ferst (8):
-  qemu/int128: avoid undefined behavior in int128_lshift
-  qemu/int128: add int128_urshift
-  softfloat: add uint128_to_float128
-  softfloat: add int128_to_float128
-  softfloat: add float128_to_uint128
-  softfloat: add float128_to_int128
-  target/ppc: implement xscv[su]qqp
-  target/ppc: implement xscvqp[su]qz
-
- fpu/softfloat.c                     | 183 ++++++++++++++++++++++++++++
- include/fpu/softfloat.h             |   7 ++
- include/qemu/int128.h               |  25 +++-
- target/ppc/fpu_helper.c             |  33 +++++
- target/ppc/helper.h                 |   4 +
- target/ppc/insn32.decode            |   7 ++
- target/ppc/translate/vsx-impl.c.inc |  22 ++++
- tests/unit/test-int128.c            |  32 +++++
- 8 files changed, 311 insertions(+), 2 deletions(-)
-
+diff --git a/include/qemu/int128.h b/include/qemu/int128.h
+index 2c4064256c..2a19558ac6 100644
+--- a/include/qemu/int128.h
++++ b/include/qemu/int128.h
+@@ -85,7 +85,7 @@ static inline Int128 int128_rshift(Int128 a, int n)
+ 
+ static inline Int128 int128_lshift(Int128 a, int n)
+ {
+-    return a << n;
++    return (__uint128_t)a << n;
+ }
+ 
+ static inline Int128 int128_add(Int128 a, Int128 b)
+@@ -305,7 +305,7 @@ static inline Int128 int128_lshift(Int128 a, int n)
+     if (n >= 64) {
+         return int128_make128(0, l);
+     } else if (n > 0) {
+-        return int128_make128(l, (a.hi << n) | (a.lo >> (64 - n)));
++        return int128_make128(l, ((uint64_t)a.hi << n) | (a.lo >> (64 - n)));
+     }
+     return a;
+ }
 -- 
 2.25.1
 
