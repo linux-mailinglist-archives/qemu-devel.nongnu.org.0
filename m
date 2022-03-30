@@ -2,75 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D224EC42F
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 14:33:59 +0200 (CEST)
-Received: from localhost ([::1]:60888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57484EC4E3
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 14:47:35 +0200 (CEST)
+Received: from localhost ([::1]:48164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZXWQ-0003wz-1A
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 08:33:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46730)
+	id 1nZXja-0000Pd-Ib
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 08:47:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1nZXTh-00033q-CO
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:31:09 -0400
-Received: from [2a00:1450:4864:20::431] (port=45724
- helo=mail-wr1-x431.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1nZXTf-0002Lq-0R
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:31:08 -0400
-Received: by mail-wr1-x431.google.com with SMTP id w4so29018943wrg.12
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 05:31:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=aux709gFf+ijL72J7E8raGmImOubNMiB8QGegrrTDQg=;
- b=Lg0lzS6evrM8fe+AA+uJJEM9dqH3N4ipzUWxFs3ztC5rHE4OYBwbfhhQE2Y4ifZZBP
- ksMdhLnainry76twg5s0jmzXAqCMpu7xIAy8LO75Z4Pqrb3V7q4rNFKrEjs00dO9KE2p
- 94mQSI84c3ZAFyNhInGHTL3eycIK4Sq2BbrdczzGS8gOGvK+uTxjMDfERGzczHl04TcE
- iCBqmUlr9PanTJBB6QIhQWoC3kzxWfhc76oN7snb/FNdfcItANjNq6uZAIb3v7+RDn6+
- bTghZ9OQihFSbqSOyYV1i9dsp5mi8rKDg3WHmm/8xMcb1GwbcP3pNTI5/qDBTDn78wHq
- i6Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=aux709gFf+ijL72J7E8raGmImOubNMiB8QGegrrTDQg=;
- b=VL1DlfXl81o6976+XjqHgB2aK2vNqSRug+ap/ANy9ckUwfIhX63mc+fhHcTEW78Ubr
- yycq5lQIyeNq1DWhkYg8ZIsNmp2oTe+zdTxeS/xAgJM7iT5yj1V3s4Gmjdn2hBamAZt/
- wrmUx443qNXhM/cHDRFicOepscHvfcMrwTHh/vhfyEkE/qwDFtBORAmQWNohY24QV647
- wR4jpXxZqbK3do3vnUABT+B0v45QW3XDLGjEziJkKuoL392OjtW/Cvb3oW3eyloFp4Zb
- squVjOuC1dbCTD3UYmtNKIVKwgUF3VmfetuuMuMZxDilqUgVg++7upUHfOVn3DByhUBK
- wT4w==
-X-Gm-Message-State: AOAM533pdS1J1O6nKetBvXo+fNO8J848ShwEmWuanX3rfJJN8dDjUczt
- jci1JXf4+lB53cKJr1caF/KUBczLRRjdOw==
-X-Google-Smtp-Source: ABdhPJxe7cuwqVDA+fug7wvR3IGho+0DoVBWWY7fm2qzO/uyB60ZpDO8ZDpCt6HUw3jVx39UELjV3Q==
-X-Received: by 2002:a5d:4609:0:b0:203:e792:3add with SMTP id
- t9-20020a5d4609000000b00203e7923addmr38301117wrq.657.1648643465009; 
- Wed, 30 Mar 2022 05:31:05 -0700 (PDT)
-Received: from localhost.localdomain.localdomain ([37.58.245.230])
- by smtp.gmail.com with ESMTPSA id
- i10-20020a0560001aca00b00203daf3759asm18137980wry.68.2022.03.30.05.31.03
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 30 Mar 2022 05:31:03 -0700 (PDT)
-From: Frederic Konrad <konrad@adacore.com>
-X-Google-Original-From: Frederic Konrad <frederic.konrad@adacore.com>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1nZXZT-0006Xf-3a
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:37:10 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1nZXZP-0003Mb-Sx
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:37:05 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22UBEiFf007792; 
+ Wed, 30 Mar 2022 12:37:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=5HRoftA22pfXuq1qN4ZTU6lH6aOnSQm7eS+l9NxWfF8=;
+ b=SNDYGL5mi4SNX4ZtHwnCOFkbK4ptbOxhXVQsaDd/kHByFjPf+0agymiHD5H0KFXvBd0/
+ XFlU9uKxUCO43LvRfIitORK3RXz0274kqG8JqTRyFi6eFhAeuH9ujmPTdGygqJ0NGWFe
+ /LvfTIwTPYHl4Bp1pIZJh3yl3ivrZKJD/+wVE3Qoz7FBYJ3MmMR5jNX4aL5iUqO5z4CY
+ f480jOp7Z3SRXIfaJS/p677PDldUQJy5zvoP/CgNdeY6xUAlGn6XGTKvY6SvpPexTPSe
+ X5s4oYhYzdxj4C2/7xK994fZsBLW21Csyja6GgMDeX73RwvPKP0vF1T4GBRi7SKAMHXL CA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f3yy565bs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Mar 2022 12:37:00 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22UCTPlY018406;
+ Wed, 30 Mar 2022 12:37:00 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f3yy565b2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Mar 2022 12:37:00 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22UCMLAX030939;
+ Wed, 30 Mar 2022 12:36:58 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 3f1tf90js2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Mar 2022 12:36:58 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22UCauMI40304968
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 30 Mar 2022 12:36:56 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 17ED952069;
+ Wed, 30 Mar 2022 12:36:56 +0000 (GMT)
+Received: from linux6.. (unknown [9.114.12.104])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 98EEC52052;
+ Wed, 30 Mar 2022 12:36:55 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] MAINTAINERS: change Fred Konrad's email address
-Date: Wed, 30 Mar 2022 14:26:57 +0200
-Message-Id: <1648643217-15811-1-git-send-email-frederic.konrad@adacore.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=konrad@adacore.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Subject: [PATCH v3 0/9] dump: Cleanup and consolidation
+Date: Wed, 30 Mar 2022 12:35:54 +0000
+Message-Id: <20220330123603.107120-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: rGTQuw7f-9rydds1vk93jasaP9Zz6mHu
+X-Proofpoint-ORIG-GUID: hyo51jN_5iTbdbipLqx3WAOVIo4Ndcep
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-30_03,2022-03-30_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 priorityscore=1501 suspectscore=0 adultscore=0
+ impostorscore=0 mlxscore=0 spamscore=0 bulkscore=0 mlxlogscore=628
+ malwarescore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2202240000 definitions=main-2203300063
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,50 +106,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Frederic Konrad <frederic.konrad@adacore.com>,
- f4bug@amsat.org, chouteau@adacore.com
+Cc: marcandre.lureau@redhat.com, richard.henderson@linaro.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-frederic.konrad@adacore.com and konrad@adacore.com will stop working starting
-2022-04-01.
+The dump/dump.c file has lots of duplicated code for handling 64 and
+32 bit elf files. Additionally there are many instances where code can
+be improved by adding a variable to avoid having to specify the same
+calculation or check over and over.
 
-Use my personal email instead.
+This series is the cleanup step onto which my series that adds custom
+section support and finally the series that introduces PV dump support
+are based on.
 
-Signed-off-by: Frederic Konrad <frederic.konrad@adacore.com>
----
- .mailmap    | 3 ++-
- MAINTAINERS | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+Personal comments:
+It's taken me quite a while to understand how the code works and I
+expect that this patch might improve that but it won't fix every
+issue. Going forward it might make sense to split kdump and elf dump
+code into separate files and also cleanup the kdump code.
 
-diff --git a/.mailmap b/.mailmap
-index 09dcd8c216..2976a675ea 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -56,7 +56,8 @@ Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
- Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
- Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
- Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
--Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
-+Frederic Konrad <konrad.frederic@yahoo.fr> <fred.konrad@greensocs.com>
-+Frederic Konrad <konrad.frederic@yahoo.fr> <konrad@adacore.com>
- Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
- Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
- Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cc364afef7..68142340bd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1533,7 +1533,7 @@ F: include/hw/rtc/sun4v-rtc.h
- 
- Leon3
- M: Fabien Chouteau <chouteau@adacore.com>
--M: KONRAD Frederic <frederic.konrad@adacore.com>
-+M: Frederic Konrad <konrad.frederic@yahoo.fr>
- S: Maintained
- F: hw/sparc/leon3.c
- F: hw/*/grlib*
+v3:
+	* Rebased
+	* Moved 64 bit tests to positive checks
+	* Removed unneeded code
+	* Added review-bys
+
+v2:
+	* Added the ERRP_GUARD() patch which converts dump.c to the
+          new error handling methods
+	* Switched patches #2 and #3 around
+	* Added a patch that removes the section if/else
+	* Moved dump_is_64bit() to dump.c
+
+Janosch Frank (9):
+  dump: Use ERRP_GUARD()
+  dump: Remove the sh_info variable
+  dump: Introduce shdr_num to decrease complexity
+  dump: Remove the section if when calculating the memory offset
+  dump: Add more offset variables
+  dump: Introduce dump_is_64bit() helper function
+  dump: Consolidate phdr note writes
+  dump: Cleanup dump_begin write functions
+  dump: Consolidate elf note function
+
+ dump/dump.c           | 362 ++++++++++++++++++------------------------
+ include/sysemu/dump.h |   9 +-
+ 2 files changed, 162 insertions(+), 209 deletions(-)
+
 -- 
-2.30.1
+2.32.0
 
 
