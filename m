@@ -2,57 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9D74EC517
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:01:16 +0200 (CEST)
-Received: from localhost ([::1]:48206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED664EC4EA
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 14:49:30 +0200 (CEST)
+Received: from localhost ([::1]:53086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZXwo-0003nK-VS
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:01:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48238)
+	id 1nZXlR-0003mW-Cm
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 08:49:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <phantom@zju.edu.cn>)
- id 1nZXbG-0008M4-Df; Wed, 30 Mar 2022 08:39:00 -0400
-Received: from mail.zju.edu.cn ([61.164.42.155]:13242 helo=zju.edu.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <phantom@zju.edu.cn>)
- id 1nZXb7-0003Z0-R7; Wed, 30 Mar 2022 08:38:54 -0400
-Received: by ajax-webmail-mail-app2 (Coremail) ; Wed, 30 Mar 2022 20:38:30
- +0800 (GMT+08:00)
-X-Originating-IP: [10.190.67.184]
-Date: Wed, 30 Mar 2022 20:38:30 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: phantom@zju.edu.cn
-To: "Idan Horowitz" <idan.horowitz@gmail.com>
-Subject: Re: Re: [PATCH] target/riscv: Exit current TB after an sfence.vma
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.8 build 20200806(7a9be5e8)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <CA+4MfEKzZStKBx3-FVm8uiyh=LhiWAXPvChxGyVD20sHkcQRSg@mail.gmail.com>
-References: <7f383fc2.81a2.17f93c0dad7.Coremail.phantom@zju.edu.cn>
- <CAOnJCUJck5o_-cayf-=mccenoZH048+2zhGDGOoWKiVMUFWWmQ@mail.gmail.com>
- <CA+4MfE+hFQhRYEgEXy-u10=MBhnmA5f7MdRFjW7Xc0dLPSiLXw@mail.gmail.com>
- <CAOnJCU+ZMnLoi2GNDdKz24KJbHpEBQT1=Qo5LbSE1xz=WvwbrA@mail.gmail.com>
- <CA+4MfEKzZStKBx3-FVm8uiyh=LhiWAXPvChxGyVD20sHkcQRSg@mail.gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <chouteau@adacore.com>)
+ id 1nZXjX-0001fD-Kf
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:47:31 -0400
+Received: from [2607:f8b0:4864:20::b2a] (port=37563
+ helo=mail-yb1-xb2a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chouteau@adacore.com>)
+ id 1nZXjV-0000IB-7z
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:47:30 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id m67so36596760ybm.4
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 05:47:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Xi+BHC21K8niI1suo3bapb2Q8F8jGu2U3Rl2Ocpo3D0=;
+ b=Iz9VeVYd5dEeTX1VcjGCY8kkFQs64YsesGhLhxurDh0O7Fu71uitbdJ4FtcJNX2y56
+ NTo4+6ukrzjieuktwnBBpD8KHYikbNfAdz+bsgck1wys/+YclO6RrnPszSEI4QutGphf
+ A4UHteNpYaiAmJG8ogJDvZddb/xJhA0tZUf7JdMAVo3TRlinHoyUI+6ZPa2+3EcyDDYC
+ WuCBaN8Qha9f1kDl1lIfzq6xaFuiwq+tARZ+q0JECfwvlEXW9pF65dNspdWSzlD1vdii
+ 8vtcp86lUizMCYO03TFItPVk2EHSdrMQV/rJDL+6eln2/WUNS87r1HSskbYnzox2j2kL
+ uvuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Xi+BHC21K8niI1suo3bapb2Q8F8jGu2U3Rl2Ocpo3D0=;
+ b=1aEfqEyWoQ5qE9pfZYJAwViHeQ/d9OzlUFtHokW+/w6dd/59k338nHCRcRSQHoRZvs
+ hkJ1AfhYw1aAfUCzERbSPh6Wy6KEZZOoF+oU4wIklPH5wJmZbUEldRJHZfaSQ0P6YOrQ
+ 4k75t1vxQGWW7+IF5KLc93Uc2HhfxJlP2cT3rujI2sQnnyGmuXrUERpK8/364FK0eKiD
+ BZ6TKaXsuKHcgVpNfxPE3f0K4Du6hxgBU6oCFNWMUFAmDSIifp6eQT/4Z1ifdsXFyrOn
+ ORMh05MYQeNyrvqOEbsBkHdh5ocaO2QAy9ykYLd3ArRQUQkwGQ5Xmn+Wy7v1CPab3Iz6
+ Df9g==
+X-Gm-Message-State: AOAM531YVyT61OGVDzVtS/nuASsnzCMgG6hWd9cNNX2K6QCvJipyZvMO
+ zSRJZpDV5WBfoDm1yDglmhOezzkPWOAuKrSVTwYZ6v2sk2Nfytr1
+X-Google-Smtp-Source: ABdhPJx8PiouVd0BV+uM/uy4dqZuNNSMwohoV9A1LA1I9dCrZ5a3ZSPpGGPcnOAMOEAfUaGkKNDOXCSdfIaT4WpZZH0=
+X-Received: by 2002:a81:78f:0:b0:2e5:bf12:5edc with SMTP id
+ 137-20020a81078f000000b002e5bf125edcmr35777349ywh.433.1648644079116; Wed, 30
+ Mar 2022 05:41:19 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <621d67f0.257cf.17fdad5aa33.Coremail.phantom@zju.edu.cn>
-X-Coremail-Locale: en_US
-X-CM-TRANSID: by_KCgCXDxdGT0Ri7GTIAA--.18663W
-X-CM-SenderInfo: qssqjiatstq6lmxovvfxof0/1tbiAgIFAVZdtY9ZVwAAs7
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=61.164.42.155; envelope-from=phantom@zju.edu.cn;
- helo=zju.edu.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <1648643217-15811-1-git-send-email-frederic.konrad@adacore.com>
+In-Reply-To: <1648643217-15811-1-git-send-email-frederic.konrad@adacore.com>
+From: Fabien Chouteau <chouteau@adacore.com>
+Date: Wed, 30 Mar 2022 14:41:08 +0200
+Message-ID: <CALQG_WjoK5QRNZWbz+7ZgRCPw7gUJy3J-tSZ7Mnz5RXqY+xZnA@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: change Fred Konrad's email address
+To: Frederic Konrad <konrad@adacore.com>
+Content-Type: multipart/alternative; boundary="000000000000b275b405db6edc4e"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=chouteau@adacore.com; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 30 Mar 2022 08:57:42 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,55 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair.Francis@wdc.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Frederic Konrad <frederic.konrad@adacore.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SSBhZ3JlZSB3aXRoIHlvdSBwYXJ0bHksIG15IHRlc3QgY2FzZSBpcyBhY3R1YWxseSBmcm9tIGxp
-bnV4IGtlcm5lbCwgSSBub3RpY2UgCnRoZSBzdHJhbmdlIHNmZW5jZS52bWEgYmVmb3JlIHdyaXRl
-IHNhdHAgZHVyaW5nIHdyaXRlIG91ciB0ZWFjaGluZyBrZXJuZWwuCkkgdGhpbmssIHRoZSBzdHJh
-bmdlIGNvZGUgaXMgdXNlZCB0byBieXBhc3MgdGhlIHFlbXUgYnVnIHRoYXQgSWRhbiBwYXRjaGVk
-LgpCZWNhdXNlIGluIGhhcmR3YXJlLCBpZiB0aGUgc3RhcCBpcyBlbXB0eSwgc2ZlbmNlLnZtYSB3
-aWxsIGRvIG5vdGhpbmcuCkFuZCB0aGF0J3Mgd2h5IG5vYm9keSByZXBvcnQgaXQuCkJlZm9yZSBw
-YXRjaCwgcWVtdSB3b24ndCBlbmQgYSBCQiBhZnRlciBzZmVuY2UgKGJ1dCBqdW1wIGFuZCBDU1Ig
-d3JpdGUgZG8pLgpTbywgdGhlIGtlcm5lbCBhdXRob3IgcmVvZGVyZWQgd3JpdGUgc3RhcCBhbmQg
-c2ZlbmNlLnZtYSB0byBtYWtlIHNmZW5jZS52bWEgCnBsYWNlIGluIHRoZSBzYW1lIEJCIHdpdGgg
-d3JpdGUgc2F0cCwgaW5zdGVhZCBvZiB0aGUgZm9sbG93aW5nIHdyaXRlIHN0dmVjLgooSWYgZG9u
-J3QgcmVvcmRlciwgc2ZlbmNlLnZtYSB3aWxsIHBsYWNlIGluIHRoZSBzYW1lIEJCIHdpdGggd3Jp
-dGUgc3R2ZWMsCnRoYXQgd2lsbCBjcmFzaCBrZXJuZWwsIHNlZSBteSBvcmlnaW4gYW5hbHlzaXMp
-LgoKSG93ZXZlciwgaW4gaGFyZHdhcmUsIHNpbmNlIHRsYiBpcyBlbXB0eSwgcHV0IHRoZSBmaXJz
-dCBzZmVuY2Uudm1hIGJlZm9yZSBvciAKYWZ0ZXIgd3JpdGUgc2F0cCBpcyBub3QgcmVhbGx5IG1h
-dHRlcnMuCkluIHFlbXUsIGFzIEF0aXNoJ3MgbG9nIHNob3duLCB3ZSBzaG91bGQgZG8gYSBpbXBs
-eSBpbnZpc2libGUgc2ZlbmNlLnZtYSBhZnRlcgp3cml0ZSBzdGFwIHRvIGludmFsaWQgcWVtdSdz
-IHRyYW5zbGF0aW9uIGNhY2hlLgoKSmlueWFuCgoKPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2VzLS0t
-LS0KPiBGcm9tOiAiSWRhbiBIb3Jvd2l0eiIgPGlkYW4uaG9yb3dpdHpAZ21haWwuY29tPgo+IFNl
-bnQgVGltZTogMjAyMi0wMy0zMCAxNTozNToxOSAoV2VkbmVzZGF5KQo+IFRvOiAiQXRpc2ggUGF0
-cmEiIDxhdGlzaHBAYXRpc2hwYXRyYS5vcmc+Cj4gQ2M6IHBoYW50b21Aemp1LmVkdS5jbiwgIm9w
-ZW4gbGlzdDpSSVNDLVYiIDxxZW11LXJpc2N2QG5vbmdudS5vcmc+LCAiQWxpc3RhaXIgRnJhbmNp
-cyIgPEFsaXN0YWlyLkZyYW5jaXNAd2RjLmNvbT4sICJxZW11LWRldmVsQG5vbmdudS5vcmcgRGV2
-ZWxvcGVycyIgPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz4KPiBTdWJqZWN0OiBSZTogW1BBVENIXSB0
-YXJnZXQvcmlzY3Y6IEV4aXQgY3VycmVudCBUQiBhZnRlciBhbiBzZmVuY2Uudm1hCj4gCj4gT24g
-V2VkLCAzMCBNYXIgMjAyMiBhdCAxMDoyOCwgQXRpc2ggUGF0cmEgPGF0aXNocEBhdGlzaHBhdHJh
-Lm9yZz4gd3JvdGU6Cj4gPgo+ID4gSSB0ZXN0ZWQgb24gdjUuMTcgYnVpbHQgZnJvbSBkZWZjb25m
-aWcgZm9yIHJ2NjQuCj4gPgo+ID4gSGVyZSBpcyB0aGUga2VybmVsIGNvZGUgZXhlY3V0aW5nIHNm
-ZW5jZS52bWEKPiA+IGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y1LjE3L3NvdXJj
-ZS9hcmNoL3Jpc2N2L2tlcm5lbC9oZWFkLlMjTDEyMgo+ID4KPiAKPiBJIGJlbGlldmUgdGhpcyBp
-cyBhIGtlcm5lbCBidWcgYW5kIG5vdCBhIFFFTVUgb25lLiBUaGV5IHBlcmZvcm0gYQo+IHdyaXRl
-IHRvIHRoZSBTQVRQIHdpdGggdGhlIHNhbWUgQVNJRCBhcyB0aGUgb25lIHVzZWQgYmVmb3JlICgw
-KSBhbmQKPiB0aGVuIGV4cGVjdCBpdCB0byBiZSB1c2VkLCB3aXRob3V0IHBlcmZvcm1pbmcgYW4g
-c2ZlbmNlLnZtYSBmb2xsb3dpbmcKPiBpdC4KPiBUaGlzIHdhcyBleHBvc2VkIGJ5IG15IGNoYW5n
-ZSwgYXMgcHJldmlvdXNseSB0aGUgd3JpdGUgdG8gdGhlIHNhdHAgd2FzCj4gcGVyZm9ybWVkIGlu
-IHRoZSBzYW1lIFRCIGJsb2NrIGFzIHRoZSBzZmVuY2Uudm1hICpiZWZvcmUgaXQqLCB3aGljaAo+
-IG1lYW50IHRoZSBUTEIgd2FzIG5vdCBmaWxsZWQgaW4gYmV0d2VlbiB0aGUgcHJldmlvdXMgc2Zl
-bmNlIGFuZCB0aGUKPiB3cml0ZSB0byBTQVRQIGZvbGxvd2luZyBpdC4KPiBJIHdhcyBhYmxlIHRv
-IHJlcHJvZHVjZSB0aGUgaXNzdWUgd2l0aCB0aGUgRmVkb3JhIFJhd2hpZGUgaW1hZ2UgaW4gdGhl
-Cj4gd2lraSwgYW5kIEkgd2FzIGFibGUgdG8gcmVzb2x2ZSBpdCBieSBhcnRpZmljaWFsbHkgZm9y
-Y2luZyBhIFRMQiBmbHVzaAo+IGZvbGxvd2luZyBhbGwgd3JpdGVzIHRvIFNBVFAuCj4gSSB0aGlu
-ayB0aGUgY29ycmVjdCBjb3Vyc2Ugb2YgYWN0aW9uIGhlcmUgaXMgdG86Cj4gMS4gUmVwb3J0IHRo
-ZSBpc3N1ZSB0byB0aGUgbGludXgga2VybmVsIG1haWxpbmcgbGlzdCBhbmQvb3IgY29udHJpYnV0
-ZQo+IGEgcGF0Y2ggdGhhdCBhZGRzIHNhaWQgbWlzc2luZyBzZmVuY2Uudm1hIGZvbGxvd2luZyB0
-aGUgU0FUUCB3cml0ZS4KPiAoQXRpc2g6IEFyZSB5b3UgYWJsZSB0byB0ZXN0IGlmIGFkZGluZyBh
-biBzZmVuY2Uudm1hIGluIHlvdXIga2VybmVsCj4gYnVpbGQgZml4ZXMgdGhlIGlzc3VlPykKPiAy
-LiBSZXN0b3JlIHRoZSBwYXRjaAo+IAo+ID4KPiA+IC0tCj4gPiBSZWdhcmRzLAo+ID4gQXRpc2gK
-PiAKPiBJZGFuIEhvcm93aXR6Cg==
+--000000000000b275b405db6edc4e
+Content-Type: text/plain; charset="UTF-8"
+
+On Wed, Mar 30, 2022 at 2:31 PM Frederic Konrad <konrad@adacore.com> wrote:
+
+> frederic.konrad@adacore.com and konrad@adacore.com will stop working
+> starting
+> 2022-04-01.
+>
+> Use my personal email instead.
+>
+>
+Reviewed-by: Fabien Chouteau <chouteau@adacore.com <clg@kaod.org>>
+
+-- 
+Fabien Chouteau
+
+--000000000000b275b405db6edc4e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, Mar 30, 2022 at 2:31 PM Frederic Konrad &lt;<a href=3D"mailt=
+o:konrad@adacore.com">konrad@adacore.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex"><a href=3D"mailto:frederic.konrad@a=
+dacore.com" target=3D"_blank">frederic.konrad@adacore.com</a> and <a href=
+=3D"mailto:konrad@adacore.com" target=3D"_blank">konrad@adacore.com</a> wil=
+l stop working starting<br>
+2022-04-01.<br>
+<br>
+Use my personal email instead.<br>
+<br></blockquote><div><br></div><div>Reviewed-by: Fabien Chouteau &lt;<a hr=
+ef=3D"mailto:chouteau@adacore.com">chouteau@adacore.com</a><a href=3D"mailt=
+o:clg@kaod.org" target=3D"_blank"></a>&gt;</div><div>=C2=A0</div></div>-- <=
+br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr">Fabien Chout=
+eau<br></div></div></div>
+
+--000000000000b275b405db6edc4e--
 
