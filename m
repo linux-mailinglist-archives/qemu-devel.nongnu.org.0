@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D335F4EBE99
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:22:55 +0200 (CEST)
-Received: from localhost ([::1]:60226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C4C4EBEA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:24:20 +0200 (CEST)
+Received: from localhost ([::1]:35454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZVTZ-0008NV-Ox
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:22:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38248)
+	id 1nZVUw-0002Wp-1i
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:24:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nZVBr-0003LX-HT
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:04:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31049)
+ id 1nZVDc-0004VI-UK
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:06:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nZVBp-0006KN-LR
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:04:35 -0400
+ id 1nZVDa-0006gs-TO
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:06:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648634672;
+ s=mimecast20190719; t=1648634782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3iCjGPbg72QXMqJ0EHNM9dlXE/6xgF5oRJGumQ7kfs4=;
- b=alYvJvALner24XPa0igaLMy6wk7dxOkxWCAAja2tArSZ4mEe01rG3b40lYclyS90zhN8bZ
- 5Z7asvmPGj7qLebb2fngh0q/QHr/yv7w7iZCdVlko4UwGTEf+Zg5wsxHb5vcz/pEE/SUK6
- 0hVZmBEN1EnzKoZ73Q69anSxXUcZ3/c=
+ bh=aP9kiyOUvJGd8sbxOacYzreRZ2g3Z8DOeFGnLd8Slko=;
+ b=A0UaaAgOeRIhD6BZqs24uaWXkrNbE3e9u3R6oI+1f0R0kReY4fdC3BdRQNBEHuphcbOsri
+ U0wC/FbbsrNl/jkHRqwgwT4uc7l17Bcbgc92MfFW6+W8pBB8edOqLmKuzNMPHq9yalCDIY
+ uC0e0L89FGjn2tscQnQYGq1S7DM3A5E=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614--V3bvD-HMYSejsXFz8jwew-1; Wed, 30 Mar 2022 06:04:26 -0400
-X-MC-Unique: -V3bvD-HMYSejsXFz8jwew-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-335--0mJcVwNOm-QtsIYQgO2Hw-1; Wed, 30 Mar 2022 06:06:19 -0400
+X-MC-Unique: -0mJcVwNOm-QtsIYQgO2Hw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 047CB899EC2;
- Wed, 30 Mar 2022 10:04:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 25990803FF2;
+ Wed, 30 Mar 2022 10:06:07 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9969A42B95F;
- Wed, 30 Mar 2022 10:04:25 +0000 (UTC)
-Date: Wed, 30 Mar 2022 11:04:24 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE8F740CF915;
+ Wed, 30 Mar 2022 10:06:02 +0000 (UTC)
+Date: Wed, 30 Mar 2022 11:05:59 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jag Raman <jag.raman@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH v7 12/17] vfio-user: IOMMU support for remote device
-Message-ID: <YkQrKI0Az/k8Hc8g@stefanha-x1.localdomain>
+To: Jag Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v7 14/17] vfio-user: handle PCI BAR accesses
+Message-ID: <YkQrh5pWniHTT1LK@stefanha-x1.localdomain>
 References: <cover.1648234157.git.jag.raman@oracle.com>
- <2fdb90acd40a1f79d571d4e68c56e6b08aded60d.1648234157.git.jag.raman@oracle.com>
- <YkL9C+oMUSav9y95@stefanha-x1.localdomain>
- <AC3FD7EB-773E-4684-9A86-176EDDAC135D@oracle.com>
- <YkMcJDFVFu/fW/a5@stefanha-x1.localdomain>
- <7022E4C4-D71A-4A6E-A5D8-222A9462654C@oracle.com>
+ <1c2cc82cc72964216fb63270805fefb095f4d4a8.1648234157.git.jag.raman@oracle.com>
+ <YkMArX56GKwOTsc0@stefanha-x1.localdomain>
+ <45272D4A-0625-446A-804E-3211F2D91B81@oracle.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ME+KmDYEwwUemRDi"
+ protocol="application/pgp-signature"; boundary="c/RdGjUPDv/VDlvJ"
 Content-Disposition: inline
-In-Reply-To: <7022E4C4-D71A-4A6E-A5D8-222A9462654C@oracle.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <45272D4A-0625-446A-804E-3211F2D91B81@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,7 +87,8 @@ Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
  "john.levon@nutanix.com" <john.levon@nutanix.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
  "quintela@redhat.com" <quintela@redhat.com>,
- "f4bug@amsat.org" <f4bug@amsat.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
  Alex Williamson <alex.williamson@redhat.com>,
  Kanth Ghatraju <kanth.ghatraju@oracle.com>,
  "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
@@ -101,110 +99,116 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ME+KmDYEwwUemRDi
-Content-Type: text/plain; charset=utf-8
+--c/RdGjUPDv/VDlvJ
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 29, 2022 at 07:58:51PM +0000, Jag Raman wrote:
+On Tue, Mar 29, 2022 at 03:51:17PM +0000, Jag Raman wrote:
 >=20
 >=20
-> > On Mar 29, 2022, at 10:48 AM, Stefan Hajnoczi <stefanha@redhat.com> wro=
-te:
+> > On Mar 29, 2022, at 8:50 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
 > >=20
-> > On Tue, Mar 29, 2022 at 02:12:40PM +0000, Jag Raman wrote:
-> >>> On Mar 29, 2022, at 8:35 AM, Stefan Hajnoczi <stefanha@redhat.com> wr=
-ote:
-> >>> On Fri, Mar 25, 2022 at 03:19:41PM -0400, Jagannathan Raman wrote:
-> >>>> +void remote_iommu_del_device(PCIDevice *pci_dev)
-> >>>> +{
-> >>>> +    int pci_bdf;
-> >>>> +
-> >>>> +    if (!remote_iommu_table.elem_by_bdf || !pci_dev) {
-> >>>> +        return;
-> >>>> +    }
-> >>>> +
-> >>>> +    pci_bdf =3D PCI_BUILD_BDF(pci_bus_num(pci_get_bus(pci_dev)), pc=
-i_dev->devfn);
-> >>>> +
-> >>>> +    qemu_mutex_lock(&remote_iommu_table.lock);
-> >>>> +    g_hash_table_remove(remote_iommu_table.elem_by_bdf, INT2VOIDP(p=
-ci_bdf));
-> >>>> +    qemu_mutex_unlock(&remote_iommu_table.lock);
-> >>>> +}
-> >>>> +
-> >>>> +void remote_configure_iommu(PCIBus *pci_bus)
-> >>>> +{
-> >>>> +    if (!remote_iommu_table.elem_by_bdf) {
-> >>>> +        remote_iommu_table.elem_by_bdf =3D
-> >>>> +            g_hash_table_new_full(NULL, NULL, NULL, remote_iommu_de=
-l_elem);
-> >>>> +        qemu_mutex_init(&remote_iommu_table.lock);
-> >>>> +    }
-> >>>> +
-> >>>> +    pci_setup_iommu(pci_bus, remote_iommu_find_add_as, &remote_iomm=
-u_table);
-> >>>=20
-> >>> Why is remote_iommu_table global? It could be per-PCIBus and indexed =
-by
-> >>> just devfn instead of the full BDF.
+> > On Fri, Mar 25, 2022 at 03:19:43PM -0400, Jagannathan Raman wrote:
+> >> @@ -324,6 +325,170 @@ static void dma_unregister(vfu_ctx_t *vfu_ctx, v=
+fu_dma_info_t *info)
+> >>     trace_vfu_dma_unregister((uint64_t)info->iova.iov_base);
+> >> }
 > >>=20
-> >> It=E2=80=99s global because remote_iommu_del_device() needs it for cle=
-anup.
+> >> +static size_t vfu_object_bar_rw(PCIDevice *pci_dev, int pci_bar,
+> >> +                                hwaddr offset, char * const buf,
+> >> +                                hwaddr len, const bool is_write)
+> >> +{
+> >> +    uint8_t *ptr =3D (uint8_t *)buf;
+> >> +    uint8_t *ram_ptr =3D NULL;
+> >> +    bool release_lock =3D false;
+> >> +    MemoryRegionSection section =3D { 0 };
+> >> +    MemoryRegion *mr =3D NULL;
+> >> +    int access_size;
+> >> +    hwaddr size =3D 0;
+> >> +    MemTxResult result;
+> >> +    uint64_t val;
+> >> +
+> >> +    section =3D memory_region_find(pci_dev->io_regions[pci_bar].memor=
+y,
+> >> +                                 offset, len);
+> >> +
+> >> +    if (!section.mr) {
+> >> +        return 0;
+> >> +    }
+> >> +
+> >> +    mr =3D section.mr;
+> >> +    offset =3D section.offset_within_region;
+> >> +
+> >> +    if (is_write && mr->readonly) {
+> >> +        warn_report("vfu: attempting to write to readonly region in "
+> >> +                    "bar %d - [0x%"PRIx64" - 0x%"PRIx64"]",
+> >> +                    pci_bar, offset, (offset + len));
+> >> +        return 0;
 > >=20
-> > Can remote_iommu_del_device() use pci_get_bis(pci_dev)->irq_opaque to
-> > get the per-bus table?
+> > A mr reference is leaked. The return statement can be replaced with goto
+> > exit.
 >=20
-> pci_get_bus(pci_dev)->irq_opaque is used for interrupts.
+> OK.
 >=20
-> PCIBus already has an iommu_opaque, which is a private
-> member of the bus structure. It=E2=80=99s passed as an argument
-> to the iommu_fn().
+> >=20
+> >> +    }
+> >> +
+> >> +    if (memory_access_is_direct(mr, is_write)) {
+> >> +        /**
+> >> +         * Some devices expose a PCI expansion ROM, which could be bu=
+ffer
+> >> +         * based as compared to other regions which are primarily bas=
+ed on
+> >> +         * MemoryRegionOps. memory_region_find() would already check
+> >> +         * for buffer overflow, we don't need to repeat it here.
+> >> +         */
+> >> +        ram_ptr =3D memory_region_get_ram_ptr(mr);
+> >> +
+> >> +        size =3D len;
+> >=20
+> > This looks like it will access beyond the end of ram_ptr when
+> > section.size < len after memory_region_find() returns.
 >=20
-> We could add a getter function to retrieve PCIBus->iommu_opaque
-> in remote_iommu_del_device(). That way we could avoid the global variable.
+> OK - will will handle shorter sections returned by memory_region_find().
+>=20
+> >=20
+> >> +
+> >> +        if (is_write) {
+> >> +            memcpy((ram_ptr + offset), buf, size);
+> >> +        } else {
+> >> +            memcpy(buf, (ram_ptr + offset), size);
+> >> +        }
+> >> +
+> >> +        goto exit;
+> >=20
+> > What happens when the access spans two adjacent MemoryRegions? I think
+> > the while (len > 0) loop is needed even in the memory_access_is_direct()
+> > case so we perform the full access instead of truncating it.
+>=20
+> OK - this should be covered by the shorter section handling above.
 
-I've CCed Michael, Peter, and Jason regarding IOMMUs.
-
-This makes me wonder whether there is a deeper issue with the
-pci_setup_iommu() API: the lack of per-device cleanup callbacks.
-Per-device IOMMU resources should be freed when a device is hot
-unplugged.
-
-=46rom what I can tell this is not the case today:
-
-- hw/i386/intel_iommu.c:vtd_find_add_as() allocates and adds device
-  address spaces but I can't find where they are removed and freed.
-  VTDAddressSpace instances pointed to from vtd_bus->dev_as[] are leaked.
-
-- hw/i386/amd_iommu.c has similar leaks.
-
-Your patch introduces a custom remote_iommu_del_device() function, but I
-think the pci_setup_iommu() API should take a device_del() callback so
-IOMMUs have a standard interface for handling per-device cleanup.
-
-BTW in your case remote_iommu_del_device() is sufficient because hot
-unplug is blocked by the new unplug blocker mechanism you introduced.
-For other IOMMUs unplug will not be blocked and therefore IOMMUs really
-need a callback for per-device cleanup.
+No, shorter section handling truncates that access. I think the caller
+expects all len bytes to be accessed, not just the first few bytes?
 
 Stefan
 
---ME+KmDYEwwUemRDi
+--c/RdGjUPDv/VDlvJ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJEKygACgkQnKSrs4Gr
-c8gEZAf/WCY1ihDA2Vad7T/v2di+ZarWtkjqf3ckxYO7Yx80BGfrAEeMMP8+R/Wa
-B8rbj0ng9AgNfAmfUkrb+mPKuGuYymVmMGc9N53fBRjI6QloRuJyWsbajOXZ1aOW
-zPVBRcA+Q+FGVmsHIrdfnzS7pEthjARSg6CcKDSag3ARcCSJXXNlwp1YyX+PGSoE
-lUwf1z3ZXL0cY3pk/xs3xYEj30RAurqu1v7t3x2uxDb8lYMALZ+woWj/zkC7mI5m
-3oCYntSFudEpml5H6rH3BfKrT7sx+FXVqWnGW6zkrlR5vEZnbL44PTcZAzOm0yCx
-ZyWYzBf5Rgqp6Y1X2o7yc+L0vo+bWw==
-=UHc8
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJEK4cACgkQnKSrs4Gr
+c8hDkQf/cwabudbd8M5RF4DHpcNCqUW78lRSr+d00oc94hxNfTcGdfoZUQQ2ytx5
+qw8zHq94OhaVmUtTfzwUC4024Mngylmm4BT+wp7TqxsSIqLmrNWMcfz/PN9Lx0sH
+wrDYSQ7tbbXxTIdtfq19w5AtV4pGwYokUS8nYaIAelNQus28zGSAGUrX/sdGwB2v
+uHj80ps5G8FggE5bcwZfL7utN8C4BGxskd/0SgILvNBZ1Mhm1g172ov01H3R+9oD
+B3uzZRKWXNY6RnGVzxGDt/f20JZqRd7hbMU3Fq7ivdQFXCxREppisbDP5xhNkGVy
+dlN8E8J2uzJ5Dz8txr39JqC+H9MmgA==
+=dFxx
 -----END PGP SIGNATURE-----
 
---ME+KmDYEwwUemRDi--
+--c/RdGjUPDv/VDlvJ--
 
 
