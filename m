@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D724ED038
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:36:43 +0200 (CEST)
-Received: from localhost ([::1]:41246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F80A4ED043
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:42:10 +0200 (CEST)
+Received: from localhost ([::1]:49552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZhrm-0007zC-Um
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:36:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35342)
+	id 1nZhx3-00059u-7V
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:42:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZft5-0008GR-KP
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:56 -0400
-Received: from [2a00:1450:4864:20::12d] (port=40625
- helo=mail-lf1-x12d.google.com)
+ id 1nZft7-0008H8-3F
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:58 -0400
+Received: from [2a00:1450:4864:20::230] (port=41632
+ helo=mail-lj1-x230.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZft1-0003Lw-So
+ id 1nZft2-0003ML-OO
  for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:55 -0400
-Received: by mail-lf1-x12d.google.com with SMTP id t25so38067548lfg.7
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:29:51 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id 17so29456618ljw.8
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:29:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tG4qRDp75q7RazPHtwh5ErdEyaOnIwmsEWlnL+y4BaI=;
- b=afx+qONuDHVYmO1beNEEbqEeyp+LEmwn3hzUv5F/hWwo55WYx9i+LfV6DiiiCjeu7I
- QQCL+/WFBJCiwvlbBrzUQiG51oIyTt/9lIX8mQHUTOKfG6z7uIl1sRuKiVA9Nl7p1KQb
- AElX55UexLQfQ58IhzRjhy5Xd5N/j7pKoHA3uK8dhnmZxi31bFaN2wUBo8JfpKS1KXNi
- mj2X/4OFMIDp3K2DZYxmYpf3DCGpcutMleyHqW/K35gdg8pKd8rBOcirlWrVgTlOS9G6
- VmHFvUfrV4ZQ75KJ0nwmmOqbs8fzTNxLivDwWcKC6x933cdaCL4UK9OITmYtypesCAwQ
- sKSw==
+ bh=rv+CiCzHjV62zD13urXNP6spV+Pm476sotNs+8GpRa4=;
+ b=0EczUlSmBFNexZIGCFfYwHXWb1r8A4TZ2tsJ6dOb4AmRxRjtxFfbIB+3XvYCUAquQl
+ OVm5ohcQ8RTAnXmWpkrMj4xKPMl0rSJA0HOxtDXYY/cqYa6qCKD/uuOFWAGfKj1Ko7Yb
+ q+p2hO+3VJj6aDr28GftI13/zVql7vGEFAgW7Kd+DPLxikOLCjDVwTEdjGV4xl7WDjOP
+ CGxufw1wuDa6SpcmzKbibYIWyfpzRevUiXtqBhwcA5Ot3F3L9EFgHHpB9Ngch+qVUpkh
+ DTYbNHQaoDVK9f2+08ybmpu00GE4jboeSd9jjHfsZJtUuN6amEsQRxxo8niedy/lOObw
+ kdkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tG4qRDp75q7RazPHtwh5ErdEyaOnIwmsEWlnL+y4BaI=;
- b=CyNSPFFNtlsim8fAMHi+/dOHhLEbcv9Y1YH5v74hGrfxdxLFIvQOz7sMzIdzl8WGQr
- 1dWen8SFy1QxI3v883MPlvuO3FTBdelLToVM0okuXpU2Hkd9hKVFI/1Qu4aRA2YB79zm
- PyKkH3HEo8b8gbtcWN6SP133Pz9MafltXIYhhUacFilDM7wAp+tw7pj+hMvAnJqQBL+l
- 7vcosPQsdIZJDVNsrEUN2bIrdtsTgI/ciervi1rm9vvMcyOw1HZXsGnIjNgN+mPIMTfS
- /8Zo1qRvyN1X8pJc422JIGZmchUubOTnO7/GsSAXQiHU0WKcQzXPOzwXhqvsrav0WmJd
- +k6g==
-X-Gm-Message-State: AOAM53378P1hAJaQ4hT0XnoALt/WgvsYurcVcBim4VthqAXPv0NPodFM
- 88lWj0bB6+5f8nEEbexJMcQjBw==
-X-Google-Smtp-Source: ABdhPJw8W96ttf7alxDrg5dnCzP4JH9G+s65n7NSnRO2WwP2gg5DM08ZiGxWqoobSVk4NlCEfIFUpQ==
-X-Received: by 2002:a05:6512:31c4:b0:44a:b45e:b0 with SMTP id
- j4-20020a05651231c400b0044ab45e00b0mr7937426lfe.494.1648675790210; 
+ bh=rv+CiCzHjV62zD13urXNP6spV+Pm476sotNs+8GpRa4=;
+ b=rEpm7pXpdrglqW+rHMv/MEwBIA/khux3lCKWuYf9pqTtshpySKRkXk22E/DYh/J8Xi
+ VwLSgL/GTUpFWS7+jdEHKmxkjgcggpVTSnOvFDYcvlfXiK8MSyF9omelq6vBEIBZXKcq
+ ik4iP8/9zp9TM2bOtQ2uAAU/U+VQXYSbjICdpD7aaZzQnNVlG3GoEYXCfCS9n5zFbK4d
+ JnL2jHicSFjcUIIqucEEoketDB0HHqU1VQn+fMrrTqJaM5zQuzAdxYMx/QVprbIWqjw+
+ RwTwLqD4HfpYDyNeYFwtPtz3xvuktVHBjq3W3FHG1R0dpSLV7Zo8ORazNeLB2eo3Muxz
+ v8JQ==
+X-Gm-Message-State: AOAM533z+oOJGkPSkpSNXf36S48yDo5TnGe2QcDceTiB4gn3ORKZMjI1
+ 3essd/jwbJe5U0aecEp2sWZzlq3WmvHwkQ==
+X-Google-Smtp-Source: ABdhPJxbeBJSSN5YZFZqOJsInHlzS6bxFkjayJY2NULZucWmVP+fGESGu4Ag8igwQLCez9Tr3OZJ6A==
+X-Received: by 2002:a2e:b014:0:b0:23c:9593:f7 with SMTP id
+ y20-20020a2eb014000000b0023c959300f7mr8271877ljk.209.1648675790858; 
  Wed, 30 Mar 2022 14:29:50 -0700 (PDT)
 Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
- y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.49
+ y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 14:29:49 -0700 (PDT)
+ Wed, 30 Mar 2022 14:29:50 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 30/45] block: bdrv_insert_node(): use BDRV_O_NOPERM
-Date: Thu, 31 Mar 2022 00:28:47 +0300
-Message-Id: <20220330212902.590099-31-vsementsov@openvz.org>
+Subject: [PATCH v5 31/45] qapi: block: add blockdev-add transaction action
+Date: Thu, 31 Mar 2022 00:28:48 +0300
+Message-Id: <20220330212902.590099-32-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330212902.590099-1-vsementsov@openvz.org>
 References: <20220330212902.590099-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::230
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+Received-SPF: pass client-ip=2a00:1450:4864:20::230;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lf1-x12d.google.com
+ helo=mail-lj1-x230.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -80,7 +80,7 @@ X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 30 Mar 2022 19:17:25 -0400
+X-Mailman-Approved-At: Wed, 30 Mar 2022 19:17:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,34 +92,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, hreitz@redhat.com, vsementsov@openvz.org,
- v.sementsov-og@mail.ru, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, hreitz@redhat.com,
+ vsementsov@openvz.org, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Further bdrv_replace_node will refresh permissions anyway, so we can
-avoid intermediate permission conflicts.
+Use new flag to avoid permission updates where possible during
+blockdev_add, so that a bunch of add/del (and soon, new 'replace')
+command may be done before actual permission update to avoid
+intermediate permission conflicts.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 ---
- block.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ blockdev.c            | 54 ++++++++++++++++++++++++++++++++++++++++---
+ qapi/transaction.json | 10 +++++++-
+ 2 files changed, 60 insertions(+), 4 deletions(-)
 
-diff --git a/block.c b/block.c
-index ca0b629bec..17c057a962 100644
---- a/block.c
-+++ b/block.c
-@@ -5420,8 +5420,8 @@ BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *options,
+diff --git a/blockdev.c b/blockdev.c
+index 16a9b98afc..3afd2ceea8 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -65,6 +65,8 @@
  
-     GLOBAL_STATE_CODE();
+ static int blockdev_del(const char *node_name, GSList **detached,
+                         Transaction *tran, Error **errp);
++static int blockdev_add(BlockdevOptions *options, GSList **refresh_list,
++                        Transaction *tran, Error **errp);
  
--    new_node_bs = bdrv_new_open_driver_opts(drv, node_name, options, flags,
--                                            errp);
-+    new_node_bs = bdrv_new_open_driver_opts(drv, node_name, options,
-+                                            flags | BDRV_O_NOPERM, errp);
-     options = NULL; /* bdrv_new_open_driver() eats options */
-     if (!new_node_bs) {
-         error_prepend(errp, "Could not create node: ");
+ /* Protected by BQL */
+ QTAILQ_HEAD(, BlockDriverState) monitor_bdrv_states =
+@@ -2216,6 +2218,10 @@ static void transaction_action(TransactionAction *act, JobTxn *block_job_txn,
+         blockdev_del(act->u.blockdev_del.data->node_name,
+                      refresh_list, tran, errp);
+         return;
++    case TRANSACTION_ACTION_KIND_BLOCKDEV_ADD:
++        blockdev_add(act->u.blockdev_add.data,
++                     refresh_list, tran, errp);
++        return;
+     /*
+      * Where are transactions for MIRROR, COMMIT and STREAM?
+      * Although these blockjobs use transaction callbacks like the backup job,
+@@ -2283,7 +2289,8 @@ void qmp_transaction(TransactionActionList *actions,
+         TransactionActionKind type = act->value->type;
+ 
+         if (refresh_list &&
+-            type != TRANSACTION_ACTION_KIND_BLOCKDEV_DEL)
++            type != TRANSACTION_ACTION_KIND_BLOCKDEV_DEL &&
++            type != TRANSACTION_ACTION_KIND_BLOCKDEV_ADD)
+         {
+             ret = bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
+             if (ret < 0) {
+@@ -3454,7 +3461,21 @@ out:
+     aio_context_release(aio_context);
+ }
+ 
+-void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
++static void blockdev_add_abort(void *opaque)
++{
++    BlockDriverState *bs = opaque;
++
++    QTAILQ_REMOVE(&monitor_bdrv_states, bs, monitor_list);
++    bdrv_unref(bs);
++}
++
++TransactionActionDrv blockdev_add_drv = {
++    .abort = blockdev_add_abort,
++};
++
++/* Caller is responsible to refresh permissions */
++static int blockdev_add(BlockdevOptions *options, GSList **refresh_list,
++                        Transaction *tran, Error **errp)
+ {
+     BlockDriverState *bs;
+     QObject *obj;
+@@ -3472,15 +3493,42 @@ void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
+         goto fail;
+     }
+ 
+-    bs = bds_tree_init(qdict, 0, errp);
++    bs = bds_tree_init(qdict, BDRV_O_NOPERM, errp);
+     if (!bs) {
+         goto fail;
+     }
+ 
++    *refresh_list = g_slist_prepend(*refresh_list, bs);
++    tran_add(tran, &blockdev_add_drv, bs);
++
+     bdrv_set_monitor_owned(bs);
+ 
++    visit_free(v);
++    return 0;
++
+ fail:
+     visit_free(v);
++    return -EINVAL;
++}
++
++void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
++{
++    int ret;
++    Transaction *tran = tran_new();
++    g_autoptr(GSList) refresh_list = NULL;
++
++    ret = blockdev_add(options, &refresh_list, tran, errp);
++    if (ret < 0) {
++        goto out;
++    }
++
++    ret = bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
++    if (ret < 0) {
++        goto out;
++    }
++
++out:
++    tran_finalize(tran, ret);
+ }
+ 
+ void qmp_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
+diff --git a/qapi/transaction.json b/qapi/transaction.json
+index ea20df770c..000dd16bb7 100644
+--- a/qapi/transaction.json
++++ b/qapi/transaction.json
+@@ -67,7 +67,7 @@
+             'block-dirty-bitmap-disable', 'block-dirty-bitmap-merge',
+             'blockdev-backup', 'blockdev-snapshot',
+             'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
+-            'blockdev-del',
++            'blockdev-del', 'blockdev-add',
+             { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
+ 
+ ##
+@@ -150,6 +150,13 @@
+ { 'struct': 'BlockdevDelWrapper',
+   'data': { 'data': 'BlockdevDel' } }
+ 
++##
++# @BlockdevAddWrapper:
++#
++# Since: 7.1
++##
++{ 'struct': 'BlockdevAddWrapper',
++  'data': { 'data': 'BlockdevOptions' } }
+ 
+ ##
+ # @TransactionAction:
+@@ -175,6 +182,7 @@
+        'blockdev-snapshot-internal-sync': 'BlockdevSnapshotInternalWrapper',
+        'blockdev-snapshot-sync': 'BlockdevSnapshotSyncWrapper',
+        'blockdev-del': 'BlockdevDelWrapper',
++       'blockdev-add': 'BlockdevAddWrapper',
+        'drive-backup': 'DriveBackupWrapper'
+    } }
+ 
 -- 
 2.35.1
 
