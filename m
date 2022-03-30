@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D357D4ECBC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:20:50 +0200 (CEST)
-Received: from localhost ([::1]:43986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085EE4ECBE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:24:55 +0200 (CEST)
+Received: from localhost ([::1]:50222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZcw5-0001UB-T3
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:20:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45176)
+	id 1nZd02-0005q6-4W
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:24:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZcsI-0006nl-Rs
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:16:55 -0400
-Received: from [2607:f8b0:4864:20::22a] (port=35498
- helo=mail-oi1-x22a.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nZcvK-0002V4-Rw
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:20:02 -0400
+Received: from [2607:f8b0:4864:20::72e] (port=42815
+ helo=mail-qk1-x72e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZcsH-00006N-EZ
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:16:54 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id e4so22868889oif.2
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 11:16:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=qVWBWg45Uu25qPapejQ7kQPLYhAJRDd9ATolVyOaUj0=;
- b=dXOutF8GX58+Uhhtsk8wVgbnnNmqIjZ4uZSGxMPP9yc3aC7Bh+Q0Y3g60HkZsRahJO
- bf85pLLF14Z+rKC9bvZ/6wmG24rZk63iFcE76s8SfA+3SYbhGH9xVVTEZPD6IFCHG960
- DUUHwmM1Xa8Z+NxUJRnX649GI9doIDRPCPlCSNx4NtkSKGVb+f2FvpC2LkQ5EGmQ6iIz
- vVmaN8W5KCz14CcMqF+l99ZshbUzZreoocSN1B6te+wxh1YWhXB4RameuZNgUvHuVRWK
- cacNHGyunGi8O/0FqURF5nTvW/wIiB6BN/u918z1N1SCApVJpvQcMGzBC04mVn8V5F9u
- wuzA==
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nZcvJ-0001eN-42
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:20:02 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id 85so17335475qkm.9
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 11:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=C1v2q2eEODlLCRT1k+0udbjaZkFzUuZZRnNq/4TOfzM=;
+ b=Jpnvde/5Nsp0O9Qv0bMDhzFiJqWAW6fOj+xpKrQSDjLFsMrw/nTS2PK4JgRLnQARWR
+ 8iRKNykzPtN0pU8ciYTAa8NzY2hSMG6+cBIvIrQzjsp0fGZNDiHDqdRytnvUtQd+af4+
+ 1Ke/AQ9UFTi6poa7FWZ1TcMlTMnIDPuhRC/tkao74YgWyc9dCZcml5/0QqXh2ORuJepk
+ p4XAXKg3JmXHOX9JS2pYDOAmUGKpurgcVcf3B55Q6K1gDb5xmkYjfrvYwOVVdfd30KrW
+ oh6rLaY+K6Pl7sMkPB4Psmijkee+ES2WmPKrXGUt02jPZCvbMr78YixjTmFuVXapKX4y
+ +G+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qVWBWg45Uu25qPapejQ7kQPLYhAJRDd9ATolVyOaUj0=;
- b=gwPeTsMFxEG9ixySJ/HaARIYFA9gidk6vOOv4V4SFeTbw9YkgL0ILbpofrTcrxMKXl
- PdHXyi8sS4yj4GR+sLDvEBOKp3kFruLtLpacmo7sboYKGDNCGAksJxzunIXKbcCSzUEd
- xqFD7qblWPOnXlZ4HPrl3rzTemvNjDIX8fwtehrSPBG5Vx3rnC+nCXlcPgaqVj+S++Vn
- 8jW3sPQI6pzBgcdui+9sZTnBA5fvbbAtWY93RKdAz03xSOpZYw7qk7HWxJ/VVaFb+U+C
- auB2Rl5Hkv0wE6/uR8Mn9nhj3+/UWnRbxWvy6QBOfg9EF3bW7r4CxQhj7ZDhGE2O5WiK
- 409g==
-X-Gm-Message-State: AOAM530IgKcrQrj6Dh+PY9aYJ9JwAtgWLZijzqOYRD+XLcnBF02Zh0Kh
- hfaiCDu96MURezBSoMlSSJ1JIA==
-X-Google-Smtp-Source: ABdhPJxXhIG+5DvQYbMn/Pdf9q4CYSYjvyiKvMdPwl9FSERMeD9fAxCNNiiqeflqlTcZmnb14EnMnQ==
-X-Received: by 2002:a05:6808:30a0:b0:2da:3e03:5620 with SMTP id
- bl32-20020a05680830a000b002da3e035620mr555507oib.264.1648664211856; 
- Wed, 30 Mar 2022 11:16:51 -0700 (PDT)
-Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- w39-20020a056830412700b005cda87bbdcesm11339148ott.6.2022.03.30.11.16.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 11:16:51 -0700 (PDT)
-Message-ID: <34efb7e3-912c-b516-a8b6-543c0ba1bc2b@linaro.org>
-Date: Wed, 30 Mar 2022 12:16:48 -0600
+ bh=C1v2q2eEODlLCRT1k+0udbjaZkFzUuZZRnNq/4TOfzM=;
+ b=Xl+xNkjPjYL20ZooW73ZzT9IKcgR+2UPW/fqDTVyI06Ko6Gcox0j3oO/KWR8rxrOFy
+ LD5LFWP4vmKhHknUw7pw1xHw/v/z7HmcseuneVjJS9pdcD06p1Dl14DO5JZ1ydRZS7Z8
+ RGEKuQu3mcISVUGYBKdqyuV3l3Gft7FagBX2W7ArSaFbjTRTMBJci9wHfuR+tunGYWAR
+ XYfvRAjSXftucn77b7qZBQcZlgVVU6gvV2ncO65FWWDgDuVvp4vMuc6wAJMJ4QJ43db0
+ uBMh0SDX1M1SlsG3YVwvuFqjawzRI3wiWWg+FpMXl/EsyN3oiJBowHkXNpXzZmZpp5mp
+ Z0yA==
+X-Gm-Message-State: AOAM531FkLlhQYorIJiIUghg7mmTfs4mK0x+id/YvXrXMcNqEfz4ADIr
+ ln+gc9PB3nUfUCi7WYxOvjO2S0znTXaHDQ==
+X-Google-Smtp-Source: ABdhPJyW4uqxB2dNQj8TwrcGCCr1QY3BUZud4z63fhIY57+gHnMqKZpZlQZg/FsQpXdozFZWeFl8mg==
+X-Received: by 2002:a05:620a:783:b0:67d:4c9d:d103 with SMTP id
+ 3-20020a05620a078300b0067d4c9dd103mr727172qka.250.1648664399131; 
+ Wed, 30 Mar 2022 11:19:59 -0700 (PDT)
+Received: from localhost.localdomain
+ (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
+ [209.6.248.219]) by smtp.gmail.com with ESMTPSA id
+ e15-20020a05622a110f00b002e1ed105652sm18600523qty.2.2022.03.30.11.19.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Mar 2022 11:19:58 -0700 (PDT)
+From: Will Cohen <wwcohen@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] 9p: move limits.h include from 9p.c to 9p.h
+Date: Wed, 30 Mar 2022 14:19:47 -0400
+Message-Id: <20220330181947.68497-1-wwcohen@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 8/8] target/ppc: implement xscvqp[su]qz
-Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
- <20220330175932.6995-9-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220330175932.6995-9-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22a
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=wwcohen@gmail.com; helo=mail-qk1-x72e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -93,29 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: thuth@redhat.com, fabianfranz.oss@gmail.com,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ keno@juliacomputing.com, reactorcontrol@icloud.com,
+ philippe.mathieu.daude@gmail.com, Will Cohen <wwcohen@gmail.com>, hi@alyssa.is
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/30/22 11:59, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> 
-> Implement the following PowerISA v3.1 instructions:
-> xscvqpsqz: VSX Scalar Convert with round to zero Quad-Precision to
->             Signed Quadword
-> xscvqpuqz: VSX Scalar Convert with round to zero Quad-Precision to
->             Unsigned Quadword
-> 
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> ---
->   target/ppc/fpu_helper.c             | 21 +++++++++++++++++++++
->   target/ppc/helper.h                 |  2 ++
->   target/ppc/insn32.decode            |  2 ++
->   target/ppc/translate/vsx-impl.c.inc |  2 ++
->   4 files changed, 27 insertions(+)
+As noted by https://gitlab.com/qemu-project/qemu/-/issues/950, within
+the patch set adding 9p functionality to darwin, the commit
+38d7fd68b0c8775b5253ab84367419621aa032e6 introduced an issue where
+limits.h, which defines XATTR_SIZE_MAX, is included in 9p.c, though the
+referenced constant is needed in 9p.h. This commit fixes that issue by
+moving the include to 9p.h.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+---
+ hw/9pfs/9p.c | 5 -----
+ hw/9pfs/9p.h | 5 +++++
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-r~
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index dcaa602d4c..59c531ed47 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -33,11 +33,6 @@
+ #include "migration/blocker.h"
+ #include "qemu/xxhash.h"
+ #include <math.h>
+-#ifdef CONFIG_LINUX
+-#include <linux/limits.h>
+-#else
+-#include <limits.h>
+-#endif
+ 
+ int open_fd_hw;
+ int total_open_fd;
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index af2635fae9..0ce4da375c 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -9,6 +9,11 @@
+ #include "qemu/thread.h"
+ #include "qemu/coroutine.h"
+ #include "qemu/qht.h"
++#ifdef CONFIG_LINUX
++#include <linux/limits.h>
++#else
++#include <limits.h>
++#endif
+ 
+ enum {
+     P9_TLERROR = 6,
+-- 
+2.35.1
+
 
