@@ -2,84 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92FBE4ECDEA
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 22:25:06 +0200 (CEST)
-Received: from localhost ([::1]:39460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231E24ECDF5
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 22:29:55 +0200 (CEST)
+Received: from localhost ([::1]:44706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZesL-0002oY-8l
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 16:25:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49084)
+	id 1nZewz-0006jO-NS
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 16:29:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZerN-00020y-HS
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 16:24:05 -0400
-Received: from [2a00:1450:4864:20::42c] (port=40912
- helo=mail-wr1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZerM-0000El-1o
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 16:24:05 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id d7so30885573wrb.7
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 13:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Ep4xGCk4+2RA6BSWqgGP/aM/5/WsmA69kCT4NsRVhjg=;
- b=pOc9GnGWl9xdtatu/TkOCLQH3q/QcYO7mhWlFQhExTj4BfPow5U03/JJR4120V3fIK
- JTXrcWeIMvcTFCHT8rMW9gWsAG+Ja/0nynHIG1ecmoQJdPDLgzCnGhwGN9RWqMY0VpBR
- zycD1uE/rU0DToXqKRd3Z7muYbboh/JQb16LH16J1+KskJaTQ0v+l2vZcvuTfvIutVK9
- Zw4ycD6zkk279ZQStMKODOHKgMFhngZinCvhyFijI1BQyGzphZiM7suuli+NjCiYvkSB
- DVI/Ibeb5HCgx7t0xjxaWyucb84G3oNxqfXnxzvccTa5osUUvO+ZR2PCtm4InZKQ1Jx5
- ibgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ep4xGCk4+2RA6BSWqgGP/aM/5/WsmA69kCT4NsRVhjg=;
- b=aPbofVwRwJ9bvccqk6ca13naz9zrX0OW1YGMofXusSChXGNDtNgMSLZwnGh6ZgkBTW
- 7uNlFOs0GZHdLkiZpeLObyFwukBnc4wgTvYR8pBATBXe3z+1/fc4nvNY+AMmH3w1x5/L
- Igt1+kcVOPeY8Ic1P2xHJ1Pkyt9nDouiJrXLOYssPzBFOvnVfRRkexJqMQaqPrN8rmBu
- PFkTNUsP9uAMd7ccOpcL+wdKBOfB5rSYAK41uBibvhvN3NAP4oqCLFBFAqBckxSJN26i
- XmqaWIZ2rWK4qaYQJcA1B51zSQPozXEtzweUz1QWRcwAwpzdINCeQTrS0UtdCbIr+BNt
- quRA==
-X-Gm-Message-State: AOAM532mBl2R0JtHL6yPx6nJq3B4XZfyA8HLexYvx7Eo7yLqZWNKGr5V
- 7h1zzWgRhtjOQBHvYfRKEHM=
-X-Google-Smtp-Source: ABdhPJx5F4+gU+PLS1PAA/QmkDeuZ9GFj/j7U0OB8SVlNb7lQefE6WXxWSi3O+VfOuPP/tBGIzD9Og==
-X-Received: by 2002:a05:6000:2a8:b0:205:a7be:c330 with SMTP id
- l8-20020a05600002a800b00205a7bec330mr1231062wry.290.1648671841711; 
- Wed, 30 Mar 2022 13:24:01 -0700 (PDT)
-Received: from ?IPV6:2600:70ff:f07f:0:403e:ab57:ee68:20ea?
- ([2600:70ff:f07f:0:403e:ab57:ee68:20ea])
- by smtp.gmail.com with ESMTPSA id
- f9-20020a05600c154900b0038cb98076d6sm6204670wmg.10.2022.03.30.13.23.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 13:24:01 -0700 (PDT)
-Message-ID: <b7487b9a-fda3-3576-34b3-5cf556c83de6@gmail.com>
-Date: Wed, 30 Mar 2022 22:23:58 +0200
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1nZeuA-00040K-2P; Wed, 30 Mar 2022 16:26:58 -0400
+Received: from [187.72.171.209] (port=8867 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1nZeu8-0001WS-C2; Wed, 30 Mar 2022 16:26:57 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 30 Mar 2022 17:25:33 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id D40D78002AF;
+ Wed, 30 Mar 2022 17:25:32 -0300 (-03)
+From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH 00/10] VDIV/VMOD Implementation
+Date: Wed, 30 Mar 2022 17:25:05 -0300
+Message-Id: <20220330202515.66554-1-lucas.araujo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH] 9p: move limits.h include from 9p.c to 9p.h
-Content-Language: en-US
-To: Will Cohen <wwcohen@gmail.com>, qemu-devel@nongnu.org
-References: <20220330181947.68497-1-wwcohen@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220330181947.68497-1-wwcohen@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 30 Mar 2022 20:25:33.0286 (UTC)
+ FILETIME=[4E974060:01D84474]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -94,74 +55,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, fabianfranz.oss@gmail.com,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- keno@juliacomputing.com, reactorcontrol@icloud.com, hi@alyssa.is
+Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
+ danielhb413@gmail.com, richard.henderson@linaro.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-On 30/3/22 20:19, Will Cohen wrote:
-> As noted by https://gitlab.com/qemu-project/qemu/-/issues/950, within
-> the patch set adding 9p functionality to darwin, the commit
-> 38d7fd68b0c8775b5253ab84367419621aa032e6 introduced an issue where
-> limits.h, which defines XATTR_SIZE_MAX, is included in 9p.c, though the
-> referenced constant is needed in 9p.h. This commit fixes that issue by
-> moving the include to 9p.h.
+This patch series is an implementation of the vector divide, vector
+divide extended and vector modulo instructions from PowerISA 3.1
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/950
+The first 2 patches are Matheus' patches used here since the divs256 and
+divu256 functions use int128_lshift and int128_urshift.
 
-> Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> ---
->   hw/9pfs/9p.c | 5 -----
->   hw/9pfs/9p.h | 5 +++++
->   2 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index dcaa602d4c..59c531ed47 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -33,11 +33,6 @@
->   #include "migration/blocker.h"
->   #include "qemu/xxhash.h"
->   #include <math.h>
-> -#ifdef CONFIG_LINUX
-> -#include <linux/limits.h>
-> -#else
-> -#include <limits.h>
-> -#endif
->   
->   int open_fd_hw;
->   int total_open_fd;
-> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> index af2635fae9..0ce4da375c 100644
-> --- a/hw/9pfs/9p.h
-> +++ b/hw/9pfs/9p.h
-> @@ -9,6 +9,11 @@
->   #include "qemu/thread.h"
->   #include "qemu/coroutine.h"
->   #include "qemu/qht.h"
-> +#ifdef CONFIG_LINUX
-> +#include <linux/limits.h>
-> +#else
-> +#include <limits.h>
-> +#endif
+Lucas Mateus Castro (alqotel) (8):
+  target/ppc: Implemented vector divide instructions
+  target/ppc: Implemented vector divide quadword
+  target/ppc: Implemented vector divide extended word
+  Implemented unsigned 256-by-128 division
+  Implemented signed 256-by-128 division
+  target/ppc: Implemented remaining vector divide extended
+  target/ppc: Implemented vector module word/doubleword
+  target/ppc: Implemented vector module quadword
 
-Except XATTR_SIZE_MAX, I don't see anything in 9p.h which
-requires <limits.h>.
+Matheus Ferst (2):
+  qemu/int128: avoid undefined behavior in int128_lshift
+  qemu/int128: add int128_urshift
 
-$ git grep P9_XATTR_SIZE_MAX
-hw/9pfs/9p.c:3960:    if (size > P9_XATTR_SIZE_MAX) {
-hw/9pfs/9p.h:484:#define P9_XATTR_SIZE_MAX XATTR_SIZE_MAX
-hw/9pfs/9p.h:495:#define P9_XATTR_SIZE_MAX 65536
-hw/9pfs/9p.h:497:#error Missing definition for P9_XATTR_SIZE_MAX for 
-this host system
+ include/qemu/host-utils.h           |  16 +++
+ include/qemu/int128.h               |  53 +++++++-
+ target/ppc/helper.h                 |   8 ++
+ target/ppc/insn32.decode            |  23 ++++
+ target/ppc/int_helper.c             | 109 +++++++++++++++++
+ target/ppc/translate/vmx-impl.c.inc | 148 +++++++++++++++++++++++
+ tests/unit/test-int128.c            |  32 +++++
+ util/host-utils.c                   | 179 ++++++++++++++++++++++++++++
+ 8 files changed, 566 insertions(+), 2 deletions(-)
 
-Only 9p.c requires this definition, what about moving the
-offending code to the .c?
+-- 
+2.31.1
 
-Regards,
-
-Phil.
 
