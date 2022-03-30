@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956BF4ECCCA
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:59:32 +0200 (CEST)
-Received: from localhost ([::1]:36672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3CD4ECC86
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:38:53 +0200 (CEST)
+Received: from localhost ([::1]:47028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZdXX-0004mT-NJ
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:59:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49676)
+	id 1nZdDY-0006Rk-JM
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:38:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZd7N-0006qQ-8n
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:32:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26549)
+ id 1nZd7P-0006ru-8t
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:32:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZd7J-0006fs-7r
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:32:27 -0400
+ id 1nZd7M-0006hM-R1
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:32:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648665144;
+ s=mimecast20190719; t=1648665147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=at74jLvfPBplnvuRaQUgguMyDaRAte8OVbgQmgvjYoc=;
- b=XOgaEqpWKssB0f+p54ILpmOcU/4z7rNMs1kRw/boZMeZ9GDoPgJ/6YIMLo2OYu7r/+P9Fr
- JPagesKPX+bvCEPP8UGpoVh0AI7ASJ8JNhQBGoMVo35XNZtPULDQSVR/my/OBxgwGZcIwT
- oNHq4FIn4/sdPck/FT+NnkoUqqrCcA0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jm9CSuoNBVFc0RS5uG9jeyenGVAdiuZSmP7TrosYivs=;
+ b=JcjkoPKI2JPsNW7pp7K5RvueAvIMakrwMf+OeGnHjxbjMz9v6jUDZLgk2wLztajrUKbq3j
+ 8SLM1e+J1Q4Y3YhWo+UJtJqNyVNlbcztjfV6EYU/pW3j/g7M8iekl39qYFqhMxgueOsc7D
+ nIGY1QL7ddg6ne5EUV6wsfVzOb6DM8c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-b9MlvANcN1a0zeimvc__FQ-1; Wed, 30 Mar 2022 14:32:21 -0400
-X-MC-Unique: b9MlvANcN1a0zeimvc__FQ-1
+ us-mta-498-KuP-vQR9NuuPdQ4SpLDD7A-1; Wed, 30 Mar 2022 14:32:23 -0400
+X-MC-Unique: KuP-vQR9NuuPdQ4SpLDD7A-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5EE6C185A79C;
- Wed, 30 Mar 2022 18:32:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F23B3C01D9A;
+ Wed, 30 Mar 2022 18:32:23 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.195.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A3B1D57ECED;
- Wed, 30 Mar 2022 18:32:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A479E57ECE5;
+ Wed, 30 Mar 2022 18:32:20 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 17/19] vhost: Update kernel headers
-Date: Wed, 30 Mar 2022 20:31:14 +0200
-Message-Id: <20220330183116.358598-18-eperezma@redhat.com>
+Subject: [RFC PATCH v3 18/19] vdpa: Add asid attribute to vdpa device
+Date: Wed, 30 Mar 2022 20:31:15 +0200
+Message-Id: <20220330183116.358598-19-eperezma@redhat.com>
 In-Reply-To: <20220330183116.358598-1-eperezma@redhat.com>
 References: <20220330183116.358598-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,80 +91,181 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We can configure ASID per group, but we still use asid 0 for every vdpa
+device. Multiple asid support for cvq will be introduced in next
+patches.
+
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/standard-headers/linux/vhost_types.h | 11 ++++++++-
- linux-headers/linux/vhost.h                  | 25 ++++++++++++++++----
- 2 files changed, 30 insertions(+), 6 deletions(-)
+ include/hw/virtio/vhost-vdpa.h |  3 +++
+ hw/virtio/vhost-vdpa.c         | 47 ++++++++++++++++++++++++----------
+ net/vhost-vdpa.c               | 10 ++++++--
+ 3 files changed, 45 insertions(+), 15 deletions(-)
 
-diff --git a/include/standard-headers/linux/vhost_types.h b/include/standard-headers/linux/vhost_types.h
-index 0bd2684a2a..ce78551b0f 100644
---- a/include/standard-headers/linux/vhost_types.h
-+++ b/include/standard-headers/linux/vhost_types.h
-@@ -87,7 +87,7 @@ struct vhost_msg {
+diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+index f1ba46a860..921edbf77b 100644
+--- a/include/hw/virtio/vhost-vdpa.h
++++ b/include/hw/virtio/vhost-vdpa.h
+@@ -28,10 +28,13 @@ typedef struct vhost_vdpa {
+     int device_fd;
+     int index;
+     uint32_t msg_type;
++    uint32_t asid;
+     bool iotlb_batch_begin_sent;
+     MemoryListener listener;
+     struct vhost_vdpa_iova_range iova_range;
+     uint64_t acked_features;
++    /* one past the last vq index of this virtqueue group */
++    int vq_group_index_end;
+     bool shadow_vqs_enabled;
+     /* IOVA mapping used by the Shadow Virtqueue */
+     VhostIOVATree *iova_tree;
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 600d006d6e..bd06662cee 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -79,6 +79,9 @@ static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+     int ret = 0;
  
- struct vhost_msg_v2 {
- 	uint32_t type;
--	uint32_t reserved;
-+	uint32_t asid;
- 	union {
- 		struct vhost_iotlb_msg iotlb;
- 		uint8_t padding[64];
-@@ -153,4 +153,13 @@ struct vhost_vdpa_iova_range {
- /* vhost-net should add virtio_net_hdr for RX, and strip for TX packets. */
- #define VHOST_NET_F_VIRTIO_NET_HDR 27
+     msg.type = v->msg_type;
++    if (v->dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) {
++        msg.asid = v->asid;
++    }
+     msg.iotlb.iova = iova;
+     msg.iotlb.size = size;
+     msg.iotlb.uaddr = (uint64_t)(uintptr_t)vaddr;
+@@ -104,6 +107,9 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
+     int fd = v->device_fd;
+     int ret = 0;
  
-+/* Use message type V2 */
-+#define VHOST_BACKEND_F_IOTLB_MSG_V2 0x1
-+/* IOTLB can accept batching hints */
-+#define VHOST_BACKEND_F_IOTLB_BATCH  0x2
-+/* IOTLB can accept address space identifier through V2 type of IOTLB
-+ * message
-+ */
-+#define VHOST_BACKEND_F_IOTLB_ASID  0x3
++    if (v->dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) {
++        msg.asid = v->asid;
++    }
+     msg.type = v->msg_type;
+     msg.iotlb.iova = iova;
+     msg.iotlb.size = size;
+@@ -129,6 +135,10 @@ static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
+         .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
+     };
+ 
++    if (v->dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) {
++        msg.asid = v->asid;
++    }
 +
- #endif
-diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost.h
-index c998860d7b..5e083490f1 100644
---- a/linux-headers/linux/vhost.h
-+++ b/linux-headers/linux/vhost.h
-@@ -89,11 +89,6 @@
+     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+         error_report("failed to write, fd=%d, errno=%d (%s)",
+                      fd, errno, strerror(errno));
+@@ -161,6 +171,9 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+     }
  
- /* Set or get vhost backend capability */
+     msg.type = v->msg_type;
++    if (dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_ASID)) {
++        msg.asid = v->asid;
++    }
+     msg.iotlb.type = VHOST_IOTLB_BATCH_END;
  
--/* Use message type V2 */
--#define VHOST_BACKEND_F_IOTLB_MSG_V2 0x1
--/* IOTLB can accept batching hints */
--#define VHOST_BACKEND_F_IOTLB_BATCH  0x2
--
- #define VHOST_SET_BACKEND_FEATURES _IOW(VHOST_VIRTIO, 0x25, __u64)
- #define VHOST_GET_BACKEND_FEATURES _IOR(VHOST_VIRTIO, 0x26, __u64)
+     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+@@ -675,7 +688,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
+ {
+     uint64_t features;
+     uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
+-        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
++        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
++        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
+     int r;
  
-@@ -150,4 +145,24 @@
- /* Get the valid iova range */
- #define VHOST_VDPA_GET_IOVA_RANGE	_IOR(VHOST_VIRTIO, 0x78, \
- 					     struct vhost_vdpa_iova_range)
-+/* Get the number of virtqueue groups. */
-+#define VHOST_VDPA_GET_GROUP_NUM	_IOR(VHOST_VIRTIO, 0x79, unsigned int)
+     if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
+@@ -1098,7 +1112,9 @@ static bool vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+ {
+     struct vhost_vdpa *v = dev->opaque;
+-    bool ok;
++    bool vq_group_end, ok;
++    int r = 0;
 +
-+/* Get the number of address spaces. */
-+#define VHOST_VDPA_GET_AS_NUM		_IOR(VHOST_VIRTIO, 0x7A, unsigned int)
+     trace_vhost_vdpa_dev_start(dev, started);
+ 
+     if (started) {
+@@ -1116,21 +1132,26 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+         vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+     }
+ 
+-    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
+-        return 0;
++    vq_group_end = dev->vq_index + dev->nvqs == v->vq_group_index_end;
++    if (vq_group_end && started) {
++        memory_listener_register(&v->listener, &address_space_memory);
+     }
+ 
+-    if (started) {
+-        memory_listener_register(&v->listener, &address_space_memory);
+-        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+-    } else {
+-        vhost_vdpa_reset_device(dev);
+-        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+-                                   VIRTIO_CONFIG_S_DRIVER);
+-        memory_listener_unregister(&v->listener);
++    if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
++        if (started) {
++            r = vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
++        } else {
++            vhost_vdpa_reset_device(dev);
++            vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
++                                       VIRTIO_CONFIG_S_DRIVER);
++        }
++    }
+ 
+-        return 0;
++    if (vq_group_end && !started) {
++        memory_listener_unregister(&v->listener);
+     }
 +
-+/* Get the group for a virtqueue: read index, write group in num,
-+ * The virtqueue index is stored in the index field of
-+ * vhost_vring_state. The group for this specific virtqueue is
-+ * returned via num field of vhost_vring_state.
-+ */
-+#define VHOST_VDPA_GET_VRING_GROUP	_IOWR(VHOST_VIRTIO, 0x7B,	\
-+					      struct vhost_vring_state)
-+/* Set the ASID for a virtqueue group. The group index is stored in
-+ * the index field of vhost_vring_state, the ASID associated with this
-+ * group is stored at num field of vhost_vring_state.
-+ */
-+#define VHOST_VDPA_SET_GROUP_ASID	_IOW(VHOST_VIRTIO, 0x7C, \
-+					     struct vhost_vring_state)
-+
- #endif
++    return r;
+ }
+ 
+ static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 6dc0ae8614..fae9a43b86 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -323,6 +323,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+                                        int vdpa_device_fd,
+                                        int queue_pair_index,
+                                        int nvqs,
++                                       uint32_t asid,
++                                       int vq_group_end,
+                                        bool is_datapath,
+                                        bool svq,
+                                        VhostIOVATree *iova_tree)
+@@ -344,6 +346,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+     s->vhost_vdpa.device_fd = vdpa_device_fd;
+     s->vhost_vdpa.index = queue_pair_index;
+     s->vhost_vdpa.shadow_vqs_enabled = svq;
++    s->vhost_vdpa.vq_group_index_end = vq_group_end;
++    s->vhost_vdpa.asid = asid;
+     if (!is_datapath) {
+         s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
+     }
+@@ -454,7 +458,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+ 
+     for (i = 0; i < queue_pairs; i++) {
+         ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+-                                     vdpa_device_fd, i, 2, true, opts->x_svq,
++                                     vdpa_device_fd, i, 2, 0,
++                                     queue_pairs + has_cvq, true, opts->x_svq,
+                                      iova_tree);
+         if (!ncs[i])
+             goto err;
+@@ -462,7 +467,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+ 
+     if (has_cvq) {
+         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+-                                 vdpa_device_fd, i, 1, false, opts->x_svq,
++                                 vdpa_device_fd, i, 1, 0,
++                                 queue_pairs + has_cvq, false, opts->x_svq,
+                                  iova_tree);
+         if (!nc)
+             goto err;
 -- 
 2.27.0
 
