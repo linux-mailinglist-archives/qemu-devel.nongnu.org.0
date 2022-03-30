@@ -2,69 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FB74ECD33
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 21:27:13 +0200 (CEST)
-Received: from localhost ([::1]:46988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00EBE4ECD35
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 21:27:22 +0200 (CEST)
+Received: from localhost ([::1]:47590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZdyK-0000Au-4Y
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 15:27:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34634)
+	id 1nZdyT-0000cr-42
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 15:27:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZdwX-0007Fb-3E; Wed, 30 Mar 2022 15:25:21 -0400
-Received: from smtp38.i.mail.ru ([94.100.177.98]:47036)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZdxD-0007as-Qd
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 15:26:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZdwU-0007td-3S; Wed, 30 Mar 2022 15:25:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
- s=mail4; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=KMHuKhQJ5NB3EcPhHZLnBSxv05PIZfFcIC59ygYv4V4=; 
- t=1648668318;x=1649273718; 
- b=nZAlPgf5J7DOYOVjldcg/0IZveyqs5noqQrzW20HuADpKTfunuzpMuob27SQfmimLVP51jhgLCdbbBlka/8JDkiFmNCMCErep8XbslhLrMWgpYqUpjkOzKCMSPGwHbLqfgimb7Zmea/u8xZON7kHCu7HBv9ZuyU7ZVlMIauX7ZqTJwVLMelEieALR9VnM7LhdyKL2xD62rOuDK0nmAEEnHPYdqGLaFtmtSuJtd8K2G9DR77scicPqOj8U4Kesy4zFgRZNXxw4X9KjEZUGpNxeT92BRTzXU23dhfIm3O2whkamEDYQcIIXktyZnZwtsaNHJgYCs/jElnqs16UePEKSA==;
-Received: by smtp38.i.mail.ru with esmtpa (envelope-from
- <v.sementsov-og@mail.ru>)
- id 1nZdwR-0005E2-8X; Wed, 30 Mar 2022 22:25:15 +0300
-Message-ID: <c3538c99-c40f-a517-4915-4746f42fe238@mail.ru>
-Date: Wed, 30 Mar 2022 22:25:15 +0300
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZdxB-000871-8u
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 15:26:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648668360;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DSEl25+RfU8O+A2XBUICQ6IevkDCGMu7zFaoHhEZKzQ=;
+ b=USlFXjmBmscjtDMaBqkNBSZGDnu6EffcwhVlE/bsYRQmILShv8aLDRNgAvM+fMZVnfZLSe
+ bJoUVrtjIUjnG+l4ql9ZmRNKLFh32WBl2nLWSddjk0rq8zCIdUquTRAw/UOwDO35BOOL4z
+ 9cSrtGw/tjkcChTMZrqyB3YugGG+Kcg=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-493-gDOWVyw-MeersuQPhJt0Yg-1; Wed, 30 Mar 2022 15:25:59 -0400
+X-MC-Unique: gDOWVyw-MeersuQPhJt0Yg-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ k11-20020ac8604b000000b002e1a4109edeso18158972qtm.15
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 12:25:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DSEl25+RfU8O+A2XBUICQ6IevkDCGMu7zFaoHhEZKzQ=;
+ b=Q+D0lf4NrZjcUm41yqiaKitC2HxatK1N21hKCKU++Qm2eh19b1e/JUiqsheCFOeRXE
+ Vt9DQC4DCmqIuXKR15JJ882ihvlmFDzuyVN6zoZcxCtOvOeY0AFdFmCPlq+hFgNlSmkq
+ BpOKW+vGPsJFpuTJlWwhdF+D5YJZS1uY+ja5/cN7/grvno9KWDcsywowamK+u2npNR00
+ ErexSKlLd/mSiVbz42Gt9M85KnbQgCvr/nN5eD6oa5cJXr53Twq8ko5okgnrgcWSNcbV
+ IPu50TSt3mi1AOlbtq5cnXAFv7yh2yRjuOAoWrr4eDFkeltMkCFGdF9xw05oZ86cy7P5
+ Fxgw==
+X-Gm-Message-State: AOAM5306DBVI4+tvf0j+Lq1z0qfFzGfGWblQtkljtQd4CJLEFNts+jou
+ c26meOePwGSJumH6wN/FKYo/2Dm5d4R6mSHU2hYHJLTTUXrclMF3XufxVSXIDFjladk2OWFQcAx
+ RqhoINfGMkcx8uVw=
+X-Received: by 2002:ac8:59d2:0:b0:2e1:f86d:b3d3 with SMTP id
+ f18-20020ac859d2000000b002e1f86db3d3mr1105723qtf.276.1648668358594; 
+ Wed, 30 Mar 2022 12:25:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzw/LP6ESpVZ+W+B8mE5yDDzkHVCaJpKMKAx+CqYb3NAcpYT0oHQFtqJPkKmI02yzVK45Z2UA==
+X-Received: by 2002:ac8:59d2:0:b0:2e1:f86d:b3d3 with SMTP id
+ f18-20020ac859d2000000b002e1f86db3d3mr1105703qtf.276.1648668358346; 
+ Wed, 30 Mar 2022 12:25:58 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ 3-20020a370503000000b0067b03f03589sm11230549qkf.53.2022.03.30.12.25.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Mar 2022 12:25:57 -0700 (PDT)
+Date: Wed, 30 Mar 2022 15:25:56 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Ryabinin <arbn@yandex-team.com>
+Subject: Re: [PATCH 2/2] softmmu/physmem: fix dirty memory bitmap memleak
+Message-ID: <YkSuxObygiiPbXfo@xz-m1.local>
+References: <20220325154013.16809-1-arbn@yandex-team.com>
+ <20220325154013.16809-2-arbn@yandex-team.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 9/9] python/qmp: remove pylint workaround from legacy.py
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-References: <20220330172812.3427355-1-jsnow@redhat.com>
- <20220330172812.3427355-10-jsnow@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-In-Reply-To: <20220330172812.3427355-10-jsnow@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp38.i.mail.ru;
- auth=pass smtp.auth=v.sementsov-og@mail.ru
- smtp.mailfrom=v.sementsov-og@mail.ru
-X-4EC0790: 10
-X-7564579A: EEAE043A70213CC8
-X-77F55803: 4F1203BC0FB41BD9B83DD81DD066BE6427D5C075F9E61C41307589F8F117601A182A05F5380850404C228DA9ACA6FE27F700DBF7FAFE73A40FC3029D5433EC020FE05EC86C67C26E129A34488B4BE346
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7571C18AED7CB6805EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637D7F1BE85E7B0CA818638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8AC59344B599382A583BAC056E7E22F996F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE75A31C54DA8CF07A79FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD182CC0D3CB04F14752D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BE2CCD8F0CAA010FB389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F7900637994E438D700A90A6D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE75279A685C79E1982CD04E86FAF290E2D7E9C4E3C761E06A71DD303D21008E29813377AFFFEAFD269A417C69337E82CC2E827F84554CEF50127C277FBC8AE2E8BA83251EDC214901ED5E8D9A59859A8B6D844BA284C397EC175ECD9A6C639B01B4E70A05D1297E1BBCB5012B2E24CD356
-X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: 0D63561A33F958A5F4F05FCBF1F7E5666C31CD381A5451EDC284AC03FB0F00C5D59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA75040BF32255FAA22B410CA545F18667F91A7EA1CDA0B5A7A0
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34197948450CB5442A8CB8575951C24CEC8EF61B72225298C66BA19908452F7445C8D964A33C938AE21D7E09C32AA3244C20ED8192B274EB013F56F56A7606E2D230452B15D76AEC14AD832FF50B3043B1
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojlgoDDUY05+UzE+UXEt8qGw==
-X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FEA4071643EACC87BB3DE491EE3079741C8E4BF35A5A934752E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-Received-SPF: pass client-ip=94.100.177.98;
- envelope-from=v.sementsov-og@mail.ru; helo=smtp38.i.mail.ru
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20220325154013.16809-2-arbn@yandex-team.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,21 +98,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-30.03.2022 20:28, John Snow wrote:
-> Pylint upgraded recently (2.13.z) and having a pylint: disable comment
-> in the middle of an argument field causes it some grief (It appears to
-> stop parsing when it encounters it, causing some syntax problems). Since
-> the duplicate line threshold was bumped up in 22305c2a081b, we don't
-> need this workaround anymore. Drop it.
+On Fri, Mar 25, 2022 at 06:40:13PM +0300, Andrey Ryabinin wrote:
+> The sequence of ram_block_add()/qemu_ram_free()/ram_block_add()
+> function calls leads to leaking some memory.
 > 
-> Signed-off-by: John Snow<jsnow@redhat.com>
+> ram_block_add() calls dirty_memory_extend() to allocate bitmap blocks
+> for new memory. These blocks only grow but never shrink. So the
+> qemu_ram_free() restores RAM size back to it's original stat but
+> doesn't touch dirty memory bitmaps.
+> 
+> After qemu_ram_free() there is no way of knowing that we have
+> allocated dirty memory bitmaps beyond current RAM size.
+> So the next ram_block_add() will call dirty_memory_extend() again to
+> to allocate new bitmaps and rewrite pointers to bitmaps left after
+> the first ram_block_add()/dirty_memory_extend() calls.
+> 
+> Rework dirty_memory_extend() to be able to shrink dirty maps,
+> also rename it to dirty_memory_resize(). And fix the leak by
+> shrinking dirty memory maps on qemu_ram_free() if needed.
+> 
+> Fixes: 5b82b703b69a ("memory: RCU ram_list.dirty_memory[] for safe RAM hotplug")
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
+> ---
+>  include/exec/ramlist.h |  2 ++
+>  softmmu/physmem.c      | 38 ++++++++++++++++++++++++++++++++------
+>  2 files changed, 34 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/exec/ramlist.h b/include/exec/ramlist.h
+> index 2ad2a81acc..019e238e7c 100644
+> --- a/include/exec/ramlist.h
+> +++ b/include/exec/ramlist.h
+> @@ -41,6 +41,8 @@ typedef struct RAMBlockNotifier RAMBlockNotifier;
+>  #define DIRTY_MEMORY_BLOCK_SIZE ((ram_addr_t)256 * 1024 * 8)
+>  typedef struct {
+>      struct rcu_head rcu;
+> +    unsigned int nr_blocks;
+> +    unsigned int nr_blocks_inuse;
+>      unsigned long *blocks[];
+>  } DirtyMemoryBlocks;
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+The problem looks valid, but can we avoid introducing these variables at
+all?
+
+IIUC what we miss here is the proper releasing of dirty blocks when ram is
+released.  IMHO as long as we properly release the extra dirty memory
+blocks in qemu_ram_free(), then last_ram_page() will reflect the existing
+dirty memory block size.  That looks simpler if I'm correct..
+
+Side question: both of the patches are not regression introduced in this
+release, right?  So they are targeting for the next release?
+
+Thanks,
 
 -- 
-Best regards,
-Vladimir
+Peter Xu
+
 
