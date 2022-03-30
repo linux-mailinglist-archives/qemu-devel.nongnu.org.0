@@ -2,39 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32634EC530
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:06:49 +0200 (CEST)
-Received: from localhost ([::1]:57874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 318784EC52A
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:04:59 +0200 (CEST)
+Received: from localhost ([::1]:54184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZY2B-00026l-O1
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:06:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51786)
+	id 1nZY0P-00080r-Rt
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:04:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXsZ-0006l8-M2; Wed, 30 Mar 2022 08:56:52 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:40866)
+ id 1nZXsZ-0006l0-KK; Wed, 30 Mar 2022 08:56:52 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:40904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXsX-0004Y8-GF; Wed, 30 Mar 2022 08:56:51 -0400
+ id 1nZXsX-0004YA-SI; Wed, 30 Mar 2022 08:56:51 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 09B3621C38;
+ by beetle.greensocs.com (Postfix) with ESMTPS id 9298621C6C;
  Wed, 30 Mar 2022 12:56:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  s=mail; t=1648645004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=CTHLxshGLn+LMFCmOT0tST5SI/piv8b6mpuMZAFlww0=;
- b=bMijghb3ZxySJFZ5hguLZ1NJj61rRhufZGQ0OOc662vJmtougXTMoULm4QbNncYwsTKjWj
- 5TohKjSz6kck9gbHVue+ljKHpJBNGPk4pA2rrNs7mAqxIqU0M661O+3kDeFI6Pwu8EVmBU
- gNy56SQsG4mfwNpvyur3TEXUrkZclRQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bhFYNyYPRCcLBEZVNCD7ZOOJTmG3o6A4RaJXBk+/Kv8=;
+ b=O8alWpXzpOtujLY+gf/pdmUH9vF0nohuGWIGH4rkN73/DhaPiJcgsFfExnJIeShmz6XsSW
+ SZaRBtErNBiDPrBTGffAH/rHIycScRe6X0ApX0pZceLfUmK03IKIBEsovfhN+LDQtiRzBn
+ +dKG4JiBNJgH8j/I2gR9n1NwpEnymCs=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 00/18] user-creatable cpu clusters
-Date: Wed, 30 Mar 2022 14:56:21 +0200
-Message-Id: <20220330125639.201937-1-damien.hedde@greensocs.com>
+Subject: [RFC PATCH 01/18] define MAX_CLUSTERS in cpu.h instead of cluster.h
+Date: Wed, 30 Mar 2022 14:56:22 +0200
+Message-Id: <20220330125639.201937-2-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220330125639.201937-1-damien.hedde@greensocs.com>
+References: <20220330125639.201937-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam: Yes
@@ -71,89 +74,45 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+---
+ include/hw/core/cpu.h    | 6 ++++++
+ include/hw/cpu/cluster.h | 6 ------
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-This series add devices to be able to user-create (coldplug) cpu
-clusters. The existing cpu cluster dictates how cpus are exposed
-in gdb, but it does not handle the cpu objects creation. This series
-adds a new device to handle both issues and adds support for two
-architectures: arm and riscv.
-
-Please look at patches 2 and 3 for more details about the new device.
-
-Last part concerning the riscv is rfc as I do non-backward compatible
-updates. I'm not sure what migration (or other) constraints we have
-on these machines and I probably need to make some changes to cope
-with them.
-
-This series almost deprecates the cpu-cluster type as all uses
-but one are replaced.
-
-It is organized as follows:
-
-+ Patches 1 to 7 adds a new base device to replace cpu-cluster
-
-+ Patches 8 and 9 adds an arm specific version and replace existing
-  clusters in the xlnx-zynqmp machine.
-
-+ patches 10 to 17 updates the riscv_array. It was already used to
-  create cpus but was not a cpu cluster.
-
-Thanks for any comments,
---
-Damien
-
-Damien Hedde (18):
-  define MAX_CLUSTERS in cpu.h instead of cluster.h
-  hw/cpu/cpus: introduce _cpus_ device
-  hw/cpu/cpus: prepare to handle cpu clusters
-  hw/cpu/cluster: make _cpu-cluster_ a subclass of _cpus_
-  gdbstub: deal with _cpus_ object instead of _cpu-cluster_
-  hw/cpu/cluster: remove cluster_id now that gdbstub is updated
-  hw/cpu/cpus: add a common start-powered-off property
-  hw/arm/arm_cpus: add arm_cpus device
-  hw/arm/xlnx-zynqmp: convert cpu clusters to arm_cpus
-  hw/riscv/riscv_hart: prepare transition to cpus
-  hw/riscv: prepare riscv_hart transition to cpus
-  hw/riscv/virt: prepare riscv_hart transition to cpus
-  hw/riscv/spike: prepare riscv_hart transition to cpus
-  hw/riscv/riscv_hart: use cpus as base class
-  hw/riscv/sifive_u&microchip_pfsoc: apply riscv_hart_array update
-  hw/riscv: update remaining machines due to riscv_hart_array update
-  hw/riscv/riscv_hart: remove temporary features
-  add myself as reviewer of the newly added _cpus_
-
- include/hw/arm/arm_cpus.h          |  45 +++++++
- include/hw/arm/xlnx-zynqmp.h       |   8 +-
- include/hw/core/cpu.h              |   6 +
- include/hw/cpu/cluster.h           |  26 ++--
- include/hw/cpu/cpus.h              |  93 ++++++++++++++
- include/hw/riscv/microchip_pfsoc.h |   2 -
- include/hw/riscv/riscv_hart.h      |  25 +++-
- include/hw/riscv/sifive_u.h        |   2 -
- gdbstub.c                          |  12 +-
- hw/arm/arm_cpus.c                  |  63 ++++++++++
- hw/arm/xlnx-zynqmp.c               | 121 +++++++-----------
- hw/cpu/cluster.c                   |  53 ++++----
- hw/cpu/cpus.c                      | 195 +++++++++++++++++++++++++++++
- hw/riscv/boot.c                    |   2 +-
- hw/riscv/microchip_pfsoc.c         |  28 +----
- hw/riscv/opentitan.c               |   4 +-
- hw/riscv/riscv_hart.c              |  44 ++-----
- hw/riscv/shakti_c.c                |   4 +-
- hw/riscv/sifive_e.c                |   4 +-
- hw/riscv/sifive_u.c                |  31 ++---
- hw/riscv/spike.c                   |  18 +--
- hw/riscv/virt.c                    |  79 +++++++-----
- MAINTAINERS                        |   3 +
- hw/arm/meson.build                 |   1 +
- hw/cpu/meson.build                 |   2 +-
- 25 files changed, 612 insertions(+), 259 deletions(-)
- create mode 100644 include/hw/arm/arm_cpus.h
- create mode 100644 include/hw/cpu/cpus.h
- create mode 100644 hw/arm/arm_cpus.c
- create mode 100644 hw/cpu/cpus.c
-
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 136973655c..38c72cbda1 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -1054,5 +1054,11 @@ extern const VMStateDescription vmstate_cpu_common;
+ 
+ #define UNASSIGNED_CPU_INDEX -1
+ #define UNASSIGNED_CLUSTER_INDEX -1
++/*
++ * This limit is imposed by TCG, which puts the cluster ID into an
++ * 8 bit field. Default being all-1s, custom index cannot be set to
++ * more than 254.
++ */
++#define MAX_CLUSTERS 255
+ 
+ #endif
+diff --git a/include/hw/cpu/cluster.h b/include/hw/cpu/cluster.h
+index 53fbf36af5..09a2b86832 100644
+--- a/include/hw/cpu/cluster.h
++++ b/include/hw/cpu/cluster.h
+@@ -57,12 +57,6 @@
+ #define TYPE_CPU_CLUSTER "cpu-cluster"
+ OBJECT_DECLARE_SIMPLE_TYPE(CPUClusterState, CPU_CLUSTER)
+ 
+-/*
+- * This limit is imposed by TCG, which puts the cluster ID into an
+- * 8 bit field (and uses all-1s for the default "not in any cluster").
+- */
+-#define MAX_CLUSTERS 255
+-
+ /**
+  * CPUClusterState:
+  * @cluster_id: The cluster ID. This value is for internal use only and should
 -- 
 2.35.1
 
