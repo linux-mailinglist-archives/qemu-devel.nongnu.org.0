@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B251A4EC60E
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:57:11 +0200 (CEST)
-Received: from localhost ([::1]:42340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82074EC622
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 16:06:06 +0200 (CEST)
+Received: from localhost ([::1]:33398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZYow-0002a7-Hu
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:57:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36372)
+	id 1nZYxZ-0006ZR-G5
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 10:06:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZYmd-0000Vh-6P
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 09:54:47 -0400
-Received: from [2001:4860:4864:20::2a] (port=45620
- helo=mail-oa1-x2a.google.com)
+ id 1nZYvC-0004Cz-Bn
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 10:03:42 -0400
+Received: from [2607:f8b0:4864:20::232] (port=37606
+ helo=mail-oi1-x232.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZYmY-00089p-4e
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 09:54:43 -0400
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-d6ca46da48so22078877fac.12
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 06:54:41 -0700 (PDT)
+ id 1nZYvA-0001Q3-1y
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 10:03:37 -0400
+Received: by mail-oi1-x232.google.com with SMTP id q129so22160711oif.4
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 07:03:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=tx1SwE4iNljeOcZpcrMgADhaavxCRvqXXqyh57t5650=;
- b=nQL2X8oq9dLlfvtRe1jwwgSEeQk2AHon6tdxLn7wRqW9GRT+e1HY169vsATBloEH+I
- UADr0E6x6FFBfyl5R02AxzTYPLemEaIgTjhwD/ISvzMhgSvYgVPhq7eefnBin6NKRzVj
- nkPYpQy2QEtKb/5P20DkMoFNhhDbV2h5LfYzXtfdjNWWW0815HHWmqqqAVbePrOslgd3
- zn2VAVnthx7MBX8pY05ZsJOih9nfw933N/jwQ/L0NxM3hacigH8WORvmX2hAYITop2DL
- hY1ZeM1ALdQ5P86qZ51YPjKIO2FavWcJrIYnB4mCw1LZ0WnbY/fDFHK7DgnZVbthS5WD
- 1acw==
+ bh=2ypWwyUw6bzuhI1anlFzdEwYgwLEnZp+hvFopIjbR/k=;
+ b=UYbeiE4+brT38rRST42WzDPCGIrb8jPfItmRpAE6W6HwNbaUO48Omm4zUCBIDWSdqz
+ CsK2XmY6lW8WuEOixK/2403M7wsWccANu128XVY/5xyGInb7X+VSV4MVNRdeckAhl2rO
+ ewJ431EI2/wSrZRdXXrxJP1BM3eibRKHfvdTfqosxeC4JEjOyg77qV57z1POEjun/v2d
+ JAdeijge/1lRUUS0cAsCprozUjd0z1YiqQmWV3UNg/C3yxgSlE5ztgr0kFXzHkdKCcsS
+ jsOPJSiPsvlw8TSFksVmiFJRxn8WQIBfIv8RQ9R+dsYhbZNezdrqd5j1GAZlQ6gsC2Ob
+ BpQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=tx1SwE4iNljeOcZpcrMgADhaavxCRvqXXqyh57t5650=;
- b=mg+kJGrGAL966iXNdkn+pwIOeV76MdyqYX8odsysFj3hR/cDlkNEvBSOFmWeWv8Kb3
- SSSaKvIBS9ud6z4xZJ0KgE39jW8jfZvk44AbLx91Ok41D4sHUSNDzW5SOboyKOX4/L8p
- 0J8MrJhWIVCIJ/YawfLOJO84cRhPWnfLG5vzoi+D/J8mTiOZUu5M8A/bIKmX2uBkNT+E
- 5IS/xpAnQD6E3uTpnr7GjP2FGkXDEmKaivoOUzcIBz9VVL0uq+wl3qgLSazgHbRFl12P
- Dag/LxXaM8YxhyQQCm7Jm8Hosty6p6fqq9b9RggSYANakeP0UcxtheluK0NAfH5RPQb/
- R9SA==
-X-Gm-Message-State: AOAM530D7Z5SnaENPZBA3E2HD1qmFkZp0M8CWXz3mUyAmv8rfSW56A5w
- Ef5s3AXlKo5tBG7xPrRGMc0JyQ==
-X-Google-Smtp-Source: ABdhPJw6zH8VlfBreUxlqC12yemySZq9a/MlgGzWQVrXo011AVoNauBzktTdpa9eLsCPjJd8TRJqZg==
-X-Received: by 2002:a05:6870:e253:b0:dd:a40e:ae92 with SMTP id
- d19-20020a056870e25300b000dda40eae92mr2206453oac.233.1648648480619; 
- Wed, 30 Mar 2022 06:54:40 -0700 (PDT)
+ bh=2ypWwyUw6bzuhI1anlFzdEwYgwLEnZp+hvFopIjbR/k=;
+ b=MHBTfl2fbbK/PBUWnh7kHNxjudXZGLMixUNuDV7VUuW8YDVJPtVlrx/blz9I/fZ9SA
+ Yk0IujaOEPUm1cSBxuwFay9AxaZrAmsO/Ru4Ug+jQgT6J2gtuCui2MpA2S2sMGHdn6N5
+ IJ1mkcAJGfqX9ojJqpyjZO+nagkLBq4KzkSLImar5XVwB9sAu19hrwZGWO9PKiD0YYq/
+ fJ2Ab2Yh/MgAgEF2QhD45QDVxiDCs2ducvToDJl61u1dE2QD3rwga8Nckxe3zyNAXs+3
+ 59tb7tgqDXWZzoruc0l+5zWVk2cQjlRRrmfdU9GnH4C/ZFEEjYUVN+OJgP65F6yRO67U
+ dfqQ==
+X-Gm-Message-State: AOAM530HwhcUu+Gir3DCxjQ9UexjgPooogIDuYbNoITZJ4hO0JX7Lkcd
+ 6XMgHJw9za41GwdfZXdpVFF/nJE0gze5Qfny
+X-Google-Smtp-Source: ABdhPJx+RDIMM2BJ0DDjiOgrvDMTXlpmc9MD9UFWEPxuRhMc2nJ4DltTE+OMud8iBUu9S3htU+HRAA==
+X-Received: by 2002:a05:6808:178e:b0:2ef:9854:777d with SMTP id
+ bg14-20020a056808178e00b002ef9854777dmr1821954oib.281.1648649014884; 
+ Wed, 30 Mar 2022 07:03:34 -0700 (PDT)
 Received: from [192.168.249.227] (172.189-204-159.bestelclientes.com.mx.
  [189.204.159.172]) by smtp.gmail.com with ESMTPSA id
- c3-20020a056808138300b002f76b9a9ef6sm2070342oiw.10.2022.03.30.06.54.38
+ 96-20020a9d0469000000b005c959dd643csm10115909otc.3.2022.03.30.07.03.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 06:54:40 -0700 (PDT)
-Message-ID: <bab603b7-18d2-4a97-f426-6050211dbcc9@linaro.org>
-Date: Wed, 30 Mar 2022 07:54:35 -0600
+ Wed, 30 Mar 2022 07:03:34 -0700 (PDT)
+Message-ID: <bfca5877-a673-f720-f58f-a65b8c956472@linaro.org>
+Date: Wed, 30 Mar 2022 08:03:29 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] linux-user/sh4/termbits: Silence warning about
- TIOCSER_TEMT double definition
+Subject: Re: [PATCH 1/2] target/s390x: Fix determination of overflow condition
+ code after addition
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
-References: <20220330134302.979686-1-thuth@redhat.com>
+To: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220323162621.139313-1-thuth@redhat.com>
+ <20220323162621.139313-2-thuth@redhat.com>
+ <2b82de5e-a259-576c-5ea5-eb5c10e6bbeb@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220330134302.979686-1-thuth@redhat.com>
+In-Reply-To: <2b82de5e-a259-576c-5ea5-eb5c10e6bbeb@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::232
  (failed)
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x232.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,34 +96,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Magnus Damm <magnus.damm@gmail.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: qemu-s390x@nongnu.org, Bruno Haible <bruno@clisp.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/30/22 07:43, Thomas Huth wrote:
-> Seen while compiling on Alpine:
+On 3/30/22 02:52, David Hildenbrand wrote:
+>>   static uint32_t cc_calc_add_64(int64_t a1, int64_t a2, int64_t ar)
+>>   {
+>> -    if ((a1 > 0 && a2 > 0 && ar < 0) || (a1 < 0 && a2 < 0 && ar > 0)) {
+>> +    if ((a1 > 0 && a2 > 0 && ar < 0) || (a1 < 0 && a2 < 0 && ar >= 0)) {
 > 
->   In file included from ../linux-user/strace.c:17:
->   In file included from ../linux-user/qemu.h:11:
->   In file included from ../linux-user/syscall_defs.h:1247:
->   ../linux-user/sh4/termbits.h:276:10: warning: 'TIOCSER_TEMT' macro redefined
->    [-Wmacro-redefined]
->   # define TIOCSER_TEMT    0x01   /* Transmitter physically empty */
->            ^
->   /usr/include/sys/ioctl.h:50:9: note: previous definition is here
->   #define TIOCSER_TEMT 1
->           ^
->   1 warning generated.
 > 
-> Add the TARGET_ prefix here, too, like we do it on the other architectures.
+> Intuitively, I'd have checked for any overflow/underflow by comparing
+> with one of the input variables:
 > 
-> Signed-off-by: Thomas Huth<thuth@redhat.com>
-> ---
->   linux-user/sh4/termbits.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> a) Both numbers are positive
+> 
+> Adding to positive numbers has to result in something that's bigger than
+> the input parameters.
+> 
+> "a1 > 0 && a2 > 0 && ar < a1"
+> 
+> b) Both numbers are negative
+> 
+> Adding to negative numbers has to result in something that's smaller
+> than the input parameters.
+> 
+> "a1 < 0 && a2 < 0 && ar > a1"
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+If we're not going to just fix the >= typo,
+I'd suggest using the much more compact bitwise method:
+
+     ((ar ^ a1) & ~(a1 ^ a2)) < 0
+
+See sadd64_overflow in qemu/host-utils.h.
+
 
 r~
 
