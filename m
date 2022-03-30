@@ -2,89 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2394EC7BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 17:04:53 +0200 (CEST)
-Received: from localhost ([::1]:58788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C78C4EC7D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 17:08:31 +0200 (CEST)
+Received: from localhost ([::1]:33150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZZsS-0005fH-0Y
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 11:04:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55012)
+	id 1nZZvx-0007tE-Ux
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 11:08:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nZZrO-0004vl-En; Wed, 30 Mar 2022 11:03:46 -0400
-Received: from [2a00:1450:4864:20::62d] (port=46939
- helo=mail-ej1-x62d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nZZrM-0004yL-Qs; Wed, 30 Mar 2022 11:03:46 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id c10so23706696ejs.13;
- Wed, 30 Mar 2022 08:03:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=35KXp0SLlynsaLeljregrZKFz/RxNBR2Dfi7fdshI1k=;
- b=Gdh23vP18H/eKgI2JJxi+2tCgnZ/tWfWb9eWcZSkg48Q/90N2cfjwh7US6Eqds32kw
- 7vtFbYYarLgFh3zMI5LBGlnoT08Bv6IwNZvsuBHv6bz/+SmJqOac9Zwk8mwP1InwW87c
- 4iOZpzVlQ4o+1Qb7HzCb9LdjjRIQuqUr6Ujy8Lrxbg0+ZhLmJxx3pEgkNRK4rEBoDTc5
- SXifHIgXV1lGi+OKCKkn646jnUwTjQp5hhoJnWdgSoOwv5KAQBkf0A5hkbwvNSQ/thhR
- Hjv+oUIVFudFNozxIUwEK83e/lmh0zG+6SISzzzsJmLrX1j/8MFhbyqFvn9ZOou2jSOX
- 9vAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=35KXp0SLlynsaLeljregrZKFz/RxNBR2Dfi7fdshI1k=;
- b=2UG1wcuLgFqoiWvMtD436rw3fQjCQEPhyiO8KDEo9x0CHsNlivRARaMaKWvZJFrFrt
- hj/97er6X0OUdh/zMlywhEZBmO8Ace+IQsMTJqcPQ1zkNNFc3aXQiJSPmtSkrmUHDPpo
- Do4FSFl+JI8nE+45MSvdbCsOPB2n36EH+hq+BMaOO1GYGeY1eecx7c79p0Qqu34PZKjn
- tDGCwjFIq1NBpLkMf2VPtd3NNQw03jCs7k9XnnCKyqMSXqOOuv0Mu99HEvBYjVhM5SWW
- l9L55vuK+BJGTXNNzeK3t9eOplWZzQGnsrNFdb2XA4JI4MqLf0fnoe5bszkmjjWxpRA5
- Kx+w==
-X-Gm-Message-State: AOAM5333UxyvlX8w+3yg5eIcbt8njpV/gDXL7ky9MQm042pGNrLEdssP
- yGjQvgduFlE4sPsXUOMkaiM=
-X-Google-Smtp-Source: ABdhPJzXN+hE9eBKLMDwOSDV69DJ1wr2nkGoSsdz7wJjsfxGf5oQ8qswg1UdlkKk8OddAiZeIyu1+Q==
-X-Received: by 2002:a17:906:9f25:b0:6e1:205a:c47 with SMTP id
- fy37-20020a1709069f2500b006e1205a0c47mr15217587ejc.281.1648652617331; 
- Wed, 30 Mar 2022 08:03:37 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:8ca6:a836:a237:fed1?
- ([2001:b07:6468:f312:8ca6:a836:a237:fed1])
- by smtp.googlemail.com with ESMTPSA id
- u26-20020a05640207da00b00419a14928e5sm7881273edy.28.2022.03.30.08.03.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 08:03:36 -0700 (PDT)
-Message-ID: <b82541f6-46f2-07d3-0e8b-dcd47ad90bb5@redhat.com>
-Date: Wed, 30 Mar 2022 17:03:33 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nZZul-0007Bk-4e
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 11:07:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34762)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nZZud-0005Zb-U0
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 11:07:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648652826;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EywMjuWhh/tH7acll4l0dU7o7n6ykVOHuA2Q3kLyimg=;
+ b=Svn4mgPZd1el4wqjZOcXpjOZSZpzD4Cal9yOPqT2L7f/8nXQTZZj6mk7wI5u/WWx5s/pS4
+ 3nQMpnFvqks73+Yvg6vhAZRdBPW9R8W787qRV2AyrLB3jJGCId1HoR+B/uuWdchj3Sgymt
+ 7kENroxjgMRsxQrrJxSgB5gKznigQ2A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-198-JporrjkhMkioaisICzptBQ-1; Wed, 30 Mar 2022 11:06:58 -0400
+X-MC-Unique: JporrjkhMkioaisICzptBQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A428833975;
+ Wed, 30 Mar 2022 15:06:58 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4046AC202C6;
+ Wed, 30 Mar 2022 15:06:56 +0000 (UTC)
+Date: Wed, 30 Mar 2022 16:06:53 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 3/4] python/qmp-shell: relicense as LGPLv2+
+Message-ID: <YkRyDe3yiIWYFyLT@redhat.com>
+References: <20220325200438.2556381-1-jsnow@redhat.com>
+ <20220325200438.2556381-4-jsnow@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH for-7.0] meson.build: Fix dependency of page-vary-common.c
- to config-poison.h
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
-References: <20220330114808.942933-1-thuth@redhat.com>
- <e4de3f54-e812-9393-0b13-504fb78063e2@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <e4de3f54-e812-9393-0b13-504fb78063e2@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20220325200438.2556381-4-jsnow@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,29 +84,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Beraldo Leal <bleal@redhat.com>,
+ qemu-devel@nongnu.org, Luiz Capitulino <lcapitulino@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <mlureau@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Eduardo Habkost <ehabkost@habkost.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/30/22 14:05, Philippe Mathieu-Daudé wrote:
-> Shouldn't add genh to all common_ss[]?
+On Fri, Mar 25, 2022 at 04:04:37PM -0400, John Snow wrote:
+> qmp-shell is presently licensed as GPLv2 (only). I intend to include
+> this tool as an add-on to an LGPLv2+ library package hosted on
+> PyPI.org. I've selected LGPLv2+ to maximize compatibility with other
+> licenses while retaining a copyleft license.
 > 
-> Maybe the problem is how common_all[] is created?
+> To keep licensing matters simple, I'd like to relicense this tool as
+> LGPLv2+ as well in order to keep the resultant license of the hosted
+> release files simple -- even if library users won't "link against" this
+> command line tool.
+> 
+> Therefore, I am asking permission from the current authors of this
+> tool to loosen the license. At present, those people are:
+> 
+> - John Snow (me!), 411/609
+> - Luiz Capitulino, Author, 97/609
+> - Daniel Berrangé, 81/609
+> - Eduardo Habkost, 10/609
+> - Marc-André Lureau, 6/609
+> - Fam Zheng, 3/609
+> - Cleber Rosa, 1/609
+> 
+> (All of which appear to have been written under redhat.com addresses.)
+> 
+> Eduardo's fixes are largely automated from 2to3 conversion tools and may
+> not necessarily constitute authorship, but his signature would put to
+> rest any questions.
+> 
+> Cleber's changes concern a single import statement change. Also won't
+> hurt to ask.
+> 
+> CC: Luiz Capitulino <lcapitulino@redhat.com>
+> CC: Daniel Berrange <berrange@redhat.com>
+> CC: Eduardo Habkost <ehabkost@habkost.com>
+> CC: Marc-André Lureau <mlureau@redhat.com>
+> CC: Fam Zheng <fam@euphon.net>
+> CC: Cleber Rosa <crosa@redhat.com>
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/aqmp/qmp_shell.py | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 
-Generated headers have to be added to all sourcesets, or to all targets.
+Acked-by: Daniel P. Berrangé <berrange@redhat.com>
 
-common_ss is only used to build the object files in libcommon.fa.p, but 
-libcommon.fa also includes many other .fa build targets (via 
-"dependencies:").  All those build targets also need to have genh in 
-their build target as well, otherwise their object files might be built 
-before the generated headers.
 
-(The other question then is why we have libauthz, libcrypto, 
-libmigration, etc. instead of just using the sourcesets.  The answer for 
-that is that in Meson the static_library is the tool for object file 
-reuse.  If you include the same source file in many different executable 
-it is recompiled.  Therefore, if you used sourcesets, you would build 
-the object files once for each testsuite program that uses them).
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Paolo
 
