@@ -2,94 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F484EBE3F
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:02:43 +0200 (CEST)
-Received: from localhost ([::1]:35986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9AC4EBE40
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:02:57 +0200 (CEST)
+Received: from localhost ([::1]:36586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZVA1-00081S-Qv
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:02:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34286)
+	id 1nZVAG-00005c-KB
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:02:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nZUvi-0004Tc-1o
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 05:47:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49163)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nZV5s-0006l0-D1
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 05:58:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nZUvf-0001F5-7j
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 05:47:53 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nZV5p-0005K3-Sq
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 05:58:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648633670;
+ s=mimecast20190719; t=1648634300;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uejn+RaLs2yPBzAH4a8sTIxrbg8yej/Nd+b8LtTVaog=;
- b=f6tOLNow8L+T0P8MRWN7j/NGY1eKNNAd8RX3HaFb4OBb4zoGwHuYw0X/2lRR+wdxj+WRsi
- OWFHfhMWSjy++5tB2x9ebsEdMfsoGPvPot3XkxfGPXF3Iy5JL5QI/i+suinkKHyCNzNymb
- HiseG0C9oKUXvkMfjVL2O23HO+QGjbs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FNBbP+HZPQ66KLN8iMErz/CFiJJQNW+fdUADIEjrApQ=;
+ b=AgT3f/cX7HenJq043RYkg6eAiR2Q+JQ+KSFy86Z4WyS336GiSEv+DvmV8xtuStSJRpZkCm
+ A8T262ZE5fpygY6jGoFNhXxuIDg4mI7ejC44I+pea7ohuGFYEdn4SbM0+Hz7U8ILE2Ea0K
+ zUmOZIjFf+6uKn2BLZ+nq+LBIltE/0A=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-151-MuVX8tWsPhiFfjnqlghCkg-1; Wed, 30 Mar 2022 05:47:49 -0400
-X-MC-Unique: MuVX8tWsPhiFfjnqlghCkg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h127-20020a1c2185000000b0038c6f7e22a4so856580wmh.9
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 02:47:49 -0700 (PDT)
+ us-mta-411-aFrEO_P-OPCzguKqT3HgJg-1; Wed, 30 Mar 2022 05:58:19 -0400
+X-MC-Unique: aFrEO_P-OPCzguKqT3HgJg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 2-20020a1c0202000000b0038c71e8c49cso884235wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 02:58:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=uejn+RaLs2yPBzAH4a8sTIxrbg8yej/Nd+b8LtTVaog=;
- b=Hc0eFO4SPiHk1NMkm9jmMBHeAB8Mk9a9Yysg476mCzvENT4tktz6TmmeQFTFkwNdBQ
- Bb3HKvFH/LrmcyhRv3YM640AnMKlTkkhRbnr/yWcf80246nks5FMKYmld6NNvDvrShdH
- MrV/ZlNFryGsZykq7l+Zxno1JqI7522wpv2E+dw3Jt2Fh2szNEybiUx2tAAzjI14/lOk
- F1XxNu0kABCy31NzMlMPQmf5Wozei3oC1Lpg7BOr3Hypvv5X/B1q1F8upekS314R4LOb
- UXOHzblYT52q6FHAkOKmDyA8XUDR6HoN2gFydMT+HrmADfYFLZj0//n0NU/D99kTZnNo
- DMlA==
-X-Gm-Message-State: AOAM533IAd8BMKe0+rhcJanrtYBse4MT/i9cfvMbi27TIn7P1eq+afTW
- sLwf4tmkYGb94EskrvWNaDZccP7yJiyps5HF54NjPHDv3aIERBfqj5FHaev7eSaSfDQrL93zZfX
- J+DojF2sXZgjzdzI=
-X-Received: by 2002:a05:6000:2a6:b0:203:ebe1:2900 with SMTP id
- l6-20020a05600002a600b00203ebe12900mr35918787wry.423.1648633668299; 
- Wed, 30 Mar 2022 02:47:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJNOKF0zAeIYZlxM3wsblPMm/0PpxnJwy3Jj5hPZp23HqA5STUvQvVu5P9ZNmGiQzELnlleg==
-X-Received: by 2002:a05:6000:2a6:b0:203:ebe1:2900 with SMTP id
- l6-20020a05600002a600b00203ebe12900mr35918768wry.423.1648633668046; 
- Wed, 30 Mar 2022 02:47:48 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c705:2200:178b:7244:2a1f:b5d8?
- (p200300cbc7052200178b72442a1fb5d8.dip0.t-ipconnect.de.
- [2003:cb:c705:2200:178b:7244:2a1f:b5d8])
+ bh=FNBbP+HZPQ66KLN8iMErz/CFiJJQNW+fdUADIEjrApQ=;
+ b=PQs4OG+OIAXbyja5uL62kqW294m0EumwGRgntnnbxxYZJcmIUusnM/y+7SwZ6jniSe
+ Aq1Y5Rd1fd7P/nJtRNCT4VRmJQIV3V96w8BU2NTiacOYu7ehUVSNDwEjHOZpcPXKY9q6
+ gzhEYGMk/GJZewTV0EdAN6QDVPpogxNnog6zXFWDHzYV1H3ztm9riJRWytGbmjtq2qbU
+ +emi6lVvur8Iyk3PxRggdAPP0ybTavDZDHm3s6WiYzosL+V2DDThVRrLDlkxydfxVt0Z
+ zQzIfqJkg8YhUahsgCNfHDHob/hQd4Kitq8oK9qLIglBppko3YPhb9E7ia8rvYMaeXnS
+ 24Kg==
+X-Gm-Message-State: AOAM530zyQuSGO6pP0vEArG/+yx4mRNA/SKoIAeGZRGWqOKidlbpWC08
+ GIX2j6kxKHqGfbbdMIyBqFtSw/bDhUHFb29UmwwWKddcYjhYxvF6EFFeb+r+C7+AXlIAv9Eprab
+ a1gr7i5d6MDcQ5f8=
+X-Received: by 2002:a05:6000:184c:b0:204:ffc:1b1c with SMTP id
+ c12-20020a056000184c00b002040ffc1b1cmr36747062wri.141.1648634298182; 
+ Wed, 30 Mar 2022 02:58:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwf+AVuhfnrrBNK7e3J6WPPouv/9wHIJDWtTinjAgn1Q0LWgS4fL3JxhPYd+iLoUfHB4c5b+A==
+X-Received: by 2002:a05:6000:184c:b0:204:ffc:1b1c with SMTP id
+ c12-20020a056000184c00b002040ffc1b1cmr36747041wri.141.1648634297876; 
+ Wed, 30 Mar 2022 02:58:17 -0700 (PDT)
+Received: from [192.168.149.116]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
  by smtp.gmail.com with ESMTPSA id
- b15-20020a05600018af00b002057c72d45fsm21372992wri.77.2022.03.30.02.47.47
+ 3-20020a5d47a3000000b0020412ba45f6sm19962943wrb.8.2022.03.30.02.58.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 02:47:47 -0700 (PDT)
-Message-ID: <5930e000-35d2-64ec-e301-9305fa09db39@redhat.com>
-Date: Wed, 30 Mar 2022 11:47:47 +0200
+ Wed, 30 Mar 2022 02:58:17 -0700 (PDT)
+Message-ID: <b1bbf8a5-5d21-64c4-2ecd-f9f7a33d810b@redhat.com>
+Date: Wed, 30 Mar 2022 11:58:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 1/2] target/s390x: Fix determination of overflow condition
- code after addition
-To: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220323162621.139313-1-thuth@redhat.com>
- <20220323162621.139313-2-thuth@redhat.com>
- <2b82de5e-a259-576c-5ea5-eb5c10e6bbeb@redhat.com>
- <36106411-4cf1-5eaf-b63f-c331380e087b@redhat.com>
- <6c73160b-787c-0f64-aabc-25bd943d8ffd@redhat.com>
- <e65e17f4-ef4c-9dfb-a9c6-a05dbc4cf671@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <e65e17f4-ef4c-9dfb-a9c6-a05dbc4cf671@redhat.com>
+ Thunderbird/91.2.0
+Subject: Re: [RFC PATCH 0/5] Removal of AioContext lock, bs->parents and
+ ->children: proof of concept
+To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ qemu-block@nongnu.org
+References: <20220301142113.163174-1-eesposit@redhat.com>
+ <516a480e-15a0-896f-6ff8-4303e110210e@virtuozzo.com>
+ <f43e3499-fa70-f0ce-4daa-d62b5bb9819c@redhat.com>
+ <160b0358-b96b-c1ff-e08f-7488366a1755@mail.ru>
+ <dd644d13-720f-c720-83bc-bab291b45d7b@redhat.com>
+ <6694cad1-058b-d1bf-3f6c-61879799fa22@mail.ru>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <6694cad1-058b-d1bf-3f6c-61879799fa22@mail.ru>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -111,133 +111,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Bruno Haible <bruno@clisp.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.03.22 11:42, Thomas Huth wrote:
-> On 30/03/2022 11.34, David Hildenbrand wrote:
->> On 30.03.22 11:29, Thomas Huth wrote:
->>> On 30/03/2022 10.52, David Hildenbrand wrote:
->>>> On 23.03.22 17:26, Thomas Huth wrote:
->>>>> This program currently prints different results when run with TCG instead
->>>>> of running on real s390x hardware:
->>>>>
->>>>>    #include <stdio.h>
->>>>>
->>>>>    int overflow_32 (int x, int y)
->>>>>    {
->>>>>      int sum;
->>>>>      return ! __builtin_add_overflow (x, y, &sum);
->>>>>    }
->>>>>
->>>>>    int overflow_64 (long long x, long long y)
->>>>>    {
->>>>>      long sum;
->>>>>      return ! __builtin_add_overflow (x, y, &sum);
->>>>>    }
->>>>>
->>>>>    int a1 = -2147483648;
->>>>>    int b1 = -2147483648;
->>>>>    long long a2 = -9223372036854775808L;
->>>>>    long long b2 = -9223372036854775808L;
->>>>>
->>>>>    int main ()
->>>>>    {
->>>>>      {
->>>>>        int a = a1;
->>>>>        int b = b1;
->>>>>        printf ("a = 0x%x, b = 0x%x\n", a, b);
->>>>>        printf ("no_overflow = %d\n", overflow_32 (a, b));
->>>>>      }
->>>>>      {
->>>>>        long long a = a2;
->>>>>        long long b = b2;
->>>>>        printf ("a = 0x%llx, b = 0x%llx\n", a, b);
->>>>>        printf ("no_overflow = %d\n", overflow_64 (a, b));
->>>>>      }
->>>>>    }
->>>>>
->>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/616
->>>>> Suggested-by: Bruno Haible <bruno@clisp.org>
->>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>>> ---
->>>>>    target/s390x/tcg/cc_helper.c | 4 ++--
->>>>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/target/s390x/tcg/cc_helper.c b/target/s390x/tcg/cc_helper.c
->>>>> index 8d04097f78..e11cdb745d 100644
->>>>> --- a/target/s390x/tcg/cc_helper.c
->>>>> +++ b/target/s390x/tcg/cc_helper.c
->>>>> @@ -136,7 +136,7 @@ static uint32_t cc_calc_subu(uint64_t borrow_out, uint64_t result)
->>>>>    
->>>>>    static uint32_t cc_calc_add_64(int64_t a1, int64_t a2, int64_t ar)
->>>>>    {
->>>>> -    if ((a1 > 0 && a2 > 0 && ar < 0) || (a1 < 0 && a2 < 0 && ar > 0)) {
->>>>> +    if ((a1 > 0 && a2 > 0 && ar < 0) || (a1 < 0 && a2 < 0 && ar >= 0)) {
->>>>
->>>>
->>>> Intuitively, I'd have checked for any overflow/underflow by comparing
->>>> with one of the input variables:
->>>>
->>>> a) Both numbers are positive
->>>>
->>>> Adding to positive numbers has to result in something that's bigger than
->>>> the input parameters.
->>>>
->>>> "a1 > 0 && a2 > 0 && ar < a1"
+
+
+Am 30/03/2022 um 11:52 schrieb Vladimir Sementsov-Ogievskiy:
+> 30.03.2022 12:09, Emanuele Giuseppe Esposito wrote:
 >>>
->>> I think it doesn't really matter whether we compare ar with a1 or 0 here. If
->>> an overflow happens, what's the biggest number that we can get? AFAICT it's
->>> with a1 = 0x7fffffffffffffff and a2 = 0x7fffffffffffffff. You then get:
+>>> Ah seems I understand what you mean.
 >>>
->>>    0x7fffffffffffffff + 0x7fffffffffffffff = 0xFFFFFFFFFFFFFFFE
+>>> One of my arguments is that "drain" - is not a lock against other
+>>> clients who want to modify the graph. Because, drained section allows
+>>> nested drained sections.
 >>>
->>> and that's still < 0 if treated as a signed value. I don't see a way where
->>> ar could be in the range between 0 and a1.
+>>> And you try to solve it, by draining more things, this way, we'll drain
+>>> also the job, which is a possible client, who may want to modify the
+>>> graph in parallel.
 >>>
->>> (OTOH, checking for ar < a1 instead of ar < 0 wouldn't hurt either, I guess).
->>>
->>>> b) Both numbers are negative
->>>>
->>>> Adding to negative numbers has to result in something that's smaller
->>>> than the input parameters.
->>>>
->>>> "a1 < 0 && a2 < 0 && ar > a1"
->>>
->>> What about if the uppermost bit gets lost in 64-bit mode:
->>>
->>>    0x8000000000000000 + 0x8000000000000000 = 0x0000000000000000
->>>
->>> ar > a1 does not work here anymore, does it?
+>>> So, in other words, when we want to modify the graph, we drain the whole
+>>> connectivity component of the graph. And we think that we are safe from
+>>> other graph modifications because all related jobs are drained.
+>>> Interesting, is that possible that some not drained job from another
+>>> connectivity component will want to connect some node from our drained
+>>> component?
 >>
+>> You mean another job or whathever calling bdrv_find_node() on a random
+>> graph? Yes that is not protected. But can this happen?
 >>
->> 0 > -9223372036854775808, no?
+>> That's the question. What are the invariants here? Can anything happen?
+>>
+>>>
+>>> I just still feel that draining is a wrong mechanism to avoid
+>>> interaction with other clients who want to modify the graph, because:
+>>>
+>>> 1. we stop the whole IO on all subgraph which is not necessary
+>>> 2. draining is not a mutex, it allows nesting and it's ok when two
+>>> different clients drain same nodes. Draining is just a requirement to do
+>>> no IO at these nodes.
+>>>
+>>> And in your way, it seems that to be absolutely safe we'll need to drain
+>>> everything..
+>>>
+>>> In my feeling it's better to keep draining what it is now: requirement
+>>> to have no IO requests. And to isolate graph modifications from each
+>>> other make a new synchronization mechanism, something like a global
+>>> queue, where clients who want to get an access to graph modifications
+>>> wait for their turn.
+>>
+>> This is a matter of definitions. Subtree drains can theoretically work,
+>> I managed to answer to my own doubts in the last email I sent.
+>>
+>> Yes, there is still some completely random case like the one I wrote
+>> above, but I think it is more a matter of what we want to use and what
+>> meaning we want to give to drains.
+>>
+>> Global queue is what Kevin proposes, I will try to implement it.
+>>
+>>>
+>>>
+>>> As I understand:
+>>>
+>>> You want to make drained section to be a kind of lock, so that if we
+>>> take this lock, we can modify the graph and we are sure that no other
+>>> client will modify it in parallel.
+>>
+>> Yes
+>>
+>>>
+>>> But drained sections can be nested. So to solve the problem you try to
+>>> drain more nodes: include subtree for example, or may be we need to
+>>> drain the whole graph connectivity component, or (to be more safe) the
+>>> whole block layer (to be sure that during drained section in one
+>>> connectivity component some not-drained block-job from another
+>>> connectivity component will not try to attach some node from our drained
+>>> connectivity component)..
+>>>
+>>> I still feel that draining is wrong tool for isolating graph modifying
+>>> operations from each other:
+>>>
+>>> 1. Drained sections can be nested, and natively that's not a kind of
+>>> lock. That's just a requirement to have no IO requests. There may be
+>>> several clients that want this condition on same set of nodes.
+>>>
+>>> 2. Blocking IO on the whole connected subgraph or even on the whole
+>>> block layer graph is not necessary, so that's an extra blocking.
+>>>
+>>>
+>>> Could we instead do the following:
+>>>
+>>> 1. Keep draining as is - a mechanism to stop IO on some nodes
+>>>
+>>> 2. To isolate graph-modifying operations implement another mechanism:
+>>> something like a global queue, where clients wait until they gen an
+>>> access to modify block layer.
+>>>
+>>>
+>>> This way, any graph modifying process would look like this:
+>>>
+>>> 1. drained_begin(only where necessary, not the whole subgraph in
+>>> general)
+>>>
+>>> 2. wait in the global queue
+>>>
+>>> 3. Ok, now we can do all the modifications
+>>>
+>>> 4. Kick the global queue, so that next client will get an access
+>>>
+>>> 5. drained_end()
+>>>
+>>>
+>>
+>> Please give a look at what Kevin (described by me) proposed. I think
+>> it's the same as you are suggesting. I am pasting it below.
+>> I will try to implement this and see if it is doable or not.
+>>
+>> I think the advantage of drains is that it isn't so complicated and
+>> doesn't add any complication to the existing code.
+>> But we'll see how it goes with this global queue.
+>>
+>>> His idea is to replicate what blk_wait_while_drained() currently does
+>>> but on a larger scale. It is something in between this subtree_drains
+>>> logic and a rwlock.
+>>>
+>>> Basically if I understood correctly, we could implement
+>>> bdrv_wait_while_drained(), and put in all places where we would put a
+>>> read lock: all the reads to ->parents and ->children.
+>>> This function detects if the bdrv is under drain, and if so it will stop
+>>> and wait that the drain finishes (ie the graph modification).
+>>> On the other side, each write would just need to drain probably both
+>>> nodes (simple drain), to signal that we are modifying the graph. Once
+>>> bdrv_drained_begin() finishes, we are sure all coroutines are stopped.
+>>> Once bdrv_drained_end() finishes, we automatically let all coroutine
+>>> restart, and continue where they left off.
+>>>
+>>> Seems a good compromise between drains and rwlock. What do you think?
+>>>
+>>> I am not sure how painful it will be to implement though.
+>>
 > 
-> current coffe level < correct coffee level
+> Hm, I don't see, where is global queue here? Or
+> bdrv_wait_while_drained() is global and has no bs arguement?
 > 
-> ... sorry, never mind, you're right of course.
 > 
-> Anyway, 0 is the lowest number we can get for an underflow, so comparing 
-> with >= 0 should be fine (but comparing with a1 wouldn't hurt either).
 
-At least for me it takes more brainpower to understand that than
-comparing against one of both parameters as we usually do, e.g., for
-unsigned values in
+From what I understand, blk_wait_while_drained has a queue internally.
+Yes, the queue would be global, and all coroutines that want to perform
+a read will have to wait until the modification is ended.
 
-include/qemu/range.h:range_init()
+Whether to wake the queue up with a drain or a write lock is also
+another point worth discussion maybe.
 
-if (lob + size < lob) {
-	return -ERANGE;
-}
-
-
-Having that said, I haven't checked all corner cases in your example but
-I assume it's fine.
-
--- 
-Thanks,
-
-David / dhildenb
 
 
