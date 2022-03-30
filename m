@@ -2,57 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0CB94EBE77
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:15:27 +0200 (CEST)
-Received: from localhost ([::1]:51366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A174EBE82
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:18:28 +0200 (CEST)
+Received: from localhost ([::1]:54594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZVMM-0001yl-3R
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:15:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37928)
+	id 1nZVPH-0004Ow-7z
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:18:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <08005325@163.com>) id 1nZVAc-0002Js-Gw
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:03:20 -0400
-Received: from m12-15.163.com ([220.181.12.15]:55136)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <08005325@163.com>) id 1nZVAW-000690-8h
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:03:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=Xx4nHGJS5NY1RwUznW
- Gf6SvaEsbHwtqKfVJYrvx/akk=; b=TliDBtIxG0j4Vn5qbF9xFPKcsw2We1FJ6K
- FRYJVECe8yZ62gBZdsQiQAo+pEfq6fM5GFCc0EjK2IhzUVCdr+Trq72XfXfx5eJ1
- Kvr4y4+3aOb1KI1YuQGhgK/YgWLmwNxK7VlIISxB74kDq2GzlAG64/aOf7U3IGpO
- D47DneOsA=
-Received: from localhost.localdomain.localdomain (unknown [116.228.45.98])
- by smtp11 (Coremail) with SMTP id D8CowADXtXLHKkRiJVqqAA--.547S2;
- Wed, 30 Mar 2022 18:02:48 +0800 (CST)
-From: 08005325@163.com
-To: jasowang@redhat.com,
-	mst@redhat.com
-Subject: [PATCH v2] vdpa: reset the backend device in stage of stop last vhost
- device
-Date: Wed, 30 Mar 2022 06:02:41 -0400
-Message-Id: <1648634561-12504-1-git-send-email-08005325@163.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1648024966-5170-1-git-send-email-08005325@163.com>
-References: <1648024966-5170-1-git-send-email-08005325@163.com>
-X-CM-TRANSID: D8CowADXtXLHKkRiJVqqAA--.547S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3GFWDGw1UWrWDJr47KF15urg_yoW7tryDpa
- s7GF98Ar4UJr1xta1fAF18u3s8G3sYyw4DGFZ29FyYkF1DtrykZrWqga1jyry7CFWrJF13
- tF1qgr4Uu345Z3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07joa0PUUUUU=
-X-Originating-IP: [116.228.45.98]
-X-CM-SenderInfo: qqyqikqtsvqiywtou0bp/1tbivwjTrFWByc-QngAAsU
-Received-SPF: pass client-ip=220.181.12.15; envelope-from=08005325@163.com;
- helo=m12-15.163.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
+ id 1nZVAP-00027S-PV
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:03:06 -0400
+Received: from [2607:f8b0:4864:20::102a] (port=37731
+ helo=mail-pj1-x102a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
+ id 1nZVAN-000691-JJ
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:03:05 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ g9-20020a17090ace8900b001c7cce3c0aeso1597470pju.2
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 03:03:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:mime-version:subject:date:references:to:in-reply-to:message-id;
+ bh=b+HtnPvjlRrlTz+K/8QS4BxARKqnH5WwyXPhQSKyC+w=;
+ b=NavYJ4WebJhWaMe7IO/F2SKuSJDaOtUgD4LWPflyPVw4AiU2vxyrRF7gghcEggAGHB
+ mEO+0AIWcafuYk2xU8LTRUzZJavHC7VGwA1u3tqnOwONDtC1Nc0wVkmTbnPslLDZo9wK
+ VpWEfIvxkMi4WcwWr6lTkvzurKnerG1TupLGDd8pwwDrM9NIhZIq0+MNFu4jUe06ZDjM
+ 1WSMct+ONxnSDxkiV/3mIy84yAeWkl7ddHbXT8lwm9sR/od0Mn6b7v+colq+wtP8xbba
+ bEvx63lbXbX+fWu+0lLMBOCh2jiHAz3nu8o4szaJAODzbwrSVYE6Ai36fBiFBJVmY2q0
+ vbXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:mime-version:subject:date:references:to
+ :in-reply-to:message-id;
+ bh=b+HtnPvjlRrlTz+K/8QS4BxARKqnH5WwyXPhQSKyC+w=;
+ b=p6TBX17rIwHQsUZ4Y9/yftHjoNO3eAqjAUY8ydTccQoo7paaALcEcLh7ZkI8mt/Sk0
+ weaserwnPUHL/QOPJR9gEpL+mGTiLd9IF9etl0B2Tzmv/+rGlXgAa9WXEWzdPAi7kDCz
+ Q/uvrDKdmP9KY9Wg4BWIWhJ6n6+VnJV/mPafnTGzzqxoJRSMCcuWAnR7FcLNIyp9DDRI
+ 36TTY1F4MrY3HdvC82xghdWwoRsy/Ls7Vz8DNc7j7AVK9CzseU+KqqvxRb7bJGzWuT3N
+ BGKKqjOw+8IJ0w2IDSCGZ7cqTv9yaG8i5XtS3dQexylEDxXtmRdHFkGwKqTlmAcQovu+
+ Wxcw==
+X-Gm-Message-State: AOAM533ykGvRAkCctScHc39/uiY2S2gRn0Mb7jnj9TvXPBE3PqtBWfF2
+ fkelk2YY4jPheM/u6/JmwYQbJA==
+X-Google-Smtp-Source: ABdhPJz2HUHKe0usyt2K4/jj9J/RWI5bCBoQJr7avDsn15Q0ZCdMrxFPgkKmL2n2FOfQSEMlheq1Dw==
+X-Received: by 2002:a17:903:32ce:b0:154:4a39:294d with SMTP id
+ i14-20020a17090332ce00b001544a39294dmr34248648plr.48.1648634580894; 
+ Wed, 30 Mar 2022 03:03:00 -0700 (PDT)
+Received: from smtpclient.apple
+ (2001-b400-e289-e64b-5086-f43b-5323-ad33.emome-ip6.hinet.net.
+ [2001:b400:e289:e64b:5086:f43b:5323:ad33])
+ by smtp.gmail.com with ESMTPSA id
+ a38-20020a056a001d2600b004f72acd4dadsm23363871pfx.81.2022.03.30.03.02.59
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 30 Mar 2022 03:03:00 -0700 (PDT)
+From: eop Chen <eop.chen@sifive.com>
+Content-Type: multipart/alternative;
+ boundary="Apple-Mail=_B10A4A95-E765-4327-A9AC-1803D1CB3C74"
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
+Subject: Re: [PATCH qemu v5 05/14] target/riscv: rvv: Add tail agnostic for
+ vector load / store instructions
+Date: Wed, 30 Mar 2022 18:02:57 +0800
+References: <164845204233.25323.14607469451359734000-5@git.sr.ht>
+ <7f3c995d-182f-f1b3-4e79-94f5b81e1be9@iscas.ac.cn>
+ <BC7B9267-08F4-4CF0-9BAD-52CF8DA2DCC2@gmail.com>
+ <5ce85a5a-8309-9016-b88f-69af545e4114@iscas.ac.cn>
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+In-Reply-To: <5ce85a5a-8309-9016-b88f-69af545e4114@iscas.ac.cn>
+Message-Id: <91927009-7EA2-461A-ACD0-F3B8955BA982@sifive.com>
+X-Mailer: Apple Mail (2.3693.60.0.1.1)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=eop.chen@sifive.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,188 +96,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lulu@redhat.com, qemu-devel@nongnu.org, eperezma@redhat.com,
- Michael Qiu <qiudayu@archeros.com>, si-wei.liu@oracle.com,
- lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Qiu <qiudayu@archeros.com>
 
-Currently, when VM poweroff, it will trigger vdpa
-device(such as mlx bluefield2 VF) reset many times(with 1 datapath
-queue pair and one control queue, triggered 3 times), this
-leads to below issue:
+--Apple-Mail=_B10A4A95-E765-4327-A9AC-1803D1CB3C74
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-vhost VQ 2 ring restore failed: -22: Invalid argument (22)
 
-This because in vhost_net_stop(), it will stop all vhost device bind to
-this virtio device, and in vhost_dev_stop(), qemu tries to stop the device
-, then stop the queue: vhost_virtqueue_stop().
 
-In vhost_dev_stop(), it resets the device, which clear some flags
-in low level driver, and in next loop(stop other vhost backends),
-qemu try to stop the queue corresponding to the vhost backend,
- the driver finds that the VQ is invalied, this is the root cause.
+> Weiwei Li <liweiwei@iscas.ac.cn> =E6=96=BC 2022=E5=B9=B43=E6=9C=8830=E6=97=
+=A5 =E4=B8=8B=E5=8D=884:27 =E5=AF=AB=E9=81=93=EF=BC=9A
+> =E5=9C=A8 2022/3/30 =E4=B8=8B=E5=8D=883:42, =E9=99=B3=E7=B4=84=E5=BB=B7 =
+=E5=86=99=E9=81=93:
+>>=20
+>>> Weiwei Li <liweiwei@iscas.ac.cn <mailto:liweiwei@iscas.ac.cn>> =E6=96=BC=
+ 2022=E5=B9=B43=E6=9C=8828=E6=97=A5 =E4=B8=8B=E5=8D=887:56 =E5=AF=AB=E9=81=
+=93=EF=BC=9A
+>>>=20
+>>>=20
+>>> =E5=9C=A8 2022/3/7 =E4=B8=8B=E5=8D=883:10, ~eopxd =E5=86=99=E9=81=93:
+>>>> From: eopXD <eop.chen@sifive.com <mailto:eop.chen@sifive.com>>
+> Another question: max_elems is equal to total_elems when lmul >=3D 0.
+>=20
+> So max_elems can be reused  here instead of caculating total_elems =
+again.
+>=20
+>>=20
+>> I don=E2=80=99t understand your second question though. If nf =3D 3, =
+there will be 3 registers
+>> involved with the instruction (namely reg, reg+1, reg+2). Why do we =
+care about
+>> (reg+3)?
+>>=20
+> I just consider register group here. Reg, reg+1, reg+2 and reg+3 may =
+belong to the same register group.
+>=20
+> Regards,
+>=20
+> Weiwei Li
+>=20
 
-To solve the issue, vdpa should set vring unready, and
-remove reset ops in device stop: vhost_dev_start(hdev, false).
+According to v-spec (under section 7.8):
 
-and implement a new function vhost_dev_reset, only reset backend
-device when the last vhost stop triggerd.
+Each field will be held in successively numbered vector register groups. =
+When EMUL>1
+ each field will occupy a vector register group held in multiple =
+successively numbered
+vector registers, and the vector register group for each field must =
+follow the usual vector
+register alignment constraints (e.g., when EMUL=3D2 and NFIELDS=3D4, =
+each field=E2=80=99s vector
+register group must start at an even vector register, but does not have =
+to start at a multiple
+of 8 vector register number).
 
-Signed-off-by: Michael Qiu<qiudayu@archeros.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
----
-v2 --> v1:
-   implement a new function vhost_dev_reset,
-   reset the backend kernel device at last.
+I think the spec has explained itself that NFIELDS represents the number =
+of register groups involved
+in this instruction. Therefore in a register group of 4 (LMUL =3D m2), =
+NFIELD should be no more than 2.
+The `vlmax` here would be (VLEN * 4 / EEW). In this sense, if the `vl` =
+provided for the vector instruction
+is within the range 2 * vlmax / 4 <=3D vl <=3D 3 * vlmax / 4, the =
+elements in the 4th register (namely reg+3)
+will all be counted as tail elements.
 
----
- hw/net/vhost_net.c        | 22 +++++++++++++++++++---
- hw/virtio/vhost-vdpa.c    |  8 ++++----
- hw/virtio/vhost.c         | 16 +++++++++++++++-
- include/hw/virtio/vhost.h |  1 +
- 4 files changed, 39 insertions(+), 8 deletions(-)
+I hope this answers your question.
 
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 30379d2..3cdf6a4 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -299,7 +299,7 @@ fail_notifiers:
- }
- 
- static void vhost_net_stop_one(struct vhost_net *net,
--                               VirtIODevice *dev)
-+                               VirtIODevice *dev, bool reset)
- {
-     struct vhost_vring_file file = { .fd = -1 };
- 
-@@ -313,6 +313,11 @@ static void vhost_net_stop_one(struct vhost_net *net,
-         net->nc->info->poll(net->nc, true);
-     }
-     vhost_dev_stop(&net->dev, dev);
-+
-+    if (reset) {
-+        vhost_dev_reset(&net->dev);
-+    }
-+
-     vhost_dev_disable_notifiers(&net->dev, dev);
- }
- 
-@@ -391,7 +396,12 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
- err_start:
-     while (--i >= 0) {
-         peer = qemu_get_peer(ncs , i);
--        vhost_net_stop_one(get_vhost_net(peer), dev);
-+
-+        if (i == 0) {
-+            vhost_net_stop_one(get_vhost_net(peer), dev, true);
-+        } else {
-+            vhost_net_stop_one(get_vhost_net(peer), dev, false);
-+        }
-     }
-     e = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
-     if (e < 0) {
-@@ -420,7 +430,13 @@ void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
-         } else {
-             peer = qemu_get_peer(ncs, n->max_queue_pairs);
-         }
--        vhost_net_stop_one(get_vhost_net(peer), dev);
-+
-+        /* We only reset backend device during the last vhost */
-+        if (i == nvhosts - 1) {
-+            vhost_net_stop_one(get_vhost_net(peer), dev, true);
-+        } else {
-+            vhost_net_stop_one(get_vhost_net(peer), dev, false);
-+        }
-     }
- 
-     r = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index c5ed7a3..d858b4f 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -719,14 +719,14 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
-     return idx;
- }
- 
--static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
-+static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev, unsigned int ready)
- {
-     int i;
-     trace_vhost_vdpa_set_vring_ready(dev);
-     for (i = 0; i < dev->nvqs; ++i) {
-         struct vhost_vring_state state = {
-             .index = dev->vq_index + i,
--            .num = 1,
-+            .num = ready,
-         };
-         vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
-     }
-@@ -1088,8 +1088,9 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-         if (unlikely(!ok)) {
-             return -1;
-         }
--        vhost_vdpa_set_vring_ready(dev);
-+        vhost_vdpa_set_vring_ready(dev, 1);
-     } else {
-+        vhost_vdpa_set_vring_ready(dev, 0);
-         ok = vhost_vdpa_svqs_stop(dev);
-         if (unlikely(!ok)) {
-             return -1;
-@@ -1105,7 +1106,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-         memory_listener_register(&v->listener, &address_space_memory);
-         return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-     } else {
--        vhost_vdpa_reset_device(dev);
-         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-                                    VIRTIO_CONFIG_S_DRIVER);
-         memory_listener_unregister(&v->listener);
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index b643f42..6d9b4a3 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1820,7 +1820,7 @@ fail_features:
- void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
- {
-     int i;
--
-+    printf("vhost_dev_stop test\n");
-     /* should only be called after backend is connected */
-     assert(hdev->vhost_ops);
- 
-@@ -1854,3 +1854,17 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
- 
-     return -ENOSYS;
- }
-+
-+int vhost_dev_reset(struct vhost_dev *hdev)
-+{
-+    int ret = 0;
-+
-+    /* should only be called after backend is connected */
-+    assert(hdev->vhost_ops);
-+
-+    if (hdev->vhost_ops->vhost_reset_device) {
-+        ret = hdev->vhost_ops->vhost_reset_device(hdev);
-+    }
-+
-+    return ret;
-+}
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 58a73e7..b8b7c20 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -114,6 +114,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
- void vhost_dev_cleanup(struct vhost_dev *hdev);
- int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
- void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
-+int vhost_dev_reset(struct vhost_dev *hdev);
- int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
- void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
- 
--- 
-1.8.3.1
+Regards,
 
+eop Chen
+
+
+
+--Apple-Mail=_B10A4A95-E765-4327-A9AC-1803D1CB3C74
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><br =
+class=3D""><div class=3D"">
+
+</div>
+<div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
+class=3D"">Weiwei Li &lt;<a href=3D"mailto:liweiwei@iscas.ac.cn" =
+class=3D"">liweiwei@iscas.ac.cn</a>&gt; =E6=96=BC 2022=E5=B9=B43=E6=9C=883=
+0=E6=97=A5 =E4=B8=8B=E5=8D=884:27 =E5=AF=AB=E9=81=93=EF=BC=9A</div><div =
+class=3D""><div class=3D"">
+    <div class=3D"moz-cite-prefix">=E5=9C=A8 2022/3/30 =E4=B8=8B=E5=8D=883=
+:42, =E9=99=B3=E7=B4=84=E5=BB=B7 =E5=86=99=E9=81=93:<br class=3D"">
+    </div>
+    <blockquote type=3D"cite" =
+cite=3D"mid:BC7B9267-08F4-4CF0-9BAD-52CF8DA2DCC2@gmail.com" class=3D"">
+      <meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3DUTF-8" class=3D"">
+      <div class=3D""><br class=3D"">
+        <blockquote type=3D"cite" class=3D"">
+          <div class=3D"">Weiwei Li &lt;<a =
+href=3D"mailto:liweiwei@iscas.ac.cn" class=3D"" =
+moz-do-not-send=3D"true">liweiwei@iscas.ac.cn</a>&gt; =E6=96=BC
+            2022=E5=B9=B43=E6=9C=8828=E6=97=A5 =E4=B8=8B=E5=8D=887:56 =
+=E5=AF=AB=E9=81=93=EF=BC=9A</div>
+          <br class=3D"Apple-interchange-newline">
+          <div class=3D"">
+            <div class=3D""><br class=3D"">
+              =E5=9C=A8 2022/3/7 =E4=B8=8B=E5=8D=883:10, ~eopxd =
+=E5=86=99=E9=81=93:<br class=3D"">
+              <blockquote type=3D"cite" class=3D"">From: eopXD &lt;<a =
+href=3D"mailto:eop.chen@sifive.com" class=3D"" =
+moz-do-not-send=3D"true">eop.chen@sifive.com</a>&gt;<br =
+class=3D""></blockquote></div></div></blockquote></div></blockquote><p =
+class=3D"">Another question: max_elems is equal to total_elems when lmul
+      &gt;=3D 0.</p><p class=3D"">So max_elems can be reused&nbsp; here =
+instead of caculating
+      total_elems again.<br class=3D"">
+    </p>
+    <blockquote type=3D"cite" =
+cite=3D"mid:BC7B9267-08F4-4CF0-9BAD-52CF8DA2DCC2@gmail.com" class=3D"">
+      <div class=3D""><br class=3D"">
+      </div>
+      <div class=3D"">I don=E2=80=99t understand your second question =
+though. If
+        nf =3D 3, there will be 3 registers</div>
+      <div class=3D"">involved with the instruction (namely reg, reg+1,
+        reg+2). Why do we care about</div>
+      <div class=3D"">(reg+3)?</div>
+      <div class=3D""><br class=3D"">
+      </div>
+    </blockquote><p class=3D"">I just consider register group here. Reg, =
+reg+1, reg+2 and reg+3
+      may belong to the same register group.</p><p =
+class=3D"">Regards,</p><p class=3D"">Weiwei Li<br class=3D"">
+    </p>
+    </div></div></blockquote></div><br class=3D""><div =
+class=3D"">According to v-spec (under section 7.8):</div><div =
+class=3D""><br class=3D""></div><blockquote style=3D"margin: 0 0 0 40px; =
+border: none; padding: 0px;" class=3D""><div class=3D""><span =
+style=3D"color: rgb(36, 41, 47); font-variant-ligatures: normal; =
+orphans: 2; widows: 2; text-decoration-thickness: initial; =
+background-color: rgba(255, 255, 255, 0); font-size: 14px;" =
+class=3D""><font face=3D"Times" class=3D"">Each field will be held in =
+successively numbered vector register groups. When =
+EMUL&gt;1</font></span></div><div class=3D""><span style=3D"color: =
+rgb(36, 41, 47); font-variant-ligatures: normal; orphans: 2; widows: 2; =
+text-decoration-thickness: initial; background-color: rgba(255, 255, =
+255, 0); font-size: 14px;" class=3D""><font face=3D"Times" =
+class=3D"">&nbsp;each field will occupy a vector register group held in =
+multiple successively numbered</font></span></div><div class=3D""><span =
+style=3D"color: rgb(36, 41, 47); font-variant-ligatures: normal; =
+orphans: 2; widows: 2; text-decoration-thickness: initial; =
+background-color: rgba(255, 255, 255, 0); font-size: 14px;" =
+class=3D""><font face=3D"Times" class=3D"">vector registers, and the =
+vector register group for each field must follow the usual =
+vector</font></span></div><div class=3D""><span style=3D"color: rgb(36, =
+41, 47); font-variant-ligatures: normal; orphans: 2; widows: 2; =
+text-decoration-thickness: initial; background-color: rgba(255, 255, =
+255, 0); font-size: 14px;" class=3D""><font face=3D"Times" =
+class=3D"">register alignment constraints (e.g., when EMUL=3D2 and =
+NFIELDS=3D4, each field=E2=80=99s vector</font></span></div><div =
+class=3D""><span style=3D"color: rgb(36, 41, 47); =
+font-variant-ligatures: normal; orphans: 2; widows: 2; =
+text-decoration-thickness: initial; background-color: rgba(255, 255, =
+255, 0); font-size: 14px;" class=3D""><font face=3D"Times" =
+class=3D"">register group must start at an even vector register, but =
+does not have to start at a multiple</font></span></div><div =
+class=3D""><span style=3D"color: rgb(36, 41, 47); =
+font-variant-ligatures: normal; orphans: 2; widows: 2; =
+text-decoration-thickness: initial; background-color: rgba(255, 255, =
+255, 0); font-size: 14px;" class=3D""><font face=3D"Times" class=3D"">of =
+8 vector register number).</font></span></div></blockquote><div =
+class=3D""><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
+0);" class=3D""><br class=3D""></div><div style=3D"caret-color: rgb(0, =
+0, 0); color: rgb(0, 0, 0);" class=3D"">I think the spec has explained =
+itself that NFIELDS represents the number of register groups =
+involved</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
+0);" class=3D"">in this instruction. Therefore in a register group of 4 =
+(LMUL =3D m2), NFIELD should be no more than 2.</div><div =
+style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D"">The =
+`vlmax` here would be (VLEN * 4 / EEW). In this sense, if the `vl` =
+provided for the vector instruction</div><div style=3D"caret-color: =
+rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D"">is within the range 2 * =
+vlmax / 4 &lt;=3D vl &lt;=3D 3 * vlmax / 4, the elements in the 4th =
+register (namely reg+3)</div><div style=3D"caret-color: rgb(0, 0, 0); =
+color: rgb(0, 0, 0);" class=3D"">will all be counted as tail =
+elements.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
+0);" class=3D""><br class=3D""></div></div><div style=3D"caret-color: =
+rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D"">I hope this answers your =
+question.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, =
+0);" class=3D""><br class=3D""></div><div style=3D"caret-color: rgb(0, =
+0, 0); color: rgb(0, 0, 0);" class=3D"">Regards,</div><div =
+style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D""><br =
+class=3D""></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, =
+0, 0);" class=3D"">eop Chen</div><div style=3D"caret-color: rgb(0, 0, =
+0); color: rgb(0, 0, 0);" class=3D""><br class=3D""></div><div =
+style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D""><br =
+class=3D""></div></body></html>=
+
+--Apple-Mail=_B10A4A95-E765-4327-A9AC-1803D1CB3C74--
 
