@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4B04ECB5F
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:08:06 +0200 (CEST)
-Received: from localhost ([::1]:48938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE85D4ECB3F
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:03:51 +0200 (CEST)
+Received: from localhost ([::1]:39946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZcjl-0001Gd-EK
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:08:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41486)
+	id 1nZcff-0003LP-1K
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:03:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nZcbe-0000M9-UJ; Wed, 30 Mar 2022 13:59:42 -0400
+ id 1nZcbh-0000R2-54; Wed, 30 Mar 2022 13:59:45 -0400
 Received: from [187.72.171.209] (port=21948 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nZcbd-0004ik-BX; Wed, 30 Mar 2022 13:59:42 -0400
+ id 1nZcbf-0004ik-QF; Wed, 30 Mar 2022 13:59:44 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Wed, 30 Mar 2022 14:59:34 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 1BC8A8002AF;
+ by p9ibm (Postfix) with ESMTP id 71C388002AF;
  Wed, 30 Mar 2022 14:59:34 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [RFC PATCH 2/8] qemu/int128: add int128_urshift
-Date: Wed, 30 Mar 2022 14:59:26 -0300
-Message-Id: <20220330175932.6995-3-matheus.ferst@eldorado.org.br>
+Subject: [RFC PATCH 3/8] softfloat: add uint128_to_float128
+Date: Wed, 30 Mar 2022 14:59:27 -0300
+Message-Id: <20220330175932.6995-4-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
 References: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 30 Mar 2022 17:59:34.0481 (UTC)
- FILETIME=[E9EFAC10:01D8445F]
+X-OriginalArrivalTime: 30 Mar 2022 17:59:34.0950 (UTC)
+ FILETIME=[EA373C60:01D8445F]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -57,109 +57,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, danielhb413@gmail.com,
+ richard.henderson@linaro.org, groug@kaod.org, clg@kaod.org,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ Aurelien Jarno <aurelien@aurel32.net>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Implement an unsigned right shift for Int128 values and add the same
-tests cases of int128_rshift in the unit test.
+Based on parts_uint_to_float, implements uint128_to_float128 to convert
+an unsigned 128-bit value received through an Int128 argument.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- include/qemu/int128.h    | 19 +++++++++++++++++++
- tests/unit/test-int128.c | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
+ fpu/softfloat.c         | 25 +++++++++++++++++++++++++
+ include/fpu/softfloat.h |  2 ++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index 2a19558ac6..ca32b0b276 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -83,6 +83,11 @@ static inline Int128 int128_rshift(Int128 a, int n)
-     return a >> n;
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 7f524d4377..57445b36e7 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -3969,6 +3969,31 @@ float128 uint64_to_float128(uint64_t a, float_status *status)
+     return float128_round_pack_canonical(&p, status);
  }
  
-+static inline Int128 int128_urshift(Int128 a, int n)
++float128 uint128_to_float128(Int128 a, float_status *status)
 +{
-+    return (__uint128_t)a >> n;
-+}
++    FloatParts128 p = { };
++    int shift;
 +
- static inline Int128 int128_lshift(Int128 a, int n)
- {
-     return (__uint128_t)a << n;
-@@ -299,6 +304,20 @@ static inline Int128 int128_rshift(Int128 a, int n)
-     }
- }
- 
-+static inline Int128 int128_urshift(Int128 a, int n)
-+{
-+    uint64_t h = a.hi;
-+    if (!n) {
-+        return a;
-+    }
-+    h = h >> (n & 63);
-+    if (n >= 64) {
-+        return int128_make64(h);
++    if (int128_nz(a)) {
++        p.cls = float_class_normal;
++
++        shift = clz64(int128_gethi(a));
++        if (shift == 64) {
++            shift += clz64(int128_getlo(a));
++        }
++
++        p.exp = 127 - shift;
++        a = int128_lshift(a, shift);
++
++        p.frac_hi = int128_gethi(a);
++        p.frac_lo = int128_getlo(a);
 +    } else {
-+        return int128_make128((a.lo >> n) | ((uint64_t)a.hi << (64 - n)), h);
++        p.cls = float_class_zero;
 +    }
++
++    return float128_round_pack_canonical(&p, status);
 +}
 +
- static inline Int128 int128_lshift(Int128 a, int n)
- {
-     uint64_t l = a.lo << (n & 63);
-diff --git a/tests/unit/test-int128.c b/tests/unit/test-int128.c
-index b86a3c76e6..ae0f552193 100644
---- a/tests/unit/test-int128.c
-+++ b/tests/unit/test-int128.c
-@@ -206,6 +206,37 @@ static void test_rshift(void)
-     test_rshift_one(0xFFFE8000U,  0, 0xFFFFFFFFFFFFFFFEULL, 0x8000000000000000ULL);
- }
+ /*
+  * Minimum and maximum
+  */
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index d34b2c44d2..8e026e5610 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -95,6 +95,7 @@ typedef enum {
  
-+static void __attribute__((__noinline__)) ATTRIBUTE_NOCLONE
-+test_urshift_one(uint32_t x, int n, uint64_t h, uint64_t l)
-+{
-+    Int128 a = expand(x);
-+    Int128 r = int128_urshift(a, n);
-+    g_assert_cmpuint(int128_getlo(r), ==, l);
-+    g_assert_cmpuint(int128_gethi(r), ==, h);
-+}
-+
-+static void test_urshift(void)
-+{
-+    test_urshift_one(0x00010000U, 64, 0x0000000000000000ULL, 0x0000000000000001ULL);
-+    test_urshift_one(0x80010000U, 64, 0x0000000000000000ULL, 0x8000000000000001ULL);
-+    test_urshift_one(0x7FFE0000U, 64, 0x0000000000000000ULL, 0x7FFFFFFFFFFFFFFEULL);
-+    test_urshift_one(0xFFFE0000U, 64, 0x0000000000000000ULL, 0xFFFFFFFFFFFFFFFEULL);
-+    test_urshift_one(0x00010000U, 60, 0x0000000000000000ULL, 0x0000000000000010ULL);
-+    test_urshift_one(0x80010000U, 60, 0x0000000000000008ULL, 0x0000000000000010ULL);
-+    test_urshift_one(0x00018000U, 60, 0x0000000000000000ULL, 0x0000000000000018ULL);
-+    test_urshift_one(0x80018000U, 60, 0x0000000000000008ULL, 0x0000000000000018ULL);
-+    test_urshift_one(0x7FFE0000U, 60, 0x0000000000000007ULL, 0xFFFFFFFFFFFFFFE0ULL);
-+    test_urshift_one(0xFFFE0000U, 60, 0x000000000000000FULL, 0xFFFFFFFFFFFFFFE0ULL);
-+    test_urshift_one(0x7FFE8000U, 60, 0x0000000000000007ULL, 0xFFFFFFFFFFFFFFE8ULL);
-+    test_urshift_one(0xFFFE8000U, 60, 0x000000000000000FULL, 0xFFFFFFFFFFFFFFE8ULL);
-+    test_urshift_one(0x00018000U,  0, 0x0000000000000001ULL, 0x8000000000000000ULL);
-+    test_urshift_one(0x80018000U,  0, 0x8000000000000001ULL, 0x8000000000000000ULL);
-+    test_urshift_one(0x7FFE0000U,  0, 0x7FFFFFFFFFFFFFFEULL, 0x0000000000000000ULL);
-+    test_urshift_one(0xFFFE0000U,  0, 0xFFFFFFFFFFFFFFFEULL, 0x0000000000000000ULL);
-+    test_urshift_one(0x7FFE8000U,  0, 0x7FFFFFFFFFFFFFFEULL, 0x8000000000000000ULL);
-+    test_urshift_one(0xFFFE8000U,  0, 0xFFFFFFFFFFFFFFFEULL, 0x8000000000000000ULL);
-+}
-+
- int main(int argc, char **argv)
- {
-     g_test_init(&argc, &argv, NULL);
-@@ -219,5 +250,6 @@ int main(int argc, char **argv)
-     g_test_add_func("/int128/int128_ge", test_ge);
-     g_test_add_func("/int128/int128_gt", test_gt);
-     g_test_add_func("/int128/int128_rshift", test_rshift);
-+    g_test_add_func("/int128/int128_urshift", test_urshift);
-     return g_test_run();
- }
+ #include "fpu/softfloat-types.h"
+ #include "fpu/softfloat-helpers.h"
++#include "qemu/int128.h"
+ 
+ /*----------------------------------------------------------------------------
+ | Routine to raise any or all of the software IEC/IEEE floating-point
+@@ -183,6 +184,7 @@ floatx80 int64_to_floatx80(int64_t, float_status *status);
+ float128 int32_to_float128(int32_t, float_status *status);
+ float128 int64_to_float128(int64_t, float_status *status);
+ float128 uint64_to_float128(uint64_t, float_status *status);
++float128 uint128_to_float128(Int128, float_status *status);
+ 
+ /*----------------------------------------------------------------------------
+ | Software half-precision conversion routines.
 -- 
 2.25.1
 
