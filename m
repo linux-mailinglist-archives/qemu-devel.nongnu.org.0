@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E0F4ED07A
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:59:15 +0200 (CEST)
-Received: from localhost ([::1]:33452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9160B4ED095
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 02:01:06 +0200 (CEST)
+Received: from localhost ([::1]:37690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZiDa-0007N4-Dj
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:59:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35758)
+	id 1nZiFN-00025W-L8
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 20:01:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZftE-0008MN-9f
+ id 1nZftG-0008MY-HT
  for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:30:08 -0400
-Received: from [2a00:1450:4864:20::236] (port=42573
- helo=mail-lj1-x236.google.com)
+Received: from [2a00:1450:4864:20::12f] (port=40628
+ helo=mail-lf1-x12f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZftA-0003ST-I4
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:30:03 -0400
-Received: by mail-lj1-x236.google.com with SMTP id c15so29438280ljr.9
+ id 1nZftB-0003St-Mj
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:30:05 -0400
+Received: by mail-lf1-x12f.google.com with SMTP id t25so38068064lfg.7
  for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:30:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aap1cPui4gDoxiLF3KY3ER5LW4mUdD5tRWMA6CpKuAM=;
- b=2CiQ8hY5UhFOQkZSndg+1JeTh3Dvd9TjYdt3qDLPJ0CTvX0xhjHceoLXRc5BidaQvJ
- NnPIOiLsZwEDskNtWinZAZaBBTcpit8ZY/O0fllkRj+3+g9uuCGUhTfL3vOoNFAgzirw
- /F0uZdzW4CXCFXb/Wwed6Pdltd4PIcJR5NkaxIgc0cW3knuEyAJkxQWA96+ryCXOVxny
- a0GyKtYFKqYCprwn4PLflFhf3+eDQVQtwdusOOxYoFC2ALM7CR9ReIATqvZIecbTZ15q
- oAfhY7ZINrkEd8vWlCtpNkLDl66uay8LDcKvRPA/CS4qx5UidQTrVXysNf8LVfmtDSNE
- WOzg==
+ bh=2OE/MsvsxnMAX47sMi6igwm2uGZqPl+rPYnGsx/0bCc=;
+ b=jQfVTtFqr12w5H26AkQLSl49X7vgja+pFpWilzxemBPNrC/eOVCNz+/C4AjqwJjmyB
+ vRCgSF3Y6DsJngryZ+ZJeyFhgIvwYmrsFpGy8Vq7g8ypSHJdtLbB7J+iBKU3XcLCd/Ts
+ LHBRuV9Z+vb8FgW62KMvSxS89wG8zl4Dac+5H6d9JbpYnsS9in1uqrufy+lprv2FAz08
+ TmkWR/PhbE2T67d03C/L+FGgHfBgY/DidMNGUNGdMrfAFdoMt7QFOWAKaF0aWEYDNy42
+ Vc5JOKSZUrp2ihL9Uefrr+ISDeGFpng/XcvyPgYyzqReNj3P2P4HbTTrQd5qnyZWiMoM
+ BrHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aap1cPui4gDoxiLF3KY3ER5LW4mUdD5tRWMA6CpKuAM=;
- b=4Rc5Cw1qQRFcdtKh0xqgMJ52uxTJ6kdBtUd5H3WRpN0qC7ZgjTTxp7JBuvUZJbVDHr
- iS+R00yRb+g5dUSThcEcIw1JwT60tnD8SVHlWT8TTuhjtUMCSA4515E1kxs7qu1yzPqG
- aeo0uW1/cF9/SsJCq8CJq3pPOcM2uBiUvlNbeErGBCdJtxrjMwgTcE6TbUxvuipnILAA
- bKU0RxUc2M4oS1M8a3AyUgaG+d0F5YvFnvyEaIfBQ9/cocDSYoTQ8jWM6Fj/sdH78ykY
- stvZ2FgJLfTkuI8QBseiVIYUS1JtOreftgv/7EiPgdQCkwbMWG8pf8AL+XN3YuYt+m+Q
- gVWw==
-X-Gm-Message-State: AOAM5323QFkXdWc465SA+UDcaDjGF1FPSlSxLFC3tCfURH0+PCymMmj/
- i3p4SCf8s8zJ8Hd8QmigA21YNw==
-X-Google-Smtp-Source: ABdhPJyktXfv0MHuSHwSiQAa6Qum7Y0ovCDuxSMAyEK9LPwW3Zxwa8Vy5d0xwOvJpVRJkBf+dMjgUw==
-X-Received: by 2002:a2e:bc1e:0:b0:249:896f:6dbf with SMTP id
- b30-20020a2ebc1e000000b00249896f6dbfmr8421487ljf.180.1648675798891; 
- Wed, 30 Mar 2022 14:29:58 -0700 (PDT)
+ bh=2OE/MsvsxnMAX47sMi6igwm2uGZqPl+rPYnGsx/0bCc=;
+ b=xJcbAOcXW3IIv/LwQtMpjO2mLiqNEhLN6pco0knsQMeJRS9GIB/48nEeELQa50OOe6
+ xi8BzLe8bEMjH3fWW4TK06JttoJ5WTOAs9hnF72aYgo30K4Fd4S1Ayo4sGRgfSfkixZc
+ izrDjNRs4vr1emJWLVaqocPQgTQ+sYI/+QOkyHlRfV16XllWVtFHHrZBAPNfvwYOztcH
+ aKsEfrEgMJNF6ML2XL5WLxSKeVMbkW9Pqsu2tfKNmsm18vtU9SDtKGlkE+di20CWVWwG
+ k6i/JQpXbdZgd5Y2QJcifEJYo2Zdtz0FQTbMDRUxbVYTbyR4DJAWgWgcZhqWbacxTY6n
+ tmPw==
+X-Gm-Message-State: AOAM533C+ObpK9med4aM9fwe1tvgQ2YtaC4D9E6BOhSU8TzqYSztSFYC
+ EpqxD18DI4IT64Tsbh9ZkceOPA==
+X-Google-Smtp-Source: ABdhPJxlCtFV6JDNhxs4yN45grvQOp3oUWedgshNfnrXX2ijRlOFv3QYeIe1z1Yhs9ZOtrhIH0pnVw==
+X-Received: by 2002:ac2:5549:0:b0:44a:6da1:b17e with SMTP id
+ l9-20020ac25549000000b0044a6da1b17emr8527342lfk.679.1648675799585; 
+ Wed, 30 Mar 2022 14:29:59 -0700 (PDT)
 Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
- y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.58
+ y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 14:29:58 -0700 (PDT)
+ Wed, 30 Mar 2022 14:29:59 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 44/45] block: bdrv_open_inherit: create BlockBackend only
- when necessary
-Date: Thu, 31 Mar 2022 00:29:01 +0300
-Message-Id: <20220330212902.590099-45-vsementsov@openvz.org>
+Subject: [PATCH v5 45/45] block/copy-before-write: correct permission scheme
+Date: Thu, 31 Mar 2022 00:29:02 +0300
+Message-Id: <20220330212902.590099-46-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330212902.590099-1-vsementsov@openvz.org>
 References: <20220330212902.590099-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::236
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::236;
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lj1-x236.google.com
+ helo=mail-lf1-x12f.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -93,139 +92,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, hreitz@redhat.com, vsementsov@openvz.org,
- v.sementsov-og@mail.ru, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, qemu-devel@nongnu.org,
+ hreitz@redhat.com, vsementsov@openvz.org, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need this blk only for probing - let's create it only when we are
-going to probe.
+Finally we can strictly unshare write on source node, as all write must
+go through copy-before-write filter. For this to work:
 
-That's significant for further changes: we'll need to avoid permission
-update during open() when possible (to refresh them later of course).
-But blk_unref() leads to permission update. Instead of implementing
-extra logic to avoid permission update during blk_unref when we want
-it, let's just drop blk_unref() from normal code path.
+ - Declare independent close, so that blockdev-del transaction action
+   may detach children of removed node at prepare phase (that's for
+   filter removement). We can do it because copy-before-write filter
+   doesn't do any IO on its children on close().
+
+ - Support BDRV_O_NOPERM, so that blockdev-add transaction action can
+   skip intermediate permission update. We can do it because
+   copy-before-write filter doesn't do any IO on its children on
+   open().
+
+ - Move to new block-graph modifying API in iotest image-fleecing.
+   Separate qom-set + del/add doesn't work anymore for
+   copy-before-write filter, because intermediate state violate new
+   strict permissions.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 ---
- block.c | 48 +++++++++++++++++++++++++-----------------------
- 1 file changed, 25 insertions(+), 23 deletions(-)
+ block/copy-before-write.c                   | 17 ++++++++---------
+ tests/qemu-iotests/tests/image-fleecing     | 20 +++++++++++++++-----
+ tests/qemu-iotests/tests/image-fleecing.out |  8 --------
+ 3 files changed, 23 insertions(+), 22 deletions(-)
 
-diff --git a/block.c b/block.c
-index 40f54fe121..5a4b59eb6c 100644
---- a/block.c
-+++ b/block.c
-@@ -1821,7 +1821,7 @@ QemuOptsList bdrv_create_opts_simple = {
-  *
-  * Removes all processed options from *options.
-  */
--static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
-+static int bdrv_open_common(BlockDriverState *bs, BlockDriverState *file,
-                             QDict *options, Error **errp)
- {
-     int ret, open_flags;
-@@ -1861,8 +1861,8 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
-     }
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index 4fad564691..90a9c7874a 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -319,12 +319,8 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
+         bdrv_default_perms(bs, c, role, reopen_queue,
+                            perm, shared, nperm, nshared);
  
-     if (file != NULL) {
--        bdrv_refresh_filename(blk_bs(file));
--        filename = blk_bs(file)->filename;
-+        bdrv_refresh_filename(file);
-+        filename = file->filename;
-     } else {
-         /*
-          * Caution: while qdict_get_try_str() is fine, getting
-@@ -3883,7 +3883,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
-                                            Error **errp)
- {
-     int ret;
--    BlockBackend *file = NULL;
-+    BlockDriverState *file_bs = NULL;
-     BlockDriverState *bs;
-     BlockDriver *drv = NULL;
-     BdrvChild *child;
-@@ -4016,8 +4016,6 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
-      * probing, the block drivers will do their own bdrv_open_child() for the
-      * same BDS, which is why we put the node name back into options. */
-     if ((flags & BDRV_O_PROTOCOL) == 0) {
--        BlockDriverState *file_bs;
--
-         file_bs = bdrv_open_child_bs(filename, options, "file", bs,
-                                      &child_of_bds, BDRV_CHILD_IMAGE,
-                                      true, &local_err);
-@@ -4025,24 +4023,28 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
-             goto fail;
-         }
-         if (file_bs != NULL) {
--            /* Not requesting BLK_PERM_CONSISTENT_READ because we're only
--             * looking at the header to guess the image format. This works even
--             * in cases where a guest would not see a consistent state. */
--            file = blk_new(bdrv_get_aio_context(file_bs), 0, BLK_PERM_ALL);
--            blk_insert_bs(file, file_bs, &local_err);
--            bdrv_unref(file_bs);
--            if (local_err) {
--                goto fail;
+-        if (!QLIST_EMPTY(&bs->parents)) {
+-            if (perm & BLK_PERM_WRITE) {
+-                *nperm = *nperm | BLK_PERM_CONSISTENT_READ;
 -            }
--
-             qdict_put_str(options, "file", bdrv_get_node_name(file_bs));
-         }
+-            *nshared &= ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
+-        }
++        *nperm = *nperm | BLK_PERM_CONSISTENT_READ;
++        *nshared &= ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
      }
+ }
  
-     /* Image format probing */
-     bs->probed = !drv;
--    if (!drv && file) {
-+    if (!drv && file_bs) {
-+        /*
-+         * Not requesting BLK_PERM_CONSISTENT_READ because we're only
-+         * looking at the header to guess the image format. This works even
-+         * in cases where a guest would not see a consistent state.
-+         */
-+        BlockBackend *file = blk_new(bdrv_get_aio_context(file_bs), 0,
-+                                     BLK_PERM_ALL);
-+        blk_insert_bs(file, file_bs, &local_err);
-+        if (local_err) {
-+            blk_unref(file);
-+            goto fail;
-+        }
-+
-         ret = find_image_format(file, filename, &drv, &local_err);
-+        blk_unref(file);
-         if (ret < 0) {
-             goto fail;
-         }
-@@ -4068,17 +4070,17 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
-     assert(!!(flags & BDRV_O_PROTOCOL) == !!drv->bdrv_file_open);
-     /* file must be NULL if a protocol BDS is about to be created
-      * (the inverse results in an error message from bdrv_open_common()) */
--    assert(!(flags & BDRV_O_PROTOCOL) || !file);
-+    assert(!(flags & BDRV_O_PROTOCOL) || !file_bs);
+@@ -378,13 +374,15 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+     int64_t cluster_size;
+     int ret;
  
-     /* Open the image */
--    ret = bdrv_open_common(bs, file, options, &local_err);
-+    ret = bdrv_open_common(bs, file_bs, options, &local_err);
+-    ret = bdrv_open_file_child(NULL, options, "file", bs, errp);
++    ret = bdrv_open_file_child_common(NULL, options, "file", bs,
++                                      !(flags & BDRV_O_NOPERM), errp);
      if (ret < 0) {
-         goto fail;
+         return ret;
      }
  
--    if (file) {
--        blk_unref(file);
--        file = NULL;
-+    if (file_bs) {
-+        bdrv_unref(file_bs);
-+        file_bs = NULL;
+-    s->target = bdrv_open_child(NULL, options, "target", bs, &child_of_bds,
+-                                BDRV_CHILD_DATA, false, errp);
++    s->target = bdrv_open_child_common(NULL, options, "target", bs,
++                                       &child_of_bds, BDRV_CHILD_DATA, false,
++                                       !(flags & BDRV_O_NOPERM), errp);
+     if (!s->target) {
+         return -EINVAL;
      }
+@@ -444,6 +442,7 @@ static void cbw_close(BlockDriverState *bs)
+ BlockDriver bdrv_cbw_filter = {
+     .format_name = "copy-before-write",
+     .instance_size = sizeof(BDRVCopyBeforeWriteState),
++    .independent_close = true,
  
-     /* If there is a backing file, use it */
-@@ -4142,7 +4144,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
-     return bs;
+     .bdrv_open                  = cbw_open,
+     .bdrv_close                 = cbw_close,
+diff --git a/tests/qemu-iotests/tests/image-fleecing b/tests/qemu-iotests/tests/image-fleecing
+index b7e5076104..23b55ded70 100755
+--- a/tests/qemu-iotests/tests/image-fleecing
++++ b/tests/qemu-iotests/tests/image-fleecing
+@@ -131,9 +131,13 @@ def do_test(vm, use_cbw, use_snapshot_access_filter, base_img_path,
+         if bitmap:
+             fl_cbw['bitmap'] = {'node': src_node, 'name': 'bitmap0'}
  
- fail:
--    blk_unref(file);
-+    bdrv_unref(file_bs);
-     qobject_unref(snapshot_options);
-     qobject_unref(bs->explicit_options);
-     qobject_unref(bs->options);
+-        log(vm.qmp('blockdev-add', fl_cbw))
+-
+-        log(vm.qmp('qom-set', path=qom_path, property='drive', value='fl-cbw'))
++        log(vm.qmp('transaction', {'actions': [
++            {'type': 'blockdev-add', 'data': fl_cbw},
++            {'type': 'x-blockdev-replace', 'data': {
++                'parent-type': 'qdev',
++                'qdev-id': 'sda',
++                'new-child': 'fl-cbw'}}
++        ]}))
+ 
+         if use_snapshot_access_filter:
+             log(vm.qmp('blockdev-add', {
+@@ -242,8 +246,14 @@ def do_test(vm, use_cbw, use_snapshot_access_filter, base_img_path,
+     if use_cbw:
+         if use_snapshot_access_filter:
+             log(vm.qmp('blockdev-del', node_name='fl-access'))
+-        log(vm.qmp('qom-set', path=qom_path, property='drive', value=src_node))
+-        log(vm.qmp('blockdev-del', node_name='fl-cbw'))
++        log(vm.qmp('transaction', {'actions': [
++            {'type': 'x-blockdev-replace', 'data': {
++                'parent-type': 'qdev',
++                'qdev-id': 'sda',
++                'new-child': src_node}},
++            {'type': 'blockdev-del', 'data': {
++                'node-name': 'fl-cbw'}}
++        ]}))
+     else:
+         log(vm.qmp('block-job-cancel', device='fleecing'))
+         e = vm.event_wait('BLOCK_JOB_CANCELLED')
+diff --git a/tests/qemu-iotests/tests/image-fleecing.out b/tests/qemu-iotests/tests/image-fleecing.out
+index acfc89ff0e..33c6c239da 100644
+--- a/tests/qemu-iotests/tests/image-fleecing.out
++++ b/tests/qemu-iotests/tests/image-fleecing.out
+@@ -79,7 +79,6 @@ Done
+ 
+ --- Setting up Fleecing Graph ---
+ 
+-{"return": {}}
+ {"return": {}}
+ {"return": {}}
+ 
+@@ -124,7 +123,6 @@ read -P0 0x3fe0000 64k
+ {"return": {}}
+ {"return": {}}
+ {"return": {}}
+-{"return": {}}
+ 
+ --- Confirming writes ---
+ 
+@@ -152,7 +150,6 @@ Done
+ {"return": {}}
+ {"return": {}}
+ {"return": {}}
+-{"return": {}}
+ 
+ --- Setting up NBD Export ---
+ 
+@@ -196,7 +193,6 @@ read -P0 0x3fe0000 64k
+ {"return": {}}
+ {"return": {}}
+ {"return": {}}
+-{"return": {}}
+ 
+ --- Confirming writes ---
+ 
+@@ -224,7 +220,6 @@ Done
+ {"return": {}}
+ {"return": {}}
+ {"return": {}}
+-{"return": {}}
+ 
+ --- Setting up NBD Export ---
+ 
+@@ -280,7 +275,6 @@ read failed: Invalid argument
+ {"return": {}}
+ {"return": {}}
+ {"return": {}}
+-{"return": {}}
+ 
+ --- Confirming writes ---
+ 
+@@ -308,7 +302,6 @@ Done
+ {"return": {}}
+ {"return": {}}
+ {"return": {}}
+-{"return": {}}
+ 
+ --- Starting actual backup ---
+ 
+@@ -343,7 +336,6 @@ read -P0 0x3fe0000 64k
+ {"return": {}}
+ {"return": {}}
+ {"return": {}}
+-{"return": {}}
+ 
+ --- Confirming writes ---
+ 
 -- 
 2.35.1
 
