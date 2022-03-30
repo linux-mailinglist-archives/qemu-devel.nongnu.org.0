@@ -2,71 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002D44EC69D
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 16:34:00 +0200 (CEST)
-Received: from localhost ([::1]:55746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B224EC6A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 16:36:37 +0200 (CEST)
+Received: from localhost ([::1]:58796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZZOZ-0006qr-Gt
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 10:33:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46184)
+	id 1nZZR6-0000cT-7b
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 10:36:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nZZMx-0005yh-3a
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 10:32:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33318)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nZZQ3-0008DX-2P; Wed, 30 Mar 2022 10:35:31 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nZZMt-0002zG-VM
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 10:32:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648650734;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tjc6K4AM/ilRwvasUFHsrpEL1fnCaqccmDTnTNiVfz4=;
- b=fHNTUF51VOOj6FFoOtd2JG7DM0vJe6fZGMrYbqkWZ6v1By20xM1stAWPjh1lS2kHJRQg8P
- 7KDqvW2fUiycqq2ejjQTRpZ7VIPHAIcv1B3U612rTyhYs1G8zQTaJjOUN34AhBdQgiMNSp
- ODedYbXNRi+r1iteYcWgBrS9//RHzEY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-414-V7F33w99MpKnHLRMfBoy2A-1; Wed, 30 Mar 2022 10:32:09 -0400
-X-MC-Unique: V7F33w99MpKnHLRMfBoy2A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E77153803522;
- Wed, 30 Mar 2022 14:32:08 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.185])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E2EE640D0160;
- Wed, 30 Mar 2022 14:32:07 +0000 (UTC)
-Date: Wed, 30 Mar 2022 09:32:06 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v2 1/2] qcow2: Improve refcount structure rebuilding
-Message-ID: <20220330143206.eo2rreenm5rs5dr3@redhat.com>
-References: <20220329091917.24512-1-hreitz@redhat.com>
- <20220329091917.24512-2-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nZZPz-0003Q0-SM; Wed, 30 Mar 2022 10:35:30 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22UDqPv0009943; 
+ Wed, 30 Mar 2022 14:35:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=lkHwHZd6J6sXnhUoIb6jNDPrtkCUR1ouLAu9AToZrws=;
+ b=Bw8br/wKlOQ/4r65NUx0hzoGrHz5ArK/g1PM5xAb81nfM8uPYv8Nr/rrh0E626sk+0BZ
+ Q4ZAGb8DUFVLX94D/RBA6iwAbYBMV1+wpT0H1RMt2B4NnPWs0v/LlrbGhDhXlHcgPTFL
+ QQRsdNtzoEfaj3X0wkcvlsqpmmjxam2saa2TMXmbcLX1QZsx44B9SeqVKhCaqYodrpvb
+ lhRo4AJgt9n8Oz0jTw6kHYhfVpEVi3rMiJuujvy+32PRLLhML82eQYUNIZ3yXsc2BQf0
+ jEFdTtc/w/bdEccOy2dIdEfJtWr4rOqzk/bGrRec79sCqS/XWFlDta+yv5PDfgQgX4xs 3A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f40t906xx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Mar 2022 14:35:17 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22UET4Zx002492;
+ Wed, 30 Mar 2022 14:35:15 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f40t906wk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Mar 2022 14:35:15 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22UEJYBb005721;
+ Wed, 30 Mar 2022 14:35:12 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma03ams.nl.ibm.com with ESMTP id 3f1tf9gta3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Mar 2022 14:35:12 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22UEZA8546334322
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 30 Mar 2022 14:35:10 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7122342042;
+ Wed, 30 Mar 2022 14:35:10 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BB2C842041;
+ Wed, 30 Mar 2022 14:35:09 +0000 (GMT)
+Received: from [9.171.27.164] (unknown [9.171.27.164])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 30 Mar 2022 14:35:09 +0000 (GMT)
+Message-ID: <5e9f569f-12d8-5a11-af05-b2b34acaac1a@linux.ibm.com>
+Date: Wed, 30 Mar 2022 16:35:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] multifd: Copy pages before compressing them with zlib
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20220329152123.493731-1-iii@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20220329152123.493731-1-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: KeDMrTMwDCH65TNGo_gZJor94fjiHfwj
+X-Proofpoint-GUID: 97ND-wjBEGscNS8mB8A4xqLhV0Xh83sc
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <20220329091917.24512-2-hreitz@redhat.com>
-User-Agent: NeoMutt/20211029-524-5b0234
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-30_04,2022-03-30_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0
+ clxscore=1011 impostorscore=0 phishscore=0 priorityscore=1501 mlxscore=0
+ suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203300071
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,231 +115,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: thuth@redhat.com,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ s.reiter@proxmox.com, Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ peterx@redhat.com, qemu-s390x@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ hreitz@redhat.com, f.ebner@proxmox.com, jinpu.wang@ionos.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 29, 2022 at 11:19:16AM +0200, Hanna Reitz wrote:
-> When rebuilding the refcount structures (when qemu-img check -r found
-> errors with refcount = 0, but reference count > 0), the new refcount
-> table defaults to being put at the image file end[1].  There is no good
-> reason for that except that it means we will not have to rewrite any
-> refblocks we already wrote to disk.
+Peter, Alex this is the fallout of Ilyas analysis of the s390x migration issue that triggered the DFLTCC workaround.
+
+Am 29.03.22 um 17:21 schrieb Ilya Leoshkevich:
+> zlib_send_prepare() compresses pages of a running VM. zlib does not
+> make any thread-safety guarantees with respect to changing deflate()
+> input concurrently with deflate() [1].
 > 
-> Changing the code to rewrite those refblocks is not too difficult,
-> though, so let us do that.  That is beneficial for images on block
-> devices, where we cannot really write beyond the end of the image file.
+> One can observe problems due to this with the IBM zEnterprise Data
+> Compression accelerator capable zlib [2]. When the hardware
+> acceleration is enabled, migration/multifd/tcp/zlib test fails
+> intermittently [3] due to sliding window corruption.
 > 
-> Use this opportunity to add extensive comments to the code, and refactor
-> it a bit, getting rid of the backwards-jumping goto.
+> At the moment this problem occurs only with this accelerator, since
+> its architecture explicitly discourages concurrent accesses [4]:
 > 
-> [1] Unless there is something allocated in the area pointed to by the
->     last refblock, so we have to write that refblock.  In that case, we
->     try to put the reftable in there.
+>      Page 26-57, "Other Conditions":
 > 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1519071
-> Closes: https://gitlab.com/qemu-project/qemu/-/issues/941
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+>      As observed by this CPU, other CPUs, and channel
+>      programs, references to the parameter block, first,
+>      second, and third operands may be multiple-access
+>      references, accesses to these storage locations are
+>      not necessarily block-concurrent, and the sequence
+>      of these accesses or references is undefined.
+> 
+> Still, it might affect other platforms due to a future zlib update.
+> Therefore, copy the page being compressed into a private buffer before
+> passing it to zlib.
+> 
+> [1] https://zlib.net/manual.html
+> [2] https://github.com/madler/zlib/pull/410
+> [3] https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03988.html
+> [4] http://publibfp.dhe.ibm.com/epubs/pdf/a227832c.pdf
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 > ---
->  block/qcow2-refcount.c | 332 +++++++++++++++++++++++++++++------------
->  1 file changed, 235 insertions(+), 97 deletions(-)
+>   migration/multifd-zlib.c | 35 ++++++++++++++++++++++-------------
+>   1 file changed, 22 insertions(+), 13 deletions(-)
 > 
-
-> +static int rebuild_refcounts_write_refblocks(
-> +        BlockDriverState *bs, void **refcount_table, int64_t *nb_clusters,
-> +        int64_t first_cluster, int64_t end_cluster,
-> +        uint64_t **on_disk_reftable_ptr, uint32_t *on_disk_reftable_entries_ptr
-> +    )
-
-As you are rewriting this into a helper function, should this function
-take Error **errp,...
-
-> +            /* Don't allocate a cluster in a refblock already written to disk */
-> +            if (first_free_cluster < refblock_start) {
-> +                first_free_cluster = refblock_start;
-> +            }
-> +            refblock_offset = alloc_clusters_imrt(bs, 1, refcount_table,
-> +                                                  nb_clusters,
-> +                                                  &first_free_cluster);
-> +            if (refblock_offset < 0) {
-> +                fprintf(stderr, "ERROR allocating refblock: %s\n",
-> +                        strerror(-refblock_offset));
-> +                return refblock_offset;
-
-...instead of using fprintf(stderr), where the caller then handles the
-error by printing?
-
-Could be done as a separate patch.
-
->  
-> +        /* Refblock is allocated, write it to disk */
-> +
->          ret = qcow2_pre_write_overlap_check(bs, 0, refblock_offset,
->                                              s->cluster_size, false);
->          if (ret < 0) {
->              fprintf(stderr, "ERROR writing refblock: %s\n", strerror(-ret));
-> -            goto fail;
-> +            return ret;
->          }
-
-Another spot where errp conversion might improve the code.
-
->  
-> -        /* The size of *refcount_table is always cluster-aligned, therefore the
-> -         * write operation will not overflow */
-> +        /*
-> +         * The refblock is simply a slice of *refcount_table.
-> +         * Note that the size of *refcount_table is always aligned to
-> +         * whole clusters, so the write operation will not result in
-> +         * out-of-bounds accesses.
-> +         */
->          on_disk_refblock = (void *)((char *) *refcount_table +
->                                      refblock_index * s->cluster_size);
->  
-> @@ -2550,23 +2579,99 @@ write_refblocks:
->                            s->cluster_size);
->          if (ret < 0) {
->              fprintf(stderr, "ERROR writing refblock: %s\n", strerror(-ret));
-> -            goto fail;
-> +            return ret;
->          }
-
-and another
-
->  
-> -        /* Go to the end of this refblock */
-> +        /* This refblock is done, skip to its end */
->          cluster = refblock_start + s->refcount_block_size - 1;
->      }
->  
-> -    if (reftable_offset < 0) {
-> -        uint64_t post_refblock_start, reftable_clusters;
-> +    return reftable_grown;
-> +}
-
-The helper function looks okay.
-
-> +
-> +/*
-> + * Creates a new refcount structure based solely on the in-memory information
-> + * given through *refcount_table (this in-memory information is basically just
-> + * the concatenation of all refblocks).  All necessary allocations will be
-> + * reflected in that array.
-> + *
-> + * On success, the old refcount structure is leaked (it will be covered by the
-> + * new refcount structure).
-> + */
-> +static int rebuild_refcount_structure(BlockDriverState *bs,
-> +                                      BdrvCheckResult *res,
-> +                                      void **refcount_table,
-> +                                      int64_t *nb_clusters)
-> +{
-> +    BDRVQcow2State *s = bs->opaque;
-> +    int64_t reftable_offset = -1;
-> +    int64_t reftable_length = 0;
-> +    int64_t reftable_clusters;
-> +    int64_t refblock_index;
-> +    uint32_t on_disk_reftable_entries = 0;
-> +    uint64_t *on_disk_reftable = NULL;
-> +    int ret = 0;
-> +    int reftable_size_changed = 0;
-> +    struct {
-> +        uint64_t reftable_offset;
-> +        uint32_t reftable_clusters;
-> +    } QEMU_PACKED reftable_offset_and_clusters;
-> +
-> +    qcow2_cache_empty(bs, s->refcount_block_cache);
-> +
-> +    /*
-> +     * For each refblock containing entries, we try to allocate a
-> +     * cluster (in the in-memory refcount table) and write its offset
-> +     * into on_disk_reftable[].  We then write the whole refblock to
-> +     * disk (as a slice of the in-memory refcount table).
-> +     * This is done by rebuild_refcounts_write_refblocks().
-> +     *
-> +     * Once we have scanned all clusters, we try to find space for the
-> +     * reftable.  This will dirty the in-memory refcount table (i.e.
-> +     * make it differ from the refblocks we have already written), so we
-> +     * need to run rebuild_refcounts_write_refblocks() again for the
-> +     * range of clusters where the reftable has been allocated.
-> +     *
-> +     * This second run might make the reftable grow again, in which case
-> +     * we will need to allocate another space for it, which is why we
-> +     * repeat all this until the reftable stops growing.
-> +     *
-> +     * (This loop will terminate, because with every cluster the
-> +     * reftable grows, it can accomodate a multitude of more refcounts,
-> +     * so that at some point this must be able to cover the reftable
-> +     * and all refblocks describing it.)
-> +     *
-> +     * We then convert the reftable to big-endian and write it to disk.
-> +     *
-> +     * Note that we never free any reftable allocations.  Doing so would
-> +     * needlessly complicate the algorithm: The eventual second check
-> +     * run we do will clean up all leaks we have caused.
-> +     */
-
-Freeing reftable allocations from the first run might allow the second
-(or third) to find a spot earlier in the image that is large enough to
-contain the resized reftable, compared to leaving it leaked and
-forcing subsequent runs to look later into the image.  But I agree
-that the complication of code needed to handle that is not worth the
-minor corner-case savings of a more densely packed overall image (the
-leaked clusters will probably remain sparse for any decent cluster
-size).
-
-Another approach might be to intentionally over-allocate the reftable
-to the point where we know it can't grow, then allocate, then scale it
-back down to how much we actually used (possibly reclaiming a few
-clusters at the end of the allocation).  But that's an even bigger
-rewrite, and again, not worth the headache.
-
-512-byte clusters would be where this is most likely to be noticeable
-(that is, hitting a 3rd iteration with 512-byte clusters is probably
-easy enough to actually test, but hitting a 3rd iteration with 2M
-clusters is probably prohibitively expensive if even possible).
-
-> +
-> +    reftable_size_changed =
-> +        rebuild_refcounts_write_refblocks(bs, refcount_table, nb_clusters,
-> +                                          0, *nb_clusters,
-> +                                          &on_disk_reftable,
-> +                                          &on_disk_reftable_entries);
-> +    if (reftable_size_changed < 0) {
-> +        res->check_errors++;
-> +        ret = reftable_size_changed;
-> +        goto fail;
+> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
+> index 3a7ae44485..b6b22b7d1f 100644
+> --- a/migration/multifd-zlib.c
+> +++ b/migration/multifd-zlib.c
+> @@ -27,6 +27,8 @@ struct zlib_data {
+>       uint8_t *zbuff;
+>       /* size of compressed buffer */
+>       uint32_t zbuff_len;
+> +    /* uncompressed buffer */
+> +    uint8_t buf[];
+>   };
+>   
+>   /* Multifd zlib compression */
+> @@ -43,9 +45,18 @@ struct zlib_data {
+>    */
+>   static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
+>   {
+> -    struct zlib_data *z = g_new0(struct zlib_data, 1);
+> -    z_stream *zs = &z->zs;
+> +    /* This is the maximum size of the compressed buffer */
+> +    uint32_t zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
+> +    size_t buf_len = qemu_target_page_size();
+> +    struct zlib_data *z;
+> +    z_stream *zs;
+>   
+> +    z = g_try_malloc0(sizeof(struct zlib_data) + buf_len + zbuff_len);
+> +    if (!z) {
+> +        error_setg(errp, "multifd %u: out of memory for zlib_data", p->id);
+> +        return -1;
 > +    }
-> +
-> +    /*
-> +     * There was no reftable before, so rebuild_refcounts_write_refblocks()
-> +     * must have increased its size (from 0 to something).
-> +     */
-> +    assert(reftable_size_changed == true);
-
-'int == bool'.  Works, but is a bit odd.  I might have done just
-assert(reftable_size_changed), since we just ruled out negative values
-above.  Particularly since...
-
-> +
-> +    do {
-> +        int64_t reftable_start_cluster, reftable_end_cluster;
-> +        int64_t first_free_cluster = 0;
-...
-> +
+> +    zs = &z->zs;
+>       zs->zalloc = Z_NULL;
+>       zs->zfree = Z_NULL;
+>       zs->opaque = Z_NULL;
+> @@ -54,15 +65,8 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
+>           error_setg(errp, "multifd %u: deflate init failed", p->id);
+>           return -1;
+>       }
+> -    /* This is the maxium size of the compressed buffer */
+> -    z->zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
+> -    z->zbuff = g_try_malloc(z->zbuff_len);
+> -    if (!z->zbuff) {
+> -        deflateEnd(&z->zs);
+> -        g_free(z);
+> -        error_setg(errp, "multifd %u: out of memory for zbuff", p->id);
+> -        return -1;
+> -    }
+> +    z->zbuff_len = zbuff_len;
+> +    z->zbuff = z->buf + buf_len;
+>       p->data = z;
+>       return 0;
+>   }
+> @@ -80,7 +84,6 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
+>       struct zlib_data *z = p->data;
+>   
+>       deflateEnd(&z->zs);
+> -    g_free(z->zbuff);
+>       z->zbuff = NULL;
+>       g_free(p->data);
+>       p->data = NULL;
+> @@ -114,8 +117,14 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+>               flush = Z_SYNC_FLUSH;
+>           }
+>   
 > +        /*
-> +         * If the reftable size has changed, we will need to find a new
-> +         * allocation, repeating the loop.
+> +         * Since the VM might be running, the page may be changing concurrently
+> +         * with compression. zlib does not guarantee that this is safe,
+> +         * therefore copy the page before calling deflate().
 > +         */
-> +    } while (reftable_size_changed);
-
-...here you ARE using the int as a bool directly.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+> +        memcpy(z->buf, p->pages->block->host + p->normal[i], page_size);
+>           zs->avail_in = page_size;
+> -        zs->next_in = p->pages->block->host + p->normal[i];
+> +        zs->next_in = z->buf;
+>   
+>           zs->avail_out = available;
+>           zs->next_out = z->zbuff + out_size;
 
