@@ -2,97 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16EF4EC4B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 14:42:57 +0200 (CEST)
-Received: from localhost ([::1]:39956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E8B4EC4F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 14:50:45 +0200 (CEST)
+Received: from localhost ([::1]:54360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZXf6-00029l-0e
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 08:42:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47928)
+	id 1nZXmb-0004dC-Tm
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 08:50:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1nZXZV-0006Xk-2a
+ id 1nZXZT-0006Xh-4i
  for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:37:10 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48940)
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1nZXZS-0003Mw-Pl
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:37:08 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22UBvdQH000582; 
+ id 1nZXZQ-0003Mh-Ar
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:37:06 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22UBCkOd011116; 
  Wed, 30 Mar 2022 12:37:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=i+HPchXzeHXR2eEOrsdTckR8wM8h73tHSo5dB+eTHOU=;
- b=buB95T/P3SL/dY9uyMJIa8QOZpAAHD744GvvltKGBpMF4N3cjJZYDd9v8XzzAo0ELZBe
- 8tq/YHvpyJm+ckhQUQ8xLbFguh6xuVZ2DBaWyto5o47W0esPF5Xcn2/Y+ouwzGVgthaQ
- kXudeDVRMlslR33LWqjsCUvoFpOurc5WTEZyucDIAFvp8wCgpJauqhQ1bgH45a4aVIPj
- jcMawSNOgaD6qw9HFOcJfrLvQC0Vmpyk8MFDfpi4lWFeBGH8yTSXw8vlIqaWYoO59WSC
- 2UPV3i92bpIZdTEvHM2EkvfQLlRPwUd1FaKQ317XBAdTssHwOpvl9ifmkAJ/VbyRvy7r lQ== 
+ bh=8WzN/R0WchSHBbAcZ3MykMNtGn68Gdr+7wJbS81+pB8=;
+ b=Jfx4wr/oecunugbRktkjq7ZJvOo/Vg+2vxhQWBIU5ZBRCvuEkhy79yLSOzMXBn5FPu1w
+ cWS+h5BXt2IMtRpSkP11m9C/ftfSzSP8/2QXKQgoCe3HAuEXCzjngRfqndZMKgaHfbmn
+ ZCmJ6OYT5qT8m5jFIecZbceTlqEg6FZAgYC5pez9uBI8yaOksiIoluhFhiAHZIAH6EG8
+ Ga6excmYyUERrfWN35ccaL5nuIoyLegFra84WozlGKQPFNMRotW3ubS5wqXjaoGfxzpA
+ mkPi/QuOwj2K0H/Dnd5YZN6NzEJdbe+pkeJ5/9DIF9qtxMAKBJkDTXc3alDZEzOYy6kO /Q== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3f4psu0ubq-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f3ydcpr23-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 30 Mar 2022 12:37:02 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22UCb1iE025934;
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22UBslKd006796;
  Wed, 30 Mar 2022 12:37:01 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3f4psu0uas-1
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f3ydcpr15-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 30 Mar 2022 12:37:01 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22UCNnVs018840;
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22UCMYpm010026;
  Wed, 30 Mar 2022 12:36:59 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03ams.nl.ibm.com with ESMTP id 3f1tf9gjm9-1
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06fra.de.ibm.com with ESMTP id 3f1t3hyay4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 30 Mar 2022 12:36:59 +0000
 Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
  [9.149.105.232])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22UCauOK40304974
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 22UCb38933227082
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Mar 2022 12:36:56 GMT
+ Wed, 30 Mar 2022 12:37:03 GMT
 Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BB2065204F;
- Wed, 30 Mar 2022 12:36:56 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5F6235204E;
+ Wed, 30 Mar 2022 12:36:57 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 3E5D252054;
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id D73A952051;
  Wed, 30 Mar 2022 12:36:56 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/9] dump: Use ERRP_GUARD()
-Date: Wed, 30 Mar 2022 12:35:55 +0000
-Message-Id: <20220330123603.107120-2-frankja@linux.ibm.com>
+Subject: [PATCH v3 2/9] dump: Remove the sh_info variable
+Date: Wed, 30 Mar 2022 12:35:56 +0000
+Message-Id: <20220330123603.107120-3-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220330123603.107120-1-frankja@linux.ibm.com>
 References: <20220330123603.107120-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: iapEIg_E46W7LWLgAlHnCYTn1VClvLS6
-X-Proofpoint-GUID: o7zsFkKxJc9Ja0iAw81NG2xLrhOuV1kB
+X-Proofpoint-ORIG-GUID: rWSH4wFFpJiDOi13iOa0Va3p8T6skcoz
+X-Proofpoint-GUID: syjJT8OqPnwkRZ1hvwhCwzfJsxysFD5k
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-30_03,2022-03-30_01,2022-02-23_01
+ definitions=2022-03-30_04,2022-03-30_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- lowpriorityscore=0 mlxscore=0 adultscore=0 impostorscore=0 mlxlogscore=957
- malwarescore=0 clxscore=1015 suspectscore=0 bulkscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ bulkscore=0 adultscore=0
+ clxscore=1015 malwarescore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
+ spamscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2202240000 definitions=main-2203300063
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -112,403 +112,149 @@ Cc: marcandre.lureau@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's move to the new way of handling errors before changing the dump
-code. This patch has mostly been generated by the coccinelle script
-scripts/coccinelle/errp-guard.cocci.
+There's no need to have phdr_num and sh_info at the same time. We can
+make phdr_num 32 bit and set PN_XNUM when we write the header if
+phdr_num >= PN_XNUM.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- dump/dump.c | 144 ++++++++++++++++++++++------------------------------
- 1 file changed, 61 insertions(+), 83 deletions(-)
+ dump/dump.c           | 34 ++++++++++++++--------------------
+ include/sysemu/dump.h |  3 +--
+ 2 files changed, 15 insertions(+), 22 deletions(-)
 
 diff --git a/dump/dump.c b/dump/dump.c
-index f57ed76fa7..58c4923fce 100644
+index 58c4923fce..0e6187c962 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -390,23 +390,21 @@ static void write_data(DumpState *s, void *buf, int length, Error **errp)
- static void write_memory(DumpState *s, GuestPhysBlock *block, ram_addr_t start,
-                          int64_t size, Error **errp)
- {
-+    ERRP_GUARD();
-     int64_t i;
--    Error *local_err = NULL;
+@@ -124,6 +124,7 @@ static int fd_write_vmcore(const void *buf, size_t size, void *opaque)
  
-     for (i = 0; i < size / s->dump_info.page_size; i++) {
-         write_data(s, block->host_addr + start + i * s->dump_info.page_size,
--                   s->dump_info.page_size, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+                   s->dump_info.page_size, errp);
-+        if (*errp) {
-             return;
-         }
+ static void write_elf64_header(DumpState *s, Error **errp)
+ {
++    uint16_t phnum = s->phdr_num >= PN_XNUM ? PN_XNUM : s->phdr_num;
+     Elf64_Ehdr elf_header;
+     int ret;
+ 
+@@ -138,9 +139,9 @@ static void write_elf64_header(DumpState *s, Error **errp)
+     elf_header.e_ehsize = cpu_to_dump16(s, sizeof(elf_header));
+     elf_header.e_phoff = cpu_to_dump64(s, sizeof(Elf64_Ehdr));
+     elf_header.e_phentsize = cpu_to_dump16(s, sizeof(Elf64_Phdr));
+-    elf_header.e_phnum = cpu_to_dump16(s, s->phdr_num);
++    elf_header.e_phnum = cpu_to_dump16(s, phnum);
+     if (s->have_section) {
+-        uint64_t shoff = sizeof(Elf64_Ehdr) + sizeof(Elf64_Phdr) * s->sh_info;
++        uint64_t shoff = sizeof(Elf64_Ehdr) + sizeof(Elf64_Phdr) * s->phdr_num;
+ 
+         elf_header.e_shoff = cpu_to_dump64(s, shoff);
+         elf_header.e_shentsize = cpu_to_dump16(s, sizeof(Elf64_Shdr));
+@@ -155,6 +156,7 @@ static void write_elf64_header(DumpState *s, Error **errp)
+ 
+ static void write_elf32_header(DumpState *s, Error **errp)
+ {
++    uint16_t phnum = s->phdr_num >= PN_XNUM ? PN_XNUM : s->phdr_num;
+     Elf32_Ehdr elf_header;
+     int ret;
+ 
+@@ -169,9 +171,9 @@ static void write_elf32_header(DumpState *s, Error **errp)
+     elf_header.e_ehsize = cpu_to_dump16(s, sizeof(elf_header));
+     elf_header.e_phoff = cpu_to_dump32(s, sizeof(Elf32_Ehdr));
+     elf_header.e_phentsize = cpu_to_dump16(s, sizeof(Elf32_Phdr));
+-    elf_header.e_phnum = cpu_to_dump16(s, s->phdr_num);
++    elf_header.e_phnum = cpu_to_dump16(s, phnum);
+     if (s->have_section) {
+-        uint32_t shoff = sizeof(Elf32_Ehdr) + sizeof(Elf32_Phdr) * s->sh_info;
++        uint32_t shoff = sizeof(Elf32_Ehdr) + sizeof(Elf32_Phdr) * s->phdr_num;
+ 
+         elf_header.e_shoff = cpu_to_dump32(s, shoff);
+         elf_header.e_shentsize = cpu_to_dump16(s, sizeof(Elf32_Shdr));
+@@ -358,12 +360,12 @@ static void write_elf_section(DumpState *s, int type, Error **errp)
+     if (type == 0) {
+         shdr_size = sizeof(Elf32_Shdr);
+         memset(&shdr32, 0, shdr_size);
+-        shdr32.sh_info = cpu_to_dump32(s, s->sh_info);
++        shdr32.sh_info = cpu_to_dump32(s, s->phdr_num);
+         shdr = &shdr32;
+     } else {
+         shdr_size = sizeof(Elf64_Shdr);
+         memset(&shdr64, 0, shdr_size);
+-        shdr64.sh_info = cpu_to_dump32(s, s->sh_info);
++        shdr64.sh_info = cpu_to_dump32(s, s->phdr_num);
+         shdr = &shdr64;
      }
  
-     if ((size % s->dump_info.page_size) != 0) {
-         write_data(s, block->host_addr + start + i * s->dump_info.page_size,
--                   size % s->dump_info.page_size, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+                   size % s->dump_info.page_size, errp);
-+        if (*errp) {
-             return;
-         }
-     }
-@@ -476,11 +474,11 @@ static void get_offset_range(hwaddr phys_addr,
- 
- static void write_elf_loads(DumpState *s, Error **errp)
- {
-+    ERRP_GUARD();
+@@ -478,13 +480,6 @@ static void write_elf_loads(DumpState *s, Error **errp)
      hwaddr offset, filesz;
      MemoryMapping *memory_mapping;
      uint32_t phdr_index = 1;
-     uint32_t max_index;
--    Error *local_err = NULL;
+-    uint32_t max_index;
+-
+-    if (s->have_section) {
+-        max_index = s->sh_info;
+-    } else {
+-        max_index = s->phdr_num;
+-    }
  
-     if (s->have_section) {
-         max_index = s->sh_info;
-@@ -494,14 +492,13 @@ static void write_elf_loads(DumpState *s, Error **errp)
-                          s, &offset, &filesz);
-         if (s->dump_info.d_class == ELFCLASS64) {
-             write_elf64_load(s, memory_mapping, phdr_index++, offset,
--                             filesz, &local_err);
-+                             filesz, errp);
+     QTAILQ_FOREACH(memory_mapping, &s->list.head, next) {
+         get_offset_range(memory_mapping->phys_addr,
+@@ -502,7 +497,7 @@ static void write_elf_loads(DumpState *s, Error **errp)
+             return;
+         }
+ 
+-        if (phdr_index >= max_index) {
++        if (phdr_index >= s->phdr_num) {
+             break;
+         }
+     }
+@@ -1801,22 +1796,21 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+         s->phdr_num += s->list.num;
+         s->have_section = false;
+     } else {
++        /* sh_info of section 0 holds the real number of phdrs */
+         s->have_section = true;
+-        s->phdr_num = PN_XNUM;
+-        s->sh_info = 1; /* PT_NOTE */
+ 
+         /* the type of shdr->sh_info is uint32_t, so we should avoid overflow */
+         if (s->list.num <= UINT32_MAX - 1) {
+-            s->sh_info += s->list.num;
++            s->phdr_num += s->list.num;
          } else {
-             write_elf32_load(s, memory_mapping, phdr_index++, offset,
--                             filesz, &local_err);
-+                             filesz, errp);
+-            s->sh_info = UINT32_MAX;
++            s->phdr_num = UINT32_MAX;
          }
- 
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (*errp) {
-             return;
-         }
- 
-@@ -514,7 +511,7 @@ static void write_elf_loads(DumpState *s, Error **errp)
- /* write elf header, PT_NOTE and elf note to vmcore. */
- static void dump_begin(DumpState *s, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_GUARD();
- 
-     /*
-      * the vmcore's format is:
-@@ -542,73 +539,64 @@ static void dump_begin(DumpState *s, Error **errp)
- 
-     /* write elf header to vmcore */
-     if (s->dump_info.d_class == ELFCLASS64) {
--        write_elf64_header(s, &local_err);
-+        write_elf64_header(s, errp);
-     } else {
--        write_elf32_header(s, &local_err);
-+        write_elf32_header(s, errp);
-     }
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
-         return;
      }
  
      if (s->dump_info.d_class == ELFCLASS64) {
-         /* write PT_NOTE to vmcore */
--        write_elf64_note(s, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        write_elf64_note(s, errp);
-+        if (*errp) {
-             return;
-         }
- 
-         /* write all PT_LOAD to vmcore */
--        write_elf_loads(s, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        write_elf_loads(s, errp);
-+        if (*errp) {
-             return;
-         }
- 
-         /* write section to vmcore */
          if (s->have_section) {
--            write_elf_section(s, 1, &local_err);
--            if (local_err) {
--                error_propagate(errp, local_err);
-+            write_elf_section(s, 1, errp);
-+            if (*errp) {
-                 return;
-             }
-         }
- 
-         /* write notes to vmcore */
--        write_elf64_notes(fd_write_vmcore, s, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        write_elf64_notes(fd_write_vmcore, s, errp);
-+        if (*errp) {
-             return;
-         }
+             s->memory_offset = sizeof(Elf64_Ehdr) +
+-                               sizeof(Elf64_Phdr) * s->sh_info +
++                               sizeof(Elf64_Phdr) * s->phdr_num +
+                                sizeof(Elf64_Shdr) + s->note_size;
+         } else {
+             s->memory_offset = sizeof(Elf64_Ehdr) +
+@@ -1825,7 +1819,7 @@ static void dump_init(DumpState *s, int fd, bool has_format,
      } else {
-         /* write PT_NOTE to vmcore */
--        write_elf32_note(s, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        write_elf32_note(s, errp);
-+        if (*errp) {
-             return;
-         }
- 
-         /* write all PT_LOAD to vmcore */
--        write_elf_loads(s, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        write_elf_loads(s, errp);
-+        if (*errp) {
-             return;
-         }
- 
-         /* write section to vmcore */
          if (s->have_section) {
--            write_elf_section(s, 0, &local_err);
--            if (local_err) {
--                error_propagate(errp, local_err);
-+            write_elf_section(s, 0, errp);
-+            if (*errp) {
-                 return;
-             }
-         }
- 
-         /* write notes to vmcore */
--        write_elf32_notes(fd_write_vmcore, s, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        write_elf32_notes(fd_write_vmcore, s, errp);
-+        if (*errp) {
-             return;
-         }
-     }
-@@ -644,9 +632,9 @@ static int get_next_block(DumpState *s, GuestPhysBlock *block)
- /* write all memory to vmcore */
- static void dump_iterate(DumpState *s, Error **errp)
- {
-+    ERRP_GUARD();
-     GuestPhysBlock *block;
-     int64_t size;
--    Error *local_err = NULL;
- 
-     do {
-         block = s->next_block;
-@@ -658,9 +646,8 @@ static void dump_iterate(DumpState *s, Error **errp)
-                 size -= block->target_end - (s->begin + s->length);
-             }
-         }
--        write_memory(s, block, s->start, size, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        write_memory(s, block, s->start, size, errp);
-+        if (*errp) {
-             return;
-         }
- 
-@@ -669,11 +656,10 @@ static void dump_iterate(DumpState *s, Error **errp)
- 
- static void create_vmcore(DumpState *s, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_GUARD();
- 
--    dump_begin(s, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    dump_begin(s, errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -810,6 +796,7 @@ static bool note_name_equal(DumpState *s,
- /* write common header, sub header and elf note to vmcore */
- static void create_header32(DumpState *s, Error **errp)
- {
-+    ERRP_GUARD();
-     DiskDumpHeader32 *dh = NULL;
-     KdumpSubHeader32 *kh = NULL;
-     size_t size;
-@@ -818,7 +805,6 @@ static void create_header32(DumpState *s, Error **errp)
-     uint32_t bitmap_blocks;
-     uint32_t status = 0;
-     uint64_t offset_note;
--    Error *local_err = NULL;
- 
-     /* write common header, the version of kdump-compressed format is 6th */
-     size = sizeof(DiskDumpHeader32);
-@@ -894,9 +880,8 @@ static void create_header32(DumpState *s, Error **errp)
-     s->note_buf_offset = 0;
- 
-     /* use s->note_buf to store notes temporarily */
--    write_elf32_notes(buf_write_note, s, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    write_elf32_notes(buf_write_note, s, errp);
-+    if (*errp) {
-         goto out;
-     }
-     if (write_buffer(s->fd, offset_note, s->note_buf,
-@@ -922,6 +907,7 @@ out:
- /* write common header, sub header and elf note to vmcore */
- static void create_header64(DumpState *s, Error **errp)
- {
-+    ERRP_GUARD();
-     DiskDumpHeader64 *dh = NULL;
-     KdumpSubHeader64 *kh = NULL;
-     size_t size;
-@@ -930,7 +916,6 @@ static void create_header64(DumpState *s, Error **errp)
-     uint32_t bitmap_blocks;
-     uint32_t status = 0;
-     uint64_t offset_note;
--    Error *local_err = NULL;
- 
-     /* write common header, the version of kdump-compressed format is 6th */
-     size = sizeof(DiskDumpHeader64);
-@@ -1006,9 +991,8 @@ static void create_header64(DumpState *s, Error **errp)
-     s->note_buf_offset = 0;
- 
-     /* use s->note_buf to store notes temporarily */
--    write_elf64_notes(buf_write_note, s, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    write_elf64_notes(buf_write_note, s, errp);
-+    if (*errp) {
-         goto out;
-     }
- 
-@@ -1464,8 +1448,8 @@ out:
- 
- static void create_kdump_vmcore(DumpState *s, Error **errp)
- {
-+    ERRP_GUARD();
-     int ret;
--    Error *local_err = NULL;
- 
-     /*
-      * the kdump-compressed format is:
-@@ -1495,21 +1479,18 @@ static void create_kdump_vmcore(DumpState *s, Error **errp)
-         return;
-     }
- 
--    write_dump_header(s, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    write_dump_header(s, errp);
-+    if (*errp) {
-         return;
-     }
- 
--    write_dump_bitmap(s, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    write_dump_bitmap(s, errp);
-+    if (*errp) {
-         return;
-     }
- 
--    write_dump_pages(s, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    write_dump_pages(s, errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -1639,10 +1620,10 @@ static void dump_init(DumpState *s, int fd, bool has_format,
-                       DumpGuestMemoryFormat format, bool paging, bool has_filter,
-                       int64_t begin, int64_t length, Error **errp)
- {
-+    ERRP_GUARD();
-     VMCoreInfoState *vmci = vmcoreinfo_find();
-     CPUState *cpu;
-     int nr_cpus;
--    Error *err = NULL;
-     int ret;
- 
-     s->has_format = has_format;
-@@ -1761,9 +1742,8 @@ static void dump_init(DumpState *s, int fd, bool has_format,
- 
-     /* get memory mapping */
-     if (paging) {
--        qemu_get_guest_memory_mapping(&s->list, &s->guest_phys_blocks, &err);
--        if (err != NULL) {
--            error_propagate(errp, err);
-+        qemu_get_guest_memory_mapping(&s->list, &s->guest_phys_blocks, errp);
-+        if (*errp) {
-             goto cleanup;
-         }
-     } else {
-@@ -1862,33 +1842,32 @@ cleanup:
- /* this operation might be time consuming. */
- static void dump_process(DumpState *s, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_GUARD();
-     DumpQueryResult *result = NULL;
- 
-     if (s->has_format && s->format == DUMP_GUEST_MEMORY_FORMAT_WIN_DMP) {
- #ifdef TARGET_X86_64
--        create_win_dump(s, &local_err);
-+        create_win_dump(s, errp);
- #endif
-     } else if (s->has_format && s->format != DUMP_GUEST_MEMORY_FORMAT_ELF) {
--        create_kdump_vmcore(s, &local_err);
-+        create_kdump_vmcore(s, errp);
-     } else {
--        create_vmcore(s, &local_err);
-+        create_vmcore(s, errp);
-     }
- 
-     /* make sure status is written after written_size updates */
-     smp_wmb();
-     qatomic_set(&s->status,
--               (local_err ? DUMP_STATUS_FAILED : DUMP_STATUS_COMPLETED));
-+               (*errp ? DUMP_STATUS_FAILED : DUMP_STATUS_COMPLETED));
- 
-     /* send DUMP_COMPLETED message (unconditionally) */
-     result = qmp_query_dump(NULL);
-     /* should never fail */
-     assert(result);
--    qapi_event_send_dump_completed(result, !!local_err, (local_err ?
--                                   error_get_pretty(local_err) : NULL));
-+    qapi_event_send_dump_completed(result, !!*errp, (*errp ?
-+                                                     error_get_pretty(*errp) : NULL));
-     qapi_free_DumpQueryResult(result);
- 
--    error_propagate(errp, local_err);
-     dump_cleanup(s);
- }
- 
-@@ -1917,10 +1896,10 @@ void qmp_dump_guest_memory(bool paging, const char *file,
-                            int64_t length, bool has_format,
-                            DumpGuestMemoryFormat format, Error **errp)
- {
-+    ERRP_GUARD();
-     const char *p;
-     int fd = -1;
-     DumpState *s;
--    Error *local_err = NULL;
-     bool detach_p = false;
- 
-     if (runstate_check(RUN_STATE_INMIGRATE)) {
-@@ -2020,9 +1999,8 @@ void qmp_dump_guest_memory(bool paging, const char *file,
-     dump_state_prepare(s);
- 
-     dump_init(s, fd, has_format, format, paging, has_begin,
--              begin, length, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+              begin, length, errp);
-+    if (*errp) {
-         qatomic_set(&s->status, DUMP_STATUS_FAILED);
-         return;
-     }
+             s->memory_offset = sizeof(Elf32_Ehdr) +
+-                               sizeof(Elf32_Phdr) * s->sh_info +
++                               sizeof(Elf32_Phdr) * s->phdr_num +
+                                sizeof(Elf32_Shdr) + s->note_size;
+         } else {
+             s->memory_offset = sizeof(Elf32_Ehdr) +
+diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+index 250143cb5a..b463fc9c02 100644
+--- a/include/sysemu/dump.h
++++ b/include/sysemu/dump.h
+@@ -154,8 +154,7 @@ typedef struct DumpState {
+     GuestPhysBlockList guest_phys_blocks;
+     ArchDumpInfo dump_info;
+     MemoryMappingList list;
+-    uint16_t phdr_num;
+-    uint32_t sh_info;
++    uint32_t phdr_num;
+     bool have_section;
+     bool resume;
+     bool detached;
 -- 
 2.32.0
 
