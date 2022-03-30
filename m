@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B607C4EBEEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:38:11 +0200 (CEST)
-Received: from localhost ([::1]:54460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 656E34EBEED
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:37:45 +0200 (CEST)
+Received: from localhost ([::1]:53454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZViM-0007qK-R9
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:38:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41228)
+	id 1nZVhu-000795-Mm
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:37:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZVJc-0002QL-Lt
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:12:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57819)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1nZVMl-0004be-K5
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:15:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZVJZ-0007zr-71
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:12:35 -0400
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1nZVMj-00007c-Vw
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:15:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648635152;
+ s=mimecast20190719; t=1648635348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+hVO6xM+ENB6Zl5jrvJ184h9bGgYK/0XCbeKhRvS064=;
- b=fl+4jgs2+32TjWmb9l/PyQ45nUWGWE7sYhixTa5kJJlb4gktoPQHBQCjE9NOt6wDK/PyMf
- XdA+8c5KU8/T5mMxfXujt1a1To5pi8GjMomOpf3el5Dvw40LUW3yPuDVMfIYRKzKvwMXmL
- YfnLMIigWwHKGHMMJr9Yyf5aUblFQjA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sWPMcJems7Ue7u8eStQSaCQh8ZmBaZEg4YvKVbY0k48=;
+ b=i3iNqkO7wYrO3Um33FXlBsIWyTfUPYnHLBR6M5hHvQRcT3qo/WLaITqItsfDULIYN9j+jP
+ e3VN9PIGzdTOaRsooWQ0gB2gdEElGDOxgkyKgEBS2O1kNdMTITKBliL5IVHbyk3Hl7xDIL
+ LZiKyF4OjHlWuu8nQ1jXEUcCpRbtn4U=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-2hsR9stBOe-pRwwPSpx45A-1; Wed, 30 Mar 2022 06:12:28 -0400
-X-MC-Unique: 2hsR9stBOe-pRwwPSpx45A-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-373-Dt-pWhI-O4yXmpHXF-MFXQ-1; Wed, 30 Mar 2022 06:15:47 -0400
+X-MC-Unique: Dt-pWhI-O4yXmpHXF-MFXQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1B4A78F11C7;
- Wed, 30 Mar 2022 10:12:28 +0000 (UTC)
-Received: from [10.33.192.183] (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 375A2401E36;
- Wed, 30 Mar 2022 10:12:27 +0000 (UTC)
-Message-ID: <a1b4b0b3-c83c-a88d-0b62-c9dbc77dd711@redhat.com>
-Date: Wed, 30 Mar 2022 12:12:26 +0200
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1BAF93C0012F
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 10:15:46 +0000 (UTC)
+Received: from localhost (unknown [10.40.193.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B40DC400E132;
+ Wed, 30 Mar 2022 10:15:45 +0000 (UTC)
+Date: Wed, 30 Mar 2022 12:15:44 +0200
+From: Victor Toso <victortoso@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 11/14] qapi: fix example of MEMORY_FAILURE
+Message-ID: <20220330101544.yhz4sy5d6fdzhwlo@tapioca>
+References: <20220328140604.41484-1-victortoso@redhat.com>
+ <20220328140604.41484-12-victortoso@redhat.com>
+ <87wngczrg0.fsf@pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 1/2] target/s390x: Fix determination of overflow condition
- code after addition
-To: David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220323162621.139313-1-thuth@redhat.com>
- <20220323162621.139313-2-thuth@redhat.com>
- <2b82de5e-a259-576c-5ea5-eb5c10e6bbeb@redhat.com>
- <36106411-4cf1-5eaf-b63f-c331380e087b@redhat.com>
- <6c73160b-787c-0f64-aabc-25bd943d8ffd@redhat.com>
- <e65e17f4-ef4c-9dfb-a9c6-a05dbc4cf671@redhat.com>
- <5930e000-35d2-64ec-e301-9305fa09db39@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <5930e000-35d2-64ec-e301-9305fa09db39@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="d6epvgfti66jfko3"
+Content-Disposition: inline
+In-Reply-To: <87wngczrg0.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,123 +78,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Bruno Haible <bruno@clisp.org>
+Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/03/2022 11.47, David Hildenbrand wrote:
-> On 30.03.22 11:42, Thomas Huth wrote:
->> On 30/03/2022 11.34, David Hildenbrand wrote:
->>> On 30.03.22 11:29, Thomas Huth wrote:
->>>> On 30/03/2022 10.52, David Hildenbrand wrote:
->>>>> On 23.03.22 17:26, Thomas Huth wrote:
->>>>>> This program currently prints different results when run with TCG instead
->>>>>> of running on real s390x hardware:
->>>>>>
->>>>>>     #include <stdio.h>
->>>>>>
->>>>>>     int overflow_32 (int x, int y)
->>>>>>     {
->>>>>>       int sum;
->>>>>>       return ! __builtin_add_overflow (x, y, &sum);
->>>>>>     }
->>>>>>
->>>>>>     int overflow_64 (long long x, long long y)
->>>>>>     {
->>>>>>       long sum;
->>>>>>       return ! __builtin_add_overflow (x, y, &sum);
->>>>>>     }
->>>>>>
->>>>>>     int a1 = -2147483648;
->>>>>>     int b1 = -2147483648;
->>>>>>     long long a2 = -9223372036854775808L;
->>>>>>     long long b2 = -9223372036854775808L;
->>>>>>
->>>>>>     int main ()
->>>>>>     {
->>>>>>       {
->>>>>>         int a = a1;
->>>>>>         int b = b1;
->>>>>>         printf ("a = 0x%x, b = 0x%x\n", a, b);
->>>>>>         printf ("no_overflow = %d\n", overflow_32 (a, b));
->>>>>>       }
->>>>>>       {
->>>>>>         long long a = a2;
->>>>>>         long long b = b2;
->>>>>>         printf ("a = 0x%llx, b = 0x%llx\n", a, b);
->>>>>>         printf ("no_overflow = %d\n", overflow_64 (a, b));
->>>>>>       }
->>>>>>     }
->>>>>>
->>>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/616
->>>>>> Suggested-by: Bruno Haible <bruno@clisp.org>
->>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>>>> ---
->>>>>>     target/s390x/tcg/cc_helper.c | 4 ++--
->>>>>>     1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> diff --git a/target/s390x/tcg/cc_helper.c b/target/s390x/tcg/cc_helper.c
->>>>>> index 8d04097f78..e11cdb745d 100644
->>>>>> --- a/target/s390x/tcg/cc_helper.c
->>>>>> +++ b/target/s390x/tcg/cc_helper.c
->>>>>> @@ -136,7 +136,7 @@ static uint32_t cc_calc_subu(uint64_t borrow_out, uint64_t result)
->>>>>>     
->>>>>>     static uint32_t cc_calc_add_64(int64_t a1, int64_t a2, int64_t ar)
->>>>>>     {
->>>>>> -    if ((a1 > 0 && a2 > 0 && ar < 0) || (a1 < 0 && a2 < 0 && ar > 0)) {
->>>>>> +    if ((a1 > 0 && a2 > 0 && ar < 0) || (a1 < 0 && a2 < 0 && ar >= 0)) {
->>>>>
->>>>>
->>>>> Intuitively, I'd have checked for any overflow/underflow by comparing
->>>>> with one of the input variables:
->>>>>
->>>>> a) Both numbers are positive
->>>>>
->>>>> Adding to positive numbers has to result in something that's bigger than
->>>>> the input parameters.
->>>>>
->>>>> "a1 > 0 && a2 > 0 && ar < a1"
->>>>
->>>> I think it doesn't really matter whether we compare ar with a1 or 0 here. If
->>>> an overflow happens, what's the biggest number that we can get? AFAICT it's
->>>> with a1 = 0x7fffffffffffffff and a2 = 0x7fffffffffffffff. You then get:
->>>>
->>>>     0x7fffffffffffffff + 0x7fffffffffffffff = 0xFFFFFFFFFFFFFFFE
->>>>
->>>> and that's still < 0 if treated as a signed value. I don't see a way where
->>>> ar could be in the range between 0 and a1.
->>>>
->>>> (OTOH, checking for ar < a1 instead of ar < 0 wouldn't hurt either, I guess).
->>>>
->>>>> b) Both numbers are negative
->>>>>
->>>>> Adding to negative numbers has to result in something that's smaller
->>>>> than the input parameters.
->>>>>
->>>>> "a1 < 0 && a2 < 0 && ar > a1"
->>>>
->>>> What about if the uppermost bit gets lost in 64-bit mode:
->>>>
->>>>     0x8000000000000000 + 0x8000000000000000 = 0x0000000000000000
->>>>
->>>> ar > a1 does not work here anymore, does it?
->>>
->>>
->>> 0 > -9223372036854775808, no?
->>
->> current coffe level < correct coffee level
->>
->> ... sorry, never mind, you're right of course.
->>
->> Anyway, 0 is the lowest number we can get for an underflow, so comparing
->> with >= 0 should be fine (but comparing with a1 wouldn't hurt either).
-> 
-> At least for me it takes more brainpower to understand that than
-> comparing against one of both parameters as we usually do, e.g., for
-> unsigned values
-Maybe we should simply switch the code to use __builtin_add_overflow and 
-__builtin_sub_overflow and let the compiler figure out the details...
 
-  Thomas
+--d6epvgfti66jfko3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Tue, Mar 29, 2022 at 05:52:47PM +0200, Markus Armbruster wrote:
+> Victor Toso <victortoso@redhat.com> writes:
+>=20
+> > Example output lacks mandatory member @timestamp.  Provide it.
+> >
+> > While @flags is an optional member,
+>=20
+> Uh, it isn't.
+
+Wow! I was so sure I saw "*flags" before. Nice catch.
+
+> >                                     if it is defined then all its
+> > members should be include. For that reason, we add @recursive member.
+>=20
+> Perhaps:
+>=20
+>   Example output lacks mandatory member flags.recursive.  Provide it.
+>=20
+> Happy to make such a change in my tree.
+
+Yes, many thanks!
+
+> > Minor: Change quotes from '' to "" in @action-required member.
+> >
+> > Signed-off-by: Victor Toso <victortoso@redhat.com>
+> > Reviewed-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  qapi/run-state.json | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/qapi/run-state.json b/qapi/run-state.json
+> > index 7f1c788c4e..8124220bd9 100644
+> > --- a/qapi/run-state.json
+> > +++ b/qapi/run-state.json
+> > @@ -571,7 +571,9 @@
+> >  # <- { "event": "MEMORY_FAILURE",
+> >  #      "data": { "recipient": "hypervisor",
+> >  #                "action": "fatal",
+> > -#                "flags": { 'action-required': false } }
+> > +#                "flags": { "action-required": false,
+> > +#                           "recursive": false } },
+> > +#      "timestamp": { "seconds": 1267061043, "microseconds": 959568 } }
+> >  #
+> >  ##
+> >  { 'event': 'MEMORY_FAILURE',
+>=20
+> With the commit message fixed:
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
+Cheers,
+Victor
+
+--d6epvgfti66jfko3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmJELdAACgkQl9kSPeN6
+SE+LGxAAgDWyCLTWVqOP3MZT8FH/BlmDGCsjA0ThAirAkS2orkd4ISyMvcF84Hz8
++KnhkCFqiXnIzdg4tUXEA4znIy/jwv53fffDQdkvrtzWPkhSh1eXei8uHWwIhYRb
+Z+k7BEw7PGp1UUmJ4xnxvfTFxcsq7lpGk8DW2cF9lZnY1rs8kbSSbOnlWFu9IR76
+4cO7sfrnlG+RYlKvTIil9G2dPIxZ1/WvszkbDp25sgpDu9jWEZf52QLzUXYp91eu
+nS7XFFdVvr7WUtg2xeyqvPHYXmMkSnwV1LwGcIt4jMqvCfgnYyWXQdmikFnbIws2
+5smY8l81Qs2VLp8hg6PqHjiHeJ2Qps3dPCP/bi5V/6KfZAyEf0qhyLw5YdDi1hrE
+wRiiA1otXKVIFZdhgin3n+/MirV1EfizMSKMrNSQFAdi84MnA8+uXNZfBzlM1UyP
+wD5irMaVqiK5Te12uSdLn31ECL5mo/pj3NAZTjeA/mamnhRA1UDLSM+6tHUoaeXb
+cSEbke4ZTt3ZyUBqPzbeqUyOq5mzk0KEVzzNEl5mYvLGGdjsYQP2p8e3gBz8HE46
+8HZH6yy9MC2I7h5OcLPRayGoyofDcO+oYf/Z/iJEHyxDTw5r3I26oU5dUFSgXTxs
+TkZ95liwQv7/1QI8zfizD2reHKFvL//sfHaEyB1bWgACxWn5znA=
+=3dH7
+-----END PGP SIGNATURE-----
+
+--d6epvgfti66jfko3--
 
 
