@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F554EBEC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:28:55 +0200 (CEST)
-Received: from localhost ([::1]:38768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DACF54EBE92
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:20:22 +0200 (CEST)
+Received: from localhost ([::1]:58090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZVZN-0004ug-Mh
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:28:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41214)
+	id 1nZVR4-0006uB-U6
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:20:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZVJb-0002Ph-Ol; Wed, 30 Mar 2022 06:12:35 -0400
-Received: from smtp46.i.mail.ru ([94.100.177.106]:52088)
+ id 1nZVJb-0002PD-Lx; Wed, 30 Mar 2022 06:12:35 -0400
+Received: from smtp46.i.mail.ru ([94.100.177.106]:52872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nZVJX-0007yy-GG; Wed, 30 Mar 2022 06:12:35 -0400
+ id 1nZVJX-0007zB-Eu; Wed, 30 Mar 2022 06:12:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
  s=mail4; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=i53SiEufR/tgv7eUhZU/qZ/EBoMibuWBcyGrrv7d5gc=; 
+ bh=trc5BJnQsNM0oBenTzVK2SeUIEF3+qJ8gC27Id5T5jQ=; 
  t=1648635151;x=1649240551; 
- b=UAC2gNY39hRZnpizoeUaaJ0WrfMuU89YVtYjAPXuvDv6jf+zq9XTlrESBLcLI+wfCXWnZKKbDF2sVc2AagiRUowP/z1NCnTLSwO5qBrai/Av273ckWTc6vLZEYPdCw4wzdB070eZEQLEaCfip7ddCQl37nrD62Xsf46fTFCX3tEQz4xkFmnGhfI1/WzWanWFBzRR6OFC9ebXyNMT+OaBc6Fzg7MXuOfmUHVPZFxYw/7zTMHCuf2TgTA5JlzzvfjtensDJh/rRi+kpODDFFBU3CBum7tFElgE0s6+UrassXtryFSX9XyN+KSPK6qTjcIJRJRcanUGiU5w6plO25LaIQ==;
+ b=OcF0M+uKTnL4EyQGbsF4XhCpCsRV+P6UTJNyHzQAr+xx7JlqClDZVWXvGii2986/dGXYgqnqnqOKLl9sCp1WCbGCnQuaOktXIpijufvlQ+YZiEmragReBB7lVEqiIC1Gs9XIkgg2PCtLdSLqbYlZUiAsoiY3y5SuSMtUbg+xyExTrP7ouSN7AZHix1csIKFZv1MJRkam82Ac6Llbifx7YJq1KmdnYz2uJZeswZ/Aq6Tdpsxk65aUpNDW3Yf1IpfQeTwS3q2eYlNqXoIEMGQQJhFvddCqkOBBJFaLK9JsgHaFua+b7guhru1SsP1W6rEJNd8Sm8UvXiGuDJpUyVqtww==;
 Received: by smtp46.i.mail.ru with esmtpa (envelope-from
  <v.sementsov-og@mail.ru>)
- id 1nZVJU-00048P-1e; Wed, 30 Mar 2022 13:12:28 +0300
+ id 1nZVJV-00048P-2o; Wed, 30 Mar 2022 13:12:29 +0300
 From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
  v.sementsov-og@mail.ru
-Subject: [PATCH v4 43/45] iotests: add filter-insertion
-Date: Wed, 30 Mar 2022 13:12:15 +0300
-Message-Id: <20220330101217.4229-5-v.sementsov-og@mail.ru>
+Subject: [PATCH v4 44/45] block: bdrv_open_inherit: create BlockBackend only
+ when necessary
+Date: Wed, 30 Mar 2022 13:12:16 +0300
+Message-Id: <20220330101217.4229-6-v.sementsov-og@mail.ru>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220329204107.411011-1-v.sementsov-og@mail.ru>
 References: <20220329204107.411011-1-v.sementsov-og@mail.ru>
@@ -41,14 +42,14 @@ Content-Transfer-Encoding: 8bit
 Authentication-Results: smtp46.i.mail.ru;
  auth=pass smtp.auth=v.sementsov-og@mail.ru
  smtp.mailfrom=v.sementsov-og@mail.ru
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD92B0439D57C14BB614C163C38C65CC3EA73BEA6060E4E357600894C459B0CD1B981A96237C1CE6629273F00296EF4AF0D338E05E3556DF6F75D748730268862CC
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7548C33FFD72831AFEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006378629C75C8EFA8C148638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8E6D2B9A48B833175F6690A78E488D0526F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE78A0F7C24A37A3D769FA2833FD35BB23D9E625A9149C048EE9ECD01F8117BC8BEA471835C12D1D9774AD6D5ED66289B52BA9C0B312567BB23117882F44604297287769387670735209ECD01F8117BC8BEA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FCF2AB80D4E8443212D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE79C58D14DB1945D3CEC76A7562686271EEC990983EF5C03292E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C3F6F64B09A546065435872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-7564579A: EEAE043A70213CC8
+X-77F55803: 4F1203BC0FB41BD9B83DD81DD066BE6427D5C075F9E61C41307589F8F117601A182A05F5380850404C228DA9ACA6FE279BCE27C99EC324761FB82467246A2453831D4B70C8A897616BD6A1C75F5C71EB
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE76ABD3380F320B62CEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063750DEB490C003C9A78638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D802800E4E7E63A138A6F348382DD2CED96F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE73B0385442E67878B9FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD182CC0D3CB04F14752D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B3A703B70628EAD7BA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC5028BACDD2F522FB3AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F7900637425E60B8FADAE700D81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89F249797B4B1AC1449262FEC7FBD7D1F5BB5C8C57E37DE458BEDA766A37F9254B7
 X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8183A4AFAF3EA6BDC44C234C8B12C006B7AB91EFAE5A2C4071B43624140A33D887BCFFE757E10EC0C78B1881A6453793CE9C32612AADDFBE061C61BE10805914D3804EBA3D8E7E5B87ABF8C51168CD8EBDBF77088377309FF52DC48ACC2A39D04F89CDFB48F4795C241BDAD6C7F3747799A
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34060C3C6DE316ECE42D546DB455330E102A3266CD3ED25C16E16C162A10027661BF2C128750D9AB061D7E09C32AA3244CAB619C05551D90E2E19B736140EB10E4A995755A1445935E83B48618A63566E0
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojlgoDDUY05+UyizOmW6NUeA==
-X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FEF59FC8FC90DF3869749234D0517BED3B18B196E0205D2CCDE6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C4C7A0BC55FA0FE5FCB91EFAE5A2C4071BAF2C6889BB167446ED1157CEA6F447A5B1881A6453793CE9C32612AADDFBE061C61BE10805914D3804EBA3D8E7E5B87ABF8C51168CD8EBDBF77088377309FF52DC48ACC2A39D04F89CDFB48F4795C241BDAD6C7F3747799A
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34F1257DC9690AEBA11AD653053C68C242C89BC46383D2217ABAEA8DA662A5DEBC17ECFAE0E79315871D7E09C32AA3244C18BA610EBF3C0CEFE27D105675F74204C3B3ADDA61883BB583B48618A63566E0
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojlgoDDUY05+WfSYpcpHPxxg==
+X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FEF59FC8FC90DF38691E8D08ABE052BD57C255BFBEEFE9B2B4E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
 X-Mras: Ok
 Received-SPF: pass client-ip=94.100.177.106;
  envelope-from=v.sementsov-og@mail.ru; helo=smtp46.i.mail.ru
@@ -74,286 +75,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Demonstrate new API for filter insertion and removal.
+We need this blk only for probing - let's create it only when we are
+going to probe.
+
+That's significant for further changes: we'll need to avoid permission
+update during open() when possible (to refresh them later of course).
+But blk_unref() leads to permission update. Instead of implementing
+extra logic to avoid permission update during blk_unref when we want
+it, let's just drop blk_unref() from normal code path.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 ---
- tests/qemu-iotests/tests/filter-insertion     | 253 ++++++++++++++++++
- tests/qemu-iotests/tests/filter-insertion.out |   5 +
- 2 files changed, 258 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/filter-insertion
- create mode 100644 tests/qemu-iotests/tests/filter-insertion.out
+ block.c | 48 +++++++++++++++++++++++++-----------------------
+ 1 file changed, 25 insertions(+), 23 deletions(-)
 
-diff --git a/tests/qemu-iotests/tests/filter-insertion b/tests/qemu-iotests/tests/filter-insertion
-new file mode 100755
-index 0000000000..4898d6e043
---- /dev/null
-+++ b/tests/qemu-iotests/tests/filter-insertion
-@@ -0,0 +1,253 @@
-+#!/usr/bin/env python3
-+#
-+# Tests for inserting and removing filters in a block graph.
-+#
-+# Copyright (c) 2022 Virtuozzo International GmbH.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+diff --git a/block.c b/block.c
+index 57c8b0d727..97e30c1aef 100644
+--- a/block.c
++++ b/block.c
+@@ -1761,7 +1761,7 @@ QemuOptsList bdrv_create_opts_simple = {
+  *
+  * Removes all processed options from *options.
+  */
+-static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
++static int bdrv_open_common(BlockDriverState *bs, BlockDriverState *file,
+                             QDict *options, Error **errp)
+ {
+     int ret, open_flags;
+@@ -1800,8 +1800,8 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
+     }
+ 
+     if (file != NULL) {
+-        bdrv_refresh_filename(blk_bs(file));
+-        filename = blk_bs(file)->filename;
++        bdrv_refresh_filename(file);
++        filename = file->filename;
+     } else {
+         /*
+          * Caution: while qdict_get_try_str() is fine, getting
+@@ -3765,7 +3765,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+                                            Error **errp)
+ {
+     int ret;
+-    BlockBackend *file = NULL;
++    BlockDriverState *file_bs = NULL;
+     BlockDriverState *bs;
+     BlockDriver *drv = NULL;
+     BdrvChild *child;
+@@ -3897,8 +3897,6 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+      * probing, the block drivers will do their own bdrv_open_child() for the
+      * same BDS, which is why we put the node name back into options. */
+     if ((flags & BDRV_O_PROTOCOL) == 0) {
+-        BlockDriverState *file_bs;
+-
+         file_bs = bdrv_open_child_bs(filename, options, "file", bs,
+                                      &child_of_bds, BDRV_CHILD_IMAGE,
+                                      true, &local_err);
+@@ -3906,24 +3904,28 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+             goto fail;
+         }
+         if (file_bs != NULL) {
+-            /* Not requesting BLK_PERM_CONSISTENT_READ because we're only
+-             * looking at the header to guess the image format. This works even
+-             * in cases where a guest would not see a consistent state. */
+-            file = blk_new(bdrv_get_aio_context(file_bs), 0, BLK_PERM_ALL);
+-            blk_insert_bs(file, file_bs, &local_err);
+-            bdrv_unref(file_bs);
+-            if (local_err) {
+-                goto fail;
+-            }
+-
+             qdict_put_str(options, "file", bdrv_get_node_name(file_bs));
+         }
+     }
+ 
+     /* Image format probing */
+     bs->probed = !drv;
+-    if (!drv && file) {
++    if (!drv && file_bs) {
++        /*
++         * Not requesting BLK_PERM_CONSISTENT_READ because we're only
++         * looking at the header to guess the image format. This works even
++         * in cases where a guest would not see a consistent state.
++         */
++        BlockBackend *file = blk_new(bdrv_get_aio_context(file_bs), 0,
++                                     BLK_PERM_ALL);
++        blk_insert_bs(file, file_bs, &local_err);
++        if (local_err) {
++            blk_unref(file);
++            goto fail;
++        }
 +
-+import os
-+
-+import iotests
-+from iotests import qemu_img_create, try_remove
-+
-+
-+disk = os.path.join(iotests.test_dir, 'disk')
-+sock = os.path.join(iotests.sock_dir, 'sock')
-+size = 1024 * 1024
-+
-+
-+class TestFilterInsertion(iotests.QMPTestCase):
-+    def setUp(self):
-+        qemu_img_create(disk, str(size))
-+
-+        self.vm = iotests.VM()
-+        self.vm.launch()
-+
-+        self.vm.qmp_check('blockdev-add', {
-+            'node-name': 'disk0',
-+            'driver': 'qcow2',
-+            'file': {
-+                'node-name': 'file0',
-+                'driver': 'file',
-+                'filename': disk
-+            }
-+        })
-+
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        os.remove(disk)
-+        try_remove(sock)
-+
-+    def test_simple_insertion(self):
-+        vm = self.vm
-+
-+        vm.qmp_check('blockdev-add', {
-+            'node-name': 'filter',
-+            'driver': 'preallocate',
-+            'file': 'file0'
-+        })
-+
-+        vm.qmp_check('x-blockdev-replace', {
-+            'parent-type': 'driver',
-+            'node-name': 'disk0',
-+            'child': 'file',
-+            'new-child': 'filter'
-+        })
-+
-+        # Filter inserted:
-+        # disk0 -file-> filter -file-> file0
-+        vm.assert_edges_list([
-+            ('disk0', 'file', 'filter'),
-+            ('filter', 'file', 'file0')
-+        ])
-+
-+        vm.qmp_check('x-blockdev-replace', {
-+            'parent-type': 'driver',
-+            'node-name': 'disk0',
-+            'child': 'file',
-+            'new-child': 'file0'
-+        })
-+
-+        # Filter replaced, but still exists:
-+        # dik0 -file-> file0 <-file- filter
-+        vm.assert_edges_list([
-+            ('disk0', 'file', 'file0'),
-+            ('filter', 'file', 'file0')
-+        ])
-+
-+        vm.qmp_check('blockdev-del', node_name='filter')
-+
-+        # Filter removed
-+        # dik0 -file-> file0
-+        vm.assert_edges_list([
-+            ('disk0', 'file', 'file0')
-+        ])
-+
-+    def test_tran_insert_under_qdev(self):
-+        vm = self.vm
-+
-+        vm.qmp_check('device_add', driver='virtio-scsi')
-+        vm.qmp_check('device_add', id='sda', driver='scsi-hd', drive='disk0')
-+
-+        vm.qmp_check('transaction', actions=[
-+            {
-+                'type': 'blockdev-add',
-+                'data': {
-+                    'node-name': 'filter',
-+                    'driver': 'compress',
-+                    'file': 'disk0'
-+                }
-+            }, {
-+                'type': 'x-blockdev-replace',
-+                'data': {
-+                    'parent-type': 'qdev',
-+                    'qdev-id': 'sda',
-+                    'new-child': 'filter'
-+                }
-+            }
-+        ])
-+
-+        # Filter inserted:
-+        # sda -root-> filter -file-> disk0 -file-> file0
-+        vm.assert_edges_list([
-+            # parent_node_name, child_name, child_node_name
-+            ('sda', 'root', 'filter'),
-+            ('filter', 'file', 'disk0'),
-+            ('disk0', 'file', 'file0'),
-+        ])
-+
-+        vm.qmp_check('x-blockdev-replace', {
-+            'parent-type': 'qdev',
-+            'qdev-id': 'sda',
-+            'new-child': 'disk0'
-+        })
-+        vm.qmp_check('blockdev-del', node_name='filter')
-+
-+        # Filter removed:
-+        # sda -root-> disk0 -file-> file0
-+        vm.assert_edges_list([
-+            # parent_node_name, child_name, child_node_name
-+            ('sda', 'root', 'disk0'),
-+            ('disk0', 'file', 'file0'),
-+        ])
-+
-+    def test_tran_insert_under_nbd_export(self):
-+        vm = self.vm
-+
-+        vm.qmp_check('nbd-server-start',
-+                     addr={'type': 'unix', 'data': {'path': sock}})
-+        vm.qmp_check('block-export-add', id='exp1', type='nbd',
-+                     node_name='disk0', name='exp1')
-+        vm.qmp_check('block-export-add', id='exp2', type='nbd',
-+                     node_name='disk0', name='exp2')
-+        vm.qmp_check('object-add', qom_type='throttle-group',
-+                     id='tg', limits={'iops-read': 1})
-+
-+        vm.qmp_check('transaction', actions=[
-+            {
-+                'type': 'blockdev-add',
-+                'data': {
-+                    'node-name': 'filter',
-+                    'driver': 'throttle',
-+                    'throttle-group': 'tg',
-+                    'file': 'disk0'
-+                }
-+            }, {
-+                'type': 'x-blockdev-replace',
-+                'data': {
-+                    'parent-type': 'export',
-+                    'export-id': 'exp1',
-+                    'new-child': 'filter'
-+                }
-+            }
-+        ])
-+
-+        # Only exp1 is throttled, exp2 is not:
-+        # exp1 -root-> filter
-+        #                |
-+        #                |file
-+        #                v
-+        # exp2 -file-> disk0 -file> file0
-+        vm.assert_edges_list([
-+            # parent_node_name, child_name, child_node_name
-+            ('exp1', 'root', 'filter'),
-+            ('filter', 'file', 'disk0'),
-+            ('disk0', 'file', 'file0'),
-+            ('exp2', 'root', 'disk0')
-+        ])
-+
-+        vm.qmp_check('x-blockdev-replace', {
-+            'parent-type': 'export',
-+            'export-id': 'exp2',
-+            'new-child': 'filter'
-+        })
-+
-+        # Both throttled:
-+        # exp1 -root-> filter <-file- exp2
-+        #                |
-+        #                |file
-+        #                v
-+        #              disk0 -file> file0
-+        vm.assert_edges_list([
-+            # parent_node_name, child_name, child_node_name
-+            ('exp1', 'root', 'filter'),
-+            ('filter', 'file', 'disk0'),
-+            ('disk0', 'file', 'file0'),
-+            ('exp2', 'root', 'filter')
-+        ])
-+
-+        # Check, that filter is in use and can't be removed
-+        result = vm.qmp('blockdev-del', node_name='filter')
-+        self.assert_qmp(result, 'error/desc', 'Node filter is in use')
-+
-+        vm.qmp_check('transaction', actions=[
-+            {
-+                'type': 'x-blockdev-replace',
-+                'data': {
-+                    'parent-type': 'export',
-+                    'export-id': 'exp1',
-+                    'new-child': 'disk0'
-+                }
-+            }, {
-+                'type': 'x-blockdev-replace',
-+                'data': {
-+                    'parent-type': 'export',
-+                    'export-id': 'exp2',
-+                    'new-child': 'disk0'
-+                }
-+            }
-+        ])
-+        vm.qmp_check('blockdev-del', node_name='filter')
-+
-+        # Filter removed:
-+        # exp1 -root-> disk0 <-file- exp2
-+        #                |
-+        #                |file
-+        #                v
-+        #              file0
-+        vm.assert_edges_list([
-+            # parent_node_name, child_name, child_node_name
-+            ('exp1', 'root', 'disk0'),
-+            ('disk0', 'file', 'file0'),
-+            ('exp2', 'root', 'disk0')
-+        ])
-+
-+
-+if __name__ == '__main__':
-+    iotests.main(
-+        supported_fmts=['qcow2'],
-+        supported_protocols=['file']
-+    )
-diff --git a/tests/qemu-iotests/tests/filter-insertion.out b/tests/qemu-iotests/tests/filter-insertion.out
-new file mode 100644
-index 0000000000..8d7e996700
---- /dev/null
-+++ b/tests/qemu-iotests/tests/filter-insertion.out
-@@ -0,0 +1,5 @@
-+...
-+----------------------------------------------------------------------
-+Ran 3 tests
-+
-+OK
+         ret = find_image_format(file, filename, &drv, &local_err);
++        blk_unref(file);
+         if (ret < 0) {
+             goto fail;
+         }
+@@ -3949,17 +3951,17 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+     assert(!!(flags & BDRV_O_PROTOCOL) == !!drv->bdrv_file_open);
+     /* file must be NULL if a protocol BDS is about to be created
+      * (the inverse results in an error message from bdrv_open_common()) */
+-    assert(!(flags & BDRV_O_PROTOCOL) || !file);
++    assert(!(flags & BDRV_O_PROTOCOL) || !file_bs);
+ 
+     /* Open the image */
+-    ret = bdrv_open_common(bs, file, options, &local_err);
++    ret = bdrv_open_common(bs, file_bs, options, &local_err);
+     if (ret < 0) {
+         goto fail;
+     }
+ 
+-    if (file) {
+-        blk_unref(file);
+-        file = NULL;
++    if (file_bs) {
++        bdrv_unref(file_bs);
++        file_bs = NULL;
+     }
+ 
+     /* If there is a backing file, use it */
+@@ -4023,7 +4025,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+     return bs;
+ 
+ fail:
+-    blk_unref(file);
++    bdrv_unref(file_bs);
+     qobject_unref(snapshot_options);
+     qobject_unref(bs->explicit_options);
+     qobject_unref(bs->options);
 -- 
 2.35.1
 
