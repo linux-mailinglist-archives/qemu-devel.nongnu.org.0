@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3804ED07B
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:59:16 +0200 (CEST)
-Received: from localhost ([::1]:33480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B104ED094
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 02:01:06 +0200 (CEST)
+Received: from localhost ([::1]:37702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZiDb-0007OA-ET
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:59:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35702)
+	id 1nZiFN-00025v-49
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 20:01:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZftC-0008MI-V0
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:30:06 -0400
-Received: from [2a00:1450:4864:20::242] (port=45936
- helo=mail-lj1-x242.google.com)
+ id 1nZftD-0008ML-72
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:30:08 -0400
+Received: from [2a00:1450:4864:20::12b] (port=36445
+ helo=mail-lf1-x12b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZft8-0003RK-RG
+ id 1nZft9-0003RX-6x
  for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:30:02 -0400
-Received: by mail-lj1-x242.google.com with SMTP id q14so29438816ljc.12
+Received: by mail-lf1-x12b.google.com with SMTP id bt26so38063244lfb.3
  for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:29:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yr3IicjiIzijKvaPUL3NuAuXiYMFVz8a7w4vV+d+wDU=;
- b=Kyy0AmzPX+CiOtwW9Ym1aTiHBgIrjObwW7mFNqiHcyCS0of4dbK2ghmJqBwKM1ShnN
- v8QpR6FTpi6aL8brAI0YHMbTR37JhuZGwDEqDF9ycemAgz0uVwn/XKSEaFicTQiy9n3A
- xKz/lhF7HtEpadgqevryb2xgx9gtXKrr+mQXhDnfEjW7JhRflMXobxRyC7yj7BLD4e/I
- mKHsK+BW+rwasEsT3qPlOV6M1RlJ8NvxFLe8Ja8siPWWAnQDklTO+tTiLJ92xClOEXc6
- ZwZ60Ud9OV1n0IIqeUg/W6ttI4YPgb2OawVifz8yTwmllTnPs2RkAnJS5ldFq21EE0T9
- et5g==
+ bh=UWNOlxI3Y81KZ56+Dl8p8TtuCtCt2TgumvfkhsZcZsc=;
+ b=OzW7V6Buepf5PfhTsty/VdzU5pFr0mp12zWLpWda8JQqQg/85X0KU6eDLa1Nrg8kU5
+ Y4J94bD9OZS0WFDiTimtQ7wHgORuw0ppBB831orgh3mKvZ85AQqIcPgP3i0kvz5966EW
+ nWBDllPCklL0R8iebpJFvBf3QAozBEEALE1CUKZyMVVEmM2uFUli1P7m2nTRTqxCOC8v
+ ITfd7WVlfTrKdxHCxKic46THF0WMyV30xJry0my0LUtoirtgGVOQa19QNxBU235siU2a
+ PFWjn7htPlNzl2glnJsqBwhpUqRXIxjGsLTMgR5UWkLmsXwvEHjlsw640t4koFuOy0mY
+ FCYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yr3IicjiIzijKvaPUL3NuAuXiYMFVz8a7w4vV+d+wDU=;
- b=6oXK40BdSe3PkQZ6dvT5CehTU45Gvq0wZkWL+FnGItRnEPQuxOm+3qrXsgMxtCfhNr
- Ga5JZe+lRCCiMSGdueHXFemM7h/0yk+BIuE3ZxKeQIvVA/hiraq8KoWauKa53FajGmIo
- cMO1MqBEgD8PYtp3Qaxh0Rf5nFrwx2yegNYQX3rRtNavvsFaT174aSWwK4VE37yTpPDy
- tEMtq+lXyCn2aMhU5aDGu+h2xcfvyqPLUslvL7pfwKra0pY4MYjxA1D67Ci1HoWxGdNY
- Xkt5dZ/6iGT73VPdik0rPIvtlMqz9qAxxOzqT+mQq/NEI3GtKIAB4MSSeuHFiamyHtIH
- cUlA==
-X-Gm-Message-State: AOAM5332lHJL+DgbvFVF3YKq2oMidphWtQlsM0UZC2bG6G/+pPMS/6ba
- 239ramXHlZavNEcCr2z/wEeS2g==
-X-Google-Smtp-Source: ABdhPJw1yTT1NxyGriDvexrBOhU8H4eateD99qx1yPTAKFdiBpaq80hJk5+Jini5E/CCL7cAoV7YGg==
-X-Received: by 2002:a2e:bf05:0:b0:247:b233:cfba with SMTP id
- c5-20020a2ebf05000000b00247b233cfbamr8154556ljr.131.1648675797105; 
+ bh=UWNOlxI3Y81KZ56+Dl8p8TtuCtCt2TgumvfkhsZcZsc=;
+ b=qKIGMLSyFp1ooHhPchoV7afNsJgvTbAshIfizhTXlHSQrbVpOba0D1K+0yVimVbqZx
+ EBquXlvESB4Qs2G9UHxFvIUSSN8jWsiND3j1EI909RL5oGf+vhxLXg7G+dyvINUAnK1k
+ 6NDxSaF+DDw0q8saRnFWBhGoGlErfywbtS9szcziSgekRDY3eday/+cab5xMYaPCkh1f
+ WndZRclX9PoB5KulCIqNxzB4MrHamqbJ7pFysyWFl7FkyvBBM5t9IdvpD6pNdSIvYkok
+ IuTSVu7xg9ifXR7WznkjROgfl0y2u6lv1bpeq3vqDSoGUnKOfKsHMhe2IWapD2Jo1Lw0
+ AZHA==
+X-Gm-Message-State: AOAM532kCfLHLRsinkmlvhQmye4WnJwoN6oimOhraBWZgr/bT6lLUx0w
+ Xx/7N8ROGMdqGu0FuZBDhl6Spw==
+X-Google-Smtp-Source: ABdhPJxPjgW0XmwTnbsZUor2vYoVIYqL1fEN4na0lPCGA7/EKJJsqYSve3l88TGgl0mqjx8/p9LbZA==
+X-Received: by 2002:a05:6512:2202:b0:44a:57b6:50d with SMTP id
+ h2-20020a056512220200b0044a57b6050dmr8418266lfu.3.1648675797678; 
  Wed, 30 Mar 2022 14:29:57 -0700 (PDT)
 Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
- y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.56
+ y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 14:29:56 -0700 (PDT)
+ Wed, 30 Mar 2022 14:29:57 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 41/45] iotests.py: introduce VM.assert_edges_list() method
-Date: Thu, 31 Mar 2022 00:28:58 +0300
-Message-Id: <20220330212902.590099-42-vsementsov@openvz.org>
+Subject: [PATCH v5 42/45] iotests.py: add VM.qmp_check() helper
+Date: Thu, 31 Mar 2022 00:28:59 +0300
+Message-Id: <20220330212902.590099-43-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330212902.590099-1-vsementsov@openvz.org>
 References: <20220330212902.590099-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::242
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lj1-x242.google.com
+ helo=mail-lf1-x12b.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -97,38 +97,24 @@ Cc: kwolf@redhat.com, hreitz@redhat.com, vsementsov@openvz.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an alternative method to check block graph, to be used in further
-commit.
+I'm tired of this pattern being everywhere. Let's add a helper.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 ---
- tests/qemu-iotests/iotests.py | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ tests/qemu-iotests/iotests.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index c7a38a95a4..aaa77b5105 100644
+index aaa77b5105..329297bfe4 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -1084,6 +1084,23 @@ def check_bitmap_status(self, node_name, bitmap_name, fields):
+@@ -1101,6 +1101,10 @@ def get_block_graph(self):
+     def assert_edges_list(self, edges):
+         assert sorted(edges) == sorted(self.get_block_graph())
  
-         return fields.items() <= ret.items()
- 
-+    def get_block_graph(self):
-+        """
-+        Returns block graph in form of edges list, where each edge is a tuple:
-+          (parent_node_name, child_name, child_node_name)
-+        """
-+        graph = self.qmp('x-debug-query-block-graph')['return']
-+
-+        nodes = {n['id']: n['name'] for n in graph['nodes']}
-+        # Check that all names are unique:
-+        assert len(set(nodes.values())) == len(nodes)
-+
-+        return [(nodes[e['parent']], e['name'], nodes[e['child']])
-+                for e in graph['edges']]
-+
-+    def assert_edges_list(self, edges):
-+        assert sorted(edges) == sorted(self.get_block_graph())
++    def qmp_check(self, *args, **kwargs):
++        result = self.qmp(*args, **kwargs)
++        assert result == {'return': {}}
 +
      def assert_block_path(self, root, path, expected_node, graph=None):
          """
