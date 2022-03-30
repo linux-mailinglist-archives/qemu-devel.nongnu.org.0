@@ -2,76 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFCCB4ECB12
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 19:51:43 +0200 (CEST)
-Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2CF4ECB31
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 19:59:42 +0200 (CEST)
+Received: from localhost ([::1]:34872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZcTu-0004um-5V
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 13:51:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39542)
+	id 1nZcbc-00084d-NM
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 13:59:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nZcRH-0003MC-1C
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:48:59 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nZcRD-0001ub-LL
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:48:58 -0400
-Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KTDQz0qDdz67xbc;
- Thu, 31 Mar 2022 01:47:23 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Wed, 30 Mar 2022 19:48:50 +0200
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 30 Mar
- 2022 18:48:49 +0100
-Date: Wed, 30 Mar 2022 18:48:48 +0100
-To: Adam Manzanares <a.manzanares@samsung.com>
-CC: "linuxarm@huawei.com" <linuxarm@huawei.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
- Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, "Markus
- Armbruster" <armbru@redhat.com>, "linux-cxl@vger.kernel.org"
- <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
- <shameerali.kolothum.thodi@huawei.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
- =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, 
- Chris Browy <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, 
- Dan Williams <dan.j.williams@intel.com>, Mark Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>, "dave@stgolabs.net" <dave@stgolabs.net>,
- Tong Zhang <t.zhang2@samsung.com>, "k.jensen@samsung.com"
- <k.jensen@samsung.com>
-Subject: Re: [PATCH v8 04/46] hw/cxl/device: Introduce a CXL device (8.2.8)
-Message-ID: <20220330184848.000027f7@huawei.com>
-In-Reply-To: <20220329181353.GA59203@bgt-140510-bm01>
-References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
- <20220318150635.24600-5-Jonathan.Cameron@huawei.com>
- <CGME20220329181401uscas1p2b229afdbb479a012e140f84367c35ccd@uscas1p2.samsung.com>
- <20220329181353.GA59203@bgt-140510-bm01>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nZcao-0007QE-6b
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:58:50 -0400
+Received: from [2607:f8b0:4864:20::42d] (port=39748
+ helo=mail-pf1-x42d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nZcam-0004bf-Gn
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:58:49 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id u22so19495232pfg.6
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 10:58:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=qRdDzcsR6tHaU83Zu+AB6iaBkt7tf4uVxesheVO+k04=;
+ b=fmINK1FWWmoLOoYP7UthQGhftrRGdNFBc+IlK+NV5/Ok9ERGA+qLeK6Qc2wTVLtgAA
+ 9LQ/i0EUSMCyjEaFKyIhIb7cMmbwQz9Y8BcfXLRuoN6ajRH59AuxXHA3EMGdoKl2VTSg
+ p24YHpEbjdk+uT0CBOdjzzYlBeDTZ3F7gpj4hM7l1TBMoGnLiRy7iLYUHQWybuBMUn3o
+ +79Dbrk0SFPljaZd36P/MkFhRRizQhSn53CNrK2P1EbC2v9I9Kv5K+rfi43xESLumhbH
+ 68CiFZAIDCb11Ijcxh9K1W3GQjeukR3sJTsN4+zlgHn1NYrxdXEcaVCJINP6zp/PmCKt
+ vRnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=qRdDzcsR6tHaU83Zu+AB6iaBkt7tf4uVxesheVO+k04=;
+ b=RRO7m8j12QRBWTkYreCLBkJatHIIqMyYlE1XNxhyUFHx2uarvGa5wQFyhuEgMYGAih
+ Gcdh7FtaxeBBEnZ0L2KgOaKxp/QTvDZ2NBExVlqdrNHZnHk+ZxTTBGYNCeA+cf/STMf8
+ ZnAzrlDaaqSwSwhfgpdSbNxMS3C4SEvtRfzbhfzWWArwxRx5jnkR1M7ZqQGgzla1MS+5
+ g3GvrqaPP5pl585pf+FZ/twqw06Ovjx+FsCkwiJSpgFIP/ATon7xKnAVpp9ybNo2TSHE
+ qL+uQw2SKZzo7hUcTNV7hEwv9sYL8EGwkI3NnFo2hA1cIFlDVaLFE0srK/c7HajAzW7e
+ cY6A==
+X-Gm-Message-State: AOAM530dJVcFJKHNPTRKwSaEShpZJc0YPUu5ty775v6Dg0ULq/GvO7iW
+ dk3l72tdOh+ESUkaRTRSDHbUvw==
+X-Google-Smtp-Source: ABdhPJw5RZDHzkmYWQnqaCR/pP7fkWu0K1pHE0zmJg/ZBWnJ2OplQYKLUcCZisuEeybmIa1wsGUd6g==
+X-Received: by 2002:a65:674b:0:b0:381:6565:26fc with SMTP id
+ c11-20020a65674b000000b00381656526fcmr7064146pgu.618.1648663126803; 
+ Wed, 30 Mar 2022 10:58:46 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
+ y3-20020a17090a8b0300b001c735089cc2sm6710778pjn.54.2022.03.30.10.58.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Mar 2022 10:58:45 -0700 (PDT)
+Date: Wed, 30 Mar 2022 17:58:41 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Quentin Perret <qperret@google.com>
+Cc: Steven Price <steven.price@arm.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, maz@kernel.org, will@kernel.org
+Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <YkSaUQX89ZEojsQb@google.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <YjyS6A0o4JASQK+B@google.com> <YkHspg+YzOsbUaCf@google.com>
+ <YkH32nx+YsJuUbmZ@google.com> <YkIFW25WgV2WIQHb@google.com>
+ <YkM7eHCHEBe5NkNH@google.com>
+ <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
+ <YkQzfjgTQaDd2E2T@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml717-chm.china.huawei.com (10.201.108.68) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkQzfjgTQaDd2E2T@google.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=seanjc@google.com; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -161
+X-Spam_score: -16.2
+X-Spam_bar: ----------------
+X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,335 +115,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Tue, 29 Mar 2022 18:13:59 +0000
-Adam Manzanares <a.manzanares@samsung.com> wrote:
+On Wed, Mar 30, 2022, Quentin Perret wrote:
+> On Wednesday 30 Mar 2022 at 09:58:27 (+0100), Steven Price wrote:
+> > On 29/03/2022 18:01, Quentin Perret wrote:
+> > > Is implicit sharing a thing? E.g., if a guest makes a memory access in
+> > > the shared gpa range at an address that doesn't have a backing memslot,
+> > > will KVM check whether there is a corresponding private memslot at the
+> > > right offset with a hole punched and report a KVM_EXIT_MEMORY_ERROR? Or
+> > > would that just generate an MMIO exit as usual?
+> > 
+> > My understanding is that the guest needs some way of tagging whether a
+> > page is expected to be shared or private. On the architectures I'm aware
+> > of this is done by effectively stealing a bit from the IPA space and
+> > pretending it's a flag bit.
+> 
+> Right, and that is in fact the main point of divergence we have I think.
+> While I understand this might be necessary for TDX and the likes, this
+> makes little sense for pKVM. This would effectively embed into the IPA a
+> purely software-defined non-architectural property/protocol although we
+> don't actually need to: we (pKVM) can reasonably expect the guest to
+> explicitly issue hypercalls to share pages in-place. So I'd be really
+> keen to avoid baking in assumptions about that model too deep in the
+> host mm bits if at all possible.
 
-> On Fri, Mar 18, 2022 at 03:05:53PM +0000, Jonathan Cameron wrote:
-> > From: Ben Widawsky <ben.widawsky@intel.com>
-> >=20
-> > A CXL device is a type of CXL component. Conceptually, a CXL device
-> > would be a leaf node in a CXL topology. From an emulation perspective,
-> > CXL devices are the most complex and so the actual implementation is
-> > reserved for discrete commits.
-> >=20
-> > This new device type is specifically catered towards the eventual
-> > implementation of a Type3 CXL.mem device, 8.2.8.5 in the CXL 2.0
-> > specification.
-> >=20
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
+There is no assumption about stealing PA bits baked into this API.  Even within
+x86 KVM, I consider it a hard requirement that the common flows not assume the
+private vs. shared information is communicated through the PA.
 
-...
+> > > I'm overall inclined to think that while this abstraction works nicely
+> > > for TDX and the likes, it might not suit pKVM all that well in the
+> > > current form, but it's close.
+> > > 
+> > > What do you think of extending the model proposed here to also address
+> > > the needs of implementations that support in-place sharing? One option
+> > > would be to have KVM notify the private-fd backing store when a page is
+> > > shared back by a guest, which would then allow host userspace to mmap
+> > > that particular page in the private fd instead of punching a hole.
+> > > 
+> > > This should retain the main property you're after: private pages that
+> > > are actually mapped in the guest SPTE aren't mmap-able, but all the
+> > > others are fair game.
+> > > 
+> > > Thoughts?
+> > How do you propose this works if the page shared by the guest then needs
+> > to be made private again? If there's no hole punched then it's not
+> > possible to just repopulate the private-fd. I'm struggling to see how
+> > that could work.
+> 
+> Yes, some discussion might be required, but I was thinking about
+> something along those lines:
+> 
+>  - a guest requests a shared->private page conversion;
+> 
+>  - the conversion request is routed all the way back to the VMM;
+> 
+>  - the VMM is expected to either decline the conversion (which may be
+>    fatal for the guest if it can't handle this), or to tear-down its
+>    mappings (via munmap()) of the shared page, and accept the
+>    conversion;
+> 
+>  - upon return from the VMM, KVM will be expected to check how many
+>    references to the shared page are still held (probably by asking the
+>    fd backing store) to check that userspace has indeed torn down its
+>    mappings. If all is fine, KVM will instruct the hypervisor to
+>    repopulate the private range of the guest, otherwise it'll return an
+>    error to the VMM;
+> 
+>  - if the conversion has been successful, the guest can resume its
+>    execution normally.
+> 
+> Note: this should still allow to use the hole-punching method just fine
+> on systems that require it. The invariant here is just that KVM (with
+> help from the backing store) is now responsible for refusing to
+> instruct the hypervisor (or TDX module, or RMM, or whatever) to map a
+> private page if there are existing mappings to it.
+> 
+> > Having said that; if we can work out a way to safely
+> > mmap() pages from the private-fd there's definitely some benefits to be
+> > had - e.g. it could be used to populate the initial memory before the
+> > guest is started.
+> 
+> Right, so assuming the approach proposed above isn't entirely bogus,
+> this might now become possible by having the VMM mmap the private-fd,
+> load the payload, and then unmap it all, and only then instruct the
+> hypervisor to use this as private memory.
 
-> > diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> > new file mode 100644
-> > index 0000000000..b2416e45bf
-> > --- /dev/null
-> > +++ b/include/hw/cxl/cxl_device.h
-> > @@ -0,0 +1,165 @@
-> > +/*
-> > + * QEMU CXL Devices
-> > + *
-> > + * Copyright (c) 2020 Intel
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2. Se=
-e the
-> > + * COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#ifndef CXL_DEVICE_H
-> > +#define CXL_DEVICE_H
-> > +
-> > +#include "hw/register.h"
-> > +
-> > +/*
-> > + * The following is how a CXL device's MMIO space is laid out. The only
-> > + * requirement from the spec is that the capabilities array and the ca=
-pability
-> > + * headers start at offset 0 and are contiguously packed. The headers =
-themselves
-> > + * provide offsets to the register fields. For this emulation, registe=
-rs will
-> > + * start at offset 0x80 (m =3D=3D 0x80). No secondary mailbox is imple=
-mented which
-> > + * means that n =3D m + sizeof(mailbox registers) + sizeof(device regi=
-sters). =20
->=20
-> What is n here, the start offset of the mailbox registers, this question =
-is=20
-> based on the figure below?
+Hard "no" on mapping the private-fd.  Having the invariant tha the private-fd
+can never be mapped greatly simplifies the responsibilities of the backing store,
+as well as the interface between the private-fd and the in-kernel consumers of the
+memory (KVM in this case).
 
-I'll expand on this to say
+What is the use case for shared->private conversion?  x86, both TDX and SNP,
+effectively do have a flavor of shared->private conversion; SNP can definitely
+be in-place, and I think TDX too.  But the only use case in x86 is to populate
+the initial guest image, and due to other performance bottlenecks, it's strongly
+recommended to keep the initial image as small as possible.  Based on your previous
+response about the guest firmware loading the full guest image, my understanding is
+that pKVM will also utilize a minimal initial image.
 
-means that the offset of the start of the mailbox payload (n) is given by
-n =3D m + sizeof....
+As a result, true in-place conversion to reduce the number of memcpy()s is low
+priority, i.e. not planned at this time.  Unless the use case expects to convert
+large swaths of memory, the simplest approach would be to have pKVM memcpy() between
+the private and shared backing pages during conversion.
 
-Which means the diagram below is wrong as should align with top
-of mailbox registers.
-
->=20
-> > + *
-> > + * This is roughly described in 8.2.8 Figure 138 of the CXL 2.0 spec
-I'm going drop this comment as that figure appears unrelated to me.
-
-> > + *
-> > + *                       +---------------------------------+
-> > + *                       |                                 |
-> > + *                       |    Memory Device Registers      |
-> > + *                       |                                 |
-> > + * n + PAYLOAD_SIZE_MAX  -----------------------------------
-> > + *                  ^    |                                 |
-> > + *                  |    |                                 |
-> > + *                  |    |                                 |
-> > + *                  |    |                                 |
-> > + *                  |    |                                 |
-> > + *                  |    |         Mailbox Payload         |
-> > + *                  |    |                                 |
-> > + *                  |    |                                 |
-> > + *                  |    |                                 |
-> > + *                  |    -----------------------------------
-> > + *                  |    |       Mailbox Registers         |
-> > + *                  |    |                                 |
-> > + *                  n    -----------------------------------
-> > + *                  ^    |                                 |
-> > + *                  |    |        Device Registers         |
-> > + *                  |    |                                 |
-> > + *                  m    ---------------------------------->
-> > + *                  ^    |  Memory Device Capability Header|
-> > + *                  |    -----------------------------------
-> > + *                  |    |     Mailbox Capability Header   |
-> > + *                  |    -------------- --------------------
-> > + *                  |    |     Device Capability Header    |
-> > + *                  |    -----------------------------------
-> > + *                  |    |                                 |
-> > + *                  |    |                                 |
-> > + *                  |    |      Device Cap Array[0..n]     |
-> > + *                  |    |                                 |
-> > + *                  |    |                                 |
-> > + *                       |                                 |
-> > + *                  0    +---------------------------------+ =20
->=20
-> Would it make sense to add CXL cap header register to the diagram?
-
-Too many similar names in the CXL spec. I'm not sure which one you mean,
-could you let me have a reference?  If you mean the one that is
-at the start of the CXL.cache and CXL.mem registers that whole region
-isn't covered by this diagram and might be in a different BAR.
-Here we are only dealing with the Memory Device Registers.  I'll
-add statement to the initial comment block to make that clear
-as it definitely isn't currently!
-
-> n also=20
-> seems to be the size of the cap array, but it is also an offset so that c=
-ould
-> be clarified.
-
-Ah. Letter reuse. good point. Looking more closely it isn't an array anyway
-in the diagram (the array would have to include the Device Capability Header
-and Mailbox Capability headers.  Renamed as simply Device Cap Array Register
-
->=20
-> > + *
-> > + */
-> > +
-> > +#define CXL_DEVICE_CAP_HDR1_OFFSET 0x10 /* Figure 138 */
-> > +#define CXL_DEVICE_CAP_REG_SIZE 0x10 /* 8.2.8.2 */
-> > +#define CXL_DEVICE_CAPS_MAX 4 /* 8.2.8.2.1 + 8.2.8.5 */
-> > +
-> > +#define CXL_DEVICE_REGISTERS_OFFSET 0x80 /* Read comment above */ =20
->=20
-> Is this to plan for future capabilities? If we have CAPS MAX doesn't this=
-=20
-> allow us to remove the slack space.=20
->=20
-> > +#define CXL_DEVICE_REGISTERS_LENGTH 0x8 /* 8.2.8.3.1 */ =20
->=20
-> Should we add status to the name here, or would it get too long?
->=20
-> > +
-> > +#define CXL_MAILBOX_REGISTERS_OFFSET \
-> > +    (CXL_DEVICE_REGISTERS_OFFSET + CXL_DEVICE_REGISTERS_LENGTH)
-> > +#define CXL_MAILBOX_REGISTERS_SIZE 0x20 /* 8.2.8.4, Figure 139 */
-> > +#define CXL_MAILBOX_PAYLOAD_SHIFT 11 =20
->=20
-> I see 20 in the spec.
-
-It's an implementation choice between 8 and 20. For now, this code goes
-with 11 for no particularly strong reason.
-
->=20
-> > +#define CXL_MAILBOX_MAX_PAYLOAD_SIZE (1 << CXL_MAILBOX_PAYLOAD_SHIFT)
-> > +#define CXL_MAILBOX_REGISTERS_LENGTH \
-> > +    (CXL_MAILBOX_REGISTERS_SIZE + CXL_MAILBOX_MAX_PAYLOAD_SIZE)
-> > +
-> > +typedef struct cxl_device_state {
-> > +    MemoryRegion device_registers;
-> > +
-> > +    /* mmio for device capabilities array - 8.2.8.2 */
-> > +    MemoryRegion device;
-> > +    MemoryRegion caps;
-> > +
-> > +    /* mmio for the mailbox registers 8.2.8.4 */
-> > +    MemoryRegion mailbox;
-> > +
-> > +    /* memory region for persistent memory, HDM */
-> > +    uint64_t pmem_size; =20
->=20
-> Can we switch this to mem_size and drop the persistent comment? It is my=
-=20
-> understanding that HDM is independent of persistence.
-
-Discussed in the other branch of this thread.  Short answer is we don't
-support non persistent yet but it's on the todo list.  What exactly
-that looks like is to be determined.  One aspect of that is there
-isn't currently a software stack to test volatile memory.
-
->=20
-> > +} CXLDeviceState;
-> > +
-> > +/* Initialize the register block for a device */
-> > +void cxl_device_register_block_init(Object *obj, CXLDeviceState *dev);
-> > +
-> > +/* Set up default values for the register block */
-> > +void cxl_device_register_init_common(CXLDeviceState *dev);
-> > +
-> > +/*
-> > + * CXL 2.0 - 8.2.8.1 including errata F4
-> > + * Documented as a 128 bit register, but 64 bit accesses and the second
-> > + * 64 bits are currently reserved.
-> > + */
-> > +REG64(CXL_DEV_CAP_ARRAY, 0) /* Documented as 128 bit register but 64 b=
-yte accesses */
-> > +    FIELD(CXL_DEV_CAP_ARRAY, CAP_ID, 0, 16)
-> > +    FIELD(CXL_DEV_CAP_ARRAY, CAP_VERSION, 16, 8)
-> > +    FIELD(CXL_DEV_CAP_ARRAY, CAP_COUNT, 32, 16)
-> > +
-> > +/*
-> > + * Helper macro to initialize capability headers for CXL devices.
-> > + *
-> > + * In the 8.2.8.2, this is listed as a 128b register, but in 8.2.8, it=
- says:
-> > + * > No registers defined in Section 8.2.8 are larger than 64-bits wid=
-e so that
-> > + * > is the maximum access size allowed for these registers. If this r=
-ule is not
-> > + * > followed, the behavior is undefined
-> > + *
-> > + * CXL 2.0 Errata F4 states futher that the layouts in the specificati=
-on are
-> > + * shown as greater than 128 bits, but implementations are expected to
-> > + * use any size of access up to 64 bits.
-> > + *
-> > + * Here we've chosen to make it 4 dwords. The spec allows any pow2 mul=
-tiple
-> > + * access to be used for a register up to 64 bits.
-> > + */
-> > +#define CXL_DEVICE_CAPABILITY_HEADER_REGISTER(n, offset)  \
-> > +    REG32(CXL_DEV_##n##_CAP_HDR0, offset)                 \
-> > +        FIELD(CXL_DEV_##n##_CAP_HDR0, CAP_ID, 0, 16)      \
-> > +        FIELD(CXL_DEV_##n##_CAP_HDR0, CAP_VERSION, 16, 8) \
-> > +    REG32(CXL_DEV_##n##_CAP_HDR1, offset + 4)             \
-> > +        FIELD(CXL_DEV_##n##_CAP_HDR1, CAP_OFFSET, 0, 32)  \
-> > +    REG32(CXL_DEV_##n##_CAP_HDR2, offset + 8)             \
-> > +        FIELD(CXL_DEV_##n##_CAP_HDR2, CAP_LENGTH, 0, 32)
-> > +
-> > +CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEVICE_CAP_HDR1_OFFS=
-ET)
-> > +CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFF=
-SET + \
-> > +                                               CXL_DEVICE_CAP_REG_SIZE)
-> > + =20
->=20
-> Fig139 for the following registers.
-Added ref
-
->=20
-> 8.2.8.4.3
-Good idea. Added all these references.
-
-> > +REG32(CXL_DEV_MAILBOX_CAP, 0)
-> > +    FIELD(CXL_DEV_MAILBOX_CAP, PAYLOAD_SIZE, 0, 5)
-> > +    FIELD(CXL_DEV_MAILBOX_CAP, INT_CAP, 5, 1)
-> > +    FIELD(CXL_DEV_MAILBOX_CAP, BG_INT_CAP, 6, 1)
-> > +    FIELD(CXL_DEV_MAILBOX_CAP, MSI_N, 7, 4)
-> > + =20
->=20
-> 8.2.8.4.4=20
-> > +REG32(CXL_DEV_MAILBOX_CTRL, 4)
-> > +    FIELD(CXL_DEV_MAILBOX_CTRL, DOORBELL, 0, 1)
-> > +    FIELD(CXL_DEV_MAILBOX_CTRL, INT_EN, 1, 1)
-> > +    FIELD(CXL_DEV_MAILBOX_CTRL, BG_INT_EN, 2, 1)
-> > + =20
->=20
-> 8.2.8.4.5 + 8.2.9
-> > +REG64(CXL_DEV_MAILBOX_CMD, 8)
-> > +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND, 0, 8)
-> > +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND_SET, 8, 8)
-> > +    FIELD(CXL_DEV_MAILBOX_CMD, LENGTH, 16, 20)
-> > + =20
->=20
-> 8.2.8.4.6
-> > +REG64(CXL_DEV_MAILBOX_STS, 0x10)
-> > +    FIELD(CXL_DEV_MAILBOX_STS, BG_OP, 0, 1)
-> > +    FIELD(CXL_DEV_MAILBOX_STS, ERRNO, 32, 16)
-> > +    FIELD(CXL_DEV_MAILBOX_STS, VENDOR_ERRNO, 48, 16)
-> > + =20
->=20
-> 8.2.8.4.7
-> > +REG64(CXL_DEV_BG_CMD_STS, 0x18)
-> > +    FIELD(CXL_DEV_BG_CMD_STS, BG, 0, 16) =20
->=20
-> Should we call this OP since it is implied that we are BG given the regis=
-ter?
-Sure. It's a better name than BG.
->=20
-> > +    FIELD(CXL_DEV_BG_CMD_STS, DONE, 16, 7) =20
->=20
-> NUM_DONE? since this is a percentage.
-Let's be verbose as NUM_DONE still seems confusing to me.
-PERCENTAGE_COMP
-
-I hadn't really noticed these names as I don't think any of
-them are used yet.
-
->=20
-> > +    FIELD(CXL_DEV_BG_CMD_STS, ERRNO, 32, 16) =20
->=20
-> Isn't this a RET_CODE since it is only valid if previous field is 100%
-
-Changed
-
->=20
-> > +    FIELD(CXL_DEV_BG_CMD_STS, VENDOR_ERRNO, 48, 16) =20
->=20
-> VENDOR_RET_CODE since the same rule for the previous field applies here.
-Changed
->=20
-> > +
-> > +REG32(CXL_DEV_CMD_PAYLOAD, 0x20)
-> > +
-> > +#endif
-> > --=20
-> > 2.32.0
-> >=20
-> >  =20
->=20
-> +cc Dave, Klaus, Tong
-> Other than the minor issues raised.
->=20
-> Looks good.
->=20
-> Reviewed by: Adam Manzanares <a.manzanares@samsung.com>
-
-Btw I haven't accepted all changes, but have been picking up
-your RB.  Shout if that's not fine with you.
-
-Thanks.
-
-Jonathan
-
+In-place conversion that preserves data needs to be a separate and/or additional
+hypercall, because "I want to map this page as private/shared" is very, very different
+than "I want to map this page as private/shared and consume/expose non-zero data".
+I.e. the host is guaranteed to get an explicit request to do the memcpy(), so there
+shouldn't be a need to implicitly allow this on any conversion.
 
