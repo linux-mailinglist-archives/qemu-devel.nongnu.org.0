@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58184EBCE2
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 10:46:43 +0200 (CEST)
-Received: from localhost ([::1]:60338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEDF4EBCF4
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 10:50:37 +0200 (CEST)
+Received: from localhost ([::1]:39998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZTyU-0002nY-FR
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 04:46:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44902)
+	id 1nZU2G-0008KB-38
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 04:50:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nZTkV-0008OG-DN
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 04:32:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21105)
+ id 1nZTlD-0000av-6O
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 04:33:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nZTkS-0006iA-2D
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 04:32:13 -0400
+ id 1nZTl3-0006qH-Sl
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 04:32:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648629129;
+ s=mimecast20190719; t=1648629169;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3WCgs4AjoOMwjugBSsBUwAduwdWB7Of3I7n0yGJiB+c=;
- b=DW1n5kAh9ik/kI0wdBqzizNs96uVpLowExSQotWvR9WLEt+Ee7S9LgRHSacdrO6ulb1GlE
- wTC6efjDgypwRnRao6h+CLQWz0b6A8khD/IMcH8jwlu5q91mIweXu1X0yaHTaWwhJ+NXEw
- r1Oh3meHH32fNDUAhNCofYlbZe8ZRSk=
+ bh=h1ZE/05Cp9ibDaWQuoYR3L1KKeyxl+7YwiBSnABW6F0=;
+ b=e2QqOwETRN+Twu5ubJRh+ayn3AMJ0TM0tNZ8s2zrZkMwrIDcPQxIxB1ajAdoDj9Zuc3sx6
+ kIDCC33R/pg6lX7AiMirxENw57rfG+ue69rrptWuc+IQW+Sa0rkAdwBokxkTdw5v8HO8ym
+ xONcMyKlnPVQ0yWRBUw9/MxqE+x4OJc=
 Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
  [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-280-rD6OH_bNMyWVt0TJUUDF5A-1; Wed, 30 Mar 2022 04:32:06 -0400
-X-MC-Unique: rD6OH_bNMyWVt0TJUUDF5A-1
+ us-mta-99-HGH-V7pGPW6O2-0o6WBSMQ-1; Wed, 30 Mar 2022 04:32:31 -0400
+X-MC-Unique: HGH-V7pGPW6O2-0o6WBSMQ-1
 Received: by mail-lj1-f199.google.com with SMTP id
- e3-20020a2e9303000000b00249765c005cso8436870ljh.17
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 01:32:06 -0700 (PDT)
+ o25-20020a2e7319000000b0024aa653c564so5617759ljc.23
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 01:32:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3WCgs4AjoOMwjugBSsBUwAduwdWB7Of3I7n0yGJiB+c=;
- b=EW3bNnNobHDVpR7BzWtT24v6ZrTHvZGdkeGQLl9i8TDE/qfFYRw3I8qYNG+LJuDGYy
- D40wnDevObdYYlKA2g2OMpmgpXagWjzSuo1MGvwrPfjbtB/Nr0b1IiuKyqcCCfunjBUx
- 8PZ7SQAI/sHU+iOme1a1kK3q5prsJoEWidnsJF9/1weOm+LpTDs1sYVMoynrvKWrLnnF
- aUYvp592T38gdqNKkUhJze6LyxibBS1dI8vNXzChmnYaKjBC6LIiZi7y34rs8oVPvjxR
- nF7gsZVsH+v4PhxaT3MzK3+6KQ30UsOEV+Jy7JW/XqTZWwekCU7NvDoZVgxe1VcWNzKt
- 0y0Q==
-X-Gm-Message-State: AOAM533wJgi3NwKYWid6vnqbbgsFHmE/DAb62hBmFWbNBsOsU21gxpsl
- quEBk9mUyw0P/iJAbH4iLIWYp+E1Q22yf9tw+KkUxzLPPmstKouj2KRBlNBTgRyFdJ2iUddbAaZ
- bnsuEnKXEvraaX/yKuj9LWiSSzl4PoAQ=
-X-Received: by 2002:ac2:51b6:0:b0:44a:6da1:b193 with SMTP id
- f22-20020ac251b6000000b0044a6da1b193mr5835800lfk.587.1648629125077; 
- Wed, 30 Mar 2022 01:32:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx9l4ouMJeGYLqGreLHL7+mDQIXwfjG6gVxlq31r9wCWAwvUWGvt02WHhuw8l1JkW2zbWb8jjeHQgaPkEU82Mk=
-X-Received: by 2002:ac2:51b6:0:b0:44a:6da1:b193 with SMTP id
- f22-20020ac251b6000000b0044a6da1b193mr5835786lfk.587.1648629124764; Wed, 30
- Mar 2022 01:32:04 -0700 (PDT)
+ bh=h1ZE/05Cp9ibDaWQuoYR3L1KKeyxl+7YwiBSnABW6F0=;
+ b=x8dmXMftByHugsdJeJw+42wVkYySEhVsaN4FCFKK0YoIRf6yTZGgQIHw6U51d8q/9m
+ eMrtbMRwmNe8UWaa3L/OdECM81pHxsvEyIOxuqbWhhbUj9KGbLaYM0yMiMTQ767NB08c
+ G4uCfRqyxY8+r0dFxGTjD50ZGxy7ltOmVUhG/AP6n9BXstjHvIseb/yQpGIlGXB+gR4e
+ J3FgHJ26YVt++GeHwoJoqpEy6mWK2jQq8gp+Pz+bNMGaWwlBOnDkOKcd1fxDBZQ0/McJ
+ dGMXaUowzqLhW9XWIx5cnkydKU1vynZX5cjwQ16TP/3SgX6JvMUelkZreFWztUGqoGj0
+ jzcw==
+X-Gm-Message-State: AOAM5326ereDcNFuicnAukOCRzsjWNe9VO5yX7cMltpsQH7z+L10oHYz
+ aCXtVhx36yCWyMrNQuNPBo5FlAVlfiZCVqA5Il9yoq+Lkj2BkDCf0oNBV328MZqh0Gm8B04i48G
+ 2MvJdW/8YSMGB/0x/ENV9GCjnGShqAo8=
+X-Received: by 2002:ac2:4189:0:b0:448:bc2b:e762 with SMTP id
+ z9-20020ac24189000000b00448bc2be762mr5963261lfh.471.1648629149787; 
+ Wed, 30 Mar 2022 01:32:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFiwiwY+5sWJY1CA+0aHjWnAfoOE2jqzgtM0oq2ATxGSQd0eTwtcPhPnEaAsLP0P6ZIqRbAK7zg5tF3nyduyM=
+X-Received: by 2002:ac2:4189:0:b0:448:bc2b:e762 with SMTP id
+ z9-20020ac24189000000b00448bc2be762mr5963254lfh.471.1648629149523; Wed, 30
+ Mar 2022 01:32:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220321055429.10260-1-jasowang@redhat.com>
  <20220321055429.10260-5-jasowang@redhat.com>
- <BN9PR11MB527635384D3CD8F0FB4232388C1D9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <CACGkMEv4gN4=SzeWroMXdOouxQnzarQX_U5Jv528_fROoYNHyw@mail.gmail.com>
- <BN9PR11MB5276FB0451ABA184476BD4038C1F9@BN9PR11MB5276.namprd11.prod.outlook.com>
-In-Reply-To: <BN9PR11MB5276FB0451ABA184476BD4038C1F9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <BN9PR11MB52762D1CDE8F5417370762CE8C199@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <CACGkMEtr5byTaRFQT-ut6=ziyOTKBgne_Xa2qu4Nu9Z7sDDmBg@mail.gmail.com>
+ <BN9PR11MB52767EA8BF5EA39488D149408C1D9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <CACGkMEtCAra8SbubYbqMVO8E6MUwNUaJLM5bVJ32rA31uemVAA@mail.gmail.com>
+ <BN9PR11MB52765ACF64CE589365DD7F778C1F9@BN9PR11MB5276.namprd11.prod.outlook.com>
+In-Reply-To: <BN9PR11MB52765ACF64CE589365DD7F778C1F9@BN9PR11MB5276.namprd11.prod.outlook.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 30 Mar 2022 16:31:53 +0800
-Message-ID: <CACGkMEvpwFpzV44gLjscouLvcFc9-3Y4Qcw05vgX9ZvJha3-7g@mail.gmail.com>
+Date: Wed, 30 Mar 2022 16:32:18 +0800
+Message-ID: <CACGkMEsFd=tzta103cOyhyRvhHWKvLrTwttGwAh+GPBrxNYTiw@mail.gmail.com>
 Subject: Re: [PATCH V2 4/4] intel-iommu: PASID support
 To: "Tian, Kevin" <kevin.tian@intel.com>
 Authentication-Results: relay.mimecast.com;
@@ -74,14 +76,14 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,81 +105,188 @@ Cc: "Liu, Yi L" <yi.l.liu@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 30, 2022 at 4:02 PM Tian, Kevin <kevin.tian@intel.com> wrote:
+On Wed, Mar 30, 2022 at 4:00 PM Tian, Kevin <kevin.tian@intel.com> wrote:
 >
 > > From: Jason Wang <jasowang@redhat.com>
-> > Sent: Tuesday, March 29, 2022 12:49 PM
+> > Sent: Tuesday, March 29, 2022 12:47 PM
 > >
-> > On Mon, Mar 28, 2022 at 3:03 PM Tian, Kevin <kevin.tian@intel.com> wrote:
+> > On Mon, Mar 28, 2022 at 2:47 PM Tian, Kevin <kevin.tian@intel.com> wrote:
 > > >
-> > > > From: Jason Wang
-> > > > Sent: Monday, March 21, 2022 1:54 PM
+> > > > From: Jason Wang <jasowang@redhat.com>
+> > > > Sent: Monday, March 28, 2022 10:31 AM
 > > > >
-> > > > +    /*
-> > > > +     * vtd-spec v3.4 3.14:
-> > > > +     *
-> > > > +     * """
-> > > > +     * Requests-with-PASID with input address in range 0xFEEx_xxxx are
-> > > > +     * translated normally like any other request-with-PASID through
-> > > > +     * DMA-remapping hardware. However, if such a request is processed
-> > > > +     * using pass-through translation, it will be blocked as described
-> > > > +     * in the paragraph below.
+> > > > On Thu, Mar 24, 2022 at 4:54 PM Tian, Kevin <kevin.tian@intel.com>
+> > wrote:
+> > > > >
+> > > > > > From: Jason Wang
+> > > > > > Sent: Monday, March 21, 2022 1:54 PM
+> > > > > >
+> > > > > > This patch introduce ECAP_PASID via "x-pasid-mode". Based on the
+> > > > > > existing support for scalable mode, we need to implement the
+> > following
+> > > > > > missing parts:
+> > > > > >
+> > > > > > 1) tag VTDAddressSpace with PASID and support IOMMU/DMA
+> > > > translation
+> > > > > >    with PASID
+> > > > > > 2) tag IOTLB with PASID
+> > > > >
+> > > > > and invalidate desc to flush PASID iotlb, which seems missing in this
+> > patch.
+> > > >
+> > > > It existed in the previous version, but it looks like it will be used
+> > > > only for the first level page table which is not supported right now.
+> > > > So I deleted the codes.
 > > >
-> > > While PASID+PT is blocked as described in the below paragraph, the
-> > > paragraph itself applies to all situations:
-> > >
-> > >   1) PT + noPASID
-> > >   2) translation + noPASID
-> > >   3) PT + PASID
-> > >   4) translation + PASID
-> > >
-> > > because...
-> > >
-> > > > +     *
-> > > > +     * Software must not program paging-structure entries to remap any
-> > > > +     * address to the interrupt address range. Untranslated requests
-> > > > +     * and translation requests that result in an address in the
-> > > > +     * interrupt range will be blocked with condition code LGN.4 or
-> > > > +     * SGN.8.
-> > >
-> > > ... if you look at the definition of LGN.4 or SGN.8:
-> > >
-> > > LGN.4:  When legacy mode (RTADDR_REG.TTM=00b) is enabled, hardware
-> > >         detected an output address (i.e. address after remapping) in the
-> > >         interrupt address range (0xFEEx_xxxx). For Translated requests and
-> > >         requests with pass-through translation type (TT=10), the output
-> > >         address is the same as the address in the request
-> > >
-> > > The last sentence in the first paragraph above just highlights the fact that
-> > > when input address of PT is in interrupt range then it is blocked by LGN.4
-> > > or SGN.8 due to output address also in interrupt range.
-> > >
-> > > > +     * """
-> > > > +     *
-> > > > +     * We enable per as memory region (iommu_ir_fault) for catching
-> > > > +     * the tranlsation for interrupt range through PASID + PT.
-> > > > +     */
-> > > > +    if (pt && as->pasid != PCI_NO_PASID) {
-> > > > +        memory_region_set_enabled(&as->iommu_ir_fault, true);
-> > > > +    } else {
-> > > > +        memory_region_set_enabled(&as->iommu_ir_fault, false);
-> > > > +    }
-> > > > +
-> > >
-> > > Given above this should be a bug fix for nopasid first and then apply it
-> > > to pasid path too.
+> > > You are right. But there is also PASID-based device TLB invalidate descriptor
+> > > which is orthogonal to 1st vs. 2nd level thing. If we don't want to break the
+> > > spec with this series then there will need a way to prevent the user from
+> > > setting both "device-iotlb" and "x-pasid-mode" together.
 > >
-> > Actually, nopasid path patches were posted here.
+> > Right, let me do it in the next version.
 > >
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg867878.html
 > >
-> > Thanks
+> > >
+> > > >
+> > > > >
+> > > > > > 3) PASID cache and its flush
+> > > > > > 4) Fault recording with PASID
+> > > > > >
+> > > > > > For simplicity:
+> > > > > >
+> > > > > > 1) PASID cache is not implemented so we can simply implement the
+> > PASID
+> > > > > > cache flush as a nop.
+> > > > > > 2) Fault recording with PASID is not supported, NFR is not changed.
+> > > > > >
+> > > > > > All of the above is not mandatory and could be implemented in the
+> > > > > > future.
+> > > > >
+> > > > > PASID cache is optional, but fault recording with PASID is required.
+> > > >
+> > > > Any pointer in the spec to say something like this? I think sticking
+> > > > to the NFR would be sufficient.
+> > >
+> > > I didn't remember any place in spec saying that fault recording with PASID
+> > is
+> > > not required when PASID capability is exposed.
+> >
+> > Ok, but as a spec it needs to clarify what is required for each capability.
+>
+> It is clarified in 10.4.14 Fault Recording Registers:
+>
+>   "PV: PASID Value": PASID value used by the faulted request.
+>   For requests with PASID, this field reports the PASID value that
+>   came with the request. Hardware implementations not supporting
+>   PASID (PASID field Clear in Extended Capability register) and not
+>   supporting RID_PASID (RPS field Clear in Extended Capability
+>   Register) implement this field as RsvdZ.
+>
+> Above reflects that when PASID capability is enabled the PV field
+> should include PASID value for the faulted request.
+>
+> Similar description can be found in another field "PP: PASID Present"
+
+Ok.
+
+>
+> >
+> > > If there is certain fault
+> > > triggered by a request with PASID, we do want to report this information
+> > > upward.
+> >
+> > I tend to do it increasingly on top of this series (anyhow at least
+> > RID2PASID is introduced before this series)
+>
+> Yes, RID2PASID should have been recorded too but it's not done correctly.
+>
+> If you do it in separate series, it implies that you will introduce another
+> "x-pasid-fault' to guard the new logic related to PASID fault recording?
+
+Something like this, as said previously, if it's a real problem, it
+exists since the introduction of rid2pasid, not specific to this
+patch.
+
+But I can add the fault recording if you insist.
+
+>
+> >
+> > >
+> > > btw can you elaborate why NFR matters to PASID? It is just about the
+> > > number of fault recording register...
+> >
+> > I might be wrong, but I thought without increasing NFR we may lack
+> > sufficient room for reporting PASID.
+>
+> I think they are orthogonal things.
+
+Ok.
+
+>
+> >
+> > >
+> > > >
+> > > > > I'm fine with adding it incrementally but want to clarify the concept first.
+> > > >
+> > > > Yes, that's the plan.
+> > > >
+> > >
+> > > I have one open which requires your input.
+> > >
+> > > While incrementally enabling things does be a common practice, one worry
+> > > is whether we want to create too many control knobs in the staging process
+> > > to cause confusion to the end user.
+> >
+> > It should be fine as long as we use the "x-" prefix which will be
+> > finally removed.
+>
+> Good to learn.
+>
+> >
+> > >
+> > > Earlier when Yi proposed Qemu changes for guest SVA [1] he aimed for a
+> > > coarse-grained knob design:
+> > > --
+> > >   Intel VT-d 3.0 introduces scalable mode, and it has a bunch of capabilities
+> > >   related to scalable mode translation, thus there are multiple combinations.
+> > >   While this vIOMMU implementation wants simplify it for user by providing
+> > >   typical combinations. User could config it by "x-scalable-mode" option.
+> > The
+> > >   usage is as below:
+> > >     "-device intel-iommu,x-scalable-mode=["legacy"|"modern"]"
+> > >
+> > >     - "legacy": gives support for SL page table
+> > >     - "modern": gives support for FL page table, pasid, virtual command
+> > >     -  if not configured, means no scalable mode support, if not proper
+> > >        configured, will throw error
+> > > --
+> > >
+> > > Which way do you prefer to?
+> > >
+> > > [1] https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg02805.html
+> >
+> > My understanding is that, if we want to deploy Qemu in a production
+> > environment, we can't use the "x-" prefix. We need a full
+> > implementation of each cap.
+> >
+> > E.g
+> > -device intel-iommu,first-level=on,scalable-mode=on etc.
 > >
 >
-> Can you elaborate why they are handled differently?
+> You meant each cap will get a separate control option?
+>
+> But that way requires the management stack or admin to have deep
+> knowledge about how combinations of different capabilities work, e.g.
+> if just turning on scalable mode w/o first-level cannot support vSVA
+> on assigned devices. Is this a common practice when defining Qemu
+> parameters?
 
-It's because that patch is for the case where pasid mode is not
-implemented. We might need it for -stable.
+We can have a safe and good default value for each cap. E.g
+
+In qemu 8.0 we think scalable is mature, we can make scalable to be
+enabled by default
+in qemu 8.1 we think first-level is mature, we can make first level to
+be enabled by default.
 
 Thanks
 
