@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3CB4ED06D
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:52:48 +0200 (CEST)
-Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E4DF4ED074
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:55:25 +0200 (CEST)
+Received: from localhost ([::1]:47186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZi7L-0008A4-VN
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:52:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35558)
+	id 1nZi9s-0005uK-CC
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:55:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZft9-0008IK-Lk
+ id 1nZft8-0008IG-Ti
  for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:30:00 -0400
-Received: from [2a00:1450:4864:20::12c] (port=43745
- helo=mail-lf1-x12c.google.com)
+Received: from [2a00:1450:4864:20::12d] (port=37758
+ helo=mail-lf1-x12d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZft6-0003PS-MO
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:59 -0400
-Received: by mail-lf1-x12c.google.com with SMTP id z12so24288655lfu.10
+ id 1nZft6-0003P9-KE
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:58 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id k21so38085605lfe.4
  for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:29:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bq+hFgyIVkP5E/EDUg3vF2NH71m8OlRAUrnTOSSkVBY=;
- b=hCabyCe7geCpUwS9CMoi+QB8KHxgf7oypB7SdHjNL/+VV2MK4dj8SzuWAevWbgdBaj
- qpX4SThWTSnm3kUACn4fegbe1o2olSjUx97NjabbAYIFM8UxyvGvUFsW0UzQ2prUBdNd
- tlEmEGAHciA2pY4wwof7fD+q9GqtX8csYWCdSu7+eF7yFPvrbt/4kjR2bX7zjIiVqKnO
- bwyxstXVIvPE5dvrHnKheuzxcZDIKNTE0ra0emj21c3pUaW3uUIzv72USOQkxrYWS0f+
- /ndKOCp04tvD1ecH4I/riftrjvjAqGxCpnhGjhiGO8oMdjs/gQs2ToY1Eu4jmHpRQREQ
- 4sqA==
+ bh=3kgbncAbR+L+SPnsiq1IjgIb9WpA6vR5yyOkbJ3O8uw=;
+ b=jJB7IR1dOegD5PkhLlG0lAJyobd9YPLfTnfN1XRjWwMmiks26rjRdbD5DKbwtu6x33
+ kb1dHm3waTQR7I46vYRBPX4EqoRP1eMgFo+MLPFODPVCHG118bAXDHAR8nn9LZb1+Hew
+ EUsxOhA1bFKldplAGoU+SlMf4BS4RqqHxIWau2jB6okqBLihmDxuBd5MqdRHPwvqDa2u
+ wMqSs3pMpzRw1tbs5RjKsRPToWZuRgPxb3+iFdT9PKSQd9iIFM/UgSdbnaOxs7Duu8Sh
+ UI012bZPI0Fr+A991WbiEqbZDaxQ3x9oF5zM8iW7HePM4V+VcWc8OoKNIdfydeiMejTA
+ Sa8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bq+hFgyIVkP5E/EDUg3vF2NH71m8OlRAUrnTOSSkVBY=;
- b=lnx6fNvqxU0RYFu4H7+fxunfaiSsV0+oiEq7JFQtXDwf376c/RAGllI8PFWYLxm+M9
- YbNckz6JDbGmstBPSbvuTU0foJzpasovicyaNwB853RwvGaHllJ56MhJdY/7o4syUo0/
- UAXKDF24cCXWswxBCfUfw+xXGZ8dargoclMr4MQQA08xPN5bZCb+1Jrq1trj4Kkryi9B
- /v3sVB0zSkHEvYu6IydxUNN65ocpLVyuiDLHkUwD1sjFtofBcgST2Y/Qx5Mh5Fq83cUN
- OH9kp5XRXcCbWQw1J+GHNokWZfTpBNoHYWVb7pj7e47UN0Os9HnySF9N1nbUNEJxRDMO
- TPUg==
-X-Gm-Message-State: AOAM5319AFtWGUhH/JM/rJcF/3yj/7XrJVhyKgWxohGlCPTy8CG/joGq
- Xdn+UOdjNkZGUFyCVg0jATq0nQ==
-X-Google-Smtp-Source: ABdhPJxZYaPNl9PRdk4fbRcjK5UaEfQCdh9Q6gcTvN8AhAtdgyEiqQo0y7roYFvF7gk7Ly6uGt0G+Q==
-X-Received: by 2002:a05:6512:2214:b0:44a:348a:d6d with SMTP id
- h20-20020a056512221400b0044a348a0d6dmr8410856lfu.506.1648675793278; 
+ bh=3kgbncAbR+L+SPnsiq1IjgIb9WpA6vR5yyOkbJ3O8uw=;
+ b=rJXwI4yTYFPpedKaRxnyRrewbob92gZgNGykr9P9inMFVi6L4cJUYPf1X0i1sjXN7Y
+ 4+kECWWKnLg9Ql+XS5MErmVZ2gHqlWf2t8yY07fdR2pJ5ub1MiHyEiOA2ZR2MHHKrZpN
+ Vc36+SRZtrWPE216IlfN8xqIYAn6J0Ggpp1daAOa6WbBhfVWTPg+NOOcywfehv5Kl/z4
+ BCrkQ4HR22DzS9/22q1rWIjjr/+0p7UmxYobY8TlsFVRBSOnNDiuHCGuLEqTy791BPfk
+ deWriUhbjq8rd/IkD930+A3Dnz5cjZ9GSJHQ1WqvCWaJ5S40R7SoE8W668q49sVjtfpX
+ dvXw==
+X-Gm-Message-State: AOAM532iSGE1x1ubi09BoZMI0V3rLPl0rnordOk52E6gmEOS2ieMIBoi
+ Ql56EF3rMOz9fSkPeWW8UR6etg==
+X-Google-Smtp-Source: ABdhPJzKTYwp6AnEt/k1KYQkHMowAbeesrjFjeT2FnaZVrGjWxlWXVSLIJ/S7Oi0uRYrIFCQd14zjQ==
+X-Received: by 2002:a05:6512:1383:b0:44a:69a9:d336 with SMTP id
+ p3-20020a056512138300b0044a69a9d336mr8226428lfa.493.1648675793867; 
  Wed, 30 Mar 2022 14:29:53 -0700 (PDT)
 Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
- y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.52
+ y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 30 Mar 2022 14:29:53 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 35/45] block: make bdrv_find_child() function public
-Date: Thu, 31 Mar 2022 00:28:52 +0300
-Message-Id: <20220330212902.590099-36-vsementsov@openvz.org>
+Subject: [PATCH v5 36/45] block: bdrv_replace_child_bs(): move to external
+ transaction
+Date: Thu, 31 Mar 2022 00:28:53 +0300
+Message-Id: <20220330212902.590099-37-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330212902.590099-1-vsementsov@openvz.org>
 References: <20220330212902.590099-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lf1-x12c.google.com
+ helo=mail-lf1-x12d.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -92,82 +93,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, hreitz@redhat.com,
- vsementsov@openvz.org
+Cc: kwolf@redhat.com, hreitz@redhat.com, vsementsov@openvz.org,
+ v.sementsov-og@mail.ru, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be reused soon.
+We'll need this functionality as part of external transaction, so make
+the whole function to be transaction action. For this we need to
+introduce a transaction action helper: bdrv_drained(), which calls
+bdrv_drained_begin() and postpone bdrv_drained_end() to .clean() phase.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 ---
- block.c                      | 13 +++++++++++++
- blockdev.c                   | 14 --------------
- include/block/block_int-io.h |  1 +
- 3 files changed, 14 insertions(+), 14 deletions(-)
+ block.c                            | 42 +++++++++++++++++++-----------
+ block/block-backend.c              |  9 ++++++-
+ include/block/block-global-state.h |  2 +-
+ 3 files changed, 36 insertions(+), 17 deletions(-)
 
 diff --git a/block.c b/block.c
-index 17c057a962..9e1be402e2 100644
+index 9e1be402e2..4b5b7d8794 100644
 --- a/block.c
 +++ b/block.c
-@@ -8039,6 +8039,19 @@ int bdrv_make_empty(BdrvChild *c, Error **errp)
-     return 0;
+@@ -5341,32 +5341,44 @@ out:
+     return ret;
  }
  
-+BdrvChild *bdrv_find_child(BlockDriverState *parent_bs, const char *child_name)
++static void bdrv_drained_clean(void *opaque)
 +{
-+    BdrvChild *child;
++    BlockDriverState *bs = opaque;
 +
-+    QLIST_FOREACH(child, &parent_bs->children, next) {
-+        if (strcmp(child->name, child_name) == 0) {
-+            return child;
-+        }
-+    }
-+
-+    return NULL;
++    bdrv_drained_end(bs);
++    bdrv_unref(bs);
 +}
 +
- /*
-  * Return the child that @bs acts as an overlay for, and from which data may be
-  * copied in COW or COR operations.  Usually this is the backing file.
-diff --git a/blockdev.c b/blockdev.c
-index 3afd2ceea8..abd0600d15 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3672,20 +3672,6 @@ out:
-     tran_finalize(tran, ret);
++TransactionActionDrv bdrv_drained_drv = {
++    .clean = bdrv_drained_clean,
++};
++
++/*
++ * Start drained section on @bs, and finish it in .clean action.
++ * Reference to @bs is kept, so @bs can't be removed during transaction.
++ */
++static void bdrv_drained(BlockDriverState *bs, Transaction *tran)
++{
++    bdrv_ref(bs);
++    bdrv_drained_begin(bs);
++    tran_add(tran, &bdrv_drained_drv, bs);
++}
++
+ /* Not for empty child */
+ int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+-                          Error **errp)
++                          Transaction *tran, Error **errp)
+ {
+-    int ret;
+-    Transaction *tran = tran_new();
+     g_autoptr(GSList) refresh_list = NULL;
+     BlockDriverState *old_bs = child->bs;
+ 
+     GLOBAL_STATE_CODE();
+ 
+-    bdrv_ref(old_bs);
+-    bdrv_drained_begin(old_bs);
+-    bdrv_drained_begin(new_bs);
++    bdrv_drained(old_bs, tran);
++    bdrv_drained(new_bs, tran);
+ 
+     bdrv_replace_child_tran(child, new_bs, &refresh_list, tran);
+ 
+-    ret = bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
+-
+-    tran_finalize(tran, ret);
+-
+-    bdrv_drained_end(old_bs);
+-    bdrv_drained_end(new_bs);
+-    bdrv_unref(old_bs);
+-
+-    return ret;
++    return bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
  }
  
--static BdrvChild *bdrv_find_child(BlockDriverState *parent_bs,
--                                  const char *child_name)
--{
--    BdrvChild *child;
--
--    QLIST_FOREACH(child, &parent_bs->children, next) {
--        if (strcmp(child->name, child_name) == 0) {
--            return child;
--        }
--    }
--
--    return NULL;
--}
--
- void qmp_x_blockdev_change(const char *parent, bool has_child,
-                            const char *child, bool has_node,
-                            const char *node, Error **errp)
-diff --git a/include/block/block_int-io.h b/include/block/block_int-io.h
-index bb454200e5..0ce5eaf9a2 100644
---- a/include/block/block_int-io.h
-+++ b/include/block/block_int-io.h
-@@ -122,6 +122,7 @@ int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, int64_t src_offset,
+ static void bdrv_delete(BlockDriverState *bs)
+diff --git a/block/block-backend.c b/block/block-backend.c
+index f5476bb9fc..fa1d810da2 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -929,8 +929,15 @@ int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
+  */
+ int blk_replace_bs(BlockBackend *blk, BlockDriverState *new_bs, Error **errp)
+ {
++    int ret;
++    Transaction *tran = tran_new();
++
+     GLOBAL_STATE_CODE();
+-    return bdrv_replace_child_bs(blk->root, new_bs, errp);
++
++    ret = bdrv_replace_child_bs(blk->root, new_bs, tran, errp);
++    tran_finalize(tran, ret);
++
++    return ret;
+ }
  
- int refresh_total_sectors(BlockDriverState *bs, int64_t hint);
- 
-+BdrvChild *bdrv_find_child(BlockDriverState *parent_bs, const char *child_name);
- BdrvChild *bdrv_cow_child(BlockDriverState *bs);
- BdrvChild *bdrv_filter_child(BlockDriverState *bs);
- BdrvChild *bdrv_filter_or_cow_child(BlockDriverState *bs);
+ /*
+diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
+index 8527bcad28..fa5f698228 100644
+--- a/include/block/block-global-state.h
++++ b/include/block/block-global-state.h
+@@ -65,7 +65,7 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+ int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
+                       Error **errp);
+ int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+-                          Error **errp);
++                          Transaction *tran, Error **errp);
+ BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *node_options,
+                                    int flags, Error **errp);
+ int bdrv_drop_filter(BlockDriverState *bs, Error **errp);
 -- 
 2.35.1
 
