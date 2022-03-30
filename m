@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE824ECE2C
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 22:42:17 +0200 (CEST)
-Received: from localhost ([::1]:38996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4537F4ECE03
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 22:41:08 +0200 (CEST)
+Received: from localhost ([::1]:36778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZf8y-0005TF-7K
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 16:42:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50084)
+	id 1nZf7q-0003t0-Hp
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 16:41:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nZeuW-0004no-6L; Wed, 30 Mar 2022 16:27:20 -0400
+ id 1nZeuY-0004uC-IG; Wed, 30 Mar 2022 16:27:22 -0400
 Received: from [187.72.171.209] (port=8867 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nZeuU-0001WS-Oq; Wed, 30 Mar 2022 16:27:19 -0400
+ id 1nZeuX-0001WS-4X; Wed, 30 Mar 2022 16:27:22 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 30 Mar 2022 17:25:46 -0300
+ Wed, 30 Mar 2022 17:25:47 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id C4A948002AF;
- Wed, 30 Mar 2022 17:25:45 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id D24B88002AF;
+ Wed, 30 Mar 2022 17:25:46 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 09/10] target/ppc: Implemented vector module word/doubleword
-Date: Wed, 30 Mar 2022 17:25:14 -0300
-Message-Id: <20220330202515.66554-10-lucas.araujo@eldorado.org.br>
+Subject: [PATCH 10/10] target/ppc: Implemented vector module quadword
+Date: Wed, 30 Mar 2022 17:25:15 -0300
+Message-Id: <20220330202515.66554-11-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220330202515.66554-1-lucas.araujo@eldorado.org.br>
 References: <20220330202515.66554-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 30 Mar 2022 20:25:46.0287 (UTC)
- FILETIME=[56570BF0:01D84474]
+X-OriginalArrivalTime: 30 Mar 2022 20:25:47.0349 (UTC)
+ FILETIME=[56F91850:01D84474]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,75 +67,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-vmodsw: Vector Modulo Signed Word
-vmoduw: Vector Modulo Unsigned Word
-vmodsd: Vector Modulo Signed Doubleword
-vmodud: Vector Modulo Unsigned Doubleword
-Hardware behavior based on mambo.
+vmodsq: Vector Modulo Signed Quadword
+vmoduq: Vector Modulo Unsigned Quadword
+Undefined behavior based on mambo.
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 ---
- target/ppc/insn32.decode            |  5 +++++
- target/ppc/translate/vmx-impl.c.inc | 26 ++++++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
+ target/ppc/helper.h                 |  2 ++
+ target/ppc/insn32.decode            |  2 ++
+ target/ppc/int_helper.c             | 18 ++++++++++++++++++
+ target/ppc/translate/vmx-impl.c.inc |  2 ++
+ 4 files changed, 24 insertions(+)
 
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 67ecff2c9a..881e03959a 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -177,6 +177,8 @@ DEF_HELPER_FLAGS_3(VDIVESD, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(VDIVEUD, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(VDIVESQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(VDIVEUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMODSQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMODUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_3(vslo, void, avr, avr, avr)
+ DEF_HELPER_3(vsro, void, avr, avr, avr)
+ DEF_HELPER_3(vsrv, void, avr, avr, avr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 3eb920ac76..36b42e41d2 100644
+index 36b42e41d2..b53efe1915 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -719,3 +719,8 @@ VDIVESD         000100 ..... ..... ..... 01111001011    @VX
- VDIVEUD         000100 ..... ..... ..... 01011001011    @VX
- VDIVESQ         000100 ..... ..... ..... 01100001011    @VX
- VDIVEUQ         000100 ..... ..... ..... 01000001011    @VX
-+
-+VMODSW          000100 ..... ..... ..... 11110001011    @VX
-+VMODUW          000100 ..... ..... ..... 11010001011    @VX
-+VMODSD          000100 ..... ..... ..... 11111001011    @VX
-+VMODUD          000100 ..... ..... ..... 11011001011    @VX
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 62b2fcd45c..ed01d91b87 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -3349,6 +3349,27 @@ static void do_vx_diveu_i32(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
-     tcg_temp_free_i64(val2);
+@@ -724,3 +724,5 @@ VMODSW          000100 ..... ..... ..... 11110001011    @VX
+ VMODUW          000100 ..... ..... ..... 11010001011    @VX
+ VMODSD          000100 ..... ..... ..... 11111001011    @VX
+ VMODUD          000100 ..... ..... ..... 11011001011    @VX
++VMODSQ          000100 ..... ..... ..... 11100001011    @VX
++VMODUQ          000100 ..... ..... ..... 11000001011    @VX
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index de9bda8132..5e4fcaa357 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1127,6 +1127,24 @@ void helper_VDIVEUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
+     }
  }
  
-+#define REM_VEC(NAME, SZ, REM)                                          \
-+static void do_vx_##NAME(TCGv_##SZ t, TCGv_##SZ a, TCGv_##SZ b)         \
-+{                                                                       \
-+    TCGv_##SZ zero = tcg_constant_##SZ(0), one = tcg_constant_##SZ(1);  \
-+    /*                                                                  \
-+     *  If N%0 the instruction used by the backend might deliver        \
-+     *  a signal to the process and the hardware returns 0 when         \
-+     *  N%0, so if b = 0 return 0%1                                     \
-+     */                                                                 \
-+    tcg_gen_movcond_##SZ(TCG_COND_EQ, a, b, zero, zero, a);             \
-+    tcg_gen_movcond_##SZ(TCG_COND_EQ, b, b, zero, one, b);              \
-+    REM(t, a, b);                                                       \
++void helper_VMODSQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
++{
++    if (likely(int128_nz(b->s128))) {
++        t->s128 = int128_rems(a->s128, b->s128);
++    } else {
++        t->s128 = int128_zero(); /* Undefined behavior */
++    }
 +}
 +
-+REM_VEC(rem_i32 , i32, tcg_gen_rem_i32)
-+REM_VEC(remu_i32, i32, tcg_gen_remu_i32)
-+REM_VEC(rem_i64 , i64, tcg_gen_rem_i64)
-+REM_VEC(remu_i64, i64, tcg_gen_remu_i64)
++void helper_VMODUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
++{
++    if (likely(int128_nz(b->s128))) {
++        t->s128 = int128_remu(a->s128, b->s128);
++    } else {
++        t->s128 = int128_zero(); /* Undefined behavior */
++    }
++}
 +
-+#undef REM_VEC
-+
- TRANS_VDIV_VMOD(ISA310, VDIVESW, MO_32, do_vx_dives_i32, NULL)
- TRANS_VDIV_VMOD(ISA310, VDIVEUW, MO_32, do_vx_diveu_i32, NULL)
- TRANS_FLAGS2(ISA310, VDIVESD, do_vx_helper, gen_helper_VDIVESD)
-@@ -3356,6 +3377,11 @@ TRANS_FLAGS2(ISA310, VDIVEUD, do_vx_helper, gen_helper_VDIVEUD)
- TRANS_FLAGS2(ISA310, VDIVESQ, do_vx_helper, gen_helper_VDIVESQ)
- TRANS_FLAGS2(ISA310, VDIVEUQ, do_vx_helper, gen_helper_VDIVEUQ)
+ void helper_VPERM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
+ {
+     ppc_avr_t result;
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index ed01d91b87..b62a77f531 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -3381,6 +3381,8 @@ TRANS_VDIV_VMOD(ISA310, VMODSW, MO_32, do_vx_rem_i32 , NULL)
+ TRANS_VDIV_VMOD(ISA310, VMODUW, MO_32, do_vx_remu_i32, NULL)
+ TRANS_VDIV_VMOD(ISA310, VMODSD, MO_64, NULL, do_vx_rem_i64)
+ TRANS_VDIV_VMOD(ISA310, VMODUD, MO_64, NULL, do_vx_remu_i64)
++TRANS_FLAGS2(ISA310, VMODSQ, do_vx_helper, gen_helper_VMODSQ)
++TRANS_FLAGS2(ISA310, VMODUQ, do_vx_helper, gen_helper_VMODUQ)
  
-+TRANS_VDIV_VMOD(ISA310, VMODSW, MO_32, do_vx_rem_i32 , NULL)
-+TRANS_VDIV_VMOD(ISA310, VMODUW, MO_32, do_vx_remu_i32, NULL)
-+TRANS_VDIV_VMOD(ISA310, VMODSD, MO_64, NULL, do_vx_rem_i64)
-+TRANS_VDIV_VMOD(ISA310, VMODUD, MO_64, NULL, do_vx_remu_i64)
-+
  #undef GEN_VR_LDX
  #undef GEN_VR_STX
- #undef GEN_VR_LVE
 -- 
 2.31.1
 
