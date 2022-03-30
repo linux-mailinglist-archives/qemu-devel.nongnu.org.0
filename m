@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21764EC5EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:47:11 +0200 (CEST)
-Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E11474EC605
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:52:53 +0200 (CEST)
+Received: from localhost ([::1]:33570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZYfG-00058L-QA
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:47:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52100)
+	id 1nZYki-0004qY-AZ
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:52:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXtD-0008FX-U5; Wed, 30 Mar 2022 08:57:31 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:41240)
+ id 1nZXtE-0008GG-4A; Wed, 30 Mar 2022 08:57:32 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:41276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXtC-0004bR-33; Wed, 30 Mar 2022 08:57:31 -0400
+ id 1nZXtC-0004bf-BD; Wed, 30 Mar 2022 08:57:31 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 80A8E21EDA;
- Wed, 30 Mar 2022 12:56:56 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 3F4B321EDD;
+ Wed, 30 Mar 2022 12:56:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1648645016;
+ s=mail; t=1648645017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U6XTnSySc1VPFdO0j6fRlkKZ8C5bePQAqffOUVTjrec=;
- b=3N71HHKtlg8nGTnSpit5vmnXB+ZUX1rYBY5FFvQBXRZngq8R4AgyXeXumUScnOPY+CFHHQ
- bQkbUOnkFEenTuo1KKFVNhtIn7W42HTzgcKOB3MM1jhLSt+3JQWzM31uFjUzgwVgioX6t8
- qTyq9S08zoOG9N/bvoDM8y+LVtQrciY=
+ bh=AEeV3pdJjggFAgny3pSiPS5I29jbbs1q3Rp1FOMlriU=;
+ b=fxJqFatKOJHc36kZtOyuEeFeIyYA3RKJqT30O49+s/4Y/q90h48PLenwDNPQ7ohljjHR51
+ w7v70xdZ+A3+RpFy+J+K0vG3/BoTfFHfTUXh1FUS2NN4MsaejBsNVNUbw8Z1RipjqC7AIH
+ KpdHBDYcVp0hSC9v1JsahcuR65OutIo=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 16/18] hw/riscv: update remaining machines due to
- riscv_hart_array update
-Date: Wed, 30 Mar 2022 14:56:37 +0200
-Message-Id: <20220330125639.201937-17-damien.hedde@greensocs.com>
+Subject: [RFC PATCH 17/18] hw/riscv/riscv_hart: remove temporary features
+Date: Wed, 30 Mar 2022 14:56:38 +0200
+Message-Id: <20220330125639.201937-18-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330125639.201937-1-damien.hedde@greensocs.com>
 References: <20220330125639.201937-1-damien.hedde@greensocs.com>
@@ -64,7 +63,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>,
  Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
  qemu-riscv@nongnu.org, Alistair Francis <alistair@alistair23.me>,
  mark.burton@greensocs.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -76,118 +75,66 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-virt & spike machines have multiple sockets (but they still put
-all cpus in the same default cluster). For these 2 machines
-we disable the clustering in the array in order to keep the
-behavior.
-
-opentitan, sifive_e and shakti_c, were using the default cluster
-too. But we can use the embedded cluster as it is equivalent.
+Now that we updated all riscv machines, we can remove
+the temporary realize helper and the alias property.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/riscv/opentitan.c | 4 ++--
- hw/riscv/shakti_c.c  | 4 ++--
- hw/riscv/sifive_e.c  | 4 ++--
- hw/riscv/spike.c     | 5 +++--
- hw/riscv/virt.c      | 5 +++--
- 5 files changed, 12 insertions(+), 10 deletions(-)
+ include/hw/riscv/riscv_hart.h |  3 ---
+ hw/riscv/riscv_hart.c         | 14 --------------
+ 2 files changed, 17 deletions(-)
 
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 2eb7454d8a..4e90610f1d 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -132,10 +132,10 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
- 
-     object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
-                             &error_abort);
--    object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
-+    object_property_set_int(OBJECT(&s->cpus), "num-cpus", ms->smp.cpus,
-                             &error_abort);
-     object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8080, &error_abort);
--    riscv_hart_array_realize(&s->cpus, &error_abort);
-+    qdev_realize(DEVICE(&s->cpus), NULL, &error_abort);
- 
-     /* Boot ROM */
-     memory_region_init_rom(&s->rom, OBJECT(dev_soc), "riscv.lowrisc.ibex.rom",
-diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
-index 93e0c8dd68..5158ea6e8b 100644
---- a/hw/riscv/shakti_c.c
-+++ b/hw/riscv/shakti_c.c
-@@ -108,7 +108,7 @@ static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp)
-     ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(dev);
-     MemoryRegion *system_memory = get_system_memory();
- 
--    riscv_hart_array_realize(&sss->cpus, &error_abort);
-+    qdev_realize(DEVICE(&sss->cpus), NULL, &error_abort);
- 
-     sss->plic = sifive_plic_create(shakti_c_memmap[SHAKTI_C_PLIC].base,
-         (char *)SHAKTI_C_PLIC_HART_CONFIG, ms->smp.cpus, 0,
-@@ -171,7 +171,7 @@ static void shakti_c_soc_instance_init(Object *obj)
-      */
-     object_property_set_str(OBJECT(&sss->cpus), "cpu-type",
-                             TYPE_RISCV_CPU_SHAKTI_C, &error_abort);
--    object_property_set_int(OBJECT(&sss->cpus), "num-harts", 1,
-+    object_property_set_int(OBJECT(&sss->cpus), "num-cpus", 1,
-                             &error_abort);
+diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.h
+index 65ac0d2bc4..acf5ee8575 100644
+--- a/include/hw/riscv/riscv_hart.h
++++ b/include/hw/riscv/riscv_hart.h
+@@ -56,7 +56,4 @@ static inline unsigned riscv_array_get_num_harts(RISCVHartArrayState *s)
+     return CPUS(s)->topology.cpus;
  }
  
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 25ba0a8c85..c1e67c0f78 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -179,7 +179,7 @@ static void sifive_e_soc_init(Object *obj)
-     SiFiveESoCState *s = RISCV_E_SOC(obj);
+-/* Temporary function until we migrated the riscv hart array to simple device */
+-void riscv_hart_array_realize(RISCVHartArrayState *state, Error **errp);
+-
+ #endif
+diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
+index 1b4ff7e3c6..ea798de5d5 100644
+--- a/hw/riscv/riscv_hart.c
++++ b/hw/riscv/riscv_hart.c
+@@ -27,13 +27,6 @@
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/cpu/cpus.h"
  
-     object_initialize_child(obj, "cpus", &s->cpus, TYPE_RISCV_HART_ARRAY);
--    object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
-+    object_property_set_int(OBJECT(&s->cpus), "num-cpus", ms->smp.cpus,
-                             &error_abort);
-     object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x1004, &error_abort);
-     object_initialize_child(obj, "riscv.sifive.e.gpio0", &s->gpio,
-@@ -195,7 +195,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
+-void riscv_hart_array_realize(RISCVHartArrayState *state, Error **errp)
+-{
+-    /* disable the clustering */
+-    cpus_disable_clustering(CPUS(state));
+-    qdev_realize(DEVICE(state), NULL, errp);
+-}
+-
+ static Property riscv_harts_props[] = {
+     DEFINE_PROP_UINT32("hartid-base", RISCVHartArrayState, hartid_base, 0),
+     DEFINE_PROP_UINT64("resetvec", RISCVHartArrayState, resetvec,
+@@ -52,12 +45,6 @@ static void riscv_harts_configure_cpu(CpusState *base, CPUState *cpu,
+     cpuenv->mhartid = s->hartid_base + i;
+ }
  
-     object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
-                             &error_abort);
--    riscv_hart_array_realize(&s->cpus, &error_abort);
-+    qdev_realize(DEVICE(&s->cpus), NULL, &error_abort);
+-static void riscv_harts_init(Object *obj)
+-{
+-    /* add a temporary property to keep num-harts */
+-    object_property_add_alias(obj, "num-harts", obj, "num-cpus");
+-}
+-
+ static void riscv_harts_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -73,7 +60,6 @@ static const TypeInfo riscv_harts_info = {
+     .name          = TYPE_RISCV_HART_ARRAY,
+     .parent        = TYPE_CPUS,
+     .instance_size = sizeof(RISCVHartArrayState),
+-    .instance_init = riscv_harts_init,
+     .class_init    = riscv_harts_class_init,
+ };
  
-     /* Mask ROM */
-     memory_region_init_rom(&s->mask_rom, OBJECT(dev), "riscv.sifive.e.mrom",
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index b75e3656e1..17bba3c7fa 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -228,9 +228,10 @@ static void spike_board_init(MachineState *machine)
-                                 machine->cpu_type, &error_abort);
-         object_property_set_int(OBJECT(&s->soc[i]), "hartid-base",
-                                 base_hartid, &error_abort);
--        object_property_set_int(OBJECT(&s->soc[i]), "num-harts",
-+        object_property_set_int(OBJECT(&s->soc[i]), "num-cpus",
-                                 hart_count, &error_abort);
--        riscv_hart_array_realize(&s->soc[i], &error_abort);
-+        cpus_disable_clustering(CPUS(&s->soc[i]));
-+        qdev_realize(DEVICE(&s->soc[i]), NULL, &error_abort);
- 
-         /* Core Local Interruptor (timer and IPI) for each socket */
-         riscv_aclint_swi_create(
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 12036aa95b..c51b124330 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1221,9 +1221,10 @@ static void virt_machine_init(MachineState *machine)
-                                 machine->cpu_type, &error_abort);
-         object_property_set_int(OBJECT(&s->soc[i]), "hartid-base",
-                                 base_hartid, &error_abort);
--        object_property_set_int(OBJECT(&s->soc[i]), "num-harts",
-+        object_property_set_int(OBJECT(&s->soc[i]), "num-cpus",
-                                 hart_count, &error_abort);
--        riscv_hart_array_realize(&s->soc[i], &error_abort);
-+        cpus_disable_clustering(CPUS(&s->soc[i]));
-+        qdev_realize(DEVICE(&s->soc[i]), NULL, &error_abort);
- 
-         if (!kvm_enabled()) {
-             if (s->have_aclint) {
 -- 
 2.35.1
 
