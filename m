@@ -2,95 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 395194EC509
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 14:57:27 +0200 (CEST)
-Received: from localhost ([::1]:39386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32634EC530
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:06:49 +0200 (CEST)
+Received: from localhost ([::1]:57874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZXt8-0005dd-9m
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 08:57:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51196)
+	id 1nZY2B-00026l-O1
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:06:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZXpF-0002gm-KU
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:53:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40070)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nZXsZ-0006l8-M2; Wed, 30 Mar 2022 08:56:52 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:40866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZXpA-0003v2-HX
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 08:53:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648644799;
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nZXsX-0004Y8-GF; Wed, 30 Mar 2022 08:56:51 -0400
+Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
+ by beetle.greensocs.com (Postfix) with ESMTPS id 09B3621C38;
+ Wed, 30 Mar 2022 12:56:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1648645004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cqz1wM/eHmwo4ZsjupNK2GLqQ9tf8MZ6wU86LaznZLU=;
- b=Khi72Og4aJBKhyKa6f4cRLGfX86+46jU5BRclcA7PKaiTlJI7GpdMD/QKaAVw8ChE33dEE
- W4lg8ap0xH9hNLo+ev4P4xZpvALSdciPaa8tCuXJYeag/QHczLSOvaWm0+PstJIaINkynZ
- S35E1WDPCqFzukYUSBeS0AoGnscHhfU=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-360-m14LGG2XMdOmNbUf8CIwVw-1; Wed, 30 Mar 2022 08:53:18 -0400
-X-MC-Unique: m14LGG2XMdOmNbUf8CIwVw-1
-Received: by mail-qk1-f197.google.com with SMTP id
- d12-20020a379b0c000000b0067d8cda1aaaso12435478qke.8
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 05:53:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=cqz1wM/eHmwo4ZsjupNK2GLqQ9tf8MZ6wU86LaznZLU=;
- b=3mQJ8iB9Qg43nmwG2mxzZbShDyYN/48P/Q59jcf0yhTa+b6A5OmGTBcoDQYzzl2tE+
- TLL33VVqckiN1YBORGRfWrByxAmAoIFebivknRJW7hCmNTQwEPrco9JoAXJb/KIzFGUy
- /v3K/4mLT3iseNneADM3LslEagvLSFUlgMAD9FYfzk+K2Y5gH0ChwtSWkJliw0kQM13y
- YM9f9kj7X+kHOgy81BQlK2rKH1BClBUnCY9gBbtwYmUTKIIuz7CYn/5Id5gwTQcfb+LO
- H9VXRBcSK0DGdl5o+lLWDmXuw5x413sriBDxuRIO2IucFk3TkwU6I7JExhnIIFmxRZu+
- CMFA==
-X-Gm-Message-State: AOAM531/UIpOVEDb1UAaSpwijkyK+22xdF3N3Mx6lXu0YUEAnStJj23D
- NQbyyiDpHq0Cj8HcOG2wES9c9wiF/hsEOYsHr1qUpHBWLcllrvaesXec/FWoi/rfvZwAz/VmZPW
- T1VLTQJBz7xTV6yg=
-X-Received: by 2002:a0c:e0d1:0:b0:440:f87b:6da7 with SMTP id
- x17-20020a0ce0d1000000b00440f87b6da7mr30618103qvk.111.1648644798427; 
- Wed, 30 Mar 2022 05:53:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzx+rGaQVhujtDEpuSHkn+lGVdb7mGRll6nUQA0iAHimMfVpiw9Lj1kTY57sWBfSymvSzUrvw==
-X-Received: by 2002:a0c:e0d1:0:b0:440:f87b:6da7 with SMTP id
- x17-20020a0ce0d1000000b00440f87b6da7mr30618086qvk.111.1648644798214; 
- Wed, 30 Mar 2022 05:53:18 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- o14-20020a05622a138e00b002e1e78c899fsm17743043qtk.53.2022.03.30.05.53.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 05:53:17 -0700 (PDT)
-Date: Wed, 30 Mar 2022 08:53:16 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v7 12/17] vfio-user: IOMMU support for remote device
-Message-ID: <YkRSvDscyY+c+9yM@xz-m1.local>
-References: <cover.1648234157.git.jag.raman@oracle.com>
- <2fdb90acd40a1f79d571d4e68c56e6b08aded60d.1648234157.git.jag.raman@oracle.com>
- <YkL9C+oMUSav9y95@stefanha-x1.localdomain>
- <AC3FD7EB-773E-4684-9A86-176EDDAC135D@oracle.com>
- <YkMcJDFVFu/fW/a5@stefanha-x1.localdomain>
- <7022E4C4-D71A-4A6E-A5D8-222A9462654C@oracle.com>
- <YkQrKI0Az/k8Hc8g@stefanha-x1.localdomain>
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CTHLxshGLn+LMFCmOT0tST5SI/piv8b6mpuMZAFlww0=;
+ b=bMijghb3ZxySJFZ5hguLZ1NJj61rRhufZGQ0OOc662vJmtougXTMoULm4QbNncYwsTKjWj
+ 5TohKjSz6kck9gbHVue+ljKHpJBNGPk4pA2rrNs7mAqxIqU0M661O+3kDeFI6Pwu8EVmBU
+ gNy56SQsG4mfwNpvyur3TEXUrkZclRQ=
+From: Damien Hedde <damien.hedde@greensocs.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 00/18] user-creatable cpu clusters
+Date: Wed, 30 Mar 2022 14:56:21 +0200
+Message-Id: <20220330125639.201937-1-damien.hedde@greensocs.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <YkQrKI0Az/k8Hc8g@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+X-Spam: Yes
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,55 +58,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- "bleal@redhat.com" <bleal@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "quintela@redhat.com" <quintela@redhat.com>,
- "f4bug@amsat.org" <f4bug@amsat.org>, qemu-devel <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ qemu-riscv@nongnu.org, Alistair Francis <alistair@alistair23.me>,
+ mark.burton@greensocs.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost <eduardo@habkost.net>,
+ qemu-arm@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ Vijai Kumar K <vijai@behindbytes.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 30, 2022 at 11:04:24AM +0100, Stefan Hajnoczi wrote:
-> This makes me wonder whether there is a deeper issue with the
-> pci_setup_iommu() API: the lack of per-device cleanup callbacks.
-> Per-device IOMMU resources should be freed when a device is hot
-> unplugged.
-> 
-> From what I can tell this is not the case today:
-> 
-> - hw/i386/intel_iommu.c:vtd_find_add_as() allocates and adds device
->   address spaces but I can't find where they are removed and freed.
->   VTDAddressSpace instances pointed to from vtd_bus->dev_as[] are leaked.
-> 
-> - hw/i386/amd_iommu.c has similar leaks.
+Hi,
 
-AFAICT it's because there's no device-specific data cached in the
-per-device IOMMU address space, at least so far.  IOW, all the data
-structures allocated here can be re-used when a new device is plugged in
-after the old device unplugged.
+This series add devices to be able to user-create (coldplug) cpu
+clusters. The existing cpu cluster dictates how cpus are exposed
+in gdb, but it does not handle the cpu objects creation. This series
+adds a new device to handle both issues and adds support for two
+architectures: arm and riscv.
 
-It's definitely not ideal since after unplug (and before a new device
-plugged in) the resource is not needed at all so it's kind of wasted, but
-it should work functionally.  If to achieve that, some iommu_unplug() or
-iommu_cleanup() hook sounds reasonable.
+Please look at patches 2 and 3 for more details about the new device.
 
-One thing I'm not sure is these iommu ops are per-bus not per-device.  So
-I'm not sure whether that's what we wanted here because remote device
-cleanup seems to be per-device only.
+Last part concerning the riscv is rfc as I do non-backward compatible
+updates. I'm not sure what migration (or other) constraints we have
+on these machines and I probably need to make some changes to cope
+with them.
 
-Thanks,
+This series almost deprecates the cpu-cluster type as all uses
+but one are replaced.
+
+It is organized as follows:
+
++ Patches 1 to 7 adds a new base device to replace cpu-cluster
+
++ Patches 8 and 9 adds an arm specific version and replace existing
+  clusters in the xlnx-zynqmp machine.
+
++ patches 10 to 17 updates the riscv_array. It was already used to
+  create cpus but was not a cpu cluster.
+
+Thanks for any comments,
+--
+Damien
+
+Damien Hedde (18):
+  define MAX_CLUSTERS in cpu.h instead of cluster.h
+  hw/cpu/cpus: introduce _cpus_ device
+  hw/cpu/cpus: prepare to handle cpu clusters
+  hw/cpu/cluster: make _cpu-cluster_ a subclass of _cpus_
+  gdbstub: deal with _cpus_ object instead of _cpu-cluster_
+  hw/cpu/cluster: remove cluster_id now that gdbstub is updated
+  hw/cpu/cpus: add a common start-powered-off property
+  hw/arm/arm_cpus: add arm_cpus device
+  hw/arm/xlnx-zynqmp: convert cpu clusters to arm_cpus
+  hw/riscv/riscv_hart: prepare transition to cpus
+  hw/riscv: prepare riscv_hart transition to cpus
+  hw/riscv/virt: prepare riscv_hart transition to cpus
+  hw/riscv/spike: prepare riscv_hart transition to cpus
+  hw/riscv/riscv_hart: use cpus as base class
+  hw/riscv/sifive_u&microchip_pfsoc: apply riscv_hart_array update
+  hw/riscv: update remaining machines due to riscv_hart_array update
+  hw/riscv/riscv_hart: remove temporary features
+  add myself as reviewer of the newly added _cpus_
+
+ include/hw/arm/arm_cpus.h          |  45 +++++++
+ include/hw/arm/xlnx-zynqmp.h       |   8 +-
+ include/hw/core/cpu.h              |   6 +
+ include/hw/cpu/cluster.h           |  26 ++--
+ include/hw/cpu/cpus.h              |  93 ++++++++++++++
+ include/hw/riscv/microchip_pfsoc.h |   2 -
+ include/hw/riscv/riscv_hart.h      |  25 +++-
+ include/hw/riscv/sifive_u.h        |   2 -
+ gdbstub.c                          |  12 +-
+ hw/arm/arm_cpus.c                  |  63 ++++++++++
+ hw/arm/xlnx-zynqmp.c               | 121 +++++++-----------
+ hw/cpu/cluster.c                   |  53 ++++----
+ hw/cpu/cpus.c                      | 195 +++++++++++++++++++++++++++++
+ hw/riscv/boot.c                    |   2 +-
+ hw/riscv/microchip_pfsoc.c         |  28 +----
+ hw/riscv/opentitan.c               |   4 +-
+ hw/riscv/riscv_hart.c              |  44 ++-----
+ hw/riscv/shakti_c.c                |   4 +-
+ hw/riscv/sifive_e.c                |   4 +-
+ hw/riscv/sifive_u.c                |  31 ++---
+ hw/riscv/spike.c                   |  18 +--
+ hw/riscv/virt.c                    |  79 +++++++-----
+ MAINTAINERS                        |   3 +
+ hw/arm/meson.build                 |   1 +
+ hw/cpu/meson.build                 |   2 +-
+ 25 files changed, 612 insertions(+), 259 deletions(-)
+ create mode 100644 include/hw/arm/arm_cpus.h
+ create mode 100644 include/hw/cpu/cpus.h
+ create mode 100644 hw/arm/arm_cpus.c
+ create mode 100644 hw/cpu/cpus.c
 
 -- 
-Peter Xu
+2.35.1
 
 
