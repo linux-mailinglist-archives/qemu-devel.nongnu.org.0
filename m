@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB7D4EC60B
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:56:27 +0200 (CEST)
-Received: from localhost ([::1]:41408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FB94EC5DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:44:35 +0200 (CEST)
+Received: from localhost ([::1]:50686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZYoE-0001w1-H3
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:56:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56744)
+	id 1nZYck-0004eI-Pa
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:44:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZYEg-0007C2-Vu; Wed, 30 Mar 2022 09:19:47 -0400
-Received: from [2607:f8b0:4864:20::f33] (port=43529
- helo=mail-qv1-xf33.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZYEb-0001O7-9S; Wed, 30 Mar 2022 09:19:42 -0400
-Received: by mail-qv1-xf33.google.com with SMTP id f3so16758447qvz.10;
- Wed, 30 Mar 2022 06:19:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=sR3/cSIIxesi+h5rmG/bvJr8psg49kwOrfNyO+2JKF8=;
- b=QIY6sqiGFJzsNUMXzhlxlpZHjjpVuY4TZ/tqBjTFxudF+QAyHeWLIoYzFQElUP7zah
- 0X8EnQggt1Ajsqpj91y2ApXNDEBExBvaw7yI5pBb5NEoz+4PUrttfixVWpE7S71S6R/K
- VGidcxpAzi+YAUqFUxLkwH5yYiCRHggCySL3dHHQ4/9itk8JDbRb0vppNokfr+/92pOQ
- ccj+53YcVWdR6C8rNh6hNvupfrLzFl3BUidQPg4A/Z7NroDkoG0Y12ybSX0rdtY+dDAW
- 9lKcCKlnQQ/cEZHfv9zoWCeg18JU8XAsIArnPvRO3p7qSKFaoyDgK+P5yw7bFgYmKlK4
- rSLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=sR3/cSIIxesi+h5rmG/bvJr8psg49kwOrfNyO+2JKF8=;
- b=vYFnHRb9pqxgSJhNNqBsN0ZmApcG1v9MOXHXqr4PDscoXupRiNQqoSCl5kFKcDAWgV
- 7O9Z0+jYjGwbO21sZ/qyZD/t5agBDNUMHllgvHmfKR+mEgycXBeHhaO/70ucgxAT9AJ9
- yCFoqrjpvXtInMo0/TGRL6tmSlblYWIy0X8PX3aXVfCinRWtxHflL4qubBmNJcKKepg3
- 0eJNoolMkpf69WRMzzbGtMGJHakWtiViaZIZhhJi6VX7VXySjc1kjs88pd6Ly8ftlUQ/
- 15lYCmoHuzAoc1NSwhWPFm9iviihHCJoDW6759S98s75w284YcabbpRb+1HhShVhJz+M
- 0o2A==
-X-Gm-Message-State: AOAM531CNAPnPF7ieLu9oOWKTyrcQtRUiP31Dur2dyu7GhjMsEJssdzz
- 9jR/ssfXoBsHNLc3KQ7b+mo=
-X-Google-Smtp-Source: ABdhPJx4qRQy1gMJrzIFPB6gA/HvaUUmNPw7U+sUJ+GPGT8SblIhJKAkAb4Ei6mCsaYxc2WZsqFPwg==
-X-Received: by 2002:a05:6214:2aa4:b0:440:f5fc:f1c4 with SMTP id
- js4-20020a0562142aa400b00440f5fcf1c4mr31276434qvb.104.1648646376008; 
- Wed, 30 Mar 2022 06:19:36 -0700 (PDT)
-Received: from ?IPV6:2600:70ff:f07f:0:403e:ab57:ee68:20ea?
- ([2600:70ff:f07f:0:403e:ab57:ee68:20ea])
- by smtp.gmail.com with ESMTPSA id
- br13-20020a05620a460d00b00680d020b4cbsm5443687qkb.10.2022.03.30.06.19.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 06:19:35 -0700 (PDT)
-Message-ID: <212de8fd-2a18-fd54-201f-1119d1c7f992@gmail.com>
-Date: Wed, 30 Mar 2022 15:19:30 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZYbR-0003Y3-IC
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 09:43:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZYbO-0000zl-Gj
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 09:43:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648647789;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UgfpGBW1y7I1vKTPKg8LSAn4vqTuR4OpQUr5z0J9T6c=;
+ b=J9ej5adaa98KPZNYdT5fyG6AIeZTdhSG4pY8gfa25Be18mWG5FP21NxXaEzD29/Gv6Skc3
+ knSihD48ZUNt/3L45KUl7bNN3PhHwm4WnKaHd+lNijkKXoOG3X6uEVXZhyqN6QyaygWl+2
+ +4MmQ7VsgjyRBJSUMmLJaNizgxWvcuM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-187-aYxWVyUANNWlrXO2cKdJyQ-1; Wed, 30 Mar 2022 09:43:05 -0400
+X-MC-Unique: aYxWVyUANNWlrXO2cKdJyQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EBB0B3811A3F;
+ Wed, 30 Mar 2022 13:43:04 +0000 (UTC)
+Received: from thuth.com (reserved-198-128.str.redhat.com [10.33.198.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 12D23141DECC;
+ Wed, 30 Mar 2022 13:43:03 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH] linux-user/sh4/termbits: Silence warning about TIOCSER_TEMT
+ double definition
+Date: Wed, 30 Mar 2022 15:43:02 +0200
+Message-Id: <20220330134302.979686-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH] MAINTAINERS: change Fred Konrad's email address
-Content-Language: en-US
-To: Fabien Chouteau <chouteau@adacore.com>,
- Frederic Konrad <konrad@adacore.com>, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <1648643217-15811-1-git-send-email-frederic.konrad@adacore.com>
- <CALQG_WjoK5QRNZWbz+7ZgRCPw7gUJy3J-tSZ7Mnz5RXqY+xZnA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <CALQG_WjoK5QRNZWbz+7ZgRCPw7gUJy3J-tSZ7Mnz5RXqY+xZnA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f33
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qv1-xf33.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,28 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Frederic Konrad <frederic.konrad@adacore.com>,
- QEMU Developers <qemu-devel@nongnu.org>, f4bug@amsat.org
+Cc: qemu-trivial@nongnu.org, Magnus Damm <magnus.damm@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing qemu-trivial@
+Seen while compiling on Alpine:
 
-On 30/3/22 14:41, Fabien Chouteau wrote:
-> On Wed, Mar 30, 2022 at 2:31 PM Frederic Konrad <konrad@adacore.com 
-> <mailto:konrad@adacore.com>> wrote:
-> 
->     frederic.konrad@adacore.com <mailto:frederic.konrad@adacore.com> and
->     konrad@adacore.com <mailto:konrad@adacore.com> will stop working
->     starting
->     2022-04-01.
-> 
->     Use my personal email instead.
-> 
-> 
-> Reviewed-by: Fabien Chouteau <chouteau@adacore.com 
+ In file included from ../linux-user/strace.c:17:
+ In file included from ../linux-user/qemu.h:11:
+ In file included from ../linux-user/syscall_defs.h:1247:
+ ../linux-user/sh4/termbits.h:276:10: warning: 'TIOCSER_TEMT' macro redefined
+  [-Wmacro-redefined]
+ # define TIOCSER_TEMT    0x01   /* Transmitter physically empty */
+          ^
+ /usr/include/sys/ioctl.h:50:9: note: previous definition is here
+ #define TIOCSER_TEMT 1
+         ^
+ 1 warning generated.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Add the TARGET_ prefix here, too, like we do it on the other architectures.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ linux-user/sh4/termbits.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/linux-user/sh4/termbits.h b/linux-user/sh4/termbits.h
+index f91b5c51cf..eeabd2d7a9 100644
+--- a/linux-user/sh4/termbits.h
++++ b/linux-user/sh4/termbits.h
+@@ -273,7 +273,7 @@ ebugging only */
+ #define TARGET_TIOCSERGETLSR   TARGET_IOR('T', 89, unsigned int) /* 0x5459 */ /* Get line sta
+ tus register */
+   /* ioctl (fd, TIOCSERGETLSR, &result) where result may be as below */
+-# define TIOCSER_TEMT    0x01   /* Transmitter physically empty */
++# define TARGET_TIOCSER_TEMT   0x01   /* Transmitter physically empty */
+ #define TARGET_TIOCSERGETMULTI TARGET_IOR('T', 90, int) /* 0x545A
+ */ /* Get multiport config  */
+ #define TARGET_TIOCSERSETMULTI TARGET_IOW('T', 91, int) /* 0x545B
+-- 
+2.27.0
 
 
