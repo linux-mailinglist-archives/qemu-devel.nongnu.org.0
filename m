@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC634EC588
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:22:49 +0200 (CEST)
-Received: from localhost ([::1]:48004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19D64EC555
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:16:06 +0200 (CEST)
+Received: from localhost ([::1]:42722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZYHe-0006gw-DQ
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:22:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51876)
+	id 1nZYBB-0002u2-If
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:16:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXsf-0006oo-Ui; Wed, 30 Mar 2022 08:56:59 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:41060)
+ id 1nZXse-0006oU-Az; Wed, 30 Mar 2022 08:56:59 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:41058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXsb-0004Zd-HK; Wed, 30 Mar 2022 08:56:55 -0400
+ id 1nZXsb-0004Zb-9m; Wed, 30 Mar 2022 08:56:54 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 6340A21EBE;
- Wed, 30 Mar 2022 12:56:48 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 10E1621EBF;
+ Wed, 30 Mar 2022 12:56:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1648645008;
+ s=mail; t=1648645009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tNtuXMP17Wp2ohzLpSDIDcwKal0f30KwuZn+3sGkw34=;
- b=j7cNcWesJw3SwK0OSEqzP8OfWQAuxuBd6W2/1/Rk8xGxye2b2yaVZOjCHsEoQ9z14lCWkB
- ynCy4HfV+8QFG6eAcNDaxePQUM0s95UNZBsnx0cz9DugP8X9z5/a2rHAPSToM8/Y9j5C2F
- Gzvgk3pyIhXFdTmKyq7mevp125SKAiE=
+ bh=cuMqYjKLUiOJpMyaEYbHpLc1NjYNYXkz7u4Bj2qu9+0=;
+ b=AF5vgjPKJfLfOCE8JJV0wIHVMssFOH9O+283ap/NOqh3nvzncFwiViz4w2H1j70ovAdUCk
+ H6zETNsRK3hmb/k2LH1knxYvkM2faq77tkaDrymyqd8xr8xTI/GixhEENC+/1AMd/14Bwa
+ srv/dw8yRP2afosiJbf2Wx2P+i7a9us=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 05/18] gdbstub: deal with _cpus_ object instead of
- _cpu-cluster_
-Date: Wed, 30 Mar 2022 14:56:26 +0200
-Message-Id: <20220330125639.201937-6-damien.hedde@greensocs.com>
+Subject: [RFC PATCH 06/18] hw/cpu/cluster: remove cluster_id now that gdbstub
+ is updated
+Date: Wed, 30 Mar 2022 14:56:27 +0200
+Message-Id: <20220330125639.201937-7-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330125639.201937-1-damien.hedde@greensocs.com>
 References: <20220330125639.201937-1-damien.hedde@greensocs.com>
@@ -75,52 +75,59 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The gdbstub will only handle _cpus_ object having set
-the _is_cluster_ flag.
-
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- gdbstub.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ include/hw/cpu/cluster.h | 7 -------
+ hw/cpu/cluster.c         | 7 -------
+ 2 files changed, 14 deletions(-)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index c8375e3c3f..0b3e943f95 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -38,7 +38,7 @@
- #include "monitor/monitor.h"
- #include "chardev/char.h"
- #include "chardev/char-fe.h"
--#include "hw/cpu/cluster.h"
-+#include "hw/cpu/cpus.h"
- #include "hw/boards.h"
- #endif
+diff --git a/include/hw/cpu/cluster.h b/include/hw/cpu/cluster.h
+index 2125765f21..6704434cc0 100644
+--- a/include/hw/cpu/cluster.h
++++ b/include/hw/cpu/cluster.h
+@@ -60,17 +60,10 @@ OBJECT_DECLARE_TYPE(CPUClusterState, CPUClusterClass, CPU_CLUSTER)
  
-@@ -3458,9 +3458,10 @@ static const TypeInfo char_gdb_type_info = {
+ /**
+  * CPUClusterState:
+- * @cluster_id: The cluster ID. This value is for internal use only and should
+- *   not be exposed directly to the user or to the guest.
+- *
+- * State of a CPU cluster.
+  */
+ struct CPUClusterState {
+     /*< private >*/
+     CpusState parent_obj;
+-
+-    /*< public >*/
+-    uint32_t cluster_id;
+ };
  
- static int find_cpu_clusters(Object *child, void *opaque)
+ /**
+diff --git a/hw/cpu/cluster.c b/hw/cpu/cluster.c
+index 3daf897bd9..51da6ce3a9 100644
+--- a/hw/cpu/cluster.c
++++ b/hw/cpu/cluster.c
+@@ -42,7 +42,6 @@ static int add_cpu_to_cluster(Object *obj, void *opaque)
+ static void cpu_cluster_realize(DeviceState *dev, Error **errp)
  {
--    if (object_dynamic_cast(child, TYPE_CPU_CLUSTER)) {
-+    if (object_dynamic_cast(child, TYPE_CPUS) &&
-+        CPUS(child)->is_cluster) {
-         GDBState *s = (GDBState *) opaque;
--        CPUClusterState *cluster = CPU_CLUSTER(child);
-+        CpusState *cluster = CPUS(child);
-         GDBProcess *process;
+     CPUClusterClass *ccc = CPU_CLUSTER_GET_CLASS(dev);
+-    CPUClusterState *cluster = CPU_CLUSTER(dev);
+     CpusState *base = CPUS(dev);
+     Object *cluster_obj = OBJECT(dev);
  
-         s->processes = g_renew(GDBProcess, s->processes, ++s->process_num);
-@@ -3472,8 +3473,9 @@ static int find_cpu_clusters(Object *child, void *opaque)
-          * runtime, we enforce here that the machine does not use a cluster ID
-          * that would lead to PID 0.
-          */
--        assert(cluster->cluster_id != UINT32_MAX);
--        process->pid = cluster->cluster_id + 1;
-+        assert(cluster->cluster_index >= 0 &&
-+               cluster->cluster_index < UINT32_MAX);
-+        process->pid = cluster->cluster_index + 1;
-         process->attached = false;
-         process->target_xml[0] = '\0';
+@@ -64,12 +63,6 @@ static void cpu_cluster_realize(DeviceState *dev, Error **errp)
  
+     /* realize base class (will set cluster field to true) */
+     ccc->parent_realize(dev, errp);
+-
+-    /*
+-     * Temporarily copy the cluster id from the base class as
+-     * gdbstub still uses our field.
+-     */
+-    cluster->cluster_id = base->cluster_index;
+ }
+ 
+ static void cpu_cluster_class_init(ObjectClass *klass, void *data)
 -- 
 2.35.1
 
