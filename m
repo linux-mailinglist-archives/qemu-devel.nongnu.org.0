@@ -2,68 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8883B4ECA71
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 19:18:10 +0200 (CEST)
-Received: from localhost ([::1]:49038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3684ECAA7
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 19:30:04 +0200 (CEST)
+Received: from localhost ([::1]:56552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZbxR-0002Hl-Fn
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 13:18:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60114)
+	id 1nZc8w-000816-Oh
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 13:30:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nZbwa-0001IO-4m
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:17:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33944)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZc7K-0005hD-9x
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:28:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nZbwX-0005NA-Ec
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:17:14 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZc7H-0003JI-Sz
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:28:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648660632;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KRonZkfs3WeGED4uyRAdOtqzwU3tVAHxTVYMnVDlDXc=;
- b=HxBoG5y9KeYS+SwX0Ljsb/fzrBXNnttRP4TKaBRHV/sNQu6g8AsCW6Jp4Pjnx0AbJxP9v9
- Nw4c994ukPB4pzwVPYxI8UWkgnpC6/bK2b4vd/KWhzSGqMCWV6WmowSXsK8WyoW1jBr2C+
- DAXif0v/KXxAuTNv88jBhJdmSaeQKXU=
+ s=mimecast20190719; t=1648661299;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cKswfLljE6ror0M8ck1nxB97CYkn99gXgGqstvYL28s=;
+ b=OWyWk3WlYGrrAXBlzlROyAd7SEPn87zsudNZp8rOyxWHysGFXYndWhjVlK8TvJmnOwDFuG
+ JYYe29lsVhuOXLSsNvVtL4KUgzhGFEHl2hPvM/kOJ0Axo6WrqkUIbxbDV7Fh4Fe0iIDOIf
+ dCzXphpTeLW2mqp3LnSAq+xGsJmtd58=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-cTyfS1WnNyOva8NBZpGdgA-1; Wed, 30 Mar 2022 13:17:09 -0400
-X-MC-Unique: cTyfS1WnNyOva8NBZpGdgA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-571-xsL6lNgINaGRvFG2BJT-fQ-1; Wed, 30 Mar 2022 13:28:16 -0400
+X-MC-Unique: xsL6lNgINaGRvFG2BJT-fQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5B3685A5BE
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 17:17:08 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.146])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 96EB057E423;
- Wed, 30 Mar 2022 17:17:07 +0000 (UTC)
-Date: Wed, 30 Mar 2022 18:17:04 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v2 00/18] tests: introduce testing coverage for TLS with
- migration
-Message-ID: <YkSQkIEgJhLxinjz@redhat.com>
-References: <20220310171821.3724080-1-berrange@redhat.com>
- <YiqswPa/VV/lY6yN@xz-m1.local>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BABA9899EC4;
+ Wed, 30 Mar 2022 17:28:14 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.35.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 684F140CFD02;
+ Wed, 30 Mar 2022 17:28:12 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/9] Python: Remove synchronous QMP library
+Date: Wed, 30 Mar 2022 13:28:03 -0400
+Message-Id: <20220330172812.3427355-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YiqswPa/VV/lY6yN@xz-m1.local>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -85,53 +75,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Beraldo Leal <bleal@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Juan,
-
-would you be able to include at least patch 6 in a migration
-pull before release ?
-
-On Fri, Mar 11, 2022 at 09:58:24AM +0800, Peter Xu wrote:
-> On Thu, Mar 10, 2022 at 05:18:03PM +0000, Daniel P. Berrangé wrote:
-> > This significantly expands the migration test suite to cover testing
-> > with TLS over TCP and UNIX sockets, with both PSK (pre shared keys)
-> > and x509 credentials, and for both single and multifd scenarios.
-> > 
-> > It identified one bug in handling PSK credentials with UNIX sockets,
-> > but other than that everything was operating as expected.
-> > 
-> > To minimize the impact on code duplication alopt of refactoring is
-> > done of the migration tests to introduce a common helper for running
-> > the migration process. The various tests mostly just have to provide
-> > a callback to set a few parameters/capabilities before migration
-> > starts, and sometimes a callback to cleanup or validate after
-> > completion/failure.
-> > 
-> > There is one functional bugfix in patch 6, I would like to see
-> > in 7.0. The rest is all test suite additions, and I don't mind
-> > if they are in 7.0 or 7.1
-> 
-> At least patch 1-4, 6-10 look already good candidates for 7.0, imho, if not
-> all..
-> 
-> Thanks for doing this, Daniel.
-> 
-> -- 
-> Peter Xu
-> 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Based-on: https://gitlab.com/jsnow/qemu/-/tree/python/=0D
+GitLab: https://gitlab.com/jsnow/qemu/-/tree/python-qmp-legacy-switch-pt1c=
+=0D
+CI: https://gitlab.com/jsnow/qemu/-/pipelines/505169095=0D
+=0D
+Hi, this series is part of an effort to publish the qemu.qmp package on=0D
+PyPI. It is the first of three series to complete this work:=0D
+=0D
+--> (1) Switch the new async QMP library in as python/qemu/qmp=0D
+    (2) Fork python/qemu/qmp out into its own repository,=0D
+        with updated GitLab CI/CD targets to build packages.=0D
+    (3) Update qemu.git to install qemu.qmp from PyPI,=0D
+        and then delete python/qemu/qmp.=0D
+=0D
+This series finalizes swapping out the old QMP library for the new=0D
+one. This leaves us with just one QMP library to worry about. It also=0D
+implements the rename of "qemu.aqmp" to "qemu.qmp".=0D
+=0D
+This is the last patch series before I perform the actual fork.=0D
+=0D
+These patches are (mostly) reviewed, so I'll likely stage these fairly=0D
+quickly barring any objections. The plan is to submit them as soon as=0D
+the tree re-opens to help prevent rot while I work on the fork.=0D
+=0D
+John Snow (9):=0D
+  python: temporarily silence pylint duplicate-code warnings=0D
+  python/aqmp: take QMPBadPortError and parse_address from qemu.qmp=0D
+  python/aqmp: fully separate from qmp.QEMUMonitorProtocol=0D
+  python/aqmp: copy qmp docstrings to qemu.aqmp.legacy=0D
+  python: remove the old QMP package=0D
+  python: re-enable pylint duplicate-code warnings=0D
+  python: rename qemu.aqmp to qemu.qmp=0D
+  python: rename 'aqmp-tui' to 'qmp-tui'=0D
+  python/qmp: remove pylint workaround from legacy.py=0D
+=0D
+ python/README.rst                             |   2 +-=0D
+ python/qemu/qmp/README.rst                    |   9 -=0D
+ python/qemu/aqmp/__init__.py                  |  59 ---=0D
+ python/qemu/aqmp/legacy.py                    | 188 --------=0D
+ python/qemu/aqmp/py.typed                     |   0=0D
+ python/qemu/machine/machine.py                |   4 +-=0D
+ python/qemu/machine/qtest.py                  |   2 +-=0D
+ python/qemu/qmp/__init__.py                   | 445 ++----------------=0D
+ python/qemu/{aqmp =3D> qmp}/error.py            |   0=0D
+ python/qemu/{aqmp =3D> qmp}/events.py           |   2 +-=0D
+ python/qemu/qmp/legacy.py                     | 315 +++++++++++++=0D
+ python/qemu/{aqmp =3D> qmp}/message.py          |   0=0D
+ python/qemu/{aqmp =3D> qmp}/models.py           |   0=0D
+ python/qemu/{aqmp =3D> qmp}/protocol.py         |   4 +-=0D
+ python/qemu/{aqmp =3D> qmp}/qmp_client.py       |  16 +-=0D
+ python/qemu/{aqmp =3D> qmp}/qmp_shell.py        |   4 +-=0D
+ .../qemu/{aqmp/aqmp_tui.py =3D> qmp/qmp_tui.py} |  15 +-=0D
+ python/qemu/{aqmp =3D> qmp}/util.py             |   0=0D
+ python/qemu/utils/qemu_ga_client.py           |   4 +-=0D
+ python/qemu/utils/qom.py                      |   2 +-=0D
+ python/qemu/utils/qom_common.py               |   4 +-=0D
+ python/qemu/utils/qom_fuse.py                 |   2 +-=0D
+ python/setup.cfg                              |  11 +-=0D
+ python/tests/protocol.py                      |  14 +-=0D
+ scripts/cpu-x86-uarch-abi.py                  |   2 +-=0D
+ scripts/device-crash-test                     |   4 +-=0D
+ scripts/qmp/qmp-shell                         |   2 +-=0D
+ scripts/qmp/qmp-shell-wrap                    |   2 +-=0D
+ scripts/render_block_graph.py                 |   4 +-=0D
+ scripts/simplebench/bench_block_job.py        |   2 +-=0D
+ tests/qemu-iotests/iotests.py                 |   2 +-=0D
+ tests/qemu-iotests/tests/mirror-top-perms     |   4 +-=0D
+ 32 files changed, 409 insertions(+), 715 deletions(-)=0D
+ delete mode 100644 python/qemu/qmp/README.rst=0D
+ delete mode 100644 python/qemu/aqmp/__init__.py=0D
+ delete mode 100644 python/qemu/aqmp/legacy.py=0D
+ delete mode 100644 python/qemu/aqmp/py.typed=0D
+ rename python/qemu/{aqmp =3D> qmp}/error.py (100%)=0D
+ rename python/qemu/{aqmp =3D> qmp}/events.py (99%)=0D
+ create mode 100644 python/qemu/qmp/legacy.py=0D
+ rename python/qemu/{aqmp =3D> qmp}/message.py (100%)=0D
+ rename python/qemu/{aqmp =3D> qmp}/models.py (100%)=0D
+ rename python/qemu/{aqmp =3D> qmp}/protocol.py (99%)=0D
+ rename python/qemu/{aqmp =3D> qmp}/qmp_client.py (97%)=0D
+ rename python/qemu/{aqmp =3D> qmp}/qmp_shell.py (99%)=0D
+ rename python/qemu/{aqmp/aqmp_tui.py =3D> qmp/qmp_tui.py} (98%)=0D
+ rename python/qemu/{aqmp =3D> qmp}/util.py (100%)=0D
+=0D
+--=20=0D
+2.34.1=0D
+=0D
 
 
