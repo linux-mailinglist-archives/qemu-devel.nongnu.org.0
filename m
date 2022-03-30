@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82B34ECBB5
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:19:36 +0200 (CEST)
-Received: from localhost ([::1]:42220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7614ECBCE
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:24:02 +0200 (CEST)
+Received: from localhost ([::1]:48530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZcut-0000It-R3
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:19:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42998)
+	id 1nZczB-0004ex-P7
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:24:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZcjC-000261-BU
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:07:30 -0400
-Received: from [2001:4860:4864:20::2a] (port=46919
- helo=mail-oa1-x2a.google.com)
+ id 1nZckC-00044z-BA
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:08:32 -0400
+Received: from [2001:4860:4864:20::2d] (port=37135
+ helo=mail-oa1-x2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZcj9-00063U-5i
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:07:28 -0400
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-d39f741ba0so22845224fac.13
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 11:07:26 -0700 (PDT)
+ id 1nZckA-00068q-P2
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:08:32 -0400
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-dee0378ce7so12494530fac.4
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 11:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=wtxcEHuCe2wOtEKyvknxbnt2GWp+81fqTy9QWmc8A+8=;
- b=SS7T5bT/4SqWerwWSUEPWOdRRUf6euzi0OJ1+pz5Hkj4LLR2CdSLZvZpeh0+XJlyA3
- 3e7wXV8fnHxNJpNqJMBr9WmTQv87AWlw+230calP0VWarRfrJSiPj2GaC15fnxNp32PU
- DunS219AkgEosGoS4wrngk2lshX7aDWBHT/a8rggqpv+mPUFMe49yUmw2lwfFiZcM8aC
- k9M0cvpZA6OIrtILrFzkEr43zHI2LRJyi2lTpy48E4/zcLAn4RSufR3BCk6drzmMlUQf
- hzatnlsHarCljq/qKgGUsOGLLiazCclKJeX+pDbqZzmleWi6XzJAN9BjlRMAP6BsER7C
- bMpQ==
+ bh=7w6N1ydciEbZHU6N0+T1BHRlU+5/Zroc9CXyPKNQCeM=;
+ b=EvdhjTibnqP1VafUMf4A7PMkPPT1tz7T52xrx8SOcNERYpsCjmELYXvMrHi0CSQU8/
+ 2XwkjuLW/6BErupOd5WInLWE23ZoVI4w62GJ/HMy74Y+158Mx/Ifo3ZQquCjT8nVUCju
+ EqE61Vyn42auGMOVmP42/s8FJ9uaMdg9MWc7h4//zaEKcomKLMBReUKgnizqewCpmSgY
+ abH/TkEC8QskS5NGLFxx/a3UaTiMLtlH1flsCIE/xBCO5xhTm4H5nHrBWx61kEYEyy/H
+ /zew/1sbxzE6Vb0EGoLSYBvlMrDM0BrXoCoUiXQfu403riPfxvVWsisSi62/AZ7P+2gI
+ H1eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=wtxcEHuCe2wOtEKyvknxbnt2GWp+81fqTy9QWmc8A+8=;
- b=p3Np3oDRkSpmWtG1vIVALDZy6G8+wJDAKZMo6J+hO8jb4oVn8mqW5KGuIDmBoMzn2x
- OBgkQaZF64f9gLbmybRNUcC+fTqAYnSglc2EZPHJMYyjyTzAhxTfJcrMX8a44zXoZnJZ
- i7A7AqhSqLCT2mNKikfhCo33zIO+RYKCe1teGdN6iTaDQEQZRQhQZUOiMjLySpRTGjQr
- cRwOETHydcOj3ibvg5neAH+t2FagOxHjmgWXW7XtZDPfYjk1vYPlat8s18roScuQqJ8x
- HSTjSeEvEzFhFYCoLkRUMgzMrqfFV+oJGUJ5z9dXMk1X4HhyQl39/cr5Ekq9taHuKxq/
- WwuQ==
-X-Gm-Message-State: AOAM533x0ILVaOqK+gTT56W7M8ByzovfgeqJL/E2sp89niwj494B8HEA
- MZvZVguWU0s3zRh69mC/Lt8TLw==
-X-Google-Smtp-Source: ABdhPJwtMmTVjoH2aPXEgAybuP/hHnozE35VX0sLPO5Vt5W7n05cTruk3Pv6wGQc1KA3PFyb4R/mYQ==
-X-Received: by 2002:a05:6870:2425:b0:de:2fb0:1caa with SMTP id
- n37-20020a056870242500b000de2fb01caamr474743oap.115.1648663645894; 
- Wed, 30 Mar 2022 11:07:25 -0700 (PDT)
+ bh=7w6N1ydciEbZHU6N0+T1BHRlU+5/Zroc9CXyPKNQCeM=;
+ b=oneXo6lPsuhtxf2KLh3+pRegT+OQUpu4Rf8hHuGy7YrDfd+DrG6UZdW8/jce89dSD7
+ 37KaNUtkwg4xfxLdpkdRS81WjxjD5KSXHVRIRkFZaF9u2dFoCThiN28TlucPEGwYrq8R
+ LKCAF6+p7Rx1vehqccX/7tlX1UXYGHpfEJInN3F8W2pFXa+TDb4/gCFuPu3jCEKsWnEM
+ oWAIUfyYH5oj1AyJ4SmBTdhCAf+TUVEFMsXbJWzBtQRqb0lQZ+Mzxqns1tvu+Y7EdXrA
+ fbV8ML/0XhJdjpar902ejNGlC6r2d92pTZCTbD8w5XUzC/3ILMwJXVSIwwlq34+VswoU
+ FSug==
+X-Gm-Message-State: AOAM531c/hfmSentMHIFgzvavTf+bSkeGQs7yHXckui1u5mvWO3n/jv0
+ T5dKMGSOjq3UqHAaqIHNDYVdzukZIXNy4Gfj
+X-Google-Smtp-Source: ABdhPJzSsyBZR7Akj7gbc1iGPMmsa6tR3VDTxA+yVuBai3D0s9jvzkutKX3Wk1+3NgvNR8BoB37iPw==
+X-Received: by 2002:a05:6870:a10e:b0:dd:bc3a:d2c2 with SMTP id
+ m14-20020a056870a10e00b000ddbc3ad2c2mr479017oae.123.1648663709731; 
+ Wed, 30 Mar 2022 11:08:29 -0700 (PDT)
 Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- r18-20020a056830081200b005ad10dfcf60sm10521325ots.67.2022.03.30.11.07.24
+ bn13-20020a056808230d00b002f75bfbcf5asm3832899oib.56.2022.03.30.11.08.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 11:07:25 -0700 (PDT)
-Message-ID: <66820e62-ab8a-b9da-aed0-cbe1f9d07934@linaro.org>
-Date: Wed, 30 Mar 2022 12:07:22 -0600
+ Wed, 30 Mar 2022 11:08:29 -0700 (PDT)
+Message-ID: <b2bbac78-d166-80dd-f612-c20a5da4eb18@linaro.org>
+Date: Wed, 30 Mar 2022 12:08:25 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 1/8] qemu/int128: avoid undefined behavior in
- int128_lshift
+Subject: Re: [RFC PATCH 2/8] qemu/int128: add int128_urshift
 Content-Language: en-US
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
- <20220330175932.6995-2-matheus.ferst@eldorado.org.br>
+ <20220330175932.6995-3-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220330175932.6995-2-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220330175932.6995-3-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2d
  (failed)
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2a.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,44 +100,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/30/22 11:59, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > 
-> Avoid the left shift of negative values in int128_lshift by casting
-> a/a.hi to unsigned.
+> Implement an unsigned right shift for Int128 values and add the same
+> tests cases of int128_rshift in the unit test.
 > 
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> ---
+>   include/qemu/int128.h    | 19 +++++++++++++++++++
+>   tests/unit/test-int128.c | 32 ++++++++++++++++++++++++++++++++
+>   2 files changed, 51 insertions(+)
 
-Eh, maybe.  We do this all over qemu, and I think any undefinedness you're thinking of in 
-the base C standard is removed by the -fwrapv with which all files are compiled.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
-> ---
->   include/qemu/int128.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-> index 2c4064256c..2a19558ac6 100644
-> --- a/include/qemu/int128.h
-> +++ b/include/qemu/int128.h
-> @@ -85,7 +85,7 @@ static inline Int128 int128_rshift(Int128 a, int n)
->   
->   static inline Int128 int128_lshift(Int128 a, int n)
->   {
-> -    return a << n;
-> +    return (__uint128_t)a << n;
->   }
->   
->   static inline Int128 int128_add(Int128 a, Int128 b)
-> @@ -305,7 +305,7 @@ static inline Int128 int128_lshift(Int128 a, int n)
->       if (n >= 64) {
->           return int128_make128(0, l);
->       } else if (n > 0) {
-> -        return int128_make128(l, (a.hi << n) | (a.lo >> (64 - n)));
-> +        return int128_make128(l, ((uint64_t)a.hi << n) | (a.lo >> (64 - n)));
->       }
->       return a;
->   }
-
 
