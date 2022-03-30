@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B824ECEE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 23:32:32 +0200 (CEST)
-Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CCB4ECEE4
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 23:36:00 +0200 (CEST)
+Received: from localhost ([::1]:51460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZfvb-0001TO-AH
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 17:32:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36346)
+	id 1nZfyy-0003gw-2h
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 17:36:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZfuS-0000f3-5B
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:31:20 -0400
-Received: from [2607:f8b0:4864:20::b2f] (port=42815
- helo=mail-yb1-xb2f.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nZfxW-0002sM-Mj; Wed, 30 Mar 2022 17:34:30 -0400
+Received: from [2607:f8b0:4864:20::229] (port=44986
+ helo=mail-oi1-x229.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZfuQ-00043z-DS
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:31:19 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id u103so38988955ybi.9
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:31:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zzuJdtbaXp4bFC3paHZ0d5+MXZ+EwlzUY3RvZayZokg=;
- b=TbfsSM6Ts24NgZGiGNJQqFcT04w04fjOB/M67UUY4enfoNWunhkhTOKU9LxVmKzpYz
- JDrB6ELIEAjGfNmSZt3/wNldpfFc/32P95MlYavQT5UdN0L2tAnY0XTcnhPFl77w6knr
- 8J2gCsF+j6eOGGYwhnwSL1nYiLDtryM2CmUukxGFTZmp24ybHdlx8/1+0mxGvZFcHjmg
- XT+rMfISwyraxfIKDVQtoIOFlcVlEssyJldx2vajWK9DBJ9aICs7unOh6f/tBWsuZ2rH
- LG2/6DCUZt2/aKonuvQrKg7GEH3xC8/Ir6+46zmU6SSoHcTaVCQkudraIBW+1kmf7qyX
- YN2Q==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nZfxV-0004T1-2h; Wed, 30 Mar 2022 17:34:30 -0400
+Received: by mail-oi1-x229.google.com with SMTP id t21so18536230oie.11;
+ Wed, 30 Mar 2022 14:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=qqjbIjO/VCCfOluwvM7prdF9heNteBfWPxQeJwv+f2w=;
+ b=Hg2HUdb0eiCRnPU21tErYk/UFnRX//kZuo8B2DlblvQJV1DJQ7Wwr4TvbsZMfhU/v2
+ 6mF5KIMtSRso7qfYqfZyy0tW5uKhq3VIp5yGlMCfBH3RsDGF70T4plnu+vD2hSLttNyf
+ MeQYdguRsH/dUEMiFH6A6YEx+ofhtLQ8a3HHdSuWb7GYJ+PZPB0wRdxa6mKN+ZNSuF/1
+ qDljqMXM3HWssCgPkGaNsN+vZmOXnRQB/mEWnV5uxLtEpUUGva8qbv5XqBoNw78TyFBd
+ d3uri0PznJjxHHrFtvS2/XJWAtVPbvwdEeauSa2lQs8f1yeYxDp8sdvqzMwmIc4wIjeO
+ 50mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zzuJdtbaXp4bFC3paHZ0d5+MXZ+EwlzUY3RvZayZokg=;
- b=1v1OLpi+cAXjPFhf6peTY+7y0xpv6/eDhhY9WSMxBltWD4596QScxJ0vmWbpcrt4LJ
- A6pZIL/4fudiClwXJGG+PvsfSIMg3DrMr4W/WSQ96v6YlDaBqArbVOcQY9aLV4VX9HYA
- x60xKVQllWXHKNf0iP1Xk0zA56OlacWBYLaeFIWfZdYzXCK5cHlBioYbrbXIUdoMqLo/
- iP83GnxGn+/fG+ltjk2sEh5fuOMntIs+UvUY3YyVga2QhHp1u6EXOhOkO+x34PYH+L/B
- RDR71cKsLtkem+RrDGSqrPS6+I48GIXGeW4lUoKH13lFMeJ2TDDk9mpPSum0MsdlbMt0
- WCCA==
-X-Gm-Message-State: AOAM533gOj8YPn19muuO9fmWPeQ5DbvTBXtKfDtmOCzA38CWDbYh/kza
- tHz0lXXKPsAGx1+qIeo7uTNJExVYw6K91xSSrA45og==
-X-Google-Smtp-Source: ABdhPJzZ9NJ1vd7SpSK8crMWjfjgtH1m1VsHIkC1am2NxnJKNN1ZhDIfMhsfLRbantdhwj+7czTNM7VB83BDkwMLqAw=
-X-Received: by 2002:a25:d8c3:0:b0:633:c81f:737d with SMTP id
- p186-20020a25d8c3000000b00633c81f737dmr1630287ybg.193.1648675877358; Wed, 30
- Mar 2022 14:31:17 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qqjbIjO/VCCfOluwvM7prdF9heNteBfWPxQeJwv+f2w=;
+ b=lQkgclhGQGmb1YrWBztJlvokIAbb7ovr5LsK5OL0ZB2NLMwlEXd/C/cbBo8uvPVHBs
+ mJimIqNP79WCb4lSJxNndHfxcP2kUf/hzEC02CasBlcKBoAj6MeVZrHuNtoLFM87J3z8
+ H9cLblK5h2ZIVJSBfcLrLNip0Jv/hqPJdDsX5O/+6pDuJHx29BrUgFY3jlJINwJECzJt
+ RHcWZio/8fbcuQLLewDOw7Pml1E1zm7yJSNbGQcufrweTLABnZpliqsuTglYvYpSvDUo
+ /V7MfC3Zo/tQHxKVrFW6M5dVK7e09f4ROEskLWqVAGF+AW3zyHaQj473HWym9aerRE+C
+ ESeA==
+X-Gm-Message-State: AOAM531NbcSy8X8zs8NWPsjYaWPO2qcfxSs5BB2FApf216UOVFoE5Crq
+ NhXzBvMvkr0kyPYkkZxzjCM=
+X-Google-Smtp-Source: ABdhPJyFaP4t/wiQr5HhBcORmmOkHpYirt18H9wdfHXwg8kEHGMc3UZ20fUGz3/amroskVQR8L5dhg==
+X-Received: by 2002:a05:6808:ec1:b0:2f7:4de5:3c64 with SMTP id
+ q1-20020a0568080ec100b002f74de53c64mr1104250oiv.146.1648676067639; 
+ Wed, 30 Mar 2022 14:34:27 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c6:abe8:ed:2c78:ab0c:7946?
+ ([2804:431:c7c6:abe8:ed:2c78:ab0c:7946])
+ by smtp.gmail.com with ESMTPSA id
+ n15-20020aca240f000000b002da2fc73741sm10722281oic.33.2022.03.30.14.34.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Mar 2022 14:34:27 -0700 (PDT)
+Message-ID: <29927bdd-f236-8694-0426-546bbaa85eb1@gmail.com>
+Date: Wed, 30 Mar 2022 18:34:24 -0300
 MIME-Version: 1.0
-References: <20220330181947.68497-1-wwcohen@gmail.com>
-In-Reply-To: <20220330181947.68497-1-wwcohen@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 30 Mar 2022 22:31:06 +0100
-Message-ID: <CAFEAcA-a8BUqGGGMPexauFq-DEwSy6SQc9G9MuH=WX3P2H1a1A@mail.gmail.com>
-Subject: Re: [PATCH] 9p: move limits.h include from 9p.c to 9p.h
-To: Will Cohen <wwcohen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/4] target/ppc: initialize 'reg_val' in kvm_get_one_spr()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
+References: <20220330210443.597500-1-danielhb413@gmail.com>
+ <20220330210443.597500-2-danielhb413@gmail.com>
+ <a3211c13-cb5c-ff39-f424-f2efe8b4d706@gmail.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <a3211c13-cb5c-ff39-f424-f2efe8b4d706@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::229
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -81,62 +95,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, fabianfranz.oss@gmail.com,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, keno@juliacomputing.com, reactorcontrol@icloud.com,
- philippe.mathieu.daude@gmail.com, hi@alyssa.is
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Mar 2022 at 19:26, Will Cohen <wwcohen@gmail.com> wrote:
->
-> As noted by https://gitlab.com/qemu-project/qemu/-/issues/950, within
-> the patch set adding 9p functionality to darwin, the commit
-> 38d7fd68b0c8775b5253ab84367419621aa032e6 introduced an issue where
-> limits.h, which defines XATTR_SIZE_MAX, is included in 9p.c, though the
-> referenced constant is needed in 9p.h. This commit fixes that issue by
-> moving the include to 9p.h.
->
-> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+
+
+On 3/30/22 18:22, Philippe Mathieu-Daudé wrote:
+> On 30/3/22 23:04, Daniel Henrique Barboza wrote:
+>> Valgrind isn't convinced that we are initializing the values we assign
+>> to env->spr[spr] because it doesn't understand that the 'reg_val' union
+>> is being written by the kvm_vcpu_ioctl() that follows (via struct
+>> kvm_one_reg).
+>>
+>> This results in Valgrind complaining about uninitialized values every
+>> time we use env->spr in a conditional, like this instance:
+>>
+>> ==707578== Thread 1:
+>> ==707578== Conditional jump or move depends on uninitialised value(s)
+>> ==707578==    at 0xA10A40: hreg_compute_hflags_value (helper_regs.c:106)
+>> ==707578==    by 0xA10C9F: hreg_compute_hflags (helper_regs.c:173)
+>> ==707578==    by 0xA110F7: hreg_store_msr (helper_regs.c:262)
+>> ==707578==    by 0xA051A3: ppc_cpu_reset (cpu_init.c:7168)
+>> ==707578==    by 0xD4730F: device_transitional_reset (qdev.c:799)
+>> ==707578==    by 0xD4A11B: resettable_phase_hold (resettable.c:182)
+>> ==707578==    by 0xD49A77: resettable_assert_reset (resettable.c:60)
+>> ==707578==    by 0xD4994B: resettable_reset (resettable.c:45)
+>> ==707578==    by 0xD458BB: device_cold_reset (qdev.c:296)
+>> ==707578==    by 0x48FBC7: cpu_reset (cpu-common.c:114)
+>> ==707578==    by 0x97B5EB: spapr_reset_vcpu (spapr_cpu_core.c:38)
+>> ==707578==    by 0x97BABB: spapr_cpu_core_reset (spapr_cpu_core.c:209)
+>> ==707578==  Uninitialised value was created by a stack allocation
+>> ==707578==    at 0xB11F08: kvm_get_one_spr (kvm.c:543)
+>>
+>> Initializing 'reg_val' has no impact in the logic and makes Valgrind
+>> output more bearable.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   target/ppc/kvm.c | 6 ++++--
+>>   1 file changed, 4 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+>> index dc93b99189..ce1b926e8c 100644
+>> --- a/target/ppc/kvm.c
+>> +++ b/target/ppc/kvm.c
+>> @@ -543,10 +543,12 @@ static void kvm_get_one_spr(CPUState *cs, uint64_t id, int spr)
+>>   {
+>>       PowerPCCPU *cpu = POWERPC_CPU(cs);
+>>       CPUPPCState *env = &cpu->env;
+>> -    union {
+>> +    union reg_val {
+>>           uint32_t u32;
+>>           uint64_t u64;
+>> -    } val;
+>> +    };
+>> +    /* Init reg_val to avoid "uninitialised value" Valgrind warnings */
+>> +    union reg_val val = {0};
+> 
+> This should also work:
+> 
+> -- >8 --
+> @@ -546,7 +546,7 @@ static void kvm_get_one_spr(CPUState *cs, uint64_t id, int spr)
+>       union {
+>           uint32_t u32;
+>           uint64_t u64;
+> -    } val;
+> +    } val = { 0 };
+
+Apparently it does work. I'll make a few tests and re-send.
+
+
+Also, do we have an official way of spelling this zeroed struct initialization? I
+see several instances of {0} and { 0 } in the code. In this series I used {0}.
+./scripts/checkpatch.pl seems ok with both formats.
+
+
+Thanks,
+
+
+Daniel
+
+
 > ---
->  hw/9pfs/9p.c | 5 -----
->  hw/9pfs/9p.h | 5 +++++
->  2 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index dcaa602d4c..59c531ed47 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -33,11 +33,6 @@
->  #include "migration/blocker.h"
->  #include "qemu/xxhash.h"
->  #include <math.h>
-> -#ifdef CONFIG_LINUX
-> -#include <linux/limits.h>
-> -#else
-> -#include <limits.h>
-> -#endif
->
->  int open_fd_hw;
->  int total_open_fd;
-> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> index af2635fae9..0ce4da375c 100644
-> --- a/hw/9pfs/9p.h
-> +++ b/hw/9pfs/9p.h
-> @@ -9,6 +9,11 @@
->  #include "qemu/thread.h"
->  #include "qemu/coroutine.h"
->  #include "qemu/qht.h"
-> +#ifdef CONFIG_LINUX
-> +#include <linux/limits.h>
-> +#else
-> +#include <limits.h>
-> +#endif
-
-Is it possible to do this with a meson.build check for whatever
-host property we're relying on here rather than with a
-"which OS is this?" ifdef ?
-
-thanks
--- PMM
 
