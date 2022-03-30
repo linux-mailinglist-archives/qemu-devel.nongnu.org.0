@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19D64EC555
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:16:06 +0200 (CEST)
-Received: from localhost ([::1]:42722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE8F4EC554
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:15:26 +0200 (CEST)
+Received: from localhost ([::1]:42520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZYBB-0002u2-If
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:16:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51868)
+	id 1nZYAX-0002lN-8e
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:15:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXse-0006oU-Az; Wed, 30 Mar 2022 08:56:59 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:41058)
+ id 1nZXsf-0006on-Ur; Wed, 30 Mar 2022 08:56:59 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:41062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXsb-0004Zb-9m; Wed, 30 Mar 2022 08:56:54 -0400
+ id 1nZXsb-0004Zh-TX; Wed, 30 Mar 2022 08:56:55 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 10E1621EBF;
+ by beetle.greensocs.com (Postfix) with ESMTPS id A5D9A20780;
  Wed, 30 Mar 2022 12:56:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1648645009;
+ s=mail; t=1648645010;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cuMqYjKLUiOJpMyaEYbHpLc1NjYNYXkz7u4Bj2qu9+0=;
- b=AF5vgjPKJfLfOCE8JJV0wIHVMssFOH9O+283ap/NOqh3nvzncFwiViz4w2H1j70ovAdUCk
- H6zETNsRK3hmb/k2LH1knxYvkM2faq77tkaDrymyqd8xr8xTI/GixhEENC+/1AMd/14Bwa
- srv/dw8yRP2afosiJbf2Wx2P+i7a9us=
+ bh=yAl9UmQScRePk2SVLTDCbmbb8crA3T3m5WK8Zes84L0=;
+ b=dfO7Ra3dxjxDgRm4zGt6tgvWY84pbYNMVI+E95RBI/Ir8ziXlohCAafkmv37SizYYv7f4n
+ bo8kjQnqwWaMS36AWqckCMc4iqbaw9BkxqV6nDFt4eWmBelMA3HSX/75F8gTUW+VIA1ZeM
+ Th2BdEQK2ixSbGnJUbUPaiz7xNxKEQY=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 06/18] hw/cpu/cluster: remove cluster_id now that gdbstub
- is updated
-Date: Wed, 30 Mar 2022 14:56:27 +0200
-Message-Id: <20220330125639.201937-7-damien.hedde@greensocs.com>
+Subject: [RFC PATCH 07/18] hw/cpu/cpus: add a common start-powered-off property
+Date: Wed, 30 Mar 2022 14:56:28 +0200
+Message-Id: <20220330125639.201937-8-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330125639.201937-1-damien.hedde@greensocs.com>
 References: <20220330125639.201937-1-damien.hedde@greensocs.com>
@@ -75,59 +74,59 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Can be used to initialize the same property on all
+cpus.
+
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- include/hw/cpu/cluster.h | 7 -------
- hw/cpu/cluster.c         | 7 -------
- 2 files changed, 14 deletions(-)
+ include/hw/cpu/cpus.h | 3 +++
+ hw/cpu/cpus.c         | 5 +++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/include/hw/cpu/cluster.h b/include/hw/cpu/cluster.h
-index 2125765f21..6704434cc0 100644
---- a/include/hw/cpu/cluster.h
-+++ b/include/hw/cpu/cluster.h
-@@ -60,17 +60,10 @@ OBJECT_DECLARE_TYPE(CPUClusterState, CPUClusterClass, CPU_CLUSTER)
- 
- /**
-  * CPUClusterState:
-- * @cluster_id: The cluster ID. This value is for internal use only and should
-- *   not be exposed directly to the user or to the guest.
-- *
-- * State of a CPU cluster.
+diff --git a/include/hw/cpu/cpus.h b/include/hw/cpu/cpus.h
+index 295d7537e2..7e89a0d018 100644
+--- a/include/hw/cpu/cpus.h
++++ b/include/hw/cpu/cpus.h
+@@ -46,6 +46,8 @@ OBJECT_DECLARE_TYPE(CpusState, CpusClass, CPUS)
+  *      written before realize in order to enable/disable clustering.
+  * @cluster_index: The cluster ID. This value is for internal use only and
+  *      should not be exposed directly to the user or to the guest.
++ * @start_powered_off: Default start power state of all cpus
++ *     (can be modified on a per-cpu basis after realize).
   */
- struct CPUClusterState {
+ struct CpusState {
      /*< private >*/
-     CpusState parent_obj;
--
--    /*< public >*/
--    uint32_t cluster_id;
+@@ -59,6 +61,7 @@ struct CpusState {
+     struct {
+         uint16_t cpus;
+     } topology;
++    bool start_powered_off;
+     CPUState **cpus;
  };
  
- /**
-diff --git a/hw/cpu/cluster.c b/hw/cpu/cluster.c
-index 3daf897bd9..51da6ce3a9 100644
---- a/hw/cpu/cluster.c
-+++ b/hw/cpu/cluster.c
-@@ -42,7 +42,6 @@ static int add_cpu_to_cluster(Object *obj, void *opaque)
- static void cpu_cluster_realize(DeviceState *dev, Error **errp)
- {
-     CPUClusterClass *ccc = CPU_CLUSTER_GET_CLASS(dev);
--    CPUClusterState *cluster = CPU_CLUSTER(dev);
-     CpusState *base = CPUS(dev);
-     Object *cluster_obj = OBJECT(dev);
+diff --git a/hw/cpu/cpus.c b/hw/cpu/cpus.c
+index ed9402c100..d1fe80f0ab 100644
+--- a/hw/cpu/cpus.c
++++ b/hw/cpu/cpus.c
+@@ -27,6 +27,7 @@ static Property cpus_properties[] = {
+      * FIXME: remove this property to keep it internal ?
+      */
+     DEFINE_PROP_INT32("cluster-id", CpusState, cluster_index, -1),
++    DEFINE_PROP_BOOL("start-powered-off", CpusState, start_powered_off, false),
+     DEFINE_PROP_END_OF_LIST()
+ };
  
-@@ -64,12 +63,6 @@ static void cpu_cluster_realize(DeviceState *dev, Error **errp)
+@@ -71,6 +72,10 @@ static void cpus_create_cpus(CpusState *s, Error **errp)
+             cpu->cluster_index = s->cluster_index;
+         }
  
-     /* realize base class (will set cluster field to true) */
-     ccc->parent_realize(dev, errp);
--
--    /*
--     * Temporarily copy the cluster id from the base class as
--     * gdbstub still uses our field.
--     */
--    cluster->cluster_id = base->cluster_index;
- }
- 
- static void cpu_cluster_class_init(ObjectClass *klass, void *data)
++        /* set power start state */
++        qdev_prop_set_bit(DEVICE(cpu), "start-powered-off",
++                          s->start_powered_off);
++
+         /* let subclass configure the cpu */
+         if (cgc->configure_cpu) {
+             cgc->configure_cpu(s, cpu, i);
 -- 
 2.35.1
 
