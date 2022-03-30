@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA934ECC42
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:28:43 +0200 (CEST)
-Received: from localhost ([::1]:55692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4444ECC94
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:43:49 +0200 (CEST)
+Received: from localhost ([::1]:57966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZd3i-0001E0-PE
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:28:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47944)
+	id 1nZdIK-0005eW-D9
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:43:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZczl-0006Y6-CY
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:24:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42474)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZczi-0006VS-1U
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:24:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZczj-0005G8-Ry
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:24:37 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZczg-0005F6-9z
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 14:24:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648664675;
+ s=mimecast20190719; t=1648664671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=exZyi/k9fgE/6PYPH/pM9XUoowjck4UuNmO97PcquJM=;
- b=RRA6svLD/AaZKkJ37Rxt7OgR1/sDros97EzeJJYD3uW7G8vUvVUBcftfg9QNqnVIsBB3i8
- MxiBzv/chfiTiOnpuV/eAktmUdOUyXZ0erh6a7Pi2B3rMLx1XEKcS6jI3PJCjZ+9LLKlZc
- zByfCRtF+TAUTEl0jCN67yG1SCojfcg=
+ bh=0J9K2HF7PniDE+QcMXemjxuBrF8dFa9Dp+7IUVp8yXs=;
+ b=CgNgXpvUCz5whXOH00T/NDOB+DMo1DBoXS4AN8ZRgGdv9U6Oph4PuP99fhcHsAIaCz8nOW
+ 6PeoqMcxmAVTmr7EL2RX/RDLRqgsgR8cxXviu9gP3WXHsfpdrZKABlX7xEQWh3z/HW9HLs
+ vXBanLsDL380GJxJJmM54iH0Nd2WGh0=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-Rq1g22kxNr22RX_fgvHOVA-1; Wed, 30 Mar 2022 14:24:34 -0400
-X-MC-Unique: Rq1g22kxNr22RX_fgvHOVA-1
+ us-mta-595-h8_w0_8uPh2bVsaUFkCH7w-1; Wed, 30 Mar 2022 14:24:27 -0400
+X-MC-Unique: h8_w0_8uPh2bVsaUFkCH7w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF08A382054A
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 18:24:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 491E73820546
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 18:24:27 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.35.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83C122166B3F;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB6192166B3F;
  Wed, 30 Mar 2022 18:24:26 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [qemu.qmp PATCH 05/13] update project description
-Date: Wed, 30 Mar 2022 14:24:16 -0400
-Message-Id: <20220330182424.3438872-6-jsnow@redhat.com>
+Subject: [qemu.qmp PATCH 06/13] [FIXME] update project URLs
+Date: Wed, 30 Mar 2022 14:24:17 -0400
+Message-Id: <20220330182424.3438872-7-jsnow@redhat.com>
 In-Reply-To: <20220330182424.3438872-1-jsnow@redhat.com>
 References: <20220330182424.3438872-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,24 +85,37 @@ Cc: Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Point to this library's URLs instead of the entire project's.
+
+FIXME: In development, the URLs here reference jsnow/qemu.qmp. It is
+intended that the production version gets pushed to
+qemu-project/python-qemu.qmp and will use URLs that reflect that
+repository appropriately. This is being done so that I can easily
+iterate and test on this patch series and make sure everything works
+exactly as expected.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- setup.cfg | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ setup.cfg | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/setup.cfg b/setup.cfg
-index f06f944..c21f2ce 100644
+index c21f2ce..776f4f1 100644
 --- a/setup.cfg
 +++ b/setup.cfg
-@@ -7,7 +7,7 @@ maintainer = John Snow
+@@ -5,8 +5,10 @@ author = QEMU Project
+ author_email = qemu-devel@nongnu.org
+ maintainer = John Snow
  maintainer_email = jsnow@redhat.com
- url = https://www.qemu.org/
- download_url = https://www.qemu.org/download/
--description = QEMU Python Build, Debug and SDK tooling.
-+description = QEMU Monitor Protocol library
+-url = https://www.qemu.org/
+-download_url = https://www.qemu.org/download/
++# NOTE: Remember to update the commit message when changing these URLs.
++url = https://gitlab.com/jsnow/qemu.qmp
++# NOTE: Remember to update the commit message when changing these URLs.
++download_url = https://gitlab.com/jsnow/qemu.qmp/-/packages
+ description = QEMU Monitor Protocol library
  long_description = file:PACKAGE.rst
  long_description_content_type = text/x-rst
- classifiers =
 -- 
 2.34.1
 
