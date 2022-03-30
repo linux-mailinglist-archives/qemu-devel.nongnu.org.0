@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6C74EC5BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:36:16 +0200 (CEST)
-Received: from localhost ([::1]:34580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60BCD4EC5B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:33:29 +0200 (CEST)
+Received: from localhost ([::1]:59404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZYUh-0001Av-6d
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:36:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52102)
+	id 1nZYS0-00078j-AQ
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:33:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXtE-0008Fi-0B; Wed, 30 Mar 2022 08:57:32 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:41204)
+ id 1nZXtC-00089G-El; Wed, 30 Mar 2022 08:57:30 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:41222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXtA-0004bK-Fg; Wed, 30 Mar 2022 08:57:31 -0400
+ id 1nZXtA-0004bO-Ef; Wed, 30 Mar 2022 08:57:30 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id C363B21ECF;
- Wed, 30 Mar 2022 12:56:54 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 9E08721ED3;
+ Wed, 30 Mar 2022 12:56:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1648645015;
+ s=mail; t=1648645016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nd0l66pK/eqKazwea3zL1B+q/z68d1eWANZjxDruLgA=;
- b=DpL7ux4Fho7/Trlxj2KjAch7Uqcq5FMCJGSF7ohDfZIa0Shqb7lvdRjxLocbRr9tOX0Dr4
- DhZ8LfA0ddZP9EGvqxdgKowkIRxXQJMrVlC2UBZa8+2wSwiUBDocgP5kS7w8g+sM/CSXHk
- WdKvvqLl7PY+FkEbT6aDT8UELAe7WVg=
+ bh=8X72RRBxN8aWz3GWD2e/RMhrzISf6w4fW3q1EpbSkOI=;
+ b=y0yyh+R1V8Qxaln8Efr03CkPIx9L6fXXRXd5afrwCTPdNRlNLEJGSKMjuAECXeeqs9ns5y
+ p6yHFJB6sseMS9+WA2Yx8pgMb2D3i9jiQC7+WfV4fUaS9dCTfOLmFeKTqzls5DxklUWJsk
+ ZQrk8QMLB2Fsl0x17Km5hR5WUJEy1V4=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 14/18] hw/riscv/riscv_hart: use cpus as base class
-Date: Wed, 30 Mar 2022 14:56:35 +0200
-Message-Id: <20220330125639.201937-15-damien.hedde@greensocs.com>
+Subject: [RFC PATCH 15/18] hw/riscv/sifive_u&microchip_pfsoc: apply
+ riscv_hart_array update
+Date: Wed, 30 Mar 2022 14:56:36 +0200
+Message-Id: <20220330125639.201937-16-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330125639.201937-1-damien.hedde@greensocs.com>
 References: <20220330125639.201937-1-damien.hedde@greensocs.com>
@@ -75,173 +76,165 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a drastic update: qom-path of riscv harts are changed
-by this patch from "/path/to/array/hart[n]" to "/path/to/array/cpu[n]".
+These machines were creating 2 explicit clusters of different cpus
+(a cluster of 1 cpu and a cluster of N cpus). These are removed as
+they are now embedded in the riscv array.
 
-This object is now not anymore a SYS_BUS_DEVICE.
+Note: The qom-path of the riscv hart arrays are changed, the cluster
+level is removed:
++ "/path/to/e-cluster/e-cpus" to "/path/to/e-cpus"
++ "/path/to/u-cluster/u-cpus" to "/path/to/u-cpus"
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
 
-I expect it is an issue regarding migration of riscv machines.
-It is possible to keep an "hart[n]" alias to "cpu[n]" or even
-to be able to configure the cpu child basename to "hart".
-
-I'm not sure what we need to keep migration working: Does qom-path
-has to stay identical ? Or having aliases is ok ?
-
-Any ideas or comments ?
-
-Any of these changes could be fixed by adding support in the base class
-(child name, sysbus device, ...) if needed.
+If keeping the qom-paths is necessary we can add a container as
+a replacement of the cluster.
 ---
- include/hw/riscv/riscv_hart.h | 17 ++++++------
- hw/riscv/riscv_hart.c         | 49 ++++++++++++++---------------------
- 2 files changed, 28 insertions(+), 38 deletions(-)
+ include/hw/riscv/microchip_pfsoc.h |  2 --
+ include/hw/riscv/sifive_u.h        |  2 --
+ hw/riscv/microchip_pfsoc.c         | 28 ++++++----------------------
+ hw/riscv/sifive_u.c                | 27 ++++++---------------------
+ 4 files changed, 12 insertions(+), 47 deletions(-)
 
-diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.h
-index 71747bf37c..65ac0d2bc4 100644
---- a/include/hw/riscv/riscv_hart.h
-+++ b/include/hw/riscv/riscv_hart.h
-@@ -21,7 +21,7 @@
- #ifndef HW_RISCV_HART_H
- #define HW_RISCV_HART_H
- 
--#include "hw/sysbus.h"
-+#include "hw/cpu/cpus.h"
- #include "target/riscv/cpu.h"
- #include "qom/object.h"
- 
-@@ -31,30 +31,29 @@ OBJECT_DECLARE_SIMPLE_TYPE(RISCVHartArrayState, RISCV_HART_ARRAY)
- 
- struct RISCVHartArrayState {
-     /*< private >*/
--    SysBusDevice parent_obj;
-+    CpusState parent_obj;
+diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
+index a0673f5f59..9101c94978 100644
+--- a/include/hw/riscv/microchip_pfsoc.h
++++ b/include/hw/riscv/microchip_pfsoc.h
+@@ -35,8 +35,6 @@ typedef struct MicrochipPFSoCState {
+     DeviceState parent_obj;
  
      /*< public >*/
--    uint32_t num_harts;
-     uint32_t hartid_base;
--    char *cpu_type;
-     uint64_t resetvec;
--    RISCVCPU *harts;
- };
+-    CPUClusterState e_cluster;
+-    CPUClusterState u_cluster;
+     RISCVHartArrayState e_cpus;
+     RISCVHartArrayState u_cpus;
+     DeviceState *plic;
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index 8f63a183c4..5439e0d0c3 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -38,8 +38,6 @@ typedef struct SiFiveUSoCState {
+     DeviceState parent_obj;
  
- /**
-  * riscv_array_get_hart:
-+ * Helper to get an hart from the container.
-  */
--static inline RISCVCPU *riscv_array_get_hart(RISCVHartArrayState *harts, int i)
-+static inline RISCVCPU *riscv_array_get_hart(RISCVHartArrayState *s, int i)
- {
--    return &harts->harts[i];
-+    return RISCV_CPU(CPUS(s)->cpus[i]);
- }
+     /*< public >*/
+-    CPUClusterState e_cluster;
+-    CPUClusterState u_cluster;
+     RISCVHartArrayState e_cpus;
+     RISCVHartArrayState u_cpus;
+     DeviceState *plic;
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index 82547a53e6..f4b1400ba5 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -133,23 +133,15 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
+     MachineState *ms = MACHINE(qdev_get_machine());
+     MicrochipPFSoCState *s = MICROCHIP_PFSOC(obj);
  
- /**
-  * riscv_array_get_num_harts:
-+ * Helper to get the number of harts in the container.
-  */
--static inline unsigned riscv_array_get_num_harts(RISCVHartArrayState *harts)
-+static inline unsigned riscv_array_get_num_harts(RISCVHartArrayState *s)
- {
--    return harts->num_harts;
-+    return CPUS(s)->topology.cpus;
- }
- 
- /* Temporary function until we migrated the riscv hart array to simple device */
-diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-index 780fd3a59a..1b4ff7e3c6 100644
---- a/hw/riscv/riscv_hart.c
-+++ b/hw/riscv/riscv_hart.c
-@@ -22,67 +22,58 @@
- #include "qapi/error.h"
- #include "qemu/module.h"
- #include "sysemu/reset.h"
--#include "hw/sysbus.h"
- #include "target/riscv/cpu.h"
- #include "hw/qdev-properties.h"
- #include "hw/riscv/riscv_hart.h"
-+#include "hw/cpu/cpus.h"
- 
- void riscv_hart_array_realize(RISCVHartArrayState *state, Error **errp)
- {
--    sysbus_realize(SYS_BUS_DEVICE(state), errp);
-+    /* disable the clustering */
-+    cpus_disable_clustering(CPUS(state));
-+    qdev_realize(DEVICE(state), NULL, errp);
- }
- 
- static Property riscv_harts_props[] = {
--    DEFINE_PROP_UINT32("num-harts", RISCVHartArrayState, num_harts, 1),
-     DEFINE_PROP_UINT32("hartid-base", RISCVHartArrayState, hartid_base, 0),
--    DEFINE_PROP_STRING("cpu-type", RISCVHartArrayState, cpu_type),
-     DEFINE_PROP_UINT64("resetvec", RISCVHartArrayState, resetvec,
-                        DEFAULT_RSTVEC),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--static void riscv_harts_cpu_reset(void *opaque)
-+static void riscv_harts_configure_cpu(CpusState *base, CPUState *cpu,
-+                                      unsigned i)
- {
--    RISCVCPU *cpu = opaque;
--    cpu_reset(CPU(cpu));
--}
-+    RISCVHartArrayState *s = RISCV_HART_ARRAY(base);
-+    DeviceState *cpudev = DEVICE(cpu);
-+    CPURISCVState *cpuenv = cpu->env_ptr;
- 
--static bool riscv_hart_realize(RISCVHartArrayState *s, int idx,
--                               char *cpu_type, Error **errp)
--{
--    object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx], cpu_type);
--    qdev_prop_set_uint64(DEVICE(&s->harts[idx]), "resetvec", s->resetvec);
--    s->harts[idx].env.mhartid = s->hartid_base + idx;
--    qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
--    return qdev_realize(DEVICE(&s->harts[idx]), NULL, errp);
-+    qdev_prop_set_uint64(cpudev, "resetvec", s->resetvec);
-+    cpuenv->mhartid = s->hartid_base + i;
- }
- 
--static void riscv_harts_realize(DeviceState *dev, Error **errp)
-+static void riscv_harts_init(Object *obj)
- {
--    RISCVHartArrayState *s = RISCV_HART_ARRAY(dev);
--    int n;
+-    object_initialize_child(obj, "e-cluster", &s->e_cluster, TYPE_CPU_CLUSTER);
+-    qdev_prop_set_uint32(DEVICE(&s->e_cluster), "cluster-id", 0);
 -
--    s->harts = g_new0(RISCVCPU, s->num_harts);
+-    object_initialize_child(OBJECT(&s->e_cluster), "e-cpus", &s->e_cpus,
+-                            TYPE_RISCV_HART_ARRAY);
+-    qdev_prop_set_uint32(DEVICE(&s->e_cpus), "num-harts", 1);
++    object_initialize_child(obj, "e-cpus", &s->e_cpus, TYPE_RISCV_HART_ARRAY);
++    qdev_prop_set_uint32(DEVICE(&s->e_cpus), "num-cpus", 1);
+     qdev_prop_set_uint32(DEVICE(&s->e_cpus), "hartid-base", 0);
+     qdev_prop_set_string(DEVICE(&s->e_cpus), "cpu-type",
+                          TYPE_RISCV_CPU_SIFIVE_E51);
+     qdev_prop_set_uint64(DEVICE(&s->e_cpus), "resetvec", RESET_VECTOR);
+ 
+-    object_initialize_child(obj, "u-cluster", &s->u_cluster, TYPE_CPU_CLUSTER);
+-    qdev_prop_set_uint32(DEVICE(&s->u_cluster), "cluster-id", 1);
 -
--    for (n = 0; n < s->num_harts; n++) {
--        if (!riscv_hart_realize(s, n, s->cpu_type, errp)) {
--            return;
--        }
--    }
-+    /* add a temporary property to keep num-harts */
-+    object_property_add_alias(obj, "num-harts", obj, "num-cpus");
- }
+-    object_initialize_child(OBJECT(&s->u_cluster), "u-cpus", &s->u_cpus,
+-                            TYPE_RISCV_HART_ARRAY);
+-    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
++    object_initialize_child(obj, "u-cpus", &s->u_cpus, TYPE_RISCV_HART_ARRAY);
++    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-cpus", ms->smp.cpus - 1);
+     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
+     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type",
+                          TYPE_RISCV_CPU_SIFIVE_U54);
+@@ -190,16 +182,8 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+     NICInfo *nd;
+     int i;
  
- static void riscv_harts_class_init(ObjectClass *klass, void *data)
+-    riscv_hart_array_realize(&s->e_cpus, &error_abort);
+-    riscv_hart_array_realize(&s->u_cpus, &error_abort);
+-    /*
+-     * The cluster must be realized after the RISC-V hart array container,
+-     * as the container's CPU object is only created on realize, and the
+-     * CPU must exist and have been parented into the cluster before the
+-     * cluster is realized.
+-     */
+-    qdev_realize(DEVICE(&s->e_cluster), NULL, &error_abort);
+-    qdev_realize(DEVICE(&s->u_cluster), NULL, &error_abort);
++    qdev_realize(DEVICE(&s->e_cpus), NULL, &error_abort);
++    qdev_realize(DEVICE(&s->u_cpus), NULL, &error_abort);
+ 
+     /* Reserved Memory at address 0 */
+     memory_region_init_ram(rsvd0_mem, NULL, "microchip.pfsoc.rsvd0_mem",
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index c99e92a7eb..1d9a7c5bf1 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -44,7 +44,6 @@
+ #include "hw/loader.h"
+ #include "hw/sysbus.h"
+ #include "hw/char/serial.h"
+-#include "hw/cpu/cluster.h"
+ #include "hw/misc/unimp.h"
+ #include "hw/sd/sd.h"
+ #include "hw/ssi/ssi.h"
+@@ -786,20 +785,14 @@ static void sifive_u_soc_instance_init(Object *obj)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    CpusClass *cc = CPUS_CLASS(klass);
+     SiFiveUSoCState *s = RISCV_U_SOC(obj);
  
-     device_class_set_props(dc, riscv_harts_props);
--    dc->realize = riscv_harts_realize;
-+
-+    cc->base_cpu_type = TYPE_RISCV_CPU;
-+    cc->configure_cpu = riscv_harts_configure_cpu;
- }
+-    object_initialize_child(obj, "e-cluster", &s->e_cluster, TYPE_CPU_CLUSTER);
+-    qdev_prop_set_uint32(DEVICE(&s->e_cluster), "cluster-id", 0);
+-
+-    object_initialize_child(OBJECT(&s->e_cluster), "e-cpus", &s->e_cpus,
++    object_initialize_child(obj, "e-cpus", &s->e_cpus,
+                             TYPE_RISCV_HART_ARRAY);
+-    qdev_prop_set_uint32(DEVICE(&s->e_cpus), "num-harts", 1);
++    qdev_prop_set_uint32(DEVICE(&s->e_cpus), "num-cpus", 1);
+     qdev_prop_set_uint32(DEVICE(&s->e_cpus), "hartid-base", 0);
+     qdev_prop_set_string(DEVICE(&s->e_cpus), "cpu-type", SIFIVE_E_CPU);
+     qdev_prop_set_uint64(DEVICE(&s->e_cpus), "resetvec", 0x1004);
  
- static const TypeInfo riscv_harts_info = {
-     .name          = TYPE_RISCV_HART_ARRAY,
--    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .parent        = TYPE_CPUS,
-     .instance_size = sizeof(RISCVHartArrayState),
-+    .instance_init = riscv_harts_init,
-     .class_init    = riscv_harts_class_init,
- };
+-    object_initialize_child(obj, "u-cluster", &s->u_cluster, TYPE_CPU_CLUSTER);
+-    qdev_prop_set_uint32(DEVICE(&s->u_cluster), "cluster-id", 1);
+-
+-    object_initialize_child(OBJECT(&s->u_cluster), "u-cpus", &s->u_cpus,
++    object_initialize_child(obj, "u-cpus", &s->u_cpus,
+                             TYPE_RISCV_HART_ARRAY);
  
+     object_initialize_child(obj, "prci", &s->prci, TYPE_SIFIVE_U_PRCI);
+@@ -825,21 +818,13 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     int i, j;
+     NICInfo *nd = &nd_table[0];
+ 
+-    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
++    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-cpus", ms->smp.cpus - 1);
+     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
+     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", s->cpu_type);
+     qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", 0x1004);
+ 
+-    riscv_hart_array_realize(&s->e_cpus, &error_abort);
+-    riscv_hart_array_realize(&s->u_cpus, &error_abort);
+-    /*
+-     * The cluster must be realized after the RISC-V hart array container,
+-     * as the container's CPU object is only created on realize, and the
+-     * CPU must exist and have been parented into the cluster before the
+-     * cluster is realized.
+-     */
+-    qdev_realize(DEVICE(&s->e_cluster), NULL, &error_abort);
+-    qdev_realize(DEVICE(&s->u_cluster), NULL, &error_abort);
++    qdev_realize(DEVICE(&s->e_cpus), NULL, &error_abort);
++    qdev_realize(DEVICE(&s->u_cpus), NULL, &error_abort);
+ 
+     /* boot rom */
+     memory_region_init_rom(mask_rom, OBJECT(dev), "riscv.sifive.u.mrom",
 -- 
 2.35.1
 
