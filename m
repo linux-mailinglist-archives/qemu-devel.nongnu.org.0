@@ -2,88 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F844ECA59
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 19:14:19 +0200 (CEST)
-Received: from localhost ([::1]:43372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8883B4ECA71
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 19:18:10 +0200 (CEST)
+Received: from localhost ([::1]:49038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZbtj-0006kH-03
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 13:14:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59198)
+	id 1nZbxR-0002Hl-Fn
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 13:18:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZbsd-0005kj-HQ
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:13:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45310)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nZbwa-0001IO-4m
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:17:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZbsa-0004Yh-Fg
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:13:09 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nZbwX-0005NA-Ec
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 13:17:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648660387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1648660632;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=atmD6INaNepSjRwGDrj7z7GXK7PzqtJINZVZtxNiiSo=;
- b=Olu8FU/TUogM9OvlVrrSksFn2xneRUSHbX1CE2xLcPQ5i0jJb4q2PD/r/KQZsoESpC1kKJ
- B8iaBHcpPmwCdPsJlMywkqLT3QG+M3w1DPS1z4oAX3TWg+E2Aj82GOQ9QBLR7Q5klP8eL1
- Q9P+jNloXLAtqi02TRw2zl4k2Gjx2GU=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KRonZkfs3WeGED4uyRAdOtqzwU3tVAHxTVYMnVDlDXc=;
+ b=HxBoG5y9KeYS+SwX0Ljsb/fzrBXNnttRP4TKaBRHV/sNQu6g8AsCW6Jp4Pjnx0AbJxP9v9
+ Nw4c994ukPB4pzwVPYxI8UWkgnpC6/bK2b4vd/KWhzSGqMCWV6WmowSXsK8WyoW1jBr2C+
+ DAXif0v/KXxAuTNv88jBhJdmSaeQKXU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-NfG_90OTPfu7PYIFihyHpA-1; Wed, 30 Mar 2022 13:13:05 -0400
-X-MC-Unique: NfG_90OTPfu7PYIFihyHpA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- q4-20020a0cf5c4000000b0044346ee3627so8373776qvm.16
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 10:13:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=atmD6INaNepSjRwGDrj7z7GXK7PzqtJINZVZtxNiiSo=;
- b=k11ooSqZ+jwxDV5//evi5ajW7lgFydpo29PBr3nHiwGA4HPfZY/GMzcWtxC7reIEeN
- hYxJ+2iQIRueZHsdk4bJAOklMBDQe2iXXXBLkA+RJaSUQNU4y4lOYMvcMrqrugN7eNE3
- 0ZZ74Dc7f7u9LHk6CG9eB+p8HWXomxpvwplLa0N66XJ5Z5G4LkS0R0SQBJ2x4NpKu/CK
- MBM2m0GX76dRIQ1P0nZvRNXDF5GlXm5mWqXM/svSkDIZwSptc0q29APKqrZ2MBWOBNLZ
- E1jE6Bzz5OX+Td2uGCO6vKeI+D30t6wIrN3Od2Whu9F4w3smJRzkduCS7U3mfu1RZmOC
- D2sA==
-X-Gm-Message-State: AOAM532voKP4XosLHLpRH/LLlNlbpyvtNABRJN3aZbtozPD2Hhq3uhjn
- YnkIRch8BtbrsheacWNpFqyBusn9SPyI/GsTYsNDNJKICEvCG3tR8lC/3VD8GfaBqQaMLNwjutm
- O+RAYP2nUf0y/g3Q=
-X-Received: by 2002:a05:622a:1742:b0:2e1:ecf4:900c with SMTP id
- l2-20020a05622a174200b002e1ecf4900cmr491220qtk.473.1648660385259; 
- Wed, 30 Mar 2022 10:13:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxirauhqDDiZbRf6bZi3KFm/nncrcCk1n+7rkXq1bW/cmAimQdtyyggimcpj7rnO8jyaEwl7A==
-X-Received: by 2002:a05:622a:1742:b0:2e1:ecf4:900c with SMTP id
- l2-20020a05622a174200b002e1ecf4900cmr491181qtk.473.1648660384984; 
- Wed, 30 Mar 2022 10:13:04 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- x18-20020a05622a001200b002eb856d7786sm6527953qtw.84.2022.03.30.10.13.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 10:13:04 -0700 (PDT)
-Date: Wed, 30 Mar 2022 13:13:03 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v7 12/17] vfio-user: IOMMU support for remote device
-Message-ID: <YkSPnw2Z+980+dhF@xz-m1.local>
-References: <cover.1648234157.git.jag.raman@oracle.com>
- <2fdb90acd40a1f79d571d4e68c56e6b08aded60d.1648234157.git.jag.raman@oracle.com>
- <YkL9C+oMUSav9y95@stefanha-x1.localdomain>
- <AC3FD7EB-773E-4684-9A86-176EDDAC135D@oracle.com>
- <YkMcJDFVFu/fW/a5@stefanha-x1.localdomain>
- <7022E4C4-D71A-4A6E-A5D8-222A9462654C@oracle.com>
- <YkQrKI0Az/k8Hc8g@stefanha-x1.localdomain>
- <YkRSvDscyY+c+9yM@xz-m1.local>
- <YkSAeJTGAdYkYC09@stefanha-x1.localdomain>
+ us-mta-589-cTyfS1WnNyOva8NBZpGdgA-1; Wed, 30 Mar 2022 13:17:09 -0400
+X-MC-Unique: cTyfS1WnNyOva8NBZpGdgA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5B3685A5BE
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 17:17:08 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 96EB057E423;
+ Wed, 30 Mar 2022 17:17:07 +0000 (UTC)
+Date: Wed, 30 Mar 2022 18:17:04 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v2 00/18] tests: introduce testing coverage for TLS with
+ migration
+Message-ID: <YkSQkIEgJhLxinjz@redhat.com>
+References: <20220310171821.3724080-1-berrange@redhat.com>
+ <YiqswPa/VV/lY6yN@xz-m1.local>
 MIME-Version: 1.0
-In-Reply-To: <YkSAeJTGAdYkYC09@stefanha-x1.localdomain>
+In-Reply-To: <YiqswPa/VV/lY6yN@xz-m1.local>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -105,58 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- "bleal@redhat.com" <bleal@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "quintela@redhat.com" <quintela@redhat.com>,
- "f4bug@amsat.org" <f4bug@amsat.org>, qemu-devel <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 30, 2022 at 05:08:24PM +0100, Stefan Hajnoczi wrote:
-> On Wed, Mar 30, 2022 at 08:53:16AM -0400, Peter Xu wrote:
-> > On Wed, Mar 30, 2022 at 11:04:24AM +0100, Stefan Hajnoczi wrote:
-> > > This makes me wonder whether there is a deeper issue with the
-> > > pci_setup_iommu() API: the lack of per-device cleanup callbacks.
-> > > Per-device IOMMU resources should be freed when a device is hot
-> > > unplugged.
-> > > 
-> > > From what I can tell this is not the case today:
-> > > 
-> > > - hw/i386/intel_iommu.c:vtd_find_add_as() allocates and adds device
-> > >   address spaces but I can't find where they are removed and freed.
-> > >   VTDAddressSpace instances pointed to from vtd_bus->dev_as[] are leaked.
-> > > 
-> > > - hw/i386/amd_iommu.c has similar leaks.
+Juan,
+
+would you be able to include at least patch 6 in a migration
+pull before release ?
+
+On Fri, Mar 11, 2022 at 09:58:24AM +0800, Peter Xu wrote:
+> On Thu, Mar 10, 2022 at 05:18:03PM +0000, Daniel P. Berrangé wrote:
+> > This significantly expands the migration test suite to cover testing
+> > with TLS over TCP and UNIX sockets, with both PSK (pre shared keys)
+> > and x509 credentials, and for both single and multifd scenarios.
 > > 
-> > AFAICT it's because there's no device-specific data cached in the
-> > per-device IOMMU address space, at least so far.  IOW, all the data
-> > structures allocated here can be re-used when a new device is plugged in
-> > after the old device unplugged.
+> > It identified one bug in handling PSK credentials with UNIX sockets,
+> > but other than that everything was operating as expected.
 > > 
-> > It's definitely not ideal since after unplug (and before a new device
-> > plugged in) the resource is not needed at all so it's kind of wasted, but
-> > it should work functionally.  If to achieve that, some iommu_unplug() or
-> > iommu_cleanup() hook sounds reasonable.
+> > To minimize the impact on code duplication alopt of refactoring is
+> > done of the migration tests to introduce a common helper for running
+> > the migration process. The various tests mostly just have to provide
+> > a callback to set a few parameters/capabilities before migration
+> > starts, and sometimes a callback to cleanup or validate after
+> > completion/failure.
+> > 
+> > There is one functional bugfix in patch 6, I would like to see
+> > in 7.0. The rest is all test suite additions, and I don't mind
+> > if they are in 7.0 or 7.1
 > 
-> I guess the question is whether PCI busses can be hotplugged with
-> IOMMUs. If yes, then there is a memory leak that matters for
-> intel_iommu.c and amd_iommu.c.
+> At least patch 1-4, 6-10 look already good candidates for 7.0, imho, if not
+> all..
+> 
+> Thanks for doing this, Daniel.
+> 
+> -- 
+> Peter Xu
+> 
 
-It can't, and we only support one vIOMMU so far for both (commit
-1b3bf13890fd849b26).  Thanks,
-
+With regards,
+Daniel
 -- 
-Peter Xu
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
