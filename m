@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D434ED050
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:45:36 +0200 (CEST)
-Received: from localhost ([::1]:53030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD12C4ED021
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 01:30:05 +0200 (CEST)
+Received: from localhost ([::1]:51142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZi0M-0007fW-8f
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:45:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34886)
+	id 1nZhlM-0003tY-N2
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 19:30:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZfsw-00084C-2c
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:46 -0400
-Received: from [2a00:1450:4864:20::22f] (port=43581
- helo=mail-lj1-x22f.google.com)
+ id 1nZfsy-000872-An
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:48 -0400
+Received: from [2a00:1450:4864:20::232] (port=35571
+ helo=mail-lj1-x232.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nZfst-0003FB-Gb
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:45 -0400
-Received: by mail-lj1-x22f.google.com with SMTP id b43so24945746ljr.10
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:29:43 -0700 (PDT)
+ id 1nZfsv-0003Fo-PK
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:29:48 -0400
+Received: by mail-lj1-x232.google.com with SMTP id h11so29454291ljb.2
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:29:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l1vUszsfJpNXCu+Eia0kDoKwU3BaZtSMgLTxnae9d9A=;
- b=x9eWotIkqrpzRREkJUoMC9ACdIxPl5HEBxr4/0E3lRAqETgJtsKwfiysNIoQoaYwUJ
- 5Nr1rwWvXioqxzMOCJ1SxigkQGHcaaWKf+uOKaJoTuYNA5G/ieZgY0l4sKwlmc2cFAtY
- 67bpzaanO8TQk6Vk+SpLyR5PSrnmrjydx3ha2Eh6GsIrMmKOXzPFS9NTGZBMKpOeFjeK
- 77XK8ehAOYrwiyJks+7Xke3tCTGz6j51A28n7iWibmqItDIMxbGTosWpYG5+LJalE/Z/
- NkmDvt02RUPxKeIxGgzOjQdFMMIqaPUO7cnSg1FRvXeCljVo8h9H8IrWKSF1YjU+fgsF
- kKLQ==
+ bh=49dpx2taTirHVyHk8EEtBtzEgW09J1iz4kQavl5fPn4=;
+ b=PHkjwTWSYMVC6kt2GeLqSRNbsYcWc3l7j7/o7b1MT7VVixGquyFE5DqphqiG7PjcGm
+ CMGKZp4zk0WdDv0itY+erjxv6hu8ycJ3UvEvcagB+e2beM+Emf2KTPsP3JY7UxpTxJqy
+ Wv6jmXj18IQAx18T4egInk2laslR87jo/f2qN5VBtFgogAKCDIN3SUZiufGk2CMXK3H/
+ RmTvdeAFM/HJPv73cuPhVnNrkWkqHuzZKPzFZucCf3pmNH6AHSTuBS7qctcybVsBOCGr
+ vB0EMBN2hYKhBrYcGsCGrFdf1G9rWDB2HHyYvwqpOJpEWP/tkymBqyaP7qUp0kDiRHIe
+ MMfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l1vUszsfJpNXCu+Eia0kDoKwU3BaZtSMgLTxnae9d9A=;
- b=CvS5hHaXnwpNZ9sQQlxhFNKtOVbIEYJwGXCIs18KAL06cO+mOTmRt49YInS3txqh4U
- OKvI4OtWl/RZ6eFcFeYTgCKAWzrGJCg65yM4KzuFMJKzP41w7o94ZB7JqTpuGbVbcmLI
- IwZswUjkcXgUyj04qZhAnc4QIcgDFH//hvNMu7PwboF6HCNliPIJFvm1JheClXZefmWT
- qiXpEVUlbRWUt5ILeBuW8jir3Q3AxY4PaxwU91nuVG9Ir+xrZqeEPdKpTP47yAcV442d
- wfKswlQHhOgHaTNjBQAgBnlKozv8mNlPcQOzxcrJImG6Pdm9XkfD+YETrSm2ZtEIdO2P
- JIbg==
-X-Gm-Message-State: AOAM532K5npSv5WGj1jMF/peY4XACve6yEnd/uI4eqHNWhr3KHlNvdxp
- PZToOIPa1aZUJQUvuezmZIyEGw==
-X-Google-Smtp-Source: ABdhPJxwpUGL6nV/KCkziemA/hcDVU4qNsHEdRjJemZDgp/BZX5cEzeMtnlnNK5ASnJ47H9QKgTzAw==
-X-Received: by 2002:a2e:7c17:0:b0:249:8221:4c2a with SMTP id
- x23-20020a2e7c17000000b0024982214c2amr8399691ljc.293.1648675781946; 
- Wed, 30 Mar 2022 14:29:41 -0700 (PDT)
+ bh=49dpx2taTirHVyHk8EEtBtzEgW09J1iz4kQavl5fPn4=;
+ b=ysmuU8foK/zXtN7m5rT453k5NFV1ue4To2a0nNcIsC7697XyOZiD8cE/cevilgYmBp
+ eN2rn085X27s4EX8VM5WDvoZMqbHr2MGFW9VTZtOxbILkmPo/h/VsT+ZnYL7N/8cRTQK
+ NlvBwgpSbc9tj9dfuxWOUKHb2tbfKxXM3tIFXdGSZ/LZLUbczUMW5pbA2lOavZV3u5UN
+ y9YF7o5KTM4aQ8PJRzzJeZ70Ay8nWIKk7kMXfYK45Qn6oy4qGJ4gjbKgrHTEW+A/6jsK
+ 1DX9sn61NH4zlVVbkOLgV+edQj/XHfJO5RpfstV2Ax27xbDN7YGH2YKqyk7ViGEklQ6n
+ DFpg==
+X-Gm-Message-State: AOAM531OB/1/pQS++QCND6YCN59W10agjU0AT+1Vyeq/MyZlg5xU0GOS
+ Khf6j2dQVK6dM8jk6EYTME4yKg==
+X-Google-Smtp-Source: ABdhPJyi43JGWaSk9b3LpqEH7zUFuyumO9qd/iKUhsDuvFIMAXqzQn69UI2CMCsqu8w89DRdIxvIjA==
+X-Received: by 2002:a05:651c:10b4:b0:249:6026:d11c with SMTP id
+ k20-20020a05651c10b400b002496026d11cmr8622327ljn.292.1648675782539; 
+ Wed, 30 Mar 2022 14:29:42 -0700 (PDT)
 Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
- y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.41
+ y3-20020a056512044300b0044a9bda3242sm1057573lfk.90.2022.03.30.14.29.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 14:29:41 -0700 (PDT)
+ Wed, 30 Mar 2022 14:29:42 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 17/45] block: drop bdrv_remove_filter_or_cow_child
-Date: Thu, 31 Mar 2022 00:28:34 +0300
-Message-Id: <20220330212902.590099-18-vsementsov@openvz.org>
+Subject: [PATCH v5 18/45] block: bdrv_refresh_perms(): allow external tran
+Date: Thu, 31 Mar 2022 00:28:35 +0300
+Message-Id: <20220330212902.590099-19-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330212902.590099-1-vsementsov@openvz.org>
 References: <20220330212902.590099-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::232
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lj1-x22f.google.com
+ helo=mail-lj1-x232.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -80,7 +80,7 @@ X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 30 Mar 2022 19:17:24 -0400
+X-Mailman-Approved-At: Wed, 30 Mar 2022 19:17:25 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,54 +97,118 @@ Cc: kwolf@redhat.com, hreitz@redhat.com, vsementsov@openvz.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop this simple wrapper used only in one place. We have too many graph
-modifying functions even without it.
+Allow passing external Transaction pointer, stop creating extra
+Transaction objects.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 ---
- block.c | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
+ block.c | 31 ++++++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 11 deletions(-)
 
 diff --git a/block.c b/block.c
-index 34e89b277f..656e596e0c 100644
+index 656e596e0c..f3ed351360 100644
 --- a/block.c
 +++ b/block.c
-@@ -93,8 +93,6 @@ static bool bdrv_recurse_has_child(BlockDriverState *bs,
- static void bdrv_replace_child_noperm(BdrvChild *child,
-                                       BlockDriverState *new_bs);
- static void bdrv_remove_child(BdrvChild *child, Transaction *tran);
--static void bdrv_remove_filter_or_cow_child(BlockDriverState *bs,
--                                            Transaction *tran);
- 
- static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
-                                BlockReopenQueue *queue,
-@@ -5047,17 +5045,6 @@ static void bdrv_remove_child(BdrvChild *child, Transaction *tran)
-     tran_add(tran, &bdrv_remove_child_drv, child);
+@@ -2557,15 +2557,24 @@ char *bdrv_perm_names(uint64_t perm)
  }
  
--/*
-- * A function to remove backing-chain child of @bs if exists: cow child for
-- * format nodes (always .backing) and filter child for filters (may be .file or
-- * .backing)
-- */
--static void bdrv_remove_filter_or_cow_child(BlockDriverState *bs,
--                                            Transaction *tran)
--{
--    bdrv_remove_child(bdrv_filter_or_cow_child(bs), tran);
--}
--
- static int bdrv_replace_node_noperm(BlockDriverState *from,
-                                     BlockDriverState *to,
-                                     bool auto_skip, Transaction *tran,
-@@ -5142,7 +5129,7 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+ 
+-static int bdrv_refresh_perms(BlockDriverState *bs, Error **errp)
++/* @tran is allowed to be NULL. In this case no rollback is possible */
++static int bdrv_refresh_perms(BlockDriverState *bs, Transaction *tran,
++                              Error **errp)
+ {
+     int ret;
+-    Transaction *tran = tran_new();
++    Transaction *local_tran = NULL;
+     g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, bs);
+     GLOBAL_STATE_CODE();
+ 
++    if (!tran) {
++        tran = local_tran = tran_new();
++    }
++
+     ret = bdrv_list_refresh_perms(list, NULL, tran, errp);
+-    tran_finalize(tran, ret);
++
++    if (local_tran) {
++        tran_finalize(local_tran, ret);
++    }
+ 
+     return ret;
+ }
+@@ -2581,7 +2590,7 @@ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t perm, uint64_t shared,
+ 
+     bdrv_child_set_perm(c, perm, shared, tran);
+ 
+-    ret = bdrv_refresh_perms(c->bs, &local_err);
++    ret = bdrv_refresh_perms(c->bs, tran, &local_err);
+ 
+     tran_finalize(tran, ret);
+ 
+@@ -3076,7 +3085,7 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+         goto out;
      }
  
-     if (detach_subchain) {
--        bdrv_remove_filter_or_cow_child(to_cow_parent, tran);
-+        bdrv_remove_child(bdrv_filter_or_cow_child(to_cow_parent), tran);
+-    ret = bdrv_refresh_perms(child_bs, errp);
++    ret = bdrv_refresh_perms(child_bs, tran, errp);
+ 
+ out:
+     tran_finalize(tran, ret);
+@@ -3116,7 +3125,7 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+         goto out;
      }
  
-     found = g_hash_table_new(NULL, NULL);
+-    ret = bdrv_refresh_perms(parent_bs, errp);
++    ret = bdrv_refresh_perms(parent_bs, tran, errp);
+     if (ret < 0) {
+         goto out;
+     }
+@@ -3144,7 +3153,7 @@ void bdrv_root_unref_child(BdrvChild *child)
+          * we're loosening restrictions. Errors of permission update are not
+          * fatal in this case, ignore them.
+          */
+-        bdrv_refresh_perms(child_bs, NULL);
++        bdrv_refresh_perms(child_bs, NULL, NULL);
+ 
+         /*
+          * When the parent requiring a non-default AioContext is removed, the
+@@ -3386,7 +3395,7 @@ int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+         goto out;
+     }
+ 
+-    ret = bdrv_refresh_perms(bs, errp);
++    ret = bdrv_refresh_perms(bs, tran, errp);
+ out:
+     tran_finalize(tran, ret);
+ 
+@@ -5203,7 +5212,7 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+         goto out;
+     }
+ 
+-    ret = bdrv_refresh_perms(bs_new, errp);
++    ret = bdrv_refresh_perms(bs_new, tran, errp);
+ out:
+     tran_finalize(tran, ret);
+ 
+@@ -6500,7 +6509,7 @@ int bdrv_activate(BlockDriverState *bs, Error **errp)
+      */
+     if (bs->open_flags & BDRV_O_INACTIVE) {
+         bs->open_flags &= ~BDRV_O_INACTIVE;
+-        ret = bdrv_refresh_perms(bs, errp);
++        ret = bdrv_refresh_perms(bs, NULL, errp);
+         if (ret < 0) {
+             bs->open_flags |= BDRV_O_INACTIVE;
+             return ret;
+@@ -6645,7 +6654,7 @@ static int bdrv_inactivate_recurse(BlockDriverState *bs)
+      * We only tried to loosen restrictions, so errors are not fatal, ignore
+      * them.
+      */
+-    bdrv_refresh_perms(bs, NULL);
++    bdrv_refresh_perms(bs, NULL, NULL);
+ 
+     /* Recursively inactivate children */
+     QLIST_FOREACH(child, &bs->children, next) {
 -- 
 2.35.1
 
