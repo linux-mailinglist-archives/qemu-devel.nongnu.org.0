@@ -2,106 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C5B4EBF1E
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:45:43 +0200 (CEST)
-Received: from localhost ([::1]:44912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67CB4EBF58
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:58:22 +0200 (CEST)
+Received: from localhost ([::1]:43412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZVpe-0003qD-AA
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:45:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49106)
+	id 1nZW1t-0005w9-SD
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:58:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qperret@google.com>)
- id 1nZVkE-00043r-5w
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:40:06 -0400
-Received: from [2a00:1450:4864:20::42f] (port=39808
- helo=mail-wr1-x42f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <qperret@google.com>)
- id 1nZVkB-0001bK-JR
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:40:05 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id j18so28615570wrd.6
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 03:40:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=fEjIpZAiRKnjyaXJsJiY/rsOSujh0ihKGe8+GT7KIko=;
- b=TgxZIMp/7SUJczKgsHCcbn+6bkZuvbZEyshPq0JjByHI8dbZl3UzfIGGR4TEERvR7P
- A1sSmd0LsybHV2r0lLhFGM1vEG0o/PtRqdAwY4F2qEEpFG1zBGCWhloFxXHEPICK2kje
- 23q6IEe/XxQHhcrQinKL1RSUNSfxmN3xteQjYQ73fo5Fk+AnpG3qifPboAFQtrWMzeJE
- aD3LenWJpWxAdXok75Pit/Fmy3dKqu46M0S88kNnTuatVfplenme+GXfqicwWcuGVPiC
- zpoG6pYg+WRaPUcL7CGxiV9GKaqz6iJGc/xqPNAtopdTDbbCb4NpLII3QrNxJ1dUMxJQ
- 2hWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fEjIpZAiRKnjyaXJsJiY/rsOSujh0ihKGe8+GT7KIko=;
- b=1NnRD6+vzEZ1KspaAtmFI5n7a+l7V3V7kEsziz9qogUeAUhP/s84AmuiYvaEnoobuJ
- hHhk5uCuBKTdcpsunfDjqTIq8lGsASkZ9mDvv7KFU5aR8GU0wGvSQh5bGrgH+7pE06v9
- NEUqZL+Kz4l/i3E8jJBdmiYk2M1t6ToE08F53N5wq1Zcn4AyBIFgi0jGR0q/dSUnPVyM
- SCgCNXUvIuCe2ZU21vT34fHiCRq+AHHrcPsBzHhlsrWqhPtD2mdB2dPoKWcAOV5eoXmz
- ArjBPp5pwafZZZ3qz4jE3tN8giyqXJWE9+dcVz+sYCOn91+poR6EA4lCg0T+Dr0sEMpM
- D2zg==
-X-Gm-Message-State: AOAM530GFV0+8BETWj2gZ3ReMBifZADPC73gKG/XEwTUGTvqsDQrXmZL
- Ivul6vtAMtamFxxS2XkHaKpwdg==
-X-Google-Smtp-Source: ABdhPJwW9hGLk1+vYuj8LlyXdkCnyakMXegpKpu/ZEC+hEPjdHajLwb2pKI8IXMLoiqmLa6/ue3C3Q==
-X-Received: by 2002:a5d:47a7:0:b0:203:d1b4:8f6 with SMTP id
- 7-20020a5d47a7000000b00203d1b408f6mr36105287wrb.36.1648636801136; 
- Wed, 30 Mar 2022 03:40:01 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:210:eb09:5f76:2b4a:9d88])
- by smtp.gmail.com with ESMTPSA id
- y15-20020a05600015cf00b00203e324347bsm19914819wry.102.2022.03.30.03.40.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 03:40:00 -0700 (PDT)
-Date: Wed, 30 Mar 2022 11:39:58 +0100
-From: Quentin Perret <qperret@google.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Sean Christopherson <seanjc@google.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, maz@kernel.org, will@kernel.org
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YkQzfjgTQaDd2E2T@google.com>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <YjyS6A0o4JASQK+B@google.com> <YkHspg+YzOsbUaCf@google.com>
- <YkH32nx+YsJuUbmZ@google.com> <YkIFW25WgV2WIQHb@google.com>
- <YkM7eHCHEBe5NkNH@google.com>
- <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nZVpM-00050u-T4
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:45:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nZVpJ-0002kE-7B
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:45:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648637119;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uAnz5OTL9afX2H2UeXd4pQEKcfRf/sqQKmVXQRRgLA0=;
+ b=iulbP7oIVrRJAgf2iCMwqGAiqKDKzz1qRw2DKRBgk4SoPiS1WVp59OYYWLHZ1ZPXqfPI3K
+ RFp0hl8tqmHnlxB+sMf6FBv3ekTKk8zwq7iegeF7sZiOKchQRWUbgfnl5zIN8EC2x5j6jC
+ 6E/4Zp4pJ8OCLzVl1wMXARc/pRLlnWs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613-WpC07N9fM66NrVdCOBJTrA-1; Wed, 30 Mar 2022 06:45:14 -0400
+X-MC-Unique: WpC07N9fM66NrVdCOBJTrA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 162EE811E76;
+ Wed, 30 Mar 2022 10:45:14 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1CF66C202C8;
+ Wed, 30 Mar 2022 10:45:12 +0000 (UTC)
+Date: Wed, 30 Mar 2022 11:45:12 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [RFC 7/8] blkio: implement BDRV_REQ_REGISTERED_BUF optimization
+Message-ID: <YkQ0uPFfXB3NvjQu@stefanha-x1.localdomain>
+References: <20220323111727.1100209-1-stefanha@redhat.com>
+ <20220323111727.1100209-8-stefanha@redhat.com>
+ <20220329152430.xhmhiq2l2cibzoio@sgarzare-redhat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="NcGqCjzGynsaE5GW"
 Content-Disposition: inline
-In-Reply-To: <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=qperret@google.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -161
-X-Spam_score: -16.2
-X-Spam_bar: ----------------
-X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <20220329152430.xhmhiq2l2cibzoio@sgarzare-redhat>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,264 +78,280 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Alberto Faria <afaria@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday 30 Mar 2022 at 09:58:27 (+0100), Steven Price wrote:
-> On 29/03/2022 18:01, Quentin Perret wrote:
-> > On Monday 28 Mar 2022 at 18:58:35 (+0000), Sean Christopherson wrote:
-> >> On Mon, Mar 28, 2022, Quentin Perret wrote:
-> >>> Hi Sean,
-> >>>
-> >>> Thanks for the reply, this helps a lot.
-> >>>
-> >>> On Monday 28 Mar 2022 at 17:13:10 (+0000), Sean Christopherson wrote:
-> >>>> On Thu, Mar 24, 2022, Quentin Perret wrote:
-> >>>>> For Protected KVM (and I suspect most other confidential computing
-> >>>>> solutions), guests have the ability to share some of their pages back
-> >>>>> with the host kernel using a dedicated hypercall. This is necessary
-> >>>>> for e.g. virtio communications, so these shared pages need to be mapped
-> >>>>> back into the VMM's address space. I'm a bit confused about how that
-> >>>>> would work with the approach proposed here. What is going to be the
-> >>>>> approach for TDX?
-> >>>>>
-> >>>>> It feels like the most 'natural' thing would be to have a KVM exit
-> >>>>> reason describing which pages have been shared back by the guest, and to
-> >>>>> then allow the VMM to mmap those specific pages in response in the
-> >>>>> memfd. Is this something that has been discussed or considered?
-> >>>>
-> >>>> The proposed solution is to exit to userspace with a new exit reason, KVM_EXIT_MEMORY_ERROR,
-> >>>> when the guest makes the hypercall to request conversion[1].  The private fd itself
-> >>>> will never allow mapping memory into userspace, instead userspace will need to punch
-> >>>> a hole in the private fd backing store.  The absense of a valid mapping in the private
-> >>>> fd is how KVM detects that a pfn is "shared" (memslots without a private fd are always
-> >>>> shared)[2].
-> >>>
-> >>> Right. I'm still a bit confused about how the VMM is going to get the
-> >>> shared page mapped in its page-table. Once it has punched a hole into
-> >>> the private fd, how is it supposed to access the actual physical page
-> >>> that the guest shared?
-> >>
-> >> The guest doesn't share a _host_ physical page, the guest shares a _guest_ physical
-> >> page.  Until host userspace converts the gfn to shared and thus maps the gfn=>hva
-> >> via mmap(), the guest is blocked and can't read/write/exec the memory.  AFAIK, no
-> >> architecture allows in-place decryption of guest private memory.  s390 allows a
-> >> page to be "made accessible" to the host for the purposes of swap, and other
-> >> architectures will have similar behavior for migrating a protected VM, but those
-> >> scenarios are not sharing the page (and they also make the page inaccessible to
-> >> the guest).
-> > 
-> > I see. FWIW, since pKVM is entirely MMU-based, we are in fact capable of
-> > doing in-place sharing, which also means it can retain the content of
-> > the page as part of the conversion.
-> > 
-> > Also, I'll ask the Arm CCA developers to correct me if this is wrong, but
-> > I _believe_ it should be technically possible to do in-place sharing for
-> > them too.
-> 
-> In general this isn't possible as the physical memory could be
-> encrypted, so some temporary memory is required. We have prototyped
-> having a single temporary page for the setup when populating the guest's
-> initial memory - this has the nice property of not requiring any
-> additional allocation during the process but with the downside of
-> effectively two memcpy()s per page (one to the temporary page and
-> another, with optional encryption, into the now private page).
 
-Interesting, thanks for the explanation.
+--NcGqCjzGynsaE5GW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> >>> Is there an assumption somewhere that the VMM should have this page mapped in
-> >>> via an alias that it can legally access only once it has punched a hole at
-> >>> the corresponding offset in the private fd or something along those lines?
-> >>
-> >> Yes, the VMM must have a completely separate VMA.  The VMM doesn't haven't to
-> >> wait until the conversion to mmap() the shared variant, though obviously it will
-> >> potentially consume double the memory if the VMM actually populates both the
-> >> private and shared backing stores.
-> > 
-> > Gotcha. This is what confused me I think -- in this approach private and
-> > shared pages are in fact entirely different.
-> > 
-> > In which scenario could you end up with both the private and shared
-> > pages live at the same time? Would this be something like follows?
-> > 
-> >  - userspace creates a private fd, fallocates into it, and associates
-> >    the <fd, offset, size> tuple with a private memslot;
-> > 
-> >  - userspace then mmaps anonymous memory (for ex.), and associates it
-> >    with a standard memslot, which happens to be positioned at exactly
-> >    the right offset w.r.t to the private memslot (with this offset
-> >    defined by the bit that is set for the private addresses in the gpa
-> >    space);
-> > 
-> >  - the guest runs, and accesses both 'aliases' of the page without doing
-> >    an explicit share hypercall.
-> > 
-> > Is there another option?
-> 
-> AIUI you can have both private and shared "live" at the same time. But
-> you can have a page allocated both in the private fd and in the same
-> location in the (shared) memslot in the VMM's memory map. In this
-> situation the private fd page effectively hides the shared page.
-> 
-> > Is implicit sharing a thing? E.g., if a guest makes a memory access in
-> > the shared gpa range at an address that doesn't have a backing memslot,
-> > will KVM check whether there is a corresponding private memslot at the
-> > right offset with a hole punched and report a KVM_EXIT_MEMORY_ERROR? Or
-> > would that just generate an MMIO exit as usual?
-> 
-> My understanding is that the guest needs some way of tagging whether a
-> page is expected to be shared or private. On the architectures I'm aware
-> of this is done by effectively stealing a bit from the IPA space and
-> pretending it's a flag bit.
+On Tue, Mar 29, 2022 at 05:24:30PM +0200, Stefano Garzarella wrote:
+> On Wed, Mar 23, 2022 at 11:17:26AM +0000, Stefan Hajnoczi wrote:
+> > Avoid bounce buffers when QEMUIOVector elements are within previously
+> > registered bdrv_register_buf() buffers.
+> >=20
+> > The idea is that emulated storage controllers will register guest RAM
+> > using bdrv_register_buf() and set the BDRV_REQ_REGISTERED_BUF on I/O
+> > requests. Therefore no blkio_add_mem_region() calls are necessary in the
+> > performance-critical I/O code path.
+> >=20
+> > This optimization doesn't apply if the I/O buffer is internally
+> > allocated by QEMU (e.g. qcow2 metadata). There we still take the slow
+> > path because BDRV_REQ_REGISTERED_BUF is not set.
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> > block/blkio.c | 108 ++++++++++++++++++++++++++++++++++++++++++++++++--
+> > 1 file changed, 104 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/block/blkio.c b/block/blkio.c
+> > index dd2308b967..78f4ca5f49 100644
+> > --- a/block/blkio.c
+> > +++ b/block/blkio.c
+> > @@ -1,7 +1,9 @@
+> > #include "qemu/osdep.h"
+> > #include <blkio.h>
+> > #include "block/block_int.h"
+> > +#include "exec/memory.h"
+> > #include "qapi/error.h"
+> > +#include "qemu/error-report.h"
+> > #include "qapi/qmp/qdict.h"
+> > #include "qemu/module.h"
+> >=20
+> > @@ -26,6 +28,9 @@ typedef struct {
+> >     /* Can we skip adding/deleting blkio_mem_regions? */
+> >     bool needs_mem_regions;
+> >=20
+> > +    /* Are file descriptors necessary for blkio_mem_regions? */
+> > +    bool needs_mem_region_fd;
+> > +
+> >     /*
+> >      * blkio_completion_fd_poll() stashes the next completion for
+> >      * blkio_completion_fd_poll_ready().
+> > @@ -170,6 +175,8 @@ static BlockAIOCB *blkio_aio_preadv(BlockDriverStat=
+e *bs, int64_t offset,
+> >         BlockCompletionFunc *cb, void *opaque)
+> > {
+> >     BDRVBlkioState *s =3D bs->opaque;
+> > +    bool needs_mem_regions =3D
+> > +        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
+> >     struct iovec *iov =3D qiov->iov;
+> >     int iovcnt =3D qiov->niov;
+> >     BlkioAIOCB *acb;
+> > @@ -179,7 +186,7 @@ static BlockAIOCB *blkio_aio_preadv(BlockDriverStat=
+e *bs, int64_t offset,
+> >=20
+> >     acb =3D blkio_aiocb_get(bs, cb, opaque);
+> >=20
+> > -    if (s->needs_mem_regions) {
+> > +    if (needs_mem_regions) {
+> >         if (blkio_aiocb_init_mem_region_locked(acb, bytes) < 0) {
+> >             qemu_aio_unref(&acb->common);
+> >             return NULL;
+> > @@ -194,7 +201,7 @@ static BlockAIOCB *blkio_aio_preadv(BlockDriverStat=
+e *bs, int64_t offset,
+> >=20
+> >     ret =3D blkioq_readv(s->blkioq, offset, iov, iovcnt, acb, 0);
+> >     if (ret < 0) {
+> > -        if (s->needs_mem_regions) {
+> > +        if (needs_mem_regions) {
+> >             blkio_free_mem_region(s->blkio, &acb->mem_region);
+> >             qemu_iovec_destroy(&acb->qiov);
+> >         }
+> > @@ -215,6 +222,8 @@ static BlockAIOCB *blkio_aio_pwritev(BlockDriverSta=
+te *bs, int64_t offset,
+> > {
+> >     uint32_t blkio_flags =3D (flags & BDRV_REQ_FUA) ? BLKIO_REQ_FUA : 0;
+> >     BDRVBlkioState *s =3D bs->opaque;
+> > +    bool needs_mem_regions =3D
+> > +        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
+> >     struct iovec *iov =3D qiov->iov;
+> >     int iovcnt =3D qiov->niov;
+> >     BlkioAIOCB *acb;
+> > @@ -224,7 +233,7 @@ static BlockAIOCB *blkio_aio_pwritev(BlockDriverSta=
+te *bs, int64_t offset,
+> >=20
+> >     acb =3D blkio_aiocb_get(bs, cb, opaque);
+> >=20
+> > -    if (s->needs_mem_regions) {
+> > +    if (needs_mem_regions) {
+> >         if (blkio_aiocb_init_mem_region_locked(acb, bytes) < 0) {
+> >             qemu_aio_unref(&acb->common);
+> >             return NULL;
+> > @@ -238,7 +247,7 @@ static BlockAIOCB *blkio_aio_pwritev(BlockDriverSta=
+te *bs, int64_t offset,
+> >=20
+> >     ret =3D blkioq_writev(s->blkioq, offset, iov, iovcnt, acb, blkio_fl=
+ags);
+> >     if (ret < 0) {
+> > -        if (s->needs_mem_regions) {
+> > +        if (needs_mem_regions) {
+> >             blkio_free_mem_region(s->blkio, &acb->mem_region);
+> >         }
+> >         qemu_aio_unref(&acb->common);
+> > @@ -286,6 +295,83 @@ static void blkio_io_unplug(BlockDriverState *bs)
+> >     }
+> > }
+> >=20
+> > +static void blkio_register_buf(BlockDriverState *bs, void *host, size_=
+t size)
+> > +{
+> > +    BDRVBlkioState *s =3D bs->opaque;
+> > +    char *errmsg;
+> > +    int ret;
+> > +    struct blkio_mem_region region =3D (struct blkio_mem_region){
+> > +        .addr =3D host,
+> > +        .len =3D size,
+> > +        .fd =3D -1,
+> > +    };
+> > +
+> > +    if (((uintptr_t)host | size) % s->mem_region_alignment) {
+> > +        error_report_once("%s: skipping unaligned buf %p with size %zu=
+",
+> > +                          __func__, host, size);
+> > +        return; /* skip unaligned */
+> > +    }
+> > +
+> > +    /* Attempt to find the fd for a MemoryRegion */
+> > +    if (s->needs_mem_region_fd) {
+> > +        int fd =3D -1;
+> > +        ram_addr_t offset;
+> > +        MemoryRegion *mr;
+> > +
+> > +        /*
+> > +         * bdrv_register_buf() is called with the BQL held so mr lives=
+ at least
+> > +         * until this function returns.
+> > +         */
+> > +        mr =3D memory_region_from_host(host, &offset);
+> > +        if (mr) {
+> > +            fd =3D memory_region_get_fd(mr);
+> > +        }
+> > +        if (fd =3D=3D -1) {
+> > +            error_report_once("%s: skipping fd-less buf %p with size %=
+zu",
+> > +                              __func__, host, size);
+> > +            return; /* skip if there is no fd */
+> > +        }
+> > +
+> > +        region.fd =3D fd;
+> > +        region.fd_offset =3D offset;
+> > +    }
+> > +
+> > +    WITH_QEMU_LOCK_GUARD(&s->lock) {
+> > +        ret =3D blkio_add_mem_region(s->blkio, &region, &errmsg);
+> > +    }
+> > +
+> > +    if (ret < 0) {
+> > +        error_report_once("Failed to add blkio mem region %p with size=
+ %zu: %s",
+> > +                          host, size, errmsg);
+> > +        free(errmsg);
+> > +    }
+> > +}
+> > +
+> > +static void blkio_unregister_buf(BlockDriverState *bs, void *host, siz=
+e_t size)
+> > +{
+> > +    BDRVBlkioState *s =3D bs->opaque;
+> > +    char *errmsg;
+> > +    int ret;
+> > +    struct blkio_mem_region region =3D (struct blkio_mem_region){
+> > +        .addr =3D host,
+> > +        .len =3D size,
+> > +    };
+> > +
+> > +    if (((uintptr_t)host | size) % s->mem_region_alignment) {
+> > +        return; /* skip unaligned */
+> > +    }
+> > +
+> > +    WITH_QEMU_LOCK_GUARD(&s->lock) {
+> > +        ret =3D blkio_del_mem_region(s->blkio, &region, &errmsg);
+> > +    }
+> > +
+> > +    if (ret < 0) {
+> > +        error_report_once("Failed to delete blkio mem region %p with s=
+ize %zu: %s",
+> > +                          host, size, errmsg);
+> > +        free(errmsg);
+> > +    }
+> > +}
+> > +
+> > static void blkio_parse_filename_io_uring(const char *filename, QDict *=
+options,
+> >                                           Error **errp)
+> > {
+> > @@ -356,6 +442,18 @@ static int blkio_file_open(BlockDriverState *bs, Q=
+Dict *options, int flags,
+> >         return ret;
+> >     }
+> >=20
+> > +    ret =3D blkio_get_bool(s->blkio,
+> > +                         "needs-mem-region-fd",
+> > +                         &s->needs_mem_region_fd,
+> > +                         &errmsg);
+> > +    if (ret < 0) {
+> > +        error_setg_errno(errp, -ret,
+> > +                         "failed to get needs-mem-region-fd: %s", errm=
+sg);
+> > +        free(errmsg);
+> > +        blkio_destroy(&s->blkio);
+> > +        return ret;
+> > +    }
+> > +
+> >     ret =3D blkio_get_uint64(s->blkio,
+> >                            "mem-region-alignment",
+> >                            &s->mem_region_alignment,
+>=20
+> I already mentioned on IRC while testing the series, but I'm writing it h=
+ere
+> so we don't forget ;-)
+>=20
+> To prevent bdrv_driver_pwritev() from removing the BDRV_REQ_REGISTERED_BUF
+> flag from requests, we should add this:
+>=20
+> @@ -474,7 +474,7 @@ static int blkio_file_open(BlockDriverState *bs, QDic=
+t *options, int flags,
+>          return ret;
+>      }
+>=20
+> -    bs->supported_write_flags =3D BDRV_REQ_FUA;
+> +    bs->supported_write_flags =3D BDRV_REQ_FUA | BDRV_REQ_REGISTERED_BUF;
+>=20
+>      qemu_mutex_init(&s->lock);
+>      s->blkioq =3D blkio_get_queue(s->blkio, 0);
 
-Right, and that is in fact the main point of divergence we have I think.
-While I understand this might be necessary for TDX and the likes, this
-makes little sense for pKVM. This would effectively embed into the IPA a
-purely software-defined non-architectural property/protocol although we
-don't actually need to: we (pKVM) can reasonably expect the guest to
-explicitly issue hypercalls to share pages in-place. So I'd be really
-keen to avoid baking in assumptions about that model too deep in the
-host mm bits if at all possible.
+Thanks, will fix.
 
-> So when a guest access causes a fault, the flag bit (really part of the
-> intermediate physical address) is compared against whether the page is
-> present in the private fd. If they correspond (i.e. a private access and
-> the private fd has a page, or a shared access and there's a hole in the
-> private fd) then the appropriate page is mapped and the guest continues.
-> If there's a mismatch then a KVM_EXIT_MEMORY_ERROR exit is trigged and
-> the VMM is expected to fix up the situation (either convert the page or
-> kill the guest if this was unexpected).
-> 
-> >>>> The key point is that KVM never decides to convert between shared and private, it's
-> >>>> always a userspace decision.  Like normal memslots, where userspace has full control
-> >>>> over what gfns are a valid, this gives userspace full control over whether a gfn is
-> >>>> shared or private at any given time.
-> >>>
-> >>> I'm understanding this as 'the VMM is allowed to punch holes in the
-> >>> private fd whenever it wants'. Is this correct?
-> >>
-> >> From the kernel's perspective, yes, the VMM can punch holes at any time.  From a
-> >> "do I want to DoS my guest" perspective, the VMM must honor its contract with the
-> >> guest and not spuriously unmap private memory.
-> >>
-> >>> What happens if it does so for a page that a guest hasn't shared back?
-> >>
-> >> When the hole is punched, KVM will unmap the corresponding private SPTEs.  If the
-> >> guest is still accessing the page as private, the next access will fault and KVM
-> >> will exit to userspace with KVM_EXIT_MEMORY_ERROR.  Of course the guest is probably
-> >> hosed if the hole punch was truly spurious, as at least hardware-based protected VMs
-> >> effectively destroy data when a private page is unmapped from the guest private SPTEs.
-> >>
-> >> E.g. Linux guests for TDX and SNP will panic/terminate in such a scenario as they
-> >> will get a fault (injected by trusted hardware/firmware) saying that the guest is
-> >> trying to access an unaccepted/unvalidated page (TDX and SNP require the guest to
-> >> explicit accept all private pages that aren't part of the guest's initial pre-boot
-> >> image).
-> > 
-> > I suppose this is necessary is to prevent the VMM from re-fallocating
-> > in a hole it previously punched and re-entering the guest without
-> > notifying it?
-> 
-> I don't know specifically about TDX/SNP, but one thing we want to
-> prevent with CCA is the VMM deallocating/reallocating a private page
-> without the guest being aware (i.e. corrupting the guest's state). So
-> punching a hole will taint the address such that a future access by the
-> guest is fatal (unless the guest first jumps through the right hoops to
-> acknowledge that it was expecting such a thing).
+Stefan
 
-Makes sense.
+--NcGqCjzGynsaE5GW
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> >>>> Another important detail is that this approach means the kernel and KVM treat the
-> >>>> shared backing store and private backing store as independent, albeit related,
-> >>>> entities.  This is very deliberate as it makes it easier to reason about what is
-> >>>> and isn't allowed/required.  E.g. the kernel only needs to handle freeing private
-> >>>> memory, there is no special handling for conversion to shared because no such path
-> >>>> exists as far as host pfns are concerned.  And userspace doesn't need any new "rules"
-> >>>> for protecting itself against a malicious guest, e.g. userspace already needs to
-> >>>> ensure that it has a valid mapping prior to accessing guest memory (or be able to
-> >>>> handle any resulting signals).  A malicious guest can DoS itself by instructing
-> >>>> userspace to communicate over memory that is currently mapped private, but there
-> >>>> are no new novel attack vectors from the host's perspective as coercing the host
-> >>>> into accessing an invalid mapping after shared=>private conversion is just a variant
-> >>>> of a use-after-free.
-> >>>
-> >>> Interesting. I was (maybe incorrectly) assuming that it would be
-> >>> difficult to handle illegal host accesses w/ TDX. IOW, this would
-> >>> essentially crash the host. Is this remotely correct or did I get that
-> >>> wrong?
-> >>
-> >> Handling illegal host kernel accesses for both TDX and SEV-SNP is extremely
-> >> difficult, bordering on impossible.  That's one of the biggest, if not _the_
-> >> biggest, motivations for the private fd approach.  On "conversion", the page that is
-> >> used to back the shared variant is a completely different, unrelated host physical
-> >> page.  Whether or not the private/shared backing page is freed is orthogonal to
-> >> what version is mapped into the guest.  E.g. if the guest converts a 4kb chunk of
-> >> a 2mb hugepage, the private backing store could keep the physical page on hole
-> >> punch (example only, I don't know if this is the actual proposed implementation).
-> >>
-> >> The idea is that it'll be much, much more difficult for the host to perform an
-> >> illegal access if the actual private memory is not mapped anywhere (modulo the
-> >> kernel's direct map, which we may or may not leave intact).  The private backing
-> >> store just needs to ensure it properly sanitizing pages before freeing them.
-> > 
-> > Understood.
-> > 
-> > I'm overall inclined to think that while this abstraction works nicely
-> > for TDX and the likes, it might not suit pKVM all that well in the
-> > current form, but it's close.
-> > 
-> > What do you think of extending the model proposed here to also address
-> > the needs of implementations that support in-place sharing? One option
-> > would be to have KVM notify the private-fd backing store when a page is
-> > shared back by a guest, which would then allow host userspace to mmap
-> > that particular page in the private fd instead of punching a hole.
-> > 
-> > This should retain the main property you're after: private pages that
-> > are actually mapped in the guest SPTE aren't mmap-able, but all the
-> > others are fair game.
-> > 
-> > Thoughts?
-> 
-> How do you propose this works if the page shared by the guest then needs
-> to be made private again? If there's no hole punched then it's not
-> possible to just repopulate the private-fd. I'm struggling to see how
-> that could work.
+-----BEGIN PGP SIGNATURE-----
 
-Yes, some discussion might be required, but I was thinking about
-something along those lines:
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJENLcACgkQnKSrs4Gr
+c8jq7wf/a09k6JB0ZJPFeE2dgpYDJrAwJbDBICxanlV++BId2jn9vuDMMzMf7P+A
+uBW9XGuWOxcTyVSmPl471WAEE03aCT8bDA7kpYMstt76wPTm87Px/bKv4N9KV4Vh
+vWTIWEFw8hKrd4qQ0pkE/mOB9PJm9hu9CTMy96Xrcwc9jwA7s5GfuW8/Z8ngLVME
+TP+ni/myK1z838bhotN6e8qboBlLLw3rUML81xJdWfmdXTnGmXZEcIMkxitbeM4d
+7I1XJ7GdV3a9dlCsIc44xfA9dVWgdJgpJyRx6GFDHjDa99BMPCAua7WjhNKZpBmM
+X05G+uoPx52lX67FQWW6CRLrxziUbw==
+=+7eu
+-----END PGP SIGNATURE-----
 
- - a guest requests a shared->private page conversion;
+--NcGqCjzGynsaE5GW--
 
- - the conversion request is routed all the way back to the VMM;
-
- - the VMM is expected to either decline the conversion (which may be
-   fatal for the guest if it can't handle this), or to tear-down its
-   mappings (via munmap()) of the shared page, and accept the
-   conversion;
-
- - upon return from the VMM, KVM will be expected to check how many
-   references to the shared page are still held (probably by asking the
-   fd backing store) to check that userspace has indeed torn down its
-   mappings. If all is fine, KVM will instruct the hypervisor to
-   repopulate the private range of the guest, otherwise it'll return an
-   error to the VMM;
-
- - if the conversion has been successful, the guest can resume its
-   execution normally.
-
-Note: this should still allow to use the hole-punching method just fine
-on systems that require it. The invariant here is just that KVM (with
-help from the backing store) is now responsible for refusing to
-instruct the hypervisor (or TDX module, or RMM, or whatever) to map a
-private page if there are existing mappings to it.
-
-> Having said that; if we can work out a way to safely
-> mmap() pages from the private-fd there's definitely some benefits to be
-> had - e.g. it could be used to populate the initial memory before the
-> guest is started.
-
-Right, so assuming the approach proposed above isn't entirely bogus,
-this might now become possible by having the VMM mmap the private-fd,
-load the payload, and then unmap it all, and only then instruct the
-hypervisor to use this as private memory.
 
