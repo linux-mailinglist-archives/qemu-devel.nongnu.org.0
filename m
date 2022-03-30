@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487BA4EC58D
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:24:29 +0200 (CEST)
-Received: from localhost ([::1]:49942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C644EC5B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 15:33:11 +0200 (CEST)
+Received: from localhost ([::1]:58836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZYJI-0008AC-1r
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:24:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52014)
+	id 1nZYRi-0006dJ-MF
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 09:33:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXtA-00082g-BQ; Wed, 30 Mar 2022 08:57:28 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:41118)
+ id 1nZXtA-00082q-Cb; Wed, 30 Mar 2022 08:57:28 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:41120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZXt8-0004aL-OA; Wed, 30 Mar 2022 08:57:28 -0400
+ id 1nZXt8-0004aT-FO; Wed, 30 Mar 2022 08:57:28 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 7FBAE21EC6;
- Wed, 30 Mar 2022 12:56:51 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 25A9821EC7;
+ Wed, 30 Mar 2022 12:56:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1648645011;
+ s=mail; t=1648645012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OP2KACeS0PxZ1cbQpDRjk56f4TeAFjOJTUpHlmpiXfc=;
- b=OVTr74r2H1SGGg81PNbAotcOyG0vhNKotyLUFtZKSoRNmscrUSzencupPVJvnAMFhaNeju
- 2wPb/gokuOGkPlCtv1oqDkEMUDTSGeJ7o9f4GO2yy+aPKfZGK0u85KjH1K1JU6gHtq505n
- JZswpS2ELJUPLRqhSaK9i7Jb2NN+TKQ=
+ bh=+4+3Sun2+SPi9wRQB2rZD5KPE6zlGnALJn1V8tn0rq4=;
+ b=DvJTNMEViJAwS71iQx3dGKols78k+d1tfMegwp42eAAjjIXQGCuZZWPR7qnTu+8Yd1K61O
+ tyX2BfGR+Y1ZzyeJXgPf+KnPZQAxTOiZmL1yz9VbtPQE3CWrczlLRlBgTC9aZlg6CkRnd6
+ H1a8Y3BkFL+ay2ZXgKh27whATAAqrTA=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 10/18] hw/riscv/riscv_hart: prepare transition to cpus
-Date: Wed, 30 Mar 2022 14:56:31 +0200
-Message-Id: <20220330125639.201937-11-damien.hedde@greensocs.com>
+Subject: [RFC PATCH 11/18] hw/riscv: prepare riscv_hart transition to cpus
+Date: Wed, 30 Mar 2022 14:56:32 +0200
+Message-Id: <20220330125639.201937-12-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330125639.201937-1-damien.hedde@greensocs.com>
 References: <20220330125639.201937-1-damien.hedde@greensocs.com>
@@ -75,67 +75,116 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-riscv_hart_array does not need to be a sysbus device: it does not
-have any mmio or sysbus irq.
-We want to make it inherit the new cpus class so we need
-a few tweaks:
-+ a temporary helper realize so we can switch from sysbus_realize to
-  qdev_realize (will be removed afer the transition is done).
-+ a helper function to get an hart from the array (the current storage
-  array field will be removed).
-+ a helper function to get the number of harts in an array (the current
-  field will be removed).
++ Use riscv_array_get_hart instead of accessing harts field.
++ Use riscv_hart_array_realize instead of sysbus_realize.
+
+spike and virt machines will be handled separately in following
+commits.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- include/hw/riscv/riscv_hart.h | 19 +++++++++++++++++++
- hw/riscv/riscv_hart.c         |  5 +++++
- 2 files changed, 24 insertions(+)
+ hw/riscv/boot.c            | 2 +-
+ hw/riscv/microchip_pfsoc.c | 4 ++--
+ hw/riscv/opentitan.c       | 2 +-
+ hw/riscv/shakti_c.c        | 2 +-
+ hw/riscv/sifive_e.c        | 2 +-
+ hw/riscv/sifive_u.c        | 8 ++++----
+ 6 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.h
-index bbc21cdc9a..71747bf37c 100644
---- a/include/hw/riscv/riscv_hart.h
-+++ b/include/hw/riscv/riscv_hart.h
-@@ -41,4 +41,23 @@ struct RISCVHartArrayState {
-     RISCVCPU *harts;
- };
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index cae74fcbcd..b21c8f6488 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -36,7 +36,7 @@
  
-+/**
-+ * riscv_array_get_hart:
-+ */
-+static inline RISCVCPU *riscv_array_get_hart(RISCVHartArrayState *harts, int i)
-+{
-+    return &harts->harts[i];
-+}
-+
-+/**
-+ * riscv_array_get_num_harts:
-+ */
-+static inline unsigned riscv_array_get_num_harts(RISCVHartArrayState *harts)
-+{
-+    return harts->num_harts;
-+}
-+
-+/* Temporary function until we migrated the riscv hart array to simple device */
-+void riscv_hart_array_realize(RISCVHartArrayState *state, Error **errp);
-+
- #endif
-diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-index 613ea2aaa0..780fd3a59a 100644
---- a/hw/riscv/riscv_hart.c
-+++ b/hw/riscv/riscv_hart.c
-@@ -27,6 +27,11 @@
- #include "hw/qdev-properties.h"
- #include "hw/riscv/riscv_hart.h"
+ bool riscv_is_32bit(RISCVHartArrayState *harts)
+ {
+-    return harts->harts[0].env.misa_mxl_max == MXL_RV32;
++    return riscv_array_get_hart(harts, 0)->env.misa_mxl_max == MXL_RV32;
+ }
  
-+void riscv_hart_array_realize(RISCVHartArrayState *state, Error **errp)
-+{
-+    sysbus_realize(SYS_BUS_DEVICE(state), errp);
-+}
-+
- static Property riscv_harts_props[] = {
-     DEFINE_PROP_UINT32("num-harts", RISCVHartArrayState, num_harts, 1),
-     DEFINE_PROP_UINT32("hartid-base", RISCVHartArrayState, hartid_base, 0),
+ /*
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index cafd1fc9ae..82547a53e6 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -190,8 +190,8 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+     NICInfo *nd;
+     int i;
+ 
+-    sysbus_realize(SYS_BUS_DEVICE(&s->e_cpus), &error_abort);
+-    sysbus_realize(SYS_BUS_DEVICE(&s->u_cpus), &error_abort);
++    riscv_hart_array_realize(&s->e_cpus, &error_abort);
++    riscv_hart_array_realize(&s->u_cpus, &error_abort);
+     /*
+      * The cluster must be realized after the RISC-V hart array container,
+      * as the container's CPU object is only created on realize, and the
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 833624d66c..2eb7454d8a 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -135,7 +135,7 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+     object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
+                             &error_abort);
+     object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8080, &error_abort);
+-    sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_abort);
++    riscv_hart_array_realize(&s->cpus, &error_abort);
+ 
+     /* Boot ROM */
+     memory_region_init_rom(&s->rom, OBJECT(dev_soc), "riscv.lowrisc.ibex.rom",
+diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
+index 90e2cf609f..93e0c8dd68 100644
+--- a/hw/riscv/shakti_c.c
++++ b/hw/riscv/shakti_c.c
+@@ -108,7 +108,7 @@ static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp)
+     ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(dev);
+     MemoryRegion *system_memory = get_system_memory();
+ 
+-    sysbus_realize(SYS_BUS_DEVICE(&sss->cpus), &error_abort);
++    riscv_hart_array_realize(&sss->cpus, &error_abort);
+ 
+     sss->plic = sifive_plic_create(shakti_c_memmap[SHAKTI_C_PLIC].base,
+         (char *)SHAKTI_C_PLIC_HART_CONFIG, ms->smp.cpus, 0,
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index dcb87b6cfd..25ba0a8c85 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -195,7 +195,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
+ 
+     object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
+                             &error_abort);
+-    sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_abort);
++    riscv_hart_array_realize(&s->cpus, &error_abort);
+ 
+     /* Mask ROM */
+     memory_region_init_rom(&s->mask_rom, OBJECT(dev), "riscv.sifive.e.mrom",
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 7fbc7dea42..c99e92a7eb 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -188,9 +188,9 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+             } else {
+                 qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
+             }
+-            isa = riscv_isa_string(&s->soc.u_cpus.harts[cpu - 1]);
++            isa = riscv_isa_string(riscv_array_get_hart(&s->soc.u_cpus, cpu - 1));
+         } else {
+-            isa = riscv_isa_string(&s->soc.e_cpus.harts[0]);
++            isa = riscv_isa_string(riscv_array_get_hart(&s->soc.e_cpus, 0));
+         }
+         qemu_fdt_setprop_string(fdt, nodename, "riscv,isa", isa);
+         qemu_fdt_setprop_string(fdt, nodename, "compatible", "riscv");
+@@ -830,8 +830,8 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", s->cpu_type);
+     qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", 0x1004);
+ 
+-    sysbus_realize(SYS_BUS_DEVICE(&s->e_cpus), &error_abort);
+-    sysbus_realize(SYS_BUS_DEVICE(&s->u_cpus), &error_abort);
++    riscv_hart_array_realize(&s->e_cpus, &error_abort);
++    riscv_hart_array_realize(&s->u_cpus, &error_abort);
+     /*
+      * The cluster must be realized after the RISC-V hart array container,
+      * as the container's CPU object is only created on realize, and the
 -- 
 2.35.1
 
