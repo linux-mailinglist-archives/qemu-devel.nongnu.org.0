@@ -2,96 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C914EBCF6
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 10:50:56 +0200 (CEST)
-Received: from localhost ([::1]:40510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA1D4EBD01
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 10:55:30 +0200 (CEST)
+Received: from localhost ([::1]:46434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZU2Z-0000Em-Kk
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 04:50:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47354)
+	id 1nZU6z-0004ma-Mb
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 04:55:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nZTuU-0001hr-Rl
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 04:42:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48691)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZTzG-0006Ch-R4
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 04:47:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nZTuS-0008WR-Nk
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 04:42:33 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZTzD-0003Ig-IY
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 04:47:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648629751;
+ s=mimecast20190719; t=1648630046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IF5ndeDzoknGfsHxOtnPOMKflxfReumbasUw1yPte+8=;
- b=JkGm1aJspOQF1XYmskZlEbNntQWkpbNWckHuRJfO7yiLe6jpWi4fYKGbKZNnHNT9MsluNj
- kaojbm909BlYLBNpScUG/UU+GpRI3tblcUTD4QIBUgovZ1XpU12Xifo3k1/jvnDVa6d/pb
- nN9tLnrLI6njzFDwfIu/WF/kTe3EWao=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jndXL7Ce0aZtxyFxwwZ4f36hZC/JGJlJJfuxiTLsM7I=;
+ b=ejkTLRqEb09zybdzYKo5sa8PupSYiPfcxREl+Mp4JOYGZCv2jTwQ6IKRKozhs8DhnAhBcm
+ rOVDAcMYGb8w9PGMJ4AuzJ7JSPVGgWS43uJJvxQ4DNGkKBoXlfmuCzDgo8xsozxP3JvFTZ
+ hbyZcP+/O/s42I6PDZNx979PPyclqvQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-492-AI1mF-_GOB29FRBeih2bQQ-1; Wed, 30 Mar 2022 04:42:30 -0400
-X-MC-Unique: AI1mF-_GOB29FRBeih2bQQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c126-20020a1c3584000000b00380dee8a62cso7602423wma.8
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 01:42:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=IF5ndeDzoknGfsHxOtnPOMKflxfReumbasUw1yPte+8=;
- b=AK5wGzdyoRlFhz3bdY8Xb9Tcxge5P6fHGrVeFr8D4w4MrC4+RXLQK+gxHXPB4rguvk
- QJokWgOPG7r38y5UMnfV470oJZrKBHsc4pyPbRPCBChkeS1/qWel9mIme4XoeUMhBxiA
- K3sqhGSwnqBH9ggpCJMCyN3hfR6pAqc/fATbF75jp0GUGWJeR4mZESiV7ZFZxdnnKVni
- wDVMkBO7/U/tTiL1WRUsMGU4iuzWmgjLXd6QCmTpkj1uvrR2QinEXQg4d5wl/UVD1ZtN
- DG8L83Q7yAP3ppCxcwq4xJhISbCQhiGYHyA0qf5zQRfIXeqsR0ktF0BYOvJvi65BC4Q2
- 7bZg==
-X-Gm-Message-State: AOAM5327G7MGTQp7nr6WbiWILAvzfWzFLeWbnpl9Q5ChHHmDjNzSCE+H
- wCPIVDLYrr91i/H7nolT0Rda9ftqMFilH0xK4kkP2FGO4MAnB24ZypFehDHjwL2sk/Z5r+eSZKa
- iFvx8/f3HxyaY4ls=
-X-Received: by 2002:a5d:64ae:0:b0:205:908a:2bc3 with SMTP id
- m14-20020a5d64ae000000b00205908a2bc3mr34725309wrp.437.1648629748881; 
- Wed, 30 Mar 2022 01:42:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzh3Ruzk3ctrES04H0I/mJH/9Z6Twci81xmOIobsWmfuACYMm9CulxU9HimsB3ycnXAtSm18A==
-X-Received: by 2002:a5d:64ae:0:b0:205:908a:2bc3 with SMTP id
- m14-20020a5d64ae000000b00205908a2bc3mr34725276wrp.437.1648629748551; 
- Wed, 30 Mar 2022 01:42:28 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c705:2200:178b:7244:2a1f:b5d8?
- (p200300cbc7052200178b72442a1fb5d8.dip0.t-ipconnect.de.
- [2003:cb:c705:2200:178b:7244:2a1f:b5d8])
- by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c028700b0038cc9bfe6a4sm3954985wmk.37.2022.03.30.01.42.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 01:42:28 -0700 (PDT)
-Message-ID: <50b39fbd-c5f4-d080-3cc1-f6e4c27985fd@redhat.com>
-Date: Wed, 30 Mar 2022 10:42:26 +0200
+ us-mta-355-jlbxRfC_ODmi8tp7Hu-puQ-1; Wed, 30 Mar 2022 04:47:23 -0400
+X-MC-Unique: jlbxRfC_ODmi8tp7Hu-puQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D388F3C1484C;
+ Wed, 30 Mar 2022 08:47:22 +0000 (UTC)
+Received: from [10.33.192.183] (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB27AC08F11;
+ Wed, 30 Mar 2022 08:47:21 +0000 (UTC)
+Message-ID: <de982a67-4cb3-4d12-8665-f5fe92215c22@redhat.com>
+Date: Wed, 30 Mar 2022 10:47:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [RFC 2/8] numa: call ->ram_block_removed() in
- ram_block_notifer_remove()
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20220323111727.1100209-1-stefanha@redhat.com>
- <20220323111727.1100209-3-stefanha@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220323111727.1100209-3-stefanha@redhat.com>
+ Thunderbird/91.6.0
+Subject: Re: [PATCH for-7.1] tests: Drop perl-Test-Harness from the CI
+ containers / VMs
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220329102808.423681-1-thuth@redhat.com>
+ <YkQSkGLb6F7zB10b@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <YkQSkGLb6F7zB10b@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -106,48 +83,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
+Cc: Ed Maste <emaste@freebsd.org>, Beraldo Leal <bleal@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Alberto Faria <afaria@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost <eduardo@habkost.net>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
- sgarzare@redhat.com
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.03.22 12:17, Stefan Hajnoczi wrote:
-> When a RAMBlockNotifier is added, ->ram_block_added() is called with all
-> existing RAMBlocks. There is no equivalent ->ram_block_removed() call
-> when a RAMBlockNotifier is removed.
+On 30/03/2022 10.19, Daniel P. Berrangé wrote:
+> On Tue, Mar 29, 2022 at 12:28:08PM +0200, Thomas Huth wrote:
+>> The perl test harness is not necessary anymore since commit 3d2f73ef75
+>> ("build: use "meson test" as the test harness"). Thus remove it from
+>> tests/lcitool/projects/qemu.yml, run "make lcitool-refresh" and manually
+>> clean the remaining docker / vm files that are not managed by lcitool yet.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   Note: This triggers a rebuild of the Centos-stream 8 container when
+>>   pushed to gitlab.com - which is however currently failing due to a
+>>   completely unrelated problem in the distro. Thus I've marked this as
+>>   "for-7.1" for now to avoid disturbing up our 7.0 freeze phase.
 > 
-> The util/vfio-helpers.c code (the sole user of RAMBlockNotifier) is fine
-> with this asymmetry because it does not rely on RAMBlockNotifier for
-> cleanup. It walks its internal list of DMA mappings and unmaps them by
-> itself.
-> 
-> Future users of RAMBlockNotifier may not have an internal data structure
-> that records added RAMBlocks so they will need ->ram_block_removed()
-> callbacks.
-> 
-> This patch makes ram_block_notifier_remove() symmetric with respect to
-> callbacks. Now util/vfio-helpers.c needs to unmap remaining DMA mappings
-> after ram_block_notifier_remove() has been called. This is necessary
-> since users like block/nvme.c may create additional DMA mappings that do
-> not originate from the RAMBlockNotifier.
-> 
-> Cc: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> FYI The centos repo issues appear to be resolved this morning.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Thanks, I've restarted the failed amd64-centos8-container job, and indeed it 
+is succeeding now:
 
+  https://gitlab.com/thuth/qemu/-/pipelines/503534214
 
--- 
-Thanks,
-
-David / dhildenb
+  Thomas
 
 
