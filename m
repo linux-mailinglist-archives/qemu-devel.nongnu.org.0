@@ -2,41 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDE94EC981
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 18:17:55 +0200 (CEST)
-Received: from localhost ([::1]:41412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1D74EC9A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 18:25:02 +0200 (CEST)
+Received: from localhost ([::1]:49554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZb18-0005AG-6W
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 12:17:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43702)
+	id 1nZb81-0002QW-IS
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 12:25:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZavm-0001wM-J7
+ id 1nZavm-0001wm-R6
  for qemu-devel@nongnu.org; Wed, 30 Mar 2022 12:12:22 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:43260)
+Received: from beetle.greensocs.com ([5.135.226.135]:43274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZavj-00015R-Ff
+ id 1nZavj-00015U-37
  for qemu-devel@nongnu.org; Wed, 30 Mar 2022 12:12:22 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id C160420780;
- Wed, 30 Mar 2022 16:12:15 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id A01FD21C38;
+ Wed, 30 Mar 2022 16:12:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  s=mail; t=1648656736;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=5FQs+8RM0htBQoHgvDqKOmP0UqWMALtkt95KG3gCUpY=;
- b=lXYm8eo0tEEAiohWuDetXg3D2X/dmCAi6bTarM7imAZNkz4GR582yLA5xcgDNhgv9LYinP
- GluLHe99z5PtsV6tKgtNm9evQg3AS9GDuYwBQHYP1uAZTW7fnc8Rcn+TyweT9dRYLXXQUf
- o4KQ/vlzoF7l2hjfXr2DAgh1w5QQ5Ys=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HZxEDrSOjfWFBbGyVVQI54kbQO1rmKUBNEhxdHOuVxU=;
+ b=y6ndgJ9A6/RFgbYwrJvVOMdLPbhAeplamjZBCeSCbD8OAquaMwaRBRgqCw5KELAjLgOjiG
+ rQKrKyzufNUxWPWbseU5Af9XWpOHVs8uRmLxPPAqfZZLD4SD4q6C9WGWpXqCTBWmnPHz2Z
+ 3JmuUTab7eqt7HCNPOb1EzYY2U6GW0M=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] Generalize the sysbus device machine allowance
-Date: Wed, 30 Mar 2022 18:12:10 +0200
-Message-Id: <20220330161215.235231-1-damien.hedde@greensocs.com>
+Subject: [PATCH 1/5] qdev: add uc_requires_machine_allowance flag
+Date: Wed, 30 Mar 2022 18:12:11 +0200
+Message-Id: <20220330161215.235231-2-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220330161215.235231-1-damien.hedde@greensocs.com>
+References: <20220330161215.235231-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam: Yes
@@ -68,44 +71,61 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+This flag will be used in device_add to check if
+the device needs special allowance from the machine
+model.
 
-This series transforms the TYPE_SYSBUS_DEVICE allowed list that exists
-in machine class model into a TYPE_DEVICE allowed list.
+It will replace the current check based only on the
+device being a TYPE_SYB_BUS_DEVICE.
 
-This will allow to add non-sysbus device into this list to prevent
-the user to create them on most machines.
-Typical use case will be for example cpu related devices like
-these developed in the following series:
-https://lore.kernel.org/qemu-devel/20220330125639.201937-1-damien.hedde@greensocs.com/
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+---
+ include/hw/qdev-core.h | 6 ++++++
+ hw/core/qdev.c         | 1 +
+ hw/core/sysbus.c       | 1 +
+ 3 files changed, 8 insertions(+)
 
-Thanks,
---
-Damien
-
-Damien Hedde (5):
-  qdev: add uc_requires_machine_allowance flag
-  machine: update machine allowed list related functions/fields
-  qdev-monitor: use the newly uc_requires_machine_allowance
-  rename machine_class_allow_dynamic_sysbus_dev
-  machine: remove temporary inline functions
-
- include/hw/boards.h         | 40 ++++++++++++++++++-------------------
- include/hw/qdev-core.h      |  6 ++++++
- hw/arm/virt.c               | 10 +++++-----
- hw/core/machine.c           | 10 +++++-----
- hw/core/qdev.c              |  1 +
- hw/core/sysbus.c            |  1 +
- hw/i386/microvm.c           |  2 +-
- hw/i386/pc_piix.c           |  4 ++--
- hw/i386/pc_q35.c            |  8 ++++----
- hw/ppc/e500plat.c           |  2 +-
- hw/ppc/spapr.c              |  2 +-
- hw/riscv/virt.c             |  2 +-
- hw/xen/xen-legacy-backend.c |  2 +-
- softmmu/qdev-monitor.c      |  8 ++++----
- 14 files changed, 53 insertions(+), 45 deletions(-)
-
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 92c3d65208..f5a05ced39 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -123,6 +123,12 @@ struct DeviceClass {
+      */
+     bool user_creatable;
+     bool hotpluggable;
++    /*
++     * Some devices (eg: sysbus devices) are only user-creatable if
++     * the machine allowed it. user_creatable need still to be set to
++     * true, this is an additional constraint.
++     */
++    bool uc_requires_machine_allowance;
+ 
+     /* callbacks */
+     /*
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 84f3019440..0825277521 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -833,6 +833,7 @@ static void device_class_init(ObjectClass *class, void *data)
+      */
+     dc->hotpluggable = true;
+     dc->user_creatable = true;
++    dc->uc_requires_machine_allowance = false;
+     vc->get_id = device_vmstate_if_get_id;
+     rc->get_state = device_get_reset_state;
+     rc->child_foreach = device_reset_child_foreach;
+diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
+index 05c1da3d31..462eb1116c 100644
+--- a/hw/core/sysbus.c
++++ b/hw/core/sysbus.c
+@@ -325,6 +325,7 @@ static void sysbus_device_class_init(ObjectClass *klass, void *data)
+      * subclass needs to override it and set user_creatable=true.
+      */
+     k->user_creatable = false;
++    k->uc_requires_machine_allowance = true;
+ }
+ 
+ static const TypeInfo sysbus_device_type_info = {
 -- 
 2.35.1
 
