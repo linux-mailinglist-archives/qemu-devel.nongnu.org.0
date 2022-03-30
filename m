@@ -2,82 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BFC4EBF1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:44:52 +0200 (CEST)
-Received: from localhost ([::1]:41932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE71D4EBF15
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 12:44:25 +0200 (CEST)
+Received: from localhost ([::1]:40424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZVop-0001oz-C8
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:44:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42202)
+	id 1nZVoO-0000oO-Uk
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 06:44:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZVNN-0004lI-67
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:16:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20237)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1nZVVJ-0004sW-DJ; Wed, 30 Mar 2022 06:24:41 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:37012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nZVNE-0000AN-Mp
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 06:16:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648635362;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9uc1lYQ33j9cBoLRQW+p4+VRHTtQiLeRFHoxSa4LHys=;
- b=I27wV7XNlU6a9lN5LAzMz77GyOaiJPAStYT2DbD3zGUNx13+eo6Z66icD4wovWV2Y0NNQ2
- ESDSwk0DV/3XBNq6DklHzW3D6cp8aBHY9g66Y8xpUa2zDshK4RspLijWqOqSJAtywVblP9
- qL50d5kDiFk1t/Yj8ORe5zYIyraAbL4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-gAcJizOhMpeXg23OLpmUww-1; Wed, 30 Mar 2022 06:16:01 -0400
-X-MC-Unique: gAcJizOhMpeXg23OLpmUww-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8CCBE85A5BE;
- Wed, 30 Mar 2022 10:16:00 +0000 (UTC)
-Received: from [10.33.192.183] (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE85340D2821;
- Wed, 30 Mar 2022 10:15:59 +0000 (UTC)
-Message-ID: <aaf431c7-7e9a-7a7b-2af5-d959e0c6dd09@redhat.com>
-Date: Wed, 30 Mar 2022 12:15:59 +0200
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1nZVVF-00074c-Hl; Wed, 30 Mar 2022 06:24:40 -0400
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id A8F6A11EF5E;
+ Wed, 30 Mar 2022 10:24:34 +0000 (UTC)
+From: ~eopxd <eopxd@git.sr.ht>
+Date: Wed, 30 Mar 2022 10:24:34 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 1/2] target/s390x: Fix determination of overflow condition
- code after addition
-From: Thomas Huth <thuth@redhat.com>
-To: David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220323162621.139313-1-thuth@redhat.com>
- <20220323162621.139313-2-thuth@redhat.com>
- <2b82de5e-a259-576c-5ea5-eb5c10e6bbeb@redhat.com>
- <36106411-4cf1-5eaf-b63f-c331380e087b@redhat.com>
- <6c73160b-787c-0f64-aabc-25bd943d8ffd@redhat.com>
- <e65e17f4-ef4c-9dfb-a9c6-a05dbc4cf671@redhat.com>
- <5930e000-35d2-64ec-e301-9305fa09db39@redhat.com>
- <a1b4b0b3-c83c-a88d-0b62-c9dbc77dd711@redhat.com>
-In-Reply-To: <a1b4b0b3-c83c-a88d-0b62-c9dbc77dd711@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Subject: [PATCH qemu v7 00/14] Add tail agnostic behavior for rvv instructions
+Message-ID: <164863587444.17401.9965527486691250478-0@git.sr.ht>
+X-Mailer: git.sr.ht
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,132 +50,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Bruno Haible <bruno@clisp.org>
+Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
+Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
+ eop Chen <eop.chen@sifive.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/03/2022 12.12, Thomas Huth wrote:
-> On 30/03/2022 11.47, David Hildenbrand wrote:
->> On 30.03.22 11:42, Thomas Huth wrote:
->>> On 30/03/2022 11.34, David Hildenbrand wrote:
->>>> On 30.03.22 11:29, Thomas Huth wrote:
->>>>> On 30/03/2022 10.52, David Hildenbrand wrote:
->>>>>> On 23.03.22 17:26, Thomas Huth wrote:
->>>>>>> This program currently prints different results when run with TCG 
->>>>>>> instead
->>>>>>> of running on real s390x hardware:
->>>>>>>
->>>>>>>     #include <stdio.h>
->>>>>>>
->>>>>>>     int overflow_32 (int x, int y)
->>>>>>>     {
->>>>>>>       int sum;
->>>>>>>       return ! __builtin_add_overflow (x, y, &sum);
->>>>>>>     }
->>>>>>>
->>>>>>>     int overflow_64 (long long x, long long y)
->>>>>>>     {
->>>>>>>       long sum;
->>>>>>>       return ! __builtin_add_overflow (x, y, &sum);
->>>>>>>     }
->>>>>>>
->>>>>>>     int a1 = -2147483648;
->>>>>>>     int b1 = -2147483648;
->>>>>>>     long long a2 = -9223372036854775808L;
->>>>>>>     long long b2 = -9223372036854775808L;
->>>>>>>
->>>>>>>     int main ()
->>>>>>>     {
->>>>>>>       {
->>>>>>>         int a = a1;
->>>>>>>         int b = b1;
->>>>>>>         printf ("a = 0x%x, b = 0x%x\n", a, b);
->>>>>>>         printf ("no_overflow = %d\n", overflow_32 (a, b));
->>>>>>>       }
->>>>>>>       {
->>>>>>>         long long a = a2;
->>>>>>>         long long b = b2;
->>>>>>>         printf ("a = 0x%llx, b = 0x%llx\n", a, b);
->>>>>>>         printf ("no_overflow = %d\n", overflow_64 (a, b));
->>>>>>>       }
->>>>>>>     }
->>>>>>>
->>>>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/616
->>>>>>> Suggested-by: Bruno Haible <bruno@clisp.org>
->>>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>>>>> ---
->>>>>>>     target/s390x/tcg/cc_helper.c | 4 ++--
->>>>>>>     1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>>>
->>>>>>> diff --git a/target/s390x/tcg/cc_helper.c b/target/s390x/tcg/cc_helper.c
->>>>>>> index 8d04097f78..e11cdb745d 100644
->>>>>>> --- a/target/s390x/tcg/cc_helper.c
->>>>>>> +++ b/target/s390x/tcg/cc_helper.c
->>>>>>> @@ -136,7 +136,7 @@ static uint32_t cc_calc_subu(uint64_t borrow_out, 
->>>>>>> uint64_t result)
->>>>>>>     static uint32_t cc_calc_add_64(int64_t a1, int64_t a2, int64_t ar)
->>>>>>>     {
->>>>>>> -    if ((a1 > 0 && a2 > 0 && ar < 0) || (a1 < 0 && a2 < 0 && ar > 0)) {
->>>>>>> +    if ((a1 > 0 && a2 > 0 && ar < 0) || (a1 < 0 && a2 < 0 && ar >= 
->>>>>>> 0)) {
->>>>>>
->>>>>>
->>>>>> Intuitively, I'd have checked for any overflow/underflow by comparing
->>>>>> with one of the input variables:
->>>>>>
->>>>>> a) Both numbers are positive
->>>>>>
->>>>>> Adding to positive numbers has to result in something that's bigger than
->>>>>> the input parameters.
->>>>>>
->>>>>> "a1 > 0 && a2 > 0 && ar < a1"
->>>>>
->>>>> I think it doesn't really matter whether we compare ar with a1 or 0 
->>>>> here. If
->>>>> an overflow happens, what's the biggest number that we can get? AFAICT 
->>>>> it's
->>>>> with a1 = 0x7fffffffffffffff and a2 = 0x7fffffffffffffff. You then get:
->>>>>
->>>>>     0x7fffffffffffffff + 0x7fffffffffffffff = 0xFFFFFFFFFFFFFFFE
->>>>>
->>>>> and that's still < 0 if treated as a signed value. I don't see a way where
->>>>> ar could be in the range between 0 and a1.
->>>>>
->>>>> (OTOH, checking for ar < a1 instead of ar < 0 wouldn't hurt either, I 
->>>>> guess).
->>>>>
->>>>>> b) Both numbers are negative
->>>>>>
->>>>>> Adding to negative numbers has to result in something that's smaller
->>>>>> than the input parameters.
->>>>>>
->>>>>> "a1 < 0 && a2 < 0 && ar > a1"
->>>>>
->>>>> What about if the uppermost bit gets lost in 64-bit mode:
->>>>>
->>>>>     0x8000000000000000 + 0x8000000000000000 = 0x0000000000000000
->>>>>
->>>>> ar > a1 does not work here anymore, does it?
->>>>
->>>>
->>>> 0 > -9223372036854775808, no?
->>>
->>> current coffe level < correct coffee level
->>>
->>> ... sorry, never mind, you're right of course.
->>>
->>> Anyway, 0 is the lowest number we can get for an underflow, so comparing
->>> with >= 0 should be fine (but comparing with a1 wouldn't hurt either).
->>
->> At least for me it takes more brainpower to understand that than
->> comparing against one of both parameters as we usually do, e.g., for
->> unsigned values
-> Maybe we should simply switch the code to use __builtin_add_overflow and 
-> __builtin_sub_overflow and let the compiler figure out the details...
+According to v-spec, tail agnostic behavior can be either kept as
+undisturbed or set elements' bits to all 1s. To distinguish the
+difference of tail policies, QEMU should be able to simulate the tail
+agnostic behavior as "set tail elements' bits to all 1s". An option
+'rvv_ta_all_1s' is added to enable the behavior, it is default as
+disabled.
 
-Never mind again, that doesn't work in this context either ...
-/me finally goes fetching another coffee...
+There are multiple possibility for agnostic elements according to
+v-spec. The main intent of this patch-set tries to add option that
+can distinguish between tail policies. Setting agnostic elements to
+all 1s makes things simple and allow QEMU to express this.
 
-  Thomas
+We may explore other possibility of agnostic behavior by adding
+other options in the future. Please understand that this patch-set
+is limited.
 
+v2 updates:
+- Addressed comments from Weiwei Li
+- Added commit tail agnostic on load / store instructions (which
+   I forgot to include into the patch-set)
+
+v3 updates:
+- Missed the very 1st commit, adding it back
+
+v4 updates:
+- Renamed vlmax to total_elems
+- Deal with tail element when vl_eq_vlmax == true
+
+v5 updates:
+- Let `vext_get_total_elems` take `desc` and `esz`
+- Utilize `simd_maxsz(desc)` to get `vlenb`
+- Fix alignments to code
+
+v6 updates:
+- Fix `vext_get_total_elems`
+
+v7 updates:
+- Reuse `max_elems` for vector load / store helper functions. The
+   translation sets desc's `lmul` to `min(1, lmul)`, making
+`vext_max_elems`
+   equivalent to `vext_get_total_elems`.
+
+eopXD (14):
+  target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
+  target/riscv: rvv: Rename ambiguous esz
+  target/riscv: rvv: Early exit when vstart >= vl
+  target/riscv: rvv: Add tail agnostic for vv instructions
+  target/riscv: rvv: Add tail agnostic for vector load / store
+    instructions
+  target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
+  target/riscv: rvv: Add tail agnostic for vector integer shift
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector integer comparison
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector integer merge and move
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector floating-point
+    instructions
+  target/riscv: rvv: Add tail agnostic for vector reduction instructions
+  target/riscv: rvv: Add tail agnostic for vector mask instructions
+  target/riscv: rvv: Add tail agnostic for vector permutation
+    instructions
+
+ target/riscv/cpu.c                      |    1 +
+ target/riscv/cpu.h                      |    2 +
+ target/riscv/cpu_helper.c               |    2 +
+ target/riscv/insn_trans/trans_rvv.c.inc |  164 +++
+ target/riscv/internals.h                |    5 +-
+ target/riscv/translate.c                |    2 +
+ target/riscv/vector_helper.c            | 1562 ++++++++++++++---------
+ 7 files changed, 1121 insertions(+), 617 deletions(-)
+
+-- 
+2.34.1
 
