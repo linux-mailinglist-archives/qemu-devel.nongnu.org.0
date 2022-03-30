@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957024ECB5E
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:08:06 +0200 (CEST)
-Received: from localhost ([::1]:48898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489664ECB84
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 20:13:26 +0200 (CEST)
+Received: from localhost ([::1]:56742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZcjl-0001F1-D7
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:08:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41566)
+	id 1nZcov-0007mX-B0
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 14:13:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nZcbo-0000kb-PH; Wed, 30 Mar 2022 13:59:52 -0400
+ id 1nZcbr-0000rp-8x; Wed, 30 Mar 2022 13:59:55 -0400
 Received: from [187.72.171.209] (port=21948 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nZcbn-0004ik-5V; Wed, 30 Mar 2022 13:59:52 -0400
+ id 1nZcbp-0004ik-NS; Wed, 30 Mar 2022 13:59:55 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Wed, 30 Mar 2022 14:59:36 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id AFDC280060F;
- Wed, 30 Mar 2022 14:59:35 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 2274C8002AF;
+ Wed, 30 Mar 2022 14:59:36 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [RFC PATCH 6/8] softfloat: add float128_to_int128
-Date: Wed, 30 Mar 2022 14:59:30 -0300
-Message-Id: <20220330175932.6995-7-matheus.ferst@eldorado.org.br>
+Subject: [RFC PATCH 7/8] target/ppc: implement xscv[su]qqp
+Date: Wed, 30 Mar 2022 14:59:31 -0300
+Message-Id: <20220330175932.6995-8-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
 References: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 30 Mar 2022 17:59:36.0184 (UTC)
- FILETIME=[EAF38780:01D8445F]
+X-OriginalArrivalTime: 30 Mar 2022 17:59:36.0528 (UTC)
+ FILETIME=[EB280500:01D8445F]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -57,140 +57,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, danielhb413@gmail.com,
- richard.henderson@linaro.org, groug@kaod.org, clg@kaod.org,
- Matheus Ferst <matheus.ferst@eldorado.org.br>,
- Aurelien Jarno <aurelien@aurel32.net>, david@gibson.dropbear.id.au
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Implements float128_to_int128 based on parts_float_to_int logic.
+Implement the following PowerISA v3.1 instructions:
+xscvsqqp: VSX Scalar Convert with round Signed Quadword to
+          Quad-Precision
+xscvuqqp: VSX Scalar Convert with round Unsigned Quadword to
+          Quad-Precision format
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- fpu/softfloat.c         | 64 +++++++++++++++++++++++++++++++++++++++++
- include/fpu/softfloat.h |  2 ++
- include/qemu/int128.h   |  2 ++
- 3 files changed, 68 insertions(+)
+ target/ppc/fpu_helper.c             | 12 ++++++++++++
+ target/ppc/helper.h                 |  2 ++
+ target/ppc/insn32.decode            |  5 +++++
+ target/ppc/translate/vsx-impl.c.inc | 20 ++++++++++++++++++++
+ 4 files changed, 39 insertions(+)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index ce21b64e4f..5e2cf20448 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -3154,6 +3154,60 @@ static int64_t float128_to_int64_scalbn(float128 a, FloatRoundMode rmode,
-     return parts_float_to_sint(&p, rmode, scale, INT64_MIN, INT64_MAX, s);
- }
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 7e8be99cc0..97892afa95 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -3058,6 +3058,18 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)        \
+ VSX_CVT_INT_TO_FP2(xvcvsxdsp, int64, float32)
+ VSX_CVT_INT_TO_FP2(xvcvuxdsp, uint64, float32)
  
-+static Int128 float128_to_int128_scalbn(float128 a, FloatRoundMode rmode,
-+                                        int scale, float_status *s)
-+{
-+    int flags = 0;
-+    Int128 r;
-+    FloatParts128 p;
-+
-+    float128_unpack_canonical(&p, a, s);
-+
-+    switch (p.cls) {
-+    case float_class_snan:
-+        flags |= float_flag_invalid_snan;
-+        /* fall through */
-+    case float_class_qnan:
-+        flags |= float_flag_invalid;
-+        r = UINT128_MAX;
-+        break;
-+
-+    case float_class_inf:
-+        flags = float_flag_invalid | float_flag_invalid_cvti;
-+        r = p.sign ? INT128_MIN : INT128_MAX;
-+        break;
-+
-+    case float_class_zero:
-+        return int128_zero();
-+
-+    case float_class_normal:
-+        if (parts_round_to_int_normal(&p, rmode, scale, 128 - 2)) {
-+            flags = float_flag_inexact;
-+        }
-+
-+        if (p.exp < 127) {
-+            int shift = 127 - p.exp;
-+            r = int128_urshift(int128_make128(p.frac_lo, p.frac_hi), shift);
-+            if (p.sign) {
-+                r = int128_neg(r);
-+            }
-+        } else if (p.exp == 127 && p.sign && p.frac_lo == 0 &&
-+                   p.frac_hi == DECOMPOSED_IMPLICIT_BIT) {
-+            r = INT128_MIN;
-+        } else {
-+            flags = float_flag_invalid | float_flag_invalid_cvti;
-+            r = p.sign ? INT128_MIN : INT128_MAX;
-+        }
-+        break;
-+
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    float_raise(flags, s);
-+    return r;
++#define VSX_CVT_INT128_TO_FP(op, tp)                            \
++void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)\
++{                                                               \
++    helper_reset_fpstatus(env);                                 \
++    xt->f128 = tp##_to_float128(xb->s128, &env->fp_status);     \
++    helper_compute_fprf_float128(env, xt->f128);                \
++    do_float_check_status(env, GETPC());                        \
 +}
 +
- static int32_t floatx80_to_int32_scalbn(floatx80 a, FloatRoundMode rmode,
-                                         int scale, float_status *s)
- {
-@@ -3236,6 +3290,11 @@ int64_t float128_to_int64(float128 a, float_status *s)
-     return float128_to_int64_scalbn(a, s->float_rounding_mode, 0, s);
++VSX_CVT_INT128_TO_FP(XSCVUQQP, uint128);
++VSX_CVT_INT128_TO_FP(XSCVSQQP, int128);
++
+ /*
+  * VSX_CVT_INT_TO_FP_VECTOR - VSX integer to floating point conversion
+  *   op    - instruction mnemonic
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 57da11c77e..7df0c01819 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -388,6 +388,8 @@ DEF_HELPER_4(xscvqpsdz, void, env, i32, vsr, vsr)
+ DEF_HELPER_4(xscvqpswz, void, env, i32, vsr, vsr)
+ DEF_HELPER_4(xscvqpudz, void, env, i32, vsr, vsr)
+ DEF_HELPER_4(xscvqpuwz, void, env, i32, vsr, vsr)
++DEF_HELPER_3(XSCVUQQP, void, env, vsr, vsr)
++DEF_HELPER_3(XSCVSQQP, void, env, vsr, vsr)
+ DEF_HELPER_3(xscvhpdp, void, env, vsr, vsr)
+ DEF_HELPER_4(xscvsdqp, void, env, i32, vsr, vsr)
+ DEF_HELPER_3(xscvspdp, void, env, vsr, vsr)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index ac2d3da9a7..6fb568c1fe 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -91,6 +91,9 @@
+ 
+ @X_tp_a_bp_rc   ...... ....0 ra:5 ....0 .......... rc:1         &X_rc rt=%x_frtp rb=%x_frbp
+ 
++&X_tb           rt rb
++@X_tb           ...... rt:5 ..... rb:5 .......... .             &X_tb
++
+ &X_tb_rc        rt rb rc:bool
+ @X_tb_rc        ...... rt:5 ..... rb:5 .......... rc:1          &X_tb_rc
+ 
+@@ -692,6 +695,8 @@ XSCMPGTQP       111111 ..... ..... ..... 0011100100 -   @X
+ ## VSX Binary Floating-Point Convert Instructions
+ 
+ XSCVQPDP        111111 ..... 10100 ..... 1101000100 .   @X_tb_rc
++XSCVUQQP        111111 ..... 00011 ..... 1101000100 -   @X_tb
++XSCVSQQP        111111 ..... 01011 ..... 1101000100 -   @X_tb
+ XVCVBF16SPN     111100 ..... 10000 ..... 111011011 ..   @XX2
+ XVCVSPBF16      111100 ..... 10001 ..... 111011011 ..   @XX2
+ 
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index d1f6333314..a305579ecc 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -838,6 +838,26 @@ static bool trans_XSCVQPDP(DisasContext *ctx, arg_X_tb_rc *a)
+     return true;
  }
  
-+Int128 float128_to_int128(float128 a, float_status *s)
++static bool do_helper_env_X_tb(DisasContext *ctx, arg_X_tb *a,
++                               void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr))
 +{
-+    return float128_to_int128_scalbn(a, s->float_rounding_mode, 0, s);
++    TCGv_ptr xt, xb;
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VSX(ctx);
++
++    xt = gen_avr_ptr(a->rt);
++    xb = gen_avr_ptr(a->rb);
++    gen_helper(cpu_env, xt, xb);
++    tcg_temp_free_ptr(xt);
++    tcg_temp_free_ptr(xb);
++
++    return true;
 +}
 +
- int32_t floatx80_to_int32(floatx80 a, float_status *s)
- {
-     return floatx80_to_int32_scalbn(a, s->float_rounding_mode, 0, s);
-@@ -3301,6 +3360,11 @@ int64_t float128_to_int64_round_to_zero(float128 a, float_status *s)
-     return float128_to_int64_scalbn(a, float_round_to_zero, 0, s);
- }
- 
-+Int128 float128_to_int128_round_to_zero(float128 a, float_status *s)
-+{
-+    return float128_to_int128_scalbn(a, float_round_to_zero, 0, s);
-+}
++TRANS(XSCVUQQP, do_helper_env_X_tb, gen_helper_XSCVUQQP)
++TRANS(XSCVSQQP, do_helper_env_X_tb, gen_helper_XSCVSQQP)
 +
- int32_t floatx80_to_int32_round_to_zero(floatx80 a, float_status *s)
- {
-     return floatx80_to_int32_scalbn(a, float_round_to_zero, 0, s);
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 6cfe9ee474..3dcf20e3a2 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -1204,7 +1204,9 @@ floatx80 floatx80_default_nan(float_status *status);
- int32_t float128_to_int32(float128, float_status *status);
- int32_t float128_to_int32_round_to_zero(float128, float_status *status);
- int64_t float128_to_int64(float128, float_status *status);
-+Int128 float128_to_int128(float128, float_status *status);
- int64_t float128_to_int64_round_to_zero(float128, float_status *status);
-+Int128 float128_to_int128_round_to_zero(float128, float_status *status);
- uint64_t float128_to_uint64(float128, float_status *status);
- Int128 float128_to_uint128(float128, float_status *status);
- uint64_t float128_to_uint64_round_to_zero(float128, float_status *status);
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index ca32b0b276..17ea5f1372 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -431,5 +431,7 @@ static inline void bswap128s(Int128 *s)
- }
- 
- #define UINT128_MAX int128_make128(~0LL, ~0LL)
-+#define INT128_MAX int128_make128(UINT64_MAX, INT64_MAX)
-+#define INT128_MIN int128_make128(0, INT64_MIN)
- 
- #endif /* INT128_H */
+ #define GEN_VSX_HELPER_2(name, op1, op2, inval, type)                         \
+ static void gen_##name(DisasContext *ctx)                                     \
+ {                                                                             \
 -- 
 2.25.1
 
