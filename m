@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FDCC4ECEE9
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 23:41:34 +0200 (CEST)
-Received: from localhost ([::1]:58396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C45774ECF05
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Mar 2022 23:48:26 +0200 (CEST)
+Received: from localhost ([::1]:47778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZg4L-0000GY-Cu
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 17:41:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37884)
+	id 1nZgAz-0003iK-Se
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 17:48:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZg2E-0005kE-2d
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:39:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49113)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZg2F-0005om-MX
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:39:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZg2C-0005Ep-Fu
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:39:21 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZg2E-0005FE-4r
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 17:39:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648676359;
+ s=mimecast20190719; t=1648676361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=muISGSqC4VLW6KPUHb9CY6sFKOFruXP+msv79+xlWRw=;
- b=aYL35VbgcRcZlrWvDc7OBukyqTap5mvDKiHnM8M5ws/noPY91utavQc4MIBDm4vFCdPWfo
- h/NwQBkknoxqHyx5n0VF0qVGyU5uHUpLjtTIufJI8iADdN1/q+w3ziHY0cU+OnaZJQsXf1
- 70ETW4EzWxy7XxiAvamLUyd2GhcMK8I=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TVKNqyq4weVAvwWKRPYdQpiVnLIi/a9PNfjk/yWRalU=;
+ b=VdrlNLxD0COPrikT7XAx7RcoHvZpnfeBpHDgtbUYYnwFNJWA4FaJ1/nJ4Y26kWEGhGn2dl
+ alLEOKLfwfTEhRSOORx4x8gPrUu8aOgiGxMBKQJrTz/+KIUktBXJ/3RsO1Wxiduv0LMQS5
+ KHJaNgS6BAor7qYmyBPYHm4/nu4htng=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-437-Z1YEPGNEOPeyKfcAV33rSA-1; Wed, 30 Mar 2022 17:39:18 -0400
-X-MC-Unique: Z1YEPGNEOPeyKfcAV33rSA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- z1-20020ad44781000000b00440ded04b09so17030102qvy.22
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:39:18 -0700 (PDT)
+ us-mta-47-Dl9VVmRYOzygusRFUI3RIA-1; Wed, 30 Mar 2022 17:39:19 -0400
+X-MC-Unique: Dl9VVmRYOzygusRFUI3RIA-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ fw9-20020a056214238900b0043522aa5b81so17043063qvb.21
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 14:39:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=muISGSqC4VLW6KPUHb9CY6sFKOFruXP+msv79+xlWRw=;
- b=5zxZnElnWCvLtC6g53kP52gAL6kDdeUAHDNNcp5aSTqV/1ejGSKDVVuFxPGi3IwQAV
- IacGDiZJxz7ykWg8O0Z2lOW7d1s7YR8KISsiECAPGuh2kdODZPoNnLmai6vlAsNHQ+eq
- y/VTc16SDyVuSpxBfR85aAh5BBsEmnJ6buO6Xnlb2HV7MOIQnLhKgoPnCibVJY/NVrxC
- /Vc76Jp3OaFMibQNxQBITS18Tv4U2fI0St2yEn2CtmcOfMxNr+/ibzHYQm9hNl/CP9W7
- zb2MeLnxXnKolR84AyV9gjSCvx0Ti6u96NUqP2uKXlrhpLKGVAmfnfe2C6vlq5I5u9VP
- e3cQ==
-X-Gm-Message-State: AOAM532kzf6HVDVcSUlxUXw/g/0XIaAWZMU7arT8MAIj+4N8BiEVC217
- bR6ZMN9iIF3GyQkaPbH8Zm8Go2PXr4bLeX2LBLUI2sACqZ2XBThy7k3hmiEw+s3gzr5WAi0TM7s
- 5mf6/Gi3G3n8skhUbUvT1aejV+PQg1gj6fok0vPq8kv6T9LtGx4iEvkw76d00wHvz
-X-Received: by 2002:a05:620a:2443:b0:67d:fb40:310e with SMTP id
- h3-20020a05620a244300b0067dfb40310emr1276369qkn.241.1648676357787; 
- Wed, 30 Mar 2022 14:39:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxeAzQAqBGJc7yQhbPLMuj60txd9EIq0dlYPjAe+RUZcfiNPPOF0h8pC5ZedR4Xviyh32EjTw==
-X-Received: by 2002:a05:620a:2443:b0:67d:fb40:310e with SMTP id
- h3-20020a05620a244300b0067dfb40310emr1276351qkn.241.1648676357506; 
- Wed, 30 Mar 2022 14:39:17 -0700 (PDT)
+ bh=TVKNqyq4weVAvwWKRPYdQpiVnLIi/a9PNfjk/yWRalU=;
+ b=ewQbY3Y28SBYBVbFn0UxvbG7VAlxe7WtQOKb6CA/Klpi7IeYIxvCleqV9wTPWixILZ
+ fr4e2opP7f158hS9noCxor+/GKg64+xHTZnzbvKfaLByEoyu+62oqoYBG8Sx4ZZmWtMg
+ 0thmmQ9U7iNWsmZCfz8It8V2W7OP5B8pKANxFoh2XZK/CQQE0yotVsMz8crDBf8capyl
+ Vix0gQf376kRYJXk+gmh6uEJd9tukDpLWiu1QWHO2vQxdOJF9nldzPl8UHbyCc5fpQX3
+ 5yRlTW7hEh7bAqOTBa6Dkr6Li9eB+HwoBj9KWe5I46KZA07oclabeh/V6ytAccQgS0ry
+ 6o5A==
+X-Gm-Message-State: AOAM530s94htCUvJBpo5tJ7+iTdRQ8SbbAvADs/SnyI8HlSKOhnyFKvK
+ 8dV7JB9e15YqtwiewTYlfEYBRg5ch36P/OGkCk6eyT5AGmA0GZPWOzKmQo26MX5GsIxqgV7i+wj
+ UTrLBdPFGqMHQdjTjtJVq6f9ZxQmg5HpNnrC+oUeIjQoRpSsTpFYpoxi7mGkT5TtO
+X-Received: by 2002:a05:620a:4556:b0:67e:b485:7b1f with SMTP id
+ u22-20020a05620a455600b0067eb4857b1fmr1328197qkp.200.1648676359071; 
+ Wed, 30 Mar 2022 14:39:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxr6M/o6kVeODRBrohbBvomp8VKcC/To+k3Nb11bEK5z9HnnQUGPktuNMXOX45fGsAlFtkFiA==
+X-Received: by 2002:a05:620a:4556:b0:67e:b485:7b1f with SMTP id
+ u22-20020a05620a455600b0067eb4857b1fmr1328169qkp.200.1648676358572; 
+ Wed, 30 Mar 2022 14:39:18 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- a23-20020a05620a16d700b0067e98304705sm11306313qkn.89.2022.03.30.14.39.16
+ a23-20020a05620a16d700b0067e98304705sm11306313qkn.89.2022.03.30.14.39.17
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 30 Mar 2022 14:39:17 -0700 (PDT)
+ Wed, 30 Mar 2022 14:39:18 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/19] migration: Move channel setup out of
- postcopy_try_recover()
-Date: Wed, 30 Mar 2022 17:38:55 -0400
-Message-Id: <20220330213908.26608-7-peterx@redhat.com>
+Subject: [PATCH v3 07/19] migration: Allow migrate-recover to run multiple
+ times
+Date: Wed, 30 Mar 2022 17:38:56 -0400
+Message-Id: <20220330213908.26608-8-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220330213908.26608-1-peterx@redhat.com>
 References: <20220330213908.26608-1-peterx@redhat.com>
@@ -107,92 +107,80 @@ Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We used to use postcopy_try_recover() to replace migration_incoming_setup() to
-setup incoming channels.  That's fine for the old world, but in the new world
-there can be more than one channels that need setup.  Better move the channel
-setup out of it so that postcopy_try_recover() only handles the last phase of
-switching to the recovery phase.
+Previously migration didn't have an easy way to cleanup the listening
+transport, migrate recovery only allows to execute once.  That's done with a
+trick flag in postcopy_recover_triggered.
 
-To do that in migration_fd_process_incoming(), move the postcopy_try_recover()
-call to be after migration_incoming_setup(), which will setup the channels.
-While in migration_ioc_process_incoming(), postpone the recover() routine right
-before we'll jump into migration_incoming_process().
+Now the facility is already there.
 
-A side benefit is we don't need to pass in QEMUFile* to postcopy_try_recover()
-anymore.  Remove it.
+Drop postcopy_recover_triggered and instead allows a new migrate-recover to
+release the previous listener transport.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ migration/migration.c | 13 ++-----------
+ migration/migration.h |  1 -
+ migration/savevm.c    |  3 ---
+ 3 files changed, 2 insertions(+), 15 deletions(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index 596d3d30b4..8ecf78f2c7 100644
+index 8ecf78f2c7..21fcf5102f 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -671,19 +671,20 @@ void migration_incoming_process(void)
- }
- 
- /* Returns true if recovered from a paused migration, otherwise false */
--static bool postcopy_try_recover(QEMUFile *f)
-+static bool postcopy_try_recover(void)
- {
-     MigrationIncomingState *mis = migration_incoming_get_current();
- 
-     if (mis->state == MIGRATION_STATUS_POSTCOPY_PAUSED) {
-         /* Resumed from a paused postcopy migration */
- 
--        mis->from_src_file = f;
-+        /* This should be set already in migration_incoming_setup() */
-+        assert(mis->from_src_file);
-         /* Postcopy has standalone thread to do vm load */
--        qemu_file_set_blocking(f, true);
-+        qemu_file_set_blocking(mis->from_src_file, true);
- 
-         /* Re-configure the return path */
--        mis->to_src_file = qemu_file_get_return_path(f);
-+        mis->to_src_file = qemu_file_get_return_path(mis->from_src_file);
- 
-         migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_PAUSED,
-                           MIGRATION_STATUS_POSTCOPY_RECOVER);
-@@ -704,11 +705,10 @@ static bool postcopy_try_recover(QEMUFile *f)
- 
- void migration_fd_process_incoming(QEMUFile *f, Error **errp)
- {
--    if (postcopy_try_recover(f)) {
-+    if (!migration_incoming_setup(f, errp)) {
+@@ -2164,11 +2164,8 @@ void qmp_migrate_recover(const char *uri, Error **errp)
          return;
      }
--
--    if (!migration_incoming_setup(f, errp)) {
-+    if (postcopy_try_recover()) {
-         return;
-     }
-     migration_incoming_process();
-@@ -724,11 +724,6 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
-         /* The first connection (multifd may have multiple) */
-         QEMUFile *f = qemu_fopen_channel_input(ioc);
  
--        /* If it's a recovery, we're done */
--        if (postcopy_try_recover(f)) {
--            return;
--        }
--
-         if (!migration_incoming_setup(f, errp)) {
-             return;
-         }
-@@ -749,6 +744,10 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
-     }
+-    if (qatomic_cmpxchg(&mis->postcopy_recover_triggered,
+-                       false, true) == true) {
+-        error_setg(errp, "Migrate recovery is triggered already");
+-        return;
+-    }
++    /* If there's an existing transport, release it */
++    migration_incoming_transport_cleanup(mis);
  
-     if (start_migration) {
-+        /* If it's a recovery, we're done */
-+        if (postcopy_try_recover()) {
-+            return;
-+        }
-         migration_incoming_process();
-     }
+     /*
+      * Note that this call will never start a real migration; it will
+@@ -2176,12 +2173,6 @@ void qmp_migrate_recover(const char *uri, Error **errp)
+      * to continue using that newly established channel.
+      */
+     qemu_start_incoming_migration(uri, errp);
+-
+-    /* Safe to dereference with the assert above */
+-    if (*errp) {
+-        /* Reset the flag so user could still retry */
+-        qatomic_set(&mis->postcopy_recover_triggered, false);
+-    }
  }
+ 
+ void qmp_migrate_pause(Error **errp)
+diff --git a/migration/migration.h b/migration/migration.h
+index f17ccc657c..a863032b71 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -139,7 +139,6 @@ struct MigrationIncomingState {
+     struct PostcopyBlocktimeContext *blocktime_ctx;
+ 
+     /* notify PAUSED postcopy incoming migrations to try to continue */
+-    bool postcopy_recover_triggered;
+     QemuSemaphore postcopy_pause_sem_dst;
+     QemuSemaphore postcopy_pause_sem_fault;
+ 
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 02ed94c180..d9076897b8 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2589,9 +2589,6 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
+ 
+     assert(migrate_postcopy_ram());
+ 
+-    /* Clear the triggered bit to allow one recovery */
+-    mis->postcopy_recover_triggered = false;
+-
+     /*
+      * Unregister yank with either from/to src would work, since ioc behind it
+      * is the same
 -- 
 2.32.0
 
