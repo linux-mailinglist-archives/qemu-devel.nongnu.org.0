@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53A04EDF89
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 19:20:15 +0200 (CEST)
-Received: from localhost ([::1]:55886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3504EDF6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 19:12:18 +0200 (CEST)
+Received: from localhost ([::1]:47888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZyT0-0002Ej-9a
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 13:20:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56540)
+	id 1nZyLJ-0004v5-87
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 13:12:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nZyI7-0001ZC-14
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:08:59 -0400
-Received: from [2a00:1450:4864:20::42b] (port=38478
- helo=mail-wr1-x42b.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nZyKF-00044r-Uf
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:11:12 -0400
+Received: from [2607:f8b0:4864:20::32a] (port=37672
+ helo=mail-ot1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nZyI4-0002tx-BG
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:08:58 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id i4so694637wrb.5
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 10:08:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=VUGSaiq9yiLhf5/jq729pfpbHAwphwgvA7ZvTqPAeX0=;
- b=XQghIHqx3E6JiGWdVfTatvW43sQ47yPCG7QqhsbiU8yoKfwUFLu3opVwXabN5MKFUr
- ZKVSUAWduJlHuDe9nGytg5dO0GSSzp619wpXi4cEtlPu1EM/EVI2gZkpNiYOTY5aj2FA
- zDhOXvnlaPtTlRw4lpaftffAlTo/hvRvBv3NQA5Qmz9bUA2DPx1JiVS4cCHgiJ02OyJd
- gyjN6YNKEfaGyNqlNZPIBj6JDwrauLAVaafaPda8F/puI2v9aJS3a4UYbrDvMQG5meob
- AOg9gM0AuqcoH+ueiPTCR512CI2jl909Vbd4Yyy9JrR0T2kNw1trs2eUgVsI7WzhPXdx
- 88pw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nZyKE-0003Xq-5D
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:11:11 -0400
+Received: by mail-ot1-x32a.google.com with SMTP id
+ k25-20020a056830151900b005b25d8588dbso335266otp.4
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 10:11:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=DcfqG/gln9tY5y2j4H8URUQPi1A2/qOC2YaaI1JFCUA=;
+ b=x5yMfYgbNpzdyYIvlZqvCyW6lED8PQiNtQ81s+WgJ7uhhuJYcUz3c2w7n3/TWvvEtk
+ ZhIED+W9eFfxyD6oZRyBap0cuHtjORnFjrTKqi8uqgpojNS840BTwV2Z+X3esLGCzdAo
+ FHSnMMB+s69EqOd7pXLd26vANLwJZzWj5ySOj3e/p17rwOUIIETJ3iaqI8148nxXRHLz
+ il/Q7wFugyIcTv2eFSiamuksjb07GxuD8K765srIG3u31vBimWpuO8e9l5fNdlGY+ggV
+ pan7I2vjEFf003s5WuC2jsgdPWbQ21O0ya1HfJwZYAJHALAOEv1UnE5AZkk6lCm5DbsY
+ ys6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=VUGSaiq9yiLhf5/jq729pfpbHAwphwgvA7ZvTqPAeX0=;
- b=chcmAWVdMWSm1yL/TBx3AGZUXfLlxF2geTIJ80D8vMcVyzeCsfaNhPjKBaS0ojzrAj
- WWj8qBymnuK+1HDz5UpMhUgF/lwWw/z7KYjDHTW/zQj00gd/PFBwDVmq++9jaR0zNGoE
- IWB3aCW+EWlfggiZP1RwiDxMBjRPFfdhQ0U0wRWP5R1wERYrjtPPXQCw0aNaOUHMnBPU
- itGkUnwfe+EvBBSS0RpkxriO3T+E/dNuXWC0crGf4GmogCmCnYKzeDJAKaroW5i+Z5eP
- lEbF3uBu1FaCcBzdMlwlAsEDMCDWrZapQGbTR6tCeHE65hA51m66v9mFrBvVXKfZgr01
- dcWg==
-X-Gm-Message-State: AOAM532F/nSwILOAOhPEVa5pkEQkMYFzl4EeuTa4SabPXVz3MaS5I0EB
- K60wUG+iv43rTWXgtoP0YdQ=
-X-Google-Smtp-Source: ABdhPJxt5Kfr1xDFLFo497ppcB7g3MD9JEzGqOdtMo/8p+dgW/pqMCSrG+xjIoiQadT/yWSzxS0SbQ==
-X-Received: by 2002:a05:6000:1887:b0:204:2917:ad3e with SMTP id
- a7-20020a056000188700b002042917ad3emr4843131wri.138.1648746534012; 
- Thu, 31 Mar 2022 10:08:54 -0700 (PDT)
-Received: from localhost (109.9.90.146.dyn.plus.net. [146.90.9.109])
- by smtp.gmail.com with ESMTPSA id
- r14-20020a05600c35ce00b0038c9f469979sm7981993wmq.40.2022.03.31.10.08.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 10:08:53 -0700 (PDT)
-Date: Thu, 31 Mar 2022 18:08:51 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Sakshi Kaushik <sakshikaushik717@gmail.com>
-Subject: Re: [PATCH] [PATCH RFC v1] Implements the Backend Program
- conventions for vhost-user-scsi
-Message-ID: <YkXgI7mEmr+zFGD4@stefanha-x1.localdomain>
-References: <20220331055536.26038-1-sakshikaushik717@gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DcfqG/gln9tY5y2j4H8URUQPi1A2/qOC2YaaI1JFCUA=;
+ b=1R45D6MbmufyObZ0cjqEycsSWIKzVmdHxdQ1eIoLqLJJKdMb3ix7ufqmjhNVmnEAVO
+ 993Z6hzDeRVTmSMsA/0riFR50XB2CBfbZaCCVM1bBgwKe4lPGg0SQDZVohPW7Sf5iLfp
+ OThrPV3Q9OBVSUmvqz9f3PoKV5Upv3KxEBmF2Q1FnU3aJlMn9oKRfe2nZAQrNOdtwAfL
+ E9K9nNqq//GFRrS5ath+6d0pLMgjAyn/jFZlt27Gxh8sCNk9r8pLo2PbBRXv3ztfXHvD
+ Z0/Xt4F1KNxBQh2pmK0UWyBvOGZYnJtWz2RWqzJHDWlCe4zKqPbqIub0TspYKRmHdtBc
+ qxMQ==
+X-Gm-Message-State: AOAM530k5I+8aVg6EGLHGTDtgYNuX+JYG02pdr+yuWzcvYRwoh/GKSSQ
+ ETBXEthdWYUhK41dDbhE64f2Uw==
+X-Google-Smtp-Source: ABdhPJwf2qUvhWXnY31rm7F59x1yox3Fd9FkBmFLiOrvJO5HQtAGVoY/TxBknecMW8bpt5Ti3YSsVQ==
+X-Received: by 2002:a9d:6047:0:b0:5b2:4003:cfcb with SMTP id
+ v7-20020a9d6047000000b005b24003cfcbmr5930390otj.59.1648746669128; 
+ Thu, 31 Mar 2022 10:11:09 -0700 (PDT)
+Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
+ y66-20020a9d22c8000000b005c943ff75dbsm33923ota.7.2022.03.31.10.11.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 31 Mar 2022 10:11:08 -0700 (PDT)
+Message-ID: <abf7bd5b-33f3-eea2-5d37-d551ad9ca815@linaro.org>
+Date: Thu, 31 Mar 2022 11:11:04 -0600
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uYRciTetADSENxw0"
-Content-Disposition: inline
-In-Reply-To: <20220331055536.26038-1-sakshikaushik717@gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH for-7.0] target/arm: Don't use DISAS_NORETURN in STXP
+ !HAVE_CMPXCHG128 codegen
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220331150858.96348-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220331150858.96348-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -90,65 +95,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---uYRciTetADSENxw0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Mar 31, 2022 at 12:55:36AM -0500, Sakshi Kaushik wrote:
-> Signed-off-by: Sakshi Kaushik <sakshikaushik717@gmail.com>
+On 3/31/22 09:08, Peter Maydell wrote:
+> In gen_store_exclusive(), if the host does not have a cmpxchg128
+> primitive then we generate bad code for STXP for storing two 64-bit
+> values.  We generate a call to the exit_atomic helper, which never
+> returns, and set is_jmp to DISAS_NORETURN.  However, this is
+> forgetting that we have already emitted a brcond that jumps over this
+> call for the case where we don't hold the exclusive.  The effect is
+> that we don't generate any code to end the TB for the
+> exclusive-not-held execution path, which falls into the "exit with
+> TB_EXIT_REQUESTED" code that gen_tb_end() emits.  This then causes an
+> assert at runtime when cpu_loop_exec_tb() sees an EXIT_REQUESTED TB
+> return that wasn't for an interrupt or icount.
+> 
+> In particular, you can hit this case when using the clang sanitizers
+> and trying to run the xlnx-versal-virt acceptance test in 'make
+> check-acceptance'.  This bug was masked until commit 848126d11e93ff
+> ("meson: move int128 checks from configure") because we used to set
+> CONFIG_CMPXCHG128=1 and avoid the buggy codepath, but after that we
+> do not.
+> 
+> Fix the bug by not setting is_jmp.  The code after the exit_atomic
+> call up to the fail_label is dead, but TCG is smart enough to
+> eliminate it.  We do need to set 'tmp' to some valid value, though
+> (in the same way the exit_atomic-using code in tcg/tcg-op.c does).
+> 
+> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/953
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->  docs/interop/vhost-user.json | 31 +++++++++++++++++++++++++++++++
->  docs/interop/vhost-user.rst  | 17 +++++++++++++++++
->  2 files changed, 48 insertions(+)
+>   target/arm/translate-a64.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
 
-Hi Sakshi,
-Thanks for looking into this.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-qemu-devel is a high-traffic list and maintainers rely on you to CC them
-to get their attention so they don't have to read all emails. You can
-use `scripts/get_maintainer.pl -f path/to/source/file.c` to find out who
-to CC. Give it a try next time and that will help your patch get
-reviews.
 
-This patch defines features for some of the command-line options that
-the contrib/vhost-user-scsi program has. It is likely that different
-vhost-user-scsi implementations will have different command-line options
-because they work in different ways (e.g. connecting to a distributed
-storage system instead of a local file like --scsi-file). Therefore
-standardizing these options is probably not necessary for
-vhost-user-scsi.
-
-(The reason why standard features are important is that some vhost-user
-devices may have feature sets that are common across device
-implementations. Unfortunately that's not the case here.)
-
-It would be helpful to change
-contrib/vhost-user-scsi/vhost-user-scsi.c:main()'s command-line
-arguments to follow the vhost-user backend program conventions though.
-If you have time to do that it would be great!
-
-Thanks,
-Stefan
-
---uYRciTetADSENxw0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJF4CMACgkQnKSrs4Gr
-c8g0LggAx/dg/kG0i0riPDatoGtWRdrYmLrOM+wKODx1no30FGYvkGS90VxORaan
-xwxmplg0VGeMxy6LMS0puy6MPTHhrFwxN7lcURerE4pdF9g7e13JVVVTKd1bzi7U
-czB/afDrW7gvG8n2Nbxc0CrOpLYPpiDuI4FZe/HBqNuoKtqiOISpeHRrotkOoAfw
-gSPPeicC6YTdzddmppXFCLXGQLvvxyhtvUkGMx+QBE9ARtHjtu9Dra11zrdjVNNw
-r5N6zEdFklD5oD2wdRtcoCdSdD4nMyrRxqklwRxorJDthMik/Q1HzSgYtjbpyKqI
-SOR6UIcrt3IVov98WX9dYp8jtZkntw==
-=XnL4
------END PGP SIGNATURE-----
-
---uYRciTetADSENxw0--
+r~
 
