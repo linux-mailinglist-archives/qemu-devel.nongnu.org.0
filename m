@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999F84EDC95
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:18:57 +0200 (CEST)
-Received: from localhost ([::1]:42292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DA24EDC7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:14:58 +0200 (CEST)
+Received: from localhost ([::1]:33722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZwZc-0000TN-L0
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:18:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52592)
+	id 1nZwVl-00031d-8y
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:14:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwQK-0002HO-Ux
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:09:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27233)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwQE-0001Mf-4d
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwQK-0002Em-6g
  for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:09:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48229)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwQE-0001Mp-4g
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:09:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648739352;
+ s=mimecast20190719; t=1648739353;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TNH+OWMLIg1wRkLI7itAwvWZSaFu058+HZKJ0ceRpe0=;
- b=UN6gmCM6urQX7cqsjG5gn+DOHZ6OCd04WyOPVkGZsjkx7mgVhFymCB6B32Fjxy0+LAYNzd
- ahX301dtMEZUlVDY4jTA+2yZ93rYm1gLmYYGGnpPSU9htCFXPyB7Jd4yP2847uyMg91NiT
- Eh5qe3Sz3VDMjUixEom/ULrru09swGw=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wQaSTm3KPTilmyUMfVAV0Vk+qNPQBPN0Bd4CtZOcSNE=;
+ b=ZgB/XzAUw4jYSUerzzaDWtRaNx7p5kRQh6x4pole3DSy1C578PHOw2SFbbKWSMafVQxWxb
+ S3aluhK4CTKh53h2SOtaN+Irvhty9F744x7wg6gImtNvIxvwT2G7yizfZCO408GBc5Z/cr
+ TJrBJ//93awyRRkBwpmymb5RrFGO6zI=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-298-qzB4tomDM4Gg1hVt8cXPEQ-1; Thu, 31 Mar 2022 11:09:11 -0400
-X-MC-Unique: qzB4tomDM4Gg1hVt8cXPEQ-1
-Received: by mail-qt1-f200.google.com with SMTP id
- l19-20020a05622a175300b002e1a85b5b52so20247633qtk.21
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 08:09:11 -0700 (PDT)
+ us-mta-650-nrU_pClHP3Osrg5wtPmYUg-1; Thu, 31 Mar 2022 11:09:12 -0400
+X-MC-Unique: nrU_pClHP3Osrg5wtPmYUg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ kl16-20020a056214519000b004439e99963bso1363652qvb.3
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 08:09:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TNH+OWMLIg1wRkLI7itAwvWZSaFu058+HZKJ0ceRpe0=;
- b=U4atrIxwIN97b5VGUXuY9cFFFZfMIcciRaF3zzd+Nvf4VUsoJ0Orzjm+NRZCS8VZSH
- wgFi6zvAY/aEjJdTo4+9qUpBQ858s8ouRLaVtYZpuIUb1OXhfBrmRTy01exfPIVtFnCA
- 6MjwSU+RBI2jmVDVza8Ve5hpcvp/HSeu/Oo2rZUpZ680sDSVfH7w2jgWZUBMxAS3RLd3
- zCFFTkPduAOhgxsCyvGCmZaRbQ2XV502Few8EUdFP0E7emZL2iIkzbG0Q4qI7RRSRGZw
- DhCTtgUVP0D2oE92cel2PWxNmQQcgJw7tl7IYZ2fMhu0P0WntSHQqx/034bU63xotfeY
- 4SPw==
-X-Gm-Message-State: AOAM53179ANJIFcTNV7nzapFOIcmsOcwDcd+7jPfOSyGn4O64A5OMFE7
- lS8cdVD+jJQ4XtZvTuHoIiHIYXQTvCaiRotoNhUneDyQZi+xpBN+qNcjN13Z6ugUqyjDCJtwTB+
- jwY9v0RhY6v94AqmErPBLOn2obOmUCT59+rhgwvaHCxEvVBnpdLYhLQxsmHZJEJMq
-X-Received: by 2002:a05:620a:2448:b0:67e:cbef:8961 with SMTP id
- h8-20020a05620a244800b0067ecbef8961mr3611305qkn.392.1648739350447; 
+ bh=wQaSTm3KPTilmyUMfVAV0Vk+qNPQBPN0Bd4CtZOcSNE=;
+ b=1uSykkA+mfCREyqGWvfXWWtPjk0ioElpPKfX49f3SNR/bYSyktwNbqwrktXmG6dIR6
+ 5LY2zKybV8pMjFWJDqK5nINQqSaK62VeE/ojx77WZZHcs6D9R0aw/dIDZ9V4Z76s6Z2W
+ Jpu+glJgjJKsW0uNKU86oZJAGteNm/2p2QR3fAMZtwz9TRgH/fIoU/WMfO55R8FfArDB
+ ID/Xbg52c2P3icY2ZfIBX5ocy12Homg3BiqF+Oh1PzJrcI+Ke/j8MT1VlZAKvSN4KPhc
+ jMn1b6SBMiWYlzJcmIIHDGmR09tIlzRY9zGHpzQ/Nz3kKWdan758EYYux09erKSlKOTu
+ w/QQ==
+X-Gm-Message-State: AOAM531LAzQsLsauXKPOPzrmna4iAlQk5RvwBoeh4tgvh96FEG8I+wd2
+ aNEGw19WYqzIPi1GifRmEwMMKWrJNkUqb55l14RmbIRJup3K+1itmYlAT3+w97n4CHJU+SnFko+
+ kLnjQQ/WrwWUjPsErnoqpMjh+yUQDRT91Ub22eOdWMRZauDlc/BnTqIHhaGqCKcPK
+X-Received: by 2002:a05:622a:13cf:b0:2e2:3535:56ae with SMTP id
+ p15-20020a05622a13cf00b002e2353556aemr4663463qtk.373.1648739351345; 
+ Thu, 31 Mar 2022 08:09:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwhwhazebx+qx/fsSA3mo3Mmt05cvSKUaobuh1jDYoTg9ztMHRwXYuBUHsadsYGsXWZaJH41g==
+X-Received: by 2002:a05:622a:13cf:b0:2e2:3535:56ae with SMTP id
+ p15-20020a05622a13cf00b002e2353556aemr4663412qtk.373.1648739350777; 
  Thu, 31 Mar 2022 08:09:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxgUz49LKpPXY7ovl1pNhs2tteNO9N/k/eUcSF3ONHZFj4T7awvEK1wNnl1KvsYv6v+LJiyxA==
-X-Received: by 2002:a05:620a:2448:b0:67e:cbef:8961 with SMTP id
- h8-20020a05620a244800b0067ecbef8961mr3611260qkn.392.1648739349841; 
- Thu, 31 Mar 2022 08:09:09 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
  21-20020ac85715000000b002e1ce9605ffsm20246871qtw.65.2022.03.31.08.09.09
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 31 Mar 2022 08:09:09 -0700 (PDT)
+ Thu, 31 Mar 2022 08:09:10 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/19] migration: Postcopy preemption enablement
-Date: Thu, 31 Mar 2022 11:08:48 -0400
-Message-Id: <20220331150857.74406-11-peterx@redhat.com>
+Subject: [PATCH v4 11/19] migration: Postcopy recover with preempt enabled
+Date: Thu, 31 Mar 2022 11:08:49 -0400
+Message-Id: <20220331150857.74406-12-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220331150857.74406-1-peterx@redhat.com>
 References: <20220331150857.74406-1-peterx@redhat.com>
@@ -106,479 +106,288 @@ Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch enables postcopy-preempt feature.
+To allow postcopy recovery, the ram fast load (preempt-only) dest QEMU thread
+needs similar handling on fault tolerance.  When ram_load_postcopy() fails,
+instead of stopping the thread it halts with a semaphore, preparing to be
+kicked again when recovery is detected.
 
-It contains two major changes to the migration logic:
-
-(1) Postcopy requests are now sent via a different socket from precopy
-    background migration stream, so as to be isolated from very high page
-    request delays.
-
-(2) For huge page enabled hosts: when there's postcopy requests, they can now
-    intercept a partial sending of huge host pages on src QEMU.
-
-After this patch, we'll live migrate a VM with two channels for postcopy: (1)
-PRECOPY channel, which is the default channel that transfers background pages;
-and (2) POSTCOPY channel, which only transfers requested pages.
-
-There's no strict rule of which channel to use, e.g., if a requested page is
-already being transferred on precopy channel, then we will keep using the same
-precopy channel to transfer the page even if it's explicitly requested.  In 99%
-of the cases we'll prioritize the channels so we send requested page via the
-postcopy channel as long as possible.
-
-On the source QEMU, when we found a postcopy request, we'll interrupt the
-PRECOPY channel sending process and quickly switch to the POSTCOPY channel.
-After we serviced all the high priority postcopy pages, we'll switch back to
-PRECOPY channel so that we'll continue to send the interrupted huge page again.
-There's no new thread introduced on src QEMU.
-
-On the destination QEMU, one new thread is introduced to receive page data from
-the postcopy specific socket (done in the preparation patch).
-
-This patch has a side effect: after sending postcopy pages, previously we'll
-assume the guest will access follow up pages so we'll keep sending from there.
-Now it's changed.  Instead of going on with a postcopy requested page, we'll go
-back and continue sending the precopy huge page (which can be intercepted by a
-postcopy request so the huge page can be sent partially before).
-
-Whether that's a problem is debatable, because "assuming the guest will
-continue to access the next page" may not really suite when huge pages are
-used, especially if the huge page is large (e.g. 1GB pages).  So that locality
-hint is much meaningless if huge pages are used.
+A mutex is introduced to make sure there's no concurrent operation upon the
+socket.  To make it simple, the fast ram load thread will take the mutex during
+its whole procedure, and only release it if it's paused.  The fast-path socket
+will be properly released by the main loading thread safely when there's
+network failures during postcopy with that mutex held.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.c  |   2 +
- migration/migration.h  |   2 +-
- migration/ram.c        | 250 +++++++++++++++++++++++++++++++++++++++--
- migration/trace-events |   7 ++
- 4 files changed, 252 insertions(+), 9 deletions(-)
+ migration/migration.c    | 27 +++++++++++++++++++++++----
+ migration/migration.h    | 19 +++++++++++++++++++
+ migration/postcopy-ram.c | 24 ++++++++++++++++++++++--
+ migration/qemu-file.c    | 27 +++++++++++++++++++++++++++
+ migration/qemu-file.h    |  1 +
+ migration/savevm.c       | 26 ++++++++++++++++++++++++--
+ migration/trace-events   |  2 ++
+ 7 files changed, 118 insertions(+), 8 deletions(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index 01b882494d..56d54c186b 100644
+index 56d54c186b..157a34c844 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -3158,6 +3158,8 @@ static int postcopy_start(MigrationState *ms)
-                               MIGRATION_STATUS_FAILED);
+@@ -215,9 +215,11 @@ void migration_object_init(void)
+     current_incoming->postcopy_remote_fds =
+         g_array_new(FALSE, TRUE, sizeof(struct PostCopyFD));
+     qemu_mutex_init(&current_incoming->rp_mutex);
++    qemu_mutex_init(&current_incoming->postcopy_prio_thread_mutex);
+     qemu_event_init(&current_incoming->main_thread_load_event, false);
+     qemu_sem_init(&current_incoming->postcopy_pause_sem_dst, 0);
+     qemu_sem_init(&current_incoming->postcopy_pause_sem_fault, 0);
++    qemu_sem_init(&current_incoming->postcopy_pause_sem_fast_load, 0);
+     qemu_mutex_init(&current_incoming->page_request_mutex);
+     current_incoming->page_requested = g_tree_new(page_request_addr_cmp);
+ 
+@@ -697,9 +699,9 @@ static bool postcopy_try_recover(void)
+ 
+         /*
+          * Here, we only wake up the main loading thread (while the
+-         * fault thread will still be waiting), so that we can receive
++         * rest threads will still be waiting), so that we can receive
+          * commands from source now, and answer it if needed. The
+-         * fault thread will be woken up afterwards until we are sure
++         * rest threads will be woken up afterwards until we are sure
+          * that source is ready to reply to page requests.
+          */
+         qemu_sem_post(&mis->postcopy_pause_sem_dst);
+@@ -3471,6 +3473,18 @@ static MigThrError postcopy_pause(MigrationState *s)
+         qemu_file_shutdown(file);
+         qemu_fclose(file);
+ 
++        /*
++         * Do the same to postcopy fast path socket too if there is.  No
++         * locking needed because no racer as long as we do this before setting
++         * status to paused.
++         */
++        if (s->postcopy_qemufile_src) {
++            migration_ioc_unregister_yank_from_file(s->postcopy_qemufile_src);
++            qemu_file_shutdown(s->postcopy_qemufile_src);
++            qemu_fclose(s->postcopy_qemufile_src);
++            s->postcopy_qemufile_src = NULL;
++        }
++
+         migrate_set_state(&s->state, s->state,
+                           MIGRATION_STATUS_POSTCOPY_PAUSED);
+ 
+@@ -3526,8 +3540,13 @@ static MigThrError migration_detect_error(MigrationState *s)
+         return MIG_THR_ERR_FATAL;
      }
  
-+    trace_postcopy_preempt_enabled(migrate_postcopy_preempt());
-+
-     return ret;
- 
- fail_closefb:
+-    /* Try to detect any file errors */
+-    ret = qemu_file_get_error_obj(s->to_dst_file, &local_error);
++    /*
++     * Try to detect any file errors.  Note that postcopy_qemufile_src will
++     * be NULL when postcopy preempt is not enabled.
++     */
++    ret = qemu_file_get_error_obj_any(s->to_dst_file,
++                                      s->postcopy_qemufile_src,
++                                      &local_error);
+     if (!ret) {
+         /* Everything is fine */
+         assert(!local_error);
 diff --git a/migration/migration.h b/migration/migration.h
-index caa910d956..b8aacfe3af 100644
+index b8aacfe3af..91f845e9e4 100644
 --- a/migration/migration.h
 +++ b/migration/migration.h
-@@ -68,7 +68,7 @@ typedef struct {
- struct MigrationIncomingState {
-     QEMUFile *from_src_file;
-     /* Previously received RAM's RAMBlock pointer */
--    RAMBlock *last_recv_block;
-+    RAMBlock *last_recv_block[RAM_CHANNEL_MAX];
-     /* A hook to allow cleanup at the end of incoming migration */
-     void *transport_data;
-     void (*transport_cleanup)(void *data);
-diff --git a/migration/ram.c b/migration/ram.c
-index c7ea1d9215..518d511874 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -295,6 +295,20 @@ struct RAMSrcPageRequest {
-     QSIMPLEQ_ENTRY(RAMSrcPageRequest) next_req;
- };
- 
-+typedef struct {
+@@ -118,6 +118,18 @@ struct MigrationIncomingState {
+     /* Postcopy priority thread is used to receive postcopy requested pages */
+     QemuThread postcopy_prio_thread;
+     bool postcopy_prio_thread_created;
 +    /*
-+     * Cached ramblock/offset values if preempted.  They're only meaningful if
-+     * preempted==true below.
++     * Used to sync between the ram load main thread and the fast ram load
++     * thread.  It protects postcopy_qemufile_dst, which is the postcopy
++     * fast channel.
++     *
++     * The ram fast load thread will take it mostly for the whole lifecycle
++     * because it needs to continuously read data from the channel, and
++     * it'll only release this mutex if postcopy is interrupted, so that
++     * the ram load main thread will take this mutex over and properly
++     * release the broken channel.
 +     */
-+    RAMBlock *ram_block;
-+    unsigned long ram_page;
++    QemuMutex postcopy_prio_thread_mutex;
+     /*
+      * An array of temp host huge pages to be used, one for each postcopy
+      * channel.
+@@ -147,6 +159,13 @@ struct MigrationIncomingState {
+     /* notify PAUSED postcopy incoming migrations to try to continue */
+     QemuSemaphore postcopy_pause_sem_dst;
+     QemuSemaphore postcopy_pause_sem_fault;
 +    /*
-+     * Whether a postcopy preemption just happened.  Will be reset after
-+     * precopy recovered to background migration.
++     * This semaphore is used to allow the ram fast load thread (only when
++     * postcopy preempt is enabled) fall into sleep when there's network
++     * interruption detected.  When the recovery is done, the main load
++     * thread will kick the fast ram load thread using this semaphore.
 +     */
-+    bool preempted;
-+} PostcopyPreemptState;
-+
- /* State of RAM for migration */
- struct RAMState {
-     /* QEMUFile used for this migration */
-@@ -349,6 +363,14 @@ struct RAMState {
-     /* Queue of outstanding page requests from the destination */
-     QemuMutex src_page_req_mutex;
-     QSIMPLEQ_HEAD(, RAMSrcPageRequest) src_page_requests;
-+
-+    /* Postcopy preemption informations */
-+    PostcopyPreemptState postcopy_preempt_state;
-+    /*
-+     * Current channel we're using on src VM.  Only valid if postcopy-preempt
-+     * is enabled.
-+     */
-+    unsigned int postcopy_channel;
- };
- typedef struct RAMState RAMState;
++    QemuSemaphore postcopy_pause_sem_fast_load;
  
-@@ -356,6 +378,11 @@ static RAMState *ram_state;
+     /* List of listening socket addresses  */
+     SocketAddressList *socket_address_list;
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index df0c02f729..e20305a9e2 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -1580,6 +1580,15 @@ int postcopy_preempt_setup(MigrationState *s, Error **errp)
+     return 0;
+ }
  
- static NotifierWithReturnList precopy_notifier_list;
- 
-+static void postcopy_preempt_reset(RAMState *rs)
++static void postcopy_pause_ram_fast_load(MigrationIncomingState *mis)
 +{
-+    memset(&rs->postcopy_preempt_state, 0, sizeof(PostcopyPreemptState));
++    trace_postcopy_pause_fast_load();
++    qemu_mutex_unlock(&mis->postcopy_prio_thread_mutex);
++    qemu_sem_wait(&mis->postcopy_pause_sem_fast_load);
++    qemu_mutex_lock(&mis->postcopy_prio_thread_mutex);
++    trace_postcopy_pause_fast_load_continued();
 +}
 +
- /* Whether postcopy has queued requests? */
- static bool postcopy_has_request(RAMState *rs)
+ void *postcopy_preempt_thread(void *opaque)
  {
-@@ -1947,6 +1974,55 @@ void ram_write_tracking_stop(void)
- }
- #endif /* defined(__linux__) */
+     MigrationIncomingState *mis = opaque;
+@@ -1592,11 +1601,22 @@ void *postcopy_preempt_thread(void *opaque)
+     qemu_sem_post(&mis->thread_sync_sem);
  
-+/*
-+ * Check whether two addr/offset of the ramblock falls onto the same host huge
-+ * page.  Returns true if so, false otherwise.
-+ */
-+static bool offset_on_same_huge_page(RAMBlock *rb, uint64_t addr1,
-+                                     uint64_t addr2)
-+{
-+    size_t page_size = qemu_ram_pagesize(rb);
-+
-+    addr1 = ROUND_DOWN(addr1, page_size);
-+    addr2 = ROUND_DOWN(addr2, page_size);
-+
-+    return addr1 == addr2;
-+}
-+
-+/*
-+ * Whether a previous preempted precopy huge page contains current requested
-+ * page?  Returns true if so, false otherwise.
-+ *
-+ * This should really happen very rarely, because it means when we were sending
-+ * during background migration for postcopy we're sending exactly the page that
-+ * some vcpu got faulted on on dest node.  When it happens, we probably don't
-+ * need to do much but drop the request, because we know right after we restore
-+ * the precopy stream it'll be serviced.  It'll slightly affect the order of
-+ * postcopy requests to be serviced (e.g. it'll be the same as we move current
-+ * request to the end of the queue) but it shouldn't be a big deal.  The most
-+ * imporant thing is we can _never_ try to send a partial-sent huge page on the
-+ * POSTCOPY channel again, otherwise that huge page will got "split brain" on
-+ * two channels (PRECOPY, POSTCOPY).
-+ */
-+static bool postcopy_preempted_contains(RAMState *rs, RAMBlock *block,
-+                                        ram_addr_t offset)
-+{
-+    PostcopyPreemptState *state = &rs->postcopy_preempt_state;
-+
-+    /* No preemption at all? */
-+    if (!state->preempted) {
-+        return false;
-+    }
-+
-+    /* Not even the same ramblock? */
-+    if (state->ram_block != block) {
-+        return false;
-+    }
-+
-+    return offset_on_same_huge_page(block, offset,
-+                                    state->ram_page << TARGET_PAGE_BITS);
-+}
-+
- /**
-  * get_queued_page: unqueue a page from the postcopy requests
-  *
-@@ -1962,9 +2038,17 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
-     RAMBlock  *block;
-     ram_addr_t offset;
- 
-+again:
-     block = unqueue_page(rs, &offset);
- 
--    if (!block) {
-+    if (block) {
-+        /* See comment above postcopy_preempted_contains() */
-+        if (postcopy_preempted_contains(rs, block, offset)) {
-+            trace_postcopy_preempt_hit(block->idstr, offset);
-+            /* This request is dropped */
-+            goto again;
-+        }
-+    } else {
-         /*
-          * Poll write faults too if background snapshot is enabled; that's
-          * when we have vcpus got blocked by the write protected pages.
-@@ -2180,6 +2264,117 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
-     return ram_save_page(rs, pss);
- }
- 
-+static bool postcopy_needs_preempt(RAMState *rs, PageSearchStatus *pss)
-+{
-+    /* Not enabled eager preempt?  Then never do that. */
-+    if (!migrate_postcopy_preempt()) {
-+        return false;
-+    }
-+
-+    /* If the ramblock we're sending is a small page?  Never bother. */
-+    if (qemu_ram_pagesize(pss->block) == TARGET_PAGE_SIZE) {
-+        return false;
-+    }
-+
-+    /* Not in postcopy at all? */
-+    if (!migration_in_postcopy()) {
-+        return false;
-+    }
-+
-+    /*
-+     * If we're already handling a postcopy request, don't preempt as this page
-+     * has got the same high priority.
-+     */
-+    if (pss->postcopy_requested) {
-+        return false;
-+    }
-+
-+    /* If there's postcopy requests, then check it up! */
-+    return postcopy_has_request(rs);
-+}
-+
-+/* Returns true if we preempted precopy, false otherwise */
-+static void postcopy_do_preempt(RAMState *rs, PageSearchStatus *pss)
-+{
-+    PostcopyPreemptState *p_state = &rs->postcopy_preempt_state;
-+
-+    trace_postcopy_preempt_triggered(pss->block->idstr, pss->page);
-+
-+    /*
-+     * Time to preempt precopy. Cache current PSS into preempt state, so that
-+     * after handling the postcopy pages we can recover to it.  We need to do
-+     * so because the dest VM will have partial of the precopy huge page kept
-+     * over in its tmp huge page caches; better move on with it when we can.
-+     */
-+    p_state->ram_block = pss->block;
-+    p_state->ram_page = pss->page;
-+    p_state->preempted = true;
-+}
-+
-+/* Whether we're preempted by a postcopy request during sending a huge page */
-+static bool postcopy_preempt_triggered(RAMState *rs)
-+{
-+    return rs->postcopy_preempt_state.preempted;
-+}
-+
-+static void postcopy_preempt_restore(RAMState *rs, PageSearchStatus *pss)
-+{
-+    PostcopyPreemptState *state = &rs->postcopy_preempt_state;
-+
-+    assert(state->preempted);
-+
-+    pss->block = state->ram_block;
-+    pss->page = state->ram_page;
-+    /* This is not a postcopy request but restoring previous precopy */
-+    pss->postcopy_requested = false;
-+
-+    trace_postcopy_preempt_restored(pss->block->idstr, pss->page);
-+
-+    /* Reset preempt state, most importantly, set preempted==false */
-+    postcopy_preempt_reset(rs);
-+}
-+
-+static void postcopy_preempt_choose_channel(RAMState *rs, PageSearchStatus *pss)
-+{
-+    MigrationState *s = migrate_get_current();
-+    unsigned int channel;
-+    QEMUFile *next;
-+
-+    channel = pss->postcopy_requested ?
-+        RAM_CHANNEL_POSTCOPY : RAM_CHANNEL_PRECOPY;
-+
-+    if (channel != rs->postcopy_channel) {
-+        if (channel == RAM_CHANNEL_PRECOPY) {
-+            next = s->to_dst_file;
+     /* Sending RAM_SAVE_FLAG_EOS to terminate this thread */
+-    ret = ram_load_postcopy(mis->postcopy_qemufile_dst, RAM_CHANNEL_POSTCOPY);
++    qemu_mutex_lock(&mis->postcopy_prio_thread_mutex);
++    while (1) {
++        ret = ram_load_postcopy(mis->postcopy_qemufile_dst, RAM_CHANNEL_POSTCOPY);
++        /* If error happened, go into recovery routine */
++        if (ret) {
++            postcopy_pause_ram_fast_load(mis);
 +        } else {
-+            next = s->postcopy_qemufile_src;
-+        }
-+        /* Update and cache the current channel */
-+        rs->f = next;
-+        rs->postcopy_channel = channel;
-+
-+        /*
-+         * If channel switched, reset last_sent_block since the old sent block
-+         * may not be on the same channel.
-+         */
-+        rs->last_sent_block = NULL;
-+
-+        trace_postcopy_preempt_switch_channel(channel);
-+    }
-+
-+    trace_postcopy_preempt_send_host_page(pss->block->idstr, pss->page);
-+}
-+
-+/* We need to make sure rs->f always points to the default channel elsewhere */
-+static void postcopy_preempt_reset_channel(RAMState *rs)
-+{
-+    if (migrate_postcopy_preempt() && migration_in_postcopy()) {
-+        rs->postcopy_channel = RAM_CHANNEL_PRECOPY;
-+        rs->f = migrate_get_current()->to_dst_file;
-+        trace_postcopy_preempt_reset_channel();
-+    }
-+}
-+
- /**
-  * ram_save_host_page: save a whole host page
-  *
-@@ -2211,7 +2406,16 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-         return 0;
-     }
- 
-+    if (migrate_postcopy_preempt() && migration_in_postcopy()) {
-+        postcopy_preempt_choose_channel(rs, pss);
-+    }
-+
-     do {
-+        if (postcopy_needs_preempt(rs, pss)) {
-+            postcopy_do_preempt(rs, pss);
++            /* We're done */
 +            break;
 +        }
-+
-         /* Check the pages is dirty and if it is send it */
-         if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
-             tmppages = ram_save_target_page(rs, pss);
-@@ -2235,6 +2439,19 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-     /* The offset we leave with is the min boundary of host page and block */
-     pss->page = MIN(pss->page, hostpage_boundary);
++    }
++    qemu_mutex_unlock(&mis->postcopy_prio_thread_mutex);
  
-+    /*
-+     * When with postcopy preempt mode, flush the data as soon as possible for
-+     * postcopy requests, because we've already sent a whole huge page, so the
-+     * dst node should already have enough resource to atomically filling in
-+     * the current missing page.
-+     *
-+     * More importantly, when using separate postcopy channel, we must do
-+     * explicit flush or it won't flush until the buffer is full.
-+     */
-+    if (migrate_postcopy_preempt() && pss->postcopy_requested) {
-+        qemu_fflush(rs->f);
+     rcu_unregister_thread();
+ 
+     trace_postcopy_preempt_thread_exit();
+ 
+-    return ret == 0 ? NULL : (void *)-1;
++    return NULL;
+ }
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index 1479cddad9..397652f0ba 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -139,6 +139,33 @@ int qemu_file_get_error_obj(QEMUFile *f, Error **errp)
+     return f->last_error;
+ }
+ 
++/*
++ * Get last error for either stream f1 or f2 with optional Error*.
++ * The error returned (non-zero) can be either from f1 or f2.
++ *
++ * If any of the qemufile* is NULL, then skip the check on that file.
++ *
++ * When there is no error on both qemufile, zero is returned.
++ */
++int qemu_file_get_error_obj_any(QEMUFile *f1, QEMUFile *f2, Error **errp)
++{
++    int ret = 0;
++
++    if (f1) {
++        ret = qemu_file_get_error_obj(f1, errp);
++        /* If there's already error detected, return */
++        if (ret) {
++            return ret;
++        }
 +    }
 +
-     res = ram_save_release_protection(rs, pss, start_page);
-     return (res < 0 ? res : pages);
- }
-@@ -2276,8 +2493,17 @@ static int ram_find_and_save_block(RAMState *rs)
-         found = get_queued_page(rs, &pss);
++    if (f2) {
++        ret = qemu_file_get_error_obj(f2, errp);
++    }
++
++    return ret;
++}
++
+ /*
+  * Set the last error for stream f with optional Error*
+  */
+diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+index 3f36d4dc8c..2564e5e1c7 100644
+--- a/migration/qemu-file.h
++++ b/migration/qemu-file.h
+@@ -156,6 +156,7 @@ void qemu_file_update_transfer(QEMUFile *f, int64_t len);
+ void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
+ int64_t qemu_file_get_rate_limit(QEMUFile *f);
+ int qemu_file_get_error_obj(QEMUFile *f, Error **errp);
++int qemu_file_get_error_obj_any(QEMUFile *f1, QEMUFile *f2, Error **errp);
+ void qemu_file_set_error_obj(QEMUFile *f, int ret, Error *err);
+ void qemu_file_set_error(QEMUFile *f, int ret);
+ int qemu_file_shutdown(QEMUFile *f);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index ecee05e631..050874650a 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2152,6 +2152,13 @@ static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
+      */
+     qemu_sem_post(&mis->postcopy_pause_sem_fault);
  
-         if (!found) {
--            /* priority queue empty, so just search for something dirty */
--            found = find_dirty_block(rs, &pss, &again);
-+            /*
-+             * Recover previous precopy ramblock/offset if postcopy has
-+             * preempted precopy.  Otherwise find the next dirty bit.
-+             */
-+            if (postcopy_preempt_triggered(rs)) {
-+                postcopy_preempt_restore(rs, &pss);
-+                found = true;
-+            } else {
-+                /* priority queue empty, so just search for something dirty */
-+                found = find_dirty_block(rs, &pss, &again);
-+            }
++    if (migrate_postcopy_preempt()) {
++        /* The channel should already be setup again; make sure of it */
++        assert(mis->postcopy_qemufile_dst);
++        /* Kick the fast ram load thread too */
++        qemu_sem_post(&mis->postcopy_pause_sem_fast_load);
++    }
++
+     return 0;
+ }
+ 
+@@ -2597,6 +2604,21 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
+     mis->to_src_file = NULL;
+     qemu_mutex_unlock(&mis->rp_mutex);
+ 
++    /*
++     * NOTE: this must happen before reset the PostcopyTmpPages below,
++     * otherwise it's racy to reset those fields when the fast load thread
++     * can be accessing it in parallel.
++     */
++    if (mis->postcopy_qemufile_dst) {
++        qemu_file_shutdown(mis->postcopy_qemufile_dst);
++        /* Take the mutex to make sure the fast ram load thread halted */
++        qemu_mutex_lock(&mis->postcopy_prio_thread_mutex);
++        migration_ioc_unregister_yank_from_file(mis->postcopy_qemufile_dst);
++        qemu_fclose(mis->postcopy_qemufile_dst);
++        mis->postcopy_qemufile_dst = NULL;
++        qemu_mutex_unlock(&mis->postcopy_prio_thread_mutex);
++    }
++
+     migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
+                       MIGRATION_STATUS_POSTCOPY_PAUSED);
+ 
+@@ -2634,8 +2656,8 @@ retry:
+     while (true) {
+         section_type = qemu_get_byte(f);
+ 
+-        if (qemu_file_get_error(f)) {
+-            ret = qemu_file_get_error(f);
++        ret = qemu_file_get_error_obj_any(f, mis->postcopy_qemufile_dst, NULL);
++        if (ret) {
+             break;
          }
  
-         if (found) {
-@@ -2405,6 +2631,8 @@ static void ram_state_reset(RAMState *rs)
-     rs->last_page = 0;
-     rs->last_version = ram_list.version;
-     rs->xbzrle_enabled = false;
-+    postcopy_preempt_reset(rs);
-+    rs->postcopy_channel = RAM_CHANNEL_PRECOPY;
- }
- 
- #define MAX_WAIT 50 /* ms, half buffered_file limit */
-@@ -3043,6 +3271,8 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
-     }
-     qemu_mutex_unlock(&rs->bitmap_mutex);
- 
-+    postcopy_preempt_reset_channel(rs);
-+
-     /*
-      * Must occur before EOS (or any QEMUFile operation)
-      * because of RDMA protocol.
-@@ -3112,6 +3342,8 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-         ram_control_after_iterate(f, RAM_CONTROL_FINISH);
-     }
- 
-+    postcopy_preempt_reset_channel(rs);
-+
-     if (ret >= 0) {
-         multifd_send_sync_main(rs->f);
-         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-@@ -3194,11 +3426,13 @@ static int load_xbzrle(QEMUFile *f, ram_addr_t addr, void *host)
-  * @mis: the migration incoming state pointer
-  * @f: QEMUFile where to read the data from
-  * @flags: Page flags (mostly to see if it's a continuation of previous block)
-+ * @channel: the channel we're using
-  */
- static inline RAMBlock *ram_block_from_stream(MigrationIncomingState *mis,
--                                              QEMUFile *f, int flags)
-+                                              QEMUFile *f, int flags,
-+                                              int channel)
- {
--    RAMBlock *block = mis->last_recv_block;
-+    RAMBlock *block = mis->last_recv_block[channel];
-     char id[256];
-     uint8_t len;
- 
-@@ -3225,7 +3459,7 @@ static inline RAMBlock *ram_block_from_stream(MigrationIncomingState *mis,
-         return NULL;
-     }
- 
--    mis->last_recv_block = block;
-+    mis->last_recv_block[channel] = block;
- 
-     return block;
- }
-@@ -3679,7 +3913,7 @@ int ram_load_postcopy(QEMUFile *f, int channel)
-         trace_ram_load_postcopy_loop(channel, (uint64_t)addr, flags);
-         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
-                      RAM_SAVE_FLAG_COMPRESS_PAGE)) {
--            block = ram_block_from_stream(mis, f, flags);
-+            block = ram_block_from_stream(mis, f, flags, channel);
-             if (!block) {
-                 ret = -EINVAL;
-                 break;
-@@ -3930,7 +4164,7 @@ static int ram_load_precopy(QEMUFile *f)
- 
-         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
-                      RAM_SAVE_FLAG_COMPRESS_PAGE | RAM_SAVE_FLAG_XBZRLE)) {
--            RAMBlock *block = ram_block_from_stream(mis, f, flags);
-+            RAMBlock *block = ram_block_from_stream(mis, f, flags, RAM_CHANNEL_PRECOPY);
- 
-             host = host_from_ram_block_offset(block, addr);
-             /*
 diff --git a/migration/trace-events b/migration/trace-events
-index 1f932782d9..f92793b5f5 100644
+index f92793b5f5..b21d5f371f 100644
 --- a/migration/trace-events
 +++ b/migration/trace-events
-@@ -111,6 +111,12 @@ ram_load_complete(int ret, uint64_t seq_iter) "exit_code %d seq iteration %" PRI
- ram_write_tracking_ramblock_start(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
- ram_write_tracking_ramblock_stop(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
- unqueue_page(char *block, uint64_t offset, bool dirty) "ramblock '%s' offset 0x%"PRIx64" dirty %d"
-+postcopy_preempt_triggered(char *str, unsigned long page) "during sending ramblock %s offset 0x%lx"
-+postcopy_preempt_restored(char *str, unsigned long page) "ramblock %s offset 0x%lx"
-+postcopy_preempt_hit(char *str, uint64_t offset) "ramblock %s offset 0x%"PRIx64
-+postcopy_preempt_send_host_page(char *str, uint64_t offset) "ramblock %s offset 0x%"PRIx64
-+postcopy_preempt_switch_channel(int channel) "%d"
-+postcopy_preempt_reset_channel(void) ""
- 
- # multifd.c
- multifd_new_send_channel_async(uint8_t id) "channel %u"
-@@ -176,6 +182,7 @@ migration_thread_low_pending(uint64_t pending) "%" PRIu64
- migrate_transferred(uint64_t tranferred, uint64_t time_spent, uint64_t bandwidth, uint64_t size) "transferred %" PRIu64 " time_spent %" PRIu64 " bandwidth %" PRIu64 " max_size %" PRId64
- process_incoming_migration_co_end(int ret, int ps) "ret=%d postcopy-state=%d"
- process_incoming_migration_co_postcopy_end_main(void) ""
-+postcopy_preempt_enabled(bool value) "%d"
- 
- # channel.c
- migration_set_incoming_channel(void *ioc, const char *ioctype) "ioc=%p ioctype=%s"
+@@ -270,6 +270,8 @@ mark_postcopy_blocktime_begin(uint64_t addr, void *dd, uint32_t time, int cpu, i
+ mark_postcopy_blocktime_end(uint64_t addr, void *dd, uint32_t time, int affected_cpu) "addr: 0x%" PRIx64 ", dd: %p, time: %u, affected_cpu: %d"
+ postcopy_pause_fault_thread(void) ""
+ postcopy_pause_fault_thread_continued(void) ""
++postcopy_pause_fast_load(void) ""
++postcopy_pause_fast_load_continued(void) ""
+ postcopy_ram_fault_thread_entry(void) ""
+ postcopy_ram_fault_thread_exit(void) ""
+ postcopy_ram_fault_thread_fds_core(int baseufd, int quitfd) "ufd: %d quitfd: %d"
 -- 
 2.32.0
 
