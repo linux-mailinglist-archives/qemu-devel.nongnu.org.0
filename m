@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A01B4ED505
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 09:51:56 +0200 (CEST)
-Received: from localhost ([::1]:36428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B634ED506
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 09:52:31 +0200 (CEST)
+Received: from localhost ([::1]:37836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZpb0-0006L1-Nf
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 03:51:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51530)
+	id 1nZpba-0007JQ-A8
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 03:52:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
- id 1nZpYm-0004IY-53; Thu, 31 Mar 2022 03:49:36 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:12006)
+ id 1nZpZ3-0004VX-Fr; Thu, 31 Mar 2022 03:49:53 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:22593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
- id 1nZpYi-00045H-TP; Thu, 31 Mar 2022 03:49:35 -0400
+ id 1nZpZ0-00047i-4b; Thu, 31 Mar 2022 03:49:52 -0400
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 22V7bmnC051495;
+ by twspam01.aspeedtech.com with ESMTP id 22V7bmKe051502;
  Thu, 31 Mar 2022 15:37:48 +0800 (GMT-8)
  (envelope-from steven_lee@aspeedtech.com)
 Received: from localhost.localdomain (192.168.70.100) by TWMBX02.aspeed.com
@@ -31,9 +31,9 @@ To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Peter Maydell
  <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
  "open list:All patches CC here" <qemu-devel@nongnu.org>
-Subject: [PATCH v4 1/3] aspeed/hace: Support HMAC Key Buffer register.
-Date: Thu, 31 Mar 2022 15:48:42 +0800
-Message-ID: <20220331074844.30065-2-steven_lee@aspeedtech.com>
+Subject: [PATCH v4 2/3] aspeed/hace: Support AST2600 HACE
+Date: Thu, 31 Mar 2022 15:48:43 +0800
+Message-ID: <20220331074844.30065-3-steven_lee@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220331074844.30065-1-steven_lee@aspeedtech.com>
 References: <20220331074844.30065-1-steven_lee@aspeedtech.com>
@@ -43,7 +43,7 @@ X-Originating-IP: [192.168.70.100]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 22V7bmnC051495
+X-MAIL: twspam01.aspeedtech.com 22V7bmKe051502
 Received-SPF: pass client-ip=211.20.114.71;
  envelope-from=steven_lee@aspeedtech.com; helo=twspam01.aspeedtech.com
 X-Spam_score_int: -18
@@ -68,73 +68,208 @@ Cc: jamin_lin@aspeedtech.com, troy_lee@aspeedtech.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support HACE28: Hash HMAC Key Buffer Base Address Register.
+The aspeed ast2600 accumulative mode is described in datasheet
+ast2600v10.pdf section 25.6.4:
+ 1. Allocating and initiating accumulative hash digest write buffer
+    with initial state.
+    * Since QEMU crypto/hash api doesn't provide the API to set initial
+      state of hash library, and the initial state is already setted by
+      crypto library (gcrypt/glib/...), so skip this step.
+ 2. Calculating accumulative hash digest.
+    (a) When receiving the last accumulative data, software need to add
+        padding message at the end of the accumulative data. Padding
+        message described in specific of MD5, SHA-1, SHA224, SHA256,
+        SHA512, SHA512/224, SHA512/256.
+        * Since the crypto library (gcrypt/glib) already pad the
+          padding message internally.
+        * This patch is to remove the padding message which fed byguest
+          machine driver.
 
 Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
 Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
 ---
- hw/misc/aspeed_hace.c         | 7 +++++++
- include/hw/misc/aspeed_hace.h | 1 +
- 2 files changed, 8 insertions(+)
+ hw/misc/aspeed_hace.c | 140 ++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 136 insertions(+), 4 deletions(-)
 
 diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-index 10f00e65f4..59fe5bfca2 100644
+index 59fe5bfca2..5a7a144602 100644
 --- a/hw/misc/aspeed_hace.c
 +++ b/hw/misc/aspeed_hace.c
-@@ -27,6 +27,7 @@
- 
- #define R_HASH_SRC      (0x20 / 4)
- #define R_HASH_DEST     (0x24 / 4)
-+#define R_HASH_KEY_BUFF (0x28 / 4)
- #define R_HASH_SRC_LEN  (0x2c / 4)
- 
- #define R_HASH_CMD      (0x30 / 4)
-@@ -210,6 +211,9 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
-     case R_HASH_DEST:
-         data &= ahc->dest_mask;
-         break;
-+    case R_HASH_KEY_BUFF:
-+        data &= ahc->key_mask;
-+        break;
-     case R_HASH_SRC_LEN:
-         data &= 0x0FFFFFFF;
-         break;
-@@ -333,6 +337,7 @@ static void aspeed_ast2400_hace_class_init(ObjectClass *klass, void *data)
- 
-     ahc->src_mask = 0x0FFFFFFF;
-     ahc->dest_mask = 0x0FFFFFF8;
-+    ahc->key_mask = 0x0FFFFFC0;
-     ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
+@@ -95,12 +95,115 @@ static int hash_algo_lookup(uint32_t reg)
+     return -1;
  }
  
-@@ -351,6 +356,7 @@ static void aspeed_ast2500_hace_class_init(ObjectClass *klass, void *data)
+-static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
++/**
++ * Check whether the request contains padding message.
++ *
++ * @param iov           iov of current request
++ * @param id            index of iov of current request
++ * @param total_req_len length of all acc_mode requests(including padding msg)
++ * @param req_len       length of the current request
++ * @param total_msg_len length of all acc_mode requests(excluding padding msg)
++ * @param pad_offset    start offset of padding message
++ */
++static bool has_padding(struct iovec *iov, uint32_t total_req_len,
++                        hwaddr req_len, uint32_t *total_msg_len,
++                        uint32_t *pad_offset)
++{
++    *total_msg_len = (uint32_t)(ldq_be_p(iov->iov_base + req_len - 8) / 8);
++    /*
++     * SG_LIST_LEN_LAST asserted in the request length doesn't mean it is the
++     * last request. The last request should contain padding message.
++     * We check whether message contains padding by
++     *   1. Get total message length. If the current message contains
++     *      padding, the last 8 bytes are total message length.
++     *   2. Check whether the total message length is valid.
++     *      If it is valid, the value should less than or eaual to
++     *      total_req_len.
++     *   3. Current request len - padding_size to get padding offset.
++     *      The padding message's first byte should be 0x80
++     */
++    if (*total_msg_len <= total_req_len) {
++        uint32_t padding_size = total_req_len - *total_msg_len;
++        uint8_t *padding = iov->iov_base;
++        *pad_offset = req_len - padding_size;
++        if (padding[*pad_offset] == 0x80) {
++            return true;
++        }
++    }
++
++    return false;
++}
++
++static int reconstruct_iov(struct iovec *cache, struct iovec *iov, int id,
++                           uint32_t *total_req_len,
++                           uint32_t *pad_offset,
++                           int *count)
++{
++    int i, iov_count;
++    if (pad_offset != 0) {
++        (cache + *count)->iov_base = (iov + id)->iov_base;
++        (cache + *count)->iov_len = *pad_offset;
++        ++*count;
++    }
++    for (i = 0; i < *count; i++) {
++        (iov + i)->iov_base = (cache + i)->iov_base;
++        (iov + i)->iov_len = (cache + i)->iov_len;
++    }
++    iov_count = *count;
++    *count = 0;
++    *total_req_len = 0;
++    return iov_count;
++}
++
++/**
++ * Generate iov for accumulative mode.
++ *
++ * @param cache         cached iov
++ * @param iov           iov of current request
++ * @param id            index of iov of current request
++ * @param total_req_len total length of the request(including padding)
++ * @param req_len       length of the current request
++ * @param count         count of cached iov
++ */
++static int gen_acc_mode_iov(struct iovec *cache, struct iovec *iov, int id,
++                            uint32_t *total_req_len, hwaddr *req_len,
++                            int *count)
++{
++    uint32_t pad_offset;
++    uint32_t total_msg_len;
++    *total_req_len += *req_len;
++
++    if (has_padding(&iov[id], *total_req_len, *req_len, &total_msg_len,
++                    &pad_offset)) {
++        if (*count) {
++            return reconstruct_iov(cache, iov, id, total_req_len,
++                    &pad_offset, count);
++        }
++
++        *req_len -= *total_req_len - total_msg_len;
++        *total_req_len = 0;
++        (iov + id)->iov_len = *req_len;
++        return id + 1;
++    } else {
++        (cache + *count)->iov_base = iov->iov_base;
++        (cache + *count)->iov_len = *req_len;
++        ++*count;
++    }
++
++    return 0;
++}
++
++static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
++                              bool acc_mode)
+ {
+     struct iovec iov[ASPEED_HACE_MAX_SG];
+     g_autofree uint8_t *digest_buf;
+     size_t digest_len = 0;
++    int niov = 0;
+     int i;
++    static struct iovec iov_cache[ASPEED_HACE_MAX_SG];
++    static int count;
++    static uint32_t total_len;
  
-     ahc->src_mask = 0x3fffffff;
-     ahc->dest_mask = 0x3ffffff8;
-+    ahc->key_mask = 0x3FFFFFC0;
-     ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
- }
+     if (sg_mode) {
+         uint32_t len = 0;
+@@ -124,10 +227,17 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
+                                         MEMTXATTRS_UNSPECIFIED, NULL);
+             addr &= SG_LIST_ADDR_MASK;
  
-@@ -369,6 +375,7 @@ static void aspeed_ast2600_hace_class_init(ObjectClass *klass, void *data)
+-            iov[i].iov_len = len & SG_LIST_LEN_MASK;
+-            plen = iov[i].iov_len;
++            plen = len & SG_LIST_LEN_MASK;
+             iov[i].iov_base = address_space_map(&s->dram_as, addr, &plen, false,
+                                                 MEMTXATTRS_UNSPECIFIED);
++
++            if (acc_mode) {
++                niov = gen_acc_mode_iov(
++                        iov_cache, iov, i, &total_len, &plen, &count);
++
++            } else {
++                iov[i].iov_len = plen;
++            }
+         }
+     } else {
+         hwaddr len = s->regs[R_HASH_SRC_LEN];
+@@ -137,6 +247,27 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
+                                             &len, false,
+                                             MEMTXATTRS_UNSPECIFIED);
+         i = 1;
++
++        if (count) {
++            /*
++             * In aspeed sdk kernel driver, sg_mode is disabled in hash_final().
++             * Thus if we received a request with sg_mode disabled, it is
++             * required to check whether cache is empty. If no, we should
++             * combine cached iov and the current iov.
++             */
++            uint32_t total_msg_len;
++            uint32_t pad_offset;
++            total_len += len;
++            if (has_padding(iov, total_len, len, &total_msg_len,
++                            &pad_offset)) {
++                niov = reconstruct_iov(iov_cache, iov, 0, &total_len,
++                        &pad_offset, &count);
++            }
++        }
++    }
++
++    if (niov) {
++        i = niov;
+     }
  
-     ahc->src_mask = 0x7FFFFFFF;
-     ahc->dest_mask = 0x7FFFFFF8;
-+    ahc->key_mask = 0x7FFFFFF8;
-     ahc->hash_mask = 0x00147FFF;
- }
+     if (qcrypto_hash_bytesv(algo, iov, i, &digest_buf, &digest_len, NULL) < 0) {
+@@ -238,7 +369,8 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
+                         __func__, data & ahc->hash_mask);
+                 break;
+         }
+-        do_hash_operation(s, algo, data & HASH_SG_EN);
++        do_hash_operation(s, algo, data & HASH_SG_EN,
++                ((data & HASH_HMAC_MASK) == HASH_DIGEST_ACCUM));
  
-diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.h
-index 94d5ada95f..2242945eb4 100644
---- a/include/hw/misc/aspeed_hace.h
-+++ b/include/hw/misc/aspeed_hace.h
-@@ -37,6 +37,7 @@ struct AspeedHACEClass {
- 
-     uint32_t src_mask;
-     uint32_t dest_mask;
-+    uint32_t key_mask;
-     uint32_t hash_mask;
- };
- 
+         if (data & HASH_IRQ_EN) {
+             qemu_irq_raise(s->irq);
 -- 
 2.17.1
 
