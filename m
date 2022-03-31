@@ -2,105 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A024ED987
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:19:57 +0200 (CEST)
-Received: from localhost ([::1]:34570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606A44ED991
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:23:47 +0200 (CEST)
+Received: from localhost ([::1]:40808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZtmO-00029B-Gh
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:19:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53512)
+	id 1nZtq6-0006Xm-6T
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:23:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nZthc-0007DI-LG; Thu, 31 Mar 2022 08:15:00 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27602
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nZtn2-0004Te-Mn
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:20:38 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nZthY-00043i-EC; Thu, 31 Mar 2022 08:14:59 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22V98soO011435; 
- Thu, 31 Mar 2022 12:14:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=XtVEIcEO5ENyNUDlxZXv8jwNUMO3IUXZfGSSjL5XHGY=;
- b=LIQi3yI5vkiUlo01f3XRMO8WX0sQPyvH+HQQoL66FbQGi/t5dWVZwdQGfCEzHQcycYVx
- m2zBkbJ3LniRjdFT8H3YU3WTa2lSxvvjzEqMBWreldkEV9XUVh0abiD6uz4B/YY3MU4m
- Tn1TGsLQorZ4p81np3ic05ktYpkcsWADnrBhC6EKj/aNsDxJgNa6ELBPuF/poeiBBE2B
- 8sogDe5M1j+2MseFigdTOqs28ZFKDvsJ8+FussS3b4a3rWRUb7tADbud04c2kubuseWI
- wyDqUqIYZblnI4ytWmOOkolR+F7tbj/ASHe1/+38+y6bguY+HuYNV05IK+pFVCabX0oa 8A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3f588851wg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 31 Mar 2022 12:14:54 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22VCD1sG013372;
- Thu, 31 Mar 2022 12:14:54 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3f588851w0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 31 Mar 2022 12:14:54 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22VC97Wr009888;
- Thu, 31 Mar 2022 12:14:52 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma02fra.de.ibm.com with ESMTP id 3f1tf914ee-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 31 Mar 2022 12:14:52 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22VCEndx47186394
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 31 Mar 2022 12:14:49 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3F66511C04C;
- Thu, 31 Mar 2022 12:14:49 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E574611C054;
- Thu, 31 Mar 2022 12:14:48 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown
- [9.152.224.239])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 31 Mar 2022 12:14:48 +0000 (GMT)
-Date: Thu, 31 Mar 2022 14:14:47 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 3/4] virtio-ccw: move device type declarations to .c files
-Message-ID: <20220331141447.40af9138.pasic@linux.ibm.com>
-In-Reply-To: <20220328143019.682245-4-pbonzini@redhat.com>
-References: <20220328143019.682245-1-pbonzini@redhat.com>
- <20220328143019.682245-4-pbonzini@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nZtmz-0007Rf-5G
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:20:34 -0400
+Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KTj5T690xz685N3;
+ Thu, 31 Mar 2022 20:18:53 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 31 Mar 2022 14:20:23 +0200
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 31 Mar
+ 2022 13:20:22 +0100
+Date: Thu, 31 Mar 2022 13:20:21 +0100
+To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Be?=
+ =?ISO-8859-1?Q?nn=E9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
+ <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>
+CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
+ <shameerali.kolothum.thodi@huawei.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
+ =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, 
+ Chris Browy <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, 
+ Dan Williams <dan.j.williams@intel.com>, Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v8 02/46] hw/cxl/component: Introduce CXL components
+ (8.1.x, 8.2.5)
+Message-ID: <20220331132021.000014c4@huawei.com>
+In-Reply-To: <20220318150635.24600-3-Jonathan.Cameron@huawei.com>
+References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
+ <20220318150635.24600-3-Jonathan.Cameron@huawei.com>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 9bRvZIHRik3kLIdCMWTYJyDUso7rJDdh
-X-Proofpoint-ORIG-GUID: w-I3sH0EugGmdkGX0FYnSlcJ2ndxR35B
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-31_04,2022-03-31_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 malwarescore=0
- mlxscore=0 suspectscore=0 clxscore=1015 spamscore=0 mlxlogscore=999
- phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203310068
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml717-chm.china.huawei.com (10.201.108.68) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,73 +79,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, cohuck@redhat.com, thuth@redhat.com,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x@nongnu.org, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Mon, 28 Mar 2022 16:30:18 +0200
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Fri, 18 Mar 2022 15:05:51 +0000
+Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> From: Ben Widawsky <ben.widawsky@intel.com>
+>=20
+> A CXL 2.0 component is any entity in the CXL topology. All components
+> have a analogous function in PCIe. Except for the CXL host bridge, all
+> have a PCIe config space that is accessible via the common PCIe
+> mechanisms. CXL components are enumerated via DVSEC fields in the
+> extended PCIe header space. CXL components will minimally implement some
+> subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
+> 2.0 specification. Two headers and a utility library are introduced to
+> support the minimum functionality needed to enumerate components.
+>=20
+> The cxl_pci header manages bits associated with PCI, specifically the
+> DVSEC and related fields. The cxl_component.h variant has data
+> structures and APIs that are useful for drivers implementing any of the
+> CXL 2.0 components. The library takes care of making use of the DVSEC
+> bits and the CXL.[mem|cache] registers. Per spec, the registers are
+> little endian.
+>=20
+> None of the mechanisms required to enumerate a CXL capable hostbridge
+> are introduced at this point.
+>=20
+> Note that the CXL.mem and CXL.cache registers used are always 4B wide.
+> It's possible in the future that this constraint will not hold.
+>=20
+> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
+There will be one other addition to this in v9 which is to add
+the device GPF dvsec structure definition.
 
-Just curious: is device type declarations for
-leaf device types should be private a best practice in QEMU?
+I'll also add the relevant instantiation of this to the type 3 device
+and the Port GPF instantiation for the root port and switch
+DSP as these are mandatory (Even if they aren't that interesting to an OS)
 
-> ---
->  hw/s390x/s390-virtio-ccw.c    |   1 +
->  hw/s390x/vhost-scsi-ccw.c     |   9 +++
->  hw/s390x/vhost-vsock-ccw.c    |   9 +++
->  hw/s390x/virtio-ccw-9p.c      |   9 +++
->  hw/s390x/virtio-ccw-balloon.c |   9 +++
->  hw/s390x/virtio-ccw-blk.c     |   9 +++
->  hw/s390x/virtio-ccw-crypto.c  |   9 +++
->  hw/s390x/virtio-ccw-gpu.c     |   9 +++
->  hw/s390x/virtio-ccw-input.c   |  20 +++++
->  hw/s390x/virtio-ccw-net.c     |   9 +++
->  hw/s390x/virtio-ccw-rng.c     |   9 +++
->  hw/s390x/virtio-ccw-scsi.c    |   9 +++
->  hw/s390x/virtio-ccw-serial.c  |   9 +++
->  hw/s390x/virtio-ccw.c         |   2 +
->  hw/s390x/virtio-ccw.h         | 133 ----------------------------------
->  15 files changed, 122 insertions(+), 133 deletions(-)
-> 
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 90480e7cf9..2d32647d08 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -25,6 +25,7 @@
->  #include "qemu/error-report.h"
->  #include "qemu/option.h"
->  #include "qemu/qemu-print.h"
-> +#include "qemu/units.h"
-
-Unrelated?
-
-[..]
-> diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-> index c845a92c3a..15b458527e 100644
-> --- a/hw/s390x/virtio-ccw.c
-> +++ b/hw/s390x/virtio-ccw.c
-> @@ -12,6 +12,7 @@
->  
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
-> +#include "exec/address-spaces.h"
-
-Unrelated?
-
->  #include "sysemu/kvm.h"
->  #include "net/net.h"
->  #include "hw/virtio/virtio.h"
-> @@ -19,6 +20,7 @@
->  #include "hw/virtio/virtio-net.h"
->  #include "qemu/bitops.h"
->  #include "qemu/error-report.h"
-> +#include "qemu/log.h"
-
-Unrelated?
-
-Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
+>
 
