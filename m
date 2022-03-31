@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3794EE04E
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:22:56 +0200 (CEST)
-Received: from localhost ([::1]:37974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1226F4EE049
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:19:51 +0200 (CEST)
+Received: from localhost ([::1]:33284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZzRf-0002AN-Ea
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:22:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43968)
+	id 1nZzOf-0007M8-Uy
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:19:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZzA3-0004AH-AE
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:04:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53163)
+ id 1nZzA7-0004RL-TN
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:04:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZzA1-0007Mg-JP
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:04:42 -0400
+ id 1nZzA5-0007N0-Pg
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:04:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648749881;
+ s=mimecast20190719; t=1648749885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cp+pLK6qQUIS+VZf9K6pYU4iR+sCDEsaxpbkxBhnqMI=;
- b=HVwenCUxEXsGpWxxrrW2oawlJB0QAXAb3oYtPPLlDc3syUjifZ9OM+mCU8DicAYHaYWGN1
- x2RHSSjIQa3kzdp6pEzkHuB1WyWyCfmWw8RI70ctrCy8KwGhDrizgz6wu49dIF3OE2+ld+
- LjZ+E/ixbaRAtxiwIfKcaZFV8ajH6L0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=H+ZKd6KUcLTqI9r8rju+MObNDFWLHKaMjymBGI90yBQ=;
+ b=JR9swLQXYbZn8sUfuhBRkTGsmHKyrKqITftFF54PaAoffltYRYWkpwYp3bus8wgM9NBUFs
+ 9BFtBlEtSsYLFRkzErkWY2PSLetzGI0yAMibK17ZdUGByNnFKR42LPRTe5jUtuFE48QawF
+ /jzau1iuwPfIcRHDJiNl8hDbE8Eq/6Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-155-kmSGF8nyN2O-q_6c1HG2lA-1; Thu, 31 Mar 2022 14:04:36 -0400
-X-MC-Unique: kmSGF8nyN2O-q_6c1HG2lA-1
+ us-mta-355-gwNLbsJgPBO6ROv7HGqsFw-1; Thu, 31 Mar 2022 14:04:39 -0400
+X-MC-Unique: gwNLbsJgPBO6ROv7HGqsFw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3BA7D1C0515D;
- Thu, 31 Mar 2022 18:04:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B67DD85A5BE;
+ Thu, 31 Mar 2022 18:04:38 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.194.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 023DB40CF8EB;
- Thu, 31 Mar 2022 18:04:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 80B2840CF8F2;
+ Thu, 31 Mar 2022 18:04:36 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v4 08/20] vdpa: Extract get geatures part from
- vhost_vdpa_get_max_queue_pairs
-Date: Thu, 31 Mar 2022 20:03:58 +0200
-Message-Id: <20220331180410.531837-9-eperezma@redhat.com>
+Subject: [RFC PATCH v4 09/20] virtio: Make virtqueue_alloc_element non-static
+Date: Thu, 31 Mar 2022 20:03:59 +0200
+Message-Id: <20220331180410.531837-10-eperezma@redhat.com>
 In-Reply-To: <20220331180410.531837-1-eperezma@redhat.com>
 References: <20220331180410.531837-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -90,80 +89,39 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To know the device features is also needed for CVQ SVQ. Extract from
-vhost_vdpa_get_max_queue_pairs so we can reuse it.
-
-Report errno in case of failure getting them while we're at it.
+So SVQ can allocate elements using it
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- net/vhost-vdpa.c | 30 ++++++++++++++++++++----------
- 1 file changed, 20 insertions(+), 10 deletions(-)
+ include/hw/virtio/virtio.h | 1 +
+ hw/virtio/virtio.c         | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index def738998b..290aa01e13 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -235,20 +235,24 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-     return nc;
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index b31c4507f5..1e85833897 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -195,6 +195,7 @@ void virtqueue_fill(VirtQueue *vq, const VirtQueueElement *elem,
+                     unsigned int len, unsigned int idx);
+ 
+ void virtqueue_map(VirtIODevice *vdev, VirtQueueElement *elem);
++void *virtqueue_alloc_element(size_t sz, unsigned out_num, unsigned in_num);
+ void *virtqueue_pop(VirtQueue *vq, size_t sz);
+ unsigned int virtqueue_drop_all(VirtQueue *vq);
+ void *qemu_get_virtqueue_element(VirtIODevice *vdev, QEMUFile *f, size_t sz);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 9d637e043e..17cbbb5fca 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -1376,7 +1376,7 @@ void virtqueue_map(VirtIODevice *vdev, VirtQueueElement *elem)
+                                                                         false);
  }
  
--static int vhost_vdpa_get_max_queue_pairs(int fd, int *has_cvq, Error **errp)
-+static int vhost_vdpa_get_features(int fd, uint64_t *features, Error **errp)
-+{
-+    int ret = ioctl(fd, VHOST_GET_FEATURES, features);
-+    if (ret) {
-+        error_setg_errno(errp, errno,
-+                         "Fail to query features from vhost-vDPA device");
-+    }
-+    return ret;
-+}
-+
-+static int vhost_vdpa_get_max_queue_pairs(int fd, uint64_t features,
-+                                          int *has_cvq, Error **errp)
+-static void *virtqueue_alloc_element(size_t sz, unsigned out_num, unsigned in_num)
++void *virtqueue_alloc_element(size_t sz, unsigned out_num, unsigned in_num)
  {
-     unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
-     g_autofree struct vhost_vdpa_config *config = NULL;
-     __virtio16 *max_queue_pairs;
--    uint64_t features;
-     int ret;
- 
--    ret = ioctl(fd, VHOST_GET_FEATURES, &features);
--    if (ret) {
--        error_setg(errp, "Fail to query features from vhost-vDPA device");
--        return ret;
--    }
--
-     if (features & (1 << VIRTIO_NET_F_CTRL_VQ)) {
-         *has_cvq = 1;
-     } else {
-@@ -278,10 +282,11 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                         NetClientState *peer, Error **errp)
- {
-     const NetdevVhostVDPAOptions *opts;
-+    uint64_t features;
-     int vdpa_device_fd;
-     g_autofree NetClientState **ncs = NULL;
-     NetClientState *nc;
--    int queue_pairs, i, has_cvq = 0;
-+    int queue_pairs, r, i, has_cvq = 0;
-     g_autoptr(VhostIOVATree) iova_tree = NULL;
- 
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-@@ -296,7 +301,12 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         return -errno;
-     }
- 
--    queue_pairs = vhost_vdpa_get_max_queue_pairs(vdpa_device_fd,
-+    r = vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
-+    if (r) {
-+        return r;
-+    }
-+
-+    queue_pairs = vhost_vdpa_get_max_queue_pairs(vdpa_device_fd, features,
-                                                  &has_cvq, errp);
-     if (queue_pairs < 0) {
-         qemu_close(vdpa_device_fd);
+     VirtQueueElement *elem;
+     size_t in_addr_ofs = QEMU_ALIGN_UP(sz, __alignof__(elem->in_addr[0]));
 -- 
 2.27.0
 
