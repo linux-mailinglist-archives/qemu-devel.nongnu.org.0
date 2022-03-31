@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D044ED7C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:31:08 +0200 (CEST)
-Received: from localhost ([::1]:36398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E3C4ED7E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:43:41 +0200 (CEST)
+Received: from localhost ([::1]:39508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZs55-0002Hc-Mb
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:31:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54548)
+	id 1nZsHE-0005Ls-IG
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:43:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZrwJ-0005fb-Dd
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:22:03 -0400
-Received: from [2a00:1450:4864:20::429] (port=42731
- helo=mail-wr1-x429.google.com)
+ id 1nZsFv-0004et-DZ
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:42:19 -0400
+Received: from [2a00:1450:4864:20::430] (port=44605
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZrwH-0006bH-Ry
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:22:03 -0400
-Received: by mail-wr1-x429.google.com with SMTP id r13so33037506wrr.9
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 03:22:01 -0700 (PDT)
+ id 1nZsFt-0003tK-S6
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:42:19 -0400
+Received: by mail-wr1-x430.google.com with SMTP id b19so33125586wrh.11
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 03:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=yPdrt0D2Tu35DI1At3oHY8Pwrr0qG3TgR8pPowsQnMM=;
- b=oJGeq7/UNz4hMYOwhrstifXqnWYiT7Dnj8Wug84hGicjKF2tzcOhEUSLnsGhEBvEVw
- VtdoayhS0WJHq39POiouCHAGCW8hf6+it4rhZ9U8i0M3YaNKk7LL7RgUT5Z6EWjBC+BM
- 9W6ag+2/wfH+2WHP1CKktdqobaKJ6E0+7Cti4NYRiNDe7LEbX9g8D3bxyja4v5Ja/kzu
- IuTPQ+ky0k7RVMQuOzezQXjPgtRDWqBVDDssHA8g5g3uzzAxp9DOQIPvihxH0qmKEIyA
- plJuS0YEBWuFamahRKagee0nTOUtG2Q/yNFbnBy4Xb59bP1estXNzjMaUHPuZdyz3wMi
- r1iA==
+ bh=29NLbaPzDB1Ky22Dt9BERt8tFaZTC2txAFxoQ9Bag8k=;
+ b=lOolo4jsnyYVJS04NdxXDvYFzUHjZkdrqTkvIL0dXbiUUVIW2+pVcpaXB9AvZUwBPZ
+ mf0H/WzII7y2eWeJzbij70z0QmoxJJ2z+tITMu+OLWY8mt04DWGBXLRzxzylHfGCT4cT
+ 6+AUSkTIi8F36F0zyCvSQkvCEDaf0VB3yjX8dKSr9GsxaKCmq14sVDKTjsF8xAqUU7sA
+ Z4W0waFA/QBxhJV3npA5VhVFDa5RzDLC0FgwoFPzWOEcB0oETAYm2+5r3/UMhbsHk4aj
+ RyjXeXG5Ifds7nMjGXNDpa/wtyVHAZqShJD0IscMOEfxawworzJVXNjrPS79sK1d9aJ4
+ LizA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=yPdrt0D2Tu35DI1At3oHY8Pwrr0qG3TgR8pPowsQnMM=;
- b=S0tZEH84de7rl2VJwWb7sLFNdGOFUtqZ/aMHTGJoHT5Ru5gJ0E/Kzs6scfPVvU7FRo
- c+ResKTEE8FgEPdlvj27Oao4WXPioONpP/fh0Lg5Nx7jYycMKocZpHnWW6o72khSgWsy
- SyFZED0vmAyrsH+v1psH50zYZ53CNrwVB5nhN2+0g1FA0Gj1MeZHK1D7ubz6Hks4Cd40
- R34MVFU3br9Ju3pmgpN/AUVrG+QJFd9ZcXwofgQ7osc27SKU0dWWZzR/+N6bRFh8+iX0
- S23W50SA0CeFELlfgdXDcVrHYPgBVojEHqhJ/zp5o/USRyQ4lBJyY5TF6c1HgKxkiw4O
- afuA==
-X-Gm-Message-State: AOAM5321PontEsIdpRIyXHvMvc6PwoWjiI/461XMZi8pcIHTEF7BTz+8
- DpbDAWqvA1i7KCy2IEwP13k=
-X-Google-Smtp-Source: ABdhPJzNYhzij1crKrVJ3oY0sBUHFEIg+z364VpRQPguINfLFIAfAStBauWldEqOF0k2qTupOtW/4g==
-X-Received: by 2002:adf:9581:0:b0:1ed:c341:4ed1 with SMTP id
- p1-20020adf9581000000b001edc3414ed1mr3435327wrp.299.1648722120316; 
- Thu, 31 Mar 2022 03:22:00 -0700 (PDT)
+ bh=29NLbaPzDB1Ky22Dt9BERt8tFaZTC2txAFxoQ9Bag8k=;
+ b=TLK02T4ZpTjdYTdt8BdP8UUzurm0Y5t/MxWUgzme5B6luSdm0H4jHxUPVGbkLM0yLo
+ 8N2Ss+FlgVP+7US81VerJ98rHuh/Jj3DDFRE/B0PovDviuv5MPZPfIJcCOznDu7NgagO
+ RYCfAx/Fn6To+7MTBBwUZNOium9XrDZVHYQyVuGLValMd+2TBO3KsyxPTrIT7/EPDOEA
+ xCmCYaQIGquKhGf7V2jFot7lFVhVdMj87Q6TMgY5FbWew4yABXAZTLnvTrjwdnaZUUvc
+ kf+HofzxVGp0k/iE/zM5rHRfqNQix7R35EKyo2yXjEpOenF2R9SxKkMPh/TOgHWN12to
+ yY5w==
+X-Gm-Message-State: AOAM530veVJfN52QJrx6sbOjL848DSf2XuDA74n5F1lOxViqlFe38Xlv
+ yr7m+RJ2lRMBpa2lYYimFag=
+X-Google-Smtp-Source: ABdhPJxkALLPZNbzMOoi8rdE+xX3a49hkB6bI+Mo9SFgbiqh6O8HRXrx2lMCmnGuXlQmGRmulNMgVg==
+X-Received: by 2002:adf:fc47:0:b0:203:dda1:4311 with SMTP id
+ e7-20020adffc47000000b00203dda14311mr3656611wrs.301.1648723336333; 
+ Thu, 31 Mar 2022 03:42:16 -0700 (PDT)
 Received: from ?IPV6:2600:70ff:f07f:0:49f5:f512:3c8e:a801?
  ([2600:70ff:f07f:0:49f5:f512:3c8e:a801])
  by smtp.gmail.com with ESMTPSA id
- i6-20020adffc06000000b00203f2828075sm19420060wrr.19.2022.03.31.03.21.58
+ w5-20020a5d5445000000b00203f8c96bcesm18896016wrv.49.2022.03.31.03.42.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 03:21:59 -0700 (PDT)
-Message-ID: <bdaeed93-34dc-673f-426a-89845ddf4992@gmail.com>
-Date: Thu, 31 Mar 2022 12:21:57 +0200
+ Thu, 31 Mar 2022 03:42:15 -0700 (PDT)
+Message-ID: <192d78ca-d3e0-13d9-91d5-9f2c7cac33e6@gmail.com>
+Date: Thu, 31 Mar 2022 12:42:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 1/5] qdev: add uc_requires_machine_allowance flag
+Subject: Re: [PATCH-for-7.1] hw/tpm/tpm_tis: Avoid eventual read overrun
 Content-Language: en-US
-To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
-References: <20220330161215.235231-1-damien.hedde@greensocs.com>
- <20220330161215.235231-2-damien.hedde@greensocs.com>
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
+References: <20220330235723.68033-1-philippe.mathieu.daude@gmail.com>
+ <CAJ+F1CJ3eWn1iZ1VWBRyG+pbybQ=8EEHX7movkHb6Qgs-b=kZQ@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220330161215.235231-2-damien.hedde@greensocs.com>
+In-Reply-To: <CAJ+F1CJ3eWn1iZ1VWBRyG+pbybQ=8EEHX7movkHb6Qgs-b=kZQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,43 +96,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/3/22 18:12, Damien Hedde wrote:
-> This flag will be used in device_add to check if
-> the device needs special allowance from the machine
-> model.
+On 31/3/22 09:50, Marc-André Lureau wrote:
+> Hi
 > 
-> It will replace the current check based only on the
-> device being a TYPE_SYB_BUS_DEVICE.
+> On Thu, Mar 31, 2022 at 4:02 AM Philippe Mathieu-Daudé 
+> <philippe.mathieu.daude@gmail.com 
+> <mailto:philippe.mathieu.daude@gmail.com>> wrote:
 > 
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
->   include/hw/qdev-core.h | 6 ++++++
->   hw/core/qdev.c         | 1 +
->   hw/core/sysbus.c       | 1 +
->   3 files changed, 8 insertions(+)
+>     From: Philippe Mathieu-Daudé <f4bug@amsat.org <mailto:f4bug@amsat.org>>
 > 
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index 92c3d65208..f5a05ced39 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -123,6 +123,12 @@ struct DeviceClass {
->        */
->       bool user_creatable;
->       bool hotpluggable;
-> +    /*
-> +     * Some devices (eg: sysbus devices) are only user-creatable if
-> +     * the machine allowed it. user_creatable need still to be set to
-> +     * true, this is an additional constraint.
-> +     */
-> +    bool uc_requires_machine_allowance;
+>     The TPMState structure hold an array of TPM_TIS_NUM_LOCALITIES
+>     TPMLocality loc[], having TPM_TIS_NUM_LOCALITIES defined as '5'.
+> 
+>     tpm_tis_locality_from_addr() returns up to 3 bits, so 7.
+> 
+>     While unlikely, Coverity is right to report an overrun. Assert
+>     we are in range to fix:
+> 
+>        *** CID 1487240:  Memory - illegal accesses  (OVERRUN)
+>        hw/tpm/tpm_tis_common.c: 298 in tpm_tis_dump_state()
+>        294         int idx;
+>        295         uint8_t locty = tpm_tis_locality_from_addr(addr);
+>        296         hwaddr base = addr & ~0xfff;
+>        297
+>        >>>     CID 1487240:  Memory - illegal accesses  (OVERRUN)
+>        >>>     Overrunning array "s->loc" of 5 24-byte elements at
+>     element index 7 (byte offset 191) using index "locty" (which
+>     evaluates to 7).
+>        298         printf("tpm_tis: active locality      : %d\n"
+>        299                "tpm_tis: state of locality %d : %d\n"
+>        300                "tpm_tis: register dump:\n",
+>        301                s->active_locty,
+>        302                locty, s->loc[locty].state);
+> 
+>     Fixes: Coverity CID 1487240
+>     Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org
+>     <mailto:f4bug@amsat.org>>
+> 
+> 
+> Maybe that assert should be in tpm_tis_locality_from_addr(), as various 
+> callers could produce the same report.
 
-Why not name it user_creatable_requires_machine_allowance? Also I'd put
-it just after user_creatable.
+OK I see, tpm_tis_memory_ops handlers are safe because mapped as:
+
+     memory_region_init_io(&s->mmio, obj, &tpm_tis_memory_ops,
+                           s, "tpm-tis-mmio",
+                           TPM_TIS_NUM_LOCALITIES <<
+                           TPM_TIS_LOCALITY_SHIFT);
+
+So invalid addresses are impossible from guest.
 
