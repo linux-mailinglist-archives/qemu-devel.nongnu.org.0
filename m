@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4594ED7BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:24:08 +0200 (CEST)
-Received: from localhost ([::1]:59002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D044ED7C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:31:08 +0200 (CEST)
+Received: from localhost ([::1]:36398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZryJ-0006aH-3Z
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:24:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54276)
+	id 1nZs55-0002Hc-Mb
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:31:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZrui-0003nK-F6
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:20:24 -0400
-Received: from [2a00:1450:4864:20::433] (port=38764
- helo=mail-wr1-x433.google.com)
+ id 1nZrwJ-0005fb-Dd
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:22:03 -0400
+Received: from [2a00:1450:4864:20::429] (port=42731
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZrug-0005yk-Sc
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:20:24 -0400
-Received: by mail-wr1-x433.google.com with SMTP id i4so14233924wrb.5
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 03:20:22 -0700 (PDT)
+ id 1nZrwH-0006bH-Ry
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:22:03 -0400
+Received: by mail-wr1-x429.google.com with SMTP id r13so33037506wrr.9
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 03:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=JKTTxvbM3hjmYWnhdxAdjFnYyF43XDrTqMx8zxYwNaU=;
- b=QwDptAt9X8e10S2oxq1gXvYuL3TWcjdHIrfIWLc9t8JGBtx7NyN++twCQOdvwt+yeL
- 4V8mOwFsrcIMEVHR25oScWsxiOa8vwqN8CepsV9OkQxvvdPozsP1opNTECOp0NEov3zc
- A3+zZ8UI6H3lUVXM6IeXmU5mai+MqtgwwiLbOiT9Ph3hCZYsY3HkUE+ZPoskU7TbBGG0
- 82hpEY4n/k8bav0dIROzj0hkj8UckxexN7FoSwKctGA1KxBMRZEDqZzXiOC8ytyB+Npr
- mhl13SyJcsduMpmXPCyZsse3CS9nwQqtfLpNOHX4IeWmd1Ujhxgx6NGp9LANm5HWlCvh
- 98qA==
+ bh=yPdrt0D2Tu35DI1At3oHY8Pwrr0qG3TgR8pPowsQnMM=;
+ b=oJGeq7/UNz4hMYOwhrstifXqnWYiT7Dnj8Wug84hGicjKF2tzcOhEUSLnsGhEBvEVw
+ VtdoayhS0WJHq39POiouCHAGCW8hf6+it4rhZ9U8i0M3YaNKk7LL7RgUT5Z6EWjBC+BM
+ 9W6ag+2/wfH+2WHP1CKktdqobaKJ6E0+7Cti4NYRiNDe7LEbX9g8D3bxyja4v5Ja/kzu
+ IuTPQ+ky0k7RVMQuOzezQXjPgtRDWqBVDDssHA8g5g3uzzAxp9DOQIPvihxH0qmKEIyA
+ plJuS0YEBWuFamahRKagee0nTOUtG2Q/yNFbnBy4Xb59bP1estXNzjMaUHPuZdyz3wMi
+ r1iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JKTTxvbM3hjmYWnhdxAdjFnYyF43XDrTqMx8zxYwNaU=;
- b=JnPB7mTwPnOfE9mXaZxvkDfgPYoCfpfMBk+H4g2KyBTmhLpI+AwSkeuOoGn+4U/AXF
- hF0xsOhit//1tHzhWXn4TZfXc/grucPLDXLn9EQPK97wYFzsnsmT2p16xf70tybVmiKj
- pzNXIGxiqS239m4+jnh113XlO2q3ZwpghIKCscsv3k+CY/MDh0Vy+jfek39Njd/I1+76
- WKJUQW5Ew9vWitbDqS4Yn9mz87sfCnZM0JOuCi/b/ndJKXcENPFdoTGEficj4rkrl5oQ
- i/eRqo50vab1mLN/MVDRJO1FGHlslojMJOv380vd0aNskbsblKkRdi02np35yDGIaYOq
- hrwg==
-X-Gm-Message-State: AOAM532kyak6JSBNbAFEMQWbwsfOTwrrkgZI/EtZNqVDH8XSyxcQWQvA
- brogmlqQP/TayiGAzCWIUIk=
-X-Google-Smtp-Source: ABdhPJw9w7rsDKIXTlbJwk83OZgX0ev3b8e2hRhrTvNgZ8vBXIevhuhW/fmznuR3LtZkub5XwqXUgA==
-X-Received: by 2002:a5d:64eb:0:b0:205:d418:4798 with SMTP id
- g11-20020a5d64eb000000b00205d4184798mr3598676wri.11.1648722021597; 
- Thu, 31 Mar 2022 03:20:21 -0700 (PDT)
+ bh=yPdrt0D2Tu35DI1At3oHY8Pwrr0qG3TgR8pPowsQnMM=;
+ b=S0tZEH84de7rl2VJwWb7sLFNdGOFUtqZ/aMHTGJoHT5Ru5gJ0E/Kzs6scfPVvU7FRo
+ c+ResKTEE8FgEPdlvj27Oao4WXPioONpP/fh0Lg5Nx7jYycMKocZpHnWW6o72khSgWsy
+ SyFZED0vmAyrsH+v1psH50zYZ53CNrwVB5nhN2+0g1FA0Gj1MeZHK1D7ubz6Hks4Cd40
+ R34MVFU3br9Ju3pmgpN/AUVrG+QJFd9ZcXwofgQ7osc27SKU0dWWZzR/+N6bRFh8+iX0
+ S23W50SA0CeFELlfgdXDcVrHYPgBVojEHqhJ/zp5o/USRyQ4lBJyY5TF6c1HgKxkiw4O
+ afuA==
+X-Gm-Message-State: AOAM5321PontEsIdpRIyXHvMvc6PwoWjiI/461XMZi8pcIHTEF7BTz+8
+ DpbDAWqvA1i7KCy2IEwP13k=
+X-Google-Smtp-Source: ABdhPJzNYhzij1crKrVJ3oY0sBUHFEIg+z364VpRQPguINfLFIAfAStBauWldEqOF0k2qTupOtW/4g==
+X-Received: by 2002:adf:9581:0:b0:1ed:c341:4ed1 with SMTP id
+ p1-20020adf9581000000b001edc3414ed1mr3435327wrp.299.1648722120316; 
+ Thu, 31 Mar 2022 03:22:00 -0700 (PDT)
 Received: from ?IPV6:2600:70ff:f07f:0:49f5:f512:3c8e:a801?
  ([2600:70ff:f07f:0:49f5:f512:3c8e:a801])
  by smtp.gmail.com with ESMTPSA id
- g1-20020a1c4e01000000b003899c8053e1sm9360686wmh.41.2022.03.31.03.20.20
+ i6-20020adffc06000000b00203f2828075sm19420060wrr.19.2022.03.31.03.21.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 03:20:21 -0700 (PDT)
-Message-ID: <3a7ef250-b087-a661-e998-bcf9b4328f04@gmail.com>
-Date: Thu, 31 Mar 2022 12:20:19 +0200
+ Thu, 31 Mar 2022 03:21:59 -0700 (PDT)
+Message-ID: <bdaeed93-34dc-673f-426a-89845ddf4992@gmail.com>
+Date: Thu, 31 Mar 2022 12:21:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 2/5] machine: update machine allowed list related
- functions/fields
+Subject: Re: [PATCH 1/5] qdev: add uc_requires_machine_allowance flag
 Content-Language: en-US
 To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
 References: <20220330161215.235231-1-damien.hedde@greensocs.com>
- <20220330161215.235231-3-damien.hedde@greensocs.com>
+ <20220330161215.235231-2-damien.hedde@greensocs.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220330161215.235231-3-damien.hedde@greensocs.com>
+In-Reply-To: <20220330161215.235231-2-damien.hedde@greensocs.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -104,17 +103,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 30/3/22 18:12, Damien Hedde wrote:
-> The list will now accept any device (not only sysbus devices) so
-> we rename the related code and documentation.
+> This flag will be used in device_add to check if
+> the device needs special allowance from the machine
+> model.
 > 
-> Create some temporary inline functions with old names until
-> we've udpated callsites as well.
+> It will replace the current check based only on the
+> device being a TYPE_SYB_BUS_DEVICE.
 > 
 > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 > ---
->   include/hw/boards.h | 50 +++++++++++++++++++++++++++------------------
->   hw/core/machine.c   | 10 ++++-----
->   2 files changed, 35 insertions(+), 25 deletions(-)
+>   include/hw/qdev-core.h | 6 ++++++
+>   hw/core/qdev.c         | 1 +
+>   hw/core/sysbus.c       | 1 +
+>   3 files changed, 8 insertions(+)
+> 
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index 92c3d65208..f5a05ced39 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -123,6 +123,12 @@ struct DeviceClass {
+>        */
+>       bool user_creatable;
+>       bool hotpluggable;
+> +    /*
+> +     * Some devices (eg: sysbus devices) are only user-creatable if
+> +     * the machine allowed it. user_creatable need still to be set to
+> +     * true, this is an additional constraint.
+> +     */
+> +    bool uc_requires_machine_allowance;
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Why not name it user_creatable_requires_machine_allowance? Also I'd put
+it just after user_creatable.
 
