@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E3C4ED7E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:43:41 +0200 (CEST)
-Received: from localhost ([::1]:39508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C9C4ED7EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:46:14 +0200 (CEST)
+Received: from localhost ([::1]:42770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZsHE-0005Ls-IG
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:43:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59008)
+	id 1nZsJh-0007bZ-Kb
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:46:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZsFv-0004et-DZ
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:42:19 -0400
-Received: from [2a00:1450:4864:20::430] (port=44605
- helo=mail-wr1-x430.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZsFt-0003tK-S6
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:42:19 -0400
-Received: by mail-wr1-x430.google.com with SMTP id b19so33125586wrh.11
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 03:42:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=29NLbaPzDB1Ky22Dt9BERt8tFaZTC2txAFxoQ9Bag8k=;
- b=lOolo4jsnyYVJS04NdxXDvYFzUHjZkdrqTkvIL0dXbiUUVIW2+pVcpaXB9AvZUwBPZ
- mf0H/WzII7y2eWeJzbij70z0QmoxJJ2z+tITMu+OLWY8mt04DWGBXLRzxzylHfGCT4cT
- 6+AUSkTIi8F36F0zyCvSQkvCEDaf0VB3yjX8dKSr9GsxaKCmq14sVDKTjsF8xAqUU7sA
- Z4W0waFA/QBxhJV3npA5VhVFDa5RzDLC0FgwoFPzWOEcB0oETAYm2+5r3/UMhbsHk4aj
- RyjXeXG5Ifds7nMjGXNDpa/wtyVHAZqShJD0IscMOEfxawworzJVXNjrPS79sK1d9aJ4
- LizA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=29NLbaPzDB1Ky22Dt9BERt8tFaZTC2txAFxoQ9Bag8k=;
- b=TLK02T4ZpTjdYTdt8BdP8UUzurm0Y5t/MxWUgzme5B6luSdm0H4jHxUPVGbkLM0yLo
- 8N2Ss+FlgVP+7US81VerJ98rHuh/Jj3DDFRE/B0PovDviuv5MPZPfIJcCOznDu7NgagO
- RYCfAx/Fn6To+7MTBBwUZNOium9XrDZVHYQyVuGLValMd+2TBO3KsyxPTrIT7/EPDOEA
- xCmCYaQIGquKhGf7V2jFot7lFVhVdMj87Q6TMgY5FbWew4yABXAZTLnvTrjwdnaZUUvc
- kf+HofzxVGp0k/iE/zM5rHRfqNQix7R35EKyo2yXjEpOenF2R9SxKkMPh/TOgHWN12to
- yY5w==
-X-Gm-Message-State: AOAM530veVJfN52QJrx6sbOjL848DSf2XuDA74n5F1lOxViqlFe38Xlv
- yr7m+RJ2lRMBpa2lYYimFag=
-X-Google-Smtp-Source: ABdhPJxkALLPZNbzMOoi8rdE+xX3a49hkB6bI+Mo9SFgbiqh6O8HRXrx2lMCmnGuXlQmGRmulNMgVg==
-X-Received: by 2002:adf:fc47:0:b0:203:dda1:4311 with SMTP id
- e7-20020adffc47000000b00203dda14311mr3656611wrs.301.1648723336333; 
- Thu, 31 Mar 2022 03:42:16 -0700 (PDT)
-Received: from ?IPV6:2600:70ff:f07f:0:49f5:f512:3c8e:a801?
- ([2600:70ff:f07f:0:49f5:f512:3c8e:a801])
- by smtp.gmail.com with ESMTPSA id
- w5-20020a5d5445000000b00203f8c96bcesm18896016wrv.49.2022.03.31.03.42.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 03:42:15 -0700 (PDT)
-Message-ID: <192d78ca-d3e0-13d9-91d5-9f2c7cac33e6@gmail.com>
-Date: Thu, 31 Mar 2022 12:42:14 +0200
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsHr-00068J-8q
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:44:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31319)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsHo-00042c-2N
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:44:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648723454;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ixKvAvrbwLDwD5z6QupJMTUkxqKL+mW8YW7XAJsL1w0=;
+ b=XUNTyEokYiXHFIfVmP4HG44wSj/tS36TbnxM4lZMlQc+NsZbbSEmuhsGevcixpgz3lsCje
+ MC6+h+yuIWJgYyRPJYWs/cl78uN6qce2Y7ML3E7A+3+XmfGW9EtE2Rp9BACKDiuaduuStU
+ Oo+SM4q85RSP5d66sNiXGlaVE3nq5WQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-528-O7Kt7cW_ONeX0Cbg-Jc9gg-1; Thu, 31 Mar 2022 06:44:13 -0400
+X-MC-Unique: O7Kt7cW_ONeX0Cbg-Jc9gg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47E28101A54C
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 10:44:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 17D3F40D1B9B;
+ Thu, 31 Mar 2022 10:44:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E6B4721E691D; Thu, 31 Mar 2022 12:44:11 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Victor Toso <victortoso@redhat.com>
+Subject: Re: [PATCH v3 00/14] Fix some qapi examples and a TODO section
+References: <20220328140604.41484-1-victortoso@redhat.com>
+Date: Thu, 31 Mar 2022 12:44:11 +0200
+In-Reply-To: <20220328140604.41484-1-victortoso@redhat.com> (Victor Toso's
+ message of "Mon, 28 Mar 2022 16:05:50 +0200")
+Message-ID: <878rsqtn9g.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH-for-7.1] hw/tpm/tpm_tis: Avoid eventual read overrun
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
-References: <20220330235723.68033-1-philippe.mathieu.daude@gmail.com>
- <CAJ+F1CJ3eWn1iZ1VWBRyG+pbybQ=8EEHX7movkHb6Qgs-b=kZQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <CAJ+F1CJ3eWn1iZ1VWBRyG+pbybQ=8EEHX7movkHb6Qgs-b=kZQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,58 +80,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/3/22 09:50, Marc-André Lureau wrote:
-> Hi
-> 
-> On Thu, Mar 31, 2022 at 4:02 AM Philippe Mathieu-Daudé 
-> <philippe.mathieu.daude@gmail.com 
-> <mailto:philippe.mathieu.daude@gmail.com>> wrote:
-> 
->     From: Philippe Mathieu-Daudé <f4bug@amsat.org <mailto:f4bug@amsat.org>>
-> 
->     The TPMState structure hold an array of TPM_TIS_NUM_LOCALITIES
->     TPMLocality loc[], having TPM_TIS_NUM_LOCALITIES defined as '5'.
-> 
->     tpm_tis_locality_from_addr() returns up to 3 bits, so 7.
-> 
->     While unlikely, Coverity is right to report an overrun. Assert
->     we are in range to fix:
-> 
->        *** CID 1487240:  Memory - illegal accesses  (OVERRUN)
->        hw/tpm/tpm_tis_common.c: 298 in tpm_tis_dump_state()
->        294         int idx;
->        295         uint8_t locty = tpm_tis_locality_from_addr(addr);
->        296         hwaddr base = addr & ~0xfff;
->        297
->        >>>     CID 1487240:  Memory - illegal accesses  (OVERRUN)
->        >>>     Overrunning array "s->loc" of 5 24-byte elements at
->     element index 7 (byte offset 191) using index "locty" (which
->     evaluates to 7).
->        298         printf("tpm_tis: active locality      : %d\n"
->        299                "tpm_tis: state of locality %d : %d\n"
->        300                "tpm_tis: register dump:\n",
->        301                s->active_locty,
->        302                locty, s->loc[locty].state);
-> 
->     Fixes: Coverity CID 1487240
->     Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org
->     <mailto:f4bug@amsat.org>>
-> 
-> 
-> Maybe that assert should be in tpm_tis_locality_from_addr(), as various 
-> callers could produce the same report.
+Victor Toso <victortoso@redhat.com> writes:
 
-OK I see, tpm_tis_memory_ops handlers are safe because mapped as:
+> Hi,
+>
+> I've being using the examples as unit tests and found a few that
+> doesn't work out-of-the-box, might be inteded in order to be less
+> verbose in the qapi documentation but nevertheless I'm sending this
+> out in case you want to cherry-pick them.
 
-     memory_region_init_io(&s->mmio, obj, &tpm_tis_memory_ops,
-                           s, "tpm-tis-mmio",
-                           TPM_TIS_NUM_LOCALITIES <<
-                           TPM_TIS_LOCALITY_SHIFT);
+All queued, thanks!
 
-So invalid addresses are impossible from guest.
 
