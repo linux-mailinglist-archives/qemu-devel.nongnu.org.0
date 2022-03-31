@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDD54EE111
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:49:18 +0200 (CEST)
-Received: from localhost ([::1]:57738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3574EE15E
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 21:08:04 +0200 (CEST)
+Received: from localhost ([::1]:36352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZzrB-00037I-Bh
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:49:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52878)
+	id 1na09K-00008C-NP
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 15:08:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nZzpB-0001N3-Ur; Thu, 31 Mar 2022 14:47:13 -0400
-Received: from [2001:4860:4864:20::2b] (port=45088
- helo=mail-oa1-x2b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nZzp0-0008J8-5U; Thu, 31 Mar 2022 14:47:09 -0400
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-d6ca46da48so185072fac.12; 
- Thu, 31 Mar 2022 11:47:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Kfu3XJGCw09xIJg1m8ZIPKoghmARed45HEYyhgE/zyw=;
- b=IcXQl/+t0nSX65RG37G/PabVfz8Ug+65nYBQajycJWJ4m4Qr37dJgtyB7BPVyBghXQ
- tpJRx7rm45GEnT+tkVKQmxmIXB6KHPf2cMoA39JWN+F/hhYJFz94fqZgIXnCCoM4xa1Z
- G6qNx/QeRGwLPFjHadkXLst0aH5v6IwGRtsFD/LjcUunqnv9/vJVISwB5XXXVhQvSSfb
- pURPgXfyWOskGflYcW4PUBTsQ3eqlc0TorowmQbFGnzjk/Ya+hthGo5n0pGu8oTjFJY8
- KPvnLI4SY//GQfbwIbDHv03SJ1Ukw3slduEHOHCQZFRJhk+VVw2VN2zlF3LUV+q9zKbL
- p2yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Kfu3XJGCw09xIJg1m8ZIPKoghmARed45HEYyhgE/zyw=;
- b=GkuKXfmfhdUjBSL6miuyyMcqLeqS/8sc4YS/Ppna6zl5xttThznno20N8HR80mrjqn
- XnEomNPHHcRxzHg6dgXP/wg2/QeC3BqIrDB4kNDo/3gMZVuHcVlvHT/WRXGJQpR+S44J
- qEjrOi9ErSDsu0irTOjIAVMNdvQIR6qKlBca6bKzejXsIksht24vV6G+SPZ+MaRNYCmY
- GKwvs4kcVxBbEdbZVQjGBD7Bp0DQkyoivkrTO5AbmPwtF0FO8DGGjsQsh9PkVVf+qEeX
- EdUbHKJzT8oSiQ8yXRPhvPc+62TcNGmcxJ7AtdtLqaS6Cj2YvblLUQg81yCX0ZtTRfHR
- blnw==
-X-Gm-Message-State: AOAM531YQC4IlWHadqpUt7FYUKp9BmBhNYoth4HRTP2J0jAEpclAwrcD
- Vc/2KVQvChnLT5vNALB7ix8=
-X-Google-Smtp-Source: ABdhPJxicLpGpZ4uz8OMASeLkp6FE1vdoBOskDx8Qf/Fm/xrLVNVwsNTTaYZc+b3ejboK818x4n3iA==
-X-Received: by 2002:a05:6870:9a1b:b0:dd:bce0:b687 with SMTP id
- fo27-20020a0568709a1b00b000ddbce0b687mr3324228oab.243.1648752420573; 
- Thu, 31 Mar 2022 11:47:00 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c6:abe8:ed:2c78:ab0c:7946?
- ([2804:431:c7c6:abe8:ed:2c78:ab0c:7946])
- by smtp.gmail.com with ESMTPSA id
- r129-20020acac187000000b002ef358c6e0esm73144oif.49.2022.03.31.11.46.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 11:47:00 -0700 (PDT)
-Message-ID: <b292e516-80dc-9e5c-991b-49c77c0fe044@gmail.com>
-Date: Thu, 31 Mar 2022 15:46:57 -0300
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1na085-0006nL-KZ
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:06:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1na082-0003e7-8V
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:06:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648753600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XBURVJcpuJadWxdl35hp39T0ywsGPooNHkC+CbfsZAk=;
+ b=Y5PFqqhYKOhFccZX2PfHUl19+sHHnOfjniiYnayGiXfuvambaWDT/zS0R9HhgDs5mEFomz
+ Pu8gguoEZHkz2T++fO+Jpp5XWDlinfD1bpmb5wlU8xSN44S5Pp0oBOyZ7vMxd5hZ6NBYX8
+ mqN1NGR36MtscBNVsOJp54xfPz904bo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-617-ZytnD5LqOqCb2QQIGR278Q-1; Thu, 31 Mar 2022 15:06:39 -0400
+X-MC-Unique: ZytnD5LqOqCb2QQIGR278Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02FC98002BF
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 19:06:39 +0000 (UTC)
+Received: from tapioca.home (unknown [10.40.193.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEC71401E9D;
+ Thu, 31 Mar 2022 19:06:35 +0000 (UTC)
+From: Victor Toso <victortoso@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/9] Fix some qapi examples
+Date: Thu, 31 Mar 2022 21:06:24 +0200
+Message-Id: <20220331190633.121077-1-victortoso@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/4] target/ppc: init 'lpcr' in
- kvmppc_enable_cap_large_decr()
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20220331001717.616938-1-danielhb413@gmail.com>
- <20220331001717.616938-3-danielhb413@gmail.com> <YkUDCdUsjjmzFgJr@yekko>
- <d5b622c6-81b4-9d3f-9777-5233fe5a2be4@gmail.com>
- <5e48daaf-d881-2588-c323-30a9bc95a75f@linaro.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <5e48daaf-d881-2588-c323-30a9bc95a75f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=victortoso@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2b
- (failed)
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,83 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: clg@kaod.org, qemu-ppc@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
+I did another iteration of adding the examples in the qapi documentation
+as unit tests in another project and found a few that could be updated.
 
-On 3/31/22 14:36, Richard Henderson wrote:
-> On 3/31/22 11:17, Daniel Henrique Barboza wrote:
->>> Hmm... this is seeming a bit like whack-a-mole.  Could we instead use
->>> one of the valgrind hinting mechanisms to inform it that
->>> kvm_get_one_reg() writes the variable at *target?
->>
->> I didn't find a way of doing that looking in the memcheck helpers
->> (https://valgrind.org/docs/manual/mc-manual.html section 4.7). That would be a
->> good way of solving this warning because we would put stuff inside a specific
->> function X and all callers of X would be covered by it.
->>
->> What I did find instead is a memcheck macro called VALGRIND_MAKE_MEM_DEFINED that
->> tells Valgrind that the var was initialized.
->>
->> This patch would then be something as follows:
->>
->>
->> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
->> index dc93b99189..b0e22fa283 100644
->> --- a/target/ppc/kvm.c
->> +++ b/target/ppc/kvm.c
->> @@ -56,6 +56,10 @@
->>   #define DEBUG_RETURN_GUEST 0
->>   #define DEBUG_RETURN_GDB   1
->>
->> +#ifdef CONFIG_VALGRIND_H
->> +#include <valgrind/memcheck.h>
->> +#endif
->> +
->>   const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
->>       KVM_CAP_LAST_INFO
->>   };
->> @@ -2539,6 +2543,10 @@ int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
->>       CPUState *cs = CPU(cpu);
->>       uint64_t lpcr;
->>
->> +#ifdef CONFIG_VALGRIND_H
->> +    VALGRIND_MAKE_MEM_DEFINED(lpcr, sizeof(uint64_t));
->> +#endif
->> +
->>       kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
->>       /* Do we need to modify the LPCR? */
->>
->>
->> CONFIG_VALGRIND_H needs 'valgrind-devel´ installed.
->>
->> I agree that this "Valgrind is complaining about variable initialization" is a whack-a-mole
->> situation that will keep happening in the future if we keep adding this same code pattern
->> (passing as reference an uninitialized var). For now, given that we have only 4 instances
->> to fix it in ppc code (as far as I'm aware of), and we don't have a better way of telling
->> Valgrind that we know what we're doing, I think we're better of initializing these vars.
-> 
-> I would instead put this annotation inside kvm_get_one_reg, so that it covers all kvm hosts.  But it's too late to do this for 7.0.
+Feel free to cherry-pick them. Happy to rework it if needed.
 
-I wasn't planning on pushing these changes for 7.0 since they aren't fixing mem
-leaks or anything really bad. It's more of a quality of life improvement when
-using Valgrind.
+Victor Toso (9):
+  qapi: fix example of netdev_add command
+  qapi: fix examples: replay-break and replay-seek
+  qapi: fix example of query-named-block-nodes command
+  qapi: fix example of query-spice command
+  qapi: fix example of query-vnc command
+  qapi: fix example of query-colo-status command
+  qapi: fix example of trace-event-get-state command
+  qapi: fix example of query-cpus-fast command
+  qapi: fix example of query-memdev command
 
-I also tried to put this annotation in kvm_get_one_reg() and it didn't solve the
-warning. I didn't find a way of telling Valgrind "consider that every time this
-function is called with parameter X it initializes X". That would be a good solution
-to put in the common KVM files and fix the problem for everybody.
+ qapi/block-core.json | 1 +
+ qapi/machine.json    | 4 ++--
+ qapi/migration.json  | 2 +-
+ qapi/net.json        | 2 +-
+ qapi/replay.json     | 4 ++--
+ qapi/trace.json      | 2 +-
+ qapi/ui.json         | 3 +++
+ 7 files changed, 11 insertions(+), 7 deletions(-)
 
+-- 
+2.35.1
 
-Daniel
-
-
-
-> 
-> 
-> r~
 
