@@ -2,55 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDEB4ED50F
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 09:54:44 +0200 (CEST)
-Received: from localhost ([::1]:42970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DD64ED50E
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 09:54:42 +0200 (CEST)
+Received: from localhost ([::1]:42892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZpdj-0002Im-9c
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 03:54:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51592)
+	id 1nZpdh-0002FU-Uw
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 03:54:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
- id 1nZpZ1-0004V4-Sf; Thu, 31 Mar 2022 03:49:51 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:11299)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
- id 1nZpYz-00047e-NQ; Thu, 31 Mar 2022 03:49:51 -0400
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 22V7bmsQ051508;
- Thu, 31 Mar 2022 15:37:49 +0800 (GMT-8)
- (envelope-from steven_lee@aspeedtech.com)
-Received: from localhost.localdomain (192.168.70.100) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 31 Mar
- 2022 15:48:46 +0800
-From: Steven Lee <steven_lee@aspeedtech.com>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Peter Maydell
- <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
- <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-Subject: [PATCH v4 3/3] tests/qtest: Add test for Aspeed HACE accumulative mode
-Date: Thu, 31 Mar 2022 15:48:44 +0800
-Message-ID: <20220331074844.30065-4-steven_lee@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220331074844.30065-1-steven_lee@aspeedtech.com>
-References: <20220331074844.30065-1-steven_lee@aspeedtech.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nZpZt-0005j4-UF
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 03:50:45 -0400
+Received: from [2a00:1450:4864:20::330] (port=39516
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nZpZs-0004NO-3l
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 03:50:45 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ bi13-20020a05600c3d8d00b0038c2c33d8f3so1215760wmb.4
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 00:50:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=m0R5e22eaYw504AdbhaxozH4T2HHSVy92CY9H1acUng=;
+ b=EaGX+vHL9ORQBUDbi631bPwUAfSWX1bw2U8jlX7ihG4K7U3gVENL6P13j4koR9g9Zz
+ 25dEbeNDLOrUO8qrYDIMES95YZF3QX82173tZVEPQfokk6+Upe4B7d0ka5/T/0VkMswI
+ vHSmsM6EHkh6AX/NSMZx3M2A6pu6zE77FMxg3feZAmlM5r2y0HWm/l0LqDnFATWUEoes
+ OVyyeECgwCqGmxgfXbHkkk1D69uJ9mY+N7a2ZBPg0VqrF+9yk5Ec8cxH7Nk7HLnfQVHT
+ 3ilmphwr18tP4pvjHF9tz4b5K1K7DRYUkUJj94Yv7qRvAK+ek7Y2zdjtWfx4Klm9DiPk
+ VyLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=m0R5e22eaYw504AdbhaxozH4T2HHSVy92CY9H1acUng=;
+ b=WSOY+QtlZQL49zD11UX27NIRd7YTRum46ufXaMJrls0OCXCIetLSWDIJvSjCx+UoUl
+ pDuPXDkMQqaboX/mx+DZyVdchJaD4DqBgdOoduog+bSNmVyIjW5F79fh3OQV0kCG1478
+ JhfGYsqMgWzb/ucGQ4EKPEri+kUA3I0xvcdIKWbB1CuW5nkuJBp69WLEwLAj/s1p+OPO
+ ATse2ZaTuPsetf/EzE9+oOLrRfmS2w7xVcaMRxXJYzeVFHOSvnSbkMwGvWVev0q7kbka
+ TuFUzf+PqDWDhD5uA5cSOvdQmBUFezXEHRvZyWo7Lnt7neuNSG56J5JaxvxZvV+GQm+o
+ LfOQ==
+X-Gm-Message-State: AOAM533yyJhPt5HVhFc/cZSFcrDwwyti8I6tKCjPGpI6lU3lkepCoELa
+ a0Tu4ZfjDuo3/TENc3TigD/XITN0byuyqM2u+wc=
+X-Google-Smtp-Source: ABdhPJybOurgtEakguoM5+77B18qdEXJpBUDlacByHgfLCAwztGEs2fwlZL5LWVPVnA5fDmtocSxyejB3bWOczyCoz4=
+X-Received: by 2002:a05:600c:4fd4:b0:38c:cc3f:ac01 with SMTP id
+ o20-20020a05600c4fd400b0038ccc3fac01mr3707647wmq.206.1648713041794; Thu, 31
+ Mar 2022 00:50:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.70.100]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 22V7bmsQ051508
-Received-SPF: pass client-ip=211.20.114.71;
- envelope-from=steven_lee@aspeedtech.com; helo=twspam01.aspeedtech.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220330235723.68033-1-philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220330235723.68033-1-philippe.mathieu.daude@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 31 Mar 2022 11:50:29 +0400
+Message-ID: <CAJ+F1CJ3eWn1iZ1VWBRyG+pbybQ=8EEHX7movkHb6Qgs-b=kZQ@mail.gmail.com>
+Subject: Re: [PATCH-for-7.1] hw/tpm/tpm_tis: Avoid eventual read overrun
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000003159d305db7eeb3e"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,211 +83,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jamin_lin@aspeedtech.com, troy_lee@aspeedtech.com,
- steven_lee@aspeedtech.com
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>, QEMU <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This add two addition test cases for accumulative mode under sg enabled.
+--0000000000003159d305db7eeb3e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The input vector was manually craft with "abc" + bit 1 + padding zeros + L.
-The padding length depends on algorithm, i.e. SHA512 (1024 bit),
-SHA256 (512 bit).
+Hi
 
-The result was calculated by command line sha512sum/sha256sum utilities
-without padding, i.e. only "abc" ascii text.
+On Thu, Mar 31, 2022 at 4:02 AM Philippe Mathieu-Daud=C3=A9 <
+philippe.mathieu.daude@gmail.com> wrote:
 
-Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> The TPMState structure hold an array of TPM_TIS_NUM_LOCALITIES
+> TPMLocality loc[], having TPM_TIS_NUM_LOCALITIES defined as '5'.
+>
+> tpm_tis_locality_from_addr() returns up to 3 bits, so 7.
+>
+> While unlikely, Coverity is right to report an overrun. Assert
+> we are in range to fix:
+>
+>   *** CID 1487240:  Memory - illegal accesses  (OVERRUN)
+>   hw/tpm/tpm_tis_common.c: 298 in tpm_tis_dump_state()
+>   294         int idx;
+>   295         uint8_t locty =3D tpm_tis_locality_from_addr(addr);
+>   296         hwaddr base =3D addr & ~0xfff;
+>   297
+>   >>>     CID 1487240:  Memory - illegal accesses  (OVERRUN)
+>   >>>     Overrunning array "s->loc" of 5 24-byte elements at element
+> index 7 (byte offset 191) using index "locty" (which evaluates to 7).
+>   298         printf("tpm_tis: active locality      : %d\n"
+>   299                "tpm_tis: state of locality %d : %d\n"
+>   300                "tpm_tis: register dump:\n",
+>   301                s->active_locty,
+>   302                locty, s->loc[locty].state);
+>
+> Fixes: Coverity CID 1487240
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+
+Maybe that assert should be in tpm_tis_locality_from_addr(), as various
+callers could produce the same report.
+
+
 ---
- tests/qtest/aspeed_hace-test.c | 145 +++++++++++++++++++++++++++++++++
- 1 file changed, 145 insertions(+)
+>  hw/tpm/tpm_tis_common.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
+> index e700d82181..5b1055033e 100644
+> --- a/hw/tpm/tpm_tis_common.c
+> +++ b/hw/tpm/tpm_tis_common.c
+> @@ -295,6 +295,7 @@ static void tpm_tis_dump_state(TPMState *s, hwaddr
+> addr)
+>      uint8_t locty =3D tpm_tis_locality_from_addr(addr);
+>      hwaddr base =3D addr & ~0xfff;
+>
+> +    assert(TPM_TIS_IS_VALID_LOCTY(locty));
+>      printf("tpm_tis: active locality      : %d\n"
+>             "tpm_tis: state of locality %d : %d\n"
+>             "tpm_tis: register dump:\n",
+> --
+> 2.35.1
+>
+>
+>
 
-diff --git a/tests/qtest/aspeed_hace-test.c b/tests/qtest/aspeed_hace-test.c
-index 09ee31545e..6a2f404b93 100644
---- a/tests/qtest/aspeed_hace-test.c
-+++ b/tests/qtest/aspeed_hace-test.c
-@@ -21,6 +21,7 @@
- #define  HACE_ALGO_SHA512        (BIT(5) | BIT(6))
- #define  HACE_ALGO_SHA384        (BIT(5) | BIT(6) | BIT(10))
- #define  HACE_SG_EN              BIT(18)
-+#define  HACE_ACCUM_EN           BIT(8)
- 
- #define HACE_STS                 0x1c
- #define  HACE_RSA_ISR            BIT(13)
-@@ -96,6 +97,57 @@ static const uint8_t test_result_sg_sha256[] = {
-     0x55, 0x1e, 0x1e, 0xc5, 0x80, 0xdd, 0x6d, 0x5a, 0x6e, 0xcd, 0xe9, 0xf3,
-     0xd3, 0x5e, 0x6e, 0x4a, 0x71, 0x7f, 0xbd, 0xe4};
- 
-+/*
-+ * The accumulative mode requires firmware to provide internal initial state
-+ * and message padding (including length L at the end of padding).
-+ *
-+ * This test vector is a ascii text "abc" with padding message.
-+ *
-+ * Expected results were generated using command line utitiles:
-+ *
-+ *  echo -n -e 'abc' | dd of=/tmp/test
-+ *  for hash in sha512sum sha256sum; do $hash /tmp/test; done
-+ */
-+static const uint8_t test_vector_accum_512[] = {
-+    0x61, 0x62, 0x63, 0x80, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18};
-+
-+static const uint8_t test_vector_accum_256[] = {
-+    0x61, 0x62, 0x63, 0x80, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18};
-+
-+static const uint8_t test_result_accum_sha512[] = {
-+    0xdd, 0xaf, 0x35, 0xa1, 0x93, 0x61, 0x7a, 0xba, 0xcc, 0x41, 0x73, 0x49,
-+    0xae, 0x20, 0x41, 0x31, 0x12, 0xe6, 0xfa, 0x4e, 0x89, 0xa9, 0x7e, 0xa2,
-+    0x0a, 0x9e, 0xee, 0xe6, 0x4b, 0x55, 0xd3, 0x9a, 0x21, 0x92, 0x99, 0x2a,
-+    0x27, 0x4f, 0xc1, 0xa8, 0x36, 0xba, 0x3c, 0x23, 0xa3, 0xfe, 0xeb, 0xbd,
-+    0x45, 0x4d, 0x44, 0x23, 0x64, 0x3c, 0xe8, 0x0e, 0x2a, 0x9a, 0xc9, 0x4f,
-+    0xa5, 0x4c, 0xa4, 0x9f};
-+
-+static const uint8_t test_result_accum_sha256[] = {
-+    0xba, 0x78, 0x16, 0xbf, 0x8f, 0x01, 0xcf, 0xea, 0x41, 0x41, 0x40, 0xde,
-+    0x5d, 0xae, 0x22, 0x23, 0xb0, 0x03, 0x61, 0xa3, 0x96, 0x17, 0x7a, 0x9c,
-+    0xb4, 0x10, 0xff, 0x61, 0xf2, 0x00, 0x15, 0xad};
- 
- static void write_regs(QTestState *s, uint32_t base, uint32_t src,
-                        uint32_t length, uint32_t out, uint32_t method)
-@@ -308,6 +360,86 @@ static void test_sha512_sg(const char *machine, const uint32_t base,
-     qtest_quit(s);
- }
- 
-+static void test_sha256_accum(const char *machine, const uint32_t base,
-+                        const uint32_t src_addr)
-+{
-+    QTestState *s = qtest_init(machine);
-+
-+    const uint32_t buffer_addr = src_addr + 0x1000000;
-+    const uint32_t digest_addr = src_addr + 0x4000000;
-+    uint8_t digest[32] = {0};
-+    struct AspeedSgList array[] = {
-+        {  cpu_to_le32(sizeof(test_vector_accum_256) | SG_LIST_LEN_LAST),
-+           cpu_to_le32(buffer_addr) },
-+    };
-+
-+    /* Check engine is idle, no busy or irq bits set */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-+
-+    /* Write test vector into memory */
-+    qtest_memwrite(s, buffer_addr, test_vector_accum_256, sizeof(test_vector_accum_256));
-+    qtest_memwrite(s, src_addr, array, sizeof(array));
-+
-+    write_regs(s, base, src_addr, sizeof(test_vector_accum_256),
-+               digest_addr, HACE_ALGO_SHA256 | HACE_SG_EN | HACE_ACCUM_EN);
-+
-+    /* Check hash IRQ status is asserted */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0x00000200);
-+
-+    /* Clear IRQ status and check status is deasserted */
-+    qtest_writel(s, base + HACE_STS, 0x00000200);
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-+
-+    /* Read computed digest from memory */
-+    qtest_memread(s, digest_addr, digest, sizeof(digest));
-+
-+    /* Check result of computation */
-+    g_assert_cmpmem(digest, sizeof(digest),
-+                    test_result_accum_sha256, sizeof(digest));
-+
-+    qtest_quit(s);
-+}
-+
-+static void test_sha512_accum(const char *machine, const uint32_t base,
-+                        const uint32_t src_addr)
-+{
-+    QTestState *s = qtest_init(machine);
-+
-+    const uint32_t buffer_addr = src_addr + 0x1000000;
-+    const uint32_t digest_addr = src_addr + 0x4000000;
-+    uint8_t digest[64] = {0};
-+    struct AspeedSgList array[] = {
-+        {  cpu_to_le32(sizeof(test_vector_accum_512) | SG_LIST_LEN_LAST),
-+           cpu_to_le32(buffer_addr) },
-+    };
-+
-+    /* Check engine is idle, no busy or irq bits set */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-+
-+    /* Write test vector into memory */
-+    qtest_memwrite(s, buffer_addr, test_vector_accum_512, sizeof(test_vector_accum_512));
-+    qtest_memwrite(s, src_addr, array, sizeof(array));
-+
-+    write_regs(s, base, src_addr, sizeof(test_vector_accum_512),
-+               digest_addr, HACE_ALGO_SHA512 | HACE_SG_EN | HACE_ACCUM_EN);
-+
-+    /* Check hash IRQ status is asserted */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0x00000200);
-+
-+    /* Clear IRQ status and check status is deasserted */
-+    qtest_writel(s, base + HACE_STS, 0x00000200);
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-+
-+    /* Read computed digest from memory */
-+    qtest_memread(s, digest_addr, digest, sizeof(digest));
-+
-+    /* Check result of computation */
-+    g_assert_cmpmem(digest, sizeof(digest),
-+                    test_result_accum_sha512, sizeof(digest));
-+
-+    qtest_quit(s);
-+}
-+
- struct masks {
-     uint32_t src;
-     uint32_t dest;
-@@ -396,6 +528,16 @@ static void test_sha512_sg_ast2600(void)
-     test_sha512_sg("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
- }
- 
-+static void test_sha256_accum_ast2600(void)
-+{
-+    test_sha256_accum("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
-+}
-+
-+static void test_sha512_accum_ast2600(void)
-+{
-+    test_sha512_accum("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
-+}
-+
- static void test_addresses_ast2600(void)
- {
-     test_addresses("-machine ast2600-evb", 0x1e6d0000, &ast2600_masks);
-@@ -455,6 +597,9 @@ int main(int argc, char **argv)
-     qtest_add_func("ast2600/hace/sha512_sg", test_sha512_sg_ast2600);
-     qtest_add_func("ast2600/hace/sha256_sg", test_sha256_sg_ast2600);
- 
-+    qtest_add_func("ast2600/hace/sha512_accum", test_sha512_accum_ast2600);
-+    qtest_add_func("ast2600/hace/sha256_accum", test_sha256_accum_ast2600);
-+
-     qtest_add_func("ast2500/hace/addresses", test_addresses_ast2500);
-     qtest_add_func("ast2500/hace/sha512", test_sha512_ast2500);
-     qtest_add_func("ast2500/hace/sha256", test_sha256_ast2500);
--- 
-2.17.1
+--=20
+Marc-Andr=C3=A9 Lureau
 
+--0000000000003159d305db7eeb3e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div di=
+r=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 31, 2022 at 4:02 AM Philippe M=
+athieu-Daud=C3=A9 &lt;<a href=3D"mailto:philippe.mathieu.daude@gmail.com">p=
+hilippe.mathieu.daude@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">From: Philippe Mathieu-Daud=C3=A9 &lt;<a h=
+ref=3D"mailto:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br=
+>
+<br>
+The TPMState structure hold an array of TPM_TIS_NUM_LOCALITIES<br>
+TPMLocality loc[], having TPM_TIS_NUM_LOCALITIES defined as &#39;5&#39;.<br=
+>
+<br>
+tpm_tis_locality_from_addr() returns up to 3 bits, so 7.<br>
+<br>
+While unlikely, Coverity is right to report an overrun. Assert<br>
+we are in range to fix:<br>
+<br>
+=C2=A0 *** CID 1487240:=C2=A0 Memory - illegal accesses=C2=A0 (OVERRUN)<br>
+=C2=A0 hw/tpm/tpm_tis_common.c: 298 in tpm_tis_dump_state()<br>
+=C2=A0 294=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int idx;<br>
+=C2=A0 295=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t locty =3D tpm_tis_local=
+ity_from_addr(addr);<br>
+=C2=A0 296=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hwaddr base =3D addr &amp; ~0xf=
+ff;<br>
+=C2=A0 297<br>
+=C2=A0 &gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0CID 1487240:=C2=A0 Memory - illegal =
+accesses=C2=A0 (OVERRUN)<br>
+=C2=A0 &gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0Overrunning array &quot;s-&gt;loc&qu=
+ot; of 5 24-byte elements at element index 7 (byte offset 191) using index =
+&quot;locty&quot; (which evaluates to 7).<br>
+=C2=A0 298=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0printf(&quot;tpm_tis: active lo=
+cality=C2=A0 =C2=A0 =C2=A0 : %d\n&quot;<br>
+=C2=A0 299=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;tpm=
+_tis: state of locality %d : %d\n&quot;<br>
+=C2=A0 300=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;tpm=
+_tis: register dump:\n&quot;,<br>
+=C2=A0 301=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;act=
+ive_locty,<br>
+=C2=A0 302=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 locty, s-=
+&gt;loc[locty].state);<br>
+<br>
+Fixes: Coverity CID 1487240<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
+t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br></blockquote><div><br><=
+/div><div>Maybe that assert should be in tpm_tis_locality_from_addr(), as v=
+arious callers could produce the same report.<br></div><div><br></div><div>=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0hw/tpm/tpm_tis_common.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c<br>
+index e700d82181..5b1055033e 100644<br>
+--- a/hw/tpm/tpm_tis_common.c<br>
++++ b/hw/tpm/tpm_tis_common.c<br>
+@@ -295,6 +295,7 @@ static void tpm_tis_dump_state(TPMState *s, hwaddr addr=
+)<br>
+=C2=A0 =C2=A0 =C2=A0uint8_t locty =3D tpm_tis_locality_from_addr(addr);<br>
+=C2=A0 =C2=A0 =C2=A0hwaddr base =3D addr &amp; ~0xfff;<br>
+<br>
++=C2=A0 =C2=A0 assert(TPM_TIS_IS_VALID_LOCTY(locty));<br>
+=C2=A0 =C2=A0 =C2=A0printf(&quot;tpm_tis: active locality=C2=A0 =C2=A0 =C2=
+=A0 : %d\n&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;tpm_tis: state of locality =
+%d : %d\n&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;tpm_tis: register dump:\n&q=
+uot;,<br>
+-- <br>
+2.35.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div></div></div></div></d=
+iv>
+
+--0000000000003159d305db7eeb3e--
 
