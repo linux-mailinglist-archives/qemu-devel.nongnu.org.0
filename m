@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C2FF4ED125
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 03:01:47 +0200 (CEST)
-Received: from localhost ([::1]:49538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF734ED136
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 03:12:19 +0200 (CEST)
+Received: from localhost ([::1]:52736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZjC5-0002Pw-TF
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 21:01:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43454)
+	id 1nZjMI-00058O-72
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 21:12:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nZjAE-0001Wm-8p
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 20:59:50 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:60458 helo=loongson.cn)
+ id 1nZjJR-0003qC-5Z
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 21:09:21 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:36120 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nZjAB-0004yB-Qk
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 20:59:50 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nZjJP-0006QL-4T
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 21:09:20 -0400
 Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx3xP6_ERiCI4TAA--.21756S3; 
- Thu, 31 Mar 2022 08:59:39 +0800 (CST)
-Subject: Re: [RFC PATCH v7 05/29] target/loongarch: Add constant timer support
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxKsw6_0RiEI8TAA--.21955S3; 
+ Thu, 31 Mar 2022 09:09:14 +0800 (CST)
+Subject: Re: [RFC PATCH v7 09/29] target/loongarch: Add TLB instruction support
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
- <20220328125749.2918087-6-yangxiaojuan@loongson.cn>
- <8a68b039-f34f-4ab3-746e-005663621791@linaro.org>
+ <20220328125749.2918087-10-yangxiaojuan@loongson.cn>
+ <e9cc6dd0-25a1-2031-aa95-3fa621dd8d8c@linaro.org>
 From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <6d62d292-013a-dc78-5233-25509b272ad6@loongson.cn>
-Date: Thu, 31 Mar 2022 08:59:38 +0800
+Message-ID: <6e964e20-272a-cde3-162c-d8b736d85d60@loongson.cn>
+Date: Thu, 31 Mar 2022 09:09:14 +0800
 User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <8a68b039-f34f-4ab3-746e-005663621791@linaro.org>
+In-Reply-To: <e9cc6dd0-25a1-2031-aa95-3fa621dd8d8c@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-CM-TRANSID: AQAAf9Dx3xP6_ERiCI4TAA--.21756S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxWF4xtw43XFyUGFWDZw4rGrg_yoW5Gr4xpr
- 4kCrW7JryUtrs5X3WUtwn8XFykJr47W3Wjvr18XF4UCFsrZr12g34UWr1qgF17Zr48Xr42
- vr18Xw1DZF17J37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvv14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID: AQAAf9AxKsw6_0RiEI8TAA--.21955S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7ArW5Jw1xtr43Cr4fGr4fAFb_yoW8Ww43pF
+ 1kJrWUWFW8Xwn5X3WDGr18JFy5Ar10va4DGw1rZFs8tr47Zr4q9r1rWrn0gF15ur48Xr1Y
+ yF4UZa9rZ3W7GFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
- 67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
- C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
- wI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
- v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2
- z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73Uj
- IFyTuYvjfU5WlkUUUUU
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ 4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+ Yx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
+ WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07Al
+ zVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+ 1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+ 14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+ IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY
+ 6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvj
+ DU0xZFpf9x0JUdEfOUUUUU=
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -79,70 +79,63 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2022/3/29 上午3:46, Richard Henderson wrote:
+On 2022/3/29 上午4:12, Richard Henderson wrote:
 > On 3/28/22 06:57, Xiaojuan Yang wrote:
->> +void cpu_loongarch_store_constant_timer_config(LoongArchCPU *cpu,
->> +                                               uint64_t value)
+>> +static void output_empty(DisasContext *ctx, arg_empty *a,
+>> +                         const char *mnemonic)
 >> +{
->> +    CPULoongArchState *env = &cpu->env;
->> +    uint64_t now, next;
+>> +}
+>
+> No, you must still do
+>
+>     output(ctx, mnemonic, "");
+>
+>> +static bool trans_tlbwr(DisasContext *ctx, arg_tlbwr *a)
+>> +{
+>> +    if (check_plv(ctx)) {
+>> +        return false;
+>> +    }
+>> +    gen_helper_tlbwr(cpu_env);
 >> +
->> +    env->CSR_TCFG = value;
->> +    if (value & CONSTANT_TIMER_ENABLE) {
->> +        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->> +        next = now + (value & CONSTANT_TIMER_TICK_MASK) * TIMER_PERIOD;
->> +        timer_mod(&cpu->timer, next);
+>> +    if (ctx->mem_idx != MMU_DA_IDX) {
+>> +        tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
+>> +        ctx->base.is_jmp = DISAS_EXIT;
 >> +    }
 >
-> If CONSTANT_TIMER_ENABLE is not set, you need to use timer_del() to 
-> turn off any existing timer.
+> You may want to create a helper function for this condition.
 >
-OK
->
->> +void loongarch_constant_timer_cb(void *opaque)
->> +{
->> +    LoongArchCPU *cpu  = opaque;
->> +    CPULoongArchState *env = &cpu->env;
->> +    uint64_t now, next;
->> +
->> +    if (FIELD_EX64(env->CSR_TCFG, CSR_TCFG, PERIODIC)) {
->> +        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->> +        next = now + (env->CSR_TCFG & CONSTANT_TIMER_TICK_MASK) * 
->> TIMER_PERIOD;
->> +        timer_mod(&cpu->timer, next);
->> +    } else {
->> +        env->CSR_TCFG = FIELD_DP64(env->CSR_TCFG, CSR_TCFG, EN, 0);
->> +    }
->> +
->> +    env->CSR_ESTAT |= 1 << IRQ_TIMER;
->> +    cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HARD);
->
-> I think this is wrong and you should be using loongarch_cpu_set_irq 
-> (which is misplaced for you to be able to do so).
->
-reuse loongarch_cpu_set_irq?  like this:
-void loongarch_constant_timer_cb(void *opaque)
+in translate.c, like this:
+static void gen_disas_exit(DisasContext *ctx)
 {
-     ...
-     if (FIELD_EX64(...)) {
-     ...
-     } else {
-     ...
-     }
-     loongarch_cpu_set_irq(opaque, IRQ_IMER, 1);
+     tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
+     ctx->base.is_jmp = DISAS_EXIT;
 }
->> @@ -297,4 +302,9 @@ enum {
->>   #define LOONGARCH_CPU_TYPE_NAME(model) model LOONGARCH_CPU_TYPE_SUFFIX
->>   #define CPU_RESOLVING_TYPE TYPE_LOONGARCH_CPU
->>   +void loongarch_constant_timer_cb(void *opaque);
->> +uint64_t cpu_loongarch_get_constant_timer_counter(LoongArchCPU *cpu);
->> +uint64_t cpu_loongarch_get_constant_timer_ticks(LoongArchCPU *cpu);
->> +void cpu_loongarch_store_constant_timer_config(LoongArchCPU *cpu,
->> +                                               uint64_t value);
+>> +static bool trans_tlbclr(DisasContext *ctx, arg_tlbclr *a)
+>> +{
+>> +    if (check_plv(ctx)) {
+>> +        return false;
+>> +    }
+>> +    gen_helper_tlbclr(cpu_env);
+>> +    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
+>> +    ctx->base.is_jmp = DISAS_EXIT;
 >
-> These can go in internals.h.
+> Missing it here...
 >
-OK
+gen_disas_exit()
+>> +static bool trans_tlbflush(DisasContext *ctx, arg_tlbflush *a)
+>> +{
+>> +    if (check_plv(ctx)) {
+>> +        return false;
+>> +    }
+>> +    gen_helper_tlbflush(cpu_env);
+>> +    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
+>> +    ctx->base.is_jmp = DISAS_EXIT;
+>> +    return true;
+>> +}
+>
+> ... and here.
+>
+The same.
 
 Thanks.
 Xiaojuan
