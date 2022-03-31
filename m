@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C0C4ED825
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:05:09 +0200 (CEST)
-Received: from localhost ([::1]:46034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C694ED834
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:07:43 +0200 (CEST)
+Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZsc0-00050j-QK
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:05:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32874)
+	id 1nZseU-00025O-P8
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:07:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRJ-0006iv-4e
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34748)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRU-0006kf-HH
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRH-0007ij-PD
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:04 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRR-0007kH-Dx
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648724043;
+ s=mimecast20190719; t=1648724052;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=udpatGbdAgL63v0Bas33W5RI3FShIv+tHrfalKM8vXQ=;
- b=B4G+VhHQVmQ7lq2E0j3qeqVfiNZo23o62sJarjxbxVKSl8T+pP0dzL2sIQf7SH5YhKrxXI
- x1zBYOQDFtgNrgY9ymQeV7kHl8ItmWTrD0FTS4iW/mNyIWJ6tcOeuFWRUNYThzxYRHfYU6
- 8zPig2Vwqahe1gwdX6yVs4xd5nfT4uc=
+ bh=3NKYkp+BGgG1DQBYEjgrYzUBVe3FhNGFA1EB0Or20wg=;
+ b=GC564HQz9CpmHnkOFb+EjQW4YAyaO50VgfTEQJMrINmlvb54BG3l4p9T/6qNjaQy8rozh0
+ SeFD5IAX8klZY5g0rKb3d7oTpQroFpjvqjteuYe7TatOL764Wgjc/n7MNdmowTecX9Yl0L
+ gU2vM2k3CPoPHqC551TIcZuhP09XTco=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-494-eMSgcoexPEWG-72p3vsjSQ-1; Thu, 31 Mar 2022 06:54:01 -0400
-X-MC-Unique: eMSgcoexPEWG-72p3vsjSQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-599-8dwF8TZlMD2844pVgeY_aw-1; Thu, 31 Mar 2022 06:54:11 -0400
+X-MC-Unique: 8dwF8TZlMD2844pVgeY_aw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D883518A6588;
- Thu, 31 Mar 2022 10:54:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 105E9801585;
+ Thu, 31 Mar 2022 10:54:11 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 433AE2026D65;
- Thu, 31 Mar 2022 10:53:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 90C45112132D;
+ Thu, 31 Mar 2022 10:53:51 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8851B21E6930; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
+ id 8A62C21E6933; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/15] qapi: fix example of DUMP_COMPLETED event
-Date: Thu, 31 Mar 2022 12:53:35 +0200
-Message-Id: <20220331105344.3471295-7-armbru@redhat.com>
+Subject: [PULL 07/15] qapi: fix example of MEMORY_DEVICE_SIZE_CHANGE event
+Date: Thu, 31 Mar 2022 12:53:36 +0200
+Message-Id: <20220331105344.3471295-8-armbru@redhat.com>
 In-Reply-To: <20220331105344.3471295-1-armbru@redhat.com>
 References: <20220331105344.3471295-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: application/octet-stream; x-default=true
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
 X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, BODY_EMPTY=1.31,
  DKIMWL_WL_HIGH=-0.082, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -87,39 +87,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Victor Toso <victortoso@redhat.com>
 
-Example output lacks mandatory member @timestamp.  Provide it.
-
-Example output is not properly formatted. Fixing it by:
- - Adding '<-' to signalize it is receiving the data;
- - Adding extra spaces around members @result, @total and @completed
+Example output lacks mandatory member @qom-path. Provide it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
-Message-Id: <20220328140604.41484-6-victortoso@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20220328140604.41484-7-victortoso@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/dump.json | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ qapi/machine.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/dump.json b/qapi/dump.json
-index f7c4267e3f..9119c82b14 100644
---- a/qapi/dump.json
-+++ b/qapi/dump.json
-@@ -161,9 +161,10 @@
- #
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 42fc68403d..9c460ec450 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1356,7 +1356,8 @@
  # Example:
  #
--# { "event": "DUMP_COMPLETED",
--#   "data": {"result": {"total": 1090650112, "status": "completed",
--#                       "completed": 1090650112} } }
-+# <- { "event": "DUMP_COMPLETED",
-+#      "data": { "result": { "total": 1090650112, "status": "completed",
-+#                            "completed": 1090650112 } },
-+#      "timestamp": { "seconds": 1648244171, "microseconds": 950316 } }
+ # <- { "event": "MEMORY_DEVICE_SIZE_CHANGE",
+-#      "data": { "id": "vm0", "size": 1073741824},
++#      "data": { "id": "vm0", "size": 1073741824,
++#                "qom-path": "/machine/unattached/device[2]" },
+ #      "timestamp": { "seconds": 1588168529, "microseconds": 201316 } }
  #
  ##
- { 'event': 'DUMP_COMPLETED' ,
 -- 
 2.35.1
 
