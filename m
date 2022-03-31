@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CEB4ED837
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:08:03 +0200 (CEST)
-Received: from localhost ([::1]:54332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F08A4ED824
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:05:08 +0200 (CEST)
+Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZsem-0002QJ-8j
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:08:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32918)
+	id 1nZsby-0004uV-O7
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:05:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRP-0006kL-1M
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53907)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRI-0006is-KZ
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRM-0007jj-Od
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:10 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRH-0007ic-Cr
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648724048;
+ s=mimecast20190719; t=1648724042;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m3pMCU7ZQ9Rn0FpxvbBkhxD9PtbLU6laGZ8FuX/pHPo=;
- b=fnZ5ZVSwkHhb4pU9q5U5rw5lXPUUMwC+P3xn9HkLJmGrevLbpRZ0IkcWJgOknypuo4B8X3
- la9Ku0aD735o/OXahqEFzclvtxz2E1u2pc8joOHZtxnAAK2ANVWAfUfQSD5G8OOj+jeRTL
- 3oPRTraMKTF8NXyQlJYQyZYCwe1Nec8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EzT0QOtUmUCMEjxmDUjHeij7ZDh2TaQu8GxVL6iUNaY=;
+ b=G7dMLOzz6GNsheO5DUOlNin0GqHL11lzwV9/AR5lX1N7BRjsNpjSGlqPMnc6kbYjlNWSmi
+ zR8ekLZIqQUhE5QU3DLgpv8X/kCvdmKcMkTtgIvVJbFvZibuGvEFwI1OE0pf5AwqVMgUPh
+ 0jOYUaTcKDaZ+Xz5pS+IgFlB5DJ/7yw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-l08GPIEWPv2V07zR34DWgw-1; Thu, 31 Mar 2022 06:54:05 -0400
-X-MC-Unique: l08GPIEWPv2V07zR34DWgw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-385-RCRvNfleNiyRSd1SN2sTTw-1; Thu, 31 Mar 2022 06:54:01 -0400
+X-MC-Unique: RCRvNfleNiyRSd1SN2sTTw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A82C4899ED3;
- Thu, 31 Mar 2022 10:53:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A05D3C01C19;
+ Thu, 31 Mar 2022 10:54:00 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0537A40D0167;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C1F37AE4;
  Thu, 31 Mar 2022 10:53:52 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8F09421E6939; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
+ id 910B621E693C; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/15] qapi: fix example of FAILOVER_NEGOTIATED event
-Date: Thu, 31 Mar 2022 12:53:38 +0200
-Message-Id: <20220331105344.3471295-10-armbru@redhat.com>
+Subject: [PULL 10/15] qapi: fix examples: SHUTDOWN and RESET events
+Date: Thu, 31 Mar 2022 12:53:39 +0200
+Message-Id: <20220331105344.3471295-11-armbru@redhat.com>
 In-Reply-To: <20220331105344.3471295-1-armbru@redhat.com>
 References: <20220331105344.3471295-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,43 +87,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Victor Toso <victortoso@redhat.com>
 
-Example output lacks mandatory member @timestamp.  Provide it.
-
-Event's documentation is not properly formatted. Fix it by:
-- Adding @ to "device-id"
-- Adding extra line for "Since" section
+Example output lacks mandatory member @reason.  Provide it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
-Message-Id: <20220328140604.41484-9-victortoso@redhat.com>
+Message-Id: <20220328140604.41484-10-victortoso@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/net.json | 6 ++++--
+ qapi/run-state.json | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 7fab2e7cd8..0d4578bd07 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -685,13 +685,15 @@
- # Failover primary devices which were hidden (not hotplugged when requested)
- # before will now be hotplugged by the virtio-net standby device.
- #
--# device-id: QEMU device id of the unplugged device
-+# @device-id: QEMU device id of the unplugged device
-+#
- # Since: 4.2
+diff --git a/qapi/run-state.json b/qapi/run-state.json
+index 43d66d700f..1b9f64c9cd 100644
+--- a/qapi/run-state.json
++++ b/qapi/run-state.json
+@@ -150,7 +150,8 @@
  #
  # Example:
  #
- # <- { "event": "FAILOVER_NEGOTIATED",
--#      "data": "net1" }
-+#      "data": { "device-id": "net1" },
-+#      "timestamp": { "seconds": 1368697518, "microseconds": 326866 } }
+-# <- { "event": "SHUTDOWN", "data": { "guest": true },
++# <- { "event": "SHUTDOWN",
++#      "data": { "guest": true, "reason": "guest-shutdown" },
+ #      "timestamp": { "seconds": 1267040730, "microseconds": 682951 } }
  #
  ##
- { 'event': 'FAILOVER_NEGOTIATED',
+@@ -188,7 +189,8 @@
+ #
+ # Example:
+ #
+-# <- { "event": "RESET", "data": { "guest": false },
++# <- { "event": "RESET",
++#      "data": { "guest": false, "reason": "guest-reset" },
+ #      "timestamp": { "seconds": 1267041653, "microseconds": 9518 } }
+ #
+ ##
 -- 
 2.35.1
 
