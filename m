@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2914ED80A
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:57:02 +0200 (CEST)
-Received: from localhost ([::1]:57158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51564ED816
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:59:44 +0200 (CEST)
+Received: from localhost ([::1]:37418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZsU9-00019q-LG
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:57:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32848)
+	id 1nZsWk-0007Bw-OY
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:59:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRH-0006iE-Uk
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35953)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRY-0006nL-AA
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRG-0007iN-NH
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:03 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRU-0007ka-Ir
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648724042;
+ s=mimecast20190719; t=1648724056;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6G50AL7rwJokI+qcXU7Qzf11M/Rjfpz/iXVkmBymSW0=;
- b=IzsMWMetSlVgCRfYWIVVOtiqbqlXomH/HccTvhA3cS3gxhKjTE0XAXgMkQzW1hnhKPvlDG
- xt0cHdhVF45UxcQwWGsnmHDofwjrB4NMjcNTTceaMEBnRa74QsMdMwgLsSK4AQ1GAuayvv
- 4gVJheeAegrICfd5nEGqs/qNPClg09E=
+ bh=SxZ39twAMS7451y4zQsD3kK6myTNS/dZ7qmmvta8MS0=;
+ b=EqOTDlI+lk98CuxvLx+nzWlHZG/9Mz819H/+/hX/Nk8rsHIPawuaCMBErhw3zFJuAA5BD5
+ ibaKnu+THdqqLuJ9z8HV1pYrwUIsTu4NeaZd5/27DYiucPH3gWtLCiPG5Nbw04h29mqZI4
+ 4MNN1cC0N2NZ4MJM8etQ2EKYxr/ZYMw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-255-AvDJRcYZPV-rPeb17M0Brg-1; Thu, 31 Mar 2022 06:53:58 -0400
-X-MC-Unique: AvDJRcYZPV-rPeb17M0Brg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-615-AYBG_fjKN3qc4c9IWVS44Q-1; Thu, 31 Mar 2022 06:54:15 -0400
+X-MC-Unique: AYBG_fjKN3qc4c9IWVS44Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01F48802819;
- Thu, 31 Mar 2022 10:53:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65BF7811E75;
+ Thu, 31 Mar 2022 10:54:14 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0781B401E64;
- Thu, 31 Mar 2022 10:53:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3628D2026980;
+ Thu, 31 Mar 2022 10:54:00 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 99D4521E66FA; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
+ id 9BF3F21E65E8; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/15] qapi: fix example of ACPI_DEVICE_OST event
-Date: Thu, 31 Mar 2022 12:53:43 +0200
-Message-Id: <20220331105344.3471295-15-armbru@redhat.com>
+Subject: [PULL 15/15] qapi: fix example of dump-guest-memory
+Date: Thu, 31 Mar 2022 12:53:44 +0200
+Message-Id: <20220331105344.3471295-16-armbru@redhat.com>
 In-Reply-To: <20220331105344.3471295-1-armbru@redhat.com>
 References: <20220331105344.3471295-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,35 +87,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Victor Toso <victortoso@redhat.com>
 
-Example output lacks mandatory member @timestamp.  Provide it.
-
-Event's @data member is missing @info object. Provide it.
+Example output lacks mandatory member @paging.  Provide it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
-Message-Id: <20220328140604.41484-14-victortoso@redhat.com>
+Message-Id: <20220328140604.41484-15-victortoso@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/acpi.json | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ qapi/dump.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/acpi.json b/qapi/acpi.json
-index 51f0d55db7..d148f6db9f 100644
---- a/qapi/acpi.json
-+++ b/qapi/acpi.json
-@@ -133,8 +133,9 @@
+diff --git a/qapi/dump.json b/qapi/dump.json
+index 9119c82b14..29441af9d8 100644
+--- a/qapi/dump.json
++++ b/qapi/dump.json
+@@ -83,7 +83,7 @@
  # Example:
  #
- # <- { "event": "ACPI_DEVICE_OST",
--#      "data": { "device": "d1", "slot": "0",
--#                "slot-type": "DIMM", "source": 1, "status": 0 } }
-+#      "data": { "info": { "device": "d1", "slot": "0",
-+#                          "slot-type": "DIMM", "source": 1, "status": 0 } },
-+#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+ # -> { "execute": "dump-guest-memory",
+-#      "arguments": { "protocol": "fd:dump" } }
++#      "arguments": { "paging": false, "protocol": "fd:dump" } }
+ # <- { "return": {} }
  #
  ##
- { 'event': 'ACPI_DEVICE_OST',
 -- 
 2.35.1
 
