@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07FD04ED20D
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 06:06:20 +0200 (CEST)
-Received: from localhost ([::1]:42598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 597094ED20B
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 06:04:41 +0200 (CEST)
+Received: from localhost ([::1]:40412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZm4g-0006FB-RQ
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 00:06:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38714)
+	id 1nZm35-0004mD-Vd
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 00:04:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qiudayu@archeros.com>)
- id 1nZm1a-00045u-Ta
+ id 1nZm1a-00045m-Hx
  for qemu-devel@nongnu.org; Thu, 31 Mar 2022 00:03:06 -0400
-Received: from smtpbg138.qq.com ([106.55.201.18]:40587 helo=smtpbg.qq.com)
+Received: from smtpbg139.qq.com ([175.27.65.136]:17439 helo=smtpbg.qq.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qiudayu@archeros.com>)
- id 1nZm1Y-00021t-9P
+ id 1nZm1X-00021x-7m
  for qemu-devel@nongnu.org; Thu, 31 Mar 2022 00:03:06 -0400
-X-QQ-mid: bizesmtp66t1648699300tw7kvm5m
+X-QQ-mid: bizesmtp70t1648699322tmmhf0u1
 Received: from [10.25.2.237] ( [222.190.105.194])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 31 Mar 2022 12:01:39 +0800 (CST)
+ id ; Thu, 31 Mar 2022 12:02:01 +0800 (CST)
 X-QQ-SSF: 01000000000000502000B00A0000000
-X-QQ-FEAT: c49ksGaa/D3YgHqdib673/MUyTnx3Dl7JAVMfMfdrt9wZVQKfcF3bp7Bd3NlC
- JLNWkbVVx5VdU8UthTHqduSwFJ7H8upQNBroOSNjSXSSpOhOpIq5kUDuCwjAz3M0fgCoj2k
- c6aQig1KnJFeFb2Qtxa+UaDqXSj3Qe/pfjC0p4o5Cz9VkfFfrWdFZ78C/nYDLwuwH8BFFmZ
- P2WTkdEjdLPoJBvsMYXrbidPjD73WYrksNJLHRr/1nFq8eJUxfBzoUc8Y+se9ybT22P9xj3
- csYMvBlftWoW9CACXOdHwgsHjtuGUrshtjgbqGtBbvD10q9ePn//9yUyYx5Zg/3ImdFXJBT
- p+9PBVIPWADSWZ13qcjlNQ7k2N5lw==
+X-QQ-FEAT: vmnbzJorTWTUu9YE8f+raewEKRJUGEAOpRbA3MTxwhyYZdbZADjfh5zf+XE+1
+ Tcq1w0OGF1gFMh4P5nQABg+GniQuUaqiKEFUeQ0bPUepRo8ooGvuQRjZp742Wgd1jZEI9zx
+ DKJPNOmKj6QY8LQ67ZLiUmsLhoEcDYdiVgEPWV1KzfShjmX+JhlWdBSyyu2AvPNMTauS1Rx
+ LThSX/E/hOqg8Bfdz3UQUm+jyVs+lNbcyafOM8sDy/OjfmhggXdoSnKB96hicK3MzdhzJfL
+ A7ys3Voaaoy7tJcGnfgmcsBSIwZjYQSORYN4IsZN89Jjd6MDsOEiIueABq+ZXEPDGdWxUUi
+ dqGctYqonMgdot1yrA=
 X-QQ-GoodBg: 0
-Message-ID: <52c92aca-ad0b-9363-5d9a-a08db6e49126@archeros.com>+8930B8C8DA20DB9C
-Date: Thu, 31 Mar 2022 12:01:38 +0800
+Message-ID: <2b50795d-c241-b278-b974-bc86d4c350e0@archeros.com>+94A6F26D55F87AEC
+Date: Thu, 31 Mar 2022 12:02:00 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
@@ -48,15 +48,15 @@ In-Reply-To: <2796fe2b-969e-f545-b835-d4a46fade0f2@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:archeros.com:qybgspam:qybgspam10
-Received-SPF: none client-ip=106.55.201.18; envelope-from=qiudayu@archeros.com;
+Feedback-ID: bizesmtp:archeros.com:qybgspam:qybgspam6
+Received-SPF: none client-ip=175.27.65.136; envelope-from=qiudayu@archeros.com;
  helo=smtpbg.qq.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
 X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
  INVALID_MSGID=0.568, KHOP_HELO_FCRDNS=0.187, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
