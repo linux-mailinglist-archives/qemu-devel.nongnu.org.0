@@ -2,85 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 089934EDC18
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 16:51:08 +0200 (CEST)
-Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD404EDC17
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 16:50:58 +0200 (CEST)
+Received: from localhost ([::1]:57502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZw8h-0004yV-58
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 10:51:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46076)
+	id 1nZw8X-0004ie-S8
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 10:50:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZw4a-00025s-6B
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 10:46:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27568)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nZw4W-0001yR-Nu
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 10:46:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZvve-000249-Uy
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 10:37:42 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nZvzD-0002eQ-27
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 10:41:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648737450;
+ s=mimecast20190719; t=1648737678;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yfD/bodveYnTanWTDFL5/3R4rMfizifsem2r1LnJQ4w=;
- b=MniOQ8HCzz6dJB56xpvhubGOCsrAeJ0EcdwwFh4jj5Zz17bBOahXKAYoNEPpsrv8JF7FbH
- y0GwpqT9Kj3a4cDq7HOUqPyQ40CheKkYPjnBf7jYjQAlIl/Ys5JZySnALlozP9cSp/uS9V
- rYD5Qvzn4OtUS1qGpUfRJNpRD6MCS4g=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jhr0szLurVG6eQYlo8T64FCLHyQZ58bA1u9Mrp4Ucso=;
+ b=KOMTh87/eBcEE+U6CEmrZw6b5sz7xeRCNy7kAHVuAHxlzYAqbauClfminEF5Zd56kIHND4
+ sxLsTAdI7Txsc2rz3hMK5u3pnWQFZZ2X7JJschh5E7W78kj1BsKQdQgiSYzDCjeIqi3167
+ PUjJygpMl04PfUvc0oBWAvLomdJVDRI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573--8LUBjHaNNiLLpFtou_hZQ-1; Thu, 31 Mar 2022 10:37:27 -0400
-X-MC-Unique: -8LUBjHaNNiLLpFtou_hZQ-1
-Received: by mail-vs1-f71.google.com with SMTP id
- d6-20020a056102222600b003252be7deb9so3276091vsb.10
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 07:37:26 -0700 (PDT)
+ us-mta-371-uM06sKPnNA6QoW0IMPQqoQ-1; Thu, 31 Mar 2022 10:41:14 -0400
+X-MC-Unique: uM06sKPnNA6QoW0IMPQqoQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ gv17-20020a1709072bd100b006dfcc7f7962so11647266ejc.5
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 07:41:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yfD/bodveYnTanWTDFL5/3R4rMfizifsem2r1LnJQ4w=;
- b=ktS+DnwaxmIunMKQbMZwWEFrYfRDPMJgTqMLR+xtewKlBVpNfNJCANsecuvleVJswN
- O+oq3G5oJ2+v2VcQMC8SJ/1CvtNQIcz2sABwRDo2vjhe6Lvib0KLkDPRw37rAEhuWdTn
- Sn6RAGTROMABv+t62UgmN7rh3Kri9i5fClkcrQwEKVGOptv5TNoa9Lt0tFKgwxbAG2Dk
- vCcQko6Jsw7d3yR5SL/LMg2uBoPaVVCp/W1IuMcH1p+VzslBHrYz6qoPebM0kdrKoBsd
- EXstP1hgvEBs2m+o5gCrZBTfUrMmcrjEsXBNI1kYas2XvHr1XTd+Y9pSpbbMYDu7BIAr
- xl7g==
-X-Gm-Message-State: AOAM533cTpNBMLnp0U92kQwalKArm6skkpmCAudwUtDJPa7FWmbCsJpn
- WD8J1TGekR9LonPl50yiS1X0XoDa3aSId1ELhlyXkvjkw8Oe1O9QdOh4jia3J3gNgQGI0EWvt42
- 0SX0OCvE6ewVoUaf7kVXTSRD/zjFIRdw=
-X-Received: by 2002:a05:6122:1da:b0:33f:c6b3:ac58 with SMTP id
- h26-20020a05612201da00b0033fc6b3ac58mr2190035vko.1.1648737446430; 
- Thu, 31 Mar 2022 07:37:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFjs+x45uqGVfs83oQbSZhtIvgzgndLU7mE9du8hyRv+h9gppsw21KOiQcDUiElqWFV6bjcTGdNxlYfUWLwv0=
-X-Received: by 2002:a05:6122:1da:b0:33f:c6b3:ac58 with SMTP id
- h26-20020a05612201da00b0033fc6b3ac58mr2190024vko.1.1648737446151; Thu, 31 Mar
- 2022 07:37:26 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jhr0szLurVG6eQYlo8T64FCLHyQZ58bA1u9Mrp4Ucso=;
+ b=OM5dVLV5yZr2YnItn9L1tjQ0iywz0Cm7xEVkrz0Y8xcuOLEflXsM1jwW8+9A/jL8/s
+ MqtvSHFRdimlscH0k/kP8bEJ3DrcNOKIGPvgIvGgBcHbI86wKvuCClLNnNlyHbbxOEtx
+ Jrs2NzJFLrDcMeXzWgmJr8ig3MQzjAjX8moRuiNiRtEY0YpTg1GEUvTKNEBVfq98AoKJ
+ Rm2pAdLVBnN/r5Yald5WKf+x384QyifU0oUjNLejIGCoFl5b4j5XYJVURWkSYCS30XkN
+ 8wVx9csSkeHM7w6MuVMSlcE/JIyx7HBzPcmOiKpnlDpAjmE2sCBi7DljXyIx3Ugc5yHx
+ Ve1Q==
+X-Gm-Message-State: AOAM532uc+1coCarPH9HRA8j9YMTUbKMl8m9yuiEpDZoAt3wnq2JsHlT
+ k6h+kF7C4kFcvcxs9PsBQpJC+UnbUVbWnaiyxBUFGsNq4aG6Sl0jaOVNULVbcyLR0ouvszfgzQE
+ pRyI1S3SO48Y76w8=
+X-Received: by 2002:a17:907:9801:b0:6db:ab31:96f4 with SMTP id
+ ji1-20020a170907980100b006dbab3196f4mr5294043ejc.571.1648737673479; 
+ Thu, 31 Mar 2022 07:41:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxmE7RyeT2Dv1T94eZ8pZac6k6hxoY2u1WQVyEQP1s/JBO9/oE9He6TNVao4iZJUYfUcS1Zyg==
+X-Received: by 2002:a17:907:9801:b0:6db:ab31:96f4 with SMTP id
+ ji1-20020a170907980100b006dbab3196f4mr5294021ejc.571.1648737673148; 
+ Thu, 31 Mar 2022 07:41:13 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ sh15-20020a1709076e8f00b006df881fd066sm9628195ejc.9.2022.03.31.07.41.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Mar 2022 07:41:12 -0700 (PDT)
+Date: Thu, 31 Mar 2022 16:41:11 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Robert Hoo <robert.hu@linux.intel.com>
+Subject: Re: [PATCH 2/2] NVDIMM: Init vNVDIMM's LSA index block if it hasn't
+ been
+Message-ID: <20220331164111.47483387@redhat.com>
+In-Reply-To: <913c9dfaa5818aaf70782b725086e4ab4b5c5f44.camel@linux.intel.com>
+References: <1648537663-126032-1-git-send-email-robert.hu@linux.intel.com>
+ <1648537663-126032-3-git-send-email-robert.hu@linux.intel.com>
+ <20220331140938.6297e2b1@redhat.com>
+ <913c9dfaa5818aaf70782b725086e4ab4b5c5f44.camel@linux.intel.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <1c4fd757-5d08-0099-b842-4295c430a176@suse.de>
- <32ff3a63-fb50-8038-3f2e-5bfd70b01344@suse.de>
- <37635a04-b717-b7c6-88a0-1b3cecc0c4f5@suse.de>
- <8a898f41-98e1-5a02-4cd8-a697bcb6d9a1@redhat.com>
- <7a952654-c163-00c9-8538-e07afef47ca8@suse.de>
-In-Reply-To: <7a952654-c163-00c9-8538-e07afef47ca8@suse.de>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 31 Mar 2022 10:37:16 -0400
-Message-ID: <CAFn=p-aKWCQM29qEB6YRK6A_6DwcaMPbVTyLLbLnCZ1zG7cBtQ@mail.gmail.com>
-Subject: Re: iotest40 problem
-To: Li Zhang <lizhang@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000ce63ad05db8499b9"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,678 +104,634 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
+ qemu-devel@nongnu.org, ani@anisinha.ca, robert.hu@intel.com,
+ dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ce63ad05db8499b9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, 31 Mar 2022 21:08:12 +0800
+Robert Hoo <robert.hu@linux.intel.com> wrote:
 
-On Thu, Mar 31, 2022, 6:47 AM Li Zhang <lizhang@suse.de> wrote:
+> On Thu, 2022-03-31 at 14:09 +0200, Igor Mammedov wrote:
+> > On Tue, 29 Mar 2022 15:07:43 +0800
+> > Robert Hoo <robert.hu@linux.intel.com> wrote:
+> >   
+> > > Since v2.7, QEMU has supported the emulation of NVDIMM's labels.
+> > > With -device nvdimm,...,lsa-size=, the vNVDIMM to guest has this
+> > > capability. But if the emulated LSA area isn't initialized, guest
+> > > Kernel
+> > > can't enumerate it correctly.
+> > > 
+> > > This patch is to initialize/format the vNVDIMM's LSA, if it has
+> > > been
+> > > designated the Label capability. The index block format will be
+> > > v1.1
+> > > initially, in order to obtain maximum compatibility. VM user can
+> > > later
+> > > `ndctl init-label` to make it v1.2 if necessary. [1]  
+> > 
+> > Can user initialize/format LSA from guest using ndctl/some other
+> > tool?
+> >   
+> Yes, he can. But when guest Kernel already told him this is a dimm
+> without label capability, dare/should he take this dangerous action?;-)
 
-> On 3/31/22 08:10, Hanna Reitz wrote:
-> > On 29.03.22 18:49, Li Zhang wrote:
-> >> Update what I observed.
-> >>
-> >> It seems that aqmp is not stable when running test cases.
-> >> So I revert the patches as the following, iotest40/41 test cases work
-> >> well.
-> >
-> > Thanks for bisecting.  I haven=E2=80=99t seen this problem before, so I=
- didn=E2=80=99t
-> > look into it; CC-ing John, perhaps he figures something.
-> >
-> Thanks a lot.
-> It happens occassionally. I didn't find a way to reproduce it manually.
->
-
-Sorry for the instability.
-
-A few questions then:
-
-- what operating system and version
-- kernel version
-- architecture (looks like x86 and others?)
-- what commit/version of QEMU are you testing?
-- what python version are you using to run iotests?
-
+I don't think this feature belongs to QEMU (i.e. hw emulation).
+It's task that is usually accomplished by firmware or OS
+(in context of QEMU its guest's responsibility).
 
 
-> > Hanna
-> >
-> >> commit 76cd358671e6b8e7c435ec65b1c44200254514a9
-> >>
-> >> Author: John Snow <jsnow@redhat.com>
-> >>
-> >> Date:   Tue Oct 26 13:56:12 2021 -0400
-> >>
-> >>
-> >>
-> >>     python, iotests: replace qmp with aqmp
-> >>
-> >>
-> >>
-> >>     Swap out the synchronous QEMUMonitorProtocol from qemu.qmp with
-> >> the sync
-> >>
-> >>     wrapper from qemu.aqmp instead.
-> >>
-> >>
-> >>
-> >>     Add an escape hatch in the form of the environment variable
-> >>
-> >>     QEMU_PYTHON_LEGACY_QMP which allows you to cajole QEMUMachine into
-> >> using
-> >>
-> >>     the old implementation, proving that both implementations work
-> >>
-> >>     concurrently.
-> >>
-> >>
-> >>
-> >>     Signed-off-by: John Snow <jsnow@redhat.com>
-> >>
-> >>     Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-> >>
-> >>     Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-> >>
-> >>     Message-id: 20211026175612.4127598-9-jsnow@redhat.com
-> >>
-> >>     Signed-off-by: John Snow <jsnow@redhat.com>
-> >>
-> >>
-> >> commit 1611e6cf4e7163f6102b37010a8b7e7120f468b5
-> >>
-> >> Author: John Snow <jsnow@redhat.com>
-> >>
-> >> Date:   Thu Nov 18 15:46:18 2021 -0500
-> >>
-> >>
-> >>
-> >>     python/machine: handle "fast" QEMU terminations
-> >>
-> >>
-> >>
-> >>     In the case that the QEMU process actually launches -- but then
-> >> dies so
-> >>
-> >>     quickly that we can't establish a QMP connection to it --
-> QEMUMachine
-> >>
-> >>     currently calls _post_shutdown() assuming that it never launched
-> >> the VM
-> >>
-> >>     process.
-> >>
-> >>
-> >>
-> >>     This isn't true, though: it "merely" may have failed to establish
-> >> a QMP
-> >>
-> >>     connection and the process is in the middle of its own exit path.
-> >>
-> >>
-> >>
-> >>     If we don't wait for the subprocess, the caller may get a bogus
-> >> `None`
-> >>
-> >>     return for .exitcode(). This behavior was observed from
-> >>
-> >>     device-crash-test; after the switch to Async QMP, the timings were
-> >>
-> >>     changed such that it was now seemingly possible to witness the
-> >> failure
-> >>
-> >>     of "vm.launch()" *prior* to the exitcode becoming available.
-> >>
-> >>
-> >>
-> >>     The semantic of the `_launched` property is changed in this
-> >>
-> >>     patch. Instead of representing the condition "launch() executed
-> >>
-> >>     successfully", it will now represent "has forked a child process
-> >>
-> >>     successfully". This way, wait() when called in the exit path won't
-> >>
-> >>     become a no-op.
-> >>
-> >>
-> >>
-> >>     Signed-off-by: John Snow <jsnow@redhat.com>
-> >>
-> >>     Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> >>
-> >>     Message-id: 20211118204620.1897674-6-jsnow@redhat.com
-> >>
-> >>     Signed-off-by: John Snow <jsnow@redhat.com>
-> >>
-> >>
-> >>
-> >>
-> >>
-> >> On 3/25/22 11:17, Li Zhang wrote:
-> >>> Hi,
-> >>>
-> >>> I backport some iotests patches to the tree and change timeout.
-> >>> It doesn't work.
-> >>>
-> >>> Sometimes, iotest41 also reports the errors.
-> >>> [ 1347s]
-> >>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>> [ 1347s] +ERROR: test_top_node_in_wrong_chain
-> (__main__.TestSingleDrive)
-> >>> [ 1347s]
-> >>> +--------------------------------------------------------------------=
---
-> >>> [ 1347s] +Traceback (most recent call last):
-> >>> [ 1347s] +  File
-> >>>
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> >>> line 399, in launch
-> >>> [ 1347s] +    self._launch()
-> >>> [ 1347s] +  File
-> >>>
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> >>> line 434, in _launch
-> >>> [ 1347s] +    self._post_launch()
-> >>> [ 1347s] +  File
-> >>> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/qtest.py"=
-,
-> line
-> >>> 147, in _post_launch
-> >>> [ 1347s] +    super()._post_launch()
-> >>> [ 1347s] +  File
-> >>>
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> >>> line 340, in _post_launch
-> >>> [ 1347s] +    self._qmp.accept(self._qmp_timer)
-> >>> [ 1347s] +  File
-> >>> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py",
-> >>> line 69, in accept
-> >>> [ 1347s] +    timeout
-> >>> [ 1347s] +  File
-> >>> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py",
-> >>> line 42, in _sync
-> >>> [ 1347s] +    asyncio.wait_for(future, timeout=3Dtimeout)
-> >>> [ 1347s] +  File "/usr/lib64/python3.6/asyncio/base_events.py", line
-> >>> 488, in run_until_complete
-> >>> [ 1347s] +    return future.result()
-> >>> [ 1347s] +  File "/usr/lib64/python3.6/asyncio/tasks.py", line 362,
-> >>> in wait_for
-> >>> [ 1347s] +    raise futures.TimeoutError()
-> >>> [ 1347s] +concurrent.futures._base.TimeoutError
-> >>>
-> >>>
-> >>> I can see other errors like this, it's the problem of the socket.
-> >>>
-> >>> [ 1535s] socket_accept failed: Resource temporarily unavailable
-> >>> [ 1535s] **
-> >>> [ 1535s]
-> >>> ERROR:../tests/qtest/libqtest.c:321:qtest_init_without_qmp_handshake:
-> >>> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
-> >>>
-> >>>
-> >>> The script is running the command as this:
-> >>> /usr/bin/make -O -j4 check-block V=3D1
-> >>>
-> >>> I can see the errors on ppc, arm or x86.
-> >>> But I couldn't reproduce it when I run it manually.
-> >>>
-> >>> It will be appreciated if any suggestions. Thanks.
-> >>>
-> >>>
-> >>> On 3/24/22 14:47, Li Zhang wrote:
-> >>>> Hi,
-> >>>>
-> >>>> When I run the testsuit on our buidling system, it reports a timeout
-> >>>> sometimes not always as the following.
-> >>>> It couldn't connect qmp socket. Any ideas about this problem?
-> >>>>
-> >>>>
-> >>>> [ 1989s] ---
-> >>>> /home/abuild/rpmbuild/BUILD/qemu-6.2.0/tests/qemu-iotests/040.out
-> >>>> [ 1989s] +++ 040.out.bad
-> >>>> [ 1989s] @@ -1,5 +1,55 @@
-> >>>> [ 1989s]
-> >>>> -.................................................................
-> >>>> [ 1989s] +....ERROR:qemu.aqmp.qmp_client.qemu-6471:Failed to
-> >>>> establish connection: asyncio.exceptions.CancelledError
-> >>>> [ 1989s]
-> >>>>
-> +E..................................ERROR:qemu.aqmp.qmp_client.qemu-6471:=
-Failed
->
-> >>>> to establish connection: asyncio.exceptions.CancelledError
-> >>>> [ 1989s] +E.........................
-> >>>> [ 1989s]
-> >>>>
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>> [ 1989s] +ERROR: test_commit_node (__main__.TestActiveZeroLengthImag=
-e)
-> >>>> [ 1989s]
-> >>>>
-> +----------------------------------------------------------------------
-> >>>> [ 1989s] +Traceback (most recent call last):
-> >>>> [ 1989s] +  File
-> >>>> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/tests/qemu-iotests/040",
-> >>>> line 94, in setUp
-> >>>> [ 1989s] +    self.vm.launch()
-> >>>> [ 1989s] +  File
-> >>>>
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> >>>> line 399, in launch
-> >>>> [ 1989s] +    self._launch()
-> >>>> [ 1989s] +  File
-> >>>>
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> >>>> line 434, in _launch
-> >>>> [ 1989s] +    self._post_launch()
-> >>>> [ 1989s] +  File
-> >>>>
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/qtest.py",
-> >>>> line 147, in _post_launch
-> >>>> [ 1989s] +    super()._post_launch()
-> >>>> [ 1989s] +  File
-> >>>>
-> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> >>>> line 340, in _post_launch
-> >>>> [ 1989s] +    self._qmp.accept(self._qmp_timer)
-> >>>> [ 1989s] +  File
-> >>>> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py",
-> >>>> line 67, in accept
-> >>>> [ 1989s] +    self._sync(
-> >>>> [ 1989s] +  File
-> >>>> "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py",
-> >>>> line 41, in _sync
-> >>>> [ 1989s] +    return self._aloop.run_until_complete(
-> >>>> [ 1989s] +  File "/usr/lib64/python3.8/asyncio/base_events.py", line
-> >>>> 616, in run_until_complete
-> >>>> [ 1989s] +    return future.result()
-> >>>> [ 1989s] +  File "/usr/lib64/python3.8/asyncio/tasks.py", line 501,
-> >>>> in wait_for
-> >>>> [ 1989s] +    raise exceptions.TimeoutError()
-> >>>> [ 1989s] +asyncio.exceptions.TimeoutError
-> >>>>
-> >>>
-> >>>
-> >>
-> >
->
->
->
+PS:
+It's true that QEMU caries some 'firmware' code, like composing
+ACPI tables but we do it only to reduce QEMU<->firmware ABI
+necessary for hardware description and that's pretty much it.
+Unfortunately this series doesn't fit the bill.
 
---000000000000ce63ad05db8499b9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, Mar 31, 2022, 6:47 AM Li Zhang &lt;<a href=3D"=
-mailto:lizhang@suse.de" target=3D"_blank" rel=3D"noreferrer">lizhang@suse.d=
-e</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 3/31/22 08:10, =
-Hanna Reitz wrote:<br>
-&gt; On 29.03.22 18:49, Li Zhang wrote:<br>
-&gt;&gt; Update what I observed.<br>
-&gt;&gt;<br>
-&gt;&gt; It seems that aqmp is not stable when running test cases.<br>
-&gt;&gt; So I revert the patches as the following, iotest40/41 test cases w=
-ork <br>
-&gt;&gt; well.<br>
-&gt; <br>
-&gt; Thanks for bisecting.=C2=A0 I haven=E2=80=99t seen this problem before=
-, so I didn=E2=80=99t <br>
-&gt; look into it; CC-ing John, perhaps he figures something.<br>
-&gt; <br>
-Thanks a lot.<br>
-It happens occassionally. I didn&#39;t find a way to reproduce it manually.=
-<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">=
-Sorry for the instability.</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">A few questions then:</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
->- what operating system and version</div><div dir=3D"auto">- kernel versio=
-n=C2=A0</div><div dir=3D"auto">- architecture (looks like x86 and others?)<=
-/div><div dir=3D"auto">- what commit/version of QEMU are you testing?</div>=
-<div dir=3D"auto">- what python version are you using to run iotests?</div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><=
-div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-&gt; Hanna<br>
-&gt; <br>
-&gt;&gt; commit 76cd358671e6b8e7c435ec65b1c44200254514a9<br>
-&gt;&gt;<br>
-&gt;&gt; Author: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" rel=3D"n=
-oreferrer noreferrer" target=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Date:=C2=A0=C2=A0 Tue Oct 26 13:56:12 2021 -0400<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 python, iotests: replace qmp with aqmp<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Swap out the synchronous QEMUMonitorProtocol fr=
-om qemu.qmp with <br>
-&gt;&gt; the sync<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 wrapper from qemu.aqmp instead.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Add an escape hatch in the form of the environm=
-ent variable<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 QEMU_PYTHON_LEGACY_QMP which allows you to cajo=
-le QEMUMachine into <br>
-&gt;&gt; using<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 the old implementation, proving that both imple=
-mentations work<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 concurrently.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Signed-off-by: John Snow &lt;<a href=3D"mailto:=
-jsnow@redhat.com" rel=3D"noreferrer noreferrer" target=3D"_blank">jsnow@red=
-hat.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Reviewed-by: Kevin Wolf &lt;<a href=3D"mailto:k=
-wolf@redhat.com" rel=3D"noreferrer noreferrer" target=3D"_blank">kwolf@redh=
-at.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Reviewed-by: Hanna Reitz &lt;<a href=3D"mailto:=
-hreitz@redhat.com" rel=3D"noreferrer noreferrer" target=3D"_blank">hreitz@r=
-edhat.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Message-id: <a href=3D"mailto:20211026175612.41=
-27598-9-jsnow@redhat.com" rel=3D"noreferrer noreferrer" target=3D"_blank">2=
-0211026175612.4127598-9-jsnow@redhat.com</a><br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Signed-off-by: John Snow &lt;<a href=3D"mailto:=
-jsnow@redhat.com" rel=3D"noreferrer noreferrer" target=3D"_blank">jsnow@red=
-hat.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; commit 1611e6cf4e7163f6102b37010a8b7e7120f468b5<br>
-&gt;&gt;<br>
-&gt;&gt; Author: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" rel=3D"n=
-oreferrer noreferrer" target=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Date:=C2=A0=C2=A0 Thu Nov 18 15:46:18 2021 -0500<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 python/machine: handle &quot;fast&quot; QEMU te=
-rminations<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 In the case that the QEMU process actually laun=
-ches -- but then <br>
-&gt;&gt; dies so<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 quickly that we can&#39;t establish a QMP conne=
-ction to it -- QEMUMachine<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 currently calls _post_shutdown() assuming that =
-it never launched <br>
-&gt;&gt; the VM<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 process.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 This isn&#39;t true, though: it &quot;merely&qu=
-ot; may have failed to establish <br>
-&gt;&gt; a QMP<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 connection and the process is in the middle of =
-its own exit path.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 If we don&#39;t wait for the subprocess, the ca=
-ller may get a bogus <br>
-&gt;&gt; `None`<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 return for .exitcode(). This behavior was obser=
-ved from<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 device-crash-test; after the switch to Async QM=
-P, the timings were<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 changed such that it was now seemingly possible=
- to witness the <br>
-&gt;&gt; failure<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 of &quot;vm.launch()&quot; *prior* to the exitc=
-ode becoming available.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 The semantic of the `_launched` property is cha=
-nged in this<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 patch. Instead of representing the condition &q=
-uot;launch() executed<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 successfully&quot;, it will now represent &quot=
-;has forked a child process<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 successfully&quot;. This way, wait() when calle=
-d in the exit path won&#39;t<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 become a no-op.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Signed-off-by: John Snow &lt;<a href=3D"mailto:=
-jsnow@redhat.com" rel=3D"noreferrer noreferrer" target=3D"_blank">jsnow@red=
-hat.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Reviewed-by: Willian Rampazzo &lt;<a href=3D"ma=
-ilto:willianr@redhat.com" rel=3D"noreferrer noreferrer" target=3D"_blank">w=
-illianr@redhat.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Message-id: <a href=3D"mailto:20211118204620.18=
-97674-6-jsnow@redhat.com" rel=3D"noreferrer noreferrer" target=3D"_blank">2=
-0211118204620.1897674-6-jsnow@redhat.com</a><br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Signed-off-by: John Snow &lt;<a href=3D"mailto:=
-jsnow@redhat.com" rel=3D"noreferrer noreferrer" target=3D"_blank">jsnow@red=
-hat.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; On 3/25/22 11:17, Li Zhang wrote:<br>
-&gt;&gt;&gt; Hi,<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; I backport some iotests patches to the tree and change timeout=
-.<br>
-&gt;&gt;&gt; It doesn&#39;t work.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Sometimes, iotest41 also reports the errors.<br>
-&gt;&gt;&gt; [ 1347s] <br>
-&gt;&gt;&gt; +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-<br>
-&gt;&gt;&gt; [ 1347s] +ERROR: test_top_node_in_wrong_chain (__main__.TestSi=
-ngleDrive)<br>
-&gt;&gt;&gt; [ 1347s] <br>
-&gt;&gt;&gt; +-------------------------------------------------------------=
----------<br>
-&gt;&gt;&gt; [ 1347s] +Traceback (most recent call last):<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0 File <br>
-&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machi=
-ne/machine.py&quot;, <br>
-&gt;&gt;&gt; line 399, in launch<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0=C2=A0=C2=A0 self._launch()<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0 File <br>
-&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machi=
-ne/machine.py&quot;, <br>
-&gt;&gt;&gt; line 434, in _launch<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0=C2=A0=C2=A0 self._post_launch()<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0 File <br>
-&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machi=
-ne/qtest.py&quot;, line <br>
-&gt;&gt;&gt; 147, in _post_launch<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0=C2=A0=C2=A0 super()._post_launch()<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0 File <br>
-&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machi=
-ne/machine.py&quot;, <br>
-&gt;&gt;&gt; line 340, in _post_launch<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0=C2=A0=C2=A0 self._qmp.accept(self._qmp_timer)=
-<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0 File <br>
-&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/=
-legacy.py&quot;, <br>
-&gt;&gt;&gt; line 69, in accept<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0=C2=A0=C2=A0 timeout<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0 File <br>
-&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/=
-legacy.py&quot;, <br>
-&gt;&gt;&gt; line 42, in _sync<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0=C2=A0=C2=A0 asyncio.wait_for(future, timeout=
-=3Dtimeout)<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0 File &quot;/usr/lib64/python3.6/asyncio/base_=
-events.py&quot;, line <br>
-&gt;&gt;&gt; 488, in run_until_complete<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0=C2=A0=C2=A0 return future.result()<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0 File &quot;/usr/lib64/python3.6/asyncio/tasks=
-.py&quot;, line 362, <br>
-&gt;&gt;&gt; in wait_for<br>
-&gt;&gt;&gt; [ 1347s] +=C2=A0=C2=A0=C2=A0 raise futures.TimeoutError()<br>
-&gt;&gt;&gt; [ 1347s] +concurrent.futures._base.TimeoutError<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; I can see other errors like this, it&#39;s the problem of the =
-socket.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; [ 1535s] socket_accept failed: Resource temporarily unavailabl=
-e<br>
-&gt;&gt;&gt; [ 1535s] **<br>
-&gt;&gt;&gt; [ 1535s] <br>
-&gt;&gt;&gt; ERROR:../tests/qtest/libqtest.c:321:qtest_init_without_qmp_han=
-dshake: <br>
-&gt;&gt;&gt; assertion failed: (s-&gt;fd &gt;=3D 0 &amp;&amp; s-&gt;qmp_fd =
-&gt;=3D 0)<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; The script is running the command as this:<br>
-&gt;&gt;&gt; /usr/bin/make -O -j4 check-block V=3D1<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; I can see the errors on ppc, arm or x86.<br>
-&gt;&gt;&gt; But I couldn&#39;t reproduce it when I run it manually.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; It will be appreciated if any suggestions. Thanks.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; On 3/24/22 14:47, Li Zhang wrote:<br>
-&gt;&gt;&gt;&gt; Hi,<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; When I run the testsuit on our buidling system, it reports=
- a timeout <br>
-&gt;&gt;&gt;&gt; sometimes not always as the following.<br>
-&gt;&gt;&gt;&gt; It couldn&#39;t connect qmp socket. Any ideas about this p=
-roblem?<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; [ 1989s] --- <br>
-&gt;&gt;&gt;&gt; /home/abuild/rpmbuild/BUILD/qemu-6.2.0/tests/qemu-iotests/=
-040.out<br>
-&gt;&gt;&gt;&gt; [ 1989s] +++ 040.out.bad<br>
-&gt;&gt;&gt;&gt; [ 1989s] @@ -1,5 +1,55 @@<br>
-&gt;&gt;&gt;&gt; [ 1989s] <br>
-&gt;&gt;&gt;&gt; -.........................................................=
-........<br>
-&gt;&gt;&gt;&gt; [ 1989s] +....ERROR:qemu.aqmp.qmp_client.qemu-6471:Failed =
-to <br>
-&gt;&gt;&gt;&gt; establish connection: asyncio.exceptions.CancelledError<br=
->
-&gt;&gt;&gt;&gt; [ 1989s] <br>
-&gt;&gt;&gt;&gt; +E..................................ERROR:qemu.aqmp.qmp_cl=
-ient.qemu-6471:Failed <br>
-&gt;&gt;&gt;&gt; to establish connection: asyncio.exceptions.CancelledError=
-<br>
-&gt;&gt;&gt;&gt; [ 1989s] +E.........................<br>
-&gt;&gt;&gt;&gt; [ 1989s] <br>
-&gt;&gt;&gt;&gt; +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D<br>
-&gt;&gt;&gt;&gt; [ 1989s] +ERROR: test_commit_node (__main__.TestActiveZero=
-LengthImage)<br>
-&gt;&gt;&gt;&gt; [ 1989s] <br>
-&gt;&gt;&gt;&gt; +---------------------------------------------------------=
--------------<br>
-&gt;&gt;&gt;&gt; [ 1989s] +Traceback (most recent call last):<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0 File <br>
-&gt;&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/tests/qemu-io=
-tests/040&quot;, <br>
-&gt;&gt;&gt;&gt; line 94, in setUp<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0=C2=A0=C2=A0 self.vm.launch()<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0 File <br>
-&gt;&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/m=
-achine/machine.py&quot;, <br>
-&gt;&gt;&gt;&gt; line 399, in launch<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0=C2=A0=C2=A0 self._launch()<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0 File <br>
-&gt;&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/m=
-achine/machine.py&quot;, <br>
-&gt;&gt;&gt;&gt; line 434, in _launch<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0=C2=A0=C2=A0 self._post_launch()<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0 File <br>
-&gt;&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/m=
-achine/qtest.py&quot;, <br>
-&gt;&gt;&gt;&gt; line 147, in _post_launch<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0=C2=A0=C2=A0 super()._post_launch()<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0 File <br>
-&gt;&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/m=
-achine/machine.py&quot;, <br>
-&gt;&gt;&gt;&gt; line 340, in _post_launch<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0=C2=A0=C2=A0 self._qmp.accept(self._qmp_ti=
-mer)<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0 File <br>
-&gt;&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/a=
-qmp/legacy.py&quot;, <br>
-&gt;&gt;&gt;&gt; line 67, in accept<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0=C2=A0=C2=A0 self._sync(<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0 File <br>
-&gt;&gt;&gt;&gt; &quot;/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/a=
-qmp/legacy.py&quot;, <br>
-&gt;&gt;&gt;&gt; line 41, in _sync<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0=C2=A0=C2=A0 return self._aloop.run_until_=
-complete(<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0 File &quot;/usr/lib64/python3.8/asyncio/b=
-ase_events.py&quot;, line <br>
-&gt;&gt;&gt;&gt; 616, in run_until_complete<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0=C2=A0=C2=A0 return future.result()<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0 File &quot;/usr/lib64/python3.8/asyncio/t=
-asks.py&quot;, line 501, <br>
-&gt;&gt;&gt;&gt; in wait_for<br>
-&gt;&gt;&gt;&gt; [ 1989s] +=C2=A0=C2=A0=C2=A0 raise exceptions.TimeoutError=
-()<br>
-&gt;&gt;&gt;&gt; [ 1989s] +asyncio.exceptions.TimeoutError<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; <br>
-<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000ce63ad05db8499b9--
+  
+> > > [1] 
+> > > https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf
+> > > ,
+> > > Initial Label Storage Area Configuration:
+> > > "for Label Storage Areas of 128KB and 256KB, the corresponding
+> > > Index
+> > > Block size is 256 or 512 bytes."  
+> > 
+> > Quick search in above spec says such text doesn't exists.  
+> 
+> Sorry, my carelessness, typo with the ACPI spec link.
+> > 
+> > above needs grep-able reference + chapter "x.x name" so one could
+> > easily
+> > find it.   
+> Right, accept this.
+> > 
+> >   
+> > > In driver and ndctl code, they refer to these 2 cases as v1.1 and
+> > > v1.2.
+> > > 
+> > > Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+> > > Reviewed-by: Liu, Jingqi <jingqi.liu@intel.com>
+> > > ---
+> > > Note: most functions in this patch are ported from ndctl and nvdimm
+> > > driver
+> > > code.
+> > > ---
+> > >  hw/mem/nvdimm.c         | 359
+> > > ++++++++++++++++++++++++++++++++++++++++
+> > >  include/hw/mem/nvdimm.h | 104 ++++++++++++
+> > >  2 files changed, 463 insertions(+)
+> > > 
+> > > diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+> > > index 72cd3041ef..cae7f280d2 100644
+> > > --- a/hw/mem/nvdimm.c
+> > > +++ b/hw/mem/nvdimm.c
+> > > @@ -25,6 +25,9 @@
+> > >  #include "qemu/osdep.h"
+> > >  #include "qemu/module.h"
+> > >  #include "qemu/pmem.h"
+> > > +#include "qemu/cutils.h"
+> > > +#include "qemu/bswap.h"
+> > > +#include "qemu/error-report.h"
+> > >  #include "qapi/error.h"
+> > >  #include "qapi/visitor.h"
+> > >  #include "hw/mem/nvdimm.h"
+> > > @@ -178,6 +181,348 @@ static MemoryRegion
+> > > *nvdimm_md_get_memory_region(MemoryDeviceState *md,
+> > >      return nvdimm->nvdimm_mr;
+> > >  }
+> > >  
+> > > +static const char NSINDEX_SIGNATURE[] = "NAMESPACE_INDEX\0";
+> > > +
+> > > +static unsigned inc_seq(unsigned seq)
+> > > +{
+> > > +    static const unsigned next[] = { 0, 2, 3, 1 };
+> > > +
+> > > +    return next[seq & 3];
+> > > +}
+> > > +
+> > > +static u32 best_seq(u32 a, u32 b)
+> > > +{
+> > > +    a &= NSINDEX_SEQ_MASK;
+> > > +    b &= NSINDEX_SEQ_MASK;
+> > > +
+> > > +    if (a == 0 || a == b) {
+> > > +        return b;
+> > > +    } else if (b == 0) {
+> > > +        return a;
+> > > +    } else if (inc_seq(a) == b) {
+> > > +        return b;
+> > > +    } else {
+> > > +        return a;
+> > > +    }
+> > > +}
+> > > +
+> > > +static size_t __sizeof_namespace_index(u32 nslot)
+> > > +{
+> > > +    return ALIGN(sizeof(struct namespace_index) +
+> > > DIV_ROUND_UP(nslot, 8),
+> > > +            NSINDEX_ALIGN);
+> > > +}
+> > > +
+> > > +static unsigned sizeof_namespace_label(struct NVDIMMDevice
+> > > *nvdimm)
+> > > +{
+> > > +    if (nvdimm->label_size == 0) {
+> > > +        warn_report("NVDIMM label size is 0, default it to 128.");
+> > > +        nvdimm->label_size = 128;
+> > > +    }
+> > > +    return nvdimm->label_size;
+> > > +}
+> > > +
+> > > +static int __nvdimm_num_label_slots(struct NVDIMMDevice *nvdimm,
+> > > +                                            size_t index_size)
+> > > +{
+> > > +    return (nvdimm->lsa_size - index_size * 2) /
+> > > +        sizeof_namespace_label(nvdimm);
+> > > +}
+> > > +
+> > > +static int nvdimm_num_label_slots(struct NVDIMMDevice *nvdimm)
+> > > +{
+> > > +    u32 tmp_nslot, n;
+> > > +
+> > > +    tmp_nslot = nvdimm->lsa_size / nvdimm->label_size;
+> > > +    n = __sizeof_namespace_index(tmp_nslot) / NSINDEX_ALIGN;
+> > > +
+> > > +    return __nvdimm_num_label_slots(nvdimm, NSINDEX_ALIGN * n);
+> > > +}
+> > > +
+> > > +static unsigned int sizeof_namespace_index(struct NVDIMMDevice
+> > > *nvdimm)
+> > > +{
+> > > +    u32 nslot, space, size;
+> > > +
+> > > +    /*
+> > > +     * Per UEFI 2.7, the minimum size of the Label Storage Area is
+> > > +     * large enough to hold 2 index blocks and 2 labels.  The
+> > > +     * minimum index block size is 256 bytes, and the minimum
+> > > label
+> > > +     * size is 256 bytes.
+> > > +     */
+> > > +    nslot = nvdimm_num_label_slots(nvdimm);
+> > > +    space = nvdimm->lsa_size - nslot *
+> > > sizeof_namespace_label(nvdimm);
+> > > +    size = __sizeof_namespace_index(nslot) * 2;
+> > > +    if (size <= space && nslot >= 2) {
+> > > +        return size / 2;
+> > > +    }
+> > > +
+> > > +    error_report("label area (%ld) too small to host (%d byte)
+> > > labels",
+> > > +            nvdimm->lsa_size, sizeof_namespace_label(nvdimm));
+> > > +    return 0;
+> > > +}
+> > > +
+> > > +static struct namespace_index *to_namespace_index(struct
+> > > NVDIMMDevice *nvdimm,
+> > > +       int i)
+> > > +{
+> > > +    if (i < 0) {
+> > > +        return NULL;
+> > > +    }
+> > > +
+> > > +    return nvdimm->label_data + sizeof_namespace_index(nvdimm) *
+> > > i;
+> > > +}
+> > > +
+> > > +/* Validate NVDIMM index blocks. Generally refer to driver and
+> > > ndctl code */
+> > > +static int __nvdimm_label_validate(struct NVDIMMDevice *nvdimm)
+> > > +{
+> > > +    /*
+> > > +     * On media label format consists of two index blocks followed
+> > > +     * by an array of labels.  None of these structures are ever
+> > > +     * updated in place.  A sequence number tracks the current
+> > > +     * active index and the next one to write, while labels are
+> > > +     * written to free slots.
+> > > +     *
+> > > +     *     +------------+
+> > > +     *     |            |
+> > > +     *     |  nsindex0  |
+> > > +     *     |            |
+> > > +     *     +------------+
+> > > +     *     |            |
+> > > +     *     |  nsindex1  |
+> > > +     *     |            |
+> > > +     *     +------------+
+> > > +     *     |   label0   |
+> > > +     *     +------------+
+> > > +     *     |   label1   |
+> > > +     *     +------------+
+> > > +     *     |            |
+> > > +     *      ....nslot...
+> > > +     *     |            |
+> > > +     *     +------------+
+> > > +     *     |   labelN   |
+> > > +     *     +------------+
+> > > +     */
+> > > +    struct namespace_index *nsindex[] = {
+> > > +        to_namespace_index(nvdimm, 0),
+> > > +        to_namespace_index(nvdimm, 1),
+> > > +    };
+> > > +    const int num_index = ARRAY_SIZE(nsindex);
+> > > +    bool valid[2] = { 0 };
+> > > +    int i, num_valid = 0;
+> > > +    u32 seq;
+> > > +
+> > > +    for (i = 0; i < num_index; i++) {
+> > > +        u32 nslot;
+> > > +        u8 sig[NSINDEX_SIG_LEN];
+> > > +        u64 sum_save, sum, size;
+> > > +        unsigned int version, labelsize;
+> > > +
+> > > +        memcpy(sig, nsindex[i]->sig, NSINDEX_SIG_LEN);
+> > > +        if (memcmp(sig, NSINDEX_SIGNATURE, NSINDEX_SIG_LEN) != 0)
+> > > {
+> > > +            nvdimm_debug("nsindex%d signature invalid\n", i);
+> > > +            continue;
+> > > +        }
+> > > +
+> > > +        /* label sizes larger than 128 arrived with v1.2 */
+> > > +        version = le16_to_cpu(nsindex[i]->major) * 100
+> > > +            + le16_to_cpu(nsindex[i]->minor);
+> > > +        if (version >= 102) {
+> > > +            labelsize = 1 << (7 + nsindex[i]->labelsize);
+> > > +        } else {
+> > > +            labelsize = 128;
+> > > +        }
+> > > +
+> > > +        if (labelsize != sizeof_namespace_label(nvdimm)) {
+> > > +            nvdimm_debug("nsindex%d labelsize %d invalid\n",
+> > > +                    i, nsindex[i]->labelsize);
+> > > +            continue;
+> > > +        }
+> > > +
+> > > +        sum_save = le64_to_cpu(nsindex[i]->checksum);
+> > > +        nsindex[i]->checksum = cpu_to_le64(0);
+> > > +        sum = fletcher64(nsindex[i],
+> > > sizeof_namespace_index(nvdimm), 1);
+> > > +        nsindex[i]->checksum = cpu_to_le64(sum_save);
+> > > +        if (sum != sum_save) {
+> > > +            nvdimm_debug("nsindex%d checksum invalid\n", i);
+> > > +            continue;
+> > > +        }
+> > > +
+> > > +        seq = le32_to_cpu(nsindex[i]->seq);
+> > > +        if ((seq & NSINDEX_SEQ_MASK) == 0) {
+> > > +            nvdimm_debug("nsindex%d sequence: 0x%x invalid\n", i,
+> > > seq);
+> > > +            continue;
+> > > +        }
+> > > +
+> > > +        /* sanity check the index against expected values */
+> > > +        if (le64_to_cpu(nsindex[i]->myoff) !=
+> > > +            i * sizeof_namespace_index(nvdimm)) {
+> > > +            nvdimm_debug("nsindex%d myoff: 0x%llx invalid\n",
+> > > +                         i, (unsigned long long)
+> > > +                         le64_to_cpu(nsindex[i]->myoff));
+> > > +            continue;
+> > > +        }
+> > > +        if (le64_to_cpu(nsindex[i]->otheroff)
+> > > +            != (!i) * sizeof_namespace_index(nvdimm)) {
+> > > +            nvdimm_debug("nsindex%d otheroff: 0x%llx invalid\n",
+> > > +                         i, (unsigned long long)
+> > > +                         le64_to_cpu(nsindex[i]->otheroff));
+> > > +            continue;
+> > > +        }
+> > > +
+> > > +        size = le64_to_cpu(nsindex[i]->mysize);
+> > > +        if (size > sizeof_namespace_index(nvdimm) ||
+> > > +            size < sizeof(struct namespace_index)) {
+> > > +            nvdimm_debug("nsindex%d mysize: 0x%zx invalid\n", i,
+> > > size);
+> > > +            continue;
+> > > +        }
+> > > +
+> > > +        nslot = le32_to_cpu(nsindex[i]->nslot);
+> > > +        if (nslot * sizeof_namespace_label(nvdimm) +
+> > > +            2 * sizeof_namespace_index(nvdimm) > nvdimm->lsa_size) 
+> > > {
+> > > +            nvdimm_debug("nsindex%d nslot: %u invalid,
+> > > config_size: 0x%zx\n",
+> > > +                         i, nslot, nvdimm->lsa_size);
+> > > +            continue;
+> > > +        }
+> > > +        valid[i] = true;
+> > > +        num_valid++;
+> > > +    }
+> > > +
+> > > +    switch (num_valid) {
+> > > +    case 0:
+> > > +        break;
+> > > +    case 1:
+> > > +        for (i = 0; i < num_index; i++)
+> > > +            if (valid[i]) {
+> > > +                return i;
+> > > +            }
+> > > +        /* can't have num_valid > 0 but valid[] = { false, false }
+> > > */
+> > > +        error_report("unexpected index-block parse error");
+> > > +        break;
+> > > +    default:
+> > > +        /* pick the best index... */
+> > > +        seq = best_seq(le32_to_cpu(nsindex[0]->seq),
+> > > +                       le32_to_cpu(nsindex[1]->seq));
+> > > +        if (seq == (le32_to_cpu(nsindex[1]->seq) &
+> > > NSINDEX_SEQ_MASK)) {
+> > > +            return 1;
+> > > +        } else {
+> > > +            return 0;
+> > > +        }
+> > > +        break;
+> > > +    }
+> > > +
+> > > +    return -1;
+> > > +}
+> > > +
+> > > +static int nvdimm_label_validate(struct NVDIMMDevice *nvdimm)
+> > > +{
+> > > +    int label_size[] = { 128, 256 };
+> > > +    int i, rc;
+> > > +
+> > > +    for (i = 0; i < ARRAY_SIZE(label_size); i++) {
+> > > +        nvdimm->label_size = label_size[i];
+> > > +        rc = __nvdimm_label_validate(nvdimm);
+> > > +        if (rc >= 0) {
+> > > +            return rc;
+> > > +        }
+> > > +    }
+> > > +
+> > > +    return -1;
+> > > +}
+> > > +
+> > > +static int label_next_nsindex(int index)
+> > > +{
+> > > +    if (index < 0) {
+> > > +        return -1;
+> > > +    }
+> > > +
+> > > +    return (index + 1) % 2;
+> > > +}
+> > > +
+> > > +static void *label_base(struct NVDIMMDevice *nvdimm)
+> > > +{
+> > > +    void *base = to_namespace_index(nvdimm, 0);
+> > > +
+> > > +    return base + 2 * sizeof_namespace_index(nvdimm);
+> > > +}
+> > > +
+> > > +static int write_label_index(struct NVDIMMDevice *nvdimm,
+> > > +        enum ndctl_namespace_version ver, unsigned index, unsigned
+> > > seq)
+> > > +{
+> > > +    struct namespace_index *nsindex;
+> > > +    unsigned long offset;
+> > > +    u64 checksum;
+> > > +    u32 nslot;
+> > > +
+> > > +    /*
+> > > +     * We may have initialized ndd to whatever labelsize is
+> > > +     * currently on the dimm during label_validate(), so we reset
+> > > it
+> > > +     * to the desired version here.
+> > > +     */
+> > > +    switch (ver) {
+> > > +    case NDCTL_NS_VERSION_1_1:
+> > > +        nvdimm->label_size = 128;
+> > > +        break;
+> > > +    case NDCTL_NS_VERSION_1_2:
+> > > +        nvdimm->label_size = 256;
+> > > +        break;
+> > > +    default:
+> > > +        return -1;
+> > > +    }
+> > > +
+> > > +    nsindex = to_namespace_index(nvdimm, index);
+> > > +    nslot = nvdimm_num_label_slots(nvdimm);
+> > > +
+> > > +    memcpy(nsindex->sig, NSINDEX_SIGNATURE, NSINDEX_SIG_LEN);
+> > > +    memset(nsindex->flags, 0, 3);
+> > > +    nsindex->labelsize = sizeof_namespace_label(nvdimm) >> 8;
+> > > +    nsindex->seq = cpu_to_le32(seq);
+> > > +    offset = (unsigned long) nsindex
+> > > +        - (unsigned long) to_namespace_index(nvdimm, 0);
+> > > +    nsindex->myoff = cpu_to_le64(offset);
+> > > +    nsindex->mysize = cpu_to_le64(sizeof_namespace_index(nvdimm));
+> > > +    offset = (unsigned long) to_namespace_index(nvdimm,
+> > > +            label_next_nsindex(index))
+> > > +        - (unsigned long) to_namespace_index(nvdimm, 0);
+> > > +    nsindex->otheroff = cpu_to_le64(offset);
+> > > +    offset = (unsigned long) label_base(nvdimm)
+> > > +        - (unsigned long) to_namespace_index(nvdimm, 0);
+> > > +    nsindex->labeloff = cpu_to_le64(offset);
+> > > +    nsindex->nslot = cpu_to_le32(nslot);
+> > > +    nsindex->major = cpu_to_le16(1);
+> > > +    if (sizeof_namespace_label(nvdimm) < 256) {
+> > > +        nsindex->minor = cpu_to_le16(1);
+> > > +    } else {
+> > > +        nsindex->minor = cpu_to_le16(2);
+> > > +    }
+> > > +    nsindex->checksum = cpu_to_le64(0);
+> > > +    /* init label bitmap */
+> > > +    memset(nsindex->free, 0xff, ALIGN(nslot, BITS_PER_LONG) / 8);
+> > > +    checksum = fletcher64(nsindex, sizeof_namespace_index(nvdimm),
+> > > 1);
+> > > +    nsindex->checksum = cpu_to_le64(checksum);
+> > > +
+> > > +    return 0;
+> > > +}
+> > > +
+> > > +static int nvdimm_init_label(struct NVDIMMDevice *nvdimm)
+> > > +{
+> > > +    int i;
+> > > +
+> > > +    for (i = 0; i < 2; i++) {
+> > > +        int rc;
+> > > +
+> > > +        /* To have most compatibility, we init index block with
+> > > v1.1 */
+> > > +        rc = write_label_index(nvdimm, NDCTL_NS_VERSION_1_1, i, 3
+> > > - i);
+> > > +
+> > > +        if (rc < 0) {
+> > > +            error_report("init No.%d index block failed", i);
+> > > +            return rc;
+> > > +        } else {
+> > > +            nvdimm_debug("%s: dump No.%d index block\n", __func__,
+> > > i);
+> > > +            dump_index_block(to_namespace_index(nvdimm, i));
+> > > +        }
+> > > +    }
+> > > +
+> > > +    return 0;
+> > > +}
+> > > +
+> > >  static void nvdimm_realize(PCDIMMDevice *dimm, Error **errp)
+> > >  {
+> > >      NVDIMMDevice *nvdimm = NVDIMM(dimm);
+> > > @@ -187,6 +532,20 @@ static void nvdimm_realize(PCDIMMDevice *dimm,
+> > > Error **errp)
+> > >          nvdimm_prepare_memory_region(nvdimm, errp);
+> > >      }
+> > >  
+> > > +    /* When LSA is designaged, validate it. */
+> > > +    if (nvdimm->lsa_size != 0) {
+> > > +        if (buffer_is_zero(nvdimm->label_data, nvdimm->lsa_size)
+> > > ||
+> > > +            nvdimm_label_validate(nvdimm) < 0) {
+> > > +            int rc;
+> > > +
+> > > +            info_report("NVDIMM LSA is invalid, needs to be
+> > > initialized");
+> > > +            rc = nvdimm_init_label(nvdimm);
+> > > +            if (rc < 0) {
+> > > +                error_report("NVDIMM lsa init failed, rc = %d",
+> > > rc);
+> > > +            }
+> > > +        }
+> > > +    }
+> > > +
+> > >      if (ndc->realize) {
+> > >          ndc->realize(nvdimm, errp);
+> > >      }
+> > > diff --git a/include/hw/mem/nvdimm.h b/include/hw/mem/nvdimm.h
+> > > index 8e6a40dc7b..bc1af9248e 100644
+> > > --- a/include/hw/mem/nvdimm.h
+> > > +++ b/include/hw/mem/nvdimm.h
+> > > @@ -48,14 +48,76 @@
+> > >  #define TYPE_NVDIMM      "nvdimm"
+> > >  OBJECT_DECLARE_TYPE(NVDIMMDevice, NVDIMMClass, NVDIMM)
+> > >  
+> > > +typedef uint32_t u32;
+> > > +typedef uint64_t u64;
+> > > +typedef uint8_t u8;
+> > > +typedef uint32_t u32;
+> > > +
+> > > +#define ALIGN(x, y)  (((x) + (y) - 1) & ~((y) - 1))
+> > > +
+> > >  #define NVDIMM_LSA_SIZE_PROP   "lsa-size"
+> > >  #define NVDIMM_UUID_PROP       "uuid"
+> > >  #define NVDIMM_UNARMED_PROP    "unarmed"
+> > >  
+> > > +enum ndctl_namespace_version {
+> > > +    NDCTL_NS_VERSION_1_1,
+> > > +    NDCTL_NS_VERSION_1_2,
+> > > +};
+> > > +
+> > > +enum {
+> > > +    NSINDEX_SIG_LEN = 16,
+> > > +    NSINDEX_ALIGN = 256,
+> > > +    NSINDEX_SEQ_MASK = 0x3,
+> > > +    NSLABEL_UUID_LEN = 16,
+> > > +    NSLABEL_NAME_LEN = 64,
+> > > +};
+> > > +
+> > > +/**
+> > > + * struct namespace_index - label set superblock
+> > > + * @sig: NAMESPACE_INDEX\0
+> > > + * @flags: placeholder
+> > > + * @labelsize: log2 size (v1 labels 128 bytes v2 labels 256 bytes)
+> > > + * @seq: sequence number for this index
+> > > + * @myoff: offset of this index in label area
+> > > + * @mysize: size of this index struct
+> > > + * @otheroff: offset of other index
+> > > + * @labeloff: offset of first label slot
+> > > + * @nslot: total number of label slots
+> > > + * @major: label area major version
+> > > + * @minor: label area minor version
+> > > + * @checksum: fletcher64 of all fields
+> > > + * @free: bitmap, nlabel bits
+> > > + *
+> > > + * The size of free[] is rounded up so the total struct size is a
+> > > + * multiple of NSINDEX_ALIGN bytes.  Any bits this allocates
+> > > beyond
+> > > + * nlabel bits must be zero.
+> > > + */
+> > > +struct namespace_index {
+> > > +    uint8_t sig[NSINDEX_SIG_LEN];
+> > > +    uint8_t flags[3];
+> > > +    uint8_t labelsize;
+> > > +    uint32_t seq;
+> > > +    uint64_t myoff;
+> > > +    uint64_t mysize;
+> > > +    uint64_t otheroff;
+> > > +    uint64_t labeloff;
+> > > +    uint32_t nslot;
+> > > +    uint16_t major;
+> > > +    uint16_t minor;
+> > > +    uint64_t checksum;
+> > > +    uint8_t free[0];
+> > > +};
+> > > +
+> > >  struct NVDIMMDevice {
+> > >      /* private */
+> > >      PCDIMMDevice parent_obj;
+> > >  
+> > > +    /*
+> > > +     * Label's size in LSA. Determined by Label version. 128 for
+> > > v1.1, 256
+> > > +     * for v1.2
+> > > +     */
+> > > +    unsigned int label_size;
+> > > +
+> > >      /* public */
+> > >  
+> > >      /*
+> > > @@ -150,6 +212,48 @@ struct NVDIMMState {
+> > >  };
+> > >  typedef struct NVDIMMState NVDIMMState;
+> > >  
+> > > +#if (NVDIMM_DEBUG == 1)
+> > > +static inline void dump_index_block(struct namespace_index
+> > > *nsindex)
+> > > +{
+> > > +    printf("sig %s\n", nsindex->sig);
+> > > +    printf("flags 0x%x 0x%x 0x%x\n", nsindex->flags[0],
+> > > +           nsindex->flags[1], nsindex->flags[2]);
+> > > +    printf("labelsize %d\n", nsindex->labelsize);
+> > > +    printf("seq 0x%0x\n", nsindex->seq);
+> > > +    printf("myoff 0x%"PRIx64"\n", nsindex->myoff);
+> > > +    printf("mysize 0x%"PRIx64"\n", nsindex->mysize);
+> > > +    printf("otheroff 0x%"PRIx64"\n", nsindex->otheroff);
+> > > +    printf("labeloff 0x%"PRIx64"\n", nsindex->labeloff);
+> > > +    printf("nslot %d\n", nsindex->nslot);
+> > > +    printf("major %d\n", nsindex->major);
+> > > +    printf("minor %d\n", nsindex->minor);
+> > > +    printf("checksum 0x%"PRIx64"\n", nsindex->checksum);
+> > > +    printf("-------------------------------\n");
+> > > +}
+> > > +#else
+> > > +static inline void dump_index_block(struct namespace_index
+> > > *nsindex)
+> > > +{
+> > > +}
+> > > +#endif
+> > > +
+> > > +/*
+> > > + * Note, fletcher64() is copied from drivers/nvdimm/label.c in the
+> > > Linux kernel
+> > > + */
+> > > +static inline u64 fletcher64(void *addr, size_t len, bool le)
+> > > +{
+> > > +    u32 *buf = addr;
+> > > +    u32 lo32 = 0;
+> > > +    u64 hi32 = 0;
+> > > +    size_t i;
+> > > +
+> > > +    for (i = 0; i < len / sizeof(u32); i++) {
+> > > +        lo32 += le ? le32_to_cpu((u32) buf[i]) : buf[i];
+> > > +        hi32 += lo32;
+> > > +    }
+> > > +
+> > > +    return hi32 << 32 | lo32;
+> > > +}
+> > > +
+> > >  void nvdimm_init_acpi_state(NVDIMMState *state, MemoryRegion *io,
+> > >                              struct AcpiGenericAddress dsm_io,
+> > >                              FWCfgState *fw_cfg, Object *owner);  
+> > 
+> >   
+> 
 
 
