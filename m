@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46ECF4EDABA
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 15:42:00 +0200 (CEST)
-Received: from localhost ([::1]:41326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1174EDAD0
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 15:46:22 +0200 (CEST)
+Received: from localhost ([::1]:44142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZv3n-0002Ty-Am
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 09:41:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49830)
+	id 1nZv81-0004mi-HY
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 09:46:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nZv24-0001Nw-E6
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:40:12 -0400
-Received: from [2607:f8b0:4864:20::f31] (port=45773
- helo=mail-qv1-xf31.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nZv1z-00032S-S2
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:40:09 -0400
-Received: by mail-qv1-xf31.google.com with SMTP id b17so10077625qvf.12
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 06:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xcuMQNC6IrQ56TTJatplypq1x8R7rrxrvKnRLC/ubuI=;
- b=Lh7W5Q2zirbkreBBnSVRuJJlmPf+Aiekt4neGQVQhsU6glFk/yFxsHzzOCvnIn7gL9
- j3t/iYC1UumK8ijnTRqERxCkWPlkBvynosOR7FMRUt0RwV5+QGyYpIPEC1WrFuey58ro
- Kof6SrGhSSqIvxg6rQMjTA4hmwIKIva5HWip6q+InQK7W9JDmhGDEJFPmvYblGlpM5Ta
- 1RuG8K9M2b4pvULpJjxRJZ0xksB9gfNOPo/N7+5oF6CTm+jYHtniEgkqmNLqoyrxsPAT
- uKqlzVaWHKTEPV/Iw4P2/zWtxJkRzOnxcef9lJgH4PTG3cRqVfEkvJtwfW8QOVnvn+WI
- Iiqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=xcuMQNC6IrQ56TTJatplypq1x8R7rrxrvKnRLC/ubuI=;
- b=sZyzoGZEdyQJW5Xt0m76PkcuxPGbdgrHqW7Qh3WSpVicLBwc0IBDvV980x60LVfRug
- 07GK8433A+9M30KCF0gN3yWZfWL2eDXqE8xC8JCLMHz61BgZK/XP9VZMXY+5rAZncZt3
- L1wYiXr9TeMFruRmVNcoUe8En299KN3f0PhDGH2OTXegY5Q8pUVFYl/23jHBcVHmmmyu
- FvCL6fN+OfLdfNfqYrxrkcIfEHm0JX0BIv1n69o+wvvnYAUnrz+PCHZ0jIzFV9rAm+Kf
- dWqNwEhs1HoyQSdj+KbdigGqfGeMx9XcIh23b3cWYykSHYrSOo4w7jMLEBLjOI5yKc2g
- THaw==
-X-Gm-Message-State: AOAM531aZ2W5R3AJgue5bTtATiXgkxuu7SboFto0MTHgqT6wElpcckq8
- M9fX4TbZxlny2v3nSVg3mUy516qN/q5oWocI
-X-Google-Smtp-Source: ABdhPJxG3HiNoxrgUorG/35bZ7x0/6u6bcRKDGxECKOaN7WT0GMszopuyCul3tfT6DMxa+g/sNtsEQ==
-X-Received: by 2002:ad4:5de3:0:b0:441:659a:74c2 with SMTP id
- jn3-20020ad45de3000000b00441659a74c2mr3701005qvb.97.1648734007027; 
- Thu, 31 Mar 2022 06:40:07 -0700 (PDT)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- z15-20020a05622a060f00b002e2070bf899sm18830513qta.90.2022.03.31.06.40.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 06:40:06 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: paolo.luisa@gmail.com,
-	qemu-devel@nongnu.org
-Subject: [PULL 03/15] qapi: fix example of BLOCK_IMAGE_CORRUPTED event 6
-Date: Thu, 31 Mar 2022 09:40:00 -0400
-Message-Id: <20220331134000.600242-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nZv6Q-0003nv-LN
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:44:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53805)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nZv6O-0003rI-60
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:44:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648734279;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=frbwVWgOSGt6qsbSaM8YDbyq4KnNe3l+i42Q1ZdXyWY=;
+ b=bCK/0DS2hgvBLroeFrHCPEwCGZHLnvmM64ezWBEqDouRLnFqPQxbr+VPfZjuzwEQtv273Q
+ 7xJnXp9hQyj2t6n3rhNOfmcynGCuW9Hjs4QkONw9D3G5p3UFRvgWtIgYc1ceUBtlvZsN+z
+ fRf/SxCFT/ysLLc0CmvBSjTPEmFNlP8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-172-rYI3_xIvMn2w-bK5lW0PSA-1; Thu, 31 Mar 2022 09:44:35 -0400
+X-MC-Unique: rYI3_xIvMn2w-bK5lW0PSA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80354803CB8;
+ Thu, 31 Mar 2022 13:44:35 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.194.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B53162166B26;
+ Thu, 31 Mar 2022 13:44:24 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 456EB18000AA; Thu, 31 Mar 2022 15:44:23 +0200 (CEST)
+Date: Thu, 31 Mar 2022 15:44:23 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH 3/3] i386: firmware parsing and sev setup for -bios
+ loaded firmware
+Message-ID: <20220331134423.gt6khbnwqevxlu3w@sirius.home.kraxel.org>
+References: <20220331083549.749566-1-kraxel@redhat.com>
+ <20220331083549.749566-4-kraxel@redhat.com>
+ <YkWoLLt4pE0X/BnP@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <YkWoLLt4pE0X/BnP@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f31
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-qv1-xf31.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,45 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example output lacks mandatory member @fatal.  Provide it.
+On Thu, Mar 31, 2022 at 02:10:04PM +0100, Daniel P. Berrangé wrote:
+> On Thu, Mar 31, 2022 at 10:35:49AM +0200, Gerd Hoffmann wrote:
+> > Don't register firmware as rom, not needed (see comment).
+> > Add x86_firmware_configure() call for proper sev initialization.
+> > 
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > Tested-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> > ---
+> >  hw/i386/x86.c | 25 +++++++++++++++++++------
+> >  1 file changed, 19 insertions(+), 6 deletions(-)
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> 
+> I validated that I could validate the measurement of a SEV
+> guest with -bios, and see the firmware start at least.
+> 
+> Tested-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Example output shows a value of @msg no version of the code
-produces.  No big deal, but replace it anyway by one that
-today's code does produce.
+Nice.
 
-Signed-off-by: Victor Toso <victortoso@redhat.com>
-Message-Id: <20220328140604.41484-3-victortoso@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/block-core.json | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+With that in place we should be pretty close to get sev going with
+microvm.  Probably needs revert of edk2 commit 06fa1f1931e9
+("OvmfPkg/Microvm: no sev"), with some luck direct kernel boot works
+without that though.
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index e89f2dfb5b..63c30a5378 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -5006,10 +5006,9 @@
- # Example:
- #
- # <- { "event": "BLOCK_IMAGE_CORRUPTED",
--#      "data": { "device": "ide0-hd0", "node-name": "node0",
--#                "msg": "Prevented active L1 table overwrite", "offset": 196608,
--#                "size": 65536 },
--#      "timestamp": { "seconds": 1378126126, "microseconds": 966463 } }
-+#      "data": { "device": "", "node-name": "drive", "fatal": false,
-+#                "msg": "L2 table offset 0x2a2a2a00 unaligned (L1 index: 0)" },
-+#      "timestamp": { "seconds": 1648243240, "microseconds": 906060 } }
- #
- # Since: 1.7
- ##
--- 
-2.35.1
-
-
+take care,
+  Gerd
 
 
