@@ -2,98 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D36D4EDEC8
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 18:27:17 +0200 (CEST)
-Received: from localhost ([::1]:39320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D0F4EDEEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 18:38:20 +0200 (CEST)
+Received: from localhost ([::1]:46258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZxdk-00026a-8V
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 12:27:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45870)
+	id 1nZxoR-0007lS-Cr
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 12:38:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nZxcp-0001Ra-Tc
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 12:26:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51703)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZxnN-0006yn-F0
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 12:37:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nZxcm-0003l4-Ix
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 12:26:18 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nZxnK-0005W2-Gg
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 12:37:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648743975;
+ s=mimecast20190719; t=1648744629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pDMFpLr+kany/n30UR1OU86h5jdA3rsQgX4WuhbwekQ=;
- b=Sq3FSOLsyetdbm77CQVD/uU6V755om5pfi+H1fKO1jpHAxBSf3ukwtkm5ACbfrCII4PWB/
- 6JQR4fxAhovXI77nf8NgzhpCgJ839Wtox0q8Lb852Ftg/gYgQH3CwEIjXTRSG69FPu4BTZ
- 1mNCdm+P/RbCYcApb7AuYDDgWJiwlUo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FmkfwnQHnev0ErYxTAMsDln5YULXjrAvglQfzvzKV6M=;
+ b=cokgrIAjjCuIo47t0XBkd0iKxzzwJ05XhN7295KpFObw04Uqxo8rkE0rB6+THTG1W/G/EJ
+ rDHD0cv72NephiWgJr6rz3sPtoB56vY8CpWicx/UBtOL2J7yak0AKeFMOreoF7Xs9mWXId
+ bvBtc5hvlRh9sKdivrxlfkIk+x3sfbQ=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-J4xPf9yEObmcIrWfwX5PFg-1; Thu, 31 Mar 2022 12:26:14 -0400
-X-MC-Unique: J4xPf9yEObmcIrWfwX5PFg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f19-20020a7bcd13000000b0038c01defd5aso1360149wmj.7
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 09:26:13 -0700 (PDT)
+ us-mta-612-1EKb9lLbO36Xs04M4lT0sw-1; Thu, 31 Mar 2022 12:37:08 -0400
+X-MC-Unique: 1EKb9lLbO36Xs04M4lT0sw-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ s13-20020a056130020d00b0034dfb85694dso70164uac.2
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 09:37:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=pDMFpLr+kany/n30UR1OU86h5jdA3rsQgX4WuhbwekQ=;
- b=rlptTk1hsCKoz6qdFl9NQiy6K+yb4Fu2AThUGIACFXRfzucXJ2sDLAOiRN1qbyOdEg
- dGm00yARwOBkvSnEK6YTYJcR2fbo7eT3aHY/DvioGwlrEEY+gndOcaUTxnKCAtI7bpke
- 8fbboWvs1spuk2iTEJgPALeXqptLNsgiFG/eyo5jmHZFxwnkwFkeXbmY+X4asq2PvZRF
- sA/x9laO8RJhTWaMq7ctgxR1ToPLaD2g2gnkXpsgkV/Z0L+9MwUilxdoT3fQVLvqriAu
- uRple8rcafEglMnw+F9KVW+tiu6c+9G6DU7OVrNVBdLfFOEcI291dGmjrhqb4WYlMwH0
- 8/gQ==
-X-Gm-Message-State: AOAM530xe08DhfONaaaW6LcQxAWoPyW7uMi3oFe79U04em9/Ua/IM+25
- dwb+7Mtvz9/mvYY88QzMsHKCNX3WqrvISNZp94n32MD6u5c0j9OYCYgSCUY8leRPQjaaE0hftyh
- WFE1qpyDbNF/rKE8=
-X-Received: by 2002:a05:6000:136a:b0:204:539:10c5 with SMTP id
- q10-20020a056000136a00b00204053910c5mr4753188wrz.393.1648743972708; 
- Thu, 31 Mar 2022 09:26:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyyBSKzLbO9ATE6E5jgxeRN891siOAXtaUvjyOs/Z6aBVdMfbzHGfWwBDOm6LT9sYPVocECkg==
-X-Received: by 2002:a05:6000:136a:b0:204:539:10c5 with SMTP id
- q10-20020a056000136a00b00204053910c5mr4753155wrz.393.1648743972297; 
- Thu, 31 Mar 2022 09:26:12 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c707:ac00:381c:2e8b:3b48:488e?
- (p200300cbc707ac00381c2e8b3b48488e.dip0.t-ipconnect.de.
- [2003:cb:c707:ac00:381c:2e8b:3b48:488e])
- by smtp.gmail.com with ESMTPSA id
- n2-20020adfb742000000b00205eda3b3c1sm1459691wre.34.2022.03.31.09.26.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 09:26:11 -0700 (PDT)
-Message-ID: <5e7f2b0e-6aa9-3539-7a90-4e62782d6b84@redhat.com>
-Date: Thu, 31 Mar 2022 18:26:11 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FmkfwnQHnev0ErYxTAMsDln5YULXjrAvglQfzvzKV6M=;
+ b=7q9KOpVogn2iIpGsup7UPkhmMloFBy70U2gHeZ4noobchpDfaMpgKgthuU//DW7u/y
+ vSwp0PrvHdvluTL87Jhymhb7BqtGSbalHFRSDzhW0Wajc85UfNZClEZsouVz3oOtpbeI
+ yrsENWphzE002N+vhnbNX536PPqUj6+vjinkmsDJm3i5u1m+qmo3NC/vwLgKYcO/5bZh
+ AJa36glRte3PHhgNyFxIVl0/OFV8nRLRg+jssDJ2Cxc8BhtguKW1Hf+Nx0vs5Vad0A+s
+ vb2/2Hwf0qAPJdD5ZmAsuhZUgGdOUt7L4rY35IJU1R7SCzGWv3ZG442qfZ5SxXkVcYsa
+ ravg==
+X-Gm-Message-State: AOAM531mwdPhN064kv2WUU3QIBaAwxS9i25s6RxypghEpYlVQlmM1qUy
+ Fe1KjxrLnLVIURlQyBFK4j7KbCfDgxPtZotRKw4HZOncAS9AQfxE9ROA608MMeABDXSiPoLYZz3
+ BXNOG80SK70Mr+NAZtwOJd3viSaUYicU=
+X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
+ a2-20020a671a02000000b00320a51f8067mr23111563vsa.38.1648744627386; 
+ Thu, 31 Mar 2022 09:37:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw0BMsS7GIvN7orV0MpPjDS4LUBvdyIf1FQYP7RCTSvOSnM1YaJo0FS84xaCSm5vrGcwjxGySgSwA7s2XVUUiA=
+X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
+ a2-20020a671a02000000b00320a51f8067mr23111552vsa.38.1648744627135; Thu, 31
+ Mar 2022 09:37:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 2/2] softmmu/physmem: fix dirty memory bitmap memleak
-To: Peter Xu <peterx@redhat.com>
-References: <20220325154013.16809-1-arbn@yandex-team.com>
- <20220325154013.16809-2-arbn@yandex-team.com>
- <3888d585-c090-24b4-3be9-7be3f03ddadb@redhat.com>
- <YkWeQ26lKa3jFLU2@xz-m1.local>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <YkWeQ26lKa3jFLU2@xz-m1.local>
+References: <20220324183018.2476551-1-jsnow@redhat.com>
+ <20220324183018.2476551-6-jsnow@redhat.com>
+ <20220325013315.draawyxysnfmgejr@redhat.com>
+In-Reply-To: <20220325013315.draawyxysnfmgejr@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 31 Mar 2022 12:36:56 -0400
+Message-ID: <CAFn=p-Ye5_4dYYrA95xZpFozOe9hHLxpNn_mMoFZ_MEJEEssng@mail.gmail.com>
+Subject: Re: [PATCH v2 05/17] iotests/040: Fix TestCommitWithFilters test
+To: Eric Blake <eblake@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,66 +94,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-stable@nongnu.org,
- Andrey Ryabinin <arbn@yandex-team.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31.03.22 14:27, Peter Xu wrote:
-> On Thu, Mar 31, 2022 at 10:37:39AM +0200, David Hildenbrand wrote:
->> On 25.03.22 16:40, Andrey Ryabinin wrote:
->>> The sequence of ram_block_add()/qemu_ram_free()/ram_block_add()
->>> function calls leads to leaking some memory.
->>>
->>> ram_block_add() calls dirty_memory_extend() to allocate bitmap blocks
->>> for new memory. These blocks only grow but never shrink. So the
->>> qemu_ram_free() restores RAM size back to it's original stat but
->>> doesn't touch dirty memory bitmaps.
->>>
->>> After qemu_ram_free() there is no way of knowing that we have
->>> allocated dirty memory bitmaps beyond current RAM size.
->>> So the next ram_block_add() will call dirty_memory_extend() again to
->>> to allocate new bitmaps and rewrite pointers to bitmaps left after
->>> the first ram_block_add()/dirty_memory_extend() calls.
->>>
->>> Rework dirty_memory_extend() to be able to shrink dirty maps,
->>> also rename it to dirty_memory_resize(). And fix the leak by
->>> shrinking dirty memory maps on qemu_ram_free() if needed.
->>>
->>> Fixes: 5b82b703b69a ("memory: RCU ram_list.dirty_memory[] for safe RAM hotplug")
->>> Cc: qemu-stable@nongnu.org
->>> Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
->>
->> I looked at this a while ago and I think the problem is more involved,
->> because we might actually generate holes for which we can free the
->> bitmap. I think this patch impoves the situation, though.
->>
->>
->> IIRC if you hotplug two dimms and then hotunplug only the latter, the
-> 
-> I assume you meant "former"? :)
+On Thu, Mar 24, 2022 at 9:33 PM Eric Blake <eblake@redhat.com> wrote:
+>
+> On Thu, Mar 24, 2022 at 02:30:06PM -0400, John Snow wrote:
+> > Without this change, asserting that qemu_io always returns 0 causes thi=
+s
+> > test to fail in a way we happened not to be catching previously:
+> >
+> >  qemu.utils.VerboseProcessError: Command
+> >   '('/home/jsnow/src/qemu/bin/git/tests/qemu-iotests/../../qemu-io',
+> >   '--cache', 'writeback', '--aio', 'threads', '-f', 'qcow2', '-c',
+> >   'read -P 4 3M 1M',
+> >   '/home/jsnow/src/qemu/bin/git/tests/qemu-iotests/scratch/3.img')'
+> >   returned non-zero exit status 1.
+> >   =E2=94=8F=E2=94=81 output =E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81
+> >   =E2=94=83 qemu-io: can't open device
+> >   =E2=94=83 /home/jsnow/src/qemu/bin/git/tests/qemu-iotests/scratch/3.i=
+mg:
+> >   =E2=94=83 Could not open backing file: Could not open backing file: T=
+hrottle
+> >   =E2=94=83 group 'tg' does not exist
+> >   =E2=94=97=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81
+> >
+> > Explicitly provide the backing file so that opening the file outside of
+> > QEMU (Where we will not have throttle groups) will succeed.
+> >
+> > [Patch entirely written by Hanna but I don't have her S-o-B]
+>
+> Yeah, you'll want that.
+>
+> > [My commit message is probably also garbage, sorry]
+>
+> No, it was actually decent.
+>
+> > [Feel free to suggest a better one]
+> > [I hope your day is going well]
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+>
+> So giving your S-o-b twice makes up for it, right ;)
 
-I remember it would have to be the one "plugged first" :)
+This happens when I add a '---' myself into the commit message, and
+git-publish sees that the end of the commit message doesn't have a
+S-o-B and adds one into the ignored region.
+Haven't bothered to fix it yet.
 
-> 
->> bitmap for the first dimm will remain as long as the second dimm isn't
->> hotunplugged.
-> 
-> IMHO it's fine to keep the dirty block for the unplugged hole.  It'll be
-> better if we could free it, but we can fix the memory leak first which
-> seems to be more severe.  The dirty memory isn't extremely large (32K ratio
-> to mem size) if just to be kept idle, but frequent plug/unplug will leak
-> infinite host mem.
-
-Oh, I see, thanks for clarifying.
-
-
--- 
-Thanks,
-
-David / dhildenb
+>
+> Well, you did say v3 would fix this.  But while you're having fun
+> fixing it, you can add:
+>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+>
+> --
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3266
+> Virtualization:  qemu.org | libvirt.org
+>
 
 
