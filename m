@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606A44ED991
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:23:47 +0200 (CEST)
-Received: from localhost ([::1]:40808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958FF4ED9A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:31:01 +0200 (CEST)
+Received: from localhost ([::1]:45402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZtq6-0006Xm-6T
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:23:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54722)
+	id 1nZtx6-0001YD-Mh
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:31:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nZtn2-0004Te-Mn
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:20:38 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2465)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nZttK-0000Dj-Rs
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:27:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nZtmz-0007Rf-5G
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:20:34 -0400
-Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KTj5T690xz685N3;
- Thu, 31 Mar 2022 20:18:53 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 31 Mar 2022 14:20:23 +0200
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 31 Mar
- 2022 13:20:22 +0100
-Date: Thu, 31 Mar 2022 13:20:21 +0100
-To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Be?=
- =?ISO-8859-1?Q?nn=E9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
- <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>
-CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
- <shameerali.kolothum.thodi@huawei.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
- =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, 
- Chris Browy <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, 
- Dan Williams <dan.j.williams@intel.com>, Mark Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v8 02/46] hw/cxl/component: Introduce CXL components
- (8.1.x, 8.2.5)
-Message-ID: <20220331132021.000014c4@huawei.com>
-In-Reply-To: <20220318150635.24600-3-Jonathan.Cameron@huawei.com>
-References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
- <20220318150635.24600-3-Jonathan.Cameron@huawei.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nZttH-0000U1-W1
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:27:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648729622;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ocDO8W5P669SM/AHskrdaGku8z2uvGQrhDTj1+2VNAM=;
+ b=LkRhFZtAM8ktrhvH238ZmDQ3uWDe7O7v6gHDmdbnWAJy4rG3VjeJxU0uKeRbhOzJ2Zk9My
+ IdBlAEM1p6oTRLoBcKlUDvNnpEhUHORcvyCSUmFU03HI3i3j05KxaAIBzHCWQmeIPPUrm/
+ utu399SqaXApa3KcUCWeRr6SxLOyr98=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-99-pci_w08GOgqdksXcl6wCBA-1; Thu, 31 Mar 2022 08:26:59 -0400
+X-MC-Unique: pci_w08GOgqdksXcl6wCBA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 853662803586;
+ Thu, 31 Mar 2022 12:26:58 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.194.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 17033401E71;
+ Thu, 31 Mar 2022 12:26:54 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/char: fix qcode array bounds check in ESCC impl
+Date: Thu, 31 Mar 2022 13:26:52 +0100
+Message-Id: <20220331122652.188700-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml717-chm.china.huawei.com (10.201.108.68) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,47 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Fri, 18 Mar 2022 15:05:51 +0000
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+There was an off-by-1 in the qcode conversion array bounds
+check.
 
-> From: Ben Widawsky <ben.widawsky@intel.com>
->=20
-> A CXL 2.0 component is any entity in the CXL topology. All components
-> have a analogous function in PCIe. Except for the CXL host bridge, all
-> have a PCIe config space that is accessible via the common PCIe
-> mechanisms. CXL components are enumerated via DVSEC fields in the
-> extended PCIe header space. CXL components will minimally implement some
-> subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
-> 2.0 specification. Two headers and a utility library are introduced to
-> support the minimum functionality needed to enumerate components.
->=20
-> The cxl_pci header manages bits associated with PCI, specifically the
-> DVSEC and related fields. The cxl_component.h variant has data
-> structures and APIs that are useful for drivers implementing any of the
-> CXL 2.0 components. The library takes care of making use of the DVSEC
-> bits and the CXL.[mem|cache] registers. Per spec, the registers are
-> little endian.
->=20
-> None of the mechanisms required to enumerate a CXL capable hostbridge
-> are introduced at this point.
->=20
-> Note that the CXL.mem and CXL.cache registers used are always 4B wide.
-> It's possible in the future that this constraint will not hold.
->=20
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
-There will be one other addition to this in v9 which is to add
-the device GPF dvsec structure definition.
+Fixes: e709a61a8fe1076a487376fd657544418a38ba06
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ hw/char/escc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'll also add the relevant instantiation of this to the type 3 device
-and the Port GPF instantiation for the root port and switch
-DSP as these are mandatory (Even if they aren't that interesting to an OS)
+diff --git a/hw/char/escc.c b/hw/char/escc.c
+index 8755d8d34f..17a908c59b 100644
+--- a/hw/char/escc.c
++++ b/hw/char/escc.c
+@@ -828,7 +828,7 @@ static void sunkbd_handle_event(DeviceState *dev, QemuConsole *src,
+         }
+     }
+ 
+-    if (qcode > qemu_input_map_qcode_to_sun_len) {
++    if (qcode >= qemu_input_map_qcode_to_sun_len) {
+         return;
+     }
+ 
+-- 
+2.34.1
 
->
 
