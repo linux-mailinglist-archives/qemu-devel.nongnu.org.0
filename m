@@ -2,50 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7974EDD94
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:42:44 +0200 (CEST)
-Received: from localhost ([::1]:46420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4733C4EDC68
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:08:58 +0200 (CEST)
+Received: from localhost ([::1]:47184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZwwc-0008VE-Vb
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:42:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56232)
+	id 1nZwPw-0001OZ-OF
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:08:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1nZwfX-0003SV-9X; Thu, 31 Mar 2022 11:25:03 -0400
-Received: from [187.72.171.209] (port=51585 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1nZwfR-0004ne-Go; Thu, 31 Mar 2022 11:25:02 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 31 Mar 2022 12:24:02 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 3ACE88014EA;
- Thu, 31 Mar 2022 11:58:44 -0300 (-03)
-From: Leandro Lupori <leandro.lupori@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [RFC PATCH v2 5/5] tests/tcg/ppc64: build PowerNV and LE tests
-Date: Thu, 31 Mar 2022 11:58:13 -0300
-Message-Id: <20220331145813.21719-6-leandro.lupori@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220331145813.21719-1-leandro.lupori@eldorado.org.br>
-References: <20220331145813.21719-1-leandro.lupori@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwOs-0000Ky-Nd
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:07:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30645)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwOo-00019c-0D
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:07:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648739264;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=45pAakPFmKzlRv52RvqOoRb/QtUal8Xt7Z3LBeioSO0=;
+ b=DlQ7dyn1pk91x6RRx1XAaA9/++YWg2HSuAJBb0xWGcChQlTWqXX8+klVxZTP3rjWdODnON
+ C7rf2/6/lWJRyeCBp+KJO73HGHpvh1kt0Pn9nKlpbH1kubDbguVOgzOBxWTMNxdwHfoE2o
+ foPVbP8Nh9/E7citGyEHsOwtRqe3La4=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-551-MSm5CqsLMpO4ZKnYnkstfA-1; Thu, 31 Mar 2022 11:07:08 -0400
+X-MC-Unique: MSm5CqsLMpO4ZKnYnkstfA-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ fw9-20020a056214238900b0043522aa5b81so18744735qvb.21
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 08:07:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=45pAakPFmKzlRv52RvqOoRb/QtUal8Xt7Z3LBeioSO0=;
+ b=IUXGQiq8MGUo8WBhm82zw0e+b9aG9xt8pthqpzurCYmLWDl6ZmZpNuVJRWSeR4Zfn6
+ nn+nMoZ3EinNx6eUjGygcWeZSZtoKUSkluS/Sd9cvlL2vXOV6F/JpynYqmGmyMFoP5Lp
+ xWZd5Zia8k/0wQQ2Q8y7Ut3ukfAcT2M9chCrtNqzIsQy06Vn56MejJxaRCTzsHrYwum4
+ P3Yp0lU6Rlzwb4RQRMPtTr4y4QaG8JujxXbMot0yN4Emj5NkSLoJfF/eNyHQzcyPziMD
+ 4vEdMLGe6tdg4HtgSi3FXVsP4//GK10TE/8+9D3A9QwDYuuo821K2Mrc7WsfV8t4HuLx
+ BGrQ==
+X-Gm-Message-State: AOAM531U8gDOMx2tCy4CW6FeQ0lIQuoLjxsJuVeo+2+xK6rQO6Z3YJg9
+ hMipduuDJqucylGvWhYqqtuNofpPVSAi1hiph4wQZ4ypPp082jvFskAjbBwGwMKuOmJAFsaWeGH
+ 1yAvb75CdEzFQ58vMmV40pmPf12Yfxebu+Vpz9PZRarZ58Z0tU5uzOfIC+F1YR6Ni
+X-Received: by 2002:a05:622a:13d1:b0:2e1:fee4:8ffd with SMTP id
+ p17-20020a05622a13d100b002e1fee48ffdmr4782102qtk.50.1648739224145; 
+ Thu, 31 Mar 2022 08:07:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtJsnI6gMt5/SZ7tTdGG6A1HocXn4MEMjony3PrMo3wRsNcUSGgOxyPLdHAHsT6VrrGyailQ==
+X-Received: by 2002:a05:622a:13d1:b0:2e1:fee4:8ffd with SMTP id
+ p17-20020a05622a13d100b002e1fee48ffdmr4782055qtk.50.1648739223770; 
+ Thu, 31 Mar 2022 08:07:03 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ j21-20020ac85f95000000b002e1cde99863sm19931061qta.83.2022.03.31.08.07.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Mar 2022 08:07:03 -0700 (PDT)
+Date: Thu, 31 Mar 2022 11:07:02 -0400
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 16/19] migration: Export tls-[creds|hostname|authz]
+ params to cmdline too
+Message-ID: <YkXDlp2kfs0CqeZw@xz-m1.local>
+References: <20220330213908.26608-1-peterx@redhat.com>
+ <20220330213908.26608-17-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 31 Mar 2022 15:24:02.0484 (UTC)
- FILETIME=[5A0BAF40:01D84513]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+In-Reply-To: <20220330213908.26608-17-peterx@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,214 +99,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leandro Lupori <leandro.lupori@eldorado.org.br>, danielhb413@gmail.com,
- richard.henderson@linaro.org, groug@kaod.org, clg@kaod.org,
- pbonzini@redhat.com, alex.bennee@linaro.org, david@gibson.dropbear.id.au
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Each Microwatt/PowerNV test use its own head.S file and thus needs
-different build rules.
+On Wed, Mar 30, 2022 at 05:39:05PM -0400, Peter Xu wrote:
+> It's useful for specifying tls credentials all in the cmdline (along with
+> the -object tls-creds-*), especially for debugging purpose.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  migration/migration.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 899084f993..d99a0ecb7b 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -4349,6 +4349,9 @@ static Property migration_properties[] = {
+>                        DEFAULT_MIGRATE_ANNOUNCE_STEP),
+>      DEFINE_PROP_BOOL("x-postcopy-preempt-break-huge", MigrationState,
+>                        postcopy_preempt_break_huge, true),
+> +    DEFINE_PROP_STRING("tls-creds", MigrationState, parameters.tls_creds),
+> +    DEFINE_PROP_STRING("tls-hostname", MigrationState, parameters.tls_hostname),
+> +    DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
+>  
+>      /* Migration capabilities */
+>      DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
+> -- 
 
-Also add rules to build and run all tests in LE mode.
+This simple patch will cause a double-free issue on tls-creds, etc. because
+the properties are released before migration object, and since we also
+explicitly free tls_* fields in migration_instance_finalize() then it hits
+double free.  The details is in object_finalize() where the order is:
 
-Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
----
- tests/tcg/ppc64/Makefile.softmmu-rules  |  34 +++++++
- tests/tcg/ppc64/Makefile.softmmu-target | 119 ++++++++++++++++++------
- 2 files changed, 126 insertions(+), 27 deletions(-)
- create mode 100644 tests/tcg/ppc64/Makefile.softmmu-rules
+    object_property_del_all(obj);
+    object_deinit(obj, ti);
 
-diff --git a/tests/tcg/ppc64/Makefile.softmmu-rules b/tests/tcg/ppc64/Makefile.softmmu-rules
-new file mode 100644
-index 0000000000..abe0de0a7f
---- /dev/null
-+++ b/tests/tcg/ppc64/Makefile.softmmu-rules
-@@ -0,0 +1,34 @@
-+#
-+# Rules to build PowerPC64 softmmu tests, for both BE and LE
-+#
-+
-+# Build CRT and test objects
-+%$(LE_SUFFIX).o: $(CRT_PATH)/%.S
-+	$(CC) $(PPC64_CFLAGS) -x assembler-with-cpp -c $< -o $@
-+
-+%$(LE_SUFFIX).o: %.S
-+	$(CC) $(PPC64_CFLAGS) -x assembler-with-cpp -c $< -o $@
-+
-+%$(LE_SUFFIX).o: $(CRT_PATH)/%.c
-+	$(CC) $(PPC64_CFLAGS) -c $< -o $@
-+
-+%$(LE_SUFFIX).o: %.c
-+	$(CC) $(PPC64_CFLAGS) -c $< -o $@
-+
-+# Build .elf files for debugging
-+%$(LE_SUFFIX).elf: %$(LE_SUFFIX).o $(LINK_SCRIPT) $(CRT_DEPS) $(MINILIB_DEPS)
-+	$(CC) $(PPC64_CFLAGS) -o $@ $< $(LDFLAGS)
-+
-+$(PPC64_PNV_ELFS): %$(LE_SUFFIX).elf: %-head$(LE_SUFFIX).o %$(LE_SUFFIX).o \
-+                    $(LINK_SCRIPT) $(CRT_DEPS) $(MINILIB_DEPS)
-+	$(CC) $(PPC64_CFLAGS) -o $@ $< $*$(LE_SUFFIX).o $(LDFLAGS)
-+
-+# Build test binaries
-+%$(LE_SUFFIX): %$(LE_SUFFIX).o $(LINK_SCRIPT) $(CRT_DEPS) $(MINILIB_DEPS) \
-+               %$(LE_SUFFIX).elf
-+	$(CC) $(PPC64_CFLAGS) -o $@ $< $(LDFLAGS) -Wl,--oformat=binary
-+
-+$(PPC64_PNV_TESTS): %$(LE_SUFFIX): %-head$(LE_SUFFIX).o %$(LE_SUFFIX).o \
-+                    $(LINK_SCRIPT) $(CRT_DEPS) $(MINILIB_DEPS) %$(LE_SUFFIX).elf
-+	$(CC) $(PPC64_CFLAGS) -o $@ $< $*$(LE_SUFFIX).o $(LDFLAGS) \
-+				-Wl,--oformat=binary
-diff --git a/tests/tcg/ppc64/Makefile.softmmu-target b/tests/tcg/ppc64/Makefile.softmmu-target
-index 8f9925ca5a..03d5d3e426 100644
---- a/tests/tcg/ppc64/Makefile.softmmu-target
-+++ b/tests/tcg/ppc64/Makefile.softmmu-target
-@@ -5,25 +5,52 @@
- # For now, disable tests that are failing
- DISABLED_TESTS := memory
- DISABLED_EXTRA_RUNS := run-gdbstub-memory
-+# Disable LE tests too
-+DISABLED_TESTS += $(addsuffix -le, $(DISABLED_TESTS))
-+DISABLED_EXTRA_RUNS += $(addsuffix -le, $(DISABLED_EXTRA_RUNS))
- 
--PPC64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/ppc64/system
--VPATH+=$(PPC64_SYSTEM_SRC)
-+PPC64_SRC := $(SRC_PATH)/tests/tcg/ppc64
-+PPC64_SYSTEM_SRC := $(PPC64_SRC)/system
-+VPATH += $(PPC64_SYSTEM_SRC)
- 
- # These objects provide the basic boot code and helper functions for all tests
--CRT_PATH=$(PPC64_SYSTEM_SRC)/lib
--CRT_OBJS=boot.o console.o
-+CRT_PATH := $(PPC64_SYSTEM_SRC)/lib
-+CRT_OBJS_BE := boot.o console.o
-+CRT_OBJS_LE := $(patsubst %.o, %-le.o, $(CRT_OBJS_BE))
-+# NOTE: %-head.o replaces boot.o on PowerNV tests
-+PNV_CRT_OBJS_BE := $(filter-out boot.o, $(CRT_OBJS_BE))
-+PNV_CRT_OBJS_LE := $(filter-out boot-le.o, $(CRT_OBJS_LE))
- 
--PPC64_TEST_SRCS=$(wildcard $(PPC64_SYSTEM_SRC)/*.c)
--PPC64_TESTS=$(patsubst $(PPC64_SYSTEM_SRC)/%.c, %, $(PPC64_TEST_SRCS))
-+MINILIB_OBJS_BE := $(MINILIB_OBJS)
-+MINILIB_OBJS_LE := $(patsubst %.o, %-le.o, $(MINILIB_OBJS))
- 
--LINK_SCRIPT=$(CRT_PATH)/powerpc.lds
--# NOTE: --build-id is stored before the first code section in the linked
--#       binary, which causes problems for most tests, that expect to
--#       begin at address 0.
--LDFLAGS=-Wl,-T$(LINK_SCRIPT) -Wl,--build-id=none -static -nostdlib \
--    $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
--TESTS += $(filter-out $(DISABLED_TESTS),$(PPC64_TESTS) $(MULTIARCH_TESTS))
--EXTRA_RUNS += $(filter-out $(DISABLED_EXTRA_RUNS),$(MULTIARCH_RUNS))
-+# Add BE and LE tests
-+
-+# Each Microwatt/PowerNV test use its own head.S file and thus needs
-+# different rules.
-+PPC64BE_PNV_TESTS := mmu
-+PPC64BE_PNV_ELFS := $(addsuffix .elf, $(PPC64BE_PNV_TESTS))
-+PPC64LE_PNV_TESTS := $(addsuffix -le, $(PPC64BE_PNV_TESTS))
-+PPC64LE_PNV_ELFS := $(addsuffix .elf, $(PPC64LE_PNV_TESTS))
-+
-+# Remaining test sources are assumed to be non-PowerNV tests
-+PPC64_TEST_SRCS := $(wildcard $(PPC64_SYSTEM_SRC)/*.c)
-+PPC64BE_TESTS := $(MULTIARCH_TESTS)
-+PPC64BE_TESTS += $(filter-out $(PPC64BE_PNV_TESTS),\
-+                 $(patsubst $(PPC64_SYSTEM_SRC)/%.c, %, $(PPC64_TEST_SRCS)))
-+PPC64BE_ELFS := $(addsuffix .elf,$(PPC64BE_TESTS))
-+PPC64LE_TESTS := $(addsuffix -le, $(PPC64BE_TESTS))
-+PPC64LE_ELFS := $(addsuffix .elf,$(PPC64LE_TESTS))
-+
-+TESTS += $(filter-out $(DISABLED_TESTS), $(PPC64BE_TESTS) $(PPC64LE_TESTS))
-+TESTS += $(PPC64BE_PNV_TESTS) $(PPC64LE_PNV_TESTS)
-+
-+MULTIARCH_RUNS_BE := $(MULTIARCH_RUNS)
-+MULTIARCH_RUNS_LE := $(addsuffix -le, $(MULTIARCH_RUNS))
-+EXTRA_RUNS += $(filter-out $(DISABLED_EXTRA_RUNS), \
-+                           $(MULTIARCH_RUNS_BE) $(MULTIARCH_RUNS_LE))
-+
-+LINK_SCRIPT := $(CRT_PATH)/powerpc.lds
- 
- # NOTE: -Os doesn't work well with -Wl,--oformat=binary
- #       Some linker generated functions, such as savegpr*/restgpr*,
-@@ -33,26 +60,64 @@ CFLAGS = -O -g -Wall -std=c99 -msoft-float -mno-vsx -mno-altivec \
-          -I $(PPC64_SYSTEM_SRC)/include $(MINILIB_INC) \
-          -mcpu=power8
- 
-+# NOTE: --build-id is stored before the first code section in the linked
-+#       binary, which causes problems for most tests, that expect to
-+#       begin at address 0.
-+LDFLAGS = -Wl,-T$(LINK_SCRIPT) -Wl,--build-id=none -static -nostdlib \
-+    $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
-+
-+memory memory-le: CFLAGS+=-DCHECK_UNALIGNED=1
-+
-+# PowerNV tests build outputs
-+PPC64BE_PNV_OUTPUTS := $(PPC64BE_PNV_TESTS) $(PPC64BE_PNV_ELFS)
-+PPC64LE_PNV_OUTPUTS := $(PPC64LE_PNV_TESTS) $(PPC64LE_PNV_ELFS)
-+# Non-PowerNV tests build outputs
-+PPC64BE_OUTPUTS := $(PPC64BE_TESTS) $(PPC64BE_ELFS)
-+PPC64LE_OUTPUTS := $(PPC64LE_TESTS) $(PPC64LE_ELFS)
-+# Outputs of all tests
-+PPC64BE_ALL_OUTPUTS := $(PPC64BE_OUTPUTS) $(PPC64BE_PNV_OUTPUTS)
-+PPC64LE_ALL_OUTPUTS := $(PPC64LE_OUTPUTS) $(PPC64LE_PNV_OUTPUTS)
-+
-+PPC64_CFLAGS = $(CFLAGS) $(EXTRA_CFLAGS) $(PPC64LE_CFLAGS)
-+
- # Leave the .elf files, to make debugging easier
--.PRECIOUS: $(CRT_OBJS) $(addsuffix .elf,$(TESTS))
-+.PRECIOUS: $(CRT_OBJS_BE) $(CRT_OBJS_LE) $(addsuffix .elf,$(TESTS))
-+
-+# BE rules
-+
-+LE_SUFFIX :=
-+CRT_DEPS := $(CRT_OBJS_BE)
-+MINILIB_DEPS := $(MINILIB_OBJS_BE)
-+PPC64_PNV_ELFS := $(PPC64BE_PNV_ELFS)
-+PPC64_PNV_TESTS := $(PPC64BE_PNV_TESTS)
-+
-+$(PPC64BE_ALL_OUTPUTS): LE_SUFFIX =
-+$(PPC64BE_ALL_OUTPUTS): PPC64LE_CFLAGS =
-+$(PPC64BE_OUTPUTS): CRT_OBJS = $(CRT_OBJS_BE)
-+$(PPC64BE_PNV_OUTPUTS): CRT_OBJS = $(PNV_CRT_OBJS_BE)
-+$(PPC64BE_ALL_OUTPUTS): MINILIB_OBJS = $(MINILIB_OBJS_BE)
- 
--# Build CRT objects
--%.o: $(CRT_PATH)/%.S
--	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
-+include $(PPC64_SRC)/Makefile.softmmu-rules
- 
--%.o: $(CRT_PATH)/%.c
--	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
-+# LE rules
- 
--# Build and link the tests
-+LE_SUFFIX := -le
-+CRT_DEPS := $(CRT_OBJS_LE)
-+MINILIB_DEPS := $(MINILIB_OBJS_LE)
-+PPC64_PNV_ELFS := $(PPC64LE_PNV_ELFS)
-+PPC64_PNV_TESTS := $(PPC64LE_PNV_TESTS)
- 
--# The .elf files are just for debugging
--%.elf: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
--	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+$(PPC64LE_ALL_OUTPUTS): LE_SUFFIX = -le
-+$(PPC64LE_ALL_OUTPUTS): PPC64LE_CFLAGS = -mlittle-endian -mabi=elfv2
-+$(PPC64LE_OUTPUTS): CRT_OBJS = $(CRT_OBJS_LE)
-+$(PPC64LE_PNV_OUTPUTS): CRT_OBJS = $(PNV_CRT_OBJS_LE)
-+$(PPC64LE_ALL_OUTPUTS): MINILIB_OBJS = $(MINILIB_OBJS_LE)
- 
--%: %.c %.elf $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
--	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS) -Wl,--oformat=binary
-+include $(PPC64_SRC)/Makefile.softmmu-rules
- 
--memory: CFLAGS+=-DCHECK_UNALIGNED=1
-+# Build LE Minilib objs
-+%-le.o: $(SYSTEM_MINILIB_SRC)/%.c
-+	$(CC) $(PPC64_CFLAGS) -c $< -o $@
- 
- # Running
- QEMU_BASE_MACHINE=-cpu power9 -M powernv9 -m 1G -vga none -nographic
+It was overlooked when I was testing the preempt+tls functionality and
+it'll trigger when we need a graceful quit of qemu.
+
+Meanwhile there's another patch ordering issue I didn't notice when I post
+this version: patch "migration: Add helpers to detect TLS capability" needs
+to be before "migration: Enable TLS for preempt channel".  No code change
+for this, it just needs some re-ordering to guarantee per-commit builds to
+be successful.
+
+I'll respin another version..
+
 -- 
-2.25.1
+Peter Xu
 
 
