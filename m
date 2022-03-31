@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBCF4EDCC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:26:33 +0200 (CEST)
-Received: from localhost ([::1]:60434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4FD4EDCD0
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:31:57 +0200 (CEST)
+Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZwgy-0004S2-3a
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:26:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52960)
+	id 1nZwmC-00062j-Bb
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:31:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwRJ-0004hz-PT
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:10:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45160)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwQr-0003yd-Ch
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:09:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwRI-0001fF-3f
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:10:21 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwQp-0001R7-Pe
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:09:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648739419;
+ s=mimecast20190719; t=1648739391;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2+PDhrpWKbHP/PkTW5UAcTW+ZMb1mT4D36GE2ydAWcc=;
- b=C8EuhXjeGIocQDurpR+uo8372ok1N70lf6Y8fQgch11VPcXA4J1I6PKkEDMNTnaSGN0hd8
- 5b/n6gMHOYVCtBU0kQPbHPzy/qlnXRr8wFyLbKCcvSVOB1VMxICxHR0eMBu7Hw2YzGL82i
- 9wnNqaFvfh4EwuM1sc6IBrhyUSekvf0=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LAPpR8IngvwRIk9gz5ypRjMNFfZ9AK4pYA9cueZ///o=;
+ b=e9ijK2x1x/+SKl4Q8HpeDQycIp9QDXYphV+fqQwFu8pww2p/Obg8UpOMzzGCjrvx66Qxtc
+ Yxql1ZUb7nDkcIT+X8rQp/7QbSgNWYDvZD2xsbKDmyi1o1Q26X2D6KJdXmfdMJ05UFqRU4
+ dOz/WtnRyFNiJizp3lTfb3ceaSM8nF0=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-1QgCgfWFPUmufmUJW0DMFw-1; Thu, 31 Mar 2022 11:09:02 -0400
-X-MC-Unique: 1QgCgfWFPUmufmUJW0DMFw-1
-Received: by mail-qv1-f72.google.com with SMTP id
- k20-20020ad44714000000b00440fd2c4a0aso18747435qvz.20
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 08:09:02 -0700 (PDT)
+ us-mta-153-2c659Ta4P1mp6HYRkW512g-1; Thu, 31 Mar 2022 11:09:04 -0400
+X-MC-Unique: 2c659Ta4P1mp6HYRkW512g-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ bj2-20020a05620a190200b005084968bb24so14966996qkb.23
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 08:09:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2+PDhrpWKbHP/PkTW5UAcTW+ZMb1mT4D36GE2ydAWcc=;
- b=n1XGte17SW29mARGRa5txzOBiFIJK3F52ekCN6f79BNh6LKZhRVNhocdWzugUVplZO
- tzPwtozRnIVFBPwrvWh/+Bk+p5ztWYR/RsGKRXhFUnxYeqVke4Fw7xUEsUNKlG2UN3px
- YbXO914j5R5hBP7uyd9WAvv704laMaAVXkkrk+eTlqyST1P9xpRotPUbde8f8n47YWfg
- cXRm/5yafahSuxd4ttqDk2fIaeCZnO//gyShueSLCHiO6L2Bbccx0+XcvYGWkZPRqQ1R
- Ka9j6GZFFfUBQW2jIydW6onYHCXqIu2pIjwp3nCJiEE7l5IjwaieRGte/s89BiqPhj77
- BkTw==
-X-Gm-Message-State: AOAM530k3zqvNrHmKmV792npRoGLb4i+HNh3hc/IWbLmY7ATlbDt7s6w
- XxkDerWbrfHqQjrXe4ixVUKXgucHzLevC0WQeRSB2bZeE0+2HFNavTIyrv64lICe7IntAZukuYh
- U2VnlGdpptX4jx9aBRG305/OkvUUOQRrOl8SZLlQ1Fk4PmtpRrfyzIoxKKOVa+wcA
-X-Received: by 2002:a0c:d688:0:b0:42c:3cb0:3923 with SMTP id
- k8-20020a0cd688000000b0042c3cb03923mr4158600qvi.69.1648739341252; 
- Thu, 31 Mar 2022 08:09:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw1paY5f6hELjrpmSwCSUeZxd0dfSp9Soy7kG6/nElhBBkExk7d1ej/nOvMAKACcaQrBnRc4w==
-X-Received: by 2002:a0c:d688:0:b0:42c:3cb0:3923 with SMTP id
- k8-20020a0cd688000000b0042c3cb03923mr4158553qvi.69.1648739340851; 
- Thu, 31 Mar 2022 08:09:00 -0700 (PDT)
+ bh=LAPpR8IngvwRIk9gz5ypRjMNFfZ9AK4pYA9cueZ///o=;
+ b=tBfARVGguRkk7J9u9Ihccm3VBiaTLjXIRgdfuKUKpoXmq7KFoWZ6hXvzem2q8guews
+ ItyDrrgyIYHJUqu0m3+qRH5XsiqGFp7BNbSbyAE2iJ9vvMMVJi3YM/YQiBYnXU+hTxNp
+ mYChEWPuZ9kYudCP7MKF8UUN+vnErr91g4Yq2hvk2jitGfzlIzGlS6Fg411rI8Zn5lQX
+ SWLUsdDiEd7wOrK59lAiahdpdzCOavu6ND6ASvDCOvXSaKBfuQOmJY10lwKhoef72C1B
+ Ptf06+8F8HMqwXCfFBABiyITOIOvqtacUZqz38rmH1l2iKqMmtNC+f/pSiJsrMmQQaYZ
+ pLHA==
+X-Gm-Message-State: AOAM532Ihga7AOyh4SxzneQbtnFuz1za6lU2D3zUeJTB8cZ600DGr4Na
+ B9Vy6Kpn+Z61FynylJOlqthmcvW73x3OnaV0ZLB+CYH9AgJ/V6Lzzek0Yay5Gyzj3ObmBySrC2F
+ tHI2jNCM9+yonJilcwZ45LO1s+oThigU0DRDS7AnikywXoA7ztiTGqO+rQIi6GHTr
+X-Received: by 2002:a05:620a:4305:b0:67e:8b39:201d with SMTP id
+ u5-20020a05620a430500b0067e8b39201dmr3549513qko.741.1648739342491; 
+ Thu, 31 Mar 2022 08:09:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyKmSREqRik0P4Le3TkHxf1SXMHp52hrdTAmI5/RF2bUdfd6ZJklHGTzvau93ZYfWNjtjc98Q==
+X-Received: by 2002:a05:620a:4305:b0:67e:8b39:201d with SMTP id
+ u5-20020a05620a430500b0067e8b39201dmr3549465qko.741.1648739342010; 
+ Thu, 31 Mar 2022 08:09:02 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- 21-20020ac85715000000b002e1ce9605ffsm20246871qtw.65.2022.03.31.08.08.59
+ 21-20020ac85715000000b002e1ce9605ffsm20246871qtw.65.2022.03.31.08.09.00
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 31 Mar 2022 08:09:00 -0700 (PDT)
+ Thu, 31 Mar 2022 08:09:01 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/19] migration: Drop multifd tls_hostname cache
-Date: Thu, 31 Mar 2022 11:08:40 -0400
-Message-Id: <20220331150857.74406-3-peterx@redhat.com>
+Subject: [PATCH v4 03/19] migration: Add pss.postcopy_requested status
+Date: Thu, 31 Mar 2022 11:08:41 -0400
+Message-Id: <20220331150857.74406-4-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220331150857.74406-1-peterx@redhat.com>
 References: <20220331150857.74406-1-peterx@redhat.com>
@@ -106,88 +106,47 @@ Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The hostname is cached N times, N equals to the multifd channels.
+This boolean flag shows whether the current page during migration is triggered
+by postcopy or not.  Then in ram_save_host_page() and deeper stack we'll be
+able to have a reference on the priority of this page.
 
-Drop that cache because after previous patch we've got s->hostname
-being alive for the whole lifecycle of migration procedure.
-
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: Daniel P. Berrange <berrange@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/multifd.c | 10 +++-------
- migration/multifd.h |  2 --
- 2 files changed, 3 insertions(+), 9 deletions(-)
+ migration/ram.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 76b57a7177..1be4ab5d17 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -542,8 +542,6 @@ void multifd_save_cleanup(void)
-         qemu_sem_destroy(&p->sem_sync);
-         g_free(p->name);
-         p->name = NULL;
--        g_free(p->tls_hostname);
--        p->tls_hostname = NULL;
-         multifd_pages_clear(p->pages);
-         p->pages = NULL;
-         p->packet_len = 0;
-@@ -763,7 +761,7 @@ static void multifd_tls_channel_connect(MultiFDSendParams *p,
-                                         Error **errp)
+diff --git a/migration/ram.c b/migration/ram.c
+index 3532f64ecb..bfcd45a36e 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -414,6 +414,8 @@ struct PageSearchStatus {
+     unsigned long page;
+     /* Set once we wrap around */
+     bool         complete_round;
++    /* Whether current page is explicitly requested by postcopy */
++    bool         postcopy_requested;
+ };
+ typedef struct PageSearchStatus PageSearchStatus;
+ 
+@@ -1487,6 +1489,9 @@ retry:
+  */
+ static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
  {
-     MigrationState *s = migrate_get_current();
--    const char *hostname = p->tls_hostname;
-+    const char *hostname = s->hostname;
-     QIOChannelTLS *tioc;
- 
-     tioc = migration_tls_client_create(s, ioc, hostname, errp);
-@@ -787,7 +785,8 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
-     MigrationState *s = migrate_get_current();
- 
-     trace_multifd_set_outgoing_channel(
--        ioc, object_get_typename(OBJECT(ioc)), p->tls_hostname, error);
-+        ioc, object_get_typename(OBJECT(ioc)),
-+        migrate_get_current()->hostname, error);
- 
-     if (!error) {
-         if (s->parameters.tls_creds &&
-@@ -874,7 +873,6 @@ int multifd_save_setup(Error **errp)
-     int thread_count;
-     uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
-     uint8_t i;
--    MigrationState *s;
- 
-     if (!migrate_use_multifd()) {
-         return 0;
-@@ -884,7 +882,6 @@ int multifd_save_setup(Error **errp)
-         return -1;
++    /* This is not a postcopy requested page */
++    pss->postcopy_requested = false;
++
+     pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
+     if (pss->complete_round && pss->block == rs->last_seen_block &&
+         pss->page >= rs->last_page) {
+@@ -1981,6 +1986,7 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
+          * really rare.
+          */
+         pss->complete_round = false;
++        pss->postcopy_requested = true;
      }
  
--    s = migrate_get_current();
-     thread_count = migrate_multifd_channels();
-     multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
-     multifd_send_state->params = g_new0(MultiFDSendParams, thread_count);
-@@ -909,7 +906,6 @@ int multifd_save_setup(Error **errp)
-         p->packet->magic = cpu_to_be32(MULTIFD_MAGIC);
-         p->packet->version = cpu_to_be32(MULTIFD_VERSION);
-         p->name = g_strdup_printf("multifdsend_%d", i);
--        p->tls_hostname = g_strdup(s->hostname);
-         /* We need one extra place for the packet header */
-         p->iov = g_new0(struct iovec, page_count + 1);
-         p->normal = g_new0(ram_addr_t, page_count);
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 4dda900a0b..3d577b98b7 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -72,8 +72,6 @@ typedef struct {
-     uint8_t id;
-     /* channel thread name */
-     char *name;
--    /* tls hostname */
--    char *tls_hostname;
-     /* channel thread id */
-     QemuThread thread;
-     /* communication channel */
+     return !!block;
 -- 
 2.32.0
 
