@@ -2,104 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0703D4ED0FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 02:44:38 +0200 (CEST)
-Received: from localhost ([::1]:46730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2FF4ED125
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 03:01:47 +0200 (CEST)
+Received: from localhost ([::1]:49538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZivV-0006yu-4C
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 20:44:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38262)
+	id 1nZjC5-0002Pw-TF
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 21:01:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nZiZe-0001TY-K6; Wed, 30 Mar 2022 20:22:02 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44022
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nZiZc-0004Aa-P2; Wed, 30 Mar 2022 20:22:02 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22UKRsNL013905; 
- Thu, 31 Mar 2022 00:21:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=TUrn2F62z98/vRl3VmuSYOcFijNFYzcHCNGeiTHKsPI=;
- b=MRgn8tQ1g5Bj4cOB+EA9mZvT1pAQX0hLCN6r3Sdw6h4tWbLGg5mnm60zAbr3jP8Hs37v
- coHCkUyzzW3XtcI5QR8+NwhOWX2M2jYVPO0pytRxRgtWW38nABcdRGE0OHYCMHFpyyv1
- bNfyDa4RKwebPygbwUxuz3gKm4JXmOJmKIcz7EMLGzMRNMqSoa/krXClm2n5ykqgyM/m
- sFRRV6kaRYW4UZwkIuzFhSdZfmMEtLKQkKrdFo+H2VISj1wCv1i083TOgLfeBZJgWreU
- 68z19ePa4Un2MjhfVPCnX3T0OJ9QJR+E6PX8ij5Zk1Z5P1bEEtcNbL0YYsjJZTcS73Ap Zw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3f4x3kuku7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 31 Mar 2022 00:21:58 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22V01C0a002045;
- Thu, 31 Mar 2022 00:21:57 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3f4x3kukty-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 31 Mar 2022 00:21:57 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22V0CidX032498;
- Thu, 31 Mar 2022 00:21:56 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma01fra.de.ibm.com with ESMTP id 3f1tf8r451-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 31 Mar 2022 00:21:55 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22V0LqBq39977330
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 31 Mar 2022 00:21:52 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3A8D611C050;
- Thu, 31 Mar 2022 00:21:52 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B3E7911C04C;
- Thu, 31 Mar 2022 00:21:51 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.15.152])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 31 Mar 2022 00:21:51 +0000 (GMT)
-Date: Thu, 31 Mar 2022 02:21:49 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 1/4] s390x: follow qdev tree to detect SCSI device on a
- CCW bus
-Message-ID: <20220331022149.15235ae7.pasic@linux.ibm.com>
-In-Reply-To: <20220328143019.682245-2-pbonzini@redhat.com>
-References: <20220328143019.682245-1-pbonzini@redhat.com>
- <20220328143019.682245-2-pbonzini@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1nZjAE-0001Wm-8p
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 20:59:50 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:60458 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nZjAB-0004yB-Qk
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 20:59:50 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx3xP6_ERiCI4TAA--.21756S3; 
+ Thu, 31 Mar 2022 08:59:39 +0800 (CST)
+Subject: Re: [RFC PATCH v7 05/29] target/loongarch: Add constant timer support
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
+ <20220328125749.2918087-6-yangxiaojuan@loongson.cn>
+ <8a68b039-f34f-4ab3-746e-005663621791@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <6d62d292-013a-dc78-5233-25509b272ad6@loongson.cn>
+Date: Thu, 31 Mar 2022 08:59:38 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <8a68b039-f34f-4ab3-746e-005663621791@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: NXxQ17W0O1ab2w6GVSBc6JcA0lJ6gYcp
-X-Proofpoint-ORIG-GUID: BEPTSufGMjmKmajRooGbK7PCrF7Jm7qC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-30_06,2022-03-30_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 spamscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999
- adultscore=0 clxscore=1015 phishscore=0 malwarescore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203300115
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9Dx3xP6_ERiCI4TAA--.21756S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxWF4xtw43XFyUGFWDZw4rGrg_yoW5Gr4xpr
+ 4kCrW7JryUtrs5X3WUtwn8XFykJr47W3Wjvr18XF4UCFsrZr12g34UWr1qgF17Zr48Xr42
+ vr18Xw1DZF17J37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvv14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
+ 67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
+ C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
+ wI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
+ v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2
+ z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73Uj
+ IFyTuYvjfU5WlkUUUUU
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,22 +74,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, cohuck@redhat.com, thuth@redhat.com,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x@nongnu.org, borntraeger@linux.ibm.com
+Cc: mark.cave-ayland@ilande.co.uk, Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Mar 2022 16:30:16 +0200
-Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> Do not make assumptions on the parent type of the SCSIDevice, instead
-> use object_dynamic_cast all the way up to the CcwDevice.  This is cleaner
-> because there is no guarantee that the bus is on a virtio-scsi device;
-> that is only the case for the default configuration of QEMU's s390x
-> target.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On 2022/3/29 上午3:46, Richard Henderson wrote:
+> On 3/28/22 06:57, Xiaojuan Yang wrote:
+>> +void cpu_loongarch_store_constant_timer_config(LoongArchCPU *cpu,
+>> +                                               uint64_t value)
+>> +{
+>> +    CPULoongArchState *env = &cpu->env;
+>> +    uint64_t now, next;
+>> +
+>> +    env->CSR_TCFG = value;
+>> +    if (value & CONSTANT_TIMER_ENABLE) {
+>> +        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>> +        next = now + (value & CONSTANT_TIMER_TICK_MASK) * TIMER_PERIOD;
+>> +        timer_mod(&cpu->timer, next);
+>> +    }
+>
+> If CONSTANT_TIMER_ENABLE is not set, you need to use timer_del() to 
+> turn off any existing timer.
+>
+OK
+>
+>> +void loongarch_constant_timer_cb(void *opaque)
+>> +{
+>> +    LoongArchCPU *cpu  = opaque;
+>> +    CPULoongArchState *env = &cpu->env;
+>> +    uint64_t now, next;
+>> +
+>> +    if (FIELD_EX64(env->CSR_TCFG, CSR_TCFG, PERIODIC)) {
+>> +        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>> +        next = now + (env->CSR_TCFG & CONSTANT_TIMER_TICK_MASK) * 
+>> TIMER_PERIOD;
+>> +        timer_mod(&cpu->timer, next);
+>> +    } else {
+>> +        env->CSR_TCFG = FIELD_DP64(env->CSR_TCFG, CSR_TCFG, EN, 0);
+>> +    }
+>> +
+>> +    env->CSR_ESTAT |= 1 << IRQ_TIMER;
+>> +    cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HARD);
+>
+> I think this is wrong and you should be using loongarch_cpu_set_irq 
+> (which is misplaced for you to be able to do so).
+>
+reuse loongarch_cpu_set_irq?  like this:
+void loongarch_constant_timer_cb(void *opaque)
+{
+     ...
+     if (FIELD_EX64(...)) {
+     ...
+     } else {
+     ...
+     }
+     loongarch_cpu_set_irq(opaque, IRQ_IMER, 1);
+}
+>> @@ -297,4 +302,9 @@ enum {
+>>   #define LOONGARCH_CPU_TYPE_NAME(model) model LOONGARCH_CPU_TYPE_SUFFIX
+>>   #define CPU_RESOLVING_TYPE TYPE_LOONGARCH_CPU
+>>   +void loongarch_constant_timer_cb(void *opaque);
+>> +uint64_t cpu_loongarch_get_constant_timer_counter(LoongArchCPU *cpu);
+>> +uint64_t cpu_loongarch_get_constant_timer_ticks(LoongArchCPU *cpu);
+>> +void cpu_loongarch_store_constant_timer_config(LoongArchCPU *cpu,
+>> +                                               uint64_t value);
+>
+> These can go in internals.h.
+>
+OK
 
-Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
+Thanks.
+Xiaojuan
+>
+> r~
+
 
