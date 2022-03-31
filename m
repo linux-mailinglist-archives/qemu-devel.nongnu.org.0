@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 578FD4ED3F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 08:29:53 +0200 (CEST)
-Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3568E4ED44E
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 09:00:03 +0200 (CEST)
+Received: from localhost ([::1]:47362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZoJb-0001Uh-SR
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 02:29:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60162)
+	id 1nZomn-0000Ou-Mb
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 03:00:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nZoEM-0000Xy-Qn
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 02:24:26 -0400
-Received: from [2a00:1450:4864:20::62f] (port=34774
- helo=mail-ej1-x62f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nZoEL-0005F9-2Y
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 02:24:26 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id o10so45950425ejd.1
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 23:24:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=65LAApyknJ4Ap/WBTWbz9LDqY048gEZBR+OKXqDXuFo=;
- b=PoDXEsMeSPNMIYMfwDRANw0bSrmztDkPvOnp8bAxJCc313qSaF+CtCV2FkynzDxuc9
- yOjNDZ0HJUqHjDXPPjYXxXgtmo7iSL/wbvn2bxmUvby4T/ZDWFm9PO/QaWCr7A1V9mP/
- x7GyolIR654Xs0PHC3fy8u/+VcPXNjxRik8DnWpQsR99cfHDFYL+76mHCyOls1PCO4te
- CVbzMinl/ZZV8jhBRTtwYdxKvypiK81IfE+q88wiJMy2w2X0ydzv4GDKH303+xQx7zFr
- 0ZFzp6wv9MmDOtbujKW8DE8zGXr9/wcXYw4g9g3FNl/NNAue+Dh9OIaNNTPtEqcqIAyW
- Of2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=65LAApyknJ4Ap/WBTWbz9LDqY048gEZBR+OKXqDXuFo=;
- b=2fsFnJxCQE8Z/+mrIw5YV11VkoRaTuhBqvWFIjjV+AeqdsE0p1idpJ7X1EtzNayWKL
- Vqr5FV0vN5XdbS3wNZYt7uiE3gjhCeKRpvk9g6ka06kUPdAlA8EcRaF9TfhO4d1injZN
- YmMCRxX2+NpHNWhP9SX0xl3M3RwemtcLgDK0pM4kRrUvxs+1D9m3UWmYHw6U1UaNCRFm
- PjqHf8pXsMPKr+L7q8goDNtznriL7MY59P7uvez0G1Ywg0QxZcD36W51U8+oRv3r5bui
- QATJ1L5aJU3dorFoDMnIUmTawdxkJQVyS/nLzEXmGX2vgrfhovU7BEb752d/gnUE0JYb
- ZnjA==
-X-Gm-Message-State: AOAM532+1Zn48qeCuqvlpbxy5l7lHXDx9/pm6Nus9mSZCmXDzXvjlSfw
- ewHU3+fPdbFXTcTTEI1vAQNeAGYrikU=
-X-Google-Smtp-Source: ABdhPJyQlU96okECOf9QCHfSa164RRojGUZ/jvBiZ1apXAfh90bzWU1qPw/YAzxa3n+RC5rGJWNJRA==
-X-Received: by 2002:a17:907:1b0e:b0:6da:81ae:a798 with SMTP id
- mp14-20020a1709071b0e00b006da81aea798mr3540588ejc.699.1648707862973; 
- Wed, 30 Mar 2022 23:24:22 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:8ca6:a836:a237:fed1])
- by smtp.gmail.com with ESMTPSA id
- n13-20020a170906724d00b006cedd6d7e24sm9021846ejk.119.2022.03.30.23.24.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 23:24:22 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] coverity: update model for latest tools
-Date: Thu, 31 Mar 2022 08:24:19 +0200
-Message-Id: <20220331062419.1099306-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nZol8-00085B-AT
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 02:58:21 -0400
+Received: from mga04.intel.com ([192.55.52.120]:52983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nZol3-0006Ln-L4
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 02:58:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648709893; x=1680245893;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=O/bKGbwTuz4odrbizTQy29vauof302HjcqPe5nVHZvI=;
+ b=lUa+3d6eZ4jCkot6N/4nqP4TM02JTH+eiib7KWIL28ARYkB3D1XuzrLb
+ kRo35cfFWicUbgyFftHK3/Hzu8XKIun6UJVCFA4krvPSO6exQ1qC3E28S
+ m3kSDfrv+LlxAvW2FRGFovGUbo1YLnXgLvqBCYP4GdlXTDCgxzJvBWK5l
+ MQPLyEjdkATVOzg4X0DlysABFsE7EtATyeGw23qxB+EPa2jILJD4NhcF6
+ Mn/mczlrcHx92RYKDz4BCo4ASEA+V1OF2asdMDwZ/W8Q0JnxWzMNe4o7G
+ AWTu92ZSCASWbaktX00/6A9+V8QDpu3yHVpFp5kyZaz4uwZc+iefbpAkb A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="258568157"
+X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="258568157"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2022 23:57:54 -0700
+X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="547188445"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.193.1])
+ ([10.249.193.1])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2022 23:57:50 -0700
+Message-ID: <9d6299ef-ed28-7192-7f8e-5c1a4daf6a62@intel.com>
+Date: Thu, 31 Mar 2022 14:57:47 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.6.1
+Subject: Re: [RFC PATCH v3 17/36] pflash_cfi01/tdx: Introduce ram_mode of
+ pflash for TDVF
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
+ <20220317135913.2166202-18-xiaoyao.li@intel.com>
+ <f418548e-c24c-1bc3-4e16-d7a775298a18@gmail.com>
+ <7a8233e4-0cae-b05a-7931-695a7ee87fc9@intel.com>
+ <20220322092141.qsgv3pqlvlemgrgw@sirius.home.kraxel.org>
+ <YjmXFZRCbKXTkAhN@redhat.com>
+ <20220322103518.ljbi4pvghbgjxm7k@sirius.home.kraxel.org>
+ <YjmqOolbafWkMEHN@redhat.com>
+ <20220322122024.blyut6mnszhyw6hz@sirius.home.kraxel.org>
+ <20220324083528.deoh77e77swf67gb@sirius.home.kraxel.org>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220324083528.deoh77e77swf67gb@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=xiaoyao.li@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,34 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ seanjc@google.com, erdemaktas@google.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity is now rejecting incomplete types in the modeling file.
-Just use a random number (in the neighborhood of the actual one)
-for the size of a GIOChannel.
+On 3/24/2022 4:35 PM, Gerd Hoffmann wrote:
+> On Tue, Mar 22, 2022 at 01:20:24PM +0100, Gerd Hoffmann wrote:
+>>    Hi,
+>>
+>>> At the time I did try a gross hack that (IIRC) disabled the
+>>> rom_reset logic, and munged x86_bios_rom_init so that it would
+>>> force load it straight at the RAM location.
+>>
+>> Sounds reasonable.  The whole rom logic exists to handle resets,
+>> but with confidential guests we don't need that, we can't change
+>> guest state to perform a reset anyway ...
+> 
+> Completed, cleaned up a bit, but untested:
+>    https://git.kraxel.org/cgit/qemu/log/?h=sirius/cc
+> 
+> Any chance you can give this a try?
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/coverity-scan/model.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Hi Gred,
 
-diff --git a/scripts/coverity-scan/model.c b/scripts/coverity-scan/model.c
-index 9d4fba53d9..686d1a3008 100644
---- a/scripts/coverity-scan/model.c
-+++ b/scripts/coverity-scan/model.c
-@@ -356,7 +356,8 @@ int g_poll (GPollFD *fds, unsigned nfds, int timeout)
- typedef struct _GIOChannel GIOChannel;
- GIOChannel *g_io_channel_unix_new(int fd)
- {
--    GIOChannel *c = g_malloc0(sizeof(GIOChannel));
-+    /* cannot use incomplete type, the actual struct is roughly this size.  */
-+    GIOChannel *c = g_malloc0(20 * sizeof(void *));
-     __coverity_escape__(fd);
-     return c;
- }
--- 
-2.35.1
+I refactor the TDX series to load TDVF via "-bios" option upon it.
+
+No issue hit.
+
+Thanks,
+-Xiaoyao
+
+> thanks,
+>    Gerd
+> 
 
 
