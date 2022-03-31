@@ -2,88 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A2D4EDDCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:48:04 +0200 (CEST)
-Received: from localhost ([::1]:57588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B114EDDDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:48:47 +0200 (CEST)
+Received: from localhost ([::1]:60648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZx1m-0007lC-Rj
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:48:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35240)
+	id 1nZx2T-0001OW-UE
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:48:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nZwzz-0006LT-J8
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:46:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58445)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nZx15-00087M-Hb
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:47:20 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:45811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nZwzt-0001d5-AQ
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:46:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648741561;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=URLASE+7HN2zOU7ZU7HaqMoPaeFp3IAOi0E+Q4EVzyM=;
- b=PHGgccof12lAqbXggguUTTJqN5Fb6iWMEsedis/eW7nacXH6rzy/IZpZ7wb/V5h1moxKQ/
- 0l++Nwf7RajzuCcBFoUjQNvI63k1baI6w3z1avA0z72cM+cmiiEQhRi7VMy6e1Lfq/twM4
- fTreMbU1mHFAvTRbuqja1WkMywyjKd0=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-r8fKEGrvMHCQsXN7wbfeSw-1; Thu, 31 Mar 2022 11:46:00 -0400
-X-MC-Unique: r8fKEGrvMHCQsXN7wbfeSw-1
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-2e6402f436cso1934007b3.3
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 08:46:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=URLASE+7HN2zOU7ZU7HaqMoPaeFp3IAOi0E+Q4EVzyM=;
- b=W/8zbrVsOXK+PQrO16idL8XulNMjXIEbem7kFgDlXJB/6bms7VfdopGNszzjkDp9DB
- FtW+68f0pznEu4yA1GLhAqc00L4wjhLS+3QzhsPLol9jc59rmKNkXHtvx+S5bPac7qLG
- q5IgShwiczg9idQSMRlwm0Etqy3G6IYeVnXTV0MEj8MHxV8CZr5b41/a1DXIt2zW+33u
- hxkXvHnm10mD9NopzBEA6Sjp67xzQmgZ9M2T3vZWg43Qn5zdh+g5mQWPoCt/vtznFTIo
- TgiKecTQyiVZAJz7y/GLbzhfvxVhQhtmThNXZ3qx7LAurddR9soZq7lKMLoFyyq5IFmz
- rOkA==
-X-Gm-Message-State: AOAM531ei/UCztHq7gwbnyBAzrfR4FggXbE+hQaN4xOh2vRX5p14SZxn
- Z0R4kOCXu1QvKl4bnLDkBdu8ZEd1craP5icomaEtS820vu9dr9Y5176XMyh/0WV7IfY7DXinPD1
- QmgwkM4mCjTcMLaMj8EPGygxpiCwRSCw=
-X-Received: by 2002:a25:9010:0:b0:63c:ffd6:6f7c with SMTP id
- s16-20020a259010000000b0063cffd66f7cmr4412379ybl.87.1648741559730; 
- Thu, 31 Mar 2022 08:45:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyRdj71EB1H2SDfHTMckXcw0ndDq3NZXCKdNaIwrq/fqUpFTcYm2QAy5OtUFyL1mEKnxcw8zSJ86rzHMH2V0PA=
-X-Received: by 2002:a25:9010:0:b0:63c:ffd6:6f7c with SMTP id
- s16-20020a259010000000b0063cffd66f7cmr4412355ybl.87.1648741559549; Thu, 31
- Mar 2022 08:45:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nZx13-0002y5-PK
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:47:19 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.235])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8E202F1DDF4D;
+ Thu, 31 Mar 2022 17:47:14 +0200 (CEST)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 31 Mar
+ 2022 17:47:13 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003d22a0566-0e0d-431c-8234-d6f57373ec20,
+ FC9088D273F6636B0CAAD4892A2C3D02B7ACC8E0) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <6e563c03-1551-4da6-efdb-1b12e03b3c39@kaod.org>
+Date: Thu, 31 Mar 2022 17:47:12 +0200
 MIME-Version: 1.0
-References: <20220328084717.367993-1-marcandre.lureau@redhat.com>
- <20220328084717.367993-2-marcandre.lureau@redhat.com>
- <YkRHzqi0y/dA1Ptw@stefanha-x1.localdomain>
-In-Reply-To: <YkRHzqi0y/dA1Ptw@stefanha-x1.localdomain>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 31 Mar 2022 19:45:48 +0400
-Message-ID: <CAMxuvawDUbHkPwdgk8SnCFXe4mNDVRo5ah1BtQDGEsJjzNFDQw@mail.gmail.com>
-Subject: Re: [PATCH 1/5] trace: fix compilation with lttng-ust >= 2.13
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH v2 0/5] Port PPC64/PowerNV MMU tests to QEMU
+Content-Language: en-US
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, <qemu-devel@nongnu.org>, 
+ <qemu-ppc@nongnu.org>, Fabiano Rosas <farosas@linux.ibm.com>
+References: <20220331145813.21719-1-leandro.lupori@eldorado.org.br>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220331145813.21719-1-leandro.lupori@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: afcd42af-05a1-4353-9c54-e41d8b199181
+X-Ovh-Tracer-Id: 14772369730072841138
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudeigedgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,62 +71,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- David Hildenbrand <david@redhat.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Beniamino Galvani <b.galvani@gmail.com>,
- "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Antony Pavlov <antonynpavlov@gmail.com>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ pbonzini@redhat.com, alex.bennee@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Hello Leandro,
 
-On Wed, Mar 30, 2022 at 4:06 PM Stefan Hajnoczi <stefanha@redhat.com> wrote=
-:
->
-> On Mon, Mar 28, 2022 at 12:47:13PM +0400, marcandre.lureau@redhat.com wro=
-te:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > On Fedora 36, with lttng-ust 2.13.1, compilation fails with:
-> >
-> > In file included from trace/trace-ust-all.h:49085,
-> >                  from trace/trace-ust-all.c:13:
-> > /usr/include/lttng/tracepoint-event.h:67:10: error: #include expects "F=
-ILENAME" or <FILENAME>
-> >    67 | #include LTTNG_UST_TRACEPOINT_INCLUDE
-> >       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > In lttng-ust commit 41858e2b6e8 ("Fix: don't do macro expansion in
-> > tracepoint file name") from 2012, starting from lttng-ust 2.1, the API
-> > was changed to expect TRACEPOINT_INCLUDE to be defined as a string.
-> >
-> > In lttng-ust commit d2966b4b0b2 ("Remove TRACEPOINT_INCLUDE_FILE
-> > macro"), in 2021, the compatibility macro was removed.
-> >
-> > Use the "new" API from 2012, and bump the version requirement to 2.1 to
-> > fix compilation with >=3D 2.13.
-> >
-> > According to repology, all distributions we support have >=3D 2.1 (cent=
-os
-> > 8 has oldest with 2.8.1 afaict)
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  meson.build                              | 4 ++--
-> >  scripts/tracetool/format/ust_events_h.py | 4 ++--
-> >  2 files changed, 4 insertions(+), 4 deletions(-)
->
-> Thank you!
->
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+I think we should start looking at semihosting like Richard proposed
+and for it, rework the QEMU attn implementation or may be use a special
+form of scv.
 
-Given that there is a dependency bump, would you rather wait for 7.1
-or do you think it should be included in 7.0? I think the latter
-should be safe.
+It should not change too much the tests, only exit and output which
+would remove the dependency on the platform console. In the long run,
+it looks like  a good investment for more low level tests.
 
-thanks
+Thanks,
+
+C.
+
+On 3/31/22 16:58, Leandro Lupori wrote:
+> Changes from v1:
+> - added new files to MAINTAINERS, under PowerPC TCG CPUs, and added
+>    myself as a reviewer (not sure if this is the right procedure)
+> - removed the "virtual" ppc64le-softmmu target.
+>    ppc64/Makefile.softmmu-target now builds all tests in both BE and LE
+> 
+> Cédric Le Goater (2):
+>    target/ppc: Add support for the Processor Attention instruction
+>    ppc/pnv: Activate support for the Processor Attention instruction
+> 
+> Leandro Lupori (3):
+>    tests/tcg/ppc64: add basic softmmu test support
+>    tests/tcg/ppc64: add MMU test sources
+>    tests/tcg/ppc64: build PowerNV and LE tests
+> 
+>   MAINTAINERS                              |   2 +
+>   hw/ppc/pnv_core.c                        |   6 +
+>   include/hw/ppc/pnv_core.h                |   1 +
+>   target/ppc/cpu.h                         |   8 +
+>   target/ppc/excp_helper.c                 |  27 +
+>   target/ppc/helper.h                      |   1 +
+>   target/ppc/translate.c                   |  14 +
+>   tests/tcg/ppc64/Makefile.softmmu-rules   |  34 +
+>   tests/tcg/ppc64/Makefile.softmmu-target  | 124 ++++
+>   tests/tcg/ppc64/system/include/asm.h     |  62 ++
+>   tests/tcg/ppc64/system/include/console.h |  15 +
+>   tests/tcg/ppc64/system/include/io.h      |  61 ++
+>   tests/tcg/ppc64/system/include/pnv.h     |  21 +
+>   tests/tcg/ppc64/system/include/uart.h    |  54 ++
+>   tests/tcg/ppc64/system/lib/boot.S        |  68 ++
+>   tests/tcg/ppc64/system/lib/console.c     | 173 +++++
+>   tests/tcg/ppc64/system/lib/powerpc.lds   |  27 +
+>   tests/tcg/ppc64/system/mmu-head.S        | 142 +++++
+>   tests/tcg/ppc64/system/mmu.c             | 764 +++++++++++++++++++++++
+>   tests/tcg/ppc64/system/mmu.h             |   9 +
+>   20 files changed, 1613 insertions(+)
+>   create mode 100644 tests/tcg/ppc64/Makefile.softmmu-rules
+>   create mode 100644 tests/tcg/ppc64/Makefile.softmmu-target
+>   create mode 100644 tests/tcg/ppc64/system/include/asm.h
+>   create mode 100644 tests/tcg/ppc64/system/include/console.h
+>   create mode 100644 tests/tcg/ppc64/system/include/io.h
+>   create mode 100644 tests/tcg/ppc64/system/include/pnv.h
+>   create mode 100644 tests/tcg/ppc64/system/include/uart.h
+>   create mode 100644 tests/tcg/ppc64/system/lib/boot.S
+>   create mode 100644 tests/tcg/ppc64/system/lib/console.c
+>   create mode 100644 tests/tcg/ppc64/system/lib/powerpc.lds
+>   create mode 100644 tests/tcg/ppc64/system/mmu-head.S
+>   create mode 100644 tests/tcg/ppc64/system/mmu.c
+>   create mode 100644 tests/tcg/ppc64/system/mmu.h
+> 
 
 
