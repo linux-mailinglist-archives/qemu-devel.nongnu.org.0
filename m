@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092964ED2FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 06:44:26 +0200 (CEST)
-Received: from localhost ([::1]:46816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83C74ED2FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 06:42:30 +0200 (CEST)
+Received: from localhost ([::1]:43428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZmfY-0004uv-0S
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 00:44:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44092)
+	id 1nZmdi-0002br-1v
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 00:42:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <38y5FYgcKCn4mqonqfkiqqing.eqosgow-fgxgnpqpipw.qti@flex--komlodi.bounces.google.com>)
- id 1nZmbt-0000hT-Kv
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 00:40:37 -0400
-Received: from [2607:f8b0:4864:20::54a] (port=38544
+ <39C5FYgcKCn8nrporgljrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--komlodi.bounces.google.com>)
+ id 1nZmaP-0006q8-6b
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 00:39:05 -0400
+Received: from [2607:f8b0:4864:20::54a] (port=44930
  helo=mail-pg1-x54a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <38y5FYgcKCn4mqonqfkiqqing.eqosgow-fgxgnpqpipw.qti@flex--komlodi.bounces.google.com>)
- id 1nZmbs-0002rL-1y
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 00:40:37 -0400
+ <39C5FYgcKCn8nrporgljrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--komlodi.bounces.google.com>)
+ id 1nZmaN-0002ZE-In
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 00:39:04 -0400
 Received: by mail-pg1-x54a.google.com with SMTP id
- x32-20020a631720000000b003981337c300so7524368pgl.5
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 21:40:35 -0700 (PDT)
+ p9-20020a63f449000000b0035ec8c16f0bso3514827pgk.11
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 21:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=qPiA9z2tpVqJV7JwWQW6uE7O1g6VdcmOnhlhbntUHBA=;
- b=ryrUGstrOYHlCdZdY1YlMOFPCX0yFT7Uyu54he2jKaIadq8Ub7hAFi6nl3iHWXwEcN
- 3pzOvEqXWXY4oxEjslibP2AH6Wb67o7qyp21+pPW8gp12NVllFEZNqKIKkHNassKR95c
- 0RIJ2iHBIZsTdkG7VsokQi38prBd3o8HK52o8J9eA3y8HWt+wWtz9X4uiOcj3Wll8pUb
- +TjIu1kxAzXxIWUgvbTRwoeoEkn3Rvt7DddcR6N3jSG8FZscI3mnxKDdkpWCxWsdUdy+
- eI/a+5JJyMUkzBGV9Al07rewGkJB77c9HK5oQmbCU8xZ0IDx7aFn6mklXzs0tgwAkO/Q
- CE/w==
+ :cc; bh=c1v6AeYJ4nUgS8LTP98DKz2BvMXVuqxPln0naoeiAzI=;
+ b=Ek/nHeUKcT/pkHBa3K4QriNUTn6Fag++yEbdQcV5H4YxhTGyX/5OGWQP6+jON9ZXoh
+ 4EFFjvOIcuN/Hb47KM0AmC2Iw/u4ZqT3hKqeiWjEV2TxWoGaqomte3FxVxP0O8piBxZP
+ 3NwJZZIE0rEFtBTFTLquSMHhxytNmc626sczU30K/3tZFt4AHL/1mKIcg0S7hg1KokRO
+ viabSDK3sh4J+5GsL5JU7ZyU+TZkh3zanrgjmvUBm9QChzjr8dyM/UrjPTjIyCEpIsd3
+ eSg0fw93j/Fnfvxuh5UKolv/TYhIy5ELHBcDYxpTINfzhPjWI4vE56gxEzlrK3WYoOMR
+ EvQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=qPiA9z2tpVqJV7JwWQW6uE7O1g6VdcmOnhlhbntUHBA=;
- b=F050IH9aj41fJ6vEjbNp+20ZXQ6etAQyC0DNjnGlOZS2HFwHRoxWr5RPz81wDPftfo
- Jv/DkiYKRMb0lWySL2EcK6E/Xn3mlrk4OhTXGBBXwHeonco1x87dSDtjN+dXN1lJawDY
- 0DnBsCqQGBH5/6e4Zq8bFwRiQfIDRcxg7uj/OONaOGmctYa3OP95kaCqbKgTP3KrOdnd
- Z/8KPPPHhRUjt6UmqsEOfDOLR7+jivhMKWBqbjHbW256E0UldTKEhaBq3RYZYXqvCca3
- iE+jkAr3gb6la1LocSljz/L8kCNOq7YA7PpqH8+1XU0O9YB6OJUSqrBVSIML1kagZ0hl
- XA4A==
-X-Gm-Message-State: AOAM530sstOM29GZd53eQCU9LWK68MSg05HMJugGKjwgSUXYMrl4XpYu
- xBKm5AdUsOqfi0uWY8T5wPDpAs1LkiXsBifMikeAg+vXrFYsS7Bxlkq6pnE9p0niD+soDidgDDA
- +WRGTsk4KnV5Nk13aOHSlymlAVTFF9UlV4svdH0MEdpW3T6aQfwX/T5BAVkz/tdM=
-X-Google-Smtp-Source: ABdhPJwZqYSgeoFOaL8uPWKX+KZTVQ5apaz0otNq0Y3TWiOAuENbKqqYfMiaHmixfd7+q6ZJ/77n16XgQ3/P
+ bh=c1v6AeYJ4nUgS8LTP98DKz2BvMXVuqxPln0naoeiAzI=;
+ b=kp/0SwRAIKnX5SfPfaXjbgA1p1wFin8ysaxiIw5+JRo6EDGpbHAQmB3AZb8hLgA/x6
+ rV5x67n4+Gbe0gGqLsdl0IVkXkNVyQ4EkTV3y97x65kxzi7EFwJis2FC+PKn6K2skt3R
+ 4TLN9jRBw5ueyzmfxVW2QbprJDKNlxQnlv3kdz166IlafWkr4OTJwd9jAJhacnyfhN53
+ +zq22ZRwP1DRY1RIG0UavM9NSG3Ivw9m7DjRaOBGwmew1xr6zZb9j4ANNKfhf5CX2he5
+ egXdvm4aiHeEot0p+Ktv8Kidw0DG2poFDzxDltc1IIwYEGZbirS6M09OtSAOLe+oRISo
+ hRvg==
+X-Gm-Message-State: AOAM530jCe90Oh9gb3JLxjdIdveNcTs6W2gqzYjwl0N1s7/JPqR6O59I
+ l74XWZL+L5H5R6ZnIGPH0zVlAid2tD6F4be2cKmBDvhQFY8m9qmJjOSB+miPzaynXUO2ResK3b2
+ rsEgsuhJx1oL2eE/WsAgSIFvY9Gh/cBubIMLhqR9qaEBtOKxIyxaX8GO1t+Ri+A8=
+X-Google-Smtp-Source: ABdhPJwpIeAvDd70Mce8PVkxyZRf4H4LQi7kWJ3iYIVrwSTAyQwse2bwN/Z/SpGLBG2jKcdHuulIsSD1IZmP
 X-Received: from komlodi.c.googlers.com
  ([fda3:e722:ac3:cc00:7f:e700:c0a8:35ee])
- (user=komlodi job=sendgmr) by 2002:a17:902:f54e:b0:154:8219:ce02 with SMTP id
- h14-20020a170902f54e00b001548219ce02mr3290993plf.62.1648701171042; Wed, 30
- Mar 2022 21:32:51 -0700 (PDT)
-Date: Thu, 31 Mar 2022 04:32:42 +0000
+ (user=komlodi job=sendgmr) by 2002:aa7:8215:0:b0:4f7:125a:c88c with SMTP id
+ k21-20020aa78215000000b004f7125ac88cmr3462612pfi.70.1648701172458; Wed, 30
+ Mar 2022 21:32:52 -0700 (PDT)
+Date: Thu, 31 Mar 2022 04:32:43 +0000
 In-Reply-To: <20220331043248.2237838-1-komlodi@google.com>
-Message-Id: <20220331043248.2237838-2-komlodi@google.com>
+Message-Id: <20220331043248.2237838-3-komlodi@google.com>
 Mime-Version: 1.0
 References: <20220331043248.2237838-1-komlodi@google.com>
 X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
-Subject: [RFC PATCH 1/7] hw/registerfields: Add shared fields macros
+Subject: [RFC PATCH 2/7] aspeed: i2c: Add ctrl_global_rsvd property
 From: Joe Komlodi <komlodi@google.com>
 To: qemu-devel@nongnu.org
 Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au, 
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset="UTF-8"
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::54a
  (failed)
 Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
- envelope-from=38y5FYgcKCn4mqonqfkiqqing.eqosgow-fgxgnpqpipw.qti@flex--komlodi.bounces.google.com;
+ envelope-from=39C5FYgcKCn8nrporgljrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--komlodi.bounces.google.com;
  helo=mail-pg1-x54a.google.com
 X-Spam_score_int: -81
 X-Spam_score: -8.2
@@ -94,110 +94,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Occasionally a peripheral will have different operating modes, where the
-MMIO layout changes, but some of the register fields have the same offsets
-and behaviors.
-
-To help support this, we add SHARED_FIELD_XX macros that create SHIFT,
-LENGTH, and MASK macros for the fields that are shared across registers,
-and accessors for these fields.
-
-An example use may look as follows:
-There is a peripheral with registers REG_MODE1 and REG_MODE2 at
-different addreses, and both have a field FIELD1 initialized by
-SHARED_FIELD().
-
-Depending on what mode the peripheral is operating in, the user could
-extract FIELD1 via
-SHARED_ARRAY_FIELD_EX32(s->regs, R_REG_MODE1, FIELD1)
-or
-SHARED_ARRAY_FIELD_EX32(s->regs, R_REG_MODE2, FIELD1)
+The Aspeed I2C controller is used across other SKUs that have different
+reserved bits for the ctrl_global_rsvd register.
 
 Signed-off-by: Joe Komlodi <komlodi@google.com>
-Change-Id: Id3dc53e7d2f8741c95697cbae69a81bb699fa3cb
+Change-Id: I606c5933c527274a9d2b0afe559b2e895767636c
 ---
- include/hw/registerfields.h | 70 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ hw/arm/aspeed_ast2600.c     | 2 ++
+ hw/i2c/aspeed_i2c.c         | 4 ++++
+ include/hw/i2c/aspeed_i2c.h | 2 ++
+ 3 files changed, 8 insertions(+)
 
-diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
-index f2a3c9c41f..cf3bc3a6e3 100644
---- a/include/hw/registerfields.h
-+++ b/include/hw/registerfields.h
-@@ -108,4 +108,74 @@
- #define ARRAY_FIELD_DP64(regs, reg, field, val)                           \
-     (regs)[R_ ## reg] = FIELD_DP64((regs)[R_ ## reg], reg, field, val);
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 43f8223139..9f14a35a75 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -344,6 +344,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+                    serial_hd(0), DEVICE_LITTLE_ENDIAN);
  
+     /* I2C */
++    object_property_set_int(OBJECT(&s->i2c), "ctrl-global-rsvd", 0xfffc3e00,
++                            &error_abort);
+     object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
+                              &error_abort);
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->i2c), errp)) {
+diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+index 03a4f5a910..97eb9d5792 100644
+--- a/hw/i2c/aspeed_i2c.c
++++ b/hw/i2c/aspeed_i2c.c
+@@ -648,6 +648,7 @@ static void aspeed_i2c_ctrl_write(void *opaque, hwaddr offset,
+ 
+     switch (offset) {
+     case I2C_CTRL_GLOBAL:
++        value &= ~s->ctrl_global_rsvd;
+         s->ctrl_global = value;
+         break;
+     case I2C_CTRL_STATUS:
+@@ -730,6 +731,7 @@ static const VMStateDescription aspeed_i2c_vmstate = {
+     .minimum_version_id = 2,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32(intr_status, AspeedI2CState),
++        VMSTATE_UINT32(ctrl_global_rsvd, AspeedI2CState),
+         VMSTATE_STRUCT_ARRAY(busses, AspeedI2CState,
+                              ASPEED_I2C_NR_BUSSES, 1, aspeed_i2c_bus_vmstate,
+                              AspeedI2CBus),
+@@ -828,6 +830,8 @@ static void aspeed_i2c_realize(DeviceState *dev, Error **errp)
+ static Property aspeed_i2c_properties[] = {
+     DEFINE_PROP_LINK("dram", AspeedI2CState, dram_mr,
+                      TYPE_MEMORY_REGION, MemoryRegion *),
++    DEFINE_PROP_UINT32("ctrl-global-rsvd", AspeedI2CState, ctrl_global_rsvd,
++                       0xfffffffe),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+index 4b9be09274..3912fcc3ff 100644
+--- a/include/hw/i2c/aspeed_i2c.h
++++ b/include/hw/i2c/aspeed_i2c.h
+@@ -71,6 +71,8 @@ struct AspeedI2CState {
+     MemoryRegion pool_iomem;
+     uint8_t pool[ASPEED_I2C_MAX_POOL_SIZE];
+ 
++    uint32_t ctrl_global_rsvd;
 +
-+/*
-+ * These macros can be used for defining and extracting fields that have the
-+ * same bit position across multiple registers.
-+ */
-+
-+/* Define shared SHIFT, LENGTH, and MASK constants */
-+#define SHARED_FIELD(name, shift, length)   \
-+    enum { name ## _ ## SHIFT = (shift)};   \
-+    enum { name ## _ ## LENGTH = (length)}; \
-+    enum { name ## _ ## MASK = MAKE_64BIT_MASK(shift, length)};
-+
-+/* Extract a shared field */
-+#define SHARED_FIELD_EX8(storage, field) \
-+    extract8((storage), field ## _SHIFT, field ## _LENGTH)
-+
-+#define SHARED_FIELD_EX16(storage, field) \
-+    extract16((storage), field ## _SHIFT, field ## _LENGTH)
-+
-+#define SHARED_FIELD_EX32(storage, field) \
-+    extract32((storage), field ## _SHIFT, field ## _LENGTH)
-+
-+#define SHARED_FIELD_EX64(storage, field) \
-+    extract64((storage), field ## _SHIFT, field ## _LENGTH)
-+
-+/* Extract a shared field from a register array */
-+#define SHARED_ARRAY_FIELD_EX32(regs, offset, field) \
-+    SHARED_FIELD_EX32((regs)[(offset)], field)
-+#define SHARED_ARRAY_FIELD_EX64(regs, offset, field) \
-+    SHARED_FIELD_EX64((regs)[(offset)], field)
-+
-+/* Deposit a shared field */
-+#define SHARED_FIELD_DP8(storage, field, val) ({                        \
-+    struct {                                                            \
-+        unsigned int v:field ## _LENGTH;                                \
-+    } _v = { .v = val };                                                \
-+    uint8_t _d;                                                         \
-+    _d = deposit32((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
-+    _d; })
-+
-+#define SHARED_FIELD_DP16(storage, field, val) ({                       \
-+    struct {                                                            \
-+        unsigned int v:field ## _LENGTH;                                \
-+    } _v = { .v = val };                                                \
-+    uint16_t _d;                                                        \
-+    _d = deposit32((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
-+    _d; })
-+
-+#define SHARED_FIELD_DP32(storage, field, val) ({                       \
-+    struct {                                                            \
-+        unsigned int v:field ## _LENGTH;                                \
-+    } _v = { .v = val };                                                \
-+    uint32_t _d;                                                        \
-+    _d = deposit32((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
-+    _d; })
-+
-+#define SHARED_FIELD_DP64(storage, field, val) ({                       \
-+    struct {                                                            \
-+        uint64_t v:field ## _LENGTH;                                    \
-+    } _v = { .v = val };                                                \
-+    uint64_t _d;                                                        \
-+    _d = deposit64((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
-+    _d; })
-+
-+/* Deposit a shared field to a register array */
-+#define SHARED_ARRAY_FIELD_DP32(regs, offset, field, val) \
-+    (regs)[(offset)] = SHARED_FIELD_DP32((regs)[(offset)], field, val);
-+#define SHARED_ARRAY_FIELD_DP64(regs, offset, field, val) \
-+    (regs)[(offset)] = SHARED_FIELD_DP64((regs)[(offset)], field, val);
-+
- #endif
+     AspeedI2CBus busses[ASPEED_I2C_NR_BUSSES];
+     MemoryRegion *dram_mr;
+     AddressSpace dram_as;
 -- 
 2.35.1.1021.g381101b075-goog
 
