@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2284EE1C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 21:35:51 +0200 (CEST)
-Received: from localhost ([::1]:48820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E684EE22B
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 21:56:26 +0200 (CEST)
+Received: from localhost ([::1]:34056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na0aE-0003hm-Lz
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 15:35:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33548)
+	id 1na0u9-0005u3-Dv
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 15:56:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1na0Xo-0002OB-6h; Thu, 31 Mar 2022 15:33:20 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:56125)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1na0Xl-0000mk-PM; Thu, 31 Mar 2022 15:33:19 -0400
-Received: from [192.168.100.1] ([82.142.13.234]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mz9lL-1nvxGo2S5z-00wBXJ; Thu, 31 Mar 2022 21:33:09 +0200
-Message-ID: <4c36c35d-b992-43d1-f90e-cb30ad1d0e06@vivier.eu>
-Date: Thu, 31 Mar 2022 21:33:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] tests/lcitool: Do not use a hard-coded /usr/bin/python3
- as python interpreter
-Content-Language: fr
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20220329063958.262669-1-thuth@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220329063958.262669-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1na0sF-0004pP-8o
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:54:27 -0400
+Received: from [2607:f8b0:4864:20::62d] (port=35414
+ helo=mail-pl1-x62d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1na0sD-0004oE-9O
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:54:26 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id y6so562056plg.2
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 12:54:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8uJ7V2Lk5b43qtRmyNKIxduM/i4ZvkhkfMVtcSMTHLc=;
+ b=FU4YJeOWM6yJOftdRdppJkqAphiFFHBDWUUenEYTDla3AjR/9XyWUZ7NZrML9kP99Z
+ rqVOzKX0OfynEviPak2SUeMa0Jxf+lrS9EClU7ZqMwKR3W/DNIVrESqbp+0eIEVkrIBM
+ M2axkYIj+R7nx0w3lyY4eEihxCsjEfF2rwwm4ERkBmFL3F2/vYC+dG+rn5028ncqt8cj
+ SlsMm9LggdTPgKMEVRPSqQNUJJCSU9RceECfCtuPpey4sagbpN/5/PCyVkitJ13aPlA3
+ YdQ3O527QYaVl7OfKeTFGDfExvfTRBdEKXr5OeP9UNh/o1LsqwQB9z32d0VsYvZtWzn+
+ VywQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=8uJ7V2Lk5b43qtRmyNKIxduM/i4ZvkhkfMVtcSMTHLc=;
+ b=x9+cZLERFpwxr5cFxc1d1IaN5l3moDtovvHITEC4z9UKPxfq5Lf6kTbH4lgRklliGS
+ e60XabEdmNGab8eoFEIIQYRgp8HzWX/dl8aiLpVLJ72CZMJs4fwWdJAf/O1O0/6luUib
+ Azm8uylL8S6DUfD5d7NnzoLD1M/CO2ftuhc+ARFSJ59Mf3L8a0FgQdn/s6DSvDiqlxu2
+ 5XclWXb6FO0t0HTJJU3wZHxAz6ZG2n8BZC5T1PcUCPBWng0LPL0PbDgJRsiy3AK0CGlD
+ PnEN/s083EvK/kdQaUuPCQe+mPClCtPp2ejZ5NnDXwnXa2KebpA0P0qsCMbSgfzzw2L5
+ nkvQ==
+X-Gm-Message-State: AOAM533nndUS4R7J7LTWpGTfWVs/zmhpca6kBAbzVaBhriRzvnTCmg5K
+ KSW7mrlIFBG7rT17K3I0EaJAOw==
+X-Google-Smtp-Source: ABdhPJw7JKGfhtf3xhglvwKuCf7tiq5byULmqZPX/onK7gDxOwmiShZCnNHHKkZbJwIlhjSsWTfaDg==
+X-Received: by 2002:a17:903:32c7:b0:154:4156:f384 with SMTP id
+ i7-20020a17090332c700b001544156f384mr6965753plr.34.1648756463019; 
+ Thu, 31 Mar 2022 12:54:23 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223]) by smtp.gmail.com with ESMTPSA id
+ b10-20020a056a00114a00b004f784ba5e6asm323970pfm.17.2022.03.31.12.54.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Mar 2022 12:54:22 -0700 (PDT)
+Date: Thu, 31 Mar 2022 12:54:22 -0700 (PDT)
+X-Google-Original-Date: Thu, 31 Mar 2022 12:54:20 PDT (-0700)
+Subject: Re: Re: [PATCH] target/riscv: Exit current TB after an sfence.vma
+In-Reply-To: <CAKmqyKMsG6d7jaS2gxXxh+qONWkWGbHFwLK9tYb2q7eeQe77uw@mail.gmail.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: alistair23@gmail.com
+Message-ID: <mhng-beb640a4-0833-45b9-a57d-1e98464152f5@palmer-mbp2014>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:xk7bxR26qm4d15v7yVUuS3Aw0UG0PZREBDVSxhQmJQbxdn51IZ4
- cA0T0rdObL0VkhiGxoN0GnIM2jA96B1JbF3EooJwU+EcPuGUF186w6ytlrZCPbuRKlnEwwU
- YDb5W75rt1phTqH9XK0P9exRauPO6bx8/RP1iVum1mi/T0ZJG5vEmLRtRwC2U8ZB5JwZHNi
- kBZiGR93krNFwDPUXJeug==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:P6k+VeD6RmI=:opaPj98SC9xII9oiNyoYx2
- r7xHwICtMot3LcUvw2PGKu+qRyBpZPelqxs7gQvrK0LAPt/oRBFTFZQrB4jFces/0JT7TVNE/
- BxBrcy8kng7Wr8YovgEMU3SM7HLNy4IOFbffjdqZLe4qqBQYkpMGCK5UMEeFRnHRlug9jEwOp
- bxcileZBUHycEk8vfRTaYH8O6pjHbqog9yPB4oOEfIVpZd+BvGEHzchFXghz/XP8LpC/KTin+
- LQH6SGEzBu5Ddt4hHAOd+4BY74VPDbZQGNAkuFgDGtD+Z5eDW7fvE+5cN0gJm9sSRV/GMywBg
- TCu8e3JieqAnfBMWneimj2DOvcmUgXCqVHW5BGmXuLEjsXmw8h2oEU0tZwaSv5jZnfm6gnLof
- aCrvsZyrs/bgh7d6e3vKWWvrMO/qFdq4Ih3Cjbp+CA4foXN3pSdoTBbi8iM0kyI1VHrHH4TQl
- Eb3nz25kAc32Sv7yQLnaajCFOQnouGhgyAVjf6AaliH379Q3foBZG/m/xvstCzh7F3Z9HSA16
- bsf1g/zguMRqVJNuJ9My3iJ9fTgmbyU2ZDX9lAb3orQqHJQwyhyEtPi6lRj30FsXe42arT5jj
- bwucwtwRStdgv7PR6UMEs+RqEgs6UQ3xAkWIjQmP36UdoGRJnse932NSB7bjPagcmKb6HvnoJ
- D8t2V67sDIuPUGz6HECKpCilQezz+/hPMpxtOzFPaEgdjLwtXwVzMCChASvciiBPNglA=
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=palmer@dabbelt.com; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,53 +88,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-trivial@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: phantom@zju.edu.cn, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>, linux-riscv@lists.infradead.org,
+ idan.horowitz@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 29/03/2022 à 08:39, Thomas Huth a écrit :
-> When running "make lcitool-refresh", this currently uses the hard-coded
-> /usr/bin/python3 from the script's shebang line for running Python.
-> That's bad, since neither /usr/bin/python3 is guaranteed to exist, nor
-> does it honor the python interpreter that the user might have chosen
-> while running the "configure" script. Thus let's rather use $(PYTHON)
-> in the Makefile, and improve the shebang line in the script in case
-> someone runs this directly.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   tests/lcitool/Makefile.include | 2 +-
->   tests/lcitool/refresh          | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tests/lcitool/Makefile.include b/tests/lcitool/Makefile.include
-> index 6b215adcd1..3780185c7c 100644
-> --- a/tests/lcitool/Makefile.include
-> +++ b/tests/lcitool/Makefile.include
-> @@ -14,4 +14,4 @@ lcitool-help: lcitool
->   
->   lcitool-refresh:
->   	$(call quiet-command, cd $(SRC_PATH) && git submodule update --init tests/lcitool/libvirt-ci)
-> -	$(call quiet-command, $(LCITOOL_REFRESH))
-> +	$(call quiet-command, $(PYTHON) $(LCITOOL_REFRESH))
-> diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-> index 1f00281b44..2d198ad281 100755
-> --- a/tests/lcitool/refresh
-> +++ b/tests/lcitool/refresh
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python3
-> +#!/usr/bin/env python3
->   #
->   # Re-generate container recipes
->   #
+On Wed, 30 Mar 2022 22:13:39 PDT (-0700), alistair23@gmail.com wrote:
+> On Thu, Mar 31, 2022 at 2:36 PM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>>
+>> On Wed, 30 Mar 2022 20:23:21 PDT (-0700), alistair23@gmail.com wrote:
+>> > On Thu, Mar 31, 2022 at 3:11 AM Idan Horowitz <idan.horowitz@gmail.com> wrote:
+>> >>
+>> >> On Wed, 30 Mar 2022 at 19:11, Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>> >> >
+>> >> >
+>> >> > Presumably you mean "revert" here?  That might be the right way to go,
+>> >> > just to avoid breaking users (even if we fix the kernel bug, it'll take
+>> >> > a while to get everyone to update).  That said, this smells like the
+>> >> > sort of thing that's going to crop up at arbitrary times in dynamic
+>> >> > systems so while a revert looks like it'd work around the boot issue we
+>> >> > might be making more headaches for folks down the road.
+>> >> >
+>> >>
+>> >> The opposite in fact, I did not suggest to revert it, but rather undo
+>> >> the revert (as Alistair already removed it from the apply-next tree),
+>> >> since my original patch fixes buggy behaviour that is blocking the
+>> >> testing of some embedded software on QEMU.
+>>
+>> Ah, sorry -- the QEMU tree I was looking at still had the patch in
+>> there, must have just been an old one.
+>>
+>> > So, this is a little tricky.
+>> >
+>> > We want to apply the fix, but that will break current users.
+>> >
+>> > Once the fix is merged into Linux we can apply it here. That should
+>> > hopefully be right at the start of the 7.1 QEMU development window,
+>> > which should give time for the fix to propagate into stable kernels
+>> > and not break too many people by the time QEMU is released.
+>>
+>> If you think this is a Linux bug then that makes sense, but I think this
+>> is a QEMU bug -- I sent a patch, not sure if it went through as it didn't
+>> make it to lore.
+>
+> Ah whoops. I saw the patch but didn't read it, then I assumed it was a
+> Linux bug from your diff earlier.
 
-Applied to my trivial-patches branch.
+No problem, that was the first thing I sent in the morning so I doubt it 
+made any sense.
 
-Thanks,
-Laurent
+>
+>>
+>> I also think the bug will manifest without the TB exit patch, maybe in
+>> single-step mode and definately if we happen to exit the TB at that
+>> point for other reasons.  Assuming my reasoning is correct in that
+>> patch, we may also be hitting this as arbitrary corruption anywhere.
+>> I'd started to write up a "QEMU errata" Linux patch for this, but then
+>> convinced myself that just adding the sfence.vma was insufficient.
+>
+> Yeah, looking at it now I agree, I'll send a PR for 7.0.
 
+Thanks!
 
