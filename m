@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D59E84EDCCA
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:28:47 +0200 (CEST)
-Received: from localhost ([::1]:38340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9D44EDD45
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:36:21 +0200 (CEST)
+Received: from localhost ([::1]:58944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZwj8-0000Ek-R4
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:28:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56268)
+	id 1nZwqS-0005sQ-Td
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:36:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1nZwfa-0003d0-4S; Thu, 31 Mar 2022 11:25:06 -0400
+ id 1nZwfl-0003rW-0e; Thu, 31 Mar 2022 11:25:17 -0400
 Received: from [187.72.171.209] (port=51585 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1nZwfY-0004ne-Aa; Thu, 31 Mar 2022 11:25:05 -0400
+ id 1nZwfd-0004ne-Kk; Thu, 31 Mar 2022 11:25:15 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 31 Mar 2022 12:24:02 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id D875880060F;
- Thu, 31 Mar 2022 11:58:42 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 31F18800F41;
+ Thu, 31 Mar 2022 11:58:43 -0300 (-03)
 From: Leandro Lupori <leandro.lupori@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [RFC PATCH v2 1/5] target/ppc: Add support for the Processor
+Subject: [RFC PATCH v2 2/5] ppc/pnv: Activate support for the Processor
  Attention instruction
-Date: Thu, 31 Mar 2022 11:58:09 -0300
-Message-Id: <20220331145813.21719-2-leandro.lupori@eldorado.org.br>
+Date: Thu, 31 Mar 2022 11:58:10 -0300
+Message-Id: <20220331145813.21719-3-leandro.lupori@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220331145813.21719-1-leandro.lupori@eldorado.org.br>
 References: <20220331145813.21719-1-leandro.lupori@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 31 Mar 2022 15:24:02.0531 (UTC)
- FILETIME=[5A12DB30:01D84513]
+X-OriginalArrivalTime: 31 Mar 2022 15:24:02.0687 (UTC)
+ FILETIME=[5A2AA8F0:01D84513]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,134 +67,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-Check the HID0 bit to send signal, currently modeled as a checkstop.
-The QEMU implementation adds an exit using the GPR[3] value (that's a
-hack for tests)
-
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
 ---
- target/ppc/cpu.h         |  8 ++++++++
- target/ppc/excp_helper.c | 27 +++++++++++++++++++++++++++
- target/ppc/helper.h      |  1 +
- target/ppc/translate.c   | 14 ++++++++++++++
- 4 files changed, 50 insertions(+)
+ hw/ppc/pnv_core.c         | 6 ++++++
+ include/hw/ppc/pnv_core.h | 1 +
+ 2 files changed, 7 insertions(+)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 047b24ba50..12f9f3a880 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -173,6 +173,12 @@ enum {
-     POWERPC_EXCP_PRIV_REG      = 0x02,  /* Privileged register exception     */
-     /* Trap                                                                  */
-     POWERPC_EXCP_TRAP          = 0x40,
-+    /* Processor Attention                                                   */
-+    POWERPC_EXCP_ATTN          = 0x100,
-+    /*
-+     * NOTE: POWERPC_EXCP_ATTN uses values from 0x100 to 0x1ff to return
-+     *       error codes.
-+     */
+diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+index 19e8eb885f..eb59b44a6c 100644
+--- a/hw/ppc/pnv_core.c
++++ b/hw/ppc/pnv_core.c
+@@ -46,6 +46,7 @@ static void pnv_core_cpu_reset(PnvCore *pc, PowerPCCPU *cpu)
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+     PnvChipClass *pcc = PNV_CHIP_GET_CLASS(pc->chip);
++    PnvCoreClass *pcorec = PNV_CORE_GET_CLASS(pc);
+ 
+     cpu_reset(cs);
+ 
+@@ -57,6 +58,8 @@ static void pnv_core_cpu_reset(PnvCore *pc, PowerPCCPU *cpu)
+     env->nip = 0x10;
+     env->msr |= MSR_HVB; /* Hypervisor mode */
+     env->spr[SPR_HRMOR] = pc->hrmor;
++    env->spr[SPR_HID0] |= pcorec->attn;
++
+     hreg_compute_hflags(env);
+ 
+     pcc->intc_reset(pc->chip, cpu);
+@@ -300,6 +303,7 @@ static void pnv_core_power8_class_init(ObjectClass *oc, void *data)
+     PnvCoreClass *pcc = PNV_CORE_CLASS(oc);
+ 
+     pcc->xscom_ops = &pnv_core_power8_xscom_ops;
++    pcc->attn = HID0_ATTN;
+ }
+ 
+ static void pnv_core_power9_class_init(ObjectClass *oc, void *data)
+@@ -307,6 +311,7 @@ static void pnv_core_power9_class_init(ObjectClass *oc, void *data)
+     PnvCoreClass *pcc = PNV_CORE_CLASS(oc);
+ 
+     pcc->xscom_ops = &pnv_core_power9_xscom_ops;
++    pcc->attn = HID0_POWER9_ATTN;
+ }
+ 
+ static void pnv_core_power10_class_init(ObjectClass *oc, void *data)
+@@ -315,6 +320,7 @@ static void pnv_core_power10_class_init(ObjectClass *oc, void *data)
+ 
+     /* TODO: Use the P9 XSCOMs for now on P10 */
+     pcc->xscom_ops = &pnv_core_power9_xscom_ops;
++    pcc->attn = HID0_POWER9_ATTN;
+ }
+ 
+ static void pnv_core_class_init(ObjectClass *oc, void *data)
+diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
+index c22eab2e1f..04e1fec1f3 100644
+--- a/include/hw/ppc/pnv_core.h
++++ b/include/hw/ppc/pnv_core.h
+@@ -47,6 +47,7 @@ struct PnvCoreClass {
+     DeviceClass parent_class;
+ 
+     const MemoryRegionOps *xscom_ops;
++    uint64_t attn;
  };
  
- #define PPC_INPUT(env) ((env)->bus_model)
-@@ -2089,6 +2095,8 @@ void ppc_compat_add_property(Object *obj, const char *name,
- #define HID0_DOZE           (1 << 23)           /* pre-2.06 */
- #define HID0_NAP            (1 << 22)           /* pre-2.06 */
- #define HID0_HILE           PPC_BIT(19) /* POWER8 */
-+#define HID0_ATTN           PPC_BIT(31) /* Processor Attention */
-+#define HID0_POWER9_ATTN    PPC_BIT(3)
- #define HID0_POWER9_HILE    PPC_BIT(4)
- 
- /*****************************************************************************/
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index d3e2cfcd71..b0c629905c 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -1379,6 +1379,9 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
-             }
-             cs->halted = 1;
-             cpu_interrupt_exittb(cs);
-+            if ((env->error_code & ~0xff) == POWERPC_EXCP_ATTN) {
-+                exit(env->error_code & 0xff);
-+            }
-         }
-         if (env->msr_mask & MSR_HVB) {
-             /*
-@@ -1971,6 +1974,30 @@ void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
-     env->resume_as_sreset = (insn != PPC_PM_STOP) ||
-         (env->spr[SPR_PSSCR] & PSSCR_EC);
- }
-+
-+/*
-+ * Processor Attention instruction (Implementation dependent)
-+ */
-+void helper_attn(CPUPPCState *env, target_ulong r3)
-+{
-+    bool attn = false;
-+
-+    if (env->excp_model == POWERPC_EXCP_POWER8) {
-+        attn = !!(env->spr[SPR_HID0] & HID0_ATTN);
-+    } else if (env->excp_model == POWERPC_EXCP_POWER9 ||
-+               env->excp_model == POWERPC_EXCP_POWER10) {
-+        attn = !!(env->spr[SPR_HID0] & HID0_POWER9_ATTN);
-+    }
-+
-+    if (attn) {
-+        raise_exception_err(env, POWERPC_EXCP_MCHECK,
-+                            POWERPC_EXCP_ATTN | (r3 & 0xff));
-+    } else {
-+        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
-+                               POWERPC_EXCP_INVAL |
-+                               POWERPC_EXCP_INVAL_INVAL, GETPC());
-+    }
-+}
- #endif /* defined(TARGET_PPC64) */
- 
- static void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr)
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 57da11c77e..9a2497569b 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -14,6 +14,7 @@ DEF_HELPER_1(rfmci, void, env)
- #if defined(TARGET_PPC64)
- DEF_HELPER_2(scv, noreturn, env, i32)
- DEF_HELPER_2(pminsn, void, env, i32)
-+DEF_HELPER_2(attn, void, env, tl)
- DEF_HELPER_1(rfid, void, env)
- DEF_HELPER_1(rfscv, void, env)
- DEF_HELPER_1(hrfid, void, env)
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 408ae26173..5ace6f3a29 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -4123,6 +4123,19 @@ static void gen_rvwinkle(DisasContext *ctx)
-     gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
- #endif /* defined(CONFIG_USER_ONLY) */
- }
-+
-+static void gen_attn(DisasContext *ctx)
-+{
-+ #if defined(CONFIG_USER_ONLY)
-+    GEN_PRIV;
-+#else
-+    CHK_SV;
-+
-+    gen_helper_attn(cpu_env, cpu_gpr[3]);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+#endif
-+}
-+
- #endif /* #if defined(TARGET_PPC64) */
- 
- static inline void gen_update_cfar(DisasContext *ctx, target_ulong nip)
-@@ -6844,6 +6857,7 @@ GEN_HANDLER_E(nap, 0x13, 0x12, 0x0d, 0x03FFF801, PPC_NONE, PPC2_PM_ISA206),
- GEN_HANDLER_E(sleep, 0x13, 0x12, 0x0e, 0x03FFF801, PPC_NONE, PPC2_PM_ISA206),
- GEN_HANDLER_E(rvwinkle, 0x13, 0x12, 0x0f, 0x03FFF801, PPC_NONE, PPC2_PM_ISA206),
- GEN_HANDLER(hrfid, 0x13, 0x12, 0x08, 0x03FF8001, PPC_64H),
-+GEN_HANDLER(attn, 0x0, 0x00, 0x8, 0xfffffdff, PPC_FLOW),
- #endif
- /* Top bit of opc2 corresponds with low bit of LEV, so use two handlers */
- GEN_HANDLER(sc, 0x11, 0x11, 0xFF, 0x03FFF01D, PPC_FLOW),
+ #define PNV_CORE_TYPE_SUFFIX "-" TYPE_PNV_CORE
 -- 
 2.25.1
 
