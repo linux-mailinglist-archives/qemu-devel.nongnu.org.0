@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C694ED834
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:07:43 +0200 (CEST)
-Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC1A4ED83E
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:10:01 +0200 (CEST)
+Received: from localhost ([::1]:60696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZseU-00025O-P8
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:07:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32960)
+	id 1nZsgi-0006yO-FR
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:10:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRU-0006kf-HH
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRU-0006ke-HE
  for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58889)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRR-0007kH-Dx
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRS-0007kL-EW
  for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648724052;
+ s=mimecast20190719; t=1648724053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3NKYkp+BGgG1DQBYEjgrYzUBVe3FhNGFA1EB0Or20wg=;
- b=GC564HQz9CpmHnkOFb+EjQW4YAyaO50VgfTEQJMrINmlvb54BG3l4p9T/6qNjaQy8rozh0
- SeFD5IAX8klZY5g0rKb3d7oTpQroFpjvqjteuYe7TatOL764Wgjc/n7MNdmowTecX9Yl0L
- gU2vM2k3CPoPHqC551TIcZuhP09XTco=
+ bh=+ULqRkAMkYmLv/jc2OyTEXCznsLVlQPY7A3g2vhwSpA=;
+ b=TDHQInpRqpoNXCJ/e1lbVpwansOPc4nUnLKCNs9rKYV1pti/VW3LJ1K12dEZFQVSvZaU2n
+ Gu5tbOqIwa8nAJNvWhLUY6ju6yE+Q3VQ6wEypvDucu0rKtoc8NdaX573aHhx5oIcIg4X26
+ RAck6pJmMkg588svFj/VyGOQJAy1myo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-599-8dwF8TZlMD2844pVgeY_aw-1; Thu, 31 Mar 2022 06:54:11 -0400
-X-MC-Unique: 8dwF8TZlMD2844pVgeY_aw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-259-jDpks5ftMVGl0XvAVwo8JQ-1; Thu, 31 Mar 2022 06:54:10 -0400
+X-MC-Unique: jDpks5ftMVGl0XvAVwo8JQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 105E9801585;
- Thu, 31 Mar 2022 10:54:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B6B5618A6582;
+ Thu, 31 Mar 2022 10:54:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 90C45112132D;
- Thu, 31 Mar 2022 10:53:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 662BF7AF2;
+ Thu, 31 Mar 2022 10:53:54 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8A62C21E6933; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
+ id 8CA6321E6936; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/15] qapi: fix example of MEMORY_DEVICE_SIZE_CHANGE event
-Date: Thu, 31 Mar 2022 12:53:36 +0200
-Message-Id: <20220331105344.3471295-8-armbru@redhat.com>
+Subject: [PULL 08/15] qapi: fix example of UNPLUG_PRIMARY event
+Date: Thu, 31 Mar 2022 12:53:37 +0200
+Message-Id: <20220331105344.3471295-9-armbru@redhat.com>
 In-Reply-To: <20220331105344.3471295-1-armbru@redhat.com>
 References: <20220331105344.3471295-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,31 +87,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Victor Toso <victortoso@redhat.com>
 
-Example output lacks mandatory member @qom-path. Provide it.
+Example output lacks mandatory member @timestamp.  Provide it.
+
+Example output is not properly formatted. Fixing it by:
+- Adding '<-' to signalize it is receiving the data;
+- Breaking lines similar to the other examples.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
+Message-Id: <20220328140604.41484-8-victortoso@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20220328140604.41484-7-victortoso@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/machine.json | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ qapi/migration.json | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 42fc68403d..9c460ec450 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1356,7 +1356,8 @@
- # Example:
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 18e2610e88..092a63354b 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1736,7 +1736,9 @@
+ # Since: 4.2
  #
- # <- { "event": "MEMORY_DEVICE_SIZE_CHANGE",
--#      "data": { "id": "vm0", "size": 1073741824},
-+#      "data": { "id": "vm0", "size": 1073741824,
-+#                "qom-path": "/machine/unattached/device[2]" },
- #      "timestamp": { "seconds": 1588168529, "microseconds": 201316 } }
+ # Example:
+-#   {"event": "UNPLUG_PRIMARY", "data": {"device-id": "hostdev0"} }
++# <- { "event": "UNPLUG_PRIMARY",
++#      "data": { "device-id": "hostdev0" },
++#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
  #
  ##
+ { 'event': 'UNPLUG_PRIMARY',
 -- 
 2.35.1
 
