@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57F74EDCB7
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:22:30 +0200 (CEST)
-Received: from localhost ([::1]:50814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33964EDC6B
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:12:02 +0200 (CEST)
+Received: from localhost ([::1]:52166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZwd3-0006J3-8v
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:22:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52988)
+	id 1nZwSv-0004pt-34
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:12:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwRO-0004um-6a
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:10:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwRM-0001hS-Gb
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:10:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648739423;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aebwCcvLCMGoglNFedm/LJowYh+slbC5rlPrkZcazGg=;
- b=OP1K+N3x8vkOlnQjWoDnGIMvdJFPbLU6UidXW/2g3hPolQIlveZkQM6007cOpTX7waDCQG
- WDJ97xhY/C6EXTeNLdzdDvzGKizGiN19RUtt9TPqRBGMLbTZ/Q4m8l9TZs8YpBMnKSFMhK
- GxmP2KOKdf0GDCict2K3GtwgzQk7zBM=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-oex6XXEDPLSls4kGKPsXfQ-1; Thu, 31 Mar 2022 11:09:21 -0400
-X-MC-Unique: oex6XXEDPLSls4kGKPsXfQ-1
-Received: by mail-qv1-f72.google.com with SMTP id
- cl19-20020a05621404f300b0044103143211so18775477qvb.10
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 08:09:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nZwQ4-00021x-Fz
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:09:04 -0400
+Received: from [2a00:1450:4864:20::42c] (port=40576
+ helo=mail-wr1-x42c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nZwQ2-0001KL-Bm
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:09:03 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id d7so193811wrb.7
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 08:09:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cW50SmXqEracG+5yeGdL1zrv5YQm6JkbHDr7NxJxYqA=;
+ b=CBYhTG9N6SJnYI3eCqLQcMECqP4rgmJOrmpPel5Y0YkarGuA/k8vNfZx6rqsRh9URU
+ T9OEQ5SIUdZ1Lqkj5HlFVPbWhSSXqMxJBanW2nl3gvC5ONCkS6wEJdrHziJC6hkGgwZa
+ h1q7Uixi8ds58Y5b/3ysulTEo9nXHkk49jFzIUyLD++7Cmzx4PCPKplTPIX0llK+aKJ7
+ EY4x4C4J8FslJDl4NBRFWBOXlIzP83FpVXa7G+GJPD3OUppzf2vegzBdUO47oCetJiFz
+ Q+xht6UwYeIyjVMUsPeOVc7ydnTMljsqxUofFg+7219FX64xXhJYYt1bAGhIwB8xm0qG
+ H6EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aebwCcvLCMGoglNFedm/LJowYh+slbC5rlPrkZcazGg=;
- b=yjy/eGoXgkyvK47RO5FFsrVNuyyde0CuCPGWopFStiZKokzDa5oib4lagbLEMM0YW6
- kJjI9bo9vKChQSi+8UBGerFAMk0YgzDL+gMPKAJoMdNZdProW6mRfJycj6Kw/paqdtMw
- Gehd2bvSSMGXglu2+kXf8lUV+h1/i0ZOtaf3tpoyQQTiaaKh9QQt8cFLlBKFpMW/EJri
- 3DMZUSLjwbI+UpKZ9m1lhYNdS6893UfMSZjBCTRAnFlU+4Cx3qPoTUg92HKW1Y9+b81V
- 6JifllcNgWGPUYHjVJu74pDbAETrkZTYxCvXXjfZHytd8iscpvOWcR71VBJNHP8jSDMI
- dpFA==
-X-Gm-Message-State: AOAM530bdeSi0YxgttB+V4pt2Q2uaAsvIMW5+Fdeu9OeFRBJcgmxmY47
- W7onXeUOHSpwJ/sjcRDvG4Gg9y9IKcd8C+P8Azm9W155C3uusMU21y87iPWSheIE4qnpqQJtAye
- WgTITJYXbyBlZVLoGxgiTFN4hQv/uDY+aGtBgEqbuloQl5fNbnFXNVHRo/eDeJyi+
-X-Received: by 2002:a05:620a:4706:b0:67d:a135:c912 with SMTP id
- bs6-20020a05620a470600b0067da135c912mr3743068qkb.344.1648739360230; 
- Thu, 31 Mar 2022 08:09:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx4pDE6tcjBazwJl+hzOTQRpTJYXaFAEUStydpfGxxIslZPSe2u0seSQ0midBST+AYFflqnkQ==
-X-Received: by 2002:a05:620a:4706:b0:67d:a135:c912 with SMTP id
- bs6-20020a05620a470600b0067da135c912mr3743031qkb.344.1648739359904; 
- Thu, 31 Mar 2022 08:09:19 -0700 (PDT)
-Received: from localhost.localdomain
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cW50SmXqEracG+5yeGdL1zrv5YQm6JkbHDr7NxJxYqA=;
+ b=kFBXE89ZiL0YBkNxofbRW0TBHvY/rusVXkIlHu6NTAkOZRno4bLcoJGvQeD56WO9BJ
+ k+FeT+m1ZX8V2B/ywGkizjmWdc/H3Mq9TKnVJcYe7w2KVrtdGk0PEnuzKKIPZAVM9ozd
+ oyH/20jp7cl+ZBh9vUvLKFBuoSnl9OYdaYGaDmmqVkHgxZ7ZpygN50mgKK1CZXhPkX4J
+ a5o0XWJdNP/jWMoUxx9JR0bXqzOokMzkImbYZp5VA993t94FOHMJq59sfrR64H4KGQzA
+ sestYNWSP84aeih2VhWH5ivXac2k5QGwVb+s8m8Ltv9lOjSXgb3tzAPA+EjjBJ+zGTiJ
+ MJBw==
+X-Gm-Message-State: AOAM530WcU9c4AC/ZWjk+GUmWsJb0lZANSmzzAmR6lwnvTa4DCDss5DF
+ 1TSqvxJLZlni4uShkLYWznYQPg==
+X-Google-Smtp-Source: ABdhPJx+vxQX/tTNLHEH1zhYJQYp6GknPwQx4l0hKRFfjNan0yOARD6JrQ4u/tJTBUZoEj04b4eklw==
+X-Received: by 2002:a5d:62cf:0:b0:203:d97c:3bae with SMTP id
+ o15-20020a5d62cf000000b00203d97c3baemr4382700wrv.237.1648739340599; 
+ Thu, 31 Mar 2022 08:09:00 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- 21-20020ac85715000000b002e1ce9605ffsm20246871qtw.65.2022.03.31.08.09.18
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 31 Mar 2022 08:09:19 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 19/19] tests: Add postcopy preempt tests
-Date: Thu, 31 Mar 2022 11:08:57 -0400
-Message-Id: <20220331150857.74406-20-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220331150857.74406-1-peterx@redhat.com>
-References: <20220331150857.74406-1-peterx@redhat.com>
+ q6-20020adffec6000000b00205b60faeeesm13277603wrs.24.2022.03.31.08.08.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Mar 2022 08:09:00 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH for-7.0] target/arm: Don't use DISAS_NORETURN in STXP
+ !HAVE_CMPXCHG128 codegen
+Date: Thu, 31 Mar 2022 16:08:58 +0100
+Message-Id: <20220331150858.96348-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,114 +88,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Juan Quintela <quintela@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Four tests are added for preempt mode:
+In gen_store_exclusive(), if the host does not have a cmpxchg128
+primitive then we generate bad code for STXP for storing two 64-bit
+values.  We generate a call to the exit_atomic helper, which never
+returns, and set is_jmp to DISAS_NORETURN.  However, this is
+forgetting that we have already emitted a brcond that jumps over this
+call for the case where we don't hold the exclusive.  The effect is
+that we don't generate any code to end the TB for the
+exclusive-not-held execution path, which falls into the "exit with
+TB_EXIT_REQUESTED" code that gen_tb_end() emits.  This then causes an
+assert at runtime when cpu_loop_exec_tb() sees an EXIT_REQUESTED TB
+return that wasn't for an interrupt or icount.
 
-  - Postcopy default
-  - Postcopy tls
-  - Postcopy recovery
-  - Postcopy tls+recovery
+In particular, you can hit this case when using the clang sanitizers
+and trying to run the xlnx-versal-virt acceptance test in 'make
+check-acceptance'.  This bug was masked until commit 848126d11e93ff
+("meson: move int128 checks from configure") because we used to set
+CONFIG_CMPXCHG128=1 and avoid the buggy codepath, but after that we
+do not.
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
+Fix the bug by not setting is_jmp.  The code after the exit_atomic
+call up to the fail_label is dead, but TCG is smart enough to
+eliminate it.  We do need to set 'tmp' to some valid value, though
+(in the same way the exit_atomic-using code in tcg/tcg-op.c does).
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/953
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/qtest/migration-test.c | 49 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ target/arm/translate-a64.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 7288c64e97..7188503ae1 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -477,6 +477,7 @@ typedef struct {
-      */
-     bool hide_stderr;
-     bool use_shmem;
-+    bool postcopy_preempt;
-     /* only launch the target process */
-     bool only_target;
-     /* Use dirty ring if true; dirty logging otherwise */
-@@ -992,6 +993,11 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
-     migrate_set_capability(to, "postcopy-ram", true);
-     migrate_set_capability(to, "postcopy-blocktime", true);
- 
-+    if (args->postcopy_preempt) {
-+        migrate_set_capability(from, "postcopy-preempt", true);
-+        migrate_set_capability(to, "postcopy-preempt", true);
-+    }
-+
-     /* We want to pick a speed slow enough that the test completes
-      * quickly, but that it doesn't complete precopy even on a slow
-      * machine, so also set the downtime.
-@@ -1058,6 +1064,25 @@ static void test_postcopy_tls(void)
-     test_postcopy_common(&args);
- }
- 
-+static void test_postcopy_preempt(void)
-+{
-+    MigrateStart args = {
-+        .postcopy_preempt = true,
-+    };
-+
-+    test_postcopy_common(&args);
-+}
-+
-+static void test_postcopy_preempt_tls(void)
-+{
-+    MigrateStart args = {
-+        .postcopy_preempt = true,
-+        .postcopy_tls = true,
-+    };
-+
-+    test_postcopy_common(&args);
-+}
-+
- static void test_postcopy_recovery_common(MigrateStart *args)
- {
-     QTestState *from, *to;
-@@ -1134,6 +1159,24 @@ static void test_postcopy_recovery_tls(void)
-     test_postcopy_recovery_common(&args);
- }
- 
-+static void test_postcopy_preempt_recovery(void)
-+{
-+    MigrateStart args = { .postcopy_preempt = true };
-+
-+    test_postcopy_recovery_common(&args);
-+}
-+
-+/* This contains preempt+recovery+tls test altogether */
-+static void test_postcopy_preempt_all(void)
-+{
-+    MigrateStart args = {
-+        .postcopy_preempt = true,
-+        .postcopy_tls = true,
-+    };
-+
-+    test_postcopy_recovery_common(&args);
-+}
-+
- static void test_baddest(void)
- {
-     MigrateStart args = {
-@@ -2176,6 +2219,12 @@ int main(int argc, char **argv)
- 
-     qtest_add_func("/migration/postcopy/unix", test_postcopy);
-     qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
-+    qtest_add_func("/migration/postcopy/preempt/unix", test_postcopy_preempt);
-+    qtest_add_func("/migration/postcopy/preempt/recovery",
-+                   test_postcopy_preempt_recovery);
-+    qtest_add_func("/migration/postcopy/preempt/tls", test_postcopy_preempt_tls);
-+    qtest_add_func("/migration/postcopy/preempt/tls+recovery",
-+                   test_postcopy_preempt_all);
- #ifdef CONFIG_GNUTLS
-     qtest_add_func("/migration/postcopy/tls", test_postcopy_tls);
-     qtest_add_func("/migration/postcopy/tls/recovery", test_postcopy_recovery_tls);
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index d1a59fad9c2..9333d7be41a 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -2470,7 +2470,12 @@ static void gen_store_exclusive(DisasContext *s, int rd, int rt, int rt2,
+         } else if (tb_cflags(s->base.tb) & CF_PARALLEL) {
+             if (!HAVE_CMPXCHG128) {
+                 gen_helper_exit_atomic(cpu_env);
+-                s->base.is_jmp = DISAS_NORETURN;
++                /*
++                 * Produce a result so we have a well-formed opcode
++                 * stream when the following (dead) code uses 'tmp'.
++                 * TCG will remove the dead ops for us.
++                 */
++                tcg_gen_movi_i64(tmp, 0);
+             } else if (s->be_data == MO_LE) {
+                 gen_helper_paired_cmpxchg64_le_parallel(tmp, cpu_env,
+                                                         cpu_exclusive_addr,
 -- 
-2.32.0
+2.25.1
 
 
