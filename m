@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D59004ED0F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 02:41:09 +0200 (CEST)
-Received: from localhost ([::1]:40124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555824ED0F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 02:35:49 +0200 (CEST)
+Received: from localhost ([::1]:60926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZis8-0002NC-Ur
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 20:41:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37054)
+	id 1nZimx-00058X-Vd
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 20:35:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nZiVY-00065U-QN; Wed, 30 Mar 2022 20:17:48 -0400
-Received: from [2607:f8b0:4864:20::330] (port=38601
- helo=mail-ot1-x330.google.com)
+ id 1nZiVb-00069Q-Sd; Wed, 30 Mar 2022 20:17:55 -0400
+Received: from [2607:f8b0:4864:20::233] (port=43843
+ helo=mail-oi1-x233.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nZiVX-0003B8-Ag; Wed, 30 Mar 2022 20:17:48 -0400
-Received: by mail-ot1-x330.google.com with SMTP id
- a7-20020a9d5c87000000b005ad1467cb59so16081548oti.5; 
- Wed, 30 Mar 2022 17:17:46 -0700 (PDT)
+ id 1nZiVZ-0003J0-Ev; Wed, 30 Mar 2022 20:17:51 -0400
+Received: by mail-oi1-x233.google.com with SMTP id w127so23754902oig.10;
+ Wed, 30 Mar 2022 17:17:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SAThiALREL0XgXauyo5M0z5vH8LMryC/mz3jmxrZQMQ=;
- b=a1IlBj+HtbW6FskVwOQvqJqz3kac5pqfDl4YVPuxFFsb8QYYbY+EjUarOdlKkiTCkS
- zbiLVY/7zzypbpZah7v5xcYhoX4O6n/yiln7FofjlVSe8fnhBdf4xH7M/Hbsr7Z9jLhM
- Ni/2asZgARSvxGbG7sgR5Tc8V05nLQIFI29qzaHalwFkDqQvCSRyfcgnjxcsuPWvmfFJ
- LVy2ahdKedfMoza989vurwj2jMez3+pieMUYbgq3HeP4QBEEUQi2xRRBJdBOuMSNlUrm
- WXDmn9k1HqgMjXTfEfkI2wddWkT2Hnw5y4jSyKc0NfWEusTODFH4b789LlEfkLOOThL7
- 3f5A==
+ bh=tUCQrHFagL1zcxCWHXjLIdmlTK1pUrFFJANtan0A590=;
+ b=MQnVoJrNVo0co+ckchZuPPuMEzEJ2+tWI5vR4BZ10xGavDiSwZ68XUCwOtJ6Tb+rL0
+ xk3kiHEYHiCyVSdb1ag5U3su7CDMZaCEoErUV9YJB6nzafM9TAT5LPfK2wYna9qf2e7z
+ JvkmJD/48Gby9OQg7pZw6KAbK3xYkA1sVJw48cqUo/+UKuW4wvVbR7IVyK3lQgIXY01J
+ yU1tokL1ZD14H+Z5lRk2qAe0Fm1e6m3r2iNoa1WfQpk2ubL9BPiDHz8TCEXNfXXViAfC
+ 2rRmtDK/Tl6hi+x9lWFZP3A11Qai0QCPaZt8zFSIVe0c640USFVvsX0IPdHhMuC0tbF2
+ 6f/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SAThiALREL0XgXauyo5M0z5vH8LMryC/mz3jmxrZQMQ=;
- b=0Lf1r2pdAQjR/84/aFnVX/BXkWNai8VVVvQTDTI98dqQW2h98duZzHcFMbd7QRvSkN
- DD/amswFUUk4XYTv/Ss5tId8SHLQHkMh1Go2xR6AvRBoIsnLQ/hRc2FECyE+R1LqfCN8
- oARO+d5wbQt8uVRUEL+LnjTkfbvMF1nSG52PYi4FLgB8JhLv8Uozm08qRox9dkLd+JYA
- NKeHwoVNe0aIPLhjI3AKS3M6SSTB7bA0CmxvscUgBgWOai2U8I53H6XGRG5zdjDeappa
- pwfqq6fyaOqxS9AN7zfG8vkbKrvuGcKbg7YZPa171GasuY/MweSdr3VJw0nPQJNKb1wS
- ItVQ==
-X-Gm-Message-State: AOAM531etXyGasjUvYjLkpoYaG9/pRHXHkCJW7q4z+yzeYwB37FoAKno
- P4gsdpWbdXb4t/+XBXmpCtMo1L5ptm8=
-X-Google-Smtp-Source: ABdhPJwPdh1HQSwS5NcjtJE/hVwpvZS3+UwozoeCAEFY3Hrp6YF96eG9qPWUZt98HCYv7LMUAMdljA==
-X-Received: by 2002:a05:6830:2438:b0:5b2:5d36:fec2 with SMTP id
- k24-20020a056830243800b005b25d36fec2mr4785290ots.173.1648685865617; 
- Wed, 30 Mar 2022 17:17:45 -0700 (PDT)
+ bh=tUCQrHFagL1zcxCWHXjLIdmlTK1pUrFFJANtan0A590=;
+ b=RKg4+TLxx1PW792kJTTup93tUmKm8yai/0NlBE0gi2j5JG3wM9omb9bNGg9/t497WB
+ ZlUT2Tz//lEOPDCFE+Y1RwdU90HURZ+VmXD8OuzMPtsPoWCrqunExO/IhRkmQMA7KZou
+ wP0Eg4yUA4FheGoxozbqzObViZj4FYF06XXV3UEOZPfJHYMWSLTkHOuY5pPG4KCqXvtK
+ Xqei1EXf6AGYnBzn8Aj1ej7T+dhJRtHcFiJVXD1++k7XopUOTPmOrPTCnpLXdw0soitK
+ /KgSFWVugJT47qt9xYI232/1ikN5JWwm74YJzyQ58+LRrgi1FjVOZ+5gWCbrw2HecMen
+ ZZOg==
+X-Gm-Message-State: AOAM530OZhfNsRvo6EUL3r4qHjvertbFC1XUjX3gnBXQO2Qac7YR9vot
+ /fMHSq+mOqp4CpBGlWSY3Y+KwTqetZA=
+X-Google-Smtp-Source: ABdhPJyt1Y1Q+DQ2ndwyUmTy5hlGzYyodTN/wO4prd3EsNUELgk8lw81nAc/gAFQQsBmRShhQMBXTg==
+X-Received: by 2002:a05:6808:179a:b0:2ef:8a55:b947 with SMTP id
+ bg26-20020a056808179a00b002ef8a55b947mr1526142oib.95.1648685868041; 
+ Wed, 30 Mar 2022 17:17:48 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:abe8:ed:2c78:ab0c:7946])
  by smtp.gmail.com with ESMTPSA id
- j126-20020acab984000000b002da77222b7dsm11149190oif.22.2022.03.30.17.17.43
+ j126-20020acab984000000b002da77222b7dsm11149190oif.22.2022.03.30.17.17.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 17:17:45 -0700 (PDT)
+ Wed, 30 Mar 2022 17:17:47 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] target/ppc: init 'lpcr' in
- kvmppc_enable_cap_large_decr()
-Date: Wed, 30 Mar 2022 21:17:15 -0300
-Message-Id: <20220331001717.616938-3-danielhb413@gmail.com>
+Subject: [PATCH v2 3/4] target/ppc: init 'sregs' in kvmppc_put_books_sregs()
+Date: Wed, 30 Mar 2022 21:17:16 -0300
+Message-Id: <20220331001717.616938-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220331001717.616938-1-danielhb413@gmail.com>
 References: <20220331001717.616938-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::233
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x330.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x233.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -95,27 +93,30 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'lpcr' is used as an input of kvm_get_one_reg(). Valgrind doesn't
-understand that and it returns warnings as such for this function:
+Init 'sregs' to avoid Valgrind complaints about uninitialized bytes
+from kvmppc_put_books_sregs():
 
-==55240== Thread 1:
-==55240== Conditional jump or move depends on uninitialised value(s)
-==55240==    at 0xB011E4: kvmppc_enable_cap_large_decr (kvm.c:2546)
-==55240==    by 0x92F28F: cap_large_decr_cpu_apply (spapr_caps.c:523)
-==55240==    by 0x930C37: spapr_caps_cpu_apply (spapr_caps.c:921)
-==55240==    by 0x955D3B: spapr_reset_vcpu (spapr_cpu_core.c:73)
-==55240==    by 0x95612B: spapr_cpu_core_reset (spapr_cpu_core.c:209)
-==55240==    by 0x95619B: spapr_cpu_core_reset_handler (spapr_cpu_core.c:218)
-==55240==    by 0xD3605F: qemu_devices_reset (reset.c:69)
-==55240==    by 0x92112B: spapr_machine_reset (spapr.c:1641)
-==55240==    by 0x4FBD63: qemu_system_reset (runstate.c:444)
-==55240==    by 0x62812B: qdev_machine_creation_done (machine.c:1247)
-==55240==    by 0x5064C3: qemu_machine_creation_done (vl.c:2725)
-==55240==    by 0x5065DF: qmp_x_exit_preconfig (vl.c:2748)
-==55240==  Uninitialised value was created by a stack allocation
-==55240==    at 0xB01158: kvmppc_enable_cap_large_decr (kvm.c:2540)
+==54059== Thread 3:
+==54059== Syscall param ioctl(generic) points to uninitialised byte(s)
+==54059==    at 0x55864E4: ioctl (in /usr/lib64/libc.so.6)
+==54059==    by 0xD1FA23: kvm_vcpu_ioctl (kvm-all.c:3053)
+==54059==    by 0xAFB18B: kvmppc_put_books_sregs (kvm.c:891)
+==54059==    by 0xAFB47B: kvm_arch_put_registers (kvm.c:949)
+==54059==    by 0xD1EDA7: do_kvm_cpu_synchronize_post_init (kvm-all.c:2766)
+==54059==    by 0x481AF3: process_queued_cpu_work (cpus-common.c:343)
+==54059==    by 0x4EF247: qemu_wait_io_event_common (cpus.c:412)
+==54059==    by 0x4EF343: qemu_wait_io_event (cpus.c:436)
+==54059==    by 0xD21E83: kvm_vcpu_thread_fn (kvm-accel-ops.c:54)
+==54059==    by 0xFFEBF3: qemu_thread_start (qemu-thread-posix.c:556)
+==54059==    by 0x54E6DC3: start_thread (in /usr/lib64/libc.so.6)
+==54059==    by 0x5596C9F: clone (in /usr/lib64/libc.so.6)
+==54059==  Address 0x799d1cc is on thread 3's stack
+==54059==  in frame #2, created by kvmppc_put_books_sregs (kvm.c:851)
+==54059==  Uninitialised value was created by a stack allocation
+==54059==    at 0xAFAEB0: kvmppc_put_books_sregs (kvm.c:851)
 
-Init 'lpcr' to avoid this warning.
+This happens because Valgrind does not consider the 'sregs'
+initialization done by kvm_vcpu_ioctl() at the end of the function.
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
@@ -124,18 +125,18 @@ Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 858866ecd4..42814e1b97 100644
+index 42814e1b97..9a2ee761d2 100644
 --- a/target/ppc/kvm.c
 +++ b/target/ppc/kvm.c
-@@ -2538,7 +2538,7 @@ int kvmppc_get_cap_large_decr(void)
- int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
+@@ -851,7 +851,7 @@ static int kvm_put_vpa(CPUState *cs)
+ int kvmppc_put_books_sregs(PowerPCCPU *cpu)
  {
-     CPUState *cs = CPU(cpu);
--    uint64_t lpcr;
-+    uint64_t lpcr = 0;
+     CPUPPCState *env = &cpu->env;
+-    struct kvm_sregs sregs;
++    struct kvm_sregs sregs = { };
+     int i;
  
-     kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
-     /* Do we need to modify the LPCR? */
+     sregs.pvr = env->spr[SPR_PVR];
 -- 
 2.35.1
 
