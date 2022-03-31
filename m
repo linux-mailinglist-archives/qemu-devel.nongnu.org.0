@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E9D4EDB7E
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 16:11:50 +0200 (CEST)
-Received: from localhost ([::1]:36144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FC64EDB7F
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 16:12:04 +0200 (CEST)
+Received: from localhost ([::1]:36496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZvWe-0003Rq-ED
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 10:11:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59450)
+	id 1nZvWt-0003nF-7n
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 10:12:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZvRH-0001HF-Mk
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 10:06:15 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:56000)
+ id 1nZvS3-0001kr-4O
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 10:07:07 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:56020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZvRF-00024m-7u
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 10:06:15 -0400
+ id 1nZvS1-0002Oh-9h
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 10:07:02 -0400
 Received: from [172.17.10.10] (unknown [172.17.10.10])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 0C0A22077C;
- Thu, 31 Mar 2022 14:06:08 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id CA14D20780;
+ Thu, 31 Mar 2022 14:06:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1648735568;
+ s=mail; t=1648735619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SeAlHh/kTNPCRIG6XIr8ShTksjbqGsIsnfmb56ZKSNQ=;
- b=Ea0PoymaJnP1D5vaM1fK0uO9RqJbxGnpBJU+at0a/V2sVRvqOBw8agKZ7Hq0ogMJGVXxjF
- xYGgO1dR4sHn7rjXXDvRbZdVEZF+22REFp+djM9PpOmTYRY1uBDA7kWOl8t/hkkr7V7pIU
- KOlZ0hmz049RGKreZXRzpELKJ+kGeXg=
-Message-ID: <f1b5c24a-f8ed-6cf1-9f4e-91b9a84c7a06@greensocs.com>
-Date: Thu, 31 Mar 2022 16:06:07 +0200
+ bh=9v+GlwFLM5IeNYIZvyUfK+ng8Mbfqdb69QZtQwcBygA=;
+ b=m+7svt3nBzco63nW/YdoslqW9dTsNV6GIPOrxzZKA2hBG9LZktXK65cNCZDTH0kkTymAuL
+ X1R6QgWXXGCtiA6OuumZcTDEcwb/7I2JYzYahD/oS6nTWd87vG8zUoO70S/22d5uxGfBVh
+ Zur2LFXP5tvgKH7rWMWd+6Xzz20ufEs=
+Message-ID: <d946c91a-f47e-2e37-7260-c6424eb724ef@greensocs.com>
+Date: Thu, 31 Mar 2022 16:06:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 2/2] doc/build-platforms: document supported compilers
+Subject: Re: [PATCH 1/2] doc/style: CLang -> Clang
 Content-Language: en-US-large
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 References: <20220331135647.1686375-1-marcandre.lureau@redhat.com>
- <20220331135647.1686375-2-marcandre.lureau@redhat.com>
 From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <20220331135647.1686375-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20220331135647.1686375-1-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=5.135.226.135;
@@ -75,33 +74,24 @@ Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
 On 3/31/22 15:56, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> According to our configure checks, this is the list of supported
-> compilers.
+> It's not the way it is usually written (see https://clang.llvm.org/).
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   docs/about/build-platforms.rst | 10 ++++++++++
->   1 file changed, 10 insertions(+)
+>   docs/devel/style.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-> index c29a4b8fe649..1980c5d2476f 100644
-> --- a/docs/about/build-platforms.rst
-> +++ b/docs/about/build-platforms.rst
-> @@ -92,6 +92,16 @@ hosted on Linux (Debian/Fedora).
->   The version of the Windows API that's currently targeted is Vista / Server
->   2008.
+> diff --git a/docs/devel/style.rst b/docs/devel/style.rst
+> index 9e66d133e15b..7ddd42b6c2c8 100644
+> --- a/docs/devel/style.rst
+> +++ b/docs/devel/style.rst
+> @@ -522,7 +522,7 @@ documented in the GNU Compiler Collection manual starting at version 4.0.
+>   Automatic memory deallocation
+>   =============================
 >   
-> +Supported compilers
-> +-------------------
-> +
-> +To compile, QEMU requires either:
-> +
-> +- GCC >= 7.4.0
-> +- Clang >= 6.0
-> +- XCode Clang >= 10.0
-> +
-> +
->   .. _HomeBrew: https://brew.sh/
->   .. _MacPorts: https://www.macports.org/
->   .. _Repology: https://repology.org/
+> -QEMU has a mandatory dependency either the GCC or CLang compiler. As
+> +QEMU has a mandatory dependency on either the GCC or the Clang compiler. As
+>   such it has the freedom to make use of a C language extension for
+>   automatically running a cleanup function when a stack variable goes
+>   out of scope. This can be used to simplify function cleanup paths,
 
