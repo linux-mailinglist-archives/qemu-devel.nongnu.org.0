@@ -2,87 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B75D54EDBAD
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 16:28:28 +0200 (CEST)
-Received: from localhost ([::1]:43654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95EB74EDC2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 16:55:50 +0200 (CEST)
+Received: from localhost ([::1]:39470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZvml-0001Ok-C3
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 10:28:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40564)
+	id 1nZwDF-0003KG-Fk
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 10:55:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZvlI-00005W-Uq
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 10:26:57 -0400
-Received: from [2a00:1450:4864:20::32c] (port=40810
- helo=mail-wm1-x32c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZvlG-0008W1-JZ
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 10:26:55 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- v64-20020a1cac43000000b0038cfd1b3a6dso1803875wme.5
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 07:26:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=9kF+sQQ2UN4n4GuqrXgGfRk/H/QGIIlSKqDeXZHjcV8=;
- b=fHH2oiohStNkifIcNZFKI7QFtkkWNc004cgiWqLH4tysG7Svd149vSYyfSXJYfwJj+
- z4dUZl2g7It2Rv/ZxpmgEBKBfKwKvJG0hiwrDvLP5QEDXEkOaNy656lfhcDFDDnwmE0B
- sVkQMeteSliYLEYNQbi7+rliebfwjCm+wiW7NhLgRTKuF6pudtcfy3+yZqh0Kp3BMhC9
- BHEgQRczs01SddC/9oyy2JV/ZRnIM1I79JSmBXmcG0dPxi13Jp5t/gkPFLxQ9Jjku1EV
- z6XHxc2PPyUuvfYLJOMrhdT5g3CGNSDSXTBTTZJWadn8olxJEIbiRWnc0cx0kpIFavaN
- JwVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=9kF+sQQ2UN4n4GuqrXgGfRk/H/QGIIlSKqDeXZHjcV8=;
- b=UN2XAY0FfeDlwkmJmPOTB909TCF7JKhrAxB1JWeunYlhuYH4wTCDZygRxkbq+e9rEd
- Aeh8w9qiPUgTJUFX92EcJC//b5CixepXzxaJSMx3ATdf1AMHDGsssKGoUukXWj9+RRGd
- E9wnrJ3dQIfdVJv4zxYKGQaCrbfLNzMfTTvzspLuNirSEwB1uqw1Vlg5VFqHS6+8OROO
- u97GQHvKbQ9vP8Palse3spNE9ImN+j1i/8UhYX4hQ9kF5iF6Wg4+wxef4iyxrfRbpTUv
- tRuwNY0s+dYXX4DnTl1VLW2wiEC59yjFryCXGy8tiUnNWZnmN0IwOnwvVuQG4c2fIQLv
- n2BA==
-X-Gm-Message-State: AOAM532WpaHRikxyEmhHXanWu+INAQ2ZDCt973WFqXsGCymwvNexdFKP
- 3ullhIqLLBiNxJ9K+8s/714=
-X-Google-Smtp-Source: ABdhPJzzIDwhPk0/Jgk0kyg6qATr8giPQflvqi7TyJDjuqM96BoH5LTEYkM/1yVx3CbVFwO8YDWceA==
-X-Received: by 2002:a05:600c:6004:b0:38c:6c00:4316 with SMTP id
- az4-20020a05600c600400b0038c6c004316mr5075708wmb.6.1648736811766; 
- Thu, 31 Mar 2022 07:26:51 -0700 (PDT)
-Received: from ?IPV6:2600:70ff:f07f:0:f49c:562:b5cb:b2b5?
- ([2600:70ff:f07f:0:f49c:562:b5cb:b2b5])
- by smtp.gmail.com with ESMTPSA id
- w5-20020a5d5445000000b00203f8c96bcesm19330638wrv.49.2022.03.31.07.26.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 07:26:51 -0700 (PDT)
-Message-ID: <25b0553f-cd39-e0fa-f4b9-a6e486f536b7@gmail.com>
-Date: Thu, 31 Mar 2022 16:26:49 +0200
+ (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1nZw4X-00025s-Uh; Thu, 31 Mar 2022 10:46:49 -0400
+Received: from [187.72.171.209] (port=51535 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1nZw4W-0003gT-2b; Thu, 31 Mar 2022 10:46:49 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 31 Mar 2022 11:27:59 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 9539B800013;
+ Thu, 31 Mar 2022 11:27:59 -0300 (-03)
+Message-ID: <b6266fd9-65b0-5b6a-9824-0dad9926d99a@eldorado.org.br>
+Date: Thu, 31 Mar 2022 11:27:59 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 1/2] doc/style: CLang -> Clang
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+From: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Subject: Re: [RFC PATCH 4/6] tests/tcg: add support for ppc64le softmmu tests
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20220324190854.156898-1-leandro.lupori@eldorado.org.br>
+ <20220324190854.156898-5-leandro.lupori@eldorado.org.br>
+ <87k0cj2imn.fsf@linaro.org>
+ <50ab5422-d294-dc8f-44bc-ece42473141d@eldorado.org.br>
+ <87bkxu2vsg.fsf@linaro.org>
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220331135647.1686375-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220331135647.1686375-1-marcandre.lureau@redhat.com>
+In-Reply-To: <87bkxu2vsg.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+X-OriginalArrivalTime: 31 Mar 2022 14:28:00.0012 (UTC)
+ FILETIME=[85DB2CC0:01D8450B]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,18 +63,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, pbonzini@redhat.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/3/22 15:56, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> It's not the way it is usually written (see https://clang.llvm.org/).
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   docs/devel/style.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On 3/25/22 06:50, Alex Bennée wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Leandro Lupori <leandro.lupori@eldorado.org.br> writes:
+> 
+>> On 24/03/2022 17:34, Alex Bennée wrote:
+>>> Leandro Lupori <leandro.lupori@eldorado.org.br> writes:
+>>>
+>>>> Adding a new, "virtual" TCG test target, ppc64le-softmmu, seems to
+>>>> be the cleanest way to support both BE and LE tests for
+>>>> ppc64-softmmu.
+>>>>
+>>>> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+>>>> ---
+>>>>    tests/Makefile.include                    |  7 ++++---
+>>>>    tests/tcg/configure.sh                    | 11 ++++++++++-
+>>>>    tests/tcg/ppc64/Makefile.softmmu-target   |  2 ++
+>>>>    tests/tcg/ppc64le/Makefile.softmmu-target |  7 +++++++
+> 
+> Don't forget to add new files to MAINTAINERS by the way ;-)
+
+Right.
+
+> 
+>>>>    4 files changed, 23 insertions(+), 4 deletions(-)
+>>>>    create mode 100644 tests/tcg/ppc64le/Makefile.softmmu-target
+>>>>
+>>>> diff --git a/tests/Makefile.include b/tests/Makefile.include
+>>>> index e7153c8e91..4001fedbc3 100644
+>>>> --- a/tests/Makefile.include
+>>>> +++ b/tests/Makefile.include
+>>>> @@ -40,9 +40,10 @@ SPEED = quick
+>>>>    TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
+>>>>
+>>>>    # Per guest TCG tests
+>>>> -BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGETS))
+>>>> -CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TARGETS))
+>>>> -RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGETS))
+>>>> +TCG_TARGETS=$(patsubst tests/tcg/config-%.mak, %, $(wildcard tests/tcg/config-*.mak))
+>>>> +BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TCG_TARGETS))
+>>>> +CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TCG_TARGETS))
+>>>> +RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TCG_TARGETS))
+>>> I'm not following what is going on here. Are we creating a new
+>>> target
+>>> type? Is this just to avoid duplication in tests/tcg subdirs?
+>>>
+>> Yes, together with the change in test/tcg/configure.sh, a new
+>> ppc64le-softmmu target is created, in the context of TCG tests only.
+>> But it isn't just to avoid duplication in tests/tcg subdirs.
+>>
+>> Without a ppc64le-softmmu target, the tcg tests' makefiles will only
+>> include tests/tcg/ppc64/Makefile.softmmu-target file. They won't try
+>> to include tests/tcg/ppc64le/Makefile.softmmu-target, because there is
+>> no ppc64le-softmmu target.
+> 
+> So according to IRC this is because the ppc64-softmmu target can support
+> dynamically switching between BE/LE modes so there is only needs to be
+> one 64 bit ppc system binary.
+> 
+>> I've actually tried to do everything in
+>> tests/tcg/ppc64/Makefile.softmmu-target. But when it is included,
+>> everything is already setup to build for ppc64 (BE), such as CC,
+>> EXTRA_CFLAGS and other variables. So it seems that, to be able to also
+>> build and run the same tests for ppc64le, I would need to somehow
+>> change CC, EXTRA_CFLAGS, etc, to setup them for a ppc64le build and
+>> write another set of rules for the LE tests. Then I would also need to
+>> handle output file conflicts, to be able have both BE and LE binaries
+>> coexisting in the same ppc64-softmmu output directory.
+> 
+> There is another approach you can take which is to generate alternative
+> binaries from the same sources in the build. For example we build the
+> sha512 test with a couple of different compiler options and run with
+> slightly different QEMU_OPTS:
+> 
+>    sha512-vector: CFLAGS +=-mcpu=power10 -O3
+>    sha512-vector: sha512.c
+>            $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+> 
+>    run-sha512-vector: QEMU_OPTS+=-cpu POWER10
+>    run-plugin-sha512-vector-with-%: QEMU_OPTS+=-cpu POWER10
+> 
+>    PPC64LE_TESTS += sha512-vector
+> 
+> So you could do something similar for le versions of the tests.
+> > I'm ambivalent to which makes the best approach. I only worry the
+> "pseudo target" approach might break something else down the line.
+> However as long as the ppc maintainers are happy with the tests you can
+> have my:
+> 
+> Acked-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> for the check-tcg plumbing changes.
+> 
+
+Ok, this approach worked too. It ended up being a bit more complex, 
+mainly because LE versions of CRT and MINILIB objects must be used, but 
+it should be ok, if it helps to avoid breaking something else.
+I'll send a V2 with this new approach.
+
+Thanks,
+Leandro
 
