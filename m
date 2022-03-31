@@ -2,73 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646964ED97B
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:16:36 +0200 (CEST)
-Received: from localhost ([::1]:56754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A024ED987
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:19:57 +0200 (CEST)
+Received: from localhost ([::1]:34570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZtj9-0006IA-Fw
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:16:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52778)
+	id 1nZtmO-00029B-Gh
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:19:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nZtew-00046U-8o
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:12:15 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2464)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nZthc-0007DI-LG; Thu, 31 Mar 2022 08:15:00 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27602
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nZter-0003YT-CL
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:12:14 -0400
-Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KThvR5L4jz686k2;
- Thu, 31 Mar 2022 20:10:11 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Thu, 31 Mar 2022 14:12:05 +0200
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 31 Mar
- 2022 13:12:04 +0100
-Date: Thu, 31 Mar 2022 13:12:03 +0100
-To: Markus Armbruster <armbru@redhat.com>
-CC: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Be?=
- =?ISO-8859-1?Q?nn=E9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
- <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>, <linux-cxl@vger.kernel.org>, Ben Widawsky
- <ben.widawsky@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Peter Xu
- <peterx@redhat.com>, David Hildenbrand <david@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah
- <shreyas.shah@elastics.cloud>, Chris Browy <cbrowy@avery-design.com>,
- "Samarth Saxena" <samarths@cadence.com>, Dan Williams
- <dan.j.williams@intel.com>, "Mark Cave-Ayland"
- <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v8 27/46] hw/cxl/host: Add support for CXL Fixed Memory
- Windows.
-Message-ID: <20220331131203.000079cd@huawei.com>
-In-Reply-To: <87lewu8cmo.fsf@pond.sub.org>
-References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
- <20220318150635.24600-28-Jonathan.Cameron@huawei.com>
- <87lewu8cmo.fsf@pond.sub.org>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nZthY-00043i-EC; Thu, 31 Mar 2022 08:14:59 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22V98soO011435; 
+ Thu, 31 Mar 2022 12:14:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=XtVEIcEO5ENyNUDlxZXv8jwNUMO3IUXZfGSSjL5XHGY=;
+ b=LIQi3yI5vkiUlo01f3XRMO8WX0sQPyvH+HQQoL66FbQGi/t5dWVZwdQGfCEzHQcycYVx
+ m2zBkbJ3LniRjdFT8H3YU3WTa2lSxvvjzEqMBWreldkEV9XUVh0abiD6uz4B/YY3MU4m
+ Tn1TGsLQorZ4p81np3ic05ktYpkcsWADnrBhC6EKj/aNsDxJgNa6ELBPuF/poeiBBE2B
+ 8sogDe5M1j+2MseFigdTOqs28ZFKDvsJ8+FussS3b4a3rWRUb7tADbud04c2kubuseWI
+ wyDqUqIYZblnI4ytWmOOkolR+F7tbj/ASHe1/+38+y6bguY+HuYNV05IK+pFVCabX0oa 8A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3f588851wg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Mar 2022 12:14:54 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22VCD1sG013372;
+ Thu, 31 Mar 2022 12:14:54 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3f588851w0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Mar 2022 12:14:54 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22VC97Wr009888;
+ Thu, 31 Mar 2022 12:14:52 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma02fra.de.ibm.com with ESMTP id 3f1tf914ee-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Mar 2022 12:14:52 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22VCEndx47186394
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 31 Mar 2022 12:14:49 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3F66511C04C;
+ Thu, 31 Mar 2022 12:14:49 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E574611C054;
+ Thu, 31 Mar 2022 12:14:48 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown
+ [9.152.224.239])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 31 Mar 2022 12:14:48 +0000 (GMT)
+Date: Thu, 31 Mar 2022 14:14:47 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 3/4] virtio-ccw: move device type declarations to .c files
+Message-ID: <20220331141447.40af9138.pasic@linux.ibm.com>
+In-Reply-To: <20220328143019.682245-4-pbonzini@redhat.com>
+References: <20220328143019.682245-1-pbonzini@redhat.com>
+ <20220328143019.682245-4-pbonzini@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml717-chm.china.huawei.com (10.201.108.68) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 9bRvZIHRik3kLIdCMWTYJyDUso7rJDdh
+X-Proofpoint-ORIG-GUID: w-I3sH0EugGmdkGX0FYnSlcJ2ndxR35B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-31_04,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ mlxscore=0 suspectscore=0 clxscore=1015 spamscore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203310068
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,321 +113,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: farman@linux.ibm.com, cohuck@redhat.com, thuth@redhat.com,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x@nongnu.org, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Mon, 28 Mar 2022 14:50:23 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
+On Mon, 28 Mar 2022 16:30:18 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
-> 
-> > From: Jonathan Cameron <jonathan.cameron@huawei.com>
-> >
-> > The concept of these is introduced in [1] in terms of the
-> > description the CEDT ACPI table. The principal is more general.
-> > Unlike once traffic hits the CXL root bridges, the host system
-> > memory address routing is implementation defined and effectively
-> > static once observable by standard / generic system software.
-> > Each CXL Fixed Memory Windows (CFMW) is a region of PA space
-> > which has fixed system dependent routing configured so that
-> > accesses can be routed to the CXL devices below a set of target
-> > root bridges. The accesses may be interleaved across multiple
-> > root bridges.
-> >
-> > For QEMU we could have fully specified these regions in terms
-> > of a base PA + size, but as the absolute address does not matter
-> > it is simpler to let individual platforms place the memory regions.
-> >
-> > ExampleS:
-> > -cxl-fixed-memory-window targets.0=cxl.0,size=128G
-> > -cxl-fixed-memory-window targets.0=cxl.1,size=128G
-> > -cxl-fixed-memory-window targets.0=cxl0,targets.1=cxl.1,size=256G,interleave-granularity=2k
-> >
-> > Specifies
-> > * 2x 128G regions not interleaved across root bridges, one for each of
-> >   the root bridges with ids cxl.0 and cxl.1
-> > * 256G region interleaved across root bridges with ids cxl.0 and cxl.1
-> > with a 2k interleave granularity.
-> >
-> > When system software enumerates the devices below a given root bridge
-> > it can then decide which CFMW to use. If non interleave is desired
-> > (or possible) it can use the appropriate CFMW for the root bridge in
-> > question.  If there are suitable devices to interleave across the
-> > two root bridges then it may use the 3rd CFMS.
-> >
-> > A number of other designs were considered but the following constraints
-> > made it hard to adapt existing QEMU approaches to this particular problem.
-> > 1) The size must be known before a specific architecture / board brings
-> >    up it's PA memory map.  We need to set up an appropriate region.
-> > 2) Using links to the host bridges provides a clean command line interface
-> >    but these links cannot be established until command line devices have
-> >    been added.
-> >
-> > Hence the two step process used here of first establishing the size,
-> > interleave-ways and granularity + caching the ids of the host bridges
-> > and then, once available finding the actual host bridges so they can
-> > be used later to support interleave decoding.
-> >
-> > [1] CXL 2.0 ECN: CEDT CFMWS & QTG DSM (computeexpresslink.org / specifications)
-> >
-> > Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>  
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Agree with everything you've raised.  Thanks!
+Just curious: is device type declarations for
+leaf device types should be private a best practice in QEMU?
 
-Jonathan
+> ---
+>  hw/s390x/s390-virtio-ccw.c    |   1 +
+>  hw/s390x/vhost-scsi-ccw.c     |   9 +++
+>  hw/s390x/vhost-vsock-ccw.c    |   9 +++
+>  hw/s390x/virtio-ccw-9p.c      |   9 +++
+>  hw/s390x/virtio-ccw-balloon.c |   9 +++
+>  hw/s390x/virtio-ccw-blk.c     |   9 +++
+>  hw/s390x/virtio-ccw-crypto.c  |   9 +++
+>  hw/s390x/virtio-ccw-gpu.c     |   9 +++
+>  hw/s390x/virtio-ccw-input.c   |  20 +++++
+>  hw/s390x/virtio-ccw-net.c     |   9 +++
+>  hw/s390x/virtio-ccw-rng.c     |   9 +++
+>  hw/s390x/virtio-ccw-scsi.c    |   9 +++
+>  hw/s390x/virtio-ccw-serial.c  |   9 +++
+>  hw/s390x/virtio-ccw.c         |   2 +
+>  hw/s390x/virtio-ccw.h         | 133 ----------------------------------
+>  15 files changed, 122 insertions(+), 133 deletions(-)
+> 
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 90480e7cf9..2d32647d08 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -25,6 +25,7 @@
+>  #include "qemu/error-report.h"
+>  #include "qemu/option.h"
+>  #include "qemu/qemu-print.h"
+> +#include "qemu/units.h"
 
-> 
-> [...]
-> 
-> > diff --git a/qapi/machine.json b/qapi/machine.json
-> > index 42fc68403d..e4e64096ca 100644
-> > --- a/qapi/machine.json
-> > +++ b/qapi/machine.json
-> > @@ -504,6 +504,24 @@
-> >     'dst': 'uint16',
-> >     'val': 'uint8' }}
-> >  
-> > +##
-> > +# @CXLFixedMemoryWindowOptions:
-> > +#
-> > +# Create a CXL Fixed Memory Window (for OptsVisitor)  
-> 
-> Please drop "(for OptsVisitor)".  It's no longer true.
-> 
+Unrelated?
 
-Done
+[..]
+> diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+> index c845a92c3a..15b458527e 100644
+> --- a/hw/s390x/virtio-ccw.c
+> +++ b/hw/s390x/virtio-ccw.c
+> @@ -12,6 +12,7 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+> +#include "exec/address-spaces.h"
 
-> Aside: I'd ask to drop it even if it was true, because it's about an
-> implementation detail.  Such details don't belong in doc comments, which
-> become QMP *user* documentation.  I know we have the same parenthesis
-> elsewhere.  It should be dropped there as well, but that's not this
-> series' problem.
-> 
-> > +#
-> > +# @size: Size in bytes of the Fixed Memory Window  
-> 
-> I'm not a native speaker, but "Size of the fixed memory window in bytes"
-> sounds better to me.
-Done.
-> 
-> Are arbitrary sizes accepted?
+Unrelated?
 
-Good point - no.  Multiple of 256MiB. Added
-"Must be a multiple of 256MiB."
+>  #include "sysemu/kvm.h"
+>  #include "net/net.h"
+>  #include "hw/virtio/virtio.h"
+> @@ -19,6 +20,7 @@
+>  #include "hw/virtio/virtio-net.h"
+>  #include "qemu/bitops.h"
+>  #include "qemu/error-report.h"
+> +#include "qemu/log.h"
 
-For interleave-granularity I've listed the possible values out as
-"Accepted values [256, 512, 1k, 2k, 4k, 8k, 16k]"
+Unrelated?
 
-> 
-> > +# @interleave-granularity: Number of contiguous bytes for which
-> > +#                          accesses will go to a given interleave target.
-> > +# @targets: Target root bridge IDs  
-> 
-> What kind of IDs are these?  Hmm, the CLI help text below suggest qdev
-> IDs (the ones in -device id=...).  Correct?
-
-Yes. I've added "from -device ...,id=<ID> for each root bridge."
-That leaves room for other root bridge implementations than pxb-cxl
-in future without having to update this text.
-
-> 
-> > +#
-> > +# Since 6.3  
-> 
-> 7.1 most likely.
-
-Updated.
-
-> 
-> > +##
-> > +{ 'struct': 'CXLFixedMemoryWindowOptions',
-> > +  'data': {
-> > +      'size': 'size',
-> > +      '*interleave-granularity': 'size',
-> > +      'targets': ['str'] }}
-> > +
-> >  ##
-> >  # @X86CPURegister32:
-> >  #
-> > diff --git a/qemu-options.hx b/qemu-options.hx
-> > index 58f2f76775..764f57606d 100644
-> > --- a/qemu-options.hx
-> > +++ b/qemu-options.hx
-> > @@ -467,6 +467,44 @@ SRST
-> >          -numa hmat-cache,node-id=1,size=10K,level=1,associativity=direct,policy=write-back,line=8
-> >  ERST
-> >  
-> > +DEF("cxl-fixed-memory-window", HAS_ARG, QEMU_OPTION_cxl_fixed_memory_window,
-> > +    "-cxl-fixed-memory-window targets.0=firsttarget,targets.1=secondtarget,size=size[,interleave-granularity=granularity]\n",
-> > +    QEMU_ARCH_ALL)
-> > +SRST
-> > +``-cxl-fixed-memory-window targets.0=firsttarget,targets.1=secondtarget,size=size[,interleave-granularity=granularity]``
-> > +    Define a CXL Fixed Memory Window (CFMW).
-> > +
-> > +    Described in the CXL 2.0 ECN: CEDT CFMWS & QTG _DSM.
-> > +
-> > +    They are regions of Host Physical Addresses (HPA) on a system which
-> > +    may be interleaved across one or more CXL host bridges.  The system
-> > +    software will assign particular devices into these windows and
-> > +    configure the downstream Host-managed Device Memory (HDM) decoders
-> > +    in root ports, switch ports and devices appropriately to meet the
-> > +    interleave requirements before enabling the memory devices.
-> > +
-> > +    ``targets.X=firsttarget`` provides the mapping to CXL host bridges
-> > +    which may be identified by the id provied in the -device entry.
-> > +    Multiple entries are needed to specify all the targets when
-> > +    the fixed memory window represents interleaved memory. X is the
-> > +    target index from 0.
-> > +
-> > +    ``size=size`` sets the size of the CFMW. This must be a multiple of
-> > +    256MiB. The region will be aligned to 256MiB but the location is
-> > +    platform and configuration dependent.
-> > +
-> > +    ``interleave-granularity=granularity`` sets the granularity of
-> > +    interleave. Default 256KiB. Only 256KiB, 512KiB, 1024KiB, 2048KiB
-> > +    4096KiB, 8192KiB and 16384KiB granularities supported.
-> > +
-> > +    Example:
-> > +
-> > +    ::
-> > +
-> > +        -cxl-fixed-memory-window -targets.0=cxl.0,-targets.1=cxl.1,size=128G,interleave-granularity=512k
-> > +
-> > +ERST
-> > +
-> >  DEF("add-fd", HAS_ARG, QEMU_OPTION_add_fd,
-> >      "-add-fd fd=fd,set=set[,opaque=opaque]\n"
-> >      "                Add 'fd' to fd 'set'\n", QEMU_ARCH_ALL)
-> > diff --git a/softmmu/vl.c b/softmmu/vl.c
-> > index 0b81f61535..dab1eb3380 100644
-> > --- a/softmmu/vl.c
-> > +++ b/softmmu/vl.c
-> > @@ -92,6 +92,7 @@
-> >  #include "qemu/config-file.h"
-> >  #include "qemu/qemu-options.h"
-> >  #include "qemu/main-loop.h"
-> > +#include "hw/cxl/cxl.h"
-> >  #ifdef CONFIG_VIRTFS
-> >  #include "fsdev/qemu-fsdev.h"
-> >  #endif
-> > @@ -117,6 +118,7 @@
-> >  #include "qapi/qapi-events-run-state.h"
-> >  #include "qapi/qapi-visit-block-core.h"
-> >  #include "qapi/qapi-visit-compat.h"
-> > +#include "qapi/qapi-visit-machine.h"
-> >  #include "qapi/qapi-visit-ui.h"
-> >  #include "qapi/qapi-commands-block-core.h"
-> >  #include "qapi/qapi-commands-migration.h"
-> > @@ -140,6 +142,11 @@ typedef struct BlockdevOptionsQueueEntry {
-> >  
-> >  typedef QSIMPLEQ_HEAD(, BlockdevOptionsQueueEntry) BlockdevOptionsQueue;
-> >  
-> > +typedef struct CXLFMWOptionQueueEntry {
-> > +    CXLFixedMemoryWindowOptions *opts;
-> > +    QSIMPLEQ_ENTRY(CXLFMWOptionQueueEntry) entry;
-> > +} CXLFMWOptionQueueEntry;
-> > +
-> >  typedef struct ObjectOption {
-> >      ObjectOptions *opts;
-> >      QTAILQ_ENTRY(ObjectOption) next;
-> > @@ -166,6 +173,8 @@ static int snapshot;
-> >  static bool preconfig_requested;
-> >  static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
-> >  static BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
-> > +static QSIMPLEQ_HEAD(, CXLFMWOptionQueueEntry) CXLFMW_opts =
-> > +    QSIMPLEQ_HEAD_INITIALIZER(CXLFMW_opts);
-> >  static bool nographic = false;
-> >  static int mem_prealloc; /* force preallocation of physical target memory */
-> >  static ram_addr_t ram_size;
-> > @@ -1149,6 +1158,23 @@ static void parse_display(const char *p)
-> >      }
-> >  }
-> >  
-> > +static void parse_cxl_fixed_memory_window(const char *optarg)
-> > +{
-> > +    CXLFMWOptionQueueEntry *cfmws_entry;
-> > +    Visitor *v;
-> > +
-> > +    v = qobject_input_visitor_new_str(optarg, "cxl-fixed-memory-window",
-> > +                                      &error_fatal);
-> > +    cfmws_entry = g_new(CXLFMWOptionQueueEntry, 1);
-> > +    visit_type_CXLFixedMemoryWindowOptions(v, NULL, &cfmws_entry->opts,
-> > +                                           &error_fatal);
-> > +    if (!cfmws_entry->opts) {
-> > +        exit(1);
-> > +    }
-> > +    visit_free(v);  
-> 
-> If you loc_save() here like we do for QEMU_OPTION_blockdev, and ...
-> 
-> > +    QSIMPLEQ_INSERT_TAIL(&CXLFMW_opts, cfmws_entry, entry);
-> > +}
-> > +
-> >  static inline bool nonempty_str(const char *str)
-> >  {
-> >      return str && *str;
-> > @@ -2020,6 +2046,19 @@ static void qemu_create_late_backends(void)
-> >      qemu_semihosting_console_init();
-> >  }
-> >  
-> > +static void cxl_set_opts(void)
-> > +{
-> > +    while (!QSIMPLEQ_EMPTY(&CXLFMW_opts)) {
-> > +        CXLFMWOptionQueueEntry *cfmws_entry = QSIMPLEQ_FIRST(&CXLFMW_opts);
-> > +
-> > +        QSIMPLEQ_REMOVE_HEAD(&CXLFMW_opts, entry);  
-> 
-> ... loc_pop() here, like we do in configure_blockdev(), then the error
-> messages from cxl_fixed_memory_window_options_set() will point to the
-> offending option, which is nice.  Give it a try, please.
-
-Nice :)
-
-> 
-> > +        cxl_fixed_memory_window_options_set(current_machine, cfmws_entry->opts,  
-> 
-> Line is a bit long.  Name the function cxl_fixed_memory_window_config()?
-Done
-
-
-> 
-> > +                                            &error_fatal);
-> > +        qapi_free_CXLFixedMemoryWindowOptions(cfmws_entry->opts);
-> > +        g_free(cfmws_entry);
-> > +    }
-> > +}
-> > +
-> >  static bool have_custom_ram_size(void)
-> >  {
-> >      QemuOpts *opts = qemu_find_opts_singleton("memory");
-> > @@ -2745,6 +2784,7 @@ void qmp_x_exit_preconfig(Error **errp)
-> >  
-> >      qemu_init_board();
-> >      qemu_create_cli_devices();
-> > +    cxl_fixed_memory_window_link_targets(errp);
-> >      qemu_machine_creation_done();
-> >  
-> >      if (loadvm) {
-> > @@ -2925,6 +2965,9 @@ void qemu_init(int argc, char **argv, char **envp)
-> >                      exit(1);
-> >                  }
-> >                  break;
-> > +            case QEMU_OPTION_cxl_fixed_memory_window:
-> > +                parse_cxl_fixed_memory_window(optarg);
-> > +                break;
-> >              case QEMU_OPTION_display:
-> >                  parse_display(optarg);
-> >                  break;
-> > @@ -3762,6 +3805,7 @@ void qemu_init(int argc, char **argv, char **envp)
-> >  
-> >      qemu_resolve_machine_memdev();
-> >      parse_numa_opts(current_machine);
-> > +    cxl_set_opts();
-> >  
-> >      if (vmstate_dump_file) {
-> >          /* dump and exit */  
-> 
-
+Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
 
