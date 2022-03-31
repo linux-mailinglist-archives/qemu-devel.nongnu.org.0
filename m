@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637144ED9AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:33:27 +0200 (CEST)
-Received: from localhost ([::1]:48140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1164ED9AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:33:29 +0200 (CEST)
+Received: from localhost ([::1]:48328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZtzS-0003XA-1T
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:33:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56680)
+	id 1nZtzU-0003ej-RX
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:33:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZtu3-0000vy-Hz
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:27:51 -0400
-Received: from [2607:f8b0:4864:20::1129] (port=44309
- helo=mail-yw1-x1129.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZttz-0000Zb-PE
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:27:48 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2eafabbc80aso36281647b3.11
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 05:27:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8M8WV7OCxFfAxCR+JybsA7NGqE2IdJcuU5mjyXBf0u8=;
- b=cwa692OKLPUrfYhxrEXiED4CopaJ6ldiMrE1bGZY6DxhWiTWTb6RXODjentWeR3pi9
- dMa1JjBCSL/bhkNVsokpuKPcGCC+sWhRyB3yLGyREKLMZNxvZ4U6D5chCX6rYsEgxjQH
- 0VTW9KqsdVXBOBspasYrh4ub3tvRyC0VPRVbsSD+DhCuLXSnIFXV4emD2pIaLW+ZXv9X
- 2lU8c0dEpLSzRg6X4R74tqU4la7HH50qZyxmohNY3RsljSUCkxqtqWZZ+fyhT26pHylC
- NlBwmWKd0IahEQNSZAhzTZag9sSY7qy4TGuVBu6wpbYs5I/KPENLw+w9nAODI3ZGHC4Q
- BUkg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZtu6-0000yV-2G
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:27:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43697)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZtu3-0000Zj-I2
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:27:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648729670;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8weNNAfUYHnLPXztFBpwoPDj+dKJAVDb79Az6xw/Suk=;
+ b=hweWvCXN/YLVy1fXPfqLrp+xpfye6XFs8alypFTPWRg+DLoql8uSDqgGnEkAyHYC90e9Vg
+ wM2+YwXoI8X9TGV/X3R3HjDhCzVeD/IhY2hbTgwxkT1KXcCpY1G996N4DqXLqp1C1mu1QU
+ 8UVmo4P7FyOGU+v7FYL6fUGMs/bCEt8=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-136-gpCfW1CJMgmYgTo3GM8tMg-1; Thu, 31 Mar 2022 08:27:49 -0400
+X-MC-Unique: gpCfW1CJMgmYgTo3GM8tMg-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ q4-20020a0cf5c4000000b0044346ee3627so10225440qvm.16
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 05:27:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8M8WV7OCxFfAxCR+JybsA7NGqE2IdJcuU5mjyXBf0u8=;
- b=CRtnpW5xHaqHZ3u7q3EXqxG07CvRaksWtyZ3BPt02EZ+5znOWccgfYn8De3zvG2uAi
- 52ca6Ib9E335z/zhVwyaOrQ8Au7ky+FipMvkfgyACPvU7G81a8hZLNoJHs78RL1cKx8H
- 77TdXngh7+m9ZQ7WYoTLniOUcKN7//AvYGtonORE4l2rUmzm8YXrdOumLUnGBqt0g1/7
- 4QUcPF/mHcEN0TA5y6hUokjrQIHTPXps4+jWVS3CpBhi1LD+Ehci4BElxDxKAFsZCD/3
- XmQnueKwz0wof1dqst0fTCzva4Palt+8YiwyjmRhv2wW9IOBtEwfydmIncjGvmHG9z3T
- w2xg==
-X-Gm-Message-State: AOAM531SLAYDANRZbWiP3Uvz5EBL/Y+XmuZAbMCzRKXoFrNlzP6JkDLh
- BcioMXyYSSmHw7K3rdOCRAWhbgV1TVqaUQ6n3oLUsQ==
-X-Google-Smtp-Source: ABdhPJySBIGXja5aCDOQQJns0V19YWptSFEPgxudjrL4rr81yE4jUuDCQ2tojsv8jw9PwfN0K/4JLQg4FiRTJrTx2Zc=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr4672159ywb.257.1648729666766; Thu, 31 Mar
- 2022 05:27:46 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8weNNAfUYHnLPXztFBpwoPDj+dKJAVDb79Az6xw/Suk=;
+ b=MLmf/cAT/upzcdBIoixorQTxnISXvSad29y6Ecsj8KqKPLwy2Cgj7zD9YENwX7Jypx
+ xQSi9zYppdb8T5tC2wbwAqnJCcQiD9PgjU/52JyKHD9iegRrZFcNzE24lO4rcgN4R25S
+ EnET7pnK8DDZTvyv4lzquKWRUh4iGbjelnhImAqcIDFkb/BIjprNTmO1NjQNCbLV7J2l
+ /O0NeUignUDoRP/CWQRbAUidlgA6WNjTQIQAePmrTfLs3pPO9hqINi5GNJ2kOxZJ9I6o
+ x/3884nN5GxL+0+Lscddh8EPWX53IT46hu0vZfE2Y/S4sh5xMhyOMM0kcSlWEWDbJLoA
+ WGHg==
+X-Gm-Message-State: AOAM531NcksvazvucOt7JTN9rS/95pf3FW0MztofkyUnApL436ex8UfO
+ 1CJJXqhhIpqSGiUtXuSw69duOmiSJrNYTRmQ+sJEvvTa996l1zPJOvCjWUbyZ3A0M/TlFW8ep4m
+ 49DPfQcj+J7/nAQg=
+X-Received: by 2002:a37:55c2:0:b0:479:8293:d7d0 with SMTP id
+ j185-20020a3755c2000000b004798293d7d0mr3108537qkb.182.1648729669013; 
+ Thu, 31 Mar 2022 05:27:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJywOxRJDfX1X84hp2wMHfadsllZXC/C+9YKB0iRNzKyY6hwAdvDnZzbWZXQNrX6EkAZOhu2FQ==
+X-Received: by 2002:a37:55c2:0:b0:479:8293:d7d0 with SMTP id
+ j185-20020a3755c2000000b004798293d7d0mr3108518qkb.182.1648729668717; 
+ Thu, 31 Mar 2022 05:27:48 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ az9-20020a05620a170900b00680aeaac936sm10812054qkb.136.2022.03.31.05.27.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Mar 2022 05:27:48 -0700 (PDT)
+Date: Thu, 31 Mar 2022 08:27:47 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH 2/2] softmmu/physmem: fix dirty memory bitmap memleak
+Message-ID: <YkWeQ26lKa3jFLU2@xz-m1.local>
+References: <20220325154013.16809-1-arbn@yandex-team.com>
+ <20220325154013.16809-2-arbn@yandex-team.com>
+ <3888d585-c090-24b4-3be9-7be3f03ddadb@redhat.com>
 MIME-Version: 1.0
-References: <20220331122652.188700-1-berrange@redhat.com>
-In-Reply-To: <20220331122652.188700-1-berrange@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 31 Mar 2022 13:27:35 +0100
-Message-ID: <CAFEAcA99U6RaM_mh4C-mY1RcEzyJ-+oYED0K5iPQrHCp4D5bHQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/char: fix qcode array bounds check in ESCC impl
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <3888d585-c090-24b4-3be9-7be3f03ddadb@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,40 +99,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-stable@nongnu.org,
+ Andrey Ryabinin <arbn@yandex-team.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 31 Mar 2022 at 13:27, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
->
-> There was an off-by-1 in the qcode conversion array bounds
-> check.
->
-> Fixes: e709a61a8fe1076a487376fd657544418a38ba06
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->  hw/char/escc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/char/escc.c b/hw/char/escc.c
-> index 8755d8d34f..17a908c59b 100644
-> --- a/hw/char/escc.c
-> +++ b/hw/char/escc.c
-> @@ -828,7 +828,7 @@ static void sunkbd_handle_event(DeviceState *dev, Qem=
-uConsole *src,
->          }
->      }
->
-> -    if (qcode > qemu_input_map_qcode_to_sun_len) {
-> +    if (qcode >=3D qemu_input_map_qcode_to_sun_len) {
->          return;
->      }
+On Thu, Mar 31, 2022 at 10:37:39AM +0200, David Hildenbrand wrote:
+> On 25.03.22 16:40, Andrey Ryabinin wrote:
+> > The sequence of ram_block_add()/qemu_ram_free()/ram_block_add()
+> > function calls leads to leaking some memory.
+> > 
+> > ram_block_add() calls dirty_memory_extend() to allocate bitmap blocks
+> > for new memory. These blocks only grow but never shrink. So the
+> > qemu_ram_free() restores RAM size back to it's original stat but
+> > doesn't touch dirty memory bitmaps.
+> > 
+> > After qemu_ram_free() there is no way of knowing that we have
+> > allocated dirty memory bitmaps beyond current RAM size.
+> > So the next ram_block_add() will call dirty_memory_extend() again to
+> > to allocate new bitmaps and rewrite pointers to bitmaps left after
+> > the first ram_block_add()/dirty_memory_extend() calls.
+> > 
+> > Rework dirty_memory_extend() to be able to shrink dirty maps,
+> > also rename it to dirty_memory_resize(). And fix the leak by
+> > shrinking dirty memory maps on qemu_ram_free() if needed.
+> > 
+> > Fixes: 5b82b703b69a ("memory: RCU ram_list.dirty_memory[] for safe RAM hotplug")
+> > Cc: qemu-stable@nongnu.org
+> > Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
+> 
+> I looked at this a while ago and I think the problem is more involved,
+> because we might actually generate holes for which we can free the
+> bitmap. I think this patch impoves the situation, though.
+> 
+> 
+> IIRC if you hotplug two dimms and then hotunplug only the latter, the
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I assume you meant "former"? :)
 
-thanks
--- PMM
+> bitmap for the first dimm will remain as long as the second dimm isn't
+> hotunplugged.
+
+IMHO it's fine to keep the dirty block for the unplugged hole.  It'll be
+better if we could free it, but we can fix the memory leak first which
+seems to be more severe.  The dirty memory isn't extremely large (32K ratio
+to mem size) if just to be kept idle, but frequent plug/unplug will leak
+infinite host mem.
+
+-- 
+Peter Xu
+
 
