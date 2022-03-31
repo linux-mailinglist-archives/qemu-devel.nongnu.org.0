@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1DD4EE062
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:27:30 +0200 (CEST)
-Received: from localhost ([::1]:47004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484EC4EE0E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:45:42 +0200 (CEST)
+Received: from localhost ([::1]:50010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZzW5-000094-AE
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:27:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46872)
+	id 1nZznh-0006D2-DK
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:45:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZzMT-0005p7-Ec
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:17:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22284)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZzMQ-0001si-W5
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:17:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648750649;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4hRd/1JFpc+TVhaJIVv0c3bcCXb/Sz/bn/9yvm/rPhA=;
- b=Ys7AniT31i1MdlBGsUw3SZGhc2nWjTh49CRvVKzneQbSsXrvN6svQcG4FsMhlhENrhyV3O
- sk71e/JxmbpFi2RUYbz2PCqtN3yijHnDXFchgcBuPdrK51V/tqABFjjOZNqVMovvy2k29s
- /fOQEl5BCCUs9HNV5XLxVeSpJDRIj54=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-4-FFH4RmOcuP7UphUGxzlQ-1; Thu, 31 Mar 2022 14:17:28 -0400
-X-MC-Unique: 4-FFH4RmOcuP7UphUGxzlQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9755E382221C;
- Thu, 31 Mar 2022 18:17:15 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.194.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 793031400B18;
- Thu, 31 Mar 2022 18:17:14 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nZzVh-0000lS-TY
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:27:05 -0400
+Received: from [2607:f8b0:4864:20::72d] (port=34384
+ helo=mail-qk1-x72d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nZzVg-0003tG-0A
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:27:05 -0400
+Received: by mail-qk1-x72d.google.com with SMTP id 1so252104qke.1
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 11:27:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5snQ8CRQ0a9ojoSJnUT3ylTF5nEXOe5Qzom4D/g7BJA=;
+ b=eAXZwwWhmSkS4/TYr7fRs/0iVRTl6Gl6GHvRJEV9zObaBwog4UoK1pekT2Ssnht4wz
+ O/ytSpa+ZmVFleW683QVePLU+gT/W6M8QTaQmIsX+JEHYln7ntZ6yXfmg2AXASU8j86d
+ mK1MdOF40tesF6PEMyKsirZ+FvJV+6ZixNcjtqHfWKsyrp2J02elbzshZOrgdggIBg39
+ ZBv5uayc781bnVBTrskhs2xzitbT2lm1k8g7yS6adfBQ4Q5OYzWfPQ3IzbzkVLvNGvNQ
+ lkcuqsGRC7R53wfbDKFZ6fN8XZ3jdOWSjIE4J0LlaJcrbYMUsznwMCvLgacKt8KOqa/n
+ FQOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5snQ8CRQ0a9ojoSJnUT3ylTF5nEXOe5Qzom4D/g7BJA=;
+ b=Se7zc6M7dXNiGk0n3la5x+c0irQllzSgGXNmdqcUbroZ4me8Ji6kh4jwTJ2+Rrm94n
+ X0Zs6D6NMPWbPI9gwAQE/xi/0gq+4FTl3VnFr6A8ZPQQ8XSsXptl6E5nftOdJoDcQ8aG
+ nMvSlSwIxHxwhpiJjt9pbH6iL9keQBAj4DB5RpScV963fuiG5rUSddS2abEU2cNjisbI
+ sBqiOooZ0tOna+5z9Y/97geeHFvrHL5NbQCawZdyT3fXrHtxueJxef+5E4Vi09BqK0Ty
+ fkTa86xY8tIOBvTDWFl4sKq8wxhMUR4PYEpoxiNOcgEkE2GyLAR6jTPbFOP+9x2kQYtG
+ JELQ==
+X-Gm-Message-State: AOAM532rmaHQQ3vks7lyzLnKxh7Y5LvVg90P2D8r8nTeygPMhXNf1+Wn
+ /Ug8VQqHXLyS36NGnzw9xLXJVmSLKkUdfQ==
+X-Google-Smtp-Source: ABdhPJx4Fc/8MHP8xcnUMmo4+5rPqeFGEd3WWEF3K4c4rjUbQcYmnSyNHlnOpSX2focubM0VPj+U+A==
+X-Received: by 2002:a05:620a:2993:b0:67d:7119:9f19 with SMTP id
+ r19-20020a05620a299300b0067d71199f19mr4220182qkp.494.1648751221994; 
+ Thu, 31 Mar 2022 11:27:01 -0700 (PDT)
+Received: from localhost.localdomain
+ (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
+ [209.6.248.219]) by smtp.gmail.com with ESMTPSA id
+ v12-20020a05622a130c00b002e1b3ccd9adsm43322qtk.79.2022.03.31.11.27.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Mar 2022 11:27:01 -0700 (PDT)
+From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] util: Return void on iova_tree_remove
-Date: Thu, 31 Mar 2022 20:17:12 +0200
-Message-Id: <20220331181712.535039-1-eperezma@redhat.com>
+Subject: [PATCH v2] 9p: move P9_XATTR_SIZE_MAX from 9p.h to 9p.c
+Date: Thu, 31 Mar 2022 14:26:51 -0400
+Message-Id: <20220331182651.887-1-wwcohen@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
+ envelope-from=wwcohen@gmail.com; helo=mail-qk1-x72d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,57 +85,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Peter Xu <peterx@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, fabianfranz.oss@gmail.com,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ keno@juliacomputing.com, reactorcontrol@icloud.com,
+ philippe.mathieu.daude@gmail.com, Will Cohen <wwcohen@gmail.com>, hi@alyssa.is
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It always returns IOVA_OK so nobody uses it.
+The patch set adding 9p functionality to darwin introduced an issue
+where limits.h, which defines XATTR_SIZE_MAX, is included in 9p.c,
+though the referenced constant is needed in 9p.h. This commit fixes that
+issue by moving the definition of P9_XATTR_SIZE_MAX, which uses
+XATTR_SIZE_MAX, to also be in 9p.c.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Additionally, this commit moves the location of the system headers
+include in 9p.c to occur before the project headers.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/950
+Fixes: 38d7fd68b0 ("9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX")
+
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
 ---
- include/qemu/iova-tree.h | 4 +---
- util/iova-tree.c         | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ hw/9pfs/9p.c | 28 +++++++++++++++++++++++-----
+ hw/9pfs/9p.h | 18 ------------------
+ 2 files changed, 23 insertions(+), 23 deletions(-)
 
-diff --git a/include/qemu/iova-tree.h b/include/qemu/iova-tree.h
-index c938fb0793..16bbfdf5f8 100644
---- a/include/qemu/iova-tree.h
-+++ b/include/qemu/iova-tree.h
-@@ -72,10 +72,8 @@ int iova_tree_insert(IOVATree *tree, const DMAMap *map);
-  * provided.  The range does not need to be exactly what has inserted,
-  * all the mappings that are included in the provided range will be
-  * removed from the tree.  Here map->translated_addr is meaningless.
-- *
-- * Return: 0 if succeeded, or <0 if error.
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index dcaa602d4c..b9152c7882 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -16,6 +16,11 @@
+  * https://wiki.qemu.org/Documentation/9p
   */
--int iova_tree_remove(IOVATree *tree, const DMAMap *map);
-+void iova_tree_remove(IOVATree *tree, const DMAMap *map);
-
- /**
-  * iova_tree_find:
-diff --git a/util/iova-tree.c b/util/iova-tree.c
-index 6dff29c1f6..fee530a579 100644
---- a/util/iova-tree.c
-+++ b/util/iova-tree.c
-@@ -164,15 +164,13 @@ void iova_tree_foreach(IOVATree *tree, iova_tree_iterator iterator)
-     g_tree_foreach(tree->tree, iova_tree_traverse, iterator);
+ 
++#ifdef CONFIG_LINUX
++#include <linux/limits.h>
++#else
++#include <limits.h>
++#endif
+ #include "qemu/osdep.h"
+ #include <glib/gprintf.h>
+ #include "hw/virtio/virtio.h"
+@@ -33,11 +38,6 @@
+ #include "migration/blocker.h"
+ #include "qemu/xxhash.h"
+ #include <math.h>
+-#ifdef CONFIG_LINUX
+-#include <linux/limits.h>
+-#else
+-#include <limits.h>
+-#endif
+ 
+ int open_fd_hw;
+ int total_open_fd;
+@@ -3925,6 +3925,24 @@ out_nofid:
+     v9fs_string_free(&name);
  }
-
--int iova_tree_remove(IOVATree *tree, const DMAMap *map)
-+void iova_tree_remove(IOVATree *tree, const DMAMap *map)
+ 
++#if defined(CONFIG_LINUX)
++/* Currently, only Linux has XATTR_SIZE_MAX */
++#define P9_XATTR_SIZE_MAX XATTR_SIZE_MAX
++#elif defined(CONFIG_DARWIN)
++/*
++ * Darwin doesn't seem to define a maximum xattr size in its user
++ * space header, so manually configure it across platforms as 64k.
++ *
++ * Having no limit at all can lead to QEMU crashing during large g_malloc()
++ * calls. Because QEMU does not currently support macOS guests, the below
++ * preliminary solution only works due to its being a reflection of the limit of
++ * Linux guests.
++ */
++#define P9_XATTR_SIZE_MAX 65536
++#else
++#error Missing definition for P9_XATTR_SIZE_MAX for this host system
++#endif
++
+ static void coroutine_fn v9fs_xattrcreate(void *opaque)
  {
-     const DMAMap *overlap;
-
-     while ((overlap = iova_tree_find(tree, map))) {
-         g_tree_remove(tree->tree, overlap);
-     }
+     int flags, rflags = 0;
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index af2635fae9..994f952600 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -479,22 +479,4 @@ struct V9fsTransport {
+     void        (*push_and_notify)(V9fsPDU *pdu);
+ };
+ 
+-#if defined(XATTR_SIZE_MAX)
+-/* Linux */
+-#define P9_XATTR_SIZE_MAX XATTR_SIZE_MAX
+-#elif defined(CONFIG_DARWIN)
+-/*
+- * Darwin doesn't seem to define a maximum xattr size in its user
+- * space header, so manually configure it across platforms as 64k.
+- *
+- * Having no limit at all can lead to QEMU crashing during large g_malloc()
+- * calls. Because QEMU does not currently support macOS guests, the below
+- * preliminary solution only works due to its being a reflection of the limit of
+- * Linux guests.
+- */
+-#define P9_XATTR_SIZE_MAX 65536
+-#else
+-#error Missing definition for P9_XATTR_SIZE_MAX for this host system
+-#endif
 -
--    return IOVA_OK;
- }
-
- /**
---
-2.27.0
+ #endif
+-- 
+2.35.1
 
 
