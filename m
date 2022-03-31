@@ -2,90 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4035A4EDD44
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:36:06 +0200 (CEST)
-Received: from localhost ([::1]:60936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230384EDD95
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 17:42:55 +0200 (CEST)
+Received: from localhost ([::1]:48128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZwqB-0007Bb-1U
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:36:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56492)
+	id 1nZwwo-0001Lq-8Z
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 11:42:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwgD-0004NG-12
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:25:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47571)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nZwoe-0005Vc-KY
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:34:29 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:50357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZwg9-0005HV-Ow
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:25:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648740340;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nslR/r5IsdOlgZTL0HuSvIfv7XrmfdxbegxKtjVbf/o=;
- b=gF4kuvRL89hpZ0a2iJvd+Uo2r5JlE5rdxVIBtsKxkEHA7OqWlrX85u9ThHOmIh7CwDBu6O
- Wta6SjZT8HsXIZW/4uQ5UURXjvqKmp0cf6/tylVbS0KYn4DqUQIO4cAMR3bnpRGPF/Rdsz
- pf8beLNM+SP7GrccDttxAbAYW8m9+64=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-45-yD3unDxSN72pWygvjwCs7g-1; Thu, 31 Mar 2022 11:25:38 -0400
-X-MC-Unique: yD3unDxSN72pWygvjwCs7g-1
-Received: by mail-qv1-f70.google.com with SMTP id
- g13-20020ad4480d000000b004436a155886so6720903qvy.2
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 08:25:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nslR/r5IsdOlgZTL0HuSvIfv7XrmfdxbegxKtjVbf/o=;
- b=XH7ijnfRDeE70/+W6tjdnlxWACBcteCCMZxEkTfhBqd30uqWC6N4q/lIy0dEQNCoiV
- HSVu+BEolkyusJJKn2qebQd22LjrgI5bYeWiq2VuZBFT4xkjPX3V0YPv0M4+tWIhEh7G
- EDiacD4Zur96rHxkzGBKQbKe2wWZAi05rBjkXVI738gJ5q6Nre8jLDtk43EK+fKLU1Er
- J9ZOzwHmHEklRyzll9cClLvCLrFLMEHCdfVL1Lf8ua7xyFT5YYVPM8J42WmGcGCBP8Go
- zzIegkoVi04Sk+ICVC7Fn0fBMh2C15/cHHVn0bV/b6F0L3Rjqc9LhqFeCNyQky+Tv2Qi
- 70cQ==
-X-Gm-Message-State: AOAM533aTC77/ttcBoH01XJvqVjefYF2KfwQmGRs7nE4HJl6o3W6Me5h
- ob38HiJb2tTRJBL0IUKaQCutildkEJMYIyU44ds+kV+xiG72cKdQYpI+jIPL5aq1bjBKC+9iInV
- ISkHv3PmCkcplgMx8vrWrO4c26qOaZw+nQMc+bX+CY41TNufXS2iT0AeaUf6Dhfat
-X-Received: by 2002:a05:622a:311:b0:2e1:c5eb:f52f with SMTP id
- q17-20020a05622a031100b002e1c5ebf52fmr4766641qtw.468.1648740338119; 
- Thu, 31 Mar 2022 08:25:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZrVpYsaDPfI9VYfWRKR4K+lkd5lPpzdfcr92zLJIBvhkLrqk4KsDv3/Z7w9SDsm+atXU7jQ==
-X-Received: by 2002:a05:622a:311:b0:2e1:c5eb:f52f with SMTP id
- q17-20020a05622a031100b002e1c5ebf52fmr4766608qtw.468.1648740337763; 
- Thu, 31 Mar 2022 08:25:37 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- e7-20020ac85987000000b002e1b7fa2201sm19523348qte.56.2022.03.31.08.25.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 08:25:37 -0700 (PDT)
-Date: Thu, 31 Mar 2022 11:25:36 -0400
-From: Peter Xu <peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nZwoc-0007cp-MH
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 11:34:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=QZ6kbUSh+MibRzy7z0GPRw3KRuZ0v+R7jPoKUfNgYus=; b=M7vx87lRbRSkOQehX0hbIJ9qIC
+ J3xSy21OxoszGF4qbskreH15fU0LnTm66kWD6fbQCwAWHT0tOCtogfhD/N0AZOvSZxGLsR2/kL4F8
+ VkREW3+Z4JnkXPtytIwYE/CSiyViOlWnrAXSHi/d1dtV+wxDAcZeN2nso0430HW1YfDxnQGEShZ1K
+ 5S3nfjkqA7aqOu5wFP8RSuNXY+XDhuval/fkJNN3XYPFnAxXGvl4VwKo27yg6UlukS/Yc02MxHHIc
+ 0fEjHkP605U6KNKv3RGoU8eqVYZqV8rVVHSE2A/RNnLFJ/BEjfw/9gpf8KLPauObroKXYTkamT8P/
+ Sf5bFzWaL2O1CCsP0O4DNU6ZuSTvrwODdMqCMaHG8hZkMX5RkDGOIReBehlJqkUReBjzU+wxi3f+Q
+ i1Kl1z5GPG04RG0Pk0kZsDAV8g+5LAMvyhISpgaXkov6+4gMEy5cma3NuM0amKM8ChCrnWyD5TPcX
+ omCQ5of/HoMll5UCioEusJGcJwLOsjeuOF7UN0DZPnajOkI0iHHE0gvD6oY68q+PFs90TGadA3v3V
+ iYdWXzltN2PSz8MpwSKR9kzjx0Xf5be4YiO97KRRnK0i8bclWQqIs/+LTQfkQJUdXyncljQ3ny5RY
+ fCqDXmc8V/PJHjOSH+dTQSkcJLzA/MwB91AXQTpSI=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 19/19] tests: Add postcopy preempt tests
-Message-ID: <YkXH8EJSjUQi+ENP@xz-m1.local>
-References: <20220331150857.74406-1-peterx@redhat.com>
- <20220331150857.74406-20-peterx@redhat.com>
+Cc: Will Cohen <wwcohen@gmail.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>, Fabian Franz <fabianfranz.oss@gmail.com>, 
+ Greg Kurz <groug@kaod.org>, Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?=
+ <philippe.mathieu.daude@gmail.com>, hi@alyssa.is
+Subject: Re: [PATCH] 9p: move limits.h include from 9p.c to 9p.h
+Date: Thu, 31 Mar 2022 17:34:12 +0200
+Message-ID: <9263917.cZLeS7QfZr@silver>
+In-Reply-To: <CAB26zV2pqfXts8ug7bi+RHC3gY3nKgMZu0cG1DkNWNO0J1BzVw@mail.gmail.com>
+References: <20220330181947.68497-1-wwcohen@gmail.com>
+ <2350345.UNtK3Xum7i@silver>
+ <CAB26zV2pqfXts8ug7bi+RHC3gY3nKgMZu0cG1DkNWNO0J1BzVw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220331150857.74406-20-peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,143 +71,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 31, 2022 at 11:08:57AM -0400, Peter Xu wrote:
-> Four tests are added for preempt mode:
-> 
->   - Postcopy default
->   - Postcopy tls
->   - Postcopy recovery
->   - Postcopy tls+recovery
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  tests/qtest/migration-test.c | 49 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 49 insertions(+)
-> 
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 7288c64e97..7188503ae1 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -477,6 +477,7 @@ typedef struct {
->       */
->      bool hide_stderr;
->      bool use_shmem;
-> +    bool postcopy_preempt;
->      /* only launch the target process */
->      bool only_target;
->      /* Use dirty ring if true; dirty logging otherwise */
-> @@ -992,6 +993,11 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
->      migrate_set_capability(to, "postcopy-ram", true);
->      migrate_set_capability(to, "postcopy-blocktime", true);
->  
-> +    if (args->postcopy_preempt) {
-> +        migrate_set_capability(from, "postcopy-preempt", true);
-> +        migrate_set_capability(to, "postcopy-preempt", true);
-> +    }
-> +
->      /* We want to pick a speed slow enough that the test completes
->       * quickly, but that it doesn't complete precopy even on a slow
->       * machine, so also set the downtime.
-> @@ -1058,6 +1064,25 @@ static void test_postcopy_tls(void)
->      test_postcopy_common(&args);
->  }
->  
-> +static void test_postcopy_preempt(void)
-> +{
-> +    MigrateStart args = {
-> +        .postcopy_preempt = true,
-> +    };
-> +
-> +    test_postcopy_common(&args);
-> +}
-> +
-> +static void test_postcopy_preempt_tls(void)
-> +{
-> +    MigrateStart args = {
-> +        .postcopy_preempt = true,
-> +        .postcopy_tls = true,
-> +    };
-> +
-> +    test_postcopy_common(&args);
-> +}
-> +
->  static void test_postcopy_recovery_common(MigrateStart *args)
->  {
->      QTestState *from, *to;
-> @@ -1134,6 +1159,24 @@ static void test_postcopy_recovery_tls(void)
->      test_postcopy_recovery_common(&args);
->  }
->  
-> +static void test_postcopy_preempt_recovery(void)
-> +{
-> +    MigrateStart args = { .postcopy_preempt = true };
-> +
-> +    test_postcopy_recovery_common(&args);
-> +}
-> +
-> +/* This contains preempt+recovery+tls test altogether */
-> +static void test_postcopy_preempt_all(void)
-> +{
-> +    MigrateStart args = {
-> +        .postcopy_preempt = true,
-> +        .postcopy_tls = true,
-> +    };
-> +
-> +    test_postcopy_recovery_common(&args);
-> +}
-> +
->  static void test_baddest(void)
->  {
->      MigrateStart args = {
-> @@ -2176,6 +2219,12 @@ int main(int argc, char **argv)
->  
->      qtest_add_func("/migration/postcopy/unix", test_postcopy);
->      qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
-> +    qtest_add_func("/migration/postcopy/preempt/unix", test_postcopy_preempt);
-> +    qtest_add_func("/migration/postcopy/preempt/recovery",
-> +                   test_postcopy_preempt_recovery);
-> +    qtest_add_func("/migration/postcopy/preempt/tls", test_postcopy_preempt_tls);
-> +    qtest_add_func("/migration/postcopy/preempt/tls+recovery",
-> +                   test_postcopy_preempt_all);
->  #ifdef CONFIG_GNUTLS
->      qtest_add_func("/migration/postcopy/tls", test_postcopy_tls);
->      qtest_add_func("/migration/postcopy/tls/recovery", test_postcopy_recovery_tls);
+On Donnerstag, 31. M=E4rz 2022 15:19:24 CEST Will Cohen wrote:
+> On Thu, Mar 31, 2022 at 7:07 AM Christian Schoenebeck <
+>=20
+> qemu_oss@crudebyte.com> wrote:
+> > On Donnerstag, 31. M=E4rz 2022 10:03:35 CEST Peter Maydell wrote:
+> > > On Wed, 30 Mar 2022 at 22:55, Will Cohen <wwcohen@gmail.com> wrote:
+> > > > On Wed, Mar 30, 2022 at 5:31 PM Peter Maydell <
+> >=20
+> > peter.maydell@linaro.org>
+> >=20
+> > wrote:
+> > > >> Is it possible to do this with a meson.build check for whatever
+> > > >> host property we're relying on here rather than with a
+> > > >> "which OS is this?" ifdef ?
+> > > >=20
+> > > > To confirm -- the game plan in this case would be to do a check for
+> > > > something along the lines of
+> > > > config_host_data.set('CONFIG_XATTR_SIZE_MAX',
+> > > > cc.has_header_symbol('linux/limits.h', 'XATTR_SIZE_MAX')) and using
+> >=20
+> > that
+> >=20
+> > > > in the corresponding ifs, right?
+> > > >=20
+> > > > That makes sense -- if there's no objections, I'll go this route for
+> >=20
+> > v2,
+> >=20
+> > > > which I can submit tomorrow.
+> > >=20
+> > > Yeah, something like that.
+> > >=20
+> > > Looking a bit closer at the code it looks like the handling of
+> > > XATTR_SIZE_MAX is kind of odd: on Linux we use this kernel-provided
+> > > value, whatever it is, on macos we use a hardcoded 64K, and on
+> > > any other host we fail to compile. The comment claims we only
+> > > need to impose a limit to avoid doing an overly large malloc,
+> > > but if that's the case this shouldn't be OS-specific. I suspect
+> > > the problem here is we're trying to impose a non-existent fixed
+> > > maximum size for something where the API on the host just doesn't
+> > > guarantee one.
+> > >=20
+> > > But that would be a 7.1 thing to look at improving.
+> >=20
+> > It's like this: macOS does not officially have a limit for xattr size in
+> > general. HPFS has a xattr size limit on filesystem level it seems up to
+> > INT32_MAX, whereas today's APFS's xattr size AFAIK is only limited by t=
+he
+> > max.
+> > APFS file size (8 EB).
+> >=20
+> > As 9p is only used for Linux guests so far, and Linux having a much
+> > smaller
+> > xattr size limit of 64k, and 9p server still using a very simple RAM on=
+ly
+> > xattr implementation, the idea was to cap the xattr size for macOS hosts
+> > to
+> > hard coded 64k for that reason for now, at least until there are e.g.
+> > macOS 9p
+> > guests one day that would then actually start to profit from a streaming
+> > xattr
+> > implementation in 9p server.
+> >=20
+> > However right now 9p in QEMU only supports Linux hosts and macOS hosts,
+> > and
+> > the idea of
+> >=20
+> > #else
+> > #error Missing definition for P9_XATTR_SIZE_MAX for this host system
+> > #endif
+> >=20
+> > was to ensure that whoever adds support for another 9p host system in
+> > future,
+> > to check what's the limit on that host system, i.e. it might even be <6=
+4k.
+> > So
+> > I wouldn't just blindly use a default value here for all systems.
+>=20
+> Christian, do you have thoughts on the meson.build check, then? For all t=
+he
+> reasons you state directly above, there's still some macOS-specific logic
+> inherent to this functionality. If I create a meson check for
+> CONFIG_XATTR_SIZE_MAX, the code becomes something like the following:
+>=20
+> #if defined(CONFIG_XATTR_SIZE_MAX)
+> /* Currently, only Linux has XATTR_SIZE_MAX */
+> #define P9_XATTR_SIZE_MAX XATTR_SIZE_MAX
+> #elif defined(CONFIG_DARWIN)
+> ...
+>=20
+> On the one hand, I can see how this makes the intent a little clearer --
+> there's some kind of conceptual pre-defined header symbol in "most" cases
+> (currently only one operating system), with some os-specific fallback log=
+ic.
+> On the other hand, this isn't really shortening anything, it's just
+> replacing CONFIG_LINUX with something which effectively resolves to
+> CONFIG_LINUX through redirection.
 
-Ehh, the latter two need to be put into CONFIG_GNUTLS block..
+Well, I don't see an advantage for a meson check in this case, because=20
+XATTR_SIZE_MAX is a definition that only exists on Linux. Other systems eit=
+her=20
+have another macro name or none at all. A dedicated meson check makes sense=
+=20
+for individual features/macros/symbols that may exist across multiple OSes.
 
----8<---
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 7188503ae1..3d4fe89f52 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2222,12 +2222,12 @@ int main(int argc, char **argv)
-     qtest_add_func("/migration/postcopy/preempt/unix", test_postcopy_preempt);
-     qtest_add_func("/migration/postcopy/preempt/recovery",
-                    test_postcopy_preempt_recovery);
--    qtest_add_func("/migration/postcopy/preempt/tls", test_postcopy_preempt_tls);
--    qtest_add_func("/migration/postcopy/preempt/tls+recovery",
--                   test_postcopy_preempt_all);
- #ifdef CONFIG_GNUTLS
-     qtest_add_func("/migration/postcopy/tls", test_postcopy_tls);
-     qtest_add_func("/migration/postcopy/tls/recovery", test_postcopy_recovery_tls);
-+    qtest_add_func("/migration/postcopy/preempt/tls", test_postcopy_preempt_tls);
-+    qtest_add_func("/migration/postcopy/preempt/tls+recovery",
-+                   test_postcopy_preempt_all);
- #endif /* CONFIG_GNUTLS */
-     qtest_add_func("/migration/bad_dest", test_baddest);
-     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
----8<---
+Best regards,
+Christian Schoenebeck
 
-Sorry for the noise.
-
--- 
-Peter Xu
 
 
