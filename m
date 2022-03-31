@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4CE4ED9A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:29:30 +0200 (CEST)
-Received: from localhost ([::1]:43148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5233E4ED96A
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:11:14 +0200 (CEST)
+Received: from localhost ([::1]:50080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZtvc-00088S-H5
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:29:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48034)
+	id 1nZtdx-0001SC-8t
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:11:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZtMk-000639-Vt
+ id 1nZtMl-00063Y-4v
  for qemu-devel@nongnu.org; Thu, 31 Mar 2022 07:53:28 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:54100)
+Received: from beetle.greensocs.com ([5.135.226.135]:54116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nZtMe-000061-2V
+ id 1nZtMi-00007D-Of
  for qemu-devel@nongnu.org; Thu, 31 Mar 2022 07:53:26 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.10])
- by beetle.greensocs.com (Postfix) with ESMTPS id 4B1EE21CC4;
+ by beetle.greensocs.com (Postfix) with ESMTPS id A5D0B21EBC;
  Thu, 31 Mar 2022 11:53:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  s=mail; t=1648727594;
@@ -28,15 +28,15 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TtzRWK6oRCkkVEPihvusUuUO/HWewFUki8lfJUknad0=;
- b=CQhPO7ic4xsLlwzlo784GdXttSGJwHp7TbC/4v3kIwgY9vOVHL45R51PBou8VR0sX0hjFr
- jRrxziVlYoqwwclJrHroUojNoQ2vXk3RjDgJX5pMbdFFYPSm13q5hVwnI3QgsI5YhuwR+/
- luCfafEe2KJDI4twVhhyF609tc1gELI=
+ bh=Qxbod3xZWrGi3iOaENzr5nszU8j+mKdrSWBJDsqTqlo=;
+ b=YrfhmoFB9S2VnL/AXQLjMvVbIsXfbIx6+tYeP8apYBWPT8dQDY72F0B4wk6w0VBsF6bsZQ
+ W1InRHSjZ8eyylLlakzsdCSnU7lWjDIKbd9TAMp6cUAbtT6tRSKUZtZea9qebxZTrWvwUd
+ YxdABKedLwA92U6RC+SBaitQxT+ttII=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/5] rename machine_class_allow_dynamic_sysbus_dev
-Date: Thu, 31 Mar 2022 13:53:11 +0200
-Message-Id: <20220331115312.30018-5-damien.hedde@greensocs.com>
+Subject: [PATCH v2 5/5] machine: remove temporary inline functions
+Date: Thu, 31 Mar 2022 13:53:12 +0200
+Message-Id: <20220331115312.30018-6-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220331115312.30018-1-damien.hedde@greensocs.com>
 References: <20220331115312.30018-1-damien.hedde@greensocs.com>
@@ -71,143 +71,43 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All callsite are updated to the new function name
-"machine_class_allow_dynamic_device"
+Now we have renamed all calls to these old functions, we
+can delete the temporary inline we've defined.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/virt.c               | 10 +++++-----
- hw/i386/microvm.c           |  2 +-
- hw/i386/pc_piix.c           |  4 ++--
- hw/i386/pc_q35.c            |  8 ++++----
- hw/ppc/e500plat.c           |  2 +-
- hw/ppc/spapr.c              |  2 +-
- hw/riscv/virt.c             |  2 +-
- hw/xen/xen-legacy-backend.c |  2 +-
- 8 files changed, 16 insertions(+), 16 deletions(-)
+ include/hw/boards.h | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index d2e5ecd234..1442b8840b 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2829,12 +2829,12 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-      * configuration of the particular instance.
-      */
-     mc->max_cpus = 512;
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_CALXEDA_XGMAC);
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_AMD_XGBE);
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_PLATFORM);
-+    machine_class_allow_dynamic_device(mc, TYPE_VFIO_CALXEDA_XGMAC);
-+    machine_class_allow_dynamic_device(mc, TYPE_VFIO_AMD_XGBE);
-+    machine_class_allow_dynamic_device(mc, TYPE_RAMFB_DEVICE);
-+    machine_class_allow_dynamic_device(mc, TYPE_VFIO_PLATFORM);
- #ifdef CONFIG_TPM
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_TPM_TIS_SYSBUS);
-+    machine_class_allow_dynamic_device(mc, TYPE_TPM_TIS_SYSBUS);
- #endif
-     mc->block_default_type = IF_VIRTIO;
-     mc->no_cdrom = 1;
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 4b3b1dd262..4f8f423d31 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -756,7 +756,7 @@ static void microvm_class_init(ObjectClass *oc, void *data)
-         MICROVM_MACHINE_AUTO_KERNEL_CMDLINE,
-         "Set off to disable adding virtio-mmio devices to the kernel cmdline");
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 1814793175..7efba048e9 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -52,11 +52,6 @@ void machine_parse_smp_config(MachineState *ms,
+  * it will get an error message.
+  */
+ void machine_class_allow_dynamic_device(MachineClass *mc, const char *type);
+-static inline void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc,
+-                                                          const char *type)
+-{
+-    machine_class_allow_dynamic_device(mc, type);
+-}
  
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
-+    machine_class_allow_dynamic_device(mc, TYPE_RAMFB_DEVICE);
- }
+ /**
+  * device_type_is_dynamic_allowed: Check if type is an allowed device
+@@ -72,11 +67,6 @@ static inline void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc,
+  * Note that if @type has a parent type in the list, it is allowed too.
+  */
+ bool device_type_is_dynamic_allowed(MachineClass *mc, const char *type);
+-static inline bool device_type_is_dynamic_sysbus(MachineClass *mc,
+-                                                 const char *type)
+-{
+-    return device_type_is_dynamic_allowed(mc, type);
+-}
  
- static const TypeInfo microvm_machine_info = {
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index b72c03d0a6..27373cb16a 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -411,8 +411,8 @@ static void pc_i440fx_machine_options(MachineClass *m)
-     m->desc = "Standard PC (i440FX + PIIX, 1996)";
-     m->default_machine_opts = "firmware=bios-256k.bin";
-     m->default_display = "std";
--    machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
--    machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
-+    machine_class_allow_dynamic_device(m, TYPE_RAMFB_DEVICE);
-+    machine_class_allow_dynamic_device(m, TYPE_VMBUS_BRIDGE);
- }
- 
- static void pc_i440fx_7_0_machine_options(MachineClass *m)
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 1780f79bc1..8221615fa4 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -353,10 +353,10 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->default_display = "std";
-     m->default_kernel_irqchip_split = false;
-     m->no_floppy = 1;
--    machine_class_allow_dynamic_sysbus_dev(m, TYPE_AMD_IOMMU_DEVICE);
--    machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_DEVICE);
--    machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
--    machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
-+    machine_class_allow_dynamic_device(m, TYPE_AMD_IOMMU_DEVICE);
-+    machine_class_allow_dynamic_device(m, TYPE_INTEL_IOMMU_DEVICE);
-+    machine_class_allow_dynamic_device(m, TYPE_RAMFB_DEVICE);
-+    machine_class_allow_dynamic_device(m, TYPE_VMBUS_BRIDGE);
-     m->max_cpus = 288;
- }
- 
-diff --git a/hw/ppc/e500plat.c b/hw/ppc/e500plat.c
-index fc911bbb7b..273cde9d06 100644
---- a/hw/ppc/e500plat.c
-+++ b/hw/ppc/e500plat.c
-@@ -102,7 +102,7 @@ static void e500plat_machine_class_init(ObjectClass *oc, void *data)
-     mc->max_cpus = 32;
-     mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("e500v2_v30");
-     mc->default_ram_id = "mpc8544ds.ram";
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_ETSEC_COMMON);
-+    machine_class_allow_dynamic_device(mc, TYPE_ETSEC_COMMON);
-  }
- 
- static const TypeInfo e500plat_info = {
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index a4372ba189..70e12d9037 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4586,7 +4586,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_ram_id = "ppc_spapr.ram";
-     mc->default_display = "std";
-     mc->kvm_type = spapr_kvm_type;
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_SPAPR_PCI_HOST_BRIDGE);
-+    machine_class_allow_dynamic_device(mc, TYPE_SPAPR_PCI_HOST_BRIDGE);
-     mc->pci_allow_0_address = true;
-     assert(!mc->get_hotplug_handler);
-     mc->get_hotplug_handler = spapr_get_hotplug_handler;
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index da50cbed43..b6e2b0051b 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1513,7 +1513,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     mc->numa_mem_supported = true;
-     mc->default_ram_id = "riscv_virt_board.ram";
- 
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
-+    machine_class_allow_dynamic_device(mc, TYPE_RAMFB_DEVICE);
- 
-     object_class_property_add_bool(oc, "aclint", virt_get_aclint,
-                                    virt_set_aclint);
-diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
-index 085fd31ef7..7c81c4846a 100644
---- a/hw/xen/xen-legacy-backend.c
-+++ b/hw/xen/xen-legacy-backend.c
-@@ -722,7 +722,7 @@ static void xen_set_dynamic_sysbus(void)
-     ObjectClass *oc = object_get_class(machine);
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_XENSYSDEV);
-+    machine_class_allow_dynamic_device(mc, TYPE_XENSYSDEV);
- }
- 
- int xen_be_register(const char *type, struct XenDevOps *ops)
+ /**
+  * device_is_dynamic_sysbus: test whether device is a dynamic sysbus device
 -- 
 2.35.1
 
