@@ -2,93 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625054EE0D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:44:11 +0200 (CEST)
-Received: from localhost ([::1]:47746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDD54EE111
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:49:18 +0200 (CEST)
+Received: from localhost ([::1]:57738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZzmC-0004fU-Qe
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:44:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50324)
+	id 1nZzrB-00037I-Bh
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:49:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZzc7-00087f-Ch
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:33:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZzc6-0005Bi-11
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:33:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648751620;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yge8uA8i/K/Xpv5IP7ZSe5rfYc/UXX93z9Nj9ggi4ug=;
- b=ZjIgDcuteepKi1QS1RIG4Jr8LVH4wHqaLvTQHTDGfgWkdIws5gfroRfie5FF0cN8ivFvnx
- 10WZibIu6n8qXFxKFOmUEn3Rjk6RQg0sN6eH5j0que7PAvUuD8B1AC9dqGoBx7kpA6buLl
- 00bq+OtzV96CjEVfSljZ2VfCc3MK6gY=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-JzN9YRflM02IJUAr084G4Q-1; Thu, 31 Mar 2022 14:33:32 -0400
-X-MC-Unique: JzN9YRflM02IJUAr084G4Q-1
-Received: by mail-qt1-f197.google.com with SMTP id
- f7-20020a05622a1a0700b002e06d6279d5so211145qtb.7
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 11:33:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nZzpB-0001N3-Ur; Thu, 31 Mar 2022 14:47:13 -0400
+Received: from [2001:4860:4864:20::2b] (port=45088
+ helo=mail-oa1-x2b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nZzp0-0008J8-5U; Thu, 31 Mar 2022 14:47:09 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-d6ca46da48so185072fac.12; 
+ Thu, 31 Mar 2022 11:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Kfu3XJGCw09xIJg1m8ZIPKoghmARed45HEYyhgE/zyw=;
+ b=IcXQl/+t0nSX65RG37G/PabVfz8Ug+65nYBQajycJWJ4m4Qr37dJgtyB7BPVyBghXQ
+ tpJRx7rm45GEnT+tkVKQmxmIXB6KHPf2cMoA39JWN+F/hhYJFz94fqZgIXnCCoM4xa1Z
+ G6qNx/QeRGwLPFjHadkXLst0aH5v6IwGRtsFD/LjcUunqnv9/vJVISwB5XXXVhQvSSfb
+ pURPgXfyWOskGflYcW4PUBTsQ3eqlc0TorowmQbFGnzjk/Ya+hthGo5n0pGu8oTjFJY8
+ KPvnLI4SY//GQfbwIbDHv03SJ1Ukw3slduEHOHCQZFRJhk+VVw2VN2zlF3LUV+q9zKbL
+ p2yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=yge8uA8i/K/Xpv5IP7ZSe5rfYc/UXX93z9Nj9ggi4ug=;
- b=FFGjkux5i2AbW2/ROJd+FqUmy8cXpeCvDparj5ZY0eARpUOAIbxAAVIb452d/4S0Dr
- AZkFnlKY93RU8zYOovzDG0wIm53YkPNEmTuh7UpncbKCP8d24dk5aiUkrws/VVrxgM3B
- nxgsQRE68zdcaDqp07A9Fr0vTtW3hpg+qqH2Lpk5hPbuMJwy21uLuZhHxBKzXGIDp84X
- x0DndcIo2b/wAR7fYehIAwsHvZwUY8mwIclMFMzMAqMI6Nyspa/D9S6i2N5CSyQny9Pt
- qDoaXIZXK+o/pbP4yNMWc0en5muC8tLLfsda3v9OcLLSsnb08XNDc9mdHMZrbzpO7Zwx
- KN0Q==
-X-Gm-Message-State: AOAM532Rodph116tZtqnMkDgdX7FNuKw4HbF0qEzjoOG2TfA4f3knRm1
- O2PoJrP4EVzsbyPw66dKMf2cqBEOPW9zr6ewFLx/3/VQxO+3jrZixx7kexHpBkBidiGA+m5a/sn
- yxq6VqOPmLF64W2Q=
-X-Received: by 2002:a05:622a:1b91:b0:2e2:1ed2:311e with SMTP id
- bp17-20020a05622a1b9100b002e21ed2311emr5551507qtb.192.1648751611803; 
- Thu, 31 Mar 2022 11:33:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzq+Y3INl3iaHWncdQ3OW7W9WqivzeoUCYcchmCkWUxf6OWJxRlVJv3BVJktt69d6hFvWnl+g==
-X-Received: by 2002:a05:622a:1b91:b0:2e2:1ed2:311e with SMTP id
- bp17-20020a05622a1b9100b002e21ed2311emr5551486qtb.192.1648751611557; 
- Thu, 31 Mar 2022 11:33:31 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Kfu3XJGCw09xIJg1m8ZIPKoghmARed45HEYyhgE/zyw=;
+ b=GkuKXfmfhdUjBSL6miuyyMcqLeqS/8sc4YS/Ppna6zl5xttThznno20N8HR80mrjqn
+ XnEomNPHHcRxzHg6dgXP/wg2/QeC3BqIrDB4kNDo/3gMZVuHcVlvHT/WRXGJQpR+S44J
+ qEjrOi9ErSDsu0irTOjIAVMNdvQIR6qKlBca6bKzejXsIksht24vV6G+SPZ+MaRNYCmY
+ GKwvs4kcVxBbEdbZVQjGBD7Bp0DQkyoivkrTO5AbmPwtF0FO8DGGjsQsh9PkVVf+qEeX
+ EdUbHKJzT8oSiQ8yXRPhvPc+62TcNGmcxJ7AtdtLqaS6Cj2YvblLUQg81yCX0ZtTRfHR
+ blnw==
+X-Gm-Message-State: AOAM531YQC4IlWHadqpUt7FYUKp9BmBhNYoth4HRTP2J0jAEpclAwrcD
+ Vc/2KVQvChnLT5vNALB7ix8=
+X-Google-Smtp-Source: ABdhPJxicLpGpZ4uz8OMASeLkp6FE1vdoBOskDx8Qf/Fm/xrLVNVwsNTTaYZc+b3ejboK818x4n3iA==
+X-Received: by 2002:a05:6870:9a1b:b0:dd:bce0:b687 with SMTP id
+ fo27-20020a0568709a1b00b000ddbce0b687mr3324228oab.243.1648752420573; 
+ Thu, 31 Mar 2022 11:47:00 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c6:abe8:ed:2c78:ab0c:7946?
+ ([2804:431:c7c6:abe8:ed:2c78:ab0c:7946])
  by smtp.gmail.com with ESMTPSA id
- w8-20020a05622a134800b002eb8401862bsm83093qtk.34.2022.03.31.11.33.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 11:33:31 -0700 (PDT)
-Date: Thu, 31 Mar 2022 14:33:29 -0400
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v22 8/8] tests: Add dirty page rate limit test
-Message-ID: <YkXz+fi0c9UIN2Nn@xz-m1.local>
-References: <cover.1648748793.git.huangy81@chinatelecom.cn>
- <a6f7b4d02677622cd5e20c2437faf92ae7fab59b.1648748793.git.huangy81@chinatelecom.cn>
+ r129-20020acac187000000b002ef358c6e0esm73144oif.49.2022.03.31.11.46.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 31 Mar 2022 11:47:00 -0700 (PDT)
+Message-ID: <b292e516-80dc-9e5c-991b-49c77c0fe044@gmail.com>
+Date: Thu, 31 Mar 2022 15:46:57 -0300
 MIME-Version: 1.0
-In-Reply-To: <a6f7b4d02677622cd5e20c2437faf92ae7fab59b.1648748793.git.huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 2/4] target/ppc: init 'lpcr' in
+ kvmppc_enable_cap_large_decr()
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20220331001717.616938-1-danielhb413@gmail.com>
+ <20220331001717.616938-3-danielhb413@gmail.com> <YkUDCdUsjjmzFgJr@yekko>
+ <d5b622c6-81b4-9d3f-9777-5233fe5a2be4@gmail.com>
+ <5e48daaf-d881-2588-c323-30a9bc95a75f@linaro.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <5e48daaf-d881-2588-c323-30a9bc95a75f@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2b
+ (failed)
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,33 +98,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: clg@kaod.org, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 01, 2022 at 01:49:24AM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+
+
+On 3/31/22 14:36, Richard Henderson wrote:
+> On 3/31/22 11:17, Daniel Henrique Barboza wrote:
+>>> Hmm... this is seeming a bit like whack-a-mole.  Could we instead use
+>>> one of the valgrind hinting mechanisms to inform it that
+>>> kvm_get_one_reg() writes the variable at *target?
+>>
+>> I didn't find a way of doing that looking in the memcheck helpers
+>> (https://valgrind.org/docs/manual/mc-manual.html section 4.7). That would be a
+>> good way of solving this warning because we would put stuff inside a specific
+>> function X and all callers of X would be covered by it.
+>>
+>> What I did find instead is a memcheck macro called VALGRIND_MAKE_MEM_DEFINED that
+>> tells Valgrind that the var was initialized.
+>>
+>> This patch would then be something as follows:
+>>
+>>
+>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+>> index dc93b99189..b0e22fa283 100644
+>> --- a/target/ppc/kvm.c
+>> +++ b/target/ppc/kvm.c
+>> @@ -56,6 +56,10 @@
+>>   #define DEBUG_RETURN_GUEST 0
+>>   #define DEBUG_RETURN_GDB   1
+>>
+>> +#ifdef CONFIG_VALGRIND_H
+>> +#include <valgrind/memcheck.h>
+>> +#endif
+>> +
+>>   const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+>>       KVM_CAP_LAST_INFO
+>>   };
+>> @@ -2539,6 +2543,10 @@ int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
+>>       CPUState *cs = CPU(cpu);
+>>       uint64_t lpcr;
+>>
+>> +#ifdef CONFIG_VALGRIND_H
+>> +    VALGRIND_MAKE_MEM_DEFINED(lpcr, sizeof(uint64_t));
+>> +#endif
+>> +
+>>       kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
+>>       /* Do we need to modify the LPCR? */
+>>
+>>
+>> CONFIG_VALGRIND_H needs 'valgrind-devel´ installed.
+>>
+>> I agree that this "Valgrind is complaining about variable initialization" is a whack-a-mole
+>> situation that will keep happening in the future if we keep adding this same code pattern
+>> (passing as reference an uninitialized var). For now, given that we have only 4 instances
+>> to fix it in ppc code (as far as I'm aware of), and we don't have a better way of telling
+>> Valgrind that we know what we're doing, I think we're better of initializing these vars.
 > 
-> Add dirty page rate limit test if kernel support dirty ring,
-> create a standalone file to implement the test case.
+> I would instead put this annotation inside kvm_get_one_reg, so that it covers all kvm hosts.  But it's too late to do this for 7.0.
+
+I wasn't planning on pushing these changes for 7.0 since they aren't fixing mem
+leaks or anything really bad. It's more of a quality of life improvement when
+using Valgrind.
+
+I also tried to put this annotation in kvm_get_one_reg() and it didn't solve the
+warning. I didn't find a way of telling Valgrind "consider that every time this
+function is called with parameter X it initializes X". That would be a good solution
+to put in the common KVM files and fix the problem for everybody.
+
+
+Daniel
+
+
+
 > 
-> The following qmp commands are covered by this test case:
-> "calc-dirty-rate", "query-dirty-rate", "set-vcpu-dirty-limit",
-> "cancel-vcpu-dirty-limit" and "query-vcpu-dirty-limit".
 > 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-
-Acked-by: Peter Xu <peterx@redhat.com>
-
-Thanks,
-
--- 
-Peter Xu
-
+> r~
 
