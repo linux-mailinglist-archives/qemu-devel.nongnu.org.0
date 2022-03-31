@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5EB14ED758
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 11:54:20 +0200 (CEST)
-Received: from localhost ([::1]:59626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ECA44ED768
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 11:59:35 +0200 (CEST)
+Received: from localhost ([::1]:33890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZrVT-0002YK-Oi
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 05:54:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48208)
+	id 1nZraY-0004cY-JZ
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 05:59:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZrSl-0000Z0-1b
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 05:51:31 -0400
-Received: from [2607:f8b0:4864:20::1134] (port=45599
- helo=mail-yw1-x1134.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nZrZE-0003pL-53
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 05:58:13 -0400
+Received: from [2a00:1450:4864:20::62d] (port=36403
+ helo=mail-ej1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZrSj-0001Ch-6f
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 05:51:30 -0400
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-2e6650cde1bso247314327b3.12
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 02:51:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nZrZA-0002Ee-Kq
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 05:58:10 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id bi12so47042585ejb.3
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 02:58:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wUin5oJRPkZdX6+MCp4ImIIAmc8k8ft+q3uUTIUDafA=;
- b=xCN0Hip3CDKyBY1Rd7eVeaRkyVijEgBVZMu+jGCzI77pDb+79P42cUyQNZrQNvgfEL
- iULIWsVMFTZbLGYu9pUWZ9ICLn81NDEWc65rfB/m7T7KxVf+g39xvW6XZN2JP3A6W+wQ
- BkuaMbsTRQt7AZYqAxLUKsVhpWz5eR7UNJwWT1RKY3lIJf94sOudFWMuBaAy7cRNGvXi
- IutPAeSKVykA+X0disDoKnTbfe9mqJLFPfdj8QVtvaC/8SI2l5bPbQJ06cVy/XCBAfwi
- zv7ZPDTuFtctFA3uVLgwc6V9KMs4w8fKtxRLfi/Bl6taSGONNqMVvKKz65ARSMan2ZI2
- OfvQ==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=XToN3vxo+nFmM6TCL6S3hupMunMN0P6nWRI3xIWNkFs=;
+ b=CuRZNp88c11Xmd9bpzbMGOLhzua2tw7mLJXZp0NzmPiMyCxFYIpMVvmS2tS4Ob7IBe
+ mExmyW6lE3leLLwXWEnZuI2bbnMDAhy+ETWWau6YcTxPNNgzD83fwFbCNKSZD8ncaj5T
+ jzbXj1UOklFXYl8ouD07AUpMHR2hEGPoQTCdv14iOWzi8yV6wtwhpPmNv+kh9awFuWlU
+ KIVpRMocv+vOwCFULj/vsUW9BF9IrFklP5nrSanGuuYAfjY7D+ua3LZzekNQL8TZVQzV
+ CeD2QlvrJOJTDKr8oAuPqnY7vKz6uJ7I2Log579hSeQCgWdtoxOTKsiycONvj0tqxwYC
+ Mx7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wUin5oJRPkZdX6+MCp4ImIIAmc8k8ft+q3uUTIUDafA=;
- b=BA0HeOzyqcajr/uHg5iS+cVWdtlT8Yt3xYSC95/5KQ/9Nkq5CWBXfNynM4uK1T/uYz
- bCcrBAVI9avz5zhatjEDr6woNQJo3K7h4BPGrcmELNBLjimqSfqpDUoQONuITRjyPDjR
- GNgiEhflEZT8dVRgHcikyAhkUogqT2CA0SO4V5Ebd/nw3rgwXPKUX8KR0KpIks6bJu0F
- vKvDpPehhEZ/n757k6hPJSiC0Fit23KIlkMhuPOwNYJtV6Y69e96ws+PKdhTqD1fnHEs
- bhNV58ax5hhIZzE6Mz59tdktrG3ro6jSy/iFMQ618b2RiQTyCukQrdc5MyV3NpmjyhZA
- nmaA==
-X-Gm-Message-State: AOAM5310w1M0jDCDhc9tVBJnyVaVx5VJL7VEdFHNUTqn0hx8PkUzCgTg
- xlVqiw3ncCTsn4yyQ8HKsdwn7vTMUqRnhxTT5BHvEA==
-X-Google-Smtp-Source: ABdhPJzJJvFiUcw8SLcZndGdWJNzA+djR3mbGuK9iM3Y3HPFqWRCvC1bDuMp7rQ5EeQCynGPdLwifH6y3DevqTDRFCU=
-X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
- m125-20020a0dfc83000000b002e5b0f4c125mr4158734ywf.347.1648720288080; Thu, 31
- Mar 2022 02:51:28 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=XToN3vxo+nFmM6TCL6S3hupMunMN0P6nWRI3xIWNkFs=;
+ b=If5zDiuXuCctPK759XfBBDGbcLABJXZaX1kWYT+YaBWdmOES+8ntnUwZm+LtQ3o49z
+ ztZjXQKexM60zTD9PBfEhrZjQpydUWP5EYw7ZkfObPQ7KQfCzz8oxTCTNcNSvJKidTCD
+ WnKFPxC482Rhcmp1ooYJeRpanJxc6LTkRU1G/LwNfNstJvnjO4rwPjP/IqnMk163RJvB
+ XWIy6Z0X+r14ikVIOKzCHU3bhwzRFk2ksEmrrHCw5IgIBiXswPKdx4ZjVewUGAPJpEgq
+ PITyetTA4GtiFSONC0/Y7Y2VWaaDsGFDDmL1DHvLWnuWvpMuv7degpTDrqAlSAmYCNkE
+ NHsw==
+X-Gm-Message-State: AOAM533/gqfhqunI3xPHv6Be4rePeZAQLWQu1sti2C1CcpzvmxE/rBdb
+ pFHwCfw84MlFEVz5BWUgxtKVEg==
+X-Google-Smtp-Source: ABdhPJzBJ1i5kpXI96qw/+jNzQzEyRHtOIXFgNYZz9Y4fHdJM4b/EAGNA1HtTskNjGQogmzvVPZkdA==
+X-Received: by 2002:a17:906:5418:b0:6df:a07f:764b with SMTP id
+ q24-20020a170906541800b006dfa07f764bmr4096053ejo.27.1648720686988; 
+ Thu, 31 Mar 2022 02:58:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ b8-20020a170906728800b006e0351df2dcsm9345789ejl.70.2022.03.31.02.58.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Mar 2022 02:58:06 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7225F1FFB7;
+ Thu, 31 Mar 2022 10:58:05 +0100 (BST)
+References: <20220120040234.ehcjcdr6wrvlz3yc@vireshk-i7>
+ <20220121151534.3654562-1-alex.bennee@linaro.org>
+User-agent: mu4e 1.7.11; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH] tests/qtest: attempt to enable tests for
+ virtio-gpio (!working)
+Date: Thu, 31 Mar 2022 10:52:56 +0100
+In-reply-to: <20220121151534.3654562-1-alex.bennee@linaro.org>
+Message-ID: <87r16iwij6.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220307224357.682101-1-mst@redhat.com>
- <20220307224357.682101-16-mst@redhat.com>
-In-Reply-To: <20220307224357.682101-16-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 31 Mar 2022 10:51:17 +0100
-Message-ID: <CAFEAcA-zjv1dqkUo=rt549wO-D9=J-MFfRCm4nMQthh_Gh_eog@mail.gmail.com>
-Subject: Re: [PULL v4 15/47] intel_iommu: support snoop control
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1134
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -83,46 +94,284 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>, Coiby Xu <Coiby.Xu@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@rehat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Mar 2022 at 22:45, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> From: Jason Wang <jasowang@redhat.com>
->
-> SC is required for some kernel features like vhost-vDPA. So this patch
-> implements basic SC feature. The idea is pretty simple, for software
-> emulated DMA it would be always coherent. In this case we can simple
-> advertise ECAP_SC bit. For VFIO and vhost, thing will be more much
-> complicated, so this patch simply fail the IOMMU notifier
-> registration.
->
-> In the future, we may want to have a dedicated notifiers flag or
-> similar mechanism to demonstrate the coherency so VFIO could advertise
-> that if it has VFIO_DMA_CC_IOMMU, for vhost kernel backend we don't
-> need that since it's a software backend.
 
-Hi; Coverity points out (CID 1487174) an error in this change:
+(expanding the CC list for help, anyone have a better idea about how
+vhost-user qtests should work/see obvious issues with this patch?)
 
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -3030,6 +3030,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
->      VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
->      IntelIOMMUState *s = vtd_as->iommu_state;
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+
+> We don't have a virtio-gpio implementation in QEMU and only
+> support a vhost-user backend. The QEMU side of the code is minimal so
+> it should be enough to instantiate the device and pass some vhost-user
+> messages over the control socket. To do this we hook into the existing
+> vhost-user-test code and just add the bits required for gpio.
 >
-> +    /* TODO: add support for VFIO and vhost users */
-> +    if (s->snoop_control) {
-> +        error_setg_errno(errp, -ENOTSUP,
-> +                         "Snoop Control with vhost or VFIO is not supported");
-> +        return -ENOTSUP;
+> Based-on: 20220118203833.316741-1-eric.auger@redhat.com
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Viresh Kumar <viresh.kumar@linaro.org>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>
+> ---
+>
+> This goes as far as to add things to the QOS tree but so far it's
+> failing to properly start QEMU with the chardev socket needed to
+> communicate between the mock vhost-user daemon and QEMU itself.
+> ---
+>  tests/qtest/libqos/virtio-gpio.h | 34 +++++++++++
+>  tests/qtest/libqos/virtio-gpio.c | 98 ++++++++++++++++++++++++++++++++
+>  tests/qtest/vhost-user-test.c    | 34 +++++++++++
+>  tests/qtest/libqos/meson.build   |  1 +
+>  4 files changed, 167 insertions(+)
+>  create mode 100644 tests/qtest/libqos/virtio-gpio.h
+>  create mode 100644 tests/qtest/libqos/virtio-gpio.c
+>
+> diff --git a/tests/qtest/libqos/virtio-gpio.h b/tests/qtest/libqos/virtio=
+-gpio.h
+> new file mode 100644
+> index 0000000000..abe6967ae9
+> --- /dev/null
+> +++ b/tests/qtest/libqos/virtio-gpio.h
+> @@ -0,0 +1,34 @@
+> +/*
+> + * virtio-gpio structures
+> + *
+> + * Copyright (c) 2022 Linaro Ltd
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#ifndef TESTS_LIBQOS_VIRTIO_GPIO_H
+> +#define TESTS_LIBQOS_VIRTIO_GPIO_H
+> +
+> +#include "qgraph.h"
+> +#include "virtio.h"
+> +#include "virtio-pci.h"
+> +
+> +typedef struct QVhostUserGPIO QVhostUserGPIO;
+> +typedef struct QVhostUserGPIOPCI QVhostUserGPIOPCI;
+> +typedef struct QVhostUserGPIODevice QVhostUserGPIODevice;
+> +
+> +struct QVhostUserGPIO {
+> +    QVirtioDevice *vdev;
+> +};
+> +
+> +struct QVhostUserGPIOPCI {
+> +    QVirtioPCIDevice pci_vdev;
+> +    QVhostUserGPIO gpio;
+> +};
+> +
+> +struct QVhostUserGPIODevice {
+> +    QOSGraphObject obj;
+> +    QVhostUserGPIO gpio;
+> +};
+> +
+> +#endif
+> diff --git a/tests/qtest/libqos/virtio-gpio.c b/tests/qtest/libqos/virtio=
+-gpio.c
+> new file mode 100644
+> index 0000000000..62c8074777
+> --- /dev/null
+> +++ b/tests/qtest/libqos/virtio-gpio.c
+> @@ -0,0 +1,98 @@
+> +/*
+> + * virtio-gpio nodes for testing
+> + *
+> + * Copyright (c) 2022 Linaro Ltd
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "libqtest.h"
+> +#include "qemu/module.h"
+> +#include "qgraph.h"
+> +#include "virtio-gpio.h"
+> +
+> +static void *qvirtio_gpio_get_driver(QVhostUserGPIO *v_gpio,
+> +                                       const char *interface)
+> +{
+> +    if (!g_strcmp0(interface, "vhost-user-gpio")) {
+> +        return v_gpio;
 > +    }
+> +    if (!g_strcmp0(interface, "virtio")) {
+> +        return v_gpio->vdev;
+> +    }
+> +
+> +    fprintf(stderr, "%s not present in virtio-gpio-device\n", interface);
+> +    g_assert_not_reached();
+> +}
+> +
+> +static void *qvirtio_gpio_device_get_driver(void *object,
+> +                                              const char *interface)
+> +{
+> +    QVhostUserGPIODevice *v_gpio =3D object;
+> +    return qvirtio_gpio_get_driver(&v_gpio->gpio, interface);
+> +}
+> +
+> +static void *virtio_gpio_device_create(void *virtio_dev,
+> +                                         QGuestAllocator *t_alloc,
+> +                                         void *addr)
+> +{
+> +    QVhostUserGPIODevice *virtio_device =3D g_new0(QVhostUserGPIODevice,=
+ 1);
+> +    QVhostUserGPIO *interface =3D &virtio_device->gpio;
+> +
+> +    interface->vdev =3D virtio_dev;
+> +
+> +    virtio_device->obj.get_driver =3D qvirtio_gpio_device_get_driver;
+> +
+> +    return &virtio_device->obj;
+> +}
+> +
+> +/* virtio-gpio-pci */
+> +static void *qvirtio_gpio_pci_get_driver(void *object, const char *inter=
+face)
+> +{
+> +    QVhostUserGPIOPCI *v_gpio =3D object;
+> +    if (!g_strcmp0(interface, "pci-device")) {
+> +        return v_gpio->pci_vdev.pdev;
+> +    }
+> +    return qvirtio_gpio_get_driver(&v_gpio->gpio, interface);
+> +}
+> +
+> +static void *virtio_gpio_pci_create(void *pci_bus, QGuestAllocator *t_al=
+loc,
+> +                                      void *addr)
+> +{
+> +    QVhostUserGPIOPCI *virtio_spci =3D g_new0(QVhostUserGPIOPCI, 1);
+> +    QVhostUserGPIO *interface =3D &virtio_spci->gpio;
+> +    QOSGraphObject *obj =3D &virtio_spci->pci_vdev.obj;
+> +
+> +    virtio_pci_init(&virtio_spci->pci_vdev, pci_bus, addr);
+> +    interface->vdev =3D &virtio_spci->pci_vdev.vdev;
+> +
+> +    obj->get_driver =3D qvirtio_gpio_pci_get_driver;
+> +
+> +    return obj;
+> +}
+> +
+> +static void virtio_gpio_register_nodes(void)
+> +{
+> +    QPCIAddress addr =3D {
+> +        .devfn =3D QPCI_DEVFN(4, 0),
+> +    };
+> +
+> +    QOSGraphEdgeOptions edge_opts =3D { };
+> +
+> +    /* vhost-user-gpio-device */
+> +    edge_opts.extra_device_opts =3D "id=3Dgpio0,chardev=3Dvhgpio0";
+> +    qos_node_create_driver("vhost-user-gpio-device",
+> +                            virtio_gpio_device_create);
+> +    qos_node_consumes("vhost-user-gpio-device", "virtio-bus", &edge_opts=
+);
+> +    qos_node_produces("vhost-user-gpio-device", "vhost-user-gpio");
+> +
+> +    /* virtio-gpio-pci */
+> +    edge_opts.extra_device_opts =3D "id=3Dgpio0,addr=3D04.0,chardev=3Dvh=
+gpio0";
+> +    add_qpci_address(&edge_opts, &addr);
+> +    qos_node_create_driver("vhost-user-gpio-pci", virtio_gpio_pci_create=
+);
+> +    qos_node_consumes("vhost-user-gpio-pci", "pci-bus", &edge_opts);
+> +    qos_node_produces("vhost-user-gpio-pci", "vhost-user-gpio");
+> +}
+> +
+> +libqos_init(virtio_gpio_register_nodes);
+> diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+> index ee30f54796..4f8789424b 100644
+> --- a/tests/qtest/vhost-user-test.c
+> +++ b/tests/qtest/vhost-user-test.c
+> @@ -43,6 +43,7 @@
+>                          " -numa node,memdev=3Dmem"
+>  #define QEMU_CMD_CHR    " -chardev socket,id=3D%s,path=3D%s%s"
+>  #define QEMU_CMD_NETDEV " -netdev vhost-user,id=3Dhs0,chardev=3D%s,vhost=
+force=3Don"
+> +#define QEMU_CMD_GPIO   " -device vhost-user-gpio-pci,id=3Dgpio0,chardev=
+=3D%s,vhostforce=3Don"
+>=20=20
+>  #define HUGETLBFS_MAGIC       0x958458f6
+>=20=20
+> @@ -137,6 +138,7 @@ enum {
+>=20=20
+>  enum {
+>      VHOST_USER_NET,
+> +    VHOST_USER_GPIO,
+>  };
+>=20=20
+>  typedef struct TestServer {
+> @@ -194,6 +196,14 @@ static void append_vhost_net_opts(TestServer *s, GSt=
+ring *cmd_line,
+>                             chr_opts, s->chr_name);
+>  }
+>=20=20
+> +static void append_vhost_gpio_opts(TestServer *s, GString *cmd_line,
+> +                             const char *chr_opts)
+> +{
+> +    g_string_append_printf(cmd_line, QEMU_CMD_CHR QEMU_CMD_GPIO,
+> +                           s->chr_name, s->socket_path,
+> +                           chr_opts, s->chr_name);
+> +}
+> +
+>  static void append_mem_opts(TestServer *server, GString *cmd_line,
+>                              int size, enum test_memfd memfd)
+>  {
+> @@ -1014,3 +1024,27 @@ static void register_vhost_user_test(void)
+>                   test_multiqueue, &opts);
+>  }
+>  libqos_init(register_vhost_user_test);
+> +
+> +static struct vhost_user_ops g_vu_gpio_ops =3D {
+> +    .type =3D VHOST_USER_GPIO,
+> +
+> +    .append_opts =3D append_vhost_gpio_opts,
+> +
+> +    .set_features =3D vu_net_set_features,
+> +    .get_protocol_features =3D vu_net_get_protocol_features,
+> +};
+> +
+> +static void register_vhost_gpio_test(void)
+> +{
+> +    QOSGraphTestOptions opts =3D {
+> +        .before =3D vhost_user_test_setup,
+> +        .subprocess =3D true,
+> +        .arg =3D &g_vu_gpio_ops,
+> +    };
+> +
+> +    qemu_add_opts(&qemu_chardev_opts);
+> +
+> +    qos_add_test("read-guest-mem/memfile",
+> +                 "vhost-user-gpio", test_read_guest_mem, &opts);
+> +}
+> +libqos_init(register_vhost_gpio_test);
+> diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.bu=
+ild
+> index 8c8ee15553..f581330d8b 100644
+> --- a/tests/qtest/libqos/meson.build
+> +++ b/tests/qtest/libqos/meson.build
+> @@ -42,6 +42,7 @@ libqos_srcs =3D files('../libqtest.c',
+>          'virtio-scsi.c',
+>          'virtio-serial.c',
+>          'virtio-iommu.c',
+> +        'virtio-gpio.c',
+>          'generic-pcihost.c',
+>=20=20
+>          # qgraph machines:
 
-error_setg_errno() expects a normal errno value, not a negated
-one, so we should be passing it "ENOTSUP" here, not "-ENOTSUP".
 
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
