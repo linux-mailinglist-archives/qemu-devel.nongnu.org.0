@@ -2,87 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7A04EDF94
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 19:22:19 +0200 (CEST)
-Received: from localhost ([::1]:58742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C3B4EDFAD
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 19:31:27 +0200 (CEST)
+Received: from localhost ([::1]:36936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZyV0-0004Us-OT
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 13:22:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58944)
+	id 1nZydq-000103-MG
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 13:31:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nZyQf-0000qE-28; Thu, 31 Mar 2022 13:17:52 -0400
-Received: from [2607:f8b0:4864:20::333] (port=39560
- helo=mail-ot1-x333.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nZyQd-0004oi-4J; Thu, 31 Mar 2022 13:17:48 -0400
-Received: by mail-ot1-x333.google.com with SMTP id
- a17-20020a9d3e11000000b005cb483c500dso340578otd.6; 
- Thu, 31 Mar 2022 10:17:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=eGoKsMCgrRfX39y6y1Q/5vZauX9lPvXVdkMdLCAYVOk=;
- b=ms9M4cl50BRo0gPA6LhB0iCQxF0/TfcPetwgkLvPPQGi04XCIglmDnjaJtcae8H/NU
- DbZoqxxkOtIlpaPBXH4eRXSCP4+7TcIb+IXSrjAO2GtFiFJ98N91V6phDzUnPcNNHBpU
- jf5MAGC5IqGGttzjYxPNNy0/C8jxTNCnQIwGVlaaptONbVvOrej4W8M03+YnFuIVx3lQ
- q8UQEvao9nFB3v+Gt9Jh+PV2IpW/70tYDbvcMDs+HKMmWoj4Fm+iO0PW94pFNkqMFp+z
- J/FcPux2J+CdXh5+8W4x4W+x6j0r+JQu8dgrHOEemMWxPL0UdRlQI/C9/9uSgO+7Zmp7
- hk0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=eGoKsMCgrRfX39y6y1Q/5vZauX9lPvXVdkMdLCAYVOk=;
- b=FNlNA7t1R3NiY8JWxqIJaZnCP1/4YtDhVBeom/gL3wZa0qhXEoMyulxwFmBiCtACy3
- 0vOmHEMu8m1SNPn182p25Q3yjKtwwRSEJZexDqmmp/x+UYx1By3TpJe7Norf9+7oDdJ/
- tBldrVvIp5y7D9e+ZDldUlDFZj19wTEeHQVLtGWgDCE6S0nXflcN4ED7gbcJK5wjRLVi
- AmjCTOJMgJ0aw0XX9cjRwUaqgUktzwVW25fmgAMyC8qADFPk5nTwWMtnLGoOqOzC95M0
- 6008Yf8gulzCq2AfR/FZ5f1N6XPGaNZkWvmwWibuIATHB2tI1flGdMuKY3hj8hEBG78b
- eLEA==
-X-Gm-Message-State: AOAM5311t9cnIB+e95to43BEVi8HIr+02g0m9HqPxx8Hm4aTNApINIy6
- 7pwV4+uVg4QMH7BrUR6X0Sk=
-X-Google-Smtp-Source: ABdhPJzCBOcU23fY5G4tUPj53Y3YnONy/DimtAi7tc+P/hAwdI+9DK5oQlmG+s0bSEhmqpeTyaGq0g==
-X-Received: by 2002:a9d:868:0:b0:5ce:1958:2ce1 with SMTP id
- 95-20020a9d0868000000b005ce19582ce1mr264508oty.147.1648747065515; 
- Thu, 31 Mar 2022 10:17:45 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c6:abe8:ed:2c78:ab0c:7946?
- ([2804:431:c7c6:abe8:ed:2c78:ab0c:7946])
- by smtp.gmail.com with ESMTPSA id
- t17-20020a9d7f91000000b005c925454e6fsm21896otp.69.2022.03.31.10.17.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 10:17:45 -0700 (PDT)
-Message-ID: <d5b622c6-81b4-9d3f-9777-5233fe5a2be4@gmail.com>
-Date: Thu, 31 Mar 2022 14:17:42 -0300
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1nZybc-00075c-07
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:29:09 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:34254
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nZybY-0007MP-8z
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:29:07 -0400
+HMM_SOURCE_IP: 172.18.0.48:40776.1162073760
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-125.69.43.160 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id AB51B280029;
+ Fri,  1 Apr 2022 01:28:51 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id b5fde231e5274e9282b230cf486c0c11 for
+ peterx@redhat.com; Fri, 01 Apr 2022 01:28:54 CST
+X-Transaction-ID: b5fde231e5274e9282b230cf486c0c11
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Message-ID: <fe0dd8ac-af55-ff9b-d198-835310aa9fce@chinatelecom.cn>
+Date: Fri, 1 Apr 2022 01:28:48 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/4] target/ppc: init 'lpcr' in
- kvmppc_enable_cap_large_decr()
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20220331001717.616938-1-danielhb413@gmail.com>
- <20220331001717.616938-3-danielhb413@gmail.com> <YkUDCdUsjjmzFgJr@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <YkUDCdUsjjmzFgJr@yekko>
+Subject: Re: [PATCH v21 9/9] tests: Add dirty page rate limit test
+To: Peter Xu <peterx@redhat.com>
+References: <cover.1647435820.git.huangy81@chinatelecom.cn>
+ <22a74578fb2127fc65fd98b0c04ed3a7706a7f08.1647435820.git.huangy81@chinatelecom.cn>
+ <YkNkCWCXj3ZM5kyv@xz-m1.local>
+From: Hyman <huangy81@chinatelecom.cn>
+In-Reply-To: <YkNkCWCXj3ZM5kyv@xz-m1.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::333
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x333.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=42.123.76.222;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,114 +66,428 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 3/30/22 22:25, David Gibson wrote:
-> On Wed, Mar 30, 2022 at 09:17:15PM -0300, Daniel Henrique Barboza wrote:
->> 'lpcr' is used as an input of kvm_get_one_reg(). Valgrind doesn't
->> understand that and it returns warnings as such for this function:
+在 2022/3/30 3:54, Peter Xu 写道:
+> On Wed, Mar 16, 2022 at 09:07:21PM +0800, huangy81@chinatelecom.cn wrote:
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 >>
->> ==55240== Thread 1:
->> ==55240== Conditional jump or move depends on uninitialised value(s)
->> ==55240==    at 0xB011E4: kvmppc_enable_cap_large_decr (kvm.c:2546)
->> ==55240==    by 0x92F28F: cap_large_decr_cpu_apply (spapr_caps.c:523)
->> ==55240==    by 0x930C37: spapr_caps_cpu_apply (spapr_caps.c:921)
->> ==55240==    by 0x955D3B: spapr_reset_vcpu (spapr_cpu_core.c:73)
->> ==55240==    by 0x95612B: spapr_cpu_core_reset (spapr_cpu_core.c:209)
->> ==55240==    by 0x95619B: spapr_cpu_core_reset_handler (spapr_cpu_core.c:218)
->> ==55240==    by 0xD3605F: qemu_devices_reset (reset.c:69)
->> ==55240==    by 0x92112B: spapr_machine_reset (spapr.c:1641)
->> ==55240==    by 0x4FBD63: qemu_system_reset (runstate.c:444)
->> ==55240==    by 0x62812B: qdev_machine_creation_done (machine.c:1247)
->> ==55240==    by 0x5064C3: qemu_machine_creation_done (vl.c:2725)
->> ==55240==    by 0x5065DF: qmp_x_exit_preconfig (vl.c:2748)
->> ==55240==  Uninitialised value was created by a stack allocation
->> ==55240==    at 0xB01158: kvmppc_enable_cap_large_decr (kvm.c:2540)
+>> Add dirty page rate limit test if kernel support dirty ring,
+>> create a standalone file to implement the test case.
 >>
->> Init 'lpcr' to avoid this warning.
-> 
-> Hmm... this is seeming a bit like whack-a-mole.  Could we instead use
-> one of the valgrind hinting mechanisms to inform it that
-> kvm_get_one_reg() writes the variable at *target?
-
-I didn't find a way of doing that looking in the memcheck helpers
-(https://valgrind.org/docs/manual/mc-manual.html section 4.7). That would be a
-good way of solving this warning because we would put stuff inside a specific
-function X and all callers of X would be covered by it.
-
-What I did find instead is a memcheck macro called VALGRIND_MAKE_MEM_DEFINED that
-tells Valgrind that the var was initialized.
-
-This patch would then be something as follows:
-
-
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index dc93b99189..b0e22fa283 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -56,6 +56,10 @@
-  #define DEBUG_RETURN_GUEST 0
-  #define DEBUG_RETURN_GDB   1
-  
-+#ifdef CONFIG_VALGRIND_H
-+#include <valgrind/memcheck.h>
-+#endif
-+
-  const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
-      KVM_CAP_LAST_INFO
-  };
-@@ -2539,6 +2543,10 @@ int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
-      CPUState *cs = CPU(cpu);
-      uint64_t lpcr;
-  
-+#ifdef CONFIG_VALGRIND_H
-+    VALGRIND_MAKE_MEM_DEFINED(lpcr, sizeof(uint64_t));
-+#endif
-+
-      kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
-      /* Do we need to modify the LPCR? */
-
-
-CONFIG_VALGRIND_H needs 'valgrind-devel´ installed.
-
-I agree that this "Valgrind is complaining about variable initialization" is a whack-a-mole
-situation that will keep happening in the future if we keep adding this same code pattern
-(passing as reference an uninitialized var). For now, given that we have only 4 instances
-to fix it in ppc code (as far as I'm aware of), and we don't have a better way of telling
-Valgrind that we know what we're doing, I think we're better of initializing these vars.
-
-
-Thanks,
-
-
-Daniel
-
-
-
-> 
->> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> The following qmp commands are covered by this test case:
+>> "calc-dirty-rate", "query-dirty-rate", "set-vcpu-dirty-limit",
+>> "cancel-vcpu-dirty-limit" and "query-vcpu-dirty-limit".
+>>
+>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 >> ---
->>   target/ppc/kvm.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>   tests/qtest/dirtylimit-test.c | 327 ++++++++++++++++++++++++++++++++++++++++++
+>>   tests/qtest/meson.build       |   2 +
+>>   2 files changed, 329 insertions(+)
+>>   create mode 100644 tests/qtest/dirtylimit-test.c
 >>
->> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
->> index 858866ecd4..42814e1b97 100644
->> --- a/target/ppc/kvm.c
->> +++ b/target/ppc/kvm.c
->> @@ -2538,7 +2538,7 @@ int kvmppc_get_cap_large_decr(void)
->>   int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
->>   {
->>       CPUState *cs = CPU(cpu);
->> -    uint64_t lpcr;
->> +    uint64_t lpcr = 0;
+>> diff --git a/tests/qtest/dirtylimit-test.c b/tests/qtest/dirtylimit-test.c
+>> new file mode 100644
+>> index 0000000..b8d9960
+>> --- /dev/null
+>> +++ b/tests/qtest/dirtylimit-test.c
+>> @@ -0,0 +1,327 @@
+>> +/*
+>> + * QTest testcase for Dirty Page Rate Limit
+>> + *
+>> + * Copyright (c) 2022 CHINA TELECOM CO.,LTD.
+>> + *
+>> + * Authors:
+>> + *  Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>> + *
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+>> + * See the COPYING file in the top-level directory.
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "libqos/libqtest.h"
+>> +#include "qapi/qmp/qdict.h"
+>> +#include "qapi/qmp/qlist.h"
+>> +#include "qapi/qobject-input-visitor.h"
+>> +#include "qapi/qobject-output-visitor.h"
+>> +
+>> +#include "migration-helpers.h"
+>> +#include "tests/migration/i386/a-b-bootblock.h"
+>> +
+>> +/*
+>> + * Dirtylimit stop working if dirty page rate error
+>> + * value less than DIRTYLIMIT_TOLERANCE_RANGE
+>> + */
+>> +#define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
+>> +
+>> +static const char *tmpfs;
+>> +
+>> +static QDict *qmp_command(QTestState *who, const char *command, ...)
+>> +{
+>> +    va_list ap;
+>> +    QDict *resp, *ret;
+>> +
+>> +    va_start(ap, command);
+>> +    resp = qtest_vqmp(who, command, ap);
+>> +    va_end(ap);
+>> +
+>> +    g_assert(!qdict_haskey(resp, "error"));
+>> +    g_assert(qdict_haskey(resp, "return"));
+>> +
+>> +    ret = qdict_get_qdict(resp, "return");
+>> +    qobject_ref(ret);
+>> +    qobject_unref(resp);
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +static void calc_dirty_rate(QTestState *who, uint64_t calc_time)
+>> +{
+>> +    qobject_unref(qmp_command(who,
+>> +                  "{ 'execute': 'calc-dirty-rate',"
+>> +                  "'arguments': { "
+>> +                  "'calc-time': %ld,"
+>> +                  "'mode': 'dirty-ring' }}",
+>> +                  calc_time));
+>> +}
+>> +
+>> +static QDict *query_dirty_rate(QTestState *who)
+>> +{
+>> +    return qmp_command(who, "{ 'execute': 'query-dirty-rate' }");
+>> +}
+>> +
+>> +static void dirtylimit_set_all(QTestState *who, uint64_t dirtyrate)
+>> +{
+>> +    qobject_unref(qmp_command(who,
+>> +                  "{ 'execute': 'set-vcpu-dirty-limit',"
+>> +                  "'arguments': { "
+>> +                  "'dirty-rate': %ld } }",
+>> +                  dirtyrate));
+>> +}
+>> +
+>> +static void cancel_vcpu_dirty_limit(QTestState *who)
+>> +{
+>> +    qobject_unref(qmp_command(who,
+>> +                  "{ 'execute': 'cancel-vcpu-dirty-limit' }"));
+>> +}
+>> +
+>> +static QDict *query_vcpu_dirty_limit(QTestState *who)
+>> +{
+>> +    QDict *rsp;
+>> +
+>> +    rsp = qtest_qmp(who, "{ 'execute': 'query-vcpu-dirty-limit' }");
+>> +    g_assert(!qdict_haskey(rsp, "error"));
+>> +    g_assert(qdict_haskey(rsp, "return"));
+>> +
+>> +    return rsp;
+>> +}
+>> +
+>> +static bool calc_dirtyrate_ready(QTestState *who)
+>> +{
+>> +    QDict *rsp_return;
+>> +    gchar *status;
+>> +
+>> +    rsp_return = query_dirty_rate(who);
+>> +    g_assert(rsp_return);
+>> +
+>> +    status = g_strdup(qdict_get_str(rsp_return, "status"));
+>> +    g_assert(status);
+>> +
+>> +    return g_strcmp0(status, "measuring");
+>> +}
+>> +
+>> +static void wait_for_calc_dirtyrate_complete(QTestState *who,
+>> +                                             int64_t calc_time)
+>> +{
+>> +    int max_try_count = 200;
+>> +    usleep(calc_time);
+>> +
+>> +    while (!calc_dirtyrate_ready(who) && max_try_count--) {
+>> +        usleep(1000);
+>> +    }
+>> +
+>> +    /*
+>> +     * Set the timeout with 200 ms(max_try_count * 1000us),
+>> +     * if dirtyrate measurement not complete, test failed.
+>> +     */
+>> +    g_assert_cmpint(max_try_count, !=, 0);
+> 
+> 200ms might be still too challenging for busy systems?  How about make it
+> in seconds (e.g. 10 seconds)?
+> 
+>> +}
+>> +
+>> +static int64_t get_dirty_rate(QTestState *who)
+>> +{
+>> +    QDict *rsp_return;
+>> +    gchar *status;
+>> +    QList *rates;
+>> +    const QListEntry *entry;
+>> +    QDict *rate;
+>> +    int64_t dirtyrate;
+>> +
+>> +    rsp_return = query_dirty_rate(who);
+>> +    g_assert(rsp_return);
+>> +
+>> +    status = g_strdup(qdict_get_str(rsp_return, "status"));
+>> +    g_assert(status);
+>> +    g_assert_cmpstr(status, ==, "measured");
+>> +
+>> +    rates = qdict_get_qlist(rsp_return, "vcpu-dirty-rate");
+>> +    g_assert(rates && !qlist_empty(rates));
+>> +
+>> +    entry = qlist_first(rates);
+>> +    g_assert(entry);
+>> +
+>> +    rate = qobject_to(QDict, qlist_entry_obj(entry));
+>> +    g_assert(rate);
+>> +
+>> +    dirtyrate = qdict_get_try_int(rate, "dirty-rate", -1);
+>> +
+>> +    qobject_unref(rsp_return);
+>> +    return dirtyrate;
+>> +}
+>> +
+>> +static int64_t get_limit_rate(QTestState *who)
+>> +{
+>> +    QDict *rsp_return;
+>> +    QList *rates;
+>> +    const QListEntry *entry;
+>> +    QDict *rate;
+>> +    int64_t dirtyrate;
+>> +
+>> +    rsp_return = query_vcpu_dirty_limit(who);
+>> +    g_assert(rsp_return);
+>> +
+>> +    rates = qdict_get_qlist(rsp_return, "return");
+>> +    g_assert(rates && !qlist_empty(rates));
+>> +
+>> +    entry = qlist_first(rates);
+>> +    g_assert(entry);
+>> +
+>> +    rate = qobject_to(QDict, qlist_entry_obj(entry));
+>> +    g_assert(rate);
+>> +
+>> +    dirtyrate = qdict_get_try_int(rate, "limit-rate", -1);
+>> +
+>> +    qobject_unref(rsp_return);
+>> +    return dirtyrate;
+>> +}
+>> +
+>> +static QTestState *start_vm(void)
+>> +{
+>> +    QTestState *vm = NULL;
+>> +    g_autofree gchar *cmd = NULL;
+>> +    const char *arch = qtest_get_arch();
+>> +    g_autofree char *bootpath = NULL;
+>> +
+>> +    assert((strcmp(arch, "x86_64") == 0));
+>> +    bootpath = g_strdup_printf("%s/bootsect", tmpfs);
+>> +    assert(sizeof(x86_bootsect) == 512);
+>> +    init_bootfile(bootpath, x86_bootsect, sizeof(x86_bootsect));
+>> +
+>> +    cmd = g_strdup_printf("-accel kvm,dirty-ring-size=4096 "
+>> +                          "-name dirtylimit-test,debug-threads=on "
+>> +                          "-m 150M -smp 1 "
+>> +                          "-serial file:%s/vm_serial "
+>> +                          "-drive file=%s,format=raw ",
+>> +                          tmpfs, bootpath);
+>> +
+>> +    vm = qtest_init(cmd);
+>> +    return vm;
+>> +}
+>> +
+>> +static void cleanup(const char *filename)
+>> +{
+>> +    g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
+>> +    unlink(path);
+>> +}
+> 
+> Duplicated code - again, I'd suggest we drop previous patch and simply add
+> a new test into migration-test.c.  We could do the split later at any time,
+> but we'll need to think about how to split, not do that randomly..
+> 
+Ok.
+>> +
+>> +static void stop_vm(QTestState *vm)
+>> +{
+>> +    qtest_quit(vm);
+>> +    cleanup("bootsect");
+>> +    cleanup("vm_serial");
+>> +}
+>> +
+>> +static void test_vcpu_dirty_limit(void)
+>> +{
+>> +    QTestState *vm;
+>> +    int64_t origin_rate;
+>> +    int64_t quota_rate;
+>> +    int64_t rate ;
+>> +    int max_try_count = 5;
+>> +    int hit = 0;
+>> +
+>> +    vm = start_vm();
+>> +    if (!vm) {
+>> +        return;
+>> +    }
+> 
+> vm should always exist.
+Ok, i'll remove it.
+> 
+>> +
+>> +    /* Wait for the first serial output from the vm*/
+>> +    wait_for_serial(tmpfs, "vm_serial");
+>> +
+>> +    /* Do dirtyrate measurement with calc time equals 1s */
+>> +    calc_dirty_rate(vm, 1);
+>> +
+>> +    /* Sleep a calc time and wait for calc dirtyrate complete */
+>> +    wait_for_calc_dirtyrate_complete(vm, 1 * 1000000);
+> 
+> 1*1000000 reads odd..  I'd pass in 1 here and make the variable called
+> "seconds", then multiply there in the helper.
+Sound good.
+> 
+>> +
+>> +    /* Query original dirty page rate */
+>> +    origin_rate = get_dirty_rate(vm);
+>> +
+>> +    /* VM booted from bootsect should dirty memory */
+>> +    assert(origin_rate != 0);
+>> +
+>> +    /* Setup quota dirty page rate at one-third of origin */
+>> +    quota_rate = origin_rate / 3;
+>> +
+>> +    /* Set dirtylimit and wait a bit to check if it take effect */
+>> +    dirtylimit_set_all(vm, quota_rate);
+>> +    usleep(2000000);
+> 
+> Nit: could move this to be after the g_assert check, because the limit
+> should apply immediately.
+Make sense.
+> 
+>> +
+>> +    /*
+>> +     * Check if set-vcpu-dirty-limit and query-vcpu-dirty-limit
+>> +     * works literally
+>> +     */
+>> +    g_assert_cmpint(quota_rate, ==, get_limit_rate(vm));
+>> +
+>> +    /* Check if dirtylimit take effect realistically */
+>> +    while (--max_try_count) {
+>> +        calc_dirty_rate(vm, 1);
+>> +        wait_for_calc_dirtyrate_complete(vm, 1 * 1000000);
+>> +        rate = get_dirty_rate(vm);
+>> +
+>> +        /*
+>> +         * Assume hitting if current rate is less
+>> +         * than quota rate (within accepting error)
+>> +         */
+>> +        if (rate < (quota_rate + DIRTYLIMIT_TOLERANCE_RANGE)) {
+>> +            hit = 1;
+>> +            break;
+>> +        }
+>> +    }
+> 
+> I'm not sure 5 loops would be enough; bigger? I'd try running this test in
+> parallel with e.g. 20 instances on the host and see how slow it could
+> be. :)Indeed your test policy is right, 5 may be not enough in special 
+scenarios. Extreme scene such as busy systems should be taken into 
+consideration since in that scene test fails doesn't mean it doesn't 
+work functionally. I'll make the max_try_count larger in functions: 
+wait_for_calc_dirtyrate_complete, test_vcpu_dirty_limit.
+> 
+> The rest keeps look good to me.
+> 
+> Thanks,
+> 
+>> +
+>> +    g_assert_cmpint(hit, ==, 1);
+>> +
+>> +    hit = 0;
+>> +    max_try_count = 5;
+>> +
+>> +    /* Check if dirtylimit cancellation take effect */
+>> +    cancel_vcpu_dirty_limit(vm);
+>> +    while (--max_try_count) {
+>> +        calc_dirty_rate(vm, 1);
+>> +        wait_for_calc_dirtyrate_complete(vm, 1 * 1000000);
+>> +        rate = get_dirty_rate(vm);
+>> +
+>> +        /*
+>> +         * Assume dirtylimit be canceled if current rate is
+>> +         * greater than quota rate (within accepting error)
+>> +         */
+>> +        if (rate > (quota_rate + DIRTYLIMIT_TOLERANCE_RANGE)) {
+>> +            hit = 1;
+>> +            break;
+>> +        }
+>> +    }
+>> +
+>> +    g_assert_cmpint(hit, ==, 1);
+>> +    stop_vm(vm);
+>> +}
+>> +
+>> +int main(int argc, char **argv)
+>> +{
+>> +    char template[] = "/tmp/dirtylimit-test-XXXXXX";
+>> +    int ret;
+>> +
+>> +    tmpfs = mkdtemp(template);
+>> +    if (!tmpfs) {
+>> +        g_test_message("mkdtemp on path (%s): %s", template, strerror(errno));
+>> +    }
+>> +    g_assert(tmpfs);
+>> +
+>> +    if (!kvm_dirty_ring_supported()) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    g_test_init(&argc, &argv, NULL);
+>> +    qtest_add_func("/dirtylimit/test", test_vcpu_dirty_limit);
+>> +    ret = g_test_run();
+>> +
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +
+>> +    ret = rmdir(tmpfs);
+>> +    if (ret != 0) {
+>> +        g_test_message("unable to rmdir: path (%s): %s",
+>> +                       tmpfs, strerror(errno));
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+>> index d25f82b..6b041e0 100644
+>> --- a/tests/qtest/meson.build
+>> +++ b/tests/qtest/meson.build
+>> @@ -32,6 +32,7 @@ qtests_generic = \
+>>     'qom-test',
+>>     'test-hmp',
+>>     'qos-test',
+>> +  'dirtylimit-test',
+>>   ]
+>>   if config_host.has_key('CONFIG_MODULES')
+>>     qtests_generic += [ 'modules-test' ]
+>> @@ -296,6 +297,7 @@ qtests = {
+>>     'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+>>     'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+>>     'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
+>> +  'dirtylimit-test': files('migration-helpers.c'),
+>>   }
 >>   
->>       kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
->>       /* Do we need to modify the LPCR? */
+>>   if dbus_display
+>> -- 
+>> 1.8.3.1
+>>
 > 
 
