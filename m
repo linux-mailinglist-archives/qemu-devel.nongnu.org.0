@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336564ED66C
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 11:02:45 +0200 (CEST)
-Received: from localhost ([::1]:35564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A224ED64E
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 10:55:41 +0200 (CEST)
+Received: from localhost ([::1]:52848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZqhY-00079Q-87
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 05:02:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34974)
+	id 1nZqai-0007ec-Lm
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 04:55:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZqUY-0003uV-Uc
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:49:19 -0400
-Received: from [2607:f8b0:4864:20::b2f] (port=46618
- helo=mail-yb1-xb2f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZqUX-00007f-J9
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:49:18 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id e81so12060102ybf.13
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 01:49:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jMy35fyZ6ftYzIcT1MNZMA8MrWOKwXs/LZWWaBdIgHA=;
- b=EssRytJeDBSboX2LuFKYIsE1zurqkNIthCdch3as/9ayYL3bvZThK/5uq/FIPDmo2g
- 1E7meNGpjoQPDXUDeGS035EDW4Ck5h2tRj+rHKG60fbxRpHk1E2rfq0ewAPyhfHKfnVQ
- Z13PYf5U1epK5pzM4pSxSjOUSd7gef3jK0v+2KdTz/CMQqlg0bXf6oPiXyymvOtJWUFY
- Pnsbd6cx3cAnIQVztiHQ7lqq+sD9KjgcSS/SG2WKb4iJubadlzyZZVXrkmhT7xSHxI58
- d6CjGCnzUPVx4Mt6CerNR19EvJWPS2AfRN/lnzrWbIOnbK0Ufl6LkSCXr87+kGAKaTA5
- 1WOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jMy35fyZ6ftYzIcT1MNZMA8MrWOKwXs/LZWWaBdIgHA=;
- b=midx9ImUKC4PzBiSBgnZoJsFEBMAR1FS50Y0s5DCkHKFaEXyrCYE5HHHkaQr7Be47+
- BypNFhMWLuqyP6YbQq0DjKNfi4lq+lXN3UEwwHCof/5Z/FTtIcQ/gXAyoNmdwAU24eZ+
- n9ePd7FzXDRL20Xn3RiXb91GW9LnvNIWVLAQ5N1EPA8Fe4YzYLaQcQOU5FGb4rCdt6xr
- JtFr0YbYEeNn9ekL+7hMUbX94kIs/q0EaHtTuELEEoX4W6BjDA7IcsIlcDjAQq2BWZmS
- 6XOMDSs7hxW4w6itVTSQLQbf/CodHm9iKUL3hOAcwPYyxGaBYlUqer/2OIcs161dBvL5
- /DmA==
-X-Gm-Message-State: AOAM533blf0tM6NXQHSDZwWlSEofvC2GBWcIpnLHRg9mKhJROMAY6RPP
- WPgz4s/SW0EgZxvsiXzILDcgCB6naiIh3Ej6NNjh76XshOhVXg==
-X-Google-Smtp-Source: ABdhPJy7qACpSIfPI2BCCJAeAfM+thu2InWwKVT0uknXXbNTx2e3/xkrkbAAjxKJ00j6qpmE+/dTZ1d4IwxuhOM6PbE=
-X-Received: by 2002:a25:7443:0:b0:637:18d3:eea5 with SMTP id
- p64-20020a257443000000b0063718d3eea5mr3246922ybc.39.1648716556695; Thu, 31
- Mar 2022 01:49:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nZqWo-0005XR-UJ
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:51:39 -0400
+Received: from mga04.intel.com ([192.55.52.120]:62670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nZqWm-0000gz-KY
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:51:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648716696; x=1680252696;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=AJhSb2adOnH4x8zWZD1Xoit68/Zd7wJssWmMSp6l/Ls=;
+ b=X4HEqc4nxr3LYWqdmtOpenQfd1myRpTenkfdJDEOmk3FfPT0MRTQaA9r
+ Sc0Be6MUjm888iHkAqXp71Ohl549Dd8fNLs1b2Q1nw/8QWxR+ASKg1Wpx
+ L74TDEUhBuJoAHQf8IwSENpNxBrhqROOX42K9+K1NVcvOatOgzrcW5vW8
+ zTnCVMDgxjlDQb7Xu4/XjyzLARz87U7t5otS+F3OfTtxkQ940hlQrglzW
+ 0KR5agTpT9PV9RT39wysifmYwcxpBN50FxwCDVTmoMQQN76q7yEprbzqh
+ CjGGN7/XQtvZ0FFhhjW1yovEq+Oy/cthhtiVMqlb56k7Mnor8ZMFit745 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="258594940"
+X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="258594940"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 01:51:33 -0700
+X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="547232848"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.193.1])
+ ([10.249.193.1])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 01:51:29 -0700
+Message-ID: <1d5b0192-75ef-49ad-dc47-cfc0c3c63455@intel.com>
+Date: Thu, 31 Mar 2022 16:51:27 +0800
 MIME-Version: 1.0
-References: <1648643217-15811-1-git-send-email-frederic.konrad@adacore.com>
-In-Reply-To: <1648643217-15811-1-git-send-email-frederic.konrad@adacore.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 31 Mar 2022 09:49:05 +0100
-Message-ID: <CAFEAcA9kGH9jDGQtx2pq1L35_BuX10o9yA+nJqppPMRKLFDCpw@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: change Fred Konrad's email address
-To: Frederic Konrad <konrad@adacore.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.6.1
+Subject: Re: [RFC PATCH v3 17/36] pflash_cfi01/tdx: Introduce ram_mode of
+ pflash for TDVF
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
+ <20220317135913.2166202-18-xiaoyao.li@intel.com>
+ <f418548e-c24c-1bc3-4e16-d7a775298a18@gmail.com>
+ <7a8233e4-0cae-b05a-7931-695a7ee87fc9@intel.com>
+ <YjmWhMVx80/BFY8z@redhat.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <YjmWhMVx80/BFY8z@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=xiaoyao.li@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,23 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Konrad <frederic.konrad@adacore.com>, qemu-devel@nongnu.org,
- chouteau@adacore.com, f4bug@amsat.org
+Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, seanjc@google.com, erdemaktas@google.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Mar 2022 at 13:31, Frederic Konrad <konrad@adacore.com> wrote:
->
-> frederic.konrad@adacore.com and konrad@adacore.com will stop working starting
-> 2022-04-01.
->
-> Use my personal email instead.
->
-> Signed-off-by: Frederic Konrad <frederic.konrad@adacore.com>
+On 3/22/2022 5:27 PM, Daniel P. Berrangé wrote:
+...
+> IMHO the AmdSev build for OVMF gets this right by entirely disabling
+> the split OVMF_CODE.fd vs OVMF_VARS.fd, and just having a single
+> OVMF.fd file that is exposed read-only to the guest.
+> 
+> This is further represented in $QEMU.git/docs/interop/firmware.json
+> by marking the firmware as 'stateless', which apps like libvirt will
+> use to figure out what QEMU command line to pick.
 
-I'll take this via target-arm.next since I'm putting a pullreq
-together at the moment anyway.
+Hi Daniel,
 
-thanks
--- PMM
+I don't play with AMD SEV and I'm not sure if AMD SEV requires only 
+single OVMF.fd. But IIUC, from edk2
+
+commit 437eb3f7a8db ("OvmfPkg/QemuFlashFvbServicesRuntimeDxe: Bypass 
+flash detection with SEV-ES")
+
+, AMD SEV(-ES) does support NVRAM via proactive VMGEXIT MMIO 
+QemuFlashWrite(). If so, AMD SEV seems to be able to support split OVMF, 
+right?
+
+> IOW, if you don't want OVMF_VARS.fd to be written to, then follow
+> what AmdSev has done, and get rid of the split files.
+> 
+> 
+> With regards,
+> Daniel
+
 
