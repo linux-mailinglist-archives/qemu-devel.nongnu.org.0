@@ -2,92 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E83F4ED8BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:54:39 +0200 (CEST)
-Received: from localhost ([::1]:33644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECDB4ED8F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:58:53 +0200 (CEST)
+Received: from localhost ([::1]:42080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZtNu-0005qW-Dk
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:54:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46472)
+	id 1nZtS0-0003Te-8I
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:58:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nZtGJ-000259-An
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 07:46:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35293)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nZtGk-0002EH-CB; Thu, 31 Mar 2022 07:47:14 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nZtGH-0005Q5-KB
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 07:46:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648727202;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rG3OyC1Cr/aE5F4ZUj2+8PA1ZNO78n8Kim9gw1TVbWY=;
- b=As3LH46K57ydvqT8rO+m06U3yecdSGHZDn7TnLr8j+6WcGRcusaNhoiHxXDaObENpN9R4J
- 3vlICdSSw9TgrMaAVz6fIKvIb6K+bIf7jWpHEayrJJYgQLIm7XYdLatMb01Aj6jwBC5R5L
- CLzFcKSVbte4dulES7XpKWmfe5N79xw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-YwiTTVQeNG2aceUah3WJ3A-1; Thu, 31 Mar 2022 07:46:41 -0400
-X-MC-Unique: YwiTTVQeNG2aceUah3WJ3A-1
-Received: by mail-ed1-f69.google.com with SMTP id
- s9-20020a50d489000000b00418d556edbdso14786091edi.4
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 04:46:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=rG3OyC1Cr/aE5F4ZUj2+8PA1ZNO78n8Kim9gw1TVbWY=;
- b=so80nrO3LBONLe9wkLDBQm6YLMWkaTEWnhynfyea/y3/a8rhL5mn+1m45ETnnoKbqC
- B68d/4GOSdES13669i+m1E24nSd7YKPIyqfkCUGV50iutjBD1yi0vkxKGVUSvT/6+dse
- MoSXI0TDyarnKmaSUd4I20aB2zg34LYf6ZiW/KXO+znev++yzWiezEQknNsqOgxVo5Ka
- LiJ/CT7PgF841pGk6HzY4sFGiI4/vuWWfZL4OkLMW+A34+3VznwozXtKseuGz2ilEKsO
- hZELfblITsbc/D5D9xhQObmpl4n8eTMQ/aY7GtElYxKLXDu8xa5BEACQ4BSDV/U9xf4V
- m3GQ==
-X-Gm-Message-State: AOAM530TFUkxMIGEkMJ/auWP3iapETXYI8phrhwMPu5V7FKBdzhvXlrU
- 3yb3vjIp3KvVp2B3zZ55QBEn4G3/QcFj6Oz9iM529jxnhd2kNMlyyilEEnjnIIw+m3/eq+WrUZG
- D6ikDEEVyzAZxVFM=
-X-Received: by 2002:a17:907:9623:b0:6de:c0fb:8acc with SMTP id
- gb35-20020a170907962300b006dec0fb8accmr4470338ejc.380.1648727199700; 
- Thu, 31 Mar 2022 04:46:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwruZQRx/Tvb3K3nv1dYDkx4WHXxrwn1qOtvpA9Y3TgGr8BA0kDvXQyyq+L0A+XLEJNJOY8nA==
-X-Received: by 2002:a17:907:9623:b0:6de:c0fb:8acc with SMTP id
- gb35-20020a170907962300b006dec0fb8accmr4470317ejc.380.1648727199459; 
- Thu, 31 Mar 2022 04:46:39 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- l20-20020a1709062a9400b006ce71a88bf5sm9206194eje.183.2022.03.31.04.46.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 04:46:39 -0700 (PDT)
-Date: Thu, 31 Mar 2022 13:46:37 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Maxim Davydov <maxim.davydov@openvz.org>
-Subject: Re: [PATCH v1 2/9] pci: add null-pointer check
-Message-ID: <20220331134637.6f45d33e@redhat.com>
-In-Reply-To: <20220328211539.90170-3-maxim.davydov@openvz.org>
-References: <20220328211539.90170-1-maxim.davydov@openvz.org>
- <20220328211539.90170-3-maxim.davydov@openvz.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nZtGT-0005dX-5Y; Thu, 31 Mar 2022 07:46:58 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22V8sdee019568; 
+ Thu, 31 Mar 2022 11:46:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=EeQWrj+ta5lXEkn5jtk1ydf9rHL6rPyfyMb/WAat0YA=;
+ b=m/JAcHVKvpNTtkM+DO/faW8NkyKKt90zReZ+5lOP1wAlOi3qfXBqE1tJvAHFUqjiOA4n
+ dmMkQONVGmvFcXrm4LTB0qJuGlf3YIHLNAfJlbSR0gQUEv7MLIFPSXCNpVvp2BzCYX6Q
+ cMdFcwASP8d2OQdVOQKy24VzPjl8h3DUXcKVzVm+EITSyuzydG1foimvJQniKbVDxYKF
+ aX+VCKSQ2LXzcD4uNg7XqsxcrwS/uzeVvbh7GX1FGALdO8bZqF8BWRDNf9MfObne0B0Z
+ LuqW+ZSk0SEqkMJipjRN/cLZlJE0o/blpW4LngCJ8ZxFI/DopixCK6BpG+uDE3kpAjT8 tA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f5972ka2t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Mar 2022 11:46:54 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22VBgJHa020211;
+ Thu, 31 Mar 2022 11:46:54 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f5972ka1f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Mar 2022 11:46:54 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22VBgeTa022417;
+ Thu, 31 Mar 2022 11:46:49 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3f1tf92n0f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Mar 2022 11:46:49 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22VBkkX537355866
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 31 Mar 2022 11:46:46 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7881E11C05B;
+ Thu, 31 Mar 2022 11:46:46 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 283B411C04A;
+ Thu, 31 Mar 2022 11:46:46 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown
+ [9.152.224.239])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 31 Mar 2022 11:46:46 +0000 (GMT)
+Date: Thu, 31 Mar 2022 13:46:44 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/4] virtio-ccw: move vhost_ccw_scsi to a separate file
+Message-ID: <20220331134644.1d3d4c22.pasic@linux.ibm.com>
+In-Reply-To: <20220328143019.682245-3-pbonzini@redhat.com>
+References: <20220328143019.682245-1-pbonzini@redhat.com>
+ <20220328143019.682245-3-pbonzini@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: YZECW25J0GCpZeLaKt-InI3ackgDFGEI
+X-Proofpoint-GUID: 9tLckb92AcXAugdlCB11mjxX_2dGT0R-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-31_04,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0
+ lowpriorityscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
+ adultscore=0 mlxscore=0 priorityscore=1501 clxscore=1015 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203310064
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,105 +112,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, v.sementsov-og@mail.ru, berrange@redhat.com,
- xiaoguangrong.eric@gmail.com, mst@redhat.com, armbru@redhat.com,
- crosa@redhat.com, qemu-devel@nongnu.org, lizhijian@fujitsu.com,
- f4bug@amsat.org, wangyanan55@huawei.com, marcandre.lureau@redhat.com,
- chen.zhang@intel.com, jsnow@redhat.com, pbonzini@redhat.com, ani@anisinha.ca,
- den@openvz.org, eblake@redhat.com
+Cc: farman@linux.ibm.com, cohuck@redhat.com, thuth@redhat.com,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x@nongnu.org, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 29 Mar 2022 00:15:32 +0300
-Maxim Davydov <maxim.davydov@openvz.org> wrote:
+On Mon, 28 Mar 2022 16:30:17 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> Call pci_bus_get_w64_range can fail with the segmentation fault. For
-> example, this can happen during attempt to get pci-hole64-end
-
->" immediately after initialization"
-this too vague, pls provide a better description 
-and is possible a reproducer.
-
+> Remove unecessary use of #ifdef CONFIG_VHOST_SCSI, instead just use a
+> separate file and a separate rule in meson.build.
 > 
-> Signed-off-by: Maxim Davydov <maxim.davydov@openvz.org>
-> ---
->  hw/pci-host/i440fx.c | 17 +++++++++++------
->  hw/pci-host/q35.c    | 17 +++++++++++------
->  2 files changed, 22 insertions(+), 12 deletions(-)
-> 
-> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-> index e08716142b..71a114e551 100644
-> --- a/hw/pci-host/i440fx.c
-> +++ b/hw/pci-host/i440fx.c
-> @@ -158,10 +158,12 @@ static uint64_t i440fx_pcihost_get_pci_hole64_start_value(Object *obj)
->      PCIHostState *h = PCI_HOST_BRIDGE(obj);
->      I440FXState *s = I440FX_PCI_HOST_BRIDGE(obj);
->      Range w64;
-> -    uint64_t value;
-> +    uint64_t value = 0;
->  
-> -    pci_bus_get_w64_range(h->bus, &w64);
-> -    value = range_is_empty(&w64) ? 0 : range_lob(&w64);
-> +    if (h->bus) {
-> +        pci_bus_get_w64_range(h->bus, &w64);
-> +        value = range_is_empty(&w64) ? 0 : range_lob(&w64);
-> +    }
->      if (!value && s->pci_hole64_fix) {
->          value = pc_pci_hole64_start();
->      }
-> @@ -191,10 +193,13 @@ static void i440fx_pcihost_get_pci_hole64_end(Object *obj, Visitor *v,
->      I440FXState *s = I440FX_PCI_HOST_BRIDGE(obj);
->      uint64_t hole64_start = i440fx_pcihost_get_pci_hole64_start_value(obj);
->      Range w64;
-> -    uint64_t value, hole64_end;
-> +    uint64_t value = 0;
-> +    uint64_t hole64_end;
->  
-> -    pci_bus_get_w64_range(h->bus, &w64);
-> -    value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
-> +    if (h->bus) {
-> +        pci_bus_get_w64_range(h->bus, &w64);
-> +        value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
-> +    }
->      hole64_end = ROUND_UP(hole64_start + s->pci_hole64_size, 1ULL << 30);
->      if (s->pci_hole64_fix && value < hole64_end) {
->          value = hole64_end;
-> diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-> index ab5a47aff5..d679fd85ef 100644
-> --- a/hw/pci-host/q35.c
-> +++ b/hw/pci-host/q35.c
-> @@ -124,10 +124,12 @@ static uint64_t q35_host_get_pci_hole64_start_value(Object *obj)
->      PCIHostState *h = PCI_HOST_BRIDGE(obj);
->      Q35PCIHost *s = Q35_HOST_DEVICE(obj);
->      Range w64;
-> -    uint64_t value;
-> +    uint64_t value = 0;
->  
-> -    pci_bus_get_w64_range(h->bus, &w64);
-> -    value = range_is_empty(&w64) ? 0 : range_lob(&w64);
-> +    if (h->bus) {
-> +        pci_bus_get_w64_range(h->bus, &w64);
-> +        value = range_is_empty(&w64) ? 0 : range_lob(&w64);
-> +    }
->      if (!value && s->pci_hole64_fix) {
->          value = pc_pci_hole64_start();
->      }
-> @@ -157,10 +159,13 @@ static void q35_host_get_pci_hole64_end(Object *obj, Visitor *v,
->      Q35PCIHost *s = Q35_HOST_DEVICE(obj);
->      uint64_t hole64_start = q35_host_get_pci_hole64_start_value(obj);
->      Range w64;
-> -    uint64_t value, hole64_end;
-> +    uint64_t value = 0;
-> +    uint64_t hole64_end;
->  
-> -    pci_bus_get_w64_range(h->bus, &w64);
-> -    value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
-> +    if (h->bus) {
-> +        pci_bus_get_w64_range(h->bus, &w64);
-> +        value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
-> +    }
->      hole64_end = ROUND_UP(hole64_start + s->mch.pci_hole64_size, 1ULL << 30);
->      if (s->pci_hole64_fix && value < hole64_end) {
->          value = hole64_end;
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
+Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
 
