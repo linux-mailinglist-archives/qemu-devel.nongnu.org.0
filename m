@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD51B4ED817
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:59:53 +0200 (CEST)
-Received: from localhost ([::1]:37948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 595B04ED814
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:59:43 +0200 (CEST)
+Received: from localhost ([::1]:37432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZsWu-0007Ya-Py
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:59:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32816)
+	id 1nZsWk-0007CQ-C5
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:59:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRG-0006i3-Kw
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25561)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRE-0006hq-3A
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRE-0007i3-HO
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:01 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRB-0007hd-Sc
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:53:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648724039;
+ s=mimecast20190719; t=1648724037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GH71K17hXHWTbX5FkTcWrjOZRJwQLdYIITJ1g77ybeU=;
- b=MMNJcCv22baEXorxvuXJUtBrI0SoqM4/sV+mx1wz41LAto3KRbUEuxLrpqTm5aP7tfxxyM
- 90e5OMdBM39Sg0XOJzL3NN2/NDSrHSTaaiFR/IC+WcxTURMDtti5u1gqHbawf2hOhjIR/G
- UKFsAqEQLXBcIv4F5+lE7qIGl49Lb7o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=J25zKOkGMK46rWAgu6+1IP69Z8yh2cg1yNpQklNoWbg=;
+ b=aLZnBfUArWIPpZRnv8myHwIWWtAY+0VlqSPqt61n29VQgjaeV59+OGd+AZRoOVCInNqfen
+ TdEZHCPOhWHnX7RfQkNL1TZdJADX7SlMrixcozqHMAo1SPi+V3bxcPvo0Rio8oRTAB7a00
+ QZQ7ELbcuPc/bWCI8SEa3HPTuNTwSTw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-466-c1oV7J4VOgCbNJNO4p1nBA-1; Thu, 31 Mar 2022 06:53:58 -0400
-X-MC-Unique: c1oV7J4VOgCbNJNO4p1nBA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-594-XGrNA77VNKi6E_vdIprK7Q-1; Thu, 31 Mar 2022 06:53:55 -0400
+X-MC-Unique: XGrNA77VNKi6E_vdIprK7Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06D0918A658C;
- Thu, 31 Mar 2022 10:53:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58BE8280358D;
+ Thu, 31 Mar 2022 10:53:55 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 00412C15D42;
- Thu, 31 Mar 2022 10:53:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61D4D5B1573;
+ Thu, 31 Mar 2022 10:53:54 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 83B5621E6929; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
+ id 861D021E692C; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/15] qapi: fix example of BLOCK_IO_ERROR event
-Date: Thu, 31 Mar 2022 12:53:33 +0200
-Message-Id: <20220331105344.3471295-5-armbru@redhat.com>
+Subject: [PULL 05/15] qapi: fix example of BLOCK_JOB_PENDING event
+Date: Thu, 31 Mar 2022 12:53:34 +0200
+Message-Id: <20220331105344.3471295-6-armbru@redhat.com>
 In-Reply-To: <20220331105344.3471295-1-armbru@redhat.com>
 References: <20220331105344.3471295-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,28 +87,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Victor Toso <victortoso@redhat.com>
 
-Example output lacks mandatory member @reason.  Provide it.
+Example output has the wrong event's name in it. Fix it.
+
+Example output shows incorrect member @device. Fix it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
-Message-Id: <20220328140604.41484-4-victortoso@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20220328140604.41484-5-victortoso@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/block-core.json | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ qapi/block-core.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 63c30a5378..46580ac551 100644
+index 46580ac551..4a7a6940a3 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -5058,7 +5058,8 @@
- #      "data": { "device": "ide0-hd1",
- #                "node-name": "#block212",
- #                "operation": "write",
--#                "action": "stop" },
-+#                "action": "stop",
-+#                "reason": "No space left on device" },
+@@ -5225,8 +5225,8 @@
+ #
+ # Example:
+ #
+-# <- { "event": "BLOCK_JOB_WAITING",
+-#      "data": { "device": "drive0", "type": "mirror" },
++# <- { "event": "BLOCK_JOB_PENDING",
++#      "data": { "type": "mirror", "id": "backup_1" },
  #      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
  #
  ##
