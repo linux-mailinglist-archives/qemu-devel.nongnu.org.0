@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64844EE0BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:38:59 +0200 (CEST)
-Received: from localhost ([::1]:36370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 060654EE048
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:19:51 +0200 (CEST)
+Received: from localhost ([::1]:33318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZzhC-0004ni-Il
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:38:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44514)
+	id 1nZzOg-0007NG-42
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:19:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZzBk-0007bk-V7
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:06:30 -0400
-Received: from [2607:f8b0:4864:20::b34] (port=44757
- helo=mail-yb1-xb34.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZzBj-0007r7-Eo
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:06:28 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id y142so783027ybe.11
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 11:06:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l3k1faZdyEo4y5x0J4B1Cwk/iDDHL9dGGKHKTVy/788=;
- b=rTGHQPxtl3N7CI8P00QcRLOCWu2uzGfsdsXZgMl2FomVWd0WGeZ2x66aUYTnhsMPTa
- wbdNAxJK9D5ZDwuD8TxWlLb7dd/Ka+uOWKaWPy4VSW49FpoEE5//NFIGo+ElPMEgEyor
- oALcHN+GncGULtiOdqoBg8CzuJ693pl1PG9+TIA/bIeASmVeaqVNeJu2yYLpGR+TBvmX
- woV/68LcsAmshAazo2kbtX5REoY064MeSvJFbCfO3jg5Qa6VMeeKk4JxLG4gKgYfTbb9
- xrGCo2DNuG2+Wjxf25pxwZU/SP9qr71/uEPAaNst6EzFQH+pEGqscwvVGi/rE0EXHkPw
- r5Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l3k1faZdyEo4y5x0J4B1Cwk/iDDHL9dGGKHKTVy/788=;
- b=eLiKMouKP7fg1hJcL77Abg7ZvcaLTV/zWVed6ietbsrBITMD6M8Z3wJIF7wW+SrFiR
- 5wo26NvPgCRY+tfQn7a5TFwpuSJFX1bJ2FkEY+6yx4BPEajJMcEztLWaaSW9kkePvfjt
- tU4j7w1rQ9EwmaDwTCXDmtSWhVzx5bkd26CXqYRE3noZGRGvlZcIdC/FZywoj36Jsbsd
- ShbKLD878aVOaXv4Z57BE4dXdNgF38zE3qmyCSMZ0f9SeOFySPyg1EKqqEfqHefejb0+
- Bd4adIwZz9197whgf2BAiN4kyfKhxf7WABV5kki0OMskim0CEOwscmvVVZzJ88GiGwPH
- g5kw==
-X-Gm-Message-State: AOAM53340iUmal5RgUXxRzTobvl2VTj29nCMx3/oYh0MVIW+UXzbniAT
- OOP2VsLBRvnu8jfY7a4dGdMhRhvn7sQ9ewMU4Uepq7sDgGL3tQ==
-X-Google-Smtp-Source: ABdhPJwXN2VMYcFdsvoyHzzaJ2Wes7n8D1kWy8PRJSvERzdxXUssC9CHPph+EnRuBRSVHuHhI+uESSkhkpU9jeaVBYo=
-X-Received: by 2002:a05:6902:1502:b0:63d:4d6f:dc1 with SMTP id
- q2-20020a056902150200b0063d4d6f0dc1mr1856757ybu.140.1648749986439; Thu, 31
- Mar 2022 11:06:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nZzJz-0002nz-Gb
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:15:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35128)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nZzJx-00017h-0D
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:14:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648750495;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1geVC60KOCBqYcV0yzBh5c9nGhEBBky47+bYEoJUFqQ=;
+ b=Hj8F2de1vl8eVopNVS7jHrvFzjrRuuMOJInzzDeFpoVmK4C0ACLlTIg/xa9AjUB98w2GVW
+ 059KjTzRCly5kL4dubT/dE0sAGt+8toZGo0nrrkwmnGNG0XUT64X00ssZVeCooqvRsY5ad
+ VBw0HuMhErAzz2EiBSIthn5szZx8L50=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-358-kcPBovGsNWuuCaPtQcAJ2w-1; Thu, 31 Mar 2022 14:14:54 -0400
+X-MC-Unique: kcPBovGsNWuuCaPtQcAJ2w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2AEEA2A5954E
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 18:14:54 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.194.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 657EB401E3B;
+ Thu, 31 Mar 2022 18:14:53 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] vhost: Fix bad return of descriptors to SVQ
+Date: Thu, 31 Mar 2022 20:14:51 +0200
+Message-Id: <20220331181451.534433-1-eperezma@redhat.com>
 MIME-Version: 1.0
-References: <20210603214131.629841-1-richard.henderson@linaro.org>
- <20210603214131.629841-7-richard.henderson@linaro.org>
- <CAFEAcA9tV_3VMwgAgN4BKc1GW9w59kwHB-xFhn1pi4pBH2YxrQ@mail.gmail.com>
- <aeaebbd2-1d63-d392-9f3f-30419cb09e0f@linaro.org>
-In-Reply-To: <aeaebbd2-1d63-d392-9f3f-30419cb09e0f@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 31 Mar 2022 19:06:15 +0100
-Message-ID: <CAFEAcA9cwmv3xFP+T6UOhbRL+pWxOAqqc2Q_Uk1cZKHofxGS+Q@mail.gmail.com>
-Subject: Re: [PULL 06/29] softfloat: Move compare_floats to
- softfloat-parts.c.inc
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,34 +77,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 31 Mar 2022 at 18:54, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 3/31/22 04:46, Peter Maydell wrote:
-> > FWIW, the Coverity issues are CID 1487134, 1487139, 1487151, 1487184,
-> > where for some reason it thinks that floatx80_compare() and
-> > floatx80_compare_quiet() can return 3 and thus that there is a
-> > potential array overrun. (I've marked these all as false positives
-> > in the UI, anyway.)
->
-> Interesting about '3'.  I'll have a look.
+Only the first one of them were properly enqueued back.
 
-Unfortunately it doesn't seem to give its reasoning for deciding
-that the function can return [-1..3] rather than [-1..2].
-But maybe it will make more sense to you.
+Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/vhost-shadow-virtqueue.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-PS: while you're there, there are also a bunch of new TCG related
-issues where it alleges array indexes being out of bounds. I
-suspect these are false positives, but it's probably faster
-for you to analyse them. (I have a feeling Coverity can get
-confused and claim an error because it's looking at an array
-size it has cached from one target's NB_MMU_MODES value and
-a code flow for a different target with a different NB_MMU_MODES.)
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index b232803d1b..c17506df20 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -333,13 +333,25 @@ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
+     svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+ }
 
--- PMM
++static uint16_t vhost_svq_last_desc_of_chain(VhostShadowVirtqueue *svq,
++                                             uint16_t i)
++{
++    vring_desc_t *descs = svq->vring.desc;
++
++    while (le16_to_cpu(descs[i].flags) & VRING_DESC_F_NEXT) {
++        i = le16_to_cpu(descs[i].next);
++    }
++
++    return i;
++}
++
+ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+                                            uint32_t *len)
+ {
+     vring_desc_t *descs = svq->vring.desc;
+     const vring_used_t *used = svq->vring.used;
+     vring_used_elem_t used_elem;
+-    uint16_t last_used;
++    uint16_t last_used, last_used_chain;
+
+     if (!vhost_svq_more_used(svq)) {
+         return NULL;
+@@ -365,7 +377,8 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+         return NULL;
+     }
+
+-    descs[used_elem.id].next = svq->free_head;
++    last_used_chain = vhost_svq_last_desc_of_chain(svq, used_elem.id);
++    descs[last_used_chain].next = svq->free_head;
+     svq->free_head = used_elem.id;
+
+     *len = used_elem.len;
+--
+2.27.0
+
 
