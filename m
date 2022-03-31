@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28794ED0FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 02:42:33 +0200 (CEST)
-Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 725D34ED0D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 02:26:06 +0200 (CEST)
+Received: from localhost ([::1]:46480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZitU-0004rn-PP
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 20:42:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36118)
+	id 1nZidZ-0003YE-Bs
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 20:26:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nZiPp-00012r-LM
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 20:11:53 -0400
-Received: from [2607:f8b0:4864:20::129] (port=41718
- helo=mail-il1-x129.google.com)
+ id 1nZiQN-0001Qz-Gy; Wed, 30 Mar 2022 20:12:27 -0400
+Received: from [2607:f8b0:4864:20::d36] (port=43642
+ helo=mail-io1-xd36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nZiPo-0007Ab-1C
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 20:11:53 -0400
-Received: by mail-il1-x129.google.com with SMTP id b9so15635381ila.8
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 17:11:51 -0700 (PDT)
+ id 1nZiQL-0007Cj-S7; Wed, 30 Mar 2022 20:12:27 -0400
+Received: by mail-io1-xd36.google.com with SMTP id 125so26794761iov.10;
+ Wed, 30 Mar 2022 17:12:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=J7nzB3PR2EnX1npUm3rzgRIvP6+VETb+14whaRFj50U=;
- b=EpAmNIrmep6AnqVdvx2sBXZD7nu5okWCIqQ09FxYzbxcKLiGaZhh3/SLcUVaV3rb/K
- DkPDUWZ+PzacsmyqP9UaES36w7cFMsYeaL1eQD5QknIbVNHAASwJVeblQ7BkVi51F8y2
- QHXfJyI3sX1dfN9m1BbArwhgIppz1NkIzzohearA+hx005aG6RtF1Qo+UjBm1ezS0dLv
- MIPxMTNo4LwI4A7UK0AU0NEviWM3l9rqLshXBPLzPB5QmajtWDbYlRUQIWKlgoLOVhBp
- fYwcsB4e0ZHveJdQkY171S8SAbN4tvIAw4t/gV84wF+1xRTW3dLf5IsEkXEU6sdfxdC6
- eS4Q==
+ bh=JN1dXsM4+Z830jWO9bYcia6poDHQjJldQJbzXlWjlv0=;
+ b=F4pTZWMG0+XW5nK6+ftuTyRqEg/M6SI3xXwc8iLfYVtATUVV7ZKHSP7Y0MKBgDzmmO
+ dwNRSbSGHl0e81gXVWhm6f9C7lGiRBF2//hhvIfJ3gtGWPVAiGYMkf0AcTcDB5OdFB9q
+ pe3vnVnKGuKvBukcDxuKLZzslKg5GmxFwvbeUBcU+Dkc852k4m5EUZqfVTR0Ylkl4CTB
+ ynDy/H8V6AUfHSoSoQ21i4tUonkMhGLfZmn3uLGDfaRxLUn4HAPfT5upeHKKQr5ed9AZ
+ 3AWJrrnM4WHG8hYxiQbq5vPy+qqEriovrcGJq/gXxjYTeF7p4OuU04x0YOZZxhfVuR+6
+ QjVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=J7nzB3PR2EnX1npUm3rzgRIvP6+VETb+14whaRFj50U=;
- b=H7jQ5MBUHbuAFsxUTNfkwDaDki9zqtlaR/+iG1kzWZSFwXLhLEPt+aHVo/8Elsnbat
- atZOLieXvHCtPih5l++08wikzjxJuIB5zL1AA6scRQJSm+Rb1ymFTz48TKtn8Cy0SkGr
- cafQXTKIL9EHp7Bg/WGmGFa/WpxfLx9890gufhFo+4WDxQ5Nps+JyDQk/LfvRXFyo9sa
- ggY3RjIREeksgMOnCn5A8eDNYEiEudHsMiSPTZekjESQW0XifyyRhqiNYlySUWR15zt+
- Thw2en9dHAjXN8fc8SPxa3bRDR6eks2p4WyGTbMSCbnaNsTDxSjT7RejoAmJP3ZmrnK/
- 1y5A==
-X-Gm-Message-State: AOAM5337jBGUlW9OPNKJ8XdE8KNGeN1anCc3Ax9rVpy+Fv/PKcPvRQDY
- HY2Czb1bo7q8vpV94yrQXXhL5NqIlk7yW/RbOkM=
-X-Google-Smtp-Source: ABdhPJw3iTGnRtHOz7xcTsuoLBRMvob74nKvMY6MMzQ2y9v+Gz3GI2lpmv2PU0CYZYKBZa+tgfJs+hW/GwYLefJWSrU=
-X-Received: by 2002:a92:d94d:0:b0:2c8:45a5:926b with SMTP id
- l13-20020a92d94d000000b002c845a5926bmr12640587ilq.310.1648685510873; Wed, 30
- Mar 2022 17:11:50 -0700 (PDT)
+ bh=JN1dXsM4+Z830jWO9bYcia6poDHQjJldQJbzXlWjlv0=;
+ b=PrrjZDWeu1gIkFyRu3LSigoSZzjH/ikmFbVkDGLw3dYiaZerRIwkBaP1NuMAV5+d3r
+ BfHsZ4cmab3bHyGKA+5X/fTKoCYzl4nG1TsQ9kGE6SvJPlnxiGjyRQrqaza0QSRZUZtP
+ o66IY4qVpEGNDA84veTx37D24j7i+do8XsmmsEI65N3t9hce1torqMV3z2ubsjCo//Pz
+ ruYyM8wFi5yrcT/sQiX0ID4W1DiNyLf7HldyUvj36tLayniW8tVRFklIGX5IkYe1eJm8
+ bZuq5I1EfQGnL/Rgqf0GGoR3py1fXbgMPrXo+qKlyTXZJDVrSRBw61SiQcLvrtaae9p9
+ BOuA==
+X-Gm-Message-State: AOAM5332Mt5CiciKYdDbrGXRmD3yIQXnKl2j0tf9ZFlfUiTV7x3M/TIu
+ CakLw4R66Lf6MwXgM/HXbiQLbgyC2JaW5ua4fsc=
+X-Google-Smtp-Source: ABdhPJxIgc4/FpU2tHna+ZzAYMB3TfAwmHxkh80cVK0Pj6Mbqe8pdITYjUuFh/HfSG96Y0J2mBwuLl2Veu/lT99ZFYI=
+X-Received: by 2002:a05:6638:24c1:b0:323:61fc:a5c0 with SMTP id
+ y1-20020a05663824c100b0032361fca5c0mr1461559jat.267.1648685544485; Wed, 30
+ Mar 2022 17:12:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
- <Yjw1At8ig+UzFKXn@redhat.com>
-In-Reply-To: <Yjw1At8ig+UzFKXn@redhat.com>
+References: <164863587444.17401.9965527486691250478-0@git.sr.ht>
+ <937de10f-be69-247b-562f-be34c17ca945@iscas.ac.cn>
+In-Reply-To: <937de10f-be69-247b-562f-be34c17ca945@iscas.ac.cn>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 31 Mar 2022 10:11:24 +1000
-Message-ID: <CAKmqyKMaRuw552K9zU+maKgHpfVC42j00pD++vdw1hg8posRgw@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: virt: Warn the user if -bios is provided when
- using KVM
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Date: Thu, 31 Mar 2022 10:11:58 +1000
+Message-ID: <CAKmqyKPtyKub=MChc_C7JpoXP7+bBwTSX_c4WhuRXaoWwWjehg@mail.gmail.com>
+Subject: Re: [PATCH qemu v7 00/14] Add tail agnostic behavior for rvv
+ instructions
+To: Weiwei Li <liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::129
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::129;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x129.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -85,85 +83,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>, Anup Patel <anup@brainfault.org>,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Frank Chang <frank.chang@sifive.com>, eop Chen <eop.chen@sifive.com>,
+ Bin Meng <bin.meng@windriver.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Stefan Huber <stefan.huber@oth-regensburg.de>,
- Jiangyifei <jiangyifei@huawei.com>
+ ~eopxd <yueh.ting.chen@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 24, 2022 at 7:08 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
+On Wed, Mar 30, 2022 at 10:52 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
 >
-> On Wed, Mar 23, 2022 at 06:13:46PM +0100, Ralf Ramsauer wrote:
-> > The -bios option is silently ignored if used in combination with -enabl=
-e-kvm.
-> > The reason is that the machine starts in S-Mode, and the bios typically=
- runs in
-> > M-Mode.
-> >
-> > Warn the user that the bios won't be loaded.
-> >
-> > Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-> > ---
-> >  hw/riscv/virt.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> > index 4496a15346..a4d13114ee 100644
-> > --- a/hw/riscv/virt.c
-> > +++ b/hw/riscv/virt.c
-> > @@ -1312,6 +1312,9 @@ static void virt_machine_init(MachineState *machi=
-ne)
-> >       * when KVM is enabled.
-> >       */
-> >      if (kvm_enabled()) {
-> > +        if (machine->firmware && strcmp(machine->firmware, "none"))
-> > +            warn_report("BIOS is not supported in combination with KVM=
-. "
-> > +                        "Ignoring BIOS.");
 >
-> If the usage scenario isn't supportable, then ultimately we should be
-> raising an error and immediately exiting.
->
-> If you know of common usage that is already mistakenly passing -bios,
-> then we could start with a warning and list it as deprecated, then
-> change to an error_report 2 releases later. If we don't thing people
-> are often mistakenly passing -bios, then go straight for error_report
-> and exit.
+> =E5=9C=A8 2022/3/30 =E4=B8=8B=E5=8D=886:24, ~eopxd =E5=86=99=E9=81=93:
+> > According to v-spec, tail agnostic behavior can be either kept as
+> > undisturbed or set elements' bits to all 1s. To distinguish the
+> > difference of tail policies, QEMU should be able to simulate the tail
+> > agnostic behavior as "set tail elements' bits to all 1s". An option
+> > 'rvv_ta_all_1s' is added to enable the behavior, it is default as
+> > disabled.
+> >
+> > There are multiple possibility for agnostic elements according to
+> > v-spec. The main intent of this patch-set tries to add option that
+> > can distinguish between tail policies. Setting agnostic elements to
+> > all 1s makes things simple and allow QEMU to express this.
+> >
+> > We may explore other possibility of agnostic behavior by adding
+> > other options in the future. Please understand that this patch-set
+> > is limited.
+> >
+> > v2 updates:
+> > - Addressed comments from Weiwei Li
+> > - Added commit tail agnostic on load / store instructions (which
+> >     I forgot to include into the patch-set)
+> >
+> > v3 updates:
+> > - Missed the very 1st commit, adding it back
+> >
+> > v4 updates:
+> > - Renamed vlmax to total_elems
+> > - Deal with tail element when vl_eq_vlmax =3D=3D true
+> >
+> > v5 updates:
+> > - Let `vext_get_total_elems` take `desc` and `esz`
+> > - Utilize `simd_maxsz(desc)` to get `vlenb`
+> > - Fix alignments to code
+> >
+> > v6 updates:
+> > - Fix `vext_get_total_elems`
+> >
+> > v7 updates:
+> > - Reuse `max_elems` for vector load / store helper functions. The
+> >     translation sets desc's `lmul` to `min(1, lmul)`, making
+> > `vext_max_elems`
+> >     equivalent to `vext_get_total_elems`.
+> >
+> > eopXD (14):
+> >    target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
+> >    target/riscv: rvv: Rename ambiguous esz
+> >    target/riscv: rvv: Early exit when vstart >=3D vl
+> >    target/riscv: rvv: Add tail agnostic for vv instructions
+> >    target/riscv: rvv: Add tail agnostic for vector load / store
+> >      instructions
+> >    target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
+> >    target/riscv: rvv: Add tail agnostic for vector integer shift
+> >      instructions
+> >    target/riscv: rvv: Add tail agnostic for vector integer comparison
+> >      instructions
+> >    target/riscv: rvv: Add tail agnostic for vector integer merge and mo=
+ve
+> >      instructions
+> >    target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
+> >      instructions
+> >    target/riscv: rvv: Add tail agnostic for vector floating-point
+> >      instructions
+> >    target/riscv: rvv: Add tail agnostic for vector reduction instructio=
+ns
+> >    target/riscv: rvv: Add tail agnostic for vector mask instructions
+> >    target/riscv: rvv: Add tail agnostic for vector permutation
+> >      instructions
+> >
+> >   target/riscv/cpu.c                      |    1 +
+> >   target/riscv/cpu.h                      |    2 +
+> >   target/riscv/cpu_helper.c               |    2 +
+> >   target/riscv/insn_trans/trans_rvv.c.inc |  164 +++
+> >   target/riscv/internals.h                |    5 +-
+> >   target/riscv/translate.c                |    2 +
+> >   target/riscv/vector_helper.c            | 1562 ++++++++++++++--------=
+-
+> >   7 files changed, 1121 insertions(+), 617 deletions(-)
+> >
+> The patchset looks good to me.
 
-That's a good point. The original thinking was that we did support
--bios and so we should warn the user that it's unlikely they want to
-use it. This would still allow S mode UEFI loaders to be used (they
-don't exist today).
-
-Considering we are currently just ignoring the option I agree it's
-better to report an error.
-
-Do you mind sending a v2 Ralf?
+Do you want to add a reviewed-by or acked-by tag?
 
 Alistair
 
 >
-> >          g_free(machine->firmware);
-> >          machine->firmware =3D g_strdup("none");
-> >      }
-> > --
-> > 2.32.0
-> >
-> >
+> Regards,
 >
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+> Weiwei Li
+>
 >
 
