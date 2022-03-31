@@ -2,75 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA1B4ED536
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 10:08:02 +0200 (CEST)
-Received: from localhost ([::1]:50282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C30624ED56C
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 10:23:39 +0200 (CEST)
+Received: from localhost ([::1]:59040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZpqb-00084c-Bb
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 04:08:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54380)
+	id 1nZq5i-0006Dj-Qi
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 04:23:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZpmY-0006ZD-Uw
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:03:51 -0400
-Received: from [2607:f8b0:4864:20::b29] (port=47032
- helo=mail-yb1-xb29.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nZpmX-0006Uv-30
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:03:50 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id e81so11889647ybf.13
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 01:03:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q7asBfNEw0jrgB6R/dJ6xXI5wZP7y6CfrpYnlsghmqg=;
- b=A7ZeR3j+WeEzBYg2/vJV+RvpvfAF7goxje/eci7NVCm8uTnt5LJwBYvt7mPa5M83Q4
- 6wTz5b3YGkokSAsjck1WMns/Un/90h+LxNXCPixA4//T/Lpc/0EHqPSJBK//zbRPPFDO
- Vxcth2IXZr83NGHAa7XALXdU0f6YL8eH5i1cc9q3krBWepk6vVl/gcUN+La46+CJwFnK
- wX0LnPIBOBRQVgDl3p6Gn+6hJMhoGQqMoUpUs9IgGIcVZTZilC82W6J2XXRbxTdoTBal
- 5DC232gEu2Jg+lXJJjbBKw9ItUvR+gBfNoATVcizZ0SJ4W29kwwujc5Zzyobujx9iGu0
- wlHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q7asBfNEw0jrgB6R/dJ6xXI5wZP7y6CfrpYnlsghmqg=;
- b=8R2Gpt41BjvMGQ/ojxlDIlSmc8ekCuimbiPRSULVyehtL55fTF4shkVJT//OjmQ1Xv
- BIJozSUpf8VDt0NcaM63971sN9/A1wwBAvwlCBbN2NtUBl6OIYE30AOiQH3qtpsh0wUh
- 89CkbPPMXj7Gy/IIS22O+Zv5xpgc/4IZDrY2GsWOoxAGdK7CrZcBgzqdHQgxVJlexQis
- 8RFj+KJVc+weoKEROyLMZqD50lBLlAgeFeY6PhQwH4hD3aBY2aCaC3WzuCuHC8iGoaDf
- 49lEZtvA1iQcDZ/6jog1+rGicOAjF6G22e72JujqHv7E6GJIhmi1yovjO9c1zxDx3VtP
- 9CzA==
-X-Gm-Message-State: AOAM533IkZJjC/Dac0AhsFOgLDMXJ/GL85f3M3jjWQxZYstr8lUYHlQb
- OXMUu7jmkZF1WG91TltdaPm5sJUe38NRgxkuQ7hCZA==
-X-Google-Smtp-Source: ABdhPJy30TEPBppyX91hmfZ0vvA8I/RnVEo8stR2fa7q86fhJT6sZ/h5XdSz0O5EQnHGROpDjpFT9c4Ua8baddyWjRw=
-X-Received: by 2002:a25:7443:0:b0:637:18d3:eea5 with SMTP id
- p64-20020a257443000000b0063718d3eea5mr3158206ybc.39.1648713826989; Thu, 31
- Mar 2022 01:03:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
+ id 1nZpz9-0001Yr-5V; Thu, 31 Mar 2022 04:16:51 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:38870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
+ id 1nZpz5-0000j6-Up; Thu, 31 Mar 2022 04:16:50 -0400
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 22V84nhR054230;
+ Thu, 31 Mar 2022 16:04:49 +0800 (GMT-8)
+ (envelope-from jamin_lin@aspeedtech.com)
+Received: from localhost.localdomain (192.168.70.87) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 31 Mar
+ 2022 16:15:46 +0800
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Peter Maydell
+ <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
+ <joel@jms.id.au>, Alistair Francis <alistair@alistair23.me>, Cleber Rosa
+ <crosa@redhat.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ "Beraldo Leal" <bleal@redhat.com>, "open list:ASPEED BMCs"
+ <qemu-arm@nongnu.org>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+Subject: [PATCH v2 0/9] Add support for AST1030 SoC
+Date: Thu, 31 Mar 2022 16:15:36 +0800
+Message-ID: <20220331081545.7140-1-jamin_lin@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20220330181947.68497-1-wwcohen@gmail.com>
- <CAFEAcA-a8BUqGGGMPexauFq-DEwSy6SQc9G9MuH=WX3P2H1a1A@mail.gmail.com>
- <CAB26zV2zZg3Nri9i4LcnCvYkX-T33Pbn2FwU6hP_LEKiab_tVA@mail.gmail.com>
-In-Reply-To: <CAB26zV2zZg3Nri9i4LcnCvYkX-T33Pbn2FwU6hP_LEKiab_tVA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 31 Mar 2022 09:03:35 +0100
-Message-ID: <CAFEAcA8fdebk3Z9bUbHuYKL5VCFqtu9gqbHdB4i_Umuaabqr7g@mail.gmail.com>
-Subject: Re: [PATCH] 9p: move limits.h include from 9p.c to 9p.h
-To: Will Cohen <wwcohen@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b29
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.70.87]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 22V84nhR054230
+Received-SPF: pass client-ip=211.20.114.71;
+ envelope-from=jamin_lin@aspeedtech.com; helo=twspam01.aspeedtech.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,43 +64,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Fabian Franz <fabianfranz.oss@gmail.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- hi@alyssa.is
+Cc: jamin_lin@aspeedtech.com, troy_lee@aspeedtech.com,
+ steven_lee@aspeedtech.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Mar 2022 at 22:55, Will Cohen <wwcohen@gmail.com> wrote:
->
-> On Wed, Mar 30, 2022 at 5:31 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->> Is it possible to do this with a meson.build check for whatever
->> host property we're relying on here rather than with a
->> "which OS is this?" ifdef ?
->
->
-> To confirm -- the game plan in this case would be to do a check for something along the lines of
-> config_host_data.set('CONFIG_XATTR_SIZE_MAX', cc.has_header_symbol('linux/limits.h', 'XATTR_SIZE_MAX'))
-> and using that in the corresponding ifs, right?
->
-> That makes sense -- if there's no objections, I'll go this route for v2, which I can submit tomorrow.
+Changes from v2:
+- replace aspeed_ast1030.c with aspeed_ast10xx.c for minibmc SOCs family support
+- Add "ast1030-evb" machine in aspeed.c and removes aspeed_minibmc.c
 
-Yeah, something like that.
+Changes from v1:
+The patch series supports ADC, SCU, SMC, TIMER, and WDT for AST1030 SoC.
+Add avocado test case for "ast1030-evb" machine.
 
-Looking a bit closer at the code it looks like the handling of
-XATTR_SIZE_MAX is kind of odd: on Linux we use this kernel-provided
-value, whatever it is, on macos we use a hardcoded 64K, and on
-any other host we fail to compile. The comment claims we only
-need to impose a limit to avoid doing an overly large malloc,
-but if that's the case this shouldn't be OS-specific. I suspect
-the problem here is we're trying to impose a non-existent fixed
-maximum size for something where the API on the host just doesn't
-guarantee one.
+Test steps:
+1. Download image from
+   https://github.com/AspeedTech-BMC/zephyr/releases/download/v00.01.04/ast1030-evb-demo.zip
+2. Extract the zip file to obtain zephyr.elf
+3. Run ./qemu-system-arm -M ast1030-evb -kernel $PATH/zephyr.elf -nographic
+4. Test IO by Zephyr command line, commands are refer to Aspeed Zephyr
+   SDK User Guide below
+   https://github.com/AspeedTech-BMC/zephyr/releases/download/v00.01.04/Aspeed_Zephy_SDK_User_Guide_v00.01.04.pdf
+   - ADC(channel 0):
+       uart:~$ adc ADC0 resolution 10
+       uart:~$ adc ADC0 calibrate 1
+       uart:~$ adc ADC0 read_format 1
+       uart:~$ adc ADC0 read 0
+       [Result]
+       read: 1416mv
 
-But that would be a 7.1 thing to look at improving.
+   - SCU
+       uart:~$ md 7e6e2040
+       uart:~$ md 7e6e2080
+       uart:~$ md 7e6e20d0
+       uart:~$ md 7e6e2200
+       uart:~$ md 7e6e2300
+       uart:~$ md 7e6e25b0
+       [Result]
+       The register value should match the value of ast1030_a1_resets
+       in aspeed_scu.c
 
--- PMM
+   - Flash(fmc_cs0):
+       uart:~$ flash write fmc_cs0 0 0x12345678 0x87654321 0x34127856 0x78563412
+       uart:~$ flash read fmc_cs0 0 10
+       [Result]
+       00000000: 78 56 34 12 21 43 65 87  56 78 12 34 12 34 56 78 |xV4.!Ce. Vx.4.4Vx|
+
+       uart:~$ flash erase fmc_cs0 0
+       uart:~$ flash read fmc_cs0 0 10
+       [Result]
+       00000000: ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff |........ ........|
+
+   - Timer(TIMER0):
+       uart:~$ timer start TIMER0 -p 2000 -t 0
+       TIMER0: period 20000 ms, type 0
+       [Result]
+       timer expired after 2 seconds
+
+   - Watchdog(WDT1):
+       uart:~$ mw 7e785008 4755
+       uart:~$ mw 7e78500c 1
+       [Result]
+       soc reset after 22 seconds
+
+Based-on: 20220315075753.8591-3-steven_lee@aspeedtech.com
+([v2,2/2] hw: aspeed_scu: Introduce clkin_25Mhz attribute)
+
+Jamin Lin (2):
+  aspeed: Add an AST1030 eval board
+  test/avocado/machine_aspeed.py: Add ast1030 test case
+
+Steven Lee (7):
+  aspeed/adc: Add AST1030 support
+  aspeed/smc: Add AST1030 support
+  aspeed/wdt: Fix ast2500/ast2600 default reload value.
+  aspeed/wdt: Add AST1030 support
+  aspeed/timer: Add AST1030 support.
+  aspeed/scu: Add AST1030 support
+  aspeed/soc : Add AST1030 support
+
+ hw/adc/aspeed_adc.c              |  16 ++
+ hw/arm/aspeed.c                  | 111 +++++++++++
+ hw/arm/aspeed_ast10xx.c          | 303 +++++++++++++++++++++++++++++++
+ hw/arm/meson.build               |   6 +-
+ hw/misc/aspeed_scu.c             |  63 +++++++
+ hw/ssi/aspeed_smc.c              | 160 ++++++++++++++++
+ hw/timer/aspeed_timer.c          |  17 ++
+ hw/watchdog/wdt_aspeed.c         |  34 +++-
+ include/hw/adc/aspeed_adc.h      |   1 +
+ include/hw/arm/aspeed.h          |  21 +++
+ include/hw/arm/aspeed_soc.h      |   3 +
+ include/hw/misc/aspeed_scu.h     |  24 +++
+ include/hw/timer/aspeed_timer.h  |   1 +
+ include/hw/watchdog/wdt_aspeed.h |   3 +
+ tests/avocado/machine_aspeed.py  |  36 ++++
+ 15 files changed, 796 insertions(+), 3 deletions(-)
+ create mode 100644 hw/arm/aspeed_ast10xx.c
+ create mode 100644 tests/avocado/machine_aspeed.py
+
+-- 
+2.17.1
+
 
