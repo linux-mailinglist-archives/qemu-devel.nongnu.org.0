@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F08A4ED824
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:05:08 +0200 (CEST)
-Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FA14ED846
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:13:49 +0200 (CEST)
+Received: from localhost ([::1]:39224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZsby-0004uV-O7
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:05:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32870)
+	id 1nZskO-0003rJ-9M
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:13:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRI-0006is-KZ
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24887)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRW-0006mx-Cq
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRH-0007ic-Cr
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:04 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRU-0007kU-8i
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648724042;
+ s=mimecast20190719; t=1648724054;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EzT0QOtUmUCMEjxmDUjHeij7ZDh2TaQu8GxVL6iUNaY=;
- b=G7dMLOzz6GNsheO5DUOlNin0GqHL11lzwV9/AR5lX1N7BRjsNpjSGlqPMnc6kbYjlNWSmi
- zR8ekLZIqQUhE5QU3DLgpv8X/kCvdmKcMkTtgIvVJbFvZibuGvEFwI1OE0pf5AwqVMgUPh
- 0jOYUaTcKDaZ+Xz5pS+IgFlB5DJ/7yw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qfwAsvBVl6+PLH+vgURmfwR2muFsDoR3nBmrCsgzcvY=;
+ b=CK+ThizrbqdsNzFXJs4cs79xkBTbPKGBK80ZbYSTVPnD6WDaRSXcxH0PG8jELXIytlKQML
+ mPOmDzl63FQzXTvea9pEFs0QTp+ZJjKvL6VtNDQSV7beZsr1BaaOij/7DhUKmXNA0c7+GL
+ bjuPxSv50t4gu03UruxFbHm7abtIdUg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-385-RCRvNfleNiyRSd1SN2sTTw-1; Thu, 31 Mar 2022 06:54:01 -0400
-X-MC-Unique: RCRvNfleNiyRSd1SN2sTTw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-88-pKZuGQDFM9arYABhbmdHGg-1; Thu, 31 Mar 2022 06:54:11 -0400
+X-MC-Unique: pKZuGQDFM9arYABhbmdHGg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A05D3C01C19;
- Thu, 31 Mar 2022 10:54:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 11E60811E76;
+ Thu, 31 Mar 2022 10:54:11 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C1F37AE4;
- Thu, 31 Mar 2022 10:53:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E7066112131E;
+ Thu, 31 Mar 2022 10:53:54 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 910B621E693C; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
+ id 931D821E68B7; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/15] qapi: fix examples: SHUTDOWN and RESET events
-Date: Thu, 31 Mar 2022 12:53:39 +0200
-Message-Id: <20220331105344.3471295-11-armbru@redhat.com>
+Subject: [PULL 11/15] qapi: run-state examples: add missing @timestamp
+Date: Thu, 31 Mar 2022 12:53:40 +0200
+Message-Id: <20220331105344.3471295-12-armbru@redhat.com>
 In-Reply-To: <20220331105344.3471295-1-armbru@redhat.com>
 References: <20220331105344.3471295-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: application/octet-stream; x-default=true
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
 X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, BODY_EMPTY=1.31,
  DKIMWL_WL_HIGH=-0.082, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -87,11 +87,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Victor Toso <victortoso@redhat.com>
 
-Example output lacks mandatory member @reason.  Provide it.
+The changed examples were lacking mandatory member @timestamp.
+Provide it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
-Message-Id: <20220328140604.41484-10-victortoso@redhat.com>
+Message-Id: <20220328140604.41484-11-victortoso@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
@@ -99,29 +100,29 @@ Signed-off-by: Markus Armbruster <armbru@redhat.com>
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/qapi/run-state.json b/qapi/run-state.json
-index 43d66d700f..1b9f64c9cd 100644
+index 1b9f64c9cd..7f1c788c4e 100644
 --- a/qapi/run-state.json
 +++ b/qapi/run-state.json
-@@ -150,7 +150,8 @@
- #
+@@ -426,7 +426,8 @@
  # Example:
  #
--# <- { "event": "SHUTDOWN", "data": { "guest": true },
-+# <- { "event": "SHUTDOWN",
-+#      "data": { "guest": true, "reason": "guest-shutdown" },
- #      "timestamp": { "seconds": 1267040730, "microseconds": 682951 } }
+ # <- { "event": "GUEST_PANICKED",
+-#      "data": { "action": "pause" } }
++#      "data": { "action": "pause" },
++#      "timestamp": { "seconds": 1648245231, "microseconds": 900001 } }
  #
  ##
-@@ -188,7 +189,8 @@
- #
+ { 'event': 'GUEST_PANICKED',
+@@ -446,7 +447,8 @@
  # Example:
  #
--# <- { "event": "RESET", "data": { "guest": false },
-+# <- { "event": "RESET",
-+#      "data": { "guest": false, "reason": "guest-reset" },
- #      "timestamp": { "seconds": 1267041653, "microseconds": 9518 } }
+ # <- { "event": "GUEST_CRASHLOADED",
+-#      "data": { "action": "run" } }
++#      "data": { "action": "run" },
++#      "timestamp": { "seconds": 1648245259, "microseconds": 893771 } }
  #
  ##
+ { 'event': 'GUEST_CRASHLOADED',
 -- 
 2.35.1
 
