@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77CE4EE3D1
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 00:08:36 +0200 (CEST)
-Received: from localhost ([::1]:34858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365714EE3E3
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 00:14:52 +0200 (CEST)
+Received: from localhost ([::1]:38132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na2y3-0000mu-9y
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 18:08:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35740)
+	id 1na346-0003Pt-VY
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 18:14:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1na2wl-0008WM-N2
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 18:07:15 -0400
-Received: from mta02.hs-regensburg.de ([194.95.104.12]:48670)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1na32P-00027j-Ry; Thu, 31 Mar 2022 18:13:08 -0400
+Received: from [2607:f8b0:4864:20::d2e] (port=36835
+ helo=mail-io1-xd2e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1na2wi-0007iw-Vd
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 18:07:15 -0400
-Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
- [IPv6:2001:638:a01:8013::93])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client CN "E16S03", Issuer "E16S03" (not verified))
- by mta02.hs-regensburg.de (Postfix) with ESMTPS id 4KTy863HlRzy9W;
- Fri,  1 Apr 2022 00:07:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
- s=mta02-20211122; t=1648764422;
- bh=ux07M3NISOdDLv+80QWZRtcHDyKCXi7gqtEX58I62fA=;
- h=Date:Subject:To:CC:References:From:In-Reply-To:From;
- b=poqb4kcVsnoKVgBgz2GJRiw2H2LVZqwXy6JWuUf7a2Qg7RyWMxa7fE3WYWxAgbNld
- XWqt6s+r8ortrF2ynqIBFY4xnchq5a50rNiTEWU/c06jaz9D8fYttttDRsM0NldAw+
- qHUIQbmdY0zqqSxUUQTMaFIjglLajJXQjtSW6xHuq/ydNykBPWg+1DrblfRJ+aCRfm
- nr2tJMK0WlWyRHbBwtK9Du+e87FrZn7rQliypb9P7HlWLgmKkO4AF5KTtgcfbk+Nkl
- pIFf0B3TjVjcA3RcZT0Okc59rDZ/BxF5cPVm3yoKzkz+2poEswSaO/P6iroYyBGcr7
- OIdwOY7nGaFJA==
-Received: from [IPV6:2a02:810d:8fc0:44bc::da43] (2001:638:a01:8013::138) by
- E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 1 Apr 2022 00:07:01 +0200
-Message-ID: <a3326b8d-9b52-04b5-799a-07ab880bf0c8@oth-regensburg.de>
-Date: Fri, 1 Apr 2022 00:07:01 +0200
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1na32N-00008N-BN; Thu, 31 Mar 2022 18:13:05 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id b16so1204830ioz.3;
+ Thu, 31 Mar 2022 15:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LGiLCSdDqf0Qc9gs/x29dNMZY61XRE1r90GaN1X6Zx8=;
+ b=LJFjktyDQr5Z+j10MzHSi4ZEMPleRmpAU+0ill0SBM2A/tlDXrQVLd5HgqSSC5SKcE
+ IYoLIRy/4zAIRJ4lUfKQdGby9EEDhrmuOSniNhmfdb6qjxqYfxTjNr+rDwLfIXmN7kMy
+ XQBJAiX7z6NvmKHTT1U3iNCY8JRSyAv3p43JnLI1BgT0b9mfvTjiUJ3gSe2eBxXsL9ZR
+ sb3f6zl4xkCUWPILs1uCfpzYuUERVcDIj5iIMn6AXWpwpHrmYrrVQz1mymBUNQD8ewa3
+ mc3j+nZh19FdEVzjUaOk1i7bi9Hc6F9XguKO5uKGDdi0v+5XpOk9oblf1cX/F6mVGzLE
+ h7UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LGiLCSdDqf0Qc9gs/x29dNMZY61XRE1r90GaN1X6Zx8=;
+ b=2bMrArxJSBCWWl0w8Q4JinDKVKHcMhrxp+JkDAc7Clg5HZofMg8mZP28aLHNxviBI+
+ /eR+HwbCdbAfAg2LQufVGSMAcmsEviZb3wRSMeOFACb7UL0pbwZsF+rXbT5Y4ISFhVtY
+ AX7fvqUtBFU3GJ/3d4dtQVly+SXbql4+TYY2oXhPg2DLd2K6My1bYXrZVsYKEC4d8xDq
+ qi6YlkXWAuewT36GFuDKFltsuD+5fMHQfvrVj9GZI1sZv3lnMxyMnQ+4JwtFzPQtvZ/W
+ pcF81Arg77ax38s7Bb6/VxEnbnmPltsuM5d42R+7/d9XaD+YMll1BCw3amEUFZRWHAn6
+ OZag==
+X-Gm-Message-State: AOAM532PFpanB+sADDstzA+SC9uCwcYt3Ua6dZ8ljDD8hZ81wH2vqe+z
+ DJOcvSY7PyX7ChglqhiFn894qn78RkXLdLjHUg4E38wp4rjnsOiD
+X-Google-Smtp-Source: ABdhPJyLxVUnV0YB6rNNboSEAaxvke2mbm0qFuBwf1o8xvuEZIA2L38oupvGCISvLpBiFJpc7WsXeHdwt1zbyrwSx0w=
+X-Received: by 2002:a05:6638:3727:b0:323:acce:dd0c with SMTP id
+ k39-20020a056638372700b00323accedd0cmr2091671jav.267.1648764781196; Thu, 31
+ Mar 2022 15:13:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [EXT] Re: [PATCH] hw/riscv: virt: Warn the user if -bios is
- provided when using KVM
-Content-Language: en-US
-To: Alistair Francis <alistair23@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220323171346.792572-1-ralf.ramsauer@oth-regensburg.de>
- <Yjw1At8ig+UzFKXn@redhat.com>
- <CAKmqyKMaRuw552K9zU+maKgHpfVC42j00pD++vdw1hg8posRgw@mail.gmail.com>
-From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-In-Reply-To: <CAKmqyKMaRuw552K9zU+maKgHpfVC42j00pD++vdw1hg8posRgw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [2001:638:a01:8013::138]
-X-ClientProxiedBy: E16S03.hs-regensburg.de (2001:638:a01:8013::93) To
- E16S03.hs-regensburg.de (2001:638:a01:8013::93)
-Received-SPF: pass client-ip=194.95.104.12;
- envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta02.hs-regensburg.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220330165913.8836-1-palmer@rivosinc.com>
+In-Reply-To: <20220330165913.8836-1-palmer@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 1 Apr 2022 08:12:35 +1000
+Message-ID: <CAKmqyKOn6ABmA2SZgXvhMq=2q_m7faPYanDQcxhyGEx_34oFrw@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Avoid leaking "no translation" TLB entries
+To: Palmer Dabbelt <palmer@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,87 +79,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Stefan Huber <stefan.huber@oth-regensburg.de>,
- Jiangyifei <jiangyifei@huawei.com>
+Cc: Atish Patra <atishp@rivosinc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Mar 31, 2022 at 3:11 AM Palmer Dabbelt <palmer@rivosinc.com> wrote:
+>
+> The ISA doesn't allow bare mappings to be cached, as the caches are
+> translations and bare mppings are not translated.  We cache these
+> translations in QEMU in order to utilize the TLB code, but that leaks
+> out to the guest.
+>
+> Suggested-by: phantom@zju.edu.cn # no name in the From field
+> Fixes: 1e0d985fa9 ("target/riscv: Only flush TLB if SATP.ASID changes")
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 
+Thanks!
 
-On 31/03/2022 02:11, Alistair Francis wrote:
-> On Thu, Mar 24, 2022 at 7:08 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
->>
->> On Wed, Mar 23, 2022 at 06:13:46PM +0100, Ralf Ramsauer wrote:
->>> The -bios option is silently ignored if used in combination with -enable-kvm.
->>> The reason is that the machine starts in S-Mode, and the bios typically runs in
->>> M-Mode.
->>>
->>> Warn the user that the bios won't be loaded.
->>>
->>> Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
->>> ---
->>>   hw/riscv/virt.c | 3 +++
->>>   1 file changed, 3 insertions(+)
->>>
->>> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
->>> index 4496a15346..a4d13114ee 100644
->>> --- a/hw/riscv/virt.c
->>> +++ b/hw/riscv/virt.c
->>> @@ -1312,6 +1312,9 @@ static void virt_machine_init(MachineState *machine)
->>>        * when KVM is enabled.
->>>        */
->>>       if (kvm_enabled()) {
->>> +        if (machine->firmware && strcmp(machine->firmware, "none"))
->>> +            warn_report("BIOS is not supported in combination with KVM. "
->>> +                        "Ignoring BIOS.");
->>
->> If the usage scenario isn't supportable, then ultimately we should be
->> raising an error and immediately exiting.
->>
->> If you know of common usage that is already mistakenly passing -bios,
->> then we could start with a warning and list it as deprecated, then
->> change to an error_report 2 releases later. If we don't thing people
->> are often mistakenly passing -bios, then go straight for error_report
->> and exit.
-> 
-> That's a good point. The original thinking was that we did support
-> -bios and so we should warn the user that it's unlikely they want to
-> use it. This would still allow S mode UEFI loaders to be used (they
-> don't exist today).
-> 
-> Considering we are currently just ignoring the option I agree it's
-> better to report an error.
-> 
-> Do you mind sending a v2 Ralf?
+Applied to riscv-to-apply.next
 
-Yes, will return with another revision. Anyway, I'll choose to exit 
-immediately, as I doubt that there are any non-development users of this 
-particular feature (RISCV/Qemu + KVM) due to the lack of physical hardware.
+Alistair
 
-Thanks
-   Ralf
-
-> 
-> Alistair
-> 
->>
->>>           g_free(machine->firmware);
->>>           machine->firmware = g_strdup("none");
->>>       }
->>> --
->>> 2.32.0
->>>
->>>
->>
->> With regards,
->> Daniel
->> --
->> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
->> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
->> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
->>
+>
+> ---
+>
+> Another way to fix this would be to utilize a MMU index that cooresponds
+> to no ASID to hold these direct mappings, but given that we're not
+> currently taking advantage of ASIDs for translation performance that
+> would be a larger chunk of work.  This causes a Linux boot regression,
+> so the band-aid seems appropriate.
+>
+> I think the original version of this was also more broadly broken, in
+> that changing to ASID 0 would allow old mappings, but I might be missing
+> something there.  I seem to remember ASID 0 as having been special at
+> some point, but it's not in the ISA as it stands so maybe I'm just
+> crazy.
+>
+> This, when applied on top of Alistair's riscv-to-apply.next, boots my
+> for-next (which is very close to Linus' master).
+> ---
+>  target/riscv/csr.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 0606cd0ea8..cabef5a20b 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -1844,7 +1844,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
+>  static RISCVException write_satp(CPURISCVState *env, int csrno,
+>                                   target_ulong val)
+>  {
+> -    target_ulong vm, mask, asid;
+> +    target_ulong vm, mask;
+>
+>      if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
+>          return RISCV_EXCP_NONE;
+> @@ -1853,20 +1853,22 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
+>      if (riscv_cpu_mxl(env) == MXL_RV32) {
+>          vm = validate_vm(env, get_field(val, SATP32_MODE));
+>          mask = (val ^ env->satp) & (SATP32_MODE | SATP32_ASID | SATP32_PPN);
+> -        asid = (val ^ env->satp) & SATP32_ASID;
+>      } else {
+>          vm = validate_vm(env, get_field(val, SATP64_MODE));
+>          mask = (val ^ env->satp) & (SATP64_MODE | SATP64_ASID | SATP64_PPN);
+> -        asid = (val ^ env->satp) & SATP64_ASID;
+>      }
+>
+>      if (vm && mask) {
+>          if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
+>              return RISCV_EXCP_ILLEGAL_INST;
+>          } else {
+> -            if (asid) {
+> -                tlb_flush(env_cpu(env));
+> -            }
+> +           /*
+> +            * The ISA defines SATP.MODE=Bare as "no translation", but we still
+> +            * pass these through QEMU's TLB emulation as it improves
+> +            * performance.  Flushing the TLB on SATP writes with paging
+> +            * enabled avoids leaking those invalid cached mappings.
+> +            */
+> +            tlb_flush(env_cpu(env));
+>              env->satp = val;
+>          }
+>      }
+> --
+> 2.34.1
+>
+>
 
