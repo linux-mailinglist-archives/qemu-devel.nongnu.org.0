@@ -2,89 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB954ED530
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 10:06:59 +0200 (CEST)
-Received: from localhost ([::1]:49286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA1B4ED536
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 10:08:02 +0200 (CEST)
+Received: from localhost ([::1]:50282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZppY-0007J1-2Y
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 04:06:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54214)
+	id 1nZpqb-00084c-Bb
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 04:08:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZple-0006DX-7P
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:02:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24411)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZplb-0006Ov-5o
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:02:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648713767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BOLb+8GM/PJLEEMPFiaAgrrKpK3z4s7QwpEIPbopS8c=;
- b=fLZG98z3inHpMVAo14oQuBfL1vWJ5Eqjc25ym7nIKD/SODZiGfvLRG2l6nSLZSVd3lgTXE
- bmr6tdi/FecYfvRGDs6HGotxHH1fbwPe27s0x9XAZ/uVWybLbxkr60E3kzCz3zIcOYWt8F
- Spr7LtMjHJ+kxkI2jKwBuDviKTpISdg=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-1f-z6TXlNX-PCLW2NcMxVQ-1; Thu, 31 Mar 2022 04:02:45 -0400
-X-MC-Unique: 1f-z6TXlNX-PCLW2NcMxVQ-1
-Received: by mail-qt1-f197.google.com with SMTP id
- x10-20020ac8700a000000b002c3ef8fc44cso19472009qtm.8
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 01:02:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nZpmY-0006ZD-Uw
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:03:51 -0400
+Received: from [2607:f8b0:4864:20::b29] (port=47032
+ helo=mail-yb1-xb29.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nZpmX-0006Uv-30
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:03:50 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id e81so11889647ybf.13
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 01:03:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Q7asBfNEw0jrgB6R/dJ6xXI5wZP7y6CfrpYnlsghmqg=;
+ b=A7ZeR3j+WeEzBYg2/vJV+RvpvfAF7goxje/eci7NVCm8uTnt5LJwBYvt7mPa5M83Q4
+ 6wTz5b3YGkokSAsjck1WMns/Un/90h+LxNXCPixA4//T/Lpc/0EHqPSJBK//zbRPPFDO
+ Vxcth2IXZr83NGHAa7XALXdU0f6YL8eH5i1cc9q3krBWepk6vVl/gcUN+La46+CJwFnK
+ wX0LnPIBOBRQVgDl3p6Gn+6hJMhoGQqMoUpUs9IgGIcVZTZilC82W6J2XXRbxTdoTBal
+ 5DC232gEu2Jg+lXJJjbBKw9ItUvR+gBfNoATVcizZ0SJ4W29kwwujc5Zzyobujx9iGu0
+ wlHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BOLb+8GM/PJLEEMPFiaAgrrKpK3z4s7QwpEIPbopS8c=;
- b=v1U+AJQzfEVknga4eR9Xe41kGAQ9fAmHAvWI/b1D7rzbE9/QfHvzLGSSRpCOJKRc2H
- l5GMitfKk5dAdXCIJbIBVBYQbnjig0Llqg6Y9L97vOUUO74gSh2zKRxHNbITKpNG4ibf
- mFBYOlM1VlQ68gQT0wu/uIpUg2TNyuzYovOJhOzMBbuJG+ueGiAPtxm0zv9C5TZyiXGo
- A9s6xsIKKXp1D/g8v44q6Bfz6+c3908/7oKZsMEhbld4iv8B0g5yI+62vaeZm1gu+UfP
- ptTXQ/Un3424cnmrFRVgLQGITKothh+0oJifan7ODFbt7rXTW0IWxLcO9GlcE8da3nVn
- Fx0w==
-X-Gm-Message-State: AOAM53158L7AtE2IEctqpz7WNlC9DvLDEzGQEoXg/TbMr3NelO3buZFD
- 8Yy8qc1E3idbUiD0l3UVnVAVP4HaG+5e218kL50QF0WT8c29ngB015ok92KsTsjjiZwGHo+K2v1
- FhLI6ReQCdrL6PUIJp1pSX2xk0NI2Zto=
-X-Received: by 2002:ac8:59c7:0:b0:2e1:a0d1:fc7b with SMTP id
- f7-20020ac859c7000000b002e1a0d1fc7bmr3163168qtf.320.1648713764974; 
- Thu, 31 Mar 2022 01:02:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7NRrnepYhmIS7p/H+jc2Sa3cfLBL+hsYlpBwJ1tA8A8AxT1XR/15xIES3C5GgtNr6Pcb7QvSn4mi8yRvl1Bw=
-X-Received: by 2002:ac8:59c7:0:b0:2e1:a0d1:fc7b with SMTP id
- f7-20020ac859c7000000b002e1a0d1fc7bmr3163143qtf.320.1648713764683; Thu, 31
- Mar 2022 01:02:44 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=Q7asBfNEw0jrgB6R/dJ6xXI5wZP7y6CfrpYnlsghmqg=;
+ b=8R2Gpt41BjvMGQ/ojxlDIlSmc8ekCuimbiPRSULVyehtL55fTF4shkVJT//OjmQ1Xv
+ BIJozSUpf8VDt0NcaM63971sN9/A1wwBAvwlCBbN2NtUBl6OIYE30AOiQH3qtpsh0wUh
+ 89CkbPPMXj7Gy/IIS22O+Zv5xpgc/4IZDrY2GsWOoxAGdK7CrZcBgzqdHQgxVJlexQis
+ 8RFj+KJVc+weoKEROyLMZqD50lBLlAgeFeY6PhQwH4hD3aBY2aCaC3WzuCuHC8iGoaDf
+ 49lEZtvA1iQcDZ/6jog1+rGicOAjF6G22e72JujqHv7E6GJIhmi1yovjO9c1zxDx3VtP
+ 9CzA==
+X-Gm-Message-State: AOAM533IkZJjC/Dac0AhsFOgLDMXJ/GL85f3M3jjWQxZYstr8lUYHlQb
+ OXMUu7jmkZF1WG91TltdaPm5sJUe38NRgxkuQ7hCZA==
+X-Google-Smtp-Source: ABdhPJy30TEPBppyX91hmfZ0vvA8I/RnVEo8stR2fa7q86fhJT6sZ/h5XdSz0O5EQnHGROpDjpFT9c4Ua8baddyWjRw=
+X-Received: by 2002:a25:7443:0:b0:637:18d3:eea5 with SMTP id
+ p64-20020a257443000000b0063718d3eea5mr3158206ybc.39.1648713826989; Thu, 31
+ Mar 2022 01:03:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <1648621997-22416-1-git-send-email-si-wei.liu@oracle.com>
- <1648621997-22416-8-git-send-email-si-wei.liu@oracle.com>
- <CAJaqyWdF55nKD05C54OOvM5-mmsCG7FMixKLguPGNR4Ostqnmw@mail.gmail.com>
- <f8ace3a3-8f86-841e-c056-271528d5ba9c@oracle.com>
-In-Reply-To: <f8ace3a3-8f86-841e-c056-271528d5ba9c@oracle.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 31 Mar 2022 10:02:08 +0200
-Message-ID: <CAJaqyWfb5=bEQGiGHamwqgBAvQf2FKEr8SwgVsa1LM2N-v48oQ@mail.gmail.com>
-Subject: Re: [PATCH 7/7] vhost-vdpa: backend feature should set only once
-To: Si-Wei Liu <si-wei.liu@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220330181947.68497-1-wwcohen@gmail.com>
+ <CAFEAcA-a8BUqGGGMPexauFq-DEwSy6SQc9G9MuH=WX3P2H1a1A@mail.gmail.com>
+ <CAB26zV2zZg3Nri9i4LcnCvYkX-T33Pbn2FwU6hP_LEKiab_tVA@mail.gmail.com>
+In-Reply-To: <CAB26zV2zZg3Nri9i4LcnCvYkX-T33Pbn2FwU6hP_LEKiab_tVA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 31 Mar 2022 09:03:35 +0100
+Message-ID: <CAFEAcA8fdebk3Z9bUbHuYKL5VCFqtu9gqbHdB4i_Umuaabqr7g@mail.gmail.com>
+Subject: Re: [PATCH] 9p: move limits.h include from 9p.c to 9p.h
+To: Will Cohen <wwcohen@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b29
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,110 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Eli Cohen <eli@mellanox.com>,
- qemu-level <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Fabian Franz <fabianfranz.oss@gmail.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ hi@alyssa.is
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 31, 2022 at 1:03 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+On Wed, 30 Mar 2022 at 22:55, Will Cohen <wwcohen@gmail.com> wrote:
+>
+> On Wed, Mar 30, 2022 at 5:31 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>> Is it possible to do this with a meson.build check for whatever
+>> host property we're relying on here rather than with a
+>> "which OS is this?" ifdef ?
 >
 >
+> To confirm -- the game plan in this case would be to do a check for something along the lines of
+> config_host_data.set('CONFIG_XATTR_SIZE_MAX', cc.has_header_symbol('linux/limits.h', 'XATTR_SIZE_MAX'))
+> and using that in the corresponding ifs, right?
 >
-> On 3/30/2022 12:01 PM, Eugenio Perez Martin wrote:
-> > On Wed, Mar 30, 2022 at 8:33 AM Si-Wei Liu <si-wei.liu@oracle.com> wrot=
-e:
-> >> The vhost_vdpa_one_time_request() branch in
-> >> vhost_vdpa_set_backend_cap() incorrectly sends down
-> >> iotls on vhost_dev with non-zero index. This may
-> >> end up with multiple VHOST_SET_BACKEND_FEATURES
-> >> ioctl calls sent down on the vhost-vdpa fd that is
-> >> shared between all these vhost_dev's.
-> >>
-> > Not only that. This means that qemu thinks the device supports iotlb
-> > batching as long as the device does not have cvq. If vdpa does not
-> > support batching, it will return an error later with no possibility of
-> > doing it ok.
-> I think the implicit assumption here is that the caller should back off
-> to where it was if it comes to error i.e. once the first
-> vhost_dev_set_features call gets an error, vhost_dev_start() will fail
-> straight.
+> That makes sense -- if there's no objections, I'll go this route for v2, which I can submit tomorrow.
 
-Sorry, I don't follow you here, and maybe my message was not clear enough.
+Yeah, something like that.
 
-What I meant is that your patch fixes another problem not stated in
-the message: it is not possible to initialize a net vdpa device that
-does not have cvq and does not support iotlb batches without it. Qemu
-will assume that the device supports batching, so the write of
-VHOST_IOTLB_BATCH_BEGIN will fail. I didn't test what happens next but
-it probably cannot continue.
+Looking a bit closer at the code it looks like the handling of
+XATTR_SIZE_MAX is kind of odd: on Linux we use this kernel-provided
+value, whatever it is, on macos we use a hardcoded 64K, and on
+any other host we fail to compile. The comment claims we only
+need to impose a limit to avoid doing an overly large malloc,
+but if that's the case this shouldn't be OS-specific. I suspect
+the problem here is we're trying to impose a non-existent fixed
+maximum size for something where the API on the host just doesn't
+guarantee one.
 
-In that regard, this commit needs to be marked as "Fixes: ...", either
-("a5bd058 vhost-vdpa: batch updating IOTLB mappings") or maybe better
-("4d191cf vhost-vdpa: classify one time request"). We have a
-regression if we introduce both, or the second one and the support of
-any other backend feature.
+But that would be a 7.1 thing to look at improving.
 
-> Noted that the VHOST_SET_BACKEND_FEATURES ioctl is not per-vq
-> and it doesn't even need to. There seems to me no possibility for it to
-> fail in a way as thought here. The capture is that IOTLB batching is at
-> least a vdpa device level backend feature, if not per-kernel. Same as
-> IOTLB_MSG_V2.
->
-
-At this moment it is per-kernel, yes. With your patch there is no need
-to fail because of the lack of _F_IOTLB_BATCH, the code should handle
-this case ok.
-
-But if VHOST_GET_BACKEND_FEATURES returns no support for
-VHOST_BACKEND_F_IOTLB_MSG_V2, the qemu code will happily send v2
-messages anyway. This has nothing to do with the patch, I'm just
-noting it here.
-
-In that case, maybe it is better to return something like -ENOTSUP?
-
-Thanks!
-
-> -Siwei
->
-> >   Some open questions:
-> >
-> > Should we make the vdpa driver return error as long as a feature is
-> > used but not set by qemu, or let it as undefined? I guess we have to
-> > keep the batching at least without checking so the kernel supports old
-> > versions of qemu.
-> >
-> > On the other hand, should we return an error if IOTLB_MSG_V2 is not
-> > supported here? We're basically assuming it in other functions.
-> >
-> >> To fix it, send down ioctl only once via the first
-> >> vhost_dev with index 0. Toggle the polarity of the
-> >> vhost_vdpa_one_time_request() test would do the trick.
-> >>
-> >> Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
-> > Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >
-> >> ---
-> >>   hw/virtio/vhost-vdpa.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> >> index c5ed7a3..27ea706 100644
-> >> --- a/hw/virtio/vhost-vdpa.c
-> >> +++ b/hw/virtio/vhost-vdpa.c
-> >> @@ -665,7 +665,7 @@ static int vhost_vdpa_set_backend_cap(struct vhost=
-_dev *dev)
-> >>
-> >>       features &=3D f;
-> >>
-> >> -    if (vhost_vdpa_one_time_request(dev)) {
-> >> +    if (!vhost_vdpa_one_time_request(dev)) {
-> >>           r =3D vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, &feat=
-ures);
-> >>           if (r) {
-> >>               return -EFAULT;
-> >> --
-> >> 1.8.3.1
-> >>
->
-
+-- PMM
 
