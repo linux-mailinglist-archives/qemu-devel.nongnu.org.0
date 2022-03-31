@@ -2,88 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27904EE2E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 22:48:34 +0200 (CEST)
-Received: from localhost ([::1]:56664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847B74EE2F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 22:54:53 +0200 (CEST)
+Received: from localhost ([::1]:32886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na1ib-0002YE-RH
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 16:48:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49328)
+	id 1na1oh-00068a-Sv
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 16:54:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1na1hm-0001nu-P3
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:47:42 -0400
-Received: from [2607:f8b0:4864:20::629] (port=44921
- helo=mail-pl1-x629.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1na1hl-0008Ag-CD
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:47:42 -0400
-Received: by mail-pl1-x629.google.com with SMTP id j8so648535pll.11
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 13:47:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=i74ypiR1Flls0DN4CTK6slz0XHBVfS+S/DWoJU+m5rE=;
- b=F2T5HH+ttwqVWiUAPAPUM94rVskwnRJTUyy6JSQBBoMiPsOfjDrhodue0CNC/mlJRH
- ksiEyqOdo3emrJdJhFzuk4Dk3ypCLJhV6jYJvxtpiHHCaASB2hb0OrCt3KhQ3lLDPAeF
- /xSJ7crpWykIRV0XZrdPkenXOoXY/1W3Cs5KJcXQwHstTySHuIbbYzhdDXNDDaJfc+UM
- IfCBxYRiRWLKUaDEzpp4ZEtEm7Zd/oPpztbxDhGeHRen001wEBZnuRoja/Y8gv/CnXyn
- juIhi8oQliGE09qczUnRU0hZ/fl80S0du0ZKTz9EMWDY/9N4WIadSz+BTrESed/c8Mm0
- 78ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=i74ypiR1Flls0DN4CTK6slz0XHBVfS+S/DWoJU+m5rE=;
- b=5kP3RREWThIdF5V2yc0YXecI/33EXAXIp59Us9i0KM7M+UgkJMPG0RErYPU5fTUXXY
- cM3PxsR/M4Da+wqBXdSU22enWLGZ/V6NEVpUGYElIJHP2k98Eq8gY9dnOUxe34ODWw/i
- ZacgTc9x5QpkJMJ0kVUwxMrsomF2WY6PJUY0DOjviTtLGsspLGZXNTFsvBGjkv/oLWVA
- ucPrh1hC+af3YiB1tOjDLqSE52eW71ZgScCNcLJY0HwWaox2wXGXpurlCW14bvDr912U
- fdPbilkqe/slhnfSoCgqz+yGKvGSc/pslPGOsAiHGeUyF4fjopsu9c7ynfQFIl6FKaYO
- eYYQ==
-X-Gm-Message-State: AOAM532FjNbh6SbLY2p9i0ig25XyHKGRrUVXIquJ8HZXtf7obqHFeZvc
- 3jZnL7zBJGGv4wLxh0Vnug0=
-X-Google-Smtp-Source: ABdhPJyb7gyeIfbKWfFYT5dXB1Qq8/Zq6ohHA3bohkRkUcsY1RngTkgEViKsuuQvJm5s1jqFXFuiBg==
-X-Received: by 2002:a17:902:bd95:b0:14f:40ab:270e with SMTP id
- q21-20020a170902bd9500b0014f40ab270emr6967819pls.101.1648759660078; 
- Thu, 31 Mar 2022 13:47:40 -0700 (PDT)
-Received: from ?IPV6:2600:70ff:f07f:0:f49c:562:b5cb:b2b5?
- ([2600:70ff:f07f:0:f49c:562:b5cb:b2b5])
- by smtp.gmail.com with ESMTPSA id
- a16-20020a17090a6d9000b001c9c3e2a177sm227629pjk.27.2022.03.31.13.47.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 13:47:39 -0700 (PDT)
-Message-ID: <63d4c9f4-3e7d-e90d-5007-cf665cb88d4c@gmail.com>
-Date: Thu, 31 Mar 2022 22:47:35 +0200
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1na1nr-0005Rd-4K
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:53:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29844)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1na1nn-0000zD-P5
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:53:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648760034;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0SCqFw4/YACwba+Cwk6eebpnTo/ShK090ltbcLGug5o=;
+ b=YRDAvRS9SvIiiX8tfz7ZtpzTcCfyOuNncKKLMCnhhSW8vxP77u0seaRVrvNpHDT6bgFPwc
+ djZFv9BXVEpE9dQaOCfCumdA7XS8SDrWoEgoX7qujbpuviPcQ8syHVBwVjGbILFk5O2bg+
+ QfhZKj8DEwOv1VsRX2iXwb99k1nWQTI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-226-NBJqPueVPBK0kVPwoCa1Pw-1; Thu, 31 Mar 2022 16:53:51 -0400
+X-MC-Unique: NBJqPueVPBK0kVPwoCa1Pw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C294980281D;
+ Thu, 31 Mar 2022 20:53:49 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2440F53C9;
+ Thu, 31 Mar 2022 20:53:41 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qga: replace usleep() with g_usleep()
+Date: Fri,  1 Apr 2022 00:53:39 +0400
+Message-Id: <20220331205339.2048330-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 3/3] i386: firmware parsing and sev setup for -bios loaded
- firmware
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20220331083549.749566-1-kraxel@redhat.com>
- <20220331083549.749566-4-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220331083549.749566-4-kraxel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,22 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/3/22 10:35, Gerd Hoffmann wrote:
-> Don't register firmware as rom, not needed (see comment).
-> Add x86_firmware_configure() call for proper sev initialization.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Tested-by: Xiaoyao Li <xiaoyao.li@intel.com>
-> ---
->   hw/i386/x86.c | 25 +++++++++++++++++++------
->   1 file changed, 19 insertions(+), 6 deletions(-)
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The latter simply requires glib.h, while the former is not in the
+Windows API (but provided by mingw header & CRT)
+
+Also simplify the expression for 1/10s.
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ qga/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/qga/main.c b/qga/main.c
+index 1deb0ee2fbfe..6a5be23225d0 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -610,7 +610,7 @@ static gboolean channel_event_cb(GIOCondition condition, gpointer data)
+          * host-side chardev. sleep a bit to mitigate this
+          */
+         if (s->virtio) {
+-            usleep(100 * 1000);
++            g_usleep(G_USEC_PER_SEC / 10);
+         }
+         return true;
+     default:
+-- 
+2.35.1.693.g805e0a68082a
+
 
