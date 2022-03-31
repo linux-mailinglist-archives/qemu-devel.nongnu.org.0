@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD944EDA95
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 15:33:19 +0200 (CEST)
-Received: from localhost ([::1]:49292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA734EDA96
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 15:33:39 +0200 (CEST)
+Received: from localhost ([::1]:50116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZuvO-0005LJ-Hr
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 09:33:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46414)
+	id 1nZuvi-0005sT-Ah
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 09:33:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nZusG-0003DY-Gv
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:30:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24296)
+ id 1nZut5-0003mA-JE
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:30:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nZusD-0000cl-V9
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:30:03 -0400
+ id 1nZut2-0000y0-2B
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:30:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648733394;
+ s=mimecast20190719; t=1648733450;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=/jkP5bUzD0vtdkf3GzOVSsmFbVPINtlxQMvbGHDPiQ0=;
- b=fHAxWQVfSjC46b+skeKsHJ7UrmLCdqn0tJ4xLWjpsqgd3Buj3yInzxsI8GQdxI/z2mbXbC
- 2QKv2TxJltx29BXxixY0TffqEQW96Z7B158A9VO0KNADhflwQoyKlS3H3/Y3BrZy+mXOJZ
- xjPT1XKsU6fncTWMaPVRYpcR9XxWD4U=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sHuXqnrBn0Zz5nK22Aitm8Rx6Ff/3GZimCmBi9NQ63c=;
+ b=GULS15hx1JbZoycfAPvL3Xzj+QI94bXsPISSfhDA488gZIGCQO08R8DsUs/DLXdvHupwbv
+ elWjPeOeUBAJTbCOhtWMWrmXiBDGlzgr5cectw64T/47+RPCLYh5WAQLmEv8lv4cgK7OND
+ sD7XVrPKbQnps+6T38AMbUX+Kqjl7DQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-88-0jeZn86pOZCvqoz_L9mkdg-1; Thu, 31 Mar 2022 09:29:51 -0400
-X-MC-Unique: 0jeZn86pOZCvqoz_L9mkdg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-479-JyPxbRoAPm2vso5z2S7I8A-1; Thu, 31 Mar 2022 09:30:46 -0400
+X-MC-Unique: JyPxbRoAPm2vso5z2S7I8A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47A681C00B8F;
- Thu, 31 Mar 2022 13:29:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 63413185A7A4;
+ Thu, 31 Mar 2022 13:30:45 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 313B55B6D04;
- Thu, 31 Mar 2022 13:29:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4AD50400E132;
+ Thu, 31 Mar 2022 13:30:45 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: paolo.bonzini@gmail.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 03/15] qapi: fix example of BLOCK_IMAGE_CORRUPTED event
-Date: Thu, 31 Mar 2022 09:29:51 -0400
-Message-Id: <20220331132951.595640-1-pbonzini@redhat.com>
+Subject: [PULL 03/15] qapi: fix example of BLOCK_IMAGE_CORRUPTED event 2
+Date: Thu, 31 Mar 2022 09:30:44 -0400
+Message-Id: <20220331133044.595900-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: application/octet-stream; x-default=true
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
 X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, BODY_EMPTY=1.31,
  DKIMWL_WL_HIGH=-0.082, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -84,7 +84,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Markus Armbruster <armbru@redhat.com>
 
-From: Victor Toso <victortoso@redhat.com>
+>From: Victor Toso <victortoso@redhat.com>
 
 Example output lacks mandatory member @fatal.  Provide it.
 
