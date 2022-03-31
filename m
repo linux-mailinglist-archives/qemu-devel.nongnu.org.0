@@ -2,89 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8259B4EE409
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 00:29:46 +0200 (CEST)
-Received: from localhost ([::1]:35970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A269F4EE4EA
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 01:50:14 +0200 (CEST)
+Received: from localhost ([::1]:55126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na3IX-0004hl-LQ
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 18:29:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38912)
+	id 1na4YO-0006vA-Or
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 19:50:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1na3Gf-0002zA-Sq
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 18:27:49 -0400
-Received: from [2001:4860:4864:20::2c] (port=33210
- helo=mail-oa1-x2c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1na3Gd-0002th-TV
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 18:27:49 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-de3eda6b5dso884192fac.0
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 15:27:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=LVxlZ4KUsPaFaxSO6OB7sdsS/+p/hhDDm4t7MuUYvoQ=;
- b=XL7jJbTlilbPA3i5mU+HP4V4vxM276hrPth7Sf3MH9qskK3OS8BW+jQ1jC7OBkwixv
- NsslEi7kRUWgVZelBOuikFpBHGvGVbzo6kvR/rj5g0MgE9VKqnVFzdRxWFkcnjENkuNh
- 0JgsPu3JMnQ12U2e+vRUjsKMVnLB6RHWOamW8YLFo33r3cFB60xupT47aIC1qbP3f0jD
- lwPBMtIVDMPNeYL+oQOvbr9WYm0Y7rFMLI/DvxPmyfWUB3uVONaqvmzSzx5QuK43782F
- G9YG85UL9Dl6UswCNPeayr99HHwTbp2rOrASrYhZiK2C7aeGgqwd9KqQUQOW4pEx86EY
- xyUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LVxlZ4KUsPaFaxSO6OB7sdsS/+p/hhDDm4t7MuUYvoQ=;
- b=OG1O1NJKez6i//MZCzbYOYXZxFAO/q9pqd3NkWmavQCyo6qHctifX0bnVhjbK8dpnN
- ZSc0OF3KrC/4GtM80DeMeLFxGwAgYrOUX/8AU0GI105NE6bxneVVHqdoUxjpcpvUybNW
- 9NRlr/iD62gEBsmm2aVw3VmJmfeoVrQPmTkoPpJrDKxi5tLv7sWJdEwjoXypJvd1FaeG
- NJUyMEQs1UnIZPPKtatWQnwILdUuyXLB3F+JDyjU4TBefwQ3FPdhT7kcBM2aIPhGvXvU
- +7cUE5ja6UkrD/an1/BbuvBGxAYQ2mWxDIxuqg3ejNUwdJKqe0k6QiCEakbUnhMgO66T
- 4JgA==
-X-Gm-Message-State: AOAM530lGCz1eMpgORM769Q/U/2h4zSO6rYPFVuMx6kp45QmPrc9s5u8
- XI0Et50KTN/A2TaP34oGsJE=
-X-Google-Smtp-Source: ABdhPJw67hueoKa6SnFEa70JAnBO6qVsLpl+Y1H0AneNGH4XmWZo6cZz4nl5l1ibK59HsR5La3yXcg==
-X-Received: by 2002:a05:6870:42d2:b0:dd:a466:a201 with SMTP id
- z18-20020a05687042d200b000dda466a201mr3807124oah.269.1648765666225; 
- Thu, 31 Mar 2022 15:27:46 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c6:abe8:ed:2c78:ab0c:7946?
- ([2804:431:c7c6:abe8:ed:2c78:ab0c:7946])
- by smtp.gmail.com with ESMTPSA id
- h83-20020aca3a56000000b002ece47dce52sm304004oia.26.2022.03.31.15.27.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 15:27:45 -0700 (PDT)
-Message-ID: <126b1d8d-2170-d6bc-9d36-f8aa3a67ab63@gmail.com>
-Date: Thu, 31 Mar 2022 19:27:43 -0300
+ (Exim 4.90_1)
+ (envelope-from <prvs=08287e7cc=alistair.francis@opensource.wdc.com>)
+ id 1na4TO-0004ek-7l
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 19:45:02 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:58851)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=08287e7cc=alistair.francis@opensource.wdc.com>)
+ id 1na4TL-00007b-Do
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 19:45:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1648770300; x=1680306300;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=wB01kId/b/ABjD+PbCWppd9epXmm+Jd6vwSrxp1Zf1E=;
+ b=I10m9a5wMM2/i46SYl0jWphe1xkv1vppF4EBJKKZQcYzUGqx4ee2N5eY
+ ahpG58ZGywYfNvYTiR4zYhEE2UUveP8SzTceMrDGQPbg5WTR/zE55wcJr
+ sdd2GeIuLVU43gXSoPumHxUpd8vVqz+ZNeQtR/+BqFYS1X0qGcvj5si7w
+ Fs39A7Vpx4LcnBsjCzQQ6cnOiU99lhQVs2Eph3Q3B91Ma3q5udS49T5Lv
+ bvnvPQRxucLL0LwuXPtUjmxSJKQFT8WmaIyaqpLlOMmpGZ2ewgc5n+4aY
+ NFDnWH8AJjZSQnK/6WxSbYXQrd9tkbdY+f+X8dZ/aOSj0utZf2c8XOS87 w==;
+X-IronPort-AV: E=Sophos;i="5.90,225,1643644800"; d="scan'208";a="197691425"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Apr 2022 07:44:56 +0800
+IronPort-SDR: AsIrDuoEbZfIMxdVIs3dlxB2oK5UPZMRU+kKR3lVJWhaChTqLMw5QzaFykre5nq72zwrWnoT8Y
+ qyro6vwq5cw3k8PM2y31o2qlwYPRG8B4X6DDyeaUgM3urZjHwDGvcyiyBXkWI1c3/bpaVNeDmI
+ 05WZnCQ+1Y7V01xY1bJohM6joG6mV4ePC0GUbrdPl1n7TPsIe72hqmoitOYM+UQ3DcPi42j5yz
+ 6P++R2/bsI/JOpT+G2yMy1Q1uelKRWDw9RPRcxg3Q3MGFib+B72w8bUeTLcp74s4/qAnNco2Mi
+ JjeeEh7KRaZh38/4kjQRNufa
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 31 Mar 2022 16:16:35 -0700
+IronPort-SDR: Za/xxNf1ClRfIr5QOwyxhG+NrqvqmxfYb+2DWDiUKHyXGvpCcqXx+DdAZRc+6JcaN45sOTr8l4
+ jwf7UlAV0qFrdcbpWyuL8cxtappBLJPmh2LJrg1IelVpOmHazbk6YJyYgfNahVylADDgauak3v
+ dKXr5Tx1egB+QAmiC7p2Pcg1/lwH/stiTG2Wfh4ukKSsXQpv88sLmeqTG8VlDSsnTzsaw1mteZ
+ 0FU3SZ6jJ4s3L+l+s5XOOT6LeIE6+flo0oD2RfevSznCOOKdLgfDR7ObTYyfgLcMmQMmIRH9AM
+ vyE=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 31 Mar 2022 16:44:56 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KV0K32CQcz1SHwl
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 16:44:55 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1648770294; x=1651362295; bh=wB01kId/b/ABjD+PbCWppd9epXmm+Jd6
+ vwSrxp1Zf1E=; b=QvH6A1LWxCOOVZT/Dm67Ce0y+iyX0DVHfdUKFIKs1mexNQM8
+ To0YyabBL/rdErNZizcUDPQjWAfJhenB0zW3xUc4lxdMOJx4gBWsfzbuP0zK+gUd
+ xAn+Ccq0UyDinTRFSEY7lULCHeql+5qJFPtuawzBd+uGPqc4rKp54+YbZvDCQeV8
+ oxb9vJY2OdVvBDvvOIazHgnxsK9nDehrc+LI4TtMnTwMBQJo7BYodqH5ZqWrg8kf
+ MSQA04h0cy6GCNAbVssUON5c2axo/mQaOBfIrmeLXiJvAhJQZ3KKct/a8HNvyQPs
+ e55TXHywBFdem8AUBDF8pyLw+DhHyRnnCJaC0A==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id qk_l3DvbBPMM for <qemu-devel@nongnu.org>;
+ Thu, 31 Mar 2022 16:44:54 -0700 (PDT)
+Received: from toolbox.alistair23.me (unknown [10.225.165.114])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KV0K02G40z1Rvlx;
+ Thu, 31 Mar 2022 16:44:51 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 0/2] riscv-to-apply queue
+Date: Fri,  1 Apr 2022 09:44:39 +1000
+Message-Id: <20220331234441.15920-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: use of uninitialized variable involving visit_type_uint32() and
- friends
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA-wExOSiuJ5F6nBwWXcWW2c1rqHCfT=JNrdWQ4baqu3Og@mail.gmail.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <CAFEAcA-wExOSiuJ5F6nBwWXcWW2c1rqHCfT=JNrdWQ4baqu3Og@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2c
- (failed)
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=08287e7cc=alistair.francis@opensource.wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,87 +111,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Alistair Francis <alistair.francis@wdc.com>
 
+The following changes since commit d5341e09135b871199073572f53bc11ae9b448=
+97:
 
-On 3/31/22 14:35, Peter Maydell wrote:
-> Coverity warns about use of uninitialized data in what seems
-> to be a common pattern of use of visit_type_uint32() and similar
-> functions. Here's an example from target/arm/cpu64.c:
-> 
-> static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *name,
->                                     void *opaque, Error **errp)
-> {
->      ARMCPU *cpu = ARM_CPU(obj);
->      uint32_t max_vq;
-> 
->      if (!visit_type_uint32(v, name, &max_vq, errp)) {
->          return;
->      }
-> 
->      [code that does something with max_vq here]
-> }
-> 
-> This doesn't initialize max_vq, on the apparent assumption
-> that visit_type_uint32() will do so. But that function is:
-> 
-> 
-> bool visit_type_uint32(Visitor *v, const char *name, uint32_t *obj,
->                         Error **errp)
-> {
->      uint64_t value;
->      bool ok;
-> 
->      trace_visit_type_uint32(v, name, obj);
->      value = *obj;
->      ok = visit_type_uintN(v, &value, name, UINT32_MAX, "uint32_t", errp);
->      *obj = value;
->      return ok;
-> }
-> 
-> So it reads the value of *obj (the uninitialized max_vq).
-> 
-> What's the right way to write this kind of object-property
-> setter function? Just pre-initialize the variable to 0?
+  Merge tag 'pull-tcg-20220331' of https://gitlab.com/rth7680/qemu into s=
+taging (2022-03-31 18:36:08 +0100)
 
+are available in the Git repository at:
 
-This reminds me of Valgrind ppc-related warnings I sent patches yesterday. In a
-code like this:
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220401
 
-(target/ppc/kvm.c)
+for you to fetch changes up to 8ff8ac63298611c8373b294ec936475b1a33f63f:
 
-  int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
-  {
-     CPUState *cs = CPU(cpu);
-     uint64_t lpcr;
+  target/riscv: rvv: Add missing early exit condition for whole register =
+load/store (2022-04-01 08:40:55 +1000)
 
-     kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
-     /* Do we need to modify the LPCR? */
-     if (!!(lpcr & LPCR_LD) != !!enable) {
+----------------------------------------------------------------
+Sixth RISC-V PR for QEMU 7.0
 
-Valgrind complains of "Conditional jump or move depends on uninitialised value(s)"
-because we're using 'lpcr' in the conditional and 'lpcr' isn't being initialized.
-Valgrind doesn't seem to care that kvm_get_one_reg() might be writing 'lpcr'.
-The fix I proposed consists of initializing the vars in these cases.
+This is a last minute RISC-V PR for 7.0.
 
+It includes a fix to avoid leaking no translation TLB entries. This
+incorrectly cached uncachable baremetal entries. This would break Linux
+boot while single stepping. As the fix is pretty straight forward (flush
+the cache more often) it's being pulled in for 7.0.
 
-My suggestion in this case is to initialize 'max_vq' as well. Apparently these static
-code analysis tools don't handle the "var being initialized by being passed as reference
-to another function" scenarios.
+At the same time I have included a RISC-V vector extension fixup patch.
 
+----------------------------------------------------------------
+Palmer Dabbelt (1):
+      target/riscv: Avoid leaking "no translation" TLB entries
 
-Thanks,
+Yueh-Ting (eop) Chen (1):
+      target/riscv: rvv: Add missing early exit condition for whole regis=
+ter load/store
 
-
-Daniel
-
-
-
-> 
-> thanks
-> -- PMM
-> 
+ target/riscv/csr.c                      | 14 ++++++++------
+ target/riscv/insn_trans/trans_rvv.c.inc |  5 +++++
+ 2 files changed, 13 insertions(+), 6 deletions(-)
 
