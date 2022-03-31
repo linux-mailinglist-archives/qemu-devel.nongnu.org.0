@@ -2,52 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AE44ED153
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 03:31:47 +0200 (CEST)
-Received: from localhost ([::1]:39054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF804ED157
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 03:33:45 +0200 (CEST)
+Received: from localhost ([::1]:42490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZjf8-0008Ki-Q5
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 21:31:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47402)
+	id 1nZjh2-0002QD-9x
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 21:33:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nZjZr-0004Vc-7B; Wed, 30 Mar 2022 21:26:19 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:34805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nZjZn-0004Bg-Dk; Wed, 30 Mar 2022 21:26:18 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4KTQcH3nptz4xXt; Thu, 31 Mar 2022 12:26:07 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1648689967;
- bh=x/YLJECqI6mr1gqWDCwThfQ8bHYUhQaP52m7nBvFEqo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YMfSP3TQ5OXQh/mFG+4z8VPkwYYkFODbgzUcUgx5mvEGtgNB5CUEmBJEhqtjMWmTC
- ZRHLa/L03hlZDo9AZToAtVv38MrgxKA0nvaK7DhbOw+xoZYnzNernRAwCm5WMD13vt
- Uu6F2ZMW6PMgY3zdDVVqSvCFIFu0azMOlUVCC6GE=
-Date: Thu, 31 Mar 2022 12:25:29 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 2/4] target/ppc: init 'lpcr' in
- kvmppc_enable_cap_large_decr()
-Message-ID: <YkUDCdUsjjmzFgJr@yekko>
-References: <20220331001717.616938-1-danielhb413@gmail.com>
- <20220331001717.616938-3-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1nZjd8-0008Mg-HX
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 21:29:42 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:42902 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nZjd6-0004cN-23
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 21:29:42 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axusz_A0ViDZETAA--.21960S3; 
+ Thu, 31 Mar 2022 09:29:36 +0800 (CST)
+Subject: Re: [RFC PATCH v7 11/29] target/loongarch: Add LoongArch interrupt
+ and exception handle
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
+ <20220328125749.2918087-12-yangxiaojuan@loongson.cn>
+ <f2a59dac-34a6-b26b-31d5-59cb4dff75b4@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <cb5a2092-41d2-4d31-ab79-f79aea66cba1@loongson.cn>
+Date: Thu, 31 Mar 2022 09:29:35 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="V/i1Dxzu3tWGKMu1"
-Content-Disposition: inline
-In-Reply-To: <20220331001717.616938-3-danielhb413@gmail.com>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <f2a59dac-34a6-b26b-31d5-59cb4dff75b4@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9Axusz_A0ViDZETAA--.21960S3
+X-Coremail-Antispam: 1UD129KBjvJXoWrZrW5tr17uw1fWr1kGF1UAwb_yoW8JF13pr
+ 1xCrW5GrW8G397Gr17Jw1UJr98Jr48Jw17XF1ft3Z8AF15Jr10qr10q3yqgFyUJw4xGF1j
+ qF1rAw15uFyDX3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvv14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
+ 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
+ 67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
+ C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
+ wI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
+ v20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6Fyj6rWUJwCI42IY6I8E
+ 87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
+ IFyTuYvjfUYDGYDUUUU
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,96 +75,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
+Cc: mark.cave-ayland@ilande.co.uk, Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---V/i1Dxzu3tWGKMu1
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2022/3/29 上午4:19, Richard Henderson wrote:
+> On 3/28/22 06:57, Xiaojuan Yang wrote:
+>> 1.This patch Add loongarch interrupt and exception handle.
+>> 2.Rename the user excp to the exccode from the csr defintions.
+>>
+>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>> ---
+>>   linux-user/loongarch64/cpu_loop.c             |   8 +-
+>>   target/loongarch/cpu.c                        | 260 +++++++++++++++++-
+>>   target/loongarch/cpu.h                        |  11 -
+>>   target/loongarch/fpu_helper.c                 |   2 +-
+>>   target/loongarch/insn_trans/trans_extra.c.inc |   4 +-
+>>   target/loongarch/translate.c                  |   2 +-
+>>   6 files changed, 261 insertions(+), 26 deletions(-)
+>
+> To repeat my response to the cover letter, the changes in this patch 
+> should be folded back into the original patches defining the base 
+> architecture.
+>
+Agreed,  I think we can use this patch in new series,  but we need 
+remove '2. Rename the user excp to the excode from the csr defintions'.
 
-On Wed, Mar 30, 2022 at 09:17:15PM -0300, Daniel Henrique Barboza wrote:
-> 'lpcr' is used as an input of kvm_get_one_reg(). Valgrind doesn't
-> understand that and it returns warnings as such for this function:
->=20
-> =3D=3D55240=3D=3D Thread 1:
-> =3D=3D55240=3D=3D Conditional jump or move depends on uninitialised value=
-(s)
-> =3D=3D55240=3D=3D    at 0xB011E4: kvmppc_enable_cap_large_decr (kvm.c:254=
-6)
-> =3D=3D55240=3D=3D    by 0x92F28F: cap_large_decr_cpu_apply (spapr_caps.c:=
-523)
-> =3D=3D55240=3D=3D    by 0x930C37: spapr_caps_cpu_apply (spapr_caps.c:921)
-> =3D=3D55240=3D=3D    by 0x955D3B: spapr_reset_vcpu (spapr_cpu_core.c:73)
-> =3D=3D55240=3D=3D    by 0x95612B: spapr_cpu_core_reset (spapr_cpu_core.c:=
-209)
-> =3D=3D55240=3D=3D    by 0x95619B: spapr_cpu_core_reset_handler (spapr_cpu=
-_core.c:218)
-> =3D=3D55240=3D=3D    by 0xD3605F: qemu_devices_reset (reset.c:69)
-> =3D=3D55240=3D=3D    by 0x92112B: spapr_machine_reset (spapr.c:1641)
-> =3D=3D55240=3D=3D    by 0x4FBD63: qemu_system_reset (runstate.c:444)
-> =3D=3D55240=3D=3D    by 0x62812B: qdev_machine_creation_done (machine.c:1=
-247)
-> =3D=3D55240=3D=3D    by 0x5064C3: qemu_machine_creation_done (vl.c:2725)
-> =3D=3D55240=3D=3D    by 0x5065DF: qmp_x_exit_preconfig (vl.c:2748)
-> =3D=3D55240=3D=3D  Uninitialised value was created by a stack allocation
-> =3D=3D55240=3D=3D    at 0xB01158: kvmppc_enable_cap_large_decr (kvm.c:254=
-0)
->=20
-> Init 'lpcr' to avoid this warning.
+Thanks.
+Xiaojuan
+>
+> r~
 
-Hmm... this is seeming a bit like whack-a-mole.  Could we instead use
-one of the valgrind hinting mechanisms to inform it that
-kvm_get_one_reg() writes the variable at *target?
-
-> Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  target/ppc/kvm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 858866ecd4..42814e1b97 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -2538,7 +2538,7 @@ int kvmppc_get_cap_large_decr(void)
->  int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
->  {
->      CPUState *cs =3D CPU(cpu);
-> -    uint64_t lpcr;
-> +    uint64_t lpcr =3D 0;
-> =20
->      kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
->      /* Do we need to modify the LPCR? */
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---V/i1Dxzu3tWGKMu1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmJFAwIACgkQgypY4gEw
-YSLdnA//QiZvZEQk9uty23AgdZq5VHRD4aoeEZ1otdVsyHy94WMf6mTxqKp6wf3z
-MH9aLGG/Z6+gFwZwQnBA5bdOfIy0UWS2Spz2wDIw3sGnoFJyJXTOdu8M42Bmq0NR
-RugV2gzkFyXpIfVr/iR4ylhnv/h2z54e3dADpr/ITnW/UYGxf8iQra7Gaq2DE++W
-QMHRaUNfV/0mFqqaC6Ag/3B+G+DFupR7b8cm8CxLa9LM/m7xCXrhNOeVepxdXLsq
-VQ8qQxGkOtVebShdJzQpN6RenEI/LfACsyK5uyh2aoCRn5xjM+J53EoZruU7M8o7
-VCYBtPHwfPm7mk2SJjQE7voMfVH58nsoD3eomZB5kfo1mzzFAANktazE4nuroeGD
-Gmwe/EyhiOloGJeYXE5k7KA4xN1+KvLfRlCkESVVYzGD6W5/Txm4YW/aj6EoQc8E
-hzc5h22UCFZWi0sbw2HC7DnadB+J6r7sxTvFJaqWnYD7qnCaZ9J6H2o3J9BRqpru
-MvvjKbMEVGSH0Odec7m60N7OmrVBoJN+DoLGv+TYJiO4skf1uWNMoAZBSk9j4rSU
-3rsfWaTomamU0s8iC0D6nGQCnnBC+fOMGogIGpCI+3im/t4ZYkltkjDvFEsdYbVw
-gL8/T2M9FeIg+emWeyiNvv3CL5eaplkz5VruH8eB45lr+7yhAgM=
-=CD2N
------END PGP SIGNATURE-----
-
---V/i1Dxzu3tWGKMu1--
 
