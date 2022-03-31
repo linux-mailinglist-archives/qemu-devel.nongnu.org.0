@@ -2,57 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C3B4EDFAD
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 19:31:27 +0200 (CEST)
-Received: from localhost ([::1]:36936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781654EDFAA
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 19:31:11 +0200 (CEST)
+Received: from localhost ([::1]:35868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZydq-000103-MG
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 13:31:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34114)
+	id 1nZyda-0000Eo-36
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 13:31:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nZybc-00075c-07
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:29:09 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:34254
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nZybY-0007MP-8z
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:29:07 -0400
-HMM_SOURCE_IP: 172.18.0.48:40776.1162073760
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-125.69.43.160 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id AB51B280029;
- Fri,  1 Apr 2022 01:28:51 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id b5fde231e5274e9282b230cf486c0c11 for
- peterx@redhat.com; Fri, 01 Apr 2022 01:28:54 CST
-X-Transaction-ID: b5fde231e5274e9282b230cf486c0c11
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-Message-ID: <fe0dd8ac-af55-ff9b-d198-835310aa9fce@chinatelecom.cn>
-Date: Fri, 1 Apr 2022 01:28:48 +0800
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZybl-0007En-PT
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:29:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28547)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZybi-0007OD-4H
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:29:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648747752;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ETDcC60q0vpwy3D5uyi2yuHnOGLu+/ObquldxvWQ3YY=;
+ b=DcNcGXY/tKWrMo4Y+Rx6h1+GpIcwByA98WGRiX2NNNZxpNtZ6iBtwksMP4haOCg2x3Iz0a
+ dthIVtJxuLnNIJsA54koWbhIM/XmAbNpmc9aPVQ7ZYAZmURhSVTxm3MWmDb3yhONun+R78
+ 8iBqBsCqzmOzl8Ypz9nMBXeQSwwfcqA=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-648-nlD5l7utP-OdHYhxly7liA-1; Thu, 31 Mar 2022 13:29:11 -0400
+X-MC-Unique: nlD5l7utP-OdHYhxly7liA-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ 207-20020a3706d8000000b0067b322bef9eso81649qkg.3
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 10:29:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ETDcC60q0vpwy3D5uyi2yuHnOGLu+/ObquldxvWQ3YY=;
+ b=p70mT5HrBVbxA1hVpNHK5CCskNAaAb7bwW8YapIIuOcLs5q4/Ges8ZQ5o4k2nzmELg
+ O2o7jqFBNSn+e1n88djjtfPFEY1efPANASpDHKHNuNOdtpQHjibHJw9+tAoqRLWZNXei
+ VdAFdu1Ffc3tCbdG1YY/RP/MoAz9PoD0F0t2jhU9XqPn+tOgwCMrnqx0xZh8v96l4Res
+ nzTeK8xVrUXSLtdPyrhI4+M5U3eIpnOWPscjyFmR9et0eGsZ3d+wVUlz51gV2aQALKmt
+ dgrg6S992cdX7VcW2nCc/hGUIaOYrFixyQCl1jwH9nSI5R+2+NLcXtm9X+AcXG22afk4
+ lcTQ==
+X-Gm-Message-State: AOAM530TVXYGnqScAxwuaSImZd2NYegemuYpFrXDrLKlQ/kJ85YUePki
+ aBBjKOoP1sf9VDa+ZtQzxY7FZgtDh73JCU8yPMCQZS1yQxmrZQSnD1sVpJfcZspo9N1Evi5ey5m
+ IVLxh8Dfn5yAc5+4=
+X-Received: by 2002:ac8:5a0c:0:b0:2e1:d196:dbae with SMTP id
+ n12-20020ac85a0c000000b002e1d196dbaemr5177426qta.271.1648747749725; 
+ Thu, 31 Mar 2022 10:29:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx8uxeo/184H22jMQi+2fOLJcNreO7qZ6cj3+sehXHsvkypmOHqR7vQ1+5CEfBuY4IFCJ7Olw==
+X-Received: by 2002:ac8:5a0c:0:b0:2e1:d196:dbae with SMTP id
+ n12-20020ac85a0c000000b002e1d196dbaemr5177408qta.271.1648747749403; 
+ Thu, 31 Mar 2022 10:29:09 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ c145-20020a379a97000000b0067d943f7586sm12603704qke.123.2022.03.31.10.29.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Mar 2022 10:29:09 -0700 (PDT)
+Date: Thu, 31 Mar 2022 13:29:07 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Ryabinin <arbn@yandex-team.com>
+Subject: Re: [PATCH 2/2] softmmu/physmem: fix dirty memory bitmap memleak
+Message-ID: <YkXk43o5wuSc1mMh@xz-m1.local>
+References: <20220325154013.16809-1-arbn@yandex-team.com>
+ <20220325154013.16809-2-arbn@yandex-team.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v21 9/9] tests: Add dirty page rate limit test
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1647435820.git.huangy81@chinatelecom.cn>
- <22a74578fb2127fc65fd98b0c04ed3a7706a7f08.1647435820.git.huangy81@chinatelecom.cn>
- <YkNkCWCXj3ZM5kyv@xz-m1.local>
-From: Hyman <huangy81@chinatelecom.cn>
-In-Reply-To: <YkNkCWCXj3ZM5kyv@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.222;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220325154013.16809-2-arbn@yandex-team.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,428 +98,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Mar 25, 2022 at 06:40:13PM +0300, Andrey Ryabinin wrote:
+> The sequence of ram_block_add()/qemu_ram_free()/ram_block_add()
+> function calls leads to leaking some memory.
+> 
+> ram_block_add() calls dirty_memory_extend() to allocate bitmap blocks
+> for new memory. These blocks only grow but never shrink. So the
+> qemu_ram_free() restores RAM size back to it's original stat but
+> doesn't touch dirty memory bitmaps.
+> 
+> After qemu_ram_free() there is no way of knowing that we have
+> allocated dirty memory bitmaps beyond current RAM size.
+> So the next ram_block_add() will call dirty_memory_extend() again to
+> to allocate new bitmaps and rewrite pointers to bitmaps left after
+> the first ram_block_add()/dirty_memory_extend() calls.
+> 
+> Rework dirty_memory_extend() to be able to shrink dirty maps,
+> also rename it to dirty_memory_resize(). And fix the leak by
+> shrinking dirty memory maps on qemu_ram_free() if needed.
+> 
+> Fixes: 5b82b703b69a ("memory: RCU ram_list.dirty_memory[] for safe RAM hotplug")
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
+> ---
+>  include/exec/ramlist.h |  2 ++
+>  softmmu/physmem.c      | 38 ++++++++++++++++++++++++++++++++------
+>  2 files changed, 34 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/exec/ramlist.h b/include/exec/ramlist.h
+> index 2ad2a81acc..019e238e7c 100644
+> --- a/include/exec/ramlist.h
+> +++ b/include/exec/ramlist.h
+> @@ -41,6 +41,8 @@ typedef struct RAMBlockNotifier RAMBlockNotifier;
+>  #define DIRTY_MEMORY_BLOCK_SIZE ((ram_addr_t)256 * 1024 * 8)
+>  typedef struct {
+>      struct rcu_head rcu;
+> +    unsigned int nr_blocks;
 
+Nit: How about renaming it to nr_blocks_allocated?  It's much harder to
+identify this with the _inuse below otherwise..
 
-在 2022/3/30 3:54, Peter Xu 写道:
-> On Wed, Mar 16, 2022 at 09:07:21PM +0800, huangy81@chinatelecom.cn wrote:
->> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>
->> Add dirty page rate limit test if kernel support dirty ring,
->> create a standalone file to implement the test case.
->>
->> The following qmp commands are covered by this test case:
->> "calc-dirty-rate", "query-dirty-rate", "set-vcpu-dirty-limit",
->> "cancel-vcpu-dirty-limit" and "query-vcpu-dirty-limit".
->>
->> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->> ---
->>   tests/qtest/dirtylimit-test.c | 327 ++++++++++++++++++++++++++++++++++++++++++
->>   tests/qtest/meson.build       |   2 +
->>   2 files changed, 329 insertions(+)
->>   create mode 100644 tests/qtest/dirtylimit-test.c
->>
->> diff --git a/tests/qtest/dirtylimit-test.c b/tests/qtest/dirtylimit-test.c
->> new file mode 100644
->> index 0000000..b8d9960
->> --- /dev/null
->> +++ b/tests/qtest/dirtylimit-test.c
->> @@ -0,0 +1,327 @@
->> +/*
->> + * QTest testcase for Dirty Page Rate Limit
->> + *
->> + * Copyright (c) 2022 CHINA TELECOM CO.,LTD.
->> + *
->> + * Authors:
->> + *  Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
->> + * See the COPYING file in the top-level directory.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "libqos/libqtest.h"
->> +#include "qapi/qmp/qdict.h"
->> +#include "qapi/qmp/qlist.h"
->> +#include "qapi/qobject-input-visitor.h"
->> +#include "qapi/qobject-output-visitor.h"
->> +
->> +#include "migration-helpers.h"
->> +#include "tests/migration/i386/a-b-bootblock.h"
->> +
->> +/*
->> + * Dirtylimit stop working if dirty page rate error
->> + * value less than DIRTYLIMIT_TOLERANCE_RANGE
->> + */
->> +#define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
->> +
->> +static const char *tmpfs;
->> +
->> +static QDict *qmp_command(QTestState *who, const char *command, ...)
->> +{
->> +    va_list ap;
->> +    QDict *resp, *ret;
->> +
->> +    va_start(ap, command);
->> +    resp = qtest_vqmp(who, command, ap);
->> +    va_end(ap);
->> +
->> +    g_assert(!qdict_haskey(resp, "error"));
->> +    g_assert(qdict_haskey(resp, "return"));
->> +
->> +    ret = qdict_get_qdict(resp, "return");
->> +    qobject_ref(ret);
->> +    qobject_unref(resp);
->> +
->> +    return ret;
->> +}
->> +
->> +static void calc_dirty_rate(QTestState *who, uint64_t calc_time)
->> +{
->> +    qobject_unref(qmp_command(who,
->> +                  "{ 'execute': 'calc-dirty-rate',"
->> +                  "'arguments': { "
->> +                  "'calc-time': %ld,"
->> +                  "'mode': 'dirty-ring' }}",
->> +                  calc_time));
->> +}
->> +
->> +static QDict *query_dirty_rate(QTestState *who)
->> +{
->> +    return qmp_command(who, "{ 'execute': 'query-dirty-rate' }");
->> +}
->> +
->> +static void dirtylimit_set_all(QTestState *who, uint64_t dirtyrate)
->> +{
->> +    qobject_unref(qmp_command(who,
->> +                  "{ 'execute': 'set-vcpu-dirty-limit',"
->> +                  "'arguments': { "
->> +                  "'dirty-rate': %ld } }",
->> +                  dirtyrate));
->> +}
->> +
->> +static void cancel_vcpu_dirty_limit(QTestState *who)
->> +{
->> +    qobject_unref(qmp_command(who,
->> +                  "{ 'execute': 'cancel-vcpu-dirty-limit' }"));
->> +}
->> +
->> +static QDict *query_vcpu_dirty_limit(QTestState *who)
->> +{
->> +    QDict *rsp;
->> +
->> +    rsp = qtest_qmp(who, "{ 'execute': 'query-vcpu-dirty-limit' }");
->> +    g_assert(!qdict_haskey(rsp, "error"));
->> +    g_assert(qdict_haskey(rsp, "return"));
->> +
->> +    return rsp;
->> +}
->> +
->> +static bool calc_dirtyrate_ready(QTestState *who)
->> +{
->> +    QDict *rsp_return;
->> +    gchar *status;
->> +
->> +    rsp_return = query_dirty_rate(who);
->> +    g_assert(rsp_return);
->> +
->> +    status = g_strdup(qdict_get_str(rsp_return, "status"));
->> +    g_assert(status);
->> +
->> +    return g_strcmp0(status, "measuring");
->> +}
->> +
->> +static void wait_for_calc_dirtyrate_complete(QTestState *who,
->> +                                             int64_t calc_time)
->> +{
->> +    int max_try_count = 200;
->> +    usleep(calc_time);
->> +
->> +    while (!calc_dirtyrate_ready(who) && max_try_count--) {
->> +        usleep(1000);
->> +    }
->> +
->> +    /*
->> +     * Set the timeout with 200 ms(max_try_count * 1000us),
->> +     * if dirtyrate measurement not complete, test failed.
->> +     */
->> +    g_assert_cmpint(max_try_count, !=, 0);
+It'll be great if there're comments explaining the two fields.
+
+> +    unsigned int nr_blocks_inuse;
+
+If there'll be comment, we should definitely mark out that this variable is
+only set when a new array will be replacing this one.  IOW, this field is
+not valid during most lifecycle of this structure, iiuc.  And that's very
+not obvious..
+
+>      unsigned long *blocks[];
+>  } DirtyMemoryBlocks;
+>  
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 32f76362bf..073ab37351 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -1919,8 +1919,23 @@ void qemu_ram_msync(RAMBlock *block, ram_addr_t start, ram_addr_t length)
+>      }
+>  }
+>  
+> +static void dirty_memory_free(DirtyMemoryBlocks *blocks)
+> +{
+> +    int i;
+> +
+> +    /*
+> +     *'nr_blocks_inuse' is more than nr_blocks (memory was extended)
+> +     * or it's less than 'nr_blocks' (memory shrunk). In the second case
+> +     * we free all the blocks above the nr_blocks_inuse.
+> +     */
+> +    for (i = blocks->nr_blocks_inuse; i < blocks->nr_blocks; i++) {
+> +        g_free(blocks->blocks[i]);
+> +    }
+> +    g_free(blocks);
+> +}
+> +
+>  /* Called with ram_list.mutex held */
+> -static void dirty_memory_extend(ram_addr_t old_ram_size,
+> +static void dirty_memory_resize(ram_addr_t old_ram_size,
+>                                  ram_addr_t new_ram_size)
+>  {
+>      ram_addr_t old_num_blocks = DIV_ROUND_UP(old_ram_size,
+> @@ -1929,25 +1944,28 @@ static void dirty_memory_extend(ram_addr_t old_ram_size,
+>                                               DIRTY_MEMORY_BLOCK_SIZE);
+>      int i;
+>  
+> -    /* Only need to extend if block count increased */
+> -    if (new_num_blocks <= old_num_blocks) {
+> +    /* Only need to resize if block count changed */
+> +    if (new_num_blocks == old_num_blocks) {
+>          return;
+>      }
+>  
+>      for (i = 0; i < DIRTY_MEMORY_NUM; i++) {
+>          DirtyMemoryBlocks *old_blocks;
+>          DirtyMemoryBlocks *new_blocks;
+> +        unsigned int num_blocks = MAX(old_num_blocks, new_num_blocks);
+>          int j;
+>  
+>          old_blocks = qatomic_rcu_read(&ram_list.dirty_memory[i]);
+>          new_blocks = g_malloc(sizeof(*new_blocks) +
+> -                              sizeof(new_blocks->blocks[0]) * new_num_blocks);
+> +                              sizeof(new_blocks->blocks[0]) * num_blocks);
+> +        new_blocks->nr_blocks = new_num_blocks;
+
+Here new_num_blocks is passed to nr_blocks, however the allocation is with
+size max(old, new).  Shouldn't it still be new_num_blocks?
+
+>  
+>          if (old_num_blocks) {
+>              memcpy(new_blocks->blocks, old_blocks->blocks,
+>                     old_num_blocks * sizeof(old_blocks->blocks[0]));
+
+Here we copied over all old pointers even if old>new..
+
+If we allocate the new array with new_num_blocks entries only, shouldn't we
+copy min(old, new) here instead?
+
+Thanks,
+
+>          }
+>  
+> +        /* memory extend case (new>old): allocate new blocks*/
+>          for (j = old_num_blocks; j < new_num_blocks; j++) {
+>              new_blocks->blocks[j] = bitmap_new(DIRTY_MEMORY_BLOCK_SIZE);
+>          }
+> @@ -1955,7 +1973,8 @@ static void dirty_memory_extend(ram_addr_t old_ram_size,
+>          qatomic_rcu_set(&ram_list.dirty_memory[i], new_blocks);
+>  
+>          if (old_blocks) {
+> -            g_free_rcu(old_blocks, rcu);
+> +            old_blocks->nr_blocks_inuse = new_num_blocks;
+> +            call_rcu(old_blocks, dirty_memory_free, rcu);
+>          }
+>      }
+>  }
+> @@ -2001,7 +2020,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
+>      new_ram_size = MAX(old_ram_size,
+>                (new_block->offset + new_block->max_length) >> TARGET_PAGE_BITS);
+>      if (new_ram_size > old_ram_size) {
+> -        dirty_memory_extend(old_ram_size, new_ram_size);
+> +        dirty_memory_resize(old_ram_size, new_ram_size);
+>      }
+>      /* Keep the list sorted from biggest to smallest block.  Unlike QTAILQ,
+>       * QLIST (which has an RCU-friendly variant) does not have insertion at
+> @@ -2218,6 +2237,8 @@ static void reclaim_ramblock(RAMBlock *block)
+>  
+>  void qemu_ram_free(RAMBlock *block)
+>  {
+> +    ram_addr_t old_ram_size, new_ram_size;
+> +
+>      if (!block) {
+>          return;
+>      }
+> @@ -2228,12 +2249,17 @@ void qemu_ram_free(RAMBlock *block)
+>      }
+>  
+>      qemu_mutex_lock_ramlist();
+> +    old_ram_size = last_ram_page();
+> +
+>      QLIST_REMOVE_RCU(block, next);
+>      ram_list.mru_block = NULL;
+>      /* Write list before version */
+>      smp_wmb();
+>      ram_list.version++;
+>      call_rcu(block, reclaim_ramblock, rcu);
+> +
+> +    new_ram_size = last_ram_page();
+> +    dirty_memory_resize(old_ram_size, new_ram_size);
+>      qemu_mutex_unlock_ramlist();
+>  }
+>  
+> -- 
+> 2.34.1
 > 
-> 200ms might be still too challenging for busy systems?  How about make it
-> in seconds (e.g. 10 seconds)?
-> 
->> +}
->> +
->> +static int64_t get_dirty_rate(QTestState *who)
->> +{
->> +    QDict *rsp_return;
->> +    gchar *status;
->> +    QList *rates;
->> +    const QListEntry *entry;
->> +    QDict *rate;
->> +    int64_t dirtyrate;
->> +
->> +    rsp_return = query_dirty_rate(who);
->> +    g_assert(rsp_return);
->> +
->> +    status = g_strdup(qdict_get_str(rsp_return, "status"));
->> +    g_assert(status);
->> +    g_assert_cmpstr(status, ==, "measured");
->> +
->> +    rates = qdict_get_qlist(rsp_return, "vcpu-dirty-rate");
->> +    g_assert(rates && !qlist_empty(rates));
->> +
->> +    entry = qlist_first(rates);
->> +    g_assert(entry);
->> +
->> +    rate = qobject_to(QDict, qlist_entry_obj(entry));
->> +    g_assert(rate);
->> +
->> +    dirtyrate = qdict_get_try_int(rate, "dirty-rate", -1);
->> +
->> +    qobject_unref(rsp_return);
->> +    return dirtyrate;
->> +}
->> +
->> +static int64_t get_limit_rate(QTestState *who)
->> +{
->> +    QDict *rsp_return;
->> +    QList *rates;
->> +    const QListEntry *entry;
->> +    QDict *rate;
->> +    int64_t dirtyrate;
->> +
->> +    rsp_return = query_vcpu_dirty_limit(who);
->> +    g_assert(rsp_return);
->> +
->> +    rates = qdict_get_qlist(rsp_return, "return");
->> +    g_assert(rates && !qlist_empty(rates));
->> +
->> +    entry = qlist_first(rates);
->> +    g_assert(entry);
->> +
->> +    rate = qobject_to(QDict, qlist_entry_obj(entry));
->> +    g_assert(rate);
->> +
->> +    dirtyrate = qdict_get_try_int(rate, "limit-rate", -1);
->> +
->> +    qobject_unref(rsp_return);
->> +    return dirtyrate;
->> +}
->> +
->> +static QTestState *start_vm(void)
->> +{
->> +    QTestState *vm = NULL;
->> +    g_autofree gchar *cmd = NULL;
->> +    const char *arch = qtest_get_arch();
->> +    g_autofree char *bootpath = NULL;
->> +
->> +    assert((strcmp(arch, "x86_64") == 0));
->> +    bootpath = g_strdup_printf("%s/bootsect", tmpfs);
->> +    assert(sizeof(x86_bootsect) == 512);
->> +    init_bootfile(bootpath, x86_bootsect, sizeof(x86_bootsect));
->> +
->> +    cmd = g_strdup_printf("-accel kvm,dirty-ring-size=4096 "
->> +                          "-name dirtylimit-test,debug-threads=on "
->> +                          "-m 150M -smp 1 "
->> +                          "-serial file:%s/vm_serial "
->> +                          "-drive file=%s,format=raw ",
->> +                          tmpfs, bootpath);
->> +
->> +    vm = qtest_init(cmd);
->> +    return vm;
->> +}
->> +
->> +static void cleanup(const char *filename)
->> +{
->> +    g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
->> +    unlink(path);
->> +}
-> 
-> Duplicated code - again, I'd suggest we drop previous patch and simply add
-> a new test into migration-test.c.  We could do the split later at any time,
-> but we'll need to think about how to split, not do that randomly..
-> 
-Ok.
->> +
->> +static void stop_vm(QTestState *vm)
->> +{
->> +    qtest_quit(vm);
->> +    cleanup("bootsect");
->> +    cleanup("vm_serial");
->> +}
->> +
->> +static void test_vcpu_dirty_limit(void)
->> +{
->> +    QTestState *vm;
->> +    int64_t origin_rate;
->> +    int64_t quota_rate;
->> +    int64_t rate ;
->> +    int max_try_count = 5;
->> +    int hit = 0;
->> +
->> +    vm = start_vm();
->> +    if (!vm) {
->> +        return;
->> +    }
-> 
-> vm should always exist.
-Ok, i'll remove it.
-> 
->> +
->> +    /* Wait for the first serial output from the vm*/
->> +    wait_for_serial(tmpfs, "vm_serial");
->> +
->> +    /* Do dirtyrate measurement with calc time equals 1s */
->> +    calc_dirty_rate(vm, 1);
->> +
->> +    /* Sleep a calc time and wait for calc dirtyrate complete */
->> +    wait_for_calc_dirtyrate_complete(vm, 1 * 1000000);
-> 
-> 1*1000000 reads odd..  I'd pass in 1 here and make the variable called
-> "seconds", then multiply there in the helper.
-Sound good.
-> 
->> +
->> +    /* Query original dirty page rate */
->> +    origin_rate = get_dirty_rate(vm);
->> +
->> +    /* VM booted from bootsect should dirty memory */
->> +    assert(origin_rate != 0);
->> +
->> +    /* Setup quota dirty page rate at one-third of origin */
->> +    quota_rate = origin_rate / 3;
->> +
->> +    /* Set dirtylimit and wait a bit to check if it take effect */
->> +    dirtylimit_set_all(vm, quota_rate);
->> +    usleep(2000000);
-> 
-> Nit: could move this to be after the g_assert check, because the limit
-> should apply immediately.
-Make sense.
-> 
->> +
->> +    /*
->> +     * Check if set-vcpu-dirty-limit and query-vcpu-dirty-limit
->> +     * works literally
->> +     */
->> +    g_assert_cmpint(quota_rate, ==, get_limit_rate(vm));
->> +
->> +    /* Check if dirtylimit take effect realistically */
->> +    while (--max_try_count) {
->> +        calc_dirty_rate(vm, 1);
->> +        wait_for_calc_dirtyrate_complete(vm, 1 * 1000000);
->> +        rate = get_dirty_rate(vm);
->> +
->> +        /*
->> +         * Assume hitting if current rate is less
->> +         * than quota rate (within accepting error)
->> +         */
->> +        if (rate < (quota_rate + DIRTYLIMIT_TOLERANCE_RANGE)) {
->> +            hit = 1;
->> +            break;
->> +        }
->> +    }
-> 
-> I'm not sure 5 loops would be enough; bigger? I'd try running this test in
-> parallel with e.g. 20 instances on the host and see how slow it could
-> be. :)Indeed your test policy is right, 5 may be not enough in special 
-scenarios. Extreme scene such as busy systems should be taken into 
-consideration since in that scene test fails doesn't mean it doesn't 
-work functionally. I'll make the max_try_count larger in functions: 
-wait_for_calc_dirtyrate_complete, test_vcpu_dirty_limit.
-> 
-> The rest keeps look good to me.
-> 
-> Thanks,
-> 
->> +
->> +    g_assert_cmpint(hit, ==, 1);
->> +
->> +    hit = 0;
->> +    max_try_count = 5;
->> +
->> +    /* Check if dirtylimit cancellation take effect */
->> +    cancel_vcpu_dirty_limit(vm);
->> +    while (--max_try_count) {
->> +        calc_dirty_rate(vm, 1);
->> +        wait_for_calc_dirtyrate_complete(vm, 1 * 1000000);
->> +        rate = get_dirty_rate(vm);
->> +
->> +        /*
->> +         * Assume dirtylimit be canceled if current rate is
->> +         * greater than quota rate (within accepting error)
->> +         */
->> +        if (rate > (quota_rate + DIRTYLIMIT_TOLERANCE_RANGE)) {
->> +            hit = 1;
->> +            break;
->> +        }
->> +    }
->> +
->> +    g_assert_cmpint(hit, ==, 1);
->> +    stop_vm(vm);
->> +}
->> +
->> +int main(int argc, char **argv)
->> +{
->> +    char template[] = "/tmp/dirtylimit-test-XXXXXX";
->> +    int ret;
->> +
->> +    tmpfs = mkdtemp(template);
->> +    if (!tmpfs) {
->> +        g_test_message("mkdtemp on path (%s): %s", template, strerror(errno));
->> +    }
->> +    g_assert(tmpfs);
->> +
->> +    if (!kvm_dirty_ring_supported()) {
->> +        return 0;
->> +    }
->> +
->> +    g_test_init(&argc, &argv, NULL);
->> +    qtest_add_func("/dirtylimit/test", test_vcpu_dirty_limit);
->> +    ret = g_test_run();
->> +
->> +    g_assert_cmpint(ret, ==, 0);
->> +
->> +    ret = rmdir(tmpfs);
->> +    if (ret != 0) {
->> +        g_test_message("unable to rmdir: path (%s): %s",
->> +                       tmpfs, strerror(errno));
->> +    }
->> +
->> +    return ret;
->> +}
->> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
->> index d25f82b..6b041e0 100644
->> --- a/tests/qtest/meson.build
->> +++ b/tests/qtest/meson.build
->> @@ -32,6 +32,7 @@ qtests_generic = \
->>     'qom-test',
->>     'test-hmp',
->>     'qos-test',
->> +  'dirtylimit-test',
->>   ]
->>   if config_host.has_key('CONFIG_MODULES')
->>     qtests_generic += [ 'modules-test' ]
->> @@ -296,6 +297,7 @@ qtests = {
->>     'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
->>     'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
->>     'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
->> +  'dirtylimit-test': files('migration-helpers.c'),
->>   }
->>   
->>   if dbus_display
->> -- 
->> 1.8.3.1
->>
-> 
+
+-- 
+Peter Xu
+
 
