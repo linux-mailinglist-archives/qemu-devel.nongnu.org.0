@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D6D4ED813
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:59:42 +0200 (CEST)
-Received: from localhost ([::1]:37250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E697B4ED809
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:56:51 +0200 (CEST)
+Received: from localhost ([::1]:57030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZsWj-000757-Cg
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:59:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32818)
+	id 1nZsTz-00012Y-1W
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:56:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRG-0006i4-LF
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51146)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsR9-0006f8-CD
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:53:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRD-0007hw-S3
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:01 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsR7-0007hD-ET
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:53:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648724039;
+ s=mimecast20190719; t=1648724032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GbGsBJqH5D6VwDdDcOqgMTAVJp1U3Jolt3hAcWCrsS8=;
- b=gwf8qMB5Yy2OYDA2YHSmTZ0yR6bDVEFQgJZFAQW4VmzDly97SxLVKdwzGezkgFqHLr63m3
- DT1eRDLxqS5qkg7kCVvj1GR3KpoMNOAXCh/DH50+MztsuosxtrsLfHQabC0pm9AUFQ9zRi
- dw22TGI7JREX0TinljtxPaI0bPZEKrU=
+ bh=u8D4l1aXRLGfYkDDWxsNCaM2DEAJz4Xy8nByNok23sw=;
+ b=VF5moKxzmJ6U5nlSObh6cgHstw/9hOzyfkRz/hu0SNvI3MjJ/kC04u0Bz4YHOnCfVWGd/V
+ 4pJCDJH+bXntzCUcYUobsFU8A/Fy3tadsXbTCeydqsmnF+vyqxGc/q/jLbBSPm6Vc4Z6A2
+ tIsSlT5ZSRF2r1VX0Ub19P9qvcXbuMk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-298-q9Agk773MlCzfuO7_iK9Rw-1; Thu, 31 Mar 2022 06:53:56 -0400
-X-MC-Unique: q9Agk773MlCzfuO7_iK9Rw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-36-8T8tlqyfPZWk2wc_GuaMRw-1; Thu, 31 Mar 2022 06:53:51 -0400
+X-MC-Unique: 8T8tlqyfPZWk2wc_GuaMRw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C58E3899ECF;
- Thu, 31 Mar 2022 10:53:55 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 954D5805F46;
+ Thu, 31 Mar 2022 10:53:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 95DAA40D0160;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 88E1C5B156B;
  Thu, 31 Mar 2022 10:53:48 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7F17D21E6923; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
+ id 8163021E6926; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/15] qapi: BlockExportRemoveMode: move comments to TODO
-Date: Thu, 31 Mar 2022 12:53:31 +0200
-Message-Id: <20220331105344.3471295-3-armbru@redhat.com>
+Subject: [PULL 03/15] qapi: fix example of BLOCK_IMAGE_CORRUPTED event
+Date: Thu, 31 Mar 2022 12:53:32 +0200
+Message-Id: <20220331105344.3471295-4-armbru@redhat.com>
 In-Reply-To: <20220331105344.3471295-1-armbru@redhat.com>
 References: <20220331105344.3471295-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,43 +87,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Victor Toso <victortoso@redhat.com>
 
-@hide and @soft are potential additions which fits the TODO section
-perfectly.
+Example output lacks mandatory member @fatal.  Provide it.
 
-The main motivation is to avoid this whole block of comment entering
-the wrong section in the python parser.
+Example output shows a value of @msg no version of the code
+produces.  No big deal, but replace it anyway by one that
+today's code does produce.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
+Message-Id: <20220328140604.41484-3-victortoso@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
-Message-Id: <20220328140604.41484-2-victortoso@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/block-export.json | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ qapi/block-core.json | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index f183522d0d..1e34927f85 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -219,13 +219,13 @@
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index e89f2dfb5b..63c30a5378 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -5006,10 +5006,9 @@
+ # Example:
  #
- # @hard: Drop all connections immediately and remove export.
+ # <- { "event": "BLOCK_IMAGE_CORRUPTED",
+-#      "data": { "device": "ide0-hd0", "node-name": "node0",
+-#                "msg": "Prevented active L1 table overwrite", "offset": 196608,
+-#                "size": 65536 },
+-#      "timestamp": { "seconds": 1378126126, "microseconds": 966463 } }
++#      "data": { "device": "", "node-name": "drive", "fatal": false,
++#                "msg": "L2 table offset 0x2a2a2a00 unaligned (L1 index: 0)" },
++#      "timestamp": { "seconds": 1648243240, "microseconds": 906060 } }
  #
--# Potential additional modes to be added in the future:
-+# TODO: Potential additional modes to be added in the future:
- #
--# hide: Just hide export from new clients, leave existing connections as is.
--# Remove export after all clients are disconnected.
-+#       hide: Just hide export from new clients, leave existing connections as is.
-+#       Remove export after all clients are disconnected.
- #
--# soft: Hide export from new clients, answer with ESHUTDOWN for all further
--# requests from existing clients.
-+#       soft: Hide export from new clients, answer with ESHUTDOWN for all further
-+#       requests from existing clients.
- #
- # Since: 2.12
+ # Since: 1.7
  ##
 -- 
 2.35.1
