@@ -2,91 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1164ED9AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:33:29 +0200 (CEST)
-Received: from localhost ([::1]:48328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11EE64ED9C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 14:41:56 +0200 (CEST)
+Received: from localhost ([::1]:60140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZtzU-0003ej-RX
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:33:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56706)
+	id 1nZu7e-0003Sg-NT
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 08:41:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZtu6-0000yV-2G
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:27:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nZtu3-0000Zj-I2
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:27:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648729670;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8weNNAfUYHnLPXztFBpwoPDj+dKJAVDb79Az6xw/Suk=;
- b=hweWvCXN/YLVy1fXPfqLrp+xpfye6XFs8alypFTPWRg+DLoql8uSDqgGnEkAyHYC90e9Vg
- wM2+YwXoI8X9TGV/X3R3HjDhCzVeD/IhY2hbTgwxkT1KXcCpY1G996N4DqXLqp1C1mu1QU
- 8UVmo4P7FyOGU+v7FYL6fUGMs/bCEt8=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-136-gpCfW1CJMgmYgTo3GM8tMg-1; Thu, 31 Mar 2022 08:27:49 -0400
-X-MC-Unique: gpCfW1CJMgmYgTo3GM8tMg-1
-Received: by mail-qv1-f72.google.com with SMTP id
- q4-20020a0cf5c4000000b0044346ee3627so10225440qvm.16
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 05:27:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8weNNAfUYHnLPXztFBpwoPDj+dKJAVDb79Az6xw/Suk=;
- b=MLmf/cAT/upzcdBIoixorQTxnISXvSad29y6Ecsj8KqKPLwy2Cgj7zD9YENwX7Jypx
- xQSi9zYppdb8T5tC2wbwAqnJCcQiD9PgjU/52JyKHD9iegRrZFcNzE24lO4rcgN4R25S
- EnET7pnK8DDZTvyv4lzquKWRUh4iGbjelnhImAqcIDFkb/BIjprNTmO1NjQNCbLV7J2l
- /O0NeUignUDoRP/CWQRbAUidlgA6WNjTQIQAePmrTfLs3pPO9hqINi5GNJ2kOxZJ9I6o
- x/3884nN5GxL+0+Lscddh8EPWX53IT46hu0vZfE2Y/S4sh5xMhyOMM0kcSlWEWDbJLoA
- WGHg==
-X-Gm-Message-State: AOAM531NcksvazvucOt7JTN9rS/95pf3FW0MztofkyUnApL436ex8UfO
- 1CJJXqhhIpqSGiUtXuSw69duOmiSJrNYTRmQ+sJEvvTa996l1zPJOvCjWUbyZ3A0M/TlFW8ep4m
- 49DPfQcj+J7/nAQg=
-X-Received: by 2002:a37:55c2:0:b0:479:8293:d7d0 with SMTP id
- j185-20020a3755c2000000b004798293d7d0mr3108537qkb.182.1648729669013; 
- Thu, 31 Mar 2022 05:27:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywOxRJDfX1X84hp2wMHfadsllZXC/C+9YKB0iRNzKyY6hwAdvDnZzbWZXQNrX6EkAZOhu2FQ==
-X-Received: by 2002:a37:55c2:0:b0:479:8293:d7d0 with SMTP id
- j185-20020a3755c2000000b004798293d7d0mr3108518qkb.182.1648729668717; 
- Thu, 31 Mar 2022 05:27:48 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- az9-20020a05620a170900b00680aeaac936sm10812054qkb.136.2022.03.31.05.27.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 05:27:48 -0700 (PDT)
-Date: Thu, 31 Mar 2022 08:27:47 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH 2/2] softmmu/physmem: fix dirty memory bitmap memleak
-Message-ID: <YkWeQ26lKa3jFLU2@xz-m1.local>
-References: <20220325154013.16809-1-arbn@yandex-team.com>
- <20220325154013.16809-2-arbn@yandex-team.com>
- <3888d585-c090-24b4-3be9-7be3f03ddadb@redhat.com>
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1nZtv9-0001Lv-OY
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:29:00 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:40170 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nZtuv-0000cQ-Oc
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 08:28:51 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxnxNwnkVi9eITAA--.22291S3; 
+ Thu, 31 Mar 2022 20:28:32 +0800 (CST)
+Subject: Re: [RFC PATCH v7 19/29] hw/intc: Add LoongArch extioi interrupt
+ controller(EIOINTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
+ <20220328125749.2918087-20-yangxiaojuan@loongson.cn>
+ <620e7d20-8e6a-0b9e-1f3e-022f405bfa92@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <e258a683-bde3-5ce2-641d-86c7120aab25@loongson.cn>
+Date: Thu, 31 Mar 2022 20:28:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <3888d585-c090-24b4-3be9-7be3f03ddadb@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+In-Reply-To: <620e7d20-8e6a-0b9e-1f3e-022f405bfa92@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9DxnxNwnkVi9eITAA--.22291S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3Ar18Kry7XFyUAFy5Kw43Awb_yoW7ArW7pF
+ 1kCr15GFWUJr1xJr1Dtr1UXFy5Jr1rW3WUtF1SqFyrAr1UAr1jg34vqryqgF1UGw4kJryj
+ qry5Ww1kur17JrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvS14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
+ 026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
+ JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
+ vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280
+ aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43
+ ZEXa7VUbrMaUUUUUU==
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,57 +75,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-stable@nongnu.org,
- Andrey Ryabinin <arbn@yandex-team.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: mark.cave-ayland@ilande.co.uk, Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 31, 2022 at 10:37:39AM +0200, David Hildenbrand wrote:
-> On 25.03.22 16:40, Andrey Ryabinin wrote:
-> > The sequence of ram_block_add()/qemu_ram_free()/ram_block_add()
-> > function calls leads to leaking some memory.
-> > 
-> > ram_block_add() calls dirty_memory_extend() to allocate bitmap blocks
-> > for new memory. These blocks only grow but never shrink. So the
-> > qemu_ram_free() restores RAM size back to it's original stat but
-> > doesn't touch dirty memory bitmaps.
-> > 
-> > After qemu_ram_free() there is no way of knowing that we have
-> > allocated dirty memory bitmaps beyond current RAM size.
-> > So the next ram_block_add() will call dirty_memory_extend() again to
-> > to allocate new bitmaps and rewrite pointers to bitmaps left after
-> > the first ram_block_add()/dirty_memory_extend() calls.
-> > 
-> > Rework dirty_memory_extend() to be able to shrink dirty maps,
-> > also rename it to dirty_memory_resize(). And fix the leak by
-> > shrinking dirty memory maps on qemu_ram_free() if needed.
-> > 
-> > Fixes: 5b82b703b69a ("memory: RCU ram_list.dirty_memory[] for safe RAM hotplug")
-> > Cc: qemu-stable@nongnu.org
-> > Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
-> 
-> I looked at this a while ago and I think the problem is more involved,
-> because we might actually generate holes for which we can free the
-> bitmap. I think this patch impoves the situation, though.
-> 
-> 
-> IIRC if you hotplug two dimms and then hotunplug only the latter, the
 
-I assume you meant "former"? :)
+On 2022/3/29 上午6:43, Richard Henderson wrote:
+> On 3/28/22 06:57, Xiaojuan Yang wrote:
+>> This patch realize the EIOINTC interrupt controller.
+>>
+>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>> ---
+>>   hw/intc/Kconfig                    |   3 +
+>>   hw/intc/loongarch_extioi.c         | 408 +++++++++++++++++++++++++++++
+>>   hw/intc/meson.build                |   1 +
+>>   hw/intc/trace-events               |  11 +
+>>   hw/loongarch/Kconfig               |   1 +
+>>   include/hw/intc/loongarch_extioi.h |  77 ++++++
+>>   6 files changed, 501 insertions(+)
+>>   create mode 100644 hw/intc/loongarch_extioi.c
+>>   create mode 100644 include/hw/intc/loongarch_extioi.h
+>>
+>> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+>> index 71c04c328e..28bd1f185d 100644
+>> --- a/hw/intc/Kconfig
+>> +++ b/hw/intc/Kconfig
+>> @@ -96,3 +96,6 @@ config LOONGARCH_PCH_MSI
+>>       select MSI_NONBROKEN
+>>       bool
+>>       select UNIMP
+>> +
+>> +config LOONGARCH_EXTIOI
+>> +    bool
+>> diff --git a/hw/intc/loongarch_extioi.c b/hw/intc/loongarch_extioi.c
+>> new file mode 100644
+>> index 0000000000..af28e8d6e9
+>> --- /dev/null
+>> +++ b/hw/intc/loongarch_extioi.c
+>> @@ -0,0 +1,408 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+>> +/*
+>> + * Loongson 3A5000 ext interrupt controller emulation
+>> + *
+>> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qemu/module.h"
+>> +#include "qemu/log.h"
+>> +#include "hw/irq.h"
+>> +#include "hw/sysbus.h"
+>> +#include "hw/loongarch/loongarch.h"
+>> +#include "hw/qdev-properties.h"
+>> +#include "exec/address-spaces.h"
+>> +#include "hw/intc/loongarch_extioi.h"
+>> +#include "migration/vmstate.h"
+>> +#include "trace.h"
+>> +
+>> +static void extioi_update_irq(void *opaque, int irq_num, int level)
+>> +{
+>> +    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+>
+> I think this is not opaque anymore; you've already resolved it in the 
+> caller.
+> I think level should be 'bool'.
+>
+OK.
+>> +    uint8_t  ipnum, cpu;
+>> +    unsigned long found1, found2;
+>> +
+>> +    ipnum = s->sw_ipmap[irq_num];
+>> +    cpu   = s->sw_coremap[irq_num];
+>> +    if (level == 1) {
+>
+> Just if (level).
+>
+>> +        if (test_bit(irq_num, (void *)s->enable) == false) {
+>
+> This, and every other cast you're using for bitops.h functions, is 
+> wrong.  You would need to declare these bitmaps properly as 'unsigned 
+> long name[BITS_TO_LONGS(N)];'.
+>
+> That said, I would definitely use uint64_t, because that matches up 
+> with the description of these registers in the manual.
+>
+we may not declare these bitmaps as 'unsigned long 
+name[BITS_TO_LONGS(N)]. For example， ext_sw_ipisr 
+sw_ipisr[MAX_CORES][LS3A_INTC_IP] is a two-dimensional array，
+and it has a specific meaning, memregion options also restrict its size
+>> +            return;
+>> +        }
+>> +        bitmap_set((void *)s->coreisr[cpu], irq_num, 1);
+>> +        found1 = find_next_bit((void *)&(s->sw_ipisr[cpu][ipnum]),
+>> +                               EXTIOI_IRQS, 0);
+>
+> find_next_bit with offset=0 is find_first_bit...
+>
+OK.
+>> +        bitmap_set((void *)&(s->sw_ipisr[cpu][ipnum]), irq_num, 1);
+>> +
+>> +        if (found1 >= EXTIOI_IRQS) {
+>> +            qemu_set_irq(s->parent_irq[cpu][ipnum], level);
+>> +        }
+>
+> ... but what's the bitmap search doing?  It appears to be checking 
+> that there are *no* bits set between 0 and EXTIOI_IRQS, and then 
+> raising the irq if no bits set.  That seems wrong.
+>
+found1 >= EXTIOI_IRQS says there is no interrupt at present, then the 
+new interrupt will be sent.
+>
+>> +    } else {
+>> +        bitmap_clear((void *)s->coreisr[cpu], irq_num, 1);
+>> +        found1 = find_next_bit((void *)&(s->sw_ipisr[cpu][ipnum]),
+>> +                               EXTIOI_IRQS, 0);
+>> +        bitmap_clear((void *)&(s->sw_ipisr[cpu][ipnum]), irq_num, 1);
+>> +        found2 = find_next_bit((void *)&(s->sw_ipisr[cpu][ipnum]),
+>> +                               EXTIOI_IRQS, 0);
+>> +
+>> +        if ((found1 < EXTIOI_IRQS) && (found2 >= EXTIOI_IRQS)) {
+>> +            qemu_set_irq(s->parent_irq[cpu][ipnum], level);
+>> +        }
+>> +    }
+>> +}
+>
+if ((found1 < EXTIOI_IRQS) && (found2 >= EXTIOI_IRQS)) says if the 
+current interrupt number is equal to irq_num, then qemu_set_irq.
+> It *seems* like all of this should be
+>
+>     uint64_t sum = 0;
+>
+>     s->isr[ipnum / 64] = deposit64(s->isr[ipnum / 64], ipnum % 64, 1, 
+> level);
+>
+>     for (int i = 0; i < ARRAY_SIZE(s->isr); i++) {
+>         sum |= s->isr[i] & s->ena[i];
+>     }
+>     qemu_set_irq(parent, sum != 0);
+>
+> If that's not the case, you need many more comments.
+>
+Yes, we need more comments,
 
-> bitmap for the first dimm will remain as long as the second dimm isn't
-> hotunplugged.
-
-IMHO it's fine to keep the dirty block for the unplugged hole.  It'll be
-better if we could free it, but we can fix the memory leak first which
-seems to be more severe.  The dirty memory isn't extremely large (32K ratio
-to mem size) if just to be kept idle, but frequent plug/unplug will leak
-infinite host mem.
-
--- 
-Peter Xu
+Thanks.
+Xiaojuan
+>
+> r~
 
 
