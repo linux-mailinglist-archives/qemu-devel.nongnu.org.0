@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 540294EE2B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 22:34:53 +0200 (CEST)
-Received: from localhost ([::1]:48138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B4A4EE2D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 22:46:48 +0200 (CEST)
+Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na1VM-0003sN-6K
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 16:34:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46510)
+	id 1na1gs-0007jX-QE
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 16:46:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1na1U0-0002Vl-JW
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:33:28 -0400
-Received: from [2607:f8b0:4864:20::634] (port=45816
- helo=mail-pl1-x634.google.com)
+ id 1na1eX-000695-JL; Thu, 31 Mar 2022 16:44:21 -0400
+Received: from [2607:f8b0:4864:20::429] (port=34399
+ helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1na1Tz-0005NF-9k
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:33:28 -0400
-Received: by mail-pl1-x634.google.com with SMTP id i11so614066plg.12
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 13:33:26 -0700 (PDT)
+ id 1na1eV-0007NY-78; Thu, 31 Mar 2022 16:44:21 -0400
+Received: by mail-pf1-x429.google.com with SMTP id h19so718631pfv.1;
+ Thu, 31 Mar 2022 13:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=9H7d44uuZ/vG1cckePjXy83a5uQp+nW+225m36/gbls=;
- b=P6D3aDx01qDZ2rVu3J/RKq4yprqDfedht4IcZfr7Ijbb/oLooyOHo6hWcolJKKFNKa
- YKMu4xdeMIxNvp8tKqoz+BzLLa1ldMNXmX+YZHKjxi9wjhL+zD3sWICsKMn4k7fdt2Ps
- x4Mr/bAaJWXW9wipjeELluVFkTb0g3jglE3Wbu3OODMlZKI4QdON26Lco0DgesjyJ3N7
- +AzhS51pvoDv0gXznYDY482DosvxmdSHJY16Q6/mRL/Jz9c1oZ9s0MslBe62PYmSYJp4
- qcruflazufuDdfYFRrzel6z/osCa/g1lv5+c9LzxuPNlY7mefVqvpvwa1ISvgehnQCg1
- 8FeA==
+ bh=pgLuxk/hWJgSZSHSCQLNUoqnt8YBtdp6eK3oOlKZtjw=;
+ b=kcS/4aPEOgybLZ9FJlWhdtQTtaA29OLqQamtv4TtMANsqbAB8SzDCt0WuQ1tqU1QBY
+ T/owuFuXt4eeSSHFHv9ODNB6KrZBt2Y8TvnO6aqDFadk/OSJxBTK7JTnanncBTAAL9hV
+ O977B+q5m0zU6oK0dfRnRJI6+Jl4vBn9hL9vgVkbE2NmFQxbrpmm/QQaY8cEQ1gieZQj
+ ZT9GO8kHsj3ULUMb+Puzpwd+GtfyFCGWRzt5qeNnUuzeRBQsHFsTo7sJEglyBWZK4+dn
+ hrA7jP8Grr/cS5o8mjxjO4JiHzAKjgPkb7KRb+fO+M7qO4ob284PiuB2r0D7/MyQT40q
+ CyZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9H7d44uuZ/vG1cckePjXy83a5uQp+nW+225m36/gbls=;
- b=w58MhpXDg9T0o5yIRvPFKbRPAS+4HzkuVP1lINd5BDcPKNtfTqHeOg8S4DNFWHicF8
- 759nuArY+7RsSfwg2jG0bVo/67RicppHbhphqnHfyMXgRg7UDqIUXJV0ucp/uF735Yhn
- N+luK8AzsYHg6bRVgw3KGKm4qg6iXiqbDQEZeKlJrrD78vxTnpP83bjVmSbTC90Aa1vf
- dwp0C0/VB4ZdC62qCgqtGbrWhqpbq/Yw7lBbMU0IL6WFmf4lDPBCSXWCjY/3ynG81bpL
- W97OKS//OZrINALhndm6PmFgdbdaQ1G8zWlgGWjIPoSM0LmSS0GkoPaGJEVZETHwcG1R
- xLUg==
-X-Gm-Message-State: AOAM532Pr5O4UX9n8ryIgusxAKwkIFL0PHI67Gt0rU8z8b2KQuiIem/0
- Ha9EJ0Bspr1sEVLvLrVWGtc=
-X-Google-Smtp-Source: ABdhPJznkBlLn/PZZ3fUoMzNgVOCyqyNczSOcWF0Rk+6VFjuZ5650IhMdX4uD3ss081KRvoOtK4xQw==
-X-Received: by 2002:a17:902:cecf:b0:154:2177:26be with SMTP id
- d15-20020a170902cecf00b00154217726bemr6869177plg.96.1648758805973; 
- Thu, 31 Mar 2022 13:33:25 -0700 (PDT)
+ bh=pgLuxk/hWJgSZSHSCQLNUoqnt8YBtdp6eK3oOlKZtjw=;
+ b=ekSMXUdQcaT6J+t9EsNmvVYblDWSmF4jsLAgAmLnE9/ixaXpR3ulAM5HH/KtGU+DWJ
+ cR22dh8krD+zN4wjklWydoSyD/eusxOutUxMTeSr89pcth07Cz+JJDElXOUjHNLCEDGE
+ 7damuiUL16mXCzV/+L8tBOifGxFMBXamdpvOwiIrjoOF5of3pb+w9k48Ah8iOD74Q3Uv
+ HnHi6C1X8HEDh5JzUADDNqi03el5cBsfjY8lqtztuQtOCdCI9r74Q46+Z/6a0fZkSjtx
+ ecGbPGYQb4JOKj+Bl11uvAT8FtqI4f+wHGTGI3upLH7OxRtgCBG352m2fHvgZDgQkgPT
+ Pwzg==
+X-Gm-Message-State: AOAM532LSmqONzbz5PQ4yQME6UDoNdXt1aFFfjiGMCOXwOZXusjGiByy
+ IJy7uz7g5eUuD7eC2ft6KQc=
+X-Google-Smtp-Source: ABdhPJy0lPPy6NM0UTOy9CKdRTsi2/KoCE5p8cbnOGfK4qIp8jq0fcItVWOcS13lvkl6o27OwDFAvA==
+X-Received: by 2002:aa7:82d9:0:b0:4fa:2c7f:41e with SMTP id
+ f25-20020aa782d9000000b004fa2c7f041emr41185917pfn.1.1648759457505; 
+ Thu, 31 Mar 2022 13:44:17 -0700 (PDT)
 Received: from ?IPV6:2600:70ff:f07f:0:f49c:562:b5cb:b2b5?
  ([2600:70ff:f07f:0:f49c:562:b5cb:b2b5])
  by smtp.gmail.com with ESMTPSA id
- 75-20020a62144e000000b004fae56c42a0sm316431pfu.211.2022.03.31.13.33.24
+ h13-20020a056a00170d00b004fb1450229bsm383575pfc.16.2022.03.31.13.44.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 13:33:25 -0700 (PDT)
-Message-ID: <05601508-78fc-e861-53a5-539634d7d536@gmail.com>
-Date: Thu, 31 Mar 2022 22:33:21 +0200
+ Thu, 31 Mar 2022 13:44:16 -0700 (PDT)
+Message-ID: <7300ef1f-8702-733d-2a50-4253345fde45@gmail.com>
+Date: Thu, 31 Mar 2022 22:44:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH] build-sys: remove MSI's QEMU_GA_MSI_MINGW_DLL_PATH
+Subject: Re: [RFC PATCH 3/4] hw/i2c: add slave mode for aspeed_i2c
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220331201127.2006038-1-marcandre.lureau@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+References: <20220331165737.1073520-1-its@irrelevant.dk>
+ <20220331165737.1073520-4-its@irrelevant.dk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220331201127.2006038-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20220331165737.1073520-4-its@irrelevant.dk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,22 +93,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
+ Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Klaus Jensen <k.jensen@samsung.com>, Jeremy Kerr <jk@ozlabs.org>,
+ qemu-arm@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
+ Matt Johnston <matt@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/3/22 22:11, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 31/3/22 18:57, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> Since the introduction of the variable in commit 9dacf32d2cb ("qemu-ga:
-> Building Windows MSI installation with configure/Makefile"), nothing
-> makes use of the Mingw_dlls variable in the .wxs file.
+> Add slave mode functionality for the Aspeed I2C controller. This is
+> implemented by creating an Aspeed I2C Slave device that attaches to the
+> bus.
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> This i2c slave device only implements the asynchronous version of
+> i2c_send() and the event callback.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->   configure       | 3 ---
->   qga/meson.build | 1 -
->   2 files changed, 4 deletions(-)
+>   hw/i2c/aspeed_i2c.c         | 95 +++++++++++++++++++++++++++++++++----
+>   hw/i2c/trace-events         |  2 +-
+>   hw/misc/meson.build         |  2 +
+>   include/hw/i2c/aspeed_i2c.h |  8 ++++
+>   4 files changed, 97 insertions(+), 10 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> @@ -558,14 +565,19 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
+>               bus->controller->intr_status &= ~(1 << bus->id);
+>               qemu_irq_lower(aic->bus_get_irq(bus));
+>           }
+> -        if (handle_rx && (bus->cmd & (I2CD_M_RX_CMD | I2CD_M_S_RX_CMD_LAST))) {
+> -            aspeed_i2c_handle_rx_cmd(bus);
+> -            aspeed_i2c_bus_raise_interrupt(bus);
+> +
+> +        if (handle_rx) {
+> +            if (bus->cmd & (I2CD_M_RX_CMD | I2CD_M_S_RX_CMD_LAST)) {
+> +                aspeed_i2c_handle_rx_cmd(bus);
+> +                aspeed_i2c_bus_raise_interrupt(bus);
+
+Eventually split this hunk into a separate patch to have better readability.
+
+> +            }
+>           }
+
+> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+> index 6fb69612e064..c1c1abea41dd 100644
+> --- a/hw/misc/meson.build
+> +++ b/hw/misc/meson.build
+> @@ -122,6 +122,8 @@ softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
+>   
+>   softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_ahb_apb_pnp.c'))
+>   
+> +softmmu_ss.add(when: 'CONFIG_I2C', if_true: files('i2c-echo.c'))
+
+This change belongs to the next patch.
 
