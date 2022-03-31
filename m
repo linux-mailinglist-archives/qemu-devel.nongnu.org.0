@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CF74ED09A
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 02:04:09 +0200 (CEST)
-Received: from localhost ([::1]:44660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F374A4ED0AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 02:07:04 +0200 (CEST)
+Received: from localhost ([::1]:46782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZiIK-0007o8-8S
-	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 20:04:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33082)
+	id 1nZiL9-00014i-T5
+	for lists+qemu-devel@lfdr.de; Wed, 30 Mar 2022 20:07:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZiBt-0004u5-To
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 19:57:29 -0400
-Received: from [2a00:1450:4864:20::330] (port=51075
- helo=mail-wm1-x330.google.com)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nZiFx-0004x4-F9
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 20:01:41 -0400
+Received: from [2607:f8b0:4864:20::1035] (port=37843
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nZiBs-00040w-Dw
- for qemu-devel@nongnu.org; Wed, 30 Mar 2022 19:57:29 -0400
-Received: by mail-wm1-x330.google.com with SMTP id h16so13252645wmd.0
- for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 16:57:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nZiFv-0005Sc-7S
+ for qemu-devel@nongnu.org; Wed, 30 Mar 2022 20:01:40 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ g9-20020a17090ace8900b001c7cce3c0aeso1158993pju.2
+ for <qemu-devel@nongnu.org>; Wed, 30 Mar 2022 17:01:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=182UiCvgw8JEviPTGQTPc9assRie1CfU/iAvGy36vQk=;
- b=ViFj7e03vL8hNtgkozQZCSn3YRj/4opqUEh0P9tU0D23hZBnbyOGJzh9D3y619469q
- O7wBetp3taSOvm4R6+ulGfhHvsGeFR8y/G/sMxovB9xltvjcvdSZbs6mENZoJ6Rrdib1
- GGtOUM0wBJmNkZhIpifiYEOtWsEecrauvdoV9xgP4TziX8qMnPWm/EVf4KU4PxMKTv6k
- BF+k2r0b3zBJIesK1Dm4UDD7PqYrdIAi6M6pjEjHHd/y6z1VOiic4PhQLeg5XnIpHS++
- YfsiMtlzMcRfH559pq/inTcOytVk1AXCXlWFizQmj/exsLLlMUv56iJvnlTzuEHFIG5M
- SSyQ==
+ bh=PmuxUUNDh3/15/jUQqBe/K7OJARtjcWT/Xldt/ba9b4=;
+ b=2ZPM6NBvASKPPt3/hJG4sDyMnqK7vAMyg3COUhzwIyHtvmAeiUr7xVzHhGwDjoKUnC
+ CzTZo0NBSYXcms++OxX7fai9cbHKLFqvVrtWFQMu2vFeQOCUC5Woc0dd5HzO2OGCPKLt
+ GUEZMEt7i0/dGDp+SrqDYs9UWt14L0NPjMyKNg7Iuw2mw920Yv96wurFYUGTeAxi50gz
+ DiZd9bb5xlEHx1Ks3ccKOE7/6yX0w+vqWbWA3ScwfaJ9Zofw9yRMwmjpVn12DIVjj4px
+ RDrBSk57DyIGC0pJckYgr22qKzMLpT80U450v25HySDIocutC0ndLiIeHwdEe5ydhuJf
+ U8mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=182UiCvgw8JEviPTGQTPc9assRie1CfU/iAvGy36vQk=;
- b=wiZnozrly/wXmcQdxtyIGw7qQMhWP9RLQvcgTJwWHcW1Xtg4PK+R7EivMPNLlVenva
- Kx5+goB4KMaj2EGzeJU3kMQhjTxbCqliezzLOfCQpM/223ictn/xFo1Glc3CopxyhnMe
- +G4rN74NH/MK0F/2nF+JYjAzwLsdFSIIOdCG3L8fHbV6U3csb+Uq8PGfGX4FKHcksv7M
- a/apUZxq0LsyBVQRLV8PGL7rz/PVS61ouDHT3LbAhx4RPfjW6BdWY0YvOmXZs7JZzWik
- 3KvD5KC1bfzrU1qzl2l850vGRvGBLmLOWm33IXQwTQOQKW9shGuhF0xLC9bFB81pLeNG
- il1A==
-X-Gm-Message-State: AOAM532g6Kc4CWWHWxGgHUJdG4JrkQfnev7JwUljKNMpRUS6f4C4L10m
- h4F0AZWF3nXkSN9gDBjIfW/49uxeOQ0QCA==
-X-Google-Smtp-Source: ABdhPJyeGmt6qVzGI9YtRVooou7AJI9r35i6WBl1Tn2GVEnz7FITh73CRvmEfDALqYiM/gygQV0EjQ==
-X-Received: by 2002:a7b:c7d4:0:b0:38c:dd1b:5475 with SMTP id
- z20-20020a7bc7d4000000b0038cdd1b5475mr2076309wmk.55.1648684646107; 
- Wed, 30 Mar 2022 16:57:26 -0700 (PDT)
-Received: from localhost.localdomain ([2600:70ff:f07f:0:403e:ab57:ee68:20ea])
+ bh=PmuxUUNDh3/15/jUQqBe/K7OJARtjcWT/Xldt/ba9b4=;
+ b=JxrLMeEAIBemEdvXS1LCShALq29mO8Fkwwat4PXvLs9/nQGPH+1vk0V89aynWpeuiO
+ V5QB4x3mriwvjd8Qhko9ci+KWN46FSrpegjJFzNJ50ZFeKr4WNTjTcmHJdfMjlMBT6VI
+ q7yoXbXjzYJ0RcB36UMcfR+Az9OMTuML7c+krvPcWc7Bm9ZMXnL4UZ5W5w7vSatf7NU2
+ /KXhYQWSZZEvsOSvINzY2vHMt6VF/mqbKSGulQB95liE1lAflSw/kYM7wqOP7mqZDIms
+ 56oO9O+B+hYcRGE52Syde9iCo28gGBNsC0RqW7tGahQ6etaIRhRVfYRG7mukGrl3hR2d
+ T7Lw==
+X-Gm-Message-State: AOAM530f8ELB3DAn9j1WtL3a/WWyhv+Mtsy35ZdW18uhT5INjJyjntW6
+ pGiYjYYp6Xsv4DqmzZDfnvwr2hG8pcZqCw==
+X-Google-Smtp-Source: ABdhPJz6z9KkA8UVtoBWXi6KPrPXofiXabDoAYb5DfFzCtVVfANbqiJmijyYYC3BMx5B4TkI7SHvEA==
+X-Received: by 2002:a17:90a:d0c5:b0:1c9:ec78:18e5 with SMTP id
+ y5-20020a17090ad0c500b001c9ec7818e5mr2651956pjw.53.1648684896871; 
+ Wed, 30 Mar 2022 17:01:36 -0700 (PDT)
+Received: from atishp.ba.rivosinc.com ([66.220.2.162])
  by smtp.gmail.com with ESMTPSA id
- v8-20020a1cf708000000b0034d7b5f2da0sm5956055wmh.33.2022.03.30.16.57.25
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 30 Mar 2022 16:57:25 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
+ ij17-20020a17090af81100b001c67c964d93sm8891669pjb.2.2022.03.30.17.01.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Mar 2022 17:01:36 -0700 (PDT)
+From: Atish Patra <atishp@rivosinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-7.1] hw/tpm/tpm_tis: Avoid eventual read overrun
-Date: Thu, 31 Mar 2022 01:57:23 +0200
-Message-Id: <20220330235723.68033-1-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.35.1
+Subject: [PATCH v7 00/12] Improve PMU support
+Date: Wed, 30 Mar 2022 17:01:14 -0700
+Message-Id: <20220331000127.2107823-1-atishp@rivosinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=atishp@rivosinc.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -88,54 +88,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The latest version of the SBI specification includes a Performance Monitoring
+Unit(PMU) extension[1] which allows the supervisor to start/stop/configure
+various PMU events. The Sscofpmf ('Ss' for Privileged arch and Supervisor-level
+extensions, and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
+extension[2] allows the perf like tool to handle overflow interrupts and
+filtering support.
 
-The TPMState structure hold an array of TPM_TIS_NUM_LOCALITIES
-TPMLocality loc[], having TPM_TIS_NUM_LOCALITIES defined as '5'.
+This series implements full PMU infrastructure to support
+PMU in virt machine. This will allow us to add any PMU events in future.
 
-tpm_tis_locality_from_addr() returns up to 3 bits, so 7.
+Currently, this series enables the following omu events.
+1. cycle count
+2. instruction count
+3. DTLB load/store miss
+4. ITLB prefetch miss
 
-While unlikely, Coverity is right to report an overrun. Assert
-we are in range to fix:
+The first two are computed using host ticks while last three are counted during
+cpu_tlb_fill. We can do both sampling and count from guest userspace.
+This series has been tested on both RV64 and RV32. Both Linux[3] and Opensbi[4]
+patches are required to get the perf working.
 
-  *** CID 1487240:  Memory - illegal accesses  (OVERRUN)
-  hw/tpm/tpm_tis_common.c: 298 in tpm_tis_dump_state()
-  294         int idx;
-  295         uint8_t locty = tpm_tis_locality_from_addr(addr);
-  296         hwaddr base = addr & ~0xfff;
-  297
-  >>>     CID 1487240:  Memory - illegal accesses  (OVERRUN)
-  >>>     Overrunning array "s->loc" of 5 24-byte elements at element index 7 (byte offset 191) using index "locty" (which evaluates to 7).
-  298         printf("tpm_tis: active locality      : %d\n"
-  299                "tpm_tis: state of locality %d : %d\n"
-  300                "tpm_tis: register dump:\n",
-  301                s->active_locty,
-  302                locty, s->loc[locty].state);
+Here is an output of perf stat/report while running hackbench with OpenSBI & Linux
+kernel patches applied [3]. The kernel patches are available in upstream as well.
 
-Fixes: Coverity CID 1487240
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/tpm/tpm_tis_common.c | 1 +
- 1 file changed, 1 insertion(+)
+Perf stat:
+==========
+[root@fedora-riscv ~]# perf stat -e cycles -e instructions -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses \
+> perf bench sched messaging -g 1 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 1 groups == 40 processes run
 
-diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-index e700d82181..5b1055033e 100644
---- a/hw/tpm/tpm_tis_common.c
-+++ b/hw/tpm/tpm_tis_common.c
-@@ -295,6 +295,7 @@ static void tpm_tis_dump_state(TPMState *s, hwaddr addr)
-     uint8_t locty = tpm_tis_locality_from_addr(addr);
-     hwaddr base = addr & ~0xfff;
- 
-+    assert(TPM_TIS_IS_VALID_LOCTY(locty));
-     printf("tpm_tis: active locality      : %d\n"
-            "tpm_tis: state of locality %d : %d\n"
-            "tpm_tis: register dump:\n",
--- 
-2.35.1
+     Total time: 0.265 [sec]
+
+ Performance counter stats for 'perf bench sched messaging -g 1 -l 10':
+
+     4,167,825,362      cycles                                                      
+     4,166,609,256      instructions              #    1.00  insn per cycle         
+         3,092,026      dTLB-load-misses                                            
+           258,280      dTLB-store-misses                                           
+         2,068,966      iTLB-load-misses                                            
+
+       0.585791767 seconds time elapsed
+
+       0.373802000 seconds user
+       1.042359000 seconds sys
+
+Perf record:
+============
+[root@fedora-riscv ~]# perf record -e cycles -e instructions \
+> -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -c 10000 \
+> perf bench sched messaging -g 1 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 1 groups == 40 processes run
+
+     Total time: 1.397 [sec]
+[ perf record: Woken up 10 times to write data ]
+Check IO/CPU overload!
+[ perf record: Captured and wrote 8.211 MB perf.data (214486 samples) ]
+
+[root@fedora-riscv riscv]# perf report
+Available samples                                                               
+107K cycles                                                                    ◆
+107K instructions                                                              ▒
+250 dTLB-load-misses                                                           ▒
+13 dTLB-store-misses                                                           ▒
+172 iTLB-load-misses      
+..
+
+Changes from v6->v7:
+1. Fixed all the compilation errors for the usermode.
+
+Changes from v5->v6:
+1. Fixed compilation issue with PATCH 1.
+2. Addressed other comments.
+
+Changes from v4->v5:
+1. Rebased on top of the -next with following patches.
+   - isa extension
+   - priv 1.12 spec
+2. Addressed all the comments on v4
+3. Removed additional isa-ext DT node in favor of riscv,isa string update
+
+Changes from v3->v4:
+1. Removed the dummy events from pmu DT node.
+2. Fixed pmu_avail_counters mask generation.
+3. Added a patch to simplify the predicate function for counters. 
+
+Changes from v2->v3:
+1. Addressed all the comments on PATCH1-4.
+2. Split patch1 into two separate patches.
+3. Added explicit comments to explain the event types in DT node.
+4. Rebased on latest Qemu.
+
+Changes from v1->v2:
+1. Dropped the ACks from v1 as signficant changes happened after v1.
+2. sscofpmf support.
+3. A generic counter management framework.
+
+[1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.adoc
+[2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edit
+[3] https://github.com/atishp04/linux/tree/riscv_pmu_v6
+[4] https://github.com/atishp04/qemu/tree/riscv_pmu_v7
+
+Atish Patra (12):
+target/riscv: Fix PMU CSR predicate function
+target/riscv: Implement PMU CSR predicate function for S-mode
+target/riscv: pmu: Rename the counters extension to pmu
+target/riscv: pmu: Make number of counters configurable
+target/riscv: Implement mcountinhibit CSR
+target/riscv: Add support for hpmcounters/hpmevents
+target/riscv: Support mcycle/minstret write operation
+target/riscv: Add sscofpmf extension support
+target/riscv: Simplify counter predicate function
+target/riscv: Add few cache related PMU events
+hw/riscv: virt: Add PMU DT node to the device tree
+target/riscv: Update the privilege field for sscofpmf CSRs
+
+hw/riscv/virt.c           |  28 ++
+target/riscv/cpu.c        |  14 +-
+target/riscv/cpu.h        |  49 ++-
+target/riscv/cpu_bits.h   |  59 +++
+target/riscv/cpu_helper.c |  25 ++
+target/riscv/csr.c        | 879 ++++++++++++++++++++++++++++----------
+target/riscv/machine.c    |  25 ++
+target/riscv/meson.build  |   3 +-
+target/riscv/pmu.c        | 432 +++++++++++++++++++
+target/riscv/pmu.h        |  36 ++
+10 files changed, 1315 insertions(+), 235 deletions(-)
+create mode 100644 target/riscv/pmu.c
+create mode 100644 target/riscv/pmu.h
+
+--
+2.25.1
 
 
