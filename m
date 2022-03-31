@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24EF4EDAAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 15:37:45 +0200 (CEST)
-Received: from localhost ([::1]:34344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5157D4EDAB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 15:39:43 +0200 (CEST)
+Received: from localhost ([::1]:37172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZuzg-00061q-U6
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 09:37:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48090)
+	id 1nZv1a-0007zF-6Z
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 09:39:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nZuwT-00011p-He
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:34:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54495)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nZuwS-0001f2-1S
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:34:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648733663;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nZuxW-0002vI-Uq
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:35:32 -0400
+Received: from [2607:f8b0:4864:20::82b] (port=35465
+ helo=mail-qt1-x82b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nZuxV-00027H-F1
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:35:30 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id z19so18121240qtw.2
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 06:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
  bh=xcuMQNC6IrQ56TTJatplypq1x8R7rrxrvKnRLC/ubuI=;
- b=X/xSkQixgJPKgUSpXy1GTwYAuMc3ci4d19CgsDm8DFmhmfUGZ4ZQHkX1aMjWo2DEtf9sws
- 9/UhP2Bz7CjadbaXk5v/93orlDVPpx+M1kz3t+k0u3ZsXvY2Jm8GLUqiiLbBYCLHSPImTd
- HfmS11CL4DpjRANqhvBsLr5cz1u1jQQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-397-fJg9IRf2ONewAorV1p_oNA-1; Thu, 31 Mar 2022 09:34:21 -0400
-X-MC-Unique: fJg9IRf2ONewAorV1p_oNA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C93C80A0D5;
- Thu, 31 Mar 2022 13:34:19 +0000 (UTC)
+ b=iqVzp+ADGKTwGYEzEErhWSrNDw7bzV9JV+FeLW2ftO7vwWus6EHFtXbUNljhnHZlNB
+ 7mw8V+98cM/havbdHHj7o5Q2qPUXDbYwwMXTEE2PnNqHMTlF2MyBM/z+CrVM6wdCr3Fg
+ ei+WiGoYGZe1YlLPBT7Z1k9pz2jyvHJJqHE4EgBHYxzgP9ujF9lgvOrOnkcrVUHGU0xC
+ Ie3O/uhqVlIMby9JPYe2w7bRDWKQX2RQfgYFdJatr5CAg51YDOBg/oc2uxVyU5hgGeW9
+ k/HhXdHBURTFFDu15/hfiuGVf7ZdK/98ZJwh6TJTXxxz9yJLVFQCr5kEgSjSXpBDNsdg
+ YaIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=xcuMQNC6IrQ56TTJatplypq1x8R7rrxrvKnRLC/ubuI=;
+ b=WC5CUhMDZNPoULwbqZlNLZ27Z7ukSsWT8qJU1D5waCeQXsjn5ZHLOsPiWDdOdw2gsf
+ 6EJuOkO0ogiymXEjBwhSIh+aadkAUDY40hbKbOYzyH0EKC/xGx7A5K3PhMft3XS/qKeW
+ JPvmhfnN+4A6K4sxFm2f7Il/B1yWSnL+MQyE76rAPfaoOjzfl9HzT7R+HFikxVOf1Tc0
+ lpTYNPCDgXwWHbkxY5Z8pJYE5Oa+BVks6arEPKsuudwPBKt1UpH8BPJ8Px/TtgJsCxKb
+ mTLc5ZPl+XpYOmPkkhUcVpXybVnQcWsfccjt5rMbWs39Yg4G8W4TuU3m4tLaJPJaCpgA
+ BOuQ==
+X-Gm-Message-State: AOAM532d6Lm+m8uZ2NXvyElVej0dXEj5KH8YZYBajMLpF9q4cXIKEdCV
+ 8ApHrGN/hHlawit9YrIY5fY=
+X-Google-Smtp-Source: ABdhPJza2JERqPujUo74W4Zucta5U3A+wi//k7hEmPXZO5gFvym0vFNbb8Jtmlde9kq/DrZzs6rW1g==
+X-Received: by 2002:a05:622a:178a:b0:2e1:e7b8:e52e with SMTP id
+ s10-20020a05622a178a00b002e1e7b8e52emr4299625qtk.464.1648733728381; 
+ Thu, 31 Mar 2022 06:35:28 -0700 (PDT)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 351B640E80E5;
- Thu, 31 Mar 2022 13:34:19 +0000 (UTC)
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ f19-20020a05620a409300b00680c933fb1csm8381911qko.20.2022.03.31.06.35.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Mar 2022 06:35:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
-To: paolo.bonzini@gmail.com,
+To: pbonzini@redhat.com,
 	qemu-devel@nongnu.org
 Subject: [PULL 03/15] qapi: fix example of BLOCK_IMAGE_CORRUPTED event 6
-Date: Thu, 31 Mar 2022 09:34:19 -0400
-Message-Id: <20220331133419.598902-1-pbonzini@redhat.com>
+Date: Thu, 31 Mar 2022 09:35:04 -0400
+Message-Id: <20220331133504.599150-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: application/octet-stream; x-default=true
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, BODY_EMPTY=1.31,
- DKIMWL_WL_HIGH=-0.082, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-qt1-x82b.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
