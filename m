@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B5EE4EDA8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 15:30:27 +0200 (CEST)
-Received: from localhost ([::1]:45822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD944EDA95
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 15:33:19 +0200 (CEST)
+Received: from localhost ([::1]:49292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZusb-0002kD-PP
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 09:30:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45562)
+	id 1nZuvO-0005LJ-Hr
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 09:33:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nZuqI-0001Uf-Vf
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:28:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38568)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nZusG-0003DY-Gv
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:30:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nZuqG-0000MO-1Q
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:28:01 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nZusD-0000cl-V9
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 09:30:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648733277;
+ s=mimecast20190719; t=1648733394;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p++JMNaq2MJjut9lMGnicPXLY3C+s5MJZN4itBW9gyU=;
- b=aFaaRT8cfFwlYgPLEEY2dIWwjWWru71s7vy70n84iNRfRVhMDlpkd9sXz0nyTIPHcR9TR/
- cYYbn3a6s/a1CEWE01GYD9yfjp5S5qJR5qfI6BxJruBGPU286dFCFOuBoz0ucTGhqMB1Og
- 3ZFaAWrK2y+xaZr/R2QoVic6SqfgeGc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/jkP5bUzD0vtdkf3GzOVSsmFbVPINtlxQMvbGHDPiQ0=;
+ b=fHAxWQVfSjC46b+skeKsHJ7UrmLCdqn0tJ4xLWjpsqgd3Buj3yInzxsI8GQdxI/z2mbXbC
+ 2QKv2TxJltx29BXxixY0TffqEQW96Z7B158A9VO0KNADhflwQoyKlS3H3/Y3BrZy+mXOJZ
+ xjPT1XKsU6fncTWMaPVRYpcR9XxWD4U=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-372-JnpCSWZePOWs8MMUYZSfRg-1; Thu, 31 Mar 2022 09:27:51 -0400
-X-MC-Unique: JnpCSWZePOWs8MMUYZSfRg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-88-0jeZn86pOZCvqoz_L9mkdg-1; Thu, 31 Mar 2022 09:29:51 -0400
+X-MC-Unique: 0jeZn86pOZCvqoz_L9mkdg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3C66100BAA4;
- Thu, 31 Mar 2022 13:27:50 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.194.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C5DCA40FF708;
- Thu, 31 Mar 2022 13:27:50 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6119518000AA; Thu, 31 Mar 2022 15:27:49 +0200 (CEST)
-Date: Thu, 31 Mar 2022 15:27:49 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 2/3] i386: factor out x86_firmware_configure()
-Message-ID: <20220331132749.5bgmmlhskvqb4klf@sirius.home.kraxel.org>
-References: <20220331083549.749566-1-kraxel@redhat.com>
- <20220331083549.749566-3-kraxel@redhat.com>
- <YkWnmCErUMYietFV@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47A681C00B8F;
+ Thu, 31 Mar 2022 13:29:51 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 313B55B6D04;
+ Thu, 31 Mar 2022 13:29:51 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: paolo.bonzini@gmail.com,
+	qemu-devel@nongnu.org
+Subject: [PULL 03/15] qapi: fix example of BLOCK_IMAGE_CORRUPTED event
+Date: Thu, 31 Mar 2022 09:29:51 -0400
+Message-Id: <20220331132951.595640-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YkWnmCErUMYietFV@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: application/octet-stream; x-default=true
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, BODY_EMPTY=1.31,
+ DKIMWL_WL_HIGH=-0.082, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,40 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+From: Markus Armbruster <armbru@redhat.com>
 
-> > +void x86_firmware_configure(void *ptr, int size)
-> > +{
-> > +    int ret;
-> > +
-> > +    /*
-> > +     * OVMF places a GUIDed structures in the flash, so
-> > +     * search for them
-> > +     */
-> > +    pc_system_parse_ovmf_flash(ptr, size);
-> 
-> Any reason you chose to put this outside the sev_enabled()
-> check when you moved it, as that is a functional change ?
+From: Victor Toso <victortoso@redhat.com>
 
-Well, we probably get a 'if (tdx_enabled())' branch soon, and
-pc_system_parse_ovmf_flash() will be needed for both sev and tdx.
+Example output lacks mandatory member @fatal.  Provide it.
 
-> It ought to be harmless in theory, unless someone figures
-> out a way to break pc_system_parse_ovmf_flash code with
-> unexpected input.
+Example output shows a value of @msg no version of the code
+produces.  No big deal, but replace it anyway by one that
+today's code does produce.
 
-Yes, strictly speaking this is a functional change.  Without
-sev the pc_system_parse_ovmf_flash() results will be ignored
-though, so there should be no change in qemu behavior ...
+Signed-off-by: Victor Toso <victortoso@redhat.com>
+Message-Id: <20220328140604.41484-3-victortoso@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ qapi/block-core.json | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-take care,
-  Gerd
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index e89f2dfb5b..63c30a5378 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -5006,10 +5006,9 @@
+ # Example:
+ #
+ # <- { "event": "BLOCK_IMAGE_CORRUPTED",
+-#      "data": { "device": "ide0-hd0", "node-name": "node0",
+-#                "msg": "Prevented active L1 table overwrite", "offset": 196608,
+-#                "size": 65536 },
+-#      "timestamp": { "seconds": 1378126126, "microseconds": 966463 } }
++#      "data": { "device": "", "node-name": "drive", "fatal": false,
++#                "msg": "L2 table offset 0x2a2a2a00 unaligned (L1 index: 0)" },
++#      "timestamp": { "seconds": 1648243240, "microseconds": 906060 } }
+ #
+ # Since: 1.7
+ ##
+-- 
+2.35.1
+
+
 
 
