@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484EC4EE0E4
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:45:42 +0200 (CEST)
-Received: from localhost ([::1]:50010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7509F4EE0D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:43:07 +0200 (CEST)
+Received: from localhost ([::1]:44780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZznh-0006D2-DK
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:45:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48984)
+	id 1nZzlC-0002fj-HN
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:43:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nZzVh-0000lS-TY
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:27:05 -0400
-Received: from [2607:f8b0:4864:20::72d] (port=34384
- helo=mail-qk1-x72d.google.com)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nZzVl-0000wC-Bd; Thu, 31 Mar 2022 14:27:09 -0400
+Received: from [2607:f8b0:4864:20::231] (port=46689
+ helo=mail-oi1-x231.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nZzVg-0003tG-0A
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:27:05 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id 1so252104qke.1
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 11:27:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nZzVj-0003tr-Pp; Thu, 31 Mar 2022 14:27:09 -0400
+Received: by mail-oi1-x231.google.com with SMTP id b188so359276oia.13;
+ Thu, 31 Mar 2022 11:27:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5snQ8CRQ0a9ojoSJnUT3ylTF5nEXOe5Qzom4D/g7BJA=;
- b=eAXZwwWhmSkS4/TYr7fRs/0iVRTl6Gl6GHvRJEV9zObaBwog4UoK1pekT2Ssnht4wz
- O/ytSpa+ZmVFleW683QVePLU+gT/W6M8QTaQmIsX+JEHYln7ntZ6yXfmg2AXASU8j86d
- mK1MdOF40tesF6PEMyKsirZ+FvJV+6ZixNcjtqHfWKsyrp2J02elbzshZOrgdggIBg39
- ZBv5uayc781bnVBTrskhs2xzitbT2lm1k8g7yS6adfBQ4Q5OYzWfPQ3IzbzkVLvNGvNQ
- lkcuqsGRC7R53wfbDKFZ6fN8XZ3jdOWSjIE4J0LlaJcrbYMUsznwMCvLgacKt8KOqa/n
- FQOQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iVV8+P8y7audTdIIzhobVGfaTDqvJWqIcHp40sYWw0s=;
+ b=epmYl9gt61K9SxZ68smeu2OLpxSWRRLlECcxyW6u3FzPRwCuiBNY7t3a+gOSowkVae
+ ztD7HIKfeOivNU7VqfNmHFDqwwKnwjs6nQJtN/TzcUVDhcsn40J/zYltGbuY8qBaq/2V
+ jy90C2We7f0RQnx4Sh659QvpplfEjz91KCBxw8PnFvQAByOaPCkoLimQS1o8l5HhUNlV
+ PO1HRIE4sj3oZZzAv4ECwWYrX92RwM644X8J2NXMrFSVM3E8FosnBBsJunFJF1fSWgCW
+ ow4edR+FtUEQfrWgcaYBgS5zdJ69zXN/AleQ5qirocf9oZnO+YusIth+JOnVuXNowhA0
+ FgzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5snQ8CRQ0a9ojoSJnUT3ylTF5nEXOe5Qzom4D/g7BJA=;
- b=Se7zc6M7dXNiGk0n3la5x+c0irQllzSgGXNmdqcUbroZ4me8Ji6kh4jwTJ2+Rrm94n
- X0Zs6D6NMPWbPI9gwAQE/xi/0gq+4FTl3VnFr6A8ZPQQ8XSsXptl6E5nftOdJoDcQ8aG
- nMvSlSwIxHxwhpiJjt9pbH6iL9keQBAj4DB5RpScV963fuiG5rUSddS2abEU2cNjisbI
- sBqiOooZ0tOna+5z9Y/97geeHFvrHL5NbQCawZdyT3fXrHtxueJxef+5E4Vi09BqK0Ty
- fkTa86xY8tIOBvTDWFl4sKq8wxhMUR4PYEpoxiNOcgEkE2GyLAR6jTPbFOP+9x2kQYtG
- JELQ==
-X-Gm-Message-State: AOAM532rmaHQQ3vks7lyzLnKxh7Y5LvVg90P2D8r8nTeygPMhXNf1+Wn
- /Ug8VQqHXLyS36NGnzw9xLXJVmSLKkUdfQ==
-X-Google-Smtp-Source: ABdhPJx4Fc/8MHP8xcnUMmo4+5rPqeFGEd3WWEF3K4c4rjUbQcYmnSyNHlnOpSX2focubM0VPj+U+A==
-X-Received: by 2002:a05:620a:2993:b0:67d:7119:9f19 with SMTP id
- r19-20020a05620a299300b0067d71199f19mr4220182qkp.494.1648751221994; 
- Thu, 31 Mar 2022 11:27:01 -0700 (PDT)
-Received: from localhost.localdomain
- (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
- [209.6.248.219]) by smtp.gmail.com with ESMTPSA id
- v12-20020a05622a130c00b002e1b3ccd9adsm43322qtk.79.2022.03.31.11.27.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 11:27:01 -0700 (PDT)
-From: Will Cohen <wwcohen@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] 9p: move P9_XATTR_SIZE_MAX from 9p.h to 9p.c
-Date: Thu, 31 Mar 2022 14:26:51 -0400
-Message-Id: <20220331182651.887-1-wwcohen@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iVV8+P8y7audTdIIzhobVGfaTDqvJWqIcHp40sYWw0s=;
+ b=GnXEpDWGSL/edxcButODLswh8SeNEljgnjqGwitTNi1ffxTTvXt0ntTT/Ml9ZfIh9L
+ 8rY1dOvXRoT0lj25JavxYLO3Fy+9jBOXgnARh4CBYokfkOIOiHI5gC5iVmD7HrdrM/h9
+ ZIRUKArnwND2I3u3irfA9trF4vpGndCRI8NP5Z5IEZWsEG1A3dtQL+KQenpEjkrJ2UiJ
+ A2rrHU6dkcA/+4Zv7plLInLCfgrHQHdbw32LrzGce8Zou8JqNeGDa80nz6kXfvuVB9sH
+ ers9yNTynYCUQ0SnO5thvmMWY45jFmhaleg9gr2obYTSLYMCqUf0mNhfAEfxa1BL3jx7
+ gQ3g==
+X-Gm-Message-State: AOAM531Tso4/4ORUTC7N+SscU3bw1wcCy3PbkEBoPS0vIocu9TG0EwgZ
+ HX3EAutUuQ38frG/+rqvWDCt0UKZeir9MYGthWs=
+X-Google-Smtp-Source: ABdhPJyhgljz84Oov9BrAi2Y/aylYPyprdprYFAD+c4Vapfklm+bt6Or0HDvIsVMB4jwGJeo+45u8UtjiLSNX3c0zIM=
+X-Received: by 2002:aca:2b14:0:b0:2ef:89b7:a885 with SMTP id
+ i20-20020aca2b14000000b002ef89b7a885mr3193218oik.16.1648751225894; Thu, 31
+ Mar 2022 11:27:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72d
+References: <20220322000441.26495-1-dmiller423@gmail.com>
+ <20220322000441.26495-11-dmiller423@gmail.com>
+ <c3bb72da-c390-f9b5-5254-f8c16df21427@redhat.com>
+ <6409f049-d938-0e06-3cea-5877b31fce00@redhat.com>
+ <95ad366c-509d-d41f-209b-dc66054de4b8@redhat.com>
+In-Reply-To: <95ad366c-509d-d41f-209b-dc66054de4b8@redhat.com>
+From: David Miller <dmiller423@gmail.com>
+Date: Thu, 31 Mar 2022 14:26:55 -0400
+Message-ID: <CAEgyohVUHa+yd-inLOv3zTf143-_2Z35+K_XatUz74bqxDK9CA@mail.gmail.com>
+Subject: Re: [PATCH v4 10/11] tests/tcg/s390x: Tests for Vector Enhancements
+ Facility 2
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::231
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=wwcohen@gmail.com; helo=mail-qk1-x72d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=dmiller423@gmail.com; helo=mail-oi1-x231.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,112 +84,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, fabianfranz.oss@gmail.com,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- keno@juliacomputing.com, reactorcontrol@icloud.com,
- philippe.mathieu.daude@gmail.com, Will Cohen <wwcohen@gmail.com>, hi@alyssa.is
+Cc: farman@linux.ibm.com, David Hildenbrand <david@redhat.com>,
+ cohuck@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch set adding 9p functionality to darwin introduced an issue
-where limits.h, which defines XATTR_SIZE_MAX, is included in 9p.c,
-though the referenced constant is needed in 9p.h. This commit fixes that
-issue by moving the definition of P9_XATTR_SIZE_MAX, which uses
-XATTR_SIZE_MAX, to also be in 9p.c.
+Sorry,
+   Didn't notice this, as it was on v4 patch emails.
+I assume since there is no other follow up after a week,
+ CI jobs are not being updated and I should change samples to use .insn.
+I will try to get this out tomorrow.
 
-Additionally, this commit moves the location of the system headers
-include in 9p.c to occur before the project headers.
+Thanks,
+- David Miller
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/950
-Fixes: 38d7fd68b0 ("9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX")
-
-Signed-off-by: Will Cohen <wwcohen@gmail.com>
----
- hw/9pfs/9p.c | 28 +++++++++++++++++++++++-----
- hw/9pfs/9p.h | 18 ------------------
- 2 files changed, 23 insertions(+), 23 deletions(-)
-
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index dcaa602d4c..b9152c7882 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -16,6 +16,11 @@
-  * https://wiki.qemu.org/Documentation/9p
-  */
- 
-+#ifdef CONFIG_LINUX
-+#include <linux/limits.h>
-+#else
-+#include <limits.h>
-+#endif
- #include "qemu/osdep.h"
- #include <glib/gprintf.h>
- #include "hw/virtio/virtio.h"
-@@ -33,11 +38,6 @@
- #include "migration/blocker.h"
- #include "qemu/xxhash.h"
- #include <math.h>
--#ifdef CONFIG_LINUX
--#include <linux/limits.h>
--#else
--#include <limits.h>
--#endif
- 
- int open_fd_hw;
- int total_open_fd;
-@@ -3925,6 +3925,24 @@ out_nofid:
-     v9fs_string_free(&name);
- }
- 
-+#if defined(CONFIG_LINUX)
-+/* Currently, only Linux has XATTR_SIZE_MAX */
-+#define P9_XATTR_SIZE_MAX XATTR_SIZE_MAX
-+#elif defined(CONFIG_DARWIN)
-+/*
-+ * Darwin doesn't seem to define a maximum xattr size in its user
-+ * space header, so manually configure it across platforms as 64k.
-+ *
-+ * Having no limit at all can lead to QEMU crashing during large g_malloc()
-+ * calls. Because QEMU does not currently support macOS guests, the below
-+ * preliminary solution only works due to its being a reflection of the limit of
-+ * Linux guests.
-+ */
-+#define P9_XATTR_SIZE_MAX 65536
-+#else
-+#error Missing definition for P9_XATTR_SIZE_MAX for this host system
-+#endif
-+
- static void coroutine_fn v9fs_xattrcreate(void *opaque)
- {
-     int flags, rflags = 0;
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index af2635fae9..994f952600 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -479,22 +479,4 @@ struct V9fsTransport {
-     void        (*push_and_notify)(V9fsPDU *pdu);
- };
- 
--#if defined(XATTR_SIZE_MAX)
--/* Linux */
--#define P9_XATTR_SIZE_MAX XATTR_SIZE_MAX
--#elif defined(CONFIG_DARWIN)
--/*
-- * Darwin doesn't seem to define a maximum xattr size in its user
-- * space header, so manually configure it across platforms as 64k.
-- *
-- * Having no limit at all can lead to QEMU crashing during large g_malloc()
-- * calls. Because QEMU does not currently support macOS guests, the below
-- * preliminary solution only works due to its being a reflection of the limit of
-- * Linux guests.
-- */
--#define P9_XATTR_SIZE_MAX 65536
--#else
--#error Missing definition for P9_XATTR_SIZE_MAX for this host system
--#endif
--
- #endif
--- 
-2.35.1
-
+On Wed, Mar 23, 2022 at 1:13 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 22/03/2022 11.31, Thomas Huth wrote:
+> > On 22/03/2022 09.53, David Hildenbrand wrote:
+> >> On 22.03.22 01:04, David Miller wrote:
+> > [...]
+> >>> diff --git a/tests/tcg/s390x/Makefile.target
+> >>> b/tests/tcg/s390x/Makefile.target
+> >>> index 8c9b6a13ce..921a056dd1 100644
+> >>> --- a/tests/tcg/s390x/Makefile.target
+> >>> +++ b/tests/tcg/s390x/Makefile.target
+> >>> @@ -16,6 +16,14 @@ TESTS+=shift
+> >>>   TESTS+=trap
+> >>>   TESTS+=signals-s390x
+> >>> +VECTOR_TESTS=vxeh2_vs
+> >>> +VECTOR_TESTS+=vxeh2_vcvt
+> >>> +VECTOR_TESTS+=vxeh2_vlstr
+> >>> +
+> >>> +TESTS+=$(VECTOR_TESTS)
+> >>> +
+> >>> +$(VECTOR_TESTS): CFLAGS+=-march=z15 -O2
+> >>
+> >> @Thomas, will that survive our test framework already, or do we have to
+> >> wait for the debain11 changes?
+> >
+> > Alex' update to the container has already been merged:
+> >
+> > https://gitlab.com/qemu-project/qemu/-/commit/89767579cad2e371b
+> >
+> > ... and seems like it's working in Travis on s390x, too:
+> >
+> > https://app.travis-ci.com/github/huth/qemu/jobs/564188977#L12797
+> >
+> > ... so it seems like it should be OK now (considering that we drop support
+> > for the old Ubuntu version 18.04 in QEMU 7.1, too).
+>
+> Looks like I spoke a little bit too soon - some of the CI pipelines are
+> still using Debian 10 for running the TCG tests, and they are failing with
+> these patches applied:
+>
+> https://gitlab.com/thuth/qemu/-/jobs/2238422870#L3499
+>
+> Thus we either need to update the CI jobs to use Debian 11, or use
+> handcrafted instruction opcodes here again...
+>
+>   Thomas
+>
 
