@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9444EE2E0
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 22:47:36 +0200 (CEST)
-Received: from localhost ([::1]:53860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27904EE2E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 22:48:34 +0200 (CEST)
+Received: from localhost ([::1]:56664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na1hf-0000ec-2c
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 16:47:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48778)
+	id 1na1ib-0002YE-RH
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 16:48:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1na1fO-0006tR-UO
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:45:19 -0400
-Received: from [2607:f8b0:4864:20::102a] (port=39775
- helo=mail-pj1-x102a.google.com)
+ id 1na1hm-0001nu-P3
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:47:42 -0400
+Received: from [2607:f8b0:4864:20::629] (port=44921
+ helo=mail-pl1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1na1fN-0007gT-E2
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:45:14 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- mr5-20020a17090b238500b001c67366ae93so3397853pjb.4
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 13:45:13 -0700 (PDT)
+ id 1na1hl-0008Ag-CD
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:47:42 -0400
+Received: by mail-pl1-x629.google.com with SMTP id j8so648535pll.11
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 13:47:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VfurfFfai8IE9cebxXbiORGkn0p6QUHqCq0CCDNIxiY=;
- b=MM2EoXY0mAScJKz6++HfWTNedIY8mKAWAt1ZzRGbzmOozgPK3k8BXfEi9b+Eqhw67Q
- PZqBIS6CmlQ7twFB/jv5F9zS2NnGKfVNibQoQNNmt5d83tOGJUHCasr/RWN4wz5qZOk4
- Nk3ego6a0SCIAdPfvds3pMx7ELCbQOVXdVYtQ6uKB8qCWZXKjBGpHnw/lA/Xldhs/fRB
- VsnQCoHA7R4rNMFSIF3YuVG9oXWizAYmjtL56Z7te0duaW0f7/h/dyXn19A55znOKixc
- hUus1unjp2HuT3G7nYA9lI3f/NU+v0riDEK5Q/RfspwETmwNg9O+Sr7Le6SWDzvHfBXL
- 7hJg==
+ bh=i74ypiR1Flls0DN4CTK6slz0XHBVfS+S/DWoJU+m5rE=;
+ b=F2T5HH+ttwqVWiUAPAPUM94rVskwnRJTUyy6JSQBBoMiPsOfjDrhodue0CNC/mlJRH
+ ksiEyqOdo3emrJdJhFzuk4Dk3ypCLJhV6jYJvxtpiHHCaASB2hb0OrCt3KhQ3lLDPAeF
+ /xSJ7crpWykIRV0XZrdPkenXOoXY/1W3Cs5KJcXQwHstTySHuIbbYzhdDXNDDaJfc+UM
+ IfCBxYRiRWLKUaDEzpp4ZEtEm7Zd/oPpztbxDhGeHRen001wEBZnuRoja/Y8gv/CnXyn
+ juIhi8oQliGE09qczUnRU0hZ/fl80S0du0ZKTz9EMWDY/9N4WIadSz+BTrESed/c8Mm0
+ 78ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=VfurfFfai8IE9cebxXbiORGkn0p6QUHqCq0CCDNIxiY=;
- b=EZFQELAOM8NZGljYl4n/8lJCSEMy70hJMvrqaSSRaCvqikJNMtyYQMKB6PZ9fVPF2n
- 1h7tnCPZ9CnONybZIF3WOVfUDpPip6bFAE0elAwBWh6XZt81KTcLFa8s1TBK2MX38r/E
- 8z3dWbEWQWYRVO7YwDY8mDG3SeBQAQv+GpU896OZKYqSoZwz5ii3g76vydRQMCrb6D6O
- UrdfNkLvpheKhSkFnCq3Aaa/vuo9ilGYOvprqllQIFHn/zFfW4z0M967txdiGqjpwhrZ
- RzIaX4QGoK74Y7FJ/j8D1fEBWsfpmfmD/3LLTHY+rTSs0U3cpbS9a8QHkvCz4sc+Hyl1
- WnTA==
-X-Gm-Message-State: AOAM532Ow3RvIPYxaU64NfBT8uvyTdCdG0EdqQcOxh8wTPS1OcH+XkYu
- uoPXfAoFm+HPLcQxdKerXhk=
-X-Google-Smtp-Source: ABdhPJz5ZpgBrfYO3/ouYoevva8m/Cd9dKw6cKJj/RuICKYMSfkmP4rZlLdR54TcHR/k8VhDfIMLWg==
-X-Received: by 2002:a17:90b:3850:b0:1c6:572e:f39a with SMTP id
- nl16-20020a17090b385000b001c6572ef39amr8061099pjb.233.1648759511994; 
- Thu, 31 Mar 2022 13:45:11 -0700 (PDT)
+ bh=i74ypiR1Flls0DN4CTK6slz0XHBVfS+S/DWoJU+m5rE=;
+ b=5kP3RREWThIdF5V2yc0YXecI/33EXAXIp59Us9i0KM7M+UgkJMPG0RErYPU5fTUXXY
+ cM3PxsR/M4Da+wqBXdSU22enWLGZ/V6NEVpUGYElIJHP2k98Eq8gY9dnOUxe34ODWw/i
+ ZacgTc9x5QpkJMJ0kVUwxMrsomF2WY6PJUY0DOjviTtLGsspLGZXNTFsvBGjkv/oLWVA
+ ucPrh1hC+af3YiB1tOjDLqSE52eW71ZgScCNcLJY0HwWaox2wXGXpurlCW14bvDr912U
+ fdPbilkqe/slhnfSoCgqz+yGKvGSc/pslPGOsAiHGeUyF4fjopsu9c7ynfQFIl6FKaYO
+ eYYQ==
+X-Gm-Message-State: AOAM532FjNbh6SbLY2p9i0ig25XyHKGRrUVXIquJ8HZXtf7obqHFeZvc
+ 3jZnL7zBJGGv4wLxh0Vnug0=
+X-Google-Smtp-Source: ABdhPJyb7gyeIfbKWfFYT5dXB1Qq8/Zq6ohHA3bohkRkUcsY1RngTkgEViKsuuQvJm5s1jqFXFuiBg==
+X-Received: by 2002:a17:902:bd95:b0:14f:40ab:270e with SMTP id
+ q21-20020a170902bd9500b0014f40ab270emr6967819pls.101.1648759660078; 
+ Thu, 31 Mar 2022 13:47:40 -0700 (PDT)
 Received: from ?IPV6:2600:70ff:f07f:0:f49c:562:b5cb:b2b5?
  ([2600:70ff:f07f:0:f49c:562:b5cb:b2b5])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a056a001acc00b004fb37ecc6b2sm363386pfv.29.2022.03.31.13.45.09
+ a16-20020a17090a6d9000b001c9c3e2a177sm227629pjk.27.2022.03.31.13.47.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 13:45:11 -0700 (PDT)
-Message-ID: <1293e5f0-58f5-9bbe-cdf3-2ca39b05d888@gmail.com>
-Date: Thu, 31 Mar 2022 22:45:07 +0200
+ Thu, 31 Mar 2022 13:47:39 -0700 (PDT)
+Message-ID: <63d4c9f4-3e7d-e90d-5007-cf665cb88d4c@gmail.com>
+Date: Thu, 31 Mar 2022 22:47:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 1/3] i386: move bios load error message
+Subject: Re: [PATCH 3/3] i386: firmware parsing and sev setup for -bios loaded
+ firmware
 Content-Language: en-US
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 References: <20220331083549.749566-1-kraxel@redhat.com>
- <20220331083549.749566-2-kraxel@redhat.com>
+ <20220331083549.749566-4-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220331083549.749566-2-kraxel@redhat.com>
+In-Reply-To: <20220331083549.749566-4-kraxel@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -104,14 +104,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 31/3/22 10:35, Gerd Hoffmann wrote:
-> Switch to usual goto-end-of-function error handling style.
-> No functional change.
+> Don't register firmware as rom, not needed (see comment).
+> Add x86_firmware_configure() call for proper sev initialization.
 > 
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > Tested-by: Xiaoyao Li <xiaoyao.li@intel.com>
 > ---
->   hw/i386/x86.c | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
+>   hw/i386/x86.c | 25 +++++++++++++++++++------
+>   1 file changed, 19 insertions(+), 6 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
