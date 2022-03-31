@@ -2,113 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30544ED5AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 10:33:38 +0200 (CEST)
-Received: from localhost ([::1]:44856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CE84ED5E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 10:39:43 +0200 (CEST)
+Received: from localhost ([::1]:56722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZqFN-0007fH-7m
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 04:33:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58744)
+	id 1nZqLG-0007Q8-Vx
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 04:39:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1nZq7R-0001WQ-Ci; Thu, 31 Mar 2022 04:25:25 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62974
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1nZq7O-0004QS-6y; Thu, 31 Mar 2022 04:25:24 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22V7ed4X016083; 
- Thu, 31 Mar 2022 08:25:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : from : to : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=qh+7FLIIfLCv+Th4qKAZs/JsG0hZVB+jSaXtfhw6FXA=;
- b=CsjBfWBOid5RdBFBa8aVMtpNSr5Q0lVB8S4PI//hpWRFWZ/o/GpSpXO64IiNadtreqoc
- B+SdgEJlgtM5V7KNKA0DkOqLMJ6e3OUz2SvF2v952/ecqwc1NpqHQx9AcdCKavA6H7tR
- NSBZc4hHq/qP4fua/bTJ6Bx9mdO0UuFr5xecCk/pLFCyHDBYNtXYkuPd1jUdKOhsiXEq
- ffMhttTgoqOnAGFhTlLEGUMV9HAJBau5EkLpxP5X2+vROyROR82Vo31zrqqOD3ytkpXA
- cnP4yF4LeWuUzNoZEl3TytysFwLMAYsupfsZmPIFqpSZS9qjyn6BZXmPlKm5SD2lYygQ cw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3f50aeh3b0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 31 Mar 2022 08:25:20 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22V8PK9K031912;
- Thu, 31 Mar 2022 08:25:20 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3f50aeh3ag-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 31 Mar 2022 08:25:19 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22V8JJqN013047;
- Thu, 31 Mar 2022 08:25:18 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma02fra.de.ibm.com with ESMTP id 3f1tf90r50-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 31 Mar 2022 08:25:17 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 22V8PLUJ40370448
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 31 Mar 2022 08:25:21 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9815FA405C;
- Thu, 31 Mar 2022 08:25:15 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 10FF6A4054;
- Thu, 31 Mar 2022 08:25:15 +0000 (GMT)
-Received: from [9.171.83.180] (unknown [9.171.83.180])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 31 Mar 2022 08:25:14 +0000 (GMT)
-Message-ID: <2592efbf-ec8f-d6ef-2708-37958b514a02@linux.ibm.com>
-Date: Thu, 31 Mar 2022 10:25:14 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nZq8E-00025U-3Y
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:26:15 -0400
+Received: from [2607:f8b0:4864:20::b32] (port=43628
+ helo=mail-yb1-xb32.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nZq8C-0004aN-EJ
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:26:13 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id v35so41029238ybi.10
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 01:26:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Sb5IDYbVtXFqhdEXxjvsc/0Dr+RVcGGxEXq9wIg37Y8=;
+ b=cGRSZ6NjYkNFHNJHThRdnQb6p5TeUpHV1ne+lPQT8A66ER+waP2V/hjJphqu0/h1kY
+ re4DeTTAg9d4jAVaDSDevjKVC7pZpCh1hEh9NfyCafGKjn+qhvIoaUUHsDSiwXujCdRG
+ u1pV3/kvn9M5+e3LuwKmEWoC//giGoPuW/1RLZL7QCja8OBV8LiHtuvCMZIso455ye/C
+ zcALAufCqVdu2vDDzmSwV8ysUlfOJtJ2MmC5TEztuLydoeFkrwnoACvLdGQG4jXKpyM7
+ yCV4iVzPk+DxSZ2UyyJCAorEZV7JgpmonCwluBMlWNJxl3zWfJax+phmN5vKkqutYZT/
+ zroA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Sb5IDYbVtXFqhdEXxjvsc/0Dr+RVcGGxEXq9wIg37Y8=;
+ b=jmjyo2q2IWkdIvsKr2SMnn2eGWwDSN1cMZ+B4flh4Lc/3mdmUl7Vai00AWmD9EWgrs
+ 4f5J1jAi0FFATaKh+cK32mnNZakWHAu5wq3M6oGKfl0OzfQJA7avlypkUvE2nc3jQ0YD
+ S5lMZcnKwFXM/QbGYivo19Wt2iHLykvEPOSYW2b1dZqRN4HImS9YJ/Iahq4/vjMEb+kk
+ KQiWF3wKuEQ4BeHVwNqksbZX5vnT1wkF3d+ZEWFIZHIq9dq1VV7w/IcdFsADLBWFym8T
+ /wqNwTF7ralm7TpsiIe1wHCqnJmi4DPTm6Lnptidl0KkLd6mvq3tpZjXOmRLZwRx0RiU
+ M5uA==
+X-Gm-Message-State: AOAM5334jZuu07y64n7xG1AbmtYGLWcXOS/Qyba9PW7atg0EoCsgpas1
+ GkBUJy5GbwQJef7zIWjB6VUvARMIVvgoCAxtFUH38w==
+X-Google-Smtp-Source: ABdhPJxlibKNsL5q1R4lFJqzhlg9plYIXRop39B86l4OKFipw5u03zjqlKH4GWVUIE4UFf/Ba/NOWctTQqVoEtKM8A0=
+X-Received: by 2002:a25:cdc8:0:b0:633:8aa6:6a3 with SMTP id
+ d191-20020a25cdc8000000b006338aa606a3mr3289894ybf.288.1648715171339; Thu, 31
+ Mar 2022 01:26:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: qemu iotest 161 and make check
-Content-Language: en-US
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- qemu block <qemu-block@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <36201311-39e2-0b94-1b06-74a2df988553@linux.ibm.com>
- <45589fd7-bf18-8950-34f5-86a90b99c8c1@virtuozzo.com>
- <586f035a-91b7-4743-9285-09996aa32b4f@linux.ibm.com>
- <a4955275-6cdd-f54d-81b1-8380aad0461f@redhat.com>
- <6d73af8a-4620-f702-5367-6bed666b61a8@virtuozzo.com>
- <54616427-1784-d12b-1a54-131796b56c07@linux.ibm.com>
- <d6d24f79-24bd-46ac-6332-a066410e0217@linux.ibm.com>
-In-Reply-To: <d6d24f79-24bd-46ac-6332-a066410e0217@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: QPRpOP-L6L7-UYmAtejLH_msiVkHnJ2A
-X-Proofpoint-GUID: o7UFRMh0aYGon26azQNr5NIw5QQ3vW-D
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-31_03,2022-03-30_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 suspectscore=0 mlxscore=0 clxscore=1015 impostorscore=0
- phishscore=0 mlxlogscore=999 spamscore=0 bulkscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203310044
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220328173107.311267-1-idan.horowitz@gmail.com>
+ <a2e29af5-705a-19b0-b7ad-0126f8d441b0@linaro.org>
+In-Reply-To: <a2e29af5-705a-19b0-b7ad-0126f8d441b0@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 31 Mar 2022 09:26:00 +0100
+Message-ID: <CAFEAcA9kTNFeAOUz3BFp+ti=AtZRAk2jQTOjDzLnLANPtM4MdA@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Fix MTE access checks for disabled SEL2
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,60 +82,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm@nongnu.org, Idan Horowitz <idan.horowitz@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 28 Mar 2022 at 19:04, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 3/28/22 11:31, Idan Horowitz wrote:
+> > While not mentioned anywhere in the actual specification text, the
+> > HCR_EL2.ATA bit is treated as '1' when EL2 is disabled at the current
+> > security state. This can be observed in the psuedo-code implementation
+> > of AArch64.AllocationTagAccessIsEnabled().
+> >
+> > Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
+> > ---
+> >   target/arm/helper.c    | 2 +-
+> >   target/arm/internals.h | 2 +-
+> >   2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> I was immediately thinking, didn't I just fix this?
+> But I was patching pauth.  Anyway, good catch.
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-Am 31.03.22 um 09:44 schrieb Christian Borntraeger:
-> 
-> 
-> Am 21.02.22 um 11:27 schrieb Christian Borntraeger:
->>
->> Am 10.02.22 um 18:44 schrieb Vladimir Sementsov-Ogievskiy:
->>> 10.02.2022 20:13, Thomas Huth wrote:
->>>> On 10/02/2022 15.51, Christian Borntraeger wrote:
->>>>>
->>>>>
->>>>> Am 10.02.22 um 15:47 schrieb Vladimir Sementsov-Ogievskiy:
->>>>>> 10.02.2022 10:57, Christian Borntraeger wrote:
->>>>>>> Hello,
->>>>>>>
->>>>>>> I do see spurious failures of 161 in our CI, but only when I use
->>>>>>> make check with parallelism (-j).
->>>>>>> I have not yet figured out which other testcase could interfere
->>>>>>>
->>>>>>> @@ -34,6 +34,8 @@
->>>>>>>   *** Commit and then change an option on the backing file
->>>>>>>
->>>>>>>   Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=1048576
->>>>>>> +qemu-img: TEST_DIR/t.IMGFMT.base: Failed to get "write" lock
-> 
-> FWIW, qemu_lock_fd_test returns -11 (EAGAIN)
-> and raw_check_lock_bytes spits this error.
 
+Applied to target-arm.next, thanks.
 
-And its coming from here (ret is 0)
-
-int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
-{
-     int ret;
-     struct flock fl = {
-         .l_whence = SEEK_SET,
-         .l_start  = start,
-         .l_len    = len,
-         .l_type   = exclusive ? F_WRLCK : F_RDLCK,
-     };
-     qemu_probe_lock_ops();
-     ret = fcntl(fd, fcntl_op_getlk, &fl);
-     if (ret == -1) {
-         return -errno;
-     } else {
------>        return fl.l_type == F_UNLCK ? 0 : -EAGAIN;
-     }
-}
-
-> 
-> 
-> Is this just some overload situation that we do not recover because we do not handle EAGAIN any special.
+-- PMM
 
