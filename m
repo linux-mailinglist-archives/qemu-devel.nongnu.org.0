@@ -2,72 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A224ED64E
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 10:55:41 +0200 (CEST)
-Received: from localhost ([::1]:52848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117A54ED687
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 11:08:13 +0200 (CEST)
+Received: from localhost ([::1]:43814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZqai-0007ec-Lm
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 04:55:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35524)
+	id 1nZqmq-0004SK-5m
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 05:08:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nZqWo-0005XR-UJ
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:51:39 -0400
-Received: from mga04.intel.com ([192.55.52.120]:62670)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nZqZc-0000Ie-Ic
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:54:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nZqWm-0000gz-KY
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:51:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648716696; x=1680252696;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=AJhSb2adOnH4x8zWZD1Xoit68/Zd7wJssWmMSp6l/Ls=;
- b=X4HEqc4nxr3LYWqdmtOpenQfd1myRpTenkfdJDEOmk3FfPT0MRTQaA9r
- Sc0Be6MUjm888iHkAqXp71Ohl549Dd8fNLs1b2Q1nw/8QWxR+ASKg1Wpx
- L74TDEUhBuJoAHQf8IwSENpNxBrhqROOX42K9+K1NVcvOatOgzrcW5vW8
- zTnCVMDgxjlDQb7Xu4/XjyzLARz87U7t5otS+F3OfTtxkQ940hlQrglzW
- 0KR5agTpT9PV9RT39wysifmYwcxpBN50FxwCDVTmoMQQN76q7yEprbzqh
- CjGGN7/XQtvZ0FFhhjW1yovEq+Oy/cthhtiVMqlb56k7Mnor8ZMFit745 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="258594940"
-X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="258594940"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 01:51:33 -0700
-X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="547232848"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.193.1])
- ([10.249.193.1])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 01:51:29 -0700
-Message-ID: <1d5b0192-75ef-49ad-dc47-cfc0c3c63455@intel.com>
-Date: Thu, 31 Mar 2022 16:51:27 +0800
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nZqZZ-0001j6-9K
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:54:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648716865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j17GQJP9z6Tngk3jEjdT0pOnEyheRiWn1tvazJzZq7c=;
+ b=TuOhLYnF7i3NIeq97ZsweviZtgZJo5cnRbIiaAnjHDCF8Iaxcli/nm+SPjOIJFhVRpklK1
+ e/INztLaTmSETuCbEjaeK4SLIgRx992lyGy0oirF0WAaVS1TbJLNsG5a9mWpPF3yIAbJbN
+ NBinOcjVuqZgyMVK54VS+UxMHZ6Ys5k=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-373-9R5o2Ff7OQ2jdGFaSDsYGQ-1; Thu, 31 Mar 2022 04:54:23 -0400
+X-MC-Unique: 9R5o2Ff7OQ2jdGFaSDsYGQ-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ j6-20020a170902c08600b0015442fe6256so9528890pld.23
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 01:54:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=j17GQJP9z6Tngk3jEjdT0pOnEyheRiWn1tvazJzZq7c=;
+ b=xo/4Ij3t2CAzfhT/U1J3JJ+H8Urw1F9q6Zhq5U3yXSdEtA8nCHOOphWVCZ1w+aaPVs
+ fUl3p5+qjgvFatMv97f7+5qsSRFG55yiz/NbD0z1pyjvblDHZew6o4TOSB8hnin2JhnX
+ DqskB8AdpTCWFAFTi+AElOwScDKuwOW6p8KQYq/Mce519xkiwG4ZqQvHF2WLvUfBwiIR
+ A3tf7Yl2itJGKTorJIY6ztUzr1+6fo7KGK6N3MEjgNrqintNnl+zYawJDEp2ZOOVfbk7
+ RAQE8XjLWygHRpeKfuTRNO+yhhiivWcPzk20VVfDKDs7VB7F3OCqAzGxu4i54MXzMS/C
+ 9XPw==
+X-Gm-Message-State: AOAM53367cNjqavQh7ibggHTCnUkCAuy1yrXcyGtYUQPXOzDO31P2QQw
+ PujpHZ5mLq8D9DoYiv897qSmsUy8aoTXz41AwKQm38XEV3ON4kZLkpVsYJjvb0c+dfgGUbpaiJl
+ dxOM5kYpMUA78q1E=
+X-Received: by 2002:a17:90b:1bc9:b0:1c7:228a:95ce with SMTP id
+ oa9-20020a17090b1bc900b001c7228a95cemr4914619pjb.3.1648716862537; 
+ Thu, 31 Mar 2022 01:54:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZqZgRTK2fbPpbHavMqVmNquXbuJTSlcffXsD+x9UZpOI1J7sm10tEVvsI/btdH8zCZxZrEw==
+X-Received: by 2002:a17:90b:1bc9:b0:1c7:228a:95ce with SMTP id
+ oa9-20020a17090b1bc900b001c7228a95cemr4914595pjb.3.1648716862203; 
+ Thu, 31 Mar 2022 01:54:22 -0700 (PDT)
+Received: from [10.72.13.146] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ k13-20020aa7820d000000b004fa72a52040sm26210186pfi.172.2022.03.31.01.54.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 31 Mar 2022 01:54:21 -0700 (PDT)
+Message-ID: <9a7c92a6-4551-48a7-6569-d3bc9d227fe2@redhat.com>
+Date: Thu, 31 Mar 2022 16:54:17 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [RFC PATCH v3 17/36] pflash_cfi01/tdx: Introduce ram_mode of
- pflash for TDVF
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH 7/7] vhost-vdpa: backend feature should set only once
+To: Eugenio Perez Martin <eperezma@redhat.com>,
+ Si-Wei Liu <si-wei.liu@oracle.com>
+References: <1648621997-22416-1-git-send-email-si-wei.liu@oracle.com>
+ <1648621997-22416-8-git-send-email-si-wei.liu@oracle.com>
+ <CAJaqyWdF55nKD05C54OOvM5-mmsCG7FMixKLguPGNR4Ostqnmw@mail.gmail.com>
+ <f8ace3a3-8f86-841e-c056-271528d5ba9c@oracle.com>
+ <CAJaqyWfb5=bEQGiGHamwqgBAvQf2FKEr8SwgVsa1LM2N-v48oQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <CAJaqyWfb5=bEQGiGHamwqgBAvQf2FKEr8SwgVsa1LM2N-v48oQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
- <20220317135913.2166202-18-xiaoyao.li@intel.com>
- <f418548e-c24c-1bc3-4e16-d7a775298a18@gmail.com>
- <7a8233e4-0cae-b05a-7931-695a7ee87fc9@intel.com>
- <YjmWhMVx80/BFY8z@redhat.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <YjmWhMVx80/BFY8z@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=xiaoyao.li@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,46 +108,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Eric Blake <eblake@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, seanjc@google.com, erdemaktas@google.com,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: Eli Cohen <eli@mellanox.com>, qemu-level <qemu-devel@nongnu.org>,
+ Michael Tsirkin <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/22/2022 5:27 PM, Daniel P. Berrangé wrote:
-...
-> IMHO the AmdSev build for OVMF gets this right by entirely disabling
-> the split OVMF_CODE.fd vs OVMF_VARS.fd, and just having a single
-> OVMF.fd file that is exposed read-only to the guest.
-> 
-> This is further represented in $QEMU.git/docs/interop/firmware.json
-> by marking the firmware as 'stateless', which apps like libvirt will
-> use to figure out what QEMU command line to pick.
 
-Hi Daniel,
+在 2022/3/31 下午4:02, Eugenio Perez Martin 写道:
+> On Thu, Mar 31, 2022 at 1:03 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+>>
+>>
+>> On 3/30/2022 12:01 PM, Eugenio Perez Martin wrote:
+>>> On Wed, Mar 30, 2022 at 8:33 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+>>>> The vhost_vdpa_one_time_request() branch in
+>>>> vhost_vdpa_set_backend_cap() incorrectly sends down
+>>>> iotls on vhost_dev with non-zero index. This may
+>>>> end up with multiple VHOST_SET_BACKEND_FEATURES
+>>>> ioctl calls sent down on the vhost-vdpa fd that is
+>>>> shared between all these vhost_dev's.
+>>>>
+>>> Not only that. This means that qemu thinks the device supports iotlb
+>>> batching as long as the device does not have cvq. If vdpa does not
+>>> support batching, it will return an error later with no possibility of
+>>> doing it ok.
+>> I think the implicit assumption here is that the caller should back off
+>> to where it was if it comes to error i.e. once the first
+>> vhost_dev_set_features call gets an error, vhost_dev_start() will fail
+>> straight.
+> Sorry, I don't follow you here, and maybe my message was not clear enough.
+>
+> What I meant is that your patch fixes another problem not stated in
+> the message: it is not possible to initialize a net vdpa device that
+> does not have cvq and does not support iotlb batches without it. Qemu
+> will assume that the device supports batching, so the write of
+> VHOST_IOTLB_BATCH_BEGIN will fail. I didn't test what happens next but
+> it probably cannot continue.
 
-I don't play with AMD SEV and I'm not sure if AMD SEV requires only 
-single OVMF.fd. But IIUC, from edk2
 
-commit 437eb3f7a8db ("OvmfPkg/QemuFlashFvbServicesRuntimeDxe: Bypass 
-flash detection with SEV-ES")
+So you mean we actually didn't call VHOST_SET_BACKEND_CAP in this case. 
+Fortunately, kernel didn't check the backend cap when accepting batching 
+hints.
 
-, AMD SEV(-ES) does support NVRAM via proactive VMGEXIT MMIO 
-QemuFlashWrite(). If so, AMD SEV seems to be able to support split OVMF, 
-right?
+We are probably fine?
 
-> IOW, if you don't want OVMF_VARS.fd to be written to, then follow
-> what AmdSev has done, and get rid of the split files.
-> 
-> 
-> With regards,
-> Daniel
+Thanks
+
+
+> In that regard, this commit needs to be marked as "Fixes: ...", either
+> ("a5bd058 vhost-vdpa: batch updating IOTLB mappings") or maybe better
+> ("4d191cf vhost-vdpa: classify one time request"). We have a
+> regression if we introduce both, or the second one and the support of
+> any other backend feature.
+>
+>> Noted that the VHOST_SET_BACKEND_FEATURES ioctl is not per-vq
+>> and it doesn't even need to. There seems to me no possibility for it to
+>> fail in a way as thought here. The capture is that IOTLB batching is at
+>> least a vdpa device level backend feature, if not per-kernel. Same as
+>> IOTLB_MSG_V2.
+>>
+> At this moment it is per-kernel, yes. With your patch there is no need
+> to fail because of the lack of _F_IOTLB_BATCH, the code should handle
+> this case ok.
+>
+> But if VHOST_GET_BACKEND_FEATURES returns no support for
+> VHOST_BACKEND_F_IOTLB_MSG_V2, the qemu code will happily send v2
+> messages anyway. This has nothing to do with the patch, I'm just
+> noting it here.
+>
+> In that case, maybe it is better to return something like -ENOTSUP?
+>
+> Thanks!
+>
+>> -Siwei
+>>
+>>>    Some open questions:
+>>>
+>>> Should we make the vdpa driver return error as long as a feature is
+>>> used but not set by qemu, or let it as undefined? I guess we have to
+>>> keep the batching at least without checking so the kernel supports old
+>>> versions of qemu.
+>>>
+>>> On the other hand, should we return an error if IOTLB_MSG_V2 is not
+>>> supported here? We're basically assuming it in other functions.
+>>>
+>>>> To fix it, send down ioctl only once via the first
+>>>> vhost_dev with index 0. Toggle the polarity of the
+>>>> vhost_vdpa_one_time_request() test would do the trick.
+>>>>
+>>>> Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
+>>> Acked-by: Eugenio Pérez <eperezma@redhat.com>
+>>>
+>>>> ---
+>>>>    hw/virtio/vhost-vdpa.c | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>>>> index c5ed7a3..27ea706 100644
+>>>> --- a/hw/virtio/vhost-vdpa.c
+>>>> +++ b/hw/virtio/vhost-vdpa.c
+>>>> @@ -665,7 +665,7 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
+>>>>
+>>>>        features &= f;
+>>>>
+>>>> -    if (vhost_vdpa_one_time_request(dev)) {
+>>>> +    if (!vhost_vdpa_one_time_request(dev)) {
+>>>>            r = vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, &features);
+>>>>            if (r) {
+>>>>                return -EFAULT;
+>>>> --
+>>>> 1.8.3.1
+>>>>
 
 
