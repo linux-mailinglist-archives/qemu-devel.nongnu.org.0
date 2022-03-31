@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC3E4ED80C
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:57:08 +0200 (CEST)
-Received: from localhost ([::1]:57622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D6D4ED813
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 12:59:42 +0200 (CEST)
+Received: from localhost ([::1]:37250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZsUF-0001TT-Em
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:57:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32770)
+	id 1nZsWj-000757-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 06:59:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRA-0006fQ-Hc
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:53:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53659)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRG-0006i4-LF
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsR8-0007hL-AO
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:53:55 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nZsRD-0007hw-S3
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 06:54:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648724033;
+ s=mimecast20190719; t=1648724039;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vW9Zq9sFxP++PLST1DvCkf1t1l6owfTBInOPTA1djA4=;
- b=AFaS3W/TOYTDCtzLpUunSZVkgr3pQ5xUk4nJ1nCsHQS3R9QfQE7RED/KNsWoOL/kZgDiwn
- 3iOaZvJj/Fo1HJTOA7C/FWnibMULaOwWmU5tkTkgXliE4xI6QYJAKUNPt4+AgQP0hzs7W/
- 7Gf8NF52s68Mbbqdyvh5K5AKz5yoUMc=
+ bh=GbGsBJqH5D6VwDdDcOqgMTAVJp1U3Jolt3hAcWCrsS8=;
+ b=gwf8qMB5Yy2OYDA2YHSmTZ0yR6bDVEFQgJZFAQW4VmzDly97SxLVKdwzGezkgFqHLr63m3
+ DT1eRDLxqS5qkg7kCVvj1GR3KpoMNOAXCh/DH50+MztsuosxtrsLfHQabC0pm9AUFQ9zRi
+ dw22TGI7JREX0TinljtxPaI0bPZEKrU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-xNysy6zPO8KDBfq-XvTMEw-1; Thu, 31 Mar 2022 06:53:50 -0400
-X-MC-Unique: xNysy6zPO8KDBfq-XvTMEw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-298-q9Agk773MlCzfuO7_iK9Rw-1; Thu, 31 Mar 2022 06:53:56 -0400
+X-MC-Unique: q9Agk773MlCzfuO7_iK9Rw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABD20811E76;
- Thu, 31 Mar 2022 10:53:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C58E3899ECF;
+ Thu, 31 Mar 2022 10:53:55 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 88DB0400E407;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95DAA40D0160;
  Thu, 31 Mar 2022 10:53:48 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7C93821E691E; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
+ id 7F17D21E6923; Thu, 31 Mar 2022 12:53:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/15] schemas: add missing vim modeline
-Date: Thu, 31 Mar 2022 12:53:30 +0200
-Message-Id: <20220331105344.3471295-2-armbru@redhat.com>
+Subject: [PULL 02/15] qapi: BlockExportRemoveMode: move comments to TODO
+Date: Thu, 31 Mar 2022 12:53:31 +0200
+Message-Id: <20220331105344.3471295-3-armbru@redhat.com>
 In-Reply-To: <20220331105344.3471295-1-armbru@redhat.com>
 References: <20220331105344.3471295-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: application/octet-stream; x-default=true
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
 X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, BODY_EMPTY=1.31,
  DKIMWL_WL_HIGH=-0.082, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -87,29 +87,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Victor Toso <victortoso@redhat.com>
 
-This is the last qapi schema that is missing the modeline.
-Fixes 7e7237cd2b "schemas: add missing vim modeline"
+@hide and @soft are potential additions which fits the TODO section
+perfectly.
+
+The main motivation is to avoid this whole block of comment entering
+the wrong section in the python parser.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
-Message-Id: <20220325221605.53995-1-victortoso@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
+Message-Id: <20220328140604.41484-2-victortoso@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/pragma.json | 3 +++
- 1 file changed, 3 insertions(+)
+ qapi/block-export.json | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/qapi/pragma.json b/qapi/pragma.json
-index 3bc0335d1f..e6a021c19c 100644
---- a/qapi/pragma.json
-+++ b/qapi/pragma.json
-@@ -1,3 +1,6 @@
-+# -*- Mode: Python -*-
-+# vim: filetype=python
-+
- { 'pragma': { 'doc-required': true } }
- 
- # Whitelists to permit QAPI rule violations; think twice before you
+diff --git a/qapi/block-export.json b/qapi/block-export.json
+index f183522d0d..1e34927f85 100644
+--- a/qapi/block-export.json
++++ b/qapi/block-export.json
+@@ -219,13 +219,13 @@
+ #
+ # @hard: Drop all connections immediately and remove export.
+ #
+-# Potential additional modes to be added in the future:
++# TODO: Potential additional modes to be added in the future:
+ #
+-# hide: Just hide export from new clients, leave existing connections as is.
+-# Remove export after all clients are disconnected.
++#       hide: Just hide export from new clients, leave existing connections as is.
++#       Remove export after all clients are disconnected.
+ #
+-# soft: Hide export from new clients, answer with ESHUTDOWN for all further
+-# requests from existing clients.
++#       soft: Hide export from new clients, answer with ESHUTDOWN for all further
++#       requests from existing clients.
+ #
+ # Since: 2.12
+ ##
 -- 
 2.35.1
 
