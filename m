@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10CB4EE175
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 21:13:07 +0200 (CEST)
-Received: from localhost ([::1]:50870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF864EE171
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 21:11:31 +0200 (CEST)
+Received: from localhost ([::1]:48436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na0EE-0001ak-Tj
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 15:13:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56358)
+	id 1na0Ch-0008Gz-16
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 15:11:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1na08B-0006rC-JS
+ id 1na08B-0006r9-CF
  for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:06:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36640)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1na08A-0003fB-6z
+ id 1na089-0003f7-U1
  for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:06:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1648753609;
@@ -25,29 +25,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TrIdlmL9eYt28OUWBt/CZSSP2v/kzo0x/pQWbHC8W8c=;
- b=aGWaFIFbe6kT0KhpOiOQotTr5WxEgMRm59m78G4Kp3btGfRMLTJynREgroi6xW0DKKjL9A
- 9INuDQFj19OZWYehjbZd9DYPicGSZ2W7nERlZ4ObjAweVBnjpVnOEI05TotWYm3hy5FLTU
- KkUstRZus7xQCuVvtHQPS4C1fYjZ2Ps=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4ZZUA6Huhp+P4k4oitGD8w6YiCI3+XCFRm1bWfqrAO4=;
+ b=Gq2yvIEMX2bgAg7EoDCnWaegGFClXmmflaGpzFxwEGJ/h+J3L4F2n1yZVg55VS9SyeUNxD
+ 6rqVXErt/bkUQkqTB2eBsiLY+jpxPnGu/jGTyHj8xVUWgk9ou5p0pdO/5L4tW44/uhzS5A
+ NMnpBJUdoRuv6pfyrt0umeL/i0zrpHs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-bIIXpCTkNDKU8xJwcyjhqg-1; Thu, 31 Mar 2022 15:06:46 -0400
-X-MC-Unique: bIIXpCTkNDKU8xJwcyjhqg-1
+ us-mta-317-86yJMmIeP4SGU2nUXCvshA-1; Thu, 31 Mar 2022 15:06:48 -0400
+X-MC-Unique: 86yJMmIeP4SGU2nUXCvshA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65FF93804513
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 19:06:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7456E80005D
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 19:06:47 +0000 (UTC)
 Received: from tapioca.home (unknown [10.40.193.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD2D6401E64;
- Thu, 31 Mar 2022 19:06:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78367401E71;
+ Thu, 31 Mar 2022 19:06:45 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 3/9] qapi: fix example of query-named-block-nodes command
-Date: Thu, 31 Mar 2022 21:06:27 +0200
-Message-Id: <20220331190633.121077-4-victortoso@redhat.com>
+Subject: [PATCH v1 4/9] qapi: fix example of query-spice command
+Date: Thu, 31 Mar 2022 21:06:28 +0200
+Message-Id: <20220331190633.121077-5-victortoso@redhat.com>
 In-Reply-To: <20220331190633.121077-1-victortoso@redhat.com>
 References: <20220331190633.121077-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -85,25 +85,29 @@ Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example output is missing mandatory member @detect_zeroes. Fix it.
+Example output is missing mandatory members @migrated and @mouse-mode.
+Fix it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 ---
- qapi/block-core.json | 1 +
- 1 file changed, 1 insertion(+)
+ qapi/ui.json | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 4a7a6940a3..beeb91952a 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1776,6 +1776,7 @@
- #                    "file":"disks/test.qcow2",
- #                    "node-name": "my-node",
- #                    "backing_file_depth":1,
-+#                    "detect_zeroes":"off",
- #                    "bps":1000000,
- #                    "bps_rd":0,
- #                    "bps_wr":0,
+diff --git a/qapi/ui.json b/qapi/ui.json
+index a810ed680c..c039b8b3cb 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -324,8 +324,10 @@
+ #          "enabled": true,
+ #          "auth": "spice",
+ #          "port": 5920,
++#          "migrated":false,
+ #          "tls-port": 5921,
+ #          "host": "0.0.0.0",
++#          "mouse-mode":"client",
+ #          "channels": [
+ #             {
+ #                "port": "54924",
 -- 
 2.35.1
 
