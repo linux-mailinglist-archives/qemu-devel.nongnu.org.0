@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E684EE22B
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 21:56:26 +0200 (CEST)
-Received: from localhost ([::1]:34056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275AE4EE22F
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 21:58:24 +0200 (CEST)
+Received: from localhost ([::1]:38260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na0u9-0005u3-Dv
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 15:56:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37178)
+	id 1na0w3-0000FE-6n
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 15:58:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1na0sF-0004pP-8o
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:54:27 -0400
-Received: from [2607:f8b0:4864:20::62d] (port=35414
- helo=mail-pl1-x62d.google.com)
+ (Exim 4.90_1)
+ (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
+ id 1na0uz-00071c-KE
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:57:17 -0400
+Received: from [2a00:1450:4864:20::12a] (port=39517
+ helo=mail-lf1-x12a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1na0sD-0004oE-9O
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:54:26 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id y6so562056plg.2
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 12:54:24 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
+ id 1na0ux-0005Vr-8x
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:57:17 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id w7so1071741lfd.6
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 12:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ d=openvz-org.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8uJ7V2Lk5b43qtRmyNKIxduM/i4ZvkhkfMVtcSMTHLc=;
- b=FU4YJeOWM6yJOftdRdppJkqAphiFFHBDWUUenEYTDla3AjR/9XyWUZ7NZrML9kP99Z
- rqVOzKX0OfynEviPak2SUeMa0Jxf+lrS9EClU7ZqMwKR3W/DNIVrESqbp+0eIEVkrIBM
- M2axkYIj+R7nx0w3lyY4eEihxCsjEfF2rwwm4ERkBmFL3F2/vYC+dG+rn5028ncqt8cj
- SlsMm9LggdTPgKMEVRPSqQNUJJCSU9RceECfCtuPpey4sagbpN/5/PCyVkitJ13aPlA3
- YdQ3O527QYaVl7OfKeTFGDfExvfTRBdEKXr5OeP9UNh/o1LsqwQB9z32d0VsYvZtWzn+
- VywQ==
+ bh=tN7VGmWVurVjkAHWOU3qhk3eSiQOVp2DvPQN9S0rN04=;
+ b=ATeB9P4j3/0QgEOGFYClOwwYqV4926FnQhutU6rshsoTXDJlccBmIjnfFC5lyWbVX9
+ Q4FvXxQLEimmbxJXvNs4jlofmghBXmT1WkaF8iU7Au5dSkjO1VmJhLa+pfl9K6m1GxRi
+ z8RywIk/8byIQ6S96ZuSrO+g9rmqMAbavLZD9LpVKDO7UA3KYdhlgr6FU8/aNIBhcbPo
+ 2bB2TYhMsdXWdu/SnaC1u10YIx9ntuw6wmXj/9iyfrHqgr7NltIJrnC6n94YE/SR2PJD
+ eCnSNNnYtkp2WcW80ecA4cCjqkHOu5Jmevy3eD0/1z47wfz9TyMJaU19Hgf7hav5wq45
+ ZweA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=8uJ7V2Lk5b43qtRmyNKIxduM/i4ZvkhkfMVtcSMTHLc=;
- b=x9+cZLERFpwxr5cFxc1d1IaN5l3moDtovvHITEC4z9UKPxfq5Lf6kTbH4lgRklliGS
- e60XabEdmNGab8eoFEIIQYRgp8HzWX/dl8aiLpVLJ72CZMJs4fwWdJAf/O1O0/6luUib
- Azm8uylL8S6DUfD5d7NnzoLD1M/CO2ftuhc+ARFSJ59Mf3L8a0FgQdn/s6DSvDiqlxu2
- 5XclWXb6FO0t0HTJJU3wZHxAz6ZG2n8BZC5T1PcUCPBWng0LPL0PbDgJRsiy3AK0CGlD
- PnEN/s083EvK/kdQaUuPCQe+mPClCtPp2ejZ5NnDXwnXa2KebpA0P0qsCMbSgfzzw2L5
- nkvQ==
-X-Gm-Message-State: AOAM533nndUS4R7J7LTWpGTfWVs/zmhpca6kBAbzVaBhriRzvnTCmg5K
- KSW7mrlIFBG7rT17K3I0EaJAOw==
-X-Google-Smtp-Source: ABdhPJw7JKGfhtf3xhglvwKuCf7tiq5byULmqZPX/onK7gDxOwmiShZCnNHHKkZbJwIlhjSsWTfaDg==
-X-Received: by 2002:a17:903:32c7:b0:154:4156:f384 with SMTP id
- i7-20020a17090332c700b001544156f384mr6965753plr.34.1648756463019; 
- Thu, 31 Mar 2022 12:54:23 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
- [76.210.143.223]) by smtp.gmail.com with ESMTPSA id
- b10-20020a056a00114a00b004f784ba5e6asm323970pfm.17.2022.03.31.12.54.21
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tN7VGmWVurVjkAHWOU3qhk3eSiQOVp2DvPQN9S0rN04=;
+ b=lBLYI66a3tp2xfERPakcwGRNvSLwTYkHjnjLh/CdN167j/Q6u3HqWJghfVd032IB2T
+ KWSqRRVNoPoms+SZREWCizwqB7jaSjvZrkmbLAlZ3L72lh7A46aVWYur5QdfDLeriu4T
+ n2Mf2ChtI/RS0kxtZvP7rDG6YghXk0WrJ5b5NYi2i1RgmLMuVSS1YeTYReg6WwOP0YeQ
+ oYZPCTPnLW7dFNw9NHnwCbgWA0lbtGJ11wb5nPLbMboN5fufgmxJOs7rDK1Nj6UXogrj
+ JS2F+LViXtv/ZNZ4FqzuhjVwgHu5yKQG5c42WUQOKPhzfd0ezXvv+/OGOdIlrxOMM4HX
+ KOcQ==
+X-Gm-Message-State: AOAM532yrXezRtVndczc9YRrSImExlTaU8Rzz8kpiL4W0JvgwsL7w5vr
+ eOhQDVZzXGVKk8DwXuvFwo7uLw==
+X-Google-Smtp-Source: ABdhPJxFK+r+t+ojOZVfnkzLPOZvmTBPIaNv0PtcEJyYTyOfxGseJ/cwwdyZNsmJUafDUAkRy7yYcg==
+X-Received: by 2002:a05:6512:1112:b0:44a:4096:39b0 with SMTP id
+ l18-20020a056512111200b0044a409639b0mr11734872lfg.35.1648756633152; 
+ Thu, 31 Mar 2022 12:57:13 -0700 (PDT)
+Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
+ z26-20020ac2419a000000b004484bf6d1e6sm30539lfh.233.2022.03.31.12.57.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 12:54:22 -0700 (PDT)
-Date: Thu, 31 Mar 2022 12:54:22 -0700 (PDT)
-X-Google-Original-Date: Thu, 31 Mar 2022 12:54:20 PDT (-0700)
-Subject: Re: Re: [PATCH] target/riscv: Exit current TB after an sfence.vma
-In-Reply-To: <CAKmqyKMsG6d7jaS2gxXxh+qONWkWGbHFwLK9tYb2q7eeQe77uw@mail.gmail.com>
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: alistair23@gmail.com
-Message-ID: <mhng-beb640a4-0833-45b9-a57d-1e98464152f5@palmer-mbp2014>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
+ Thu, 31 Mar 2022 12:57:12 -0700 (PDT)
+From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
+X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/3] backup: discard-source parameter
+Date: Thu, 31 Mar 2022 22:56:58 +0300
+Message-Id: <20220331195701.220690-1-vsementsov@openvz.org>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=palmer@dabbelt.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
+ helo=mail-lf1-x12a.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -88,66 +89,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: phantom@zju.edu.cn, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, linux-riscv@lists.infradead.org,
- idan.horowitz@gmail.com
+Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, wencongyang2@huawei.com,
+ xiechanglong.d@gmail.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ jsnow@redhat.com, hreitz@redhat.com,
+ Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Mar 2022 22:13:39 PDT (-0700), alistair23@gmail.com wrote:
-> On Thu, Mar 31, 2022 at 2:36 PM Palmer Dabbelt <palmer@dabbelt.com> wrote:
->>
->> On Wed, 30 Mar 2022 20:23:21 PDT (-0700), alistair23@gmail.com wrote:
->> > On Thu, Mar 31, 2022 at 3:11 AM Idan Horowitz <idan.horowitz@gmail.com> wrote:
->> >>
->> >> On Wed, 30 Mar 2022 at 19:11, Palmer Dabbelt <palmer@dabbelt.com> wrote:
->> >> >
->> >> >
->> >> > Presumably you mean "revert" here?  That might be the right way to go,
->> >> > just to avoid breaking users (even if we fix the kernel bug, it'll take
->> >> > a while to get everyone to update).  That said, this smells like the
->> >> > sort of thing that's going to crop up at arbitrary times in dynamic
->> >> > systems so while a revert looks like it'd work around the boot issue we
->> >> > might be making more headaches for folks down the road.
->> >> >
->> >>
->> >> The opposite in fact, I did not suggest to revert it, but rather undo
->> >> the revert (as Alistair already removed it from the apply-next tree),
->> >> since my original patch fixes buggy behaviour that is blocking the
->> >> testing of some embedded software on QEMU.
->>
->> Ah, sorry -- the QEMU tree I was looking at still had the patch in
->> there, must have just been an old one.
->>
->> > So, this is a little tricky.
->> >
->> > We want to apply the fix, but that will break current users.
->> >
->> > Once the fix is merged into Linux we can apply it here. That should
->> > hopefully be right at the start of the 7.1 QEMU development window,
->> > which should give time for the fix to propagate into stable kernels
->> > and not break too many people by the time QEMU is released.
->>
->> If you think this is a Linux bug then that makes sense, but I think this
->> is a QEMU bug -- I sent a patch, not sure if it went through as it didn't
->> make it to lore.
->
-> Ah whoops. I saw the patch but didn't read it, then I assumed it was a
-> Linux bug from your diff earlier.
+Hi all!
 
-No problem, that was the first thing I sent in the morning so I doubt it 
-made any sense.
+Here is a new option for backup, that brings two things into
+push-backup-with-fleecing scheme:
 
->
->>
->> I also think the bug will manifest without the TB exit patch, maybe in
->> single-step mode and definately if we happen to exit the TB at that
->> point for other reasons.  Assuming my reasoning is correct in that
->> patch, we may also be hitting this as arbitrary corruption anywhere.
->> I'd started to write up a "QEMU errata" Linux patch for this, but then
->> convinced myself that just adding the sfence.vma was insufficient.
->
-> Yeah, looking at it now I agree, I'll send a PR for 7.0.
+ - discard copied region in temporary image to save disk space
+ - avoid extra copy-before-write operation in the region that is already
+   copied
 
-Thanks!
+This is based on
+"[PATCH v5 00/45] Transactional block-graph modifying API"
+Based-on: <20220330212902.590099-1-vsementsov@openvz.org>
+
+Vladimir Sementsov-Ogievskiy (3):
+  block/copy-before-write: create block_copy bitmap in filter node
+  qapi: blockdev-backup: add discard-source parameter
+  iotests: add backup-discard-source
+
+ block/backup.c                                |   5 +-
+ block/block-copy.c                            |  13 +-
+ block/copy-before-write.c                     |   4 +-
+ block/replication.c                           |   4 +-
+ blockdev.c                                    |   2 +-
+ include/block/block-copy.h                    |   3 +-
+ include/block/block_int-global-state.h        |   2 +-
+ qapi/block-core.json                          |   4 +
+ tests/qemu-iotests/257.out                    | 112 ++++++-------
+ .../qemu-iotests/tests/backup-discard-source  | 154 ++++++++++++++++++
+ .../tests/backup-discard-source.out           |   5 +
+ 11 files changed, 240 insertions(+), 68 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/backup-discard-source
+ create mode 100644 tests/qemu-iotests/tests/backup-discard-source.out
+
+-- 
+2.35.1
+
 
