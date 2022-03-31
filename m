@@ -2,61 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597094ED20B
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 06:04:41 +0200 (CEST)
-Received: from localhost ([::1]:40412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10834ED300
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 06:49:20 +0200 (CEST)
+Received: from localhost ([::1]:48962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZm35-0004mD-Vd
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 00:04:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38712)
+	id 1nZmkJ-0006WO-LZ
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 00:49:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qiudayu@archeros.com>)
- id 1nZm1a-00045m-Hx
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 00:03:06 -0400
-Received: from smtpbg139.qq.com ([175.27.65.136]:17439 helo=smtpbg.qq.com)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nZmdI-0003K3-P3; Thu, 31 Mar 2022 00:42:04 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:42353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qiudayu@archeros.com>)
- id 1nZm1X-00021x-7m
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 00:03:06 -0400
-X-QQ-mid: bizesmtp70t1648699322tmmhf0u1
-Received: from [10.25.2.237] ( [222.190.105.194])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 31 Mar 2022 12:02:01 +0800 (CST)
-X-QQ-SSF: 01000000000000502000B00A0000000
-X-QQ-FEAT: vmnbzJorTWTUu9YE8f+raewEKRJUGEAOpRbA3MTxwhyYZdbZADjfh5zf+XE+1
- Tcq1w0OGF1gFMh4P5nQABg+GniQuUaqiKEFUeQ0bPUepRo8ooGvuQRjZp742Wgd1jZEI9zx
- DKJPNOmKj6QY8LQ67ZLiUmsLhoEcDYdiVgEPWV1KzfShjmX+JhlWdBSyyu2AvPNMTauS1Rx
- LThSX/E/hOqg8Bfdz3UQUm+jyVs+lNbcyafOM8sDy/OjfmhggXdoSnKB96hicK3MzdhzJfL
- A7ys3Voaaoy7tJcGnfgmcsBSIwZjYQSORYN4IsZN89Jjd6MDsOEiIueABq+ZXEPDGdWxUUi
- dqGctYqonMgdot1yrA=
-X-QQ-GoodBg: 0
-Message-ID: <2b50795d-c241-b278-b974-bc86d4c350e0@archeros.com>+94A6F26D55F87AEC
-Date: Thu, 31 Mar 2022 12:02:00 +0800
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nZmdF-00034y-B8; Thu, 31 Mar 2022 00:42:04 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4KTVyC5YNSz4xPv; Thu, 31 Mar 2022 15:41:55 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1648701715;
+ bh=8QM3jv81E/4w/MUnw5lFURcTj61rzwYNtanDnrlTe3M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SIQHsheLKH68WojowAzlayWoEm80Kz49VEyJzzRPAue5oY6AUdMO/vuHzTzAN8CH2
+ b8IKCgrCoHDKQ2NSHDjG6fffnlPDkYO/mhvHWZ7E+6b8HSqiTkjdQvujnPj16dTrSj
+ wZ5uhuWePD2aoAI6b1Ml0hvyjqWp+gvyP3BoXokk=
+Date: Thu, 31 Mar 2022 15:29:35 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [RFC PATCH 1/2] spapr: Report correct GTSE support via ov5
+Message-ID: <YkUuLyQTZUthvJb4@yekko>
+References: <20220309012400.2527157-1-farosas@linux.ibm.com>
+ <YixlR+rLNZCsAA50@yekko> <87ee346v99.fsf@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2] vdpa: reset the backend device in stage of stop last
- vhost device
-To: Si-Wei Liu <si-wei.liu@oracle.com>, 08005325@163.com,
- jasowang@redhat.com, mst@redhat.com
-References: <1648024966-5170-1-git-send-email-08005325@163.com>
- <1648634561-12504-1-git-send-email-08005325@163.com>
- <2796fe2b-969e-f545-b835-d4a46fade0f2@oracle.com>
-From: Michael Qiu <qiudayu@archeros.com>
-In-Reply-To: <2796fe2b-969e-f545-b835-d4a46fade0f2@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:archeros.com:qybgspam:qybgspam6
-Received-SPF: none client-ip=175.27.65.136; envelope-from=qiudayu@archeros.com;
- helo=smtpbg.qq.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
- INVALID_MSGID=0.568, KHOP_HELO_FCRDNS=0.187, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="SdWy9PJjrvwXDrRv"
+Content-Disposition: inline
+In-Reply-To: <87ee346v99.fsf@linux.ibm.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,232 +59,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma@redhat.com, lingshan.zhu@intel.com, qemu-devel@nongnu.org,
- lulu@redhat.com
+Cc: aneesh.kumar@linux.ibm.com, danielhb413@gmail.com, qemu-devel@nongnu.org,
+ npiggin@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--SdWy9PJjrvwXDrRv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2022/3/31 8:15, Si-Wei Liu wrote:
-> 
-> 
-> On 3/30/2022 3:02 AM, 08005325@163.com wrote:
->> From: Michael Qiu <qiudayu@archeros.com>
->>
->> Currently, when VM poweroff, it will trigger vdpa
->> device(such as mlx bluefield2 VF) reset many times(with 1 datapath
->> queue pair and one control queue, triggered 3 times), this
->> leads to below issue:
->>
->> vhost VQ 2 ring restore failed: -22: Invalid argument (22)
->>
->> This because in vhost_net_stop(), it will stop all vhost device bind to
->> this virtio device, and in vhost_dev_stop(), qemu tries to stop the 
->> device
->> , then stop the queue: vhost_virtqueue_stop().
->>
->> In vhost_dev_stop(), it resets the device, which clear some flags
->> in low level driver, and in next loop(stop other vhost backends),
->> qemu try to stop the queue corresponding to the vhost backend,
->>   the driver finds that the VQ is invalied, this is the root cause.
->>
->> To solve the issue, vdpa should set vring unready, and
->> remove reset ops in device stop: vhost_dev_start(hdev, false).
->>
->> and implement a new function vhost_dev_reset, only reset backend
->> device when the last vhost stop triggerd.
->>
->> Signed-off-by: Michael Qiu<qiudayu@archeros.com>
->> Acked-by: Jason Wang <jasowang@redhat.com>
->> ---
->> v2 --> v1:
->>     implement a new function vhost_dev_reset,
->>     reset the backend kernel device at last.
->>
->> ---
->>   hw/net/vhost_net.c        | 22 +++++++++++++++++++---
->>   hw/virtio/vhost-vdpa.c    |  8 ++++----
->>   hw/virtio/vhost.c         | 16 +++++++++++++++-
->>   include/hw/virtio/vhost.h |  1 +
->>   4 files changed, 39 insertions(+), 8 deletions(-)
->>
->> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
->> index 30379d2..3cdf6a4 100644
->> --- a/hw/net/vhost_net.c
->> +++ b/hw/net/vhost_net.c
->> @@ -299,7 +299,7 @@ fail_notifiers:
->>   }
->>   static void vhost_net_stop_one(struct vhost_net *net,
->> -                               VirtIODevice *dev)
->> +                               VirtIODevice *dev, bool reset)
->>   {
->>       struct vhost_vring_file file = { .fd = -1 };
->> @@ -313,6 +313,11 @@ static void vhost_net_stop_one(struct vhost_net 
->> *net,
->>           net->nc->info->poll(net->nc, true);
->>       }
->>       vhost_dev_stop(&net->dev, dev);
->> +
->> +    if (reset) {
->> +        vhost_dev_reset(&net->dev);
->> +    }
->> +
->>       vhost_dev_disable_notifiers(&net->dev, dev);
->>   }
->> @@ -391,7 +396,12 @@ int vhost_net_start(VirtIODevice *dev, 
->> NetClientState *ncs,
->>   err_start:
->>       while (--i >= 0) {
->>           peer = qemu_get_peer(ncs , i);
->> -        vhost_net_stop_one(get_vhost_net(peer), dev);
->> +
->> +        if (i == 0) {
->> +            vhost_net_stop_one(get_vhost_net(peer), dev, true);
->> +        } else {
->> +            vhost_net_stop_one(get_vhost_net(peer), dev, false);
->> +        }
->>       }
->>       e = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
->>       if (e < 0) {
->> @@ -420,7 +430,13 @@ void vhost_net_stop(VirtIODevice *dev, 
->> NetClientState *ncs,
->>           } else {
->>               peer = qemu_get_peer(ncs, n->max_queue_pairs);
->>           }
->> -        vhost_net_stop_one(get_vhost_net(peer), dev);
->> +
->> +        /* We only reset backend device during the last vhost */
->> +        if (i == nvhosts - 1) {
-> I wonder if there's any specific reason to position device reset in the 
-> for loop given that there's no virtqueue level reset? Wouldn't it be 
-> cleaner to reset the device at the end of vhost_net_stop() before 
-> return? you may use qemu_get_peer(ncs, 0) without hassle? Noted the 
-> vhost_ops->vhost_reset_device op is per device rather per vq.
+On Mon, Mar 14, 2022 at 07:10:10PM -0300, Fabiano Rosas wrote:
+> David Gibson <david@gibson.dropbear.id.au> writes:
+>=20
+> > On Tue, Mar 08, 2022 at 10:23:59PM -0300, Fabiano Rosas wrote:
+> >> QEMU reports MMU support to the guest via the ibm,architecture-vec-5
+> >> property of the /chosen node. Byte number 26 specifies Radix Table
+> >> Expansions, currently only GTSE (Guest Translation Shootdown
+> >> Enable). This feature determines whether the tlbie instruction (and
+> >> others) are HV privileged.
+> >>=20
+> >> Up until now, we always reported GTSE=3D1 to guests. Even after the
+> >> support for GTSE=3D0 was added. As part of that support, a kernel
+> >> command line radix_hcall_invalidate=3Don was introduced that overrides
+> >> the GTSE value received via CAS. So a guest can run with GTSE=3D0 and
+> >> use the H_RPT_INVALIDATE hcall instead of tlbie.
+> >>=20
+> >> In this scenario, having GTSE always set to 1 by QEMU leads to a crash
+> >> when running nested KVM guests because KVM does not allow a nested
+> >> hypervisor to set GTSE support for its nested guests. So a nested
+> >> guest always uses the same value for LPCR_GTSE as its HV. Since the
+> >> nested HV disabled GTSE, but the L2 QEMU always reports GTSE=3D1, we r=
+un
+> >> into a crash when:
+> >>=20
+> >> L1 LPCR_GTSE=3D0
+> >> L2 LPCR_GTSE=3D0
+> >> L2 CAS GTSE=3D1
+> >>=20
+> >> The nested guest will run 'tlbie' and crash because the HW looks at
+> >> LPCR_GTSE, which is clear.
+> >>=20
+> >> Having GTSE disabled in the L1 and enabled in the L2 is not an option
+> >> because the whole purpose of GTSE is to disallow access to tlbie and
+> >> we cannot allow L1 to spawn L2s that can access features that L1
+> >> itself cannot.
+> >>=20
+> >> We also cannot have the guest check the LPCR bit, because LPCR is
+> >> HV-privileged.
+> >>=20
+> >> So this patch goes through the most intuitive route which is to have
+> >> QEMU ask KVM about GTSE support and advertise the correct value to the
+> >> guest. A new KVM_CAP_PPC_GTSE capability is being added.
+> >>=20
+> >> TCG continues to always enable GTSE.
+> >>=20
+> >> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> >> ---
+> >>  hw/ppc/spapr.c       | 38 +++++++++++++++++++++++++++++++-------
+> >>  target/ppc/kvm.c     |  8 ++++++++
+> >>  target/ppc/kvm_ppc.h |  6 ++++++
+> >>  3 files changed, 45 insertions(+), 7 deletions(-)
+> >>=20
+> >> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> >> index 4cc204f90d..3e95a1831f 100644
+> >> --- a/hw/ppc/spapr.c
+> >> +++ b/hw/ppc/spapr.c
+> >> @@ -971,7 +971,7 @@ static void spapr_dt_ov5_platform_support(SpaprMac=
+hineState *spapr, void *fdt,
+> >>          23, 0x00, /* XICS / XIVE mode */
+> >>          24, 0x00, /* Hash/Radix, filled in below. */
+> >>          25, 0x00, /* Hash options: Segment Tables =3D=3D no, GTSE =3D=
+=3D no. */
+> >> -        26, 0x40, /* Radix options: GTSE =3D=3D yes. */
+> >> +        26, 0x00, /* Radix options, filled in below. */
+> >>      };
+> >> =20
+> >>      if (spapr->irq->xics && spapr->irq->xive) {
+> >> @@ -1000,10 +1000,16 @@ static void spapr_dt_ov5_platform_support(Spap=
+rMachineState *spapr, void *fdt,
+> >>          } else {
+> >>              val[3] =3D 0x00; /* Hash */
+> >>          }
+> >> +
+> >> +        if (kvmppc_has_cap_gtse()) {
+> >> +            val[7] =3D 0x40 /* OV5_MMU_RADIX_GTSE */;
+> >> +        }
+> >>      } else {
+> >>          /* V3 MMU supports both hash and radix in tcg (with dynamic s=
+witching) */
+> >>          val[3] =3D 0xC0;
+> >> +        val[7] =3D 0x40 /* OV5_MMU_RADIX_GTSE */;
+> >>      }
+> >> +
+> >>      _FDT(fdt_setprop(fdt, chosen, "ibm,arch-vec-5-platform-support",
+> >>                       val, sizeof(val)));
+> >>  }
+> >> @@ -2824,14 +2830,32 @@ static void spapr_machine_init(MachineState *m=
+achine)
+> >>      /* Init numa_assoc_array */
+> >>      spapr_numa_associativity_init(spapr, machine);
+> >> =20
+> >> -    if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
+> >> -        ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL_=
+3_00, 0,
+> >> +    if (ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL_=
+3_00, 0,
+> >>                                spapr->max_compat_pvr)) {
+> >> -        spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_300);
+> >> -        /* KVM and TCG always allow GTSE with radix... */
+> >> -        spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_GTSE);
+> >> +
+> >> +        /* TCG always supports Radix w/ GTSE */
+> >> +        if (!kvm_enabled()) {
+> >> +            spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_300);
+> >> +            spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_GTSE);
+> >
+> > Yeah, this is no good.  It's never ok to change guest visible
+> > behaviour depending on host properties (in this case whether it's KVM
+> > or not).  It messes up the invariants we need for migration, which
+> > require that the guest visible state depend only on the user
+> > configuration.
+> >
+> > The usual way to handle this is with a new capability, you can then
+> > change the default with the next machine version.
+>=20
+> This particular problem is tricky. TCG cannot disable GTSE because it
+> does not support H_RPT_INVALIDATE.
 
-OK, it's a good way to do reset at the end of vhost_net_stop(), I will 
-change it in next version.
+We could implement H_RPT_INVALIDATE for TCG though.
 
-> 
->> +            vhost_net_stop_one(get_vhost_net(peer), dev, true);
->> +        } else {
->> +            vhost_net_stop_one(get_vhost_net(peer), dev, false);
->> +        }
->>       }
->>       r = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
->> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->> index c5ed7a3..d858b4f 100644
->> --- a/hw/virtio/vhost-vdpa.c
->> +++ b/hw/virtio/vhost-vdpa.c
->> @@ -719,14 +719,14 @@ static int vhost_vdpa_get_vq_index(struct 
->> vhost_dev *dev, int idx)
->>       return idx;
->>   }
->> -static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
->> +static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev, unsigned 
->> int ready)
->>   {
->>       int i;
->>       trace_vhost_vdpa_set_vring_ready(dev);
->>       for (i = 0; i < dev->nvqs; ++i) {
->>           struct vhost_vring_state state = {
->>               .index = dev->vq_index + i,
->> -            .num = 1,
->> +            .num = ready,
->>           };
->>           vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
->>       }
->> @@ -1088,8 +1088,9 @@ static int vhost_vdpa_dev_start(struct vhost_dev 
->> *dev, bool started)
->>           if (unlikely(!ok)) {
->>               return -1;
->>           }
->> -        vhost_vdpa_set_vring_ready(dev);
->> +        vhost_vdpa_set_vring_ready(dev, 1);
->>       } else {
->> +        vhost_vdpa_set_vring_ready(dev, 0);
->>           ok = vhost_vdpa_svqs_stop(dev);
->>           if (unlikely(!ok)) {
->>               return -1;
->> @@ -1105,7 +1106,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev 
->> *dev, bool started)
->>           memory_listener_register(&v->listener, &address_space_memory);
->>           return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
->>       } else {
->> -        vhost_vdpa_reset_device(dev);
->>           vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->>                                      VIRTIO_CONFIG_S_DRIVER);
-> Here's another issue (regression) got to address - the added 
-> S_ACKNOWLEDGE | S_DRIVER bits will be cleared right away by the 
-> follow-up reset in vhost_net_stop_one(... , true), which in turn will 
-> cause virtio fail to initialize e.g. vhost_vdpa_set_features() will fail 
-> to set VIRTIO_CONFIG_S_FEATURES_OK
-> 
-> Ideally the status bit should be set whenever the corresponding status 
-> bit is set by virtio_net from virtio_net_vhost_status(), or practically 
-> it can be done at the very beginning of vhost_dev_start(), for e.g. the 
-> first call before vhost_dev_set_features(). For this purpose, you may 
-> consider adding another vhost_init_device op, which is symmetric to 
-> vhost_ops->vhost_reset_device in the vhost_net_stop() path.
-> 
+> And older kernels that don't know
+> about the feature require GTSE.
+>=20
+> KVM can afford to disable GTSE because we have a compatibility mechanism
+> (although a bit crooked): We can invert the logic for the KVM_CAP so
+> that the presence of KVM_CAP_PPC_GTSE_DISABLE would mean QEMU is allowed
+> to disable GTSE. Then:
+>   - older KVM + new QEMU would keep GTSE enabled;
+>=20
+>   - older L1 guests are not affected because the host would report
+>     GTSE=3D1 with the KVM capability. By the time we decide to disable
+>     GTSE for L1 guests hopefully all older kernels will be out of use;
+>=20
+>   - older nested guests:
+>     - if L1 runs with GTSE=3D1, are not affected;
+>=20
+>     - if L1 disabled GTSE via kernel cmdline, are already broken (this
+>       bug). But they would go from crashing to being aborted* by QEMU
+>       (the guest asks for HPT in the lack of GTSE; nested KVM is radix
+>       only);
+>=20
+>       * there are other broken cases which are fixed completely.
+>=20
+> To satisfy TCG we could keep a spapr capability as ON and usually the
+> guest would pass cap-gtse=3Doff when running with KVM. However this
+> doesn't work because this crash happens precisely because the nested
+> guest doesn't know that it needs to use cap-rpt-invalidate=3Don. Another
+> cap wouldn't help.
+>=20
+> So I think the only way to have a spapr capability for this is if TCG
+> always defaults to ON and KVM always defaults to OFF. But then we would
+> be changing guest visible behaviour depending on host properties.
 
-Seems only vdpa device need reset after stop, although virtio spec said 
-need reset, but kernel doesn't reset, and if reset it has issue to 
-reprobe virtio-net in guest, So we probely only add it after reset if it 
-is VDPA device, for kernel and other datapath we just keep the same as 
-before.
+Ok, I'd forgotten we already have cap-rpt-invalidate.  It still
+defaults to OFF for now, which might help us.
 
-Thanks,
-Michael
+What's clear is that we should never disable GTSE if
+cap-rpt-invalidate is off - qemu should enforce that before even
+starting the guest if at all possible.
 
-> Thanks,
-> -Siwei
-> 
->>           memory_listener_unregister(&v->listener);
->> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->> index b643f42..6d9b4a3 100644
->> --- a/hw/virtio/vhost.c
->> +++ b/hw/virtio/vhost.c
->> @@ -1820,7 +1820,7 @@ fail_features:
->>   void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
->>   {
->>       int i;
->> -
->> +    printf("vhost_dev_stop test\n");
->>       /* should only be called after backend is connected */
->>       assert(hdev->vhost_ops);
->> @@ -1854,3 +1854,17 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
->>       return -ENOSYS;
->>   }
->> +
->> +int vhost_dev_reset(struct vhost_dev *hdev)
->> +{
->> +    int ret = 0;
->> +
->> +    /* should only be called after backend is connected */
->> +    assert(hdev->vhost_ops);
->> +
->> +    if (hdev->vhost_ops->vhost_reset_device) {
->> +        ret = hdev->vhost_ops->vhost_reset_device(hdev);
->> +    }
->> +
->> +    return ret;
->> +}
->> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
->> index 58a73e7..b8b7c20 100644
->> --- a/include/hw/virtio/vhost.h
->> +++ b/include/hw/virtio/vhost.h
->> @@ -114,6 +114,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void 
->> *opaque,
->>   void vhost_dev_cleanup(struct vhost_dev *hdev);
->>   int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
->>   void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
->> +int vhost_dev_reset(struct vhost_dev *hdev);
->>   int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice 
->> *vdev);
->>   void vhost_dev_disable_notifiers(struct vhost_dev *hdev, 
->> VirtIODevice *vdev);
-> 
-> 
+What's less clear to me is if we want to enable GTSE by default or
+not, in the cases where we're able to choose.  Would always disabling
+GTSE when cap-rpt-invalidate=3Don be ok?  Or do we want to be able to
+control GTSE separately.  In that case we might need a second cap, but
+it would need inverted sense, so e.g. cap-disable-gtse.
 
+I believe a guest that is expecting GTSE=3D=3D0 should work if
+LPCR[GTSE]=3D=3D1, just not optimally (as long as H_RPT_INVALIDATE is
+still available, of course).  Is that right?
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--SdWy9PJjrvwXDrRv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmJFLigACgkQgypY4gEw
+YSKczxAAx9wD8I0EzmCGNMDHZDuzQvbCnfTpurs6eW3LR+Enp+fnvlLGqiu7MizN
+oqjH6a081sXqeMgiweal127oBih79LecvCaByha4XsuHAT03/1QnYcd7EjTEU2Jo
+Sf0WYnb9xTQmDJuciAMk24M2tEvZbiLOwrP8VOf171HNGzEOgnvabHnjHeT2lAao
+bvpuaxnZuPKaFtKAVPgRmJXvgeIq2fF/DhjmtuYW6/WvT135jh1DlSmdJWKL+N8v
+QzFISWya5zRVQzpUDk2KNPxWJ/5NCDKNM/na6UY2WqXMVpwEsAdHiN48KcWjn92u
+77AMG8APo8kIARykbzYQmdKKN+zwkXjA/pI05x7zdv4Jacat0AohqvFn+XZVmXhr
+l+/j9bPvK8TeSOvl4SkLTHdfbj4RRMaCMa8XVa3nUywYmJh9D8KH1vjvMRbod0pL
+C1zzw8l4Tmw8BMtMVpMV8PN/zRbqFGqR0ypoh5QqxhKvjQO5LeRM2ZfQdqtF3w1o
+UwqGmG0b/hqThUD2/QOYkPfVhbGHt1BHJaH/Vpk2yobQvvEF18lSyLUw3tVz9Veh
+g8fUM9p+DiKPt+yY4BlAnaDRC/tfFpNOc/l6uYi88XTQH6tLu7YovtDHiON/20sl
+3kKLtfPK00h/n91wb4BXZMRuqwKzQ/2EEAYz8q0wTI7OEyeXq7g=
+=4Mly
+-----END PGP SIGNATURE-----
+
+--SdWy9PJjrvwXDrRv--
 
