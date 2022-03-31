@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79DD54EE23A
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 22:01:41 +0200 (CEST)
-Received: from localhost ([::1]:43778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8EA4EE230
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 21:58:37 +0200 (CEST)
+Received: from localhost ([::1]:38972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na0zE-0003y4-Iu
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 16:01:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37684)
+	id 1na0wG-0000k7-63
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 15:58:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1na0v1-00072F-3x
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:57:19 -0400
-Received: from [2a00:1450:4864:20::12a] (port=45875
- helo=mail-lf1-x12a.google.com)
+ id 1na0v4-00079x-76
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:57:22 -0400
+Received: from [2a00:1450:4864:20::232] (port=38705
+ helo=mail-lj1-x232.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1na0uy-0005WE-L4
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:57:18 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id p10so1011164lfa.12
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 12:57:16 -0700 (PDT)
+ id 1na0v2-0005Wg-Er
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 15:57:21 -0400
+Received: by mail-lj1-x232.google.com with SMTP id s13so1199688ljd.5
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 12:57:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XtwutcgkuyE0keb8GJVzGI42YGdS9aTBp14aQa1t9Qw=;
- b=fxcSaif7JhjWFQVoc/ak4lUBDFF2kucv+xWN0ZQU/LL70MDXH7RYO/gE5Kh7KPgpjD
- jw94hwK184W628DoS26MxSIKsPq/LsKwxcS4QE3JWrIkZBfislN7LjbQmZ+HQVRnjUIx
- NzyoolSTCpwkhsp+XIVKa+ZwwEcPLe1oeQz/h7bk6SgDWrfoFIFqTt9ZgvsXSRULM5Az
- Hrvshrp086IJs0gl1cYwZYDbWnOOKE0jOaCi/zfwUauxFaTrTXorb0nT3+/JLBOqPnBm
- B5r0kEzCkRglVxh5/1Hl6MxN7TK4bIDKyQJXkybxUw7k6wJAA9oU+vZ+Oqs0WYqtjRbS
- 7znw==
+ bh=Ej+VvYc2FFYnKuTpDRtiFYixVr2tf61aNKcIz4bACw0=;
+ b=C4xMjHOFZfLIW9+ukzn4Sa97p6BvLfaHekxARKvvJLTI770jdLje0j/AzGLf0JY8I/
+ 4CK/rZWpmfTIA/ldNpL1XQ3ltyNZhAYAck5Q+oE8NhcItAPXwWriuL2W+UySEinUaJyl
+ pmhDBd0jHyKrHimyAQCM/3aLiBgppktZqba3oRQ9oZvWtiYveLhT7/b3g9MfSzsXXQsJ
+ SJF/EmxoLWH5TY+4APNoiXnPEMMz1E/+sYU4f4iUYUvq0CbeTiRFSMC6kdkUrq+bj9ib
+ iaRkitb/7z2prML3I5/9/GZcjq7wEiNA306rCBCRviiD7aX4GCJjvKobG/1e+O6CQf0k
+ PlAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XtwutcgkuyE0keb8GJVzGI42YGdS9aTBp14aQa1t9Qw=;
- b=q602ta96HrMOd0ywCS+C66i4KE9UckYp7a0+77UhW4Qgkz5TbFVuwWzcOPCIuBjo3d
- R+P915XGJclK1C1hQNpB+1Kfktif0w2fatmpWLeDMp3K+R4t99v3HMjrKKJa5VnZIkZF
- VcRBemp8xX8TStHF/DdfZFlWun/1co9hkIDOMpW09FgwcqMv0gCUGU+FhG07Hc5Fq/ZD
- jKRKuio3JgaVXt5kLuZTPVIRYTueoufOvoT6WuE2PADMqgtxiMF9nCdudjztR8NixMbk
- 9v3hZTKAYKc0xMMhUTmhIGWANCQES2txZcrvWJVzGFfpZ6nMbiohvDyPHGRvtNBAuga1
- M9cQ==
-X-Gm-Message-State: AOAM530Q1O9ImXtG7NJM0Xob9l2BPn7HOJRpueeWLiXCRzuM66dYDLfq
- prQTYiIJB69X0aSXJHE7+dKzHw==
-X-Google-Smtp-Source: ABdhPJxsjTD8kDpXjcqsGqMW/DwXRnKVA0g6HA2p3jlESp5YLekC5VlufUBgKae4Z/x0gtlTXtXnMg==
-X-Received: by 2002:ac2:4e0c:0:b0:44a:3260:e35d with SMTP id
- e12-20020ac24e0c000000b0044a3260e35dmr11623332lfr.104.1648756634675; 
- Thu, 31 Mar 2022 12:57:14 -0700 (PDT)
+ bh=Ej+VvYc2FFYnKuTpDRtiFYixVr2tf61aNKcIz4bACw0=;
+ b=yPq+tG1Qt6wcoXu4lgDjYLpBG68bgXKQcCSU3q5VyY2i1p87JCaWvr5NlJdkzoMMn7
+ dgxsJrEz068ALdnE29vkLjSkjeZs9TlB89z3njynBCuHGb1hfPDQ6NRjGMcvcs32K6L2
+ IVyr0GNLLDIAPYoWZhEgG1wetEZmz1RIt+Pzak/Q49Kt2aWagHI+HYQ1rUVuSyjj6JjK
+ cNY0XZW5S0cZnFPpIvtXfkELANyjaPtRkjRUdQnKeXnXZs40OQiXU74d7yfnoPLmzUWK
+ sN+r/cSkeLs5f9F5g0wBnvgxUtTzlqgMjcrh41obxD9k+0FdekNSqbZKJ6a5eTU5XxkF
+ CI7A==
+X-Gm-Message-State: AOAM532AmSSAS3zd3WSTfZpc1XfyGVJcFGQtpLxj1WV+RrID4n9aal2C
+ LFqb9ymoRJwnIlrdPS58c24MKg==
+X-Google-Smtp-Source: ABdhPJw6QHe3NZB3vyeFARqYmEKpqSTQe6XaSlq9f9qt6jAxuUpkqYV9nnXyBka6LjNaN8mVqcGC/A==
+X-Received: by 2002:a05:651c:22a:b0:249:7c82:1669 with SMTP id
+ z10-20020a05651c022a00b002497c821669mr11202995ljn.390.1648756635447; 
+ Thu, 31 Mar 2022 12:57:15 -0700 (PDT)
 Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
  z26-20020ac2419a000000b004484bf6d1e6sm30539lfh.233.2022.03.31.12.57.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 12:57:14 -0700 (PDT)
+ Thu, 31 Mar 2022 12:57:15 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH 2/3] qapi: blockdev-backup: add discard-source parameter
-Date: Thu, 31 Mar 2022 22:57:00 +0300
-Message-Id: <20220331195701.220690-3-vsementsov@openvz.org>
+Subject: [PATCH 3/3] iotests: add backup-discard-source
+Date: Thu, 31 Mar 2022 22:57:01 +0300
+Message-Id: <20220331195701.220690-4-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220331195701.220690-1-vsementsov@openvz.org>
 References: <20220331195701.220690-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::232
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lf1-x12a.google.com
+ helo=mail-lj1-x232.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -98,202 +98,187 @@ Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, wencongyang2@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a parameter that enables discard-after-copy. That is mostly useful
-in "push backup with fleecing" scheme, when source is snapshot-access
-format driver node, based on copy-before-write filter snapshot-access
-API:
-
-[guest]      [snapshot-access] ~~ blockdev-backup ~~> [backup target]
-   |            |
-   | root       | file
-   v            v
-[copy-before-write]
-   |             |
-   | file        | target
-   v             v
-[active disk]   [temp.img]
-
-In this case discard-after-copy does two things:
-
- - discard data in temp.img to save disk space
- - avoid further copy-before-write operation in discarded area
-
-Note that we have to declare WRITE permission on source in
-copy-before-write filter, for discard to work. Alternative is to pass
-an option to bdrv_cbw_append(), add some internal open-option for
-copy-before-write filter to require WRITE permission only for backup
-with discard-source=true. But I'm not sure it worth the complexity.
+Add test for a new backup option: discard-source.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 ---
- block/backup.c                         |  5 +++--
- block/block-copy.c                     | 10 ++++++++--
- block/copy-before-write.c              |  2 +-
- block/replication.c                    |  4 ++--
- blockdev.c                             |  2 +-
- include/block/block-copy.h             |  2 +-
- include/block/block_int-global-state.h |  2 +-
- qapi/block-core.json                   |  4 ++++
- 8 files changed, 21 insertions(+), 10 deletions(-)
+ .../qemu-iotests/tests/backup-discard-source  | 154 ++++++++++++++++++
+ .../tests/backup-discard-source.out           |   5 +
+ 2 files changed, 159 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/backup-discard-source
+ create mode 100644 tests/qemu-iotests/tests/backup-discard-source.out
 
-diff --git a/block/backup.c b/block/backup.c
-index 5cfd0b999c..d0d512ec61 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -355,7 +355,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-                   BlockDriverState *target, int64_t speed,
-                   MirrorSyncMode sync_mode, BdrvDirtyBitmap *sync_bitmap,
-                   BitmapSyncMode bitmap_mode,
--                  bool compress,
-+                  bool compress, bool discard_source,
-                   const char *filter_node_name,
-                   BackupPerf *perf,
-                   BlockdevOnError on_source_error,
-@@ -486,7 +486,8 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-     job->len = len;
-     job->perf = *perf;
- 
--    block_copy_set_copy_opts(bcs, perf->use_copy_range, compress);
-+    block_copy_set_copy_opts(bcs, perf->use_copy_range, compress,
-+                             discard_source);
-     block_copy_set_progress_meter(bcs, &job->common.job.progress);
-     block_copy_set_speed(bcs, speed);
- 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 9626043480..2d8373f63f 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -133,6 +133,7 @@ typedef struct BlockCopyState {
-     CoMutex lock;
-     int64_t in_flight_bytes;
-     BlockCopyMethod method;
-+    bool discard_source;
-     BlockReqList reqs;
-     QLIST_HEAD(, BlockCopyCallState) calls;
-     /*
-@@ -278,11 +279,12 @@ static uint32_t block_copy_max_transfer(BdrvChild *source, BdrvChild *target)
- }
- 
- void block_copy_set_copy_opts(BlockCopyState *s, bool use_copy_range,
--                              bool compress)
-+                              bool compress, bool discard_source)
- {
-     /* Keep BDRV_REQ_SERIALISING set (or not set) in block_copy_state_new() */
-     s->write_flags = (s->write_flags & BDRV_REQ_SERIALISING) |
-         (compress ? BDRV_REQ_WRITE_COMPRESSED : 0);
-+    s->discard_source = discard_source;
- 
-     if (s->max_transfer < s->cluster_size) {
-         /*
-@@ -405,7 +407,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-                                     cluster_size),
-     };
- 
--    block_copy_set_copy_opts(s, false, false);
-+    block_copy_set_copy_opts(s, false, false, false);
- 
-     ratelimit_init(&s->rate_limit);
-     qemu_co_mutex_init(&s->lock);
-@@ -575,6 +577,10 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
-     co_put_to_shres(s->mem, t->req.bytes);
-     block_copy_task_end(t, ret);
- 
-+    if (s->discard_source && ret == 0) {
-+        bdrv_co_pdiscard(s->source, t->req.offset, t->req.bytes);
-+    }
-+
-     return ret;
- }
- 
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index 79cf12380e..3e77313a9a 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -319,7 +319,7 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
-         bdrv_default_perms(bs, c, role, reopen_queue,
-                            perm, shared, nperm, nshared);
- 
--        *nperm = *nperm | BLK_PERM_CONSISTENT_READ;
-+        *nperm = *nperm | BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE;
-         *nshared &= ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
-     }
- }
-diff --git a/block/replication.c b/block/replication.c
-index 2f17397764..f6a0b23563 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -587,8 +587,8 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
- 
-         s->backup_job = backup_job_create(
-                                 NULL, s->secondary_disk->bs, s->hidden_disk->bs,
--                                0, MIRROR_SYNC_MODE_NONE, NULL, 0, false, NULL,
--                                &perf,
-+                                0, MIRROR_SYNC_MODE_NONE, NULL, 0, false, false,
-+                                NULL, &perf,
-                                 BLOCKDEV_ON_ERROR_REPORT,
-                                 BLOCKDEV_ON_ERROR_REPORT, JOB_INTERNAL,
-                                 backup_job_completed, bs, NULL, &local_err);
-diff --git a/blockdev.c b/blockdev.c
-index 89167fbc08..946073a732 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2924,7 +2924,7 @@ static BlockJob *do_backup_common(BackupCommon *backup,
- 
-     job = backup_job_create(backup->job_id, bs, target_bs, backup->speed,
-                             backup->sync, bmap, backup->bitmap_mode,
--                            backup->compress,
-+                            backup->compress, backup->discard_source,
-                             backup->filter_node_name,
-                             &perf,
-                             backup->on_source_error,
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index b03eb5f016..e3cf0b200b 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -31,7 +31,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
- 
- /* Function should be called prior any actual copy request */
- void block_copy_set_copy_opts(BlockCopyState *s, bool use_copy_range,
--                              bool compress);
-+                              bool compress, bool discard_source);
- void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm);
- 
- void block_copy_state_free(BlockCopyState *s);
-diff --git a/include/block/block_int-global-state.h b/include/block/block_int-global-state.h
-index aed62a45d9..dc540868ec 100644
---- a/include/block/block_int-global-state.h
-+++ b/include/block/block_int-global-state.h
-@@ -183,7 +183,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-                             MirrorSyncMode sync_mode,
-                             BdrvDirtyBitmap *sync_bitmap,
-                             BitmapSyncMode bitmap_mode,
--                            bool compress,
-+                            bool compress, bool discard_source,
-                             const char *filter_node_name,
-                             BackupPerf *perf,
-                             BlockdevOnError on_source_error,
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 6e944e4f52..ffc26d06ee 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1436,6 +1436,9 @@
- #                    above node specified by @drive. If this option is not given,
- #                    a node name is autogenerated. (Since: 4.2)
- #
-+# @discard-source: Discard blocks on source which are already copied to the
-+#                  target. (Since: 7.1)
+diff --git a/tests/qemu-iotests/tests/backup-discard-source b/tests/qemu-iotests/tests/backup-discard-source
+new file mode 100755
+index 0000000000..d301fbd2d1
+--- /dev/null
++++ b/tests/qemu-iotests/tests/backup-discard-source
+@@ -0,0 +1,154 @@
++#!/usr/bin/env python3
 +#
- # @x-perf: Performance options. (Since 6.0)
- #
- # Features:
-@@ -1456,6 +1459,7 @@
-             '*on-target-error': 'BlockdevOnError',
-             '*auto-finalize': 'bool', '*auto-dismiss': 'bool',
-             '*filter-node-name': 'str',
-+            '*discard-source': 'bool',
-             '*x-perf': { 'type': 'BackupPerf',
-                          'features': [ 'unstable' ] } } }
- 
++# Test removing persistent bitmap from backing
++#
++# Copyright (c) 2022 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++import os
++
++import iotests
++from iotests import qemu_img_create, qemu_img_map, qemu_io
++
++
++temp_img = os.path.join(iotests.test_dir, 'temp')
++source_img = os.path.join(iotests.test_dir, 'source')
++target_img = os.path.join(iotests.test_dir, 'target')
++size = '1M'
++
++def get_actual_size(vm, node_name):
++    nodes = vm.qmp('query-named-block-nodes', flat=True)['return']
++    node = next(n for n in nodes if n['node-name'] == node_name)
++    return node['image']['actual-size']
++
++
++class TestBackup(iotests.QMPTestCase):
++    def setUp(self):
++        qemu_img_create('-f', iotests.imgfmt, source_img, size)
++        qemu_img_create('-f', iotests.imgfmt, temp_img, size)
++        qemu_img_create('-f', iotests.imgfmt, target_img, size)
++        qemu_io('-c', 'write 0 1M', source_img)
++
++        self.vm = iotests.VM()
++        self.vm.launch()
++
++        result = self.vm.qmp('blockdev-add', {
++            'node-name': 'cbw',
++            'driver': 'copy-before-write',
++            'file': {
++                'driver': iotests.imgfmt,
++                'file': {
++                    'driver': 'file',
++                    'filename': source_img,
++                }
++            },
++            'target': {
++                'driver': iotests.imgfmt,
++                'discard': 'unmap',
++                'node-name': 'temp',
++                'file': {
++                    'driver': 'file',
++                    'filename': temp_img
++                }
++            }
++        })
++        self.assert_qmp(result, 'return', {})
++
++        result = self.vm.qmp('blockdev-add', {
++            'node-name': 'access',
++            'discard': 'unmap',
++            'driver': 'snapshot-access',
++            'file': 'cbw'
++        })
++        self.assert_qmp(result, 'return', {})
++
++        result = self.vm.qmp('blockdev-add', {
++            'driver': iotests.imgfmt,
++            'node-name': 'target',
++            'file': {
++                'driver': 'file',
++                'filename': target_img
++            }
++        })
++        self.assert_qmp(result, 'return', {})
++
++        self.assertLess(get_actual_size(self.vm, 'temp'), 512 * 1024)
++
++    def tearDown(self):
++        # That should fail, because region is discarded
++        self.vm.hmp_qemu_io('access', 'read 0 1M')
++
++        self.vm.shutdown()
++
++        self.assertTrue('read failed: Permission denied' in self.vm.get_log())
++
++        # Final check that temp image is empty
++        mapping = qemu_img_map(temp_img)
++        self.assertEqual(len(mapping), 1)
++        self.assertEqual(mapping[0]['start'], 0)
++        self.assertEqual(mapping[0]['length'], 1024 * 1024)
++        self.assertEqual(mapping[0]['data'], False)
++
++        os.remove(temp_img)
++        os.remove(source_img)
++        os.remove(target_img)
++
++    def do_backup(self):
++        result = self.vm.qmp('blockdev-backup', device='access',
++                             sync='full', target='target',
++                             job_id='backup0',
++                             discard_source=True)
++        self.assert_qmp(result, 'return', {})
++
++        self.vm.event_wait(name='BLOCK_JOB_COMPLETED')
++
++    def test_discard_written(self):
++        """
++        1. Guest writes
++        2. copy-before-write operation, data is stored to temp
++        3. start backup(discard_source=True), check that data is
++           removed from temp
++        """
++        # Trigger copy-before-write operation
++        result = self.vm.hmp_qemu_io('cbw', 'write 0 1M')
++        self.assert_qmp(result, 'return', '')
++
++        # Check that data is written to temporary image
++        self.assertGreater(get_actual_size(self.vm, 'temp'), 1024 * 1024)
++
++        self.do_backup()
++
++    def test_discard_cbw(self):
++        """
++        1. do backup(discard_source=True), which should inform
++           copy-before-write that data is not needed anymore
++        2. Guest writes
++        3. Check that copy-before-write operation is not done
++        """
++        self.do_backup()
++
++        # Try trigger copy-before-write operation
++        result = self.vm.hmp_qemu_io('cbw', 'write 0 1M')
++        self.assert_qmp(result, 'return', '')
++
++        # Check that data is not written to temporary image, as region
++        # is discarded from copy-before-write process
++        self.assertLess(get_actual_size(self.vm, 'temp'), 512 * 1024)
++
++
++if __name__ == '__main__':
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/tests/backup-discard-source.out b/tests/qemu-iotests/tests/backup-discard-source.out
+new file mode 100644
+index 0000000000..fbc63e62f8
+--- /dev/null
++++ b/tests/qemu-iotests/tests/backup-discard-source.out
+@@ -0,0 +1,5 @@
++..
++----------------------------------------------------------------------
++Ran 2 tests
++
++OK
 -- 
 2.35.1
 
