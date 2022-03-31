@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3504EDF6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 19:12:18 +0200 (CEST)
-Received: from localhost ([::1]:47888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE7A04EDF94
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 19:22:19 +0200 (CEST)
+Received: from localhost ([::1]:58742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZyLJ-0004v5-87
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 13:12:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57450)
+	id 1nZyV0-0004Us-OT
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 13:22:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZyKF-00044r-Uf
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:11:12 -0400
-Received: from [2607:f8b0:4864:20::32a] (port=37672
- helo=mail-ot1-x32a.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nZyQf-0000qE-28; Thu, 31 Mar 2022 13:17:52 -0400
+Received: from [2607:f8b0:4864:20::333] (port=39560
+ helo=mail-ot1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nZyKE-0003Xq-5D
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 13:11:11 -0400
-Received: by mail-ot1-x32a.google.com with SMTP id
- k25-20020a056830151900b005b25d8588dbso335266otp.4
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 10:11:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nZyQd-0004oi-4J; Thu, 31 Mar 2022 13:17:48 -0400
+Received: by mail-ot1-x333.google.com with SMTP id
+ a17-20020a9d3e11000000b005cb483c500dso340578otd.6; 
+ Thu, 31 Mar 2022 10:17:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=DcfqG/gln9tY5y2j4H8URUQPi1A2/qOC2YaaI1JFCUA=;
- b=x5yMfYgbNpzdyYIvlZqvCyW6lED8PQiNtQ81s+WgJ7uhhuJYcUz3c2w7n3/TWvvEtk
- ZhIED+W9eFfxyD6oZRyBap0cuHtjORnFjrTKqi8uqgpojNS840BTwV2Z+X3esLGCzdAo
- FHSnMMB+s69EqOd7pXLd26vANLwJZzWj5ySOj3e/p17rwOUIIETJ3iaqI8148nxXRHLz
- il/Q7wFugyIcTv2eFSiamuksjb07GxuD8K765srIG3u31vBimWpuO8e9l5fNdlGY+ggV
- pan7I2vjEFf003s5WuC2jsgdPWbQ21O0ya1HfJwZYAJHALAOEv1UnE5AZkk6lCm5DbsY
- ys6w==
+ bh=eGoKsMCgrRfX39y6y1Q/5vZauX9lPvXVdkMdLCAYVOk=;
+ b=ms9M4cl50BRo0gPA6LhB0iCQxF0/TfcPetwgkLvPPQGi04XCIglmDnjaJtcae8H/NU
+ DbZoqxxkOtIlpaPBXH4eRXSCP4+7TcIb+IXSrjAO2GtFiFJ98N91V6phDzUnPcNNHBpU
+ jf5MAGC5IqGGttzjYxPNNy0/C8jxTNCnQIwGVlaaptONbVvOrej4W8M03+YnFuIVx3lQ
+ q8UQEvao9nFB3v+Gt9Jh+PV2IpW/70tYDbvcMDs+HKMmWoj4Fm+iO0PW94pFNkqMFp+z
+ J/FcPux2J+CdXh5+8W4x4W+x6j0r+JQu8dgrHOEemMWxPL0UdRlQI/C9/9uSgO+7Zmp7
+ hk0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=DcfqG/gln9tY5y2j4H8URUQPi1A2/qOC2YaaI1JFCUA=;
- b=1R45D6MbmufyObZ0cjqEycsSWIKzVmdHxdQ1eIoLqLJJKdMb3ix7ufqmjhNVmnEAVO
- 993Z6hzDeRVTmSMsA/0riFR50XB2CBfbZaCCVM1bBgwKe4lPGg0SQDZVohPW7Sf5iLfp
- OThrPV3Q9OBVSUmvqz9f3PoKV5Upv3KxEBmF2Q1FnU3aJlMn9oKRfe2nZAQrNOdtwAfL
- E9K9nNqq//GFRrS5ath+6d0pLMgjAyn/jFZlt27Gxh8sCNk9r8pLo2PbBRXv3ztfXHvD
- Z0/Xt4F1KNxBQh2pmK0UWyBvOGZYnJtWz2RWqzJHDWlCe4zKqPbqIub0TspYKRmHdtBc
- qxMQ==
-X-Gm-Message-State: AOAM530k5I+8aVg6EGLHGTDtgYNuX+JYG02pdr+yuWzcvYRwoh/GKSSQ
- ETBXEthdWYUhK41dDbhE64f2Uw==
-X-Google-Smtp-Source: ABdhPJwf2qUvhWXnY31rm7F59x1yox3Fd9FkBmFLiOrvJO5HQtAGVoY/TxBknecMW8bpt5Ti3YSsVQ==
-X-Received: by 2002:a9d:6047:0:b0:5b2:4003:cfcb with SMTP id
- v7-20020a9d6047000000b005b24003cfcbmr5930390otj.59.1648746669128; 
- Thu, 31 Mar 2022 10:11:09 -0700 (PDT)
-Received: from [172.24.1.26] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168]) by smtp.gmail.com with ESMTPSA id
- y66-20020a9d22c8000000b005c943ff75dbsm33923ota.7.2022.03.31.10.11.07
+ bh=eGoKsMCgrRfX39y6y1Q/5vZauX9lPvXVdkMdLCAYVOk=;
+ b=FNlNA7t1R3NiY8JWxqIJaZnCP1/4YtDhVBeom/gL3wZa0qhXEoMyulxwFmBiCtACy3
+ 0vOmHEMu8m1SNPn182p25Q3yjKtwwRSEJZexDqmmp/x+UYx1By3TpJe7Norf9+7oDdJ/
+ tBldrVvIp5y7D9e+ZDldUlDFZj19wTEeHQVLtGWgDCE6S0nXflcN4ED7gbcJK5wjRLVi
+ AmjCTOJMgJ0aw0XX9cjRwUaqgUktzwVW25fmgAMyC8qADFPk5nTwWMtnLGoOqOzC95M0
+ 6008Yf8gulzCq2AfR/FZ5f1N6XPGaNZkWvmwWibuIATHB2tI1flGdMuKY3hj8hEBG78b
+ eLEA==
+X-Gm-Message-State: AOAM5311t9cnIB+e95to43BEVi8HIr+02g0m9HqPxx8Hm4aTNApINIy6
+ 7pwV4+uVg4QMH7BrUR6X0Sk=
+X-Google-Smtp-Source: ABdhPJzCBOcU23fY5G4tUPj53Y3YnONy/DimtAi7tc+P/hAwdI+9DK5oQlmG+s0bSEhmqpeTyaGq0g==
+X-Received: by 2002:a9d:868:0:b0:5ce:1958:2ce1 with SMTP id
+ 95-20020a9d0868000000b005ce19582ce1mr264508oty.147.1648747065515; 
+ Thu, 31 Mar 2022 10:17:45 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c6:abe8:ed:2c78:ab0c:7946?
+ ([2804:431:c7c6:abe8:ed:2c78:ab0c:7946])
+ by smtp.gmail.com with ESMTPSA id
+ t17-20020a9d7f91000000b005c925454e6fsm21896otp.69.2022.03.31.10.17.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 10:11:08 -0700 (PDT)
-Message-ID: <abf7bd5b-33f3-eea2-5d37-d551ad9ca815@linaro.org>
-Date: Thu, 31 Mar 2022 11:11:04 -0600
+ Thu, 31 Mar 2022 10:17:45 -0700 (PDT)
+Message-ID: <d5b622c6-81b4-9d3f-9777-5233fe5a2be4@gmail.com>
+Date: Thu, 31 Mar 2022 14:17:42 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH for-7.0] target/arm: Don't use DISAS_NORETURN in STXP
- !HAVE_CMPXCHG128 codegen
+Subject: Re: [PATCH v2 2/4] target/ppc: init 'lpcr' in
+ kvmppc_enable_cap_large_decr()
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220331150858.96348-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220331150858.96348-1-peter.maydell@linaro.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20220331001717.616938-1-danielhb413@gmail.com>
+ <20220331001717.616938-3-danielhb413@gmail.com> <YkUDCdUsjjmzFgJr@yekko>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <YkUDCdUsjjmzFgJr@yekko>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32a
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x333.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -95,43 +95,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/31/22 09:08, Peter Maydell wrote:
-> In gen_store_exclusive(), if the host does not have a cmpxchg128
-> primitive then we generate bad code for STXP for storing two 64-bit
-> values.  We generate a call to the exit_atomic helper, which never
-> returns, and set is_jmp to DISAS_NORETURN.  However, this is
-> forgetting that we have already emitted a brcond that jumps over this
-> call for the case where we don't hold the exclusive.  The effect is
-> that we don't generate any code to end the TB for the
-> exclusive-not-held execution path, which falls into the "exit with
-> TB_EXIT_REQUESTED" code that gen_tb_end() emits.  This then causes an
-> assert at runtime when cpu_loop_exec_tb() sees an EXIT_REQUESTED TB
-> return that wasn't for an interrupt or icount.
-> 
-> In particular, you can hit this case when using the clang sanitizers
-> and trying to run the xlnx-versal-virt acceptance test in 'make
-> check-acceptance'.  This bug was masked until commit 848126d11e93ff
-> ("meson: move int128 checks from configure") because we used to set
-> CONFIG_CMPXCHG128=1 and avoid the buggy codepath, but after that we
-> do not.
-> 
-> Fix the bug by not setting is_jmp.  The code after the exit_atomic
-> call up to the fail_label is dead, but TCG is smart enough to
-> eliminate it.  We do need to set 'tmp' to some valid value, though
-> (in the same way the exit_atomic-using code in tcg/tcg-op.c does).
-> 
-> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/953
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   target/arm/translate-a64.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-r~
+On 3/30/22 22:25, David Gibson wrote:
+> On Wed, Mar 30, 2022 at 09:17:15PM -0300, Daniel Henrique Barboza wrote:
+>> 'lpcr' is used as an input of kvm_get_one_reg(). Valgrind doesn't
+>> understand that and it returns warnings as such for this function:
+>>
+>> ==55240== Thread 1:
+>> ==55240== Conditional jump or move depends on uninitialised value(s)
+>> ==55240==    at 0xB011E4: kvmppc_enable_cap_large_decr (kvm.c:2546)
+>> ==55240==    by 0x92F28F: cap_large_decr_cpu_apply (spapr_caps.c:523)
+>> ==55240==    by 0x930C37: spapr_caps_cpu_apply (spapr_caps.c:921)
+>> ==55240==    by 0x955D3B: spapr_reset_vcpu (spapr_cpu_core.c:73)
+>> ==55240==    by 0x95612B: spapr_cpu_core_reset (spapr_cpu_core.c:209)
+>> ==55240==    by 0x95619B: spapr_cpu_core_reset_handler (spapr_cpu_core.c:218)
+>> ==55240==    by 0xD3605F: qemu_devices_reset (reset.c:69)
+>> ==55240==    by 0x92112B: spapr_machine_reset (spapr.c:1641)
+>> ==55240==    by 0x4FBD63: qemu_system_reset (runstate.c:444)
+>> ==55240==    by 0x62812B: qdev_machine_creation_done (machine.c:1247)
+>> ==55240==    by 0x5064C3: qemu_machine_creation_done (vl.c:2725)
+>> ==55240==    by 0x5065DF: qmp_x_exit_preconfig (vl.c:2748)
+>> ==55240==  Uninitialised value was created by a stack allocation
+>> ==55240==    at 0xB01158: kvmppc_enable_cap_large_decr (kvm.c:2540)
+>>
+>> Init 'lpcr' to avoid this warning.
+> 
+> Hmm... this is seeming a bit like whack-a-mole.  Could we instead use
+> one of the valgrind hinting mechanisms to inform it that
+> kvm_get_one_reg() writes the variable at *target?
+
+I didn't find a way of doing that looking in the memcheck helpers
+(https://valgrind.org/docs/manual/mc-manual.html section 4.7). That would be a
+good way of solving this warning because we would put stuff inside a specific
+function X and all callers of X would be covered by it.
+
+What I did find instead is a memcheck macro called VALGRIND_MAKE_MEM_DEFINED that
+tells Valgrind that the var was initialized.
+
+This patch would then be something as follows:
+
+
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index dc93b99189..b0e22fa283 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -56,6 +56,10 @@
+  #define DEBUG_RETURN_GUEST 0
+  #define DEBUG_RETURN_GDB   1
+  
++#ifdef CONFIG_VALGRIND_H
++#include <valgrind/memcheck.h>
++#endif
++
+  const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+      KVM_CAP_LAST_INFO
+  };
+@@ -2539,6 +2543,10 @@ int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
+      CPUState *cs = CPU(cpu);
+      uint64_t lpcr;
+  
++#ifdef CONFIG_VALGRIND_H
++    VALGRIND_MAKE_MEM_DEFINED(lpcr, sizeof(uint64_t));
++#endif
++
+      kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
+      /* Do we need to modify the LPCR? */
+
+
+CONFIG_VALGRIND_H needs 'valgrind-devel´ installed.
+
+I agree that this "Valgrind is complaining about variable initialization" is a whack-a-mole
+situation that will keep happening in the future if we keep adding this same code pattern
+(passing as reference an uninitialized var). For now, given that we have only 4 instances
+to fix it in ppc code (as far as I'm aware of), and we don't have a better way of telling
+Valgrind that we know what we're doing, I think we're better of initializing these vars.
+
+
+Thanks,
+
+
+Daniel
+
+
+
+> 
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   target/ppc/kvm.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+>> index 858866ecd4..42814e1b97 100644
+>> --- a/target/ppc/kvm.c
+>> +++ b/target/ppc/kvm.c
+>> @@ -2538,7 +2538,7 @@ int kvmppc_get_cap_large_decr(void)
+>>   int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
+>>   {
+>>       CPUState *cs = CPU(cpu);
+>> -    uint64_t lpcr;
+>> +    uint64_t lpcr = 0;
+>>   
+>>       kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
+>>       /* Do we need to modify the LPCR? */
+> 
 
