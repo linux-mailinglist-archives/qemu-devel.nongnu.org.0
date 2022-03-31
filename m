@@ -2,79 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3568E4ED44E
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 09:00:03 +0200 (CEST)
-Received: from localhost ([::1]:47362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D654ED4F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 09:46:06 +0200 (CEST)
+Received: from localhost ([::1]:59984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZomn-0000Ou-Mb
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 03:00:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39694)
+	id 1nZpVN-0002rm-2W
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 03:46:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nZol8-00085B-AT
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 02:58:21 -0400
-Received: from mga04.intel.com ([192.55.52.120]:52983)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nZpTe-0001z0-RD; Thu, 31 Mar 2022 03:44:18 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15924
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nZol3-0006Ln-L4
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 02:58:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648709893; x=1680245893;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=O/bKGbwTuz4odrbizTQy29vauof302HjcqPe5nVHZvI=;
- b=lUa+3d6eZ4jCkot6N/4nqP4TM02JTH+eiib7KWIL28ARYkB3D1XuzrLb
- kRo35cfFWicUbgyFftHK3/Hzu8XKIun6UJVCFA4krvPSO6exQ1qC3E28S
- m3kSDfrv+LlxAvW2FRGFovGUbo1YLnXgLvqBCYP4GdlXTDCgxzJvBWK5l
- MQPLyEjdkATVOzg4X0DlysABFsE7EtATyeGw23qxB+EPa2jILJD4NhcF6
- Mn/mczlrcHx92RYKDz4BCo4ASEA+V1OF2asdMDwZ/W8Q0JnxWzMNe4o7G
- AWTu92ZSCASWbaktX00/6A9+V8QDpu3yHVpFp5kyZaz4uwZc+iefbpAkb A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="258568157"
-X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="258568157"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2022 23:57:54 -0700
-X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="547188445"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.193.1])
- ([10.249.193.1])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2022 23:57:50 -0700
-Message-ID: <9d6299ef-ed28-7192-7f8e-5c1a4daf6a62@intel.com>
-Date: Thu, 31 Mar 2022 14:57:47 +0800
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nZpTc-0000Kr-Al; Thu, 31 Mar 2022 03:44:18 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22V7JwfJ027548; 
+ Thu, 31 Mar 2022 07:44:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : from : to : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=K1jQKteL2q9lD7U90PtYueQ/FKF1zS0IayQ54+AUNDU=;
+ b=E4ErGTv9NsPUUvoPjEDacej5i1TuPe6KBs5ULJn3JJn6AtAw8O3wfbWdfTG4Rh6kzHiw
+ NZ3NQ445n+gYFE1CTbTRWBS9eUkvHDrSu4XR+QW1tCdRRdjJGoSal2sciqgUx89kJaMg
+ xdRyWbEZ9WurlxfsZXISkVcJb/7bZcyIZCkmb+NN4rWiILKz7XIlRqNue/LjuFYCqpzy
+ RLW9iksVIEHoKeYEXLNHB99ODbd4eQ64EL/vbmP8oAzCAB/gmJbAmyIH/qiWfs17WYYB
+ 4fnl2OEnKK9r4oiY/pCiGsHiX3yMvNjPEYIBjGSUwGsnEqajOJZ6VAZBgNd6dDtms9vM HQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3f57tnrge8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Mar 2022 07:44:13 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22V7QJjg019183;
+ Thu, 31 Mar 2022 07:44:13 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3f57tnrgdu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Mar 2022 07:44:13 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22V7Xdip000573;
+ Thu, 31 Mar 2022 07:44:11 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06ams.nl.ibm.com with ESMTP id 3f3rs3n6x1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 31 Mar 2022 07:44:11 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22V7i8jc38076822
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 31 Mar 2022 07:44:08 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B57B74C040;
+ Thu, 31 Mar 2022 07:44:08 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 682864C044;
+ Thu, 31 Mar 2022 07:44:08 +0000 (GMT)
+Received: from [9.171.83.180] (unknown [9.171.83.180])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 31 Mar 2022 07:44:08 +0000 (GMT)
+Message-ID: <d6d24f79-24bd-46ac-6332-a066410e0217@linux.ibm.com>
+Date: Thu, 31 Mar 2022 09:44:08 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [RFC PATCH v3 17/36] pflash_cfi01/tdx: Introduce ram_mode of
- pflash for TDVF
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: qemu iotest 161 and make check
 Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220317135913.2166202-1-xiaoyao.li@intel.com>
- <20220317135913.2166202-18-xiaoyao.li@intel.com>
- <f418548e-c24c-1bc3-4e16-d7a775298a18@gmail.com>
- <7a8233e4-0cae-b05a-7931-695a7ee87fc9@intel.com>
- <20220322092141.qsgv3pqlvlemgrgw@sirius.home.kraxel.org>
- <YjmXFZRCbKXTkAhN@redhat.com>
- <20220322103518.ljbi4pvghbgjxm7k@sirius.home.kraxel.org>
- <YjmqOolbafWkMEHN@redhat.com>
- <20220322122024.blyut6mnszhyw6hz@sirius.home.kraxel.org>
- <20220324083528.deoh77e77swf67gb@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220324083528.deoh77e77swf67gb@sirius.home.kraxel.org>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ qemu block <qemu-block@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <36201311-39e2-0b94-1b06-74a2df988553@linux.ibm.com>
+ <45589fd7-bf18-8950-34f5-86a90b99c8c1@virtuozzo.com>
+ <586f035a-91b7-4743-9285-09996aa32b4f@linux.ibm.com>
+ <a4955275-6cdd-f54d-81b1-8380aad0461f@redhat.com>
+ <6d73af8a-4620-f702-5367-6bed666b61a8@virtuozzo.com>
+ <54616427-1784-d12b-1a54-131796b56c07@linux.ibm.com>
+In-Reply-To: <54616427-1784-d12b-1a54-131796b56c07@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=xiaoyao.li@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: fx5b4mt-rFmZsuiG91Xtw-pRb4W-XVSY
+X-Proofpoint-ORIG-GUID: i-hh0Rv-cgt3JbBhJ66dI21_cLBNPfMQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-31_02,2022-03-30_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 spamscore=0
+ priorityscore=1501 adultscore=0 phishscore=0 lowpriorityscore=0
+ mlxlogscore=988 bulkscore=0 suspectscore=0 malwarescore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203310043
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,47 +120,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Eric Blake <eblake@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
- seanjc@google.com, erdemaktas@google.com, Paolo Bonzini <pbonzini@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/2022 4:35 PM, Gerd Hoffmann wrote:
-> On Tue, Mar 22, 2022 at 01:20:24PM +0100, Gerd Hoffmann wrote:
->>    Hi,
->>
->>> At the time I did try a gross hack that (IIRC) disabled the
->>> rom_reset logic, and munged x86_bios_rom_init so that it would
->>> force load it straight at the RAM location.
->>
->> Sounds reasonable.  The whole rom logic exists to handle resets,
->> but with confidential guests we don't need that, we can't change
->> guest state to perform a reset anyway ...
+
+
+Am 21.02.22 um 11:27 schrieb Christian Borntraeger:
 > 
-> Completed, cleaned up a bit, but untested:
->    https://git.kraxel.org/cgit/qemu/log/?h=sirius/cc
-> 
-> Any chance you can give this a try?
+> Am 10.02.22 um 18:44 schrieb Vladimir Sementsov-Ogievskiy:
+>> 10.02.2022 20:13, Thomas Huth wrote:
+>>> On 10/02/2022 15.51, Christian Borntraeger wrote:
+>>>>
+>>>>
+>>>> Am 10.02.22 um 15:47 schrieb Vladimir Sementsov-Ogievskiy:
+>>>>> 10.02.2022 10:57, Christian Borntraeger wrote:
+>>>>>> Hello,
+>>>>>>
+>>>>>> I do see spurious failures of 161 in our CI, but only when I use
+>>>>>> make check with parallelism (-j).
+>>>>>> I have not yet figured out which other testcase could interfere
+>>>>>>
+>>>>>> @@ -34,6 +34,8 @@
+>>>>>>   *** Commit and then change an option on the backing file
+>>>>>>
+>>>>>>   Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=1048576
+>>>>>> +qemu-img: TEST_DIR/t.IMGFMT.base: Failed to get "write" lock
 
-Hi Gred,
+FWIW, qemu_lock_fd_test returns -11 (EAGAIN)
+and raw_check_lock_bytes spits this error.
 
-I refactor the TDX series to load TDVF via "-bios" option upon it.
 
-No issue hit.
-
-Thanks,
--Xiaoyao
-
-> thanks,
->    Gerd
-> 
-
+Is this just some overload situation that we do not recover because we do not handle EAGAIN any special.
 
