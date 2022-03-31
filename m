@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8285D4ED8B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:50:10 +0200 (CEST)
-Received: from localhost ([::1]:58184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E83F4ED8BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 13:54:39 +0200 (CEST)
+Received: from localhost ([::1]:33644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZtJZ-0002qm-AS
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:50:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45774)
+	id 1nZtNu-0005qW-Dk
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 07:54:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nZtDE-0000tc-Dm
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 07:43:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33016)
+ id 1nZtGJ-000259-An
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 07:46:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nZtDC-0004WF-I0
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 07:43:35 -0400
+ id 1nZtGH-0005Q5-KB
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 07:46:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648727013;
+ s=mimecast20190719; t=1648727202;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z86jnmdnHR+FmOx6yycKuO0ugTrL0Ue4ZK6c9Or7QK8=;
- b=KhXZXxQpuFUiiQib3++CKCVjtpHLpc3Fd9L7Tm0gBoNQep7f/H5tG4bJGVMI9FecFmuKyG
- CYhVD6sCCT76u6Veebs9oUAHs6ly/FQaAH0leRojvhiHCnuTgElZIT2Dl1L+bPCq7Jvhby
- K/kox0fwgr30qKBhgxyQuRYAoPRtVZE=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rG3OyC1Cr/aE5F4ZUj2+8PA1ZNO78n8Kim9gw1TVbWY=;
+ b=As3LH46K57ydvqT8rO+m06U3yecdSGHZDn7TnLr8j+6WcGRcusaNhoiHxXDaObENpN9R4J
+ 3vlICdSSw9TgrMaAVz6fIKvIb6K+bIf7jWpHEayrJJYgQLIm7XYdLatMb01Aj6jwBC5R5L
+ CLzFcKSVbte4dulES7XpKWmfe5N79xw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-381-606dd0pDPGal1Rhq1LN3iw-1; Thu, 31 Mar 2022 07:43:32 -0400
-X-MC-Unique: 606dd0pDPGal1Rhq1LN3iw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- og28-20020a1709071ddc00b006dfb92d8e3fso11357925ejc.14
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 04:43:32 -0700 (PDT)
+ us-mta-636-YwiTTVQeNG2aceUah3WJ3A-1; Thu, 31 Mar 2022 07:46:41 -0400
+X-MC-Unique: YwiTTVQeNG2aceUah3WJ3A-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ s9-20020a50d489000000b00418d556edbdso14786091edi.4
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 04:46:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z86jnmdnHR+FmOx6yycKuO0ugTrL0Ue4ZK6c9Or7QK8=;
- b=bYo1kSPjpYC3FWL6E6WMVIKk51Xxsv+rO5Mj+iZojSafy90G8oBpO1UPGFIPTYsHRs
- TtLET1UpknCWWEt6Q78p4/MJCTODat1E4Hg17oaKkT7KCwb/tlzZavdeH6S0omW3cyZj
- AsULMkbIZVEwsZwiPjzPE6W9386RcAQ/rM8SvGrPpS6YtQp8CFHNDwnxb8LtxftCF0Jt
- Ux7rVLMpwzm+UNFl5lJjrrn2K1ghqEbZ4a3Q8wQcADbf0XqoZy/4RNWbWDSl2JH9vHyq
- YtRDndio7Tf3sL9pR8d6uNff6IcyLv8vLv+vULezqyWiZQsCcCoqtwLU3xzDmfYJZiZv
- X4vg==
-X-Gm-Message-State: AOAM5329Qho5bbd/0vV7jcYkP3q6Wo2rfpFL3M2s3l6J9BCECxmtLCrm
- K/EidBJ/SHjZzKcq6wGW1pftPvz5UkgG5bYN3olxoDC0kIp16iFNtvInfW5UsdiGz74Ilr+6Z/Y
- 3G4ytFQj1LyQoUWQ=
-X-Received: by 2002:a17:906:ae0b:b0:6df:c7d6:9235 with SMTP id
- le11-20020a170906ae0b00b006dfc7d69235mr4670421ejb.664.1648727011367; 
- Thu, 31 Mar 2022 04:43:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy1QaodA+a+P0u02CGoqCsIg4vKG5jFHuuirbD2lOFg/MdR2v9w9w6Yi/gQVgaBYVePpXzKBA==
-X-Received: by 2002:a17:906:ae0b:b0:6df:c7d6:9235 with SMTP id
- le11-20020a170906ae0b00b006dfc7d69235mr4670391ejb.664.1648727011166; 
- Thu, 31 Mar 2022 04:43:31 -0700 (PDT)
+ bh=rG3OyC1Cr/aE5F4ZUj2+8PA1ZNO78n8Kim9gw1TVbWY=;
+ b=so80nrO3LBONLe9wkLDBQm6YLMWkaTEWnhynfyea/y3/a8rhL5mn+1m45ETnnoKbqC
+ B68d/4GOSdES13669i+m1E24nSd7YKPIyqfkCUGV50iutjBD1yi0vkxKGVUSvT/6+dse
+ MoSXI0TDyarnKmaSUd4I20aB2zg34LYf6ZiW/KXO+znev++yzWiezEQknNsqOgxVo5Ka
+ LiJ/CT7PgF841pGk6HzY4sFGiI4/vuWWfZL4OkLMW+A34+3VznwozXtKseuGz2ilEKsO
+ hZELfblITsbc/D5D9xhQObmpl4n8eTMQ/aY7GtElYxKLXDu8xa5BEACQ4BSDV/U9xf4V
+ m3GQ==
+X-Gm-Message-State: AOAM530TFUkxMIGEkMJ/auWP3iapETXYI8phrhwMPu5V7FKBdzhvXlrU
+ 3yb3vjIp3KvVp2B3zZ55QBEn4G3/QcFj6Oz9iM529jxnhd2kNMlyyilEEnjnIIw+m3/eq+WrUZG
+ D6ikDEEVyzAZxVFM=
+X-Received: by 2002:a17:907:9623:b0:6de:c0fb:8acc with SMTP id
+ gb35-20020a170907962300b006dec0fb8accmr4470338ejc.380.1648727199700; 
+ Thu, 31 Mar 2022 04:46:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwruZQRx/Tvb3K3nv1dYDkx4WHXxrwn1qOtvpA9Y3TgGr8BA0kDvXQyyq+L0A+XLEJNJOY8nA==
+X-Received: by 2002:a17:907:9623:b0:6de:c0fb:8acc with SMTP id
+ gb35-20020a170907962300b006dec0fb8accmr4470317ejc.380.1648727199459; 
+ Thu, 31 Mar 2022 04:46:39 -0700 (PDT)
 Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- dd6-20020a1709069b8600b006df08710d00sm9586584ejc.85.2022.03.31.04.43.29
+ l20-20020a1709062a9400b006ce71a88bf5sm9206194eje.183.2022.03.31.04.46.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 04:43:30 -0700 (PDT)
-Date: Thu, 31 Mar 2022 13:43:28 +0200
+ Thu, 31 Mar 2022 04:46:39 -0700 (PDT)
+Date: Thu, 31 Mar 2022 13:46:37 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Maxim Davydov <maxim.davydov@openvz.org>
-Subject: Re: [PATCH v1 3/9] mem: appropriate handling getting mem region
-Message-ID: <20220331134328.65d15a93@redhat.com>
-In-Reply-To: <20220328211539.90170-4-maxim.davydov@openvz.org>
+Subject: Re: [PATCH v1 2/9] pci: add null-pointer check
+Message-ID: <20220331134637.6f45d33e@redhat.com>
+In-Reply-To: <20220328211539.90170-3-maxim.davydov@openvz.org>
 References: <20220328211539.90170-1-maxim.davydov@openvz.org>
- <20220328211539.90170-4-maxim.davydov@openvz.org>
+ <20220328211539.90170-3-maxim.davydov@openvz.org>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
@@ -79,14 +79,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -110,77 +110,96 @@ Cc: eduardo@habkost.net, v.sementsov-og@mail.ru, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 29 Mar 2022 00:15:33 +0300
+On Tue, 29 Mar 2022 00:15:32 +0300
 Maxim Davydov <maxim.davydov@openvz.org> wrote:
 
-> Attempt to get memory region if the device doesn't have hostmem may not be
-> an error. This can be happen immediately after initialization (getting
-> value without default one).
+> Call pci_bus_get_w64_range can fail with the segmentation fault. For
+> example, this can happen during attempt to get pci-hole64-end
 
-Above statement begs for expanded explanation
-Pls rephrase and explain why it's needed and how it will be used.
+>" immediately after initialization"
+this too vague, pls provide a better description 
+and is possible a reproducer.
 
 > 
 > Signed-off-by: Maxim Davydov <maxim.davydov@openvz.org>
 > ---
->  hw/i386/sgx-epc.c | 5 ++++-
->  hw/mem/nvdimm.c   | 6 ++++++
->  hw/mem/pc-dimm.c  | 5 +++++
->  3 files changed, 15 insertions(+), 1 deletion(-)
+>  hw/pci-host/i440fx.c | 17 +++++++++++------
+>  hw/pci-host/q35.c    | 17 +++++++++++------
+>  2 files changed, 22 insertions(+), 12 deletions(-)
 > 
-> diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-> index d664829d35..1a4c8acdcc 100644
-> --- a/hw/i386/sgx-epc.c
-> +++ b/hw/i386/sgx-epc.c
-> @@ -121,9 +121,12 @@ static MemoryRegion *sgx_epc_md_get_memory_region(MemoryDeviceState *md,
->  {
->      SGXEPCDevice *epc = SGX_EPC(md);
->      HostMemoryBackend *hostmem;
-> +    DeviceState *dev = DEVICE(epc);
+> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+> index e08716142b..71a114e551 100644
+> --- a/hw/pci-host/i440fx.c
+> +++ b/hw/pci-host/i440fx.c
+> @@ -158,10 +158,12 @@ static uint64_t i440fx_pcihost_get_pci_hole64_start_value(Object *obj)
+>      PCIHostState *h = PCI_HOST_BRIDGE(obj);
+>      I440FXState *s = I440FX_PCI_HOST_BRIDGE(obj);
+>      Range w64;
+> -    uint64_t value;
+> +    uint64_t value = 0;
 >  
->      if (!epc->hostmem) {
-> -        error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property must be set");
-> +        if (dev->realized) {
-> +            error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property must be set");
-> +        }
->          return NULL;
->      }
->  
-> diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-> index 7c7d777781..61e77e5476 100644
-> --- a/hw/mem/nvdimm.c
-> +++ b/hw/mem/nvdimm.c
-> @@ -166,9 +166,15 @@ static MemoryRegion *nvdimm_md_get_memory_region(MemoryDeviceState *md,
->                                                   Error **errp)
->  {
->      NVDIMMDevice *nvdimm = NVDIMM(md);
-> +    PCDIMMDevice *dimm = PC_DIMM(nvdimm);
->      Error *local_err = NULL;
->  
->      if (!nvdimm->nvdimm_mr) {
-> +        /* Not error if we try get memory region after init */
-> +        if (!dimm->hostmem) {
-> +            return NULL;
-> +        }
-> +
->          nvdimm_prepare_memory_region(nvdimm, &local_err);
->          if (local_err) {
->              error_propagate(errp, local_err);
-> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-> index f27e1a11ba..6fd74de97f 100644
-> --- a/hw/mem/pc-dimm.c
-> +++ b/hw/mem/pc-dimm.c
-> @@ -240,6 +240,11 @@ static void pc_dimm_md_set_addr(MemoryDeviceState *md, uint64_t addr,
->  static MemoryRegion *pc_dimm_md_get_memory_region(MemoryDeviceState *md,
->                                                    Error **errp)
->  {
-> +    PCDIMMDevice *dimm = PC_DIMM(md);
-> +    /* Not error if we try get memory region after init */
-> +    if (!dimm->hostmem) {
-> +        return NULL;
+> -    pci_bus_get_w64_range(h->bus, &w64);
+> -    value = range_is_empty(&w64) ? 0 : range_lob(&w64);
+> +    if (h->bus) {
+> +        pci_bus_get_w64_range(h->bus, &w64);
+> +        value = range_is_empty(&w64) ? 0 : range_lob(&w64);
 > +    }
->      return pc_dimm_get_memory_region(PC_DIMM(md), errp);
->  }
+>      if (!value && s->pci_hole64_fix) {
+>          value = pc_pci_hole64_start();
+>      }
+> @@ -191,10 +193,13 @@ static void i440fx_pcihost_get_pci_hole64_end(Object *obj, Visitor *v,
+>      I440FXState *s = I440FX_PCI_HOST_BRIDGE(obj);
+>      uint64_t hole64_start = i440fx_pcihost_get_pci_hole64_start_value(obj);
+>      Range w64;
+> -    uint64_t value, hole64_end;
+> +    uint64_t value = 0;
+> +    uint64_t hole64_end;
 >  
+> -    pci_bus_get_w64_range(h->bus, &w64);
+> -    value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
+> +    if (h->bus) {
+> +        pci_bus_get_w64_range(h->bus, &w64);
+> +        value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
+> +    }
+>      hole64_end = ROUND_UP(hole64_start + s->pci_hole64_size, 1ULL << 30);
+>      if (s->pci_hole64_fix && value < hole64_end) {
+>          value = hole64_end;
+> diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+> index ab5a47aff5..d679fd85ef 100644
+> --- a/hw/pci-host/q35.c
+> +++ b/hw/pci-host/q35.c
+> @@ -124,10 +124,12 @@ static uint64_t q35_host_get_pci_hole64_start_value(Object *obj)
+>      PCIHostState *h = PCI_HOST_BRIDGE(obj);
+>      Q35PCIHost *s = Q35_HOST_DEVICE(obj);
+>      Range w64;
+> -    uint64_t value;
+> +    uint64_t value = 0;
+>  
+> -    pci_bus_get_w64_range(h->bus, &w64);
+> -    value = range_is_empty(&w64) ? 0 : range_lob(&w64);
+> +    if (h->bus) {
+> +        pci_bus_get_w64_range(h->bus, &w64);
+> +        value = range_is_empty(&w64) ? 0 : range_lob(&w64);
+> +    }
+>      if (!value && s->pci_hole64_fix) {
+>          value = pc_pci_hole64_start();
+>      }
+> @@ -157,10 +159,13 @@ static void q35_host_get_pci_hole64_end(Object *obj, Visitor *v,
+>      Q35PCIHost *s = Q35_HOST_DEVICE(obj);
+>      uint64_t hole64_start = q35_host_get_pci_hole64_start_value(obj);
+>      Range w64;
+> -    uint64_t value, hole64_end;
+> +    uint64_t value = 0;
+> +    uint64_t hole64_end;
+>  
+> -    pci_bus_get_w64_range(h->bus, &w64);
+> -    value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
+> +    if (h->bus) {
+> +        pci_bus_get_w64_range(h->bus, &w64);
+> +        value = range_is_empty(&w64) ? 0 : range_upb(&w64) + 1;
+> +    }
+>      hole64_end = ROUND_UP(hole64_start + s->mch.pci_hole64_size, 1ULL << 30);
+>      if (s->pci_hole64_fix && value < hole64_end) {
+>          value = hole64_end;
 
 
