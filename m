@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 320814ED692
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 11:13:38 +0200 (CEST)
-Received: from localhost ([::1]:53120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89674ED6A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 11:17:46 +0200 (CEST)
+Received: from localhost ([::1]:58228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZqs5-0002ZD-9t
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 05:13:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36640)
+	id 1nZqw5-0006Bc-GY
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 05:17:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nZqbm-0002d7-S3
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:56:47 -0400
-Received: from [2a00:1450:4864:20::436] (port=43704
- helo=mail-wr1-x436.google.com)
+ id 1nZqbo-0002dG-7p
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:56:55 -0400
+Received: from [2a00:1450:4864:20::434] (port=41782
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nZqbZ-00031N-DJ
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:56:36 -0400
-Received: by mail-wr1-x436.google.com with SMTP id a1so32701721wrh.10
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 01:56:33 -0700 (PDT)
+ id 1nZqbk-000328-9b
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 04:56:47 -0400
+Received: by mail-wr1-x434.google.com with SMTP id h23so32718609wrb.8
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 01:56:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kt/4aU0RH7DcZBe5eJFdxg5OmM26KnRTu+/kffpRfTs=;
- b=hRqRS/I1TQ4wo4D5fnXRbbri1itRmfB1M7v5rAtcMPWCJ1wdg5zUmdOVx7YbJUrhjV
- wfXs1DEo7HaCpLIHpEsEQtyJxCls5Kp10FwRuzl2Twjo9EDy1uHkrwBaWhcTDBNvCnDE
- R4Ugv2b5m+ZpGpqYMSp155ITZgA4VFeYYm8cnqeE8ZqIutgURDp+ntC0k4iPRx8F+rUT
- KnvXRBrPuivcq3o41h7XHv3EXXYRjbMM9/is/9Nfh0yYAvpKA3zdKBvdSDUO5PwOVknE
- 0QJRIm9U3CoNY6cDSo66Z/6fE/7eChc8Lc3iP9aiCSG9lP5t0jzLlRTrukHjJjllxzDg
- 82wQ==
+ :cc; bh=FcUC+CqJxfStT+z2FWz64cKPro4WJoymHFX7Wr33H3c=;
+ b=JKoRG8M2DZHnzmP3gYAoXtO9j9ZYuaNH5OtGKLpiF4DwqGoZZooptPT+MqifQAMsNe
+ Ib+KUwebApNpMRS3OK4tr/1CPyTX5WUqtbJnGk1ITOTw29sqG4qf0kvRzQF3P18TRzHt
+ 8SwuqAAzCteaYfpThwVxIkv40JSPWsdHDdMfPqzRz8OAcyjAhlKpXJXIqDYxkBsM9Kes
+ bcYfR+dMjTlxjJ292mAty52AQG5OSJt03r0Zrpwv1JlUjOxubHUJAdSpquu177VVzM86
+ isUmtj9OaEitBYjEmITcpY261QSN8QxRqt1gNhBjEw2BHhCjsZ3fO/ssIAAzG4dxXgkF
+ 92FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kt/4aU0RH7DcZBe5eJFdxg5OmM26KnRTu+/kffpRfTs=;
- b=UjU+AGAdybWT5L8bsrnXDx3MALzeHNjjs01Uny08lM8lSMQyzH4tOb6HKn2vcsNQwj
- 87ac49WpGVBtl41x4QXOli5xKAZWPVs/9BYykZtn0WcywpRGsPcFbTZ00N/19kMSIb3l
- NYrjHKlQYbLzxpd2BbuJxYcZuanwjkWckX4te40Umq1f4IuGJMYbYkHBxse6gWuTbR46
- KPYjVgYvbFmmMTutsFAMZZBuTLtU5sHMI82vT2xmEKqzBFCYfYGT9/QMRIX1EIUxFGbs
- GvyFksL9++y8w7pWCbp+4SZrR9q57CLkqCi3ONaqkvlUITjiCxa92PNi5+76dzM2WE7j
- +jxQ==
-X-Gm-Message-State: AOAM5304+zmFDTIBaZqwdAfs71yvnj82pX47t8RTMIf700+zAFm5InsL
- p7p4Sxo2BxKDwIYV2OTvCza7ZpNlDhbzKmoUnzw=
-X-Google-Smtp-Source: ABdhPJzZywtDNws3dWbAQu33+LFhoJ6kXt5qQp+hsoek5JPmOjqvOXdVf90r6W5oPr4zhMHPM/zUfVwEU8E2YjyRm7s=
-X-Received: by 2002:adf:a297:0:b0:203:d734:4314 with SMTP id
- s23-20020adfa297000000b00203d7344314mr3347920wra.562.1648716992054; Thu, 31
- Mar 2022 01:56:32 -0700 (PDT)
+ bh=FcUC+CqJxfStT+z2FWz64cKPro4WJoymHFX7Wr33H3c=;
+ b=DIK1Zz12GGAwSOKWAnFaTwfL0+QpMs2eX0t2dRmDr1FAPhqhMhrIZZ+q1pZkun85C/
+ aTm78Np90c1BThIOOzakl4v4E8zNLds61YzL/spbfMWAouDgy0pNaQ99b/bCN8Ze60Rp
+ YWnxLAIyj5szwLJ2PPzB4UwZcXZiqd0jdiO2r2AN88Zl2xS3vYsBGiWE+Sn24xtmen12
+ FM1yQwRb73qpLtGU+n4w2rTDanVe1zOzL+YlmUg0tVk36ztN72hik8wPwBJ+gR2JPqLK
+ 5RRziUJ9tG7unRH7WpM1b+amjKAQM1LIKjQQ6MX1P6NGlVTS+X8YKiBPOh+llBBhxBeH
+ Uy6g==
+X-Gm-Message-State: AOAM533H06NGTVsEhpQcJp3VhlMrINr/2DX2dwi8vWyDo4eZv3f9oH6B
+ XlGuYbTrq+QLk+8oucAsXdGEkCnuqWkE/R9zX7Y=
+X-Google-Smtp-Source: ABdhPJzyDeiAcXDLvcoNn6V/Cj7EH/EjdUhZkeAYMudOts/toyZ9b1npxjKJkDRfjIIHp9WgA24KPG6jt8LGm9LuArQ=
+X-Received: by 2002:a05:6000:1107:b0:205:b8e5:8929 with SMTP id
+ z7-20020a056000110700b00205b8e58929mr3268115wrw.187.1648717000091; Thu, 31
+ Mar 2022 01:56:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220330123603.107120-1-frankja@linux.ibm.com>
- <20220330123603.107120-10-frankja@linux.ibm.com>
-In-Reply-To: <20220330123603.107120-10-frankja@linux.ibm.com>
+ <20220330123603.107120-9-frankja@linux.ibm.com>
+In-Reply-To: <20220330123603.107120-9-frankja@linux.ibm.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 31 Mar 2022 12:56:20 +0400
-Message-ID: <CAJ+F1C+aCUMZk+f_zX0TwypY9QFpWQ1z5AOBRsTbrC5Za5=Mqg@mail.gmail.com>
-Subject: Re: [PATCH v3 9/9] dump: Consolidate elf note function
+Date: Thu, 31 Mar 2022 12:56:26 +0400
+Message-ID: <CAJ+F1CK+1+4XfpccOC-z7kJ8ACeghp0oa=mqAn0kPbbDvNoB+Q@mail.gmail.com>
+Subject: Re: [PATCH v3 8/9] dump: Cleanup dump_begin write functions
 To: Janosch Frank <frankja@linux.ibm.com>
-Content-Type: multipart/alternative; boundary="000000000000a5880405db7fd67a"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+Content-Type: multipart/alternative; boundary="000000000000202d2405db7fd79d"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,63 +87,89 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a5880405db7fd67a
+--000000000000202d2405db7fd79d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 30, 2022 at 4:37 PM Janosch Frank <frankja@linux.ibm.com> wrote=
+On Wed, Mar 30, 2022 at 4:52 PM Janosch Frank <frankja@linux.ibm.com> wrote=
 :
 
-> Just like with the other write functions let's move the 32/64 bit elf
-> handling to a function to improve readability.
+> There's no need to have a gigantic if in there let's move the elf
+> 32/64 bit logic into the section, segment or note code.
 >
 > Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 >
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
 > ---
->  dump/dump.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
+>  dump/dump.c | 42 +++++++++++-------------------------------
+>  1 file changed, 11 insertions(+), 31 deletions(-)
 >
 > diff --git a/dump/dump.c b/dump/dump.c
-> index 92acd9eb5c..4af71de9b1 100644
+> index 365798f5a1..92acd9eb5c 100644
 > --- a/dump/dump.c
 > +++ b/dump/dump.c
-> @@ -510,6 +510,15 @@ static void write_elf_loads(DumpState *s, Error
-> **errp)
->      }
->  }
->
-> +static void write_elf_notes(DumpState *s, Error **errp)
-> +{
-> +    if (dump_is_64bit(s)) {
-> +        write_elf64_notes(fd_write_vmcore, s, errp);
-> +    } else {
-> +        write_elf32_notes(fd_write_vmcore, s, errp);
-> +    }
-> +}
-> +
->  /* write elf header, PT_NOTE and elf note to vmcore. */
->  static void dump_begin(DumpState *s, Error **errp)
->  {
-> @@ -569,13 +578,8 @@ static void dump_begin(DumpState *s, Error **errp)
->          }
+> @@ -555,46 +555,26 @@ static void dump_begin(DumpState *s, Error **errp)
+>          return;
 >      }
 >
 > -    if (dump_is_64bit(s)) {
-> -        /* write notes to vmcore */
-> -        write_elf64_notes(fd_write_vmcore, s, errp);
-> -    } else {
-> -        /* write notes to vmcore */
-> -        write_elf32_notes(fd_write_vmcore, s, errp);
-> -    }
-> +    /* write notes to vmcore */
-> +    write_elf_notes(s, errp);
+> -        /* write all PT_LOAD to vmcore */
+> -        write_elf_loads(s, errp);
+> +    /* write all PT_LOAD to vmcore */
+> +    write_elf_loads(s, errp);
+> +    if (*errp) {
+> +        return;
+> +    }
+> +
+> +    /* write section to vmcore */
+> +    if (s->shdr_num) {
+> +        write_elf_section(s, 1, errp);
+>          if (*errp) {
+>              return;
+>          }
+> +    }
+>
+> -        /* write section to vmcore */
+> -        if (s->shdr_num) {
+> -            write_elf_section(s, 1, errp);
+> -            if (*errp) {
+> -                return;
+> -            }
+> -        }
+> -
+> +    if (dump_is_64bit(s)) {
+>          /* write notes to vmcore */
+>          write_elf64_notes(fd_write_vmcore, s, errp);
+> -        if (*errp) {
+> -            return;
+> -        }
+>      } else {
+> -        /* write all PT_LOAD to vmcore */
+> -        write_elf_loads(s, errp);
+> -        if (*errp) {
+> -            return;
+> -        }
+> -
+> -        /* write section to vmcore */
+> -        if (s->shdr_num) {
+> -            write_elf_section(s, 0, errp);
+> -            if (*errp) {
+> -                return;
+> -            }
+> -        }
+> -
+>          /* write notes to vmcore */
+>          write_elf32_notes(fd_write_vmcore, s, errp);
+> -        if (*errp) {
+> -            return;
+> -        }
+>      }
 >  }
 >
->  static int get_next_block(DumpState *s, GuestPhysBlock *block)
 > --
 > 2.32.0
 >
@@ -153,76 +179,105 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000a5880405db7fd67a
+--000000000000202d2405db7fd79d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 30, 2022 at 4:37 PM Janos=
-ch Frank &lt;<a href=3D"mailto:frankja@linux.ibm.com">frankja@linux.ibm.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-Just like with the other write functions let&#39;s move the 32/64 bit elf<b=
-r>
-handling to a function to improve readability.<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 30, 2022 at 4:52 PM Janos=
+ch Frank &lt;<a href=3D"mailto:frankja@linux.ibm.com" target=3D"_blank">fra=
+nkja@linux.ibm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">There&#39;s no need to have a gigantic if in there let&#3=
+9;s move the elf<br>
+32/64 bit logic into the section, segment or note code.<br>
 <br>
 Signed-off-by: Janosch Frank &lt;<a href=3D"mailto:frankja@linux.ibm.com" t=
-arget=3D"_blank">frankja@linux.ibm.com</a>&gt;<br></blockquote><div><br></d=
-iv><div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marc=
-andre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div>=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
+arget=3D"_blank">frankja@linux.ibm.com</a>&gt;<br>
+Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
+ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockqu=
+ote><div><br></div><div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a hre=
+f=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau=
+@redhat.com</a>&gt;</div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">
 ---<br>
-=C2=A0dump/dump.c | 18 +++++++++++-------<br>
-=C2=A01 file changed, 11 insertions(+), 7 deletions(-)<br>
+=C2=A0dump/dump.c | 42 +++++++++++-------------------------------<br>
+=C2=A01 file changed, 11 insertions(+), 31 deletions(-)<br>
 <br>
 diff --git a/dump/dump.c b/dump/dump.c<br>
-index 92acd9eb5c..4af71de9b1 100644<br>
+index 365798f5a1..92acd9eb5c 100644<br>
 --- a/dump/dump.c<br>
 +++ b/dump/dump.c<br>
-@@ -510,6 +510,15 @@ static void write_elf_loads(DumpState *s, Error **errp=
-)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
-+static void write_elf_notes(DumpState *s, Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 if (dump_is_64bit(s)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 write_elf64_notes(fd_write_vmcore, s, errp);<b=
-r>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 write_elf32_notes(fd_write_vmcore, s, errp);<b=
-r>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-=C2=A0/* write elf header, PT_NOTE and elf note to vmcore. */<br>
-=C2=A0static void dump_begin(DumpState *s, Error **errp)<br>
-=C2=A0{<br>
-@@ -569,13 +578,8 @@ static void dump_begin(DumpState *s, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+@@ -555,46 +555,26 @@ static void dump_begin(DumpState *s, Error **errp)<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
 =C2=A0 =C2=A0 =C2=A0}<br>
 <br>
 -=C2=A0 =C2=A0 if (dump_is_64bit(s)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* write notes to vmcore */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 write_elf64_notes(fd_write_vmcore, s, errp);<b=
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* write all PT_LOAD to vmcore */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 write_elf_loads(s, errp);<br>
++=C2=A0 =C2=A0 /* write all PT_LOAD to vmcore */<br>
++=C2=A0 =C2=A0 write_elf_loads(s, errp);<br>
++=C2=A0 =C2=A0 if (*errp) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /* write section to vmcore */<br>
++=C2=A0 =C2=A0 if (s-&gt;shdr_num) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 write_elf_section(s, 1, errp);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (*errp) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* write section to vmcore */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;shdr_num) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 write_elf_section(s, 1, errp);<b=
 r>
--=C2=A0 =C2=A0 } else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* write notes to vmcore */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 write_elf32_notes(fd_write_vmcore, s, errp);<b=
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (*errp) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-<br>
++=C2=A0 =C2=A0 if (dump_is_64bit(s)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* write notes to vmcore */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0write_elf64_notes(fd_write_vmcore, s, err=
+p);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (*errp) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0} else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* write all PT_LOAD to vmcore */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 write_elf_loads(s, errp);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (*errp) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* write section to vmcore */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;shdr_num) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 write_elf_section(s, 0, errp);<b=
 r>
--=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 /* write notes to vmcore */<br>
-+=C2=A0 =C2=A0 write_elf_notes(s, errp);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (*errp) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* write notes to vmcore */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0write_elf32_notes(fd_write_vmcore, s, err=
+p);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (*errp) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
 =C2=A0}<br>
 <br>
-=C2=A0static int get_next_block(DumpState *s, GuestPhysBlock *block)<br>
 -- <br>
 2.32.0<br>
 <br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
+=C3=A9 Lureau<br></div></div>
 
---000000000000a5880405db7fd67a--
+--000000000000202d2405db7fd79d--
 
