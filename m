@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38E24EE2AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 22:33:37 +0200 (CEST)
-Received: from localhost ([::1]:45006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540294EE2B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 22:34:53 +0200 (CEST)
+Received: from localhost ([::1]:48138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na1U8-0001m0-Th
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 16:33:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46222)
+	id 1na1VM-0003sN-6K
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 16:34:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1na1Sv-0008Ug-00
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:32:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33687)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1na1Ss-0005Ba-Gf
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:32:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648758737;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ioeXsxabNBCfNMseq0QvSPrDY7sFlzLLHg03Dv2U+9g=;
- b=FoQHjarPZYt8EUvkxmLkhKHE/ksUoTig0zmMcSl1Up7wmsRHK/oRxDbJpDlv8lbKox8Wwq
- plkhe94vENoIsssK+SVYtTbF6zhuzKSA1fc56Tw1ysZX1cArl9EhN9IjVxftLB9VV41TIf
- eDqeFAXhs7pJ2SSnpnHMDVZDtDGvDwY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-jlshdthaOveJ5Uu9eIDJ0Q-1; Thu, 31 Mar 2022 16:32:16 -0400
-X-MC-Unique: jlshdthaOveJ5Uu9eIDJ0Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z16-20020a05600c0a1000b0038bebbd8548so1845016wmp.3
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 13:32:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1na1U0-0002Vl-JW
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:33:28 -0400
+Received: from [2607:f8b0:4864:20::634] (port=45816
+ helo=mail-pl1-x634.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1na1Tz-0005NF-9k
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 16:33:28 -0400
+Received: by mail-pl1-x634.google.com with SMTP id i11so614066plg.12
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 13:33:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=9H7d44uuZ/vG1cckePjXy83a5uQp+nW+225m36/gbls=;
+ b=P6D3aDx01qDZ2rVu3J/RKq4yprqDfedht4IcZfr7Ijbb/oLooyOHo6hWcolJKKFNKa
+ YKMu4xdeMIxNvp8tKqoz+BzLLa1ldMNXmX+YZHKjxi9wjhL+zD3sWICsKMn4k7fdt2Ps
+ x4Mr/bAaJWXW9wipjeELluVFkTb0g3jglE3Wbu3OODMlZKI4QdON26Lco0DgesjyJ3N7
+ +AzhS51pvoDv0gXznYDY482DosvxmdSHJY16Q6/mRL/Jz9c1oZ9s0MslBe62PYmSYJp4
+ qcruflazufuDdfYFRrzel6z/osCa/g1lv5+c9LzxuPNlY7mefVqvpvwa1ISvgehnQCg1
+ 8FeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ioeXsxabNBCfNMseq0QvSPrDY7sFlzLLHg03Dv2U+9g=;
- b=zsVgPpESL4vK3eaffNdeVFWr1eupIx8wZ4UF+szxpQ/AH0dTsk4i5eT88hY1PX6CTB
- s9sFYT3iI44PKoFkunmb3u8yF0bvSFHSK9jlp9hFXIZZfamtO7MplISCUaLmXl0TcxjL
- ECGP0b4ED0lhkRBCrIxmNIlIYxfW56zj3UAiTyJLQzhSI9cmEVVc5XvSAKKtT2Cxo92Y
- wfGuawl5t2LgTwJcub5qBOy4ytkhCOvCOxx8OwoMrhZ+2KWww0E08qMyJfnQ6UprblaC
- vAEFYoh/BLEG3x2sH7ukPEbzXUSkeuua7wqQStoo7NRAdVjUc+3AHN8mjxdWcaT5wHC6
- cGdQ==
-X-Gm-Message-State: AOAM530wMKN2BLCrvV4k/EL99JcjHRKRndrdEckzljUSiaHkpdBsDzsx
- K/cQD8igszelS3eN/E4fXzE51w515Q5VX3TFq+16loWGBQSrivv1b58XoClZAip6JljZBpmfDTw
- tLZjSNQrAzmgzU7o=
-X-Received: by 2002:a05:6000:15c5:b0:204:901:af44 with SMTP id
- y5-20020a05600015c500b002040901af44mr5375759wry.714.1648758735100; 
- Thu, 31 Mar 2022 13:32:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzMbZakgV9ZTD2Y0/HTEdITiU0bj0ArJ2kaKizFH2f4t3TXUiiubH2VTJVKONA9mOyoz5G/aw==
-X-Received: by 2002:a05:6000:15c5:b0:204:901:af44 with SMTP id
- y5-20020a05600015c500b002040901af44mr5375747wry.714.1648758734919; 
- Thu, 31 Mar 2022 13:32:14 -0700 (PDT)
-Received: from redhat.com ([2.55.151.201]) by smtp.gmail.com with ESMTPSA id
- u13-20020a05600c19cd00b0038cb84f4218sm257823wmq.27.2022.03.31.13.32.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 13:32:13 -0700 (PDT)
-Date: Thu, 31 Mar 2022 16:32:10 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Michael Qiu <qiudayu@archeros.com>
-Subject: Re: [PATCH RESEND v3] vdpa: reset the backend device in the end of
- vhost_net_stop()
-Message-ID: <20220331163118-mutt-send-email-mst@kernel.org>
-References: <1648634561-12504-1-git-send-email-08005325@163.com>
- <1648718713-7637-1-git-send-email-qiudayu@archeros.com>
- <6245804d.1c69fb81.3c35c.d7efSMTPIN_ADDED_BROKEN@mx.google.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9H7d44uuZ/vG1cckePjXy83a5uQp+nW+225m36/gbls=;
+ b=w58MhpXDg9T0o5yIRvPFKbRPAS+4HzkuVP1lINd5BDcPKNtfTqHeOg8S4DNFWHicF8
+ 759nuArY+7RsSfwg2jG0bVo/67RicppHbhphqnHfyMXgRg7UDqIUXJV0ucp/uF735Yhn
+ N+luK8AzsYHg6bRVgw3KGKm4qg6iXiqbDQEZeKlJrrD78vxTnpP83bjVmSbTC90Aa1vf
+ dwp0C0/VB4ZdC62qCgqtGbrWhqpbq/Yw7lBbMU0IL6WFmf4lDPBCSXWCjY/3ynG81bpL
+ W97OKS//OZrINALhndm6PmFgdbdaQ1G8zWlgGWjIPoSM0LmSS0GkoPaGJEVZETHwcG1R
+ xLUg==
+X-Gm-Message-State: AOAM532Pr5O4UX9n8ryIgusxAKwkIFL0PHI67Gt0rU8z8b2KQuiIem/0
+ Ha9EJ0Bspr1sEVLvLrVWGtc=
+X-Google-Smtp-Source: ABdhPJznkBlLn/PZZ3fUoMzNgVOCyqyNczSOcWF0Rk+6VFjuZ5650IhMdX4uD3ss081KRvoOtK4xQw==
+X-Received: by 2002:a17:902:cecf:b0:154:2177:26be with SMTP id
+ d15-20020a170902cecf00b00154217726bemr6869177plg.96.1648758805973; 
+ Thu, 31 Mar 2022 13:33:25 -0700 (PDT)
+Received: from ?IPV6:2600:70ff:f07f:0:f49c:562:b5cb:b2b5?
+ ([2600:70ff:f07f:0:f49c:562:b5cb:b2b5])
+ by smtp.gmail.com with ESMTPSA id
+ 75-20020a62144e000000b004fae56c42a0sm316431pfu.211.2022.03.31.13.33.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 31 Mar 2022 13:33:25 -0700 (PDT)
+Message-ID: <05601508-78fc-e861-53a5-539634d7d536@gmail.com>
+Date: Thu, 31 Mar 2022 22:33:21 +0200
 MIME-Version: 1.0
-In-Reply-To: <6245804d.1c69fb81.3c35c.d7efSMTPIN_ADDED_BROKEN@mx.google.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH] build-sys: remove MSI's QEMU_GA_MSI_MINGW_DLL_PATH
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20220331201127.2006038-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220331201127.2006038-1-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,20 +94,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lulu@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
- eperezma@redhat.com, Si-Wei Liu <si-wei.liu@oracle.com>,
- lingshan.zhu@intel.com
+Cc: Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 31, 2022 at 06:19:37PM +0800, Michael Qiu wrote:
-> Hi, Jason
+On 31/3/22 22:11, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Does it work this time?
+> Since the introduction of the variable in commit 9dacf32d2cb ("qemu-ga:
+> Building Windows MSI installation with configure/Makefile"), nothing
+> makes use of the Mingw_dlls variable in the .wxs file.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   configure       | 3 ---
+>   qga/meson.build | 1 -
+>   2 files changed, 4 deletions(-)
 
-Nope. Just use git-send-email.
-
--- 
-MST
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
