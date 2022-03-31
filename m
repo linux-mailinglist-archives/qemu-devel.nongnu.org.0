@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E024EE01F
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:06:56 +0200 (CEST)
-Received: from localhost ([::1]:36014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAFC4EE020
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Mar 2022 20:06:57 +0200 (CEST)
+Received: from localhost ([::1]:35980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nZzCB-0006I9-2T
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:06:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43802)
+	id 1nZzCC-0006H1-2w
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 14:06:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZz9m-0003NI-DF
+ id 1nZz9m-0003Nt-Be
  for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:04:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45111)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nZz9i-0007JQ-Jt
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:04:24 -0400
+ id 1nZz9k-0007Jn-92
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 14:04:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648749861;
+ s=mimecast20190719; t=1648749863;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=S1DZSiZWCNSk87pVtl29cgh26JP9m5qpbiwgLEbs50M=;
- b=dXUKeq6+3VFP/qGjwMsqGiooHXNrzACXhbW8WWvdGHOZnsu82lbfwR3NTcrshCup/T0/Ba
- hWbykPiBgYntXAq5634kXfovIi9s1hvmj6wB7lsP/5DR3SZFXVL8okZ6vjSnWJskiRFVBz
- te7Bg69nxB864RPzSd75Zeh8d0MWec4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1geVC60KOCBqYcV0yzBh5c9nGhEBBky47+bYEoJUFqQ=;
+ b=gAyrzoXvVH7GWhpdKVdH8S1WtI2Y9UlSojtQPQ/3THmOYIzrUgNFtWuWrYNWkd07Rfc9B0
+ 1wQJfEak4ZWYdGNktmsN0J7QGd115XTuqCtj3KXAhT13lGXnecPKJZfVzTbDakSHgByImt
+ tf9v8QqfMPNULupWS/o9vHk7zokI7eQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-hWJG4C4AOGaaBxA5t5CTNQ-1; Thu, 31 Mar 2022 14:04:16 -0400
-X-MC-Unique: hWJG4C4AOGaaBxA5t5CTNQ-1
+ us-mta-468-Lu7TbR_3O7uawgSaYmvItA-1; Thu, 31 Mar 2022 14:04:18 -0400
+X-MC-Unique: Lu7TbR_3O7uawgSaYmvItA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 757A318A6588;
- Thu, 31 Mar 2022 18:04:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 597CE3C01C00;
+ Thu, 31 Mar 2022 18:04:18 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.194.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E924340D0160;
- Thu, 31 Mar 2022 18:04:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FAB840D0160;
+ Thu, 31 Mar 2022 18:04:15 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v4 00/20] Net Control VQ support with asid in vDPA SVQ
-Date: Thu, 31 Mar 2022 20:03:50 +0200
-Message-Id: <20220331180410.531837-1-eperezma@redhat.com>
+Subject: [RFC PATCH v4 01/20] vhost: Fix bad return of descriptors
+Date: Thu, 31 Mar 2022 20:03:51 +0200
+Message-Id: <20220331180410.531837-2-eperezma@redhat.com>
+In-Reply-To: <20220331180410.531837-1-eperezma@redhat.com>
+References: <20220331180410.531837-1-eperezma@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -86,101 +89,56 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Control virtqueue is used by networking device for accepting various=0D
-commands from the driver. It's a must to support multiqueue and other=0D
-configurations.=0D
-=0D
-Shadow VirtQueue (SVQ) already makes possible migration of virtqueue=0D
-states, effectively intercepting them so qemu can track what regions of mem=
-ory=0D
-are dirty because device action and needs migration. However, this does not=
-=0D
-solve networking device state seen by the driver because CVQ messages, like=
-=0D
-changes on MAC addresses from the driver.=0D
-=0D
-To solve that, this series uses SVQ infraestructure proposed at SVQ to=0D
-intercept networking control messages used by the device. This way, qemu is=
-=0D
-able to update VirtIONet device model and to migrate it.=0D
-=0D
-You can run qemu in two modes after applying this series: only intercepting=
-=0D
-cvq with x-cvq-svq=3Don or intercept all the virtqueues adding cmdline x-sv=
-q=3Don:=0D
-=0D
--netdev type=3Dvhost-vdpa,vhostdev=3D/dev/vhost-vdpa-0,id=3Dvhost-vdpa0,x-c=
-vq-svq=3Don,x-svq=3Don=0D
-=0D
-The most updated kernel part of ASID is proposed at [1].=0D
-=0D
-Other modes without x-cvq-svq have been not tested with this series. Other =
-vq=0D
-cmd commands than set mac are not tested. Some details like error control a=
-re=0D
-not 100% tested neither.=0D
-=0D
-The firsts patches will be proposed sepratedly.=0D
-=0D
-Comments are welcomed on every aspect of the patch.=0D
-=0D
-Changes from rfc v3:=0D
-* Fix bad returning of descriptors to SVQ list.=0D
-=0D
-Changes from rfc v2:=0D
-* Fix use-after-free.=0D
-=0D
-Changes from rfc v1:=0D
-* Rebase to latest master.=0D
-* Configure ASID instead of assuming cvq asid !=3D data vqs asid.=0D
-* Update device model so (MAC) state can be migrated too.=0D
-=0D
-[1] https://lkml.kernel.org/kvm/20220224212314.1326-1-gdawar@xilinx.com/=0D
-=0D
-Eugenio P=C3=A9rez (20):=0D
-  vhost: Fix bad return of descriptors=0D
-  util: Return void on iova_tree_remove=0D
-  vdpa: Add x-svq to NetdevVhostVDPAOptions=0D
-  vhost: move descriptor translation to vhost_svq_vring_write_descs=0D
-  vdpa: Fix index calculus at vhost_vdpa_svqs_start=0D
-  virtio-net: use g_memdup2() instead of unsafe g_memdup()=0D
-  virtio-net: Expose ctrl virtqueue logic=0D
-  vdpa: Extract get geatures part from vhost_vdpa_get_max_queue_pairs=0D
-  virtio: Make virtqueue_alloc_element non-static=0D
-  vhost: Add SVQElement=0D
-  vhost: Add custom used buffer callback=0D
-  vdpa: control virtqueue support on shadow virtqueue=0D
-  vhost: Add vhost_iova_tree_find=0D
-  vdpa: Add map/unmap operation callback to SVQ=0D
-  vhost: Add vhost_svq_inject=0D
-  vdpa: add NetClientState->start() callback=0D
-  vdpa: Add vhost_vdpa_start_control_svq=0D
-  vhost: Update kernel headers=0D
-  vdpa: Add asid attribute to vdpa device=0D
-  vdpa: Add x-cvq-svq=0D
-=0D
- qapi/net.json                                |  13 +-=0D
- hw/virtio/vhost-iova-tree.h                  |   2 +=0D
- hw/virtio/vhost-shadow-virtqueue.h           |  46 ++-=0D
- include/hw/virtio/vhost-vdpa.h               |   5 +=0D
- include/hw/virtio/virtio-net.h               |   3 +=0D
- include/hw/virtio/virtio.h                   |   1 +=0D
- include/net/net.h                            |   2 +=0D
- include/qemu/iova-tree.h                     |   4 +-=0D
- include/standard-headers/linux/vhost_types.h |  11 +-=0D
- linux-headers/linux/vhost.h                  |  25 +-=0D
- hw/net/vhost_net.c                           |   4 +=0D
- hw/net/virtio-net.c                          |  82 +++--=0D
- hw/virtio/vhost-iova-tree.c                  |  14 +=0D
- hw/virtio/vhost-shadow-virtqueue.c           | 255 ++++++++++---=0D
- hw/virtio/vhost-vdpa.c                       |  70 +++-=0D
- hw/virtio/virtio.c                           |   2 +-=0D
- net/vhost-vdpa.c                             | 368 +++++++++++++++++--=0D
- util/iova-tree.c                             |   4 +-=0D
- 18 files changed, 779 insertions(+), 132 deletions(-)=0D
-=0D
---=20=0D
-2.27.0=0D
-=0D
+Only the first one of them were properly enqueued back.
+
+Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/vhost-shadow-virtqueue.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index b232803d1b..c17506df20 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -333,13 +333,25 @@ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
+     svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+ }
+ 
++static uint16_t vhost_svq_last_desc_of_chain(VhostShadowVirtqueue *svq,
++                                             uint16_t i)
++{
++    vring_desc_t *descs = svq->vring.desc;
++
++    while (le16_to_cpu(descs[i].flags) & VRING_DESC_F_NEXT) {
++        i = le16_to_cpu(descs[i].next);
++    }
++
++    return i;
++}
++
+ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+                                            uint32_t *len)
+ {
+     vring_desc_t *descs = svq->vring.desc;
+     const vring_used_t *used = svq->vring.used;
+     vring_used_elem_t used_elem;
+-    uint16_t last_used;
++    uint16_t last_used, last_used_chain;
+ 
+     if (!vhost_svq_more_used(svq)) {
+         return NULL;
+@@ -365,7 +377,8 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+         return NULL;
+     }
+ 
+-    descs[used_elem.id].next = svq->free_head;
++    last_used_chain = vhost_svq_last_desc_of_chain(svq, used_elem.id);
++    descs[last_used_chain].next = svq->free_head;
+     svq->free_head = used_elem.id;
+ 
+     *len = used_elem.len;
+-- 
+2.27.0
 
 
