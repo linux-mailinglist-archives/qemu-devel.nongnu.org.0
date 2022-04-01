@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713554EF989
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 20:09:21 +0200 (CEST)
-Received: from localhost ([::1]:49298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01D74EF995
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 20:13:40 +0200 (CEST)
+Received: from localhost ([::1]:53630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naLi4-0001iL-BA
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 14:09:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54334)
+	id 1naLmF-0004zx-Jo
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 14:13:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naLgs-0000SB-Ic
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 14:08:06 -0400
-Received: from [2a00:1450:4864:20::52e] (port=36444
- helo=mail-ed1-x52e.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1naLl3-0004Ca-1V
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 14:12:25 -0400
+Received: from [2607:f8b0:4864:20::112a] (port=40436
+ helo=mail-yw1-x112a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naLgr-0000oF-6R
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 14:08:06 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id h4so3874465edr.3
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 11:08:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1naLl0-0001SD-6g
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 14:12:24 -0400
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-2e5e9025c20so41749577b3.7
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 11:12:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=4RUzUg2nWAwDet+aAYHmJECel3GdjhXtno3eaDypI5E=;
- b=hUpKMKsw9AVefbIXU7Hf/dVAlcu1M/id7jWbG3MMb3Wf5Uh/mL7BT1/S14bpRTRTGa
- XziJc4nGPh5umUMkvy4+/sFv2RJyo3qPEIMZE60h2xrkRVc79f6739l8T6A0VyMAQVB7
- FdB13WCbluFXYSBwPeAGljD4NqoQp+XFEqasCVYKLU3WkNnZFTXYkxBVfucs2uTjfEeb
- rrtrrT7pHAxtdQaudk4qmIg1zaW5Ynumw4H58UGjWzc5SiIjD4A7ElOekw+72MBp9ijQ
- qO19UfRuOx8d2Tj7EqyFRPPBb/TYfoHpT1Tl3zsSHQHUcH2570St3UTk9v7CwT8kHIuG
- TH/w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EC6wNc+cLAl5/ZpbJgLBtYkehR9JmTAxPB9VGMnIHqk=;
+ b=NZwHIFUNVC736YWI9e6kJoGC/Tp0TRUwXUflAmVOnBS58wYtKOq1qyuX8zpmPB0hdm
+ BlrkISlO+dBTSDdXc4LYBRB8F2d2QOyM+FkpN/s+amDQtK7hAt6lHLTw17BbbYoOSBSt
+ IKy/F7p9GerPvaYbNPMpu/+vBUu7AjcSmOJYK3g9AHmtWbF5DLmfq/Izz4GIa5cjzQ8l
+ Og2WwESepBzKP4gA5CpA07szu010Eud0ryoJEHTvWxHCaLnej+Elw/B4juEh0VZsShxQ
+ woc3P9RwoM+gomJa9Q5LKhFrtEBY5XrK+mwzxEsUMrqEfKKjIC4tzgM6zAOhybImNBHA
+ qgHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=4RUzUg2nWAwDet+aAYHmJECel3GdjhXtno3eaDypI5E=;
- b=DrUSQzXsBiKL0vkcpwW1uZPlDaixyDfVfVwZ6U8VEknDB6KWiRKsE6mVVTl+k4uS5I
- jYN7dUM6HzX/Twi/mzRvO1LzFgRMrjYno7P3y9+rfux2Wk8Yl5Qal6Yi5kW4SIwx8LyC
- YpJoxgJxqPP2N8Za483KhziUmhT97XU3Dly7ywVnIn73huVIDesYzH7pZRpAglHuoJk8
- WhURbrZ9Kcx+ak8NQAXCddFz+cd0h3YQ3VH+QoDlkmBiPjrdyX5h25QTQXwLtwNi31Bq
- AlrGJRg43SXACFutr1BLxXgZeLy7RE53Ghx/6NfOk21h9zcxPzG0xJ0eKFR7J49ofL9r
- 8REA==
-X-Gm-Message-State: AOAM531BClLdq5hNrQ3razVEibaxSibQDsfileD1A0WkA5heeH64GB4h
- nHyRlgg8JiCktrCoRZsCOvA7mgV75BdiLtEgLDE=
-X-Google-Smtp-Source: ABdhPJwmkW40s0enz7W+9EKxWR1jqQJikB8Uqp1wGv/yuGNOymF2if1xVTjHjOzx+OhRWP8IxnB+Rg==
-X-Received: by 2002:a05:6402:270b:b0:419:3383:7a9f with SMTP id
- y11-20020a056402270b00b0041933837a9fmr22275685edd.191.1648836483273; 
- Fri, 01 Apr 2022 11:08:03 -0700 (PDT)
-Received: from [192.168.249.227] ([185.81.138.17])
- by smtp.gmail.com with ESMTPSA id
- bp8-20020a170907918800b006e0daaa63ddsm1271761ejb.60.2022.04.01.11.08.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Apr 2022 11:08:02 -0700 (PDT)
-Message-ID: <a368bfa7-484a-6adf-33c6-5d85e16524b0@linaro.org>
-Date: Fri, 1 Apr 2022 12:07:52 -0600
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EC6wNc+cLAl5/ZpbJgLBtYkehR9JmTAxPB9VGMnIHqk=;
+ b=tTlYkZ/3bHcmLGnu5YwakZ5/+wwS3Iec3RGT8xcpKsIilwyno/gvYqQsbVVXt80ORY
+ lWsDzCtOWrK9aRwGTL3SimggkUGoZ4dWxr2JPMY5F+Sbv71ZC+XIPB4W1GWQ1HHijTxb
+ E0xFNKgDGs/fKOhpUqvckd6Am+l52/I8GJsLI5WrROYfq+dA51b206TVPQhtMPOrr+F0
+ I3qLGm4j/cQTDqIzKIRPDagZc6aLcrENZuW3RXXjzHJ8FDB1KyPgWnonV2mIGpEBcJZJ
+ XplgGKd/L03HfB2lZimR5wmZxJOGdU3kqydMz18KY4BYxcNh4k0ocWXqG3Dj2hT/c61f
+ 4EqA==
+X-Gm-Message-State: AOAM532cZFQqORpimoM2Q5tjn4xRun5UT0GnuqbZHF+LdDePz6YLhPgp
+ 3YRVfP9CIbMgDirouQIv0HnScZOD4VCXgfETp2FrUw==
+X-Google-Smtp-Source: ABdhPJx+2AT+u8GNUwZDHQGoYKezetJWAhUJhezKGNpUcXzmVJ3aGuf/1dmoOp1Rhh+MiaV2oGL3XDD0SogUlRI2DLE=
+X-Received: by 2002:a81:4655:0:b0:2eb:2e0e:9d47 with SMTP id
+ t82-20020a814655000000b002eb2e0e9d47mr1951347ywa.455.1648836741190; Fri, 01
+ Apr 2022 11:12:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/3] softfloat: Fix declaration of partsN_compare
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
 References: <20220401132240.79730-1-richard.henderson@linaro.org>
  <20220401132240.79730-2-richard.henderson@linaro.org>
-In-Reply-To: <20220401132240.79730-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
+ <a368bfa7-484a-6adf-33c6-5d85e16524b0@linaro.org>
+In-Reply-To: <a368bfa7-484a-6adf-33c6-5d85e16524b0@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 1 Apr 2022 19:12:10 +0100
+Message-ID: <CAFEAcA-U7d6VN6XKA6oadp2mLqn2kiYY6kbCqcFhgXAYihOn_g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] softfloat: Fix declaration of partsN_compare
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -93,22 +84,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/22 07:22, Richard Henderson wrote:
-> The declaration used 'int', while the definition used 'FloatRelation'.
-> This should have resulted in a compiler error, but mysteriously didn't.
+On Fri, 1 Apr 2022 at 19:08, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 4/1/22 07:22, Richard Henderson wrote:
+> > The declaration used 'int', while the definition used 'FloatRelation'.
+> > This should have resulted in a compiler error, but mysteriously didn't.
+>
+> Bah, of course there's no error -- this is C not C++.
+>
+> The enumeration has values -1 ... 2, which means that the enumeration is compatible with
+> an implementation defined signed integer type, which for our set of hosts will be 'int'.
+> So, no conflict.
 
-Bah, of course there's no error -- this is C not C++.
+The types are compatible, but it's weird that the compiler doesn't
+warn that the prototype and definition are different types: it
+seems like the kind of "technically valid but usually a bug" that
+a warning would be nice for.
 
-The enumeration has values -1 ... 2, which means that the enumeration is compatible with 
-an implementation defined signed integer type, which for our set of hosts will be 'int'. 
-So, no conflict.
-
-I'll edit the commit message.
-
-
-r~
+-- PMM
 
