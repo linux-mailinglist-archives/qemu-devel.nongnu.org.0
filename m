@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1214EED12
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 14:25:06 +0200 (CEST)
-Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFCF4EED36
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 14:33:40 +0200 (CEST)
+Received: from localhost ([::1]:38700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naGKv-0005py-DW
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 08:25:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38282)
+	id 1naGTD-00016R-2P
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 08:33:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1naGIx-00052v-GE
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 08:23:05 -0400
-Received: from [2001:638:a01:1096::11] (port=51454 helo=mta01.hs-regensburg.de)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1naGRH-0000FE-9L
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 08:31:39 -0400
+Received: from [2001:4860:4864:20::2e] (port=44119
+ helo=mail-oa1-x2e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1naGIv-0004ps-F9
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 08:23:02 -0400
-Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
- [IPv6:2001:638:a01:8013::93])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client CN "E16S03", Issuer "E16S03" (not verified))
- by mta01.hs-regensburg.de (Postfix) with ESMTPS id 4KVK7l23sFzxvK;
- Fri,  1 Apr 2022 14:22:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
- s=mta01-20211122; t=1648815779;
- bh=L9OOR+LsgELV0+rnmajakzDm+GoENflL7WtxnPHV/Go=;
- h=From:To:CC:Subject:Date:From;
- b=Higyc0ci9bkG4QKlTGdNITlUbPoI8nYxYQGKRG0LphRcn6VVHOqIau6ABWUxmo/MD
- AySl0lw9e2ytNEUvUMBzgFgu5mygNrOuG1AUq7PEJsX/0m3BnvLNbHm4nw2dKzUc76
- vFZg+Ant/Enj203IyVVfpWWiXdvsbGUczFO1ntVUKgjQh9Xw7H4SaDTh1fZ4g8tqnb
- 6YK6gXH4ZpZjn05F7e13a7NeAoe1l+UTQaeyTdPPgopl8J1cgXcWE2BZwxsl0AsX+7
- rrgDx+2hunhqbxU76nuGoP1l8JluXrAkadaS4UwDm3Gvzxa+ODFWrYbKtmEVBiMwOh
- pkVFjelYPPY1g==
-Received: from localhost.localdomain (2001:638:a01:8013::138) by
- E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 1 Apr 2022 14:22:58 +0200
-From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-To: Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis
- <alistair.francis@wdc.com>, <qemu-riscv@nongnu.org>, <qemu-devel@nongnu.org>, 
- Stefan Huber <stefan.huber@oth-regensburg.de>
-Subject: [PATCH] target/riscv: Fix incorrect PTE merge in walk_pte
-Date: Fri, 1 Apr 2022 14:22:48 +0200
-Message-ID: <20220401122248.2792180-1-ralf.ramsauer@oth-regensburg.de>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1naGRF-0006NV-On
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 08:31:38 -0400
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-ddfa38f1c1so2479944fac.11
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 05:31:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=S39ASf82fmXmnHbixXsS4gBB+nFp64cArZTkdrClIHQ=;
+ b=BtsWSLiumNCiuhRqLYTmOSo1iD4pi8fFem+qfzAEM/DcuJbfrbiB0tET9h0s/5lo8S
+ QO+I/zO/A5fc4371t04sVN4LPbuCniqOuPYVCRIyOApfZEu2Wj92mq6lOIJrWtPwEK/N
+ oLOSdqhXkiiJDAdrolkl7ve381S5zmNkCgZ/fEPIlVjGsX3SG6c/yimsSoIM9Uof8EZY
+ 6Txxql+I43IjzHFoj+8w3eHCCuDWZLHajt/HKEXR7g4upbWxvIX5uoXdA3cvzNkS5xKj
+ Y12uTURqdwdOLzwqTni8AmOu+cOIzPbPaMBLS3kxJeNi5alcd0EZeGHnkG2Q9vmYtw1W
+ JxtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=S39ASf82fmXmnHbixXsS4gBB+nFp64cArZTkdrClIHQ=;
+ b=w2K7RK9NEQ/c3yozGTlpaxbUYT+UprIyeajmOkIpwTjvyO3JpTxCfoge9ExHREcOVc
+ T25TRyYmVnG+GtKgSUl5ACfoBFxFvEwmAVUnab5L8oRsD4EexftY3vzTSOhskGaGauWn
+ kX3HPw2aQZpIwBcYBZiniVnbE7VWKQ4Oy3ZAVqyFmEcl2td7thJfQOAD7P5mOA8KvEVr
+ eOqUR+leMCB/zTLQU6EEoKVo6UiSoCat6CYH6nsG6NSBRn3NHljlVo5zClgwYN4+NHz2
+ I+8f++8c0il4wzGZwzUOMwYsnjlv4LUf7jnX5l2DKLwZKazaazCmN9hyvgntZ+UIywDh
+ 3Myg==
+X-Gm-Message-State: AOAM530tgGfbwtkBATS5tsLB92AGXA/HlPg01DplEdeV9EIFzDodmMKQ
+ R38PS8IhY4W3bUKM/nVDhzmziA==
+X-Google-Smtp-Source: ABdhPJxqK9lgD8FITKAK96lSH6N9pI25/akSnF1r4tnC0VCMpkI5jvcXld3eXSiCkXu86l/ZXoZSkQ==
+X-Received: by 2002:a05:6870:6097:b0:e1:a94d:9a38 with SMTP id
+ t23-20020a056870609700b000e1a94d9a38mr2743731oae.191.1648816296484; 
+ Fri, 01 Apr 2022 05:31:36 -0700 (PDT)
+Received: from [10.10.117.62] (fixed-187-188-190-73.totalplay.net.
+ [187.188.190.73]) by smtp.gmail.com with ESMTPSA id
+ a15-20020a056870000f00b000de1ab6364dsm896310oaa.49.2022.04.01.05.31.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Apr 2022 05:31:35 -0700 (PDT)
+Message-ID: <58ea6c94-c308-a567-cb89-a2e2dd881402@linaro.org>
+Date: Fri, 1 Apr 2022 06:31:33 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [2001:638:a01:8013::138]
-X-ClientProxiedBy: E16S04.hs-regensburg.de (2001:638:a01:8013::94) To
- E16S03.hs-regensburg.de (2001:638:a01:8013::93)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:638:a01:1096::11
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2] target/riscv: Call probe_write() before atomic
+ operations
+Content-Language: en-US
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20220401014920.1709379-1-alistair.francis@opensource.wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220401014920.1709379-1-alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4860:4864:20::2e
  (failed)
-Received-SPF: pass client-ip=2001:638:a01:1096::11;
- envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta01.hs-regensburg.de
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2001:4860:4864:20::2e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,69 +95,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Konrad Schwarz <konrad.schwarz@siemens.com>,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+Cc: Bin Meng <bin.meng@windriver.com>, alistair23@gmail.com, bmeng.cn@gmail.com,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two non-subsequent PTEs can be mapped to subsequent paddrs. In this
-case, walk_pte will erroneously merge them.
+On 3/31/22 19:49, Alistair Francis wrote:
+> +void helper_atomic_check(CPURISCVState *env, target_ulong address,
+> +                         int mmu_idx)
+> +{
+> +#ifndef CONFIG_USER_ONLY
+> +    void *phost;
+> +    int ret = probe_access_flags(env, address, MMU_DATA_STORE, mmu_idx, false,
+> +                                 &phost, GETPC());
+> +
+> +    if (ret & TLB_MMIO) {
+> +        env->amo_store_fault = true;
+> +    }
+> +#endif
+> +}
 
-Enforce the split up, by tracking the virtual base address.
+You've got to turn this off somewhere too.
 
-Let's say we have the mapping:
-0x81200000 -> 0x89623000 (4K)
-0x8120f000 -> 0x89624000 (4K)
+I've got a better solution for you, using TARGET_INSN_START_EXTRA_WORDS, which will handle 
+I/O regions as well.  I'll send it separately in a minute.
 
-Before, walk_pte would have shown:
 
-vaddr            paddr            size             attr
----------------- ---------------- ---------------- -------
-0000000081200000 0000000089623000 0000000000002000 rwxu-ad
-
-as it only checks for subsequent paddrs. With this patch, it becomes:
-
-vaddr            paddr            size             attr
----------------- ---------------- ---------------- -------
-0000000081200000 0000000089623000 0000000000001000 rwxu-ad
-000000008120f000 0000000089624000 0000000000001000 rwxu-ad
-
-Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
----
- target/riscv/monitor.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
-index 7efb4b62c1..60e3edd0ad 100644
---- a/target/riscv/monitor.c
-+++ b/target/riscv/monitor.c
-@@ -84,6 +84,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
- {
-     hwaddr pte_addr;
-     hwaddr paddr;
-+    target_ulong last_start = -1;
-     target_ulong pgsize;
-     target_ulong pte;
-     int ptshift;
-@@ -116,13 +117,15 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
-                  * contiguous mapped block details.
-                  */
-                 if ((*last_attr != attr) ||
--                    (*last_paddr + *last_size != paddr)) {
-+                    (*last_paddr + *last_size != paddr) ||
-+                    (last_start + *last_size != start)) {
-                     print_pte(mon, va_bits, *vbase, *pbase,
-                               *last_paddr + *last_size - *pbase, *last_attr);
- 
-                     *vbase = start;
-                     *pbase = paddr;
-                     *last_attr = attr;
-+                    last_start = start;
-                 }
- 
-                 *last_paddr = paddr;
--- 
-2.35.1
-
+r~
 
