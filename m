@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977364EE6FF
+	by mail.lfdr.de (Postfix) with ESMTPS id A40794EE700
 	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 06:03:05 +0200 (CEST)
-Received: from localhost ([::1]:56028 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:56118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na8V6-0004o3-H7
+	id 1na8V6-0004v2-M1
 	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 00:03:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38006)
+Received: from eggs.gnu.org ([209.51.188.92]:38018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1na8RS-0001yj-0K
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 23:59:18 -0400
-Received: from mga18.intel.com ([134.134.136.126]:51140)
+ id 1na8RS-0001z8-IQ
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 23:59:19 -0400
+Received: from mga18.intel.com ([134.134.136.126]:51135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1na8RP-0002sO-CO
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 23:59:16 -0400
+ id 1na8RQ-0002rm-9Q
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 23:59:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648785555; x=1680321555;
+ t=1648785556; x=1680321556;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+KR3N9V7T8MqCND/Nwwc90Hdbu2yeWxQ07iPCUTk7qM=;
- b=ZvcE5KAnZmSJIMVgMbtAeBhpqZ9NRJn9tawKg89mGlVTj328h5cgZSEz
- 6uZ1nSo7F//8M+DzfAegspVU+rf4KqullYdqjVbzh3Tgc1S7iUock119U
- 7yEypWB7kDqIA/c/090F6fq6WXYmadSb7Xgqz6IaIlv28/EQh2E06oWr+
- DMNv/+4IdsbsM1dFeu3xTvI2snhUG+F4FRl8KIvkytHrNc6AmaUv8GEAZ
- XUizMml1kga3SakoKSyXmHcTU1JeBVxTtxZlV1qYbTK4I46KTEHspsAqd
- iofRcp/RGPqemWDyI1yzOap53h3y+owSJvb6y5GdFf7bsKwp5rEROKh0Z w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10303"; a="242182899"
-X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; d="scan'208";a="242182899"
+ bh=VEOvjFD4k6i7gSoK9//bs0L199HKmpI8ky3OQS0v42Q=;
+ b=f5ZcawQkXNiMOm9+vXQQnSaTXI3p2KPw0YdFzdX1jCZ0jQ/ghKejK4sT
+ tk246OqYqmU19R5KNa4rzWQdFTHlff04+5rZINjtPjiR9IqaJDz3LX57+
+ xcSVdrpNfmSaS/bpHItkgmnbXKPrkMJqjWKhExfxeZPZu0K3fv2E6z2TI
+ KV7u4M4EmAkfGpYz8hsSFzhbqqYGyRNyfXln08C4og1AWiw4apAoR4KQU
+ 4ULrAhv1W27Lc7zJOfteD67o2hEhQ2jz3VOtKJkI4q1QQqaEkrcBi+/+x
+ ZdMZo25yoQ22HoZI72s8tVuHwmRZOyJ1Z8SDK4iJqbx7PXc+20RkhJ5HI g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10303"; a="242182903"
+X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; d="scan'208";a="242182903"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 20:59:13 -0700
-X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; d="scan'208";a="567105837"
+ 31 Mar 2022 20:59:15 -0700
+X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; d="scan'208";a="567105864"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 20:59:11 -0700
+ 31 Mar 2022 20:59:13 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>,
 	Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: [PATCH V2 2/4] net/colo: Fix a "double free" crash to clear the
- conn_list
-Date: Fri,  1 Apr 2022 11:47:00 +0800
-Message-Id: <20220401034702.687057-3-chen.zhang@intel.com>
+Subject: [PATCH V2 3/4] net/colo.c: No need to track conn_list for
+ filter-rewriter
+Date: Fri,  1 Apr 2022 11:47:01 +0800
+Message-Id: <20220401034702.687057-4-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220401034702.687057-1-chen.zhang@intel.com>
 References: <20220401034702.687057-1-chen.zhang@intel.com>
@@ -74,67 +74,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Zhang Chen <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
- Like Xu <like.xu@linux.intel.com>
+ Li Zhijian <lizhijian@fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We notice the QEMU may crash when the guest has too many
-incoming network connections with the following log:
+Filter-rewriter no need to track connection in conn_list.
+This patch fix the glib g_queue_is_empty assertion when COLO guest
+keep a lot of network connection.
 
-15197@1593578622.668573:colo_proxy_main : colo proxy connection hashtable full, clear it
-free(): invalid pointer
-[1]    15195 abort (core dumped)  qemu-system-x86_64 ....
-
-This is because we create the s->connection_track_table with
-g_hash_table_new_full() which is defined as:
-
-GHashTable * g_hash_table_new_full (GHashFunc hash_func,
-                       GEqualFunc key_equal_func,
-                       GDestroyNotify key_destroy_func,
-                       GDestroyNotify value_destroy_func);
-
-The fourth parameter connection_destroy() will be called to free the
-memory allocated for all 'Connection' values in the hashtable when
-we call g_hash_table_remove_all() in the connection_hashtable_reset().
-
-But both connection_track_table and conn_list reference to the same
-conn instance. It will trigger double free in conn_list clear. So this
-patch remove free action on hash table side to avoid double free the
-conn.
-
-Signed-off-by: Like Xu <like.xu@linux.intel.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
 ---
- net/colo-compare.c    | 2 +-
- net/filter-rewriter.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ net/colo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 62554b5b3c..ab054cfd21 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -1324,7 +1324,7 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
-     s->connection_track_table = g_hash_table_new_full(connection_key_hash,
-                                                       connection_key_equal,
-                                                       g_free,
--                                                      connection_destroy);
-+                                                      NULL);
- 
-     colo_compare_iothread(s);
- 
-diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
-index bf05023dc3..c18c4c2019 100644
---- a/net/filter-rewriter.c
-+++ b/net/filter-rewriter.c
-@@ -383,7 +383,7 @@ static void colo_rewriter_setup(NetFilterState *nf, Error **errp)
-     s->connection_track_table = g_hash_table_new_full(connection_key_hash,
-                                                       connection_key_equal,
-                                                       g_free,
--                                                      connection_destroy);
-+                                                      NULL);
-     s->incoming_queue = qemu_new_net_queue(qemu_netfilter_pass_to_next, nf);
- }
- 
+diff --git a/net/colo.c b/net/colo.c
+index 1f8162f59f..694f3c93ef 100644
+--- a/net/colo.c
++++ b/net/colo.c
+@@ -218,7 +218,7 @@ Connection *connection_get(GHashTable *connection_track_table,
+             /*
+              * clear the conn_list
+              */
+-            while (!g_queue_is_empty(conn_list)) {
++            while (conn_list && !g_queue_is_empty(conn_list)) {
+                 connection_destroy(g_queue_pop_head(conn_list));
+             }
+         }
 -- 
 2.25.1
 
