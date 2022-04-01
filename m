@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184934EEA96
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:38:44 +0200 (CEST)
-Received: from localhost ([::1]:42012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026954EEABD
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:52:01 +0200 (CEST)
+Received: from localhost ([::1]:34538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naDjv-0003CI-35
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:38:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60756)
+	id 1naDwn-0000zJ-3V
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:52:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1naDgv-0000Jg-Qn
+ id 1naDgv-0000MY-U3
  for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:35:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45371)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1naDgs-00018H-7t
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:35:36 -0400
+ id 1naDgt-00018c-En
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:35:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648805733;
+ s=mimecast20190719; t=1648805734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X4nOPBVODGKpV/5+BlWnHa6aQ8YdtUosuwn7pSCsyh8=;
- b=e7syRRAut+xyi6jgKflNS1UIGYDxryIU6WzFBxKZJlJbGiuM9/KqYdidxP9IW9PQoKfRXx
- 2bWjQhFdXXn6YUPGF1m+PMbka9ROWGLIy+nN7xFV2bd7W0TdMDOQA+6Xf213RHRK3KJwWO
- x8Ko4XVFlt5qMamXgEIL4Mdapo7tg04=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NHsmVLcMXB67RkJVH556zBvO5bKxPBw/mDa94yXuc6w=;
+ b=aXEs8UOtFhtpiVcyDD/urWl9a4q09p1lU/aU4c235ZBX09NLAi/LTgIyELUqKMXpAaZd5e
+ kqo8MgHPHDai7qyIO5h0RDYNbXwUqfRS7LlZStowrzCM1rCjW9INl7g/0nFt1yqPnlLvVm
+ rgE1C9e/nxq0eODlUGlXsITZLx9vOCo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-OrVOENw4N1yAGDwgA7pCxw-1; Fri, 01 Apr 2022 05:35:32 -0400
-X-MC-Unique: OrVOENw4N1yAGDwgA7pCxw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 2-20020a1c0202000000b0038c71e8c49cso2626616wmc.1
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 02:35:32 -0700 (PDT)
+ us-mta-671-bv93ofbpNouyEdufYFKTOw-1; Fri, 01 Apr 2022 05:35:33 -0400
+X-MC-Unique: bv93ofbpNouyEdufYFKTOw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ u18-20020adfa192000000b00205f0d87876so478282wru.4
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 02:35:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X4nOPBVODGKpV/5+BlWnHa6aQ8YdtUosuwn7pSCsyh8=;
- b=MXh27IheXBPSIDKpVeqrjU3YdEgbmDoT1tq9CAfFGGnvjDrWW4Ep1ICbpy7fdBqX0/
- nt5hbMB0kUus0354u9+/8FzUaxC6VCKNRb4gDFxcy/mQVaeYxqN8JiXC15r8K90/h4gH
- 4365Q1EeIjJKR0DXu5cmUssPApIvAt0f7EehjGV6ro397395QJ/Op9lapxwcYiLRx/pl
- TQCnr4YTPTDpT0cpL+Vf7deRpmG4z1sXZZsDCNrCxxdPKao+6jxmNqKY4mHZp6X0ZZ2y
- x0oF9owL8JMoFr1Qcz8F2XXX9NKLS54kWWXXm899CGSuE4umWbD4DEPEgGB2kFBB50Y6
- mtxg==
-X-Gm-Message-State: AOAM531/d5TJaqN7Gt6TMH1S4d219puHW8h8dqjfKpgV6h6ZTjx/84CH
- SVGriVW26S3XWOZJBY5VeSqRIqzu1b8610KzDTdS75uHPj9pZns3A/g6wBOVAk7x3MQPHbXC7HQ
- unNviGkYJE8sgoK8=
-X-Received: by 2002:adf:f192:0:b0:203:e38f:afa1 with SMTP id
- h18-20020adff192000000b00203e38fafa1mr7234125wro.120.1648805731341; 
- Fri, 01 Apr 2022 02:35:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzMOqo4WCDDkdkYAh+QJTL1byqlpwFWipxdEvCF9tadWtzdyMgIWYCm90VzfFPt1G8kySu2tg==
-X-Received: by 2002:adf:f192:0:b0:203:e38f:afa1 with SMTP id
- h18-20020adff192000000b00203e38fafa1mr7234108wro.120.1648805731126; 
- Fri, 01 Apr 2022 02:35:31 -0700 (PDT)
+ bh=NHsmVLcMXB67RkJVH556zBvO5bKxPBw/mDa94yXuc6w=;
+ b=Wu9vRC1+3bYyNUjsY2LC4trvYCGeAigyNchCo7nrBXSZek917x18o1M6g2OhVgUBAw
+ Fmp+G+axGt8EsVEaauj8OdakNYPdZyEe/bE1uW50xiKBNLUhw94CC8LNjCnUeKAA4cN3
+ 7Ajkz/aq8gnLMr4xlaO6S0XJM04KTzl9GBf6vrnb/h13Lr7je5Mx6vwUONALDR6SLyWV
+ 5qbFT+HAayqfvYN6stMIqxfB1zGwK/sg4oWHxiWMeKCIxLDOBIDRNbwUFrV9IOPcUD2C
+ VYF5W2n2jtO4nf1RlaOEXlusjdKJJYJxeIA6xkIP8z9ps2rG7Q7JltKcTyNnkaZLvz6J
+ JIOQ==
+X-Gm-Message-State: AOAM532HtMNjNfGOauv3W65i5EneSQ5Lf2Ljmi32kAHsMcXxJHYW0UBH
+ cLcNyMeObvKAmZV0R+6gqFr/Wz3JUdHroLnFXZ63KnuWSKiz1m70IkvEsIB9M2t7rp8a6ZfK/08
+ Tyx8Et4620sNmhgo=
+X-Received: by 2002:a05:6000:1a85:b0:205:a234:d0a5 with SMTP id
+ f5-20020a0560001a8500b00205a234d0a5mr7325654wry.126.1648805732661; 
+ Fri, 01 Apr 2022 02:35:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9RLTvC/AE8rY7DNLnp1JMn6jk32+nRRpi1/LUFKKyc/niR3E5VSQV+Q+PtKlaVjZ7z0bm2Q==
+X-Received: by 2002:a05:6000:1a85:b0:205:a234:d0a5 with SMTP id
+ f5-20020a0560001a8500b00205a234d0a5mr7325631wry.126.1648805732361; 
+ Fri, 01 Apr 2022 02:35:32 -0700 (PDT)
 Received: from vian.redhat.com ([2a0c:5a80:1c1a:5300:ea85:f79:5235:c7fc])
  by smtp.gmail.com with ESMTPSA id
- az19-20020a05600c601300b0038cadf3aa69sm14009187wmb.36.2022.04.01.02.35.29
+ az19-20020a05600c601300b0038cadf3aa69sm14009187wmb.36.2022.04.01.02.35.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 02:35:30 -0700 (PDT)
+ Fri, 01 Apr 2022 02:35:31 -0700 (PDT)
 From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
 To: kwolf@redhat.com,
 	stefanha@redhat.com,
 	berrange@redhat.com
-Subject: [PATCH v4 2/3] util/main-loop: Introduce the main loop into QOM
-Date: Fri,  1 Apr 2022 11:35:22 +0200
-Message-Id: <20220401093523.873508-3-nsaenzju@redhat.com>
+Subject: [PATCH v4 3/3] util/event-loop-base: Introduce options to set the
+ thread pool size
+Date: Fri,  1 Apr 2022 11:35:23 +0200
+Message-Id: <20220401093523.873508-4-nsaenzju@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220401093523.873508-1-nsaenzju@redhat.com>
 References: <20220401093523.873508-1-nsaenzju@redhat.com>
@@ -80,14 +81,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsaenzju@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsaenzju@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -109,262 +110,385 @@ Cc: fam@euphon.net, eduardo@habkost.net, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'event-loop-base' provides basic property handling for all 'AioContext'
-based event loops. So let's define a new 'MainLoopClass' that inherits
-from it. This will permit tweaking the main loop's properties through
-qapi as well as through the command line using the '-object' keyword[1].
-Only one instance of 'MainLoopClass' might be created at any time.
+The thread pool regulates itself: when idle, it kills threads until
+empty, when in demand, it creates new threads until full. This behaviour
+doesn't play well with latency sensitive workloads where the price of
+creating a new thread is too high. For example, when paired with qemu's
+'-mlock', or using safety features like SafeStack, creating a new thread
+has been measured take multiple milliseconds.
 
-'EventLoopBaseClass' learns a new callback, 'can_be_deleted()' so as to
-mark 'MainLoop' as non-deletable.
-
-[1] For example:
-      -object main-loop,id=main-loop,aio-max-batch=<value>
+In order to mitigate this let's introduce a new 'EventLoopBase'
+property to set the thread pool size. The threads will be created during
+the pool's initialization or upon updating the property's value, remain
+available during its lifetime regardless of demand, and destroyed upon
+freeing it. A properly characterized workload will then be able to
+configure the pool to avoid any latency spikes.
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
+
 Changes since v3:
- - Rework qom.json
+ - Rework qom.json to avoid duplication
 
 Changes since v2:
- - Fix mainloop's qapi versioning
+ - Don't wait when decreasing pool size
+ - Fix qapi versioning
 
 Changes since v1:
- - Fix json files to differentiate between iothread and main-loop
- - Use OBJECT_DECLARE_TYPE()
- - Fix build dependencies
+ - Add INT_MAX check
+ - Have copy of thread pool sizes in AioContext to properly decouple
+   both instances
+ - More coherent variable naming
+ - Handle case where max_threads decreases
+ - Code comments
 
- event-loop-base.c                | 13 ++++++++
- include/qemu/main-loop.h         | 10 ++++++
- include/sysemu/event-loop-base.h |  1 +
- meson.build                      |  3 +-
- qapi/qom.json                    | 32 +++++++++++++++---
- util/main-loop.c                 | 56 ++++++++++++++++++++++++++++++++
- 6 files changed, 109 insertions(+), 6 deletions(-)
+ event-loop-base.c                | 23 +++++++++++++
+ include/block/aio.h              | 10 ++++++
+ include/block/thread-pool.h      |  3 ++
+ include/sysemu/event-loop-base.h |  4 +++
+ iothread.c                       |  3 ++
+ qapi/qom.json                    | 10 +++++-
+ util/aio-posix.c                 |  1 +
+ util/async.c                     | 20 ++++++++++++
+ util/main-loop.c                 |  9 ++++++
+ util/thread-pool.c               | 55 +++++++++++++++++++++++++++++---
+ 10 files changed, 133 insertions(+), 5 deletions(-)
 
 diff --git a/event-loop-base.c b/event-loop-base.c
-index a924c73a7c..e7f99a6ec8 100644
+index e7f99a6ec8..d5be4dc6fc 100644
 --- a/event-loop-base.c
 +++ b/event-loop-base.c
-@@ -73,10 +73,23 @@ static void event_loop_base_complete(UserCreatable *uc, Error **errp)
-     }
- }
+@@ -14,6 +14,7 @@
+ #include "qemu/osdep.h"
+ #include "qom/object_interfaces.h"
+ #include "qapi/error.h"
++#include "block/thread-pool.h"
+ #include "sysemu/event-loop-base.h"
  
-+static bool event_loop_base_can_be_deleted(UserCreatable *uc)
+ typedef struct {
+@@ -21,9 +22,22 @@ typedef struct {
+     ptrdiff_t offset; /* field's byte offset in EventLoopBase struct */
+ } EventLoopBaseParamInfo;
+ 
++static void event_loop_base_instance_init(Object *obj)
 +{
-+    EventLoopBaseClass *bc = EVENT_LOOP_BASE_GET_CLASS(uc);
-+    EventLoopBase *backend = EVENT_LOOP_BASE(uc);
++    EventLoopBase *base = EVENT_LOOP_BASE(obj);
 +
-+    if (bc->can_be_deleted) {
-+        return bc->can_be_deleted(backend);
-+    }
-+
-+    return true;
++    base->thread_pool_max = THREAD_POOL_MAX_THREADS_DEFAULT;
 +}
 +
- static void event_loop_base_class_init(ObjectClass *klass, void *class_data)
- {
-     UserCreatableClass *ucc = USER_CREATABLE_CLASS(klass);
-     ucc->complete = event_loop_base_complete;
-+    ucc->can_be_deleted = event_loop_base_can_be_deleted;
- 
-     object_class_property_add(klass, "aio-max-batch", "int",
-                               event_loop_base_get_param,
-diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index d3750c8e76..20c9387654 100644
---- a/include/qemu/main-loop.h
-+++ b/include/qemu/main-loop.h
-@@ -26,9 +26,19 @@
- #define QEMU_MAIN_LOOP_H
- 
- #include "block/aio.h"
-+#include "qom/object.h"
-+#include "sysemu/event-loop-base.h"
- 
- #define SIG_IPI SIGUSR1
- 
-+#define TYPE_MAIN_LOOP  "main-loop"
-+OBJECT_DECLARE_TYPE(MainLoop, MainLoopClass, MAIN_LOOP)
-+
-+struct MainLoop {
-+    EventLoopBase parent_obj;
+ static EventLoopBaseParamInfo aio_max_batch_info = {
+     "aio-max-batch", offsetof(EventLoopBase, aio_max_batch),
+ };
++static EventLoopBaseParamInfo thread_pool_min_info = {
++    "thread-pool-min", offsetof(EventLoopBase, thread_pool_min),
 +};
-+typedef struct MainLoop MainLoop;
++static EventLoopBaseParamInfo thread_pool_max_info = {
++    "thread-pool-max", offsetof(EventLoopBase, thread_pool_max),
++};
+ 
+ static void event_loop_base_get_param(Object *obj, Visitor *v,
+         const char *name, void *opaque, Error **errp)
+@@ -95,12 +109,21 @@ static void event_loop_base_class_init(ObjectClass *klass, void *class_data)
+                               event_loop_base_get_param,
+                               event_loop_base_set_param,
+                               NULL, &aio_max_batch_info);
++    object_class_property_add(klass, "thread-pool-min", "int",
++                              event_loop_base_get_param,
++                              event_loop_base_set_param,
++                              NULL, &thread_pool_min_info);
++    object_class_property_add(klass, "thread-pool-max", "int",
++                              event_loop_base_get_param,
++                              event_loop_base_set_param,
++                              NULL, &thread_pool_max_info);
+ }
+ 
+ static const TypeInfo event_loop_base_info = {
+     .name = TYPE_EVENT_LOOP_BASE,
+     .parent = TYPE_OBJECT,
+     .instance_size = sizeof(EventLoopBase),
++    .instance_init = event_loop_base_instance_init,
+     .class_size = sizeof(EventLoopBaseClass),
+     .class_init = event_loop_base_class_init,
+     .abstract = true,
+diff --git a/include/block/aio.h b/include/block/aio.h
+index 5634173b12..d128558f1d 100644
+--- a/include/block/aio.h
++++ b/include/block/aio.h
+@@ -192,6 +192,8 @@ struct AioContext {
+     QSLIST_HEAD(, Coroutine) scheduled_coroutines;
+     QEMUBH *co_schedule_bh;
+ 
++    int thread_pool_min;
++    int thread_pool_max;
+     /* Thread pool for performing work and receiving completion callbacks.
+      * Has its own locking.
+      */
+@@ -769,4 +771,12 @@ void aio_context_set_poll_params(AioContext *ctx, int64_t max_ns,
+ void aio_context_set_aio_params(AioContext *ctx, int64_t max_batch,
+                                 Error **errp);
+ 
++/**
++ * aio_context_set_thread_pool_params:
++ * @ctx: the aio context
++ * @min: min number of threads to have readily available in the thread pool
++ * @min: max number of threads the thread pool can contain
++ */
++void aio_context_set_thread_pool_params(AioContext *ctx, int64_t min,
++                                        int64_t max, Error **errp);
+ #endif
+diff --git a/include/block/thread-pool.h b/include/block/thread-pool.h
+index 7dd7d730a0..2020bcc92d 100644
+--- a/include/block/thread-pool.h
++++ b/include/block/thread-pool.h
+@@ -20,6 +20,8 @@
+ 
+ #include "block/block.h"
+ 
++#define THREAD_POOL_MAX_THREADS_DEFAULT         64
 +
- /**
-  * qemu_init_main_loop: Set up the process so that it can run the main loop.
-  *
+ typedef int ThreadPoolFunc(void *opaque);
+ 
+ typedef struct ThreadPool ThreadPool;
+@@ -33,5 +35,6 @@ BlockAIOCB *thread_pool_submit_aio(ThreadPool *pool,
+ int coroutine_fn thread_pool_submit_co(ThreadPool *pool,
+         ThreadPoolFunc *func, void *arg);
+ void thread_pool_submit(ThreadPool *pool, ThreadPoolFunc *func, void *arg);
++void thread_pool_update_params(ThreadPool *pool, struct AioContext *ctx);
+ 
+ #endif
 diff --git a/include/sysemu/event-loop-base.h b/include/sysemu/event-loop-base.h
-index 8e77d8b69f..fced4c9fea 100644
+index fced4c9fea..2748bf6ae1 100644
 --- a/include/sysemu/event-loop-base.h
 +++ b/include/sysemu/event-loop-base.h
-@@ -25,6 +25,7 @@ struct EventLoopBaseClass {
+@@ -33,5 +33,9 @@ struct EventLoopBase {
  
-     void (*init)(EventLoopBase *base, Error **errp);
-     void (*update_params)(EventLoopBase *base, Error **errp);
-+    bool (*can_be_deleted)(EventLoopBase *base);
+     /* AioContext AIO engine parameters */
+     int64_t aio_max_batch;
++
++    /* AioContext thread pool parameters */
++    int64_t thread_pool_min;
++    int64_t thread_pool_max;
  };
+ #endif
+diff --git a/iothread.c b/iothread.c
+index 8fa2f3bfb8..529194a566 100644
+--- a/iothread.c
++++ b/iothread.c
+@@ -174,6 +174,9 @@ static void iothread_set_aio_context_params(EventLoopBase *base, Error **errp)
+     aio_context_set_aio_params(iothread->ctx,
+                                iothread->parent_obj.aio_max_batch,
+                                errp);
++
++    aio_context_set_thread_pool_params(iothread->ctx, base->thread_pool_min,
++                                       base->thread_pool_max, errp);
+ }
  
- struct EventLoopBase {
-diff --git a/meson.build b/meson.build
-index 89aa3a2518..b8046b5b35 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2830,7 +2830,8 @@ libqemuutil = static_library('qemuutil',
-                              sources: util_ss.sources() + stub_ss.sources() + genh,
-                              dependencies: [util_ss.dependencies(), libm, threads, glib, socket, malloc, pixman])
- qemuutil = declare_dependency(link_with: libqemuutil,
--                              sources: genh + version_res)
-+                              sources: genh + version_res,
-+                              dependencies: [event_loop_base])
  
- if have_system or have_user
-   decodetree = generator(find_program('scripts/decodetree.py'),
 diff --git a/qapi/qom.json b/qapi/qom.json
-index eeb5395ff3..e5f31c4469 100644
+index e5f31c4469..06b8c3d10b 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
-@@ -499,6 +499,17 @@
-             '*repeat': 'bool',
-             '*grab-toggle': 'GrabToggleKeys' } }
+@@ -506,9 +506,17 @@
+ #
+ # @aio-max-batch: maximum number of requests in a batch for the AIO engine,
+ #                 0 means that the engine will use its default.
++#
++# @thread-pool-min: minimum number of threads readily available in the thread
++#                   pool (default:0, since 7.1)
++#
++# @thread-pool-max: maximum number of threads the thread pool can contain
++#                   (default:64, since 7.1)
+ ##
+ { 'struct': 'EventLoopBaseProperties',
+-  'data': { '*aio-max-batch': 'int' } }
++  'data': { '*aio-max-batch': 'int',
++            '*thread-pool-min': 'int',
++            '*thread-pool-max': 'int' } }
  
-+##
-+# @EventLoopBaseProperties:
-+#
-+# Common properties for objects derived from EventLoopBase
-+#
-+# @aio-max-batch: maximum number of requests in a batch for the AIO engine,
-+#                 0 means that the engine will use its default.
-+##
-+{ 'struct': 'EventLoopBaseProperties',
-+  'data': { '*aio-max-batch': 'int' } }
-+
  ##
  # @IothreadProperties:
- #
-@@ -516,17 +527,26 @@
- #               algorithm detects it is spending too long polling without
- #               encountering events. 0 selects a default behaviour (default: 0)
- #
--# @aio-max-batch: maximum number of requests in a batch for the AIO engine,
--#                 0 means that the engine will use its default
--#                 (default:0, since 6.1)
-+# The @aio-max-batch option is available since 6.1.
- #
- # Since: 2.0
- ##
- { 'struct': 'IothreadProperties',
-+  'base': 'EventLoopBaseProperties',
-   'data': { '*poll-max-ns': 'int',
-             '*poll-grow': 'int',
--            '*poll-shrink': 'int',
--            '*aio-max-batch': 'int' } }
-+            '*poll-shrink': 'int' } }
-+
-+##
-+# @MainLoopProperties:
-+#
-+# Properties for the main-loop object.
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'MainLoopProperties',
-+  'base': 'EventLoopBaseProperties',
-+  'data': {} }
+diff --git a/util/aio-posix.c b/util/aio-posix.c
+index be0182a3c6..731f3826c0 100644
+--- a/util/aio-posix.c
++++ b/util/aio-posix.c
+@@ -15,6 +15,7 @@
  
- ##
- # @MemoryBackendProperties:
-@@ -818,6 +838,7 @@
-     { 'name': 'input-linux',
-       'if': 'CONFIG_LINUX' },
-     'iothread',
-+    'main-loop',
-     { 'name': 'memory-backend-epc',
-       'if': 'CONFIG_LINUX' },
-     'memory-backend-file',
-@@ -883,6 +904,7 @@
-       'input-linux':                { 'type': 'InputLinuxProperties',
-                                       'if': 'CONFIG_LINUX' },
-       'iothread':                   'IothreadProperties',
-+      'main-loop':                  'MainLoopProperties',
-       'memory-backend-epc':         { 'type': 'MemoryBackendEpcProperties',
-                                       'if': 'CONFIG_LINUX' },
-       'memory-backend-file':        'MemoryBackendFileProperties',
+ #include "qemu/osdep.h"
+ #include "block/block.h"
++#include "block/thread-pool.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/rcu.h"
+ #include "qemu/rcu_queue.h"
+diff --git a/util/async.c b/util/async.c
+index 2ea1172f3e..554ba70cca 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -563,6 +563,9 @@ AioContext *aio_context_new(Error **errp)
+ 
+     ctx->aio_max_batch = 0;
+ 
++    ctx->thread_pool_min = 0;
++    ctx->thread_pool_max = THREAD_POOL_MAX_THREADS_DEFAULT;
++
+     return ctx;
+ fail:
+     g_source_destroy(&ctx->source);
+@@ -696,3 +699,20 @@ void qemu_set_current_aio_context(AioContext *ctx)
+     assert(!get_my_aiocontext());
+     set_my_aiocontext(ctx);
+ }
++
++void aio_context_set_thread_pool_params(AioContext *ctx, int64_t min,
++                                        int64_t max, Error **errp)
++{
++
++    if (min > max || !max || min > INT_MAX || max > INT_MAX) {
++        error_setg(errp, "bad thread-pool-min/thread-pool-max values");
++        return;
++    }
++
++    ctx->thread_pool_min = min;
++    ctx->thread_pool_max = max;
++
++    if (ctx->thread_pool) {
++        thread_pool_update_params(ctx->thread_pool, ctx);
++    }
++}
 diff --git a/util/main-loop.c b/util/main-loop.c
-index b7b0ce4ca0..5b13f456fa 100644
+index 5b13f456fa..a0f48186ab 100644
 --- a/util/main-loop.c
 +++ b/util/main-loop.c
-@@ -33,6 +33,7 @@
+@@ -30,6 +30,7 @@
+ #include "sysemu/replay.h"
+ #include "qemu/main-loop.h"
+ #include "block/aio.h"
++#include "block/thread-pool.h"
  #include "qemu/error-report.h"
  #include "qemu/queue.h"
  #include "qemu/compiler.h"
-+#include "qom/object.h"
+@@ -187,12 +188,20 @@ int qemu_init_main_loop(Error **errp)
  
- #ifndef _WIN32
- #include <sys/wait.h>
-@@ -184,6 +185,61 @@ int qemu_init_main_loop(Error **errp)
-     return 0;
+ static void main_loop_update_params(EventLoopBase *base, Error **errp)
+ {
++    ERRP_GUARD();
++
+     if (!qemu_aio_context) {
+         error_setg(errp, "qemu aio context not ready");
+         return;
+     }
+ 
+     aio_context_set_aio_params(qemu_aio_context, base->aio_max_batch, errp);
++    if (*errp) {
++        return;
++    }
++
++    aio_context_set_thread_pool_params(qemu_aio_context, base->thread_pool_min,
++                                       base->thread_pool_max, errp);
  }
  
-+static void main_loop_update_params(EventLoopBase *base, Error **errp)
+ MainLoop *mloop;
+diff --git a/util/thread-pool.c b/util/thread-pool.c
+index d763cea505..196835b4d3 100644
+--- a/util/thread-pool.c
++++ b/util/thread-pool.c
+@@ -58,7 +58,6 @@ struct ThreadPool {
+     QemuMutex lock;
+     QemuCond worker_stopped;
+     QemuSemaphore sem;
+-    int max_threads;
+     QEMUBH *new_thread_bh;
+ 
+     /* The following variables are only accessed from one AioContext. */
+@@ -71,8 +70,27 @@ struct ThreadPool {
+     int new_threads;     /* backlog of threads we need to create */
+     int pending_threads; /* threads created but not running yet */
+     bool stopping;
++    int min_threads;
++    int max_threads;
+ };
+ 
++static inline bool back_to_sleep(ThreadPool *pool, int ret)
 +{
-+    if (!qemu_aio_context) {
-+        error_setg(errp, "qemu aio context not ready");
-+        return;
++    /*
++     * The semaphore timed out, we should exit the loop except when:
++     *  - There is work to do, we raced with the signal.
++     *  - The max threads threshold just changed, we raced with the signal.
++     *  - The thread pool forces a minimum number of readily available threads.
++     */
++    if (ret == -1 && (!QTAILQ_EMPTY(&pool->request_list) ||
++            pool->cur_threads > pool->max_threads ||
++            pool->cur_threads <= pool->min_threads)) {
++            return true;
 +    }
 +
-+    aio_context_set_aio_params(qemu_aio_context, base->aio_max_batch, errp);
-+}
-+
-+MainLoop *mloop;
-+
-+static void main_loop_init(EventLoopBase *base, Error **errp)
-+{
-+    MainLoop *m = MAIN_LOOP(base);
-+
-+    if (mloop) {
-+        error_setg(errp, "only one main-loop instance allowed");
-+        return;
-+    }
-+
-+    main_loop_update_params(base, errp);
-+
-+    mloop = m;
-+    return;
-+}
-+
-+static bool main_loop_can_be_deleted(EventLoopBase *base)
-+{
 +    return false;
 +}
 +
-+static void main_loop_class_init(ObjectClass *oc, void *class_data)
-+{
-+    EventLoopBaseClass *bc = EVENT_LOOP_BASE_CLASS(oc);
-+
-+    bc->init = main_loop_init;
-+    bc->update_params = main_loop_update_params;
-+    bc->can_be_deleted = main_loop_can_be_deleted;
-+}
-+
-+static const TypeInfo main_loop_info = {
-+    .name = TYPE_MAIN_LOOP,
-+    .parent = TYPE_EVENT_LOOP_BASE,
-+    .class_init = main_loop_class_init,
-+    .instance_size = sizeof(MainLoop),
-+};
-+
-+static void main_loop_register_types(void)
-+{
-+    type_register_static(&main_loop_info);
-+}
-+
-+type_init(main_loop_register_types)
-+
- static int max_priority;
+ static void *worker_thread(void *opaque)
+ {
+     ThreadPool *pool = opaque;
+@@ -91,8 +109,9 @@ static void *worker_thread(void *opaque)
+             ret = qemu_sem_timedwait(&pool->sem, 10000);
+             qemu_mutex_lock(&pool->lock);
+             pool->idle_threads--;
+-        } while (ret == -1 && !QTAILQ_EMPTY(&pool->request_list));
+-        if (ret == -1 || pool->stopping) {
++        } while (back_to_sleep(pool, ret));
++        if (ret == -1 || pool->stopping ||
++            pool->cur_threads > pool->max_threads) {
+             break;
+         }
  
- #ifndef _WIN32
+@@ -294,6 +313,33 @@ void thread_pool_submit(ThreadPool *pool, ThreadPoolFunc *func, void *arg)
+     thread_pool_submit_aio(pool, func, arg, NULL, NULL);
+ }
+ 
++void thread_pool_update_params(ThreadPool *pool, AioContext *ctx)
++{
++    qemu_mutex_lock(&pool->lock);
++
++    pool->min_threads = ctx->thread_pool_min;
++    pool->max_threads = ctx->thread_pool_max;
++
++    /*
++     * We either have to:
++     *  - Increase the number available of threads until over the min_threads
++     *    threshold.
++     *  - Decrease the number of available threads until under the max_threads
++     *    threshold.
++     *  - Do nothing. The current number of threads fall in between the min and
++     *    max thresholds. We'll let the pool manage itself.
++     */
++    for (int i = pool->cur_threads; i < pool->min_threads; i++) {
++        spawn_thread(pool);
++    }
++
++    for (int i = pool->cur_threads; i > pool->max_threads; i--) {
++        qemu_sem_post(&pool->sem);
++    }
++
++    qemu_mutex_unlock(&pool->lock);
++}
++
+ static void thread_pool_init_one(ThreadPool *pool, AioContext *ctx)
+ {
+     if (!ctx) {
+@@ -306,11 +352,12 @@ static void thread_pool_init_one(ThreadPool *pool, AioContext *ctx)
+     qemu_mutex_init(&pool->lock);
+     qemu_cond_init(&pool->worker_stopped);
+     qemu_sem_init(&pool->sem, 0);
+-    pool->max_threads = 64;
+     pool->new_thread_bh = aio_bh_new(ctx, spawn_thread_bh_fn, pool);
+ 
+     QLIST_INIT(&pool->head);
+     QTAILQ_INIT(&pool->request_list);
++
++    thread_pool_update_params(pool, ctx);
+ }
+ 
+ ThreadPool *thread_pool_new(AioContext *ctx)
 -- 
 2.35.1
 
