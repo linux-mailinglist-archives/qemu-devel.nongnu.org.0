@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85644EEB23
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 12:19:58 +0200 (CEST)
-Received: from localhost ([::1]:33358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA594EEB5D
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 12:33:23 +0200 (CEST)
+Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naENp-0003kl-Oq
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 06:19:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39326)
+	id 1naEao-0000ig-7g
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 06:33:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naEEM-0005Fs-JF
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:10:13 -0400
-Received: from [2a00:1450:4864:20::533] (port=33368
- helo=mail-ed1-x533.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1naEZ1-0008BS-0q
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:31:31 -0400
+Received: from [2a00:1450:4864:20::333] (port=54159
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naEEK-0006On-NS
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:10:10 -0400
-Received: by mail-ed1-x533.google.com with SMTP id r23so2423475edb.0
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 03:10:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1naEYz-0001kg-HL
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:31:30 -0400
+Received: by mail-wm1-x333.google.com with SMTP id p189so1395843wmp.3
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 03:31:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=cXcg2rYVCZNcEpJlQKvzF3F2ermw5rW2mq6503h6KV/DmXxO31uUTlZu58DBdmrhZ0
- iXdN5n2itYIFa26gKlqpU2Om6ze1/nIcnbHt8semAMKOrwmGqe3EMSpqH/P+JQKOpxLO
- a49HC7w9ED030KcLSAMvmQ3vIB6QY+rBf6DRz/zxMy12GXTzOJRpfhVR37B9/MYubarY
- jYOq4g9CiKG7zpOohFM5wHiwxXzsEgwRp3Y+zFQrSHpzLAVo7ffKuXXZf1wkXBcqGPv8
- z6RRcepR+ns3K2gvhjfL6ztIW9J4TGeFbNAxZhQIRpnt782HmCstqj+TeOjfEvp1Gycf
- 0PaA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=AtF3YETvIejebq08jvdZJgLq1wEorQLSWiG/DBxcx0w=;
+ b=lvSBD5FnoO3/DFbfU1B54a9yVwNsFrAa7f0s3ZG+TCyJ344a9d5c1WcryF3hoi8txN
+ 4yjNlDb7w0c6izAQE9Zf4EIcEzmFfZH5XWu8kQtcs2l0WNUZYGpklpp6OXHf1icu8K6O
+ VvnJ/Sr5u++l+u+6wCcaRqb4K7Z5bOjtxx5FG4za7NmvwaZoVq70gUfSEmR8MGO/SGl9
+ EpXGiXK8CyikeduqeuItmi2yUCkCtZHodzDf0LtBKZ649hIo45rTy0TDxA7KRk1Pmb1g
+ Mqsvmf+2WjjopuCEk2hQmbb5ExN3XDgbs57gGSi9fsK1cmyvsoXPFQq7ylYJXJgVi0lk
+ GwQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=DccOD0gpKCwq6HsUqGVy1+Yc4lIbkPKgKXQUB2H+0B1tYsVDNn1o2YueZRIiS223ZG
- o+koLAhLmWCuhLxgnX2ofjgQn8gSgAsVsHTilUE64DGKxpXU1x7hylYTo380zZBaEhSO
- dbl1ZOHr10MJ4Wc0k7AmRoi35Vpzt8Y57Hz1YDRE/eNCluUFQnhQcColzVQfVD8Zi6pC
- NZWeSX4fdn9vbcUSwvfpywd731xeNJVEXeWgwQV43lNPfi8RWxkegtkMK6u/e8Ht6N7M
- 04mb1cC7WEsCCB/jekOk62VVpIE0qA2wqO6fS7GXZjH82a+Khx5uEXanlDFkohCBg4KP
- 9LKw==
-X-Gm-Message-State: AOAM530zRVYmmWBjuYMb0h7n+ZVAZP2FYa2rcmJYy161UJKHxdltQtJb
- vaSVzAjo35F4QIm4wueMXi8=
-X-Google-Smtp-Source: ABdhPJy+lukuLILa0twVbI3BKQpgnBGQzHQoFI3WL3a0tb2vIWfURScrYtRMnj0H07s1wxLu/yK3Sw==
-X-Received: by 2002:a05:6402:40c4:b0:419:135b:83ac with SMTP id
- z4-20020a05640240c400b00419135b83acmr20542949edb.321.1648807806573; 
- Fri, 01 Apr 2022 03:10:06 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:8ca6:a836:a237:fed1])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AtF3YETvIejebq08jvdZJgLq1wEorQLSWiG/DBxcx0w=;
+ b=kLbUnGY8zC0WKo3vHGemWOaZQ9eqsXZZDqVQRsf7Qa2BkiEhYqQOS8wUusBEIOuA8R
+ 8TN8U3rC2LYqEPC5rqhALwlmbWAesCiApbLgUqcBvv6XVTdgFvMA0YIPJEYXJnUE2XED
+ mW3JUeFoBg66s4OctDnnflJc9Yp14THN71vV45MWWxlyeyNGrpaW2aAkFg981Wn3umN2
+ 70Dt07sVIN36TRxmzcbmVkxuBqTviZo2k0YGNkjMio4JUsZSlRxA858yCm9lGMwuUFF2
+ 2BUauz947pOzc6h4bTrHLMHamLKeBHdtBLCy07VuYtvf8zxQzTuKqqbDUifxjWWmDlbH
+ j1rw==
+X-Gm-Message-State: AOAM5332Agp/8BrUD7Jon8FQDOc6zl1DT6I9gSVA8zZJ3wmQZ2fiNEf/
+ C1TCOGEt/mFsq/uOIWofmz4=
+X-Google-Smtp-Source: ABdhPJz231mIsHjyF+Rm5DCafXuvtzQqBfu1srLoTzpYysDtuBNwdosKHoSL03eAMdoxbi8npbmplg==
+X-Received: by 2002:a7b:c0ca:0:b0:38c:b9a9:a64d with SMTP id
+ s10-20020a7bc0ca000000b0038cb9a9a64dmr8317929wmh.195.1648809087912; 
+ Fri, 01 Apr 2022 03:31:27 -0700 (PDT)
+Received: from ?IPV6:2600:70ff:f07f:0:f49c:562:b5cb:b2b5?
+ ([2600:70ff:f07f:0:f49c:562:b5cb:b2b5])
  by smtp.gmail.com with ESMTPSA id
- nd31-20020a170907629f00b006dff863d41asm858185ejc.156.2022.04.01.03.10.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 03:10:06 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH] build-sys: drop ntddscsi.h check
-Date: Fri,  1 Apr 2022 12:10:01 +0200
-Message-Id: <20220401101001.1205992-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220401085106.2167374-1-marcandre.lureau@redhat.com>
-References: 
+ v1-20020adff681000000b00205f21617d5sm1748659wrp.105.2022.04.01.03.31.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Apr 2022 03:31:27 -0700 (PDT)
+Message-ID: <a20683a3-3534-7318-c52d-6bf03a7e9ef6@gmail.com>
+Date: Fri, 1 Apr 2022 12:31:25 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH] virtio-net: use g_memdup2() instead of unsafe g_memdup()
+Content-Language: en-US
+To: Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Eugenio_P=c3=a9rez?=
+ <eperezma@redhat.com>
+References: <20220331182935.538101-1-eperezma@redhat.com>
+ <CACGkMEvEKGxccu5_tFeVqthZrr_KfwVy2MFVw4rZhJbG90Z4QA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <CACGkMEvEKGxccu5_tFeVqthZrr_KfwVy2MFVw4rZhJbG90Z4QA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,14 +96,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Konstantin Kostiuk <kkostiuk@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
+On 1/4/22 04:31, Jason Wang wrote:
+> On Fri, Apr 1, 2022 at 2:29 AM Eugenio Pérez <eperezma@redhat.com> wrote:
+>>
+>> Fixing that literal checkpatch.pl because it will complain when we modify the file
 
-Paolo
+See https://www.mail-archive.com/qemu-devel@nongnu.org/msg834178.html
 
-
+>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> 
+> Acked-by: Jason Wang <jasowang@redhat.com>
+> 
+>> ---
+>>   hw/net/virtio-net.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>> index 1067e72b39..e4748a7e6c 100644
+>> --- a/hw/net/virtio-net.c
+>> +++ b/hw/net/virtio-net.c
+>> @@ -1443,7 +1443,8 @@ static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+>>           }
+>>
+>>           iov_cnt = elem->out_num;
+>> -        iov2 = iov = g_memdup(elem->out_sg, sizeof(struct iovec) * elem->out_num);
+>> +        iov2 = iov = g_memdup2(elem->out_sg,
+>> +                               sizeof(struct iovec) * elem->out_num);
+>>           s = iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
+>>           iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
+>>           if (s != sizeof(ctrl)) {
+>> --
+>> 2.27.0
+>>
+> 
 
