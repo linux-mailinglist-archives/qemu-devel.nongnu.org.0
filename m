@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5FF4EEA97
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:38:56 +0200 (CEST)
-Received: from localhost ([::1]:42774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7B94EEA72
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:31:31 +0200 (CEST)
+Received: from localhost ([::1]:59842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naDk7-0003jR-7r
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:38:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58004)
+	id 1naDcv-00040u-9d
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:31:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1naDRa-0000IB-Cq
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:19:46 -0400
-Received: from [2a00:1450:4864:20::22d] (port=42887
- helo=mail-lj1-x22d.google.com)
+ id 1naDRc-0000LO-5n
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:19:54 -0400
+Received: from [2a00:1450:4864:20::12c] (port=44876
+ helo=mail-lf1-x12c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1naDRW-0006tJ-9R
+ id 1naDRW-0006tV-Ak
  for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:19:46 -0400
-Received: by mail-lj1-x22d.google.com with SMTP id c15so3066387ljr.9
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 02:19:38 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id m3so3704210lfj.11
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 02:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mRK7WxLX+HR4rJNJEmFqrnmUVkOna7RNQuFOtOFhYr8=;
- b=tIZBwEAeJL7VYcTJjnEVZPJ6BVBOIUrDDRdTx6LkrgQhfxMiA6wcO+BSYez7EmDjRe
- 2gId61gPMlLg0l59l9H6Lcf/XXe6OlSCg2PRMp7l2Ckm2F6BRtxfA6VN3Ew6G8VF9N2b
- 8zdNJCmYX1lgwfjmE4HO9EmSe+pDYiaTAS/dtmXI+USdfwGL7o2N5pbt83mPucWlwp7i
- +k6PmQ6uE8ZQ6zQCLC5LCur39sVVJgGnKsPeRzUUEbh6lkKkMSyDPj83CqwgVSZiHoXj
- IIlOPTlQ6Q/dHNpSiv+mn+Q9VkxaxgTtWJNOhBxXLGFYvts1jRf5GtIs4dS4w0wc/Mvk
- gbLQ==
+ bh=ESo7rdotHdZMR0iHY1h3nO2pJdxOeDhAmWJR8wsYiEQ=;
+ b=Mj6UokXRlY9/A1J9aQGWXvKU0AQeHIjtlQSuY6dMclz+/woH3+CU7VclvKqpIcuORT
+ q3GMQhArfktEKsgnyczLb8hfG8GjqdUCOuHklOGlFXICzKdxL1h1oS/q8tev5pzc/svH
+ 0rLMow1HZcW4eB+CV15T1VdFU88dus4QgSgP3IdDwwjVRUr/J4eaKY8ivhekug3wILUR
+ GuTBHl4Ao53TFLotld58Tjz2oKIaevf/QrrZpzxGuIvoh8Iyo9OE4i3zptNHBKaHYgbC
+ 8X+ZzbTUW+rL63VnjsXE+8TPXF6G82r9Org2wRtNEohv+vdToux40zFtQl3wjAnb7bgG
+ 8/Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mRK7WxLX+HR4rJNJEmFqrnmUVkOna7RNQuFOtOFhYr8=;
- b=PKk7uPBiXhi1DIPOOzFfOU+wtLrig4n8OCxAA6hDyrFZe0Tx2o2U5E7eTb9FcMpLah
- H6MypkG/VdifVcdD9w8kyVEAy9Nbzj4z8Z5k2KMnAlcjc6Yr5CDBBW2FJFJYzsyj6zVy
- jbEA7oZCOSazE3YIzsEZlFc2sqIYFxCRARDGL9jBQa2nAWsEnGb+plhB5qxpAITvSLyX
- /SO04jQyqbDoHMM9pAeST3APJW4rLlY5MnskXenk87vAGbm4T6TYEWFfNphNoqdoxkWA
- yo+IAk/65PxuhRm6eU4wY0Rh33nWhMrwQLYVB0ZKivtzm94QOk7fRYrV2WtpblxpV55y
- EwgA==
-X-Gm-Message-State: AOAM533i/Zz3xmvWbQ6T49oJf6pZFsEoyfgBKVB+FZ0wAeoou4v4j9lk
- hqYt3EmFa8J6OOPq4APWPSb6Ng==
-X-Google-Smtp-Source: ABdhPJxySh4ISsDwJlbva98Fu7uJ0Vp+WpCEv0MWq9sfrffpgTi8lBT5v4dHMjpslV6BJh60RPybNg==
-X-Received: by 2002:a2e:1617:0:b0:24a:a6b4:40b2 with SMTP id
- w23-20020a2e1617000000b0024aa6b440b2mr12984731ljd.83.1648804777581; 
- Fri, 01 Apr 2022 02:19:37 -0700 (PDT)
+ bh=ESo7rdotHdZMR0iHY1h3nO2pJdxOeDhAmWJR8wsYiEQ=;
+ b=S6447inYuxsMnMufGw97l7Nxxi4CWcHwirWaRTn1ej/MHLogAajRVNRub/7+pZpBMQ
+ 146onj5n3GTj7rmkDOttOkg/QhCzkyGwbO99jkByR00X02b936nbjBD++K5XvW0y1QpS
+ f24unBPzj6q7skHMM1nFj65HTcfoH+QVC7bel6bRpj9lvIzqsH39mQ08VFlRgkrA19ZH
+ 0ew0usUcfTkF6XtBKcIiLNkxJUhd8xnNr00nyOfyKA+awkwNu2zR3eLGxXd2fyAcEvSx
+ AkHDjV2ZmP86YfHC5ieCAJy3J+OFV5ipgjCPuOGO//O55U4KjdyY4F3V3t8D+6Rz+Px4
+ c+AA==
+X-Gm-Message-State: AOAM531GcGPxN5p1m4v14dNDZONq1IvU9SmHfj/aoYW2zTEQ3tDs1BFH
+ Bj3OiP18dU7NPv3ICppMSl20ag==
+X-Google-Smtp-Source: ABdhPJy5/JKGmBUmf/3LDUOGYvAJ5DBqx7xaGpsmUpbmzyZn2gIP1/wNm8N9+C8VEsCfJG4kkqysDA==
+X-Received: by 2002:ac2:4dbb:0:b0:44a:da57:33f5 with SMTP id
+ h27-20020ac24dbb000000b0044ada5733f5mr1481485lfe.653.1648804778300; 
+ Fri, 01 Apr 2022 02:19:38 -0700 (PDT)
 Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
  d16-20020a2eb050000000b002461d8f365bsm155135ljl.38.2022.04.01.02.19.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 02:19:37 -0700 (PDT)
+ Fri, 01 Apr 2022 02:19:38 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 5/7] block/block-copy: block_copy(): add timeout_ns
- parameter
-Date: Fri,  1 Apr 2022 12:19:18 +0300
-Message-Id: <20220401091920.287612-6-vsementsov@openvz.org>
+Subject: [PATCH v2 6/7] block/copy-before-write: implement cbw-timeout option
+Date: Fri,  1 Apr 2022 12:19:19 +0300
+Message-Id: <20220401091920.287612-7-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220401091920.287612-1-vsementsov@openvz.org>
 References: <20220401091920.287612-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22d;
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lj1-x22d.google.com
+ helo=mail-lf1-x12c.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -98,89 +97,79 @@ Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add possibility to limit block_copy() call in time. To be used in the
-next commit.
+In some scenarios, when copy-before-write operations lasts too long
+time, it's better to cancel it.
+
+Most useful would be to use the new option together with
+on-cbw-error=break-snapshot: this way if cbw operation takes too long
+time we'll just cancel backup process but do not disturb the guest too
+much.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 ---
- block/block-copy.c         | 26 +++++++++++++++++++-------
- block/copy-before-write.c  |  2 +-
- include/block/block-copy.h |  2 +-
- 3 files changed, 21 insertions(+), 9 deletions(-)
+ block/copy-before-write.c | 6 +++++-
+ qapi/block-core.json      | 5 ++++-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index ec46775ea5..b47cb188dd 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -883,10 +883,18 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
-     return ret;
- }
- 
-+static void coroutine_fn block_copy_async_co_entry(void *opaque)
-+{
-+    block_copy_common(opaque);
-+}
-+
- int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
--                            bool ignore_ratelimit)
-+                            bool ignore_ratelimit, uint64_t timeout_ns)
- {
--    BlockCopyCallState call_state = {
-+    int ret;
-+    BlockCopyCallState *call_state = g_new(BlockCopyCallState, 1);
-+
-+    *call_state = (BlockCopyCallState) {
-         .s = s,
-         .offset = start,
-         .bytes = bytes,
-@@ -894,12 +902,16 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
-         .max_workers = BLOCK_COPY_MAX_WORKERS,
-     };
- 
--    return block_copy_common(&call_state);
--}
-+    ret = qemu_co_timeout(block_copy_async_co_entry, call_state, timeout_ns,
-+                          g_free);
-+    if (ret < 0) {
-+        /* Timeout. call_state will be freed by running coroutine. */
-+        return ret;
-+    }
- 
--static void coroutine_fn block_copy_async_co_entry(void *opaque)
--{
--    block_copy_common(opaque);
-+    ret = call_state->ret;
-+
-+    return ret;
- }
- 
- BlockCopyCallState *block_copy_async(BlockCopyState *s,
 diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index 0614c3d08b..7ef3f9f4c1 100644
+index 7ef3f9f4c1..0ea5506f77 100644
 --- a/block/copy-before-write.c
 +++ b/block/copy-before-write.c
-@@ -107,7 +107,7 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
+@@ -42,6 +42,7 @@ typedef struct BDRVCopyBeforeWriteState {
+     BlockCopyState *bcs;
+     BdrvChild *target;
+     OnCbwError on_cbw_error;
++    uint32_t cbw_timeout_ns;
+ 
+     /*
+      * @lock: protects access to @access_bitmap, @done_bitmap and
+@@ -107,7 +108,7 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
      off = QEMU_ALIGN_DOWN(offset, cluster_size);
      end = QEMU_ALIGN_UP(offset + bytes, cluster_size);
  
--    ret = block_copy(s->bcs, off, end - off, true);
-+    ret = block_copy(s->bcs, off, end - off, true, 0);
+-    ret = block_copy(s->bcs, off, end - off, true, 0);
++    ret = block_copy(s->bcs, off, end - off, true, s->cbw_timeout_ns);
      if (ret < 0 && s->on_cbw_error == ON_CBW_ERROR_BREAK_GUEST_WRITE) {
          return ret;
      }
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 68bbd344b2..1c9616cdee 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -40,7 +40,7 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
-                                      int64_t offset, int64_t *count);
+@@ -412,6 +413,7 @@ static BlockdevOptionsCbw *cbw_parse_options(QDict *options, Error **errp)
+      */
+     qdict_extract_subqdict(options, NULL, "bitmap");
+     qdict_del(options, "on-cbw-error");
++    qdict_del(options, "cbw-timeout");
  
- int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
--                            bool ignore_ratelimit);
-+                            bool ignore_ratelimit, uint64_t timeout_ns);
+ out:
+     visit_free(v);
+@@ -455,6 +457,8 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+     s->on_cbw_error = opts->has_on_cbw_error ? opts->on_cbw_error :
+             ON_CBW_ERROR_BREAK_GUEST_WRITE;
++    s->cbw_timeout_ns = opts->has_cbw_timeout ?
++        opts->cbw_timeout * NANOSECONDS_PER_SECOND : 0;
  
- /*
-  * Run block-copy in a coroutine, create corresponding BlockCopyCallState
+     bs->total_sectors = bs->file->bs->total_sectors;
+     bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 3f08025114..e077506e0f 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4207,12 +4207,15 @@
+ # @on-cbw-error: Behavior on failure of copy-before-write operation.
+ #                Default is @break-guest-write. (Since 7.0)
+ #
++# @cbw-timeout: Zero means no limit. Non-zero sets the timeout in seconds
++#               for copy-before-write operation. Default 0. (Since 7.0)
++#
+ # Since: 6.2
+ ##
+ { 'struct': 'BlockdevOptionsCbw',
+   'base': 'BlockdevOptionsGenericFormat',
+   'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap',
+-            '*on-cbw-error': 'OnCbwError' } }
++            '*on-cbw-error': 'OnCbwError', '*cbw-timeout': 'uint32' } }
+ 
+ ##
+ # @BlockdevOptions:
 -- 
 2.35.1
 
