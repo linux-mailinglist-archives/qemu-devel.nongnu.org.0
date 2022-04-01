@@ -2,97 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DFFD4EECB4
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 14:01:28 +0200 (CEST)
-Received: from localhost ([::1]:46992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF444EECBC
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 14:02:18 +0200 (CEST)
+Received: from localhost ([::1]:47548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naFy3-0001fs-Dz
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 08:01:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32964)
+	id 1naFyr-00022e-Fe
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 08:02:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1naFvk-0000A0-3Q
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 07:59:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28774)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1naFvw-0000HH-1E; Fri, 01 Apr 2022 07:59:16 -0400
+Received: from smtp63.i.mail.ru ([217.69.128.43]:33428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1naFvg-0000h0-Mi
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 07:59:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648814339;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qMF5yIKJeg5ByLsqJthj+9WvrpKB1nUHLo7ccsf8PUk=;
- b=BQUDMrLq32h20l6DKr1IovtxZjWWzabtHIOYRFDodsr+fvhAGD6Zps5CSAfB+YqlycMDZY
- ZkmqmHywIALXlMaxEtngBrjmXU7jggvtM/0hs+wwdzJK5Jw8BWYeW96N8NL6wO5fa1tNJd
- pY1lQRI+gmPsuXTxfy6jryguJgDAhxw=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-436-GRNfjrxUO0C2pBjSCGKKVg-1; Fri, 01 Apr 2022 07:58:58 -0400
-X-MC-Unique: GRNfjrxUO0C2pBjSCGKKVg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- do20-20020a170906c11400b006e0de97a0e9so1420329ejc.19
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 04:58:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qMF5yIKJeg5ByLsqJthj+9WvrpKB1nUHLo7ccsf8PUk=;
- b=Bh1vMlapoRXk3j57jiREadwoZY2Nhyp5P9A3DoQShbGfoUVneU9qIj8pwNdVgvy1kV
- ZM4NV/FAgMAjukGKXQmkn4Fu5x9DFE+4o1HeVNbjZ+1sB+4ZQsOilpB7lTFayNtE7ZmN
- r5AzM4px24duyHoyOVpt5jMpUQt4y+dTQUBEGJfMmO2EOoM3YXZ27olen6E4bR9gK1aj
- gwmESr5Q5zi2J43Jo3iYSV5ygODxAP6yZHwoUXzUhXY9lbD9uOfzQ7oMDbKtIXH43gvL
- 68GYqRQ7DJuKccGcQ5LqlcZPYYFBTUcFipBLD3jM7r4xagx6gDnBTULOlhApyZ+aI2Sp
- Bnhg==
-X-Gm-Message-State: AOAM530pfYhlVHLD/6uDwdXn+ir7cRvlPVrJEl8FvFw7ElWlHO16eXIM
- fvsbTUg3vvIfspw8zb2tw04X0PCpLMu+FCiVxlCMcMRnBOaJ+mDw0zQyzqiU+7QxAt9PXrscasC
- KnCLxNL47DwAw5wU=
-X-Received: by 2002:a05:6402:d0a:b0:418:ec3b:2242 with SMTP id
- eb10-20020a0564020d0a00b00418ec3b2242mr13158510edb.229.1648814337564; 
- Fri, 01 Apr 2022 04:58:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxnfs1aFUCOTudI6TRRDAsBalEbbGfznV4YAstkrjx3IjGzwzLDCtcg/lu3+XzjM/oOeLilbA==
-X-Received: by 2002:a05:6402:d0a:b0:418:ec3b:2242 with SMTP id
- eb10-20020a0564020d0a00b00418ec3b2242mr13158491edb.229.1648814337241; 
- Fri, 01 Apr 2022 04:58:57 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- k14-20020a50e18e000000b0041b6f23f7f6sm1140134edl.22.2022.04.01.04.58.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Apr 2022 04:58:56 -0700 (PDT)
-Message-ID: <ebed5d8a-5a07-1030-596e-d9f943c2ba83@redhat.com>
-Date: Fri, 1 Apr 2022 13:58:55 +0200
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1naFvt-0000hS-Kz; Fri, 01 Apr 2022 07:59:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+ s=mail4; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=CHFwl11j7QQmSkI9hfMJ5ivsprziP2uEI+7Uo+PrDCU=; 
+ t=1648814353;x=1649419753; 
+ b=LjBF0GZZ334dmBKNmd8GbSOt8ucmuDepukfi/bBidztzVVhE6TFkcgtGii+ouoOyB3VUpKXrDtDcI88dEG5vaKmfqe1BY390AwDrXz1PDtiRlvW220gf7WzjxEWHa32isYWxKNbkTe1ddBTNZ3ERmOJ0RHpPxF+tP6zYhMx+zYpC2WWPW9m69A1C10Y33qu+Z733foJxr/I4FEKh/R4uR1dfY7oy0m6mtNfs58kazQQejaFX5YsndyXye3YQk9HpbCfmPTmPpnq4Xj3VOIKQ5YTAN5CLLK/YSrW1aDO8BPkXPow5fIXQiSXaPZVUnIgIxCLL1+CHipOOUYXnewi/Qg==;
+Received: by smtp63.i.mail.ru with esmtpa (envelope-from
+ <v.sementsov-og@mail.ru>)
+ id 1naFvo-0006UB-3E; Fri, 01 Apr 2022 14:59:08 +0300
+Message-ID: <698e50b2-026c-8781-8ee1-c31c929e1284@mail.ru>
+Date: Fri, 1 Apr 2022 14:59:07 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/7] block/copy-before-write: add on-cbw-error open
- parameter
-To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
- qemu-block@nongnu.org
-References: <20220401091920.287612-1-vsementsov@openvz.org>
- <20220401091920.287612-3-vsementsov@openvz.org>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220401091920.287612-3-vsementsov@openvz.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v2 1/7] block/copy-before-write: refactor option parsing
 Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
+ stefanha@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
+ vsementsov@openvz.org
+References: <20220401091920.287612-1-vsementsov@openvz.org>
+ <20220401091920.287612-2-vsementsov@openvz.org>
+ <0d068a71-3af7-8873-9bc6-e8cac73b4d25@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+In-Reply-To: <0d068a71-3af7-8873-9bc6-e8cac73b4d25@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Authentication-Results: smtp63.i.mail.ru;
+ auth=pass smtp.auth=v.sementsov-og@mail.ru
+ smtp.mailfrom=v.sementsov-og@mail.ru
+X-4EC0790: 10
+X-7564579A: EEAE043A70213CC8
+X-77F55803: 4F1203BC0FB41BD96DC212D1D15EACC4ACA8308985A3EC9B455786C35F6180B1182A05F5380850404C228DA9ACA6FE27D6E44F304DB3FC5EBE8AE7F19F6E6B10F033578F3A3E6F39BCD192064BF9FD49
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7D9C4478D0B876341EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637670E1B164B70895C8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8BE56D9F86B4FA80CE8869142B879192F6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE759A2DA0C93DFCD719FA2833FD35BB23D9E625A9149C048EE9ECD01F8117BC8BEA471835C12D1D9774AD6D5ED66289B52BA9C0B312567BB23117882F44604297287769387670735209ECD01F8117BC8BEA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC55FE502D1F4F21543AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F79006372CCD0B7543C42194D81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89F72BE6798D603635257739F23D657EF2BB5C8C57E37DE458BEDA766A37F9254B7
+X-8FC586DF: 6EFBBC1D9D64D975
+X-C1DE0DAB: 0D63561A33F958A564DEF88A36AAA40A50F942665A5CF9EB69490AE7271DD25AD59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA75040BF32255FAA22B410CA545F18667F91A7EA1CDA0B5A7A0
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D3455049D7B43D89D64CAF223AE6354C4E375D141D633CB50F7691457F8D1948A6B32F835FB382993F21D7E09C32AA3244C188E06A22609912CC037860A17B38ED2F522A1CF68F4BE05ED98077840A144B9
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojhgUChjrcp6GkE3P4peFBMA==
+X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FEE46E2CC05B6B55143E078C503CB084ACE8D00D9C08020F8CE6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+Received-SPF: pass client-ip=217.69.128.43;
+ envelope-from=v.sementsov-og@mail.ru; helo=smtp63.i.mail.ru
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,268 +80,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, vsementsov@openvz.org,
- stefanha@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.04.22 11:19, Vladimir Sementsov-Ogievskiy wrote:
-> Currently, behavior on copy-before-write operation failure is simple:
-> report error to the guest.
->
-> Let's implement alternative behavior: break the whole copy-before-write
-> process (and corresponding backup job or NBD client) but keep guest
-> working. It's needed if we consider guest stability as more important.
->
-> The realisation is simple: on copy-before-write failure we immediately
-> continue guest write operation and set s->snapshot_ret variable which
-> will lead to all further and in-flight snapshot-API requests failure.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-> ---
->   block/copy-before-write.c | 62 ++++++++++++++++++++++++++++++++++-----
->   qapi/block-core.json      | 27 ++++++++++++++++-
->   2 files changed, 81 insertions(+), 8 deletions(-)
->
-> diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-> index 394e73b094..0614c3d08b 100644
-> --- a/block/copy-before-write.c
-> +++ b/block/copy-before-write.c
-> @@ -41,6 +41,7 @@
->   typedef struct BDRVCopyBeforeWriteState {
->       BlockCopyState *bcs;
->       BdrvChild *target;
-> +    OnCbwError on_cbw_error;
->   
->       /*
->        * @lock: protects access to @access_bitmap, @done_bitmap and
-> @@ -65,6 +66,14 @@ typedef struct BDRVCopyBeforeWriteState {
->        * node. These areas must not be rewritten by guest.
->        */
->       BlockReqList frozen_read_reqs;
-> +
-> +    /*
-> +     * @snapshot_error is normally zero. But on first copy-before-write failure
-> +     * when @on_cbw_error == ON_CBW_ERROR_BREAK_SNAPSHOT, @snapshot_error takes
-> +     * value of this error (<0). After that all in-flight and further
-> +     * snaoshot-API requests will fail with that error.
+01.04.2022 13:50, Hanna Reitz wrote:
+> On 01.04.22 11:19, Vladimir Sementsov-Ogievskiy wrote:
+>> We are going to add one more option of enum type. Let's refactor option
+>> parsing so that we can simply work with BlockdevOptionsCbw object.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+>> ---
+>>   block/copy-before-write.c | 68 +++++++++++++++++++++++----------------
+>>   1 file changed, 41 insertions(+), 27 deletions(-)
+>>
+>> diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+>> index a8a06fdc09..394e73b094 100644
+>> --- a/block/copy-before-write.c
+>> +++ b/block/copy-before-write.c
+>> @@ -24,6 +24,7 @@
+>>    */
+>>   #include "qemu/osdep.h"
+>> +#include "qapi/qmp/qjson.h"
+>>   #include "sysemu/block-backend.h"
+>>   #include "qemu/cutils.h"
+>> @@ -328,46 +329,49 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
+>>       }
+>>   }
+>> -static bool cbw_parse_bitmap_option(QDict *options, BdrvDirtyBitmap **bitmap,
+>> -                                    Error **errp)
+>> +static BlockdevOptionsCbw *cbw_parse_options(QDict *options, Error **errp)
+>>   {
+>> -    QDict *bitmap_qdict = NULL;
+>> -    BlockDirtyBitmap *bmp_param = NULL;
+>> +    QDict *cbw_qdict = NULL;
+>> +    BlockdevOptionsCbw *opts = NULL;
+>>       Visitor *v = NULL;
+>> -    bool ret = false;
+>> -    *bitmap = NULL;
+>> +    cbw_qdict = qdict_clone_shallow(options);
+>> -    qdict_extract_subqdict(options, &bitmap_qdict, "bitmap.");
+>> -    if (!qdict_size(bitmap_qdict)) {
+>> -        ret = true;
+>> -        goto out;
+>> -    }
+>> -
+>> -    v = qobject_input_visitor_new_flat_confused(bitmap_qdict, errp);
+>> +    /*
+>> +     * Delete BlockdevOptions base fields, that are not part of
+>> +     * BlockdevOptionsCbw.
+>> +     */
+>> +    qdict_del(cbw_qdict, "driver");
+>> +    qdict_del(cbw_qdict, "node-name");
+>> +    qdict_del(cbw_qdict, "discard");
+>> +    qdict_del(cbw_qdict, "cache");
+>> +    qdict_extract_subqdict(cbw_qdict, NULL, "cache.");
+>> +    qdict_del(cbw_qdict, "read-only");
+>> +    qdict_del(cbw_qdict, "auto-read-only");
+>> +    qdict_del(cbw_qdict, "force-share");
+>> +    qdict_del(cbw_qdict, "detect-zeroes");
+> 
+> Works in practice now, but seems a bit fragile.  If new fields are added to the base class, this will break.  (And I don’t know whether people will think of updating this when new fields are added to the base class.)
+> 
+> Would there be a problem if instead we parsed the full BlockdevOptions object here, asserting that .driver is BLOCKDEV_DRIVER_COPY_BEFORE_WRITE?
 
-*snapshot
+Hmm. Thanks! Yes there is a problem with it,  as some options are already absorbed in bdrv_open_common(). But good news is that the only necessary absorbed option is "driver".
 
-> +     */
-> +    int snapshot_error;
->   } BDRVCopyBeforeWriteState;
->   
->   static coroutine_fn int cbw_co_preadv(
-> @@ -99,11 +108,25 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
->       end = QEMU_ALIGN_UP(offset + bytes, cluster_size);
+So, instead of asserting .driver, we temporary add "driver"="copy-before-write" into options, and then we can natively parse them as BlockdevOptions.
 
-Wouldn’t it make sense to completely cease CBW if snapshot_error is 
-non-zero?  (I.e. always returning 0 here, skipping block_copy().) You 
-can’t read from it anyway anymore.  (Except from below the 
-copy-before-write node, but users shouldn’t be doing this, because they 
-can’t know which areas are valid to read and which aren’t.)
+The following works for me (applied on the top of the series), will merge into v3:
 
->       ret = block_copy(s->bcs, off, end - off, true);
-> -    if (ret < 0) {
-> +    if (ret < 0 && s->on_cbw_error == ON_CBW_ERROR_BREAK_GUEST_WRITE) {
->           return ret;
->       }
->   
->       WITH_QEMU_LOCK_GUARD(&s->lock) {
-> +        if (ret < 0) {
-> +            assert(s->on_cbw_error == ON_CBW_ERROR_BREAK_SNAPSHOT);
-> +            if (!s->snapshot_error) {
-> +                s->snapshot_error = ret;
-> +            }
-> +            /*
-> +             * No need to wait for s->frozen_read_reqs: they will fail anyway,
-> +             * as s->snapshot_error is set.
-> +             *
-> +             * We return 0, as error is handled. Guest operation should be
-> +             * continued.
-> +             */
-> +            return 0;
 
-Hm, OK.  Naively, it looks to me like we could save us this explanation 
-and simplify the code just by unconditionally waiting here (I guess we 
-could skip the wait if snapshot_error was non-zero before) and not 
-checking snapshot_error in cbw_snapshot_read_unlock().  I don’t think 
-not waiting here meaningfully saves time.
 
-> +        }
->           bdrv_set_dirty_bitmap(s->done_bitmap, off, end - off);
->           reqlist_wait_all(&s->frozen_read_reqs, off, end - off, &s->lock);
->       }
-> @@ -176,6 +199,11 @@ static BlockReq *cbw_snapshot_read_lock(BlockDriverState *bs,
->   
->       QEMU_LOCK_GUARD(&s->lock);
->   
-> +    if (s->snapshot_error) {
-> +        g_free(req);
-> +        return NULL;
-> +    }
-> +
->       if (bdrv_dirty_bitmap_next_zero(s->access_bitmap, offset, bytes) != -1) {
->           g_free(req);
->           return NULL;
-> @@ -198,19 +226,26 @@ static BlockReq *cbw_snapshot_read_lock(BlockDriverState *bs,
->       return req;
->   }
->   
-> -static void cbw_snapshot_read_unlock(BlockDriverState *bs, BlockReq *req)
-> +static int cbw_snapshot_read_unlock(BlockDriverState *bs, BlockReq *req)
->   {
->       BDRVCopyBeforeWriteState *s = bs->opaque;
->   
->       if (req->offset == -1 && req->bytes == -1) {
->           g_free(req);
-> -        return;
-> +        /*
-> +         * No real need to read snapshot_error under mutex here: we are actually
-> +         * safe to ignore it and return 0, as this request was to s->target, and
-> +         * can't be influenced by guest write. But if we can new read negative
-> +         * s->snapshot_error let's return it, so that backup failed earlier.
-> +         */
-> +        return s->snapshot_error;
->       }
->   
->       QEMU_LOCK_GUARD(&s->lock);
->   
->       reqlist_remove_req(req);
->       g_free(req);
-> +    return s->snapshot_error;
->   }
->   
->   static coroutine_fn int
-> @@ -219,7 +254,7 @@ cbw_co_preadv_snapshot(BlockDriverState *bs, int64_t offset, int64_t bytes,
->   {
->       BlockReq *req;
->       BdrvChild *file;
-> -    int ret;
-> +    int ret, ret2;
->   
->       /* TODO: upgrade to async loop using AioTask */
->       while (bytes) {
-> @@ -232,10 +267,13 @@ cbw_co_preadv_snapshot(BlockDriverState *bs, int64_t offset, int64_t bytes,
->   
->           ret = bdrv_co_preadv_part(file, offset, cur_bytes,
->                                     qiov, qiov_offset, 0);
-> -        cbw_snapshot_read_unlock(bs, req);
-> +        ret2 = cbw_snapshot_read_unlock(bs, req);
->           if (ret < 0) {
->               return ret;
->           }
-> +        if (ret2 < 0) {
-> +            return ret2;
-> +        }
->   
->           bytes -= cur_bytes;
->           offset += cur_bytes;
-> @@ -253,7 +291,7 @@ cbw_co_snapshot_block_status(BlockDriverState *bs,
->   {
->       BDRVCopyBeforeWriteState *s = bs->opaque;
->       BlockReq *req;
-> -    int ret;
-> +    int ret, ret2;
->       int64_t cur_bytes;
->       BdrvChild *child;
->   
-> @@ -273,7 +311,14 @@ cbw_co_snapshot_block_status(BlockDriverState *bs,
->           assert(ret & BDRV_BLOCK_ALLOCATED);
->       }
->   
-> -    cbw_snapshot_read_unlock(bs, req);
-> +    ret2 = cbw_snapshot_read_unlock(bs, req);
-> +
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +    if (ret2 < 0) {
-> +        return ret2;
-> +    }
->   
->       return ret;
->   }
-> @@ -366,6 +411,7 @@ static BlockdevOptionsCbw *cbw_parse_options(QDict *options, Error **errp)
->        * object for original options.
->        */
->       qdict_extract_subqdict(options, NULL, "bitmap");
-> +    qdict_del(options, "on-cbw-error");
->   
->   out:
->       visit_free(v);
-> @@ -407,6 +453,8 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
->               return -EINVAL;
->           }
->       }
-> +    s->on_cbw_error = opts->has_on_cbw_error ? opts->on_cbw_error :
-> +            ON_CBW_ERROR_BREAK_GUEST_WRITE;
->   
->       bs->total_sectors = bs->file->bs->total_sectors;
->       bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index e89f2dfb5b..3f08025114 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -4162,6 +4162,27 @@
->     'base': 'BlockdevOptionsGenericFormat',
->     'data': { '*bottom': 'str' } }
->   
-> +##
-> +# @OnCbwError:
-> +#
-> +# An enumeration of possible behaviors for copy-before-write operation
-> +# failures.
-> +#
-> +# @break-guest-write: report the error to the guest. This way the state
-> +#                     of copy-before-write process is kept OK and
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index 0ea5506f77..3d6c9fc055 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -375,40 +375,25 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
+      }
+  }
+  
+-static BlockdevOptionsCbw *cbw_parse_options(QDict *options, Error **errp)
++static BlockdevOptions *cbw_parse_options(QDict *options, Error **errp)
+  {
+-    QDict *cbw_qdict = NULL;
+-    BlockdevOptionsCbw *opts = NULL;
++    BlockdevOptions *opts = NULL;
+      Visitor *v = NULL;
+  
+-    cbw_qdict = qdict_clone_shallow(options);
++    qdict_put_str(options, "driver", "copy-before-write");
+  
+-    /*
+-     * Delete BlockdevOptions base fields, that are not part of
+-     * BlockdevOptionsCbw.
+-     */
+-    qdict_del(cbw_qdict, "driver");
+-    qdict_del(cbw_qdict, "node-name");
+-    qdict_del(cbw_qdict, "discard");
+-    qdict_del(cbw_qdict, "cache");
+-    qdict_extract_subqdict(cbw_qdict, NULL, "cache.");
+-    qdict_del(cbw_qdict, "read-only");
+-    qdict_del(cbw_qdict, "auto-read-only");
+-    qdict_del(cbw_qdict, "force-share");
+-    qdict_del(cbw_qdict, "detect-zeroes");
+-
+-    v = qobject_input_visitor_new_flat_confused(cbw_qdict, errp);
++    v = qobject_input_visitor_new_flat_confused(options, errp);
+      if (!v) {
+          goto out;
+      }
+  
+-    visit_type_BlockdevOptionsCbw(v, NULL, &opts, errp);
++    visit_type_BlockdevOptions(v, NULL, &opts, errp);
+      if (!opts) {
+          goto out;
+      }
+  
+      /*
+-     * Delete options which we are going to parse through BlockdevOptionsCbw
++     * Delete options which we are going to parse through BlockdevOptions
+       * object for original options.
+       */
+      qdict_extract_subqdict(options, NULL, "bitmap");
+@@ -417,7 +402,7 @@ static BlockdevOptionsCbw *cbw_parse_options(QDict *options, Error **errp)
+  
+  out:
+      visit_free(v);
+-    qobject_unref(cbw_qdict);
++    qdict_del(options, "driver");
+  
+      return opts;
+  }
+@@ -428,12 +413,14 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+      BDRVCopyBeforeWriteState *s = bs->opaque;
+      BdrvDirtyBitmap *bitmap = NULL;
+      int64_t cluster_size;
+-    g_autoptr(BlockdevOptionsCbw) opts = NULL;
++    g_autoptr(BlockdevOptions) full_opts = NULL;
++    BlockdevOptionsCbw *opts;
+  
+-    opts = cbw_parse_options(options, errp);
+-    if (!opts) {
++    full_opts = cbw_parse_options(options, errp);
++    if (!full_opts) {
+          return -EINVAL;
+      }
++    opts = &full_opts->u.copy_before_write;
+  
+      bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+                                 BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
 
-I’d be more verbose here: “This way, the guest will not be able to 
-overwrite areas that cannot be backed up, so the backup remains valid.”
 
-I like the bluntness of how these two options are named, by the way.  
-That does clearly tell users what they’ll have to expect.
 
-> +#                     copy-before-write filter continues to work normally.
-> +#
-> +# @break-snapshot: continue guest write. Since this, the snapshot state
-> +#                  provided by copy-before-write filter becomes broken.
-
-Maybe “Doing so will invalidate the backup snapshot”?
-
-> +#                  So, all in-flight and all further snapshot-access
-> +#                  operations (through snapshot-access block driver)
-> +#                  will fail.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'enum': 'OnCbwError',
-> +  'data': [ 'break-guest-write', 'break-snapshot' ] }
-> +
->   ##
->   # @BlockdevOptionsCbw:
->   #
-> @@ -4183,11 +4204,15 @@
->   #          modifications (or removing) of specified bitmap doesn't
->   #          influence the filter. (Since 7.0)
->   #
-> +# @on-cbw-error: Behavior on failure of copy-before-write operation.
-> +#                Default is @break-guest-write. (Since 7.0)
-
-*7.1
-
-> +#
->   # Since: 6.2
->   ##
->   { 'struct': 'BlockdevOptionsCbw',
->     'base': 'BlockdevOptionsGenericFormat',
-> -  'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap' } }
-> +  'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap',
-> +            '*on-cbw-error': 'OnCbwError' } }
->   
->   ##
->   # @BlockdevOptions:
-
+-- 
+Best regards,
+Vladimir
 
