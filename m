@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F5B4EFA55
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 21:17:53 +0200 (CEST)
-Received: from localhost ([::1]:44976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8673C4EFA77
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 21:38:18 +0200 (CEST)
+Received: from localhost ([::1]:50612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naMmN-0008Bj-OD
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 15:17:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37920)
+	id 1naN68-0005Df-QE
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 15:38:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naMlS-0007Tw-PF
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 15:16:54 -0400
-Received: from [2a00:1450:4864:20::636] (port=46711
- helo=mail-ej1-x636.google.com)
+ id 1naN55-00043M-A0
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 15:37:11 -0400
+Received: from [2a00:1450:4864:20::62a] (port=38400
+ helo=mail-ej1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naMlR-0002OC-3Q
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 15:16:54 -0400
-Received: by mail-ej1-x636.google.com with SMTP id c10so7726983ejs.13
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 12:16:52 -0700 (PDT)
+ id 1naN53-0005IT-Q5
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 15:37:10 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id r13so7944681ejd.5
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 12:37:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8FLRianXdp3B5fs6ZYVe/Zkfg2KCdYELJRVpOeN6hs0=;
- b=xBwIJXiGGBdUD5Ngmg6A52KEpfqn2mxFIO1mZsPgEE7IPIBz3Kxz2lQmhdrpINYefS
- O5N1yp5ZK8r/N+0aSMjbEM6ZWmyYSrTOA8FDhxQ4leo1Hixux3cZDEGZOrFs7UhxAeAk
- Xy+yEKfWVtOl4w7RvSwPNus+dHENnPxj8RitPX9g11fQFUrL3p90/+C+j53cJ8zQiuLt
- VtYk1O2cBP0GOYEEyPMSYpoMTJyty0CEayJ6PmzUtcnIXKxPvdSL3bfMXbHdbo02PhIZ
- CG4+BzbcS/AyIyG4d4RqvBotB7R+OuHg01a7KSns7esX/n/j3wt2mtXEEIpC1wSuv13q
- 3MfA==
+ bh=HH89zNDS/X/fLmLBuFxyjUMGXFM38PgAoiJxhKCSmAg=;
+ b=mXskzBr4oJo1rioEY3MuJcMS5s9DS3TG+8p9xM9uUf19y1liwfjES/xIVv3Lw7VSml
+ 5i/FgwE9+ga2kLrdKP3FsGNZl/d3el4GGBXx3f/8b59KF51MXHujGAgP61N0nLdVPgkI
+ aJzQBq4cU0JjNuEv+DU/+fUGX/mScoK4uBtKS2eu4dzEUxSmWz04pK1hJ4mEwuzaSSIi
+ xc451p587kIL09Tcm1bRsaihxWe6OF2bA/N7z9lm7N4wEKpFB1ZCUPiGBXJDAG9CHP7o
+ +0jtNg4/I8Y4HtEk2aYezu5GfaFOMpjDxXZPNp9dDBfxcLlNm8PEu0BacqS9vzxkWmG3
+ rVsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8FLRianXdp3B5fs6ZYVe/Zkfg2KCdYELJRVpOeN6hs0=;
- b=ZHRT99NRLM7YIZo2QCrbMqCYm+mZoth+Mz8Iypraf9E9tZ8c5Adfkc3yMc8Vtdq0+B
- iRBrBKMyfHyftZ6T6LvChXjpfdslFRPEmCMIiBWG9CgylPxje5wM1gQOyCNLQ5dRTcuK
- Ta2HVZJhqSwGf9zE7VCx6hxXV6GrzbT0PQ6WhMVUGMX/vonKKhEMNBYKiA/d32H+HUtG
- PuyOo4TietcLGMOJK1L1mz3ODOiGdVrELKpL+jDzmmpgcRnEUQYKeW6OBnOK20Pb7G0Q
- 5vWDzceraapcIga/HEPGpeUhJCtcTTiLLU6vW1BUJ25JoKfdf31suoG+ugaWV7oaT6WZ
- 6pFQ==
-X-Gm-Message-State: AOAM533ZqOSVY2OioAOlfDN5N7kdEnJJhG8CbRIPXTh84dJ/TOnmc4xb
- 2kWO2a+xvfNr8JXJ2602oUcvj/6IKb0RM9UlsYA=
-X-Google-Smtp-Source: ABdhPJzotVr/MvOXW80KP/CRGyO28oVsho+Mtby32Ppw77/Ti7UntQ3yEjtnc7vHo5vs6ETZu7st4Q==
-X-Received: by 2002:a17:907:3e12:b0:6da:f8d9:efeb with SMTP id
- hp18-20020a1709073e1200b006daf8d9efebmr1104756ejc.634.1648840611420; 
- Fri, 01 Apr 2022 12:16:51 -0700 (PDT)
+ bh=HH89zNDS/X/fLmLBuFxyjUMGXFM38PgAoiJxhKCSmAg=;
+ b=0/hWztkt2p0Hq1c7hDq/99ufRuVaHEWUFmMdUTlOyt/UZo6b92OsMrYl9+bua2R02z
+ //bm3o1kR9cCfKsDA/EoKb1Y2xFC/XEhTD2ks+wzHBbQOIX7rpmH5ZRRi8mxC5DLAFNa
+ Qkw1STqqC8gWksKY9on5TI8FPQ2hi+WieBomGBXUK9wWgYuzp5j9I2EXxKfH0xTMLte1
+ GtlucTIIbDwJfoDSoNxCgTDY97bsoI895WGWU/+9wGlZPbAanQ3EcIrY2R/G7S8c3pHy
+ Wv5NzVZgdOVcA2KFp48mdXQfEl8F42gu+2ELff26hKJewU2mzjTLAbCKsAoCatUaslGA
+ 2IJA==
+X-Gm-Message-State: AOAM532ikL8VcBijf9qAE9jtx2YLT3hEWG1yu6L6QZ1/b865oMX78ylU
+ VHZyY9JYF41ZaaFg+wvBpUwG9GP3mq9/8NanJk0=
+X-Google-Smtp-Source: ABdhPJxItG+wvW4YVLm3qq0QHZWi70jstoDSeav/Cz6bNsmXzHyHXHDuhZ1ccPCO5wgYAxaGnCXRuA==
+X-Received: by 2002:a17:906:9c83:b0:6df:839a:a6d0 with SMTP id
+ fj3-20020a1709069c8300b006df839aa6d0mr1126944ejc.419.1648841828128; 
+ Fri, 01 Apr 2022 12:37:08 -0700 (PDT)
 Received: from localhost.localdomain ([185.81.138.17])
  by smtp.gmail.com with ESMTPSA id
- h7-20020a50cf87000000b0041b7bd52e1fsm1568249edk.78.2022.04.01.12.16.47
+ n25-20020aa7db59000000b00415965e9727sm1539987edt.18.2022.04.01.12.37.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 12:16:50 -0700 (PDT)
+ Fri, 01 Apr 2022 12:37:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user/ppc: Narrow type of ccr in save_user_regs
-Date: Fri,  1 Apr 2022 13:16:43 -0600
-Message-Id: <20220401191643.330393-1-richard.henderson@linaro.org>
+Subject: [PATCH] target/s390x: Fix the accumulation of ccm in op_icm
+Date: Fri,  1 Apr 2022 13:36:59 -0600
+Message-Id: <20220401193659.332079-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,35 +86,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, thuth@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity warns that we shift a 32-bit value by N, and then
-accumulate it into a 64-bit type (target_ulong on ppc64).
+Coverity rightly reports that 0xff << pos can overflow.
+This would affect the ICMH instruction.
 
-The ccr is always 8 * 4-bit fields, and thus is always a
-32-bit quantity; narrow the type to avoid the warning.
-
-Fixes: Coverity CID 1487223
+Fixes: Coverity CID 1487161
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/ppc/signal.c | 2 +-
+ target/s390x/tcg/translate.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
-index ec0b9c0df3..ce5a4682cd 100644
---- a/linux-user/ppc/signal.c
-+++ b/linux-user/ppc/signal.c
-@@ -229,7 +229,7 @@ static void save_user_regs(CPUPPCState *env, struct target_mcontext *frame)
- {
-     target_ulong msr = env->msr;
-     int i;
--    target_ulong ccr = 0;
-+    uint32_t ccr = 0;
- 
-     /* In general, the kernel attempts to be intelligent about what it
-        needs to save for Altivec/FP/SPE registers.  We don't care that
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 5acfc0ff9b..ea7baf0832 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -2622,7 +2622,7 @@ static DisasJumpType op_icm(DisasContext *s, DisasOps *o)
+                 tcg_gen_qemu_ld8u(tmp, o->in2, get_mem_index(s));
+                 tcg_gen_addi_i64(o->in2, o->in2, 1);
+                 tcg_gen_deposit_i64(o->out, o->out, tmp, pos, 8);
+-                ccm |= 0xff << pos;
++                ccm |= 0xffull << pos;
+             }
+             m3 = (m3 << 1) & 0xf;
+             pos -= 8;
 -- 
 2.25.1
 
