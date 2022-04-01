@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952FB4EEF47
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 16:24:00 +0200 (CEST)
-Received: from localhost ([::1]:50090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44E384EEF1F
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 16:18:40 +0200 (CEST)
+Received: from localhost ([::1]:35226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naIBz-00055V-Le
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 10:23:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34832)
+	id 1naI6l-0003Sd-9o
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 10:18:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naI22-0003Tu-Ir
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:42 -0400
-Received: from [2a00:1450:4864:20::52d] (port=42569
- helo=mail-ed1-x52d.google.com)
+ id 1naI23-0003Wq-Fa
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:43 -0400
+Received: from [2a00:1450:4864:20::531] (port=33385
+ helo=mail-ed1-x531.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naI21-0006cV-2f
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:42 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id a17so3098853edm.9
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 07:13:40 -0700 (PDT)
+ id 1naI21-0006cn-UT
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:43 -0400
+Received: by mail-ed1-x531.google.com with SMTP id r23so3183554edb.0
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 07:13:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e5AGSJdgprGKZ/4CwUnR3jujV6g/OQzrNz4HqHgggK4=;
- b=B4v7mJWHSxK95KDv8b6oUSMsyiUz5uqkCooHEzlV8MsacpqdxkjxjeEB490kGX5GOP
- gghNxUk5S3fGIBhvr+HnbVpr0T2bchQBddEW/oGkB71j2KhxxM4jnW3W/u/EneKuDD8/
- 3B7RzzzovBxTzB0w50CO7n+ph6cNaqwTlbUkU9d//9PuKDN4p+5sEcSESNpIR7O6EavO
- iO1QIXOC/bmlZRmT7a8Ryk4HcdSheKHT3b7PJg4+515Ur51CaGrJGoLQrv+99+D7hoNG
- yss6NzHLzWvyM1tFUb20YJPFySkCppbNYcMldLe7Pj7N0HPAoRpcghuTxFCvikIZ2Sl8
- 0vlw==
+ bh=TGCoHf+X9Hr53C9PpVImrayZCSq2g9oom+Gz5PIhxX4=;
+ b=GI3yjgsQLWeFvca3LywLx51U4db4s27LP7mQr1HOzalWMfUejY7jtB5DhTKlT6TLuC
+ vOvoLf6u3Vo0O4k1enmyuryaL9y8Yitta8je+l/+dDEJEvKLU8WhRUl97zTSEYX8f6Q7
+ cmnKmqUGgrMfjZc774QkO9HUeNafri3EOKowuHHPDb3SWiHDXQxBotkKVWUNQ2gDJokI
+ dHDMVfvpM17jxiD1opOkFr7BWSR0Nps43sLVu2O2VFEqkACmJ3KUjCDY/gh8xTquMXyc
+ ScdUJISLSjR+fXtVtFhBZEwq9xwZMV/vmpQUAchbgCxd+cPcfvhPWSsiMvyjYRPHFcRQ
+ PdPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=e5AGSJdgprGKZ/4CwUnR3jujV6g/OQzrNz4HqHgggK4=;
- b=Y2w84tYbCHE/8wYyQy7W1heXqLLdkRW+Lz/ylX4wHG/1S1+81WwsxTNz7iR6glPjtK
- xEmDFvcmL4OsOysykkZJ3ku2RLPAhlL6T2v6aXCYQG8PTM7OPDWBRCZetWL666YifAEM
- OjPN9mW/m28usNdRe2AP0C1j5NgMKHYYzehr0Yccou7wTUpgpzQguOBosaBXYw4gSCcj
- 3qv9t19GyBnC40WZzMHZVgfWSTtpvMXrFwT/dWr5xAduKAVwx3lqxHmJ759Os5KCxzdE
- Tn1nxFNFapEJAfbVOEGgxNbQJ2hf7w3UbOKT40r8VYAKSPIVwYDHbURe4/DFjwMUf1FS
- Vn4Q==
-X-Gm-Message-State: AOAM530L5NomVwUx/Bgd27rHSZJcsKeb27lRBz0mw0zPFb2lZm4uUu8F
- IfPJLT30qtXxuFsqR8YPuilVFPQNKng=
-X-Google-Smtp-Source: ABdhPJysX9lXPfF0WS+v82i8jAboCMk/nMabtPyQg4IUKdZRy9Kz18jMNqyFRCfVxfR4i1y1uVXdiA==
-X-Received: by 2002:a05:6402:2794:b0:419:2ed8:f36e with SMTP id
- b20-20020a056402279400b004192ed8f36emr21430626ede.44.1648822419838; 
- Fri, 01 Apr 2022 07:13:39 -0700 (PDT)
+ bh=TGCoHf+X9Hr53C9PpVImrayZCSq2g9oom+Gz5PIhxX4=;
+ b=DvVBr+/ECYAqW6VbsLTK6HiZxb/O2loMl5C9PmcQpLWgDRMb70gZLV0AHh07kyXa84
+ sdQBKV3As6FYXMIHSndqjTY17yzDIN4rK44Ji9h9xSsqmWjiDdTLIPieLc1ZAPWCTHmx
+ fzlTKX5mls5ncwqj3Apgi6Qn5PnvZob2y8NbZaLQfrmSvkSVVV35rsZm7qVUkX0X49f/
+ Bl6j70cjvaDCthtnkGIos4D7t+G768eTv+Orrm6+ZYd4jJ902jqMusREFp1Za1wxTH6D
+ CMJt9VOLrC/gdGKsKBbc+Sk082yd+EiUAh8XllI7kvfiGGDM82/MSm2wYK01ZHPQYz00
+ HliQ==
+X-Gm-Message-State: AOAM531E0g5oalpnqxlSVoo6Kya1DTJtXHP8nHNKJLQHHAZsdrKpX/z6
+ LLo/yNSWTXccOt6TUKPFRt5w84xV5+w=
+X-Google-Smtp-Source: ABdhPJxsFl+n3f0x93mFdKaklzqPOrDO8H2XuBcvnIUC92F4bJL4hWuhVMlQMMScKo40gVJupEeE1A==
+X-Received: by 2002:a50:d90f:0:b0:418:8a5a:14b2 with SMTP id
+ t15-20020a50d90f000000b004188a5a14b2mr21062745edj.241.1648822420622; 
+ Fri, 01 Apr 2022 07:13:40 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
  bn3-20020a170906c0c300b006e50416e24bsm212595ejb.98.2022.04.01.07.13.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 07:13:39 -0700 (PDT)
+ Fri, 01 Apr 2022 07:13:40 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/17] tests/docker: simplify docker-TEST@IMAGE targets
-Date: Fri,  1 Apr 2022 16:13:16 +0200
-Message-Id: <20220401141326.1244422-8-pbonzini@redhat.com>
+Subject: [PATCH 08/17] tests/docker: do not duplicate rules for hexagon-cross
+Date: Fri,  1 Apr 2022 16:13:17 +0200
+Message-Id: <20220401141326.1244422-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220401141326.1244422-1-pbonzini@redhat.com>
 References: <20220401141326.1244422-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -93,53 +93,65 @@ Cc: richard.henderson@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No need to go through the shell when we already have the test and images at
-the point where the targets are declared.
+The commands for docker-image-debian-hexagon-cross are the same as those
+in debian-toolchain-run, just with a nonstandard path to build-toolchain.sh.
+Reuse the definition by renaming the debian-hexagon-cross.docker.d directory.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220328140240.40798-8-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/docker/Makefile.include | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ tests/docker/Makefile.include                 | 26 +++----------------
+ .../build-toolchain.sh                        |  0
+ 2 files changed, 4 insertions(+), 22 deletions(-)
+ rename tests/docker/dockerfiles/{debian-hexagon-cross.docker.d => debian-hexagon-cross.d}/build-toolchain.sh (100%)
 
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 3b5ebd5567..2a187cb5a2 100644
+index 2a187cb5a2..eb100c294f 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -204,7 +204,7 @@ DOCKER_TESTS := $(if $(TESTS), $(filter $(TESTS), $(__TESTS)), $(__TESTS))
- $(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)), \
- 	$(foreach t,$(DOCKER_TESTS), \
- 		$(eval .PHONY: docker-$t@$i) \
--		$(eval docker-$t@$i: docker-image-$i docker-run-$t@$i) \
-+		$(eval docker-$t@$i: docker-image-$i; @$(MAKE) docker-run TEST=$t IMAGE=$i) \
- 	) \
- 	$(foreach t,$(DOCKER_TESTS), \
- 		$(eval docker-all-tests: docker-$t@$i) \
-@@ -263,7 +263,7 @@ DOCKER_CCACHE_DIR := $$HOME/.cache/qemu-docker-ccache
+@@ -121,28 +121,6 @@ docker-image-debian11: NOUSER=1
+ # alpine has no adduser
+ docker-image-alpine: NOUSER=1
  
- # This rule if for directly running against an arbitrary docker target.
- # It is called by the expanded docker targets (e.g. make
--# docker-test-foo@bar) which will do additional verification.
-+# docker-test-foo@bar) which will also ensure the image is up to date.
- #
- # For example: make docker-run TEST="test-quick" IMAGE="debian:arm64" EXECUTABLE=./aarch64-linux-user/qemu-aarch64
- #
-@@ -298,14 +298,6 @@ docker-run: docker-qemu-src
- 	$(call quiet-command, rm -r $(DOCKER_SRC_COPY), \
- 		"  CLEANUP $(DOCKER_SRC_COPY)")
- 
--# Run targets:
 -#
--# Of the form docker-TEST-FOO@IMAGE-BAR which will then be expanded into a call to "make docker-run"
--docker-run-%: CMD = $(shell echo '$@' | sed -e 's/docker-run-\([^@]*\)@\(.*\)/\1/')
--docker-run-%: IMAGE = $(shell echo '$@' | sed -e 's/docker-run-\([^@]*\)@\(.*\)/\2/')
--docker-run-%:
--	@$(MAKE) docker-run TEST=$(CMD) IMAGE=qemu/$(IMAGE)
+-# The build rule for hexagon-cross is special in so far for most of
+-# the time we don't want to build it. While dockers caching does avoid
+-# this most of the time sometimes we want to force the issue.
+-#
+-docker-image-debian-hexagon-cross: $(DOCKER_FILES_DIR)/debian-hexagon-cross.docker
+-	$(if $(NOCACHE), 								\
+-		$(call quiet-command,							\
+-			$(DOCKER_SCRIPT) build -t qemu/debian-hexagon-cross -f $< 	\
+-			$(if $V,,--quiet) --no-cache 					\
+-			--registry $(DOCKER_REGISTRY) --extra-files			\
+-			$(DOCKER_FILES_DIR)/debian-hexagon-cross.docker.d/build-toolchain.sh, \
+-			"BUILD", "debian-hexagon-cross"),				\
+-		$(call quiet-command,							\
+-			$(DOCKER_SCRIPT) fetch $(if $V,,--quiet)			\
+-				qemu/debian-hexagon-cross $(DOCKER_REGISTRY),		\
+-			"FETCH", "debian-hexagon-cross")				\
+-		$(call quiet-command,							\
+-			$(DOCKER_SCRIPT) update $(if $V,,--quiet) 			\
+-				qemu/debian-hexagon-cross --add-current-user,		\
+-			"PREPARE", "debian-hexagon-cross"))
 -
- docker-image: ${DOCKER_IMAGES:%=docker-image-%}
+ debian-toolchain-run = \
+ 	$(if $(NOCACHE), 						\
+ 		$(call quiet-command,					\
+@@ -162,6 +140,10 @@ debian-toolchain-run = \
+ 			"PREPARE", $1))
+ debian-toolchain = $(call debian-toolchain-run,$(patsubst docker-image-%,%,$1))
  
- docker-clean:
++docker-image-debian-hexagon-cross: $(DOCKER_FILES_DIR)/debian-hexagon-cross.docker \
++	$(DOCKER_FILES_DIR)/debian-hexagon-cross.d/build-toolchain.sh
++	$(call debian-toolchain, $@)
++
+ docker-image-debian-microblaze-cross: $(DOCKER_FILES_DIR)/debian-toolchain.docker \
+     $(DOCKER_FILES_DIR)/debian-microblaze-cross.d/build-toolchain.sh
+ 	$(call debian-toolchain, $@)
+diff --git a/tests/docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh b/tests/docker/dockerfiles/debian-hexagon-cross.d/build-toolchain.sh
+similarity index 100%
+rename from tests/docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh
+rename to tests/docker/dockerfiles/debian-hexagon-cross.d/build-toolchain.sh
 -- 
 2.35.1
 
