@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13FC4EF3E9
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:28:26 +0200 (CEST)
-Received: from localhost ([::1]:54090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9F04EF5D3
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:48:03 +0200 (CEST)
+Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naJCL-0001BX-S6
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:28:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51466)
+	id 1naJVK-0006bs-Kg
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:48:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1naJ9p-0004t8-Cj
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:25:49 -0400
-Received: from mga11.intel.com ([192.55.52.93]:22062)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1naJ9m-0001KR-Iy
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:25:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648826746; x=1680362746;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=fsm5U/gVnzY5Tx66fpSH3+fXiZ4i6sV/xlidLgQ60UY=;
- b=MnU1iUFxcoxoZrpg6rfa13kSrx5+hJCQeKFOhCgFDwRXiPMgUcGaKUKV
- JmovQBsNxbWNDEvTQ12RiUMtt7rivoF0cDki85Kvv9PQKzc9anV3CDupq
- 86rHYKcRy+XaxubQ953adFoUSWi8ai5/HcLwCuiijKhJCdYtIP3KQhzKp
- 5tuX5LrK/zKKrNfynz5NiJxTF/VpXl8Ql1f+8VYaQM3VBHG27lF9MZH3B
- b2lpiItG/4EQLQaH1hIbl6yjzp3mt0+cr2iadjc5vmrC3NEH0yZYRCVDK
- K/x1dH95Or27MblnYiK5qm6NkRGRYziK4ePxCM+MF6yLL4KBthIcwcbz7 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10304"; a="257740750"
-X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; d="scan'208";a="257740750"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 08:25:42 -0700
-X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; d="scan'208";a="567568447"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.171.24])
- ([10.249.171.24])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 08:25:40 -0700
-Message-ID: <da1a4362-5402-154b-088d-b4d7c3b523d9@intel.com>
-Date: Fri, 1 Apr 2022 23:25:37 +0800
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1naJU7-0005po-H6
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:46:47 -0400
+Received: from [2a00:1450:4864:20::633] (port=34312
+ helo=mail-ej1-x633.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1naJU6-0004cO-0K
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:46:47 -0400
+Received: by mail-ej1-x633.google.com with SMTP id o10so6751834ejd.1
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 08:46:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ZjK8GXFWI7sN6kR+P+TjF9qjtKKdk403LI8KucixW2w=;
+ b=HRIh9yGScXMnikfVR1Y6otsBJ+4vt2s/etMPIUHwG4IeW28ag4WbMbtC7k+R/oEgkZ
+ hBTi4JbL8DAlzINbvYseowXI6Ngr10Kk1M7IJ00Zxp7omMkmSgAXFo2e/AQh9vabkqJn
+ ELXoU5GEk8DT+xkjH0kcecYCN5wSLi9XBGZ44aphBPoY+jvt18PtEgGVVVivbo/8Hj7b
+ AWrVab0R+NBaWumtHPdoKg7aqFabITa65Uy6wNArflk8OlkUUNQaW80x2WaJOl81tv4+
+ AUYewJlONhEhqlwgKX7QFbX7a+ZTbyGpJ3qoDjCykYkvcSWcs2kY7mhQnX4X5rH8S6SQ
+ WLuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ZjK8GXFWI7sN6kR+P+TjF9qjtKKdk403LI8KucixW2w=;
+ b=oeaPr365f8E39qJtlP2hHebjZSmNpCCMT/Rw+n1Z/I8j0Jjbqb3XEOR+SbiVfyt+Et
+ bTlcmIex67Ez+zZEsxuNUDLPxRmutn8xQakHioFfKQjy6Rjy6LO41iNJuiR5+DAZvM8f
+ /nxtbe0u+keymE/lUPg/Tq4noFdsX9cDCrFZyFYCYPFJq4aMHTSn2ZzNkGqgiMNBxT5P
+ VVD1V6YKMKQsZx+VciJJ+YbpBnUeFpISrv0ndijJEthechVtoGXvrtuE5lTYzQZgYVAh
+ +M8Wk7Zau85vGqsvc3mTYi28gngvk5MHwMWSs8EgbA3fMPO6l+b83OxAfFZYUOZpR02p
+ NiYg==
+X-Gm-Message-State: AOAM530UFFcPn6E7pApo0S4w8MsjLHxdzHMm9Pig0bMwUAFzCRmD4gz7
+ W13swWLNl/cSim2Qbnoe6L4=
+X-Google-Smtp-Source: ABdhPJxFvgrcVOa9LfLGI1XLE9xjMBFZRkjWVbYRfcsUoS7dRG7zPYLBwQtsZHwOkB+QZ7cd0q9zvA==
+X-Received: by 2002:a17:907:d05:b0:6e4:49ac:9b26 with SMTP id
+ gn5-20020a1709070d0500b006e449ac9b26mr357467ejc.133.1648828004006; 
+ Fri, 01 Apr 2022 08:46:44 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ l2-20020a1709060cc200b006d3d91e88c7sm1149767ejh.214.2022.04.01.08.46.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Apr 2022 08:46:43 -0700 (PDT)
+Message-ID: <33548764-9f91-b4df-c2b6-b897713d56fd@redhat.com>
+Date: Fri, 1 Apr 2022 17:46:39 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [PATCH 2/3] i386: factor out x86_firmware_configure()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: use of uninitialized variable involving visit_type_uint32() and
+ friends
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20220331083549.749566-1-kraxel@redhat.com>
- <20220331083549.749566-3-kraxel@redhat.com>
- <73f3b878-1b3d-c292-d124-410a20acfa62@gmail.com>
- <20220401050818.hbj4qkebwggvc6x3@sirius.home.kraxel.org>
- <af45db70-0d65-a4f2-89da-2bd86dfab5a8@intel.com>
- <86f9c4c9-1b7f-7c55-3379-cb93c4456f29@gmail.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <86f9c4c9-1b7f-7c55-3379-cb93c4456f29@gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+References: <CAFEAcA-wExOSiuJ5F6nBwWXcWW2c1rqHCfT=JNrdWQ4baqu3Og@mail.gmail.com>
+ <CABgObfbu3MK6SCNGOFGGHWO72e3dYygUybgyavALKq5_pnWK0A@mail.gmail.com>
+ <87y20p88qq.fsf@pond.sub.org>
+ <e17c3f3b-000f-4bab-1e3a-2adbafbcdcbb@redhat.com>
+ <875ynt54pk.fsf@pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <875ynt54pk.fsf@pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=xiaoyao.li@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,58 +100,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/2022 6:36 PM, Philippe Mathieu-Daudé wrote:
-> On 1/4/22 07:28, Xiaoyao Li wrote:
->> On 4/1/2022 1:08 PM, Gerd Hoffmann wrote:
->>>>>                if (sev_enabled()) {
->>>>
->>>>                      ^^^
->>>
->>>> Can we remove the SEV check ...
->>>
->>>>> +    pc_system_parse_ovmf_flash(ptr, size);
->>>>> +
->>>>> +    if (sev_enabled()) {
->>>>
->>>> ... because we are still checking SEV here.
->>>
->>> Well, the two checks have slightly different purposes.  The first check
->>> will probably become "if (sev || tdx)" soon, 
+On 4/1/22 15:11, Markus Armbruster wrote:
+>> If it can do really serious interprocedural analysis, it _might_ be able
+>> to see through the visitor constructor and know that the "value = *obj"
+>> is not initialized (e.g. "all callers of object_property_set use an
+>> input visitor").  I doubt that honestly, but a man can dream.
+> 
+> I'm wary of arguments based on "a sufficiently smart compiler can"...
+
+Absolutely.
+
+>> Because it communicates what the caller expects: "I have left this
+>> uninitialized because I expect my "v" argument to be the kind of visitor
+>> that fills it in".  It's this argument that gives me the confidence
+>> needed to shut up Coverity's false positives.
 >>
->> Not soon for TDX since the hacky pflash interface to load TDVF is 
->> rejected.
+>> Embedding the visitor type in the signature makes it impossible not to
+>> pass it, unlike e.g. an assertion in every getter or setter.
 > 
-> You can still convince us you need a pflash for TDX, and particularly
-> "a pflash that doesn't behave like pflash". 
-
-I'm fine with "-bios" option to load TDVF. :)
-
-> Also, see the comment in
-> the next patch of this series:
+> I think we got two kinds of code calling visitor methods:
 > 
-> +         * [...] there is no need to register
-> +         * the firmware as rom to properly re-initialize on reset.
-> +         * Just go for a straight file load instead.
-> +         */
-
-Yes, Gerd's this series make it easier for TDX to load TDVF via -bios.
-
->>> whereas the second will
->>> become "if (sev) { ... } if (tdx) { ... }".
->>>
->>> We could remove the first.  pc_system_parse_ovmf_flash() would run
->>> unconditionally then.  Not needed, but should not have any bad side
->>> effects.
+> 1. Code for use with one kind of visitor only
 > 
-> OK, then:
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>     We get to pass a literal argument to the additional parameter you
+>     propose.
 > 
+> 2. Code for use with arbitrary visitors (such as qapi-visit*.c)
 > 
+>     We need to pass v->type, where @v is the existing visitor argument.
+>     Except we can't: struct Visitor and VisitorType are private, defined
+>     in <visitor-impl.h>.  Easy enough to work around, but has a distinct
+>     "this design is falling apart" smell, at least to me.
 
+Hmm, maybe that's a feature though.  If we only need v->type in .c files 
+for the generated visit_type_* functions, then it's not a huge deal that 
+they will have to include <visitor-impl.h>.  All callers outside 
+generated type visitors (which includes for example QMP command 
+marshaling), instead, would _have_ to pass visitor type constants and 
+make it clear what direction the visit is going.
+
+> Note that "intent explicit in every method call" is sufficient, but not
+> necessary for "intent is locally explicit, which lets us dismiss false
+> positives with confidence".  We could do "every function that calls
+> methods".  Like checking a precondition.  We already have
+> visit_is_input().  We could have visit_is_output().
+> 
+> The sane way to make output intent explicit is of course passing the
+> thing by value rather than by reference.  To get that, we could generate
+> even more code.  So, if the amount of code we currently generate isn't
+> disgusting enough, ...
+
+Yeah, that would be ugly.  Or, we could generate the same code plus some 
+static inline wrappers that take a
+
+   struct InputVisitor {
+       Visitor dont_use_me_it_hurts;
+   }
+   struct OutputVisitor {
+       Visitor dont_use_me_it_hurts;
+   }
+
+That would be zero-cost abstraction at runtime.
+
+Paolo
 
