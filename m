@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0A84EEE07
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:24:44 +0200 (CEST)
-Received: from localhost ([::1]:52218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F414EEE18
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:27:54 +0200 (CEST)
+Received: from localhost ([::1]:58360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naHGd-00012r-5l
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:24:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51904)
+	id 1naHJh-0005f9-Qx
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:27:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naHEl-0007gR-BA
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:47 -0400
-Received: from [2607:f8b0:4864:20::229] (port=34798
- helo=mail-oi1-x229.google.com)
+ id 1naHEm-0007j2-FP
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:48 -0400
+Received: from [2607:f8b0:4864:20::234] (port=35446
+ helo=mail-oi1-x234.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naHEj-0006xt-PW
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:46 -0400
-Received: by mail-oi1-x229.google.com with SMTP id v75so2817800oie.1
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:22:45 -0700 (PDT)
+ id 1naHEk-0006y4-SH
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:48 -0400
+Received: by mail-oi1-x234.google.com with SMTP id e4so2806717oif.2
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:22:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=K5QsF/Me1sMjqXAPM+MvX4EF+gM2USL9xlcban/HSlc=;
- b=O8DulEcYqp/vrodFX0dZNxQyXLKQNC3uhWIgvYWxhPhUFY+jeCk5n72x51p+RvPY1V
- b2EznYySCa+4DHgNr2jtHeU6VKrBlDMHtHkzkSSYqaem0djOptH3xm1igY21GkeeGy3K
- F72VuuyXQU4M7GTkX/paTMk1LP51Zq3jc+itWzgi2VEo4yIoNlGJyGmQGLjgAIbmBU3V
- WUSgfrtmwXZr5xecAYXVVUDllgShxuNez8wOXFuXzEuHSju5Jga64zJi0gZOc8jmUcv2
- wwbpsy4k0jb26IGdZuozn2w8+deN468t7sG/0I65EynGKgG/mzEVHBXmVcdz9B/3j3CC
- JB4w==
+ bh=hR2ubnJbTaR/99ZxIVHKnu/SsnV6lFaufZKu6ufkBwc=;
+ b=w53LLeTF/FjRLW8+OQPpqfYzRL4IsXbrnAppHQqmTr58ljRXUzFJjNBIKk7yU7acfS
+ UQlVKxNVPDlde2zCz33ZGZesUVoH5kRRsKl6KJXpiNAB02qE36gqEU/+gOg6310gF8lK
+ lcxDp5iervWv3jzMnfjnTex6gPWo/jxqi4o0b+Tj/pyqocOaRMhR0NWvmivG/73mPLco
+ 6W+lY28zN3u/GepK6JDtnowwkEzOHS2oUqOdBwD1WwA5nCgeFCMaoBQk9Nxvi8ixTRDL
+ r8NJL7hyHRRMEifzo1DnF+bX9OgNguR3dAee9k5a1dRX24EGwfYikNqx2EeNHAIi8B+j
+ MCPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=K5QsF/Me1sMjqXAPM+MvX4EF+gM2USL9xlcban/HSlc=;
- b=q+PVisMPHzZ0lF0+MzR+MZJeadnazf29wNgGf54sFSSyy2AJTBzgmVT64xbrY77LEB
- NwQ7l0ZZtHiD2n05EKJXW1m9jaNe9TYse2c+Nv4r5HRop2wXi8y/wejVQhLRm5HtJkqG
- YGjqAoAWIVKcEXZfxKyJ6nx2GjEzHADcinfaSj2gB3oIn4jOlOwyqQ/rw9ksNIdAhcY6
- 7HPAO+hc9ujodYnxn0aYHRPn6sTeqexMbFX4mrCdrRLrEyKPVMEBfagB6BAt4vF1f+1a
- jxPEaKj01z/yxPwXu0UdTjjE5nNKMfK3OGal65Ay/3T++BH/hX9vNOYytrT2fNWSndLA
- 1B7g==
-X-Gm-Message-State: AOAM530wqkIv6qv9rCrP/9vguJP9iuzQe/DA6AtKs3ep99zBfSnzSnTB
- qOPXcExTII4ADcpDShYHyzDTBZIMn3RoG5npCAY=
-X-Google-Smtp-Source: ABdhPJx0pgWrWK4Rs9Fwz6UnLfwP1231FNLIOj045W9CGYrlxuQmGjt47c3kFg1oi2pR1jTJsTcMdQ==
-X-Received: by 2002:aca:f288:0:b0:2f4:6cb:4c84 with SMTP id
- q130-20020acaf288000000b002f406cb4c84mr4506901oih.185.1648819364748; 
- Fri, 01 Apr 2022 06:22:44 -0700 (PDT)
+ bh=hR2ubnJbTaR/99ZxIVHKnu/SsnV6lFaufZKu6ufkBwc=;
+ b=6QB1yktLq+tDjiGov4Xx16JWVxAdfoh1+mqcxoiWQMzxfk7ljl2hdXPe2KjQsdisjO
+ S+MgEY9wBuflVAkI2m2/cNecr8eEf9T6rUrRnKau3nSny7Q88qOGCL/hnkSzIQ0nTRtL
+ MT64krpE/1MzBaBLsOUxvzI+aZW7M8AeSeyufgsjiWOmYVS1Wjh0juNbZlM55yLM9Pwd
+ A5EVjG2z1FirDj0Awu7zZ6Txjc9m0b+3TrhqTClWCPXTy3ioercQ4mixDLihMyiUopms
+ 8q7/fXGl+zQzHGaiCbQ+O0ZYOMHdXDUo4kLaHKuMPuhWoYWEft9Qf2y0AAQKtT2JBN5j
+ MBCA==
+X-Gm-Message-State: AOAM533GMk5o/C4GJQSfKNeSqVd4C1XzVGdmqJtBttcB95uFzzXMrgJg
+ wjhpYYFUXsOVBcBbcSVypRPr3pDmhFJGX5bE4+8=
+X-Google-Smtp-Source: ABdhPJx5LDoGhaqWtiRG4w62I1vrz7AE998Iurl9Fd4bJ2vSClBD5/JtKSscfKIFJJnW1/w7BH3gvQ==
+X-Received: by 2002:a05:6808:1294:b0:2f7:5e83:f0f with SMTP id
+ a20-20020a056808129400b002f75e830f0fmr4948992oiw.77.1648819365818; 
+ Fri, 01 Apr 2022 06:22:45 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-188-190-73.totalplay.net.
  [187.188.190.73]) by smtp.gmail.com with ESMTPSA id
- x1-20020a4ae781000000b00320d5d238efsm1006935oov.3.2022.04.01.06.22.43
+ x1-20020a4ae781000000b00320d5d238efsm1006935oov.3.2022.04.01.06.22.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 06:22:44 -0700 (PDT)
+ Fri, 01 Apr 2022 06:22:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] softfloat: Use FloatRelation within partsN_compare
-Date: Fri,  1 Apr 2022 07:22:39 -0600
-Message-Id: <20220401132240.79730-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/3] softfloat: Use FloatRelation for fracN_cmp
+Date: Fri,  1 Apr 2022 07:22:40 -0600
+Message-Id: <20220401132240.79730-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220401132240.79730-1-richard.henderson@linaro.org>
 References: <20220401132240.79730-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::229
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::234
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x229.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x234.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,42 +92,47 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the return type is FloatRelation, it's clearer to
-use the type for 'cmp' within the function.
+Since the caller, partsN_compare, is now exclusively
+using FloatRelation, it's clearer to use it here too.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat-parts.c.inc | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ fpu/softfloat.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index db3e1f393d..bbeadaa189 100644
---- a/fpu/softfloat-parts.c.inc
-+++ b/fpu/softfloat-parts.c.inc
-@@ -1327,16 +1327,19 @@ static FloatRelation partsN(compare)(FloatPartsN *a, FloatPartsN *b,
-                                      float_status *s, bool is_quiet)
- {
-     int ab_mask = float_cmask(a->cls) | float_cmask(b->cls);
--    int cmp;
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 7e62fcf414..9f2d4e7a29 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -957,21 +957,23 @@ static void frac128_allones(FloatParts128 *a)
  
-     if (likely(ab_mask == float_cmask_normal)) {
-+        FloatRelation cmp;
-+
-         if (a->sign != b->sign) {
-             goto a_sign;
+ #define frac_allones(A)  FRAC_GENERIC_64_128(allones, A)(A)
+ 
+-static int frac64_cmp(FloatParts64 *a, FloatParts64 *b)
++static FloatRelation frac64_cmp(FloatParts64 *a, FloatParts64 *b)
+ {
+-    return a->frac == b->frac ? 0 : a->frac < b->frac ? -1 : 1;
++    return (a->frac == b->frac ? float_relation_equal
++            : a->frac < b->frac ? float_relation_less
++            : float_relation_greater);
+ }
+ 
+-static int frac128_cmp(FloatParts128 *a, FloatParts128 *b)
++static FloatRelation frac128_cmp(FloatParts128 *a, FloatParts128 *b)
+ {
+     uint64_t ta = a->frac_hi, tb = b->frac_hi;
+     if (ta == tb) {
+         ta = a->frac_lo, tb = b->frac_lo;
+         if (ta == tb) {
+-            return 0;
++            return float_relation_equal;
          }
--        if (a->exp != b->exp) {
--            cmp = a->exp < b->exp ? -1 : 1;
--        } else {
-+        if (a->exp == b->exp) {
-             cmp = frac_cmp(a, b);
-+        } else if (a->exp < b->exp) {
-+            cmp = float_relation_less;
-+        } else {
-+            cmp = float_relation_greater;
-         }
-         if (a->sign) {
-             cmp = -cmp;
+     }
+-    return ta < tb ? -1 : 1;
++    return ta < tb ? float_relation_less : float_relation_greater;
+ }
+ 
+ #define frac_cmp(A, B)  FRAC_GENERIC_64_128(cmp, A)(A, B)
 -- 
 2.25.1
 
