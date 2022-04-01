@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D0C34EE9AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 10:22:06 +0200 (CEST)
-Received: from localhost ([::1]:45002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A4F4EE9B0
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 10:22:25 +0200 (CEST)
+Received: from localhost ([::1]:46332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naCXl-0001E0-0Q
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 04:22:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46180)
+	id 1naCY4-000287-43
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 04:22:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1naCKG-0004so-TV
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 04:08:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49035)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1naCLF-0006nM-An
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 04:09:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1naCKE-0005LE-ET
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 04:08:07 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1naCLD-0005Nt-KP
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 04:09:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648800485;
+ s=mimecast20190719; t=1648800547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=OF9qc1B4ftcfm8m1hcHNJ5Z0J7KB7BFltscwFu77QT4=;
- b=J35kfZkM3GGrFhMrWd5xupUyMrB7wuWB9+PpoOQIf1rGHtTn1jAnL1MUlUV07qMlOLyIfV
- ehAXaGpLzurqRNcsiM/jvgAV8cKIaE/8oIepr9MtQQDakLzeBbqmZyhtpBRlSxrQgBrLn0
- a+ztejOrY158VCEHjlkoMEhXTcHYBkg=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wY9khiadRxIS+M88ZvzJ/FlavRs0ZBoU+I0LjMuox6k=;
+ b=W+sPrz1OaCBgDAtGY9lHYChaPptY7r9FgLLXiwohIIlGUCYoNbAdX8sLvU3zlpr8lA0XO0
+ iqycUqOXPa+EqufQaNzp/eUkZnyJ/LusEpnfAJ80oZcQvFymHO/j5DWfWL0zX/V9y/I7yh
+ 4Rn/lYwmlq4mBM3BKy2aa8H6FvMK6WE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-157-QTqF5ZJZPgukN_ElYemnSQ-1; Fri, 01 Apr 2022 04:08:03 -0400
-X-MC-Unique: QTqF5ZJZPgukN_ElYemnSQ-1
-Received: by mail-pf1-f198.google.com with SMTP id
- y189-20020a6264c6000000b004faecedcb81so1250349pfb.7
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 01:08:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OF9qc1B4ftcfm8m1hcHNJ5Z0J7KB7BFltscwFu77QT4=;
- b=m5yr5PT9AnPASBprqHO6aWSbUJIyh2YN7tW5zZqfU3LhS3rrKCZ+Yb8wKhkRydeVuh
- TiY5MTMd9Vtj1uNSkuVUxZM9bc+xAFIyCylt9CkK4bJSXZLGnbc4wVQvbDFMlh31t6IL
- YD/kh/VmscGRKtZmbhF9tf4bXs5JF7hlEiXnVP8J64KFLBkv/N6HAQtj99MiXN9WdmYZ
- T6PCf+vl5lot2HAZpp5g3gaLPcmI/MNEpSeLtp0iDB/g053tb2+lE0TS0xvo4jbneR5L
- k1dWD03dDrSGouRex5rd3v8J/eooLi9YT/hHmJnNBCy50xDEByGxx8FcOrvxQnYJ9237
- 45hg==
-X-Gm-Message-State: AOAM533NBibPLERwO5R97fpkX1CizdiLyZVRKnME7bm+vwi2ThvFj6KU
- fjoCYoaOTwRdQOK45wEUZ9wQlObaXyF8t+a0bD/4UC2XoLCtvuvtXj0HHibCmIM+TpatBF33ca9
- r1xdnNU+E0RV5GiSzB7Aa5sS4q71RvJQ=
-X-Received: by 2002:a17:902:e5c3:b0:154:3776:f274 with SMTP id
- u3-20020a170902e5c300b001543776f274mr8757904plf.100.1648800482746; 
- Fri, 01 Apr 2022 01:08:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwx4BEXz/4MQZwX4ybEuBXYhCHFG8jcWEAsUNOhdbB2MHckAbK1eherg+yf9BCD/bSzEjv9v0XjJOqqgi8qt7k=
-X-Received: by 2002:a17:902:e5c3:b0:154:3776:f274 with SMTP id
- u3-20020a170902e5c300b001543776f274mr8757882plf.100.1648800482408; Fri, 01
- Apr 2022 01:08:02 -0700 (PDT)
+ us-mta-531-eORzhSXbMh6Te8c6CqJgtg-1; Fri, 01 Apr 2022 04:09:06 -0400
+X-MC-Unique: eORzhSXbMh6Te8c6CqJgtg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB1B8801E80
+ for <qemu-devel@nongnu.org>; Fri,  1 Apr 2022 08:09:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D735E2026D64;
+ Fri,  1 Apr 2022 08:09:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C473221E691D; Fri,  1 Apr 2022 10:08:59 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Victor Toso <victortoso@redhat.com>
+Subject: Re: [PATCH v1 8/9] qapi: fix example of query-cpus-fast command
+References: <20220331190633.121077-1-victortoso@redhat.com>
+ <20220331190633.121077-9-victortoso@redhat.com>
+Date: Fri, 01 Apr 2022 10:08:59 +0200
+In-Reply-To: <20220331190633.121077-9-victortoso@redhat.com> (Victor Toso's
+ message of "Thu, 31 Mar 2022 21:06:32 +0200")
+Message-ID: <87zgl59qec.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <CAFEAcA-wExOSiuJ5F6nBwWXcWW2c1rqHCfT=JNrdWQ4baqu3Og@mail.gmail.com>
-In-Reply-To: <CAFEAcA-wExOSiuJ5F6nBwWXcWW2c1rqHCfT=JNrdWQ4baqu3Og@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 1 Apr 2022 10:07:51 +0200
-Message-ID: <CABgObfbu3MK6SCNGOFGGHWO72e3dYygUybgyavALKq5_pnWK0A@mail.gmail.com>
-Subject: Re: use of uninitialized variable involving visit_type_uint32() and
- friends
-To: Peter Maydell <peter.maydell@linaro.org>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000000f4cf405db9347b6"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,170 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000f4cf405db9347b6
-Content-Type: text/plain; charset="UTF-8"
+Victor Toso <victortoso@redhat.com> writes:
 
-On Thu, Mar 31, 2022 at 7:35 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> Coverity warns about use of uninitialized data in what seems
-> to be a common pattern of use of visit_type_uint32() and similar
-> functions. Here's an example from target/arm/cpu64.c:
+> Example output contains member @arch that was removed in 445a5b4087
+> "machine: remove 'arch' field from 'query-cpus-fast' QMP command". Fix
+> it.
 >
-> static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char
-> *name,
->                                    void *opaque, Error **errp)
-> {
->     ARMCPU *cpu = ARM_CPU(obj);
->     uint32_t max_vq;
->     if (!visit_type_uint32(v, name, &max_vq, errp)) {
->         return;
->     }
->     [code that does something with max_vq here]
-> }
+> Signed-off-by: Victor Toso <victortoso@redhat.com>
+> ---
+>  qapi/machine.json | 2 --
+>  1 file changed, 2 deletions(-)
 >
-> This doesn't initialize max_vq, on the apparent assumption
-> that visit_type_uint32() will do so. But that function [...]
-> reads the value of *obj (the uninitialized max_vq).
->
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 9c460ec450..968f912989 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -109,7 +109,6 @@
+>  #                 "socket-id": 0
+>  #             },
+>  #             "qom-path": "/machine/unattached/device[0]",
+> -#             "arch":"x86",
+>  #             "target":"x86_64",
+>  #             "cpu-index": 0
+>  #         },
+> @@ -121,7 +120,6 @@
+>  #                 "socket-id": 1
+>  #             },
+>  #             "qom-path": "/machine/unattached/device[2]",
+> -#             "arch":"x86",
+>  #             "target":"x86_64",
+>  #             "cpu-index": 1
+>  #         }
 
-The visit_type_* functions are written to work for both getters and setters.
-For the leaves, that means potentially reading uninitialized data.  It is
-harmless but very ugly, and with respect to static analysis it was all but
-a time bomb, all the time.
-
-The best (but most intrusive) solution would be to add a parameter to all
-visit_type_* functions with the expected "direction" of the visit, which
-could be checked against v->type.
-
-That is:
-
-bool visit_type_uint32(VisitorType expected_type, Visitor *v, const char
-*name, uint32_t *obj,
-                       Error **errp)
-{
-    uint64_t value;
-    bool ok;
-
-    trace_visit_type_uint32(v, name, obj);
-    assert (v->type == expected_type);
-    if (expected_type & (VISITOR_INPUT | VISITOR_DEALLOC)) {
-        value = *obj;
-    }
-    ok = visit_type_uintN(v, &value, name, UINT32_MAX, "uint32_t", errp);
-    assert (ok || expected_type == VISITOR_INPUT);
-    if (expected_type & VISITOR_OUTPUT) {
-        *obj = value;
-    }
-    return ok;
-}
-
-Probably also renaming VISITOR_* to V_* for conciseness.  That *should*
-quiesce Coverity, and also add some runtime checks.
-
-Paolo
-
---0000000000000f4cf405db9347b6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:monospace,monospace;font-size:x-small"><br></div></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 31, 2=
-022 at 7:35 PM Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org=
-">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">Coverity warns about use of uninitialized data in=
- what seems<br>
-to be a common pattern of use of visit_type_uint32() and similar<br>
-functions. Here&#39;s an example from target/arm/cpu64.c:<br>
-<br>
-static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *nam=
-e,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *opaque, Error **e=
-rrp)<br>
-{<br>
-=C2=A0 =C2=A0 ARMCPU *cpu =3D ARM_CPU(obj);<br>
-=C2=A0 =C2=A0 uint32_t max_vq;<br>
-
-=C2=A0 =C2=A0 if (!visit_type_uint32(v, name, &amp;max_vq, errp)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-=C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 [code that does something with max_vq here]<br>
-}<br>
-<br>
-This doesn&#39;t initialize max_vq, on the apparent assumption<br>
-that visit_type_uint32() will do so. But that function <span class=3D"gmail=
-_default" style=3D"font-family:monospace,monospace;font-size:x-small">[...]=
-<br></span> reads the value of *obj (the uninitialized max_vq).<br></blockq=
-uote><div><br></div><div style=3D"font-family:monospace,monospace;font-size=
-:x-small" class=3D"gmail_default">The visit_type_* functions are written to=
- work for both getters and setters.</div><div style=3D"font-family:monospac=
-e,monospace;font-size:x-small" class=3D"gmail_default">For the leaves, that=
- means potentially reading uninitialized data.=C2=A0 It is</div><div style=
-=3D"font-family:monospace,monospace;font-size:x-small" class=3D"gmail_defau=
-lt">harmless but very ugly, and with respect to static analysis it was all =
-but</div><div style=3D"font-family:monospace,monospace;font-size:x-small" c=
-lass=3D"gmail_default">a time bomb, all the time.<br></div><div style=3D"fo=
-nt-family:monospace,monospace;font-size:x-small" class=3D"gmail_default"><b=
-r></div><div style=3D"font-family:monospace,monospace;font-size:x-small" cl=
-ass=3D"gmail_default">The best (but most intrusive) solution would be to ad=
-d a parameter to all</div><div style=3D"font-family:monospace,monospace;fon=
-t-size:x-small" class=3D"gmail_default">visit_type_* functions with the exp=
-ected &quot;direction&quot; of the visit, which</div><div style=3D"font-fam=
-ily:monospace,monospace;font-size:x-small" class=3D"gmail_default">could be=
- checked against v-&gt;type.</div><div style=3D"font-family:monospace,monos=
-pace;font-size:x-small" class=3D"gmail_default"><br></div><div style=3D"fon=
-t-family:monospace,monospace;font-size:x-small" class=3D"gmail_default">Tha=
-t is:</div><div style=3D"font-family:monospace,monospace;font-size:x-small"=
- class=3D"gmail_default"><br></div><div style=3D"font-family:monospace,mono=
-space;font-size:x-small" class=3D"gmail_default"><span class=3D"gmail_defau=
-lt" style=3D"font-family:monospace,monospace;font-size:x-small"></span>bool=
- visit_type_uint32(VisitorType expected_type, Visitor *v, const char *name,=
- uint32_t *obj,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0Error **errp)<br>
-{<br>
-=C2=A0 =C2=A0 uint64_t value;<br>
-=C2=A0 =C2=A0 bool ok;<br>
-<br>
-=C2=A0 =C2=A0 trace_visit_type_uint32(v, name, obj);</div><div style=3D"fon=
-t-family:monospace,monospace;font-size:x-small" class=3D"gmail_default">=C2=
-=A0 =C2=A0 assert (v-&gt;type =3D=3D expected_type);</div><div style=3D"fon=
-t-family:monospace,monospace;font-size:x-small" class=3D"gmail_default">=C2=
-=A0=C2=A0=C2=A0 if (expected_type &amp; (VISITOR_INPUT | VISITOR_DEALLOC)) =
-{</div><div style=3D"font-family:monospace,monospace;font-size:x-small" cla=
-ss=3D"gmail_default">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 value =3D *=
-obj;</div><div style=3D"font-family:monospace,monospace;font-size:x-small" =
-class=3D"gmail_default">=C2=A0=C2=A0=C2=A0 }<br></div><div style=3D"font-fa=
-mily:monospace,monospace;font-size:x-small" class=3D"gmail_default">=C2=A0 =
-=C2=A0 ok =3D visit_type_uintN(v, &amp;value, name, UINT32_MAX, &quot;uint3=
-2_t&quot;, errp);<br>
-<div style=3D"font-family:monospace,monospace;font-size:x-small" class=3D"g=
-mail_default"><div style=3D"font-family:monospace,monospace;font-size:x-sma=
-ll" class=3D"gmail_default">=C2=A0=C2=A0=C2=A0 assert (ok || expected_type =
-=3D=3D VISITOR_INPUT);</div><div style=3D"font-family:monospace,monospace;f=
-ont-size:x-small" class=3D"gmail_default"></div>=C2=A0=C2=A0=C2=A0 if (expe=
-cted_type &amp; VISITOR_OUTPUT) {</div><div style=3D"font-family:monospace,=
-monospace;font-size:x-small" class=3D"gmail_default">=C2=A0 =C2=A0=C2=A0=C2=
-=A0 =C2=A0 *obj =3D value;</div><div style=3D"font-family:monospace,monospa=
-ce;font-size:x-small" class=3D"gmail_default">=C2=A0=C2=A0=C2=A0 }<br></div=
->=C2=A0 =C2=A0 return ok;<br>
-}</div><div style=3D"font-family:monospace,monospace;font-size:x-small" cla=
-ss=3D"gmail_default"><br></div><div style=3D"font-family:monospace,monospac=
-e;font-size:x-small" class=3D"gmail_default">Probably also renaming VISITOR=
-_* to V_* for conciseness.=C2=A0 That *should*</div><div style=3D"font-fami=
-ly:monospace,monospace;font-size:x-small" class=3D"gmail_default">quiesce C=
-overity, and also add some runtime checks.<br></div><div style=3D"font-fami=
-ly:monospace,monospace;font-size:x-small" class=3D"gmail_default"><br></div=
-><div style=3D"font-family:monospace,monospace;font-size:x-small" class=3D"=
-gmail_default">Paolo<br></div></div></div>
-
---0000000000000f4cf405db9347b6--
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
