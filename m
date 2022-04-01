@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA594EEB5D
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 12:33:23 +0200 (CEST)
-Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 506184EEB88
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 12:37:54 +0200 (CEST)
+Received: from localhost ([::1]:42828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naEao-0000ig-7g
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 06:33:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42762)
+	id 1naEfA-0002jH-RP
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 06:37:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1naEZ1-0008BS-0q
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:31:31 -0400
-Received: from [2a00:1450:4864:20::333] (port=54159
- helo=mail-wm1-x333.google.com)
+ id 1naEdm-0001xH-BG
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:36:26 -0400
+Received: from [2a00:1450:4864:20::429] (port=39631
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1naEYz-0001kg-HL
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:31:30 -0400
-Received: by mail-wm1-x333.google.com with SMTP id p189so1395843wmp.3
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 03:31:29 -0700 (PDT)
+ id 1naEdk-0002a1-4Q
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:36:26 -0400
+Received: by mail-wr1-x429.google.com with SMTP id j18so3608323wrd.6
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 03:36:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=AtF3YETvIejebq08jvdZJgLq1wEorQLSWiG/DBxcx0w=;
- b=lvSBD5FnoO3/DFbfU1B54a9yVwNsFrAa7f0s3ZG+TCyJ344a9d5c1WcryF3hoi8txN
- 4yjNlDb7w0c6izAQE9Zf4EIcEzmFfZH5XWu8kQtcs2l0WNUZYGpklpp6OXHf1icu8K6O
- VvnJ/Sr5u++l+u+6wCcaRqb4K7Z5bOjtxx5FG4za7NmvwaZoVq70gUfSEmR8MGO/SGl9
- EpXGiXK8CyikeduqeuItmi2yUCkCtZHodzDf0LtBKZ649hIo45rTy0TDxA7KRk1Pmb1g
- Mqsvmf+2WjjopuCEk2hQmbb5ExN3XDgbs57gGSi9fsK1cmyvsoXPFQq7ylYJXJgVi0lk
- GwQw==
+ bh=+2C3W4xm+9dbx9bV5jEA8Lc+VsmC3YlPxpTKkX6DY5Q=;
+ b=hqGuyObx8taiKSIbDTyNEvXwGaOnt0RFnqqEriQspljU2uKJ1GZn31dlWggUJiwKS+
+ 4d/joDE79C8Dzb8lLt1eIe2440DlcDa4IYdqDv4TyU6poX9PCJIzEeudfTdxOo4603Y4
+ rp9wkonTP1ZjHgonaK2fnskAppNiDeuxl25xOVdErDMo/C16J157GxCcAXuxGFidU0Ii
+ Bus+q3oC2L4TqE4jjU1QD7SsZqHp7TCElFhF08AL2DcuX7dPDuCtEMmz1eaTgY4DJo78
+ 7i8OQqVjy9HIhjiQA4yWfoPgH1x4mmXgkjFv15j7tkPlyHZ+kR/EMKh5Gqg4xw2kUkQ5
+ w44g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=AtF3YETvIejebq08jvdZJgLq1wEorQLSWiG/DBxcx0w=;
- b=kLbUnGY8zC0WKo3vHGemWOaZQ9eqsXZZDqVQRsf7Qa2BkiEhYqQOS8wUusBEIOuA8R
- 8TN8U3rC2LYqEPC5rqhALwlmbWAesCiApbLgUqcBvv6XVTdgFvMA0YIPJEYXJnUE2XED
- mW3JUeFoBg66s4OctDnnflJc9Yp14THN71vV45MWWxlyeyNGrpaW2aAkFg981Wn3umN2
- 70Dt07sVIN36TRxmzcbmVkxuBqTviZo2k0YGNkjMio4JUsZSlRxA858yCm9lGMwuUFF2
- 2BUauz947pOzc6h4bTrHLMHamLKeBHdtBLCy07VuYtvf8zxQzTuKqqbDUifxjWWmDlbH
- j1rw==
-X-Gm-Message-State: AOAM5332Agp/8BrUD7Jon8FQDOc6zl1DT6I9gSVA8zZJ3wmQZ2fiNEf/
- C1TCOGEt/mFsq/uOIWofmz4=
-X-Google-Smtp-Source: ABdhPJz231mIsHjyF+Rm5DCafXuvtzQqBfu1srLoTzpYysDtuBNwdosKHoSL03eAMdoxbi8npbmplg==
-X-Received: by 2002:a7b:c0ca:0:b0:38c:b9a9:a64d with SMTP id
- s10-20020a7bc0ca000000b0038cb9a9a64dmr8317929wmh.195.1648809087912; 
- Fri, 01 Apr 2022 03:31:27 -0700 (PDT)
+ bh=+2C3W4xm+9dbx9bV5jEA8Lc+VsmC3YlPxpTKkX6DY5Q=;
+ b=UxcwFsXAAwdlctL5+W+KWrqo3+Fi/2z2lf0J+NCqOT/pQT3lXOF+r1kw1CP92/RV7p
+ V2YLzgHIiu+3dj6HIfAQWFvvrDAs24JEU6A+3/+9yxg14qA5bdYK5h5VCKCiNzo0xSpH
+ UiU/HvW4rIlqSbm+SwJgp9nMTfA1NZ9AaM2vbT93/HJAqqo6IUv2+eq6vsRgFLhU3aji
+ Bw1wkCS3nShIm3wGBJ3zX8yWKO1rlzv0FHKNIm5mGWWAHavw1mEpm52/aJRlA3ErEGge
+ jztsYstkFsJ003UfM4Tlxa440iy6FMPhOD5qnoVjWcCuO5KdBr/Jp7egc4YqCWPsdr9v
+ gF1w==
+X-Gm-Message-State: AOAM533rpPkr9rpINjtglJ2dqzx3gOGMCnA5t4tcfSXQ/dXFULzMRRbQ
+ sHyPL1UDAlUWgApfCBvSKpw=
+X-Google-Smtp-Source: ABdhPJxaKofaD3mOsTFbvUVFYNMv3IxMEuhsgBAjlsttd51YXHCXd39xiYI3Zwohctc6KxqVuUMuSw==
+X-Received: by 2002:adf:f943:0:b0:203:e832:129 with SMTP id
+ q3-20020adff943000000b00203e8320129mr7263064wrr.626.1648809382213; 
+ Fri, 01 Apr 2022 03:36:22 -0700 (PDT)
 Received: from ?IPV6:2600:70ff:f07f:0:f49c:562:b5cb:b2b5?
  ([2600:70ff:f07f:0:f49c:562:b5cb:b2b5])
  by smtp.gmail.com with ESMTPSA id
- v1-20020adff681000000b00205f21617d5sm1748659wrp.105.2022.04.01.03.31.26
+ m4-20020a7bcb84000000b00389efb7a5b4sm9399171wmi.17.2022.04.01.03.36.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Apr 2022 03:31:27 -0700 (PDT)
-Message-ID: <a20683a3-3534-7318-c52d-6bf03a7e9ef6@gmail.com>
-Date: Fri, 1 Apr 2022 12:31:25 +0200
+ Fri, 01 Apr 2022 03:36:21 -0700 (PDT)
+Message-ID: <86f9c4c9-1b7f-7c55-3379-cb93c4456f29@gmail.com>
+Date: Fri, 1 Apr 2022 12:36:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH] virtio-net: use g_memdup2() instead of unsafe g_memdup()
+Subject: Re: [PATCH 2/3] i386: factor out x86_firmware_configure()
 Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Eugenio_P=c3=a9rez?=
- <eperezma@redhat.com>
-References: <20220331182935.538101-1-eperezma@redhat.com>
- <CACGkMEvEKGxccu5_tFeVqthZrr_KfwVy2MFVw4rZhJbG90Z4QA@mail.gmail.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20220331083549.749566-1-kraxel@redhat.com>
+ <20220331083549.749566-3-kraxel@redhat.com>
+ <73f3b878-1b3d-c292-d124-410a20acfa62@gmail.com>
+ <20220401050818.hbj4qkebwggvc6x3@sirius.home.kraxel.org>
+ <af45db70-0d65-a4f2-89da-2bd86dfab5a8@intel.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <CACGkMEvEKGxccu5_tFeVqthZrr_KfwVy2MFVw4rZhJbG90Z4QA@mail.gmail.com>
+In-Reply-To: <af45db70-0d65-a4f2-89da-2bd86dfab5a8@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,41 +98,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/4/22 04:31, Jason Wang wrote:
-> On Fri, Apr 1, 2022 at 2:29 AM Eugenio Pérez <eperezma@redhat.com> wrote:
+On 1/4/22 07:28, Xiaoyao Li wrote:
+> On 4/1/2022 1:08 PM, Gerd Hoffmann wrote:
+>>>>                if (sev_enabled()) {
+>>>
+>>>                      ^^^
 >>
->> Fixing that literal checkpatch.pl because it will complain when we modify the file
+>>> Can we remove the SEV check ...
+>>
+>>>> +    pc_system_parse_ovmf_flash(ptr, size);
+>>>> +
+>>>> +    if (sev_enabled()) {
+>>>
+>>> ... because we are still checking SEV here.
+>>
+>> Well, the two checks have slightly different purposes.  The first check
+>> will probably become "if (sev || tdx)" soon, 
+> 
+> Not soon for TDX since the hacky pflash interface to load TDVF is rejected.
 
-See https://www.mail-archive.com/qemu-devel@nongnu.org/msg834178.html
+You can still convince us you need a pflash for TDX, and particularly
+"a pflash that doesn't behave like pflash". Also, see the comment in
+the next patch of this series:
 
->> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> 
-> Acked-by: Jason Wang <jasowang@redhat.com>
-> 
->> ---
->>   hw/net/virtio-net.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
++         * [...] there is no need to register
++         * the firmware as rom to properly re-initialize on reset.
++         * Just go for a straight file load instead.
++         */
+
+>> whereas the second will
+>> become "if (sev) { ... } if (tdx) { ... }".
 >>
->> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->> index 1067e72b39..e4748a7e6c 100644
->> --- a/hw/net/virtio-net.c
->> +++ b/hw/net/virtio-net.c
->> @@ -1443,7 +1443,8 @@ static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
->>           }
->>
->>           iov_cnt = elem->out_num;
->> -        iov2 = iov = g_memdup(elem->out_sg, sizeof(struct iovec) * elem->out_num);
->> +        iov2 = iov = g_memdup2(elem->out_sg,
->> +                               sizeof(struct iovec) * elem->out_num);
->>           s = iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
->>           iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
->>           if (s != sizeof(ctrl)) {
->> --
->> 2.27.0
->>
-> 
+>> We could remove the first.  pc_system_parse_ovmf_flash() would run
+>> unconditionally then.  Not needed, but should not have any bad side
+>> effects.
+
+OK, then:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+
 
