@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3371E4EEA42
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:19:22 +0200 (CEST)
-Received: from localhost ([::1]:39528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 218F64EEAA7
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:46:09 +0200 (CEST)
+Received: from localhost ([::1]:54082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naDRA-0006uL-O9
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:19:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56986)
+	id 1naDr2-0003Ck-2Y
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:46:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1naDNn-0004tS-H4
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:15:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1naDNk-0006SC-Jy
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:15:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648804546;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eI1uKUmzguT1RsopZ0k2PCasBvXw1fwEusbJNI63wdM=;
- b=Bz9TX6ytcpS3FaKYvDUEd+rdO8NQLPsL4XIymjtsEA/vPMvIxNq/Up6Rnr1vU9Amzmfcu2
- vv3dekdrqQpgw9xP2r1AKH5clPBo3R779OhJNAcaSR/ocjWI+3WOMkt0CHfdXJk1uNHfWR
- 8UbbV4u8Rkh5HSkLhDo28Bq2hefxZSQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-3p10kYM-PB2lQ7qBlEymTw-1; Fri, 01 Apr 2022 05:15:43 -0400
-X-MC-Unique: 3p10kYM-PB2lQ7qBlEymTw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59ABF811E78;
- Fri,  1 Apr 2022 09:15:43 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BC4C40CFD02;
- Fri,  1 Apr 2022 09:15:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DD03421E691D; Fri,  1 Apr 2022 11:15:41 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: use of uninitialized variable involving visit_type_uint32() and
- friends
-References: <CAFEAcA-wExOSiuJ5F6nBwWXcWW2c1rqHCfT=JNrdWQ4baqu3Og@mail.gmail.com>
- <CABgObfbu3MK6SCNGOFGGHWO72e3dYygUybgyavALKq5_pnWK0A@mail.gmail.com>
-Date: Fri, 01 Apr 2022 11:15:41 +0200
-In-Reply-To: <CABgObfbu3MK6SCNGOFGGHWO72e3dYygUybgyavALKq5_pnWK0A@mail.gmail.com>
- (Paolo Bonzini's message of "Fri, 1 Apr 2022 10:07:51 +0200")
-Message-ID: <87y20p88qq.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1naDOH-00057w-U6
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:16:23 -0400
+Received: from [2607:f8b0:4864:20::1130] (port=45169
+ helo=mail-yw1-x1130.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1naDOF-0006TR-8P
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:16:20 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-2e6650cde1bso25211097b3.12
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 02:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9neAYDtGx+KQx7nHLS+gmJm8c/U/NChd1rRSg9h859I=;
+ b=KsiTDuyzFIfw50oz6n6b0hRTErJPKp19JDp4l6muDYR4e18hwEdWf9qAQl2MtrYrYi
+ W796WFgMgxCcT3fA5/U7qSPutaA2lzJoGkSI/RZOrGrpiLGhMpqku7Aof0sdRlLQA1uC
+ Dk98jxM+oN4u7dYjDv5pQ0CET4keVreMxokAa/nStk0kHAR1GZvF0jlUN/uFyYy/VO+7
+ 23tSsduf6h1mfwn+K6f/hKaYv9s5gt9j62FU2CfxUL4zpDQLKSC3zX5dX6AV4h4/cf8u
+ wxQxdHnX0B4BmQCz64DTGv3X6jFFVVPdUazlW/JIjyEHz49hImD6GRrWcVyLEPjm9JF+
+ g96A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9neAYDtGx+KQx7nHLS+gmJm8c/U/NChd1rRSg9h859I=;
+ b=jM1/fpybWWAHlRzpAYOZ/Mf+Ct/dOJJe+DVoT3Epl/QHZ1178DWhEDuVQ5f75WwYnF
+ dJFC5AHEbYuNDf4CKL5dzeRfrPY2BQm7ui0ljmlACrblkibVzfsnn+xg/7s5AaSxo2R8
+ yT5EiWrP2wH1uNb+8XysMAvbYt9g5Gid+PyPmYRwgF9ifvrHnG43hwsexDXHAtTguQ3V
+ JSJf+M19uSvylwMQd8yxiUquQADBarI7pAT+WOwFIPLJ4tzbJlU4/vjzICGCEQINHmMn
+ wWLXCY+C34MOot9Pgu9cRjEsGIzTja+sBQpPWkfCIBFZdAQAbyU7I1lPPe16QjaDG7DF
+ zLjg==
+X-Gm-Message-State: AOAM531bBxrIXVG6uO9Jv4mr4GtvtoZ+dxiTu+1+5e9/rOmsWQ0TLm64
+ M81F9Y2sMH7HGCsaVmGnpCdCHDttdWyrdP+JX84VrQ==
+X-Google-Smtp-Source: ABdhPJynLJtWeDab9ajCYaX/uGn5K8iOzquOPlWXq1l/A5gRDMqBNFkz+dIi4d4g7VD7xgBB6gzouUrNrl7pTT9vxOY=
+X-Received: by 2002:a81:a4e:0:b0:2e5:9946:525a with SMTP id
+ 75-20020a810a4e000000b002e59946525amr8817134ywk.455.1648804577056; Fri, 01
+ Apr 2022 02:16:17 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220401022824.9337-1-jasowang@redhat.com>
+In-Reply-To: <20220401022824.9337-1-jasowang@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 1 Apr 2022 10:16:05 +0100
+Message-ID: <CAFEAcA96v=11m96pnW6E2LqThrFBFf0OXtNPuXm4g_CwvMxUww@mail.gmail.com>
+Subject: Re: [PATCH] intel-iommu: correct the value used for error_setg_errno()
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1130
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,150 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, peterx@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> On Thu, Mar 31, 2022 at 7:35 PM Peter Maydell <peter.maydell@linaro.org>
-> wrote:
+On Fri, 1 Apr 2022 at 03:29, Jason Wang <jasowang@redhat.com> wrote:
 >
->> Coverity warns about use of uninitialized data in what seems
->> to be a common pattern of use of visit_type_uint32() and similar
->> functions. Here's an example from target/arm/cpu64.c:
->>
->> static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char
->> *name,
->>                                    void *opaque, Error **errp)
->> {
->>     ARMCPU *cpu = ARM_CPU(obj);
->>     uint32_t max_vq;
->>     if (!visit_type_uint32(v, name, &max_vq, errp)) {
->>         return;
->>     }
->>     [code that does something with max_vq here]
->> }
->>
->> This doesn't initialize max_vq, on the apparent assumption
->> that visit_type_uint32() will do so. But that function [...]
->> reads the value of *obj (the uninitialized max_vq).
->>
+> error_setg_errno() expects a normal errno value, not a negated
+> one, so we should use ENOTSUP instead of -ENOSUP.
 >
-> The visit_type_* functions are written to work for both getters and setters.
-
-Yes.
-
-This is convenient for uses that are actually visitor-agnostic, such as
-the generated qapi-visit-FOO.c
-
-It can be really ugly for output-only uses.  In particular for strings,
-where we have to pass a char ** instead of a const char *.
-
-> For the leaves, that means potentially reading uninitialized data.  It is
-> harmless but very ugly, and with respect to static analysis it was all but
-> a time bomb, all the time.
+> Fixes: Coverity CID 1487174
+> Fixes: ("intel_iommu: support snoop control")
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  hw/i386/intel_iommu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> The best (but most intrusive) solution would be to add a parameter to all
-> visit_type_* functions with the expected "direction" of the visit, which
-> could be checked against v->type.
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index c64aa81a83..e05d69a2c0 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3032,7 +3032,7 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
 >
-> That is:
->
-> bool visit_type_uint32(VisitorType expected_type, Visitor *v, const char
-> *name, uint32_t *obj,
->                        Error **errp)
-> {
->     uint64_t value;
->     bool ok;
->
->     trace_visit_type_uint32(v, name, obj);
->     assert (v->type == expected_type);
->     if (expected_type & (VISITOR_INPUT | VISITOR_DEALLOC)) {
->         value = *obj;
->     }
->     ok = visit_type_uintN(v, &value, name, UINT32_MAX, "uint32_t", errp);
->     assert (ok || expected_type == VISITOR_INPUT);
->     if (expected_type & VISITOR_OUTPUT) {
->         *obj = value;
->     }
->     return ok;
-> }
+>      /* TODO: add support for VFIO and vhost users */
+>      if (s->snoop_control) {
+> -        error_setg_errno(errp, -ENOTSUP,
+> +        error_setg_errno(errp, ENOTSUP,
+>                           "Snoop Control with vhost or VFIO is not supported");
+>          return -ENOTSUP;
+>      }
+> --
+> 2.25.1
 
-As diff -w:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
- -bool visit_type_uint32(Visitor *v, const char *name, uint32_t *obj,
- +bool visit_type_uint32(VisitorType expected_type, Visitor *v, const char
- +*name, uint32_t *obj,
-                         Error **errp)
-  {
-      uint64_t value;
-      bool ok;
-
-      trace_visit_type_uint32(v, name, obj);
- +    assert (v->type == expected_type);
- +    if (expected_type & (VISITOR_INPUT | VISITOR_DEALLOC)) {
-
-Backwards.
-
-With an input visitor @v,
-
-    visit_type_uint32(v, "name", &val, errp)
-
-stores to @val without looking at it first.  In other words,
-uninitialized @val is fine, just like for val = ...
-
-Note: you don't actually need VISITOR_DEALLOC here, because a
-deallocation visitor isn't going to do anything for non-pointer values.
-
-With an output visitor @v,
-
-    visit_type_uint32(v, "name", &val, errp)
-
-reads from @val without changing it.
-
-      value = *obj;
- +    }
-      ok = visit_type_uintN(v, &value, name, UINT32_MAX, "uint32_t", errp);
- +    assert (ok || expected_type == VISITOR_INPUT);
- +    if (expected_type & VISITOR_OUTPUT) {
-
-Also backwards.  
-
-      *obj = value;
- +    }
-      return ok;
-  }
-
-Two changes:
-
-* Skip copying to and from full-width buffer @value:
-
-  - Skip @value = *obj when we're going to overwrite @value without
-    reading it first.
-
-    This leaves @value uninitialized instead of initializing it from a
-    (commonly) uninitialized variable.
-
-    I'm not sure how this helps static analysis, but if it does...
-
-  - Skip *obj = @value when value must be *obj anyway.
-
-    Should have no observable effect.
-
-    Again, I'm not sure how this helps static analysis.
-
-  Note that only the functions for types narrower than 64 bits have such
-  copying code.  Skipping the assignments creates a tiny inconsistency
-  between narrow and fill-width visits.
-
-* Pass visitor type in addition to the visitor.  Can you explain why
-  that's useful?
-
-> Probably also renaming VISITOR_* to V_* for conciseness.  That *should*
-> quiesce Coverity, and also add some runtime checks.
->
-> Paolo
-
+thanks
+-- PMM
 
