@@ -2,95 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026954EEABD
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:52:01 +0200 (CEST)
-Received: from localhost ([::1]:34538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F41134EEADA
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:59:23 +0200 (CEST)
+Received: from localhost ([::1]:43470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naDwn-0000zJ-3V
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:52:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60810)
+	id 1naE3u-0007Wz-IX
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:59:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1naDgv-0000MY-U3
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:35:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42066)
+ (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
+ id 1naDt0-0006P3-St; Fri, 01 Apr 2022 05:48:07 -0400
+Received: from [2a01:111:f403:704b::704] (port=8726
+ helo=APC01-TYZ-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1naDgt-00018c-En
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:35:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648805734;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NHsmVLcMXB67RkJVH556zBvO5bKxPBw/mDa94yXuc6w=;
- b=aXEs8UOtFhtpiVcyDD/urWl9a4q09p1lU/aU4c235ZBX09NLAi/LTgIyELUqKMXpAaZd5e
- kqo8MgHPHDai7qyIO5h0RDYNbXwUqfRS7LlZStowrzCM1rCjW9INl7g/0nFt1yqPnlLvVm
- rgE1C9e/nxq0eODlUGlXsITZLx9vOCo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-bv93ofbpNouyEdufYFKTOw-1; Fri, 01 Apr 2022 05:35:33 -0400
-X-MC-Unique: bv93ofbpNouyEdufYFKTOw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u18-20020adfa192000000b00205f0d87876so478282wru.4
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 02:35:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NHsmVLcMXB67RkJVH556zBvO5bKxPBw/mDa94yXuc6w=;
- b=Wu9vRC1+3bYyNUjsY2LC4trvYCGeAigyNchCo7nrBXSZek917x18o1M6g2OhVgUBAw
- Fmp+G+axGt8EsVEaauj8OdakNYPdZyEe/bE1uW50xiKBNLUhw94CC8LNjCnUeKAA4cN3
- 7Ajkz/aq8gnLMr4xlaO6S0XJM04KTzl9GBf6vrnb/h13Lr7je5Mx6vwUONALDR6SLyWV
- 5qbFT+HAayqfvYN6stMIqxfB1zGwK/sg4oWHxiWMeKCIxLDOBIDRNbwUFrV9IOPcUD2C
- VYF5W2n2jtO4nf1RlaOEXlusjdKJJYJxeIA6xkIP8z9ps2rG7Q7JltKcTyNnkaZLvz6J
- JIOQ==
-X-Gm-Message-State: AOAM532HtMNjNfGOauv3W65i5EneSQ5Lf2Ljmi32kAHsMcXxJHYW0UBH
- cLcNyMeObvKAmZV0R+6gqFr/Wz3JUdHroLnFXZ63KnuWSKiz1m70IkvEsIB9M2t7rp8a6ZfK/08
- Tyx8Et4620sNmhgo=
-X-Received: by 2002:a05:6000:1a85:b0:205:a234:d0a5 with SMTP id
- f5-20020a0560001a8500b00205a234d0a5mr7325654wry.126.1648805732661; 
- Fri, 01 Apr 2022 02:35:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9RLTvC/AE8rY7DNLnp1JMn6jk32+nRRpi1/LUFKKyc/niR3E5VSQV+Q+PtKlaVjZ7z0bm2Q==
-X-Received: by 2002:a05:6000:1a85:b0:205:a234:d0a5 with SMTP id
- f5-20020a0560001a8500b00205a234d0a5mr7325631wry.126.1648805732361; 
- Fri, 01 Apr 2022 02:35:32 -0700 (PDT)
-Received: from vian.redhat.com ([2a0c:5a80:1c1a:5300:ea85:f79:5235:c7fc])
- by smtp.gmail.com with ESMTPSA id
- az19-20020a05600c601300b0038cadf3aa69sm14009187wmb.36.2022.04.01.02.35.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 02:35:31 -0700 (PDT)
-From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-To: kwolf@redhat.com,
-	stefanha@redhat.com,
-	berrange@redhat.com
-Subject: [PATCH v4 3/3] util/event-loop-base: Introduce options to set the
- thread pool size
-Date: Fri,  1 Apr 2022 11:35:23 +0200
-Message-Id: <20220401093523.873508-4-nsaenzju@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220401093523.873508-1-nsaenzju@redhat.com>
-References: <20220401093523.873508-1-nsaenzju@redhat.com>
+ (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
+ id 1naDsv-0002qV-QL; Fri, 01 Apr 2022 05:48:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LaKNLzo/IM05ODQcEClnq8KIMaJOljC2pOuCH8aEsgHTkB8FROEM1CW3/aRjfYmVGuf6OH+1BavffeysEiv4udm7R+0YlDd8rQvjKnycXpKtZ3G800gmwwG2RqVhdUJwmB8soBZzLRKeK2xm0EpPLUAFNN/hWdIDI42eEk0ZwG18HwwTTP6ju/0/uTzIlGuyVKjGDrUlOZHcwt9Sm4saKZennmwRJa55QqVNcnsZ0Q15eQhDT97er5+6OqGbRhsyWDjz2kLkRuNBCY2/g40wZjqWed5zWNk3dvSfLH/JABHDgYD1Hn1cdh7D81WuX+0f1edFPLsmKO9vtegh+F86Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aTI74zWCAWq92o2CdXE7PLXYwV9nJdGxCmpSqiOxy2E=;
+ b=iz4lsWejqL3BjS8Q/NHGme5+n2zaAP0EyuJVgoGKfjMDDzwGvMg+MBnHjpy3QWFce9xO0Vu9XmiBj4r/d8NU2MChOYLy8aSwxIpqg6fbFpL1RVHR9K2NNONFmYbOmIDrGLUc8ZGfMY94Cr8JPQPjB5IWNTxCv+4ccGpRF0zaVsfkK2pnF8MO05lvHOGVCrUGJVCqGV25TViAXXWGpTJKvesCDZcgMMS9snx1E6BrQtCIHXbIBtRCZsTm2qk+L0aLsB+C9uSckkHEmL2LsAfSmCcd9FRBaY3103YQI+qGvOqX6la2/bcwiibbhBL4bMKsVQNtMT4mYgYQB8eqRLEClw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aTI74zWCAWq92o2CdXE7PLXYwV9nJdGxCmpSqiOxy2E=;
+ b=YQdtGjpnQ7excSVzW6RTUpFbzrwUnAI+svWKRJnCais23lGFldgHAJJzvhAxmsa2Ng4pD14V2oMPVtMxGqHn/b+VuJVa3lxsX203dnfRPHyUEVeppMVhYULt94JgVBu0+C94FlARStKG9jGZN844CQaFhAPC1PsnrhElkrltwgA7ggCy7PeZIiqLW9XCvK3XYlVx95wNOUJIuzEfDJsrN3MBGjUzJ+0492COKM7/NCzWh+YLX4juabIG/IzbZ+Qb6Xi89d+Gos7cHlHrEMivo9Zf2OcWLNSRmn63Asm3nKlswscCU2NUyZZR0s4ZRalGF9giUD6izyCp7/aUhumdDg==
+Received: from TYZPR06MB4015.apcprd06.prod.outlook.com (2603:1096:400:28::9)
+ by TY2PR06MB2957.apcprd06.prod.outlook.com (2603:1096:404:a2::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.25; Fri, 1 Apr
+ 2022 09:47:52 +0000
+Received: from TYZPR06MB4015.apcprd06.prod.outlook.com
+ ([fe80::2d54:6766:c147:f0b4]) by TYZPR06MB4015.apcprd06.prod.outlook.com
+ ([fe80::2d54:6766:c147:f0b4%4]) with mapi id 15.20.5123.023; Fri, 1 Apr 2022
+ 09:47:52 +0000
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>, Alistair Francis
+ <alistair@alistair23.me>, Peter Maydell <peter.maydell@linaro.org>, Andrew
+ Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, Cleber Rosa
+ <crosa@redhat.com>, =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo
+ Leal <bleal@redhat.com>, "open list:STM32F205" <qemu-arm@nongnu.org>, "open
+ list:All patches CC here" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v5 0/9] Add support for AST1030 SoC
+Thread-Topic: [PATCH v5 0/9] Add support for AST1030 SoC
+Thread-Index: AQHYRaPsFYQT3Im+3UOTQIzlaCcedqzawSeAgAACzgCAAAsDAA==
+Date: Fri, 1 Apr 2022 09:47:52 +0000
+Message-ID: <TYZPR06MB40153B1C6B2E685FC1ECDF83FCE09@TYZPR06MB4015.apcprd06.prod.outlook.com>
+References: <20220401083850.15266-1-jamin_lin@aspeedtech.com>
+ <0ddfa28a-45ae-fdfd-02a6-94ab5a34b724@kaod.org>
+ <TYZPR06MB40155C89D32BB012339208C6FCE09@TYZPR06MB4015.apcprd06.prod.outlook.com>
+In-Reply-To: <TYZPR06MB40155C89D32BB012339208C6FCE09@TYZPR06MB4015.apcprd06.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d1984c47-15d9-4e27-b7db-08da13c4b0d8
+x-ms-traffictypediagnostic: TY2PR06MB2957:EE_
+x-microsoft-antispam-prvs: <TY2PR06MB29579015E015192412B27253FCE09@TY2PR06MB2957.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: PT4Z0LYXDi9JfexqR/oaJ6PxArtTM1ErzFY+agn153NZhRXUEmHNaUlPxMyPRFHX3my4b+NLtRCAOQIUKSpBRW1+k3446alEb7pOV2NCGmmWCE0DOtY6KGT4H9WypANIL2CSCFT0INeZKXgrDsD7+G/qb1Lty4GqxjCpwIoHIAqvDPdkCY6PKDM7yUzmTO/hvleVdMXHlIs5xK3o3ylTxrmAbvQWhjwKXMej5c3VAKhGne9McMCsBhnO+y2bulngOtmqnPx19EoxORui4m8O9RobQ2QU4mnm2c92R1SSBHfQFOvmslSHJCoJE5t4dMRkH6P9EVfYodW64s04NPXvKcqZGo7FEcRqC6j5DpY3zaLA0e43YJ+JdggpT+31Hri349shfMxIEgQPARwPZn4HXz98w8OrI97YKSzaljmZTreCWss9dn2E+5L/VvqDaVqiCTlkG+3ue+tJFL2mYkIhBh5SnI5W9U6dHHtJ1teRmZVZhTlqDZwxtzIgxImhnRYF2EDTnR2YUH0fFkvFoEQBr+QdPSV8awW0Spk0fLVsjemfOEiX6nXfQlOvepj8iGn/Lqw3ngbG32y1jbjOIrWu09+VQuvOhDh4QL0WemOn829pdltJQClg2L7Iiev/Qlv8JOdbnbvAMxqLKFmuWqsocT06fuU6S3u0fdWNtzpgY+q2H50oHVCavZ/mK2ORH+xbtB/J92ld1kyrN2ApJmIrCFYIH27B66vcSDu5ahHG6us2RMZcY6F0JcdhdoTjwwx9kxV1154XoKp1Hst2legseMHSxqO6lEF76yrr7GZwKQJOHzY3qhzgJfrFgEsfiTLZESKd16A4LtA6wUGHPiA4PLqbzr0/XUaoBbyUvSuYn5s=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR06MB4015.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(346002)(366004)(376002)(39850400004)(396003)(136003)(122000001)(38070700005)(921005)(38100700002)(110136005)(54906003)(83380400001)(55016003)(316002)(66574015)(71200400001)(53546011)(64756008)(6506007)(508600001)(66556008)(66446008)(66476007)(33656002)(5660300002)(7416002)(2906002)(66946007)(52536014)(7696005)(8936002)(9686003)(2940100002)(186003)(26005)(107886003)(76116006)(4326008)(8676002)(86362001)(966005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?T1dJMFJSbHV2aXkyTjdhVnBqUFBveG4vRks3U0xOOWhRNm9UUHpDRkd6T2tq?=
+ =?utf-8?B?eEpEVWtlQ1BScUk1Tkk5ak5LSjJ0cFB2WloweUhMUVFrZ3hYOHkzaUlnZ1Vk?=
+ =?utf-8?B?SS8wRkhES3JlY2FmUzU0STJXL2M3Um11dXdhN2IyWUdXS3ppYU03dXpkb0lk?=
+ =?utf-8?B?dlRBQXZ1ZkI3TVdmK3djR0kxc3BpbXVvWWM5VmRqSG8yaXhKRlVZc3BDUjEy?=
+ =?utf-8?B?dHQ5MkhwcnBSUzFjTE1PZmVyZ0ZsWTkrbTlzZ1U5NXdxRk4vU0d4VmdjejVi?=
+ =?utf-8?B?L1d4QitIYVlJcG9wZXdKWjNSSDBzVVlEY1BybVE2NDJBSUVWRU1yUW03azdi?=
+ =?utf-8?B?ZVl5ZVJmVC9OVzMwV3F5NVhUdzRYL1pxNHIyQmNtd011RGhhNm1jajhHVUlE?=
+ =?utf-8?B?Y09SNWdjYmRvZnJoUC9nYmkzRFprZW1SUSs4eEFJTlpTRitJekwzZldmbjVQ?=
+ =?utf-8?B?c2hBOG96NDdHK1BJeFVGOGlQOUYvc1dudGtmVVFiZy96MGhBYVpFbkttcUhz?=
+ =?utf-8?B?R0VLMFhCUXM2QnJzd3JnQllSYmlNNnQxSVZRU251QUxLUUZXK1FrVmZNM3V3?=
+ =?utf-8?B?MkpwVDhlWFZpN3Q1anhaLzM5cFcxM2ZuaHl6SVZGYnJ6SmNvYUxlbTFDUEpi?=
+ =?utf-8?B?VmNEdGR4aEVMdnBadG1NeUkzWTZOTndXVG82eW9WTXBySHY3RVFHQm5FZDNm?=
+ =?utf-8?B?NUJuODYwd0VVUE50Wk5aU3M0U0l3c1c4bFBYYjFRZGVScEtKc01nTXVvQ1NX?=
+ =?utf-8?B?S0l2TDVPVll3MDRZRjR6WkV2Y0tNWWZMWmx6Zm1XMkhYTmx0VXBKUlNhY016?=
+ =?utf-8?B?STBaOUVkT1M0dllSS0VxbU50RmtnbEhncXVCRXYxMlRQazdhOXFhQXAwSGhz?=
+ =?utf-8?B?bWxSSysxMU9heHlRYVhYanZJd1VpMTUxL3ZqYVdHeFllK1RORkdiOGxZazhw?=
+ =?utf-8?B?UGMyWks3ZEFLMlpQUFlRMUlpN1FxQlFtZlUxRkV2RHpsaGNIUmc0bk01N0dI?=
+ =?utf-8?B?SDlGVzU2VEMzNVVjemNxWXN1UXBhYkR1T3RVd0VxTk5zbllFeU5qY3ZLbC9J?=
+ =?utf-8?B?MkIzcXUyWTI1NjJvOTB4T3NqeTZMZ2hHNVJ0eG9mNU05SGIxOTQvODJnaEF1?=
+ =?utf-8?B?YXk5cEdGSUU1V0V0S3M3dzhwTDFOSXhMSEVUUkJMTzd3M1BqRnA2UzlYRWpO?=
+ =?utf-8?B?aUxIY09SNjlqek51c2R2aHJDYVRpbWNvMEtET1lFdS9xTkJZamNKN3N1bW5p?=
+ =?utf-8?B?cWFaRk95SFpoRUhKNDlIc0VvK3lacFAycFNIS0EwSzlMWXcvRG0vWHF3dXR5?=
+ =?utf-8?B?UWV3RUNCVUMzVEw2cVVXZjBLdXczV0JaWVVqN1RvdDVZRk5oRzZNcVJwZ1RW?=
+ =?utf-8?B?Wlp3amtEQ3Eva1k0OUFBUEx0cjc1cVZwME1TMUpJejUvTU02NklSeGEzYUVY?=
+ =?utf-8?B?R3RnVWJQZkFTRnNQcEhlWjlqcWczaVpibld1Lzl5SWVmdGVmY0xRalJjQTd4?=
+ =?utf-8?B?eWRRU0xzWTdCcmhlSTBVWWZ5TTVRTzRvaWo1cFllQ3kwT1dUMG82WFlPUlhK?=
+ =?utf-8?B?UHN6WXAxZW12NUZFOTJsV2QzSzJyd0s2Uk8xYk9iRWVQb0tYYW5waXd0ZVdv?=
+ =?utf-8?B?Z1hJUlRRbzg2QTVlQ0tOVWU1dy9JMXJKVjNuSEthbXF2YndTZFdJUUdZVFgv?=
+ =?utf-8?B?ME1najNaeFJwdm82cnl0WE9VMnV1cnFhR3U1blRyWmhtdzdMQlU5R3BOQjda?=
+ =?utf-8?B?ajkzbUxkMFA4a3J2dU9WMWFDN2EvRUVzSGtGWXVQOWRpbTBrR3BsdllWOWpm?=
+ =?utf-8?B?R2FCd1FGektYb2N2NjZnUXN5R0FmL01MR3JaSmpVL3BsYVZSSHJHZWQ3blNS?=
+ =?utf-8?B?dVdra1g3dmlwdXJVdE1vQXo4bEtHNWExbklIbC96TnFaQmxHMEh2eENkMjhl?=
+ =?utf-8?B?dks1T1NHVTBXVHhMYlBDcnRBNXNwMGt5VlN5aUpKMTV6MDBpSHVONlJ2Uy8w?=
+ =?utf-8?B?Skhtc2UxVG05MHdZL2l5NEYwbFBpMld4cnF6OTlCSWlFQXJTZUo4SWM5Q2lM?=
+ =?utf-8?B?eDhGMWFGeHEwN0dUR21jc1poNklheml6aDFUd3BvMVdUVmtkT3hNMVVLYUFS?=
+ =?utf-8?B?STVZYjFBY2RLWFduZHhUUTBleERpK0x1RTlNZm8wSWpJV3hEYjdSclM4Rlhw?=
+ =?utf-8?B?a3laMlhGOWU2R2Nrd1BCcW8wb0g4MzhEUnllUWJJMHFzeHJROGVpR1k4ZU1m?=
+ =?utf-8?B?dnFSek9JdE1VcnRNYWRVaGtBSkxqOEcyT0cxYUZxamkzQWc0SHdoZzVZUjIx?=
+ =?utf-8?B?dkxxNTMrR0R5a0h6YThwaWFzbmhKRWt1N2dWSlJCQUZlNGtFSStQWVZoM1dV?=
+ =?utf-8?Q?TsRIUmcXX/djAJOo=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsaenzju@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsaenzju@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4015.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1984c47-15d9-4e27-b7db-08da13c4b0d8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2022 09:47:52.5982 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jLlAtzMF8Fkm5hGAmiERyhmmqCtbDywdIGmKNWxbqYCdT8+qBSpeydhqevh1vqNYY1cHAjQvRkzT1aZ5PyS6x0owJ4LKfrPF2xKdjhX3x1k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR06MB2957
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f403:704b::704
+ (failed)
+Received-SPF: pass client-ip=2a01:111:f403:704b::704;
+ envelope-from=jamin_lin@aspeedtech.com;
+ helo=APC01-TYZ-obe.outbound.protection.outlook.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,393 +155,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, eduardo@habkost.net, qemu-block@nongnu.org,
- michael.roth@amd.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, hreitz@redhat.com, pbonzini@redhat.com,
- Nicolas Saenz Julienne <nsaenzju@redhat.com>, eblake@redhat.com
+Cc: Jamin Lin <jamin_lin@aspeedtech.com>, Troy Lee <troy_lee@aspeedtech.com>,
+ Steven Lee <steven_lee@aspeedtech.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The thread pool regulates itself: when idle, it kills threads until
-empty, when in demand, it creates new threads until full. This behaviour
-doesn't play well with latency sensitive workloads where the price of
-creating a new thread is too high. For example, when paired with qemu's
-'-mlock', or using safety features like SafeStack, creating a new thread
-has been measured take multiple milliseconds.
-
-In order to mitigate this let's introduce a new 'EventLoopBase'
-property to set the thread pool size. The threads will be created during
-the pool's initialization or upon updating the property's value, remain
-available during its lifetime regardless of demand, and destroyed upon
-freeing it. A properly characterized workload will then be able to
-configure the pool to avoid any latency spikes.
-
-Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
-
-Changes since v3:
- - Rework qom.json to avoid duplication
-
-Changes since v2:
- - Don't wait when decreasing pool size
- - Fix qapi versioning
-
-Changes since v1:
- - Add INT_MAX check
- - Have copy of thread pool sizes in AioContext to properly decouple
-   both instances
- - More coherent variable naming
- - Handle case where max_threads decreases
- - Code comments
-
- event-loop-base.c                | 23 +++++++++++++
- include/block/aio.h              | 10 ++++++
- include/block/thread-pool.h      |  3 ++
- include/sysemu/event-loop-base.h |  4 +++
- iothread.c                       |  3 ++
- qapi/qom.json                    | 10 +++++-
- util/aio-posix.c                 |  1 +
- util/async.c                     | 20 ++++++++++++
- util/main-loop.c                 |  9 ++++++
- util/thread-pool.c               | 55 +++++++++++++++++++++++++++++---
- 10 files changed, 133 insertions(+), 5 deletions(-)
-
-diff --git a/event-loop-base.c b/event-loop-base.c
-index e7f99a6ec8..d5be4dc6fc 100644
---- a/event-loop-base.c
-+++ b/event-loop-base.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
- #include "qom/object_interfaces.h"
- #include "qapi/error.h"
-+#include "block/thread-pool.h"
- #include "sysemu/event-loop-base.h"
- 
- typedef struct {
-@@ -21,9 +22,22 @@ typedef struct {
-     ptrdiff_t offset; /* field's byte offset in EventLoopBase struct */
- } EventLoopBaseParamInfo;
- 
-+static void event_loop_base_instance_init(Object *obj)
-+{
-+    EventLoopBase *base = EVENT_LOOP_BASE(obj);
-+
-+    base->thread_pool_max = THREAD_POOL_MAX_THREADS_DEFAULT;
-+}
-+
- static EventLoopBaseParamInfo aio_max_batch_info = {
-     "aio-max-batch", offsetof(EventLoopBase, aio_max_batch),
- };
-+static EventLoopBaseParamInfo thread_pool_min_info = {
-+    "thread-pool-min", offsetof(EventLoopBase, thread_pool_min),
-+};
-+static EventLoopBaseParamInfo thread_pool_max_info = {
-+    "thread-pool-max", offsetof(EventLoopBase, thread_pool_max),
-+};
- 
- static void event_loop_base_get_param(Object *obj, Visitor *v,
-         const char *name, void *opaque, Error **errp)
-@@ -95,12 +109,21 @@ static void event_loop_base_class_init(ObjectClass *klass, void *class_data)
-                               event_loop_base_get_param,
-                               event_loop_base_set_param,
-                               NULL, &aio_max_batch_info);
-+    object_class_property_add(klass, "thread-pool-min", "int",
-+                              event_loop_base_get_param,
-+                              event_loop_base_set_param,
-+                              NULL, &thread_pool_min_info);
-+    object_class_property_add(klass, "thread-pool-max", "int",
-+                              event_loop_base_get_param,
-+                              event_loop_base_set_param,
-+                              NULL, &thread_pool_max_info);
- }
- 
- static const TypeInfo event_loop_base_info = {
-     .name = TYPE_EVENT_LOOP_BASE,
-     .parent = TYPE_OBJECT,
-     .instance_size = sizeof(EventLoopBase),
-+    .instance_init = event_loop_base_instance_init,
-     .class_size = sizeof(EventLoopBaseClass),
-     .class_init = event_loop_base_class_init,
-     .abstract = true,
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 5634173b12..d128558f1d 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -192,6 +192,8 @@ struct AioContext {
-     QSLIST_HEAD(, Coroutine) scheduled_coroutines;
-     QEMUBH *co_schedule_bh;
- 
-+    int thread_pool_min;
-+    int thread_pool_max;
-     /* Thread pool for performing work and receiving completion callbacks.
-      * Has its own locking.
-      */
-@@ -769,4 +771,12 @@ void aio_context_set_poll_params(AioContext *ctx, int64_t max_ns,
- void aio_context_set_aio_params(AioContext *ctx, int64_t max_batch,
-                                 Error **errp);
- 
-+/**
-+ * aio_context_set_thread_pool_params:
-+ * @ctx: the aio context
-+ * @min: min number of threads to have readily available in the thread pool
-+ * @min: max number of threads the thread pool can contain
-+ */
-+void aio_context_set_thread_pool_params(AioContext *ctx, int64_t min,
-+                                        int64_t max, Error **errp);
- #endif
-diff --git a/include/block/thread-pool.h b/include/block/thread-pool.h
-index 7dd7d730a0..2020bcc92d 100644
---- a/include/block/thread-pool.h
-+++ b/include/block/thread-pool.h
-@@ -20,6 +20,8 @@
- 
- #include "block/block.h"
- 
-+#define THREAD_POOL_MAX_THREADS_DEFAULT         64
-+
- typedef int ThreadPoolFunc(void *opaque);
- 
- typedef struct ThreadPool ThreadPool;
-@@ -33,5 +35,6 @@ BlockAIOCB *thread_pool_submit_aio(ThreadPool *pool,
- int coroutine_fn thread_pool_submit_co(ThreadPool *pool,
-         ThreadPoolFunc *func, void *arg);
- void thread_pool_submit(ThreadPool *pool, ThreadPoolFunc *func, void *arg);
-+void thread_pool_update_params(ThreadPool *pool, struct AioContext *ctx);
- 
- #endif
-diff --git a/include/sysemu/event-loop-base.h b/include/sysemu/event-loop-base.h
-index fced4c9fea..2748bf6ae1 100644
---- a/include/sysemu/event-loop-base.h
-+++ b/include/sysemu/event-loop-base.h
-@@ -33,5 +33,9 @@ struct EventLoopBase {
- 
-     /* AioContext AIO engine parameters */
-     int64_t aio_max_batch;
-+
-+    /* AioContext thread pool parameters */
-+    int64_t thread_pool_min;
-+    int64_t thread_pool_max;
- };
- #endif
-diff --git a/iothread.c b/iothread.c
-index 8fa2f3bfb8..529194a566 100644
---- a/iothread.c
-+++ b/iothread.c
-@@ -174,6 +174,9 @@ static void iothread_set_aio_context_params(EventLoopBase *base, Error **errp)
-     aio_context_set_aio_params(iothread->ctx,
-                                iothread->parent_obj.aio_max_batch,
-                                errp);
-+
-+    aio_context_set_thread_pool_params(iothread->ctx, base->thread_pool_min,
-+                                       base->thread_pool_max, errp);
- }
- 
- 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index e5f31c4469..06b8c3d10b 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -506,9 +506,17 @@
- #
- # @aio-max-batch: maximum number of requests in a batch for the AIO engine,
- #                 0 means that the engine will use its default.
-+#
-+# @thread-pool-min: minimum number of threads readily available in the thread
-+#                   pool (default:0, since 7.1)
-+#
-+# @thread-pool-max: maximum number of threads the thread pool can contain
-+#                   (default:64, since 7.1)
- ##
- { 'struct': 'EventLoopBaseProperties',
--  'data': { '*aio-max-batch': 'int' } }
-+  'data': { '*aio-max-batch': 'int',
-+            '*thread-pool-min': 'int',
-+            '*thread-pool-max': 'int' } }
- 
- ##
- # @IothreadProperties:
-diff --git a/util/aio-posix.c b/util/aio-posix.c
-index be0182a3c6..731f3826c0 100644
---- a/util/aio-posix.c
-+++ b/util/aio-posix.c
-@@ -15,6 +15,7 @@
- 
- #include "qemu/osdep.h"
- #include "block/block.h"
-+#include "block/thread-pool.h"
- #include "qemu/main-loop.h"
- #include "qemu/rcu.h"
- #include "qemu/rcu_queue.h"
-diff --git a/util/async.c b/util/async.c
-index 2ea1172f3e..554ba70cca 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -563,6 +563,9 @@ AioContext *aio_context_new(Error **errp)
- 
-     ctx->aio_max_batch = 0;
- 
-+    ctx->thread_pool_min = 0;
-+    ctx->thread_pool_max = THREAD_POOL_MAX_THREADS_DEFAULT;
-+
-     return ctx;
- fail:
-     g_source_destroy(&ctx->source);
-@@ -696,3 +699,20 @@ void qemu_set_current_aio_context(AioContext *ctx)
-     assert(!get_my_aiocontext());
-     set_my_aiocontext(ctx);
- }
-+
-+void aio_context_set_thread_pool_params(AioContext *ctx, int64_t min,
-+                                        int64_t max, Error **errp)
-+{
-+
-+    if (min > max || !max || min > INT_MAX || max > INT_MAX) {
-+        error_setg(errp, "bad thread-pool-min/thread-pool-max values");
-+        return;
-+    }
-+
-+    ctx->thread_pool_min = min;
-+    ctx->thread_pool_max = max;
-+
-+    if (ctx->thread_pool) {
-+        thread_pool_update_params(ctx->thread_pool, ctx);
-+    }
-+}
-diff --git a/util/main-loop.c b/util/main-loop.c
-index 5b13f456fa..a0f48186ab 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -30,6 +30,7 @@
- #include "sysemu/replay.h"
- #include "qemu/main-loop.h"
- #include "block/aio.h"
-+#include "block/thread-pool.h"
- #include "qemu/error-report.h"
- #include "qemu/queue.h"
- #include "qemu/compiler.h"
-@@ -187,12 +188,20 @@ int qemu_init_main_loop(Error **errp)
- 
- static void main_loop_update_params(EventLoopBase *base, Error **errp)
- {
-+    ERRP_GUARD();
-+
-     if (!qemu_aio_context) {
-         error_setg(errp, "qemu aio context not ready");
-         return;
-     }
- 
-     aio_context_set_aio_params(qemu_aio_context, base->aio_max_batch, errp);
-+    if (*errp) {
-+        return;
-+    }
-+
-+    aio_context_set_thread_pool_params(qemu_aio_context, base->thread_pool_min,
-+                                       base->thread_pool_max, errp);
- }
- 
- MainLoop *mloop;
-diff --git a/util/thread-pool.c b/util/thread-pool.c
-index d763cea505..196835b4d3 100644
---- a/util/thread-pool.c
-+++ b/util/thread-pool.c
-@@ -58,7 +58,6 @@ struct ThreadPool {
-     QemuMutex lock;
-     QemuCond worker_stopped;
-     QemuSemaphore sem;
--    int max_threads;
-     QEMUBH *new_thread_bh;
- 
-     /* The following variables are only accessed from one AioContext. */
-@@ -71,8 +70,27 @@ struct ThreadPool {
-     int new_threads;     /* backlog of threads we need to create */
-     int pending_threads; /* threads created but not running yet */
-     bool stopping;
-+    int min_threads;
-+    int max_threads;
- };
- 
-+static inline bool back_to_sleep(ThreadPool *pool, int ret)
-+{
-+    /*
-+     * The semaphore timed out, we should exit the loop except when:
-+     *  - There is work to do, we raced with the signal.
-+     *  - The max threads threshold just changed, we raced with the signal.
-+     *  - The thread pool forces a minimum number of readily available threads.
-+     */
-+    if (ret == -1 && (!QTAILQ_EMPTY(&pool->request_list) ||
-+            pool->cur_threads > pool->max_threads ||
-+            pool->cur_threads <= pool->min_threads)) {
-+            return true;
-+    }
-+
-+    return false;
-+}
-+
- static void *worker_thread(void *opaque)
- {
-     ThreadPool *pool = opaque;
-@@ -91,8 +109,9 @@ static void *worker_thread(void *opaque)
-             ret = qemu_sem_timedwait(&pool->sem, 10000);
-             qemu_mutex_lock(&pool->lock);
-             pool->idle_threads--;
--        } while (ret == -1 && !QTAILQ_EMPTY(&pool->request_list));
--        if (ret == -1 || pool->stopping) {
-+        } while (back_to_sleep(pool, ret));
-+        if (ret == -1 || pool->stopping ||
-+            pool->cur_threads > pool->max_threads) {
-             break;
-         }
- 
-@@ -294,6 +313,33 @@ void thread_pool_submit(ThreadPool *pool, ThreadPoolFunc *func, void *arg)
-     thread_pool_submit_aio(pool, func, arg, NULL, NULL);
- }
- 
-+void thread_pool_update_params(ThreadPool *pool, AioContext *ctx)
-+{
-+    qemu_mutex_lock(&pool->lock);
-+
-+    pool->min_threads = ctx->thread_pool_min;
-+    pool->max_threads = ctx->thread_pool_max;
-+
-+    /*
-+     * We either have to:
-+     *  - Increase the number available of threads until over the min_threads
-+     *    threshold.
-+     *  - Decrease the number of available threads until under the max_threads
-+     *    threshold.
-+     *  - Do nothing. The current number of threads fall in between the min and
-+     *    max thresholds. We'll let the pool manage itself.
-+     */
-+    for (int i = pool->cur_threads; i < pool->min_threads; i++) {
-+        spawn_thread(pool);
-+    }
-+
-+    for (int i = pool->cur_threads; i > pool->max_threads; i--) {
-+        qemu_sem_post(&pool->sem);
-+    }
-+
-+    qemu_mutex_unlock(&pool->lock);
-+}
-+
- static void thread_pool_init_one(ThreadPool *pool, AioContext *ctx)
- {
-     if (!ctx) {
-@@ -306,11 +352,12 @@ static void thread_pool_init_one(ThreadPool *pool, AioContext *ctx)
-     qemu_mutex_init(&pool->lock);
-     qemu_cond_init(&pool->worker_stopped);
-     qemu_sem_init(&pool->sem, 0);
--    pool->max_threads = 64;
-     pool->new_thread_bh = aio_bh_new(ctx, spawn_thread_bh_fn, pool);
- 
-     QLIST_INIT(&pool->head);
-     QTAILQ_INIT(&pool->request_list);
-+
-+    thread_pool_update_params(pool, ctx);
- }
- 
- ThreadPool *thread_pool_new(AioContext *ctx)
--- 
-2.35.1
-
+SGkgQ2VkcmljLA0KT25lIG1vcmUgcXVlc3Rpb24sIHdoYXQgaXMgdGhlIHByb2dyZXNzIGFib3V0
+IFNGRFAgcGF0Y2gsIGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9xZW11LWRl
+dmVsL2xpc3QvP3Nlcmllcz0zNDIwODEmYXJjaGl2ZT1ib3RoIA0KV2UgbmVlZCB0aGVzZSBwYXRj
+aGVzIGZvciBmdXR1cmUgU1BJIHN1cHBvcnQuDQpUaGFua3MtSmFtaW4NCg0KKioqKioqKioqKioq
+KiBFbWFpbCBDb25maWRlbnRpYWxpdHkgTm90aWNlICoqKioqKioqKioqKioqKioqKioqDQpESVND
+TEFJTUVSOg0KVGhpcyBtZXNzYWdlIChhbmQgYW55IGF0dGFjaG1lbnRzKSBtYXkgY29udGFpbiBs
+ZWdhbGx5IHByaXZpbGVnZWQgYW5kL29yIG90aGVyIGNvbmZpZGVudGlhbCBpbmZvcm1hdGlvbi4g
+SWYgeW91IGhhdmUgcmVjZWl2ZWQgaXQgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRl
+ciBieSByZXBseSBlLW1haWwgYW5kIGltbWVkaWF0ZWx5IGRlbGV0ZSB0aGUgZS1tYWlsIGFuZCBh
+bnkgYXR0YWNobWVudHMgd2l0aG91dCBjb3B5aW5nIG9yIGRpc2Nsb3NpbmcgdGhlIGNvbnRlbnRz
+LiBUaGFuayB5b3UuDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBKYW1pbiBM
+aW4gPGphbWluX2xpbkBhc3BlZWR0ZWNoLmNvbT4gDQpTZW50OiBGcmlkYXksIEFwcmlsIDEsIDIw
+MjIgNToyNCBQTQ0KVG86IEPDqWRyaWMgTGUgR29hdGVyIDxjbGdAa2FvZC5vcmc+OyBBbGlzdGFp
+ciBGcmFuY2lzIDxhbGlzdGFpckBhbGlzdGFpcjIzLm1lPjsgUGV0ZXIgTWF5ZGVsbCA8cGV0ZXIu
+bWF5ZGVsbEBsaW5hcm8ub3JnPjsgQW5kcmV3IEplZmZlcnkgPGFuZHJld0Bhai5pZC5hdT47IEpv
+ZWwgU3RhbmxleSA8am9lbEBqbXMuaWQuYXU+OyBDbGViZXIgUm9zYSA8Y3Jvc2FAcmVkaGF0LmNv
+bT47IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxmNGJ1Z0BhbXNhdC5vcmc+OyBXYWluZXIgZG9z
+IFNhbnRvcyBNb3NjaGV0dGEgPHdhaW5lcnNtQHJlZGhhdC5jb20+OyBCZXJhbGRvIExlYWwgPGJs
+ZWFsQHJlZGhhdC5jb20+OyBvcGVuIGxpc3Q6U1RNMzJGMjA1IDxxZW11LWFybUBub25nbnUub3Jn
+Pjsgb3BlbiBsaXN0OkFsbCBwYXRjaGVzIENDIGhlcmUgPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz47
+IEphbWluIExpbiA8amFtaW5fbGluQGFzcGVlZHRlY2guY29tPg0KQ2M6IFN0ZXZlbiBMZWUgPHN0
+ZXZlbl9sZWVAYXNwZWVkdGVjaC5jb20+OyBUcm95IExlZSA8dHJveV9sZWVAYXNwZWVkdGVjaC5j
+b20+DQpTdWJqZWN0OiBSRTogW1BBVENIIHY1IDAvOV0gQWRkIHN1cHBvcnQgZm9yIEFTVDEwMzAg
+U29DDQoNCkhpIENlZHJpYywgSm9lbCBhbmQgQW5kcmV3DQpGaXJzdCBhbGwsIHRoYW5rcyBmb3Ig
+YWxsIHlvdXIga2luZGx5IHN1cHBvcnQgYW5kIHJldmlldy4gV2UgYXJlIHNvIGdsYWQgdGhhdCBR
+RU1VIHY3LjEgd2lsbCBzdXBwb3J0IEFTVDEwMzAgbW9kZWwuDQoNCjEuIFRoZSBhc3QxMDMwIGFu
+ZCBhc3QyNjAwIEhBQ0UgY29udHJvbGxlciBhcmUgaWRlbnRpY2FsLiANCiAgU3RldmVuIHN1Ym1p
+dHRlZCB0aGUgcGF0Y2ggdG8gc3VwcG9ydCBIQUNFIEFDQyBtb2RlLiBPbmNlIGhpcyBwYXRjaCBh
+Y2NlcHQuIFdlIHdpbGwgc3VibWl0IHBhdGNoIHRvIHN1cHBvcnQgYXN0MTAzMCBtb2RlbC4NCjIu
+IEkgc3VibWl0dGVkIHRoZSBwYXRjaCB0byBzdXBwb3J0IEdPSU8gaW5kZXggbW9kZSBiZWNhdXNl
+IGFzdDEwMzAgZHJpdmVyIHdhcyBpbXBsZW1lbnQgYnkgaW5kZXggbW9kZS4gSSBhbSB3YWl0aW5n
+IGZvciByZXZpZXcgYW5kIGFueSBzdWdnZXN0aW9uIHdpbGwgYmUgYXBwcmVjaWF0ZWQuDQozLiBU
+cm95IHN1Ym1pdHRlZCB0aGUgcGF0Y2ggdG8gc3VwcG9ydCBJMkMgbmV3IG1vZGVsIHdoaWNoIGlu
+Y2x1ZGVkIGFzdDEwMzAgbW9kZWwuDQo0LiBBcyBmb3IgTklDIHBsYW4sIG9uY2UgQVNUMTAzMCBO
+SUMgZHJpdmVyIHJlYWR5LCB3ZSB3aWxsIHVwc3RyZWFtLCB0b28uDQpCVFcsIGRvIHlvdSBoYXZl
+IGEgcGxhbiB0byB1cHN0cmVhbSBpdCwgaHR0cHM6Ly9naXRodWIuY29tL29wZW5ibWMvcWVtdS9i
+bG9iL21hc3Rlci9ody9taXNjL2FzcGVlZF9wd20uYw0KDQpUaGFua3MgYWdhaW4gLSBKYW1pbg0K
+DQoqKioqKioqKioqKioqIEVtYWlsIENvbmZpZGVudGlhbGl0eSBOb3RpY2UgKioqKioqKioqKioq
+KioqKioqKioNCkRJU0NMQUlNRVI6DQpUaGlzIG1lc3NhZ2UgKGFuZCBhbnkgYXR0YWNobWVudHMp
+IG1heSBjb250YWluIGxlZ2FsbHkgcHJpdmlsZWdlZCBhbmQvb3Igb3RoZXIgY29uZmlkZW50aWFs
+IGluZm9ybWF0aW9uLiBJZiB5b3UgaGF2ZSByZWNlaXZlZCBpdCBpbiBlcnJvciwgcGxlYXNlIG5v
+dGlmeSB0aGUgc2VuZGVyIGJ5IHJlcGx5IGUtbWFpbCBhbmQgaW1tZWRpYXRlbHkgZGVsZXRlIHRo
+ZSBlLW1haWwgYW5kIGFueSBhdHRhY2htZW50cyB3aXRob3V0IGNvcHlpbmcgb3IgZGlzY2xvc2lu
+ZyB0aGUgY29udGVudHMuIFRoYW5rIHlvdS4NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+CkZyb206IEPDqWRyaWMgTGUgR29hdGVyIDxjbGdAa2FvZC5vcmc+DQpTZW50OiBGcmlkYXksIEFw
+cmlsIDEsIDIwMjIgNDo1NSBQTQ0KVG86IEphbWluIExpbiA8amFtaW5fbGluQGFzcGVlZHRlY2gu
+Y29tPjsgQWxpc3RhaXIgRnJhbmNpcyA8YWxpc3RhaXJAYWxpc3RhaXIyMy5tZT47IFBldGVyIE1h
+eWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz47IEFuZHJldyBKZWZmZXJ5IDxhbmRyZXdA
+YWouaWQuYXU+OyBKb2VsIFN0YW5sZXkgPGpvZWxAam1zLmlkLmF1PjsgQ2xlYmVyIFJvc2EgPGNy
+b3NhQHJlZGhhdC5jb20+OyBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8ZjRidWdAYW1zYXQub3Jn
+PjsgV2FpbmVyIGRvcyBTYW50b3MgTW9zY2hldHRhIDx3YWluZXJzbUByZWRoYXQuY29tPjsgQmVy
+YWxkbyBMZWFsIDxibGVhbEByZWRoYXQuY29tPjsgb3BlbiBsaXN0OlNUTTMyRjIwNSA8cWVtdS1h
+cm1Abm9uZ251Lm9yZz47IG9wZW4gbGlzdDpBbGwgcGF0Y2hlcyBDQyBoZXJlIDxxZW11LWRldmVs
+QG5vbmdudS5vcmc+DQpDYzogU3RldmVuIExlZSA8c3RldmVuX2xlZUBhc3BlZWR0ZWNoLmNvbT47
+IFRyb3kgTGVlIDx0cm95X2xlZUBhc3BlZWR0ZWNoLmNvbT4NClN1YmplY3Q6IFJlOiBbUEFUQ0gg
+djUgMC85XSBBZGQgc3VwcG9ydCBmb3IgQVNUMTAzMCBTb0MNCg0KSGVsbG8gSmFtaW4sDQoNClRo
+YW5rcyBmb3IgdGhlc2UgbmV3IG1vZGVscyBhbmQgbWFjaGluZS4gVGhleSBhcmUgcXVldWVkIGZv
+ciBRRU1VIDcuMS4NClRoZXJlIGFyZSBhIGNvdXBsZSBvZiBwYXRjaHNldHMgYWRkaW5nIHN1cHBv
+cnQgZm9yIHRoZSBBU1QxMDMwIEdQSU8gY29udHJvbGxlciBhbmQgdGhlIEkyQyBuZXcgbW9kZSB0
+aGF0IHdvdWxkIGJlIGdvb2QgZXh0ZW5zaW9ucyBidXQgdGhleSBuZWVkIHJldmlldyBmaXJzdC4N
+Cg0KV2hhdCBhcmUgdGhlIG5leHQgc3RlcHM/IGFueSBwbGFucyBmb3IgbmV0d29yayA/IFRoZSBO
+SUMgc2hvdWxkIGJlIGENCkZUR01BQzEwMCBpZiBJIGFtIGNvcnJlY3QuDQoNClRoYW5rcywNCg0K
+Qy4NCg0KDQogIE9uIDQvMS8yMiAxMDozOCwgSmFtaW4gTGluIHdyb3RlOg0KPiBDaGFuZ2VzIGZy
+b20gdjU6DQo+IC0gcmVtb3ZlIFRZUEVfQVNQRUVEX01JTklCTUNfTUFDSElORSBhbmQgQVNQRUVE
+X01JTklCTUNfTUFDSElORQ0KPiAtIHJlbW92ZSBhc3QxMDMwX21hY2hpbmVfaW5zdGFuY2VfaW5p
+dCBmdW5jdGlvbg0KPiANCj4gQ2hhbmdlcyBmcm9tIHY0Og0KPiAtIGRyb3AgdGhlIEFTUEVFRF9T
+TUNfRkVBVFVSRV9XRFRfQ09OVFJPTCBmbGFnIGluIGh3L3NzaS9hc3BlZWRfc21jLmMNCj4gDQo+
+IENoYW5nZXMgZnJvbSB2MzoNCj4gLSByZW1vdmUgQXNwZWVkTWluaUJtY01hY2hpbmVTdGF0ZSBz
+dGF0ZSBzdHJ1Y3R1cmUgYW5kDQo+ICAgIEFzcGVlZE1pbmlCbWNNYWNoaW5lQ2xhc3MgY2xhc3MN
+Cj4gLSByZW1vdmUgcmVkdW5kYW50IG5ldyBsaW5lIGluIGh3L2FybS9hc3BlZWRfYXN0MTB4eC5j
+DQo+IC0gZHJvcCB0aGUgQVNQRUVEX1NNQ19GRUFUVVJFX1dEVF9DT05UUk9MIGZsYWcgaW4gaHcv
+c3NpL2FzcGVlZF9zbWMuYw0KPiANCj4gQ2hhbmdlcyBmcm9tIHYyOg0KPiAtIHJlcGxhY2UgYXNw
+ZWVkX2FzdDEwMzAuYyB3aXRoIGFzcGVlZF9hc3QxMHh4LmMgZm9yIG1pbmlibWMgU09DcyANCj4g
+ZmFtaWx5IHN1cHBvcnQNCj4gLSBBZGQgImFzdDEwMzAtZXZiIiBtYWNoaW5lIGluIGFzcGVlZC5j
+IGFuZCByZW1vdmVzIGFzcGVlZF9taW5pYm1jLmMNCj4gDQo+IENoYW5nZXMgZnJvbSB2MToNCj4g
+VGhlIHBhdGNoIHNlcmllcyBzdXBwb3J0cyBBREMsIFNDVSwgU01DLCBUSU1FUiwgYW5kIFdEVCBm
+b3IgQVNUMTAzMCBTb0MuDQo+IEFkZCBhdm9jYWRvIHRlc3QgY2FzZSBmb3IgImFzdDEwMzAtZXZi
+IiBtYWNoaW5lLg0KPiANCj4gVGVzdCBzdGVwczoNCj4gMS4gRG93bmxvYWQgaW1hZ2UgZnJvbQ0K
+PiAgICAgDQo+IGh0dHBzOi8vZ2l0aHViLmNvbS9Bc3BlZWRUZWNoLUJNQy96ZXBoeXIvcmVsZWFz
+ZXMvZG93bmxvYWQvdjAwLjAxLjA0L2ENCj4gc3QxMDMwLWV2Yi1kZW1vLnppcCAyLiBFeHRyYWN0
+IHRoZSB6aXAgZmlsZSB0byBvYnRhaW4gemVwaHlyLmVsZiAzLiANCj4gUnVuIC4vcWVtdS1zeXN0
+ZW0tYXJtIC1NIGFzdDEwMzAtZXZiIC1rZXJuZWwgJFBBVEgvemVwaHlyLmVsZiANCj4gLW5vZ3Jh
+cGhpYyA0LiBUZXN0IElPIGJ5IFplcGh5ciBjb21tYW5kIGxpbmUsIGNvbW1hbmRzIGFyZSByZWZl
+ciB0byBBc3BlZWQgWmVwaHlyDQo+ICAgICBTREsgVXNlciBHdWlkZSBiZWxvdw0KPiAgICAgaHR0
+cHM6Ly9naXRodWIuY29tL0FzcGVlZFRlY2gtQk1DL3plcGh5ci9yZWxlYXNlcy9kb3dubG9hZC92
+MDAuMDEuMDQvQXNwZWVkX1plcGh5X1NES19Vc2VyX0d1aWRlX3YwMC4wMS4wNC5wZGYNCj4gICAg
+IC0gQURDKGNoYW5uZWwgMCk6DQo+ICAgICAgICAgdWFydDp+JCBhZGMgQURDMCByZXNvbHV0aW9u
+IDEwDQo+ICAgICAgICAgdWFydDp+JCBhZGMgQURDMCBjYWxpYnJhdGUgMQ0KPiAgICAgICAgIHVh
+cnQ6fiQgYWRjIEFEQzAgcmVhZF9mb3JtYXQgMQ0KPiAgICAgICAgIHVhcnQ6fiQgYWRjIEFEQzAg
+cmVhZCAwDQo+ICAgICAgICAgW1Jlc3VsdF0NCj4gICAgICAgICByZWFkOiAxNDE2bXYNCj4gDQo+
+ICAgICAtIFNDVQ0KPiAgICAgICAgIHVhcnQ6fiQgbWQgN2U2ZTIwNDANCj4gICAgICAgICB1YXJ0
+On4kIG1kIDdlNmUyMDgwDQo+ICAgICAgICAgdWFydDp+JCBtZCA3ZTZlMjBkMA0KPiAgICAgICAg
+IHVhcnQ6fiQgbWQgN2U2ZTIyMDANCj4gICAgICAgICB1YXJ0On4kIG1kIDdlNmUyMzAwDQo+ICAg
+ICAgICAgdWFydDp+JCBtZCA3ZTZlMjViMA0KPiAgICAgICAgIFtSZXN1bHRdDQo+ICAgICAgICAg
+VGhlIHJlZ2lzdGVyIHZhbHVlIHNob3VsZCBtYXRjaCB0aGUgdmFsdWUgb2YgYXN0MTAzMF9hMV9y
+ZXNldHMNCj4gICAgICAgICBpbiBhc3BlZWRfc2N1LmMNCj4gDQo+ICAgICAtIEZsYXNoKGZtY19j
+czApOg0KPiAgICAgICAgIHVhcnQ6fiQgZmxhc2ggd3JpdGUgZm1jX2NzMCAwIDB4MTIzNDU2Nzgg
+MHg4NzY1NDMyMSAweDM0MTI3ODU2IDB4Nzg1NjM0MTINCj4gICAgICAgICB1YXJ0On4kIGZsYXNo
+IHJlYWQgZm1jX2NzMCAwIDEwDQo+ICAgICAgICAgW1Jlc3VsdF0NCj4gICAgICAgICAwMDAwMDAw
+MDogNzggNTYgMzQgMTIgMjEgNDMgNjUgODcgIDU2IDc4IDEyIDM0IDEyIDM0IDU2IDc4DQo+IHx4
+VjQuIUNlLiBWeC40LjRWeHwNCj4gDQo+ICAgICAgICAgdWFydDp+JCBmbGFzaCBlcmFzZSBmbWNf
+Y3MwIDANCj4gICAgICAgICB1YXJ0On4kIGZsYXNoIHJlYWQgZm1jX2NzMCAwIDEwDQo+ICAgICAg
+ICAgW1Jlc3VsdF0NCj4gICAgICAgICAwMDAwMDAwMDogZmYgZmYgZmYgZmYgZmYgZmYgZmYgZmYg
+IGZmIGZmIGZmIGZmIGZmIGZmIGZmIGZmDQo+IHwuLi4uLi4uLiAuLi4uLi4uLnwNCj4gDQo+ICAg
+ICAtIFRpbWVyKFRJTUVSMCk6DQo+ICAgICAgICAgdWFydDp+JCB0aW1lciBzdGFydCBUSU1FUjAg
+LXAgMjAwMCAtdCAwDQo+ICAgICAgICAgVElNRVIwOiBwZXJpb2QgMjAwMDAgbXMsIHR5cGUgMA0K
+PiAgICAgICAgIFtSZXN1bHRdDQo+ICAgICAgICAgdGltZXIgZXhwaXJlZCBhZnRlciAyIHNlY29u
+ZHMNCj4gDQo+ICAgICAtIFdhdGNoZG9nKFdEVDEpOg0KPiAgICAgICAgIHVhcnQ6fiQgbXcgN2U3
+ODUwMDggNDc1NQ0KPiAgICAgICAgIHVhcnQ6fiQgbXcgN2U3ODUwMGMgMQ0KPiAgICAgICAgIFtS
+ZXN1bHRdDQo+ICAgICAgICAgc29jIHJlc2V0IGFmdGVyIDIyIHNlY29uZHMNCj4gDQo+IEJhc2Vk
+LW9uOiAyMDIyMDMxNTA3NTc1My44NTkxLTMtc3RldmVuX2xlZUBhc3BlZWR0ZWNoLmNvbQ0KPiAo
+W3YyLDIvMl0gaHc6IGFzcGVlZF9zY3U6IEludHJvZHVjZSBjbGtpbl8yNU1oeiBhdHRyaWJ1dGUp
+DQo+IA0KPiBKYW1pbiBMaW4gKDIpOg0KPiAgICBhc3BlZWQ6IEFkZCBhbiBBU1QxMDMwIGV2YWwg
+Ym9hcmQNCj4gICAgdGVzdC9hdm9jYWRvL21hY2hpbmVfYXNwZWVkLnB5OiBBZGQgYXN0MTAzMCB0
+ZXN0IGNhc2UNCj4gDQo+IFN0ZXZlbiBMZWUgKDcpOg0KPiAgICBhc3BlZWQvYWRjOiBBZGQgQVNU
+MTAzMCBzdXBwb3J0DQo+ICAgIGFzcGVlZC9zbWM6IEFkZCBBU1QxMDMwIHN1cHBvcnQNCj4gICAg
+YXNwZWVkL3dkdDogRml4IGFzdDI1MDAvYXN0MjYwMCBkZWZhdWx0IHJlbG9hZCB2YWx1ZQ0KPiAg
+ICBhc3BlZWQvd2R0OiBBZGQgQVNUMTAzMCBzdXBwb3J0DQo+ICAgIGFzcGVlZC90aW1lcjogQWRk
+IEFTVDEwMzAgc3VwcG9ydA0KPiAgICBhc3BlZWQvc2N1OiBBZGQgQVNUMTAzMCBzdXBwb3J0DQo+
+ICAgIGFzcGVlZC9zb2MgOiBBZGQgQVNUMTAzMCBzdXBwb3J0DQo+IA0KPiAgIGh3L2FkYy9hc3Bl
+ZWRfYWRjLmMgICAgICAgICAgICAgIHwgIDE2ICsrDQo+ICAgaHcvYXJtL2FzcGVlZC5jICAgICAg
+ICAgICAgICAgICAgfCAgNjYgKysrKysrKw0KPiAgIGh3L2FybS9hc3BlZWRfYXN0MTB4eC5jICAg
+ICAgICAgIHwgMjk5ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gICBody9hcm0v
+bWVzb24uYnVpbGQgICAgICAgICAgICAgICB8ICAgNiArLQ0KPiAgIGh3L21pc2MvYXNwZWVkX3Nj
+dS5jICAgICAgICAgICAgIHwgIDYzICsrKysrKysNCj4gICBody9zc2kvYXNwZWVkX3NtYy5jICAg
+ICAgICAgICAgICB8IDE1NyArKysrKysrKysrKysrKysrDQo+ICAgaHcvdGltZXIvYXNwZWVkX3Rp
+bWVyLmMgICAgICAgICAgfCAgMTcgKysNCj4gICBody93YXRjaGRvZy93ZHRfYXNwZWVkLmMgICAg
+ICAgICB8ICAzNCArKystDQo+ICAgaW5jbHVkZS9ody9hZGMvYXNwZWVkX2FkYy5oICAgICAgfCAg
+IDEgKw0KPiAgIGluY2x1ZGUvaHcvYXJtL2FzcGVlZF9zb2MuaCAgICAgIHwgICAzICsNCj4gICBp
+bmNsdWRlL2h3L21pc2MvYXNwZWVkX3NjdS5oICAgICB8ICAyNSArKysNCj4gICBpbmNsdWRlL2h3
+L3RpbWVyL2FzcGVlZF90aW1lci5oICB8ICAgMSArDQo+ICAgaW5jbHVkZS9ody93YXRjaGRvZy93
+ZHRfYXNwZWVkLmggfCAgIDMgKw0KPiAgIHRlc3RzL2F2b2NhZG8vbWFjaGluZV9hc3BlZWQucHkg
+IHwgIDM2ICsrKysNCj4gICAxNCBmaWxlcyBjaGFuZ2VkLCA3MjQgaW5zZXJ0aW9ucygrKSwgMyBk
+ZWxldGlvbnMoLSkNCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgaHcvYXJtL2FzcGVlZF9hc3QxMHh4
+LmMNCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvYXZvY2Fkby9tYWNoaW5lX2FzcGVlZC5w
+eQ0KPiANCg0K
 
