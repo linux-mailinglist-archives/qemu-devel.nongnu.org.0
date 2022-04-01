@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF194EEE08
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:24:46 +0200 (CEST)
-Received: from localhost ([::1]:52322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37ECB4EEE19
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:27:56 +0200 (CEST)
+Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naHGf-00016t-J4
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:24:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51870)
+	id 1naHJj-0005nP-9l
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:27:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naHEi-0007aC-U1
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:44 -0400
-Received: from [2607:f8b0:4864:20::32a] (port=33687
+ id 1naHEj-0007bs-Sd
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:45 -0400
+Received: from [2607:f8b0:4864:20::32a] (port=39787
  helo=mail-ot1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naHEh-0006xd-Ct
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:44 -0400
+ id 1naHEi-0006xj-Hj
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:45 -0400
 Received: by mail-ot1-x32a.google.com with SMTP id
- e25-20020a0568301e5900b005b236d5d74fso2148667otj.0
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:22:42 -0700 (PDT)
+ a17-20020a9d3e11000000b005cb483c500dso2106273otd.6
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:22:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DWxqkmbIe1D+g2yoiMgVrjLbvsHSNutW/fm7DgKkCNE=;
- b=k9XEzsOUth3J0uuDZk/IDjMOAqOdX10KNzCRKUQHr3HHrOPjdmRcmnWnmHXTJWHdHE
- o/yjC+tklcoL13eh5dfHm/+xQGg1qnwrbc7EEz7gji+NKpJYl/S1FlOwxkNdsSVdF//L
- bAhatdgLfkLJ5a27LywKc03q/CmI6w4ni4wbGlY7k7cLUdZ0zra+d0HeolSggVwcsklL
- X9CyayAnhSGOh9gJObSJnbS8vNCCrDXdlsB0zhlR9uyoEobdeCHNtziSgCloXRf+YR0g
- GCa9z3JPvHvzYcUVA/7aBt0v6ogQUcIg6nIPUc8mg7H56ZbIvbS8fIEuGmgTZ2gjMCDL
- kfpw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RbIV1+8NyqMJlYAlK7WMJI7CdKY136/WMhV7maG3bQw=;
+ b=N5JhM7vd1/+ttZgA3ovc3BAm9ZxkmQYMeWRxVIz9gc+Jcn8PsEQh3RhvasqyJndYUW
+ gQ6QPIMGBKtndW07jzKzpXNMPMdg5YOwi+k8l4crXsnIHfz780x9PRyTlql5087wZXpZ
+ lsEm9+nsdpy6grqd2VG0SyfibAyvEFG6W8kLWVg0TOtakVsrMDRuxwI/Ve16UfJzTNS+
+ 6sDIIwZRsAvj2ZX+zWOWPi0Xte3mT21UzCCpXg3OQcYYebZR1fVxlgX93tV5JMhG/WJO
+ bUDymzdJeMp8lyosj3yiLgo03XwThxfMSkL3l5GVyLy/xU7Wck8pji5zOS/KjtrGpDm9
+ ctGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DWxqkmbIe1D+g2yoiMgVrjLbvsHSNutW/fm7DgKkCNE=;
- b=WI08Ycee5+SbBXpE3E8uS06B3VpqE62hz58vCxL8AYE1n5FTfZFAoHBrc8ocHrkmSX
- UcGB7WZ5kMfU/+QlUTwylwxKJigv89UJRWwFulBDgH2+pKmjB1dtu7goVYojS6F6Vff8
- HqSWk8hcGyKBubNr+cfBuLM1FtHwK5PHXyrgE2/Nx4IxLfNG8/wZLVJLRNDMcR12Ml4C
- p8ROkwGyluTMLeDRK3K6KzzFbPzcH9j6LFocaAxlolDcxXS8/HQEkC368GReKn/3UTJF
- yb8WrCZAeDrLBvr9KcPjZLl6na2GpFP+Py+rL4fZESA+lmMEMbvtvL6tdNAml2fgyvrd
- YDQw==
-X-Gm-Message-State: AOAM53132ZQzWLFsoy3vSXYywJMj2cC3I+O5RGCOC0fTyKKiCE+O+j3w
- XJjoLDVBu8mWVxFk1q61gem/OR7q3OgvpMgRBTo=
-X-Google-Smtp-Source: ABdhPJzQ+YHI2uBTThLYRKooyIEyJfOL4l91GheDNi9pffhgEzJmO0ziHRyDgD9i9M/Xp0gGZsveSw==
-X-Received: by 2002:a05:6830:442a:b0:5c9:3a6b:de3e with SMTP id
- q42-20020a056830442a00b005c93a6bde3emr7661987otv.151.1648819362164; 
- Fri, 01 Apr 2022 06:22:42 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RbIV1+8NyqMJlYAlK7WMJI7CdKY136/WMhV7maG3bQw=;
+ b=BWrmvKrVn5iO3Q6PfrCK49smhVohJ38yDOg2hAI7tWPHXiykTO5j6cTjVbNqpvbn91
+ x94c40dfH5m4QKoqFZ2wF55U6PhZ1oeLKS9N9kIDhBVEFokfV/3D2ScmYnmqMrZLCFNR
+ x3sIXmod+zxGsIgmMNVlhY2uFwzPOke6g2Kx731nimxQ95D+NnMPQcfRCO9yKscDEWMe
+ RkgxIgHw6QrMwmX7rj7kAbggyIvLzRPTYr9vN79wA+jqgHTEIpXWoZYPikGttVgkbYjW
+ S9z/0q+QsAttfn+Coy1Y3tcIbpyz1EUdOXvnYOEhvwD4rswEj8SZ90cXQ0pGEeYj1tjf
+ 7vAg==
+X-Gm-Message-State: AOAM533JXzvhM8DwmJjezxF+1T6HSA73RLaCD/tsdC/47Z5pekU+pUcj
+ aos5FCQxU6HSGhClTUlnT6Rp+mPTYuTJx1QmPfw=
+X-Google-Smtp-Source: ABdhPJzCjc9CfXxpAiZmTM0luYlIZlZN3nKc+sDhCBggWuPvHLgeLDSTQbYded7izcAhYbdly4lQSg==
+X-Received: by 2002:a05:6830:1d70:b0:5b2:2c27:be29 with SMTP id
+ l16-20020a0568301d7000b005b22c27be29mr7415773oti.89.1648819363510; 
+ Fri, 01 Apr 2022 06:22:43 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-188-190-73.totalplay.net.
  [187.188.190.73]) by smtp.gmail.com with ESMTPSA id
- x1-20020a4ae781000000b00320d5d238efsm1006935oov.3.2022.04.01.06.22.40
+ x1-20020a4ae781000000b00320d5d238efsm1006935oov.3.2022.04.01.06.22.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 06:22:41 -0700 (PDT)
+ Fri, 01 Apr 2022 06:22:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] softfloat: FloatRelation cleanups
-Date: Fri,  1 Apr 2022 07:22:37 -0600
-Message-Id: <20220401132240.79730-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/3] softfloat: Fix declaration of partsN_compare
+Date: Fri,  1 Apr 2022 07:22:38 -0600
+Message-Id: <20220401132240.79730-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220401132240.79730-1-richard.henderson@linaro.org>
+References: <20220401132240.79730-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32a
@@ -91,23 +93,33 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make consistent use of FloatRelation throughout the
-implementation of the float compare functions.
+The declaration used 'int', while the definition used 'FloatRelation'.
+This should have resulted in a compiler error, but mysteriously didn't.
 
-I don't yet know if this actually solves Coverity issues,
-but they all look a bit cleaner, I think.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ fpu/softfloat.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-r~
-
-Richard Henderson (3):
-  softfloat: Fix declaration of partsN_compare
-  softfloat: Use FloatRelation within partsN_compare
-  softfloat: Use FloatRelation for fracN_cmp
-
- fpu/softfloat.c           | 20 +++++++++++---------
- fpu/softfloat-parts.c.inc | 11 +++++++----
- 2 files changed, 18 insertions(+), 13 deletions(-)
-
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 7f524d4377..7e62fcf414 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -874,10 +874,10 @@ static FloatParts128 *parts128_minmax(FloatParts128 *a, FloatParts128 *b,
+ #define parts_minmax(A, B, S, F) \
+     PARTS_GENERIC_64_128(minmax, A)(A, B, S, F)
+ 
+-static int parts64_compare(FloatParts64 *a, FloatParts64 *b,
+-                           float_status *s, bool q);
+-static int parts128_compare(FloatParts128 *a, FloatParts128 *b,
+-                            float_status *s, bool q);
++static FloatRelation parts64_compare(FloatParts64 *a, FloatParts64 *b,
++                                     float_status *s, bool q);
++static FloatRelation parts128_compare(FloatParts128 *a, FloatParts128 *b,
++                                      float_status *s, bool q);
+ 
+ #define parts_compare(A, B, S, Q) \
+     PARTS_GENERIC_64_128(compare, A)(A, B, S, Q)
 -- 
 2.25.1
 
