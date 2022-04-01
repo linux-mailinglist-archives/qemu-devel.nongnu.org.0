@@ -2,89 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDCFE4EFAA9
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 21:59:07 +0200 (CEST)
-Received: from localhost ([::1]:34512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A744EFBBE
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 22:41:22 +0200 (CEST)
+Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naNQI-0006wd-Hs
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 15:59:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45278)
+	id 1naO5A-0001qW-Vg
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 16:41:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1naNOv-000653-Ov
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 15:57:41 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:55222)
+ (Exim 4.90_1) (envelope-from <tongh@xilinx.com>)
+ id 1naO2p-0000UG-Gl; Fri, 01 Apr 2022 16:38:55 -0400
+Received: from [2a01:111:f400:7eae::612] (port=28897
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1naNOt-0008Ij-OS
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 15:57:41 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 366A6B8263D;
- Fri,  1 Apr 2022 19:57:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA01AC3410F;
- Fri,  1 Apr 2022 19:57:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648843036;
- bh=g4Or6vlnQ5XPFOlbOvyFGMvehoU1w6Tr33vBEF06cv4=;
- h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
- b=kUAF1W6opB6kX4aqHlrwqR4mizGnR/LCCRP2w89k7wNaETPt2sgVJyFtrqbjm3i5S
- e5XCLsZejvIOaJZJsuCmx2v1E8LpTcZ0q0wecQAdgwFQLn/VJCRsgW/k3ueJUaECsX
- 4OerVqkd94oCxK0suf9ng8r6FFbIneHH99uAy0fLXVkzY+zpT+3DR6Q0JpvX+DBdke
- 1uoUBEr+qj/Yk6Vf0YyBfZopwqQeCr+prjwk9Yx1mu3FLvPuyg+mhWHa0w8mA11WSI
- s4dzbUfILFfinHBykc2QAbio9JC9mObxejFCM8k4D2b+QlrRwACD6WToFkfZb3L9Z1
- u1RC2bu92QzxA==
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailauth.nyi.internal (Postfix) with ESMTP id 4990827C0054;
- Fri,  1 Apr 2022 15:57:14 -0400 (EDT)
-Received: from imap48 ([10.202.2.98])
- by compute2.internal (MEProxy); Fri, 01 Apr 2022 15:57:14 -0400
-X-ME-Sender: <xms:GFlHYiRokfAQEOXS3JGVQ8fGEt9aARJbPyMM3ymgS2p4KiiRM0LYyA>
- <xme:GFlHYnzLn5LXF0Y7iJiXJZD1GYvvbWvvTWmoH3r3L8GGKqyKyHXaxNm38fZUMC73C
- sBCFRvt0e5DrZ7B_zg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeiiedgudegfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
- ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
- ftrfgrthhtvghrnheptdfhheettddvtedvtedugfeuuefhtddugedvleevleefvdetleff
- gfefvdekgeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
- homheprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudek
- heeifedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuh
- igrdhluhhtohdruhhs
-X-ME-Proxy: <xmx:GFlHYv1jixSdphTgcgBt4k3ApxFLLREmwzVtH2R4FpXJdYAzolT8DQ>
- <xmx:GFlHYuBMTtOSj8Tvkpa1ZxH5VAnOs_iojIWHPKc2ofrldE_VY-TwKg>
- <xmx:GFlHYri_K6w69VmxOC5PmjtQo9sfLoKQOJBISmJk3ApiuCpGFiiQXA>
- <xmx:GllHYkBzqd9lROHtGLpI27JhxgidDn8BgzezBQqjYAPE7wh_2Gh2xg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 39BD021E0073; Fri,  1 Apr 2022 15:57:12 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-382-g88b93171a9-fm-20220330.001-g88b93171
-Mime-Version: 1.0
-Message-Id: <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
-In-Reply-To: <YkcTTY4YjQs5BRhE@google.com>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <YjyS6A0o4JASQK+B@google.com> <YkHspg+YzOsbUaCf@google.com>
- <YkH32nx+YsJuUbmZ@google.com> <YkIFW25WgV2WIQHb@google.com>
- <YkM7eHCHEBe5NkNH@google.com> <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
- <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
- <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
- <YkcTTY4YjQs5BRhE@google.com>
-Date: Fri, 01 Apr 2022 12:56:50 -0700
-From: "Andy Lutomirski" <luto@kernel.org>
-To: "Quentin Perret" <qperret@google.com>
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
+ (Exim 4.90_1) (envelope-from <tongh@xilinx.com>)
+ id 1naO2m-0005Jz-Sq; Fri, 01 Apr 2022 16:38:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hPuz/9cW95gpZVbQgHvvq8VgDa/yhfZCYN8dIjHFcoGR8RX5lD69KzHFnugx31Bjqk5A9VP8REAm0q3GCwdmhWr1lmUm74WCyhr86sE7mkRh+kDy/NPJ/ixihnYKXqtBKwtYQCt0SfoF8cFbCGW7CZu/N/aPXqqkHCL5cLPu20iulcOE2dJhJh5yNIMhPPdE4yt7lZwyGAeQ+C0wUsE0QFdQMkZOYV10DgneMTugGt12TtYCJqbhq+EfQsYZziFmjFuA79TBwgBITYWI6ViVW3e7c1l7N3wfTIrWyu8/vjz9GdW0Ktk7KxsJpC1EJyI444CIEeaCGdZ05QLND74LCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8Oi7GzghZDoIVt5nTJbThLbZn1qRtPhgapwHTUJ5q1c=;
+ b=V/1FJ+1h1n7txnCMLrQhSVxdJX85Ytucg8SFoIWp0A0Q16Y/SkpcCodxfN7eAPGYsBqa8coTJMiPPc8FV3Q9nAWxaTiUpEuXVu5GCgkJenj5V9EM409OrcTewcpOojHhgGmbkHskxCAp2t4To2GSp99bIHiFbkxjWvtunUTv83KSaNtvvQOWr3La/Z9i5NxtGiQpHFsHukuc80RiujNv9qDZsuP0UR4RPlRiNoVM/Ms0qSS5t7gB4jFjBpSBWkyOX3g0Dsdwn0US05CwOef2GWxmHAMfZXvQAqUQnVo5m9V4xE3qSP4Pj7t/y8TeQ6L2P1oGouIRftEuAWR6DKwVXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Oi7GzghZDoIVt5nTJbThLbZn1qRtPhgapwHTUJ5q1c=;
+ b=O8r1RTOskLrkuYCVABh4gb7keQM6jAmjNRckicVrAHY8HAOEu4QNJqQasBLHyrNjImPxkFL963F0kOd3sIArjM+eIgLoZ1SWfh8c1z5QUiQmOJ0XqgWnQe3tRMvzXtvkEPEw8sRGuZoRXSXrUIQ19JMX56EmJTwNQIiayuAQoak=
+Received: from SA0PR11CA0105.namprd11.prod.outlook.com (2603:10b6:806:d1::20)
+ by MWHPR02MB2335.namprd02.prod.outlook.com (2603:10b6:300:5b::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.19; Fri, 1 Apr
+ 2022 19:06:33 +0000
+Received: from SN1NAM02FT0052.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:806:d1:cafe::c9) by SA0PR11CA0105.outlook.office365.com
+ (2603:10b6:806:d1::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.28 via Frontend
+ Transport; Fri, 1 Apr 2022 19:06:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT0052.mail.protection.outlook.com (10.97.5.70) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5123.19 via Frontend Transport; Fri, 1 Apr 2022 19:06:32 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Fri, 1 Apr 2022 12:06:31 -0700
+Received: from smtp.xilinx.com (172.19.127.95) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Fri, 1 Apr 2022 12:06:31 -0700
+Received: from [172.19.2.40] (port=36786 helo=xsjtongh40.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <tong.ho@xilinx.com>)
+ id 1naMbP-000Fiy-Rr; Fri, 01 Apr 2022 12:06:31 -0700
+From: Tong Ho <tong.ho@xilinx.com>
+To: <qemu-arm@nongnu.org>
+Subject: [PATCH 1/1] xlnx-bbram: hw/nvram: Fix uninitialized Error *
+Date: Fri, 1 Apr 2022 12:06:31 -0700
+Message-ID: <20220401190631.1697408-2-tong.ho@xilinx.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220401190631.1697408-1-tong.ho@xilinx.com>
+References: <20220401190631.1697408-1-tong.ho@xilinx.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=luto@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bc71950f-0ed9-4534-cdfc-08da1412bc17
+X-MS-TrafficTypeDiagnostic: MWHPR02MB2335:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR02MB2335156C608EDF1469A3DDDFCDE09@MWHPR02MB2335.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xtrfuHoDyt/nPkFxSvuUhuCijwB9z0xXPMmD9/k2sXldk3pAq13XEzLAUyl8wpAUbIOmFrACOaBfHTHOP7kWc2TN5LBS/stJ+nleXKn1Toy2Xey0BxLBVULvLT13Vbvf7u01rqzBXHlOwGSsP+qoFJVKmI6nntPXzB2hnJd25r4QOcv7sG/evQPfE2pjtIgy3/05x76wgXDx97oAEeL4o6wlKXwUuZk41O3zqvTBofONa2cQBHl+28dUazu/eztCXDDJxgdZmvpMJcbnqZcep+qknJljD6i2Fs3PDf4OePwdVdR2NtKZGCuKLoxgp/209ZtXG/sj70mRj+Rq5FDk0HxSpCgRBxiG079ET917EquZkirn+qUzNPwHhcXckioLgY/NupUfJZsqIIjMkXKdrRY29Sj0x2XRSOuv8EZYKzC9g+pug8TMMTJgc1jeL0Hek6mXOaYKkE+wL62TsGohFcssax3xk7S036G5gvPl0jOGZA7K9hR6OYaHOwduGsUsU8quLpPpSybU6SeaQG9DGox5fnhxvYV9Ri2z8+a0rwf1VU7OM367fBh8tjLk2oxlxlag23ydcnDefF2g3ysbEThHNchDIJzUQpu4yPx5Ihbmmb4sBZvCW+dU6ByXDhIUEx6GdzVsB7bbV9pqIXx+Ee1OHcU6fTOnUfFEFBpJpGRohDsbFPBg6cjzXJqvrScrd2k1OFDHRt608fXPvg/8kg==
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(54906003)(7696005)(36756003)(107886003)(2616005)(508600001)(6916009)(336012)(186003)(316002)(40460700003)(26005)(83380400001)(426003)(1076003)(7636003)(8676002)(9786002)(36860700001)(70206006)(4326008)(70586007)(47076005)(8936002)(82310400004)(2906002)(5660300002)(356005)(44832011)(4744005)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2022 19:06:32.3208 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc71950f-0ed9-4534-cdfc-08da1412bc17
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0052.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7eae::612
+ (failed)
+Received-SPF: pass client-ip=2a01:111:f400:7eae::612;
+ envelope-from=tongh@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,50 +125,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm list <kvm@vger.kernel.org>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H. Peter Anvin" <hpa@zytor.com>, Chao Peng <chao.p.peng@linux.intel.com>,
- Will Deacon <will@kernel.org>, Andi Kleen <ak@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, the arch/x86 maintainers <x86@kernel.org>,
- Hugh Dickins <hughd@google.com>, Steven Price <steven.price@arm.com>,
- Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, "Nakajima, 
- Jun" <jun.nakajima@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>,
- Jim Mattson <jmattson@google.com>, Dave Hansen <dave.hansen@intel.com>,
- Sean Christopherson <seanjc@google.com>, Jeff Layton <jlayton@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Linux API <linux-api@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Cc: edgar.iglesias@gmail.com, alistair@alistair23.me, tong.ho@xilinx.com,
+ qemu-devel@nongnu.org, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 1, 2022, at 7:59 AM, Quentin Perret wrote:
-> On Thursday 31 Mar 2022 at 09:04:56 (-0700), Andy Lutomirski wrote:
+This adds required initialization of Error * variable.
 
+Signed-off-by: Tong Ho <tong.ho@xilinx.com>
+---
+ hw/nvram/xlnx-bbram.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> To answer your original question about memory 'conversion', the key
-> thing is that the pKVM hypervisor controls the stage-2 page-tables for
-> everyone in the system, all guests as well as the host. As such, a page
-> 'conversion' is nothing more than a permission change in the relevant
-> page-tables.
->
-
-So I can see two different ways to approach this.
-
-One is that you split the whole address space in half and, just like SEV and TDX, allocate one bit to indicate the shared/private status of a page.  This makes it work a lot like SEV and TDX.
-
-The other is to have shared and private pages be distinguished only by their hypercall history and the (protected) page tables.  This saves some address space and some page table allocations, but it opens some cans of worms too.  In particular, the guest and the hypervisor need to coordinate, in a way that the guest can trust, to ensure that the guest's idea of which pages are private match the host's.  This model seems a bit harder to support nicely with the private memory fd model, but not necessarily impossible.
-
-Also, what are you trying to accomplish by having the host userspace mmap private pages?  Is the idea that multiple guest could share the same page until such time as one of them tries to write to it?  That would be kind of like having a third kind of memory that's visible to host and guests but is read-only for everyone.  TDX and SEV can't support this at all (a private page belongs to one guest and one guest only, at least in SEV and in the current TDX SEAM spec).  I imagine that this could be supported with private memory fds with some care without mmap, though -- the host could still populate the page with memcpy.  Or I suppose a memslot could support using MAP_PRIVATE fds and have approximately the right semantics.
-
---Andy
-
+diff --git a/hw/nvram/xlnx-bbram.c b/hw/nvram/xlnx-bbram.c
+index b70828e5bf..6ed32adad9 100644
+--- a/hw/nvram/xlnx-bbram.c
++++ b/hw/nvram/xlnx-bbram.c
+@@ -89,7 +89,7 @@ static bool bbram_pgm_enabled(XlnxBBRam *s)
+ 
+ static void bbram_bdrv_error(XlnxBBRam *s, int rc, gchar *detail)
+ {
+-    Error *errp;
++    Error *errp = NULL;
+ 
+     error_setg_errno(&errp, -rc, "%s: BBRAM backstore %s failed.",
+                      blk_name(s->blk), detail);
+-- 
+2.25.1
 
 
