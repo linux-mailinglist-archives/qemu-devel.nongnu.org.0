@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D154E4EE89D
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 08:44:44 +0200 (CEST)
-Received: from localhost ([::1]:32960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2AE4EE8A0
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 08:48:43 +0200 (CEST)
+Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naB1W-0006lR-Vg
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 02:44:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58832)
+	id 1naB5O-00008w-Da
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 02:48:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1naAmc-0001yj-8T; Fri, 01 Apr 2022 02:29:18 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:55835)
+ id 1naAnk-0002Ja-KC; Fri, 01 Apr 2022 02:30:28 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:52827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1naAmX-0007jK-M2; Fri, 01 Apr 2022 02:29:17 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 656AF3201C39;
- Fri,  1 Apr 2022 02:29:10 -0400 (EDT)
+ id 1naAnd-0007zT-Of; Fri, 01 Apr 2022 02:30:25 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id DF888320157F;
+ Fri,  1 Apr 2022 02:30:18 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 01 Apr 2022 02:29:11 -0400
+ by compute5.internal (MEProxy); Fri, 01 Apr 2022 02:30:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; bh=rmxuBU5Ss+vCVyRV1OjgMNmbd8PheO
- 0tHibWUCm+8Ws=; b=qVw3UO7VGvSSYZh5kf35U6NDmrJj1vYaQEOfCk+4BuQBiM
- 4kotvXsgzT2kyoGZn9dcutArsfczDAwF6RweSFaoyjKx7gN6H7efZwei9t4ry0EX
- JsTIzvIisjiStp/qFrQ/1BPRWCyp9Y48q/fgTOrdOFrp94AXtCgLzatZ7B0Y4RVZ
- 8NWrkDeH6PRPF0Ifne06x7q88m9wH0oEbz8JJL27+KAL3mKpHQVVTsV4t/2AhXul
- Qs3AIA+H6Lc2bkNwn/Y2GJSpagRHanqc5a7Cn8hTgGLY+offdnaSYbntXxDICehQ
- ahvpBktbXqocN0CMahhSyYx2AxAbC7M5yD2QYKnA==
+ :subject:subject:to:to; s=fm3; bh=s3bri+p69zltGR13PH7UqZKDLtvn9O
+ +xBdEbwA8YHVY=; b=jtd2OJj5bQDvmaOm9k+K+1UV3NPysmS9vqDbJSj8b4u6pJ
+ wVN1SF6zD/G3s/zpIOauSIQV8AFKEelXrgJBzaWvW2/UNTU+qgautgmlnXo8uC4x
+ chVgKGuDJaEQKa3rkKqs29qfbH8Ls637RY0LbEKIgnxtsB6gcuwNvwK3fjEhiSBb
+ qrh65JsWbhghGjy1HyjN/ufCNrOrbgA9Q42PYrlmZqbGwjVj7UraRFuZ87PMS2Mo
+ h1hs5kMHItCm2PhKg6AjBPoxyEEcqvGRLVr3T/t5RQ39UPWBrN6Vp41u66mjAvJx
+ 6/oHiMGXiNO1XEw/P8ZcYJAF/IgttIz6E2XYFzZw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=rmxuBU5Ss+vCVyRV1
- OjgMNmbd8PheO0tHibWUCm+8Ws=; b=YKdzeZqjacENFHbx130hOS5lXD2p03kzu
- TibS46+kNbh+74JgMLzc0KFLtuWx6va49J2iQP0JclDYggxyB9HdwTw+WSxePfQc
- VbvzadheFpQOg9SNyGqI4l/bAmhh7Oe3YCXw6sWEGqK+XUAdV+Jgf+0Qitib75di
- HzhrQxlr5GnCVcTCsjQlhwk7Lo3bjNpRzQMNplKcWI/In6kRaW6RusyOSmFEFB/H
- bAuP1FUn2WJR2WhFZhpre+/AVx4i/PpnAn4LiqKyPhJbdNMVQg2WwpbCnU2eexPz
- 7poE+kaXxHHUkBVZSSY0v0nreELmZCcneM/LRdPsSmO0qiBGPDOPA==
-X-ME-Sender: <xms:s5tGYiwm2r5pfaSO6eDRrGkRNTA3FLKcAlKk-n95Ual86MTNqsyn7Q>
- <xme:s5tGYuTks-FHgSnSCxHHsQYT0Bo9K-VKaesJLtbHyKWAMvPicgHSz0UWGU9Foy-sO
- wwyDZHtPfJ4QsapGOU>
-X-ME-Received: <xmr:s5tGYkWlzWqIxmvHca91hrSjBZyaaEs3NgMJhcMf-YA2dmo3vVY_ZHRNqnokOXwih0luiGOGRysHeV_jA5c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeihedguddtkecutefuodetggdotefrod
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=s3bri+p69zltGR13P
+ H7UqZKDLtvn9O+xBdEbwA8YHVY=; b=LYTrF9CsQ7hNU73t2mZuSCuv2N7/p95qq
+ jcczWGONMv56w+NYPYNEBa3zF/uRWfcah9SrbPzzcuQOrj67TTGKEwM+KZ9yaFAA
+ aUnMnN6dbRWNdN2YklC0DbUW4swW1dgrjHZ0p+aSMmIK153xPYgyhapDfU3wpckK
+ pa1pUbgGVoZKQw07X3nEub6Edo9k4ePSpEC3Y46jhJcLD3BEjcPZ6mz8GMunZcIT
+ o/pjHlsNTBGzu56rcy2kzBet4bWuWGIO7zM5KPdEKzWr2HVJSyWwQACiE6BiL8zH
+ jB67p/ThjZ0BIC0M03MCsU0vxdmRz6qYWOs6NwZQIVemwzSWErJgA==
+X-ME-Sender: <xms:-ZtGYpcXqCYYZyXPxvTIbXVZ46F2FpRaXRk9tgyYvExs4YYcc_YJ9Q>
+ <xme:-ZtGYnPR7XMFRJYckut4kWoToYzJYOM_vpHSRfycNhN55x6WQlSoNYaukqng26Eqa
+ LdIg-Ria57Ofu-P_34>
+X-ME-Received: <xmr:-ZtGYijY080xJg1laesY-QxqrsqhV-YlCVukRx8CG4T5mOEomGZS8GUz8IGgGvyzPeBeIP5sdgVvLvxB8js>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeihedguddtjecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
@@ -55,24 +55,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeihedguddtkecutefuodetgg
  htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
  ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:s5tGYojIirKRX1nHYwijNq52XV9OTgqghLIx4GZSU7FV0gunjKf6gg>
- <xmx:s5tGYkBW5b6juH1RgINUSo__SlqT5B29GLFHMJ4OQnQCFBeHU9Bv1A>
- <xmx:s5tGYpLVCdctXoDeseUQU0t4xLCtgK-tiS-jAyNFxe-V4hd1UpQdQA>
- <xmx:tptGYg45t1tJ62u3BSTKHxKQmXOaypBluz7pdHDc-PdC8t_lj89iVQ>
+X-ME-Proxy: <xmx:-ZtGYi9lKjEKIgppYYgAWAFDyEpifBep_qGdv3kxxj3fSzdq_McxQw>
+ <xmx:-ZtGYlsTjUu-F5PObwgk9hOg8uT8-aoglW-qeY4ZC5AXnX1bH1qFrQ>
+ <xmx:-ZtGYhGcPy3qQlwtZprpIZUibBdAsqgPrxksmfdZjxQvw0KFUd1mBQ>
+ <xmx:-ptGYuGBxvOEwn_XfKnugOTTgkpa3dNgj3W4i9hMx24WRw2aUj_lDw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 Apr 2022 02:29:05 -0400 (EDT)
-Date: Fri, 1 Apr 2022 08:29:03 +0200
+ 1 Apr 2022 02:30:15 -0400 (EDT)
+Date: Fri, 1 Apr 2022 08:30:14 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: Corey Minyard <minyard@acm.org>
-Subject: Re: [RFC PATCH 0/4] hw/i2c: i2c slave mode support
-Message-ID: <Ykabr0wQe9VLISu2@apples>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Subject: Re: [RFC PATCH 3/4] hw/i2c: add slave mode for aspeed_i2c
+Message-ID: <Ykab9mR/B79iI916@apples>
 References: <20220331165737.1073520-1-its@irrelevant.dk>
- <20220331203205.GB29333@minyard.net>
+ <20220331165737.1073520-4-its@irrelevant.dk>
+ <7300ef1f-8702-733d-2a50-4253345fde45@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wNNz7fwNrt/x6wb4"
+ protocol="application/pgp-signature"; boundary="pruGYCmDnY7ETRGO"
 Content-Disposition: inline
-In-Reply-To: <20220331203205.GB29333@minyard.net>
+In-Reply-To: <7300ef1f-8702-733d-2a50-4253345fde45@gmail.com>
 Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
  helo=wout4-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -106,79 +107,82 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---wNNz7fwNrt/x6wb4
+--pruGYCmDnY7ETRGO
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mar 31 15:32, Corey Minyard wrote:
-> On Thu, Mar 31, 2022 at 06:57:33PM +0200, Klaus Jensen wrote:
+On Mar 31 22:44, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 31/3/22 18:57, Klaus Jensen wrote:
 > > From: Klaus Jensen <k.jensen@samsung.com>
 > >=20
-> > Hi all,
+> > Add slave mode functionality for the Aspeed I2C controller. This is
+> > implemented by creating an Aspeed I2C Slave device that attaches to the
+> > bus.
 > >=20
-> > This RFC series adds I2C "slave mode" support for the Aspeed I2C
-> > controller as well as the necessary infrastructure in the i2c core to
-> > support this.
+> > This i2c slave device only implements the asynchronous version of
+> > i2c_send() and the event callback.
+> >=20
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >   hw/i2c/aspeed_i2c.c         | 95 +++++++++++++++++++++++++++++++++----
+> >   hw/i2c/trace-events         |  2 +-
+> >   hw/misc/meson.build         |  2 +
+> >   include/hw/i2c/aspeed_i2c.h |  8 ++++
+> >   4 files changed, 97 insertions(+), 10 deletions(-)
 >=20
-> I've been wondering when this would happen :).  I had put some thought
-> into how this would work, but hadn't come up with anything good.
+> > @@ -558,14 +565,19 @@ static void aspeed_i2c_bus_write(void *opaque, hw=
+addr offset,
+> >               bus->controller->intr_status &=3D ~(1 << bus->id);
+> >               qemu_irq_lower(aic->bus_get_irq(bus));
+> >           }
+> > -        if (handle_rx && (bus->cmd & (I2CD_M_RX_CMD | I2CD_M_S_RX_CMD_=
+LAST))) {
+> > -            aspeed_i2c_handle_rx_cmd(bus);
+> > -            aspeed_i2c_bus_raise_interrupt(bus);
+> > +
+> > +        if (handle_rx) {
+> > +            if (bus->cmd & (I2CD_M_RX_CMD | I2CD_M_S_RX_CMD_LAST)) {
+> > +                aspeed_i2c_handle_rx_cmd(bus);
+> > +                aspeed_i2c_bus_raise_interrupt(bus);
 >=20
-> The big disadvantage of this is you are adding an interface that is
-> incompatible with the current masters and slaves.  So you are using the
-> same I2C bus, but slaves written this way cannot talk to existing
-> masters, and masters written this way cannot talk to existing slave.
-> You could adapt the masters to be able to work either way, and I suppose
-> some slaves that could do it could have both an async send and a normal
-> send.=20
-
-Would it make sense to introduce a QOM Interface to differentiate
-between the slave/master types?
-
-> But you could not adapt a slave device for the Aspeed to do both.
-
-Exactly, the Aspeed must be able to defer the ack, so it cannot
-implement send(). Even if it buffered up the write, I don't think it
-would be correct to Ack the transfer until the host has Acked it.
-
-> But that said, I don't know of a better way to handle this.
->=20
-> You don't have the ability to nack a byte in what you have currently.
-> That's probably something that will be needed.
-
-True. Didn't consider that. Since the ack is basically defined as the
-scheduling of the bh, I guess I have to come up with something where I
-can also pass a "return value".
-
->=20
-> This is obviously not something useful by itself.  How do you plan to
-> tie this in to something else that would use it?
+> Eventually split this hunk into a separate patch to have better readabili=
+ty.
 >=20
 
-This is specifically for implementing an NVMe-MI device which uses MCTP
-transactions (in which both requests and replies are master->slave
-transfers). I just wanted to get a feel for how you maintaines would
-envision this begin done before posting that. The NVMe-MI device will
-function exactly like the example i2c echo device (i.e. receive an MCTP
-transaction using the normal i2c slave interface, parse the
-transaction/request, master the bus and start a new transfer).
+Alright.
 
-Thanks for your comments Corey!
+> > +            }
+> >           }
+>=20
+> > diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+> > index 6fb69612e064..c1c1abea41dd 100644
+> > --- a/hw/misc/meson.build
+> > +++ b/hw/misc/meson.build
+> > @@ -122,6 +122,8 @@ softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: f=
+iles('nrf51_rng.c'))
+> >   softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_ahb_apb_pn=
+p.c'))
+> > +softmmu_ss.add(when: 'CONFIG_I2C', if_true: files('i2c-echo.c'))
+>=20
+> This change belongs to the next patch.
 
---wNNz7fwNrt/x6wb4
+Woops. Chopping up my changes went a bit too fast I think :)
+
+--pruGYCmDnY7ETRGO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJGm6wACgkQTeGvMW1P
-DelcWAgAuffOgOL6hsIf62K6Ht4aDhZ5FJ/wgL0g4E+ofQ0CPxsEdVO+OTiKpASr
-u+9hz2lOs/iW3YnAFzMTz9vHTtoQsSdXuRiN3CA/cPiBvM6tVp8Vtt2QHV1NjWam
-F4sWoYpqXOwbjfzQT06VYgZbMex+N0egxUfBNjm7zDIsM4kaqR8Sql2Ct1noYkNr
-CfzIKh19/OIW58EhUb/RUKn++FX1j2KFMhZaPhqKaOv57E6Ah8NODhkviyLqBBiM
-73M1WhHbyrIq2cXXXRMuuMzRvu4LPgRwloxyBQzMeEEO8nAv3TY3+p4j/AdztY73
-e9xXy7TfVf4qoQqG2VODMJRBGzMSPw==
-=dg3E
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJGm/QACgkQTeGvMW1P
+Dem5AAf/Wd7I4SNrU1OwQ6OD4n96+ClYUcHhSWkSUH95HykyvTiXTz+fk0Goq0RA
+WoY9v35SU21YEk3WmbFRiv0BMWUIt+VaSZ27fAfJsdCfjtMCJdgbRQlKzIhZ7s2y
+iPA5ATkbY/eXz+Vai0lJcUWqganIfTC8Iy0wQLftbgM/YLaVcSQZlSXLzev18tJ6
+2jpT7b/i69jVlgJ/6coNm5q69NrO6PYVPKk0zwGsT8sqZAcqdXlLAocw7/UyWmOY
+b0EBkC0Iygsup2LypkGrxug3RvNpGXziDaU8RwvrS2XqVCw8QavYdP51N3VeF+7b
+1GY/LH+Bq/QJpCFzlGh2GJtmHftyEg==
+=H1lK
 -----END PGP SIGNATURE-----
 
---wNNz7fwNrt/x6wb4--
+--pruGYCmDnY7ETRGO--
 
