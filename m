@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2FB4EE621
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 04:41:24 +0200 (CEST)
-Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB3C4EE64D
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 04:55:23 +0200 (CEST)
+Received: from localhost ([::1]:36246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na7E3-0005QI-D4
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 22:41:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54016)
+	id 1na7Ra-0007ke-6s
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 22:55:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1na7CI-00047V-0q
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 22:39:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53789)
+ id 1na7QT-00074v-9z
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 22:54:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1na7CB-0006fK-Fb
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 22:39:29 -0400
+ id 1na7QP-0000hh-IH
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 22:54:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648780766;
+ s=mimecast20190719; t=1648781647;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U/gOHiclZRLqXIjl9z+yvI1CFPWADOEEPTtN97vGEQw=;
- b=FhUkCdTo9xjgM4rWjdpFPpkfIxq1TciFK6Y5n8FcmlbGp3nVyQRxoIzNM0zqSdKyNKBV73
- 7viUSSobN6z04ZnRg9jhUjUENR8j6DQ+JgUfHNUQh01XgRBp1huPOy/6iblSn2/vJ25Kdd
- +HnGssHxh+Mn9XeqytBGWk0F9o26zFs=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IZgq2wqJeYJpGmXlmOnNpUsp6OB+0p/x+/W/fb0jYPQ=;
+ b=Jp349BL2eLI8epmbbtRNf6Do/RuFDRLThxpIqzPuQ1xdOJ1bJK0+/o1Ej054DpRRqIA8xC
+ XfVyk4/JmI6Uz8TRuKEiCK8UVy5wtg5DKU6Hp4LmgmcFCEawzxv2gXcQ/Mjp4siiUDvPet
+ Gi2oqRuRDaWZ1bks8lzPYSqZdREs7+o=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-168-YYf-kvn2PJORgxCyD6hfsA-1; Thu, 31 Mar 2022 22:39:24 -0400
-X-MC-Unique: YYf-kvn2PJORgxCyD6hfsA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- v13-20020a056512096d00b004487e1503d0so612912lft.4
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 19:39:24 -0700 (PDT)
+ us-mta-318-IIJvUQaiOJ6Bg9CJVEnCFA-1; Thu, 31 Mar 2022 22:54:06 -0400
+X-MC-Unique: IIJvUQaiOJ6Bg9CJVEnCFA-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ s24-20020a2e98d8000000b00249800e5b87so435680ljj.22
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 19:54:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=U/gOHiclZRLqXIjl9z+yvI1CFPWADOEEPTtN97vGEQw=;
- b=zrCop9DCJcTjB+7dptc/FnLPG2+HwIxz0V61RE5/fppx6xn4+6PNDXqxfMDcVFnSMl
- sjRFah5QLRZCvAgSfL8NNf2zmh28CzQEF/Bv2QxFEsASEWC0STs+C/+KxVBYY1P7XeXg
- 28sDrS0PFtcREWBCASJn1LUI+3BQ8csRFYKCr/1TFnQcOmu8yIaALcQXw5AMinwRfMmA
- 4V5v+HK22sZS7/T1TmLKqC7t3j8RcokJOO53mF+XuhlE2E7UEsmvRUDBxYx7tNb3GnTp
- 7FW6FN1Lha38XU5XcPWcyiv5yPAkVTgPv71xOFuacBah47cayYN7NOhKWYZKjYBd/f5N
- 73Xw==
-X-Gm-Message-State: AOAM530LcUyosN5H3UHlf7I3guth0mJrKJmkuVPEbgRwfbhOU/oN+Xd/
- V64x7l+mxx9uECNJmyMYz0PdNiQGY/qwz3Wsl3SoynR5CLzmoMLlMCdj0J4gLdqToDcovrJQF6H
- sbUhC5xiMdgXzphV40mnz97YkPvVAIVQ=
+ :message-id:subject:to:cc;
+ bh=IZgq2wqJeYJpGmXlmOnNpUsp6OB+0p/x+/W/fb0jYPQ=;
+ b=7xfd3YptQvrqcFb+vU50JDBUk2KNzNqsNBg8U6EMBLa60R5Q6rhm2lvGelsMo7uZiG
+ 0L3E2OjkyTRKwq286eJ2gkglx3TClQEn91Wzvubva6CZYL17S6/3huNiK40czE6MGF4m
+ 6k6kHNOOvC/77nnaTxD7P27FpIFiB6i29wSN6W2D2o9ZX5Or7lvqh3E/T9AHXbDPncAb
+ VcOzCUtP/7/rvah4F0OvUdRIyQnyEcMEnNsMja4n360YY3FGtEO6wwqkKcy6Dy34SS3Q
+ QMPSSZydDnZq3GhWrCn1H+xAzP4nCzK8YSjIgw20fuAA27lvTMe+gf/fdXoiiULBOdLW
+ POBw==
+X-Gm-Message-State: AOAM530HoekLzdYNxOvDmYq50QXpIZaI+qVaYRf7gDHQtOs7sI0erLmL
+ wQ8//hqtgS+YidGasim10e9NA9rXtdIKcxEUevPBU1lhswQjAFYyNggfD9uZmVt9dH2mSKyq5Ow
+ K5yxJa09+Pnly1rzsx7t5EtCjYbGZcT0=
 X-Received: by 2002:a05:651c:90a:b0:249:5d82:fe9c with SMTP id
- e10-20020a05651c090a00b002495d82fe9cmr12263426ljq.300.1648780763195; 
- Thu, 31 Mar 2022 19:39:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzfsxaFjZuNMFbZNhUMEPqHPsOMJa9spogMhKiaG01tcwG4ZpbB2zBQWDWF3pbUWd/oNWcNd3GRWYZqAJgMIv0=
+ e10-20020a05651c090a00b002495d82fe9cmr12287293ljq.300.1648781644591; 
+ Thu, 31 Mar 2022 19:54:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJysTYHBhUfm7GxgBRIxMgdWJCjCnAcg1IE30A/VlRCy7cZ4ApeCfQgJdDpTi/9JIKJlNmmqtyJvpzstf4l0PL8=
 X-Received: by 2002:a05:651c:90a:b0:249:5d82:fe9c with SMTP id
- e10-20020a05651c090a00b002495d82fe9cmr12263416ljq.300.1648780762894; Thu, 31
- Mar 2022 19:39:22 -0700 (PDT)
+ e10-20020a05651c090a00b002495d82fe9cmr12287275ljq.300.1648781644202; Thu, 31
+ Mar 2022 19:54:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <1648621997-22416-1-git-send-email-si-wei.liu@oracle.com>
- <1648621997-22416-8-git-send-email-si-wei.liu@oracle.com>
- <CAJaqyWdF55nKD05C54OOvM5-mmsCG7FMixKLguPGNR4Ostqnmw@mail.gmail.com>
- <f8ace3a3-8f86-841e-c056-271528d5ba9c@oracle.com>
- <CAJaqyWfb5=bEQGiGHamwqgBAvQf2FKEr8SwgVsa1LM2N-v48oQ@mail.gmail.com>
- <9a7c92a6-4551-48a7-6569-d3bc9d227fe2@redhat.com>
- <CAJaqyWfusKtDiTYuJBidwZGzpq3mQrOyaQOk2WNiiNPgxffgcQ@mail.gmail.com>
-In-Reply-To: <CAJaqyWfusKtDiTYuJBidwZGzpq3mQrOyaQOk2WNiiNPgxffgcQ@mail.gmail.com>
+References: <1648718713-7637-1-git-send-email-qiudayu@archeros.com>
+ <1648776683-23739-1-git-send-email-qiudayu@archeros.com>
+In-Reply-To: <1648776683-23739-1-git-send-email-qiudayu@archeros.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 1 Apr 2022 10:39:11 +0800
-Message-ID: <CACGkMEsk_1rUFBrpBK7QZrT-ye4xbdUA1y1ewL279sY4SzUtUw@mail.gmail.com>
-Subject: Re: [PATCH 7/7] vhost-vdpa: backend feature should set only once
-To: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 1 Apr 2022 10:53:53 +0800
+Message-ID: <CACGkMEuQ_YW+aSysnFtDrjy=Wjq_U3KouOobYSC+e5+5SR0zEA@mail.gmail.com>
+Subject: Re: [PATCH v4] vdpa: reset the backend device in the end of
+ vhost_net_stop()
+To: Michael Qiu <qiudayu@archeros.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -100,170 +94,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Si-Wei Liu <si-wei.liu@oracle.com>, Eli Cohen <eli@mellanox.com>,
- qemu-level <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+Cc: Cindy Lu <lulu@redhat.com>, mst <mst@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, eperezma <eperezma@redhat.com>,
+ Si-Wei Liu <si-wei.liu@oracle.com>, Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 31, 2022 at 5:20 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
+On Fri, Apr 1, 2022 at 9:31 AM Michael Qiu <qiudayu@archeros.com> wrote:
 >
-> On Thu, Mar 31, 2022 at 10:54 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > =E5=9C=A8 2022/3/31 =E4=B8=8B=E5=8D=884:02, Eugenio Perez Martin =E5=86=
-=99=E9=81=93:
-> > > On Thu, Mar 31, 2022 at 1:03 AM Si-Wei Liu <si-wei.liu@oracle.com> wr=
-ote:
-> > >>
-> > >>
-> > >> On 3/30/2022 12:01 PM, Eugenio Perez Martin wrote:
-> > >>> On Wed, Mar 30, 2022 at 8:33 AM Si-Wei Liu <si-wei.liu@oracle.com> =
-wrote:
-> > >>>> The vhost_vdpa_one_time_request() branch in
-> > >>>> vhost_vdpa_set_backend_cap() incorrectly sends down
-> > >>>> iotls on vhost_dev with non-zero index. This may
-> > >>>> end up with multiple VHOST_SET_BACKEND_FEATURES
-> > >>>> ioctl calls sent down on the vhost-vdpa fd that is
-> > >>>> shared between all these vhost_dev's.
-> > >>>>
-> > >>> Not only that. This means that qemu thinks the device supports iotl=
-b
-> > >>> batching as long as the device does not have cvq. If vdpa does not
-> > >>> support batching, it will return an error later with no possibility=
- of
-> > >>> doing it ok.
-> > >> I think the implicit assumption here is that the caller should back =
-off
-> > >> to where it was if it comes to error i.e. once the first
-> > >> vhost_dev_set_features call gets an error, vhost_dev_start() will fa=
-il
-> > >> straight.
-> > > Sorry, I don't follow you here, and maybe my message was not clear en=
-ough.
-> > >
-> > > What I meant is that your patch fixes another problem not stated in
-> > > the message: it is not possible to initialize a net vdpa device that
-> > > does not have cvq and does not support iotlb batches without it. Qemu
-> > > will assume that the device supports batching, so the write of
-> > > VHOST_IOTLB_BATCH_BEGIN will fail. I didn't test what happens next bu=
-t
-> > > it probably cannot continue.
-> >
-> >
-> > So you mean we actually didn't call VHOST_SET_BACKEND_CAP in this case.
-> > Fortunately, kernel didn't check the backend cap when accepting batchin=
-g
-> > hints.
-> >
-> > We are probably fine?
-> >
+> Currently, when VM poweroff, it will trigger vdpa
+> device(such as mlx bluefield2 VF) reset many times(with 1 datapath
+> queue pair and one control queue, triggered 3 times), this
+> leads to below issue:
 >
-> We're fine as long as the vdpa driver in the kernel effectively
-> supports batching. If not, qemu will try to batch, and it will fail.
+> vhost VQ 2 ring restore failed: -22: Invalid argument (22)
 >
-> It was introduced in v5.9, so qemu has not supported kernel <5.9 since
-> we introduced multiqueue support (I didn't test). Unless we apply this
-> patch. That's the reason it should be marked as fixed and backported
-> to stable IMO.
+> This because in vhost_net_stop(), it will stop all vhost device bind to
+> this virtio device, and in vhost_dev_stop(), qemu tries to stop the device
+> , then stop the queue: vhost_virtqueue_stop().
+>
+> In vhost_dev_stop(), it resets the device, which clear some flags
+> in low level driver, and in next loop(stop other vhost backends),
+> qemu try to stop the queue corresponding to the vhost backend,
+>  the driver finds that the VQ is invalied, this is the root cause.
+>
+> To solve the issue, vdpa should set vring unready, and
+> remove reset ops in device stop: vhost_dev_start(hdev, false).
+>
+> and implement a new function vhost_dev_reset, only reset backend
+> device after all vhost(per-queue) stoped.
 
-Ok, so it looks to me we have more issues.
+Typo.
 
-In vhost_vdpa_set_backend_cap() we fail when
-VHOST_VDPA_GET_BACKEND_FEATURES fails. This breaks the older kernel
-since that ioctl is introduced in
+>
+> Signed-off-by: Michael Qiu<qiudayu@archeros.com>
+> Acked-by: Jason Wang <jasowang@redhat.com>
 
-653055b9acd4 ("vhost-vdpa: support get/set backend features")
+Rethink this patch, consider there're devices that don't support
+set_vq_ready(). I wonder if we need
 
-We should:
+1) uAPI to tell the user space whether or not it supports set_vq_ready()
+2) userspace will call SET_VRING_ENABLE() when the device supports
+otherwise it will use RESET.
 
-1) make it work by not failing the vhost_vdpa_set_backend_cap() and
-assuming MSG_V2.
-2) check the batching support in vhost_vdpa_listener_begin_batch()
-instead of trying to set VHOST_IOTLB_BATCH_BEGIN uncondtionally
+And for safety, I suggest tagging this as 7.1.
+
+> ---
+> v4 --> v3
+>     Nothing changed, becasue of issue with mimecast,
+>     when the From: tag is different from the sender,
+>     the some mail client will take the patch as an
+>     attachment, RESEND v3 does not work, So resend
+>     the patch as v4
+>
+> v3 --> v2:
+>     Call vhost_dev_reset() at the end of vhost_net_stop().
+>
+>     Since the vDPA device need re-add the status bit
+>     VIRTIO_CONFIG_S_ACKNOWLEDGE and VIRTIO_CONFIG_S_DRIVER,
+>     simply, add them inside vhost_vdpa_reset_device, and
+>     the only way calling vhost_vdpa_reset_device is in
+>     vhost_net_stop(), so it keeps the same behavior as before.
+>
+> v2 --> v1:
+>    Implement a new function vhost_dev_reset,
+>    reset the backend kernel device at last.
+> ---
+>  hw/net/vhost_net.c        | 24 +++++++++++++++++++++---
+>  hw/virtio/vhost-vdpa.c    | 15 +++++++++------
+>  hw/virtio/vhost.c         | 15 ++++++++++++++-
+>  include/hw/virtio/vhost.h |  1 +
+>  4 files changed, 45 insertions(+), 10 deletions(-)
+>
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index 30379d2..422c9bf 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -325,7 +325,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>      int total_notifiers = data_queue_pairs * 2 + cvq;
+>      VirtIONet *n = VIRTIO_NET(dev);
+>      int nvhosts = data_queue_pairs + cvq;
+> -    struct vhost_net *net;
+> +    struct vhost_net *net = NULL;
+>      int r, e, i, index_end = data_queue_pairs * 2;
+>      NetClientState *peer;
+>
+> @@ -391,8 +391,17 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>  err_start:
+>      while (--i >= 0) {
+>          peer = qemu_get_peer(ncs , i);
+> -        vhost_net_stop_one(get_vhost_net(peer), dev);
+> +
+> +        net = get_vhost_net(peer);
+> +
+> +        vhost_net_stop_one(net, dev);
+>      }
+> +
+> +    /* We only reset backend vdpa device */
+> +    if (net && net->dev.vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA) {
+> +        vhost_dev_reset(&net->dev);
+> +    }
+> +
+>      e = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
+>      if (e < 0) {
+>          fprintf(stderr, "vhost guest notifier cleanup failed: %d\n", e);
+> @@ -410,6 +419,7 @@ void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
+>      VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(vbus);
+>      VirtIONet *n = VIRTIO_NET(dev);
+>      NetClientState *peer;
+> +    struct vhost_net *net = NULL;
+>      int total_notifiers = data_queue_pairs * 2 + cvq;
+>      int nvhosts = data_queue_pairs + cvq;
+>      int i, r;
+> @@ -420,7 +430,15 @@ void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
+>          } else {
+>              peer = qemu_get_peer(ncs, n->max_queue_pairs);
+>          }
+> -        vhost_net_stop_one(get_vhost_net(peer), dev);
+> +
+> +        net = get_vhost_net(peer);
+> +
+> +        vhost_net_stop_one(net, dev);
+> +    }
+> +
+> +    /* We only reset backend vdpa device */
+> +    if (net && net->dev.vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA) {
+> +        vhost_dev_reset(&net->dev);
+>      }
+
+So we've already reset the device in vhost_vdpa_dev_start(), any
+reason we need to do it again here?
+
+>
+>      r = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index c5ed7a3..3ef0199 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -708,6 +708,11 @@ static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+>
+>      ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+>      trace_vhost_vdpa_reset_device(dev, status);
+> +
+> +    /* Add back this status, so that the device could work next time*/
+> +    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> +                               VIRTIO_CONFIG_S_DRIVER);
+
+This seems to contradict the semantic of reset.
+
+> +
+>      return ret;
+>  }
+>
+> @@ -719,14 +724,14 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
+>      return idx;
+>  }
+>
+> -static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
+> +static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev, unsigned int ready)
+>  {
+>      int i;
+>      trace_vhost_vdpa_set_vring_ready(dev);
+>      for (i = 0; i < dev->nvqs; ++i) {
+>          struct vhost_vring_state state = {
+>              .index = dev->vq_index + i,
+> -            .num = 1,
+> +            .num = ready,
+>          };
+>          vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
+>      }
+> @@ -1088,8 +1093,9 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+>          if (unlikely(!ok)) {
+>              return -1;
+>          }
+> -        vhost_vdpa_set_vring_ready(dev);
+> +        vhost_vdpa_set_vring_ready(dev, 1);
+>      } else {
+> +        vhost_vdpa_set_vring_ready(dev, 0);
+>          ok = vhost_vdpa_svqs_stop(dev);
+>          if (unlikely(!ok)) {
+>              return -1;
+> @@ -1105,9 +1111,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+>          memory_listener_register(&v->listener, &address_space_memory);
+>          return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+>      } else {
+> -        vhost_vdpa_reset_device(dev);
+> -        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> -                                   VIRTIO_CONFIG_S_DRIVER);
+>          memory_listener_unregister(&v->listener);
+>
+>          return 0;
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index b643f42..7e0cdb6 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -1820,7 +1820,6 @@ fail_features:
+>  void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
+>  {
+>      int i;
+> -
+
+Unnecessary changes.
+
+>      /* should only be called after backend is connected */
+>      assert(hdev->vhost_ops);
+>
+> @@ -1854,3 +1853,17 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
+>
+>      return -ENOSYS;
+>  }
+> +
+> +int vhost_dev_reset(struct vhost_dev *hdev)
+> +{
+
+Let's use a separate patch for this.
 
 Thanks
 
+> +    int ret = 0;
+> +
+> +    /* should only be called after backend is connected */
+> +    assert(hdev->vhost_ops);
+> +
+> +    if (hdev->vhost_ops->vhost_reset_device) {
+> +        ret = hdev->vhost_ops->vhost_reset_device(hdev);
+> +    }
+> +
+> +    return ret;
+> +}
+> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> index 58a73e7..b8b7c20 100644
+> --- a/include/hw/virtio/vhost.h
+> +++ b/include/hw/virtio/vhost.h
+> @@ -114,6 +114,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+>  void vhost_dev_cleanup(struct vhost_dev *hdev);
+>  int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
+>  void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
+> +int vhost_dev_reset(struct vhost_dev *hdev);
+>  int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
+>  void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
 >
-> Thanks!
+> --
+> 1.8.3.1
 >
-> > Thanks
-> >
-> >
-> > > In that regard, this commit needs to be marked as "Fixes: ...", eithe=
-r
-> > > ("a5bd058 vhost-vdpa: batch updating IOTLB mappings") or maybe better
-> > > ("4d191cf vhost-vdpa: classify one time request"). We have a
-> > > regression if we introduce both, or the second one and the support of
-> > > any other backend feature.
-> > >
-> > >> Noted that the VHOST_SET_BACKEND_FEATURES ioctl is not per-vq
-> > >> and it doesn't even need to. There seems to me no possibility for it=
- to
-> > >> fail in a way as thought here. The capture is that IOTLB batching is=
- at
-> > >> least a vdpa device level backend feature, if not per-kernel. Same a=
-s
-> > >> IOTLB_MSG_V2.
-> > >>
-> > > At this moment it is per-kernel, yes. With your patch there is no nee=
-d
-> > > to fail because of the lack of _F_IOTLB_BATCH, the code should handle
-> > > this case ok.
-> > >
-> > > But if VHOST_GET_BACKEND_FEATURES returns no support for
-> > > VHOST_BACKEND_F_IOTLB_MSG_V2, the qemu code will happily send v2
-> > > messages anyway. This has nothing to do with the patch, I'm just
-> > > noting it here.
-> > >
-> > > In that case, maybe it is better to return something like -ENOTSUP?
-> > >
-> > > Thanks!
-> > >
-> > >> -Siwei
-> > >>
-> > >>>    Some open questions:
-> > >>>
-> > >>> Should we make the vdpa driver return error as long as a feature is
-> > >>> used but not set by qemu, or let it as undefined? I guess we have t=
-o
-> > >>> keep the batching at least without checking so the kernel supports =
-old
-> > >>> versions of qemu.
-> > >>>
-> > >>> On the other hand, should we return an error if IOTLB_MSG_V2 is not
-> > >>> supported here? We're basically assuming it in other functions.
-> > >>>
-> > >>>> To fix it, send down ioctl only once via the first
-> > >>>> vhost_dev with index 0. Toggle the polarity of the
-> > >>>> vhost_vdpa_one_time_request() test would do the trick.
-> > >>>>
-> > >>>> Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
-> > >>> Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > >>>
-> > >>>> ---
-> > >>>>    hw/virtio/vhost-vdpa.c | 2 +-
-> > >>>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> > >>>>
-> > >>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > >>>> index c5ed7a3..27ea706 100644
-> > >>>> --- a/hw/virtio/vhost-vdpa.c
-> > >>>> +++ b/hw/virtio/vhost-vdpa.c
-> > >>>> @@ -665,7 +665,7 @@ static int vhost_vdpa_set_backend_cap(struct v=
-host_dev *dev)
-> > >>>>
-> > >>>>        features &=3D f;
-> > >>>>
-> > >>>> -    if (vhost_vdpa_one_time_request(dev)) {
-> > >>>> +    if (!vhost_vdpa_one_time_request(dev)) {
-> > >>>>            r =3D vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, =
-&features);
-> > >>>>            if (r) {
-> > >>>>                return -EFAULT;
-> > >>>> --
-> > >>>> 1.8.3.1
-> > >>>>
-> >
+>
 >
 
 
