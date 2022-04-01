@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FDF4EEC9D
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 13:52:33 +0200 (CEST)
-Received: from localhost ([::1]:41058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB744EECAC
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 13:58:38 +0200 (CEST)
+Received: from localhost ([::1]:43440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naFpQ-0005RB-EA
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 07:52:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59656)
+	id 1naFvJ-0007cZ-4H
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 07:58:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1naFnL-0004dT-Cb
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 07:50:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1naFnE-0007cP-PC
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 07:50:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648813812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TzCXY70kRQWDSj46be26HH9vA/Qm313SZDJIHOT6ntw=;
- b=Key6hMMUGoIusJ1UW69A630RFjTrb7FVA1jlFRKWE3waBPBVDgYMJOxQ7dBC9nlmjIuD/c
- W8ZliOUHUu97QxOzwH4WBBYz1CDB5pnj/+hv9wJCb5W3sV+4bUfwVZBAsTHVky7hCdqIAn
- ZxjPH5ZzBhU3GZFjUzrhXFS2WID7JiQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-392-ySSWvo26Ml-rdzx-fAQxuw-1; Fri, 01 Apr 2022 07:50:09 -0400
-X-MC-Unique: ySSWvo26Ml-rdzx-fAQxuw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 956F7101A52C;
- Fri,  1 Apr 2022 11:50:09 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF7091402648;
- Fri,  1 Apr 2022 11:50:08 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] build-sys: simplify AF_VSOCK check
-Date: Fri,  1 Apr 2022 15:50:05 +0400
-Message-Id: <20220401115005.2204000-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1naFuJ-0006ut-Um
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 07:57:35 -0400
+Received: from [2a00:1450:4864:20::62e] (port=35528
+ helo=mail-ej1-x62e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1naFuI-0000bY-CA
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 07:57:35 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id yy13so5393542ejb.2
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 04:57:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=HYVbTRwwPARPqPJaju1xCS6pGCuxn+bgjkKIOdTaZWW4AFPjXIaAdbVlbQWzkoYJAx
+ vAMmu5FarDTEpntiNYR25dHIFPKm9GCxA18UBMwfbYqughWCwH4N6vbL/az2RfChlf9+
+ PX3OfVKkWeiLgO/fS1j2dDrzfwFVnX/DRmldPJdqjtR+SVBIJJlin13NjTy40B9mwWop
+ hOV/V27vyspFEPvo6yprbMM6L5QUaOA7DgpE0sLykwEVIxCc+lOFDZLLQ4Aqzrc6pzEh
+ CE9AEcfEwCTxUv8nk+CSiEeTCBWsrT37ZaGixA49HZCTe57Z7AFYOIr2fbM1aOYj0EbA
+ Y1kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=m2r1OlQ/ZAFirL6SEwFkL5Ri2f2ctZB8zRUGLGqBtnfnX9UI0voxMEB8CfscP/Rv98
+ E0CJYXiqk0o4fs+lhqLUCFeOq56HTFZ3ku4/Pkx/YAQhKXI7fRMSTC9hmE6orFhVQ276
+ t30Oft+HOcj1aVygN/vtRZqfSyi2ktT4fi9c+evsyU9K4Ljgr2NpSVyDgsmLGj6deBmk
+ Fg//tOMuy1sok6KRcCWcLhlIQ0dUbEkGFTuYf/6vQSm2vPFXlMabZ8wDOfhzG1r9UOWj
+ gOZ+RmO9u7cMlmmQftlXvGAYS2lX8OaigKeKgw/kvYl9IUOKCSxojniX+05KiMSJqpZG
+ fIpw==
+X-Gm-Message-State: AOAM530Idb9qDf/IcF0at4gvSZdefYocBbEq5DF/b7CNxRW6nMS8lTPW
+ iVmct6Gx7w+57zqYxQBdlIQ=
+X-Google-Smtp-Source: ABdhPJz8IzKoWefqY0D8K77vdm/C1on6RofSpIyfOpqpwFbO7olfrVhHZKF3cPvW8BxN8nn+yvlfNg==
+X-Received: by 2002:a17:907:3e1a:b0:6e0:5ba8:8e0f with SMTP id
+ hp26-20020a1709073e1a00b006e05ba88e0fmr8771122ejc.581.1648814252656; 
+ Fri, 01 Apr 2022 04:57:32 -0700 (PDT)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:8ca6:a836:a237:fed1])
+ by smtp.gmail.com with ESMTPSA id
+ tc19-20020a1709078d1300b006e0649189b0sm919135ejc.68.2022.04.01.04.57.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Apr 2022 04:57:32 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH] build-sys: simplify AF_VSOCK check
+Date: Fri,  1 Apr 2022 13:57:30 +0200
+Message-Id: <20220401115730.1224937-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220401115005.2204000-1-marcandre.lureau@redhat.com>
+References: 
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,64 +89,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, stefanha@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: michael.roth@amd.com, qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Queued, thanks.
 
-The current test checks more than AF_VSOCK availability, and doesn't
-need to be that long.
+Paolo
 
-Since its introduction in Linux in 2013, AF_VSOCK came with
-linux/vm_sockets.h for sockaddr_vm, let's check that.
-
-We could even go back to the initial configure-less approach
-proposed by Stefan Hajnoczi, since Michael Roth added the configure-time
-check back then to satisfy glibc in Ubuntu 14. See:
-https://lists.gnu.org/archive/html/qemu-devel/2016-10/msg08208.html
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- meson.build | 23 ++++-------------------
- 1 file changed, 4 insertions(+), 19 deletions(-)
-
-diff --git a/meson.build b/meson.build
-index 46b5e938b196..e8c4f5255a3b 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1988,25 +1988,10 @@ have_afalg = get_option('crypto_afalg') \
-   '''), error_message: 'AF_ALG requested but could not be detected').allowed()
- config_host_data.set('CONFIG_AF_ALG', have_afalg)
- 
--config_host_data.set('CONFIG_AF_VSOCK', cc.compiles(gnu_source_prefix + '''
--  #include <errno.h>
--  #include <sys/types.h>
--  #include <sys/socket.h>
--  #if !defined(AF_VSOCK)
--  # error missing AF_VSOCK flag
--  #endif
--  #include <linux/vm_sockets.h>
--  int main(void) {
--    int sock, ret;
--    struct sockaddr_vm svm;
--    socklen_t len = sizeof(svm);
--    sock = socket(AF_VSOCK, SOCK_STREAM, 0);
--    ret = getpeername(sock, (struct sockaddr *)&svm, &len);
--    if ((ret == -1) && (errno == ENOTCONN)) {
--        return 0;
--    }
--    return -1;
--  }'''))
-+config_host_data.set('CONFIG_AF_VSOCK', cc.has_header_symbol(
-+  'linux/vm_sockets.h', 'AF_VSOCK',
-+  prefix: '#include <sys/socket.h>',
-+))
- 
- have_vss = false
- have_vss_sdk = false # old xp/2003 SDK
--- 
-2.35.1.693.g805e0a68082a
 
 
