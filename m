@@ -2,58 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E544EEE17
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:27:53 +0200 (CEST)
-Received: from localhost ([::1]:53330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF194EEE08
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:24:46 +0200 (CEST)
+Received: from localhost ([::1]:52322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naHJg-0001mR-9O
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:27:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51008)
+	id 1naHGf-00016t-J4
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:24:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1naH9Z-0000Rw-40; Fri, 01 Apr 2022 09:17:26 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:37582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1naH9U-0006Dq-Gu; Fri, 01 Apr 2022 09:17:24 -0400
-Received: from [192.168.13.13] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 2760C20777;
- Fri,  1 Apr 2022 13:17:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1648819037;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WwXuC1smwhhROcpwAgQUnJnlG+qR4By2v5jfnqOjKOM=;
- b=jMURKNX43E6tp9vEYCjG2Vta2rLQr9+MwJmpighT5Z6NnDn3C4CkodHyglxj9xH1WrOpey
- NiA1sZrnShC4fSI3qJnh7jobBLVteN52cXb043BE71Q3EiPleOsQdFH7ahnSyUwc+llYx+
- eUyuCcHBwwWsDe24eifj5WWr2TBZ0vc=
-Message-ID: <77de88b4-9fb7-d1c6-4f2a-55b7b5cbc9b4@greensocs.com>
-Date: Fri, 1 Apr 2022 15:17:15 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1naHEi-0007aC-U1
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:44 -0400
+Received: from [2607:f8b0:4864:20::32a] (port=33687
+ helo=mail-ot1-x32a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1naHEh-0006xd-Ct
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:44 -0400
+Received: by mail-ot1-x32a.google.com with SMTP id
+ e25-20020a0568301e5900b005b236d5d74fso2148667otj.0
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:22:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DWxqkmbIe1D+g2yoiMgVrjLbvsHSNutW/fm7DgKkCNE=;
+ b=k9XEzsOUth3J0uuDZk/IDjMOAqOdX10KNzCRKUQHr3HHrOPjdmRcmnWnmHXTJWHdHE
+ o/yjC+tklcoL13eh5dfHm/+xQGg1qnwrbc7EEz7gji+NKpJYl/S1FlOwxkNdsSVdF//L
+ bAhatdgLfkLJ5a27LywKc03q/CmI6w4ni4wbGlY7k7cLUdZ0zra+d0HeolSggVwcsklL
+ X9CyayAnhSGOh9gJObSJnbS8vNCCrDXdlsB0zhlR9uyoEobdeCHNtziSgCloXRf+YR0g
+ GCa9z3JPvHvzYcUVA/7aBt0v6ogQUcIg6nIPUc8mg7H56ZbIvbS8fIEuGmgTZ2gjMCDL
+ kfpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DWxqkmbIe1D+g2yoiMgVrjLbvsHSNutW/fm7DgKkCNE=;
+ b=WI08Ycee5+SbBXpE3E8uS06B3VpqE62hz58vCxL8AYE1n5FTfZFAoHBrc8ocHrkmSX
+ UcGB7WZ5kMfU/+QlUTwylwxKJigv89UJRWwFulBDgH2+pKmjB1dtu7goVYojS6F6Vff8
+ HqSWk8hcGyKBubNr+cfBuLM1FtHwK5PHXyrgE2/Nx4IxLfNG8/wZLVJLRNDMcR12Ml4C
+ p8ROkwGyluTMLeDRK3K6KzzFbPzcH9j6LFocaAxlolDcxXS8/HQEkC368GReKn/3UTJF
+ yb8WrCZAeDrLBvr9KcPjZLl6na2GpFP+Py+rL4fZESA+lmMEMbvtvL6tdNAml2fgyvrd
+ YDQw==
+X-Gm-Message-State: AOAM53132ZQzWLFsoy3vSXYywJMj2cC3I+O5RGCOC0fTyKKiCE+O+j3w
+ XJjoLDVBu8mWVxFk1q61gem/OR7q3OgvpMgRBTo=
+X-Google-Smtp-Source: ABdhPJzQ+YHI2uBTThLYRKooyIEyJfOL4l91GheDNi9pffhgEzJmO0ziHRyDgD9i9M/Xp0gGZsveSw==
+X-Received: by 2002:a05:6830:442a:b0:5c9:3a6b:de3e with SMTP id
+ q42-20020a056830442a00b005c93a6bde3emr7661987otv.151.1648819362164; 
+ Fri, 01 Apr 2022 06:22:42 -0700 (PDT)
+Received: from localhost.localdomain (fixed-187-188-190-73.totalplay.net.
+ [187.188.190.73]) by smtp.gmail.com with ESMTPSA id
+ x1-20020a4ae781000000b00320d5d238efsm1006935oov.3.2022.04.01.06.22.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Apr 2022 06:22:41 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] softfloat: FloatRelation cleanups
+Date: Fri,  1 Apr 2022 07:22:37 -0600
+Message-Id: <20220401132240.79730-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 3/4] hw/intc/exynos4210: replace 'qemu_split_irq' in
- combiner and gic
-Content-Language: en-US-large
-To: Zongyuan Li <zongyuan.li@smartx.com>, qemu-devel@nongnu.org
-References: <20220324181557.203805-1-zongyuan.li@smartx.com>
- <20220324181557.203805-4-zongyuan.li@smartx.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <20220324181557.203805-4-zongyuan.li@smartx.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,48 +87,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "open list:Exynos" <qemu-arm@nongnu.org>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Make consistent use of FloatRelation throughout the
+implementation of the float compare functions.
 
+I don't yet know if this actually solves Coverity issues,
+but they all look a bit cleaner, I think.
 
-On 3/24/22 19:15, Zongyuan Li wrote:
-> Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
-> ---
->   hw/arm/exynos4210.c           | 26 +++++++++++
->   hw/intc/exynos4210_combiner.c | 81 +++++++++++++++++++++++++++--------
->   hw/intc/exynos4210_gic.c      | 36 +++++++++++++---
->   include/hw/arm/exynos4210.h   | 11 ++---
->   include/hw/core/split-irq.h   |  5 +--
->   5 files changed, 126 insertions(+), 33 deletions(-)
-> 
-> diff --git a/include/hw/core/split-irq.h b/include/hw/core/split-irq.h
-> index ff8852f407..eb485dd7a6 100644
-> --- a/include/hw/core/split-irq.h
-> +++ b/include/hw/core/split-irq.h
-> @@ -42,9 +42,6 @@
->   
->   #define MAX_SPLIT_LINES 16
->   
-> -
-> -OBJECT_DECLARE_SIMPLE_TYPE(SplitIRQ, SPLIT_IRQ)
-> -
->   struct SplitIRQ {
->       DeviceState parent_obj;
->   
-> @@ -52,4 +49,6 @@ struct SplitIRQ {
->       uint16_t num_lines;
->   };
->   
-> +OBJECT_DECLARE_SIMPLE_TYPE(SplitIRQ, SPLIT_IRQ)
-> +
->   #endif
+r~
 
-Is there a reason to move the OBJECT_DECLARE_SIMPLE_TYPE line ?
+Richard Henderson (3):
+  softfloat: Fix declaration of partsN_compare
+  softfloat: Use FloatRelation within partsN_compare
+  softfloat: Use FloatRelation for fracN_cmp
 
---
-Damien
+ fpu/softfloat.c           | 20 +++++++++++---------
+ fpu/softfloat-parts.c.inc | 11 +++++++----
+ 2 files changed, 18 insertions(+), 13 deletions(-)
+
+-- 
+2.25.1
+
 
