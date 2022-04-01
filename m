@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA3B4EED0B
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 14:22:33 +0200 (CEST)
-Received: from localhost ([::1]:59532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1214EED12
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 14:25:06 +0200 (CEST)
+Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naGIT-0003li-3D
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 08:22:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37642)
+	id 1naGKv-0005py-DW
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 08:25:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1naGF1-0001SA-EA
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 08:18:59 -0400
-Received: from [2001:638:a01:1096::11] (port=47040 helo=mta01.hs-regensburg.de)
+ id 1naGIx-00052v-GE
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 08:23:05 -0400
+Received: from [2001:638:a01:1096::11] (port=51454 helo=mta01.hs-regensburg.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1naGEx-0004Bv-Rb
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 08:18:58 -0400
+ id 1naGIv-0004ps-F9
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 08:23:02 -0400
 Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
  [IPv6:2001:638:a01:8013::93])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (Client CN "E16S03", Issuer "E16S03" (not verified))
- by mta01.hs-regensburg.de (Postfix) with ESMTPS id 4KVK2z73Wyzxv8;
- Fri,  1 Apr 2022 14:18:51 +0200 (CEST)
+ by mta01.hs-regensburg.de (Postfix) with ESMTPS id 4KVK7l23sFzxvK;
+ Fri,  1 Apr 2022 14:22:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
- s=mta01-20211122; t=1648815532;
- bh=uj6sb8sE/VEzUILarEBcOtM/kB86r7UJgJxuzUPwl2Y=;
+ s=mta01-20211122; t=1648815779;
+ bh=L9OOR+LsgELV0+rnmajakzDm+GoENflL7WtxnPHV/Go=;
  h=From:To:CC:Subject:Date:From;
- b=huCwoM6WITj0jDrqoO5/kJfK7IgNQIywlQKIMOLlYj51JaYGKXI35vMubiFewsLfX
- VfoxXyHj0P6CbffpoXyIVkATF3eliOhcVDVn6YB//ELxkqKK9a98fRdBG9mhzLwzo7
- 1XnjjS8XdhZi+bgUeHJ85BGiXJi2eXczK5Eqpw/wTamNlu/Llev++91YhFmPQbCAE/
- pCkM3sK4bIeP6mLaS4qzDOvOYDOnkEvJBS8/vuuY4ckr7/w40h58gpz6kn+gjOZlqt
- 9A2u0oAJoB0oiARFAX64ieN7KPhXw2/cIw7M/CLP85a2yvDWUwnj3AaZzibtF2aEem
- lKEvAR8jX3+uA==
+ b=Higyc0ci9bkG4QKlTGdNITlUbPoI8nYxYQGKRG0LphRcn6VVHOqIau6ABWUxmo/MD
+ AySl0lw9e2ytNEUvUMBzgFgu5mygNrOuG1AUq7PEJsX/0m3BnvLNbHm4nw2dKzUc76
+ vFZg+Ant/Enj203IyVVfpWWiXdvsbGUczFO1ntVUKgjQh9Xw7H4SaDTh1fZ4g8tqnb
+ 6YK6gXH4ZpZjn05F7e13a7NeAoe1l+UTQaeyTdPPgopl8J1cgXcWE2BZwxsl0AsX+7
+ rrgDx+2hunhqbxU76nuGoP1l8JluXrAkadaS4UwDm3Gvzxa+ODFWrYbKtmEVBiMwOh
+ pkVFjelYPPY1g==
 Received: from localhost.localdomain (2001:638:a01:8013::138) by
  E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 1 Apr 2022 14:18:51 +0200
+ 15.1.2375.24; Fri, 1 Apr 2022 14:22:58 +0200
 From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-To: <qemu-devel@nongnu.org>, =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?=
- <berrange@redhat.com>, Alistair Francis <alistair23@gmail.com>
-Subject: [PATCH v3] hw/riscv: virt: Exit if the user provided -bios in
- combination with KVM
-Date: Fri, 1 Apr 2022 14:18:42 +0200
-Message-ID: <20220401121842.2791796-1-ralf.ramsauer@oth-regensburg.de>
+To: Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis
+ <alistair.francis@wdc.com>, <qemu-riscv@nongnu.org>, <qemu-devel@nongnu.org>, 
+ Stefan Huber <stefan.huber@oth-regensburg.de>
+Subject: [PATCH] target/riscv: Fix incorrect PTE merge in walk_pte
+Date: Fri, 1 Apr 2022 14:22:48 +0200
+Message-ID: <20220401122248.2792180-1-ralf.ramsauer@oth-regensburg.de>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -76,54 +76,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>, Anup Patel <anup@brainfault.org>,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Stefan Huber <stefan.huber@oth-regensburg.de>,
- Jiangyifei <jiangyifei@huawei.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Konrad Schwarz <konrad.schwarz@siemens.com>,
+ Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The -bios option is silently ignored if used in combination with -enable-kvm.
-The reason is that the machine starts in S-Mode, and the bios typically runs in
-M-Mode.
+Two non-subsequent PTEs can be mapped to subsequent paddrs. In this
+case, walk_pte will erroneously merge them.
 
-Better exit in that case to not confuse the user.
+Enforce the split up, by tracking the virtual base address.
+
+Let's say we have the mapping:
+0x81200000 -> 0x89623000 (4K)
+0x8120f000 -> 0x89624000 (4K)
+
+Before, walk_pte would have shown:
+
+vaddr            paddr            size             attr
+---------------- ---------------- ---------------- -------
+0000000081200000 0000000089623000 0000000000002000 rwxu-ad
+
+as it only checks for subsequent paddrs. With this patch, it becomes:
+
+vaddr            paddr            size             attr
+---------------- ---------------- ---------------- -------
+0000000081200000 0000000089623000 0000000000001000 rwxu-ad
+000000008120f000 0000000089624000 0000000000001000 rwxu-ad
 
 Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
 ---
- hw/riscv/virt.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ target/riscv/monitor.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index da50cbed43..09609c96e8 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1308,12 +1308,18 @@ static void virt_machine_init(MachineState *machine)
+diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
+index 7efb4b62c1..60e3edd0ad 100644
+--- a/target/riscv/monitor.c
++++ b/target/riscv/monitor.c
+@@ -84,6 +84,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+ {
+     hwaddr pte_addr;
+     hwaddr paddr;
++    target_ulong last_start = -1;
+     target_ulong pgsize;
+     target_ulong pte;
+     int ptshift;
+@@ -116,13 +117,15 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+                  * contiguous mapped block details.
+                  */
+                 if ((*last_attr != attr) ||
+-                    (*last_paddr + *last_size != paddr)) {
++                    (*last_paddr + *last_size != paddr) ||
++                    (last_start + *last_size != start)) {
+                     print_pte(mon, va_bits, *vbase, *pbase,
+                               *last_paddr + *last_size - *pbase, *last_attr);
  
-     /*
-      * Only direct boot kernel is currently supported for KVM VM,
--     * so the "-bios" parameter is ignored and treated like "-bios none"
--     * when KVM is enabled.
-+     * so the "-bios" parameter is not supported when KVM is enabled.
-      */
-     if (kvm_enabled()) {
--        g_free(machine->firmware);
--        machine->firmware = g_strdup("none");
-+        if (machine->firmware) {
-+            if (strcmp(machine->firmware, "none")) {
-+                error_report("Machine mode firmware is not supported in "
-+                             "combination with KVM.");
-+                exit(1);
-+            }
-+        } else {
-+            machine->firmware = g_strdup("none");
-+        }
-     }
+                     *vbase = start;
+                     *pbase = paddr;
+                     *last_attr = attr;
++                    last_start = start;
+                 }
  
-     if (riscv_is_32bit(&s->soc[0])) {
+                 *last_paddr = paddr;
 -- 
-2.32.0
+2.35.1
 
 
