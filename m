@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58BCE4EFCDE
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 00:45:05 +0200 (CEST)
-Received: from localhost ([::1]:54882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254DE4EFCD8
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 00:43:35 +0200 (CEST)
+Received: from localhost ([::1]:50042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naQ0u-00008O-7t
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 18:45:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39222)
+	id 1naPzS-0005Jc-8S
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 18:43:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1naPxI-000250-0y
+ id 1naPxH-00024h-Vy
  for qemu-devel@nongnu.org; Fri, 01 Apr 2022 18:41:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28502)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1naPxG-0005QL-57
+ id 1naPxG-0005QI-0P
  for qemu-devel@nongnu.org; Fri, 01 Apr 2022 18:41:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1648852877;
@@ -25,29 +25,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xSFfrvWh1Xt40OQDhsyiB4ZhWoJF6DziWwoJBjKGkdo=;
- b=QRwY0L3IqMZSyZDhVd6sLsc7D103hhxcCwwJSuMwnMh9LHXoFWiAu2VXFjhcpeK8ILQr5e
- C7EP54yFrWo7rlFs4GAAtgLHYHqWQWwHWmdewIKkvvg+XBcG9N6KnaOLbBGafQPaGB+0Jw
- Y21Pvr0hJ1DGxLNZIC4lK2KftYKeWRg=
+ bh=InuXhU4iwrbe0GkBIVkp7McvHI2BOEzzRIPXtveGZxA=;
+ b=LgRKSZmzimY4NI7y7yF51e47nUjlJJEnS3q5XjsXuPEds3p/q1k7MpDAcNK/Uu86zEqmqX
+ 2Q3WBPbcy1XrfUv59nO9UxZOY4DoGivDWnhSzLT/Sgg4ZKtXtkImspJGK6d2dQkkLlHXfs
+ 6a1sRHnxNMF59qFVtwcq5NltBLi2Owo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-567-wJxMd-U9OUCjuSqYIGXh5Q-1; Fri, 01 Apr 2022 18:41:14 -0400
-X-MC-Unique: wJxMd-U9OUCjuSqYIGXh5Q-1
+ us-mta-597-yln5NY0JM8-ywpOYX8FNag-1; Fri, 01 Apr 2022 18:41:16 -0400
+X-MC-Unique: yln5NY0JM8-ywpOYX8FNag-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23883802803
- for <qemu-devel@nongnu.org>; Fri,  1 Apr 2022 22:41:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E543E185A7A4
+ for <qemu-devel@nongnu.org>; Fri,  1 Apr 2022 22:41:15 +0000 (UTC)
 Received: from tapioca.redhat.com (unknown [10.40.193.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85AA49E6A;
- Fri,  1 Apr 2022 22:41:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3AF59E61;
+ Fri,  1 Apr 2022 22:41:14 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 4/8] qapi: golang: Generate qapi's union types in Go
-Date: Sat,  2 Apr 2022 00:41:00 +0200
-Message-Id: <20220401224104.145961-5-victortoso@redhat.com>
+Subject: [RFC PATCH v1 5/8] qapi: golang: Generate qapi's event types in Go
+Date: Sat,  2 Apr 2022 00:41:01 +0200
+Message-Id: <20220401224104.145961-6-victortoso@redhat.com>
 In-Reply-To: <20220401224104.145961-1-victortoso@redhat.com>
 References: <20220401224104.145961-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -85,196 +85,204 @@ Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch handles QAPI union types and generates the equivalent data
-structures and methods in Go to handle it.
+This patch handles QAPI event types and generates data structures in
+Go that handles it.
 
-At the moment of this writing, it generates 67 structures.
+At the moment of this writing, it generates 51 structures (49 events)
 
-The QAPI union type can be summarized by its common members that are
-defined in a @base struct and a @value. The @value type can vary and
-depends on @base's field that we call @discriminator. The
-@discriminator is always a Enum type.
+In Golang, each event is handled as a Go structure and there is no big
+difference, in the Go generated code, between what is a QAPI event
+type and what is a QAPI struct.
 
-Golang does not have Unions. The generation of QAPI union type in Go
-with this patch, follows similar approach to what is done for QAPI
-struct types and QAPI alternate types.
+Each QAPI event has the suffix 'Event' in its Golang data structure
+and contains the fields, mandatory and optional, that can be
+sent or received.
 
-Similarly to Go implementation of QAPI alternate types, we will
-implement the Marshaler and Unmarshaler interfaces to seamless decode
-from JSON objects to Golang structs and vice versa.
+In addition, there are two structures added to handle QAPI
+specification for event types: 'Event' and 'EventBase'.
 
-Similarly to Go implementation of QAPI struct types, we will need to
-tag @base fields accordingly.
+'EventBase' contains @Name and @Timestamp fields and then 'Event'
+extends 'EventBase' with an @Arg field of type 'Any'.
 
-The embedded documentation in Golang's structures and fields are
-particularly important here, to help developers know what Types to use
-for @value. Runtime checks too.
+The 'Event' type implements the Unmarshaler to decode the QMP JSON
+Object into the correct Golang (event) struct. The goal here is to
+facilitate receiving Events.
+
+A TODO for this type is to implement Marshaler for 'Event'. It'll
+containt runtime checks to validate before transforming the struct
+into a JSON Object.
+
+Example:
+```go
+    qmpMsg := `{
+    "event" : "MIGRATION",
+    "timestamp":{
+        "seconds": 1432121972,
+        "microseconds": 744001
+    },
+    "data":{
+        "status": "completed"
+    }
+}`
+
+    e := Event{}
+    _ = json.Unmarshal([]byte(qmpMsg), &e)
+    // e.Name == "MIGRATION"
+    // e.Arg.(MigrationEvent).Status == MigrationStatusCompleted
+```
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 ---
- scripts/qapi/golang.py | 124 +++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 119 insertions(+), 5 deletions(-)
+ scripts/qapi/golang.py | 92 ++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 84 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/qapi/golang.py b/scripts/qapi/golang.py
-index 50e39f8925..0a1bf430ba 100644
+index 0a1bf430ba..3bb66d07c7 100644
 --- a/scripts/qapi/golang.py
 +++ b/scripts/qapi/golang.py
-@@ -31,7 +31,7 @@ class QAPISchemaGenGolangVisitor(QAPISchemaVisitor):
+@@ -31,9 +31,10 @@ class QAPISchemaGenGolangVisitor(QAPISchemaVisitor):
  
      def __init__(self, prefix: str):
          super().__init__()
--        self.target = {name: "" for name in ["alternate", "enum", "helper", "struct"]}
-+        self.target = {name: "" for name in ["alternate", "enum", "helper", "struct", "union"]}
+-        self.target = {name: "" for name in ["alternate", "enum", "helper", "struct", "union"]}
++        self.target = {name: "" for name in ["alternate", "enum", "event", "helper", "struct", "union"]}
          self.objects_seen = {}
          self.schema = None
++        self.events = {}
          self._docmap = {}
-@@ -82,10 +82,10 @@ def visit_object_type(self: QAPISchemaGenGolangVisitor,
-                           members: List[QAPISchemaObjectTypeMember],
-                           variants: Optional[QAPISchemaVariants]
-                           ) -> None:
--        # Do not handle anything besides structs
-+        # Do not handle anything besides struct and unions.
-         if (name == self.schema.the_empty_object_type.name or
-                 not isinstance(name, str) or
--                info.defn_meta not in ["struct"]):
-+                info.defn_meta not in ["struct", "union"]):
-             return
+         self.golang_package_name = "qapi"
  
-         assert name not in self.objects_seen
-@@ -351,6 +351,93 @@ def generate_marshal_methods_enum(members: List[QAPISchemaEnumMember]) -> str:
+@@ -57,6 +58,24 @@ def visit_begin(self, schema):
+     def visit_end(self):
+         self.schema = None
+ 
++        # EventBase and Event are not specified in the QAPI schema,
++        # so we need to generate it ourselves.
++        self.target["event"] += '''
++type EventBase struct {
++    Name      string `json:"event"`
++    Timestamp struct {
++        Seconds      int64 `json:"seconds"`
++        Microseconds int64 `json:"microseconds"`
++    } `json:"timestamp"`
++}
++
++type Event struct {
++    EventBase
++    Arg       Any    `json:"data,omitempty"`
++}
++'''
++        self.target["event"] += generate_marshal_methods('Event', self.events)
++
+         self.target["helper"] += '''
+ // Creates a decoder that errors on unknown Fields
+ // Returns true if successfully decoded @from string @into type
+@@ -279,7 +298,28 @@ def visit_command(self,
+         pass
+ 
+     def visit_event(self, name, info, ifcond, features, arg_type, boxed):
+-        pass
++        assert name == info.defn_name
++        type_name = qapi_to_go_type_name(name, info.defn_meta)
++        self.events[name] = type_name
++
++        doc = self._docmap.get(name, None)
++        self_contained = True if not arg_type or not arg_type.name.startswith("q_obj") else False
++        content = ""
++        if self_contained:
++            doc_struct, _ = qapi_to_golang_struct_docs(doc)
++            content = generate_struct_type(type_name, "", doc_struct)
++        else:
++            assert isinstance(arg_type, QAPISchemaObjectType)
++            content = qapi_to_golang_struct(name,
++                                            doc,
++                                            arg_type.info,
++                                            arg_type.ifcond,
++                                            arg_type.features,
++                                            arg_type.base,
++                                            arg_type.members,
++                                            arg_type.variants)
++
++        self.target["event"] += content
+ 
+     def write(self, output_dir: str) -> None:
+         for module_name, content in self.target.items():
+@@ -351,15 +391,41 @@ def generate_marshal_methods_enum(members: List[QAPISchemaEnumMember]) -> str:
  }}
  '''
  
-+# Marshal methods for Union types
-+def generate_marshal_methods(type: str,
-+                             type_dict: Dict[str, str],
-+                             discriminator: str = "",
-+                             base: str = "") -> str:
-+    assert base != ""
-+    discriminator = "base." + discriminator
+-# Marshal methods for Union types
++# Marshal methods for Event and Union types
+ def generate_marshal_methods(type: str,
+                              type_dict: Dict[str, str],
+                              discriminator: str = "",
+                              base: str = "") -> str:
+-    assert base != ""
+-    discriminator = "base." + discriminator
+-
+-    switch_case_format = '''
++    type_is_union = False
++    json_field = ""
++    struct_field = ""
++    if type == "Event":
++        base = type + "Base"
++        discriminator = "base.Name"
++        struct_field = "Arg"
++        json_field = "data"
++    else:
++        assert base != ""
++        discriminator = "base." + discriminator
++        type_is_union = True
 +
-+    switch_case_format = '''
-+    case {name}:
-+        value := {case_type}{{}}
-+        if err := json.Unmarshal(data, &value); err != nil {{
++    switch_case_format = ""
++    if not type_is_union:
++        switch_case_format = '''
++    case "{name}":
++        tmp := struct {{
++            Value {isptr}{case_type} `json:"{json_field},omitempty"`
++        }}{{}}
++        if err := json.Unmarshal(data, &tmp); err != nil {{
 +            return err
 +        }}
-+        s.Value = value'''
-+
-+    if_supported_types = ""
-+    added = {}
-+    switch_cases = ""
-+    for name in sorted(type_dict):
-+        case_type = type_dict[name]
-+        isptr = "*" if case_type[0] not in "*[" else ""
-+        switch_cases += switch_case_format.format(name = name,
-+                                                  case_type = case_type)
-+        if case_type not in added:
-+            if_supported_types += f'''typestr != "{case_type}" &&\n\t\t'''
-+            added[case_type] = True
-+
-+    marshalfn = f'''
-+func (s {type}) MarshalJSON() ([]byte, error) {{
-+	base, err := json.Marshal(s.{base})
-+	if err != nil {{
-+		return nil, err
-+	}}
-+
-+    typestr := fmt.Sprintf("%T", s.Value)
-+    typestr = typestr[strings.LastIndex(typestr, ".")+1:]
-+
-+    // "The branches need not cover all possible enum values"
-+    // This means that on Marshal, we can safely ignore empty values
-+    if typestr == "<nil>" {{
-+        return []byte(base), nil
-+    }}
-+
-+    // Runtime check for supported value types
-+    if {if_supported_types[:-6]} {{
-+        return nil, errors.New(fmt.Sprintf("Type is not supported: %s", typestr))
-+    }}
-+	value, err := json.Marshal(s.Value)
-+	if err != nil {{
-+		return nil, err
-+	}}
-+
-+    // Workaround to avoid checking s.Value being empty
-+    if string(value) == "{{}}" {{
-+        return []byte(base), nil
-+    }}
-+
-+    // Removes the last '}}' from base and the first '{{' from value, in order to
-+    // return a single JSON object.
-+    result := fmt.Sprintf("%s,%s", base[:len(base)-1], value[1:])
-+    return []byte(result), nil
-+}}
-+'''
-+    unmarshal_base = f'''
-+    var base {base}
-+    if err := json.Unmarshal(data, &base); err != nil {{
-+        return err
-+    }}
-+    s.{base} = base
-+'''
-+    unmarshal_default_warn = f'''
-+    default:
-+        fmt.Println("Failed to decode {type}", {discriminator})'''
-+
-+    return f'''{marshalfn}
-+func (s *{type}) UnmarshalJSON(data []byte) error {{
-+    {unmarshal_base}
-+    switch {discriminator} {{
-+{switch_cases[1:]}
-+    {unmarshal_default_warn}
-+    }}
-+
-+    return nil
-+}}
-+'''
-+
- # Takes the documentation object of a specific type and returns
- # that type's documentation followed by its member's docs.
- def qapi_to_golang_struct_docs(doc: QAPIDoc) -> (str, Dict[str, str]):
-@@ -412,10 +499,37 @@ def qapi_to_golang_struct(name: str,
-         field_doc = doc_fields.get(memb.name, "")
-         own_fields += f"\t{field} {isptr}{member_type}{fieldtag}{field_doc}\n"
++        if tmp.Value == nil {{
++            s.{struct_field} = nil
++        }} else {{
++            s.{struct_field} = {isptr}tmp.Value
++        }}'''
++    else:
++        switch_case_format = '''
+     case {name}:
+         value := {case_type}{{}}
+         if err := json.Unmarshal(data, &value); err != nil {{
+@@ -374,12 +440,17 @@ def generate_marshal_methods(type: str,
+         case_type = type_dict[name]
+         isptr = "*" if case_type[0] not in "*[" else ""
+         switch_cases += switch_case_format.format(name = name,
++                                                  struct_field = struct_field,
++                                                  json_field = json_field,
++                                                  isptr = isptr,
+                                                   case_type = case_type)
+         if case_type not in added:
+             if_supported_types += f'''typestr != "{case_type}" &&\n\t\t'''
+             added[case_type] = True
  
-+    union_types = {}
-+    variant_fields = ""
-+    if variants:
-+        variant_fields = f"// Value based on @{variants.tag_member.name}, possible types:"
-+        for var in variants.variants:
-+            if var.type.is_implicit():
-+                continue
+-    marshalfn = f'''
++    marshalfn = ""
++    if type_is_union:
++        marshalfn = f'''
+ func (s {type}) MarshalJSON() ([]byte, error) {{
+ 	base, err := json.Marshal(s.{base})
+ 	if err != nil {{
+@@ -564,4 +635,9 @@ def qapi_to_go_type_name(name: str, meta: str) -> str:
+     words = [word for word in name.replace("_", "-").split("-")]
+     name = words[0].title() if words[0].islower() or words[0].isupper() else words[0]
+     name += ''.join(word.title() for word in words[1:])
 +
-+            name = variants.tag_member._type_name + var.name.title().replace("-", "")
-+            union_types[name] = var.type.name
-+            variant_fields += f"\n\t// * {var.type.c_unboxed_type()}"
++    if meta == "event":
++        name = name[:-3] if name.endswith("Arg") else name
++        name += meta.title()
 +
-+        variant_fields += f"\n\tValue Any"
-+
-     all_fields = base_fields if len(base_fields) > 0 else ""
-     all_fields += own_fields[:-1] if len(own_fields) > 0 else ""
--
--    return generate_struct_type(type_name, all_fields, doc_struct)
-+    all_fields += variant_fields if len(variant_fields) > 0 else ""
-+
-+    unmarshal_fn = ""
-+    if info.defn_meta == "union" and variants is not None:
-+        # Union's without variants are the Union's base data structure.
-+        # e.g: SchemaInfo's base is SchemainfoBase.
-+        discriminator = qapi_to_field_name(variants.tag_member.name)
-+        base = qapi_to_go_type_name(variants.tag_member.defined_in,
-+                                    variants.tag_member.info.defn_meta)
-+        unmarshal_fn = generate_marshal_methods(type_name,
-+                                                union_types,
-+                                                discriminator = discriminator,
-+                                                base = base_type_name)
-+
-+    return generate_struct_type(type_name, all_fields, doc_struct) + unmarshal_fn
- 
- def qapi_schema_type_to_go_type(type: str) -> str:
-     schema_types_to_go = {'str': 'string', 'null': 'nil', 'bool': 'bool',
+     return name
 -- 
 2.35.1
 
