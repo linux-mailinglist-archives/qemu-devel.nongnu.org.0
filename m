@@ -2,102 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6353B4EF638
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:53:22 +0200 (CEST)
-Received: from localhost ([::1]:49624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A14614EF78D
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 18:11:01 +0200 (CEST)
+Received: from localhost ([::1]:36772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naJaN-0002lC-58
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:53:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57450)
+	id 1naJrY-0005df-7N
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 12:11:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1naJYN-0000YP-Tm; Fri, 01 Apr 2022 11:51:11 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15798
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1naJpc-0004os-Jm; Fri, 01 Apr 2022 12:09:00 -0400
+Received: from smtp43.i.mail.ru ([94.100.177.103]:37962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1naJYK-0005iG-6s; Fri, 01 Apr 2022 11:51:11 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 231DVDTW013326; 
- Fri, 1 Apr 2022 15:50:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=LMC5j8LLiOAHwVjCJjTINxt5tv9WWf4r32/rfcLUkbI=;
- b=LaANWDwXpzF0Npxx+/Djowdr1EqijsZ1T4mXk0bpXIk3TOTBfOTL6KyUF+h70eAoPbTA
- jEq9RiXOJ6L85jL6ZeX8zGMDK9f31x8vGq75FaVsr0K3w6fvdyXFubFeqR2CRQ01AgRz
- FRt12Hm1iKdn7e97uhtSJE2gP9wQhlwRbFwlPxYJ42zUa5HwTNXyrEK+423U4oMDurpv
- z9G8My3I8mpQB5UxKdmsBcdrT3AvYjAOjC5lAWxP488VXzqWsuLftezkOmeyjyIAXQAv
- rt56Qg75fnVYLCRESdinE61vum+QDGox4p0KzX8zYjlS/+mlClskMJmU4mQTzj9wo7tP gQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3f62bqb0gx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 01 Apr 2022 15:50:57 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 231FUM82001443;
- Fri, 1 Apr 2022 15:50:57 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3f62bqb0gq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 01 Apr 2022 15:50:57 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 231FniGZ007861;
- Fri, 1 Apr 2022 15:50:56 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma02dal.us.ibm.com with ESMTP id 3f1tfas93s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 01 Apr 2022 15:50:56 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 231FotCt14942966
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 1 Apr 2022 15:50:55 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B6B9BBE058;
- Fri,  1 Apr 2022 15:50:55 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 298A3BE053;
- Fri,  1 Apr 2022 15:50:54 +0000 (GMT)
-Received: from localhost (unknown [9.160.96.195])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Fri,  1 Apr 2022 15:50:53 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, David Gibson
- <david@gibson.dropbear.id.au>
-Subject: Re: [RFC PATCH 1/2] spapr: Report correct GTSE support via ov5
-In-Reply-To: <87mth5i8xj.fsf@linux.ibm.com>
-References: <20220309012400.2527157-1-farosas@linux.ibm.com>
- <YixlR+rLNZCsAA50@yekko> <87ee346v99.fsf@linux.ibm.com>
- <YkUuLyQTZUthvJb4@yekko> <87mth5i8xj.fsf@linux.ibm.com>
-Date: Fri, 01 Apr 2022 12:50:49 -0300
-Message-ID: <87fsmwhkfa.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1naJpZ-00086A-QX; Fri, 01 Apr 2022 12:09:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+ s=mail4; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=X++9SjR7/gXCkyt9ii7JNCwtGIHaZ0XVjpUirLIoRo0=; 
+ t=1648829337;x=1649434737; 
+ b=oxtQvWEN92SdNG8LlYDOYYhz+C4hXoMeU/ssT/36LzTpKZE6BjrhUy7rb+6wRyjwXlXkjQawz/f6Phj/swJwnsynCLkUuaS3Q9GToUGArUqeMmiHDDAgso184Dxc2oZfb2USAFSpxcl3da+sR/ovOt0vmL5flPnbzV+49TGV4k9YlPTEAGKgcobf1fvFwxBmEkrFdEIO6vaAYHy4P3HEtCILKlz0k/aFKnUeu+qoirI4Dyo6AjM2pA3d4VDejq0jmWhX+ZQAEfFEhxOvDjFGvzfQ1/rIYSU3zMcw3+7+OBCnW+Ui5v67ktC4ULKdvx34muBvU6H6YVer2F+r0nuL8w==;
+Received: by smtp43.i.mail.ru with esmtpa (envelope-from
+ <v.sementsov-og@mail.ru>)
+ id 1naJpW-0000HI-3P; Fri, 01 Apr 2022 19:08:54 +0300
+Message-ID: <aa2e58e0-412b-161b-4f66-52d65a5bfd2f@mail.ru>
+Date: Fri, 1 Apr 2022 19:08:53 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: aYqGJz7s8yN3ji0YtnKGh8JziXOEEoW_
-X-Proofpoint-ORIG-GUID: 41JSfW03QayC09MfC07flPEjPJsyM3OO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-01_05,2022-03-31_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- bulkscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
- adultscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2204010074
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 5/7] block/block-copy: block_copy(): add timeout_ns
+ parameter
+Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
+ stefanha@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
+ vsementsov@openvz.org
+References: <20220401091920.287612-1-vsementsov@openvz.org>
+ <20220401091920.287612-6-vsementsov@openvz.org>
+ <929f2a0d-e3d7-afad-b95b-d7f8b29fe077@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+In-Reply-To: <929f2a0d-e3d7-afad-b95b-d7f8b29fe077@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp43.i.mail.ru;
+ auth=pass smtp.auth=v.sementsov-og@mail.ru
+ smtp.mailfrom=v.sementsov-og@mail.ru
+X-4EC0790: 10
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD9771EFB8797C310D1E1BF93EDB477DECB541E6F1DEED947CC182A05F5380850405761214BB6C73C852BFF6EE03DB9AE787F2059D823600C4DFEB73C4923462444
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7A33E1178EA603666EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637E8F1A1743CF948808638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D890009486B55A31094D0DA31AC7963A6E6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE78C9B9C945842D50B9FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD1828451B159A507268D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B1BE95B8C87527B4BA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FCE13CD2072E3EF2E43AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F79006370DC75CB1A17F9575D81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89FD2A95C73FD1EFF45C6EABA9B74D0DA47B5C8C57E37DE458BEDA766A37F9254B7
+X-8FC586DF: 6EFBBC1D9D64D975
+X-C1DE0DAB: 0D63561A33F958A5BB833187B73560716A221073037AEDC261BA4D43C8FF325AD59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA75040BF32255FAA22B410CA545F18667F91A7EA1CDA0B5A7A0
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D3407FE5477D6A8AF08F90A559470D6FEA26B7232F52AB04D640C732CC2B7FC1341E39D3B94577E44471D7E09C32AA3244CCD5DECD2B6CD83E19D61982E052C4E0C51E887DA02A9F7BFED98077840A144B9
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojhgUChjrcp6H7PmNg0anPkQ==
+X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FEE2158E723B8BEFA35CAEF59D2C6144ED90EE8021CA853496E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+Received-SPF: pass client-ip=94.100.177.103;
+ envelope-from=v.sementsov-og@mail.ru; helo=smtp43.i.mail.ru
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,75 +81,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- npiggin@gmail.com, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com> writes:
-
-> David Gibson <david@gibson.dropbear.id.au> writes:
->
->> On Mon, Mar 14, 2022 at 07:10:10PM -0300, Fabiano Rosas wrote:
->>> David Gibson <david@gibson.dropbear.id.au> writes:
->>> 
->>> > On Tue, Mar 08, 2022 at 10:23:59PM -0300, Fabiano Rosas wrote:
->>>
->
-> ...
->
->>> To satisfy TCG we could keep a spapr capability as ON and usually the
->>> guest would pass cap-gtse=off when running with KVM. However this
->>> doesn't work because this crash happens precisely because the nested
->>> guest doesn't know that it needs to use cap-rpt-invalidate=on. Another
->>> cap wouldn't help.
->>> 
->>> So I think the only way to have a spapr capability for this is if TCG
->>> always defaults to ON and KVM always defaults to OFF. But then we would
->>> be changing guest visible behaviour depending on host properties.
+01.04.2022 16:16, Hanna Reitz wrote:
+> On 01.04.22 11:19, Vladimir Sementsov-Ogievskiy wrote:
+>> Add possibility to limit block_copy() call in time. To be used in the
+>> next commit.
 >>
->> Ok, I'd forgotten we already have cap-rpt-invalidate.  It still
->> defaults to OFF for now, which might help us.
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+>> ---
+>>   block/block-copy.c         | 26 +++++++++++++++++++-------
+>>   block/copy-before-write.c  |  2 +-
+>>   include/block/block-copy.h |  2 +-
+>>   3 files changed, 21 insertions(+), 9 deletions(-)
 >>
->> What's clear is that we should never disable GTSE if
->> cap-rpt-invalidate is off - qemu should enforce that before even
->> starting the guest if at all possible.
->>
->> What's less clear to me is if we want to enable GTSE by default or
->> not, in the cases where we're able to choose.  Would always disabling
->> GTSE when cap-rpt-invalidate=on be ok?  Or do we want to be able to
->> control GTSE separately.  In that case we might need a second cap, but
->> it would need inverted sense, so e.g. cap-disable-gtse.
->
->
-> GTSE and cap-rpt-invalidate can be looked at as independent such that we
-> can do GTSE=1 or GTSE=0 with cap-rpt-invalidate=on. But GTSE=0 with
-> cap-rpt-invalidate=off is not allowed/possible. GTSE value is what is
-> negotiated via CAS so we should let the hypervisor inform the guest whether it
-> can do GTSE 0 or 1. The challenge IIUC is Qemu always assumed GTSE=1
-> which is not true in the case of nested virt where L1 guest that is booted
-> with GTSE=0.
->
-> with cap-disable-gtse how would one interpret that? Whether hypervisor
-> have the capability to disable gtse?
+>> diff --git a/block/block-copy.c b/block/block-copy.c
+>> index ec46775ea5..b47cb188dd 100644
+>> --- a/block/block-copy.c
+>> +++ b/block/block-copy.c
+> 
+> [...]
+> 
+>> @@ -894,12 +902,16 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
+>>           .max_workers = BLOCK_COPY_MAX_WORKERS,
+>>       };
+>> -    return block_copy_common(&call_state);
+>> -}
+>> +    ret = qemu_co_timeout(block_copy_async_co_entry, call_state, timeout_ns,
+>> +                          g_free);
+> 
+> A direct path for timeout_ns == 0 might still be nice to have.
+> 
+>> +    if (ret < 0) {
+>> +        /* Timeout. call_state will be freed by running coroutine. */
+> 
+> Maybe assert(ret == -ETIMEDOUT);?
 
-The spapr capability would mean "disable GTSE if KVM allows
-it". Although I'd prefer using cap-gtse=<on/off> because it gives us
-more flexibility if we ever want to change the default value.
+OK
 
-On the KVM side I am testing a KVM_CAP_PPC_GTSE_DISABLE with the
-semantics of "whether QEMU is allowed to disable GTSE". It reports the
-inverse of MMU_FTR_GTSE. So if L1 runs with GTSE=0, then the capability
-returns 1 and therefore QEMU can disable GTSE. If the capability is not
-present, then QEMU is not allowed to disable GTSE.
+> 
+>> +        return ret;
+> 
+> If I’m right in understanding how qemu_co_timeout() works, block_copy_common() will continue to run here.  Shouldn’t we at least cancel it by setting call_state->cancelled to true?
 
-With David's idea of disallowing cap-rpt-invalidate=off,cap-gtse=off we
-can simply deny the nested guest command line if it doesn't include
-cap-rpt-invalidate=on when KVM L1 reports KVM_CAP_PPC_GTSE_DISABLE. That
-way cap-gtse can default to ON to keep TCG working.
+Agree
 
-On a first look, I think the above works. I'm still running some tests
-with different QEMU/kernel versions.
+> 
+> (Besides this, I think that letting block_copy_common() running in the background should be OK.  I’m not sure what the implications are if we do cancel the call here, while on-cbw-error is break-guest-write, though.  Should be fine, I guess, because block_copy_common() will still correctly keep track of what it has successfully copied and what it hasn’t?)
+
+Hmm. I now think, that we should at least wait for such cancelled background requests before block_copy_state_free in cbw_close(). But in "[PATCH v5 00/45] Transactional block-graph modifying API" I want to detach children from CBW filter before calling .close().. So, possible solution is to wait for all cancelled requests on .bdrv_co_drain_begin().
+
+Or alternatively, may be just increase bs->in_flight for CBW filter for each background cancelled request? And decrease when it finish. For this we should add a kind of callback to be called when timed-out coroutine entry finish.
+
+> 
+>> +    }
+>> -static void coroutine_fn block_copy_async_co_entry(void *opaque)
+>> -{
+>> -    block_copy_common(opaque);
+>> +    ret = call_state->ret;
+>> +
+>> +    return ret;
+> 
+> But here we still need to free call_state, right?
+> 
+>>   }
+>>   BlockCopyCallState *block_copy_async(BlockCopyState *s,
+> 
 
 
+-- 
+Best regards,
+Vladimir
 
