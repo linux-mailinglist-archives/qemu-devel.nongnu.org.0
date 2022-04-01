@@ -2,92 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9F04EF5D3
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:48:03 +0200 (CEST)
-Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6353B4EF638
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:53:22 +0200 (CEST)
+Received: from localhost ([::1]:49624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naJVK-0006bs-Kg
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:48:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56738)
+	id 1naJaN-0002lC-58
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:53:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naJU7-0005po-H6
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:46:47 -0400
-Received: from [2a00:1450:4864:20::633] (port=34312
- helo=mail-ej1-x633.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naJU6-0004cO-0K
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:46:47 -0400
-Received: by mail-ej1-x633.google.com with SMTP id o10so6751834ejd.1
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 08:46:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ZjK8GXFWI7sN6kR+P+TjF9qjtKKdk403LI8KucixW2w=;
- b=HRIh9yGScXMnikfVR1Y6otsBJ+4vt2s/etMPIUHwG4IeW28ag4WbMbtC7k+R/oEgkZ
- hBTi4JbL8DAlzINbvYseowXI6Ngr10Kk1M7IJ00Zxp7omMkmSgAXFo2e/AQh9vabkqJn
- ELXoU5GEk8DT+xkjH0kcecYCN5wSLi9XBGZ44aphBPoY+jvt18PtEgGVVVivbo/8Hj7b
- AWrVab0R+NBaWumtHPdoKg7aqFabITa65Uy6wNArflk8OlkUUNQaW80x2WaJOl81tv4+
- AUYewJlONhEhqlwgKX7QFbX7a+ZTbyGpJ3qoDjCykYkvcSWcs2kY7mhQnX4X5rH8S6SQ
- WLuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ZjK8GXFWI7sN6kR+P+TjF9qjtKKdk403LI8KucixW2w=;
- b=oeaPr365f8E39qJtlP2hHebjZSmNpCCMT/Rw+n1Z/I8j0Jjbqb3XEOR+SbiVfyt+Et
- bTlcmIex67Ez+zZEsxuNUDLPxRmutn8xQakHioFfKQjy6Rjy6LO41iNJuiR5+DAZvM8f
- /nxtbe0u+keymE/lUPg/Tq4noFdsX9cDCrFZyFYCYPFJq4aMHTSn2ZzNkGqgiMNBxT5P
- VVD1V6YKMKQsZx+VciJJ+YbpBnUeFpISrv0ndijJEthechVtoGXvrtuE5lTYzQZgYVAh
- +M8Wk7Zau85vGqsvc3mTYi28gngvk5MHwMWSs8EgbA3fMPO6l+b83OxAfFZYUOZpR02p
- NiYg==
-X-Gm-Message-State: AOAM530UFFcPn6E7pApo0S4w8MsjLHxdzHMm9Pig0bMwUAFzCRmD4gz7
- W13swWLNl/cSim2Qbnoe6L4=
-X-Google-Smtp-Source: ABdhPJxFvgrcVOa9LfLGI1XLE9xjMBFZRkjWVbYRfcsUoS7dRG7zPYLBwQtsZHwOkB+QZ7cd0q9zvA==
-X-Received: by 2002:a17:907:d05:b0:6e4:49ac:9b26 with SMTP id
- gn5-20020a1709070d0500b006e449ac9b26mr357467ejc.133.1648828004006; 
- Fri, 01 Apr 2022 08:46:44 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- l2-20020a1709060cc200b006d3d91e88c7sm1149767ejh.214.2022.04.01.08.46.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Apr 2022 08:46:43 -0700 (PDT)
-Message-ID: <33548764-9f91-b4df-c2b6-b897713d56fd@redhat.com>
-Date: Fri, 1 Apr 2022 17:46:39 +0200
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1naJYN-0000YP-Tm; Fri, 01 Apr 2022 11:51:11 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15798
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1naJYK-0005iG-6s; Fri, 01 Apr 2022 11:51:11 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 231DVDTW013326; 
+ Fri, 1 Apr 2022 15:50:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=LMC5j8LLiOAHwVjCJjTINxt5tv9WWf4r32/rfcLUkbI=;
+ b=LaANWDwXpzF0Npxx+/Djowdr1EqijsZ1T4mXk0bpXIk3TOTBfOTL6KyUF+h70eAoPbTA
+ jEq9RiXOJ6L85jL6ZeX8zGMDK9f31x8vGq75FaVsr0K3w6fvdyXFubFeqR2CRQ01AgRz
+ FRt12Hm1iKdn7e97uhtSJE2gP9wQhlwRbFwlPxYJ42zUa5HwTNXyrEK+423U4oMDurpv
+ z9G8My3I8mpQB5UxKdmsBcdrT3AvYjAOjC5lAWxP488VXzqWsuLftezkOmeyjyIAXQAv
+ rt56Qg75fnVYLCRESdinE61vum+QDGox4p0KzX8zYjlS/+mlClskMJmU4mQTzj9wo7tP gQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3f62bqb0gx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Apr 2022 15:50:57 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 231FUM82001443;
+ Fri, 1 Apr 2022 15:50:57 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3f62bqb0gq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Apr 2022 15:50:57 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 231FniGZ007861;
+ Fri, 1 Apr 2022 15:50:56 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma02dal.us.ibm.com with ESMTP id 3f1tfas93s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Apr 2022 15:50:56 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 231FotCt14942966
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 1 Apr 2022 15:50:55 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B6B9BBE058;
+ Fri,  1 Apr 2022 15:50:55 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 298A3BE053;
+ Fri,  1 Apr 2022 15:50:54 +0000 (GMT)
+Received: from localhost (unknown [9.160.96.195])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Fri,  1 Apr 2022 15:50:53 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, David Gibson
+ <david@gibson.dropbear.id.au>
+Subject: Re: [RFC PATCH 1/2] spapr: Report correct GTSE support via ov5
+In-Reply-To: <87mth5i8xj.fsf@linux.ibm.com>
+References: <20220309012400.2527157-1-farosas@linux.ibm.com>
+ <YixlR+rLNZCsAA50@yekko> <87ee346v99.fsf@linux.ibm.com>
+ <YkUuLyQTZUthvJb4@yekko> <87mth5i8xj.fsf@linux.ibm.com>
+Date: Fri, 01 Apr 2022 12:50:49 -0300
+Message-ID: <87fsmwhkfa.fsf@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: use of uninitialized variable involving visit_type_uint32() and
- friends
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-References: <CAFEAcA-wExOSiuJ5F6nBwWXcWW2c1rqHCfT=JNrdWQ4baqu3Og@mail.gmail.com>
- <CABgObfbu3MK6SCNGOFGGHWO72e3dYygUybgyavALKq5_pnWK0A@mail.gmail.com>
- <87y20p88qq.fsf@pond.sub.org>
- <e17c3f3b-000f-4bab-1e3a-2adbafbcdcbb@redhat.com>
- <875ynt54pk.fsf@pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <875ynt54pk.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: aYqGJz7s8yN3ji0YtnKGh8JziXOEEoW_
+X-Proofpoint-ORIG-GUID: 41JSfW03QayC09MfC07flPEjPJsyM3OO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-01_05,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
+ adultscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2204010074
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,72 +110,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ npiggin@gmail.com, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/22 15:11, Markus Armbruster wrote:
->> If it can do really serious interprocedural analysis, it _might_ be able
->> to see through the visitor constructor and know that the "value = *obj"
->> is not initialized (e.g. "all callers of object_property_set use an
->> input visitor").  I doubt that honestly, but a man can dream.
-> 
-> I'm wary of arguments based on "a sufficiently smart compiler can"...
+"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com> writes:
 
-Absolutely.
-
->> Because it communicates what the caller expects: "I have left this
->> uninitialized because I expect my "v" argument to be the kind of visitor
->> that fills it in".  It's this argument that gives me the confidence
->> needed to shut up Coverity's false positives.
+> David Gibson <david@gibson.dropbear.id.au> writes:
+>
+>> On Mon, Mar 14, 2022 at 07:10:10PM -0300, Fabiano Rosas wrote:
+>>> David Gibson <david@gibson.dropbear.id.au> writes:
+>>> 
+>>> > On Tue, Mar 08, 2022 at 10:23:59PM -0300, Fabiano Rosas wrote:
+>>>
+>
+> ...
+>
+>>> To satisfy TCG we could keep a spapr capability as ON and usually the
+>>> guest would pass cap-gtse=off when running with KVM. However this
+>>> doesn't work because this crash happens precisely because the nested
+>>> guest doesn't know that it needs to use cap-rpt-invalidate=on. Another
+>>> cap wouldn't help.
+>>> 
+>>> So I think the only way to have a spapr capability for this is if TCG
+>>> always defaults to ON and KVM always defaults to OFF. But then we would
+>>> be changing guest visible behaviour depending on host properties.
 >>
->> Embedding the visitor type in the signature makes it impossible not to
->> pass it, unlike e.g. an assertion in every getter or setter.
-> 
-> I think we got two kinds of code calling visitor methods:
-> 
-> 1. Code for use with one kind of visitor only
-> 
->     We get to pass a literal argument to the additional parameter you
->     propose.
-> 
-> 2. Code for use with arbitrary visitors (such as qapi-visit*.c)
-> 
->     We need to pass v->type, where @v is the existing visitor argument.
->     Except we can't: struct Visitor and VisitorType are private, defined
->     in <visitor-impl.h>.  Easy enough to work around, but has a distinct
->     "this design is falling apart" smell, at least to me.
+>> Ok, I'd forgotten we already have cap-rpt-invalidate.  It still
+>> defaults to OFF for now, which might help us.
+>>
+>> What's clear is that we should never disable GTSE if
+>> cap-rpt-invalidate is off - qemu should enforce that before even
+>> starting the guest if at all possible.
+>>
+>> What's less clear to me is if we want to enable GTSE by default or
+>> not, in the cases where we're able to choose.  Would always disabling
+>> GTSE when cap-rpt-invalidate=on be ok?  Or do we want to be able to
+>> control GTSE separately.  In that case we might need a second cap, but
+>> it would need inverted sense, so e.g. cap-disable-gtse.
+>
+>
+> GTSE and cap-rpt-invalidate can be looked at as independent such that we
+> can do GTSE=1 or GTSE=0 with cap-rpt-invalidate=on. But GTSE=0 with
+> cap-rpt-invalidate=off is not allowed/possible. GTSE value is what is
+> negotiated via CAS so we should let the hypervisor inform the guest whether it
+> can do GTSE 0 or 1. The challenge IIUC is Qemu always assumed GTSE=1
+> which is not true in the case of nested virt where L1 guest that is booted
+> with GTSE=0.
+>
+> with cap-disable-gtse how would one interpret that? Whether hypervisor
+> have the capability to disable gtse?
 
-Hmm, maybe that's a feature though.  If we only need v->type in .c files 
-for the generated visit_type_* functions, then it's not a huge deal that 
-they will have to include <visitor-impl.h>.  All callers outside 
-generated type visitors (which includes for example QMP command 
-marshaling), instead, would _have_ to pass visitor type constants and 
-make it clear what direction the visit is going.
+The spapr capability would mean "disable GTSE if KVM allows
+it". Although I'd prefer using cap-gtse=<on/off> because it gives us
+more flexibility if we ever want to change the default value.
 
-> Note that "intent explicit in every method call" is sufficient, but not
-> necessary for "intent is locally explicit, which lets us dismiss false
-> positives with confidence".  We could do "every function that calls
-> methods".  Like checking a precondition.  We already have
-> visit_is_input().  We could have visit_is_output().
-> 
-> The sane way to make output intent explicit is of course passing the
-> thing by value rather than by reference.  To get that, we could generate
-> even more code.  So, if the amount of code we currently generate isn't
-> disgusting enough, ...
+On the KVM side I am testing a KVM_CAP_PPC_GTSE_DISABLE with the
+semantics of "whether QEMU is allowed to disable GTSE". It reports the
+inverse of MMU_FTR_GTSE. So if L1 runs with GTSE=0, then the capability
+returns 1 and therefore QEMU can disable GTSE. If the capability is not
+present, then QEMU is not allowed to disable GTSE.
 
-Yeah, that would be ugly.  Or, we could generate the same code plus some 
-static inline wrappers that take a
+With David's idea of disallowing cap-rpt-invalidate=off,cap-gtse=off we
+can simply deny the nested guest command line if it doesn't include
+cap-rpt-invalidate=on when KVM L1 reports KVM_CAP_PPC_GTSE_DISABLE. That
+way cap-gtse can default to ON to keep TCG working.
 
-   struct InputVisitor {
-       Visitor dont_use_me_it_hurts;
-   }
-   struct OutputVisitor {
-       Visitor dont_use_me_it_hurts;
-   }
+On a first look, I think the above works. I'm still running some tests
+with different QEMU/kernel versions.
 
-That would be zero-cost abstraction at runtime.
 
-Paolo
 
