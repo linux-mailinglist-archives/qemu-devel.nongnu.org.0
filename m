@@ -2,87 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033B64EEBDE
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 12:54:08 +0200 (CEST)
-Received: from localhost ([::1]:53168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9824EEBDC
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 12:53:01 +0200 (CEST)
+Received: from localhost ([::1]:51180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naEus-000294-Tm
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 06:54:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46840)
+	id 1naEtl-0000oT-N8
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 06:52:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1naEsF-0008Vs-5y
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:51:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24974)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1naErk-0007uP-53
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:50:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1naEsC-00053r-Ae
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:51:22 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1naErh-0004zo-0x
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:50:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648810279;
+ s=mimecast20190719; t=1648810247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/nGuS1hkH7OFCfnKWl0vBNSvQHA6J4U0k9Qn1XXkDQM=;
- b=FFoxrRzHndD8uoobWBpT2NrrI/8IX7axWxZ+MBdfD2fSsppUVUjXdTACfTsDintMlV790g
- T6mZ/5DSS33PVkxbNPFRGcxZTOrFX/c0ouSLXBakA9w+MKNYax4qe0o4WtLmJx2l1MkrlE
- n6J0StxVGZ468MuPR3BY+VTP755uilE=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=urrfcC011xZdZa5B/AMuEwSf3ZTwH5OgGLo7NZp2/sE=;
+ b=Guq5NdW5m8BfOKB3XHBTQlszTRpqWlizvgkvgREQZXm/4KLyqiMEfqSv73wFumRZN2FL4/
+ 4u5k5Unt4uK7ARkjYtfpQHpqj5V4tDJ3vig0Pcelw/FB/aVRQ/ZcMfYUeb4/ZdNrgVYnxi
+ gblDt7+QpoUfW/CF6b38RmgrZ8NUgNE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-6-uqTU5xOqN6m5YFwoNAS3NA-1; Fri, 01 Apr 2022 06:51:18 -0400
-X-MC-Unique: uqTU5xOqN6m5YFwoNAS3NA-1
-Received: by mail-qt1-f199.google.com with SMTP id
- t19-20020ac86a13000000b002e1fd2c4ce5so1737407qtr.5
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 03:51:18 -0700 (PDT)
+ us-mta-549-bUsCB3x9PqCW-INkMquZBQ-1; Fri, 01 Apr 2022 06:50:46 -0400
+X-MC-Unique: bUsCB3x9PqCW-INkMquZBQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ z22-20020a50cd16000000b0041960ea8555so1328760edi.2
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 03:50:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/nGuS1hkH7OFCfnKWl0vBNSvQHA6J4U0k9Qn1XXkDQM=;
- b=Eb20yuOdYs1bEDNJOC9DxSn6xOnvHDGr8iDW5cWdlZCd8ZSL0egAj5KMKr4F+LqpKf
- O/tuOvvV4CgCkU4Hzuv/Vfcy5X+eOakfGrNloCCmaRqcXrIJCLUo7tF+WoS7rJVGqzbs
- qBOYhQZZVBhUKtiuyIlpwoWnLKq2aEAITZ49SbuHrlrJEBOJN1S/wMy7XA5St52+/VcD
- 6KxZKeaZ2DC7i5TMcVsSRbDVKyGc0p6AMoVxrHZngL4C8CQmTUCzRFUOTvYtImX5mu1l
- pyK5klm2fi2mV5zjyXknUdsH/sPMqETmk7xEftm+2WUreKH4l/+Q0bfqaSpVvC+RWYFi
- B4fw==
-X-Gm-Message-State: AOAM531Q4beRC6LUw8oR8POjQIaCMvEXes7RM957qugKUIIhIzuA0nFz
- bHAwZA9NjsaAX48BRHd/d5DL49RExEZfq/zIOr8TdNHmIX2NPasyEiau7LWTYFL6wQ2qw5m2YR7
- LfW0/Qq1bLQMi+2B6A7GkQrxoLgPYcuQ=
-X-Received: by 2002:a05:620a:31a3:b0:67d:32c4:d4f8 with SMTP id
- bi35-20020a05620a31a300b0067d32c4d4f8mr6185222qkb.308.1648810277982; 
- Fri, 01 Apr 2022 03:51:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyuf6BvHnn0TwFBP8f+dT6AtE5J6py1olhGwzSzTV1r9nBec8dqOrr0FphtKU+uiCtIfiq5OYldMo4hNi7uEns=
-X-Received: by 2002:a05:620a:31a3:b0:67d:32c4:d4f8 with SMTP id
- bi35-20020a05620a31a300b0067d32c4d4f8mr6185191qkb.308.1648810277695; Fri, 01
- Apr 2022 03:51:17 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=urrfcC011xZdZa5B/AMuEwSf3ZTwH5OgGLo7NZp2/sE=;
+ b=CQ3YTe5i29bi6HPHfLM1G25Rs55BDfuwXnWWGe/fI3QW22VBfBl5Mj1ceTcjhg4wTZ
+ j/rrCt73RvWWVgfPb5uPKFKxkPvvOzimcNVWc5EBC2xA38dGXy3jZH1aPaGj1J0/6W2f
+ AVC0T1GgrDs/u5+nt9LZ4V4K0F2b4dS4DfdFFDMQMvToOgkkO5k8f9E3vbHrcsA3h8xE
+ uyOnz2FvK+hpv194N0mO72EtaOoSnE/J1Z5TlGVnTnuZdLhJs3bMsvE7IEUj2ZxCDELe
+ hMREeSwyrrU73tlpW838gTI13f33ToXlO7Sme2wf1vJQfhd61ozDOa7rIRHnHjc6rBHe
+ 3Avw==
+X-Gm-Message-State: AOAM531+XffChmcZsI/AbSlkPO50rXCaCUdyhtW90l2O8msNx/tYF4pv
+ JBd5a5fJTIcjK8chz6HHhmcHUs1lXF1OUZuEUhMPKRhUXESLYDWGi20bKcA0noFFzRCXO1womib
+ igGyQMsCTmJR+mBA=
+X-Received: by 2002:a50:f10e:0:b0:41b:71c4:d57 with SMTP id
+ w14-20020a50f10e000000b0041b71c40d57mr10463329edl.254.1648810245281; 
+ Fri, 01 Apr 2022 03:50:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwpJS1u6qyQXx1MCWw3B9DKa4mWFUcLshzaaLtpbnMSUcslJ2Z/IskRrAFCrnAz3J0b3kStjw==
+X-Received: by 2002:a50:f10e:0:b0:41b:71c4:d57 with SMTP id
+ w14-20020a50f10e000000b0041b71c40d57mr10463314edl.254.1648810245022; 
+ Fri, 01 Apr 2022 03:50:45 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ v2-20020a509d02000000b00412d53177a6sm1075579ede.20.2022.04.01.03.50.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Apr 2022 03:50:44 -0700 (PDT)
+Message-ID: <0d068a71-3af7-8873-9bc6-e8cac73b4d25@redhat.com>
+Date: Fri, 1 Apr 2022 12:50:43 +0200
 MIME-Version: 1.0
-References: <20210903174510.751630-1-philmd@redhat.com>
- <20210903174510.751630-20-philmd@redhat.com>
-In-Reply-To: <20210903174510.751630-20-philmd@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 1 Apr 2022 12:50:41 +0200
-Message-ID: <CAJaqyWd9kd6TamcO3qj68J5Dn6-cXAWRxOckbfjwpKnEp0_VzQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 19/28] hw/virtio: Replace g_memdup() by g_memdup2()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/7] block/copy-before-write: refactor option parsing
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+References: <20220401091920.287612-1-vsementsov@openvz.org>
+ <20220401091920.287612-2-vsementsov@openvz.org>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220401091920.287612-2-vsementsov@openvz.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,107 +104,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu-level <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>, David Hildenbrand <david@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, vsementsov@openvz.org,
+ stefanha@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 3, 2021 at 8:11 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
+On 01.04.22 11:19, Vladimir Sementsov-Ogievskiy wrote:
+> We are going to add one more option of enum type. Let's refactor option
+> parsing so that we can simply work with BlockdevOptionsCbw object.
 >
-> Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-mem=
-dup2-now/5538
->
->   The old API took the size of the memory to duplicate as a guint,
->   whereas most memory functions take memory sizes as a gsize. This
->   made it easy to accidentally pass a gsize to g_memdup(). For large
->   values, that would lead to a silent truncation of the size from 64
->   to 32 bits, and result in a heap area being returned which is
->   significantly smaller than what the caller expects. This can likely
->   be exploited in various modules to cause a heap buffer overflow.
->
-> Replace g_memdup() by the safer g_memdup2() wrapper.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 > ---
-> Should we check in_num/out_num in range?
+>   block/copy-before-write.c | 68 +++++++++++++++++++++++----------------
+>   1 file changed, 41 insertions(+), 27 deletions(-)
+>
+> diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+> index a8a06fdc09..394e73b094 100644
+> --- a/block/copy-before-write.c
+> +++ b/block/copy-before-write.c
+> @@ -24,6 +24,7 @@
+>    */
+>   
+>   #include "qemu/osdep.h"
+> +#include "qapi/qmp/qjson.h"
+>   
+>   #include "sysemu/block-backend.h"
+>   #include "qemu/cutils.h"
+> @@ -328,46 +329,49 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
+>       }
+>   }
+>   
+> -static bool cbw_parse_bitmap_option(QDict *options, BdrvDirtyBitmap **bitmap,
+> -                                    Error **errp)
+> +static BlockdevOptionsCbw *cbw_parse_options(QDict *options, Error **errp)
+>   {
+> -    QDict *bitmap_qdict = NULL;
+> -    BlockDirtyBitmap *bmp_param = NULL;
+> +    QDict *cbw_qdict = NULL;
+> +    BlockdevOptionsCbw *opts = NULL;
+>       Visitor *v = NULL;
+> -    bool ret = false;
+>   
+> -    *bitmap = NULL;
+> +    cbw_qdict = qdict_clone_shallow(options);
+>   
+> -    qdict_extract_subqdict(options, &bitmap_qdict, "bitmap.");
+> -    if (!qdict_size(bitmap_qdict)) {
+> -        ret = true;
+> -        goto out;
+> -    }
+> -
+> -    v = qobject_input_visitor_new_flat_confused(bitmap_qdict, errp);
+> +    /*
+> +     * Delete BlockdevOptions base fields, that are not part of
+> +     * BlockdevOptionsCbw.
+> +     */
+> +    qdict_del(cbw_qdict, "driver");
+> +    qdict_del(cbw_qdict, "node-name");
+> +    qdict_del(cbw_qdict, "discard");
+> +    qdict_del(cbw_qdict, "cache");
+> +    qdict_extract_subqdict(cbw_qdict, NULL, "cache.");
+> +    qdict_del(cbw_qdict, "read-only");
+> +    qdict_del(cbw_qdict, "auto-read-only");
+> +    qdict_del(cbw_qdict, "force-share");
+> +    qdict_del(cbw_qdict, "detect-zeroes");
 
-I'd say it is not needed to check: virtqueue_pop fills them by
-iterating through the descriptor chain so the range is restricted to
-[0, 1024].
+Works in practice now, but seems a bit fragile.  If new fields are added 
+to the base class, this will break.  (And I don’t know whether people 
+will think of updating this when new fields are added to the base class.)
 
-Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+Would there be a problem if instead we parsed the full BlockdevOptions 
+object here, asserting that .driver is BLOCKDEV_DRIVER_COPY_BEFORE_WRITE?
 
-
-> ---
->  hw/net/virtio-net.c       | 3 ++-
->  hw/virtio/virtio-crypto.c | 6 +++---
->  2 files changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 16d20cdee52..338fbeb8c57 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -1449,7 +1449,8 @@ static void virtio_net_handle_ctrl(VirtIODevice *vd=
-ev, VirtQueue *vq)
->          }
->
->          iov_cnt =3D elem->out_num;
-> -        iov2 =3D iov =3D g_memdup(elem->out_sg, sizeof(struct iovec) * e=
-lem->out_num);
-> +        iov2 =3D iov =3D g_memdup2(elem->out_sg,
-> +                               sizeof(struct iovec) * elem->out_num);
->          s =3D iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
->          iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
->          if (s !=3D sizeof(ctrl)) {
-> diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-> index 54f9bbb789c..59886c1790d 100644
-> --- a/hw/virtio/virtio-crypto.c
-> +++ b/hw/virtio/virtio-crypto.c
-> @@ -242,7 +242,7 @@ static void virtio_crypto_handle_ctrl(VirtIODevice *v=
-dev, VirtQueue *vq)
->          }
->
->          out_num =3D elem->out_num;
-> -        out_iov_copy =3D g_memdup(elem->out_sg, sizeof(out_iov[0]) * out=
-_num);
-> +        out_iov_copy =3D g_memdup2(elem->out_sg, sizeof(out_iov[0]) * ou=
-t_num);
->          out_iov =3D out_iov_copy;
->
->          in_num =3D elem->in_num;
-> @@ -605,11 +605,11 @@ virtio_crypto_handle_request(VirtIOCryptoReq *reque=
-st)
->      }
->
->      out_num =3D elem->out_num;
-> -    out_iov_copy =3D g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num=
-);
-> +    out_iov_copy =3D g_memdup2(elem->out_sg, sizeof(out_iov[0]) * out_nu=
-m);
->      out_iov =3D out_iov_copy;
->
->      in_num =3D elem->in_num;
-> -    in_iov_copy =3D g_memdup(elem->in_sg, sizeof(in_iov[0]) * in_num);
-> +    in_iov_copy =3D g_memdup2(elem->in_sg, sizeof(in_iov[0]) * in_num);
->      in_iov =3D in_iov_copy;
->
->      if (unlikely(iov_to_buf(out_iov, out_num, 0, &req, sizeof(req))
-> --
-> 2.31.1
->
->
+> +
+> +    v = qobject_input_visitor_new_flat_confused(cbw_qdict, errp);
+>       if (!v) {
+>           goto out;
+>       }
+>   
+> -    visit_type_BlockDirtyBitmap(v, NULL, &bmp_param, errp);
+> -    if (!bmp_param) {
+> -        goto out;
+> -    }
+> -
+> -    *bitmap = block_dirty_bitmap_lookup(bmp_param->node, bmp_param->name, NULL,
+> -                                        errp);
+> -    if (!*bitmap) {
+> +    visit_type_BlockdevOptionsCbw(v, NULL, &opts, errp);
+> +    if (!opts) {
+>           goto out;
+>       }
 
 
