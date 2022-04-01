@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72194EE705
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 06:05:50 +0200 (CEST)
-Received: from localhost ([::1]:33516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9850D4EE70F
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 06:10:22 +0200 (CEST)
+Received: from localhost ([::1]:37120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na8Xl-0000qK-Pl
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 00:05:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38032)
+	id 1na8c9-0003ZJ-FP
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 00:10:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1na8RV-0001ze-76
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 23:59:21 -0400
-Received: from mga18.intel.com ([134.134.136.126]:51143)
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1na8Zy-00029v-A4
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 00:08:06 -0400
+Received: from mga11.intel.com ([192.55.52.93]:24479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1na8RS-0002tU-Jo
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 23:59:20 -0400
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1na8Zv-0004Uy-Sn
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 00:08:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648785558; x=1680321558;
- h=from:to:cc:subject:date:message-id:in-reply-to:
+ t=1648786083; x=1680322083;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7TieCHaXd/qt6aeQ/G3UtJJMKdCflNt2cJfEcvQ6hcI=;
- b=HSNYG8oFr/9HR+eM3cZMUf89nw6ERWjGkx2Txb+CK+Rex6x6QIguNAi+
- ZKfp8bgIu1eHjZeveaORwlLCQ/nWVggUlduD0Prxpxn1jh0b5NZ6drhvL
- QY05JUk0ZYNuXLcgd7FUoOYjyJJKQV+JJoRM1ipTWkbb1CJtUciDhzfU8
- WMwFsVfFzOBTJUBgrNWvgq9hE0xjRKY1a6F5k5GLXX7DGmVx4Qo8ThtzZ
- 8HxdHg+vufpZMi4BCZDPaH5/OZtP4928vLkSS6rNsXkT4E+DnmqKutqm1
- Q9Czut22v0RO9tO9B9SHcl7DpcqBb92g+2y1L/S740HZICZsadJ4z7GCD A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10303"; a="242182911"
-X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; d="scan'208";a="242182911"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 20:59:17 -0700
-X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; d="scan'208";a="567105887"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 20:59:15 -0700
-From: Zhang Chen <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>,
-	Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: [PATCH V2 4/4] net/colo.c: fix segmentation fault when packet is not
- parsed correctly
-Date: Fri,  1 Apr 2022 11:47:02 +0800
-Message-Id: <20220401034702.687057-5-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220401034702.687057-1-chen.zhang@intel.com>
-References: <20220401034702.687057-1-chen.zhang@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=chen.zhang@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ bh=Pf+HTbh4I8RhvcMdZNbXjD3cPd8qGdS2Ev3uToaboU8=;
+ b=FxVVd4gKr8/zP56EnR90GS+q1TgGL49qxedSH6/D8WkrL67BGzF+9u+y
+ BdFsRTD973zrjVI3D1jQD7lIP7MSRoiEjT0iMYjgCPfY2hmxxW8NTegfG
+ eJ/OByugltIfSmLlbGhCexiL33VJwfK2ZjDjDnRoI33W46AYolVDDk/Jf
+ jivbUtWS5oP+d3W0i9oA9Md5LAtyiF4jP/UJ1u0s8k+gbyu5E/TSoakhI
+ eR9RW2s5ZFstpkAVy1S0y8z4FoHl61L6O0C4NMuoeM1DMJQz45qZ0kNSp
+ w5jRdNx/NXrHvWQ75nBfEiUuEm/DDkUpqJpb7+iGW9G84Eev6ifOUib+W Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10303"; a="257616201"
+X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; d="scan'208";a="257616201"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 21:07:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; d="scan'208";a="695747165"
+Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
+ ([10.239.48.212])
+ by fmsmga001.fm.intel.com with ESMTP; 31 Mar 2022 21:07:56 -0700
+Message-ID: <54e71e28dd7f9e7b1727a9843f9fe96f7f8aaeb0.camel@linux.intel.com>
+Subject: Re: [PATCH 2/2] NVDIMM: Init vNVDIMM's LSA index block if it hasn't
+ been
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Date: Fri, 01 Apr 2022 12:07:56 +0800
+In-Reply-To: <20220331164111.47483387@redhat.com>
+References: <1648537663-126032-1-git-send-email-robert.hu@linux.intel.com>
+ <1648537663-126032-3-git-send-email-robert.hu@linux.intel.com>
+ <20220331140938.6297e2b1@redhat.com>
+ <913c9dfaa5818aaf70782b725086e4ab4b5c5f44.camel@linux.intel.com>
+ <20220331164111.47483387@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=robert.hu@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,71 +78,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Tao Xu <tao3.xu@intel.com>,
- qemu-dev <qemu-devel@nongnu.org>, Li Zhijian <lizhijian@fujitsu.com>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
+ qemu-devel@nongnu.org, ani@anisinha.ca, robert.hu@intel.com,
+ dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When COLO use only one vnet_hdr_support parameter between
-filter-redirector and filter-mirror(or colo-compare), COLO will crash
-with segmentation fault. Back track as follow:
+On Thu, 2022-03-31 at 16:41 +0200, Igor Mammedov wrote:
+> On Thu, 31 Mar 2022 21:08:12 +0800
+> Robert Hoo <robert.hu@linux.intel.com> wrote:
+>  
+> > > 
+> > > Can user initialize/format LSA from guest using ndctl/some other
+> > > tool?
+> > >   
+> > 
+> > Yes, he can. But when guest Kernel already told him this is a dimm
+> > without label capability, dare/should he take this dangerous
+> > action?;-)
+> 
+> I don't think this feature belongs to QEMU (i.e. hw emulation).
+> It's task that is usually accomplished by firmware or OS
+> (in context of QEMU its guest's responsibility).
+> 
 
-Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
-0x0000555555cb200b in eth_get_l2_hdr_length (p=0x0)
-    at /home/tao/project/COLO/colo-qemu/include/net/eth.h:296
-296         uint16_t proto = be16_to_cpu(PKT_GET_ETH_HDR(p)->h_proto);
-(gdb) bt
-0  0x0000555555cb200b in eth_get_l2_hdr_length (p=0x0)
-    at /home/tao/project/COLO/colo-qemu/include/net/eth.h:296
-1  0x0000555555cb22b4 in parse_packet_early (pkt=0x555556a44840) at
-net/colo.c:49
-2  0x0000555555cb2b91 in is_tcp_packet (pkt=0x555556a44840) at
-net/filter-rewriter.c:63
+Thanks Igor.
+Actually before I compose this patch, I was pondering on this as well:
+whose obligation to fulfill this function, i.e. initialize the LSA.
 
-So wrong vnet_hdr_len will cause pkt->data become NULL. Add check to
-raise error and add trace-events to track vnet_hdr_len.
+So I asked around (and still asking), knowing these about native usage,
+(correct me if I'm wrong), which we virtualization should mimic in
+principle:
 
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
+a) before user start to use NVDIMM, he's supposed to ipmctl[0] create
+goal firstly, to determine 2LM mode or app direct mode, which usually
+initializes the LSA. So user doesn't necessarily to explicit 'ndctl
+init-label' although he can do this to init LSA again.
+
+b) I heard that, perhaps, even when DIMMs are sent out from factory, it
+has LSA initialized (not quite certain about this, I'm still
+confirming).
+
+What specs say
 ---
- net/colo.c       | 9 ++++++++-
- net/trace-events | 1 +
- 2 files changed, 9 insertions(+), 1 deletion(-)
+In NVDIMM Namespace spec[1], Chap 2 "Namespaces": 
+"NVDIMM vendors define the size of their label storage area and,
+therefor, the number of labels it holds."
 
-diff --git a/net/colo.c b/net/colo.c
-index 694f3c93ef..6b0ff562ad 100644
---- a/net/colo.c
-+++ b/net/colo.c
-@@ -46,7 +46,14 @@ int parse_packet_early(Packet *pkt)
-     static const uint8_t vlan[] = {0x81, 0x00};
-     uint8_t *data = pkt->data + pkt->vnet_hdr_len;
-     uint16_t l3_proto;
--    ssize_t l2hdr_len = eth_get_l2_hdr_length(data);
-+    ssize_t l2hdr_len;
-+
-+    if (data == NULL) {
-+        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
-+                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
-+        return 1;
-+    }
-+    l2hdr_len = eth_get_l2_hdr_length(data);
- 
-     if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
-         trace_colo_proxy_main("pkt->size < ETH_HLEN");
-diff --git a/net/trace-events b/net/trace-events
-index d7a17256cc..6af927b4b9 100644
---- a/net/trace-events
-+++ b/net/trace-events
-@@ -9,6 +9,7 @@ vhost_user_event(const char *chr, int event) "chr: %s got event: %d"
- 
- # colo.c
- colo_proxy_main(const char *chr) ": %s"
-+colo_proxy_main_vnet_info(const char *sta, int size) ": %s = %d"
- 
- # colo-compare.c
- colo_compare_main(const char *chr) ": %s"
--- 
-2.25.1
+I think: In QEMU context, it's QEMU who's the vNVDIMM's vendor.
+
+In UEFI spec [2], "13.19 NVDIMM Label Protocol", page 640:
+"Before Index Blocks and labels can be utilized, the software managing
+the Label Storage Area must determine the total number of labels that
+will be supported and utilizing the description above, calculate the
+size of the Index Blocks required."
+
+I think: In QEMU context, it's QEMU who emulates LSA and therefore the
+management software of it.
+
+What's real limitation on QEMU vNVDIMM implementation
+---
+In VM:
+ipmctl isn't supported.
+Only app direct mode is supported. (i.e. no bother to ipmctl create
+goal first).
+vNVDIMM is actually presented to user in a ready-to-use initial state.
+We never tell user you must 'ndctl init-label' then can use it.
+Nor tell user that you should 'ipmctl create-goal' first, because in
+fact ipmctl isn't available at all.
+
+
+That's all the story and thoughts before I compose this patch:)
+
+[0] https://docs.pmem.io/ipmctl-user-guide/ (and, ipmctl is for Intel
+Optane PMEM only)
+[1] https://pmem.io/documents/NVDIMM_Namespace_Spec.pdf
+[2] 
+https://uefi.org/sites/default/files/resources/UEFI_Spec_2_9_2021_03_18.pdf
+
+> 
+> PS:
+> It's true that QEMU caries some 'firmware' code, like composing
+> ACPI tables but we do it only to reduce QEMU<->firmware ABI
+> necessary for hardware description and that's pretty much it.
+> Unfortunately this series doesn't fit the bill.
+> 
+Yeah, I've seen this part of code, but a little difficult to comprehend
+them, especially for me a stranger to ACPI. Where can I find related
+design document?
+I now only find a valuable doc: docs/specs/acpi_nvdimm.rst.
+> 
 
 
