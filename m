@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2483A4EEAA3
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:44:41 +0200 (CEST)
-Received: from localhost ([::1]:52878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179D54EEAB4
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:48:38 +0200 (CEST)
+Received: from localhost ([::1]:57794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naDpg-0002ME-8c
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:44:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60022)
+	id 1naDtU-0005xI-SR
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:48:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naDcr-0005Qg-8N
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:31:25 -0400
-Received: from [2607:f8b0:4864:20::b2c] (port=42823
- helo=mail-yb1-xb2c.google.com)
+ id 1naDdk-00068s-5c
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:32:20 -0400
+Received: from [2607:f8b0:4864:20::1132] (port=32933
+ helo=mail-yw1-x1132.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naDcp-0000Qf-NF
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:31:24 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id u103so3945796ybi.9
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 02:31:23 -0700 (PDT)
+ id 1naDdi-0000bN-AS
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:32:19 -0400
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-2e68c95e0f9so26925287b3.0
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 02:32:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7cMzgF/6VY1AaUNdGw5W4kIx23KK9AypHqdt+bVocP4=;
- b=DEO0gCQ/UPBSPpz5UjekmyZuPbccY6I8klQsp8QbCz45cF7+Yt6yFSa0ekauskvXeu
- EVbqLE0SgdXiEoDFtHzOkQHSOsrHn1gXR1sbgBW2AXRyxMBzp63KOyqqUh6/XGNGtDEh
- 0H7oJ74sGj162ypmt6yiYIh41pREkYoQ8GD0FN2fnz7MSHiavxZHrqp7gtz+uciDx5fN
- xaB4qwvVqq6z02wxPhOo9xlEIi6LfW/3Z7ESTqmQsdeY3rV0Xc+8TQSuDW2sy9YQFa3h
- RDdFB739gEOCpQHfby9NMeGIkhi27E0hbJ+3NNpUZ29eEOusN1wSkJG8lLwdNO78q9Al
- CT/g==
+ :cc; bh=IsUpKboYlC709IcaNNCAjxBvqN+MRTBabmItLNsSlpM=;
+ b=kB5/JH3pNyTT7mmHB9m/kd4n1QVAO+IVbxdyipQoRJNZxHChQDu9DVCgHHXltsyLri
+ 2fNPsw845kKLv28GOoSsyI8CCoHUlCnG0bDEUYpHJzRs9wFnaoWXzzNqYyh2vMkA1/rt
+ J5RBAEap+sw+cSFg/kqQU6W52/2/EnDlnGg98zNWHc2YDGaGDOqpFKlO8j1fRbF9jmFU
+ 6PoTIPeBfL7tvhGAPw0eJm9Pha9QZEdDH8/tnBsy3/XjgtU+b5oQ7twePlp1zLTNZaaH
+ zlt9TBNcIgzoNKlHUT+UvhZwRqgGerAD1930D+eXkhYm1QvRO3goSSqITFBeItYgxQbB
+ gf/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7cMzgF/6VY1AaUNdGw5W4kIx23KK9AypHqdt+bVocP4=;
- b=U1NvftZlXun5mJ03DvDhOlCbHMKD2sEZJxP7aE2+kUItXjNsycUzpzmw5KdmEWB5vy
- ml3tulVvh81P57i3ljuxN4f75Mxh37+K1kGhyV2WVGb62uez7yndHA4sDqpIpgmmbBDg
- ZspMtL/1UAogFpxaK2EpnuhOunDH5KUvQLntUBAEK6D3TALNJI62FAx17wSC75kufnpc
- a7KsjCHdDE81Y/hJc3ib1bwrBZp7mzLj3z6+uGM8xm3kqDqAPFspq7wzkzhAdAFLvDoJ
- JAdVi4AsUKTbQ+JB6hetU98Hvv58R+lkPRDJrlUmtQ13xC08prtdzD+cQfnDr6NUsaI5
- NL0A==
-X-Gm-Message-State: AOAM53156aYLaAPfDHOJkvOK1bQCaVPPIfPewzNuC0n6WFkOPsDYZzKX
- TYPmkS3Bxm+z/AU9bSTJeAXjzOjxBSzW/xvgSw+ccw==
-X-Google-Smtp-Source: ABdhPJxoH+URLL5H1TDU+YjapoQ/vxExJKyOh011ftAWMTag88CQ7Nuu9cVVo2tLWQDth939zQOYj4OyIEPc2EE5gJA=
-X-Received: by 2002:a05:6902:1147:b0:634:6e83:70b4 with SMTP id
- p7-20020a056902114700b006346e8370b4mr8164777ybu.85.1648805482589; Fri, 01 Apr
- 2022 02:31:22 -0700 (PDT)
+ bh=IsUpKboYlC709IcaNNCAjxBvqN+MRTBabmItLNsSlpM=;
+ b=OP+mYisI/bqrk6YaoBqVbfhieMxUjzRAHfZD7Xk7XySnakGXCb0ir5ZKze653D7ums
+ znARku6LLBuMqJs0At92ndbqUwQB1upvXffhvz6bbf/f+ppzjtKNv2foE4mf3q36KqeF
+ rrZwP2gjh4VaAhamR8zMNROY7N/GGpnvCwBVe8a3Ck25iGcObdhRpNHV/0kfCgxw4oB7
+ achYSiHHWESBQijAnoUI0FCPzGLUq8jQMjvszOZIx1Cg2jAsN7zy02ka7tntiRZrWRBd
+ afALG7KxMIdhqAp0LOPeYZC5MdpMQKb5akr0Hl38BK7TdbHcMaeuV1i0ZBhczbmddSOW
+ N5Jg==
+X-Gm-Message-State: AOAM532/vxQ+sMwEB5aPTauLkFE+bdM+oMDD9V5ljya+Lt2nP+1Odbum
+ onk8N3byXOOXAc4pSb16uQNwtqZAElTrHrHBeOqoHQ==
+X-Google-Smtp-Source: ABdhPJwjlkQ25hEIr6r7gv1yQCEo3mJgOio4ecrmgdcZb5H/QjZZES+FUlC9s7o32jBV967ffMSVkBJMxl108duKGQw=
+X-Received: by 2002:a81:ac15:0:b0:2e6:d7e3:c4ba with SMTP id
+ k21-20020a81ac15000000b002e6d7e3c4bamr9317450ywh.10.1648805537012; Fri, 01
+ Apr 2022 02:32:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220324181557.203805-1-zongyuan.li@smartx.com>
- <20220324181557.203805-2-zongyuan.li@smartx.com>
-In-Reply-To: <20220324181557.203805-2-zongyuan.li@smartx.com>
+ <20220324181557.203805-3-zongyuan.li@smartx.com>
+In-Reply-To: <20220324181557.203805-3-zongyuan.li@smartx.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Apr 2022 10:31:11 +0100
-Message-ID: <CAFEAcA-t5kzTRYYKqL9G0y3YkGQnFEQcs_euWhLkzND3chKUAQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/4] hw/arm/realview: replace 'qemu_split_irq' with
+Date: Fri, 1 Apr 2022 10:32:06 +0100
+Message-ID: <CAFEAcA_uKXwBe4U9QxzseEBde0PWuxOWZAM2ppep6WAUcLty9Q@mail.gmail.com>
+Subject: Re: [PATCH v5 2/4] hw/arm/stellaris: replace 'qemu_split_irq' with
  'TYPE_SPLIT_IRQ'
 To: Zongyuan Li <zongyuan.li@smartx.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1132
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -83,7 +84,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:Real View" <qemu-arm@nongnu.org>, qemu-devel@nongnu.org
+Cc: "open list:Stellaris" <qemu-arm@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,9 +92,8 @@ On Thu, 24 Mar 2022 at 18:16, Zongyuan Li <zongyuan.li@smartx.com> wrote:
 >
 > Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
 > ---
->  hw/arm/realview.c | 33 ++++++++++++++++++++++++---------
->  1 file changed, 24 insertions(+), 9 deletions(-)
->
+>  hw/arm/stellaris.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
