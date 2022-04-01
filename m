@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 892DF4EEF46
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 16:23:25 +0200 (CEST)
-Received: from localhost ([::1]:46754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45ADD4EEFBE
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 16:28:36 +0200 (CEST)
+Received: from localhost ([::1]:35844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naIBQ-0002rv-KY
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 10:23:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34954)
+	id 1naIGR-00067i-9t
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 10:28:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naI29-0003uV-SK
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:49 -0400
-Received: from [2a00:1450:4864:20::629] (port=34343
- helo=mail-ej1-x629.google.com)
+ id 1naI2B-0003zj-7O
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:51 -0400
+Received: from [2a00:1450:4864:20::62e] (port=45832
+ helo=mail-ej1-x62e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naI28-0006dx-6E
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:49 -0400
-Received: by mail-ej1-x629.google.com with SMTP id o10so6194128ejd.1
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 07:13:47 -0700 (PDT)
+ id 1naI29-0006eF-4l
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:50 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id i16so6068749ejk.12
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 07:13:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RvElqCJJdwBtUSZcN/Vs6DfBOSLpxpu+Vo0U1giLeAk=;
- b=nmb4CEVAvQNns1Cb9D8S6pWpraIMIG+1nytWK6pBSI0u9lQ+cbPNJn1ZUbtBEVMuzR
- JqKGNnZDlnyeKvrfUbYssDfCWdrmMD7e/ZePvCM8WeVlC9comY06uyp7rgKAr0EBUeOv
- U8/YzzS5kvOSAmd8WCl8YCOHZ2+63UQSz4gRAAFAuNOGiqNzA9Sp2q7JranE+YPUrMGr
- Leo6SunQpgCBP0wvyAyxgoR+D7Lh5KejMBRSBoxlUrgqh3tkh0qk2qSPJYymES5AmJff
- UTIfMKmJoPTYzFGYMjG9acBHF8GXMZyP/wRto9GjcjuJtatyWI59WXhh0NGgbNikTpti
- LKqQ==
+ bh=mVMoyQUwRyf0fLFyo8grOh4IVJlHfanRANKzcd9NF3I=;
+ b=doCQls8GxR4Hfs8VXhabLjDifj5ZssuJb1VzxBHnXOAdi0cyaujdaP1YdQiZulnyJA
+ CwC+Jdo1xlTwtFNFNuuArTb8vIddhLVMsGZzmtF8osIHz7eTVxrCCp03gKoFmdRSs1Uf
+ i7Aj4+cqPkGz8tpypnOEtoZ4S33QLaUNNyQ8uuABvZw8kI/a6R/uq9LWYurudpmHAjmp
+ eCv3hZ2ScgxToE9u+pqf/e4ozQp01C1gfhwVEVXb37srEPErAVpz62NxkJgv8RbRUR1X
+ P9NGOJK/PctFrPHrPWDp3+YYC7L2NkwCt8JlkULxtFBXRTsoBhMecDOIxfUmtB0zFjlg
+ jgTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RvElqCJJdwBtUSZcN/Vs6DfBOSLpxpu+Vo0U1giLeAk=;
- b=Hu7WGkq+jJ/16YZE2yuvo4boJ7HErgl+jeNf/07UtJGzK7N3CqPA/oHDx9Tl6ZKNGK
- DSqoXJfR/UAr3s12Ry2waxD9jCUSL6nnqhUS1jzBe7JhEPkoSJ4KxBN0JE9ZURnwneam
- SALRG9mW3aSAAfm44RgBYrrBLprgT7GCGgDPdHq2yxbcyholDHejk+ZLV78wCEFQizc0
- urAemMhHqwMt8mOkkmFukmNQN0bbLZIteNawqX3HTcCfxQBcFpNfh8el7Af9431zmt14
- fb5VcFczEzL8BAoSXd3x9Pk0tl2QB4VwMJjhl4O6rWcEOCA+BSCM3+2rrWG4K2fHWGDU
- MNkA==
-X-Gm-Message-State: AOAM532clMLz5wIXVIL/62YcVWSG4XL/rbvGHKPPYmYmjGXvL41CnQK4
- Vl2agZFa7CRHf35kcm28taBuYyj17mQ=
-X-Google-Smtp-Source: ABdhPJz2ipLZwLOBbHNKYHdNc/uTbfKLPlg/9uxqo1DtI/xKqOQ3HDGqrRcwpTaskrP5QQeTa8+qHw==
-X-Received: by 2002:a17:907:8d1a:b0:6e0:6db8:8042 with SMTP id
- tc26-20020a1709078d1a00b006e06db88042mr41968ejc.300.1648822426858; 
- Fri, 01 Apr 2022 07:13:46 -0700 (PDT)
+ bh=mVMoyQUwRyf0fLFyo8grOh4IVJlHfanRANKzcd9NF3I=;
+ b=KaMeaVrNKNqVpSFHgGbrASn5OHdZosE6jgXHv2cAXYdOHyS8zjxazRvnfLsyq8SCbN
+ GBaBy7Gnf96VPIWn9onUkDAavYIh3X+UAmosrw7nT5dhR0tv4uR3KKE5dvtsN2GsWPUV
+ bTa2LkP+7vxL/+ku/jI4mFY0TfUYPQEa093F9KELtCy1854jKIxBQbrwdSVRS/piHtgh
+ i4g7TkTDoo44rnd/3Hmd3njdPcQs2wKe21ORHukyrqFZHVYBQrOcRV9BLS4FFy4/wQzG
+ prmQ3QydJCSz3e0l6hN5Tk0ge0w/elA+uXakOY93oD0Smbl6khcvU/su70+MngbbTV86
+ KZPA==
+X-Gm-Message-State: AOAM5328tQrKuFQ4yz5tF2boba4zbPsoJQ+7E2qf/JWsrCR1J/W0CMl6
+ f9ZZT8jIiXOc1B/GOxL8/+i3yYdZlcM=
+X-Google-Smtp-Source: ABdhPJw5bFY5rzDtd0SX5mDgbrQ2sHdWkAejy14yeFrKoeWCRc8FmwqRzrk0SuBNkRhXINWqwSK9yQ==
+X-Received: by 2002:a17:907:6e93:b0:6df:8c1a:d08b with SMTP id
+ sh19-20020a1709076e9300b006df8c1ad08bmr9447270ejc.557.1648822427791; 
+ Fri, 01 Apr 2022 07:13:47 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
  bn3-20020a170906c0c300b006e50416e24bsm212595ejb.98.2022.04.01.07.13.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 07:13:46 -0700 (PDT)
+ Fri, 01 Apr 2022 07:13:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/17] tests/tcg: isolate from QEMU's config-host.mak
-Date: Fri,  1 Apr 2022 16:13:24 +0200
-Message-Id: <20220401141326.1244422-16-pbonzini@redhat.com>
+Subject: [PATCH 16/17] tests/docker: remove SKIP_DOCKER_BUILD
+Date: Fri,  1 Apr 2022 16:13:25 +0200
+Message-Id: <20220401141326.1244422-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220401141326.1244422-1-pbonzini@redhat.com>
 References: <20220401141326.1244422-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -93,74 +93,114 @@ Cc: richard.henderson@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not include variables for the QEMU's own compiler, as they
-are not necessarily related to the cross compiler used for tests/tcg.
+It is now unused.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20220328140240.40798-15-pbonzini@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                 | 3 +--
- tests/tcg/Makefile.target | 3 +--
- tests/tcg/configure.sh    | 5 +++++
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ tests/docker/Makefile.include | 12 +-------
+ tests/docker/docker.py        | 57 -----------------------------------
+ 2 files changed, 1 insertion(+), 68 deletions(-)
 
-diff --git a/configure b/configure
-index 7c08c18358..e8786d478e 100755
---- a/configure
-+++ b/configure
-@@ -2937,7 +2937,6 @@ echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
- echo "MESON=$meson" >> $config_host_mak
- echo "NINJA=$ninja" >> $config_host_mak
- echo "CC=$cc" >> $config_host_mak
--echo "HOST_CC=$host_cc" >> $config_host_mak
- echo "AR=$ar" >> $config_host_mak
- echo "AS=$as" >> $config_host_mak
- echo "CCAS=$ccas" >> $config_host_mak
-@@ -3057,7 +3056,7 @@ done
- (for i in $cross_cc_vars; do
-   export $i
- done
--export target_list source_path use_containers cpu
-+export target_list source_path use_containers cpu host_cc
- $source_path/tests/tcg/configure.sh)
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index eb100c294f..ca2157db46 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -33,15 +33,7 @@ $(DOCKER_SRC_COPY):
  
- # temporary config to build submodules
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index 95499d8c9b..f427a0304e 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -30,7 +30,7 @@
- #
+ docker-qemu-src: $(DOCKER_SRC_COPY)
  
- all:
---include ../../../config-host.mak
-+-include ../config-host.mak
- -include ../config-$(TARGET).mak
+-# General rule for building docker images. If we are a sub-make
+-# invoked with SKIP_DOCKER_BUILD we still check the image is up to date
+-# though
+-ifdef SKIP_DOCKER_BUILD
+-docker-image-%: $(DOCKER_FILES_DIR)/%.docker
+-	$(call quiet-command, \
+-		$(DOCKER_SCRIPT) check --quiet qemu/$* $<, \
+-		"CHECK", "$*")
+-else
++# General rule for building docker images.
+ docker-image-%: $(DOCKER_FILES_DIR)/%.docker
+ 	$(call quiet-command,\
+ 		$(DOCKER_SCRIPT) build -t qemu/$* -f $< \
+@@ -77,8 +69,6 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
+ 			{ echo "You will need to build $(EXECUTABLE)"; exit 1;},\
+ 			"CHECK", "debian-$* exists"))
  
- # Get semihosting definitions for user-mode emulation
-@@ -77,7 +77,6 @@ EXTRA_TESTS=
+-endif
+-
+ # Enforce dependencies for composite images
+ # we don't run tests on intermediate images (used as base by another image)
+ DOCKER_PARTIAL_IMAGES := debian10 debian11
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 78dd13171e..d0af2861b8 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -676,63 +676,6 @@ def run(self, args, argv):
+                             as_user=True)
  
- # Start with a blank slate, the build targets get to add stuff first
- CFLAGS=
--QEMU_CFLAGS=
- LDFLAGS=
  
- QEMU_OPTS=
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index a577dd7ece..75603fee6d 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -83,6 +83,11 @@ fi
- makefile=tests/tcg/Makefile.prereqs
- echo "# Automatically generated by configure - do not modify" > $makefile
+-class CheckCommand(SubCommand):
+-    """Check if we need to re-build a docker image out of a dockerfile.
+-    Arguments: <tag> <dockerfile>"""
+-    name = "check"
+-
+-    def args(self, parser):
+-        parser.add_argument("tag",
+-                            help="Image Tag")
+-        parser.add_argument("dockerfile", default=None,
+-                            help="Dockerfile name", nargs='?')
+-        parser.add_argument("--checktype", choices=["checksum", "age"],
+-                            default="checksum", help="check type")
+-        parser.add_argument("--olderthan", default=60, type=int,
+-                            help="number of minutes")
+-
+-    def run(self, args, argv):
+-        tag = args.tag
+-
+-        try:
+-            dkr = Docker()
+-        except subprocess.CalledProcessError:
+-            print("Docker not set up")
+-            return 1
+-
+-        info = dkr.inspect_tag(tag)
+-        if info is None:
+-            print("Image does not exist")
+-            return 1
+-
+-        if args.checktype == "checksum":
+-            if not args.dockerfile:
+-                print("Need a dockerfile for tag:%s" % (tag))
+-                return 1
+-
+-            dockerfile = _read_dockerfile(args.dockerfile)
+-
+-            if dkr.image_matches_dockerfile(tag, dockerfile):
+-                if not args.quiet:
+-                    print("Image is up to date")
+-                return 0
+-            else:
+-                print("Image needs updating")
+-                return 1
+-        elif args.checktype == "age":
+-            timestr = dkr.get_image_creation_time(info).split(".")[0]
+-            created = datetime.strptime(timestr, "%Y-%m-%dT%H:%M:%S")
+-            past = datetime.now() - timedelta(minutes=args.olderthan)
+-            if created < past:
+-                print ("Image created @ %s more than %d minutes old" %
+-                       (timestr, args.olderthan))
+-                return 1
+-            else:
+-                if not args.quiet:
+-                    print ("Image less than %d minutes old" % (args.olderthan))
+-                return 0
+-
+-
+ def main():
+     global USE_ENGINE
  
-+config_host_mak=tests/tcg/config-host.mak
-+echo "# Automatically generated by configure - do not modify" > $config_host_mak
-+echo "SRC_PATH=$source_path" >> $config_host_mak
-+echo "HOST_CC=$host_cc" >> $config_host_mak
-+
- tcg_tests_targets=
- for target in $target_list; do
-   arch=${target%%-*}
 -- 
 2.35.1
 
