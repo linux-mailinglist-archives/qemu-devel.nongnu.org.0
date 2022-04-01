@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A144EF07E
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 16:34:32 +0200 (CEST)
-Received: from localhost ([::1]:48620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 265124EEFD0
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 16:29:56 +0200 (CEST)
+Received: from localhost ([::1]:39262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naIMB-0006da-Qd
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 10:34:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37040)
+	id 1naIHj-0008S7-8Y
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 10:29:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naIBQ-0004xI-EX
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:23:24 -0400
-Received: from [2607:f8b0:4864:20::b34] (port=44811
- helo=mail-yb1-xb34.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naIBO-00089I-Go
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:23:23 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id y142so5246092ybe.11
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 07:23:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Qguey1I3vdc9qt43mAFj/MaOYQ5iiTkcKtt+q14pVbo=;
- b=wpYIHMmN4EHS0y+mFr2zxKTW/YBqx28PlHx4um+Yxz1uZcgTH+uVNDq8hPcKrci1dw
- cmr2C0zn3e6b9gzKZ/kK2MR2mT+RZ7d5ndfHH63Wt0Rlkf1kcjcVCR1xhYYfHEKB+qLn
- 7HHpR2xBR328FnOH2NxyLuATLpgiIufP9gOEg81j4GQ/zhL1eM3dEITyH0NHlrJYr1bd
- sG+dtuWDqCEojAo71p6jNa7X/RByygUSGmLv/F6QT3nfRBW2SWNeTnX45+QzGzQCoRCg
- OLF/THZEfBUdOxq3yIc458cTLs0qeC9cK5/9H0BIq9dG1Zhuc2/ULjsWNo+yry86HCXc
- XBOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Qguey1I3vdc9qt43mAFj/MaOYQ5iiTkcKtt+q14pVbo=;
- b=vygGQTHvpHMRf321HTlHhNaLQHH8FC0aC4iJIv6AJ66UQ7Ew1fh4ggKd0lTQZQOvMb
- 8vd7xGfZWTEupZLPlbGa9mQhlzmtsGugSv5eeK8ow2dcOSRevFK/i0Nja91Lw7x7A8JR
- dexKRqurCGDSDoqoymH23pGFFwp4sEik313ei4M4IQTbg9zdrI7AbfkRSRf89idWPYMQ
- RTd9GioHP9stYm8iEfIr2SSmuRnBfiyQjAJpnCiSDsoZMru2eRZ+2zA/k3+vQeAc58D2
- sI7+tsQ8c3f8/zYyRDcvwU9vUg1PmSBvWhPChty+URosA5AdtwVRK2su0SX4mPwBSNOH
- q5MA==
-X-Gm-Message-State: AOAM530lEU+hu5YaIBQBgKySeH4IeKyHZnknmlbN6gaOlOnYXO1YbeTc
- ke4cH7WMiF8mbRz5fg51U5WgiJq+2+UoBJVn/0pSIOcry0rVC8kl
-X-Google-Smtp-Source: ABdhPJz64bD29HGmOGm2a5rWn4/mdUW3I6/mX+IfKYqknzxe1+gaekmecJRriHGnSHGnikj5sRuRzCOfFe6ex5D83rE=
-X-Received: by 2002:a05:6902:701:b0:638:9404:baff with SMTP id
- k1-20020a056902070100b006389404baffmr8942857ybt.479.1648823000426; Fri, 01
- Apr 2022 07:23:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1naIBc-0005a8-0s; Fri, 01 Apr 2022 10:23:36 -0400
+Received: from smtp37.i.mail.ru ([94.100.177.97]:34564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1naIBZ-00089i-57; Fri, 01 Apr 2022 10:23:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+ s=mail4; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=+u6Er0W2Bfq6mITPcKUAFQtWSGoviV3yHupi0bvWqmM=; 
+ t=1648823013;x=1649428413; 
+ b=YpHLEDj1Qf/xVyOFHNiMjotMMqicPjEmnAFLjkzH8JFacWdas1IATwQEEVgvBs9fbJitIH1z8mavkBTcH5ksCoFV6WoaAAMAoeV7wxEnIvneU9gdqHlNzX4pN/Mg6jukMapZpolFFpbmPR6B6hrO5cQJycYPrUFC+7XT8I4Bf0B7/nDYT91frUNK86sIPBK+6a+xw4IKzFF57hwyvBFOX/if+G88HRK/5nBwf+4GrB8SXy3c/mtQEXdQitF1Y+9CnEiwK/sBEdd8wlNPt5aGdNNmidbJlWGg1QMFJ54m03GEfC/8GJyZoExa+jfy1KUnrZnsuMNcnsG6cpBeW76uhQ==;
+Received: by smtp37.i.mail.ru with esmtpa (envelope-from
+ <v.sementsov-og@mail.ru>)
+ id 1naIBV-0008FJ-44; Fri, 01 Apr 2022 17:23:29 +0300
+Message-ID: <6e0786a3-f912-9aa0-63bb-b29b14c8bd33@mail.ru>
+Date: Fri, 1 Apr 2022 17:23:28 +0300
 MIME-Version: 1.0
-References: <20210930151201.9407-1-peter.maydell@linaro.org>
- <20210930151201.9407-7-peter.maydell@linaro.org>
-In-Reply-To: <20210930151201.9407-7-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Apr 2022 15:23:09 +0100
-Message-ID: <CAFEAcA_XHxc9XedMzXxzuNcOiJLkwOzDQgMXCFNsViV8dS-d8w@mail.gmail.com>
-Subject: Re: [PULL 06/22] hw/nvram: Introduce Xilinx battery-backed ram
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 4/7] util: add qemu-co-timeout
+Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
+ stefanha@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
+ vsementsov@openvz.org
+References: <20220401091920.287612-1-vsementsov@openvz.org>
+ <20220401091920.287612-5-vsementsov@openvz.org>
+ <a6360f9e-008c-210f-0037-26054d99d44f@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+In-Reply-To: <a6360f9e-008c-210f-0037-26054d99d44f@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp37.i.mail.ru;
+ auth=pass smtp.auth=v.sementsov-og@mail.ru
+ smtp.mailfrom=v.sementsov-og@mail.ru
+X-4EC0790: 10
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD9771EFB8797C310D1E1BF93EDB477DECB541E6F1DEED947CC182A05F53808504094365B433261710924293236BCE095D417C62204E54D297EF2E719EEC50547AB
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7CB5C87C4C9A74E8BEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637DEEC83A7CF8598608638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8C749C673CB1EBF449350465AE0BBC0936F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE76CD001D47D3CCD289FA2833FD35BB23D9E625A9149C048EE1E561CDFBCA1751FE5D25F19253116ADD2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BC5BB9672376CF5DAA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC441A79B3AE784F5FD81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE71BCDBE5F25F73B60EC76A7562686271EEC990983EF5C03292E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C3901E7AD39770591135872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-8FC586DF: 6EFBBC1D9D64D975
+X-C1DE0DAB: 0D63561A33F958A55B005F9343FDBE6E9A3050DA1CDEAD75B65DBAA05816C37DD59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA75040BF32255FAA22B410CA545F18667F91A7EA1CDA0B5A7A0
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34EB7BD66E9101C1000F2A561CFA04D9BE9FE1928FD6511E77D6C4CCAB982EBBDB46035EBF706D46041D7E09C32AA3244C8A6F7FCB79FFABAE2B58EC2B54D3BC0F7101BF96129E4011ED98077840A144B9
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojhgUChjrcp6GK1kN4v4YQyQ==
+X-Mailru-Sender: 6C3E74F07C41AE94618A7CFF02C4D1FE958A14EA894A3F35D6614F1B2B33E109F32926FFFE615266E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+Received-SPF: pass client-ip=94.100.177.97;
+ envelope-from=v.sementsov-og@mail.ru; helo=smtp37.i.mail.ru
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,41 +80,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>, Tong Ho <tongh@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 Sept 2021 at 16:12, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> From: Tong Ho <tong.ho@xilinx.com>
->
-> This device is present in Versal and ZynqMP product
-> families to store a 256-bit encryption key.
+01.04.2022 16:13, Hanna Reitz wrote:
+> On 01.04.22 11:19, Vladimir Sementsov-Ogievskiy wrote:
+>> Add new API, to make a time limited call of the coroutine.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+>> ---
+>>   include/qemu/coroutine.h | 13 ++++++
+>>   util/meson.build         |  1 +
+>>   util/qemu-co-timeout.c   | 89 ++++++++++++++++++++++++++++++++++++++++
+>>   3 files changed, 103 insertions(+)
+>>   create mode 100644 util/qemu-co-timeout.c
+> 
+> I don’t really understand what this does.  Intuitively, I would have assumed this makes the first yield of the respective coroutine not return when the timeout has elapsed, and instead, we switch back to qemu_co_timeout(), which returns to its callers.
+> 
+> But it looks like when this yield happens and we switch back to qemu_co_timeout(), the coroutine actually isn’t cancelled, and will just continue running, actually.  Is that right?  On first look, this looks like it’ll be quite difficult to think about what happens when this is used, because the coroutine in question is no longer run in sequence with its caller, but actually might run in parallel (even though it’s still a coroutine, so it’ll remain cooperative multitasking).
+> 
 
-Hi; Coverity points out a bug in this change (CID 1487233):
+Yes, the coroutine continue execution in parallel. That's a generic interface, and there is no way to "cancel" generic coroutine. So, caller should care about it.
 
-> +static void bbram_bdrv_error(XlnxBBRam *s, int rc, gchar *detail)
-> +{
-> +    Error *errp;
-> +
-> +    error_setg_errno(&errp, -rc, "%s: BBRAM backstore %s failed.",
-> +                     blk_name(s->blk), detail);
 
-The Error** argument to error_setg() and error_setg_errno()
-needs to (assuming it's not one of the special cases
-&error_abort or &error_fatal) point to an Error* that has
-been initialized to NULL. (The comment on error_setg() in
-include/qapi/error.h explains this.)
-
-So this function needs to start "Error *errp = NULL;"
-to avoid a probable assert() inside error_setg().
-
-> +    error_report("%s", error_get_pretty(errp));
-> +    error_free(errp);
-> +
-> +    g_free(detail);
-> +}
-
-thanks
--- PMM
+-- 
+Best regards,
+Vladimir
 
