@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45ADD4EEFBE
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 16:28:36 +0200 (CEST)
-Received: from localhost ([::1]:35844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EF74EEFD1
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 16:30:12 +0200 (CEST)
+Received: from localhost ([::1]:40426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naIGR-00067i-9t
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 10:28:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34976)
+	id 1naIHz-0000qL-9m
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 10:30:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naI2B-0003zj-7O
+ id 1naI2B-00041B-IA
  for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:51 -0400
-Received: from [2a00:1450:4864:20::62e] (port=45832
- helo=mail-ej1-x62e.google.com)
+Received: from [2a00:1450:4864:20::62b] (port=43006
+ helo=mail-ej1-x62b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naI29-0006eF-4l
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:50 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id i16so6068749ejk.12
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 07:13:48 -0700 (PDT)
+ id 1naI2A-0006eK-2T
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:51 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id j15so6104416eje.9
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 07:13:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mVMoyQUwRyf0fLFyo8grOh4IVJlHfanRANKzcd9NF3I=;
- b=doCQls8GxR4Hfs8VXhabLjDifj5ZssuJb1VzxBHnXOAdi0cyaujdaP1YdQiZulnyJA
- CwC+Jdo1xlTwtFNFNuuArTb8vIddhLVMsGZzmtF8osIHz7eTVxrCCp03gKoFmdRSs1Uf
- i7Aj4+cqPkGz8tpypnOEtoZ4S33QLaUNNyQ8uuABvZw8kI/a6R/uq9LWYurudpmHAjmp
- eCv3hZ2ScgxToE9u+pqf/e4ozQp01C1gfhwVEVXb37srEPErAVpz62NxkJgv8RbRUR1X
- P9NGOJK/PctFrPHrPWDp3+YYC7L2NkwCt8JlkULxtFBXRTsoBhMecDOIxfUmtB0zFjlg
- jgTw==
+ bh=e5NK+IBafbABoMZkfxnbwRAIBUXFveQkCRnSRQFORZU=;
+ b=KnWaiNGkAbreFqbfh6PE6pNNpvdi7cmv8yv3wiChdPEfNaxxhv3QUCo0ja7RimwdIs
+ 4HC/2CKR58obTc75D5olExxhnHBY9xn8gMrgCAXWawN48aS3kVAXzzhNDhPg97rQA5rZ
+ ThZCZbI20thCnMQVuEGoTGLgrPW3p6CTWG6B8yVwduOSZJd6134Nm4rCga1W4Tzm5wDb
+ WWWSq3MuVtvQc0B+SMoBhiSwb5yYpx4BQ387r3feIanSFqUMxEcnd7mwNj+DKuwiPZZ9
+ dF8bGGhZFKfwm/Pz33IjtljZhIprLASgfTZYGcABLf6oSqK0eP7i4C1z2M7JICOYEKjF
+ Qryg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=mVMoyQUwRyf0fLFyo8grOh4IVJlHfanRANKzcd9NF3I=;
- b=KaMeaVrNKNqVpSFHgGbrASn5OHdZosE6jgXHv2cAXYdOHyS8zjxazRvnfLsyq8SCbN
- GBaBy7Gnf96VPIWn9onUkDAavYIh3X+UAmosrw7nT5dhR0tv4uR3KKE5dvtsN2GsWPUV
- bTa2LkP+7vxL/+ku/jI4mFY0TfUYPQEa093F9KELtCy1854jKIxBQbrwdSVRS/piHtgh
- i4g7TkTDoo44rnd/3Hmd3njdPcQs2wKe21ORHukyrqFZHVYBQrOcRV9BLS4FFy4/wQzG
- prmQ3QydJCSz3e0l6hN5Tk0ge0w/elA+uXakOY93oD0Smbl6khcvU/su70+MngbbTV86
- KZPA==
-X-Gm-Message-State: AOAM5328tQrKuFQ4yz5tF2boba4zbPsoJQ+7E2qf/JWsrCR1J/W0CMl6
- f9ZZT8jIiXOc1B/GOxL8/+i3yYdZlcM=
-X-Google-Smtp-Source: ABdhPJw5bFY5rzDtd0SX5mDgbrQ2sHdWkAejy14yeFrKoeWCRc8FmwqRzrk0SuBNkRhXINWqwSK9yQ==
-X-Received: by 2002:a17:907:6e93:b0:6df:8c1a:d08b with SMTP id
- sh19-20020a1709076e9300b006df8c1ad08bmr9447270ejc.557.1648822427791; 
- Fri, 01 Apr 2022 07:13:47 -0700 (PDT)
+ bh=e5NK+IBafbABoMZkfxnbwRAIBUXFveQkCRnSRQFORZU=;
+ b=y/LcguTLSehGsDoJ7xvTN4QOLQz9oU0ZC57mItnikYzsWb86fuoVtQ4euAlbINtqhh
+ n/y9z2/cuO/LWats6P6ffDxgy9IUVRkQE0/F2qjE5KJvjw8yMhybPil6E+KUb79Hefum
+ n86Cgr8fJB4R8gb9OpvC0z1dIomFHRYQPv4uAvl230leeOmyz3M/5ET8tmsPGqGAO/vl
+ N5A3ZEWMIKa1r3Ts4MVnMtmNmuJdbTanH9DRjCpEp4WeZTTG+VnPvimZyibpOaYaUlUk
+ W5Tl6701uxOgmmtve5mqqk5sVvIY7ObDPHuOfPRbyJ3gMhUXidhoo3VsXceZf8WyABeN
+ Eycg==
+X-Gm-Message-State: AOAM533tDCOVv9ypbAoCVbFLyyx3cm5u+hr0ajEf0nAw7YdZAHwGP0RV
+ gKT90Hxtg8yToUikKAHuLlZ5LQP3tyE=
+X-Google-Smtp-Source: ABdhPJwOTHgMWkkdyE7u5AGUL2GvnPTh3Qw8Zdg7oBnHIjRDty7b4YG+lBwFD5CKBRBb+5IGE7LOvQ==
+X-Received: by 2002:a17:907:1b10:b0:6e4:bac5:f080 with SMTP id
+ mp16-20020a1709071b1000b006e4bac5f080mr55886ejc.24.1648822428745; 
+ Fri, 01 Apr 2022 07:13:48 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- bn3-20020a170906c0c300b006e50416e24bsm212595ejb.98.2022.04.01.07.13.46
+ bn3-20020a170906c0c300b006e50416e24bsm212595ejb.98.2022.04.01.07.13.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 07:13:47 -0700 (PDT)
+ Fri, 01 Apr 2022 07:13:48 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/17] tests/docker: remove SKIP_DOCKER_BUILD
-Date: Fri,  1 Apr 2022 16:13:25 +0200
-Message-Id: <20220401141326.1244422-17-pbonzini@redhat.com>
+Subject: [PATCH 17/17] tests/tcg: fix non-static build
+Date: Fri,  1 Apr 2022 16:13:26 +0200
+Message-Id: <20220401141326.1244422-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220401141326.1244422-1-pbonzini@redhat.com>
 References: <20220401141326.1244422-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -93,116 +93,29 @@ Cc: richard.henderson@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is now unused.
+If linking with -static fails at configure time, -static should not be used
+at build time either.  Do not include BUILD_STATIC in $config_target_mak.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220328140240.40798-15-pbonzini@redhat.com>
+Message-Id: <20220328140240.40798-16-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/docker/Makefile.include | 12 +-------
- tests/docker/docker.py        | 57 -----------------------------------
- 2 files changed, 1 insertion(+), 68 deletions(-)
+ tests/tcg/configure.sh | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index eb100c294f..ca2157db46 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -33,15 +33,7 @@ $(DOCKER_SRC_COPY):
- 
- docker-qemu-src: $(DOCKER_SRC_COPY)
- 
--# General rule for building docker images. If we are a sub-make
--# invoked with SKIP_DOCKER_BUILD we still check the image is up to date
--# though
--ifdef SKIP_DOCKER_BUILD
--docker-image-%: $(DOCKER_FILES_DIR)/%.docker
--	$(call quiet-command, \
--		$(DOCKER_SCRIPT) check --quiet qemu/$* $<, \
--		"CHECK", "$*")
--else
-+# General rule for building docker images.
- docker-image-%: $(DOCKER_FILES_DIR)/%.docker
- 	$(call quiet-command,\
- 		$(DOCKER_SCRIPT) build -t qemu/$* -f $< \
-@@ -77,8 +69,6 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
- 			{ echo "You will need to build $(EXECUTABLE)"; exit 1;},\
- 			"CHECK", "debian-$* exists"))
- 
--endif
--
- # Enforce dependencies for composite images
- # we don't run tests on intermediate images (used as base by another image)
- DOCKER_PARTIAL_IMAGES := debian10 debian11
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 78dd13171e..d0af2861b8 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -676,63 +676,6 @@ def run(self, args, argv):
-                             as_user=True)
- 
- 
--class CheckCommand(SubCommand):
--    """Check if we need to re-build a docker image out of a dockerfile.
--    Arguments: <tag> <dockerfile>"""
--    name = "check"
--
--    def args(self, parser):
--        parser.add_argument("tag",
--                            help="Image Tag")
--        parser.add_argument("dockerfile", default=None,
--                            help="Dockerfile name", nargs='?')
--        parser.add_argument("--checktype", choices=["checksum", "age"],
--                            default="checksum", help="check type")
--        parser.add_argument("--olderthan", default=60, type=int,
--                            help="number of minutes")
--
--    def run(self, args, argv):
--        tag = args.tag
--
--        try:
--            dkr = Docker()
--        except subprocess.CalledProcessError:
--            print("Docker not set up")
--            return 1
--
--        info = dkr.inspect_tag(tag)
--        if info is None:
--            print("Image does not exist")
--            return 1
--
--        if args.checktype == "checksum":
--            if not args.dockerfile:
--                print("Need a dockerfile for tag:%s" % (tag))
--                return 1
--
--            dockerfile = _read_dockerfile(args.dockerfile)
--
--            if dkr.image_matches_dockerfile(tag, dockerfile):
--                if not args.quiet:
--                    print("Image is up to date")
--                return 0
--            else:
--                print("Image needs updating")
--                return 1
--        elif args.checktype == "age":
--            timestr = dkr.get_image_creation_time(info).split(".")[0]
--            created = datetime.strptime(timestr, "%Y-%m-%dT%H:%M:%S")
--            past = datetime.now() - timedelta(minutes=args.olderthan)
--            if created < past:
--                print ("Image created @ %s more than %d minutes old" %
--                       (timestr, args.olderthan))
--                return 1
--            else:
--                if not args.quiet:
--                    print ("Image less than %d minutes old" % (args.olderthan))
--                return 0
--
--
- def main():
-     global USE_ENGINE
- 
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 75603fee6d..691d90abac 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -261,7 +261,6 @@ for target in $target_list; do
+                   if do_compiler "$target_compiler" $target_compiler_cflags \
+                                  -o $TMPE $TMPC ; then
+                       got_cross_cc=yes
+-                      echo "BUILD_STATIC=y" >> $config_target_mak
+                       echo "CC=$target_compiler" >> $config_target_mak
+                   fi
+               else
 -- 
 2.35.1
-
 
 
