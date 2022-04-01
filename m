@@ -2,54 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22244EE8E5
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 09:14:36 +0200 (CEST)
-Received: from localhost ([::1]:59258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929204EE924
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 09:33:27 +0200 (CEST)
+Received: from localhost ([::1]:37494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naBUR-0001Bb-TF
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 03:14:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37118)
+	id 1naBmg-0007B1-73
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 03:33:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1naBRo-0007ah-1E; Fri, 01 Apr 2022 03:11:52 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50304)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1naBkO-00062s-BL
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 03:31:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1naBRm-0005bx-ER; Fri, 01 Apr 2022 03:11:51 -0400
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 4D6A5C60912;
- Fri,  1 Apr 2022 09:11:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1648797108;
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1naBkK-0008Nk-US
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 03:31:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648798259;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v4Sh7C5xjfxkoBa7PXcY56UAN93dnkD7s6YXvpCk5Y4=;
- b=gpsZ/6WUeQtmfAm0pL0YTwJgwRUtTHyeIn/TljcEdNKvZtJ2OcTp24JPzTEGAY7/gt9yQ5
- l0AJvctkEL83+YgoEfP1Sg7HhYk7dpFZaxWCJyQzUuLxbYl0mUeTl94MSd6wALZHMmjjgX
- KWQqEAofNXRCpQFRaxpA5TDA3dAbVy1oTeyXM7Dqk2DNmXoG8g0HFBB5eO1A2l82+1dVks
- 1behUW+js1ucA/NydFadleEjQxq8ngVjd8xvjJAnzkUGqSqI8LAUd8IoNF4w5MZbfAUlUu
- f8uLLf1mC1u14cLqmfRfMXQqP7xmcyYk3W2la+GeODwz+Yb5jFl/HSbyPix7Bw==
-Date: Fri, 1 Apr 2022 09:11:48 +0200
-From: Luc Michel <luc@lmichel.fr>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v1 2/2] hw/arm/xlnx-zynqmp: Connect 4 TTC timers
-Message-ID: <YkaltOpNAOkuk/5E@sekoia-pc.home.lmichel.fr>
-References: <20220331222017.2914409-1-edgar.iglesias@gmail.com>
- <20220331222017.2914409-3-edgar.iglesias@gmail.com>
+ bh=U+QoTTB42Cl3YpxU5hW3T7ewqyHCwI41VIU6AK1BeoA=;
+ b=GgIWdyeaRgHGOjLVRU3XmNByqo2irnAzXfQ0fgdAqmNBoc3MsbDQ3YCijjwZAdmGBUNmLn
+ wBkUlfVDtMXpPH+6OjesJVVzWFxV4S90kWSHQfyb7Vf6ec4auEA50to0MfTCKaY9s42pi5
+ J5SLCqUvmK7/mSYvT71v3A6npe530YU=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-518-FogxQTdANzKxnb9inR1UlA-1; Fri, 01 Apr 2022 03:30:58 -0400
+X-MC-Unique: FogxQTdANzKxnb9inR1UlA-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ z1-20020ad44781000000b00440ded04b09so1398311qvy.22
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 00:30:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=U+QoTTB42Cl3YpxU5hW3T7ewqyHCwI41VIU6AK1BeoA=;
+ b=mzacaej9bYFgXxQrXU0YdjSZk7JSB4L/0lIRs1RbZgdk+kH0fvBmlJIb9Ak9TSfGFe
+ xTbBM2j40Mw+6jZ4dbbP3UFPTv1NHw5p3ZPiq99DFGT5isra/yr9oqIVDyRIYi/JOjKV
+ hjVS43zjikDCWjyBzpOuKYA9tnVJRowl7xKL5XtBLGVcdc8z7GpU7TpttNKMVy7kUxwI
+ Rh1CLZcEZDWCK6IQ3Od/aNs8FA09OjLWLPumYAxWBuhae5IiKpcx2JOH8wrnbxwd6dOX
+ CG4GjcNwZOIIJ+cKqFPa0Nn8V6glfA6ZGKYaxDIVfaODCE6bgsgTCdHJWOdtujjK2HeF
+ Vfdg==
+X-Gm-Message-State: AOAM531EelFaN2ZPCab6un5tGEQLE1QzeDDmvWIketArHEkJIZ8q1SoJ
+ sVlZThd21u2bsnx3ZCmQMSEdxXxfvCYXKRnky75eNLbQl7zCvgn3HM+72CcBCuwplaqscH8w5hm
+ cdL6vJGc0MUVw7VMJUuv9UNbOyFm7M80=
+X-Received: by 2002:a05:620a:2098:b0:67b:4698:aa93 with SMTP id
+ e24-20020a05620a209800b0067b4698aa93mr5665303qka.764.1648798258050; 
+ Fri, 01 Apr 2022 00:30:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwG9KzK4+kjENd8sPQv4UJ7YAogMbrYBQj+d+Lu+jFBd2XX0iXQldaO/z+msbegqEqg6NYwwN3pJ0qLVhBBJLk=
+X-Received: by 2002:a05:620a:2098:b0:67b:4698:aa93 with SMTP id
+ e24-20020a05620a209800b0067b4698aa93mr5665292qka.764.1648798257793; Fri, 01
+ Apr 2022 00:30:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220331222017.2914409-3-edgar.iglesias@gmail.com>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220331181451.534433-1-eperezma@redhat.com>
+ <CACGkMEsfBRFHMRVSUFDxjnLGc6WdmtcEwAiXGmuue7j4_-Ybew@mail.gmail.com>
+In-Reply-To: <CACGkMEsfBRFHMRVSUFDxjnLGc6WdmtcEwAiXGmuue7j4_-Ybew@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 1 Apr 2022 09:30:21 +0200
+Message-ID: <CAJaqyWfJtf=SJmpFo8M-HO=9qJRV7HEh5uv4rcHWsrD96OuauQ@mail.gmail.com>
+Subject: Re: [PATCH] vhost: Fix bad return of descriptors to SVQ
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,108 +95,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
- asifsiddiqui120@gmail.com, edgar.iglesias@amd.com, sai.pavan.boddu@xilinx.com,
- frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
- francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
- qemu-arm@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 00:20 Fri 01 Apr     , Edgar E. Iglesias wrote:
-> From: "Edgar E. Iglesias" <edgar.iglesias@amd.com>
-> 
-> Connect the 4 TTC timers on the ZynqMP.
-> 
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
+On Fri, Apr 1, 2022 at 4:30 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Fri, Apr 1, 2022 at 2:14 AM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
+rote:
+> >
+> > Only the first one of them were properly enqueued back.
+> >
+> > Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  hw/virtio/vhost-shadow-virtqueue.c | 17 +++++++++++++++--
+> >  1 file changed, 15 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
+w-virtqueue.c
+> > index b232803d1b..c17506df20 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -333,13 +333,25 @@ static void vhost_svq_disable_notification(VhostS=
+hadowVirtqueue *svq)
+> >      svq->vring.avail->flags |=3D cpu_to_le16(VRING_AVAIL_F_NO_INTERRUP=
+T);
+> >  }
+> >
+> > +static uint16_t vhost_svq_last_desc_of_chain(VhostShadowVirtqueue *svq=
+,
+> > +                                             uint16_t i)
+> > +{
+> > +    vring_desc_t *descs =3D svq->vring.desc;
+> > +
+> > +    while (le16_to_cpu(descs[i].flags) & VRING_DESC_F_NEXT) {
+> > +        i =3D le16_to_cpu(descs[i].next);
+>
+>
+> This seems to be a guest trigger-able infinite loop?
+>
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
+This is the list of the SVQ vring. We could consider an infinite loop
+triggable by the device if it can write the vring directly.
 
-> ---
->  include/hw/arm/xlnx-zynqmp.h |  4 ++++
->  hw/arm/xlnx-zynqmp.c         | 22 ++++++++++++++++++++++
->  2 files changed, 26 insertions(+)
-> 
-> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-> index 9d9a9d0bf9..85fd9f53da 100644
-> --- a/include/hw/arm/xlnx-zynqmp.h
-> +++ b/include/hw/arm/xlnx-zynqmp.h
-> @@ -41,6 +41,7 @@
->  #include "hw/or-irq.h"
->  #include "hw/misc/xlnx-zynqmp-apu-ctrl.h"
->  #include "hw/misc/xlnx-zynqmp-crf.h"
-> +#include "hw/timer/cadence_ttc.h"
->  
->  #define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
->  OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
-> @@ -84,6 +85,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
->  #define XLNX_ZYNQMP_MAX_RAM_SIZE (XLNX_ZYNQMP_MAX_LOW_RAM_SIZE + \
->                                    XLNX_ZYNQMP_MAX_HIGH_RAM_SIZE)
->  
-> +#define XLNX_ZYNQMP_NUM_TTC 4
-> +
->  /*
->   * Unimplemented mmio regions needed to boot some images.
->   */
-> @@ -128,6 +131,7 @@ struct XlnxZynqMPState {
->      qemu_or_irq qspi_irq_orgate;
->      XlnxZynqMPAPUCtrl apu_ctrl;
->      XlnxZynqMPCRF crf;
-> +    CadenceTTCState ttc[XLNX_ZYNQMP_NUM_TTC];
->  
->      char *boot_cpu;
->      ARMCPU *boot_cpu_ptr;
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index 5bfe285a19..375309e68e 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -68,6 +68,9 @@
->  #define APU_ADDR            0xfd5c0000
->  #define APU_IRQ             153
->  
-> +#define TTC0_ADDR           0xFF110000
-> +#define TTC0_IRQ            36
-> +
->  #define IPI_ADDR            0xFF300000
->  #define IPI_IRQ             64
->  
-> @@ -316,6 +319,24 @@ static void xlnx_zynqmp_create_crf(XlnxZynqMPState *s, qemu_irq *gic)
->      sysbus_connect_irq(sbd, 0, gic[CRF_IRQ]);
->  }
->  
-> +static void xlnx_zynqmp_create_ttc(XlnxZynqMPState *s, qemu_irq *gic)
-> +{
-> +    SysBusDevice *sbd;
-> +    int i, irq;
-> +
-> +    for (i = 0; i < XLNX_ZYNQMP_NUM_TTC; i++) {
-> +        object_initialize_child(OBJECT(s), "ttc[*]", &s->ttc[i],
-> +                                TYPE_CADENCE_TTC);
-> +        sbd = SYS_BUS_DEVICE(&s->ttc[i]);
-> +
-> +        sysbus_realize(sbd, &error_fatal);
-> +        sysbus_mmio_map(sbd, 0, TTC0_ADDR + i * 0x10000);
-> +        for (irq = 0; irq < 3; irq++) {
-> +            sysbus_connect_irq(sbd, irq, gic[TTC0_IRQ + i * 3 + irq]);
-> +        }
-> +    }
-> +}
-> +
->  static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
->  {
->      static const struct UnimpInfo {
-> @@ -721,6 +742,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->      xlnx_zynqmp_create_efuse(s, gic_spi);
->      xlnx_zynqmp_create_apu_ctrl(s, gic_spi);
->      xlnx_zynqmp_create_crf(s, gic_spi);
-> +    xlnx_zynqmp_create_ttc(s, gic_spi);
->      xlnx_zynqmp_create_unimp_mmio(s);
->  
->      for (i = 0; i < XLNX_ZYNQMP_NUM_GDMA_CH; i++) {
-> -- 
-> 2.25.1
-> 
+I can add a counter in the loop, or to maintain an internal copy of
+the vring so it's completely hardened against malicious/bad devices.
+It should be done for packed vring anyway.
 
--- 
+Thanks!
+
+> Thanks
+>
+>
+> > +    }
+> > +
+> > +    return i;
+> > +}
+> > +
+> >  static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+> >                                             uint32_t *len)
+> >  {
+> >      vring_desc_t *descs =3D svq->vring.desc;
+> >      const vring_used_t *used =3D svq->vring.used;
+> >      vring_used_elem_t used_elem;
+> > -    uint16_t last_used;
+> > +    uint16_t last_used, last_used_chain;
+> >
+> >      if (!vhost_svq_more_used(svq)) {
+> >          return NULL;
+> > @@ -365,7 +377,8 @@ static VirtQueueElement *vhost_svq_get_buf(VhostSha=
+dowVirtqueue *svq,
+> >          return NULL;
+> >      }
+> >
+> > -    descs[used_elem.id].next =3D svq->free_head;
+> > +    last_used_chain =3D vhost_svq_last_desc_of_chain(svq, used_elem.id=
+);
+> > +    descs[last_used_chain].next =3D svq->free_head;
+> >      svq->free_head =3D used_elem.id;
+> >
+> >      *len =3D used_elem.len;
+> > --
+> > 2.27.0
+> >
+>
+
 
