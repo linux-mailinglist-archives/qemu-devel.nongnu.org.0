@@ -2,84 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C0B4EF1D8
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 16:42:11 +0200 (CEST)
-Received: from localhost ([::1]:54968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1283C4EF22A
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:01:39 +0200 (CEST)
+Received: from localhost ([::1]:38104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naITa-0002uQ-4V
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 10:42:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40720)
+	id 1naImP-0003AG-Be
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:01:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1naIRO-0008Ro-FV
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:39:54 -0400
-Received: from [2a00:1450:4864:20::136] (port=42878
- helo=mail-lf1-x136.google.com)
+ (Exim 4.90_1) (envelope-from <qperret@google.com>)
+ id 1naIkQ-0002RR-Ly
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:59:34 -0400
+Received: from [2a00:1450:4864:20::629] (port=36511
+ helo=mail-ej1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1)
- (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1naIRM-0002FO-3N
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:39:54 -0400
-Received: by mail-lf1-x136.google.com with SMTP id d5so5276370lfj.9
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 07:39:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=openvz-org.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=v71l9IEEyzPNkB32INDqS9IbXr/Aq0Utaio+hwoSp5M=;
- b=WJbIyR+j55bzUsgHcgXExahF8US2PnxYueOgYJeAYgO/D/8oqMJbEMNOUXOIQKOs18
- AX2VuNAcFCfugTohZPLvvXZv0cp9LLbyTY/gQ1lKnv+ROp4MlloBdwNyhinbPf1S43p1
- L+Ndfxg+/gceS2Suz0n2z62YyUps11peRZgAFcgfj9dkmsBxFb7FPsK8ad3ThhbmdnW0
- rwRc1G03QBFhN7inbrET92YEsZ/tBFA6VPRSyx9z23ayr/peitrD8xCEGVTN9iw192Jz
- 7cSYHhgPFwvJJ332WA5pv2QuyBTQOCRBA+7vGq2mddWLoJ55j4kBUbslD0/oZkMbNj5Q
- 0pzg==
+ (Exim 4.90_1) (envelope-from <qperret@google.com>)
+ id 1naIkO-0005Ml-K1
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:59:34 -0400
+Received: by mail-ej1-x629.google.com with SMTP id k23so2971057ejd.3
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 07:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ebGPtXiu5HUtQyoqNhZdO92KCGPkkOR97ApJgxTMzik=;
+ b=qKMvZ0uz+73PRmlGOgQsh3zTqfJPV2XLOZeRQy0SNRj7ikzNPzjZCE6WDkxxsMLYGl
+ jp1SmVDUE4DnEbIb62wHtywaPHT3KZ81zMqI1KkFPnJiIWqTiqb+9Aysn/Hoy2APHnbX
+ NeGhEaPPoyVrEMI4k+h0+jnAyhQ45WhIX6WGzSBe/boN4a1k4eC3Tc4wa5yaF8HGJJnZ
+ S0nVU9bnQmaEE95KucUq9tXOAXUkWjz0xA5T+ADXrfyErCHCfEJX2DGyEcCfrEM/cg1l
+ FKCBb5p1wg1qFEOtg7z+HuklCdulWyZBAOGrsf/npODiLif4HYaNF7NR9Vs8z7acaTsn
+ ejhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=v71l9IEEyzPNkB32INDqS9IbXr/Aq0Utaio+hwoSp5M=;
- b=HFzqWhf9kDPYi3aVZE+wOoce22bTXcd7si6GgZdwIi8P+XT2DvgMt4qZRxgU9ov7OB
- QKye+RXfOdRqlmdW1NRvLk4sUBUDiko/gcabVukYq7e4dyEqm+B4ERwubJsibEVUoKXU
- BO9JqDkUkti18LfTTWvSy5UhF22bzN9IYHJ5h+PAIFR9kUppgATmsl/xMKIcNalJLXg+
- VcMJ2vyxO0wN+q/9DnVSVA0VM+xZJ12iqoP58e4rAmWexfI0pB/9yv+lpCCsy9QEvxEc
- JeolbILbe0ltkwkjA0xALzotMfAUDHB02LxDwjrCPRYk5x3o+PBdXVa8XsV6B4fcHw7X
- fFLw==
-X-Gm-Message-State: AOAM530pMKaOiyb8lya8oZMm+JaXiG5lHQ7vKVDYJCqTTb5CN2o52UDM
- xElqX4beRlzVUZmlDhRLF8wsiUsR0lzJmw==
-X-Google-Smtp-Source: ABdhPJwnAGYhlUelOqMNoDLkyLftx4e+DtAwWvQQhkZiHdioXNyDwKVfzDJmP1kUQLUiqFez5R3zJw==
-X-Received: by 2002:a05:6512:3e04:b0:44a:4808:2a4a with SMTP id
- i4-20020a0565123e0400b0044a48082a4amr14309725lfv.188.1648823990429; 
- Fri, 01 Apr 2022 07:39:50 -0700 (PDT)
-Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
- y3-20020a2eb003000000b0024afe02da7asm215554ljk.22.2022.04.01.07.39.49
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ebGPtXiu5HUtQyoqNhZdO92KCGPkkOR97ApJgxTMzik=;
+ b=N9Qoox0qs865QB3PBbvV4NApscaYB5OTsEFdmHfMQCYjWy6krAwR5uMv721ht2+q0f
+ hdT1qoIb8INW09TNerLEX+IjswaneXCpRsc+bLQCVJOAdUqv3x4egqTLrDG4OQE40ljR
+ dwcW8daLWlfoDUhNhu+A8O+KZynVRGSgCygaz70YMqd1O7pCr8eCVTfKbBBVhOaTuAQQ
+ 7Qerw5/4dP0ja1Br0ekVnCIHTGUVet4MEaaoM6X5Ix+FFHkBRTNLC4a+S6e4F3NDrPPH
+ rcW6h5kCxzmkqmNeCrMBlTfbx9Z6LTk9z35VBYazGUrae3zvipAPf5/Z+5VAbuAbP8jL
+ XCDQ==
+X-Gm-Message-State: AOAM530cO6VBK71WwNX/1Cam8YWalUTYNEPHjo7VTXR7fBWx5f6hR0AR
+ OeeHrhoitxty0pEvaffNh99CMA==
+X-Google-Smtp-Source: ABdhPJx9bCGvjBSmplrmdcdg9DcsXsnr8KsvPSDkXSQNWOZOvhJWwLziCro/t6700UZZGELjAFzbkw==
+X-Received: by 2002:a17:906:8a6d:b0:6e0:68ac:7197 with SMTP id
+ hy13-20020a1709068a6d00b006e068ac7197mr147150ejc.703.1648825169282; 
+ Fri, 01 Apr 2022 07:59:29 -0700 (PDT)
+Received: from google.com (30.171.91.34.bc.googleusercontent.com.
+ [34.91.171.30]) by smtp.gmail.com with ESMTPSA id
+ gl2-20020a170906e0c200b006a767d52373sm1090474ejb.182.2022.04.01.07.59.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 07:39:50 -0700 (PDT)
-From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
-X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/3] avocado/vnc: add test_change_listen
-Date: Fri,  1 Apr 2022 17:39:36 +0300
-Message-Id: <20220401143936.356460-4-vsementsov@openvz.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220401143936.356460-1-vsementsov@openvz.org>
-References: <20220401143936.356460-1-vsementsov@openvz.org>
+ Fri, 01 Apr 2022 07:59:28 -0700 (PDT)
+Date: Fri, 1 Apr 2022 14:59:25 +0000
+From: Quentin Perret <qperret@google.com>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: Sean Christopherson <seanjc@google.com>,
+ Steven Price <steven.price@arm.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm list <kvm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>, Marc Zyngier <maz@kernel.org>,
+ Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <YkcTTY4YjQs5BRhE@google.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <YjyS6A0o4JASQK+B@google.com> <YkHspg+YzOsbUaCf@google.com>
+ <YkH32nx+YsJuUbmZ@google.com> <YkIFW25WgV2WIQHb@google.com>
+ <YkM7eHCHEBe5NkNH@google.com>
+ <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
+ <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
+ <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::136
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lf1-x136.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=qperret@google.com; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -161
+X-Spam_score: -16.2
+X-Spam_bar: ----------------
+X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,102 +120,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: v.sementsov-og@mail.ru, berrange@redhat.com, bleal@redhat.com,
- armbru@redhat.com, wainersm@redhat.com, f4bug@amsat.org, vsementsov@openvz.org,
- kraxel@redhat.com, crosa@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add simple test-case for new display-update qmp command.
+On Thursday 31 Mar 2022 at 09:04:56 (-0700), Andy Lutomirski wrote:
+> On Wed, Mar 30, 2022, at 10:58 AM, Sean Christopherson wrote:
+> > On Wed, Mar 30, 2022, Quentin Perret wrote:
+> >> On Wednesday 30 Mar 2022 at 09:58:27 (+0100), Steven Price wrote:
+> >> > On 29/03/2022 18:01, Quentin Perret wrote:
+> >> > > Is implicit sharing a thing? E.g., if a guest makes a memory access in
+> >> > > the shared gpa range at an address that doesn't have a backing memslot,
+> >> > > will KVM check whether there is a corresponding private memslot at the
+> >> > > right offset with a hole punched and report a KVM_EXIT_MEMORY_ERROR? Or
+> >> > > would that just generate an MMIO exit as usual?
+> >> > 
+> >> > My understanding is that the guest needs some way of tagging whether a
+> >> > page is expected to be shared or private. On the architectures I'm aware
+> >> > of this is done by effectively stealing a bit from the IPA space and
+> >> > pretending it's a flag bit.
+> >> 
+> >> Right, and that is in fact the main point of divergence we have I think.
+> >> While I understand this might be necessary for TDX and the likes, this
+> >> makes little sense for pKVM. This would effectively embed into the IPA a
+> >> purely software-defined non-architectural property/protocol although we
+> >> don't actually need to: we (pKVM) can reasonably expect the guest to
+> >> explicitly issue hypercalls to share pages in-place. So I'd be really
+> >> keen to avoid baking in assumptions about that model too deep in the
+> >> host mm bits if at all possible.
+> >
+> > There is no assumption about stealing PA bits baked into this API.  Even within
+> > x86 KVM, I consider it a hard requirement that the common flows not assume the
+> > private vs. shared information is communicated through the PA.
+> 
+> Quentin, I think we might need a clarification.  The API in this patchset indeed has no requirement that a PA bit distinguish between private and shared, but I think it makes at least a weak assumption that *something*, a priori, distinguishes them.  In particular, there are private memslots and shared memslots, so the logical flow of resolving a guest memory access looks like:
+> 
+> 1. guest accesses a GVA
+> 
+> 2. read guest paging structures
+> 
+> 3. determine whether this is a shared or private access
+> 
+> 4. read host (KVM memslots and anything else, EPT, NPT, RMP, etc) structures accordingly.  In particular, the memslot to reference is different depending on the access type.
+> 
+> For TDX, this maps on to the fd-based model perfectly: the host-side paging structures for the shared and private slots are completely separate.  For SEV, the structures are shared and KVM will need to figure out what to do in case a private and shared memslot overlap.  Presumably it's sufficient to declare that one of them wins, although actually determining which one is active for a given GPA may involve checking whether the backing store for a given page actually exists.
+> 
+> But I don't understand pKVM well enough to understand how it fits in.  Quentin, how is the shared vs private mode of a memory access determined?  How do the paging structures work?  Can a guest switch between shared and private by issuing a hypercall without changing any guest-side paging structures or anything else?
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/avocado/vnc.py | 63 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+My apologies, I've indeed shared very little details about how pKVM
+works. We'll be posting patches upstream really soon that will hopefully
+help with this, but in the meantime, here is the idea.
 
-diff --git a/tests/avocado/vnc.py b/tests/avocado/vnc.py
-index 096432988f..187fd3febc 100644
---- a/tests/avocado/vnc.py
-+++ b/tests/avocado/vnc.py
-@@ -8,9 +8,48 @@
- # This work is licensed under the terms of the GNU GPL, version 2 or
- # later.  See the COPYING file in the top-level directory.
- 
-+import socket
-+from typing import List
-+
- from avocado_qemu import QemuSystemTest
- 
- 
-+VNC_ADDR = '127.0.0.1'
-+VNC_PORT_START = 32768
-+VNC_PORT_END = VNC_PORT_START + 1024
-+
-+
-+def check_bind(port: int) -> bool:
-+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-+        try:
-+            sock.bind((VNC_ADDR, port))
-+        except OSError:
-+            return False
-+
-+    return True
-+
-+
-+def check_connect(port: int) -> bool:
-+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-+        try:
-+            sock.connect((VNC_ADDR, port))
-+        except ConnectionRefusedError:
-+            return False
-+
-+    return True
-+
-+
-+def find_free_ports(count: int) -> List[int]:
-+    result = []
-+    for port in range(VNC_PORT_START, VNC_PORT_END):
-+        if check_bind(port):
-+            result.append(port)
-+            if len(result) >= count:
-+                break
-+    assert len(result) == count
-+    return result
-+
-+
- class Vnc(QemuSystemTest):
-     """
-     :avocado: tags=vnc,quick
-@@ -51,3 +90,27 @@ def test_change_password(self):
-         set_password_response = self.vm.qmp('change-vnc-password',
-                                             password='new_password')
-         self.assertEqual(set_password_response['return'], {})
-+
-+    def test_change_listen(self):
-+        a, b, c = find_free_ports(3)
-+        self.assertFalse(check_connect(a))
-+        self.assertFalse(check_connect(b))
-+        self.assertFalse(check_connect(c))
-+
-+        self.vm.add_args('-nodefaults', '-S', '-vnc', f'{VNC_ADDR}:{a - 5900}')
-+        self.vm.launch()
-+        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], str(a))
-+        self.assertTrue(check_connect(a))
-+        self.assertFalse(check_connect(b))
-+        self.assertFalse(check_connect(c))
-+
-+        res = self.vm.qmp('display-update', type='vnc',
-+                          addresses=[{'type': 'inet', 'host': VNC_ADDR,
-+                                      'port': str(b)},
-+                                     {'type': 'inet', 'host': VNC_ADDR,
-+                                      'port': str(c)}])
-+        self.assertEqual(res['return'], {})
-+        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], str(b))
-+        self.assertFalse(check_connect(a))
-+        self.assertTrue(check_connect(b))
-+        self.assertTrue(check_connect(c))
--- 
-2.35.1
+pKVM is designed around MMU-based protection as opposed to encryption as
+is the case for many confidential computing solutions. It's probably
+worth mentioning that, although it targets arm64, pKVM is distinct from
+the Arm CC-A stuff and requires no fancy hardware extensions -- it is
+applicable all the way back to Arm v8.0 which makes it an interesting
+solution for mobile.
 
+Another particularity of the pKVM approach is that the code of the
+hypervisor itself lives in the kernel source tree (see
+arch/arm64/kvm/hyp/nvhe/). The hypervisor is built with the rest of the
+kernel but as a self-sufficient object, and ends up in its own dedicated
+ELF section (.hyp.*) in the kernel image. The main requirement for pKVM
+(and KVM on arm64 in general) is to have the bootloader enter the kernel
+at the hypervisor exception level (a.k.a EL2). The boot procedure is a
+bit involved, but eventually the hypervisor object is installed at EL2,
+and the kernel is deprivileged to EL1 and proceeds to boot. From that
+point on the hypervisor no longer trusts the kernel and will enable the
+stage-2 MMU to impose access-control restrictions to all memory accesses
+from the host.
+
+All that to say: the pKVM approach offers a great deal of flexibility
+when it comes to hypervisor behaviour. We have control over the
+hypervisor code and can change it as we see fit. Since both the
+hypervisor and the host kernel are part of the same image, the ABI
+between them is very much *not* stable and can be adjusted to whatever
+makes the most sense. So, I think we'd be quite keen to use that
+flexibility to align some of the pKVM behaviours with other players
+(TDX, SEV, CC-A), especially when it comes to host mm APIs. But that
+flexibility also means we can do some things a bit better (e.g. pKVM can
+handle illegal accesses from the host mostly fine -- the hypervisor can
+re-inject the fault in the host) so I would definitely like to use this
+to our advantage and not be held back by unrelated constraints.
+
+To answer your original question about memory 'conversion', the key
+thing is that the pKVM hypervisor controls the stage-2 page-tables for
+everyone in the system, all guests as well as the host. As such, a page
+'conversion' is nothing more than a permission change in the relevant
+page-tables.
+
+The typical flow is as follows:
+
+ - the host asks the hypervisor to run a guest;
+
+ - the hypervisor does the context switch, which includes switching
+   stage-2 page-tables;
+
+ - initially the guest has an empty stage-2 (we don't require
+   pre-faulting everything), which means it'll immediately fault;
+
+ - the hypervisor switches back to host context to handle the guest
+   fault;
+
+ - the host handler finds the corresponding memslot and does the
+   ipa->hva conversion. In our current implementation it uses a longterm
+   GUP pin on the corresponding page;
+
+ - once it has a page, the host handler issues a hypercall to donate the
+   page to the guest;
+
+ - the hypervisor does a bunch of checks to make sure the host owns the
+   page, and if all is fine it will unmap it from the host stage-2 and
+   map it in the guest stage-2, and do some bookkeeping as it needs to
+   track page ownership, etc;
+
+ - the guest can then proceed to run, and possibly faults in many more
+   pages;
+
+ - when it wants to, the guest can then issue a hypercall to share a
+   page back with the host;
+
+ - the hypervisor checks the request, maps the page back in the host
+   stage-2, does more bookkeeping and returns back to the host to notify
+   it of the share;
+
+ - the host kernel at that point can exit back to userspace to relay
+   that information to the VMM;
+
+ - rinse and repeat.
+
+We currently don't allow the host punching holes in the guest IPA space.
+Once it has donated a page to a guest, it can't have it back until the
+guest has been entirely torn down (at which point all of memory is
+poisoned by the hypervisor obviously). But we could certainly reconsider
+that part. OTOH, I'm still inclined to think that in-place sharing is
+desirable. In our case it's dirt cheap, and could even work on huge
+pages, which would allow very efficient sharing of large amounts of
+data. So, I'm a bit hesitant to use the private-fd approach as-is since
+it's not immediately obvious how we'll ever be able reconcile these
+things if mmap-ing the fd is a firm no. With that said, I don't think
+our *current* use-cases have a strong need for this, so I mostly agree
+with Sean's point earlier. But since we're talking about committing to a
+userspace ABI, I would feel better if there was a clear path towards
+having support for in-place sharing -- I can certainly see it being
+useful. I'll think about it, but if folks have ideas in the meantime
+I'll be happy to discuss.
+
+I hope the above was useful and clears up the confusion.
+
+Thanks,
+Quentin
 
