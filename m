@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201D04EEF49
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 16:24:46 +0200 (CEST)
-Received: from localhost ([::1]:52380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5B34EEF3F
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 16:22:39 +0200 (CEST)
+Received: from localhost ([::1]:44128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naICj-0006cW-6Y
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 10:24:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34886)
+	id 1naIAg-00012J-IY
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 10:22:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naI26-0003gp-7L
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:46 -0400
-Received: from [2a00:1450:4864:20::52b] (port=46851
- helo=mail-ed1-x52b.google.com)
+ id 1naI27-0003mO-NJ
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:47 -0400
+Received: from [2a00:1450:4864:20::62b] (port=34344
+ helo=mail-ej1-x62b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1naI24-0006dN-Jt
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:45 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id z92so3082545ede.13
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 07:13:44 -0700 (PDT)
+ id 1naI25-0006dY-Ue
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 10:13:47 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id o10so6193878ejd.1
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 07:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EHZZ80ALv+K7PZJdkF1ud/9uldCP93oAdPnykBe3hyM=;
- b=pOv4HbsOTSoeE7EfQ+mh/cBAzYh6IodARnsVN2IbBy3/RngSYHNyZq3fjQyzi3Xed7
- GJfAABsUbxggmZQ5fBXbUp3W3vsT1qRfQQB1Of5vAVOqLqf5d6/VSIjfLDL2rgEpgjid
- P2o551XNOEEUn2lnUqdTCrKpdj/smdwXXgyKPeEAcbPawLhZ/SnCso1K1Y7UDnJWoLyE
- k0SYmrOb0qRLZlOF95GMLicDBpAPrpZCpScLo1Sl11mIyn2pobDL698is73JNASGJ+dM
- P+ucNx0mnzAvfRNCaMnvIDIF3k8OvqRQdP0DkT9ewi3jM1Xni/gBVgFtu75vcBWmyFvE
- pVWg==
+ bh=XYWfkb2s9iXIVRdcJNAHIocSfZ6ohdTAP3coLhBDfr8=;
+ b=SBHiGfWdmG1MLIXBjfKLSOlIdNInrirp2uOPRaXONngIGdyO6QZezQuPAM4MdUg9WU
+ spOeFeJslGGRq4OMCi44ZYdh6AajESjvMVVBA+xbFCQQmRwXCyrB9IVqHcOuN4RLOgB8
+ lUS3W8j83blMNdkMsuFFw5yXmdAiCsQrW3R2qMEQoTs4a69FBV/7wrf6bblnCcPbO3yM
+ GgHBFOhkkAPDhY9I/YQXPyHZkJv2J8RX+UsSCVx2tmJ8t/spbX2XxgHhW/LdUua1xe4w
+ sIXMyzFKR6QmyIBB77In9gehDdvz8ui3SxMXfqILf6p92r58RSiYQY7U4bRSd3pmO+Vi
+ hjdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EHZZ80ALv+K7PZJdkF1ud/9uldCP93oAdPnykBe3hyM=;
- b=HItsKY8ZJ8KMbCpfaYdV2/bi4bHmD79gG3kxP0XqRC8oBBOqxIA60eopdnDMz+bHi2
- 6nj9nqcHHzEUNX7wqtbzaY8vmK+7Y2CC6Q8N0OxnGu0PFBaWRIE5hMR0D1VCArIiXmdN
- ZSkbAaV1gZigXHtJcTFeQgzvh/FbQKqfFSw59699eck1Ebcg7tJ50F6rI4e58bmCNlCE
- MjuugndUfQVlYsHU2mkfUAzCvQu4uOtkh8zIW1nWDw53JPw95bX94SeNNmKe1XQQaXmm
- NvFFzLWDGuAWVM2AeYcIogxV7ntvu/BM5zHFEmBQSsju+MfUYl+D/XchhtFZikXvgl9+
- E66A==
-X-Gm-Message-State: AOAM5323E+zzuKaYTgR2jkdqeSWQqDqzHPwBdt27ijtk/+fStJjJzK+a
- 8WxiknDYtUMupkvJhNyhpS94mU8wakQ=
-X-Google-Smtp-Source: ABdhPJxsrxH/RgPlGUzESL8W+U/nOtKp21kusbbQXMkP5Jg8e5za2fzaRniECYWYRp8pcoDGhdBTtA==
-X-Received: by 2002:a05:6402:350d:b0:419:547f:134a with SMTP id
- b13-20020a056402350d00b00419547f134amr21657486edd.405.1648822423284; 
- Fri, 01 Apr 2022 07:13:43 -0700 (PDT)
+ bh=XYWfkb2s9iXIVRdcJNAHIocSfZ6ohdTAP3coLhBDfr8=;
+ b=y1tA2FFkw920SfCeKfotOdmECYTX21ILwY0VJjXe2q4rwq6CBxi3mhPdoLu8ZTwgoP
+ xcbghTWNkzRGkiq7JHy1FeWpSCC6JZk5EXp+c+5JJ0A0Gx0SQ1ADO7BdPcupdb+SpFCN
+ caDxgbpoZJ2qHChfDblZ0imaCcs7N4UG5d0Qe/XzQZ8wwToYUpNYh2C8RCXjPWTIeieH
+ EDTEQ2VLPZaNbn2AQeBgN8yoAcNax0hqkdPe1eXp5HWXcvy1Uq1h+2297br/xR4vMJP4
+ Jylt+Ujn2svrQYxyeFUqfC8X1T+vJtEDSGPYX7hoDHz3oGKF5SWfVvFx8bdx6Tm3+xm7
+ ma4w==
+X-Gm-Message-State: AOAM530GTB890a0kvJhOAYIcMUK9UxI1pjmT80JI007pfYwUq0WGlfy7
+ HS7B32jqEKxme2qPhBgasZ9Zzhzc1Hk=
+X-Google-Smtp-Source: ABdhPJz1q2+bLmY1uI6aCcDCzGgX/89VOH0bb9jEDZIohM7sHPkkRBYtUd0XWW+FivFSsDFj1eqfRQ==
+X-Received: by 2002:a17:907:62a1:b0:6da:7952:d4d2 with SMTP id
+ nd33-20020a17090762a100b006da7952d4d2mr42616ejc.260.1648822424169; 
+ Fri, 01 Apr 2022 07:13:44 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- bn3-20020a170906c0c300b006e50416e24bsm212595ejb.98.2022.04.01.07.13.42
+ bn3-20020a170906c0c300b006e50416e24bsm212595ejb.98.2022.04.01.07.13.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 07:13:42 -0700 (PDT)
+ Fri, 01 Apr 2022 07:13:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/17] tests/tcg: remove CONFIG_USER_ONLY from
- config-target.mak
-Date: Fri,  1 Apr 2022 16:13:20 +0200
-Message-Id: <20220401141326.1244422-12-pbonzini@redhat.com>
+Subject: [PATCH 12/17] tests/tcg: prepare Makefile.prereqs at configure time
+Date: Fri,  1 Apr 2022 16:13:21 +0200
+Message-Id: <20220401141326.1244422-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220401141326.1244422-1-pbonzini@redhat.com>
 References: <20220401141326.1244422-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -94,82 +93,110 @@ Cc: richard.henderson@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just check the target name instead.
+List the dependencies of the build-tcg-tests-* and run-tcg-tests-*
+targets in a Makefile fragment, without going through Makefile.prereqs's
+"parsing" of config-*.mak.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220328140240.40798-11-pbonzini@redhat.com>
+Message-Id: <20220328140240.40798-12-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/tcg/Makefile.target |  8 ++++----
- tests/tcg/configure.sh    | 12 +++---------
- 2 files changed, 7 insertions(+), 13 deletions(-)
+ tests/Makefile.include     |  9 ++++++---
+ tests/tcg/Makefile.prereqs | 18 ------------------
+ tests/tcg/configure.sh     | 10 ++++++++--
+ 3 files changed, 14 insertions(+), 23 deletions(-)
+ delete mode 100644 tests/tcg/Makefile.prereqs
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index acda5bcec2..c75e8d983f 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -34,7 +34,7 @@ all:
- -include ../config-$(TARGET).mak
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 05c534ea56..b5d0d6bc98 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -39,14 +39,17 @@ SPEED = quick
+ # Build up our target list from the filtered list of ninja targets
+ TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
  
- # Get semihosting definitions for user-mode emulation
--ifeq ($(CONFIG_USER_ONLY),y)
-+ifeq ($(filter %-softmmu, $(TARGET)),)
- -include $(SRC_PATH)/configs/targets/$(TARGET).mak
- endif
++-include tests/tcg/Makefile.prereqs
++config-host.mak: $(SRC_PATH)/tests/tcg/configure.sh
++tests/tcg/Makefile.prereqs: config-host.mak
++
+ # Per guest TCG tests
+ BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGETS))
+ CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TARGETS))
+ RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGETS))
  
-@@ -44,7 +44,7 @@ COMMA := ,
- quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
+-# Probe for the Docker Builds needed for each build
+-$(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
+-	$(eval -include $(SRC_PATH)/tests/tcg/Makefile.prereqs))
++$(foreach TARGET,$(TARGETS), \
++        $(eval $(BUILD_DIR)/tests/tcg/config-$(TARGET).mak: config-host.mak))
  
- # $1 = test name, $2 = cmd, $3 = desc
--ifdef CONFIG_USER_ONLY
-+ifeq ($(filter %-softmmu, $(TARGET)),)
- run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > $1.out, \
- 	"TEST",$3)
- else
-@@ -91,7 +91,7 @@ QEMU_OPTS=
- #   90s    with --enable-tcg-interpreter
- TIMEOUT=90
- 
--ifdef CONFIG_USER_ONLY
-+ifeq ($(filter %-softmmu, $(TARGET)),)
- # The order we include is important. We include multiarch first and
- # then the target. If there are common tests shared between
- # sub-targets (e.g. ARM & AArch64) then it is up to
-@@ -153,7 +153,7 @@ extract-plugin = $(wordlist 2, 2, $(subst -with-, ,$1))
- 
- RUN_TESTS+=$(EXTRA_RUNS)
- 
--ifdef CONFIG_USER_ONLY
-+ifeq ($(filter %-softmmu, $(TARGET)),)
- run-%: %
- 	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_NAME)")
- 
+ $(BUILD_TCG_TARGET_RULES): build-tcg-tests-%: $(if $(CONFIG_PLUGIN),test-plugins)
+ 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
+diff --git a/tests/tcg/Makefile.prereqs b/tests/tcg/Makefile.prereqs
+deleted file mode 100644
+index 9a29604a83..0000000000
+--- a/tests/tcg/Makefile.prereqs
++++ /dev/null
+@@ -1,18 +0,0 @@
+-# -*- Mode: makefile -*-
+-#
+-# TCG Compiler Probe
+-#
+-# This Makefile fragment is included multiple times in the main make
+-# script to probe for available compilers. This is used to build up a
+-# selection of required docker targets before we invoke a sub-make for
+-# each target.
+-
+-DOCKER_IMAGE:=
+-
+--include $(BUILD_DIR)/tests/tcg/config-$(PROBE_TARGET).mak
+-
+-ifneq ($(DOCKER_IMAGE),)
+-build-tcg-tests-$(PROBE_TARGET): docker-image-$(DOCKER_IMAGE)
+-endif
+-$(BUILD_DIR)/tests/tcg/config_$(PROBE_TARGET).mak: config-host.mak
+-config-host.mak: $(SRC_PATH)/tests/tcg/configure.sh
 diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 57026b5899..0d864c24fc 100755
+index 0d864c24fc..904c351029 100755
 --- a/tests/tcg/configure.sh
 +++ b/tests/tcg/configure.sh
-@@ -225,18 +225,12 @@ for target in $target_list; do
-   echo "TARGET_NAME=$arch" >> $config_target_mak
+@@ -80,6 +80,8 @@ fi
+ : ${cross_as_tricore="tricore-as"}
+ : ${cross_ld_tricore="tricore-ld"}
+ 
++makefile=tests/tcg/Makefile.prereqs
++: > $makefile
+ for target in $target_list; do
+   arch=${target%%-*}
+ 
+@@ -226,14 +228,17 @@ for target in $target_list; do
    echo "target=$target" >> $config_target_mak
    case $target in
--    *-linux-user)
--      echo "CONFIG_USER_ONLY=y" >> $config_target_mak
--      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
--      ;;
--    *-bsd-user)
--      echo "CONFIG_USER_ONLY=y" >> $config_target_mak
--      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
--      ;;
      *-softmmu)
--      echo "CONFIG_SOFTMMU=y" >> $config_target_mak
-       echo "QEMU=$PWD/qemu-system-$arch" >> $config_target_mak
+-      echo "QEMU=$PWD/qemu-system-$arch" >> $config_target_mak
++      qemu="qemu-system-$arch"
        ;;
-+    *-linux-user|*-bsd-user)
-+      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
-+      ;;
+     *-linux-user|*-bsd-user)
+-      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
++      qemu="qemu-$arch"
+       ;;
    esac
  
++  echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> $makefile
++
    eval "target_compiler_cflags=\${cross_cc_cflags_$arch}"
++  echo "QEMU=$PWD/$qemu" >> $config_target_mak
+   echo "CROSS_CC_GUEST_CFLAGS=$target_compiler_cflags" >> $config_target_mak
+ 
+   got_cross_cc=no
+@@ -329,6 +334,7 @@ for target in $target_list; do
+           test -n "$container_image"; then
+       for host in $container_hosts; do
+           if test "$host" = "$cpu"; then
++              echo "build-tcg-tests-$target: docker-image-$container_image" >> $makefile
+               echo "DOCKER_IMAGE=$container_image" >> $config_target_mak
+               echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> \
+                    $config_target_mak
 -- 
 2.35.1
 
