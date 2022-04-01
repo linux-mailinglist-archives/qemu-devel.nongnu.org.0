@@ -2,69 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A844EEE6E
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:48:52 +0200 (CEST)
-Received: from localhost ([::1]:44272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22544EEE43
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:37:31 +0200 (CEST)
+Received: from localhost ([::1]:49666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naHdz-0003HN-Av
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:48:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52628)
+	id 1naHT0-0003b1-Va
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:37:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1naHHp-0003Ce-0k
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:25:57 -0400
-Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:45997)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1naHKK-000056-LJ
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:28:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1naHHm-0007fh-FQ
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:25:56 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C6BC722752;
- Fri,  1 Apr 2022 13:25:50 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 1 Apr
- 2022 15:25:49 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001cebd9057-2977-4be5-8703-8f2eb18b88d1,
- E6F802B82481F543645B2B9FC2104B41A8D643B2) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <41441f8a-7ae0-4f41-543f-4df8c39fe7e2@kaod.org>
-Date: Fri, 1 Apr 2022 15:25:49 +0200
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1naHKJ-0007t4-0y
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:28:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648819710;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yp6F3SrdwfLaf9WQ+045Wq7HoR81hi8n88pO1J05ytI=;
+ b=e/1EGFjrIsrpY+zEDwV0wE8b9JVFC2RtKcknUOkoaebnYvMnA2XS96ipznZd3vUC2B8ytz
+ J3c12rldY+wzAtSpgue0TKV3cwT3NhdNnoSz9y/OhB0znLy5a0WtqOBtyizd43u5j9Maip
+ ITz9aR3+etnEJRmDycefH2dHB/BHTGo=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-312-Wk7KEm-bMHCfIZaf94xtHw-1; Fri, 01 Apr 2022 09:28:26 -0400
+X-MC-Unique: Wk7KEm-bMHCfIZaf94xtHw-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ gv17-20020a1709072bd100b006dfcc7f7962so1595473ejc.5
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:28:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=Yp6F3SrdwfLaf9WQ+045Wq7HoR81hi8n88pO1J05ytI=;
+ b=unlrRomRxQtk/GXj1QlJJl0TJleqj8QA6jzPELKV6KC7wbFpOotZeni913ApqGxQp5
+ vC6O4u0S1Tx0nhbDVDi/OSEzT2lJVv+eZ8GfSaTyzkDX6W1TH9360ONPr3jhtTMgrWsH
+ y8cTlLxTgRQeRv6EMqXniMz/vF0GtL2RkfeAGuIPmH2IDiU83dewj3gaAxQLSfd/engO
+ 8nBH5+0QJAEhWoVDj/xcWEJ3daOm/MiFgoFehbIKMFvxrjQMVEIGcwo9Ebq9in++tvUK
+ 0Ojs3Ka6x59DKFGoQvfBUbdrfWcVNZQNTA6QDR/ZCzbcHqJ8UyMvT1tDTSALZXn4m/XT
+ Z24w==
+X-Gm-Message-State: AOAM5320tVyzLqPQNbYDBgNORc1t7mPn9cxW74hTpgTVjuH8+9xBG/oM
+ EQBEong1mr7E144ztQCZxGWX3lP6Ko/inQYuVE+pjaU0PPC8TZOMGMa06ogQcW7eSL4sSi4t9lP
+ akEu2xoNuhuG9FlI=
+X-Received: by 2002:a17:906:c0c8:b0:6d0:562c:2894 with SMTP id
+ bn8-20020a170906c0c800b006d0562c2894mr9465866ejb.625.1648819705058; 
+ Fri, 01 Apr 2022 06:28:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzaIBHPkLyEi3F3xHRY3Q7Y6z5o/PAWzi63B0V5T5oAFLaKYxob/ux81EJbAgwPq2O9mysGfw==
+X-Received: by 2002:a17:906:c0c8:b0:6d0:562c:2894 with SMTP id
+ bn8-20020a170906c0c800b006d0562c2894mr9465833ejb.625.1648819704672; 
+ Fri, 01 Apr 2022 06:28:24 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ q2-20020a170906144200b006ceb8723de9sm1038969ejc.120.2022.04.01.06.28.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Apr 2022 06:28:24 -0700 (PDT)
+Message-ID: <233b9b99-bb0b-4149-65bb-699a3783a1a9@redhat.com>
+Date: Fri, 1 Apr 2022 15:28:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 0/9] Add support for AST1030 SoC
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 6/7] block/copy-before-write: implement cbw-timeout
+ option
+From: Hanna Reitz <hreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+References: <20220401091920.287612-1-vsementsov@openvz.org>
+ <20220401091920.287612-7-vsementsov@openvz.org>
+ <14f219f3-be1c-888e-3076-779de736a2c0@redhat.com>
+In-Reply-To: <14f219f3-be1c-888e-3076-779de736a2c0@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Jamin Lin <jamin_lin@aspeedtech.com>, Alistair Francis
- <alistair@alistair23.me>, Peter Maydell <peter.maydell@linaro.org>, Andrew
- Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, Cleber Rosa
- <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo
- Leal <bleal@redhat.com>, "open list:STM32F205" <qemu-arm@nongnu.org>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20220401083850.15266-1-jamin_lin@aspeedtech.com>
- <0ddfa28a-45ae-fdfd-02a6-94ab5a34b724@kaod.org>
- <TYZPR06MB40155C89D32BB012339208C6FCE09@TYZPR06MB4015.apcprd06.prod.outlook.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <TYZPR06MB40155C89D32BB012339208C6FCE09@TYZPR06MB4015.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 410a2974-2923-4ad3-9c4e-e96b4d66d871
-X-Ovh-Tracer-Id: 18257029941568900027
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudeiiedgieehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueevledvjeetgeetfeeiveeftefffedvvdeikeetveelfeeglefgueetvdefvdefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepthhrohihpghlvggvsegrshhpvggvughtvggthhdrtghomh
-Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
- helo=10.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,192 +106,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Troy Lee <troy_lee@aspeedtech.com>, Steven Lee <steven_lee@aspeedtech.com>
+Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, vsementsov@openvz.org,
+ stefanha@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Jamin,
-
-On 4/1/22 11:23, Jamin Lin wrote:
-> Hi Cedric, Joel and Andrew
-> First all, thanks for all your kindly support and review. We are so
-> glad that QEMU v7.1 will support AST1030 model.
-
-QEMU 7.1 is for after the summer.
-
-> 
-> 1. The ast1030 and ast2600 HACE controller are identical.
->    Steven submitted the patch to support HACE ACC mode. Once his patch
-> accept. We will submit patch to support ast1030 model.
-
-I think Joel is tracking these changes.
-
-> 2. I submitted the patch to support GOIO index mode because ast1030
->  driver was implement by index mode. I am waiting for review and any 
-> suggestion will be appreciated.
-
-That's Andrew's turf. Or Rashmica if she has time ? I could do it but not
-now and it will take longer since I know less this area of the HW.
-
-> 3. Troy submitted the patch to support I2C new model which included ast1030 model.
-
-Yes. I think there is another submission on the topic. I reviewed the one
-Troy sent and some rework is needed. The I2C model is becoming quite complex
-and changes need to me introduced progressively.
-  
-
-> 4. As for NIC plan, once AST1030 NIC driver ready, we will upstream, too.
-
-It's not a FTGMAC100 ?
-
-
-> BTW, do you have a plan to upstream it, https://github.com/openbmc/qemu/blob/master/hw/misc/aspeed_pwm.c
-
-I don't. That's really an empty skeleton. There is no problem in merging it
-but if someone of your team has time to grow the model, please do !
-
-Thanks,
-
-C.
-
-
-> 
-> Thanks again - Jamin
-> 
-> ************* Email Confidentiality Notice ********************
-> DISCLAIMER:
-> This message (and any attachments) may contain legally privileged and/or other confidential information. If you have received it in error, please notify the sender by reply e-mail and immediately delete the e-mail and any attachments without copying or disclosing the contents. Thank you.
-> 
-> -----Original Message-----
-> From: Cédric Le Goater <clg@kaod.org>
-> Sent: Friday, April 1, 2022 4:55 PM
-> To: Jamin Lin <jamin_lin@aspeedtech.com>; Alistair Francis <alistair@alistair23.me>; Peter Maydell <peter.maydell@linaro.org>; Andrew Jeffery <andrew@aj.id.au>; Joel Stanley <joel@jms.id.au>; Cleber Rosa <crosa@redhat.com>; Philippe Mathieu-Daudé <f4bug@amsat.org>; Wainer dos Santos Moschetta <wainersm@redhat.com>; Beraldo Leal <bleal@redhat.com>; open list:STM32F205 <qemu-arm@nongnu.org>; open list:All patches CC here <qemu-devel@nongnu.org>
-> Cc: Steven Lee <steven_lee@aspeedtech.com>; Troy Lee <troy_lee@aspeedtech.com>
-> Subject: Re: [PATCH v5 0/9] Add support for AST1030 SoC
-> 
-> Hello Jamin,
-> 
-> Thanks for these new models and machine. They are queued for QEMU 7.1.
-> There are a couple of patchsets adding support for the AST1030 GPIO controller and the I2C new mode that would be good extensions but they need review first.
-> 
-> What are the next steps? any plans for network ? The NIC should be a
-> FTGMAC100 if I am correct.
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
->    On 4/1/22 10:38, Jamin Lin wrote:
->> Changes from v5:
->> - remove TYPE_ASPEED_MINIBMC_MACHINE and ASPEED_MINIBMC_MACHINE
->> - remove ast1030_machine_instance_init function
+On 01.04.22 15:24, Hanna Reitz wrote:
+> On 01.04.22 11:19, Vladimir Sementsov-Ogievskiy wrote:
+>> In some scenarios, when copy-before-write operations lasts too long
+>> time, it's better to cancel it.
 >>
->> Changes from v4:
->> - drop the ASPEED_SMC_FEATURE_WDT_CONTROL flag in hw/ssi/aspeed_smc.c
+>> Most useful would be to use the new option together with
+>> on-cbw-error=break-snapshot: this way if cbw operation takes too long
+>> time we'll just cancel backup process but do not disturb the guest too
+>> much.
 >>
->> Changes from v3:
->> - remove AspeedMiniBmcMachineState state structure and
->>     AspeedMiniBmcMachineClass class
->> - remove redundant new line in hw/arm/aspeed_ast10xx.c
->> - drop the ASPEED_SMC_FEATURE_WDT_CONTROL flag in hw/ssi/aspeed_smc.c
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+>> ---
+>>   block/copy-before-write.c | 6 +++++-
+>>   qapi/block-core.json      | 5 ++++-
+>>   2 files changed, 9 insertions(+), 2 deletions(-)
 >>
->> Changes from v2:
->> - replace aspeed_ast1030.c with aspeed_ast10xx.c for minibmc SOCs
->> family support
->> - Add "ast1030-evb" machine in aspeed.c and removes aspeed_minibmc.c
->>
->> Changes from v1:
->> The patch series supports ADC, SCU, SMC, TIMER, and WDT for AST1030 SoC.
->> Add avocado test case for "ast1030-evb" machine.
->>
->> Test steps:
->> 1. Download image from
->>      
->> https://github.com/AspeedTech-BMC/zephyr/releases/download/v00.01.04/a
->> st1030-evb-demo.zip 2. Extract the zip file to obtain zephyr.elf 3.
->> Run ./qemu-system-arm -M ast1030-evb -kernel $PATH/zephyr.elf
->> -nographic 4. Test IO by Zephyr command line, commands are refer to Aspeed Zephyr
->>      SDK User Guide below
->>      https://github.com/AspeedTech-BMC/zephyr/releases/download/v00.01.04/Aspeed_Zephy_SDK_User_Guide_v00.01.04.pdf
->>      - ADC(channel 0):
->>          uart:~$ adc ADC0 resolution 10
->>          uart:~$ adc ADC0 calibrate 1
->>          uart:~$ adc ADC0 read_format 1
->>          uart:~$ adc ADC0 read 0
->>          [Result]
->>          read: 1416mv
->>
->>      - SCU
->>          uart:~$ md 7e6e2040
->>          uart:~$ md 7e6e2080
->>          uart:~$ md 7e6e20d0
->>          uart:~$ md 7e6e2200
->>          uart:~$ md 7e6e2300
->>          uart:~$ md 7e6e25b0
->>          [Result]
->>          The register value should match the value of ast1030_a1_resets
->>          in aspeed_scu.c
->>
->>      - Flash(fmc_cs0):
->>          uart:~$ flash write fmc_cs0 0 0x12345678 0x87654321 0x34127856 0x78563412
->>          uart:~$ flash read fmc_cs0 0 10
->>          [Result]
->>          00000000: 78 56 34 12 21 43 65 87  56 78 12 34 12 34 56 78
->> |xV4.!Ce. Vx.4.4Vx|
->>
->>          uart:~$ flash erase fmc_cs0 0
->>          uart:~$ flash read fmc_cs0 0 10
->>          [Result]
->>          00000000: ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff
->> |........ ........|
->>
->>      - Timer(TIMER0):
->>          uart:~$ timer start TIMER0 -p 2000 -t 0
->>          TIMER0: period 20000 ms, type 0
->>          [Result]
->>          timer expired after 2 seconds
->>
->>      - Watchdog(WDT1):
->>          uart:~$ mw 7e785008 4755
->>          uart:~$ mw 7e78500c 1
->>          [Result]
->>          soc reset after 22 seconds
->>
->> Based-on: 20220315075753.8591-3-steven_lee@aspeedtech.com
->> ([v2,2/2] hw: aspeed_scu: Introduce clkin_25Mhz attribute)
->>
->> Jamin Lin (2):
->>     aspeed: Add an AST1030 eval board
->>     test/avocado/machine_aspeed.py: Add ast1030 test case
->>
->> Steven Lee (7):
->>     aspeed/adc: Add AST1030 support
->>     aspeed/smc: Add AST1030 support
->>     aspeed/wdt: Fix ast2500/ast2600 default reload value
->>     aspeed/wdt: Add AST1030 support
->>     aspeed/timer: Add AST1030 support
->>     aspeed/scu: Add AST1030 support
->>     aspeed/soc : Add AST1030 support
->>
->>    hw/adc/aspeed_adc.c              |  16 ++
->>    hw/arm/aspeed.c                  |  66 +++++++
->>    hw/arm/aspeed_ast10xx.c          | 299 +++++++++++++++++++++++++++++++
->>    hw/arm/meson.build               |   6 +-
->>    hw/misc/aspeed_scu.c             |  63 +++++++
->>    hw/ssi/aspeed_smc.c              | 157 ++++++++++++++++
->>    hw/timer/aspeed_timer.c          |  17 ++
->>    hw/watchdog/wdt_aspeed.c         |  34 +++-
->>    include/hw/adc/aspeed_adc.h      |   1 +
->>    include/hw/arm/aspeed_soc.h      |   3 +
->>    include/hw/misc/aspeed_scu.h     |  25 +++
->>    include/hw/timer/aspeed_timer.h  |   1 +
->>    include/hw/watchdog/wdt_aspeed.h |   3 +
->>    tests/avocado/machine_aspeed.py  |  36 ++++
->>    14 files changed, 724 insertions(+), 3 deletions(-)
->>    create mode 100644 hw/arm/aspeed_ast10xx.c
->>    create mode 100644 tests/avocado/machine_aspeed.py
->>
-> 
+
+[...]
+
+>> diff --git a/qapi/block-core.json b/qapi/block-core.json
+>> index 3f08025114..e077506e0f 100644
+>> --- a/qapi/block-core.json
+>> +++ b/qapi/block-core.json
+>> @@ -4207,12 +4207,15 @@
+>>   # @on-cbw-error: Behavior on failure of copy-before-write operation.
+>>   #                Default is @break-guest-write. (Since 7.0)
+>>   #
+>> +# @cbw-timeout: Zero means no limit. Non-zero sets the timeout in 
+>> seconds
+>> +#               for copy-before-write operation. Default 0. (Since 7.0)
+>
+> *7.1, but:
+>
+> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+
+On second thought, perhaps we should make an explicit note that a 
+timeout means an error?  E.g. “When a timeout occurs, the respective 
+copy-before-write operation will fail, and the @on-cbw-error parameter 
+will decide how this failure is handled.”
+
+(Optional, R-b stands without it, too)
 
 
