@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE0594EE5E6
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 04:11:30 +0200 (CEST)
-Received: from localhost ([::1]:39732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DFC4EE5E8
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 04:13:04 +0200 (CEST)
+Received: from localhost ([::1]:41886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na6l7-00055g-IJ
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 22:11:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50410)
+	id 1na6md-0006YR-PR
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 22:13:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1na6jM-0004Ij-Tj
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 22:09:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58704)
+ id 1na6kx-0005Qk-2d
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 22:11:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1na6jH-0001qF-7T
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 22:09:39 -0400
+ id 1na6ku-00028W-JP
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 22:11:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648778969;
+ s=mimecast20190719; t=1648779072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ovexMQk+QP17zcbRO5SbRjVtDhpzHZe+9P5CBtAjO2U=;
- b=PZiR/eHO6hbWfV8G2UQv76fpioMTNGLbu8ULFp6moBdAzkfl0SN/cwzaRaRXYllITRYIPv
- C/t2kRirGWskGWOAqG6XxMgniOcktUKpDrtS7NECnevlFhV/G2QQNTuNsJ+R03qvyPKmCn
- EWMZxtkiI1eSvJNdZhbn2LtKiUu8P/k=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UXOhPU8+tmubp+ae2wbRP5IAn7kKGvEqla5/dx4inMM=;
+ b=Y+4OQ2m0U3UZ7himeTvzrVG3GnK1a2VsEjn7Fo9t1vJZo7ZHjjFREtKw2qu7ZmsHZ3L2Zq
+ yYbcndwNXkdiT1Fnpwrke4YJfNuftnGV8Yu03/mR87RCDQqdSSDZEmsMY3JkK6hSWFHoy5
+ 9TJgdbMZ13Zmkn8kIJ8Us0rMOGDLARY=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-474-jKKYg8pgOKuGfS5IMnJLPg-1; Thu, 31 Mar 2022 22:09:28 -0400
-X-MC-Unique: jKKYg8pgOKuGfS5IMnJLPg-1
-Received: by mail-lf1-f72.google.com with SMTP id
- q19-20020ac24a73000000b0044a100bb508so565890lfp.14
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 19:09:27 -0700 (PDT)
+ us-mta-112-BfgnbxkFN1uEYB5vvs8tiA-1; Thu, 31 Mar 2022 22:11:10 -0400
+X-MC-Unique: BfgnbxkFN1uEYB5vvs8tiA-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ i25-20020ac25239000000b0044a3f56e059so563846lfl.15
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 19:11:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ovexMQk+QP17zcbRO5SbRjVtDhpzHZe+9P5CBtAjO2U=;
- b=IR7SH7Wgwqi3ZAl1ay/E4ULuYQXttkiWqBFCYJvCZvHE4L2uL+KVBS6Wfrv8JNYQPX
- YXQK/z8l9r1qh/1xW50meeY70DFmwE7fwZYDsOI9/H2Bpl6wTs5zdt78q3piWy0I2xFW
- DgB5uHwolDCbVlpZxBre8H00FcDtBTax5kT77+kUIgJYi3pM6nt98O1FG4Ta2N430mqg
- 7xPMcVuptEdwqJnAW7JktbfbHJky9RcC13CQB+RiRpqnDULAGVZ9N1ahroTqbt2FHiLU
- Juxg+XeUK5QrbQqD0oosq3LHpC4mpTyaLO5kCaknxBVwgXTebqvdfUXXFuYykajhFnZD
- 0zyQ==
-X-Gm-Message-State: AOAM5300WgPx0QjlKVRltrwChDrddEpLL5JP7OxjEtBNklgkQPpHI9dw
- /htL9CNMIGDGT3L0iSrcX/qLcB00QBFOkROlwsorQV3XbPWjVmMsMTr8Jvn4oMV7UGOeIMxYHOS
- 8ycaCSBiwZ9tWzlF4ENwlZzMcko6HKtQ=
-X-Received: by 2002:a05:6512:3341:b0:433:b033:bd22 with SMTP id
- y1-20020a056512334100b00433b033bd22mr12602492lfd.190.1648778966488; 
- Thu, 31 Mar 2022 19:09:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFm0e4qvIN6P6QA/a/nru9Uhh43AlDZO0mHa7wtxwfaXEFqR8JrLiBI9vgbo+i2oRWtAcXV8IvuQGghozfZFQ=
-X-Received: by 2002:a05:6512:3341:b0:433:b033:bd22 with SMTP id
- y1-20020a056512334100b00433b033bd22mr12602478lfd.190.1648778966210; Thu, 31
- Mar 2022 19:09:26 -0700 (PDT)
+ bh=UXOhPU8+tmubp+ae2wbRP5IAn7kKGvEqla5/dx4inMM=;
+ b=w82moZ+GinQ9l/3gxY5Qh20RCviqxieAXJUjO8iqCSFmGq0VJmZPCQ4HiI3aWD9VTl
+ HCXRLkwDzVmEAVeVq4XvifBzIX6fzCpuAMHe6I5ja58uNOnrxTsqhsb3aUlJlnY2faQD
+ U55qPKvNayj+bAvh5cRgJHCpqCsGXR/+o/qAoC2eWbJHL6M0D3z8Q9Kn0QDtQGuHjXBq
+ blswtmxgSyHFGQHNHNceAzQzVx7riwa9NmxuV+WqB08fKpsR70R6umngMjNiTs7dI79l
+ hmUpPO6OBoYsZ0g+6px7uVxLwSfNabEybdaX+mUvgaMZ5Mayx7m4PfutLCF+TSBd2nuU
+ l6Mw==
+X-Gm-Message-State: AOAM533eej90+iWMiwdOg3ALglJPV+92V7bOjndWF5MGHC9qiuXPOgkT
+ PuMxUPEdOnJAZz1ht+ihvWgsJVEGz2c06O2Zt4I6q7BaYazCx/NN+dKE5qwzjnf6K8XSMq0vLpD
+ YNd+H1QGPHXuRCzkjviCTkSiGU25r++E=
+X-Received: by 2002:a05:6512:1395:b0:446:d382:79a5 with SMTP id
+ p21-20020a056512139500b00446d38279a5mr12236691lfa.210.1648779069281; 
+ Thu, 31 Mar 2022 19:11:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxo/YE1uPz/SLhqYd/xkHNISrsrycjHujb4WvAwjZJKD4Kaazqgt8Dtv5KyGI8QZogqXF3NRN4U4rleDu0eEFk=
+X-Received: by 2002:a05:6512:1395:b0:446:d382:79a5 with SMTP id
+ p21-20020a056512139500b00446d38279a5mr12236682lfa.210.1648779069091; Thu, 31
+ Mar 2022 19:11:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAFEAcA_17Mzz7AiQd+1z50Jp-wWhfChCVi=8kjWCU6daUVqV_Q@mail.gmail.com>
- <YkXzToltd73X4WgY@xz-m1.local>
-In-Reply-To: <YkXzToltd73X4WgY@xz-m1.local>
+References: <20220307224357.682101-1-mst@redhat.com>
+ <20220307224357.682101-16-mst@redhat.com>
+ <CAFEAcA-zjv1dqkUo=rt549wO-D9=J-MFfRCm4nMQthh_Gh_eog@mail.gmail.com>
+In-Reply-To: <CAFEAcA-zjv1dqkUo=rt549wO-D9=J-MFfRCm4nMQthh_Gh_eog@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 1 Apr 2022 10:09:15 +0800
-Message-ID: <CACGkMEs41rX5FqtKst4qZc1QXyY1VvMK_GMo_4NRD45zh9VSHg@mail.gmail.com>
-Subject: Re: who's maintaining amd_iommu.c these days?
-To: Peter Xu <peterx@redhat.com>
+Date: Fri, 1 Apr 2022 10:10:58 +0800
+Message-ID: <CACGkMEu0geF7y_JSaSkvNc86iMUCFVuZe961s_ebVHuP9q6sjg@mail.gmail.com>
+Subject: Re: [PULL v4 15/47] intel_iommu: support snoop control
+To: Peter Maydell <peter.maydell@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -94,64 +95,56 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, "Huang2, Wei" <wei.huang2@amd.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Suravee Suthikulpanit <Suravee.Suthikulpanit@amd.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 1, 2022 at 2:30 AM Peter Xu <peterx@redhat.com> wrote:
+On Thu, Mar 31, 2022 at 5:51 PM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> On Thu, Mar 31, 2022 at 05:01:52PM +0100, Peter Maydell wrote:
-> > Coverity points out some problems with hw/i386/amd_iommu.c's event
-> > logging code -- specifically, CID 1487115 1487116 1487190 1487200
-> > 1487232 1487258 are all the same basic problem, which is that various
-> > functions declare a local "uint64_t evt[4]", populate only some
-> > bits of it and then write it to guest memory, so we end up using
-> > uninitialized host data and leaking it to the guest. I was going to
-> > write a fix for this, but in looking at the code I noticed that
-> > it has more extensive problems:
+> On Mon, 7 Mar 2022 at 22:45, Michael S. Tsirkin <mst@redhat.com> wrote:
 > >
-> > (1) these functions allocate an array of 4 64-bit values,
-> > but we only copy 2 to the guest, because AMDVI_EVENT_LEN is 16.
-> > Looking at the spec, I think that the length is right and it's
-> > really 4 32-bit values (or 2 64-bit values, if you like).
+> > From: Jason Wang <jasowang@redhat.com>
 > >
-> > (2) There are host-endianness bugs, because we assemble the
-> > event as a set of host-endianness values but then write them
-> > to guest memory as a bag-of-bytes with dma_memory_write()
+> > SC is required for some kernel features like vhost-vDPA. So this patch
+> > implements basic SC feature. The idea is pretty simple, for software
+> > emulated DMA it would be always coherent. In this case we can simple
+> > advertise ECAP_SC bit. For VFIO and vhost, thing will be more much
+> > complicated, so this patch simply fail the IOMMU notifier
+> > registration.
 > >
-> > (3) amdvi_encode_event() is throwing away most of its
-> > "addr" argument, because it calls
-> >   amdvi_setevent_bits(evt, addr, 63, 64) apparently intending
-> > that to write 64 bits starting at 63 bits into the packet, but
-> > the amdvi_setevent_bits() function only ever updates one
-> > uint64_t in the array, so it will in fact write bit 63 and
-> > nothing else.
-> >
-> > (4) The claimed bit layout of the event structure doesn't
-> > match up with the one in the spec document I found. This
-> > could be because I found a document for some other bit
-> > of hardware, of course.
-> >
-> > Anyway, adding all these up, the event logging probably
-> > needs a bit of a restructuring, and that should ideally be
-> > done by somebody who (a) knows the hardware we're emulating
-> > here and (b) is in a position to test things. Any volunteers?
+> > In the future, we may want to have a dedicated notifiers flag or
+> > similar mechanism to demonstrate the coherency so VFIO could advertise
+> > that if it has VFIO_DMA_CC_IOMMU, for vhost kernel backend we don't
+> > need that since it's a software backend.
 >
-> Copying some AMD developers (from where I saw the last patches from)...
+> Hi; Coverity points out (CID 1487174) an error in this change:
+>
+> > --- a/hw/i386/intel_iommu.c
+> > +++ b/hw/i386/intel_iommu.c
+> > @@ -3030,6 +3030,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+> >      VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
+> >      IntelIOMMUState *s = vtd_as->iommu_state;
+> >
+> > +    /* TODO: add support for VFIO and vhost users */
+> > +    if (s->snoop_control) {
+> > +        error_setg_errno(errp, -ENOTSUP,
+> > +                         "Snoop Control with vhost or VFIO is not supported");
+> > +        return -ENOTSUP;
+> > +    }
+>
+> error_setg_errno() expects a normal errno value, not a negated
+> one, so we should be passing it "ENOTSUP" here, not "-ENOTSUP".
 
-Btw, the AMD IOMMU seems not to work for a while (just boot it with
-virtio-blk and it still doesn't work).
+Will post a fix soon.
 
 Thanks
 
 >
-> --
-> Peter Xu
+> thanks
+> -- PMM
 >
 
 
