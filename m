@@ -2,68 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD7F4EE8B8
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 09:02:50 +0200 (CEST)
-Received: from localhost ([::1]:48440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C602B4EE8D2
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 09:08:25 +0200 (CEST)
+Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naBJ3-0001Qv-Cn
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 03:02:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35094)
+	id 1naBOS-0005Wx-AX
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 03:08:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1naBFW-0008Cz-6c
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 02:59:10 -0400
-Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222]:41097)
+ (Exim 4.90_1) (envelope-from <aneesh.kumar@linux.ibm.com>)
+ id 1naBI8-00026L-MD; Fri, 01 Apr 2022 03:01:55 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1naBFU-0003kc-0g
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 02:59:09 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.129])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id DF84924E8C;
- Fri,  1 Apr 2022 06:59:04 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 1 Apr
- 2022 08:59:03 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005ca221c5a-2e3b-4c42-9422-c308d25062df,
- BF19997ACFFB9775C4837E30A1DE169AA6CF9E32) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <fb2fff0a-65da-3fcc-0e2b-be892e690a66@kaod.org>
-Date: Fri, 1 Apr 2022 08:59:03 +0200
+ (Exim 4.90_1) (envelope-from <aneesh.kumar@linux.ibm.com>)
+ id 1naBI6-0004GV-AJ; Fri, 01 Apr 2022 03:01:52 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23144hWc027515; 
+ Fri, 1 Apr 2022 07:01:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=svIk39Mk5JrJEriUGN/iwUhXnX6rKUwgL0DU00orHrg=;
+ b=fBnx+cY4s1JtDux3QGZpUcWfhej0GmhPIK68AIUSOtohKrrgX4ZDxCB+LxVxyGcyW8Dg
+ 8xJ3zRQS9TwNXdCR2cfnOPfLjjW0QdfPt+dxnKZxc7gHI7+GJWjH5MX0cNsBdM1JIUyz
+ yG2tmCVivgdIfrWAsUnGAH9ey8w57KmgVUPsGwVGj2c9FwsPGAEMCtJ8yr4sfoTntJqF
+ n2OXsljTGGPBUT9yyP8bdtXuMNimguCaAdvsJmYLw7C4ALg+5K1PYz80MA+2s9tW6pxH
+ NsjVilqCMsiU5YeabF0OsNe6NhWlrZ4cTZLhS5Q30JIujaGsGxHvQ0o+7+72PkwP/hbT uw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f54eq5u4s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Apr 2022 07:01:41 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2316wgBB022693;
+ Fri, 1 Apr 2022 07:01:41 GMT
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f54eq5u42-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Apr 2022 07:01:41 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2316w9jU026694;
+ Fri, 1 Apr 2022 07:01:40 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma04wdc.us.ibm.com with ESMTP id 3f1tfaanwt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Apr 2022 07:01:40 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23171dIY30277956
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 1 Apr 2022 07:01:39 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 68FF1124052;
+ Fri,  1 Apr 2022 07:01:39 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7AB7612405B;
+ Fri,  1 Apr 2022 07:01:36 +0000 (GMT)
+Received: from skywalker.linux.ibm.com (unknown [9.43.110.217])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri,  1 Apr 2022 07:01:36 +0000 (GMT)
+X-Mailer: emacs 29.0.50 (via feedmail 11-beta-1 I)
+From: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>,
+ Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [RFC PATCH 1/2] spapr: Report correct GTSE support via ov5
+In-Reply-To: <YkUuLyQTZUthvJb4@yekko>
+References: <20220309012400.2527157-1-farosas@linux.ibm.com>
+ <YixlR+rLNZCsAA50@yekko> <87ee346v99.fsf@linux.ibm.com>
+ <YkUuLyQTZUthvJb4@yekko>
+Date: Fri, 01 Apr 2022 12:31:28 +0530
+Message-ID: <87mth5i8xj.fsf@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 8/9] aspeed: Add an AST1030 eval board
-Content-Language: en-US
-To: Jamin Lin <jamin_lin@aspeedtech.com>, Peter Maydell
- <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, Alistair Francis <alistair@alistair23.me>, Cleber Rosa
- <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo
- Leal <bleal@redhat.com>, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20220401034651.9066-1-jamin_lin@aspeedtech.com>
- <20220401034651.9066-9-jamin_lin@aspeedtech.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220401034651.9066-9-jamin_lin@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c6acb026-14a7-4184-a16f-67f78121cb18
-X-Ovh-Tracer-Id: 11725121631811963835
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudeihedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhm
-Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
- helo=6.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: qHPHlak2-Pl3R6R2647XNPFegMuYD_SW
+X-Proofpoint-ORIG-GUID: n62kGuvMwdPTmsnGLw6AC845AYhUHGYO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-31_06,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ suspectscore=0 clxscore=1011 mlxlogscore=999 lowpriorityscore=0
+ spamscore=0 impostorscore=0 priorityscore=1501 phishscore=0 malwarescore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204010033
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=aneesh.kumar@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,196 +109,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: troy_lee@aspeedtech.com, steven_lee@aspeedtech.com
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ npiggin@gmail.com, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/22 05:46, Jamin Lin wrote:
-> The image should be supplied with ELF binary.
-> $ qemu-system-arm -M ast1030-evb -kernel zephyr.elf -nographic
-> 
-> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
-> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-> ---
->   hw/arm/aspeed.c         | 97 +++++++++++++++++++++++++++++++++++++++++
->   include/hw/arm/aspeed.h |  6 +--
->   2 files changed, 100 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index d205384d98..30b49d2db1 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -24,6 +24,7 @@
->   #include "hw/loader.h"
->   #include "qemu/error-report.h"
->   #include "qemu/units.h"
-> +#include "hw/qdev-clock.h"
->   
->   static struct arm_boot_info aspeed_board_binfo = {
->       .board_id = -1, /* device-tree-only board */
-> @@ -1361,3 +1362,99 @@ static const TypeInfo aspeed_machine_types[] = {
->   };
->   
->   DEFINE_TYPES(aspeed_machine_types)
-> +
-> +#define AST1030_INTERNAL_FLASH_SIZE (1024 * 1024)
-> +/* Main SYSCLK frequency in Hz (200MHz) */
-> +#define SYSCLK_FRQ 200000000ULL
-> +
-> +static void aspeed_minibmc_machine_ast1030_evb_class_init(ObjectClass *oc,
-> +                                                          void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +    AspeedMachineClass *amc = ASPEED_MINIBMC_MACHINE_CLASS(oc);
+David Gibson <david@gibson.dropbear.id.au> writes:
 
-I don't think we need a ASPEED_MINIBMC type (yet)
+> On Mon, Mar 14, 2022 at 07:10:10PM -0300, Fabiano Rosas wrote:
+>> David Gibson <david@gibson.dropbear.id.au> writes:
+>> 
+>> > On Tue, Mar 08, 2022 at 10:23:59PM -0300, Fabiano Rosas wrote:
+>>
 
-> +
-> +    mc->desc = "Aspeed AST1030 MiniBMC (Cortex-M4)";
-> +    amc->soc_name = "ast1030-a1";
-> +    amc->hw_strap1 = 0;
-> +    amc->hw_strap2 = 0;
-> +    mc->default_ram_size = 0;
-> +    mc->default_cpus = mc->min_cpus = mc->max_cpus = 1;
-> +    amc->fmc_model = "sst25vf032b";
-> +    amc->spi_model = "sst25vf032b";
-> +    amc->num_cs = 2;
+...
 
-In this routine, you could add :
-
-  amc->macs_mask = 0;
-
-Since the NICs are not modeled yet.
-
-> +}
-> +
-> +static void ast1030_machine_instance_init(Object *obj)
-> +{
-> +    ASPEED_MINIBMC_MACHINE(obj)->mmio_exec = false;
-> +}
-
-ast1030_machine_instance_init() is not that useful either.
-
-> +
-> +static void aspeed_minibmc_machine_init(MachineState *machine)
-> +{
-> +    AspeedMachineState *bmc = ASPEED_MINIBMC_MACHINE(machine);
-> +    AspeedMachineClass *amc = ASPEED_MINIBMC_MACHINE_GET_CLASS(machine);
-> +    Clock *sysclk;
-> +
-> +    sysclk = clock_new(OBJECT(machine), "SYSCLK");
-> +    clock_set_hz(sysclk, SYSCLK_FRQ);
-> +
-> +    object_initialize_child(OBJECT(machine), "soc", &bmc->soc, amc->soc_name);
-> +    qdev_connect_clock_in(DEVICE(&bmc->soc), "sysclk", sysclk);
-> +
-> +    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
-> +                         amc->uart_default);
-> +    qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
-> +
-> +    aspeed_board_init_flashes(&bmc->soc.fmc,
-> +                              bmc->fmc_model ? bmc->fmc_model : amc->fmc_model,
-> +                              amc->num_cs,
-> +                              0);
-> +
-> +    aspeed_board_init_flashes(&bmc->soc.spi[0],
-> +                              bmc->spi_model ? bmc->spi_model : amc->spi_model,
-> +                              amc->num_cs, amc->num_cs);
-> +
-> +    aspeed_board_init_flashes(&bmc->soc.spi[1],
-> +                              bmc->spi_model ? bmc->spi_model : amc->spi_model,
-> +                              amc->num_cs, (amc->num_cs * 2));
-> +
-> +    if (amc->i2c_init) {
-> +        amc->i2c_init(bmc);
-> +    }
-> +
-> +    armv7m_load_kernel(ARM_CPU(first_cpu),
-> +                       machine->kernel_filename,
-> +                       AST1030_INTERNAL_FLASH_SIZE);
-> +}
-> +
-> +static void aspeed_minibmc_machine_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +    AspeedMachineClass *amc = ASPEED_MINIBMC_MACHINE_CLASS(oc);
-> +
-> +    mc->init = aspeed_minibmc_machine_init;
-> +    mc->no_floppy = 1;
-> +    mc->no_cdrom = 1;
-> +    mc->no_parallel = 1;
-> +    mc->default_ram_id = "ram";
-> +    amc->uart_default = ASPEED_DEV_UART5;
-
-This is very much like aspeed_machine_class_init()
+>> To satisfy TCG we could keep a spapr capability as ON and usually the
+>> guest would pass cap-gtse=off when running with KVM. However this
+>> doesn't work because this crash happens precisely because the nested
+>> guest doesn't know that it needs to use cap-rpt-invalidate=on. Another
+>> cap wouldn't help.
+>> 
+>> So I think the only way to have a spapr capability for this is if TCG
+>> always defaults to ON and KVM always defaults to OFF. But then we would
+>> be changing guest visible behaviour depending on host properties.
+>
+> Ok, I'd forgotten we already have cap-rpt-invalidate.  It still
+> defaults to OFF for now, which might help us.
+>
+> What's clear is that we should never disable GTSE if
+> cap-rpt-invalidate is off - qemu should enforce that before even
+> starting the guest if at all possible.
+>
+> What's less clear to me is if we want to enable GTSE by default or
+> not, in the cases where we're able to choose.  Would always disabling
+> GTSE when cap-rpt-invalidate=on be ok?  Or do we want to be able to
+> control GTSE separately.  In that case we might need a second cap, but
+> it would need inverted sense, so e.g. cap-disable-gtse.
 
 
-> +}
-> +
-> +static const TypeInfo aspeed_minibmc_machine_types[] = {
-> +    {
-> +        .name           = MACHINE_TYPE_NAME("ast1030-evb"),
-> +        .parent         = TYPE_ASPEED_MINIBMC_MACHINE,
+GTSE and cap-rpt-invalidate can be looked at as independent such that we
+can do GTSE=1 or GTSE=0 with cap-rpt-invalidate=on. But GTSE=0 with
+cap-rpt-invalidate=off is not allowed/possible. GTSE value is what is
+negotiated via CAS so we should let the hypervisor inform the guest whether it
+can do GTSE 0 or 1. The challenge IIUC is Qemu always assumed GTSE=1
+which is not true in the case of nested virt where L1 guest that is booted
+with GTSE=0.
 
-Why don't you inherit directly from TYPE_ASPEED_MACHINE and simplify
-the model by removing the duplicate TYPE_ASPEED_MINIBMC_MACHINE ?
+with cap-disable-gtse how would one interpret that? Whether hypervisor
+have the capability to disable gtse? 
 
-> +        .class_init     = aspeed_minibmc_machine_ast1030_evb_class_init,
-> +    }, {
-> +        .name           = TYPE_ASPEED_MINIBMC_MACHINE,
-> +        .parent         = TYPE_MACHINE,
-> +        .instance_size  = sizeof(AspeedMachineState),
-> +        .instance_init  = ast1030_machine_instance_init,
-> +        .class_size    = sizeof(AspeedMachineClass),
-> +        .class_init    = aspeed_minibmc_machine_class_init,
-> +        .abstract      = true,
-> +    }
-> +};
-> +
-> +DEFINE_TYPES(aspeed_minibmc_machine_types)
-> +
-> diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
-> index cbeacb214c..b7411c860d 100644
-> --- a/include/hw/arm/aspeed.h
-> +++ b/include/hw/arm/aspeed.h
-> @@ -13,18 +13,19 @@
->   #include "qom/object.h"
->   
->   typedef struct AspeedMachineState AspeedMachineState;
-> -
->   #define TYPE_ASPEED_MACHINE       MACHINE_TYPE_NAME("aspeed")
-> +#define TYPE_ASPEED_MINIBMC_MACHINE MACHINE_TYPE_NAME("aspeed-minibmc")
->   typedef struct AspeedMachineClass AspeedMachineClass;
->   DECLARE_OBJ_CHECKERS(AspeedMachineState, AspeedMachineClass,
->                        ASPEED_MACHINE, TYPE_ASPEED_MACHINE)
-> +DECLARE_OBJ_CHECKERS(AspeedMachineState, AspeedMachineClass,
-> +                     ASPEED_MINIBMC_MACHINE, TYPE_ASPEED_MINIBMC_MACHINE)
+>
+> I believe a guest that is expecting GTSE==0 should work if
+> LPCR[GTSE]==1, just not optimally (as long as H_RPT_INVALIDATE is
+> still available, of course).  Is that right?
 
-This looks useless to me.
+That is correct.
 
-We might want a new type of Aspeed machines someday but I don't see
-the need yet.
-
-Thanks,
-
-C.
-
->   
->   #define ASPEED_MAC0_ON   (1 << 0)
->   #define ASPEED_MAC1_ON   (1 << 1)
->   #define ASPEED_MAC2_ON   (1 << 2)
->   #define ASPEED_MAC3_ON   (1 << 3)
->   
-> -
->   struct AspeedMachineClass {
->       MachineClass parent_obj;
->   
-> @@ -41,5 +42,4 @@ struct AspeedMachineClass {
->       uint32_t uart_default;
->   };
->   
-> -
->   #endif
-
+-aneesh
 
