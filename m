@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7224EF233
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:05:22 +0200 (CEST)
-Received: from localhost ([::1]:50496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8AF4EF234
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:05:23 +0200 (CEST)
+Received: from localhost ([::1]:50510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naIq2-0003Mf-24
+	id 1naIq2-0003NX-3G
 	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:05:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44998)
+Received: from eggs.gnu.org ([209.51.188.92]:45020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naIlx-0003iC-LA
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:01:09 -0400
-Received: from [2a00:1450:4864:20::32a] (port=53995
- helo=mail-wm1-x32a.google.com)
+ id 1naIlz-0003mm-Ic
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:01:11 -0400
+Received: from [2a00:1450:4864:20::42c] (port=33335
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naIlr-0005hD-U6
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:01:09 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id p189so1856516wmp.3
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 08:01:03 -0700 (PDT)
+ id 1naIlt-0005hO-0a
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:01:11 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id c7so4756920wrd.0
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 08:01:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=D7SQ68FCxztq/NMd54rgSzFbRfNvMZEmQG1HqRiAPlo=;
- b=hdRpBXvpOqETYPYX/a4v2Voa68dQe9D6kdhr48O1p0Qla+NG8uUyvKAvJwiuEXLHD1
- hzR37ZCIJ2VM7VFIZUiXQN+9HL9G50AqBN5znI24wnKYDiAqs8roinzsIiTB9Ksc3ONs
- AU8ORpBrn3D5uR7daaGA+2V0vp8JfvlHye5l75KdVMeN55JiPh4hj69ESzXAuAE9U3Jb
- FvpuuA1MBJyKvuHP366aurUU/7fAiArhLVe/SBHjtnrugO2LvMNf5KSDOqcamwL++9FR
- mbK37svt+2kYXsIxKe8LfAXDjF/YQP0pR9V/Ve0sMIOGIGiXRvS3xwcRJDwPiZWu5V48
- gnPA==
+ bh=DG3ZxsNvAkuJNsVgMf6nYBpbacq0qbEwob0HWoVkXv0=;
+ b=fktvPXe3Bq0kGx0N+xs7wn/F3zJCL0YwGcPWissP3E3yloNhmAMB+xd33e5YS0T9QE
+ ZoSrQclIBPCs173lKWtKg2GgtXi9vxk4Na/PotyPokTahWpItxXSZM++NC096HFUu4fb
+ sscKaLyHMP8rDoA4VDbddk2TMtXYP3EgH4wkd+pn3v+1sOD4cwJeRtqiV7m4Ofqqjmjj
+ 3W/cB6to5jx0h1y3T5bSYXxAkvgJA+G7xHmeLNdZOBfjTqCmDEGy8t+q9WpVAE87mO9q
+ MVQJQUGMNH8nMz6UOIc3v3maCUGCOlYevrVwQIo/oF4lrB6f58goY2TemJJ3+g2DPhgP
+ uUsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=D7SQ68FCxztq/NMd54rgSzFbRfNvMZEmQG1HqRiAPlo=;
- b=jl1Fbe41r/a+wXPBWcxo84fELpduPpVhmGcOpuL6cyas09b/qyOL3nDil9+AWXi6jd
- JxNGuL4VacaAqY2128ZTpy2pH9Qly9dGD4o4CK5pR9daRvifk2VhTu8de/Y92OS4pfNY
- AGgk2cx/nianOszmOQ7Cl01TCehbwI2Ffgk/eiBJQNS76XMFNEsk2GLFikEPTGOxUrpO
- CjHVbsZTvfurHNd/6nXInaaCpHq8gzR2ZTaNLpqCkjGeyJAxddcxYrAmjdZ9n+BYWQrQ
- 4WChudWHFGty+ydhh55vPy3iaLjJRllYJ2ZpnQbFxkvCuNOzMWhxoWd7gEMTF289b24w
- 4rnA==
-X-Gm-Message-State: AOAM5315hXrT+EBus6J3O9GUyswXt3ex2Y+sCvIKxGbyGMoezSEBBHap
- zSezpZz/3M5CpHzQdkAA8gmDaF2GLPAJhg==
-X-Google-Smtp-Source: ABdhPJxTwFkkiMjLCv0DuVCExNU/luAUiOdIahvrf0zFjV5QMxiUXQZp9ChtnUJ0AubHg4qkM3R4Ng==
-X-Received: by 2002:a7b:cf03:0:b0:38e:38c0:be27 with SMTP id
- l3-20020a7bcf03000000b0038e38c0be27mr9313914wmg.150.1648825262281; 
- Fri, 01 Apr 2022 08:01:02 -0700 (PDT)
+ bh=DG3ZxsNvAkuJNsVgMf6nYBpbacq0qbEwob0HWoVkXv0=;
+ b=tvCqs3jOgDHA8ebgriILs6bztBLm0O9jNookWWqr2E0kxeMhrulT33ZKAzNfR5MDkP
+ e4FOcQpEQi5oYO0BDDIfrL2Ij9RjmbDEpbLv96lPLcRxejRfI/AceMT1GgYMRihiHVXg
+ xUz8w3O0nITI4Gp6b8NsAcVQpKoJZx8m05gUF3c3NtHWygiKaAGXiJ6tpCRr5n2RNzud
+ jIVgHOeWMexTQRcwljpDD9W1ZTbmpa4o15cEfXSOx1KsogXUEH6dxQXbPBh8Sy1Mvg8Y
+ +JCZUFVK2LE1EJx0AxfiACFZ3gQTXYZhwbO3UpO3vkhiqWwgfxDhkaZgBtc5qbQ0TXPE
+ gaqg==
+X-Gm-Message-State: AOAM533Cg34zzu8m283Qo5TxHs/n8RGGL3lmpCpxDey+rIDZWq7zvTqm
+ SgRZ4Hp2kY9MyanLXaFQ8awNvrZtANMCfg==
+X-Google-Smtp-Source: ABdhPJxUjLfZHa1Uz+9BMTGg7QUYwk0ywbDxSzileUNb/qgx7zMnvlYrpG/d/xD6n5iEz8bKoEy+Jg==
+X-Received: by 2002:adf:ef11:0:b0:205:b266:68eb with SMTP id
+ e17-20020adfef11000000b00205b26668ebmr8310602wro.310.1648825263407; 
+ Fri, 01 Apr 2022 08:01:03 -0700 (PDT)
 Received: from orth.archaic.org.uk ([2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- 6-20020a05600c020600b0038cbb21fb00sm2084023wmi.39.2022.04.01.08.01.01
+ 6-20020a05600c020600b0038cbb21fb00sm2084023wmi.39.2022.04.01.08.01.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 08:01:01 -0700 (PDT)
+ Fri, 01 Apr 2022 08:01:02 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/6] target/arm: Fix MTE access checks for disabled SEL2
-Date: Fri,  1 Apr 2022 16:00:50 +0100
-Message-Id: <20220401150055.421608-2-peter.maydell@linaro.org>
+Subject: [PULL 2/6] target/arm: Check VSTCR.SW when assigning the stage 2
+ output PA space
+Date: Fri,  1 Apr 2022 16:00:51 +0100
+Message-Id: <20220401150055.421608-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220401150055.421608-1-peter.maydell@linaro.org>
 References: <20220401150055.421608-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,46 +95,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Idan Horowitz <idan.horowitz@gmail.com>
 
-While not mentioned anywhere in the actual specification text, the
-HCR_EL2.ATA bit is treated as '1' when EL2 is disabled at the current
-security state. This can be observed in the psuedo-code implementation
-of AArch64.AllocationTagAccessIsEnabled().
+As per the AArch64.SS2OutputPASpace() psuedo-code in the ARMv8 ARM when the
+PA space of the IPA is non secure, the output PA space is secure if and only
+if all of the bits VTCR.<NSW, NSA>, VSTCR.<SW, SA> are not set.
 
 Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220328173107.311267-1-idan.horowitz@gmail.com
+Message-id: 20220327093427.1548629-2-idan.horowitz@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/internals.h | 2 +-
- target/arm/helper.c    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ target/arm/helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index a34be2e4595..7f696cd36a8 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1094,7 +1094,7 @@ static inline bool allocation_tag_access_enabled(CPUARMState *env, int el,
-         && !(env->cp15.scr_el3 & SCR_ATA)) {
-         return false;
-     }
--    if (el < 2 && arm_feature(env, ARM_FEATURE_EL2)) {
-+    if (el < 2 && arm_is_el2_enabled(env)) {
-         uint64_t hcr = arm_hcr_el2_eff(env);
-         if (!(hcr & HCR_ATA) && (!(hcr & HCR_E2H) || !(hcr & HCR_TGE))) {
-             return false;
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 812ca591f4e..3aeaea40683 100644
+index 3aeaea40683..a65b39625db 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -7176,7 +7176,7 @@ static CPAccessResult access_mte(CPUARMState *env, const ARMCPRegInfo *ri,
- {
-     int el = arm_current_el(env);
- 
--    if (el < 2 && arm_feature(env, ARM_FEATURE_EL2)) {
-+    if (el < 2 && arm_is_el2_enabled(env)) {
-         uint64_t hcr = arm_hcr_el2_eff(env);
-         if (!(hcr & HCR_ATA) && (!(hcr & HCR_E2H) || !(hcr & HCR_TGE))) {
-             return CP_ACCESS_TRAP_EL2;
+@@ -12697,7 +12697,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+                 } else {
+                     attrs->secure =
+                         !((env->cp15.vtcr_el2.raw_tcr & (VTCR_NSA | VTCR_NSW))
+-                        || (env->cp15.vstcr_el2.raw_tcr & VSTCR_SA));
++                        || (env->cp15.vstcr_el2.raw_tcr & (VSTCR_SA | VSTCR_SW)));
+                 }
+             }
+             return 0;
 -- 
 2.25.1
 
