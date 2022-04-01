@@ -2,61 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8CA4EEA12
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:01:03 +0200 (CEST)
-Received: from localhost ([::1]:40586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1954EEA16
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:04:08 +0200 (CEST)
+Received: from localhost ([::1]:44796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naD9R-0005Nh-Vj
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:01:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53022)
+	id 1naDCQ-0008Up-Co
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:04:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1naD01-00035F-EL
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 04:51:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21478)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1naD36-0000SN-FW
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 04:54:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1naCzw-0002uk-QE
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 04:51:15 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1naD34-0003Ha-IA
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 04:54:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648803071;
+ s=mimecast20190719; t=1648803266;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DAHX40TEnSU2RnZHTb2T36Lccu7NDJXr3oaOexKXWak=;
- b=KvOQyrdD2fgYbEO1NoikLm2vn35PN2ebzCFZeNZF7zHE6+b8dedYa4Fpkv3SK/iFoFf+45
- s4ZtPMYmXdcnWE0mbYIpCKyV+HfW6Gjv+kwe+J9JUJpPb9Vl4bicX6pYDBlq5gC3ZUlfX4
- dGnqNlzvfR3VCn7UKyK/sPhEelvD27s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NV6KtIv2fqA1fjnpMWXXntxFnSW7M82XQaR9rbUvR9s=;
+ b=cVKioDXTv1/bAbEv5MUZV4eJTlwN3K5VA5Np7J4t+1HjxzZc3RsOZZwtg43rPq/n9KwXZr
+ EHhotA/in1Dy+OkNHMDjNF9UzADE3V83pIi0HzOGNORfwVe5W8FdjGFws4aFq00zUc2hHc
+ nAIuUbzWA/FYR9Cxw7kx6gtHcXgf/9A=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-9wGhggB5PzK2TcyEn-Q8NA-1; Fri, 01 Apr 2022 04:51:10 -0400
-X-MC-Unique: 9wGhggB5PzK2TcyEn-Q8NA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 11AD9101AA42;
- Fri,  1 Apr 2022 08:51:10 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09EE3552F0C;
- Fri,  1 Apr 2022 08:51:08 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] build-sys: drop ntddscsi.h check
-Date: Fri,  1 Apr 2022 12:51:06 +0400
-Message-Id: <20220401085106.2167374-1-marcandre.lureau@redhat.com>
+ us-mta-500-23CpYSknN8OENcnTV2-twg-1; Fri, 01 Apr 2022 04:54:23 -0400
+X-MC-Unique: 23CpYSknN8OENcnTV2-twg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ ml20-20020a170906cc1400b006df8c9357efso1205521ejb.21
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 01:54:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NV6KtIv2fqA1fjnpMWXXntxFnSW7M82XQaR9rbUvR9s=;
+ b=SAG4Yfj6jMFdn9STvb6gJ3vejlOl38z2Ui+g3KhahRr1CyIVMeY81U9uTDMBtVyqS3
+ GSyNlMvBMy4pn3Th2VhEhqveha/Q97MKyVZS7HWAVACzgUvkGWPd1uf0hL26wiy2fpG+
+ mV3qJ7Vf544/ogKJ+l4HBlHbEDBtlR7bP2PNe4R9rYaLtRwxGwJE+xgwPrpMwhjENROI
+ KdbxuhWNnLIo/XdTtF48OZ8w3VIHDunyLNBqUAGOmEgDDvQyFNe7GKEQjVqdlv8JPoNn
+ NgRT65nSiNPdyQEzkPXpW4OFyk7sMP8f8iRypvMvwZ9m75ysgeXgzF9fIcP9s0pxHAOy
+ SdAw==
+X-Gm-Message-State: AOAM530k1xtrGUIeYfaRyVmeFzf9CQYcv95UnBo2E648LWXUv1xLNW54
+ /4zxS6VcfCwAFlcoevzRqB2KgSYwMybLm7ZUzNl5ZvuS+ZJAXZPIkgWBqMbB9g1xDnLWjZdGmb5
+ mFpdeT/1T7b06gzA=
+X-Received: by 2002:a05:6402:b7a:b0:419:3046:3abb with SMTP id
+ cb26-20020a0564020b7a00b0041930463abbmr19867954edb.257.1648803261764; 
+ Fri, 01 Apr 2022 01:54:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxULc9zO2uAsOQsbOVtZSeFQjaJK8zYfVjhf/UakjdasJKU0Zl4xZKt7Qd/epo66+t62CrsYw==
+X-Received: by 2002:a05:6402:b7a:b0:419:3046:3abb with SMTP id
+ cb26-20020a0564020b7a00b0041930463abbmr19867935edb.257.1648803261493; 
+ Fri, 01 Apr 2022 01:54:21 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ b17-20020aa7dc11000000b00412ae7fda95sm925301edu.44.2022.04.01.01.54.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Apr 2022 01:54:21 -0700 (PDT)
+Date: Fri, 1 Apr 2022 10:54:19 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Robert Hoo <robert.hu@linux.intel.com>
+Subject: Re: [PATCH 2/2] NVDIMM: Init vNVDIMM's LSA index block if it hasn't
+ been
+Message-ID: <20220401105419.69b2b794@redhat.com>
+In-Reply-To: <54e71e28dd7f9e7b1727a9843f9fe96f7f8aaeb0.camel@linux.intel.com>
+References: <1648537663-126032-1-git-send-email-robert.hu@linux.intel.com>
+ <1648537663-126032-3-git-send-email-robert.hu@linux.intel.com>
+ <20220331140938.6297e2b1@redhat.com>
+ <913c9dfaa5818aaf70782b725086e4ab4b5c5f44.camel@linux.intel.com>
+ <20220331164111.47483387@redhat.com>
+ <54e71e28dd7f9e7b1727a9843f9fe96f7f8aaeb0.camel@linux.intel.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,130 +106,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Konstantin Kostiuk <kkostiuk@redhat.com>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, jingqi.liu@intel.com,
+ qemu-devel@nongnu.org, ani@anisinha.ca, robert.hu@intel.com,
+ dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Fri, 01 Apr 2022 12:07:56 +0800
+Robert Hoo <robert.hu@linux.intel.com> wrote:
 
-The header has been part of MinGW-w64 since the introduction of the
-project (2007). While on MinGW(32), the legacy project, it was imported
-in 2014 from w32api-3.17 (commit e4803e0da2).
+> On Thu, 2022-03-31 at 16:41 +0200, Igor Mammedov wrote:
+> > On Thu, 31 Mar 2022 21:08:12 +0800
+> > Robert Hoo <robert.hu@linux.intel.com> wrote:
+> >    
+> > > > 
+> > > > Can user initialize/format LSA from guest using ndctl/some other
+> > > > tool?
+> > > >     
+> > > 
+> > > Yes, he can. But when guest Kernel already told him this is a dimm
+> > > without label capability, dare/should he take this dangerous
+> > > action?;-)  
+> > 
+> > I don't think this feature belongs to QEMU (i.e. hw emulation).
+> > It's task that is usually accomplished by firmware or OS
+> > (in context of QEMU its guest's responsibility).
+> >   
+> 
+> Thanks Igor.
+> Actually before I compose this patch, I was pondering on this as well:
+> whose obligation to fulfill this function, i.e. initialize the LSA.
+> 
+> So I asked around (and still asking), knowing these about native usage,
+> (correct me if I'm wrong), which we virtualization should mimic in
+> principle:
+> 
+> a) before user start to use NVDIMM, he's supposed to ipmctl[0] create
+> goal firstly, to determine 2LM mode or app direct mode, which usually
+> initializes the LSA. So user doesn't necessarily to explicit 'ndctl
+> init-label' although he can do this to init LSA again.
+> 
+> b) I heard that, perhaps, even when DIMMs are sent out from factory, it
+> has LSA initialized (not quite certain about this, I'm still
+> confirming).
+if you find a NVDIMM that implements initialization in hardware,
+then it could be considered. But QEMU isn't a factory, it's rather
+a component within factory that perform specific task while other
+components manage it (including storage it consumes, see libguestfs
+project which is similar to what you are trying to do, but deals
+with conventional storage).
 
-According to build-platform.rst and our CI coverage, we only support
-building with MinGW-w64 (from Debian/Fedora).
+> What specs say
+> ---
+> In NVDIMM Namespace spec[1], Chap 2 "Namespaces": 
+> "NVDIMM vendors define the size of their label storage area and,
+> therefor, the number of labels it holds."
+one does define size and lsa size on QEMU command line,
+how it will be consumed is the business of firmware/operating system
+that runs within VM though.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- meson.build          | 17 -----------------
- qga/commands-win32.c | 19 -------------------
- qga/meson.build      |  6 ++----
- 3 files changed, 2 insertions(+), 40 deletions(-)
+> I think: In QEMU context, it's QEMU who's the vNVDIMM's vendor.
+> 
+> In UEFI spec [2], "13.19 NVDIMM Label Protocol", page 640:
+> "Before Index Blocks and labels can be utilized, the software managing
+> the Label Storage Area must determine the total number of labels that
+> will be supported and utilizing the description above, calculate the
+> size of the Index Blocks required."
+> 
+> I think: In QEMU context, it's QEMU who emulates LSA and therefore the
+> management software of it.
+> 
+> What's real limitation on QEMU vNVDIMM implementation
+> ---
+> In VM:
+> ipmctl isn't supported.
+> Only app direct mode is supported. (i.e. no bother to ipmctl create
+> goal first).
+> vNVDIMM is actually presented to user in a ready-to-use initial state.
+> We never tell user you must 'ndctl init-label' then can use it.
+> Nor tell user that you should 'ipmctl create-goal' first, because in
+> fact ipmctl isn't available at all.
 
-diff --git a/meson.build b/meson.build
-index c06fe5e02737..46b5e938b196 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2019,22 +2019,6 @@ if targetos == 'windows' and link_language == 'cpp'
- endif
- config_host_data.set('HAVE_VSS_SDK', have_vss_sdk)
+ipmictl isn't hardware, it's tool to connect to firmware
+running on BMC. In virt world it corresponds to guest code running
+within VM or some mgmt app outside QEMU that can implement IPMI
+interface. You can try to generalize this utility and extend EDKII
+to support it, which would benefit not only QEMU but other
+consumers of EDKII.
+wrt IPMI, I'm not familiar with BMC support in QEMU, but looks
+there are at least some (see hw/ipmi folder) implementations.
+
+As for [b] point, QEMU is not software managing NVDIMM, it's
+hardware emulator. Duplicating irrelevant features in QEMU
+will just bloat it and make project unmanageable.
+Point [b] to me looks more like a separate utility that could
+initialize vNVDIMM for further consumption (I'd ask libguestfs
+or ndctl folks if they would like to add support for 'out of band'
+vNVDIMM management, but likely outcome to this would be what
+libguestfs is doing currently with disks, start VM appliance
+and run ndctl within it to initialize vNVDIMM).
  
--have_ntddscsi = false
--if targetos == 'windows'
--  have_ntddscsi = cc.compiles('''
--    #include <windows.h>
--    #include <ntddscsi.h>
--    int main(void) {
--    #if !defined(IOCTL_SCSI_GET_ADDRESS)
--    #error Missing required ioctl definitions
--    #endif
--      SCSI_ADDRESS addr = { .Lun = 0, .TargetId = 0, .PathId = 0 };
--      return addr.Lun;
--    }
--''')
--endif
--config_host_data.set('HAVE_NTDDSCSI', have_ntddscsi)
--
- ignored = ['CONFIG_QEMU_INTERP_PREFIX', # actually per-target
-     'HAVE_GDB_BIN']
- arrays = ['CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
-@@ -3722,7 +3706,6 @@ summary_info += {'libnfs support':    libnfs}
- if targetos == 'windows'
-   if have_ga
-     summary_info += {'QGA VSS support':   have_qga_vss}
--    summary_info += {'QGA w32 disk info': have_ntddscsi}
-   endif
- endif
- summary_info += {'seccomp support':   seccomp}
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 3c428213db0a..ebec5536340a 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -18,10 +18,8 @@
- #include <ws2tcpip.h>
- #include <iptypes.h>
- #include <iphlpapi.h>
--#ifdef HAVE_NTDDSCSI
- #include <winioctl.h>
- #include <ntddscsi.h>
--#endif
- #include <setupapi.h>
- #include <cfgmgr32.h>
- #include <initguid.h>
-@@ -474,8 +472,6 @@ void qmp_guest_file_flush(int64_t handle, Error **errp)
-     }
- }
- 
--#ifdef HAVE_NTDDSCSI
--
- static GuestDiskBusType win2qemu[] = {
-     [BusTypeUnknown] = GUEST_DISK_BUS_TYPE_UNKNOWN,
-     [BusTypeScsi] = GUEST_DISK_BUS_TYPE_SCSI,
-@@ -1098,21 +1094,6 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-     return ret;
- }
- 
--#else
--
--static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
--{
--    return NULL;
--}
--
--GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
--{
--    error_setg(errp, QERR_UNSUPPORTED);
--    return NULL;
--}
--
--#endif /* HAVE_NTDDSCSI */
--
- static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp)
- {
-     DWORD info_size;
-diff --git a/qga/meson.build b/qga/meson.build
-index 4d5de843abf6..40a7baabfde3 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -83,14 +83,12 @@ qga_ss = qga_ss.apply(config_host, strict: false)
- gen_tlb = []
- qga_libs = []
- if targetos == 'windows'
--  qga_libs += ['-lws2_32', '-lwinmm', '-lpowrprof', '-lwtsapi32', '-lwininet', '-liphlpapi', '-lnetapi32']
-+  qga_libs += ['-lws2_32', '-lwinmm', '-lpowrprof', '-lwtsapi32', '-lwininet', '-liphlpapi', '-lnetapi32',
-+               '-lsetupapi', '-lcfgmgr32']
-   if have_qga_vss
-     qga_libs += ['-lole32', '-loleaut32', '-lshlwapi', '-lstdc++', '-Wl,--enable-stdcall-fixup']
-     subdir('vss-win32')
-   endif
--  if have_ntddscsi
--    qga_libs += ['-lsetupapi', '-lcfgmgr32']
--  endif
- endif
- 
- qga = executable('qemu-ga', qga_ss.sources(),
--- 
-2.35.1.693.g805e0a68082a
+> That's all the story and thoughts before I compose this patch:)
+> 
+> [0] https://docs.pmem.io/ipmctl-user-guide/ (and, ipmctl is for Intel
+> Optane PMEM only)
+> [1] https://pmem.io/documents/NVDIMM_Namespace_Spec.pdf
+> [2] 
+> https://uefi.org/sites/default/files/resources/UEFI_Spec_2_9_2021_03_18.pdf
+> 
+> > 
+> > PS:
+> > It's true that QEMU caries some 'firmware' code, like composing
+> > ACPI tables but we do it only to reduce QEMU<->firmware ABI
+> > necessary for hardware description and that's pretty much it.
+> > Unfortunately this series doesn't fit the bill.
+> >   
+> Yeah, I've seen this part of code, but a little difficult to comprehend
+> them, especially for me a stranger to ACPI. Where can I find related
+> design document?
+> I now only find a valuable doc: docs/specs/acpi_nvdimm.rst.
+> >   
+> 
 
 
